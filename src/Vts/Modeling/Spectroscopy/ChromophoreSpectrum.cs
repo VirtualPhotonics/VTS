@@ -23,7 +23,6 @@ namespace Vts.SpectralMapping
     /// Added a collection data contract to define the node names and namespace 
     /// when serializing and deserializing the class.
     /// </summary>
-    [KnownType(typeof (ChromophoreSpectrumDictionary))]
     [CollectionDataContract(Name="ArrayOfChromophoreSpectrumKeyValue",
         ItemName = "ChromophoreSpectrumKeyValue",
         Namespace = "Vts.SpectralMapping")]
@@ -35,7 +34,6 @@ namespace Vts.SpectralMapping
     /// <summary>
     /// A class representing the chromophore spectrum data
     /// </summary>
-    [KnownType(typeof(ChromophoreSpectrum))]
     public class ChromophoreSpectrum : ISpectrum
     {
         /// <summary>

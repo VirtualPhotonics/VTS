@@ -24,7 +24,7 @@ namespace Vts.Gui.Silverlight.ViewModel
         private IList<string> _PlotTitles;
         private ReflectancePlotType _PlotType;
         private bool _HoldOn;
-        private ObservableCollection<IList<Point>> _PlotSeriesCollection;
+        private ObservableCollection<Point[]> _PlotSeriesCollection;
         private IList<string> _Labels;
         private OptionViewModel<ScalingType> _XAxisSpacingOptionVM;
         private OptionViewModel<ScalingType> _YAxisSpacingOptionVM;
@@ -32,6 +32,7 @@ namespace Vts.Gui.Silverlight.ViewModel
         private OptionViewModel<PlotNormalizationType> _PlotNormalizationTypeOptionVM;
         private string _CustomPlotLabel;
         private bool _ShowAxes;
+        private bool _showComplexPlotToggle;
         
         private double _MinYValue;
         private double _MaxYValue;
@@ -51,19 +52,20 @@ namespace Vts.Gui.Silverlight.ViewModel
             _AutoScaleX = true;
             _AutoScaleY = true;
 
-            RealImagLabels = new List<string>();
+            RealLabels = new List<string>();
+            ImagLabels = new List<string>();
             PhaseLabels = new List<string>();
             AmplitudeLabels = new List<string>();;
-            DataSeriesCollectionToggle = new List<IList<Point>>();
             Labels = new List<string>();
             PlotTitles = new List<string>();
-            DataSeriesCollection = new List<IList<Point>>();
-            PlotSeriesCollection = new ObservableCollection<IList<Point>>();
-            IsComplexPlot = false;
+            DataSeriesCollection = new List<IDataPoint[]>();
+            PlotSeriesCollection = new ObservableCollection<Point[]>();
+            //IsComplexPlot = false;
 
             PlotType = ReflectancePlotType.ForwardSolver;
-            HoldOn = true;
-            ShowAxes = false;
+            _HoldOn = true;
+            _ShowAxes = false;
+            _showComplexPlotToggle = false;
 
             XAxisSpacingOptionVM = new OptionViewModel<ScalingType>("XAxisSpacing", false);
             XAxisSpacingOptionVM.PropertyChanged += (sender, args) => UpdatePlotSeries();
@@ -99,9 +101,10 @@ namespace Vts.Gui.Silverlight.ViewModel
         public RelayCommand ExportDataToTextCommand { get; set; }
         public RelayCommand DuplicateWindowCommand { get; set; }
 
-        private IList<IList<Point>> DataSeriesCollection { get; set; }
-        private IList<IList<Point>> DataSeriesCollectionToggle { get; set; }
-        private IList<string> RealImagLabels { get; set; }
+        private List<IDataPoint[]> DataSeriesCollection { get; set; }
+        //private IList<IList<IDataPoint>> DataSeriesCollectionToggle { get; set; }
+        private IList<string> RealLabels { get; set; }
+        private IList<string> ImagLabels { get; set; }
         private IList<string> PhaseLabels { get; set; }
         private IList<string> AmplitudeLabels { get; set; }
 
@@ -120,7 +123,7 @@ namespace Vts.Gui.Silverlight.ViewModel
             output._PlotTitles = plotToClone._PlotTitles.ToList();
             output._PlotType = plotToClone._PlotType;
             output._HoldOn = plotToClone._HoldOn;
-            output._PlotSeriesCollection = new ObservableCollection<IList<Point>>(
+            output._PlotSeriesCollection = new ObservableCollection<Point[]>(
                 plotToClone._PlotSeriesCollection.Select(ps => ps.Select(val => val).ToArray()).ToArray());
             output._Labels = plotToClone._Labels.ToList();
             output._CustomPlotLabel = plotToClone._CustomPlotLabel;
@@ -133,8 +136,9 @@ namespace Vts.Gui.Silverlight.ViewModel
             output._AutoScaleY = plotToClone._AutoScaleY;
             output._IsComplexPlot = plotToClone._IsComplexPlot;
             output._CurrentIndependentVariableAxis = plotToClone._CurrentIndependentVariableAxis;
-            
-            output.RealImagLabels = plotToClone.RealImagLabels;
+
+            output.RealLabels = plotToClone.RealLabels;
+            output.ImagLabels = plotToClone.ImagLabels;
             output.PhaseLabels = plotToClone.PhaseLabels; 
             output.AmplitudeLabels = plotToClone.AmplitudeLabels;
             
@@ -144,14 +148,14 @@ namespace Vts.Gui.Silverlight.ViewModel
             output._XAxisSpacingOptionVM.Options[plotToClone._XAxisSpacingOptionVM.SelectedValue].IsSelected = true;
             
             output.DataSeriesCollection =
-                  plotToClone.DataSeriesCollection.Select(ds => (IList<Point>)ds.Select(val => val).ToList()).ToList();
-            output.DataSeriesCollectionToggle =
-                plotToClone.DataSeriesCollectionToggle.Select(ds => (IList<Point>)ds.Select(val => val).ToList()).ToList();
+                  plotToClone.DataSeriesCollection.Select(ds => ds.Select(val => val).ToArray()).ToList();
+            //output.DataSeriesCollectionToggle =
+            //    plotToClone.DataSeriesCollectionToggle.Select(ds => (IList<IDataPoint>)ds.Select(val => val).ToList()).ToList();
           
             return output;
         }
 
-        public ObservableCollection<IList<Point>> PlotSeriesCollection
+        public ObservableCollection<Point[]> PlotSeriesCollection
         {
             get
             {
@@ -204,6 +208,16 @@ namespace Vts.Gui.Silverlight.ViewModel
             }
         }
 
+        public bool ShowComplexPlotToggle
+        {
+            get { return _showComplexPlotToggle; }
+            set
+            {
+                _showComplexPlotToggle = value;
+                OnPropertyChanged("ShowComplexPlotToggle");
+            }
+        }
+
         public OptionViewModel<ScalingType> XAxisSpacingOptionVM
         {
             get { return _XAxisSpacingOptionVM; }
@@ -245,15 +259,6 @@ namespace Vts.Gui.Silverlight.ViewModel
                 }
                 _CurrentIndependentVariableAxis = value;
                 OnPropertyChanged("CurrentIndependentVariableAxis");
-            }
-        }
-        public bool IsComplexPlot
-        {
-            get { return _IsComplexPlot; }
-            set
-            {
-                _IsComplexPlot = value;
-                this.OnPropertyChanged("IsComplexPlot");
             }
         }
         public OptionViewModel<PlotNormalizationType> PlotNormalizationTypeOptionVM
@@ -405,12 +410,20 @@ namespace Vts.Gui.Silverlight.ViewModel
                         labels.DependentAxisName + " [" + labels.DependentAxisUnits + "] versus " +
                         labels.IndependentAxisName + " [" + labels.IndependentAxisUnits + "]";
                 }
-                else
+                else if (labels.ConstantAxisTwoName == null || labels.ConstantAxisTwoName.Length == 0)
                 {
                     Title =
                         labels.DependentAxisName + " [" + labels.DependentAxisUnits + "]  versus " +
                         labels.IndependentAxisName + " [" + labels.IndependentAxisUnits + "]" +
                         " at " + labels.ConstantAxisName + " = " + labels.ConstantAxisValue + " " + labels.ConstantAxisUnits;
+                }
+                else
+                {
+                    Title =
+                        labels.DependentAxisName + " [" + labels.DependentAxisUnits + "]  versus " +
+                        labels.IndependentAxisName + " [" + labels.IndependentAxisUnits + "]" +
+                        " at " + labels.ConstantAxisName + " = " + labels.ConstantAxisValue + " " + labels.ConstantAxisUnits +
+                        " and " + labels.ConstantAxisTwoName + " = " + labels.ConstantAxisTwoValue + " " + labels.ConstantAxisTwoUnits;
                 }
             }
         }
@@ -433,7 +446,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                             sw.Write("%");
                             _Labels.ForEach(label => sw.Write(label + " (X)" + "\t" + label + " (Y)" + "\t"));
                             sw.WriteLine();
-                            for (int i = 0; i < _PlotSeriesCollection[0].Count; i++)
+                            for (int i = 0; i < _PlotSeriesCollection[0].Length; i++)
                             {
                                 sw.WriteLine();
                                 for (int j = 0; j < _PlotSeriesCollection.Count; j++)
@@ -464,70 +477,37 @@ namespace Vts.Gui.Silverlight.ViewModel
             var data = e.Parameter as PlotData;
             if (data != null)
             {
-                if (data.IsComplex) // AddValuesToPlotData relies on IsComplexPlot so set before call
-                {
-                    IsComplexPlot = true;
-                    AddValuesToPlotData(data.ComplexPoints, data.Title);
-                }
-                else // non-complex plot
-                {
-                    IsComplexPlot = false;
-                    AddValuesToPlotData(data.Points, data.Title);
-                }
+                AddValuesToPlotData(data.Points, data.Titles);
             }
         }
 
         //static int labelCounter = 0;
-        private void AddValuesToPlotData(IList<Point> points, string title)
+        private void AddValuesToPlotData(IDataPoint[][] curves, string[] titles)
         {
             if (!_HoldOn)
             {
                 ClearPlot();
             }
 
-            DataSeriesCollection.Add(points);
-
             var customLabel = CustomPlotLabel.Length > 0 ? "\n(" + CustomPlotLabel + ")" : "";
-            Labels.Add(title + customLabel); // has to happen before updating the bound collection
+            for (int i = 0; i < curves.Length; i++)
+            {
+                DataSeriesCollection.Add(curves[i]);
+                if (DataSeriesCollection.Count > 0 && curves[i].First() is ComplexDataPoint)
+                {
+                    RealLabels.Add(titles[i] + "\r(real)" + customLabel);
+                    PhaseLabels.Add(titles[i] + "\r(phase)" + customLabel);
+                    ImagLabels.Add(titles[i] + "\r(imag)" + customLabel);
+                    AmplitudeLabels.Add(titles[i] + "\r(amp)" + customLabel);
+                }
+                else
+                {
+                    Labels.Add(titles[i] + customLabel); // has to happen before updating the bound collection
+                }
+            }
 
             PlotTitles.Add(Title);
 
-            UpdatePlotSeries();
-        }
-        private void AddValuesToPlotData(IList<ComplexPoint> points, string title)
-        {
-            if (!_HoldOn)
-            {
-                ClearPlot();
-            }
-            // default data stored in DataSeriesCollection is real/imag
-            var realPoints = new List<Point>();
-            var imagPoints = new List<Point>();
-            // store phase/amp values in DataSerieCollectionToggle
-            var phasePoints = new List<Point>();
-            var ampPoints = new List<Point>();
-            foreach (var point in points)
-            {
-                realPoints.Add(new Point(point.X, point.Y.Real));
-                imagPoints.Add(new Point(point.X, point.Y.Imaginary));
-                phasePoints.Add(new Point(point.X, -Math.Atan2(point.Y.Imaginary, point.Y.Real) * (180 / Math.PI)));
-                ampPoints.Add(new Point(point.X, Math.Sqrt(point.Y.Real * point.Y.Real + point.Y.Imaginary * point.Y.Imaginary)));
-            }
-            // store real data
-            DataSeriesCollection.Add(realPoints);
-            var customLabel = CustomPlotLabel.Length > 0 ? "\n(" + CustomPlotLabel + ")" : "";
-            RealImagLabels.Add(title + "\r(real)" + customLabel); // has to happen before updating the bound collection
-            PlotTitles.Add(Title); 
-            // store phase data prior to updating plot
-            DataSeriesCollectionToggle.Add(phasePoints);
-            PhaseLabels.Add(title + "\r(phase)" + customLabel);
-            UpdatePlotSeries();
-            // store imag data
-            DataSeriesCollection.Add(imagPoints);
-            RealImagLabels.Add(title + "\r(imag)" + customLabel);
-            // store amplitude data prior to updating plot
-            DataSeriesCollectionToggle.Add(ampPoints);
-            AmplitudeLabels.Add(title + "\r(amp)" + customLabel);
             UpdatePlotSeries();
         }
 
@@ -538,7 +518,10 @@ namespace Vts.Gui.Silverlight.ViewModel
             DataSeriesCollection.Clear();
             PlotSeriesCollection.Clear();
             Labels.Clear();
-            DataSeriesCollectionToggle.Clear();
+            RealLabels.Clear();
+            ImagLabels.Clear();
+            PhaseLabels.Clear();
+            AmplitudeLabels.Clear();
         }
 
         private void ClearPlotSingle()
@@ -559,17 +542,12 @@ namespace Vts.Gui.Silverlight.ViewModel
                 // remove real
                 DataSeriesCollection.RemoveAt(DataSeriesCollection.Count - 1);
                 Labels.RemoveAt(Labels.Count - 1);
-                // if Ft plot, remove imag, phase and amplitude
-                if (IsComplexPlot)
+
+                // if it's comp
+                if (DataSeriesCollection.Count > 0 && DataSeriesCollection.Last().First() is ComplexDataPoint &&
+                    PlotToggleTypeOptionVM.SelectedValue == PlotToggleType.Complex)
                 {
-                    DataSeriesCollection.RemoveAt(DataSeriesCollection.Count - 1);
-                    // remove phase and amplitude toggle data
-                    DataSeriesCollectionToggle.RemoveAt(DataSeriesCollectionToggle.Count - 1);
-                    DataSeriesCollectionToggle.RemoveAt(DataSeriesCollectionToggle.Count - 1);
-                    if (PlotToggleTypeOptionVM.SelectedValue == PlotToggleType.Complex)
-                    {
-                        Labels.RemoveAt(Labels.Count - 1);
-                    }
+                    Labels.RemoveAt(Labels.Count - 1);
                 }
             }
         }
@@ -584,62 +562,85 @@ namespace Vts.Gui.Silverlight.ViewModel
             // plot curve or value. need a more general representation that is UI-friendly.
             int normCurveNumber = 0;
 
-            var tempDSC = DataSeriesCollection;
-            if (IsComplexPlot)
+            Point[][] tempPSC = null;
+            if (DataSeriesCollection.Count > 0 && DataSeriesCollection.Any(dsc => dsc.First() is ComplexDataPoint))
             {
                 switch (PlotToggleTypeOptionVM.SelectedValue)
                 {
                     case PlotToggleType.Complex:
                         // get odd elements of default list that contain imag data
-                        tempDSC = DataSeriesCollection;
-                        Labels = RealImagLabels;
+                        tempPSC = DataSeriesCollection.Select(dsci => dsci.FirstOrDefault() is ComplexDataPoint
+                            ? dsci.Select(dp => new Point(((ComplexDataPoint)dp).X, ((ComplexDataPoint)dp).Y.Real)).ToArray()
+                            : dsci.Select(dp => new Point(((DoubleDataPoint)dp).X, ((DoubleDataPoint)dp).Y)).ToArray())
+                            .Concat(DataSeriesCollection.Select(dsci => dsci.FirstOrDefault() is ComplexDataPoint
+                            ? dsci.Select(dp => dp is ComplexDataPoint ? new Point(((ComplexDataPoint)dp).X, ((ComplexDataPoint)dp).Y.Imaginary) :  new Point(0,0)).ToArray()
+                            : dsci.Select(dp => new Point(0,0)).ToArray())).ToArray();
+                        Labels = RealLabels.Concat(ImagLabels).ToList();
                         break;
                     case PlotToggleType.Phase:
                         // get even elements of toggle list that contain phase data
-                        tempDSC = DataSeriesCollectionToggle.Where((data, index) => index%2 == 0).ToList();
+                        tempPSC = DataSeriesCollection.Select(dsci => dsci.FirstOrDefault() is ComplexDataPoint
+                            ? dsci.Select(dp => new Point(((ComplexDataPoint)dp).X, -((ComplexDataPoint)dp).Y.Phase * (180/Math.PI))).ToArray()
+                            : dsci.Select(dp => new Point(((DoubleDataPoint)dp).X, ((DoubleDataPoint)dp).Y)).ToArray()).ToArray();
                         Labels = PhaseLabels;
                         break;
                     case PlotToggleType.Amp:
                         // get odd elements of toggle list that contain amp data
-                        tempDSC = DataSeriesCollectionToggle.Where((data, index) => index%2 != 0).ToList();
+                        tempPSC = DataSeriesCollection.Select(dsci => dsci.FirstOrDefault() is ComplexDataPoint
+                            ? dsci.Select(dp => new Point(((ComplexDataPoint)dp).X, ((ComplexDataPoint)dp).Y.Magnitude)).ToArray()
+                            : dsci.Select(dp => new Point(((DoubleDataPoint)dp).X, ((DoubleDataPoint)dp).Y)).ToArray()).ToArray();
                         Labels = AmplitudeLabels;
                         break;
                 }
+                ShowComplexPlotToggle = true; // right now, it's all or nothing - assume all plots are ComplexDataPoints
+            }
+            else
+            {
+                tempPSC = DataSeriesCollection.Select(dsci => dsci.Select(dp => new Point(((DoubleDataPoint)dp).X, ((DoubleDataPoint)dp).Y)).ToArray()).ToArray();
+                ShowComplexPlotToggle = false; // otherwise, assume all plots are DoubleDataPoints
             }
 
-            // now this computes O(M*N) regardless...yuck
-            var normalizationPoints =
-                (from ds in tempDSC
-                 let normToCurve =
-                    PlotNormalizationTypeOptionVM.SelectedValue == PlotNormalizationType.RelativeToCurve
-                    && DataSeriesCollection.Count > 1
-                 let normToMax =
-                    PlotNormalizationTypeOptionVM.SelectedValue == PlotNormalizationType.RelativeToMax
-                    && DataSeriesCollection.Count > 0
-                 let maxValue = ds.Select(p => p.Y).Max()
-                 select tempDSC[normCurveNumber].Select(p =>
-                        normToCurve ? p.Y : normToMax ? maxValue : 1.0)).ToList();
+            var normToCurve =
+                PlotNormalizationTypeOptionVM.SelectedValue == PlotNormalizationType.RelativeToCurve
+                && DataSeriesCollection.Count > 1;
+            var normToMax =
+                PlotNormalizationTypeOptionVM.SelectedValue == PlotNormalizationType.RelativeToMax
+                && DataSeriesCollection.Count > 0;
 
-            var newCollection = new ObservableCollection<IList<Point>>();
-           
             // filter the results if we're not auto-scaling
             Func<Point, bool> isWithinAxes = p =>
                     (_AutoScaleX ? true : (p.X <= MaxXValue && p.X >= MinXValue)) &&
                     (_AutoScaleY ? true : (p.Y <= MaxYValue && p.Y >= MinYValue));
 
-            var pointsToPlot =
-                from ds in Enumerable.Zip(
-                    tempDSC,
-                    normalizationPoints, (p, n) => new {DataPoints = p, NormValues = n})
-                let xValues = ds.DataPoints.Select(dp => dp.X)
-                let yValues = Enumerable.Zip(ds.DataPoints, ds.NormValues, (dp, nv) => dp.Y/nv)
-                let useLogX = XAxisSpacingOptionVM.SelectedValue == ScalingType.Log
-                let useLogY = YAxisSpacingOptionVM.SelectedValue == ScalingType.Log
-                select  Enumerable.Zip(xValues, yValues, (x, y) =>
-                    new Point(
-                        useLogX ? Math.Log10(x) : x,
-                        useLogY ? Math.Log10(y) : y))
-                    .Where(p => p.IsValidDataPoint() && isWithinAxes(p));
+            Func<Point, bool> isValidDataPoint = p =>
+                !double.IsInfinity(Math.Abs(p.X)) && !double.IsNaN(p.X) &&
+                !double.IsInfinity(Math.Abs(p.Y)) && !double.IsNaN(p.Y);
+            
+            var pointsToPlot2 = new Point[tempPSC.Length][];
+            var normCurve = normToCurve ? tempPSC[normCurveNumber].Select(point => point.Y).ToArray() : null;
+            for (int j = 0; j < pointsToPlot2.Length; j++)
+            {
+                var points = tempPSC[j];
+                var max = normToMax ? points.Select(p => p.Y).Max() : 1.0;
+                for (int i = 0; i < points.Length; i++)
+                {
+                    if (normToMax)
+                    {
+                        points[i].Y /= max;
+                    }
+                    else if (normToCurve)
+                    {
+                        points[i].Y /= normCurve[i];
+                    }
+
+                    if (XAxisSpacingOptionVM.SelectedValue == ScalingType.Log)
+                        points[i].X = Math.Log10(points[i].X);
+
+                    if (YAxisSpacingOptionVM.SelectedValue == ScalingType.Log)
+                        points[i].Y = Math.Log10(points[i].Y);
+                }
+                pointsToPlot2[j] = points.Where(p => isValidDataPoint(p) && isWithinAxes(p)).ToArray();
+            }
 
             // get stats for reference - do this better/faster in the future...
             if (AutoScaleX || AutoScaleY)
@@ -648,28 +649,32 @@ namespace Vts.Gui.Silverlight.ViewModel
                 double maxX = double.NegativeInfinity;
                 double minY = double.PositiveInfinity;
                 double maxY = double.NegativeInfinity;
-                foreach (var point in pointsToPlot.SelectMany(points => points))
+                for (int j = 0; j < pointsToPlot2.Length; j++)
                 {
-                    if (AutoScaleX)
+                    for (int i = 0; i < pointsToPlot2[j].Length; i++)
                     {
-                        if (point.X > maxX)
+                        var point = pointsToPlot2[j][i];
+                        if (AutoScaleX)
                         {
-                            maxX = point.X;
+                            if (point.X > maxX)
+                            {
+                                maxX = point.X;
+                            }
+                            if (point.X < minX)
+                            {
+                                minX = point.X;
+                            }
                         }
-                        if (point.X < minX)
+                        if (AutoScaleY)
                         {
-                            minX = point.X;
-                        }
-                    }
-                    if (AutoScaleY)
-                    {
-                        if (point.Y > maxY)
-                        {
-                            maxY = point.Y;
-                        }
-                        if (point.Y < minY)
-                        {
-                            minY = point.Y;
+                            if (point.Y > maxY)
+                            {
+                                maxY = point.Y;
+                            }
+                            if (point.Y < minY)
+                            {
+                                minY = point.Y;
+                            }
                         }
                     }
                 }
@@ -685,12 +690,18 @@ namespace Vts.Gui.Silverlight.ViewModel
                 }
             }
 
-            foreach (var curve in pointsToPlot.ToList())
+            var newCollection = new ObservableCollection<Point[]>();
+            foreach (var curve in pointsToPlot2)
             {
-                newCollection.Add(curve.ToList());
+                newCollection.Add(curve);
             }
-
             PlotSeriesCollection = newCollection;
+
+            //foreach (var curve in pointsToPlot.ToList())
+            //{
+            //    PlotSeriesCollection.Add(curve.ToList());
+            //}
+            //OnPropertyChanged("PlotSeriesCollection");
 
             //Only display the x and y axes if there is a plot to display
             if (DataSeriesCollection.Count > 0)

@@ -350,7 +350,7 @@ namespace Vts.ReportInverseSolver.Desktop
                                 if (IFT == InverseFitType.Mua) { gOp.Musp = rOp.Musp; }
                                 if (IFT == InverseFitType.Musp) { gOp.Mua = rOp.Mua; }
                                 //solve inverse problem
-                                double[] fit = ComputationFactory.SolveInverse(fST, oT, SolutionDomainType.ROfFx, IndependentVariableAxis.Rho, mfxs, mR, mS, gOp, IFT);
+                                double[] fit = ComputationFactory.SolveInverse(fST, oT, SolutionDomainType.ROfFx, mR, mS, IFT, new object[] {new[] {gOp}, mfxs});
                                 if (fit[0] != 0 && fit[1] != 0)
                                 {
                                     converged = true;
@@ -392,7 +392,7 @@ namespace Vts.ReportInverseSolver.Desktop
                                                                                          bestChiSquared, meanChiSquared,
                                                                                          elapsedSeconds, mR.Count());
                             // write array to binary
-                            LocalWriteArrayToBinary<double>(inverseProblemValues, @"Output/" + spaceDomainFolder + "/" +
+                            LocalWriteArrayToBinary(inverseProblemValues, @"Output/" + spaceDomainFolder + "/" +
                                                             timeDomainFolder + "/" + problemFolder + "/" + fST.ToString() + "/" +
                                                             oT.ToString() + "/" + IFT.ToString() + "/" + filename, FileMode.Create);
 
@@ -504,7 +504,7 @@ namespace Vts.ReportInverseSolver.Desktop
                                 if (IFT == InverseFitType.Mua) { gOp.Musp = rOp.Musp; }
                                 if (IFT == InverseFitType.Musp) { gOp.Mua = rOp.Mua; }
                                 //solve inverse problem
-                                double[] fit = ComputationFactory.SolveInverse(fST, oT, SolutionDomainType.ROfRho, IndependentVariableAxis.Rho, mrhos, mR, mS, gOp, IFT);
+                                double[] fit = ComputationFactory.SolveInverse(fST, oT, SolutionDomainType.ROfRho, mR, mS, IFT, new object[] { new[] { gOp }, mrhos });
                                 if (fit[0] != 0 && fit[1] != 0)
                                 {
                                     converged = true;
@@ -546,7 +546,7 @@ namespace Vts.ReportInverseSolver.Desktop
                                                                                          bestChiSquared, meanChiSquared,
                                                                                          elapsedSeconds, mR.Count());
                             // write array to binary
-                            LocalWriteArrayToBinary<double>(inverseProblemValues, @"Output/" + spaceDomainFolder + "/" +
+                            LocalWriteArrayToBinary(inverseProblemValues, @"Output/" + spaceDomainFolder + "/" +
                                                             timeDomainFolder + "/" + problemFolder + "/" + fST.ToString() + "/" +
                                                             oT.ToString() + "/" + IFT.ToString() + "/" + filename, FileMode.Create);
 
@@ -656,7 +656,7 @@ namespace Vts.ReportInverseSolver.Desktop
                                     if (IFT == InverseFitType.Mua) { gOp.Musp = rOp.Musp; }
                                     if (IFT == InverseFitType.Musp) { gOp.Mua = rOp.Mua; }
                                     //solve inverse problem
-                                    double[] fit = ComputationFactory.SolveInverse(fST, oT, SolutionDomainType.ROfRhoAndTime, IndependentVariableAxis.Time, T, R, S, gOp, IFT, constantVals);
+                                    double[] fit = ComputationFactory.SolveInverse(fST, oT, SolutionDomainType.ROfRhoAndTime, R, S, IFT, new object[] { new[] { gOp }, constantVals, T });
                                     if (fit[0] != 0 && fit[1] != 0)
                                     {
                                         converged = true;
@@ -697,7 +697,7 @@ namespace Vts.ReportInverseSolver.Desktop
                                                                                              bestChiSquared, meanChiSquared,
                                                                                              elapsedSeconds, numberOfPoints);
                                 // write array to binary
-                                LocalWriteArrayToBinary<double>(inverseProblemValues, @"Output/" + spaceDomainFolder + "/" +
+                                LocalWriteArrayToBinary(inverseProblemValues, @"Output/" + spaceDomainFolder + "/" +
                                                                 timeDomainFolder + "/" + noiseFolder + "/" + problemFolder + "/" + fST.ToString() + "/" +
                                                                 oT.ToString() + "/" + IFT.ToString() + "/" + rhoFolder + "/" + filename, FileMode.Create);
 
@@ -790,14 +790,14 @@ namespace Vts.ReportInverseSolver.Desktop
             }
         }
 
-        private static void LocalWriteArrayToBinary<T>(Array dataIN, string filename, FileMode mode) where T : struct
+        private static void LocalWriteArrayToBinary(Array dataIN, string filename, FileMode mode)
         {
             // Create a file to write binary data 
             using (Stream s = StreamFinder.GetFileStream(filename, mode))
             {
                 using (BinaryWriter bw = new BinaryWriter(s))
                 {
-                    new ArrayCustomBinaryWriter<T>().WriteToBinary(bw, dataIN);
+                    new ArrayCustomBinaryWriter().WriteToBinary(bw, dataIN);
                 }
             }
         }

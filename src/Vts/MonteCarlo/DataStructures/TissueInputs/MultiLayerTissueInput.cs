@@ -7,8 +7,6 @@ namespace Vts.MonteCarlo
     /// <summary>
     /// Implements ITissueInput.  Defines input to MultiLayerTissue class.
     /// </summary>
-    [KnownType(typeof(LayerRegion))]
-    [KnownType(typeof(OpticalProperties))]
     public class MultiLayerTissueInput : ITissueInput
     {
         private ITissueRegion[] _regions;

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.DataVisualization;
 using System.Windows.Controls.DataVisualization.Charting;
 using System.Windows.Data;
 using System.Windows.Media;
@@ -161,6 +162,18 @@ namespace Vts.Gui.Silverlight.ViewModel
             return (Style)d.GetValue(DataPointSeriesStyleProperty);
         }
 
+
+        public static readonly DependencyProperty ChartTitleStyleProperty =
+            DependencyProperty.RegisterAttached("ChartTitleStyle",
+                                                typeof(Style),
+                                                typeof(ChartHelper),
+                                                null);
+
+        public static Style GetChartTitleStyle(DependencyObject d)
+        {
+            return (Style)d.GetValue(ChartTitleStyleProperty);
+        }
+
         public static void SetDataPointSeriesStyle(DependencyObject d, Style value)
         {
             d.SetValue(DataPointSeriesStyleProperty, value);
@@ -204,6 +217,14 @@ namespace Vts.Gui.Silverlight.ViewModel
             {
                 var vm = chart.DataContext as PlotViewModel;
                 chart.Title = vm.Title;
+
+                // attempt to reduce the font size:
+                var titleStyle = new Style(typeof(Title)) { BasedOn = GetChartTitleStyle(chart) };
+                var s = new Setter(TextBlock.FontSizeProperty, 18); // todo: don't think these are working
+                var s2 = new Setter(TextBlock.FontWeightProperty, FontWeights.ExtraBold); // todo: don't think these are working
+                titleStyle.Setters.Add(s);
+                titleStyle.Setters.Add(s2);
+                chart.TitleStyle = titleStyle;
             }
 
             /* Loop over each collection of data */

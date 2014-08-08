@@ -4,7 +4,7 @@ classdef PostProcessorInput < handle % deriving from handle allows us to keep a 
     DetectorInputs = {...
         DetectorInput.ROfRho(linspace(0,40,201))...
     };
-      TallySecondMoment = 0;
+      TallySecondMoment = false;
       InputFolder = 'results';
       DatabaseSimulationInputFilename = 'infile';
       OutputName = 'ppresults';
@@ -18,7 +18,7 @@ classdef PostProcessorInput < handle % deriving from handle allows us to keep a 
           for i=1:inputNET.DetectorInputs.Length
               input.DetectorInputs{i} = DetectorInput.FromInputNET(detectorInputsNET(i));
           end                    
-          input.TallySecondMoment = logical(inputNET.OutputName);
+          input.TallySecondMoment = logical(inputNET.TallySecondMoment);
           input.InputFolder = char(inputNET.InputFolder);
           input.DatabaseSimulationInputFilename = char(inputNET.DatabaseSimulationInputFilename);
           input.OutputName = char(inputNET.OutputName);

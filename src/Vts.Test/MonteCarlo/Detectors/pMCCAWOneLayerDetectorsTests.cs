@@ -1,13 +1,14 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
+using System.Collections.Generic;
 using NUnit.Framework;
 using Vts.Common;
 using Vts.MonteCarlo;
+using Vts.MonteCarlo.Detectors;
 using Vts.MonteCarlo.Helpers;
-using Vts.MonteCarlo.PhotonData;
-using Vts.MonteCarlo.PostProcessing;
 using Vts.MonteCarlo.Tissues;
+using Vts.MonteCarlo.PostProcessing;
+using Vts.MonteCarlo.PhotonData;
 
 namespace Vts.Test.MonteCarlo.Detectors
 {
@@ -41,21 +42,21 @@ namespace Vts.Test.MonteCarlo.Detectors
         public void execute_reference_Monte_Carlo()
         {
             // make sure databases generated from previous tests are deleted
-            if (File.Exists("DiffuseReflectanceDatabase.xml"))
+            if (File.Exists("pMCCAWOneLayer_DiffuseReflectanceDatabase.txt"))
             {
-                File.Delete("DiffuseReflectanceDatabase.xml");
+                File.Delete("pMCCAWOneLayer_DiffuseReflectanceDatabase.txt");
             }
-            if (File.Exists("DiffuseReflectanceDatabase"))
+            if (File.Exists("pMCCAWOneLayer_DiffuseReflectanceDatabase"))
             {
-                File.Delete("DiffuseReflectanceDatabase");
+                File.Delete("pMCCAWOneLayer_DiffuseReflectanceDatabase");
             }
-            if (File.Exists("CollisionInfoDatabase.xml"))
+            if (File.Exists("pMCCAWOneLayer_CollisionInfoDatabase.txt"))
             {
-                File.Delete("CollisionInfoDatabase.xml");
+                File.Delete("pMCCAWOneLayer_CollisionInfoDatabase.txt");
             }
-            if (File.Exists("CollisionInfoDatabase"))
+            if (File.Exists("pMCCAWOneLayer_CollisionInfoDatabase"))
             {
-                File.Delete("CollisionInfoDatabase");
+                File.Delete("pMCCAWOneLayer_CollisionInfoDatabase");
             }
 
             // generate reference database for homogeneous tissue
@@ -73,7 +74,6 @@ namespace Vts.Test.MonteCarlo.Detectors
                 AbsorptionWeightingType.Continuous,
                 PhaseFunctionType.HenyeyGreenstein,
                 new List<DatabaseType>() { DatabaseType.pMCDiffuseReflectance },
-                true, // tally 2nd moment
                 false, // track statistics
                 0.0, // RR threshold -> 0 = no RR performed
                 0);
@@ -83,10 +83,8 @@ namespace Vts.Test.MonteCarlo.Detectors
                     1);
             var detectorInputs = new List<IDetectorInput>()
             {
-                new ROfRhoDetectorInput(new DoubleRange(0.0, 10.0, 101)),
-                new ROfRhoAndTimeDetectorInput(
-                    new DoubleRange(0.0, 10.0, 101),
-                    new DoubleRange(0.0, 1.0, 101)),
+                new ROfRhoDetectorInput() { Rho=new DoubleRange(0.0, 10.0, 101)},
+                new ROfRhoAndTimeDetectorInput() { Rho=new DoubleRange(0.0, 10.0, 101), Time=new DoubleRange(0.0, 1.0, 101)}                   
             };
             _referenceInputOneLayerTissue = new SimulationInput(
                 100,
@@ -126,17 +124,18 @@ namespace Vts.Test.MonteCarlo.Detectors
                 VirtualBoundaryType.pMCDiffuseReflectance,
                 new List<IDetectorInput>()
                 {
-                    new pMCROfRhoAndTimeDetectorInput(
-                        new DoubleRange(0.0, 10.0, 101),
-                        new DoubleRange(0.0, 1.0, 101),
+                    new pMCROfRhoAndTimeDetectorInput()
+                    {
+                        Rho=new DoubleRange(0.0, 10.0, 101),
+                        Time=new DoubleRange(0.0, 1.0, 101),
                         // set perturbed ops to reference ops
-                        new List<OpticalProperties>() { 
+                        PerturbedOps=new List<OpticalProperties>() { 
                             _referenceInputOneLayerTissue.TissueInput.Regions[0].RegionOP,
                             _referenceInputOneLayerTissue.TissueInput.Regions[1].RegionOP,
                             _referenceInputOneLayerTissue.TissueInput.Regions[2].RegionOP},
-                        new List<int>() { 1 })
+                        PerturbedRegionsIndices=new List<int>() { 1 }
+                    }
                 },
-                false,
                 _databaseOneLayerTissue,
                 _referenceInputOneLayerTissue);
             var postProcessedOutput = postProcessor.Run();
@@ -154,16 +153,18 @@ namespace Vts.Test.MonteCarlo.Detectors
                 VirtualBoundaryType.pMCDiffuseReflectance,
                 new List<IDetectorInput>()
                 {
-                    new pMCROfRhoDetectorInput(
-                        new DoubleRange(0.0, 10, 101),
+                    new pMCROfRhoDetectorInput()
+                    {
+                        Rho=new DoubleRange(0.0, 10, 101),
                         // set perturbed ops to reference ops
-                        new List<OpticalProperties>() { 
+                        PerturbedOps=new List<OpticalProperties>() { 
                             _referenceInputOneLayerTissue.TissueInput.Regions[0].RegionOP,
                             _referenceInputOneLayerTissue.TissueInput.Regions[1].RegionOP,
-                            _referenceInputOneLayerTissue.TissueInput.Regions[2].RegionOP},
-                        new List<int>() { 1 })
+                            _referenceInputOneLayerTissue.TissueInput.Regions[2].RegionOP
+                        },
+                        PerturbedRegionsIndices=new List<int>() { 1 }
+                    }
                 },
-                false, // tally second moment
                 _databaseOneLayerTissue,
                 _referenceInputOneLayerTissue);
             var postProcessedOutput = postProcessor.Run();
@@ -183,10 +184,11 @@ namespace Vts.Test.MonteCarlo.Detectors
                 VirtualBoundaryType.pMCDiffuseReflectance,
                 new List<IDetectorInput>()
                     {
-                        new pMCROfRhoDetectorInput(
-                            new DoubleRange(0.0, 10, 101),
+                        new pMCROfRhoDetectorInput()
+                        {
+                            Rho=new DoubleRange(0.0, 10, 101),
                             // set perturbed ops to reference ops
-                            new List<OpticalProperties>()
+                            PerturbedOps=new List<OpticalProperties>()
                                 {
                                     _referenceInputOneLayerTissue.TissueInput.Regions[0].RegionOP,
                                     new OpticalProperties(
@@ -196,15 +198,65 @@ namespace Vts.Test.MonteCarlo.Detectors
                                         _referenceInputOneLayerTissue.TissueInput.Regions[1].RegionOP.N),
                                     _referenceInputOneLayerTissue.TissueInput.Regions[2].RegionOP
                                 },
-                            new List<int>() {1})
+                            PerturbedRegionsIndices = new List<int>() {1}
+                         }
                     },
-                false, // tally 2nd moment
                 _databaseOneLayerTissue,
                 _referenceInputOneLayerTissue);
             var postProcessedOutput = postProcessor.Run();
 
             // validation value obtained from linux run using above input and seeded the same
             Assert.Less(Math.Abs(postProcessedOutput.pMC_R_r[0] * _factor - 1.013156), 0.000001);
+        }
+        /// <summary>
+        /// Test to validate that calling dMC results in not a NaN
+        /// </summary>
+        [Test]
+        public void validate_dMC_CAW_dROfRhodMua_produces_not_NaN_results()
+        {
+            var postProcessor = new PhotonDatabasePostProcessor(
+                VirtualBoundaryType.pMCDiffuseReflectance,
+                new List<IDetectorInput>()
+                {
+                    new dMCdROfRhodMuaDetectorInput()
+                    {
+                        Rho = new DoubleRange(0.0, 10, 101),
+                        // set perturbed ops to reference ops
+                        PerturbedOps = new List<OpticalProperties>()
+                        {
+                            _referenceInputOneLayerTissue.TissueInput.Regions[0].RegionOP,
+                            new OpticalProperties(
+                                _referenceInputOneLayerTissue.TissueInput.Regions[1].RegionOP.Mua,
+                                _referenceInputOneLayerTissue.TissueInput.Regions[1].RegionOP.Musp,
+                                _referenceInputOneLayerTissue.TissueInput.Regions[1].RegionOP.G,
+                                _referenceInputOneLayerTissue.TissueInput.Regions[1].RegionOP.N),
+                            _referenceInputOneLayerTissue.TissueInput.Regions[2].RegionOP
+                        },
+                        PerturbedRegionsIndices = new List<int>() {1}
+                    },
+                    new dMCdROfRhodMusDetectorInput()
+                    {
+                        Rho = new DoubleRange(0.0, 10, 101),
+                        // set perturbed ops to reference ops
+                        PerturbedOps = new List<OpticalProperties>()
+                        {
+                            _referenceInputOneLayerTissue.TissueInput.Regions[0].RegionOP,
+                            new OpticalProperties(
+                                _referenceInputOneLayerTissue.TissueInput.Regions[1].RegionOP.Mua,
+                                _referenceInputOneLayerTissue.TissueInput.Regions[1].RegionOP.Musp,
+                                _referenceInputOneLayerTissue.TissueInput.Regions[1].RegionOP.G,
+                                _referenceInputOneLayerTissue.TissueInput.Regions[1].RegionOP.N),
+                            _referenceInputOneLayerTissue.TissueInput.Regions[2].RegionOP
+                        },
+                        PerturbedRegionsIndices = new List<int>() {1}
+                    }
+                },
+                _databaseOneLayerTissue,
+                _referenceInputOneLayerTissue);
+            var postProcessedOutput = postProcessor.Run();
+            // validation value obtained from linux run using above input and seeded the same
+            Assert.AreNotEqual(Math.Abs(postProcessedOutput.dMCdMua_R_r[0]), double.NaN);
+            Assert.AreNotEqual(Math.Abs(postProcessedOutput.dMCdMus_R_r[0]), double.NaN);
         }
     }
 }

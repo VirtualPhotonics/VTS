@@ -1,6 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Messaging;
+using GalaSoft.MvvmLight.Command;
 using SLExtensions.Input;
 using Vts.Common;
 using Vts.Factories;
@@ -34,32 +38,35 @@ namespace Vts.Gui.Silverlight.ViewModel
         public SpectralMappingViewModel()
         {
 #if WHITELIST 
-            ScatteringTypeVM = new OptionViewModel<ScatteringType>("Scatterer Type:", true, WhiteList.ScatteringTypes);
-#else 
-            ScatteringTypeVM = new OptionViewModel<ScatteringType>("Scatterer Type:", true);
+            ScatteringTypeVM = new OptionViewModel<ScatteringType>("Scatterer Type", true, WhiteList.ScatteringTypes);
+#else
+            ScatteringTypeVM = new OptionViewModel<ScatteringType>("Scatterer Type", true);
 #endif
             ScatteringTypeVM.PropertyChanged += (sender, args) =>
             {
-                if (SelectedTissue.ScattererType != ScatteringTypeVM.SelectedValue)
+                if (args.PropertyName == "SelectedValue" && SelectedTissue != null)//SelectedTissue.ScattererType != ScatteringTypeVM.SelectedValue)
                 {
                     SelectedTissue.Scatterer = SolverFactory.GetScattererType(ScatteringTypeVM.SelectedValue);
+                    var bindableScatterer = SelectedTissue.Scatterer as INotifyPropertyChanged;
+                    if (bindableScatterer != null)
+                    {
+                        bindableScatterer.PropertyChanged += (s, a) => UpdateOpticalProperties();
+                    }
                     //LM - Temporary Fix to reset the tissue type after a new scatterer is created
                     if (SelectedTissue.ScattererType == ScatteringType.PowerLaw)
                     {
-                       PowerLawScatterer myScatterer = (PowerLawScatterer)SelectedTissue.Scatterer;
-                       myScatterer.SetTissueType(SelectedTissue.TissueType);
+                        PowerLawScatterer myScatterer = (PowerLawScatterer)SelectedTissue.Scatterer;
+                        myScatterer.SetTissueType(SelectedTissue.TissueType);
                     }
                     ScatteringTypeName = SelectedTissue.Scatterer.GetType().FullName;
                 }
                 OnPropertyChanged("Scatterer");
+                UpdateOpticalProperties();
             };
 
-            WavelengthRangeVM =
-                new RangeViewModel(
-                    new DoubleRange(650.0, 1000.0, 176),
-                    "nm", "Wavelength Range:");
+            WavelengthRangeVM = new RangeViewModel(new DoubleRange(650.0, 1000.0, 36), "nm", IndependentVariableAxis.Wavelength, "Wavelength Range");
 
-           Tissues = new List<Tissue>
+            Tissues = new List<Tissue>
             {
                 new Tissue(TissueType.Skin),
                 new Tissue(TissueType.BrainWhiteMatter),
@@ -71,24 +78,38 @@ namespace Vts.Gui.Silverlight.ViewModel
                 //new Tissue(TissueType.PolystyreneSpherePhantom),
                 new Tissue(TissueType.Custom)
             };
-            
+
             BloodConcentrationVM = new BloodConcentrationViewModel();
             #region DC notes 1
             // DC NOTES on how to propagate the correct hemoglobin instances into BloodConcentrationVM:
             // Upon setting SelectedTissue (below), we internally update the BloodConcentrationVM hemoglobin references 
             // This is the simplest solution, but maybe violates SOC...(see SelectedTissue property for details)
             // A second alternative way would be to override AfterPropertyChanged (see AfterPropertyChanged method below)
-            #endregion 
+            #endregion
+            BloodConcentrationVM.PropertyChanged += (sender, args) => UpdateOpticalProperties();
+
             SelectedTissue = Tissues.First();
+            ScatteringTypeVM.SelectedValue = SelectedTissue.ScattererType; // forces update to all bindings established in hanlder for ScatteringTypeVM.PropertyChanged above
             ScatteringTypeName = SelectedTissue.GetType().FullName;
+            OpticalProperties = new OpticalProperties(0.01, 1, 0.8, 1.4);
             Wavelength = 650;
 
-            UpdateOpticalProperties();
+            PlotMuaSpectrumCommand = new RelayCommand(PlotMuaSpectrum_Executed);
+            PlotMuspSpectrumCommand = new RelayCommand(PlotMuspSpectrum_Executed);
 
-            Commands.PlotMuaSpectra.Executed += PlotMuaSpectra_Executed;
-            Commands.PlotMusprimeSpectra.Executed += PlotMusprimeSpectra_Executed;
-            Commands.UpdateOpticalProperties.Executed += UpdateOpticalProperties_Executed;
+            Commands.SD_SetWavelength.Executed += (snder, args) => // updates when solution domain is involved in spectral feedback
+            {
+                // Wavelength = (double) args.Parameter; // this will ping-pong back to FS (stack overflow), so repeating setter logic here:
+                _wavelength = (double)args.Parameter;
+                UpdateOpticalProperties();
+                // Commands.Spec_UpdateWavelength.Execute(_wavelength); (don't do this)
+                
+                this.OnPropertyChanged("Wavelength");
+            };
         }
+
+        public RelayCommand PlotMuaSpectrumCommand { get; set; }
+        public RelayCommand PlotMuspSpectrumCommand { get; set; }
 
         #region DC notes 2
         //protected override void AfterPropertyChanged(string propertyName)
@@ -109,7 +130,7 @@ namespace Vts.Gui.Silverlight.ViewModel
         //    }
         //    base.AfterPropertyChanged(propertyName);
         //}
-        #endregion 
+        #endregion
 
         /// <summary>
         /// Simple pass-through for SelectedTissue.Scatterer 
@@ -190,38 +211,51 @@ namespace Vts.Gui.Silverlight.ViewModel
             {
                 _wavelength = value;
                 UpdateOpticalProperties();
+                Commands.Spec_UpdateWavelength.Execute(_wavelength);
                 this.OnPropertyChanged("Wavelength");
             }
         }
 
+        public OpticalProperties OpticalProperties { get; private set; }
+
         public double Mua
         {
-            get { return _mua; }
+            get { return OpticalProperties.Mua; }
             set
             {
-                _mua = value;
+                OpticalProperties.Mua = value;
                 this.OnPropertyChanged("Mua");
-            }
-        }
-
-        public double G
-        {
-            get { return _g; }
-            set
-            {
-                _g = value;
-                this.OnPropertyChanged("G");
             }
         }
 
         public double Musp
         {
-            get { return _musp; }
+            get { return OpticalProperties.Musp; }
             set
             {
-                _musp = value;
+                OpticalProperties.Musp = value;
                 this.OnPropertyChanged("Musp");
                 this.OnPropertyChanged("ScatteringTypeVM");
+            }
+        }
+
+        public double G
+        {
+            get { return OpticalProperties.G; }
+            set
+            {
+                OpticalProperties.G = value;
+                this.OnPropertyChanged("G");
+            }
+        }
+
+        public double N
+        {
+            get { return OpticalProperties.N; }
+            set
+            {
+                OpticalProperties.N = value;
+                this.OnPropertyChanged("N");
             }
         }
 
@@ -231,7 +265,7 @@ namespace Vts.Gui.Silverlight.ViewModel
             set
             {
                 _wavelengthRangeVM = value;
-//                this.OnPropertyChanged("WavelengthRangeVM");
+                //                this.OnPropertyChanged("WavelengthRangeVM");
 
             }
         }
@@ -249,58 +283,54 @@ namespace Vts.Gui.Silverlight.ViewModel
 
         private void UpdateOpticalProperties()
         {
-            G = SelectedTissue.GetG(Wavelength);
-            Musp = SelectedTissue.GetMusp(Wavelength);
-            Mua = SelectedTissue.GetMua(Wavelength);
+            OpticalProperties = SelectedTissue.GetOpticalProperties(Wavelength);
+            this.OnPropertyChanged("Mua");
+            this.OnPropertyChanged("Musp");
+            this.OnPropertyChanged("G");
+            this.OnPropertyChanged("N");
+            this.OnPropertyChanged("OpticalProperties");
+            Commands.Spec_UpdateOpticalProperties.Execute(OpticalProperties);
         }
-                
-        void PlotMuaSpectra_Executed(object sender, ExecutedEventArgs e)
+
+        private void PlotMuaSpectrum_Executed()
         {
             PlotAxesLabels axesLabels = new PlotAxesLabels("Wavelength", "nm", IndependentVariableAxis.Wavelength, "μa", "mm-1");
             Commands.Plot_SetAxesLabels.Execute(axesLabels);
 
-            IEnumerable<Point> points = ExecutePlotMuaSpectra();
-            Commands.Plot_PlotValues.Execute(new PlotData(points, "μa spectra"));
+            var tissue = SelectedTissue;
+            var wavelengths = WavelengthRangeVM.Values.ToArray();
+            var points = new Point[wavelengths.Length];
+            for (int wvi = 0; wvi < wavelengths.Length; wvi++)
+            {
+                var wavelength = wavelengths[wvi];
+                points[wvi] = new Point(wavelength, tissue.GetMua(wavelength));
+            }
+            Commands.Plot_PlotValues.Execute(new PlotData(new []{ points }, new []{ "μa spectra" }));
 
             double minWavelength = WavelengthRangeVM.Values.Min();
             double maxWavelength = WavelengthRangeVM.Values.Max();
             Commands.TextOutput_PostMessage.Execute("Plotted μa spectrum; wavelength range [nm]: [" + minWavelength + ", " + maxWavelength + "]\r");
         }
 
-        public IEnumerable<Point> ExecutePlotMuaSpectra()
-        {
-            var independentValues = WavelengthRangeVM.Values;
-            var dependentValues =
-                from w in independentValues
-                select SelectedTissue.GetMua(w);
-
-            return  Enumerable.Zip(independentValues, dependentValues, (x, y) => new Point(x, y));
-        }
-
-        void PlotMusprimeSpectra_Executed(object sender, ExecutedEventArgs e)
+        private void PlotMuspSpectrum_Executed()
         {
             PlotAxesLabels axesLabels = new PlotAxesLabels("Wavelength", "nm", IndependentVariableAxis.Wavelength, "μs'", "mm-1");
             Commands.Plot_SetAxesLabels.Execute(axesLabels);
 
-            IEnumerable<Point> points = ExecutePlotMusprimeSpectra();
-            Commands.Plot_PlotValues.Execute(new PlotData(points, "μs' spectra"));
+            var tissue = SelectedTissue;
+            var wavelengths = WavelengthRangeVM.Values.ToArray();
+            var points = new Point[wavelengths.Length];
+            for (int wvi = 0; wvi < wavelengths.Length; wvi++)
+            {
+                var wavelength = wavelengths[wvi];
+                points[wvi] = new Point(wavelength, tissue.GetMusp(wavelength));
+            }
+
+            Commands.Plot_PlotValues.Execute(new PlotData(new []{ points }, new []{ "μs' spectra" }));
 
             double minWavelength = WavelengthRangeVM.Values.Min();
             double maxWavelength = WavelengthRangeVM.Values.Max();
             Commands.TextOutput_PostMessage.Execute("Plotted μs' spectrum; wavelength range [nm]: [" + minWavelength + ", " + maxWavelength + "]\r");
-        }
-
-        public IEnumerable<Point> ExecutePlotMusprimeSpectra()
-        {
-            var independentValues = WavelengthRangeVM.Values;
-            var dependentValues = independentValues.Select(w => SelectedTissue.GetMusp(w));
-
-            return  Enumerable.Zip(independentValues, dependentValues, (x, y) => new Point(x, y));
-        }
-
-        void UpdateOpticalProperties_Executed(object sender, ExecutedEventArgs e)
-        {
-            UpdateOpticalProperties();
         }
     }
 }

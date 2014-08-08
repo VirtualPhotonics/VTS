@@ -106,36 +106,36 @@
     <Reference Include="GalaSoft.MvvmLight.SL5">
       <HintPath>..\packages\MvvmLightLibs.4.1.27.0\lib\SL5\GalaSoft.MvvmLight.SL5.dll</HintPath>
     </Reference>
-    <Reference Include="MathNet.Numerics, Version=2.6.1.30, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\MathNet.Numerics.2.6.2\lib\portable-net40+windows8+wp8+sl5\MathNet.Numerics.dll</HintPath>
+    <Reference Include="MathNet.Numerics">
+      <HintPath>..\packages\MathNet.Numerics.3.0.2\lib\portable-net45+sl5+netcore45+MonoAndroid1+MonoTouch1\MathNet.Numerics.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.CSharp, Version=5.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Practices.ServiceLocation">
       <HintPath>..\packages\CommonServiceLocator.1.2\lib\portable-windows8+net40+sl5+windowsphone8\Microsoft.Practices.ServiceLocation.dll</HintPath>
     </Reference>
-    <Reference Include="NLog, Version=2.1.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+    <Reference Include="Microsoft.Silverlight.Testing">
+      <HintPath>..\..\tools\nunit\Silverlight\Microsoft.Silverlight.Testing.dll</HintPath>
+    </Reference>
+    <Reference Include="NLog, Version=3.1.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\NLog.2.1.0\lib\sl5\NLog.dll</HintPath>
+      <HintPath>..\packages\NLog.3.1.0.0\lib\sl5\NLog.dll</HintPath>
     </Reference>
     <Reference Include="SLExtensions, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\SilverlightExtensions\SLExtensions.dll</HintPath>
     </Reference>
     <Reference Include="System.Numerics, Version=5.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
-    <Reference Include="System.Reactive.Core, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Rx-Core.2.2.2\lib\sl5\System.Reactive.Core.dll</HintPath>
+    <Reference Include="System.Reactive.Core">
+      <HintPath>..\packages\Rx-Core.2.2.4\lib\sl5\System.Reactive.Core.dll</HintPath>
     </Reference>
-    <Reference Include="System.Reactive.Interfaces, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Rx-Interfaces.2.2.2\lib\sl5\System.Reactive.Interfaces.dll</HintPath>
+    <Reference Include="System.Reactive.Interfaces">
+      <HintPath>..\packages\Rx-Interfaces.2.2.4\lib\sl5\System.Reactive.Interfaces.dll</HintPath>
     </Reference>
-    <Reference Include="System.Reactive.Linq, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Rx-Linq.2.2.2\lib\sl5\System.Reactive.Linq.dll</HintPath>
+    <Reference Include="System.Reactive.Linq">
+      <HintPath>..\packages\Rx-Linq.2.2.4\lib\sl5\System.Reactive.Linq.dll</HintPath>
     </Reference>
     <Reference Include="System.Reactive.PlatformServices">
-      <HintPath>..\packages\Rx-PlatformServices.2.2.3\lib\sl5\System.Reactive.PlatformServices.dll</HintPath>
+      <HintPath>..\packages\Rx-PlatformServices.2.2.4\lib\sl5\System.Reactive.PlatformServices.dll</HintPath>
     </Reference>
     <Reference Include="System.Reactive.Windows.Threading, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -205,7 +205,6 @@
     <Compile Include="Helpers\fjcore\Resize\ImageResizer.cs" />
     <Compile Include="Helpers\fjcore\YCbCr.cs" />
     <Compile Include="Helpers\fjcore\ZigZag.cs" />
-    <Compile Include="Model\ComplexPoint.cs" />
     <Compile Include="Model\MapData.cs" />
     <Compile Include="Properties\Resources.Designer.cs" />
     <Compile Include="Resources\Strings.Designer.cs">
@@ -221,7 +220,6 @@
     <Compile Include="ViewModel\Application\Panels\MonteCarlo\SingleEllipsoidTissueViewModel.cs" />
     <Compile Include="ViewModel\Application\Panels\MonteCarlo\EllipsoidRegionViewModel.cs" />
     <Compile Include="ViewModel\Application\Panels\MonteCarlo\SimulationOptionsViewModel.cs" />
-    <Compile Include="ViewModel\Application\Panels\MonteCarlo\MultiLayerTissueViewModel.cs" />
     <Compile Include="ViewModel\Application\Panels\MonteCarlo\LayerRegionViewModel.cs" />
     <Compile Include="ViewModel\Application\Panels\MonteCarlo\SimulationInputViewModel.cs" />
     <Compile Include="ViewModel\Application\Panels\SubPanels\BloodConcentrationViewModel.cs" />
@@ -233,6 +231,7 @@
     <Compile Include="ViewModel\Application\Panels\MapViewModel.cs" />
     <Compile Include="ViewModel\Application\WhiteList.cs" />
     <Compile Include="ViewModel\Controls\PositionViewModel.cs" />
+    <Compile Include="Model\DataPoint.cs" />
     <Compile Include="ViewModel\Helpers\PlotAxesLabels.cs" />
     <Compile Include="ViewModel\Application\Panels\SubPanels\SolutionDomainOptionViewModel.cs" />
     <Compile Include="ViewModel\Application\Panels\SpectralMappingViewModel.cs" />
@@ -247,6 +246,9 @@
     </Compile>
     <Compile Include="View\Application\Panels\SubPanels\BloodConcentrationView.xaml.cs">
       <DependentUpon>BloodConcentrationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Controls\MultiRegionOpticalPropertyView.xaml.cs">
+      <DependentUpon>MultiRegionOpticalPropertyView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Controls\FloatableWindow\FloatableWindow.cs" />
     <Compile Include="View\Controls\FloatableWindow\FloatableWindowAutomationPeer.cs" />
@@ -278,14 +280,15 @@
     <Compile Include="View\Controls\ListBoxOptionView.xaml.cs">
       <DependentUpon>ListBoxOptionView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Helpers\DataTemplateSelector.cs" />
     <Compile Include="View\Helpers\ImageTools.cs" />
+    <Compile Include="View\Helpers\OptionTemplateSelector.cs" />
     <Compile Include="View\Templates\MieScatteringView.xaml.cs">
       <DependentUpon>MieScatteringView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Application\Panels\MonteCarloSolverView.xaml.cs">
       <DependentUpon>MonteCarloSolverView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Helpers\PlotExtensions.cs" />
     <Compile Include="View\Templates\PowerLawScatteringView.xaml.cs">
       <DependentUpon>PowerLawScatteringView.xaml</DependentUpon>
     </Compile>
@@ -342,40 +345,6 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="..\..\matlab\post_processing\monte_carlo\simulation_result_loading\xml_toolbox\matlab.xsd">
-      <Link>Resources\Matlab\xml_toolbox\matlab.xsd</Link>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\..\matlab\post_processing\monte_carlo\simulation_result_loading\xml_toolbox\strsplit.p">
-      <Link>Resources\Matlab\xml_toolbox\strsplit.p</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\..\matlab\post_processing\monte_carlo\simulation_result_loading\xml_toolbox\unblank.p">
-      <Link>Resources\Matlab\xml_toolbox\unblank.p</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\..\matlab\post_processing\monte_carlo\simulation_result_loading\xml_toolbox\xml_format.p">
-      <Link>Resources\Matlab\xml_toolbox\xml_format.p</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\..\matlab\post_processing\monte_carlo\simulation_result_loading\xml_toolbox\xml_formatany.p">
-      <Link>Resources\Matlab\xml_toolbox\xml_formatany.p</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\..\matlab\post_processing\monte_carlo\simulation_result_loading\xml_toolbox\xml_help.p">
-      <Link>Resources\Matlab\xml_toolbox\xml_help.p</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\..\matlab\post_processing\monte_carlo\simulation_result_loading\xml_toolbox\xml_load.p">
-      <Link>Resources\Matlab\xml_toolbox\xml_load.p</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\..\matlab\post_processing\monte_carlo\simulation_result_loading\xml_toolbox\xml_parse.p">
-      <Link>Resources\Matlab\xml_toolbox\xml_parse.p</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\..\matlab\post_processing\monte_carlo\simulation_result_loading\xml_toolbox\xml_parseany.p">
-      <Link>Resources\Matlab\xml_toolbox\xml_parseany.p</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\..\matlab\post_processing\monte_carlo\simulation_result_loading\xml_toolbox\xml_save.p">
-      <Link>Resources\Matlab\xml_toolbox\xml_save.p</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\..\matlab\post_processing\monte_carlo\simulation_result_loading\xml_toolbox\xml_toolbox.pdf">
-      <Link>Resources\Matlab\xml_toolbox\xml_toolbox.pdf</Link>
-    </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\AppManifest.xml" />
   </ItemGroup>
@@ -411,6 +380,10 @@
       <Generator>MSBuild:Compile</Generator>
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Controls\MultiRegionOpticalPropertyView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Controls\ComboBoxOptionView.xaml">
       <Generator>MSBuild:MarkupCompilePass1</Generator>
@@ -551,44 +524,41 @@
     <EmbeddedResource Include="..\..\matlab\post_processing\monte_carlo\simulation_result_loading\readBinaryData.m">
       <Link>Resources\Matlab\readBinaryData.m</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\matlab\post_processing\monte_carlo\simulation_result_loading\xml_toolbox\INSTALL.TXT">
-      <Link>Resources\Matlab\xml_toolbox\INSTALL.TXT</Link>
+    <EmbeddedResource Include="..\..\matlab\post_processing\monte_carlo\simulation_result_loading\jsonlab\AUTHORS.txt">
+      <Link>Resources\Matlab\jsonlab\AUTHORS.txt</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\matlab\post_processing\monte_carlo\simulation_result_loading\xml_toolbox\LICENSE.TXT">
-      <Link>Resources\Matlab\xml_toolbox\LICENSE.TXT</Link>
+    <EmbeddedResource Include="..\..\matlab\post_processing\monte_carlo\simulation_result_loading\jsonlab\ChangeLog.txt">
+      <Link>Resources\Matlab\jsonlab\ChangeLog.txt</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\matlab\post_processing\monte_carlo\simulation_result_loading\xml_toolbox\strsplit.m">
-      <Link>Resources\Matlab\xml_toolbox\strsplit.m</Link>
+    <EmbeddedResource Include="..\..\matlab\post_processing\monte_carlo\simulation_result_loading\jsonlab\jsonopt.m">
+      <Link>Resources\Matlab\jsonlab\jsonopt.m</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\matlab\post_processing\monte_carlo\simulation_result_loading\xml_toolbox\tests\xml_tests.m">
-      <Link>Resources\Matlab\xml_toolbox\tests\xml_tests.m</Link>
+    <EmbeddedResource Include="..\..\matlab\post_processing\monte_carlo\simulation_result_loading\jsonlab\license.txt">
+      <Link>Resources\Matlab\jsonlab\license.txt</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\matlab\post_processing\monte_carlo\simulation_result_loading\xml_toolbox\unblank.m">
-      <Link>Resources\Matlab\xml_toolbox\unblank.m</Link>
+    <EmbeddedResource Include="..\..\matlab\post_processing\monte_carlo\simulation_result_loading\jsonlab\LICENSE_BSD.txt">
+      <Link>Resources\Matlab\jsonlab\LICENSE_BSD.txt</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\matlab\post_processing\monte_carlo\simulation_result_loading\xml_toolbox\xml_format.m">
-      <Link>Resources\Matlab\xml_toolbox\xml_format.m</Link>
+    <EmbeddedResource Include="..\..\matlab\post_processing\monte_carlo\simulation_result_loading\jsonlab\loadjson.m">
+      <Link>Resources\Matlab\jsonlab\loadjson.m</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\matlab\post_processing\monte_carlo\simulation_result_loading\xml_toolbox\xml_formatany.m">
-      <Link>Resources\Matlab\xml_toolbox\xml_formatany.m</Link>
+    <EmbeddedResource Include="..\..\matlab\post_processing\monte_carlo\simulation_result_loading\jsonlab\loadubjson.m">
+      <Link>Resources\Matlab\jsonlab\loadubjson.m</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\matlab\post_processing\monte_carlo\simulation_result_loading\xml_toolbox\xml_help.m">
-      <Link>Resources\Matlab\xml_toolbox\xml_help.m</Link>
+    <EmbeddedResource Include="..\..\matlab\post_processing\monte_carlo\simulation_result_loading\jsonlab\mergestruct.m">
+      <Link>Resources\Matlab\jsonlab\mergestruct.m</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\matlab\post_processing\monte_carlo\simulation_result_loading\xml_toolbox\xml_load.m">
-      <Link>Resources\Matlab\xml_toolbox\xml_load.m</Link>
+    <EmbeddedResource Include="..\..\matlab\post_processing\monte_carlo\simulation_result_loading\jsonlab\README.txt">
+      <Link>Resources\Matlab\jsonlab\README.txt</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\matlab\post_processing\monte_carlo\simulation_result_loading\xml_toolbox\xml_parse.m">
-      <Link>Resources\Matlab\xml_toolbox\xml_parse.m</Link>
+    <EmbeddedResource Include="..\..\matlab\post_processing\monte_carlo\simulation_result_loading\jsonlab\savejson.m">
+      <Link>Resources\Matlab\jsonlab\savejson.m</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\matlab\post_processing\monte_carlo\simulation_result_loading\xml_toolbox\xml_parseany.m">
-      <Link>Resources\Matlab\xml_toolbox\xml_parseany.m</Link>
+    <EmbeddedResource Include="..\..\matlab\post_processing\monte_carlo\simulation_result_loading\jsonlab\saveubjson.m">
+      <Link>Resources\Matlab\jsonlab\saveubjson.m</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\matlab\post_processing\monte_carlo\simulation_result_loading\xml_toolbox\xml_save.m">
-      <Link>Resources\Matlab\xml_toolbox\xml_save.m</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\..\matlab\post_processing\monte_carlo\simulation_result_loading\xml_toolbox\xml_toolbox-version.txt">
-      <Link>Resources\Matlab\xml_toolbox\xml_toolbox-version.txt</Link>
+    <EmbeddedResource Include="..\..\matlab\post_processing\monte_carlo\simulation_result_loading\jsonlab\varargin2struct.m">
+      <Link>Resources\Matlab\jsonlab\varargin2struct.m</Link>
     </EmbeddedResource>
     <Content Include="Helpers\fjcore\FJCore.csproj" />
     <Content Include="Helpers\fjcore\FJCoreWin.csproj" />
@@ -601,7 +571,9 @@
     <Resource Include="Resources\Images\logo-small.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Properties\Resources.resx" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Resources\Strings.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Strings.Designer.cs</LastGenOutput>

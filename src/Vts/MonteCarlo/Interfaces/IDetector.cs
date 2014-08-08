@@ -1,22 +1,9 @@
 
+using Vts.IO;
+using Vts.MonteCarlo.Detectors;
+
 namespace Vts.MonteCarlo
 {
-    /////[ServiceContract(Namespace = "http://Vts.MonteCarlo.Detectors")]
-    /// <summary>
-    /// Defines a contract for Monte Carlo tallies.
-    /// </summary>
-    /// <typeparam name="T">type of tally return (e.g. double[])</typeparam>
-    public interface IDetector<out T> : IDetector
-    {
-        /// <summary>
-        /// Mean of detector tally
-        /// </summary>
-        T Mean { get; }
-        /// <summary>
-        /// Second moment of detector tally
-        /// </summary>
-        T SecondMoment { get; }
-    }
     /// <summary>
     /// Properties and methods that all IDetectors must implement
     /// </summary>
@@ -25,24 +12,45 @@ namespace Vts.MonteCarlo
         /// <summary>
         /// TallyType enum specification
         /// </summary>
-        TallyType TallyType{ get; set; }
+        string TallyType { get; }
+
         /// <summary>
         /// Name string of IDetector.  Default = TallyType.ToString().
         /// </summary>
-        string Name { get; set; }
+        string Name { get; }
+
         /// <summary>
-        /// Number of times this detector got tallied.
+        /// Indicates if 2nd moment is tallied
         /// </summary>
-        long TallyCount { get; set; }
+        bool TallySecondMoment { get; }
+
         /// <summary>
-        /// Method to normalize the tally to get Mean and Second Moment estimates
+        /// Details of the tally - booleans that specify when they should be tallied
         /// </summary>
-        /// <param name="numPhotons">number of photons launched</param>
-        void Normalize(long numPhotons);
+        TallyDetails TallyDetails { get; set; }
+
+        /// <summary>
+        /// Initialize the detector, using tissue information if necessary
+        /// </summary>
+        /// <param name="tissue"></param>
+        void Initialize(ITissue tissue = null);
+
         /// <summary>
         /// Method to tally to detector using information in Photon
         /// </summary>
         /// <param name="photon">photon data needed to tally</param>
         void Tally(Photon photon);
+
+        /// <summary>
+        /// Method to normalize the tally to get Mean and Second Moment estimates
+        /// </summary>
+        /// <param name="numPhotons">number of photons launched</param>
+        void Normalize(long numPhotons);
+
+        /// <summary>
+        /// Method that returns info for each large binary data array
+        /// </summary>
+        /// <returns></returns>
+        BinaryArraySerializer[] GetBinarySerializers();
     }
 }

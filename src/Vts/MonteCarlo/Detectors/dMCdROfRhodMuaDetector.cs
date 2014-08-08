@@ -3,75 +3,90 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using Vts.Common;
+using Vts.IO;
 using Vts.MonteCarlo.Helpers;
 using Vts.MonteCarlo.PhotonData;
-using Vts.MonteCarlo.Tissues;
 
 namespace Vts.MonteCarlo.Detectors
 {
     /// <summary>
-    /// Implements IDetector&lt;double[]&gt;.  Tally for dMC estimation of d(reflectance)/dMua 
-    /// as a function of Rho.
+    /// Tally for dMC estimation of the derivative or reflectance with respect to mua as a function of Rho.
     /// </summary>
-    [KnownType(typeof(dMCdROfRhodMuaDetector))]
-    public class dMCdROfRhodMuaDetector : IDetector<double[]> 
+    public class dMCdROfRhodMuaDetectorInput : DetectorInput, IDetectorInput
+    {
+        /// <summary>
+        /// constructor for pMC reflectance as a function of rho detector input
+        /// </summary>
+        public dMCdROfRhodMuaDetectorInput()
+        {
+            TallyType = "dMCdROfRhodMua";
+            Name = "dMCdROfRhodMua";
+            Rho = new DoubleRange(0.0, 10, 101);
+
+            // modify base class TallyDetails to take advantage of built-in validation capabilities (error-checking)
+            TallyDetails.IsCylindricalTally = true;
+            TallyDetails.IspMCReflectanceTally = true;
+        }
+        /// <summary>
+        /// detector rho binning
+        /// </summary>
+        public DoubleRange Rho { get; set; }
+        /// <summary>
+        /// list of perturbed OPs listed in order of tissue regions
+        /// </summary>
+        public IList<OpticalProperties> PerturbedOps { get; set; }
+        /// <summary>
+        /// list of perturbed regions indices
+        /// </summary>
+        public IList<int> PerturbedRegionsIndices { get; set; }
+
+        public IDetector CreateDetector()
+        {
+            return new dMCdROfRhodMuaDetector
+            {
+                // required properties (part of DetectorInput/Detector base classes)
+                TallyType = this.TallyType,
+                Name = this.Name,
+                TallySecondMoment = this.TallySecondMoment,
+                TallyDetails = this.TallyDetails,
+
+                // optional/custom detector-specific properties
+                Rho = this.Rho,
+                PerturbedOps = this.PerturbedOps,
+                PerturbedRegionsIndices = this.PerturbedRegionsIndices,
+            };
+        }
+    }
+    /// <summary>
+    /// Implements IDetector.  Tally for pMC reflectance as a function  of Rho.
+    /// This implementation works for DAW and CAW processing.
+    /// </summary>
+    public class dMCdROfRhodMuaDetector : Detector, IDetector
     {
         private IList<OpticalProperties> _referenceOps;
         private IList<OpticalProperties> _perturbedOps;
         private IList<int> _perturbedRegionsIndices;
-        private double _rhoDelta;  // need to keep this because DoubleRange adjusts deltas automatically
-        private bool _tallySecondMoment;
+        private double _rhoDelta; // need to kep this because DoubleRange adjust deltas automatically
         private Func<IList<long>, IList<double>, IList<OpticalProperties>, double> _absorbAction;
+        private AbsorptionWeightingType _awt;
 
+        /* ==== Place optional/user-defined input properties here. They will be saved in text (JSON) format ==== */
+        /* ==== Note: make sure to copy over all optional/user-defined inputs from corresponding input class ==== */
         /// <summary>
-        /// Returns an instance of dMCdROfRhodMuaDetector. Tallies dR(rho)/dMua. Instantiate with reference optical properties. 
-        /// When method Tally invoked, perturbed optical properties passed.
+        /// rho binning
         /// </summary>
-        /// <param name="rho">rho binning</param>
-        /// <param name="tissue">tissue definition</param>
-        /// <param name="perturbedOps">list of perturbed optical properties, indexing matches tissue indexing</param>
-        /// <param name="perturbedRegionIndices">list of perturbed tissue region indices, indexing matches tissue indexing</param>
-        /// <param name="tallySecondMoment">flag indicating whether to tally second moment info for error results</param>
-        /// <param name="name">detector name</param>
-        public dMCdROfRhodMuaDetector(
-            DoubleRange rho,
-            ITissue tissue,
-            IList<OpticalProperties> perturbedOps,
-            IList<int> perturbedRegionIndices,
-            bool tallySecondMoment,
-            String name)
-        {
-            Rho = rho;
-            _tallySecondMoment = tallySecondMoment;
-            Mean = new double[Rho.Count - 1];
-            SecondMoment = null;
-            if (_tallySecondMoment)
-            {
-                SecondMoment = new double[Rho.Count - 1];
-            }
-            TallyType = TallyType.dMCdROfRhodMua;
-            Name = name;
-            _perturbedOps = perturbedOps;
-            _referenceOps = tissue.Regions.Select(r => r.RegionOP).ToList();
-            _perturbedRegionsIndices = perturbedRegionIndices;
-            SetAbsorbAction(tissue.AbsorptionWeightingType);
-            TallyCount = 0;
-        }
-
+        public DoubleRange Rho { get; set; }
         /// <summary>
-        /// Returns a default instance of pMCMuaMusROfRhoDetector (for serialization purposes only)
+        /// list of perturbed OPs listed in order of tissue regions
         /// </summary>
-        public dMCdROfRhodMuaDetector()
-            : this(
-            new DoubleRange(), 
-            new MultiLayerTissue(), 
-            new List<OpticalProperties>(), 
-            new List<int>(), 
-            true, // tallySecondMoment
-            TallyType.dMCdROfRhodMua.ToString() )
-        {
-        }
+        public IList<OpticalProperties> PerturbedOps { get; set; }
+        /// <summary>
+        /// list of perturbed regions indices
+        /// </summary>
+        public IList<int> PerturbedRegionsIndices { get; set; }
 
+        /* ==== Place user-defined output arrays here. They should be prepended with "[IgnoreDataMember]" attribute ==== */
+        /* ==== Then, GetBinaryArrays() should be implemented to save them separately in binary format ==== */
         /// <summary>
         /// detector mean
         /// </summary>
@@ -82,23 +97,31 @@ namespace Vts.MonteCarlo.Detectors
         /// </summary>
         [IgnoreDataMember]
         public double[] SecondMoment { get; set; }
+
+        /* ==== Place optional/user-defined output properties here. They will be saved in text (JSON) format ==== */
         /// <summary>
-        /// detector identifier
-        /// </summary>
-        public TallyType TallyType { get; set; }
-        /// <summary>
-        /// detector name, default uses TallyType, but can be user specified
-        /// </summary>
-        public String Name { get; set; }
-        /// <summary>
-        /// number of time detector gets tallied to
+        /// number of times detector gets tallied to
         /// </summary>
         public long TallyCount { get; set; }
-        /// <summary>
-        /// rho binning
-        /// </summary>
-        public DoubleRange Rho { get; set; }
-        
+
+        public void Initialize(ITissue tissue)
+        {
+            // assign any user-defined outputs (except arrays...we'll make those on-demand)
+            TallyCount = 0;
+
+            // if the data arrays are null, create them (only create second moment if TallySecondMoment is true)
+            Mean = Mean ?? new double[Rho.Count - 1];
+            SecondMoment = SecondMoment ?? (TallySecondMoment ? new double[Rho.Count - 1] : null);
+
+            // intialize any other necessary class fields here
+            _perturbedOps = PerturbedOps;
+            _perturbedRegionsIndices = PerturbedRegionsIndices;
+            _referenceOps = tissue.Regions.Select(r => r.RegionOP).ToList();
+            SetAbsorbAction(tissue.AbsorptionWeightingType);
+            TallyCount = 0;
+            _awt = tissue.AbsorptionWeightingType;
+        }
+
         /// <summary>
         /// Set the absorption to discrete or continuous
         /// </summary>
@@ -107,7 +130,7 @@ namespace Vts.MonteCarlo.Detectors
         {
             switch (awt)
             {
-                // note: dMC is not applied to analog processing,
+                // note: pMC is not applied to analog processing,
                 // only DAW and CAW
                 case AbsorptionWeightingType.Continuous:
                     _absorbAction = AbsorbContinuous;
@@ -124,7 +147,7 @@ namespace Vts.MonteCarlo.Detectors
         /// <param name="photon">photon data needed to tally</param>
         public void Tally(Photon photon)
         {
-            var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(photon.DP.Position.X, photon.DP.Position.Y), Rho.Count - 1, Rho.Delta, Rho.Start);
+            var ir = DetectorBinning.WhichBinExclusive(DetectorBinning.GetRho(photon.DP.Position.X, photon.DP.Position.Y), Rho.Count - 1, Rho.Delta, Rho.Start);
             if (ir != -1)
             {
                 double weightFactor = _absorbAction(
@@ -133,7 +156,7 @@ namespace Vts.MonteCarlo.Detectors
                     _perturbedOps);
 
                 Mean[ir] += photon.DP.Weight * weightFactor;
-                if (_tallySecondMoment)
+                if (TallySecondMoment)
                 {
                     SecondMoment[ir] += photon.DP.Weight * weightFactor * photon.DP.Weight * weightFactor;
                 }
@@ -174,13 +197,23 @@ namespace Vts.MonteCarlo.Detectors
             // NOTE: following code only works for single perturbed region
             foreach (var i in _perturbedRegionsIndices)
             {
-                weightFactor *=
-                    -pathLength[i] * // dMua* factor
-                    Math.Pow(
-                        (_perturbedOps[i].Mus / _referenceOps[i].Mus) *
-                            Math.Exp(-(_perturbedOps[i].Mus + _perturbedOps[i].Mua - _referenceOps[i].Mus - _referenceOps[i].Mua) *
-                                pathLength[i] / numberOfCollisions[i]),
-                        numberOfCollisions[i]);
+                if (numberOfCollisions[i] > 0)
+                {
+                    weightFactor *=
+                        -pathLength[i] * // dMua* factor
+                        Math.Pow(
+                            (_perturbedOps[i].Mus / _referenceOps[i].Mus) *
+                                Math.Exp(-(_perturbedOps[i].Mus + _perturbedOps[i].Mua - _referenceOps[i].Mus - _referenceOps[i].Mua) *
+                                    pathLength[i] / numberOfCollisions[i]),
+                            numberOfCollisions[i]);
+                }
+                else // numberOfCollisions[i] in pert region is 0
+                {
+                    weightFactor *=
+                        -pathLength[i] * // dMua* factor
+                                Math.Exp(-(_perturbedOps[i].Mus + _perturbedOps[i].Mua - _referenceOps[i].Mus - _referenceOps[i].Mua) *
+                                    pathLength[i]);
+                }
             }
             return weightFactor;
         }
@@ -197,18 +230,59 @@ namespace Vts.MonteCarlo.Detectors
                 var areaNorm = (Rho.Start + (ir + 0.5) * Rho.Delta) * normalizationFactor;
                 Mean[ir] /= areaNorm * numPhotons;
                 // the above is pi(rmax*rmax-rmin*rmin) * rhoDelta * N
-                if (_tallySecondMoment)
+                if (TallySecondMoment)
                 {
                     SecondMoment[ir] /= areaNorm * areaNorm * numPhotons;
                 }
             }
         }
 
+        // this is to allow saving of large arrays separately as a binary file
+        public BinaryArraySerializer[] GetBinarySerializers()
+        {
+            return new[] {
+                new BinaryArraySerializer {
+                    DataArray = Mean,
+                    Name = "Mean",
+                    FileTag = "",
+                    WriteData = binaryWriter => {
+                        for (int i = 0; i < Rho.Count - 1; i++) {
+                            binaryWriter.Write(Mean[i]);
+                        }
+                    },
+                    ReadData = binaryReader => {
+                        Mean = Mean ?? new double[ Rho.Count - 1];
+                        for (int i = 0; i <  Rho.Count - 1; i++) {
+                            Mean[i] = binaryReader.ReadDouble();
+                        }
+                    }
+                },
+                // return a null serializer, if we're not serializing the second moment
+                !TallySecondMoment ? null :  new BinaryArraySerializer {
+                    DataArray = SecondMoment,
+                    Name = "SecondMoment",
+                    FileTag = "_2",
+                    WriteData = binaryWriter => {
+                        if (!TallySecondMoment || SecondMoment == null) return;
+                        for (int i = 0; i < Rho.Count - 1; i++) {
+                            binaryWriter.Write(SecondMoment[i]);
+                        }
+                    },
+                    ReadData = binaryReader => {
+                        if (!TallySecondMoment || SecondMoment == null) return;
+                        SecondMoment = new double[ Rho.Count - 1];
+                        for (int i = 0; i < Rho.Count - 1; i++) {
+                            SecondMoment[i] = binaryReader.ReadDouble();
+			            }
+                    },
+                },
+            };
+        }
         /// <summary>
-        /// method to determine if photon within detector
+        /// Method to determine if photon is within detector
         /// </summary>
         /// <param name="dp">photon data point</param>
-        /// <returns>this method always returns true</returns>
+        /// <returns>method always returns true</returns>
         public bool ContainsPoint(PhotonDataPoint dp)
         {
             return true; // or, possibly test for NA or confined position, etc

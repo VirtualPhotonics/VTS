@@ -22,7 +22,7 @@ classdef SimulationOutput
                 detectorNames{n} = char(detectorNamesNET(n));
                 type = char(valuesNET(n).Mean.GetType().ToString());
                 switch type
-                    case {'MathNet.Numerics.Complex[]'}
+                    case {'System.Numerics.Complex[]'}
                         nValues = valuesNET(n).Mean.Length;               
                         detectorOutput.Mean = zeros([nValues 1]);
                         
@@ -33,7 +33,7 @@ classdef SimulationOutput
                             % return complex values not amp CKH 3/26/13
                             detectorOutput.Mean(j) = re + 1i * im;
                         end
-                    case {'MathNet.Numerics.Complex[,]'}
+                    case {'System.Numerics.Complex[,]'}
                         dim1 = valuesNET(n).Mean.GetLength(0);
                         dim2 = valuesNET(n).Mean.GetLength(1);
                         detectorOutput.Mean = zeros([dim1 dim2]);
@@ -75,14 +75,14 @@ classdef SimulationOutput
                         end
                 end
 %                 detectorOutput.Mean = NET.convertArray(valuesNET(i).Mean, 'System.Double');
-                if(outputNET.Input.Options.TallySecondMoment && ~isempty(valuesNET(1).SecondMoment))
+                if(~isempty(valuesNET(1).SecondMoment))
 %                     detectorOutput.SecondMoment = zeros([nValues 1]);
 %                     for j=1:nValues
 %                         detectorOutput.SecondMoment(j) = valuesNET(i).SecondMoment(j);
 %                     end
                     type = char(valuesNET(n).SecondMoment.GetType().ToString());
                     switch type
-                        case {'MathNet.Numerics.Complex[]'}
+                        case {'System.Numerics.Complex[]'}
                             nValues = valuesNET(n).SecondMoment.Length;               
                              detectorOutput.SecondMoment = zeros([nValues 1]);
                              for j=1:nValues
@@ -90,7 +90,7 @@ classdef SimulationOutput
                                  im = valuesNET(n).SecondMoment(j).Imaginary;
                                  detectorOutput.SecondMoment(j) = re + 1i * im;
                              end
-                        case {'MathNet.Numerics.Complex[,]'}
+                        case {'System.Numerics.Complex[,]'}
                             dim1 = valuesNET(n).SecondMoment.GetLength(0);
                             dim2 = valuesNET(n).SecondMoment.GetLength(1);
                             detectorOutput.SecondMoment = zeros([dim1 dim2]);

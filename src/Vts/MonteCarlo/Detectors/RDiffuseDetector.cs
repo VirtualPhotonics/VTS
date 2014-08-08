@@ -1,37 +1,53 @@
 using System;
-using System.Runtime.Serialization;
+using Vts.IO;
 using Vts.MonteCarlo.PhotonData;
 
 namespace Vts.MonteCarlo.Detectors
 {
     /// <summary>
-    /// Implements IDetector&lt;double&gt;.  Tally for diffuse reflectance.
+    /// Tally for diffuse reflectance.
     /// This implementation works for Analog, DAW and CAW.
     /// </summary>
-    [KnownType(typeof(RDiffuseDetector))]
-    public class RDiffuseDetector : IDetector<double> 
+    public class RDiffuseDetectorInput : DetectorInput, IDetectorInput
     {
-        private bool _tallySecondMoment;
+        /// <summary>
+        /// constructor for diffuse reflectance detector input
+        /// </summary>
+        public RDiffuseDetectorInput()
+        {
+            TallyType = "RDiffuse";
+            Name = "RDiffuse";
 
-        /// <summary>
-        /// Returns an instance of RDiffuseDetector
-        /// </summary>
-        public RDiffuseDetector(bool tallySecondMoment, String name)
-        {
-            Mean = 0;
-            SecondMoment = 0;
-            TallyType = TallyType.RDiffuse;
-            Name = name;
-            TallyCount = 0;
-            _tallySecondMoment = tallySecondMoment;
+            // modify base class TallyDetails to take advantage of built-in validation capabilities (error-checking)
+            TallyDetails.IsReflectanceTally = true;
         }
-        /// <summary>
-        /// Returns a default instance of RDiffuseDetector (for serialization purposes only)
-        /// </summary>
-        public RDiffuseDetector()
-            : this(true, TallyType.RDiffuse.ToString())
+
+        public IDetector CreateDetector()
         {
+            return new RDiffuseDetector
+            {
+                // required properties (part of DetectorInput/Detector base classes)
+                TallyType = this.TallyType,
+                Name = this.Name,
+                TallySecondMoment = this.TallySecondMoment,
+                TallyDetails = this.TallyDetails,
+
+                // optional/custom detector-specific properties
+            };
         }
+    }
+
+    /// <summary>
+    /// Implements IDetector.  Tally for diffuse reflectance.
+    /// This implementation works for Analog, DAW and CAW processing.
+    /// </summary>
+    public class RDiffuseDetector : Detector, IDetector
+    {
+        /* ==== Place optional/user-defined input properties here. They will be saved in text (JSON) format ==== */
+        /* ==== Note: make sure to copy over all optional/user-defined inputs from corresponding input class ==== */
+
+        /* ==== Place user-defined output arrays here. They should be prepended with "[IgnoreDataMember]" attribute ==== */
+        /* ==== Then, GetBinaryArrays() should be implemented to save them separately in binary format ==== */
         /// <summary>
         /// detector mean
         /// </summary>
@@ -40,18 +56,29 @@ namespace Vts.MonteCarlo.Detectors
         /// detector second moment
         /// </summary>
         public double SecondMoment { get; set; }
-        /// <summary>
-        /// detector identifier
-        /// </summary>
-        public TallyType TallyType { get; set; }
-        /// <summary>
-        /// detector name, default uses TallyType, but can be user specified
-        /// </summary>
-        public String Name { get; set; }
+
+        /* ==== Place optional/user-defined output properties here. They will be saved in text (JSON) format ==== */
         /// <summary>
         /// number of times detector gets tallied to
         /// </summary>
         public long TallyCount { get; set; }
+
+        public void Initialize(ITissue tissue)
+        {
+            // assign any user-defined outputs (except arrays...we'll make those on-demand)
+            TallyCount = 0;
+
+            // if the data arrays are null, create them (only create second moment if TallySecondMoment is true)
+            //Mean = Mean ?? new double();
+            //SecondMoment = SecondMoment ?? (TallySecondMoment ? new double() : null);
+            Mean = new double();
+            if (TallySecondMoment)
+            {
+                SecondMoment = new double();
+            }
+
+            // intialize any other necessary class fields here
+        }
 
         /// <summary>
         /// method to tally to detector
@@ -60,7 +87,7 @@ namespace Vts.MonteCarlo.Detectors
         public void Tally(Photon photon)
         {
             Mean += photon.DP.Weight;
-            if (_tallySecondMoment)
+            if (TallySecondMoment)
             {
                 SecondMoment += photon.DP.Weight * photon.DP.Weight;
             }
@@ -74,12 +101,17 @@ namespace Vts.MonteCarlo.Detectors
         public void Normalize(long numPhotons)
         {
             Mean /= numPhotons;
-            if (_tallySecondMoment)
+            if (TallySecondMoment)
             {
                 SecondMoment /= numPhotons;
             }
         }
 
+        // this scalar tally is saved to json
+        public BinaryArraySerializer[] GetBinarySerializers()
+        {
+            return null;
+        }
         /// <summary>
         /// Method to determine if photon is within detector
         /// </summary>

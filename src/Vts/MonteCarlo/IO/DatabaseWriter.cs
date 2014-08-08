@@ -24,7 +24,7 @@ namespace Vts.MonteCarlo.IO
                 // note: Count will be calculated at the end, not captured at instantiation
                 Func<long> currentCount = () => Count;
                 Database.NumberOfElements = currentCount();
-                Database.WriteToXML(filename + ".xml");
+                Database.WriteToJson(filename + ".txt");
             };
         }
 

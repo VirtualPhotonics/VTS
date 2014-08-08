@@ -3,32 +3,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Serialization;
 using System.Text.RegularExpressions;
+using Vts.MonteCarlo.Detectors;
 
 namespace Vts.MonteCarlo.PostProcessor
 {
-    // Detector inputs
-    [KnownType(typeof(AOfRhoAndZDetectorInput))]
-    [KnownType(typeof(ATotalDetectorInput))]
-    [KnownType(typeof(FluenceOfRhoAndZAndTimeDetectorInput))]
-    [KnownType(typeof(FluenceOfRhoAndZDetectorInput))]
-    [KnownType(typeof(pMCROfRhoAndTimeDetectorInput))]
-    [KnownType(typeof(pMCROfRhoDetectorInput))]
-    [KnownType(typeof(RDiffuseDetectorInput))]
-    [KnownType(typeof(ROfAngleDetectorInput))]
-    [KnownType(typeof(ROfRhoAndAngleDetectorInput))]
-    [KnownType(typeof(ROfRhoAndOmegaDetectorInput))]
-    [KnownType(typeof(ROfRhoAndTimeDetectorInput))]
-    [KnownType(typeof(ROfRhoDetectorInput))]
-    [KnownType(typeof(ROfXAndYDetectorInput))]
-    [KnownType(typeof(ROfFxDetectorInput))]
-    [KnownType(typeof(ROfFxAndTimeDetectorInput))]
-    [KnownType(typeof(TDiffuseDetectorInput))]
-    [KnownType(typeof(TOfAngleDetectorInput))]
-    [KnownType(typeof(TOfRhoAndAngleDetectorInput))]
-    [KnownType(typeof(TOfRhoDetectorInput))] 
-
     #region CommandLine Arguments Parser
 
     /* Simple commandline argument parser written by Ananth B. http://www.ananthonline.net */
@@ -98,7 +77,7 @@ namespace Vts.MonteCarlo.PostProcessor
 #if PROCESS_ATTACH_DEBUG
             Console.Read();
 #endif
-            string inFile = "infile.xml";
+            string inFile = "infile.txt";
             string outName = "";
             string outPath = "";
             bool displayHelp = false;
@@ -172,7 +151,7 @@ namespace Vts.MonteCarlo.PostProcessor
             var infiles = PostProcessorInputProvider.GenerateAllPostProcessorInputs();
             for (int i = 0; i < infiles.Count; i++)
             {
-                infiles[i].ToFile("infile_" + infiles[i].OutputName + ".xml"); 
+                infiles[i].ToFile("infile_" + infiles[i].OutputName + ".txt"); 
             }
 
         }
@@ -190,7 +169,7 @@ namespace Vts.MonteCarlo.PostProcessor
             Console.WriteLine("outpath\t\tthe output path, accepts relative and absolute paths");
             Console.WriteLine("outname\t\toutput name, this overwrites output name in input file");
             Console.WriteLine();
-            Console.WriteLine("geninfiles\t\tgenerates new infiles and names them infile_XXX.xml");
+            Console.WriteLine("geninfiles\t\tgenerates new infiles and names them infile_XXX.txt");
             Console.WriteLine();
             Console.WriteLine("sample usage:");
             Console.WriteLine();

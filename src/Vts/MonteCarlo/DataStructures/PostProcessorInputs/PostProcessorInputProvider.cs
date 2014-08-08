@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Vts.Common;
+using Vts.MonteCarlo.Detectors;
 
 namespace Vts.MonteCarlo
 {
@@ -31,7 +32,10 @@ namespace Vts.MonteCarlo
             return new PostProcessorInput(
                 new List<IDetectorInput>()
                 {
-                    new ROfRhoDetectorInput(new DoubleRange(0.0, 10, 101))
+                    new ROfRhoDetectorInput
+                    {
+                        Rho = new DoubleRange(0.0, 10, 101)
+                    }
                 },
                 true,
                 "one_layer_ROfRho_DAW",
@@ -52,40 +56,40 @@ namespace Vts.MonteCarlo
                 //VirtualBoundaryType.pMCDiffuseReflectance,
                 new List<IDetectorInput>()
                 {
-                    new pMCROfRhoDetectorInput(
-                        new DoubleRange(0.0, 10, 101),
-                        // set perturbed ops to reference ops
-                        new List<OpticalProperties>() { 
-                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
-                            new OpticalProperties(0.01, 1.0, 0.8, 1.4),
-                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0)
-                        },
-                        new List<int>() { 1 }),
-                    new pMCROfRhoDetectorInput(
-                        new DoubleRange(0.0, 10, 101),
-                        new List<OpticalProperties>() { 
-                                new OpticalProperties(0.0, 1e-10, 0.0, 1.0),
-                                new OpticalProperties(0.01, 1.5, 0.8, 1.4),
-                                new OpticalProperties(0.0, 1e-10, 0.0, 1.0)},
-                        new List<int>() { 1 },
-                        "pMCROfRho_mus1p5"),
-                    new pMCROfRhoDetectorInput(
-                        new DoubleRange(0.0, 10, 101),
-                        new List<OpticalProperties>() { 
-                                new OpticalProperties(0.0, 1e-10, 0.0, 1.0),
-                                new OpticalProperties(0.01, 0.5, 0.8, 1.4),
-                                new OpticalProperties(0.0, 1e-10, 0.0, 1.0)},
-                        new List<int>() { 1 },
-                        "pMCROfRho_mus0p5"),
-                    new pMCROfRhoAndTimeDetectorInput( 
-                        new DoubleRange(0.0, 10, 101),
-                        new DoubleRange(0.0, 10, 101),
-                        new List<OpticalProperties>() {
-                            new OpticalProperties(0.0, 1e-10, 0.0, 1.0),
-                            new OpticalProperties(0.01, 1.5, 0.8, 1.4),
-                            new OpticalProperties(0.0, 1e-10, 0.0, 1.0)},
-                        new List<int>() { 1 },
-                        "pMCROfRhoAndTime_mus1p5"),
+                    //new pMCROfRhoDetectorInput(
+                    //    new DoubleRange(0.0, 10, 101),
+                    //    // set perturbed ops to reference ops
+                    //    new List<OpticalProperties>() { 
+                    //        new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
+                    //        new OpticalProperties(0.01, 1.0, 0.8, 1.4),
+                    //        new OpticalProperties(0.0, 1e-10, 1.0, 1.0)
+                    //    },
+                    //    new List<int>() { 1 }),
+                    //new pMCROfRhoDetectorInput(
+                    //    new DoubleRange(0.0, 10, 101),
+                    //    new List<OpticalProperties>() { 
+                    //            new OpticalProperties(0.0, 1e-10, 0.0, 1.0),
+                    //            new OpticalProperties(0.01, 1.5, 0.8, 1.4),
+                    //            new OpticalProperties(0.0, 1e-10, 0.0, 1.0)},
+                    //    new List<int>() { 1 },
+                    //    "pMCROfRho_mus1p5"),
+                    //new pMCROfRhoDetectorInput(
+                    //    new DoubleRange(0.0, 10, 101),
+                    //    new List<OpticalProperties>() { 
+                    //            new OpticalProperties(0.0, 1e-10, 0.0, 1.0),
+                    //            new OpticalProperties(0.01, 0.5, 0.8, 1.4),
+                    //            new OpticalProperties(0.0, 1e-10, 0.0, 1.0)},
+                    //    new List<int>() { 1 },
+                    //    "pMCROfRho_mus0p5"),
+                    //new pMCROfRhoAndTimeDetectorInput( 
+                    //    new DoubleRange(0.0, 10, 101),
+                    //    new DoubleRange(0.0, 10, 101),
+                    //    new List<OpticalProperties>() {
+                    //        new OpticalProperties(0.0, 1e-10, 0.0, 1.0),
+                    //        new OpticalProperties(0.01, 1.5, 0.8, 1.4),
+                    //        new OpticalProperties(0.0, 1e-10, 0.0, 1.0)},
+                    //    new List<int>() { 1 },
+                    //    "pMCROfRhoAndTime_mus1p5"),
                 },
                 true,
                 "pMC_one_layer_ROfRho_DAW",

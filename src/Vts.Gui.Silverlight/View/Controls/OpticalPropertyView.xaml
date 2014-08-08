@@ -10,61 +10,33 @@
     <StackPanel Orientation="Vertical">
         <TextBlock 
             Text="{Binding Title}"  
-            FontSize="16" 
-            TextDecorations="Underline"
+            FontWeight="Bold" 
             Visibility="{Binding ShowTitle}"/>
-
-        <StackPanel x:Name="LayoutRoot"  Orientation="Horizontal">
-            <StackPanel Orientation="Vertical" Width="80">
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+        <StackPanel x:Name="LayoutRoot"  Orientation="Horizontal" Margin="0,3,0,0">
+            <StackPanel Orientation="Vertical" Width="70">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Center">
                     <TextBlock Text="μa ["/>
                     <TextBlock Text="{Binding Units}" />
                     <TextBlock Text="]"/>
                 </StackPanel>
-                <TextBox Width="40" Text="{Binding Mua, Mode=TwoWay}" HorizontalAlignment="Center" IsEnabled="{Binding EnableMua}"/>
+                <TextBox Width="40" Text="{Binding Mua, Mode=TwoWay}" HorizontalAlignment="Center" IsEnabled="{Binding EnableMua}" KeyDown="TextBox_KeyDown"/>
             </StackPanel>
-
-            <StackPanel Orientation="Vertical" Width="80">
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+            <StackPanel Orientation="Vertical" Width="70">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Center">
                     <TextBlock Text="μs' ["/>
                     <TextBlock Text="{Binding Units}" />
                     <TextBlock Text="]"/>
                 </StackPanel>
-                <TextBox Width="40" Text="{Binding Musp, Mode=TwoWay}" HorizontalAlignment="Center" IsEnabled="{Binding EnableMusp}"/>
+                <TextBox Width="40" Text="{Binding Musp, Mode=TwoWay}" HorizontalAlignment="Center" IsEnabled="{Binding EnableMusp}" KeyDown="TextBox_KeyDown"/>
             </StackPanel>
-
-            <StackPanel Orientation="Vertical" Width="80">
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                    <TextBlock Text="g"/>
-                </StackPanel>
-                <TextBox Width="40" Text="{Binding G, Mode=TwoWay}" HorizontalAlignment="Center" IsEnabled="{Binding EnableG}"/>
+            <StackPanel Orientation="Vertical" Width="60">
+                <TextBlock Text="g" VerticalAlignment="Bottom" HorizontalAlignment="Center"/>
+                <TextBox Width="40" Text="{Binding G, Mode=TwoWay}" HorizontalAlignment="Center" IsEnabled="{Binding EnableG}" KeyDown="TextBox_KeyDown"/>
             </StackPanel>
-
-            <StackPanel Orientation="Vertical" Width="80">
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                    <TextBlock Text="n"/>
-                </StackPanel>
-                <TextBox Width="40" Text="{Binding N, Mode=TwoWay}" HorizontalAlignment="Center" IsEnabled="{Binding EnableN}"/>
+            <StackPanel Orientation="Vertical" Width="60">
+                <TextBlock Text="n" VerticalAlignment="Bottom" HorizontalAlignment="Center"/>
+                <TextBox Width="40" Text="{Binding N, Mode=TwoWay}" HorizontalAlignment="Center" IsEnabled="{Binding EnableN}" KeyDown="TextBox_KeyDown"/>
             </StackPanel>
         </StackPanel>
     </StackPanel>
-
-    <!--<StackPanel x:Name="LayoutRoot"  Orientation="Horizontal" >          
-        <TextBlock Text="mua [" />
-        <TextBlock Text="{Binding Units}" />
-        <TextBlock Text="] = " />
-        <TextBox Width="40" Name="tbxMua" Margin="3"
-            Text="{Binding Mua, Mode=TwoWay}"/>
-        <TextBlock Text="mus' [" />
-        <TextBlock Text="{Binding Units}" />
-        <TextBlock Text="] ="/>
-        <TextBox Width="40" Name="tbxMusp" Margin="3"
-            Text="{Binding Musp, Mode=TwoWay}"/>
-        <TextBlock Text=" g = "/>
-        <TextBox Width="40" Name="tbxG" Margin="3"
-            Text="{Binding G, Mode=TwoWay}"/>
-        <TextBlock Text=" n = "/>
-        <TextBox Width="40" Name="tbxN" Margin="3"
-            Text="{Binding N, Mode=TwoWay}"/>
-    </StackPanel>-->
 </UserControl>

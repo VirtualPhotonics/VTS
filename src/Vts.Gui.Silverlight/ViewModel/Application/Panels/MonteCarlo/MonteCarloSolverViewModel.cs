@@ -16,6 +16,7 @@ using Vts.Gui.Silverlight.Model;
 using Vts.Gui.Silverlight.View;
 using Vts.IO;
 using Vts.MonteCarlo;
+using Vts.MonteCarlo.Detectors;
 using Vts.MonteCarlo.IO;
 
 namespace Vts.Gui.Silverlight.ViewModel
@@ -25,6 +26,8 @@ namespace Vts.Gui.Silverlight.ViewModel
     /// </summary>
     public class MonteCarloSolverViewModel : BindableObject
     {
+        private const string TEMP_RESULTS_FOLDER = "mc_results_temp";
+
         private static ILogger logger = LoggerFactoryLocator.GetDefaultNLogFactory().Create(typeof(MonteCarloSolverViewModel));
 
         private MonteCarloSimulation _simulation;
@@ -74,60 +77,6 @@ namespace Vts.Gui.Silverlight.ViewModel
             }
         }
 
-        //private SimulationInput GetDefaultSimulationInput()
-        //{
-        //    var simulationInput = new SimulationInput
-        //    {
-        //        TissueInput = new MultiLayerTissueInput(
-        //            new List<ITissueRegion> 
-        //            { 
-        //                new LayerRegion(
-        //                    new DoubleRange(double.NegativeInfinity, 0.0),
-        //                    new OpticalProperties( 0.0, 1e-10, 0.0, 1.0)),
-        //                new LayerRegion(
-        //                    new DoubleRange(0.0, 1.0),
-        //                    new OpticalProperties(0.1, 1.0, 0.8, 1.4)),
-        //                new LayerRegion(
-        //                    new DoubleRange(1.0, 100.0),
-        //                    new OpticalProperties(0.01, 2.0, 0.8, 1.4)),
-        //                new LayerRegion(
-        //                    new DoubleRange(100.0, double.PositiveInfinity),
-        //                    new OpticalProperties(0.0, 1e-10, 0.0, 1.0))
-        //            }
-        //        ),
-        //        OutputName = "MonteCarloOutput",
-        //        N = 100,
-        //        Options = new SimulationOptions(
-        //            0, // Note seed = 0 is -1 in linux
-        //            RandomNumberGeneratorType.MersenneTwister,
-        //            AbsorptionWeightingType.Discrete),
-        //        SourceInput = new DirectionalPointSourceInput(),
-        //        VirtualBoundaryInputs = new List<IVirtualBoundaryInput>
-        //        {
-        //            new SurfaceVirtualBoundaryInput(
-        //                VirtualBoundaryType.DiffuseReflectance,
-        //                new List<IDetectorInput>
-        //                {
-        //                    new ROfRhoDetectorInput(new DoubleRange(0.0, 20.0, 201)), // rho: nr=200 dr=0.2mm used for workshop)
-        //                },
-        //                false, // write database
-        //                VirtualBoundaryType.DiffuseReflectance.ToString()
-        //            ),
-        //            new SurfaceVirtualBoundaryInput(
-        //                VirtualBoundaryType.DiffuseTransmittance,
-        //                new List<IDetectorInput>
-        //                {
-        //                    //new TOfRhoDetectorInput(new DoubleRange(0.0, 40.0, 201)), // rho: nr=200 dr=0.2mm used for workshop)
-        //                },
-        //                false, // write database
-        //                VirtualBoundaryType.DiffuseTransmittance.ToString()
-        //            )
-        //        }
-        //    };
-
-        //    return simulationInput;
-        //}
-
         private void MC_ExecuteMonteCarloSolver_Executed(object sender, ExecutedEventArgs e)
         {
             if (!EnoughRoomInIsolatedStorage(50))
@@ -174,9 +123,9 @@ namespace Vts.Gui.Silverlight.ViewModel
 
                         var detectorInput = (ROfRhoDetectorInput)rOfRhoDetectorInputs.First();
 
-                        IEnumerable<double> independentValues = detectorInput.Rho.AsEnumerable();
+                        double[] independentValues = detectorInput.Rho.AsEnumerable().ToArray();
 
-                        IEnumerable<Point> points = null;
+                        DoubleDataPoint[] points = null;
 
                         //var showPlusMinusStdev = true;
                         //if(showPlusMinusStdev && _output.R_r2 != null)
@@ -194,14 +143,14 @@ namespace Vts.Gui.Silverlight.ViewModel
                         points = Enumerable.Zip(
                             independentValues,
                             _output.R_r,
-                            (x, y) => new Point(x, y));
+                            (x, y) => new DoubleDataPoint(x, y)).ToArray();
                         //}
 
                         PlotAxesLabels axesLabels = GetPlotLabels();
                         Commands.Plot_SetAxesLabels.Execute(axesLabels);
 
                         string plotLabel = GetPlotLabel();
-                        Commands.Plot_PlotValues.Execute(new PlotData(points, plotLabel));
+                        Commands.Plot_PlotValues.Execute(new PlotData(new []{ points }, new []{ plotLabel }));
                         logger.Info(() => "done.\r");
                     }
 
@@ -251,37 +200,34 @@ namespace Vts.Gui.Silverlight.ViewModel
 
                     // save results to isolated storage
                     logger.Info(() => "Saving simulation results to temporary directory...");
-                    string resultsFolder = input.OutputName;
-                    FileIO.CreateDirectory(resultsFolder);
-                    input.ToXMLFile(Path.Combine(resultsFolder, "infile_" + input.OutputName + ".xml"));
+                    //var detectorFolder = Path.Combine(TEMP_RESULTS_FOLDER, input.OutputName);
 
+                    //// create the root directory
+                    //FileIO.CreateDirectory(TEMP_RESULTS_FOLDER);
+                    // create the detector directory, removing stale files first if they exist
+                    FileIO.CreateEmptyDirectory(TEMP_RESULTS_FOLDER);
+                    
+                    // write detector to file
+                    input.ToFile(Path.Combine(TEMP_RESULTS_FOLDER, "infile_" + input.OutputName + ".txt"));
                     foreach (var result in _output.ResultsDictionary.Values)
                     {
                         // save all detector data to the specified folder
-                        DetectorIO.WriteDetectorToFile(result, resultsFolder);
+                        DetectorIO.WriteDetectorToFile(result, TEMP_RESULTS_FOLDER);
                     }
 
                     var store = IsolatedStorageFile.GetUserStoreForApplication();
-                    if (store.DirectoryExists(resultsFolder))
+                    if (store.DirectoryExists(TEMP_RESULTS_FOLDER))
                     {
                         var currentAssembly = Assembly.GetExecutingAssembly();
-                        // add the MATLAB files to isolated storage so they can be included in the zip file
-                        var fileList = FileIO.CopyFolderFromEmbeddedResources("Matlab", resultsFolder, currentAssembly.FullName, false);
-                        // then, zip all these together and store *that* .zip to isolated storage as well
-                        var fileNames = store.GetFileNames(resultsFolder + @"\*");
-                        //make sure we don't add the root files twice
-                        foreach (var file in fileNames)
-                        {
-                            var index = fileList.IndexOf(file);
-                            if (index > -1)
-                            {
-                                fileList.RemoveAt(index);
-                            }
-                        }
-                        fileList.AddRange(fileNames);
+                        // get all the files we want to zip up
+                        var fileNames = store.GetFileNames(TEMP_RESULTS_FOLDER + @"\*");
+                        // copy the MATLAB files to isolated storage and get their names so they can be included in the zip file
+                        var matlabFiles = FileIO.CopyFolderFromEmbeddedResources("Matlab", TEMP_RESULTS_FOLDER, currentAssembly.FullName, false);
+                        // then, zip all the files together and store *that* .zip to isolated storage as well (can't automatically copy to user folder due to security restrictions)
+                        var allFiles = matlabFiles.Concat(fileNames).Distinct();
                         try
                         {
-                            FileIO.ZipFiles(fileList, resultsFolder, resultsFolder + ".zip");
+                            FileIO.ZipFiles(allFiles, TEMP_RESULTS_FOLDER, input.OutputName + ".zip");
                         }
                         catch (SecurityException)
                         {
@@ -313,33 +259,12 @@ namespace Vts.Gui.Silverlight.ViewModel
 
         private void MC_LoadSimulationInput_Executed(object sender, ExecutedEventArgs e)
         {
-            using (var stream = StreamFinder.GetLocalFilestreamFromOpenFileDialog("xml"))
+            using (var stream = StreamFinder.GetLocalFilestreamFromOpenFileDialog("txt"))
             {
-                if (stream == null) return;
-                var errorText = "";
-                SimulationInput simulationInput = null;
-                try
+                if (stream != null)
                 {
-                    simulationInput = FileIO.ReadFromStream<SimulationInput>(stream);
-                }
-                catch
-                {
-                    errorText = "XML ";
-                }
-                try
-                {
-                    if (errorText != "")
-                    {
-                        stream.Seek(0, SeekOrigin.Begin);
-                        simulationInput = FileIO.ReadFromJsonStream<SimulationInput>(stream);
-                    }
-                }
-                catch
-                {
-                    errorText = "JSON ";
-                }
-                if (simulationInput != null)
-                {
+                    var simulationInput = FileIO.ReadFromJsonStream<SimulationInput>(stream);
+
                     var validationResult = SimulationInputValidation.ValidateInput(simulationInput);
                     if (validationResult.IsValid)
                     {
@@ -348,12 +273,12 @@ namespace Vts.Gui.Silverlight.ViewModel
                     }
                     else
                     {
-                        logger.Info(() => "Simulation input not loaded - File format not valid.\r");
+                        logger.Info(() => "Simulation input not loaded - JSON format not valid.\r");
                     }
                 }
                 else
                 {
-                    logger.Info(() => errorText + "File not loaded.\r");
+                    logger.Info(() => "JSON File not loaded.\r");
                 }
             }
         }
@@ -367,27 +292,16 @@ namespace Vts.Gui.Silverlight.ViewModel
                     var files = SimulationInputProvider.GenerateAllSimulationInputs().Select(input =>
                         new
                         {
-                            Name = "infile_" + input.OutputName + ".xml",
+                            Name = "infile_" + input.OutputName + ".txt",
                             Input = input
                         });
 
                     foreach (var file in files)
                     {
-                        file.Input.ToXMLFile(file.Name);
+                        file.Input.ToFile(file.Name);
                     }
-                    var jsonFiles = SimulationInputProvider.GenerateAllSimulationInputs().Select(input =>
-                        new
-                        {
-                            Name = "infile_" + input.OutputName + ".txt",
-                            Input = input
-                        });
-
-                    foreach (var file in jsonFiles)
-                    {
-                        file.Input.ToJsonFile(file.Name);
-                    }
-                    var allFiles = files.Concat(jsonFiles);
-                    FileIO.ZipFiles(allFiles.Select(file => file.Name), "", stream);
+                    var allFiles = files.Concat(files);
+                    FileIO.ZipFiles(files.Select(file => file.Name), "", stream);
                     logger.Info(() => "Template simulation input files exported to a zip file.\r");
                 }
             }
@@ -398,18 +312,15 @@ namespace Vts.Gui.Silverlight.ViewModel
             if (_output != null && _newResultsAvailable)
             {
                 var input = _simulationInputVM.SimulationInput;
-                string resultsFolder = input.OutputName;
-
                 var store = IsolatedStorageFile.GetUserStoreForApplication();
 
-                if (store.FileExists(resultsFolder + ".zip"))
+                if (store.FileExists(input.OutputName + ".zip"))
                 {
-
                     try
                     {
                         using (var zipStream = StreamFinder.GetLocalFilestreamFromSaveFileDialog("zip"))
                         {
-                            using (var readStream = StreamFinder.GetFileStream(resultsFolder + ".zip", FileMode.Open))
+                            using (var readStream = StreamFinder.GetFileStream(input.OutputName + ".zip", FileMode.Open))
                             {
                                 FileIO.CopyStream(readStream, zipStream);
                             }

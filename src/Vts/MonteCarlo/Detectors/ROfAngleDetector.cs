@@ -1,45 +1,67 @@
 using System;
 using System.Runtime.Serialization;
 using Vts.Common;
+using Vts.IO;
 using Vts.MonteCarlo.Helpers;
 using Vts.MonteCarlo.PhotonData;
 
 namespace Vts.MonteCarlo.Detectors
 {
     /// <summary>
-    /// Implements IDetector&lt;double[]&gt;.  Tally for reflectance as a function 
-    /// of Angle.
-    /// This works for Analog, DAW and CAW.
+    /// DetectorInput for reflectance as a function of angle
     /// </summary>
-    [KnownType(typeof(ROfAngleDetector))]
-    public class ROfAngleDetector : IDetector<double[]> 
+    public class ROfAngleDetectorInput : DetectorInput, IDetectorInput
     {
-        private bool _tallySecondMoment;
         /// <summary>
-        /// Returns an instance of RDiffuseDetector
+        /// constructor for reflectance as a function of Angle detector input
         /// </summary>
-        public ROfAngleDetector(DoubleRange angle, bool tallySecondMoment, String name)
+        public ROfAngleDetectorInput()
         {
-            Angle = angle;
-            Mean = new double[Angle.Count - 1];
-            _tallySecondMoment = tallySecondMoment;
-            SecondMoment = null;
-            if (_tallySecondMoment)
+            TallyType = "ROfAngle";
+            Name = "ROfAngle";
+            Angle = new DoubleRange(Math.PI/2, Math.PI, 2);
+
+            // modify base class TallyDetails to take advantage of built-in validation capabilities (error-checking)
+            TallyDetails.IsReflectanceTally = true;
+            TallyDetails.IsCylindricalTally = true;
+        }
+
+        /// <summary>
+        /// detector Angle binning
+        /// </summary>
+        public DoubleRange Angle { get; set; }
+
+        public IDetector CreateDetector()
+        {
+            return new ROfAngleDetector
             {
-                SecondMoment = new double[Angle.Count - 1];
-            }
-            TallyType = TallyType.ROfAngle;
-            Name = name;
-            TallyCount = 0;
+                // required properties (part of DetectorInput/Detector base classes)
+                TallyType = this.TallyType,
+                Name = this.Name,
+                TallySecondMoment = this.TallySecondMoment,
+                TallyDetails = this.TallyDetails,
+
+                // optional/custom detector-specific properties
+                Angle = this.Angle
+            };
         }
-        
+    }
+
+    /// <summary>
+    /// Implements IDetector.  Tally for reflectance as a function  of Angle.
+    /// This implementation works for Analog, DAW and CAW processing.
+    /// </summary>
+    public class ROfAngleDetector : Detector, IDetector
+    {
+        /* ==== Place optional/user-defined input properties here. They will be saved in text (JSON) format ==== */
+        /* ==== Note: make sure to copy over all optional/user-defined inputs from corresponding input class ==== */
         /// <summary>
-        /// Returns a default instance of ROfAngleDetector (for serialization purposes only)
+        /// Angle binning
         /// </summary>
-        public ROfAngleDetector()
-            : this(new DoubleRange(), true, TallyType.ROfAngle.ToString())
-        {
-        }
+        public DoubleRange Angle { get; set; }
+
+        /* ==== Place user-defined output arrays here. They should be prepended with "[IgnoreDataMember]" attribute ==== */
+        /* ==== Then, GetBinaryArrays() should be implemented to save them separately in binary format ==== */
         /// <summary>
         /// detector mean
         /// </summary>
@@ -50,22 +72,24 @@ namespace Vts.MonteCarlo.Detectors
         /// </summary>
         [IgnoreDataMember]
         public double[] SecondMoment { get; set; }
-        /// <summary>
-        /// detector identifier
-        /// </summary>
-        public TallyType TallyType { get; set; }
-        /// <summary>
-        /// detector name, default uses TallyType, but can be user specified
-        /// </summary>
-        public String Name { get; set; }
+
+        /* ==== Place optional/user-defined output properties here. They will be saved in text (JSON) format ==== */
         /// <summary>
         /// number of times detector gets tallied to
         /// </summary>
         public long TallyCount { get; set; }
-        /// <summary>
-        /// angle binning
-        /// </summary>
-        public DoubleRange Angle { get; set; }
+
+        public void Initialize(ITissue tissue)
+        {
+            // assign any user-defined outputs (except arrays...we'll make those on-demand)
+            TallyCount = 0;
+
+            // if the data arrays are null, create them (only create second moment if TallySecondMoment is true)
+            Mean = Mean ?? new double[Angle.Count - 1];
+            SecondMoment = SecondMoment ?? (TallySecondMoment ? new double[Angle.Count - 1] : null);
+
+            // intialize any other necessary class fields here
+        }
 
         /// <summary>
         /// method to tally to detector
@@ -73,32 +97,75 @@ namespace Vts.MonteCarlo.Detectors
         /// <param name="photon">photon data needed to tally</param>
         public void Tally(Photon photon)
         {
-            // if exiting tissue top surface, Uz < 0 => Acos in [pi/2, pi]
             var ia = DetectorBinning.WhichBin(Math.Acos(photon.DP.Direction.Uz), Angle.Count - 1, Angle.Delta, Angle.Start);
 
             Mean[ia] += photon.DP.Weight;
-            if (_tallySecondMoment)
+            if (TallySecondMoment)
             {
                 SecondMoment[ia] += photon.DP.Weight * photon.DP.Weight;
             }
             TallyCount++;
         }
+
         /// <summary>
-        /// method to normalize detector results after numPhotons launched
+        /// method to normalize detector tally results
         /// </summary>
         /// <param name="numPhotons">number of photons launched</param>
         public void Normalize(long numPhotons)
         {
+            // normalization accounts for Angle.Start != 0
             var normalizationFactor = 2.0 * Math.PI * Angle.Delta;
-            for (int ia = 0; ia < Angle.Count - 1; ia++)
+            for (int ir = 0; ir < Angle.Count - 1; ir++)
             {
-                var areaNorm = Math.Sin((ia + 0.5) * Angle.Delta) * normalizationFactor;
-                Mean[ia] /= areaNorm * numPhotons;
-                if (_tallySecondMoment)
+                var areaNorm = Math.Sin((ir + 0.5) * Angle.Delta) * normalizationFactor;
+                Mean[ir] /= areaNorm * numPhotons;
+                if (TallySecondMoment)
                 {
-                    SecondMoment[ia] /= areaNorm * areaNorm * numPhotons;
+                    SecondMoment[ir] /= areaNorm * areaNorm * numPhotons;
                 }
             }
+        }
+
+        // this is to allow saving of large arrays separately as a binary file
+        public BinaryArraySerializer[] GetBinarySerializers()
+        {
+            return new[] {
+                new BinaryArraySerializer {
+                    DataArray = Mean,
+                    Name = "Mean",
+                    FileTag = "",
+                    WriteData = binaryWriter => {
+                        for (int i = 0; i < Angle.Count - 1; i++) {
+                            binaryWriter.Write(Mean[i]);
+                        }
+                    },
+                    ReadData = binaryReader => {
+                        Mean = Mean ?? new double[ Angle.Count - 1];
+                        for (int i = 0; i <  Angle.Count - 1; i++) {
+                            Mean[i] = binaryReader.ReadDouble();
+                        }
+                    }
+                },
+                // return a null serializer, if we're not serializing the second moment
+                !TallySecondMoment ? null :  new BinaryArraySerializer {
+                    DataArray = SecondMoment,
+                    Name = "SecondMoment",
+                    FileTag = "_2",
+                    WriteData = binaryWriter => {
+                        if (!TallySecondMoment || SecondMoment == null) return;
+                        for (int i = 0; i < Angle.Count - 1; i++) {
+                            binaryWriter.Write(SecondMoment[i]);
+                        }
+                    },
+                    ReadData = binaryReader => {
+                        if (!TallySecondMoment || SecondMoment == null) return;
+                        SecondMoment = new double[ Angle.Count - 1];
+                        for (int i = 0; i < Angle.Count - 1; i++) {
+                            SecondMoment[i] = binaryReader.ReadDouble();
+			            }
+                    },
+                },
+            };
         }
 
         /// <summary>

@@ -44,12 +44,12 @@ namespace Vts.SpectralMapping
         }
 
         /// <summary>
-        /// Returns a dictionary of Chromophore spectra from the file SpectralDictionary.json in resources
+        /// Returns a dictionary of Chromophore spectra from the file SpectralDictionary.txt in resources
         /// </summary>
         /// <returns>Dictionary of Chromophore spectra</returns>
         public static ChromophoreSpectrumDictionary GetDefaultDatabaseFromFileInResources()
         {
-            return FileIO.ReadFromJsonInResources<ChromophoreSpectrumDictionary>("Modeling/Spectroscopy/Resources/SpectralDictionary.json", "Vts");
+            return FileIO.ReadFromJsonInResources<ChromophoreSpectrumDictionary>("Modeling/Spectroscopy/Resources/SpectralDictionary.txt", "Vts");
         }
 
         /// <summary>

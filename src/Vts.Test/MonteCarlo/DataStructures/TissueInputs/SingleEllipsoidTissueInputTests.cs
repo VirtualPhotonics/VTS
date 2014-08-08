@@ -1,6 +1,4 @@
-﻿using System.IO;
-using System.Runtime.Serialization;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using Vts.Common;
 using Vts.IO;
 using Vts.MonteCarlo;
@@ -29,7 +27,7 @@ namespace Vts.Test.MonteCarlo
                     }
                 );
 
-            var iCloned = Clone(i);
+            var iCloned = i.Clone();
 
             Assert.AreEqual(iCloned.Regions[1].RegionOP.Mua, i.Regions[1].RegionOP.Mua);
         }
@@ -51,21 +49,10 @@ namespace Vts.Test.MonteCarlo
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
                     }
                 );
-            i.WriteToXML("SingleEllipsoidTissue.xml");
-            var iCloned = FileIO.ReadFromXML<SingleEllipsoidTissueInput>("SingleEllipsoidTissue.xml");
+            i.WriteToJson("SingleEllipsoidTissue.txt");
+            var iCloned = FileIO.ReadFromJson<SingleEllipsoidTissueInput>("SingleEllipsoidTissue.txt");
 
             Assert.AreEqual(iCloned.Regions[1].RegionOP.Mua, i.Regions[1].RegionOP.Mua);
-        }
-
-        private static T Clone<T>(T myObject)
-        {
-            using (MemoryStream ms = new MemoryStream(1024))
-            {
-                var dcs = new DataContractSerializer(typeof(T));
-                dcs.WriteObject(ms, myObject);
-                ms.Seek(0, SeekOrigin.Begin);
-                return (T)dcs.ReadObject(ms);
-            }
         }
     }
 }

@@ -9,10 +9,10 @@
                 <TextBlock Text="(-b)" VerticalAlignment="Top"/>
              </StackPanel>
             <StackPanel Orientation="Horizontal">
-                <TextBox Text="{Binding A, Mode=TwoWay}" Width="50" />
+                <TextBox Text="{Binding A, Mode=TwoWay}" Width="50" KeyDown="TextBox_KeyDown"/>
                 <TextBlock Text="*λ"/>
                 <TextBlock Text="-" VerticalAlignment="Top"/>
-                <TextBox Text="{Binding B, Mode=TwoWay}" Width="50"/>
+                <TextBox Text="{Binding B, Mode=TwoWay}" Width="50" KeyDown="TextBox_KeyDown"/>
             </StackPanel>
         </StackPanel>
     </Grid>

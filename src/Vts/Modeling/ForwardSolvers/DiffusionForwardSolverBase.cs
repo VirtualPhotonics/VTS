@@ -1,8 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using MathNet.Numerics;
 using Vts.Extensions;
+using Vts.MonteCarlo;
+using Vts.MonteCarlo.Tissues;
 
 namespace Vts.Modeling.ForwardSolvers
 {
@@ -23,7 +26,6 @@ namespace Vts.Modeling.ForwardSolvers
         SDA,
         DeltaPOne,
     }
-
 
     public abstract class DiffusionForwardSolverBase : ForwardSolverBase
     {
@@ -154,8 +156,8 @@ namespace Vts.Modeling.ForwardSolvers
                     foreach (var t in ts)
                     {
                         yield return
-                            2 * Math.PI * 
-                            HankelTransform.DigitalFitlerOfOrderZero(
+                            2 * Math.PI *
+                            HankelTransform.DigitalFilterOfOrderZero(
                                 2 * Math.PI * fx, rho => ROfRhoAndTime(op, rho, t));
                     }
                 }
@@ -348,7 +350,7 @@ namespace Vts.Modeling.ForwardSolvers
                         foreach (var t in ts)
                         {
                             yield return
-                                HankelTransform.DigitalFitlerOfOrderZero(
+                                HankelTransform.DigitalFilterOfOrderZero(
                                     fx, rho => TemporalFluence(dp, rho, z, t));
                         }
                     }

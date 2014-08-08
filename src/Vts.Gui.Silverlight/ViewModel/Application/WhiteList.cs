@@ -13,7 +13,24 @@ namespace Vts.Gui.Silverlight.ViewModel.Application
                     ForwardSolverType.DistributedPointSourceSDA,
                     ForwardSolverType.DistributedGaussianSourceSDA,
                     ForwardSolverType.MonteCarlo,
-                    ForwardSolverType.Nurbs
+                    ForwardSolverType.Nurbs,
+                    ForwardSolverType.TwoLayerSDA, 
+                };
+            }
+        }
+
+        public static ForwardSolverType[] InverseForwardSolverTypes
+        {
+            get
+            {
+                return new[]
+                {
+                    ForwardSolverType.PointSourceSDA,
+                    ForwardSolverType.DistributedPointSourceSDA,
+                    ForwardSolverType.DistributedGaussianSourceSDA,
+                    ForwardSolverType.MonteCarlo,
+                    ForwardSolverType.Nurbs,
+                    //ForwardSolverType.TwoLayerSDA, 
                 };
             }
         }

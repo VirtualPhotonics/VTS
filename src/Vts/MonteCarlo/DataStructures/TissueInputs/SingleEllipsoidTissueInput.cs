@@ -9,9 +9,6 @@ namespace Vts.MonteCarlo
     /// <summary>
     /// Implements ITissueInput.  Defines input to SingleEllipsoidTissue class.
     /// </summary>
-    [KnownType(typeof(EllipsoidRegion))]
-    [KnownType(typeof(LayerRegion))]
-    [KnownType(typeof(OpticalProperties))]
     public class SingleEllipsoidTissueInput : ITissueInput
     {
         private ITissueRegion _ellipsoidRegion;
