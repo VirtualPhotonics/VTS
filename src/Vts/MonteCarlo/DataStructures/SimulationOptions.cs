@@ -117,10 +117,6 @@ namespace Vts.MonteCarlo
         /// </summary>
         public IList<DatabaseType> Databases { get; set; }  
         /// <summary>
-        /// flag indicating whether to tally second moment information for error results
-        /// </summary>
-        public bool TallySecondMoment { get; set; }
-        /// <summary>
         /// flag indicating whether to track statistics about where photon ends up
         /// </summary>
         public bool TrackStatistics { get; set; }
