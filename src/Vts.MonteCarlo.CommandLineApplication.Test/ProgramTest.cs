@@ -1,5 +1,7 @@
 ﻿
+using System.Collections.Generic;
 using System.IO;
+using System.Runtime.CompilerServices;
 using NUnit.Framework;
 
 namespace Vts.MonteCarlo.CommandLineApplication.Test
@@ -10,13 +12,33 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
         /// <summary>
         /// clear all previously generated folders and files, then regenerate sample infiles using "geninfiles" option.
         /// </summary>
+        
+        // Note: needs to be kept current with SimulationInputProvider.  If an infile is added there, it should be added here.
+        List<string> listOfInfiles = new List<string>()
+        {
+            "infile_ellip_FluenceOfRhoAndZ.txt",
+            //"infile_Gaussian_source_one_layer_ROfRho.txt", // uncomment this when bug fixed in Gaussian source
+            "infile_one_layer_all_detectors.txt",
+            "infile_one_layer_FluenceOfRhoAndZ_RadianceOfRhoAndZAndAngle.txt",
+            "infile_one_layer_ROfRho_FluenceOfRhoAndZ.txt",
+            "infile_pMC_one_layer_ROfRho_DAW.txt",
+            "infile_three_layer_ReflectedTimeOfRhoAndSubregionHist.txt",
+            "infile_two_layer_ReflectedMTOfRhoAndSubregionHist.txt",
+            "infile_two_layer_ROfRho.txt",
+            "infile_two_layer_ROfRho_with_db.txt",
+        };
         [TestFixtureSetUp]
         public void clear_folders_and_files()
         {
-            if (File.Exists("infile_one_layer_ROfRho_FluenceOfRhoAndZ.txt"))
+        // delete any previously generated infiles to test that "geninfiles" option creates them
+            foreach (var infile in listOfInfiles)
             {
-                File.Delete("infile_one_layer_ROfRho_FluenceOfRhoAndZ.txt");
+                if (File.Exists(infile))
+                {
+                    File.Delete(infile);
+                } 
             }
+
             if (Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ"))
             {
                 Directory.Delete("one_layer_ROfRho_FluenceOfRhoAndZ", true); // delete recursively
@@ -69,13 +91,36 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
             string[] arguments = new string[] { "geninfiles" };
             Program.Main(arguments);
         }
+
         /// <summary>
-        /// test to verify "geninfile" option works successfully"
+        /// test to verify "geninfiles" option works successfully. 
         /// </summary>
         [Test]
-        public void validate_generate_infile()
+        public void validate_geninfiles_option_generates_all_infiles()
         {
-            Assert.IsTrue(File.Exists("infile_one_layer_ROfRho_FluenceOfRhoAndZ.txt"));
+            foreach (var infile in listOfInfiles)
+            {
+                Assert.IsTrue(File.Exists(infile));
+            }
+        }
+        /// <summary>
+        /// test to verify infiles generated run successfully
+        /// </summary>
+        [Test]
+        public void validate_infiles_generated_using_geninfiles_option_run_successfully()
+        {
+            foreach (var infile in listOfInfiles)
+            {
+                string[] arguments = new string[] {"infile=" + infile};
+                try
+                {
+                    Program.Main(arguments);
+                }
+                catch (AssertionException exception)
+                {
+                    Assert.IsNull(exception);
+                }
+            }
         }
         /// <summary>
         /// test to verify correct folder name created for output
