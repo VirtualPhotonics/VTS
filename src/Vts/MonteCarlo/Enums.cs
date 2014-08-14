@@ -466,6 +466,10 @@ namespace Vts.MonteCarlo
             /// </summary>
             "AOfRhoAndZ",
             /// <summary>
+            /// Absorbed energy as a function of X, Y and tissue depth (Z)
+            /// </summary>
+            "AOfXAndYAndZ",
+            /// <summary>
             /// Total absorbed energy
             /// </summary>
             "ATotal",
@@ -587,6 +591,10 @@ namespace Vts.MonteCarlo
         /// Absorbed energy as a function of source-detector separation (rho) and tissue depth (Z)
         /// </summary>
         public static string AOfRhoAndZ { get { return "AOfRhoAndZ"; } }
+        /// <summary>
+        /// Absorbed energy as a function of Cartesian coordinates X, Y and Z
+        /// </summary>
+        public static string AOfXAndYAndZ { get { return "AOfXAndYAndZ"; } }
         /// <summary>
         /// Total absorbed energy
         /// </summary>
