@@ -112,14 +112,9 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
             foreach (var infile in listOfInfiles)
             {
                 string[] arguments = new string[] {"infile=" + infile};
-                try
-                {
-                    Program.Main(arguments);
-                }
-                catch (AssertionException exception)
-                {
-                    Assert.IsNull(exception);
-                }
+
+                var result = Program.Main(arguments);
+                Assert.IsTrue(result==0);
             }
         }
         /// <summary>
