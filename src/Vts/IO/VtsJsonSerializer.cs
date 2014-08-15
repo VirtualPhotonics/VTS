@@ -22,7 +22,8 @@ namespace Vts.IO
         {
             var settings = new JsonSerializerSettings
             {
-                TypeNameHandling = TypeNameHandling.None,
+                //added temporarily to help serialize the sources that use interfaces
+                TypeNameHandling = TypeNameHandling.Auto,
                 ObjectCreationHandling = ObjectCreationHandling.Replace
             };
 #if DEBUG
@@ -68,6 +69,8 @@ namespace Vts.IO
                 serializer.Converters.Add(jsonConverter);
             }
             serializer.NullValueHandling = NullValueHandling.Ignore;
+            //added temporarily to help serialize the sources that use interfaces
+            serializer.TypeNameHandling = TypeNameHandling.Auto;
             serializer.ObjectCreationHandling = ObjectCreationHandling.Replace;
 #if DEBUG
             serializer.TraceWriter = TraceWriter;
