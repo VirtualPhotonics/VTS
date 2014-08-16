@@ -148,7 +148,7 @@ namespace Vts.MonteCarlo
         }
         #endregion
 
-        #region point source one layer Fluence(rho, z) and Radiance(rho, z, angle) 
+        #region point source one layer Fluence(rho, z) and Radiance(rho, z, angle) (for lab exercises)
         // THIS IS USED FOR THE VP LABS, PLEASE DO NOT DELETE
         /// <summary>
         /// Point source, single tissue layer definition, Radiance included
@@ -156,7 +156,7 @@ namespace Vts.MonteCarlo
         public static SimulationInput PointSourceOneLayerTissueRadianceOfRhoAndZAndAngleDetector()
         {
             return new SimulationInput(
-                10000,
+                100,  // set to 10000 for lab exercises
                 "one_layer_FluenceOfRhoAndZ_RadianceOfRhoAndZAndAngle",
                 new SimulationOptions(
                     0, // random number generator seed, -1=random seed, 0=fixed seed
