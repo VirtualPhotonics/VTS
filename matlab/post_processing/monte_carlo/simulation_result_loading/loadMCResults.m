@@ -178,6 +178,28 @@ for di = 1:numDetectors
                 AOfRhoAndZ.Stdev = sqrt((AOfRhoAndZ.SecondMoment - (AOfRhoAndZ.Mean .* AOfRhoAndZ.Mean)) / (json.N)); 
             end
             results{di}.AOfRhoAndZ = AOfRhoAndZ;
+        case 'AOfXAndYAndZ'
+            AOfXAndYAndZ.Name = detector.Name;
+            tempX = detector.X;
+            tempY = detector.Y;
+            tempZ = detector.Z;
+            AOfXAndYAndZ.X = linspace((tempX.Start), (tempX.Stop), (tempX.Count));
+            AOfXAndYAndZ.Y = linspace((tempY.Start), (tempY.Stop), (tempY.Count));
+            AOfXAndYAndZ.Z = linspace((tempZ.Start), (tempZ.Stop), (tempZ.Count));
+            AOfXAndYAndZ.X_Midpoints = (AOfXAndYAndZ.X(1:end-1) + AOfXAndYAndZ.X(2:end))/2;
+            AOfXAndYAndZ.Y_Midpoints = (AOfXAndYAndZ.Y(1:end-1) + AOfXAndYAndZ.Y(2:end))/2;
+            AOfXAndYAndZ.Z_Midpoints = (AOfXAndYAndZ.Z(1:end-1) + AOfXAndYAndZ.Z(2:end))/2;
+            AOfXAndYAndZ.Mean = readBinaryData([datadir slash detector.Name],[(length(AOfXAndYAndZ.X)-1) * (length(AOfXAndYAndZ.Y)-1) * (length(AOfXAndYAndZ.Z)-1)]); 
+            AOfXAndYAndZ.Mean = reshape(AOfXAndYAndZ.Mean, ...% read column major json binary
+                [length(AOfXAndYAndZ.Z)-1,length(AOfXAndYAndZ.Y)-1,length(AOfXAndYAndZ.X)-1]);
+            if(detector.TallySecondMoment && exist([datadir slash detector.Name '_2'],'file'))
+                AOfXAndAndZ.SecondMoment = readBinaryData([datadir slash detector.Name '_2'], ...
+                    [(length(AOfXAndYAndZ.X)-1) * (length(AOfXAndYAndZ.Y)-1) * (length(AOfXAndYAndZ.Z)-1)]);
+                AOfXAndYAndZ.SecondMoment = reshape(AOfXAndYAndZ.Mean, ... % column major json binary
+                    [length(AOfXAndYAndZ.Z)-1,length(AOfXAndYAndZ.Y)-1,length(AOfXAndYAndZ.X)-1]);
+                AOfXAndYAndZ.Stdev = sqrt((AOfXAndYAndZ.SecondMoment - (AOfXAndYAndZ.Mean .* AOfXAndYAndZ.Mean)) / (json.N));  
+            end
+            results{di}.AOfXAndYAndZ = AOfXAndYAndZ
         case 'FluenceOfRhoAndZ'
             FluenceOfRhoAndZ.Name = detector.Name;
             tempRho = detector.Rho;

@@ -9,7 +9,7 @@ slash = filesep;  % get correct path delimiter for platform
 addpath([cd slash 'jsonlab']);
 
 % names of individual MC simulations
-datanames = { 'one_layer_all_detectors' };
+datanames = { 'ellip_FluenceOfXAndYAndZ' };
 % datanames = { 'results_mua0.1musp1.0' 'esults_mua0.1musp1.1' }; %...etc
 
 % outdir = 'C:\Projects\vts\src\Vts.MonteCarlo.CommandLineApplication\bin\Release';
@@ -29,6 +29,7 @@ show.TOfRhoAndAngle =           1;
 show.TOfAngle =                 1;
 show.ATotal =                   1;
 show.AOfRhoAndZ =               1;
+show.AOfXAndYAndZ = 		1;
 show.FluenceOfRhoAndZ =         1;
 show.FluenceOfXAndYAndZ =       1;
 show.FluenceOfRhoAndZAndTime =  1;
@@ -130,6 +131,15 @@ for mci = 1:length(datanames)
         zdelta = results{di}.AOfRhoAndZ.Z(2)-results{di}.AOfRhoAndZ.Z(1);
         rhonorm = 2 * pi * results{di}.AOfRhoAndZ.Rho_Midpoints * rhodelta;
         disp(['Absorbed energy captured by AOfRhoAndZ detector: ' num2str(sum(sum(zdelta*results{di}.AOfRhoAndZ.Mean.*repmat(rhonorm,[numzs,1]))))]);
+    end
+    if isfield(results{di}, 'AOfXAndYAndZ') && show.AOfXAndYAndZ
+        numY = length(results{di}.AOfXAndYAndZ.Y) - 1;
+        for i=1:numY
+            figname = sprintf('log(%s) y=%5.3f',results{di}.AOfXAndYAndZ.Name,results{di}.AOfXAndYAndZ.Y_Midpoints(i)); figure; imagesc(results{di}.AOfXAndYAndZ.X_Midpoints, results{di}.AOfXAndYAndZ.Z_Midpoints, log(squeeze(results{di}.AOfXAndYAndZ.Mean(:,i,:)))); 
+            colorbar; title(figname); set(gcf,'Name', figname);ylabel('z [mm]'); xlabel('x [mm]');
+            xyznorm = (results{di}.AOfXAndYAndZ.X(2)-results{di}.AOfXAndYAndZ.X(1))*(results{di}.AOfXAndYAndZ.Y(2)-results{di}.AOfXAndYAndZ.Y(1))*(results{di}.AOfXAndYAndZ.Z(2)-results{di}.AOfXAndYAndZ.Z(1));
+            disp(['Absorbed Energy captured by AOfXAndYAndZ detector: ' num2str(sum(results{di}.AOfXAndYAndZ.Mean(:)*xyznorm))]);
+        end
     end
     if isfield(results{di}, 'FluenceOfRhoAndZ') && show.FluenceOfRhoAndZ
         numzs = length(results{di}.FluenceOfRhoAndZ.Z)-1;
