@@ -9,7 +9,7 @@ slash = filesep;  % get correct path delimiter for platform
 addpath([cd slash 'jsonlab']);
 
 % names of individual MC simulations
-datanames = { 'ellip_FluenceOfXAndYAndZ' };
+datanames = { 'two_layer_ReflectedMTOfRhoAndSubregionHist' };
 % datanames = { 'results_mua0.1musp1.0' 'esults_mua0.1musp1.1' }; %...etc
 
 % outdir = 'C:\Projects\vts\src\Vts.MonteCarlo.CommandLineApplication\bin\Release';
@@ -191,7 +191,7 @@ for mci = 1:length(datanames)
     if isfield(results{di}, 'RadianceOfXAndYAndZAndThetaAndPhi') && show.RadianceOfXAndYAndZAndThetaAndPhi
         numTheta = length(results{di}.RadianceOfXAndYAndZAndThetaAndPhi.Theta) - 1;      
         % plot radiance vs x and z for each theta (polar angle from Uz=[-1:1]
-        for i=1:numTheta
+        for i=1:numTheta % note results array has dimensions [numPhi, numTheta, numZ, numY, numX] due to column major json reading
             figname = sprintf('log(%s) %5.3f<Theta<%5.3f',results{di}.RadianceOfXAndYAndZAndThetaAndPhi.Name,(i-1)*pi/numTheta,i*pi/numTheta); 
             figure; imagesc(results{di}.RadianceOfXAndYAndZAndThetaAndPhi.X_Midpoints, results{di}.RadianceOfXAndYAndZAndThetaAndPhi.Z_Midpoints, log(squeeze(results{di}.RadianceOfXAndYAndZAndThetaAndPhi.Mean(1,i,:,1,:))), [-20 -5]); colorbar; title(figname); set(gcf,'Name', figname);ylabel('z [mm]'); xlabel('x [mm]');
         end
@@ -209,6 +209,7 @@ for mci = 1:length(datanames)
         figure; imagesc(results{di}.ReflectedMTOfRhoAndSubregionHist.Rho_Midpoints, results{di}.ReflectedMTOfRhoAndSubregionHist.MTBins_Midpoints, log(results{di}.ReflectedMTOfRhoAndSubregionHist.Mean));...        
            colorbar; title(figname); xlabel('\rho [mm]'); ylabel('MT'); set(gcf,'Name', figname);
         color=char('r-','g-','b-','c-','m-','r:','g:','b:','c:','m:');
+        % note results array has dimensions [numFractionalMTBins,numSubregions, numMTBins, numRhos] due to column major json reading
         for j=2:3 % customized, general form: j=1:numsubregions
         for i=1:20:41 % customized, general form: i=1:numrhos
             %figure; plot(results{di}.ReflectedMTOfRhoAndSubregionHist.MTBins_Midpoints,results{di}.ReflectedMTOfRhoAndSubregionHist.Mean(i,:)); % debug plots
@@ -216,10 +217,12 @@ for mci = 1:length(datanames)
             X=results{di}.ReflectedMTOfRhoAndSubregionHist.MTBins_Midpoints;
             %layerfrac=squeeze(results{di}.ReflectedMTOfRhoAndSubregionHist.FractionalMT(i,:,j,:));
             %bar(X,layerfrac,'stacked'); title(figname);xlabel('MT'),ylabel('photon weight');
-            stack=zeros(size(results{di}.ReflectedMTOfRhoAndSubregionHist.FractionalMT(i,:,j,1)));
-            for k=1:size(results{di}.ReflectedMTOfRhoAndSubregionHist.FractionalMT,4)                
-                stack=stack+results{di}.ReflectedMTOfRhoAndSubregionHist.FractionalMT(i,:,j,k);
-                semilogy(X,stack,color(k,:),'LineWidth',3);axis([0 max(X) 1e-7 1]);title(figname);xlabel('MT'),ylabel('stacked log(photon weight)'); hold on;
+            %stack=zeros(size(results{di}.ReflectedMTOfRhoAndSubregionHist.FractionalMT(i,:,j,1)));
+            stack=zeros(size(results{di}.ReflectedMTOfRhoAndSubregionHist.FractionalMT(1,j,:,i)));
+            for k=1:size(results{di}.ReflectedMTOfRhoAndSubregionHist.FractionalMT,1)                
+                %stack=stack+results{di}.ReflectedMTOfRhoAndSubregionHist.FractionalMT(i,:,j,k);
+                stack=stack+results{di}.ReflectedMTOfRhoAndSubregionHist.FractionalMT(k,j,:,i);
+                semilogy(X,squeeze(stack),color(k,:),'LineWidth',3);axis([0 max(X) 1e-7 1]);title(figname);xlabel('MT'),ylabel('stacked log(photon weight)'); hold on;
             end
             legend('[0-0.1]','[0.1-0.2]','[0.2-0.3]','[0.3-0.4]','[0.4-0.5]','[0.5-0.6]','[0.6-0.7]','[0.7-0.8]','[0.8-0.9]','[0.9,1]'); % customized
         end

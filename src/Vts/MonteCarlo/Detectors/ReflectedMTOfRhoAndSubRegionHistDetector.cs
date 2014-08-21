@@ -24,9 +24,6 @@ namespace Vts.MonteCarlo.Detectors
             TallyType = "ReflectedMTOfRhoAndSubregionHist";
             Name = "ReflectedMTOfRhoAndSubregionHist";
             Rho = new DoubleRange(0.0, 10, 101);
-            // NEED TO ASK DC: how do I get tissue in this default constructor?
-            //SubregionIndices = new IntRange(0, _tissue.Regions.Count - 1, _tissue.Regions.Count); // needed for DetectorIO
-            //NumSubregions = 3;
             MTBins = new DoubleRange(0.0, 500.0, 51);
 
             // modify base class TallyDetails to take advantage of built-in validation capabilities (error-checking)
@@ -149,7 +146,7 @@ namespace Vts.MonteCarlo.Detectors
         public void Tally(Photon photon)
         {
             // calculate the radial bin to attribute the deposition
-            var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(photon.DP.Position.X, photon.DP.Position.Y), Rho.Count - 1, Rho.Delta, Rho.Start);
+            var irho = DetectorBinning.WhichBin(DetectorBinning.GetRho(photon.DP.Position.X, photon.DP.Position.Y), Rho.Count - 1, Rho.Delta, Rho.Start);
             var subregionMT = new double[NumSubregions];
             bool talliedMT = false;
 
@@ -177,10 +174,10 @@ namespace Vts.MonteCarlo.Detectors
             if (totalMT > 0.0)  // only tally if momentum transfer accumulated
             {
                 var imt = DetectorBinning.WhichBin(totalMT, MTBins.Count - 1, MTBins.Delta, MTBins.Start);
-                Mean[ir, imt] += photon.DP.Weight;
+                Mean[irho, imt] += photon.DP.Weight;
                 if (TallySecondMoment)
                 {
-                    SecondMoment[ir, imt] += photon.DP.Weight * photon.DP.Weight;                    
+                    SecondMoment[irho, imt] += photon.DP.Weight * photon.DP.Weight;                    
                 }
 
                 if (talliedMT) TallyCount++;
@@ -190,7 +187,7 @@ namespace Vts.MonteCarlo.Detectors
                 {
                     var ifrac = DetectorBinning.WhichBin(subregionMT[isr] / totalMT,
                                                          FractionalMTBins.Count - 1, FractionalMTBins.Delta, FractionalMTBins.Start);
-                    FractionalMT[ir, imt, isr, ifrac] += photon.DP.Weight;
+                    FractionalMT[irho, imt, isr, ifrac] += photon.DP.Weight;
                 }
             }
         }
@@ -252,7 +249,7 @@ namespace Vts.MonteCarlo.Detectors
                 new BinaryArraySerializer {
                     DataArray = FractionalMT,
                     Name = "FractionalMT",
-                    FileTag = "",
+                    FileTag = "_FractionalMT",
                     WriteData = binaryWriter => {
                         for (int i = 0; i < Rho.Count - 1; i++) {
                             for (int j = 0; j < MTBins.Count - 1; j++) {
