@@ -1,7 +1,7 @@
 SolutionDir=$PWD
 
-#Bring in latest libraries using NuGet
-./GetMonoLibs.sh 
+#Bring in latest libraries using NuGet - no longer necessary
+#./GetMonoLibs.sh 
 
 #Build the solution in Debug configuration
 xbuild $SolutionDir/src/Vts-Mono.sln /p:WarningLevel=2
