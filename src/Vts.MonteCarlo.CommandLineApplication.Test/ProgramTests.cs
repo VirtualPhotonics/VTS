@@ -7,7 +7,7 @@ using NUnit.Framework;
 namespace Vts.MonteCarlo.CommandLineApplication.Test
 {
     [TestFixture]
-    public class ProgramTest
+    public class ProgramTests
     {
         /// <summary>
         /// clear all previously generated folders and files, then regenerate sample infiles using "geninfiles" option.
