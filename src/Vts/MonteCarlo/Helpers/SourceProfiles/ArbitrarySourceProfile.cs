@@ -53,8 +53,8 @@ namespace Vts.MonteCarlo.Sources.SourceProfiles
         /// <summary>
         /// Returns Arbitrary profile type
         /// </summary>
-        [IgnoreDataMember]
-        public SourceProfileType ProfileType { get { return SourceProfileType.Arbitrary; } }
+        //[IgnoreDataMember]
+        public SourceProfileType SourceProfileType { get { return SourceProfileType.Arbitrary; } }
 
         /// <summary>
         /// 1D array containing 2D image of values
