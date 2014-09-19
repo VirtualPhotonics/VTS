@@ -7,7 +7,7 @@ using NUnit.Framework;
 namespace Vts.MonteCarlo.CommandLineApplication.Test
 {
     [TestFixture]
-    public class ProgramTest
+    public class ProgramTests
     {
         /// <summary>
         /// clear all previously generated folders and files, then regenerate sample infiles using "geninfiles" option.
@@ -17,7 +17,7 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
         List<string> listOfInfiles = new List<string>()
         {
             "infile_ellip_FluenceOfRhoAndZ.txt",
-            //"infile_Gaussian_source_one_layer_ROfRho.txt", // uncomment this when bug fixed in Gaussian source
+            "infile_Gaussian_source_one_layer_ROfRho.txt", // uncomment this when bug fixed in Gaussian source
             "infile_one_layer_all_detectors.txt",
             "infile_one_layer_FluenceOfRhoAndZ_RadianceOfRhoAndZAndAngle.txt",
             "infile_one_layer_ROfRho_FluenceOfRhoAndZ.txt",

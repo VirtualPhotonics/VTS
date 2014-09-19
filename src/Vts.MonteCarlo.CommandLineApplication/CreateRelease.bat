@@ -23,8 +23,6 @@ set targetmatlabdir=%CD%\matlab\post_processing\monte_carlo\simulation_result_lo
 
 "%zip%"7za a "%archive%" "%targetdir%"*.config
 
-"%zip%"7za a "%archive%" "%targetdir%"infile_*.xml
-
 "%zip%"7za a -r "%archive%" "%targetmatlabdir%"*.*
 
 rem pause
