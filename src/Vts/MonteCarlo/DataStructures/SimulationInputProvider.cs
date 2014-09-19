@@ -29,6 +29,7 @@ namespace Vts.MonteCarlo
                 PointSourceSingleEllipsoidTissueFluenceOfRhoAndZDetector(),
                 pMCPointSourceOneLayerTissueROfRhoDAW(),
                 GaussianSourceOneLayerTissueROfRhoDetector(),
+                FlatSourceOneLayerTissueROfRhoDetector(),
                 PointSourceMultiLayerReflectedMTOfRhoAndSubregionHistDetector(),
                 PointSourceThreeLayerReflectedTimeOfRhoAndSubregionHistDetector()
             };
@@ -72,23 +73,12 @@ namespace Vts.MonteCarlo
                 ),
                 new List<IDetectorInput>()
                 {
-                    // units space[mm], time[ns], temporal-freq[GHz], abs./scat. coeff[/mm]
-                    new RDiffuseDetectorInput(),
-                    new ROfAngleDetectorInput() {Angle=new DoubleRange(Math.PI / 2 , Math.PI, 5)},
-                    new ROfRhoDetectorInput() {Rho =new DoubleRange(0.0, 10, 101)},
-                    new ROfRhoAndAngleDetectorInput() {Rho=new DoubleRange(0.0, 10, 101),Angle=new DoubleRange(Math.PI / 2 , Math.PI, 5)},
-                    new ROfRhoAndTimeDetectorInput() {Rho= new DoubleRange(0.0, 10, 101),Time=new DoubleRange(0.0, 10, 101)},
-                    new ROfXAndYDetectorInput() {X=new DoubleRange(-100.0, 100.0, 21), Y= new DoubleRange(-100.0, 100.0, 21)}, 
-                    new ROfRhoAndOmegaDetectorInput() {Rho=new DoubleRange(0.0, 10, 101),Omega=new DoubleRange(0.0, 1, 21)}, // GHz
-                    new TDiffuseDetectorInput(),
-                    new TOfAngleDetectorInput() {Angle=new DoubleRange(0.0, Math.PI / 2, 5)},
-                    new TOfRhoDetectorInput() {Rho=new DoubleRange(0.0, 10, 101)},
-                    new TOfRhoAndAngleDetectorInput() {Rho=new DoubleRange(0.0, 10, 101),Angle=new DoubleRange(0.0, Math.PI / 2, 5)},
-                    new ATotalDetectorInput(),
+                    // units space[mm], time[ns], temporal-freq[GHz], abs./scat. coeff[/mm]    
                     new AOfRhoAndZDetectorInput() {Rho=new DoubleRange(0.0, 10, 101),Z=new DoubleRange(0.0, 10, 101)},
-                    new AOfXAndYAndZDetectorInput(){X=new DoubleRange(-10, 10, 201),Y=new DoubleRange(-10, 10, 2),Z=new DoubleRange(0, 10, 101)},
+                    new AOfXAndYAndZDetectorInput(){X=new DoubleRange(-10, 10, 201),Y=new DoubleRange(-10, 10, 2),Z=new DoubleRange(0, 10, 101)},                
+                    new ATotalDetectorInput(),      
+                    new FluenceOfRhoAndZAndTimeDetectorInput(){Rho=new DoubleRange(0.0, 10, 101),Z=new DoubleRange(0.0, 10, 101),Time= new DoubleRange(0.0, 10, 101)},              
                     new FluenceOfRhoAndZDetectorInput() {Rho=new DoubleRange(0.0, 10, 101),Z=new DoubleRange(0.0, 10, 101)},
-                    new FluenceOfRhoAndZAndTimeDetectorInput(){Rho=new DoubleRange(0.0, 10, 101),Z=new DoubleRange(0.0, 10, 101),Time= new DoubleRange(0.0, 10, 101)},
                     new FluenceOfXAndYAndZDetectorInput(){X=new DoubleRange(-10, 10, 201),Y=new DoubleRange(-10, 10, 2),Z=new DoubleRange(0, 10, 101)},
                     new RadianceOfRhoAndZAndAngleDetectorInput(){Rho=new DoubleRange(0.0, 10, 101),Z=new DoubleRange(0.0, 10, 101),Angle=new DoubleRange(0, Math.PI, 3)},
                     new RadianceOfXAndYAndZAndThetaAndPhiDetectorInput(){
@@ -97,9 +87,23 @@ namespace Vts.MonteCarlo
                         Z= new DoubleRange(0.0, 10.0, 101), 
                         Theta=new DoubleRange(0.0, Math.PI, 5), // theta (polar angle)
                         Phi=new DoubleRange(-Math.PI, Math.PI, 5)}, // phi (azimuthal angle)
-                    new RSpecularDetectorInput()
+                    new RadianceOfRhoAtZDetectorInput() {Rho = new DoubleRange(0.0, 10, 101), ZDepth = 3},
+                    new RDiffuseDetectorInput(),
+                    new ROfAngleDetectorInput() {Angle=new DoubleRange(Math.PI / 2 , Math.PI, 5)},
+                    new ROfFxAndTimeDetectorInput() {Fx = new DoubleRange(0.0, 0.5, 51), Time= new DoubleRange(0.0, 10, 101)},
+                    new ROfFxDetectorInput() {Fx = new DoubleRange(0.0, 0.5, 51)},
+                    new ROfRhoAndAngleDetectorInput() {Rho=new DoubleRange(0.0, 10, 101),Angle=new DoubleRange(Math.PI / 2 , Math.PI, 5)},             
+                    new ROfRhoAndOmegaDetectorInput() {Rho=new DoubleRange(0.0, 10, 101),Omega=new DoubleRange(0.0, 1, 21)}, // GHz
+                    new ROfRhoAndTimeDetectorInput() {Rho= new DoubleRange(0.0, 10, 101),Time=new DoubleRange(0.0, 10, 101)},       
+                    new ROfRhoDetectorInput() {Rho =new DoubleRange(0.0, 10, 101)},
+                    new ROfXAndYDetectorInput() {X=new DoubleRange(-100.0, 100.0, 21), Y= new DoubleRange(-100.0, 100.0, 21)}, 
+                    new RSpecularDetectorInput(),
+                    new TDiffuseDetectorInput(),
+                    new TOfAngleDetectorInput() {Angle=new DoubleRange(0.0, Math.PI / 2, 5)},
+                    new TOfRhoAndAngleDetectorInput() {Rho=new DoubleRange(0.0, 10, 101),Angle=new DoubleRange(0.0, Math.PI / 2, 5)},
+                    new TOfRhoDetectorInput() {Rho=new DoubleRange(0.0, 10, 101)},
                 }
-                );
+            );
         }
         #endregion
 
@@ -424,6 +428,59 @@ namespace Vts.MonteCarlo
                     new Direction(0, 0, 1), // normal to tissue
                     new Position(0, 0, 0), // center of beam on surface
                     new PolarAzimuthalAngles(0,0), // no beam rotation         
+                    0), // 0=start in air, 1=start in tissue
+                new MultiLayerTissueInput(
+                    new ITissueRegion[]
+                    { 
+                        new LayerRegion(
+                            new DoubleRange(double.NegativeInfinity, 0.0),
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
+                        new LayerRegion(
+                            new DoubleRange(0.0, 100.0),
+                            new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
+                        new LayerRegion(
+                            new DoubleRange(100.0, double.PositiveInfinity),
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
+                    }
+                ),
+                new List<IDetectorInput>()
+                {
+                    new ROfRhoDetectorInput
+                    {
+                        Rho =new DoubleRange(0.0, 10, 101)
+                    },
+                }
+             );
+        }
+        #endregion
+
+        #region Flat source one layer R(rho)
+        /// <summary>
+        /// Flat source, single tissue layer definition, only ROfRho detector included
+        /// </summary>
+        public static SimulationInput FlatSourceOneLayerTissueROfRhoDetector()
+        {
+            return new SimulationInput(
+                100,
+                "Flat_source_one_layer_ROfRho",
+                new SimulationOptions(
+                    0, // random number generator seed, -1=random seed, 0=fixed seed
+                    RandomNumberGeneratorType.MersenneTwister,
+                    AbsorptionWeightingType.Discrete,
+                    PhaseFunctionType.HenyeyGreenstein,
+                    new List<DatabaseType>() { }, // databases to be written
+                    false, // track statistics
+                    0.0, // RR threshold -> 0 = no RR performed
+                    0),
+                new CustomCircularSourceInput(
+                    3.0, // outer radius
+                    0.0, // inner radius
+                    new FlatSourceProfile(), 
+                    new DoubleRange(0.0, 0.0), // polar angle emission range
+                    new DoubleRange(0.0, 0.0), // azimuthal angle emmision range
+                    new Direction(0, 0, 1), // normal to tissue
+                    new Position(0, 0, 0), // center of beam on surface
+                    new PolarAzimuthalAngles(0, 0), // no beam rotation         
                     0), // 0=start in air, 1=start in tissue
                 new MultiLayerTissueInput(
                     new ITissueRegion[]
