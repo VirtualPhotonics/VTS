@@ -198,7 +198,7 @@ classdef VtsMonteCarlo < handle
                 end            
 
                 % the following assumes only one database specified for now
-                switch char(originalSimInput.Options.Databases{1})
+                switch char(originalSimInputs{ppi}.Options.Databases{1}) 
                     case 'DiffuseReflectance'
                     vbTypeNET = EnumHelper.GetValueNET('Vts.MonteCarlo.VirtualBoundaryType', 'DiffuseReflectance');
                     % the following assumes database filnames are convention
