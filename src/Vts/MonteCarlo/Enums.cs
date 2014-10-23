@@ -484,7 +484,7 @@ namespace Vts.MonteCarlo
             /// <summary>
             /// Surface radiance as a function of source-detector separation (rho)
             /// </summary>
-            "RadianceOfRho",
+            "RadianceOfRhoAtZ",
             /// <summary>
             /// Volume randiance as a function of source-detector separation (rho), tissue depth (Z) and angle
             /// </summary>
