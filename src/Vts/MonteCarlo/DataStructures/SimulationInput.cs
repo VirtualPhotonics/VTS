@@ -4,6 +4,8 @@ using System.Runtime.Serialization;
 using Vts.Common;
 using Vts.IO;
 using Vts.MonteCarlo.PhaseFunctionInputs;
+using Vts.MonteCarlo.Detectors;
+using Vts.MonteCarlo.Factories;
 using Vts.MonteCarlo.Tissues;
 
 namespace Vts.MonteCarlo
@@ -13,72 +15,6 @@ namespace Vts.MonteCarlo
     /// file name, number of photons to execute (N), source, tissue and detector
     /// definitions.
     ///</summary>
-#if !SILVERLIGHT
-        [Serializable]
-#endif
-
-    // todo: Can we do this programmatcially? DataContractResolver? Automatically via convention?
-    [KnownType(typeof(CustomLineSourceInput))]
-    [KnownType(typeof(DirectionalLineSourceInput))]
-    [KnownType(typeof(IsotropicLineSourceInput))]
-
-    [KnownType(typeof(CustomPointSourceInput))]
-    [KnownType(typeof(DirectionalPointSourceInput))]
-    [KnownType(typeof(IsotropicPointSourceInput))]
-
-    [KnownType(typeof(LambertianSurfaceEmittingCylindricalFiberSourceInput))]
-    [KnownType(typeof(CustomSurfaceEmittingSphericalSourceInput))]
-    [KnownType(typeof(LambertianSurfaceEmittingSphericalSourceInput))]
-    [KnownType(typeof(LambertianSurfaceEmittingTubularSourceInput))]
-
-    [KnownType(typeof(CustomCircularSourceInput))]
-    [KnownType(typeof(DirectionalCircularSourceInput))]
-    [KnownType(typeof(CustomEllipticalSourceInput))]
-    [KnownType(typeof(DirectionalEllipticalSourceInput))]
-    [KnownType(typeof(CustomRectangularSourceInput))]
-    [KnownType(typeof(DirectionalRectangularSourceInput))]
-
-    [KnownType(typeof(CustomVolumetricEllipsoidalSourceInput))]
-    [KnownType(typeof(IsotropicVolumetricEllipsoidalSourceInput))]
-    [KnownType(typeof(CustomVolumetricCuboidalSourceInput))]
-    [KnownType(typeof(IsotropicVolumetricCuboidalSourceInput))]
-
-    // Tissue inputs
-    [KnownType(typeof(MultiLayerTissueInput))]
-    [KnownType(typeof(SingleEllipsoidTissueInput))]
-    [KnownType(typeof(MultiEllipsoidTissueInput))]
-
-    // Detector inputs
-    [KnownType(typeof(RDiffuseDetectorInput))]
-    [KnownType(typeof(ROfAngleDetectorInput))]
-    [KnownType(typeof(ROfRhoAndAngleDetectorInput))]
-    [KnownType(typeof(ROfRhoAndOmegaDetectorInput))]
-    [KnownType(typeof(ROfRhoAndTimeDetectorInput))]
-    [KnownType(typeof(ROfRhoDetectorInput))]
-    [KnownType(typeof(ROfXAndYDetectorInput))]
-    [KnownType(typeof(ROfFxDetectorInput))]
-    [KnownType(typeof(ROfFxAndTimeDetectorInput))]
-    [KnownType(typeof(TDiffuseDetectorInput))]
-    [KnownType(typeof(TOfAngleDetectorInput))]
-    [KnownType(typeof(TOfRhoAndAngleDetectorInput))]
-    [KnownType(typeof(TOfRhoDetectorInput))]
-    [KnownType(typeof(RSpecularDetectorInput))]
-    [KnownType(typeof(AOfRhoAndZDetectorInput))]
-    [KnownType(typeof(ATotalDetectorInput))]
-    [KnownType(typeof(FluenceOfRhoAndZAndTimeDetectorInput))]
-    [KnownType(typeof(FluenceOfRhoAndZDetectorInput))]
-    [KnownType(typeof(FluenceOfXAndYAndZDetectorInput))]
-    [KnownType(typeof(RadianceOfRhoAndZAndAngleDetectorInput))]
-    [KnownType(typeof(RadianceOfXAndYAndZAndThetaAndPhiDetectorInput))]
-    [KnownType(typeof(pMCROfRhoAndTimeDetectorInput))]
-    [KnownType(typeof(pMCROfRhoDetectorInput))]
-    [KnownType(typeof(pMCROfFxDetectorInput))]
-    [KnownType(typeof(dMCdROfRhodMuaDetectorInput))]
-    [KnownType(typeof(dMCdROfRhodMusDetectorInput))]
-    [KnownType(typeof(pMCROfFxAndTimeDetectorInput))]
-    [KnownType(typeof(ReflectedMTOfRhoAndSubregionHistDetectorInput))]
-    [KnownType(typeof(ReflectedTimeOfRhoAndSubregionHistDetectorInput))]
-
     // phase function inputs
     [KnownType(typeof(BidirectionalPhaseFunctionInput))]
     [KnownType(typeof(HenyeyGreensteinPhaseFunctionInput))]
@@ -86,14 +22,8 @@ namespace Vts.MonteCarlo
     [KnownType(typeof(PolarAndAzimuthalLookupTablePhaseFunctionData))]
     [KnownType(typeof(PolarLookupTablePhaseFunctionData))]
 
-    // todo: add more types?
-
     public class SimulationInput
     {
-        // DC 3/9/2010 using public fields *specifically* for ease of use in input .xml classes
-        // todo: replace DataContractSerializer loading this class with Linq to XML reading
-        // of a "pure" XML input class (and make all the fields properties again). This should
-        // make it much easier for users to define simulations without wading through XML namespaces, etc.
         /// <summary>
         /// string name of output file
         /// </summary>
@@ -161,7 +91,6 @@ namespace Vts.MonteCarlo
                     AbsorptionWeightingType.Discrete,
                 //new HenyeyGreensteinPhaseFunctionInput(),
                     new List<DatabaseType>() { },
-                    true, // compute Second Moment
                     false, // track statistics
                     0.0, // RR threshold -> no RR performed
                     0),
@@ -186,58 +115,50 @@ namespace Vts.MonteCarlo
 
                 new List<IDetectorInput>
                 {
-                    new ROfRhoDetectorInput(new DoubleRange(0.0, 40.0, 201)), // rho: nr=200 dr=0.2mm used for workshop)
+                    new ROfRhoDetectorInput
+                    {
+                        Rho = new DoubleRange(0.0, 40.0, 201)
+                    }, // rho: nr=200 dr=0.2mm used for workshop)
                 }
                 )
-        {
+        
 
             TissueInput.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey1", new HenyeyGreensteinPhaseFunctionInput());
             TissueInput.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey2", new HenyeyGreensteinPhaseFunctionInput());
             TissueInput.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey3", new HenyeyGreensteinPhaseFunctionInput());
         }
         /// <summary>
-        /// Method to read SimulationInput from xml file
-        /// </summary>
-        /// <param name="filename">string filename of file to be read</param>
-        /// <returns>SimulationInput</returns>
-        public static SimulationInput FromXMLFile(string filename)
-        {
-            return FileIO.ReadFromXML<SimulationInput>(filename);
-        }
-        /// <summary>
-        /// Method to write SimulationInput to xml file
-        /// </summary>
-        /// <param name="filename">string filename to write to</param>
-        public void ToXMLFile(string filename)
-        {
-            FileIO.WriteToXML(this, filename);
-        }
-        /// <summary>
         /// Method to read SimulationInput from JSON file
         /// </summary>
         /// <param name="filename">string filename of file to be read</param>
         /// <returns>SimulationInput</returns>
-        public static SimulationInput FromJsonFile(string filename)
+        public static SimulationInput FromFile(string filename)
         {
-            return VtsJsonSerializer.ReadFromJsonFile<SimulationInput>(filename);
+            return FileIO.ReadFromJson<SimulationInput>(filename);
         }
+
+        public MonteCarloSimulation CreateSimulation()
+        {
+            return new MonteCarloSimulation(this);
+        }
+
         /// <summary>
         /// Method to write SimulationInput to file
         /// </summary>
         /// <param name="filename">string filename to write to</param>
-        public void ToJsonFile(string filename)
+        public void ToFile(string filename)
         {
-            VtsJsonSerializer.WriteToJsonFile(this, filename);
+            FileIO.WriteToJson(this, filename);
         }
         /// <summary>
-        /// Method to read SimulationInput xml from file in resources
+        /// Method to read SimulationInput json from file in resources
         /// </summary>
         /// <param name="filename">string filename</param>
         /// <param name="project">string project name</param>
         /// <returns>SimulationInput</returns>
         public static SimulationInput FromFileInResources(string filename, string project)
         {
-            return FileIO.ReadFromXMLInResources<SimulationInput>(filename, project);
+            return FileIO.ReadFromJsonInResources<SimulationInput>(filename, project);
         }
     }
 }

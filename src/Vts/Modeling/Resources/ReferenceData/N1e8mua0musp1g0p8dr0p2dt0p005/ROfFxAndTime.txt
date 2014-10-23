@@ -1,0 +1,16 @@
+{
+  "TallyType": "ROfFxAndTime",
+  "Name": "ROfFxAndTime",
+  "TallyCount": 93,
+  "TallySecondMoment": "false",
+  "Fx": {
+    "Start": 0.01,
+    "Stop": 1.0,
+    "Count": 100
+  },
+  "Time": {
+    "Start": 0.0,
+    "Stop": 4.0,
+    "Count": 802
+  }
+}

@@ -1,11 +1,12 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
+using System.Numerics;
 using System.Linq;
-using MathNet.Numerics;
+using System.Collections.Generic;
 using NUnit.Framework;
 using Vts.Common;
 using Vts.MonteCarlo;
+using Vts.MonteCarlo.Detectors;
 using Vts.MonteCarlo.Helpers;
 using Vts.MonteCarlo.PhaseFunctionInputs;
 using Vts.MonteCarlo.Tissues;
@@ -35,9 +36,9 @@ namespace Vts.Test.MonteCarlo.Detectors
         public void execute_Monte_Carlo()
         {
             // make sure statistic file generated from previous tests are deleted
-            if (File.Exists("statistics.xml"))
+            if (File.Exists("statistics.txt"))
             {
-                File.Delete("statistics.xml");
+                File.Delete("statistics.txt");
             }
 
             MultiLayerTissueInput ti = new MultiLayerTissueInput(
@@ -69,7 +70,6 @@ namespace Vts.Test.MonteCarlo.Detectors
                      AbsorptionWeightingType.Analog,
                 //PhaseFunctionType.HenyeyGreenstein,
                      new List<DatabaseType>() { }, // databases to be written
-                     true, // tally SecondMoment
                      true, // track statistics
                      0.0, // RR threshold -> 0 = no RR performed
                      0),
@@ -81,44 +81,38 @@ namespace Vts.Test.MonteCarlo.Detectors
                  ti,
                  new List<IDetectorInput>
                 {
-                    new RDiffuseDetectorInput(),
-                    new ROfAngleDetectorInput(new DoubleRange(Math.PI / 2 , Math.PI, 2)),
-                    new ROfRhoDetectorInput(new DoubleRange(0.0, 10.0, 101)),
-                    new ROfRhoAndAngleDetectorInput(
-                        new DoubleRange(0.0, 10.0, 101),
-                        new DoubleRange(Math.PI / 2 , Math.PI, 2)),
-                    new ROfRhoAndTimeDetectorInput(
-                        new DoubleRange(0.0, 10.0, 101),
-                        new DoubleRange(0.0, 1.0, 101)),
-                    new ROfXAndYDetectorInput(
-                        new DoubleRange(-10.0, 10.0, 101), // x
-                        new DoubleRange(-10.0, 10.0, 101)), // y,
-                    new ROfRhoAndOmegaDetectorInput(
-                        new DoubleRange(0.0, 10.0, 101),
-                        new DoubleRange(0.05, 1.0, 20)), //  new DoubleRange(0.0, 1.0, 21)) DJC - edited to reflect frequency sampling points (not bins)
+                    new RDiffuseDetectorInput() {TallySecondMoment = true},
+                    new ROfAngleDetectorInput() {Angle=new DoubleRange(Math.PI / 2 , Math.PI, 2)},
+                    new ROfRhoDetectorInput() { Rho=new DoubleRange(0.0, 10.0, 101), TallySecondMoment = true},
+                    new ROfRhoAndAngleDetectorInput() { Rho=new DoubleRange(0.0, 10.0, 101),Angle=new DoubleRange(Math.PI / 2 , Math.PI, 2)},                        
+                    new ROfRhoAndTimeDetectorInput() {Rho=new DoubleRange(0.0, 10.0, 101),Time=new DoubleRange(0.0, 1.0, 101)},
+                    new ROfXAndYDetectorInput() {X=new DoubleRange(-10.0, 10.0, 101), Y= new DoubleRange(-10.0, 10.0, 101)},
+                    new ROfRhoAndOmegaDetectorInput() {Rho=new DoubleRange(0.0, 10.0, 101),Omega=new DoubleRange(0.05, 1.0, 20)},  // frequency sampling points (not bins)
                     new TDiffuseDetectorInput(),
-                    new TOfAngleDetectorInput(new DoubleRange(0.0, Math.PI / 2, 2)),
-                    new TOfRhoDetectorInput(new DoubleRange(0.0, 10.0, 101)),
-                    new TOfRhoAndAngleDetectorInput(
-                        new DoubleRange(0.0, 10.0, 101),
-                        new DoubleRange(0.0, Math.PI / 2, 2)),
-                    new AOfRhoAndZDetectorInput(
-                        new DoubleRange(0.0, 10.0, 101),
-                        new DoubleRange(0.0, 10.0, 101)),
+                    new TOfAngleDetectorInput() { Angle=new DoubleRange(0.0, Math.PI / 2, 2)},
+                    new TOfRhoDetectorInput() {Rho=new DoubleRange(0.0, 10.0, 101)},
+                    new TOfRhoAndAngleDetectorInput() {Rho=new DoubleRange(0.0, 10.0, 101), Angle=new DoubleRange(0.0, Math.PI / 2, 2)},
+                    new AOfRhoAndZDetectorInput() {Rho=new DoubleRange(0.0, 10.0, 101),Z=new DoubleRange(0.0, 10.0, 101)},
                     new ATotalDetectorInput(),
-                    new FluenceOfRhoAndZDetectorInput(
-                        new DoubleRange(0.0, 10.0, 101),
-                        new DoubleRange(0.0, 10.0, 101)),
-                    new RadianceOfRhoAndZAndAngleDetectorInput(
-                        new DoubleRange(0.0, 10.0, 101),
-                        new DoubleRange(0.0, 10.0, 101),
-                        new DoubleRange(-Math.PI / 2, Math.PI / 2, 5))
+                    new FluenceOfRhoAndZDetectorInput() {Rho=new DoubleRange(0.0, 10.0, 101), Z=new DoubleRange(0.0, 10.0, 101)},                    
+                    new FluenceOfRhoAndZAndTimeDetectorInput()
+                    {
+                        Rho=new DoubleRange(0.0, 10.0, 101), 
+                        Z=new DoubleRange(0.0, 10.0, 101),
+                        Time=new DoubleRange(0.0, 1.0, 11)
+                    },
+                    new RadianceOfRhoAndZAndAngleDetectorInput()
+                    {
+                        Rho=new DoubleRange(0.0, 10.0, 101), 
+                        Z=new DoubleRange(0.0, 10.0, 101),
+                        Angle=new DoubleRange(-Math.PI / 2, Math.PI / 2, 5)
+                    }
                 }
              );
 
             _output = new MonteCarloSimulation(_input).Run();
 
-            _simulationStatistics = SimulationStatistics.FromFile("statistics.xml");
+            _simulationStatistics = SimulationStatistics.FromFile(_input.OutputName + "/statistics.txt");
 
             _factor = 1.0 - Optics.Specular(
                             _input.TissueInput.Regions[0].RegionOP.N,
@@ -127,7 +121,7 @@ namespace Vts.Test.MonteCarlo.Detectors
 
         // validation values obtained from linux run using above input and seeded 
         // the same for:
-        // Diffuse Reflectance
+        //// Diffuse Reflectance
         [Test]
         public void validate_Analog_RDiffuse()
         {
@@ -224,7 +218,7 @@ namespace Vts.Test.MonteCarlo.Detectors
         {
             // undo angle bin normalization
             var angle = ((RadianceOfRhoAndZAndAngleDetectorInput)_input.DetectorInputs.
-                Where(d => d.TallyType == TallyType.RadianceOfRhoAndZAndAngle).First()).Angle;
+                Where(d => d.TallyType == "RadianceOfRhoAndZAndAngle").First()).Angle;
             var norm = 2 * Math.PI * angle.Delta;
             var integral = 0.0;
             for (int ia = 0; ia < angle.Count - 1; ia++)
@@ -233,11 +227,13 @@ namespace Vts.Test.MonteCarlo.Detectors
             }
             Assert.Less(Math.Abs(integral * norm - _output.Flu_rz[0, 6]), 0.000000000001);
         }
-        //[Test]
-        //public void validate_Analog_FluenceOfRhoAndZAndTime()
-        //{
-        //    Assert.Less(Math.Abs(_output.Flu_rzt[0, 6, 0] - 0.617700489), 0.000000001);
-        //}
+        // Fluence(rho,z,t)
+        [Test]
+        public void validate_Analog_FluenceOfRhoAndZAndTime()
+        {
+            Assert.Less(Math.Abs(_output.Flu_rzt[0, 6, 0]*_factor - 3094.67945), 0.00001);
+        }
+
         // Reflectance R(x,y)
         [Test]
         public void validate_Analog_ROfXAndY()

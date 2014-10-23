@@ -7,6 +7,7 @@ using System.IO;
 using System.IO.IsolatedStorage;
 using System.Reflection;
 using System.Runtime.Serialization;
+using System.Runtime.Serialization.Json;
 using System.Text;
 using Ionic.Zip;
 using Vts.Extensions;
@@ -14,11 +15,11 @@ using Vts.Extensions;
 using System.Runtime.Serialization.Formatters.Binary;
 #endif
 
-
+ 
 namespace Vts.IO
 {
     /// <summary>
-    /// This class includes methods for saving and loading XML and binary data
+    /// This class includes methods for saving and loading JSON text and binary data
     /// It uses custom iterators for saving (unfortunately, nothing as useful for reading value types)
     /// Currently, float, double and ushort are supported (and they're processed in that order)
     /// </summary>
@@ -66,13 +67,8 @@ namespace Vts.IO
         /// <returns>A clone of the object</returns>
         public static T Clone<T>(this T myObject)
         {
-            using (MemoryStream ms = new MemoryStream(1024))
-            {
-                var dcs = new DataContractSerializer(typeof(T));
-                dcs.WriteObject(ms, myObject);
-                ms.Seek(0, SeekOrigin.Begin);
-                return (T)dcs.ReadObject(ms);
-            }
+            var serialized = VtsJsonSerializer.WriteToJson(myObject);
+            return VtsJsonSerializer.ReadFromJson<T>(serialized);
         }
 
         /// <summary>
@@ -100,7 +96,10 @@ namespace Vts.IO
 #if SILVERLIGHT
             using (var store = IsolatedStorageFile.GetUserStoreForApplication())
             {
-                store.CreateDirectory(folderPath);
+                if (!store.DirectoryExists(folderPath))
+                {
+                    store.CreateDirectory(folderPath);
+                }
             }
 #else
             if (!Directory.Exists(folderPath))
@@ -108,6 +107,45 @@ namespace Vts.IO
                 Directory.CreateDirectory(folderPath);
             }
 #endif
+        }        
+        
+        /// <summary>
+        /// Platform-agnostic directory (uses isolated storage for Silverlight)
+        /// </summary>
+        /// <param name="folderPath">Path for new directory</param>
+        public static void ClearDirectory(string folderPath)
+        {
+#if SILVERLIGHT
+            using (var store = IsolatedStorageFile.GetUserStoreForApplication())
+            {
+                if (store.DirectoryExists(folderPath))
+                {
+                    //DeleteDirectoryRecursive(store, folderPath);
+                    foreach (var file in store.GetFileNames(folderPath + "\\"))
+                    {
+                        store.DeleteFile(Path.Combine(folderPath, file));
+                    }
+                }
+            }
+#else
+            if (Directory.Exists(folderPath))
+            {
+                foreach (var file in Directory.GetFiles(folderPath))
+                {
+                    File.Delete(Path.Combine(folderPath, file));
+                }
+            }
+#endif
+        }
+
+        /// <summary>
+        /// Platform-agnostic call to create an empty directory (deleting files if they exist)
+        /// </summary>
+        /// <param name="folderPath">Path for new directory</param>
+        public static void CreateEmptyDirectory(string folderPath)
+        {
+            FileIO.ClearDirectory(folderPath);
+            FileIO.CreateDirectory(folderPath);
         }
 
         /// <summary>
@@ -116,7 +154,7 @@ namespace Vts.IO
         /// <typeparam name="T">Type of the object to be written</typeparam>
         /// <param name="myObject">Object to be written</param>
         /// <param name="stream">Stream to which to write the object</param>
-        public static void WriteToStream<T>(this T myObject, Stream stream)
+        public static void WriteToXMLStream<T>(this T myObject, Stream stream)
         {
             var dcs = new DataContractSerializer(typeof(T), KnownTypes.CurrentKnownTypes.Values);
             dcs.WriteObject(stream, myObject);
@@ -200,7 +238,7 @@ namespace Vts.IO
             using (Stream stream = StreamFinder.GetFileStream(filename, FileMode.Create))
             {
                 //new DataContractSerializer(typeof(Time)).WriteObject(stream, myObject);
-                myObject.WriteToStream(stream);
+                myObject.WriteToXMLStream(stream);
             }
         }
 
@@ -405,6 +443,33 @@ namespace Vts.IO
             }
         }
 
+        // todo: delete if the one below it works ok
+        /// <summary>
+        /// Writes an array to a binary file and optionally accompanying .txt (JSON) file 
+        /// (to store array dimensions) if includeMetaData = true
+        /// </summary>
+        /// <typeparam name="T">Type of the array to be written</typeparam>
+        /// <param name="dataIN">Array to be written</param>
+        /// <param name="filename">Name of the file where the data is written</param>
+        /// <param name="includeMetaData">Boolean to determine whether to include meta data, if set to true, an accompanying JSON file will be created with the same name</param>
+        public static void WriteArrayToBinary<T>(Array dataIN, string filename, bool includeMetaData) where T : struct
+        {
+            // Write JSON file to describe the contents of the binary file
+            if (includeMetaData)
+            {
+                new MetaData(dataIN).WriteToJson(filename + ".txt");
+            }
+            // Create a file to write binary data 
+            using (Stream s = StreamFinder.GetFileStream(filename, FileMode.OpenOrCreate))
+            {
+                using (BinaryWriter bw = new BinaryWriter(s))
+                {
+                    new ArrayCustomBinaryWriter().WriteToBinary(bw, dataIN);
+                    //WriteArrayToBinaryInternal(bw, dataIN.ToEnumerable<Time>());
+                }
+            }
+        }
+
         /// <summary>
         /// Writes an array to a binary file and optionally accompanying .xml file 
         /// (to store array dimensions) if includeMetaData = true
@@ -413,27 +478,26 @@ namespace Vts.IO
         /// <param name="dataIN">Array to be written</param>
         /// <param name="filename">Name of the file where the data is written</param>
         /// <param name="includeMetaData">Boolean to determine whether to include meta data, if set to true, an accompanying XML file will be created with the same name</param>
-        public static void WriteArrayToBinary<T>(Array dataIN, string filename, bool includeMetaData) where T : struct
+        public static void WriteArrayToBinary(Array dataIN, string filename, bool includeMetaData)
         {
             // Write XML file to describe the contents of the binary file
             if (includeMetaData)
             {
-                new MetaData(dataIN).WriteToXML(filename + ".xml");
-                new MetaData(dataIN).WriteToJson(filename + ".txt");  // 
+                new MetaData(dataIN).WriteToJson(filename + ".txt");
             }
             // Create a file to write binary data 
             using (Stream s = StreamFinder.GetFileStream(filename, FileMode.OpenOrCreate))
             {
                 using (BinaryWriter bw = new BinaryWriter(s))
                 {
-                    new ArrayCustomBinaryWriter<T>().WriteToBinary(bw, dataIN);
+                    new ArrayCustomBinaryWriter().WriteToBinary(bw, dataIN);
                     //WriteArrayToBinaryInternal(bw, dataIN.ToEnumerable<Time>());
                 }
             }
         }
 
         /// <summary>
-        /// Writes an array to a binary file, as well as an accompanying .xml file to store array dimensions
+        /// Writes an array to a binary file, as well as an accompanying .txt (JSON) file to store array dimensions
         /// </summary>
         /// <typeparam name="T">Type of the array to be written</typeparam>
         /// <param name="dataIN">Array to be written</param>
@@ -444,14 +508,14 @@ namespace Vts.IO
         }
 
         /// <summary>
-        /// Reads array from a binary file, using the accompanying .xml file to specify dimensions
+        /// Reads array from a binary file, using the accompanying .txt file to specify dimensions
         /// </summary>
         /// <typeparam name="T">Type of the array being read</typeparam>
         /// <param name="filename">Name of the file from which to read the array</param>
         /// <returns>Array from the file</returns>
         public static Array ReadArrayFromBinary<T>(string filename) where T : struct
         {
-            MetaData dataInfo = ReadFromXML<MetaData>(filename + ".xml");
+            MetaData dataInfo = ReadFromJson<MetaData>(filename + ".txt");
 
             return ReadArrayFromBinary<T>(filename, dataInfo.dims);
         }
@@ -480,16 +544,16 @@ namespace Vts.IO
         }
 
         /// <summary>
-        /// Reads array from a binary file in resources, using the accompanying .xml file to specify dimensions
+        /// Reads array from a binary file in resources, using the accompanying .txt (JSON) file to specify dimensions
         /// </summary>
         /// <typeparam name="T">Type of the array being read</typeparam>
-        /// <param name="filename">Name of the XML file containing the meta data</param>
+        /// <param name="filename">Name of the JSON file containing the meta data</param>
         /// <param name="projectname">Project name for the location of resources</param>
         /// <returns>Array from the file</returns>
         public static Array ReadArrayFromBinaryInResources<T>(string filename, string projectname) where T : struct
         {
-            // Read XML file that describes the contents of the binary file
-            MetaData dataInfo = ReadFromXMLInResources<MetaData>(filename + ".xml", projectname);
+            // Read JSON text file that describes the contents of the binary file
+            MetaData dataInfo = ReadFromJsonInResources<MetaData>(filename + ".txt", projectname);
 
             // call the overload (below) which explicitly specifies the array dimensions
             return ReadArrayFromBinaryInResources<T>(filename, projectname, dataInfo.dims);
@@ -499,7 +563,7 @@ namespace Vts.IO
         /// Reads array from a binary file in resources using explicitly-set dimensions
         /// </summary>
         /// <typeparam name="T">Type of the array being read</typeparam>
-        /// <param name="filename">Name of the XML file containing the meta data</param>
+        /// <param name="filename">Name of the JSON (text) file containing the meta data</param>
         /// <param name="projectname">Project name for the location of resources</param>
         /// <param name="dims">Dimensions of the array</param>
         /// <returns>Array from the file</returns>
@@ -697,8 +761,9 @@ namespace Vts.IO
                     zip.Save(zipFileStream);
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Console.WriteLine(e);
                 throw;
             }
             finally
@@ -813,6 +878,5 @@ namespace Vts.IO
         }
 #endif
         #endregion
-
     }
 }

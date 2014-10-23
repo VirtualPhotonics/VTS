@@ -3,8 +3,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
     xmlns:v="clr-namespace:Vts.Gui.Silverlight.View"
     xmlns:input="clr-namespace:SLExtensions.Input;assembly=SLExtensions"
-    Width="400" Height="Auto">
-    <Grid x:Name="LayoutRoot" Background="White">
+    Height="Auto" Width="410">
+    <Grid x:Name="LayoutRoot" Background="White" HorizontalAlignment="Left">
         <StackPanel Orientation="Vertical">
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -17,43 +17,51 @@
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
                 <!-- Tissue Types -->
-                <TextBlock Grid.Column="0" Grid.Row="0" Text="{Binding Path=MainResource.Label_TissueTypes, Source={StaticResource LocalizedStrings}}" FontSize="16" TextDecorations="Underline"/>
-                <ListBox ItemsSource="{Binding Tissues, Mode=TwoWay}" SelectedItem="{Binding SelectedTissue, Mode=TwoWay}" Grid.Column="0" Grid.Row="1" />
+                <TextBlock 
+                    Grid.Column="0" Grid.Row="0" 
+                    Text="{Binding Path=MainResource.Label_TissueTypes, Source={StaticResource LocalizedStrings}}" 
+                    FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                <ListBox ItemsSource="{Binding Tissues, Mode=TwoWay}" SelectedItem="{Binding SelectedTissue, Mode=TwoWay}" Grid.Column="0" Grid.Row="1">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Height="14" VerticalAlignment="Center">
+                                <TextBlock Text="{Binding}" FontSize="11"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
                 <!-- Absorber Concentrations -->
-                <TextBlock Grid.Column="2" Grid.Row="0" Text="{Binding Path=MainResource.Label_AbsorberConcentrations, Source={StaticResource LocalizedStrings}}" FontSize="16" TextDecorations="Underline"/>
+                <TextBlock 
+                    Grid.Column="2" Grid.Row="0"
+                    Text="{Binding Path=MainResource.Label_AbsorberConcentrations, Source={StaticResource LocalizedStrings}}"
+                    FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Left"/>
                 <ListBox HorizontalContentAlignment="Stretch" Grid.Column="2" Grid.Row="1" ItemsSource="{Binding SelectedTissue.Absorbers, Mode=TwoWay}" >
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="100"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition/>
-                                    </Grid.RowDefinitions>
-                                    <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0">
-                                        <TextBlock Text="{Binding Name}" />
-                                        <TextBlock Text=" ["/>
-                                        <TextBlock Text="{Binding ConcentrationUnits}"/>
-                                        <TextBlock Text="]: "/>
-                                    </StackPanel>
-                                    <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="1">
-                                        <TextBox Text="{Binding Concentration, Mode=TwoWay, Converter={StaticResource myDoubleToStringConverter}, ConverterParameter=N3}" Grid.Column="2" Grid.Row="0"/>
-                                    </StackPanel>
-                                </Grid>
-                            </StackPanel>
+                            <Grid Height="20">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="100"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center">
+                                    <TextBlock Text="{Binding Name}"/>
+                                    <TextBlock Text=" ["/>
+                                    <TextBlock Text="{Binding ConcentrationUnits}"/>
+                                    <TextBlock Text="]: "/>
+                                </StackPanel>
+                                <TextBox Text="{Binding Concentration, Mode=TwoWay, Converter={StaticResource myDoubleToStringConverter}, ConverterParameter=N3}" Width="50"  Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" VerticalContentAlignment="Center" KeyDown="TextBox_KeyDown"/>
+                            </Grid>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
             </Grid>
             <!-- Blood Concentration -->
             <StackPanel Orientation="Vertical">
-                <v:BloodConcentrationView DataContext="{Binding BloodConcentrationVM}" 
-                                          Visibility="{Binding DisplayBloodVM, Converter={StaticResource myBooleanToVisibilityConverter}}"
-                                          Margin="0,5,0,0"/>
-                <StackPanel Margin="0,5,0,0">
+                <v:BloodConcentrationView 
+                    DataContext="{Binding BloodConcentrationVM}" 
+                    Visibility="{Binding DisplayBloodVM, Converter={StaticResource myBooleanToVisibilityConverter}}"
+                    Margin="0,3,0,0"/>
+                <StackPanel Margin="0,3,0,0">
                     <!-- Scatterer Type -->
                     <v:RadioButtonOptionView DataContext="{Binding ScatteringTypeVM}"/>
                     <!-- Intralipid parameters -->
@@ -62,34 +70,38 @@
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="{Binding Path=MainResource.Value_VolumeFraction, Source={StaticResource LocalizedStrings}}" VerticalAlignment="Center" /><TextBlock Text=" = " VerticalAlignment="Center" />
-                                    <TextBox Text="{Binding Scatterer.VolumeFraction, Mode=TwoWay}" Width="40"/>
+                                    <TextBox Text="{Binding Scatterer.VolumeFraction, Mode=TwoWay}" Width="40" KeyDown="TextBox_KeyDown"/>
                                 </StackPanel>
                             </DataTemplate>
                         </v:ScatteringTemplateSelector.IntralipidScatteringTemplate>
                         <!-- Mie Scatterer parameters -->
                         <v:ScatteringTemplateSelector.MieScatteringTemplate>
                             <DataTemplate>
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="{Binding Path=MainResource.Value_ParticleRadius, Source={StaticResource LocalizedStrings}}" VerticalAlignment="Center" /><TextBlock Text=" = " VerticalAlignment="Center" />
-                                    <TextBox Text="{Binding Scatterer.ParticleRadius, Mode=TwoWay}" Width="40" Margin="0,0,5,0" />
-                                    <TextBlock Text="{Binding Path=MainResource.Value_ParticleN, Source={StaticResource LocalizedStrings}}" VerticalAlignment="Center" /><TextBlock Text=" = " VerticalAlignment="Center" />
-                                    <TextBox Text="{Binding Scatterer.ParticleRefractiveIndexMismatch, Mode=TwoWay}" Width="40" Margin="0,0,5,0" />
-                                    <TextBlock Text="{Binding Path=MainResource.Value_MediumN, Source={StaticResource LocalizedStrings}}" VerticalAlignment="Center" /><TextBlock Text=" = " VerticalAlignment="Center" />
-                                    <TextBox Text="{Binding Scatterer.MediumRefractiveIndexMismatch, Mode=TwoWay}" Width="40" />
+                                <StackPanel Orientation="Horizontal" Margin="3,0,0,0">
+                                    <TextBlock Text="{Binding Path=MainResource.Value_ParticleRadius, Source={StaticResource LocalizedStrings}}" VerticalAlignment="Center"/>
+                                    <TextBlock Text="=" VerticalAlignment="Center" Margin="2,0,2,0"/>
+                                    <TextBox Text="{Binding Scatterer.ParticleRadius, Mode=TwoWay}" Width="40" Margin="0,0,5,0" KeyDown="TextBox_KeyDown"/>
+                                    <TextBlock Text="{Binding Path=MainResource.Value_ParticleN, Source={StaticResource LocalizedStrings}}" VerticalAlignment="Center"/>
+                                    <TextBlock Text="=" VerticalAlignment="Center" Margin="2,0,2,0"/>
+                                    <TextBox Text="{Binding Scatterer.ParticleRefractiveIndexMismatch, Mode=TwoWay}" Width="40" Margin="0,0,5,0" KeyDown="TextBox_KeyDown"/>
+                                    <TextBlock Text="{Binding Path=MainResource.Value_MediumN, Source={StaticResource LocalizedStrings}}" VerticalAlignment="Center"/>
+                                    <TextBlock Text="=" VerticalAlignment="Center" Margin="2,0,2,0"/>
+                                    <TextBox Text="{Binding Scatterer.MediumRefractiveIndexMismatch, Mode=TwoWay}" Width="40" KeyDown="TextBox_KeyDown"/>
                                 </StackPanel>
                             </DataTemplate>
                         </v:ScatteringTemplateSelector.MieScatteringTemplate>
                         <!-- Powerlaw parameters -->
                         <v:ScatteringTemplateSelector.PowerLawScatteringTemplate>
                             <DataTemplate >
-                                <StackPanel Orientation="Vertical">
-                                    <StackPanel Orientation="Horizontal" />
+                                <StackPanel Orientation="Vertical" Margin="3,0,0,0">
                                     <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="{Binding Path=MainResource.Value_A, Source={StaticResource LocalizedStrings}}" VerticalAlignment="Center" /><TextBlock Text=" = " VerticalAlignment="Center" />
-                                        <TextBox Text="{Binding Scatterer.A, Mode=TwoWay}" Width="Auto" Margin="0,0,5,0" />
-                                        <TextBlock Text="{Binding Path=MainResource.Value_b, Source={StaticResource LocalizedStrings}}" VerticalAlignment="Center" /><TextBlock Text=" = " VerticalAlignment="Center" />
-                                        <TextBox Text="{Binding Scatterer.B, Mode=TwoWay}" Width="Auto" Margin="0,0,5,0" />
-                                        <TextBlock Text="{Binding Path=MainResource.Label_PowerLawDefinitionA, Source={StaticResource LocalizedStrings}}" VerticalAlignment="Center" />
+                                        <TextBlock Text="{Binding Path=MainResource.Value_A, Source={StaticResource LocalizedStrings}}" VerticalAlignment="Center"/>
+                                        <TextBlock Text="=" VerticalAlignment="Center" Margin="2,0,2,0"/>
+                                        <TextBox Text="{Binding Scatterer.A, Mode=TwoWay}" Width="Auto" Margin="0,0,5,0" KeyDown="TextBox_KeyDown"/>
+                                        <TextBlock Text="{Binding Path=MainResource.Value_b, Source={StaticResource LocalizedStrings}}" VerticalAlignment="Center"/>
+                                        <TextBlock Text="=" VerticalAlignment="Center" Margin="2,0,2,0"/>
+                                        <TextBox Text="{Binding Scatterer.B, Mode=TwoWay}" Width="Auto" Margin="0,0,5,0" KeyDown="TextBox_KeyDown"/>
+                                        <TextBlock Text="{Binding Path=MainResource.Label_PowerLawDefinitionA, Source={StaticResource LocalizedStrings}}" VerticalAlignment="Center"/>
                                     </StackPanel>
                                 </StackPanel>
                             </DataTemplate>
@@ -97,46 +109,50 @@
                     </v:ScatteringTemplateSelector>
                 </StackPanel>
                 <!-- Wavelength Range -->
-                <StackPanel Orientation="Vertical" Margin="0,5,0,0" VerticalAlignment="Bottom" >
-                    <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom">
-                        <v:RangeView DataContext="{Binding WavelengthRangeVM}" />
-                        <StackPanel Margin="10,10,0,0" >
-                            <!-- Plot Buttons -->
-                            <Button input:CommandService.Command="PlotMuaSpectra"
-                                input:CommandService.CommandParameter="{Binding}"
-                                Margin="0,2,0,0" Height="25" VerticalAlignment="Bottom" 
-                                Content="{Binding Path=MainResource.Button_PlotMua, Source={StaticResource LocalizedStrings}}" />
-                            <Button input:CommandService.Command="PlotMusprimeSpectra"
-                                input:CommandService.CommandParameter="{Binding}"
-                                Margin="0,2,0,0" Height="25" VerticalAlignment="Bottom" 
-                                Content="{Binding Path=MainResource.Button_PlotMusPrime, Source={StaticResource LocalizedStrings}}" />
-                        </StackPanel>
-                    </StackPanel>
+                <StackPanel Orientation="Vertical" Margin="0,3,0,0" VerticalAlignment="Top">
                     <!-- Single-λ Calculator -->
-                    <TextBlock Text="Single-λ Calculator:" FontSize="16" TextDecorations="Underline"/>
-                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0" VerticalAlignment="Bottom">
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="10,0,0,0" VerticalAlignment="Center">
-                            <TextBlock Text="At λ [nm] = "/>
-                            <TextBox Text="{Binding Wavelength, Mode=TwoWay, NotifyOnValidationError=True}" VerticalContentAlignment="Bottom" Width="40"/>
+                    <TextBlock Text="Single-λ Calculator" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0,3,0,0"/>
+                    <!-- Multi-λ Calculator -->
+                    <StackPanel Orientation="Horizontal" Margin="3,0,0,0" VerticalAlignment="Bottom">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,0,0" VerticalAlignment="Center">
+                            <TextBlock Text="At λ [nm] = " VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                            <TextBox Text="{Binding Wavelength, Mode=TwoWay, NotifyOnValidationError=True}" 
+                                     VerticalContentAlignment="Bottom" Width="40" KeyDown="TextBox_KeyDown"/>
                         </StackPanel>
-                        <StackPanel Orientation="Vertical" Margin="3,0,0,0" HorizontalAlignment="Left" >
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,2,0,0">
+                        <Button input:CommandService.Command="Spec_UpdateWavelength"
+                                input:CommandService.CommandParameter="{Binding}"
+                                Margin="5,0,0,0" Height="25" VerticalAlignment="Center" 
+                                Content="Update" />
+                        <Grid Margin="5,0,0,0" HorizontalAlignment="Left" >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="0.5*"/>
+                                <ColumnDefinition Width="0.5*"/>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,0,0">
                                 <TextBlock Text="μ"/>
                                 <TextBlock Text="a" VerticalAlignment="Center" />
                                 <TextBlock Text=" [1/mm] = " Width="Auto" />
                                 <TextBlock Width="Auto" Text="{Binding Mua, Converter={StaticResource myDoubleToStringConverter}, ConverterParameter=N3}"/>
                             </StackPanel>
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,2,0,0">
+                            <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5,0,0,0">
                                 <TextBlock Text="μ"/>
                                 <TextBlock Text="s" VerticalAlignment="Center"/>
                                 <TextBlock Text="' [1/mm] = " />
                                 <TextBlock Width="Auto" Text="{Binding Musp,Converter={StaticResource myDoubleToStringConverter}, ConverterParameter=N3}"/>
                             </StackPanel>
-                        </StackPanel>
-                        <Button input:CommandService.Command="UpdateOpticalProperties"
-                                input:CommandService.CommandParameter="{Binding}"
-                                Margin="10,0,0,0" Height="25" VerticalAlignment="Center" 
-                                Content="Update" />
+                        </Grid>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
+                        <v:RangeView DataContext="{Binding WavelengthRangeVM}" Margin="0,3,0,0" VerticalAlignment="Top"/>
+                        <!-- Plot Buttons -->
+                        <Button 
+                            Command="{Binding PlotMuaSpectrumCommand}"
+                            Margin="10,2,0,0" Height="25" VerticalAlignment="Bottom" 
+                            Content="{Binding Path=MainResource.Button_PlotMua, Source={StaticResource LocalizedStrings}}"/>
+                        <Button
+                            Command="{Binding PlotMuspSpectrumCommand}"
+                            Margin="10,2,0,0" Height="25" VerticalAlignment="Bottom" 
+                            Content="{Binding Path=MainResource.Button_PlotMusPrime, Source={StaticResource LocalizedStrings}}"/>
                     </StackPanel>
                 </StackPanel>
             </StackPanel>

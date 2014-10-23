@@ -7,38 +7,37 @@
         <!-- Solver Engines -->
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="40"/>
-                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="72"/>
+                <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition/>
                 <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
             </Grid.RowDefinitions>
-            <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
-                       Text="{Binding Path=MainResource.Label_ForwardSolver, Source={StaticResource LocalizedStrings }}" 
-                       FontSize="12" FontWeight="Bold" Margin="3,3" VerticalAlignment="Center" />
-            <TextBlock Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
-                       Text="{Binding Path=MainResource.Label_InverseSolver, Source={StaticResource LocalizedStrings }}" 
-                       FontSize="12" FontWeight="Bold" Margin="3,3" VerticalAlignment="Center" />
-            <v:ComboBoxOptionView Grid.Row="1" Grid.Column="1"
+            <TextBlock Grid.Column="0" Grid.Row="0"
+                Text="{Binding Path=MainResource.Label_ForwardSolver, Source={StaticResource LocalizedStrings }}" 
+                FontWeight="Bold" Width="75" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+            <v:ComboBoxOptionView Grid.Column="1" Grid.Row="0"
                 DataContext="{Binding MeasuredForwardSolverTypeOptionVM}" 
-                HorizontalAlignment="Left" VerticalAlignment="Top" Margin="3,3" />
-            <v:ComboBoxOptionView  Grid.Row="3" Grid.Column="1"
+                HorizontalAlignment="Left" VerticalAlignment="Top" Margin="3,3,0,0"/>
+            <TextBlock Grid.Column="0" Grid.Row="1"
+                Text="{Binding Path=MainResource.Label_InverseSolver, Source={StaticResource LocalizedStrings }}" 
+                FontWeight="Bold" Width="75" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+            <v:ComboBoxOptionView Grid.Column="1" Grid.Row="1"
                 DataContext="{Binding InverseForwardSolverTypeOptionVM}"
-                HorizontalAlignment="Left" VerticalAlignment="Top" Margin="3,3" />
+                HorizontalAlignment="Left" VerticalAlignment="Top" Margin="3,3,0,0"/>
         </Grid>
+        
         <!-- Solution Domain -->
-        <v:SolutionDomainOptionView DataContext="{Binding SolutionDomainTypeOptionVM}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="3,3"/>
+        <v:SolutionDomainOptionView DataContext="{Binding SolutionDomainTypeOptionVM}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,3,0,0"/>
         <!-- Detection Parameters -->
-        <v:RangeView DataContext="{Binding RangeVM}" Margin="3,3"/>
+        <v:RangeView DataContext="{Binding RangeVM}" Margin="0,3,0,0"/>
         <!-- Optimization paramters -->
-        <v:RadioButtonOptionView DataContext="{Binding InverseFitTypeOptionVM}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="3,3"/>
+        <v:RadioButtonOptionView DataContext="{Binding InverseFitTypeOptionVM}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,3,0,0"/>
         <!-- Optimizer Type -->
-        <v:RadioButtonOptionView DataContext="{Binding OptimizerTypeOptionVM}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="3,3"/>
+        <v:RadioButtonOptionView DataContext="{Binding OptimizerTypeOptionVM}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,3,0,0"/>
         <!-- Optical Properties -->
-        <Grid  Margin="3,3">
+        <Grid  Margin="3,0,0,0">
             <Grid.RowDefinitions>
                 <RowDefinition/>
                 <RowDefinition/>
@@ -47,14 +46,16 @@
                 <ColumnDefinition Width="110"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
-            <!-- TODO: Need to put these TextBlocks into the resources -->
-            <StackPanel VerticalAlignment="Bottom" Grid.Row="0" Grid.Column="0">
+                <!-- TODO: Need to put these TextBlocks into the resources -->
+            <StackPanel VerticalAlignment="Bottom" Grid.Row="0" Grid.Column="0" Visibility="{Binding ShowOpticalProperties, Converter={StaticResource myBooleanToVisibilityConverter}}">
                 <TextBlock HorizontalAlignment="Left">Forward Simulation</TextBlock>
                 <TextBlock HorizontalAlignment="Left">Optical Properties:</TextBlock>
             </StackPanel>
-            <v:OpticalPropertyView Grid.Row="0" Grid.Column="1" DataContext="{Binding MeasuredOpticalPropertyVM}" />
+            <StackPanel Grid.Row="0" Grid.Column="1"  Visibility="{Binding ShowOpticalProperties, Converter={StaticResource myBooleanToVisibilityConverter}}">
+                <v:OpticalPropertyView DataContext="{Binding MeasuredOpticalPropertyVM}"/>
+            </StackPanel>
             <StackPanel VerticalAlignment="Bottom" Grid.Row="1" Grid.Column="0">
-                <TextBlock HorizontalAlignment="Left">Initial Guess</TextBlock>
+                <TextBlock HorizontalAlignment="Left">Initial Guess:</TextBlock>
                 <TextBlock HorizontalAlignment="Left">Optical Properties:</TextBlock>
             </StackPanel>
             <v:OpticalPropertyView DataContext="{Binding InitialGuessOpticalPropertyVM}" Grid.Row="1" Grid.Column="1"/>

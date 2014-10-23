@@ -199,6 +199,24 @@ xlabel('\rho [mm]')
 ylabel('z [mm]')
 set(f,'Name','PHD of Rho and z');
 
+%% Example PHDOfRhoAndZTwoLayer
+% Evaluate Photon Hitting Density in cylindrical coordinates
+% using one set of optical properties and a distributed gaussian source SDA
+% solver type.
+
+op = [[0.01 1 0.8 1.4];[0.1 1 0.8 1.4]];
+rhos = linspace(0.1,19.9,100); % s-d separation, in mm
+zs = linspace(0.1,19.9,100); % z range in mm
+
+test = VtsSolvers.PHDOfRhoAndZTwoLayer(op, rhos, zs, 10, 5);
+
+f = figure; imagesc(rhos, zs, log(test));
+axis image;
+title('Photon Hitting Density of \rho and z'); 
+xlabel('\rho [mm]')
+ylabel('z [mm]')
+set(f,'Name','PHD of Rho and z');
+
 %% Example AbsorbedEnergyOfRhoAndZ
 % Evaluate Absorbed Energy of rho and z using one set of optical properties 
 % and a point source SDA solver type.
@@ -504,3 +522,121 @@ disp(sprintf('Conv =    [%5.3f %5.3f %5.3f] Chi2=%5.3e',recoveredConc(1),recover
     (measData-recovered)*(measData-recovered)'));
 disp(sprintf('error =   [%5.3f %5.3f %5.3f]',abs(measData(1)-recovered(1))/measData(1),...
     abs(measData(2)-recovered(2))/measData(2),abs(measData(3)-recovered(3))/measData(3)));
+%% Example ROfRho for a two-layer tissue (multiple rho)
+clear op
+layerThickness = 2;  % units: mm
+
+opsA = [0.01 1 0.8 1.4; 0.01 1 0.8 1.4]; % top/bottom layer OPs case 1
+opsB = [0.02 1 0.8 1.4; 0.01 1 0.8 1.4]; % top/bottom layer OPs case 2
+opsC = [0.03 1 0.8 1.4; 0.01 1 0.8 1.4]; % top/bottom layer OPs case 3
+op(1,:,:) = [opsA];
+op(2,:,:) = [opsB];
+op(3,:,:) = [opsC];
+
+rho = 0.5:0.05:9.5; %s-d separation, in mm
+test = VtsSolvers.ROfRhoTwoLayer(op, layerThickness, rho);
+f = figure; semilogy(rho, test);
+set(f,'Name','R of Rho');
+% create the legend with just the mua value from the top layer optical properties
+options = [{'FontSize', 12}; {'Location', 'NorthEast'}];
+PlotHelper.CreateLegend(op(:,1), 'top \mu_a: ', 'mm^-^1', options);
+title('2-Layer Reflectance vs \rho for various top Layer OPs'); 
+ylabel('R(\rho)');
+xlabel('\rho');
+%% Example ROfRhoAndTime for a two-layer tissue (multiple time)
+clear op
+layerThickness = 2;  % units: mm
+% 
+% opsA = [0.01 1 0.8 1.4; 0.01 1 0.8 1.4]; % top/bottom layer OPs case 1
+% opsB = [0.02 1 0.8 1.4; 0.01 1 0.8 1.4]; % top/bottom layer OPs case 2
+% opsC = [0.03 1 0.8 1.4; 0.01 1 0.8 1.4]; % top/bottom layer OPs case 3
+% op(1,:,:) = [opsA];
+% op(2,:,:) = [opsB];
+% op(3,:,:) = [opsC];
+
+wv = 650:100:850;
+
+% create a list of chromophore absorbers and their concentrations
+absorbers.Names =           {'HbO2', 'Hb', 'H2O'};
+absorbers.Concentrations =  [70,     30,   0.8  ];
+
+% create a scatterer (PowerLaw, Intralipid, or Mie)
+scatterer.Type = 'PowerLaw';
+scatterer.A = 1.2;
+scatterer.b = 1.42;
+
+opBottomLayer = VtsSpectroscopy.GetOP(absorbers, scatterer, wv);
+% get OPs at first wavelength and perturb top layer mua by factor 1.1
+opsA = [opBottomLayer(1,1) opBottomLayer(1,2) opBottomLayer(1,3) opBottomLayer(1,4);
+      1.1*opBottomLayer(1,1) opBottomLayer(1,2) opBottomLayer(1,3) opBottomLayer(1,4)];
+% get OPs at first wavelength and perturb top layer mua
+opsB = [opBottomLayer(2,1) opBottomLayer(2,2) opBottomLayer(2,3) opBottomLayer(2,4);
+      1.1*opBottomLayer(2,1) opBottomLayer(2,2) opBottomLayer(2,3) opBottomLayer(2,4)];
+% get OPs at first wavelength and perturb top layer mua
+opsC = [opBottomLayer(3,1) opBottomLayer(3,2) opBottomLayer(3,3) opBottomLayer(3,4);
+      1.1*opBottomLayer(3,1) opBottomLayer(3,2) opBottomLayer(3,3) opBottomLayer(3,4)];
+op(1,:,:) = [opsA];
+op(2,:,:) = [opsB];
+op(3,:,:) = [opsC];
+  
+rho = 10; %s-d separation, in mm
+t = 0:0.001:0.5; % range of times in ns
+test = VtsSolvers.ROfRhoAndTimeTwoLayer(op, layerThickness, rho, t);
+f = figure; plot(t, squeeze(test));
+set(f,'Name','R of Rho and t');
+% create the legend with just the mua value from the optical properties
+options = [{'FontSize', 12}; {'Location', 'NorthEast'}];
+%PlotHelper.CreateLegend(op(:,1), 'top \mu_a: ', 'mm^-^1', options);
+PlotHelper.CreateLegend(wv(1,:), '', 'nm', options);
+title('2-Layer Reflectance vs time for various top Layer OPs'); 
+ylabel('R(t)');
+xlabel('Time, t [ns]');
+
+%% Example ROfRhoAndFt for a two-layer tissue (multiple ft)
+% Evaluate reflectance as a function of rho and temporal-frequency with one 
+% set of optical properites.
+clear op
+layerThickness = 2;  % units: mm
+
+opsA = [0.01 1 0.8 1.4; 0.01 1 0.8 1.4]; % top/bottom layer OPs case 1
+opsB = [0.02 1 0.8 1.4; 0.01 1 0.8 1.4]; % top/bottom layer OPs case 2
+opsC = [0.03 1 0.8 1.4; 0.01 1 0.8 1.4]; % top/bottom layer OPs case 3
+op(1,:,:) = [opsA];
+op(2,:,:) = [opsB];
+op(3,:,:) = [opsC];
+
+rho = 10; % s-d separation, in mm
+ft = 0:0.01:0.5; % range of temporal frequencies in GHz
+
+test = VtsSolvers.ROfRhoAndFtTwoLayer(op, layerThickness, rho, ft);
+
+f = figure;
+set(f, 'OuterPosition', [100, 50, 600, 800]);
+subplot(3,1,1); 
+plot(ft, [real(squeeze(test(1,:,:))) -imag(squeeze(test(1,:,:)))],...
+     ft, [real(squeeze(test(2,:,:))) -imag(squeeze(test(2,:,:)))],...
+     ft, [real(squeeze(test(3,:,:))) -imag(squeeze(test(3,:,:)))]);
+title('2-Layer Reflectance vs f_t'); 
+ylabel('R(f_t)');
+xlabel('f_t');
+lgnd = legend('Real','Imaginary');
+set(lgnd,'FontSize',12);
+subplot(3,1,2); 
+plot(ft, abs(squeeze(test(1,:,:))),...
+     ft, abs(squeeze(test(2,:,:))),...
+     ft, abs(squeeze(test(3,:,:))));
+title('2-Layer Reflectance amplitude vs f_t'); 
+options = [{'FontSize', 12}; {'Location', 'NorthEast'}];
+PlotHelper.CreateLegend(op(:,1), 'top \mu_a: ', 'mm^-^1', options);
+ylabel('R(f_t) Amplitude');
+xlabel('f_t');
+subplot(3,1,3); 
+plot(ft, -angle(squeeze(test(1,:,:))),...
+     ft, -angle(squeeze(test(2,:,:))),...
+     ft, -angle(squeeze(test(3,:,:))));
+title('2-Layer Reflectance phase vs f_t'); 
+ylabel('R(f_t) Phase');
+xlabel('f_t');
+set(f,'Name','Frequency-domain reflectance');
+options = [{'FontSize', 12}; {'Location', 'NorthEast'}];
+PlotHelper.CreateLegend(op(:,1), 'top \mu_a: ', 'mm^-^1', options);

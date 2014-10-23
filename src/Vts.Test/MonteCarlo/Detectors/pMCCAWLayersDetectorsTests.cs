@@ -1,14 +1,15 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
+using System.Collections.Generic;
 using NUnit.Framework;
 using Vts.Common;
 using Vts.MonteCarlo;
+using Vts.MonteCarlo.Detectors;
 using Vts.MonteCarlo.Helpers;
 using Vts.MonteCarlo.PhaseFunctionInputs;
-using Vts.MonteCarlo.PhotonData;
-using Vts.MonteCarlo.PostProcessing;
 using Vts.MonteCarlo.Tissues;
+using Vts.MonteCarlo.PostProcessing;
+using Vts.MonteCarlo.PhotonData;
 
 namespace Vts.Test.MonteCarlo.Detectors
 {
@@ -42,21 +43,21 @@ namespace Vts.Test.MonteCarlo.Detectors
         public void execute_reference_Monte_Carlo()
         {
             // make sure databases generated from previous tests are deleted
-            if (File.Exists("DiffuseReflectanceDatabase.xml"))
+            if (File.Exists("pMCCAWLayers_DiffuseReflectanceDatabase.txt"))
             {
-                File.Delete("DiffuseReflectanceDatabase.xml");
+                File.Delete("pMCCAWLayers_DiffuseReflectanceDatabase.txt");
             }
-            if (File.Exists("DiffuseReflectanceDatabase"))
+            if (File.Exists("pMCCAWLayers_DiffuseReflectanceDatabase"))
             {
-                File.Delete("DiffuseReflectanceDatabase");
+                File.Delete("pMCCAWLayers_DiffuseReflectanceDatabase");
             }
-            if (File.Exists("CollisionInfoDatabase.xml"))
+            if (File.Exists("pMCCAWLayers_CollisionInfoDatabase.txt"))
             {
-                File.Delete("CollisionInfoDatabase.xml");
+                File.Delete("pMCCAWLayers_CollisionInfoDatabase.txt");
             }
-            if (File.Exists("CollisionInfoDatabase"))
+            if (File.Exists("pMCCAWLayers_CollisionInfoDatabase"))
             {
-                File.Delete("CollisionInfoDatabase");
+                File.Delete("pMCCAWLayers_CollisionInfoDatabase");
             }
 
             // generate reference database for two layer tissue
@@ -74,7 +75,6 @@ namespace Vts.Test.MonteCarlo.Detectors
                 AbsorptionWeightingType.Continuous,
                 //PhaseFunctionType.HenyeyGreenstein,
                 new List<DatabaseType>() { DatabaseType.pMCDiffuseReflectance },
-                true, // tally 2nd moment
                 false, // track statistics
                 0.0, // RR threshold -> 0 = no RR performed
                 0);
@@ -84,10 +84,8 @@ namespace Vts.Test.MonteCarlo.Detectors
                     1);
             var detectorInputs = new List<IDetectorInput>()
             {
-                new ROfRhoDetectorInput(new DoubleRange(0.0, 10.0, 101)),
-                new ROfRhoAndTimeDetectorInput(
-                    new DoubleRange(0.0, 10.0, 101),
-                    new DoubleRange(0.0, 1.0, 101)),
+                new ROfRhoDetectorInput() {Rho=new DoubleRange(0.0, 10.0, 101)},
+                new ROfRhoAndTimeDetectorInput() {Rho=new DoubleRange(0.0, 10.0, 101),Time=new DoubleRange(0.0, 1.0, 101)}                   
             };
 
             MultiLayerTissueInput ti = new MultiLayerTissueInput(
@@ -141,17 +139,18 @@ namespace Vts.Test.MonteCarlo.Detectors
                 VirtualBoundaryType.pMCDiffuseReflectance,
                 new List<IDetectorInput>()
                 {
-                    new pMCROfRhoAndTimeDetectorInput(
-                        new DoubleRange(0.0, 10.0, 101),
-                        new DoubleRange(0.0, 1.0, 101),
-                        new List<OpticalProperties>() { // perturbed ops
+                    new pMCROfRhoAndTimeDetectorInput()
+                    {
+                        Rho=new DoubleRange(0.0, 10.0, 101),
+                        Time=new DoubleRange(0.0, 1.0, 101),
+                        PerturbedOps=new List<OpticalProperties>() { // perturbed ops
                             _referenceInputTwoLayerTissue.TissueInput.Regions[0].RegionOP,
                             _referenceInputTwoLayerTissue.TissueInput.Regions[1].RegionOP,
                             _referenceInputTwoLayerTissue.TissueInput.Regions[2].RegionOP,
                             _referenceInputTwoLayerTissue.TissueInput.Regions[3].RegionOP},
-                        new List<int>() { 1 })
+                        PerturbedRegionsIndices=new List<int>() { 1 }
+                    }
                 },
-                false,
                 _databaseTwoLayerTissue,
                 _referenceInputTwoLayerTissue);
             var postProcessedOutput = postProcessor.Run();

@@ -74,6 +74,7 @@ namespace Vts.SpectralMapping
             TissueType = tissueType;
             Absorbers = TissueProvider.CreateAbsorbers(tissueType);
             Scatterer = TissueProvider.CreateScatterer(tissueType);
+            N = 1.4;
         }
         
         /// <summary>
@@ -142,6 +143,21 @@ namespace Vts.SpectralMapping
             var g = GetG(wavelength);
             var n = N;
             return new OpticalProperties(mua, musp, g, n);
+        }
+
+        /// <summary>
+        /// Returns the optical properties for a given wavelength
+        /// </summary>
+        /// <param name="wavelength">Wavelength</param>
+        /// <returns>The optical properties</returns>
+        public OpticalProperties[] GetOpticalProperties(double[] wavelengths)
+        {
+            var opArray = new OpticalProperties[wavelengths.Length];
+            for (int i = 0; i < wavelengths.Length; i++)
+            {
+                opArray[i] = GetOpticalProperties(wavelengths[i]);
+            }
+            return opArray;
         }
     }
 

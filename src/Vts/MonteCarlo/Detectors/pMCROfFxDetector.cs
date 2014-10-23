@@ -1,75 +1,90 @@
 using System;
 using System.Linq;
+using System.Numerics;
 using MathNet.Numerics;
 using System.Runtime.Serialization;
 using Vts.Common;
+using Vts.IO;
 using Vts.MonteCarlo.PhotonData;
-using Vts.MonteCarlo.Tissues;
 
 namespace Vts.MonteCarlo.Detectors
 {
     /// <summary>
-    /// Implements IDetector&lt;Complex[]&gt;.  Tally for pMC estimation of reflectance 
-    /// as a function of Fx.
+    /// Tally for pMC estimation of reflectance as a function of Fx.
     /// </summary>
-    [KnownType(typeof(pMCROfFxDetector))]
-    public class pMCROfFxDetector : IDetector<Complex[]>
+    public class pMCROfFxDetectorInput : DetectorInput, IDetectorInput
+    {
+        /// <summary>
+        /// constructor for pMC reflectance as a function of Fx detector input
+        /// </summary>
+        public pMCROfFxDetectorInput()
+        {
+            TallyType = "pMCROfFx";
+            Name = "pMCROfFx";
+            Fx = new DoubleRange(0.0, 10, 101);
+
+            // modify base class TallyDetails to take advantage of built-in validation capabilities (error-checking)
+            TallyDetails.IspMCReflectanceTally = true;
+        }
+        /// <summary>
+        /// detector Fx binning
+        /// </summary>
+        public DoubleRange Fx { get; set; }
+        /// <summary>
+        /// list of perturbed OPs listed in order of tissue regions
+        /// </summary>
+        public OpticalProperties[] PerturbedOps { get; set; }
+        /// <summary>
+        /// list of perturbed regions indices
+        /// </summary>
+        public int[] PerturbedRegionsIndices { get; set; }
+
+        public IDetector CreateDetector()
+        {
+            return new pMCROfFxDetector
+            {
+                // required properties (part of DetectorInput/Detector base classes)
+                TallyType = this.TallyType,
+                Name = this.Name,
+                TallySecondMoment = this.TallySecondMoment,
+                TallyDetails = this.TallyDetails,
+
+                // optional/custom detector-specific properties
+                Fx = this.Fx,
+                PerturbedOps = this.PerturbedOps,
+                PerturbedRegionsIndices = this.PerturbedRegionsIndices,
+            };
+        }
+    }
+    /// <summary>
+    /// Implements IDetector.  Tally for pMC reflectance as a function  of Fx.
+    /// This implementation works for DAW and CAW processing.
+    /// </summary>
+    public class pMCROfFxDetector : Detector, IDetector
     {
         private double[] _fxArray;
-        private OpticalProperties[] _perturbedOps;
         private OpticalProperties[] _referenceOps;
+        private OpticalProperties[] _perturbedOps;
         private int[] _perturbedRegionsIndices;
-        private bool _tallySecondMoment;
         private Func<long[], double[], OpticalProperties[], OpticalProperties[], int[], double> _absorbAction;
 
+        /* ==== Place optional/user-defined input properties here. They will be saved in text (JSON) format ==== */
+        /* ==== Note: make sure to copy over all optional/user-defined inputs from corresponding input class ==== */
         /// <summary>
-        /// constructor for perturbation Monte Carlo reflectance as a function of spatial frequency input
+        /// Fx binning
         /// </summary>
-        /// <param name="fx">fx binning</param>
-        /// <param name="tissue">tissue definition</param>
-        /// <param name="perturbedOps">list of perturbed optical properties, indexing matches tissue indexing</param>
-        /// <param name="perturbedRegionIndices">list of perturbed tissue region indices, indexing matches tissue indexing</param>
-        /// <param name="tallySecondMoment">flag indicating whether to tally second moment info for error results</param>
-        /// <param name="name">detector name</param>
-        public pMCROfFxDetector(
-            DoubleRange fx,
-            ITissue tissue,
-            OpticalProperties[] perturbedOps,
-            int[] perturbedRegionIndices,
-            bool tallySecondMoment,
-            String name)
-        {
-            Fx = fx;
-            _fxArray = fx.AsEnumerable().ToArray();
-            _tallySecondMoment = tallySecondMoment;
-            Mean = new Complex[Fx.Count];
-            SecondMoment = null;
-            if (_tallySecondMoment)
-            {
-                SecondMoment = new Complex[Fx.Count];
-            }
-            TallyType = TallyType.pMCROfFx;
-            Name = name;
-            _perturbedOps = perturbedOps;
-            _referenceOps = tissue.Regions.Select(r => r.RegionOP).ToArray();
-            _perturbedRegionsIndices = perturbedRegionIndices;
-            _absorbAction = AbsorptionWeightingMethods.GetpMCTerminationAbsorptionWeightingMethod(tissue, this);
-            TallyCount = 0;
-        }
+        public DoubleRange Fx { get; set; }
+        /// <summary>
+        /// list of perturbed OPs listed in order of tissue regions
+        /// </summary>
+        public OpticalProperties[] PerturbedOps { get; set; }
+        /// <summary>
+        /// list of perturbed regions indices
+        /// </summary>
+        public int[] PerturbedRegionsIndices { get; set; }
 
-        /// <summary>
-        /// Returns a default instance of pMCROfFxDetector (for serialization purposes only)
-        /// </summary>
-        public pMCROfFxDetector()
-            : this(
-            new DoubleRange(),
-            new MultiLayerTissue(),
-            new OpticalProperties[0],
-            new int[0], 
-            true, // tallySecondMoment
-            TallyType.pMCROfFx.ToString())
-        {
-        }
+        /* ==== Place user-defined output arrays here. They should be prepended with "[IgnoreDataMember]" attribute ==== */
+        /* ==== Then, GetBinaryArrays() should be implemented to save them separately in binary format ==== */
         /// <summary>
         /// detector mean
         /// </summary>
@@ -80,22 +95,30 @@ namespace Vts.MonteCarlo.Detectors
         /// </summary>
         [IgnoreDataMember]
         public Complex[] SecondMoment { get; set; }
+
+        /* ==== Place optional/user-defined output properties here. They will be saved in text (JSON) format ==== */
         /// <summary>
-        /// detector identifier
-        /// </summary>
-        public TallyType TallyType { get; set; }
-        /// <summary>
-        /// detector name, default uses TallyType, but can be user specified
-        /// </summary>
-        public String Name { get; set; }
-        /// <summary>
-        /// number of time detector gets tallied to
+        /// number of times detector gets tallied to
         /// </summary>
         public long TallyCount { get; set; }
-        /// <summary>
-        /// rho binning
-        /// </summary>
-        public DoubleRange Fx { get; set; }
+
+        public void Initialize(ITissue tissue)
+        {
+            // assign any user-defined outputs (except arrays...we'll make those on-demand)
+            TallyCount = 0;
+
+            // if the data arrays are null, create them (only create second moment if TallySecondMoment is true)
+            Mean = Mean ?? new Complex[Fx.Count];
+            SecondMoment = SecondMoment ?? (TallySecondMoment ? new Complex[Fx.Count] : null);
+
+            // intialize any other necessary class fields here
+            _perturbedOps = PerturbedOps;
+            _perturbedRegionsIndices = PerturbedRegionsIndices;
+            _referenceOps = tissue.Regions.Select(r => r.RegionOP).ToArray();
+            TallyCount = 0;
+            _absorbAction = AbsorptionWeightingMethods.GetpMCTerminationAbsorptionWeightingMethod(tissue, this);
+            _fxArray = Fx.AsEnumerable().ToArray();
+        }
 
         /// <summary>
         /// method to tally to detector
@@ -104,15 +127,13 @@ namespace Vts.MonteCarlo.Detectors
         public void Tally(Photon photon)
         {
             var dp = photon.DP;
-
             var x = dp.Position.X;
 
             double weightFactor = _absorbAction(
                 photon.History.SubRegionInfoList.Select(c => c.NumberOfCollisions).ToArray(),
                 photon.History.SubRegionInfoList.Select(p => p.PathLength).ToArray(),
-                _perturbedOps,
-                _referenceOps,
-                _perturbedRegionsIndices);
+                _perturbedOps, _referenceOps, _perturbedRegionsIndices);
+
 
             for (int ifx = 0; ifx < _fxArray.Length; ++ifx)
             {
@@ -127,7 +148,7 @@ namespace Vts.MonteCarlo.Detectors
                 var deltaWeight = (weightFactor * dp.Weight) * (cosNegativeTwoPiFX + Complex.ImaginaryOne * sinNegativeTwoPiFX);
 
                 Mean[ifx] += deltaWeight;
-                if (_tallySecondMoment)
+                if (TallySecondMoment)
                 {
                     var deltaWeight2 =
                         weightFactor * weightFactor * dp.Weight * dp.Weight * cosNegativeTwoPiFX * cosNegativeTwoPiFX +
@@ -137,6 +158,7 @@ namespace Vts.MonteCarlo.Detectors
                 }
             }
             TallyCount++;
+            
         }
 
         /// <summary>
@@ -148,15 +170,69 @@ namespace Vts.MonteCarlo.Detectors
             for (int ifx = 0; ifx < Fx.Count; ifx++)
             {
                 Mean[ifx] /= numPhotons;
-                if (_tallySecondMoment)
+                // the above is pi(rmax*rmax-rmin*rmin) * FxDelta * N
+                if (TallySecondMoment)
                 {
                     SecondMoment[ifx] /= numPhotons;
                 }
             }
         }
 
+        // this is to allow saving of large arrays separately as a binary file
+        public BinaryArraySerializer[] GetBinarySerializers() // NEED TO ASK DC: about complex array implementation
+        {
+            return new[] {
+                new BinaryArraySerializer {
+                    DataArray = Mean,
+                    Name = "Mean",
+                    FileTag = "",
+                    WriteData = binaryWriter => {
+                        for (int i = 0; i < Fx.Count; i++) {
+                                binaryWriter.Write(Mean[i].Real);
+                                binaryWriter.Write(Mean[i].Imaginary);
+                        }
+                    },
+                    ReadData = binaryReader => {
+                        Mean = Mean ?? new Complex[ Fx.Count ];
+                        for (int i = 0; i <  Fx.Count; i++) {
+                            {
+                                var real = binaryReader.ReadDouble();
+                                var imag = binaryReader.ReadDouble();
+                                Mean[i] = new Complex(real, imag);
+                            }
+                        }
+                    }
+                },
+                // return a null serializer, if we're not serializing the second moment
+                !TallySecondMoment ? null :  new BinaryArraySerializer {
+                    DataArray = SecondMoment,
+                    Name = "SecondMoment",
+                    FileTag = "_2",
+                    WriteData = binaryWriter => {
+                        if (!TallySecondMoment || SecondMoment == null) return;
+                        for (int i = 0; i < Fx.Count; i++) {
+                            {
+                                binaryWriter.Write(SecondMoment[i].Real);
+                                binaryWriter.Write(SecondMoment[i].Imaginary);
+                            }                            
+                        }
+                    },
+                    ReadData = binaryReader => {
+                        if (!TallySecondMoment || SecondMoment == null) return;
+                        SecondMoment = new Complex[ Fx.Count ];
+                        for (int i = 0; i < Fx.Count; i++) {
+                            {
+                                var real = binaryReader.ReadDouble();
+                                var imag = binaryReader.ReadDouble();
+                                SecondMoment[i] = new Complex(real, imag);
+                            }                       
+			            }
+                    },
+                },
+            };
+        }
         /// <summary>
-        /// method to determine if photon within detector
+        /// Method to determine if photon is within detector
         /// </summary>
         /// <param name="dp">photon data point</param>
         /// <returns>method always returns true</returns>

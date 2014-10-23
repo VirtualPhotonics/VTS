@@ -9,7 +9,7 @@
     HorizontalAlignment="Left" VerticalAlignment="Top">
     <StackPanel Background="White">
         <!-- Chart control for the plot -->
-        <charting:Chart x:Name="myChart" Width="515"  Height="400" Background="White"
+        <charting:Chart x:Name="myChart" Width="515"  Height="400" Background="White" FontSize="12"
                 vm:ChartHelper.DependentValueBinding="Y"
                 vm:ChartHelper.IndependentValueBinding="X"
                 vm:ChartHelper.Title="TitlePropertyOnCollection"
@@ -46,7 +46,7 @@
                         <TextBlock Text="{Binding Path=MainResource.Label_YAxisSpacing, Source={StaticResource LocalizedStrings}}" VerticalAlignment="Center"/>
                         <v:RadioButtonOptionView DataContext="{Binding YAxisSpacingOptionVM}" />
                     </StackPanel>
-                    <StackPanel Orientation="Horizontal" Margin="0" Visibility="{Binding IsComplexPlot, Converter={StaticResource myBooleanToVisibilityConverter}}">
+                    <StackPanel Orientation="Horizontal" Margin="0" Visibility="{Binding ShowComplexPlotToggle, Converter={StaticResource myBooleanToVisibilityConverter}}">
                         <TextBlock Text="{Binding Path=MainResource.Label_PlotToggle, Source={StaticResource LocalizedStrings}}" VerticalAlignment="Center"/>
                         <v:RadioButtonOptionView DataContext="{Binding PlotToggleTypeOptionVM}" />
                     </StackPanel>
@@ -60,13 +60,14 @@
                     <!-- Plot Label -->
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="{Binding Path=MainResource.Label_PlotLabel, Source={StaticResource LocalizedStrings}}" VerticalAlignment="Center" Margin="0,0,4,0" />
-                        <TextBox Width="100" Text="{Binding CustomPlotLabel, Mode=TwoWay}"/>
+                        <TextBox Width="100" Text="{Binding CustomPlotLabel, Mode=TwoWay}" KeyDown="TextBox_KeyDown"/>
                     </StackPanel>
                     <!-- Buttons for exporting results -->
                     <Button Content="{Binding Path=MainResource.Button_ExportImage, Source={StaticResource LocalizedStrings}}" 
-                        Click="Button_Click"
+                        Click="ExportImage_Click"
                         Margin="0,5,0,0"/>
-                    <Button Command="{Binding ExportDataToTextCommand}"
+                    <Button 
+                        Command="{Binding ExportDataToTextCommand}"
                         Content="{Binding Path=MainResource.Button_ExportData, Source={StaticResource LocalizedStrings}}"  
                         Margin="0,5,0,0"/>
                 </StackPanel>
@@ -77,9 +78,9 @@
                 <ContentControl IsEnabled="{Binding ManualScaleX}">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="{Binding Path=MainResource.Label_MinX, Source={StaticResource LocalizedStrings}}" Margin="3"  VerticalAlignment="Center" />
-                        <TextBox Text="{Binding MinXValue, Mode=TwoWay, StringFormat={StaticResource ScientificFormat}}" VerticalAlignment="Center" Width="52" Margin="0,4"/>
+                        <TextBox Text="{Binding MinXValue, Mode=TwoWay, StringFormat={StaticResource ScientificFormat}}" VerticalAlignment="Center" Width="52" Margin="0,4" KeyDown="TextBox_KeyDown"/>
                         <TextBlock Text="{Binding Path=MainResource.Label_MaxX, Source={StaticResource LocalizedStrings}}" Margin="3"  VerticalAlignment="Center" />
-                        <TextBox Text="{Binding MaxXValue, Mode=TwoWay, StringFormat={StaticResource ScientificFormat}}" VerticalAlignment="Center" Width="52" Margin="0,4"/>
+                        <TextBox Text="{Binding MaxXValue, Mode=TwoWay, StringFormat={StaticResource ScientificFormat}}" VerticalAlignment="Center" Width="52" Margin="0,4" KeyDown="TextBox_KeyDown"/>
                     </StackPanel>
                 </ContentControl>
                 
@@ -87,9 +88,9 @@
                 <ContentControl IsEnabled="{Binding ManualScaleY}" HorizontalContentAlignment="Right">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="{Binding Path=MainResource.Label_MinY, Source={StaticResource LocalizedStrings}}" Margin="3"  VerticalAlignment="Center" />
-                        <TextBox Text="{Binding MinYValue, Mode=TwoWay, StringFormat={StaticResource ScientificFormat}}" VerticalAlignment="Center" Width="52" Margin="0,4"/>
+                        <TextBox Text="{Binding MinYValue, Mode=TwoWay, StringFormat={StaticResource ScientificFormat}}" VerticalAlignment="Center" Width="52" Margin="0,4" KeyDown="TextBox_KeyDown"/>
                         <TextBlock Text="{Binding Path=MainResource.Label_MaxY, Source={StaticResource LocalizedStrings}}" Margin="3" VerticalAlignment="Center" />
-                        <TextBox Text="{Binding MaxYValue, Mode=TwoWay, StringFormat={StaticResource ScientificFormat}}" VerticalAlignment="Center" Width="52" Margin="0,4"/>
+                        <TextBox Text="{Binding MaxYValue, Mode=TwoWay, StringFormat={StaticResource ScientificFormat}}" VerticalAlignment="Center" Width="52" Margin="0,4" KeyDown="TextBox_KeyDown"/>
                     </StackPanel>
                 </ContentControl>
             </StackPanel>

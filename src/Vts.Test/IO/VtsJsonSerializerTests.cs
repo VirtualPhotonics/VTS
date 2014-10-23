@@ -4,6 +4,7 @@ using NUnit.Framework;
 using Vts.Common;
 using Vts.IO;
 using Vts.MonteCarlo;
+using Vts.MonteCarlo.Sources.SourceProfiles;
 using Vts.MonteCarlo.Tissues;
 
 namespace Vts.Test.IO
@@ -273,6 +274,23 @@ namespace Vts.Test.IO
             Assert.IsTrue(areRoughlyEqual(region1Deserialized.RegionOP.Musp, 1.11));
             Assert.IsTrue(areRoughlyEqual(region1Deserialized.RegionOP.G, 0.999));
             Assert.IsTrue(areRoughlyEqual(region1Deserialized.RegionOP.N, 1.444));
+        }
+        /// <summary>
+        /// test to verify serialization and deserialization of gaussiansourceprofile runs successfully
+        /// </summary>
+        [Test]
+        public void validate_serialization_and_deserialization_of_gaussiansourceprofile_runs_successfully()
+        {
+            var source = new Vts.MonteCarlo.CustomCircularSourceInput
+            {
+                SourceProfile = new GaussianSourceProfile(),
+            };
+
+            var sourceSerialized = VtsJsonSerializer.WriteToJson(source);
+
+            var sourceDeserialized = VtsJsonSerializer.ReadFromJson<CustomCircularSourceInput>(sourceSerialized);
+
+            Assert.IsTrue(sourceDeserialized.SourceProfile.SourceProfileType == SourceProfileType.Gaussian);
         }
     }
 }

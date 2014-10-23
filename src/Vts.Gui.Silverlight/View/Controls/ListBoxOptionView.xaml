@@ -19,28 +19,6 @@
             ValueMemberPath="Value"
             DisplayMemberPath="DisplayName"
             Height="25">
-
-            <!--<ComboBox.ItemTemplate>-->
-                <!--<DataTemplate>
-                    <ComboBoxItem IsSelected="{Binding IsSelected, Mode=TwoWay}">
-                        <TextBlock Text="{Binding DisplayName}"/>
-                    </ComboBoxItem>
-                </DataTemplate>-->
-                <!--<DataTemplate>
-                    <RadioButton VerticalAlignment="Top"
-                        Tag="{Binding ID}"
-                        Content="{Binding DisplayName}"
-                        IsChecked="{Binding IsSelected, Mode=TwoWay}"
-                        GroupName="{Binding GroupName}"
-                        Margin="2,3.5" />
-                </DataTemplate>
-            </ComboBox.ItemTemplate>-->
         </v:ListBox>
-
-        <!--<this:ComboBox Name="ProductCategoryComboBox"
-               ItemsSource="{Binding Source={StaticResource ProductCategories},Path=Data}"
-               SelectedValue="{Binding Path=CategoryId, Mode=TwoWay}"
-               ValueMemberPath="Key"
-               DisplayMemberPath="Value"/>-->
     </StackPanel>
 </UserControl>

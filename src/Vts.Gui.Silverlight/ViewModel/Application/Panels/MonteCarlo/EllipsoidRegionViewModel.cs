@@ -13,14 +13,7 @@ namespace Vts.Gui.Silverlight.ViewModel
         public EllipsoidRegionViewModel(EllipsoidRegion region, string name)
         {
             _region = region;
-            if (string.IsNullOrEmpty(name))
-            {
-                _name = _region.IsAir() ? "Air" : "Tissue";
-            }
-            else
-            {
-                _name = name;
-            }
+            _name = name ?? "";
             _opticalPropertyVM = new OpticalPropertyViewModel(_region.RegionOP, "mm-1", "", true, true,true, false);
         }
 
@@ -30,7 +23,7 @@ namespace Vts.Gui.Silverlight.ViewModel
 
         public string Name
         {
-            get { return _name; }
+            get { return _name + (_region.IsAir() ? " (Air)" : " (Tissue)"); }
             set
             {
                 _name = value;

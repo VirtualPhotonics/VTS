@@ -25,7 +25,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
             {
                 if (string.IsNullOrEmpty(inputFile))
                 {
-                    logger.Info(" *** No input file specified ***\n\t\tDefine an input file using mc.exe infile=infile_name.xml or mc.exe infile=infile_name.txt");
+                    logger.Info(" *** No input file specified ***\n\nDefine an input file using mc.exe infile=infile_name.txt");
                     return null;
                 }
 
@@ -35,19 +35,14 @@ namespace Vts.MonteCarlo.CommandLineApplication
 
                 if (File.Exists(fullFilePath))
                 {
-                    if (extension == ".xml")
-                    {
-                        return SimulationInput.FromXMLFile(fullFilePath);
-                    }
-                    return SimulationInput.FromJsonFile(fullFilePath);       
+                    return SimulationInput.FromFile(fullFilePath);       
                 }
 
-                if (File.Exists(fullFilePath + ".xml"))
+                if (File.Exists(fullFilePath + ".txt"))
                 {
-                    return SimulationInput.FromXMLFile(fullFilePath + ".xml");
+                    return SimulationInput.FromFile(fullFilePath + ".txt");
                 }
-                return SimulationInput.FromJsonFile(fullFilePath + ".txt");
-         
+
                 //throw a file not found exception
                 throw new FileNotFoundException("\nThe following input file could not be found: " + fullFilePath + " - type mc help=infile for correct syntax");
             }
@@ -159,9 +154,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
 
             SimulationOutput detectorResults = mc.Run();
 
-            // write to xml and json check with DC if we should write to both, same question for MCSolverVM
-            input.ToXMLFile(Path.Combine(resultsFolder, input.OutputName + ".xml"));
-            input.ToJsonFile(Path.Combine(resultsFolder, input.OutputName + ".txt"));
+            input.ToFile(Path.Combine(resultsFolder, input.OutputName + ".txt"));
 
             foreach (var result in detectorResults.ResultsDictionary.Values)
             {

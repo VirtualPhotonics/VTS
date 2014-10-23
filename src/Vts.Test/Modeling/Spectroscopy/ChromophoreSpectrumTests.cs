@@ -17,9 +17,9 @@ namespace Vts.Test.Modeling.Spectroscopy
         [SetUp]
         public void clear_folders_and_files()
         {
-            if (FileIO.FileExists("ChromophoreSpectrum.xml"))
+            if (FileIO.FileExists("ChromophoreSpectrum.txt"))
             {
-                FileIO.FileDelete("ChromophoreSpectrum.xml");
+                FileIO.FileDelete("ChromophoreSpectrum.txt");
             }
         }
 
@@ -30,8 +30,8 @@ namespace Vts.Test.Modeling.Spectroscopy
         public void validate_Serializing_Chromophore_Spectrum()
         {
             ChromophoreSpectrum chromophoreSpectrum = CreateChromophoreSpectrum();
-            chromophoreSpectrum.WriteToXML("ChromophoreSpectrum.xml");
-            Assert.IsTrue(FileIO.FileExists("ChromophoreSpectrum.xml"));
+            chromophoreSpectrum.WriteToJson("ChromophoreSpectrum.txt");
+            Assert.IsTrue(FileIO.FileExists("ChromophoreSpectrum.txt"));
         }
 
         /// <summary>
@@ -41,9 +41,9 @@ namespace Vts.Test.Modeling.Spectroscopy
         public void validate_Deserializing_Chromophore_Spectrum()
         {
             ChromophoreSpectrum chromophoreSpectrum = CreateChromophoreSpectrum();
-            chromophoreSpectrum.WriteToXML("ChromophoreSpectrum.xml");
+            chromophoreSpectrum.WriteToJson("ChromophoreSpectrum.txt");
 
-            var chromophoreSpectrumRead = FileIO.ReadFromXML<ChromophoreSpectrum>("ChromophoreSpectrum.xml");
+            var chromophoreSpectrumRead = FileIO.ReadFromJson<ChromophoreSpectrum>("ChromophoreSpectrum.txt");
             Assert.IsInstanceOf<ChromophoreSpectrum>(chromophoreSpectrumRead);
         }
 

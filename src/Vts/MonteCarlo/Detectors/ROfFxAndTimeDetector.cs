@@ -1,90 +1,107 @@
 using System;
 using System.Linq;
+using System.Numerics;
 using MathNet.Numerics;
 using System.Runtime.Serialization;
 using Vts.Common;
+using Vts.IO;
 using Vts.MonteCarlo.Helpers;
 using Vts.MonteCarlo.PhotonData;
 
 namespace Vts.MonteCarlo.Detectors
 {
     /// <summary>
-    /// Implements IDetector&lt;Complex[,]&gt;.  Tally for reflectance as a function 
-    /// of Fx and Time.
-    /// This implementation works for Analog, DAW and CAW.
+    /// DetectorInput for reflectance as a function of spatial frequency fx and time
     /// </summary>
-    [KnownType(typeof(ROfFxAndTimeDetector))]
-    public class ROfFxAndTimeDetector : IDetector<Complex[,]>
+    public class ROfFxAndTimeDetectorInput : DetectorInput, IDetectorInput
     {
-        private bool _tallySecondMoment;
-        private double[] _fxArray;
+        /// <summary>
+        /// constructor for reflectance as a function of Fx and Time detector input
+        /// </summary>
+        public ROfFxAndTimeDetectorInput()
+        {
+            TallyType = "ROfFxAndTime";
+            Name = "ROfFxAndTime";
+            Fx = new DoubleRange(0.0, 0.5, 51);
+
+            // modify base class TallyDetails to take advantage of built-in validation capabilities (error-checking)
+            TallyDetails.IsReflectanceTally = true;
+        }
 
         /// <summary>
-        /// Returns an instance of ROfFxAndTimeDetector
+        /// detector Fx binning
         /// </summary>
-        /// <param name="fx">fx binning</param>
-        /// <param name="time">time binning</param>
-        /// <param name="tallySecondMoment">flag indicating whether to tally second moment info for error results</param>
-        /// <param name="name">detector name</param>
-        public ROfFxAndTimeDetector(DoubleRange fx, DoubleRange time, bool tallySecondMoment, String name)
+        public DoubleRange Fx { get; set; }
+        /// <summary>
+        /// time binning
+        /// </summary>
+        public DoubleRange Time { get; set; }
+
+        public IDetector CreateDetector()
         {
-            Fx = fx;
-            _fxArray = fx.AsEnumerable().ToArray();
-            _tallySecondMoment = tallySecondMoment;
-            Mean = new Complex[Fx.Count, time.Count - 1];
-            SecondMoment = null;
-            if (_tallySecondMoment)
+            return new ROfFxAndTimeDetector
             {
-                SecondMoment = new Complex[Fx.Count, time.Count - 1];
-            }
-            TallyType = TallyType.ROfFxAndTime;
-            Name = name;
-            TallyCount = 0;
-        }
-        /// <summary>
-        /// Returns a default instance of ROfFxAndTimeDetector (for serialization purposes only)
-        /// </summary>
-        public ROfFxAndTimeDetector()
-            : this(new DoubleRange(),new DoubleRange(), true, TallyType.ROfFxAndTime.ToString())
-        {
-        }
+                // required properties (part of DetectorInput/Detector base classes)
+                TallyType = this.TallyType,
+                Name = this.Name,
+                TallySecondMoment = this.TallySecondMoment,
+                TallyDetails = this.TallyDetails,
 
+                // optional/custom detector-specific properties
+                Fx = this.Fx,
+                Time = this.Time
+            };
+        }
+    }
+
+    /// <summary>
+    /// Implements IDetector.  Tally for reflectance as a function  of Fx.
+    /// This implementation works for Analog, DAW and CAW processing.
+    /// </summary>
+    public class ROfFxAndTimeDetector : Detector, IDetector
+    {
+        /* ==== Place optional/user-defined input properties here. They will be saved in text (JSON) format ==== */
+        /* ==== Note: make sure to copy over all optional/user-defined inputs from corresponding input class ==== */
+
+        /// <summary>
+        /// Fx binning
+        /// </summary>
+        public DoubleRange Fx { get; set; }
+        /// <summary>
+        /// time binning
+        /// </summary>
+        public DoubleRange Time { get; set; }
+
+        /* ==== Place user-defined output arrays here. They should be prepended with "[IgnoreDataMember]" attribute ==== */
+        /* ==== Then, GetBinaryArrays() should be implemented to save them separately in binary format ==== */
         /// <summary>
         /// detector mean
         /// </summary>
         [IgnoreDataMember]
         public Complex[,] Mean { get; set; }
-
         /// <summary>
         /// detector second moment
         /// </summary>
         [IgnoreDataMember]
         public Complex[,] SecondMoment { get; set; }
 
-        /// <summary>
-        /// detector identifier
-        /// </summary>
-        public TallyType TallyType { get; set; }
-
-        /// <summary>
-        /// Name of detector
-        /// </summary>
-        public String Name { get; set; }
-
+        /* ==== Place optional/user-defined output properties here. They will be saved in text (JSON) format ==== */
         /// <summary>
         /// number of times detector gets tallied to
         /// </summary>
         public long TallyCount { get; set; }
 
-        /// <summary>
-        /// fx binning
-        /// </summary>
-        public DoubleRange Fx { get; set; }
+        public void Initialize(ITissue tissue)
+        {
+            // assign any user-defined outputs (except arrays...we'll make those on-demand)
+            TallyCount = 0;
 
-        /// <summary>
-        /// time binning
-        /// </summary>
-        public DoubleRange Time { get; set; }
+            // if the data arrays are null, create them (only create second moment if TallySecondMoment is true)
+            Mean = Mean ?? new Complex[Fx.Count, Time.Count - 1];
+            SecondMoment = SecondMoment ?? (TallySecondMoment ? new Complex[Fx.Count, Time.Count - 1] : null);
+
+            // intialize any other necessary class fields here
+        }
 
         /// <summary>
         /// method to tally to detector
@@ -93,50 +110,106 @@ namespace Vts.MonteCarlo.Detectors
         public void Tally(Photon photon)
         {
             var dp = photon.DP;
-
             var it = DetectorBinning.WhichBin(dp.TotalTime, Time.Count - 1, Time.Delta, Time.Start);
-            // var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y), Rho.Count - 1, Rho.Delta, Rho.Start);
-            var x = dp.Position.X;
-            for (int ifx = 0; ifx < _fxArray.Length; ++ifx)
-            {
-                double freq = _fxArray[ifx];
 
+            var x = dp.Position.X;
+            var fxArray = Fx.AsEnumerable().ToArray();
+            for (int ifx = 0; ifx < fxArray.Length; ifx++)
+            {
+                double freq = fxArray[ifx];
                 var sinNegativeTwoPiFX = Math.Sin(-2 * Math.PI * freq * x);
                 var cosNegativeTwoPiFX = Math.Cos(-2 * Math.PI * freq * x);
-
-                /* convert to Hz-sec from MHz-ns 1e-6*1e9=1e-3 */
                 // convert to Hz-sec from GHz-ns 1e-9*1e9=1
-                var deltaWeight = dp.Weight * cosNegativeTwoPiFX + Complex.ImaginaryOne * sinNegativeTwoPiFX;
+                var deltaWeight = dp.Weight * (cosNegativeTwoPiFX + Complex.ImaginaryOne * sinNegativeTwoPiFX);
+
                 Mean[ifx, it] += deltaWeight;
-                if (_tallySecondMoment)
+                if (TallySecondMoment)
                 {
-                    var deltaWeight2 =
-                        dp.Weight * dp.Weight * cosNegativeTwoPiFX * cosNegativeTwoPiFX +
-                        Complex.ImaginaryOne * dp.Weight * dp.Weight * sinNegativeTwoPiFX * sinNegativeTwoPiFX;
-                    // second moment of complex tally is square of real and imag separately
+                    var deltaWeight2 = dp.Weight * dp.Weight * cosNegativeTwoPiFX * cosNegativeTwoPiFX +
+                                       Complex.ImaginaryOne * dp.Weight * dp.Weight * sinNegativeTwoPiFX * sinNegativeTwoPiFX;
                     SecondMoment[ifx, it] += deltaWeight2;
                 }
+                TallyCount++;
             }
-            TallyCount++;
         }
 
         /// <summary>
-        /// Method to normalize the tally to get Mean and Second Moment estimates
+        /// method to normalize detector tally results
         /// </summary>
-        /// <param name="numPhotons">Number of photons launched</param>
+        /// <param name="numPhotons">number of photons launched</param>
         public void Normalize(long numPhotons)
         {
             for (int ifx = 0; ifx < Fx.Count; ifx++)
             {
                 for (int it = 0; it < Time.Count - 1; it++)
                 {
-                    Mean[ifx,it] /= numPhotons * Time.Delta;
-                    if (_tallySecondMoment)
+                    Mean[ifx, it] /= numPhotons * Time.Delta;
+                    if (TallySecondMoment)
                     {
-                        SecondMoment[ifx, it] /= numPhotons * Time.Delta;
-                    }
+                        SecondMoment[ifx, it] /= numPhotons * Time.Delta * Time.Delta;
+                    } 
                 }
             }
+        }
+
+        // this is to allow saving of large arrays separately as a binary file
+        public BinaryArraySerializer[] GetBinarySerializers() // NEED TO ASK DC: about complex array implementation
+        {
+            return new[] {
+                new BinaryArraySerializer {
+                    DataArray = Mean,
+                    Name = "Mean",
+                    FileTag = "",
+                    WriteData = binaryWriter => {
+                        for (int i = 0; i < Fx.Count; i++) {
+                            for (int j = 0; j < Time.Count - 1; j++)
+                            {
+                                binaryWriter.Write(Mean[i, j].Real);
+                                binaryWriter.Write(Mean[i, j].Imaginary);
+                            }
+                        }
+                    },
+                    ReadData = binaryReader => {
+                        Mean = Mean ?? new Complex[ Fx.Count, Time.Count - 1];
+                        for (int i = 0; i <  Fx.Count; i++) {
+                            for (int j = 0; j < Time.Count - 1; j++)
+                            {
+                                var real = binaryReader.ReadDouble();
+                                var imag = binaryReader.ReadDouble();
+                                Mean[i, j] = new Complex(real, imag);
+                            }
+                        }
+                    }
+                },
+                // return a null serializer, if we're not serializing the second moment
+                !TallySecondMoment ? null :  new BinaryArraySerializer {
+                    DataArray = SecondMoment,
+                    Name = "SecondMoment",
+                    FileTag = "_2",
+                    WriteData = binaryWriter => {
+                        if (!TallySecondMoment || SecondMoment == null) return;
+                        for (int i = 0; i < Fx.Count; i++) {
+                            for (int j = 0; j < Time.Count - 1; j++)
+                            {
+                                binaryWriter.Write(SecondMoment[i, j].Real);
+                                binaryWriter.Write(SecondMoment[i, j].Imaginary);
+                            }                            
+                        }
+                    },
+                    ReadData = binaryReader => {
+                        if (!TallySecondMoment || SecondMoment == null) return;
+                        SecondMoment = new Complex[ Fx.Count, Time.Count - 1];
+                        for (int i = 0; i < Fx.Count; i++) {
+                            for (int j = 0; j < Time.Count - 1; j++)
+                            {
+                                var real = binaryReader.ReadDouble();
+                                var imag = binaryReader.ReadDouble();
+                                SecondMoment[i, j] = new Complex(real, imag);
+                            }                       
+			            }
+                    },
+                },
+            };
         }
 
         /// <summary>
@@ -149,5 +222,6 @@ namespace Vts.MonteCarlo.Detectors
             return true; // or, possibly test for NA or confined position, etc
             //return (dp.StateFlag.Has(PhotonStateType.PseudoTransmissionDomainTopBoundary));
         }
+
     }
 }

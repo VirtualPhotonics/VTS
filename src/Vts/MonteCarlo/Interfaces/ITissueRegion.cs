@@ -8,11 +8,6 @@ namespace Vts.MonteCarlo
     public interface ITissueRegion
     {
         /// <summary>
-        /// tissue region identifier
-        /// </summary>
-        TissueRegionType TissueRegionType { get; }
-
-        /// <summary>
         /// Optical properties of tissue region.
         /// </summary>
         OpticalProperties RegionOP { get; }
@@ -31,6 +26,11 @@ namespace Vts.MonteCarlo
         /// string that serves as the key in ITissue's dictionary of phase functions
         /// </summary>
         string PhaseFunctionKey { get; set; }
+
+        /// <summary>
+        /// tissue region identifier
+        /// </summary>
+        TissueRegionType TissueRegionType { get; }
 
         /// <summary>
         /// Checks to see if the specified position is within the tissue region.  Definition should be such

@@ -17,17 +17,17 @@ namespace Vts.WriteNurbsValues.Desktop
 
             for (int dInd = 0; dInd < domain.Length; dInd++)
             {
-                ReadBinaryAndWriteXML(readPath, writePath, domain[dInd], folder);
+                ReadBinaryAndWriteJson(readPath, writePath, domain[dInd], folder);
             }
         }
         /// <summary>
-        /// Reads binary files generated in Matlab from the respective folder and writes XML. 
+        /// Reads binary files generated in Matlab from the respective folder and writes JSON. 
         /// </summary>
         /// <param name="readPath"></param>
         /// <param name="writePath"></param>
         /// <param name="domain"></param>
         /// <param name="folder"></param>
-        private static void ReadBinaryAndWriteXML(string readPath, string writePath, string domain, string folder)
+        private static void ReadBinaryAndWriteJson(string readPath, string writePath, string domain, string folder) 
         {
             ushort[] dims = (ushort[])FileIO.ReadArrayFromBinaryInResources<ushort>(readPath + domain + folder + "dims", "Vts", 2);
             ushort[] degrees = (ushort[])FileIO.ReadArrayFromBinaryInResources<ushort>(readPath + domain + folder + "degrees", "Vts", 2);
@@ -36,8 +36,8 @@ namespace Vts.WriteNurbsValues.Desktop
             var spaceKnots = (double[])FileIO.ReadArrayFromBinaryInResources<double>(readPath + domain + folder + "spaceKnots", "Vts", dims[1]);
             NurbsValues timeValues = new NurbsValues(NurbsValuesDimensions.time, timeKnots, maxValues[0], degrees[0]);
             NurbsValues spaceValues = new NurbsValues(NurbsValuesDimensions.space, spaceKnots, maxValues[1], degrees[1]);
-            timeValues.WriteToXML<NurbsValues>(writePath + readPath + domain + folder + "timeNurbsValues.xml");
-            spaceValues.WriteToXML<NurbsValues>(writePath + readPath + domain + folder + "spaceNurbsValues.xml");  
+            timeValues.WriteToJson<NurbsValues>(writePath + readPath + domain + folder + "timeNurbsValues.txt");
+            spaceValues.WriteToJson<NurbsValues>(writePath + readPath + domain + folder + "spaceNurbsValues.txt");  
         }
     }
 }

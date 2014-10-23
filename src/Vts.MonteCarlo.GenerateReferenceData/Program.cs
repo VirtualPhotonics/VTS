@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Vts.Common;
 using Vts.MonteCarlo.PhaseFunctionInputs;
+using Vts.MonteCarlo.Detectors;
 using Vts.MonteCarlo.Tissues;
 
 namespace Vts.MonteCarlo.GenerateReferenceData
@@ -20,7 +21,6 @@ namespace Vts.MonteCarlo.GenerateReferenceData
                         AbsorptionWeightingType.Continuous,
                         //PhaseFunctionType.HenyeyGreenstein,
                         new List<DatabaseType>() { }, // databases to be written
-                        true, // compute Second Moment
                         false, // track statistics
                         0.0, // RR threshold -> 0 = no RR performed
                         1),
@@ -57,9 +57,9 @@ namespace Vts.MonteCarlo.GenerateReferenceData
                     ),
                     new List<IDetectorInput>()
                     {
-                        new ROfRhoAndTimeDetectorInput(
-                            new DoubleRange(0.0, 40, 201), // numbers for scaled MC
-                            new DoubleRange(0.0, 4, 801)) // numbers for scaled MC
+                        new ROfRhoAndTimeDetectorInput{
+                            Rho = new DoubleRange(0.0, 40, 201), // numbers for scaled MC
+                            Time = new DoubleRange(0.0, 4, 801)} // numbers for scaled MC
                     }
                 );
                 input.TissueInput.RegionPhaseFunctionInputs.Add("HenyeyGreensteinPhaseFunctionKey1", new HenyeyGreensteinPhaseFunctionInput());
@@ -67,7 +67,7 @@ namespace Vts.MonteCarlo.GenerateReferenceData
                 input.TissueInput.RegionPhaseFunctionInputs.Add("HenyeyGreensteinPhaseFunctionKey3", new HenyeyGreensteinPhaseFunctionInput());
 
             SimulationOutput output = new MonteCarloSimulation(input).Run();
-            input.ToXMLFile("infile.xml");
+            input.ToFile("infile.txt");
 
             // the following gets are R(rho,time) for scaled.
             //var rOfRhoAndTime = output.ResultsDictionary[TallyType.ROfRhoAndTime.ToString()];

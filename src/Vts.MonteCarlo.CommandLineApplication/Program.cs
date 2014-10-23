@@ -79,7 +79,14 @@ namespace Vts.MonteCarlo.CommandLineApplication
     {
         private static ILogger logger = LoggerFactoryLocator.GetDefaultNLogFactory().Create(typeof(Program));
 
-        public static void Main(string[] args)
+        /// <summary>
+        /// main Monte Carlo CommandLine (MCCL) application
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns>int = 0 (successful completion)</returns>
+        /// <returns>int = 1 (infile null or missing)</returns>
+        /// <returns>int = 2 (infile exists but does not pass validation)</returns>
+        public static int Main(string[] args)
         {
 #if PROCESS_ATTACH_DEBUG
             Console.Read();
@@ -186,7 +193,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
                         var input = MonteCarloSetup.ReadSimulationInputFromFile(inFile);
                         if (input == null)
                         {
-                            return;
+                            return 1;
                         }
                         if (!string.IsNullOrEmpty(outName))
                         {
@@ -201,30 +208,31 @@ namespace Vts.MonteCarlo.CommandLineApplication
                         inputs = inFiles.Select(file => MonteCarloSetup.ReadSimulationInputFromFile(file));
                         if (inputs.Count() == 0)
                         {
-                            return;
+                            return 1;
                         }
                     }
 
                     foreach (var simulationInput in inputs)
                     {
                         if (!checkValid(simulationInput))
-                            return;                    // override the output name with the user-specified name
+                            return 2;                    // override the output name with the user-specified name
                         
                     }
 
                     MonteCarloSetup.RunSimulations(inputs, outPath);
                     logger.Info("\nSimulations complete.");
+                    return 0;
                 }
                 else
                 {
                     var input = MonteCarloSetup.ReadSimulationInputFromFile(inFile);
                     if (input == null)
                     {
-                        return;
+                        return 1;
                     }
 
                     if (!checkValid(input))
-                        return;
+                        return 2;
 
                     if (!string.IsNullOrEmpty(outName))
                     {
@@ -233,28 +241,24 @@ namespace Vts.MonteCarlo.CommandLineApplication
 
                     MonteCarloSetup.RunSimulation(input, outPath);
                     logger.Info("\nSimulation complete.");
+                    return 0;
                 }
             }
 
             LogManager.Configuration = null;
+            return 0;
         }
-
+        
         private static void GenerateDefaultInputFiles()
         {
             var infiles = SimulationInputProvider.GenerateAllSimulationInputs();
             for (int i = 0; i < infiles.Count; i++)
             {
-                infiles[i].ToXMLFile("infile_" + infiles[i].OutputName + ".xml"); 
-                infiles[i].ToJsonFile("infile_" + infiles[i].OutputName + ".txt"); // write json to .txt files
+                infiles[i].ToFile("infile_" + infiles[i].OutputName + ".txt"); // write json to .txt files
             }
             //var sources = SourceInputProvider.GenerateAllSourceInputs();
-            //sources.WriteToXML("infile_source_options_test.xml");
+            //sources.WriteToJson("infile_source_options_test.txt");
         }
-
-        //private static SimulationInput LoadDefaultInputFile()
-        //{
-        //    return SimulationInput.FromFileInResources("infile.xml", "mc");
-        //}
 
         /// <summary>
         /// Displays the help text for detailed usage of the application
@@ -271,8 +275,8 @@ namespace Vts.MonteCarlo.CommandLineApplication
             logger.Info("\t\tparamsweep=<SweepParameterType>,Start,Stop,Count");
             logger.Info("paramsweepdelta\ttakes the sweep parameter name and values in the format:");
             logger.Info("\t\tparamsweepdelta=<SweepParameterType>,Start,Stop,Delta");
-            logger.Info("\ngeninfiles\tgenerates example infiles and names them infile_XXX.xml and infile_XXX.txt");
-            logger.Info("\t\twhere XXX describes the type of input specified");
+            logger.Info("\ngeninfiles\tgenerates example infiles and names them infile_XXX.txt");
+            logger.Info("\t\tinfile_XXX.txt where XXX describes the type of input specified");
             logger.Info("\nlist of sweep parameters (paramsweep):");
             logger.Info("\nmua1\t\tabsorption coefficient for tissue layer 1");
             logger.Info("mus1\t\tscattering coefficient for tissue layer 1");
@@ -303,11 +307,6 @@ namespace Vts.MonteCarlo.CommandLineApplication
                     logger.Info("This is the name of the input file, it can be a relative or absolute path.");
                     logger.Info("If the path name has any spaces enclose it in double quotes.");
                     logger.Info("For relative paths, omit the leading slash.");
-                    logger.Info("EXAMPLES for .xml files:");
-                    logger.Info("\tinfile=C:\\MonteCarlo\\InputFiles\\myinfile.xml");
-                    logger.Info("\tinfile=\"C:\\Monte Carlo\\InputFiles\\myinfile.xml\"");
-                    logger.Info("\tinfile=InputFiles\\myinfile.xml");
-                    logger.Info("\tinfile=myinfile.xml");
                     logger.Info("EXAMPLES for .txt (json) files:");
                     logger.Info("\tinfile=C:\\MonteCarlo\\InputFiles\\myinfile.txt");
                     logger.Info("\tinfile=\"C:\\Monte Carlo\\InputFiles\\myinfile.txt\"");

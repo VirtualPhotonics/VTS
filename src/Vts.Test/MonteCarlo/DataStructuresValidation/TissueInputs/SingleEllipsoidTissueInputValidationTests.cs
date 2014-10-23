@@ -100,5 +100,37 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation.TissueInputs
             var result = SimulationInputValidation.ValidateInput(input);
             Assert.IsFalse(result.IsValid);
         }
+        /// <summary>
+        /// Test to check that ellipsoid refractive index matches refractive index of surrounding layer
+        /// </summary>
+        [Test]
+        public void validate_ellipsoid_refractive_index_matches_that_of_surrounding_layer()
+        {
+            var input = new SimulationInput(
+                10,
+                "",
+                new SimulationOptions(),
+                new DirectionalPointSourceInput(),
+                new SingleEllipsoidTissueInput(
+                    new EllipsoidRegion(new Position(0, 0, 0), 1.0, 1.0, 1.0, 
+                        new OpticalProperties(0.01, 1.0, 0.9, 1.4)),
+                    new ITissueRegion[]
+                    { 
+                        new LayerRegion(
+                            new DoubleRange(double.NegativeInfinity, 0.0),
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
+                        new LayerRegion(
+                            new DoubleRange(0.0, 20.0),
+                            new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
+                        new LayerRegion(
+                            new DoubleRange(20.0, double.PositiveInfinity),
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
+                    }
+                ),
+                new List<IDetectorInput>() { }
+            );
+            var result = SimulationInputValidation.ValidateInput(input);
+            Assert.IsFalse(result.IsValid);
+        }
     }
 }

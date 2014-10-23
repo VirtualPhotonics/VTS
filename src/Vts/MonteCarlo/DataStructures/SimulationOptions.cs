@@ -19,7 +19,6 @@ namespace Vts.MonteCarlo
         /// <param name="absWeightingType">absorption weighting type</param>
         /// <param name="IPhaseFunctionInput">phase function input</param>
         /// <param name="databases">list of DatabaseType indicating data to be written database for post-processing</param>
-        /// <param name="tallySecondMoment">flag indicating whether to tally second moment information for error results</param>
         /// <param name="trackStatistics">flag indicating whether to track statistics about where photons end up</param>
         /// <param name="russianRouletteWeightThreshold">weight threshold to perform RR (default=0, no RR)</param>
         /// <param name="simulationIndex">index of simulation</param>
@@ -29,7 +28,6 @@ namespace Vts.MonteCarlo
             AbsorptionWeightingType absWeightingType,
             //IPhaseFunctionInput phaseFunctionInput,
             IList<DatabaseType> databases,
-            bool tallySecondMoment,
             bool trackStatistics,
             double russianRouletteWeightThreshold,
             int simulationIndex)
@@ -49,7 +47,6 @@ namespace Vts.MonteCarlo
             //    Seed = GetRandomSeed();
             //}
             SimulationIndex = simulationIndex;
-            TallySecondMoment = tallySecondMoment;
             TrackStatistics = trackStatistics;
             RussianRouletteWeightThreshold = russianRouletteWeightThreshold;
         }
@@ -69,7 +66,6 @@ namespace Vts.MonteCarlo
                 absWeightingType, 
                 //new HenyeyGreensteinPhaseFunctionInput(), 
                 new List<DatabaseType>() { }, // databases to be written
-                true, // tally 2nd moment
                 false, // track statistics
                 0.0, // Russian Roulette weight threshold: =0.0 -> no RR performed
                 0) { }
@@ -84,7 +80,6 @@ namespace Vts.MonteCarlo
                 AbsorptionWeightingType.Discrete, 
                 //new HenyeyGreensteinPhaseFunctionInput(),
                 null,
-                true,
                 false,
                 0.0,
                 0) { }
@@ -98,7 +93,6 @@ namespace Vts.MonteCarlo
                 AbsorptionWeightingType.Discrete, 
                 //new HenyeyGreensteinPhaseFunctionInput(),
                 null,
-                true,
                 false,
                 0.0,
                 0) { }
@@ -123,10 +117,6 @@ namespace Vts.MonteCarlo
         /// list of databases to be written
         /// </summary>
         public IList<DatabaseType> Databases { get; set; }  
-        /// <summary>
-        /// flag indicating whether to tally second moment information for error results
-        /// </summary>
-        public bool TallySecondMoment { get; set; }
         /// <summary>
         /// flag indicating whether to track statistics about where photon ends up
         /// </summary>

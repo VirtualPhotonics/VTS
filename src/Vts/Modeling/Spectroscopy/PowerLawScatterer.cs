@@ -10,6 +10,11 @@ namespace Vts.SpectralMapping
     /// </summary>
     public class PowerLawScatterer : BindableObject, IScatterer
     {
+        private double _a;
+        private double _b;
+        private double _c;
+        private double _d;
+
         /// <summary>
         /// Constructs a power law scatterer; i.e. mus' = a*lamda^-b + c*lambda^-d
         /// </summary>
@@ -122,22 +127,54 @@ namespace Vts.SpectralMapping
         /// <summary>
         /// The first prefactor
         /// </summary>
-        public double A { get; set; }
+        public double A
+        {
+            get { return _a; }
+            set 
+            {
+                _a = value;
+                this.OnPropertyChanged("A");
+            }
+        }
 
         /// <summary>
         /// The first exponent
         /// </summary>
-        public double B { get; set; }
+        public double B
+        {
+            get { return _b; }
+            set
+            {
+                _b = value;
+                this.OnPropertyChanged("B");
+            }
+        }
 
         /// <summary>
         /// The second prefactor
         /// </summary>
-        public double C { get; set; }
+        public double C
+        {
+            get { return _c; }
+            set
+            {
+                _c = value;
+                this.OnPropertyChanged("C");
+            }
+        }
 
         /// <summary>
         /// The second exponent
         /// </summary>
-        public double D { get; set; }
+        public double D
+        {
+            get { return _d; }
+            set
+            {
+                _d = value;
+                this.OnPropertyChanged("D");
+            }
+        }
 
         /// <summary>
         /// Returns mus' based on Steve Jacques' Skin Optics Summary:
@@ -151,11 +188,11 @@ namespace Vts.SpectralMapping
         }
 
         /// <summary>
-        /// Returns a fixed g (scattering anisotropy) of 0.9
+        /// Returns a fixed g (scattering anisotropy) of 0.8
         /// </summary>
         /// <param name="wavelength">The wavelength, in nanometers</param>
         /// <returns>The scattering anisotropy. This is the cosine of the average scattering angle.</returns>
-        public double GetG(double wavelength) { return 0.9; }
+        public double GetG(double wavelength) { return 0.8; }
 
         /// <summary>
         /// Returns mus based on mus' and g 

@@ -1,13 +1,14 @@
 using System;
-using System.Collections.Generic;
+using System.Numerics;
 using System.Linq;
-using MathNet.Numerics;
+using System.Collections.Generic;
 using NUnit.Framework;
 using Vts.Common;
 using Vts.MonteCarlo;
 using Vts.MonteCarlo.Helpers;
 using Vts.MonteCarlo.PhaseFunctionInputs;
 using Vts.MonteCarlo.Tissues;
+using Vts.MonteCarlo.Detectors;
 
 namespace Vts.Test.MonteCarlo.Detectors
 {
@@ -49,7 +50,6 @@ namespace Vts.Test.MonteCarlo.Detectors
                 AbsorptionWeightingType.Discrete,
                 //PhaseFunctionType.HenyeyGreenstein,
                 new List<DatabaseType>() { }, // databases to be written
-                true,
                 false, // track statistics
                 0.0, // RR threshold -> 0 = no RR performed
                 0);
@@ -61,37 +61,25 @@ namespace Vts.Test.MonteCarlo.Detectors
                 new List<IDetectorInput>
                 {
                     new RDiffuseDetectorInput(),
-                    new ROfAngleDetectorInput(new DoubleRange(Math.PI / 2 , Math.PI, 2)),
-                    new ROfRhoDetectorInput(new DoubleRange(0.0, 10.0, 101)),
-                    new ROfRhoAndAngleDetectorInput(
-                        new DoubleRange(0.0, 10.0, 101),
-                        new DoubleRange(Math.PI / 2, Math.PI, 2)),
-                    new ROfRhoAndTimeDetectorInput(
-                        new DoubleRange(0.0, 10.0, 101),
-                        new DoubleRange(0.0, 1.0, 101)),
-                    new ROfXAndYDetectorInput(
-                        new DoubleRange(-200.0, 200.0, 401), // x
-                        new DoubleRange(-200.0, 200.0, 401)), // y,
-                    new ROfRhoAndOmegaDetectorInput(
-                        new DoubleRange(0.0, 10.0, 101),
-                        new DoubleRange(0.0, 1.0, 21)),
+                    new ROfAngleDetectorInput() { Angle=new DoubleRange(Math.PI / 2 , Math.PI, 2)},
+                    new ROfRhoDetectorInput() { Rho=new DoubleRange(0.0, 10.0, 101), TallySecondMoment = true},
+                    new ROfRhoAndAngleDetectorInput() {Rho=new DoubleRange(0.0, 10.0, 101),Angle=new DoubleRange(Math.PI / 2, Math.PI, 2)},
+                    new ROfRhoAndTimeDetectorInput() {Rho=new DoubleRange(0.0, 10.0, 101),Time=new DoubleRange(0.0, 1.0, 101)},
+                    new ROfXAndYDetectorInput() {X=new DoubleRange(-200.0, 200.0, 401),Y=new DoubleRange(-200.0, 200.0, 401)}, 
+                    new ROfRhoAndOmegaDetectorInput() {Rho=new DoubleRange(0.0, 10.0, 101),Omega=new DoubleRange(0.0, 1.0, 21)},
                     new TDiffuseDetectorInput(),
-                    new TOfAngleDetectorInput(new DoubleRange(0.0, Math.PI / 2, 2)),
-                    new TOfRhoDetectorInput(new DoubleRange(0.0, 10.0, 101)),
-                    new TOfRhoAndAngleDetectorInput(
-                        new DoubleRange(0.0, 10.0, 101),
-                        new DoubleRange(0.0, Math.PI / 2, 2)),
-                    new AOfRhoAndZDetectorInput(
-                        new DoubleRange(0.0, 10.0, 101),
-                        new DoubleRange(0.0, 10.0, 101)),
+                    new TOfAngleDetectorInput() {Angle=new DoubleRange(0.0, Math.PI / 2, 2)},
+                    new TOfRhoDetectorInput() {Rho=new DoubleRange(0.0, 10.0, 101)},
+                    new TOfRhoAndAngleDetectorInput(){Rho=new DoubleRange(0.0, 10.0, 101), Angle=new DoubleRange(0.0, Math.PI / 2, 2)},
+                    new AOfRhoAndZDetectorInput() {Rho=new DoubleRange(0.0, 10.0, 101),Z=new DoubleRange(0.0, 10.0, 101)},
                     new ATotalDetectorInput(),
-                    new FluenceOfRhoAndZDetectorInput(
-                        new DoubleRange(0.0, 10.0, 101),
-                        new DoubleRange(0.0, 10.0, 101)),
-                    new RadianceOfRhoAndZAndAngleDetectorInput(
-                        new DoubleRange(0.0, 10.0, 101),
-                        new DoubleRange(0.0, 10.0, 101),
-                        new DoubleRange(-Math.PI / 2, Math.PI / 2, 5))
+                    new FluenceOfRhoAndZDetectorInput(){Rho=new DoubleRange(0.0, 10.0, 101),Z=new DoubleRange(0.0, 10.0, 101)},
+                    new RadianceOfRhoAndZAndAngleDetectorInput() 
+                    {
+                        Rho=new DoubleRange(0.0, 10.0, 101),
+                        Z=new DoubleRange(0.0, 10.0, 101),
+                        Angle=new DoubleRange(-Math.PI / 2, Math.PI / 2, 5)
+                    }
                 };
 
             MultiLayerTissueInput ti = new MultiLayerTissueInput(
@@ -281,7 +269,7 @@ namespace Vts.Test.MonteCarlo.Detectors
         {
             // undo angle bin normalization
             var angle = ((RadianceOfRhoAndZAndAngleDetectorInput)_inputOneRegionTissue.DetectorInputs.
-                Where(d => d.TallyType == TallyType.RadianceOfRhoAndZAndAngle).First()).Angle;
+                Where(d => d.TallyType == "RadianceOfRhoAndZAndAngle").First()).Angle;
             var norm = 2 * Math.PI * angle.Delta;
             var integral = 0.0;
             for (int ia = 0; ia < angle.Count - 1; ia++)

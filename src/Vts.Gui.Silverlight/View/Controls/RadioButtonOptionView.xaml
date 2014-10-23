@@ -2,13 +2,13 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls"
-    xmlns:toolkit="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Toolkit">
-    <controls:HeaderedItemsControl ItemsSource="{Binding Options.Values}" >
+    xmlns:toolkit="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Toolkit"
+    xmlns:helpers="clr-namespace:Vts.Gui.Silverlight.View.Helpers">
+    <controls:HeaderedItemsControl Name="ParentControl" ItemsSource="{Binding Options.Values}" >
             <controls:HeaderedItemsControl.Header>
                 <TextBlock Text="{Binding GroupName, Mode=TwoWay}"
-                    Visibility="{Binding ShowTitle, Converter={StaticResource myBooleanToVisibilityConverter}}" 
-                    FontSize="16" 
-                    TextDecorations="Underline" />
+                    Visibility="{Binding ShowTitle, Converter={StaticResource myBooleanToVisibilityConverter}}"
+                    FontWeight="Bold"/>
             </controls:HeaderedItemsControl.Header>
             <controls:HeaderedItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
@@ -16,13 +16,29 @@
                 </ItemsPanelTemplate>
             </controls:HeaderedItemsControl.ItemsPanel>
             <controls:HeaderedItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <RadioButton VerticalAlignment="Center"
+            <DataTemplate>
+                <helpers:OptionTemplateSelector Content="{Binding}">
+                    <helpers:OptionTemplateSelector.MultiSelectTemplate>
+                        <DataTemplate>
+                            <CheckBox VerticalAlignment="Center"
+                                 Tag="{Binding ID, Mode=TwoWay}"
+                                 Content="{Binding DisplayName, Mode=TwoWay}"
+                                 IsChecked="{Binding IsSelected, Mode=TwoWay}"
+                                 IsEnabled="{Binding IsEnabled, Mode=TwoWay}"
+                                 Margin="1.5,3"/>
+                        </DataTemplate>
+                    </helpers:OptionTemplateSelector.MultiSelectTemplate>
+                    <helpers:OptionTemplateSelector.SingleSelectTemplate>
+                        <DataTemplate>
+                            <RadioButton VerticalAlignment="Center"
                                  Tag="{Binding ID, Mode=TwoWay}"
                                  Content="{Binding DisplayName, Mode=TwoWay}"
                                  IsChecked="{Binding IsSelected, Mode=TwoWay}"
                                  GroupName="{Binding GroupName, Mode=TwoWay}"
-                                 Margin="2,4"/>
+                                 Margin="1.5,3"/>
+                        </DataTemplate>
+                    </helpers:OptionTemplateSelector.SingleSelectTemplate>
+                </helpers:OptionTemplateSelector>
                 </DataTemplate>
             </controls:HeaderedItemsControl.ItemTemplate>
         </controls:HeaderedItemsControl>

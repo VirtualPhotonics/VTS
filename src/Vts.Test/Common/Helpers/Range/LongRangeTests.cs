@@ -1,6 +1,6 @@
 ﻿using System.IO;
 using System.Linq;
-using System.Runtime.Serialization;
+using System.Runtime.Serialization.Json;
 using NUnit.Framework;
 using Vts.Common;
 
@@ -107,7 +107,7 @@ namespace Vts.Test.Common
         {
             using (MemoryStream ms = new MemoryStream(1024))
             {
-                var dcs = new DataContractSerializer(typeof(T));
+                var dcs = new DataContractJsonSerializer(typeof(T));
                 dcs.WriteObject(ms, myObject);
                 ms.Seek(0, SeekOrigin.Begin);
                 return (T)dcs.ReadObject(ms);

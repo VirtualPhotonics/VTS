@@ -115,7 +115,7 @@ namespace Vts.MonteCarlo.Sources
         private static Position GetFinalPositionFromProfileType(ISourceProfile sourceProfile, double aParameter, double bParameter, double cParameter, Random rng)
         {
             Position finalPosition = null;
-            switch (sourceProfile.ProfileType)
+            switch (sourceProfile.SourceProfileType)
             {
                 case SourceProfileType.Flat:
                     // var flatProfile = sourceProfile as FlatSourceProfile;

@@ -6,22 +6,22 @@
     xmlns:vm="clr-namespace:Vts.Gui.Silverlight.ViewModel"
     xmlns:controls="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls" 
     xmlns:toolkit="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Input.Toolkit" 
-    xmlns:input="clr-namespace:SLExtensions.Input;assembly=SLExtensions" VerticalAlignment="Top">
+    xmlns:input="clr-namespace:SLExtensions.Input;assembly=SLExtensions"
+    xmlns:toolkit1="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
+    xmlns:client="clr-namespace:Microsoft.Silverlight.Testing.Client;assembly=Microsoft.Silverlight.Testing"
+    VerticalAlignment="Top">
 
     <UserControl.DataContext>
         <vm:MonteCarloSolverViewModel/>
     </UserControl.DataContext>
-
     <StackPanel Orientation="Vertical" VerticalAlignment="Top">
-        <TextBlock Text="Specify Inputs From File (recommended)." FontWeight="Bold"/>
-
-        <StackPanel Orientation="Horizontal">
-            <TextBlock Text="(see " VerticalAlignment="Center"/>
-            <HyperlinkButton NavigateUri="http://www.microsoft.com/download/en/details.aspx?id=7973" TargetName="_blank">
-                <TextBlock Text="here" VerticalAlignment="Center" /></HyperlinkButton>
-            <!--<TextBox Text="http://bit.ly/mPDZyl" IsReadOnly="True" />-->
-            <!--<HyperlinkButton Content="here" NavigateUri="http://www.microsoft.com/download/en/details.aspx?id=7973"/>-->
-            <TextBlock Text=" for a useful XML manipulation tool)" VerticalAlignment="Center"/>
+        <TextBlock Text="Specify Inputs From File (recommended)" FontWeight="Bold"/>
+        <StackPanel Orientation="Horizontal" Margin="3,0,0,0">
+            <TextBlock Text="(Check out this useful " VerticalAlignment="Center"/>
+            <HyperlinkButton NavigateUri="http://www.jsoneditoronline.org/" TargetName="_blank">
+                <TextBlock Text="JSON" VerticalAlignment="Center" />
+            </HyperlinkButton>
+            <TextBlock Text=" manipulation tool)" VerticalAlignment="Center"/>
         </StackPanel>
 
         <StackPanel Orientation="Horizontal" >
@@ -35,136 +35,45 @@
 
         <StackPanel DataContext="{Binding SimulationInputVM, Mode=TwoWay}">
             <TextBlock Text="Basic Info" FontWeight="Bold"/>
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Number of Photons:"/>
-                <TextBox Text="{Binding N, Mode=TwoWay}" Width="100"/>
+            <StackPanel Orientation="Horizontal" Margin="3,0,0,0">
+                <TextBlock Text="Number of Photons:" VerticalAlignment="Center"/>
+                <TextBox Text="{Binding N, Mode=TwoWay}" Width="100" Margin="2,0,0,0" KeyDown="TextBox_KeyDown"/>
             </StackPanel>
 
             <StackPanel Orientation="Vertical" DataContext="{Binding SimulationOptionsVM}">
                 <TextBlock Text="Simulation Options" FontWeight="Bold"/>
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                    <CheckBox IsChecked="{Binding TallySecondMoment, Mode=TwoWay}" VerticalAlignment="Center" />
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="3,0,0,0">
+                    <CheckBox IsChecked="{Binding TallySecondMoment, Mode=TwoWay}" VerticalAlignment="Center"/>
                     <TextBlock Text="Tally second moment" VerticalAlignment="Center" Margin="0,0,10,0"/>
-                    <CheckBox IsChecked="{Binding TrackStatistics, Mode=TwoWay}" VerticalAlignment="Center" />
+                    <CheckBox IsChecked="{Binding TrackStatistics, Mode=TwoWay}" VerticalAlignment="Center"/>
                     <TextBlock Text="Track statistics" VerticalAlignment="Center" TextAlignment="Left" Margin="0,0,10,0"/>
                     <TextBlock Text="Seed:" VerticalAlignment="Center"/>
-                    <TextBox Text="{Binding Seed, Mode=TwoWay}" Width="60" VerticalAlignment="Center"/>
+                    <TextBox Text="{Binding Seed, Mode=TwoWay}" Width="60" VerticalAlignment="Center" Margin="2,0,0,0" KeyDown="TextBox_KeyDown"/>
                 </StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Absorption Weighting Type: "/>
+                <StackPanel Orientation="Horizontal" Margin="3,0,0,0">
+                    <TextBlock Text="Absorption Weighting Type:" VerticalAlignment="Center"/>
                     <v:RadioButtonOptionView DataContext="{Binding AbsorptionWeightingTypeVM, Mode=TwoWay}" />
                 </StackPanel>
-                <StackPanel Orientation="Horizontal" Visibility="Collapsed">
-                    <TextBlock Text="Random NumberGenerator Type: "/>
+                <StackPanel Orientation="Horizontal" Visibility="Collapsed" Margin="3,0,0,0">
+                    <TextBlock Text="Random NumberGenerator Type:" VerticalAlignment="Center"/>
                     <v:RadioButtonOptionView DataContext="{Binding RandomNumberGeneratorTypeVM, Mode=TwoWay}" />
                 </StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Phase Function Type: "/>
+                <StackPanel Orientation="Horizontal" Margin="3,0,0,0">
+                    <TextBlock Text="Phase Function Type:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
                     <v:RadioButtonOptionView DataContext="{Binding PhaseFunctionTypeVM, Mode=TwoWay}" />
                 </StackPanel>
             </StackPanel>
+            <v:MultiRegionOpticalPropertyView DataContext="{Binding TissueInputVM, Mode=TwoWay}"/>
+            <!-- Move these to the MultiRegionOpticalPropertyView:
+                                                <client:LayoutTransformer Margin="2,2,4,2" UseLayoutRounding="True" VerticalAlignment="Center">
+                                        <client:LayoutTransformer.LayoutTransform>
+                                            <RotateTransform Angle="-90"/>
+                                        </client:LayoutTransformer.LayoutTransform>
+                                        <TextBlock Text="{Binding Name}" FontWeight="Bold"/>
+                                    </client:LayoutTransformer>
+                                    <StackPanel Orientation="Vertical">
+            -->
 
-            <StackPanel Orientation="Vertical" DataContext="{Binding TissueInputVM, Mode=TwoWay}">
-                <TextBlock Text="Tissue Input" FontWeight="Bold"/>
-                <StackPanel Orientation="Horizontal" >
-                    <TextBlock Text="Currently selected region:" VerticalAlignment="Center"/>
-                    <toolkit:NumericUpDown Name="nudRegionIndex"  Value="{Binding CurrentRegionIndex, Mode=TwoWay}" Minimum="{Binding MinimumRegionIndex}"  Maximum="{Binding MaximumRegionIndex}" Width="35" HorizontalAlignment="Left"/>
-                </StackPanel>
-
-                <ListBox SelectedIndex="{Binding Value, ElementName=nudRegionIndex, Mode=TwoWay}"  ItemsSource="{Binding RegionsVM, Mode=TwoWay}" MaxHeight="150" Margin="5">
-                    <!-- <ListBox SelectedIndex="{Binding Value, ElementName=nudRegionIndex, Mode=TwoWay}"  ItemsSource="{Binding LayerRegionsVM, Mode=TwoWay}" MaxHeight="150" Margin="5">-->
-                    <!-- <ListBox SelectedIndex="{Binding CurrentRegionIndex, Mode=TwoWay}" ItemsSource="{Binding LayerRegionsVM, Mode=TwoWay}" MaxHeight="150" Margin="5">-->
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <Border BorderBrush="Gray" BorderThickness="1.5">
-                                <StackPanel Orientation="Vertical">
-
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="{Binding Name}"/>
-                                    </StackPanel>
-
-                                    <StackPanel Orientation="Horizontal" Visibility="{Binding IsLayer, Converter={StaticResource myBooleanToVisibilityConverter}}" >
-                                        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                                            <TextBlock Text="Layer Height" />
-                                            <TextBlock Text="Start/Stop:" />
-                                        </StackPanel>
-                                        <StackPanel >
-                                            <v:RangeView DataContext="{Binding ZRangeVM}" Margin="1" />
-                                        </StackPanel>
-                                    </StackPanel>
-
-                                    <StackPanel Visibility="{Binding IsEllipsoid, Converter={StaticResource myBooleanToVisibilityConverter}}">
-                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
-                                            <StackPanel Orientation="Vertical" Margin="5,0,5,0" >
-                                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                                    <TextBlock Text="X ["/>
-                                                    <TextBlock Text="{Binding Units}" />
-                                                    <TextBlock Text="]"/>
-                                                </StackPanel>
-                                                <TextBox Width="40" Text="{Binding X, Mode=TwoWay}" HorizontalAlignment="Center"/>
-                                            </StackPanel>
-
-                                            <StackPanel Orientation="Vertical" Margin="5,0,5,0">
-                                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                                    <TextBlock Text="Y ["/>
-                                                    <TextBlock Text="{Binding Units}" />
-                                                    <TextBlock Text="]"/>
-                                                </StackPanel>
-                                                <TextBox Width="40" Text="{Binding Y, Mode=TwoWay}" HorizontalAlignment="Center"/>
-                                            </StackPanel>
-
-                                            <StackPanel Orientation="Vertical"  Margin="5,0,5,0" HorizontalAlignment="Center">
-                                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                                    <TextBlock Text="Z ["/>
-                                                    <TextBlock Text="{Binding Units}" />
-                                                    <TextBlock Text="]"/>
-                                                </StackPanel>
-                                                <TextBox Width="40" Text="{Binding Z, Mode=TwoWay}" HorizontalAlignment="Center"/>
-                                            </StackPanel>
-
-                                            <StackPanel Orientation="Vertical" Margin="5,0,5,0" >
-                                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                                    <TextBlock Text="Dx ["/>
-                                                    <TextBlock Text="{Binding Units}" />
-                                                    <TextBlock Text="]"/>
-                                                </StackPanel>
-                                                <TextBox Width="40" Text="{Binding Dx, Mode=TwoWay}" HorizontalAlignment="Center"/>
-                                            </StackPanel>
-
-                                            <StackPanel Orientation="Vertical" Margin="5,0,5,0">
-                                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                                    <TextBlock Text="Dy ["/>
-                                                    <TextBlock Text="{Binding Units}" />
-                                                    <TextBlock Text="]"/>
-                                                </StackPanel>
-                                                <TextBox Width="40" Text="{Binding Dy, Mode=TwoWay}" HorizontalAlignment="Center"/>
-                                            </StackPanel>
-
-                                            <StackPanel Orientation="Vertical"  Margin="5,0,5,0" HorizontalAlignment="Center">
-                                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                                    <TextBlock Text="Dz ["/>
-                                                    <TextBlock Text="{Binding Units}" />
-                                                    <TextBlock Text="]"/>
-                                                </StackPanel>
-                                                <TextBox Width="40" Text="{Binding Dz, Mode=TwoWay}" HorizontalAlignment="Center"/>
-                                            </StackPanel>
-                                        </StackPanel>
-                                    </StackPanel>
-
-                                    <StackPanel Orientation="Horizontal">
-                                        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                                            <TextBlock Text="Layer " />
-                                            <TextBlock Text="Opt. Prop." />
-                                        </StackPanel>
-                                        <v:OpticalPropertyView DataContext="{Binding OpticalPropertyVM}" Margin="1" VerticalAlignment="Top"/>
-                                    </StackPanel>
-                                </StackPanel>
-
-                            </Border>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
-            </StackPanel>
         </StackPanel>
 
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">

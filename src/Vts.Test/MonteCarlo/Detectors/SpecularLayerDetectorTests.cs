@@ -5,6 +5,7 @@ using Vts.Common;
 using Vts.MonteCarlo;
 using Vts.MonteCarlo.Helpers;
 using Vts.MonteCarlo.PhaseFunctionInputs;
+using Vts.MonteCarlo.Detectors;
 using Vts.MonteCarlo.Tissues;
 
 namespace Vts.Test.MonteCarlo.Detectors
@@ -54,7 +55,6 @@ namespace Vts.Test.MonteCarlo.Detectors
                      AbsorptionWeightingType.Analog,
                 //PhaseFunctionType.HenyeyGreenstein,
                      new List<DatabaseType>() { }, // databases to be written
-                     true, // tally SecondMoment
                      false, // track statistics
                      0.0, // RR threshold -> 0 = no RR performed
                      0),

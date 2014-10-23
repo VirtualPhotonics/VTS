@@ -17,7 +17,7 @@ namespace Vts.Test.MonteCarlo.PhotonData
         public void validate_pMCDatabase_deserialized_class_is_correct_when_using_WriteToFile()
         {
             // test serialization
-            new SimulationInput().ToXMLFile("SimulationInputTest.xml");
+            new SimulationInput().ToFile("SimulationInputTest.txt");
 
             string photonDbFilename = "testpmcdatabase";
             string collisionDbFilename = "testpmccollisiondatabase";

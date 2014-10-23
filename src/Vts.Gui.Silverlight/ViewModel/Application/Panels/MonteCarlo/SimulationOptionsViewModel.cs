@@ -68,16 +68,6 @@ namespace Vts.Gui.Silverlight.ViewModel
             }
         }
 
-        public bool TallySecondMoment
-        {
-            get { return _simulationOptions.TallySecondMoment; }
-            set
-            {
-                _simulationOptions.TallySecondMoment = value;
-                OnPropertyChanged("TallySecondMoment");
-            }
-        }
-
         public bool TrackStatistics
         {
             get { return _simulationOptions.TrackStatistics; }

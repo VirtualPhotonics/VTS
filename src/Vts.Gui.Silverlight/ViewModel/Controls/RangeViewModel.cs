@@ -14,13 +14,15 @@ namespace Vts.Gui.Silverlight.ViewModel
         private string _units;
         private string _title;
         private bool _enableNumber;
+        private IndependentVariableAxis _axisType;
         
-        public RangeViewModel(DoubleRange range, string units, string title, bool enableNumber)
+        public RangeViewModel(DoubleRange range, string units, IndependentVariableAxis axisType, string title, bool enableNumber)
         {
             _range = range;
             Units = units;
             Title = title;
             _enableNumber = enableNumber;
+            _axisType = axisType;
 
             // todo: does this do anything? (start, stop, number already directly modified)
             _range.PropertyChanged += (s, a) =>
@@ -31,12 +33,12 @@ namespace Vts.Gui.Silverlight.ViewModel
             };
         }
 
-        public RangeViewModel(DoubleRange range, string units, string title)
-            : this(range,units,title,true)
+        public RangeViewModel(DoubleRange range, string units, IndependentVariableAxis axisType, string title)
+            : this(range,units,axisType,title,true)
         {
         }
 
-        public RangeViewModel() : this(new DoubleRange(1.0, 6.0, 60), "mm", "Range:", true) { }
+        public RangeViewModel() : this(new DoubleRange(1.0, 6.0, 60), "mm", IndependentVariableAxis.Rho, "Range:", true) { }
 
         /// <summary>
         /// A double representing the start of the range
@@ -111,6 +113,16 @@ namespace Vts.Gui.Silverlight.ViewModel
         public bool ShowTitle
         {
             get { return Title.Length > 0; }
+        }
+
+        public IndependentVariableAxis AxisType
+        {
+            get { return _axisType; }
+            set
+            {
+                _axisType = value;
+                OnPropertyChanged("AxisType");
+            }
         }
 
         public IEnumerable<double> Values
