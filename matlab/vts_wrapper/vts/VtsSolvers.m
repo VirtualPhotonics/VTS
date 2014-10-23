@@ -316,7 +316,7 @@ classdef VtsSolvers
             %       eg. RHO = [1:10];
             %   Z is a 1 x M array of z values (in mm)
             %       eg. Z = linspace(0.1,19.9,100);
-            %   SD is the source-detector separation in
+            %   SD is the source-detector separation in mm
             
             nop = size(op,1);
             
@@ -343,6 +343,55 @@ classdef VtsSolvers
             
             %r = double(NET.invokeGenericMethod('System.Linq.Enumerable','ToArray',{'System.Double'},phd));
             r = reshape(double(NET.invokeGenericMethod('System.Linq.Enumerable','ToArray',{'System.Double'},phd)),[length(zs) length(rhos) nop]);
+        end
+        
+        function r = PHDOfRhoAndZTwoLayer(op, rhos, zs, sd, thickness)
+            %% PHDOfRhoAndZTwoLayer
+            %   PHDOfRhoAndZ(OP, RHOS, ZS, SD, THICKNESS)
+            %
+            %   OP is an array of N x 4 matrix of optical properties
+            %       eg. OP = [[mua1, mus'1, g1, n1]; [mua2, mus'2, g2, n2]; ...];
+            %   RHO is a 1 x M array of x values (in mm)
+            %       eg. RHO = linspace(0,10,10);
+            %   Z is a 1 x M array of z values (in mm)
+            %       eg. Z = linspace(0.1,19.9,100);
+            %   SD is the source-detector separation in mm
+            %   THICKNESS is the thickness of the tissue
+            
+            nop = size(op,1);
+            
+            fs =  Vts.Modeling.ForwardSolvers.TwoLayerSDAForwardSolver();
+            solutionDomain = Vts.FluenceSolutionDomainType.FluenceOfRhoAndZ;
+            
+            op_net = NET.createArray('Vts.OpticalProperties', nop);
+            for i=1:nop
+                op_net(i) = Vts.OpticalProperties;
+                op_net(i).Mua =  op(i,1);
+                op_net(i).Musp = op(i,2);
+                op_net(i).G =    op(i,3);
+                op_net(i).N =    op(i,4);
+            end;
+                      
+            regions = NET.createArray('Vts.IOpticalPropertyRegion', 2);
+            regions(1) = Vts.Common.LayerOpticalPropertyRegion(Vts.Common.DoubleRange(0, thickness), op_net(1));
+            regions(2) = Vts.Common.LayerOpticalPropertyRegion(Vts.Common.DoubleRange(thickness, Inf), op_net(2));
+         
+            independentAxes = NET.createArray('Vts.IndependentVariableAxis', 2);
+            independentAxes(1) = Vts.IndependentVariableAxis.Rho;
+            independentAxes(2) = Vts.IndependentVariableAxis.Z;
+            independentValues = NET.createArray('System.Double[]', 2);
+            independentValues(1) = rhos;
+            independentValues(2) = zs;
+            constantValues = NET.createArray('System.Double', 0);
+                    
+            fluence = double(Vts.Factories.ComputationFactory.ComputeFluence(fs, solutionDomain, independentAxes, independentValues, regions, constantValues));
+            %fluence = double(fs.FluenceOfRhoAndZ(op_net,rhos,zs));
+
+            phd = Vts.Factories.ComputationFactory.GetPHD(fs, NET.convertArray(fluence,'System.Double'),...
+                sd, op_net, NET.convertArray(rhos,'System.Double'), NET.convertArray(zs,'System.Double'));
+            
+            %r = double(NET.invokeGenericMethod('System.Linq.Enumerable','ToArray',{'System.Double'},phd));
+            r = reshape(double(NET.invokeGenericMethod('System.Linq.Enumerable','ToArray',{'System.Double'},phd)),[length(zs) length(rhos)]);
         end
         
         function r = AbsorbedEnergyOfRhoAndZ(op, rhos, zs)

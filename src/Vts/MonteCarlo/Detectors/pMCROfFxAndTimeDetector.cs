@@ -26,7 +26,6 @@ namespace Vts.MonteCarlo.Detectors
             Fx = new DoubleRange(0.0, 10, 101);
 
             // modify base class TallyDetails to take advantage of built-in validation capabilities (error-checking)
-            TallyDetails.IsCylindricalTally = true;
             TallyDetails.IspMCReflectanceTally = true;
         }
         /// <summary>
