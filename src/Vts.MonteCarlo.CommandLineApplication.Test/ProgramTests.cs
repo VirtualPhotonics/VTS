@@ -17,9 +17,11 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
         List<string> listOfInfiles = new List<string>()
         {
             "infile_ellip_FluenceOfRhoAndZ.txt",
-            "infile_Gaussian_source_one_layer_ROfRho.txt", // uncomment this when bug fixed in Gaussian source
+            "infile_Flat_source_one_layer_ROfRho.txt",
+            "infile_Gaussian_source_one_layer_ROfRho.txt", 
             "infile_one_layer_all_detectors.txt",
             "infile_one_layer_FluenceOfRhoAndZ_RadianceOfRhoAndZAndAngle.txt",
+            "infile_one_layer_LUT_ROfRho.txt",
             "infile_one_layer_ROfRho_FluenceOfRhoAndZ.txt",
             "infile_pMC_one_layer_ROfRho_DAW.txt",
             "infile_three_layer_ReflectedTimeOfRhoAndSubregionHist.txt",

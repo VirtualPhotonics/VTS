@@ -399,9 +399,9 @@ namespace Vts.MonteCarlo
                 ti,
                 new List<IDetectorInput>()
                 {
-                    new FluenceOfRhoAndZDetectorInput(                            
-                        new DoubleRange(0.0, 10, 101),
-                        new DoubleRange(0.0, 10, 101))
+                    new FluenceOfRhoAndZDetectorInput( )                           
+                        {Rho = new DoubleRange(0.0, 10, 101),
+                        Z = new DoubleRange(0.0, 10, 101)}
                 }
             );
         }
@@ -414,25 +414,25 @@ namespace Vts.MonteCarlo
         public static SimulationInput PointSourceOneLayerTissueLUTPhaseFunctionROfRhoDetector()
         {
             MultiLayerTissueInput ti = new MultiLayerTissueInput(
-                    new LayerRegion[]
+                    new ITissueRegion[]
                     { 
                         new LayerRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
-                        "LookupTablePhaseFunctionKey1"),
+                        "HenyeyGreensteinKey1"),
                         new LayerRegion(
-                            new DoubleRange(0.0, 100),
+                            new DoubleRange(0.0, 100.0),
                             new OpticalProperties(0.01, 1.0, 0.8, 1.4),
-                        "LookupTablePhaseFunctionKey2"),
+                        "HenyeyGreensteinKey2"),
                         new LayerRegion(
                             new DoubleRange(100.0, double.PositiveInfinity),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
-                        "LookupTablePhaseFunctionKey3")
+                        "HenyeyGreensteinKey3")
                     }
                 );
-            ti.RegionPhaseFunctionInputs.Add("LookupTablePhaseFunctionKey1", new LookupTablePhaseFunctionInput());
-            ti.RegionPhaseFunctionInputs.Add("LookupTablePhaseFunctionKey2", new LookupTablePhaseFunctionInput());
-            ti.RegionPhaseFunctionInputs.Add("LookupTablePhaseFunctionKey3", new LookupTablePhaseFunctionInput());
+            ti.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey1", new HenyeyGreensteinPhaseFunctionInput());
+            ti.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey2", new HenyeyGreensteinPhaseFunctionInput());
+            ti.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey3", new HenyeyGreensteinPhaseFunctionInput());
             return new SimulationInput(
                 100,
                 "one_layer_LUT_ROfRho",
@@ -440,9 +440,8 @@ namespace Vts.MonteCarlo
                     0, // random number generator seed, -1=random seed, 0=fixed seed
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Discrete,
-                //new LookupTablePhaseFunctionInput(), 
+                    //new LookupTablePhaseFunctionInput(), 
                     new List<DatabaseType>() { }, // databases to be written
-                    true, // tally Second Moment
                     false, // track statistics
                     0.0, // RR threshold -> no RR performed
                     0),
@@ -579,6 +578,26 @@ namespace Vts.MonteCarlo
         /// </summary>
         public static SimulationInput FlatSourceOneLayerTissueROfRhoDetector()
         {
+            var ti = new MultiLayerTissueInput(
+                new ITissueRegion[]
+                {
+                    new LayerRegion(
+                        new DoubleRange(double.NegativeInfinity, 0.0),
+                        new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
+                        "HenyeyGreensteinKey1"),
+                    new LayerRegion(
+                        new DoubleRange(0.0, 100.0),
+                        new OpticalProperties(0.01, 1.0, 0.8, 1.4),
+                        "HenyeyGreensteinKey2"),
+                    new LayerRegion(
+                        new DoubleRange(100.0, double.PositiveInfinity),
+                        new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
+                        "HenyeyGreensteinKey3")
+                }
+                );
+            ti.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey1", new HenyeyGreensteinPhaseFunctionInput());
+            ti.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey2", new HenyeyGreensteinPhaseFunctionInput());
+            ti.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey3", new HenyeyGreensteinPhaseFunctionInput());
             return new SimulationInput(
                 100,
                 "Flat_source_one_layer_ROfRho",
@@ -586,7 +605,7 @@ namespace Vts.MonteCarlo
                     0, // random number generator seed, -1=random seed, 0=fixed seed
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Discrete,
-                    PhaseFunctionType.HenyeyGreenstein,
+                    //PhaseFunctionType.HenyeyGreenstein,
                     new List<DatabaseType>() { }, // databases to be written
                     false, // track statistics
                     0.0, // RR threshold -> 0 = no RR performed
@@ -601,20 +620,7 @@ namespace Vts.MonteCarlo
                     new Position(0, 0, 0), // center of beam on surface
                     new PolarAzimuthalAngles(0, 0), // no beam rotation         
                     0), // 0=start in air, 1=start in tissue
-                new MultiLayerTissueInput(
-                    new ITissueRegion[]
-                    { 
-                        new LayerRegion(
-                            new DoubleRange(double.NegativeInfinity, 0.0),
-                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
-                        new LayerRegion(
-                            new DoubleRange(0.0, 100.0),
-                            new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
-                        new LayerRegion(
-                            new DoubleRange(100.0, double.PositiveInfinity),
-                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
-                    }
-                ),
+                ti,
                 new List<IDetectorInput>()
                 {
                     new ROfRhoDetectorInput
@@ -696,6 +702,36 @@ namespace Vts.MonteCarlo
         /// </summary>
         public static SimulationInput PointSourceThreeLayerReflectedTimeOfRhoAndSubregionHistDetector()
         {
+            var ti = new MultiLayerTissueInput(
+                new ITissueRegion[]
+                {
+                    new LayerRegion(
+                        new DoubleRange(double.NegativeInfinity, 0.0),
+                        new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
+                        "HenyeyGreensteinKey1"),
+                    new LayerRegion(
+                        new DoubleRange(0.0, 5.0),
+                        new OpticalProperties(0.01, 1.0, 0.9, 1.4),
+                        "HenyeyGreensteinKey2"),
+                    new LayerRegion(
+                        new DoubleRange(5.0, 10.0),
+                        new OpticalProperties(0.01, 1.0, 0.9, 1.4),
+                        "HenyeyGreensteinKey3"),
+                    new LayerRegion(
+                        new DoubleRange(10.0, 100.0),
+                        new OpticalProperties(0.01, 1.0, 0.9, 1.4),
+                        "HenyeyGreensteinKey4"),
+                    new LayerRegion(
+                        new DoubleRange(100.0, double.PositiveInfinity),
+                        new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
+                        "HenyeyGreensteinKey5")
+                }
+                );
+            ti.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey1", new HenyeyGreensteinPhaseFunctionInput());
+            ti.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey2", new HenyeyGreensteinPhaseFunctionInput());
+            ti.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey3", new HenyeyGreensteinPhaseFunctionInput());
+            ti.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey4", new HenyeyGreensteinPhaseFunctionInput());
+            ti.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey5", new HenyeyGreensteinPhaseFunctionInput());
             return new SimulationInput(
                 100,
                 "three_layer_ReflectedTimeOfRhoAndSubregionHist",
@@ -712,26 +748,7 @@ namespace Vts.MonteCarlo
                     new Position(0.0, 0.0, 0.0),
                     new Direction(0.0, 0.0, 1.0),
                     0), // 0=start in air, 1=start in tissue, start in tissue so no MT tally at tissue crossing in air
-                new MultiLayerTissueInput(
-                    new ITissueRegion[]
-                    { 
-                        new LayerRegion(
-                            new DoubleRange(double.NegativeInfinity, 0.0),
-                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
-                        new LayerRegion(
-                            new DoubleRange(0.0, 5.0),
-                            new OpticalProperties(0.01, 1.0, 0.9, 1.4)),  
-                        new LayerRegion(
-                            new DoubleRange(5.0, 10.0),
-                            new OpticalProperties(0.01, 1.0, 0.9, 1.4)), 
-                        new LayerRegion(
-                            new DoubleRange(10.0, 100.0),
-                            new OpticalProperties(0.01, 1.0, 0.9, 1.4)), 
-                        new LayerRegion(
-                            new DoubleRange(100.0, double.PositiveInfinity),
-                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
-                    }
-                ),
+                ti,
                 new List<IDetectorInput>()
                 {
                     new ROfRhoAndTimeDetectorInput(){

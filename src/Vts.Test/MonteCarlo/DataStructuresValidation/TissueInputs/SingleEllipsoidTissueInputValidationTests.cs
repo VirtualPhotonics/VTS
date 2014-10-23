@@ -113,7 +113,7 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation.TissueInputs
                 new DirectionalPointSourceInput(),
                 new SingleEllipsoidTissueInput(
                     new EllipsoidRegion(new Position(0, 0, 0), 1.0, 1.0, 1.0, 
-                        new OpticalProperties(0.01, 1.0, 0.9, 1.4)),
+                        new OpticalProperties(0.01, 1.0, 0.9, 1.4), "HenyeyGreensteinKey1"),
                     new ITissueRegion[]
                     { 
                         new LayerRegion(

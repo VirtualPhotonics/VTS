@@ -16,11 +16,11 @@ namespace Vts.MonteCarlo
     /// definitions.
     ///</summary>
     // phase function inputs
-    [KnownType(typeof(BidirectionalPhaseFunctionInput))]
-    [KnownType(typeof(HenyeyGreensteinPhaseFunctionInput))]
-    [KnownType(typeof(LookupTablePhaseFunctionInput))]
-    [KnownType(typeof(PolarAndAzimuthalLookupTablePhaseFunctionData))]
-    [KnownType(typeof(PolarLookupTablePhaseFunctionData))]
+    [KnownType(typeof (BidirectionalPhaseFunctionInput))]
+    [KnownType(typeof (HenyeyGreensteinPhaseFunctionInput))]
+    [KnownType(typeof (LookupTablePhaseFunctionInput))]
+    [KnownType(typeof (PolarAndAzimuthalLookupTablePhaseFunctionData))]
+    [KnownType(typeof (PolarLookupTablePhaseFunctionData))]
 
     public class SimulationInput
     {
@@ -28,22 +28,27 @@ namespace Vts.MonteCarlo
         /// string name of output file
         /// </summary>
         public string OutputName;
+
         /// <summary>
         /// number of photons launched from source
         /// </summary>
         public long N;
+
         /// <summary>
         /// SimulationOptions specify, for example, absorption weighting type
         /// </summary>
         public SimulationOptions Options;
+
         /// <summary>
         /// source input (ISourceInput)
         /// </summary>
         public ISourceInput SourceInput;
+
         /// <summary>
         /// tissue input (ITissueInput)
         /// </summary>
         public ITissueInput TissueInput;
+
         /// <summary>
         /// detector input (IList of IDetectorInput)
         /// </summary>
@@ -75,9 +80,10 @@ namespace Vts.MonteCarlo
             // check if detectorInputs list is null and if so make empty
             if (DetectorInputs == null)
             {
-                DetectorInputs = new List<IDetectorInput>() { };
+                DetectorInputs = new List<IDetectorInput>() {};
             }
         }
+
         /// <summary>
         /// SimulationInput default constructor
         /// </summary>
@@ -89,8 +95,8 @@ namespace Vts.MonteCarlo
                     -1, // get random seed
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Discrete,
-                //new HenyeyGreensteinPhaseFunctionInput(),
-                    new List<DatabaseType>() { },
+                    //new HenyeyGreensteinPhaseFunctionInput(),
+                    new List<DatabaseType>() {},
                     false, // track statistics
                     0.0, // RR threshold -> no RR performed
                     0),
@@ -98,19 +104,19 @@ namespace Vts.MonteCarlo
 
                 new MultiLayerTissueInput(
                     new ITissueRegion[]
-                    { 
+                    {
                         new LayerRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
-                        "HenyeyGreensteinKey1"),
+                            "HenyeyGreensteinKey1"),
                         new LayerRegion(
                             new DoubleRange(0.0, 100.0),
                             new OpticalProperties(0.01, 1.0, 0.8, 1.4),
-                        "HenyeyGreensteinKey2"),
+                            "HenyeyGreensteinKey2"),
                         new LayerRegion(
                             new DoubleRange(100.0, double.PositiveInfinity),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
-                        "HenyeyGreensteinKey3")
+                            "HenyeyGreensteinKey3")
                     }),
 
                 new List<IDetectorInput>
@@ -121,12 +127,12 @@ namespace Vts.MonteCarlo
                     }, // rho: nr=200 dr=0.2mm used for workshop)
                 }
                 )
-        
-
-            TissueInput.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey1", new HenyeyGreensteinPhaseFunctionInput());
-            TissueInput.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey2", new HenyeyGreensteinPhaseFunctionInput());
-            TissueInput.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey3", new HenyeyGreensteinPhaseFunctionInput());
-        }
+            {
+                TissueInput.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey1", new HenyeyGreensteinPhaseFunctionInput());
+                TissueInput.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey2", new HenyeyGreensteinPhaseFunctionInput());
+                TissueInput.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey3", new HenyeyGreensteinPhaseFunctionInput());
+            }
+    
         /// <summary>
         /// Method to read SimulationInput from JSON file
         /// </summary>

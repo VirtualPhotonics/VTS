@@ -1,6 +1,6 @@
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Vts.MonteCarlo.Tissues;
-
 namespace Vts.MonteCarlo
 {
     /// <summary>
@@ -11,6 +11,7 @@ namespace Vts.MonteCarlo
     public class SemiInfiniteTissueInput : ITissueInput
     {
         private ITissueRegion[] _regions;
+        public IDictionary<string, IPhaseFunctionInput> RegionPhaseFunctionInputs { get; set; }
 
         /// <summary>
         /// constructor for Semi-infinite tissue input
@@ -19,13 +20,14 @@ namespace Vts.MonteCarlo
         public SemiInfiniteTissueInput(ITissueRegion region)
         {
             _regions = new[] { region };
+            RegionPhaseFunctionInputs = new Dictionary<string, IPhaseFunctionInput>();
         }
 
         /// <summary>
         /// SemiInfiniteTissueInput default constructor provides homogeneous tissue
         /// </summary>
         public SemiInfiniteTissueInput()
-            : this(new SemiInfiniteRegion(new OpticalProperties(0.02, 1.0, 0.8, 1.4)))
+            : this(new SemiInfiniteRegion(new OpticalProperties(0.02, 1.0, 0.8, 1.4),"HenyeyGreensteinKey1"))
         {
         }
 

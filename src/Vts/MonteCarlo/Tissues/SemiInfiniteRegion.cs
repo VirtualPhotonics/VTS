@@ -11,20 +11,23 @@ namespace Vts.MonteCarlo.Tissues
     /// </summary>
     public class SemiInfiniteRegion : ITissueRegion
     {
+        public string PhaseFunctionKey { get; set; }
         /// <summary>
         /// constructor for SemiInfiniteRegion
         /// </summary>
         /// <param name="op">optical properties of layer</param>
-        public SemiInfiniteRegion(OpticalProperties op)
+        public SemiInfiniteRegion(OpticalProperties op, string phaseFunctionKey)
         {
             RegionOP = op;
+            PhaseFunctionKey = phaseFunctionKey;
         }
 
         /// <summary>
         /// default constructor
         /// </summary>
         public SemiInfiniteRegion()
-            : this(new OpticalProperties(0.01, 1.0, 0.8, 1.4)) { }
+            : this(new OpticalProperties(0.01, 1.0, 0.8, 1.4),
+            "HenyeyGreensteinKey1") { }
 
         /// <summary>
         /// tissue region identifier

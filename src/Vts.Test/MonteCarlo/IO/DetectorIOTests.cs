@@ -368,7 +368,7 @@ namespace Vts.Test.MonteCarlo
                         new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
                 },
                 AbsorptionWeightingType.Discrete,
-                PhaseFunctionType.HenyeyGreenstein,
+                new Dictionary<string, IPhaseFunction>(),
                 0.0
             );
             IDetectorInput detectorInput = new ReflectedMTOfRhoAndSubregionHistDetectorInput()
