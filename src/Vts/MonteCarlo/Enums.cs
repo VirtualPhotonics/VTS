@@ -339,55 +339,43 @@ namespace Vts.MonteCarlo
         /// </summary>
         Normal,
     }
+
     /// <summary>
     /// Tissue types
     /// </summary>
-    public enum TissueType
+    public static class TissueType
     {
-        /// <summary>
-        /// SemiInfinite tissue type.  Includes homogeneous tissues.
-        /// </summary>
-        SemiInfinite,  
-        /// <summary>
-        /// Multilayer tissue type.  Includes homogeneous tissues.
-        /// </summary>
-        MultiLayer,
-        /// <summary>
-        /// Tissue slab with embedded ellipsoid
-        /// </summary>
-        SingleEllipsoid,
-        /// <summary>
-        /// Tissue slab with multiple embedded ellipsoids
-        /// </summary>
-        MultiEllipsoid,
+        public static readonly string[] BuiltInTypes = new []
+        {
+            /// <summary>
+            /// SemiInfinite tissue type.  Includes homogeneous tissues.
+            /// </summary>
+            "SemiInfinite",
+            /// <summary>
+            /// Multilayer tissue type.  Includes homogeneous tissues.
+            /// </summary>
+            "MultiLayer",
+            /// <summary>
+            /// Tissue slab with embedded ellipsoid
+            /// </summary>
+            "SingleEllipsoid",
+            /// <summary>
+            /// Tissue slab with multiple embedded ellipsoids
+            /// </summary>
+            "MultiEllipsoid",
+        };
     }
 
-    public enum TissueRegionType
+    public static class TissueRegionType
     {
-        Voxel,
-        Layer,
-        Ellipsoid,
-        Cylinder
+        public static readonly string[] BuiltInTypes = new []
+        {
+            "Voxel",
+            "Layer",
+            "Ellipsoid",
+            "Cylinder"
+        };
     }
-
-    ///// <summary>
-    ///// Detector types
-    ///// </summary>
-    //public enum DetectorType
-    //{
-    //    /// <summary>
-    //    /// Termination detector
-    //    /// </summary>
-    //    Termination,
-    //    /// <summary>
-    //    /// Pathlength detector
-    //    /// </summary>
-    //    Pathlength,
-    //    /// <summary>
-    //    /// Collision detector
-    //    /// </summary>
-    //    Collision,
-    //}
 
     public static class TallyType
     {

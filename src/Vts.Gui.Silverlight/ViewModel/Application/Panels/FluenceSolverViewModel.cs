@@ -108,7 +108,7 @@ namespace Vts.Gui.Silverlight.ViewModel
 
                         OnPropertyChanged("IsMultiRegion");
                         OnPropertyChanged("IsSemiInfinite");
-                        TissueInputVM = GetTissueInputVM(IsMultiRegion ? MonteCarlo.TissueType.MultiLayer : MonteCarlo.TissueType.SemiInfinite);
+                        TissueInputVM = GetTissueInputVM(IsMultiRegion ? "MultiLayer" : "SemiInfinite");
                     };
 
             ExecuteFluenceSolverCommand = new RelayCommand(() => ExecuteFluenceSolver_Executed(null, null));
@@ -293,7 +293,7 @@ namespace Vts.Gui.Silverlight.ViewModel
             return axesLabels;
         }
 
-        private object GetTissueInputVM(Vts.MonteCarlo.TissueType tissueType)
+        private object GetTissueInputVM(string tissueType)
         {
             // ops to use as the basis for instantiating multi-region tissues based on homogeneous values (for differential comparison)
             if (_currentHomogeneousOpticalProperties == null)
@@ -303,7 +303,7 @@ namespace Vts.Gui.Silverlight.ViewModel
 
             switch (tissueType)
             {
-                case MonteCarlo.TissueType.SemiInfinite:
+                case "SemiInfinite":
                     if (_currentSemiInfiniteTissueInput == null)
                     {
                         _currentSemiInfiniteTissueInput = new SemiInfiniteTissueInput(new SemiInfiniteRegion(_currentHomogeneousOpticalProperties));
@@ -313,7 +313,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                          IndependentVariableAxisUnits.InverseMM.GetInternationalizedString(),
                         "Optical Properties:");
                     break;
-                case MonteCarlo.TissueType.MultiLayer:
+                case "MultiLayer":
                     if (_currentMultiLayerTissueInput == null)
                     {
                         _currentMultiLayerTissueInput = new MultiLayerTissueInput(new ITissueRegion[]
@@ -323,7 +323,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                             });
                     }
                     return new MultiRegionTissueViewModel(_currentMultiLayerTissueInput);
-                case MonteCarlo.TissueType.SingleEllipsoid:
+                case "SingleEllipsoid":
                     if (_currentSingleEllipsoidTissueInput == null)
                     {
                         _currentSingleEllipsoidTissueInput = new SingleEllipsoidTissueInput(
