@@ -19,7 +19,7 @@ namespace Vts.MonteCarlo.Tissues
         /// <param name="awt">absorption weighting type</param>
         public CylinderRegion(Position center, double radius, double height, OpticalProperties op, AbsorptionWeightingType awt) 
         {
-            TissueRegionType = TissueRegionType.Cylinder;
+            TissueRegionType = "Cylinder";
             Center = center;
             Radius = radius;
             Height = height;
@@ -34,7 +34,7 @@ namespace Vts.MonteCarlo.Tissues
         /// <summary>
         /// tissue region identifier
         /// </summary>
-        public TissueRegionType TissueRegionType { get; set; }
+        public string TissueRegionType { get; set; }
 
         /// <summary>
         /// center of cyliner

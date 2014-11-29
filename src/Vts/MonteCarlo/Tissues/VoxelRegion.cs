@@ -21,7 +21,7 @@ namespace Vts.MonteCarlo.Tissues
         public VoxelRegion(DoubleRange x, DoubleRange y, DoubleRange z, OpticalProperties op,
                            AbsorptionWeightingType awt)
         {
-            TissueRegionType = TissueRegionType.Voxel;
+            TissueRegionType = "Voxel";
             X = x;
             Y = y;
             Z = z;
@@ -42,7 +42,7 @@ namespace Vts.MonteCarlo.Tissues
         /// <summary>
         /// tissue region identifier
         /// </summary>
-        public TissueRegionType TissueRegionType { get; set; }
+        public string TissueRegionType { get; set; }
 
         /// <summary>
         /// x range of voxel

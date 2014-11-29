@@ -6,6 +6,20 @@ using Vts.Extensions;
 namespace Vts.MonteCarlo.Tissues
 {
     /// <summary>
+    /// Base class for all tissue inputs
+    /// </summary>
+    public abstract class TissueInput
+    {
+        public TissueInput()
+        {
+            TissueType = "";
+        }
+
+        // mandatory user inputs (required for ITissueInput contract)
+        public string TissueType { get; set; }
+    }
+
+    /// <summary>
     /// Base class for all tissue definitions.
     /// </summary>
     public abstract class TissueBase

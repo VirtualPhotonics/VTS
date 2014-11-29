@@ -1,3 +1,4 @@
+using System;
 using System.Runtime.Serialization;
 using Vts.MonteCarlo.Tissues;
 
@@ -6,9 +7,7 @@ namespace Vts.MonteCarlo
     /// <summary>
     /// Implements ITissueInput.  Defines input to SemiInfiniteTissueInput class.
     /// </summary>
-    [KnownType(typeof(LayerRegion))]
-    [KnownType(typeof(OpticalProperties))]
-    public class SemiInfiniteTissueInput : ITissueInput
+    public class SemiInfiniteTissueInput : TissueInput, ITissueInput
     {
         private ITissueRegion[] _regions;
 
@@ -18,6 +17,7 @@ namespace Vts.MonteCarlo
         /// <param name="region">tissue region info</param>
         public SemiInfiniteTissueInput(ITissueRegion region)
         {
+            TissueType = "SemiInfinite";
             _regions = new[] { region };
         }
 
@@ -30,14 +30,15 @@ namespace Vts.MonteCarlo
         }
 
         /// <summary>
-        /// tissue identifier
-        /// </summary>
-        [IgnoreDataMember]
-        public TissueType TissueType { get { return TissueType.SemiInfinite; } }
-
-        /// <summary>
         /// list of tissue regions comprising tissue
         /// </summary>
         public ITissueRegion[] Regions { get { return _regions; } set { _regions = value; } }
+
+        public ITissue CreateTissue()
+        {
+            throw new NotImplementedException();
+            // return new SemiInfiniteTissue(this); todo: add implementation
+        }
+
     }
 }

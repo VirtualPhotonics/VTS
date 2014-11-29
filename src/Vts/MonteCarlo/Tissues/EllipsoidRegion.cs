@@ -22,7 +22,7 @@ namespace Vts.MonteCarlo.Tissues
         public EllipsoidRegion(Position center, double radiusX, double radiusY, double radiusZ,
             OpticalProperties op)
         {
-            TissueRegionType = TissueRegionType.Ellipsoid;
+            TissueRegionType = "Ellipsoid";
             RegionOP = op;
             Center = center;
             Dx = radiusX;
@@ -39,7 +39,7 @@ namespace Vts.MonteCarlo.Tissues
         /// <summary>
         /// tissue region identifier
         /// </summary>
-        public TissueRegionType TissueRegionType { get; set; }
+        public string TissueRegionType { get; set; }
 
         /// <summary>
         /// optical properties of ellipsoid

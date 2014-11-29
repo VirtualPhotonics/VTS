@@ -1,5 +1,6 @@
 ﻿using System;
 using Vts.MonteCarlo;
+using Vts.MonteCarlo.Tissues;
 
 #if WHITELIST
 using Vts.Gui.Silverlight.ViewModel.Application;
@@ -11,7 +12,7 @@ namespace Vts.Gui.Silverlight.ViewModel
     {
         private SimulationInput _simulationInput;
         private SimulationOptionsViewModel _simulationOptionsVM;
-        private OptionViewModel<Vts.MonteCarlo.TissueType> _tissueTypeVM;
+        private OptionViewModel<string> _tissueTypeVM;
 
         private object _tissueInputVM;
 
@@ -22,19 +23,24 @@ namespace Vts.Gui.Silverlight.ViewModel
             _simulationOptionsVM = new SimulationOptionsViewModel(_simulationInput.Options);
 
 #if WHITELIST 
-            TissueTypeVM = new OptionViewModel<Vts.MonteCarlo.TissueType>("Tissue Type:", true, _simulationInput.TissueInput.TissueType, WhiteList.TissueTypes);
+            TissueTypeVM = new OptionViewModel<string>("Tissue Type:", true, _simulationInput.TissueInput.TissueType, WhiteList.TissueTypes);
 #else
-            TissueTypeVM = new OptionViewModel<Vts.MonteCarlo.TissueType>("Tissue Type:", true, _simulationInput.TissueInput.TissueType);
+            TissueTypeVM = new OptionViewModel<string>("Tissue Type:", true, _simulationInput.TissueInput.TissueType,
+                new[]
+                {
+                    "MultiLayer",
+                    "SingleEllipsoid",
+                });
 #endif
 
             _tissueTypeVM.PropertyChanged += (sender, args) =>
                 {
                     switch (_tissueTypeVM.SelectedValue)
                     {
-                        case MonteCarlo.TissueType.MultiLayer:
+                        case "MultiLayer":
                              _simulationInput.TissueInput = new MultiLayerTissueInput();
                             break;
-                        case MonteCarlo.TissueType.SingleEllipsoid:
+                        case "SingleEllipsoid":
                             _simulationInput.TissueInput = new SingleEllipsoidTissueInput();
                             break;
                         default:
@@ -85,7 +91,7 @@ namespace Vts.Gui.Silverlight.ViewModel
             }
         }
 
-        public OptionViewModel<Vts.MonteCarlo.TissueType> TissueTypeVM
+        public OptionViewModel<string> TissueTypeVM
         {
             get { return _tissueTypeVM; }
             set
@@ -105,17 +111,17 @@ namespace Vts.Gui.Silverlight.ViewModel
             }
         }
 
-        private void UpdateTissueTypeVM(MonteCarlo.TissueType tissueType)
+        private void UpdateTissueTypeVM(string tissueType)
         {
             switch (tissueType)
             {
-                case MonteCarlo.TissueType.SemiInfinite:
+                case "SemiInfinite":
                     _simulationInput.TissueInput = new SemiInfiniteTissueInput();
                     break;
-                case MonteCarlo.TissueType.MultiLayer:
+                case "MultiLayer":
                     _simulationInput.TissueInput = new MultiLayerTissueInput();
                     break;
-                case MonteCarlo.TissueType.SingleEllipsoid:
+                case "SingleEllipsoid":
                     _simulationInput.TissueInput = new SingleEllipsoidTissueInput();
                     break;
                 default:
@@ -129,10 +135,10 @@ namespace Vts.Gui.Silverlight.ViewModel
         {
             switch (tissueInput.TissueType)
             {
-                case MonteCarlo.TissueType.MultiLayer:
+                case "MultiLayer":
                     TissueInputVM = new MultiRegionTissueViewModel((MultiLayerTissueInput)tissueInput);
                     break;
-                case MonteCarlo.TissueType.SingleEllipsoid:
+                case "SingleEllipsoid":
                     TissueInputVM = new MultiRegionTissueViewModel((SingleEllipsoidTissueInput)tissueInput);
                     break;
                 default:

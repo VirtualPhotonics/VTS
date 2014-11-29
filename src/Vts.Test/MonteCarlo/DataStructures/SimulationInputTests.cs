@@ -4,6 +4,7 @@ using System.Runtime.Serialization.Json;
 using NUnit.Framework;
 using Vts.IO;
 using Vts.MonteCarlo;
+using Vts.MonteCarlo.Tissues;
 
 namespace Vts.Test.MonteCarlo
 {

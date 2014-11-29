@@ -673,12 +673,6 @@
     <Compile Include="..\Vts\MonteCarlo\DataStructures\TissueInputs\MultiEllipsoidTissueInput.cs">
       <Link>MonteCarlo\DataStructures\TissueInputs\MultiEllipsoidTissueInput.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\DataStructures\TissueInputs\MultiLayerTissueInput.cs">
-      <Link>MonteCarlo\DataStructures\TissueInputs\MultiLayerTissueInput.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\MonteCarlo\DataStructures\TissueInputs\SingleEllipsoidTissueInput.cs">
-      <Link>MonteCarlo\DataStructures\TissueInputs\SingleEllipsoidTissueInput.cs</Link>
-    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\AOfRhoAndZDetector.cs">
       <Link>MonteCarlo\Detectors\AOfRhoAndZDetector.cs</Link>
     </Compile>

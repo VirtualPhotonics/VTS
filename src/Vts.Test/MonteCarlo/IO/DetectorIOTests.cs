@@ -366,10 +366,7 @@ namespace Vts.Test.MonteCarlo
                     new LayerRegion(
                         new DoubleRange(100.0, double.PositiveInfinity),
                         new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
-                },
-                AbsorptionWeightingType.Discrete,
-                PhaseFunctionType.HenyeyGreenstein,
-                0.0
+                }
             );
             IDetectorInput detectorInput = new ReflectedMTOfRhoAndSubregionHistDetectorInput()
             {

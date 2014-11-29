@@ -82,14 +82,14 @@ namespace Vts.Gui.Silverlight.ViewModel.Application
             }
         }
 
-        public static MonteCarlo.TissueType[] TissueTypes
+        public static string[] TissueTypes
         {
             get
             {
                 return new[]
                 {
-                    MonteCarlo.TissueType.MultiLayer,
-                    MonteCarlo.TissueType.SingleEllipsoid,
+                    "MultiLayer",
+                    "SingleEllipsoid",
                 };
             }
         }

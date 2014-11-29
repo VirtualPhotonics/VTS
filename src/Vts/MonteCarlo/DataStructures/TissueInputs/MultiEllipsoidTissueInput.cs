@@ -8,7 +8,7 @@ namespace Vts.MonteCarlo
     /// <summary>
     /// Implements ITissueInput.  Defines input to SingleEllipsoidTissue class.
     /// </summary>
-    public class MultiEllipsoidTissueInput : ITissueInput
+    public class MultiEllipsoidTissueInput : TissueInput, ITissueInput
     {
         private ITissueRegion[] _ellipsoidRegions;
         private ITissueRegion[] _layerRegions;
@@ -20,7 +20,7 @@ namespace Vts.MonteCarlo
         /// <param name="layerRegions">tissue layer specification</param>
         public MultiEllipsoidTissueInput(ITissueRegion[] ellipsoidRegions, ITissueRegion[] layerRegions)
         {
-            TissueType = TissueType.MultiEllipsoid;
+            TissueType = "MultiEllipsoid";
             _ellipsoidRegions = ellipsoidRegions;
             _layerRegions = layerRegions;
         }
@@ -61,10 +61,6 @@ namespace Vts.MonteCarlo
         {
         }
 
-        /// <summary>
-        /// tissue type
-        /// </summary>
-        public TissueType TissueType { get; set; }
         /// <summary>
         /// regions of tissue (layers and ellipsoid)
         /// </summary>

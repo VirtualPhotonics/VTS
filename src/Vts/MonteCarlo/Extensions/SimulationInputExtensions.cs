@@ -147,7 +147,7 @@ namespace Vts.MonteCarlo.Extensions
                     dynamic inclusionRegion = null;
                     switch (result.TissueInput.TissueType)
                     {
-                        case TissueType.SingleEllipsoid:
+                        case "SingleEllipsoid":
                             inclusionRegion = ((SingleEllipsoidTissueInput)result.TissueInput).EllipsoidRegion;
                             //var singleEllipsoidTissueInput = (SingleEllipsoidTissueInput) result.TissueInput;
                             //inclusionPosition = ((EllipsoidRegion)singleEllipsoidTissueInput.EllipsoidRegion).Center;
@@ -163,7 +163,7 @@ namespace Vts.MonteCarlo.Extensions
                     dynamic tissueInputWithRadius = result.TissueInput;
                     switch (result.TissueInput.TissueType)
                     {
-                        case TissueType.SingleEllipsoid:
+                        case "SingleEllipsoid":
                             switch (parameterString)
                             {
                                 case "inclusion_radius_x":

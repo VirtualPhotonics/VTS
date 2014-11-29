@@ -18,6 +18,7 @@ namespace Vts.MonteCarlo.Tissues
         public SemiInfiniteRegion(OpticalProperties op)
         {
             RegionOP = op;
+            TissueRegionType = "SemiInfinite";
         }
 
         /// <summary>
@@ -29,7 +30,7 @@ namespace Vts.MonteCarlo.Tissues
         /// <summary>
         /// tissue region identifier
         /// </summary>
-        public TissueRegionType TissueRegionType { get; set; }
+        public string TissueRegionType { get; set; }
 
         /// <summary>
         /// optical properties of layer

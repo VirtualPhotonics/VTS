@@ -8,7 +8,7 @@
         /// <summary>
         /// Type of tissue
         /// </summary>
-        TissueType TissueType { get; }
+        string TissueType { get; }
         
         /// <summary>
         /// List of tissue regions comprising tissue.
