@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Vts.Common.Logging;
+using Vts.IO;
 using Vts.MonteCarlo.Controllers;
 using Vts.MonteCarlo.Extensions;
 using Vts.MonteCarlo.Factories;
@@ -343,8 +344,16 @@ namespace Vts.MonteCarlo
             }
 
             if (TrackStatistics)
-            {             
-                _simulationStatistics.ToFile("statistics.txt");
+            {
+                if (_input.OutputName == "")
+                {
+                    _simulationStatistics.ToFile("statistics.txt");
+                }
+                else
+                {
+                    FileIO.CreateDirectory(_input.OutputName);
+                    _simulationStatistics.ToFile(_input.OutputName + "/statistics.txt");
+                }
             }
 
             stopwatch.Stop();

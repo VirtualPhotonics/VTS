@@ -34,7 +34,7 @@ namespace Vts.Test.MonteCarlo.BidirectionalScattering
         {
             _input = new SimulationInput(
                 10000, // number needed to get enough photons to Td 
-                "",
+                "results",
                 new SimulationOptions(
                     0, 
                     RandomNumberGeneratorType.MersenneTwister,
@@ -72,7 +72,7 @@ namespace Vts.Test.MonteCarlo.BidirectionalScattering
             );
             _output = new MonteCarloSimulation(_input).Run();
 
-            _simulationStatistics = SimulationStatistics.FromFile("statistics.txt");
+            _simulationStatistics = SimulationStatistics.FromFile(_input.OutputName + "/statistics.txt");
         }
 
         // todo: add analytic variance and use this for error bounds

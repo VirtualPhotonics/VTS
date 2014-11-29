@@ -7,7 +7,7 @@ classdef DetectorInput
             % detector name, defaults to 'ROfRho' but can be user specified
             input.Name = 'ROfRho';
             % boolean to specify if second moment should also be calculated
-            input.TallySecondMoment = 0;
+            input.TallySecondMoment = false;
             % boolean to specify if second moment should also be calculated
             input.TallyDetails = TallyDetails.Default();
             % detector rho binning
@@ -18,10 +18,11 @@ classdef DetectorInput
             if nargin < 3
                 name = 'AOfRhoAndZ';
             end
-            input.TallyType = 'AOfRhoAndZ';
+            sampleInput = Vts.MonteCarlo.Detectors.AOfRhoAndZDetectorInput;
+            input.TallyType = sampleInput.TallyType;
+            input.TallySecondMoment = sampleInput.TallySecondMoment;
+            input.TallyDetails = TallyDetails.FromDetailsNET(sampleInput.TallyDetails);
             input.Name = name;
-            input.TallySecondMoment = 0;
-            input.TallyDetails = TallyDetails.Default();
             input.Rho = rho;
             input.Z = z;
         end 
@@ -30,10 +31,11 @@ classdef DetectorInput
             if nargin < 1
                 name = 'ATotal';
             end
-            input.TallyType = 'ATotal';
+            sampleInput = Vts.MonteCarlo.Detectors.ATotalDetectorInput;
+            input.TallyType = sampleInput.TallyType;
+            input.TallySecondMoment = sampleInput.TallySecondMoment;
+            input.TallyDetails = TallyDetails.FromDetailsNET(sampleInput.TallyDetails);
             input.Name = name;
-            input.TallySecondMoment = 0;
-            input.TallyDetails = TallyDetails.Default();
         end
         % set default perturbed optical properties list to be consistent
         % with default infile which has air-tissue-air definition and
@@ -42,10 +44,11 @@ classdef DetectorInput
             if nargin < 2
                 name = 'dMCdROfRhodMua';
             end
-            input.TallyType = 'dMCdROfRhodMua';
+            sampleInput = Vts.MonteCarlo.Detectors.dMCdROfRhodMuaDetectorInput;
+            input.TallyType = sampleInput.TallyType;
+            input.TallySecondMoment = sampleInput.TallySecondMoment;
+            input.TallyDetails = TallyDetails.FromDetailsNET(sampleInput.TallyDetails);
             input.Name = name;
-            input.TallySecondMoment = 0;
-            input.TallyDetails = TallyDetails.Default();
             input.Rho = rho;
             input.PerturbedOps = ...
                 [...
@@ -59,10 +62,11 @@ classdef DetectorInput
             if nargin < 2
                 name = 'dMCdROfRhodMus';
             end
-            input.TallyType = 'dMCdROfRhodMus';
+            sampleInput = Vts.MonteCarlo.Detectors.dMCdROfRhodMusDetectorInput;
+            input.TallyType = sampleInput.TallyType;
+            input.TallySecondMoment = sampleInput.TallySecondMoment;
+            input.TallyDetails = TallyDetails.FromDetailsNET(sampleInput.TallyDetails);
             input.Name = name;
-            input.TallySecondMoment = 0;
-            input.TallyDetails = TallyDetails.Default();
             input.Rho = rho;
             input.PerturbedOps = ...
                 [...
@@ -76,10 +80,11 @@ classdef DetectorInput
             if nargin < 3
                 name = 'FluenceOfRhoAndZ';
             end
-            input.TallyType = 'FluenceOfRhoAndZ';
+            sampleInput = Vts.MonteCarlo.Detectors.FluenceOfRhoAndZDetectorInput;
+            input.TallyType = sampleInput.TallyType;
+            input.TallySecondMoment = sampleInput.TallySecondMoment;
+            input.TallyDetails = TallyDetails.FromDetailsNET(sampleInput.TallyDetails);
             input.Name = name;
-            input.TallySecondMoment = 0;
-            input.TallyDetails = TallyDetails.Default();
             input.Rho = rho;
             input.Z = z;
         end
@@ -88,10 +93,11 @@ classdef DetectorInput
             if nargin < 4
                 name = 'FluenceOfRhoAndZAndTime';
             end
-            input.TallyType = 'FluenceOfRhoAndZAndTime';
+            sampleInput = Vts.MonteCarlo.Detectors.FluenceOfRhoAndZAndTimeDetectorInput;
+            input.TallyType = sampleInput.TallyType;
+            input.TallySecondMoment = sampleInput.TallySecondMoment;
+            input.TallyDetails = TallyDetails.FromDetailsNET(sampleInput.TallyDetails);
             input.Name = name;
-            input.TallySecondMoment = 0;
-            input.TallyDetails = TallyDetails.Default();
             input.Rho = rho;
             input.Z = z;
             input.Time = time;
@@ -101,10 +107,11 @@ classdef DetectorInput
             if nargin < 4
                 name = 'FluenceOfXAndYAndZ';
             end
-            input.TallyType = 'FluenceOfXAndYAndZ';
+            sampleInput = Vts.MonteCarlo.Detectors.FluenceOfXAndYAndZDetectorInput;
+            input.TallyType = sampleInput.TallyType;
+            input.TallySecondMoment = sampleInput.TallySecondMoment;
+            input.TallyDetails = TallyDetails.FromDetailsNET(sampleInput.TallyDetails);
             input.Name = name;
-            input.TallySecondMoment = 0;
-            input.TallyDetails = TallyDetails.Default();
             input.X = x;
             input.Y = y;
             input.Z = z;
@@ -114,10 +121,11 @@ classdef DetectorInput
             if nargin < 2
                 name = 'RadianceOfRho';
             end
-            input.TallyType = 'RadianceOfRho';
+            sampleInput = Vts.MonteCarlo.Detectors.RadianceOfRhoDetectorInput;
+            input.TallyType = sampleInput.TallyType;
+            input.TallySecondMoment = sampleInput.TallySecondMoment;
+            input.TallyDetails = TallyDetails.FromDetailsNET(sampleInput.TallyDetails);
             input.Name = name;
-            input.TallySecondMoment = 0;
-            input.TallyDetails = TallyDetails.Default();
             input.Rho = rho;
         end
         
@@ -125,10 +133,11 @@ classdef DetectorInput
             if nargin < 4
                 name = 'RadianceOfRhoAndZAndAngle';
             end
-            input.TallyType = 'RadianceOfRhoAndZAndAngle';
+            sampleInput = Vts.MonteCarlo.Detectors.RadianceOfRhoAndZAndAngleDetectorInput;
+            input.TallyType = sampleInput.TallyType;
+            input.TallySecondMoment = sampleInput.TallySecondMoment;
+            input.TallyDetails = TallyDetails.FromDetailsNET(sampleInput.TallyDetails);
             input.Name = name;
-            input.TallySecondMoment = 0;
-            input.TallyDetails = TallyDetails.Default();
             input.Rho = rho;
             input.Z = z;
             input.Angle = angle;
@@ -138,20 +147,22 @@ classdef DetectorInput
             if nargin < 1
                 name = 'RDiffuse';
             end
-            input.TallyType = 'RDiffuse';
+            sampleInput = Vts.MonteCarlo.Detectors.RDiffuseDetectorInput;
+            input.TallyType = sampleInput.TallyType;
+            input.TallySecondMoment = sampleInput.TallySecondMoment;
+            input.TallyDetails = TallyDetails.FromDetailsNET(sampleInput.TallyDetails);
             input.Name = name;
-            input.TallySecondMoment = 0;
-            input.TallyDetails = TallyDetails.Default();
         end
         
         function input = ROfAngle(angle, name)
             if nargin < 2
                 name = 'ROfAngle';
             end
-            input.TallyType = 'ROfAngle';
+            sampleInput = Vts.MonteCarlo.Detectors.ROfAngleDetectorInput;
+            input.TallyType = sampleInput.TallyType;
+            input.TallySecondMoment = sampleInput.TallySecondMoment;
+            input.TallyDetails = TallyDetails.FromDetailsNET(sampleInput.TallyDetails);
             input.Name = name;
-            input.TallySecondMoment = 0;
-            input.TallyDetails = TallyDetails.Default();
             input.Angle = angle;
         end
         
@@ -159,21 +170,24 @@ classdef DetectorInput
             if nargin < 2
                 name = 'ROfRho';
             end
-            input.TallyType = 'ROfRho';
             input.Name = name;
-            input.TallySecondMoment = 0;
-            input.TallyDetails = TallyDetails.Default();
             input.Rho = rho;
+            sampleInput = Vts.MonteCarlo.Detectors.ROfRhoDetectorInput;
+            input.TallyType = sampleInput.TallyType;
+            input.TallySecondMoment = sampleInput.TallySecondMoment;
+            input.TallyDetails = TallyDetails.FromDetailsNET(sampleInput.TallyDetails);
+            input.Name = name;
         end
         
         function input = ROfRhoAndAngle(rho, angle, name)
             if nargin < 3
                 name = 'ROfRhoAndAngle';
             end
-            input.TallyType = 'ROfRhoAndAngle';
+            sampleInput = Vts.MonteCarlo.Detectors.ROfRhoAndAngleDetectorInput;
+            input.TallyType = sampleInput.TallyType;
+            input.TallySecondMoment = sampleInput.TallySecondMoment;
+            input.TallyDetails = TallyDetails.FromDetailsNET(sampleInput.TallyDetails);
             input.Name = name;
-            input.TallySecondMoment = 0;
-            input.TallyDetails = TallyDetails.Default();
             input.Rho = rho;
             input.Angle = angle;
         end
@@ -182,10 +196,11 @@ classdef DetectorInput
             if nargin < 3
                 name = 'ROfRhoAndOmega';
             end
-            input.TallyType = 'ROfRhoAndOmega';
+            sampleInput = Vts.MonteCarlo.Detectors.ROfRhoAndOmegaDetectorInput;
+            input.TallyType = sampleInput.TallyType;
+            input.TallySecondMoment = sampleInput.TallySecondMoment;
+            input.TallyDetails = TallyDetails.FromDetailsNET(sampleInput.TallyDetails);
             input.Name = name;
-            input.TallySecondMoment = 0;
-            input.TallyDetails = TallyDetails.Default();
             input.Rho = rho;
             input.Omega = omega;
         end
@@ -194,10 +209,11 @@ classdef DetectorInput
             if nargin < 3
                 name = 'ROfRhoAndTime';
             end
-            input.TallyType = 'ROfRhoAndTime';
+            sampleInput = Vts.MonteCarlo.Detectors.ROfRhoAndTimeDetectorInput;
+            input.TallyType = sampleInput.TallyType;
+            input.TallySecondMoment = sampleInput.TallySecondMoment;
+            input.TallyDetails = TallyDetails.FromDetailsNET(sampleInput.TallyDetails);
             input.Name = name;
-            input.TallySecondMoment = 0;
-            input.TallyDetails = TallyDetails.Default();
             input.Rho = rho;
             input.Time = t;
         end
@@ -206,10 +222,11 @@ classdef DetectorInput
             if nargin < 2
                 name = 'ROfFx';
             end
-            input.TallyType = 'ROfFx';
+            sampleInput = Vts.MonteCarlo.Detectors.ROfFxDetectorInput;
+            input.TallyType = sampleInput.TallyType;
+            input.TallySecondMoment = sampleInput.TallySecondMoment;
+            input.TallyDetails = TallyDetails.FromDetailsNET(sampleInput.TallyDetails);
             input.Name = name;
-            input.TallySecondMoment = 0;
-            input.TallyDetails = TallyDetails.Default();
             input.Fx = fx;
         end
         
@@ -217,10 +234,11 @@ classdef DetectorInput
             if nargin < 3
                 name = 'ROfFxAndTime';
             end
-            input.TallyType = 'ROfFxAndTime';
+            sampleInput = Vts.MonteCarlo.Detectors.ROfFxAndTimeDetectorInput;
+            input.TallyType = sampleInput.TallyType;
+            input.TallySecondMoment = sampleInput.TallySecondMoment;
+            input.TallyDetails = TallyDetails.FromDetailsNET(sampleInput.TallyDetails);
             input.Name = name;
-            input.TallySecondMoment = 0;
-            input.TallyDetails = TallyDetails.Default();
             input.Fx = fx;
             input.Time = t;
         end
@@ -231,10 +249,11 @@ classdef DetectorInput
             if nargin < 2
                 name = 'pMCROfRho';
             end
-            input.TallyType = 'pMCROfRho';
+            sampleInput = Vts.MonteCarlo.Detectors.pMCROfRhoDetectorInput;
+            input.TallyType = sampleInput.TallyType;
+            input.TallySecondMoment = sampleInput.TallySecondMoment;
+            input.TallyDetails = TallyDetails.FromDetailsNET(sampleInput.TallyDetails);
             input.Name = name;
-            input.TallySecondMoment = 0;
-            input.TallyDetails = TallyDetails.Default();
             input.Rho = rho;
             input.PerturbedOps = ...
                 [...
@@ -249,10 +268,11 @@ classdef DetectorInput
             if nargin < 3
                 name = 'pMCROfRhoAndTime';
             end
-            input.TallyType = 'pMCROfRhoAndTime';
+            sampleInput = Vts.MonteCarlo.Detectors.pMCROfRhoAndTimeDetectorInput;
+            input.TallyType = sampleInput.TallyType;
+            input.TallySecondMoment = sampleInput.TallySecondMoment;
+            input.TallyDetails = TallyDetails.FromDetailsNET(sampleInput.TallyDetails);
             input.Name = name;
-            input.TallySecondMoment = 0;
-            input.TallyDetails = TallyDetails.Default();
             input.Rho = rho;
             input.Time = t;
             input.PerturbedOps = ...
@@ -268,10 +288,11 @@ classdef DetectorInput
             if nargin < 2
                 name = 'pMCROfFx';
             end
-            input.TallyType = 'pMCROfFx';
+            sampleInput = Vts.MonteCarlo.Detectors.pMCROfFxDetectorInput;
+            input.TallyType = sampleInput.TallyType;
+            input.TallySecondMoment = sampleInput.TallySecondMoment;
+            input.TallyDetails = TallyDetails.FromDetailsNET(sampleInput.TallyDetails);
             input.Name = name;
-            input.TallySecondMoment = 0;
-            input.TallyDetails = TallyDetails.Default();
             input.Fx = fx;
             input.PerturbedOps = ...
                 [...
@@ -286,10 +307,11 @@ classdef DetectorInput
             if nargin < 3
                 name = 'pMCROfFxAndTime';
             end
-            input.TallyType = 'pMCROfFxAndTime';
+            sampleInput = Vts.MonteCarlo.Detectors.pMCROfFxAndTimeDetectorInput;
+            input.TallyType = sampleInput.TallyType;
+            input.TallySecondMoment = sampleInput.TallySecondMoment;
+            input.TallyDetails = TallyDetails.FromDetailsNET(sampleInput.TallyDetails);
             input.Name = name;
-            input.TallySecondMoment = 0;
-            input.TallyDetails = TallyDetails.Default();
             input.Fx = fx;
             input.Time = t;
             input.PerturbedOps = ...
@@ -305,10 +327,11 @@ classdef DetectorInput
             if nargin < 3
                 name = 'ROfXAndY';
             end
-            input.TallyType = 'ROfXAndY';
+            sampleInput = Vts.MonteCarlo.Detectors.ROfXAndYDetectorInput;
+            input.TallyType = sampleInput.TallyType;
+            input.TallySecondMoment = sampleInput.TallySecondMoment;
+            input.TallyDetails = TallyDetails.FromDetailsNET(sampleInput.TallyDetails);
             input.Name = name;
-            input.TallySecondMoment = 0;
-            input.TallyDetails = TallyDetails.Default();
             input.X = x;
             input.Y = y;
         end
@@ -317,30 +340,33 @@ classdef DetectorInput
             if nargin < 1
                 name = 'RSpecular';
             end
-            input.TallyType = 'RSpecular';
+            sampleInput = Vts.MonteCarlo.Detectors.RSpecularDetectorInput;
+            input.TallyType = sampleInput.TallyType;
+            input.TallySecondMoment = sampleInput.TallySecondMoment;
+            input.TallyDetails = TallyDetails.FromDetailsNET(sampleInput.TallyDetails);
             input.Name = name;
-            input.TallySecondMoment = 0;
-            input.TallyDetails = TallyDetails.Default();
         end
         
         function input = TDiffuseDetectorInput(name)
             if nargin < 1
                 name = 'TDiffuse';
             end
-            input.TallyType = 'TDiffuse';
+            sampleInput = Vts.MonteCarlo.Detectors.TDiffuseDetectorInput;
+            input.TallyType = sampleInput.TallyType;
+            input.TallySecondMoment = sampleInput.TallySecondMoment;
+            input.TallyDetails = TallyDetails.FromDetailsNET(sampleInput.TallyDetails);
             input.Name = name;
-            input.TallySecondMoment = 0;
-            input.TallyDetails = TallyDetails.Default();
         end
         
         function input = TOfAngleDetectorInput(angle, name)
             if nargin < 2
                 name = 'TOfAngle';
             end
-            input.TallyType = 'TOfAngle';
+            sampleInput = Vts.MonteCarlo.Detectors.TOfAngleDetectorInput;
+            input.TallyType = sampleInput.TallyType;
+            input.TallySecondMoment = sampleInput.TallySecondMoment;
+            input.TallyDetails = TallyDetails.FromDetailsNET(sampleInput.TallyDetails);
             input.Name = name;
-            input.TallySecondMoment = 0;
-            input.TallyDetails = TallyDetails.Default();
             input.Angle = angle;
         end
         
@@ -348,10 +374,11 @@ classdef DetectorInput
             if nargin < 2
                 name = 'TOfRho';
             end
-            input.TallyType = 'TOfRho';
+            sampleInput = Vts.MonteCarlo.Detectors.TOfRhoDetectorInput;
+            input.TallyType = sampleInput.TallyType;
+            input.TallySecondMoment = sampleInput.TallySecondMoment;
+            input.TallyDetails = TallyDetails.FromDetailsNET(sampleInput.TallyDetails);
             input.Name = name;
-            input.TallySecondMoment = 0;
-            input.TallyDetails = TallyDetails.Default();
             input.Rho = rho;
         end
         
@@ -359,10 +386,11 @@ classdef DetectorInput
             if nargin < 3
                 name = 'TOfRhoAndAngle';
             end
-            input.TallyType = 'TOfRhoAndAngle';
+            sampleInput = Vts.MonteCarlo.Detectors.TOfRhoAndAngleDetectorInput;
+            input.TallyType = sampleInput.TallyType;
+            input.TallySecondMoment = sampleInput.TallySecondMoment;
+            input.TallyDetails = TallyDetails.FromDetailsNET(sampleInput.TallyDetails);
             input.Name = name;
-            input.TallySecondMoment = 0;
-            input.TallyDetails = TallyDetails.Default();
             input.Rho = rho;
             input.Angle = angle;
         end
@@ -583,7 +611,9 @@ classdef DetectorInput
         end
         
         function inputNET = ToInputNET(input)
-            switch input.TallyType
+            % convert to string with char fix for certain matlab versions
+            tallyType = char(input.TallyType);
+            switch tallyType
                 case 'AOfRhoAndZ'
                     inputNET = Vts.MonteCarlo.Detectors.AOfRhoAndZDetectorInput;
                     inputNET.Rho = Vts.Common.DoubleRange(input.Rho(1), input.Rho(end), length(input.Rho));

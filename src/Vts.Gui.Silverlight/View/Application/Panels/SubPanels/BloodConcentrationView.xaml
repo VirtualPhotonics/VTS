@@ -6,7 +6,9 @@
     <Grid x:Name="LayoutRoot" Background="White" Visibility="{Binding BloodConcentrationVM.DisplayBloodVM, Converter={StaticResource myBooleanToVisibilityConverter}}">
         <StackPanel Orientation="Vertical" >
             <!-- Blood Concentration Labels -->
-            <TextBlock Text="{Binding Path=MainResource.Label_BloodConcentration, Source={StaticResource LocalizedStrings}}" FontSize="16" TextDecorations="Underline"/>
+            <TextBlock
+                Text="{Binding Path=MainResource.Label_BloodConcentration, Source={StaticResource LocalizedStrings}}"
+                FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Left"/>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="{Binding Path=MainResource.Label_TotalHb, Source={StaticResource LocalizedStrings}}" Margin="3,0,3,0"/>
                 <TextBlock Text="{Binding Path=MainResource.Label_BloodVolume, Source={StaticResource LocalizedStrings}}" Margin="3,0,3,0"/>
@@ -15,11 +17,11 @@
             <StackPanel Orientation="Horizontal">
                 <!-- Blood Concentration values -->
                 <TextBox Text="{Binding TotalHb, Mode=TwoWay,Converter={StaticResource myDoubleToStringConverter}, ConverterParameter=N3}" 
-                       Width="40"  Margin="30,0,0,0"/>
+                       Width="40"  Margin="30,0,0,0" KeyDown="TextBox_KeyDown"/>
               <TextBox Text="{Binding BloodVolumeFraction, Mode=TwoWay,Converter={StaticResource myDoubleToStringConverter}, ConverterParameter=N3}"
-                       Width="40"  Margin="80,0,0,0"/>
+                       Width="40"  Margin="65,0,0,0" KeyDown="TextBox_KeyDown"/>
               <TextBox Text="{Binding StO2, Mode=TwoWay,Converter={StaticResource myDoubleToStringConverter}, ConverterParameter=N3}"
-                       Width="40"  Margin="60,0,0,0"/>
+                       Width="40"  Margin="75,0,0,0" KeyDown="TextBox_KeyDown"/>
             </StackPanel>
         </StackPanel>
     </Grid>

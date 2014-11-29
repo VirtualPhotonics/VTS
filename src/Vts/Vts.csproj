@@ -115,9 +115,8 @@
     <Reference Include="MPFitLib">
       <HintPath>..\packages\csmpfit.1.0.0\lib\sl50\MPFitLib.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Newtonsoft.Json.6.0.2\lib\portable-net40+sl5+wp80+win8+monotouch+monoandroid\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\portable-net40+sl5+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="NLog, Version=3.1.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -181,7 +180,10 @@
     <Compile Include="Common\Interfaces\IForwardSolver.cs" />
     <Compile Include="Common\Interfaces\INotifyPropertyChangedPlus.cs" />
     <Compile Include="Common\Interfaces\IOldForwardSolver.cs" />
+    <Compile Include="Common\Interfaces\ILayerOpticalPropertyRegion.cs" />
+    <Compile Include="Common\Interfaces\IOpticalPropertyRegion.cs" />
     <Compile Include="Common\Interfaces\IOptimizer.cs" />
+    <Compile Include="Common\LayerOpticalPropertyRegion.cs" />
     <Compile Include="Common\Logging\AbstractLoggerFactory.cs" />
     <Compile Include="Common\Logging\ILogger.cs" />
     <Compile Include="Common\Logging\ILoggerFactory.cs" />
@@ -236,6 +238,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="IO\KnownTypes.cs" />
+    <Compile Include="Modeling\ForwardSolvers\TwoLayerSDAForwardSolver.cs" />
     <Compile Include="IO\VtsJsonSerializer.cs" />
     <Compile Include="Modeling\Spectroscopy\SpectralConverter.cs" />
     <Compile Include="MonteCarlo\AbsorptionWeightingMethods.cs" />
@@ -256,9 +259,11 @@
     <Compile Include="MonteCarlo\DataStructures\SourceInputs\PointAndLineSources\LineSourceInputs\DirectionalLineSourceInput.cs" />
     <Compile Include="MonteCarlo\DataStructures\SourceInputs\PointAndLineSources\LineSourceInputs\IsotropicLineSourceInput.cs" />
     <Compile Include="MonteCarlo\DataStructures\SourceInputs\SourceInputProvider.cs" />
+    <Compile Include="MonteCarlo\DataStructures\TissueInputs\SemiInfiniteTissueInput.cs" />
     <Compile Include="MonteCarlo\DataStructures\TissueInputs\MultiEllipsoidTissueInput.cs" />
     <Compile Include="MonteCarlo\DataStructures\TissueInputs\MultiLayerTissueInput.cs" />
     <Compile Include="MonteCarlo\Detectors\Detector.cs" />
+    <Compile Include="MonteCarlo\Detectors\AOfXAndYAndZDetector.cs" />
     <Compile Include="MonteCarlo\Detectors\ReflectedTimeOfRhoAndSubregionHistDetector.cs" />
     <Compile Include="MonteCarlo\Detectors\RadianceOfXAndYAndZAndThetaAndPhiDetector.cs" />
     <Compile Include="MonteCarlo\Detectors\pMCROfFxAndTimeDetector.cs" />
@@ -269,7 +274,7 @@
     <Compile Include="MonteCarlo\Detectors\dMCdROfRhodMusDetector.cs" />
     <Compile Include="MonteCarlo\Detectors\dMCdROfRhodMuaDetector.cs" />
     <Compile Include="MonteCarlo\Detectors\RadianceOfRhoAndZAndAngleDetector.cs" />
-    <Compile Include="MonteCarlo\Detectors\RadianceOfRhoDetector.cs" />
+    <Compile Include="MonteCarlo\Detectors\RadianceOfRhoAtZDetector.cs" />
     <Compile Include="MonteCarlo\Detectors\RSpecularDetector.cs" />
     <Compile Include="MonteCarlo\Detectors\TallyDetails.cs" />
     <Compile Include="MonteCarlo\Extensions\DatabaseExtensionMethods.cs" />
@@ -476,6 +481,7 @@
     <Compile Include="MonteCarlo\Detectors\TOfRhoAndAngleDetector.cs" />
     <Compile Include="MonteCarlo\Detectors\TOfRhoDetector.cs" />
     <Compile Include="MonteCarlo\Sources\SurfaceEmittingBulkSources\Spherical\CustomSurfaceEmittingSphericalSource.cs" />
+    <Compile Include="MonteCarlo\Tissues\SemiInfiniteRegion.cs" />
     <Compile Include="MonteCarlo\Tissues\CylinderRegion.cs" />
     <Compile Include="MonteCarlo\Tissues\EllipsoidRegion.cs" />
     <Compile Include="MonteCarlo\Tissues\LayerRegion.cs" />

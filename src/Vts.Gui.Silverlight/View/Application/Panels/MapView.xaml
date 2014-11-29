@@ -48,7 +48,7 @@
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">
                     <TextBlock Text="{Binding Path=MainResource.Label_MeanDepth, Source={StaticResource LocalizedStrings}}" Margin="0,0,5,0" VerticalAlignment="Center"/>
-                    <TextBox Text="{Binding YExpectationValue, Mode=OneWay, Converter={StaticResource myDoubleToStringConverter}, ConverterParameter=N3}" VerticalAlignment="Center" MinWidth="30"/>
+                    <TextBox Text="{Binding YExpectationValue, Mode=OneWay, Converter={StaticResource myDoubleToStringConverter}, ConverterParameter=N3}" VerticalAlignment="Center" MinWidth="30" KeyDown="TextBox_KeyDown"/>
                     <TextBlock Text="{Binding Path=MainResource.Measurement_mm, Source={StaticResource LocalizedStrings}}" Margin="5,0,0,0" VerticalAlignment="Center"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="5">
@@ -72,11 +72,11 @@
             <!-- Min and max values for the color map -->
             <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" Margin="0,5" HorizontalAlignment="Left">
                 <TextBlock Text="{Binding Path=MainResource.Label_Min, Source={StaticResource LocalizedStrings}}" VerticalAlignment="Center" Margin="0,0,4,0" />
-                <TextBox Text="{Binding MinValue, Mode=TwoWay, StringFormat={StaticResource ScientificFormat}}" VerticalAlignment="Center" IsEnabled="{Binding ManualScale}"/>
+                <TextBox Text="{Binding MinValue, Mode=TwoWay, StringFormat={StaticResource ScientificFormat}}" VerticalAlignment="Center" IsEnabled="{Binding ManualScale}" KeyDown="TextBox_KeyDown"/>
             </StackPanel>
             <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" Margin="0,5" HorizontalAlignment="Right">
                 <TextBlock Text="{Binding Path=MainResource.Label_Max, Source={StaticResource LocalizedStrings}}" VerticalAlignment="Center" Margin="0,0,4,0" />
-                <TextBox Text="{Binding MaxValue, Mode=TwoWay, StringFormat={StaticResource ScientificFormat}}" VerticalAlignment="Center" IsEnabled="{Binding ManualScale}"/>
+                <TextBox Text="{Binding MaxValue, Mode=TwoWay, StringFormat={StaticResource ScientificFormat}}" VerticalAlignment="Center" IsEnabled="{Binding ManualScale}" KeyDown="TextBox_KeyDown"/>
             </StackPanel>
             <!-- Color map image -->
             <Image Grid.Row="1" Grid.ColumnSpan="2" VerticalAlignment="Top"
@@ -84,7 +84,7 @@
                    Source="{Binding ColorBar}" Stretch="Fill" />
             <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.ColumnSpan="2" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="3">
                 <!-- Color map dropdown -->
-                <v:ComboBoxOptionView DataContext="{Binding ColormapTypeOptionVM}" Margin="5,0,5,0"/>
+                <v:ComboBoxOptionView DataContext="{Binding ColormapTypeOptionVM}" Margin="3,0,0,0"/>
                 <!-- Export buttons -->
                 <Button Content="{Binding Path=MainResource.Button_ExportImage, Source={StaticResource LocalizedStrings}}" Click="Button_Click" Margin="5,0,5,0"/>
                 

@@ -139,10 +139,10 @@
     <value>Plot Reflectance</value>
   </data>
   <data name="IndependentVariableAxis_Ft" xml:space="preserve">
-    <value>Temporal Frequency</value>
+    <value>Temporal Frequencies</value>
   </data>
   <data name="IndependentVariableAxis_Fx" xml:space="preserve">
-    <value>Spatial Frequency</value>
+    <value>Spatial Frequencies</value>
   </data>
   <data name="IndependentVariableAxis_Rho" xml:space="preserve">
     <value>Detector Positions</value>
@@ -151,19 +151,19 @@
     <value>Detection Times</value>
   </data>
   <data name="IndependentVariableAxis_Wavelength" xml:space="preserve">
-    <value>IndependentVariableAxis_Wavelength</value>
+    <value>Wavelengths</value>
   </data>
   <data name="Label_AbsorberConcentrations" xml:space="preserve">
-    <value>Absorber Concentrations:</value>
+    <value>Absorber Concentrations</value>
   </data>
   <data name="Label_ForwardSolver" xml:space="preserve">
-    <value>Fwd Solver Engine:</value>
+    <value>Fwd Solver:</value>
   </data>
   <data name="Label_GaussianBeam" xml:space="preserve">
-    <value>Gaussian Beam Diameter:</value>
+    <value>Gaussian Beam Diameter</value>
   </data>
   <data name="Label_InverseSolver" xml:space="preserve">
-    <value>Inv Solver Engine:</value>
+    <value>Inv Solver:</value>
   </data>
   <data name="Label_PercentNoise" xml:space="preserve">
     <value>% noise</value>
@@ -178,7 +178,7 @@
     <value>Source Detector Separation:</value>
   </data>
   <data name="Label_TissueTypes" xml:space="preserve">
-    <value>Tissue Types:</value>
+    <value>Tissue Types</value>
   </data>
   <data name="Label_zRange" xml:space="preserve">
     <value>z Range:</value>
@@ -208,7 +208,7 @@
     <value>at</value>
   </data>
   <data name="Label_BloodConcentration" xml:space="preserve">
-    <value>Blood Concentration:</value>
+    <value>Blood Concentration</value>
   </data>
   <data name="Label_BloodVolume" xml:space="preserve">
     <value>Blood volume [vol. frac.]:</value>
@@ -232,7 +232,7 @@
     <value>A(ρ,z,t)</value>
   </data>
   <data name="Label_IndependentAxis" xml:space="preserve">
-    <value>Independent Axis:</value>
+    <value>Independent Axis</value>
   </data>
   <data name="Label_PHDOfFxAndZ" xml:space="preserve">
     <value>phd(fx,z)</value>

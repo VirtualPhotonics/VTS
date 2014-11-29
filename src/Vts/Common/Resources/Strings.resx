@@ -133,10 +133,13 @@
     <value>R</value>
   </data>
   <data name="ForwardSolverType_MonteCarlo" xml:space="preserve">
-    <value>Scaled Monte Carlo - Basic (g=0.8, n=1.4)</value>
+    <value>Scaled Monte Carlo: Basic (g=0.8, n=1.4)</value>
   </data>
   <data name="ForwardSolverType_PointSourceSDA" xml:space="preserve">
-    <value>Standard Diffusion (Analytic - Isotropic Point Source)</value>
+    <value>Standard Diffusion (Analytic: Isotropic Point Source)</value>
+  </data>
+  <data name="ForwardSolverType_TwoLayerSDA" xml:space="preserve">
+    <value>Two Layer SDA</value>
   </data>
   <data name="IndependentVariableAxis_Rho" xml:space="preserve">
     <value>ρ</value>
@@ -277,10 +280,10 @@
     <value>Φ(ρ,z,t)</value>
   </data>
   <data name="ForwardSolverType_DistributedGaussianSourceSDA" xml:space="preserve">
-    <value>Standard Diffusion (Analytic - Distributed Gaussian Source)</value>
+    <value>Standard Diffusion (Analytic: Distributed Gaussian Source)</value>
   </data>
   <data name="ForwardSolverType_DistributedPointSourceSDA" xml:space="preserve">
-    <value>Standard Diffusion (Analytic - Distributed Point Source)</value>
+    <value>Standard Diffusion (Analytic: Distributed Point Source)</value>
   </data>
   <data name="MapType_AbsorbedEnergy" xml:space="preserve">
     <value>A (Absorbed Energy)</value>
@@ -313,6 +316,6 @@
     <value>Power Law [A*λ^(-b)]</value>
   </data>
   <data name="ForwardSolverType_Nurbs" xml:space="preserve">
-    <value>Scaled Monte Carlo - NURBS (g=0.8, n=1.4)</value>
+    <value>Scaled Monte Carlo: NURBS (g=0.8, n=1.4)</value>
   </data>
 </root>

@@ -11,8 +11,8 @@ namespace Vts.MonteCarlo.Sources.SourceProfiles
         /// <summary>
         /// Returns Gaussian profile type
         /// </summary>
-        [IgnoreDataMember]
-        public SourceProfileType ProfileType { get { return SourceProfileType.Gaussian; } }
+        //[IgnoreDataMember]
+        public SourceProfileType SourceProfileType { get { return SourceProfileType.Gaussian; } }
         
         /// <summary>
         /// Full width half maximum beam diameter

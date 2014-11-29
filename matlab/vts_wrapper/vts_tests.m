@@ -1,7 +1,7 @@
 %% VTS MATLAB Tests
 % Script for running all unit tests within Matlab
 % Set runDemosToo to 'true' to run the demos and the unit tests
-clear all
+clear
 clc
 dbstop if error;
 startup();

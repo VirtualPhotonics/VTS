@@ -8,6 +8,6 @@
         /// <summary>
         /// Source beam profile types enum, SourceProfileType
         /// </summary>
-        SourceProfileType ProfileType { get;}
+        SourceProfileType SourceProfileType { get;}
     }
 }

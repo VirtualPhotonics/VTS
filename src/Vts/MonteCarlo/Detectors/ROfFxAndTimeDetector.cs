@@ -26,7 +26,6 @@ namespace Vts.MonteCarlo.Detectors
 
             // modify base class TallyDetails to take advantage of built-in validation capabilities (error-checking)
             TallyDetails.IsReflectanceTally = true;
-            TallyDetails.IsCylindricalTally = true;
         }
 
         /// <summary>

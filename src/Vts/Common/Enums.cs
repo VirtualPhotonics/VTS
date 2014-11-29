@@ -19,6 +19,7 @@ namespace Vts
         /// </summary>
         Mie,
     }
+
     /// <summary>
     /// Types of Mie Scatterers
     /// </summary>
@@ -33,6 +34,7 @@ namespace Vts
         /// </summary>
         Other,
     }
+
     /// <summary>
     /// Types of Forward solvers in our gui
     /// </summary>
@@ -62,8 +64,13 @@ namespace Vts
         /// scaled Monte Carlo forward solver with non-uniform rational b-splines forward solver
         /// </summary>
         Nurbs,
-//        DiscreteOrdinates
+        /// <summary>
+        /// two-layer forward solver based on standard diffusion
+        /// </summary>
+        TwoLayerSDA,
+        //        DiscreteOrdinates
     }
+
     /// <summary>
     /// spatial-frequency domain types
     /// </summary>
@@ -78,6 +85,7 @@ namespace Vts
         /// </summary>
         SpatialFrequency,
     }
+
     /// <summary>
     /// temporal-frequency domain types
     /// </summary>
@@ -96,6 +104,7 @@ namespace Vts
         /// </summary>
         FrequencyDomain,
     }
+
     /// <summary>
     /// Reflectance solution domain types
     /// </summary>
@@ -126,6 +135,7 @@ namespace Vts
         /// </summary>
         ROfFxAndFt
     }
+
     /// <summary>
     /// fluence solution domain types 
     /// </summary>
@@ -156,6 +166,7 @@ namespace Vts
         /// </summary>
         FluenceOfFxAndZAndFt
     }
+
     /// <summary>
     /// forward analysis types
     /// </summary>
@@ -183,6 +194,7 @@ namespace Vts
         dRdN,
         //dRdIV,
     }
+
     /// <summary>
     /// map plot types
     /// </summary>
@@ -201,6 +213,7 @@ namespace Vts
         /// </summary>
         PhotonHittingDensity
     }
+
     /// <summary>
     /// Available choices for mapping grayscale intensity.  These names taken from matlab.
     /// </summary>
@@ -235,6 +248,7 @@ namespace Vts
         /// </summary>
         Binary,
     }
+
     /// <summary>
     /// independent variable axis tyeps
     /// </summary>
@@ -266,6 +280,7 @@ namespace Vts
         /// </summary>
         Wavelength
     }
+
     /// <summary>
     /// independent variable axis unit types.  These are the default units used throughout code
     /// </summary>
@@ -287,8 +302,12 @@ namespace Vts
         /// giga-Hertz
         /// </summary>
         GHz,
-        //NM
+        /// <summary>
+        /// nanometers
+        /// </summary>
+        NM,
     }
+
     /// <summary>
     /// dependent variable axis unit types
     /// </summary>
@@ -343,6 +362,7 @@ namespace Vts
         /// </summary>
         PerMMPerGHz
     }
+
     /// <summary>
     /// inverse solution parameter types
     /// </summary>
@@ -365,6 +385,7 @@ namespace Vts
         /// </summary>
         MuaMuspG,
     }
+
     /// <summary>
     /// Analyzer types
     /// </summary>
@@ -379,6 +400,7 @@ namespace Vts
         /// </summary>
         AnalyticSDA
     }
+
     /// <summary>
     /// types of optimization methods
     /// </summary>
@@ -389,6 +411,7 @@ namespace Vts
         /// </summary>
         MPFitLevenbergMarquardt
     }
+
     /// <summary>
     /// scaling types
     /// </summary>
@@ -403,6 +426,7 @@ namespace Vts
         /// </summary>
         Log
     }
+
     /// <summary>
     /// plot toggle types
     /// </summary>
@@ -421,6 +445,7 @@ namespace Vts
         /// </summary>
         Amp,
     }
+
     /// <summary>
     /// plot normalization types
     /// </summary>
@@ -439,6 +464,7 @@ namespace Vts
         /// </summary>
         RelativeToCurve
     }
+
     /// <summary>
     /// measured data type
     /// </summary>
@@ -453,6 +479,7 @@ namespace Vts
         /// </summary>
         FromFile
     }
+
     /// <summary>
     /// reflectance plot types
     /// </summary>
@@ -479,6 +506,7 @@ namespace Vts
         /// </summary>
         Clear
     }
+
     /// <summary>
     /// Absorption weighting type used within Monte Carlo code
     /// </summary>
@@ -497,6 +525,7 @@ namespace Vts
         /// </summary>
         Continuous,
     }
+
     /// <summary>
     /// Phase function type used within the Monte Carlo code
     /// </summary>
@@ -511,6 +540,7 @@ namespace Vts
         /// </summary>
         Bidirectional,
     }
+
     /// <summary>
     /// input parameters types used in the Monte Carlo CommandLine application for parameter sweeps
     /// </summary>
@@ -523,7 +553,7 @@ namespace Vts
         /// <summary>
         /// y position of the source definition
         /// </summary>
-        YSourcePosition, 
+        YSourcePosition,
         /// <summary>
         /// x center position of the embedded ellipse
         /// </summary>
@@ -531,19 +561,19 @@ namespace Vts
         /// <summary>
         /// y center position of the embedded ellipse
         /// </summary>
-        YEllipsePosition, 
+        YEllipsePosition,
         /// <summary>
         /// z center position of the embedded ellipse
         /// </summary>
-        ZEllipsePosition, 
+        ZEllipsePosition,
         /// <summary>
         /// x-axis radius of embedded ellipse
         /// </summary>
-        XEllipseRadius, 
+        XEllipseRadius,
         /// <summary>
         /// y-axis radius of embedded ellipse
         /// </summary>
-        YEllipseRadius, 
+        YEllipseRadius,
         /// <summary>
         /// z-axis radius of embedded ellipse
         /// </summary>
@@ -551,7 +581,7 @@ namespace Vts
         /// <summary>
         /// absorption coefficient of top layer of tissue
         /// </summary>
-        Mua1, 
+        Mua1,
         /// <summary>
         /// absorption coefficient of second layer of tissue
         /// </summary>
@@ -589,6 +619,7 @@ namespace Vts
         /// </summary>
         D2,
     }
+
     /// <summary>
     /// Random number generator types
     /// </summary>
@@ -648,7 +679,7 @@ namespace Vts
     /// <summary>
     /// units allowed for blood concentration
     /// </summary>
-    public enum BloodConcentrationUnit 
+    public enum BloodConcentrationUnit
     {
         /// <summary>
         /// oxy-hemoglobin + deoxy-hemoglobin
@@ -744,42 +775,42 @@ namespace Vts
         Custom
     }
 
-   ///// <summary>
-   // /// Chromophore data distance units. For future GUI spectral upload tool...
-   ///// </summary>
-   // public enum ChromDataDistanceUnits 
-   // {
-   //     /// <summary>
-   //     /// [1/mm]
-   //     /// </summary>
-   //     PerMillimeter,
-   //     /// <summary>
-   //     /// [1/cm]
-   //     /// </summary>
-   //     PerCentimeter,
-   //     /// <summary>
-   //     /// [1/m]
-   //     /// </summary>
-   //     PerMeter,
-   // }
-   // /// <summary>
-   // /// chromophore data concentration units. For future GUI spectral upload tool...
-   // /// </summary>
-   // public enum ChromDataConcentrationUnits  
-   // {
-   //     /// <summary>
-   //     /// [1/uM]
-   //     /// </summary>
-   //     PerMicroMolar,
-   //     /// <summary>
-   //     /// [1/mM]
-   //     /// </summary>
-   //     PerMilliMolar,
-   //     /// <summary>
-   //     /// [1/M]
-   //     /// </summary>
-   //     PerMolar,
-   // }
+    ///// <summary>
+    // /// Chromophore data distance units. For future GUI spectral upload tool...
+    ///// </summary>
+    // public enum ChromDataDistanceUnits 
+    // {
+    //     /// <summary>
+    //     /// [1/mm]
+    //     /// </summary>
+    //     PerMillimeter,
+    //     /// <summary>
+    //     /// [1/cm]
+    //     /// </summary>
+    //     PerCentimeter,
+    //     /// <summary>
+    //     /// [1/m]
+    //     /// </summary>
+    //     PerMeter,
+    // }
+    // /// <summary>
+    // /// chromophore data concentration units. For future GUI spectral upload tool...
+    // /// </summary>
+    // public enum ChromDataConcentrationUnits  
+    // {
+    //     /// <summary>
+    //     /// [1/uM]
+    //     /// </summary>
+    //     PerMicroMolar,
+    //     /// <summary>
+    //     /// [1/mM]
+    //     /// </summary>
+    //     PerMilliMolar,
+    //     /// <summary>
+    //     /// [1/M]
+    //     /// </summary>
+    //     PerMolar,
+    // }
 
     //public enum ChromDataUnit
     //{
@@ -797,7 +828,7 @@ namespace Vts
     /// <summary>
     /// solver type. Added to determine which panel is in context LMM 
     /// </summary>
-    public enum SolverType 
+    public enum SolverType
     {
         /// <summary>
         /// forward solver

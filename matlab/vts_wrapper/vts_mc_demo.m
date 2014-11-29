@@ -103,10 +103,8 @@ options.AbsorptionWeightingType = 'Discrete';
 options.PhaseFunctionType  = 'HenyeyGreenstein';
 % list of databases to be written
 options.Databases = {};
-% flag indicating whether to tally second moment information for error results
-options.TallySecondMoment = 1;
 % flag indicating whether to track statistics about where photon ends up
-options.TrackStatistics = 0;
+options.TrackStatistics = true;
 % photon weight threshold to perform Russian Roulette.  Default = 0 means no RR performed.
 options.RussianRouletteWeightThreshold = 0;
 % simulation index 
@@ -135,8 +133,10 @@ output = VtsMonteCarlo.RunSimulation(input);
 si1 = SimulationInput();
 % modify number of photons
 si1.N = 1000;
+
 si2 = SimulationInput();
 s12.N = 100;
+
 % specify a single R(rho) detector by the endpoints of rho bins
 si1.DetectorInputs = { DetectorInput.ROfRho(linspace(0,40,201)) };
 si2.DetectorInputs = { DetectorInput.ROfRho(linspace(0,40,201)) };
@@ -155,6 +155,8 @@ figure; semilogy(d2.Rho, d2.Mean); ylabel('log(R(\rho)) [mm^-^2]'); xlabel('Rho 
 % compare on-the-fly results with post-processed results
 si = SimulationInput();
 si.N = 1000;
+% output folder name
+si.OutputName = 'results';
 % modify database generation to specifying creating reflectance database
 options = SimulationOptions();
 options.Databases = { Vts.MonteCarlo.DatabaseType.DiffuseReflectance };
@@ -166,7 +168,8 @@ output = VtsMonteCarlo.RunSimulation(si);
 d1 = output.Detectors(output.DetectorNames{1});
 % specify post-processing of generated database 
 ppi = PostProcessorInput();
-% default reads from "results" folder
+% read from output folder
+ppi.InputFolder = si.OutputName;
 ppi.DetectorInputs = { DetectorInput.ROfRho(linspace(0,40,201)) } ;
 % run post-processor with exact detector as specified in simulation
 ppoutput = VtsMonteCarlo.RunPostProcessor(ppi,si);
@@ -181,6 +184,8 @@ legend('on-the-fly','post-processed');
 % varying optical properties
 si = SimulationInput();
 si.N = 1000;
+% output folder name
+si.OutputName = 'results';
 options = SimulationOptions();
 options.AbsorptionWeightingType = 'Continuous';
 % modify database generation to specifying creating pMC reflectance database
@@ -234,6 +239,7 @@ di2xmua.PerturbedOps = ...
                 [1e-10, 0.0, 0.0, 1.0]; ...
                 ];
 di2xmua.PerturbedRegions = [ 1 ];
+ppi.InputFolder = si.OutputName;
 ppi.DetectorInputs = { di, di0p5xmua, di2xmua} ;
 ppoutput = VtsMonteCarlo.RunPostProcessor(ppi,si);
 do = ppoutput.Detectors(ppoutput.DetectorNames{1});
@@ -256,7 +262,10 @@ legend('baseline','0.5x mua','2x mua');
 %% create input to simulation
 si = SimulationInput();
 si.N = 1000; % need to run 1e5 or greater to get decent results
+% output folder name
+si.OutputName = 'results';
 simOptions = SimulationOptions();
+simOptions.Seed = 0;
 simOptions.AbsorptionWeightingType = 'Discrete';
 % modify database generation to specifying creating pMC reflectance database
 simOptions.Databases = { Vts.MonteCarlo.DatabaseType.pMCDiffuseReflectance };
@@ -334,6 +343,7 @@ diRecovered.PerturbedOps = ...
                 ];
 diRecovered.PerturbedRegions = [ 1 ];
 ppi = PostProcessorInput();
+ppi.InputFolder = si.OutputName;
 ppi.DetectorInputs = { diInitialGuess diRecovered } ;
 ppoutput = VtsMonteCarlo.RunPostProcessor(ppi,si); 
 doInitialGuess = ppoutput.Detectors(ppoutput.DetectorNames{1});
@@ -358,6 +368,8 @@ disp(sprintf('error =   [%f %5.3f]',abs(measOPs(1)-recoveredOPs(1))/measOPs(1),.
 % spell out all input to ensure same settings as in unit test
 si = SimulationInput();
 si.N = 100;
+% output folder name
+si.OutputName = 'results';
 options = SimulationOptions();
 options.AbsorptionWeightingType = 'Analog';
 options.Seed = 0;

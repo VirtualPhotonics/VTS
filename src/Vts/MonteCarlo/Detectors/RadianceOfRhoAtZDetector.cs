@@ -8,24 +8,24 @@ using Vts.MonteCarlo.PhotonData;
 namespace Vts.MonteCarlo.Detectors
 {
     /// <summary>
-    /// DetectorInput for Radiance(r) for internal surface detector
+    /// DetectorInput for Radiance(r) for internal surface detector at depth z.
+    /// Detector captures radiance in downward direction through plane at depth z.
     /// </summary>
-    public class RadianceOfRhoDetectorInput : DetectorInput, IDetectorInput
+    public class RadianceOfRhoAtZDetectorInput : DetectorInput, IDetectorInput
     {
         /// <summary>
         /// constructor for radiance as a function of rho detector input
         /// </summary>
-        public RadianceOfRhoDetectorInput()
+        public RadianceOfRhoAtZDetectorInput()
         {
-            TallyType = "RadianceOfRho";
-            Name = "RadianceOfRho";
+            TallyType = "RadianceOfRhoAtZ";
+            Name = "RadianceOfRhoAtZ";
             Rho = new DoubleRange(0.0, 10, 101);
             ZDepth = 3;
 
             // modify base class TallyDetails to take advantage of built-in validation capabilities (error-checking)
             TallyDetails.IsInternalSurfaceTally = true;
             TallyDetails.IsCylindricalTally = true;
-            TallyDetails.IsDosimetryTally = true;
         }
 
         /// <summary>
@@ -39,7 +39,7 @@ namespace Vts.MonteCarlo.Detectors
 
         public IDetector CreateDetector()
         {
-            return new RadianceOfRhoDetector
+            return new RadianceOfRhoAtZDetector
             {
                 // required properties (part of DetectorInput/Detector base classes)
                 TallyType = this.TallyType,
@@ -58,7 +58,7 @@ namespace Vts.MonteCarlo.Detectors
     /// Implements IDetector.  Tally for reflectance as a function  of Rho.
     /// This implementation works for Analog, DAW and CAW processing.
     /// </summary>
-    public class RadianceOfRhoDetector : Detector, IDetector
+    public class RadianceOfRhoAtZDetector : Detector, IDetector
     {
         /* ==== Place optional/user-defined input properties here. They will be saved in text (JSON) format ==== */
         /* ==== Note: make sure to copy over all optional/user-defined inputs from corresponding input class ==== */

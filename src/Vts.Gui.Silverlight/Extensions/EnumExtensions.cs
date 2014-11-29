@@ -1,4 +1,6 @@
+using System;
 using Vts.Common;
+using Vts.Gui.Silverlight.ViewModel;
 
 namespace Vts.Gui.Silverlight.Extensions
 {
@@ -19,12 +21,27 @@ namespace Vts.Gui.Silverlight.Extensions
             }
         }
 
+        public static bool IsMultiRegionForwardModel(this ForwardSolverType forwardSolverType)
+        {
+            switch (forwardSolverType)
+            {
+                case ForwardSolverType.PointSourceSDA:
+                case ForwardSolverType.DistributedPointSourceSDA:
+                case ForwardSolverType.DistributedGaussianSourceSDA:
+                case ForwardSolverType.DeltaPOne:
+                case ForwardSolverType.MonteCarlo:
+                default:
+                    return false;
+                case ForwardSolverType.TwoLayerSDA:
+                    return true;
+            }
+        }
+
         public static int GetMaxArgumentLocation(this IndependentVariableAxis axis)
         {
             switch (axis)
             {
                 case IndependentVariableAxis.Rho:
-                default:
                     return 0;
                 case IndependentVariableAxis.Time:
                     return 2;
@@ -34,9 +51,81 @@ namespace Vts.Gui.Silverlight.Extensions
                     return 2;
                 case IndependentVariableAxis.Z:
                     return 1;
+                case IndependentVariableAxis.Wavelength:
+                    return 2;
+                default:
+                    throw new NotImplementedException("Independent axis " + axis + " is not implemented for this software feature.");
             }
         }
 
+        public static bool IsSpatialAxis(this IndependentVariableAxis axis)
+        {
+            switch (axis)
+            {
+                case IndependentVariableAxis.Rho:
+                case IndependentVariableAxis.Fx:
+                    return true;
+                case IndependentVariableAxis.Time:
+                case IndependentVariableAxis.Ft:
+                case IndependentVariableAxis.Z:
+                case IndependentVariableAxis.Wavelength:
+                    return false;
+                default:
+                    throw new NotImplementedException("Independent axis " + axis + " is not implemented for this software feature.");
+            }
+        }
+
+        public static bool IsTemporalAxis(this IndependentVariableAxis axis)
+        {
+            switch (axis)
+            {
+                case IndependentVariableAxis.Time:
+                case IndependentVariableAxis.Ft:
+                    return true;
+                case IndependentVariableAxis.Rho:
+                case IndependentVariableAxis.Fx:
+                case IndependentVariableAxis.Z:
+                case IndependentVariableAxis.Wavelength:
+                    return false;
+                default:
+                    throw new NotImplementedException("Independent axis " + axis + " is not implemented for this software feature.");
+            }
+        }
+
+        public static bool IsDepthAxis(this IndependentVariableAxis axis)
+        {
+            switch (axis)
+            {
+                case IndependentVariableAxis.Z:
+                    return true;
+                case IndependentVariableAxis.Time:
+                case IndependentVariableAxis.Ft:
+                case IndependentVariableAxis.Rho:
+                case IndependentVariableAxis.Fx:
+                case IndependentVariableAxis.Wavelength:
+                    return false;
+                default:
+                    throw new NotImplementedException("Independent axis " + axis + " is not implemented for this software feature.");
+            }
+        }
+
+        public static bool IsWavelengthAxis(this IndependentVariableAxis axis)
+        {
+            switch (axis)
+            {
+                case IndependentVariableAxis.Wavelength:
+                    return true;
+                case IndependentVariableAxis.Time:
+                case IndependentVariableAxis.Ft:
+                case IndependentVariableAxis.Rho:
+                case IndependentVariableAxis.Fx:
+                case IndependentVariableAxis.Z:
+                    return false;
+                default:
+                    throw new NotImplementedException("Independent axis " + axis + " is not implemented for this software feature.");
+            }
+        }
+        
         public static string GetUnits(this IndependentVariableAxis axis)
         {
             switch (axis)
@@ -50,6 +139,8 @@ namespace Vts.Gui.Silverlight.Extensions
                     return IndependentVariableAxisUnits.InverseMM.GetInternationalizedString();
                 case IndependentVariableAxis.Ft:
                     return IndependentVariableAxisUnits.GHz.GetInternationalizedString();
+                case IndependentVariableAxis.Wavelength:
+                    return IndependentVariableAxisUnits.NM.GetInternationalizedString();
             }
         }
 
@@ -66,6 +157,8 @@ namespace Vts.Gui.Silverlight.Extensions
                     return IndependentVariableAxis.Fx.GetLocalizedString();
                 case IndependentVariableAxis.Ft:
                     return IndependentVariableAxis.Ft.GetLocalizedString();
+                case IndependentVariableAxis.Wavelength:
+                    return IndependentVariableAxis.Wavelength.GetLocalizedString();
             }
         }
 
@@ -122,7 +215,7 @@ namespace Vts.Gui.Silverlight.Extensions
                 case IndependentVariableAxis.Ft:
                     return new DoubleRange(0D, 0.5D, 51); // units=GHz
                 case IndependentVariableAxis.Wavelength:
-                    return new DoubleRange(650D, 1000D, 176); //TODO: right units?
+                    return new DoubleRange(650D, 1000D, 36); //TODO: right units?
             }
         }
 
@@ -143,7 +236,10 @@ namespace Vts.Gui.Silverlight.Extensions
                     return 650.0;
             }
         }
-
-
+        
+        public static RangeViewModel GetDefaultIndependentAxisRange(this IndependentVariableAxis independentAxisType)
+        {
+            return new RangeViewModel(independentAxisType.GetDefaultRange(), independentAxisType.GetUnits(), independentAxisType, independentAxisType.GetTitle());
+        }
     }
 }

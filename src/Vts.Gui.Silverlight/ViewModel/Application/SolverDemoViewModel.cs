@@ -9,6 +9,24 @@ namespace Vts.Gui.Silverlight.ViewModel
     /// </summary>
     public class SolverDemoViewModel : BindableObject
     {
+        public SolverDemoViewModel()
+        {
+            Current = this;
+
+            ForwardSolverVM = new ForwardSolverViewModel();
+            InverseSolverVM = new InverseSolverViewModel();
+            FluenceSolverVM = new FluenceSolverViewModel();
+            MonteCarloSolverVM = new MonteCarloSolverViewModel();
+            FemSolverVM = new FemSolverViewModel();
+            SpectralMappingVM = new SpectralMappingViewModel();
+            PlotVM = new PlotViewModel();
+            MapVM = new MapViewModel();
+            MeshVM = new MeshViewModel();
+            TextOutputVM = new TextOutputViewModel();
+        }
+
+        public static SolverDemoViewModel Current { get; set; }
+
         public ForwardSolverViewModel ForwardSolverVM { get; private set; }
         public InverseSolverViewModel InverseSolverVM { get; private set; }
         public FluenceSolverViewModel FluenceSolverVM { get; private set; }
@@ -25,23 +43,8 @@ namespace Vts.Gui.Silverlight.ViewModel
             {
                 var currentVersion = new AssemblyName(Assembly.GetExecutingAssembly().FullName);
                 return currentVersion.Version.Major.ToString() + "." + currentVersion.Version.Minor.ToString() + "." + currentVersion.Version.Build.ToString();
-//              return currentVersion.Version.ToString(); // This line returns all 4 version numbers Major.Minor.Build.Revision
+                //              return currentVersion.Version.ToString(); // This line returns all 4 version numbers Major.Minor.Build.Revision
             }
-        }
-
-
-        public SolverDemoViewModel()
-        {
-            ForwardSolverVM = new ForwardSolverViewModel();
-            InverseSolverVM = new InverseSolverViewModel();
-            FluenceSolverVM = new FluenceSolverViewModel();
-            MonteCarloSolverVM = new MonteCarloSolverViewModel();
-            FemSolverVM = new FemSolverViewModel();
-            SpectralMappingVM = new SpectralMappingViewModel();
-            PlotVM = new PlotViewModel();
-            MapVM = new MapViewModel();
-            MeshVM = new MeshViewModel();
-            TextOutputVM = new TextOutputViewModel();
         }
     }
 }

@@ -345,6 +345,10 @@ namespace Vts.MonteCarlo
     public enum TissueType
     {
         /// <summary>
+        /// SemiInfinite tissue type.  Includes homogeneous tissues.
+        /// </summary>
+        SemiInfinite,  
+        /// <summary>
         /// Multilayer tissue type.  Includes homogeneous tissues.
         /// </summary>
         MultiLayer,
@@ -462,6 +466,10 @@ namespace Vts.MonteCarlo
             /// </summary>
             "AOfRhoAndZ",
             /// <summary>
+            /// Absorbed energy as a function of X, Y and tissue depth (Z)
+            /// </summary>
+            "AOfXAndYAndZ",
+            /// <summary>
             /// Total absorbed energy
             /// </summary>
             "ATotal",
@@ -476,7 +484,7 @@ namespace Vts.MonteCarlo
             /// <summary>
             /// Surface radiance as a function of source-detector separation (rho)
             /// </summary>
-            "RadianceOfRho",
+            "RadianceOfRhoAtZ",
             /// <summary>
             /// Volume randiance as a function of source-detector separation (rho), tissue depth (Z) and angle
             /// </summary>
@@ -583,6 +591,10 @@ namespace Vts.MonteCarlo
         /// Absorbed energy as a function of source-detector separation (rho) and tissue depth (Z)
         /// </summary>
         public static string AOfRhoAndZ { get { return "AOfRhoAndZ"; } }
+        /// <summary>
+        /// Absorbed energy as a function of Cartesian coordinates X, Y and Z
+        /// </summary>
+        public static string AOfXAndYAndZ { get { return "AOfXAndYAndZ"; } }
         /// <summary>
         /// Total absorbed energy
         /// </summary>

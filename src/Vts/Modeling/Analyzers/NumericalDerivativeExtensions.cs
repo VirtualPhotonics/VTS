@@ -12,80 +12,69 @@ namespace Vts.Modeling
             _delta = delta;
         }
         
-        public static Func<double[], object[], double[]> GetDerivativeFunc(
-           this Func<double[], object[], double[]> myFunc, ForwardAnalysisType analysisType)
+        public static Func<object[], double[]> GetDerivativeFunc(
+           this Func<object[], double[]> myFunc, ForwardAnalysisType analysisType)
         {
             switch (analysisType)
             {
                 case ForwardAnalysisType.dRdMua:
-                default:
-                    return (parameters, constantValues) =>
+                    return parameters =>
                     {
-                        var delta_mua = _delta * parameters[0];
-                        var less = parameters.ToArray();
-                        var more = parameters.ToArray();
-                        less[0] = parameters[0] - delta_mua;
-                        more[0] = parameters[0] + delta_mua;
-
-                        return Enumerable.Zip(
-                            myFunc(more, constantValues),
-                            myFunc(less, constantValues),
-                            (left, right) => (left - right) / (2 * delta_mua)).ToArray();
+                        var less = parameters;
+                        var more = parameters;
+                        var op = (OpticalProperties[])parameters;
+                        less[0] = op.Select(opi => new OpticalProperties(opi.Mua * (1 - _delta), opi.Musp, opi.G, opi.N)).ToArray();
+                        more[0] = op.Select(opi => new OpticalProperties(opi.Mua * (1 + _delta), opi.Musp, opi.G, opi.N)).ToArray();
+                        return Vts.Extensions.EnumerableExtensions.Zip(
+                            myFunc(more),
+                            myFunc(less),
+                            op,
+                            (lessi, morei, opi) => (lessi - morei) / (2 * opi.Mua * _delta)).ToArray();
                     };
                 case ForwardAnalysisType.dRdMusp:
-                    return (parameters, constantValues) =>
+                    return parameters =>
                     {
-                        var delta_musp = _delta * _delta * parameters[1];
-                        var less = parameters.ToArray();
-                        var more = parameters.ToArray();
-                        less[1] -= delta_musp;
-                        more[1] += delta_musp;
-                        return Enumerable.Zip(
-                            myFunc(more, constantValues),
-                            myFunc(less, constantValues),
-                            (left, right) => (left - right) / (2 * delta_musp)).ToArray();
+                        var less = parameters;
+                        var more = parameters;
+                        var op = (OpticalProperties[])parameters;
+                        less[0] = op.Select(opi => new OpticalProperties(opi.Mua, opi.Musp * (1 - _delta), opi.G, opi.N)).ToArray();
+                        more[0] = op.Select(opi => new OpticalProperties(opi.Mua, opi.Musp * (1 + _delta), opi.G, opi.N)).ToArray();
+                        return Vts.Extensions.EnumerableExtensions.Zip(
+                            myFunc(more),
+                            myFunc(less),
+                            op,
+                            (lessi, morei, opi) => (lessi - morei) / (2 * opi.Musp * _delta)).ToArray();
                     };
                 case ForwardAnalysisType.dRdG:
-                    return (parameters, constantValues) =>
+                    return parameters =>
                     {
-                        var delta_G = _delta * parameters[2];
-                        var less = parameters.ToArray();
-                        var more = parameters.ToArray();
-                        less[2] -= delta_G;
-                        more[2] += delta_G;
-                        return Enumerable.Zip(
-                            myFunc(more, constantValues),
-                            myFunc(less, constantValues),
-                            (left, right) => (left - right) / (2 * delta_G)).ToArray();
+                        var less = parameters;
+                        var more = parameters;
+                        var op = (OpticalProperties[])parameters;
+                        less[0] = op.Select(opi => new OpticalProperties(opi.Mua, opi.Musp, opi.G * (1 - _delta), opi.N)).ToArray();
+                        more[0] = op.Select(opi => new OpticalProperties(opi.Mua, opi.Musp, opi.G * (1 + _delta), opi.N)).ToArray();
+                        return Vts.Extensions.EnumerableExtensions.Zip(
+                            myFunc(more),
+                            myFunc(less),
+                            op,
+                            (lessi, morei, opi) => (lessi - morei) / (2 * opi.G * _delta)).ToArray();
                     };
                 case ForwardAnalysisType.dRdN:
-                    return (parameters, constantValues) =>
+                    return parameters =>
                     {
-                        var delta_N = _delta * _delta * parameters[3];
-                        var less = parameters.ToArray();
-                        var more = parameters.ToArray();
-                        less[3] -= delta_N;
-                        more[3] += delta_N;
-                        return Enumerable.Zip(
-                            myFunc(more, constantValues),
-                            myFunc(less, constantValues),
-                            (left, right) => (left - right) / (2 * delta_N)).ToArray();
+                        var less = parameters;
+                        var more = parameters;
+                        var op = (OpticalProperties[])parameters;
+                        less[0] = op.Select(opi => new OpticalProperties(opi.Mua, opi.Musp, opi.G, opi.N * (1 - _delta))).ToArray();
+                        more[0] = op.Select(opi => new OpticalProperties(opi.Mua, opi.Musp, opi.G, opi.N * (1 + _delta))).ToArray();
+                        return Vts.Extensions.EnumerableExtensions.Zip(
+                            myFunc(more),
+                            myFunc(less),
+                            op,
+                            (lessi, morei, opi) => (lessi - morei) / (2 * opi.N * _delta)).ToArray();
                     };
-                //case ForwardAnalysisType.dRdIV:
-                //default:
-                //    var delta_a = a[ia].Select(x => x * _delta).ToArray();
-
-                //    var aPlusDelta = a.Select(ai => ai.ToArray()).ToArray(); // clone 'a' first...
-                //    aPlusDelta[ia] = aPlusDelta[ia].Zip(delta_a, (a_i, delta_a_i) => a_i + delta_a_i).ToArray(); // then re-assign the section with a delta change
-
-                //    var aMinusDelta = a.Select(ai => ai.ToArray()).ToArray(); // clone 'a' first...
-                //    aMinusDelta[ia] = aMinusDelta[ia].Zip(delta_a, (a_i, delta_a_i) => a_i - delta_a_i).ToArray(); // then re-assign the section with a delta change
-
-                //    return EnumerableExtensions.Zip(
-                //        myFunc(op.AsEnumerable(), aPlusDelta).ToArray(),
-                //        myFunc(op.AsEnumerable(), aMinusDelta).ToArray(),
-                //        delta_a,
-                //        (first, second, third) => (first - second) / (2 * third));
+                default:
+                    throw new ArgumentOutOfRangeException("analysisType");
             }
         }
     }

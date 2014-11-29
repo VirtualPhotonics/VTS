@@ -18,14 +18,9 @@
                         <TextBlock x:Name="SpaceUsed" Width="48"/>
                         <TextBlock Text="MB" VerticalAlignment="Center"/>
                     </StackPanel>
-                    <!--<StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="3">
-                        <TextBlock Text="Total Space Available:" VerticalAlignment="Center"/>
-                        <TextBlock x:Name="SpaceAvailable" Width="48"/>
-                        <TextBlock Text="MB" VerticalAlignment="Center"/>
-                    </StackPanel>-->
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="3">
                         <TextBlock Text="Extra Space Requested:" VerticalAlignment="Center"/>
-                        <TextBox x:Name="SpaceRequest" Width="48" Text="100" />
+                        <TextBox x:Name="SpaceRequest" Width="48" Text="100" KeyDown="TextBox_KeyDown"/>
                         <TextBlock Text="MB" VerticalAlignment="Center"/>
                     </StackPanel>
                 </StackPanel>

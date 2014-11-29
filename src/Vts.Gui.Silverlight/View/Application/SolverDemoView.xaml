@@ -71,7 +71,6 @@
                     Stretch="None"
 					VerticalAlignment="Center"
                     HorizontalAlignment="center"/>
-
                 <controls:TabControl x:Name="inputTabControl" SelectionChanged="inputTabControl_SelectionChanged"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Top"  
@@ -83,38 +82,40 @@
                     <controls:TabItem Name="tabForward" Header="Forward Solver/Analysis Panel">
                         <local:ForwardSolverView
                             DataContext="{Binding ForwardSolverVM}"
-                            Background="LightSteelBlue"/>
+                            Background="LightSteelBlue" 
+                            HorizontalAlignment="Left"/>
                     </controls:TabItem>
                     <controls:TabItem Name="tabInverse" Header="Inverse Solver Panel">
                         <local:InverseSolverView
                             DataContext="{Binding InverseSolverVM}"
-                            Background="LightSteelBlue"/>
+                            Background="LightSteelBlue" 
+                            HorizontalAlignment="Left"/>
                     </controls:TabItem>
                     <controls:TabItem Name="tabFluence" Header="Fluence/Interrogation Solver Panel">
                         <local:FluenceSolverView
                             DataContext="{Binding FluenceSolverVM}"
-                            Background="LightSteelBlue"/>
+                            Background="LightSteelBlue" 
+                            HorizontalAlignment="Left"/>
                     </controls:TabItem>
                     <controls:TabItem Name="tabSpectral" Header="Spectral Panel">
                         <local:SpectralMappingView 
                             DataContext="{Binding SpectralMappingVM}"
-                            Background="LightSteelBlue"/>
+                            Background="LightSteelBlue" 
+                            HorizontalAlignment="Left"/>
                     </controls:TabItem>
-                    <!--<controls:TabItem Name="tabTools" Header="Tools">
-                        <local:IsolatedStorageView Background="LightSteelBlue" />
-                    </controls:TabItem>-->
                     <controls:TabItem Name="tabMonteCarlo" Header="Monte Carlo Solver Panel">
                         <local:MonteCarloSolverView
                             DataContext="{Binding MonteCarloSolverVM}"
-                            Background="LightSteelBlue"/>
-                </controls:TabItem>
-                <controls:TabItem Name="tabFem" Header="FEM Solver Panel">
-                    <local:FemSolverView
+                            Background="LightSteelBlue" 
+                            HorizontalAlignment="Left"/>
+                    </controls:TabItem>
+                    <controls:TabItem Name="tabFem" Header="FEM Solver Panel">
+                        <local:FemSolverView
                             DataContext="{Binding FemSolverVM}"
-                            Background="LightSteelBlue"/>
-                </controls:TabItem>
-            </controls:TabControl>
-
+                            Background="LightSteelBlue" 
+                            HorizontalAlignment="Left"/>
+                    </controls:TabItem>
+                </controls:TabControl>
                 <controls:TabControl x:Name="outputTabControl"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Top"  
@@ -152,12 +153,12 @@
                             DataContext="{Binding MapVM}"
                             Background="LightSteelBlue"/>
                     </controls:TabItem>
-                <controls:TabItem Name="tabMesh" Header="Mesh Map View" Visibility="Collapsed">
-                    <local:MapView
+                    <controls:TabItem Name="tabMesh" Header="Mesh Map View" Visibility="Collapsed">
+                        <local:MapView
                             DataContext="{Binding MeshVM}"
                             Background="LightSteelBlue"/>
-                </controls:TabItem>
-            </controls:TabControl>
+                    </controls:TabItem>
+                </controls:TabControl>
 
                 <local:TextOutputView
                     DataContext="{Binding TextOutputVM}"

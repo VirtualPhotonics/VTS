@@ -79,7 +79,14 @@ namespace Vts.MonteCarlo.CommandLineApplication
     {
         private static ILogger logger = LoggerFactoryLocator.GetDefaultNLogFactory().Create(typeof(Program));
 
-        public static void Main(string[] args)
+        /// <summary>
+        /// main Monte Carlo CommandLine (MCCL) application
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns>int = 0 (successful completion)</returns>
+        /// <returns>int = 1 (infile null or missing)</returns>
+        /// <returns>int = 2 (infile exists but does not pass validation)</returns>
+        public static int Main(string[] args)
         {
 #if PROCESS_ATTACH_DEBUG
             Console.Read();
@@ -186,7 +193,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
                         var input = MonteCarloSetup.ReadSimulationInputFromFile(inFile);
                         if (input == null)
                         {
-                            return;
+                            return 1;
                         }
                         if (!string.IsNullOrEmpty(outName))
                         {
@@ -201,30 +208,31 @@ namespace Vts.MonteCarlo.CommandLineApplication
                         inputs = inFiles.Select(file => MonteCarloSetup.ReadSimulationInputFromFile(file));
                         if (inputs.Count() == 0)
                         {
-                            return;
+                            return 1;
                         }
                     }
 
                     foreach (var simulationInput in inputs)
                     {
                         if (!checkValid(simulationInput))
-                            return;                    // override the output name with the user-specified name
+                            return 2;                    // override the output name with the user-specified name
                         
                     }
 
                     MonteCarloSetup.RunSimulations(inputs, outPath);
                     logger.Info("\nSimulations complete.");
+                    return 0;
                 }
                 else
                 {
                     var input = MonteCarloSetup.ReadSimulationInputFromFile(inFile);
                     if (input == null)
                     {
-                        return;
+                        return 1;
                     }
 
                     if (!checkValid(input))
-                        return;
+                        return 2;
 
                     if (!string.IsNullOrEmpty(outName))
                     {
@@ -233,10 +241,12 @@ namespace Vts.MonteCarlo.CommandLineApplication
 
                     MonteCarloSetup.RunSimulation(input, outPath);
                     logger.Info("\nSimulation complete.");
+                    return 0;
                 }
             }
 
             LogManager.Configuration = null;
+            return 0;
         }
         
         private static void GenerateDefaultInputFiles()

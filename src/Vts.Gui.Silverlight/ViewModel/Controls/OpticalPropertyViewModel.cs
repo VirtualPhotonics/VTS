@@ -1,3 +1,6 @@
+using Vts.Gui.Silverlight.Model;
+using Vts.IO;
+
 namespace Vts.Gui.Silverlight.ViewModel
 {
     /// <summary>
@@ -12,8 +15,6 @@ namespace Vts.Gui.Silverlight.ViewModel
         private bool _enableG;
         private bool _enableN;
 
-        #region Model data
-
         public double Mua
         {
             get { return OpticalProperties.Mua; }
@@ -23,6 +24,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                 OnPropertyChanged("Mua");
             }
         }
+
         public double Musp
         {
             get { return OpticalProperties.Musp; }
@@ -32,6 +34,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                 OnPropertyChanged("Musp");
             }
         }
+
         public double G
         {
             get { return OpticalProperties.G; }
@@ -41,6 +44,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                 OnPropertyChanged("G");
             }
         }
+
         public double N
         {
             get { return OpticalProperties.N; }
@@ -50,8 +54,6 @@ namespace Vts.Gui.Silverlight.ViewModel
                 OnPropertyChanged("N");
             }
         }
-
-        #endregion
 
         public string Units
         {
@@ -147,6 +149,23 @@ namespace Vts.Gui.Silverlight.ViewModel
         /// </summary>
         /// <returns></returns>
         public OpticalProperties GetOpticalProperties() { return OpticalProperties; }
+
+        /// <summary>
+        /// Helper method.
+        /// </summary>
+        /// <returns></returns>
+        public void SetOpticalProperties(OpticalProperties op)
+        {
+            OpticalProperties.Mua = op.Mua;
+            OpticalProperties.Musp = op.Musp;
+            OpticalProperties.G = op.G;
+            OpticalProperties.N = op.N;
+
+            OnPropertyChanged("Mua");
+            OnPropertyChanged("Musp");
+            OnPropertyChanged("G");
+            OnPropertyChanged("N");
+        }
 
         public override string ToString()
         {

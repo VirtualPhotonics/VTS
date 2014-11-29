@@ -198,7 +198,7 @@ classdef VtsMonteCarlo < handle
                 end            
 
                 % the following assumes only one database specified for now
-                switch char(originalSimInput.Options.Databases{1})
+                switch char(originalSimInputs{ppi}.Options.Databases{1}) 
                     case 'DiffuseReflectance'
                     vbTypeNET = EnumHelper.GetValueNET('Vts.MonteCarlo.VirtualBoundaryType', 'DiffuseReflectance');
                     % the following assumes database filnames are convention
@@ -217,7 +217,6 @@ classdef VtsMonteCarlo < handle
                 ppNET = Vts.MonteCarlo.PostProcessing.PhotonDatabasePostProcessor( ...
                     vbTypeNET, ...
                     ppInputNET.DetectorInputs, ... % not switching based on input type here (yet...)
-                    ppInputNET.TallySecondMoment, ...
                     ppDatabase, ...
                     originalSimInputNET ...
                     );

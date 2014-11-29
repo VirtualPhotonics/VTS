@@ -1,7 +1,5 @@
-using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
-using System.Windows.Media;
 
 namespace Vts.Gui.Silverlight.Model
 {
@@ -12,42 +10,20 @@ namespace Vts.Gui.Silverlight.Model
     /// </summary>
     public class PlotData
     {
-        public PlotData() 
-            : this(new List<Point>(){}, null)
+        public PlotData(IDataPoint[][] points, string[] titles)
+        {
+            Points = points;
+            Titles = titles;
+        }
+
+        // todo: temp to get things working...want to eveutally remove
+        public PlotData(Point[][] points, string[] titles)
+            : this(points.Select(pArray => pArray.Select(point => new DoubleDataPoint(point.X, point.Y)).ToArray()).ToArray(), titles)
         {
         }
 
-        public PlotData(IEnumerable<Point> points, string title)
-            : this(points, title, Colors.Blue)
-        {
-        }
-
-        public PlotData(IEnumerable<Point> points, string title, Color c)
-        {
-            Points = points.ToList();
-            Title = title;
-            plotColor = c;
-            IsComplex = false;
-        }
-        // Complex Plot data is assumed to be real and imag 
-        public PlotData(IEnumerable<ComplexPoint> points, string title)
-            : this(points, title, Colors.Blue)
-        {
-        }
-        public PlotData(IEnumerable<ComplexPoint> points, string title, Color c)
-        {
-            ComplexPoints = points.ToList();
-            Title = title;
-            plotColor = c;
-            IsComplex = true;
-        }
-
-        public IList<Point> Points { get; set; }
-        public string Title { get; set; }
-        public Color plotColor { get; set; }
-        public IList<ComplexPoint> ComplexPoints { get; set; }
-        public bool IsComplex { get; set; }
-
+        public IDataPoint[][] Points { get; set; }
+        public string[] Titles { get; set; }
 
     }
 }
