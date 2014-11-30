@@ -134,7 +134,7 @@ namespace Vts.MonteCarlo
             {
                 foreach (var detectorInput in input.DetectorInputs)
                 {
-                    var ellipsoid = (EllipsoidRegion)((SingleEllipsoidTissueInput)input.TissueInput).
+                    var ellipsoid = (EllipsoidTissueRegion)((SingleEllipsoidTissueInput)input.TissueInput).
                         EllipsoidRegion;
                     if (detectorInput.TallyDetails.IsCylindricalTally&&
                         (ellipsoid.Center.X != 0.0) && (ellipsoid.Center.Y != 0.0))

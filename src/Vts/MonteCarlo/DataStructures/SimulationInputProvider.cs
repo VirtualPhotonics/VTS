@@ -60,13 +60,13 @@ namespace Vts.MonteCarlo
                 new MultiLayerTissueInput(
                     new ITissueRegion[]
                     { 
-                        new LayerRegion(
+                        new LayerTissueRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
-                        new LayerRegion(
+                        new LayerTissueRegion(
                             new DoubleRange(0.0, 100.0),
                             new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
-                        new LayerRegion(
+                        new LayerTissueRegion(
                             new DoubleRange(100.0, double.PositiveInfinity),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
                     }
@@ -132,13 +132,13 @@ namespace Vts.MonteCarlo
                 new MultiLayerTissueInput(
                     new ITissueRegion[]
                     { 
-                        new LayerRegion(
+                        new LayerTissueRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
-                        new LayerRegion(
+                        new LayerTissueRegion(
                             new DoubleRange(0.0, 100.0),
                             new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
-                        new LayerRegion(
+                        new LayerTissueRegion(
                             new DoubleRange(100.0, double.PositiveInfinity),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
                     }
@@ -178,13 +178,13 @@ namespace Vts.MonteCarlo
                 new MultiLayerTissueInput(
                     new ITissueRegion[]
                     { 
-                        new LayerRegion(
+                        new LayerTissueRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
-                        new LayerRegion(
+                        new LayerTissueRegion(
                             new DoubleRange(0.0, 100.0),
                             new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
-                        new LayerRegion(
+                        new LayerTissueRegion(
                             new DoubleRange(100.0, double.PositiveInfinity),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
                     }
@@ -228,16 +228,16 @@ namespace Vts.MonteCarlo
                 new MultiLayerTissueInput(
                     new ITissueRegion[]
                     { 
-                        new LayerRegion(
+                        new LayerTissueRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
-                        new LayerRegion(
+                        new LayerTissueRegion(
                             new DoubleRange(0.0, 1.5),
                             new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
-                        new LayerRegion(
+                        new LayerTissueRegion(
                             new DoubleRange(1.5, 100.0),
                             new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
-                        new LayerRegion(
+                        new LayerTissueRegion(
                             new DoubleRange(100.0, double.PositiveInfinity),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
                     }
@@ -278,16 +278,16 @@ namespace Vts.MonteCarlo
                 new MultiLayerTissueInput(
                     new ITissueRegion[]
                     { 
-                        new LayerRegion(
+                        new LayerTissueRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
-                        new LayerRegion(
+                        new LayerTissueRegion(
                             new DoubleRange(0.0, 1.5),
                             new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
-                        new LayerRegion(
+                        new LayerTissueRegion(
                             new DoubleRange(1.5, 100.0),
                             new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
-                        new LayerRegion(
+                        new LayerTissueRegion(
                             new DoubleRange(100.0, double.PositiveInfinity),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
                     }
@@ -326,7 +326,7 @@ namespace Vts.MonteCarlo
                     new Direction(0.0, 0.0, 1.0),
                     0), // 0=start in air, 1=start in tissue
                 new SingleEllipsoidTissueInput(
-                    new EllipsoidRegion(
+                    new EllipsoidTissueRegion(
                         new Position(0, 0, 1),
                         0.5,
                         0.5,
@@ -335,13 +335,13 @@ namespace Vts.MonteCarlo
                     ),
                     new ITissueRegion[]
                     { 
-                        new LayerRegion(
+                        new LayerTissueRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
-                        new LayerRegion(
+                        new LayerTissueRegion(
                             new DoubleRange(0.0, 100.0),
                             new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
-                        new LayerRegion(
+                        new LayerTissueRegion(
                             new DoubleRange(100.0, double.PositiveInfinity),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
                     }
@@ -379,13 +379,13 @@ namespace Vts.MonteCarlo
                 new MultiLayerTissueInput(
                     new ITissueRegion[]
                     { 
-                        new LayerRegion(
+                        new LayerTissueRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
-                        new LayerRegion(
+                        new LayerTissueRegion(
                             new DoubleRange(0.0, 100.0),
                             new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
-                        new LayerRegion(
+                        new LayerTissueRegion(
                             new DoubleRange(100.0, double.PositiveInfinity),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
                     }
@@ -432,13 +432,13 @@ namespace Vts.MonteCarlo
                 new MultiLayerTissueInput(
                     new ITissueRegion[]
                     { 
-                        new LayerRegion(
+                        new LayerTissueRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
-                        new LayerRegion(
+                        new LayerTissueRegion(
                             new DoubleRange(0.0, 100.0),
                             new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
-                        new LayerRegion(
+                        new LayerTissueRegion(
                             new DoubleRange(100.0, double.PositiveInfinity),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
                     }
@@ -485,13 +485,13 @@ namespace Vts.MonteCarlo
                 new MultiLayerTissueInput(
                     new ITissueRegion[]
                     { 
-                        new LayerRegion(
+                        new LayerTissueRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
-                        new LayerRegion(
+                        new LayerTissueRegion(
                             new DoubleRange(0.0, 100.0),
                             new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
-                        new LayerRegion(
+                        new LayerTissueRegion(
                             new DoubleRange(100.0, double.PositiveInfinity),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
                     }
@@ -532,16 +532,16 @@ namespace Vts.MonteCarlo
                 new MultiLayerTissueInput(
                     new ITissueRegion[]
                     { 
-                        new LayerRegion(
+                        new LayerTissueRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
-                        new LayerRegion(
+                        new LayerTissueRegion(
                             new DoubleRange(0.0, 1.0), // upper layer 1mm
                             new OpticalProperties(0.01, 1.0, 0.7, 1.33)), // Tyler's data
-                        new LayerRegion(
+                        new LayerTissueRegion(
                             new DoubleRange(1.0, 100.0),
                             new OpticalProperties(0.01, 1.0, 0.7, 1.33)), 
-                        new LayerRegion(
+                        new LayerTissueRegion(
                             new DoubleRange(100.0, double.PositiveInfinity),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
                     }
@@ -587,19 +587,19 @@ namespace Vts.MonteCarlo
                 new MultiLayerTissueInput(
                     new ITissueRegion[]
                     { 
-                        new LayerRegion(
+                        new LayerTissueRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
-                        new LayerRegion(
+                        new LayerTissueRegion(
                             new DoubleRange(0.0, 5.0),
                             new OpticalProperties(0.01, 1.0, 0.9, 1.4)),  
-                        new LayerRegion(
+                        new LayerTissueRegion(
                             new DoubleRange(5.0, 10.0),
                             new OpticalProperties(0.01, 1.0, 0.9, 1.4)), 
-                        new LayerRegion(
+                        new LayerTissueRegion(
                             new DoubleRange(10.0, 100.0),
                             new OpticalProperties(0.01, 1.0, 0.9, 1.4)), 
-                        new LayerRegion(
+                        new LayerTissueRegion(
                             new DoubleRange(100.0, double.PositiveInfinity),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
                     }

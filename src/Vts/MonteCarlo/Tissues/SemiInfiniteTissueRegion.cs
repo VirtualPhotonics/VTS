@@ -9,13 +9,13 @@ namespace Vts.MonteCarlo.Tissues
     /// Implements ITissueRegion.  Defines a layer infinite in extent along
     /// x,y-axes and with extent along z-axis given by ZRange.
     /// </summary>
-    public class SemiInfiniteRegion : ITissueRegion
+    public class SemiInfiniteTissueRegion : ITissueRegion
     {
         /// <summary>
-        /// constructor for SemiInfiniteRegion
+        /// constructor for SemiInfiniteTissueRegion
         /// </summary>
         /// <param name="op">optical properties of layer</param>
-        public SemiInfiniteRegion(OpticalProperties op)
+        public SemiInfiniteTissueRegion(OpticalProperties op)
         {
             RegionOP = op;
             TissueRegionType = "SemiInfinite";
@@ -24,7 +24,7 @@ namespace Vts.MonteCarlo.Tissues
         /// <summary>
         /// default constructor
         /// </summary>
-        public SemiInfiniteRegion()
+        public SemiInfiniteTissueRegion()
             : this(new OpticalProperties(0.01, 1.0, 0.8, 1.4)) { }
 
         /// <summary>

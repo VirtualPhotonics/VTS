@@ -58,7 +58,7 @@ namespace Vts.MonteCarlo.Extensions
                     var multiLayerTissueInput = result.TissueInput as MultiLayerTissueInput;
                     if (multiLayerTissueInput != null && regionIndex >= 0 && multiLayerTissueInput.Regions.Count() > regionIndex)
                     {
-                        var layerRegion = (LayerRegion)multiLayerTissueInput.Regions.Skip(regionIndex).First();
+                        var layerRegion = (LayerTissueRegion)multiLayerTissueInput.Regions.Skip(regionIndex).First();
 
                         // keep a separate copy of the range before we modify it
                         var previousRange = layerRegion.ZRange.Clone();
@@ -68,7 +68,7 @@ namespace Vts.MonteCarlo.Extensions
 
                         // then, update the rest of the following layers with an adjusted thickness
                         var changeInThickness = layerRegion.ZRange.Delta - previousRange.Delta;
-                        foreach (var region in multiLayerTissueInput.Regions.Skip(regionIndex + 1).Select(r => (LayerRegion)r))
+                        foreach (var region in multiLayerTissueInput.Regions.Skip(regionIndex + 1).Select(r => (LayerTissueRegion)r))
                         {
 
                             region.ZRange = new DoubleRange(
@@ -150,7 +150,7 @@ namespace Vts.MonteCarlo.Extensions
                         case "SingleEllipsoid":
                             inclusionRegion = ((SingleEllipsoidTissueInput)result.TissueInput).EllipsoidRegion;
                             //var singleEllipsoidTissueInput = (SingleEllipsoidTissueInput) result.TissueInput;
-                            //inclusionPosition = ((EllipsoidRegion)singleEllipsoidTissueInput.EllipsoidRegion).Center;
+                            //inclusionPosition = ((EllipsoidTissueRegion)singleEllipsoidTissueInput.EllipsoidTissueRegion).Center;
                             break;
                         default:
                             throw new ArgumentOutOfRangeException();
@@ -167,13 +167,13 @@ namespace Vts.MonteCarlo.Extensions
                             switch (parameterString)
                             {
                                 case "inclusion_radius_x":
-                                    ((EllipsoidRegion)tissueInputWithRadius.EllipsoidRegion).Dx = value;
+                                    ((EllipsoidTissueRegion)tissueInputWithRadius.EllipsoidRegion).Dx = value;
                                     break;
                                 case "inclusion_radius_y":
-                                    ((EllipsoidRegion)tissueInputWithRadius.EllipsoidRegion).Dy = value;
+                                    ((EllipsoidTissueRegion)tissueInputWithRadius.EllipsoidRegion).Dy = value;
                                     break;
                                 case "inclusion_radius_z":
-                                    ((EllipsoidRegion)tissueInputWithRadius.EllipsoidRegion).Dz = value;
+                                    ((EllipsoidTissueRegion)tissueInputWithRadius.EllipsoidRegion).Dz = value;
                                     break;
                             }
                             break;

@@ -1048,23 +1048,23 @@
     <Compile Include="..\Vts\MonteCarlo\Sources\VolumetricSources\VolumtricCuboidal\VolumetricCuboidalSourceBase.cs">
       <Link>MonteCarlo\Sources\VolumetricSources\VolumetricCuboidal\VolumetricCuboidalSourceBase.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Tissues\CylinderRegion.cs">
-      <Link>MonteCarlo\Tissues\CylinderRegion.cs</Link>
+    <Compile Include="..\Vts\MonteCarlo\Tissues\CylinderTissueRegion.cs">
+      <Link>MonteCarlo\Tissues\CylinderTissueRegion.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Tissues\EllipsoidRegion.cs">
-      <Link>MonteCarlo\Tissues\EllipsoidRegion.cs</Link>
+    <Compile Include="..\Vts\MonteCarlo\Tissues\EllipsoidTissueRegion.cs">
+      <Link>MonteCarlo\Tissues\EllipsoidTissueRegion.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Tissues\LayerRegion.cs">
-      <Link>MonteCarlo\Tissues\LayerRegion.cs</Link>
+    <Compile Include="..\Vts\MonteCarlo\Tissues\LayerTissueRegion.cs">
+      <Link>MonteCarlo\Tissues\LayerTissueRegion.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Tissues\MultiLayerTissue.cs">
       <Link>MonteCarlo\Tissues\MultiLayerTissue.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Tissues\SemiInfiniteRegion.cs">
-      <Link>MonteCarlo\Tissues\SemiInfiniteRegion.cs</Link>
-    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Tissues\SemiInfiniteTissue.cs">
       <Link>MonteCarlo\Tissues\SemiInfiniteTissue.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Tissues\SemiInfiniteTissueRegion.cs">
+      <Link>MonteCarlo\Tissues\SemiInfiniteTissueRegion.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Tissues\SingleInclusionTissue.cs">
       <Link>MonteCarlo\Tissues\SingleInclusionTissue.cs</Link>
@@ -1072,8 +1072,8 @@
     <Compile Include="..\Vts\MonteCarlo\Tissues\TissueBase.cs">
       <Link>MonteCarlo\Tissues\TissueBase.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Tissues\VoxelRegion.cs">
-      <Link>MonteCarlo\Tissues\VoxelRegion.cs</Link>
+    <Compile Include="..\Vts\MonteCarlo\Tissues\VoxelTissueRegion.cs">
+      <Link>MonteCarlo\Tissues\VoxelTissueRegion.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\VirtualBoundaries\DiffuseReflectanceVirtualBoundary.cs">
       <Link>MonteCarlo\VirtualBoundaries\DiffuseReflectanceVirtualBoundary.cs</Link>

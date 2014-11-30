@@ -33,7 +33,7 @@ namespace Vts.MonteCarlo.Tissues
         /// </summary>
         public SingleEllipsoidTissueInput()
             : this(
-                new EllipsoidRegion(
+                new EllipsoidTissueRegion(
                     new Position(0, 0, 1),
                     0.5,
                     0.5,
@@ -42,13 +42,13 @@ namespace Vts.MonteCarlo.Tissues
                 ),
                 new ITissueRegion[] 
                 { 
-                    new LayerRegion(
+                    new LayerTissueRegion(
                         new DoubleRange(double.NegativeInfinity, 0.0),
                         new OpticalProperties( 0.0, 1e-10, 1.0, 1.0)),
-                    new LayerRegion(
+                    new LayerTissueRegion(
                         new DoubleRange(0.0, 100.0),
                         new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
-                    new LayerRegion(
+                    new LayerTissueRegion(
                         new DoubleRange(100.0, double.PositiveInfinity),
                         new OpticalProperties( 0.0, 1e-10, 1.0, 1.0))
                 })
@@ -103,13 +103,13 @@ namespace Vts.MonteCarlo.Tissues
             : this(
                 new ITissueRegion[]
                 {
-                    new EllipsoidRegion(
+                    new EllipsoidTissueRegion(
                         new Position(10, 0, 10), 
                         5.0, 
                         1.0, 
                         5.0,
                         new OpticalProperties(0.1, 1.0, 0.8, 1.4)),
-                    new EllipsoidRegion(
+                    new EllipsoidTissueRegion(
                         new Position(0, 0, 40), 
                         5.0, 
                         0, 
@@ -118,13 +118,13 @@ namespace Vts.MonteCarlo.Tissues
                 },
                 new ITissueRegion[] 
                 { 
-                    new LayerRegion(
+                    new LayerTissueRegion(
                         new DoubleRange(double.NegativeInfinity, 0.0),
                         new OpticalProperties( 0.0, 1e-10, 1.0, 1.0)),
-                    new LayerRegion(
+                    new LayerTissueRegion(
                         new DoubleRange(0.0, 50.0),
                         new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
-                    new LayerRegion(
+                    new LayerTissueRegion(
                         new DoubleRange(100.0, double.PositiveInfinity),
                         new OpticalProperties( 0.0, 1e-10, 1.0, 1.0))
                 })
@@ -178,7 +178,7 @@ namespace Vts.MonteCarlo.Tissues
             _inclusionRegion = inclusionRegion;
             _inclusionRegionIndex = layerRegions.Count; // index is, by convention, after the layer region indices
             _layerRegionIndexOfInclusion = Enumerable.Range(0, layerRegions.Count)
-                .FirstOrDefault(i => ((LayerRegion) layerRegions[i]).ContainsPosition(_inclusionRegion.Center));
+                .FirstOrDefault(i => ((LayerTissueRegion)layerRegions[i]).ContainsPosition(_inclusionRegion.Center));
         }
 
         /// <summary>
@@ -186,7 +186,7 @@ namespace Vts.MonteCarlo.Tissues
         /// </summary>
         public SingleInclusionTissue()
             : this(
-                new EllipsoidRegion(),
+                new EllipsoidTissueRegion(),
                 new MultiLayerTissueInput().Regions) { }
         /// <summary>
         /// method to get tissue region index of photon's current position

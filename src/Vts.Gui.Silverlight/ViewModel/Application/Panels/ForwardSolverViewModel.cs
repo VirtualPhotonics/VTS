@@ -419,7 +419,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                 case "SemiInfinite":
                     if (_currentSemiInfiniteTissueInput == null)
                     {
-                        _currentSemiInfiniteTissueInput = new SemiInfiniteTissueInput(new SemiInfiniteRegion(_currentHomogeneousOpticalProperties));
+                        _currentSemiInfiniteTissueInput = new SemiInfiniteTissueInput(new SemiInfiniteTissueRegion(_currentHomogeneousOpticalProperties));
                     }
                     return new OpticalPropertyViewModel(
                         ((SemiInfiniteTissueInput)_currentSemiInfiniteTissueInput).Regions.First().RegionOP,
@@ -431,8 +431,8 @@ namespace Vts.Gui.Silverlight.ViewModel
                     {
                         _currentMultiLayerTissueInput = new MultiLayerTissueInput(new ITissueRegion[]
                             { 
-                                new LayerRegion(new DoubleRange(0, 2), _currentHomogeneousOpticalProperties.Clone() ), 
-                                new LayerRegion(new DoubleRange(2, double.PositiveInfinity), _currentHomogeneousOpticalProperties.Clone() ), 
+                                new LayerTissueRegion(new DoubleRange(0, 2), _currentHomogeneousOpticalProperties.Clone() ), 
+                                new LayerTissueRegion(new DoubleRange(2, double.PositiveInfinity), _currentHomogeneousOpticalProperties.Clone() ), 
                             });
                     }
                     return new MultiRegionTissueViewModel(_currentMultiLayerTissueInput);
@@ -440,10 +440,10 @@ namespace Vts.Gui.Silverlight.ViewModel
                     if (_currentSingleEllipsoidTissueInput == null)
                     {
                         _currentSingleEllipsoidTissueInput = new SingleEllipsoidTissueInput(
-                            new EllipsoidRegion(new Position(0, 0, 10), 5, 5, 5, new OpticalProperties(0.05, 1.0, 0.8, 1.4)),
+                            new EllipsoidTissueRegion(new Position(0, 0, 10), 5, 5, 5, new OpticalProperties(0.05, 1.0, 0.8, 1.4)),
                             new ITissueRegion[]
                             { 
-                                new LayerRegion(new DoubleRange(0, double.PositiveInfinity), _currentHomogeneousOpticalProperties.Clone()), 
+                                new LayerTissueRegion(new DoubleRange(0, double.PositiveInfinity), _currentHomogeneousOpticalProperties.Clone()), 
                             });
                     }
                     return new MultiRegionTissueViewModel(_currentSingleEllipsoidTissueInput);

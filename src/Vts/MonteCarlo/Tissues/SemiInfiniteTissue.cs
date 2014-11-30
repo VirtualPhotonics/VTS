@@ -24,7 +24,7 @@ namespace Vts.MonteCarlo.Tissues
         /// SemiInfiniteTissueInput default constructor provides homogeneous tissue
         /// </summary>
         public SemiInfiniteTissueInput()
-            : this(new SemiInfiniteRegion(new OpticalProperties(0.02, 1.0, 0.8, 1.4)))
+            : this(new SemiInfiniteTissueRegion(new OpticalProperties(0.02, 1.0, 0.8, 1.4)))
         {
         }
 

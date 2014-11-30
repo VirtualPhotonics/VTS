@@ -29,13 +29,13 @@ namespace Vts.MonteCarlo.Tissues
             : this(
                 new ITissueRegion[]
                 { 
-                    new LayerRegion(
+                    new LayerTissueRegion(
                         new DoubleRange(double.NegativeInfinity, 0.0),
                         new OpticalProperties( 0.0, 1e-10, 1.0, 1.0)),
-                    new LayerRegion(
+                    new LayerTissueRegion(
                         new DoubleRange(0.0, 100.0),
                         new OpticalProperties(0.0, 1.0, 0.8, 1.4)),
-                    new LayerRegion(
+                    new LayerTissueRegion(
                         new DoubleRange(100.0, double.PositiveInfinity),
                         new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
                 })
@@ -60,7 +60,7 @@ namespace Vts.MonteCarlo.Tissues
     /// </summary>
     public class MultiLayerTissue : TissueBase, ITissue
     {
-        private IList<LayerRegion> _layerRegions;
+        private IList<LayerTissueRegion> _layerRegions;
 
         /// <summary>
         /// Creates an instance of a MultiLayerTissue
@@ -71,7 +71,7 @@ namespace Vts.MonteCarlo.Tissues
             IList<ITissueRegion> regions)
             : base(regions)
         {
-            _layerRegions = regions.Select(region => (LayerRegion) region).ToArray();
+            _layerRegions = regions.Select(region => (LayerTissueRegion) region).ToArray();
         }
         
         /// <summary>
@@ -101,7 +101,7 @@ namespace Vts.MonteCarlo.Tissues
         /// <returns></returns>
         public int GetRegionIndex(Position position)
         {
-            // use ITissueRegion interface method ContainsPosition for LayerRegion to determine
+            // use ITissueRegion interface method ContainsPosition for LayerTissueRegion to determine
             // which region photon resides
 
             int index = -1;
@@ -132,7 +132,7 @@ namespace Vts.MonteCarlo.Tissues
             // get current and adjacent regions
             int currentRegionIndex = photon.CurrentRegionIndex; 
             // check if in embedded tissue region ckh fix 8/10/11
-            LayerRegion currentRegion = _layerRegions[1];
+            LayerTissueRegion currentRegion = _layerRegions[1];
             if (currentRegionIndex < _layerRegions.Count)
             {
                 currentRegion = _layerRegions[currentRegionIndex];

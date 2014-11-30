@@ -18,7 +18,7 @@ namespace Vts.MonteCarlo
         /// <returns></returns>
         public static ValidationResult ValidateInput(ITissueInput input)
         {
-            var layers = input.Regions.Select(region => (LayerRegion)region).ToArray();
+            var layers = input.Regions.Select(region => (LayerTissueRegion)region).ToArray();
 
             // other stuff could go here...
             var tempResult = ValidateLayers(layers);
@@ -33,9 +33,9 @@ namespace Vts.MonteCarlo
         /// Photon class assumes that these layers are air and that the photon exits the domain
         /// after crossing into these layers and is no longer propagated.
         /// </summary>
-        /// <param name="layers">list of LayerRegion</param>
+        /// <param name="layers">list of LayerTissueRegion</param>
         /// <returns></returns>
-        public static ValidationResult ValidateTopAndBottomLayersAreAir(IList<LayerRegion> layers)
+        public static ValidationResult ValidateTopAndBottomLayersAreAir(IList<LayerTissueRegion> layers)
         {
             // test if first and last layer are not air layers 
             if (!layers[0].IsAir() || !layers[layers.Count - 1].IsAir())
@@ -54,9 +54,9 @@ namespace Vts.MonteCarlo
         /// This verifies that the layers do not overlap.  It assumes that the layers are
         /// adjacent and defined in order. Public because SimulationInputValidation calls it.
         /// </summary>
-        /// <param name="layers">list of LayerRegion</param>
+        /// <param name="layers">list of LayerTissueRegion</param>
         /// <returns></returns>
-        public static ValidationResult ValidateLayers(IList<LayerRegion> layers )
+        public static ValidationResult ValidateLayers(IList<LayerTissueRegion> layers )
         {
             for (int i = 0; i < layers.Count - 1; i++)
             {
