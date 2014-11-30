@@ -259,8 +259,7 @@
     <Compile Include="MonteCarlo\DataStructures\SourceInputs\PointAndLineSources\LineSourceInputs\DirectionalLineSourceInput.cs" />
     <Compile Include="MonteCarlo\DataStructures\SourceInputs\PointAndLineSources\LineSourceInputs\IsotropicLineSourceInput.cs" />
     <Compile Include="MonteCarlo\DataStructures\SourceInputs\SourceInputProvider.cs" />
-    <Compile Include="MonteCarlo\DataStructures\TissueInputs\SemiInfiniteTissueInput.cs" />
-    <Compile Include="MonteCarlo\DataStructures\TissueInputs\MultiEllipsoidTissueInput.cs" />
+    <Compile Include="MonteCarlo\Tissues\SemiInfiniteTissue.cs" />
     <Compile Include="MonteCarlo\Detectors\Detector.cs" />
     <Compile Include="MonteCarlo\Detectors\AOfXAndYAndZDetector.cs" />
     <Compile Include="MonteCarlo\Detectors\ReflectedTimeOfRhoAndSubregionHistDetector.cs" />

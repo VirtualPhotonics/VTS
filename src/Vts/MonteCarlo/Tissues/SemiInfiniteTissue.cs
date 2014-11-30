@@ -1,8 +1,7 @@
 using System;
-using System.Runtime.Serialization;
 using Vts.MonteCarlo.Tissues;
 
-namespace Vts.MonteCarlo
+namespace Vts.MonteCarlo.Tissues
 {
     /// <summary>
     /// Implements ITissueInput.  Defines input to SemiInfiniteTissueInput class.
@@ -39,6 +38,5 @@ namespace Vts.MonteCarlo
             throw new NotImplementedException();
             // return new SemiInfiniteTissue(this); todo: add implementation
         }
-
     }
 }

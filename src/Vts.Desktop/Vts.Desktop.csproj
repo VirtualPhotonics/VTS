@@ -670,9 +670,6 @@
     <Compile Include="..\Vts\MonteCarlo\DataStructures\SourceInputs\VolumetricSources\VolumetricCuboidalSourceInputs\IsotropicVolumetricCuboidaldalSourceInput.cs">
       <Link>MonteCarlo\DataStructures\SourceInputs\VolumetricSources\VolumetricCuboidal\IsotropicVolumetricCuboidalSourceInput.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\DataStructures\TissueInputs\MultiEllipsoidTissueInput.cs">
-      <Link>MonteCarlo\DataStructures\TissueInputs\MultiEllipsoidTissueInput.cs</Link>
-    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\AOfRhoAndZDetector.cs">
       <Link>MonteCarlo\Detectors\AOfRhoAndZDetector.cs</Link>
     </Compile>
@@ -1062,6 +1059,12 @@
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Tissues\MultiLayerTissue.cs">
       <Link>MonteCarlo\Tissues\MultiLayerTissue.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Tissues\SemiInfiniteRegion.cs">
+      <Link>MonteCarlo\Tissues\SemiInfiniteRegion.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Tissues\SemiInfiniteTissue.cs">
+      <Link>MonteCarlo\Tissues\SemiInfiniteTissue.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Tissues\SingleInclusionTissue.cs">
       <Link>MonteCarlo\Tissues\SingleInclusionTissue.cs</Link>

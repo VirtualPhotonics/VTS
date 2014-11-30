@@ -57,7 +57,7 @@ namespace Vts.IO
         {
             ConventionBasedConverter<ISourceInput>.CreateFromEnum<Vts.MonteCarlo.SourceType>(typeof(IsotropicPointSourceInput)),
             new ConventionBasedConverter<ITissueInput>(typeof(MultiLayerTissueInput), "TissueType", Vts.MonteCarlo.TissueType.BuiltInTypes),
-            new ConventionBasedConverter<ITissueRegion>(typeof(VoxelRegion), "TissueRegionType", TissueRegionType.BuiltInTypes),
+            new ConventionBasedConverter<ITissueRegion>(typeof(VoxelRegion), "TissueRegionType", TissueRegionType.BuiltInTypes, "Region"),
             new ConventionBasedConverter<IDetectorInput>(typeof(ROfRhoDetectorInput), "TallyType", TallyType.BuiltInTypes),
             new ConventionBasedConverter<IDetector>(typeof(ROfRhoDetector), "TallyType", TallyType.BuiltInTypes),
             ConventionBasedConverter<ISourceProfile>.CreateFromEnum<Vts.MonteCarlo.SourceProfileType>(typeof(FlatSourceProfile)),
