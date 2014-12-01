@@ -19,13 +19,11 @@ namespace Vts.MonteCarlo.Factories
         /// <returns>ITissue</returns>
         public static ITissue GetTissue(ITissueInput ti, AbsorptionWeightingType awt, PhaseFunctionType pft, double russianRouletteWeightThreshold)
         {
-            ITissue t = ti.CreateTissue();
+            ITissue t = ti.CreateTissue(awt, pft, russianRouletteWeightThreshold);
 
             if (t == null)
                 throw new ArgumentException(
                     "Problem generating ITissue instance. Check that TissueInput, ti, has a matching ITissue definition.");
-
-            t.Initialize();
 
             return t;
         }

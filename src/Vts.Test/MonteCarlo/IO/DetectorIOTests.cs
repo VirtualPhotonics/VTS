@@ -289,7 +289,6 @@ namespace Vts.Test.MonteCarlo
         public void validate_FluenceOfRhoAndZDetector_deserialized_class_is_correct_when_using_WriteReadDetectorToFile()
         {
             string detectorName = "testfluenceofrhoandz";
-            var tissue = new MultiLayerTissue();
             IDetectorInput detectorInput = new FluenceOfRhoAndZDetectorInput()
             {
                 Rho = new DoubleRange(0, 10, 3),
@@ -460,7 +459,6 @@ namespace Vts.Test.MonteCarlo
         public void validate_FluenceOfRhoAndZAndTime_deserialized_class_is_correct_when_using_WriteReadDetectorToFile()
         {
             string detectorName = "testfluenceofrhoandzandtime";
-            var tissue = new MultiLayerTissue();
             IDetectorInput detectorInput = new FluenceOfRhoAndZAndTimeDetectorInput()
             {
                 Rho = new DoubleRange(0, 10, 3),

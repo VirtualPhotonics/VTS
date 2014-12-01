@@ -47,9 +47,21 @@ namespace Vts.MonteCarlo.Tissues
         /// </summary>
         public ITissueRegion[] Regions { get { return _regions; } set { _regions = value; } }
 
-        public ITissue CreateTissue()
+        /// <summary>
+        ///// Required factory method to create the corresponding 
+        ///// ITissue based on the ITissueInput data
+        /// </summary>
+        /// <param name="awt">Absorption Weighting Type</param>
+        /// <param name="pft">Phase Function Type</param>
+        /// <param name="russianRouletteWeightThreshold">Russian Roulette Weight Threshold</param>
+        /// <returns></returns>
+        public ITissue CreateTissue(AbsorptionWeightingType awt, PhaseFunctionType pft, double russianRouletteWeightThreshold)
         {
-            return new MultiLayerTissue(Regions);
+            var t = new MultiLayerTissue(Regions);
+
+            t.Initialize(awt, pft, russianRouletteWeightThreshold);
+
+            return t;
         }
     }
 
@@ -72,17 +84,6 @@ namespace Vts.MonteCarlo.Tissues
             : base(regions)
         {
             _layerRegions = regions.Select(region => (LayerTissueRegion) region).ToArray();
-        }
-        
-        /// <summary>
-        /// Creates an instance of a MultiLayerTissue based on an input data class 
-        /// </summary>
-        /// <param name="input">multi-layer tissue input</param>
-        /// <remarks>air above and below tissue needs to be specified for a slab geometry</remarks>
-        public MultiLayerTissue(
-            MultiLayerTissueInput input)
-            : this(input.Regions)
-        {
         }
 
         /// <summary>

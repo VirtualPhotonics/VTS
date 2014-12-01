@@ -33,10 +33,23 @@ namespace Vts.MonteCarlo.Tissues
         /// </summary>
         public ITissueRegion[] Regions { get { return _regions; } set { _regions = value; } }
 
-        public ITissue CreateTissue()
+        /// <summary>
+        ///// Required factory method to create the corresponding 
+        ///// ITissue based on the ITissueInput data
+        /// </summary>
+        /// <param name="awt">Absorption Weighting Type</param>
+        /// <param name="pft">Phase Function Type</param>
+        /// <param name="russianRouletteWeightThreshold">Russian Roulette Weight Threshold</param>
+        /// <returns></returns>
+        public ITissue CreateTissue(AbsorptionWeightingType awt, PhaseFunctionType pft, double russianRouletteWeightThreshold)
         {
             throw new NotImplementedException();
-            // return new SemiInfiniteTissue(this); todo: add implementation
+
+            //var t = new SemiInfiniteTissue(Regions); //  todo: add implementation
+
+            //t.Initialize(awt, pft, russianRouletteWeightThreshold);
+
+            //return t;
         }
     }
 }

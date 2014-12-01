@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -69,9 +70,21 @@ namespace Vts.MonteCarlo.Tissues
         /// </summary>
         public ITissueRegion[] LayerRegions { get { return _layerRegions; } set { _layerRegions = value; } }
 
-        public ITissue CreateTissue()
+        /// <summary>
+        ///// Required factory method to create the corresponding 
+        ///// ITissue based on the ITissueInput data
+        /// </summary>
+        /// <param name="awt">Absorption Weighting Type</param>
+        /// <param name="pft">Phase Function Type</param>
+        /// <param name="russianRouletteWeightThreshold">Russian Roulette Weight Threshold</param>
+        /// <returns></returns>
+        public ITissue CreateTissue(AbsorptionWeightingType awt, PhaseFunctionType pft, double russianRouletteWeightThreshold)
         {
-            return new SingleInclusionTissue(this.EllipsoidRegion, this.LayerRegions);
+            var t = new SingleInclusionTissue(EllipsoidRegion, LayerRegions);
+
+            t.Initialize(awt, pft, russianRouletteWeightThreshold);
+
+            return t;
         }
     }
 
@@ -144,11 +157,24 @@ namespace Vts.MonteCarlo.Tissues
         /// tissue layer regions
         /// </summary>
         public ITissueRegion[] LayerRegions { get { return _layerRegions; } set { _layerRegions = value; } }
-
-
-        public ITissue CreateTissue()
+        
+        /// <summary>
+        ///// Required factory method to create the corresponding 
+        ///// ITissue based on the ITissueInput data
+        /// </summary>
+        /// <param name="awt">Absorption Weighting Type</param>
+        /// <param name="pft">Phase Function Type</param>
+        /// <param name="russianRouletteWeightThreshold">Russian Roulette Weight Threshold</param>
+        /// <returns></returns>
+        public ITissue CreateTissue(AbsorptionWeightingType awt, PhaseFunctionType pft, double russianRouletteWeightThreshold)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
+
+            //var t = new SingleInclusionTissue(EllipsoidRegions, LayerRegions); // todo: add implementation
+
+            //t.Initialize(awt, pft, russianRouletteWeightThreshold);
+
+            //return t;
         }
     }
 
