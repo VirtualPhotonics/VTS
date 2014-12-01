@@ -98,29 +98,29 @@ namespace Vts.MonteCarlo.Extensions
                     dynamic sourceInput = result.SourceInput;
                     switch (result.SourceInput.SourceType)
                     {
-                        case SourceType.IsotropicPoint:
-                        case SourceType.DirectionalPoint:
-                        case SourceType.CustomPoint:
+                        case "IsotropicPoint":
+                        case "DirectionalPoint":
+                        case "CustomPoint":
                             sourcePosition = (Position)sourceInput.PointLocation;
                             break;
-                        case SourceType.IsotropicLine:
-                        case SourceType.DirectionalLine:
-                        case SourceType.CustomLine:
-                        case SourceType.DirectionalCircular:
-                        case SourceType.CustomCircular:
-                        case SourceType.DirectionalElliptical:
-                        case SourceType.CustomElliptical:
-                        case SourceType.DirectionalRectangular:
-                        case SourceType.CustomRectangular:
-                        case SourceType.LambertianSurfaceEmittingSpherical:
-                        case SourceType.CustomSurfaceEmittingSpherical:
-                        case SourceType.LambertianSurfaceEmittingCubiodal:
-                        case SourceType.LambertianSurfaceEmittingTubular:
-                        case SourceType.LambertianSurfaceEmittingCylindricalFiber:
-                        case SourceType.IsotropicVolumetricCuboidal:
-                        case SourceType.CustomVolumetricCubiodal:
-                        case SourceType.IsotropicVolumetricEllipsoidal:
-                        case SourceType.CustomVolumetricEllipsoidal:
+                        case "IsotropicLine":
+                        case "DirectionalLine":
+                        case "CustomLine":
+                        case "DirectionalCircular":
+                        case "CustomCircular":
+                        case "DirectionalElliptical":
+                        case "CustomElliptical":
+                        case "DirectionalRectangular":
+                        case "CustomRectangular":
+                        case "LambertianSurfaceEmittingSpherical":
+                        case "CustomSurfaceEmittingSpherical":
+                        case "LambertianSurfaceEmittingCubiodal":
+                        case "LambertianSurfaceEmittingTubular":
+                        case "LambertianSurfaceEmittingCylindricalFiber":
+                        case "IsotropicVolumetricCuboidal":
+                        case "CustomVolumetricCubiodal":
+                        case "IsotropicVolumetricEllipsoidal":
+                        case "CustomVolumetricEllipsoidal":
                         default:
                             sourcePosition = (Position)sourceInput.TranslationFromOrigin;
                             break;

@@ -10,6 +10,7 @@ using Newtonsoft.Json.Serialization;
 using Vts.MonteCarlo;
 using Vts.MonteCarlo.Detectors;
 using Vts.MonteCarlo.Interfaces;
+using Vts.MonteCarlo.Sources;
 using Vts.MonteCarlo.Sources.SourceProfiles;
 using Vts.MonteCarlo.Tissues;
 
@@ -55,7 +56,7 @@ namespace Vts.IO
 
         public static List<JsonConverter> KnownConverters = new List<JsonConverter>
         {
-            ConventionBasedConverter<ISourceInput>.CreateFromEnum<Vts.MonteCarlo.SourceType>(typeof(IsotropicPointSourceInput)),
+            new ConventionBasedConverter<ISourceInput>(typeof(IsotropicPointSourceInput), "SourceType",  Vts.MonteCarlo.SourceType.BuiltInTypes),
             new ConventionBasedConverter<ITissueInput>(typeof(MultiLayerTissueInput), "TissueType", Vts.MonteCarlo.TissueType.BuiltInTypes),
             new ConventionBasedConverter<ITissueRegion>(typeof(VoxelTissueRegion), "TissueRegionType", TissueRegionType.BuiltInTypes),
             new ConventionBasedConverter<IDetectorInput>(typeof(ROfRhoDetectorInput), "TallyType", TallyType.BuiltInTypes),

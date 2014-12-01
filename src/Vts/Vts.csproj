@@ -255,10 +255,7 @@
     <Compile Include="MonteCarlo\DataStructures\PostProcessorInputs\PostProcessorInputProvider.cs" />
     <Compile Include="MonteCarlo\DataStructures\SimulationInputProvider.cs" />
     <Compile Include="MonteCarlo\DataStructures\SimulationStatistics.cs" />
-    <Compile Include="MonteCarlo\DataStructures\SourceInputs\PointAndLineSources\LineSourceInputs\CustomLineSourceInput.cs" />
-    <Compile Include="MonteCarlo\DataStructures\SourceInputs\PointAndLineSources\LineSourceInputs\DirectionalLineSourceInput.cs" />
-    <Compile Include="MonteCarlo\DataStructures\SourceInputs\PointAndLineSources\LineSourceInputs\IsotropicLineSourceInput.cs" />
-    <Compile Include="MonteCarlo\DataStructures\SourceInputs\SourceInputProvider.cs" />
+    <Compile Include="MonteCarlo\DataStructures\SourceInputProvider.cs" />
     <Compile Include="MonteCarlo\Tissues\SemiInfiniteTissue.cs" />
     <Compile Include="MonteCarlo\Detectors\Detector.cs" />
     <Compile Include="MonteCarlo\Detectors\AOfXAndYAndZDetector.cs" />
@@ -362,24 +359,6 @@
     <Compile Include="MonteCarlo\DataStructures\SimulationInput.cs" />
     <Compile Include="MonteCarlo\Extensions\SimulationInputExtensions.cs" />
     <Compile Include="MonteCarlo\DataStructures\SimulationOptions.cs" />
-    <Compile Include="MonteCarlo\DataStructures\SourceInputs\PointAndLineSources\PointSourceInputs\CustomPointSourceInput.cs" />
-    <Compile Include="MonteCarlo\DataStructures\SourceInputs\PointAndLineSources\PointSourceInputs\DirectionalPointSourceInput.cs" />
-    <Compile Include="MonteCarlo\DataStructures\SourceInputs\PointAndLineSources\PointSourceInputs\IsotropicPointSourceInput.cs" />
-    <Compile Include="MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingFlatSources\CircularSourceInputs\CustomCircularSourceInput.cs" />
-    <Compile Include="MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingFlatSources\CircularSourceInputs\DirectionalCircularSourceInput.cs" />
-    <Compile Include="MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingBulkSources\SurfaceEmittingCuboidalSourceInputs\LambertianSurfaceEmittingCuboidalSourceInput.cs" />
-    <Compile Include="MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingBulkSources\CylindricalFiberSourceInputs\LambertianSurfaceEmittingCylindricalFiberSourceInput.cs" />
-    <Compile Include="MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingFlatSources\EllipticalSourceInputs\CustomEllipticalSourceInput.cs" />
-    <Compile Include="MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingFlatSources\EllipticalSourceInputs\DirectionalEllipticalSourceInput.cs" />
-    <Compile Include="MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingFlatSources\RectangularSourceInputs\CustomRectangularSourceInput.cs" />
-    <Compile Include="MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingFlatSources\RectangularSourceInputs\DirectionalRectangularSourceInput.cs" />
-    <Compile Include="MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingBulkSources\SphericalSourceInputs\CustomSurfaceEmittingSphericalSourceInput.cs" />
-    <Compile Include="MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingBulkSources\SphericalSourceInputs\LambertianSurfaceEmittingSphericalSourceInput.cs" />
-    <Compile Include="MonteCarlo\DataStructures\SourceInputs\SurfaceEmittingBulkSources\TubularSourceInputs\LambertianSurfaceEmittingTubularSourceInput.cs" />
-    <Compile Include="MonteCarlo\DataStructures\SourceInputs\VolumetricSources\EllipsoidalSourceInputs\IsotropicVolumetricEllipsoidalSourceInput.cs" />
-    <Compile Include="MonteCarlo\DataStructures\SourceInputs\VolumetricSources\VolumetricCuboidalSourceInputs\CustomVolumetricCuboidaldalSourceInput.cs" />
-    <Compile Include="MonteCarlo\DataStructures\SourceInputs\VolumetricSources\VolumetricCuboidalSourceInputs\IsotropicVolumetricCuboidaldalSourceInput.cs" />
-    <Compile Include="MonteCarlo\DataStructures\SourceInputs\VolumetricSources\EllipsoidalSourceInputs\CustomVolumetricEllipsoidalSourceInput.cs" />
     <Compile Include="MonteCarlo\Helpers\DetectorBinning.cs" />
     <Compile Include="MonteCarlo\Enums.cs" />
     <Compile Include="MonteCarlo\Factories\DetectorFactory.cs" />
@@ -607,6 +586,7 @@
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

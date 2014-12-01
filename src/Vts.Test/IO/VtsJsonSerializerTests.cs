@@ -4,6 +4,7 @@ using NUnit.Framework;
 using Vts.Common;
 using Vts.IO;
 using Vts.MonteCarlo;
+using Vts.MonteCarlo.Sources;
 using Vts.MonteCarlo.Sources.SourceProfiles;
 using Vts.MonteCarlo.Tissues;
 
@@ -281,7 +282,7 @@ namespace Vts.Test.IO
         [Test]
         public void validate_serialization_and_deserialization_of_gaussiansourceprofile_runs_successfully()
         {
-            var source = new Vts.MonteCarlo.CustomCircularSourceInput
+            var source = new CustomCircularSourceInput
             {
                 SourceProfile = new GaussianSourceProfile(),
             };

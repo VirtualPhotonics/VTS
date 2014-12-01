@@ -6,6 +6,7 @@ using NUnit.Framework;
 using Vts.Common;
 using Vts.MonteCarlo;
 using Vts.MonteCarlo.Helpers;
+using Vts.MonteCarlo.Sources;
 using Vts.MonteCarlo.Tissues;
 using Vts.MonteCarlo.Detectors;
 
