@@ -20,7 +20,7 @@ namespace Vts.MonteCarlo
         /// <summary>
         /// tissue region identifier
         /// </summary>
-        TissueRegionType TissueRegionType { get; }
+        string TissueRegionType { get; }
 
         /// <summary>
         /// Checks to see if the specified position is within the tissue region.  Definition should be such

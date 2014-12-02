@@ -9,27 +9,6 @@ namespace Vts.MonteCarlo.Factories
     /// </summary>
     public class DetectorFactory
     {
-        //private static Dictionary<string, IProvider<IDetector>> _providers;
-
-        //// todo: look up ways of using MEF to register 3rd party plug-ins at runtime
-        //public static void RegisterProvider(IProvider<IDetector> provider)
-        //{
-        //    var typeString = provider.TargetType.ToString();
-        //    if(_providers.ContainsKey(typeString))
-        //    {
-        //        _providers.Remove(typeString);
-        //    }
-        //    _providers.Add(typeString, provider);
-        //}
-        
-        //public static void RegisterProviders(IEnumerable<IProvider<IDetector>> providers)
-        //{
-        //    foreach (var provider in providers)
-        //    {
-        //        RegisterProvider(provider);
-        //    }
-        //}
-
         /// <summary>
         /// Method to instantiate all detectors given list of IDetectorInputs.  This method calls
         /// the method below that instantiates a single detector.

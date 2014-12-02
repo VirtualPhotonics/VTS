@@ -28,15 +28,15 @@ namespace Vts.Gui.Silverlight.ViewModel
 
             switch (input.TissueType)
             {
-                case Vts.MonteCarlo.TissueType.MultiEllipsoid:
+                case "MultiEllipsoid":
                     var multiEllipsoidTissueInput = ((MultiEllipsoidTissueInput)_input);
                     _tissueRegionsVM = new ObservableCollection<object>(
                         multiEllipsoidTissueInput.LayerRegions.Select((r, i) => (object)new LayerRegionViewModel(
-                            (LayerRegion)r,
+                            (LayerTissueRegion)r,
                             "Layer " + i + (r.IsAir() ? " (Air)" : " (Tissue)"))));
                     _inclusionRegionsVM = new ObservableCollection<object>(
                         multiEllipsoidTissueInput.EllipsoidRegions.Select((r, i) => (object)new EllipsoidRegionViewModel(
-                            (EllipsoidRegion)r,
+                            (EllipsoidTissueRegion)r,
                             "Inclusion " + i + (r.IsAir() ? " (Air)" : " (Tissue)"))));
                     break;
                 

@@ -190,7 +190,7 @@ namespace Vts.Factories
                             layerRegion.ZRange.Delta
                         };
                 }
-                //else if(region is EllipsoidRegion)
+                //else if(region is EllipsoidTissueRegion)
                 //{
                 //  
                 //}

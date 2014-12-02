@@ -5,12 +5,12 @@ namespace Vts.Gui.Silverlight.ViewModel
 {
     public class LayerRegionViewModel : BindableObject
     {
-        private LayerRegion _region;
+        private LayerTissueRegion _region;
         private string _name;
         private RangeViewModel _zRangeVM;
         private OpticalPropertyViewModel _opticalPropertyVM;
 
-        public LayerRegionViewModel(LayerRegion region, string name)
+        public LayerRegionViewModel(LayerTissueRegion region, string name)
         {
             _region = region;
             _name = name ?? "";
@@ -24,7 +24,7 @@ namespace Vts.Gui.Silverlight.ViewModel
         //}
 
         public LayerRegionViewModel()
-            : this(new LayerRegion(), "")
+            : this(new LayerTissueRegion(), "")
         {
         }
 

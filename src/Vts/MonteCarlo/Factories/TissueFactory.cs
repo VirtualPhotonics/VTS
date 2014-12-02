@@ -19,22 +19,8 @@ namespace Vts.MonteCarlo.Factories
         /// <returns>ITissue</returns>
         public static ITissue GetTissue(ITissueInput ti, AbsorptionWeightingType awt, PhaseFunctionType pft, double russianRouletteWeightThreshold)
         {
-            ITissue t = null;
-            if (ti is MultiLayerTissueInput)
-            {
-                var multiLayerTissueInput = (MultiLayerTissueInput) ti;
-                t = new MultiLayerTissue(multiLayerTissueInput.Regions, awt, pft, russianRouletteWeightThreshold);
-            }
-            if (ti is SingleEllipsoidTissueInput)
-            {
-                var singleEllipsoidTissueInput = (SingleEllipsoidTissueInput)ti;
-                return new SingleInclusionTissue(
-                    singleEllipsoidTissueInput.EllipsoidRegion,
-                    singleEllipsoidTissueInput.LayerRegions,
-                    awt,
-                    pft,
-                    russianRouletteWeightThreshold);
-            }
+            ITissue t = ti.CreateTissue(awt, pft, russianRouletteWeightThreshold);
+
             if (t == null)
                 throw new ArgumentException(
                     "Problem generating ITissue instance. Check that TissueInput, ti, has a matching ITissue definition.");

@@ -1,4 +1,6 @@
 ﻿
+using System;
+
 namespace Vts.MonteCarlo
 {
     /// <summary>
@@ -9,11 +11,18 @@ namespace Vts.MonteCarlo
         /// <summary>
         /// Type of source
         /// </summary>
-        SourceType SourceType { get; set; }
+        string SourceType { get; set; }
 
         /// <summary>
         /// Index of region (according to Tissue definition) where photon first starts.
         /// </summary>
         int InitialTissueRegionIndex { get; set; }
+
+        /// <summary>
+        /// Required code to create a source based on the input values
+        /// </summary>
+        /// <param name="rng"></param>
+        /// <returns></returns>
+        ISource CreateSource(Random rng = null);
     }
 }

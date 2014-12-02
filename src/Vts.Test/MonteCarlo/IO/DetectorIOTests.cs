@@ -289,7 +289,6 @@ namespace Vts.Test.MonteCarlo
         public void validate_FluenceOfRhoAndZDetector_deserialized_class_is_correct_when_using_WriteReadDetectorToFile()
         {
             string detectorName = "testfluenceofrhoandz";
-            var tissue = new MultiLayerTissue();
             IDetectorInput detectorInput = new FluenceOfRhoAndZDetectorInput()
             {
                 Rho = new DoubleRange(0, 10, 3),
@@ -354,22 +353,19 @@ namespace Vts.Test.MonteCarlo
             var tissue = new MultiLayerTissue(
                 new ITissueRegion[]
                 {
-                    new LayerRegion(
+                    new LayerTissueRegion(
                         new DoubleRange(double.NegativeInfinity, 0.0),
                         new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
-                    new LayerRegion(
+                    new LayerTissueRegion(
                         new DoubleRange(0.0, 1.0), // upper layer 1mm
                         new OpticalProperties(0.01, 1.0, 0.7, 1.33)), // Tyler's data
-                    new LayerRegion(
+                    new LayerTissueRegion(
                         new DoubleRange(1.0, 100.0),
                         new OpticalProperties(0.01, 1.0, 0.7, 1.33)),
-                    new LayerRegion(
+                    new LayerTissueRegion(
                         new DoubleRange(100.0, double.PositiveInfinity),
                         new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
-                },
-                AbsorptionWeightingType.Discrete,
-                PhaseFunctionType.HenyeyGreenstein,
-                0.0
+                }
             );
             IDetectorInput detectorInput = new ReflectedMTOfRhoAndSubregionHistDetectorInput()
             {
@@ -463,7 +459,6 @@ namespace Vts.Test.MonteCarlo
         public void validate_FluenceOfRhoAndZAndTime_deserialized_class_is_correct_when_using_WriteReadDetectorToFile()
         {
             string detectorName = "testfluenceofrhoandzandtime";
-            var tissue = new MultiLayerTissue();
             IDetectorInput detectorInput = new FluenceOfRhoAndZAndTimeDetectorInput()
             {
                 Rho = new DoubleRange(0, 10, 3),
