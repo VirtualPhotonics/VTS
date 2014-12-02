@@ -2,8 +2,10 @@ using System;
 using System.Runtime.Serialization;
 using Vts.Common;
 using Vts.IO;
+using Vts.MonteCarlo.Extensions;
 using Vts.MonteCarlo.Helpers;
 using Vts.MonteCarlo.PhotonData;
+using Vts.SpectralMapping;
 
 namespace Vts.MonteCarlo.Detectors
 {
@@ -20,6 +22,7 @@ namespace Vts.MonteCarlo.Detectors
             TallyType = "ROfRho";
             Name = "ROfRho";
             Rho = new DoubleRange(0.0, 10, 101);
+            NA = double.PositiveInfinity; // set default NA completely open regardless of tissue refractive index
 
             // modify base class TallyDetails to take advantage of built-in validation capabilities (error-checking)
             TallyDetails.IsReflectanceTally = true;
@@ -30,6 +33,11 @@ namespace Vts.MonteCarlo.Detectors
         /// detector rho binning
         /// </summary>
         public DoubleRange Rho { get; set; }
+
+        /// <summary>
+        /// detector numerical aperture
+        /// </summary>
+        public double NA { get; set; }
 
         public IDetector CreateDetector()
         {
@@ -42,7 +50,8 @@ namespace Vts.MonteCarlo.Detectors
                 TallyDetails = this.TallyDetails,
 
                 // optional/custom detector-specific properties
-                Rho = this.Rho
+                Rho = this.Rho,
+                NA = this.NA
             };
         }
     }
@@ -53,12 +62,18 @@ namespace Vts.MonteCarlo.Detectors
     /// </summary>
     public class ROfRhoDetector : Detector, IDetector
     {
+        private ITissue _tissue;
+
         /* ==== Place optional/user-defined input properties here. They will be saved in text (JSON) format ==== */
         /* ==== Note: make sure to copy over all optional/user-defined inputs from corresponding input class ==== */
         /// <summary>
         /// rho binning
         /// </summary>
         public DoubleRange Rho { get; set; }
+        /// <summary>
+        /// numerical aperture
+        /// </summary>
+        public double NA { get; set; }
 
         /* ==== Place user-defined output arrays here. They should be prepended with "[IgnoreDataMember]" attribute ==== */
         /* ==== Then, GetBinaryArrays() should be implemented to save them separately in binary format ==== */
@@ -87,6 +102,7 @@ namespace Vts.MonteCarlo.Detectors
             SecondMoment = SecondMoment ?? (TallySecondMoment ? new double[Rho.Count - 1] : null);
 
             // intialize any other necessary class fields here
+            _tissue = tissue;
         }
 
         /// <summary>
@@ -95,15 +111,20 @@ namespace Vts.MonteCarlo.Detectors
         /// <param name="photon">photon data needed to tally</param>
         public void Tally(Photon photon)
         {
-            var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(photon.DP.Position.X, photon.DP.Position.Y), Rho.Count - 1, Rho.Delta, Rho.Start);
-
-            Mean[ir] += photon.DP.Weight;
-            if (TallySecondMoment)
+            var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(photon.DP.Position.X, photon.DP.Position.Y),
+                Rho.Count - 1, Rho.Delta, Rho.Start);
+            var tissueN = _tissue.GetRegionIndex(photon.DP.Position);
+            if (photon.DP.IsWithinNA(NA, tissueN))
             {
-                SecondMoment[ir] += photon.DP.Weight * photon.DP.Weight;
+                Mean[ir] += photon.DP.Weight;
+                if (TallySecondMoment)
+                {
+                    SecondMoment[ir] += photon.DP.Weight*photon.DP.Weight;
+                }
+                TallyCount++;
             }
-            TallyCount++;
         }
+    
 
         /// <summary>
         /// method to normalize detector tally results

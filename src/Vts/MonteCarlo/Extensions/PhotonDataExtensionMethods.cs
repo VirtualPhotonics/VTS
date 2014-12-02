@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Vts.MonteCarlo.PhotonData;
 
@@ -57,7 +58,22 @@ namespace Vts.MonteCarlo.Extensions
             }
             return false;
         }
-        
+        /// <summary>
+        /// method to determine whether photon direction is within NA of detector
+        /// </summary>
+        /// <param name="dp">photon data point</param>
+        /// <param name="detectorNA">numerical aperture of detector</param>
+        /// <param name="n">refractive index of tissue</param>
+        /// <returns>boolean</returns>
+        public static bool IsWithinNA(this PhotonDataPoint dp, double detectorNA, double n)
+        {
+            var zDirCos = dp.Direction.Uz;
+            if (detectorNA/n>=Math.Sqrt(1-zDirCos*zDirCos))
+            {
+                return true;
+            }
+            return false;
+        }
 
 
     }

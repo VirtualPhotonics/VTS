@@ -229,6 +229,7 @@
     <Compile Include="MonteCarlo\DataStructures\TissueInputs\SingleEllipsoidTissueInputTests.cs" />
     <Compile Include="MonteCarlo\Detectors\AnalogOneLayerDetectorsTests.cs" />
     <Compile Include="MonteCarlo\Detectors\CAWLayersDetectorsTests.cs" />
+    <Compile Include="MonteCarlo\Detectors\DetectorNATests.cs" />
     <Compile Include="MonteCarlo\Detectors\DAWLayersDetectorsTests.cs" />
     <Compile Include="MonteCarlo\Detectors\DAWSphereDetectorsTests.cs" />
     <Compile Include="MonteCarlo\Detectors\pMCCAWLayersDetectorsTests.cs" />
