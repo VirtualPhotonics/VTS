@@ -111,20 +111,22 @@ namespace Vts.MonteCarlo.Detectors
         /// <param name="photon">photon data needed to tally</param>
         public void Tally(Photon photon)
         {
-            var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(photon.DP.Position.X, photon.DP.Position.Y),
-                Rho.Count - 1, Rho.Delta, Rho.Start);
-            var tissueN = _tissue.GetRegionIndex(photon.DP.Position);
-            if (photon.DP.IsWithinNA(NA, tissueN))
+            if (!IsWithinDetectorAperture(photon))
+                return;
+            
+            var ir = DetectorBinning.WhichBin(
+                DetectorBinning.GetRho(photon.DP.Position.X, photon.DP.Position.Y),
+                Rho.Count - 1, 
+                Rho.Delta, 
+                Rho.Start);
+
+            Mean[ir] += photon.DP.Weight;
+            if (TallySecondMoment)
             {
-                Mean[ir] += photon.DP.Weight;
-                if (TallySecondMoment)
-                {
-                    SecondMoment[ir] += photon.DP.Weight*photon.DP.Weight;
-                }
-                TallyCount++;
+                SecondMoment[ir] += photon.DP.Weight*photon.DP.Weight;
             }
+            TallyCount++;
         }
-    
 
         /// <summary>
         /// method to normalize detector tally results
@@ -190,13 +192,13 @@ namespace Vts.MonteCarlo.Detectors
         /// <summary>
         /// Method to determine if photon is within detector
         /// </summary>
-        /// <param name="dp">photon data point</param>
-        /// <returns>method always returns true</returns>
-        public bool ContainsPoint(PhotonDataPoint dp)
+        /// <param name="photon">photon</param>
+        public bool IsWithinDetectorAperture(Photon photon)
         {
-            return true; // or, possibly test for NA or confined position, etc
+            var tissueN = _tissue.Regions[photon.CurrentRegionIndex].RegionOP.N;
+            return photon.DP.IsWithinNA(NA, Direction.AlongPositiveZAxis, tissueN);
+            //return true; // or, possibly test for NA or confined position, etc
             //return (dp.StateFlag.Has(PhotonStateType.PseudoTransmissionDomainTopBoundary));
         }
-
     }
 }

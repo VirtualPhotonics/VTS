@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Vts.Common;
 using Vts.MonteCarlo.PhotonData;
 
 namespace Vts.MonteCarlo.Extensions
@@ -65,14 +66,16 @@ namespace Vts.MonteCarlo.Extensions
         /// <param name="detectorNA">numerical aperture of detector</param>
         /// <param name="n">refractive index of tissue</param>
         /// <returns>boolean</returns>
-        public static bool IsWithinNA(this PhotonDataPoint dp, double detectorNA, double n)
+        public static bool IsWithinNA(this PhotonDataPoint dp, double detectorNA, Direction detectorNormal, double n)
         {
-            var zDirCos = dp.Direction.Uz;
-            if (detectorNA/n>=Math.Sqrt(1-zDirCos*zDirCos))
-            {
-                return true;
-            }
-            return false;
+            var photonDirection = dp.Direction;
+
+            var dotProduct = Math.Sqrt(
+                photonDirection.Ux*detectorNormal.Ux +
+                photonDirection.Uy*detectorNormal.Uy +
+                photonDirection.Uz*detectorNormal.Uz);
+
+            return detectorNA/n >= dotProduct;
         }
 
 
