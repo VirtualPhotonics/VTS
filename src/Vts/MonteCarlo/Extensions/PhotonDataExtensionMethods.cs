@@ -64,18 +64,13 @@ namespace Vts.MonteCarlo.Extensions
         /// </summary>
         /// <param name="dp">photon data point</param>
         /// <param name="detectorNA">numerical aperture of detector</param>
-        /// <param name="n">refractive index of tissue</param>
+        /// <param name="n">refractive index of region where the detector resides</param>
         /// <returns>boolean</returns>
         public static bool IsWithinNA(this PhotonDataPoint dp, double detectorNA, Direction detectorNormal, double n)
         {
             var photonDirection = dp.Direction;
-
-            var dotProduct = Math.Sqrt(
-                photonDirection.Ux*detectorNormal.Ux +
-                photonDirection.Uy*detectorNormal.Uy +
-                photonDirection.Uz*detectorNormal.Uz);
-
-            return detectorNA/n >= dotProduct;
+            // determine if sin(theta)<=NA/n where theta is angle between photon direction and detector normal
+            return detectorNA/n >= Math.Sqrt(1-Direction.GetDotProduct(photonDirection, detectorNormal));
         }
 
 
