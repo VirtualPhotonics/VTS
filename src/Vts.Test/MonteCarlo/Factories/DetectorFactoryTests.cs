@@ -9,6 +9,7 @@ using Vts.MonteCarlo.Factories;
 using System.Runtime.Serialization;
 using Vts.IO;
 using Vts.MonteCarlo.Helpers;
+using Vts.MonteCarlo.IO;
 using Vts.MonteCarlo.PhotonData;
 
 namespace Vts.Test.MonteCarlo.Factories
@@ -107,6 +108,10 @@ namespace Vts.Test.MonteCarlo.Factories
             var firstValue = ((ROfXDetector)detector).Mean.FirstOrDefault();
 
             Assert.IsTrue(firstValue != 0);
+
+            DetectorIO.WriteDetectorToFile(detector, "user_defined_detector");
+
+            var deserializedDetector = DetectorIO.ReadDetectorFromFile("user_defined_detector", "");
         }
 
         #region User-defined ROfXDetector

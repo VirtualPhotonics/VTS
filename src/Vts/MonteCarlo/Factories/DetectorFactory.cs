@@ -82,7 +82,7 @@ namespace Vts.MonteCarlo.Factories
             VtsJsonSerializer.KnownConverters.AddRange(new JsonConverter[]
                 {
                     new ConventionBasedConverter<IDetectorInput>(detectorInputType, "TallyType", new[] { detectorInput.TallyType }),
-                    new ConventionBasedConverter<IDetector>( detectorInputType, "TallyType", new[] { detectorInput.TallyType })
+                    new ConventionBasedConverter<IDetector>( detectorType, "TallyType", new[] { detectorInput.TallyType })
                 });
         }
     }
