@@ -5,12 +5,16 @@ using System.Numerics;
 using MathNet.Numerics;
 using System.Windows;
 using GalaSoft.MvvmLight.Command;
+using SLExtensions;
 using SLExtensions.Input;
 using Vts.Extensions;
 using Vts.Factories;
 using Vts.Gui.Silverlight.Extensions;
 using Vts.Gui.Silverlight.Input;
 using Vts.Gui.Silverlight.Model;
+#if WHITELIST
+using Vts.Gui.Silverlight.ViewModel.Application;
+#endif
 
 namespace Vts.Gui.Silverlight.ViewModel
 {
@@ -46,7 +50,11 @@ namespace Vts.Gui.Silverlight.ViewModel
 
             RangeVM = new RangeViewModel { Title = "" };
 
-            SolutionDomainTypeOptionVM = new SolutionDomainOptionViewModel("Solution Domain", SolutionDomainType.ROfRho);
+            SolutionDomainTypeOptionVM = new SolutionDomainOptionViewModel("Solution Domain", SolutionDomainType.ROfRho)
+            {
+                EnableMultiAxis = false,
+            };
+
             Action<double> updateSolutionDomainWithWavelength = wv =>
             {
                 if (SolutionDomainTypeOptionVM.ConstantAxesVMs[0].AxisType == IndependentVariableAxis.Wavelength)
@@ -98,19 +106,23 @@ namespace Vts.Gui.Silverlight.ViewModel
                 }
             };
 
-            // todo: white-list solvers as in ForwardSolverViewModel
+#if WHITELIST
             MeasuredForwardSolverTypeOptionVM = new OptionViewModel<ForwardSolverType>(
-                "Forward Model Engine",
-                false);
+                "Forward Model Engine",false, WhiteList.InverseForwardSolverTypes);
+#else
+             MeasuredForwardSolverTypeOptionVM = new OptionViewModel<ForwardSolverType>(
+                "Forward Model Engine",false);
+#endif
 
             MeasuredDataTypeOptionVM = new OptionViewModel<MeasuredDataType>("Measured Data Type");
             MeasuredDataTypeOptionVM.PropertyChanged += (sender, args) =>
                 OnPropertyChanged("MeasuredForwardSolver");
 
-            // todo: white-list solvers as in ForwardSolverViewModel
-            InverseForwardSolverTypeOptionVM = new OptionViewModel<ForwardSolverType>(
-                "Inverse Model Engine",
-                false);
+#if WHITELIST 
+            InverseForwardSolverTypeOptionVM = new OptionViewModel<ForwardSolverType>("Inverse Model Engine",false, WhiteList.InverseForwardSolverTypes);
+#else
+            InverseForwardSolverTypeOptionVM = new OptionViewModel<ForwardSolverType>("Inverse Model Engine", false);
+#endif
             InverseForwardSolverTypeOptionVM.PropertyChanged += (sender, args) =>
                 OnPropertyChanged("InverseForwardSolver");
 
@@ -460,7 +472,7 @@ namespace Vts.Gui.Silverlight.ViewModel
         void PlotValues(Point[][] points, PlotDataType dataType)
         {
             string plotLabel = GetLegendLabel(dataType);
-            if (SolutionDomainTypeOptionVM.IndependentAxesVMs[0].AxisType == IndependentVariableAxis.Ft)
+            if (ComputationFactory.IsComplexSolver(SolutionDomainTypeOptionVM.SelectedValue))
             {
                 var real = points[0];
                 var imag = points[1];
@@ -495,77 +507,77 @@ namespace Vts.Gui.Silverlight.ViewModel
 
         private double[] GetSimulatedMeasuredData()
         {
-            var parameters = GetParametersInOrder();
+            var opticalProperties = GetMeasuredOpticalProperties();
+
+            var parameters = GetParametersInOrder(opticalProperties);
 
             var measuredData = ComputationFactory.ComputeReflectance(
                 MeasuredForwardSolverTypeOptionVM.SelectedValue,
                 SolutionDomainTypeOptionVM.SelectedValue,
                 ForwardAnalysisType.R,
-                parameters);
+                parameters.Values.ToArray());
 
             return measuredData.AddNoise(PercentNoise);
         }
 
-        private object[] GetParametersInOrder()
+        //private object[] GetParametersInOrder(OpticalProperties[] opticalProperties)
+        //{
+        //    var parameters = new List<object>
+        //    {
+        //        opticalProperties
+        //    };
+
+        //    switch (SolutionDomainTypeOptionVM.SelectedValue)
+        //    {
+        //        case SolutionDomainType.ROfRho:
+        //        case SolutionDomainType.ROfFx:
+        //            switch (SolutionDomainTypeOptionVM.IndependentAxisType)
+        //            {
+        //                case IndependentVariableAxis.Rho:
+        //                case IndependentVariableAxis.Fx:
+        //                    parameters.Add(RangeVM.Values.ToArray());
+        //                    break;
+        //                case IndependentVariableAxis.Wavelength:
+        //                    parameters.Add(new[] { SolutionDomainTypeOptionVM.ConstantAxisValue });
+        //                    break;
+        //                default:
+        //                    throw new ArgumentOutOfRangeException();
+        //            }
+        //            break;
+        //        case SolutionDomainType.ROfRhoAndTime:
+        //        case SolutionDomainType.ROfFxAndTime:
+        //        case SolutionDomainType.ROfRhoAndFt:
+        //        case SolutionDomainType.ROfFxAndFt:
+        //            switch (SolutionDomainTypeOptionVM.IndependentAxisType)
+        //            {
+        //                case IndependentVariableAxis.Rho:
+        //                case IndependentVariableAxis.Fx:
+        //                    parameters.Add(RangeVM.Values.ToArray());
+        //                    parameters.Add(new[] { SolutionDomainTypeOptionVM.ConstantAxisValue });
+        //                    break;
+        //                case IndependentVariableAxis.Time:
+        //                case IndependentVariableAxis.Ft:
+        //                    parameters.Add(new[] { SolutionDomainTypeOptionVM.ConstantAxisValue });
+        //                    parameters.Add(RangeVM.Values.ToArray());
+        //                    break;
+        //                case IndependentVariableAxis.Wavelength:
+        //                    parameters.Add(new[] { SolutionDomainTypeOptionVM.ConstantAxisValue });
+        //                    parameters.Add(new[] { SolutionDomainTypeOptionVM.ConstantAxisTwoValue });
+        //                    break;
+        //                default:
+        //                    throw new ArgumentOutOfRangeException();
+        //            }
+        //            break;
+        //        default:
+        //            throw new ArgumentOutOfRangeException();
+        //    }
+
+        //    return parameters.ToArray();
+        //}
+        
+        private object GetMeasuredOpticalProperties()
         {
-            var opticalProperties = GetOpticalProperties();
-
-            var parameters = new List<object>
-            {
-                opticalProperties
-            };
-
-            switch (SolutionDomainTypeOptionVM.SelectedValue)
-            {
-                case SolutionDomainType.ROfRho:
-                case SolutionDomainType.ROfFx:
-                    switch (SolutionDomainTypeOptionVM.IndependentAxesVMs[0].AxisType)
-                    {
-                        case IndependentVariableAxis.Rho:
-                        case IndependentVariableAxis.Fx:
-                            parameters.Add(RangeVM.Values.ToArray());
-                            break;
-                        case IndependentVariableAxis.Wavelength:
-                            parameters.Add(new[] { SolutionDomainTypeOptionVM.ConstantAxesVMs[0].AxisValue });
-                            break;
-                        default:
-                            throw new ArgumentOutOfRangeException();
-                    }
-                    break;
-                case SolutionDomainType.ROfRhoAndTime:
-                case SolutionDomainType.ROfFxAndTime:
-                case SolutionDomainType.ROfRhoAndFt:
-                case SolutionDomainType.ROfFxAndFt:
-                    switch (SolutionDomainTypeOptionVM.IndependentAxesVMs[0].AxisType)
-                    {
-                        case IndependentVariableAxis.Rho:
-                        case IndependentVariableAxis.Fx:
-                            parameters.Add(RangeVM.Values.ToArray());
-                            parameters.Add(new[] { SolutionDomainTypeOptionVM.ConstantAxesVMs[0].AxisValue });
-                            break;
-                        case IndependentVariableAxis.Time:
-                        case IndependentVariableAxis.Ft:
-                            parameters.Add(new[] { SolutionDomainTypeOptionVM.ConstantAxesVMs[0].AxisValue });
-                            parameters.Add(RangeVM.Values.ToArray());
-                            break;
-                        case IndependentVariableAxis.Wavelength:
-                            parameters.Add(new[] { SolutionDomainTypeOptionVM.ConstantAxesVMs[0].AxisValue });
-                            parameters.Add(new[] { SolutionDomainTypeOptionVM.ConstantAxesVMs[1].AxisValue });
-                            break;
-                        default:
-                            throw new ArgumentOutOfRangeException();
-                    }
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-
-            return parameters.ToArray();
-        }
-
-        private OpticalProperties[] GetOpticalProperties()
-        {
-            if (SolutionDomainTypeOptionVM.IndependentAxesVMs[0].AxisType == IndependentVariableAxis.Wavelength &&
+            if (SolutionDomainTypeOptionVM.IndependentAxisType == IndependentVariableAxis.Wavelength &&
                 UseSpectralPanelData &&
                 SolverDemoViewModel.Current != null &&
                 SolverDemoViewModel.Current.SpectralMappingVM != null)
@@ -577,6 +589,20 @@ namespace Vts.Gui.Silverlight.ViewModel
             return new[] { MeasuredOpticalPropertyVM.GetOpticalProperties() };
         }
 
+        private object GetInitialGuessOpticalProperties()
+        {
+            if (SolutionDomainTypeOptionVM.IndependentAxesVMs[0].AxisType == IndependentVariableAxis.Wavelength &&
+                UseSpectralPanelData &&
+                SolverDemoViewModel.Current != null &&
+                SolverDemoViewModel.Current.SpectralMappingVM != null)
+            {
+                var tissue = SolverDemoViewModel.Current.SpectralMappingVM.SelectedTissue;
+                return tissue.GetOpticalProperties(RangeVM.Values.ToArray());
+            }
+
+            return new[] { InitialGuessOpticalPropertyVM.GetOpticalProperties() };
+        }
+
         private double[] GetMeasuredDataFromFile()
         {
             return RangeVM.Values.ToArray().AddNoise(PercentNoise);
@@ -584,13 +610,15 @@ namespace Vts.Gui.Silverlight.ViewModel
 
         public double[] CalculateInitialGuess()
         {
-            var parameters = GetParametersInOrder();
+            var opticalProperties = GetInitialGuessOpticalProperties();
+
+            var parameters = GetParametersInOrder(opticalProperties);
 
             return ComputationFactory.ComputeReflectance(
                 InverseForwardSolverTypeOptionVM.SelectedValue,
                 SolutionDomainTypeOptionVM.SelectedValue,
                 ForwardAnalysisType.R,
-                parameters);
+                parameters.Values.ToArray());
         }
 
         public void SolveInverse()
@@ -604,45 +632,143 @@ namespace Vts.Gui.Silverlight.ViewModel
                 ? (UseSpectralPanelData ? new[] { SolutionDomainTypeOptionVM.ConstantAxesVMs[0].AxisValue, SolutionDomainTypeOptionVM.ConstantAxesVMs[1].AxisValue } : new[] { SolutionDomainTypeOptionVM.ConstantAxesVMs[0].AxisValue })
                 : (UseSpectralPanelData ? new[] { SolutionDomainTypeOptionVM.ConstantAxesVMs[0].AxisValue } : new double[0]);
 
+
+            var opticalProperties = GetInitialGuessOpticalProperties();
+
+            var paramters = GetParametersInOrder(opticalProperties);
+
             double[] fit = ComputationFactory.SolveInverse(
                 InverseForwardSolverTypeOptionVM.SelectedValue,
                 OptimizerTypeOptionVM.SelectedValue,
                 SolutionDomainTypeOptionVM.SelectedValue,
-                independentValues,
                 dependentValues,
                 dependentValues, // set standard deviation, sd, to measured (works w/ or w/o noise)
-                InitialGuessOpticalPropertyVM.GetOpticalProperties(),
                 InverseFitTypeOptionVM.SelectedValue,
-                constantValues);
+                paramters.Values.ToArray());
 
             ResultOpticalPropertyVM.Mua = fit[0];
             ResultOpticalPropertyVM.Musp = fit[1];
             ResultOpticalPropertyVM.G = fit[2];
             ResultOpticalPropertyVM.N = fit[3];
 
-            var opticalProperties = ResultOpticalPropertyVM;
-            // todo: refactor and re-use this code via method-call
-            var parameters = ComputationFactory.IsSolverWithConstantValues(SolutionDomainTypeOptionVM.SelectedValue)
-                             && SolutionDomainTypeOptionVM.IndependentAxesVMs[0].AxisType.IsTemporalAxis()
-                ? new object[]
-                  {
-                      ResultOpticalPropertyVM,
-                      new [] { SolutionDomainTypeOptionVM.ConstantAxesVMs[0].AxisValue },
-                      independentValues,
-                  }
-                : new object[]
-                  {
-                      opticalProperties,
-                      independentValues,
-                      new [] { SolutionDomainTypeOptionVM.ConstantAxesVMs[0].AxisValue },
-                  };
+            var fitOpticalProperties = new[] { ResultOpticalPropertyVM.GetOpticalProperties() };
+            //// todo: refactor and re-use this code via method-call
+            //var parameters = ComputationFactory.IsSolverWithConstantValues(SolutionDomainTypeOptionVM.SelectedValue)
+            //                 && SolutionDomainTypeOptionVM.IndependentAxisType.IsTemporalAxis()
+            //    ? new object[]
+            //      {
+            //          opticalProperties,
+            //          new [] { SolutionDomainTypeOptionVM.ConstantAxisValue },
+            //          independentValues,
+            //      }
+            //    : new object[]
+            //      {
+            //          opticalProperties,
+            //          independentValues,
+            //          new [] { SolutionDomainTypeOptionVM.ConstantAxisValue },
+            //      };
+
+            var parameters = GetParametersInOrder(fitOpticalProperties);
 
             ResultDataValues = ComputationFactory.ComputeReflectance(
                 InverseForwardSolverTypeOptionVM.SelectedValue,
                 SolutionDomainTypeOptionVM.SelectedValue,
                 ForwardAnalysisType.R,
-                parameters);
+                parameters.Values.ToArray());
         }
 
+
+        private IDictionary<IndependentVariableAxis, object> GetParametersInOrder(object opticalProperties)
+        {
+            // get all parameters to get arrays of
+            // then, for each one, decide if it's an IV or a constant
+            // then, call the appropriate parameter generator, defined above
+            var allParameters = from iv in Enumerable.Concat(
+                SolutionDomainTypeOptionVM.IndependentVariableAxisOptionVM.SelectedValues,
+                SolutionDomainTypeOptionVM.IndependentVariableAxisOptionVM.UnSelectedValues)
+                                where iv != IndependentVariableAxis.Wavelength
+                                orderby GetParameterOrder(iv)
+                                select new KeyValuePair<IndependentVariableAxis, object>(iv, GetParameterValues(iv));
+
+            // OPs are always first in the list
+            return (new KeyValuePair<IndependentVariableAxis, object>(IndependentVariableAxis.Wavelength, opticalProperties)).AsEnumerable()
+                .Concat(allParameters).ToDictionary();
+        }
+
+        /// <summary>
+        /// Function to provide ordering information for assembling forward calls
+        /// </summary>
+        /// <param name="axis"></param>
+        /// <returns></returns>
+        private int GetParameterOrder(IndependentVariableAxis axis)
+        {
+            switch (axis)
+            {
+                case IndependentVariableAxis.Wavelength:
+                    return 0;
+                case IndependentVariableAxis.Rho:
+                    return 1;
+                case IndependentVariableAxis.Fx:
+                    return 1;
+                case IndependentVariableAxis.Time:
+                    return 2;
+                case IndependentVariableAxis.Ft:
+                    return 2;
+                case IndependentVariableAxis.Z:
+                    return 3;
+                default:
+                    throw new ArgumentOutOfRangeException("axis");
+            }
+        }
+
+        private double[] GetParameterValues(IndependentVariableAxis axis)
+        {
+            var isConstant = SolutionDomainTypeOptionVM.IndependentVariableAxisOptionVM.UnSelectedValues.Contains(axis);
+            if (isConstant)
+            {
+                var positionIndex = SolutionDomainTypeOptionVM.IndependentVariableAxisOptionVM.UnSelectedValues.IndexOf(axis);
+                switch (positionIndex)
+                {
+                    case 0:
+                    default:
+                        return new[] { SolutionDomainTypeOptionVM.ConstantAxisValue };
+                    case 1:
+                        return new[] { SolutionDomainTypeOptionVM.ConstantAxisTwoValue };
+                    //case 2:
+                    //    return new[] { SolutionDomainTypeOptionVM.ConstantAxisThreeValue };
+                }
+            }
+            else
+            {
+                var numAxes = SolutionDomainTypeOptionVM.IndependentVariableAxisOptionVM.SelectedValues.Length;
+                var positionIndex = SolutionDomainTypeOptionVM.IndependentVariableAxisOptionVM.SelectedValues.IndexOf(axis);
+                switch (numAxes)
+                {
+                    case 1:
+                    default:
+                        return RangeVM.Values.ToArray();
+                    //case 2:
+                    //    switch (positionIndex)
+                    //    {
+                    //        case 0:
+                    //        default:
+                    //            return RangeTwoVM.Values.ToArray();
+                    //        case 1:
+                    //            return RangeVM.Values.ToArray();
+                    //    }
+                    //case 3:
+                    //    switch (positionIndex)
+                    //    {
+                    //        case 0:
+                    //        default:
+                    //            return RangeThreeVM.Values.ToArray();
+                    //        case 1:
+                    //            return RangeTwoVM.Values.ToArray();
+                    //        case 2:
+                    //            return RangeVM.Values.ToArray();
+                    //    }
+                }
+            }
+        }
     }
 }

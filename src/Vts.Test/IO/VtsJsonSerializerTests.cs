@@ -4,6 +4,8 @@ using NUnit.Framework;
 using Vts.Common;
 using Vts.IO;
 using Vts.MonteCarlo;
+using Vts.MonteCarlo.Sources;
+using Vts.MonteCarlo.Sources.SourceProfiles;
 using Vts.MonteCarlo.Tissues;
 
 namespace Vts.Test.IO
@@ -189,7 +191,7 @@ namespace Vts.Test.IO
         [Test]
         public void validate_serialization_of_LayerRegion()
         {
-            var layer = new LayerRegion(
+            var layer = new LayerTissueRegion(
                 zRange: new DoubleRange(3, 4, 2),
                 op: new OpticalProperties(mua: 0.011, musp: 1.1, g: 0.99, n: 1.44));
 
@@ -203,12 +205,12 @@ namespace Vts.Test.IO
         {
             Func<double, double, bool> areRoughlyEqual = (a, b) => Math.Abs(a - b) < 0.001;
 
-            var layer = new LayerRegion(
+            var layer = new LayerTissueRegion(
                 zRange: new DoubleRange(3.0, 4.0, 2),
                 op: new OpticalProperties(mua: 0.011, musp: 1.1, g: 0.99, n: 1.44));
 
             var jsonSerialized = VtsJsonSerializer.WriteToJson(layer);
-            var layerDeserialized = VtsJsonSerializer.ReadFromJson<LayerRegion>(jsonSerialized);
+            var layerDeserialized = VtsJsonSerializer.ReadFromJson<LayerTissueRegion>(jsonSerialized);
             Assert.IsTrue(layerDeserialized != null);
             Assert.IsTrue(areRoughlyEqual(layerDeserialized.ZRange.Start, 3.0));
             Assert.IsTrue(areRoughlyEqual(layerDeserialized.ZRange.Stop, 4.0));
@@ -222,11 +224,11 @@ namespace Vts.Test.IO
         [Test]
         public void validate_serialization_of_MultiLayerTissueInput()
         {
-            var layer0 = new LayerRegion(
+            var layer0 = new LayerTissueRegion(
                 zRange: new DoubleRange(2.0, 3.0, 2),
                 op: new OpticalProperties(mua: 0.011, musp: 1.1, g: 0.99, n: 1.44));
 
-            var layer1 = new LayerRegion(
+            var layer1 = new LayerTissueRegion(
                 zRange: new DoubleRange(3.0, 4.0, 2),
                 op: new OpticalProperties(mua: 0.0111, musp: 1.11, g: 0.999, n: 1.444));
 
@@ -242,11 +244,11 @@ namespace Vts.Test.IO
         {
             Func<double, double, bool> areRoughlyEqual = (a, b) => Math.Abs(a - b) < 0.001;
 
-            var layer0 = new LayerRegion(
+            var layer0 = new LayerTissueRegion(
                 zRange: new DoubleRange(2.0, 3.0, 2),
                 op: new OpticalProperties(mua: 0.011, musp: 1.1, g: 0.99, n: 1.44));
 
-            var layer1 = new LayerRegion(
+            var layer1 = new LayerTissueRegion(
                 zRange: new DoubleRange(3.0, 4.0, 2),
                 op: new OpticalProperties(mua: 0.0111, musp: 1.11, g: 0.999, n: 1.444));
 
@@ -256,7 +258,7 @@ namespace Vts.Test.IO
             var multiRegionInputDeserialized = VtsJsonSerializer.ReadFromJson<MultiLayerTissueInput>(jsonSerialized);
             Assert.IsTrue(multiRegionInputDeserialized != null);
 
-            var region0Deserialized = (LayerRegion) multiRegionInputDeserialized.Regions[0];
+            var region0Deserialized = (LayerTissueRegion) multiRegionInputDeserialized.Regions[0];
             Assert.IsTrue(areRoughlyEqual(region0Deserialized.ZRange.Start, 2.0));
             Assert.IsTrue(areRoughlyEqual(region0Deserialized.ZRange.Stop, 3.0));
             Assert.IsTrue(areRoughlyEqual(region0Deserialized.ZRange.Count, 2));
@@ -265,7 +267,7 @@ namespace Vts.Test.IO
             Assert.IsTrue(areRoughlyEqual(region0Deserialized.RegionOP.G, 0.99));
             Assert.IsTrue(areRoughlyEqual(region0Deserialized.RegionOP.N, 1.44));
 
-            var region1Deserialized = (LayerRegion)multiRegionInputDeserialized.Regions[1];
+            var region1Deserialized = (LayerTissueRegion)multiRegionInputDeserialized.Regions[1];
             Assert.IsTrue(areRoughlyEqual(region1Deserialized.ZRange.Start, 3.0));
             Assert.IsTrue(areRoughlyEqual(region1Deserialized.ZRange.Stop, 4.0));
             Assert.IsTrue(areRoughlyEqual(region1Deserialized.ZRange.Count, 2));
@@ -273,6 +275,23 @@ namespace Vts.Test.IO
             Assert.IsTrue(areRoughlyEqual(region1Deserialized.RegionOP.Musp, 1.11));
             Assert.IsTrue(areRoughlyEqual(region1Deserialized.RegionOP.G, 0.999));
             Assert.IsTrue(areRoughlyEqual(region1Deserialized.RegionOP.N, 1.444));
+        }
+        /// <summary>
+        /// test to verify serialization and deserialization of gaussiansourceprofile runs successfully
+        /// </summary>
+        [Test]
+        public void validate_serialization_and_deserialization_of_gaussiansourceprofile_runs_successfully()
+        {
+            var source = new CustomCircularSourceInput
+            {
+                SourceProfile = new GaussianSourceProfile(),
+            };
+
+            var sourceSerialized = VtsJsonSerializer.WriteToJson(source);
+
+            var sourceDeserialized = VtsJsonSerializer.ReadFromJson<CustomCircularSourceInput>(sourceSerialized);
+
+            Assert.IsTrue(sourceDeserialized.SourceProfile.SourceProfileType == SourceProfileType.Gaussian);
         }
     }
 }

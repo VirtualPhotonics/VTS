@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 using Vts.Common;
 using Vts.MonteCarlo;
+using Vts.MonteCarlo.Sources;
 
 namespace Vts.Test.MonteCarlo.Sources
 {

@@ -19,6 +19,22 @@ namespace Vts.Gui.Silverlight.ViewModel.Application
             }
         }
 
+        public static ForwardSolverType[] InverseForwardSolverTypes
+        {
+            get
+            {
+                return new[]
+                {
+                    ForwardSolverType.PointSourceSDA,
+                    ForwardSolverType.DistributedPointSourceSDA,
+                    ForwardSolverType.DistributedGaussianSourceSDA,
+                    ForwardSolverType.MonteCarlo,
+                    ForwardSolverType.Nurbs,
+                    //ForwardSolverType.TwoLayerSDA, 
+                };
+            }
+        }
+
         public static ScatteringType[] ScatteringTypes
         {
             get
@@ -66,14 +82,14 @@ namespace Vts.Gui.Silverlight.ViewModel.Application
             }
         }
 
-        public static MonteCarlo.TissueType[] TissueTypes
+        public static string[] TissueTypes
         {
             get
             {
                 return new[]
                 {
-                    MonteCarlo.TissueType.MultiLayer,
-                    MonteCarlo.TissueType.SingleEllipsoid,
+                    "MultiLayer",
+                    "SingleEllipsoid",
                 };
             }
         }

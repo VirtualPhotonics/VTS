@@ -78,11 +78,11 @@ namespace Vts.Test.Modeling.ForwardSolvers
             var _oneLayerPointSourceForwardSolver = new PointSourceSDAForwardSolver();
             
             // make sure layer thickess is greater than l*=1/(mua+musp)=1mm
-            LayerRegion[] _twoLayerTissue = 
-                new LayerRegion[]
+            LayerTissueRegion[] _twoLayerTissue = 
+                new LayerTissueRegion[]
                     {
-                        new LayerRegion(new DoubleRange(0, 3), new OpticalProperties(ops)),
-                        new LayerRegion(new DoubleRange(3,100), new OpticalProperties(ops) ), 
+                        new LayerTissueRegion(new DoubleRange(0, 3), new OpticalProperties(ops)),
+                        new LayerTissueRegion(new DoubleRange(3,100), new OpticalProperties(ops) ), 
                     };
             for (int irho = 0; irho < rhos.Length; irho++)
             {
@@ -149,11 +149,11 @@ namespace Vts.Test.Modeling.ForwardSolvers
             double[] _times = {0.0038, 0.014, 0.058, 0.14}; // ns, these times where chosen for each rho
 
             // make sure layer thickess is greater than l*=1/(mua+musp)=1mm
-            LayerRegion[] _twoLayerTissue =
-                new LayerRegion[]
+            LayerTissueRegion[] _twoLayerTissue =
+                new LayerTissueRegion[]
                     {
-                        new LayerRegion(new DoubleRange(0, 3), new OpticalProperties(ops)),
-                        new LayerRegion(new DoubleRange(3,100), new OpticalProperties(ops)), 
+                        new LayerTissueRegion(new DoubleRange(0, 3), new OpticalProperties(ops)),
+                        new LayerTissueRegion(new DoubleRange(3,100), new OpticalProperties(ops)), 
                     };
             for (int i = 0; i < _rhos.Length; i++)
             {
@@ -207,11 +207,11 @@ namespace Vts.Test.Modeling.ForwardSolvers
             var _oneLayerPointSourceSDAForwardSolver = new PointSourceSDAForwardSolver();
 
             // make sure layer thickess is greater than l*=1/(mua+musp)=1mm
-            LayerRegion[] _twoLayerTissue =
-                new LayerRegion[]
+            LayerTissueRegion[] _twoLayerTissue =
+                new LayerTissueRegion[]
                     {
-                        new LayerRegion(new DoubleRange(0, 3), new OpticalProperties(ops)),
-                        new LayerRegion(new DoubleRange(3,100), new OpticalProperties(ops)), 
+                        new LayerTissueRegion(new DoubleRange(0, 3), new OpticalProperties(ops)),
+                        new LayerTissueRegion(new DoubleRange(3,100), new OpticalProperties(ops)), 
                     };
             for (int irho = 0; irho < rhos.Length; irho++)
             {
@@ -253,11 +253,11 @@ namespace Vts.Test.Modeling.ForwardSolvers
             var _oneLayerNurbsForwardSolver = new NurbsForwardSolver();
 
             // make sure layer thickess is greater than l*=1/(mua+musp)=1mm
-            LayerRegion[] _twoLayerTissue =
-                new LayerRegion[]
+            LayerTissueRegion[] _twoLayerTissue =
+                new LayerTissueRegion[]
                     {
-                        new LayerRegion(new DoubleRange(0, 3), new OpticalProperties(ops)),
-                        new LayerRegion(new DoubleRange(3,100), new OpticalProperties(ops)), 
+                        new LayerTissueRegion(new DoubleRange(0, 3), new OpticalProperties(ops)),
+                        new LayerTissueRegion(new DoubleRange(3,100), new OpticalProperties(ops)), 
                     };
             for (int ifx = 0; ifx < fxs.Length; ifx++)
             {
@@ -279,11 +279,11 @@ namespace Vts.Test.Modeling.ForwardSolvers
             var _oneLayerSDAForwardSolver = new PointSourceSDAForwardSolver();
         
             // make sure layer thickess is greater than l*=1/(mua+musp)=1mm
-            LayerRegion[] _twoLayerTissue =
-                new LayerRegion[]
+            LayerTissueRegion[] _twoLayerTissue =
+                new LayerTissueRegion[]
                     {
-                        new LayerRegion(new DoubleRange(0, 3), new OpticalProperties(ops)),
-                        new LayerRegion(new DoubleRange(3,100), new OpticalProperties(ops)), 
+                        new LayerTissueRegion(new DoubleRange(0, 3), new OpticalProperties(ops)),
+                        new LayerTissueRegion(new DoubleRange(3,100), new OpticalProperties(ops)), 
                     };
             for (int i = 0; i < _fxs.Length; i++)
             {
@@ -303,11 +303,11 @@ namespace Vts.Test.Modeling.ForwardSolvers
             var _twoLayerSDAForwardSolver = new TwoLayerSDAForwardSolver();
             var _oneLayerNurbsForwardSolver = new NurbsForwardSolver();
             // make sure layer thickess is greater than l*=1/(mua+musp)=1mm
-            LayerRegion[] _twoLayerTissue =
-                new LayerRegion[]
+            LayerTissueRegion[] _twoLayerTissue =
+                new LayerTissueRegion[]
                     {
-                        new LayerRegion(new DoubleRange(0, 3), new OpticalProperties(ops)),
-                        new LayerRegion(new DoubleRange(3,100), new OpticalProperties(ops)), 
+                        new LayerTissueRegion(new DoubleRange(0, 3), new OpticalProperties(ops)),
+                        new LayerTissueRegion(new DoubleRange(3,100), new OpticalProperties(ops)), 
                     };
             for (int ifx = 0; ifx < fxs.Length; ifx++)
             {

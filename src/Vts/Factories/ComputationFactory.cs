@@ -41,10 +41,10 @@ namespace Vts.Factories
         // CH proposed new extension method prior version is not refined enough, need to 
         // know independent axis variable to know whether solver is complex, e.g. ROfRhoAndFt
         // with independent axis varaible = rho is not complex
-        public static bool IsComplexSolver(IndependentVariableAxis independentVariableAxis)
-        {
-            return (independentVariableAxis == IndependentVariableAxis.Ft);
-        }
+        //public static bool IsComplexSolver(IndependentVariableAxis independentVariableAxis)
+        //{
+        //    return (independentVariableAxis == IndependentVariableAxis.Ft);
+        //}
 
         public static bool IsComplexSolver(SolutionDomainType solutionDomainType)
         {
@@ -190,7 +190,7 @@ namespace Vts.Factories
                             layerRegion.ZRange.Delta
                         };
                 }
-                //else if(region is EllipsoidRegion)
+                //else if(region is EllipsoidTissueRegion)
                 //{
                 //  
                 //}
@@ -478,12 +478,10 @@ namespace Vts.Factories
             ForwardSolverType forwardSolverType,
             OptimizerType optimizerType,
             SolutionDomainType solutionDomainType,
-            double[] independentValues,
             double[] dependentValues,
             double[] standardDeviationValues,
-            OpticalProperties opticalPropertyGuess,
             InverseFitType inverseFitType,
-            params double[] constantValues)
+            object[] independentValues)
         {
             // use factory method on each call, as opposed to injecting an instance from the outside
             // -- still time-efficient if singletons are used
@@ -492,38 +490,32 @@ namespace Vts.Factories
                 SolverFactory.GetForwardSolver(forwardSolverType),
                 SolverFactory.GetOptimizer(optimizerType),
                 solutionDomainType,
-                independentValues,
                 dependentValues,
                 standardDeviationValues,
-                opticalPropertyGuess,
                 inverseFitType,
-                constantValues);
+                independentValues);
         }
 
         public static double[] SolveInverse(
             IForwardSolver forwardSolver,
             IOptimizer optimizer,
             SolutionDomainType solutionDomainType,
-            double[] independentValues,
             double[] dependentValues,
             double[] standardDeviationValues,
-            OpticalProperties opticalPropertyGuess, // todo: make this an array
             InverseFitType inverseFitType,
-            params double[] constantValues)
+            object[] independentValues)
         {
+            var opticalPropertyGuess = ((OpticalProperties[]) (independentValues[0])).First();
+
             // todo: make some kind of parameter selector that filters on the object array to create an initial guess. e.g. Func<object[], double[]>
-            var parameters = new double[4] { opticalPropertyGuess.Mua, opticalPropertyGuess.Musp, opticalPropertyGuess.G, opticalPropertyGuess.N };
+            var fitParameters = new double[4] { opticalPropertyGuess.Mua, opticalPropertyGuess.Musp, opticalPropertyGuess.G, opticalPropertyGuess.N };
 
             var parametersToFit = GetParametersToFit(inverseFitType);
 
             Func<double[], object[], double[]> func = GetForwardReflectanceFuncForOptimization(forwardSolver, solutionDomainType);
 
-            List<object> inputValues = new List<object>();
-            inputValues.Add(independentValues);
-            constantValues.ForEach(cv => inputValues.Add(cv));
-
-            var fit = optimizer.Solve(parameters, parametersToFit, dependentValues.ToArray(),
-                                      standardDeviationValues.ToArray(), func, inputValues.ToArray());
+            var fit = optimizer.Solve(fitParameters, parametersToFit, dependentValues.ToArray(),
+                                      standardDeviationValues.ToArray(), func, independentValues.ToArray());
 
             return fit;
         }
@@ -612,10 +604,10 @@ namespace Vts.Factories
 
             Func<object[], double[]> forwardReflectanceFunc = GetForwardReflectanceFunc(fs, type);
 
-            return (fitData, otherData) =>
+            return (fitData, allParameters) =>
             {
                 // place optical property array in the first position, and the rest following
-                var forwardData = ((object)getOP(fitData)).AsEnumerable().Concat(otherData).ToArray();
+                var forwardData = ((object)getOP(fitData)).AsEnumerable().Concat(allParameters.Skip(1)).ToArray();
                 return forwardReflectanceFunc(forwardData);
             };
         }

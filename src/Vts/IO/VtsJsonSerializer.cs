@@ -9,6 +9,9 @@ using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 using Vts.MonteCarlo;
 using Vts.MonteCarlo.Detectors;
+using Vts.MonteCarlo.Interfaces;
+using Vts.MonteCarlo.Sources;
+using Vts.MonteCarlo.Sources.SourceProfiles;
 using Vts.MonteCarlo.Tissues;
 
 namespace Vts.IO
@@ -22,6 +25,7 @@ namespace Vts.IO
         {
             var settings = new JsonSerializerSettings
             {
+                //added temporarily to help serialize the sources that use interfaces
                 TypeNameHandling = TypeNameHandling.None,
                 ObjectCreationHandling = ObjectCreationHandling.Replace
             };
@@ -52,11 +56,13 @@ namespace Vts.IO
 
         public static List<JsonConverter> KnownConverters = new List<JsonConverter>
         {
-            ConventionBasedConverter<ISourceInput>.CreateFromEnum<Vts.MonteCarlo.SourceType>(typeof(IsotropicPointSourceInput)),
-            ConventionBasedConverter<ITissueInput>.CreateFromEnum<Vts.MonteCarlo.TissueType>(typeof(MultiLayerTissueInput)),
-            ConventionBasedConverter<ITissueRegion>.CreateFromEnum<Vts.MonteCarlo.TissueRegionType>(typeof(VoxelRegion), "Region"),
+            new ConventionBasedConverter<ISourceInput>(typeof(IsotropicPointSourceInput), "SourceType",  Vts.MonteCarlo.SourceType.BuiltInTypes),
+            new ConventionBasedConverter<ITissueInput>(typeof(MultiLayerTissueInput), "TissueType", Vts.MonteCarlo.TissueType.BuiltInTypes),
+            new ConventionBasedConverter<ITissueRegion>(typeof(VoxelTissueRegion), "TissueRegionType", TissueRegionType.BuiltInTypes),
             new ConventionBasedConverter<IDetectorInput>(typeof(ROfRhoDetectorInput), "TallyType", TallyType.BuiltInTypes),
             new ConventionBasedConverter<IDetector>(typeof(ROfRhoDetector), "TallyType", TallyType.BuiltInTypes),
+            ConventionBasedConverter<ISourceProfile>.CreateFromEnum<Vts.MonteCarlo.SourceProfileType>(typeof(FlatSourceProfile)),
+            
         };
 
         public static T ReadFromJson<T>(this string myString)
@@ -68,6 +74,8 @@ namespace Vts.IO
                 serializer.Converters.Add(jsonConverter);
             }
             serializer.NullValueHandling = NullValueHandling.Ignore;
+            //added temporarily to help serialize the sources that use interfaces
+            serializer.TypeNameHandling = TypeNameHandling.None;
             serializer.ObjectCreationHandling = ObjectCreationHandling.Replace;
 #if DEBUG
             serializer.TraceWriter = TraceWriter;

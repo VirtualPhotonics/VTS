@@ -8,9 +8,11 @@ namespace Vts.Gui.Silverlight.ViewModel
     /// </summary>
     public class SolutionDomainOptionViewModel : AbstractSolutionDomainOptionViewModel<SolutionDomainType>
     {
+        private bool _enableMultiAxis;
         public SolutionDomainOptionViewModel(string groupName, SolutionDomainType defaultType)
             : base(groupName, defaultType)
         {
+            _enableMultiAxis = true;
             ROfRhoOption = Options[SolutionDomainType.ROfRho];
             ROfFxOption = Options[SolutionDomainType.ROfFx];
             ROfRhoAndTimeOption = Options[SolutionDomainType.ROfRhoAndTime];
@@ -41,6 +43,16 @@ namespace Vts.Gui.Silverlight.ViewModel
         public OptionModel<SolutionDomainType> ROfRhoAndFtOption { get; private set; }
         public OptionModel<SolutionDomainType> ROfFxAndFtOption { get; private set; }
         
+            }
+        }
+
+        public bool EnableMultiAxis
+        {
+            get { return _enableMultiAxis; }
+            set
+            {
+                _enableMultiAxis = value;
+                OnPropertyChanged("EnableMultiAxis");
         private void UpdateOptions(SolutionDomainType selectedType)
         {
             switch (selectedType)

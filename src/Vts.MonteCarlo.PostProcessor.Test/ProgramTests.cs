@@ -4,7 +4,7 @@ using NUnit.Framework;
 namespace Vts.MonteCarlo.PostProcessor.Test
 {
     [TestFixture]
-    public class ProgramTest
+    public class ProgramTests
     {
         /// <summary>
         /// clear all previously generated folders and files.

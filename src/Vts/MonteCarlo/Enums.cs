@@ -168,126 +168,129 @@ namespace Vts.MonteCarlo
     /// <summary>
     /// Source types defined organized by dimension and geometric type
     /// </summary>
-    public enum SourceType
+    public static class SourceType
     {
-        //POINT AND LINE SOURCES
+        public static readonly string[] BuiltInTypes = new []
+            {
+                //POINT AND LINE SOURCES
 
-        //Point Sources
-        /// <summary>
-        /// Point sources: isotropic
-        /// </summary>
-        IsotropicPoint,
-        /// <summary>
-        /// Point sources: directional point
-        /// </summary>
-        DirectionalPoint,
-        /// <summary>
-        /// Point sources: custom point
-        /// </summary>
-        CustomPoint,
+                //Point Sources
+                /// <summary>
+                /// Point sources: isotropic
+                /// </summary>
+                "IsotropicPoint",
+                /// <summary>
+                /// Point sources: directional point
+                /// </summary>
+                "DirectionalPoint",
+                /// <summary>
+                /// Point sources: custom point
+                /// </summary>
+                "CustomPoint",
 
-        // Line Sources
-        /// <summary>
-        /// 1D Line sources: isotropic line
-        /// </summary>
-        IsotropicLine,
-        /// <summary>
-        /// 1D Line sources: directional line 
-        /// </summary>
-        DirectionalLine,
-        /// <summary>
-        /// 1D Line sources: custom
-        /// </summary>
-        CustomLine,
-
-
-        // SURFACE EMITTING FLAT SOURCES (2D SURFACE SOURCES)
-
-        // Circular Surface Sources
-        /// <summary>
-        /// 2D Circular surface sources: directional 
-        /// </summary>
-        DirectionalCircular,
-        /// <summary>
-        /// 2D Circular surface sources: custom
-        /// </summary>
-        CustomCircular,
-
-        // Elliptical Surface Sources
-        /// <summary>
-        /// 2D Elliptical surface sources: directional 
-        /// </summary>
-        DirectionalElliptical,
-        /// <summary>
-        /// 2D Elliptical surface sources: custom
-        /// </summary>
-        CustomElliptical,
-
-        // Rectangular Surface Sources
-        /// <summary>
-        /// 2D Rectangular surface sources: directional
-        /// </summary>
-        DirectionalRectangular,
-        /// <summary>
-        /// 2D Rectangular surface sources: custom
-        /// </summary>
-        CustomRectangular,
+                // Line Sources
+                /// <summary>
+                /// 1D Line sources: isotropic line
+                /// </summary>
+                "IsotropicLine",
+                /// <summary>
+                /// 1D Line sources: directional line 
+                /// </summary>
+                "DirectionalLine",
+                /// <summary>
+                /// 1D Line sources: custom
+                /// </summary>
+                "CustomLine",
 
 
-        // SURFACE EMITTING BULK SOURCES (3D SURFACE SOURCES)
+                // SURFACE EMITTING FLAT SOURCES (2D SURFACE SOURCES)
 
-        // Spherical Surface Sources
-        /// <summary>
-        /// Spherical surface sources: Lambertian
-        /// </summary>
-        LambertianSurfaceEmittingSpherical, // e.g. change to LambertianSphericalSurface
-        /// <summary>
-        /// Spherical surface sources: custom
-        /// </summary>
-        CustomSurfaceEmittingSpherical,
+                // Circular Surface Sources
+                /// <summary>
+                /// 2D Circular surface sources: directional 
+                /// </summary>
+                "DirectionalCircular",
+                /// <summary>
+                /// 2D Circular surface sources: custom
+                /// </summary>
+                "CustomCircular",
 
-        // Cubiodal Surface Sources
-        /// <summary>
-        /// Cubiodal surface sources: Lambertian surface emitting cubiodal
-        /// </summary>
-        LambertianSurfaceEmittingCubiodal,
+                // Elliptical Surface Sources
+                /// <summary>
+                /// 2D Elliptical surface sources: directional 
+                /// </summary>
+                "DirectionalElliptical",
+                /// <summary>
+                /// 2D Elliptical surface sources: custom
+                /// </summary>
+                "CustomElliptical",
 
-        // Tubular Sources
-        /// <summary>
-        /// Tubular sources: Lambertian
-        /// </summary>
-        LambertianSurfaceEmittingTubular,
-
-        //Cylindrical Fiber Source
-        /// <summary>
-        /// Cylindrical fiber sources: Lambertian cylindrial fiber
-        /// </summary>
-        LambertianSurfaceEmittingCylindricalFiber,
+                // Rectangular Surface Sources
+                /// <summary>
+                /// 2D Rectangular surface sources: directional
+                /// </summary>
+                "DirectionalRectangular",
+                /// <summary>
+                /// 2D Rectangular surface sources: custom
+                /// </summary>
+                "CustomRectangular",
 
 
-        // VOLUMETRIC SOURCES (3D)
+                // SURFACE EMITTING BULK SOURCES (3D SURFACE SOURCES)
 
-        // Cubiodal Volume Sources
-        /// <summary>
-        /// 3D Cubiodal volume sources: isotropic
-        /// </summary>
-        IsotropicVolumetricCuboidal,
-        /// <summary>
-        /// 3D Cubiodal volume sources: custom
-        /// </summary>
-        CustomVolumetricCubiodal,
+                // Spherical Surface Sources
+                /// <summary>
+                /// Spherical surface sources: Lambertian
+                /// </summary>
+                "LambertianSurfaceEmittingSpherical", // e.g. change to LambertianSphericalSurface
+                /// <summary>
+                /// Spherical surface sources: custom
+                /// </summary>
+                "CustomSurfaceEmittingSpherical",
 
-        // Ellipsoidal Volume Sources
-        /// <summary>
-        /// 3D Ellipsoidal volume sources: isotropic
-        /// </summary>
-        IsotropicVolumetricEllipsoidal,
-        /// <summary>
-        /// 3D Ellipsoidal volume sources: custom
-        /// </summary>
-        CustomVolumetricEllipsoidal,
+                // Cubiodal Surface Sources
+                /// <summary>
+                /// Cubiodal surface sources: Lambertian surface emitting cubiodal
+                /// </summary>
+                "LambertianSurfaceEmittingCubiodal",
 
-        // ...others, based on Fluence or Radiance?
+                // Tubular Sources
+                /// <summary>
+                /// Tubular sources: Lambertian
+                /// </summary>
+                "LambertianSurfaceEmittingTubular",
+
+                //Cylindrical Fiber Source
+                /// <summary>
+                /// Cylindrical fiber sources: Lambertian cylindrial fiber
+                /// </summary>
+                "LambertianSurfaceEmittingCylindricalFiber",
+
+
+                // VOLUMETRIC SOURCES (3D)
+
+                // Cubiodal Volume Sources
+                /// <summary>
+                /// 3D Cubiodal volume sources: isotropic
+                /// </summary>
+                "IsotropicVolumetricCuboidal",
+                /// <summary>
+                /// 3D Cubiodal volume sources: custom
+                /// </summary>
+                "CustomVolumetricCubiodal",
+
+                // Ellipsoidal Volume Sources
+                /// <summary>
+                /// 3D Ellipsoidal volume sources: isotropic
+                /// </summary>
+                "IsotropicVolumetricEllipsoidal",
+                /// <summary>
+                /// 3D Ellipsoidal volume sources: custom
+                /// </summary>
+                "CustomVolumetricEllipsoidal",
+
+                // ...others, based on Fluence or Radiance?                  
+            };
     }
     /// <summary>
     /// Source beam profile types
@@ -339,55 +342,43 @@ namespace Vts.MonteCarlo
         /// </summary>
         Normal,
     }
+
     /// <summary>
     /// Tissue types
     /// </summary>
-    public enum TissueType
+    public static class TissueType
     {
-        /// <summary>
-        /// SemiInfinite tissue type.  Includes homogeneous tissues.
-        /// </summary>
-        SemiInfinite,  
-        /// <summary>
-        /// Multilayer tissue type.  Includes homogeneous tissues.
-        /// </summary>
-        MultiLayer,
-        /// <summary>
-        /// Tissue slab with embedded ellipsoid
-        /// </summary>
-        SingleEllipsoid,
-        /// <summary>
-        /// Tissue slab with multiple embedded ellipsoids
-        /// </summary>
-        MultiEllipsoid,
+        public static readonly string[] BuiltInTypes = new []
+        {
+            /// <summary>
+            /// SemiInfinite tissue type.  Includes homogeneous tissues.
+            /// </summary>
+            "SemiInfinite",
+            /// <summary>
+            /// Multilayer tissue type.  Includes homogeneous tissues.
+            /// </summary>
+            "MultiLayer",
+            /// <summary>
+            /// Tissue slab with embedded ellipsoid
+            /// </summary>
+            "SingleEllipsoid",
+            /// <summary>
+            /// Tissue slab with multiple embedded ellipsoids
+            /// </summary>
+            "MultiEllipsoid",
+        };
     }
 
-    public enum TissueRegionType
+    public static class TissueRegionType
     {
-        Voxel,
-        Layer,
-        Ellipsoid,
-        Cylinder
+        public static readonly string[] BuiltInTypes = new []
+        {
+            "Voxel",
+            "Layer",
+            "Ellipsoid",
+            "Cylinder"
+        };
     }
-
-    ///// <summary>
-    ///// Detector types
-    ///// </summary>
-    //public enum DetectorType
-    //{
-    //    /// <summary>
-    //    /// Termination detector
-    //    /// </summary>
-    //    Termination,
-    //    /// <summary>
-    //    /// Pathlength detector
-    //    /// </summary>
-    //    Pathlength,
-    //    /// <summary>
-    //    /// Collision detector
-    //    /// </summary>
-    //    Collision,
-    //}
 
     public static class TallyType
     {
@@ -466,6 +457,10 @@ namespace Vts.MonteCarlo
             /// </summary>
             "AOfRhoAndZ",
             /// <summary>
+            /// Absorbed energy as a function of X, Y and tissue depth (Z)
+            /// </summary>
+            "AOfXAndYAndZ",
+            /// <summary>
             /// Total absorbed energy
             /// </summary>
             "ATotal",
@@ -480,7 +475,7 @@ namespace Vts.MonteCarlo
             /// <summary>
             /// Surface radiance as a function of source-detector separation (rho)
             /// </summary>
-            "RadianceOfRho",
+            "RadianceOfRhoAtZ",
             /// <summary>
             /// Volume randiance as a function of source-detector separation (rho), tissue depth (Z) and angle
             /// </summary>
@@ -587,6 +582,10 @@ namespace Vts.MonteCarlo
         /// Absorbed energy as a function of source-detector separation (rho) and tissue depth (Z)
         /// </summary>
         public static string AOfRhoAndZ { get { return "AOfRhoAndZ"; } }
+        /// <summary>
+        /// Absorbed energy as a function of Cartesian coordinates X, Y and Z
+        /// </summary>
+        public static string AOfXAndYAndZ { get { return "AOfXAndYAndZ"; } }
         /// <summary>
         /// Total absorbed energy
         /// </summary>

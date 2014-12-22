@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Vts.Common.Logging;
+using Vts.IO;
 using Vts.MonteCarlo.Controllers;
 using Vts.MonteCarlo.Extensions;
 using Vts.MonteCarlo.Factories;
@@ -67,7 +68,7 @@ namespace Vts.MonteCarlo
             this.SimulationIndex = input.Options.SimulationIndex;
 
             _tissue = TissueFactory.GetTissue(input.TissueInput, input.Options.AbsorptionWeightingType, input.Options.PhaseFunctionType, input.Options.RussianRouletteWeightThreshold);
-            _source = SourceFactory.GetSource(input.SourceInput, _tissue, _rng);
+            _source = SourceFactory.GetSource(input.SourceInput, _rng);
 
             // instantiate vb (and associated detectors) for each vb group
             _virtualBoundaryController = new VirtualBoundaryController(new List<IVirtualBoundary>());
@@ -343,8 +344,16 @@ namespace Vts.MonteCarlo
             }
 
             if (TrackStatistics)
-            {             
-                _simulationStatistics.ToFile("statistics.txt");
+            {
+                if (_input.OutputName == "")
+                {
+                    _simulationStatistics.ToFile("statistics.txt");
+                }
+                else
+                {
+                    FileIO.CreateDirectory(_input.OutputName);
+                    _simulationStatistics.ToFile(_input.OutputName + "/statistics.txt");
+                }
             }
 
             stopwatch.Stop();

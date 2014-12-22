@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using Vts.Common;
 using Vts.Extensions;
 using Vts.MonteCarlo.PhotonData;
@@ -7,10 +9,180 @@ using Vts.MonteCarlo.PhotonData;
 namespace Vts.MonteCarlo.Tissues
 {
     /// <summary>
+    /// Implements ITissueInput.  Defines input to SingleEllipsoidTissue class.
+    /// </summary>
+    public class SingleEllipsoidTissueInput : TissueInput, ITissueInput
+    {
+        private ITissueRegion _ellipsoidRegion;
+        private ITissueRegion[] _layerRegions;
+
+        /// <summary>
+        /// allows definition of single ellipsoid tissue
+        /// </summary>
+        /// <param name="ellipsoidRegion">ellipsoid region specification</param>
+        /// <param name="layerRegions">tissue layer specification</param>
+        public SingleEllipsoidTissueInput(ITissueRegion ellipsoidRegion, ITissueRegion[] layerRegions)
+        {
+            TissueType = "SingleEllipsoid";
+            _ellipsoidRegion = ellipsoidRegion;
+            _layerRegions = layerRegions;
+        }
+
+        /// <summary>
+        /// SingleEllipsoidTissueInput default constructor provides homogeneous tissue with single ellipsoid
+        /// with radius 0.5mm and center (0,0,1)
+        /// </summary>
+        public SingleEllipsoidTissueInput()
+            : this(
+                new EllipsoidTissueRegion(
+                    new Position(0, 0, 1),
+                    0.5,
+                    0.5,
+                    0.5,
+                    new OpticalProperties(0.05, 1.0, 0.8, 1.4)
+                ),
+                new ITissueRegion[] 
+                { 
+                    new LayerTissueRegion(
+                        new DoubleRange(double.NegativeInfinity, 0.0),
+                        new OpticalProperties( 0.0, 1e-10, 1.0, 1.0)),
+                    new LayerTissueRegion(
+                        new DoubleRange(0.0, 100.0),
+                        new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
+                    new LayerTissueRegion(
+                        new DoubleRange(100.0, double.PositiveInfinity),
+                        new OpticalProperties( 0.0, 1e-10, 1.0, 1.0))
+                })
+        {
+        }
+
+        /// <summary>
+        /// regions of tissue (layers and ellipsoid)
+        /// </summary>
+        [IgnoreDataMember]
+        public ITissueRegion[] Regions { get { return _layerRegions.Concat(_ellipsoidRegion).ToArray(); } }
+        /// <summary>
+        /// tissue ellipsoid region
+        /// </summary>
+        public ITissueRegion EllipsoidRegion { get { return _ellipsoidRegion; } set { _ellipsoidRegion = value; } }
+        /// <summary>
+        /// tissue layer regions
+        /// </summary>
+        public ITissueRegion[] LayerRegions { get { return _layerRegions; } set { _layerRegions = value; } }
+
+        /// <summary>
+        ///// Required factory method to create the corresponding 
+        ///// ITissue based on the ITissueInput data
+        /// </summary>
+        /// <param name="awt">Absorption Weighting Type</param>
+        /// <param name="pft">Phase Function Type</param>
+        /// <param name="russianRouletteWeightThreshold">Russian Roulette Weight Threshold</param>
+        /// <returns></returns>
+        public ITissue CreateTissue(AbsorptionWeightingType awt, PhaseFunctionType pft, double russianRouletteWeightThreshold)
+        {
+            var t = new SingleInclusionTissue(EllipsoidRegion, LayerRegions);
+
+            t.Initialize(awt, pft, russianRouletteWeightThreshold);
+
+            return t;
+        }
+    }
+
+    /// <summary>
+    /// Implements ITissueInput.  Defines input to SingleEllipsoidTissue class.
+    /// </summary>
+    public class MultiEllipsoidTissueInput : TissueInput, ITissueInput
+    {
+        private ITissueRegion[] _ellipsoidRegions;
+        private ITissueRegion[] _layerRegions;
+
+        /// <summary>
+        /// allows definition of single ellipsoid tissue
+        /// </summary>
+        /// <param name="ellipsoidRegions">ellipsoid region specification</param>
+        /// <param name="layerRegions">tissue layer specification</param>
+        public MultiEllipsoidTissueInput(ITissueRegion[] ellipsoidRegions, ITissueRegion[] layerRegions)
+        {
+            TissueType = "MultiEllipsoid";
+            _ellipsoidRegions = ellipsoidRegions;
+            _layerRegions = layerRegions;
+        }
+
+        /// <summary>
+        /// SingleEllipsoidTissueInput default constructor provides homogeneous tissue with single ellipsoid
+        /// with radius 0.5mm and center (0,0,1)
+        /// </summary>
+        public MultiEllipsoidTissueInput()
+            : this(
+                new ITissueRegion[]
+                {
+                    new EllipsoidTissueRegion(
+                        new Position(10, 0, 10), 
+                        5.0, 
+                        1.0, 
+                        5.0,
+                        new OpticalProperties(0.1, 1.0, 0.8, 1.4)),
+                    new EllipsoidTissueRegion(
+                        new Position(0, 0, 40), 
+                        5.0, 
+                        0, 
+                        5.0,
+                        new OpticalProperties(0.05, 1.0, 0.8, 1.4))
+                },
+                new ITissueRegion[] 
+                { 
+                    new LayerTissueRegion(
+                        new DoubleRange(double.NegativeInfinity, 0.0),
+                        new OpticalProperties( 0.0, 1e-10, 1.0, 1.0)),
+                    new LayerTissueRegion(
+                        new DoubleRange(0.0, 50.0),
+                        new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
+                    new LayerTissueRegion(
+                        new DoubleRange(100.0, double.PositiveInfinity),
+                        new OpticalProperties( 0.0, 1e-10, 1.0, 1.0))
+                })
+        {
+        }
+
+        /// <summary>
+        /// regions of tissue (layers and ellipsoid)
+        /// </summary>
+        [IgnoreDataMember]
+        public ITissueRegion[] Regions { get { return _layerRegions.Concat(_ellipsoidRegions).ToArray(); } }
+        /// <summary>
+        /// tissue ellipsoid region
+        /// </summary>
+        public ITissueRegion[] EllipsoidRegions { get { return _ellipsoidRegions; } set { _ellipsoidRegions = value; } }
+        /// <summary>
+        /// tissue layer regions
+        /// </summary>
+        public ITissueRegion[] LayerRegions { get { return _layerRegions; } set { _layerRegions = value; } }
+        
+        /// <summary>
+        ///// Required factory method to create the corresponding 
+        ///// ITissue based on the ITissueInput data
+        /// </summary>
+        /// <param name="awt">Absorption Weighting Type</param>
+        /// <param name="pft">Phase Function Type</param>
+        /// <param name="russianRouletteWeightThreshold">Russian Roulette Weight Threshold</param>
+        /// <returns></returns>
+        public ITissue CreateTissue(AbsorptionWeightingType awt, PhaseFunctionType pft, double russianRouletteWeightThreshold)
+        {
+            throw new NotImplementedException();
+
+            //var t = new SingleInclusionTissue(EllipsoidRegions, LayerRegions); // todo: add implementation
+
+            //t.Initialize(awt, pft, russianRouletteWeightThreshold);
+
+            //return t;
+        }
+    }
+
+    /// <summary>
     /// Implements ITissue.  Defines a tissue geometry comprised of an
     /// inclusion embedded within a layered slab.
     /// </summary>
-    public class SingleInclusionTissue : MultiLayerTissue
+    public class SingleInclusionTissue : MultiLayerTissue, ITissue
     {
         private ITissueRegion _inclusionRegion;
         private int _inclusionRegionIndex;
@@ -21,28 +193,18 @@ namespace Vts.MonteCarlo.Tissues
         /// </summary>
         /// <param name="inclusionRegion">The single inclusion (must be contained completely within a layer region)</param>
         /// <param name="layerRegions">The tissue layers</param>
-        /// <param name="absorptionWeightingType">The type of absorption weighting</param>
-        /// <param name="phaseFunctionType">The type of phase function</param>
-        /// <param name="russianRouletteWeightThreshold">russian roulette weight threshold</param>
         public SingleInclusionTissue(
             ITissueRegion inclusionRegion,
-            IList<ITissueRegion> layerRegions,
-            AbsorptionWeightingType absorptionWeightingType,
-            PhaseFunctionType phaseFunctionType,
-            double russianRouletteWeightThreshold)
-            : base(layerRegions, 
-                   absorptionWeightingType, 
-                   phaseFunctionType,
-                   russianRouletteWeightThreshold)
+            IList<ITissueRegion> layerRegions)
+            : base(layerRegions)
         {
             // overwrite the Regions property in the TissueBase class (will be called last in the most derived class)
             Regions = layerRegions.Concat(inclusionRegion).ToArray();
-            RegionScatterLengths = Regions.Select(region => region.RegionOP.GetScatterLength(absorptionWeightingType)).ToArray();
 
             _inclusionRegion = inclusionRegion;
             _inclusionRegionIndex = layerRegions.Count; // index is, by convention, after the layer region indices
             _layerRegionIndexOfInclusion = Enumerable.Range(0, layerRegions.Count)
-                .FirstOrDefault(i => ((LayerRegion) layerRegions[i]).ContainsPosition(_inclusionRegion.Center));
+                .FirstOrDefault(i => ((LayerTissueRegion)layerRegions[i]).ContainsPosition(_inclusionRegion.Center));
         }
 
         /// <summary>
@@ -50,17 +212,14 @@ namespace Vts.MonteCarlo.Tissues
         /// </summary>
         public SingleInclusionTissue()
             : this(
-                new EllipsoidRegion(),
-                new MultiLayerTissueInput().Regions,
-                AbsorptionWeightingType.Discrete,
-                PhaseFunctionType.HenyeyGreenstein,
-                0.0) { }
+                new EllipsoidTissueRegion(),
+                new MultiLayerTissueInput().Regions) { }
         /// <summary>
         /// method to get tissue region index of photon's current position
         /// </summary>
         /// <param name="position">photon Position</param>
         /// <returns>integer tissue region index</returns>
-        public override int GetRegionIndex(Position position)
+        public int GetRegionIndex(Position position)
         {
             // if it's in the inclusion, return "3", otherwise, call the layer method to determine
             return _inclusionRegion.ContainsPosition(position) ? _inclusionRegionIndex : base.GetRegionIndex(position);
@@ -73,7 +232,7 @@ namespace Vts.MonteCarlo.Tissues
         /// </summary>
         /// <param name="photon">Photon</param>
         /// <returns>index of neighbor index</returns>
-        public override int GetNeighborRegionIndex(Photon photon)
+        public int GetNeighborRegionIndex(Photon photon)
         {
             // first, check what region the photon is in
             int regionIndex = photon.CurrentRegionIndex;
@@ -119,7 +278,7 @@ namespace Vts.MonteCarlo.Tissues
         /// </summary>
         /// <param name="photon">Photon</param>
         /// <returns>distance to boundary</returns>
-        public override double GetDistanceToBoundary(Photon photon)
+        public double GetDistanceToBoundary(Photon photon)
         {
             // first, check what region the photon is in
             int regionIndex = photon.CurrentRegionIndex;
@@ -154,7 +313,7 @@ namespace Vts.MonteCarlo.Tissues
         /// <param name="currentPosition">Position</param>
         /// <param name="currentDirection">Direction</param>
         /// <returns>new Direction</returns>
-        public override Direction GetReflectedDirection(
+        public Direction GetReflectedDirection(
             Position currentPosition,
             Direction currentDirection)
         {
@@ -175,7 +334,7 @@ namespace Vts.MonteCarlo.Tissues
         /// <param name="currentPosition">Position</param>
         /// <param name="currentDirection">Direction</param>
         /// <returns>new Direction</returns>
-        public override Direction GetRefractedDirection(
+        public Direction GetRefractedDirection(
             Position currentPosition,
             Direction currentDirection,
             double nCurrent,
@@ -193,6 +352,5 @@ namespace Vts.MonteCarlo.Tissues
             }
             //throw new NotImplementedException(); // hopefully, this won't happen when the tissue inclusion is index-matched
         }
-
     }
 }

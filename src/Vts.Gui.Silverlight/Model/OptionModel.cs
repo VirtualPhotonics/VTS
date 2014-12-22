@@ -147,17 +147,18 @@ namespace Vts.Gui.Silverlight.Model
         public static Dictionary<TValue, OptionModel<TValue>> CreateAvailableOptions(PropertyChangedEventHandler handler, string groupName, TValue initialValue, TValue[] allValues, bool enableMultiSelect)
         {
             Type enumType = typeof(TValue);
-            if (!enumType.IsEnum)
+            var isStringEnum = enumType.Equals(typeof (string));
+            if (!enumType.IsEnum && !isStringEnum)
             {
-                throw new ArgumentException("Type '" + enumType.Name + "' is not an enum");
+                throw new ArgumentException("Type '" + enumType.Name + "' is not an enum or a string.");
             }
 
             List<OptionModel<TValue>> list = new List<OptionModel<TValue>>();
             if (allValues == null || allValues.Length == 0)
             {
-                allValues = EnumHelper.GetValues<TValue>();
+                allValues = isStringEnum ? new TValue[0] : EnumHelper.GetValues<TValue>();
             }
-            var names = allValues.Select(value => (value as Enum).GetInternationalizedString()).ToArray();
+            var names = allValues.Select(value => isStringEnum ? (value as string) : (value as Enum).GetInternationalizedString()).ToArray();
 
             for (int i = 0; i < allValues.Length; i++)
             {

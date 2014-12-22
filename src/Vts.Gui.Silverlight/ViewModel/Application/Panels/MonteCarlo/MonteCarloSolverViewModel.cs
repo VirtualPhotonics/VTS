@@ -302,7 +302,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                         file.Input.ToFile(file.Name);
                     }
                     var allFiles = files.Concat(files);
-                    FileIO.ZipFiles(allFiles.Select(file => file.Name), "", stream);
+                    FileIO.ZipFiles(files.Select(file => file.Name), "", stream);
                     logger.Info(() => "Template simulation input files exported to a zip file.\r");
                 }
             }

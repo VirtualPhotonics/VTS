@@ -8,6 +8,7 @@ using Vts.Common;
 using Vts.MonteCarlo;
 using Vts.MonteCarlo.Detectors;
 using Vts.MonteCarlo.Helpers;
+using Vts.MonteCarlo.Sources;
 using Vts.MonteCarlo.Tissues;
 
 namespace Vts.Test.MonteCarlo.Detectors
@@ -35,9 +36,9 @@ namespace Vts.Test.MonteCarlo.Detectors
         public void execute_Monte_Carlo()
         {
             // make sure statistic file generated from previous tests are deleted
-            if (File.Exists("statistics.xml"))
+            if (File.Exists("statistics.txt"))
             {
-                File.Delete("statistics.xml");
+                File.Delete("statistics.txt");
             }
            _input = new SimulationInput(
                 100,
@@ -59,13 +60,13 @@ namespace Vts.Test.MonteCarlo.Detectors
                 new MultiLayerTissueInput(
                     new ITissueRegion[]
                     { 
-                        new LayerRegion(
+                        new LayerTissueRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
-                        new LayerRegion(
+                        new LayerTissueRegion(
                             new DoubleRange(0.0, 20.0),
                             new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
-                        new LayerRegion(
+                        new LayerTissueRegion(
                             new DoubleRange(20.0, double.PositiveInfinity),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
                     }
@@ -103,7 +104,7 @@ namespace Vts.Test.MonteCarlo.Detectors
 
             _output = new MonteCarloSimulation(_input).Run();
 
-            _simulationStatistics = SimulationStatistics.FromFile("statistics.txt");
+            _simulationStatistics = SimulationStatistics.FromFile(_input.OutputName + "/statistics.txt");
 
             _factor = 1.0 - Optics.Specular(
                             _input.TissueInput.Regions[0].RegionOP.N,

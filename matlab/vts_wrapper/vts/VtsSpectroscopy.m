@@ -50,7 +50,7 @@ classdef VtsSpectroscopy
             end
 
             % create tissue
-            tissue = Vts.SpectralMapping.Tissue(chromophoresNET, scattererNET, '');
+            tissue = Vts.SpectralMapping.Tissue(chromophoresNET, scattererNET, '', 1.4);
             
             nwv = length(wavelengths);
             op = zeros([nwv 4]);

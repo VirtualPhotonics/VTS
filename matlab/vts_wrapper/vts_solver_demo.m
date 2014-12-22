@@ -199,6 +199,24 @@ xlabel('\rho [mm]')
 ylabel('z [mm]')
 set(f,'Name','PHD of Rho and z');
 
+%% Example PHDOfRhoAndZTwoLayer
+% Evaluate Photon Hitting Density in cylindrical coordinates
+% using one set of optical properties and a distributed gaussian source SDA
+% solver type.
+
+op = [[0.01 1 0.8 1.4];[0.1 1 0.8 1.4]];
+rhos = linspace(0.1,19.9,100); % s-d separation, in mm
+zs = linspace(0.1,19.9,100); % z range in mm
+
+test = VtsSolvers.PHDOfRhoAndZTwoLayer(op, rhos, zs, 10, 5);
+
+f = figure; imagesc(rhos, zs, log(test));
+axis image;
+title('Photon Hitting Density of \rho and z'); 
+xlabel('\rho [mm]')
+ylabel('z [mm]')
+set(f,'Name','PHD of Rho and z');
+
 %% Example AbsorbedEnergyOfRhoAndZ
 % Evaluate Absorbed Energy of rho and z using one set of optical properties 
 % and a point source SDA solver type.

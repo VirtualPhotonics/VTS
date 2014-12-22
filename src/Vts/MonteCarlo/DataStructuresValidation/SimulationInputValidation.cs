@@ -3,6 +3,7 @@ using System.Linq;
 using Vts.Common;
 using Vts.MonteCarlo.DataStructuresValidation;
 using Vts.MonteCarlo.Extensions;
+using Vts.MonteCarlo.Sources;
 using Vts.MonteCarlo.Tissues;
 
 namespace Vts.MonteCarlo
@@ -134,7 +135,7 @@ namespace Vts.MonteCarlo
             {
                 foreach (var detectorInput in input.DetectorInputs)
                 {
-                    var ellipsoid = (EllipsoidRegion)((SingleEllipsoidTissueInput)input.TissueInput).
+                    var ellipsoid = (EllipsoidTissueRegion)((SingleEllipsoidTissueInput)input.TissueInput).
                         EllipsoidRegion;
                     if (detectorInput.TallyDetails.IsCylindricalTally&&
                         (ellipsoid.Center.X != 0.0) && (ellipsoid.Center.Y != 0.0))

@@ -44,7 +44,8 @@
     <Reference Include="System.Numerics" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ProgramTest.cs" />
+    <Compile Include="flatsourceprofile.cs" />
+    <Compile Include="ProgramTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Vts.Common;
 using Vts.MonteCarlo.Detectors;
+using Vts.MonteCarlo.Sources;
 using Vts.MonteCarlo.Tissues;
 
 namespace Vts.MonteCarlo.GenerateReferenceData
@@ -28,21 +29,21 @@ namespace Vts.MonteCarlo.GenerateReferenceData
                         new Direction(0.0, 0.0, 1.0),
                         0),
                     new MultiLayerTissueInput(
-                        new LayerRegion[]
+                        new LayerTissueRegion[]
                     { 
-                        new LayerRegion(
+                        new LayerTissueRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
                             new OpticalProperties(0.0, 1e-10, 0.0, 1.0)
                             ),
-                        //new LayerRegion(
+                        //new LayerTissueRegion(
                         //    new DoubleRange(0.0, 0.1),
                         //    new OpticalProperties(0.033, 1.0, 0.8, 1.38)
                         //    ),
-                        new LayerRegion(
+                        new LayerTissueRegion(
                             new DoubleRange(0.0, 100.0),
                             new OpticalProperties(0.0, 1.0, 0.8, 1.38)
                             ),
-                        new LayerRegion(
+                        new LayerTissueRegion(
                             new DoubleRange(100.0, double.PositiveInfinity),
                             new OpticalProperties(0, 1e-10, 0.0, 1.0)
                             )
