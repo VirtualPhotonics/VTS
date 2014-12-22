@@ -577,7 +577,7 @@ namespace Vts.Gui.Silverlight.ViewModel
         
         private object GetMeasuredOpticalProperties()
         {
-            if (SolutionDomainTypeOptionVM.IndependentAxisType == IndependentVariableAxis.Wavelength &&
+            if (SolutionDomainTypeOptionVM.IndependentVariableAxisOptionVM.SelectedValue == IndependentVariableAxis.Wavelength &&
                 UseSpectralPanelData &&
                 SolverDemoViewModel.Current != null &&
                 SolverDemoViewModel.Current.SpectralMappingVM != null)
@@ -727,20 +727,23 @@ namespace Vts.Gui.Silverlight.ViewModel
             if (isConstant)
             {
                 var positionIndex = SolutionDomainTypeOptionVM.IndependentVariableAxisOptionVM.UnSelectedValues.IndexOf(axis);
-                switch (positionIndex)
-                {
-                    case 0:
-                    default:
-                        return new[] { SolutionDomainTypeOptionVM.ConstantAxisValue };
-                    case 1:
-                        return new[] { SolutionDomainTypeOptionVM.ConstantAxisTwoValue };
-                    //case 2:
-                    //    return new[] { SolutionDomainTypeOptionVM.ConstantAxisThreeValue };
-                }
+                //switch (positionIndex)
+                //{
+                //    case 0:
+                //    default:
+                //        return new[] { SolutionDomainTypeOptionVM.c };
+                //    case 1:
+                //        return new[] { SolutionDomainTypeOptionVM.ConstantAxisTwoValue };
+                //    //case 2:
+                //    //    return new[] { SolutionDomainTypeOptionVM.ConstantAxisThreeValue };
+                //}
+
+                return new[] {SolutionDomainTypeOptionVM.ConstantAxesVMs[positionIndex].AxisValue};
             }
             else
             {
                 var numAxes = SolutionDomainTypeOptionVM.IndependentVariableAxisOptionVM.SelectedValues.Length;
+                // todo: review
                 var positionIndex = SolutionDomainTypeOptionVM.IndependentVariableAxisOptionVM.SelectedValues.IndexOf(axis);
                 switch (numAxes)
                 {

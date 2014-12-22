@@ -42,18 +42,19 @@ namespace Vts.Gui.Silverlight.ViewModel
         public OptionModel<SolutionDomainType> ROfFxAndTimeOption { get; private set; }
         public OptionModel<SolutionDomainType> ROfRhoAndFtOption { get; private set; }
         public OptionModel<SolutionDomainType> ROfFxAndFtOption { get; private set; }
-        
-            }
-        }
 
         public bool EnableMultiAxis
         {
             get { return _enableMultiAxis; }
-            set
+
+            set 
             {
                 _enableMultiAxis = value;
                 OnPropertyChanged("EnableMultiAxis");
-        private void UpdateOptions(SolutionDomainType selectedType)
+            }
+        }
+
+            private void UpdateOptions(SolutionDomainType selectedType)
         {
             switch (selectedType)
             {

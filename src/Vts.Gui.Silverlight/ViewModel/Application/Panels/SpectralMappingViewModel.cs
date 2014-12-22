@@ -304,7 +304,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                     AxisType = axisType,
                     AxisLabel = axisType.GetInternationalizedString(),
                     AxisUnits = axisUnits.GetInternationalizedString(),
-                    AxisRangeVM = WavelengthRangeVM
+                    AxisRangeVM = WavelengthRangeVM,
                 });
 
             Commands.Plot_SetAxesLabels.Execute(axesLabels);

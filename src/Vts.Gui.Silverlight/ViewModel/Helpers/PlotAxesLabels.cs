@@ -13,7 +13,7 @@ namespace Vts.Gui.Silverlight.ViewModel
             DependentAxisName = dependentAxisName;
             DependentAxisUnits = dependentAxisUnits;
             IndependentAxis = independentAxis;
-            ConstantAxes = constantAxes;
+            ConstantAxes = constantAxes ?? new ConstantAxisViewModel[0];
         }
 
         public string DependentAxisUnits { get; set; }
