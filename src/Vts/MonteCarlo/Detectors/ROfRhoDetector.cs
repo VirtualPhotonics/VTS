@@ -4,8 +4,6 @@ using Vts.Common;
 using Vts.IO;
 using Vts.MonteCarlo.Extensions;
 using Vts.MonteCarlo.Helpers;
-using Vts.MonteCarlo.PhotonData;
-using Vts.SpectralMapping;
 
 namespace Vts.MonteCarlo.Detectors
 {
@@ -22,7 +20,8 @@ namespace Vts.MonteCarlo.Detectors
             TallyType = "ROfRho";
             Name = "ROfRho";
             Rho = new DoubleRange(0.0, 10, 101);
-            NA = double.PositiveInfinity; // set default NA completely open regardless of tissue refractive index
+            NA = double.PositiveInfinity; // set default NA completely open regardless of detector region refractive index
+            FinalTissueRegionIndex = 0; // assume detector is in air
 
             // modify base class TallyDetails to take advantage of built-in validation capabilities (error-checking)
             TallyDetails.IsReflectanceTally = true;
@@ -33,6 +32,11 @@ namespace Vts.MonteCarlo.Detectors
         /// detector rho binning
         /// </summary>
         public DoubleRange Rho { get; set; }
+
+        /// <summary>
+        /// Detector region index
+        /// </summary>
+        public int FinalTissueRegionIndex { get; set; }
 
         /// <summary>
         /// detector numerical aperture
@@ -51,7 +55,8 @@ namespace Vts.MonteCarlo.Detectors
 
                 // optional/custom detector-specific properties
                 Rho = this.Rho,
-                NA = this.NA
+                NA = this.NA,
+                FinalTissueRegionIndex = this.FinalTissueRegionIndex
             };
         }
     }
@@ -70,6 +75,10 @@ namespace Vts.MonteCarlo.Detectors
         /// rho binning
         /// </summary>
         public DoubleRange Rho { get; set; }
+        /// <summary>
+        /// Detector region index
+        /// </summary>
+        public int FinalTissueRegionIndex { get; set; }
         /// <summary>
         /// numerical aperture
         /// </summary>
@@ -190,13 +199,21 @@ namespace Vts.MonteCarlo.Detectors
         }
 
         /// <summary>
-        /// Method to determine if photon is within detector
+        /// Method to determine if photon is within detector NA
         /// </summary>
         /// <param name="photon">photon</param>
         public bool IsWithinDetectorAperture(Photon photon)
         {
-            var tissueN = _tissue.Regions[photon.CurrentRegionIndex].RegionOP.N;
-            return photon.DP.IsWithinNA(NA, Direction.AlongPositiveZAxis, tissueN);
+            if (photon.CurrentRegionIndex == FinalTissueRegionIndex)
+            {
+                var detectorRegionN = _tissue.Regions[photon.CurrentRegionIndex].RegionOP.N;
+                return photon.DP.IsWithinNA(NA, Direction.AlongPositiveZAxis, detectorRegionN);
+            }
+            else // determine n of prior tissue region
+            {
+                var detectorRegionN = _tissue.Regions[FinalTissueRegionIndex].RegionOP.N;
+                return photon.History.PreviousDP.IsWithinNA(NA, Direction.AlongPositiveXAxis, detectorRegionN);
+            }
             //return true; // or, possibly test for NA or confined position, etc
             //return (dp.StateFlag.Has(PhotonStateType.PseudoTransmissionDomainTopBoundary));
         }

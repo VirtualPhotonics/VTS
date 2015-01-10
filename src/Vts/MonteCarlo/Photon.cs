@@ -245,10 +245,13 @@ namespace Vts.MonteCarlo
                     }
 
                     CurrentRegionIndex = neighborIndex;
-                    //don't need to update these unless photon not dead upon exiting tissue
-                    //DP.Direction.Ux *= nCurrent / nNext;
-                    //DP.Direction.Uy *= nCurrent / nNext;
-                    //DP.Direction.Uz = uZSnell;
+                    // update to refracted direction
+                    DP.Direction.Ux *= nCurrent / nNext;
+                    DP.Direction.Uy *= nCurrent / nNext;
+                    // cosThetaSnell is always positive when exiting since GetAngleRelativeToBoundaryNormal is so set Uz accordingly
+                    DP.Direction.Uz = (DP.Direction.Uz > 0)
+                        ? DP.Direction.Uz = cosThetaSnell // if already pointed down, use cosThetaSnell
+                        : DP.Direction.Uz = -Math.Abs(cosThetaSnell); // make sure pointed up
                 }
                 else // not on domain boundary, at internal interface or first time enter tissue, pass to next
                 {
