@@ -27,7 +27,7 @@ call "%rootdir%matlab\CreateRelease.bat" %version%
 
 
 rem ********** RUN MATLAB INTEROP AND MONTE CARLO POST-PROCESSING TESTS **********
-# call "%rootdir%RunMatlabUnitTests.bat"
+if exist "%ProgramFiles%\MATLAB" call "%rootdir%RunMatlabUnitTests.bat"
 
 rem ********** BUILD THE SILVERLIGHT VERSION **********
  call "%rootdir%SilverlightBuild.bat"
