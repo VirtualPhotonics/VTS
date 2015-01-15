@@ -21,16 +21,10 @@ namespace Vts.MonteCarlo.Factories
         /// <param name="pft">PhaseFunctionType enum</param>
         /// <param name="russianRouletteWeightThreshold">Russian Roulette weight threshold</param>
         /// <returns>ITissue</returns>
-        public static ITissue GetTissue(ITissueInput ti, AbsorptionWeightingType awt, IDictionary<string, IPhaseFunction> phaseFunctions, double russianRouletteWeightThreshold)
+        public static ITissue GetTissue(ITissueInput ti, AbsorptionWeightingType awt, IDictionary<string, IPhaseFunctionInput> regionPhaseFunctionInputs, double russianRouletteWeightThreshold)
         {
-            ITissue t = ti.CreateTissue(awt, pft, russianRouletteWeightThreshold);
+            ITissue t = ti.CreateTissue(awt, regionPhaseFunctionInputs, russianRouletteWeightThreshold);
 
-                t = new MultiLayerTissue(
-                    multiLayerTissueInput.Regions, 
-                    awt, 
-                    phaseFunctions,
-                    russianRouletteWeightThreshold);
-                    phaseFunctions,
             if (t == null)
                 throw new ArgumentException(
                     "Problem generating ITissue instance. Check that TissueInput, ti, has a matching ITissue definition.");

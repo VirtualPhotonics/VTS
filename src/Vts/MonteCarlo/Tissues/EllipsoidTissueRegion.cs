@@ -55,7 +55,7 @@ namespace Vts.MonteCarlo.Tissues
         /// <summary>
         /// default constructor defines sphere with radius 0.5mm and center (0,0,1)
         /// </summary>
-        public EllipsoidTissueRegion() : this (new Position(0, 0, 1), 0.5, 0.5, 0.5,
+        public EllipsoidTissueRegion() : this (
             new Position(0, 0, 1), 0.5, 0.5, 0.5,
             new OpticalProperties(0.05, 1.0, 0.8, 1.4), 
             "HenyeyGreensteinKey1") {}

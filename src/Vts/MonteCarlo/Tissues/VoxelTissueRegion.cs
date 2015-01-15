@@ -25,8 +25,6 @@ namespace Vts.MonteCarlo.Tissues
         /// <param name="op">optical properties of voxel</param>
         /// <param name="phaseFunctionInput">phase function input for layer</param>
         public VoxelTissueRegion(DoubleRange x, DoubleRange y, DoubleRange z, OpticalProperties op,
-            DoubleRange x, DoubleRange y, DoubleRange z,
-            OpticalProperties op,
             string phaseFunctionKey)
         {
             TissueRegionType = "Voxel";

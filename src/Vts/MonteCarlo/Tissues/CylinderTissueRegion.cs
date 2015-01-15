@@ -20,7 +20,7 @@ namespace Vts.MonteCarlo.Tissues
         /// <param name="radius">radius in x-y plane</param>
         /// <param name="height">height along z axis</param>
         /// <param name="op">optical properties of cylinder</param>
-        public CylinderRegion(Position center, double radius, double height, OpticalProperties op, string phaseFunctionKey) 
+        public CylinderTissueRegion(Position center, double radius, double height, OpticalProperties op, string phaseFunctionKey) 
         {
             TissueRegionType = "Cylinder";
             Center = center;
@@ -40,6 +40,11 @@ namespace Vts.MonteCarlo.Tissues
             5, 
             new OpticalProperties(0.01, 1.0, 0.8, 1.4),
             "HenyeyGreensteinKey1") { }
+
+        /// <summary>
+        ///  tissue region identifier
+        /// </summary>
+        public string TissueRegionType { get; set; }
 
         /// <summary>
         /// center of cyliner

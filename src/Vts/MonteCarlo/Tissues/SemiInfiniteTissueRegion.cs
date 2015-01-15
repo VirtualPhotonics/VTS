@@ -16,7 +16,7 @@ namespace Vts.MonteCarlo.Tissues
         /// constructor for SemiInfiniteTissueRegion
         /// </summary>
         /// <param name="op">optical properties of layer</param>
-        public SemiInfiniteTissueRegion(OpticalProperties op)
+        public SemiInfiniteTissueRegion(OpticalProperties op, string phaseFunctionKey)
         {
             RegionOP = op;
             PhaseFunctionKey = phaseFunctionKey;

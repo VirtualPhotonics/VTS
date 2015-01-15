@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Vts.Common;
+using Vts.MonteCarlo;
 
 namespace Vts.MonteCarlo.Tissues
 {
@@ -17,14 +18,10 @@ namespace Vts.MonteCarlo.Tissues
         /// </summary>
         /// <param name="regions">list of tissue regions comprising tissue</param>
         public MultiLayerTissueInput(ITissueRegion[] regions)
-            IList<ITissueRegion> regions,
-            AbsorptionWeightingType absorptionWeightingType,
-            IDictionary<string, IPhaseFunction> phaseFunctions, double russianRouletteWeightThreshold)
-          
-            : base(regions, absorptionWeightingType, phaseFunctions, russianRouletteWeightThreshold)
         {
             TissueType = "MultiLayer";
             _regions = regions;
+            RegionPhaseFunctionInputs = new Dictionary<string, IPhaseFunctionInput>();
         }
 
         /// <summary>
@@ -36,21 +33,31 @@ namespace Vts.MonteCarlo.Tissues
                 { 
                     new LayerTissueRegion(
                         new DoubleRange(double.NegativeInfinity, 0.0),
-                        new OpticalProperties( 0.0, 1e-10, 1.0, 1.0)),
+                        new OpticalProperties( 0.0, 1e-10, 1.0, 1.0),
+                        "HenyeyGreensteinKey1"),
                     new LayerTissueRegion(
                         new DoubleRange(0.0, 100.0),
-                        new OpticalProperties(0.0, 1.0, 0.8, 1.4)),
+                        new OpticalProperties(0.0, 1.0, 0.8, 1.4),
+                        "HenyeyGreensteinKey2"),
                     new LayerTissueRegion(
                         new DoubleRange(100.0, double.PositiveInfinity),
-                        new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
+                        new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
+                        "HenyeyGreensteinKey3"),
                 })
         {
+            RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey1", new HenyeyGreensteinPhaseFunctionInput());
+            RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey2", new HenyeyGreensteinPhaseFunctionInput());
+            RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey3", new HenyeyGreensteinPhaseFunctionInput());
         }
 
         /// <summary>
         /// list of tissue regions comprising tissue
         /// </summary>
         public ITissueRegion[] Regions { get { return _regions; } set { _regions = value; } }
+        /// <summary>
+        /// dictionary of region phase functions
+        /// </summary>
+        public IDictionary<string, IPhaseFunctionInput> RegionPhaseFunctionInputs { get; set; }
 
         /// <summary>
         ///// Required factory method to create the corresponding 
@@ -60,11 +67,11 @@ namespace Vts.MonteCarlo.Tissues
         /// <param name="pft">Phase Function Type</param>
         /// <param name="russianRouletteWeightThreshold">Russian Roulette Weight Threshold</param>
         /// <returns></returns>
-        public ITissue CreateTissue(AbsorptionWeightingType awt, PhaseFunctionType pft, double russianRouletteWeightThreshold)
+        public ITissue CreateTissue(AbsorptionWeightingType awt, IDictionary<string, IPhaseFunctionInput> regionPhaseFunctionInputs, double russianRouletteWeightThreshold)
         {
-            var t = new MultiLayerTissue(Regions);
+            var t = new MultiLayerTissue(Regions, regionPhaseFunctionInputs);
 
-            t.Initialize(awt, pft, russianRouletteWeightThreshold);
+            t.Initialize(awt, regionPhaseFunctionInputs, russianRouletteWeightThreshold);
 
             return t;
         }
@@ -85,10 +92,9 @@ namespace Vts.MonteCarlo.Tissues
         /// <param name="regions">list of tissue regions comprising tissue</param>
         /// <remarks>air above and below tissue needs to be specified for a slab geometry</remarks>
         public MultiLayerTissue(
-            IList<ITissueRegion> regions),
-            IDictionary<string, IPhaseFunction> phaseFunctions,
-            )
-                        : base(regions)
+            IList<ITissueRegion> regions,
+            IDictionary<string, IPhaseFunctionInput> phaseFunctions)
+            : base(regions)
 
         {
             _layerRegions = regions.Select(region => (LayerTissueRegion) region).ToArray();

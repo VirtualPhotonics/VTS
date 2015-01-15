@@ -32,7 +32,7 @@ namespace Vts.MonteCarlo.Tissues
         /// </summary>
         /// <param name="zRange">specifies extent of layer</param>
         /// <param name="op">optical properties of layer</param>
-        public LayerRegion(DoubleRange zRange, OpticalProperties op)
+        public LayerTissueRegion(DoubleRange zRange, OpticalProperties op)
             : this(zRange, op, "HenyeyGreensteinKey1")
         {
         }

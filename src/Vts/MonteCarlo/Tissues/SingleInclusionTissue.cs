@@ -39,23 +39,35 @@ namespace Vts.MonteCarlo.Tissues
                     0.5,
                     0.5,
                     0.5,
-                    new OpticalProperties(0.05, 1.0, 0.8, 1.4)
+                    new OpticalProperties(0.05, 1.0, 0.8, 1.4),
+                    "HenyeyGreensteinKey1"
                 ),
                 new ITissueRegion[] 
                 { 
                     new LayerTissueRegion(
                         new DoubleRange(double.NegativeInfinity, 0.0),
-                        new OpticalProperties( 0.0, 1e-10, 1.0, 1.0)),
+                        new OpticalProperties( 0.0, 1e-10, 1.0, 1.0),
+                        "HenyeyGreensteinKey2"),
                     new LayerTissueRegion(
                         new DoubleRange(0.0, 100.0),
-                        new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
+                        new OpticalProperties(0.01, 1.0, 0.8, 1.4),
+                        "HenyeyGreensteinKey3"),
                     new LayerTissueRegion(
                         new DoubleRange(100.0, double.PositiveInfinity),
-                        new OpticalProperties( 0.0, 1e-10, 1.0, 1.0))
+                        new OpticalProperties( 0.0, 1e-10, 1.0, 1.0),
+                        "HenyeyGreensteinKey4")
                 })
         {
+            RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey1", new HenyeyGreensteinPhaseFunctionInput());
+            RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey2", new HenyeyGreensteinPhaseFunctionInput());
+            RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey3", new HenyeyGreensteinPhaseFunctionInput());
+            RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey4", new HenyeyGreensteinPhaseFunctionInput());
         }
 
+        /// <summary>
+        /// Dictionary that contains all the phase function inputs
+        /// </summary>
+        public IDictionary<string, IPhaseFunctionInput> RegionPhaseFunctionInputs { get; set; }
         /// <summary>
         /// regions of tissue (layers and ellipsoid)
         /// </summary>
@@ -78,7 +90,7 @@ namespace Vts.MonteCarlo.Tissues
         /// <param name="pft">Phase Function Type</param>
         /// <param name="russianRouletteWeightThreshold">Russian Roulette Weight Threshold</param>
         /// <returns></returns>
-        public ITissue CreateTissue(AbsorptionWeightingType awt, PhaseFunctionType pft, double russianRouletteWeightThreshold)
+        public ITissue CreateTissue(AbsorptionWeightingType awt, IDictionary<string, IPhaseFunctionInput> regionPhaseFunctionInputs, double russianRouletteWeightThreshold)
         {
             var t = new SingleInclusionTissue(EllipsoidRegion, LayerRegions);
 
@@ -143,7 +155,10 @@ namespace Vts.MonteCarlo.Tissues
                 })
         {
         }
-
+        /// <summary>
+        /// dictionary of region phase functions
+        /// </summary>
+        public IDictionary<string, IPhaseFunctionInput> RegionPhaseFunctionInputs { get; set; }
         /// <summary>
         /// regions of tissue (layers and ellipsoid)
         /// </summary>
@@ -166,7 +181,7 @@ namespace Vts.MonteCarlo.Tissues
         /// <param name="pft">Phase Function Type</param>
         /// <param name="russianRouletteWeightThreshold">Russian Roulette Weight Threshold</param>
         /// <returns></returns>
-        public ITissue CreateTissue(AbsorptionWeightingType awt, PhaseFunctionType pft, double russianRouletteWeightThreshold)
+        public ITissue CreateTissue(AbsorptionWeightingType awt, IDictionary<string, IPhaseFunctionInput> regionPhaseFunctionInputs, double russianRouletteWeightThreshold)
         {
             throw new NotImplementedException();
 
@@ -195,20 +210,9 @@ namespace Vts.MonteCarlo.Tissues
         /// <param name="layerRegions">The tissue layers</param>
         public SingleInclusionTissue(
             ITissueRegion inclusionRegion,
-            IList<ITissueRegion> layerRegions,
-            AbsorptionWeightingType absorptionWeightingType,
+            IList<ITissueRegion> layerRegions,            
+            IDictionary<string, IPhaseFunctionInput> regionPhaseFunctionsInputs)
             : base(layerRegions)
-            IDictionary<string, IPhaseFunction> phaseFunctions, 
-            IDictionary<string, IPhaseFunction> phaseFunctions,
-            double russianRouletteWeightThreshold) 
-            : base(layerRegions, 
-                   absorptionWeightingType,
-                   phaseFunctions,
-                   russianRouletteWeightThreshold)
-  
-            
-           
-
         {
             // overwrite the Regions property in the TissueBase class (will be called last in the most derived class)
             Regions = layerRegions.Concat(inclusionRegion).ToArray();
@@ -217,6 +221,8 @@ namespace Vts.MonteCarlo.Tissues
             _inclusionRegionIndex = layerRegions.Count; // index is, by convention, after the layer region indices
             _layerRegionIndexOfInclusion = Enumerable.Range(0, layerRegions.Count)
                 .FirstOrDefault(i => ((LayerTissueRegion)layerRegions[i]).ContainsPosition(_inclusionRegion.Center));
+
+            RegionPhaseFunctionsInputs = regionPhaseFunctionsInputs;
         }
 
         /// <summary>
@@ -225,10 +231,8 @@ namespace Vts.MonteCarlo.Tissues
         public SingleInclusionTissue()
             : this(
                 new EllipsoidTissueRegion(),
-                new MultiLayerTissueInput().Regions) { }
-                null,
-                0.0) 
-        {
+                new MultiLayerTissueInput().Regions) 
+        { 
             RegionPhaseFunctions = new Dictionary<string, IPhaseFunction>();
         }
         /// <summary>
