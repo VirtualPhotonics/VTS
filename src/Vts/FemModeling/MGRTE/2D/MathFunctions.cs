@@ -584,18 +584,18 @@ namespace Vts.FemModeling.MGRTE._2D
 
                     for (k = 1; k < nLayers - 1; k++)
                     {
-                        if ((z >= ((LayerRegion)tissueInput.LayerRegions[k]).ZRange.Start) &&
-                           (z <= ((LayerRegion)tissueInput.LayerRegions[k]).ZRange.Stop))
+                        if ((z >= ((LayerTissueRegion)tissueInput.LayerRegions[k]).ZRange.Start) &&
+                           (z <= ((LayerTissueRegion)tissueInput.LayerRegions[k]).ZRange.Stop))
                             smesh[i].Region[j] = k - 1;
 
                     }
 
                     for (k = 0; k < nInclusions; k++)
                     {
-                        double dx = ((EllipsoidRegion)tissueInput.EllipsoidRegions[k]).Dx;
-                        double dz = ((EllipsoidRegion)tissueInput.EllipsoidRegions[k]).Dz;
+                        double dx = ((EllipsoidTissueRegion)tissueInput.EllipsoidRegions[k]).Dx;
+                        double dz = ((EllipsoidTissueRegion)tissueInput.EllipsoidRegions[k]).Dz;
 
-                        Position center = ((EllipsoidRegion)tissueInput.EllipsoidRegions[k]).Center;
+                        Position center = ((EllipsoidTissueRegion)tissueInput.EllipsoidRegions[k]).Center;
 
                         double func = ((x - center.X) * (x - center.X) / (dx * dx)) + ((z - center.Z) * (z - center.Z) / (dz * dz));
                         if (func <= 1)

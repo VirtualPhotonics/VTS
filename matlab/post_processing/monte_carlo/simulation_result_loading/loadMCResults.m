@@ -331,11 +331,19 @@ for di = 1:numDetectors
             ReflectedMTOfRhoAndSubregionHist.Name = detector.Name;
             tempRho = detector.Rho;
             tempMTBins = detector.MTBins;
-            if (postProcessorResults)        
-                tempSubregionIndices = (1:1:length(databaseInputJson.TissueInput.Regions));
+            if (postProcessorResults)
+                if (strcmp(json.TissueInput.TissueType, 'MultiLayer')) 
+                    tempSubregionIndices = (1:1:length(databaseInputJson.TissueInput.Regions));
+                elseif (strcmp(json.TissueInput.TissueType, 'SingleEllipsoid'))
+                    tempSubregionIndices = (1:1:length(databaseInputJson.TissueInput.LayerRegions)+length(databaseInputJson.TissueInput.EllipsoidRegion));                            
+                end
                 N = databaseInputJson.N;
             else   
-                tempSubregionIndices = (1:1:length(json.TissueInput.Regions));
+                if (strcmp(json.TissueInput.TissueType, 'MultiLayer'))           
+                    tempSubregionIndices = (1:1:length(json.TissueInput.Regions)); 
+                elseif (strcmp(json.TissueInput.TissueType, 'SingleEllipsoid'))
+                    tempSubregionIndices = (1:1:length(json.TissueInput.LayerRegions)+length(json.TissueInput.EllipsoidRegion));                            
+                end
                 N = json.N;
             end
             ReflectedMTOfRhoAndSubregionHist.Rho = linspace((tempRho.Start), (tempRho.Stop), (tempRho.Count));                     

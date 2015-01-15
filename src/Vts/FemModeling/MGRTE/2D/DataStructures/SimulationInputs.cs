@@ -1,5 +1,6 @@
 ﻿using Vts.FemModeling.MGRTE._2D.SourceInputs;
 using Vts.MonteCarlo;
+using Vts.MonteCarlo.Tissues;
 
 namespace Vts.FemModeling.MGRTE._2D
 {

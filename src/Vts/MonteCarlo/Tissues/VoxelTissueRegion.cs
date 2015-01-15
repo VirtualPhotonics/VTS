@@ -8,7 +8,7 @@ namespace Vts.MonteCarlo.Tissues
     /// Implements ITissueRegion.  Defines Cartesian coordinate voxel with
     /// x,y,z ranges.
     /// </summary>
-    public class VoxelRegion : ITissueRegion
+    public class VoxelTissueRegion : ITissueRegion
     {
         /// <summary>
         /// constructor for voxel region
@@ -18,10 +18,10 @@ namespace Vts.MonteCarlo.Tissues
         /// <param name="z">z range of voxel</param>
         /// <param name="op">optical properties of voxel</param>
         /// <param name="awt">absorption weighting type of voxel</param>
-        public VoxelRegion(DoubleRange x, DoubleRange y, DoubleRange z, OpticalProperties op,
+        public VoxelTissueRegion(DoubleRange x, DoubleRange y, DoubleRange z, OpticalProperties op,
                            AbsorptionWeightingType awt)
         {
-            TissueRegionType = TissueRegionType.Voxel;
+            TissueRegionType = "Voxel";
             X = x;
             Y = y;
             Z = z;
@@ -31,7 +31,7 @@ namespace Vts.MonteCarlo.Tissues
         /// <summary>
         /// default constructor
         /// </summary>
-        public VoxelRegion() : this(
+        public VoxelTissueRegion() : this(
             new DoubleRange(-10.0, 10),
             new DoubleRange(-10.0, 10),
             new DoubleRange(0.0, 10),
@@ -42,7 +42,7 @@ namespace Vts.MonteCarlo.Tissues
         /// <summary>
         /// tissue region identifier
         /// </summary>
-        public TissueRegionType TissueRegionType { get; set; }
+        public string TissueRegionType { get; set; }
 
         /// <summary>
         /// x range of voxel

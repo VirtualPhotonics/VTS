@@ -5,6 +5,7 @@ using Vts.Common;
 using Vts.MonteCarlo;
 using Vts.MonteCarlo.Detectors;
 using Vts.MonteCarlo.Helpers;
+using Vts.MonteCarlo.Sources;
 using Vts.MonteCarlo.Tissues;
 
 namespace Vts.Test.MonteCarlo.BidirectionalScattering
@@ -52,13 +53,13 @@ namespace Vts.Test.MonteCarlo.BidirectionalScattering
                 new MultiLayerTissueInput(
                     new ITissueRegion[]
                     { 
-                        new LayerRegion(
+                        new LayerTissueRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
                             new OpticalProperties(0.0, 1e-10, 0.0, 1.0)),
-                        new LayerRegion(
+                        new LayerTissueRegion(
                             new DoubleRange(0.0, _slabThickness),
                             new OpticalProperties(_mua, _musp, _g, 1.0)), // index matched slab
-                        new LayerRegion(
+                        new LayerTissueRegion(
                             new DoubleRange(_slabThickness, double.PositiveInfinity),
                             new OpticalProperties(0.0, 1e-10, 0.0, 1.0))
                     }

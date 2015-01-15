@@ -12,16 +12,16 @@ namespace Vts.Test.MonteCarlo
         [Test]
         public void validate_deserialized_class_is_correct()
         {
-            var i = new SingleEllipsoidTissueInput(new EllipsoidRegion(new Position(0, 0, 1), 0.5, 0.5, 0.5,
+            var i = new SingleEllipsoidTissueInput(new EllipsoidTissueRegion(new Position(0, 0, 1), 0.5, 0.5, 0.5,
             new OpticalProperties(0.05, 1.0, 0.8, 1.4)), new ITissueRegion[]
                     { 
-                        new LayerRegion(
+                        new LayerTissueRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
-                        new LayerRegion(
+                        new LayerTissueRegion(
                             new DoubleRange(0.0, 100.0),
                             new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
-                        new LayerRegion(
+                        new LayerTissueRegion(
                             new DoubleRange(100.0, double.PositiveInfinity),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
                     }
@@ -35,16 +35,16 @@ namespace Vts.Test.MonteCarlo
         [Test]
         public void validate_deserialized_class_is_correct_when_using_FileIO()
         {
-            var i = new SingleEllipsoidTissueInput(new EllipsoidRegion(new Position(0, 0, 1), 0.5, 0.5, 0.5,
+            var i = new SingleEllipsoidTissueInput(new EllipsoidTissueRegion(new Position(0, 0, 1), 0.5, 0.5, 0.5,
             new OpticalProperties(0.05, 1.0, 0.8, 1.4)), new ITissueRegion[]
                     { 
-                        new LayerRegion(
+                        new LayerTissueRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
-                        new LayerRegion(
+                        new LayerTissueRegion(
                             new DoubleRange(0.0, 100.0),
                             new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
-                        new LayerRegion(
+                        new LayerTissueRegion(
                             new DoubleRange(100.0, double.PositiveInfinity),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
                     }
