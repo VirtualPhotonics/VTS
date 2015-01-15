@@ -261,8 +261,8 @@
     <Compile Include="..\Vts.Test\MonteCarlo\Detectors\SpecularLayerDetectorTests.cs">
       <Link>MonteCarlo\Detectors\SpecularLayerDetectorTests.cs</Link>
     </Compile>
-    <Compile Include="..\Vts.Test\MonteCarlo\Factories\DetectorProviderTests.cs">
-      <Link>MonteCarlo\Factories\DetectorProviderTests.cs</Link>
+    <Compile Include="..\Vts.Test\MonteCarlo\Factories\DetectorFactoryTests.cs">
+      <Link>MonteCarlo\Factories\DetectorFactoryTests.cs</Link>
     </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\Helpers\SourceToolboxTests.cs">
       <Link>MonteCarlo\Helpers\SourceToolboxTests.cs</Link>

@@ -58,7 +58,7 @@ namespace Vts.MonteCarlo.Extensions
                     var multiLayerTissueInput = result.TissueInput as MultiLayerTissueInput;
                     if (multiLayerTissueInput != null && regionIndex >= 0 && multiLayerTissueInput.Regions.Count() > regionIndex)
                     {
-                        var layerRegion = (LayerRegion)multiLayerTissueInput.Regions.Skip(regionIndex).First();
+                        var layerRegion = (LayerTissueRegion)multiLayerTissueInput.Regions.Skip(regionIndex).First();
 
                         // keep a separate copy of the range before we modify it
                         var previousRange = layerRegion.ZRange.Clone();
@@ -68,7 +68,7 @@ namespace Vts.MonteCarlo.Extensions
 
                         // then, update the rest of the following layers with an adjusted thickness
                         var changeInThickness = layerRegion.ZRange.Delta - previousRange.Delta;
-                        foreach (var region in multiLayerTissueInput.Regions.Skip(regionIndex + 1).Select(r => (LayerRegion)r))
+                        foreach (var region in multiLayerTissueInput.Regions.Skip(regionIndex + 1).Select(r => (LayerTissueRegion)r))
                         {
 
                             region.ZRange = new DoubleRange(
@@ -98,29 +98,29 @@ namespace Vts.MonteCarlo.Extensions
                     dynamic sourceInput = result.SourceInput;
                     switch (result.SourceInput.SourceType)
                     {
-                        case SourceType.IsotropicPoint:
-                        case SourceType.DirectionalPoint:
-                        case SourceType.CustomPoint:
+                        case "IsotropicPoint":
+                        case "DirectionalPoint":
+                        case "CustomPoint":
                             sourcePosition = (Position)sourceInput.PointLocation;
                             break;
-                        case SourceType.IsotropicLine:
-                        case SourceType.DirectionalLine:
-                        case SourceType.CustomLine:
-                        case SourceType.DirectionalCircular:
-                        case SourceType.CustomCircular:
-                        case SourceType.DirectionalElliptical:
-                        case SourceType.CustomElliptical:
-                        case SourceType.DirectionalRectangular:
-                        case SourceType.CustomRectangular:
-                        case SourceType.LambertianSurfaceEmittingSpherical:
-                        case SourceType.CustomSurfaceEmittingSpherical:
-                        case SourceType.LambertianSurfaceEmittingCubiodal:
-                        case SourceType.LambertianSurfaceEmittingTubular:
-                        case SourceType.LambertianSurfaceEmittingCylindricalFiber:
-                        case SourceType.IsotropicVolumetricCuboidal:
-                        case SourceType.CustomVolumetricCubiodal:
-                        case SourceType.IsotropicVolumetricEllipsoidal:
-                        case SourceType.CustomVolumetricEllipsoidal:
+                        case "IsotropicLine":
+                        case "DirectionalLine":
+                        case "CustomLine":
+                        case "DirectionalCircular":
+                        case "CustomCircular":
+                        case "DirectionalElliptical":
+                        case "CustomElliptical":
+                        case "DirectionalRectangular":
+                        case "CustomRectangular":
+                        case "LambertianSurfaceEmittingSpherical":
+                        case "CustomSurfaceEmittingSpherical":
+                        case "LambertianSurfaceEmittingCubiodal":
+                        case "LambertianSurfaceEmittingTubular":
+                        case "LambertianSurfaceEmittingCylindricalFiber":
+                        case "IsotropicVolumetricCuboidal":
+                        case "CustomVolumetricCubiodal":
+                        case "IsotropicVolumetricEllipsoidal":
+                        case "CustomVolumetricEllipsoidal":
                         default:
                             sourcePosition = (Position)sourceInput.TranslationFromOrigin;
                             break;
@@ -147,10 +147,10 @@ namespace Vts.MonteCarlo.Extensions
                     dynamic inclusionRegion = null;
                     switch (result.TissueInput.TissueType)
                     {
-                        case TissueType.SingleEllipsoid:
+                        case "SingleEllipsoid":
                             inclusionRegion = ((SingleEllipsoidTissueInput)result.TissueInput).EllipsoidRegion;
                             //var singleEllipsoidTissueInput = (SingleEllipsoidTissueInput) result.TissueInput;
-                            //inclusionPosition = ((EllipsoidRegion)singleEllipsoidTissueInput.EllipsoidRegion).Center;
+                            //inclusionPosition = ((EllipsoidTissueRegion)singleEllipsoidTissueInput.EllipsoidTissueRegion).Center;
                             break;
                         default:
                             throw new ArgumentOutOfRangeException();
@@ -163,17 +163,17 @@ namespace Vts.MonteCarlo.Extensions
                     dynamic tissueInputWithRadius = result.TissueInput;
                     switch (result.TissueInput.TissueType)
                     {
-                        case TissueType.SingleEllipsoid:
+                        case "SingleEllipsoid":
                             switch (parameterString)
                             {
                                 case "inclusion_radius_x":
-                                    ((EllipsoidRegion)tissueInputWithRadius.EllipsoidRegion).Dx = value;
+                                    ((EllipsoidTissueRegion)tissueInputWithRadius.EllipsoidRegion).Dx = value;
                                     break;
                                 case "inclusion_radius_y":
-                                    ((EllipsoidRegion)tissueInputWithRadius.EllipsoidRegion).Dy = value;
+                                    ((EllipsoidTissueRegion)tissueInputWithRadius.EllipsoidRegion).Dy = value;
                                     break;
                                 case "inclusion_radius_z":
-                                    ((EllipsoidRegion)tissueInputWithRadius.EllipsoidRegion).Dz = value;
+                                    ((EllipsoidTissueRegion)tissueInputWithRadius.EllipsoidRegion).Dz = value;
                                     break;
                             }
                             break;

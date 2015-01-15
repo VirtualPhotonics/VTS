@@ -84,7 +84,7 @@ namespace Vts.FemModeling.MGRTE._2D
 
             double depth = 0.0;
             for (i = 1; i < tissueInput.LayerRegions.Length - 1; i++)
-                depth += ((LayerRegion)(tissueInput.LayerRegions[i])).ZRange.Stop - ((LayerRegion)(tissueInput.LayerRegions[i])).ZRange.Start;
+                depth += ((LayerTissueRegion)(tissueInput.LayerRegions[i])).ZRange.Stop - ((LayerTissueRegion)(tissueInput.LayerRegions[i])).ZRange.Start;
 
             input.MeshDataInput.SideLength = depth;
             int totRegions = incRegions + tisRegions ;

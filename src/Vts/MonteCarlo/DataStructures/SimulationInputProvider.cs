@@ -5,6 +5,7 @@ using Vts.MonteCarlo.Detectors;
 using Vts.MonteCarlo.Helpers;
 using Vts.MonteCarlo.PhaseFunctionInputs;
 using Vts.MonteCarlo.PhaseFunctions;
+using Vts.MonteCarlo.Sources;
 using Vts.MonteCarlo.Sources.SourceProfiles;
 using Vts.MonteCarlo.Tissues;
 
@@ -47,15 +48,15 @@ namespace Vts.MonteCarlo
             MultiLayerTissueInput ti = new MultiLayerTissueInput(
                     new ITissueRegion[]
                     { 
-                        new LayerRegion(
+                        new LayerTissueRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
                         "HenyeyGreensteinKey1"),
-                        new LayerRegion(
+                        new LayerTissueRegion(
                             new DoubleRange(0.0, 100.0),
                             new OpticalProperties(0.01, 1.0, 0.8, 1.4),
                         "HenyeyGreensteinKey2"),
-                        new LayerRegion(
+                        new LayerTissueRegion(
                             new DoubleRange(100.0, double.PositiveInfinity),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
                         "HenyeyGreensteinKey3")
@@ -126,15 +127,15 @@ namespace Vts.MonteCarlo
             MultiLayerTissueInput ti = new MultiLayerTissueInput(
                     new ITissueRegion[]
                     { 
-                        new LayerRegion(
+                        new LayerTissueRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
                         "HenyeyGreensteinKey1"),
-                        new LayerRegion(
+                        new LayerTissueRegion(
                             new DoubleRange(0.0, 100.0),
                             new OpticalProperties(0.01, 1.0, 0.8, 1.4),
                         "HenyeyGreensteinKey2"),
-                        new LayerRegion(
+                        new LayerTissueRegion(
                             new DoubleRange(100.0, double.PositiveInfinity),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
                         "HenyeyGreensteinKey3")
@@ -179,15 +180,15 @@ namespace Vts.MonteCarlo
             MultiLayerTissueInput ti = new MultiLayerTissueInput(
                     new ITissueRegion[]
                     { 
-                        new LayerRegion(
+                        new LayerTissueRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
                         "HenyeyGreensteinKey1"),
-                        new LayerRegion(
+                        new LayerTissueRegion(
                             new DoubleRange(0.0, 100.0),
                             new OpticalProperties(0.01, 1.0, 0.8, 1.4),
                         "HenyeyGreensteinKey2"),
-                        new LayerRegion(
+                        new LayerTissueRegion(
                             new DoubleRange(100.0, double.PositiveInfinity),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
                         "HenyeyGreensteinKey3")
@@ -236,19 +237,19 @@ namespace Vts.MonteCarlo
             MultiLayerTissueInput ti = new MultiLayerTissueInput(
                     new ITissueRegion[]
                     { 
-                        new LayerRegion(
+                        new LayerTissueRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
                         "HenyeyGreensteinKey1"),
-                        new LayerRegion(
+                        new LayerTissueRegion(
                             new DoubleRange(0.0, 1.5),
                             new OpticalProperties(0.01, 1.0, 0.8, 1.4),
                         "HenyeyGreensteinKey2"),
-                        new LayerRegion(
+                        new LayerTissueRegion(
                             new DoubleRange(1.5, 100.0),
                             new OpticalProperties(0.01, 1.0, 0.8, 1.4),
                         "HenyeyGreensteinKey3"),
-                        new LayerRegion(
+                        new LayerTissueRegion(
                             new DoubleRange(100.0, double.PositiveInfinity),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
                         "HenyeyGreensteinKey4")
@@ -295,19 +296,19 @@ namespace Vts.MonteCarlo
             MultiLayerTissueInput ti = new MultiLayerTissueInput(
                     new ITissueRegion[]
                     { 
-                        new LayerRegion(
+                        new LayerTissueRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
                         "HenyeyGreensteinKey1"),
-                        new LayerRegion(
+                        new LayerTissueRegion(
                             new DoubleRange(0.0, 1.5),
                             new OpticalProperties(0.01, 1.0, 0.8, 1.4),
                         "HenyeyGreensteinKey2"),
-                        new LayerRegion(
+                        new LayerTissueRegion(
                             new DoubleRange(1.5, 100.0),
                             new OpticalProperties(0.01, 1.0, 0.8, 1.4),
                         "HenyeyGreensteinKey3"),
-                        new LayerRegion(
+                        new LayerTissueRegion(
                             new DoubleRange(100.0, double.PositiveInfinity),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
                         "HenyeyGreensteinKey4")
@@ -416,15 +417,17 @@ namespace Vts.MonteCarlo
             MultiLayerTissueInput ti = new MultiLayerTissueInput(
                     new ITissueRegion[]
                     { 
-                        new LayerRegion(
+                        new LayerTissueRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
                         "HenyeyGreensteinKey1"),
                         new LayerRegion(
+
                             new DoubleRange(0.0, 100.0),
                             new OpticalProperties(0.01, 1.0, 0.8, 1.4),
                         "HenyeyGreensteinKey2"),
                         new LayerRegion(
+
                             new DoubleRange(100.0, double.PositiveInfinity),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
                         "HenyeyGreensteinKey3")
@@ -467,15 +470,15 @@ namespace Vts.MonteCarlo
             MultiLayerTissueInput ti = new MultiLayerTissueInput(
                     new ITissueRegion[]
                     { 
-                        new LayerRegion(
+                        new LayerTissueRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
                         "HenyeyGreensteinKey1"),
-                        new LayerRegion(
+                        new LayerTissueRegion(
                             new DoubleRange(0.0, 100.0),
                             new OpticalProperties(0.01, 1.0, 0.8, 1.4),
                         "HenyeyGreensteinKey2"),
-                        new LayerRegion(
+                        new LayerTissueRegion(
                             new DoubleRange(100.0, double.PositiveInfinity),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
                         "HenyeyGreensteinKey3")
@@ -521,15 +524,15 @@ namespace Vts.MonteCarlo
             MultiLayerTissueInput ti = new MultiLayerTissueInput(
                     new ITissueRegion[]
                     { 
-                        new LayerRegion(
+                        new LayerTissueRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
                         "HenyeyGreensteinKey1"),
-                        new LayerRegion(
+                        new LayerTissueRegion(
                             new DoubleRange(0.0, 100.0),
                             new OpticalProperties(0.01, 1.0, 0.8, 1.4),
                         "HenyeyGreensteinKey2"),
-                        new LayerRegion(
+                        new LayerTissueRegion(
                             new DoubleRange(100.0, double.PositiveInfinity),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
                         "HenyeyGreensteinKey3")
@@ -581,15 +584,15 @@ namespace Vts.MonteCarlo
             var ti = new MultiLayerTissueInput(
                 new ITissueRegion[]
                 {
-                    new LayerRegion(
+                    new LayerTissueRegion(
                         new DoubleRange(double.NegativeInfinity, 0.0),
                         new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
                         "HenyeyGreensteinKey1"),
-                    new LayerRegion(
+                    new LayerTissueRegion(
                         new DoubleRange(0.0, 100.0),
                         new OpticalProperties(0.01, 1.0, 0.8, 1.4),
                         "HenyeyGreensteinKey2"),
-                    new LayerRegion(
+                    new LayerTissueRegion(
                         new DoubleRange(100.0, double.PositiveInfinity),
                         new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
                         "HenyeyGreensteinKey3")
@@ -641,19 +644,19 @@ namespace Vts.MonteCarlo
             MultiLayerTissueInput ti = new MultiLayerTissueInput(
                     new ITissueRegion[]
                     { 
-                        new LayerRegion(
+                        new LayerTissueRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
                         "HenyeyGreensteinKey1"),
-                        new LayerRegion(
+                        new LayerTissueRegion(
                             new DoubleRange(0.0, 1.0), // upper layer 1mm
                             new OpticalProperties(0.01, 1.0, 0.7, 1.33),
                         "HenyeyGreensteinKey2"), // Tyler's data
-                        new LayerRegion(
+                        new LayerTissueRegion(
                             new DoubleRange(1.0, 100.0),
                             new OpticalProperties(0.01, 1.0, 0.7, 1.33),
                         "HenyeyGreensteinKey3"), 
-                        new LayerRegion(
+                        new LayerTissueRegion(
                             new DoubleRange(100.0, double.PositiveInfinity),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
                         "HenyeyGreensteinKey4")
@@ -705,23 +708,23 @@ namespace Vts.MonteCarlo
             var ti = new MultiLayerTissueInput(
                 new ITissueRegion[]
                 {
-                    new LayerRegion(
+                    new LayerTissueRegion(
                         new DoubleRange(double.NegativeInfinity, 0.0),
                         new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
                         "HenyeyGreensteinKey1"),
-                    new LayerRegion(
+                    new LayerTisueRegion(
                         new DoubleRange(0.0, 5.0),
                         new OpticalProperties(0.01, 1.0, 0.9, 1.4),
                         "HenyeyGreensteinKey2"),
-                    new LayerRegion(
+                    new LayerTissueRegion(
                         new DoubleRange(5.0, 10.0),
                         new OpticalProperties(0.01, 1.0, 0.9, 1.4),
                         "HenyeyGreensteinKey3"),
-                    new LayerRegion(
+                    new LayerTissueRegion(
                         new DoubleRange(10.0, 100.0),
                         new OpticalProperties(0.01, 1.0, 0.9, 1.4),
                         "HenyeyGreensteinKey4"),
-                    new LayerRegion(
+                    new LayerTissueRegion(
                         new DoubleRange(100.0, double.PositiveInfinity),
                         new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
                         "HenyeyGreensteinKey5")

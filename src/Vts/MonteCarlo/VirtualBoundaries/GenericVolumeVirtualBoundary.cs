@@ -18,7 +18,7 @@ namespace Vts.MonteCarlo.VirtualBoundaries
         /// <param name="name">string name</param>
         public GenericVolumeVirtualBoundary(ITissue tissue, IDetectorController detectorController, string name)
         {
-            //_zPlanePosition = ((LayerRegion)tissue.Regions[0]).ZRange.Stop;
+            //_zPlanePosition = ((LayerTissueRegion)tissue.Regions[0]).ZRange.Stop;
 
             //WillHitBoundary = dp =>
             //            dp.StateFlag.Has(PhotonStateType.Transmitted) &&

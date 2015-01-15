@@ -5,6 +5,7 @@ using Vts.MonteCarlo;
 using Vts.MonteCarlo.PhaseFunctionInputs;
 using Vts.MonteCarlo.Detectors;
 using Vts.MonteCarlo.Extensions;
+using Vts.MonteCarlo.Sources;
 using Vts.MonteCarlo.Tissues;
 
 namespace Vts.Test.MonteCarlo
@@ -19,22 +20,19 @@ namespace Vts.Test.MonteCarlo
             MultiLayerTissueInput ti = new MultiLayerTissueInput(
                     new ITissueRegion[]
 					{ 
-						new LayerRegion(
+						new LayerTissueRegion(
 							new DoubleRange(double.NegativeInfinity, 0.0),
 							new OpticalProperties(0.0, 1e-10, 0.0, 1.0),
-                        "HenyeyGreensteinKey1"),
-						new LayerRegion(
+                                                        "HenyeyGreensteinKey1"),
 							new DoubleRange(0.0, 1.0),
 							new OpticalProperties(0.01, 1.0, 0.8, 1.4),
-                        "HenyeyGreensteinKey1"),
-						new LayerRegion(
+                                                        "HenyeyGreensteinKey1"),
 							new DoubleRange(1.0, 20.0),
 							new OpticalProperties(0.01, 1.0, 0.8, 1.4),
-                        "HenyeyGreensteinKey1"),
-						new LayerRegion(
+                                                        "HenyeyGreensteinKey1"),
 							new DoubleRange(20.0, double.PositiveInfinity),
 							new OpticalProperties(0.0, 1e-10, 0.0, 1.0),
-                        "HenyeyGreensteinKey1")
+                                                        "HenyeyGreensteinKey1")
 					}
                 );
             if (!ti.RegionPhaseFunctionInputs.ContainsKey("HenyeyGreensteinKey1"))
@@ -110,10 +108,10 @@ namespace Vts.Test.MonteCarlo
 
             var regionsWithChange = inputWithChange.TissueInput.Regions;
 
-            Assert.AreEqual(((LayerRegion)regionsWithChange[1]).ZRange.Start, 0.0);
-            Assert.AreEqual(((LayerRegion)regionsWithChange[1]).ZRange.Stop, 99.0);
-            Assert.AreEqual(((LayerRegion)regionsWithChange[2]).ZRange.Start, 99.0);
-            Assert.AreEqual(((LayerRegion)regionsWithChange[2]).ZRange.Delta, ((LayerRegion)originalRegions[2]).ZRange.Delta);
+            Assert.AreEqual(((LayerTissueRegion)regionsWithChange[1]).ZRange.Start, 0.0);
+            Assert.AreEqual(((LayerTissueRegion)regionsWithChange[1]).ZRange.Stop, 99.0);
+            Assert.AreEqual(((LayerTissueRegion)regionsWithChange[2]).ZRange.Start, 99.0);
+            Assert.AreEqual(((LayerTissueRegion)regionsWithChange[2]).ZRange.Delta, ((LayerTissueRegion)originalRegions[2]).ZRange.Delta);
         }
     }
 }

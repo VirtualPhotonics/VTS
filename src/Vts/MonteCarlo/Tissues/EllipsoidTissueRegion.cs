@@ -8,7 +8,7 @@ namespace Vts.MonteCarlo.Tissues
     /// Implements ITissueRegion.  Defines ellipsiod given Center, and Axis
     /// radii along x,y,z axis.
     /// </summary>
-    public class EllipsoidRegion : ITissueRegion
+    public class EllipsoidTissueRegion : ITissueRegion
     {
         private bool _onBoundary = false;
         /// <summary>
@@ -25,11 +25,10 @@ namespace Vts.MonteCarlo.Tissues
         /// <param name="radiusY">semi-axis along y-axis</param>
         /// <param name="radiusZ">semi-axis along z-axis</param>
         /// <param name="op">OpticalProperties of ellipsoid</param>
-        /// <param name="phaseFunctionInput">phase function input for layer</param>
-        public EllipsoidRegion(Position center, double radiusX, double radiusY, double radiusZ,
+        public EllipsoidTissueRegion(Position center, double radiusX, double radiusY, double radiusZ,
             OpticalProperties op, string phaseFunctionKey)
         {
-            TissueRegionType = TissueRegionType.Ellipsoid;
+            TissueRegionType = "Ellipsoid";
             RegionOP = op;
             Center = center;
             Dx = radiusX;
@@ -56,14 +55,14 @@ namespace Vts.MonteCarlo.Tissues
         /// <summary>
         /// default constructor defines sphere with radius 0.5mm and center (0,0,1)
         /// </summary>
-        public EllipsoidRegion() : this (
+        public EllipsoidTissueRegion() : this (new Position(0, 0, 1), 0.5, 0.5, 0.5,
             new Position(0, 0, 1), 0.5, 0.5, 0.5,
             new OpticalProperties(0.05, 1.0, 0.8, 1.4), 
             "HenyeyGreensteinKey1") {}
         /// <summary>
         /// tissue region identifier
         /// </summary>
-        public TissueRegionType TissueRegionType { get; set; }
+        public string TissueRegionType { get; set; }
 
         /// <summary>
         /// optical properties of ellipsoid

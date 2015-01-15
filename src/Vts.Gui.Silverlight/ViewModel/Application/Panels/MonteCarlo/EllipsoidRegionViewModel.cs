@@ -5,19 +5,19 @@ namespace Vts.Gui.Silverlight.ViewModel
 {
     public class EllipsoidRegionViewModel : BindableObject
     {
-        private EllipsoidRegion _region;
+        private EllipsoidTissueRegion _region;
         private string _name;
         private string _units;
         private OpticalPropertyViewModel _opticalPropertyVM;
 
-        public EllipsoidRegionViewModel(EllipsoidRegion region, string name)
+        public EllipsoidRegionViewModel(EllipsoidTissueRegion region, string name)
         {
             _region = region;
             _name = name ?? "";
             _opticalPropertyVM = new OpticalPropertyViewModel(_region.RegionOP, "mm-1", "", true, true,true, false);
         }
 
-        public EllipsoidRegionViewModel() : this(new EllipsoidRegion(), "")
+        public EllipsoidRegionViewModel() : this(new EllipsoidTissueRegion(), "")
         {
         }
 

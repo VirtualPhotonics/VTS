@@ -42,6 +42,15 @@ namespace Vts.MonteCarlo
         //IList<IPhaseFunction> RegionPhaseFunctions { get; }
         IDictionary<string, IPhaseFunction> RegionPhaseFunctions { get; set; }
         /// <summary>
+        /// Required method to initialiize the corresponding ITissue
+        /// </summary>
+        /// <param name="tissue"></param>
+        void Initialize(
+            AbsorptionWeightingType awt = AbsorptionWeightingType.Discrete,
+            PhaseFunctionType pft = PhaseFunctionType.HenyeyGreenstein,
+            double russianRouletteWeightThreshold = 0.0);
+
+        /// <summary>
         /// Method that gives the current region index within Regions list (above) at the current
         /// position of the photon.
         /// </summary>

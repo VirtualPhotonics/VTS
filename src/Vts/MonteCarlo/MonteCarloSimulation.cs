@@ -74,9 +74,10 @@ namespace Vts.MonteCarlo
             //Dictionary phaseFunctions = input.TissueInput.Regions.Select((region, idx) => PhaseFunctionFactory.GetPhaseFunction(region, _input.TissueInput, _rng)).ToList();
 
             _tissue = TissueFactory.GetTissue(input.TissueInput, input.Options.AbsorptionWeightingType, phaseFunctions, input.Options.RussianRouletteWeightThreshold);
+
             _source = SourceFactory.GetSource(input.SourceInput, _tissue, _rng);
 
-            // instantiate vb (and associated detectors) for each vb group
+               // instantiate vb (and associated detectors) for each vb group
             _virtualBoundaryController = new VirtualBoundaryController(new List<IVirtualBoundary>());
 
             List<VirtualBoundaryType> dbVirtualBoundaries =

@@ -17,26 +17,8 @@ namespace Vts.IO
 
         static KnownTypes()
         {
-            var knownTypesArray = new [] {
-				
-				    // in order of files in folder Vts.MonteCarlo.DataStructures.SourceInput				
-                    typeof (CustomLineSourceInput),
-                    typeof (DirectionalLineSourceInput),
-					typeof (IsotropicLineSourceInput),
-				
-                    typeof (CustomPointSourceInput),
-					typeof (DirectionalPointSourceInput),
-                    typeof (IsotropicPointSourceInput),
-				
-					typeof (LambertianSurfaceEmittingCylindricalFiberSourceInput),
-					typeof (CustomSurfaceEmittingSphericalSourceInput),
-					typeof (LambertianSurfaceEmittingSphericalSourceInput),
-					typeof (LambertianSurfaceEmittingTubularSourceInput),
-				
-					typeof (CustomCircularSourceInput),
-					typeof (DirectionalCircularSourceInput),
-					typeof (CustomEllipticalSourceInput),
-					typeof (DirectionalEllipticalSourceInput),
+            var knownTypesArray = new Type[] {	
+	                // nothing here anymore...not using XML DataContractSerializer
 
                     // phase function types...
                     typeof (LookupTablePhaseFunctionInput),
@@ -44,13 +26,6 @@ namespace Vts.IO
                     typeof (BidirectionalPhaseFunctionInput),
                     typeof (PolarLookupTablePhaseFunctionData),
                     typeof (PolarAndAzimuthalLookupTablePhaseFunctionData),
-				
-					// tissue types
-					typeof (MultiLayerTissueInput),
-					typeof (MultiEllipsoidTissueInput),
-					typeof (SingleEllipsoidTissueInput),
-					typeof (LayerRegion), 
-					typeof (EllipsoidRegion),				
                 };
 
             _types = knownTypesArray.ToDictionary(type => type.ToString());

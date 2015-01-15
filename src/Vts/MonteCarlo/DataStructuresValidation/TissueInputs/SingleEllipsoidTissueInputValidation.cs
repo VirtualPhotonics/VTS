@@ -20,8 +20,8 @@ namespace Vts.MonteCarlo
         /// <returns>ValidationResult</returns>
         public static ValidationResult ValidateInput(ITissueInput input)
         {
-            var layers = ((SingleEllipsoidTissueInput)input).LayerRegions.Select(region => (LayerRegion)region).ToArray();
-            var ellipsoid = (EllipsoidRegion)((SingleEllipsoidTissueInput)input).EllipsoidRegion;
+            var layers = ((SingleEllipsoidTissueInput)input).LayerRegions.Select(region => (LayerTissueRegion)region).ToArray();
+            var ellipsoid = (EllipsoidTissueRegion)((SingleEllipsoidTissueInput)input).EllipsoidRegion;
             ValidationResult tempResult;
             tempResult = ValidateGeometry(layers, ellipsoid);
             if (!tempResult.IsValid)
@@ -39,10 +39,10 @@ namespace Vts.MonteCarlo
         /// Method to validate that the geometry of tissue layers and ellipsoid agree with capabilities
         /// of code.
         /// </summary>
-        /// <param name="layers">list of LayerRegion</param>
-        /// <param name="ellipsoid">EllipsoidRegion</param>
+        /// <param name="layers">list of LayerTissueRegion</param>
+        /// <param name="ellipsoid">EllipsoidTissueRegion</param>
         /// <returns>ValidationResult</returns>
-        private static ValidationResult ValidateGeometry(IList<LayerRegion> layers, EllipsoidRegion ellipsoid)
+        private static ValidationResult ValidateGeometry(IList<LayerTissueRegion> layers, EllipsoidTissueRegion ellipsoid)
         {            
             // check that layer definition is valid
             var tempResult = MultiLayerTissueInputValidation.ValidateLayers(layers);
@@ -100,11 +100,11 @@ namespace Vts.MonteCarlo
         /// Method to verify refractive index of tissue layer and ellipsoid match.
         /// Code does not yet include reflecting/refracting off ellipsoid surface.
         /// </summary>
-        /// <param name="layers">list of LayerRegion</param>
-        /// <param name="ellipsoid">EllipsoidRegion></param>
+        /// <param name="layers">list of LayerTissueRegion</param>
+        /// <param name="ellipsoid">EllipsoidTissueRegion></param>
         /// <returns>ValidationResult</returns>
         private static ValidationResult ValidateRefractiveIndexMatch(
-            IList<LayerRegion> layers, EllipsoidRegion ellipsoid)
+            IList<LayerTissueRegion> layers, EllipsoidTissueRegion ellipsoid)
         {
             int containingLayerIndex = -1;
             for (int i = 0; i < layers.Count - 1; i++)

@@ -8,7 +8,7 @@ namespace Vts.MonteCarlo.Tissues
     /// Implements ITissueRegion.  Defines a layer infinite in extent along
     /// x,y-axes and with extent along z-axis given by ZRange.
     /// </summary>
-    public class LayerRegion : ITissueRegion, ILayerOpticalPropertyRegion
+    public class LayerTissueRegion : ITissueRegion, ILayerOpticalPropertyRegion
     {
         /// <summary>
         /// key for the <string, IPhaseFunctionInput> dictionary in a class that implements ITissueInput
@@ -19,10 +19,9 @@ namespace Vts.MonteCarlo.Tissues
         /// </summary>
         /// <param name="zRange">specifies extent of layer</param>
         /// <param name="op">optical properties of layer</param>
-        /// <param name="phaseFunctionInput">phase function input for layer</param>
-        public LayerRegion(DoubleRange zRange, OpticalProperties op, string phaseFunctionKey)
+        public LayerTissueRegion(DoubleRange zRange, OpticalProperties op, string phaseFunctionKey)
         {
-            TissueRegionType = TissueRegionType.Layer;
+            TissueRegionType = "Layer";
             ZRange = zRange;
             RegionOP = op;
             PhaseFunctionKey = phaseFunctionKey;
@@ -41,7 +40,7 @@ namespace Vts.MonteCarlo.Tissues
         /// <summary>
         /// default constructor
         /// </summary>
-        public LayerRegion()
+        public LayerTissueRegion()
             : this(
                 new DoubleRange(0.0, 10),
                 new OpticalProperties(0.01, 1.0, 0.8, 1.4),
@@ -49,7 +48,7 @@ namespace Vts.MonteCarlo.Tissues
         /// <summary>
         /// tissue region identifier
         /// </summary>
-        public TissueRegionType TissueRegionType { get; set; }
+        public string TissueRegionType { get; set; }
 
         /// <summary>
         /// extent of z layer
