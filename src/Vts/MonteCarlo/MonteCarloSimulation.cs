@@ -75,7 +75,7 @@ namespace Vts.MonteCarlo
 
             _tissue = TissueFactory.GetTissue(input.TissueInput, input.Options.AbsorptionWeightingType, phaseFunctions, input.Options.RussianRouletteWeightThreshold);
 
-            _source = SourceFactory.GetSource(input.SourceInput, _tissue, _rng);
+            _source = SourceFactory.GetSource(input.SourceInput, _rng);
 
                // instantiate vb (and associated detectors) for each vb group
             _virtualBoundaryController = new VirtualBoundaryController(new List<IVirtualBoundary>());

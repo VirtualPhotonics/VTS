@@ -37,17 +37,17 @@ namespace Vts.Test.MonteCarlo.BidirectionalScattering
             MultiLayerTissueInput ti = new MultiLayerTissueInput(
                     new ITissueRegion[]
                     { 
-                        new LayerRegion(
+                        new LayerTissueRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
                             new OpticalProperties(0.0, 1e-10, 0.0, 1.0),
                         //new BidirectionalPhaseFunctionInput()),
                         "BidirectionalPhaseFunctionKey1"),
-                        new LayerRegion(
+                        new LayerTissueRegion(
                             new DoubleRange(0.0, _slabThickness),
                             new OpticalProperties(_mua, _musp, _g, 1.0),
                         //new BidirectionalPhaseFunctionInput()), // index matched slab
                         "BidirectionalPhaseFunctionKey2"),
-                        new LayerRegion(
+                        new LayerTissueRegion(
                             new DoubleRange(_slabThickness, double.PositiveInfinity),
                             new OpticalProperties(0.0, 1e-10, 0.0, 1.0),
                         //new BidirectionalPhaseFunctionInput())
@@ -75,20 +75,6 @@ namespace Vts.Test.MonteCarlo.BidirectionalScattering
                     0
                 ),
                 ti,
-                new MultiLayerTissueInput(
-                    new ITissueRegion[]
-                    { 
-                        new LayerTissueRegion(
-                            new DoubleRange(double.NegativeInfinity, 0.0),
-                            new OpticalProperties(0.0, 1e-10, 0.0, 1.0)),
-                        new LayerTissueRegion(
-                            new DoubleRange(0.0, _slabThickness),
-                            new OpticalProperties(_mua, _musp, _g, 1.0)), // index matched slab
-                        new LayerTissueRegion(
-                            new DoubleRange(_slabThickness, double.PositiveInfinity),
-                            new OpticalProperties(0.0, 1e-10, 0.0, 1.0))
-                    }
-                ),
                 new List<IDetectorInput>() 
                 { 
                     new RDiffuseDetectorInput() { TallySecondMoment = true },

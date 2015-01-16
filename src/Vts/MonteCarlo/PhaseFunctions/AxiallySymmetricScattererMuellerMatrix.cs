@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
-using Vts.MonteCarlo.PhaseFunctions;
+using Vts.MonteCarlo;
 
 namespace Vts.MonteCarlo.PhaseFunctions
 {

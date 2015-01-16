@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Vts.Common;
 using Vts.MonteCarlo;
+using Vts.MonteCarlo.PhaseFunctionInputs;
 
 namespace Vts.MonteCarlo.Tissues
 {
@@ -55,9 +56,13 @@ namespace Vts.MonteCarlo.Tissues
         /// </summary>
         public ITissueRegion[] Regions { get { return _regions; } set { _regions = value; } }
         /// <summary>
-        /// dictionary of region phase functions
+        /// dictionary of region phase function inputs
         /// </summary>
         public IDictionary<string, IPhaseFunctionInput> RegionPhaseFunctionInputs { get; set; }
+        /// <summary>
+        /// dictionary of region phase functions
+        /// </summary>
+        public IDictionary<string, IPhaseFunction> RegionPhaseFunctions { get; set; }
 
         /// <summary>
         ///// Required factory method to create the corresponding 
@@ -67,11 +72,11 @@ namespace Vts.MonteCarlo.Tissues
         /// <param name="pft">Phase Function Type</param>
         /// <param name="russianRouletteWeightThreshold">Russian Roulette Weight Threshold</param>
         /// <returns></returns>
-        public ITissue CreateTissue(AbsorptionWeightingType awt, IDictionary<string, IPhaseFunctionInput> regionPhaseFunctionInputs, double russianRouletteWeightThreshold)
+        public ITissue CreateTissue(AbsorptionWeightingType awt, IDictionary<string, IPhaseFunction> regionPhaseFunctions, double russianRouletteWeightThreshold)
         {
-            var t = new MultiLayerTissue(Regions, regionPhaseFunctionInputs);
+            var t = new MultiLayerTissue(Regions);
 
-            t.Initialize(awt, regionPhaseFunctionInputs, russianRouletteWeightThreshold);
+            t.Initialize(awt, regionPhaseFunctions, russianRouletteWeightThreshold);
 
             return t;
         }
@@ -85,6 +90,10 @@ namespace Vts.MonteCarlo.Tissues
     public class MultiLayerTissue : TissueBase, ITissue
     {
         private IList<LayerTissueRegion> _layerRegions;
+        /// <summary>
+        /// dictionary of region phase functions
+        /// </summary>
+        public IDictionary<string, IPhaseFunction> RegionPhaseFunctions { get; set; }
 
         /// <summary>
         /// Creates an instance of a MultiLayerTissue
@@ -92,10 +101,8 @@ namespace Vts.MonteCarlo.Tissues
         /// <param name="regions">list of tissue regions comprising tissue</param>
         /// <remarks>air above and below tissue needs to be specified for a slab geometry</remarks>
         public MultiLayerTissue(
-            IList<ITissueRegion> regions,
-            IDictionary<string, IPhaseFunctionInput> phaseFunctions)
+            IList<ITissueRegion> regions)
             : base(regions)
-
         {
             _layerRegions = regions.Select(region => (LayerTissueRegion) region).ToArray();
         }
@@ -105,7 +112,7 @@ namespace Vts.MonteCarlo.Tissues
         /// and discrete absorption weighting
         /// </summary>
         public MultiLayerTissue() 
-            : this(new MultiLayerTissueInput().Regions, AbsorptionWeightingType.Discrete, null, 0.0)
+            : this(new MultiLayerTissueInput().Regions)
         {
             RegionPhaseFunctions = new Dictionary<string, IPhaseFunction>();
         }

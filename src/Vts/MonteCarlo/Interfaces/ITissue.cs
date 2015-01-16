@@ -37,7 +37,7 @@ namespace Vts.MonteCarlo
         IList<double> RegionScatterLengths { get; }
 
         /// <summary>
-        /// Region-wise class instances that specify phase function
+        /// Region-wise dictionary that specify phase function
         /// </summary>
         //IList<IPhaseFunction> RegionPhaseFunctions { get; }
         IDictionary<string, IPhaseFunction> RegionPhaseFunctions { get; set; }
@@ -47,7 +47,7 @@ namespace Vts.MonteCarlo
         /// <param name="tissue"></param>
         void Initialize(
             AbsorptionWeightingType awt = AbsorptionWeightingType.Discrete,
-            PhaseFunctionType pft = PhaseFunctionType.HenyeyGreenstein,
+            IDictionary<string, IPhaseFunction> regionPhaseFunctions = null,
             double russianRouletteWeightThreshold = 0.0);
 
         /// <summary>

@@ -421,12 +421,12 @@ namespace Vts.MonteCarlo
                             new DoubleRange(double.NegativeInfinity, 0.0),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
                         "HenyeyGreensteinKey1"),
-                        new LayerRegion(
+                        new LayerTissueRegion(
 
                             new DoubleRange(0.0, 100.0),
                             new OpticalProperties(0.01, 1.0, 0.8, 1.4),
                         "HenyeyGreensteinKey2"),
-                        new LayerRegion(
+                        new LayerTissueRegion(
 
                             new DoubleRange(100.0, double.PositiveInfinity),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
@@ -712,7 +712,7 @@ namespace Vts.MonteCarlo
                         new DoubleRange(double.NegativeInfinity, 0.0),
                         new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
                         "HenyeyGreensteinKey1"),
-                    new LayerTisueRegion(
+                    new LayerTissueRegion(
                         new DoubleRange(0.0, 5.0),
                         new OpticalProperties(0.01, 1.0, 0.9, 1.4),
                         "HenyeyGreensteinKey2"),

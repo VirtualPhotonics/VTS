@@ -28,11 +28,9 @@ namespace Vts.MonteCarlo.Tissues
         /// constructor for tissue base
         /// </summary>
         /// <param name="regions">list of tissue regions</param>
-        public TissueBase(IList<ITissueRegion> regions,
-            IDictionary<string, IPhaseFunctionInput> regionPhaseFunctionInputs)
+        public TissueBase(IList<ITissueRegion> regions)
         {
             Regions = regions;
-            RegionPhaseFunctionInputs = regionPhaseFunctionInputs;
 
             // obsolete: phase function now region-specific
             // PhaseFunctionType = phaseFunctionType;
@@ -55,7 +53,7 @@ namespace Vts.MonteCarlo.Tissues
         ///// <summary>
         ///// Phase function used within each region
         ///// </summary>
-        public IDictionary<string, IPhaseFunctionInput> RegionPhaseFunctionsInputs { get; set; }
+        public IDictionary<string, IPhaseFunction> RegionPhaseFunctions { get; set; }
         /// <summary>
         /// photon weight threshold, below which turns on Russian Roulette
         /// </summary>
@@ -64,14 +62,17 @@ namespace Vts.MonteCarlo.Tissues
         /// <summary>
         /// Required method to initialiize the corresponding ITissue
         /// </summary>
-        /// <param name="tissue"></param>
+        /// <param name="awt">absorption weighting type</param>
+        /// <param name="regionPhaseFunctions">dictionary of region phase functions</param>
+        /// <param name="russianRouletteWeightThreshold">threshold for Russian Roulette</param>
+        /// Note: phase function inputs go through the factory to convert to phase funcions in MonteCarloSimulation
         public void Initialize(
             AbsorptionWeightingType awt = AbsorptionWeightingType.Discrete,
-            IDictionary<string, IPhaseFunctionInput> regionPhaseFunctionInputs = new Dictionary<string, IPhaseFunctionInput>(){"HenyeyGreensteinKey1", new HenyeyGreensteinPhaseFunctionInput()},
+            IDictionary<string,IPhaseFunction> regionPhaseFunctions = null,
             double russianRouletteWeightThreshold = 0.0)
         {
             AbsorptionWeightingType = awt;
-            RegionPhaseFunctionsInputs = regionPhaseFunctionInputs;
+            RegionPhaseFunctions = regionPhaseFunctions;
             RussianRouletteWeightThreshold = russianRouletteWeightThreshold;
 
             RegionScatterLengths = Regions.Select(region => region.RegionOP.GetScatterLength(awt)).ToArray();

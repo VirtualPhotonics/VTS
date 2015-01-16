@@ -90,13 +90,11 @@ namespace Vts.Test.MonteCarlo.Detectors
                             new DoubleRange(double.NegativeInfinity, 0.0),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
                         "HenyeyGreensteinKey1"),
-                        new LayerRegion(
-
+                        new LayerTissueRegion(
                             new DoubleRange(0.0, 20.0),
                             new OpticalProperties(0.01, 1.0, 0.8, 1.4),
                         "HenyeyGreensteinKey2"),
-                        new LayerRegion(
-
+                        new LayerTissueRegion(
                             new DoubleRange(20.0, double.PositiveInfinity),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
                         "HenyeyGreensteinKey3")
@@ -115,6 +113,7 @@ namespace Vts.Test.MonteCarlo.Detectors
             _outputOneRegionTissue = new MonteCarloSimulation(_inputOneRegionTissue).Run();
 
             SingleEllipsoidTissueInput ti2 = new SingleEllipsoidTissueInput(
+                new EllipsoidTissueRegion(
                         new Position(0, 0, 1),
                         0.5,
                         0.5,
@@ -128,13 +127,11 @@ namespace Vts.Test.MonteCarlo.Detectors
                             new DoubleRange(double.NegativeInfinity, 0.0),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
                         "HenyeyGreensteinKey2"),
-                        new LayerRegion(
-
+                        new LayerTissueRegion(
                             new DoubleRange(0.0, 20.0), // debug with thin slab d=2
                             new OpticalProperties(0.01, 1.0, 0.8, 1.4),// debug with g=1
                         "HenyeyGreensteinKey3"),
-                        new LayerRegion(
-
+                        new LayerTissueRegion(
                             new DoubleRange(20.0, double.PositiveInfinity),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
                         "HenyeyGreensteinKey4")

@@ -17,14 +17,18 @@ namespace Vts.MonteCarlo
         /// </summary>
         ITissueRegion[] Regions { get; }
 
+        /// <summary>
+        /// phase function inputs for each tissue region
+        /// </summary>
         IDictionary<string, IPhaseFunctionInput> RegionPhaseFunctionInputs { get; set; }
+
         ///// Required factory method to create the corresponding 
         ///// ITissue based on the ITissueInput data
         /// </summary>
         /// <param name="awt">Absorption Weighting Type</param>
-        /// <param name="regionPhaseFunctionInputs">dictionary of phase functions</param>
+        /// <param name="regionPhaseFunctions">dictionary of phase functions</param>
         /// <param name="russianRouletteWeightThreshold">Russian Roulette Weight Threshold</param>
         /// <returns></returns>
-        ITissue CreateTissue(AbsorptionWeightingType awt, IDictionary<string, IPhaseFunctionInput> regionPhaseFunctionInputs, double russianRouletteWeightThreshold);  
+        ITissue CreateTissue(AbsorptionWeightingType awt, IDictionary<string, IPhaseFunction> regionPhaseFunctions, double russianRouletteWeightThreshold);  
     }
 }
