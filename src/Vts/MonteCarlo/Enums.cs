@@ -469,6 +469,10 @@ namespace Vts.MonteCarlo
             /// </summary>
             "ReflectedMTOfRhoAndSubregionHist",
             /// <summary>
+            /// Transmitted momentum transfer as a function of source-detector separation (rho) and tissue region with histogram of MT
+            /// </summary>
+            "TransmittedMTOfRhoAndSubregionHist",
+            /// <summary>
             /// Reflected subregion time as a function of source-detector separation (rho) and tissue region 
             /// </summary>
             "ReflectedTimeOfRhoAndSubregionHist",

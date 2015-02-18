@@ -367,6 +367,46 @@ for di = 1:numDetectors
                 ReflectedMTOfRhoAndSubregionHist.Stdev = sqrt((ReflectedMTOfRhoAndSubregionHist.SecondMoment - (ReflectedMTOfRhoAndSubregionHist.Mean .* ReflectedMTOfRhoAndSubregionHist.Mean)) / (N));               
             end
             results{di}.ReflectedMTOfRhoAndSubregionHist = ReflectedMTOfRhoAndSubregionHist;
+        case 'TransmittedMTOfRhoAndSubregionHist'
+            TransmittedMTOfRhoAndSubregionHist.Name = detector.Name;
+            tempRho = detector.Rho;
+            tempMTBins = detector.MTBins;
+            if (postProcessorResults)
+                if (strcmp(json.TissueInput.TissueType, 'MultiLayer')) 
+                    tempSubregionIndices = (1:1:length(databaseInputJson.TissueInput.Regions));
+                elseif (strcmp(json.TissueInput.TissueType, 'SingleEllipsoid'))
+                    tempSubregionIndices = (1:1:length(databaseInputJson.TissueInput.LayerRegions)+length(databaseInputJson.TissueInput.EllipsoidRegion));                            
+                end
+                N = databaseInputJson.N;
+            else   
+                if (strcmp(json.TissueInput.TissueType, 'MultiLayer'))           
+                    tempSubregionIndices = (1:1:length(json.TissueInput.Regions)); 
+                elseif (strcmp(json.TissueInput.TissueType, 'SingleEllipsoid'))
+                    tempSubregionIndices = (1:1:length(json.TissueInput.LayerRegions)+length(json.TissueInput.EllipsoidRegion));                            
+                end
+                N = json.N;
+            end
+            TransmittedMTOfRhoAndSubregionHist.Rho = linspace((tempRho.Start), (tempRho.Stop), (tempRho.Count));                     
+            TransmittedMTOfRhoAndSubregionHist.MTBins = linspace((tempMTBins.Start), (tempMTBins.Stop), (tempMTBins.Count));
+            TransmittedMTOfRhoAndSubregionHist.SubregionIndices = tempSubregionIndices;
+            TransmittedMTOfRhoAndSubregionHist.Rho_Midpoints = (TransmittedMTOfRhoAndSubregionHist.Rho(1:end-1) + TransmittedMTOfRhoAndSubregionHist.Rho(2:end))/2;
+            TransmittedMTOfRhoAndSubregionHist.MTBins_Midpoints = (TransmittedMTOfRhoAndSubregionHist.MTBins(1:end-1) + TransmittedMTOfRhoAndSubregionHist.MTBins(2:end))/2;
+            TransmittedMTOfRhoAndSubregionHist.Mean = readBinaryData([datadir slash detector.Name], ... 
+                (length(TransmittedMTOfRhoAndSubregionHist.MTBins)-1) * (length(TransmittedMTOfRhoAndSubregionHist.Rho)-1));  
+            TransmittedMTOfRhoAndSubregionHist.Mean = reshape(TransmittedMTOfRhoAndSubregionHist.Mean, ...
+                [length(TransmittedMTOfRhoAndSubregionHist.MTBins)-1,length(TransmittedMTOfRhoAndSubregionHist.Rho)-1]);  % read column major json binary          
+            TransmittedMTOfRhoAndSubregionHist.FractionalMT = readBinaryData([datadir slash detector.Name '_FractionalMT'], ... 
+                (length(TransmittedMTOfRhoAndSubregionHist.Rho)-1) * (length(TransmittedMTOfRhoAndSubregionHist.MTBins)-1) * (length(tempSubregionIndices)) * 10);
+            TransmittedMTOfRhoAndSubregionHist.FractionalMT = reshape(TransmittedMTOfRhoAndSubregionHist.FractionalMT, ...            
+                [10, length(tempSubregionIndices), length(TransmittedMTOfRhoAndSubregionHist.MTBins)-1, length(TransmittedMTOfRhoAndSubregionHist.Rho)-1]); % read column major json binary
+            if(detector.TallySecondMoment && exist([datadir slash detector.Name '_2'],'file'))
+                TransmittedMTOfRhoAndSubregionHist.SecondMoment = readBinaryData([datadir slash detector.Name '_2'], ... 
+                (length(TransmittedMTOfRhoAndSubregionHist.MTBins)-1) * (length(TransmittedMTOfRhoAndSubregionHist.Rho)-1)); % read column major json binary
+                TransmittedMTOfRhoAndSubregionHist.SecondMoment = reshape(TransmittedMTOfRhoAndSubregionHist.SecondMoment, ...
+                [length(TransmittedMTOfRhoAndSubregionHist.MTBins)-1,length(TransmittedMTOfRhoAndSubregionHist.Rho)-1]);  
+                TransmittedMTOfRhoAndSubregionHist.Stdev = sqrt((TransmittedMTOfRhoAndSubregionHist.SecondMoment - (TransmittedMTOfRhoAndSubregionHist.Mean .* TransmittedMTOfRhoAndSubregionHist.Mean)) / (N));               
+            end
+            results{di}.TransmittedMTOfRhoAndSubregionHist = TransmittedMTOfRhoAndSubregionHist;
         case 'ReflectedTimeOfRhoAndSubregionHist'
             ReflectedTimeOfRhoAndSubregionHist.Name = detector.Name;
             tempRho = detector.Rho;

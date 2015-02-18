@@ -256,6 +256,7 @@
     <Compile Include="MonteCarlo\DataStructures\SimulationInputProvider.cs" />
     <Compile Include="MonteCarlo\DataStructures\SimulationStatistics.cs" />
     <Compile Include="MonteCarlo\DataStructures\SourceInputProvider.cs" />
+    <Compile Include="MonteCarlo\Detectors\TransmittedMTOfRhoAndSubregionHistDetector.cs" />
     <Compile Include="MonteCarlo\Tissues\SemiInfiniteTissue.cs" />
     <Compile Include="MonteCarlo\Detectors\Detector.cs" />
     <Compile Include="MonteCarlo\Detectors\AOfXAndYAndZDetector.cs" />

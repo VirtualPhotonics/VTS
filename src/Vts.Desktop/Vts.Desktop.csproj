@@ -706,6 +706,9 @@
     <Compile Include="..\Vts\MonteCarlo\Detectors\TOfRhoDetector.cs">
       <Link>MonteCarlo\Detectors\TOfRhoDetector.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\TransmittedMTOfRhoAndSubregionHistDetector.cs">
+      <Link>MonteCarlo\Detectors\TransmittedMTOfRhoAndSubregionHistDetector.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Enums.cs">
       <Link>MonteCarlo\Enums.cs</Link>
     </Compile>

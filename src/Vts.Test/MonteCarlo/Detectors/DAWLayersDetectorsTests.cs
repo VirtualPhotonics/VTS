@@ -96,6 +96,12 @@ namespace Vts.Test.MonteCarlo.Detectors
                             Rho=new DoubleRange(0.0, 10.0, 101), // rho bins MAKE SURE AGREES with ROfRho rho specification for unit test below
                             MTBins=new DoubleRange(0.0, 500.0, 51), // MT bins
                             FractionalMTBins = new DoubleRange(0.0, 1.0, 11)   
+                    },
+                    new TransmittedMTOfRhoAndSubregionHistDetectorInput() 
+                    {
+                            Rho=new DoubleRange(0.0, 10.0, 101), // rho bins MAKE SURE AGREES with TOfRho rho specification for unit test below
+                            MTBins=new DoubleRange(0.0, 500.0, 51), // MT bins
+                            FractionalMTBins = new DoubleRange(0.0, 1.0, 11)   
                     }
 
                 };
@@ -355,6 +361,22 @@ namespace Vts.Test.MonteCarlo.Detectors
                 integral += _outputOneLayerTissue.RefMT_rs_hist[0, i];
             }
             Assert.Less(Math.Abs(_outputOneLayerTissue.R_r[0] - integral), 0.000001);
+        }
+        // Transmitted Momentum Transfer of Rho and SubRegion
+        [Test]
+        public void validate_DAW_TransmittedMTOfRhoAndSubregionHist()
+        {
+            // use initial results to verify any new changes to the code
+            Assert.Less(Math.Abs(_outputOneLayerTissue.TransMT_rs_hist[54, 5] - 0.0017405), 0.0000001);
+            // make sure mean integral over MT equals T(rho) results
+            var mtbins = ((TransmittedMTOfRhoAndSubregionHistDetectorInput)_inputOneLayerTissue.DetectorInputs.
+                Where(d => d.TallyType == "TransmittedMTOfRhoAndSubregionHist").First()).MTBins;
+            var integral = 0.0;
+            for (int i = 0; i < mtbins.Count - 1; i++)
+            {
+                integral += _outputOneLayerTissue.TransMT_rs_hist[54, i];
+            }
+            Assert.Less(Math.Abs(_outputOneLayerTissue.T_r[54] - integral), 0.000001);
         }
     }
 }
