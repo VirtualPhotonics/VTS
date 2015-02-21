@@ -567,6 +567,10 @@ namespace Vts.MonteCarlo
         /// </summary>
         public static string TOfAngle { get { return "TOfAngle"; } }
         /// <summary>
+        /// Transmittance as a function of Cartesian position on the surface of the tissue
+        /// </summary>
+        public static string TOfXAndY { get { return "TOfXAndY"; } }
+        /// <summary>
         /// Total diffuse transmittance
         /// </summary>
         public static string TDiffuse { get { return "TDiffuse"; } }

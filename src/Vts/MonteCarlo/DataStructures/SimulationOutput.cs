@@ -154,6 +154,15 @@ namespace Vts.MonteCarlo
         /// </summary>
         public double[,] T_ra2 { get { return ((double[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "TOfRhoAndAngle").First().Name]).SecondMoment); } }
         /// <summary>
+        /// Transmittance as a function of x and y
+        /// </summary>
+        public double[,] T_xy { get { return ((double[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "TOfXAndY").First().Name]).Mean); } }
+        /// <summary>
+        /// Transmittance as a function of x and y 2nd moment
+        /// </summary>
+        public double[,] T_xy2 { get { return ((double[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "TOfXAndY").First().Name]).SecondMoment); } }
+        
+        /// <summary>
         /// Reflectance as a function of x and y
         /// </summary>
         public double[,] R_xy { get { return ((double[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ROfXAndY").First().Name]).Mean); } }

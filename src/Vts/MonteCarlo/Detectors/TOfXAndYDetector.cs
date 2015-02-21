@@ -8,32 +8,36 @@ using Vts.MonteCarlo.PhotonData;
 namespace Vts.MonteCarlo.Detectors
 {
     /// <summary>
-    /// DetectorInput for T(r)
+    /// DetectorInput for T(x,y)
     /// </summary>
-    public class TOfRhoDetectorInput : DetectorInput, IDetectorInput
+    public class TOfXAndYDetectorInput : DetectorInput, IDetectorInput
     {
         /// <summary>
         /// constructor for transmittance as a function of rho detector input
         /// </summary>
-        public TOfRhoDetectorInput()
+        public TOfXAndYDetectorInput()
         {
-            TallyType = "TOfRho";
-            Name = "TOfRho";
-            Rho = new DoubleRange(0.0, 10, 101);
+            TallyType = "TOfXAndY";
+            Name = "TOfXAndY";
+            X = new DoubleRange(-10.0, 10.0, 101);
+            Y = new DoubleRange(-10.0, 10.0, 101);
 
             // modify base class TallyDetails to take advantage of built-in validation capabilities (error-checking)
             TallyDetails.IsTransmittanceTally = true;
-            TallyDetails.IsCylindricalTally = true;
         }
 
         /// <summary>
-        /// detector rho binning
+        /// detector x binning
         /// </summary>
-        public DoubleRange Rho { get; set; }
+        public DoubleRange X { get; set; }
+        /// <summary>
+        /// detector y binning
+        /// </summary>
+        public DoubleRange Y { get; set; }
 
         public IDetector CreateDetector()
         {
-            return new TOfRhoDetector
+            return new TOfXAndYDetector
             {
                 // required properties (part of DetectorInput/Detector base classes)
                 TallyType = this.TallyType,
@@ -42,23 +46,28 @@ namespace Vts.MonteCarlo.Detectors
                 TallyDetails = this.TallyDetails,
 
                 // optional/custom detector-specific properties
-                Rho = this.Rho
+                X = this.X,
+                Y = this.Y
             };
         }
     }
 
     /// <summary>
-    /// Implements IDetector.  Tally for reflectance as a function  of Rho.
+    /// Implements IDetector.  Tally for reflectance as a function  of X and Y.
     /// This implementation works for Analog, DAW and CAW processing.
     /// </summary>
-    public class TOfRhoDetector : Detector, IDetector
+    public class TOfXAndYDetector : Detector, IDetector
     {
         /* ==== Place optional/user-defined input properties here. They will be saved in text (JSON) format ==== */
         /* ==== Note: make sure to copy over all optional/user-defined inputs from corresponding input class ==== */
         /// <summary>
-        /// rho binning
+        /// x binning
         /// </summary>
-        public DoubleRange Rho { get; set; }
+        public DoubleRange X { get; set; }
+        /// <summary>
+        /// y binning
+        /// </summary>
+        public DoubleRange Y { get; set; }
 
         /* ==== Place user-defined output arrays here. They should be prepended with "[IgnoreDataMember]" attribute ==== */
         /* ==== Then, GetBinaryArrays() should be implemented to save them separately in binary format ==== */
@@ -66,12 +75,12 @@ namespace Vts.MonteCarlo.Detectors
         /// detector mean
         /// </summary>
         [IgnoreDataMember]
-        public double[] Mean { get; set; }
+        public double[,] Mean { get; set; }
         /// <summary>
         /// detector second moment
         /// </summary>
         [IgnoreDataMember]
-        public double[] SecondMoment { get; set; }
+        public double[,] SecondMoment { get; set; }
 
         /* ==== Place optional/user-defined output properties here. They will be saved in text (JSON) format ==== */
         /// <summary>
@@ -85,8 +94,8 @@ namespace Vts.MonteCarlo.Detectors
             TallyCount = 0;
 
             // if the data arrays are null, create them (only create second moment if TallySecondMoment is true)
-            Mean = Mean ?? new double[Rho.Count - 1];
-            SecondMoment = SecondMoment ?? (TallySecondMoment ? new double[Rho.Count - 1] : null);
+            Mean = Mean ?? new double[X.Count - 1, Y.Count - 1];
+            SecondMoment = SecondMoment ?? (TallySecondMoment ? new double[X.Count - 1, Y.Count - 1] : null);
 
             // intialize any other necessary class fields here
         }
@@ -97,12 +106,13 @@ namespace Vts.MonteCarlo.Detectors
         /// <param name="photon">photon data needed to tally</param>
         public void Tally(Photon photon)
         {
-            var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(photon.DP.Position.X, photon.DP.Position.Y), Rho.Count - 1, Rho.Delta, Rho.Start);
+            var ix = DetectorBinning.WhichBin(photon.DP.Position.X, X.Count - 1, X.Delta, X.Start);
+            var iy = DetectorBinning.WhichBin(photon.DP.Position.Y, Y.Count - 1, Y.Delta, Y.Start);
 
-            Mean[ir] += photon.DP.Weight;
+            Mean[ix, iy] += photon.DP.Weight;
             if (TallySecondMoment)
             {
-                SecondMoment[ir] += photon.DP.Weight * photon.DP.Weight;
+                SecondMoment[ix, iy] += photon.DP.Weight * photon.DP.Weight;
             }
             TallyCount++;
         }
@@ -113,15 +123,16 @@ namespace Vts.MonteCarlo.Detectors
         /// <param name="numPhotons">number of photons launched</param>
         public void Normalize(long numPhotons)
         {
-            // normalization accounts for Rho.Start != 0
-            var normalizationFactor = 2.0 * Math.PI * Rho.Delta;
-            for (int ir = 0; ir < Rho.Count - 1; ir++)
+            var normalizationFactor = X.Delta * Y.Delta;
+            for (int ix = 0; ix < X.Count - 1; ix++)
             {
-                var areaNorm = (Rho.Start + (ir + 0.5) * Rho.Delta) * normalizationFactor;
-                Mean[ir] /= areaNorm * numPhotons;
-                if (TallySecondMoment)
+                for (int iy = 0; iy < Y.Count - 1; iy++)
                 {
-                    SecondMoment[ir] /= areaNorm * areaNorm * numPhotons;
+                    Mean[ix, iy] /= normalizationFactor * numPhotons;
+                    if (TallySecondMoment)
+                    {
+                        SecondMoment[ix, iy] /= normalizationFactor * normalizationFactor * numPhotons;
+                    }
                 }
             }
         }
@@ -135,14 +146,20 @@ namespace Vts.MonteCarlo.Detectors
                     Name = "Mean",
                     FileTag = "",
                     WriteData = binaryWriter => {
-                        for (int i = 0; i < Rho.Count - 1; i++) {
-                            binaryWriter.Write(Mean[i]);
+                        for (int i = 0; i < X.Count - 1; i++) {
+                            for (int j = 0; j < Y.Count - 1; j++)
+                            {                                
+                                binaryWriter.Write(Mean[i, j]);
+                            }
                         }
                     },
                     ReadData = binaryReader => {
-                        Mean = Mean ?? new double[ Rho.Count - 1];
-                        for (int i = 0; i <  Rho.Count - 1; i++) {
-                            Mean[i] = binaryReader.ReadDouble();
+                        Mean = Mean ?? new double[ X.Count - 1, Y.Count - 1];
+                        for (int i = 0; i <  X.Count - 1; i++) {
+                            for (int j = 0; j < Y.Count - 1; j++)
+                            {
+                               Mean[i, j] = binaryReader.ReadDouble(); 
+                            }
                         }
                     }
                 },
@@ -153,15 +170,21 @@ namespace Vts.MonteCarlo.Detectors
                     FileTag = "_2",
                     WriteData = binaryWriter => {
                         if (!TallySecondMoment || SecondMoment == null) return;
-                        for (int i = 0; i < Rho.Count - 1; i++) {
-                            binaryWriter.Write(SecondMoment[i]);
+                        for (int i = 0; i < X.Count - 1; i++) {
+                            for (int j = 0; j < Y.Count - 1; j++)
+                            {
+                                binaryWriter.Write(SecondMoment[i, j]);
+                            }                            
                         }
                     },
                     ReadData = binaryReader => {
                         if (!TallySecondMoment || SecondMoment == null) return;
-                        SecondMoment = new double[ Rho.Count - 1];
-                        for (int i = 0; i < Rho.Count - 1; i++) {
-                            SecondMoment[i] = binaryReader.ReadDouble();
+                        SecondMoment = new double[ X.Count - 1, Y.Count - 1];
+                        for (int i = 0; i < X.Count - 1; i++) {
+                            for (int j = 0; j < Y.Count - 1; j++)
+                            {
+                                SecondMoment[i, j] = binaryReader.ReadDouble();
+                            }                       
 			            }
                     },
                 },

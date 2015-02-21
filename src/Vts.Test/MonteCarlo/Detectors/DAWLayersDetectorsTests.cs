@@ -72,6 +72,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                     new TOfAngleDetectorInput() {Angle=new DoubleRange(0.0, Math.PI / 2, 2)},
                     new TOfRhoDetectorInput() {Rho=new DoubleRange(0.0, 10.0, 101)},
                     new TOfRhoAndAngleDetectorInput(){Rho=new DoubleRange(0.0, 10.0, 101), Angle=new DoubleRange(0.0, Math.PI / 2, 2)},
+                    new TOfXAndYDetectorInput() { X = new DoubleRange(-10.0, 10.0, 101), Y = new DoubleRange(-10.0, 10.0, 101) },
                     new AOfRhoAndZDetectorInput() {Rho=new DoubleRange(0.0, 10.0, 101),Z=new DoubleRange(0.0, 10.0, 101)},
                     new ATotalDetectorInput(),
                     new FluenceOfRhoAndZDetectorInput() {Rho=new DoubleRange(0.0, 10.0, 101),Z=new DoubleRange(0.0, 10.0, 101)},   
@@ -241,6 +242,13 @@ namespace Vts.Test.MonteCarlo.Detectors
         {
             Assert.Less(Math.Abs(_outputOneLayerTissue.T_ra[54, 0] * _factor - 0.000242473649), 0.000000000001);
             Assert.Less(Math.Abs(_outputTwoLayerTissue.T_ra[54, 0] * _factor - 0.000242473649), 0.000000000001);
+        }
+        // Transmittance T(x,y): validation is not with linux code, but with prior execution of test so no "factor"
+        [Test]
+        public void validate_DAW_TOfXAndY()
+        {
+            Assert.Less(Math.Abs(_outputOneLayerTissue.T_xy[0, 0] - 0.0067603), 0.0000001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.T_xy[0, 0] - 0.0067603), 0.0000001);
         }
         //// Verify integral over rho,angle of T(rho,angle) equals TDiffuse
         [Test]
