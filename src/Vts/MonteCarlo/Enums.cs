@@ -437,6 +437,10 @@ namespace Vts.MonteCarlo
             /// </summary>
             "TOfAngle",
             /// <summary>
+            /// Transmittance as a function of x and y
+            /// </summary>
+            "TOfXAndY",
+            /// <summary>
             /// Total diffuse transmittance
             /// </summary>
             "TDiffuse",
