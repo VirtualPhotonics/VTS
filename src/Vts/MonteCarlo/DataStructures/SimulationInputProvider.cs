@@ -517,7 +517,7 @@ namespace Vts.MonteCarlo
         {
             return new SimulationInput(
                 100,
-                "two_layer_ReflectedMTOfRhoAndSubregionHist",
+                "two_layer_momentum_transfer_detectors",
                 new SimulationOptions(
                     0, // random number generator seed, -1=random seed, 0=fixed seed
                     RandomNumberGeneratorType.MersenneTwister,
