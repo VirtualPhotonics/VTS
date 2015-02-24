@@ -250,6 +250,18 @@ namespace Vts.MonteCarlo
         /// </summary>
         public double[, , ,] RefMT_rs_frac { get { return ((double[, , ,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ReflectedMTOfRhoAndSubregionHist").First().Name]).FractionalMT); } }
         /// <summary>
+        /// Reflected Momentum Transfer of X, Y and Tissue SubRegion with a histogram of MT
+        /// </summary>
+        public double[,,] RefMT_xys_hist { get { return ((double[,,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ReflectedMTOfXAndYAndSubregionHist").First().Name]).Mean); } }
+        /// <summary>
+        /// Reflected Momentum Transfer of X, Y and Tissue SubRegion with a histogram of MT 2nd moment
+        /// </summary>
+        public double[,,] RefMT_xys_hist2 { get { return ((double[,,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ReflectedMTOfXAndYAndSubregionHist").First().Name]).SecondMoment); } }
+        /// <summary>
+        /// Reflected Momentum Transfer of X, Y and Tissue SubRegion with a histogram of MT fractional MT
+        /// </summary>
+        public double[,,,,] RefMT_xys_frac { get { return ((double[,,,,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ReflectedMTOfXAndYAndSubregionHist").First().Name]).FractionalMT); } }
+        /// <summary>
         /// Transmitted Momentum Transfer of Rho and Tissue SubRegion with a histogram of MT
         /// </summary>
         public double[,] TransMT_rs_hist { get { return ((double[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "TransmittedMTOfRhoAndSubregionHist").First().Name]).Mean); } }
@@ -261,6 +273,18 @@ namespace Vts.MonteCarlo
         /// Transmitted Momentum Transfer of Rho and Tissue SubRegion with a histogram of MT fractional MT
         /// </summary>
         public double[, , ,] TransMT_rs_frac { get { return ((double[, , ,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "TransmittedMTOfRhoAndSubregionHist").First().Name]).FractionalMT); } }
+        /// <summary>
+        /// Transmitted Momentum Transfer of X, Y and Tissue SubRegion with a histogram of MT
+        /// </summary>
+        public double[,,] TransMT_xys_hist { get { return ((double[,,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "TransmittedMTOfXAndYAndSubregionHist").First().Name]).Mean); } }
+        /// <summary>
+        /// Transmitted Momentum Transfer of Rho and Tissue SubRegion with a histogram of MT 2nd moment
+        /// </summary>
+        public double[,,] TransMT_xys_hist2 { get { return ((double[,,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "TransmittedMTOfXAndYAndSubregionHist").First().Name]).SecondMoment); } }
+        /// <summary>
+        /// Transmitted Momentum Transfer of Rho and Tissue SubRegion with a histogram of MT fractional MT
+        /// </summary>
+        public double[,,,,] TransMT_xys_frac { get { return ((double[,,,,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "TransmittedMTOfXAndYAndSubregionHist").First().Name]).FractionalMT); } }
         /// <summary>
         /// Reflected Time of Rho and Tissue SubRegion with a histogram of Time
         /// </summary>

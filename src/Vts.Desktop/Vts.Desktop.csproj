@@ -661,6 +661,9 @@
     <Compile Include="..\Vts\MonteCarlo\Detectors\ReflectedMTOfRhoAndSubRegionHistDetector.cs">
       <Link>MonteCarlo\Detectors\ReflectedMTOfRhoAndSubRegionHistDetector.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\ReflectedMTOfXAndYAndSubregionHistDetector.cs">
+      <Link>MonteCarlo\Detectors\ReflectedMTOfXAndYAndSubregionHistDetector.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\ReflectedTimeOfRhoAndSubregionHistDetector.cs">
       <Link>MonteCarlo\Detectors\ReflectedTimeOfRhoAndSubregionHistDetector.cs</Link>
     </Compile>
@@ -711,6 +714,9 @@
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\TransmittedMTOfRhoAndSubregionHistDetector.cs">
       <Link>MonteCarlo\Detectors\TransmittedMTOfRhoAndSubregionHistDetector.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\TransmittedMTOfXAndYAndSubregionHistDetector.cs">
+      <Link>MonteCarlo\Detectors\TransmittedMTOfXAndYAndSubregionHistDetector.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Enums.cs">
       <Link>MonteCarlo\Enums.cs</Link>
