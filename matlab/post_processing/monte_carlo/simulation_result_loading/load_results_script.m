@@ -74,6 +74,9 @@ for mci = 1:length(datanames)
         figname = sprintf('log(%s)',results{di}.ROfXAndY.Name); figure; imagesc(results{di}.ROfXAndY.Y_Midpoints, results{di}.ROfXAndY.X_Midpoints, log(results{di}.ROfXAndY.Mean)); colorbar; title(figname); set(gcf,'Name', figname); ylabel('Y [mm]'); xlabel('X [mm]');
         xynorm = (results{di}.ROfXAndY.X(2)-results{di}.ROfXAndY.X(1))*(results{di}.ROfXAndY.Y(2)-results{di}.ROfXAndY.Y(1));
         disp(['Total reflectance captured by ROfXAndY detector: ' num2str(sum(results{di}.ROfXAndY.Mean(:)*xynorm))]);
+        % determine range of x, y midpoints that have non-zero data
+        [r,c]=find(results{di}.ROfXAndY.Mean);
+        disp(sprintf('ROfXAndY: x non-zero span [%d %d]',min(r),max(r))); disp(sprintf('ROfXAndY: y non-zero span [%d %d]',min(c),max(c)));
     end
 
     if isfield(results{di}, 'ROfRhoAndTime') && show.ROfRhoAndTime
@@ -129,6 +132,9 @@ for mci = 1:length(datanames)
         figname = sprintf('log(%s)',results{di}.TOfXAndY.Name); figure; imagesc(results{di}.TOfXAndY.Y_Midpoints, results{di}.TOfXAndY.X_Midpoints, log(results{di}.TOfXAndY.Mean)); colorbar; title(figname); set(gcf,'Name', figname); ylabel('Y [mm]'); xlabel('X [mm]');
         xynorm = (results{di}.TOfXAndY.X(2)-results{di}.TOfXAndY.X(1))*(results{di}.TOfXAndY.Y(2)-results{di}.TOfXAndY.Y(1));
         disp(['Total transmittance captured by TOfXAndY detector: ' num2str(sum(results{di}.TOfXAndY.Mean(:)*xynorm))]);
+        % determine range of x, y midpoints that have non-zero data
+        [r,c]=find(results{di}.TOfXAndY.Mean);
+        disp(sprintf('TOfXAndY: x non-zero span [%d %d]',min(r),max(r))); disp(sprintf('TOfXAndY: y non-zero span [%d %d]',min(c),max(c)));
     end
     if isfield(results{di}, 'ATotal') && show.ATotal
         disp(['Total absorption captured by ATotal detector: ' num2str(results{di}.ATotal.Mean)]);
@@ -240,9 +246,9 @@ for mci = 1:length(datanames)
         numxs = length(results{di}.ReflectedMTOfXAndYAndSubregionHist.X) - 1;
         numys = length(results{di}.ReflectedMTOfXAndYAndSubregionHist.Y) - 1;
         numsubregions = length(results{di}.ReflectedMTOfXAndYAndSubregionHist.SubregionIndices);
-        figname = sprintf('log(%s) at y=0',results{di}.ReflectedMTOfXAndYAndSubregionHist.Name); 
-        % plot y=0 plane results
-        figure; imagesc(results{di}.ReflectedMTOfXAndYAndSubregionHist.X_Midpoints, results{di}.ReflectedMTOfXAndYAndSubregionHist.MTBins_Midpoints, log(squeeze(results{di}.ReflectedMTOfXAndYAndSubregionHist.Mean(:,1,:))));...        
+        figname = sprintf('log(%s) summed over y',results{di}.ReflectedMTOfXAndYAndSubregionHist.Name); 
+        % plot results summed over y indices
+        figure; imagesc(results{di}.ReflectedMTOfXAndYAndSubregionHist.X_Midpoints, results{di}.ReflectedMTOfXAndYAndSubregionHist.MTBins_Midpoints, log(squeeze(sum(results{di}.ReflectedMTOfXAndYAndSubregionHist.Mean,2))));...        
            colorbar; title(figname); xlabel('x [mm]'); ylabel('MT'); set(gcf,'Name', figname);
         color=char('r-','g-','b-','c-','m-','r:','g:','b:','c:','m:');
         % note results array has dimensions [numFractionalMTBins,numSubregions, numMTBins, numRhos] due to column major json reading
@@ -288,8 +294,8 @@ for mci = 1:length(datanames)
         numys = length(results{di}.TransmittedMTOfXAndYAndSubregionHist.Y) - 1;
         numsubregions = length(results{di}.TransmittedMTOfXAndYAndSubregionHist.SubregionIndices);
         figname = sprintf('log(%s) at y=0',results{di}.TransmittedMTOfXAndYAndSubregionHist.Name); 
-        % plot y=0 plane results
-        figure; imagesc(results{di}.TransmittedMTOfXAndYAndSubregionHist.X_Midpoints, results{di}.TransmittedMTOfXAndYAndSubregionHist.MTBins_Midpoints, log(squeeze(results{di}.TransmittedMTOfXAndYAndSubregionHist.Mean(:,1,:))));...        
+        % plot results summed over y indices
+        figure; imagesc(results{di}.TransmittedMTOfXAndYAndSubregionHist.X_Midpoints, results{di}.TransmittedMTOfXAndYAndSubregionHist.MTBins_Midpoints, log(squeeze(sum(results{di}.TransmittedMTOfXAndYAndSubregionHist.Mean,2))));...        
            colorbar; title(figname); xlabel('x [mm]'); ylabel('MT'); set(gcf,'Name', figname);
         color=char('r-','g-','b-','c-','m-','r:','g:','b:','c:','m:');
         % note results array has dimensions [numFractionalMTBins,numSubregions, numMTBins, numRhos] due to column major json reading
