@@ -8,7 +8,7 @@ using Vts.MonteCarlo.PhotonData;
 namespace Vts.MonteCarlo.Detectors
 {
     /// <summary>
-    /// DetectorInput for R(r)
+    /// DetectorInput for T(r)
     /// </summary>
     public class TOfRhoDetectorInput : DetectorInput, IDetectorInput
     {

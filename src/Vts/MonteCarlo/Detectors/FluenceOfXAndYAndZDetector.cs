@@ -114,6 +114,7 @@ namespace Vts.MonteCarlo.Detectors
         private Func<PhotonDataPoint, PhotonDataPoint, int, double> _absorptionWeightingMethod;
         private ITissue _tissue;
         private IList<OpticalProperties> _ops;
+        private double[,,] _tallyForOnePhoton;
 
         public void Initialize(ITissue tissue)
         {
@@ -128,6 +129,7 @@ namespace Vts.MonteCarlo.Detectors
             _absorptionWeightingMethod = AbsorptionWeightingMethods.GetVolumeAbsorptionWeightingMethod(tissue, this);
             _tissue = tissue;
             _ops = _tissue.Regions.Select(r => r.RegionOP).ToArray();
+            _tallyForOnePhoton = _tallyForOnePhoton ?? (TallySecondMoment ? new double[X.Count - 1, Y.Count - 1, Z.Count - 1] : null);
         }
 
         /// <summary>
@@ -151,7 +153,7 @@ namespace Vts.MonteCarlo.Detectors
                 Mean[ix, iy, iz] += weight / _ops[regionIndex].Mua;
                 if (TallySecondMoment)
                 {
-                    SecondMoment[ix, iy, iz] += (weight / _ops[regionIndex].Mua) * (weight / _ops[regionIndex].Mua);
+                    _tallyForOnePhoton[ix, iy, iz] += weight / _ops[regionIndex].Mua;
                 }
                 TallyCount++;
             }
@@ -162,11 +164,30 @@ namespace Vts.MonteCarlo.Detectors
         /// <param name="photon">photon data needed to tally</param>
         public void Tally(Photon photon)
         {
+            // second moment is calculated AFTER the entire photon biography has been processed
+            if (TallySecondMoment)
+            {
+                Array.Clear(_tallyForOnePhoton, 0, _tallyForOnePhoton.Length);
+            }
             PhotonDataPoint previousDP = photon.History.HistoryData.First();
             foreach (PhotonDataPoint dp in photon.History.HistoryData.Skip(1))
             {
                 TallySingle(previousDP, dp, _tissue.GetRegionIndex(dp.Position)); // unoptimized version, but HistoryDataController calls this once
                 previousDP = dp;
+            }
+            // second moment determined after all tallies to each detector bin for ONE photon has been complete
+            if (TallySecondMoment)
+            {
+                for (int ix = 0; ix < X.Count - 1; ix++)
+                {
+                    for (int iy = 0; iy < Y.Count - 1; iy++)
+                    {
+                        for (int iz = 0; iz < Z.Count - 1; iz++)
+                        {
+                            SecondMoment[ix, iy, iz] = _tallyForOnePhoton[ix, iy, iz]*_tallyForOnePhoton[ix, iy, iz];
+                        }
+                    }
+                }
             }
         }
 

@@ -9,7 +9,7 @@ slash = filesep;  % get correct path delimiter for platform
 addpath([cd slash 'jsonlab']);
 
 % names of individual MC simulations
-datanames = { 'one_layer_all_detectors' };
+datanames = { 'two_layer_momentum_transfer_detectors' };
 % datanames = { 'results_mua0.1musp1.0' 'esults_mua0.1musp1.1' }; %...etc
 
 % outdir = 'C:\Projects\vts\src\Vts.MonteCarlo.CommandLineApplication\bin\Release';
@@ -27,6 +27,7 @@ show.TDiffuse =                 1;
 show.TOfRho =                   1;
 show.TOfRhoAndAngle =           1;
 show.TOfAngle =                 1;
+show.TOfXAndY =                 1;
 show.ATotal =                   1;
 show.AOfRhoAndZ =               1;
 show.AOfXAndYAndZ = 		1;
@@ -38,6 +39,9 @@ show.RadianceOfXAndYAndZAndThetaAndPhi = 1;
 show.pMCROfRho =                1;
 show.pMCROfRhoAndTime =         1;
 show.ReflectedMTOfRhoAndSubregionHist = 1;
+show.ReflectedMTOfXAndYAndSubregionHist = 1;
+show.TransmittedMTOfRhoAndSubregionHist = 1;
+show.TransmittedMTOfXAndYAndSubregionHist = 1;
 show.ReflectedTimeOfRhoAndSubregionHist = 1;
 
 for mci = 1:length(datanames)
@@ -70,6 +74,9 @@ for mci = 1:length(datanames)
         figname = sprintf('log(%s)',results{di}.ROfXAndY.Name); figure; imagesc(results{di}.ROfXAndY.Y_Midpoints, results{di}.ROfXAndY.X_Midpoints, log(results{di}.ROfXAndY.Mean)); colorbar; title(figname); set(gcf,'Name', figname); ylabel('Y [mm]'); xlabel('X [mm]');
         xynorm = (results{di}.ROfXAndY.X(2)-results{di}.ROfXAndY.X(1))*(results{di}.ROfXAndY.Y(2)-results{di}.ROfXAndY.Y(1));
         disp(['Total reflectance captured by ROfXAndY detector: ' num2str(sum(results{di}.ROfXAndY.Mean(:)*xynorm))]);
+        % determine range of x, y midpoints that have non-zero data
+        [r,c]=find(results{di}.ROfXAndY.Mean);
+        disp(sprintf('ROfXAndY: x non-zero span [%d %d]',min(r),max(r))); disp(sprintf('ROfXAndY: y non-zero span [%d %d]',min(c),max(c)));
     end
 
     if isfield(results{di}, 'ROfRhoAndTime') && show.ROfRhoAndTime
@@ -105,13 +112,13 @@ for mci = 1:length(datanames)
          figname = sprintf('log(%s)',results{di}.TOfRho.Name); figure; plot(results{di}.TOfRho.Rho_Midpoints, log10(results{di}.TOfRho.Mean)); title(figname); set(gcf,'Name', figname); xlabel('\rho [mm]'); ylabel('T(\rho) [mm^-^2]');
          rhodelta = results{di}.TOfRho.Rho(2)-results{di}.TOfRho.Rho(1);
          rhonorm = 2 * pi * (results{di}.TOfRho.Rho_Midpoints * rhodelta);
-         disp(['Total reflectance captured by TOfRho detector: ' num2str(sum(results{di}.TOfRho.Mean.*rhonorm'))]);
+         disp(['Total transmittance captured by TOfRho detector: ' num2str(sum(results{di}.TOfRho.Mean.*rhonorm'))]);
     end
     if isfield(results{di}, 'TOfAngle') && show.TOfAngle
         figname = sprintf('log(%s)',results{di}.TOfAngle.Name); figure; plot(results{di}.TOfAngle.Angle_Midpoints, log(results{di}.TOfAngle.Mean)); title(figname); set(gcf,'Name', figname); xlabel('\angle [rad]'); ylabel('T(angle) [rad^-^1]');
         angledelta = results{di}.TOfAngle.Angle(2)-results{di}.TOfAngle.Angle(1);
         anglenorm = 2 * pi * sin(results{di}.TOfAngle.Angle_Midpoints * angledelta) * angledelta;
-        disp(['Total reflectance captured by TOfAngle detector: ' num2str(sum(results{di}.TOfAngle.Mean.*anglenorm'))]);
+        disp(['Total transmittance captured by TOfAngle detector: ' num2str(sum(results{di}.TOfAngle.Mean.*anglenorm'))]);
     end
     if isfield(results{di}, 'TOfRhoAndAngle') && show.TOfRhoAndAngle
         figname = sprintf('log(%s)',results{di}.TOfRhoAndAngle.Name); figure; imagesc(results{di}.TOfRhoAndAngle.Rho_Midpoints, results{di}.TOfRhoAndAngle.Angle_Midpoints, log(results{di}.TOfRhoAndAngle.Mean)); colorbar; title(figname); set(gcf,'Name', figname);ylabel('\angle [rad]');xlabel('\rho [mm]');
@@ -120,6 +127,14 @@ for mci = 1:length(datanames)
         rhonorm = 2 * pi * results{di}.TOfRhoAndAngle.Rho_Midpoints * rhodelta;
         anglenorm = 2 * pi * sin(results{di}.TOfRhoAndAngle.Angle_Midpoints * angledelta) * angledelta;
         disp(['Total transmittance captured by TOfRhoAndAngle detector: ' num2str(sum(sum(results{di}.TOfRhoAndAngle.Mean.*repmat(anglenorm',[1,size(rhonorm,2)]).*repmat(rhonorm,[size(anglenorm,2),1]))))]);
+    end    
+    if isfield(results{di}, 'TOfXAndY') && show.TOfXAndY
+        figname = sprintf('log(%s)',results{di}.TOfXAndY.Name); figure; imagesc(results{di}.TOfXAndY.Y_Midpoints, results{di}.TOfXAndY.X_Midpoints, log(results{di}.TOfXAndY.Mean)); colorbar; title(figname); set(gcf,'Name', figname); ylabel('Y [mm]'); xlabel('X [mm]');
+        xynorm = (results{di}.TOfXAndY.X(2)-results{di}.TOfXAndY.X(1))*(results{di}.TOfXAndY.Y(2)-results{di}.TOfXAndY.Y(1));
+        disp(['Total transmittance captured by TOfXAndY detector: ' num2str(sum(results{di}.TOfXAndY.Mean(:)*xynorm))]);
+        % determine range of x, y midpoints that have non-zero data
+        [r,c]=find(results{di}.TOfXAndY.Mean);
+        disp(sprintf('TOfXAndY: x non-zero span [%d %d]',min(r),max(r))); disp(sprintf('TOfXAndY: y non-zero span [%d %d]',min(c),max(c)));
     end
     if isfield(results{di}, 'ATotal') && show.ATotal
         disp(['Total absorption captured by ATotal detector: ' num2str(results{di}.ATotal.Mean)]);
@@ -210,20 +225,88 @@ for mci = 1:length(datanames)
            colorbar; title(figname); xlabel('\rho [mm]'); ylabel('MT'); set(gcf,'Name', figname);
         color=char('r-','g-','b-','c-','m-','r:','g:','b:','c:','m:');
         % note results array has dimensions [numFractionalMTBins,numSubregions, numMTBins, numRhos] due to column major json reading
-        for j=1:numsubregions
+        for j=2:3 % customized, general form: j=1:numsubregions
         for i=1:20:41 % customized, general form: i=1:numrhos
             %figure; plot(results{di}.ReflectedMTOfRhoAndSubregionHist.MTBins_Midpoints,results{di}.ReflectedMTOfRhoAndSubregionHist.Mean(i,:)); % debug plots
-            figure;figname = sprintf('Fractional MT in Region %2d, Rho = %5.3f mm',j-1,results{di}.ReflectedMTOfRhoAndSubregionHist.Rho_Midpoints(i));
+            figure;figname = sprintf('Reflected Fractional MT in Region %2d, Rho = %5.3f mm',j-1,results{di}.ReflectedMTOfRhoAndSubregionHist.Rho_Midpoints(i));
             X=results{di}.ReflectedMTOfRhoAndSubregionHist.MTBins_Midpoints;
-            %layerfrac=squeeze(results{di}.ReflectedMTOfRhoAndSubregionHist.FractionalMT(i,:,j,:));
-            %bar(X,layerfrac,'stacked'); title(figname);xlabel('MT'),ylabel('photon weight');
-            %stack=zeros(size(results{di}.ReflectedMTOfRhoAndSubregionHist.FractionalMT(i,:,j,1)));
-            stack=zeros(size(results{di}.ReflectedMTOfRhoAndSubregionHist.FractionalMT(1,j,:,i)));
-            for k=1:size(results{di}.ReflectedMTOfRhoAndSubregionHist.FractionalMT,1)                
-                %stack=stack+results{di}.ReflectedMTOfRhoAndSubregionHist.FractionalMT(i,:,j,k);
-                stack=stack+results{di}.ReflectedMTOfRhoAndSubregionHist.FractionalMT(k,j,:,i);
-                semilogy(X,squeeze(stack),color(k,:),'LineWidth',3);axis([0 max(X) 1e-7 1]);title(figname);xlabel('MT'),ylabel('stacked log(photon weight)'); hold on;
-            end
+            layerfrac=squeeze(results{di}.ReflectedMTOfRhoAndSubregionHist.FractionalMT(:,j,:,i));
+            bar(X,layerfrac','stacked'); title(figname);xlabel('MT'),ylabel('photon weight');
+%           stack=zeros(size(results{di}.ReflectedMTOfRhoAndSubregionHist.FractionalMT(1,j,:,i)));
+%             for k=1:size(results{di}.ReflectedMTOfRhoAndSubregionHist.FractionalMT,1)                
+%                 %stack=stack+results{di}.ReflectedMTOfRhoAndSubregionHist.FractionalMT(i,:,j,k);
+%                 stack=stack+results{di}.ReflectedMTOfRhoAndSubregionHist.FractionalMT(k,j,:,i);
+%                 semilogy(X,squeeze(stack),color(k,:),'LineWidth',3);axis([0 max(X) 1e-7 1]);title(figname);xlabel('MT'),ylabel('stacked log(photon weight)'); hold on;
+%             end
+            legend('[0-0.1]','[0.1-0.2]','[0.2-0.3]','[0.3-0.4]','[0.4-0.5]','[0.5-0.6]','[0.6-0.7]','[0.7-0.8]','[0.8-0.9]','[0.9,1]'); % customized
+        end
+        end
+    end
+    if isfield(results{di}, 'ReflectedMTOfXAndYAndSubregionHist') && show.ReflectedMTOfXAndYAndSubregionHist
+        numxs = length(results{di}.ReflectedMTOfXAndYAndSubregionHist.X) - 1;
+        numys = length(results{di}.ReflectedMTOfXAndYAndSubregionHist.Y) - 1;
+        numsubregions = length(results{di}.ReflectedMTOfXAndYAndSubregionHist.SubregionIndices);
+        figname = sprintf('log(%s) summed over y',results{di}.ReflectedMTOfXAndYAndSubregionHist.Name); 
+        % plot results summed over y indices
+        figure; imagesc(results{di}.ReflectedMTOfXAndYAndSubregionHist.X_Midpoints, results{di}.ReflectedMTOfXAndYAndSubregionHist.MTBins_Midpoints, log(squeeze(sum(results{di}.ReflectedMTOfXAndYAndSubregionHist.Mean,2))));...        
+           colorbar; title(figname); xlabel('x [mm]'); ylabel('MT'); set(gcf,'Name', figname);
+        color=char('r-','g-','b-','c-','m-','r:','g:','b:','c:','m:');
+        % note results array has dimensions [numFractionalMTBins,numSubregions, numMTBins, numRhos] due to column major json reading
+        for j=2:3 % customized, general form: j=1:numsubregions
+        center=floor(numxs/2);
+        for i=center:center+1 % customized for just those x near source, general form: i=1:numxs for every x bin
+            %figure; plot(results{di}.ReflectedMTOfXAndYAndSubregionHist.MTBins_Midpoints,results{di}.ReflectedMTOfXAndYAndSubregionHist.Mean(i,1,:)); % debug plots
+            figure;figname = sprintf('Reflected Fractional MT in Region %2d, X = %5.3f mm',j-1,results{di}.ReflectedMTOfXAndYAndSubregionHist.X_Midpoints(i));
+            X=results{di}.ReflectedMTOfXAndYAndSubregionHist.MTBins_Midpoints;
+            layerfrac=squeeze(results{di}.ReflectedMTOfXAndYAndSubregionHist.FractionalMT(:,j,:,1,i));
+            bar(X,layerfrac','stacked'); title(figname);xlabel('MT'),ylabel('photon weight');
+            legend('[0-0.1]','[0.1-0.2]','[0.2-0.3]','[0.3-0.4]','[0.4-0.5]','[0.5-0.6]','[0.6-0.7]','[0.7-0.8]','[0.8-0.9]','[0.9,1]'); % customized
+        end
+        end
+    end
+    if isfield(results{di}, 'TransmittedMTOfRhoAndSubregionHist') && show.TransmittedMTOfRhoAndSubregionHist
+        numrhos = length(results{di}.TransmittedMTOfRhoAndSubregionHist.Rho) - 1;
+        numsubregions = length(results{di}.TransmittedMTOfRhoAndSubregionHist.SubregionIndices);
+        figname = sprintf('log(%s)',results{di}.TransmittedMTOfRhoAndSubregionHist.Name); 
+        figure; imagesc(results{di}.TransmittedMTOfRhoAndSubregionHist.Rho_Midpoints, results{di}.TransmittedMTOfRhoAndSubregionHist.MTBins_Midpoints, log(results{di}.TransmittedMTOfRhoAndSubregionHist.Mean));...        
+           colorbar; title(figname); xlabel('\rho [mm]'); ylabel('MT'); set(gcf,'Name', figname);
+        color=char('r-','g-','b-','c-','m-','r:','g:','b:','c:','m:');
+        % note results array has dimensions [numFractionalMTBins,numSubregions, numMTBins, numRhos] due to column major json reading
+        for j=2:3 % customized, general form: j=1:numsubregions
+        for i=1:20:41 % customized, general form: i=1:numrhos
+            %figure; plot(results{di}.TransmittedMTOfRhoAndSubregionHist.MTBins_Midpoints,results{di}.TransmittedMTOfRhoAndSubregionHist.Mean(i,:)); % debug plots
+            figure;figname = sprintf('Transmitted Fractional MT in Region %2d, Rho = %5.3f mm',j-1,results{di}.TransmittedMTOfRhoAndSubregionHist.Rho_Midpoints(i));
+            X=results{di}.TransmittedMTOfRhoAndSubregionHist.MTBins_Midpoints;
+            layerfrac=squeeze(results{di}.TransmittedMTOfRhoAndSubregionHist.FractionalMT(:,j,:,i));
+            bar(X,layerfrac','stacked'); title(figname);xlabel('MT'),ylabel('photon weight');
+%           stack=zeros(size(results{di}.TransmittedMTOfRhoAndSubregionHist.FractionalMT(1,j,:,i)));
+%             for k=1:size(results{di}.TransmittedMTOfRhoAndSubregionHist.FractionalMT,1)                
+%                 %stack=stack+results{di}.TransmittedMTOfRhoAndSubregionHist.FractionalMT(i,:,j,k);
+%                 stack=stack+results{di}.TransmittedMTOfRhoAndSubregionHist.FractionalMT(k,j,:,i);
+%                 semilogy(X,squeeze(stack),color(k,:),'LineWidth',3);axis([0 max(X) 1e-7 1]);title(figname);xlabel('MT'),ylabel('stacked log(photon weight)'); hold on;
+%             end
+            legend('[0-0.1]','[0.1-0.2]','[0.2-0.3]','[0.3-0.4]','[0.4-0.5]','[0.5-0.6]','[0.6-0.7]','[0.7-0.8]','[0.8-0.9]','[0.9,1]'); % customized
+        end
+        end
+    end
+    if isfield(results{di}, 'TransmittedMTOfXAndYAndSubregionHist') && show.TransmittedMTOfXAndYAndSubregionHist
+        numxs = length(results{di}.TransmittedMTOfXAndYAndSubregionHist.X) - 1;
+        numys = length(results{di}.TransmittedMTOfXAndYAndSubregionHist.Y) - 1;
+        numsubregions = length(results{di}.TransmittedMTOfXAndYAndSubregionHist.SubregionIndices);
+        figname = sprintf('log(%s) at y=0',results{di}.TransmittedMTOfXAndYAndSubregionHist.Name); 
+        % plot results summed over y indices
+        figure; imagesc(results{di}.TransmittedMTOfXAndYAndSubregionHist.X_Midpoints, results{di}.TransmittedMTOfXAndYAndSubregionHist.MTBins_Midpoints, log(squeeze(sum(results{di}.TransmittedMTOfXAndYAndSubregionHist.Mean,2))));...        
+           colorbar; title(figname); xlabel('x [mm]'); ylabel('MT'); set(gcf,'Name', figname);
+        color=char('r-','g-','b-','c-','m-','r:','g:','b:','c:','m:');
+        % note results array has dimensions [numFractionalMTBins,numSubregions, numMTBins, numRhos] due to column major json reading
+        for j=2:3 % customized, general form: j=1:numsubregions
+        center=floor(numxs/2);
+        for i=center:center+1 % customized, general form: i=1:numxs
+            %figure; plot(results{di}.TransmittedMTOfXAndYAndSubregionHist.MTBins_Midpoints,results{di}.TransmittedMTOfXAndYAndSubregionHist.Mean(i,1,:)); % debug plots
+            figure;figname = sprintf('Reflected Fractional MT in Region %2d, X = %5.3f mm',j-1,results{di}.TransmittedMTOfXAndYAndSubregionHist.X_Midpoints(i));
+            X=results{di}.TransmittedMTOfXAndYAndSubregionHist.MTBins_Midpoints;
+            layerfrac=squeeze(results{di}.TransmittedMTOfXAndYAndSubregionHist.FractionalMT(:,j,:,1,i));
+            bar(X,layerfrac','stacked'); title(figname);xlabel('MT'),ylabel('photon weight');
             legend('[0-0.1]','[0.1-0.2]','[0.2-0.3]','[0.3-0.4]','[0.4-0.5]','[0.5-0.6]','[0.6-0.7]','[0.7-0.8]','[0.8-0.9]','[0.9,1]'); % customized
         end
         end

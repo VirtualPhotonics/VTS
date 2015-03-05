@@ -130,7 +130,7 @@ namespace Vts.MonteCarlo
                     "With Analog absorption weighting, set Russian Roulette weight threshold = 0.0");
             }
             // check that if single ellipsoid tissue specified and (r,z) detector specified,
-            // that ellipsoid is centered at x=0, y=0
+            // that (1) ellipsoid is centered at x=0, y=0, (2) ellipsoid is cylindrically symmetric (dx=dy)
             if (input.TissueInput is SingleEllipsoidTissueInput)
             {
                 foreach (var detectorInput in input.DetectorInputs)
@@ -145,9 +145,14 @@ namespace Vts.MonteCarlo
                             "Ellipsoid must be centered at (x,y)=(0,0) for cylindrical tallies",
                             "Change ellipsoid center to (0,0) or specify non-cylindrical type tally");            
                     }
-
-                }
-
+                    if (detectorInput.TallyDetails.IsCylindricalTally && (ellipsoid.Dx != ellipsoid.Dy))
+                    {
+                        return new ValidationResult(
+                            false,
+                            "Ellipsoid must have Dx=Dy for cylindrical tallies",
+                            "Change ellipsoid.Dx to be = to Dy or specify non-cylindrical type tally");
+                    }
+                 }
             }
             // check that if non-normal source defined, that detectors defined are not cylindrical tallies
             // this could be greatly expanded, just an initial start 
