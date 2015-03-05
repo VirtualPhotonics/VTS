@@ -437,6 +437,10 @@ namespace Vts.MonteCarlo
             /// </summary>
             "TOfAngle",
             /// <summary>
+            /// Transmittance as a function of x and y
+            /// </summary>
+            "TOfXAndY",
+            /// <summary>
             /// Total diffuse transmittance
             /// </summary>
             "TDiffuse",
@@ -468,6 +472,18 @@ namespace Vts.MonteCarlo
             /// Reflected momentum transfer as a function of source-detector separation (rho) and tissue region with histogram of MT
             /// </summary>
             "ReflectedMTOfRhoAndSubregionHist",
+            /// <summary>
+            /// Reflected momentum transfer as a function of x, y and tissue region with histogram of MT
+            /// </summary>
+            "ReflectedMTOfXAndYAndSubregionHist",
+            /// <summary>
+            /// Transmitted momentum transfer as a function of source-detector separation (rho) and tissue region with histogram of MT
+            /// </summary>
+            "TransmittedMTOfRhoAndSubregionHist",
+            /// <summary>
+            /// Transmitted momentum transfer as a function of x, y and tissue region with histogram of MT
+            /// </summary>
+            "TransmittedMTOfXAndYAndSubregionHist",
             /// <summary>
             /// Reflected subregion time as a function of source-detector separation (rho) and tissue region 
             /// </summary>
@@ -562,6 +578,10 @@ namespace Vts.MonteCarlo
         /// Transmittance as a function of angle
         /// </summary>
         public static string TOfAngle { get { return "TOfAngle"; } }
+        /// <summary>
+        /// Transmittance as a function of Cartesian position on the surface of the tissue
+        /// </summary>
+        public static string TOfXAndY { get { return "TOfXAndY"; } }
         /// <summary>
         /// Total diffuse transmittance
         /// </summary>
