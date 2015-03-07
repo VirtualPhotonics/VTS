@@ -243,26 +243,16 @@ namespace Vts.MonteCarlo
                     {
                         AbsorbContinuous();
                     }
+                }
 
-                    CurrentRegionIndex = neighborIndex;
-                    // update to refracted direction
-                    DP.Direction.Ux *= nCurrent / nNext;
-                    DP.Direction.Uy *= nCurrent / nNext;
-                    // cosThetaSnell is always positive when exiting since GetAngleRelativeToBoundaryNormal is so set Uz accordingly
-                    DP.Direction.Uz = (DP.Direction.Uz > 0)
-                        ? DP.Direction.Uz = cosThetaSnell // if already pointed down, use cosThetaSnell
-                        : DP.Direction.Uz = -Math.Abs(cosThetaSnell); // make sure pointed up
-                }
-                else // not on domain boundary, at internal interface or first time enter tissue, pass to next
+                CurrentRegionIndex = neighborIndex;
+                DP.Direction = _tissue.GetRefractedDirection(DP.Position, DP.Direction,
+                    nCurrent, nNext, cosThetaSnell);
+
+                if (_firstTimeEnteringDomain)
                 {
-                    CurrentRegionIndex = neighborIndex;
-                    DP.Direction = _tissue.GetRefractedDirection(DP.Position, DP.Direction,
-                        nCurrent, nNext, cosThetaSnell);
-                    if (_firstTimeEnteringDomain)
-                    {
-                        _firstTimeEnteringDomain = false;
-                    }
-                }
+                    _firstTimeEnteringDomain = false;
+                }                
             }
             else  // don't cross, reflect
             {
