@@ -18,3 +18,12 @@ $NugetDir/nuget install $ProjectDir/packages.config -o $DestDir
 
 ProjectDir=$SolutionDir/src/Vts.MonteCarlo.CommandLineApplication
 $NugetDir/nuget install $ProjectDir/packages.config -o $DestDir
+
+ProjectDir=$SolutionDir/src/Vts.MonteCarlo.CommandLineApplication.Test
+$NugetDir/nuget install $ProjectDir/packages.config -o $DestDir
+
+ProjectDir=$SolutionDir/src/Vts.MonteCarlo.PostProcessor
+$NugetDir/nuget install $ProjectDir/packages.config -o $DestDir
+
+ProjectDir=$SolutionDir/src/Vts.MonteCarlo.PostProcessor.Test
+$NugetDir/nuget install $ProjectDir/packages.config -o $DestDir
