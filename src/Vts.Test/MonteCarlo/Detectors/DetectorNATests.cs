@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using NUnit.Framework;
 using Vts.Common;
@@ -15,7 +16,7 @@ namespace Vts.Test.MonteCarlo.Detectors
     [TestFixture]
     public class DetectorNATests
     {
-        private SimulationOutput _output;
+        private SimulationOutput _outputNA0, _outputNA0p2;
         private double _dosimetryDepth = 2.0;
 
         /// <summary>
@@ -40,10 +41,23 @@ namespace Vts.Test.MonteCarlo.Detectors
                      new Position(0.0, 0.0, 0.0),
                      new Direction(0.0, 0.0, 1.0),
                      1); // start inside tissue
-            var detectors =  new List<IDetectorInput>
+            var tissue = new MultiLayerTissueInput(
+                new ITissueRegion[]
+                {
+                    new LayerTissueRegion(
+                        new DoubleRange(double.NegativeInfinity, 0.0),
+                        new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
+                    new LayerTissueRegion(
+                        new DoubleRange(0.0, 20.0),
+                        new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
+                    new LayerTissueRegion(
+                        new DoubleRange(20.0, double.PositiveInfinity),
+                        new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
+                });
+            var detectorsNA0 =  new List<IDetectorInput>
                 {
                     //new ROfAngleDetectorInput() {Angle = new DoubleRange(Math.PI / 2 , Math.PI, 2)},
-                    new ROfRhoDetectorInput() {Rho = new DoubleRange(0.0, 10.0, 101), TallySecondMoment = true, NA=0.0},
+                    new ROfRhoDetectorInput() {Rho = new DoubleRange(0.0, 10.0, 101), TallySecondMoment = true, FinalTissueRegionIndex= 1, NA = 0.0},
                     //new ROfRhoAndAngleDetectorInput() {Rho = new DoubleRange(0.0, 10.0, 101), Angle = new DoubleRange(Math.PI / 2, Math.PI, 2)},
                     //new ROfRhoAndTimeDetectorInput() {Rho = new DoubleRange(0.0, 10.0, 101), Time = new DoubleRange(0.0, 1.0, 101)},
                     //new ROfXAndYDetectorInput() { X = new DoubleRange(-10.0, 10.0, 101), Y = new DoubleRange(-10.0, 10.0, 101) },
@@ -68,30 +82,31 @@ namespace Vts.Test.MonteCarlo.Detectors
                 "",
                 simulationOptions,
                 source,
-                new MultiLayerTissueInput(
-                    new ITissueRegion[]
-                    { 
-                        new LayerTissueRegion(
-                            new DoubleRange(double.NegativeInfinity, 0.0),
-                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
-                        new LayerTissueRegion(
-                            new DoubleRange(0.0, 20.0),
-                            new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
-                        new LayerTissueRegion(
-                            new DoubleRange(20.0, double.PositiveInfinity),
-                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
-                    }
-                ),
-                detectors);             
-            _output = new MonteCarloSimulation(input).Run();
+                tissue,
+                detectorsNA0);             
+            _outputNA0 = new MonteCarloSimulation(input).Run();
 
+            // set up detectors with NA = 0.7 -> sin(theta)=0.5
+            var detectorsNA0p2 = new List<IDetectorInput>
+            {
+                //new ROfAngleDetectorInput() {Angle = new DoubleRange(Math.PI / 2 , Math.PI, 2)},
+                new ROfRhoDetectorInput() {Rho = new DoubleRange(0.0, 10.0, 101), TallySecondMoment = true, FinalTissueRegionIndex = 1, NA = 0.4},
+            };
+            input = new SimulationInput(
+                100,
+                "",
+                simulationOptions,
+                source,
+                tissue,
+                detectorsNA0p2);
+            _outputNA0p2 = new MonteCarloSimulation(input).Run();
         }
 
 
         [Test]
         public void validate_detector_tallies_are_zero_when_NA_is_zero()
         {
-            Assert.AreEqual(_output.R_r[0], 0.0);
+            Assert.AreEqual(_outputNA0.R_r[0], 0.0);
             //Assert.AreEqual(_output.R_r2[0], 0.0);
             //Assert.AreEqual(_output.R_a[0], 0.0);
             //Assert.AreEqual(_output.R_ra[0, 0], 0.0);
@@ -103,8 +118,25 @@ namespace Vts.Test.MonteCarlo.Detectors
             //Assert.AreEqual(_output.R_xy[0, 0], 0.0);
             //Assert.AreEqual(_output.Rad_r[0], 0.0);
         }
-
-
+        /// <summary>
+        /// test to validate partially open NA
+        /// validation values taken from prior test run
+        /// </summary>
+        [Test]
+        public void validate_detector_tallies_are_zero_when_NA_is_0p3()
+        {
+            Assert.Less(Math.Abs(_outputNA0p2.R_r[0] - 0.3170404), 0.0000001);
+            //Assert.AreEqual(_output.R_r2[0], 0.0);
+            //Assert.AreEqual(_output.R_a[0], 0.0);
+            //Assert.AreEqual(_output.R_ra[0, 0], 0.0);
+            //Assert.AreEqual(_output.R_rt[0, 0], 0.0);
+            //Assert.AreEqual(_output.R_rw[0, 0], 0.0);
+            //Assert.AreEqual(_output.T_r[0], 0.0);
+            //Assert.AreEqual(_output.T_a[0], 0.0);
+            //Assert.AreEqual(_output.T_ra[0, 0], 0.0);
+            //Assert.AreEqual(_output.R_xy[0, 0], 0.0);
+            //Assert.AreEqual(_output.Rad_r[0], 0.0);
+        }
         //// Reflected Momentum Transfer of Rho and SubRegion
         //[Test]
         //public void validate_DAW_ReflectedMTOfRhoAndSubregionHist()
