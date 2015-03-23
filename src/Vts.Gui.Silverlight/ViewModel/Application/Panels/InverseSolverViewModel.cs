@@ -12,6 +12,8 @@ using Vts.Factories;
 using Vts.Gui.Silverlight.Extensions;
 using Vts.Gui.Silverlight.Input;
 using Vts.Gui.Silverlight.Model;
+using Vts.IO;
+
 #if WHITELIST
 using Vts.Gui.Silverlight.ViewModel.Application;
 #endif
@@ -428,7 +430,13 @@ namespace Vts.Gui.Silverlight.ViewModel
 
         private object GetInitialGuessOpticalProperties()
         {
-            return GetOpticalPropertiesFromSpectralPanel() ?? new[] { InitialGuessOpticalPropertyVM.GetOpticalProperties() };
+            var initialGuessOPs = InitialGuessOpticalPropertyVM.GetOpticalProperties();
+            if (SolutionDomainTypeOptionVM.IndependentVariableAxisOptionVM.SelectedValues.Contains(IndependentVariableAxis.Wavelength))
+            {
+                var wavelengths = GetParameterValues(IndependentVariableAxis.Wavelength);
+                return wavelengths.Select(_ => initialGuessOPs.Clone()).ToArray();
+            }
+            return new[] { InitialGuessOpticalPropertyVM.GetOpticalProperties() };
         }
 
         private OpticalProperties[] GetOpticalPropertiesFromSpectralPanel()
@@ -473,7 +481,7 @@ namespace Vts.Gui.Silverlight.ViewModel
 
             var dependentValues = measuredDataValues.ToArray();
             var opticalProperties = GetInitialGuessOpticalProperties();
-            var paramters = GetParametersInOrder(opticalProperties);
+            var initGuessParameters = GetParametersInOrder(opticalProperties);
 
             double[] fit = ComputationFactory.SolveInverse(
                 InverseForwardSolverTypeOptionVM.SelectedValue,
@@ -482,17 +490,17 @@ namespace Vts.Gui.Silverlight.ViewModel
                 dependentValues,
                 dependentValues, // set standard deviation, sd, to measured (works w/ or w/o noise)
                 InverseFitTypeOptionVM.SelectedValue,
-                paramters.Values.ToArray());
-            
-            var fitOpticalProperties = new[] { new OpticalProperties(fit) };
+                initGuessParameters.Values.ToArray());
 
-            var parameters = GetParametersInOrder(fitOpticalProperties);
+            var fitOpticalProperties = ComputationFactory.UnFlattenOpticalProperties(fit);
+
+            var fitParameters = GetParametersInOrder(fitOpticalProperties);
 
             var resultDataValues = ComputationFactory.ComputeReflectance(
                 InverseForwardSolverTypeOptionVM.SelectedValue,
                 SolutionDomainTypeOptionVM.SelectedValue,
                 ForwardAnalysisType.R,
-                parameters.Values.ToArray());
+                fitParameters.Values.ToArray());
 
             var resultDataPoints = GetDataPoints(resultDataValues);
 
