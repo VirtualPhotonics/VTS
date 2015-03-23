@@ -374,7 +374,7 @@ namespace Vts.Gui.Silverlight.ViewModel
             return axesLabels;
         }
 
-        void CalculateInitialGuessCommand_Executed(object sender, ExecutedEventArgs e)
+        private void CalculateInitialGuessCommand_Executed(object sender, ExecutedEventArgs e)
         {
             var initialGuessDataValues = CalculateInitialGuess();
             var initialGuessDataPoints = GetDataPoints(initialGuessDataValues);
@@ -387,7 +387,7 @@ namespace Vts.Gui.Silverlight.ViewModel
             Commands.TextOutput_PostMessage.Execute("Initial Guess: " + InitialGuessOpticalPropertyVM + " \r");
         }
 
-        void SolveInverseCommand_Executed(object sender, ExecutedEventArgs e)
+        private void SolveInverseCommand_Executed(object sender, ExecutedEventArgs e)
         {
             // Report inverse solver setup and results
             Commands.TextOutput_PostMessage.Execute("Inverse Solution Results: \r");
@@ -403,7 +403,7 @@ namespace Vts.Gui.Silverlight.ViewModel
             Commands.Plot_SetAxesLabels.Execute(axesLabels);
             string[] plotLabels = GetLegendLabels(PlotDataType.Calculated);
             Commands.Plot_PlotValues.Execute(new PlotData(inverseResult.FitDataPoints, plotLabels));
-            Commands.TextOutput_PostMessage.Execute("   At Converged Values: " + inverseResult.FitOpticalProperties + " \r");
+            Commands.TextOutput_PostMessage.Execute("   At Converged Values: " + ResultOpticalPropertyVM + " \r");
         }
 
         private double[] GetSimulatedMeasuredData()
