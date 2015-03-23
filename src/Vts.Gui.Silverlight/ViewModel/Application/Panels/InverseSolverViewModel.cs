@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using System.Text;
 using MathNet.Numerics;
 using System.Windows;
 using GalaSoft.MvvmLight.Command;
@@ -394,18 +395,32 @@ namespace Vts.Gui.Silverlight.ViewModel
             // Report inverse solver setup and results
             Commands.TextOutput_PostMessage.Execute("Inverse Solution Results: \r");
             Commands.TextOutput_PostMessage.Execute("   Optimization parameter(s): " + InverseFitTypeOptionVM.SelectedValue + " \r");
-            Commands.TextOutput_PostMessage.Execute("   Exact: " + MeasuredOpticalPropertyVM + " \r");
             Commands.TextOutput_PostMessage.Execute("   Initial Guess: " + InitialGuessOpticalPropertyVM + " \r");
 
             var inverseResult = SolveInverse();
             ResultOpticalPropertyVM.SetOpticalProperties(inverseResult.FitOpticalProperties.First()); // todo: this only works for one set of properties
 
             //Report the results
+            if (inverseResult.FitOpticalProperties.Length > 1) // If multi-valued OPs, the results aren't in the "scalar" VMs, need to parse OPs directly
+            {
+                var unitString = IndependentVariableAxisUnits.InverseMM.GetInternationalizedString();
+                var sb = new StringBuilder("\t[Exact]\t\t\t\t\t\t[At Converged Values]\t\t\t\t\t\t[Units]\r");
+                for (int i = 0; i < inverseResult.FitOpticalProperties.Length; i++)
+                {
+                    sb.Append("\t" + inverseResult.MeasuredOpticalProperties[i] + "\t\t\t" + inverseResult.FitOpticalProperties[i] + "\t\t\t" + unitString + " \r");
+                }
+                Commands.TextOutput_PostMessage.Execute(sb.ToString());
+            }
+            else
+            {
+                Commands.TextOutput_PostMessage.Execute("   Exact: " + MeasuredOpticalPropertyVM + " \r");
+                Commands.TextOutput_PostMessage.Execute("   At Converged Values: " + ResultOpticalPropertyVM + " \r");
+            }
+
             PlotAxesLabels axesLabels = GetPlotLabels();
             Commands.Plot_SetAxesLabels.Execute(axesLabels);
             string[] plotLabels = GetLegendLabels(PlotDataType.Calculated);
             Commands.Plot_PlotValues.Execute(new PlotData(inverseResult.FitDataPoints, plotLabels));
-            Commands.TextOutput_PostMessage.Execute("   At Converged Values: " + ResultOpticalPropertyVM + " \r");
         }
 
         private double[] GetSimulatedMeasuredData()
@@ -430,13 +445,19 @@ namespace Vts.Gui.Silverlight.ViewModel
 
         private object GetInitialGuessOpticalProperties()
         {
+            return GetDuplicatedListofOpticalProperties() ?? new[] { InitialGuessOpticalPropertyVM.GetOpticalProperties() };
+        }
+
+        private OpticalProperties[] GetDuplicatedListofOpticalProperties()
+        {
             var initialGuessOPs = InitialGuessOpticalPropertyVM.GetOpticalProperties();
             if (SolutionDomainTypeOptionVM.IndependentVariableAxisOptionVM.SelectedValues.Contains(IndependentVariableAxis.Wavelength))
             {
                 var wavelengths = GetParameterValues(IndependentVariableAxis.Wavelength);
                 return wavelengths.Select(_ => initialGuessOPs.Clone()).ToArray();
             }
-            return new[] { InitialGuessOpticalPropertyVM.GetOpticalProperties() };
+
+            return null;
         }
 
         private OpticalProperties[] GetOpticalPropertiesFromSpectralPanel()
@@ -472,16 +493,19 @@ namespace Vts.Gui.Silverlight.ViewModel
         public class InverseSolutionResult
         {
             public IDataPoint[][] FitDataPoints { get; set; }
+            public OpticalProperties[] MeasuredOpticalProperties { get; set; }
+            public OpticalProperties[] GuessOpticalProperties { get; set; }
             public OpticalProperties[] FitOpticalProperties { get; set; }
         }
 
         public InverseSolutionResult SolveInverse()
         {
+            var measuredOpticalProperties = GetMeasuredOpticalProperties();
             var measuredDataValues = GetSimulatedMeasuredData();
 
             var dependentValues = measuredDataValues.ToArray();
-            var opticalProperties = GetInitialGuessOpticalProperties();
-            var initGuessParameters = GetParametersInOrder(opticalProperties);
+            var initGuessOpticalProperties = GetInitialGuessOpticalProperties();
+            var initGuessParameters = GetParametersInOrder(initGuessOpticalProperties);
 
             double[] fit = ComputationFactory.SolveInverse(
                 InverseForwardSolverTypeOptionVM.SelectedValue,
@@ -507,6 +531,8 @@ namespace Vts.Gui.Silverlight.ViewModel
             return new InverseSolutionResult
             {
                 FitDataPoints = resultDataPoints,
+                MeasuredOpticalProperties = (OpticalProperties[])measuredOpticalProperties, // todo: currently only supports homog OPs
+                GuessOpticalProperties = (OpticalProperties[])initGuessOpticalProperties, // todo: currently only supports homog OPss
                 FitOpticalProperties = fitOpticalProperties
             };
         }
