@@ -49,9 +49,7 @@ namespace Vts.Gui.Silverlight.ViewModel
             _useSpectralPanelData = false;
             
             _allRangeVMs = new[] { new RangeViewModel { Title = "Detection Parameters" } };
-            //OpticalPropertyVM = new OpticalPropertyViewModel { Title = "Optical Properties" };
-            // right now, we're doing manual databinding to the selected item. need to enable databinding 
-            // confused, though - do we need to use strings? or, how to make generics work with dependency properties?
+
 #if WHITELIST 
             ForwardSolverTypeOptionVM = new OptionViewModel<ForwardSolverType>("Forward Model",false, WhiteList.ForwardSolverTypes);
 #else
@@ -365,12 +363,18 @@ namespace Vts.Gui.Silverlight.ViewModel
                     ForwardAnalysisTypeOptionVM.SelectedValue,
                     parameters.Values.ToArray());
 
+            return GetDataPoints(reflectance);
+        }
+
+        private IDataPoint[][] GetDataPoints(double[] reflectance)
+        {
             var plotIsVsWavelength = _allRangeVMs.Any(vm => vm.AxisType == IndependentVariableAxis.Wavelength);
             var isComplexPlot = ComputationFactory.IsComplexSolver(SolutionDomainTypeOptionVM.SelectedValue);
             var primaryIdependentValues = _allRangeVMs.First().Values.ToArray();
             var numPointsPerCurve = primaryIdependentValues.Length;
-            var numForwardValues =  isComplexPlot ? reflectance.Length/2 : reflectance.Length; // complex reported as all reals, then all imaginaries
-            var numCurves = numForwardValues / numPointsPerCurve;
+            var numForwardValues = isComplexPlot ? reflectance.Length/2 : reflectance.Length;
+                // complex reported as all reals, then all imaginaries
+            var numCurves = numForwardValues/numPointsPerCurve;
 
             var points = new IDataPoint[numCurves][];
             Func<int, int, IDataPoint> getReflectanceAtIndex = (i, j) =>
@@ -380,8 +384,10 @@ namespace Vts.Gui.Silverlight.ViewModel
                     ? i*numCurves + j
                     : j*numPointsPerCurve + i;
                 return isComplexPlot
-                    ? (IDataPoint)new ComplexDataPoint(primaryIdependentValues[i], new Complex(reflectance[index], reflectance[index + numForwardValues]))
-                    : (IDataPoint)new DoubleDataPoint(primaryIdependentValues[i], reflectance[index]);
+                    ? (IDataPoint)
+                        new ComplexDataPoint(primaryIdependentValues[i],
+                            new Complex(reflectance[index], reflectance[index + numForwardValues]))
+                    : (IDataPoint) new DoubleDataPoint(primaryIdependentValues[i], reflectance[index]);
             };
             for (int j = 0; j < numCurves; j++)
             {
