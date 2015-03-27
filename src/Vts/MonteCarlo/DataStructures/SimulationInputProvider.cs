@@ -31,7 +31,7 @@ namespace Vts.MonteCarlo
                 pMCPointSourceOneLayerTissueROfRhoDAW(),
                 GaussianSourceOneLayerTissueROfRhoDetector(),
                 FlatSourceOneLayerTissueROfRhoDetector(),
-                PointSourceMultiLayerReflectedMTOfRhoAndSubregionHistDetector(),
+                PointSourceMultiLayerMomentumTransferDetectors(),
                 PointSourceThreeLayerReflectedTimeOfRhoAndSubregionHistDetector()
             };
         }
@@ -103,6 +103,7 @@ namespace Vts.MonteCarlo
                     new TOfAngleDetectorInput() {Angle=new DoubleRange(0.0, Math.PI / 2, 5)},
                     new TOfRhoAndAngleDetectorInput() {Rho=new DoubleRange(0.0, 10, 101),Angle=new DoubleRange(0.0, Math.PI / 2, 5)},
                     new TOfRhoDetectorInput() {Rho=new DoubleRange(0.0, 10, 101)},
+                    new TOfXAndYDetectorInput() {X=new DoubleRange(-100.0, 100.0, 21), Y= new DoubleRange(-100.0, 100.0, 21)}, 
                 }
             );
         }
@@ -510,13 +511,13 @@ namespace Vts.MonteCarlo
 
         #region point source multilayer momentum transfer
         /// <summary>
-        /// Point source, multi-layer tissue definition, only ReflectedMCOfRhoAndSubRegionHistDetector detector included
+        /// Point source, multi-layer tissue definition, all momentum detectors detectors included
         /// </summary>
-        public static SimulationInput PointSourceMultiLayerReflectedMTOfRhoAndSubregionHistDetector()
+        public static SimulationInput PointSourceMultiLayerMomentumTransferDetectors()
         {
             return new SimulationInput(
                 100,
-                "two_layer_ReflectedMTOfRhoAndSubregionHist",
+                "two_layer_momentum_transfer_detectors",
                 new SimulationOptions(
                     0, // random number generator seed, -1=random seed, 0=fixed seed
                     RandomNumberGeneratorType.MersenneTwister,
@@ -540,23 +541,39 @@ namespace Vts.MonteCarlo
                             new DoubleRange(0.0, 1.0), // upper layer 1mm
                             new OpticalProperties(0.01, 1.0, 0.7, 1.33)), // Tyler's data
                         new LayerTissueRegion(
-                            new DoubleRange(1.0, 100.0),
+                            new DoubleRange(1.0, 10.0), // modify tissue thickness to 10mm to test transmitted MT detector
                             new OpticalProperties(0.01, 1.0, 0.7, 1.33)), 
                         new LayerTissueRegion(
-                            new DoubleRange(100.0, double.PositiveInfinity),
+                            new DoubleRange(10.0, double.PositiveInfinity),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
                     }
                 ),
                 new List<IDetectorInput>()
                 {
-                    new ROfRhoDetectorInput
-                    {
-                        Rho =new DoubleRange(0.0, 10, 101)
-                    },
+                    // detectors with cylindrical symmetry
+                    new ROfRhoDetectorInput{Rho =new DoubleRange(0.0, 10, 101) },
                     new ReflectedMTOfRhoAndSubregionHistDetectorInput(){
                         Rho=new DoubleRange(0.0, 10.0, 101), // rho bins
                         MTBins=new DoubleRange(0.0, 500.0, 51), // MT bins
-                        FractionalMTBins = new DoubleRange(0.0, 1.0, 11)} // fractional MT bins
+                        FractionalMTBins = new DoubleRange(0.0, 1.0, 11)}, // fractional MT bins
+                    new TOfRhoDetectorInput {Rho =new DoubleRange(0.0, 10, 101)},
+                    new TransmittedMTOfRhoAndSubregionHistDetectorInput(){
+                        Rho=new DoubleRange(0.0, 10.0, 101), // rho bins
+                        MTBins=new DoubleRange(0.0, 500.0, 51), // MT bins
+                        FractionalMTBins = new DoubleRange(0.0, 1.0, 11)}, // fractional MT bins
+                    // detectors with Cartesian coordinates                      
+                    new ROfXAndYDetectorInput() {X=new DoubleRange(-100.0, 100.0, 21), Y= new DoubleRange(-100.0, 100.0, 21)},
+                    new ReflectedMTOfXAndYAndSubregionHistDetectorInput(){
+                        X=new DoubleRange(-100.0, 100.0, 21), 
+                        Y= new DoubleRange(-100.0, 100.0, 21),
+                        MTBins=new DoubleRange(0.0, 500.0, 51), // MT bins
+                        FractionalMTBins = new DoubleRange(0.0, 1.0, 11)}, // fractional MT bins
+                    new TOfXAndYDetectorInput() {X=new DoubleRange(-100.0, 100.0, 21), Y= new DoubleRange(-100.0, 100.0, 21)}, 
+                    new TransmittedMTOfXAndYAndSubregionHistDetectorInput(){
+                        X=new DoubleRange(-100.0, 100.0, 21), 
+                        Y= new DoubleRange(-100.0, 100.0, 21),
+                        MTBins=new DoubleRange(0.0, 500.0, 51), // MT bins
+                        FractionalMTBins = new DoubleRange(0.0, 1.0, 11)}, // fractional MT bins
                 }
             );
         }

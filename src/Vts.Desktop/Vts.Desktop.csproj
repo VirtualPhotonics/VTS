@@ -661,6 +661,9 @@
     <Compile Include="..\Vts\MonteCarlo\Detectors\ReflectedMTOfRhoAndSubRegionHistDetector.cs">
       <Link>MonteCarlo\Detectors\ReflectedMTOfRhoAndSubRegionHistDetector.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\ReflectedMTOfXAndYAndSubregionHistDetector.cs">
+      <Link>MonteCarlo\Detectors\ReflectedMTOfXAndYAndSubregionHistDetector.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\ReflectedTimeOfRhoAndSubregionHistDetector.cs">
       <Link>MonteCarlo\Detectors\ReflectedTimeOfRhoAndSubregionHistDetector.cs</Link>
     </Compile>
@@ -705,6 +708,15 @@
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\TOfRhoDetector.cs">
       <Link>MonteCarlo\Detectors\TOfRhoDetector.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\TOfXAndYDetector.cs">
+      <Link>MonteCarlo\Detectors\TOfXAndYDetector.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\TransmittedMTOfRhoAndSubregionHistDetector.cs">
+      <Link>MonteCarlo\Detectors\TransmittedMTOfRhoAndSubregionHistDetector.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\TransmittedMTOfXAndYAndSubregionHistDetector.cs">
+      <Link>MonteCarlo\Detectors\TransmittedMTOfXAndYAndSubregionHistDetector.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Enums.cs">
       <Link>MonteCarlo\Enums.cs</Link>
@@ -1170,5 +1182,11 @@
     <PostBuildEvent Condition=" '$(OS)' == 'Windows_NT' ">IF NOT EXIST "$(ProjectDir)..\..\build\core\Desktop\$(ConfigurationName)" mkdir "$(ProjectDir)..\..\build\core\Desktop\$(ConfigurationName)"
 copy "$(TargetDir)\*.*" "$(ProjectDir)..\..\build\core\Desktop\$(ConfigurationName)" /y</PostBuildEvent>
   </PropertyGroup>
-  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+  </Target>
 </Project>

@@ -1,6 +1,6 @@
 rem ********** RUN THIS FILE AS ADMINISTRATOR **********
 set rootdir=%~dp0
-set version=2.0.0
+set version=2.0.1
 set EnableNuGetPackageRestore=true
 
 rem ********** CHANGE CURRENT DIR TO LOCATION OF BAT FILE **********
@@ -27,7 +27,7 @@ call "%rootdir%matlab\CreateRelease.bat" %version%
 
 
 rem ********** RUN MATLAB INTEROP AND MONTE CARLO POST-PROCESSING TESTS **********
-# call "%rootdir%RunMatlabUnitTests.bat"
+if exist "%ProgramFiles%\MATLAB" call "%rootdir%RunMatlabUnitTests.bat"
 
 rem ********** BUILD THE SILVERLIGHT VERSION **********
  call "%rootdir%SilverlightBuild.bat"
