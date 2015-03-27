@@ -401,13 +401,18 @@ namespace Vts.Gui.Silverlight.ViewModel
             ResultOpticalPropertyVM.SetOpticalProperties(inverseResult.FitOpticalProperties.First()); // todo: this only works for one set of properties
 
             //Report the results
-            if (inverseResult.FitOpticalProperties.Length > 1) // If multi-valued OPs, the results aren't in the "scalar" VMs, need to parse OPs directly
+            if (SolutionDomainTypeOptionVM.IndependentVariableAxisOptionVM.SelectedValues.Contains(IndependentVariableAxis.Wavelength) && 
+                inverseResult.FitOpticalProperties.Length > 1) // If multi-valued OPs, the results aren't in the "scalar" VMs, need to parse OPs directly
             {
-                var unitString = IndependentVariableAxisUnits.InverseMM.GetInternationalizedString();
-                var sb = new StringBuilder("\t[Exact]\t\t\t\t\t\t[At Converged Values]\t\t\t\t\t\t[Units]\r");
-                for (int i = 0; i < inverseResult.FitOpticalProperties.Length; i++)
+                var fitOPs = inverseResult.FitOpticalProperties;
+                var measuredOPs = inverseResult.MeasuredOpticalProperties;
+                var wavelengths = GetParameterValues(IndependentVariableAxis.Wavelength);
+                var wvUnitString = IndependentVariableAxisUnits.NM.GetInternationalizedString(); 
+                var opUnitString = IndependentVariableAxisUnits.InverseMM.GetInternationalizedString();
+                var sb = new StringBuilder("\t[Wavelength (" + wvUnitString + ")]\t\t\t\t\t\t[Exact]\t\t\t\t\t\t[At Converged Values]\t\t\t\t\t\t[Units]\r");
+                for (int i = 0; i < fitOPs.Length; i++)
                 {
-                    sb.Append("\t" + inverseResult.MeasuredOpticalProperties[i] + "\t\t\t" + inverseResult.FitOpticalProperties[i] + "\t\t\t" + unitString + " \r");
+                    sb.Append("\t" + wavelengths[i] + "\t\t\t\t\t\t" + measuredOPs[i] + "\t\t\t" + fitOPs[i] + "\t\t\t" + opUnitString + " \r");
                 }
                 Commands.TextOutput_PostMessage.Execute(sb.ToString());
             }
