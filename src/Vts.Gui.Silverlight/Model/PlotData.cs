@@ -10,20 +10,20 @@ namespace Vts.Gui.Silverlight.Model
     /// </summary>
     public class PlotData
     {
-        public PlotData(IDataPoint[][] points, string[] titles)
+        public PlotData(IDataPoint[] points, string title)
         {
             Points = points;
-            Titles = titles;
+            Title = title;
         }
 
         // todo: temp to get things working...want to eveutally remove
-        public PlotData(Point[][] points, string[] titles)
-            : this(points.Select(pArray => pArray.Select(point => new DoubleDataPoint(point.X, point.Y)).ToArray()).ToArray(), titles)
+        public PlotData(Point[] points, string title)
+            : this(points.Select(point => new DoubleDataPoint(point.X, point.Y)).ToArray(), title)
         {
         }
 
-        public IDataPoint[][] Points { get; set; }
-        public string[] Titles { get; set; }
+        public IDataPoint[] Points { get; set; }
+        public string Title { get; set; }
 
     }
 }

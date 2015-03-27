@@ -294,7 +294,8 @@ namespace Vts.Gui.Silverlight.ViewModel
             PlotAxesLabels axesLabels = GetPlotLabels();
             Commands.Plot_SetAxesLabels.Execute(axesLabels);
             string[] plotLabels = GetLegendLabels(PlotDataType.Simulated);
-            Commands.Plot_PlotValues.Execute(new PlotData(measuredDataPoints, plotLabels));
+            var plotData = Enumerable.Zip(measuredDataPoints, plotLabels, (p, el) => new PlotData(p, el)).ToArray();
+            Commands.Plot_PlotValues.Execute(plotData);
             Commands.TextOutput_PostMessage.Execute("Simulated Measured Data: " + MeasuredOpticalPropertyVM + "\r");
         }
 
@@ -386,7 +387,8 @@ namespace Vts.Gui.Silverlight.ViewModel
             PlotAxesLabels axesLabels = GetPlotLabels();
             Commands.Plot_SetAxesLabels.Execute(axesLabels);
             string[] plotLabels = GetLegendLabels(PlotDataType.Guess);
-            Commands.Plot_PlotValues.Execute(new PlotData(initialGuessDataPoints, plotLabels));
+            var plotData = Enumerable.Zip(initialGuessDataPoints, plotLabels, (p, el) => new PlotData(p, el)).ToArray();
+            Commands.Plot_PlotValues.Execute(plotData);
             Commands.TextOutput_PostMessage.Execute("Initial Guess: " + InitialGuessOpticalPropertyVM + " \r");
         }
 
@@ -425,7 +427,8 @@ namespace Vts.Gui.Silverlight.ViewModel
             PlotAxesLabels axesLabels = GetPlotLabels();
             Commands.Plot_SetAxesLabels.Execute(axesLabels);
             string[] plotLabels = GetLegendLabels(PlotDataType.Calculated);
-            Commands.Plot_PlotValues.Execute(new PlotData(inverseResult.FitDataPoints, plotLabels));
+            var plotData = Enumerable.Zip(inverseResult.FitDataPoints, plotLabels, (p, el) => new PlotData(p, el)).ToArray();
+            Commands.Plot_PlotValues.Execute(plotData);
         }
 
         private double[] GetSimulatedMeasuredData()

@@ -465,15 +465,15 @@ namespace Vts.Gui.Silverlight.ViewModel
 
         void Plot_Executed(object sender, ExecutedEventArgs e)
         {
-            var data = e.Parameter as PlotData;
+            var data = e.Parameter as PlotData[];
             if (data != null)
             {
-                AddValuesToPlotData(data.Points, data.Titles);
+                AddValuesToPlotData(data);
             }
         }
 
         //static int labelCounter = 0;
-        private void AddValuesToPlotData(IDataPoint[][] curves, string[] titles)
+        private void AddValuesToPlotData(PlotData[] plotData)
         {
             if (!_HoldOn)
             {
@@ -481,19 +481,22 @@ namespace Vts.Gui.Silverlight.ViewModel
             }
 
             var customLabel = CustomPlotLabel.Length > 0 ? "\n(" + CustomPlotLabel + ")" : "";
-            for (int i = 0; i < curves.Length; i++)
+            for (int i = 0; i < plotData.Length; i++)
             {
-                DataSeriesCollection.Add(curves[i]);
-                if (DataSeriesCollection.Count > 0 && curves[i].First() is ComplexDataPoint)
+                var points = plotData[i].Points;
+                var title = plotData[i].Title;
+
+                DataSeriesCollection.Add(points);
+                if (DataSeriesCollection.Count > 0 && points[0] is ComplexDataPoint)
                 {
-                    RealLabels.Add(titles[i] + "\r(real)" + customLabel);
-                    PhaseLabels.Add(titles[i] + "\r(phase)" + customLabel);
-                    ImagLabels.Add(titles[i] + "\r(imag)" + customLabel);
-                    AmplitudeLabels.Add(titles[i] + "\r(amp)" + customLabel);
+                    RealLabels.Add(title + "\r(real)" + customLabel);
+                    PhaseLabels.Add(title + "\r(phase)" + customLabel);
+                    ImagLabels.Add(title + "\r(imag)" + customLabel);
+                    AmplitudeLabels.Add(title + "\r(amp)" + customLabel);
                 }
                 else
                 {
-                    Labels.Add(titles[i] + customLabel); // has to happen before updating the bound collection
+                    Labels.Add(title + customLabel); // has to happen before updating the bound collection
                 }
             }
 

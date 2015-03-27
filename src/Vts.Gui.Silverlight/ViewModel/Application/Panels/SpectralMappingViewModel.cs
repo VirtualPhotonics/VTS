@@ -317,7 +317,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                 var wavelength = wavelengths[wvi];
                 points[wvi] = new Point(wavelength, tissue.GetMua(wavelength));
             }
-            Commands.Plot_PlotValues.Execute(new PlotData(new []{ points }, new []{ "μa spectra" }));
+            Commands.Plot_PlotValues.Execute(new []{ new PlotData(points, "μa spectrum" )} );
 
             double minWavelength = WavelengthRangeVM.Values.Min();
             double maxWavelength = WavelengthRangeVM.Values.Max();
@@ -349,7 +349,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                 points[wvi] = new Point(wavelength, tissue.GetMusp(wavelength));
             }
 
-            Commands.Plot_PlotValues.Execute(new PlotData(new []{ points }, new []{ "μs' spectra" }));
+            Commands.Plot_PlotValues.Execute(new[] { new PlotData(points, "μs' spectrum") });
 
             double minWavelength = WavelengthRangeVM.Values.Min();
             double maxWavelength = WavelengthRangeVM.Values.Max();

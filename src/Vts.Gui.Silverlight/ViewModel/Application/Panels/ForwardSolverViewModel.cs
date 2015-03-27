@@ -241,7 +241,9 @@ namespace Vts.Gui.Silverlight.ViewModel
             Commands.Plot_SetAxesLabels.Execute(axesLabels);
 
             string[] plotLabels = GetLegendLabels();
-            Commands.Plot_PlotValues.Execute(new PlotData(points, plotLabels));
+
+            var plotData = Enumerable.Zip(points, plotLabels, (p, el) => new PlotData(p, el)).ToArray();
+            Commands.Plot_PlotValues.Execute(plotData);
 
             Commands.TextOutput_PostMessage.Execute("Forward Solver: " + TissueInputVM + "\r"); // todo: override ToString() for MultiRegionTissueViewModel
         }
