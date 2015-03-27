@@ -106,7 +106,7 @@ namespace Vts.Gui.Silverlight.ViewModel
             set
             {
                 _GroupName = value;
-                this.OnPropertyChanged("GroupName");
+                this.OnPropertyChanged("ColorTag");
             }
         }
 
