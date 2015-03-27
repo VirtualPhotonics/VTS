@@ -86,7 +86,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                 {
                     var useSpectralPanelDataAndNotNull = UseSpectralPanelData && SolverDemoViewModel.Current != null && SolverDemoViewModel.Current.SpectralMappingVM != null;
 
-                    _allRangeVMs = (from i in Enumerable.Range(0, SolutionDomainTypeOptionVM.IndependentVariableAxisOptionVM.SelectedValues.Length)
+                    AllRangeVMs = (from i in Enumerable.Range(0, SolutionDomainTypeOptionVM.IndependentVariableAxisOptionVM.SelectedValues.Length)
                                         orderby i descending // descending so that wavelength takes highest priority, then time/time frequency, then space/spatial frequency
                                         select useSpectralPanelDataAndNotNull && SolutionDomainTypeOptionVM.IndependentVariableAxisOptionVM.SelectedValues[i] == IndependentVariableAxis.Wavelength
                                              ? SolverDemoViewModel.Current.SpectralMappingVM.WavelengthRangeVM // bind to same instance, not a copy

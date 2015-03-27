@@ -31,10 +31,10 @@
         <!-- Solution Domain -->
         <v:SolutionDomainOptionView DataContext="{Binding SolutionDomainTypeOptionVM}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,3,0,0"/>
         <!-- Detection Parameters -->
-        <ItemsControl ItemsSource="{Binding SolutionDomainTypeOptionVM.IndependentAxesVMs, Mode=TwoWay}">
+        <ItemsControl ItemsSource="{Binding AllRangeVMs, UpdateSourceTrigger=PropertyChanged}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <v:RangeView DataContext="{Binding AxisRangeVM}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,3,0,0"/>
+                    <v:RangeView DataContext="{Binding}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,3,0,0"/>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>

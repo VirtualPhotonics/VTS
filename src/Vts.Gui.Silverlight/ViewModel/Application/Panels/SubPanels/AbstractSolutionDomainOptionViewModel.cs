@@ -121,7 +121,8 @@ namespace Vts.Gui.Silverlight.ViewModel
             var numAxes = IndependentVariableAxisOptionVM.SelectedValues.Length;
             var numConstants = IndependentVariableAxisOptionVM.UnSelectedValues.Length;
 
-            IndependentAxesVMs = Enumerable.Range(0, numAxes).Select(i =>
+            // create new local VMs for independent and constant axes
+            var independentAxesVMs = Enumerable.Range(0, numAxes).Select(i =>
                 new IndependentAxisViewModel
                 {
                     AxisType = IndependentVariableAxisOptionVM.SelectedValues[i],
@@ -133,8 +134,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                         IndependentVariableAxisOptionVM.SelectedValues[i],
                         IndependentVariableAxisOptionVM.SelectedValues[i].GetTitle())
                 }).ToArray();
-
-            ConstantAxesVMs = Enumerable.Range(0, numConstants).Select(i =>
+            var constantAxesVMs = Enumerable.Range(0, numConstants).Select(i =>
                 new ConstantAxisViewModel
                 {
                     AxisType = IndependentVariableAxisOptionVM.UnSelectedValues[i],
@@ -143,8 +143,13 @@ namespace Vts.Gui.Silverlight.ViewModel
                     AxisValue = IndependentVariableAxisOptionVM.UnSelectedValues[i].GetDefaultConstantAxisValue(),
                 }).ToArray();
 
-            IndependentAxesVMs.ForEach(vm => vm.PropertyChanged += (s, a) => OnPropertyChanged("IndependentAxesVMs"));
-            ConstantAxesVMs.ForEach(vm => vm.PropertyChanged += (s, a) => OnPropertyChanged("ConstantAxesVMs"));
+            // assign callbacks
+            independentAxesVMs.ForEach(vm => vm.PropertyChanged += (s, a) => OnPropertyChanged("IndependentAxesVMs"));
+            constantAxesVMs.ForEach(vm => vm.PropertyChanged += (s, a) => OnPropertyChanged("ConstantAxesVMs"));
+
+            // and then set them, fully formed, to the member variable, firing change notification
+            IndependentAxesVMs = independentAxesVMs;
+            ConstantAxesVMs = constantAxesVMs;
 
             ShowIndependentAxisChoice = numAxes + numConstants > 1;
         }
