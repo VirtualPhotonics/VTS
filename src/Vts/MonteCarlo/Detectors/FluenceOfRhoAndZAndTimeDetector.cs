@@ -73,6 +73,7 @@ namespace Vts.MonteCarlo.Detectors
         private Func<PhotonDataPoint, PhotonDataPoint, int, double> _absorptionWeightingMethod;
         private ITissue _tissue;
         private IList<OpticalProperties> _ops;
+        private double[,,] _tallyForOnePhoton;
 
         /* ==== Place optional/user-defined input properties here. They will be saved in text (JSON) format ==== */
         /* ==== Note: make sure to copy over all optional/user-defined inputs from corresponding input class ==== */
@@ -121,6 +122,7 @@ namespace Vts.MonteCarlo.Detectors
             _absorptionWeightingMethod = AbsorptionWeightingMethods.GetVolumeAbsorptionWeightingMethod(tissue, this);
             _tissue = tissue;
             _ops = _tissue.Regions.Select(r => r.RegionOP).ToArray();
+            _tallyForOnePhoton = _tallyForOnePhoton ?? (TallySecondMoment ? new double[Rho.Count - 1, Z.Count - 1, Time.Count - 1] : null);
         }
 
         /// <summary>
@@ -144,7 +146,7 @@ namespace Vts.MonteCarlo.Detectors
                 Mean[ir, iz, it] += weight / _ops[regionIndex].Mua;
                 if (TallySecondMoment)
                 {
-                    SecondMoment[ir, iz, it] += (weight / _ops[regionIndex].Mua) * (weight / _ops[regionIndex].Mua);
+                    _tallyForOnePhoton[ir, iz, it] += weight / _ops[regionIndex].Mua;
                 }
                 TallyCount++;
             }
@@ -155,11 +157,30 @@ namespace Vts.MonteCarlo.Detectors
         /// <param name="photon">photon data needed to tally</param>
         public void Tally(Photon photon)
         {
+            // second moment is calculated AFTER the entire photon biography has been processed
+            if (TallySecondMoment)
+            {
+                Array.Clear(_tallyForOnePhoton, 0, _tallyForOnePhoton.Length);
+            }
             PhotonDataPoint previousDP = photon.History.HistoryData.First();
             foreach (PhotonDataPoint dp in photon.History.HistoryData.Skip(1))
             {
                 TallySingle(previousDP, dp, _tissue.GetRegionIndex(dp.Position)); // unoptimized version, but HistoryDataController calls this once
                 previousDP = dp;
+            }
+            // second moment determined after all tallies to each detector bin for ONE photon has been complete
+            if (TallySecondMoment)
+            {
+                for (int ir = 0; ir < Rho.Count - 1; ir++)
+                {
+                    for (int iz = 0; iz < Z.Count - 1; iz++)
+                    {
+                        for (int it = 0; it < Time.Count - 1; it++)
+                        {
+                            SecondMoment[ir, iz, it] = _tallyForOnePhoton[ir, iz, it] * _tallyForOnePhoton[ir, iz, it];
+                        }
+                    }
+                }
             }
         }
 

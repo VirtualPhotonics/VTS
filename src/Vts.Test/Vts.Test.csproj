@@ -237,7 +237,7 @@
     <Compile Include="MonteCarlo\Detectors\pMCDAWLayersDetectorsTests.cs" />
     <Compile Include="MonteCarlo\Detectors\pMCDAWOneLayerDetectorsTests.cs" />
     <Compile Include="MonteCarlo\Detectors\SpecularLayerDetectorTests.cs" />
-    <Compile Include="MonteCarlo\Factories\DetectorProviderTests.cs" />
+    <Compile Include="MonteCarlo\Factories\DetectorFactoryTests.cs" />
     <Compile Include="MonteCarlo\Helpers\SourceToolboxTests.cs">
       <SubType>Code</SubType>
     </Compile>

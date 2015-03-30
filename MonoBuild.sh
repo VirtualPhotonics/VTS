@@ -1,7 +1,12 @@
 SolutionDir=$PWD
 
-#Bring in latest libraries using NuGet
-./GetMonoLibs.sh 
+#Bring in latest libraries using NuGet - no longer necessary
+#./GetMonoLibs.sh 
+
+# tell mono certs to trust when doing https:
+mozroots --import --sync
+# use an environment variable to enable package restore 
+export EnableNuGetPackageRestore=true
 
 #Build the solution in Debug configuration
 xbuild $SolutionDir/src/Vts-Mono.sln /p:WarningLevel=2

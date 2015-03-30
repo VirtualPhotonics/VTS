@@ -71,7 +71,8 @@ namespace Vts.Test.MonteCarlo.Detectors
                     new TDiffuseDetectorInput(),
                     new TOfAngleDetectorInput() {Angle=new DoubleRange(0.0, Math.PI / 2, 2)},
                     new TOfRhoDetectorInput() { Rho=new DoubleRange(0.0, 10.0, 101)},
-                    new TOfRhoAndAngleDetectorInput() {Rho=new DoubleRange(0.0, 10.0, 101),Angle=new DoubleRange(0.0, Math.PI / 2, 2)},
+                    new TOfRhoAndAngleDetectorInput() {Rho=new DoubleRange(0.0, 10.0, 101),Angle=new DoubleRange(0.0, Math.PI / 2, 2)},                 
+                    new TOfXAndYDetectorInput() { X = new DoubleRange(-10.0, 10.0, 101), Y = new DoubleRange(-10.0, 10.0, 101) },
                     new ReflectedTimeOfRhoAndSubregionHistDetectorInput() {Rho=new DoubleRange(0.0, 10.0, 101),Time=new DoubleRange(0.0, 1.0, 101)},
                 };
             // one tissue layer
@@ -224,6 +225,13 @@ namespace Vts.Test.MonteCarlo.Detectors
         {
             Assert.Less(Math.Abs(_outputOneLayerTissue.T_ra[54, 0] * _factor - 0.000239639787), 0.000000000001);
             Assert.Less(Math.Abs(_outputTwoLayerTissue.T_ra[54, 0] * _factor - 0.000239639787), 0.000000000001);
+        }
+        // Transmittance T(x,y): validation is not with linux code, but with prior execution of test so no "factor"
+        [Test]
+        public void validate_CAW_TOfXAndY()
+        {
+            Assert.Less(Math.Abs(_outputOneLayerTissue.T_xy[0, 0] - 0.0061468), 0.0000001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.T_xy[0, 0] - 0.0061468), 0.0000001);
         }
         //// Fluence Flu(rho,z) not coded yet for CAW
 
