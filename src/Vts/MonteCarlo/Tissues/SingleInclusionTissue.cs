@@ -26,6 +26,7 @@ namespace Vts.MonteCarlo.Tissues
             TissueType = "SingleEllipsoid";
             _ellipsoidRegion = ellipsoidRegion;
             _layerRegions = layerRegions;
+            RegionPhaseFunctionInputs = new Dictionary<string, IPhaseFunctionInput>();
         }
 
         /// <summary>
@@ -40,22 +41,22 @@ namespace Vts.MonteCarlo.Tissues
                     0.5,
                     0.5,
                     new OpticalProperties(0.05, 1.0, 0.8, 1.4),
-                    "HenyeyGreensteinKey1"
+                    "HenyeyGreensteinKey4"
                 ),
                 new ITissueRegion[] 
                 { 
                     new LayerTissueRegion(
                         new DoubleRange(double.NegativeInfinity, 0.0),
                         new OpticalProperties( 0.0, 1e-10, 1.0, 1.0),
-                        "HenyeyGreensteinKey2"),
+                        "HenyeyGreensteinKey1"),
                     new LayerTissueRegion(
                         new DoubleRange(0.0, 100.0),
                         new OpticalProperties(0.01, 1.0, 0.8, 1.4),
-                        "HenyeyGreensteinKey3"),
+                        "HenyeyGreensteinKey2"),
                     new LayerTissueRegion(
                         new DoubleRange(100.0, double.PositiveInfinity),
                         new OpticalProperties( 0.0, 1e-10, 1.0, 1.0),
-                        "HenyeyGreensteinKey4")
+                        "HenyeyGreensteinKey3")
                 })
         {
             RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey1", new HenyeyGreensteinPhaseFunctionInput());
@@ -68,10 +69,6 @@ namespace Vts.MonteCarlo.Tissues
         /// Dictionary that contains all the phase function inputs
         /// </summary>
         public IDictionary<string, IPhaseFunctionInput> RegionPhaseFunctionInputs { get; set; }
-        /// <summary>
-        /// dictionary of region phase functions
-        /// </summary>
-        public IDictionary<string, IPhaseFunction> RegionPhaseFunctions { get; set; }
         /// <summary>
         /// regions of tissue (layers and ellipsoid)
         /// </summary>
@@ -111,10 +108,6 @@ namespace Vts.MonteCarlo.Tissues
     {
         private ITissueRegion[] _ellipsoidRegions;
         private ITissueRegion[] _layerRegions;
-        /// <summary>
-        /// dictionary of region phase functions
-        /// </summary>
-        public IDictionary<string, IPhaseFunction> RegionPhaseFunctions { get; set; }
 
         /// <summary>
         /// allows definition of single ellipsoid tissue
@@ -126,6 +119,7 @@ namespace Vts.MonteCarlo.Tissues
             TissueType = "MultiEllipsoid";
             _ellipsoidRegions = ellipsoidRegions;
             _layerRegions = layerRegions;
+            RegionPhaseFunctionInputs = new Dictionary<string, IPhaseFunctionInput>();
         }
 
         /// <summary>
@@ -142,31 +136,36 @@ namespace Vts.MonteCarlo.Tissues
                         1.0, 
                         5.0,
                         new OpticalProperties(0.1, 1.0, 0.8, 1.4),
-                        "HenyeyGreensteinKey1"),
+                        "HenyeyGreensteinKey4"),
                     new EllipsoidTissueRegion(
                         new Position(0, 0, 40), 
                         5.0, 
                         0, 
                         5.0,
                         new OpticalProperties(0.05, 1.0, 0.8, 1.4),
-                        "HenyeyGreensteinKey2")
+                        "HenyeyGreensteinKey5")
                 },
                 new ITissueRegion[] 
                 { 
                     new LayerTissueRegion(
                         new DoubleRange(double.NegativeInfinity, 0.0),
                         new OpticalProperties( 0.0, 1e-10, 1.0, 1.0),
-                        "HenyeyGreensteinKey3"),
+                        "HenyeyGreensteinKey1"),
                     new LayerTissueRegion(
                         new DoubleRange(0.0, 50.0),
                         new OpticalProperties(0.01, 1.0, 0.8, 1.4),
-                        "HenyeyGreensteinKey4"),
+                        "HenyeyGreensteinKey2"),
                     new LayerTissueRegion(
                         new DoubleRange(100.0, double.PositiveInfinity),
                         new OpticalProperties( 0.0, 1e-10, 1.0, 1.0),
-                        "HenyeyGreensteinKey5")
+                        "HenyeyGreensteinKey3")
                 })
         {
+            RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey1", new HenyeyGreensteinPhaseFunctionInput());
+            RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey2", new HenyeyGreensteinPhaseFunctionInput());
+            RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey3", new HenyeyGreensteinPhaseFunctionInput());
+            RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey4", new HenyeyGreensteinPhaseFunctionInput());
+            RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey5", new HenyeyGreensteinPhaseFunctionInput());
         }
         /// <summary>
         /// dictionary of region phase functions
@@ -243,7 +242,6 @@ namespace Vts.MonteCarlo.Tissues
                 new EllipsoidTissueRegion(),
                 new MultiLayerTissueInput().Regions) 
         { 
-            RegionPhaseFunctions = new Dictionary<string, IPhaseFunction>();
         }
         /// <summary>
         /// method to get tissue region index of photon's current position

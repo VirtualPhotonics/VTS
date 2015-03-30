@@ -37,10 +37,6 @@ namespace Vts.MonteCarlo.Tissues
         /// dictionary of region phase functions
         /// </summary>
         public IDictionary<string, IPhaseFunctionInput> RegionPhaseFunctionInputs { get; set; }
-        /// <summary>
-        /// dictionary of region phase functions
-        /// </summary>
-        public IDictionary<string, IPhaseFunction> RegionPhaseFunctions { get; set; }
 
         /// <summary>
         ///// Required factory method to create the corresponding 

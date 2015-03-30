@@ -72,7 +72,14 @@ namespace Vts.MonteCarlo.Tissues
             double russianRouletteWeightThreshold = 0.0)
         {
             AbsorptionWeightingType = awt;
-            RegionPhaseFunctions = regionPhaseFunctions;
+            if (regionPhaseFunctions != null)
+            {
+                RegionPhaseFunctions = new Dictionary<string, IPhaseFunction>();
+                foreach (var phaseFunction in regionPhaseFunctions)
+                {
+                    RegionPhaseFunctions.Add(phaseFunction.Key, phaseFunction.Value);
+                }
+            }
             RussianRouletteWeightThreshold = russianRouletteWeightThreshold;
 
             RegionScatterLengths = Regions.Select(region => region.RegionOP.GetScatterLength(awt)).ToArray();

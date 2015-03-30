@@ -59,17 +59,13 @@ namespace Vts.MonteCarlo.Tissues
         /// dictionary of region phase function inputs
         /// </summary>
         public IDictionary<string, IPhaseFunctionInput> RegionPhaseFunctionInputs { get; set; }
-        /// <summary>
-        /// dictionary of region phase functions
-        /// </summary>
-        public IDictionary<string, IPhaseFunction> RegionPhaseFunctions { get; set; }
 
         /// <summary>
         ///// Required factory method to create the corresponding 
         ///// ITissue based on the ITissueInput data
         /// </summary>
         /// <param name="awt">Absorption Weighting Type</param>
-        /// <param name="pft">Phase Function Type</param>
+        /// <param name="regionPhaseFunctions">Phase Function Dictionary</param>
         /// <param name="russianRouletteWeightThreshold">Russian Roulette Weight Threshold</param>
         /// <returns></returns>
         public ITissue CreateTissue(AbsorptionWeightingType awt, IDictionary<string, IPhaseFunction> regionPhaseFunctions, double russianRouletteWeightThreshold)
@@ -90,10 +86,6 @@ namespace Vts.MonteCarlo.Tissues
     public class MultiLayerTissue : TissueBase, ITissue
     {
         private IList<LayerTissueRegion> _layerRegions;
-        /// <summary>
-        /// dictionary of region phase functions
-        /// </summary>
-        public IDictionary<string, IPhaseFunction> RegionPhaseFunctions { get; set; }
 
         /// <summary>
         /// Creates an instance of a MultiLayerTissue

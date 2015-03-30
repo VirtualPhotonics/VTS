@@ -119,22 +119,22 @@ namespace Vts.Test.MonteCarlo.Detectors
                         0.5,
                         0.5,
                         new OpticalProperties(0.01, 1.0, 0.8, 1.4), //debug with g=1
-                        "HenyeyGreensteinKey1"
+                        "HenyeyGreensteinKey4"
                     ),
                     new LayerTissueRegion[]
                     { 
                         new LayerTissueRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
-                        "HenyeyGreensteinKey2"),
+                        "HenyeyGreensteinKey1"),
                         new LayerTissueRegion(
                             new DoubleRange(0.0, 20.0), // debug with thin slab d=2
                             new OpticalProperties(0.01, 1.0, 0.8, 1.4),// debug with g=1
-                        "HenyeyGreensteinKey3"),
+                        "HenyeyGreensteinKey2"),
                         new LayerTissueRegion(
                             new DoubleRange(20.0, double.PositiveInfinity),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
-                        "HenyeyGreensteinKey4")
+                        "HenyeyGreensteinKey3")
                     }
                 );
             ti2.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey1", new HenyeyGreensteinPhaseFunctionInput());
