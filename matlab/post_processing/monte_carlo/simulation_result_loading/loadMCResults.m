@@ -383,6 +383,7 @@ for di = 1:numDetectors
         case 'ReflectedMTOfXAndYAndSubregionHist'
             ReflectedMTOfXAndYAndSubregionHist.Name = detector.Name;
             tempX = detector.X;
+            tempY = detector.Y;
             tempMTBins = detector.MTBins;
             if (postProcessorResults)
                 if (strcmp(json.TissueInput.TissueType, 'MultiLayer')) 
@@ -465,6 +466,7 @@ for di = 1:numDetectors
         case 'TransmittedMTOfXAndYAndSubregionHist'
             TransmittedMTOfXAndYAndSubregionHist.Name = detector.Name;
             tempX = detector.X;
+            tempY = detector.Y;
             tempMTBins = detector.MTBins;
             if (postProcessorResults)
                 if (strcmp(json.TissueInput.TissueType, 'MultiLayer')) 
