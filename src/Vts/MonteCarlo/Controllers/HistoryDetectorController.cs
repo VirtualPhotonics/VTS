@@ -34,16 +34,22 @@ namespace Vts.MonteCarlo.Controllers
         /// <param name="photon">Photon</param>
         public void Tally(Photon photon)
         {
-            PhotonDataPoint previousDP = photon.History.HistoryData.First();
-            foreach (PhotonDataPoint dp in photon.History.HistoryData.Skip(1))
+            //PhotonDataPoint previousDP = photon.History.HistoryData.First();
+            //foreach (PhotonDataPoint dp in photon.History.HistoryData.Skip(1))
+            //{
+            //    var currentRegionIndex = _tissue.GetRegionIndex(dp.Position);
+            //    foreach (var detector in _detectors)
+            //    {
+            //        ((IHistoryDetector)detector).TallySingle(previousDP, dp, currentRegionIndex);
+            //        //previousDP = dp;
+            //    }
+            //    previousDP = dp;
+            //}
+            // CKH mod 4-1-15: need to call Tally rather than call TallySingle
+            // because Tally contains 2nd moment processing
+            foreach (var detector in _detectors)
             {
-                var currentRegionIndex = _tissue.GetRegionIndex(dp.Position);
-                foreach (var detector in _detectors)
-                {
-                    ((IHistoryDetector)detector).TallySingle(previousDP, dp, currentRegionIndex);
-                    //previousDP = dp;
-                }
-                previousDP = dp;
+                ((IHistoryDetector)detector).Tally(photon);
             }
         }
         /// <summary>
