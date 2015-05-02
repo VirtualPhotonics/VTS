@@ -115,8 +115,10 @@ namespace Vts.Gui.Silverlight.ViewModel
                 OnPropertyChanged("ShowIndependentAxisChoice");
             }
         }
+        
+        public virtual int NativeAxesCount { get { return 1; } }
 
-        protected void UpdateAxes()
+        protected virtual void UpdateAxes()
         {
             var numAxes = IndependentVariableAxisOptionVM.SelectedValues.Length;
             var numConstants = IndependentVariableAxisOptionVM.UnSelectedValues.Length;
@@ -151,7 +153,7 @@ namespace Vts.Gui.Silverlight.ViewModel
             IndependentAxesVMs = independentAxesVMs;
             ConstantAxesVMs = constantAxesVMs;
 
-            ShowIndependentAxisChoice = numAxes + numConstants > 1;
+            ShowIndependentAxisChoice = numAxes + numConstants > NativeAxesCount;
         }
     }
 }

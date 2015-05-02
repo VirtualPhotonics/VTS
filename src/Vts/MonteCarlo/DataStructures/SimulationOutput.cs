@@ -214,6 +214,14 @@ namespace Vts.MonteCarlo
         /// </summary>
         public double[, ,] Flu_xyz2 { get { return ((double[,,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "FluenceOfXAndYAndZ").First().Name]).SecondMoment); } }
         /// <summary>
+        /// Absorption as a function of x, y and z
+        /// </summary>
+        public double[, ,] A_xyz { get { return ((double[, ,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "AOfXAndYAndZ").First().Name]).Mean); } }
+        /// <summary>
+        /// Absorption as a function of x, y and z 2nd moment
+        /// </summary>
+        public double[, ,] A_xyz2 { get { return ((double[, ,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "AOfXAndYAndZ").First().Name]).SecondMoment); } }
+        /// <summary>
         /// Radiance as a function of rho (surface tally) at depth Z
         /// </summary>
         public double[] Rad_r { get { return ((double[])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "RadianceOfRhoAtZ").First().Name]).Mean); } }
@@ -240,51 +248,51 @@ namespace Vts.MonteCarlo
         /// <summary>
         /// Reflected Momentum Transfer of Rho and Tissue SubRegion with a histogram of MT
         /// </summary>
-        public double[,] RefMT_rs_hist { get { return ((double[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ReflectedMTOfRhoAndSubregionHist").First().Name]).Mean); } }
+        public double[,] RefMT_rmt { get { return ((double[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ReflectedMTOfRhoAndSubregionHist").First().Name]).Mean); } }
         /// <summary>
         /// Reflected Momentum Transfer of Rho and Tissue SubRegion with a histogram of MT 2nd moment
         /// </summary>
-        public double[,] RefMT_rs_hist2 { get { return ((double[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ReflectedMTOfRhoAndSubregionHist").First().Name]).SecondMoment); } }
+        public double[,] RefMT_rmt2 { get { return ((double[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ReflectedMTOfRhoAndSubregionHist").First().Name]).SecondMoment); } }
         /// <summary>
         /// Reflected Momentum Transfer of Rho and Tissue SubRegion with a histogram of MT fractional MT
         /// </summary>
-        public double[, , ,] RefMT_rs_frac { get { return ((double[, , ,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ReflectedMTOfRhoAndSubregionHist").First().Name]).FractionalMT); } }
+        public double[, , ,] RefMT_rmt_frac { get { return ((double[, , ,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ReflectedMTOfRhoAndSubregionHist").First().Name]).FractionalMT); } }
         /// <summary>
         /// Reflected Momentum Transfer of X, Y and Tissue SubRegion with a histogram of MT
         /// </summary>
-        public double[,,] RefMT_xys_hist { get { return ((double[,,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ReflectedMTOfXAndYAndSubregionHist").First().Name]).Mean); } }
+        public double[,,] RefMT_xymt { get { return ((double[,,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ReflectedMTOfXAndYAndSubregionHist").First().Name]).Mean); } }
         /// <summary>
         /// Reflected Momentum Transfer of X, Y and Tissue SubRegion with a histogram of MT 2nd moment
         /// </summary>
-        public double[,,] RefMT_xys_hist2 { get { return ((double[,,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ReflectedMTOfXAndYAndSubregionHist").First().Name]).SecondMoment); } }
+        public double[,,] RefMT_xymt2 { get { return ((double[,,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ReflectedMTOfXAndYAndSubregionHist").First().Name]).SecondMoment); } }
         /// <summary>
         /// Reflected Momentum Transfer of X, Y and Tissue SubRegion with a histogram of MT fractional MT
         /// </summary>
-        public double[,,,,] RefMT_xys_frac { get { return ((double[,,,,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ReflectedMTOfXAndYAndSubregionHist").First().Name]).FractionalMT); } }
+        public double[,,,,] RefMT_xymt_frac { get { return ((double[,,,,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ReflectedMTOfXAndYAndSubregionHist").First().Name]).FractionalMT); } }
         /// <summary>
         /// Transmitted Momentum Transfer of Rho and Tissue SubRegion with a histogram of MT
         /// </summary>
-        public double[,] TransMT_rs_hist { get { return ((double[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "TransmittedMTOfRhoAndSubregionHist").First().Name]).Mean); } }
+        public double[,] TransMT_rmt { get { return ((double[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "TransmittedMTOfRhoAndSubregionHist").First().Name]).Mean); } }
         /// <summary>
         /// Transmitted Momentum Transfer of Rho and Tissue SubRegion with a histogram of MT 2nd moment
         /// </summary>
-        public double[,] TransMT_rs_hist2 { get { return ((double[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "TransmittedMTOfRhoAndSubregionHist").First().Name]).SecondMoment); } }
+        public double[,] TransMT_rmt2 { get { return ((double[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "TransmittedMTOfRhoAndSubregionHist").First().Name]).SecondMoment); } }
         /// <summary>
         /// Transmitted Momentum Transfer of Rho and Tissue SubRegion with a histogram of MT fractional MT
         /// </summary>
-        public double[, , ,] TransMT_rs_frac { get { return ((double[, , ,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "TransmittedMTOfRhoAndSubregionHist").First().Name]).FractionalMT); } }
+        public double[, , ,] TransMT_rmt_frac { get { return ((double[, , ,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "TransmittedMTOfRhoAndSubregionHist").First().Name]).FractionalMT); } }
         /// <summary>
         /// Transmitted Momentum Transfer of X, Y and Tissue SubRegion with a histogram of MT
         /// </summary>
-        public double[,,] TransMT_xys_hist { get { return ((double[,,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "TransmittedMTOfXAndYAndSubregionHist").First().Name]).Mean); } }
+        public double[,,] TransMT_xymt { get { return ((double[,,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "TransmittedMTOfXAndYAndSubregionHist").First().Name]).Mean); } }
         /// <summary>
         /// Transmitted Momentum Transfer of Rho and Tissue SubRegion with a histogram of MT 2nd moment
         /// </summary>
-        public double[,,] TransMT_xys_hist2 { get { return ((double[,,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "TransmittedMTOfXAndYAndSubregionHist").First().Name]).SecondMoment); } }
+        public double[,,] TransMT_xymt2 { get { return ((double[,,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "TransmittedMTOfXAndYAndSubregionHist").First().Name]).SecondMoment); } }
         /// <summary>
         /// Transmitted Momentum Transfer of Rho and Tissue SubRegion with a histogram of MT fractional MT
         /// </summary>
-        public double[,,,,] TransMT_xys_frac { get { return ((double[,,,,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "TransmittedMTOfXAndYAndSubregionHist").First().Name]).FractionalMT); } }
+        public double[,,,,] TransMT_xymt_frac { get { return ((double[,,,,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "TransmittedMTOfXAndYAndSubregionHist").First().Name]).FractionalMT); } }
         /// <summary>
         /// Reflected Time of Rho and Tissue SubRegion with a histogram of Time
         /// </summary>

@@ -127,10 +127,10 @@ namespace Vts.MonteCarlo.Detectors
             var normalizationFactor = 2.0 * Math.PI * Rho.Delta * Time.Delta;
             for (int ir = 0; ir < Rho.Count - 1; ir++)
             {
+                var areaNorm = (Rho.Start + (ir + 0.5) * Rho.Delta) * normalizationFactor;
                 for (int it = 0; it < Time.Count - 1; it++)
                 {
-                    var areaNorm = (Rho.Start + (ir + 0.5) * Rho.Delta) * normalizationFactor;
-                    Mean[ir, it] /= areaNorm * numPhotons;
+                      Mean[ir, it] /= areaNorm * numPhotons;
                     if (TallySecondMoment)
                     {
                         SecondMoment[ir, it] /= areaNorm * areaNorm * numPhotons;

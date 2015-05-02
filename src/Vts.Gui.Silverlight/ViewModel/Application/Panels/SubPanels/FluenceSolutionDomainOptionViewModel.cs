@@ -38,6 +38,8 @@ namespace Vts.Gui.Silverlight.ViewModel
         public OptionModel<FluenceSolutionDomainType> FluenceOfFxAndZAndTimeOption { get; private set; }
         public OptionModel<FluenceSolutionDomainType> FluenceOfRhoAndZAndFtOption { get; private set; }
         public OptionModel<FluenceSolutionDomainType> FluenceOfFxAndZAndFtOption { get; private set; }
+
+        public override int NativeAxesCount { get { return 1; } }
         
         private void UpdateOptions()
         {
