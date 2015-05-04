@@ -204,7 +204,7 @@ namespace Vts.Gui.Silverlight.ViewModel
             var chart = d as Chart;
 
             /* Get our collection of data we need for each series */
-            var chartSeriesSource = e.NewValue as ICollection; //JWC Was here.
+            var chartSeriesSource = e.NewValue as PlotPointCollection;
 
             //if (chartSeriesSource.Count == 0) // JWC was here.
             chart.Series.Clear();
@@ -229,8 +229,12 @@ namespace Vts.Gui.Silverlight.ViewModel
 
             /* Loop over each collection of data */
             int dataSourceCounter = 0;
-            foreach (var dataSource in chartSeriesSource)
+            int colorLabelCounter = 0;
+
+            for (int i = 0; i < chartSeriesSource.Count; i++)
             {
+                var dataSource = chartSeriesSource[i];
+
                 //DynamicSeries series; CKH: dynamicseries replaced by datapointseries
                 DataPointSeries series;
 
@@ -270,11 +274,17 @@ namespace Vts.Gui.Silverlight.ViewModel
                     var vm = chart.DataContext as PlotViewModel;
                     series.Title = vm.Labels[dataSourceCounter];
 
+                    //if(true)
                     var s = 
                         new Setter(
                             Control.BackgroundProperty, 
                             new SolidColorBrush(
-                                DefaultColorList[dataSourceCounter % DefaultColorList.Count]));
+                                DefaultColorList[colorLabelCounter % DefaultColorList.Count]));
+
+                    if (i >= chartSeriesSource.Count - 1 || chartSeriesSource.ColorTags[i + 1] != "repeat") // advance the color, unless the group name is "repeat"
+                    {
+                        colorLabelCounter += 1;
+                    }
 
                     switch (seriesType)
                     {

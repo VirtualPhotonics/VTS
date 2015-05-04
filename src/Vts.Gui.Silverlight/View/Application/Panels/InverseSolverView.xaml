@@ -31,7 +31,13 @@
         <!-- Solution Domain -->
         <v:SolutionDomainOptionView DataContext="{Binding SolutionDomainTypeOptionVM}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,3,0,0"/>
         <!-- Detection Parameters -->
-        <v:RangeView DataContext="{Binding RangeVM}" Margin="0,3,0,0"/>
+        <ItemsControl ItemsSource="{Binding AllRangeVMs, UpdateSourceTrigger=PropertyChanged}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <v:RangeView DataContext="{Binding}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,3,0,0"/>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
         <!-- Optimization paramters -->
         <v:RadioButtonOptionView DataContext="{Binding InverseFitTypeOptionVM}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,3,0,0"/>
         <!-- Optimizer Type -->

@@ -72,7 +72,7 @@ namespace Vts.Gui.Silverlight.ViewModel
             {
                 if (args.PropertyName == "IndependentAxisType")
                 {
-                    RhoRangeVM = ((FluenceSolutionDomainOptionViewModel)sender).IndependentAxisType.GetDefaultIndependentAxisRange();
+                    RhoRangeVM = ((FluenceSolutionDomainOptionViewModel)sender).IndependentAxesVMs[0].AxisRangeVM;
                 }
                 // todo: must this fire on ANY property, or is there a specific one we can listen to, as above?
                 this.OnPropertyChanged("IsTimeFrequencyDomain");
@@ -92,17 +92,19 @@ namespace Vts.Gui.Silverlight.ViewModel
 
             MapTypeOptionVM.PropertyChanged += (sender, args) =>
             {
-                this.OnPropertyChanged("IsFluence");
-                this.OnPropertyChanged("IsAbsorbedEnergy");
-                this.OnPropertyChanged("IsPhotonHittingDensity");
-                this.OnPropertyChanged("IsTimeFrequencyDomain");
+                if (args.PropertyName == "SelectedValues")
+                {
+                    this.OnPropertyChanged("IsFluence");
+                    this.OnPropertyChanged("IsAbsorbedEnergy");
+                    this.OnPropertyChanged("IsPhotonHittingDensity");
+                    this.OnPropertyChanged("IsTimeFrequencyDomain");
+                }
             };
 
             ForwardSolverTypeOptionVM.PropertyChanged += (sender, args) =>
                     {
                         OnPropertyChanged("ForwardSolver");
                         OnPropertyChanged("IsGaussianForwardModel");
-
                         OnPropertyChanged("IsMultiRegion");
                         OnPropertyChanged("IsSemiInfinite");
                         TissueInputVM = GetTissueInputVM(IsMultiRegion ? "MultiLayer" : "SemiInfinite");
@@ -273,21 +275,12 @@ namespace Vts.Gui.Silverlight.ViewModel
         private PlotAxesLabels GetPlotLabels()
         {
             var sd = GetSelectedSolutionDomain();
-            PlotAxesLabels axesLabels = null;
-            if (sd.IndependentVariableAxisOptionVM.Options.Count > 1)
-            {
-                axesLabels = new PlotAxesLabels(
-                    sd.IndependentAxisLabel, sd.IndependentAxisUnits, sd.IndependentAxisType,
-                    sd.SelectedDisplayName, sd.SelectedValue.GetUnits(),
-                    sd.ConstantAxisLabel, sd.ConstantAxisUnits, sd.ConstantAxisValue,
-                    "", "", 0);// sd.ConstantAxisTwoLabel, sd.ConstantAxisTwoUnits, sd.ConstantAxisTwoValue); // wavelength-dependence not implemented for fluence
-                    
-            }
-            else
-            {
-                axesLabels = new PlotAxesLabels(sd.IndependentAxisLabel, sd.IndependentAxisUnits, 
-                    sd.IndependentAxisType, sd.SelectedDisplayName, sd.SelectedValue.GetUnits());
-            }
+
+            PlotAxesLabels axesLabels = new PlotAxesLabels(
+                sd.SelectedDisplayName, sd.SelectedValue.GetUnits(),
+                sd.IndependentAxesVMs.First(),
+                sd.ConstantAxesVMs);
+
             return axesLabels;
         }
 
@@ -379,7 +372,7 @@ namespace Vts.Gui.Silverlight.ViewModel
             // todo: too much thinking at the VM layer?
             double[] constantValues =
                 ComputationFactory.IsSolverWithConstantValues(sd.SelectedValue)
-                    ? new double[] { sd.ConstantAxisValue } : new double[0];
+                    ? new double[] { sd.ConstantAxesVMs[0].AxisValue } : new double[0];
 
             IndependentVariableAxis[] independentAxes = 
                 GetIndependentVariableAxesInOrder(
@@ -389,7 +382,6 @@ namespace Vts.Gui.Silverlight.ViewModel
             double[] results = null;
             if (ComputationFactory.IsComplexSolver(sd.SelectedValue))
             {
-
                Complex[] fluence =
                     ComputationFactory.ComputeFluenceComplex(
                         ForwardSolverTypeOptionVM.SelectedValue,

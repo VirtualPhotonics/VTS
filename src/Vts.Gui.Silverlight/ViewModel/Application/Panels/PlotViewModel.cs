@@ -13,6 +13,46 @@ using Vts.IO;
 
 namespace Vts.Gui.Silverlight.ViewModel
 {
+    public class DataPointCollection
+    {
+        public IDataPoint[] DataPoints { get; set; }
+        public string ColorTag { get; set; }
+    }
+
+    public class PlotPointCollection : ObservableCollection<Point[]>
+    {
+        public IList<string> ColorTags { get; set; }
+
+        public PlotPointCollection(Point[][] points, IList<string> colorTags )
+            : base(points)
+        {
+            ColorTags = colorTags;
+        }
+
+        public PlotPointCollection()
+            : base()
+        {
+            ColorTags = new List<string>();
+        }
+
+        public void Add(Point[] item, string groupName)
+        {
+            ColorTags.Add(groupName);
+            base.Add(item);
+        }
+
+        public new void Clear()
+        {
+            ColorTags.Clear();
+            base.Clear();
+        }
+
+        public PlotPointCollection Clone()
+        {
+            return new PlotPointCollection(this.Select(points => points).ToArray(), this.ColorTags.Select(name => name).ToArray());
+        }
+    }
+
     /// <summary>
     /// View model implementing Plot panel functionality
     /// </summary>
@@ -24,7 +64,7 @@ namespace Vts.Gui.Silverlight.ViewModel
         private IList<string> _PlotTitles;
         private ReflectancePlotType _PlotType;
         private bool _HoldOn;
-        private ObservableCollection<Point[]> _PlotSeriesCollection;
+        private PlotPointCollection _PlotSeriesCollection;
         private IList<string> _Labels;
         private OptionViewModel<ScalingType> _XAxisSpacingOptionVM;
         private OptionViewModel<ScalingType> _YAxisSpacingOptionVM;
@@ -58,8 +98,8 @@ namespace Vts.Gui.Silverlight.ViewModel
             AmplitudeLabels = new List<string>();;
             Labels = new List<string>();
             PlotTitles = new List<string>();
-            DataSeriesCollection = new List<IDataPoint[]>();
-            PlotSeriesCollection = new ObservableCollection<Point[]>();
+            DataSeriesCollection = new List<DataPointCollection>();
+            PlotSeriesCollection = new PlotPointCollection();
             //IsComplexPlot = false;
 
             PlotType = ReflectancePlotType.ForwardSolver;
@@ -101,7 +141,7 @@ namespace Vts.Gui.Silverlight.ViewModel
         public RelayCommand ExportDataToTextCommand { get; set; }
         public RelayCommand DuplicateWindowCommand { get; set; }
 
-        private List<IDataPoint[]> DataSeriesCollection { get; set; }
+        private List<DataPointCollection> DataSeriesCollection { get; set; }
         //private IList<IList<IDataPoint>> DataSeriesCollectionToggle { get; set; }
         private IList<string> RealLabels { get; set; }
         private IList<string> ImagLabels { get; set; }
@@ -123,8 +163,7 @@ namespace Vts.Gui.Silverlight.ViewModel
             output._PlotTitles = plotToClone._PlotTitles.ToList();
             output._PlotType = plotToClone._PlotType;
             output._HoldOn = plotToClone._HoldOn;
-            output._PlotSeriesCollection = new ObservableCollection<Point[]>(
-                plotToClone._PlotSeriesCollection.Select(ps => ps.Select(val => val).ToArray()).ToArray());
+            output._PlotSeriesCollection = plotToClone._PlotSeriesCollection.Clone();
             output._Labels = plotToClone._Labels.ToList();
             output._CustomPlotLabel = plotToClone._CustomPlotLabel;
             output._ShowAxes = plotToClone._ShowAxes;
@@ -148,14 +187,14 @@ namespace Vts.Gui.Silverlight.ViewModel
             output._XAxisSpacingOptionVM.Options[plotToClone._XAxisSpacingOptionVM.SelectedValue].IsSelected = true;
             
             output.DataSeriesCollection =
-                  plotToClone.DataSeriesCollection.Select(ds => ds.Select(val => val).ToArray()).ToList();
+                  plotToClone.DataSeriesCollection.Select(ds => new DataPointCollection{DataPoints = ds.DataPoints.Select(val => val).ToArray(), ColorTag = ds.ColorTag} ).ToList();
             //output.DataSeriesCollectionToggle =
             //    plotToClone.DataSeriesCollectionToggle.Select(ds => (IList<IDataPoint>)ds.Select(val => val).ToList()).ToList();
           
             return output;
         }
 
-        public ObservableCollection<Point[]> PlotSeriesCollection
+        public PlotPointCollection PlotSeriesCollection
         {
             get
             {
@@ -403,27 +442,18 @@ namespace Vts.Gui.Silverlight.ViewModel
                 var labels = e.Parameter as PlotAxesLabels;
                 // set CurrentIndependtVariableAxis prior to setting Title because property
                 // might ClearPlot including Title
-                CurrentIndependentVariableAxis = labels.IndependentAxisType;
-                if (labels.ConstantAxisName == null || labels.ConstantAxisName.Length == 0)
-                {
-                    Title =
+                CurrentIndependentVariableAxis = labels.IndependentAxis.AxisType;
+                Title =
                         labels.DependentAxisName + " [" + labels.DependentAxisUnits + "] versus " +
-                        labels.IndependentAxisName + " [" + labels.IndependentAxisUnits + "]";
-                }
-                else if (labels.ConstantAxisTwoName == null || labels.ConstantAxisTwoName.Length == 0)
+                        labels.IndependentAxis.AxisLabel + " [" + labels.IndependentAxis.AxisUnits + "]";
+
+                if (labels.ConstantAxes.Length > 0)
                 {
-                    Title =
-                        labels.DependentAxisName + " [" + labels.DependentAxisUnits + "]  versus " +
-                        labels.IndependentAxisName + " [" + labels.IndependentAxisUnits + "]" +
-                        " at " + labels.ConstantAxisName + " = " + labels.ConstantAxisValue + " " + labels.ConstantAxisUnits;
+                    Title += " at " + labels.ConstantAxes[0].AxisLabel + " = " + labels.ConstantAxes[0].AxisValue + " " + labels.ConstantAxes[0].AxisUnits;
                 }
-                else
+                if (labels.ConstantAxes.Length > 1)
                 {
-                    Title =
-                        labels.DependentAxisName + " [" + labels.DependentAxisUnits + "]  versus " +
-                        labels.IndependentAxisName + " [" + labels.IndependentAxisUnits + "]" +
-                        " at " + labels.ConstantAxisName + " = " + labels.ConstantAxisValue + " " + labels.ConstantAxisUnits +
-                        " and " + labels.ConstantAxisTwoName + " = " + labels.ConstantAxisTwoValue + " " + labels.ConstantAxisTwoUnits;
+                    Title += " and " + labels.ConstantAxes[1].AxisLabel + " = " + labels.ConstantAxes[1].AxisValue + " " + labels.ConstantAxes[1].AxisUnits;
                 }
             }
         }
@@ -474,15 +504,15 @@ namespace Vts.Gui.Silverlight.ViewModel
 
         void Plot_Executed(object sender, ExecutedEventArgs e)
         {
-            var data = e.Parameter as PlotData;
+            var data = e.Parameter as PlotData[];
             if (data != null)
             {
-                AddValuesToPlotData(data.Points, data.Titles);
+                AddValuesToPlotData(data);
             }
         }
 
         //static int labelCounter = 0;
-        private void AddValuesToPlotData(IDataPoint[][] curves, string[] titles)
+        private void AddValuesToPlotData(PlotData[] plotData)
         {
             if (!_HoldOn)
             {
@@ -490,19 +520,22 @@ namespace Vts.Gui.Silverlight.ViewModel
             }
 
             var customLabel = CustomPlotLabel.Length > 0 ? "\n(" + CustomPlotLabel + ")" : "";
-            for (int i = 0; i < curves.Length; i++)
+            for (int i = 0; i < plotData.Length; i++)
             {
-                DataSeriesCollection.Add(curves[i]);
-                if (DataSeriesCollection.Count > 0 && curves[i].First() is ComplexDataPoint)
+                var points = plotData[i].Points;
+                var title = plotData[i].Title;
+
+                DataSeriesCollection.Add(new DataPointCollection{DataPoints = points, ColorTag = "ColorTag"});
+                if (DataSeriesCollection.Count > 0 && points[0] is ComplexDataPoint)
                 {
-                    RealLabels.Add(titles[i] + "\r(real)" + customLabel);
-                    PhaseLabels.Add(titles[i] + "\r(phase)" + customLabel);
-                    ImagLabels.Add(titles[i] + "\r(imag)" + customLabel);
-                    AmplitudeLabels.Add(titles[i] + "\r(amp)" + customLabel);
+                    RealLabels.Add(title + "\r(real)" + customLabel);
+                    PhaseLabels.Add(title + "\r(phase)" + customLabel);
+                    ImagLabels.Add(title + "\r(imag)" + customLabel);
+                    AmplitudeLabels.Add(title + "\r(amp)" + customLabel);
                 }
                 else
                 {
-                    Labels.Add(titles[i] + customLabel); // has to happen before updating the bound collection
+                    Labels.Add(title + customLabel); // has to happen before updating the bound collection
                 }
             }
 
@@ -544,7 +577,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                 Labels.RemoveAt(Labels.Count - 1);
 
                 // if it's comp
-                if (DataSeriesCollection.Count > 0 && DataSeriesCollection.Last().First() is ComplexDataPoint &&
+                if (DataSeriesCollection.Count > 0 && DataSeriesCollection.Last().DataPoints.First() is ComplexDataPoint &&
                     PlotToggleTypeOptionVM.SelectedValue == PlotToggleType.Complex)
                 {
                     Labels.RemoveAt(Labels.Count - 1);
@@ -563,32 +596,32 @@ namespace Vts.Gui.Silverlight.ViewModel
             int normCurveNumber = 0;
 
             Point[][] tempPSC = null;
-            if (DataSeriesCollection.Count > 0 && DataSeriesCollection.Any(dsc => dsc.First() is ComplexDataPoint))
+            if (DataSeriesCollection.Count > 0 && DataSeriesCollection.Any(dsc => dsc.DataPoints.First() is ComplexDataPoint))
             {
                 switch (PlotToggleTypeOptionVM.SelectedValue)
                 {
                     case PlotToggleType.Complex:
                         // get odd elements of default list that contain imag data
-                        tempPSC = DataSeriesCollection.Select(dsci => dsci.FirstOrDefault() is ComplexDataPoint
-                            ? dsci.Select(dp => new Point(((ComplexDataPoint)dp).X, ((ComplexDataPoint)dp).Y.Real)).ToArray()
-                            : dsci.Select(dp => new Point(((DoubleDataPoint)dp).X, ((DoubleDataPoint)dp).Y)).ToArray())
-                            .Concat(DataSeriesCollection.Select(dsci => dsci.FirstOrDefault() is ComplexDataPoint
-                            ? dsci.Select(dp => dp is ComplexDataPoint ? new Point(((ComplexDataPoint)dp).X, ((ComplexDataPoint)dp).Y.Imaginary) :  new Point(0,0)).ToArray()
-                            : dsci.Select(dp => new Point(0,0)).ToArray())).ToArray();
+                        tempPSC = DataSeriesCollection.Select(dsci => dsci.DataPoints.FirstOrDefault() is ComplexDataPoint
+                            ? dsci.DataPoints.Select(dp => new Point(((ComplexDataPoint)dp).X, ((ComplexDataPoint)dp).Y.Real)).ToArray()
+                            : dsci.DataPoints.Select(dp => new Point(((DoubleDataPoint)dp).X, ((DoubleDataPoint)dp).Y)).ToArray())
+                            .Concat(DataSeriesCollection.Select(dsci => dsci.DataPoints.FirstOrDefault() is ComplexDataPoint
+                            ? dsci.DataPoints.Select(dp => dp is ComplexDataPoint ? new Point(((ComplexDataPoint)dp).X, ((ComplexDataPoint)dp).Y.Imaginary) : new Point(0, 0)).ToArray()
+                            : dsci.DataPoints.Select(dp => new Point(0, 0)).ToArray())).ToArray();
                         Labels = RealLabels.Concat(ImagLabels).ToList();
                         break;
                     case PlotToggleType.Phase:
                         // get even elements of toggle list that contain phase data
-                        tempPSC = DataSeriesCollection.Select(dsci => dsci.FirstOrDefault() is ComplexDataPoint
-                            ? dsci.Select(dp => new Point(((ComplexDataPoint)dp).X, -((ComplexDataPoint)dp).Y.Phase * (180/Math.PI))).ToArray()
-                            : dsci.Select(dp => new Point(((DoubleDataPoint)dp).X, ((DoubleDataPoint)dp).Y)).ToArray()).ToArray();
+                        tempPSC = DataSeriesCollection.Select(dsci => dsci.DataPoints.FirstOrDefault() is ComplexDataPoint
+                            ? dsci.DataPoints.Select(dp => new Point(((ComplexDataPoint)dp).X, -((ComplexDataPoint)dp).Y.Phase * (180 / Math.PI))).ToArray()
+                            : dsci.DataPoints.Select(dp => new Point(((DoubleDataPoint)dp).X, ((DoubleDataPoint)dp).Y)).ToArray()).ToArray();
                         Labels = PhaseLabels;
                         break;
                     case PlotToggleType.Amp:
                         // get odd elements of toggle list that contain amp data
-                        tempPSC = DataSeriesCollection.Select(dsci => dsci.FirstOrDefault() is ComplexDataPoint
-                            ? dsci.Select(dp => new Point(((ComplexDataPoint)dp).X, ((ComplexDataPoint)dp).Y.Magnitude)).ToArray()
-                            : dsci.Select(dp => new Point(((DoubleDataPoint)dp).X, ((DoubleDataPoint)dp).Y)).ToArray()).ToArray();
+                        tempPSC = DataSeriesCollection.Select(dsci => dsci.DataPoints.FirstOrDefault() is ComplexDataPoint
+                            ? dsci.DataPoints.Select(dp => new Point(((ComplexDataPoint)dp).X, ((ComplexDataPoint)dp).Y.Magnitude)).ToArray()
+                            : dsci.DataPoints.Select(dp => new Point(((DoubleDataPoint)dp).X, ((DoubleDataPoint)dp).Y)).ToArray()).ToArray();
                         Labels = AmplitudeLabels;
                         break;
                 }
@@ -596,7 +629,7 @@ namespace Vts.Gui.Silverlight.ViewModel
             }
             else
             {
-                tempPSC = DataSeriesCollection.Select(dsci => dsci.Select(dp => new Point(((DoubleDataPoint)dp).X, ((DoubleDataPoint)dp).Y)).ToArray()).ToArray();
+                tempPSC = DataSeriesCollection.Select(dsci => dsci.DataPoints.Select(dp => new Point(((DoubleDataPoint)dp).X, ((DoubleDataPoint)dp).Y)).ToArray()).ToArray();
                 ShowComplexPlotToggle = false; // otherwise, assume all plots are DoubleDataPoints
             }
 
@@ -690,10 +723,10 @@ namespace Vts.Gui.Silverlight.ViewModel
                 }
             }
 
-            var newCollection = new ObservableCollection<Point[]>();
+            var newCollection = new PlotPointCollection();
             foreach (var curve in pointsToPlot2)
             {
-                newCollection.Add(curve);
+                newCollection.Add(curve, "ColorTag");
             }
             PlotSeriesCollection = newCollection;
 
