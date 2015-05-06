@@ -184,7 +184,7 @@ namespace Vts.MonteCarlo.Detectors
                     {
                         for (int iz = 0; iz < Z.Count - 1; iz++)
                         {
-                            SecondMoment[ix, iy, iz] = _tallyForOnePhoton[ix, iy, iz]*_tallyForOnePhoton[ix, iy, iz];
+                            SecondMoment[ix, iy, iz] += _tallyForOnePhoton[ix, iy, iz]*_tallyForOnePhoton[ix, iy, iz];
                         }
                     }
                 }

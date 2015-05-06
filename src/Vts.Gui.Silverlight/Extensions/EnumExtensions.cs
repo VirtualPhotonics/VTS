@@ -237,9 +237,9 @@ namespace Vts.Gui.Silverlight.Extensions
             }
         }
         
-        public static RangeViewModel GetDefaultIndependentAxisRange(this IndependentVariableAxis independentAxisType)
-        {
-            return new RangeViewModel(independentAxisType.GetDefaultRange(), independentAxisType.GetUnits(), independentAxisType, independentAxisType.GetTitle());
-        }
+        //public static RangeViewModel GetDefaultIndependentAxisRange(this IndependentVariableAxis independentAxisType)
+        //{
+        //    return new RangeViewModel(independentAxisType.GetDefaultRange(), independentAxisType.GetUnits(), independentAxisType, independentAxisType.GetTitle());
+        //}
     }
 }

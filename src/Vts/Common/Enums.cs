@@ -466,21 +466,6 @@ namespace Vts
     }
 
     /// <summary>
-    /// measured data type
-    /// </summary>
-    public enum MeasuredDataType
-    {
-        /// <summary>
-        /// measured data simulated from forward solver with optional noise added
-        /// </summary>
-        Simulated,
-        /// <summary>
-        /// measured data imported from file
-        /// </summary>
-        FromFile
-    }
-
-    /// <summary>
     /// reflectance plot types
     /// </summary>
     public enum ReflectancePlotType

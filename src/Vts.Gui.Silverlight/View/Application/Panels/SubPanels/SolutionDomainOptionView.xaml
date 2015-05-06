@@ -75,7 +75,7 @@
         </controls:HeaderedContentControl>
         <!-- Independent Axis -->
         <!-- Choice for independent axis label, if necessary (invisible otherwise) -->
-        <StackPanel Visibility="{Binding ConstantLabelVisible, Converter={StaticResource myBooleanToVisibilityConverter}}"
+        <StackPanel Visibility="{Binding ShowIndependentAxisChoice, Converter={StaticResource myBooleanToVisibilityConverter}}"
                     Orientation="Vertical" VerticalAlignment="Top" HorizontalAlignment="Left" 
                     LayoutUpdated="StackPanel_LayoutUpdated" Margin="0,1,0,0">
             <StackPanel Orientation="Horizontal">
@@ -91,24 +91,26 @@
                 <v:RadioButtonOptionView 
                     DataContext="{Binding IndependentVariableAxisOptionVM}" 
                     VerticalContentAlignment="Center"
-                    VerticalAlignment="Center" HorizontalAlignment="Left" />   
-                <TextBlock Text="{Binding Path=MainResource.Label_At, Source={StaticResource LocalizedStrings}}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="3,0,0,0" />
-                <TextBlock Text="{Binding ConstantAxisLabel}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5,0,0,0" />
-                <TextBlock Text="="  VerticalAlignment="Center" HorizontalAlignment="Left" Margin="1,0,1,0"/>
-                <TextBox Width="40" Text="{Binding ConstantAxisValue, Mode=TwoWay}"  VerticalAlignment="Center" HorizontalAlignment="Left" />
-                <TextBlock Text="{Binding ConstantAxisUnits}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="2,0,0,0" KeyDown="TextBox_KeyDown"/>
-
-                <StackPanel Visibility="{Binding ConstantLabelTwoVisible, Converter={StaticResource myBooleanToVisibilityConverter}}"
-                        Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="2,0,0,0">
-                    <TextBlock Text="{Binding Path=MainResource.Label_At, Source={StaticResource LocalizedStrings}}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="3,0,0,0" />
-                    <TextBlock Text="{Binding ConstantAxisTwoLabel}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="3,0,0,0" />
-                    <TextBlock Text="="  VerticalAlignment="Center" HorizontalAlignment="Left" Margin="1,0,1,0"/>
-                    <TextBox Width="40" Text="{Binding ConstantAxisTwoValue, Mode=TwoWay}"  VerticalAlignment="Center" HorizontalAlignment="Left" KeyDown="TextBox_KeyDown"/>
-                    <TextBlock Text="{Binding ConstantAxisTwoUnits}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="2,0,0,0" />
-                </StackPanel>
+                    VerticalAlignment="Center" HorizontalAlignment="Left" />
+                <ItemsControl ItemsSource="{Binding ConstantAxesVMs, Mode=OneWay}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Horizontal"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding Path=MainResource.Label_At, Source={StaticResource LocalizedStrings}}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="3,0,0,0" />
+                                <TextBlock Text="{Binding AxisLabel}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5,0,0,0" />
+                                <TextBlock Text="="  VerticalAlignment="Center" HorizontalAlignment="Left" Margin="1,0,1,0"/>
+                                <TextBox Width="40" Text="{Binding AxisValue, Mode=TwoWay}"  VerticalAlignment="Center" HorizontalAlignment="Left" KeyDown="TextBox_KeyDown" />
+                                <TextBlock Text="{Binding AxisUnits}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="2,0,0,0"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
             </StackPanel>
-            
-
         </StackPanel>
     </StackPanel>
 </UserControl>

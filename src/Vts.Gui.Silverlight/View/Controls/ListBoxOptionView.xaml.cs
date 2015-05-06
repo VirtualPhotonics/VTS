@@ -35,7 +35,7 @@ namespace Vts.Gui.Silverlight.View
                 if (p_Obj is RadioButton)
                 {
                     RadioButton p_curRadio = (RadioButton)p_Obj;
-                    if (p_curRadio.GroupName == p_GroupName && p_curRadio.Tag.ToString() != p_IgnoreId)
+                    if (p_curRadio.ColorTag == p_GroupName && p_curRadio.Tag.ToString() != p_IgnoreId)
                         p_curRadio.IsChecked = false;
                 }
                 else
@@ -49,7 +49,7 @@ namespace Vts.Gui.Silverlight.View
         {
             RadioButton p_curRadio = (RadioButton)sender;
 
-            UncheckGroupRadioButtons(myOptionControl, p_curRadio.GroupName, p_curRadio.Tag.ToString());
+            UncheckGroupRadioButtons(myOptionControl, p_curRadio.ColorTag, p_curRadio.Tag.ToString());
         }
 #endif
     }

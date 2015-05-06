@@ -9,7 +9,7 @@ slash = filesep;  % get correct path delimiter for platform
 addpath([cd slash 'jsonlab']);
 
 % names of individual MC simulations
-datanames = { 'two_layer_momentum_transfer_detectors' };
+datanames = { 'one_layer_all_detectors' };
 % datanames = { 'results_mua0.1musp1.0' 'esults_mua0.1musp1.1' }; %...etc
 
 % outdir = 'C:\Projects\vts\src\Vts.MonteCarlo.CommandLineApplication\bin\Release';

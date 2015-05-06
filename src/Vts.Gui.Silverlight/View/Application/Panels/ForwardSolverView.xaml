@@ -23,16 +23,13 @@
         <!-- Solution Domain -->
         <v:SolutionDomainOptionView DataContext="{Binding SolutionDomainTypeOptionVM}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,3,0,0"/>
         <!-- Detection Parameters -->
-        <StackPanel Visibility="{Binding ShowIndependentVariable, Converter={StaticResource myBooleanToVisibilityConverter}}">
-            <v:RangeView DataContext="{Binding RangeVM}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,3,0,0"/>
-        </StackPanel>
-        <StackPanel Visibility="{Binding ShowIndependentVariableTwo, Converter={StaticResource myBooleanToVisibilityConverter}}">
-            <v:RangeView DataContext="{Binding RangeTwoVM}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,3,0,0"/>
-        </StackPanel>
-        <StackPanel Visibility="{Binding ShowIndependentVariableThree, Converter={StaticResource myBooleanToVisibilityConverter}}">
-            <v:RangeView DataContext="{Binding RangeThreeVM}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,3,0,0"/>
-        </StackPanel>
-        
+        <ItemsControl ItemsSource="{Binding AllRangeVMs, UpdateSourceTrigger=PropertyChanged}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <v:RangeView DataContext="{Binding}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,3,0,0"/>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
                 
         <!-- Optical Properties (single- or multi-region property editor shown, depending on forward model type -->
         <StackPanel Visibility="{Binding ShowOpticalProperties, Converter={StaticResource myBooleanToVisibilityConverter}}">
