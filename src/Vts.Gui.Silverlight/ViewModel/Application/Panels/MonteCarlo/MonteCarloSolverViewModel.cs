@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using GalaSoft.MvvmLight.Command;
 using SLExtensions.Input;
+using Vts.Common;
 using Vts.Common.Logging;
 using Vts.Gui.Silverlight.Input;
 using Vts.Gui.Silverlight.Model;
@@ -150,7 +151,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                         Commands.Plot_SetAxesLabels.Execute(axesLabels);
 
                         string plotLabel = GetPlotLabel();
-                        Commands.Plot_PlotValues.Execute(new PlotData(new []{ points }, new []{ plotLabel }));
+                        Commands.Plot_PlotValues.Execute(new[] { new PlotData(points, plotLabel) });
                         logger.Info(() => "done.\r");
                     }
 
@@ -351,12 +352,25 @@ namespace Vts.Gui.Silverlight.ViewModel
 
         private PlotAxesLabels GetPlotLabels()
         {
+            //return new PlotAxesLabels(
+            //    IndependentVariableAxis.Rho.GetInternationalizedString(),
+            //    IndependentVariableAxisUnits.MM.GetInternationalizedString(),
+            //    IndependentVariableAxis.Rho,
+            //    SolutionDomainType.ROfRho.GetInternationalizedString(),
+            //    DependentVariableAxisUnits.PerMMSquared.GetInternationalizedString());
+
+            var axisType = IndependentVariableAxis.Rho;
+            var axisUnits = IndependentVariableAxisUnits.MM;
             return new PlotAxesLabels(
-                IndependentVariableAxis.Rho.GetInternationalizedString(),
-                IndependentVariableAxisUnits.MM.GetInternationalizedString(),
-                IndependentVariableAxis.Rho,
                 SolutionDomainType.ROfRho.GetInternationalizedString(),
-                DependentVariableAxisUnits.PerMMSquared.GetInternationalizedString());
+                DependentVariableAxisUnits.PerMMSquared.GetInternationalizedString(),
+                new IndependentAxisViewModel
+                {
+                    AxisType = axisType,
+                    AxisLabel = axisType.GetInternationalizedString(),
+                    AxisUnits = axisUnits.GetInternationalizedString(),
+                    AxisRangeVM = new RangeViewModel((DoubleRange)_simulationInputVM.SimulationInput.DetectorInputs.FirstOrDefault(), axisUnits.GetInternationalizedString(), axisType, "ROfRho")
+                });
         }
 
         private string GetPlotLabel()

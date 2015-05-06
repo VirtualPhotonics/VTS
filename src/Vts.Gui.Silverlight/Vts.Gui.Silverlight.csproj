@@ -222,13 +222,16 @@
     <Compile Include="ViewModel\Application\Panels\MonteCarlo\SimulationOptionsViewModel.cs" />
     <Compile Include="ViewModel\Application\Panels\MonteCarlo\LayerRegionViewModel.cs" />
     <Compile Include="ViewModel\Application\Panels\MonteCarlo\SimulationInputViewModel.cs" />
+    <Compile Include="ViewModel\Application\Panels\SubPanels\AbstractSolutionDomainOptionViewModel.cs" />
     <Compile Include="ViewModel\Application\Panels\SubPanels\BloodConcentrationViewModel.cs" />
     <Compile Include="Converters\DoubleToStringConverter.cs" />
+    <Compile Include="ViewModel\Application\Panels\SubPanels\ConstantAxisViewModel.cs" />
     <Compile Include="ViewModel\Application\Panels\SubPanels\FluenceSolutionDomainOptionViewModel.cs" />
     <Compile Include="ViewModel\Application\Panels\FluenceSolverViewModel.cs" />
     <Compile Include="ViewModel\Application\Panels\MonteCarlo\MonteCarloSolverViewModel.cs" />
     <Compile Include="Model\PlotData.cs" />
     <Compile Include="ViewModel\Application\Panels\MapViewModel.cs" />
+    <Compile Include="ViewModel\Application\Panels\SubPanels\IndependentAxisViewModel.cs" />
     <Compile Include="ViewModel\Application\WhiteList.cs" />
     <Compile Include="ViewModel\Controls\PositionViewModel.cs" />
     <Compile Include="Model\DataPoint.cs" />

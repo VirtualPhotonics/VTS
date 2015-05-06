@@ -31,16 +31,10 @@ namespace Vts.Gui.Silverlight.ViewModel
         private SolutionDomainOptionViewModel _SolutionDomainTypeOptionVM;
         private OptionViewModel<ForwardSolverType> _ForwardSolverTypeOptionVM;
         private OptionViewModel<ForwardAnalysisType> _ForwardAnalysisTypeOptionVM;
-        private RangeViewModel _RangeVM;
-        private RangeViewModel _RangeTwoVM;
-        private RangeViewModel _RangeThreeVM;
         private RangeViewModel[] _allRangeVMs;
 
         private bool _showOpticalProperties;
         private bool _useSpectralPanelData;
-        private bool _showIndependentVariable;
-        private bool _showIndependentVariableTwo;
-        private bool _showIndependentVariableThree;
         private object _tissueInputVM; // either an OpticalPropertyViewModel or a MultiRegionTissueViewModel is stored here, and dynamically displayed
         
         // private fields to cache created instances of tissue inputs, created on-demand in GetTissueInputVM (vs up-front in constructor)
@@ -53,15 +47,9 @@ namespace Vts.Gui.Silverlight.ViewModel
         {
             _showOpticalProperties = true;
             _useSpectralPanelData = false;
-            _showIndependentVariable = true;
-            _showIndependentVariableTwo = false;
-            _showIndependentVariableThree = false;
             
-            RangeVM = new RangeViewModel { Title = "Detection Parameters" };
-            _allRangeVMs = new[] {RangeVM};
-            //OpticalPropertyVM = new OpticalPropertyViewModel { Title = "Optical Properties" };
-            // right now, we're doing manual databinding to the selected item. need to enable databinding 
-            // confused, though - do we need to use strings? or, how to make generics work with dependency properties?
+            _allRangeVMs = new[] { new RangeViewModel { Title = "Detection Parameters" } };
+
 #if WHITELIST 
             ForwardSolverTypeOptionVM = new OptionViewModel<ForwardSolverType>("Forward Model",false, WhiteList.ForwardSolverTypes);
 #else
@@ -71,7 +59,6 @@ namespace Vts.Gui.Silverlight.ViewModel
             {
                 OnPropertyChanged("IsGaussianForwardModel");
                 OnPropertyChanged("ForwardSolver");
-
                 OnPropertyChanged("IsMultiRegion");
                 OnPropertyChanged("IsSemiInfinite");
                 TissueInputVM = GetTissueInputVM(IsMultiRegion ? "MultiLayer" : "SemiInfinite");
@@ -79,82 +66,37 @@ namespace Vts.Gui.Silverlight.ViewModel
             ForwardSolverTypeOptionVM.SelectedValue = ForwardSolverType.PointSourceSDA; // force the model choice here?
 
             SolutionDomainTypeOptionVM = new SolutionDomainOptionViewModel("Solution Domain", SolutionDomainType.ROfRho);
+            
             Action<double> updateSolutionDomainWithWavelength = wv =>
             {
-                if (SolutionDomainTypeOptionVM.ConstantAxisType == IndependentVariableAxis.Wavelength)
+                var wvAxis = SolutionDomainTypeOptionVM.ConstantAxesVMs.FirstOrDefault(axis => axis.AxisType == IndependentVariableAxis.Wavelength);
+                if (wvAxis != null)
                 {
-                    SolutionDomainTypeOptionVM.ConstantAxisValue = wv;
-                }
-                else if (SolutionDomainTypeOptionVM.ConstantAxisTwoType == IndependentVariableAxis.Wavelength)
-                {
-                    SolutionDomainTypeOptionVM.ConstantAxisTwoValue = wv;
+                    wvAxis.AxisValue = wv;
                 }
             };
+
             SolutionDomainTypeOptionVM.PropertyChanged += (sender, args) => 
             {
                 if (args.PropertyName == "UseSpectralInputs")
                 {
                     UseSpectralPanelData = SolutionDomainTypeOptionVM.UseSpectralInputs;
                 }
-                if (args.PropertyName == "IndependentAxisType" || args.PropertyName == "AllowMultiAxis" || args.PropertyName == "IndependentAxisTwoVisible" || args.PropertyName == "IndependentAxisThreeVisible")
+                if (args.PropertyName == "IndependentAxesVMs")
                 {
                     var useSpectralPanelDataAndNotNull = UseSpectralPanelData && SolverDemoViewModel.Current != null && SolverDemoViewModel.Current.SpectralMappingVM != null;
-                    if (SolutionDomainTypeOptionVM.IndependentVariableAxisOptionVM.SelectedValues.Length == 1)
-                    {
-                        RangeVM = useSpectralPanelDataAndNotNull && SolutionDomainTypeOptionVM.IndependentVariableAxisOptionVM.SelectedValues[0] == IndependentVariableAxis.Wavelength 
-                            ? SolverDemoViewModel.Current.SpectralMappingVM.WavelengthRangeVM // bind to same instance, not a copy
-                            : SolutionDomainTypeOptionVM.IndependentAxisType.GetDefaultIndependentAxisRange();
-                        
-                        ShowIndependentVariable = true;
-                        ShowIndependentVariableTwo = false;
-                        ShowIndependentVariableThree = false;
 
-                        _allRangeVMs = new[] {RangeVM};
-                    }
-
-                    if (SolutionDomainTypeOptionVM.IndependentVariableAxisOptionVM.SelectedValues.Length == 2)
-                    {
-                        RangeVM = useSpectralPanelDataAndNotNull && SolutionDomainTypeOptionVM.IndependentVariableAxisOptionVM.SelectedValues[1] == IndependentVariableAxis.Wavelength
-                            ? SolverDemoViewModel.Current.SpectralMappingVM.WavelengthRangeVM // bind to same instance, not a copy
-                            : SolutionDomainTypeOptionVM.IndependentAxisTwoType.GetDefaultIndependentAxisRange();
-
-                        RangeTwoVM = useSpectralPanelDataAndNotNull && SolutionDomainTypeOptionVM.IndependentVariableAxisOptionVM.SelectedValues[0] == IndependentVariableAxis.Wavelength
-                            ? SolverDemoViewModel.Current.SpectralMappingVM.WavelengthRangeVM // bind to same instance, not a copy
-                            : SolutionDomainTypeOptionVM.IndependentAxisType.GetDefaultIndependentAxisRange();
-
-                        ShowIndependentVariable = true;
-                        ShowIndependentVariableTwo = true;
-                        ShowIndependentVariableThree = false;
-
-                        _allRangeVMs = new[] { RangeVM, RangeTwoVM };
-                    }
-
-                    if (SolutionDomainTypeOptionVM.IndependentVariableAxisOptionVM.SelectedValues.Length == 3)
-                    {
-                        RangeVM = useSpectralPanelDataAndNotNull && SolutionDomainTypeOptionVM.IndependentVariableAxisOptionVM.SelectedValues[2] == IndependentVariableAxis.Wavelength
-                            ? SolverDemoViewModel.Current.SpectralMappingVM.WavelengthRangeVM // bind to same instance, not a copy
-                            : SolutionDomainTypeOptionVM.IndependentAxisThreeType.GetDefaultIndependentAxisRange();
-
-                        RangeTwoVM = useSpectralPanelDataAndNotNull && SolutionDomainTypeOptionVM.IndependentVariableAxisOptionVM.SelectedValues[1] == IndependentVariableAxis.Wavelength
-                            ? SolverDemoViewModel.Current.SpectralMappingVM.WavelengthRangeVM // bind to same instance, not a copy
-                            : SolutionDomainTypeOptionVM.IndependentAxisTwoType.GetDefaultIndependentAxisRange();
-
-                        RangeThreeVM = useSpectralPanelDataAndNotNull && SolutionDomainTypeOptionVM.IndependentVariableAxisOptionVM.SelectedValues[0] == IndependentVariableAxis.Wavelength
-                            ? SolverDemoViewModel.Current.SpectralMappingVM.WavelengthRangeVM // bind to same instance, not a copy
-                            : SolutionDomainTypeOptionVM.IndependentAxisType.GetDefaultIndependentAxisRange();
-
-                        ShowIndependentVariable = true;
-                        ShowIndependentVariableTwo = true;
-                        ShowIndependentVariableThree = true;
-
-                        _allRangeVMs = new[] { RangeVM, RangeTwoVM, RangeThreeVM };
-                    }
+                    AllRangeVMs = (from i in Enumerable.Range(0, SolutionDomainTypeOptionVM.IndependentVariableAxisOptionVM.SelectedValues.Length)
+                                        orderby i descending // descending so that wavelength takes highest priority, then time/time frequency, then space/spatial frequency
+                                        select useSpectralPanelDataAndNotNull && SolutionDomainTypeOptionVM.IndependentVariableAxisOptionVM.SelectedValues[i] == IndependentVariableAxis.Wavelength
+                                             ? SolverDemoViewModel.Current.SpectralMappingVM.WavelengthRangeVM // bind to same instance, not a copy
+                                             : SolutionDomainTypeOptionVM.IndependentAxesVMs[i].AxisRangeVM).ToArray();
 
                     // if the independent axis is wavelength, then hide optical properties (because they come from spectral panel)
-                    ShowOpticalProperties = !SolutionDomainTypeOptionVM.IndependentVariableAxisOptionVM.SelectedValues.Any(value => value == IndependentVariableAxis.Wavelength);
+                    ShowOpticalProperties = !_allRangeVMs.Any(value => value.AxisType == IndependentVariableAxis.Wavelength);
 
                     // update solution domain wavelength constant if applicable
-                    if (useSpectralPanelDataAndNotNull && SolutionDomainTypeOptionVM.IndependentVariableAxisOptionVM.UnSelectedValues.Contains(IndependentVariableAxis.Wavelength))
+                    if (useSpectralPanelDataAndNotNull && SolutionDomainTypeOptionVM.ConstantAxesVMs.Any(axis => axis.AxisType == IndependentVariableAxis.Wavelength))
                     {
                         updateSolutionDomainWithWavelength(SolverDemoViewModel.Current.SpectralMappingVM.Wavelength);
                     }
@@ -232,36 +174,6 @@ namespace Vts.Gui.Silverlight.ViewModel
             }
         }
 
-        public bool ShowIndependentVariable
-        {
-            get { return _showIndependentVariable; }
-            set
-            {
-                _showIndependentVariable = value;
-                OnPropertyChanged("ShowIndependentVariable");
-            }
-        }
-
-        public bool ShowIndependentVariableTwo
-        {
-            get { return _showIndependentVariableTwo; }
-            set
-            {
-                _showIndependentVariableTwo = value;
-                OnPropertyChanged("ShowIndependentVariableTwo");
-            }
-        }
-
-        public bool ShowIndependentVariableThree
-        {
-            get { return _showIndependentVariableThree; }
-            set
-            {
-                _showIndependentVariableThree = value;
-                OnPropertyChanged("ShowIndependentVariableThree");
-            }
-        }
-
         public SolutionDomainOptionViewModel SolutionDomainTypeOptionVM
         {
             get { return _SolutionDomainTypeOptionVM; }
@@ -282,33 +194,13 @@ namespace Vts.Gui.Silverlight.ViewModel
             }
         }
 
-        public RangeViewModel RangeVM
+        public RangeViewModel[] AllRangeVMs
         {
-            get { return _RangeVM; }
+            get { return _allRangeVMs; }
             set
             {
-                _RangeVM = value;
-                OnPropertyChanged("RangeVM");
-            }
-        }
-
-        public RangeViewModel RangeTwoVM
-        {
-            get { return _RangeTwoVM; }
-            set
-            {
-                _RangeTwoVM = value;
-                OnPropertyChanged("RangeTwoVM");
-            }
-        }
-
-        public RangeViewModel RangeThreeVM
-        {
-            get { return _RangeThreeVM; }
-            set
-            {
-                _RangeThreeVM = value;
-                OnPropertyChanged("RangeThreeVM");
+                _allRangeVMs = value;
+                OnPropertyChanged("AllRangeVMs");
             }
         }
 
@@ -349,22 +241,9 @@ namespace Vts.Gui.Silverlight.ViewModel
             Commands.Plot_SetAxesLabels.Execute(axesLabels);
 
             string[] plotLabels = GetLegendLabels();
-            //if (ComputationFactory.IsComplexSolver(SolutionDomainTypeOptionVM.SelectedValue))
-            //{
-            //    var real = points[0];
-            //    var imag = points[1];
-            //    // convert Point to ComplexPoint
-            //    var complexPoints = new List<ComplexPoint>();
-            //    for (int i = 0; i < real.Length; i++)
-            //    {
-            //        complexPoints.Add(new ComplexPoint(real[i].X, new Complex(real[i].Y, imag[i].Y)));
-            //    }
-            //    Commands.Plot_PlotValues.Execute(new PlotData(new [] { complexPoints.ToArray() }, plotLabels));
-            //}
-            //else
-            //{
-                Commands.Plot_PlotValues.Execute(new PlotData(points, plotLabels));
-            //}
+
+            var plotData = Enumerable.Zip(points, plotLabels, (p, el) => new PlotData(p, el)).ToArray();
+            Commands.Plot_PlotValues.Execute(plotData);
 
             Commands.TextOutput_PostMessage.Execute("Forward Solver: " + TissueInputVM + "\r"); // todo: override ToString() for MultiRegionTissueViewModel
         }
@@ -372,37 +251,10 @@ namespace Vts.Gui.Silverlight.ViewModel
         private PlotAxesLabels GetPlotLabels()
         {
             var sd = this.SolutionDomainTypeOptionVM;
-            PlotAxesLabels axesLabels = null;
-            if (sd.IndependentVariableAxisOptionVM.Options.Count > 1)
-            {
-                var axisType = RangeVM.AxisType;
-
-                if (sd.IndependentVariableAxisOptionVM.UnSelectedValues.Length > 1)
-                {
-                    axesLabels = new PlotAxesLabels(
-                        axisType.GetInternationalizedString(), axisType.GetUnits(), axisType,
-                        sd.SelectedDisplayName, sd.SelectedValue.GetUnits(),
-                        sd.ConstantAxisLabel, sd.ConstantAxisUnits, sd.ConstantAxisValue,
-                        sd.ConstantAxisTwoLabel, sd.ConstantAxisTwoUnits, sd.ConstantAxisTwoValue);
-                }
-                else
-                {
-                    axesLabels = new PlotAxesLabels(
-                        axisType.GetInternationalizedString(), axisType.GetUnits(), axisType,
-                        sd.SelectedDisplayName, sd.SelectedValue.GetUnits(),
-                        sd.ConstantAxisLabel, sd.ConstantAxisUnits, sd.ConstantAxisValue);
-                }
-                //axesLabels = new PlotAxesLabels(
-                //    sd.IndependentAxisLabel, sd.IndependentAxisUnits, axisType,
-                //    axisType.GetInternationalizedString(), axisType.GetUnits(),
-                //    sd.ConstantAxisLabel, sd.ConstantAxisUnits, sd.ConstantAxisValue,
-                //    sd.ConstantAxisTwoLabel, sd.ConstantAxisTwoUnits, sd.ConstantAxisTwoValue);
-            }
-            else
-            {
-                axesLabels = new PlotAxesLabels(sd.IndependentAxisLabel, sd.IndependentAxisUnits,
-                    sd.IndependentAxisType, sd.SelectedDisplayName, sd.SelectedValue.GetUnits());
-            }
+            PlotAxesLabels axesLabels = new PlotAxesLabels(
+                sd.SelectedDisplayName, sd.SelectedValue.GetUnits(),
+                sd.IndependentAxesVMs.Where(vm => vm.AxisType == AllRangeVMs.First().AxisType).First(),
+                sd.ConstantAxesVMs); 
             return axesLabels;
         }
         
@@ -513,12 +365,18 @@ namespace Vts.Gui.Silverlight.ViewModel
                     ForwardAnalysisTypeOptionVM.SelectedValue,
                     parameters.Values.ToArray());
 
+            return GetDataPoints(reflectance);
+        }
+
+        private IDataPoint[][] GetDataPoints(double[] reflectance)
+        {
             var plotIsVsWavelength = _allRangeVMs.Any(vm => vm.AxisType == IndependentVariableAxis.Wavelength);
             var isComplexPlot = ComputationFactory.IsComplexSolver(SolutionDomainTypeOptionVM.SelectedValue);
-            var primaryIdependentValues = RangeVM.Values.ToArray();
+            var primaryIdependentValues = _allRangeVMs.First().Values.ToArray();
             var numPointsPerCurve = primaryIdependentValues.Length;
-            var numForwardValues =  isComplexPlot ? reflectance.Length/2 : reflectance.Length; // complex reported as all reals, then all imaginaries
-            var numCurves = numForwardValues / numPointsPerCurve;
+            var numForwardValues = isComplexPlot ? reflectance.Length/2 : reflectance.Length;
+                // complex reported as all reals, then all imaginaries
+            var numCurves = numForwardValues/numPointsPerCurve;
 
             var points = new IDataPoint[numCurves][];
             Func<int, int, IDataPoint> getReflectanceAtIndex = (i, j) =>
@@ -528,8 +386,10 @@ namespace Vts.Gui.Silverlight.ViewModel
                     ? i*numCurves + j
                     : j*numPointsPerCurve + i;
                 return isComplexPlot
-                    ? (IDataPoint)new ComplexDataPoint(primaryIdependentValues[i], new Complex(reflectance[index], reflectance[index + numForwardValues]))
-                    : (IDataPoint)new DoubleDataPoint(primaryIdependentValues[i], reflectance[index]);
+                    ? (IDataPoint)
+                        new ComplexDataPoint(primaryIdependentValues[i],
+                            new Complex(reflectance[index], reflectance[index + numForwardValues]))
+                    : (IDataPoint) new DoubleDataPoint(primaryIdependentValues[i], reflectance[index]);
             };
             for (int j = 0; j < numCurves; j++)
             {
@@ -573,15 +433,14 @@ namespace Vts.Gui.Silverlight.ViewModel
             var isConstant = SolutionDomainTypeOptionVM.IndependentVariableAxisOptionVM.UnSelectedValues.Contains(axis);
             if (isConstant)
             {
-                var positionIndex =
-                    SolutionDomainTypeOptionVM.IndependentVariableAxisOptionVM.UnSelectedValues.IndexOf(axis);
+                var positionIndex = SolutionDomainTypeOptionVM.IndependentVariableAxisOptionVM.UnSelectedValues.IndexOf(axis);
                 switch (positionIndex)
                 {
                     case 0:
                     default:
-                        return new[] {SolutionDomainTypeOptionVM.ConstantAxisValue};
+                        return new[] {SolutionDomainTypeOptionVM.ConstantAxesVMs[0].AxisValue};
                     case 1:
-                        return new[] {SolutionDomainTypeOptionVM.ConstantAxisTwoValue};
+                        return new[] { SolutionDomainTypeOptionVM.ConstantAxesVMs[1].AxisValue };
                         //case 2:
                         //    return new[] { SolutionDomainTypeOptionVM.ConstantAxisThreeValue };
                 }
@@ -594,26 +453,26 @@ namespace Vts.Gui.Silverlight.ViewModel
                 {
                     case 1:
                     default:
-                        return RangeVM.Values.ToArray();
+                        return AllRangeVMs[0].Values.ToArray();
                     case 2:
                         switch (positionIndex)
                         {
                             case 0:
                             default:
-                                return RangeTwoVM.Values.ToArray();
+                                return AllRangeVMs[1].Values.ToArray();
                             case 1:
-                                return RangeVM.Values.ToArray();
+                                return AllRangeVMs[0].Values.ToArray();
                         }
                     case 3:
                         switch (positionIndex)
                         {
                             case 0:
                             default:
-                                return RangeThreeVM.Values.ToArray();
+                                return AllRangeVMs[2].Values.ToArray();
                             case 1:
-                                return RangeTwoVM.Values.ToArray();
+                                return AllRangeVMs[1].Values.ToArray();
                             case 2:
-                                return RangeVM.Values.ToArray();
+                                return AllRangeVMs[0].Values.ToArray();
                         }
                 }
             }

@@ -206,11 +206,11 @@ for di = 1:numDetectors
             AOfXAndYAndZ.Mean = reshape(AOfXAndYAndZ.Mean, ...% read column major json binary
                 [length(AOfXAndYAndZ.Z)-1,length(AOfXAndYAndZ.Y)-1,length(AOfXAndYAndZ.X)-1]);
             if(detector.TallySecondMoment && exist([datadir slash detector.Name '_2'],'file'))
-                AOfXAndAndZ.SecondMoment = readBinaryData([datadir slash detector.Name '_2'], ...
+                AOfXAndYAndZ.SecondMoment = readBinaryData([datadir slash detector.Name '_2'], ...
                     [(length(AOfXAndYAndZ.X)-1) * (length(AOfXAndYAndZ.Y)-1) * (length(AOfXAndYAndZ.Z)-1)]);
-                AOfXAndYAndZ.SecondMoment = reshape(AOfXAndYAndZ.Mean, ... % column major json binary
+                AOfXAndYAndZ.SecondMoment = reshape(AOfXAndYAndZ.SecondMoment, ... % column major json binary
                     [length(AOfXAndYAndZ.Z)-1,length(AOfXAndYAndZ.Y)-1,length(AOfXAndYAndZ.X)-1]);
-                AOfXAndYAndZ.Stdev = sqrt((AOfXAndYAndZ.SecondMoment - (AOfXAndYAndZ.Mean .* AOfXAndYAndZ.Mean)) / (json.N));  
+                AOfXAndYAndZ.Stdev = sqrt((AOfXAndYAndZ.SecondMoment - (AOfXAndYAndZ.Mean .* AOfXAndYAndZ.Mean)) / json.N);  
             end
             results{di}.AOfXAndYAndZ = AOfXAndYAndZ
         case 'FluenceOfRhoAndZ'
@@ -224,7 +224,7 @@ for di = 1:numDetectors
             FluenceOfRhoAndZ.Mean = readBinaryData([datadir slash detector.Name],[length(FluenceOfRhoAndZ.Z)-1,length(FluenceOfRhoAndZ.Rho)-1]); % read column major binary
             if(detector.TallySecondMoment && exist([datadir slash detector.Name '_2'],'file'))
                 FluenceOfRhoAndZ.SecondMoment = readBinaryData([datadir slash detector.Name '_2'],[length(FluenceOfRhoAndZ.Z)-1,length(FluenceOfRhoAndZ.Rho)-1]);
-                FluenceOfRhoAndZ.Stdev = sqrt((FluenceOfRhoAndZ.SecondMoment - (FluenceOfRhoAndZ.Mean .* FluenceOfRhoAndZ.Mean)) / (json.N));  
+                FluenceOfRhoAndZ.Stdev = sqrt((FluenceOfRhoAndZ.SecondMoment - (FluenceOfRhoAndZ.Mean .* FluenceOfRhoAndZ.Mean)) / json.N);  
             end
             results{di}.FluenceOfRhoAndZ = FluenceOfRhoAndZ;
         case 'FluenceOfRhoAndZAndTime'
@@ -245,7 +245,7 @@ for di = 1:numDetectors
             if(detector.TallySecondMoment && exist([datadir slash detector.Name '_2'],'file'))
                 FluenceOfRhoAndZAndTime.SecondMoment = readBinaryData([datadir slash detector.Name '_2'], ...
                     [(length(FluenceOfRhoAndZAndTime.Rho)-1)*(length(FluenceOfRhoAndZAndTime.Z)-1)*(length(FluenceOfRhoAndZAndTime.Time)-1)]);
-                FluenceOfRhoAndZAndTime.SecondMoment = reshape(FluenceOfRhoAndZAndTime.Mean, ... % column major json binary
+                FluenceOfRhoAndZAndTime.SecondMoment = reshape(FluenceOfRhoAndZAndTime.SecondMoment, ... % column major json binary
                     [length(FluenceOfRhoAndZAndTime.Time)-1,length(FluenceOfRhoAndZAndTime.Z)-1,length(FluenceOfRhoAndZAndTime.Rho)-1]);
                 FluenceOfRhoAndZAndTime.Stdev = sqrt((FluenceOfRhoAndZAndTime.SecondMoment - (FluenceOfRhoAndZAndTime.Mean .* FluenceOfRhoAndZAndTime.Mean)) / (json.N));  
             end
@@ -265,9 +265,9 @@ for di = 1:numDetectors
             FluenceOfXAndYAndZ.Mean = reshape(FluenceOfXAndYAndZ.Mean, ...% read column major json binary
                 [length(FluenceOfXAndYAndZ.Z)-1,length(FluenceOfXAndYAndZ.Y)-1,length(FluenceOfXAndYAndZ.X)-1]);
             if(detector.TallySecondMoment && exist([datadir slash detector.Name '_2'],'file'))
-                FluenceOfXAndAndZ.SecondMoment = readBinaryData([datadir slash detector.Name '_2'], ...
+                FluenceOfXAndYAndZ.SecondMoment = readBinaryData([datadir slash detector.Name '_2'], ...
                     [(length(FluenceOfXAndYAndZ.X)-1) * (length(FluenceOfXAndYAndZ.Y)-1) * (length(FluenceOfXAndYAndZ.Z)-1)]);
-                FluenceOfXAndYAndZ.SecondMoment = reshape(FluenceOfXAndYAndZ.Mean, ... % column major json binary
+                FluenceOfXAndYAndZ.SecondMoment = reshape(FluenceOfXAndYAndZ.SecondMoment, ... % column major json binary
                     [length(FluenceOfXAndYAndZ.Z)-1,length(FluenceOfXAndYAndZ.Y)-1,length(FluenceOfXAndYAndZ.X)-1]);
                 FluenceOfXAndYAndZ.Stdev = sqrt((FluenceOfXAndYAndZ.SecondMoment - (FluenceOfXAndYAndZ.Mean .* FluenceOfXAndYAndZ.Mean)) / (json.N));  
             end
@@ -383,6 +383,7 @@ for di = 1:numDetectors
         case 'ReflectedMTOfXAndYAndSubregionHist'
             ReflectedMTOfXAndYAndSubregionHist.Name = detector.Name;
             tempX = detector.X;
+            tempY = detector.Y;
             tempMTBins = detector.MTBins;
             if (postProcessorResults)
                 if (strcmp(json.TissueInput.TissueType, 'MultiLayer')) 
@@ -465,6 +466,7 @@ for di = 1:numDetectors
         case 'TransmittedMTOfXAndYAndSubregionHist'
             TransmittedMTOfXAndYAndSubregionHist.Name = detector.Name;
             tempX = detector.X;
+            tempY = detector.Y;
             tempMTBins = detector.MTBins;
             if (postProcessorResults)
                 if (strcmp(json.TissueInput.TissueType, 'MultiLayer')) 

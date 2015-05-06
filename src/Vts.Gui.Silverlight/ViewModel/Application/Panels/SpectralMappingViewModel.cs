@@ -294,7 +294,19 @@ namespace Vts.Gui.Silverlight.ViewModel
 
         private void PlotMuaSpectrum_Executed()
         {
-            PlotAxesLabels axesLabels = new PlotAxesLabels("Wavelength", "nm", IndependentVariableAxis.Wavelength, "μa", "mm-1");
+            var axisType = IndependentVariableAxis.Wavelength;
+            var axisUnits = IndependentVariableAxisUnits.NM;
+            PlotAxesLabels axesLabels = new PlotAxesLabels(
+                "μa",
+                "mm-1",
+                new IndependentAxisViewModel
+                {
+                    AxisType = axisType,
+                    AxisLabel = axisType.GetInternationalizedString(),
+                    AxisUnits = axisUnits.GetInternationalizedString(),
+                    AxisRangeVM = WavelengthRangeVM,
+                });
+
             Commands.Plot_SetAxesLabels.Execute(axesLabels);
 
             var tissue = SelectedTissue;
@@ -305,7 +317,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                 var wavelength = wavelengths[wvi];
                 points[wvi] = new Point(wavelength, tissue.GetMua(wavelength));
             }
-            Commands.Plot_PlotValues.Execute(new PlotData(new []{ points }, new []{ "μa spectra" }));
+            Commands.Plot_PlotValues.Execute(new []{ new PlotData(points, "μa spectrum" )} );
 
             double minWavelength = WavelengthRangeVM.Values.Min();
             double maxWavelength = WavelengthRangeVM.Values.Max();
@@ -314,7 +326,18 @@ namespace Vts.Gui.Silverlight.ViewModel
 
         private void PlotMuspSpectrum_Executed()
         {
-            PlotAxesLabels axesLabels = new PlotAxesLabels("Wavelength", "nm", IndependentVariableAxis.Wavelength, "μs'", "mm-1");
+            var axisType = IndependentVariableAxis.Wavelength;
+            var axisUnits = IndependentVariableAxisUnits.NM;
+            PlotAxesLabels axesLabels = new PlotAxesLabels(
+                "μa",
+                "mm-1",
+                new IndependentAxisViewModel
+                {
+                    AxisType = axisType,
+                    AxisLabel = axisType.GetInternationalizedString(),
+                    AxisUnits = axisUnits.GetInternationalizedString(),
+                    AxisRangeVM = WavelengthRangeVM
+                });
             Commands.Plot_SetAxesLabels.Execute(axesLabels);
 
             var tissue = SelectedTissue;
@@ -326,7 +349,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                 points[wvi] = new Point(wavelength, tissue.GetMusp(wavelength));
             }
 
-            Commands.Plot_PlotValues.Execute(new PlotData(new []{ points }, new []{ "μs' spectra" }));
+            Commands.Plot_PlotValues.Execute(new[] { new PlotData(points, "μs' spectrum") });
 
             double minWavelength = WavelengthRangeVM.Values.Min();
             double maxWavelength = WavelengthRangeVM.Values.Max();

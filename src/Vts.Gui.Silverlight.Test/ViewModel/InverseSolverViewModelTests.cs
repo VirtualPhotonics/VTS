@@ -1,6 +1,7 @@
 using System.Linq;
 using System.Windows;
 using NUnit.Framework;
+using Vts.Gui.Silverlight.Model;
 using Vts.Gui.Silverlight.ViewModel;
 
 namespace Vts.Gui.Silverlight.Test.ViewModel
@@ -65,7 +66,7 @@ namespace Vts.Gui.Silverlight.Test.ViewModel
         /// <param name="independentVariableAxis"></param>
         /// <param name="inverseFitType"></param>
         /// <returns></returns>
-        private Point[][] ExecuteInverseSolver(
+        private IDataPoint[][] ExecuteInverseSolver(
             ForwardSolverType measuredForwardSolverType, 
             ForwardSolverType inverseForwardSolverType, 
             SolutionDomainType solutionDomainType, 
@@ -78,9 +79,9 @@ namespace Vts.Gui.Silverlight.Test.ViewModel
             _vm.SolutionDomainTypeOptionVM.IndependentVariableAxisOptionVM.SelectedValue = independentVariableAxis;
             _vm.InverseFitTypeOptionVM.SelectedValue = inverseFitType;
 
-            _vm.SolveInverse();
+            var fitResults = _vm.SolveInverse();
 
-            return _vm.ResultDataPoints;
+            return fitResults.FitDataPoints;
         }
     }
 }

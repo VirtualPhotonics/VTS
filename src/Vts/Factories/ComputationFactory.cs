@@ -505,16 +505,19 @@ namespace Vts.Factories
             InverseFitType inverseFitType,
             object[] independentValues)
         {
-            var opticalPropertyGuess = ((OpticalProperties[]) (independentValues[0])).First();
-
-            // todo: make some kind of parameter selector that filters on the object array to create an initial guess. e.g. Func<object[], double[]>
-            var fitParameters = new double[4] { opticalPropertyGuess.Mua, opticalPropertyGuess.Musp, opticalPropertyGuess.G, opticalPropertyGuess.N };
-
+            //var opticalPropertyGuess = ((OpticalProperties[]) (independentValues[0])).First();
+            //var fitParameters = new double[4] { opticalPropertyGuess.Mua, opticalPropertyGuess.Musp, opticalPropertyGuess.G, opticalPropertyGuess.N };
             var parametersToFit = GetParametersToFit(inverseFitType);
+            
+            var opticalPropertyGuess = (OpticalProperties[])(independentValues[0]);
+            var fitParametersArray = opticalPropertyGuess.SelectMany(opgi => new[] { opgi.Mua, opgi.Musp, opgi.G, opgi.N }).ToArray();
+            var parametersToFitArray = Enumerable.Range(0, opticalPropertyGuess.Count()).SelectMany(_ => parametersToFit).ToArray();
 
             Func<double[], object[], double[]> func = GetForwardReflectanceFuncForOptimization(forwardSolver, solutionDomainType);
 
-            var fit = optimizer.Solve(fitParameters, parametersToFit, dependentValues.ToArray(),
+            //var fit = optimizer.Solve(fitParameters, parametersToFit, dependentValues.ToArray(),
+            //                          standardDeviationValues.ToArray(), func, independentValues.ToArray());
+            var fit = optimizer.Solve(fitParametersArray, parametersToFitArray, dependentValues.ToArray(),
                                       standardDeviationValues.ToArray(), func, independentValues.ToArray());
 
             return fit;
@@ -591,25 +594,25 @@ namespace Vts.Factories
         private static Func<double[], object[], double[]> GetForwardReflectanceFuncForOptimization(
            IForwardSolver fs, SolutionDomainType type)
         {
-            Func<double[], OpticalProperties[]> getOP = ops =>
-            {
-                var nOp = ops.Length / 4;
-                var opArray = new OpticalProperties[nOp];
-                for (int opi = 0; opi < nOp; opi++)
-                {
-                    opArray[opi] = new OpticalProperties(ops[opi * nOp], ops[opi * nOp + 1], ops[opi * nOp + 2], ops[opi * nOp + 3]);
-                }
-                return opArray;
-            };
-
             Func<object[], double[]> forwardReflectanceFunc = GetForwardReflectanceFunc(fs, type);
 
             return (fitData, allParameters) =>
             {
                 // place optical property array in the first position, and the rest following
-                var forwardData = ((object)getOP(fitData)).AsEnumerable().Concat(allParameters.Skip(1)).ToArray();
+                var forwardData = ((object)UnFlattenOpticalProperties(fitData)).AsEnumerable().Concat(allParameters.Skip(1)).ToArray();
                 return forwardReflectanceFunc(forwardData);
             };
+        }
+
+        public static OpticalProperties[] UnFlattenOpticalProperties(double[] ops)
+        {
+            var nOp = ops.Length / 4;
+            var opArray = new OpticalProperties[nOp];
+            for (int opi = 0; opi < nOp; opi++)
+            {
+                opArray[opi] = new OpticalProperties(ops[opi * 4], ops[opi * 4 + 1], ops[opi * 4 + 2], ops[opi * 4 + 3]);
+            }
+            return opArray;
         }
 
         // todo: array overloads for fluence forward solvers too

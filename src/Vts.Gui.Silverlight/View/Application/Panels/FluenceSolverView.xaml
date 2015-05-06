@@ -34,8 +34,7 @@
             HorizontalAlignment="Left" VerticalAlignment="Top"/>
         </StackPanel>
         <!-- Photon Hitting Density -->
-        <StackPanel
-                Visibility="{Binding IsPhotonHittingDensity, Converter={StaticResource myBooleanToVisibilityConverter}}">
+        <StackPanel Visibility="{Binding IsPhotonHittingDensity, Converter={StaticResource myBooleanToVisibilityConverter}}">
             <v:PhotonHittingDensitySolutionDomainOptionView
                 DataContext="{Binding PhotonHittingDensitySolutionDomainTypeOptionVM}" 
                 HorizontalAlignment="Left" VerticalAlignment="Top"/>
