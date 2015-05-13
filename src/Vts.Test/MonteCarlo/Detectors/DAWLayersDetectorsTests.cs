@@ -407,6 +407,11 @@ namespace Vts.Test.MonteCarlo.Detectors
                 integral += _outputOneLayerTissue.RefMT_rmt[0, i];
             }
             Assert.Less(Math.Abs(_outputOneLayerTissue.R_r[0] - integral), 0.000001);
+            // validate a few fractional values - note third index = 0,2 is air and should have
+            // contributions only to fourth index=0
+            Assert.Less(Math.Abs(_outputOneLayerTissue.RefMT_rmt_frac[0, 0, 0, 0] - 0.632), 0.001);
+            Assert.Less(Math.Abs(_outputOneLayerTissue.RefMT_rmt_frac[0, 0, 1, 11] - 0.632), 0.001);
+            Assert.Less(Math.Abs(_outputOneLayerTissue.RefMT_rmt_frac[0, 0, 2, 0] - 0.632), 0.001);
         }
         // Transmitted Momentum Transfer of Rho and SubRegion
         [Test]
@@ -440,6 +445,11 @@ namespace Vts.Test.MonteCarlo.Detectors
                 integral += _outputOneLayerTissue.RefMT_xymt[0, 0, i];
             }
             Assert.Less(Math.Abs(_outputOneLayerTissue.R_xy[0, 0] - integral), 0.000001);
+            // validate a few fractional values - note third index = 0,2 is air and should have
+            // contributions only to fourth index=0
+            Assert.Less(Math.Abs(_outputOneLayerTissue.RefMT_xymt_frac[0, 0, 28, 0, 0] - 0.470), 0.001);
+            Assert.Less(Math.Abs(_outputOneLayerTissue.RefMT_xymt_frac[0, 0, 28, 1, 11] - 0.470), 0.001);
+            Assert.Less(Math.Abs(_outputOneLayerTissue.RefMT_xymt_frac[0, 0, 28, 2, 0] - 0.470), 0.001);
         }
         // Transmitted Momentum Transfer of X, Y and SubRegion
         [Test]

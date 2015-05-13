@@ -136,7 +136,8 @@ namespace Vts.MonteCarlo.Detectors
             // if the data arrays are null, create them (only create second moment if TallySecondMoment is true)
             Mean = Mean ?? new double[Rho.Count - 1, MTBins.Count - 1];
             SecondMoment = SecondMoment ?? (TallySecondMoment ? new double[Rho.Count - 1, MTBins.Count - 1] : null);
-            FractionalMT = FractionalMT ?? new double[Rho.Count - 1, MTBins.Count - 1, NumSubregions, FractionalMTBins.Count - 1];
+            // Fractional MT has FractionalMTBins.Count numnber of bins PLUS 2, one for =1, an d one for =0
+            FractionalMT = FractionalMT ?? new double[Rho.Count - 1, MTBins.Count - 1, NumSubregions, FractionalMTBins.Count + 1];
         }
 
         /// <summary>
@@ -183,10 +184,21 @@ namespace Vts.MonteCarlo.Detectors
                 if (talliedMT) TallyCount++;
 
                 // tally fractional MT in each subregion
+                int ifrac;
                 for (int isr = 0; isr < NumSubregions; isr++)
                 {
-                    var ifrac = DetectorBinning.WhichBin(subregionMT[isr] / totalMT,
-                                                         FractionalMTBins.Count - 1, FractionalMTBins.Delta, FractionalMTBins.Start);
+                    ifrac = DetectorBinning.WhichBin(subregionMT[isr] / totalMT,
+                        FractionalMTBins.Count - 1, FractionalMTBins.Delta, FractionalMTBins.Start);
+                    // put identically 0 fractional MT into separate bin at index 0
+                    if (subregionMT[isr] / totalMT == 0.0)
+                    {
+                        ifrac = 0;
+                    }
+                    // put identically 1 fractional MT into separate bin at index Count+1 -1
+                    if (subregionMT[isr] / totalMT == 1.0)
+                    {
+                        ifrac = FractionalMTBins.Count;
+                    }
                     FractionalMT[irho, imt, isr, ifrac] += photon.DP.Weight;
                 }
             }
@@ -212,7 +224,7 @@ namespace Vts.MonteCarlo.Detectors
                     }
                     for (int isr = 0; isr < NumSubregions; isr++)
                     {
-                        for (int ifrac = 0; ifrac < FractionalMTBins.Count - 1; ifrac++)
+                        for (int ifrac = 0; ifrac < FractionalMTBins.Count + 1; ifrac++)
                         {
                             FractionalMT[ir, imt, isr, ifrac] /= areaNorm*numPhotons;
                         }
@@ -254,7 +266,7 @@ namespace Vts.MonteCarlo.Detectors
                         for (int i = 0; i < Rho.Count - 1; i++) {
                             for (int j = 0; j < MTBins.Count - 1; j++) {
                                 for (int k = 0; k < NumSubregions; k++) {
-                                    for (int l = 0; l < FractionalMTBins.Count - 1; l++)
+                                    for (int l = 0; l < FractionalMTBins.Count + 1; l++)
                                     {
                                         binaryWriter.Write(FractionalMT[i, j, k, l]);
                                     } 
@@ -263,11 +275,11 @@ namespace Vts.MonteCarlo.Detectors
                         }
                     },
                     ReadData = binaryReader => {
-                        FractionalMT = FractionalMT ?? new double[ Rho.Count - 1, MTBins.Count - 1, NumSubregions, FractionalMTBins.Count - 1];
+                        FractionalMT = FractionalMT ?? new double[ Rho.Count - 1, MTBins.Count - 1, NumSubregions, FractionalMTBins.Count + 1];
                         for (int i = 0; i <  Rho.Count - 1; i++) {
                             for (int j = 0; j < MTBins.Count - 1; j++) {
                                 for (int k = 0; k < NumSubregions; k++) {
-                                    for (int l = 0; l < FractionalMTBins.Count - 1; l++)
+                                    for (int l = 0; l < FractionalMTBins.Count + 1; l++)
                                     {
                                         FractionalMT[i, j, k, l] = binaryReader.ReadDouble(); 
                                     }
