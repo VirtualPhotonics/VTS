@@ -6,7 +6,7 @@
     xmlns:controls="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls" 
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-    mc:Ignorable="d">
+    mc:Ignorable="d" d:DesignWidth="1400">
 
     <UserControl.DataContext>
         <vm:SolverDemoViewModel />
@@ -29,7 +29,7 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="60"/>
                     <ColumnDefinition Width="Auto" MinWidth="375" />
-                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Grid
                     Grid.Row="0" 
@@ -66,7 +66,8 @@
                 </Grid>
                 <Image 
                     Source="/Vts.Gui.Silverlight;Component/Resources/Images/logo-small.png"
-                    Grid.Row="0" 
+                    Grid.Row="0"
+                    Grid.Column="0"
                     Height="50"
                     Stretch="None"
 					VerticalAlignment="Center"
@@ -117,13 +118,12 @@
                     </controls:TabItem>
                 </controls:TabControl>
                 <controls:TabControl x:Name="outputTabControl"
-                    HorizontalAlignment="Left"
                     VerticalAlignment="Top"  
                     Grid.Row="1"
                     Grid.Column="2"
-                    Margin="5,0,0,0"
-                    Width="530">
-                    <controls:TabItem Name="tabPlot">
+                    Margin="5,0,509,0"
+                    Width="Auto">
+                    <controls:TabItem Name="tabPlot" Width="Auto">
                         <controls:TabItem.Header>
                             <ContentControl DataContext="{Binding PlotVM}">
                                 <StackPanel Orientation="Horizontal" >
@@ -136,7 +136,7 @@
                         </controls:TabItem.Header>
                         <local:PlotView
                             DataContext="{Binding PlotVM}"
-                            Background="LightSteelBlue"/>
+                            Background="LightSteelBlue" Width="Auto"/>
                     </controls:TabItem>
                     <controls:TabItem Name="tabMap" Visibility="Collapsed">
                         <controls:TabItem.Header>
@@ -164,8 +164,10 @@
                     DataContext="{Binding TextOutputVM}"
                     VerticalAlignment="Stretch"
 					Grid.Column="0"
-                    Grid.Row="3" 
-                    Grid.ColumnSpan="3" Margin="3" />
+                    Grid.Row="2" 
+                    Grid.ColumnSpan="3" 
+                    Margin="3"
+                    Width="Auto"/>
             </Grid>
         </ScrollViewer>
     </Grid>

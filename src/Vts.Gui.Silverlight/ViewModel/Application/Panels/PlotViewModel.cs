@@ -106,7 +106,11 @@ namespace Vts.Gui.Silverlight.ViewModel
             PlotSeriesCollection = new PlotPointCollection();
             //IsComplexPlot = false;
 
-            PlotModel = new PlotModel { Title = "Plot View" };
+            PlotModel = new PlotModel
+            {
+                Title = "Plot View",
+                LegendPlacement = LegendPlacement.Outside
+            };
             PlotType = ReflectancePlotType.ForwardSolver;
             _HoldOn = true;
             _ShowAxes = false;
@@ -540,18 +544,39 @@ namespace Vts.Gui.Silverlight.ViewModel
             var customLabel = CustomPlotLabel.Length > 0 ? "\n(" + CustomPlotLabel + ")" : "";
             foreach (var t in plotData)
             {
-                var lineSeries = new LineSeries();
-                foreach (var dataPoint in t.Points)
+                //check if datapoint is complex
+                if (t.Points[0] is ComplexDataPoint)
                 {
-                    var dp = (DoubleDataPoint) dataPoint;
-                    lineSeries.Points.Add(new DataPoint(dp.X, dp.Y));
+                    var lineSeriesReal = new LineSeries();
+                    var lineSeriesImaginary = new LineSeries();
+                    foreach (var dataPoint in t.Points)
+                    {
+                        var dp = (ComplexDataPoint)dataPoint;
+                        lineSeriesReal.Points.Add(new DataPoint(dp.X, dp.Y.Real));
+                        lineSeriesImaginary.Points.Add(new DataPoint(dp.X, dp.Y.Imaginary));
+                    }
+                    lineSeriesReal.Title = t.Title + " (real)";
+                    lineSeriesReal.MarkerType = MarkerType.Circle;
+                    PlotModel.Series.Add(lineSeriesReal);
+                    lineSeriesImaginary.Title = t.Title + " (imag)";
+                    lineSeriesImaginary.MarkerType = MarkerType.Circle;
+                    PlotModel.Series.Add(lineSeriesImaginary);
                 }
-                lineSeries.Title = t.Title;
-                lineSeries.MarkerType = MarkerType.Circle;
-
+                else
+                {
+                    var lineSeries = new LineSeries();
+                    foreach (var dataPoint in t.Points)
+                    {
+                        var dp = (DoubleDataPoint)dataPoint;
+                        lineSeries.Points.Add(new DataPoint(dp.X, dp.Y));
+                    }
+                    lineSeries.Title = t.Title;
+                    lineSeries.MarkerType = MarkerType.Circle;
+                    PlotModel.Series.Add(lineSeries);
+                }
                 var points = t.Points;
                 var title = t.Title;
-                PlotModel.Series.Add(lineSeries);
+                
                 DataSeriesCollection.Add(new DataPointCollection{DataPoints = points, ColorTag = "ColorTag"});
                 if (DataSeriesCollection.Count > 0 && points[0] is ComplexDataPoint)
                 {
@@ -573,43 +598,12 @@ namespace Vts.Gui.Silverlight.ViewModel
 
         private void ClearPlot()
         {
-            Title = "";
-            PlotTitles.Clear();
-            DataSeriesCollection.Clear();
-            PlotSeriesCollection.Clear();
-            Labels.Clear();
-            RealLabels.Clear();
-            ImagLabels.Clear();
-            PhaseLabels.Clear();
-            AmplitudeLabels.Clear();
+            PlotModel.Series.Clear();
         }
 
         private void ClearPlotSingle()
         {
-            if (DataSeriesCollection.Count > 0)
-            {
-                if (PlotTitles.Count <= 1)
-                {
-                    Title = "";
-                    PlotTitles.Clear();
-                }
-                else
-                {
-                    PlotTitles.RemoveAt(PlotTitles.Count - 1);
-                    Title = PlotTitles.Last();
-                }
-                PlotSeriesCollection.RemoveAt(PlotSeriesCollection.Count - 1);
-                // remove real
-                DataSeriesCollection.RemoveAt(DataSeriesCollection.Count - 1);
-                Labels.RemoveAt(Labels.Count - 1);
-
-                // if it's comp
-                if (DataSeriesCollection.Count > 0 && DataSeriesCollection.Last().DataPoints.First() is ComplexDataPoint &&
-                    PlotToggleTypeOptionVM.SelectedValue == PlotToggleType.Complex)
-                {
-                    Labels.RemoveAt(Labels.Count - 1);
-                }
-            }
+            PlotModel.Series.RemoveAt(PlotModel.Series.Count - 1);
         }
 
         /// <summary>
