@@ -10,6 +10,9 @@ using Vts.Extensions;
 using Vts.Gui.Silverlight.Input;
 using Vts.Gui.Silverlight.Model;
 using Vts.IO;
+using OxyPlot;
+using OxyPlot.Series;
+using OxyPlot.Silverlight;
 
 namespace Vts.Gui.Silverlight.ViewModel
 {
@@ -60,6 +63,7 @@ namespace Vts.Gui.Silverlight.ViewModel
     {
         // change from Point to our own custom class so we can bind to color, style, etc, too
 
+        private PlotModel _plotModel;
         private string _Title;
         private IList<string> _PlotTitles;
         private ReflectancePlotType _PlotType;
@@ -102,6 +106,7 @@ namespace Vts.Gui.Silverlight.ViewModel
             PlotSeriesCollection = new PlotPointCollection();
             //IsComplexPlot = false;
 
+            PlotModel = new PlotModel { Title = "Plot View" };
             PlotType = ReflectancePlotType.ForwardSolver;
             _HoldOn = true;
             _ShowAxes = false;
@@ -192,6 +197,19 @@ namespace Vts.Gui.Silverlight.ViewModel
             //    plotToClone.DataSeriesCollectionToggle.Select(ds => (IList<IDataPoint>)ds.Select(val => val).ToList()).ToList();
           
             return output;
+        }
+
+        public PlotModel PlotModel
+        {
+            get
+            {
+                return _plotModel;
+            }
+            set
+            {
+                _plotModel = value;
+                this.OnPropertyChanged("PlotModel");
+            }
         }
 
         public PlotPointCollection PlotSeriesCollection
@@ -520,11 +538,20 @@ namespace Vts.Gui.Silverlight.ViewModel
             }
 
             var customLabel = CustomPlotLabel.Length > 0 ? "\n(" + CustomPlotLabel + ")" : "";
-            for (int i = 0; i < plotData.Length; i++)
+            foreach (var t in plotData)
             {
-                var points = plotData[i].Points;
-                var title = plotData[i].Title;
+                var lineSeries = new LineSeries();
+                foreach (var dataPoint in t.Points)
+                {
+                    var dp = (DoubleDataPoint) dataPoint;
+                    lineSeries.Points.Add(new DataPoint(dp.X, dp.Y));
+                }
+                lineSeries.Title = t.Title;
+                lineSeries.MarkerType = MarkerType.Circle;
 
+                var points = t.Points;
+                var title = t.Title;
+                PlotModel.Series.Add(lineSeries);
                 DataSeriesCollection.Add(new DataPointCollection{DataPoints = points, ColorTag = "ColorTag"});
                 if (DataSeriesCollection.Count > 0 && points[0] is ComplexDataPoint)
                 {
@@ -591,6 +618,7 @@ namespace Vts.Gui.Silverlight.ViewModel
         /// </summary>
         private void UpdatePlotSeries()
         {
+            PlotModel.InvalidatePlot(true);
             // this is one of a number of scenarios where we need to keep track of an individual
             // plot curve or value. need a more general representation that is UI-friendly.
             int normCurveNumber = 0;

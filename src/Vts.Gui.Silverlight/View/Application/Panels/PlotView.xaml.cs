@@ -14,7 +14,7 @@ namespace Vts.Gui.Silverlight.View
 
         private void ExportImage_Click(object sender, RoutedEventArgs e)
         {
-            ImageTools.SaveUIElementToJpegImage(myChart);
+//            ImageTools.SaveUIElementToJpegImage(myChart);
         }
 
         private void TextBox_KeyDown(object sender, KeyEventArgs e)

@@ -1,27 +1,12 @@
 ﻿<UserControl x:Class="Vts.Gui.Silverlight.View.PlotView"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
-    xmlns:v="clr-namespace:Vts.Gui.Silverlight.View;assembly=Vts.Gui.Silverlight"
-    xmlns:vm="clr-namespace:Vts.Gui.Silverlight.ViewModel;assembly=Vts.Gui.Silverlight"
-    xmlns:Controls="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls"
-    xmlns:input="clr-namespace:SLExtensions.Input;assembly=SLExtensions" 
-    xmlns:charting="clr-namespace:System.Windows.Controls.DataVisualization.Charting;assembly=System.Windows.Controls.DataVisualization.Toolkit"
-    HorizontalAlignment="Left" VerticalAlignment="Top">
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+             xmlns:v="clr-namespace:Vts.Gui.Silverlight.View;assembly=Vts.Gui.Silverlight"
+             xmlns:oxy="clr-namespace:OxyPlot.Silverlight;assembly=OxyPlot.Silverlight"
+             HorizontalAlignment="Left" VerticalAlignment="Top">
     <StackPanel Background="White">
         <!-- Chart control for the plot -->
-        <charting:Chart x:Name="myChart" Width="515"  Height="400" Background="White" FontSize="12"
-                vm:ChartHelper.DependentValueBinding="Y"
-                vm:ChartHelper.IndependentValueBinding="X"
-                vm:ChartHelper.Title="TitlePropertyOnCollection"
-                vm:ChartHelper.SeriesType="Line"
-                vm:ChartHelper.SeriesSource="{Binding Path=PlotSeriesCollection}"
-                vm:ChartHelper.DataPointSeriesStyle="{StaticResource MyLineDataPointStyle}"
-                vm:ChartHelper.SeriesStyle="{StaticResource MyLineSeriesStyle}">
-            <charting:Chart.Axes>
-                <charting:LinearAxis Orientation="X" ShowGridLines="False" AxisLabelStyle="{StaticResource MyAxisLabelStyle}" Visibility="{Binding ShowAxes, Converter={StaticResource myBooleanToVisibilityConverter}}" />
-                <charting:LinearAxis Orientation="Y" ShowGridLines="False" AxisLabelStyle="{StaticResource MyScientificAxisLabelStyle}" Visibility="{Binding ShowAxes, Converter={StaticResource myBooleanToVisibilityConverter}}" />
-            </charting:Chart.Axes>
-        </charting:Chart>
+        <oxy:PlotView Model="{Binding PlotModel}" Width="515" Height="400" />
         <!-- Options below the plot -->
         <StackPanel>
             <StackPanel Orientation="Horizontal" Background="White" Margin="0,5,0,0">

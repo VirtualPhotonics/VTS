@@ -120,6 +120,12 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\NLog.3.1.0.0\lib\sl5\NLog.dll</HintPath>
     </Reference>
+    <Reference Include="OxyPlot">
+      <HintPath>..\packages\OxyPlot.Core.2014.1.546\lib\portable-net4+sl4+wp71+win8\OxyPlot.dll</HintPath>
+    </Reference>
+    <Reference Include="OxyPlot.Silverlight">
+      <HintPath>..\packages\OxyPlot.Silverlight.2014.1.546\lib\sl5\OxyPlot.Silverlight.dll</HintPath>
+    </Reference>
     <Reference Include="SLExtensions, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\SilverlightExtensions\SLExtensions.dll</HintPath>
