@@ -149,7 +149,8 @@ for mci = 1:length(datanames)
     end
     if isfield(results{di}, 'AOfXAndYAndZ') && show.AOfXAndYAndZ
         numY = length(results{di}.AOfXAndYAndZ.Y) - 1;
-        for i=1:numY
+        center=floor(numY/2);
+        for i=1:center  % numY
             figname = sprintf('log(%s) y=%5.3f',results{di}.AOfXAndYAndZ.Name,results{di}.AOfXAndYAndZ.Y_Midpoints(i)); figure; imagesc(results{di}.AOfXAndYAndZ.X_Midpoints, results{di}.AOfXAndYAndZ.Z_Midpoints, log(squeeze(results{di}.AOfXAndYAndZ.Mean(:,i,:)))); 
             colorbar; title(figname); set(gcf,'Name', figname);ylabel('z [mm]'); xlabel('x [mm]');
             xyznorm = (results{di}.AOfXAndYAndZ.X(2)-results{di}.AOfXAndYAndZ.X(1))*(results{di}.AOfXAndYAndZ.Y(2)-results{di}.AOfXAndYAndZ.Y(1))*(results{di}.AOfXAndYAndZ.Z(2)-results{di}.AOfXAndYAndZ.Z(1));
@@ -180,7 +181,8 @@ for mci = 1:length(datanames)
     end
     if isfield(results{di}, 'FluenceOfXAndYAndZ') && show.FluenceOfXAndYAndZ
         numY = length(results{di}.FluenceOfXAndYAndZ.Y) - 1;
-        for i=1:numY
+        center = floor(numY/2);
+        for i=1:center % numY
             figname = sprintf('log(%s) y=%5.3f',results{di}.FluenceOfXAndYAndZ.Name,results{di}.FluenceOfXAndYAndZ.Y_Midpoints(i)); figure; imagesc(results{di}.FluenceOfXAndYAndZ.X_Midpoints, results{di}.FluenceOfXAndYAndZ.Z_Midpoints, log(squeeze(results{di}.FluenceOfXAndYAndZ.Mean(:,i,:)))); 
             colorbar; title(figname); set(gcf,'Name', figname);ylabel('z [mm]'); xlabel('x [mm]');
             xyznorm = (results{di}.FluenceOfXAndYAndZ.X(2)-results{di}.FluenceOfXAndYAndZ.X(1))*(results{di}.FluenceOfXAndYAndZ.Y(2)-results{di}.FluenceOfXAndYAndZ.Y(1))*(results{di}.FluenceOfXAndYAndZ.Z(2)-results{di}.FluenceOfXAndYAndZ.Z(1));

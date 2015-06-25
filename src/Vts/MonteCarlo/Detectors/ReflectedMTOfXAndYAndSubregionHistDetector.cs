@@ -197,8 +197,9 @@ namespace Vts.MonteCarlo.Detectors
                 int ifrac;
                 for (int isr = 0; isr < NumSubregions; isr++)
                 {
+                    // add 1 to ifrac to offset bin 0 added for =0 only tallies
                     ifrac = DetectorBinning.WhichBin(subregionMT[isr] / totalMT,
-                        FractionalMTBins.Count - 1, FractionalMTBins.Delta, FractionalMTBins.Start);
+                        FractionalMTBins.Count - 1, FractionalMTBins.Delta, FractionalMTBins.Start) + 1;
                     // put identically 0 fractional MT into separate bin at index 0
                     if (subregionMT[isr] / totalMT == 0.0)
                     {

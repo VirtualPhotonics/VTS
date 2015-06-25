@@ -412,6 +412,10 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.Less(Math.Abs(_outputOneLayerTissue.RefMT_rmt_frac[0, 0, 0, 0] - 0.632), 0.001);
             Assert.Less(Math.Abs(_outputOneLayerTissue.RefMT_rmt_frac[0, 0, 1, 11] - 0.632), 0.001);
             Assert.Less(Math.Abs(_outputOneLayerTissue.RefMT_rmt_frac[0, 0, 2, 0] - 0.632), 0.001);
+            // validate 2 layer tissue results - complementary fracs should be the same in
+            // the two layers, i.e. if region 1 has =1 weight, then region 2 should have =0 same weight 
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.RefMT_rmt_frac[0, 0, 1, 11] - 0.632), 0.001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.RefMT_rmt_frac[0, 0, 2, 0] - 0.632), 0.001);
         }
         // Transmitted Momentum Transfer of Rho and SubRegion
         [Test]
@@ -450,6 +454,10 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.Less(Math.Abs(_outputOneLayerTissue.RefMT_xymt_frac[0, 0, 28, 0, 0] - 0.470), 0.001);
             Assert.Less(Math.Abs(_outputOneLayerTissue.RefMT_xymt_frac[0, 0, 28, 1, 11] - 0.470), 0.001);
             Assert.Less(Math.Abs(_outputOneLayerTissue.RefMT_xymt_frac[0, 0, 28, 2, 0] - 0.470), 0.001);
+            // validate 2 layer tissue results - complementary fracs should be the same in
+            // the two layers, i.e. if region 1 has (0,0.1] weight, then region 2 should have (0.9,1] same weight 
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.RefMT_xymt_frac[0, 0, 28, 1, 1] - 0.470), 0.001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.RefMT_xymt_frac[0, 0, 28, 2, 10] - 0.470), 0.001);
         }
         // Transmitted Momentum Transfer of X, Y and SubRegion
         [Test]
