@@ -85,6 +85,7 @@ namespace Vts.Gui.Silverlight.ViewModel
         private bool _ShowAxes;
         private bool _showComplexPlotToggle;
 
+        private bool _HideKey;
         private double _MinYValue;
         private double _MaxYValue;
         private double _MinXValue;
@@ -120,6 +121,7 @@ namespace Vts.Gui.Silverlight.ViewModel
             };
             PlotType = ReflectancePlotType.ForwardSolver;
             _HoldOn = true;
+            _HideKey = false;
             _ShowAxes = false;
             _showComplexPlotToggle = false;
 
@@ -263,6 +265,17 @@ namespace Vts.Gui.Silverlight.ViewModel
             {
                 _HoldOn = value;
                 OnPropertyChanged("HoldOn");
+            }
+        }
+
+        public bool HideKey
+        {
+            get { return _HideKey; }
+            set
+            {
+                _HideKey = value;
+                OnPropertyChanged("HideKey");
+                UpdatePlotSeries();
             }
         }
 
@@ -792,6 +805,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                 ConstuctPlot(series);
             }
             CalculateMinMax();
+            PlotModel.IsLegendVisible = !_HideKey;
             PlotModel.InvalidatePlot(true);
         }
     }

@@ -170,7 +170,8 @@
                     Grid.Row="2" 
                     Grid.ColumnSpan="3" 
                     Margin="3"
-                    Width="Auto"/>
+                    Width="Auto"
+                    Height="Auto" />
             </Grid>
         </ScrollViewer>
     </Grid>
