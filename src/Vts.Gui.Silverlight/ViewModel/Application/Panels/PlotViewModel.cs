@@ -7,6 +7,7 @@ using System.Linq.Expressions;
 using System.Windows;
 using System.Windows.Controls.DataVisualization.Charting;
 using GalaSoft.MvvmLight.Command;
+using Microsoft.Silverlight.Testing.Harness;
 using SLExtensions.Input;
 using Vts.Extensions;
 using Vts.Gui.Silverlight.Input;
@@ -151,6 +152,7 @@ namespace Vts.Gui.Silverlight.ViewModel
         private void Plot_DuplicateWindow_Executed(object sender, ExecutedEventArgs e)
         {
             var vm = this.Clone();
+            vm.UpdatePlotSeries();
             Commands.Main_DuplicatePlotView.Execute(vm, vm);
         }
 
@@ -567,6 +569,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                 var points = t.Points;
                 var title = customLabel + t.Title;
 
+                Labels.Add(title + customLabel);
                 DataSeriesCollection.Add(new DataPointCollection { DataPoints = points, Title = title, ColorTag = "ColorTag" });
                 //if (DataSeriesCollection.Count > 0 && points[0] is ComplexDataPoint)
                 //{
@@ -580,7 +583,6 @@ namespace Vts.Gui.Silverlight.ViewModel
                 //    Labels.Add(title + customLabel); // has to happen before updating the bound collection
                 //}
             }
-
             //PlotTitles.Add(Title);
 
             UpdatePlotSeries();
@@ -589,13 +591,19 @@ namespace Vts.Gui.Silverlight.ViewModel
         private void ClearPlot()
         {
             DataSeriesCollection.Clear();
-            //PlotModel.Series.Clear();
+            PlotSeriesCollection.Clear();
+            Labels.Clear();
         }
 
         private void ClearPlotSingle()
         {
-            DataSeriesCollection.RemoveAt(DataSeriesCollection.Count - 1);
-            //PlotModel.Series.RemoveAt(PlotModel.Series.Count - 1);
+            if (DataSeriesCollection.Any())
+            {
+                DataSeriesCollection.RemoveAt(DataSeriesCollection.Count - 1);
+                //Clear the PlotSeriesCollection, it will be recreated with the plot
+                PlotSeriesCollection.Clear();
+                Labels.RemoveAt(Labels.Count - 1);
+            }
         }
 
         private void CalculateMinMax()
@@ -651,6 +659,9 @@ namespace Vts.Gui.Silverlight.ViewModel
             var normToCurve = PlotNormalizationTypeOptionVM.SelectedValue == PlotNormalizationType.RelativeToCurve && DataSeriesCollection.Count > 1;
             var normToMax = PlotNormalizationTypeOptionVM.SelectedValue == PlotNormalizationType.RelativeToMax && DataSeriesCollection.Count > 0;
 
+            var tempPointArrayA = new List<Point>();
+            var tempPointArrayB = new List<Point>();
+
             double x;
             double y;
             var lineSeriesA = new LineSeries();
@@ -699,6 +710,8 @@ namespace Vts.Gui.Silverlight.ViewModel
                             if (isValidDataPoint(p) && isWithinAxes(p))
                             {
                                 lineSeriesB.Points.Add(p);
+                                //Add the data to the tempPointArray to add to the PlotSeriesCollection
+                                tempPointArrayB.Add(new Point(x, y));
                             }
                             y = dp.Y.Imaginary;
                             break;
@@ -718,6 +731,8 @@ namespace Vts.Gui.Silverlight.ViewModel
                     if (isValidDataPoint(point) && isWithinAxes(point))
                     {
                         lineSeriesA.Points.Add(point);
+                        //Add the data to the tempPointArray to add to the PlotSeriesCollection
+                        tempPointArrayA.Add(new Point(x, y));
                     }
                     curveIndex += 1;
                 }
@@ -760,6 +775,8 @@ namespace Vts.Gui.Silverlight.ViewModel
                     if (isValidDataPoint(point) && isWithinAxes(point))
                     {
                         lineSeriesA.Points.Add(point);
+                        //Add the data to the tempPointArray to add to the PlotSeriesCollection
+                        tempPointArrayA.Add(new Point(x, y));
                     }
                     curveIndex += 1;
                 }
@@ -773,6 +790,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                         lineSeriesB.Title = dataPointCollection.Title + " (imag)";
                         lineSeriesB.MarkerType = MarkerType.Circle;
                         PlotModel.Series.Add(lineSeriesB);
+                        PlotSeriesCollection.Add(tempPointArrayB.ToArray());
                         break;
                     case PlotToggleType.Phase:
                         lineSeriesA.Title = dataPointCollection.Title + " (phase)";
@@ -783,12 +801,14 @@ namespace Vts.Gui.Silverlight.ViewModel
                 }
                 lineSeriesA.MarkerType = MarkerType.Circle;
                 PlotModel.Series.Add(lineSeriesA);
+                PlotSeriesCollection.Add(tempPointArrayA.ToArray());
             }
             else
             {
                 lineSeriesA.Title = dataPointCollection.Title;
                 lineSeriesA.MarkerType = MarkerType.Circle;
                 PlotModel.Series.Add(lineSeriesA);
+                PlotSeriesCollection.Add(tempPointArrayA.ToArray());
             }
         } 
 
