@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using System.Resources;
 using MathNet.Numerics;
 using System.Windows;
 using GalaSoft.MvvmLight.Command;
@@ -48,7 +49,7 @@ namespace Vts.Gui.Silverlight.ViewModel
             _showOpticalProperties = true;
             _useSpectralPanelData = false;
             
-            _allRangeVMs = new[] { new RangeViewModel { Title = "Detection Parameters" } };
+            _allRangeVMs = new[] { new RangeViewModel { Title = Resources.Strings.IndependentVariableAxis_Rho } };
 
 #if WHITELIST 
             ForwardSolverTypeOptionVM = new OptionViewModel<ForwardSolverType>("Forward Model",false, WhiteList.ForwardSolverTypes);

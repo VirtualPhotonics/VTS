@@ -50,7 +50,7 @@ namespace Vts.Gui.Silverlight.ViewModel
             _showOpticalProperties = true;
             _useSpectralPanelData = false;
 
-            _allRangeVMs = new[] { new RangeViewModel { Title = "Detection Parameters" } };
+            _allRangeVMs = new[] { new RangeViewModel { Title = Resources.Strings.IndependentVariableAxis_Rho } };
 
             SolutionDomainTypeOptionVM = new SolutionDomainOptionViewModel("Solution Domain", SolutionDomainType.ROfRho);
 
