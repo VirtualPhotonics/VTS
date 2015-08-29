@@ -56,6 +56,10 @@ namespace Vts.Gui.Silverlight.ViewModel
 #else
             ForwardSolverTypeOptionVM = new OptionViewModel<ForwardSolverType>("Forward Model",false);
 #endif
+            SolutionDomainTypeOptionVM = new SolutionDomainOptionViewModel("Solution Domain", SolutionDomainType.ROfRho);
+
+            ForwardAnalysisTypeOptionVM = new OptionViewModel<ForwardAnalysisType>("Model/Analysis Output", true);
+            
             ForwardSolverTypeOptionVM.PropertyChanged += (sender, args) =>
             {
                 OnPropertyChanged("IsGaussianForwardModel");
@@ -63,10 +67,27 @@ namespace Vts.Gui.Silverlight.ViewModel
                 OnPropertyChanged("IsMultiRegion");
                 OnPropertyChanged("IsSemiInfinite");
                 TissueInputVM = GetTissueInputVM(IsMultiRegion ? "MultiLayer" : "SemiInfinite");
+                if (SolutionDomainTypeOptionVM != null)
+                {
+                    if (ForwardSolverTypeOptionVM.SelectedValue == ForwardSolverType.TwoLayerSDA)
+                    {
+                        SolutionDomainTypeOptionVM.AllowMultiAxis = false;
+                    }
+                    SolutionDomainTypeOptionVM.EnableMultiAxis = ForwardSolverTypeOptionVM.SelectedValue != ForwardSolverType.TwoLayerSDA;
+                }
+                if (ForwardAnalysisTypeOptionVM != null)
+                {
+                    if (ForwardSolverTypeOptionVM.SelectedValue == ForwardSolverType.TwoLayerSDA)
+                    {
+                        ForwardAnalysisTypeOptionVM.Options[ForwardAnalysisType.R].IsSelected = true;
+                    }
+                    ForwardAnalysisTypeOptionVM.Options[ForwardAnalysisType.dRdMua].IsEnabled = ForwardSolverTypeOptionVM.SelectedValue != ForwardSolverType.TwoLayerSDA;
+                    ForwardAnalysisTypeOptionVM.Options[ForwardAnalysisType.dRdMusp].IsEnabled = ForwardSolverTypeOptionVM.SelectedValue != ForwardSolverType.TwoLayerSDA;
+                    ForwardAnalysisTypeOptionVM.Options[ForwardAnalysisType.dRdG].IsEnabled = ForwardSolverTypeOptionVM.SelectedValue != ForwardSolverType.TwoLayerSDA;
+                    ForwardAnalysisTypeOptionVM.Options[ForwardAnalysisType.dRdN].IsEnabled = ForwardSolverTypeOptionVM.SelectedValue != ForwardSolverType.TwoLayerSDA;
+                }
             };
             ForwardSolverTypeOptionVM.SelectedValue = ForwardSolverType.PointSourceSDA; // force the model choice here?
-
-            SolutionDomainTypeOptionVM = new SolutionDomainOptionViewModel("Solution Domain", SolutionDomainType.ROfRho);
             
             Action<double> updateSolutionDomainWithWavelength = wv =>
             {
@@ -104,8 +125,6 @@ namespace Vts.Gui.Silverlight.ViewModel
                 }
             };
 
-            ForwardAnalysisTypeOptionVM = new OptionViewModel<ForwardAnalysisType>("Model/Analysis Output", true);
-            
             ExecuteForwardSolverCommand = new RelayCommand(() => ExecuteForwardSolver_Executed(null, null));
 
             Commands.Spec_UpdateWavelength.Executed += (sender, args) =>

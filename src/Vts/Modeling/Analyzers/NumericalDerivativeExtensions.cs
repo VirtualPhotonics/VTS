@@ -26,19 +26,22 @@ namespace Vts.Modeling
                     {
                         var less = new object[parameters.Length];
                         var more = new object[parameters.Length];
-                        less[1] = (double[])parameters[1];
-                        more[1] = (double[])parameters[1];
-                        var independentValues = (double[]) parameters[1];
+                        for (var i = 1; i < parameters.Length; i++)
+                        {
+                            //loop through objects 2 to the end and set the data equal to parameters
+                            less[i] = (double[])parameters[i];
+                            more[i] = (double[])parameters[i];
+                        }
                         var ops = (OpticalProperties[])parameters[0];
                         less[0] = ops.Select(opi => new OpticalProperties(opi.Mua * (1 - _delta), opi.Musp, opi.G, opi.N)).ToArray();
                         more[0] = ops.Select(opi => new OpticalProperties(opi.Mua * (1 + _delta), opi.Musp, opi.G, opi.N)).ToArray();
                         var lessValues = myFunc(less);
                         var moreValues = myFunc(more);
-                        var opList = new OpticalProperties[ops.Length * independentValues.Length];
+                        var opList = new OpticalProperties[lessValues.Length];
                         var counter = 0;
                         foreach (var o in ops)
                         {
-                            for (var j = 0; j < independentValues.Length; j++)
+                            for (var j = 0; j < lessValues.Length / ops.Length; j++)
                             {
                                 //Add the values to the array
                                 opList[counter] = o;
@@ -56,19 +59,22 @@ namespace Vts.Modeling
                     {
                         var less = new object[parameters.Length];
                         var more = new object[parameters.Length];
-                        less[1] = (double[])parameters[1];
-                        more[1] = (double[])parameters[1];
-                        var independentValues = (double[])parameters[1];
+                        for (var i = 1; i < parameters.Length; i++)
+                        {
+                            //loop through objects 2 to the end and set the data equal to parameters
+                            less[i] = (double[])parameters[i];
+                            more[i] = (double[])parameters[i];
+                        }
                         var ops = (OpticalProperties[])parameters[0];
                         less[0] = ops.Select(opi => new OpticalProperties(opi.Mua, opi.Musp * (1 - _delta), opi.G, opi.N)).ToArray();
                         more[0] = ops.Select(opi => new OpticalProperties(opi.Mua, opi.Musp * (1 + _delta), opi.G, opi.N)).ToArray();
                         var lessValues = myFunc(less);
                         var moreValues = myFunc(more);
-                        var opList = new OpticalProperties[ops.Length * independentValues.Length];
+                        var opList = new OpticalProperties[lessValues.Length];
                         var counter = 0;
                         foreach (var o in ops)
                         {
-                            for (var j = 0; j < independentValues.Length; j++)
+                            for (var j = 0; j < lessValues.Length / ops.Length; j++)
                             {
                                 //Add the values to the array
                                 opList[counter] = o;
@@ -86,19 +92,22 @@ namespace Vts.Modeling
                     {
                         var less = new object[parameters.Length];
                         var more = new object[parameters.Length];
-                        less[1] = (double[])parameters[1];
-                        more[1] = (double[])parameters[1];
-                        var independentValues = (double[])parameters[1];
+                        for (var i = 1; i < parameters.Length; i++)
+                        {
+                            //loop through objects 2 to the end and set the data equal to parameters
+                            less[i] = (double[])parameters[i];
+                            more[i] = (double[])parameters[i];
+                        }
                         var ops = (OpticalProperties[])parameters[0];
                         less[0] = ops.Select(opi => new OpticalProperties(opi.Mua, opi.Musp, opi.G * (1 - _delta), opi.N)).ToArray();
                         more[0] = ops.Select(opi => new OpticalProperties(opi.Mua, opi.Musp, opi.G * (1 + _delta), opi.N)).ToArray();
                         var lessValues = myFunc(less);
                         var moreValues = myFunc(more);
-                        var opList = new OpticalProperties[ops.Length * independentValues.Length];
+                        var opList = new OpticalProperties[lessValues.Length];
                         var counter = 0;
                         foreach (var o in ops)
                         {
-                            for (var j = 0; j < independentValues.Length; j++)
+                            for (var j = 0; j < lessValues.Length / ops.Length; j++)
                             {
                                 //Add the values to the array
                                 opList[counter] = o;
@@ -116,19 +125,22 @@ namespace Vts.Modeling
                     {
                         var less = new object[parameters.Length];
                         var more = new object[parameters.Length];
-                        less[1] = (double[])parameters[1];
-                        more[1] = (double[])parameters[1];
-                        var independentValues = (double[])parameters[1];
+                        for (var i = 1; i < parameters.Length; i++)
+                        {
+                            //loop through objects 2 to the end and set the data equal to parameters
+                            less[i] = (double[])parameters[i];
+                            more[i] = (double[])parameters[i];
+                        }
                         var ops = (OpticalProperties[])parameters[0];
                         less[0] = ops.Select(opi => new OpticalProperties(opi.Mua, opi.Musp, opi.G, opi.N * (1 - _delta))).ToArray();
                         more[0] = ops.Select(opi => new OpticalProperties(opi.Mua, opi.Musp, opi.G, opi.N * (1 + _delta))).ToArray();
                         var lessValues = myFunc(less);
                         var moreValues = myFunc(more);
-                        var opList = new OpticalProperties[ops.Length * independentValues.Length];
+                        var opList = new OpticalProperties[lessValues.Length];
                         var counter = 0;
                         foreach (var o in ops)
                         {
-                            for (var j = 0; j < independentValues.Length; j++)
+                            for (var j = 0; j < lessValues.Length / ops.Length; j++)
                             {
                                 //Add the values to the array
                                 opList[counter] = o;
