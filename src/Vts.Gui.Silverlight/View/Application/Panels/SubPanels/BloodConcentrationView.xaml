@@ -16,11 +16,11 @@
              </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <!-- Blood Concentration values -->
-                <TextBox Text="{Binding TotalHb, Mode=TwoWay,Converter={StaticResource myDoubleToStringConverter}, ConverterParameter=N3}" 
+                <TextBox Text="{Binding TotalHb, Mode=TwoWay,Converter={StaticResource myDoubleToStringConverter}, ConverterParameter=g3}" 
                        Width="40"  Margin="30,0,0,0" KeyDown="TextBox_KeyDown"/>
-              <TextBox Text="{Binding BloodVolumeFraction, Mode=TwoWay,Converter={StaticResource myDoubleToStringConverter}, ConverterParameter=N3}"
+              <TextBox Text="{Binding BloodVolumeFraction, Mode=TwoWay,Converter={StaticResource myDoubleToStringConverter}, ConverterParameter=g3}"
                        Width="40"  Margin="65,0,0,0" KeyDown="TextBox_KeyDown"/>
-              <TextBox Text="{Binding StO2, Mode=TwoWay,Converter={StaticResource myDoubleToStringConverter}, ConverterParameter=N3}"
+              <TextBox Text="{Binding StO2, Mode=TwoWay,Converter={StaticResource myDoubleToStringConverter}, ConverterParameter=g3}"
                        Width="40"  Margin="75,0,0,0" KeyDown="TextBox_KeyDown"/>
             </StackPanel>
         </StackPanel>

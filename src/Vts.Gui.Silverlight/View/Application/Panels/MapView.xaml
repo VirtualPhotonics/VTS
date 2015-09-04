@@ -48,7 +48,7 @@
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">
                     <TextBlock Text="{Binding Path=MainResource.Label_MeanDepth, Source={StaticResource LocalizedStrings}}" Margin="0,0,5,0" VerticalAlignment="Center"/>
-                    <TextBox Text="{Binding YExpectationValue, Mode=OneWay, Converter={StaticResource myDoubleToStringConverter}, ConverterParameter=N3}" VerticalAlignment="Center" MinWidth="30" KeyDown="TextBox_KeyDown"/>
+                    <TextBox Text="{Binding YExpectationValue, Mode=OneWay, Converter={StaticResource myDoubleToStringConverter}, ConverterParameter=g3}" VerticalAlignment="Center" MinWidth="30" KeyDown="TextBox_KeyDown"/>
                     <TextBlock Text="{Binding Path=MainResource.Measurement_mm, Source={StaticResource LocalizedStrings}}" Margin="5,0,0,0" VerticalAlignment="Center"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="5">
