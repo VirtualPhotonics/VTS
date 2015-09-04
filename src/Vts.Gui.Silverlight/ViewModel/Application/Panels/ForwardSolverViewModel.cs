@@ -108,7 +108,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                 }
                 if (args.PropertyName == "IndependentAxesVMs")
                 {
-                    var useSpectralPanelDataAndNotNull = UseSpectralPanelData && SolverDemoViewModel.Current != null && SolverDemoViewModel.Current.SpectralMappingVM != null;
+                    var useSpectralPanelDataAndNotNull = SolutionDomainTypeOptionVM.UseSpectralInputs && SolverDemoViewModel.Current != null && SolverDemoViewModel.Current.SpectralMappingVM != null;
 
                     AllRangeVMs = (from i in Enumerable.Range(0, SolutionDomainTypeOptionVM.IndependentVariableAxisOptionVM.SelectedValues.Length)
                                         orderby i descending // descending so that wavelength takes highest priority, then time/time frequency, then space/spatial frequency
@@ -131,6 +131,11 @@ namespace Vts.Gui.Silverlight.ViewModel
 
             Commands.Spec_UpdateWavelength.Executed += (sender, args) =>
             {
+                //need to get the value from the checkbox in case UseSpectralPanelData has not yet been updated
+                if (SolutionDomainTypeOptionVM != null)
+                {
+                    UseSpectralPanelData = SolutionDomainTypeOptionVM.UseSpectralInputs;
+                }
                 if (UseSpectralPanelData && SolverDemoViewModel.Current != null && SolverDemoViewModel.Current.SpectralMappingVM != null)
                 {
                     updateSolutionDomainWithWavelength(SolverDemoViewModel.Current.SpectralMappingVM.Wavelength);
@@ -138,6 +143,11 @@ namespace Vts.Gui.Silverlight.ViewModel
             };
             Commands.Spec_UpdateOpticalProperties.Executed += (sender, args) =>
             {
+                //need to get the value from the checkbox in case UseSpectralPanelData has not yet been updated
+                if (SolutionDomainTypeOptionVM != null)
+                {
+                    UseSpectralPanelData = SolutionDomainTypeOptionVM.UseSpectralInputs;
+                }
                 if (UseSpectralPanelData && SolverDemoViewModel.Current != null && SolverDemoViewModel.Current.SpectralMappingVM != null)
                 {
                     if (IsMultiRegion && MultiRegionTissueVM != null)
@@ -520,7 +530,7 @@ namespace Vts.Gui.Silverlight.ViewModel
         private object GetOpticalProperties()
         {     
             if (SolutionDomainTypeOptionVM.IndependentVariableAxisOptionVM.SelectedValues.Contains(IndependentVariableAxis.Wavelength) &&
-                UseSpectralPanelData && 
+                SolutionDomainTypeOptionVM.UseSpectralInputs && 
                 SolverDemoViewModel.Current != null &&
                 SolverDemoViewModel.Current.SpectralMappingVM != null)
             {
