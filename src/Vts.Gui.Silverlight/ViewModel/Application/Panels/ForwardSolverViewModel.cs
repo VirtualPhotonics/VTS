@@ -72,8 +72,10 @@ namespace Vts.Gui.Silverlight.ViewModel
                     if (ForwardSolverTypeOptionVM.SelectedValue == ForwardSolverType.TwoLayerSDA)
                     {
                         SolutionDomainTypeOptionVM.AllowMultiAxis = false;
+                        SolutionDomainTypeOptionVM.UseSpectralInputs = false;
                     }
                     SolutionDomainTypeOptionVM.EnableMultiAxis = ForwardSolverTypeOptionVM.SelectedValue != ForwardSolverType.TwoLayerSDA;
+                    SolutionDomainTypeOptionVM.EnableSpectralPanelInputs = ForwardSolverTypeOptionVM.SelectedValue != ForwardSolverType.TwoLayerSDA;
                 }
                 if (ForwardAnalysisTypeOptionVM != null)
                 {
