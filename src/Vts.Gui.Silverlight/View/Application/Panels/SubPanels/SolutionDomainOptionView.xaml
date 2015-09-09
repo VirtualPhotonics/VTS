@@ -12,8 +12,7 @@
                     <TextBlock Text="{Binding GroupName}" 
                            Visibility="{Binding ShowTitle, Converter={StaticResource myBooleanToVisibilityConverter}}" 
                            FontWeight="Bold"/>
-                    <CheckBox IsChecked="{Binding UseSpectralInputs, Mode=TwoWay}" HorizontalAlignment="Left" Margin="22,0,0,0"/>
-                    <TextBlock Text="use spectral panel inputs" HorizontalAlignment="Left"/>
+                    <CheckBox IsChecked="{Binding UseSpectralInputs, Mode=TwoWay}" Visibility="{Binding EnableSpectralPanelInputs, Converter={StaticResource myBooleanToVisibilityConverter}}" HorizontalAlignment="Left" Margin="22,0,0,0">use spectral panel inputs</CheckBox>
                 </StackPanel>
             </controls:HeaderedContentControl.Header>
             <controls:HeaderedContentControl.Content>
@@ -82,8 +81,7 @@
                 <TextBlock Text="{Binding Path=MainResource.Label_IndependentAxis, Source={StaticResource LocalizedStrings}}" 
                        VerticalAlignment="Center" HorizontalAlignment="Left"
                        FontWeight="Bold"/>
-                <CheckBox IsChecked="{Binding AllowMultiAxis, Mode=TwoWay}" IsEnabled="{Binding EnableMultiAxis, Mode=OneWay}" HorizontalAlignment="Left" Margin="15,0,0,0" />
-                <TextBlock Text="allow multi-axis selection" HorizontalAlignment="Left"/>
+                <CheckBox IsChecked="{Binding AllowMultiAxis, Mode=TwoWay}" IsEnabled="{Binding EnableMultiAxis, Mode=OneWay}" HorizontalAlignment="Left" Margin="15,0,0,0" >allow multi-axis selection</CheckBox>
             </StackPanel>
             
             <!-- Radio button options -->
