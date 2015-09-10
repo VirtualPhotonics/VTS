@@ -23,6 +23,7 @@ namespace Vts.MonteCarlo.PostProcessing
         private PhotonDatabase _photonDatabase;
         private SimulationInput _databaseInput;
         private bool _ispMCPostProcessor;
+        private Random _rng;
 
         /// <summary>
         /// Creates an instance of PhotonDatabasePostProcessor for pMC database processing
@@ -71,6 +72,10 @@ namespace Vts.MonteCarlo.PostProcessing
             IList<IDetectorInput> detectorInputs,
             SimulationInput databaseInput)
         {
+
+            _rng = RandomNumberGeneratorFactory.GetRandomNumberGenerator(
+                RandomNumberGeneratorType.MersenneTwister, -1); // -1 = random seed
+
             _virtualBoundaryType = virtualBoundaryType;
 
             _databaseInput = databaseInput;
@@ -81,7 +86,7 @@ namespace Vts.MonteCarlo.PostProcessing
                 databaseInput.Options.PhaseFunctionType,
                 databaseInput.Options.RussianRouletteWeightThreshold);
 
-            _detectors = DetectorFactory.GetDetectors(detectorInputs, _tissue);
+            _detectors = DetectorFactory.GetDetectors(detectorInputs, _tissue, _rng);
 
             _detectorController = new DetectorController(_detectors);
         }

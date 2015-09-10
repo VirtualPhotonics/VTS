@@ -247,6 +247,7 @@
     <Compile Include="MonteCarlo\Controllers\pMCDatabaseWriterController.cs" />
     <Compile Include="MonteCarlo\Controllers\DatabaseWriterController.cs" />
     <Compile Include="MonteCarlo\Controllers\VirtualBoundaryController.cs" />
+    <Compile Include="MonteCarlo\DataStructuresValidation\DetectorInputs\ReflectedDynamicMTOfRhoAndSubregionHistDetectorInputValidation.cs" />
     <Compile Include="MonteCarlo\DataStructuresValidation\DetectorInputs\dMCdROfRhodMusDetectorInputValidation.cs" />
     <Compile Include="MonteCarlo\DataStructuresValidation\DetectorInputs\dMCdROfRhodMuaDetectorInputValidation.cs" />
     <Compile Include="MonteCarlo\DataStructuresValidation\PostProcessorInputs\PostProcessorInputValidation.cs" />
@@ -256,6 +257,8 @@
     <Compile Include="MonteCarlo\DataStructures\SimulationInputProvider.cs" />
     <Compile Include="MonteCarlo\DataStructures\SimulationStatistics.cs" />
     <Compile Include="MonteCarlo\DataStructures\SourceInputProvider.cs" />
+    <Compile Include="MonteCarlo\Detectors\TransmittedDynamicMTOfRhoAndSubregionDetector.cs" />
+    <Compile Include="MonteCarlo\Detectors\ReflectedDynamicMTOfRhoAndSubregionDetector.cs" />
     <Compile Include="MonteCarlo\Detectors\TransmittedMTOfXAndYAndSubregionHistDetector.cs" />
     <Compile Include="MonteCarlo\Detectors\ReflectedMTOfXAndYAndSubregionHistDetector.cs" />
     <Compile Include="MonteCarlo\Detectors\TOfXAndYDetector.cs" />

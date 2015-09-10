@@ -123,7 +123,7 @@ namespace Vts.MonteCarlo.Detectors
         /// </summary>
         public int NumSubregions { get; set; }
 
-        public void Initialize(ITissue tissue)
+        public void Initialize(ITissue tissue, Random rng)
         {
             // intialize any necessary class fields here
             _tissue = tissue;
@@ -135,7 +135,7 @@ namespace Vts.MonteCarlo.Detectors
 
             // if the data arrays are null, create them (only create second moment if TallySecondMoment is true)
             Mean = Mean ?? new double[Rho.Count - 1, MTBins.Count - 1];
-            SecondMoment = SecondMoment ?? (TallySecondMoment ? new double[Rho.Count - 1, MTBins.Count - 1] : null); // Fractional MT has FractionalMTBins.Count numnber of bins PLUS 2, one for =1, an d one for =0
+            SecondMoment = SecondMoment ?? (TallySecondMoment ? new double[Rho.Count - 1, MTBins.Count - 1] : null);
             // Fractional MT has FractionalMTBins.Count numnber of bins PLUS 2, one for =1, an d one for =0
             FractionalMT = FractionalMT ?? new double[Rho.Count - 1, MTBins.Count - 1, NumSubregions, FractionalMTBins.Count + 1];
         }
@@ -160,11 +160,11 @@ namespace Vts.MonteCarlo.Detectors
             {
                 if (previousDP.Weight != currentDP.Weight) // only for true collision points
                 {
-                    var isr = _tissue.GetRegionIndex(currentDP.Position); // get current region index
+                    var csr = _tissue.GetRegionIndex(currentDP.Position); // get current region index
                     // get angle between current and next
                     double cosineBetweenTrajectories = Direction.GetDotProduct(currentDP.Direction, nextDP.Direction);
                     var momentumTransfer = 1 - cosineBetweenTrajectories;
-                    subregionMT[isr] += momentumTransfer;
+                    subregionMT[csr] += momentumTransfer;
                     talliedMT = true;
                 }
                 previousDP = currentDP;

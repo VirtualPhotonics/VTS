@@ -224,6 +224,10 @@ namespace Vts.MonteCarlo
                 {
                     return dMCdROfRhodMusDetectorInputValidation.ValidateInput(detectorInput);
                 }
+                if (detectorInput.TallyType.Contains("ReflectedDynamicMTOfRhoAndSubregionHist"))
+                {
+                    return ReflectedDynamicMTOfRhoAndSubregionHistDetectorInputValidation.ValidateInput(detectorInput, input.TissueInput.Regions.Count());
+                }
             }         
             return new ValidationResult(
                 true,

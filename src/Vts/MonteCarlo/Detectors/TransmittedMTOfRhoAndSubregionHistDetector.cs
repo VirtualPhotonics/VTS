@@ -123,7 +123,7 @@ namespace Vts.MonteCarlo.Detectors
         /// </summary>
         public int NumSubregions { get; set; }
 
-        public void Initialize(ITissue tissue)
+        public void Initialize(ITissue tissue, Random rng)
         {
             // intialize any necessary class fields here
             _tissue = tissue;
@@ -160,11 +160,11 @@ namespace Vts.MonteCarlo.Detectors
             {
                 if (previousDP.Weight != currentDP.Weight) // only for true collision points
                 {
-                    var isr = _tissue.GetRegionIndex(currentDP.Position); // get current region index
+                    var csr = _tissue.GetRegionIndex(currentDP.Position); // get current region index
                     // get angle between current and next
                     double cosineBetweenTrajectories = Direction.GetDotProduct(currentDP.Direction, nextDP.Direction);
                     var momentumTransfer = 1 - cosineBetweenTrajectories;
-                    subregionMT[isr] += momentumTransfer;
+                    subregionMT[csr] += momentumTransfer;
                     talliedMT = true;
                 }
                 previousDP = currentDP;
