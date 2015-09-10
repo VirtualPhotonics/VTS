@@ -23,5 +23,11 @@ namespace Vts.Gui.Silverlight.View
             if (tbx != null && e.Key == Key.Enter)
                 tbx.GetBindingExpression(TextBox.TextProperty).UpdateSource();
         }
+
+        private void MapImage_OnSizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            var zMargin = new Thickness(0, MapImage.ActualHeight, 0, 0);
+            ZMax.Margin = zMargin;
+        }
     }
 }

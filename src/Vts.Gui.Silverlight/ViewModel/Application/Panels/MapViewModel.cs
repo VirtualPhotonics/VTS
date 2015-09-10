@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Linq;
+using System.Windows;
 using System.Windows.Media.Imaging;
 using GalaSoft.MvvmLight.Command;
 using SLExtensions.Input;
@@ -18,6 +19,7 @@ namespace Vts.Gui.Silverlight.ViewModel
         private double _MinValue;
         private double _MaxValue;
         private bool _AutoScale;
+        private Thickness _ZMax;
 
         private OptionViewModel<ColormapType> _ColormapTypeOptionVM;
         private OptionViewModel<ScalingType> _ScalingTypeOptionVM;
@@ -128,6 +130,16 @@ namespace Vts.Gui.Silverlight.ViewModel
             }
         }
 
+        public Thickness ZMax
+        {
+            get { return _ZMax; }
+            set
+            {
+                _ZMax = value;
+                OnPropertyChanged("ZMax");
+            }
+        }
+
         public OptionViewModel<ScalingType> ScalingTypeOptionVM
         {
             get { return _ScalingTypeOptionVM; }
@@ -230,6 +242,7 @@ namespace Vts.Gui.Silverlight.ViewModel
             {
                 Bitmap = new WriteableBitmap(width, height);
             }
+            ZMax = new Thickness(0, height, 0, 0);
 
             if (ColorBar == null)
             {
