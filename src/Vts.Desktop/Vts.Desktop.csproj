@@ -664,6 +664,9 @@
     <Compile Include="..\Vts\MonteCarlo\Detectors\ReflectedDynamicMTOfRhoAndSubregionDetector.cs">
       <Link>MonteCarlo\Detectors\ReflectedDynamicMTOfRhoAndSubregionDetector.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\ReflectedDynamicMTOfXAndYAndSubregionDetector.cs">
+      <Link>MonteCarlo\Detectors\ReflectedDynamicMTOfXAndYAndSubregionDetector.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\ReflectedMTOfRhoAndSubRegionHistDetector.cs">
       <Link>MonteCarlo\Detectors\ReflectedMTOfRhoAndSubRegionHistDetector.cs</Link>
     </Compile>
@@ -720,6 +723,9 @@
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\TransmittedDynamicMTOfRhoAndSubregionDetector.cs">
       <Link>MonteCarlo\Detectors\TransmittedDynamicMTOfRhoAndSubregionDetector.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\TransmittedDynamicMTOfXAndYAndSubregionDetector.cs">
+      <Link>MonteCarlo\Detectors\TransmittedDynamicMTOfXAndYAndSubregionDetector.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\TransmittedMTOfRhoAndSubregionHistDetector.cs">
       <Link>MonteCarlo\Detectors\TransmittedMTOfRhoAndSubregionHistDetector.cs</Link>
