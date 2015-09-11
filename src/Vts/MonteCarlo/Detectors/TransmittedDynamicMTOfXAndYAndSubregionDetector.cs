@@ -211,7 +211,7 @@ namespace Vts.MonteCarlo.Detectors
 
                 if (talliedMT) TallyCount++;
 
-                // tally fractional MT in each subregion
+                // tally DYNAMIC fractional MT in each subregion
                 int ifrac;
                 for (int isr = 0; isr < NumSubregions; isr++)
                 {

@@ -574,6 +574,31 @@ namespace Vts.MonteCarlo
                         Y= new DoubleRange(-100.0, 100.0, 21),
                         MTBins=new DoubleRange(0.0, 500.0, 51), // MT bins
                         FractionalMTBins = new DoubleRange(0.0, 1.0, 11)}, // fractional MT bins
+                    // DYNAMIC MT detectors
+                    // detectors with cylindrical symmetry
+                    new ReflectedDynamicMTOfRhoAndSubregionHistDetectorInput(){
+                        Rho=new DoubleRange(0.0, 10.0, 101), // rho bins
+                        MTBins=new DoubleRange(0.0, 500.0, 51), // MT bins
+                        FractionalMTBins = new DoubleRange(0.0, 1.0, 11), // fractional MT bins                        
+                        BloodVolumeFraction = new List<double>() { 0, 0.5, 0.5, 0 }},
+                    new TransmittedDynamicMTOfRhoAndSubregionHistDetectorInput(){
+                        Rho=new DoubleRange(0.0, 10.0, 101), // rho bins
+                        MTBins=new DoubleRange(0.0, 500.0, 51), // MT bins
+                        FractionalMTBins = new DoubleRange(0.0, 1.0, 11), // fractional MT bins
+                        BloodVolumeFraction = new List<double>() { 0, 0.5, 0.5, 0 }},
+                    // detectors with Cartesian coordinates                      
+                    new ReflectedDynamicMTOfXAndYAndSubregionHistDetectorInput(){
+                        X=new DoubleRange(-100.0, 100.0, 21), 
+                        Y= new DoubleRange(-100.0, 100.0, 21),
+                        MTBins=new DoubleRange(0.0, 500.0, 51), // MT bins
+                        FractionalMTBins = new DoubleRange(0.0, 1.0, 11), // fractional MT bins
+                        BloodVolumeFraction = new List<double>() { 0, 0.5, 0.5, 0 }},
+                    new TransmittedDynamicMTOfXAndYAndSubregionHistDetectorInput(){
+                        X=new DoubleRange(-100.0, 100.0, 21), 
+                        Y= new DoubleRange(-100.0, 100.0, 21),
+                        MTBins=new DoubleRange(0.0, 500.0, 51), // MT bins
+                        FractionalMTBins = new DoubleRange(0.0, 1.0, 11), // fractional MT bins
+                        BloodVolumeFraction = new List<double>() { 0, 0.5, 0.5, 0 }},
                 }
             );
         }
