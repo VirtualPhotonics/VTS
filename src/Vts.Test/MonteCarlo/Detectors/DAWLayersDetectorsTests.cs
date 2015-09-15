@@ -90,6 +90,13 @@ namespace Vts.Test.MonteCarlo.Detectors
                         Z =  new DoubleRange(0.0, 10.0, 11),
                         TallySecondMoment = true
                     },
+                    new FluenceOfXAndYAndZAndOmegaDetectorInput()
+                    {
+                        X = new DoubleRange(-10.0, 10.0, 11), 
+                        Y = new DoubleRange(-10.0, 10.0, 11),
+                        Z =  new DoubleRange(0.0, 10.0, 11),
+                        Omega = new DoubleRange(0.05, 1.0, 20)
+                    },
                     new RadianceOfRhoAtZDetectorInput() {ZDepth=_dosimetryDepth, Rho= new DoubleRange(0.0, 10.0, 101)},
                     new RadianceOfRhoAndZAndAngleDetectorInput(){Rho= new DoubleRange(0.0, 10.0, 101),Z=new DoubleRange(0.0, 10.0, 101),Angle=new DoubleRange(-Math.PI / 2, Math.PI / 2, 5)},
                     new RadianceOfXAndYAndZAndThetaAndPhiDetectorInput()
@@ -342,6 +349,13 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.Less(Math.Abs(_outputTwoLayerTissue.Flu_xyz[0, 0, 0] - 0.0016990), 0.0000001);
             Assert.Less(Math.Abs(_outputOneLayerTissue.Flu_xyz2[0, 0, 0] - 0.0001815), 0.0000001);
             Assert.Less(Math.Abs(_outputTwoLayerTissue.Flu_xyz2[0, 0, 0] - 0.0001815), 0.0000001);
+        }
+        // Fluence Flu(x,y,z,omega), 1st moment validated with prior test
+        [Test]
+        public void validate_DAW_FluenceOfXAndYAndZAndOmega()
+        {
+            Assert.Less(Math.Abs(_outputOneLayerTissue.Flu_xyzo[0, 0, 0, 10].Real + 0.0002956), 0.0000001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.Flu_xyzo[0, 0, 0, 10].Imaginary + 0.0009234), 0.0000001);
         }
         // Volume Radiance Rad(rho,z,angle)
         // Verify integral over angle of Radiance equals Fluence

@@ -214,6 +214,14 @@ namespace Vts.MonteCarlo
         /// </summary>
         public double[, ,] Flu_xyz2 { get { return ((double[,,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "FluenceOfXAndYAndZ").First().Name]).SecondMoment); } }
         /// <summary>
+        /// Fluence as a function of x, y, z and omega
+        /// </summary>
+        public Complex[, , ,] Flu_xyzo { get { return ((Complex[, , ,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "FluenceOfXAndYAndZAndOmega").First().Name]).Mean); } }
+        /// <summary>
+        /// Fluence as a function of x, y, z and omega 2nd moment
+        /// </summary>
+        public Complex[, , ,] Flu_xyzo2 { get { return ((Complex[, , ,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "FluenceOfXAndYAndZAndOmega").First().Name]).SecondMoment); } }
+        /// <summary>
         /// Absorption as a function of x, y and z
         /// </summary>
         public double[, ,] A_xyz { get { return ((double[, ,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "AOfXAndYAndZ").First().Name]).Mean); } }

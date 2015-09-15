@@ -634,6 +634,9 @@
     <Compile Include="..\Vts\MonteCarlo\Detectors\FluenceOfRhoAndZDetector.cs">
       <Link>MonteCarlo\Detectors\FluenceOfRhoAndZDetector.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\FluenceOfXAndYAndZAndOmegaDetector.cs">
+      <Link>MonteCarlo\Detectors\FluenceOfXAndYAndZAndOmegaDetector.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\FluenceOfXAndYAndZDetector.cs">
       <Link>MonteCarlo\Detectors\FluenceOfXAndYAndZDetector.cs</Link>
     </Compile>

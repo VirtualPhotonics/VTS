@@ -9,7 +9,7 @@ slash = filesep;  % get correct path delimiter for platform
 addpath([cd slash 'jsonlab']);
 
 % names of individual MC simulations
-datanames = { 'two_layer_momentum_transfer_detectors' };
+datanames = { 'one_layer_all_detectors' };
 % datanames = { 'results_mua0.1musp1.0' 'esults_mua0.1musp1.1' }; %...etc
 
 % outdir = 'C:\Projects\vts\src\Vts.MonteCarlo.CommandLineApplication\bin\Release';
@@ -34,6 +34,7 @@ show.AOfXAndYAndZ = 		1;
 show.FluenceOfRhoAndZ =         1;
 show.FluenceOfXAndYAndZ =       1;
 show.FluenceOfRhoAndZAndTime =  1;
+show.FluenceOfXAndYAndZAndOmega =  1;
 show.RadianceOfRhoAndZAndAngle = 1;
 show.RadianceOfXAndYAndZAndThetaAndPhi = 1;
 show.pMCROfRho =                1;
@@ -192,6 +193,23 @@ for mci = 1:length(datanames)
             xyznorm = (results{di}.FluenceOfXAndYAndZ.X(2)-results{di}.FluenceOfXAndYAndZ.X(1))*(results{di}.FluenceOfXAndYAndZ.Y(2)-results{di}.FluenceOfXAndYAndZ.Y(1))*(results{di}.FluenceOfXAndYAndZ.Z(2)-results{di}.FluenceOfXAndYAndZ.Z(1));
             disp(['Fluence captured by FluenceOfXAndYAndZ detector: ' num2str(sum(results{di}.FluenceOfXAndYAndZ.Mean(:)*xyznorm))]);
         end
+    end
+    if isfield(results{di}, 'FluenceOfXAndYAndZAndOmega') && show.FluenceOfXAndYAndZAndOmega
+        numomegas = length(results{di}.FluenceOfXAndYAndZAndOmega.Omega);
+        numxs = length(results{di}.FluenceOfXAndYAndZAndOmega.X)-1;
+        numys = length(results{di}.FluenceOfXAndYAndZAndOmega.Y)-1;
+        numzs = length(results{di}.FluenceOfXAndYAndZAndOmega.Z)-1;
+        center = floor(numys/2)+1;
+        for i=1:10:numomegas % do every 10 omegas
+            figname = sprintf('log(%s:amplitude) y=0 omega=%5.3f GHz',results{di}.FluenceOfXAndYAndZAndOmega.Name,results{di}.FluenceOfXAndYAndZAndOmega.Omega_Midpoints(i)); figure; imagesc(results{di}.FluenceOfXAndYAndZAndOmega.X_Midpoints, results{di}.FluenceOfXAndYAndZAndOmega.Z_Midpoints, log(squeeze(results{di}.FluenceOfXAndYAndZAndOmega.Amplitude(i,:,center,:)))); 
+            colorbar; title(figname); set(gcf,'Name', figname);ylabel('z [mm]'); xlabel('x [mm]'); 
+        end
+        xdelta = results{di}.FluenceOfXAndYAndZAndOmega.X(2)-results{di}.FluenceOfXAndYAndZAndOmega.X(1);
+        ydelta = results{di}.FluenceOfXAndYAndZAndOmega.Y(2)-results{di}.FluenceOfXAndYAndZAndOmega.Y(1);
+        zdelta = results{di}.FluenceOfXAndYAndZAndOmega.Z(2)-results{di}.FluenceOfXAndYAndZAndOmega.Z(1);
+        voxnorm = xdelta * ydelta * zdelta;
+        disp(sprintf('Fluence captured by FluenceOfXAndYAndZAndOmega detector at omega=%5.3f GHz: %5.3f',...
+            results{di}.FluenceOfXAndYAndZAndOmega.Omega_Midpoints(1),sum(sum(sum(voxnorm*results{di}.FluenceOfXAndYAndZAndOmega.Amplitude(1,:,:,:))))));
     end
     if isfield(results{di}, 'RadianceOfRhoAndZAndAngle') && show.RadianceOfRhoAndZAndAngle
         numrhos = length(results{di}.RadianceOfRhoAndZAndAngle.Rho) - 1;

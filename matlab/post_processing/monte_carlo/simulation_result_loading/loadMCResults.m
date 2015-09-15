@@ -272,6 +272,37 @@ for di = 1:numDetectors
                 FluenceOfXAndYAndZ.Stdev = sqrt((FluenceOfXAndYAndZ.SecondMoment - (FluenceOfXAndYAndZ.Mean .* FluenceOfXAndYAndZ.Mean)) / (json.N));  
             end
             results{di}.FluenceOfXAndYAndZ = FluenceOfXAndYAndZ;
+        case 'FluenceOfXAndYAndZAndOmega'
+            FluenceOfXAndYAndZAndOmega.Name = detector.Name;
+            tempX = detector.X;
+            tempY = detector.Y;
+            tempZ = detector.Z;
+            tempOmega = detector.Omega;
+            FluenceOfXAndYAndZAndOmega.X = linspace((tempX.Start), (tempX.Stop), (tempX.Count));
+            FluenceOfXAndYAndZAndOmega.Y = linspace((tempY.Start), (tempY.Stop), (tempY.Count));
+            FluenceOfXAndYAndZAndOmega.Z = linspace((tempZ.Start), (tempZ.Stop), (tempZ.Count));
+            FluenceOfXAndYAndZAndOmega.Omega = linspace((tempOmega.Start), (tempOmega.Stop), (tempOmega.Count));
+            FluenceOfXAndYAndZAndOmega.X_Midpoints = (FluenceOfXAndYAndZAndOmega.X(1:end-1) + FluenceOfXAndYAndZAndOmega.X(2:end))/2;
+            FluenceOfXAndYAndZAndOmega.Y_Midpoints = (FluenceOfXAndYAndZAndOmega.Y(1:end-1) + FluenceOfXAndYAndZAndOmega.Y(2:end))/2;
+            FluenceOfXAndYAndZAndOmega.Z_Midpoints = (FluenceOfXAndYAndZAndOmega.Z(1:end-1) + FluenceOfXAndYAndZAndOmega.Z(2:end))/2;
+            FluenceOfXAndYAndZAndOmega.Omega_Midpoints = FluenceOfXAndYAndZAndOmega.Omega; % omega is not binned, value is used
+            tempData = readBinaryData([datadir slash detector.Name], ...
+                [2*(length(FluenceOfXAndYAndZAndOmega.X)-1)*(length(FluenceOfXAndYAndZAndOmega.Y)-1)*(length(FluenceOfXAndYAndZAndOmega.Z)-1)*(length(FluenceOfXAndYAndZAndOmega.Omega))]); 
+            tempDataReshape = reshape(tempData, ...% column major json binary
+                [2*length(FluenceOfXAndYAndZAndOmega.Omega),length(FluenceOfXAndYAndZAndOmega.Z)-1,length(FluenceOfXAndYAndZAndOmega.Y)-1,length(FluenceOfXAndYAndZAndOmega.X)-1]);
+            FluenceOfXAndYAndZAndOmega.Mean = tempDataReshape(1:2:end,:,:,:) + 1i*tempDataReshape(2:2:end,:,:,:);
+            FluenceOfXAndYAndZAndOmega.Amplitude = abs(FluenceOfXAndYAndZAndOmega.Mean);
+            FluenceOfXAndYAndZAndOmega.Phase = -angle(FluenceOfXAndYAndZAndOmega.Mean);
+            if(detector.TallySecondMoment && exist([datadir slash detector.Name '_2'],'file'))
+                tempData = readBinaryData([datadir slash detector.Name '_2'], ...
+                    [2*(length(FluenceOfXAndYAndZAndOmega.X)-1)*(length(FluenceOfXAndYAndZAndOmega.Y)-1)*(length(FluenceOfXAndYAndZAndOmega.Z)-1)*(length(FluenceOfXAndYAndZAndOmega.Omega))]);
+                tempDataReshape = reshape(tempData, ... % column major json binary
+                    [2*length(FluenceOfXAndYAndZAndOmega.Omega,length(FluenceOfXAndYAndZAndOmega.Z)-1,length(FluenceOfXAndYAndZAndOmega.Y)-1),length(FluenceOfXAndYAndZAndOmega.X)-1]);
+                FluenceOfXAndYAndZAndOmega.SecondMoment = tempDataReshape(1:2:end,:,:,:) + 1i*tempDataReshape(2:2:end,:,:,:);
+                FluenceOfXAndYAndZAndOmega.Stdev = sqrt(real(FluenceOfXAndYAndZAndOmega.SecondMoment - (real(FluenceOfXAndYAndZAndOmega.Mean) .* real(FluenceOfXAndYAndZAndOmega.Mean))) / (json.N)) + ...  
+                    1i*sqrt((imag(FluenceOfXAndYAndZAndOmega.SecondMoment) - (imag(FluenceOfXAndYAndZAndOmega.Mean) .* imag(FluenceOfXAndYAndZAndOmega.Mean))) / (json.N));
+            end                 
+            results{di}.FluenceOfXAndYAndZAndOmega = FluenceOfXAndYAndZAndOmega;
         case 'RadianceOfRhoAndZAndAngle'
             RadianceOfRhoAndZAndAngle.Name = detector.Name;
             tempRho = detector.Rho;

@@ -457,6 +457,10 @@ namespace Vts.MonteCarlo
             /// </summary>
             "FluenceOfXAndYAndZ",
             /// <summary>
+            /// Fluence as a function of x, y, z and omega
+            /// </summary>
+            "FluenceOfXAndYAndZAndOmega",
+            /// <summary>
             /// Absorbed energy as a function of source-detector separation (rho) and tissue depth (Z)
             /// </summary>
             "AOfRhoAndZ",
