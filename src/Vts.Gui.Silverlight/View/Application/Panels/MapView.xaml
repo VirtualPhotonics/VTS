@@ -29,7 +29,7 @@
         </Grid>
         <!-- Places the z values on the map view -->
         <TextBlock Grid.Row="1" Grid.Column="0" Text="{Binding Path=MainResource.Label_Z0, Source={StaticResource LocalizedStrings}}" VerticalAlignment="Top" HorizontalAlignment="Right"/>
-        <TextBlock x:Name="ZMax" Grid.Row="1" Grid.Column="0" Text="{Binding Path=MainResource.Label_ZMax, Source={StaticResource LocalizedStrings}}" VerticalAlignment="Top" HorizontalAlignment="Right"/>
+        <TextBlock x:Name="ZMax" Grid.Row="1" Grid.Column="0" Margin="0, 20,0,0" Text="{Binding Path=MainResource.Label_ZMax, Source={StaticResource LocalizedStrings}}" VerticalAlignment="Top" HorizontalAlignment="Right"/>
         <!-- Map and the map options -->
         <Image x:Name="MapImage" Grid.Row="1" Grid.Column="1" Source="{Binding Bitmap}" Stretch="UniformToFill" VerticalAlignment="Top" SizeChanged="MapImage_OnSizeChanged" />
         <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center">
