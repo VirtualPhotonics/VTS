@@ -262,8 +262,14 @@ for mci = 1:length(datanames)
 %                 stack=stack+results{di}.ReflectedMTOfRhoAndSubregionHist.FractionalMT(k,j,:,i);
 %                 semilogy(X,squeeze(stack),color(k,:),'LineWidth',3);axis([0 max(X) 1e-7 1]);title(figname);xlabel('MT'),ylabel('stacked log(photon weight)'); hold on;
 %             end
-            legend('=0','[0-0.1]','[0.1-0.2]','[0.2-0.3]','[0.3-0.4]','[0.4-0.5]','[0.5-0.6]','[0.6-0.7]','[0.7-0.8]','[0.8-0.9]','[0.9,1]','=1'); % customized
-       end
+            % variable size legend based on layerfrac size
+            numfracs=size(layerfrac,1);
+            ar{1}='=0';ar{numfracs}='=1';
+            for k=2:numfracs-1
+                ar{k}=sprintf('[%3.2f-%3.2f]',(1.0/(numfracs-2))*(k-2),(1.0/(numfracs-2))*(k-1));
+            end
+            legend(ar);   
+        end
         end
     end
     if isfield(results{di}, 'ReflectedMTOfXAndYAndSubregionHist') && show.ReflectedMTOfXAndYAndSubregionHist
@@ -284,8 +290,14 @@ for mci = 1:length(datanames)
             X=results{di}.ReflectedMTOfXAndYAndSubregionHist.MTBins_Midpoints;
             layerfrac=squeeze(results{di}.ReflectedMTOfXAndYAndSubregionHist.FractionalMT(:,j,:,1,i));
             bar(X,layerfrac','stacked'); title(figname);xlabel('MT'),ylabel('photon weight');
-            legend('=0','[0-0.1]','[0.1-0.2]','[0.2-0.3]','[0.3-0.4]','[0.4-0.5]','[0.5-0.6]','[0.6-0.7]','[0.7-0.8]','[0.8-0.9]','[0.9,1]','=1'); % customized
-       end
+            % variable size legend based on layerfrac size
+            numfracs=size(layerfrac,1);
+            ar{1}='=0';ar{numfracs}='=1';
+            for k=2:numfracs-1
+                ar{k}=sprintf('[%3.2f-%3.2f]',(1.0/(numfracs-2))*(k-2),(1.0/(numfracs-2))*(k-1));
+            end
+            legend(ar);  
+        end
         end
     end
     if isfield(results{di}, 'TransmittedMTOfRhoAndSubregionHist') && show.TransmittedMTOfRhoAndSubregionHist
@@ -309,8 +321,14 @@ for mci = 1:length(datanames)
 %                 stack=stack+results{di}.TransmittedMTOfRhoAndSubregionHist.FractionalMT(k,j,:,i);
 %                 semilogy(X,squeeze(stack),color(k,:),'LineWidth',3);axis([0 max(X) 1e-7 1]);title(figname);xlabel('MT'),ylabel('stacked log(photon weight)'); hold on;
 %             end
-            legend('=0','[0-0.1]','[0.1-0.2]','[0.2-0.3]','[0.3-0.4]','[0.4-0.5]','[0.5-0.6]','[0.6-0.7]','[0.7-0.8]','[0.8-0.9]','[0.9,1]','=1'); % customized
-       end
+            % variable size legend based on layerfrac size
+            numfracs=size(layerfrac,1);
+            ar{1}='=0';ar{numfracs}='=1';
+            for k=2:numfracs-1
+                ar{k}=sprintf('[%3.2f-%3.2f]',(1.0/(numfracs-2))*(k-2),(1.0/(numfracs-2))*(k-1));
+            end
+            legend(ar);
+        end
         end
     end
     if isfield(results{di}, 'TransmittedMTOfXAndYAndSubregionHist') && show.TransmittedMTOfXAndYAndSubregionHist
@@ -331,7 +349,13 @@ for mci = 1:length(datanames)
             X=results{di}.TransmittedMTOfXAndYAndSubregionHist.MTBins_Midpoints;
             layerfrac=squeeze(results{di}.TransmittedMTOfXAndYAndSubregionHist.FractionalMT(:,j,:,1,i));
             bar(X,layerfrac','stacked'); title(figname);xlabel('MT'),ylabel('photon weight');
-            legend('=0','[0-0.1]','[0.1-0.2]','[0.2-0.3]','[0.3-0.4]','[0.4-0.5]','[0.5-0.6]','[0.6-0.7]','[0.7-0.8]','[0.8-0.9]','[0.9,1]','=1'); % customized
+            % variable size legend based on layerfrac size
+            numfracs=size(layerfrac,1);
+            ar{1}='=0';ar{numfracs}='=1';
+            for k=2:numfracs-1
+                ar{k}=sprintf('[%3.2f-%3.2f]',(1.0/(numfracs-2))*(k-2),(1.0/(numfracs-2))*(k-1));
+            end
+            legend(ar); 
         end
         end
     end
@@ -356,7 +380,13 @@ for mci = 1:length(datanames)
 %                 stack=stack+results{di}.ReflectedDynamicMTOfRhoAndSubregionHist.FractionalMT(k,j,:,i);
 %                 semilogy(X,squeeze(stack),color(k,:),'LineWidth',3);axis([0 max(X) 1e-7 1]);title(figname);xlabel('MT'),ylabel('stacked log(photon weight)'); hold on;
 %             end
-            legend('=0','[0-0.1]','[0.1-0.2]','[0.2-0.3]','[0.3-0.4]','[0.4-0.5]','[0.5-0.6]','[0.6-0.7]','[0.7-0.8]','[0.8-0.9]','[0.9,1]','=1'); % customized
+            % variable size legend based on layerfrac size
+            numfracs=size(layerfrac,1);
+            ar{1}='=0';ar{numfracs}='=1';
+            for k=2:numfracs-1
+                ar{k}=sprintf('[%3.2f-%3.2f]',(1.0/(numfracs-2))*(k-2),(1.0/(numfracs-2))*(k-1));
+            end
+            legend(ar);
         end
         end
     end
@@ -378,7 +408,13 @@ for mci = 1:length(datanames)
             X=results{di}.ReflectedDynamicMTOfXAndYAndSubregionHist.MTBins_Midpoints;
             layerfrac=squeeze(results{di}.ReflectedDynamicMTOfXAndYAndSubregionHist.FractionalMT(:,j,:,1,i));
             bar(X,layerfrac','stacked'); title(figname);xlabel('MT'),ylabel('photon weight');
-            legend('=0','[0-0.1]','[0.1-0.2]','[0.2-0.3]','[0.3-0.4]','[0.4-0.5]','[0.5-0.6]','[0.6-0.7]','[0.7-0.8]','[0.8-0.9]','[0.9,1]','=1'); % customized
+            % variable size legend based on layerfrac size
+            numfracs=size(layerfrac,1);
+            ar{1}='=0';ar{numfracs}='=1';
+            for k=2:numfracs-1
+                ar{k}=sprintf('[%3.2f-%3.2f]',(1.0/(numfracs-2))*(k-2),(1.0/(numfracs-2))*(k-1));
+            end
+            legend(ar); 
         end
         end
     end
@@ -403,7 +439,13 @@ for mci = 1:length(datanames)
 %                 stack=stack+results{di}.TransmittedDynamicMTOfRhoAndSubregionHist.FractionalMT(k,j,:,i);
 %                 semilogy(X,squeeze(stack),color(k,:),'LineWidth',3);axis([0 max(X) 1e-7 1]);title(figname);xlabel('DynamicMT'),ylabel('stacked log(photon weight)'); hold on;
 %             end
-            legend('=0','[0-0.1]','[0.1-0.2]','[0.2-0.3]','[0.3-0.4]','[0.4-0.5]','[0.5-0.6]','[0.6-0.7]','[0.7-0.8]','[0.8-0.9]','[0.9,1]','=1'); % customized
+            % variable size legend based on layerfrac size
+            numfracs=size(layerfrac,1);
+            ar{1}='=0';ar{numfracs}='=1';
+            for k=2:numfracs-1
+                ar{k}=sprintf('[%3.2f-%3.2f]',(1.0/(numfracs-2))*(k-2),(1.0/(numfracs-2))*(k-1));
+            end
+            legend(ar); 
         end
         end
     end
@@ -425,7 +467,13 @@ for mci = 1:length(datanames)
             X=results{di}.TransmittedDynamicMTOfXAndYAndSubregionHist.MTBins_Midpoints;
             layerfrac=squeeze(results{di}.TransmittedDynamicMTOfXAndYAndSubregionHist.FractionalMT(:,j,:,1,i));
             bar(X,layerfrac','stacked'); title(figname);xlabel('Dynamic MT'),ylabel('photon weight');
-            legend('=0','[0-0.1]','[0.1-0.2]','[0.2-0.3]','[0.3-0.4]','[0.4-0.5]','[0.5-0.6]','[0.6-0.7]','[0.7-0.8]','[0.8-0.9]','[0.9,1]','=1'); % customized
+            % variable size legend based on layerfrac size
+            numfracs=size(layerfrac,1);
+            ar{1}='=0';ar{numfracs}='=1';
+            for k=2:numfracs-1
+                ar{k}=sprintf('[%3.2f-%3.2f]',(1.0/(numfracs-2))*(k-2),(1.0/(numfracs-2))*(k-1));
+            end
+            legend(ar); 
         end
         end
     end
