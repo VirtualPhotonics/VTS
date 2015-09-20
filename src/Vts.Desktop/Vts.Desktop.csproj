@@ -1024,6 +1024,9 @@
     <Compile Include="..\Vts\MonteCarlo\Tissues\LayerTissueRegion.cs">
       <Link>MonteCarlo\Tissues\LayerTissueRegion.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Tissues\MultiEllipsoidTissue.cs">
+      <Link>MonteCarlo\Tissues\MultiEllipsoidTissue.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Tissues\MultiLayerTissue.cs">
       <Link>MonteCarlo\Tissues\MultiLayerTissue.cs</Link>
     </Compile>
@@ -1032,6 +1035,9 @@
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Tissues\SemiInfiniteTissueRegion.cs">
       <Link>MonteCarlo\Tissues\SemiInfiniteTissueRegion.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Tissues\SingleEllipsoidTissue.cs">
+      <Link>MonteCarlo\Tissues\SingleEllipsoidTissue.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Tissues\SingleInclusionTissue.cs">
       <Link>MonteCarlo\Tissues\SingleInclusionTissue.cs</Link>
