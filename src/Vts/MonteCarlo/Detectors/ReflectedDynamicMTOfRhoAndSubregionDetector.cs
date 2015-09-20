@@ -127,6 +127,8 @@ namespace Vts.MonteCarlo.Detectors
         /// Z binning
         /// </summary>
         public int NumSubregions { get; set; }
+        //public double[,] SubregionCollisions { get; set; } //debug
+        //public int[] TotalCollisions { get; set; } //debug
 
         public void Initialize(ITissue tissue, Random rng)
         {
@@ -146,7 +148,10 @@ namespace Vts.MonteCarlo.Detectors
             FractionalMT = FractionalMT ?? new double[Rho.Count - 1, MTBins.Count - 1, NumSubregions, FractionalMTBins.Count + 1];
 
             // intialize any other necessary class fields here
-            _bloodVolumeFraction = BloodVolumeFraction;      
+            _bloodVolumeFraction = BloodVolumeFraction;
+
+            //SubregionCollisions = new double[NumSubregions, 2]; //debug
+            //TotalCollisions = new int[NumSubregions]; // debug
         }
 
         /// <summary>
@@ -175,13 +180,16 @@ namespace Vts.MonteCarlo.Detectors
                     double cosineBetweenTrajectories = Direction.GetDotProduct(currentDP.Direction, nextDP.Direction);
                     var momentumTransfer = 1 - cosineBetweenTrajectories;
                     totalMT += momentumTransfer;
+                    //TotalCollisions[csr] += 1; //debug
                     if (_rng.NextDouble() < _bloodVolumeFraction[csr]) // hit blood 
                     {
                         subregionMT[csr, 1] += momentumTransfer;
+                    //    SubregionCollisions[csr, 1] += 1; //debug
                     }
                     else // index 0 captures static events
                     {
                         subregionMT[csr, 0] += momentumTransfer;
+                        //SubregionCollisions[csr, 0] += 1; //debug
                     }
                     talliedMT = true;
                 }
@@ -249,6 +257,11 @@ namespace Vts.MonteCarlo.Detectors
                     }  
                 }
             }
+            //for (int i = 1; i < NumSubregions-1; i++) //debug
+            //{ //debug
+            //    SubregionCollisions[i, 0] /= TotalCollisions[i]; //debug
+            //    SubregionCollisions[i, 1] /= TotalCollisions[i]; //debug
+            //} //debug
         }
         // this is to allow saving of large arrays separately as a binary file
         public BinaryArraySerializer[] GetBinarySerializers()
