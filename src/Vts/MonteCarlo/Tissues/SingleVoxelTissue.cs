@@ -6,36 +6,35 @@ using Vts.Extensions;
 namespace Vts.MonteCarlo.Tissues
 {
     /// <summary>
-    /// Implements ITissueInput.  Defines input to SingleEllipsoidTissue class.
+    /// Implements ITissueInput.  Defines input to SingleVoxelTissue class.
     /// </summary>
-    public class SingleEllipsoidTissueInput : TissueInput, ITissueInput
+    public class SingleVoxelTissueInput : TissueInput, ITissueInput
     {
-        private ITissueRegion _ellipsoidRegion;
+        private ITissueRegion _voxelRegion;
         private ITissueRegion[] _layerRegions;
 
         /// <summary>
-        /// allows definition of single ellipsoid tissue
+        /// allows definition of single voxel tissue
         /// </summary>
-        /// <param name="ellipsoidRegion">ellipsoid region specification</param>
+        /// <param name="voxelRegion">voxel region specification</param>
         /// <param name="layerRegions">tissue layer specification</param>
-        public SingleEllipsoidTissueInput(ITissueRegion ellipsoidRegion, ITissueRegion[] layerRegions)
+        public SingleVoxelTissueInput(ITissueRegion voxelRegion, ITissueRegion[] layerRegions)
         {
-            TissueType = "SingleEllipsoid";
-            _ellipsoidRegion = ellipsoidRegion;
+            TissueType = "SingleVoxel";
+            _voxelRegion = voxelRegion;
             _layerRegions = layerRegions;
         }
 
         /// <summary>
-        /// SingleEllipsoidTissueInput default constructor provides homogeneous tissue with single ellipsoid
+        /// SingleVoxelTissueInput default constructor provides homogeneous tissue with single ellipsoid
         /// with radius 0.5mm and center (0,0,1)
         /// </summary>
-        public SingleEllipsoidTissueInput()
+        public SingleVoxelTissueInput()
             : this(
-                new EllipsoidTissueRegion(
-                    new Position(0, 0, 1),
-                    0.5,
-                    0.5,
-                    0.5,
+                new VoxelTissueRegion(
+                    new DoubleRange(-5, 5), 
+                    new DoubleRange(-5, 5), 
+                    new DoubleRange(1, 6),
                     new OpticalProperties(0.05, 1.0, 0.8, 1.4)
                 ),
                 new ITissueRegion[] 
@@ -57,11 +56,11 @@ namespace Vts.MonteCarlo.Tissues
         /// regions of tissue (layers and ellipsoid)
         /// </summary>
         [IgnoreDataMember]
-        public ITissueRegion[] Regions { get { return _layerRegions.Concat(_ellipsoidRegion).ToArray(); } }
+        public ITissueRegion[] Regions { get { return _layerRegions.Concat(_voxelRegion).ToArray(); } }
         /// <summary>
         /// tissue ellipsoid region
         /// </summary>
-        public ITissueRegion EllipsoidRegion { get { return _ellipsoidRegion; } set { _ellipsoidRegion = value; } }
+        public ITissueRegion VoxelRegion { get { return _voxelRegion; } set { _voxelRegion = value; } }
         /// <summary>
         /// tissue layer regions
         /// </summary>
@@ -77,7 +76,7 @@ namespace Vts.MonteCarlo.Tissues
         /// <returns></returns>
         public ITissue CreateTissue(AbsorptionWeightingType awt, PhaseFunctionType pft, double russianRouletteWeightThreshold)
         {
-            var t = new SingleInclusionTissue(EllipsoidRegion, LayerRegions);
+            var t = new SingleInclusionTissue(VoxelRegion, LayerRegions);
 
             t.Initialize(awt, pft, russianRouletteWeightThreshold);
 

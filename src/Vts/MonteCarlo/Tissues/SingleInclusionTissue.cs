@@ -71,8 +71,7 @@ namespace Vts.MonteCarlo.Tissues
             //    return base.GetNeighborRegionIndex(photon);
             //}
 
-            // if we're in the layer region of the inclusion, could be on boundary of inclusion
-            // or boundary of layer
+            // if we're in the layer region of the inclusion, could be on boundary of layer
             if ((regionIndex == _layerRegionIndexOfInclusion) && !Regions[_layerRegionIndexOfInclusion].OnBoundary(photon.DP.Position) )
             {
                 return _inclusionRegionIndex;
