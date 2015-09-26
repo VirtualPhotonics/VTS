@@ -80,6 +80,10 @@ namespace Vts.MonteCarlo
             {
                 return SingleEllipsoidTissueInputValidation.ValidateInput(tissueInput);
             }
+            if (tissueInput is SingleVoxelTissueInput)
+            {
+                return SingleVoxelTissueInputValidation.ValidateInput(tissueInput);
+            }
 
             return new ValidationResult(
                 true,
@@ -223,6 +227,10 @@ namespace Vts.MonteCarlo
                 if (detectorInput.TallyType.Contains("dMCdROfRhodMus"))
                 {
                     return dMCdROfRhodMusDetectorInputValidation.ValidateInput(detectorInput);
+                }
+                if (detectorInput.TallyType.Contains("ReflectedDynamicMTOfRhoAndSubregionHist"))
+                {
+                    return ReflectedDynamicMTOfRhoAndSubregionHistDetectorInputValidation.ValidateInput(detectorInput, input.TissueInput.Regions.Count());
                 }
             }         
             return new ValidationResult(

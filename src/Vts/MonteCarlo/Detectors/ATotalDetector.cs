@@ -70,7 +70,7 @@ namespace Vts.MonteCarlo.Detectors
         private ITissue _tissue;
         private IList<OpticalProperties> _ops;
 
-        public void Initialize(ITissue tissue)
+        public void Initialize(ITissue tissue, Random rng)
         {
             // assign any user-defined outputs (except arrays...we'll make those on-demand)
             TallyCount = 0;

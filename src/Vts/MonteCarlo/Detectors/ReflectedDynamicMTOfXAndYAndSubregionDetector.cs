@@ -10,24 +10,25 @@ using Vts.MonteCarlo.PhotonData;
 namespace Vts.MonteCarlo.Detectors
 {
     /// <summary>
-    /// Tally for ReflectedMT as a function of X and Y.
+    /// Tally for Reflected dynamic MT as a function of Rho using blood volume fraction in each tissue region.
     /// This works for Analog and DAW processing.
     /// </summary>
-    public class ReflectedMTOfXAndYAndSubregionHistDetectorInput : DetectorInput, IDetectorInput
+    public class ReflectedDynamicMTOfXAndYAndSubregionHistDetectorInput : DetectorInput, IDetectorInput
     {
         /// <summary>
-        /// constructor for ReflectedMT as a function of x and y and tissue subregion detector input
+        /// constructor for ReflectedMT as a function of rho and tissue subregion detector input
         /// </summary>
-        public ReflectedMTOfXAndYAndSubregionHistDetectorInput()
+        public ReflectedDynamicMTOfXAndYAndSubregionHistDetectorInput()
         {
-            TallyType = "ReflectedMTOfXAndYAndSubregionHist";
-            Name = "ReflectedMTOfXAndYAndSubregionHist";
+            TallyType = "ReflectedDynamicMTOfXAndYAndSubregionHist";
+            Name = "ReflectedDynamicMTOfXAndYAndSubregionHist";
             X = new DoubleRange(-10.0, 10.0, 101);
             Y = new DoubleRange(-10.0, 10.0, 101);
             MTBins = new DoubleRange(0.0, 500.0, 51);
 
             // modify base class TallyDetails to take advantage of built-in validation capabilities (error-checking)
             TallyDetails.IsReflectanceTally = true;
+            TallyDetails.IsCylindricalTally = true;
             TallyDetails.IsNotImplementedForCAW = true;
         }
 
@@ -39,10 +40,10 @@ namespace Vts.MonteCarlo.Detectors
         /// y binning
         /// </summary>
         public DoubleRange Y { get; set; }
-        ///// <summary>
-        ///// subregion index binning, needed by DetectorIO
-        ///// </summary>
-        //public int NumSubregions { get; set; }
+        /// <summary>
+        /// subregion blood volume fraction
+        /// </summary>
+        public IList<double> BloodVolumeFraction { get; set; }
         /// <summary>
         /// momentum transfer binning
         /// </summary>
@@ -52,10 +53,10 @@ namespace Vts.MonteCarlo.Detectors
         /// fractional momentum transfer binning
         /// </summary>
         public DoubleRange FractionalMTBins { get; set; }
-
+        
         public IDetector CreateDetector()
         {
-            return new ReflectedMTOfXAndYAndSubregionHistDetector
+            return new ReflectedDynamicMTOfXAndYAndSubregionHistDetector
             {
                 // required properties (part of DetectorInput/Detector base classes)
                 TallyType = this.TallyType,
@@ -66,21 +67,23 @@ namespace Vts.MonteCarlo.Detectors
                 // optional/custom detector-specific properties
                 X = this.X,
                 Y = this.Y,
-                //NumSubregions = this.NumSubregions,
                 MTBins = this.MTBins,
+                BloodVolumeFraction = this.BloodVolumeFraction,
                 FractionalMTBins = this.FractionalMTBins
             };
         }
     }
 
     /// <summary>
-    /// Implements IDetector.  Tally for momentum transfer as a function  of X and Y and tissue subregion.
+    /// Implements IDetector.  Tally for momentum transfer as a function  of X, Y and tissue subregion
+    /// using blood volume fraction in each tissue subregion.
     /// This implementation works for Analog, DAW and CAW processing.
     /// </summary>
-    public class ReflectedMTOfXAndYAndSubregionHistDetector : Detector, IDetector
+    public class ReflectedDynamicMTOfXAndYAndSubregionHistDetector : Detector, IDetector
     {
         private ITissue _tissue;
-        private IList<OpticalProperties> _ops;
+        private IList<double> _bloodVolumeFraction;
+        private Random _rng;
 
         /* ==== Place optional/user-defined input properties here. They will be saved in text (JSON) format ==== */
         /* ==== Note: make sure to copy over all optional/user-defined inputs from corresponding input class ==== */
@@ -97,6 +100,10 @@ namespace Vts.MonteCarlo.Detectors
         /// </summary>
         public DoubleRange MTBins { get; set; }
         /// <summary>
+        /// subregion blood volume fraction
+        /// </summary>
+        public IList<double> BloodVolumeFraction { get; set; }
+        /// <summary>
         /// fractional momentum transfer binning
         /// </summary>
         public DoubleRange FractionalMTBins { get; set; }
@@ -106,20 +113,20 @@ namespace Vts.MonteCarlo.Detectors
         /// <summary>
         /// detector mean
         /// </summary>
-        [IgnoreDataMember]
-        public double[, ,] Mean { get; set; }
+        [IgnoreDataMember] 
+        public double[,,] Mean { get; set; }
 
         /// <summary>
         /// detector second moment
         /// </summary>
         [IgnoreDataMember]
-        public double[, ,] SecondMoment { get; set; }
+        public double[,,] SecondMoment { get; set; }
 
         /// <summary>
         /// fraction of MT spent in each subregion
         /// </summary>
         [IgnoreDataMember]
-        public double[, , , ,] FractionalMT { get; set; }
+        public double[,,,,] FractionalMT { get; set; }
 
         /* ==== Place optional/user-defined output properties here. They will be saved in text (JSON) format ==== */
         /// <summary>
@@ -135,7 +142,7 @@ namespace Vts.MonteCarlo.Detectors
         {
             // intialize any necessary class fields here
             _tissue = tissue;
-            _ops = _tissue.Regions.Select(r => r.RegionOP).ToArray();
+            _rng = rng;
 
             // assign any user-defined outputs (except arrays...we'll make those on-demand)
             TallyCount = 0;
@@ -144,8 +151,12 @@ namespace Vts.MonteCarlo.Detectors
             // if the data arrays are null, create them (only create second moment if TallySecondMoment is true)
             Mean = Mean ?? new double[X.Count - 1, Y.Count - 1, MTBins.Count - 1];
             SecondMoment = SecondMoment ?? (TallySecondMoment ? new double[X.Count - 1, Y.Count - 1, MTBins.Count - 1] : null);
+
             // Fractional MT has FractionalMTBins.Count numnber of bins PLUS 2, one for =1, an d one for =0
             FractionalMT = FractionalMT ?? new double[X.Count - 1, Y.Count - 1, MTBins.Count - 1, NumSubregions, FractionalMTBins.Count + 1];
+
+            // intialize any other necessary class fields here
+            _bloodVolumeFraction = BloodVolumeFraction;      
         }
 
         /// <summary>
@@ -156,10 +167,9 @@ namespace Vts.MonteCarlo.Detectors
         {
             // calculate the radial bin to attribute the deposition
             var ix = DetectorBinning.WhichBin(photon.DP.Position.X, X.Count - 1, X.Delta, X.Start);
-            var iy = DetectorBinning.WhichBin(photon.DP.Position.Y, Y.Count - 1, Y.Delta, Y.Start);
-
-            var subregionMT = new double[NumSubregions];
+            var iy = DetectorBinning.WhichBin(photon.DP.Position.Y, Y.Count - 1, Y.Delta, Y.Start); var subregionMT = new double[NumSubregions, 2]; // second dimension is for [static, dynamic] tally separation
             bool talliedMT = false;
+            double totalMT = 0;
 
             // go through photon history and claculate momentum transfer
             // assumes that no MT tallied at pseudo-collisions (reflections and refractions)
@@ -174,45 +184,51 @@ namespace Vts.MonteCarlo.Detectors
                     // get angle between current and next
                     double cosineBetweenTrajectories = Direction.GetDotProduct(currentDP.Direction, nextDP.Direction);
                     var momentumTransfer = 1 - cosineBetweenTrajectories;
-                    subregionMT[csr] += momentumTransfer;
+                    totalMT += momentumTransfer;
+                    if (_rng.NextDouble() < _bloodVolumeFraction[csr]) // hit blood 
+                    {
+                        subregionMT[csr, 1] += momentumTransfer;
+                    }
+                    else // index 0 captures static events
+                    {
+                        subregionMT[csr, 0] += momentumTransfer;
+                    }
                     talliedMT = true;
                 }
                 previousDP = currentDP;
                 currentDP = nextDP;
             }
-            // tally total MT
-            double totalMT = subregionMT.Sum();
             if (totalMT > 0.0)  // only tally if momentum transfer accumulated
             {
                 var imt = DetectorBinning.WhichBin(totalMT, MTBins.Count - 1, MTBins.Delta, MTBins.Start);
                 Mean[ix, iy, imt] += photon.DP.Weight;
                 if (TallySecondMoment)
                 {
-                    SecondMoment[ix, iy, imt] += photon.DP.Weight * photon.DP.Weight;
+                    SecondMoment[ix, iy, imt] += photon.DP.Weight * photon.DP.Weight;                    
                 }
 
                 if (talliedMT) TallyCount++;
 
-                // tally fractional MT in each subregion
+                // tally DYNAMIC fractional MT in each subregion
                 int ifrac;
                 for (int isr = 0; isr < NumSubregions; isr++)
                 {
                     // add 1 to ifrac to offset bin 0 added for =0 only tallies
-                    ifrac = DetectorBinning.WhichBin(subregionMT[isr] / totalMT,
+                    ifrac = DetectorBinning.WhichBin(subregionMT[isr, 1] / totalMT,
                         FractionalMTBins.Count - 1, FractionalMTBins.Delta, FractionalMTBins.Start) + 1;
                     // put identically 0 fractional MT into separate bin at index 0
-                    if (subregionMT[isr] / totalMT == 0.0)
+                    if (subregionMT[isr, 1] / totalMT == 0.0)
                     {
                         ifrac = 0;
                     }
                     // put identically 1 fractional MT into separate bin at index Count+1 -1
-                    if (subregionMT[isr] / totalMT == 1.0)
+                    if (subregionMT[isr, 1] / totalMT == 1.0)
                     {
                         ifrac = FractionalMTBins.Count;
                     }
                     FractionalMT[ix, iy, imt, isr, ifrac] += photon.DP.Weight;
                 }
-            }
+            }       
         }
 
         /// <summary>
@@ -229,10 +245,10 @@ namespace Vts.MonteCarlo.Detectors
                     for (int imt = 0; imt < MTBins.Count - 1; imt++)
                     {
                         // normalize by area dx * dy and N
-                        Mean[ix, iy, imt] /= areaNorm * numPhotons;
+                        Mean[ix, iy, imt] /= areaNorm*numPhotons;
                         if (TallySecondMoment)
                         {
-                            SecondMoment[ix, iy, imt] /= areaNorm * areaNorm * numPhotons;
+                            SecondMoment[ix, iy, imt] /= areaNorm*areaNorm*numPhotons;
                         }
                         for (int isr = 0; isr < NumSubregions; isr++)
                         {
@@ -248,25 +264,33 @@ namespace Vts.MonteCarlo.Detectors
         // this is to allow saving of large arrays separately as a binary file
         public BinaryArraySerializer[] GetBinarySerializers()
         {
-            return new[] {
-                new BinaryArraySerializer {
+            return new[]
+            {
+                new BinaryArraySerializer
+                {
                     DataArray = Mean,
                     Name = "Mean",
                     FileTag = "",
-                    WriteData = binaryWriter => {
-                        for (int i = 0; i < X.Count - 1; i++) {                            
-                            for (int j = 0; j < Y.Count - 1; j++) {
+                    WriteData = binaryWriter =>
+                    {
+                        for (int i = 0; i < X.Count - 1; i++)
+                        {
+                            for (int j = 0; j < Y.Count - 1; j++)
+                            {
                                 for (int k = 0; k < MTBins.Count - 1; k++)
-                                {                                
+                                {
                                     binaryWriter.Write(Mean[i, j, k]);
                                 }
                             }
                         }
                     },
-                    ReadData = binaryReader => {
-                        Mean = Mean ?? new double[ X.Count - 1,  Y.Count - 1, MTBins.Count - 1];
-                        for (int i = 0; i <  X.Count - 1; i++) {
-                            for (int j = 0; j < Y.Count - 1; i++) {
+                    ReadData = binaryReader =>
+                    {
+                        Mean = Mean ?? new double[X.Count - 1, Y.Count - 1, MTBins.Count - 1];
+                        for (int i = 0; i < X.Count - 1; i++)
+                        {
+                            for (int j = 0; j < Y.Count - 1; j++)
+                            {
                                 for (int k = 0; k < MTBins.Count - 1; k++)
                                 {
                                     Mean[i, j, k] = binaryReader.ReadDouble();
@@ -275,69 +299,91 @@ namespace Vts.MonteCarlo.Detectors
                         }
                     }
                 },
-                new BinaryArraySerializer {
+                new BinaryArraySerializer
+                {
                     DataArray = FractionalMT,
                     Name = "FractionalMT",
                     FileTag = "_FractionalMT",
-                    WriteData = binaryWriter => {
-                        for (int i = 0; i < X.Count - 1; i++) {
-                            for (int j = 0; j < Y.Count - 1; j++) {
-                                for (int k = 0; k < MTBins.Count - 1; k++) {
-                                    for (int l = 0; l < NumSubregions; l++) {
-                                        for (int m = 0; m < FractionalMTBins.Count + 1; m++)
+                    WriteData = binaryWriter =>
+                    {
+                        for (int i = 0; i < X.Count - 1; i++)
+                        {
+                            for (int j = 0; j < Y.Count - 1; j++)
+                            {
+                                for (int l = 0; l < MTBins.Count - 1; l++)
+                                {
+                                    for (int m = 0; m < NumSubregions; m++)
+                                    {
+                                        for (int n = 0; n < FractionalMTBins.Count + 1; n++)
                                         {
-                                            binaryWriter.Write(FractionalMT[i, j, k, l, m]);
+                                            binaryWriter.Write(FractionalMT[i, j, l, m, n]);
                                         }
                                     }
                                 }
                             }
                         }
                     },
-                    ReadData = binaryReader => {
-                        FractionalMT = FractionalMT ?? new double[ X.Count - 1, Y.Count, MTBins.Count - 1, NumSubregions, FractionalMTBins.Count + 1];
-                        for (int i = 0; i <  X.Count - 1; i++) {    
-                            for (int j = 0; j < Y.Count - 1; j++) {
-                                for (int k = 0; k < MTBins.Count - 1; k++) {
-                                    for (int l = 0; l < NumSubregions; l++) {
-                                        for (int m = 0; m < FractionalMTBins.Count + 1; m++)
+                    ReadData = binaryReader =>
+                    {
+                        FractionalMT = FractionalMT ??
+                                       new double[X.Count - 1, Y.Count - 1, MTBins.Count - 1, NumSubregions,
+                                           FractionalMTBins.Count + 1];
+                        for (int i = 0; i < X.Count - 1; i++)
+                        {
+                            for (int j = 0; j < Y.Count - 1; j++)
+                            {
+                                for (int l = 0; l < MTBins.Count - 1; l++)
+                                {
+                                    for (int m = 0; m < NumSubregions; m++)
+                                    {
+                                        for (int n = 0; n < FractionalMTBins.Count + 1; n++)
                                         {
-                                            FractionalMT[i, j, k, l, m] = binaryReader.ReadDouble();
+                                            FractionalMT[i, j, l, m, n] = binaryReader.ReadDouble();
                                         }
                                     }
-                                }                              
+                                }
                             }
                         }
                     }
                 },
                 // return a null serializer, if we're not serializing the second moment
-                !TallySecondMoment ? null :  new BinaryArraySerializer {
-                    DataArray = SecondMoment,
-                    Name = "SecondMoment",
-                    FileTag = "_2",
-                    WriteData = binaryWriter => {
-                        if (!TallySecondMoment || SecondMoment == null) return;
-                        for (int i = 0; i < X.Count - 1; i++) {
-                            for (int j = 0; j < X.Count - 1; j++) {
-                                for (int k = 0; k < MTBins.Count - 1; k++)
+                !TallySecondMoment
+                    ? null
+                    : new BinaryArraySerializer
+                    {
+                        DataArray = SecondMoment,
+                        Name = "SecondMoment",
+                        FileTag = "_2",
+                        WriteData = binaryWriter =>
+                        {
+                            if (!TallySecondMoment || SecondMoment == null) return;
+                            for (int i = 0; i < X.Count - 1; i++)
+                            {
+                                for (int j = 0; j < Y.Count - 1; j++)
                                 {
-                                    binaryWriter.Write(SecondMoment[i, j, k]);
+                                    for (int k = 0; k < MTBins.Count - 1; k++)
+                                    {
+                                        binaryWriter.Write(SecondMoment[i, j, k]);
+                                    }
                                 }
                             }
-                        }
-                    },
-                    ReadData = binaryReader => {
-                        if (!TallySecondMoment || SecondMoment == null) return;
-                        SecondMoment = new double[ X.Count - 1, Y.Count, MTBins.Count - 1];
-                        for (int i = 0; i < X.Count - 1; i++) {
-                            for (int j = 0; j < Y.Count - 1; j++) {
-                                for (int k = 0; k < MTBins.Count - 1; k++)
+                        },
+                        ReadData = binaryReader =>
+                        {
+                            if (!TallySecondMoment || SecondMoment == null) return;
+                            SecondMoment = new double[X.Count - 1, Y.Count - 1, MTBins.Count - 1];
+                            for (int i = 0; i < X.Count - 1; i++)
+                            {
+                                for (int j = 0; j < Y.Count - 1; j++)
                                 {
-                                    SecondMoment[i, j, k] = binaryReader.ReadDouble();
+                                    for (int k = 0; k < MTBins.Count - 1; k++)
+                                    {
+                                        SecondMoment[i, j, k] = binaryReader.ReadDouble();
+                                    }
                                 }
                             }
-                        }
-                    },
-                },
+                        },
+                    }
             };
         }
         /// <summary>

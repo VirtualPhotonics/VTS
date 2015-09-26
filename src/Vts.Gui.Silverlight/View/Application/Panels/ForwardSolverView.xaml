@@ -4,7 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:v="clr-namespace:Vts.Gui.Silverlight.View"
     VerticalAlignment="Top">
-    <StackPanel Orientation="Vertical" VerticalAlignment="Top">
+    <StackPanel Orientation="Vertical" VerticalAlignment="Top" Width="420">
         <!-- Solver Engine -->
         <Grid>
             <Grid.ColumnDefinitions>

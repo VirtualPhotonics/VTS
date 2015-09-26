@@ -50,7 +50,7 @@ namespace Vts.Gui.Silverlight.ViewModel
             _showOpticalProperties = true;
             _useSpectralPanelData = false;
 
-            _allRangeVMs = new[] { new RangeViewModel { Title = "Detection Parameters" } };
+            _allRangeVMs = new[] { new RangeViewModel { Title = Resources.Strings.IndependentVariableAxis_Rho } };
 
             SolutionDomainTypeOptionVM = new SolutionDomainOptionViewModel("Solution Domain", SolutionDomainType.ROfRho);
 
@@ -122,6 +122,11 @@ namespace Vts.Gui.Silverlight.ViewModel
             
             Commands.Spec_UpdateWavelength.Executed += (sender, args) =>
             {
+                //need to get the value from the checkbox in case UseSpectralPanelData has not yet been updated
+                if (SolutionDomainTypeOptionVM != null)
+                {
+                    UseSpectralPanelData = SolutionDomainTypeOptionVM.UseSpectralInputs;
+                }
                 if (UseSpectralPanelData && SolverDemoViewModel.Current != null && SolverDemoViewModel.Current.SpectralMappingVM != null)
                 {
                     updateSolutionDomainWithWavelength(SolverDemoViewModel.Current.SpectralMappingVM.Wavelength);
@@ -129,6 +134,11 @@ namespace Vts.Gui.Silverlight.ViewModel
             };
             Commands.Spec_UpdateOpticalProperties.Executed += (sender, args) =>
             {
+                //need to get the value from the checkbox in case UseSpectralPanelData has not yet been updated
+                if (SolutionDomainTypeOptionVM != null)
+                {
+                    UseSpectralPanelData = SolutionDomainTypeOptionVM.UseSpectralInputs;
+                }
                 if (UseSpectralPanelData && SolverDemoViewModel.Current != null && SolverDemoViewModel.Current.SpectralMappingVM != null)
                 {
                     //if (IsMultiRegion && MultiRegionTissueVM != null)
@@ -138,7 +148,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                     //            SolverDemoViewModel.Current.SpectralMappingVM.OpticalProperties));
                     //}
                     //else
-                        if (MeasuredOpticalPropertyVM != null)
+                    if (MeasuredOpticalPropertyVM != null)
                     {
                         MeasuredOpticalPropertyVM.SetOpticalProperties(SolverDemoViewModel.Current.SpectralMappingVM.OpticalProperties);
                     }

@@ -90,6 +90,13 @@ namespace Vts.Test.MonteCarlo.Detectors
                         Z =  new DoubleRange(0.0, 10.0, 11),
                         TallySecondMoment = true
                     },
+                    new FluenceOfXAndYAndZAndOmegaDetectorInput()
+                    {
+                        X = new DoubleRange(-10.0, 10.0, 11), 
+                        Y = new DoubleRange(-10.0, 10.0, 11),
+                        Z =  new DoubleRange(0.0, 10.0, 11),
+                        Omega = new DoubleRange(0.05, 1.0, 20)
+                    },
                     new RadianceOfRhoAtZDetectorInput() {ZDepth=_dosimetryDepth, Rho= new DoubleRange(0.0, 10.0, 101)},
                     new RadianceOfRhoAndZAndAngleDetectorInput(){Rho= new DoubleRange(0.0, 10.0, 101),Z=new DoubleRange(0.0, 10.0, 101),Angle=new DoubleRange(-Math.PI / 2, Math.PI / 2, 5)},
                     new RadianceOfXAndYAndZAndThetaAndPhiDetectorInput()
@@ -343,6 +350,13 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.Less(Math.Abs(_outputOneLayerTissue.Flu_xyz2[0, 0, 0] - 0.0001815), 0.0000001);
             Assert.Less(Math.Abs(_outputTwoLayerTissue.Flu_xyz2[0, 0, 0] - 0.0001815), 0.0000001);
         }
+        // Fluence Flu(x,y,z,omega), 1st moment validated with prior test
+        [Test]
+        public void validate_DAW_FluenceOfXAndYAndZAndOmega()
+        {
+            Assert.Less(Math.Abs(_outputOneLayerTissue.Flu_xyzo[0, 0, 0, 10].Real + 0.0002956), 0.0000001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.Flu_xyzo[0, 0, 0, 10].Imaginary + 0.0009234), 0.0000001);
+        }
         // Volume Radiance Rad(rho,z,angle)
         // Verify integral over angle of Radiance equals Fluence
         [Test]
@@ -407,6 +421,38 @@ namespace Vts.Test.MonteCarlo.Detectors
                 integral += _outputOneLayerTissue.RefMT_rmt[0, i];
             }
             Assert.Less(Math.Abs(_outputOneLayerTissue.R_r[0] - integral), 0.000001);
+            // verify that sum of FractionalMT for a particular region and dynamic or static summed over
+            // other indices equals Mean(rho,mt)
+            var rhobins = ((ReflectedMTOfRhoAndSubregionHistDetectorInput)_inputOneLayerTissue.DetectorInputs.
+                Where(d => d.TallyType == "ReflectedMTOfRhoAndSubregionHist").First()).Rho;
+            var fracMTbins =
+                ((ReflectedMTOfRhoAndSubregionHistDetectorInput)_inputOneLayerTissue.DetectorInputs.
+                    Where(d => d.TallyType == "ReflectedMTOfRhoAndSubregionHist").First()).FractionalMTBins;
+            var numsubregions = _inputOneLayerTissue.TissueInput.Regions.Length;
+            for (int i = 0; i < rhobins.Count - 1; i++)
+            {
+                for (int j = 0; j < mtbins.Count - 1; j++)
+                {
+                    for (int k = 0; k < numsubregions; k++)
+                    {
+                        integral = 0.0;
+                        for (int m = 0; m < fracMTbins.Count + 1; m++)
+                        {
+                            integral += _outputOneLayerTissue.RefMT_rmt_frac[i, j, k, m];
+                        }
+                        Assert.Less(Math.Abs(integral - _outputOneLayerTissue.RefMT_rmt[i, j]), 0.001);
+                    }
+                }
+            }
+            // validate a few fractional values - note third index = 0,2 is air and should have
+            // contributions only to fourth index=0
+            Assert.Less(Math.Abs(_outputOneLayerTissue.RefMT_rmt_frac[0, 0, 0, 0] - 0.632), 0.001);
+            Assert.Less(Math.Abs(_outputOneLayerTissue.RefMT_rmt_frac[0, 0, 1, 11] - 0.632), 0.001);
+            Assert.Less(Math.Abs(_outputOneLayerTissue.RefMT_rmt_frac[0, 0, 2, 0] - 0.632), 0.001);
+            // validate 2 layer tissue results - complementary fracs should be the same in
+            // the two layers, i.e. if region 1 has =1 weight, then region 2 should have =0 same weight 
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.RefMT_rmt_frac[0, 0, 1, 11] - 0.632), 0.001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.RefMT_rmt_frac[0, 0, 2, 0] - 0.632), 0.001);
         }
         // Transmitted Momentum Transfer of Rho and SubRegion
         [Test]
@@ -440,6 +486,42 @@ namespace Vts.Test.MonteCarlo.Detectors
                 integral += _outputOneLayerTissue.RefMT_xymt[0, 0, i];
             }
             Assert.Less(Math.Abs(_outputOneLayerTissue.R_xy[0, 0] - integral), 0.000001);
+            // verify that sum of FractionalMT for a particular region and dynamic or static summed over
+            // other indices equals Mean(rho,mt)
+            var xbins = ((ReflectedMTOfXAndYAndSubregionHistDetectorInput)_inputOneLayerTissue.DetectorInputs.
+                Where(d => d.TallyType == "ReflectedMTOfXAndYAndSubregionHist").First()).X;
+            var ybins = ((ReflectedMTOfXAndYAndSubregionHistDetectorInput)_inputOneLayerTissue.DetectorInputs.
+                Where(d => d.TallyType == "ReflectedMTOfXAndYAndSubregionHist").First()).Y;
+            var fracMTbins = ((ReflectedMTOfXAndYAndSubregionHistDetectorInput)_inputOneLayerTissue.DetectorInputs.
+               Where(d => d.TallyType == "ReflectedMTOfXAndYAndSubregionHist").First()).FractionalMTBins;
+            var numsubregions = _inputOneLayerTissue.TissueInput.Regions.Length;
+            for (int l = 0; l < xbins.Count - 1; l++)
+            {
+                for (int i = 0; i < ybins.Count - 1; i++)
+                {
+                    for (int j = 0; j < mtbins.Count - 1; j++)
+                    {
+                        for (int k = 0; k < numsubregions; k++)
+                        {
+                            integral = 0.0;
+                            for (int m = 0; m < fracMTbins.Count + 1; m++)
+                            {
+                                integral += _outputOneLayerTissue.RefMT_xymt_frac[l, i, j, k, m];
+                            }
+                            Assert.Less(Math.Abs(integral - _outputOneLayerTissue.RefMT_xymt[l, i, j]), 0.001);
+                        }
+                    }
+                }
+            }
+            // validate a few fractional values - note third index = 0,2 is air and should have
+            // contributions only to fourth index=0
+            Assert.Less(Math.Abs(_outputOneLayerTissue.RefMT_xymt_frac[0, 0, 28, 0, 0] - 0.019), 0.001);
+            Assert.Less(Math.Abs(_outputOneLayerTissue.RefMT_xymt_frac[0, 0, 28, 1, 11] - 0.019), 0.001);
+            Assert.Less(Math.Abs(_outputOneLayerTissue.RefMT_xymt_frac[0, 0, 28, 2, 0] - 0.019), 0.001);
+            // validate 2 layer tissue results - complementary fracs should be the same in
+            // the two layers, i.e. if region 1 has (0,0.1] weight, then region 2 should have (0.9,1] same weight 
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.RefMT_xymt_frac[0, 0, 28, 1, 1] - 0.019), 0.001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.RefMT_xymt_frac[0, 0, 28, 2, 10] - 0.019), 0.001);
         }
         // Transmitted Momentum Transfer of X, Y and SubRegion
         [Test]

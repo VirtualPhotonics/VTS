@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using System.Resources;
 using MathNet.Numerics;
 using System.Windows;
 using GalaSoft.MvvmLight.Command;
@@ -48,13 +49,17 @@ namespace Vts.Gui.Silverlight.ViewModel
             _showOpticalProperties = true;
             _useSpectralPanelData = false;
             
-            _allRangeVMs = new[] { new RangeViewModel { Title = "Detection Parameters" } };
+            _allRangeVMs = new[] { new RangeViewModel { Title = Resources.Strings.IndependentVariableAxis_Rho } };
 
 #if WHITELIST 
             ForwardSolverTypeOptionVM = new OptionViewModel<ForwardSolverType>("Forward Model",false, WhiteList.ForwardSolverTypes);
 #else
             ForwardSolverTypeOptionVM = new OptionViewModel<ForwardSolverType>("Forward Model",false);
 #endif
+            SolutionDomainTypeOptionVM = new SolutionDomainOptionViewModel("Solution Domain", SolutionDomainType.ROfRho);
+
+            ForwardAnalysisTypeOptionVM = new OptionViewModel<ForwardAnalysisType>("Model/Analysis Output", true);
+            
             ForwardSolverTypeOptionVM.PropertyChanged += (sender, args) =>
             {
                 OnPropertyChanged("IsGaussianForwardModel");
@@ -62,10 +67,29 @@ namespace Vts.Gui.Silverlight.ViewModel
                 OnPropertyChanged("IsMultiRegion");
                 OnPropertyChanged("IsSemiInfinite");
                 TissueInputVM = GetTissueInputVM(IsMultiRegion ? "MultiLayer" : "SemiInfinite");
+                if (SolutionDomainTypeOptionVM != null)
+                {
+                    if (ForwardSolverTypeOptionVM.SelectedValue == ForwardSolverType.TwoLayerSDA)
+                    {
+                        SolutionDomainTypeOptionVM.AllowMultiAxis = false;
+                        SolutionDomainTypeOptionVM.UseSpectralInputs = false;
+                    }
+                    SolutionDomainTypeOptionVM.EnableMultiAxis = ForwardSolverTypeOptionVM.SelectedValue != ForwardSolverType.TwoLayerSDA;
+                    SolutionDomainTypeOptionVM.EnableSpectralPanelInputs = ForwardSolverTypeOptionVM.SelectedValue != ForwardSolverType.TwoLayerSDA;
+                }
+                if (ForwardAnalysisTypeOptionVM != null)
+                {
+                    if (ForwardSolverTypeOptionVM.SelectedValue == ForwardSolverType.TwoLayerSDA)
+                    {
+                        ForwardAnalysisTypeOptionVM.Options[ForwardAnalysisType.R].IsSelected = true;
+                    }
+                    ForwardAnalysisTypeOptionVM.Options[ForwardAnalysisType.dRdMua].IsEnabled = ForwardSolverTypeOptionVM.SelectedValue != ForwardSolverType.TwoLayerSDA;
+                    ForwardAnalysisTypeOptionVM.Options[ForwardAnalysisType.dRdMusp].IsEnabled = ForwardSolverTypeOptionVM.SelectedValue != ForwardSolverType.TwoLayerSDA;
+                    ForwardAnalysisTypeOptionVM.Options[ForwardAnalysisType.dRdG].IsEnabled = ForwardSolverTypeOptionVM.SelectedValue != ForwardSolverType.TwoLayerSDA;
+                    ForwardAnalysisTypeOptionVM.Options[ForwardAnalysisType.dRdN].IsEnabled = ForwardSolverTypeOptionVM.SelectedValue != ForwardSolverType.TwoLayerSDA;
+                }
             };
             ForwardSolverTypeOptionVM.SelectedValue = ForwardSolverType.PointSourceSDA; // force the model choice here?
-
-            SolutionDomainTypeOptionVM = new SolutionDomainOptionViewModel("Solution Domain", SolutionDomainType.ROfRho);
             
             Action<double> updateSolutionDomainWithWavelength = wv =>
             {
@@ -84,7 +108,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                 }
                 if (args.PropertyName == "IndependentAxesVMs")
                 {
-                    var useSpectralPanelDataAndNotNull = UseSpectralPanelData && SolverDemoViewModel.Current != null && SolverDemoViewModel.Current.SpectralMappingVM != null;
+                    var useSpectralPanelDataAndNotNull = SolutionDomainTypeOptionVM.UseSpectralInputs && SolverDemoViewModel.Current != null && SolverDemoViewModel.Current.SpectralMappingVM != null;
 
                     AllRangeVMs = (from i in Enumerable.Range(0, SolutionDomainTypeOptionVM.IndependentVariableAxisOptionVM.SelectedValues.Length)
                                         orderby i descending // descending so that wavelength takes highest priority, then time/time frequency, then space/spatial frequency
@@ -103,12 +127,15 @@ namespace Vts.Gui.Silverlight.ViewModel
                 }
             };
 
-            ForwardAnalysisTypeOptionVM = new OptionViewModel<ForwardAnalysisType>("Model/Analysis Output", true);
-            
             ExecuteForwardSolverCommand = new RelayCommand(() => ExecuteForwardSolver_Executed(null, null));
 
             Commands.Spec_UpdateWavelength.Executed += (sender, args) =>
             {
+                //need to get the value from the checkbox in case UseSpectralPanelData has not yet been updated
+                if (SolutionDomainTypeOptionVM != null)
+                {
+                    UseSpectralPanelData = SolutionDomainTypeOptionVM.UseSpectralInputs;
+                }
                 if (UseSpectralPanelData && SolverDemoViewModel.Current != null && SolverDemoViewModel.Current.SpectralMappingVM != null)
                 {
                     updateSolutionDomainWithWavelength(SolverDemoViewModel.Current.SpectralMappingVM.Wavelength);
@@ -116,6 +143,11 @@ namespace Vts.Gui.Silverlight.ViewModel
             };
             Commands.Spec_UpdateOpticalProperties.Executed += (sender, args) =>
             {
+                //need to get the value from the checkbox in case UseSpectralPanelData has not yet been updated
+                if (SolutionDomainTypeOptionVM != null)
+                {
+                    UseSpectralPanelData = SolutionDomainTypeOptionVM.UseSpectralInputs;
+                }
                 if (UseSpectralPanelData && SolverDemoViewModel.Current != null && SolverDemoViewModel.Current.SpectralMappingVM != null)
                 {
                     if (IsMultiRegion && MultiRegionTissueVM != null)
@@ -498,7 +530,7 @@ namespace Vts.Gui.Silverlight.ViewModel
         private object GetOpticalProperties()
         {     
             if (SolutionDomainTypeOptionVM.IndependentVariableAxisOptionVM.SelectedValues.Contains(IndependentVariableAxis.Wavelength) &&
-                UseSpectralPanelData && 
+                SolutionDomainTypeOptionVM.UseSpectralInputs && 
                 SolverDemoViewModel.Current != null &&
                 SolverDemoViewModel.Current.SpectralMappingVM != null)
             {

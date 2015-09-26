@@ -115,7 +115,7 @@ namespace Vts.MonteCarlo.Detectors
         /// </summary>
         public int NumSubregions { get; set; }
 
-        public void Initialize(ITissue tissue)
+        public void Initialize(ITissue tissue, Random rng)
         {
             _tissue = tissue;
 

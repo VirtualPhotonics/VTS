@@ -52,7 +52,7 @@ namespace Vts.Gui.Silverlight.ViewModel
 
                 // note: the alternative to these below is to have SimulationOptions implement INotifyPropertyChanged (derive from BindableObject)
                 OnPropertyChanged("Seed");
-                OnPropertyChanged("TallySecondMoment");
+                //OnPropertyChanged("TallySecondMoment"); //This was moved to each detector input
                 OnPropertyChanged("TrackStatistics");
                 OnPropertyChanged("SimulationIndex");
             }

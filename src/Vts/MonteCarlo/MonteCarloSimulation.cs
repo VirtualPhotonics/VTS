@@ -110,7 +110,7 @@ namespace Vts.MonteCarlo
                 if ((detectorInputs.Count() > 0) || (vbType == VirtualBoundaryType.DiffuseReflectance) ||
                     (vbType == VirtualBoundaryType.DiffuseTransmittance) || (dbVirtualBoundaries.Any(vb => vb == vbType)))
                 {
-                    var detectors = DetectorFactory.GetDetectors(detectorInputs, _tissue);
+                    var detectors = DetectorFactory.GetDetectors(detectorInputs, _tissue, _rng);
                     var detectorController = DetectorControllerFactory.GetDetectorController(vbType, detectors, _tissue);
                     // var detectorController = new DetectorController(detectors);
                     var virtualBoundary = VirtualBoundaryFactory.GetVirtualBoundary(vbType, _tissue, detectorController);

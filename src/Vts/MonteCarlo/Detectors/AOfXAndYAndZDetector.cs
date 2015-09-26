@@ -116,7 +116,7 @@ namespace Vts.MonteCarlo.Detectors
         private IList<OpticalProperties> _ops;
         private double[, ,] _tallyForOnePhoton;
 
-        public void Initialize(ITissue tissue)
+        public void Initialize(ITissue tissue, Random rng)
         {
             // assign any user-defined outputs (except arrays...we'll make those on-demand)
             TallyCount = 0;

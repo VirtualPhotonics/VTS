@@ -24,6 +24,7 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
             "infile_pMC_one_layer_ROfRho_DAW.txt",
             "infile_three_layer_ReflectedTimeOfRhoAndSubregionHist.txt",
             "infile_two_layer_momentum_transfer_detectors.txt",
+            "infile_voxel_ROfXAndY_FluenceOfXAndYAndZ.txt",
             "infile_two_layer_ROfRho.txt",
             "infile_two_layer_ROfRho_with_db.txt",
         };
