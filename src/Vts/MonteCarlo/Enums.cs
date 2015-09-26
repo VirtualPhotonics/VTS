@@ -365,7 +365,11 @@ namespace Vts.MonteCarlo
             /// <summary>
             /// Tissue slab with multiple embedded ellipsoids
             /// </summary>
-            "MultiEllipsoid",
+            "MultiEllipsoid",            
+            /// <summary>
+            /// Tissue slab with embedded voxel
+            /// </summary>
+            "SingleVoxel",
         };
     }
 
@@ -457,6 +461,10 @@ namespace Vts.MonteCarlo
             /// </summary>
             "FluenceOfXAndYAndZ",
             /// <summary>
+            /// Fluence as a function of x, y, z and omega
+            /// </summary>
+            "FluenceOfXAndYAndZAndOmega",
+            /// <summary>
             /// Absorbed energy as a function of source-detector separation (rho) and tissue depth (Z)
             /// </summary>
             "AOfRhoAndZ",
@@ -483,7 +491,23 @@ namespace Vts.MonteCarlo
             /// <summary>
             /// Transmitted momentum transfer as a function of x, y and tissue region with histogram of MT
             /// </summary>
-            "TransmittedMTOfXAndYAndSubregionHist",
+            "TransmittedMTOfXAndYAndSubregionHist",            
+            /// <summary>
+            /// Reflected dynamic momentum transfer as a function of source-detector separation (rho) and tissue region with histogram of MT
+            /// </summary>
+            "ReflectedDynamicMTOfRhoAndSubregionHist",
+            /// <summary>
+            /// Reflected dynamic momentum transfer as a function of x, y and tissue region with histogram of MT
+            /// </summary>
+            "ReflectedDynamicMTOfXAndYAndSubregionHist",
+            /// <summary>
+            /// Transmitted dynamic momentum transfer as a function of source-detector separation (rho) and tissue region with histogram of MT
+            /// </summary>
+            "TransmittedDynamicMTOfRhoAndSubregionHist",
+            /// <summary>
+            /// Transmitted dynamic momentum transfer as a function of x, y and tissue region with histogram of MT
+            /// </summary>
+            "TransmittedDynamicMTOfXAndYAndSubregionHist",    
             /// <summary>
             /// Reflected subregion time as a function of source-detector separation (rho) and tissue region 
             /// </summary>
@@ -614,6 +638,34 @@ namespace Vts.MonteCarlo
         /// Reflected momentum transfer as a function of source-detector separation (rho) and tissue region with histogram of MT
         /// </summary>
         public static string ReflectedMTOfRhoAndSubregionHist { get { return "ReflectedMTOfRhoAndSubregionHist"; } }
+        /// <summary>
+        /// Reflected momentum transfer as a function of x, y and tissue region with histogram of MT
+        /// </summary>
+        public static string ReflectedMTOfXAndYAndSubregionHist { get { return "ReflectedMTOfRhoAndSubregionHist"; } }
+        /// <summary>
+        /// Reflected momentum transfer as a function of source-detector separation (rho) and tissue region with histogram of MT
+        /// </summary>
+        public static string TransmittedMTOfRhoAndSubregionHist { get { return "TransmittedMTOfRhoAndSubregionHist"; } }
+        /// <summary>
+        /// Reflected momentum transfer as a function of x, y and tissue region with histogram of MT
+        /// </summary>
+        public static string TransmittedMTOfXAndYAndSubregionHist { get { return "TransmittedMTOfXAndYAndSubregionHist"; } }
+        /// <summary>
+        /// Reflected dynamic momentum transfer as a function of source-detector separation (rho) and tissue region with histogram of MT
+        /// </summary>
+        public static string ReflectedDynamicMTOfRhoAndSubregionHist { get { return "ReflectedDynamicMTOfRhoAndSubregionHist"; } }
+        /// <summary>
+        /// Reflected dynamic momentum transfer as a function of x, y and tissue region with histogram of MT
+        /// </summary>
+        public static string ReflectedDynamicMTOfXAndYAndSubregionHist { get { return "ReflectedDynamicMTOfRhoAndSubregionHist"; } }
+        /// <summary>
+        /// Reflected dynamic momentum transfer as a function of source-detector separation (rho) and tissue region with histogram of MT
+        /// </summary>
+        public static string TransmittedDynamicMTOfRhoAndSubregionHist { get { return "TransmittedDynamnicMTOfRhoAndSubregionHist"; } }
+        /// <summary>
+        /// Reflected dynamic momentum transfer as a function of x, y and tissue region with histogram of MT
+        /// </summary>
+        public static string TransmittedDynamicMTOfXAndYAndSubregionHist { get { return "TransmittedDynamicMTOfXAndYAndSubregionHist"; } }
         /// <summary>
         /// Reflected subregion time as a function of source-detector separation (rho) and tissue region 
         /// </summary>

@@ -14,7 +14,7 @@ Nphot=[10, 100, 1000, 10000]; % number of photons launched takes about 1 mins
 % simulation options initiation
 options = SimulationOptions();
 % set method to account for absorption
-options.AbsorptionWeightingType = 'Analog'; % options 'Analog' or 'Discrete'
+options.AbsorptionWeightingType = 'Discrete'; % options 'Analog' or 'Discrete'
 % seed of random number generator (-1=randomly selected seed, >=0 reproducible sequence)
 options.Seed = 0;
 
@@ -43,7 +43,7 @@ tissueInput.LayerRegions = struct(...
     'RegionOP', ...
     {...
         [0.0, 1e-10, 1.0, 1.0], ... % air optical properties
-        [0.1, 1.0, 0.8, 1.4], ... % tissue OPs [ua, us', g, n]
+        [0.01, 1.0, 0.8, 1.4], ... % tissue OPs [ua, us', g, n]
         [0.0, 1e-10, 1.0, 1.0] ... % air optical properties
     } ...
 );
@@ -201,7 +201,7 @@ set(l,'FontSize',10);
 
 % plot analog relative error - CAW relative error
 subplot(2,1,2);
-plot(d1.Rho, (d1SD./d1.Mean-d2SD./d2.Mean),'g-',d1.Rho,0.0,'k-');
+plot(d1.Rho, (d1SD./d1.Mean-d2SD./d2.Mean),'g-',d1.Rho,zeros(length(d1.Rho),1),'k:');
 %axis([0 9.9, -0.1 0.1]);
 title('analog relative error - CAW relative error'); xlabel('Rho (mm)');
 

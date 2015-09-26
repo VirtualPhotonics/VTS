@@ -49,7 +49,7 @@
                                     <TextBlock Text="{Binding ConcentrationUnits}"/>
                                     <TextBlock Text="]: "/>
                                 </StackPanel>
-                                <TextBox Text="{Binding Concentration, Mode=TwoWay, Converter={StaticResource myDoubleToStringConverter}, ConverterParameter=N3}" Width="50"  Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" VerticalContentAlignment="Center" KeyDown="TextBox_KeyDown"/>
+                                <TextBox Text="{Binding Concentration, Mode=TwoWay, Converter={StaticResource myDoubleToStringConverter}, ConverterParameter=g3}" Width="50"  Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" VerticalContentAlignment="Center" KeyDown="TextBox_KeyDown"/>
                             </Grid>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
@@ -132,13 +132,13 @@
                                 <TextBlock Text="μ"/>
                                 <TextBlock Text="a" VerticalAlignment="Center" />
                                 <TextBlock Text=" [1/mm] = " Width="Auto" />
-                                <TextBlock Width="Auto" Text="{Binding Mua, Converter={StaticResource myDoubleToStringConverter}, ConverterParameter=N3}"/>
+                                <TextBlock Width="Auto" Text="{Binding Mua, Converter={StaticResource myDoubleToStringConverter}, ConverterParameter=g3}"/>
                             </StackPanel>
                             <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5,0,0,0">
                                 <TextBlock Text="μ"/>
                                 <TextBlock Text="s" VerticalAlignment="Center"/>
                                 <TextBlock Text="' [1/mm] = " />
-                                <TextBlock Width="Auto" Text="{Binding Musp,Converter={StaticResource myDoubleToStringConverter}, ConverterParameter=N3}"/>
+                                <TextBlock Width="Auto" Text="{Binding Musp,Converter={StaticResource myDoubleToStringConverter}, ConverterParameter=g3}"/>
                             </StackPanel>
                         </Grid>
                     </StackPanel>

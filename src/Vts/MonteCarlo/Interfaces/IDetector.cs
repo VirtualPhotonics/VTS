@@ -1,4 +1,5 @@
 
+using System;
 using Vts.IO;
 using Vts.MonteCarlo.Detectors;
 
@@ -30,10 +31,11 @@ namespace Vts.MonteCarlo
         TallyDetails TallyDetails { get; set; }
 
         /// <summary>
-        /// Initialize the detector, using tissue information if necessary
+        /// Initialize the detector, using tissue and random number generator information if necessary
         /// </summary>
-        /// <param name="tissue"></param>
-        void Initialize(ITissue tissue = null);
+        /// <param name="tissue">tissue definition</param>
+        /// <param name="rng">random number generator</param>
+        void Initialize(ITissue tissue = null, Random rng = null);
 
         /// <summary>
         /// Method to tally to detector using information in Photon

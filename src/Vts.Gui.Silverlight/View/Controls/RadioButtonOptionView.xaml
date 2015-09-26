@@ -35,6 +35,7 @@
                                  Content="{Binding DisplayName, Mode=TwoWay}"
                                  IsChecked="{Binding IsSelected, Mode=TwoWay}"
                                  GroupName="{Binding GroupName, Mode=TwoWay}"
+                                 IsEnabled="{Binding IsEnabled, Mode=TwoWay}"
                                  Margin="1.5,3"/>
                         </DataTemplate>
                     </helpers:OptionTemplateSelector.SingleSelectTemplate>

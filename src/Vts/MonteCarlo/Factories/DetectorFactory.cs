@@ -18,16 +18,16 @@ namespace Vts.MonteCarlo.Factories
         /// </summary>
         /// <param name="detectorInputs">IEnumerable of IDetectorInput</param>
         /// <param name="tissue">ITissue</param>
-        /// <param name="tallySecondMoment">flag indicating whether to tally second moment or not</param>
+        /// <param name="rng">random number generator</param>
         /// <returns>List of IDetector</returns>
-        public static IList<IDetector> GetDetectors(IEnumerable<IDetectorInput> detectorInputs, ITissue tissue)
+        public static IList<IDetector> GetDetectors(IEnumerable<IDetectorInput> detectorInputs, ITissue tissue, Random rng)
         {
             if (detectorInputs == null)
             {
                 return null;
             }
 
-            var detectors = detectorInputs.Select(detectorInput => GetDetector(detectorInput, tissue)).ToList();
+            var detectors = detectorInputs.Select(detectorInput => GetDetector(detectorInput, tissue, rng)).ToList();
 
             return detectors;
         }
@@ -36,11 +36,11 @@ namespace Vts.MonteCarlo.Factories
         /// Method to instantiate a single IDetectorInput.  This method is called by
         /// the method below that instantiates a list of detectors.
         /// </summary>
-        /// <param name="detectorInputs">IEnumerable of IDetectorInput</param>
+        /// <param name="detectorInput">IEnumerable of IDetectorInput</param>
         /// <param name="tissue">ITissue</param>
-        /// <param name="tallySecondMoment">flag indicating whether to tally second moment or not</param>
+        /// <param name="rng">random number generator</param>
         /// <returns>List of IDetector</returns>
-        public static IDetector GetDetector(IDetectorInput detectorInput, ITissue tissue)
+        public static IDetector GetDetector(IDetectorInput detectorInput, ITissue tissue, Random rng)
         {
             if (detectorInput == null)
             {
@@ -49,7 +49,7 @@ namespace Vts.MonteCarlo.Factories
 
             var detector = detectorInput.CreateDetector();
 
-            detector.Initialize(tissue);
+            detector.Initialize(tissue, rng);
 
             return detector;
         }

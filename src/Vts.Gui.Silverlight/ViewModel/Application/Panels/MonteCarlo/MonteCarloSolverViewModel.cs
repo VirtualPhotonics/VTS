@@ -358,7 +358,8 @@ namespace Vts.Gui.Silverlight.ViewModel
             //    IndependentVariableAxis.Rho,
             //    SolutionDomainType.ROfRho.GetInternationalizedString(),
             //    DependentVariableAxisUnits.PerMMSquared.GetInternationalizedString());
-
+            var rhoRange = (ROfRhoDetectorInput)_simulationInputVM.SimulationInput.DetectorInputs.FirstOrDefault();
+            
             var axisType = IndependentVariableAxis.Rho;
             var axisUnits = IndependentVariableAxisUnits.MM;
             return new PlotAxesLabels(
@@ -369,7 +370,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                     AxisType = axisType,
                     AxisLabel = axisType.GetInternationalizedString(),
                     AxisUnits = axisUnits.GetInternationalizedString(),
-                    AxisRangeVM = new RangeViewModel((DoubleRange)_simulationInputVM.SimulationInput.DetectorInputs.FirstOrDefault(), axisUnits.GetInternationalizedString(), axisType, "ROfRho")
+                    AxisRangeVM = new RangeViewModel(rhoRange.Rho, axisUnits.GetInternationalizedString(), axisType, "ROfRho")
                 });
         }
 

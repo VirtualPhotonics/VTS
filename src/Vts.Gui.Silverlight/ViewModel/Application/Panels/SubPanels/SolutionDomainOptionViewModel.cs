@@ -9,10 +9,12 @@ namespace Vts.Gui.Silverlight.ViewModel
     public class SolutionDomainOptionViewModel : AbstractSolutionDomainOptionViewModel<SolutionDomainType>
     {
         private bool _enableMultiAxis;
+        private bool _enableSpectralPanelInputs;
         public SolutionDomainOptionViewModel(string groupName, SolutionDomainType defaultType)
             : base(groupName, defaultType)
         {
             _enableMultiAxis = true;
+            _enableSpectralPanelInputs = true;
             ROfRhoOption = Options[SolutionDomainType.ROfRho];
             ROfFxOption = Options[SolutionDomainType.ROfFx];
             ROfRhoAndTimeOption = Options[SolutionDomainType.ROfRhoAndTime];
@@ -51,6 +53,17 @@ namespace Vts.Gui.Silverlight.ViewModel
             {
                 _enableMultiAxis = value;
                 OnPropertyChanged("EnableMultiAxis");
+            }
+        }
+
+        public bool EnableSpectralPanelInputs
+        {
+            get { return _enableSpectralPanelInputs; }
+
+            set
+            {
+                _enableSpectralPanelInputs = value;
+                OnPropertyChanged("EnableSpectralPanelInputs");
             }
         }
 

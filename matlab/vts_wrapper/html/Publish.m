@@ -15,6 +15,11 @@ opt.outputDir = 'html\demo';
 opt.showCode = false;
 opt.createThumbnail = false;
 publish('vts_solver_demo', opt);
+% publish the plots from the short course lab
+opt.outputDir = 'html\demo';
+opt.showCode = false;
+opt.createThumbnail = false;
+publish('short_course_monte_carlo_lab', opt);
 
 %% publish the solver documentation
 opt.outputDir = 'html\solvers';
