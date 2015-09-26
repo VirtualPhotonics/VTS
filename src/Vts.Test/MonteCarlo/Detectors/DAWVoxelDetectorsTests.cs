@@ -110,9 +110,9 @@ namespace Vts.Test.MonteCarlo.Detectors
                 source,
                 new SingleVoxelTissueInput(
                      new VoxelTissueRegion(
-                        new DoubleRange(-0.5, 0.5), 
-                        new DoubleRange(-0.5, 0.5),
-                        new DoubleRange(0.1, 1.5), 
+                        new DoubleRange(-5, 5), 
+                        new DoubleRange(-5, 5),
+                        new DoubleRange(1e-9, 5),  // smallest Z.Start with tests passing is 1e-9 
                         new OpticalProperties(0.01, 1.0, 0.8, 1.4) //debug with g=1
                     ), 
                     new LayerTissueRegion[]

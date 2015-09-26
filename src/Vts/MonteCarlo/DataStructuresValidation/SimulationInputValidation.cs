@@ -80,6 +80,10 @@ namespace Vts.MonteCarlo
             {
                 return SingleEllipsoidTissueInputValidation.ValidateInput(tissueInput);
             }
+            if (tissueInput is SingleVoxelTissueInput)
+            {
+                return SingleVoxelTissueInputValidation.ValidateInput(tissueInput);
+            }
 
             return new ValidationResult(
                 true,
