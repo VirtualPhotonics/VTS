@@ -361,8 +361,6 @@ namespace Vts.Test.MonteCarlo
                         new DoubleRange(0.0, 100.0), 
                         new OpticalProperties(0.01, 1.0, 0.7, 1.33),
                         ""), // Tyler's data
-                        new OpticalProperties(0.01, 1.0, 0.7, 1.33),
-                        ""),
                     new LayerTissueRegion(
                         new DoubleRange(100.0, double.PositiveInfinity),
                         new OpticalProperties(0.0, 1e-10, 1.0, 1.0),

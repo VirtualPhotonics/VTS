@@ -11,53 +11,34 @@ namespace Vts.MonteCarlo.Tissues
     public class VoxelTissueRegion : ITissueRegion
     {
         /// <summary>
-        /// key for the <string, IPhaseFunctionInput> dictionary in a class that implements ITissueInput
-        /// </summary>
-        public string PhaseFunctionKey { get; set; }
-
-        /// <summary>
         /// constructor for voxel region
         /// </summary>
+        public VoxelTissueRegion(DoubleRange x, DoubleRange y, DoubleRange z, OpticalProperties op,
+            string phaseFunctionKey)
         /// <param name="x">x range of voxel</param>
         /// <param name="y">y range of voxel</param>
         /// <param name="z">z range of voxel</param>
         /// <param name="op">optical properties of voxel</param>
-        /// <param name="phaseFunctionInput">phase function input for layer</param>
-            string phaseFunctionKey)
+        /// <param name="phaseFunctionKey">phase function string for voxel</param>
         {
             TissueRegionType = "Voxel";
             X = x;
             Y = y;
             Z = z;
             RegionOP = op;
-
             PhaseFunctionKey = phaseFunctionKey;
         }
-
-        ///// <summary>
-        ///// constructor for voxel region
-        ///// </summary>
-        ///// <param name="x">x range of voxel</param>
-        ///// <param name="y">y range of voxel</param>
-        ///// <param name="z">z range of voxel</param>
-        ///// <param name="op">optical properties of voxel</param>
-        ///// <param name="awt">absorption weighting type of voxel</param>
-        //public VoxelRegion(
-        //    DoubleRange x, DoubleRange y, DoubleRange z,
-        //    OpticalProperties op) 
-        //    : this(x, y, z, op, new HenyeyGreensteinPhaseFunctionInput())
-        //{
-        //}
 
         /// <summary>
         /// default constructor
         /// </summary>
-        public VoxelTissueRegion() : this(
-            new DoubleRange(-10.0, 10),
-            new DoubleRange(-10.0, 10),
-            new DoubleRange(0.0, 10),
-            new OpticalProperties(0.01, 1.0, 0.8, 1.4),
-            "HenyeyGreensteinKey1") { }  
+        public VoxelTissueRegion()
+            : this(
+                new DoubleRange(-10.0, 10),
+                new DoubleRange(-10.0, 10),
+                new DoubleRange(0.0, 10),
+                new OpticalProperties(0.01, 1.0, 0.8, 1.4),
+                "HenyeyGreensteinKey1") { }
 
 
         /// <summary>
@@ -84,10 +65,10 @@ namespace Vts.MonteCarlo.Tissues
         /// optical properties of voxel
         /// </summary>
         public OpticalProperties RegionOP { get; set; }
-        /*/// <summary>
-        /// Input data for phase function
+        /// <summary>
+        /// key for the <string, IPhaseFunctionInput> dictionary in a class that implements ITissueInput
         /// </summary>
-        public IPhaseFunctionInput PhaseFunctionInput { get; set; }*/
+        public string PhaseFunctionKey { get; set; }
 
         /// <summary>
         /// center of voxel
@@ -98,9 +79,9 @@ namespace Vts.MonteCarlo.Tissues
             get
             {
                 return new Position(
-                    (X.Start + X.Stop)/2,
-                    (Y.Start + Y.Stop)/2,
-                    (Z.Start + Z.Stop)/2);
+                    (X.Start + X.Stop) / 2,
+                    (Y.Start + Y.Stop) / 2,
+                    (Z.Start + Z.Stop) / 2);
             }
             set
             {
@@ -136,7 +117,7 @@ namespace Vts.MonteCarlo.Tissues
             var d1 = dp.Direction;
 
             // determine location of end of ray
-            var p2 = new Position(p1.X + d1.Ux*photon.S, p1.Y + d1.Uy*photon.S, p1.Z + d1.Uz*photon.S);
+            var p2 = new Position(p1.X + d1.Ux * photon.S, p1.Y + d1.Uy * photon.S, p1.Z + d1.Uz * photon.S);
 
             bool one_in = this.ContainsPosition(p1);
             bool two_in = this.ContainsPosition(p2);
@@ -152,34 +133,34 @@ namespace Vts.MonteCarlo.Tissues
             // the following code makes sure that distanceToBoundary is calculated
             // correctly if photon just slightly off boundary
             if (Math.Abs(p1.X - X.Start) < 1e-11) p1.X = X.Start;
-            if (Math.Abs(p1.X - X.Stop) < 1e-11) p1.X = X.Stop; 
+            if (Math.Abs(p1.X - X.Stop) < 1e-11) p1.X = X.Stop;
             if (Math.Abs(p1.Y - Y.Start) < 1e-11) p1.Y = Y.Start;
-            if (Math.Abs(p1.Y - Y.Stop) < 1e-11) p1.Y = Y.Stop; 
+            if (Math.Abs(p1.Y - Y.Stop) < 1e-11) p1.Y = Y.Stop;
             if (Math.Abs(p1.Z - Z.Start) < 1e-11) p1.Z = Z.Start;
             if (Math.Abs(p1.Z - Z.Stop) < 1e-11) p1.Z = Z.Stop;
-            
+
             // following algorithm from tavianator.com/fast-branchless-raybounding-box-intersections
             // check interesctions of ray with planes that make up box
             double dist1, dist2, dmin = double.NegativeInfinity, dmax = double.PositiveInfinity;
-            dist1 = (X.Start - p1.X)/d1.Ux;
-            dist2 = (X.Stop - p1.X)/d1.Ux;
+            dist1 = (X.Start - p1.X) / d1.Ux;
+            dist2 = (X.Stop - p1.X) / d1.Ux;
             dmin = Math.Max(dmin, Math.Min(dist1, dist2));
             dmax = Math.Min(dmax, Math.Max(dist1, dist2));
-            dist1 = (Y.Start - p1.Y)/d1.Uy;
-            dist2 = (Y.Stop - p1.Y)/d1.Uy;
+            dist1 = (Y.Start - p1.Y) / d1.Uy;
+            dist2 = (Y.Stop - p1.Y) / d1.Uy;
             dmin = Math.Max(dmin, Math.Min(dist1, dist2));
             dmax = Math.Min(dmax, Math.Max(dist1, dist2));
-            dist1 = (Z.Start - p1.Z)/d1.Uz;
-            dist2 = (Z.Stop - p1.Z)/d1.Uz;
+            dist1 = (Z.Start - p1.Z) / d1.Uz;
+            dist2 = (Z.Stop - p1.Z) / d1.Uz;
             dmin = Math.Max(dmin, Math.Min(dist1, dist2));
             dmax = Math.Min(dmax, Math.Max(dist1, dist2));
-            if (dmax >= dmin) 
+            if (dmax >= dmin)
             {
                 if (dmin > 0)
                 {
                     xint = p1.X + d1.Ux * dmin;
                     yint = p1.Y + d1.Uy * dmin;
-                    zint = p1.Z + d1.Uz * dmin;  
+                    zint = p1.Z + d1.Uz * dmin;
                 }
                 else if (dmax > 0)
                 {
