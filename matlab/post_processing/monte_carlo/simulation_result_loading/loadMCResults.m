@@ -381,6 +381,8 @@ for di = 1:numDetectors
                     tempSubregionIndices = (1:1:length(databaseInputJson.TissueInput.Regions));
                 elseif (strcmp(json.TissueInput.TissueType, 'SingleEllipsoid'))
                     tempSubregionIndices = (1:1:length(databaseInputJson.TissueInput.LayerRegions)+length(databaseInputJson.TissueInput.EllipsoidRegion));                            
+                elseif (strcmp(json.TissueInput.TissueType, 'SingleVoxel'))
+                    tempSubregionIndices = (1:1:length(databaseInputJson.TissueInput.LayerRegions)+length(databaseInputJson.TissueInput.VoxelRegion));                            
                 end
                 N = databaseInputJson.N;
             else   
@@ -388,6 +390,8 @@ for di = 1:numDetectors
                     tempSubregionIndices = (1:1:length(json.TissueInput.Regions)); 
                 elseif (strcmp(json.TissueInput.TissueType, 'SingleEllipsoid'))
                     tempSubregionIndices = (1:1:length(json.TissueInput.LayerRegions)+length(json.TissueInput.EllipsoidRegion));                            
+                elseif (strcmp(json.TissueInput.TissueType, 'SingleVoxel'))
+                    tempSubregionIndices = (1:1:length(json.TissueInput.LayerRegions)+length(json.TissueInput.VoxelRegion));                            
                 end
                 N = json.N;
             end
@@ -424,6 +428,8 @@ for di = 1:numDetectors
                     tempSubregionIndices = (1:1:length(databaseInputJson.TissueInput.Regions));
                 elseif (strcmp(json.TissueInput.TissueType, 'SingleEllipsoid'))
                     tempSubregionIndices = (1:1:length(databaseInputJson.TissueInput.LayerRegions)+length(databaseInputJson.TissueInput.EllipsoidRegion));                            
+                elseif (strcmp(json.TissueInput.TissueType, 'SingleVoxel'))
+                    tempSubregionIndices = (1:1:length(json.TissueInput.LayerRegions)+length(json.TissueInput.VoxelRegion));                           
                 end
                 N = databaseInputJson.N;
             else   
@@ -431,6 +437,8 @@ for di = 1:numDetectors
                     tempSubregionIndices = (1:1:length(json.TissueInput.Regions)); 
                 elseif (strcmp(json.TissueInput.TissueType, 'SingleEllipsoid'))
                     tempSubregionIndices = (1:1:length(json.TissueInput.LayerRegions)+length(json.TissueInput.EllipsoidRegion));                            
+                elseif (strcmp(json.TissueInput.TissueType, 'SingleVoxel'))
+                    tempSubregionIndices = (1:1:length(json.TissueInput.LayerRegions)+length(json.TissueInput.VoxelRegion));                            
                 end
                 N = json.N;
             end
@@ -468,6 +476,8 @@ for di = 1:numDetectors
                     tempSubregionIndices = (1:1:length(databaseInputJson.TissueInput.Regions));
                 elseif (strcmp(json.TissueInput.TissueType, 'SingleEllipsoid'))
                     tempSubregionIndices = (1:1:length(databaseInputJson.TissueInput.LayerRegions)+length(databaseInputJson.TissueInput.EllipsoidRegion));                            
+                elseif (strcmp(json.TissueInput.TissueType, 'SingleVoxel'))
+                    tempSubregionIndices = (1:1:length(json.TissueInput.LayerRegions)+length(json.TissueInput.VoxelRegion));                            
                 end
                 N = databaseInputJson.N;
             else   
@@ -475,6 +485,8 @@ for di = 1:numDetectors
                     tempSubregionIndices = (1:1:length(json.TissueInput.Regions)); 
                 elseif (strcmp(json.TissueInput.TissueType, 'SingleEllipsoid'))
                     tempSubregionIndices = (1:1:length(json.TissueInput.LayerRegions)+length(json.TissueInput.EllipsoidRegion));                            
+                elseif (strcmp(json.TissueInput.TissueType, 'SingleVoxel'))
+                    tempSubregionIndices = (1:1:length(json.TissueInput.LayerRegions)+length(json.TissueInput.VoxelRegion));                            
                 end
                 N = json.N;
             end
@@ -511,6 +523,8 @@ for di = 1:numDetectors
                     tempSubregionIndices = (1:1:length(databaseInputJson.TissueInput.Regions));
                 elseif (strcmp(json.TissueInput.TissueType, 'SingleEllipsoid'))
                     tempSubregionIndices = (1:1:length(databaseInputJson.TissueInput.LayerRegions)+length(databaseInputJson.TissueInput.EllipsoidRegion));                            
+                elseif (strcmp(json.TissueInput.TissueType, 'SingleVoxel'))
+                    tempSubregionIndices = (1:1:length(json.TissueInput.LayerRegions)+length(json.TissueInput.VoxelRegion));                            
                 end
                 N = databaseInputJson.N;
             else   
@@ -518,6 +532,8 @@ for di = 1:numDetectors
                     tempSubregionIndices = (1:1:length(json.TissueInput.Regions)); 
                 elseif (strcmp(json.TissueInput.TissueType, 'SingleEllipsoid'))
                     tempSubregionIndices = (1:1:length(json.TissueInput.LayerRegions)+length(json.TissueInput.EllipsoidRegion));                            
+                elseif (strcmp(json.TissueInput.TissueType, 'SingleVoxel'))
+                    tempSubregionIndices = (1:1:length(json.TissueInput.LayerRegions)+length(json.TissueInput.VoxelRegion));                            
                 end
                 N = json.N;
             end
@@ -555,6 +571,8 @@ for di = 1:numDetectors
                     tempSubregionIndices = (1:1:length(databaseInputJson.TissueInput.Regions));
                 elseif (strcmp(json.TissueInput.TissueType, 'SingleEllipsoid'))
                     tempSubregionIndices = (1:1:length(databaseInputJson.TissueInput.LayerRegions)+length(databaseInputJson.TissueInput.EllipsoidRegion));                            
+                elseif (strcmp(json.TissueInput.TissueType, 'SingleVoxel'))
+                    tempSubregionIndices = (1:1:length(json.TissueInput.LayerRegions)+length(json.TissueInput.VoxelRegion));                            
                 end
                 N = databaseInputJson.N;
             else   
@@ -562,6 +580,8 @@ for di = 1:numDetectors
                     tempSubregionIndices = (1:1:length(json.TissueInput.Regions)); 
                 elseif (strcmp(json.TissueInput.TissueType, 'SingleEllipsoid'))
                     tempSubregionIndices = (1:1:length(json.TissueInput.LayerRegions)+length(json.TissueInput.EllipsoidRegion));                            
+                elseif (strcmp(json.TissueInput.TissueType, 'SingleVoxel'))
+                    tempSubregionIndices = (1:1:length(json.TissueInput.LayerRegions)+length(json.TissueInput.VoxelRegion));                            
                 end
                 N = json.N;
             end
@@ -598,6 +618,8 @@ for di = 1:numDetectors
                     tempSubregionIndices = (1:1:length(databaseInputJson.TissueInput.Regions));
                 elseif (strcmp(json.TissueInput.TissueType, 'SingleEllipsoid'))
                     tempSubregionIndices = (1:1:length(databaseInputJson.TissueInput.LayerRegions)+length(databaseInputJson.TissueInput.EllipsoidRegion));                            
+                elseif (strcmp(json.TissueInput.TissueType, 'SingleVoxel'))
+                    tempSubregionIndices = (1:1:length(json.TissueInput.LayerRegions)+length(json.TissueInput.VoxelRegion));                            
                 end
                 N = databaseInputJson.N;
             else   
@@ -605,6 +627,8 @@ for di = 1:numDetectors
                     tempSubregionIndices = (1:1:length(json.TissueInput.Regions)); 
                 elseif (strcmp(json.TissueInput.TissueType, 'SingleEllipsoid'))
                     tempSubregionIndices = (1:1:length(json.TissueInput.LayerRegions)+length(json.TissueInput.EllipsoidRegion));                            
+                elseif (strcmp(json.TissueInput.TissueType, 'SingleVoxel'))
+                    tempSubregionIndices = (1:1:length(json.TissueInput.LayerRegions)+length(json.TissueInput.VoxelRegion));                            
                 end
                 N = json.N;
             end
@@ -642,6 +666,8 @@ for di = 1:numDetectors
                     tempSubregionIndices = (1:1:length(databaseInputJson.TissueInput.Regions));
                 elseif (strcmp(json.TissueInput.TissueType, 'SingleEllipsoid'))
                     tempSubregionIndices = (1:1:length(databaseInputJson.TissueInput.LayerRegions)+length(databaseInputJson.TissueInput.EllipsoidRegion));                            
+                elseif (strcmp(json.TissueInput.TissueType, 'SingleVoxel'))
+                    tempSubregionIndices = (1:1:length(json.TissueInput.LayerRegions)+length(json.TissueInput.VoxelRegion));                            
                 end
                 N = databaseInputJson.N;
             else   
@@ -649,6 +675,8 @@ for di = 1:numDetectors
                     tempSubregionIndices = (1:1:length(json.TissueInput.Regions)); 
                 elseif (strcmp(json.TissueInput.TissueType, 'SingleEllipsoid'))
                     tempSubregionIndices = (1:1:length(json.TissueInput.LayerRegions)+length(json.TissueInput.EllipsoidRegion));                            
+                elseif (strcmp(json.TissueInput.TissueType, 'SingleVoxel'))
+                    tempSubregionIndices = (1:1:length(json.TissueInput.LayerRegions)+length(json.TissueInput.VoxelRegion));                            
                 end
                 N = json.N;
             end
@@ -685,6 +713,8 @@ for di = 1:numDetectors
                     tempSubregionIndices = (1:1:length(databaseInputJson.TissueInput.Regions));
                 elseif (strcmp(json.TissueInput.TissueType, 'SingleEllipsoid'))
                     tempSubregionIndices = (1:1:length(databaseInputJson.TissueInput.LayerRegions)+length(databaseInputJson.TissueInput.EllipsoidRegion));                            
+                elseif (strcmp(json.TissueInput.TissueType, 'SingleVoxel'))
+                    tempSubregionIndices = (1:1:length(json.TissueInput.LayerRegions)+length(json.TissueInput.VoxelRegion));                            
                 end
                 N = databaseInputJson.N;
             else   
@@ -692,6 +722,8 @@ for di = 1:numDetectors
                     tempSubregionIndices = (1:1:length(json.TissueInput.Regions)); 
                 elseif (strcmp(json.TissueInput.TissueType, 'SingleEllipsoid'))
                     tempSubregionIndices = (1:1:length(json.TissueInput.LayerRegions)+length(json.TissueInput.EllipsoidRegion));                            
+                elseif (strcmp(json.TissueInput.TissueType, 'SingleVoxel'))
+                    tempSubregionIndices = (1:1:length(json.TissueInput.LayerRegions)+length(json.TissueInput.VoxelRegion));                            
                 end
                 N = json.N;
             end
