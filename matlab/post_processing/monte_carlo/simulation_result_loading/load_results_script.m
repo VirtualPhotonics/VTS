@@ -9,7 +9,7 @@ slash = filesep;  % get correct path delimiter for platform
 addpath([cd slash 'jsonlab']);
 
 % names of individual MC simulations
-datanames = { 'voxel_test' };
+datanames = { 'one_layer_all_detectors' };
 % datanames = { 'results_mua0.1musp1.0' 'esults_mua0.1musp1.1' }; %...etc
 
 % outdir = 'C:\Projects\vts\src\Vts.MonteCarlo.CommandLineApplication\bin\Release';
@@ -215,9 +215,16 @@ for mci = 1:length(datanames)
         numrhos = length(results{di}.RadianceOfRhoAndZAndAngle.Rho) - 1;
         numangles = length(results{di}.RadianceOfRhoAndZAndAngle.Angle) - 1;
         numzs = length(results{di}.RadianceOfRhoAndZAndAngle.Z) - 1;
+        % create colorbar based on max, min values 
+        minRadiance = min(results{di}.RadianceOfRhoAndZAndAngle.Mean(:));
+        if minRadiance==0 % make sure don't take log of 0
+            minRadiance=1e-5;
+        end
+        maxRadiance = max(results{di}.RadianceOfRhoAndZAndAngle.Mean(:));
         for i=1:numangles
             figname = sprintf('log(%s) %5.3f<angle<%5.3f',results{di}.RadianceOfRhoAndZAndAngle.Name,(i-1)*pi/numangles,i*pi/numangles); 
             figure; imagesc(results{di}.RadianceOfRhoAndZAndAngle.Rho_Midpoints, results{di}.RadianceOfRhoAndZAndAngle.Z_Midpoints, log(squeeze(results{di}.RadianceOfRhoAndZAndAngle.Mean(i,:,:)))); colorbar; title(figname); set(gcf,'Name', figname);ylabel('z [mm]'); xlabel('\rho [mm]');
+            caxis([log(minRadiance),log(maxRadiance)]);
         end
         rhodelta = results{di}.RadianceOfRhoAndZAndAngle.Rho(2)-results{di}.RadianceOfRhoAndZAndAngle.Rho(1);
         zdelta = results{di}.RadianceOfRhoAndZAndAngle.Z(2)-results{di}.RadianceOfRhoAndZAndAngle.Z(1);
