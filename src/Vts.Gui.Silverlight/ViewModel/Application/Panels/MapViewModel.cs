@@ -123,8 +123,15 @@ namespace Vts.Gui.Silverlight.ViewModel
             set
             {
                 _AutoScale = value;
-                this.OnPropertyChanged("AutoScale");
-                this.OnPropertyChanged("ManualScale");
+                if (!AutoScale)
+                {
+                    MinValue = 1E-9;
+                    MaxValue = 1.0;
+                }
+                OnPropertyChanged("MinValue");
+                OnPropertyChanged("MaxValue"); 
+                OnPropertyChanged("AutoScale");
+                OnPropertyChanged("ManualScale");
             }
         }
 
