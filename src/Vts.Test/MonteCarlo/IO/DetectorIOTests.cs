@@ -374,7 +374,7 @@ namespace Vts.Test.MonteCarlo
             };
             var detector = (ReflectedMTOfRhoAndSubregionHistDetector)detectorInput.CreateDetector();
             // need to initialize detector so that NumSubregions gets set
-            detector.Initialize(tissue);
+            detector.Initialize(tissue, null);
             // Mean has dimensions [Rho.Count - 1, MTBins.Count - 1]
             detector.Mean = new double[,] {{1, 2}, {3, 4}};
             // FractionalMT has dimensions [Rho.Count - 1, MTBins.Count - 1, NumSubregions, FractionalMTBins.Count + 1]=[2,2,3,3]

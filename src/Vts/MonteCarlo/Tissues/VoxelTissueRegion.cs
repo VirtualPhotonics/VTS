@@ -5,8 +5,7 @@ using Vts.Common;
 namespace Vts.MonteCarlo.Tissues
 {
     /// <summary>
-    /// Implements ITissueRegion.  Defines Cartesian coordinate voxel with
-    /// x,y,z ranges.
+    /// Implements ITissueRegion.  Defines Cartesian coordinate voxel with x,y,z ranges.
     /// </summary>
     public class VoxelTissueRegion : ITissueRegion
     {
@@ -17,9 +16,7 @@ namespace Vts.MonteCarlo.Tissues
         /// <param name="y">y range of voxel</param>
         /// <param name="z">z range of voxel</param>
         /// <param name="op">optical properties of voxel</param>
-        /// <param name="awt">absorption weighting type of voxel</param>
-        public VoxelTissueRegion(DoubleRange x, DoubleRange y, DoubleRange z, OpticalProperties op,
-                           AbsorptionWeightingType awt)
+        public VoxelTissueRegion(DoubleRange x, DoubleRange y, DoubleRange z, OpticalProperties op)
         {
             TissueRegionType = "Voxel";
             X = x;
@@ -35,7 +32,7 @@ namespace Vts.MonteCarlo.Tissues
             new DoubleRange(-10.0, 10),
             new DoubleRange(-10.0, 10),
             new DoubleRange(0.0, 10),
-            new OpticalProperties(0.01, 1.0, 0.8, 1.4), AbsorptionWeightingType.Discrete)
+            new OpticalProperties(0.01, 1.0, 0.8, 1.4))
         {
         }
 
@@ -105,150 +102,82 @@ namespace Vts.MonteCarlo.Tissues
         /// <returns>True if photon will intersect the voxel boundary, false otherwise</returns>
         public bool RayIntersectBoundary(Photon photon, out double distanceToBoundary)
         {
-            throw new NotImplementedException("This code is under construction");
+            distanceToBoundary = double.PositiveInfinity;
+            var dp = photon.DP;
+            var p1 = dp.Position;
+            var d1 = dp.Direction;
 
-            // the added code below is still under construction
-            //distanceToBoundary = double.PositiveInfinity;
-            //double root1, root2, xto, yto, zto;
-            //double root = 0;
-            //var dp = photon.DP;
-            //var p1 = dp.Position;
-            //var d1 = dp.Direction;
+            // determine location of end of ray
+            var p2 = new Position(p1.X + d1.Ux*photon.S, p1.Y + d1.Uy*photon.S, p1.Z + d1.Uz*photon.S);
 
-            //// determine location of end of ray
-            //var p2 = new Position(p1.X + d1.Ux*photon.S, p1.Y + d1.Uy*photon.S, p1.Z + d1.Uz*photon.S);
+            bool one_in = this.ContainsPosition(p1);
+            bool two_in = this.ContainsPosition(p2);
 
-            //bool one_in = this.ContainsPosition(p1);
-            //bool two_in = this.ContainsPosition(p2);
+            // check if ray within voxel 
+            if (one_in && two_in)
+            {
+                return false;
+            }
 
-            //// check if ray within voxel 
-            //if (one_in && two_in)
-            //{
-            //    return false;
-            //}
+            double xint, yint, zint;
 
-            //double rX, rY, rZ, xint, yint, zint;
-
-            //double trackLength = Math.Sqrt((p2.X - p1.X)*(p2.X - p1.X) +
-            //                               (p2.Y - p1.Y)*(p2.Y - p1.Y) +
-            //                               (p2.Z - p1.Z)*(p2.Z - p1.Z));
-
-            //if ((!one_in && two_in) || (one_in && !two_in)) // one in and one out so entering or exiting
-            //{
-            //    /* NOTE code not optimal yet */
-            //    if (p1.Z < Z.Start) // from above
-            //    {
-            //        rZ = (Z.Start - p1.Z)/(p2.Z - p1.Z); /* determine intersect with plane */
-            //        xint = p1.X + (p2.X - p1.X)*rZ;
-            //        yint = p1.X + (p2.X - p1.X)*rZ;
-            //    }
-            //    else if (p1.Z > Z.Stop) // from below
-            //    {
-            //        rZ = (Z.Stop - p1.Z)/(p2.Z - p1.Z);
-            //        xint = p1.X + (p2.X - p1.X)*rZ;
-            //        yint = p1.X + (p2.X - p1.X)*rZ;
-            //    }
-            //    else if (p1.X < X.Start) // from left
-            //    {
-            //        rX = (X.Start - p1.X)/(p2.X - p1.X);
-            //        yint = p1.X + (p2.X - p1.X)*rX;
-            //        zint = p1.Z + (p2.Z - p1.Z)*rX;
-            //    }
-            //    else if (p1.X > X.Stop) // from right
-            //    {
-            //        rX = (X.Stop - p1.X)/(p2.X - p1.X);
-            //        yint = p1.X + (p2.X - p1.X)*rX;
-            //        zint = p1.Z + (p2.Z - p1.Z)*rX;
-            //    }
-            //    else if (p1.X < Y.Start) // from back
-            //    {
-            //        rY = (Y.Start - p1.X)/(p2.X - p1.X);
-            //        xint = p1.X + (p2.X - p1.X)*rY;
-            //        zint = p1.Z + (p2.Z - p1.Z)*rY;
-            //    }
-            //    else if (p1.X > Y.Stop) // from front
-            //    {
-            //        rY = (Y.Stop - p1.X)/(p2.X - p1.X); /* from front */
-            //        xint = p1.X + (p2.X - p1.X)*rY;
-            //        zint = p1.Z + (p2.Z - p1.Z)*rY;
-            //    }
-            //}
+            // the following code makes sure that distanceToBoundary is calculated
+            // correctly if photon just slightly off boundary
+            if (Math.Abs(p1.X - X.Start) < 1e-11) p1.X = X.Start;
+            if (Math.Abs(p1.X - X.Stop) < 1e-11) p1.X = X.Stop; 
+            if (Math.Abs(p1.Y - Y.Start) < 1e-11) p1.Y = Y.Start;
+            if (Math.Abs(p1.Y - Y.Stop) < 1e-11) p1.Y = Y.Stop; 
+            if (Math.Abs(p1.Z - Z.Start) < 1e-11) p1.Z = Z.Start;
+            if (Math.Abs(p1.Z - Z.Stop) < 1e-11) p1.Z = Z.Stop;
             
-            //if (!one_in && !two_in)/* both out: check if thru cube */
-            //{
-            //    if ((p1.Z < Z.Start) && (p2.Z > Z.Stop)) // from above
-            //    {
-            //        rZ = (Z.Start - p1.Z)/(p2.Z - p1.Z);
-            //        xint = p1.X + (p2.X - p1.X)*rZ;
-            //        yint = p1.X + (p2.X - p1.X)*rZ;
-            //    }
-            //    else if ((p1.Z > Z.Stop) && (p2.Z < Z.Start))  // from below
-            //    {
-            //        rZ = (Z.Stop - p1.Z)/(p2.Z - p1.Z);
-            //        xint = p1.X + (p2.X - p1.X)*rZ;
-            //        yint = p1.X + (p2.X - p1.X)*rZ;
-            //    }
-            //    else if ((p1.X < X.Start) && (p2.X > X.Start)) // from left
-            //    {
-            //        rX = (X.Start - p1.X)/(p2.X - p1.X);
-            //        yint = p1.X + (p2.X - p1.X)*rX;
-            //        zint = p1.Z + (p2.Z - p1.Z)*rX;
-            //    }
-            //    else if ((p1.X > X.Stop) && (p2.X < X.Stop)) // from right
-            //    {
-            //        rX = (X.Stop - p1.X)/(p2.X - p1.X);
-            //        yint = p1.X + (p2.X - p1.X)*rX;
-            //        zint = p1.Z + (p2.Z - p1.Z)*rX;
-            //    }                   
-            //    else if ((p1.X < Y.Start) && (p2.X > Y.Start)) // from back
-            //    {
-            //        rY = (Y.Start - p1.X)/(p2.X - p1.X);
-            //        xint = p1.X + (p2.X - p1.X)*rY;
-            //        zint = p1.Z + (p2.Z - p1.Z)*rY;
-            //    }
-            //    else if ((p1.X > Y.Stop) && (p2.X < Y.Stop))  // from front
-            //    {
-            //        rY = (Y.Stop - p1.X)/(p2.X - p1.X);
-            //        xint = p1.X + (p2.X - p1.X)*rY;
-            //        zint = p1.Z + (p2.Z - p1.Z)*rY;
-            //    }
-            //    else if ((p1.Z > Z.Start) && (p2.Z < Z.Start)) // from above
-            //    {
-            //        rZ = (Z.Start - p1.Z)/(p2.Z - p1.Z);
-            //        xint = p1.X + (p2.X - p1.X)*rZ;
-            //        yint = p1.X + (p2.X - p1.X)*rZ;
-            //    }
-            //    else if ((p1.Z < Z.Stop) && (p2.Z > Z.Stop)) // from below
-            //    {
-            //        rZ = (Z.Stop - p1.Z)/(p2.Z - p1.Z);
-            //        xint = p1.X + (p2.X - p1.X)*rZ;
-            //        yint = p1.X + (p2.X - p1.X)*rZ;
-            //    }
-            //    else if ((p1.X > X.Start) && (p2.X < X.Start)) // from left
-            //    {
-            //        rX = (X.Start - p1.X)/(p2.X - p1.X);
-            //        yint = p1.X + (p2.X - p1.X)*rX;
-            //        zint = p1.Z + (p2.Z - p1.Z)*rX;
-            //    }
-            //    else if ((p1.X < X.Stop) && (p2.X > X.Stop)) // from right
-            //    {
-            //        rX = (X.Stop - p1.X)/(p2.X - p1.X);
-            //        yint = p1.X + (p2.X - p1.X)*rX;
-            //        zint = p1.Z + (p2.Z - p1.Z)*rX;\
-            //    }
-            //    else if ((p1.X > Y.Start) && (p2.X < Y.Start)) // from back
-            //    {
-            //        rY = (Y.Start - p1.X)/(p2.X - p1.X);
-            //        xint = p1.X + (p2.X - p1.X)*rY;
-            //        zint = p1.Z + (p2.Z - p1.Z)*rY;
-            //    }
-            //    else if ((p1.X < Y.Stop) && (p2.X > Y.Stop)) // from front
-            //    {
-            //        rY = (Y.Stop - p1.X)/(p2.X - p1.X);
-            //        xint = p1.X + (p2.X - p1.X)*rY;
-            //        zint = p1.Z + (p2.Z - p1.Z)*rY;
-            //    }
-            //}
+            // following algorithm from tavianator.com/fast-branchless-raybounding-box-intersections
+            // check interesctions of ray with planes that make up box
+            double dist1, dist2, dmin = double.NegativeInfinity, dmax = double.PositiveInfinity;
+            dist1 = (X.Start - p1.X)/d1.Ux;
+            dist2 = (X.Stop - p1.X)/d1.Ux;
+            dmin = Math.Max(dmin, Math.Min(dist1, dist2));
+            dmax = Math.Min(dmax, Math.Max(dist1, dist2));
+            dist1 = (Y.Start - p1.Y)/d1.Uy;
+            dist2 = (Y.Stop - p1.Y)/d1.Uy;
+            dmin = Math.Max(dmin, Math.Min(dist1, dist2));
+            dmax = Math.Min(dmax, Math.Max(dist1, dist2));
+            dist1 = (Z.Start - p1.Z)/d1.Uz;
+            dist2 = (Z.Stop - p1.Z)/d1.Uz;
+            dmin = Math.Max(dmin, Math.Min(dist1, dist2));
+            dmax = Math.Min(dmax, Math.Max(dist1, dist2));
+            if (dmax >= dmin) 
+            {
+                if (dmin > 0)
+                {
+                    xint = p1.X + d1.Ux * dmin;
+                    yint = p1.Y + d1.Uy * dmin;
+                    zint = p1.Z + d1.Uz * dmin;  
+                }
+                else if (dmax > 0)
+                {
+                    xint = p1.X + d1.Ux * dmax;
+                    yint = p1.Y + d1.Uy * dmax;
+                    zint = p1.Z + d1.Uz * dmax;
+                }
+                else
+                {
+                    return false;
+                }
+
+                /*distance to the boundary*/
+                distanceToBoundary = Math.Sqrt((xint - p1.X) * (xint - p1.X) +
+                                               (yint - p1.Y) * (yint - p1.Y) +
+                                               (zint - p1.Z) * (zint - p1.Z));
+
+                // ckh fix 9/23/15: check if on boundary of voxel
+                if (distanceToBoundary < 1e-11)
+                {
+                    return false;
+                }
+                return true;
+            }
+            // dmax < dmin
+            return false;
         }
 
         /// <summary>
@@ -258,10 +187,10 @@ namespace Vts.MonteCarlo.Tissues
         /// <returns>boolean</returns>
         public bool ContainsPosition(Position position)
         {
-            // inclusion defined in half-open interval [start,stop) so that continuum of voxels do not overlap
-            return position.X >= X.Start && position.X < X.Stop &&
-                   position.Y >= Y.Start && position.Y < Y.Stop &&
-                   position.Z >= Z.Start && position.Z < Z.Stop;
+            //// inclusion defined in half-open interval [start,stop) so that continuum of voxels do not overlap
+            return (position.X >= X.Start) && (position.X <= X.Stop) &&
+                   (position.Y >= Y.Start) && (position.Y <= Y.Stop) &&
+                   (position.Z >= Z.Start) && (position.Z <= Z.Stop);
         }
 
         /// <summary>
@@ -271,12 +200,15 @@ namespace Vts.MonteCarlo.Tissues
         /// <returns>boolean</returns>
         public bool OnBoundary(Position position)
         {
-            return ((position.X == X.Start) || (position.X == X.Stop) && 
-                        position.Y >= Y.Start && position.Y <= Y.Stop && position.Z >= Z.Start && position.Z <= Z.Stop) ||
-                   ((position.Y == Y.Start) || (position.Y == Y.Stop) &&
-                        position.X >= X.Start && position.X <= X.Stop && position.Z >= Z.Start && position.Z <= Z.Stop) ||
-                   ((position.Z == Z.Start) || (position.Z == Z.Stop) &&
-                        position.X >= X.Start && position.X <= X.Stop && position.Y >= Y.Start && position.Y <= Y.Stop); 
+            return (((position.X == X.Start) || (position.X == X.Stop)) &&
+                            (position.Y >= Y.Start) && (position.Y <= Y.Stop) &&
+                            (position.Z >= Z.Start) && (position.Z <= Z.Stop)) ||
+                   (((position.Y == Y.Start) || (position.Y == Y.Stop)) &&
+                            (position.X >= X.Start) && (position.X <= X.Stop) &&
+                            (position.Z >= Z.Start) && (position.Z <= Z.Stop)) ||
+                   (((position.Z == Z.Start) || (position.Z == Z.Stop)) &&
+                              (position.X >= X.Start) && (position.X <= X.Stop) &&
+                              (position.Y >= Y.Start) && (position.Y <= Y.Stop));
         }
     }
 }

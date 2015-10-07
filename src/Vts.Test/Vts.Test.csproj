@@ -201,6 +201,7 @@
     <Compile Include="MonteCarlo\DataStructuresValidation\SimulationInputValidationTests.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="MonteCarlo\DataStructuresValidation\TissueInputs\SingleVoxelTissueInputValidationTests.cs" />
     <Compile Include="MonteCarlo\DataStructuresValidation\TissueInputs\SingleEllipsoidTissueInputValidationTests.cs" />
     <Compile Include="MonteCarlo\DataStructuresValidation\TissueInputs\MultiLayerTissueInputValidationTests.cs" />
     <Compile Include="MonteCarlo\DataStructures\DetectorInputs\DetectorInputTests.cs">
@@ -226,10 +227,13 @@
     </Compile>
     <Compile Include="MonteCarlo\DataStructures\TissueInputs\MultiEllipsoidTissueInputTests.cs" />
     <Compile Include="MonteCarlo\DataStructures\TissueInputs\MultiLayerTissueInputTests.cs" />
+    <Compile Include="MonteCarlo\DataStructures\TissueInputs\SingleVoxelTissueInputTests.cs" />
     <Compile Include="MonteCarlo\DataStructures\TissueInputs\SingleEllipsoidTissueInputTests.cs" />
     <Compile Include="MonteCarlo\Detectors\AnalogOneLayerDetectorsTests.cs" />
     <Compile Include="MonteCarlo\Detectors\CAWLayersDetectorsTests.cs" />
+    <Compile Include="MonteCarlo\Detectors\DAWLayersDynamicDetectorsTests.cs" />
     <Compile Include="MonteCarlo\Detectors\DAWLayersDetectorsTests.cs" />
+    <Compile Include="MonteCarlo\Detectors\DAWVoxelDetectorsTests.cs" />
     <Compile Include="MonteCarlo\Detectors\DAWSphereDetectorsTests.cs" />
     <Compile Include="MonteCarlo\Detectors\pMCCAWLayersDetectorsTests.cs" />
     <Compile Include="MonteCarlo\Detectors\pMCCAWOneLayerDetectorsTests.cs" />

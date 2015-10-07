@@ -32,6 +32,7 @@ namespace Vts.MonteCarlo
                 GaussianSourceOneLayerTissueROfRhoDetector(),
                 FlatSourceOneLayerTissueROfRhoDetector(),
                 PointSourceMultiLayerMomentumTransferDetectors(),
+                PointSourceSingleVoxelTissueROfXAndYAndFluenceOfXAndYAndZDetector(),
                 PointSourceThreeLayerReflectedTimeOfRhoAndSubregionHistDetector()
             };
         }
@@ -81,6 +82,7 @@ namespace Vts.MonteCarlo
                     new FluenceOfRhoAndZAndTimeDetectorInput(){Rho=new DoubleRange(0.0, 10, 101),Z=new DoubleRange(0.0, 10, 101),Time= new DoubleRange(0.0, 10, 101)},              
                     new FluenceOfRhoAndZDetectorInput() {Rho=new DoubleRange(0.0, 10, 101),Z=new DoubleRange(0.0, 10, 101)},
                     new FluenceOfXAndYAndZDetectorInput(){X=new DoubleRange(-10, 10, 201),Y=new DoubleRange(-10, 10, 2),Z=new DoubleRange(0, 10, 101)},
+                    new FluenceOfXAndYAndZAndOmegaDetectorInput(){X=new DoubleRange(-10, 10, 201),Y=new DoubleRange(-10, 10, 2),Z=new DoubleRange(0, 10, 101),Omega=new DoubleRange(0.0, 1, 21)},
                     new RadianceOfRhoAndZAndAngleDetectorInput(){Rho=new DoubleRange(0.0, 10, 101),Z=new DoubleRange(0.0, 10, 101),Angle=new DoubleRange(0, Math.PI, 3)},
                     new RadianceOfXAndYAndZAndThetaAndPhiDetectorInput(){
                         X=new DoubleRange(-10.0, 10.0, 101),
@@ -574,6 +576,83 @@ namespace Vts.MonteCarlo
                         Y= new DoubleRange(-100.0, 100.0, 21),
                         MTBins=new DoubleRange(0.0, 500.0, 51), // MT bins
                         FractionalMTBins = new DoubleRange(0.0, 1.0, 11)}, // fractional MT bins
+                    // DYNAMIC MT detectors
+                    // detectors with cylindrical symmetry
+                    new ReflectedDynamicMTOfRhoAndSubregionHistDetectorInput(){
+                        Rho=new DoubleRange(0.0, 10.0, 101), // rho bins
+                        MTBins=new DoubleRange(0.0, 500.0, 51), // MT bins
+                        FractionalMTBins = new DoubleRange(0.0, 1.0, 11), // fractional MT bins                        
+                        BloodVolumeFraction = new List<double>() { 0, 0.5, 0.5, 0 }},
+                    new TransmittedDynamicMTOfRhoAndSubregionHistDetectorInput(){
+                        Rho=new DoubleRange(0.0, 10.0, 101), // rho bins
+                        MTBins=new DoubleRange(0.0, 500.0, 51), // MT bins
+                        FractionalMTBins = new DoubleRange(0.0, 1.0, 11), // fractional MT bins
+                        BloodVolumeFraction = new List<double>() { 0, 0.5, 0.5, 0 }},
+                    // detectors with Cartesian coordinates                      
+                    new ReflectedDynamicMTOfXAndYAndSubregionHistDetectorInput(){
+                        X=new DoubleRange(-100.0, 100.0, 21), 
+                        Y= new DoubleRange(-100.0, 100.0, 21),
+                        MTBins=new DoubleRange(0.0, 500.0, 51), // MT bins
+                        FractionalMTBins = new DoubleRange(0.0, 1.0, 11), // fractional MT bins
+                        BloodVolumeFraction = new List<double>() { 0, 0.5, 0.5, 0 }},
+                    new TransmittedDynamicMTOfXAndYAndSubregionHistDetectorInput(){
+                        X=new DoubleRange(-100.0, 100.0, 21), 
+                        Y= new DoubleRange(-100.0, 100.0, 21),
+                        MTBins=new DoubleRange(0.0, 500.0, 51), // MT bins
+                        FractionalMTBins = new DoubleRange(0.0, 1.0, 11), // fractional MT bins
+                        BloodVolumeFraction = new List<double>() { 0, 0.5, 0.5, 0 }},
+                }
+            );
+        }
+        #endregion
+
+        #region point source single voxel Fluence(x,y,z)
+        /// <summary>
+        /// Point source, single voxel tissue definition, only FluenceOfXAndYAndZ detector included
+        /// </summary>
+        public static SimulationInput PointSourceSingleVoxelTissueROfXAndYAndFluenceOfXAndYAndZDetector()
+        {
+            return new SimulationInput(
+                100,
+                "voxel_ROfXAndY_FluenceOfXAndYAndZ",
+                new SimulationOptions(
+                    0, // random number generator seed, -1=random seed, 0=fixed seed
+                    RandomNumberGeneratorType.MersenneTwister,
+                    AbsorptionWeightingType.Discrete,
+                    PhaseFunctionType.HenyeyGreenstein,
+                    new List<DatabaseType>() { }, // databases to be written
+                    false, // track statistics
+                    0.0, // RR threshold -> no RR performed
+                    0),
+                new DirectionalPointSourceInput(
+                    new Position(0.0, 0.0, 0.0),
+                    new Direction(0.0, 0.0, 1.0),
+                    0), // 0=start in air, 1=start in tissue
+                new SingleVoxelTissueInput(
+                    new VoxelTissueRegion(
+                        new DoubleRange(-1, 1),
+                        new DoubleRange(-1, 1), 
+                        new DoubleRange(1, 2), 
+                        new OpticalProperties(0.05, 1.0, 0.8, 1.4)
+                    ),
+                    new ITissueRegion[]
+                    { 
+                        new LayerTissueRegion(
+                            new DoubleRange(double.NegativeInfinity, 0.0),
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
+                        new LayerTissueRegion(
+                            new DoubleRange(0.0, 100.0),
+                            new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
+                        new LayerTissueRegion(
+                            new DoubleRange(100.0, double.PositiveInfinity),
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
+                    }
+                ),
+                new List<IDetectorInput>()
+                { 
+                    new ROfXAndYDetectorInput() {X=new DoubleRange(-100.0, 100.0, 21), Y= new DoubleRange(-100.0, 100.0, 21)}, 
+                    new FluenceOfXAndYAndZDetectorInput(){X=new DoubleRange(-10, 10, 101),
+                        Y=new DoubleRange(-10, 10, 101), Z= new DoubleRange(0.0, 10, 101)}
                 }
             );
         }

@@ -201,6 +201,9 @@
     <Compile Include="..\Vts.Test\MonteCarlo\DataStructuresValidation\TissueInputs\SingleEllipsoidTissueInputValidationTests.cs">
       <Link>MonteCarlo\DataStructuresValidation\TissueInputs\SingleEllipsoidTissueInputValidationTests.cs</Link>
     </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\DataStructuresValidation\TissueInputs\SingleVoxelTissueInputValidationTests.cs">
+      <Link>MonteCarlo\DataStructuresValidation\TissueInputs\SingleVoxelTissueInputValidationTests.cs</Link>
+    </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\DataStructures\DetectorInputs\DetectorInputTests.cs">
       <Link>MonteCarlo\DataStructures\DetectorInputs\DetectorInputTests.cs</Link>
     </Compile>
@@ -231,6 +234,9 @@
     <Compile Include="..\Vts.Test\MonteCarlo\DataStructures\TissueInputs\SingleEllipsoidTissueInputTests.cs">
       <Link>MonteCarlo\DataStructures\TissueInputs\SingleEllipsoidTissueInputTests.cs</Link>
     </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\DataStructures\TissueInputs\SingleVoxelTissueInputTests.cs">
+      <Link>MonteCarlo\DataStructures\TissueInputs\SingleVoxelTissueInputTests.cs</Link>
+    </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\Detectors\AnalogOneLayerDetectorsTests.cs">
       <Link>MonteCarlo\Detectors\AnalogOneLayerDetectorsTests.cs</Link>
     </Compile>
@@ -240,8 +246,14 @@
     <Compile Include="..\Vts.Test\MonteCarlo\Detectors\DAWLayersDetectorsTests.cs">
       <Link>MonteCarlo\Detectors\DAWLayersDetectorsTests.cs</Link>
     </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Detectors\DAWLayersDynamicDetectorsTests.cs">
+      <Link>MonteCarlo\Detectors\DAWLayersDynamicDetectorsTests.cs</Link>
+    </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\Detectors\DAWSphereDetectorsTests.cs">
       <Link>MonteCarlo\Detectors\DAWSphereDetectorsTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Detectors\DAWVoxelDetectorsTests.cs">
+      <Link>MonteCarlo\Detectors\DAWVoxelDetectorsTests.cs</Link>
     </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\Detectors\pMCCAWLayersDetectorsTests.cs">
       <Link>MonteCarlo\Detectors\pMCCAWLayersDetectorsTests.cs</Link>

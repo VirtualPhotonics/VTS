@@ -131,7 +131,7 @@ namespace Vts.MonteCarlo.Detectors
         /// </summary>
         public int NumSubregions { get; set; }
 
-        public void Initialize(ITissue tissue)
+        public void Initialize(ITissue tissue, Random rng)
         {
             // intialize any necessary class fields here
             _tissue = tissue;
@@ -170,11 +170,11 @@ namespace Vts.MonteCarlo.Detectors
             {
                 if (previousDP.Weight != currentDP.Weight) // only for true collision points
                 {
-                    var isr = _tissue.GetRegionIndex(currentDP.Position); // get current region index
+                    var csr = _tissue.GetRegionIndex(currentDP.Position); // get current region index
                     // get angle between current and next
                     double cosineBetweenTrajectories = Direction.GetDotProduct(currentDP.Direction, nextDP.Direction);
                     var momentumTransfer = 1 - cosineBetweenTrajectories;
-                    subregionMT[isr] += momentumTransfer;
+                    subregionMT[csr] += momentumTransfer;
                     talliedMT = true;
                 }
                 previousDP = currentDP;
@@ -221,7 +221,7 @@ namespace Vts.MonteCarlo.Detectors
         /// <param name="numPhotons">number of photons launched</param>
         public void Normalize(long numPhotons)
         {
-            var normalizationFactor = X.Delta * Y.Delta;
+            var areaNorm = X.Delta * Y.Delta;
             for (int ix = 0; ix < X.Count - 1; ix++)
             {
                 for (int iy = 0; iy < Y.Count - 1; iy++)
@@ -229,16 +229,16 @@ namespace Vts.MonteCarlo.Detectors
                     for (int imt = 0; imt < MTBins.Count - 1; imt++)
                     {
                         // normalize by area of surface area ring and N
-                        Mean[ix, iy, imt] /= normalizationFactor*numPhotons;
+                        Mean[ix, iy, imt] /= areaNorm*numPhotons;
                         if (TallySecondMoment)
                         {
-                            SecondMoment[ix, iy, imt] /= normalizationFactor*normalizationFactor*numPhotons;
+                            SecondMoment[ix, iy, imt] /= areaNorm*areaNorm*numPhotons;
                         }
                         for (int isr = 0; isr < NumSubregions; isr++)
                         {
                             for (int ifrac = 0; ifrac < FractionalMTBins.Count + 1; ifrac++)
                             {
-                                FractionalMT[ix, iy, imt, isr, ifrac] /= normalizationFactor*normalizationFactor*numPhotons;
+                                FractionalMT[ix, iy, imt, isr, ifrac] /= areaNorm*numPhotons;
                             }
                         }
                     }

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using NUnit.Framework;
 using Vts.Common;
 using Vts.MonteCarlo;
@@ -186,7 +187,7 @@ namespace Vts.Test.MonteCarlo.Factories
             /// </summary>
             public long TallyCount { get; set; }
 
-            public void Initialize(ITissue tissue)
+            public void Initialize(ITissue tissue, Random rng)
             {
                 // assign any user-defined outputs (except arrays...we'll make those on-demand)
                 TallyCount = 0;
