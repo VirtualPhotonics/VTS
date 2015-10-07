@@ -46,8 +46,8 @@ namespace Vts.Gui.Silverlight.ViewModel
 
         public FluenceSolverViewModel()
         {
-            RhoRangeVM = new RangeViewModel(new DoubleRange(0.1, 19.9, 100), "mm", IndependentVariableAxis.Rho, "");
-            ZRangeVM = new RangeViewModel(new DoubleRange(0.1, 19.9, 100), "mm", IndependentVariableAxis.Z, "");
+            RhoRangeVM = new RangeViewModel(new DoubleRange(0.1, 19.9, 300), "mm", IndependentVariableAxis.Rho, "");
+            ZRangeVM = new RangeViewModel(new DoubleRange(0.1, 19.9, 300), "mm", IndependentVariableAxis.Z, "");
             SourceDetectorSeparation = 10.0;
             TimeModulationFrequency = 0.1;
             _tissueInputVM = new OpticalPropertyViewModel();
