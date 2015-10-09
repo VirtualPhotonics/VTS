@@ -83,6 +83,7 @@ namespace Vts.Gui.Silverlight.ViewModel
         private OptionViewModel<PlotToggleType> _PlotToggleTypeOptionVM;
         private OptionViewModel<PlotNormalizationType> _PlotNormalizationTypeOptionVM;
         private string _CustomPlotLabel;
+        private bool _ShowPopup;
         private bool _ShowAxes;
         private bool _showComplexPlotToggle;
 
@@ -123,6 +124,7 @@ namespace Vts.Gui.Silverlight.ViewModel
             PlotType = ReflectancePlotType.ForwardSolver;
             _HoldOn = true;
             _HideKey = false;
+            _ShowPopup = true;
             _ShowAxes = false;
             _showComplexPlotToggle = false;
 
@@ -186,6 +188,7 @@ namespace Vts.Gui.Silverlight.ViewModel
             output._PlotSeriesCollection = plotToClone._PlotSeriesCollection.Clone();
             output._Labels = plotToClone._Labels.ToList();
             output._CustomPlotLabel = plotToClone._CustomPlotLabel;
+            output.ShowPopup = false;
             output._ShowAxes = plotToClone._ShowAxes;
             output._MinYValue = plotToClone._MinYValue;
             output._MaxYValue = plotToClone._MaxYValue;
@@ -278,6 +281,16 @@ namespace Vts.Gui.Silverlight.ViewModel
                 _HideKey = value;
                 OnPropertyChanged("HideKey");
                 UpdatePlotSeries();
+            }
+        }
+
+        public bool ShowPopup
+        {
+            get { return _ShowPopup; }
+            set
+            {
+                _ShowPopup = value;
+                OnPropertyChanged("ShowPopup");
             }
         }
 

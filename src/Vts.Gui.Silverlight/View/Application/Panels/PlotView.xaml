@@ -16,20 +16,30 @@
         <!-- Chart control for the plot -->
         <oxy:PlotView x:Name="MyChart" Grid.Row="0"  Model="{Binding PlotModel}" MinHeight="440" MinWidth="515" />
         <!-- Hide legend checkbox -->
-        <CheckBox Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Center" Content="{Binding MainResource.Label_HideKey, Source={StaticResource LocalizedStrings}}" IsChecked="{Binding HideKey, Mode=TwoWay}" Margin="0,0,20,0"/>
+        <CheckBox Grid.Row="1" 
+                  HorizontalAlignment="Right" 
+                  VerticalAlignment="Center" 
+                  Content="{Binding MainResource.Label_HideKey, Source={StaticResource LocalizedStrings}}" 
+                  Visibility="{Binding ShowPopup, Converter={StaticResource myBooleanToVisibilityConverter}}"
+                  IsChecked="{Binding HideKey, Mode=TwoWay}" Margin="0,0,20,0"/>
         <!-- Options below the plot -->
         <Image Grid.Row="2" Source="/Vts.Gui.Silverlight;Component/Resources/Images/logo-small.png" Height="50" Stretch="None"/>
         <StackPanel Grid.Row="2" Orientation="Vertical" MinWidth="515" MinHeight="135" Height="115" Margin="10" VerticalAlignment="Top" HorizontalAlignment="Center" Background="White">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,5,0,0">
                 <StackPanel Orientation="Vertical" VerticalAlignment="Top" Margin="2,0,10,0">
                     <!-- Hold on checkbox -->
-                    <CheckBox Content="{Binding MainResource.Label_HoldOn, Source={StaticResource LocalizedStrings}}" IsChecked="{Binding HoldOn, Mode=TwoWay}" Margin="0,5,0,0"/>
+                    <CheckBox Content="{Binding MainResource.Label_HoldOn, Source={StaticResource LocalizedStrings}}" 
+                              IsChecked="{Binding HoldOn, Mode=TwoWay}" 
+                              Visibility="{Binding ShowPopup, Converter={StaticResource myBooleanToVisibilityConverter}}"
+                              Margin="0,5,0,0"/>
                     <!-- Buttons to clear the plots -->
                     <Button Command="{Binding ClearPlotCommand}"
         				Content="{Binding MainResource.Button_ClearAll, Source={StaticResource LocalizedStrings}}"  
+                        Visibility="{Binding ShowPopup, Converter={StaticResource myBooleanToVisibilityConverter}}"
         				Width="80" Height="20" Margin="0,5,0,0"/>
                     <Button Command="{Binding ClearPlotSingleCommand}"
         				Content="{Binding MainResource.Button_ClearNewest, Source={StaticResource LocalizedStrings}}"  
+                        Visibility="{Binding ShowPopup, Converter={StaticResource myBooleanToVisibilityConverter}}"
         				Width="80" Height="20" Margin="0,5,0,0"/>
                 </StackPanel>
                 <!--  -->
