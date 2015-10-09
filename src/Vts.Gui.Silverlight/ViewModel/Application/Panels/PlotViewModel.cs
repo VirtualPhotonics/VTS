@@ -583,7 +583,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                 //    Labels.Add(title + customLabel); // has to happen before updating the bound collection
                 //}
             }
-            //PlotTitles.Add(Title);
+            PlotTitles.Add(Title);
 
             UpdatePlotSeries();
         }
@@ -593,6 +593,7 @@ namespace Vts.Gui.Silverlight.ViewModel
             DataSeriesCollection.Clear();
             PlotSeriesCollection.Clear();
             Labels.Clear();
+            PlotTitles.Clear();
         }
 
         private void ClearPlotSingle()
@@ -603,6 +604,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                 //Clear the PlotSeriesCollection, it will be recreated with the plot
                 PlotSeriesCollection.Clear();
                 Labels.RemoveAt(Labels.Count - 1);
+                PlotTitles.RemoveAt(PlotTitles.Count - 1);
             }
         }
 
@@ -808,6 +810,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                 lineSeriesA.Title = dataPointCollection.Title;
                 lineSeriesA.MarkerType = MarkerType.Circle;
                 PlotModel.Series.Add(lineSeriesA);
+                PlotModel.Title = PlotTitles[PlotTitles.Count - 1];
                 PlotSeriesCollection.Add(tempPointArrayA.ToArray());
             }
         } 
