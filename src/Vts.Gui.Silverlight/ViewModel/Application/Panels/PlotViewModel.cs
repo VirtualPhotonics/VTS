@@ -500,8 +500,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                 // set CurrentIndependtVariableAxis prior to setting Title because property
                 // might ClearPlot including Title
                 CurrentIndependentVariableAxis = labels.IndependentAxis.AxisType;
-                Title =
-                        labels.DependentAxisName + " [" + labels.DependentAxisUnits + "] versus " +
+                Title = labels.DependentAxisName + " [" + labels.DependentAxisUnits + "] versus " +
                         labels.IndependentAxis.AxisLabel + " [" + labels.IndependentAxis.AxisUnits + "]";
 
                 if (labels.ConstantAxes.Length > 0)
@@ -816,6 +815,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                 }
                 lineSeriesA.MarkerType = MarkerType.Circle;
                 PlotModel.Series.Add(lineSeriesA);
+                PlotModel.Title = PlotTitles[PlotTitles.Count - 1];
                 PlotSeriesCollection.Add(tempPointArrayA.ToArray());
             }
             else
