@@ -348,15 +348,15 @@ namespace Vts.Gui.Silverlight.ViewModel
             switch (datatype)
             {
                 case PlotDataType.Simulated:
-                    solverString = "Simulated: \r";
+                    solverString = "\nSimulated:";
                     opticalProperties = MeasuredOpticalPropertyVM.GetOpticalProperties();
                     break;
                 case PlotDataType.Calculated:
-                    solverString = "Calculated:\r";
+                    solverString = "\nCalculated:";
                     opticalProperties = ResultOpticalPropertyVM.GetOpticalProperties();
                     break;
                 case PlotDataType.Guess:
-                    solverString = "Guess:\r";
+                    solverString = "\nGuess:";
                     opticalProperties = InitialGuessOpticalPropertyVM.GetOpticalProperties();
                     break;
                 default:

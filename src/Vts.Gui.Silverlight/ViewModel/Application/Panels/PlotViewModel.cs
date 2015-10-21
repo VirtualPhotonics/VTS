@@ -118,7 +118,7 @@ namespace Vts.Gui.Silverlight.ViewModel
 
             PlotModel = new PlotModel
             {
-                Title = "Plot View",
+                Title = "",
                 LegendPlacement = LegendPlacement.Outside
             };
             PlotType = ReflectancePlotType.ForwardSolver;
@@ -606,6 +606,7 @@ namespace Vts.Gui.Silverlight.ViewModel
             PlotSeriesCollection.Clear();
             Labels.Clear();
             PlotTitles.Clear();
+            PlotModel.Title = "";
         }
 
         private void ClearPlotSingle()
@@ -617,6 +618,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                 PlotSeriesCollection.Clear();
                 Labels.RemoveAt(Labels.Count - 1);
                 PlotTitles.RemoveAt(PlotTitles.Count - 1);
+                PlotModel.Title = "";
             }
         }
 
