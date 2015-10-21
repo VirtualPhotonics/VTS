@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using Vts.Gui.Silverlight.Input;
 using Vts.Gui.Silverlight.ViewModel;
 
@@ -53,6 +54,7 @@ namespace Vts.Gui.Silverlight.View
                     Name = "wndPlotView" + _numPlotViews++,
                     Content = plotView,
                     ParentLayoutRoot = this.layoutRoot,
+                    Background = new SolidColorBrush(Colors.White),
                     VerticalAlignment = VerticalAlignment.Top,
                     HorizontalAlignment = HorizontalAlignment.Left
                 };

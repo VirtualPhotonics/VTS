@@ -20,7 +20,7 @@
                   HorizontalAlignment="Right" 
                   VerticalAlignment="Center" 
                   Content="{Binding MainResource.Label_HideKey, Source={StaticResource LocalizedStrings}}" 
-                  Visibility="{Binding ShowPopup, Converter={StaticResource myBooleanToVisibilityConverter}}"
+                  Visibility="{Binding ShowInPlotView, Converter={StaticResource myBooleanToVisibilityConverter}}"
                   IsChecked="{Binding HideKey, Mode=TwoWay}" Margin="0,0,20,0"/>
         <!-- Options below the plot -->
         <Image Grid.Row="2" Source="/Vts.Gui.Silverlight;Component/Resources/Images/logo-small.png" Height="50" Stretch="None"/>
@@ -30,16 +30,16 @@
                     <!-- Hold on checkbox -->
                     <CheckBox Content="{Binding MainResource.Label_HoldOn, Source={StaticResource LocalizedStrings}}" 
                               IsChecked="{Binding HoldOn, Mode=TwoWay}" 
-                              Visibility="{Binding ShowPopup, Converter={StaticResource myBooleanToVisibilityConverter}}"
+                              Visibility="{Binding ShowInPlotView, Converter={StaticResource myBooleanToVisibilityConverter}}"
                               Margin="0,5,0,0"/>
                     <!-- Buttons to clear the plots -->
                     <Button Command="{Binding ClearPlotCommand}"
         				Content="{Binding MainResource.Button_ClearAll, Source={StaticResource LocalizedStrings}}"  
-                        Visibility="{Binding ShowPopup, Converter={StaticResource myBooleanToVisibilityConverter}}"
+                        Visibility="{Binding ShowInPlotView, Converter={StaticResource myBooleanToVisibilityConverter}}"
         				Width="80" Height="20" Margin="0,5,0,0"/>
                     <Button Command="{Binding ClearPlotSingleCommand}"
         				Content="{Binding MainResource.Button_ClearNewest, Source={StaticResource LocalizedStrings}}"  
-                        Visibility="{Binding ShowPopup, Converter={StaticResource myBooleanToVisibilityConverter}}"
+                        Visibility="{Binding ShowInPlotView, Converter={StaticResource myBooleanToVisibilityConverter}}"
         				Width="80" Height="20" Margin="0,5,0,0"/>
                 </StackPanel>
                 <!--  -->
@@ -64,7 +64,7 @@
                 <!--  -->
                 <StackPanel Orientation="Vertical" Margin="5,0,0,0">
                     <!-- Plot Label -->
-                    <StackPanel Orientation="Horizontal">
+                    <StackPanel Orientation="Horizontal" Visibility="{Binding ShowInPlotView, Converter={StaticResource myBooleanToVisibilityConverter}}">
                         <TextBlock Text="{Binding MainResource.Label_PlotLabel, Source={StaticResource LocalizedStrings}}" VerticalAlignment="Center" Margin="0,0,4,0" />
                         <TextBox Width="100" Text="{Binding CustomPlotLabel, Mode=TwoWay}" KeyDown="TextBox_KeyDown"/>
                     </StackPanel>

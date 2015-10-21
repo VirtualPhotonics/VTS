@@ -83,7 +83,7 @@ namespace Vts.Gui.Silverlight.ViewModel
         private OptionViewModel<PlotToggleType> _PlotToggleTypeOptionVM;
         private OptionViewModel<PlotNormalizationType> _PlotNormalizationTypeOptionVM;
         private string _CustomPlotLabel;
-        private bool _ShowPopup;
+        private bool _ShowInPlotView;
         private bool _ShowAxes;
         private bool _showComplexPlotToggle;
 
@@ -124,7 +124,7 @@ namespace Vts.Gui.Silverlight.ViewModel
             PlotType = ReflectancePlotType.ForwardSolver;
             _HoldOn = true;
             _HideKey = false;
-            _ShowPopup = true;
+            _ShowInPlotView = true;
             _ShowAxes = false;
             _showComplexPlotToggle = false;
 
@@ -188,7 +188,8 @@ namespace Vts.Gui.Silverlight.ViewModel
             output._PlotSeriesCollection = plotToClone._PlotSeriesCollection.Clone();
             output._Labels = plotToClone._Labels.ToList();
             output._CustomPlotLabel = plotToClone._CustomPlotLabel;
-            output.ShowPopup = false;
+            output.ShowInPlotView = false;
+            output._HideKey = plotToClone.HideKey;
             output._ShowAxes = plotToClone._ShowAxes;
             output._MinYValue = plotToClone._MinYValue;
             output._MaxYValue = plotToClone._MaxYValue;
@@ -284,13 +285,13 @@ namespace Vts.Gui.Silverlight.ViewModel
             }
         }
 
-        public bool ShowPopup
+        public bool ShowInPlotView
         {
-            get { return _ShowPopup; }
+            get { return _ShowInPlotView; }
             set
             {
-                _ShowPopup = value;
-                OnPropertyChanged("ShowPopup");
+                _ShowInPlotView = value;
+                OnPropertyChanged("ShowInPlotView");
             }
         }
 
@@ -348,7 +349,7 @@ namespace Vts.Gui.Silverlight.ViewModel
             set
             {
                 // if user switches independent variable, clear plot
-                if (_CurrentIndependentVariableAxis != value && this.ShowPopup)
+                if (_CurrentIndependentVariableAxis != value && this.ShowInPlotView)
                 {
                     ClearPlot();
                     Commands.TextOutput_PostMessage.Execute("Plot View: plot cleared due to independent axis variable change\r");
@@ -575,7 +576,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                 ClearPlot();
             }
 
-            var customLabel = CustomPlotLabel.Length > 0 ? "[" + CustomPlotLabel + "]" : "";
+            var customLabel = CustomPlotLabel.Length > 0 ? "[" + CustomPlotLabel + "] " : "";
             foreach (var t in plotData)
             {
                 var points = t.Points;
