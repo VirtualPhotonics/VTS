@@ -608,6 +608,8 @@ namespace Vts.Gui.Silverlight.ViewModel
             Labels.Clear();
             PlotTitles.Clear();
             PlotModel.Title = "";
+            PlotModel.Axes[0].Reset();
+            PlotModel.Axes[1].Reset();
         }
 
         private void ClearPlotSingle()
