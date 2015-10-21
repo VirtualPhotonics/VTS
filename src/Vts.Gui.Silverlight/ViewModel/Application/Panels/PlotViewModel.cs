@@ -348,7 +348,7 @@ namespace Vts.Gui.Silverlight.ViewModel
             set
             {
                 // if user switches independent variable, clear plot
-                if (_CurrentIndependentVariableAxis != value)
+                if (_CurrentIndependentVariableAxis != value && this.ShowPopup)
                 {
                     ClearPlot();
                     Commands.TextOutput_PostMessage.Execute("Plot View: plot cleared due to independent axis variable change\r");
