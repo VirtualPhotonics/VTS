@@ -73,8 +73,15 @@ namespace Vts.Gui.Silverlight.View
             var vm = e.Parameter as MapViewModel;
             if (vm != null)
             {
-                var mapView = new MapView();
-                mapView.DataContext = vm;
+                var mapView = new MapView
+                {
+                    DataContext = vm,
+                    HorizontalAlignment = HorizontalAlignment.Stretch,
+                    VerticalAlignment = VerticalAlignment.Stretch,
+                    Margin = new Thickness(0, 0, 3, 0)
+                };
+                mapView.MapImage.Stretch = Stretch.Uniform;
+                mapView.MapImage.MinWidth = 500;
                 var newPlotWindow = new FloatableWindow()
                 {
                     Name = "wndMapView" + _numMapViews++,
@@ -83,6 +90,7 @@ namespace Vts.Gui.Silverlight.View
                     Background = new SolidColorBrush(Colors.White),
                     VerticalAlignment = VerticalAlignment.Top,
                     HorizontalAlignment = HorizontalAlignment.Left,
+                    Margin = new Thickness(0),
                     Width = 700,
                     Height = 500
                 };

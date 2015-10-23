@@ -17,7 +17,7 @@
             <ColumnDefinition Width="*" MinWidth="450"/>
         </Grid.ColumnDefinitions>
         <!-- Places the rho values on the map view -->
-        <Grid Grid.Row="0" Grid.Column="1">
+        <Grid Grid.Row="0" Grid.Column="1" MinWidth="500">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
