@@ -807,8 +807,8 @@ namespace Vts.Gui.Silverlight.ViewModel
                 switch (PlotToggleTypeOptionVM.SelectedValue)
                 {
                     case PlotToggleType.Complex:
-                        lineSeriesA.Title = dataPointCollection.Title + " (real)";
-                        lineSeriesB.Title = dataPointCollection.Title + " (imag)";
+                        lineSeriesA.Title = dataPointCollection.Title + " (imag)";
+                        lineSeriesB.Title = dataPointCollection.Title + " (real)";
                         lineSeriesB.MarkerType = MarkerType.Circle;
                         PlotModel.Series.Add(lineSeriesB);
                         PlotSeriesCollection.Add(tempPointArrayB.ToArray());

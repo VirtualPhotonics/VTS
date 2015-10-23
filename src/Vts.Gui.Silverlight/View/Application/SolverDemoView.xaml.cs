@@ -29,8 +29,8 @@ namespace Vts.Gui.Silverlight.View
                 Name = "wndIsolatedStorageView",
                 Content = new IsolatedStorageView(),
                 ParentLayoutRoot = this.layoutRoot,
-                VerticalAlignment = VerticalAlignment.Top,
-                HorizontalAlignment = HorizontalAlignment.Left
+                VerticalAlignment = VerticalAlignment.Center,
+                HorizontalAlignment = HorizontalAlignment.Center
             };
 #if WHITELIST
             tabFem.Visibility = Visibility.Collapsed;
@@ -76,7 +76,9 @@ namespace Vts.Gui.Silverlight.View
                     Content = mapView,
                     ParentLayoutRoot = this.layoutRoot,
                     VerticalAlignment = VerticalAlignment.Top,
-                    HorizontalAlignment = HorizontalAlignment.Left
+                    HorizontalAlignment = HorizontalAlignment.Left,
+                    Width = 700,
+                    Height = 500
                 };
 
                 newPlotWindow.Show();
