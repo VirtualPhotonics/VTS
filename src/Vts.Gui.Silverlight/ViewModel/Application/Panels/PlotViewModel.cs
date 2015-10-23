@@ -71,6 +71,7 @@ namespace Vts.Gui.Silverlight.ViewModel
     {
         // change from Point to our own custom class so we can bind to color, style, etc, too
 
+        private int _plotViewId;
         private PlotModel _plotModel;
         private string _Title;
         private IList<string> _PlotTitles;
@@ -97,8 +98,9 @@ namespace Vts.Gui.Silverlight.ViewModel
         private bool _IsComplexPlot;
         private IndependentVariableAxis _CurrentIndependentVariableAxis;
 
-        public PlotViewModel()
+        public PlotViewModel(int plotViewId = 0)
         {
+            _plotViewId = plotViewId;
             _MinYValue = 1E-9;
             _MaxYValue = 1.0;
             _MinXValue = 1E-9;
@@ -128,16 +130,16 @@ namespace Vts.Gui.Silverlight.ViewModel
             _ShowAxes = false;
             _showComplexPlotToggle = false;
 
-            XAxisSpacingOptionVM = new OptionViewModel<ScalingType>("XAxisSpacing", false);
+            XAxisSpacingOptionVM = new OptionViewModel<ScalingType>("XAxisSpacing_" + _plotViewId, false);
             XAxisSpacingOptionVM.PropertyChanged += (sender, args) => UpdatePlotSeries();
 
-            YAxisSpacingOptionVM = new OptionViewModel<ScalingType>("YAxisSpacing", false);
+            YAxisSpacingOptionVM = new OptionViewModel<ScalingType>("YAxisSpacing_" + _plotViewId, false);
             YAxisSpacingOptionVM.PropertyChanged += (sender, args) => UpdatePlotSeries();
 
-            PlotToggleTypeOptionVM = new OptionViewModel<PlotToggleType>("ToggleType", false);
+            PlotToggleTypeOptionVM = new OptionViewModel<PlotToggleType>("ToggleType_" + _plotViewId, false);
             PlotToggleTypeOptionVM.PropertyChanged += (sender, args) => UpdatePlotSeries();
 
-            PlotNormalizationTypeOptionVM = new OptionViewModel<PlotNormalizationType>("NormalizationType", false);
+            PlotNormalizationTypeOptionVM = new OptionViewModel<PlotNormalizationType>("NormalizationType_" + _plotViewId, false);
             PlotNormalizationTypeOptionVM.PropertyChanged += (sender, args) => UpdatePlotSeries();
 
             CustomPlotLabel = "";
@@ -177,7 +179,8 @@ namespace Vts.Gui.Silverlight.ViewModel
 
         public static PlotViewModel Clone(PlotViewModel plotToClone)
         {
-            var output = new PlotViewModel();
+            var output = new PlotViewModel(plotToClone._plotViewId + 1);
+            plotToClone._plotViewId += 1;
 
             Commands.Plot_PlotValues.Executed -= output.Plot_Executed;
 
@@ -211,7 +214,7 @@ namespace Vts.Gui.Silverlight.ViewModel
             output._XAxisSpacingOptionVM.Options[plotToClone._XAxisSpacingOptionVM.SelectedValue].IsSelected = true;
 
             output.DataSeriesCollection =
-                  plotToClone.DataSeriesCollection.Select(ds => new DataPointCollection { DataPoints = ds.DataPoints.Select(val => val).ToArray(), ColorTag = ds.ColorTag }).ToList();
+                  plotToClone.DataSeriesCollection.Select(ds => new DataPointCollection { DataPoints = ds.DataPoints.Select(val => val).ToArray(), ColorTag = ds.ColorTag, Title = ds.Title }).ToList();
             //output.DataSeriesCollectionToggle =
             //    plotToClone.DataSeriesCollectionToggle.Select(ds => (IList<IDataPoint>)ds.Select(val => val).ToList()).ToList();
 

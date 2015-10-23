@@ -20,7 +20,6 @@
                   HorizontalAlignment="Right" 
                   VerticalAlignment="Center" 
                   Content="{Binding MainResource.Label_HideKey, Source={StaticResource LocalizedStrings}}" 
-                  Visibility="{Binding ShowInPlotView, Converter={StaticResource myBooleanToVisibilityConverter}}"
                   IsChecked="{Binding HideKey, Mode=TwoWay}" Margin="0,0,20,0"/>
         <!-- Options below the plot -->
         <Image Grid.Row="2" Source="/Vts.Gui.Silverlight;Component/Resources/Images/logo-small.png" Height="50" Stretch="None"/>

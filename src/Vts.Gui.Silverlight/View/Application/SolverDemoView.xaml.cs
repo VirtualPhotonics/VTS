@@ -47,8 +47,13 @@ namespace Vts.Gui.Silverlight.View
             var vm = e.Parameter as PlotViewModel;
             if (vm != null)
             {
-                var plotView = new PlotView();
-                plotView.DataContext = vm;
+                var plotView = new PlotView
+                {
+                    DataContext = vm,
+                    HorizontalAlignment = HorizontalAlignment.Stretch,
+                    VerticalAlignment = VerticalAlignment.Stretch,
+                    Margin = new Thickness(0,0,3,0)
+                };
                 var newPlotWindow = new FloatableWindow()
                 {
                     Name = "wndPlotView" + _numPlotViews++,
@@ -75,6 +80,7 @@ namespace Vts.Gui.Silverlight.View
                     Name = "wndMapView" + _numMapViews++,
                     Content = mapView,
                     ParentLayoutRoot = this.layoutRoot,
+                    Background = new SolidColorBrush(Colors.White),
                     VerticalAlignment = VerticalAlignment.Top,
                     HorizontalAlignment = HorizontalAlignment.Left,
                     Width = 700,
