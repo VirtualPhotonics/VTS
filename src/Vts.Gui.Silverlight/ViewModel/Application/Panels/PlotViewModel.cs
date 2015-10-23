@@ -185,7 +185,7 @@ namespace Vts.Gui.Silverlight.ViewModel
             output._PlotTitles = plotToClone._PlotTitles.ToList();
             output._PlotType = plotToClone._PlotType;
             output._HoldOn = plotToClone._HoldOn;
-            output._PlotSeriesCollection = plotToClone._PlotSeriesCollection.Clone();
+            output._PlotSeriesCollection = new PlotPointCollection();
             output._Labels = plotToClone._Labels.ToList();
             output._CustomPlotLabel = plotToClone._CustomPlotLabel;
             output.ShowInPlotView = false;
@@ -841,6 +841,7 @@ namespace Vts.Gui.Silverlight.ViewModel
         private void UpdatePlotSeries()
         {
             PlotModel.Series.Clear();
+            PlotSeriesCollection.Clear(); //clear the PlotSeriesCollection because it will recreate each time
             ShowComplexPlotToggle = false; // do not show the complex toggle until a complex plot is plotted
 
             foreach (var series in DataSeriesCollection)
