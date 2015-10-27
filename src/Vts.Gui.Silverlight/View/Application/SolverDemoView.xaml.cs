@@ -78,10 +78,13 @@ namespace Vts.Gui.Silverlight.View
                     DataContext = vm,
                     HorizontalAlignment = HorizontalAlignment.Stretch,
                     VerticalAlignment = VerticalAlignment.Stretch,
-                    Margin = new Thickness(0, 0, 3, 0)
+                    Margin = new Thickness(0, 0, 3, 0),
+                    MapImage =
+                    {
+                        Stretch = Stretch.Uniform,
+                        MinWidth = 500
+                    }
                 };
-                mapView.MapImage.Stretch = Stretch.Uniform;
-                mapView.MapImage.MinWidth = 500;
                 var newPlotWindow = new FloatableWindow()
                 {
                     Name = "wndMapView" + _numMapViews++,
@@ -92,7 +95,7 @@ namespace Vts.Gui.Silverlight.View
                     HorizontalAlignment = HorizontalAlignment.Left,
                     Margin = new Thickness(0),
                     Width = 700,
-                    Height = 500
+                    Height = 540
                 };
 
                 newPlotWindow.Show();

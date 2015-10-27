@@ -5,7 +5,7 @@
     xmlns:v="clr-namespace:Vts.Gui.Silverlight.View;assembly=Vts.Gui.Silverlight"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     HorizontalAlignment="Left" VerticalAlignment="Top" mc:Ignorable="d" d:DesignHeight="600" d:DesignWidth="900">
-    <Grid Background="White" ShowGridLines="False">
+    <Grid ShowGridLines="False">
         <Grid.RowDefinitions>
             <RowDefinition Height="20" />
             <RowDefinition Height="*"  MinHeight="250"/>
