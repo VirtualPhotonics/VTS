@@ -186,7 +186,6 @@ namespace Vts.MonteCarlo.Detectors
         {
             // calculate the radial bin to attribute the deposition
             var irho = DetectorBinning.WhichBin(DetectorBinning.GetRho(photon.DP.Position.X, photon.DP.Position.Y), Rho.Count - 1, Rho.Delta, Rho.Start);
-            var iz = DetectorBinning.WhichBin(photon.DP.Position.Z, Z.Count - 1, Z.Delta, Z.Start);
             var tissueMT = new double[2]; // 2 is for [static, dynamic] tally separation
             bool talliedMT = false;
             double totalMT = 0;
@@ -201,6 +200,8 @@ namespace Vts.MonteCarlo.Detectors
                 if (previousDP.Weight != currentDP.Weight) // only for true collision points
                 {
                     var csr = _tissue.GetRegionIndex(currentDP.Position); // get current region index
+                    // get z bin of current position
+                    var iz = DetectorBinning.WhichBin(currentDP.Position.Z, Z.Count - 1, Z.Delta, Z.Start);
                     // get angle between current and next
                     double cosineBetweenTrajectories = Direction.GetDotProduct(currentDP.Direction, nextDP.Direction);
                     var momentumTransfer = 1 - cosineBetweenTrajectories;
