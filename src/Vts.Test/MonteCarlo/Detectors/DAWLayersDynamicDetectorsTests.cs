@@ -65,6 +65,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                     new ReflectedDynamicMTOfRhoAndSubregionHistDetectorInput() 
                     {
                         Rho=new DoubleRange(0.0, 10.0, 21), // rho bins MAKE SURE AGREES with ROfRho rho specification for unit test below
+                        Z = new DoubleRange(0.0, 10.0, 21),
                         MTBins=new DoubleRange(0.0, 500.0, 51), // MT bins
                         FractionalMTBins = new DoubleRange(0.0, 1.0, 11),
                         BloodVolumeFraction = new List<double>() { 0, 0.5, 0}
@@ -72,6 +73,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                     new TransmittedDynamicMTOfRhoAndSubregionHistDetectorInput() 
                     {
                         Rho=new DoubleRange(0.0, 10.0, 21), // rho bins MAKE SURE AGREES with TOfRho rho specification for unit test below
+                        Z = new DoubleRange(0.0, 10.0, 21),
                         MTBins=new DoubleRange(0.0, 500.0, 51), // MT bins
                         FractionalMTBins = new DoubleRange(0.0, 1.0, 11),
                         BloodVolumeFraction = new List<double>() { 0, 0.5, 0 }
@@ -79,7 +81,8 @@ namespace Vts.Test.MonteCarlo.Detectors
                     new ReflectedDynamicMTOfXAndYAndSubregionHistDetectorInput() 
                     {
                         X = new DoubleRange(-10.0, 10.0, 21), 
-                        Y = new DoubleRange(-10.0, 10.0, 21),
+                        Y = new DoubleRange(-10.0, 10.0, 21), 
+                        Z = new DoubleRange(0.0, 10.0, 21),
                         MTBins=new DoubleRange(0.0, 500.0, 51), // MT bins
                         FractionalMTBins = new DoubleRange(0.0, 1.0, 11),
                         BloodVolumeFraction = new List<double>() { 0, 0.5, 0}
@@ -87,7 +90,8 @@ namespace Vts.Test.MonteCarlo.Detectors
                     new TransmittedDynamicMTOfXAndYAndSubregionHistDetectorInput() 
                     {    
                         X = new DoubleRange(-10.0, 10.0, 21), 
-                        Y = new DoubleRange(-10.0, 10.0, 21),
+                        Y = new DoubleRange(-10.0, 10.0, 21), 
+                        Z = new DoubleRange(0.0, 10.0, 21),
                         MTBins=new DoubleRange(0.0, 500.0, 51), // MT bins
                         FractionalMTBins = new DoubleRange(0.0, 1.0, 11),
                         BloodVolumeFraction = new List<double>() { 0, 0.5, 0}   
@@ -121,6 +125,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                     new ReflectedDynamicMTOfRhoAndSubregionHistDetectorInput() 
                     {
                         Rho=new DoubleRange(0.0, 10.0, 21), // rho bins MAKE SURE AGREES with ROfRho rho specification for unit test below
+                        Z = new DoubleRange(0.0, 10.0, 21),
                         MTBins=new DoubleRange(0.0, 500.0, 51), // MT bins
                         FractionalMTBins = new DoubleRange(0.0, 1.0, 11),
                         BloodVolumeFraction = new List<double>() { 0, 0.2, 0.5, 0}
@@ -128,6 +133,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                     new TransmittedDynamicMTOfRhoAndSubregionHistDetectorInput() 
                     {
                         Rho=new DoubleRange(0.0, 10.0, 21), // rho bins MAKE SURE AGREES with TOfRho rho specification for unit test below
+                        Z = new DoubleRange(0.0, 10.0, 21),
                         MTBins=new DoubleRange(0.0, 500.0, 51), // MT bins
                         FractionalMTBins = new DoubleRange(0.0, 1.0, 11),                        
                         BloodVolumeFraction = new List<double>() { 0, 0.2, 0.5, 0}
@@ -136,6 +142,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                     {
                         X = new DoubleRange(-10.0, 10.0, 21), 
                         Y = new DoubleRange(-10.0, 10.0, 21),
+                        Z = new DoubleRange(0.0, 10.0, 21),
                         MTBins=new DoubleRange(0.0, 500.0, 51), // MT bins
                         FractionalMTBins = new DoubleRange(0.0, 1.0, 11),              
                         BloodVolumeFraction = new List<double>() { 0, 0.2, 0.5, 0},
@@ -145,6 +152,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                     {    
                         X = new DoubleRange(-10.0, 10.0, 21), 
                         Y = new DoubleRange(-10.0, 10.0, 21),
+                        Z = new DoubleRange(0.0, 10.0, 21),
                         MTBins=new DoubleRange(0.0, 500.0, 51), // MT bins
                         FractionalMTBins = new DoubleRange(0.0, 1.0, 11),              
                         BloodVolumeFraction = new List<double>() { 0, 0.2, 0.5, 0}   
