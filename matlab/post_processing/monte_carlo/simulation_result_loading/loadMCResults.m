@@ -326,6 +326,32 @@ for di = 1:numDetectors
                 RadianceOfRhoAndZAndAngle.Stdev = sqrt((RadianceOfRhoAndZAndAngle.SecondMoment - (RadianceOfRhoAndZAndAngle.Mean .* RadianceOfRhoAndZAndAngle.Mean)) / (json.N));               
             end
             results{di}.RadianceOfRhoAndZAndAngle = RadianceOfRhoAndZAndAngle;
+        case 'RadianceOfFxAndZAndAngle'
+            RadianceOfFxAndZAndAngle.Name = detector.Name;
+            tempFx = detector.Fx;
+            tempZ = detector.Z;
+            tempAngle = detector.Angle;
+            RadianceOfFxAndZAndAngle.Fx = linspace((tempFx.Start), (tempFx.Stop), (tempFx.Count));
+            RadianceOfFxAndZAndAngle.Z = linspace((tempZ.Start), (tempZ.Stop), (tempZ.Count));                      
+            RadianceOfFxAndZAndAngle.Angle = linspace((tempAngle.Start), (tempAngle.Stop), (tempAngle.Count));
+            RadianceOfFxAndZAndAngle.Fx_Midpoints = RadianceOfFxAndZAndAngle.Fx(1:end);
+            RadianceOfFxAndZAndAngle.Z_Midpoints = (RadianceOfFxAndZAndAngle.Z(1:end-1) + RadianceOfFxAndZAndAngle.Z(2:end))/2;
+            RadianceOfFxAndZAndAngle.Angle_Midpoints = (RadianceOfFxAndZAndAngle.Angle(1:end-1) + RadianceOfFxAndZAndAngle.Angle(2:end))/2;
+            tempData = readBinaryData([datadir slash detector.Name], ... 
+                [(2*length(RadianceOfFxAndZAndAngle.Fx)) * (length(RadianceOfFxAndZAndAngle.Z)-1) * (length(RadianceOfFxAndZAndAngle.Angle)-1)]); 
+            tempData = reshape(tempData, ...% read column major json binary
+                [length(RadianceOfFxAndZAndAngle.Angle)-1,length(RadianceOfFxAndZAndAngle.Z)-1,2*length(RadianceOfFxAndZAndAngle.Fx)]);
+            RadianceOfFxAndZAndAngle.Mean = tempData(:,:,1:2:end) + 1i*tempData(:,:,2:2:end);
+            RadianceOfFxAndZAndAngle.Amplitude = abs(RadianceOfFxAndZAndAngle.Mean);
+            RadianceOfFxAndZAndAngle.Phase = -angle(RadianceOfFxAndZAndAngle.Mean);
+            if(detector.TallySecondMoment && exist([datadir slash detector.Name '_2'],'file'))
+                tempData = readBinaryData([datadir slash detector.Name '_2'], ... 
+                [(2*length(RadianceOfFxAndZAndAngle.Fx)) * (length(RadianceOfFxAndZAndAngle.Z)-1) * (length(RadianceOfFxAndZAndAngle.Angle)-1)]); 
+                RadianceOfFxAndZAndAngle.SecondMoment = tempData(1:2:end,:) + 1i*tempData(2:2:end,:);
+                RadianceOfFxAndZAndAngle.Stdev = sqrt((real(RadianceOfFxAndZAndAngle.SecondMoment) - (real(RadianceOfFxAndZAndAngle.Mean) .* real(RadianceOfFxAndZAndAngle.Mean))) / (json.N)) + ...
+                    1i*sqrt((imag(RadianceOfFxAndZAndAngle.SecondMoment) - (imag(RadianceOfFxAndZAndAngle.Mean) .* imag(RadianceOfFxAndZAndAngle.Mean))) / (json.N));
+           end
+            results{di}.RadianceOfFxAndZAndAngle = RadianceOfFxAndZAndAngle;
         case 'RadianceOfXAndYAndZAndThetaAndPhi'
             RadianceOfXAndYAndZAndThetaAndPhi.Name = detector.Name;
             tempX = detector.X;

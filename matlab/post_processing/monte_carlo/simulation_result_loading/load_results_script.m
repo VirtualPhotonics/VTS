@@ -9,7 +9,7 @@ slash = filesep;  % get correct path delimiter for platform
 addpath([cd slash 'jsonlab']);
 
 % names of individual MC simulations
-datanames = { 'two_layer_momentum_transfer_detectors' };
+datanames = { 'one_layer_all_detectors' };
 % datanames = { 'results_mua0.1musp1.0' 'esults_mua0.1musp1.1' }; %...etc
 
 % outdir = 'C:\Projects\vts\src\Vts.MonteCarlo.CommandLineApplication\bin\Release';
@@ -36,6 +36,7 @@ show.FluenceOfXAndYAndZ =       1;
 show.FluenceOfRhoAndZAndTime =  1;
 show.FluenceOfXAndYAndZAndOmega =  1;
 show.RadianceOfRhoAndZAndAngle = 1;
+show.RadianceOfFxAndZAndAngle = 1;
 show.RadianceOfXAndYAndZAndThetaAndPhi = 1;
 show.pMCROfRho =                1;
 show.pMCROfRhoAndTime =         1;
@@ -233,6 +234,28 @@ for mci = 1:length(datanames)
         anglenorm = 2 * pi * sin(results{di}.RadianceOfRhoAndZAndAngle.Angle_Midpoints * angledelta) * angledelta;
         rhomatrix = repmat(rhonorm',[1,numzs,numangles]);
         disp(['Radiance captured by RadianceOfRhoAndZAndAngle detector: ' num2str(sum(sum(sum(zdelta*results{di}.RadianceOfRhoAndZAndAngle.Mean.*repmat(anglenorm',[1,numzs,numrhos]).*permute(rhomatrix,[3,2,1])))))]);
+    end
+    if isfield(results{di}, 'RadianceOfFxAndZAndAngle') && show.RadianceOfFxAndZAndAngle
+        numfxs = length(results{di}.RadianceOfFxAndZAndAngle.Fx);
+        numangles = length(results{di}.RadianceOfFxAndZAndAngle.Angle) - 1;
+        numzs = length(results{di}.RadianceOfFxAndZAndAngle.Z) - 1;
+        % create colorbar based on max, min values 
+        minRadiance = min(abs(results{di}.RadianceOfFxAndZAndAngle.Mean(:)));
+        if minRadiance==0 % make sure don't take log of 0
+            minRadiance=1e-5;
+        end
+        maxRadiance = max(abs(results{di}.RadianceOfFxAndZAndAngle.Mean(:)));
+        for i=1:numangles
+            figname = sprintf('log(%s) amplitude %5.3f<angle<%5.3f',results{di}.RadianceOfFxAndZAndAngle.Name,(i-1)*pi/numangles,i*pi/numangles); 
+            figure; imagesc(results{di}.RadianceOfFxAndZAndAngle.Fx_Midpoints, results{di}.RadianceOfFxAndZAndAngle.Z_Midpoints, log(squeeze(results{di}.RadianceOfFxAndZAndAngle.Amplitude(i,:,:)))); 
+            colorbar; title(figname); set(gcf,'Name', figname);ylabel('z [mm]'); xlabel('fx [/mm]');
+            caxis([log(minRadiance),log(maxRadiance)]);
+        end
+        fxdelta = results{di}.RadianceOfFxAndZAndAngle.Fx(2)-results{di}.RadianceOfFxAndZAndAngle.Fx(1);
+        zdelta = results{di}.RadianceOfFxAndZAndAngle.Z(2)-results{di}.RadianceOfFxAndZAndAngle.Z(1);
+        angledelta = results{di}.RadianceOfFxAndZAndAngle.Angle(2)-results{di}.RadianceOfFxAndZAndAngle.Angle(1);
+        anglenorm = 2 * pi * sin(results{di}.RadianceOfFxAndZAndAngle.Angle_Midpoints * angledelta) * angledelta;      
+        disp(['Radiance captured by RadianceOfFxAndZAndAngle detector: ' num2str(sum(sum(sum(zdelta*results{di}.RadianceOfFxAndZAndAngle.Amplitude.*repmat(anglenorm',[1,numzs,numfxs])))))]);
     end
     if isfield(results{di}, 'RadianceOfXAndYAndZAndThetaAndPhi') && show.RadianceOfXAndYAndZAndThetaAndPhi
         numTheta = length(results{di}.RadianceOfXAndYAndZAndThetaAndPhi.Theta) - 1;      
