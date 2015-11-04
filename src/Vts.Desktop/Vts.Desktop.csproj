@@ -655,6 +655,9 @@
     <Compile Include="..\Vts\MonteCarlo\Detectors\pMCROfRhoDetector.cs">
       <Link>MonteCarlo\Detectors\pMCROfRhoDetector.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\RadianceOfFxAndZAndAngleDetector.cs">
+      <Link>MonteCarlo\Detectors\RadianceOfFxAndZAndAngleDetector.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\RadianceOfRhoAndZAndAngleDetector.cs">
       <Link>MonteCarlo\Detectors\RadianceOfRhoAndZAndAngleDetector.cs</Link>
     </Compile>

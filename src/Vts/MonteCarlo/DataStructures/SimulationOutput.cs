@@ -246,6 +246,14 @@ namespace Vts.MonteCarlo
         /// </summary>
         public double[, ,] Rad_rza2 { get { return ((double[, ,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "RadianceOfRhoAndZAndAngle").First().Name]).SecondMoment); } }
         /// <summary>
+        /// Radiance as a function of fx, z and angle (volume tally)
+        /// </summary>
+        public double[, ,] Rad_fxza { get { return ((double[, ,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "RadianceOfFxAndZAndAngle").First().Name]).Mean); } }
+        /// <summary>
+        /// Radiance as a function of rho, z and angle (volume tally) 2nd moment
+        /// </summary>
+        public double[, ,] Rad_fxza2 { get { return ((double[, ,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "RadianceOfFxAndZAndAngle").First().Name]).SecondMoment); } }
+        /// <summary>
         /// Radiance as a function of x, y, z, theta and phi (volume tally)
         /// </summary>
         public double[, , , ,] Rad_xyztp { get { return ((double[, , , ,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "RadianceOfXAndYAndZAndThetaAndPhi").First().Name]).Mean); } }

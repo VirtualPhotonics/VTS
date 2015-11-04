@@ -98,7 +98,8 @@ namespace Vts.Test.MonteCarlo.Detectors
                         Omega = new DoubleRange(0.05, 1.0, 20)
                     },
                     new RadianceOfRhoAtZDetectorInput() {ZDepth=_dosimetryDepth, Rho= new DoubleRange(0.0, 10.0, 101)},
-                    new RadianceOfRhoAndZAndAngleDetectorInput(){Rho= new DoubleRange(0.0, 10.0, 101),Z=new DoubleRange(0.0, 10.0, 101),Angle=new DoubleRange(-Math.PI / 2, Math.PI / 2, 5)},
+                    new RadianceOfRhoAndZAndAngleDetectorInput(){Rho= new DoubleRange(0.0, 10.0, 101),Z=new DoubleRange(0.0, 10.0, 101),Angle=new DoubleRange(0, Math.PI, 5)},
+                    new RadianceOfFxAndZAndAngleDetectorInput(){Fx=new DoubleRange(0.0, 0.5, 51),Z=new DoubleRange(0.0, 10, 101),Angle=new DoubleRange(0, Math.PI, 5)},
                     new RadianceOfXAndYAndZAndThetaAndPhiDetectorInput()
                     {
                         X=new DoubleRange(-10.0, 10.0, 11), 
@@ -373,6 +374,7 @@ namespace Vts.Test.MonteCarlo.Detectors
             }
             Assert.Less(Math.Abs(integral * norm - _outputOneLayerTissue.Flu_rz[0, 6]), 0.000000000001);
         }
+
         // Volume Radiance Rad(x,y,z,theta,phi)
         // Verify integral over angle of Radiance equals Fluence
         [Test]

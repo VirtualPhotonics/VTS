@@ -259,6 +259,7 @@
     <Compile Include="MonteCarlo\DataStructures\SimulationStatistics.cs" />
     <Compile Include="MonteCarlo\DataStructures\SourceInputProvider.cs" />
     <Compile Include="MonteCarlo\Detectors\FluenceOfXAndYAndZAndOmegaDetector.cs" />
+    <Compile Include="MonteCarlo\Detectors\RadianceOfFxAndZAndAngleDetector.cs" />
     <Compile Include="MonteCarlo\Detectors\ReflectedDynamicMTOfRhoAndSubregionHistDetector.cs" />
     <Compile Include="MonteCarlo\Detectors\ReflectedDynamicMTOfXAndYAndSubregionHistDetector.cs" />
     <Compile Include="MonteCarlo\Detectors\TransmittedDynamicMTOfRhoAndSubregionHistDetector.cs" />
