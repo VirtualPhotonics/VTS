@@ -208,6 +208,10 @@ namespace Vts.Gui.Silverlight.ViewModel
             output.PhaseLabels = plotToClone.PhaseLabels;
             output.AmplitudeLabels = plotToClone.AmplitudeLabels;
 
+            output._YAxisSpacingOptionVM.Options[output._YAxisSpacingOptionVM.SelectedValue].IsSelected = false;
+            output._PlotNormalizationTypeOptionVM.Options[output._PlotNormalizationTypeOptionVM.SelectedValue].IsSelected = false;
+            output._PlotToggleTypeOptionVM.Options[output._PlotToggleTypeOptionVM.SelectedValue].IsSelected = false;
+            output._XAxisSpacingOptionVM.Options[output._XAxisSpacingOptionVM.SelectedValue].IsSelected = false;   
             output._YAxisSpacingOptionVM.Options[plotToClone._YAxisSpacingOptionVM.SelectedValue].IsSelected = true;
             output._PlotNormalizationTypeOptionVM.Options[plotToClone._PlotNormalizationTypeOptionVM.SelectedValue].IsSelected = true;
             output._PlotToggleTypeOptionVM.Options[plotToClone._PlotToggleTypeOptionVM.SelectedValue].IsSelected = true;
