@@ -716,7 +716,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                     switch (PlotToggleTypeOptionVM.SelectedValue)
                     {
                         case PlotToggleType.Phase:
-                            y = dp.Y.Phase * (180 / Math.PI);
+                            y = -(dp.Y.Phase * (180 / Math.PI));
                             break;
                         case PlotToggleType.Amp:
                             y = dp.Y.Magnitude;
