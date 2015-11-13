@@ -62,24 +62,10 @@ namespace Vts.Test.MonteCarlo.Detectors
                 {
                     new RDiffuseDetectorInput(),
                     new ROfAngleDetectorInput() { Angle=new DoubleRange(Math.PI / 2 , Math.PI, 2)},
-                    new ROfRhoDetectorInput() { Rho=new DoubleRange(0.0, 10.0, 101), TallySecondMoment = true},
-                    new ROfRhoAndAngleDetectorInput() {Rho=new DoubleRange(0.0, 10.0, 101),Angle=new DoubleRange(Math.PI / 2, Math.PI, 2)},
-                    new ROfRhoAndTimeDetectorInput() {Rho=new DoubleRange(0.0, 10.0, 101),Time=new DoubleRange(0.0, 1.0, 101)},
                     new ROfXAndYDetectorInput() {X=new DoubleRange(-200.0, 200.0, 401),Y=new DoubleRange(-200.0, 200.0, 401)}, 
-                    new ROfRhoAndOmegaDetectorInput() {Rho=new DoubleRange(0.0, 10.0, 101),Omega=new DoubleRange(0.0, 1.0, 21)},
                     new TDiffuseDetectorInput(),
                     new TOfAngleDetectorInput() {Angle=new DoubleRange(0.0, Math.PI / 2, 2)},
-                    new TOfRhoDetectorInput() {Rho=new DoubleRange(0.0, 10.0, 101)},
-                    new TOfRhoAndAngleDetectorInput(){Rho=new DoubleRange(0.0, 10.0, 101), Angle=new DoubleRange(0.0, Math.PI / 2, 2)},
-                    new AOfRhoAndZDetectorInput() {Rho=new DoubleRange(0.0, 10.0, 101),Z=new DoubleRange(0.0, 10.0, 101)},
                     new ATotalDetectorInput(),
-                    new FluenceOfRhoAndZDetectorInput(){Rho=new DoubleRange(0.0, 10.0, 101),Z=new DoubleRange(0.0, 10.0, 101)},
-                    new RadianceOfRhoAndZAndAngleDetectorInput() 
-                    {
-                        Rho=new DoubleRange(0.0, 10.0, 101),
-                        Z=new DoubleRange(0.0, 10.0, 101),
-                        Angle=new DoubleRange(-Math.PI / 2, Math.PI / 2, 5)
-                    }
                 };
             _inputOneRegionTissue = new SimulationInput(
                 100,
@@ -145,48 +131,12 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.Less(Math.Abs(_outputOneRegionTissue.Rd * _factor - 0.565017749), 0.000000001);
             Assert.Less(Math.Abs(_outputTwoRegionTissue.Rd * _factor - 0.565017749), 0.000000001);
         }
-        // Reflection R(rho)
-        [Test]
-        public void validate_DAW_voxel_ROfRho()
-        {
-            Assert.Less(Math.Abs(_outputOneRegionTissue.R_r[0] * _factor - 0.615238307), 0.000000001);
-            Assert.Less(Math.Abs(_outputTwoRegionTissue.R_r[0] * _factor - 0.615238307), 0.000000001);
-        }
-        // Reflection R(rho) 2nd moment, linux value output in printf statement
-        [Test]
-        public void validate_DAW_voxel_ROfRho_second_moment()
-        {
-            Assert.Less(Math.Abs(_outputOneRegionTissue.R_r2[0] * _factor * _factor - 18.92598), 0.00001);
-            Assert.Less(Math.Abs(_outputTwoRegionTissue.R_r2[0] * _factor * _factor - 18.92598), 0.00001);
-        }
         // Reflection R(angle)
         [Test]
         public void validate_DAW_voxel_ROfAngle()
         {
             Assert.Less(Math.Abs(_outputOneRegionTissue.R_a[0] * _factor - 0.0809612757), 0.0000000001);
             Assert.Less(Math.Abs(_outputTwoRegionTissue.R_a[0] * _factor - 0.0809612757), 0.0000000001);
-        }
-        // Reflection R(rho,angle)
-        [Test]
-        public void validate_DAW_voxel_ROfRhoAndAngle()
-        {
-            Assert.Less(Math.Abs(_outputOneRegionTissue.R_ra[0, 0] * _factor - 0.0881573691), 0.0000000001);
-            Assert.Less(Math.Abs(_outputTwoRegionTissue.R_ra[0, 0] * _factor - 0.0881573691), 0.0000000001);
-        }
-        // Reflection R(rho,time)
-        [Test]
-        public void validate_DAW_voxel_ROfRhoAndTime()
-        {
-            Assert.Less(Math.Abs(_outputOneRegionTissue.R_rt[0, 0] * _factor - 61.5238307), 0.0000001);
-            Assert.Less(Math.Abs(_outputTwoRegionTissue.R_rt[0, 0] * _factor - 61.5238307), 0.0000001);
-        }
-        // Reflection R(rho,omega)
-        public void validate_DAW_voxel_ROfRhoAndOmega()
-        {
-            Assert.Less(Complex.Abs(
-                _outputOneRegionTissue.R_rw[0, 0] * _factor - (0.6152383 - Complex.ImaginaryOne * 0.0002368336)), 0.000001);
-            Assert.Less(Complex.Abs(
-                _outputTwoRegionTissue.R_rw[0, 0] * _factor - (0.6152383 - Complex.ImaginaryOne * 0.0002368336)), 0.000001);
         }
         // Diffuse Transmittance
         [Test]
@@ -195,26 +145,12 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.Less(Math.Abs(_outputOneRegionTissue.Td * _factor - 0.0228405921), 0.000000001);
             Assert.Less(Math.Abs(_outputTwoRegionTissue.Td * _factor - 0.0228405921), 0.000000001);
         }
-        // Transmittance Time(rho)
-        [Test]
-        public void validate_DAW_voxel_TOfRho()
-        {
-            Assert.Less(Math.Abs(_outputOneRegionTissue.T_r[54] * _factor - 0.00169219067), 0.00000000001);
-            Assert.Less(Math.Abs(_outputTwoRegionTissue.T_r[54] * _factor - 0.00169219067), 0.00000000001);
-        }
         // Transmittance Time(angle)
         [Test]
         public void validate_DAW_voxel_TOfAngle()
         {
             Assert.Less(Math.Abs(_outputOneRegionTissue.T_a[0] * _factor - 0.00327282369), 0.00000000001);
             Assert.Less(Math.Abs(_outputTwoRegionTissue.T_a[0] * _factor - 0.00327282369), 0.00000000001);
-        }
-        // Transmittance Time(rho,angle)
-        [Test]
-        public void validate_DAW_voxel_TOfRhoAndAngle()
-        {
-            Assert.Less(Math.Abs(_outputOneRegionTissue.T_ra[54, 0] * _factor - 0.000242473649), 0.000000000001);
-            Assert.Less(Math.Abs(_outputTwoRegionTissue.T_ra[54, 0] * _factor - 0.000242473649), 0.000000000001);
         }
         // Reflectance R(x,y)
         [Test]
@@ -230,43 +166,7 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.Less(Math.Abs(_outputOneRegionTissue.Atot * _factor - 0.384363881), 0.000000001);
             Assert.Less(Math.Abs(_outputTwoRegionTissue.Atot * _factor - 0.384363881), 0.000000001);
         }
-        // Absorption A(rho,z)
-        [Test]
-        public void validate_DAW_voxel_AOfRhoAndZ()
-        {
-            Assert.Less(Math.Abs(_outputOneRegionTissue.A_rz[0, 0] * _factor - 0.39494647), 0.00000001);
-            Assert.Less(Math.Abs(_outputTwoRegionTissue.A_rz[0, 0] * _factor - 0.39494647), 0.00000001);
-        }
-        // Fluence Flu(rho,z)
-        [Test]
-        public void validate_DAW_voxel_FluenceOfRhoAndZ()
-        {
-            Assert.Less(Math.Abs(_outputOneRegionTissue.Flu_rz[0, 0] * _factor - 39.4946472), 0.0000001);
-            Assert.Less(Math.Abs(_outputTwoRegionTissue.Flu_rz[0, 0] * _factor - 39.4946472), 0.0000001);
-        } 
-        // Volume Radiance Rad(rho,z,angle)
-        // Verify integral over angle of Radiance equals Fluence
-        [Test]
-        public void validate_DAW_voxel_RadianceOfRhoAndZAndAngle()
-        {
-            // undo angle bin normalization
-            var angle = ((RadianceOfRhoAndZAndAngleDetectorInput)_inputOneRegionTissue.DetectorInputs.
-                Where(d => d.TallyType == "RadianceOfRhoAndZAndAngle").First()).Angle;
-            var norm = 2 * Math.PI * angle.Delta;
-            var integral = 0.0;
-            for (int ia = 0; ia < angle.Count - 1; ia++)
-            {
-                integral += _outputOneRegionTissue.Rad_rza[0, 6, ia] * Math.Sin((ia + 0.5) * angle.Delta);
-            }
-            Assert.Less(Math.Abs(integral * norm - _outputOneRegionTissue.Flu_rz[0, 6]), 0.000000000001);
-        }
-        // Radiance(rho) - not sure this detector is defined correctly yet
-        //[Test]
-        //public void validate_DAW_voxel_RadianceOfRho()
-        //{
-        //    //need radiance detector to compare results, for now make sure both simulations give same results
-        //    Assert.Less(Math.Abs(_outputOneRegionTissue.Rad_r[0] - _outputTwoRegionTissue.Rad_r[0]), 0.0000001);
-        //}
+       
         // sanity checks
         [Test]
         public void validate_DAW_voxel_RDiffuse_plus_ATotal_plus_TDiffuse_equals_one()

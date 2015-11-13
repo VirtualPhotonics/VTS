@@ -571,6 +571,15 @@
     <Compile Include="..\Vts\MonteCarlo\DataStructuresValidation\DetectorInputs\ReflectedDynamicMTOfRhoAndSubregionHistDetectorInputValidation.cs">
       <Link>MonteCarlo\DataStructuresValidation\DetectorInputs\ReflectedDynamicMTOfRhoAndSubregionHistDetectorInputValidation.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\DataStructuresValidation\DetectorInputs\ReflectedDynamicMTOfXAndYAndSubregionHistDetectorInputValidation.cs">
+      <Link>MonteCarlo\DataStructuresValidation\DetectorInputs\ReflectedDynamicMTOfXAndYAndSubregionHistDetectorInputValidation.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\DataStructuresValidation\DetectorInputs\TransmittedDynamicMTOfRhoAndSubregionHistDetectorInputValidation.cs">
+      <Link>MonteCarlo\DataStructuresValidation\DetectorInputs\TransmittedDynamicMTOfRhoAndSubregionHistDetectorInputValidation.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\DataStructuresValidation\DetectorInputs\TransmittedDynamicMTOfXAndYAndSubregionHistDetectorInputValidation.cs">
+      <Link>MonteCarlo\DataStructuresValidation\DetectorInputs\TransmittedDynamicMTOfXAndYAndSubregionHistDetectorInputValidation.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\DataStructuresValidation\PostProcessorInputs\PostProcessorInputValidation.cs">
       <Link>MonteCarlo\DataStructuresValidation\PostProcessorInputs\PostProcessorInputValidation.cs</Link>
     </Compile>

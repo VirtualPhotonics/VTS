@@ -158,6 +158,20 @@ namespace Vts.MonteCarlo
                     }
                  }
             }
+            // check that if single voxel tissue specified, cannot specify (r,z) detector 
+            if (input.TissueInput is SingleVoxelTissueInput)
+            {
+                foreach (var detectorInput in input.DetectorInputs)
+                {
+                    if (detectorInput.TallyDetails.IsCylindricalTally)
+                    {
+                        return new ValidationResult(
+                            false,
+                            "Cannot use Single Voxel Tissue for cylindrical tallies",
+                            "Change detector inputs to specify non-cylindrical type tallies");
+                    }
+                }
+            }
             // check that if non-normal source defined, that detectors defined are not cylindrical tallies
             // this could be greatly expanded, just an initial start 
             if (input.SourceInput is DirectionalPointSourceInput)
@@ -217,9 +231,9 @@ namespace Vts.MonteCarlo
                     }
                 }
             }
-            // can only run dMC detectors with 1 perturbed region for the present
             foreach (var detectorInput in input.DetectorInputs)
             {
+                // can only run dMC detectors with 1 perturbed region for the present
                 if (detectorInput.TallyType.Contains("dMCdROfRhodMua"))
                 {
                     return dMCdROfRhodMuaDetectorInputValidation.ValidateInput(detectorInput);
@@ -228,9 +242,22 @@ namespace Vts.MonteCarlo
                 {
                     return dMCdROfRhodMusDetectorInputValidation.ValidateInput(detectorInput);
                 }
+                // check that number in blood volume list matches number of tissue subregions
                 if (detectorInput.TallyType.Contains("ReflectedDynamicMTOfRhoAndSubregionHist"))
                 {
                     return ReflectedDynamicMTOfRhoAndSubregionHistDetectorInputValidation.ValidateInput(detectorInput, input.TissueInput.Regions.Count());
+                }
+                if (detectorInput.TallyType.Contains("ReflectedDynamicMTOfXAndYAndSubregionHist"))
+                {
+                    return ReflectedDynamicMTOfXAndYAndSubregionHistDetectorInputValidation.ValidateInput(detectorInput, input.TissueInput.Regions.Count());
+                }
+                if (detectorInput.TallyType.Contains("TransmittedDynamicMTOfRhoAndSubregionHist"))
+                {
+                    return TransmittedDynamicMTOfRhoAndSubregionHistDetectorInputValidation.ValidateInput(detectorInput, input.TissueInput.Regions.Count());
+                }
+                if (detectorInput.TallyType.Contains("TransmittedDynamicMTOfXAndYAndSubregionHist"))
+                {
+                    return TransmittedDynamicMTOfXAndYAndSubregionHistDetectorInputValidation.ValidateInput(detectorInput, input.TissueInput.Regions.Count());
                 }
             }         
             return new ValidationResult(
