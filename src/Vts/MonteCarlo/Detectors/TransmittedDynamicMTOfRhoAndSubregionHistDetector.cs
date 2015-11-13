@@ -127,13 +127,13 @@ namespace Vts.MonteCarlo.Detectors
         public double[,] SecondMoment { get; set; }
 
         /// <summary>
-        /// total MT as a function of Z
+        /// total MT as a function of Z multiplied by final photon weight
         /// </summary>
         [IgnoreDataMember]
         public double[,] TotalMTOfZ { get; set; }
 
         /// <summary>
-        /// dynamic MT as a function of Z
+        /// dynamic MT as a function of Z multiplied by final photon weight
         /// </summary>
         [IgnoreDataMember]
         public double[,] DynamicMTOfZ { get; set; }
@@ -206,11 +206,11 @@ namespace Vts.MonteCarlo.Detectors
                     double cosineBetweenTrajectories = Direction.GetDotProduct(currentDP.Direction, nextDP.Direction);
                     var momentumTransfer = 1 - cosineBetweenTrajectories;
                     totalMT += momentumTransfer;
-                    TotalMTOfZ[irho, iz] += momentumTransfer;
+                    TotalMTOfZ[irho, iz] += photon.DP.Weight * momentumTransfer;
                     if (_rng.NextDouble() < _bloodVolumeFraction[csr]) // hit blood 
                     {
                         tissueMT[1] += momentumTransfer;
-                        DynamicMTOfZ[irho, iz] += momentumTransfer;
+                        DynamicMTOfZ[irho, iz] += photon.DP.Weight * momentumTransfer;
                     }
                     else // index 0 captures static events
                     {

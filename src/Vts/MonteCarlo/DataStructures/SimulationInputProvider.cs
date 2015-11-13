@@ -524,11 +524,11 @@ namespace Vts.MonteCarlo
                 new SimulationOptions(
                     0, // random number generator seed, -1=random seed, 0=fixed seed
                     RandomNumberGeneratorType.MersenneTwister,
-                    AbsorptionWeightingType.Discrete,
+                    AbsorptionWeightingType.Continuous,
                     PhaseFunctionType.HenyeyGreenstein,
                     new List<DatabaseType>() { }, // databases to be written
                     true, // track statistics
-                    0.0001, // RR threshold -> no RR performed
+                    0.00, // RR threshold -> no RR performed
                     0),
                 new DirectionalPointSourceInput(
                     new Position(0.0, 0.0, 0.0),
