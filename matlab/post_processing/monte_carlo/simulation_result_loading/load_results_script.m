@@ -9,8 +9,8 @@ slash = filesep;  % get correct path delimiter for platform
 addpath([cd slash 'jsonlab']);
 
 % names of individual MC simulations
-datanames = { 'one_layer_all_detectors' };
-% datanames = { 'results_mua0.1musp1.0' 'esults_mua0.1musp1.1' }; %...etc
+%datanames = { 'one_layer_all_detectors' };
+% datanames = { 'results_mua0.1musp1.0' 'results_mua0.1musp1.1' }; %...etc
 
 % outdir = 'C:\Projects\vts\src\Vts.MonteCarlo.CommandLineApplication\bin\Release';
 outdir = '.';
@@ -249,8 +249,12 @@ for mci = 1:length(datanames)
             figname = sprintf('log(%s) amplitude %5.3f<angle<%5.3f',results{di}.RadianceOfFxAndZAndAngle.Name,(i-1)*pi/numangles,i*pi/numangles); 
             figure; imagesc(results{di}.RadianceOfFxAndZAndAngle.Fx_Midpoints, results{di}.RadianceOfFxAndZAndAngle.Z_Midpoints, log(squeeze(results{di}.RadianceOfFxAndZAndAngle.Amplitude(i,:,:)))); 
             colorbar; title(figname); set(gcf,'Name', figname);ylabel('z [mm]'); xlabel('fx [/mm]');
-            caxis([log(minRadiance),log(maxRadiance)]);
+            %caxis([log(minRadiance),log(maxRadiance)]);
         end
+        % plot ratio
+        figure; imagesc(results{di}.RadianceOfFxAndZAndAngle.Fx_Midpoints, results{di}.RadianceOfFxAndZAndAngle.Z_Midpoints, ...
+        log10(squeeze(results{di}.RadianceOfFxAndZAndAngle.Amplitude(1,:,:)./results{di}.RadianceOfFxAndZAndAngle.Amplitude(2,:,:))));
+        colorbar; title('log(amplitude[0-pi/2]/amplitude[pi/2-pi])');ylabel('z [mm]');xlabel('fx [/mm]');
         fxdelta = results{di}.RadianceOfFxAndZAndAngle.Fx(2)-results{di}.RadianceOfFxAndZAndAngle.Fx(1);
         zdelta = results{di}.RadianceOfFxAndZAndAngle.Z(2)-results{di}.RadianceOfFxAndZAndAngle.Z(1);
         angledelta = results{di}.RadianceOfFxAndZAndAngle.Angle(2)-results{di}.RadianceOfFxAndZAndAngle.Angle(1);
