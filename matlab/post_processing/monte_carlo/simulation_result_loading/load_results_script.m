@@ -9,7 +9,7 @@ slash = filesep;  % get correct path delimiter for platform
 addpath([cd slash 'jsonlab']);
 
 % names of individual MC simulations
-%datanames = { 'one_layer_all_detectors' };
+datanames = { 'one_layer_sfdi_radiance' };
 % datanames = { 'results_mua0.1musp1.0' 'results_mua0.1musp1.1' }; %...etc
 
 % outdir = 'C:\Projects\vts\src\Vts.MonteCarlo.CommandLineApplication\bin\Release';
@@ -22,6 +22,7 @@ show.ROfXAndY =                 1;
 show.ROfRhoAndTime =            1;
 show.ROfRhoAndAngle =           1;
 show.ROfRhoAndOmega =           1;
+show.ROfFx =                    1;
 show.RSpecular =                1;
 show.TDiffuse =                 1;
 show.TOfRho =                   1;
@@ -109,6 +110,13 @@ for mci = 1:length(datanames)
         rhodelta = results{di}.ROfRhoAndOmega.Rho(2)-results{di}.ROfRhoAndOmega.Rho(1);
         rhonorm = 2 * pi * (results{di}.ROfRhoAndOmega.Rho_Midpoints * rhodelta);
         disp(['Total reflectance captured by ROfRhoAndOmega detector: ' num2str(sum(results{di}.ROfRhoAndOmega.Amplitude(1,:).*rhonorm))]);
+    end
+
+    if isfield(results{di}, 'ROfFx') && show.ROfFx
+        figname = sprintf('log(%s)',results{di}.ROfFx.Name); figure; plot(results{di}.ROfFx.Fx_Midpoints, results{di}.ROfFx.Mean); title(figname); set(gcf,'Name', figname); xlabel('f_x [/mm]'); ylabel('R(f_x) [unitless]');
+        Fxdelta = results{di}.ROfFx.Fx(2)-results{di}.ROfFx.Fx(1);
+        Fxnorm = 2 * pi * (results{di}.ROfFx.Fx_Midpoints * Fxdelta);
+        disp(['Total reflectance captured by ROfFx detector: ' num2str(sum(results{di}.ROfFx.Mean.*Fxnorm'))]);
     end
 
     if isfield(results{di}, 'TDiffuse') && show.TDiffuse
@@ -247,14 +255,24 @@ for mci = 1:length(datanames)
         maxRadiance = max(abs(results{di}.RadianceOfFxAndZAndAngle.Mean(:)));
         for i=1:numangles
             figname = sprintf('log(%s) amplitude %5.3f<angle<%5.3f',results{di}.RadianceOfFxAndZAndAngle.Name,(i-1)*pi/numangles,i*pi/numangles); 
-            figure; imagesc(results{di}.RadianceOfFxAndZAndAngle.Fx_Midpoints, results{di}.RadianceOfFxAndZAndAngle.Z_Midpoints, log(squeeze(results{di}.RadianceOfFxAndZAndAngle.Amplitude(i,:,:)))); 
+            figure; imagesc(results{di}.RadianceOfFxAndZAndAngle.Fx_Midpoints, results{di}.RadianceOfFxAndZAndAngle.Z_Midpoints, log10(squeeze(results{di}.RadianceOfFxAndZAndAngle.Amplitude(i,:,:)))); 
             colorbar; title(figname); set(gcf,'Name', figname);ylabel('z [mm]'); xlabel('fx [/mm]');
-            %caxis([log(minRadiance),log(maxRadiance)]);
+            %caxis([log10(minRadiance),log10(maxRadiance)]);
+            figure;
+            k=1;
+            for j=1:10:51
+                plot(results{di}.RadianceOfFxAndZAndAngle.Z_Midpoints(1:end-1), results{di}.RadianceOfFxAndZAndAngle.Amplitude(i,1:end-1,j));
+                title(figname);ylabel('log(Radiance)');xlabel('z [mm]');
+                hold on;
+                ar{k}=sprintf('f_x = %s',num2str(results{di}.RadianceOfFxAndZAndAngle.Fx_Midpoints(j)));
+                k=k+1;
+            end
+            legend(ar);
+            % plot relative error
+            figure; imagesc(results{di}.RadianceOfFxAndZAndAngle.Fx_Midpoints, results{di}.RadianceOfFxAndZAndAngle.Z_Midpoints, ...
+            (squeeze(abs(results{di}.RadianceOfFxAndZAndAngle.Stdev(i,:,:))./results{di}.RadianceOfFxAndZAndAngle.Amplitude(i,:,:))));
+            colorbar; caxis([0 1]);title(sprintf('Relative Error Amplitude %5.3f<angle<%5.3f',(i-1)*pi/numangles,i*pi/numangles));ylabel('z [mm]');xlabel('fx [/mm]');
         end
-        % plot ratio
-        figure; imagesc(results{di}.RadianceOfFxAndZAndAngle.Fx_Midpoints, results{di}.RadianceOfFxAndZAndAngle.Z_Midpoints, ...
-        log10(squeeze(results{di}.RadianceOfFxAndZAndAngle.Amplitude(1,:,:)./results{di}.RadianceOfFxAndZAndAngle.Amplitude(2,:,:))));
-        colorbar; title('log(amplitude[0-pi/2]/amplitude[pi/2-pi])');ylabel('z [mm]');xlabel('fx [/mm]');
         fxdelta = results{di}.RadianceOfFxAndZAndAngle.Fx(2)-results{di}.RadianceOfFxAndZAndAngle.Fx(1);
         zdelta = results{di}.RadianceOfFxAndZAndAngle.Z(2)-results{di}.RadianceOfFxAndZAndAngle.Z(1);
         angledelta = results{di}.RadianceOfFxAndZAndAngle.Angle(2)-results{di}.RadianceOfFxAndZAndAngle.Angle(1);
