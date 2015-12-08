@@ -132,10 +132,22 @@ namespace Vts.MonteCarlo.Detectors
         public double[,] TotalMTOfZ { get; set; }
 
         /// <summary>
+        /// total MT Second Moment as a function of Z multiplied by final photon weight
+        /// </summary>
+        [IgnoreDataMember]
+        public double[,] TotalMTOfZSecondMoment { get; set; }
+
+        /// <summary>
         /// dynamic MT as a function of Z multiplied by final photon weight
         /// </summary>
         [IgnoreDataMember]
         public double[,] DynamicMTOfZ { get; set; }
+
+        /// <summary>
+        /// dynamic MT Second Moment as a function of Z multiplied by final photon weight
+        /// </summary>
+        [IgnoreDataMember]
+        public double[,] DynamicMTOfZSecondMoment { get; set; }
         /// <summary>
         /// fraction of DYNAMIC MT spent in tissue
         /// </summary>
@@ -168,7 +180,9 @@ namespace Vts.MonteCarlo.Detectors
             SecondMoment = SecondMoment ?? (TallySecondMoment ? new double[Rho.Count - 1, MTBins.Count - 1] : null);
 
             TotalMTOfZ = TotalMTOfZ ?? new double[Rho.Count - 1, Z.Count - 1];
-            DynamicMTOfZ = DynamicMTOfZ ?? new double[Rho.Count - 1, Z.Count - 1];   
+            DynamicMTOfZ = DynamicMTOfZ ?? new double[Rho.Count - 1, Z.Count - 1];
+            TotalMTOfZSecondMoment = TotalMTOfZSecondMoment ?? new double[Rho.Count - 1, Z.Count - 1];
+            DynamicMTOfZSecondMoment = DynamicMTOfZSecondMoment ?? new double[Rho.Count - 1, Z.Count - 1];
 
             // Fractional MT has FractionalMTBins.Count numnber of bins PLUS 2, one for =1, an d one for =0
             FractionalMT = FractionalMT ?? new double[Rho.Count - 1, MTBins.Count - 1, FractionalMTBins.Count + 1];
@@ -188,6 +202,8 @@ namespace Vts.MonteCarlo.Detectors
             var tissueMT = new double[2]; // 2 is for [static, dynamic] tally separation
             bool talliedMT = false;
             double totalMT = 0;
+            var totalMTOfZForOnePhoton = new double[Rho.Count - 1, Z.Count - 1];
+            var dynamicMTOfZForOnePhoton = new double[Rho.Count - 1, Z.Count - 1];
 
             // go through photon history and claculate momentum transfer
             // assumes that no MT tallied at pseudo-collisions (reflections and refractions)
@@ -206,10 +222,12 @@ namespace Vts.MonteCarlo.Detectors
                     var momentumTransfer = 1 - cosineBetweenTrajectories;
                     totalMT += momentumTransfer;
                     TotalMTOfZ[irho, iz] += photon.DP.Weight * momentumTransfer;
+                    totalMTOfZForOnePhoton[irho, iz] += photon.DP.Weight * momentumTransfer;
                     if (_rng.NextDouble() < _bloodVolumeFraction[csr]) // hit blood 
                     {
                         tissueMT[1] += momentumTransfer;
                         DynamicMTOfZ[irho, iz] += photon.DP.Weight * momentumTransfer;
+                        dynamicMTOfZForOnePhoton[irho, iz] += photon.DP.Weight * momentumTransfer;
                     }
                     else // index 0 captures static events
                     {
@@ -226,7 +244,15 @@ namespace Vts.MonteCarlo.Detectors
                 Mean[irho, imt] += photon.DP.Weight;
                 if (TallySecondMoment)
                 {
-                    SecondMoment[irho, imt] += photon.DP.Weight * photon.DP.Weight;                    
+                    SecondMoment[irho, imt] += photon.DP.Weight * photon.DP.Weight; 
+                    for (int i = 0; i < Rho.Count - 1; i++)
+                    {
+                        for (int j = 0; j < Z.Count - 1; j++)
+                        {
+                            TotalMTOfZSecondMoment[i, j] += totalMTOfZForOnePhoton[i, j] * totalMTOfZForOnePhoton[i, j];
+                            DynamicMTOfZSecondMoment[i, j] += dynamicMTOfZForOnePhoton[i, j] * dynamicMTOfZForOnePhoton[i, j];
+                        }
+                    }                   
                 }
 
                 if (talliedMT) TallyCount++;
@@ -391,8 +417,57 @@ namespace Vts.MonteCarlo.Detectors
                         }
                     }
                 },
-                // return a null serializer, if we're not serializing the second moment
-                !TallySecondMoment ? null :  new BinaryArraySerializer {
+                 // return a null serializer, if we're not serializing the second moment
+                !TallySecondMoment ? null :  
+                new BinaryArraySerializer {
+                    DataArray = TotalMTOfZSecondMoment,
+                    Name = "TotalMTOfZSecondMoment",
+                    FileTag = "_TotalMTOfZ_2",
+                    WriteData = binaryWriter => {
+                        if (!TallySecondMoment || TotalMTOfZSecondMoment == null) return;
+                        for (int i = 0; i < Rho.Count - 1; i++) {
+                            for (int j = 0; j < Z.Count - 1; j++)
+                            {
+                                binaryWriter.Write(TotalMTOfZSecondMoment[i, j]);
+                            }                            
+                        }
+                    },
+                    ReadData = binaryReader => {
+                        if (!TallySecondMoment || TotalMTOfZSecondMoment == null) return;
+                        TotalMTOfZSecondMoment = new double[ Rho.Count - 1, Z.Count - 1];
+                        for (int i = 0; i < Rho.Count - 1; i++) {
+                            for (int j = 0; j < Z.Count - 1; j++)
+                            {
+                                TotalMTOfZSecondMoment[i, j] = binaryReader.ReadDouble();
+                            }                       
+                        }
+                    },
+                },
+                new BinaryArraySerializer {
+                    DataArray = DynamicMTOfZSecondMoment,
+                    Name = "DynamicMTOfZSecondMoment",
+                    FileTag = "_DynamicMTOfZ_2",
+                    WriteData = binaryWriter => {
+                        if (!TallySecondMoment || DynamicMTOfZSecondMoment == null) return;
+                        for (int i = 0; i < Rho.Count - 1; i++) {
+                            for (int j = 0; j < Z.Count - 1; j++)
+                            {
+                                binaryWriter.Write(DynamicMTOfZSecondMoment[i, j]);
+                            }                            
+                        }
+                    },
+                    ReadData = binaryReader => {
+                        if (!TallySecondMoment || DynamicMTOfZSecondMoment == null) return;
+                        DynamicMTOfZSecondMoment = new double[ Rho.Count - 1, Z.Count - 1];
+                        for (int i = 0; i < Rho.Count - 1; i++) {
+                            for (int j = 0; j < Z.Count - 1; j++)
+                            {
+                                DynamicMTOfZSecondMoment[i, j] = binaryReader.ReadDouble();
+                            }                       
+			            }
+                    },
+                },
+                new BinaryArraySerializer {
                     DataArray = SecondMoment,
                     Name = "SecondMoment",
                     FileTag = "_2",
