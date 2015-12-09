@@ -642,6 +642,17 @@ for di = 1:numDetectors
                 ReflectedDynamicMTOfRhoAndSubregionHist.SecondMoment = reshape(ReflectedDynamicMTOfRhoAndSubregionHist.SecondMoment, ...
                 [length(ReflectedDynamicMTOfRhoAndSubregionHist.MTBins)-1,length(ReflectedDynamicMTOfRhoAndSubregionHist.Rho)-1]);  
                 ReflectedDynamicMTOfRhoAndSubregionHist.Stdev = sqrt((ReflectedDynamicMTOfRhoAndSubregionHist.SecondMoment - (ReflectedDynamicMTOfRhoAndSubregionHist.Mean .* ReflectedDynamicMTOfRhoAndSubregionHist.Mean)) / (N));               
+                % depth dependent output
+                ReflectedDynamicMTOfRhoAndSubregionHist.TotalMTOfZSecondMoment = readBinaryData([datadir slash detector.Name '_TotalMTOfZ_2'], ... 
+                (length(ReflectedDynamicMTOfRhoAndSubregionHist.Z)-1) * (length(ReflectedDynamicMTOfRhoAndSubregionHist.Rho)-1)); % read column major json binary
+                ReflectedDynamicMTOfRhoAndSubregionHist.TotalMTOfZSecondMoment = reshape(ReflectedDynamicMTOfRhoAndSubregionHist.TotalMTOfZSecondMoment, ...
+                [length(ReflectedDynamicMTOfRhoAndSubregionHist.Z)-1,length(ReflectedDynamicMTOfRhoAndSubregionHist.Rho)-1]);  
+                ReflectedDynamicMTOfRhoAndSubregionHist.TotalMTOfZStdev = sqrt((ReflectedDynamicMTOfRhoAndSubregionHist.TotalMTOfZSecondMoment - (ReflectedDynamicMTOfRhoAndSubregionHist.TotalMTOfZ .* ReflectedDynamicMTOfRhoAndSubregionHist.TotalMTOfZ)) / (N));               
+                ReflectedDynamicMTOfRhoAndSubregionHist.DynamicMTOfZSecondMoment = readBinaryData([datadir slash detector.Name '_DynamicMTOfZ_2'], ... 
+                (length(ReflectedDynamicMTOfRhoAndSubregionHist.Z)-1) * (length(ReflectedDynamicMTOfRhoAndSubregionHist.Rho)-1)); % read column major json binary
+                ReflectedDynamicMTOfRhoAndSubregionHist.DynamicMTOfZSecondMoment = reshape(ReflectedDynamicMTOfRhoAndSubregionHist.DynamicMTOfZSecondMoment, ...
+                [length(ReflectedDynamicMTOfRhoAndSubregionHist.Z)-1,length(ReflectedDynamicMTOfRhoAndSubregionHist.Rho)-1]);  
+                ReflectedDynamicMTOfRhoAndSubregionHist.DynamicMTOfZStdev = sqrt((ReflectedDynamicMTOfRhoAndSubregionHist.DynamicMTOfZSecondMoment - (ReflectedDynamicMTOfRhoAndSubregionHist.DynamicMTOfZ .* ReflectedDynamicMTOfRhoAndSubregionHist.DynamicMTOfZ)) / (N));               
             end
             results{di}.ReflectedDynamicMTOfRhoAndSubregionHist = ReflectedDynamicMTOfRhoAndSubregionHist;
         case 'ReflectedDynamicMTOfXAndYAndSubregionHist'
@@ -690,6 +701,17 @@ for di = 1:numDetectors
                 ReflectedDynamicMTOfXAndYAndSubregionHist.SecondMoment = reshape(ReflectedDynamicMTOfXAndYAndSubregionHist.SecondMoment, ...
                 [length(ReflectedDynamicMTOfXAndYAndSubregionHist.MTBins)-1,length(ReflectedDynamicMTOfXAndYAndSubregionHist.Y)-1,length(ReflectedDynamicMTOfXAndYAndSubregionHist.X)-1]);  
                 ReflectedDynamicMTOfXAndYAndSubregionHist.Stdev = sqrt((ReflectedDynamicMTOfXAndYAndSubregionHist.SecondMoment - (ReflectedDynamicMTOfXAndYAndSubregionHist.Mean .* ReflectedDynamicMTOfXAndYAndSubregionHist.Mean)) / (N));               
+                % depth dependent output
+                ReflectedDynamicMTOfXAndYAndSubregionHist.TotalMTOfZSecondMoment = readBinaryData([datadir slash detector.Name '_TotalMTOfZ_2'], ... 
+                (length(ReflectedDynamicMTOfXAndYAndSubregionHist.Z)-1) * (length(ReflectedDynamicMTOfXAndYAndSubregionHist.Y)-1) * (length(ReflectedDynamicMTOfXAndYAndSubregionHist.X)-1)); % read column major json binary
+                ReflectedDynamicMTOfXAndYAndSubregionHist.TotalMTOfZSecondMoment = reshape(ReflectedDynamicMTOfXAndYAndSubregionHist.TotalMTOfZSecondMoment, ...
+                [length(ReflectedDynamicMTOfXAndYAndSubregionHist.Z)-1,length(ReflectedDynamicMTOfXAndYAndSubregionHist.Y)-1,length(ReflectedDynamicMTOfXAndYAndSubregionHist.X)-1]);  
+                ReflectedDynamicMTOfXAndYAndSubregionHist.TotalMTOfZStdev = sqrt((ReflectedDynamicMTOfXAndYAndSubregionHist.TotalMTOfZSecondMoment - (ReflectedDynamicMTOfXAndYAndSubregionHist.TotalMTOfZ .* ReflectedDynamicMTOfXAndYAndSubregionHist.TotalMTOfZ)) / (N));               
+                ReflectedDynamicMTOfXAndYAndSubregionHist.DynamicMTOfZSecondMoment = readBinaryData([datadir slash detector.Name '_DynamicMTOfZ_2'], ... 
+                (length(ReflectedDynamicMTOfXAndYAndSubregionHist.Z)-1) * (length(ReflectedDynamicMTOfXAndYAndSubregionHist.Y)-1) *length(ReflectedDynamicMTOfXAndYAndSubregionHist.X)-1) % read column major json binary
+                ReflectedDynamicMTOfXAndYAndSubregionHist.DynamicMTOfZSecondMoment = reshape(ReflectedDynamicMTOfXAndYAndSubregionHist.DynamicMTOfZSecondMoment, ...
+                [length(ReflectedDynamicMTOfXAndYAndSubregionHist.Z)-1,length(ReflectedDynamicMTOfXAndYAndSubregionHist.Y)-1,length(ReflectedDynamicMTOfXAndYAndSubregionHist.X)-1]);  
+                ReflectedDynamicMTOfXAndYAndSubregionHist.DynamicMTOfZStdev = sqrt((ReflectedDynamicMTOfXAndYAndSubregionHist.DynamicMTOfZSecondMoment - (ReflectedDynamicMTOfXAndYAndSubregionHist.DynamicMTOfZ .* ReflectedDynamicMTOfXAndYAndSubregionHist.DynamicMTOfZ)) / (N));               
             end
             results{di}.ReflectedDynamicMTOfXAndYAndSubregionHist = ReflectedDynamicMTOfXAndYAndSubregionHist;
         case 'TransmittedDynamicMTOfRhoAndSubregionHist'
@@ -731,6 +753,17 @@ for di = 1:numDetectors
                 TransmittedDynamicMTOfRhoAndSubregionHist.SecondMoment = reshape(TransmittedDynamicMTOfRhoAndSubregionHist.SecondMoment, ...
                 [length(TransmittedDynamicMTOfRhoAndSubregionHist.MTBins)-1,length(TransmittedDynamicMTOfRhoAndSubregionHist.Rho)-1]);  
                 TransmittedDynamicMTOfRhoAndSubregionHist.Stdev = sqrt((TransmittedDynamicMTOfRhoAndSubregionHist.SecondMoment - (TransmittedDynamicMTOfRhoAndSubregionHist.Mean .* TransmittedDynamicMTOfRhoAndSubregionHist.Mean)) / (N));               
+                % depth dependent output
+                TransmittedDynamicMTOfRhoAndSubregionHist.TotalMTOfZSecondMoment = readBinaryData([datadir slash detector.Name '_TotalMTOfZ_2'], ... 
+                (length(TransmittedDynamicMTOfRhoAndSubregionHist.Z)-1) * (length(TransmittedDynamicMTOfRhoAndSubregionHist.Rho)-1)); % read column major json binary
+                TransmittedDynamicMTOfRhoAndSubregionHist.TotalMTOfZSecondMoment = reshape(TransmittedDynamicMTOfRhoAndSubregionHist.TotalMTOfZSecondMoment, ...
+                [length(TransmittedDynamicMTOfRhoAndSubregionHist.Z)-1,length(TransmittedDynamicMTOfRhoAndSubregionHist.Rho)-1]);  
+                TransmittedDynamicMTOfRhoAndSubregionHist.TotalMTOfZStdev = sqrt((TransmittedDynamicMTOfRhoAndSubregionHist.TotalMTOfZSecondMoment - (TransmittedDynamicMTOfRhoAndSubregionHist.TotalMTOfZ .* TransmittedDynamicMTOfRhoAndSubregionHist.TotalMTOfZ)) / (N));               
+                TransmittedDynamicMTOfRhoAndSubregionHist.DynamicMTOfZSecondMoment = readBinaryData([datadir slash detector.Name '_DynamicMTOfZ_2'], ... 
+                (length(TransmittedDynamicMTOfRhoAndSubregionHist.Z)-1) * (length(TransmittedDynamicMTOfRhoAndSubregionHist.Rho)-1)); % read column major json binary
+                TransmittedDynamicMTOfRhoAndSubregionHist.DynamicMTOfZSecondMoment = reshape(TransmittedDynamicMTOfRhoAndSubregionHist.DynamicMTOfZSecondMoment, ...
+                [length(TransmittedDynamicMTOfRhoAndSubregionHist.Z)-1,length(TransmittedDynamicMTOfRhoAndSubregionHist.Rho)-1]);  
+                TransmittedDynamicMTOfRhoAndSubregionHist.DynamicMTOfZStdev = sqrt((TransmittedDynamicMTOfRhoAndSubregionHist.DynamicMTOfZSecondMoment - (TransmittedDynamicMTOfRhoAndSubregionHist.DynamicMTOfZ .* TransmittedDynamicMTOfRhoAndSubregionHist.DynamicMTOfZ)) / (N));               
             end
             results{di}.TransmittedDynamicMTOfRhoAndSubregionHist = TransmittedDynamicMTOfRhoAndSubregionHist;
         case 'TransmittedDynamicMTOfXAndYAndSubregionHist'
@@ -779,6 +812,17 @@ for di = 1:numDetectors
                 TransmittedDynamicMTOfXAndYAndSubregionHist.SecondMoment = reshape(TransmittedDynamicMTOfXAndYAndSubregionHist.SecondMoment, ...
                 [length(TransmittedDynamicMTOfXAndYAndSubregionHist.MTBins)-1,length(TransmittedDynamicMTOfXAndYAndSubregionHist.Y)-1,length(TransmittedDynamicMTOfXAndYAndSubregionHist.X)-1]);  
                 TransmittedDynamicMTOfXAndYAndSubregionHist.Stdev = sqrt((TransmittedDynamicMTOfXAndYAndSubregionHist.SecondMoment - (TransmittedDynamicMTOfXAndYAndSubregionHist.Mean .* TransmittedDynamicMTOfXAndYAndSubregionHist.Mean)) / (N));               
+                % depth dependent output
+                TransmittedDynamicMTOfXAndYAndSubregionHist.TotalMTOfZSecondMoment = readBinaryData([datadir slash detector.Name '_TotalMTOfZ_2'], ... 
+                (length(TransmittedDynamicMTOfXAndYAndSubregionHist.Z)-1) * (length(TransmittedDynamicMTOfXAndYAndSubregionHist.Y)-1) * (length(TransmittedDynamicMTOfXAndYAndSubregionHist.X)-1)); % read column major json binary
+                TransmittedDynamicMTOfXAndYAndSubregionHist.TotalMTOfZSecondMoment = reshape(TransmittedDynamicMTOfXAndYAndSubregionHist.TotalMTOfZSecondMoment, ...
+                [length(TransmittedDynamicMTOfXAndYAndSubregionHist.Z)-1,length(TransmittedDynamicMTOfXAndYAndSubregionHist.Y)-1,length(TransmittedDynamicMTOfXAndYAndSubregionHist.X)-1]);  
+                TransmittedDynamicMTOfXAndYAndSubregionHist.TotalMTOfZStdev = sqrt((TransmittedDynamicMTOfXAndYAndSubregionHist.TotalMTOfZSecondMoment - (TransmittedDynamicMTOfXAndYAndSubregionHist.TotalMTOfZ .* TransmittedDynamicMTOfXAndYAndSubregionHist.TotalMTOfZ)) / (N));               
+                TransmittedDynamicMTOfXAndYAndSubregionHist.DynamicMTOfZSecondMoment = readBinaryData([datadir slash detector.Name '_DynamicMTOfZ_2'], ... 
+                (length(TransmittedDynamicMTOfXAndYAndSubregionHist.Z)-1) * (length(TransmittedDynamicMTOfXAndYAndSubregionHist.Y)-1) *length(TransmittedDynamicMTOfXAndYAndSubregionHist.X)-1) % read column major json binary
+                TransmittedDynamicMTOfXAndYAndSubregionHist.DynamicMTOfZSecondMoment = reshape(TransmittedDynamicMTOfXAndYAndSubregionHist.DynamicMTOfZSecondMoment, ...
+                [length(TransmittedDynamicMTOfXAndYAndSubregionHist.Z)-1,length(TransmittedDynamicMTOfXAndYAndSubregionHist.Y)-1,length(TransmittedDynamicMTOfXAndYAndSubregionHist.X)-1]);  
+                TransmittedDynamicMTOfXAndYAndSubregionHist.DynamicMTOfZStdev = sqrt((TransmittedDynamicMTOfXAndYAndSubregionHist.DynamicMTOfZSecondMoment - (TransmittedDynamicMTOfXAndYAndSubregionHist.DynamicMTOfZ .* TransmittedDynamicMTOfXAndYAndSubregionHist.DynamicMTOfZ)) / (N));               
             end
             results{di}.TransmittedDynamicMTOfXAndYAndSubregionHist = TransmittedDynamicMTOfXAndYAndSubregionHist;
         case 'ReflectedTimeOfRhoAndSubregionHist'

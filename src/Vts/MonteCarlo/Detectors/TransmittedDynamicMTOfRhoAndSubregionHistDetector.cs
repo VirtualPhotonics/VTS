@@ -288,10 +288,10 @@ namespace Vts.MonteCarlo.Detectors
             var normalizationFactor = 2.0 * Math.PI * Rho.Delta;
             for (int ir = 0; ir < Rho.Count - 1; ir++)
             {
+                // normalize by area of surface area ring and N
+                var areaNorm = (Rho.Start + (ir + 0.5) * Rho.Delta) * normalizationFactor;
                 for (int imt = 0; imt < MTBins.Count - 1; imt++)
                 {
-                    // normalize by area of surface area ring and N
-                    var areaNorm = (Rho.Start + (ir + 0.5) * Rho.Delta) * normalizationFactor;
                     Mean[ir, imt] /= areaNorm * numPhotons;
                     if (TallySecondMoment)
                     {
@@ -301,6 +301,16 @@ namespace Vts.MonteCarlo.Detectors
                     {
                         FractionalMT[ir, imt, ifrac] /= areaNorm * numPhotons;
                     } 
+                }
+                for (int iz = 0; iz < Z.Count - 1; iz++)
+                {
+                    TotalMTOfZ[ir, iz] /= areaNorm * numPhotons;
+                    DynamicMTOfZ[ir, iz] /= areaNorm * numPhotons;
+                    if (TallySecondMoment)
+                    {
+                        TotalMTOfZSecondMoment[ir, iz] /= areaNorm * areaNorm * numPhotons;
+                        DynamicMTOfZSecondMoment[ir, iz] /= areaNorm * areaNorm * numPhotons;
+                    }
                 }
             }
         }

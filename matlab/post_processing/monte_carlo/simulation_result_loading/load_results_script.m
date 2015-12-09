@@ -258,11 +258,13 @@ for mci = 1:length(datanames)
             figure; imagesc(results{di}.RadianceOfFxAndZAndAngle.Fx_Midpoints, results{di}.RadianceOfFxAndZAndAngle.Z_Midpoints, log10(squeeze(results{di}.RadianceOfFxAndZAndAngle.Amplitude(i,:,:)))); 
             colorbar; title(figname); set(gcf,'Name', figname);ylabel('z [mm]'); xlabel('fx [/mm]');
             %caxis([log10(minRadiance),log10(maxRadiance)]);
+            % plot line scan of radiance at select fxs
             figure;
             k=1;
             for j=1:10:51
-                plot(results{di}.RadianceOfFxAndZAndAngle.Z_Midpoints(1:end-1), results{di}.RadianceOfFxAndZAndAngle.Amplitude(i,1:end-1,j));
-                title(figname);ylabel('log(Radiance)');xlabel('z [mm]');
+                plot(results{di}.RadianceOfFxAndZAndAngle.Z_Midpoints(1:end-1), log10(results{di}.RadianceOfFxAndZAndAngle.Amplitude(i,1:end-1,j)));
+                title(sprintf('%5.3f<angle<%5.3f',(i-1)*pi/numangles,i*pi/numangles));
+                ylabel('log Radiance amplitude');xlabel('z [mm]');
                 hold on;
                 ar{k}=sprintf('f_x = %s',num2str(results{di}.RadianceOfFxAndZAndAngle.Fx_Midpoints(j)));
                 k=k+1;
@@ -272,6 +274,20 @@ for mci = 1:length(datanames)
             figure; imagesc(results{di}.RadianceOfFxAndZAndAngle.Fx_Midpoints, results{di}.RadianceOfFxAndZAndAngle.Z_Midpoints, ...
             (squeeze(abs(results{di}.RadianceOfFxAndZAndAngle.Stdev(i,:,:))./results{di}.RadianceOfFxAndZAndAngle.Amplitude(i,:,:))));
             colorbar; caxis([0 1]);title(sprintf('Relative Error Amplitude %5.3f<angle<%5.3f',(i-1)*pi/numangles,i*pi/numangles));ylabel('z [mm]');xlabel('fx [/mm]');
+            % plot line scan of relative error at select fxs
+            f=figure;
+            k=1;
+            for j=1:10:51
+                plot(results{di}.RadianceOfFxAndZAndAngle.Z_Midpoints(1:end-1), ...
+                    results{di}.RadianceOfFxAndZAndAngle.Stdev(i,1:end-1,j)./results{di}.RadianceOfFxAndZAndAngle.Amplitude(i,1:end-1,j));
+                title(sprintf('%5.3f<angle<%5.3f',(i-1)*pi/numangles,i*pi/numangles));
+                ylabel('Relative Error');xlabel('z [mm]'); axis([0 results{di}.RadianceOfFxAndZAndAngle.Z(end), 0 0.4]);
+                hold on;
+                ar{k}=sprintf('f_x = %s',num2str(results{di}.RadianceOfFxAndZAndAngle.Fx_Midpoints(j)));
+                k=k+1;
+            end
+            legend(ar);
+            line([0 10.0],[0.05 0.05],'Color',[0 0 0],'LineStyle',':');
         end
         fxdelta = results{di}.RadianceOfFxAndZAndAngle.Fx(2)-results{di}.RadianceOfFxAndZAndAngle.Fx(1);
         zdelta = results{di}.RadianceOfFxAndZAndAngle.Z(2)-results{di}.RadianceOfFxAndZAndAngle.Z(1);
@@ -438,10 +454,12 @@ for mci = 1:length(datanames)
             end
             legend(ar);
             figure;figname = sprintf('Reflected Total MT of Z, Rho = %5.3f mm',results{di}.ReflectedDynamicMTOfRhoAndSubregionHist.Rho_Midpoints(i));
-            plot(results{di}.ReflectedDynamicMTOfRhoAndSubregionHist.Z_Midpoints,results{di}.ReflectedDynamicMTOfRhoAndSubregionHist.TotalMTOfZ(:,i));
+            errorbar(results{di}.ReflectedDynamicMTOfRhoAndSubregionHist.Z_Midpoints,results{di}.ReflectedDynamicMTOfRhoAndSubregionHist.TotalMTOfZ(:,i),...
+                results{di}.ReflectedDynamicMTOfRhoAndSubregionHist.TotalMTOfZStdev(:,i));
             title(figname);xlabel('z (mm)');ylabel('Total MT');
             figure;figname = sprintf('Reflected Dynamic MT of Z, Rho = %5.3f mm',results{di}.ReflectedDynamicMTOfRhoAndSubregionHist.Rho_Midpoints(i));
-            plot(results{di}.ReflectedDynamicMTOfRhoAndSubregionHist.Z_Midpoints,results{di}.ReflectedDynamicMTOfRhoAndSubregionHist.DynamicMTOfZ(:,i));
+            errorbar(results{di}.ReflectedDynamicMTOfRhoAndSubregionHist.Z_Midpoints,results{di}.ReflectedDynamicMTOfRhoAndSubregionHist.DynamicMTOfZ(:,i),...
+                results{di}.ReflectedDynamicMTOfRhoAndSubregionHist.DynamicMTOfZStdev(:,i));
             title(figname);xlabel('z (mm)');ylabel('Dynamic MT');
         end
     end

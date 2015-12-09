@@ -320,6 +320,16 @@ namespace Vts.MonteCarlo.Detectors
                             FractionalMT[ix, iy, imt, ifrac] /= areaNorm * numPhotons;
                         }
                     }
+                    for (int iz = 0; iz < Z.Count - 1; iz++)
+                    {
+                        TotalMTOfZ[ix, iy, iz] /= areaNorm * numPhotons;
+                        DynamicMTOfZ[ix, iy, iz] /= areaNorm * numPhotons;
+                        if (TallySecondMoment)
+                        {
+                            TotalMTOfZSecondMoment[ix, iy, iz] /= areaNorm * areaNorm * numPhotons;
+                            DynamicMTOfZSecondMoment[ix, iy, iz] /= areaNorm * areaNorm * numPhotons;
+                        }
+                    }
                 }
             }
         }
