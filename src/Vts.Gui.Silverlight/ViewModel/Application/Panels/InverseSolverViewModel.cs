@@ -53,6 +53,8 @@ namespace Vts.Gui.Silverlight.ViewModel
             _allRangeVMs = new[] { new RangeViewModel { Title = Resources.Strings.IndependentVariableAxis_Rho } };
 
             SolutionDomainTypeOptionVM = new SolutionDomainOptionViewModel("Solution Domain", SolutionDomainType.ROfRho);
+            SolutionDomainTypeOptionVM.EnableMultiAxis = false;
+            SolutionDomainTypeOptionVM.AllowMultiAxis = false;
 
             Action<double> updateSolutionDomainWithWavelength = wv =>
             {
@@ -313,8 +315,34 @@ namespace Vts.Gui.Silverlight.ViewModel
 
         private string[] GetLegendLabels(PlotDataType datatype)
         {
+            string solverString = null;
+            OpticalProperties opticalProperties = null;
             string modelString = null;
-            switch (MeasuredForwardSolverTypeOptionVM.SelectedValue)
+            ForwardSolverType forwardSolver;
+
+            switch (datatype)
+            {
+                case PlotDataType.Simulated:
+                    solverString = "\nSimulated:";
+                    opticalProperties = MeasuredOpticalPropertyVM.GetOpticalProperties();
+                    forwardSolver = MeasuredForwardSolverTypeOptionVM.SelectedValue;
+                    break;
+                case PlotDataType.Calculated:
+                    solverString = "\nCalculated:";
+                    opticalProperties = ResultOpticalPropertyVM.GetOpticalProperties();
+                    forwardSolver = MeasuredForwardSolverTypeOptionVM.SelectedValue;
+                    break;
+                case PlotDataType.Guess:
+                    solverString = "\nGuess:";
+                    opticalProperties = InitialGuessOpticalPropertyVM.GetOpticalProperties();
+                    forwardSolver = InverseForwardSolverTypeOptionVM.SelectedValue;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException("datatype");
+            }
+            var opString = "\rμa=" + opticalProperties.Mua.ToString("F4") + " \rμs'=" + opticalProperties.Musp.ToString("F4");
+
+            switch (forwardSolver)
             {
                 case ForwardSolverType.DistributedGaussianSourceSDA:
                 case ForwardSolverType.DistributedPointSourceSDA:
@@ -331,38 +359,6 @@ namespace Vts.Gui.Silverlight.ViewModel
                     modelString = "\rModel - 2 layer SDA";
                     break;
             }
-
-            string solverString = null;
-
-            //if (IsMultiRegion && MultiRegionTissueVM != null)
-            //{
-            //    var regions = MultiRegionTissueVM.GetTissueInput().Regions;
-            //    opString = "\rμa1=" + regions[0].RegionOP.Mua.ToString("F4") + "\rμs'1=" + regions[0].RegionOP.Musp.ToString("F4") +
-            //               "\rμa2=" + regions[1].RegionOP.Mua.ToString("F4") + "\rμs'2=" + regions[1].RegionOP.Musp.ToString("F4");
-            //}
-            //else
-            //{
-            OpticalProperties opticalProperties = null;
-            //OpticalPropertyViewModel op;
-            //}
-            switch (datatype)
-            {
-                case PlotDataType.Simulated:
-                    solverString = "Simulated: \r";
-                    opticalProperties = MeasuredOpticalPropertyVM.GetOpticalProperties();
-                    break;
-                case PlotDataType.Calculated:
-                    solverString = "Calculated:\r";
-                    opticalProperties = ResultOpticalPropertyVM.GetOpticalProperties();
-                    break;
-                case PlotDataType.Guess:
-                    solverString = "Guess:\r";
-                    opticalProperties = InitialGuessOpticalPropertyVM.GetOpticalProperties();
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException("datatype");
-            }
-            var opString = "\rμa=" + opticalProperties.Mua.ToString("F4") + " \rμs'=" + opticalProperties.Musp.ToString("F4");
             
             if (_allRangeVMs.Length > 1)
             {

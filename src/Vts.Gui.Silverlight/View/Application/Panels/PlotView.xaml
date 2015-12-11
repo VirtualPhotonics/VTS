@@ -1,99 +1,104 @@
 ﻿<UserControl x:Class="Vts.Gui.Silverlight.View.PlotView"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
-    xmlns:v="clr-namespace:Vts.Gui.Silverlight.View;assembly=Vts.Gui.Silverlight"
-    xmlns:vm="clr-namespace:Vts.Gui.Silverlight.ViewModel;assembly=Vts.Gui.Silverlight"
-    xmlns:Controls="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls"
-    xmlns:input="clr-namespace:SLExtensions.Input;assembly=SLExtensions" 
-    xmlns:charting="clr-namespace:System.Windows.Controls.DataVisualization.Charting;assembly=System.Windows.Controls.DataVisualization.Toolkit"
-    HorizontalAlignment="Left" VerticalAlignment="Top">
-    <StackPanel Background="White">
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:v="clr-namespace:Vts.Gui.Silverlight.View;assembly=Vts.Gui.Silverlight"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:oxy="clr-namespace:OxyPlot.Silverlight;assembly=OxyPlot.Silverlight"
+             HorizontalAlignment="Left" VerticalAlignment="Top" 
+             mc:Ignorable="d" d:DesignWidth="900" d:DesignHeight="860">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="145"/>
+        </Grid.RowDefinitions>
         <!-- Chart control for the plot -->
-        <charting:Chart x:Name="myChart" Width="515"  Height="400" Background="White" FontSize="12"
-                vm:ChartHelper.DependentValueBinding="Y"
-                vm:ChartHelper.IndependentValueBinding="X"
-                vm:ChartHelper.Title="TitlePropertyOnCollection"
-                vm:ChartHelper.SeriesType="Line"
-                vm:ChartHelper.SeriesSource="{Binding Path=PlotSeriesCollection}"
-                vm:ChartHelper.DataPointSeriesStyle="{StaticResource MyLineDataPointStyle}"
-                vm:ChartHelper.SeriesStyle="{StaticResource MyLineSeriesStyle}">
-            <charting:Chart.Axes>
-                <charting:LinearAxis Orientation="X" ShowGridLines="False" AxisLabelStyle="{StaticResource MyAxisLabelStyle}" Visibility="{Binding ShowAxes, Converter={StaticResource myBooleanToVisibilityConverter}}" />
-                <charting:LinearAxis Orientation="Y" ShowGridLines="False" AxisLabelStyle="{StaticResource MyScientificAxisLabelStyle}" Visibility="{Binding ShowAxes, Converter={StaticResource myBooleanToVisibilityConverter}}" />
-            </charting:Chart.Axes>
-        </charting:Chart>
+        <oxy:PlotView x:Name="MyChart" Grid.Row="0"  Model="{Binding PlotModel}" MinHeight="440" MinWidth="515" />
+        <!-- Hide legend checkbox -->
+        <CheckBox Grid.Row="1" 
+                  HorizontalAlignment="Right" 
+                  VerticalAlignment="Center" 
+                  Content="{Binding MainResource.Label_HideKey, Source={StaticResource LocalizedStrings}}" 
+                  IsChecked="{Binding HideKey, Mode=TwoWay}" Margin="0,0,20,0"/>
         <!-- Options below the plot -->
-        <StackPanel>
-            <StackPanel Orientation="Horizontal" Background="White" Margin="0,5,0,0">
+        <Image Grid.Row="2" Source="/Vts.Gui.Silverlight;Component/Resources/Images/logo-small.png" Height="50" Stretch="None"/>
+        <StackPanel Grid.Row="2" Orientation="Vertical" MinWidth="515" MinHeight="135" Height="115" Margin="10" VerticalAlignment="Top" HorizontalAlignment="Center" Background="White">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,5,0,0">
                 <StackPanel Orientation="Vertical" VerticalAlignment="Top" Margin="2,0,10,0">
                     <!-- Hold on checkbox -->
-                    <CheckBox Content="{Binding Path=MainResource.Label_HoldOn, Source={StaticResource LocalizedStrings}}" IsChecked="{Binding HoldOn, Mode=TwoWay}" Margin="0,5,0,0"/>
+                    <CheckBox Content="{Binding MainResource.Label_HoldOn, Source={StaticResource LocalizedStrings}}" 
+                              IsChecked="{Binding HoldOn, Mode=TwoWay}" 
+                              Visibility="{Binding ShowInPlotView, Converter={StaticResource myBooleanToVisibilityConverter}}"
+                              Margin="0,5,0,0"/>
                     <!-- Buttons to clear the plots -->
                     <Button Command="{Binding ClearPlotCommand}"
-                        Content="{Binding Path=MainResource.Button_ClearAll, Source={StaticResource LocalizedStrings}}"  
-                        Width="80" Height="20" Margin="0,5,0,0"/>
+        				Content="{Binding MainResource.Button_ClearAll, Source={StaticResource LocalizedStrings}}"  
+                        Visibility="{Binding ShowInPlotView, Converter={StaticResource myBooleanToVisibilityConverter}}"
+        				Width="80" Height="20" Margin="0,5,0,0"/>
                     <Button Command="{Binding ClearPlotSingleCommand}"
-                        Content="{Binding Path=MainResource.Button_ClearNewest, Source={StaticResource LocalizedStrings}}"  
-                        Width="80" Height="20" Margin="0,5,0,0"/>
+        				Content="{Binding MainResource.Button_ClearNewest, Source={StaticResource LocalizedStrings}}"  
+                        Visibility="{Binding ShowInPlotView, Converter={StaticResource myBooleanToVisibilityConverter}}"
+        				Width="80" Height="20" Margin="0,5,0,0"/>
                 </StackPanel>
                 <!--  -->
                 <StackPanel Orientation="Vertical" Margin="5,0,10,0">
                     <StackPanel Orientation="Horizontal" Margin="0">
-                        <TextBlock Text="{Binding Path=MainResource.Label_XAxisSpacing, Source={StaticResource LocalizedStrings}}" VerticalAlignment="Center"/>
+                        <TextBlock Text="{Binding MainResource.Label_XAxisSpacing, Source={StaticResource LocalizedStrings}}" VerticalAlignment="Center"/>
                         <v:RadioButtonOptionView DataContext="{Binding XAxisSpacingOptionVM}" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="0">
-                        <TextBlock Text="{Binding Path=MainResource.Label_YAxisSpacing, Source={StaticResource LocalizedStrings}}" VerticalAlignment="Center"/>
+                        <TextBlock Text="{Binding MainResource.Label_YAxisSpacing, Source={StaticResource LocalizedStrings}}" VerticalAlignment="Center"/>
                         <v:RadioButtonOptionView DataContext="{Binding YAxisSpacingOptionVM}" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="0" Visibility="{Binding ShowComplexPlotToggle, Converter={StaticResource myBooleanToVisibilityConverter}}">
-                        <TextBlock Text="{Binding Path=MainResource.Label_PlotToggle, Source={StaticResource LocalizedStrings}}" VerticalAlignment="Center"/>
+                        <TextBlock Text="{Binding MainResource.Label_PlotToggle, Source={StaticResource LocalizedStrings}}" VerticalAlignment="Center"/>
                         <v:RadioButtonOptionView DataContext="{Binding PlotToggleTypeOptionVM}" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="0">
-                        <TextBlock Text="{Binding Path=MainResource.Label_Normalization, Source={StaticResource LocalizedStrings}}" VerticalAlignment="Center" Margin="0,2"/>
+                        <TextBlock Text="{Binding MainResource.Label_Normalization, Source={StaticResource LocalizedStrings}}" VerticalAlignment="Center" Margin="0,2"/>
                         <v:RadioButtonOptionView DataContext="{Binding PlotNormalizationTypeOptionVM}" />
                     </StackPanel>
                 </StackPanel>
                 <!--  -->
                 <StackPanel Orientation="Vertical" Margin="5,0,0,0">
                     <!-- Plot Label -->
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding Path=MainResource.Label_PlotLabel, Source={StaticResource LocalizedStrings}}" VerticalAlignment="Center" Margin="0,0,4,0" />
+                    <StackPanel Orientation="Horizontal" Visibility="{Binding ShowInPlotView, Converter={StaticResource myBooleanToVisibilityConverter}}">
+                        <TextBlock Text="{Binding MainResource.Label_PlotLabel, Source={StaticResource LocalizedStrings}}" VerticalAlignment="Center" Margin="0,0,4,0" />
                         <TextBox Width="100" Text="{Binding CustomPlotLabel, Mode=TwoWay}" KeyDown="TextBox_KeyDown"/>
                     </StackPanel>
                     <!-- Buttons for exporting results -->
-                    <Button Content="{Binding Path=MainResource.Button_ExportImage, Source={StaticResource LocalizedStrings}}" 
-                        Click="ExportImage_Click"
-                        Margin="0,5,0,0"/>
+                    <Button Content="{Binding MainResource.Button_ExportImage, Source={StaticResource LocalizedStrings}}" 
+        				Click="ExportImage_Click"
+        				Margin="0,5,0,0"/>
                     <Button 
-                        Command="{Binding ExportDataToTextCommand}"
-                        Content="{Binding Path=MainResource.Button_ExportData, Source={StaticResource LocalizedStrings}}"  
-                        Margin="0,5,0,0"/>
+        				Command="{Binding ExportDataToTextCommand}"
+        				Content="{Binding MainResource.Button_ExportData, Source={StaticResource LocalizedStrings}}"  
+        				Margin="0,5,0,0"/>
                 </StackPanel>
             </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                
-                <CheckBox Content="{Binding Path=MainResource.Label_AutoScaleX, Source={StaticResource LocalizedStrings}}" IsChecked="{Binding AutoScaleX, Mode=TwoWay}" Margin="4" VerticalAlignment="Center"/>
+                <CheckBox Content="{Binding MainResource.Label_AutoScaleX, Source={StaticResource LocalizedStrings}}" IsChecked="{Binding AutoScaleX, Mode=TwoWay}" Margin="4" VerticalAlignment="Center"/>
                 <ContentControl IsEnabled="{Binding ManualScaleX}">
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding Path=MainResource.Label_MinX, Source={StaticResource LocalizedStrings}}" Margin="3"  VerticalAlignment="Center" />
+                        <TextBlock Text="{Binding MainResource.Label_MinX, Source={StaticResource LocalizedStrings}}" Margin="3"  VerticalAlignment="Center" />
                         <TextBox Text="{Binding MinXValue, Mode=TwoWay, StringFormat={StaticResource ScientificFormat}}" VerticalAlignment="Center" Width="52" Margin="0,4" KeyDown="TextBox_KeyDown"/>
-                        <TextBlock Text="{Binding Path=MainResource.Label_MaxX, Source={StaticResource LocalizedStrings}}" Margin="3"  VerticalAlignment="Center" />
+                        <TextBlock Text="{Binding MainResource.Label_MaxX, Source={StaticResource LocalizedStrings}}" Margin="3"  VerticalAlignment="Center" />
                         <TextBox Text="{Binding MaxXValue, Mode=TwoWay, StringFormat={StaticResource ScientificFormat}}" VerticalAlignment="Center" Width="52" Margin="0,4" KeyDown="TextBox_KeyDown"/>
                     </StackPanel>
                 </ContentControl>
-                
-                <CheckBox Content="{Binding Path=MainResource.Label_AutoScaleY, Source={StaticResource LocalizedStrings}}" IsChecked="{Binding AutoScaleY, Mode=TwoWay}" Margin="4" VerticalAlignment="Center"/>
+
+                <CheckBox Content="{Binding MainResource.Label_AutoScaleY, Source={StaticResource LocalizedStrings}}" IsChecked="{Binding AutoScaleY, Mode=TwoWay}" Margin="4" VerticalAlignment="Center"/>
                 <ContentControl IsEnabled="{Binding ManualScaleY}" HorizontalContentAlignment="Right">
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding Path=MainResource.Label_MinY, Source={StaticResource LocalizedStrings}}" Margin="3"  VerticalAlignment="Center" />
+                        <TextBlock Text="{Binding MainResource.Label_MinY, Source={StaticResource LocalizedStrings}}" Margin="3"  VerticalAlignment="Center" />
                         <TextBox Text="{Binding MinYValue, Mode=TwoWay, StringFormat={StaticResource ScientificFormat}}" VerticalAlignment="Center" Width="52" Margin="0,4" KeyDown="TextBox_KeyDown"/>
-                        <TextBlock Text="{Binding Path=MainResource.Label_MaxY, Source={StaticResource LocalizedStrings}}" Margin="3" VerticalAlignment="Center" />
+                        <TextBlock Text="{Binding MainResource.Label_MaxY, Source={StaticResource LocalizedStrings}}" Margin="3" VerticalAlignment="Center" />
                         <TextBox Text="{Binding MaxYValue, Mode=TwoWay, StringFormat={StaticResource ScientificFormat}}" VerticalAlignment="Center" Width="52" Margin="0,4" KeyDown="TextBox_KeyDown"/>
                     </StackPanel>
                 </ContentControl>
             </StackPanel>
         </StackPanel>
-    </StackPanel>
+        <!-- Options below the plot -->
+    </Grid>
 </UserControl>
