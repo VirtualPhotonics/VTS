@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using System.Numerics;
 using System.Linq;
 using Vts.Common;
 using Vts.IO;
@@ -10,19 +11,19 @@ using Vts.MonteCarlo.PhotonData;
 namespace Vts.MonteCarlo.Detectors
 {
     /// <summary>
-    /// Tally for radiance as a function of Rho and Z and Angle (theta).
+    /// Tally for radiance as a function of Fx and Z and Angle (theta).
     /// This works for Analog and DAW processing.
     /// </summary>
-    public class RadianceOfRhoAndZAndAngleDetectorInput : DetectorInput, IDetectorInput
+    public class RadianceOfFxAndZAndAngleDetectorInput : DetectorInput, IDetectorInput
     {
         /// <summary>
-        /// constructor for radiance as a function of rho, z and angle detector input
+        /// constructor for radiance as a function of fx, z and angle detector input
         /// </summary>
-        public RadianceOfRhoAndZAndAngleDetectorInput()
+        public RadianceOfFxAndZAndAngleDetectorInput()
         {
-            TallyType = "RadianceOfRhoAndZAndAngle";
-            Name = "RadianceOfRhoAndZAndAngle";
-            Rho = new DoubleRange(0.0, 10, 101);
+            TallyType = "RadianceOfFxAndZAndAngle";
+            Name = "RadianceOfFxAndZAndAngle";
+            Fx = new DoubleRange(0.0, 0.5, 51);
             Z = new DoubleRange(0.0, 10, 101);
             Angle = new DoubleRange(0.0, Math.PI, 5);
 
@@ -33,9 +34,9 @@ namespace Vts.MonteCarlo.Detectors
         }
 
         /// <summary>
-        /// rho binning
+        /// detector Fx binning
         /// </summary>
-        public DoubleRange Rho { get; set; }
+        public DoubleRange Fx { get; set; }
 
         /// <summary>
         /// Z binning
@@ -49,7 +50,7 @@ namespace Vts.MonteCarlo.Detectors
 
         public IDetector CreateDetector()
         {
-            return new RadianceOfRhoAndZAndAngleDetector
+            return new RadianceOfFxAndZAndAngleDetector
             {
                 // required properties (part of DetectorInput/Detector base classes)
                 TallyType = this.TallyType,
@@ -58,29 +59,29 @@ namespace Vts.MonteCarlo.Detectors
                 TallyDetails = this.TallyDetails,
 
                 // optional/custom detector-specific properties
-                Rho = this.Rho,
+                Fx = this.Fx,
                 Z = this.Z,
                 Angle = this.Angle
             };
         }
     }
     /// <summary>
-    /// Implements IDetector.  Tally for radiance as a function  of Rho and Z and Angle.
+    /// Implements IDetector.  Tally for radiance as a function  of Fx and Z and Angle.
     /// This implementation works for Analog, DAW processing.
     /// </summary>
-    public class RadianceOfRhoAndZAndAngleDetector : Detector, IHistoryDetector
+    public class RadianceOfFxAndZAndAngleDetector : Detector, IHistoryDetector
     {
         private Func<PhotonDataPoint, PhotonDataPoint, int, double> _absorptionWeightingMethod;
         private ITissue _tissue;
         private IList<OpticalProperties> _ops;
-        private double[,,] _tallyForOnePhoton;
+        private Complex[,,] _tallyForOnePhoton;
 
         /* ==== Place optional/user-defined input properties here. They will be saved in text (JSON) format ==== */
         /* ==== Note: make sure to copy over all optional/user-defined inputs from corresponding input class ==== */
         /// <summary>
-        /// rho binning
+        /// detector Fx binning
         /// </summary>
-        public DoubleRange Rho { get; set; }
+        public DoubleRange Fx { get; set; }
         /// <summary>
         /// Z binning
         /// </summary>
@@ -96,12 +97,12 @@ namespace Vts.MonteCarlo.Detectors
         /// detector mean
         /// </summary>
         [IgnoreDataMember]
-        public double[,,] Mean { get; set; }
+        public Complex[,,] Mean { get; set; }
         /// <summary>
         /// detector second moment
         /// </summary>
         [IgnoreDataMember]
-        public double[,,] SecondMoment { get; set; }
+        public Complex[,,] SecondMoment { get; set; }
 
         /* ==== Place optional/user-defined output properties here. They will be saved in text (JSON) format ==== */
         /// <summary>
@@ -115,14 +116,14 @@ namespace Vts.MonteCarlo.Detectors
             TallyCount = 0;
 
             // if the data arrays are null, create them (only create second moment if TallySecondMoment is true)
-            Mean = Mean ?? new double[Rho.Count - 1, Z.Count - 1, Angle.Count - 1];
-            SecondMoment = SecondMoment ?? (TallySecondMoment ? new double[Rho.Count - 1, Z.Count - 1, Angle.Count - 1] : null);
+            Mean = Mean ?? new Complex[Fx.Count, Z.Count - 1, Angle.Count - 1];
+            SecondMoment = SecondMoment ?? (TallySecondMoment ? new Complex[Fx.Count, Z.Count - 1, Angle.Count - 1] : null);
 
             // intialize any other necessary class fields here
             _absorptionWeightingMethod = AbsorptionWeightingMethods.GetVolumeAbsorptionWeightingMethod(tissue, this);
             _tissue = tissue;
             _ops = _tissue.Regions.Select(r => r.RegionOP).ToArray();
-            _tallyForOnePhoton = _tallyForOnePhoton ?? (TallySecondMoment ? new double[Rho.Count - 1, Z.Count - 1, Angle.Count - 1] : null);
+            _tallyForOnePhoton = _tallyForOnePhoton ?? (TallySecondMoment ? new Complex[Fx.Count, Z.Count - 1, Angle.Count - 1] : null);
         }
 
         /// <summary>
@@ -133,24 +134,34 @@ namespace Vts.MonteCarlo.Detectors
         /// <param name="currentRegionIndex">index of region photon current is in</param>
         public void TallySingle(PhotonDataPoint previousDP, PhotonDataPoint dp, int currentRegionIndex)
         {
-            var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(dp.Position.X, dp.Position.Y), Rho.Count - 1, Rho.Delta, Rho.Start);
             var iz = DetectorBinning.WhichBin(dp.Position.Z, Z.Count - 1, Z.Delta, Z.Start);
             // using Acos, -1<Uz<1 goes to pi<theta<0, so first bin is most forward directed angle
             var ia = DetectorBinning.WhichBin(Math.Acos(dp.Direction.Uz), Angle.Count - 1, Angle.Delta, Angle.Start);
 
             var weight = _absorptionWeightingMethod(previousDP, dp, currentRegionIndex);
-
-            var regionIndex = currentRegionIndex;
-
+            
             if (weight != 0.0)
             {
-                Mean[ir, iz, ia] += weight / _ops[regionIndex].Mua;
-                if (TallySecondMoment)
+                var x = dp.Position.X;
+                var fxArray = Fx.AsEnumerable().ToArray();
+                for (int ifx = 0; ifx < fxArray.Length; ifx++)
                 {
-                    _tallyForOnePhoton[ir, iz, ia] += weight / _ops[regionIndex].Mua;
+                    double freq = fxArray[ifx];
+                    var sinNegativeTwoPiFX = Math.Sin(-2*Math.PI*freq*x);
+                    var cosNegativeTwoPiFX = Math.Cos(-2*Math.PI*freq*x);
+                    // convert to Hz-sec from GHz-ns 1e-9*1e9=1
+                    var deltaWeight = (weight/_ops[currentRegionIndex].Mua)*
+                                      (cosNegativeTwoPiFX + Complex.ImaginaryOne*sinNegativeTwoPiFX);
+
+                    Mean[ifx, iz, ia] += deltaWeight;
+                    if (TallySecondMoment)
+                    {
+                        _tallyForOnePhoton[ifx, iz, ia] += deltaWeight;
+                    }
+                    TallyCount++;
                 }
-                TallyCount++;
             }
+
         }
         /// <summary>
         /// method to tally to detector
@@ -172,13 +183,14 @@ namespace Vts.MonteCarlo.Detectors
             // second moment determined after all tallies to each detector bin for ONE photon has been complete
             if (TallySecondMoment)
             {
-                for (int ir = 0; ir < Rho.Count - 1; ir++)
+                for (int ifx = 0; ifx < Fx.Count; ifx++)
                 {
                     for (int iz = 0; iz < Z.Count - 1; iz++)
                     {
                         for (int ia = 0; ia < Angle.Count - 1; ia++)
                         {
-                            SecondMoment[ir, iz, ia] += _tallyForOnePhoton[ir, iz, ia] * _tallyForOnePhoton[ir, iz, ia];
+                            SecondMoment[ifx, iz, ia] += _tallyForOnePhoton[ifx, iz, ia].Real * _tallyForOnePhoton[ifx, iz, ia].Real + 
+                               Complex.ImaginaryOne * _tallyForOnePhoton[ifx, iz, ia].Imaginary * _tallyForOnePhoton[ifx,iz,ia].Imaginary;
                         }
                     }
                 }
@@ -191,18 +203,18 @@ namespace Vts.MonteCarlo.Detectors
         /// <param name="numPhotons">number of photons launched</param>
         public void Normalize(long numPhotons)
         {
-            var normalizationFactor = 2.0 * Math.PI * Rho.Delta * Z.Delta * 2.0 * Math.PI * Angle.Delta;
-            for (int ir = 0; ir < Rho.Count - 1; ir++)
+            var normalizationFactor = Z.Delta * 2.0 * Math.PI * Angle.Delta;
+            for (int ifx = 0; ifx < Fx.Count; ifx++)
             {
                 for (int iz = 0; iz < Z.Count - 1; iz++)
                 {
                     for (int ia = 0; ia < Angle.Count - 1; ia++)
                     {
-                        var areaNorm = (Rho.Start + (ir + 0.5) * Rho.Delta) * Math.Sin((ia+0.5)*Angle.Delta) * normalizationFactor;
-                        Mean[ir, iz, ia] /= areaNorm * numPhotons;
+                        var areaNorm = Math.Sin((ia+0.5)*Angle.Delta) * normalizationFactor;
+                        Mean[ifx, iz, ia] /= areaNorm * numPhotons;
                         if (TallySecondMoment)
                         {
-                            SecondMoment[ir, iz, ia] /= areaNorm * areaNorm * numPhotons;
+                            SecondMoment[ifx, iz, ia] /= areaNorm * areaNorm * numPhotons;
                         }
                     }
                 }
@@ -217,22 +229,25 @@ namespace Vts.MonteCarlo.Detectors
                     Name = "Mean",
                     FileTag = "",
                     WriteData = binaryWriter => {
-                        for (int i = 0; i < Rho.Count - 1; i++) {
+                        for (int i = 0; i < Fx.Count; i++) {
                             for (int j = 0; j < Z.Count - 1; j++) {
                                 for (int k = 0; k < Angle.Count - 1; k++)
                                 {
-                                    binaryWriter.Write(Mean[i, j, k]);
+                                    binaryWriter.Write(Mean[i, j, k].Real);
+                                    binaryWriter.Write(Mean[i, j, k].Imaginary);
                                 }
                             }
                         }
                     },
                     ReadData = binaryReader => {
-                        Mean = Mean ?? new double[ Rho.Count - 1, Z.Count - 1, Angle.Count -1];
-                        for (int i = 0; i <  Rho.Count - 1; i++) {
+                        Mean = Mean ?? new Complex[ Fx.Count, Z.Count - 1, Angle.Count -1];
+                        for (int i = 0; i <  Fx.Count; i++) {
                             for (int j = 0; j < Z.Count - 1; j++) {
                                 for (int k = 0; k < Angle.Count - 1; k++)
                                 {
-                                    Mean[i, j, k] = binaryReader.ReadDouble(); 
+                                    var real = binaryReader.ReadDouble();
+                                    var imag = binaryReader.ReadDouble();
+                                    Mean[i, j, k] = new Complex(real, imag);
                                 }
                             }
                         }
@@ -245,23 +260,26 @@ namespace Vts.MonteCarlo.Detectors
                     FileTag = "_2",
                     WriteData = binaryWriter => {
                         if (!TallySecondMoment || SecondMoment == null) return;
-                        for (int i = 0; i < Rho.Count - 1; i++) {
+                        for (int i = 0; i < Fx.Count; i++) {
                             for (int j = 0; j < Z.Count - 1; j++) {
                                 for (int k = 0; k < Angle.Count - 1; k++)
                                 {
-                                    binaryWriter.Write(SecondMoment[i, j, k]);
+                                    binaryWriter.Write(SecondMoment[i, j, k].Real);
+                                    binaryWriter.Write(SecondMoment[i, j, k].Imaginary);
                                 }
                             }                            
                         }
                     },
                     ReadData = binaryReader => {
                         if (!TallySecondMoment || SecondMoment == null) return;
-                        SecondMoment = new double[ Rho.Count - 1, Z.Count - 1, Angle.Count - 1];
-                        for (int i = 0; i < Rho.Count - 1; i++) {
+                        SecondMoment = new Complex[ Fx.Count, Z.Count - 1, Angle.Count - 1];
+                        for (int i = 0; i < Fx.Count; i++) {
                             for (int j = 0; j < Z.Count - 1; j++) {
                                 for (int k = 0; k < Angle.Count - 1; k++)
                                 {
-                                    SecondMoment[i, j, k] = binaryReader.ReadDouble();
+                                    var real = binaryReader.ReadDouble();
+                                    var imag = binaryReader.ReadDouble();
+                                    SecondMoment[i, j, k] = new Complex(real, imag);
                                 }
                             }                       
 			            }

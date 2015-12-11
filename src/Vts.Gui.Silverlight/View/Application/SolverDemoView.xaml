@@ -6,7 +6,7 @@
     xmlns:controls="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls" 
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-    mc:Ignorable="d">
+    mc:Ignorable="d" d:DesignWidth="1400" d:DesignHeight="800">
 
     <UserControl.DataContext>
         <vm:SolverDemoViewModel />
@@ -20,16 +20,16 @@
                         <GradientStop Color="White" Offset="1"/>
                     </RadialGradientBrush>
                 </Grid.Background>
-                <!--Create Grid with 4 rows and 3 columns-->
+                <!--Create Grid with 3 rows and 3 columns-->
                 <Grid.RowDefinitions>
                     <RowDefinition Height="70"/>
-                    <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="60"/>
                     <ColumnDefinition Width="Auto" MinWidth="375" />
-                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Grid
                     Grid.Row="0" 
@@ -66,12 +66,14 @@
                 </Grid>
                 <Image 
                     Source="/Vts.Gui.Silverlight;Component/Resources/Images/logo-small.png"
-                    Grid.Row="0" 
+                    Grid.Row="0"
+                    Grid.Column="0"
                     Height="50"
                     Stretch="None"
 					VerticalAlignment="Center"
                     HorizontalAlignment="center"/>
-                <controls:TabControl x:Name="inputTabControl" SelectionChanged="inputTabControl_SelectionChanged"
+                <controls:TabControl x:Name="inputTabControl" 
+                    SelectionChanged="inputTabControl_SelectionChanged"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Top"  
                     Grid.Row="1"
@@ -116,13 +118,11 @@
                             HorizontalAlignment="Left"/>
                     </controls:TabItem>
                 </controls:TabControl>
-                <controls:TabControl x:Name="outputTabControl"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"  
+                <controls:TabControl x:Name="outputTabControl"  
                     Grid.Row="1"
                     Grid.Column="2"
-                    Margin="5,0,0,0"
-                    Width="530">
+                    Width="Auto"
+                    Height="Auto" Margin="0,0,0,0">
                     <controls:TabItem Name="tabPlot">
                         <controls:TabItem.Header>
                             <ContentControl DataContext="{Binding PlotVM}">
@@ -136,7 +136,9 @@
                         </controls:TabItem.Header>
                         <local:PlotView
                             DataContext="{Binding PlotVM}"
-                            Background="LightSteelBlue"/>
+                            VerticalAlignment="Stretch"
+                            HorizontalAlignment="Stretch"
+                            Margin="0,0,3,0"/>
                     </controls:TabItem>
                     <controls:TabItem Name="tabMap" Visibility="Collapsed">
                         <controls:TabItem.Header>
@@ -151,7 +153,9 @@
                         </controls:TabItem.Header>
                         <local:MapView
                             DataContext="{Binding MapVM}"
-                            Background="LightSteelBlue"/>
+                            VerticalAlignment="Stretch"
+                            HorizontalAlignment="Stretch"
+                            Margin="0,0,3,0"/>
                     </controls:TabItem>
                     <controls:TabItem Name="tabMesh" Header="Mesh Map View" Visibility="Collapsed">
                         <local:MapView
@@ -163,9 +167,13 @@
                 <local:TextOutputView
                     DataContext="{Binding TextOutputVM}"
                     VerticalAlignment="Stretch"
+                    HorizontalAlignment="Stretch"
 					Grid.Column="0"
-                    Grid.Row="3" 
-                    Grid.ColumnSpan="3" Margin="3" />
+                    Grid.Row="2" 
+                    Grid.ColumnSpan="3" 
+                    Margin="3"
+                    Width="Auto"
+                    Height="Auto" />
             </Grid>
         </ScrollViewer>
     </Grid>
