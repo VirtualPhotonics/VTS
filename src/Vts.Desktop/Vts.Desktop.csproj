@@ -571,6 +571,15 @@
     <Compile Include="..\Vts\MonteCarlo\DataStructuresValidation\DetectorInputs\ReflectedDynamicMTOfRhoAndSubregionHistDetectorInputValidation.cs">
       <Link>MonteCarlo\DataStructuresValidation\DetectorInputs\ReflectedDynamicMTOfRhoAndSubregionHistDetectorInputValidation.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\DataStructuresValidation\DetectorInputs\ReflectedDynamicMTOfXAndYAndSubregionHistDetectorInputValidation.cs">
+      <Link>MonteCarlo\DataStructuresValidation\DetectorInputs\ReflectedDynamicMTOfXAndYAndSubregionHistDetectorInputValidation.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\DataStructuresValidation\DetectorInputs\TransmittedDynamicMTOfRhoAndSubregionHistDetectorInputValidation.cs">
+      <Link>MonteCarlo\DataStructuresValidation\DetectorInputs\TransmittedDynamicMTOfRhoAndSubregionHistDetectorInputValidation.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\DataStructuresValidation\DetectorInputs\TransmittedDynamicMTOfXAndYAndSubregionHistDetectorInputValidation.cs">
+      <Link>MonteCarlo\DataStructuresValidation\DetectorInputs\TransmittedDynamicMTOfXAndYAndSubregionHistDetectorInputValidation.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\DataStructuresValidation\PostProcessorInputs\PostProcessorInputValidation.cs">
       <Link>MonteCarlo\DataStructuresValidation\PostProcessorInputs\PostProcessorInputValidation.cs</Link>
     </Compile>
@@ -655,6 +664,9 @@
     <Compile Include="..\Vts\MonteCarlo\Detectors\pMCROfRhoDetector.cs">
       <Link>MonteCarlo\Detectors\pMCROfRhoDetector.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\RadianceOfFxAndZAndAngleDetector.cs">
+      <Link>MonteCarlo\Detectors\RadianceOfFxAndZAndAngleDetector.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\RadianceOfRhoAndZAndAngleDetector.cs">
       <Link>MonteCarlo\Detectors\RadianceOfRhoAndZAndAngleDetector.cs</Link>
     </Compile>
@@ -667,11 +679,11 @@
     <Compile Include="..\Vts\MonteCarlo\Detectors\RDiffuseDetector.cs">
       <Link>MonteCarlo\Detectors\RDiffuseDetector.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Detectors\ReflectedDynamicMTOfRhoAndSubregionDetector.cs">
-      <Link>MonteCarlo\Detectors\ReflectedDynamicMTOfRhoAndSubregionDetector.cs</Link>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\ReflectedDynamicMTOfRhoAndSubregionHistDetector.cs">
+      <Link>MonteCarlo\Detectors\ReflectedDynamicMTOfRhoAndSubregionHistDetector.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Detectors\ReflectedDynamicMTOfXAndYAndSubregionDetector.cs">
-      <Link>MonteCarlo\Detectors\ReflectedDynamicMTOfXAndYAndSubregionDetector.cs</Link>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\ReflectedDynamicMTOfXAndYAndSubregionHistDetector.cs">
+      <Link>MonteCarlo\Detectors\ReflectedDynamicMTOfXAndYAndSubregionHistDetector.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\ReflectedMTOfRhoAndSubRegionHistDetector.cs">
       <Link>MonteCarlo\Detectors\ReflectedMTOfRhoAndSubRegionHistDetector.cs</Link>
@@ -727,11 +739,11 @@
     <Compile Include="..\Vts\MonteCarlo\Detectors\TOfXAndYDetector.cs">
       <Link>MonteCarlo\Detectors\TOfXAndYDetector.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Detectors\TransmittedDynamicMTOfRhoAndSubregionDetector.cs">
-      <Link>MonteCarlo\Detectors\TransmittedDynamicMTOfRhoAndSubregionDetector.cs</Link>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\TransmittedDynamicMTOfRhoAndSubregionHistDetector.cs">
+      <Link>MonteCarlo\Detectors\TransmittedDynamicMTOfRhoAndSubregionHistDetector.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Detectors\TransmittedDynamicMTOfXAndYAndSubregionDetector.cs">
-      <Link>MonteCarlo\Detectors\TransmittedDynamicMTOfXAndYAndSubregionDetector.cs</Link>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\TransmittedDynamicMTOfXAndYAndSubregionHistDetector.cs">
+      <Link>MonteCarlo\Detectors\TransmittedDynamicMTOfXAndYAndSubregionHistDetector.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\TransmittedMTOfRhoAndSubregionHistDetector.cs">
       <Link>MonteCarlo\Detectors\TransmittedMTOfRhoAndSubregionHistDetector.cs</Link>

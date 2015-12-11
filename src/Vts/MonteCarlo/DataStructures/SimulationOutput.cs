@@ -246,6 +246,14 @@ namespace Vts.MonteCarlo
         /// </summary>
         public double[, ,] Rad_rza2 { get { return ((double[, ,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "RadianceOfRhoAndZAndAngle").First().Name]).SecondMoment); } }
         /// <summary>
+        /// Radiance as a function of fx, z and angle (volume tally)
+        /// </summary>
+        public double[, ,] Rad_fxza { get { return ((double[, ,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "RadianceOfFxAndZAndAngle").First().Name]).Mean); } }
+        /// <summary>
+        /// Radiance as a function of rho, z and angle (volume tally) 2nd moment
+        /// </summary>
+        public double[, ,] Rad_fxza2 { get { return ((double[, ,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "RadianceOfFxAndZAndAngle").First().Name]).SecondMoment); } }
+        /// <summary>
         /// Radiance as a function of x, y, z, theta and phi (volume tally)
         /// </summary>
         public double[, , , ,] Rad_xyztp { get { return ((double[, , , ,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "RadianceOfXAndYAndZAndThetaAndPhi").First().Name]).Mean); } }
@@ -301,7 +309,6 @@ namespace Vts.MonteCarlo
         /// Transmitted Momentum Transfer of Rho and Tissue SubRegion with a histogram of MT fractional MT
         /// </summary>
         public double[,,,,] TransMT_xymt_frac { get { return ((double[,,,,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "TransmittedMTOfXAndYAndSubregionHist").First().Name]).FractionalMT); } }
-
         /// <summary>
         /// Reflected Dynamic Momentum Transfer of Rho and Tissue SubRegion with a histogram of MT
         /// </summary>
@@ -313,7 +320,15 @@ namespace Vts.MonteCarlo
         /// <summary>
         /// Reflected Dynamic Momentum Transfer of Rho and Tissue SubRegion with a histogram of MT fractional MT
         /// </summary>
-        public double[, , ,] RefDynMT_rmt_frac { get { return ((double[, , ,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ReflectedDynamicMTOfRhoAndSubregionHist").First().Name]).FractionalMT); } }
+        public double[, ,] RefDynMT_rmt_frac { get { return ((double[, ,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ReflectedDynamicMTOfRhoAndSubregionHist").First().Name]).FractionalMT); } }
+        /// <summary>
+        /// Reflected Dynamic Momentum Transfer of Rho and Tissue SubRegion with Total MT of Z
+        /// </summary>
+        public double[,] RefDynMT_rmt_totofz { get { return ((double[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ReflectedDynamicMTOfRhoAndSubregionHist").First().Name]).TotalMTOfZ); } }
+        /// <summary>
+        /// Reflected Dynamic Momentum Transfer of Rho and Tissue SubRegion with Dynamic MT of Z
+        /// </summary>
+        public double[,] RefDynMT_rmt_dynofz { get { return ((double[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ReflectedDynamicMTOfRhoAndSubregionHist").First().Name]).DynamicMTOfZ); } }
         /// <summary>
         /// Reflected Dynamic Momentum Transfer of X, Y and Tissue SubRegion with a histogram of MT
         /// </summary>
@@ -325,7 +340,15 @@ namespace Vts.MonteCarlo
         /// <summary>
         /// Reflected Dynamic Momentum Transfer of X, Y and Tissue SubRegion with a histogram of MT fractional MT
         /// </summary>
-        public double[, , , ,] RefDynMT_xymt_frac { get { return ((double[, , , ,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ReflectedDynamicMTOfXAndYAndSubregionHist").First().Name]).FractionalMT); } }
+        public double[, , ,] RefDynMT_xymt_frac { get { return ((double[, , ,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ReflectedDynamicMTOfXAndYAndSubregionHist").First().Name]).FractionalMT); } }
+        /// <summary>
+        /// Reflected Dynamic Momentum Transfer of Rho and Tissue SubRegion with Total MT of Z
+        /// </summary>
+        public double[,,] RefDynMT_xymt_totofz { get { return ((double[,,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ReflectedDynamicMTOfRhoAndSubregionHist").First().Name]).TotalMTOfZ); } }
+        /// <summary>
+        /// Reflected Dynamic Momentum Transfer of Rho and Tissue SubRegion with Dynamic MT of Z
+        /// </summary>
+        public double[,,] RefDynMT_xymt_dynofz { get { return ((double[,,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ReflectedDynamicMTOfRhoAndSubregionHist").First().Name]).DynamicMTOfZ); } }   
         /// <summary>
         /// Transmitted Dynamic Momentum Transfer of Rho and Tissue SubRegion with a histogram of MT
         /// </summary>
@@ -337,7 +360,15 @@ namespace Vts.MonteCarlo
         /// <summary>
         /// Transmitted Dynamic Momentum Transfer of Rho and Tissue SubRegion with a histogram of MT fractional MT
         /// </summary>
-        public double[, , ,] TransDynMT_rmt_frac { get { return ((double[, , ,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "TransmittedDynamicMTOfRhoAndSubregionHist").First().Name]).FractionalMT); } }
+        public double[, ,] TransDynMT_rmt_frac { get { return ((double[, ,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "TransmittedDynamicMTOfRhoAndSubregionHist").First().Name]).FractionalMT); } }
+        /// <summary>
+        /// Reflected Dynamic Momentum Transfer of Rho and Tissue SubRegion with Total MT of Z
+        /// </summary>
+        public double[,] TransDynMT_rmt_totofz { get { return ((double[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ReflectedDynamicMTOfRhoAndSubregionHist").First().Name]).TotalMTOfZ); } }
+        /// <summary>
+        /// Reflected Dynamic Momentum Transfer of Rho and Tissue SubRegion with Dynamic MT of Z
+        /// </summary>
+        public double[,] TransDynMT_rmt_dynofz { get { return ((double[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ReflectedDynamicMTOfRhoAndSubregionHist").First().Name]).DynamicMTOfZ); } }
         /// <summary>
         /// Transmitted Dynamic Momentum Transfer of X, Y and Tissue SubRegion with a histogram of MT
         /// </summary>
@@ -349,7 +380,15 @@ namespace Vts.MonteCarlo
         /// <summary>
         /// Transmitted Dynamic Momentum Transfer of X, Y and Tissue SubRegion with a histogram of MT fractional MT
         /// </summary>
-        public double[, , , ,] TransDynMT_xymt_frac { get { return ((double[, , , ,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "TransmittedDynamicMTOfXAndYAndSubregionHist").First().Name]).FractionalMT); } }
+        public double[, , ,] TransDynMT_xymt_frac { get { return ((double[, , ,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "TransmittedDynamicMTOfXAndYAndSubregionHist").First().Name]).FractionalMT); } }
+        /// <summary>
+        /// Reflected Dynamic Momentum Transfer of Rho and Tissue SubRegion with Total MT of Z
+        /// </summary>
+        public double[, ,] TransDynMT_xymt_totofz { get { return ((double[, ,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ReflectedDynamicMTOfRhoAndSubregionHist").First().Name]).TotalMTOfZ); } }
+        /// <summary>
+        /// Reflected Dynamic Momentum Transfer of Rho and Tissue SubRegion with Dynamic MT of Z
+        /// </summary>
+        public double[, ,] TransDynMT_xymt_dynofz { get { return ((double[, ,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ReflectedDynamicMTOfRhoAndSubregionHist").First().Name]).DynamicMTOfZ); } }   
         
         /// <summary>
         /// Reflected Time of Rho and Tissue SubRegion with a histogram of Time

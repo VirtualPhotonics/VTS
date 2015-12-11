@@ -521,6 +521,10 @@ namespace Vts.MonteCarlo
             /// </summary>
             "RadianceOfRhoAndZAndAngle",
             /// <summary>
+            /// Volume randiance as a function of spatial-frequency (fx), tissue depth (Z) and angle
+            /// </summary>
+            "RadianceOfFxAndZAndAngle",
+            /// <summary>
             /// Volume randiance as a function of x, y, z, theta and phi
             /// </summary>
             "RadianceOfXAndYAndZAndThetaAndPhi",
@@ -678,6 +682,10 @@ namespace Vts.MonteCarlo
         /// Volume randiance as a function of source-detector separation (rho), tissue depth (Z) and angle
         /// </summary>
         public static string RadianceOfRhoAndZAndAngle { get { return "RadianceOfRhoAndZAndAngle"; } }
+        /// <summary>
+        /// Volume randiance as a function of spatial frequency (fx), tissue depth (Z) and angle
+        /// </summary>
+        public static string RadianceOfFxAndZAndAngle { get { return "RadianceOfFxAndZAndAngle"; } }
         /// <summary>
         /// Volume randiance as a function of x, y, z, theta and phi
         /// </summary>
