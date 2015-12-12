@@ -84,6 +84,7 @@ namespace Vts.MonteCarlo
                     new FluenceOfXAndYAndZDetectorInput(){X=new DoubleRange(-10, 10, 201),Y=new DoubleRange(-10, 10, 2),Z=new DoubleRange(0, 10, 101)},
                     new FluenceOfXAndYAndZAndOmegaDetectorInput(){X=new DoubleRange(-10, 10, 201),Y=new DoubleRange(-10, 10, 2),Z=new DoubleRange(0, 10, 101),Omega=new DoubleRange(0.0, 1, 21)},
                     new RadianceOfRhoAndZAndAngleDetectorInput(){Rho=new DoubleRange(0.0, 10, 101),Z=new DoubleRange(0.0, 10, 101),Angle=new DoubleRange(0, Math.PI, 3)},
+                    new RadianceOfFxAndZAndAngleDetectorInput(){Fx=new DoubleRange(0.0, 0.5, 51),Z=new DoubleRange(0.0, 10, 101),Angle=new DoubleRange(0, Math.PI, 3)},
                     new RadianceOfXAndYAndZAndThetaAndPhiDetectorInput(){
                         X=new DoubleRange(-10.0, 10.0, 101),
                         Y= new DoubleRange(-10.0, 10.0, 101),
@@ -523,11 +524,11 @@ namespace Vts.MonteCarlo
                 new SimulationOptions(
                     0, // random number generator seed, -1=random seed, 0=fixed seed
                     RandomNumberGeneratorType.MersenneTwister,
-                    AbsorptionWeightingType.Discrete,
+                    AbsorptionWeightingType.Continuous,
                     PhaseFunctionType.HenyeyGreenstein,
                     new List<DatabaseType>() { }, // databases to be written
                     true, // track statistics
-                    0.0001, // RR threshold -> no RR performed
+                    0.00, // RR threshold -> no RR performed
                     0),
                 new DirectionalPointSourceInput(
                     new Position(0.0, 0.0, 0.0),
@@ -579,28 +580,36 @@ namespace Vts.MonteCarlo
                     // DYNAMIC MT detectors
                     // detectors with cylindrical symmetry
                     new ReflectedDynamicMTOfRhoAndSubregionHistDetectorInput(){
-                        Rho=new DoubleRange(0.0, 10.0, 101), // rho bins
+                        Rho=new DoubleRange(0.0, 10.0, 101), // rho bins                
+                        Z= new DoubleRange(0.0, 10.0, 11),
                         MTBins=new DoubleRange(0.0, 500.0, 51), // MT bins
                         FractionalMTBins = new DoubleRange(0.0, 1.0, 11), // fractional MT bins                        
-                        BloodVolumeFraction = new List<double>() { 0, 0.5, 0.5, 0 }},
+                        BloodVolumeFraction = new List<double>() { 0, 0.5, 0.5, 0 },
+                        TallySecondMoment = true},
                     new TransmittedDynamicMTOfRhoAndSubregionHistDetectorInput(){
-                        Rho=new DoubleRange(0.0, 10.0, 101), // rho bins
+                        Rho=new DoubleRange(0.0, 10.0, 101), // rho bins                
+                        Z= new DoubleRange(0.0, 10.0, 11),
                         MTBins=new DoubleRange(0.0, 500.0, 51), // MT bins
                         FractionalMTBins = new DoubleRange(0.0, 1.0, 11), // fractional MT bins
-                        BloodVolumeFraction = new List<double>() { 0, 0.5, 0.5, 0 }},
+                        BloodVolumeFraction = new List<double>() { 0, 0.5, 0.5, 0 },
+                        TallySecondMoment = true},
                     // detectors with Cartesian coordinates                      
                     new ReflectedDynamicMTOfXAndYAndSubregionHistDetectorInput(){
-                        X=new DoubleRange(-100.0, 100.0, 21), 
-                        Y= new DoubleRange(-100.0, 100.0, 21),
+                        X=new DoubleRange(-10.0, 10.0, 21), 
+                        Y= new DoubleRange(-10.0, 10.0, 21),                 
+                        Z= new DoubleRange(0.0, 10.0, 11),
                         MTBins=new DoubleRange(0.0, 500.0, 51), // MT bins
                         FractionalMTBins = new DoubleRange(0.0, 1.0, 11), // fractional MT bins
-                        BloodVolumeFraction = new List<double>() { 0, 0.5, 0.5, 0 }},
+                        BloodVolumeFraction = new List<double>() { 0, 0.5, 0.5, 0 },
+                        TallySecondMoment = true},
                     new TransmittedDynamicMTOfXAndYAndSubregionHistDetectorInput(){
-                        X=new DoubleRange(-100.0, 100.0, 21), 
-                        Y= new DoubleRange(-100.0, 100.0, 21),
+                        X=new DoubleRange(-10.0, 10.0, 21), 
+                        Y= new DoubleRange(-10.0, 10.0, 21),             
+                        Z= new DoubleRange(0.0, 10.0, 11),
                         MTBins=new DoubleRange(0.0, 500.0, 51), // MT bins
                         FractionalMTBins = new DoubleRange(0.0, 1.0, 11), // fractional MT bins
-                        BloodVolumeFraction = new List<double>() { 0, 0.5, 0.5, 0 }},
+                        BloodVolumeFraction = new List<double>() { 0, 0.5, 0.5, 0 },
+                        TallySecondMoment = true},
                 }
             );
         }

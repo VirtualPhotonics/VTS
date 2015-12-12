@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Linq;
+using System.Windows;
 using System.Windows.Media.Imaging;
 using GalaSoft.MvvmLight.Command;
 using SLExtensions.Input;
@@ -15,9 +16,11 @@ namespace Vts.Gui.Silverlight.ViewModel
 {
     public class MapViewModel : BindableObject
     {
+        private int _mapViewId;
         private double _MinValue;
         private double _MaxValue;
         private bool _AutoScale;
+        private Thickness _ZMax;
 
         private OptionViewModel<ColormapType> _ColormapTypeOptionVM;
         private OptionViewModel<ScalingType> _ScalingTypeOptionVM;
@@ -25,13 +28,14 @@ namespace Vts.Gui.Silverlight.ViewModel
         private MapData _mapData;
         private Colormap _colormap;
 
-        public MapViewModel()
+        public MapViewModel(int MapViewId = 0)
         {
+            _mapViewId = MapViewId;
             MinValue = 1E-9;
             MaxValue = 1.0;
             AutoScale = false;
 
-            ScalingTypeOptionVM = new OptionViewModel<ScalingType>(StringLookup.GetLocalizedString("Label_ScalingType"), false);
+            ScalingTypeOptionVM = new OptionViewModel<ScalingType>(StringLookup.GetLocalizedString("Label_ScalingType") + _mapViewId, false);
             ScalingTypeOptionVM.PropertyChanged += (sender, args) => UpdateImages();
 
             ColormapTypeOptionVM = new OptionViewModel<ColormapType>(StringLookup.GetLocalizedString("Label_ColormapType"));
@@ -63,7 +67,8 @@ namespace Vts.Gui.Silverlight.ViewModel
 
         public static MapViewModel Clone(MapViewModel mapToClone)
         {
-            var output = new MapViewModel();
+            var output = new MapViewModel(mapToClone._mapViewId + 1);
+            mapToClone._mapViewId += 1;
 
             Commands.Maps_PlotMap.Executed -= output.Maps_PlotMap_Executed;
 
@@ -123,8 +128,25 @@ namespace Vts.Gui.Silverlight.ViewModel
             set
             {
                 _AutoScale = value;
-                this.OnPropertyChanged("AutoScale");
-                this.OnPropertyChanged("ManualScale");
+                if (!AutoScale)
+                {
+                    MinValue = 1E-9;
+                    MaxValue = 1.0;
+                }
+                OnPropertyChanged("MinValue");
+                OnPropertyChanged("MaxValue"); 
+                OnPropertyChanged("AutoScale");
+                OnPropertyChanged("ManualScale");
+            }
+        }
+
+        public Thickness ZMax
+        {
+            get { return _ZMax; }
+            set
+            {
+                _ZMax = value;
+                OnPropertyChanged("ZMax");
             }
         }
 
@@ -230,6 +252,7 @@ namespace Vts.Gui.Silverlight.ViewModel
             {
                 Bitmap = new WriteableBitmap(width, height);
             }
+            ZMax = new Thickness(0, height, 0, 0);
 
             if (ColorBar == null)
             {

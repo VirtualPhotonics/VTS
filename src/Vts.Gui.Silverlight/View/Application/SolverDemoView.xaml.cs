@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using Vts.Gui.Silverlight.Input;
 using Vts.Gui.Silverlight.ViewModel;
 
@@ -28,8 +29,8 @@ namespace Vts.Gui.Silverlight.View
                 Name = "wndIsolatedStorageView",
                 Content = new IsolatedStorageView(),
                 ParentLayoutRoot = this.layoutRoot,
-                VerticalAlignment = VerticalAlignment.Top,
-                HorizontalAlignment = HorizontalAlignment.Left
+                VerticalAlignment = VerticalAlignment.Center,
+                HorizontalAlignment = HorizontalAlignment.Center
             };
 #if WHITELIST
             tabFem.Visibility = Visibility.Collapsed;
@@ -46,13 +47,19 @@ namespace Vts.Gui.Silverlight.View
             var vm = e.Parameter as PlotViewModel;
             if (vm != null)
             {
-                var plotView = new PlotView();
-                plotView.DataContext = vm;
+                var plotView = new PlotView
+                {
+                    DataContext = vm,
+                    HorizontalAlignment = HorizontalAlignment.Stretch,
+                    VerticalAlignment = VerticalAlignment.Stretch,
+                    Margin = new Thickness(0,0,3,0)
+                };
                 var newPlotWindow = new FloatableWindow()
                 {
                     Name = "wndPlotView" + _numPlotViews++,
                     Content = plotView,
                     ParentLayoutRoot = this.layoutRoot,
+                    Background = new SolidColorBrush(Colors.White),
                     VerticalAlignment = VerticalAlignment.Top,
                     HorizontalAlignment = HorizontalAlignment.Left
                 };
@@ -66,15 +73,29 @@ namespace Vts.Gui.Silverlight.View
             var vm = e.Parameter as MapViewModel;
             if (vm != null)
             {
-                var mapView = new MapView();
-                mapView.DataContext = vm;
+                var mapView = new MapView
+                {
+                    DataContext = vm,
+                    HorizontalAlignment = HorizontalAlignment.Stretch,
+                    VerticalAlignment = VerticalAlignment.Stretch,
+                    Margin = new Thickness(0, 0, 3, 0),
+                    MapImage =
+                    {
+                        Stretch = Stretch.Uniform,
+                        MinWidth = 500
+                    }
+                };
                 var newPlotWindow = new FloatableWindow()
                 {
                     Name = "wndMapView" + _numMapViews++,
                     Content = mapView,
                     ParentLayoutRoot = this.layoutRoot,
+                    Background = new SolidColorBrush(Colors.White),
                     VerticalAlignment = VerticalAlignment.Top,
-                    HorizontalAlignment = HorizontalAlignment.Left
+                    HorizontalAlignment = HorizontalAlignment.Left,
+                    Margin = new Thickness(0),
+                    Width = 700,
+                    Height = 540
                 };
 
                 newPlotWindow.Show();
