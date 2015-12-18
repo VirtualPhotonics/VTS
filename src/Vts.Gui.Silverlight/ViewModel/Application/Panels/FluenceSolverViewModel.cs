@@ -477,13 +477,27 @@ namespace Vts.Gui.Silverlight.ViewModel
                             switch (PhotonHittingDensitySolutionDomainTypeOptionVM.SelectedValue)
                             {
                                 case FluenceSolutionDomainType.FluenceOfRhoAndZ:
-                                    results = ComputationFactory.GetPHD(
-                                        ForwardSolverTypeOptionVM.SelectedValue,
-                                        fluence,
-                                        SourceDetectorSeparation,
-                                        (OpticalProperties[])opticalProperties,
-                                        independentValues[0],
-                                        independentValues[1]).ToArray();
+                                    if (IsMultiRegion)
+                                    {
+                                        var nop = (IOpticalPropertyRegion[][]) opticalProperties;
+                                        results = ComputationFactory.GetPHD(
+                                            ForwardSolverTypeOptionVM.SelectedValue,
+                                            fluence,
+                                            SourceDetectorSeparation,
+                                            (from LayerTissueRegion tissue in nop[0] select tissue.RegionOP).ToArray(),
+                                            independentValues[0],
+                                            independentValues[1]).ToArray();
+                                    }
+                                    else
+                                    {
+                                        results = ComputationFactory.GetPHD(
+                                            ForwardSolverTypeOptionVM.SelectedValue,
+                                            fluence,
+                                            SourceDetectorSeparation,
+                                            (OpticalProperties[])opticalProperties,
+                                            independentValues[0],
+                                            independentValues[1]).ToArray();
+                                    }
                                     break;
                                 case FluenceSolutionDomainType.FluenceOfFxAndZ:
                                     break;
