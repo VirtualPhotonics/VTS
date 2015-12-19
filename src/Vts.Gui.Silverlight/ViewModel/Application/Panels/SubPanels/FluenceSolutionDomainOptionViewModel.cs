@@ -21,7 +21,7 @@ namespace Vts.Gui.Silverlight.ViewModel
 
             this.PropertyChanged += (sender, args) =>
             {
-                if (sender is SolutionDomainOptionViewModel && args.PropertyName == "SelectedValue")
+                if (sender is FluenceSolutionDomainOptionViewModel && args.PropertyName == "SelectedValue")
                 {
                     UpdateOptions();
                 }
