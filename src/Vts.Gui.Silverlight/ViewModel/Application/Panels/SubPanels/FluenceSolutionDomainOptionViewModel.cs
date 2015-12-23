@@ -83,6 +83,8 @@ namespace Vts.Gui.Silverlight.ViewModel
             IndependentVariableAxisOptionVM.PropertyChanged += (s, a) => UpdateAxes();
 
             UpdateAxes();
+            //The independent axis should not be visible, this panel already has modulation frequency
+            ShowIndependentAxisChoice = (ShowIndependentAxisChoice && (SelectedValue != FluenceSolutionDomainType.FluenceOfRhoAndZAndFt));
         }
     }
 }
