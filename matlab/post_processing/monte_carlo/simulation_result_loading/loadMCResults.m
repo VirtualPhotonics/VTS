@@ -312,7 +312,7 @@ for di = 1:numDetectors
                 tempData = readBinaryData([datadir slash detector.Name '_2'], ...
                     [2*(length(FluenceOfXAndYAndZAndOmega.X)-1)*(length(FluenceOfXAndYAndZAndOmega.Y)-1)*(length(FluenceOfXAndYAndZAndOmega.Z)-1)*(length(FluenceOfXAndYAndZAndOmega.Omega))]);
                 tempDataReshape = reshape(tempData, ... % column major json binary
-                    [2*length(FluenceOfXAndYAndZAndOmega.Omega,length(FluenceOfXAndYAndZAndOmega.Z)-1,length(FluenceOfXAndYAndZAndOmega.Y)-1),length(FluenceOfXAndYAndZAndOmega.X)-1]);
+                    [2*length(FluenceOfXAndYAndZAndOmega.Omega),length(FluenceOfXAndYAndZAndOmega.Z)-1,length(FluenceOfXAndYAndZAndOmega.Y)-1,length(FluenceOfXAndYAndZAndOmega.X)-1]);
                 FluenceOfXAndYAndZAndOmega.SecondMoment = tempDataReshape(1:2:end,:,:,:) + 1i*tempDataReshape(2:2:end,:,:,:);
                 % x=a+ib: SD=sqrt( E(|x|^2) + |E(x)|^2 ) = since SecondMoment is real = sqrt(SecondMoment+real(Mean)*real(Mean)+imag(Mean)*imag(Mean))
                 FluenceOfXAndYAndZAndOmega.Stdev = sqrt((FluenceOfXAndYAndZAndOmega.SecondMoment + real(FluenceOfXAndYAndZAndOmega.Mean) .* real(FluenceOfXAndYAndZAndOmega.Mean) + ...
