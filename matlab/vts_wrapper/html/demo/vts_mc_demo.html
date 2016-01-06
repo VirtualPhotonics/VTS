@@ -6,7 +6,7 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>Monte Carlo Demo</title><meta name="generator" content="MATLAB 7.13"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2013-09-04"><meta name="DC.source" content="vts_mc_demo.m"><style type="text/css">
+      --><title>Monte Carlo Demo</title><meta name="generator" content="MATLAB 7.13"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-12-23"><meta name="DC.source" content="vts_mc_demo.m"><style type="text/css">
 
 body {
   background-color: white;
@@ -63,27 +63,27 @@ p.footer {
 }
 
   </style></head><body><div class="content"><h1>Monte Carlo Demo</h1><!--introduction--><p>Script for demoing use of VTS Monte Carlo tools within Matlab, to view the source code see vts_mc_demo.m</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#2">Example 1: run a simple Monte Carlo simulation with 1000 photons</a></li><li><a href="#3">Example 2: run Monte Carlo simulations for two absorption weighting types</a></li><li><a href="#4">Example 3: run a Monte Carlo simulation with a fully-customized input</a></li><li><a href="#5">Example 4: run a list of Monte Carlo simulations</a></li><li><a href="#6">create input to simulation</a></li><li><a href="#7">create database</a></li><li><a href="#8">Send optimization function that post-processes database for pMC/dMC results</a></li></ul></div><h2>Example 1: run a simple Monte Carlo simulation with 1000 photons<a name="2"></a></h2><pre class="codeoutput">Running simulation...
-Simulation complete! Run time: 4.3775 seconds
+Simulation complete! Run time: 3.0958 seconds
 </pre><img vspace="5" hspace="5" src="vts_mc_demo_01.png" alt=""> <h2>Example 2: run Monte Carlo simulations for two absorption weighting types<a name="3"></a></h2><p>with 1000 photons each and compare computation time</p><pre class="codeoutput">Running simulation...
-Simulation complete! Run time: 0.51715 seconds
+Simulation complete! Run time: 0.40023 seconds
 Running simulation...
-Simulation complete! Run time: 0.47187 seconds
+Simulation complete! Run time: 0.36353 seconds
 </pre><h2>Example 3: run a Monte Carlo simulation with a fully-customized input<a name="4"></a></h2><p>(values used here are the class defaults)</p><pre class="codeoutput">Running simulation...
-Simulation complete! Run time: 0.47088 seconds
+Simulation complete! Run time: 0.35975 seconds
 </pre><h2>Example 4: run a list of Monte Carlo simulations<a name="5"></a></h2><p>create a list of two default SimulationInput with different numbers of photons</p><pre class="codeoutput">Running simulations...
-Simulations complete! Run time: 5.8741 seconds
+Simulations complete! Run time: 3.3784 seconds
 Running simulation...
-Simulation complete! Run time: 5.1198 seconds
+Simulation complete! Run time: 2.832 seconds
 Running post-processor...
-Post-processing complete! Run time: 0.017529 seconds
+Post-processing complete! Run time: 0.013024 seconds
 Running simulation...
-Simulation complete! Run time: 4.8996 seconds
+Simulation complete! Run time: 3.0591 seconds
 Running post-processor...
-Post-processing complete! Run time: 0.032288 seconds
+Post-processing complete! Run time: 0.014253 seconds
 </pre><img vspace="5" hspace="5" src="vts_mc_demo_02.png" alt=""> <img vspace="5" hspace="5" src="vts_mc_demo_03.png" alt=""> <img vspace="5" hspace="5" src="vts_mc_demo_04.png" alt=""> <img vspace="5" hspace="5" src="vts_mc_demo_05.png" alt=""> <h2>create input to simulation<a name="6"></a></h2><h2>create database<a name="7"></a></h2><pre class="codeoutput">Running simulation...
-Simulation complete! Run time: 4.8082 seconds
+Simulation complete! Run time: 3.0245 seconds
 </pre><h2>Send optimization function that post-processes database for pMC/dMC results<a name="8"></a></h2><p>specify initial guess equal to baseline value [mua mus] NOTE: mus not mus'</p><pre class="codeoutput">Running post-processor...
-Post-processing complete! Run time: 0.027521 seconds
+Post-processing complete! Run time: 0.042407 seconds
 
 ____________________________________________________________
    Diagnostic Information
@@ -103,13 +103,11 @@ Algorithm selected
 ____________________________________________________________
    End diagnostic information
 Running post-processor...
-Post-processing complete! Run time: 0.016253 seconds
+Post-processing complete! Run time: 0.0089562 seconds
 Running post-processor...
-Post-processing complete! Run time: 0.01157 seconds
+Post-processing complete! Run time: 0.0050805 seconds
 Running post-processor...
-Post-processing complete! Run time: 0.01178 seconds
-Running post-processor...
-Post-processing complete! Run time: 0.011455 seconds
+Post-processing complete! Run time: 0.0052104 seconds
 
 Local minimum possible.
 
@@ -119,11 +117,11 @@ its initial value is less than the default value of the function tolerance.
 
 
 Running post-processor...
-Post-processing complete! Run time: 0.008184 seconds
+Post-processing complete! Run time: 0.0062796 seconds
 Meas =    [0.040000 4.750]
-IG =      [0.010000 5.000] Chi2=2.254e-005
-Conv =    [0.048558 5.380] Chi2=1.695e-006
-error =   [0.213943 0.663]
+IG =      [0.010000 5.000] Chi2=3.492e-005
+Conv =    [0.048527 4.931] Chi2=5.440e-007
+error =   [0.213166 0.191]
 
 tissueInput = 
 
@@ -134,7 +132,7 @@ tissueInput =
 
 
 Running simulation...
-Simulation complete! Run time: 0.047457 seconds
+Simulation complete! Run time: 0.041358 seconds
 unit tests pass
 </pre><img vspace="5" hspace="5" src="vts_mc_demo_06.png" alt=""> <p class="footer"><br>
       Published with MATLAB&reg; 7.13<br></p></div><!--
@@ -165,7 +163,9 @@ output = VtsMonteCarlo.RunSimulation(si);
 
 % more work to do on making outputs friendly, but it's working :)
 d = output.Detectors(output.DetectorNames{1});
-figure; semilogy(d.Rho, d.Mean); ylabel('log(R(\rho)) [mm^-^2]'); xlabel('Rho (mm)');
+f = figure; semilogy(d.Rho, d.Mean); ylabel('log(R(\rho)) [mm^-^2]'); xlabel('Rho (mm)');
+title('Reflectance vs \rho for N=1000');
+set(f,'Name','Reflectance vs Rho for N=1000');
 
 % ======================================================================= %
 %% Example 2: run Monte Carlo simulations for two absorption weighting types 
@@ -244,10 +244,8 @@ options.AbsorptionWeightingType = 'Discrete';
 options.PhaseFunctionType  = 'HenyeyGreenstein';
 % list of databases to be written
 options.Databases = {};
-% flag indicating whether to tally second moment information for error results
-options.TallySecondMoment = 1;
 % flag indicating whether to track statistics about where photon ends up
-options.TrackStatistics = 0;
+options.TrackStatistics = true;
 % photon weight threshold to perform Russian Roulette.  Default = 0 means no RR performed.
 options.RussianRouletteWeightThreshold = 0;
 % simulation index 
@@ -276,8 +274,10 @@ output = VtsMonteCarlo.RunSimulation(input);
 si1 = SimulationInput();
 % modify number of photons
 si1.N = 1000;
+
 si2 = SimulationInput();
 s12.N = 100;
+
 % specify a single R(rho) detector by the endpoints of rho bins
 si1.DetectorInputs = { DetectorInput.ROfRho(linspace(0,40,201)) };
 si2.DetectorInputs = { DetectorInput.ROfRho(linspace(0,40,201)) };
@@ -286,9 +286,13 @@ si = [ si1; si2 ];
 % use this to run a Matlab-wrapped MonteCarloSimulation using static method
 output = VtsMonteCarlo.RunSimulations(si);
 d1 = output{1}.Detectors(output{1}.DetectorNames{1});
-figure; semilogy(d1.Rho, d1.Mean); ylabel('log(R(\rho)) [mm^-^2]'); xlabel('Rho (mm)');
+f = figure; semilogy(d1.Rho, d1.Mean); ylabel('log(R(\rho)) [mm^-^2]'); xlabel('Rho (mm)');
+title('Simulation 1 results'); 
+set(f,'Name','Simulation 1 results');
 d2 = output{2}.Detectors(output{2}.DetectorNames{1});
-figure; semilogy(d2.Rho, d2.Mean); ylabel('log(R(\rho)) [mm^-^2]'); xlabel('Rho (mm)');
+f = figure; semilogy(d2.Rho, d2.Mean); ylabel('log(R(\rho)) [mm^-^2]'); xlabel('Rho (mm)');
+title('Simulation 2 results');
+set(f,'Name','Simulation 2 results');
 
 % ======================================================================= %
 % Example 5: run a Monte Carlo simulation with post-processing enabled
@@ -296,6 +300,8 @@ figure; semilogy(d2.Rho, d2.Mean); ylabel('log(R(\rho)) [mm^-^2]'); xlabel('Rho 
 % compare on-the-fly results with post-processed results
 si = SimulationInput();
 si.N = 1000;
+% output folder name
+si.OutputName = 'results';
 % modify database generation to specifying creating reflectance database
 options = SimulationOptions();
 options.Databases = { Vts.MonteCarlo.DatabaseType.DiffuseReflectance };
@@ -307,21 +313,26 @@ output = VtsMonteCarlo.RunSimulation(si);
 d1 = output.Detectors(output.DetectorNames{1});
 % specify post-processing of generated database 
 ppi = PostProcessorInput();
-% default reads from "results" folder
+% read from output folder
+ppi.InputFolder = si.OutputName;
 ppi.DetectorInputs = { DetectorInput.ROfRho(linspace(0,40,201)) } ;
 % run post-processor with exact detector as specified in simulation
 ppoutput = VtsMonteCarlo.RunPostProcessor(ppi,si);
 d2 = ppoutput.Detectors(ppoutput.DetectorNames{1});
 % plot results and view that they are identical
-figure; semilogy(d1.Rho, d1.Mean, 'r-',d2.Rho, d2.Mean,'g:'); ylabel('log(R(\rho)) [mm^-^2]'); xlabel('Rho (mm)');
+f = figure; semilogy(d1.Rho, d1.Mean, 'r-',d2.Rho, d2.Mean,'g:'); ylabel('log(R(\rho)) [mm^-^2]'); xlabel('Rho (mm)');
+title('Post processing a database'); 
+set(f,'Name','Post processing a database');
 legend('on-the-fly','post-processed');
 
 % ======================================================================= %
 % Example 6: run a Monte Carlo simulation with pMC post-processing enabled
-% First run a simulation, then post-process the generated database with
+% First run a simulation, then post-process the generated database CA
 % varying optical properties
 si = SimulationInput();
 si.N = 1000;
+% output folder name
+si.OutputName = 'results';
 options = SimulationOptions();
 options.AbsorptionWeightingType = 'Continuous';
 % modify database generation to specifying creating pMC reflectance database
@@ -375,14 +386,17 @@ di2xmua.PerturbedOps = ...
                 [1e-10, 0.0, 0.0, 1.0]; ...
                 ];
 di2xmua.PerturbedRegions = [ 1 ];
+ppi.InputFolder = si.OutputName;
 ppi.DetectorInputs = { di, di0p5xmua, di2xmua} ;
 ppoutput = VtsMonteCarlo.RunPostProcessor(ppi,si);
 do = ppoutput.Detectors(ppoutput.DetectorNames{1});
 do0p5xmua = ppoutput.Detectors(ppoutput.DetectorNames{2});
 do2xmua = ppoutput.Detectors(ppoutput.DetectorNames{3});
-figure; semilogy(do.Rho, do.Mean, 'r-',do0p5xmua.Rho, do0p5xmua.Mean,'g-', do2xmua.Rho, do2xmua.Mean, 'b-'); 
+f = figure; semilogy(do.Rho, do.Mean, 'r-',do0p5xmua.Rho, do0p5xmua.Mean,'g-', do2xmua.Rho, do2xmua.Mean, 'b-'); 
 ylabel('log(R(\rho)) [mm^-^2]'); xlabel('Rho (mm)');
-legend('baseline','0.5x mua','2x mua');
+legend('baseline','0.5x mua','2x mua','Location','SouthWest');
+title('Perturbation MC using CAW'); 
+set(f,'Name','Perturbation MC using CAW');
 
 % ======================================================================= %
 % Example 7: run a Monte Carlo simulation with pMC post-processing enabled
@@ -397,7 +411,10 @@ legend('baseline','0.5x mua','2x mua');
 %% create input to simulation
 si = SimulationInput();
 si.N = 1000; % need to run 1e5 or greater to get decent results
+% output folder name
+si.OutputName = 'results';
 simOptions = SimulationOptions();
+simOptions.Seed = 0;
 simOptions.AbsorptionWeightingType = 'Discrete';
 % modify database generation to specifying creating pMC reflectance database
 simOptions.Databases = { Vts.MonteCarlo.DatabaseType.pMCDiffuseReflectance };
@@ -475,16 +492,19 @@ diRecovered.PerturbedOps = ...
                 ];
 diRecovered.PerturbedRegions = [ 1 ];
 ppi = PostProcessorInput();
+ppi.InputFolder = si.OutputName;
 ppi.DetectorInputs = { diInitialGuess diRecovered } ;
 ppoutput = VtsMonteCarlo.RunPostProcessor(ppi,si); 
 doInitialGuess = ppoutput.Detectors(ppoutput.DetectorNames{1});
 doRecovered = ppoutput.Detectors(ppoutput.DetectorNames{2});
-figure; semilogy(rhoMidpoints,measData,'ro',...
+f = figure; semilogy(rhoMidpoints,measData,'ro',...
     rhoMidpoints,doInitialGuess.Mean,'g-',...
     rhoMidpoints,doRecovered.Mean,'b:');
 xlabel('\rho [mm]');
 ylabel('log10(R(\rho))');
-legend('Meas','IG','Converged');
+legend('Meas','IG','Converged','Location','SouthWest');
+title('Inverse solution using pMC/dMC'); 
+set(f, 'Name', 'Inverse solution using pMC/dMC');
 disp(sprintf('Meas =    [%f %5.3f]',measOPs(1),measOPs(2)/(1-0.8)));
 disp(sprintf('IG =      [%f %5.3f] Chi2=%5.3e',x0(1),x0(2),...
     (measData-doInitialGuess.Mean')*(measData-doInitialGuess.Mean')'));
@@ -499,6 +519,8 @@ disp(sprintf('error =   [%f %5.3f]',abs(measOPs(1)-recoveredOPs(1))/measOPs(1),.
 % spell out all input to ensure same settings as in unit test
 si = SimulationInput();
 si.N = 100;
+% output folder name
+si.OutputName = 'results';
 options = SimulationOptions();
 options.AbsorptionWeightingType = 'Analog';
 options.Seed = 0;
