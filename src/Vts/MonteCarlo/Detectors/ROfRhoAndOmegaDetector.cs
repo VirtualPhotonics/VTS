@@ -117,12 +117,11 @@ namespace Vts.MonteCarlo.Detectors
                 Mean[ir, iw] += photon.DP.Weight*(Math.Cos(-2*Math.PI*freq*totalTime) +
                                                   Complex.ImaginaryOne * Math.Sin(-2*Math.PI*freq*totalTime));
 
-                if (TallySecondMoment)
+                if (TallySecondMoment) // 2nd moment is E[xx*]=E[xreal^2]+E[ximag^2]
                 {
                     SecondMoment[ir, iw] +=
                         photon.DP.Weight*(Math.Cos(-2*Math.PI*freq*totalTime))*
                         photon.DP.Weight*(Math.Cos(-2*Math.PI*freq*totalTime)) +
-                        Complex.ImaginaryOne*
                         photon.DP.Weight*(Math.Sin(-2*Math.PI*freq*totalTime))*
                         photon.DP.Weight*(Math.Sin(-2*Math.PI*freq*totalTime));
                 }

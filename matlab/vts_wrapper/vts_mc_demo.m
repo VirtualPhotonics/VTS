@@ -24,8 +24,9 @@ output = VtsMonteCarlo.RunSimulation(si);
 
 % more work to do on making outputs friendly, but it's working :)
 d = output.Detectors(output.DetectorNames{1});
-figure; semilogy(d.Rho, d.Mean); ylabel('log(R(\rho)) [mm^-^2]'); xlabel('Rho (mm)');
-title('Reflectance vs \rho for N=1000'); 
+f = figure; semilogy(d.Rho, d.Mean); ylabel('log(R(\rho)) [mm^-^2]'); xlabel('Rho (mm)');
+title('Reflectance vs \rho for N=1000');
+set(f,'Name','Reflectance vs Rho for N=1000');
 
 % ======================================================================= %
 %% Example 2: run Monte Carlo simulations for two absorption weighting types 
@@ -146,11 +147,13 @@ si = [ si1; si2 ];
 % use this to run a Matlab-wrapped MonteCarloSimulation using static method
 output = VtsMonteCarlo.RunSimulations(si);
 d1 = output{1}.Detectors(output{1}.DetectorNames{1});
-figure; semilogy(d1.Rho, d1.Mean); ylabel('log(R(\rho)) [mm^-^2]'); xlabel('Rho (mm)');
+f = figure; semilogy(d1.Rho, d1.Mean); ylabel('log(R(\rho)) [mm^-^2]'); xlabel('Rho (mm)');
 title('Simulation 1 results'); 
+set(f,'Name','Simulation 1 results');
 d2 = output{2}.Detectors(output{2}.DetectorNames{1});
-figure; semilogy(d2.Rho, d2.Mean); ylabel('log(R(\rho)) [mm^-^2]'); xlabel('Rho (mm)');
+f = figure; semilogy(d2.Rho, d2.Mean); ylabel('log(R(\rho)) [mm^-^2]'); xlabel('Rho (mm)');
 title('Simulation 2 results');
+set(f,'Name','Simulation 2 results');
 
 % ======================================================================= %
 % Example 5: run a Monte Carlo simulation with post-processing enabled
@@ -178,8 +181,9 @@ ppi.DetectorInputs = { DetectorInput.ROfRho(linspace(0,40,201)) } ;
 ppoutput = VtsMonteCarlo.RunPostProcessor(ppi,si);
 d2 = ppoutput.Detectors(ppoutput.DetectorNames{1});
 % plot results and view that they are identical
-figure; semilogy(d1.Rho, d1.Mean, 'r-',d2.Rho, d2.Mean,'g:'); ylabel('log(R(\rho)) [mm^-^2]'); xlabel('Rho (mm)');
+f = figure; semilogy(d1.Rho, d1.Mean, 'r-',d2.Rho, d2.Mean,'g:'); ylabel('log(R(\rho)) [mm^-^2]'); xlabel('Rho (mm)');
 title('Post processing a database'); 
+set(f,'Name','Post processing a database');
 legend('on-the-fly','post-processed');
 
 % ======================================================================= %
@@ -249,10 +253,11 @@ ppoutput = VtsMonteCarlo.RunPostProcessor(ppi,si);
 do = ppoutput.Detectors(ppoutput.DetectorNames{1});
 do0p5xmua = ppoutput.Detectors(ppoutput.DetectorNames{2});
 do2xmua = ppoutput.Detectors(ppoutput.DetectorNames{3});
-figure; semilogy(do.Rho, do.Mean, 'r-',do0p5xmua.Rho, do0p5xmua.Mean,'g-', do2xmua.Rho, do2xmua.Mean, 'b-'); 
+f = figure; semilogy(do.Rho, do.Mean, 'r-',do0p5xmua.Rho, do0p5xmua.Mean,'g-', do2xmua.Rho, do2xmua.Mean, 'b-'); 
 ylabel('log(R(\rho)) [mm^-^2]'); xlabel('Rho (mm)');
 legend('baseline','0.5x mua','2x mua','Location','SouthWest');
 title('Perturbation MC using CAW'); 
+set(f,'Name','Perturbation MC using CAW');
 
 % ======================================================================= %
 % Example 7: run a Monte Carlo simulation with pMC post-processing enabled
@@ -353,12 +358,14 @@ ppi.DetectorInputs = { diInitialGuess diRecovered } ;
 ppoutput = VtsMonteCarlo.RunPostProcessor(ppi,si); 
 doInitialGuess = ppoutput.Detectors(ppoutput.DetectorNames{1});
 doRecovered = ppoutput.Detectors(ppoutput.DetectorNames{2});
-figure; semilogy(rhoMidpoints,measData,'ro',...
+f = figure; semilogy(rhoMidpoints,measData,'ro',...
     rhoMidpoints,doInitialGuess.Mean,'g-',...
     rhoMidpoints,doRecovered.Mean,'b:');
 xlabel('\rho [mm]');
 ylabel('log10(R(\rho))');
-legend('Meas','IG','Converged','Location','SouthWest');title('Inverse solution using pMC/dMC'); 
+legend('Meas','IG','Converged','Location','SouthWest');
+title('Inverse solution using pMC/dMC'); 
+set(f, 'Name', 'Inverse solution using pMC/dMC');
 disp(sprintf('Meas =    [%f %5.3f]',measOPs(1),measOPs(2)/(1-0.8)));
 disp(sprintf('IG =      [%f %5.3f] Chi2=%5.3e',x0(1),x0(2),...
     (measData-doInitialGuess.Mean')*(measData-doInitialGuess.Mean')'));

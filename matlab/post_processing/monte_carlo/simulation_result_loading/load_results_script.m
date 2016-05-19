@@ -9,7 +9,7 @@ slash = filesep;  % get correct path delimiter for platform
 addpath([cd slash 'jsonlab']);
 
 % names of individual MC simulations
-datanames = { 'one_layer_sfdi_radiance' };
+datanames = { 'one_layer_all_detectors' };
 % datanames = { 'results_mua0.1musp1.0' 'results_mua0.1musp1.1' }; %...etc
 
 % outdir = 'C:\Projects\vts\src\Vts.MonteCarlo.CommandLineApplication\bin\Release';
@@ -270,24 +270,24 @@ for mci = 1:length(datanames)
                 k=k+1;
             end
             legend(ar);
-            % plot relative error
-            figure; imagesc(results{di}.RadianceOfFxAndZAndAngle.Fx_Midpoints, results{di}.RadianceOfFxAndZAndAngle.Z_Midpoints, ...
-            (squeeze(abs(results{di}.RadianceOfFxAndZAndAngle.Stdev(i,:,:))./results{di}.RadianceOfFxAndZAndAngle.Amplitude(i,:,:))));
-            colorbar; caxis([0 1]);title(sprintf('Relative Error Amplitude %5.3f<angle<%5.3f',(i-1)*pi/numangles,i*pi/numangles));ylabel('z [mm]');xlabel('fx [/mm]');
-            % plot line scan of relative error at select fxs
-            f=figure;
-            k=1;
-            for j=1:10:51
-                plot(results{di}.RadianceOfFxAndZAndAngle.Z_Midpoints(1:end-1), ...
-                    results{di}.RadianceOfFxAndZAndAngle.Stdev(i,1:end-1,j)./results{di}.RadianceOfFxAndZAndAngle.Amplitude(i,1:end-1,j));
-                title(sprintf('%5.3f<angle<%5.3f',(i-1)*pi/numangles,i*pi/numangles));
-                ylabel('Relative Error');xlabel('z [mm]'); axis([0 results{di}.RadianceOfFxAndZAndAngle.Z(end), 0 0.4]);
-                hold on;
-                ar{k}=sprintf('f_x = %s',num2str(results{di}.RadianceOfFxAndZAndAngle.Fx_Midpoints(j)));
-                k=k+1;
-            end
-            legend(ar);
-            line([0 10.0],[0.05 0.05],'Color',[0 0 0],'LineStyle',':');
+%             % plot relative error
+%             figure; imagesc(results{di}.RadianceOfFxAndZAndAngle.Fx_Midpoints, results{di}.RadianceOfFxAndZAndAngle.Z_Midpoints, ...
+%             (squeeze(abs(results{di}.RadianceOfFxAndZAndAngle.Stdev(i,:,:))./results{di}.RadianceOfFxAndZAndAngle.Amplitude(i,:,:))));
+%             colorbar; caxis([0 1]);title(sprintf('Relative Error Amplitude %5.3f<angle<%5.3f',(i-1)*pi/numangles,i*pi/numangles));ylabel('z [mm]');xlabel('fx [/mm]');
+%             % plot line scan of relative error at select fxs
+%             f=figure;
+%             k=1;
+%             for j=1:10:51
+%                 plot(results{di}.RadianceOfFxAndZAndAngle.Z_Midpoints(1:end-1), ...
+%                     results{di}.RadianceOfFxAndZAndAngle.Stdev(i,1:end-1,j)./results{di}.RadianceOfFxAndZAndAngle.Amplitude(i,1:end-1,j));
+%                 title(sprintf('%5.3f<angle<%5.3f',(i-1)*pi/numangles,i*pi/numangles));
+%                 ylabel('Relative Error');xlabel('z [mm]'); axis([0 results{di}.RadianceOfFxAndZAndAngle.Z(end), 0 0.4]);
+%                 hold on;
+%                 ar{k}=sprintf('f_x = %s',num2str(results{di}.RadianceOfFxAndZAndAngle.Fx_Midpoints(j)));
+%                 k=k+1;
+%             end
+%             legend(ar);
+%             line([0 10.0],[0.05 0.05],'Color',[0 0 0],'LineStyle',':');
         end
         fxdelta = results{di}.RadianceOfFxAndZAndAngle.Fx(2)-results{di}.RadianceOfFxAndZAndAngle.Fx(1);
         zdelta = results{di}.RadianceOfFxAndZAndAngle.Z(2)-results{di}.RadianceOfFxAndZAndAngle.Z(1);

@@ -6,7 +6,7 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>Solver Demos</title><meta name="generator" content="MATLAB 7.13"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2013-09-04"><meta name="DC.source" content="vts_solver_demo.m"><style type="text/css">
+      --><title>Solver Demos</title><meta name="generator" content="MATLAB 7.13"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-12-23"><meta name="DC.source" content="vts_solver_demo.m"><style type="text/css">
 
 body {
   background-color: white;
@@ -62,7 +62,7 @@ p.footer {
   color: gray;
 }
 
-  </style></head><body><div class="content"><h1>Solver Demos</h1><!--introduction--><p>Script for demoing the use of the VTS solvers within Matlab, to view the source code open the <b>vts_solver_demo.m</b> script file.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#2">Example ROfRhoAndFt</a></li><li><a href="#3">Example ROfFxAndFt</a></li><li><a href="#4">Example FluenceOfRhoAndZ</a></li><li><a href="#5">Example FluenceOfRhoAndZ</a></li><li><a href="#6">Example FluenceOfRhoAndZAndFt</a></li><li><a href="#7">Example PHDOfRhoAndZ</a></li><li><a href="#8">Example AbsorbedEnergyOfRhoAndZ</a></li><li><a href="#9">Example ROfRho</a></li><li><a href="#10">Example ROfRhoAndT</a></li><li><a href="#11">Example ROfFxAndT</a></li><li><a href="#12">Example ROfFx (single set of optical properties)</a></li><li><a href="#13">Example ROfFx (multiple sets of optical properties)</a></li><li><a href="#14">Example ROfFx (multiple optical properties, varying mua as a function of wavelength)</a></li><li><a href="#15">Example ROfFx</a></li><li><a href="#16">Example ROfRho (multiple wavelengths, multiple rho)</a></li><li><a href="#17">Example ROfRho (inverse solution for chromophore concentrations for multiple wavelengths, single rho)</a></li></ul></div><h2>Example ROfRhoAndFt<a name="2"></a></h2><p>Evaluate reflectance as a function of rho and temporal-frequency with one set of optical properites.</p><img vspace="5" hspace="5" src="vts_solver_demo_01.png" alt=""> <h2>Example ROfFxAndFt<a name="3"></a></h2><p>Evaluate reflectance as a function of spatial- and temporal- frequencies with one set of optical properites.</p><img vspace="5" hspace="5" src="vts_solver_demo_02.png" alt=""> <h2>Example FluenceOfRhoAndZ<a name="4"></a></h2><p>Evaluate fluence as a function of rho and z using optical properties from a list of chromophore absorbers with their concentrations and a power law scatterer for a range of wavelengths.</p><img vspace="5" hspace="5" src="vts_solver_demo_03.png" alt=""> <h2>Example FluenceOfRhoAndZ<a name="5"></a></h2><p>Evaluate fluence as a function of rho and z using optical properties from a list of chromophore absorbers with their concentrations and a power law scatterer for a range of wavelengths.</p><img vspace="5" hspace="5" src="vts_solver_demo_04.png" alt=""> <h2>Example FluenceOfRhoAndZAndFt<a name="6"></a></h2><p>Evaluate fluence as a function of rho and z using one set of optical properties and a distributed gaussian source SDA solver type.</p><img vspace="5" hspace="5" src="vts_solver_demo_05.png" alt=""> <img vspace="5" hspace="5" src="vts_solver_demo_06.png" alt=""> <img vspace="5" hspace="5" src="vts_solver_demo_07.png" alt=""> <h2>Example PHDOfRhoAndZ<a name="7"></a></h2><p>Evaluate Photon Hitting Density in cylindrical coordinates using one set of optical properties and a distributed gaussian source SDA solver type.</p><img vspace="5" hspace="5" src="vts_solver_demo_08.png" alt=""> <h2>Example AbsorbedEnergyOfRhoAndZ<a name="8"></a></h2><p>Evaluate Absorbed Energy of rho and z using one set of optical properties and a point source SDA solver type.</p><img vspace="5" hspace="5" src="vts_solver_demo_09.png" alt=""> <h2>Example ROfRho<a name="9"></a></h2><p>Evaluate reflectance as a function of rho with three sets of optical properites.</p><img vspace="5" hspace="5" src="vts_solver_demo_10.png" alt=""> <h2>Example ROfRhoAndT<a name="10"></a></h2><p>Evaluate reflectance of rho and t at one s-d separation and two sets of optical properites.</p><img vspace="5" hspace="5" src="vts_solver_demo_11.png" alt=""> <h2>Example ROfFxAndT<a name="11"></a></h2><p>Evaluate reflectance as a function of spacial-frequency and t using one set of optical properites.</p><img vspace="5" hspace="5" src="vts_solver_demo_12.png" alt=""> <img vspace="5" hspace="5" src="vts_solver_demo_13.png" alt=""> <h2>Example ROfFx (single set of optical properties)<a name="12"></a></h2><p>Evaluate reflectance as a function of spacial-frequency with a single set of optical properties.</p><img vspace="5" hspace="5" src="vts_solver_demo_14.png" alt=""> <h2>Example ROfFx (multiple sets of optical properties)<a name="13"></a></h2><p>Evaluate reflectance as a function of spacial-frequency with multiple sets of optical properties, varying mua linearly.</p><img vspace="5" hspace="5" src="vts_solver_demo_15.png" alt=""> <h2>Example ROfFx (multiple optical properties, varying mua as a function of wavelength)<a name="14"></a></h2><p>Evaluate reflectance as a function of spacial-frequency with multiple sets of optical properties, varying mua as a function of wavelength.</p><img vspace="5" hspace="5" src="vts_solver_demo_16.png" alt=""> <img vspace="5" hspace="5" src="vts_solver_demo_17.png" alt=""> <img vspace="5" hspace="5" src="vts_solver_demo_18.png" alt=""> <img vspace="5" hspace="5" src="vts_solver_demo_19.png" alt=""> <h2>Example ROfFx<a name="15"></a></h2><p>Call planar reflectance with multiple sets of optical properties, varying the scattering prefactor as a function of wavelength.</p><img vspace="5" hspace="5" src="vts_solver_demo_20.png" alt=""> <h2>Example ROfRho (multiple wavelengths, multiple rho)<a name="16"></a></h2><p>Call reflectance varying the wavelength.</p><img vspace="5" hspace="5" src="vts_solver_demo_21.png" alt=""> <h2>Example ROfRho (inverse solution for chromophore concentrations for multiple wavelengths, single rho)<a name="17"></a></h2><pre class="codeoutput">
+  </style></head><body><div class="content"><h1>Solver Demos</h1><!--introduction--><p>Script for demoing the use of the VTS solvers within Matlab, to view the source code open the <b>vts_solver_demo.m</b> script file.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#2">Example ROfRhoAndFt</a></li><li><a href="#3">Example ROfFxAndFt</a></li><li><a href="#4">Example FluenceOfRhoAndZ</a></li><li><a href="#5">Example FluenceOfRhoAndZAndFt</a></li><li><a href="#6">Example PHDOfRhoAndZ</a></li><li><a href="#7">Example PHDOfRhoAndZTwoLayer</a></li><li><a href="#8">Example AbsorbedEnergyOfRhoAndZ</a></li><li><a href="#9">Example ROfRho</a></li><li><a href="#10">Example ROfRhoAndT</a></li><li><a href="#11">Example ROfFxAndT</a></li><li><a href="#12">Example ROfFx (single set of optical properties)</a></li><li><a href="#13">Example ROfFx (multiple sets of optical properties)</a></li><li><a href="#14">Example ROfFx (multiple optical properties, varying mua as a function of wavelength)</a></li><li><a href="#15">Example ROfFx</a></li><li><a href="#16">Example ROfRho (multiple wavelengths, multiple rho)</a></li><li><a href="#17">Example ROfRho (inverse solution for chromophore concentrations for multiple wavelengths, single rho)</a></li><li><a href="#18">Example ROfRho for a two-layer tissue (multiple rho)</a></li><li><a href="#19">Example ROfRhoAndTime for a two-layer tissue (multiple time)</a></li><li><a href="#20">Example ROfRhoAndFt for a two-layer tissue (multiple ft)</a></li></ul></div><h2>Example ROfRhoAndFt<a name="2"></a></h2><p>Evaluate reflectance as a function of rho and temporal-frequency with one set of optical properites.</p><img vspace="5" hspace="5" src="vts_solver_demo_01.png" alt=""> <h2>Example ROfFxAndFt<a name="3"></a></h2><p>Evaluate reflectance as a function of spatial- and temporal- frequencies with one set of optical properites.</p><img vspace="5" hspace="5" src="vts_solver_demo_02.png" alt=""> <h2>Example FluenceOfRhoAndZ<a name="4"></a></h2><p>Evaluate fluence as a function of rho and z using optical properties from a list of chromophore absorbers with their concentrations and a power law scatterer for a range of wavelengths.</p><img vspace="5" hspace="5" src="vts_solver_demo_03.png" alt=""> <h2>Example FluenceOfRhoAndZAndFt<a name="5"></a></h2><p>Evaluate fluence as a function of rho and z using one set of optical properties and a distributed gaussian source SDA solver type.</p><img vspace="5" hspace="5" src="vts_solver_demo_04.png" alt=""> <img vspace="5" hspace="5" src="vts_solver_demo_05.png" alt=""> <img vspace="5" hspace="5" src="vts_solver_demo_06.png" alt=""> <h2>Example PHDOfRhoAndZ<a name="6"></a></h2><p>Evaluate Photon Hitting Density in cylindrical coordinates using one set of optical properties and a distributed gaussian source SDA solver type.</p><img vspace="5" hspace="5" src="vts_solver_demo_07.png" alt=""> <h2>Example PHDOfRhoAndZTwoLayer<a name="7"></a></h2><p>Evaluate Photon Hitting Density in cylindrical coordinates using one set of optical properties and a distributed gaussian source SDA solver type.</p><img vspace="5" hspace="5" src="vts_solver_demo_08.png" alt=""> <h2>Example AbsorbedEnergyOfRhoAndZ<a name="8"></a></h2><p>Evaluate Absorbed Energy of rho and z using one set of optical properties and a point source SDA solver type.</p><img vspace="5" hspace="5" src="vts_solver_demo_09.png" alt=""> <h2>Example ROfRho<a name="9"></a></h2><p>Evaluate reflectance as a function of rho with three sets of optical properites.</p><img vspace="5" hspace="5" src="vts_solver_demo_10.png" alt=""> <h2>Example ROfRhoAndT<a name="10"></a></h2><p>Evaluate reflectance of rho and t at one s-d separation and two sets of optical properites.</p><img vspace="5" hspace="5" src="vts_solver_demo_11.png" alt=""> <h2>Example ROfFxAndT<a name="11"></a></h2><p>Evaluate reflectance as a function of spacial-frequency and t using one set of optical properites.</p><img vspace="5" hspace="5" src="vts_solver_demo_12.png" alt=""> <img vspace="5" hspace="5" src="vts_solver_demo_13.png" alt=""> <h2>Example ROfFx (single set of optical properties)<a name="12"></a></h2><p>Evaluate reflectance as a function of spacial-frequency with a single set of optical properties.</p><img vspace="5" hspace="5" src="vts_solver_demo_14.png" alt=""> <h2>Example ROfFx (multiple sets of optical properties)<a name="13"></a></h2><p>Evaluate reflectance as a function of spacial-frequency with multiple sets of optical properties, varying mua linearly.</p><img vspace="5" hspace="5" src="vts_solver_demo_15.png" alt=""> <h2>Example ROfFx (multiple optical properties, varying mua as a function of wavelength)<a name="14"></a></h2><p>Evaluate reflectance as a function of spacial-frequency with multiple sets of optical properties, varying mua as a function of wavelength.</p><img vspace="5" hspace="5" src="vts_solver_demo_16.png" alt=""> <img vspace="5" hspace="5" src="vts_solver_demo_17.png" alt=""> <img vspace="5" hspace="5" src="vts_solver_demo_18.png" alt=""> <img vspace="5" hspace="5" src="vts_solver_demo_19.png" alt=""> <h2>Example ROfFx<a name="15"></a></h2><p>Call planar reflectance with multiple sets of optical properties, varying the scattering prefactor as a function of wavelength.</p><img vspace="5" hspace="5" src="vts_solver_demo_20.png" alt=""> <h2>Example ROfRho (multiple wavelengths, multiple rho)<a name="16"></a></h2><p>Call reflectance varying the wavelength.</p><img vspace="5" hspace="5" src="vts_solver_demo_21.png" alt=""> <h2>Example ROfRho (inverse solution for chromophore concentrations for multiple wavelengths, single rho)<a name="17"></a></h2><pre class="codeoutput">
 ____________________________________________________________
    Diagnostic Information
 
@@ -90,10 +90,10 @@ the default value of the function tolerance.
 
 
 Meas =    [70.000 30.000 0.800]
-IG =      [70.000 30.000 0.800] Chi2=6.425e-005
-Conv =    [80.108 40.900 2.652] Chi2=8.310e-006
-error =   [0.933 0.423 0.074]
-</pre><img vspace="5" hspace="5" src="vts_solver_demo_22.png" alt=""> <p class="footer"><br>
+IG =      [70.000 30.000 0.800] Chi2=5.995e-005
+Conv =    [70.699 44.508 2.442] Chi2=9.594e-006
+error =   [0.440 0.163 0.002]
+</pre><img vspace="5" hspace="5" src="vts_solver_demo_22.png" alt=""> <h2>Example ROfRho for a two-layer tissue (multiple rho)<a name="18"></a></h2><img vspace="5" hspace="5" src="vts_solver_demo_23.png" alt=""> <h2>Example ROfRhoAndTime for a two-layer tissue (multiple time)<a name="19"></a></h2><img vspace="5" hspace="5" src="vts_solver_demo_24.png" alt=""> <h2>Example ROfRhoAndFt for a two-layer tissue (multiple ft)<a name="20"></a></h2><p>Evaluate reflectance as a function of rho and temporal-frequency with one set of optical properites.</p><img vspace="5" hspace="5" src="vts_solver_demo_25.png" alt=""> <p class="footer"><br>
       Published with MATLAB&reg; 7.13<br></p></div><!--
 ##### SOURCE BEGIN #####
 %% Solver Demos
@@ -137,7 +137,7 @@ subplot(3,1,3); plot(ft, -angle(test));% or 'plot(ft, atan2(imag(test),real(test
 title('Reflectance phase vs f_t'); 
 ylabel('R(f_t) Phase');
 xlabel('f_t');
-set(f,'Name','Frequency-domain reflectance');
+set(f,'Name','Reflectance as a function of Rho and Temporal-frequency');
 
 %% Example ROfFxAndFt
 % Evaluate reflectance as a function of spatial- and temporal- frequencies 
@@ -164,7 +164,7 @@ subplot(3,1,3); plot(ft, -angle(test));% or 'plot(ft, atan2(imag(test),real(test
 title('Reflectance phase vs f_t'); 
 ylabel('R(f_t) Phase');
 xlabel('f_t');
-set(f,'Name','ROfFxAndFt');
+set(f,'Name','Reflectance as a function of Spatial- and Temporal- frequencies');
 
 %% Example FluenceOfRhoAndZ
 % Evaluate fluence as a function of rho and z using optical properties from 
@@ -199,45 +199,12 @@ op = VtsSpectroscopy.GetOP(absorbers, scatterer, wv);
 
 test = VtsSolvers.FluenceOfRhoAndZ(op, rhos, zs);
 
-f = figure; imagesc(log(squeeze(test(:,1,:))));
-set(f,'Name','Fluence of Rho and z');
+f = figure; imagesc(wv,zs,log(squeeze(test(:,1,:))));
+ylabel('z [mm]');
+xlabel('wavelength, \lambda [nm]');
+title('Fluence of \lambda and z and \rho=0.1 mm'); 
+set(f,'Name','Fluence as a function of Rho and z');
 
-
-%% Example FluenceOfRhoAndZ
-% Evaluate fluence as a function of rho and z using optical properties from 
-% a list of chromophore absorbers with their concentrations and a power law 
-% scatterer for a range of wavelengths.
-
-rhos = 0.1:0.1:10; % s-d separation, in mm
-zs = 0.1:0.1:10; % z range in mm
-
-wv = 450:0.5:1000;
-
-% create a list of chromophore absorbers and their concentrations
-absorbers.Names =           {'HbO2', 'Hb', 'H2O'};
-absorbers.Concentrations =  [70,     30,   0.8  ];
-
-% create a scatterer (PowerLaw, Intralipid, or Mie)
-scatterer.Type = 'PowerLaw';
-scatterer.A = 1.2;
-scatterer.b = 1.42;
-
-% % or 
-% scatterer.Type = 'Intralipid';
-% scatterer.vol_frac =  0.5;
-
-% % or 
-% scatterer.Type = 'Mie';
-% scatterer.radius =  0.5;
-% scatterer.n =       1.4;
-% scatterer.nMedium = 1.0;
-
-op = VtsSpectroscopy.GetOP(absorbers, scatterer, wv);
-
-test = VtsSolvers.FluenceOfRhoAndZ(op, rhos, zs);
-
-f = figure; imagesc(log(squeeze(test(:,1,:))));
-set(f,'Name','Fluence of Rho and z');
 
 %% Example FluenceOfRhoAndZAndFt
 % Evaluate fluence as a function of rho and z using one set of optical 
@@ -297,6 +264,24 @@ xlabel('\rho [mm]')
 ylabel('z [mm]')
 set(f,'Name','PHD of Rho and z');
 
+%% Example PHDOfRhoAndZTwoLayer
+% Evaluate Photon Hitting Density in cylindrical coordinates
+% using one set of optical properties and a distributed gaussian source SDA
+% solver type.
+
+op = [[0.01 1 0.8 1.4];[0.1 1 0.8 1.4]];
+rhos = linspace(0.1,19.9,100); % s-d separation, in mm
+zs = linspace(0.1,19.9,100); % z range in mm
+
+test = VtsSolvers.PHDOfRhoAndZTwoLayer(op, rhos, zs, 10, 5);
+
+f = figure; imagesc(rhos, zs, log(test));
+axis image;
+title('Photon Hitting Density of \rho and z - Two Layer'); 
+xlabel('\rho [mm]');
+ylabel('z [mm]');
+set(f,'Name','PHD of Rho and z - Two Layer');
+
 %% Example AbsorbedEnergyOfRhoAndZ
 % Evaluate Absorbed Energy of rho and z using one set of optical properties 
 % and a point source SDA solver type.
@@ -314,8 +299,8 @@ test = VtsSolvers.AbsorbedEnergyOfRhoAndZ(op, rhos, zs);
 f = figure; imagesc(xs, zs, log([fliplr(test),test]));
 axis image;
 title('Absorbed Energy of \rho and z'); 
-xlabel('\rho [mm]')
-ylabel('z [mm]')
+xlabel('\rho [mm]');
+ylabel('z [mm]');
 set(f,'Name','Absorbed Energy of Rho and z');
 
 %% Example ROfRho
@@ -327,7 +312,7 @@ rho = 0.5:0.05:9.5; %s-d separation, in mm
 %VtsSolvers.SolverType = 'DistributedPointSourceSDA';
 test = VtsSolvers.ROfRho(op, rho);
 f = figure; plot(rho, test);
-set(f,'Name','R of Rho');
+set(f,'Name','Reflectance vs Rho for various optical properties');
 % create the legend with just the mua value from the optical properties
 options = [{'FontSize', 12}; {'Location', 'NorthEast'}];
 PlotHelper.CreateLegend(op(:,1), '\mu_a: ', 'mm^-^1', options);
@@ -344,11 +329,11 @@ rho = 10; %s-d separation, in mm
 t = 0:0.001:0.5; % range of times in ns
 test0 = VtsSolvers.ROfRhoAndT(op, rho, t);
 f = figure; plot(t, squeeze(test0));
-set(f,'Name','R of Rho and t');
+set(f,'Name','Reflectance of Rho vs time for various optical properties');
 % create the legend with just the mua value from the optical properties
 options = [{'FontSize', 12}; {'Location', 'NorthEast'}];
 PlotHelper.CreateLegend(op(:,1), '\mu_a: ', 'mm^-^1', options);
-title({'Reflectance vs time for various optical properties'; ' '}); 
+title({'Reflectance of \rho vs time for various optical properties'; ' '}); 
 ylabel('R(t)');
 xlabel('Time, t [ns]');
 
@@ -591,7 +576,7 @@ f = figure; plot(wv, measData,'ro',...
 xlabel('Wavelength, \lambda [nm]');
 ylabel('R(\lambda)');
 legend('Meas','IG','Converged');
-set(f, 'Name', 'ROfRho (inverse solution for chromophore concentrations, multiple wavelengths, single rho)');
+set(f, 'Name', 'ROfRho (inverse solution for chromophore concentrations, multiple wavelengths, single Rho)');
 title('ROfRho (inverse solution for chromophore concentrations, multiple wavelengths, single \rho)'); 
 set(f, 'OuterPosition', [100, 50, 960, 850]); 
 options = [{'Location', 'NorthEast'}; {'FontSize', 12}; {'Box', 'on'}];
@@ -602,6 +587,123 @@ disp(sprintf('Conv =    [%5.3f %5.3f %5.3f] Chi2=%5.3e',recoveredConc(1),recover
     (measData-recovered)*(measData-recovered)'));
 disp(sprintf('error =   [%5.3f %5.3f %5.3f]',abs(measData(1)-recovered(1))/measData(1),...
     abs(measData(2)-recovered(2))/measData(2),abs(measData(3)-recovered(3))/measData(3)));
+%% Example ROfRho for a two-layer tissue (multiple rho)
+clear op
+layerThickness = 2;  % units: mm
 
+opsA = [0.01 1 0.8 1.4; 0.01 1 0.8 1.4]; % top/bottom layer OPs case 1
+opsB = [0.02 1 0.8 1.4; 0.01 1 0.8 1.4]; % top/bottom layer OPs case 2
+opsC = [0.03 1 0.8 1.4; 0.01 1 0.8 1.4]; % top/bottom layer OPs case 3
+op(1,:,:) = [opsA];
+op(2,:,:) = [opsB];
+op(3,:,:) = [opsC];
+
+rho = 0.5:0.05:9.5; %s-d separation, in mm
+test = VtsSolvers.ROfRhoTwoLayer(op, layerThickness, rho);
+f = figure; semilogy(rho, test);
+set(f,'Name','2-Layer Reflectance vs Rho for various top Layer Optical Properties');
+% create the legend with just the mua value from the top layer optical properties
+options = [{'FontSize', 12}; {'Location', 'NorthEast'}];
+PlotHelper.CreateLegend(op(:,1), 'top \mu_a: ', 'mm^-^1', options);
+title('2-Layer Reflectance vs \rho for various top Layer OPs'); 
+ylabel('R(\rho)');
+xlabel('\rho');
+%% Example ROfRhoAndTime for a two-layer tissue (multiple time)
+clear op
+layerThickness = 2;  % units: mm
+% 
+% opsA = [0.01 1 0.8 1.4; 0.01 1 0.8 1.4]; % top/bottom layer OPs case 1
+% opsB = [0.02 1 0.8 1.4; 0.01 1 0.8 1.4]; % top/bottom layer OPs case 2
+% opsC = [0.03 1 0.8 1.4; 0.01 1 0.8 1.4]; % top/bottom layer OPs case 3
+% op(1,:,:) = [opsA];
+% op(2,:,:) = [opsB];
+% op(3,:,:) = [opsC];
+
+wv = 650:100:850;
+
+% create a list of chromophore absorbers and their concentrations
+absorbers.Names =           {'HbO2', 'Hb', 'H2O'};
+absorbers.Concentrations =  [70,     30,   0.8  ];
+
+% create a scatterer (PowerLaw, Intralipid, or Mie)
+scatterer.Type = 'PowerLaw';
+scatterer.A = 1.2;
+scatterer.b = 1.42;
+
+opBottomLayer = VtsSpectroscopy.GetOP(absorbers, scatterer, wv);
+% get OPs at first wavelength and perturb top layer mua by factor 1.1
+opsA = [opBottomLayer(1,1) opBottomLayer(1,2) opBottomLayer(1,3) opBottomLayer(1,4);
+      1.1*opBottomLayer(1,1) opBottomLayer(1,2) opBottomLayer(1,3) opBottomLayer(1,4)];
+% get OPs at first wavelength and perturb top layer mua
+opsB = [opBottomLayer(2,1) opBottomLayer(2,2) opBottomLayer(2,3) opBottomLayer(2,4);
+      1.1*opBottomLayer(2,1) opBottomLayer(2,2) opBottomLayer(2,3) opBottomLayer(2,4)];
+% get OPs at first wavelength and perturb top layer mua
+opsC = [opBottomLayer(3,1) opBottomLayer(3,2) opBottomLayer(3,3) opBottomLayer(3,4);
+      1.1*opBottomLayer(3,1) opBottomLayer(3,2) opBottomLayer(3,3) opBottomLayer(3,4)];
+op(1,:,:) = [opsA];
+op(2,:,:) = [opsB];
+op(3,:,:) = [opsC];
+  
+rho = 10; %s-d separation, in mm
+t = 0:0.001:0.5; % range of times in ns
+test = VtsSolvers.ROfRhoAndTimeTwoLayer(op, layerThickness, rho, t);
+f = figure; plot(t, squeeze(test));
+set(f,'Name','2-Layer Reflectance vs time for various top Layer Optical Properties');
+% create the legend with just the mua value from the optical properties
+options = [{'FontSize', 12}; {'Location', 'NorthEast'}];
+%PlotHelper.CreateLegend(op(:,1), 'top \mu_a: ', 'mm^-^1', options);
+PlotHelper.CreateLegend(wv(1,:), '', 'nm', options);
+title('2-Layer Reflectance vs time for various top Layer OPs'); 
+ylabel('R(t)');
+xlabel('Time, t [ns]');
+
+%% Example ROfRhoAndFt for a two-layer tissue (multiple ft)
+% Evaluate reflectance as a function of rho and temporal-frequency with one 
+% set of optical properites.
+clear op
+layerThickness = 2;  % units: mm
+
+opsA = [0.01 1 0.8 1.4; 0.01 1 0.8 1.4]; % top/bottom layer OPs case 1
+opsB = [0.02 1 0.8 1.4; 0.01 1 0.8 1.4]; % top/bottom layer OPs case 2
+opsC = [0.03 1 0.8 1.4; 0.01 1 0.8 1.4]; % top/bottom layer OPs case 3
+op(1,:,:) = [opsA];
+op(2,:,:) = [opsB];
+op(3,:,:) = [opsC];
+
+rho = 10; % s-d separation, in mm
+ft = 0:0.01:0.5; % range of temporal frequencies in GHz
+
+test = VtsSolvers.ROfRhoAndFtTwoLayer(op, layerThickness, rho, ft);
+
+f = figure;
+set(f, 'OuterPosition', [100, 50, 600, 800]);
+subplot(3,1,1); 
+plot(ft, [real(squeeze(test(1,:,:))) -imag(squeeze(test(1,:,:)))],...
+     ft, [real(squeeze(test(2,:,:))) -imag(squeeze(test(2,:,:)))],...
+     ft, [real(squeeze(test(3,:,:))) -imag(squeeze(test(3,:,:)))]);
+title('2-Layer Reflectance vs f_t'); 
+ylabel('R(f_t)');
+xlabel('f_t');
+lgnd = legend('Real','Imaginary');
+set(lgnd,'FontSize',12);
+subplot(3,1,2); 
+plot(ft, abs(squeeze(test(1,:,:))),...
+     ft, abs(squeeze(test(2,:,:))),...
+     ft, abs(squeeze(test(3,:,:))));
+title('2-Layer Reflectance amplitude vs f_t'); 
+options = [{'FontSize', 12}; {'Location', 'NorthEast'}];
+PlotHelper.CreateLegend(op(:,1), 'top \mu_a: ', 'mm^-^1', options);
+ylabel('R(f_t) Amplitude');
+xlabel('f_t');
+subplot(3,1,3); 
+plot(ft, -angle(squeeze(test(1,:,:))),...
+     ft, -angle(squeeze(test(2,:,:))),...
+     ft, -angle(squeeze(test(3,:,:))));
+title('2-Layer Reflectance phase vs f_t'); 
+ylabel('R(f_t) Phase');
+xlabel('f_t');
+set(f,'Name','Frequency-domain reflectance');
+options = [{'FontSize', 12}; {'Location', 'NorthEast'}];
+PlotHelper.CreateLegend(op(:,1), 'top \mu_a: ', 'mm^-^1', options);
 ##### SOURCE END #####
 --></body></html>

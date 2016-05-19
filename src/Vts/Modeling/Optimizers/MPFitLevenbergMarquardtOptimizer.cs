@@ -34,7 +34,11 @@ namespace Vts.Modeling.Optimizers
     public class MPFitLevenbergMarquardtOptimizer : IOptimizer
     {
         /// <summary>
-        /// Optimization method.
+        /// Optimization method.  This calls MPFit Levenberg Marquardt solver.
+        /// For examples of usage, see TestMPFit.cs:
+        /// https://csmpfit.codeplex.com/SourceControl/latest#src/MPFitLib.Test/TestMPFit.cs
+        /// For an example of a call with the objective function:
+        /// https://csmpfit.codeplex.com/SourceControl/latest#src/MPFitLib.Test/ForwardModels.cs
         /// </summary>
         /// <param name="a">optimization parameter initial guess</param>
         /// <param name="ia">accompanying array to <paramref name="a"/> that specifies which parameters to fit (held constant otherwise)</param>

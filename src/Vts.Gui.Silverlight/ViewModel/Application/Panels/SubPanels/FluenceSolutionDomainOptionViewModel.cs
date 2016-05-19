@@ -21,7 +21,7 @@ namespace Vts.Gui.Silverlight.ViewModel
 
             this.PropertyChanged += (sender, args) =>
             {
-                if (sender is SolutionDomainOptionViewModel && args.PropertyName == "SelectedValue")
+                if (sender is FluenceSolutionDomainOptionViewModel && args.PropertyName == "SelectedValue")
                 {
                     UpdateOptions();
                 }
@@ -83,6 +83,8 @@ namespace Vts.Gui.Silverlight.ViewModel
             IndependentVariableAxisOptionVM.PropertyChanged += (s, a) => UpdateAxes();
 
             UpdateAxes();
+            //The independent axis should not be visible, this panel already has modulation frequency
+            ShowIndependentAxisChoice = (ShowIndependentAxisChoice && (SelectedValue != FluenceSolutionDomainType.FluenceOfRhoAndZAndFt));
         }
     }
 }
