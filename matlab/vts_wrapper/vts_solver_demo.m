@@ -39,7 +39,7 @@ subplot(3,1,3); plot(ft, -angle(test));% or 'plot(ft, atan2(imag(test),real(test
 title('Reflectance phase vs f_t'); 
 ylabel('R(f_t) Phase');
 xlabel('f_t');
-set(f,'Name','Frequency-domain reflectance');
+set(f,'Name','Reflectance as a function of Rho and Temporal-frequency');
 
 %% Example ROfFxAndFt
 % Evaluate reflectance as a function of spatial- and temporal- frequencies 
@@ -66,7 +66,7 @@ subplot(3,1,3); plot(ft, -angle(test));% or 'plot(ft, atan2(imag(test),real(test
 title('Reflectance phase vs f_t'); 
 ylabel('R(f_t) Phase');
 xlabel('f_t');
-set(f,'Name','ROfFxAndFt');
+set(f,'Name','Reflectance as a function of Spatial- and Temporal- frequencies');
 
 %% Example FluenceOfRhoAndZ
 % Evaluate fluence as a function of rho and z using optical properties from 
@@ -105,7 +105,7 @@ f = figure; imagesc(wv,zs,log(squeeze(test(:,1,:))));
 ylabel('z [mm]');
 xlabel('wavelength, \lambda [nm]');
 title('Fluence of \lambda and z and \rho=0.1 mm'); 
-set(f,'Name','FluenceOfRhoAndZ');
+set(f,'Name','Fluence as a function of Rho and z');
 
 
 %% Example FluenceOfRhoAndZAndFt
@@ -179,10 +179,10 @@ test = VtsSolvers.PHDOfRhoAndZTwoLayer(op, rhos, zs, 10, 5);
 
 f = figure; imagesc(rhos, zs, log(test));
 axis image;
-title('Photon Hitting Density of \rho and z'); 
-xlabel('\rho [mm]')
-ylabel('z [mm]')
-set(f,'Name','PHD of Rho and z');
+title('Photon Hitting Density of \rho and z - Two Layer'); 
+xlabel('\rho [mm]');
+ylabel('z [mm]');
+set(f,'Name','PHD of Rho and z - Two Layer');
 
 %% Example AbsorbedEnergyOfRhoAndZ
 % Evaluate Absorbed Energy of rho and z using one set of optical properties 
@@ -201,8 +201,8 @@ test = VtsSolvers.AbsorbedEnergyOfRhoAndZ(op, rhos, zs);
 f = figure; imagesc(xs, zs, log([fliplr(test),test]));
 axis image;
 title('Absorbed Energy of \rho and z'); 
-xlabel('\rho [mm]')
-ylabel('z [mm]')
+xlabel('\rho [mm]');
+ylabel('z [mm]');
 set(f,'Name','Absorbed Energy of Rho and z');
 
 %% Example ROfRho
@@ -214,7 +214,7 @@ rho = 0.5:0.05:9.5; %s-d separation, in mm
 %VtsSolvers.SolverType = 'DistributedPointSourceSDA';
 test = VtsSolvers.ROfRho(op, rho);
 f = figure; plot(rho, test);
-set(f,'Name','R of Rho');
+set(f,'Name','Reflectance vs Rho for various optical properties');
 % create the legend with just the mua value from the optical properties
 options = [{'FontSize', 12}; {'Location', 'NorthEast'}];
 PlotHelper.CreateLegend(op(:,1), '\mu_a: ', 'mm^-^1', options);
@@ -231,11 +231,11 @@ rho = 10; %s-d separation, in mm
 t = 0:0.001:0.5; % range of times in ns
 test0 = VtsSolvers.ROfRhoAndT(op, rho, t);
 f = figure; plot(t, squeeze(test0));
-set(f,'Name','R of Rho and t');
+set(f,'Name','Reflectance of Rho vs time for various optical properties');
 % create the legend with just the mua value from the optical properties
 options = [{'FontSize', 12}; {'Location', 'NorthEast'}];
 PlotHelper.CreateLegend(op(:,1), '\mu_a: ', 'mm^-^1', options);
-title({'Reflectance vs time for various optical properties'; ' '}); 
+title({'Reflectance of \rho vs time for various optical properties'; ' '}); 
 ylabel('R(t)');
 xlabel('Time, t [ns]');
 
@@ -478,7 +478,7 @@ f = figure; plot(wv, measData,'ro',...
 xlabel('Wavelength, \lambda [nm]');
 ylabel('R(\lambda)');
 legend('Meas','IG','Converged');
-set(f, 'Name', 'ROfRho (inverse solution for chromophore concentrations, multiple wavelengths, single rho)');
+set(f, 'Name', 'ROfRho (inverse solution for chromophore concentrations, multiple wavelengths, single Rho)');
 title('ROfRho (inverse solution for chromophore concentrations, multiple wavelengths, single \rho)'); 
 set(f, 'OuterPosition', [100, 50, 960, 850]); 
 options = [{'Location', 'NorthEast'}; {'FontSize', 12}; {'Box', 'on'}];
@@ -503,7 +503,7 @@ op(3,:,:) = [opsC];
 rho = 0.5:0.05:9.5; %s-d separation, in mm
 test = VtsSolvers.ROfRhoTwoLayer(op, layerThickness, rho);
 f = figure; semilogy(rho, test);
-set(f,'Name','R of Rho');
+set(f,'Name','2-Layer Reflectance vs Rho for various top Layer Optical Properties');
 % create the legend with just the mua value from the top layer optical properties
 options = [{'FontSize', 12}; {'Location', 'NorthEast'}];
 PlotHelper.CreateLegend(op(:,1), 'top \mu_a: ', 'mm^-^1', options);
@@ -550,7 +550,7 @@ rho = 10; %s-d separation, in mm
 t = 0:0.001:0.5; % range of times in ns
 test = VtsSolvers.ROfRhoAndTimeTwoLayer(op, layerThickness, rho, t);
 f = figure; plot(t, squeeze(test));
-set(f,'Name','R of Rho and t');
+set(f,'Name','2-Layer Reflectance vs time for various top Layer Optical Properties');
 % create the legend with just the mua value from the optical properties
 options = [{'FontSize', 12}; {'Location', 'NorthEast'}];
 %PlotHelper.CreateLegend(op(:,1), 'top \mu_a: ', 'mm^-^1', options);

@@ -181,7 +181,7 @@ namespace Vts.MonteCarlo.Detectors
                 previousDP = dp;
             }
             // second moment determined after all tallies to each detector bin for ONE photon has been complete
-            if (TallySecondMoment)
+            if (TallySecondMoment) // 2nd moment is E[xx*]=E[xreal^2]+E[ximag^2]
             {
                 for (int ifx = 0; ifx < Fx.Count; ifx++)
                 {
@@ -190,7 +190,7 @@ namespace Vts.MonteCarlo.Detectors
                         for (int ia = 0; ia < Angle.Count - 1; ia++)
                         {
                             SecondMoment[ifx, iz, ia] += _tallyForOnePhoton[ifx, iz, ia].Real * _tallyForOnePhoton[ifx, iz, ia].Real + 
-                               Complex.ImaginaryOne * _tallyForOnePhoton[ifx, iz, ia].Imaginary * _tallyForOnePhoton[ifx,iz,ia].Imaginary;
+                                                         _tallyForOnePhoton[ifx, iz, ia].Imaginary * _tallyForOnePhoton[ifx,iz,ia].Imaginary;
                         }
                     }
                 }
