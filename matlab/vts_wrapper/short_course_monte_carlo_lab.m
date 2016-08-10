@@ -27,7 +27,7 @@ sourceInput.PointLocation = [0 0 0];
 % Point source emitting direction
 sourceInput.Direction = [0 0 1];  
 % Initial tissue region index        
-sourceInput.InitialTissueRegionIndex = 0;
+sourceInput.InitialTissueRegionIndex = 0; 
 
 % create a single layer tissue of thickness 100mm 
 tissueInput = MultiLayerTissueInput();
@@ -83,7 +83,7 @@ for j=1:size(Nphot,2)
   % plot fluence as a function of rho and z with mirror image
   subplot(2,2,j,'Position',[left(j) bottom(j) 0.4 0.4]);
   imagesc(xs,z_midpoints,log10([fliplr(d.Mean') d.Mean'])); 
-  colorbar; caxis([-6 1]);
+  caxis([-6 1]); 
   shading('flat'); axis equal; axis([-9.5 9.5, 0 9.5]); 
   text(-8.5, 8, sprintf('N=%d',floor(Nphot(j))),'FontSize',16,'Color',[1 1 1]);
   title('log(Flu(\rho,z)) [mm^-^2]'); 
@@ -99,11 +99,19 @@ for j=1:size(Nphot,2)
   % determine standard deviation of the results
   SD = sqrt((SecondMoment - (Mean .* Mean)) / Nphot(j));
   relErr = SD./Mean;
+  % set NaN to value beyond max
+  maxval = max(relErr(:));
+  relErr(isnan(relErr)) = maxval + maxval/10;
   subplot(2,2,j,'Position',[left(j) bottom(j) 0.4 0.4]); 
-  imagesc(xs(1:end-2),z_midpoints(1:end-1),([fliplr(relErr') relErr'])); 
-  colorbar; caxis([0 1]);
+  imagesc(xs(1:end-2),z_midpoints(1:end-1),([fliplr(relErr') relErr']));
+  % for making NaN values white
+  colordata = colormap;
+  colordata(end,:) = [1 1 1];
+  colormap(flipud(colordata));
+  colorbar;
+  caxis([0 1]);
   shading('flat'); axis equal;axis([-9.5 9.5, 0 9.5]);
-  text(-8.5, 8, sprintf('N=%d',floor(Nphot(j))),'FontSize',16,'Color',[1 1 1]);
+  text(-8.5, 8, sprintf('N=%d',floor(Nphot(j))),'FontSize',16,'Color',[0 0 0]);
   title('relerr(Flu(\rho,z))'); 
   xlabel('\rho [mm]'); ylabel('z [mm]');
   if (strcmp(options.AbsorptionWeightingType,'Analog')==true)
