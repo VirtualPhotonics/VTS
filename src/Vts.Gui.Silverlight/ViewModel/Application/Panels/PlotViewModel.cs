@@ -733,7 +733,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                                     y = y / max;
                                     break;
                             }
-                            y = YAxisSpacingOptionVM.SelectedValue == ScalingType.Log ? Math.Log(y) : y;
+                            y = YAxisSpacingOptionVM.SelectedValue == ScalingType.Log ? Math.Log10(y) : y;
                             var p = new DataPoint(x, y);
                             if (isValidDataPoint(p) && isWithinAxes(p))
                             {
@@ -754,7 +754,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                             y = y / max;
                             break;
                     }
-                    y = YAxisSpacingOptionVM.SelectedValue == ScalingType.Log ? Math.Log(y) : y;
+                    y = YAxisSpacingOptionVM.SelectedValue == ScalingType.Log ? Math.Log10(y) : y;
                     var point = new DataPoint(x, y);
                     if (isValidDataPoint(point) && isWithinAxes(point))
                     {
@@ -798,7 +798,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                             y = dp.Y;
                             break;
                     }
-                    y = YAxisSpacingOptionVM.SelectedValue == ScalingType.Log ? Math.Log(y) : y;
+                    y = YAxisSpacingOptionVM.SelectedValue == ScalingType.Log ? Math.Log10(y) : y;
                     var point = new DataPoint(x, y);
                     if (isValidDataPoint(point) && isWithinAxes(point))
                     {
