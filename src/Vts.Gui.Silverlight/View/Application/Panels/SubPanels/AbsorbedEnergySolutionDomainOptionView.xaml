@@ -59,7 +59,7 @@
                         Text="Frequency-Domain"  Margin="3,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left"/>
                     <RadioButton 
                         Grid.Row="2" Grid.Column="1"
-                        DataContext="{Binding FluenceOfRhoAndZAndFtOption}" IsEnabled="True"
+                        DataContext="{Binding FluenceOfRhoAndZAndFtOption}" IsEnabled="False"
                         Tag="{Binding ID}" Content="{Binding Path=MainResource.Label_AOfRhoAndZAndFt, Source={StaticResource LocalizedStrings}}"  IsChecked="{Binding IsSelected, Mode=TwoWay}" 
                         GroupName="AbsorbedEnergySolutionDomainOptionView" VerticalAlignment="Center" HorizontalAlignment="Left"/>
                     <RadioButton 

@@ -45,7 +45,7 @@
                         Text="Time-Domain"  Margin="3,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left"/>
                     <RadioButton 
                         Grid.Row="1" Grid.Column="1"
-                        DataContext="{Binding FluenceOfRhoAndZAndTimeOption}" IsEnabled="False"
+                        DataContext="{Binding FluenceOfRhoAndZAndTimeOption}" IsEnabled="{Binding IsEnabled, Mode=OneWay}"
                         Tag="{Binding ID}" Content="{Binding DisplayName}"  IsChecked="{Binding IsSelected, Mode=TwoWay}" 
                         GroupName="{Binding GroupName}" VerticalAlignment="Center" HorizontalAlignment="Left"/>
                     <RadioButton 
@@ -59,9 +59,9 @@
                         Text="Frequency-Domain"  Margin="3,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left"/>
                     <RadioButton 
                         Grid.Row="2" Grid.Column="1"
-                        DataContext="{Binding FluenceOfRhoAndZAndFtOption}" IsEnabled="True"
+                        DataContext="{Binding FluenceOfRhoAndZAndFtOption}" IsEnabled="{Binding IsEnabled, Mode=OneWay}"
                         Tag="{Binding ID}" Content="{Binding DisplayName}"  IsChecked="{Binding IsSelected, Mode=TwoWay}" 
-                        GroupName="{Binding GroupName}" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                        GroupName="{Binding GroupName}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,4,0,0"/>
                     <RadioButton 
                         Grid.Row="2" Grid.Column="2"
                         DataContext="{Binding FluenceOfFxAndZAndFtOption}" IsEnabled="False"
