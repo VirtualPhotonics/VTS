@@ -510,6 +510,27 @@ PlotHelper.CreateLegend(op(:,1), 'top \mu_a: ', 'mm^-^1', options);
 title('2-Layer Reflectance vs \rho for various top Layer OPs'); 
 ylabel('R(\rho)');
 xlabel('\rho');
+%% Example ROfFx for a two-layer tissue (multiple fx)
+clear op
+layerThickness = 2;  % units: mm
+
+opsA = [0.01 1 0.8 1.4; 0.01 1 0.8 1.4]; % top/bottom layer OPs case 1
+opsB = [0.02 1 0.8 1.4; 0.01 1 0.8 1.4]; % top/bottom layer OPs case 2
+opsC = [0.03 1 0.8 1.4; 0.01 1 0.8 1.4]; % top/bottom layer OPs case 3
+op(1,:,:) = [opsA];
+op(2,:,:) = [opsB];
+op(3,:,:) = [opsC];
+
+fx = 0:0.01:0.5; % range of spatial frequencies in 1/mm
+test = VtsSolvers.ROfFxTwoLayer(op, layerThickness, fx);
+f = figure; semilogy(fx, test);
+set(f,'Name','2-Layer Reflectance vs Fx for various top Layer Optical Properties');
+% create the legend with just the mua value from the top layer optical properties
+options = [{'FontSize', 12}; {'Location', 'NorthEast'}];
+PlotHelper.CreateLegend(op(:,1), 'top \mu_a: ', 'mm^-^1', options);
+title('2-Layer Reflectance vs fx for various top Layer OPs'); 
+ylabel('R(fx)');
+xlabel('fx');
 %% Example ROfRhoAndTime for a two-layer tissue (multiple time)
 clear op
 layerThickness = 2;  % units: mm
