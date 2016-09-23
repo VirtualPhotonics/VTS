@@ -9,7 +9,7 @@ slash = filesep;  % get correct path delimiter for platform
 addpath([cd slash 'jsonlab']);
 
 % names of individual MC simulations
-datanames = { 'one_layer_FluenceOfRhoAndZ_RadianceOfRhoAndZAndAngle' };
+datanames = { 'one_layer_all_detectors' };
 % datanames = { 'results_mua0.1musp1.0' 'results_mua0.1musp1.1' }; %...etc
 
 % outdir = 'C:\Projects\vts\src\Vts.MonteCarlo.CommandLineApplication\bin\Release';
@@ -113,7 +113,7 @@ for mci = 1:length(datanames)
     end
 
     if isfield(results{di}, 'ROfFx') && show.ROfFx
-        figname = sprintf('log(%s)',results{di}.ROfFx.Name); figure; plot(results{di}.ROfFx.Fx_Midpoints, results{di}.ROfFx.Mean); title(figname); set(gcf,'Name', figname); xlabel('f_x [/mm]'); ylabel('R(f_x) [unitless]');
+        figname = sprintf('log(%s)',results{di}.ROfFx.Name); figure; plot(results{di}.ROfFx.Fx_Midpoints, abs(results{di}.ROfFx.Mean)); title(figname); set(gcf,'Name', figname); xlabel('f_x [/mm]'); ylabel('R(f_x) [unitless]');
         Fxdelta = results{di}.ROfFx.Fx(2)-results{di}.ROfFx.Fx(1);
         Fxnorm = 2 * pi * (results{di}.ROfFx.Fx_Midpoints * Fxdelta);
         disp(['Total reflectance captured by ROfFx detector: ' num2str(sum(results{di}.ROfFx.Mean.*Fxnorm'))]);

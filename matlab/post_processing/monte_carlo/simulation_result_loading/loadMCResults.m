@@ -107,10 +107,10 @@ for di = 1:numDetectors
             ROfRhoAndOmega.Phase = -angle(ROfRhoAndOmega.Mean);
             if(detector.TallySecondMoment && exist([datadir slash detector.Name '_2'],'file'))
                 tempData = readBinaryData([datadir slash detector.Name '_2'],[2*length(ROfRhoAndOmega.Omega),(length(ROfRhoAndOmega.Rho)-1)]); % 2x omega for re and im  
-                ROfRhoAndOmega.SecondMoment =  tempData(1:2:end,:) + 1i*tempData(2:2:end,:);
-                % x=a+ib: SD=sqrt( E(|x|^2) + |E(x)|^2 ) = since SecondMoment is real = sqrt(SecondMoment+real(Mean)*real(Mean)+imag(Mean)*imag(Mean))
-                ROfRhoAndOmega.Stdev = sqrt((ROfRhoAndOmega.SecondMoment + real(ROfRhoAndOmega.Mean) .* real(ROfRhoAndOmega.Mean) + ...
-                                                                           imag(ROfRhoAndOmega.Mean) .* imag(ROfRhoAndOmega.Mean)) / json.N);
+                ROfRhoAndOmega.SecondMoment =  tempData(1:2:end,:) + tempData(2:2:end,:); % SecondMoment=E[re^2]+E[im^2] is real
+                % SD=sqrt( SecondMoment - E[re]^2 - E[im]^2 )
+                ROfRhoAndOmega.Stdev = sqrt((ROfRhoAndOmega.SecondMoment - real(ROfRhoAndOmega.Mean) .* real(ROfRhoAndOmega.Mean) ...
+                                                                         - imag(ROfRhoAndOmega.Mean) .* imag(ROfRhoAndOmega.Mean)) / json.N);
             end            
             results{di}.ROfRhoAndOmega = ROfRhoAndOmega;
         case 'ROfFx'
@@ -122,10 +122,10 @@ for di = 1:numDetectors
             ROfFx.Mean = tempData(1:2:end) + 1i*tempData(2:2:end);          
             if(detector.TallySecondMoment && exist([datadir slash detector.Name '_2'],'file'))
                 tempData = readBinaryData([datadir slash detector.Name '_2'],2*length(ROfFx.Fx));
-                ROfFx.SecondMoment = tempData(1:2:end) + 1i*tempData(2:2:end);
-                % x=a+ib: SD=sqrt( E(|x|^2) + |E(x)|^2 ) = since SecondMoment is real = sqrt(SecondMoment+real(Mean)*real(Mean)+imag(Mean)*imag(Mean))
-                ROfFx.Stdev = sqrt((ROfFx.SecondMoment + real(ROfFx.Mean) .* real(ROfFx.Mean) + ...
-                                                         imag(ROfFx.Mean) .* imag(ROfFx.Mean)) / json.N);
+                ROfFx.SecondMoment = tempData(1:2:end) + tempData(2:2:end); % SecondMoment=E[re^2]+E[im^2] is real
+                % SD=sqrt( SecondMoment - E[re]^2 - E[im]^2 )
+                ROfFx.Stdev = sqrt((ROfFx.SecondMoment - real(ROfFx.Mean) .* real(ROfFx.Mean) ...
+                                                       - imag(ROfFx.Mean) .* imag(ROfFx.Mean)) / json.N);
             end
             results{di}.ROfFx = ROfFx;
         case 'TDiffuse'
@@ -313,10 +313,10 @@ for di = 1:numDetectors
                     [2*(length(FluenceOfXAndYAndZAndOmega.X)-1)*(length(FluenceOfXAndYAndZAndOmega.Y)-1)*(length(FluenceOfXAndYAndZAndOmega.Z)-1)*(length(FluenceOfXAndYAndZAndOmega.Omega))]);
                 tempDataReshape = reshape(tempData, ... % column major json binary
                     [2*length(FluenceOfXAndYAndZAndOmega.Omega),length(FluenceOfXAndYAndZAndOmega.Z)-1,length(FluenceOfXAndYAndZAndOmega.Y)-1,length(FluenceOfXAndYAndZAndOmega.X)-1]);
-                FluenceOfXAndYAndZAndOmega.SecondMoment = tempDataReshape(1:2:end,:,:,:) + 1i*tempDataReshape(2:2:end,:,:,:);
-                % x=a+ib: SD=sqrt( E(|x|^2) + |E(x)|^2 ) = since SecondMoment is real = sqrt(SecondMoment+real(Mean)*real(Mean)+imag(Mean)*imag(Mean))
-                FluenceOfXAndYAndZAndOmega.Stdev = sqrt((FluenceOfXAndYAndZAndOmega.SecondMoment + real(FluenceOfXAndYAndZAndOmega.Mean) .* real(FluenceOfXAndYAndZAndOmega.Mean) + ...
-                                                                           imag(FluenceOfXAndYAndZAndOmega.Mean) .* imag(FluenceOfXAndYAndZAndOmega.Mean)) / json.N);
+                FluenceOfXAndYAndZAndOmega.SecondMoment = tempDataReshape(1:2:end,:,:,:) + tempDataReshape(2:2:end,:,:,:); % SecondMoment=E[re^2]+E[im^2] is real
+                % SD=sqrt( SecondMoment - E[re]^2 - E[im]^2 )
+                FluenceOfXAndYAndZAndOmega.Stdev = sqrt((FluenceOfXAndYAndZAndOmega.SecondMoment - real(FluenceOfXAndYAndZAndOmega.Mean) .* real(FluenceOfXAndYAndZAndOmega.Mean) ...
+                                                                           - imag(FluenceOfXAndYAndZAndOmega.Mean) .* imag(FluenceOfXAndYAndZAndOmega.Mean)) / json.N);
 end                 
             results{di}.FluenceOfXAndYAndZAndOmega = FluenceOfXAndYAndZAndOmega;
         case 'RadianceOfRhoAndZAndAngle'
@@ -365,10 +365,10 @@ end
                     [2*(length(RadianceOfFxAndZAndAngle.Fx)) * (length(RadianceOfFxAndZAndAngle.Z)-1) * (length(RadianceOfFxAndZAndAngle.Angle)-1)]); 
                 tempDataReshape = reshape(tempData, ...% read column major json binary
                     [2*(length(RadianceOfFxAndZAndAngle.Angle)-1),length(RadianceOfFxAndZAndAngle.Z)-1,length(RadianceOfFxAndZAndAngle.Fx)]);
-                RadianceOfFxAndZAndAngle.SecondMoment = tempDataReshape(1:2:end,:,:) + 1i*tempDataReshape(2:2:end,:,:);
-                % x=a+ib: SD=sqrt( E(|x|^2) + |E(x)|^2 ) = since SecondMoment is real = sqrt(SecondMoment+real(Mean)*real(Mean)+imag(Mean)*imag(Mean))
-                RadianceOfFxAndZAndAngle.Stdev = sqrt((RadianceOfFxAndZAndAngle.SecondMoment + real(RadianceOfFxAndZAndAngle.Mean) .* real(RadianceOfFxAndZAndAngle.Mean) + ...
-                                                                           imag(RadianceOfFxAndZAndAngle.Mean) .* imag(RadianceOfFxAndZAndAngle.Mean)) / json.N);
+                RadianceOfFxAndZAndAngle.SecondMoment = tempDataReshape(1:2:end,:,:) + tempDataReshape(2:2:end,:,:); % SecondMoment=E[re^2]+E[im^2] is real
+                % SD=sqrt( SecondMoment - E[re]^2 - E[im]^2 )
+                RadianceOfFxAndZAndAngle.Stdev = sqrt((RadianceOfFxAndZAndAngle.SecondMoment - real(RadianceOfFxAndZAndAngle.Mean) .* real(RadianceOfFxAndZAndAngle.Mean)...
+                                                                           - imag(RadianceOfFxAndZAndAngle.Mean) .* imag(RadianceOfFxAndZAndAngle.Mean)) / json.N);
        end
             results{di}.RadianceOfFxAndZAndAngle = RadianceOfFxAndZAndAngle;
         case 'RadianceOfXAndYAndZAndThetaAndPhi'
