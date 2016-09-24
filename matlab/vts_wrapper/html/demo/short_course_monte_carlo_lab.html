@@ -6,7 +6,7 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>Monte Carlo Laboratory B,</title><meta name="generator" content="MATLAB 7.13"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-12-23"><meta name="DC.source" content="short_course_monte_carlo_lab.m"><style type="text/css">
+      --><title>Monte Carlo Laboratory B,</title><meta name="generator" content="MATLAB 7.13"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2016-09-23"><meta name="DC.source" content="short_course_monte_carlo_lab.m"><style type="text/css">
 
 body {
   background-color: white;
@@ -62,16 +62,16 @@ p.footer {
   color: gray;
 }
 
-  </style></head><body><div class="content"><h1>Monte Carlo Laboratory B,</h1><!--introduction--><p>Script for short course laboratory</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#2">Example 1a: run Monte Carlo simulations for fluence with increasing N photons</a></li><li><a href="#3">Example 1a: run Monte Carlo simulations for fluence with increasing N photons</a></li><li><a href="#4">Example 1b: Compare standard deviation of two absorption methods</a></li><li><a href="#5">Example 2: run Monte Carlo simulations accounting for absorption with</a></li></ul></div><h2>Example 1a: run Monte Carlo simulations for fluence with increasing N photons<a name="2"></a></h2><pre class="codeoutput">Running simulations...
-Simulations complete! Run time: 3.3028 seconds
-</pre><img vspace="5" hspace="5" src="short_course_monte_carlo_lab_01.png" alt=""> <img vspace="5" hspace="5" src="short_course_monte_carlo_lab_02.png" alt=""> <h2>Example 1a: run Monte Carlo simulations for fluence with increasing N photons<a name="3"></a></h2><pre class="codeoutput">Running simulations...
-Simulations complete! Run time: 40.2093 seconds
+  </style></head><body><div class="content"><h1>Monte Carlo Laboratory B,</h1><!--introduction--><p>Script for short course laboratory</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#2">Example 1a: run Monte Carlo simulations for fluence with increasing N photons (Analog)</a></li><li><a href="#3">Example 1a: run Monte Carlo simulations for fluence with increasing N photons (Discrete)</a></li><li><a href="#4">Example 1b: Compare standard deviation of two absorption methods</a></li><li><a href="#5">Example 2: run Monte Carlo simulations accounting for absorption with</a></li></ul></div><h2>Example 1a: run Monte Carlo simulations for fluence with increasing N photons (Analog)<a name="2"></a></h2><pre class="codeoutput">Running simulations...
+Simulations complete! Run time: 3.0075 seconds
+</pre><img vspace="5" hspace="5" src="short_course_monte_carlo_lab_01.png" alt=""> <img vspace="5" hspace="5" src="short_course_monte_carlo_lab_02.png" alt=""> <h2>Example 1a: run Monte Carlo simulations for fluence with increasing N photons (Discrete)<a name="3"></a></h2><pre class="codeoutput">Running simulations...
+Simulations complete! Run time: 39.6564 seconds
 </pre><img vspace="5" hspace="5" src="short_course_monte_carlo_lab_03.png" alt=""> <img vspace="5" hspace="5" src="short_course_monte_carlo_lab_04.png" alt=""> <h2>Example 1b: Compare standard deviation of two absorption methods<a name="4"></a></h2><p>this cell relies on above cell execution</p><img vspace="5" hspace="5" src="short_course_monte_carlo_lab_05.png" alt=""> <h2>Example 2: run Monte Carlo simulations accounting for absorption with<a name="5"></a></h2><p>analog and continuous absorption weighting with 10,000 photons and compare time and relative error</p><pre class="codeoutput">Analog results:
 Running simulation...
-Simulation complete! Run time: 1.724 seconds
+Simulation complete! Run time: 1.7898 seconds
 Continuous absorption weighting results:
 Running simulation...
-Simulation complete! Run time: 33.4762 seconds
+Simulation complete! Run time: 35.8765 seconds
 </pre><img vspace="5" hspace="5" src="short_course_monte_carlo_lab_06.png" alt=""> <p class="footer"><br>
       Published with MATLAB&reg; 7.13<br></p></div><!--
 ##### SOURCE BEGIN #####
@@ -84,7 +84,7 @@ clc
 startup();
 
 % ======================================================================= %
-%% Example 1a: run Monte Carlo simulations for fluence with increasing N photons
+%% Example 1a: run Monte Carlo simulations for fluence with increasing N photons (Analog)
 clear;
 Nphot=[10, 100, 1000, 10000]; % number of photons launched takes about 1 mins
 
@@ -104,7 +104,7 @@ sourceInput.PointLocation = [0 0 0];
 % Point source emitting direction
 sourceInput.Direction = [0 0 1];  
 % Initial tissue region index        
-sourceInput.InitialTissueRegionIndex = 0;
+sourceInput.InitialTissueRegionIndex = 0; 
 
 % create a single layer tissue of thickness 100mm 
 tissueInput = MultiLayerTissueInput();
@@ -160,7 +160,7 @@ for j=1:size(Nphot,2)
   % plot fluence as a function of rho and z with mirror image
   subplot(2,2,j,'Position',[left(j) bottom(j) 0.4 0.4]);
   imagesc(xs,z_midpoints,log10([fliplr(d.Mean') d.Mean'])); 
-  colorbar; caxis([-6 1]);
+  caxis([-6 1]); 
   shading('flat'); axis equal; axis([-9.5 9.5, 0 9.5]); 
   text(-8.5, 8, sprintf('N=%d',floor(Nphot(j))),'FontSize',16,'Color',[1 1 1]);
   title('log(Flu(\rho,z)) [mm^-^2]'); 
@@ -176,11 +176,19 @@ for j=1:size(Nphot,2)
   % determine standard deviation of the results
   SD = sqrt((SecondMoment - (Mean .* Mean)) / Nphot(j));
   relErr = SD./Mean;
+  % set NaN to value beyond max
+  maxval = max(relErr(:));
+  relErr(isnan(relErr)) = maxval + maxval/10;
   subplot(2,2,j,'Position',[left(j) bottom(j) 0.4 0.4]); 
-  imagesc(xs(1:end-2),z_midpoints(1:end-1),([fliplr(relErr') relErr'])); 
-  colorbar; caxis([0 1]);
+  imagesc(xs(1:end-2),z_midpoints(1:end-1),([fliplr(relErr') relErr']));
+  % for making NaN values white
+  colordata = colormap;
+  colordata(end,:) = [1 1 1];
+  colormap(flipud(colordata));
+  colorbar;
+  caxis([0 1]);
   shading('flat'); axis equal;axis([-9.5 9.5, 0 9.5]);
-  text(-8.5, 8, sprintf('N=%d',floor(Nphot(j))),'FontSize',16,'Color',[1 1 1]);
+  text(-8.5, 8, sprintf('N=%d',floor(Nphot(j))),'FontSize',16,'Color',[0 0 0]);
   title('relerr(Flu(\rho,z))'); 
   xlabel('\rho [mm]'); ylabel('z [mm]');
   if (strcmp(options.AbsorptionWeightingType,'Analog')==true)
@@ -191,8 +199,7 @@ for j=1:size(Nphot,2)
     save(sprintf('dawSD%d.txt',j),'-ascii','SD');
   end
 end
-% ======================================================================= %
-%% Example 1a: run Monte Carlo simulations for fluence with increasing N photons
+%% Example 1a: run Monte Carlo simulations for fluence with increasing N photons (Discrete)
 clear;
 Nphot=[10, 100, 1000, 10000]; % number of photons launched takes about 1 mins
 
@@ -212,7 +219,7 @@ sourceInput.PointLocation = [0 0 0];
 % Point source emitting direction
 sourceInput.Direction = [0 0 1];  
 % Initial tissue region index        
-sourceInput.InitialTissueRegionIndex = 0;
+sourceInput.InitialTissueRegionIndex = 0; 
 
 % create a single layer tissue of thickness 100mm 
 tissueInput = MultiLayerTissueInput();
@@ -268,7 +275,7 @@ for j=1:size(Nphot,2)
   % plot fluence as a function of rho and z with mirror image
   subplot(2,2,j,'Position',[left(j) bottom(j) 0.4 0.4]);
   imagesc(xs,z_midpoints,log10([fliplr(d.Mean') d.Mean'])); 
-  colorbar; caxis([-6 1]);
+  caxis([-6 1]); 
   shading('flat'); axis equal; axis([-9.5 9.5, 0 9.5]); 
   text(-8.5, 8, sprintf('N=%d',floor(Nphot(j))),'FontSize',16,'Color',[1 1 1]);
   title('log(Flu(\rho,z)) [mm^-^2]'); 
@@ -284,11 +291,19 @@ for j=1:size(Nphot,2)
   % determine standard deviation of the results
   SD = sqrt((SecondMoment - (Mean .* Mean)) / Nphot(j));
   relErr = SD./Mean;
+  % set NaN to value beyond max
+  maxval = max(relErr(:));
+  relErr(isnan(relErr)) = maxval + maxval/10;
   subplot(2,2,j,'Position',[left(j) bottom(j) 0.4 0.4]); 
-  imagesc(xs(1:end-2),z_midpoints(1:end-1),([fliplr(relErr') relErr'])); 
-  colorbar; caxis([0 1]);
+  imagesc(xs(1:end-2),z_midpoints(1:end-1),([fliplr(relErr') relErr']));
+  % for making NaN values white
+  colordata = colormap;
+  colordata(end,:) = [1 1 1];
+  colormap(flipud(colordata));
+  colorbar;
+  caxis([0 1]);
   shading('flat'); axis equal;axis([-9.5 9.5, 0 9.5]);
-  text(-8.5, 8, sprintf('N=%d',floor(Nphot(j))),'FontSize',16,'Color',[1 1 1]);
+  text(-8.5, 8, sprintf('N=%d',floor(Nphot(j))),'FontSize',16,'Color',[0 0 0]);
   title('relerr(Flu(\rho,z))'); 
   xlabel('\rho [mm]'); ylabel('z [mm]');
   if (strcmp(options.AbsorptionWeightingType,'Analog')==true)
