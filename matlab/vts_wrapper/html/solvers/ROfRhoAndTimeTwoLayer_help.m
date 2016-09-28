@@ -1,13 +1,14 @@
 %% ROfRhoAndTimeTwoLayer
-% Reflectance as a function of rho and time for a two layer tissue with top
+% Reflectance as a function of rho and time for a two layer tissue with specified top
 % layer thickness
 %
 %% Syntax
-%  ROfRhoAndTimeTwoLayer(OP, RHO, T) 
+%  ROfRhoAndTimeTwoLayer(OP, THICKNESS, RHO, T) 
 %   
 %       OP is an N x 4 matrix of optical properties
 %           eg. OP = [[mua1, mus'1, g1, n1]; [mua2, mus'2, g2, n2]; ...];
 %           mua and mus' values in (1/mm)
+%       THICKNESS is the tissue top layer thickness.  Needs to be > lstar = 1/(mua+mus')
 %       RHO is an 1 x M array of detector locations (in mm)
 %           eg. RHO = [1:10];
 %       T is an 1 x O array of times (in ns)

@@ -1,9 +1,9 @@
 %% PHDOfRhoAndZTwoLayer
 % Photon Hitting Density in cylindrical coordinates for a two layer tissue 
-% with top layer thickness
+% with specified source-detector separation and top layer thickness
 %
 %% Syntax
-%  PHDOfRhoAndZTwoLayer(OP, RHOS, ZS, SD, THICKNESS)
+%  PHDOfRhoAndZTwoLayer(OP, RHOS, ZS, SD, LAYERTHICKNESS)
 %
 %       OP is an array of N x 4 matrix of optical properties
 %           eg. OP = [[mua1, mus'1, g1, n1]; [mua2, mus'2, g2, n2]; ...];
@@ -12,7 +12,7 @@
 %       Z is a 1 x M array of z values (in mm)
 %           eg. Z = linspace(0.1,19.9,100);
 %       SD is the source-detector separation in mm
-%       THICKNESS is the thickness of the tissue
+%       LAYERTHICKNESS is the tissue top layer thickness.  Needs to be > lstar = 1/(mua+mus')
 %
 %% Description
 % Returns photon hitting density as a function of source-detector separation

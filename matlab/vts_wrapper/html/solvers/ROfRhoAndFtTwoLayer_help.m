@@ -8,7 +8,7 @@
 %           eg. OP = [[mua11, mus'11, g11, n11] [mua12, mus'12, g12, n12]; ... % layer 1 & layer 2 for system 1
 %                 [mua21, mus'21, g21, n21] [mua22, mus'22, g22, n22]; ... % layer 1 & layer 2 for system 2
 %                 ];
-%       THICKNESS is the tissue top layer thickness.  Needs to be > lstar = 1/(mua+mus')
+%       LAYERTHICKNESS is the tissue top layer thickness.  Needs to be > lstar = 1/(mua+mus')
 %       RHO is an 1 x M array of detector locations (in mm)
 %           eg. RHO = [1:10];
 %       FT is an 1 x M array of modulation frequencies (in GHz)
