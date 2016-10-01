@@ -38,6 +38,8 @@
                 <!-- Inside category, list its functions alphabetically -->
                 <!--<tocitem target="monte_carlo/RunPostProcessor_help.html" image="HelpIcon.FUNCTION">RunPostProcessor</tocitem>-->
                 <!--<tocitem target="monte_carlo/RunPostProcessors_help.html" image="HelpIcon.FUNCTION">RunPostProcessors</tocitem>-->
+                <tocitem target="monte_carlo/RunPostProcessor_help.html" image="HelpIcon.FUNCTION">RunPostProcessor</tocitem>
+                <tocitem target="monte_carlo/RunPostProcessors_help.html" image="HelpIcon.FUNCTION">RunPostProcessors</tocitem>
                 <tocitem target="monte_carlo/RunSimulation_help.html" image="HelpIcon.FUNCTION">RunSimulation</tocitem>
                 <tocitem target="monte_carlo/RunSimulations_help.html" image="HelpIcon.FUNCTION">RunSimulations</tocitem>
                 <!-- ... -->
@@ -48,12 +50,17 @@
                 <tocitem target="solvers/AbsorbedEnergyOfRhoAndZ_help.html" image="HelpIcon.FUNCTION">AbsorbedEnergyOfRhoAndZ</tocitem>
                 <tocitem target="solvers/FluenceOfRhoAndZ_help.html" image="HelpIcon.FUNCTION">FluenceOfRhoAndZ</tocitem>
                 <tocitem target="solvers/PHDOfRhoAndZ_help.html" image="HelpIcon.FUNCTION">PHDOfRhoAndZ</tocitem>
+                <tocitem target="solvers/PHDOfRhoAndZTwoLayer_help.html" image="HelpIcon.FUNCTION">PHDOfRhoAndZTwoLayer</tocitem>
                 <tocitem target="solvers/ROfFx_help.html" image="HelpIcon.FUNCTION">ROfFx</tocitem>
                 <tocitem target="solvers/ROfFxAndFt_help.html" image="HelpIcon.FUNCTION">ROfFxAndFt</tocitem>
                 <tocitem target="solvers/ROfFxAndT_help.html" image="HelpIcon.FUNCTION">ROfFxAndT</tocitem>
+                <tocitem target="solvers/ROfFxTwoLayer_help.html" image="HelpIcon.FUNCTION">ROfFxTwoLayer</tocitem>
                 <tocitem target="solvers/ROfRho_help.html" image="HelpIcon.FUNCTION">ROfRho</tocitem>
                 <tocitem target="solvers/ROfRhoAndFt_help.html" image="HelpIcon.FUNCTION">ROfRhoAndFt</tocitem>
+                <tocitem target="solvers/ROfRhoAndFtTwoLayer_help.html" image="HelpIcon.FUNCTION">ROfRhoAndFtTwoLayer</tocitem>
                 <tocitem target="solvers/ROfRhoAndT_help.html" image="HelpIcon.FUNCTION">ROfRhoAndT</tocitem>
+                <tocitem target="solvers/ROfRhoAndTimeTwoLayer_help.html" image="HelpIcon.FUNCTION">ROfRhoAndTimeTwoLayer</tocitem>
+                <tocitem target="solvers/ROfRhoTwoLayer_help.html" image="HelpIcon.FUNCTION">ROfRhoTwoLayer</tocitem>
                 <tocitem target="solvers/SetSolverType_help.html" image="HelpIcon.FUNCTION">SetSolverType</tocitem>
                 <!-- ... -->
             </tocitem>
@@ -68,6 +75,7 @@
         <tocitem target="demo.html" image="HelpIcon.EXAMPLES">VTS Examples
             <tocitem target="demo/vts_solver_demo.html">Solver Demo</tocitem>
             <tocitem target="demo/vts_mc_demo.html">Monte Carlo Demo</tocitem>
+            <tocitem target="demo/short_course_monte_carlo_lab.html">Short Course Monte Carlo Lab</tocitem>
         </tocitem>
         <!-- Optional link or links to your or other Web sites -->
         <tocitem target="http://www.virtualphotonics.org" 
