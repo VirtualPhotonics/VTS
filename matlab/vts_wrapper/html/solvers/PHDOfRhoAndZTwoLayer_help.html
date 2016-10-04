@@ -6,7 +6,7 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>PHDOfRhoAndZTwoLayer</title><meta name="generator" content="MATLAB 7.13"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2016-09-23"><meta name="DC.source" content="PHDOfRhoAndZTwoLayer_help.m"><style type="text/css">
+      --><title>PHDOfRhoAndZTwoLayer</title><meta name="generator" content="MATLAB 7.13"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2016-10-03"><meta name="DC.source" content="PHDOfRhoAndZTwoLayer_help.m"><style type="text/css">
 
 body {
   background-color: white;
@@ -62,14 +62,14 @@ p.footer {
   color: gray;
 }
 
-  </style></head><body><div class="content"><h1>PHDOfRhoAndZTwoLayer</h1><!--introduction--><p>Photon Hitting Density in cylindrical coordinates for a two layer tissue with top layer thickness</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Syntax</a></li><li><a href="#2">Description</a></li><li><a href="#3">Examples</a></li><li><a href="#4">See Also</a></li></ul></div><h2>Syntax<a name="1"></a></h2><pre>PHDOfRhoAndZTwoLayer(OP, RHOS, ZS, SD, THICKNESS)</pre><pre>     OP is an array of N x 4 matrix of optical properties
+  </style></head><body><div class="content"><h1>PHDOfRhoAndZTwoLayer</h1><!--introduction--><p>Photon Hitting Density in cylindrical coordinates for a two layer tissue with specified source-detector separation and top layer thickness</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Syntax</a></li><li><a href="#2">Description</a></li><li><a href="#3">Examples</a></li><li><a href="#4">See Also</a></li></ul></div><h2>Syntax<a name="1"></a></h2><pre>PHDOfRhoAndZTwoLayer(OP, RHOS, ZS, SD, LAYERTHICKNESS)</pre><pre>     OP is an array of N x 4 matrix of optical properties
          eg. OP = [[mua1, mus'1, g1, n1]; [mua2, mus'2, g2, n2]; ...];
      RHO is a 1 x M array of x values (in mm)
          eg. RHO = linspace(0,10,10);
      Z is a 1 x M array of z values (in mm)
          eg. Z = linspace(0.1,19.9,100);
      SD is the source-detector separation in mm
-     THICKNESS is the thickness of the tissue</pre><h2>Description<a name="2"></a></h2><p>Returns photon hitting density as a function of source-detector separation (rho = sqrt(x*x+y*y)) and depth (z).  Cylindrical symmetry centered about rho = 0 is assumed for a two layer tissue with top layer thickness</p><h2>Examples<a name="3"></a></h2><pre>     op = [[0.01 1 0.8 1.4];[0.1 1 0.8 1.4]];
+     LAYERTHICKNESS is the tissue top layer thickness.  Needs to be &gt; lstar = 1/(mua+mus')</pre><h2>Description<a name="2"></a></h2><p>Returns photon hitting density as a function of source-detector separation (rho = sqrt(x*x+y*y)) and depth (z).  Cylindrical symmetry centered about rho = 0 is assumed for a two layer tissue with top layer thickness</p><h2>Examples<a name="3"></a></h2><pre>     op = [[0.01 1 0.8 1.4];[0.1 1 0.8 1.4]];
      rhos = linspace(0.1,19.9,100); % s-d separation, in mm
      zs = linspace(0.1,19.9,100); % z range in mm
      phd = VtsSolvers.PHDOfRhoAndZTwoLayer(op, rhos, zs, 10, 5);</pre><h2>See Also<a name="4"></a></h2><p><a href="VtsSolvers_help.html">VtsSolvers</a> | <a href="AbsorbedEnergyOfRhoAndZ_help.html">AbsorbedEnergyOfRhoAndZ</a> | <a href="FluenceOfRhoAndZ_help.html">FluenceOfRhoAndZ</a> | <a href="PHDOfRhoAndZ_help.html">PHDOfRhoAndZ</a> | <a href="PHDOfRhoAndZTwoLayer_help.html">PHDOfRhoAndZTwoLayer</a> | <a href="ROfFx_help.html">ROfFx</a> | <a href="ROfFxAndFt_help.html">ROfFxAndFt</a> | <a href="ROfFxAndT_help.html">ROfFxAndT</a> | <a href="ROfFxTwoLayer_help.html">ROfFxTwoLayer</a> | <a href="ROfRho_help.html">ROfRho</a> | <a href="ROfRhoAndFt_help.html">ROfRhoAndFt</a> | <a href="ROfRhoAndFtTwoLayer_help.html">ROfRhoAndFtTwoLayer</a> | <a href="ROfRhoAndT_help.html">ROfRhoAndT</a> | <a href="ROfRhoAndTimeTwoLayer_help.html">ROfRhoAndTimeTwoLayer</a> | <a href="ROfRhoTwoLayer_help.html">ROfRhoTwoLayer</a> | <a href="SetSolverType_help.html">SetSolverType</a></p><p class="footer"><br>
@@ -77,10 +77,10 @@ p.footer {
 ##### SOURCE BEGIN #####
 %% PHDOfRhoAndZTwoLayer
 % Photon Hitting Density in cylindrical coordinates for a two layer tissue 
-% with top layer thickness
+% with specified source-detector separation and top layer thickness
 %
 %% Syntax
-%  PHDOfRhoAndZTwoLayer(OP, RHOS, ZS, SD, THICKNESS)
+%  PHDOfRhoAndZTwoLayer(OP, RHOS, ZS, SD, LAYERTHICKNESS)
 %
 %       OP is an array of N x 4 matrix of optical properties
 %           eg. OP = [[mua1, mus'1, g1, n1]; [mua2, mus'2, g2, n2]; ...];
@@ -89,7 +89,7 @@ p.footer {
 %       Z is a 1 x M array of z values (in mm)
 %           eg. Z = linspace(0.1,19.9,100);
 %       SD is the source-detector separation in mm
-%       THICKNESS is the thickness of the tissue
+%       LAYERTHICKNESS is the tissue top layer thickness.  Needs to be > lstar = 1/(mua+mus')
 %
 %% Description
 % Returns photon hitting density as a function of source-detector separation

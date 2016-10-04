@@ -6,7 +6,7 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>ROfFxTwoLayer</title><meta name="generator" content="MATLAB 7.13"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2016-09-23"><meta name="DC.source" content="ROfFxTwoLayer_help.m"><style type="text/css">
+      --><title>ROfFxTwoLayer</title><meta name="generator" content="MATLAB 7.13"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2016-10-03"><meta name="DC.source" content="ROfFxTwoLayer_help.m"><style type="text/css">
 
 body {
   background-color: white;
@@ -62,11 +62,12 @@ p.footer {
   color: gray;
 }
 
-  </style></head><body><div class="content"><h1>ROfFxTwoLayer</h1><!--introduction--><p>Spatial-frequency reflectance for a two layer tissue with top layer thickness</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Syntax</a></li><li><a href="#2">Description</a></li><li><a href="#3">Examples</a></li><li><a href="#4">See Also</a></li></ul></div><h2>Syntax<a name="1"></a></h2><pre>ROfFxTwoLayer(OP, FX)</pre><pre>     OP is an N x 4 matrix of optical properties
+  </style></head><body><div class="content"><h1>ROfFxTwoLayer</h1><!--introduction--><p>Spatial-frequency reflectance for a two layer tissue with specified top layer thickness</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Syntax</a></li><li><a href="#2">Description</a></li><li><a href="#3">Examples</a></li><li><a href="#4">See Also</a></li></ul></div><h2>Syntax<a name="1"></a></h2><pre>ROfFxTwoLayer(OP, LAYERTHICKNESS, FX)</pre><pre>     OP is an N x 4 matrix of optical properties
          eg. OP = [[mua1, mus1', g1, n1]; [mua2, mus2', g2, n2]; ...];
          mua and mus' values in (1/mm)
+     LAYERTHICKNESS is the tissue top layer thickness.  Needs to be &gt; lstar = 1/(mua+mus')
      FX is an 1 x M array of spatial frequencies (in 1/mm)
-         eg. FX = linspace(0,0.5,11);</pre><h2>Description<a name="2"></a></h2><p>Returns steady-state reflectance in the spatial frequency domain for a two layer tissue with top layer thickness</p><h2>Examples<a name="3"></a></h2><pre>     layerThickness = 2;  % units: mm
+         eg. FX = linspace(0,0.5,11);</pre><h2>Description<a name="2"></a></h2><p>Returns steady-state reflectance in the spatial frequency domain for a two layer tissue with specified top layer thickness</p><h2>Examples<a name="3"></a></h2><pre>     layerThickness = 2;  % units: mm
      opsA = [0.01 1 0.8 1.4; 0.01 1 0.8 1.4]; % top/bottom layer OPs case 1
      opsB = [0.02 1 0.8 1.4; 0.01 1 0.8 1.4]; % top/bottom layer OPs case 2
      opsC = [0.03 1 0.8 1.4; 0.01 1 0.8 1.4]; % top/bottom layer OPs case 3
@@ -78,21 +79,22 @@ p.footer {
       Published with MATLAB&reg; 7.13<br></p></div><!--
 ##### SOURCE BEGIN #####
 %% ROfFxTwoLayer
-% Spatial-frequency reflectance for a two layer tissue with top layer
+% Spatial-frequency reflectance for a two layer tissue with specified top layer
 % thickness
 %
 %% Syntax
-%  ROfFxTwoLayer(OP, FX) 
+%  ROfFxTwoLayer(OP, LAYERTHICKNESS, FX) 
 %
 %       OP is an N x 4 matrix of optical properties
 %           eg. OP = [[mua1, mus1', g1, n1]; [mua2, mus2', g2, n2]; ...];
 %           mua and mus' values in (1/mm)
+%       LAYERTHICKNESS is the tissue top layer thickness.  Needs to be > lstar = 1/(mua+mus')
 %       FX is an 1 x M array of spatial frequencies (in 1/mm)
 %           eg. FX = linspace(0,0.5,11);
 %
 %% Description
 % Returns steady-state reflectance in the spatial frequency domain for a
-% two layer tissue with top layer thickness
+% two layer tissue with specified top layer thickness
 %
 %% Examples
 %       layerThickness = 2;  % units: mm

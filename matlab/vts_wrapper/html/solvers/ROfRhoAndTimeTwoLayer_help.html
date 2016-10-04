@@ -6,7 +6,7 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>ROfRhoAndTimeTwoLayer</title><meta name="generator" content="MATLAB 7.13"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2016-09-23"><meta name="DC.source" content="ROfRhoAndTimeTwoLayer_help.m"><style type="text/css">
+      --><title>ROfRhoAndTimeTwoLayer</title><meta name="generator" content="MATLAB 7.13"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2016-10-03"><meta name="DC.source" content="ROfRhoAndTimeTwoLayer_help.m"><style type="text/css">
 
 body {
   background-color: white;
@@ -62,9 +62,10 @@ p.footer {
   color: gray;
 }
 
-  </style></head><body><div class="content"><h1>ROfRhoAndTimeTwoLayer</h1><!--introduction--><p>Reflectance as a function of rho and time for a two layer tissue with top layer thickness</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Syntax</a></li><li><a href="#2">Description</a></li><li><a href="#3">Examples</a></li><li><a href="#4">See Also</a></li></ul></div><h2>Syntax<a name="1"></a></h2><pre>ROfRhoAndTimeTwoLayer(OP, RHO, T)</pre><pre>     OP is an N x 4 matrix of optical properties
+  </style></head><body><div class="content"><h1>ROfRhoAndTimeTwoLayer</h1><!--introduction--><p>Reflectance as a function of rho and time for a two layer tissue with specified top layer thickness</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Syntax</a></li><li><a href="#2">Description</a></li><li><a href="#3">Examples</a></li><li><a href="#4">See Also</a></li></ul></div><h2>Syntax<a name="1"></a></h2><pre>ROfRhoAndTimeTwoLayer(OP, THICKNESS, RHO, T)</pre><pre>     OP is an N x 4 matrix of optical properties
          eg. OP = [[mua1, mus'1, g1, n1]; [mua2, mus'2, g2, n2]; ...];
          mua and mus' values in (1/mm)
+     THICKNESS is the tissue top layer thickness.  Needs to be &gt; lstar = 1/(mua+mus')
      RHO is an 1 x M array of detector locations (in mm)
          eg. RHO = [1:10];
      T is an 1 x O array of times (in ns)
@@ -95,15 +96,16 @@ p.footer {
       Published with MATLAB&reg; 7.13<br></p></div><!--
 ##### SOURCE BEGIN #####
 %% ROfRhoAndTimeTwoLayer
-% Reflectance as a function of rho and time for a two layer tissue with top
+% Reflectance as a function of rho and time for a two layer tissue with specified top
 % layer thickness
 %
 %% Syntax
-%  ROfRhoAndTimeTwoLayer(OP, RHO, T) 
+%  ROfRhoAndTimeTwoLayer(OP, THICKNESS, RHO, T) 
 %   
 %       OP is an N x 4 matrix of optical properties
 %           eg. OP = [[mua1, mus'1, g1, n1]; [mua2, mus'2, g2, n2]; ...];
 %           mua and mus' values in (1/mm)
+%       THICKNESS is the tissue top layer thickness.  Needs to be > lstar = 1/(mua+mus')
 %       RHO is an 1 x M array of detector locations (in mm)
 %           eg. RHO = [1:10];
 %       T is an 1 x O array of times (in ns)
