@@ -110,7 +110,7 @@ namespace Vts.Gui.Silverlight.ViewModel
 
             UpdateAxes();
             //The independent axis should not be visible, this panel already has modulation frequency
-            ShowIndependentAxisChoice = (ShowIndependentAxisChoice && (SelectedValue != FluenceSolutionDomainType.FluenceOfRhoAndZAndFt));
+            ShowIndependentAxisChoice = (ShowIndependentAxisChoice && ((SelectedValue != FluenceSolutionDomainType.FluenceOfRhoAndZAndFt) && (SelectedValue != FluenceSolutionDomainType.FluenceOfRhoAndZAndTime)));
         }
     }
 }
