@@ -4,8 +4,6 @@ using System.Linq;
 using System.Numerics;
 using MathNet.Numerics.IntegralTransforms;
 using Vts.Extensions;
-using Vts.MonteCarlo;
-using Vts.MonteCarlo.Tissues;
 
 namespace Vts.Modeling.ForwardSolvers
 {
@@ -20,6 +18,9 @@ namespace Vts.Modeling.ForwardSolvers
     /// 1) this solution assumes that the embedded source is within top layer.
     /// 2) zp = location of embedded isotropic source is determined using layer 1 opt. props.
     /// 3) zb = extrapolated boundary is determined using layer 1 opt. props.
+    /// This currently inherits ForwardSolverBase.  In order to provide fluence of ft type solutions,
+    /// this would need to inherit DiffusionForwardSolverBase however the methods there assume homogeneous
+    /// tissue so not sure best way to implement ft type solutions.
     /// </summary>
     public class TwoLayerSDAForwardSolver : ForwardSolverBase
     {
