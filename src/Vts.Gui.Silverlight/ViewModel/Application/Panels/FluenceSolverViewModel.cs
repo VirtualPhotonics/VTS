@@ -448,9 +448,20 @@ namespace Vts.Gui.Silverlight.ViewModel
 
             var sd = GetSelectedSolutionDomain();
             // todo: too much thinking at the VM layer?
-            double[] constantValues =
-                ComputationFactory.IsSolverWithConstantValues(sd.SelectedValue)
-                    ? new double[] { sd.ConstantAxesVMs[0].AxisValue } : new double[0];
+            double[] constantValues = new double[0];
+
+            if (ComputationFactory.IsSolverWithConstantValues(sd.SelectedValue))
+            {
+                switch (sd.SelectedValue)
+                {
+                    case FluenceSolutionDomainType.FluenceOfRhoAndZAndFt:
+                        constantValues = new[] {TimeModulationFrequency};
+                        break;
+                    default:
+                        constantValues =  new[] {sd.ConstantAxesVMs[0].AxisValue};
+                        break;
+                }
+            }
 
             IndependentVariableAxis[] independentAxes = 
                 GetIndependentVariableAxesInOrder(
