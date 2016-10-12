@@ -44,8 +44,8 @@
                         Grid.Row="1" Grid.Column="0" 
                         Text="Time-Domain"  Margin="3,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left"/>
                     <RadioButton 
-                        Grid.Row="1" Grid.Column="1" IsEnabled="False"
-                        DataContext="{Binding FluenceOfRhoAndZAndTOption}"
+                        Grid.Row="1" Grid.Column="1" IsEnabled="{Binding IsEnabled, Mode=OneWay}"
+                        DataContext="{Binding FluenceOfRhoAndZAndTimeOption}"
                         Tag="{Binding ID}" Content="{Binding Path=MainResource.Label_AOfRhoAndZAndTime, Source={StaticResource LocalizedStrings}}"  IsChecked="{Binding IsSelected, Mode=TwoWay}" 
                         GroupName="AbsorbedEnergySolutionDomainOptionView" VerticalAlignment="Center" HorizontalAlignment="Left"/>
                     <RadioButton 
@@ -59,9 +59,9 @@
                         Text="Frequency-Domain"  Margin="3,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left"/>
                     <RadioButton 
                         Grid.Row="2" Grid.Column="1"
-                        DataContext="{Binding FluenceOfRhoAndZAndFtOption}" IsEnabled="True"
+                        DataContext="{Binding FluenceOfRhoAndZAndFtOption}" IsEnabled="{Binding IsEnabled, Mode=OneWay}"
                         Tag="{Binding ID}" Content="{Binding Path=MainResource.Label_AOfRhoAndZAndFt, Source={StaticResource LocalizedStrings}}"  IsChecked="{Binding IsSelected, Mode=TwoWay}" 
-                        GroupName="AbsorbedEnergySolutionDomainOptionView" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                        GroupName="AbsorbedEnergySolutionDomainOptionView" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,3,0,0"/>
                     <RadioButton 
                         Grid.Row="2" Grid.Column="2"
                         DataContext="{Binding FluenceOfFxAndZAndFtOption}" IsEnabled="False"

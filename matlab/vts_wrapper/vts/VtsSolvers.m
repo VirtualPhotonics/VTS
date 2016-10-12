@@ -345,9 +345,11 @@ classdef VtsSolvers
             r = reshape(double(NET.invokeGenericMethod('System.Linq.Enumerable','ToArray',{'System.Double'},phd)),[length(zs) length(rhos) nop]);
         end
         
-        function r = PHDOfRhoAndZTwoLayer(op, rhos, zs, sd, thickness)
+        function r = PHDOfRhoAndZTwoLayer(op, rhos, zs, sd, layerThickness)
             %% PHDOfRhoAndZTwoLayer
-            %   PHDOfRhoAndZ(OP, RHOS, ZS, SD, THICKNESS)
+            %   PHDOfRhoAndZ(OP, RHOS, ZS, SD, LAYERTHICKNESS) returns the
+            %   Photon Hitting Density in cylindrical coordinates for a two
+            %   layer tissue with specified source-detector separation and top layer thickness
             %
             %   OP is an array of N x 4 matrix of optical properties
             %       eg. OP = [[mua1, mus'1, g1, n1]; [mua2, mus'2, g2, n2]; ...];
@@ -356,7 +358,7 @@ classdef VtsSolvers
             %   Z is a 1 x M array of z values (in mm)
             %       eg. Z = linspace(0.1,19.9,100);
             %   SD is the source-detector separation in mm
-            %   THICKNESS is the thickness of the tissue
+            %   LAYERTHICKNESS is the thickness of the top layer of tissue
             
             nop = size(op,1);
             
@@ -373,8 +375,8 @@ classdef VtsSolvers
             end;
                       
             regions = NET.createArray('Vts.IOpticalPropertyRegion', 2);
-            regions(1) = Vts.Common.LayerOpticalPropertyRegion(Vts.Common.DoubleRange(0, thickness), op_net(1));
-            regions(2) = Vts.Common.LayerOpticalPropertyRegion(Vts.Common.DoubleRange(thickness, Inf), op_net(2));
+            regions(1) = Vts.Common.LayerOpticalPropertyRegion(Vts.Common.DoubleRange(0, layerThickness), op_net(1));
+            regions(2) = Vts.Common.LayerOpticalPropertyRegion(Vts.Common.DoubleRange(layerThickness, Inf), op_net(2));
          
             independentAxes = NET.createArray('Vts.IndependentVariableAxis', 2);
             independentAxes(1) = Vts.IndependentVariableAxis.Rho;
@@ -433,13 +435,13 @@ classdef VtsSolvers
         function r = ROfRhoTwoLayer(op, layerThickness, rho)
             %% ROfRhoTwoLayer
             %   ROfRhoTwoLayer(OP, LAYERTHICKNESS, RHO) returns the steady-state spatially-resolved
-            %   reflectance for a two layer tissue with top layer thickness
+            %   reflectance for a two layer tissue with specified top layer thickness
             %
             %   OP is an N x 2 x 4 matrix of optical properties
             %       eg. OP = [[mua11, mus'11, g11, n11] [mua12, mus'12, g12, n12]; ... % layer 1 & layer 2 for system 1
             %                 [mua21, mus'21, g21, n21] [mua22, mus'22, g22, n22]; ... % layer 1 & layer 2 for system 2
             %                 ];
-            %   THICKNESS is the tissue top layer thickness.  Needs to be > lstar = 1/(mua+mus')
+            %   LAYERTHICKNESS is the tissue top layer thickness.  Needs to be > lstar = 1/(mua+mus')
             %   RHO is an 1 x M array of detector locations (in mm) eg. RHO = [1:10];
             
             nop = size(op,1);
@@ -471,7 +473,7 @@ classdef VtsSolvers
             %       eg. OP = [[mua11, mus'11, g11, n11] [mua12, mus'12, g12, n12]; ... % layer 1 & layer 2 for system 1
             %                 [mua21, mus'21, g21, n21] [mua22, mus'22, g22, n22]; ... % layer 1 & layer 2 for system 2
             %                 ];
-            %   THICKNESS is the tissue top layer thickness.  Needs to be > lstar = 1/(mua+mus')
+            %   LAYERTHICKNESS is the tissue top layer thickness.  Needs to be > lstar = 1/(mua+mus')
             %   RHO is an 1 x M array of detector locations (in mm) eg. RHO = [1:10];
             %   T is an 1 x P array of times (in ns) eg. T = [1:10]
             
@@ -498,15 +500,15 @@ classdef VtsSolvers
         function r = ROfRhoAndFtTwoLayer(op, layerThickness, rho, ft)
             %% ROfRhoAndFtTwoLayer
             %   ROfRhoAndFtTwoLayer(OP, LAYERTHICKNESS, RHO, FT) returns the 
-            %   reflectance for a two layer tissue with top layer thickness
+            %   reflectance for a two layer tissue with specified top layer thickness
             %
             %   OP is an N x 2 x 4 matrix of optical properties
             %       eg. OP = [[mua11, mus'11, g11, n11] [mua12, mus'12, g12, n12]; ... % layer 1 & layer 2 for system 1
             %                 [mua21, mus'21, g21, n21] [mua22, mus'22, g22, n22]; ... % layer 1 & layer 2 for system 2
             %                 ];
-            %   THICKNESS is the tissue top layer thickness.  Needs to be > lstar = 1/(mua+mus')
+            %   LAYERTHICKNESS is the tissue top layer thickness.  Needs to be > lstar = 1/(mua+mus')
             %   RHO is an 1 x M array of detector locations (in mm) eg. RHO = [1:10];
-            %   FT is an 1 x P array of times (in ns) eg. FT = [0:0.01:0.5;]
+            %   FT is an 1 x P array of modulation frequencies (in GHz) eg. FT = [0:0.01:0.5;]
             
             nop = size(op,1);
             nrho = length(rho);
@@ -540,5 +542,38 @@ classdef VtsSolvers
                 r(i,:,:) = complex(rReal, rImag);
             end;
         end
+        
+        function r = ROfFxTwoLayer(op, layerThickness, fx)
+            %% ROfFxTwoLayer
+            %   ROfFxTwoLayer(OP, LAYERTHICKNESS, FX) returns the steady-state spatial-frequesncy resolved
+            %   reflectance for a two layer tissue with specified top layer thickness
+            %
+            %   OP is an N x 2 x 4 matrix of optical properties
+            %       eg. OP = [[mua11, mus'11, g11, n11] [mua12, mus'12, g12, n12]; ... % layer 1 & layer 2 for system 1
+            %                 [mua21, mus'21, g21, n21] [mua22, mus'22, g22, n22]; ... % layer 1 & layer 2 for system 2
+            %                 ];
+            %   LAYERTHICKNESS is the tissue top layer thickness.  Needs to be > lstar = 1/(mua+mus')
+            %   FX is an 1 x M array of frequencies (in mm) eg. FX = [1:10];
+            
+            nop = size(op,1);
+            
+            fs =  Vts.Modeling.ForwardSolvers.TwoLayerSDAForwardSolver;
+            
+            nLayers = size(op,2);
+            r = zeros([nop length(fx)]);
+            
+            for i=1:nop
+                opArray_net = NET.createArray('Vts.IOpticalPropertyRegion', nLayers);
+                for j=1:nLayers                    
+                    zRangeNET = Vts.Common.DoubleRange(0,layerThickness);
+                    opNET = Vts.OpticalProperties(op(i,j,1), op(i,j,2), op(i,j,3), op(i,j,4));
+                    tempOpRegion = Vts.Common.LayerOpticalPropertyRegion(zRangeNET, opNET);                    
+                    opArray_net(j) = tempOpRegion;
+                end                
+                reflectanceAtFx = fs.ROfFx(opArray_net, fx);
+                r(i,:) = reflectanceAtFx;
+            end;
+        end
+        
     end
 end

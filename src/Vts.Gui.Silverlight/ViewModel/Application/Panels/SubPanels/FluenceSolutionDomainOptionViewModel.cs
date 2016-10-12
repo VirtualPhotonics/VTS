@@ -39,6 +39,31 @@ namespace Vts.Gui.Silverlight.ViewModel
         public OptionModel<FluenceSolutionDomainType> FluenceOfRhoAndZAndFtOption { get; private set; }
         public OptionModel<FluenceSolutionDomainType> FluenceOfFxAndZAndFtOption { get; private set; }
 
+        private bool _isFluenceOfRhoAndZAndTimeEnabled;
+        private bool _isFluenceOfRhoAndZAndFtEnabled;
+
+        public bool IsFluenceOfRhoAndZAndTimeEnabled
+        {
+            get { return _isFluenceOfRhoAndZAndTimeEnabled;}
+            set
+            {
+                _isFluenceOfRhoAndZAndTimeEnabled = value;
+                FluenceOfRhoAndZAndTimeOption.IsEnabled = value;
+                OnPropertyChanged("FluenceOfRhoAndZAndTimeOption");
+            }
+        }
+
+        public bool IsFluenceOfRhoAndZAndFtEnabled
+        {
+            get { return _isFluenceOfRhoAndZAndFtEnabled; }
+            set
+            {
+                _isFluenceOfRhoAndZAndFtEnabled = value;
+                FluenceOfRhoAndZAndFtOption.IsEnabled = value;
+                OnPropertyChanged("FluenceOfRhoAndZAndFtOption");
+            }
+        }
+
         public override int NativeAxesCount { get { return 1; } }
         
         private void UpdateOptions()
@@ -49,6 +74,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                     IndependentVariableAxisOptionVM =
                         new OptionViewModel<IndependentVariableAxis>("IndependentAxis", false,
                             new[] { IndependentVariableAxis.Rho});
+                    FluenceOfRhoAndZOption.IsSelected = true; //added to force the radio button when it is changed programatically
                     break;
                 case FluenceSolutionDomainType.FluenceOfFxAndZ:
                     IndependentVariableAxisOptionVM =
@@ -84,7 +110,7 @@ namespace Vts.Gui.Silverlight.ViewModel
 
             UpdateAxes();
             //The independent axis should not be visible, this panel already has modulation frequency
-            ShowIndependentAxisChoice = (ShowIndependentAxisChoice && (SelectedValue != FluenceSolutionDomainType.FluenceOfRhoAndZAndFt));
+            ShowIndependentAxisChoice = (ShowIndependentAxisChoice && ((SelectedValue != FluenceSolutionDomainType.FluenceOfRhoAndZAndFt) && (SelectedValue != FluenceSolutionDomainType.FluenceOfRhoAndZAndTime)));
         }
     }
 }

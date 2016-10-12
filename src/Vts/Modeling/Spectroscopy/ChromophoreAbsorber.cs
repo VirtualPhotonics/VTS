@@ -1,4 +1,6 @@
-﻿namespace Vts.SpectralMapping
+﻿using System;
+
+namespace Vts.SpectralMapping
 {
     /// <summary>
     /// Class to represent a chromophore absorber
@@ -100,6 +102,11 @@
         /// <returns>The absorption coefficient Mua</returns>
         public double GetMua(double wavelength)
         {
+            // convert extinction coefficients to absorption coefficients
+            if (ChromophoreCoefficientType == ChromophoreCoefficientType.MolarAbsorptionCoefficient)
+            {
+                return Math.Log(10) * Concentration * SpectralDatabase.GetSpectrumValue(Name, wavelength);
+            }
             return Concentration * SpectralDatabase.GetSpectrumValue(Name, wavelength);
         }
     }

@@ -16,7 +16,7 @@ namespace Vts.Gui.Silverlight.View.Helpers
         {
             // todo: pass myChart as a command parameter declaratively to be handled in PlotViewModel
             var b = new WriteableBitmap(element, null);
-            using (var s = StreamFinder.GetLocalFilestreamFromSaveFileDialog(".jpg"))
+            using (var s = StreamFinder.GetLocalFilestreamFromSaveFileDialog("jpg"))
             {
                 if (s != null)
                 {

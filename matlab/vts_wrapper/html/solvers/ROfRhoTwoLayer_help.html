@@ -1,0 +1,128 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>ROfRhoTwoLayer</title><meta name="generator" content="MATLAB 7.13"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2016-10-03"><meta name="DC.source" content="ROfRhoTwoLayer_help.m"><style type="text/css">
+
+body {
+  background-color: white;
+  margin:10px;
+}
+
+h1 {
+  color: #990000; 
+  font-size: x-large;
+}
+
+h2 {
+  color: #990000;
+  font-size: medium;
+}
+
+/* Make the text shrink to fit narrow windows, but not stretch too far in 
+wide windows. */ 
+p,h1,h2,div.content div {
+  max-width: 600px;
+  /* Hack for IE6 */
+  width: auto !important; width: 600px;
+}
+
+pre.codeinput {
+  background: #EEEEEE;
+  padding: 10px;
+}
+@media print {
+  pre.codeinput {word-wrap:break-word; width:100%;}
+} 
+
+span.keyword {color: #0000FF}
+span.comment {color: #228B22}
+span.string {color: #A020F0}
+span.untermstring {color: #B20000}
+span.syscmd {color: #B28C00}
+
+pre.codeoutput {
+  color: #666666;
+  padding: 10px;
+}
+
+pre.error {
+  color: red;
+}
+
+p.footer {
+  text-align: right;
+  font-size: xx-small;
+  font-weight: lighter;
+  font-style: italic;
+  color: gray;
+}
+
+  </style></head><body><div class="content"><h1>ROfRhoTwoLayer</h1><!--introduction--><p>Reflectance as a function of rho for a two layer tissue with specified top layer thickness</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Syntax</a></li><li><a href="#2">Description</a></li><li><a href="#3">Examples</a></li><li><a href="#4">See Also</a></li></ul></div><h2>Syntax<a name="1"></a></h2><pre>ROfRhoTwoLayer(OP, LAYERTHICKNESS, RHO)</pre><pre>     OP is an N x 2 x 4 matrix of optical properties
+         eg. OP = [[mua11, mus'11, g11, n11] [mua12, mus'12, g12, n12]; ... % layer 1 &amp; layer 2 for system 1
+                   [mua21, mus'21, g21, n21] [mua22, mus'22, g22, n22]; ... % layer 1 &amp; layer 2 for system 2
+                   ];
+     LAYERTHICKNESS is the tissue top layer thickness.  Needs to be &gt; lstar = 1/(mua+mus')
+     RHO is an 1 x M array of detector locations (in mm) eg. RHO = [1:10];</pre><h2>Description<a name="2"></a></h2><p>Returns reflectance as a function of source-detector separation (rho=sqrt(x*x+y*y)) for a two layer tissue with top layer thickness</p><h2>Examples<a name="3"></a></h2><pre>     layerThickness = 2;  % units: mm
+     opsA = [0.01 1 0.8 1.4; 0.01 1 0.8 1.4]; % top/bottom layer OPs case 1
+     opsB = [0.02 1 0.8 1.4; 0.01 1 0.8 1.4]; % top/bottom layer OPs case 2
+     opsC = [0.03 1 0.8 1.4; 0.01 1 0.8 1.4]; % top/bottom layer OPs case 3
+     op(1,:,:) = [opsA];
+     op(2,:,:) = [opsB];
+     op(3,:,:) = [opsC];
+     rho = 0.5:0.05:9.5; %s-d separation, in mm
+     reflectance = VtsSolvers.ROfRhoTwoLayer(op, layerThickness, rho);</pre><h2>See Also<a name="4"></a></h2><p><a href="VtsSolvers_help.html">VtsSolvers</a> | <a href="AbsorbedEnergyOfRhoAndZ_help.html">AbsorbedEnergyOfRhoAndZ</a> | <a href="FluenceOfRhoAndZ_help.html">FluenceOfRhoAndZ</a> | <a href="PHDOfRhoAndZ_help.html">PHDOfRhoAndZ</a> | <a href="PHDOfRhoAndZTwoLayer_help.html">PHDOfRhoAndZTwoLayer</a> | <a href="ROfFx_help.html">ROfFx</a> | <a href="ROfFxAndFt_help.html">ROfFxAndFt</a> | <a href="ROfFxAndT_help.html">ROfFxAndT</a> | <a href="ROfFxTwoLayer_help.html">ROfFxTwoLayer</a> | <a href="ROfRho_help.html">ROfRho</a> | <a href="ROfRhoAndFt_help.html">ROfRhoAndFt</a> | <a href="ROfRhoAndFtTwoLayer_help.html">ROfRhoAndFtTwoLayer</a> | <a href="ROfRhoAndT_help.html">ROfRhoAndT</a> | <a href="ROfRhoAndTimeTwoLayer_help.html">ROfRhoAndTimeTwoLayer</a> | <a href="ROfRhoTwoLayer_help.html">ROfRhoTwoLayer</a> | <a href="SetSolverType_help.html">SetSolverType</a></p><p class="footer"><br>
+      Published with MATLAB&reg; 7.13<br></p></div><!--
+##### SOURCE BEGIN #####
+%% ROfRhoTwoLayer
+% Reflectance as a function of rho for a two layer tissue with specified
+% top layer thickness
+%
+%% Syntax
+%  ROfRhoTwoLayer(OP, LAYERTHICKNESS, RHO) 
+%   
+%       OP is an N x 2 x 4 matrix of optical properties
+%           eg. OP = [[mua11, mus'11, g11, n11] [mua12, mus'12, g12, n12]; ... % layer 1 & layer 2 for system 1
+%                     [mua21, mus'21, g21, n21] [mua22, mus'22, g22, n22]; ... % layer 1 & layer 2 for system 2
+%                     ];
+%       LAYERTHICKNESS is the tissue top layer thickness.  Needs to be > lstar = 1/(mua+mus')
+%       RHO is an 1 x M array of detector locations (in mm) eg. RHO = [1:10];
+%
+%% Description
+% Returns reflectance as a function of source-detector separation
+% (rho=sqrt(x*x+y*y)) for a two layer tissue with top layer thickness
+%
+%% Examples
+%       layerThickness = 2;  % units: mm
+%       opsA = [0.01 1 0.8 1.4; 0.01 1 0.8 1.4]; % top/bottom layer OPs case 1
+%       opsB = [0.02 1 0.8 1.4; 0.01 1 0.8 1.4]; % top/bottom layer OPs case 2
+%       opsC = [0.03 1 0.8 1.4; 0.01 1 0.8 1.4]; % top/bottom layer OPs case 3
+%       op(1,:,:) = [opsA];
+%       op(2,:,:) = [opsB];
+%       op(3,:,:) = [opsC];
+%       rho = 0.5:0.05:9.5; %s-d separation, in mm
+%       reflectance = VtsSolvers.ROfRhoTwoLayer(op, layerThickness, rho);
+%
+%% See Also
+% <VtsSolvers_help.html VtsSolvers> | 
+% <AbsorbedEnergyOfRhoAndZ_help.html AbsorbedEnergyOfRhoAndZ> | 
+% <FluenceOfRhoAndZ_help.html FluenceOfRhoAndZ> | 
+% <PHDOfRhoAndZ_help.html PHDOfRhoAndZ> | 
+% <PHDOfRhoAndZTwoLayer_help.html PHDOfRhoAndZTwoLayer> | 
+% <ROfFx_help.html ROfFx> | 
+% <ROfFxAndFt_help.html ROfFxAndFt> |
+% <ROfFxAndT_help.html ROfFxAndT> | 
+% <ROfFxTwoLayer_help.html ROfFxTwoLayer> | 
+% <ROfRho_help.html ROfRho> |
+% <ROfRhoAndFt_help.html ROfRhoAndFt> |
+% <ROfRhoAndFtTwoLayer_help.html ROfRhoAndFtTwoLayer> |
+% <ROfRhoAndT_help.html ROfRhoAndT> |
+% <ROfRhoAndTimeTwoLayer_help.html ROfRhoAndTimeTwoLayer> |
+% <ROfRhoTwoLayer_help.html ROfRhoTwoLayer> |
+% <SetSolverType_help.html SetSolverType>
+##### SOURCE END #####
+--></body></html>

@@ -1,0 +1,162 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>ROfRhoAndTimeTwoLayer</title><meta name="generator" content="MATLAB 7.13"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2016-10-03"><meta name="DC.source" content="ROfRhoAndTimeTwoLayer_help.m"><style type="text/css">
+
+body {
+  background-color: white;
+  margin:10px;
+}
+
+h1 {
+  color: #990000; 
+  font-size: x-large;
+}
+
+h2 {
+  color: #990000;
+  font-size: medium;
+}
+
+/* Make the text shrink to fit narrow windows, but not stretch too far in 
+wide windows. */ 
+p,h1,h2,div.content div {
+  max-width: 600px;
+  /* Hack for IE6 */
+  width: auto !important; width: 600px;
+}
+
+pre.codeinput {
+  background: #EEEEEE;
+  padding: 10px;
+}
+@media print {
+  pre.codeinput {word-wrap:break-word; width:100%;}
+} 
+
+span.keyword {color: #0000FF}
+span.comment {color: #228B22}
+span.string {color: #A020F0}
+span.untermstring {color: #B20000}
+span.syscmd {color: #B28C00}
+
+pre.codeoutput {
+  color: #666666;
+  padding: 10px;
+}
+
+pre.error {
+  color: red;
+}
+
+p.footer {
+  text-align: right;
+  font-size: xx-small;
+  font-weight: lighter;
+  font-style: italic;
+  color: gray;
+}
+
+  </style></head><body><div class="content"><h1>ROfRhoAndTimeTwoLayer</h1><!--introduction--><p>Reflectance as a function of rho and time for a two layer tissue with specified top layer thickness</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Syntax</a></li><li><a href="#2">Description</a></li><li><a href="#3">Examples</a></li><li><a href="#4">See Also</a></li></ul></div><h2>Syntax<a name="1"></a></h2><pre>ROfRhoAndTimeTwoLayer(OP, THICKNESS, RHO, T)</pre><pre>     OP is an N x 4 matrix of optical properties
+         eg. OP = [[mua1, mus'1, g1, n1]; [mua2, mus'2, g2, n2]; ...];
+         mua and mus' values in (1/mm)
+     THICKNESS is the tissue top layer thickness.  Needs to be &gt; lstar = 1/(mua+mus')
+     RHO is an 1 x M array of detector locations (in mm)
+         eg. RHO = [1:10];
+     T is an 1 x O array of times (in ns)
+         eg. T = [1:10];</pre><h2>Description<a name="2"></a></h2><p>Returns reflectance as a function of source-detector separation (rho = sqrt(x*x+y*y)) and time (t) for a two layer tissue</p><h2>Examples<a name="3"></a></h2><pre>     wv = 650:100:850;
+     % create a list of chromophore absorbers and their concentrations
+     absorbers.Names =           {'HbO2', 'Hb', 'H2O'};
+     absorbers.Concentrations =  [70,     30,   0.8  ];
+     % create a scatterer (PowerLaw, Intralipid, or Mie)
+     scatterer.Type = 'PowerLaw';
+     scatterer.A = 1.2;
+     scatterer.b = 1.42;
+     opBottomLayer = VtsSpectroscopy.GetOP(absorbers, scatterer, wv);
+     % get OPs at first wavelength and perturb top layer mua by factor 1.1
+     opsA = [opBottomLayer(1,1) opBottomLayer(1,2) opBottomLayer(1,3) opBottomLayer(1,4);
+           1.1*opBottomLayer(1,1) opBottomLayer(1,2) opBottomLayer(1,3) opBottomLayer(1,4)];
+     % get OPs at first wavelength and perturb top layer mua
+     opsB = [opBottomLayer(2,1) opBottomLayer(2,2) opBottomLayer(2,3) opBottomLayer(2,4);
+           1.1*opBottomLayer(2,1) opBottomLayer(2,2) opBottomLayer(2,3) opBottomLayer(2,4)];
+     % get OPs at first wavelength and perturb top layer mua
+     opsC = [opBottomLayer(3,1) opBottomLayer(3,2) opBottomLayer(3,3) opBottomLayer(3,4);
+           1.1*opBottomLayer(3,1) opBottomLayer(3,2) opBottomLayer(3,3) opBottomLayer(3,4)];
+     op(1,:,:) = [opsA];
+     op(2,:,:) = [opsB];
+     op(3,:,:) = [opsC];
+     rho = 10; %s-d separation, in mm
+     t = 0:0.001:0.5; % range of times in ns
+     reflectance = VtsSolvers.ROfRhoAndTimeTwoLayer(op, layerThickness, rho, t);</pre><h2>See Also<a name="4"></a></h2><p><a href="VtsSolvers_help.html">VtsSolvers</a> | <a href="AbsorbedEnergyOfRhoAndZ_help.html">AbsorbedEnergyOfRhoAndZ</a> | <a href="FluenceOfRhoAndZ_help.html">FluenceOfRhoAndZ</a> | <a href="PHDOfRhoAndZ_help.html">PHDOfRhoAndZ</a> | <a href="PHDOfRhoAndZTwoLayer_help.html">PHDOfRhoAndZTwoLayer</a> | <a href="ROfFx_help.html">ROfFx</a> | <a href="ROfFxAndFt_help.html">ROfFxAndFt</a> | <a href="ROfFxAndT_help.html">ROfFxAndT</a> | <a href="ROfFxTwoLayer_help.html">ROfFxTwoLayer</a> | <a href="ROfRho_help.html">ROfRho</a> | <a href="ROfRhoAndFt_help.html">ROfRhoAndFt</a> | <a href="ROfRhoAndFtTwoLayer_help.html">ROfRhoAndFtTwoLayer</a> | <a href="ROfRhoAndT_help.html">ROfRhoAndT</a> | <a href="ROfRhoAndTimeTwoLayer_help.html">ROfRhoAndTimeTwoLayer</a> | <a href="ROfRhoTwoLayer_help.html">ROfRhoTwoLayer</a> | <a href="SetSolverType_help.html">SetSolverType</a></p><p class="footer"><br>
+      Published with MATLAB&reg; 7.13<br></p></div><!--
+##### SOURCE BEGIN #####
+%% ROfRhoAndTimeTwoLayer
+% Reflectance as a function of rho and time for a two layer tissue with specified top
+% layer thickness
+%
+%% Syntax
+%  ROfRhoAndTimeTwoLayer(OP, THICKNESS, RHO, T) 
+%   
+%       OP is an N x 4 matrix of optical properties
+%           eg. OP = [[mua1, mus'1, g1, n1]; [mua2, mus'2, g2, n2]; ...];
+%           mua and mus' values in (1/mm)
+%       THICKNESS is the tissue top layer thickness.  Needs to be > lstar = 1/(mua+mus')
+%       RHO is an 1 x M array of detector locations (in mm)
+%           eg. RHO = [1:10];
+%       T is an 1 x O array of times (in ns)
+%           eg. T = [1:10];
+%
+%% Description
+% Returns reflectance as a function of source-detector separation
+% (rho = sqrt(x*x+y*y)) and time (t) for a two layer tissue
+%
+%% Examples
+%       wv = 650:100:850;
+%       % create a list of chromophore absorbers and their concentrations
+%       absorbers.Names =           {'HbO2', 'Hb', 'H2O'};
+%       absorbers.Concentrations =  [70,     30,   0.8  ];
+%       % create a scatterer (PowerLaw, Intralipid, or Mie)
+%       scatterer.Type = 'PowerLaw';
+%       scatterer.A = 1.2;
+%       scatterer.b = 1.42;
+%       opBottomLayer = VtsSpectroscopy.GetOP(absorbers, scatterer, wv);
+%       % get OPs at first wavelength and perturb top layer mua by factor 1.1
+%       opsA = [opBottomLayer(1,1) opBottomLayer(1,2) opBottomLayer(1,3) opBottomLayer(1,4);
+%             1.1*opBottomLayer(1,1) opBottomLayer(1,2) opBottomLayer(1,3) opBottomLayer(1,4)];
+%       % get OPs at first wavelength and perturb top layer mua
+%       opsB = [opBottomLayer(2,1) opBottomLayer(2,2) opBottomLayer(2,3) opBottomLayer(2,4);
+%             1.1*opBottomLayer(2,1) opBottomLayer(2,2) opBottomLayer(2,3) opBottomLayer(2,4)];
+%       % get OPs at first wavelength and perturb top layer mua
+%       opsC = [opBottomLayer(3,1) opBottomLayer(3,2) opBottomLayer(3,3) opBottomLayer(3,4);
+%             1.1*opBottomLayer(3,1) opBottomLayer(3,2) opBottomLayer(3,3) opBottomLayer(3,4)];
+%       op(1,:,:) = [opsA];
+%       op(2,:,:) = [opsB];
+%       op(3,:,:) = [opsC];
+%       rho = 10; %s-d separation, in mm
+%       t = 0:0.001:0.5; % range of times in ns
+%       reflectance = VtsSolvers.ROfRhoAndTimeTwoLayer(op, layerThickness, rho, t);
+%
+%% See Also
+% <VtsSolvers_help.html VtsSolvers> | 
+% <AbsorbedEnergyOfRhoAndZ_help.html AbsorbedEnergyOfRhoAndZ> | 
+% <FluenceOfRhoAndZ_help.html FluenceOfRhoAndZ> | 
+% <PHDOfRhoAndZ_help.html PHDOfRhoAndZ> | 
+% <PHDOfRhoAndZTwoLayer_help.html PHDOfRhoAndZTwoLayer> | 
+% <ROfFx_help.html ROfFx> | 
+% <ROfFxAndFt_help.html ROfFxAndFt> |
+% <ROfFxAndT_help.html ROfFxAndT> | 
+% <ROfFxTwoLayer_help.html ROfFxTwoLayer> | 
+% <ROfRho_help.html ROfRho> |
+% <ROfRhoAndFt_help.html ROfRhoAndFt> |
+% <ROfRhoAndFtTwoLayer_help.html ROfRhoAndFtTwoLayer> |
+% <ROfRhoAndT_help.html ROfRhoAndT> |
+% <ROfRhoAndTimeTwoLayer_help.html ROfRhoAndTimeTwoLayer> |
+% <ROfRhoTwoLayer_help.html ROfRhoTwoLayer> |
+% <SetSolverType_help.html SetSolverType>
+##### SOURCE END #####
+--></body></html>

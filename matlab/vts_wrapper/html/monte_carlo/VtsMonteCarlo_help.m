@@ -3,6 +3,8 @@
 % simulations. 
 %%
 %
+% * <RunPostProcessor_help.html RunPostProcessor>
+% * <RunPostProcessors_help.html RunPostProcessors>
 % * <RunSimulation_help.html RunSimulation>
 % * <RunSimulations_help.html RunSimulations>
 %

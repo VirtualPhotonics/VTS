@@ -293,6 +293,27 @@ namespace Vts.Factories
         }
 
         public static Complex[] ComputeFluenceComplex(
+            ForwardSolverType forwardSolverType,
+            FluenceSolutionDomainType solutionDomainType,
+            // keeping us from uniting the above. needs to be a single SolutionDomainType enum
+            IndependentVariableAxis[] independentAxesTypes,
+            double[][] independentValues,
+            IOpticalPropertyRegion[] tissueRegions,
+            params double[] constantValues)
+        {
+            // use factory method on each call, as opposed to injecting an instance from the outside
+            // -- still time-efficient if singletons are used
+            // -- potentially memory-inefficient if the user creates lots of large solver instances
+            return ComputeFluenceComplex(
+                SolverFactory.GetForwardSolver(forwardSolverType),
+                solutionDomainType,
+                independentAxesTypes,
+                independentValues,
+                tissueRegions,
+                constantValues);
+        }
+
+        public static Complex[] ComputeFluenceComplex(
             IForwardSolver forwardSolver,
             FluenceSolutionDomainType solutionDomainType,
             // keeping us from uniting the above. needs to be a single SolutionDomainType enum
@@ -306,6 +327,49 @@ namespace Vts.Factories
                                      opticalProperties.Mua, opticalProperties.Musp, opticalProperties.G,
                                      opticalProperties.N
                                  };
+
+            // todo: current assumption below is that the second axes is z. need to generalize
+            var func = GetForwardFluenceFuncComplex(forwardSolver, solutionDomainType, independentAxesTypes[0]);
+
+            // create a list of inputs (besides optical properties) that corresponds to the behavior of the function above
+            List<object> inputValues = new List<object>(independentValues);
+            constantValues.ForEach(cv => inputValues.Add(cv));
+
+            return func(parameters, inputValues.ToArray());
+        }
+
+        public static Complex[] ComputeFluenceComplex(
+            IForwardSolver forwardSolver,
+            FluenceSolutionDomainType solutionDomainType,
+            // keeping us from uniting the above. needs to be a single SolutionDomainType enum
+            IndependentVariableAxis[] independentAxesTypes,
+            double[][] independentValues,
+            IOpticalPropertyRegion[] tissueRegions,
+            params double[] constantValues)
+        {
+            var parameters = tissueRegions.SelectMany(region =>
+            {
+                double[] regionParameters = null;
+                if (region is ILayerOpticalPropertyRegion)
+                {
+                    var layerRegion = (ILayerOpticalPropertyRegion)region;
+                    regionParameters = new[]
+                        {
+                            layerRegion.RegionOP.Mua,
+                            layerRegion.RegionOP.Musp,
+                            layerRegion.RegionOP.G,
+                            layerRegion.RegionOP.N,
+                            layerRegion.ZRange.Delta
+                        };
+                }
+                else
+                {
+                    throw new Exception("Forward model " +
+                                        forwardSolver.ToString() +
+                                        " is not supported.");
+                }
+                return regionParameters;
+            }).ToArray();
 
             // todo: current assumption below is that the second axes is z. need to generalize
             var func = GetForwardFluenceFuncComplex(forwardSolver, solutionDomainType, independentAxesTypes[0]);
