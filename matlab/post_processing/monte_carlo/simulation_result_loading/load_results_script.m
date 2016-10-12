@@ -113,7 +113,7 @@ for mci = 1:length(datanames)
     end
 
     if isfield(results{di}, 'ROfFx') && show.ROfFx
-        figname = sprintf('log(%s)',results{di}.ROfFx.Name); figure; plot(results{di}.ROfFx.Fx_Midpoints, results{di}.ROfFx.Mean); title(figname); set(gcf,'Name', figname); xlabel('f_x [/mm]'); ylabel('R(f_x) [unitless]');
+        figname = sprintf('log(%s)',results{di}.ROfFx.Name); figure; plot(results{di}.ROfFx.Fx_Midpoints, abs(results{di}.ROfFx.Mean)); title(figname); set(gcf,'Name', figname); xlabel('f_x [/mm]'); ylabel('R(f_x) [unitless]');
         Fxdelta = results{di}.ROfFx.Fx(2)-results{di}.ROfFx.Fx(1);
         Fxnorm = 2 * pi * (results{di}.ROfFx.Fx_Midpoints * Fxdelta);
         disp(['Total reflectance captured by ROfFx detector: ' num2str(sum(results{di}.ROfFx.Mean.*Fxnorm'))]);
@@ -234,6 +234,12 @@ for mci = 1:length(datanames)
             figname = sprintf('log(%s) %5.3f<angle<%5.3f',results{di}.RadianceOfRhoAndZAndAngle.Name,(i-1)*pi/numangles,i*pi/numangles); 
             figure; imagesc(results{di}.RadianceOfRhoAndZAndAngle.Rho_Midpoints, results{di}.RadianceOfRhoAndZAndAngle.Z_Midpoints, log(squeeze(results{di}.RadianceOfRhoAndZAndAngle.Mean(i,:,:)))); colorbar; title(figname); set(gcf,'Name', figname);ylabel('z [mm]'); xlabel('\rho [mm]');
             caxis([log(minRadiance),log(maxRadiance)]);
+        end
+        % plot diff if two hemispheres
+        if (numangles==2)
+            figname = 'log(lower./upper)'; 
+            figure; imagesc(results{di}.RadianceOfRhoAndZAndAngle.Rho_Midpoints, results{di}.RadianceOfRhoAndZAndAngle.Z_Midpoints, ...
+                squeeze(log(results{di}.RadianceOfRhoAndZAndAngle.Mean(1,:,:)./results{di}.RadianceOfRhoAndZAndAngle.Mean(2,:,:)))); colorbar; title(figname); set(gcf,'Name', figname);ylabel('z [mm]'); xlabel('\rho [mm]');
         end
         rhodelta = results{di}.RadianceOfRhoAndZAndAngle.Rho(2)-results{di}.RadianceOfRhoAndZAndAngle.Rho(1);
         zdelta = results{di}.RadianceOfRhoAndZAndAngle.Z(2)-results{di}.RadianceOfRhoAndZAndAngle.Z(1);

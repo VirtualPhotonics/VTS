@@ -27,12 +27,17 @@ publish('VtsSolvers_help', opt);
 publish('AbsorbedEnergyOfRhoAndZ_help', opt);
 publish('FluenceOfRhoAndZ_help', opt);
 publish('PHDOfRhoAndZ_help', opt);
+publish('PHDOfRhoAndZTwoLayer_help', opt);
 publish('ROfFx_help', opt);
 publish('ROfFxAndFt_help', opt);
 publish('ROfFxAndT_help', opt);
+publish('ROfFxTwoLayer_help', opt);
 publish('ROfRho_help', opt);
 publish('ROfRhoAndFt_help', opt);
+publish('ROfRhoAndFtTwoLayer_help', opt);
 publish('ROfRhoAndT_help', opt);
+publish('ROfRhoAndTimeTwoLayer_help', opt);
+publish('ROfRhoTwoLayer_help', opt);
 publish('SetSolverType_help', opt);
 
 %% publish the monte carlo documentation

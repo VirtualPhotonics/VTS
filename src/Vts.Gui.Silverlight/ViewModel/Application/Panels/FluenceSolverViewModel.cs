@@ -66,8 +66,14 @@ namespace Vts.Gui.Silverlight.ViewModel
                 }); // explicitly enabling these for the workshop;
 
             FluenceSolutionDomainTypeOptionVM = new FluenceSolutionDomainOptionViewModel("Fluence Solution Domain", FluenceSolutionDomainType.FluenceOfRhoAndZ);
+            FluenceSolutionDomainTypeOptionVM.IsFluenceOfRhoAndZAndTimeEnabled = false;
+            FluenceSolutionDomainTypeOptionVM.IsFluenceOfRhoAndZAndFtEnabled = true;
             AbsorbedEnergySolutionDomainTypeOptionVM = new FluenceSolutionDomainOptionViewModel("Absorbed Energy Solution Domain", FluenceSolutionDomainType.FluenceOfRhoAndZ);
+            AbsorbedEnergySolutionDomainTypeOptionVM.IsFluenceOfRhoAndZAndTimeEnabled = false;
+            AbsorbedEnergySolutionDomainTypeOptionVM.IsFluenceOfRhoAndZAndFtEnabled = true;
             PhotonHittingDensitySolutionDomainTypeOptionVM = new FluenceSolutionDomainOptionViewModel("PHD Solution Domain", FluenceSolutionDomainType.FluenceOfRhoAndZ);
+            PhotonHittingDensitySolutionDomainTypeOptionVM.IsFluenceOfRhoAndZAndTimeEnabled = false;
+            PhotonHittingDensitySolutionDomainTypeOptionVM.IsFluenceOfRhoAndZAndFtEnabled = true;
             PropertyChangedEventHandler updateSolutionDomain = (sender, args) => 
             {
                 if (args.PropertyName == "IndependentAxisType")
@@ -94,10 +100,11 @@ namespace Vts.Gui.Silverlight.ViewModel
             {
                 if (args.PropertyName == "SelectedValues")
                 {
-                    this.OnPropertyChanged("IsFluence");
-                    this.OnPropertyChanged("IsAbsorbedEnergy");
-                    this.OnPropertyChanged("IsPhotonHittingDensity");
-                    this.OnPropertyChanged("IsTimeFrequencyDomain");
+                    OnPropertyChanged("IsFluence");
+                    OnPropertyChanged("IsAbsorbedEnergy");
+                    OnPropertyChanged("IsPhotonHittingDensity");
+                    OnPropertyChanged("IsTimeFrequencyDomain");
+                    UpdateAvailableOptions();
                 }
             };
 
@@ -108,6 +115,8 @@ namespace Vts.Gui.Silverlight.ViewModel
                         OnPropertyChanged("IsMultiRegion");
                         OnPropertyChanged("IsSemiInfinite");
                         TissueInputVM = GetTissueInputVM(IsMultiRegion ? "MultiLayer" : "SemiInfinite");
+                        UpdateAvailableOptions();
+                        OnPropertyChanged("IsTimeFrequencyDomain");
                     };
 
             ExecuteFluenceSolverCommand = new RelayCommand(() => ExecuteFluenceSolver_Executed(null, null));
@@ -284,6 +293,75 @@ namespace Vts.Gui.Silverlight.ViewModel
             return axesLabels;
         }
 
+        private void UpdateAvailableOptions()
+        {
+            if (IsFluence)
+            {
+                if (ForwardSolverTypeOptionVM.SelectedValue ==
+                    ForwardSolverType.DistributedGaussianSourceSDA || ForwardSolverTypeOptionVM.SelectedValue ==
+                    ForwardSolverType.TwoLayerSDA)
+                {
+                    FluenceSolutionDomainTypeOptionVM.IsFluenceOfRhoAndZAndTimeEnabled = false;
+                    FluenceSolutionDomainTypeOptionVM.IsFluenceOfRhoAndZAndFtEnabled = false;
+                    if (FluenceSolutionDomainTypeOptionVM.SelectedValue ==
+                        FluenceSolutionDomainType.FluenceOfRhoAndZAndTime ||
+                        FluenceSolutionDomainTypeOptionVM.SelectedValue ==
+                        FluenceSolutionDomainType.FluenceOfRhoAndZAndFt)
+                    {
+                        FluenceSolutionDomainTypeOptionVM.SelectedValue = FluenceSolutionDomainType.FluenceOfRhoAndZ;
+                        OnPropertyChanged("FluenceSolutionDomainTypeOptionVM");
+                    }
+                }
+                else
+                {
+                    FluenceSolutionDomainTypeOptionVM.IsFluenceOfRhoAndZAndTimeEnabled = false;
+                    FluenceSolutionDomainTypeOptionVM.IsFluenceOfRhoAndZAndFtEnabled = true;
+                }
+            }
+            if (IsAbsorbedEnergy)
+            {
+                if (ForwardSolverTypeOptionVM.SelectedValue ==
+                    ForwardSolverType.DistributedGaussianSourceSDA || ForwardSolverTypeOptionVM.SelectedValue ==
+                    ForwardSolverType.TwoLayerSDA)
+                {
+                    AbsorbedEnergySolutionDomainTypeOptionVM.IsFluenceOfRhoAndZAndTimeEnabled = false;
+                    AbsorbedEnergySolutionDomainTypeOptionVM.IsFluenceOfRhoAndZAndFtEnabled = false;
+                    if (AbsorbedEnergySolutionDomainTypeOptionVM.SelectedValue ==
+                        FluenceSolutionDomainType.FluenceOfRhoAndZAndFt)
+                    {
+                        AbsorbedEnergySolutionDomainTypeOptionVM.SelectedValue = FluenceSolutionDomainType.FluenceOfRhoAndZ;
+                        OnPropertyChanged("AbsorbedEnergySolutionDomainTypeOptionVM");
+                    }
+                }
+                else
+                {
+                    AbsorbedEnergySolutionDomainTypeOptionVM.IsFluenceOfRhoAndZAndTimeEnabled = false;
+                    AbsorbedEnergySolutionDomainTypeOptionVM.IsFluenceOfRhoAndZAndFtEnabled = true;
+                }
+            }
+            if (IsPhotonHittingDensity)
+            {
+                if (ForwardSolverTypeOptionVM.SelectedValue ==
+                    ForwardSolverType.DistributedGaussianSourceSDA || ForwardSolverTypeOptionVM.SelectedValue ==
+                    ForwardSolverType.TwoLayerSDA)
+                {
+                    PhotonHittingDensitySolutionDomainTypeOptionVM.IsFluenceOfRhoAndZAndTimeEnabled = false;
+                    PhotonHittingDensitySolutionDomainTypeOptionVM.IsFluenceOfRhoAndZAndFtEnabled = false;
+                    if (PhotonHittingDensitySolutionDomainTypeOptionVM.SelectedValue ==
+                        FluenceSolutionDomainType.FluenceOfRhoAndZAndFt)
+                    {
+                        PhotonHittingDensitySolutionDomainTypeOptionVM.SelectedValue = FluenceSolutionDomainType.FluenceOfRhoAndZ;
+                        OnPropertyChanged("PhotonHittingDensitySolutionDomainTypeOptionVM");
+                    }
+                }
+                else
+                {
+                    PhotonHittingDensitySolutionDomainTypeOptionVM.IsFluenceOfRhoAndZAndTimeEnabled = false;
+                    PhotonHittingDensitySolutionDomainTypeOptionVM.IsFluenceOfRhoAndZAndFtEnabled = true;
+                }
+            }
+        }
+
         private object GetTissueInputVM(string tissueType)
         {
             // ops to use as the basis for instantiating multi-region tissues based on homogeneous values (for differential comparison)
@@ -370,9 +448,20 @@ namespace Vts.Gui.Silverlight.ViewModel
 
             var sd = GetSelectedSolutionDomain();
             // todo: too much thinking at the VM layer?
-            double[] constantValues =
-                ComputationFactory.IsSolverWithConstantValues(sd.SelectedValue)
-                    ? new double[] { sd.ConstantAxesVMs[0].AxisValue } : new double[0];
+            double[] constantValues = new double[0];
+
+            if (ComputationFactory.IsSolverWithConstantValues(sd.SelectedValue))
+            {
+                switch (sd.SelectedValue)
+                {
+                    case FluenceSolutionDomainType.FluenceOfRhoAndZAndFt:
+                        constantValues = new[] {TimeModulationFrequency};
+                        break;
+                    default:
+                        constantValues =  new[] {sd.ConstantAxesVMs[0].AxisValue};
+                        break;
+                }
+            }
 
             IndependentVariableAxis[] independentAxes = 
                 GetIndependentVariableAxesInOrder(
@@ -382,14 +471,29 @@ namespace Vts.Gui.Silverlight.ViewModel
             double[] results = null;
             if (ComputationFactory.IsComplexSolver(sd.SelectedValue))
             {
-               Complex[] fluence =
-                    ComputationFactory.ComputeFluenceComplex(
-                        ForwardSolverTypeOptionVM.SelectedValue,
-                        sd.SelectedValue,
-                        independentAxes,
-                        independentValues,
-                        ((OpticalProperties[])opticalProperties)[0],
-                        constantValues);
+                Complex[] fluence;
+                if (IsMultiRegion)
+                {
+                    fluence =
+                        ComputationFactory.ComputeFluenceComplex(
+                            ForwardSolverTypeOptionVM.SelectedValue,
+                            sd.SelectedValue,
+                            independentAxes,
+                            independentValues,
+                            ((IOpticalPropertyRegion[][])opticalProperties)[0],
+                            constantValues);
+                }
+                else
+                {
+                    fluence =
+                        ComputationFactory.ComputeFluenceComplex(
+                            ForwardSolverTypeOptionVM.SelectedValue,
+                            sd.SelectedValue,
+                            independentAxes,
+                            independentValues,
+                            ((OpticalProperties[])opticalProperties)[0],
+                            constantValues);
+                }
 
                 switch (MapTypeOptionVM.SelectedValue)
                 {
