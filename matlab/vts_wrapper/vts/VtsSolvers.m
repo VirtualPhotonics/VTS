@@ -345,6 +345,51 @@ classdef VtsSolvers
             r = reshape(double(NET.invokeGenericMethod('System.Linq.Enumerable','ToArray',{'System.Double'},phd)),[length(zs) length(rhos) nop]);
         end
         
+        function r = FluenceOfRhoAndZTwoLayer(op, rhos, zs, layerThickness)
+            %% FluenceOfRhoAndZTwoLayer
+            %   FluenceOfRhoAndZ(OP, RHOS, ZS, LAYERTHICKNESS) returns the
+            %   fluence in cylindrical coordinates for a two
+            %   layer tissue with specified source-detector separation and top layer thickness
+            %
+            %   OP is an array of N x 4 matrix of optical properties
+            %       eg. OP = [[mua1, mus'1, g1, n1]; [mua2, mus'2, g2, n2]; ...];
+            %   RHO is a 1 x M array of x values (in mm)
+            %       eg. RHO = linspace(0,10,10);
+            %   Z is a 1 x M array of z values (in mm)
+            %       eg. Z = linspace(0.1,19.9,100);
+            %   LAYERTHICKNESS is the thickness of the top layer of tissue
+            
+            nop = size(op,1);
+            
+            fs =  Vts.Modeling.ForwardSolvers.TwoLayerSDAForwardSolver();
+            solutionDomain = Vts.FluenceSolutionDomainType.FluenceOfRhoAndZ;
+            
+            op_net = NET.createArray('Vts.OpticalProperties', nop);
+            for i=1:nop
+                op_net(i) = Vts.OpticalProperties;
+                op_net(i).Mua =  op(i,1);
+                op_net(i).Musp = op(i,2);
+                op_net(i).G =    op(i,3);
+                op_net(i).N =    op(i,4);
+            end;
+                      
+            regions = NET.createArray('Vts.IOpticalPropertyRegion', 2);
+            regions(1) = Vts.Common.LayerOpticalPropertyRegion(Vts.Common.DoubleRange(0, layerThickness), op_net(1));
+            regions(2) = Vts.Common.LayerOpticalPropertyRegion(Vts.Common.DoubleRange(layerThickness, Inf), op_net(2));
+         
+            independentAxes = NET.createArray('Vts.IndependentVariableAxis', 2);
+            independentAxes(1) = Vts.IndependentVariableAxis.Rho;
+            independentAxes(2) = Vts.IndependentVariableAxis.Z;
+            independentValues = NET.createArray('System.Double[]', 2);
+            independentValues(1) = rhos;
+            independentValues(2) = zs;
+            constantValues = NET.createArray('System.Double', 0);
+                    
+            fluence = Vts.Factories.ComputationFactory.ComputeFluence(fs, solutionDomain, independentAxes, independentValues, regions, constantValues);
+            
+            r = reshape(double(NET.invokeGenericMethod('System.Linq.Enumerable','ToArray',{'System.Double'},fluence)),[length(zs) length(rhos)]);
+        end
+        
         function r = PHDOfRhoAndZTwoLayer(op, rhos, zs, sd, layerThickness)
             %% PHDOfRhoAndZTwoLayer
             %   PHDOfRhoAndZ(OP, RHOS, ZS, SD, LAYERTHICKNESS) returns the
@@ -432,6 +477,7 @@ classdef VtsSolvers
             %r = double(NET.invokeGenericMethod('System.Linq.Enumerable','ToArray',{'System.Double'},phd));
             r = reshape(double(NET.invokeGenericMethod('System.Linq.Enumerable','ToArray',{'System.Double'},ae)),[length(zs) length(rhos) nop]);
         end
+        
         function r = ROfRhoTwoLayer(op, layerThickness, rho)
             %% ROfRhoTwoLayer
             %   ROfRhoTwoLayer(OP, LAYERTHICKNESS, RHO) returns the steady-state spatially-resolved

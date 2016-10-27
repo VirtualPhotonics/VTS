@@ -166,6 +166,24 @@ xlabel('\rho [mm]')
 ylabel('z [mm]')
 set(f,'Name','PHD of Rho and z');
 
+%% Example FluenceOfRhoAndZTwoLayer
+% Evaluate fluence in cylindrical coordinates for a two
+% layer tissue with specified source-detector separation and top layer thickness
+% using two sets of optical properties.
+
+op = [[1 1 0.8 1.4];[0.1 1 0.8 1.4]];
+rhos = linspace(0.1,19.9,100); % s-d separation, in mm
+zs = linspace(0.1,19.9,100); % z range in mm
+topLayerThickness=5; % mm
+test = VtsSolvers.FluenceOfRhoAndZTwoLayer(op, rhos, zs, topLayerThickness);
+
+f = figure; imagesc(rhos, zs, log(test));
+axis image;
+title('Fluence of \rho and z - Two Layer'); 
+xlabel('\rho [mm]');
+ylabel('z [mm]');
+set(f,'Name','Fluence of Rho and z - Two Layer');
+
 %% Example PHDOfRhoAndZTwoLayer
 % Evaluate Photon Hitting Density in cylindrical coordinates for a two
 % layer tissue with specified source-detector separation and top layer thickness
