@@ -884,6 +884,20 @@ end
                 pMCROfRhoAndTime.Stdev = sqrt((pMCROfRhoAndTime.SecondMoment - (pMCROfRhoAndTime.Mean .* pMCROfRhoAndTime.Mean)) / (databaseInputJson.N));
             end
             results{di}.pMCROfRhoAndTime = pMCROfRhoAndTime;
+        case 'pMCROfFx'
+            pMCROfFx.Name = detector.Name;
+            tempFx = detector.Fx;
+            pMCROfFx.Fx = linspace((tempFx.Start), (tempFx.Stop), (tempFx.Count));
+            pMCROfFx.Fx_Midpoints = pMCROfFx.Fx;
+            tempData = readBinaryData([datadir slash detector.Name],2*length(pMCROfFx.Fx)); 
+            pMCROfFx.Mean = tempData(1:2:end) + 1i*tempData(2:2:end);                       
+            if(detector.TallySecondMoment && exist([datadir slash detector.Name '_2'],'file'))
+                tempData = readBinaryData([datadir slash detector.Name '_2'],2*length(pMCROfFx.Fx));
+                pMCROfFx.SecondMoment = tempData(1:2:end) + 1i*tempData(2:2:end);
+                pMCROfFx.Stdev = sqrt((pMCROfFx.SecondMoment + real(pMCROfFx.Mean) .* real(pMCROfFx.Mean) + ...
+                    imag(pMCROfFx.Mean) .* imag(pMCROfFx.Mean)) / json.N);
+            end
+            results{di}.pMCROfFx = pMCROfFx;
     end %detector.Name switch
 end
 

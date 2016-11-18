@@ -41,6 +41,7 @@ show.RadianceOfFxAndZAndAngle = 1;
 show.RadianceOfXAndYAndZAndThetaAndPhi = 1;
 show.pMCROfRho =                1;
 show.pMCROfRhoAndTime =         1;
+show.pMCROfFx =                 1;
 show.ReflectedMTOfRhoAndSubregionHist = 1;
 show.ReflectedMTOfXAndYAndSubregionHist = 1;
 show.TransmittedMTOfRhoAndSubregionHist = 1;
@@ -593,5 +594,11 @@ for mci = 1:length(datanames)
         figname = sprintf('log(%s)',results{di}.pMCROfRhoAndTime.Name); figure; imagesc(results{di}.pMCROfRhoAndTime.Rho_Midpoints, results{di}.pMCROfRhoAndTime.Time_Midpoints,log(results{di}.pMCROfRhoAndTime.Mean)); colorbar; title(figname); set(gcf,'Name', figname);ylabel('time [ns]'); xlabel('\rho [mm]');
         disp(['Total reflectance captured by pMCROfRhoAndTime detector: ' num2str(sum(results{di}.pMCROfRhoAndTime.Mean(:)))]);
     end
+    if isfield(results{di}, 'pMCROfFx') && show.pMCROfFx
+        figname = sprintf('%s - Amplitude',results{di}.pMCROfFx.Name);figure;plot(results{di}.pMCROfFx.Fx_Midpoints, abs(results{di}.pMCROfFx.Mean));title(figname);set(gcf,'Name', figname);xlabel('f_x [/mm]');ylabel('R(f_x) [unitless]');
+        Fxdelta = results{di}.pMCROfFx.Fx(2)-results{di}.pMCROfFx.Fx(1);
+        Fxnorm = 2 * pi * (results{di}.pMCROfFx.Fx_Midpoints * Fxdelta);
+        disp(['Total reflectance captured by ROfFx detector: ' num2str(sum(results{di}.pMCROfFx.Mean.*Fxnorm'))]);
+     end
   end
 end
