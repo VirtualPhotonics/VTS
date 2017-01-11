@@ -25,4 +25,12 @@ set targetmatlabdir=%CD%\matlab\post_processing\monte_carlo\simulation_result_lo
 
 "%zip%"7za a -r "%archive%" "%targetmatlabdir%"*.*
 
+set targetdir=%CD%\build\apps\mc_post\Release\
+
+"%zip%"7za a "%archive%" "%targetdir%"mc_post.exe
+
+"%zip%"7za a "%archive%" "%targetdir%"mc_post.exe.config
+
+"%zip%"7za a "%archive%" "%targetdir%"*.txt
+
 rem pause
