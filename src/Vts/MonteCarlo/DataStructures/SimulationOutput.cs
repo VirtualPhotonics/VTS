@@ -330,6 +330,10 @@ namespace Vts.MonteCarlo
         /// </summary>
         public double[,] RefDynMT_rmt_dynofz { get { return ((double[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ReflectedDynamicMTOfRhoAndSubregionHist").First().Name]).DynamicMTOfZ); } }
         /// <summary>
+        /// Reflected Dynamic Momentum Transfer of Rho and Tissue SubRegion with SubregionCollisions
+        /// </summary>
+        public double[,] RefDynMT_rmt_subrcols { get { return ((double[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ReflectedDynamicMTOfRhoAndSubregionHist").First().Name]).SubregionCollisions); } }
+        /// <summary>
         /// Reflected Dynamic Momentum Transfer of X, Y and Tissue SubRegion with a histogram of MT
         /// </summary>
         public double[, ,] RefDynMT_xymt { get { return ((double[, ,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ReflectedDynamicMTOfXAndYAndSubregionHist").First().Name]).Mean); } }
@@ -342,13 +346,17 @@ namespace Vts.MonteCarlo
         /// </summary>
         public double[, , ,] RefDynMT_xymt_frac { get { return ((double[, , ,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ReflectedDynamicMTOfXAndYAndSubregionHist").First().Name]).FractionalMT); } }
         /// <summary>
-        /// Reflected Dynamic Momentum Transfer of Rho and Tissue SubRegion with Total MT of Z
+        /// Reflected Dynamic Momentum Transfer of X, Y and Tissue SubRegion with Total MT of Z
         /// </summary>
-        public double[,,] RefDynMT_xymt_totofz { get { return ((double[,,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ReflectedDynamicMTOfRhoAndSubregionHist").First().Name]).TotalMTOfZ); } }
+        public double[,,] RefDynMT_xymt_totofz { get { return ((double[,,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ReflectedDynamicMTOfXAndYAndSubregionHist").First().Name]).TotalMTOfZ); } }
         /// <summary>
-        /// Reflected Dynamic Momentum Transfer of Rho and Tissue SubRegion with Dynamic MT of Z
+        /// Reflected Dynamic Momentum Transfer of X, Y and Tissue SubRegion with Dynamic MT of Z
         /// </summary>
-        public double[,,] RefDynMT_xymt_dynofz { get { return ((double[,,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ReflectedDynamicMTOfRhoAndSubregionHist").First().Name]).DynamicMTOfZ); } }   
+        public double[,,] RefDynMT_xymt_dynofz { get { return ((double[,,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ReflectedDynamicMTOfXAndYAndSubregionHist").First().Name]).DynamicMTOfZ); } }
+        /// <summary>
+        /// Reflected Dynamic Momentum Transfer of X, Y and Tissue SubRegion with SubregionCollisions
+        /// </summary>
+        public double[,] RefDynMT_xymt_subrcols { get { return ((double[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ReflectedDynamicMTOfXAndYAndSubregionHist").First().Name]).SubregionCollisions); } }
         /// <summary>
         /// Transmitted Dynamic Momentum Transfer of Rho and Tissue SubRegion with a histogram of MT
         /// </summary>
@@ -362,13 +370,17 @@ namespace Vts.MonteCarlo
         /// </summary>
         public double[, ,] TransDynMT_rmt_frac { get { return ((double[, ,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "TransmittedDynamicMTOfRhoAndSubregionHist").First().Name]).FractionalMT); } }
         /// <summary>
-        /// Reflected Dynamic Momentum Transfer of Rho and Tissue SubRegion with Total MT of Z
+        /// Transmitted Dynamic Momentum Transfer of Rho and Tissue SubRegion with Total MT of Z
         /// </summary>
-        public double[,] TransDynMT_rmt_totofz { get { return ((double[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ReflectedDynamicMTOfRhoAndSubregionHist").First().Name]).TotalMTOfZ); } }
+        public double[,] TransDynMT_rmt_totofz { get { return ((double[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "TransmittedDynamicMTOfRhoAndSubregionHist").First().Name]).TotalMTOfZ); } }
         /// <summary>
-        /// Reflected Dynamic Momentum Transfer of Rho and Tissue SubRegion with Dynamic MT of Z
+        /// Transmitted Dynamic Momentum Transfer of Rho and Tissue SubRegion with Dynamic MT of Z
         /// </summary>
-        public double[,] TransDynMT_rmt_dynofz { get { return ((double[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ReflectedDynamicMTOfRhoAndSubregionHist").First().Name]).DynamicMTOfZ); } }
+        public double[,] TransDynMT_rmt_dynofz { get { return ((double[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "TransmittedDynamicMTOfRhoAndSubregionHist").First().Name]).DynamicMTOfZ); } }
+        /// <summary>
+        /// Transmitted Dynamic Momentum Transfer of Rho and Tissue SubRegion with SubregionCollisions
+        /// </summary>
+        public double[,] TransDynMT_rmt_subrcols { get { return ((double[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "TransmittedDynamicMTOfRhoAndSubregionHist").First().Name]).SubregionCollisions); } }
         /// <summary>
         /// Transmitted Dynamic Momentum Transfer of X, Y and Tissue SubRegion with a histogram of MT
         /// </summary>
@@ -382,14 +394,18 @@ namespace Vts.MonteCarlo
         /// </summary>
         public double[, , ,] TransDynMT_xymt_frac { get { return ((double[, , ,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "TransmittedDynamicMTOfXAndYAndSubregionHist").First().Name]).FractionalMT); } }
         /// <summary>
-        /// Reflected Dynamic Momentum Transfer of Rho and Tissue SubRegion with Total MT of Z
+        /// Transmitted Dynamic Momentum Transfer of X, Y and Tissue SubRegion with Total MT of Z
         /// </summary>
-        public double[, ,] TransDynMT_xymt_totofz { get { return ((double[, ,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ReflectedDynamicMTOfRhoAndSubregionHist").First().Name]).TotalMTOfZ); } }
+        public double[, ,] TransDynMT_xymt_totofz { get { return ((double[, ,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "TransmittedDynamicMTOfRhoAndSubregionHist").First().Name]).TotalMTOfZ); } }
         /// <summary>
-        /// Reflected Dynamic Momentum Transfer of Rho and Tissue SubRegion with Dynamic MT of Z
+        /// Transmitted Dynamic Momentum Transfer of X, Y and Tissue SubRegion with Dynamic MT of Z
         /// </summary>
-        public double[, ,] TransDynMT_xymt_dynofz { get { return ((double[, ,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ReflectedDynamicMTOfRhoAndSubregionHist").First().Name]).DynamicMTOfZ); } }   
-        
+        public double[, ,] TransDynMT_xymt_dynofz { get { return ((double[, ,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "TransmittedDynamicMTOfRhoAndSubregionHist").First().Name]).DynamicMTOfZ); } }
+        /// <summary>
+        /// Transmitted Dynamic Momentum Transfer of X, Y and Tissue SubRegion with SubregionCollisions
+        /// </summary>
+        public double[,] TransDynMT_xymt_subrcols { get { return ((double[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "TransmittedDynamicMTOfRhoAndSubregionHist").First().Name]).SubregionCollisions); } }
+  
         /// <summary>
         /// Reflected Time of Rho and Tissue SubRegion with a histogram of Time
         /// </summary>

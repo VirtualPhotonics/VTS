@@ -163,6 +163,12 @@ namespace Vts.MonteCarlo.Detectors
         [IgnoreDataMember]
         public double[,,,] FractionalMT { get; set; }
 
+        /// <summary>
+        /// number of dynamic and static collisions in each subregion
+        /// </summary>
+        [IgnoreDataMember]
+        public double[,] SubregionCollisions { get; set; }
+
         /* ==== Place optional/user-defined output properties here. They will be saved in text (JSON) format ==== */
         /// <summary>
         /// number of Zs detector gets tallied to
@@ -195,8 +201,10 @@ namespace Vts.MonteCarlo.Detectors
             // Fractional MT has FractionalMTBins.Count numnber of bins PLUS 2, one for =1, an d one for =0
             FractionalMT = FractionalMT ?? new double[X.Count - 1, Y.Count - 1, MTBins.Count - 1, FractionalMTBins.Count + 1];
 
+            SubregionCollisions = new double[NumSubregions, 2]; // 2nd index: 0=static, 1=dynamic
+
             // intialize any other necessary class fields here
-            _bloodVolumeFraction = BloodVolumeFraction;      
+            _bloodVolumeFraction = BloodVolumeFraction;
         }
 
         /// <summary>
@@ -237,10 +245,12 @@ namespace Vts.MonteCarlo.Detectors
                         tissueMT[1] += momentumTransfer;
                         DynamicMTOfZ[ix, iy, iz] += photon.DP.Weight * momentumTransfer;
                         dynamicMTOfZForOnePhoton[ix, iy, iz] += photon.DP.Weight * momentumTransfer;
+                        SubregionCollisions[csr, 1] += 1; // add to dynamic collision count
                     }
                     else // index 0 captures static events
                     {
                         tissueMT[0] += momentumTransfer;
+                        SubregionCollisions[csr, 0] += 1; // add to static collision count
                     }
                     talliedMT = true;
                 }
@@ -470,6 +480,34 @@ namespace Vts.MonteCarlo.Detectors
                                 {
                                         DynamicMTOfZ[i, j, l] = binaryReader.ReadDouble();
                                 }
+                            }
+                        }
+                    }
+                },
+                new BinaryArraySerializer
+                {
+                    DataArray = SubregionCollisions,
+                    Name = "SubregionCollisions",
+                    FileTag = "_SubregionCollisions",
+                    WriteData = binaryWriter =>
+                    {
+                        for (int i = 0; i < NumSubregions; i++)
+                        {
+                            for (int l = 0; l < 2; l++)
+                            {
+                                binaryWriter.Write(SubregionCollisions[i, l]);
+                            }
+                        }
+                    },
+                    ReadData = binaryReader =>
+                    {
+                        SubregionCollisions = SubregionCollisions ??
+                                       new double[NumSubregions, 2];
+                        for (int i = 0; i < NumSubregions; i++)
+                        {
+                            for (int l = 0; l < 2; l++)
+                            {
+                                SubregionCollisions[i, l] = binaryReader.ReadDouble();
                             }
                         }
                     }

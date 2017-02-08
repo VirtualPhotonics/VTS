@@ -469,6 +469,10 @@ for mci = 1:length(datanames)
                 results{di}.ReflectedDynamicMTOfRhoAndSubregionHist.DynamicMTOfZStdev(:,i));
             title(figname);xlabel('z (mm)');ylabel('Dynamic MT');
         end
+        figure;figname='Reflected Dynamic MT Of Rho: Subregion Collisions';
+        plot(results{di}.ReflectedDynamicMTOfRhoAndSubregionHist.SubregionIndices, results{di}.ReflectedDynamicMTOfRhoAndSubregionHist.SubregionCollisions(1,:),...
+             results{di}.ReflectedDynamicMTOfRhoAndSubregionHist.SubregionIndices, results{di}.ReflectedDynamicMTOfRhoAndSubregionHist.SubregionCollisions(2,:));
+        title(figname);xlabel('tissue region index');ylabel('Collisions');legend('static','dynamic');
     end
     if isfield(results{di}, 'ReflectedDynamicMTOfXAndYAndSubregionHist') && show.ReflectedDynamicMTOfXAndYAndSubregionHist
         numxs = length(results{di}.ReflectedDynamicMTOfXAndYAndSubregionHist.X) - 1;
@@ -504,6 +508,10 @@ for mci = 1:length(datanames)
             plot(results{di}.ReflectedDynamicMTOfXAndYAndSubregionHist.Z_Midpoints,results{di}.ReflectedDynamicMTOfXAndYAndSubregionHist.DynamicMTOfZ(:,1,i));
             title(figname);xlabel('z (mm)');ylabel('Dynamic MT');
         end
+        figure;figname='Reflected Dynamic MT Of X and Y: Subregion Collisions';
+        plot(results{di}.ReflectedDynamicMTOfXAndYAndSubregionHist.SubregionIndices, results{di}.ReflectedDynamicMTOfXAndYAndSubregionHist.SubregionCollisions(1,:),...
+             results{di}.ReflectedDynamicMTOfXAndYAndSubregionHist.SubregionIndices, results{di}.ReflectedDynamicMTOfXAndYAndSubregionHist.SubregionCollisions(2,:));
+        title(figname);xlabel('tissue region index');ylabel('Collisions');legend('static','dynamic');
     end
     if isfield(results{di}, 'TransmittedDynamicMTOfRhoAndSubregionHist') && show.TransmittedDynamicMTOfRhoAndSubregionHist
         numrhos = length(results{di}.TransmittedDynamicMTOfRhoAndSubregionHist.Rho) - 1;
@@ -538,6 +546,10 @@ for mci = 1:length(datanames)
             plot(results{di}.TransmittedDynamicMTOfRhoAndSubregionHist.Z_Midpoints,results{di}.TransmittedDynamicMTOfRhoAndSubregionHist.DynamicMTOfZ(:,i));
             title(figname);xlabel('z (mm)');ylabel('Dynamic MT');
         end
+        figure;figname='Transmitted Dynamic MT Of Rho: Subregion Collisions';
+        plot(results{di}.TransmittedDynamicMTOfRhoAndSubregionHist.SubregionIndices, results{di}.TransmittedDynamicMTOfRhoAndSubregionHist.SubregionCollisions(1,:),...
+             results{di}.TransmittedDynamicMTOfRhoAndSubregionHist.SubregionIndices, results{di}.TransmittedDynamicMTOfRhoAndSubregionHist.SubregionCollisions(2,:));
+        title(figname);xlabel('tissue region index');ylabel('Collisions');legend('static','dynamic');
     end
     if isfield(results{di}, 'TransmittedDynamicMTOfXAndYAndSubregionHist') && show.TransmittedDynamicMTOfXAndYAndSubregionHist
         numxs = length(results{di}.TransmittedDynamicMTOfXAndYAndSubregionHist.X) - 1;
@@ -573,6 +585,10 @@ for mci = 1:length(datanames)
             plot(results{di}.TransmittedDynamicMTOfXAndYAndSubregionHist.Z_Midpoints,results{di}.TransmittedDynamicMTOfXAndYAndSubregionHist.DynamicMTOfZ(:,ycenter,i));
             title(figname);xlabel('z (mm)');ylabel('Dynamic MT');
         end
+        figure;figname='Transmitted Dynamic MT Of X and Y: Subregion Collisions';
+        plot(results{di}.TransmittedDynamicMTOfXAndYAndSubregionHist.SubregionIndices, results{di}.TransmittedDynamicMTOfXAndYAndSubregionHist.SubregionCollisions(1,:),...
+             results{di}.TransmittedDynamicMTOfXAndYAndSubregionHist.SubregionIndices, results{di}.TransmittedDynamicMTOfXAndYAndSubregionHist.SubregionCollisions(2,:));
+        title(figname);xlabel('tissue region index');ylabel('Collisions');legend('static','dynamic');
     end
     if isfield(results{di}, 'ReflectedTimeOfRhoAndSubregionHist') && show.ReflectedTimeOfRhoAndSubregionHist
         numtissueregions = length(results{di}.ReflectedTimeOfRhoAndSubregionHist.SubregionIndices);
