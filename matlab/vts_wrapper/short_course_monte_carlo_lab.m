@@ -14,7 +14,7 @@ Nphot=[10, 100, 1000, 10000]; % number of photons launched takes about 1 mins
 % simulation options initiation
 options = SimulationOptions();
 % set method to account for absorption
-options.AbsorptionWeightingType = 'Discrete'; % options 'Analog' or 'Discrete'
+options.AbsorptionWeightingType = 'Analog'; % options 'Analog' or 'Discrete'
 % seed of random number generator (-1=randomly selected seed, >=0 reproducible sequence)
 options.Seed = 0;
 
@@ -76,18 +76,21 @@ scrsz=get(0,'ScreenSize');
 f=figure('Position',[scrsz(3)/50 scrsz(4)/10 scrsz(3)/2 scrsz(4)/2]);
 set(f,'Name',sprintf('Fluence using %s absorption',options.AbsorptionWeightingType));
 % spell out left and bottom corners of each plot to reduce white space
-left=[0.09 0.59 0.09 0.59];bottom=[0.55 0.55 0.05 0.05];
+left=[0.09 0.59 0.09 0.59];bottom=[0.58 0.58 0.1 0.1];
 xs = [-fliplr(rho_midpoints),rho_midpoints];
 for j=1:size(Nphot,2)
   d = output{j}.Detectors(output{j}.DetectorNames{1});
   % plot fluence as a function of rho and z with mirror image
-  subplot(2,2,j,'Position',[left(j) bottom(j) 0.4 0.4]);
+  %subplot(2,2,j,'Position',[left(j) bottom(j) 0.4 0.4]); % 2014b code
+  pos=[left(j) bottom(j) 0.38 0.38]; % 2016b fix
+  ax(j)=subplot(2,2,j); % 2016b fix
+  set(ax(j),'Position',pos); % 2016b fix
   imagesc(xs,z_midpoints,log10([fliplr(d.Mean') d.Mean'])); 
-  caxis([-6 1]); 
+  colorbar; caxis([-6 1]); 
   shading('flat'); axis equal; axis([-9.5 9.5, 0 9.5]); 
   text(-8.5, 8, sprintf('N=%d',floor(Nphot(j))),'FontSize',16,'Color',[1 1 1]);
-  title('log(Flu(\rho,z)) [mm^-^2]'); 
-  xlabel('\rho [mm]'); ylabel('z [mm]'); 
+  title('log(Flu(\rho,z)) [mm^-^2]','FontSize',16); 
+  xlabel('\rho [mm]','FontSize',16); ylabel('z [mm]','FontSize',16); 
 end
 f=figure('Position',[scrsz(3)/2 scrsz(4)/10 scrsz(3)/2 scrsz(4)/2]);
 set(f,'Name',sprintf('Relative error using %s absorption',options.AbsorptionWeightingType));
@@ -102,7 +105,10 @@ for j=1:size(Nphot,2)
   % set NaN to value beyond max
   maxval = max(relErr(:));
   relErr(isnan(relErr)) = maxval + maxval/10;
-  subplot(2,2,j,'Position',[left(j) bottom(j) 0.4 0.4]); 
+  %subplot(2,2,j,'Position',[left(j) bottom(j) 0.4 0.4]);  % 2014b code
+  pos=[left(j) bottom(j) 0.38 0.38]; % 2016b fix
+  ax(j)=subplot(2,2,j); % 2016b fix
+  set(ax(j),'Position',pos); % 2016b fix
   imagesc(xs(1:end-2),z_midpoints(1:end-1),([fliplr(relErr') relErr']));
   % for making NaN values white
   colordata = colormap;
@@ -112,8 +118,8 @@ for j=1:size(Nphot,2)
   caxis([0 1]);
   shading('flat'); axis equal;axis([-9.5 9.5, 0 9.5]);
   text(-8.5, 8, sprintf('N=%d',floor(Nphot(j))),'FontSize',16,'Color',[0 0 0]);
-  title('relerr(Flu(\rho,z))'); 
-  xlabel('\rho [mm]'); ylabel('z [mm]');
+  title('relerr(Flu(\rho,z))', 'FontSize',16); 
+  xlabel('\rho [mm]','FontSize',16); ylabel('z [mm]','FontSize',16);
   if (strcmp(options.AbsorptionWeightingType,'Analog')==true)
     save(sprintf('analogMean%d.txt',j),'-ascii','Mean');
     save(sprintf('analogSD%d.txt',j),'-ascii','SD');
@@ -133,13 +139,16 @@ for j=1:size(Nphot,2)
   dawMean = load(sprintf('dawMean%d.txt',j));
   analogRelErr = analogSD./analogMean;
   dawRelErr = dawSD./dawMean;
-  subplot(2,2,j,'Position',[left(j) bottom(j) 0.4 0.4]); 
+  %subplot(2,2,j,'Position',[left(j) bottom(j) 0.4 0.4]); 
+  pos=[left(j) bottom(j) 0.38 0.38]; % 2016b fix
+  ax(j)=subplot(2,2,j); % 2016b fix
+  set(ax(j),'Position',pos); % 2016b fix
   imagesc(xs,z_midpoints,([fliplr((analogRelErr-dawRelErr)') (analogRelErr-dawRelErr)'])); 
   colorbar; caxis([0 1]);
   shading('flat'); axis equal;axis([-9.5 9.5, 0 9.5]);
   text(-8.5, 8, sprintf('N=%d',floor(Nphot(j))),'FontSize',16,'Color',[1 1 1]);
-  title('RE(analog)-RE(DAW)'); 
-  xlabel('\rho [mm]'); ylabel('z [mm]');
+  title('RE(analog)-RE(DAW)','FontSize',16); 
+  xlabel('\rho [mm]','FontSize',16); ylabel('z [mm]','FontSize',16);
 end
 
 % ======================================================================= %
