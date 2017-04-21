@@ -1,0 +1,76 @@
+# Ignores for Visual Studio #
+#############################
+*.obj
+*.exe
+*.pdb
+*.user
+*.aps
+*.pch
+*.vspscc
+*_i.c
+*_p.c
+*.ncb
+*.suo
+*.nlb
+*.clw
+*.pdb
+*.pidb
+*.tlb
+*.tlh
+*.bak
+*.Cache
+*.ilk
+*.log
+*.lib
+*.sbr
+*.scc
+*.sig
+*.asv
+*.userprefs
+*.xap
+*.zip
+
+# Folder ignores #
+##################
+[Bb]in/
+[Cc]lient[Bb]in
+[Dd]ebug*/
+[Bb]uild/
+obj/
+vts_libraries/
+[Pp]ackages/
+
+# MATLAB Specific ignores #
+###########################
+[Rr]esults*/
+matlab/vts_wrapper/*.txt
+simulation_result_loading/
+# Add these back to repository
+!jsonlab/
+!*.m
+
+# Tools #
+#########
+_ReSharper*/
+*.resharper
+[Tt]est[Rr]esult*
+
+# OS generated files #
+######################
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Source Control #
+##################
+.hg/
+.hgignore
+.hgtags
+.svn
+.svn/
+CVS
+
