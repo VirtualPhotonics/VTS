@@ -1,14 +1,14 @@
 Virtual Tissue Simulator (VTS) Project
-Copyright (c) 2009 - 2011 Laser Microbeam and Medical Program
+Copyright (c) 2009 - 2017 Laser Microbeam and Medical Program
 
-In Visual Studio 2010, open the file <VTS dir>/src/Vts.sln
+In Visual Studio 2010, 2013 or 2015, open the file <VTS dir>/src/Vts.sln
 
 For detailed instructions on how to launch the VTS GUI visit:
-http://virtualphotonics.codeplex.com/wikipage?title=Compiling%20and%20running%20the%20VTS%20GUI
+https://github.com/VirtualPhotonics/VTS/wiki/Compile-and-run-the-VTS-GUI
 
 To Build, Test and Run the VTS without Visual Studio visit:
-http://virtualphotonics.codeplex.com/wikipage?title=Build%2c%20Test%20and%20Run
+https://github.com/VirtualPhotonics/VTS/wiki/Without-Visual-Studio
 
 For more information about coding conventions and how to contribute to our Open Source effort see our developer website at:
-http://virtualphotonics.codeplex.com
+https://github.com/VirtualPhotonics/VTS/wiki
 

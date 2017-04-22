@@ -1,4 +1,6 @@
-Copyright (c) 2011 Laser Microbeam and Medical Program
+The MIT License (MIT)
+
+Copyright (c) 2017 Laser Microbeam and Medical Program
 
 Acknowledgement
 Use the following acknowledgement in publications or applications that make use of this open source software or underlying technology and research:
