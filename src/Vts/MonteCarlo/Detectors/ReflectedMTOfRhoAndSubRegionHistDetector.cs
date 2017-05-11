@@ -338,7 +338,6 @@ namespace Vts.MonteCarlo.Detectors
                 },
             };
         }
-
         /// <summary>
         /// Method to determine if photon is within detector NA
         /// </summary>
@@ -348,7 +347,7 @@ namespace Vts.MonteCarlo.Detectors
             if (photon.CurrentRegionIndex == FinalTissueRegionIndex)
             {
                 var detectorRegionN = _tissue.Regions[photon.CurrentRegionIndex].RegionOP.N;
-                return photon.DP.IsWithinNA(NA, Direction.AlongPositiveZAxis, detectorRegionN);
+                return photon.DP.IsWithinNA(NA, Direction.AlongNegativeZAxis, detectorRegionN);
             }
             else // determine n of prior tissue region
             {

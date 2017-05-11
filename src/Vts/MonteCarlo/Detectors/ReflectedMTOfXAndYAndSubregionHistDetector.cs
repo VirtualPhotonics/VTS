@@ -41,6 +41,7 @@ namespace Vts.MonteCarlo.Detectors
         /// y binning
         /// </summary>
         public DoubleRange Y { get; set; }
+
         ///// <summary>
         ///// subregion index binning, needed by DetectorIO
         ///// </summary>
@@ -382,7 +383,7 @@ namespace Vts.MonteCarlo.Detectors
             if (photon.CurrentRegionIndex == FinalTissueRegionIndex)
             {
                 var detectorRegionN = _tissue.Regions[photon.CurrentRegionIndex].RegionOP.N;
-                return photon.DP.IsWithinNA(NA, Direction.AlongPositiveZAxis, detectorRegionN);
+                return photon.DP.IsWithinNA(NA, Direction.AlongNegativeZAxis, detectorRegionN);
             }
             else // determine n of prior tissue region
             {

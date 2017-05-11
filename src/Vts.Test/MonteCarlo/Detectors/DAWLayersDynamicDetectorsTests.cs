@@ -64,6 +64,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                     new TOfXAndYDetectorInput() { X = new DoubleRange(-10.0, 10.0, 21), Y = new DoubleRange(-10.0, 10.0, 21) },
                     new ReflectedDynamicMTOfRhoAndSubregionHistDetectorInput() 
                     {
+                        Name="RefDynMTOfRhoNAInf", // default constructor setting
                         Rho=new DoubleRange(0.0, 10.0, 21), // rho bins MAKE SURE AGREES with ROfRho rho specification for unit test below
                         Z = new DoubleRange(0.0, 10.0, 21),
                         MTBins=new DoubleRange(0.0, 500.0, 51), // MT bins
@@ -95,7 +96,30 @@ namespace Vts.Test.MonteCarlo.Detectors
                         MTBins=new DoubleRange(0.0, 500.0, 51), // MT bins
                         FractionalMTBins = new DoubleRange(0.0, 1.0, 11),
                         BloodVolumeFraction = new List<double>() { 0, 0.5, 0}   
-                    }
+                    },
+                    //// detector NA test detectors NOTE: when detector added results of others change due to RN in detector
+                    //new ReflectedDynamicMTOfRhoAndSubregionHistDetectorInput() 
+                    //{
+                    //    Name="RefDynMTOfRhoNA1p4",                        
+                    //    Rho=new DoubleRange(0.0, 10.0, 21), 
+                    //    Z = new DoubleRange(0.0, 10.0, 21),
+                    //    MTBins=new DoubleRange(0.0, 500.0, 51), // MT bins
+                    //    FractionalMTBins = new DoubleRange(0.0, 1.0, 11),
+                    //    BloodVolumeFraction = new List<double>() { 0, 0.5, 0}, 
+                    //    FinalTissueRegionIndex = 0, 
+                    //    NA = 1.4
+                    //},
+                    //new ReflectedDynamicMTOfRhoAndSubregionHistDetectorInput() 
+                    //{
+                    //    Name="RefDynMTOfRhoNA0p4",                        
+                    //    Rho=new DoubleRange(0.0, 10.0, 21), 
+                    //    Z = new DoubleRange(0.0, 10.0, 21),
+                    //    MTBins=new DoubleRange(0.0, 500.0, 51), // MT bins
+                    //    FractionalMTBins = new DoubleRange(0.0, 1.0, 11),
+                    //    BloodVolumeFraction = new List<double>() { 0, 0.5, 0}, 
+                    //    FinalTissueRegionIndex = 0, 
+                    //    NA = 0.4
+                    //}, 
                 };
 
             _inputOneLayerTissue = new SimulationInput(
@@ -124,6 +148,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                 {
                     new ReflectedDynamicMTOfRhoAndSubregionHistDetectorInput() 
                     {
+                        Name="RefDynMTOfRhoNAInf",
                         Rho=new DoubleRange(0.0, 10.0, 21), // rho bins MAKE SURE AGREES with ROfRho rho specification for unit test below
                         Z = new DoubleRange(0.0, 10.0, 21),
                         MTBins=new DoubleRange(0.0, 500.0, 51), // MT bins
@@ -189,16 +214,18 @@ namespace Vts.Test.MonteCarlo.Detectors
         [Test]
         public void validate_DAW_ReflectedDynamicMTOfRhoAndSubregionHist()
         {
+            var det1layer = (ReflectedDynamicMTOfRhoAndSubregionHistDetector)_outputOneLayerTissue.ResultsDictionary["RefDynMTOfRhoNAInf"];
+            var det2layer = (ReflectedDynamicMTOfRhoAndSubregionHistDetector)_outputTwoLayerTissue.ResultsDictionary["RefDynMTOfRhoNAInf"];
             // use initial results to verify any new changes to the code
-            Assert.Less(Math.Abs(_outputOneLayerTissue.RefDynMT_rmt[0, 0] - 0.100174), 0.000001);
-            Assert.Less(Math.Abs(_outputOneLayerTissue.RefDynMT_rmt[0, 1] - 0.011499), 0.000001);
+            Assert.Less(Math.Abs(det1layer.Mean[0, 0] - 0.100174), 0.000001);
+            Assert.Less(Math.Abs(det1layer.Mean[0, 1] - 0.011499), 0.000001);
             // verify mean integral over MT equals R(rho) results
             var mtbins = ((ReflectedDynamicMTOfRhoAndSubregionHistDetectorInput) _inputOneLayerTissue.DetectorInputs.
                 Where(d => d.TallyType == "ReflectedDynamicMTOfRhoAndSubregionHist").First()).MTBins;
             var integral = 0.0;
             for (int i = 0; i < mtbins.Count - 1; i++)
             {
-                integral += _outputOneLayerTissue.RefDynMT_rmt[0, i];
+                integral += det1layer.Mean[0, i];
             }
             Assert.Less(Math.Abs(_outputOneLayerTissue.R_r[0] - integral), 0.000001);
             // verify that sum of FractionalMT for a particular region and dynamic or static summed over
@@ -215,38 +242,49 @@ namespace Vts.Test.MonteCarlo.Detectors
                     integral = 0.0;
                     for (int m = 0; m < fracMTbins.Count + 1; m++)
                     {
-                        integral += _outputOneLayerTissue.RefDynMT_rmt_frac[i, j, m];
+                        integral += det1layer.FractionalMT[i, j, m];
                     }
-                    Assert.Less(Math.Abs(integral - _outputOneLayerTissue.RefDynMT_rmt[i, j]), 0.001);
+                    Assert.Less(Math.Abs(integral - det1layer.Mean[i, j]), 0.001);
                 }
             }
             // validate a few fractional values - indices rho, mtbins, fraction
-            Assert.Less(Math.Abs(_outputOneLayerTissue.RefDynMT_rmt_frac[0, 0, 0] - 0.0127), 0.0001);
-            Assert.Less(Math.Abs(_outputOneLayerTissue.RefDynMT_rmt_frac[0, 0, 1] - 0.0378), 0.0001);
+            Assert.Less(Math.Abs(det1layer.FractionalMT[0, 0, 0] - 0.0127), 0.0001);
+            Assert.Less(Math.Abs(det1layer.FractionalMT[0, 0, 1] - 0.0378), 0.0001);
             // validate 2 layer tissue results 
-            Assert.Less(Math.Abs(_outputTwoLayerTissue.RefDynMT_rmt_frac[0, 0, 0] - 0.0127), 0.0001);
-            Assert.Less(Math.Abs(_outputTwoLayerTissue.RefDynMT_rmt_frac[0, 0, 1] - 0.0378), 0.0001);
+            Assert.Less(Math.Abs(det2layer.FractionalMT[0, 0, 0] - 0.0127), 0.0001);
+            Assert.Less(Math.Abs(det2layer.FractionalMT[0, 0, 1] - 0.0378), 0.0001);
             // validate dynamic results
-            Assert.Less(Math.Abs(_outputOneLayerTissue.RefDynMT_rmt_dynofz[0, 1] - 0.0814), 0.0001);
-            Assert.Less(Math.Abs(_outputTwoLayerTissue.RefDynMT_rmt_dynofz[0, 1] - 0.0814), 0.0001);
-            Assert.Less(Math.Abs(_outputOneLayerTissue.RefDynMT_rmt_dynofz[2, 8] - 0.000001243), 0.000000001);
-            Assert.Less(Math.Abs(_outputTwoLayerTissue.RefDynMT_rmt_dynofz[2, 8] - 0.000001243), 0.000000001);
+            Assert.Less(Math.Abs(det1layer.DynamicMTOfZ[0, 1] - 0.0814), 0.0001);
+            Assert.Less(Math.Abs(det2layer.DynamicMTOfZ[0, 1] - 0.0814), 0.0001);
+            Assert.Less(Math.Abs(det1layer.DynamicMTOfZ[2, 8] - 0.000001243), 0.000000001);
+            Assert.Less(Math.Abs(det2layer.DynamicMTOfZ[2, 8] - 0.000001243), 0.000000001);
             // validate SubregionCollision static, dynamic count for one and two layer tissue
-            Assert.AreEqual(_outputOneLayerTissue.RefDynMT_rmt_subrcols[1, 0], 12798);
-            Assert.AreEqual(_outputOneLayerTissue.RefDynMT_rmt_subrcols[1, 1], 12631);
-            Assert.AreEqual(_outputTwoLayerTissue.RefDynMT_rmt_subrcols[1, 0], 253);
-            Assert.AreEqual(_outputTwoLayerTissue.RefDynMT_rmt_subrcols[1, 1], 75);
-            Assert.AreEqual(_outputTwoLayerTissue.RefDynMT_rmt_subrcols[2, 0], 12637);
-            Assert.AreEqual(_outputTwoLayerTissue.RefDynMT_rmt_subrcols[2, 1], 12464);
+            Assert.AreEqual(det1layer.SubregionCollisions[1, 0], 12798);
+            Assert.AreEqual(det1layer.SubregionCollisions[1, 1], 12631);
+            Assert.AreEqual(det2layer.SubregionCollisions[1, 0], 253);
+            Assert.AreEqual(det2layer.SubregionCollisions[1, 1], 75);
+            Assert.AreEqual(det2layer.SubregionCollisions[2, 0], 12637);
+            Assert.AreEqual(det2layer.SubregionCollisions[2, 1], 12464);
             // verify one layer totals equal two layer totals
             // note: the two layer static (or dynamic) sum will not equal the one layer static (or dynamic)
             // because of the random number call to determine whichcollisions are static vs dynamic
-            Assert.AreEqual(_outputOneLayerTissue.RefDynMT_rmt_subrcols[1,0]+
-                            _outputOneLayerTissue.RefDynMT_rmt_subrcols[1,1],
-                            _outputTwoLayerTissue.RefDynMT_rmt_subrcols[1,0]+
-                            _outputTwoLayerTissue.RefDynMT_rmt_subrcols[1,1]+
-                            _outputTwoLayerTissue.RefDynMT_rmt_subrcols[2,0]+
-                            _outputTwoLayerTissue.RefDynMT_rmt_subrcols[2,1]);
+            Assert.AreEqual(det1layer.SubregionCollisions[1,0]+
+                            det1layer.SubregionCollisions[1,1],
+                            det2layer.SubregionCollisions[1,0]+
+                            det2layer.SubregionCollisions[1,1]+
+                            det2layer.SubregionCollisions[2,0]+
+                            det2layer.SubregionCollisions[2,1]);
+        }
+
+        // Reflection Dynamic MT of Rho validate detector NA
+        [Test]
+        public void validate_DAW_ReflectedDynamicMTOfRhoAndSubregionHist_detector_NA()
+        {
+            var det1p4 = (ReflectedDynamicMTOfRhoAndSubregionHistDetector)_outputOneLayerTissue.ResultsDictionary["RefDynMTOfRhoNAInf"];
+            Assert.Less(Math.Abs(det1p4.Mean[0, 0] - 0.100174), 0.000001);
+            var det0p4 = (ReflectedDynamicMTOfRhoAndSubregionHistDetector)_outputOneLayerTissue.ResultsDictionary["RefDynMTOfRhoNAInf"];
+            // compare agains prior test run
+            Assert.Less(Math.Abs(det0p4.Mean[0, 0] - 0.100174), 0.000001);
         }
 
         // Transmitted Momentum Transfer of Rho and SubRegion

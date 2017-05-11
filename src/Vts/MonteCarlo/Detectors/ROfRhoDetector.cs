@@ -32,12 +32,10 @@ namespace Vts.MonteCarlo.Detectors
         /// detector rho binning
         /// </summary>
         public DoubleRange Rho { get; set; }
-
         /// <summary>
         /// Detector region index
         /// </summary>
         public int FinalTissueRegionIndex { get; set; }
-
         /// <summary>
         /// detector numerical aperture
         /// </summary>
@@ -207,7 +205,7 @@ namespace Vts.MonteCarlo.Detectors
             if (photon.CurrentRegionIndex == FinalTissueRegionIndex)
             {
                 var detectorRegionN = _tissue.Regions[photon.CurrentRegionIndex].RegionOP.N;
-                return photon.DP.IsWithinNA(NA, Direction.AlongPositiveZAxis, detectorRegionN);
+                return photon.DP.IsWithinNA(NA, Direction.AlongNegativeZAxis, detectorRegionN);
             }
             else // determine n of prior tissue region
             {
