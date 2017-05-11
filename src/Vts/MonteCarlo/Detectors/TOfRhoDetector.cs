@@ -3,7 +3,7 @@ using System.Runtime.Serialization;
 using Vts.Common;
 using Vts.IO;
 using Vts.MonteCarlo.Helpers;
-using Vts.MonteCarlo.PhotonData;
+using Vts.MonteCarlo.Extensions;
 
 namespace Vts.MonteCarlo.Detectors
 {
@@ -171,9 +171,8 @@ namespace Vts.MonteCarlo.Detectors
         /// <summary>
         /// Method to determine if photon is within detector
         /// </summary>
-        /// <param name="dp">photon data point</param>
-        /// <returns>method always returns true</returns>
-        public bool ContainsPoint(PhotonDataPoint dp)
+        /// <param name="photon">photon</param>
+        public bool IsWithinDetectorAperture(Photon photon)
         {
             return true; // or, possibly test for NA or confined position, etc
             //return (dp.StateFlag.Has(PhotonStateType.PseudoTransmissionDomainTopBoundary));
