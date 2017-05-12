@@ -15,7 +15,8 @@ namespace Vts.Test.Modeling
         [Test]
         public void VerifyROfRhoSDAMeasuredNoNoiseSDAModel()
         {
-            var independentValues = new double[] { 10, 11, 12, 13, 14, 15 }; // rho [mm]
+            //var independentValues = new double[] { 10, 11, 12, 13, 14, 15 }; // rho [mm] changed rho Meta.Numerics 1.3->3.3
+            var independentValues = new double[] { 5, 6, 7, 8, 9, 10 }; // rho [mm]
             var actualProperties = new OpticalProperties(mua: 0.01, musp: 1.0, g: 0.8, n: 1.4);
             var initialGuess =     new OpticalProperties(mua: 0.02, musp: 1.2, g: 0.8, n: 1.4);
 
@@ -50,7 +51,8 @@ namespace Vts.Test.Modeling
         [Test]
         public void VerifyROfRhoMonteCarloMeasuredNoNoiseSDAModel()
         {
-            var independentValues = new double[] { 10, 11, 12, 13, 14, 15 }; // rho [mm]
+            var independentValues = new double[] { 10, 11, 12, 13, 14, 15 }; // rho [mm] changed rho Meta.Numerics 1.3->3.3
+            //var independentValues = new double[] { 1, 2, 4, 6, 8, 10 }; // rho [mm]
             var actualProperties = new OpticalProperties(mua: 0.01, musp: 1.0, g: 0.8, n: 1.4);
             var initialGuess = new OpticalProperties(mua: 0.02, musp: 1.2, g: 0.8, n: 1.4);
 

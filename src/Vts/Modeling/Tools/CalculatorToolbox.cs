@@ -1,4 +1,5 @@
 using System;
+using Meta.Numerics.Analysis;
 using Meta.Numerics.Functions;
 
 namespace Vts.Modeling
@@ -88,11 +89,11 @@ namespace Vts.Modeling
         {
             var muCritical = Math.Sqrt(1 - RItrans * RItrans / (RIinc * RIinc));
 
-            Meta.Numerics.Function<double, double> integrand = mu =>
+            Func<double, double> integrand = mu =>
             {
                 return
-                EvaluateFresnelReflectionCoefficientForUnpolarizedLightOfMu(mu, RIinc, RItrans) *
-                Math.Pow(mu, M);
+                    EvaluateFresnelReflectionCoefficientForUnpolarizedLightOfMu(mu, RIinc, RItrans)*
+                    Math.Pow(mu, M);
             };
 
             // equation modification according to S. Prahl thesis wrt the critical angle
@@ -110,7 +111,7 @@ namespace Vts.Modeling
             // equation modification according to S. Prahl thesis wrt the critical angle
             // in the integral of the Fresnel reflection coef for unpolarized light
 
-            Meta.Numerics.Function<double, double> integrand = theta =>
+            Func<double, double> integrand = theta =>
             {
                 return
                 EvaluateFresnelReflectionCoefficientForUnpolarizedLight(theta, RIinc, RItrans) *
@@ -154,7 +155,7 @@ namespace Vts.Modeling
         public static double EvaluateDistributedExponentialLineSourceIntegral
             (Func<double, double> func, double muDecay)
         {
-            Meta.Numerics.Function<double, double> integrand = zp =>
+            Func<double, double> integrand = zp =>
             {
                 return func(zp) *
                     Math.Exp(-muDecay * zp);

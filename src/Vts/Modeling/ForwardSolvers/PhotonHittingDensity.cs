@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Numerics;
 using MathNet.Numerics;
+using Meta.Numerics.Analysis;
 using Meta.Numerics.Functions;
 
 namespace Vts.Modeling.ForwardSolvers.Extensions
@@ -113,7 +114,7 @@ namespace Vts.Modeling.ForwardSolvers.Extensions
 
                             foreach (var t in ts)
                             {
-                                Meta.Numerics.Function<double, double> integrandConvolve =
+                                Func<double, double> integrandConvolve =
                                     tau =>
                                     {
                                         return 

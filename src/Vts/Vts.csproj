@@ -98,9 +98,9 @@
     <Reference Include="MathNet.Numerics">
       <HintPath>..\packages\MathNet.Numerics.3.0.2\lib\portable-net45+sl5+netcore45+MonoAndroid1+MonoTouch1\MathNet.Numerics.dll</HintPath>
     </Reference>
-    <Reference Include="Meta.Numerics.Silverlight, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\Meta.Numerics\build\Silverlight\Meta.Numerics.Silverlight.dll</HintPath>
+    <Reference Include="Meta.Numerics, Version=3.1.0.0, Culture=neutral, PublicKeyToken=67d25c65a6631347, processorArchitecture=MSIL">
+      <HintPath>..\packages\Portable.Meta.Numerics.3.1.0.73149\lib\portable-net4+sl5+netcore45+wpa81+wp8\Meta.Numerics.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp, Version=5.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

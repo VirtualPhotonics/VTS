@@ -58,6 +58,10 @@
     <Reference Include="MathNet.Numerics">
       <HintPath>..\packages\MathNet.Numerics.3.0.2\lib\net40\MathNet.Numerics.dll</HintPath>
     </Reference>
+    <Reference Include="Meta.Numerics, Version=3.1.0.0, Culture=neutral, PublicKeyToken=67d25c65a6631347, processorArchitecture=MSIL">
+      <HintPath>..\packages\Meta.Numerics.3.1.0\lib\Meta.Numerics.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net40\Newtonsoft.Json.dll</HintPath>
@@ -82,9 +86,6 @@
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="Meta.Numerics">
-      <HintPath>..\..\lib\Meta.Numerics\build\Desktop\Meta.Numerics.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\Vts.Test\Common\DirectionTests.cs">

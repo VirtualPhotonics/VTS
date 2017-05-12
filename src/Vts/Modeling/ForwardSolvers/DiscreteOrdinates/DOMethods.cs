@@ -148,7 +148,7 @@ namespace Vts.Modeling.ForwardSolvers.DiscreteOrdinates
             var eye = Eye(N);
 
             // construct the eigenvalue problem
-
+            
             var A = -mu_a * eye + mu_s * L;
 
             var invWtMatrix = new SymmetricMatrix(N);
@@ -210,7 +210,7 @@ namespace Vts.Modeling.ForwardSolvers.DiscreteOrdinates
 
             // compute the reflectance
 
-            var temp2 = new Matrix(N, N / 2);
+            var temp2 = new RectangularMatrix(N, N/2);
             evec.ForEach((eveci, i) =>
             {
                 eveci.ForEach((evecj, j) =>
@@ -229,7 +229,17 @@ namespace Vts.Modeling.ForwardSolvers.DiscreteOrdinates
             return R.Reverse().ToArray(); // why backwards?
         }
 
-        private static void PrintMatrix(IMatrix M)
+        private static void PrintMatrix(SquareMatrix M)
+        {
+            PrintMatrix(new RectangularMatrix(M.RowCount, M.ColumnCount));    
+        }
+
+        private static void PrintMatrix(ColumnVector M)
+        {
+            PrintMatrix(new RectangularMatrix(M.RowCount, M.ColumnCount));
+        }
+
+        private static void PrintMatrix(RectangularMatrix M)
         {
             for (int r = 0; r < M.RowCount; r++)
             {

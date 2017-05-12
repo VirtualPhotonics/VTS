@@ -263,8 +263,9 @@ namespace Vts.SpectralMapping
                 chi0 = chi1;
                 chi1 = chi;
 
-                xi1.Re = psi1;
-                xi1.Im = -chi1;
+                //xi1.Re = psi1; CKH mod 5/11/17
+                //xi1.Im = -chi1;
+                xi1 = new Complex(psi1, -chi1);
                 rn += 1;
                 for (int j = 0; j < angles; j++)
                 {
