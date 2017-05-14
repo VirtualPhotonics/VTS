@@ -69,6 +69,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                     new ROfXAndYDetectorInput() { X = new DoubleRange(-10.0, 10.0, 101), Y = new DoubleRange(-10.0, 10.0, 101) },
                     new ROfRhoAndOmegaDetectorInput() { Rho = new DoubleRange(0.0, 10.0, 101), Omega = new DoubleRange(0.05, 1.0, 20)}, // DJC - edited to reflect frequency sampling points (not bins)
                     new ROfFxDetectorInput() {Fx = new DoubleRange(0.0, 0.5, 51)},
+                    new ROfFxAndTimeDetectorInput() {Fx = new DoubleRange(0.0, 0.5, 51), Time = new DoubleRange(0.0, 1.0, 101)},
                     new TDiffuseDetectorInput(),
                     new TOfAngleDetectorInput() {Angle=new DoubleRange(0.0, Math.PI / 2, 2)},
                     new TOfRhoDetectorInput() {Rho=new DoubleRange(0.0, 10.0, 101)},
@@ -288,6 +289,15 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.Less(Math.Abs(_outputOneLayerTissue.R_fx[1].Imaginary - 0.050931), 0.000001);
             Assert.Less(Math.Abs(_outputTwoLayerTissue.R_fx[1].Real - 0.557019), 0.000001);
             Assert.Less(Math.Abs(_outputTwoLayerTissue.R_fx[1].Imaginary - 0.050931), 0.000001);
+        }
+        // Reflection R(fx, time) validated with prior test
+        [Test]
+        public void validate_DAW_ROfFxAndTime()
+        {
+            Assert.Less(Math.Abs(_outputOneLayerTissue.R_fxt[1,0].Real - 6.886028), 0.000001);
+            Assert.Less(Math.Abs(_outputOneLayerTissue.R_fxt[1,0].Imaginary - 0.068251), 0.000001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.R_fxt[1,0].Real - 6.886028), 0.000001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.R_fxt[1,0].Imaginary - 0.068251), 0.000001);
         }
         // Diffuse Transmittance
         [Test]

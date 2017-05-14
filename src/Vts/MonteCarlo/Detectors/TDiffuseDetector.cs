@@ -108,6 +108,9 @@ namespace Vts.MonteCarlo.Detectors
         /// <param name="photon">photon data needed to tally</param>
         public void Tally(Photon photon)
         {
+            if (!IsWithinDetectorAperture(photon))
+                return;
+
             Mean += photon.DP.Weight;
             if (TallySecondMoment)
             {

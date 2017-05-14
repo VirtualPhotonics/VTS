@@ -56,25 +56,33 @@ namespace Vts.Test.MonteCarlo.Detectors
                 });
             var detectorsNA0 =  new List<IDetectorInput>
                 {
-                    //new ROfAngleDetectorInput() {Angle = new DoubleRange(Math.PI / 2 , Math.PI, 2)},
-                    new ROfRhoDetectorInput() {Rho = new DoubleRange(0.0, 10.0, 101), TallySecondMoment = true, FinalTissueRegionIndex= 1, NA = 0.0},
-                    //new ROfRhoAndAngleDetectorInput() {Rho = new DoubleRange(0.0, 10.0, 101), Angle = new DoubleRange(Math.PI / 2, Math.PI, 2)},
-                    //new ROfRhoAndTimeDetectorInput() {Rho = new DoubleRange(0.0, 10.0, 101), Time = new DoubleRange(0.0, 1.0, 101)},
-                    //new ROfXAndYDetectorInput() { X = new DoubleRange(-10.0, 10.0, 101), Y = new DoubleRange(-10.0, 10.0, 101) },
-                    //new ROfRhoAndOmegaDetectorInput() { Rho = new DoubleRange(0.0, 10.0, 101), Omega = new DoubleRange(0.05, 1.0, 20)}, // DJC - edited to reflect frequency sampling points (not bins)
+                    new RDiffuseDetectorInput() {FinalTissueRegionIndex=0, NA=0.0},         
+                    new ROfAngleDetectorInput() {Angle = new DoubleRange(Math.PI / 2 , Math.PI, 2),FinalTissueRegionIndex= 0, NA = 0.0},
+                    new ROfRhoDetectorInput() {Rho = new DoubleRange(0.0, 10.0, 101), FinalTissueRegionIndex= 0, NA = 0.0},
+                    new ROfRhoAndAngleDetectorInput() {Rho = new DoubleRange(0.0, 10.0, 101), Angle = new DoubleRange(Math.PI / 2, Math.PI, 2),FinalTissueRegionIndex= 0, NA = 0.0},
+                    new ROfRhoAndTimeDetectorInput() {Rho = new DoubleRange(0.0, 10.0, 101), Time = new DoubleRange(0.0, 1.0, 101),FinalTissueRegionIndex= 0, NA = 0.0},
+                    new ROfXAndYDetectorInput() { X = new DoubleRange(-10.0, 10.0, 101), Y = new DoubleRange(-10.0, 10.0, 101),FinalTissueRegionIndex= 0, NA = 0.0 },
+                    new ROfRhoAndOmegaDetectorInput() { Rho = new DoubleRange(0.0, 10.0, 101), Omega = new DoubleRange(0.05, 1.0, 20),FinalTissueRegionIndex= 0, NA = 0.0}, 
+                    new ROfRhoAndOmegaDetectorInput() { Rho = new DoubleRange(0.0, 10.0, 101), Omega = new DoubleRange(0.05, 1.0, 20)}, // DJC - edited to reflect frequency sampling points (not bins)
+                    new ROfFxDetectorInput() {Fx = new DoubleRange(0.0, 0.5, 51), FinalTissueRegionIndex = 0, NA = 0.0 },
+                    new ROfFxAndTimeDetectorInput() {Fx = new DoubleRange(0.0, 0.5, 51), Time = new DoubleRange(0.0, 1.0, 101), FinalTissueRegionIndex = 0,NA=0.0},        
+                    
+                    new TDiffuseDetectorInput() {FinalTissueRegionIndex=2, NA=0.0},         
+                    new TOfAngleDetectorInput() {Angle=new DoubleRange(0.0, Math.PI / 2, 2),FinalTissueRegionIndex= 2, NA = 0.0},
+                    new TOfRhoAndAngleDetectorInput(){Rho=new DoubleRange(0.0, 10.0, 101), Angle=new DoubleRange(0.0, Math.PI / 2, 2),FinalTissueRegionIndex=2,NA = 0.0},
+                    new TOfRhoDetectorInput() {Rho=new DoubleRange(0.0, 10.0, 101),FinalTissueRegionIndex= 2, NA = 0.0},
+                    new TOfXAndYDetectorInput() { X = new DoubleRange(-10.0, 10.0, 101), Y = new DoubleRange(-10.0, 10.0, 101), FinalTissueRegionIndex = 2, NA=0.0},
                   
-                    //new TOfAngleDetectorInput() {Angle=new DoubleRange(0.0, Math.PI / 2, 2)},
-                    //new TOfRhoDetectorInput() {Rho=new DoubleRange(0.0, 10.0, 101)},
-                    //new TOfRhoAndAngleDetectorInput(){Rho=new DoubleRange(0.0, 10.0, 101), Angle=new DoubleRange(0.0, Math.PI / 2, 2)},
-                
                     //new RadianceOfRhoAtZDetectorInput() {ZDepth=_dosimetryDepth, Rho= new DoubleRange(0.0, 10.0, 101)},
 
-                    //new ReflectedMTOfRhoAndSubregionHistDetectorInput() 
-                    //{
-                    //        Rho=new DoubleRange(0.0, 10.0, 101), // rho bins MAKE SURE AGREES with ROfRho rho specification for unit test below
-                    //        MTBins=new DoubleRange(0.0, 500.0, 51), // MT bins
-                    //        FractionalMTBins = new DoubleRange(0.0, 1.0, 11)   
-                    //}
+                    new ReflectedMTOfRhoAndSubregionHistDetectorInput() 
+                    {
+                            Rho=new DoubleRange(0.0, 10.0, 101), // rho bins MAKE SURE AGREES with ROfRho rho specification for unit test below
+                            MTBins=new DoubleRange(0.0, 500.0, 51), // MT bins
+                            FractionalMTBins = new DoubleRange(0.0, 1.0, 11),
+                            FinalTissueRegionIndex= 0, 
+                            NA = 0.0
+                    }
 
                 };
             var input = new SimulationInput(
@@ -106,17 +114,24 @@ namespace Vts.Test.MonteCarlo.Detectors
         [Test]
         public void validate_detector_tallies_are_zero_when_NA_is_zero()
         {
+            Assert.AreEqual(_outputNA0.Rd, 0.0);
             Assert.AreEqual(_outputNA0.R_r[0], 0.0);
-            //Assert.AreEqual(_output.R_r2[0], 0.0);
-            //Assert.AreEqual(_output.R_a[0], 0.0);
-            //Assert.AreEqual(_output.R_ra[0, 0], 0.0);
-            //Assert.AreEqual(_output.R_rt[0, 0], 0.0);
-            //Assert.AreEqual(_output.R_rw[0, 0], 0.0);
-            //Assert.AreEqual(_output.T_r[0], 0.0);
-            //Assert.AreEqual(_output.T_a[0], 0.0);
-            //Assert.AreEqual(_output.T_ra[0, 0], 0.0);
-            //Assert.AreEqual(_output.R_xy[0, 0], 0.0);
-            //Assert.AreEqual(_output.Rad_r[0], 0.0);
+            Assert.AreEqual(_outputNA0.R_a[0], 0.0);
+            Assert.AreEqual(_outputNA0.R_ra[0, 0], 0.0);
+            Assert.AreEqual(_outputNA0.R_rt[0, 0], 0.0);
+            Assert.AreEqual(_outputNA0.R_rw[0, 0].Real, 0.0);
+            Assert.AreEqual(_outputNA0.R_rw[0, 0].Imaginary, 0.0);
+            Assert.AreEqual(_outputNA0.R_xy[0, 0], 0.0);
+            Assert.AreEqual(_outputNA0.R_fx[0].Real, 0.0);
+            Assert.AreEqual(_outputNA0.R_fx[0].Imaginary, 0.0);
+            Assert.AreEqual(_outputNA0.R_fxt[0, 0].Real, 0.0);
+            Assert.AreEqual(_outputNA0.R_fxt[0, 0].Imaginary, 0.0);
+            Assert.AreEqual(_outputNA0.Td, 0.0);
+            Assert.AreEqual(_outputNA0.T_r[0], 0.0);
+            Assert.AreEqual(_outputNA0.T_a[0], 0.0);
+            Assert.AreEqual(_outputNA0.T_ra[0, 0], 0.0);
+            Assert.AreEqual(_outputNA0.T_xy[0, 0], 0.0);
+            //Assert.AreEqual(_outputNA0.Rad_r[0], 0.0);
         }
         /// <summary>
         /// test to validate partially open NA

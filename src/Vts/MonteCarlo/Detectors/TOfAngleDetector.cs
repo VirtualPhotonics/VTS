@@ -119,6 +119,9 @@ namespace Vts.MonteCarlo.Detectors
         /// <param name="photon">photon data needed to tally</param>
         public void Tally(Photon photon)
         {
+            if (!IsWithinDetectorAperture(photon))
+                return;
+
             var ia = DetectorBinning.WhichBin(Math.Acos(photon.DP.Direction.Uz), Angle.Count - 1, Angle.Delta, Angle.Start);
 
             Mean[ia] += photon.DP.Weight;
