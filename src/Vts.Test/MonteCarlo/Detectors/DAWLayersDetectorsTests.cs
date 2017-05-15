@@ -28,7 +28,7 @@ namespace Vts.Test.MonteCarlo.Detectors
         private SimulationInput _inputOneLayerTissue;
         private SimulationInput _inputTwoLayerTissue;
         private double _layerThickness = 1.0; // tissue is homogeneous (both layer opt. props same)
-        private double _dosimetryDepth = 2.0;
+        private double _dosimetryDepth = 1.0;
         private double _factor;
 
         /// <summary>
@@ -69,7 +69,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                     new ROfXAndYDetectorInput() { X = new DoubleRange(-10.0, 10.0, 101), Y = new DoubleRange(-10.0, 10.0, 101) },
                     new ROfRhoAndOmegaDetectorInput() { Rho = new DoubleRange(0.0, 10.0, 101), Omega = new DoubleRange(0.05, 1.0, 20)}, // DJC - edited to reflect frequency sampling points (not bins)
                     new ROfFxDetectorInput() {Fx = new DoubleRange(0.0, 0.5, 51)},
-                    new ROfFxAndTimeDetectorInput() {Fx = new DoubleRange(0.0, 0.5, 51), Time = new DoubleRange(0.0, 1.0, 101)},
+
                     new TDiffuseDetectorInput(),
                     new TOfAngleDetectorInput() {Angle=new DoubleRange(0.0, Math.PI / 2, 2)},
                     new TOfRhoDetectorInput() {Rho=new DoubleRange(0.0, 10.0, 101)},
@@ -136,21 +136,8 @@ namespace Vts.Test.MonteCarlo.Detectors
                         Y = new DoubleRange(-10.0, 10.0, 101),
                         MTBins=new DoubleRange(0.0, 500.0, 51), // MT bins
                         FractionalMTBins = new DoubleRange(0.0, 1.0, 11)   
-                    },
-                    // detector NA test detectors
-                    new ROfRhoDetectorInput() {Name="ROfRhoNA1p4reg1",Rho = new DoubleRange(0.0, 10.0, 101), FinalTissueRegionIndex = 1, NA = 1.4},
-                    new ROfRhoDetectorInput() {Name="ROfRhoNA1p4reg0",Rho = new DoubleRange(0.0, 10.0, 101), FinalTissueRegionIndex = 0, NA = 1.4},                   
-                    new ROfRhoDetectorInput() {Name="ROfRhoNA0p4reg1",Rho = new DoubleRange(0.0, 10.0, 101), FinalTissueRegionIndex = 1, NA = 0.4}, 
-                    new ROfRhoDetectorInput() {Name="ROfRhoNA0p4reg0",Rho = new DoubleRange(0.0, 10.0, 101), FinalTissueRegionIndex = 0, NA = 0.4},
-                    // use following detectors to compare with prior results with no NA specificaton
-                    new TOfRhoDetectorInput() {Name="TOfRhoNA1p4reg1",Rho = new DoubleRange(0.0, 10.0, 101), FinalTissueRegionIndex = 1, NA = 1.4},
-                    new TOfRhoDetectorInput() {Name="TOfRhoNA1p4reg0",Rho = new DoubleRange(0.0, 10.0, 101), FinalTissueRegionIndex = 2, NA = 1.4},
-                    // create large rho bins so more photons and can see affect of smaller NA
-                    new TOfRhoDetectorInput() {Name="TOfRho1mmNA1p4reg1",Rho = new DoubleRange(0.0, 10.0, 11), FinalTissueRegionIndex = 1, NA = 1.4}, 
-                    new TOfRhoDetectorInput() {Name="TOfRho1mmNA1p4reg0",Rho = new DoubleRange(0.0, 10.0, 11), FinalTissueRegionIndex = 2, NA = 1.4}, 
-                    new TOfRhoDetectorInput() {Name="TOfRho1mmNA0p4reg1",Rho = new DoubleRange(0.0, 10.0, 11), FinalTissueRegionIndex = 1, NA = 0.4}, 
-                    new TOfRhoDetectorInput() {Name="TOfRho1mmNA0p4reg0",Rho = new DoubleRange(0.0, 10.0, 11), FinalTissueRegionIndex = 2, NA = 0.4}, 
-        };
+                    }
+                };
             _inputOneLayerTissue = new SimulationInput(
                 100,
                 "",
@@ -216,34 +203,15 @@ namespace Vts.Test.MonteCarlo.Detectors
         [Test]
         public void validate_DAW_ROfRho()
         {
-            var det = (ROfRhoDetector)_outputOneLayerTissue.ResultsDictionary["ROfRho"];
-            Assert.Less(Math.Abs(det.Mean[0] * _factor - 0.615238307), 0.000000001);
-            Assert.Less(Math.Abs(det.Mean[0] * _factor - 0.615238307), 0.000000001);
+            Assert.Less(Math.Abs(_outputOneLayerTissue.R_r[0] * _factor - 0.615238307), 0.000000001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.R_r[0] * _factor - 0.615238307), 0.000000001);
         }
         // Reflection R(rho) 2nd moment, linux value output in printf statement
         [Test]
         public void validate_DAW_ROfRho_second_moment()
         {
-            var det = (ROfRhoDetector)_outputOneLayerTissue.ResultsDictionary["ROfRho"];
-            Assert.Less(Math.Abs(det.SecondMoment[0] * _factor * _factor - 18.92598), 0.00001);
-            Assert.Less(Math.Abs(det.SecondMoment[0] * _factor * _factor - 18.92598), 0.00001);
-        }
-        // Reflection R(rho) validate detector NA
-        [Test]
-        public void validate_DAW_ROfRho_detector_NA()
-        {
-            // check that original results are obtained when NA=1.4 and FinalTissueRegion is 1
-            var det1p4reg1 = (ROfRhoDetector)_outputOneLayerTissue.ResultsDictionary["ROfRhoNA1p4reg1"];
-            Assert.Less(Math.Abs(det1p4reg1.Mean[0] * _factor - 0.615238307), 0.000000001); 
-            // check that original results are obtained when NA=1.4 and FinalTissueRegion is 0 (air)
-            var det1p4reg0 = (ROfRhoDetector)_outputOneLayerTissue.ResultsDictionary["ROfRhoNA1p4reg0"];
-            Assert.Less(Math.Abs(det1p4reg0.Mean[0] * _factor - 0.615238307), 0.000000001);
-            // check that new, smaller results are obtained when NA=0.4 in tissue, compare against prior test run
-            var det0p4reg1 = (ROfRhoDetector)_outputOneLayerTissue.ResultsDictionary["ROfRhoNA0p4reg1"];
-            Assert.Less(Math.Abs(det0p4reg1.Mean[0] - 0.317040456), 0.00000001);
-            // check that same results are obtained when NA=0.4 in air, compare against prior test run
-            var det0p4reg0 = (ROfRhoDetector)_outputOneLayerTissue.ResultsDictionary["ROfRhoNA0p4reg0"];
-            Assert.Less(Math.Abs(det0p4reg0.Mean[0] - 0.317040456), 0.00000001);
+            Assert.Less(Math.Abs(_outputOneLayerTissue.R_r2[0] * _factor * _factor - 18.92598), 0.00001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.R_r2[0] * _factor * _factor - 18.92598), 0.00001);
         }
         // Reflection R(angle)
         [Test]
@@ -290,15 +258,6 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.Less(Math.Abs(_outputTwoLayerTissue.R_fx[1].Real - 0.557019), 0.000001);
             Assert.Less(Math.Abs(_outputTwoLayerTissue.R_fx[1].Imaginary - 0.050931), 0.000001);
         }
-        // Reflection R(fx, time) validated with prior test
-        [Test]
-        public void validate_DAW_ROfFxAndTime()
-        {
-            Assert.Less(Math.Abs(_outputOneLayerTissue.R_fxt[1,0].Real - 6.886028), 0.000001);
-            Assert.Less(Math.Abs(_outputOneLayerTissue.R_fxt[1,0].Imaginary - 0.068251), 0.000001);
-            Assert.Less(Math.Abs(_outputTwoLayerTissue.R_fxt[1,0].Real - 6.886028), 0.000001);
-            Assert.Less(Math.Abs(_outputTwoLayerTissue.R_fxt[1,0].Imaginary - 0.068251), 0.000001);
-        }
         // Diffuse Transmittance
         [Test]
         public void validate_DAW_TDiffuse()
@@ -306,34 +265,12 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.Less(Math.Abs(_outputOneLayerTissue.Td * _factor - 0.0228405921), 0.000000001);
             Assert.Less(Math.Abs(_outputTwoLayerTissue.Td * _factor - 0.0228405921), 0.000000001);
         }
-        // Transmittance T(rho)
+        // Transmittance Time(rho)
         [Test]
         public void validate_DAW_TOfRho()
         {
             Assert.Less(Math.Abs(_outputOneLayerTissue.T_r[54] * _factor - 0.00169219067), 0.00000000001);
             Assert.Less(Math.Abs(_outputTwoLayerTissue.T_r[54] * _factor - 0.00169219067), 0.00000000001);
-        }
-        // Transmittance T(rho) validate detector NA
-        [Test]
-        public void validate_DAW_TOfRho_detector_NA()
-        {
-            // check that original results are obtained when NA=1.4 and FinalTissueRegion is 1
-            var det1p4reg1 = (TOfRhoDetector)_outputOneLayerTissue.ResultsDictionary["TOfRhoNA1p4reg1"];
-            Assert.Less(Math.Abs(det1p4reg1.Mean[54] * _factor - 0.00169219067), 0.00000000001);
-            // check that original results are obtained when NA=1.4 and FinalTissueRegion is 0 (air)
-            var det1p4reg0 = (TOfRhoDetector)_outputOneLayerTissue.ResultsDictionary["TOfRhoNA1p4reg0"];
-            Assert.Less(Math.Abs(det1p4reg0.Mean[54] * _factor - 0.00169219067), 0.00000000001);
-            // check larger rho bin results, compare against prior test run
-            var det1mm1p4reg1 = (TOfRhoDetector)_outputOneLayerTissue.ResultsDictionary["TOfRho1mmNA1p4reg1"];
-            Assert.Less(Math.Abs(det1mm1p4reg1.Mean[8] - 0.0000783936), 0.0000000001);
-            var det1mm1p4reg0 = (TOfRhoDetector)_outputOneLayerTissue.ResultsDictionary["TOfRho1mmNA1p4reg0"];
-            Assert.Less(Math.Abs(det1mm1p4reg0.Mean[8] - 0.0000783936), 0.0000000001);
-            // check that new, smaller results are obtained when NA=0.48 in tissue, compare against prior test run
-            var det1mm0p4reg1 = (TOfRhoDetector)_outputOneLayerTissue.ResultsDictionary["TOfRho1mmNA0p4reg1"];
-            Assert.Less(Math.Abs(det1mm0p4reg1.Mean[8] - 0.0000234875), 0.0000000001);
-            // check that same results are obtained when NA=0.48 in air, compare against prior test run
-            var det1mm0p4reg0 = (TOfRhoDetector)_outputOneLayerTissue.ResultsDictionary["TOfRho1mmNA0p4reg0"];
-            Assert.Less(Math.Abs(det1mm0p4reg0.Mean[8] - 0.0000234875), 0.0000000001);
         }
         // Transmittance T(angle)
         [Test]
@@ -471,8 +408,8 @@ namespace Vts.Test.MonteCarlo.Detectors
         [Test]
         public void validate_DAW_RadianceOfRhoAtZ()
         {
-            //need radiance detector to compare results, for now make sure both simulations give same results
-            Assert.Less(Math.Abs(_outputOneLayerTissue.Rad_r[1] - _outputTwoLayerTissue.Rad_r[1]), 0.0000001);
+            Assert.Less(Math.Abs(_outputOneLayerTissue.Rad_r[0] - 1.95161), 0.00001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.Rad_r[0] - 1.95161), 0.00001);
         }
         // sanity checks
         [Test]
