@@ -10,17 +10,15 @@ using Vts.MonteCarlo.Detectors;
 namespace Vts.Test.MonteCarlo.Detectors
 {
     /// <summary>
-    /// These tests verify that the specification of a detector NA processes the
-    /// exiting photon correctly
+    /// These tests verify that the specification of a detector NA processes the exiting photon correctly
     /// </summary>
     [TestFixture]
     public class DetectorNATests
     {
-        private SimulationOutput _outputNA0, _outputNA0p3;
+        private SimulationOutput _outputNA0, _outputNA0p3, _outputNoNASpecified;
         private double _dosimetryDepth = 1.0;
 
         /// <summary>
-        /// DiscreteAbsorptionWeighting detection.
         /// Setup input to the MC for a homogeneous one layer tissue and specify reflectance
         /// and transmittance detectors
         /// </summary>
@@ -266,6 +264,97 @@ namespace Vts.Test.MonteCarlo.Detectors
                 tissue,
                 detectorsNA0p3);
             _outputNA0p3 = new MonteCarloSimulation(input).Run();
+
+            var detectorsNoNASpecified = new List<IDetectorInput>
+                {
+                    new RDiffuseDetectorInput() {},         
+                    new ROfAngleDetectorInput() {Angle = new DoubleRange(Math.PI / 2 , Math.PI, 2)},
+                    new ROfRhoDetectorInput() {Rho = new DoubleRange(0.0, 10.0, 11)},
+                    new ROfRhoAndAngleDetectorInput() {Rho = new DoubleRange(0.0, 10.0, 11), Angle = new DoubleRange(Math.PI / 2, Math.PI, 2)},
+                    new ROfRhoAndTimeDetectorInput() {Rho = new DoubleRange(0.0, 10.0, 11), Time = new DoubleRange(0.0, 1.0, 11)},
+                    new ROfXAndYDetectorInput() { X = new DoubleRange(-10.0, 10.0, 11), Y = new DoubleRange(-10.0, 10.0, 11) },
+                    new ROfRhoAndOmegaDetectorInput() { Rho = new DoubleRange(0.0, 10.0, 11), Omega = new DoubleRange(0.05, 1.0, 20)}, 
+                    new ROfRhoAndOmegaDetectorInput() { Rho = new DoubleRange(0.0, 10.0, 11), Omega = new DoubleRange(0.05, 1.0, 20)}, 
+                    new ROfFxDetectorInput() {Fx = new DoubleRange(0.0, 0.5, 51) },
+                    new ROfFxAndTimeDetectorInput() {Fx = new DoubleRange(0.0, 0.5, 5), Time = new DoubleRange(0.0, 1.0, 11)},        
+                    new RSpecularDetectorInput() {},
+                    new TDiffuseDetectorInput() {},         
+                    new TOfAngleDetectorInput() {Angle=new DoubleRange(0.0, Math.PI / 2, 2)},
+                    new TOfRhoAndAngleDetectorInput(){Rho=new DoubleRange(0.0, 10.0, 11), Angle=new DoubleRange(0.0, Math.PI / 2, 2)},
+                    new TOfRhoDetectorInput() {Rho=new DoubleRange(0.0, 10.0, 11)},
+                    new TOfXAndYDetectorInput() { X = new DoubleRange(-10.0, 10.0, 11), Y = new DoubleRange(-10.0, 10.0, 11)},
+                  
+                    new RadianceOfRhoAtZDetectorInput() {ZDepth=_dosimetryDepth, Rho= new DoubleRange(0.0, 10.0, 11)},
+
+                    new ReflectedMTOfRhoAndSubregionHistDetectorInput() 
+                    {
+                            Rho=new DoubleRange(0.0, 10.0, 11), 
+                            MTBins=new DoubleRange(0.0, 500.0, 5), 
+                            FractionalMTBins = new DoubleRange(0.0, 1.0, 11),
+                    },
+                    new ReflectedMTOfXAndYAndSubregionHistDetectorInput() 
+                    {
+                            X=new DoubleRange(-10.0, 10.0, 11), 
+                            Y=new DoubleRange(-10.0, 10.0, 11),
+                            MTBins=new DoubleRange(0.0, 500.0, 5), 
+                            FractionalMTBins = new DoubleRange(0.0, 1.0, 11),
+                    },
+                    new TransmittedMTOfRhoAndSubregionHistDetectorInput() 
+                    {
+                            Rho=new DoubleRange(0.0, 10.0, 11), 
+                            MTBins=new DoubleRange(0.0, 500.0, 5), 
+                            FractionalMTBins = new DoubleRange(0.0, 1.0, 11),
+                    },
+                    new TransmittedMTOfXAndYAndSubregionHistDetectorInput() 
+                    {
+                            X=new DoubleRange(-10.0, 10.0, 11), 
+                            Y=new DoubleRange(-10.0, 10.0, 11),
+                            MTBins=new DoubleRange(0.0, 500.0, 5), 
+                            FractionalMTBins = new DoubleRange(0.0, 1.0, 11),
+                    },
+                    new ReflectedDynamicMTOfRhoAndSubregionHistDetectorInput() 
+                    {
+                        Rho=new DoubleRange(0.0, 10.0, 11), 
+                        Z = new DoubleRange(0.0, 10.0, 11),
+                        MTBins=new DoubleRange(0.0, 500.0, 5),
+                        FractionalMTBins = new DoubleRange(0.0, 1.0, 11),
+                        BloodVolumeFraction = new List<double>() { 0, 0.5, 0},
+                    },
+                    new TransmittedDynamicMTOfRhoAndSubregionHistDetectorInput() 
+                    {
+                        Rho=new DoubleRange(0.0, 10.0, 11), 
+                        Z = new DoubleRange(0.0, 10.0, 11),
+                        MTBins=new DoubleRange(0.0, 500.0, 5), 
+                        FractionalMTBins = new DoubleRange(0.0, 1.0, 11),
+                        BloodVolumeFraction = new List<double>() { 0, 0.5, 0 },
+                    },
+                    new ReflectedDynamicMTOfXAndYAndSubregionHistDetectorInput() 
+                    {
+                        X = new DoubleRange(-10.0, 10.0, 11), 
+                        Y = new DoubleRange(-10.0, 10.0, 11), 
+                        Z = new DoubleRange(0.0, 10.0, 21),
+                        MTBins=new DoubleRange(0.0, 500.0, 5), 
+                        FractionalMTBins = new DoubleRange(0.0, 1.0, 11),
+                        BloodVolumeFraction = new List<double>() { 0, 0.5, 0},
+                    },
+                    new TransmittedDynamicMTOfXAndYAndSubregionHistDetectorInput() 
+                    {    
+                        X = new DoubleRange(-10.0, 10.0, 11), 
+                        Y = new DoubleRange(-10.0, 10.0, 11), 
+                        Z = new DoubleRange(0.0, 10.0, 11),
+                        MTBins=new DoubleRange(0.0, 500.0, 5),
+                        FractionalMTBins = new DoubleRange(0.0, 1.0, 11),
+                        BloodVolumeFraction = new List<double>() { 0, 0.5, 0} ,
+                    }
+                };
+            input = new SimulationInput(
+                100,
+                "",
+                simulationOptions,
+                source,
+                tissue,
+                detectorsNoNASpecified);
+            _outputNoNASpecified = new MonteCarloSimulation(input).Run();
         }
 
 
@@ -336,6 +425,42 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.Less(Math.Abs(_outputNA0p3.TransDynMT_rmt[1, 0] - 0.001512), 0.000001);
             Assert.Less(Math.Abs(_outputNA0p3.TransDynMT_xymt[0, 3, 1] - 0.000221), 0.000001);
         }
-       
+
+        /// <summary>
+        /// test for backwards compatibility to make sure if the infile defined detectors that
+        /// did not specify NA or FinalTissueRegion, then the default settings of these (NA=double.Infinity,
+        /// FinalTissueRegion=1) occur and give non-zero results.
+        /// /// </summary>
+        [Test]
+        public void validate_detector_tallies_are_not_zero_when_NA_is_not_specified()
+        {
+            Assert.AreNotEqual(_outputNoNASpecified.Rd, 0.0);
+            Assert.AreNotEqual(_outputNoNASpecified.R_r[1], 0.0);
+            Assert.AreNotEqual(_outputNoNASpecified.R_a[0], 0.0);
+            Assert.AreNotEqual(_outputNoNASpecified.R_ra[1, 0], 0.0);
+            Assert.AreNotEqual(_outputNoNASpecified.R_rt[1, 0], 0.0);
+            Assert.AreNotEqual(_outputNoNASpecified.R_rw[1, 0].Real, 0.0);
+            Assert.AreNotEqual(_outputNoNASpecified.R_rw[1, 0].Imaginary, 0.0);
+            Assert.AreNotEqual(_outputNoNASpecified.R_xy[0, 9], 0.0);
+            Assert.AreNotEqual(_outputNoNASpecified.R_fx[1].Real, 0.0);
+            Assert.AreNotEqual(_outputNoNASpecified.R_fx[1].Imaginary, 0.0);
+            Assert.AreNotEqual(_outputNoNASpecified.R_fxt[1, 0].Real, 0.0);
+            Assert.AreNotEqual(_outputNoNASpecified.R_fxt[1, 0].Imaginary, 0.0);
+            Assert.AreNotEqual(_outputNoNASpecified.Rspec, 0.0);
+            Assert.AreNotEqual(_outputNoNASpecified.Td, 0.0);
+            Assert.AreNotEqual(_outputNoNASpecified.T_r[4], 0.0);
+            Assert.AreNotEqual(_outputNoNASpecified.T_a[0], 0.0);
+            Assert.AreNotEqual(_outputNoNASpecified.T_ra[1, 0], 0.0);
+            Assert.AreNotEqual(_outputNoNASpecified.T_xy[0, 0], 0.0);
+            Assert.AreNotEqual(_outputNoNASpecified.Rad_r[0], 0.0);
+            Assert.AreNotEqual(_outputNoNASpecified.RefMT_rmt[1, 0], 0.0);
+            Assert.AreNotEqual(_outputNoNASpecified.RefMT_xymt[0, 9, 1], 0.0);
+            Assert.AreNotEqual(_outputNoNASpecified.TransMT_rmt[1, 0], 0.0);
+            Assert.AreNotEqual(_outputNoNASpecified.TransMT_xymt[0, 0, 0], 0.0);
+            Assert.AreNotEqual(_outputNoNASpecified.RefDynMT_rmt[1, 0], 0.0);
+            Assert.AreNotEqual(_outputNoNASpecified.RefDynMT_xymt[0, 9, 1], 0.0);
+            Assert.AreNotEqual(_outputNoNASpecified.TransDynMT_rmt[1, 0], 0.0);
+            Assert.AreNotEqual(_outputNoNASpecified.TransDynMT_xymt[0, 0, 0], 0.0);
+        }
     }
 }
