@@ -447,6 +447,22 @@ namespace Vts.MonteCarlo
         /// differential MC Reflectance as a function of rho wrt to mus
         /// </summary>
         public double[] dMCdMus_R_r { get { return ((double[])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "dMCdROfRhodMus").First().Name]).Mean); } }
+        /// <summary>
+        /// perturbation MC Reflectance as a function of fx and time
+        /// </summary>
+        public Complex[,] pMC_R_fxt { get { return ((Complex[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "pMCROfFxAndTime").First().Name]).Mean); } }
+        /// <summary>
+        /// perturbation MC Reflectance as a function of fx and time 2nd moment
+        /// </summary>
+        public Complex[,] pMC_R_fxt2 { get { return ((Complex[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "pMCROfFxAndTime").First().Name]).SecondMoment); } }
+        /// <summary>
+        /// perturbation MC Reflectance as a function of fx 
+        /// </summary>
+        public Complex[] pMC_R_fx { get { return ((Complex[])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "pMCROfFx").First().Name]).Mean); } }
+        /// <summary>
+        /// perturbation MC Reflectance as a function of rho 2nd moment
+        /// </summary>
+        public Complex[] pMC_R_fx2 { get { return ((Complex[])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "pMCROfFx").First().Name]).SecondMoment); } }
        
         /// <summary>
         /// Simulation Input that generated this SimulationOutput

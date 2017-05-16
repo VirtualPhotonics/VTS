@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using NUnit.Framework;
 using Vts.Common;
 using Vts.MonteCarlo;
+using Vts.MonteCarlo.Detectors;
+using Vts.MonteCarlo.Helpers;
 using Vts.MonteCarlo.Sources;
 using Vts.MonteCarlo.Tissues;
-using Vts.MonteCarlo.Detectors;
+using Vts.MonteCarlo.PostProcessing;
+using Vts.MonteCarlo.PhotonData;
 
 namespace Vts.Test.MonteCarlo.Detectors
 {
@@ -15,8 +18,10 @@ namespace Vts.Test.MonteCarlo.Detectors
     [TestFixture]
     public class DetectorNATests
     {
+        private SimulationInput _inputForPMC;
         private SimulationOutput _outputNA0, _outputNA0p3, _outputNoNASpecified;
         private double _dosimetryDepth = 1.0;
+        private pMCDatabase _pMCDatabase;
 
         /// <summary>
         /// Setup input to the MC for a homogeneous one layer tissue and specify reflectance
@@ -31,7 +36,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                 RandomNumberGeneratorType.MersenneTwister,
                 AbsorptionWeightingType.Discrete,
                 PhaseFunctionType.HenyeyGreenstein,
-                new List<DatabaseType>() { }, // databases to be written
+                new List<DatabaseType>() { DatabaseType.pMCDiffuseReflectance }, // write database for pMC tests
                 false, // track statistics
                 0.0, // RR threshold -> 0 = no RR performed
                 0);
@@ -157,6 +162,10 @@ namespace Vts.Test.MonteCarlo.Detectors
                 tissue,
                 detectorsNA0);             
             _outputNA0 = new MonteCarloSimulation(input).Run();
+
+            _inputForPMC = input;  // set pMC input to one that specified database generation
+            _pMCDatabase = pMCDatabase.FromFile("DiffuseReflectanceDatabase", "CollisionInfoDatabase"); // grab database 
+
 
             var detectorsNA0p3 = new List<IDetectorInput>
                 {
@@ -357,7 +366,9 @@ namespace Vts.Test.MonteCarlo.Detectors
             _outputNoNASpecified = new MonteCarloSimulation(input).Run();
         }
 
-
+        /// <summary>
+        /// test to validate NA=0.  Note that not all validation values are 0 due to vertical detection
+        /// </summary>
         [Test]
         public void validate_detector_tallies_are_zero_when_NA_is_zero()
         {
@@ -395,7 +406,7 @@ namespace Vts.Test.MonteCarlo.Detectors
         /// and they change sequence of RNG
         /// </summary>
         [Test]
-        public void validate_detector_tallies_are_zero_when_NA_is_0p3()
+        public void validate_detector_tallies_when_NA_is_0p3()
         {
             Assert.Less(Math.Abs(_outputNA0p3.Rd - 0.082815), 0.000001);
             Assert.Less(Math.Abs(_outputNA0p3.R_r[1] - 0.002943), 0.000001);
@@ -461,6 +472,190 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.AreNotEqual(_outputNoNASpecified.RefDynMT_xymt[0, 9, 1], 0.0);
             Assert.AreNotEqual(_outputNoNASpecified.TransDynMT_rmt[1, 0], 0.0);
             Assert.AreNotEqual(_outputNoNASpecified.TransDynMT_xymt[0, 0, 0], 0.0);
+        }
+        /// <summary>
+        /// Test to validate that pMC/dMC detectors tallies are 0 when NA=0
+        /// </summary>
+        [Test]
+        public void validate_pMC_dMC_detector_NA_tallies_are_zero_when_NA_is_0()
+        {
+            var postProcessor = new PhotonDatabasePostProcessor(
+                VirtualBoundaryType.pMCDiffuseReflectance,
+                new List<IDetectorInput>()
+                {
+                    new pMCROfRhoDetectorInput()
+                    {
+                        Rho=new DoubleRange(0.0, 10.0, 11),
+                        PerturbedOps=new List<OpticalProperties>() { // perturbed ops
+                            _inputForPMC.TissueInput.Regions[0].RegionOP,
+                            _inputForPMC.TissueInput.Regions[1].RegionOP,
+                            _inputForPMC.TissueInput.Regions[2].RegionOP},
+                        PerturbedRegionsIndices=new List<int>() { 1 },
+                        FinalTissueRegionIndex = 0,
+                        NA=0.0,
+                    },
+                    new pMCROfRhoAndTimeDetectorInput()
+                    {
+                        Rho=new DoubleRange(0.0, 10.0, 11),
+                        Time=new DoubleRange(0.0, 1.0, 11),
+                        PerturbedOps=new List<OpticalProperties>() { // perturbed ops
+                            _inputForPMC.TissueInput.Regions[0].RegionOP,
+                            _inputForPMC.TissueInput.Regions[1].RegionOP,
+                            _inputForPMC.TissueInput.Regions[2].RegionOP},
+                        PerturbedRegionsIndices=new List<int>() { 1 },
+                        FinalTissueRegionIndex = 0,
+                        NA=0.0,
+                    },  
+                    new pMCROfFxDetectorInput()
+                    {
+                        Fx=new DoubleRange(0.0, 0.5, 5),
+                        PerturbedOps=new OpticalProperties[] { // perturbed ops
+                            _inputForPMC.TissueInput.Regions[0].RegionOP,
+                            _inputForPMC.TissueInput.Regions[1].RegionOP,
+                            _inputForPMC.TissueInput.Regions[2].RegionOP},
+                        PerturbedRegionsIndices=new int[] { 1 },
+                        FinalTissueRegionIndex = 0,
+                        NA=0.0,
+                    },
+                    new pMCROfFxAndTimeDetectorInput()
+                    {
+                        Fx=new DoubleRange(0.0, 0.5, 5),
+                        Time=new DoubleRange(0.0, 1.0, 11),
+                        PerturbedOps=new OpticalProperties[] { // perturbed ops
+                            _inputForPMC.TissueInput.Regions[0].RegionOP,
+                            _inputForPMC.TissueInput.Regions[1].RegionOP,
+                            _inputForPMC.TissueInput.Regions[2].RegionOP},
+                        PerturbedRegionsIndices=new int[] { 1 },
+                        FinalTissueRegionIndex = 0,
+                        NA=0.0,
+                    },                    
+                    new dMCdROfRhodMuaDetectorInput()
+                    {
+                        Rho=new DoubleRange(0.0, 10.0, 11),
+                        PerturbedOps=new List<OpticalProperties>() { // perturbed ops
+                            _inputForPMC.TissueInput.Regions[0].RegionOP,
+                            _inputForPMC.TissueInput.Regions[1].RegionOP,
+                            _inputForPMC.TissueInput.Regions[2].RegionOP},
+                        PerturbedRegionsIndices=new List<int>() { 1 },
+                        FinalTissueRegionIndex = 0,
+                        NA=0.0,
+                    },
+                    new dMCdROfRhodMusDetectorInput()
+                    {
+                        Rho=new DoubleRange(0.0, 10.0, 11),
+                        PerturbedOps=new List<OpticalProperties>() { // perturbed ops
+                            _inputForPMC.TissueInput.Regions[0].RegionOP,
+                            _inputForPMC.TissueInput.Regions[1].RegionOP,
+                            _inputForPMC.TissueInput.Regions[2].RegionOP},
+                        PerturbedRegionsIndices=new List<int>() { 1 },
+                        FinalTissueRegionIndex = 0,
+                        NA=0.0,
+                    }, 
+                },
+                _pMCDatabase,
+                _inputForPMC);
+            var postProcessedOutput = postProcessor.Run();
+
+            Assert.AreEqual(postProcessedOutput.pMC_R_r[0], 0.0);
+            Assert.AreEqual(postProcessedOutput.pMC_R_rt[0, 0], 0.0);
+            Assert.AreEqual(postProcessedOutput.pMC_R_fx[0].Real, 0.0);
+            Assert.AreEqual(postProcessedOutput.pMC_R_fx[0].Imaginary, 0.0);
+            Assert.AreEqual(postProcessedOutput.pMC_R_fxt[0, 0].Real, 0.0);
+            Assert.AreEqual(postProcessedOutput.pMC_R_fxt[0, 0].Imaginary, 0.0);
+            Assert.AreEqual(postProcessedOutput.dMCdMua_R_r[0], 0.0);
+            Assert.AreEqual(postProcessedOutput.dMCdMus_R_r[0], 0.0);
+        }
+        /// <summary>
+        /// Test to validate that pMC/dMC detectors with partially open NA results match prior run
+        /// </summary>
+        [Test]
+        public void validate_pMC_dMC_detector_NA_tallies_when_NA_is_0p3()
+        {
+            var postProcessor = new PhotonDatabasePostProcessor(
+                VirtualBoundaryType.pMCDiffuseReflectance,
+                new List<IDetectorInput>()
+                {
+                    new pMCROfRhoDetectorInput()
+                    {
+                        Rho=new DoubleRange(0.0, 10.0, 11),
+                        PerturbedOps=new List<OpticalProperties>() { // perturbed ops
+                            _inputForPMC.TissueInput.Regions[0].RegionOP,
+                            _inputForPMC.TissueInput.Regions[1].RegionOP,
+                            _inputForPMC.TissueInput.Regions[2].RegionOP},
+                        PerturbedRegionsIndices=new List<int>() { 1 },
+                        FinalTissueRegionIndex = 0,
+                        NA=0.3,
+                    },
+                    new pMCROfRhoAndTimeDetectorInput()
+                    {
+                        Rho=new DoubleRange(0.0, 10.0, 11),
+                        Time=new DoubleRange(0.0, 1.0, 11),
+                        PerturbedOps=new List<OpticalProperties>() { // perturbed ops
+                            _inputForPMC.TissueInput.Regions[0].RegionOP,
+                            _inputForPMC.TissueInput.Regions[1].RegionOP,
+                            _inputForPMC.TissueInput.Regions[2].RegionOP},
+                        PerturbedRegionsIndices=new List<int>() { 1 },
+                        FinalTissueRegionIndex = 0,
+                        NA=0.3,
+                    },  
+                    new pMCROfFxDetectorInput()
+                    {
+                        Fx=new DoubleRange(0.0, 0.5, 5),
+                        PerturbedOps=new OpticalProperties[] { // perturbed ops
+                            _inputForPMC.TissueInput.Regions[0].RegionOP,
+                            _inputForPMC.TissueInput.Regions[1].RegionOP,
+                            _inputForPMC.TissueInput.Regions[2].RegionOP},
+                        PerturbedRegionsIndices=new int[] { 1 },
+                        FinalTissueRegionIndex = 0,
+                        NA=0.3,
+                    },
+                    new pMCROfFxAndTimeDetectorInput()
+                    {
+                        Fx=new DoubleRange(0.0, 0.5, 5),
+                        Time=new DoubleRange(0.0, 1.0, 11),
+                        PerturbedOps=new OpticalProperties[] { // perturbed ops
+                            _inputForPMC.TissueInput.Regions[0].RegionOP,
+                            _inputForPMC.TissueInput.Regions[1].RegionOP,
+                            _inputForPMC.TissueInput.Regions[2].RegionOP},
+                        PerturbedRegionsIndices=new int[] { 1 },
+                        FinalTissueRegionIndex = 0,
+                        NA=0.3,
+                    },                    
+                    new dMCdROfRhodMuaDetectorInput()
+                    {
+                        Rho=new DoubleRange(0.0, 10.0, 11),
+                        PerturbedOps=new List<OpticalProperties>() { // perturbed ops
+                            _inputForPMC.TissueInput.Regions[0].RegionOP,
+                            _inputForPMC.TissueInput.Regions[1].RegionOP,
+                            _inputForPMC.TissueInput.Regions[2].RegionOP},
+                        PerturbedRegionsIndices=new List<int>() { 1 },
+                        FinalTissueRegionIndex = 0,
+                        NA=0.3,
+                    },
+                    new dMCdROfRhodMusDetectorInput()
+                    {
+                        Rho=new DoubleRange(0.0, 10.0, 11),
+                        PerturbedOps=new List<OpticalProperties>() { // perturbed ops
+                            _inputForPMC.TissueInput.Regions[0].RegionOP,
+                            _inputForPMC.TissueInput.Regions[1].RegionOP,
+                            _inputForPMC.TissueInput.Regions[2].RegionOP},
+                        PerturbedRegionsIndices=new List<int>() { 1 },
+                        FinalTissueRegionIndex = 0,
+                        NA=0.3,
+                    }, 
+                },
+                _pMCDatabase,
+                _inputForPMC);
+            var postProcessedOutput = postProcessor.Run();
+
+            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_r[1] - 0.000954), 0.000001);
+            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_rt[1, 0] - 0.009544), 0.000001);
+            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_fx[1].Real - 0.031503), 0.000001);
+            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_fx[1].Imaginary + 0.011764), 0.000001);
+            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_fxt[1, 0].Real - 1.34178), 0.00001);
+            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_fxt[1, 0].Imaginary + 0.963951), 0.000001);
+            Assert.Less(Math.Abs(postProcessedOutput.dMCdMua_R_r[1] + 0.011313), 0.000001);
+            Assert.Less(Math.Abs(postProcessedOutput.dMCdMus_R_r[1] + 0.001196), 0.000001);
         }
     }
 }
