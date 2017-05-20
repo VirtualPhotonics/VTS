@@ -587,6 +587,59 @@ namespace Vts.Factories
             return fit;
         }
 
+        public static double[] SolveInverse(
+        ForwardSolverType forwardSolverType,
+        OptimizerType optimizerType,
+        SolutionDomainType solutionDomainType,
+        double[] dependentValues,
+        double[] standardDeviationValues,
+        InverseFitType inverseFitType,
+        object[] independentValues,
+        double[] lowerBounds,
+        double[] upperBounds)
+        {
+            // use factory method on each call, as opposed to injecting an instance from the outside
+            // -- still time-efficient if singletons are used
+            // -- potentially memory-inefficient if the user creates lots of large solver instances
+            return SolveInverse(
+                SolverFactory.GetForwardSolver(forwardSolverType),
+                SolverFactory.GetOptimizer(optimizerType),
+                solutionDomainType,
+                dependentValues,
+                standardDeviationValues,
+                inverseFitType,
+                independentValues,
+                lowerBounds,
+                upperBounds);
+        }
+
+        public static double[] SolveInverse(
+            IForwardSolver forwardSolver,
+            IOptimizer optimizer,
+            SolutionDomainType solutionDomainType,
+            double[] dependentValues,
+            double[] standardDeviationValues,
+            InverseFitType inverseFitType,
+            object[] independentValues,
+            double[] lowerBounds,
+            double[] upperBounds)
+        {
+            //var opticalPropertyGuess = ((OpticalProperties[]) (independentValues[0])).First();
+            //var fitParameters = new double[4] { opticalPropertyGuess.Mua, opticalPropertyGuess.Musp, opticalPropertyGuess.G, opticalPropertyGuess.N };
+            var parametersToFit = GetParametersToFit(inverseFitType);
+
+            var opticalPropertyGuess = (OpticalProperties[])(independentValues[0]);
+            var fitParametersArray = opticalPropertyGuess.SelectMany(opgi => new[] { opgi.Mua, opgi.Musp, opgi.G, opgi.N }).ToArray();
+            var parametersToFitArray = Enumerable.Range(0, opticalPropertyGuess.Count()).SelectMany(_ => parametersToFit).ToArray();
+
+            Func<double[], object[], double[]> func = GetForwardReflectanceFuncForOptimization(forwardSolver, solutionDomainType);
+
+            var fit = optimizer.SolveWithConstraints(fitParametersArray, parametersToFitArray, lowerBounds, upperBounds, dependentValues.ToArray(),
+                                      standardDeviationValues.ToArray(), func, independentValues.ToArray());
+
+            return fit;
+        }
+
 
         private static Func<object[], double[]> GetForwardReflectanceFunc(IForwardSolver fs, SolutionDomainType type)
         {

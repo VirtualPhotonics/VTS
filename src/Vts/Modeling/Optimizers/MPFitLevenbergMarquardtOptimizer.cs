@@ -66,6 +66,43 @@ namespace Vts.Modeling.Optimizers
         }
 
         /// <summary>
+        /// Optimization method.  This calls MPFit Levenberg Marquardt solver with constraints.
+        /// </summary>
+        /// <param name="a">optimization parameter initial guess</param>
+        /// <param name="ia">accompanying array to <paramref name="a"/> that specifies which parameters to fit (held constant otherwise)</param>
+        /// <param name="lowerBounds">accompanying array that specifies lower bounds for parameters</param>
+        /// <param name="upperBounds">accompanying array that specifies upper bounds</param>
+        /// <param name="y">"measured" values</param>
+        /// <param name="ey">standard deviation values of <paramref name="y"/></param>
+        /// <param name="forwardFunc">delegate function that evaluates the objective function given a parameter optimization array and (optional) constant variables</param>
+        /// <param name="forwardVariables"></param>
+        public double[] SolveWithConstraints(double[] a, bool[] ia, double[] lowerBounds, double[] upperBounds, double[] y, double[] ey, Func<double[], object[], double[]> forwardFunc, params object[] forwardVariables)
+        {
+            var data = new OptimizationData
+            {
+                Y = y,
+                Ey = ey,
+                ForwardFunc = forwardFunc,
+                ForwardVariables = forwardVariables
+            };
+
+            mp_par[] pars = a.Select((ai, i) => new mp_par { isFixed = ia[i] ? 0 : 1 }).ToArray();
+            for (int i = 0; i < pars.Length; i++)
+            {
+                pars[i].limited[0] = 1; // specify lower bound exists
+                pars[i].limited[1] = 1; // specify upper bound exists
+                pars[i].limits[0] = lowerBounds[i];
+                pars[i].limits[1] = upperBounds[i];
+            }
+
+            mp_result result = new mp_result(a.Length);
+
+            int status = MPFit.Solve(MPFitFunc, data.Y.Length, pars.Length, a, pars, null, data, ref result);
+
+            return a;
+        }
+
+        /// <summary>
         /// Standard function prototype that MPFit knows how to call. Use <paramref name="vars"/> to store information reqired to evaluate any objective function
         /// </summary>
         /// <param name="parameters">array of fit parameters</param>

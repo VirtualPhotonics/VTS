@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using NUnit.Framework;
 using Vts.Factories;
 
@@ -15,10 +14,11 @@ namespace Vts.Test.Modeling
         [Test]
         public void VerifyROfRhoSDAMeasuredNoNoiseSDAModel()
         {
-            //var independentValues = new double[] { 10, 11, 12, 13, 14, 15 }; // rho [mm] changed rho Meta.Numerics 1.3->3.3
-            var independentValues = new double[] { 5, 6, 7, 8, 9, 10 }; // rho [mm]
+            var independentValues = new double[] { 10, 11, 12, 13, 14, 15 }; // rho [mm] 
             var actualProperties = new OpticalProperties(mua: 0.01, musp: 1.0, g: 0.8, n: 1.4);
             var initialGuess =     new OpticalProperties(mua: 0.02, musp: 1.2, g: 0.8, n: 1.4);
+            var lowerBounds = new double[] { 0, 0, 0, 0 };
+            var upperBounds = new double[] {double.PositiveInfinity, double.PositiveInfinity, double.PositiveInfinity, double.PositiveInfinity};
 
             var simulatedMeasured = ComputationFactory.ComputeReflectance(
                 ForwardSolverType.DistributedPointSourceSDA,
@@ -35,7 +35,9 @@ namespace Vts.Test.Modeling
                 simulatedMeasured,
                 standardDeviation,
                 InverseFitType.MuaMusp,
-                new object[] { new[]{ initialGuess}, independentValues });
+                new object[] { new[]{ initialGuess}, independentValues },
+                lowerBounds,
+                upperBounds);
 
             var convergedMua = fit[0];
             var convergedMusp = fit[1];
@@ -51,10 +53,11 @@ namespace Vts.Test.Modeling
         [Test]
         public void VerifyROfRhoMonteCarloMeasuredNoNoiseSDAModel()
         {
-            //var independentValues = new double[] { 10, 11, 12, 13, 14, 15 }; // rho [mm] changed rho Meta.Numerics 1.3->3.3
-            var independentValues = new double[] { 1, 2, 4, 6, 8, 10 }; // rho [mm]
+            var independentValues = new double[] { 10, 11, 12, 13, 14, 15 }; // rho [mm] 
             var actualProperties = new OpticalProperties(mua: 0.01, musp: 1.0, g: 0.8, n: 1.4);
             var initialGuess = new OpticalProperties(mua: 0.02, musp: 1.2, g: 0.8, n: 1.4);
+            var lowerBounds = new double[] { 0, 0, 0, 0 };
+            var upperBounds = new double[] { double.PositiveInfinity, double.PositiveInfinity, double.PositiveInfinity, double.PositiveInfinity };
 
             var simulatedMeasured = ComputationFactory.ComputeReflectance(
                 ForwardSolverType.MonteCarlo,
@@ -71,7 +74,9 @@ namespace Vts.Test.Modeling
                 simulatedMeasured,
                 standardDeviation,
                 InverseFitType.MuaMusp,
-                new object[] { new[]{ initialGuess}, independentValues });
+                new object[] { new[]{ initialGuess}, independentValues },
+                lowerBounds,
+                upperBounds);
 
             var convergedMua = fit[0];
             var convergedMusp = fit[1];
@@ -82,10 +87,10 @@ namespace Vts.Test.Modeling
 
         /// <summary>
         /// Tests R(rho) inverse solution using Monte Carlo simulated measured data (0% noise)
-        /// using the Monte Carlo as the model predictor
+        /// using the Monte Carlo as the model predictor. 
         /// </summary>
         [Test]
-        public void VerifROfRhoMonteCarloMeasuredNoNoiseMonteCarloModel()
+        public void VerifyROfRhoMonteCarloMeasuredNoNoiseMonteCarloModel()
         {
             var independentValues = new double[] { 1, 2, 3, 4, 5, 6 }; // rho [mm]
             var actualProperties = new OpticalProperties(mua: 0.01, musp: 1.0, g: 0.8, n: 1.4);
@@ -114,5 +119,42 @@ namespace Vts.Test.Modeling
             Assert.Less(Math.Abs(convergedMua - 0.01), 1e-6);
             Assert.Less(Math.Abs(convergedMusp - 1.0), 1e-6);
         }
-    }
+
+        /// <summary>  
+        /// Tests R(rho,ft) inverse solution using Monte Carlo simulated measured data (0% noise)
+        /// using the Monte Carlo as the model predictor. Test model with two independent variables.
+        /// </summary>
+        [Test]
+        public void VerifyROfRhoAndFtMonteCarloMeasuredNoNoiseMonteCarloModel()
+        {
+            var actualProperties = new OpticalProperties(mua: 0.01, musp: 1.0, g: 0.8, n: 1.4);
+            var initialGuess = new OpticalProperties(mua: 0.02, musp: 1.2, g: 0.8, n: 1.4);
+            var rhos = new double[]{1,2,3,4};
+            var fts = new double[] {0.1, 0.2};
+
+        var simulatedMeasured = ComputationFactory.ComputeReflectance(
+                ForwardSolverType.MonteCarlo,
+                SolutionDomainType.ROfRhoAndFt,
+                ForwardAnalysisType.R,
+                new object[] { new[] { actualProperties }, rhos , fts });
+            
+            var standardDeviation = simulatedMeasured;
+
+            double[] fit = ComputationFactory.SolveInverse(
+                ForwardSolverType.MonteCarlo,
+                OptimizerType.MPFitLevenbergMarquardt,
+                SolutionDomainType.ROfRhoAndFt,
+                simulatedMeasured,
+                standardDeviation,
+                InverseFitType.MuaMusp,
+                new object[] { new[]{ initialGuess}, rhos, fts });
+
+            var convergedMua = fit[0];
+            var convergedMusp = fit[1];
+
+            Assert.Less(Math.Abs(convergedMua - 0.01), 1e-6);
+            Assert.Less(Math.Abs(convergedMusp - 1.0), 1e-6);
+        }
+
+    } 
 }
