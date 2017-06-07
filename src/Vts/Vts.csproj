@@ -265,6 +265,7 @@
     <Compile Include="MonteCarlo\Detectors\RadianceOfFxAndZAndAngleDetector.cs" />
     <Compile Include="MonteCarlo\Detectors\ReflectedDynamicMTOfRhoAndSubregionHistDetector.cs" />
     <Compile Include="MonteCarlo\Detectors\ReflectedDynamicMTOfXAndYAndSubregionHistDetector.cs" />
+    <Compile Include="MonteCarlo\Detectors\TOfFxDetector.cs" />
     <Compile Include="MonteCarlo\Detectors\TransmittedDynamicMTOfRhoAndSubregionHistDetector.cs" />
     <Compile Include="MonteCarlo\Detectors\TransmittedDynamicMTOfXAndYAndSubregionHistDetector.cs" />
     <Compile Include="MonteCarlo\Detectors\TransmittedMTOfXAndYAndSubregionHistDetector.cs" />

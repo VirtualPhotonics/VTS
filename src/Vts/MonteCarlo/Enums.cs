@@ -429,9 +429,9 @@ namespace Vts.MonteCarlo
             /// </summary>
             "ROfFxAndTime",
             /// <summary>
-            /// Transmittance as a function of source-detector separation (rho) and angle
+            /// Total diffuse transmittance
             /// </summary>
-            "TOfRhoAndAngle",
+            "TDiffuse",
             /// <summary>
             /// Transmittance as a functino of source-detector separation (rho)
             /// </summary>
@@ -441,13 +441,17 @@ namespace Vts.MonteCarlo
             /// </summary>
             "TOfAngle",
             /// <summary>
+            /// Transmittance as a function of source-detector separation (rho) and angle
+            /// </summary>
+            "TOfRhoAndAngle",
+            /// <summary>
             /// Transmittance as a function of x and y
             /// </summary>
             "TOfXAndY",
             /// <summary>
-            /// Total diffuse transmittance
+            /// Transmittance as a function of spatial frequency (fx)
             /// </summary>
-            "TDiffuse",
+            "TOfFx",           
             /// <summary>
             /// Fluence as a function of source-detector separation (rho) and tissue depth (Z)
             /// </summary>
@@ -553,31 +557,6 @@ namespace Vts.MonteCarlo
             /// </summary>
             "dMCdROfRhodMus",
         };
-
-        /// <summary>
-        /// Reflectance as a function of source-detector separation (rho) and angle
-        /// </summary>
-        public static string ROfRhoAndAngle { get { return "ROfRhoAndAngle"; } }
-        /// <summary>
-        /// Reflectance as a function of source-detector separation (rho)
-        /// </summary>
-        public static string ROfRho { get { return "ROfRho"; } }
-        /// <summary>
-        /// Reflectance as a function of angle
-        /// </summary>
-        public static string ROfAngle { get { return "ROfAngle"; } }
-        /// <summary>
-        /// Reflectance as a function of source-detector separation (rho) and temporal-frequency (omega)
-        /// </summary>
-        public static string ROfRhoAndOmega { get { return "ROfRhoAndOmega"; } }
-        /// <summary>
-        /// Reflectance as a function of source-detector separation (rho) and time
-        /// </summary>
-        public static string ROfRhoAndTime { get { return "ROfRhoAndTime"; } }
-        /// <summary>
-        /// Reflectance as a function of Cartesian position on the surface of the tissue
-        /// </summary>
-        public static string ROfXAndY { get { return "ROfXAndY"; } }
         /// <summary>
         /// Total diffuse reflectance
         /// </summary>
@@ -587,6 +566,30 @@ namespace Vts.MonteCarlo
         /// </summary>
         public static string RSpecular { get { return "RSpecular"; } }
         /// <summary>
+        /// Reflectance as a function of source-detector separation (rho)
+        /// </summary>
+        public static string ROfRho { get { return "ROfRho"; } }
+        /// <summary>
+        /// Reflectance as a function of angle
+        /// </summary>
+        public static string ROfAngle { get { return "ROfAngle"; } }
+        /// <summary>
+        /// Reflectance as a function of source-detector separation (rho) and angle
+        /// </summary>
+        public static string ROfRhoAndAngle { get { return "ROfRhoAndAngle"; } }
+        /// <summary>
+        /// Reflectance as a function of source-detector separation (rho) and time
+        /// </summary>
+        public static string ROfRhoAndTime { get { return "ROfRhoAndTime"; } }
+        /// <summary>
+        /// Reflectance as a function of source-detector separation (rho) and temporal-frequency (omega)
+        /// </summary>
+        public static string ROfRhoAndOmega { get { return "ROfRhoAndOmega"; } }
+        /// <summary>
+        /// Reflectance as a function of Cartesian position on the surface of the tissue
+        /// </summary>
+        public static string ROfXAndY { get { return "ROfXAndY"; } }
+        /// <summary>
         /// Reflectance as a function of spatial frequency along the x-axis
         /// </summary>
         public static string ROfFx { get { return "ROfFx"; } }
@@ -595,11 +598,11 @@ namespace Vts.MonteCarlo
         /// </summary>
         public static string ROfFxAndTime { get { return "ROfFxAndTime"; } }
         /// <summary>
-        /// Transmittance as a function of source-detector separation (rho) and angle
+        /// Total diffuse transmittance
         /// </summary>
-        public static string TOfRhoAndAngle { get { return "TOfRhoAndAngle"; } }
+        public static string TDiffuse { get { return "TDiffuse"; } }
         /// <summary>
-        /// Transmittance as a functino of source-detector separation (rho)
+        /// Transmittance as a function of source-detector separation (rho)
         /// </summary>
         public static string TOfRho { get { return "TOfRho"; } }
         /// <summary>
@@ -607,13 +610,17 @@ namespace Vts.MonteCarlo
         /// </summary>
         public static string TOfAngle { get { return "TOfAngle"; } }
         /// <summary>
+        /// Transmittance as a function of source-detector separation (rho) and angle
+        /// </summary>
+        public static string TOfRhoAndAngle { get { return "TOfRhoAndAngle"; } }
+        /// <summary>
         /// Transmittance as a function of Cartesian position on the surface of the tissue
         /// </summary>
         public static string TOfXAndY { get { return "TOfXAndY"; } }
         /// <summary>
-        /// Total diffuse transmittance
+        /// Transmittance as a function of spatial frequency (fx)
         /// </summary>
-        public static string TDiffuse { get { return "TDiffuse"; } }
+        public static string TOfFx { get { return "TOfFx"; } }
         /// <summary>
         /// Fluence as a function of source-detector separation (rho) and tissue depth (Z)
         /// </summary>

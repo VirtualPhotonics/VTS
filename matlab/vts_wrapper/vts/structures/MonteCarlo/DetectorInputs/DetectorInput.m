@@ -242,6 +242,29 @@ classdef DetectorInput
             input.Fx = fx;
             input.Time = t;
         end
+        function input = TOfRho(rho, name)
+            if nargin < 2
+                name = 'TOfRho';
+            end
+            input.Name = name;
+            input.Rho = rho;
+            sampleInput = Vts.MonteCarlo.Detectors.TOfRhoDetectorInput;
+            input.TallyType = sampleInput.TallyType;
+            input.TallySecondMoment = sampleInput.TallySecondMoment;
+            input.TallyDetails = TallyDetails.FromDetailsNET(sampleInput.TallyDetails);
+            input.Name = name;
+        end
+        function input = TOfFx(fx, name)
+            if nargin < 2
+                name = 'TOfFx';
+            end
+            sampleInput = Vts.MonteCarlo.Detectors.TOfFxDetectorInput;
+            input.TallyType = sampleInput.TallyType;
+            input.TallySecondMoment = sampleInput.TallySecondMoment;
+            input.TallyDetails = TallyDetails.FromDetailsNET(sampleInput.TallyDetails);
+            input.Name = name;
+            input.Fx = fx;
+        end
         % set default perturbed optical properties list to be consistent
         % with default infile which has air-tissue-air definition and
         % properties set to default infile properties
@@ -489,6 +512,11 @@ classdef DetectorInput
                 case 'ROfFxAndTime'
                     input.Fx = linspace(inputNET.Fx.Start, inputNET.Fx.Stop, inputNET.Fx.Count);
                     input.Time = linspace(inputNET.Time.Start, inputNET.Time.Stop, inputNET.Time.Count);
+                case 'TOfRho'
+                    input.Rho = linspace(inputNET.Rho.Start, inputNET.Rho.Stop, inputNET.Rho.Count);
+                case 'TOfFx'
+                    input.Fx = linspace(inputNET.Fx.Start, inputNET.Fx.Stop, inputNET.Fx.Count);
+         
                 case 'pMCROfRho'
                     input.Rho = linspace(inputNET.Rho.Start, inputNET.Rho.Stop, inputNET.Rho.Count);
                     
@@ -753,6 +781,18 @@ classdef DetectorInput
                     inputNET = Vts.MonteCarlo.Detectors.ROfFxAndTimeDetectorInput;
                     inputNET.Fx = Vts.Common.DoubleRange(input.Fx(1), input.Fx(end), length(input.Fx));
                     inputNET.Time = Vts.Common.DoubleRange(input.Time(1), input.Time(end), length(input.Time));
+                    inputNET.Name = input.Name;
+                    inputNET.TallySecondMoment = input.TallySecondMoment;
+                    inputNET.TallyDetails = TallyDetails.ToDetailsNET(input.TallyDetails);
+                case 'TOfRho'
+                    inputNET = Vts.MonteCarlo.Detectors.TOfRhoDetectorInput;
+                    inputNET.Rho = Vts.Common.DoubleRange(input.Rho(1), input.Rho(end), length(input.Rho));
+                    inputNET.Name = input.Name;
+                    inputNET.TallySecondMoment = input.TallySecondMoment;
+                    inputNET.TallyDetails = TallyDetails.ToDetailsNET(input.TallyDetails);
+                case 'TOfFx'
+                    inputNET = Vts.MonteCarlo.Detectors.TOfFxDetectorInput;
+                    inputNET.Fx = Vts.Common.DoubleRange(input.Fx(1), input.Fx(end), length(input.Fx));
                     inputNET.Name = input.Name;
                     inputNET.TallySecondMoment = input.TallySecondMoment;
                     inputNET.TallyDetails = TallyDetails.ToDetailsNET(input.TallyDetails);

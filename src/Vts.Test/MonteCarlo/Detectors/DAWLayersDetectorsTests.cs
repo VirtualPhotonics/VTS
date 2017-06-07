@@ -74,6 +74,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                     new TOfRhoDetectorInput() {Rho=new DoubleRange(0.0, 10.0, 101)},
                     new TOfRhoAndAngleDetectorInput(){Rho=new DoubleRange(0.0, 10.0, 101), Angle=new DoubleRange(0.0, Math.PI / 2, 2)},
                     new TOfXAndYDetectorInput() { X = new DoubleRange(-10.0, 10.0, 101), Y = new DoubleRange(-10.0, 10.0, 101) },
+                    new TOfFxDetectorInput() {Fx = new DoubleRange(0.0, 0.5, 51)},
                     new AOfRhoAndZDetectorInput() {Rho=new DoubleRange(0.0, 10.0, 101),Z=new DoubleRange(0.0, 10.0, 101)},
                     new AOfXAndYAndZDetectorInput()
                     {
@@ -248,6 +249,13 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.Less(Complex.Abs(
                 _outputTwoLayerTissue.R_rw[0, 0] * _factor - (0.6152383 - Complex.ImaginaryOne * 0.0002368336)), 0.000001);
         }
+        // Reflectance R(x,y)
+        [Test]
+        public void validate_DAW_ROfXAndY()
+        {
+            Assert.Less(Math.Abs(_outputOneLayerTissue.R_xy[0, 0] * _factor - 0.01828126), 0.00000001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.R_xy[0, 0] * _factor - 0.01828126), 0.00000001);
+        }
         // Reflection R(fx) validated with prior test
         [Test]
         public void validate_DAW_ROfFx()
@@ -312,12 +320,14 @@ namespace Vts.Test.MonteCarlo.Detectors
             }
             Assert.Less(Math.Abs(integral * norm - _outputOneLayerTissue.Td), 0.000000000001);
         }
-        // Reflectance R(x,y)
+        // Transmission T(fx) validated with prior test
         [Test]
-        public void validate_DAW_ROfXAndY()
+        public void validate_DAW_TOfFx()
         {
-            Assert.Less(Math.Abs(_outputOneLayerTissue.R_xy[0, 0] * _factor - 0.01828126), 0.00000001);
-            Assert.Less(Math.Abs(_outputTwoLayerTissue.R_xy[0, 0] * _factor - 0.01828126), 0.00000001);
+            Assert.Less(Math.Abs(_outputOneLayerTissue.T_fx[1].Real - 0.019814), 0.000001);
+            Assert.Less(Math.Abs(_outputOneLayerTissue.T_fx[1].Imaginary + 4.799287e-5), 0.000001e-5);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.T_fx[1].Real - 0.019814), 0.000001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.T_fx[1].Imaginary + 4.799287e-5), 0.000001e-5);
         }
         // Total Absorption, 2nd moment validated with prior test
         [Test]

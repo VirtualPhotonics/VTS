@@ -185,6 +185,21 @@ for di = 1:numDetectors
                 TOfXAndY.Stdev = sqrt((TOfXAndY.SecondMoment - (TOfXAndY.Mean .* TOfXAndY.Mean)) / (json.N)); 
             end      
             results{di}.TOfXAndY = TOfXAndY;
+		case 'TOfFx'
+            TOfFx.Name = detector.Name;
+            tempFx = detector.Fx;
+            TOfFx.Fx = linspace((tempFx.Start), (tempFx.Stop), (tempFx.Count));
+            TOfFx.Fx_Midpoints = TOfFx.Fx;
+            tempData = readBinaryData([datadir slash detector.Name],2*length(TOfFx.Fx));
+            TOfFx.Mean = tempData(1:2:end) + 1i*tempData(2:2:end);          
+            if(detector.TallySecondMoment && exist([datadir slash detector.Name '_2'],'file'))
+                tempData = readBinaryData([datadir slash detector.Name '_2'],2*length(TOfFx.Fx));
+                TOfFx.SecondMoment = tempData(1:2:end) + tempData(2:2:end); % SecondMoment=E[re^2]+E[im^2] is real
+                % SD=sqrt( SecondMoment - E[re]^2 - E[im]^2 )
+                TOfFx.Stdev = sqrt((TOfFx.SecondMoment - real(TOfFx.Mean) .* real(TOfFx.Mean) ...
+                                                       - imag(TOfFx.Mean) .* imag(TOfFx.Mean)) / json.N);
+            end
+            results{di}.TOfFx = TOfFx;
         case 'ATotal'
             ATotal.Name = detector.Name;
             ATotal_txt = readAndParseJson([datadir slash detector.Name '.txt']);

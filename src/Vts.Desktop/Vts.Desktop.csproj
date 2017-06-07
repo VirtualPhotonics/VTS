@@ -731,6 +731,9 @@
     <Compile Include="..\Vts\MonteCarlo\Detectors\TOfAngleDetector.cs">
       <Link>MonteCarlo\Detectors\TOfAngleDetector.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\TOfFxDetector.cs">
+      <Link>MonteCarlo\Detectors\TOfFxDetector.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\TOfRhoAndAngleDetector.cs">
       <Link>MonteCarlo\Detectors\TOfRhoAndAngleDetector.cs</Link>
     </Compile>

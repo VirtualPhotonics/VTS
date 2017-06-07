@@ -422,4 +422,45 @@ if ((abs(d1.Mean(1,1)-0.95492965855)<0.00000000001) && ...
     (abs(d3.Mean(1,1)-95.492965855)<0.000000001))
   disp('unit tests pass');
 end
+% ======================================================================= %
+%% Example 9: run a Monte Carlo simulation for transmittance tallies with 1000 photons
+
+% create a default set of inputs
+si = SimulationInput();
+
+% modify number of photons
+si.N = 1000;
+
+tissueInput = MultiLayerTissueInput(); % define a thin tissue layer
+tissueInput.LayerRegions = struct(...
+    'ZRange', ...
+    {...
+        [-Inf, 0], ... % air "z" range
+        [0, 2], ... % tissue "z" range
+        [2, +Inf] ... % air "z" range
+    }, ...
+    'RegionOP', ...
+    {...
+        [0.0, 1e-10, 1.0, 1.0], ... % air optical properties
+        [0.01, 1.0, 0.8, 1.4], ... % tissue optical properties
+        [0.0, 1e-10, 1.0, 1.0] ... % air optical properties
+        } ...
+    )
+si.TissueInput = tissueInput;
+
+% specify a single R(rho) detector by the endpoints of rho bins
+si.DetectorInputs = { DetectorInput.TOfRho(linspace(0,40,201)),...
+                      DetectorInput.TOfFx(linspace(0,0.2,51)) };
+
+% use this to run a Matlab-wrapped MonteCarloSimulation using static method
+output = VtsMonteCarlo.RunSimulation(si);
+
+d1 = output.Detectors(output.DetectorNames{1}); % TOfRho
+f = figure; semilogy(d1.Rho, d1.Mean); ylabel('log(T(\rho)) [mm^-^2]'); xlabel('Rho (mm)');
+title('Transmittance vs \rho for N=1000');
+set(f,'Name','Transmittance vs Rho for N=1000');
+d2 = output.Detectors(output.DetectorNames{2}); % TOfFx
+f = figure; plot(d2.Fx, abs(d2.Mean)); ylabel('T(fx) [unitless]'); xlabel('Rho (mm)');
+title('Transmittance vs fx for N=1000');
+set(f,'Name','Transmittance vs Fx for N=1000');
 

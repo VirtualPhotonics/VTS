@@ -61,9 +61,64 @@ namespace Vts.MonteCarlo
         /// Specular Reflectance 2nd moment
         /// </summary>
         public double Rspec2 { get { return ((double)((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "RSpecular").First().Name]).SecondMoment); } }
-
         //public double Rtot { get { return ((RTotalDetector)ResultsDictionary["RTotal]).Mean; } }
         //public double Rtot2 { get { return ((RTotalDetector)ResultsDictionary["RTotal]).SecondMoment; } }
+        /// <summary>
+        /// Reflectance as a function of rho (source-detector separation)
+        /// </summary>
+        public double[] R_r { get { return ((double[])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ROfRho").First().Name]).Mean); } }
+        /// <summary>
+        /// Reflectance as a function of rho (source-detector separation) 2nd moment
+        /// </summary>
+        public double[] R_r2 { get { return ((double[])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ROfRho").First().Name]).SecondMoment); } }
+        /// <summary>
+        /// Reflectance as a function of angle
+        /// </summary>
+        public double[] R_a { get { return ((double[])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ROfAngle").First().Name]).Mean); } }
+        /// <summary>
+        /// Reflectance as a function of angle 2nd moment
+        /// </summary>
+        public double[] R_a2 { get { return ((double[])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ROfAngle").First().Name]).SecondMoment); } }
+        /// <summary>
+        /// Reflectance as a function of rho and angle
+        /// </summary>
+        public double[,] R_ra { get { return ((double[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ROfRhoAndAngle").First().Name]).Mean); } }
+        /// <summary>
+        /// Reflectance as a function of rho and angle 2nd moment
+        /// </summary>
+        public double[,] R_ra2 { get { return ((double[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ROfRhoAndAngle").First().Name]).SecondMoment); } }
+        /// <summary>
+        /// Reflectance as a function of rho and time
+        /// </summary>
+        public double[,] R_rt { get { return ((double[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ROfRhoAndTime").First().Name]).Mean); } }
+        /// <summary>
+        /// Reflectance as a function of rho and time 2nd moment
+        /// </summary>
+        public double[,] R_rt2 { get { return ((double[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ROfRhoAndTime").First().Name]).SecondMoment); } }
+        /// <summary>
+        /// Reflectance as a function of rho and omega (temporal frequency)
+        /// </summary>
+        public Complex[,] R_rw { get { return ((Complex[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ROfRhoAndOmega").First().Name]).Mean); } }
+        /// <summary>
+        /// Reflectance as a function of rho and omega (temporal frequency) 2nd moment
+        /// </summary>
+        public Complex[,] R_rw2 { get { return ((Complex[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ROfRhoAndOmega").First().Name]).SecondMoment); } }
+        /// <summary>
+        /// Reflectance as a function of x and y
+        /// </summary>
+        public double[,] R_xy { get { return ((double[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ROfXAndY").First().Name]).Mean); } }
+        /// <summary>
+        /// Reflectance as a function of x and y 2nd moment
+        /// </summary>
+        public double[,] R_xy2 { get { return ((double[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ROfXAndY").First().Name]).SecondMoment); } }
+        /// <summary>
+        /// Reflectance as a function of spatial frequency
+        /// </summary>
+        public Complex[] R_fx { get { return ((Complex[])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ROfFx").First().Name]).Mean); } }
+        /// <summary>
+        /// Reflectance as a function of spatial frequency 2nd moment
+        /// </summary>
+        public Complex[] R_fx2 { get { return ((Complex[])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ROfFx").First().Name]).SecondMoment); } }
         /// <summary>
         /// Diffuse Transmittance
         /// </summary>
@@ -72,6 +127,46 @@ namespace Vts.MonteCarlo
         /// Diffuse Transmittance 2nd moment
         /// </summary>
         public double Td2 { get { return ((double)((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "TDiffuse").First().Name]).SecondMoment); } }
+        /// <summary>
+        /// Transmittance as a function of rho (source-detector separation)
+        /// </summary>
+        public double[] T_r { get { return ((double[])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "TOfRho").First().Name]).Mean); } }
+        /// <summary>
+        /// Transmittance as a function of rho (source-detector separation) 2nd moment
+        /// </summary>
+        public double[] T_r2 { get { return ((double[])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "TOfRho").First().Name]).SecondMoment); } }
+        /// <summary>
+        /// Transmittance as a function of angle
+        /// </summary>
+        public double[] T_a { get { return ((double[])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "TOfAngle").First().Name]).Mean); } }
+        /// <summary>
+        /// Transmittance as a function of angle 2nd moment
+        /// </summary>
+        public double[] T_a2 { get { return ((double[])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "TOfAngle").First().Name]).SecondMoment); } }
+        /// <summary>
+        /// Transmittance as a function of rho and angle
+        /// </summary>
+        public double[,] T_ra { get { return ((double[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "TOfRhoAndAngle").First().Name]).Mean); } }
+        /// <summary>
+        /// Transmittance as a function of rho and angle 2nd moment
+        /// </summary>
+        public double[,] T_ra2 { get { return ((double[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "TOfRhoAndAngle").First().Name]).SecondMoment); } }
+        /// <summary>
+        /// Transmittance as a function of x and y
+        /// </summary>
+        public double[,] T_xy { get { return ((double[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "TOfXAndY").First().Name]).Mean); } }
+        /// <summary>
+        /// Transmittance as a function of x and y 2nd moment
+        /// </summary>
+        public double[,] T_xy2 { get { return ((double[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "TOfXAndY").First().Name]).SecondMoment); } }
+        /// <summary>
+        /// Transmittance as a function of spatial frequency
+        /// </summary>
+        public Complex[] T_fx { get { return ((Complex[])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "TOfFx").First().Name]).Mean); } }
+        /// <summary>
+        /// Transmitance as a function of spatial frequency 2nd moment
+        /// </summary>
+        public Complex[] T_fx2 { get { return ((Complex[])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "TOfFx").First().Name]).SecondMoment); } }
         /// <summary>
         /// Total Absorbed Energy
         /// </summary>
@@ -90,38 +185,6 @@ namespace Vts.MonteCarlo
         //public double[] Flu_z { get { return ((FluenceOfZDetector)ResultsDictionary["FluenceOfZ]).Mean; } }
         //public double[] Flu_z2 { get { return ((FluenceOfZDetector)ResultsDictionary["FluenceOfZ]).SecondMoment; } }
         /// <summary>
-        /// Reflectance as a function of rho (source-detector separation)
-        /// </summary>
-        public double[] R_r { get { return ((double[])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ROfRho").First().Name]).Mean); } }
-        /// <summary>
-        /// Reflectance as a function of rho (source-detector separation) 2nd moment
-        /// </summary>
-        public double[] R_r2 { get { return ((double[])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ROfRho").First().Name]).SecondMoment); } }
-        /// <summary>
-        /// Reflectance as a function of angle
-        /// </summary>
-        public double[] R_a { get { return ((double[])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ROfAngle").First().Name]).Mean); } }
-        /// <summary>
-        /// Reflectance as a function of angle 2nd moment
-        /// </summary>
-        public double[] R_a2 { get { return ((double[])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ROfAngle").First().Name]).SecondMoment); } }
-        /// <summary>
-        /// Transmittance as a function of rho (source-detector separation)
-        /// </summary>
-        public double[] T_r { get { return ((double[])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "TOfRho").First().Name]).Mean); } }
-        /// <summary>
-        /// Transmittance as a function of rho (source-detector separation) 2nd moment
-        /// </summary>
-        public double[] T_r2 { get { return ((double[])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "TOfRho").First().Name]).SecondMoment); } }
-        /// <summary>
-        /// Transmittance as a function of angle
-        /// </summary>
-        public double[] T_a { get { return ((double[])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "TOfAngle").First().Name]).Mean); } }
-        /// <summary>
-        /// Transmittance as a function of angle 2nd moment
-        /// </summary>
-        public double[] T_a2 { get { return ((double[])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "TOfAngle").First().Name]).SecondMoment); } }
-        /// <summary>
         /// Absorbed Energy as a function of rho and z
         /// </summary>
         public double[,] A_rz { get { return ((double[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "AOfRhoAndZ").First().Name]).Mean); } }
@@ -130,73 +193,23 @@ namespace Vts.MonteCarlo
         /// </summary>
         public double[,] A_rz2 { get { return ((double[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "AOfRhoAndZ").First().Name]).SecondMoment); } }
         /// <summary>
+        /// Absorption as a function of x, y and z
+        /// </summary>
+        public double[, ,] A_xyz { get { return ((double[, ,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "AOfXAndYAndZ").First().Name]).Mean); } }
+        /// <summary>
+        /// Absorption as a function of x, y and z 2nd moment
+        /// </summary>
+        public double[, ,] A_xyz2 { get { return ((double[, ,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "AOfXAndYAndZ").First().Name]).SecondMoment); } }
+        //public double[, ,] A_rzt { get { return ((ROfRhoAndOmegaDetector)ResultsDictionary["AOfRhoAndZAndTime]).Mean; } }
+        //public double[, ,] A_rzt2 { get { return ((ROfRhoAndOmegaDetector)ResultsDictionary["AOfRhoAndZAndTime]).SecondMoment; } }
+        /// <summary>
         /// Fluence as a function of rho and z
         /// </summary>
         public double[,] Flu_rz { get { return ((double[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "FluenceOfRhoAndZ").First().Name]).Mean); } }
         /// <summary>
         /// Fluence as a function of rho and z 2nd moment
         /// </summary>
-        public double[,] Flu_rz2 { get { return ((double[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "FluenceOfRhoAndZ").First().Name]).SecondMoment); } }
-        /// <summary>
-        /// Reflectance as a function of rho and angle
-        /// </summary>
-        public double[,] R_ra { get { return ((double[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ROfRhoAndAngle").First().Name]).Mean); } }
-        /// <summary>
-        /// Reflectance as a function of rho and angle 2nd moment
-        /// </summary>
-        public double[,] R_ra2 { get { return ((double[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ROfRhoAndAngle").First().Name]).SecondMoment); } }
-        /// <summary>
-        /// Transmittance as a function of rho and angle
-        /// </summary>
-        public double[,] T_ra { get { return ((double[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "TOfRhoAndAngle").First().Name]).Mean); } }
-        /// <summary>
-        /// Transmittance as a function of rho and angle 2nd moment
-        /// </summary>
-        public double[,] T_ra2 { get { return ((double[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "TOfRhoAndAngle").First().Name]).SecondMoment); } }
-        /// <summary>
-        /// Transmittance as a function of x and y
-        /// </summary>
-        public double[,] T_xy { get { return ((double[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "TOfXAndY").First().Name]).Mean); } }
-        /// <summary>
-        /// Transmittance as a function of x and y 2nd moment
-        /// </summary>
-        public double[,] T_xy2 { get { return ((double[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "TOfXAndY").First().Name]).SecondMoment); } }
-        
-        /// <summary>
-        /// Reflectance as a function of x and y
-        /// </summary>
-        public double[,] R_xy { get { return ((double[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ROfXAndY").First().Name]).Mean); } }
-        /// <summary>
-        /// Reflectance as a function of x and y 2nd moment
-        /// </summary>
-        public double[,] R_xy2 { get { return ((double[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ROfXAndY").First().Name]).SecondMoment); } }
-        /// <summary>
-        /// Reflectance as a function of rho and time
-        /// </summary>
-        public double[,] R_rt { get { return ((double[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ROfRhoAndTime").First().Name]).Mean); } }
-        /// <summary>
-        /// Reflectance as a function of rho and time 2nd moment
-        /// </summary>
-        public double[,] R_rt2 { get { return ((double[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ROfRhoAndTime").First().Name]).SecondMoment); } }
-        /// <summary>
-        /// Reflectance as a function of rho and omega (temporal frequency)
-        /// </summary>
-        public Complex[,] R_rw { get { return ((Complex[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ROfRhoAndOmega").First().Name]).Mean); } }
-        /// <summary>
-        /// Reflectance as a function of rho and omega (temporal frequency) 2nd moment
-        /// </summary>
-        public Complex[,] R_rw2 { get { return ((Complex[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ROfRhoAndOmega").First().Name]).SecondMoment); } }
-        /// <summary>
-        /// Reflectance as a function of spatial frequency
-        /// </summary>
-        public Complex[] R_fx { get { return ((Complex[])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ROfFx").First().Name]).Mean); } }
-        /// <summary>
-        /// Reflectance as a function of spatial frequency 2nd moment
-        /// </summary>
-        public Complex[] R_fx2 { get { return ((Complex[])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ROfFx").First().Name]).SecondMoment); } }
-
-        //public double[, ,] A_rzt { get { return ((ROfRhoAndOmegaDetector)ResultsDictionary["AOfRhoAndZAndTime]).Mean; } }
-        //public double[, ,] A_rzt2 { get { return ((ROfRhoAndOmegaDetector)ResultsDictionary["AOfRhoAndZAndTime]).SecondMoment; } }
+        public double[,] Flu_rz2 { get { return ((double[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "FluenceOfRhoAndZ").First().Name]).SecondMoment); } }       
         /// <summary>
         /// Fluence as a function of rho, z and time
         /// </summary>
@@ -221,14 +234,6 @@ namespace Vts.MonteCarlo
         /// Fluence as a function of x, y, z and omega 2nd moment
         /// </summary>
         public Complex[, , ,] Flu_xyzo2 { get { return ((Complex[, , ,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "FluenceOfXAndYAndZAndOmega").First().Name]).SecondMoment); } }
-        /// <summary>
-        /// Absorption as a function of x, y and z
-        /// </summary>
-        public double[, ,] A_xyz { get { return ((double[, ,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "AOfXAndYAndZ").First().Name]).Mean); } }
-        /// <summary>
-        /// Absorption as a function of x, y and z 2nd moment
-        /// </summary>
-        public double[, ,] A_xyz2 { get { return ((double[, ,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "AOfXAndYAndZ").First().Name]).SecondMoment); } }
         /// <summary>
         /// Radiance as a function of rho (surface tally) at depth Z
         /// </summary>

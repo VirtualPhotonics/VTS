@@ -29,9 +29,10 @@ show.TOfRho =                   1;
 show.TOfRhoAndAngle =           1;
 show.TOfAngle =                 1;
 show.TOfXAndY =                 1;
+show.TOfFx =					1;
 show.ATotal =                   1;
 show.AOfRhoAndZ =               1;
-show.AOfXAndYAndZ = 		1;
+show.AOfXAndYAndZ = 			1;
 show.FluenceOfRhoAndZ =         1;
 show.FluenceOfXAndYAndZ =       1;
 show.FluenceOfRhoAndZAndTime =  1;
@@ -150,6 +151,12 @@ for mci = 1:length(datanames)
         % determine range of x, y midpoints that have non-zero data
         [r,c]=find(results{di}.TOfXAndY.Mean);
         disp(sprintf('TOfXAndY: x non-zero span [%d %d]',min(r),max(r))); disp(sprintf('TOfXAndY: y non-zero span [%d %d]',min(c),max(c)));
+    end
+    if isfield(results{di}, 'TOfFx') && show.TOfFx
+        figname = sprintf('log(%s)',results{di}.TOfFx.Name); figure; plot(results{di}.TOfFx.Fx_Midpoints, abs(results{di}.TOfFx.Mean)); title(figname); set(gcf,'Name', figname); xlabel('f_x [/mm]'); ylabel('T(f_x) [unitless]');
+        Fxdelta = results{di}.TOfFx.Fx(2)-results{di}.TOfFx.Fx(1);
+        Fxnorm = 2 * pi * (results{di}.TOfFx.Fx_Midpoints * Fxdelta);
+        disp(['Total transmittance captured by TOfFx detector: ' num2str(sum(results{di}.TOfFx.Mean.*Fxnorm'))]);
     end
     if isfield(results{di}, 'ATotal') && show.ATotal
         disp(['Total absorption captured by ATotal detector: ' num2str(results{di}.ATotal.Mean)]);
