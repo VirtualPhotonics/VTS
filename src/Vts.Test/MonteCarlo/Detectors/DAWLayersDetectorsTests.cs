@@ -28,7 +28,7 @@ namespace Vts.Test.MonteCarlo.Detectors
         private SimulationInput _inputOneLayerTissue;
         private SimulationInput _inputTwoLayerTissue;
         private double _layerThickness = 1.0; // tissue is homogeneous (both layer opt. props same)
-        private double _dosimetryDepth = 2.0;
+        private double _dosimetryDepth = 1.0;
         private double _factor;
 
         /// <summary>
@@ -69,6 +69,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                     new ROfXAndYDetectorInput() { X = new DoubleRange(-10.0, 10.0, 101), Y = new DoubleRange(-10.0, 10.0, 101) },
                     new ROfRhoAndOmegaDetectorInput() { Rho = new DoubleRange(0.0, 10.0, 101), Omega = new DoubleRange(0.05, 1.0, 20)}, // DJC - edited to reflect frequency sampling points (not bins)
                     new ROfFxDetectorInput() {Fx = new DoubleRange(0.0, 0.5, 51)},
+
                     new TDiffuseDetectorInput(),
                     new TOfAngleDetectorInput() {Angle=new DoubleRange(0.0, Math.PI / 2, 2)},
                     new TOfRhoDetectorInput() {Rho=new DoubleRange(0.0, 10.0, 101)},
@@ -417,8 +418,8 @@ namespace Vts.Test.MonteCarlo.Detectors
         [Test]
         public void validate_DAW_RadianceOfRhoAtZ()
         {
-            //need radiance detector to compare results, for now make sure both simulations give same results
-            Assert.Less(Math.Abs(_outputOneLayerTissue.Rad_r[1] - _outputTwoLayerTissue.Rad_r[1]), 0.0000001);
+            Assert.Less(Math.Abs(_outputOneLayerTissue.Rad_r[0] - 1.95161), 0.00001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.Rad_r[0] - 1.95161), 0.00001);
         }
         // sanity checks
         [Test]

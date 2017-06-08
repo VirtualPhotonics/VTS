@@ -243,23 +243,16 @@ namespace Vts.MonteCarlo
                     {
                         AbsorbContinuous();
                     }
+                }
 
-                    CurrentRegionIndex = neighborIndex;
-                    //don't need to update these unless photon not dead upon exiting tissue
-                    //DP.Direction.Ux *= nCurrent / nNext;
-                    //DP.Direction.Uy *= nCurrent / nNext;
-                    //DP.Direction.Uz = uZSnell;
-                }
-                else // not on domain boundary, at internal interface or first time enter tissue, pass to next
+                CurrentRegionIndex = neighborIndex;
+                DP.Direction = _tissue.GetRefractedDirection(DP.Position, DP.Direction,
+                    nCurrent, nNext, cosThetaSnell);
+
+                if (_firstTimeEnteringDomain)
                 {
-                    CurrentRegionIndex = neighborIndex;
-                    DP.Direction = _tissue.GetRefractedDirection(DP.Position, DP.Direction,
-                        nCurrent, nNext, cosThetaSnell);
-                    if (_firstTimeEnteringDomain)
-                    {
-                        _firstTimeEnteringDomain = false;
-                    }
-                }
+                    _firstTimeEnteringDomain = false;
+                }                
             }
             else  // don't cross, reflect
             {
