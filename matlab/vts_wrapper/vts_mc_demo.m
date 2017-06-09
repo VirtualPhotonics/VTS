@@ -460,7 +460,7 @@ f = figure; semilogy(d1.Rho, d1.Mean); ylabel('log(T(\rho)) [mm^-^2]'); xlabel('
 title('Transmittance vs \rho for N=1000');
 set(f,'Name','Transmittance vs Rho for N=1000');
 d2 = output.Detectors(output.DetectorNames{2}); % TOfFx
-f = figure; plot(d2.Fx, abs(d2.Mean)); ylabel('T(fx) [unitless]'); xlabel('Rho (mm)');
+f = figure; plot(d2.Fx, abs(d2.Mean)); ylabel('T(fx) [unitless]'); xlabel('Fx (mm^-^1)');
 title('Transmittance vs fx for N=1000');
 set(f,'Name','Transmittance vs Fx for N=1000');
 
