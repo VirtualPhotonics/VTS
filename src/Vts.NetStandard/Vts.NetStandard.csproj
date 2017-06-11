@@ -1,0 +1,454 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="MonteCarlo\Unmanaged\UnmanagedDetectorDefinition.cs" />
+    <Compile Remove="MonteCarlo\Unmanaged\UnmanagedFlags.cs" />
+    <Compile Remove="MonteCarlo\Unmanaged\UnmanagedHistory.cs" />
+    <Compile Remove="MonteCarlo\Unmanaged\UnmanagedIO.cs" />
+    <Compile Remove="MonteCarlo\Unmanaged\UnmanagedLayer.cs" />
+    <Compile Remove="MonteCarlo\Unmanaged\UnmanagedMonteCarloSimulation.cs" />
+    <Compile Remove="MonteCarlo\Unmanaged\UnmanagedOutput.cs" />
+    <Compile Remove="MonteCarlo\Unmanaged\UnmanagedPhoton.cs" />
+    <Compile Remove="MonteCarlo\Unmanaged\UnmanagedSourceDefinition.cs" />
+    <Compile Remove="MonteCarlo\Unmanaged\UnmanagedTissue.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\Vts\Common\BindableObject.cs" Link="Common\BindableObject.cs" />
+    <Compile Include="..\Vts\Common\BindableObjectWithChangeTracking.cs" Link="Common\BindableObjectWithChangeTracking.cs" />
+    <Compile Include="..\Vts\Common\DependsOnAttribute.cs" Link="Common\DependsOnAttribute.cs" />
+    <Compile Include="..\Vts\Common\Direction.cs" Link="Common\Direction.cs" />
+    <Compile Include="..\Vts\Common\Enums.cs" Link="Common\Enums.cs" />
+    <Compile Include="..\Vts\Common\Extensions\ArrayExtensions.cs" Link="Common\Extensions\ArrayExtensions.cs" />
+    <Compile Include="..\Vts\Common\Extensions\DataExtensions.cs" Link="Common\Extensions\DataExtensions.cs" />
+    <Compile Include="..\Vts\Common\Extensions\EnumerableExtensions.cs" Link="Common\Extensions\EnumerableExtensions.cs" />
+    <Compile Include="..\Vts\Common\Extensions\EnumExtensions.cs" Link="Common\Extensions\EnumExtensions.cs" />
+    <Compile Include="..\Vts\Common\Extensions\IEnumerableArrayExtensions.cs" Link="Common\Extensions\IEnumerableArrayExtensions.cs" />
+    <Compile Include="..\Vts\Common\Extensions\OpticalPropertiesExtensions.cs" Link="Common\Extensions\OpticalPropertiesExtensions.cs" />
+    <Compile Include="..\Vts\Common\Extensions\RNGExtensions.cs" Link="Common\Extensions\RNGExtensions.cs" />
+    <Compile Include="..\Vts\Common\Extensions\TypeExtensions.cs" Link="Common\Extensions\TypeExtensions.cs" />
+    <Compile Include="..\Vts\Common\GlobalConstants.cs" Link="Common\GlobalConstants.cs" />
+    <Compile Include="..\Vts\Common\Helpers\EnumHelper.cs" Link="Common\Helpers\EnumHelper.cs" />
+    <Compile Include="..\Vts\Common\Helpers\FuncOfT.cs" Link="Common\Helpers\FuncOfT.cs" />
+    <Compile Include="..\Vts\Common\Helpers\Range\DoubleRange.cs" Link="Common\Helpers\Range\DoubleRange.cs" />
+    <Compile Include="..\Vts\Common\Helpers\Range\FloatRange.cs" Link="Common\Helpers\Range\FloatRange.cs" />
+    <Compile Include="..\Vts\Common\Helpers\Range\IntRange.cs" Link="Common\Helpers\Range\IntRange.cs" />
+    <Compile Include="..\Vts\Common\Helpers\Range\LongRange.cs" Link="Common\Helpers\Range\LongRange.cs" />
+    <Compile Include="..\Vts\Common\Helpers\Range\RangeOfT.cs" Link="Common\Helpers\Range\RangeOfT.cs" />
+    <Compile Include="..\Vts\Common\Helpers\Range\UIntRange.cs" Link="Common\Helpers\Range\UIntRange.cs" />
+    <Compile Include="..\Vts\Common\Helpers\Tuple.cs" Link="Common\Helpers\Tuple.cs" />
+    <Compile Include="..\Vts\Common\Interfaces\IChangeTracking.cs" Link="Common\Interfaces\IChangeTracking.cs" />
+    <Compile Include="..\Vts\Common\Interfaces\IForwardSolver.cs" Link="Common\Interfaces\IForwardSolver.cs" />
+    <Compile Include="..\Vts\Common\Interfaces\ILayerOpticalPropertyRegion.cs" Link="Common\Interfaces\ILayerOpticalPropertyRegion.cs" />
+    <Compile Include="..\Vts\Common\Interfaces\INotifyPropertyChangedPlus.cs" Link="Common\Interfaces\INotifyPropertyChangedPlus.cs" />
+    <Compile Include="..\Vts\Common\Interfaces\IOldForwardSolver.cs" Link="Common\Interfaces\IOldForwardSolver.cs" />
+    <Compile Include="..\Vts\Common\Interfaces\IOldOptimizer.cs" Link="Common\Interfaces\IOldOptimizer.cs" />
+    <Compile Include="..\Vts\Common\Interfaces\IOpticalPropertyRegion.cs" Link="Common\Interfaces\IOpticalPropertyRegion.cs" />
+    <Compile Include="..\Vts\Common\Interfaces\IOptimizer.cs" Link="Common\Interfaces\IOptimizer.cs" />
+    <Compile Include="..\Vts\Common\LayerOpticalPropertyRegion.cs" Link="Common\LayerOpticalPropertyRegion.cs" />
+    <Compile Include="..\Vts\Common\Logging\AbstractLoggerFactory.cs" Link="Common\Logging\AbstractLoggerFactory.cs" />
+    <Compile Include="..\Vts\Common\Logging\ILogger.cs" Link="Common\Logging\ILogger.cs" />
+    <Compile Include="..\Vts\Common\Logging\ILoggerFactory.cs" Link="Common\Logging\ILoggerFactory.cs" />
+    <Compile Include="..\Vts\Common\Logging\LoggerFactoryLocator.cs" Link="Common\Logging\LoggerFactoryLocator.cs" />
+    <Compile Include="..\Vts\Common\Logging\LoggerLevel.cs" Link="Common\Logging\LoggerLevel.cs" />
+    <Compile Include="..\Vts\Common\Logging\NLogFactory.cs" Link="Common\Logging\NLogFactory.cs" />
+    <Compile Include="..\Vts\Common\Logging\NLogLogger.cs" Link="Common\Logging\NLogLogger.cs" />
+    <Compile Include="..\Vts\Common\Logging\ObservableTarget.cs" Link="Common\Logging\ObservableTarget.cs" />
+    <Compile Include="..\Vts\Common\Math\Convert.cs" Link="Common\Math\Convert.cs" />
+    <Compile Include="..\Vts\Common\Math\Convolution2D.cs" Link="Common\Math\Convolution2D.cs" />
+    <Compile Include="..\Vts\Common\Math\Integration.cs" Link="Common\Math\Integration.cs" />
+    <Compile Include="..\Vts\Common\Math\Interpolation.cs" Link="Common\Math\Interpolation.cs" />
+    <Compile Include="..\Vts\Common\Math\Statistics.cs" Link="Common\Math\Statistics.cs" />
+    <Compile Include="..\Vts\Common\OpticalProperties.cs" Link="Common\OpticalProperties.cs" />
+    <Compile Include="..\Vts\Common\Position.cs" Link="Common\Position.cs" />
+    <Compile Include="..\Vts\Common\PropertyDependencyManager.cs" Link="Common\PropertyDependencyManager.cs" />
+    <Compile Include="..\Vts\Common\Resources\Strings.Designer.cs" Link="Common\Resources\Strings.Designer.cs" />
+    <Compile Include="..\Vts\Common\Stopwatch.cs" Link="Common\Stopwatch.cs" />
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\BoundaryCoupling.cs" Link="FemModeling\MGRTE\2D\BoundaryCoupling.cs" />
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\DataStructures\IntPointSourceInput.cs" Link="FemModeling\MGRTE\2D\DataStructures\IntPointSourceInput.cs" />
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\DataStructures\Measurement.cs" Link="FemModeling\MGRTE\2D\DataStructures\Measurement.cs" />
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\DataStructures\MeshInputs\AngularMesh.cs" Link="FemModeling\MGRTE\2D\DataStructures\MeshInputs\AngularMesh.cs" />
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\DataStructures\MeshInputs\MeshSimulationOptions.cs" Link="FemModeling\MGRTE\2D\DataStructures\MeshInputs\MeshSimulationOptions.cs" />
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\DataStructures\MeshInputs\SpatialMesh.cs" Link="FemModeling\MGRTE\2D\DataStructures\MeshInputs\SpatialMesh.cs" />
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\DataStructures\MeshInputs\SquareMeshDataInput.cs" Link="FemModeling\MGRTE\2D\DataStructures\MeshInputs\SquareMeshDataInput.cs" />
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\DataStructures\SimulationInputs.cs" Link="FemModeling\MGRTE\2D\DataStructures\SimulationInputs.cs" />
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\DataStructures\SourceInputs\ExternalSourceInputs\ExtLineSourceInput.cs" Link="FemModeling\MGRTE\2D\DataStructures\SourceInputs\ExternalSourceInputs\ExtLineSourceInput.cs" />
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\DataStructures\SourceInputs\ExternalSourceInputs\ExtPointSourceInput.cs" Link="FemModeling\MGRTE\2D\DataStructures\SourceInputs\ExternalSourceInputs\ExtPointSourceInput.cs" />
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\DataStructures\SourceInputs\InternalSourceInputs\Int2DCircularSourceInput.cs" Link="FemModeling\MGRTE\2D\DataStructures\SourceInputs\InternalSourceInputs\Int2DCircularSourceInput.cs" />
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\DataStructures\SourceInputs\InternalSourceInputs\Int2DEllipticalSourceInput.cs" Link="FemModeling\MGRTE\2D\DataStructures\SourceInputs\InternalSourceInputs\Int2DEllipticalSourceInput.cs" />
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\DataStructures\SourceInputs\InternalSourceInputs\Int2DPointSourceInput.cs" Link="FemModeling\MGRTE\2D\DataStructures\SourceInputs\InternalSourceInputs\Int2DPointSourceInput.cs" />
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\DataStructures\SourceInputs\InternalSourceInputs\Int2DRectangularSourceInput.cs" Link="FemModeling\MGRTE\2D\DataStructures\SourceInputs\InternalSourceInputs\Int2DRectangularSourceInput.cs" />
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\Enums.cs" Link="FemModeling\MGRTE\2D\Enums.cs" />
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\Factory\FemSourceFactory.cs" Link="FemModeling\MGRTE\2D\Factory\FemSourceFactory.cs" />
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\Initialization.cs" Link="FemModeling\MGRTE\2D\Initialization.cs" />
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\Interfaces\IExtFemSourceInput.cs" Link="FemModeling\MGRTE\2D\Interfaces\IExtFemSourceInput.cs" />
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\Interfaces\IExtSource.cs" Link="FemModeling\MGRTE\2D\Interfaces\IExtSource.cs" />
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\Interfaces\IInclusionInput.cs" Link="FemModeling\MGRTE\2D\Interfaces\IInclusionInput.cs" />
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\Interfaces\IIntFemSourceInput.cs" Link="FemModeling\MGRTE\2D\Interfaces\IIntFemSourceInput.cs" />
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\Interfaces\IIntSource.cs" Link="FemModeling\MGRTE\2D\Interfaces\IIntSource.cs" />
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\Interfaces\ITissue.cs" Link="FemModeling\MGRTE\2D\Interfaces\ITissue.cs" />
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\MathFunctions.cs" Link="FemModeling\MGRTE\2D\MathFunctions.cs" />
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\MultiGridCycle.cs" Link="FemModeling\MGRTE\2D\MultiGridCycle.cs" />
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\OutputCalculation.cs" Link="FemModeling\MGRTE\2D\OutputCalculation.cs" />
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\SolverMGRTE.cs" Link="FemModeling\MGRTE\2D\SolverMGRTE.cs" />
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\Sources\ExternalSources\ExtLineSource.cs" Link="FemModeling\MGRTE\2D\Sources\ExternalSources\ExtLineSource.cs" />
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\Sources\ExternalSources\ExtPointSource.cs" Link="FemModeling\MGRTE\2D\Sources\ExternalSources\ExtPointSource.cs" />
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\Sources\InternalSources\Int2DCircularSource.cs" Link="FemModeling\MGRTE\2D\Sources\InternalSources\Int2DCircularSource.cs" />
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\Sources\InternalSources\Int2DEllipticalSource.cs" Link="FemModeling\MGRTE\2D\Sources\InternalSources\Int2DEllipticalSource.cs" />
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\Sources\InternalSources\Int2DPointSource.cs" Link="FemModeling\MGRTE\2D\Sources\InternalSources\Int2DPointSource.cs" />
+    <Compile Include="..\Vts\FemModeling\MGRTE\2D\Sources\InternalSources\Int2DRectangularSource.cs" Link="FemModeling\MGRTE\2D\Sources\InternalSources\Int2DRectangularSource.cs" />
+    <Compile Include="..\Vts\IO\ArrayCustomBinaryReader.cs" Link="IO\ArrayCustomBinaryReader.cs" />
+    <Compile Include="..\Vts\IO\ArrayCustomBinaryWriter.cs" Link="IO\ArrayCustomBinaryWriter.cs" />
+    <Compile Include="..\Vts\IO\BinaryArraySerializer.cs" Link="IO\BinaryArraySerializer.cs" />
+    <Compile Include="..\Vts\IO\CustomBinaryStreamWriterOfT.cs" Link="IO\CustomBinaryStreamWriterOfT.cs" />
+    <Compile Include="..\Vts\IO\FileIO.cs" Link="IO\FileIO.cs" />
+    <Compile Include="..\Vts\IO\ICustomBinaryReaderOfT.cs" Link="IO\ICustomBinaryReaderOfT.cs" />
+    <Compile Include="..\Vts\IO\ICustomBinaryWriterOfT.cs" Link="IO\ICustomBinaryWriterOfT.cs" />
+    <Compile Include="..\Vts\IO\KnownTypes.cs" Link="IO\KnownTypes.cs" />
+    <Compile Include="..\Vts\IO\LibraryIO.cs" Link="IO\LibraryIO.cs" />
+    <Compile Include="..\Vts\IO\MetaData.cs" Link="IO\MetaData.cs" />
+    <Compile Include="..\Vts\IO\StreamFinder.cs" Link="IO\StreamFinder.cs" />
+    <Compile Include="..\Vts\IO\VtsJsonSerializer.cs" Link="IO\VtsJsonSerializer.cs" />
+    <Compile Include="..\Vts\Modeling\Analyzers\NumericalDerivativeExtensions.cs" Link="Modeling\Analyzers\NumericalDerivativeExtensions.cs" />
+    <Compile Include="..\Vts\Modeling\ForwardSolvers\BSplinesCoefficients.cs" Link="Modeling\ForwardSolvers\BSplinesCoefficients.cs" />
+    <Compile Include="..\Vts\Modeling\ForwardSolvers\DeltaPOneForwardSolver.cs" Link="Modeling\ForwardSolvers\DeltaPOneForwardSolver.cs" />
+    <Compile Include="..\Vts\Modeling\ForwardSolvers\DiffusionForwardSolverBase.cs" Link="Modeling\ForwardSolvers\DiffusionForwardSolverBase.cs" />
+    <Compile Include="..\Vts\Modeling\ForwardSolvers\DiffusionGreensFunctions.cs" Link="Modeling\ForwardSolvers\DiffusionGreensFunctions.cs" />
+    <Compile Include="..\Vts\Modeling\ForwardSolvers\DiffusionParameters.cs" Link="Modeling\ForwardSolvers\DiffusionParameters.cs" />
+    <Compile Include="..\Vts\Modeling\ForwardSolvers\DiscreteOrdinatesForwardSolver.cs" Link="Modeling\ForwardSolvers\DiscreteOrdinatesForwardSolver.cs" />
+    <Compile Include="..\Vts\Modeling\ForwardSolvers\DiscreteOrdinates\DOMethods.cs" Link="Modeling\ForwardSolvers\DiscreteOrdinates\DOMethods.cs" />
+    <Compile Include="..\Vts\Modeling\ForwardSolvers\DiscreteOrdinates\GaussLegendreCoefficients.cs" Link="Modeling\ForwardSolvers\DiscreteOrdinates\GaussLegendreCoefficients.cs" />
+    <Compile Include="..\Vts\Modeling\ForwardSolvers\DistributedGaussianSourceSDAForwardSolver.cs" Link="Modeling\ForwardSolvers\DistributedGaussianSourceSDAForwardSolver.cs" />
+    <Compile Include="..\Vts\Modeling\ForwardSolvers\DistributedPointSourceSDAForwardSolver.cs" Link="Modeling\ForwardSolvers\DistributedPointSourceSDAForwardSolver.cs" />
+    <Compile Include="..\Vts\Modeling\ForwardSolvers\ForwardSolverBase.cs" Link="Modeling\ForwardSolvers\ForwardSolverBase.cs" />
+    <Compile Include="..\Vts\Modeling\ForwardSolvers\INurbs.cs" Link="Modeling\ForwardSolvers\INurbs.cs" />
+    <Compile Include="..\Vts\Modeling\ForwardSolvers\LinearDiscreteFourierTransform.cs" Link="Modeling\ForwardSolvers\LinearDiscreteFourierTransform.cs" />
+    <Compile Include="..\Vts\Modeling\ForwardSolvers\LinearDiscreteHankelTransform.cs" Link="Modeling\ForwardSolvers\LinearDiscreteHankelTransform.cs" />
+    <Compile Include="..\Vts\Modeling\ForwardSolvers\MonteCarloForwardSolver.cs" Link="Modeling\ForwardSolvers\MonteCarloForwardSolver.cs" />
+    <Compile Include="..\Vts\Modeling\ForwardSolvers\MonteCarloLoader.cs" Link="Modeling\ForwardSolvers\MonteCarloLoader.cs" />
+    <Compile Include="..\Vts\Modeling\ForwardSolvers\NurbsForwardSolver.cs" Link="Modeling\ForwardSolvers\NurbsForwardSolver.cs" />
+    <Compile Include="..\Vts\Modeling\ForwardSolvers\NurbsGenerator.cs" Link="Modeling\ForwardSolvers\NurbsGenerator.cs" />
+    <Compile Include="..\Vts\Modeling\ForwardSolvers\NurbsValues.cs" Link="Modeling\ForwardSolvers\NurbsValues.cs" />
+    <Compile Include="..\Vts\Modeling\ForwardSolvers\PhotonHittingDensity.cs" Link="Modeling\ForwardSolvers\PhotonHittingDensity.cs" />
+    <Compile Include="..\Vts\Modeling\ForwardSolvers\PointSourceSDAForwardSolver.cs" Link="Modeling\ForwardSolvers\PointSourceSDAForwardSolver.cs" />
+    <Compile Include="..\Vts\Modeling\ForwardSolvers\SFDDiffusionForwardSolver.cs" Link="Modeling\ForwardSolvers\SFDDiffusionForwardSolver.cs" />
+    <Compile Include="..\Vts\Modeling\ForwardSolvers\StubNurbsGenerator.cs" Link="Modeling\ForwardSolvers\StubNurbsGenerator.cs" />
+    <Compile Include="..\Vts\Modeling\ForwardSolvers\TwoLayerSDAForwardSolver.cs" Link="Modeling\ForwardSolvers\TwoLayerSDAForwardSolver.cs" />
+    <Compile Include="..\Vts\Modeling\ForwardSolvers\VectorizedForwardSolverFuncs.cs" Link="Modeling\ForwardSolvers\VectorizedForwardSolverFuncs.cs" />
+    <Compile Include="..\Vts\Modeling\Input\Commands.cs" Link="Modeling\Input\Commands.cs" />
+    <Compile Include="..\Vts\Modeling\Optimizers\MPFitLevenbergMarquardtOptimizer.cs" Link="Modeling\Optimizers\MPFitLevenbergMarquardtOptimizer.cs" />
+    <Compile Include="..\Vts\Modeling\Spectroscopy\ChromophoreAbsorber.cs" Link="Modeling\Spectroscopy\ChromophoreAbsorber.cs" />
+    <Compile Include="..\Vts\Modeling\Spectroscopy\ChromophoreSpectrum.cs" Link="Modeling\Spectroscopy\ChromophoreSpectrum.cs" />
+    <Compile Include="..\Vts\Modeling\Spectroscopy\IAbsorber.cs" Link="Modeling\Spectroscopy\IAbsorber.cs" />
+    <Compile Include="..\Vts\Modeling\Spectroscopy\IChromophoreAbsorber.cs" Link="Modeling\Spectroscopy\IChromophoreAbsorber.cs" />
+    <Compile Include="..\Vts\Modeling\Spectroscopy\IntralipidScatterer.cs" Link="Modeling\Spectroscopy\IntralipidScatterer.cs" />
+    <Compile Include="..\Vts\Modeling\Spectroscopy\IScatterer.cs" Link="Modeling\Spectroscopy\IScatterer.cs" />
+    <Compile Include="..\Vts\Modeling\Spectroscopy\ISpectrum.cs" Link="Modeling\Spectroscopy\ISpectrum.cs" />
+    <Compile Include="..\Vts\Modeling\Spectroscopy\MieScatterer.cs" Link="Modeling\Spectroscopy\MieScatterer.cs" />
+    <Compile Include="..\Vts\Modeling\Spectroscopy\PowerLawScatterer.cs" Link="Modeling\Spectroscopy\PowerLawScatterer.cs" />
+    <Compile Include="..\Vts\Modeling\Spectroscopy\SpectralConverter.cs" Link="Modeling\Spectroscopy\SpectralConverter.cs" />
+    <Compile Include="..\Vts\Modeling\Spectroscopy\SpectralDatabase.cs" Link="Modeling\Spectroscopy\SpectralDatabase.cs" />
+    <Compile Include="..\Vts\Modeling\Spectroscopy\Tissue.cs" Link="Modeling\Spectroscopy\Tissue.cs" />
+    <Compile Include="..\Vts\Modeling\Tools\CalculatorToolbox.cs" Link="Modeling\Tools\CalculatorToolbox.cs" />
+    <Compile Include="..\Vts\Modeling\Tools\CubicAparameterCalculator.cs" Link="Modeling\Tools\CubicAparameterCalculator.cs" />
+    <Compile Include="..\Vts\Modeling\Tools\HankelTransform.cs" Link="Modeling\Tools\HankelTransform.cs" />
+    <Compile Include="..\Vts\Modeling\Tools\ReffCalculator.cs" Link="Modeling\Tools\ReffCalculator.cs" />
+    <Compile Include="..\Vts\MonteCarlo\AbsorptionWeightingMethods.cs" Link="MonteCarlo\AbsorptionWeightingMethods.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Controllers\DatabaseWriterController.cs" Link="MonteCarlo\Controllers\DatabaseWriterController.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Controllers\DetectorController.cs" Link="MonteCarlo\Controllers\DetectorController.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Controllers\HistoryDetectorController.cs" Link="MonteCarlo\Controllers\HistoryDetectorController.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Controllers\pMCDatabaseWriterController.cs" Link="MonteCarlo\Controllers\pMCDatabaseWriterController.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Controllers\VirtualBoundaryController.cs" Link="MonteCarlo\Controllers\VirtualBoundaryController.cs" />
+    <Compile Include="..\Vts\MonteCarlo\DataStructuresValidation\DetectorInputs\dMCdROfRhodMuaDetectorInputValidation.cs" Link="MonteCarlo\DataStructuresValidation\DetectorInputs\dMCdROfRhodMuaDetectorInputValidation.cs" />
+    <Compile Include="..\Vts\MonteCarlo\DataStructuresValidation\DetectorInputs\dMCdROfRhodMusDetectorInputValidation.cs" Link="MonteCarlo\DataStructuresValidation\DetectorInputs\dMCdROfRhodMusDetectorInputValidation.cs" />
+    <Compile Include="..\Vts\MonteCarlo\DataStructuresValidation\DetectorInputs\ReflectedDynamicMTOfRhoAndSubregionHistDetectorInputValidation.cs" Link="MonteCarlo\DataStructuresValidation\DetectorInputs\ReflectedDynamicMTOfRhoAndSubregionHistDetectorInputValidation.cs" />
+    <Compile Include="..\Vts\MonteCarlo\DataStructuresValidation\DetectorInputs\ReflectedDynamicMTOfXAndYAndSubregionHistDetectorInputValidation.cs" Link="MonteCarlo\DataStructuresValidation\DetectorInputs\ReflectedDynamicMTOfXAndYAndSubregionHistDetectorInputValidation.cs" />
+    <Compile Include="..\Vts\MonteCarlo\DataStructuresValidation\DetectorInputs\TransmittedDynamicMTOfRhoAndSubregionHistDetectorInputValidation.cs" Link="MonteCarlo\DataStructuresValidation\DetectorInputs\TransmittedDynamicMTOfRhoAndSubregionHistDetectorInputValidation.cs" />
+    <Compile Include="..\Vts\MonteCarlo\DataStructuresValidation\DetectorInputs\TransmittedDynamicMTOfXAndYAndSubregionHistDetectorInputValidation.cs" Link="MonteCarlo\DataStructuresValidation\DetectorInputs\TransmittedDynamicMTOfXAndYAndSubregionHistDetectorInputValidation.cs" />
+    <Compile Include="..\Vts\MonteCarlo\DataStructuresValidation\PostProcessorInputs\PostProcessorInputValidation.cs" Link="MonteCarlo\DataStructuresValidation\PostProcessorInputs\PostProcessorInputValidation.cs" />
+    <Compile Include="..\Vts\MonteCarlo\DataStructuresValidation\SimulationInputValidation.cs" Link="MonteCarlo\DataStructuresValidation\SimulationInputValidation.cs" />
+    <Compile Include="..\Vts\MonteCarlo\DataStructuresValidation\TissueInputs\MultiLayerTissueInputValidation.cs" Link="MonteCarlo\DataStructuresValidation\TissueInputs\MultiLayerTissueInputValidation.cs" />
+    <Compile Include="..\Vts\MonteCarlo\DataStructuresValidation\TissueInputs\SingleEllipsoidTissueInputValidation.cs" Link="MonteCarlo\DataStructuresValidation\TissueInputs\SingleEllipsoidTissueInputValidation.cs" />
+    <Compile Include="..\Vts\MonteCarlo\DataStructuresValidation\TissueInputs\SingleVoxelTissueInputValidation.cs" Link="MonteCarlo\DataStructuresValidation\TissueInputs\SingleVoxelTissueInputValidation.cs" />
+    <Compile Include="..\Vts\MonteCarlo\DataStructuresValidation\ValidationResult.cs" Link="MonteCarlo\DataStructuresValidation\ValidationResult.cs" />
+    <Compile Include="..\Vts\MonteCarlo\DataStructures\PostProcessorInputs\PostProcessorInput.cs" Link="MonteCarlo\DataStructures\PostProcessorInputs\PostProcessorInput.cs" />
+    <Compile Include="..\Vts\MonteCarlo\DataStructures\PostProcessorInputs\PostProcessorInputProvider.cs" Link="MonteCarlo\DataStructures\PostProcessorInputs\PostProcessorInputProvider.cs" />
+    <Compile Include="..\Vts\MonteCarlo\DataStructures\SimulationInput.cs" Link="MonteCarlo\DataStructures\SimulationInput.cs" />
+    <Compile Include="..\Vts\MonteCarlo\DataStructures\SimulationInputProvider.cs" Link="MonteCarlo\DataStructures\SimulationInputProvider.cs" />
+    <Compile Include="..\Vts\MonteCarlo\DataStructures\SimulationOptions.cs" Link="MonteCarlo\DataStructures\SimulationOptions.cs" />
+    <Compile Include="..\Vts\MonteCarlo\DataStructures\SimulationOutput.cs" Link="MonteCarlo\DataStructures\SimulationOutput.cs" />
+    <Compile Include="..\Vts\MonteCarlo\DataStructures\SimulationStatistics.cs" Link="MonteCarlo\DataStructures\SimulationStatistics.cs" />
+    <Compile Include="..\Vts\MonteCarlo\DataStructures\SourceInputProvider.cs" Link="MonteCarlo\DataStructures\SourceInputProvider.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Detectors\AOfRhoAndZDetector.cs" Link="MonteCarlo\Detectors\AOfRhoAndZDetector.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Detectors\AOfXAndYAndZDetector.cs" Link="MonteCarlo\Detectors\AOfXAndYAndZDetector.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Detectors\ATotalDetector.cs" Link="MonteCarlo\Detectors\ATotalDetector.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Detectors\Detector.cs" Link="MonteCarlo\Detectors\Detector.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Detectors\dMCdROfRhodMuaDetector.cs" Link="MonteCarlo\Detectors\dMCdROfRhodMuaDetector.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Detectors\dMCdROfRhodMusDetector.cs" Link="MonteCarlo\Detectors\dMCdROfRhodMusDetector.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Detectors\FluenceOfRhoAndZAndTimeDetector.cs" Link="MonteCarlo\Detectors\FluenceOfRhoAndZAndTimeDetector.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Detectors\FluenceOfRhoAndZDetector.cs" Link="MonteCarlo\Detectors\FluenceOfRhoAndZDetector.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Detectors\FluenceOfXAndYAndZAndOmegaDetector.cs" Link="MonteCarlo\Detectors\FluenceOfXAndYAndZAndOmegaDetector.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Detectors\FluenceOfXAndYAndZDetector.cs" Link="MonteCarlo\Detectors\FluenceOfXAndYAndZDetector.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Detectors\pMCROfFxAndTimeDetector.cs" Link="MonteCarlo\Detectors\pMCROfFxAndTimeDetector.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Detectors\pMCROfFxDetector.cs" Link="MonteCarlo\Detectors\pMCROfFxDetector.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Detectors\pMCROfRhoAndTimeDetector.cs" Link="MonteCarlo\Detectors\pMCROfRhoAndTimeDetector.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Detectors\pMCROfRhoDetector.cs" Link="MonteCarlo\Detectors\pMCROfRhoDetector.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Detectors\RadianceOfFxAndZAndAngleDetector.cs" Link="MonteCarlo\Detectors\RadianceOfFxAndZAndAngleDetector.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Detectors\RadianceOfRhoAndZAndAngleDetector.cs" Link="MonteCarlo\Detectors\RadianceOfRhoAndZAndAngleDetector.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Detectors\RadianceOfRhoAtZDetector.cs" Link="MonteCarlo\Detectors\RadianceOfRhoAtZDetector.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Detectors\RadianceOfXAndYAndZAndThetaAndPhiDetector.cs" Link="MonteCarlo\Detectors\RadianceOfXAndYAndZAndThetaAndPhiDetector.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Detectors\RDiffuseDetector.cs" Link="MonteCarlo\Detectors\RDiffuseDetector.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Detectors\ReflectedDynamicMTOfRhoAndSubregionHistDetector.cs" Link="MonteCarlo\Detectors\ReflectedDynamicMTOfRhoAndSubregionHistDetector.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Detectors\ReflectedDynamicMTOfXAndYAndSubregionHistDetector.cs" Link="MonteCarlo\Detectors\ReflectedDynamicMTOfXAndYAndSubregionHistDetector.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Detectors\ReflectedMTOfRhoAndSubRegionHistDetector.cs" Link="MonteCarlo\Detectors\ReflectedMTOfRhoAndSubRegionHistDetector.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Detectors\ReflectedMTOfXAndYAndSubregionHistDetector.cs" Link="MonteCarlo\Detectors\ReflectedMTOfXAndYAndSubregionHistDetector.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Detectors\ReflectedTimeOfRhoAndSubregionHistDetector.cs" Link="MonteCarlo\Detectors\ReflectedTimeOfRhoAndSubregionHistDetector.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Detectors\ROfAngleDetector.cs" Link="MonteCarlo\Detectors\ROfAngleDetector.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Detectors\ROfFxAndTimeDetector.cs" Link="MonteCarlo\Detectors\ROfFxAndTimeDetector.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Detectors\ROfFxDetector.cs" Link="MonteCarlo\Detectors\ROfFxDetector.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Detectors\ROfRhoAndAngleDetector.cs" Link="MonteCarlo\Detectors\ROfRhoAndAngleDetector.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Detectors\ROfRhoAndOmegaDetector.cs" Link="MonteCarlo\Detectors\ROfRhoAndOmegaDetector.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Detectors\ROfRhoAndTimeDetector.cs" Link="MonteCarlo\Detectors\ROfRhoAndTimeDetector.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Detectors\ROfRhoDetector.cs" Link="MonteCarlo\Detectors\ROfRhoDetector.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Detectors\ROfXAndYDetector.cs" Link="MonteCarlo\Detectors\ROfXAndYDetector.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Detectors\RSpecularDetector.cs" Link="MonteCarlo\Detectors\RSpecularDetector.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Detectors\TallyDetails.cs" Link="MonteCarlo\Detectors\TallyDetails.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Detectors\TDiffuseDetector.cs" Link="MonteCarlo\Detectors\TDiffuseDetector.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Detectors\TOfAngleDetector.cs" Link="MonteCarlo\Detectors\TOfAngleDetector.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Detectors\TOfRhoAndAngleDetector.cs" Link="MonteCarlo\Detectors\TOfRhoAndAngleDetector.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Detectors\TOfRhoDetector.cs" Link="MonteCarlo\Detectors\TOfRhoDetector.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Detectors\TOfXAndYDetector.cs" Link="MonteCarlo\Detectors\TOfXAndYDetector.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Detectors\TransmittedDynamicMTOfRhoAndSubregionHistDetector.cs" Link="MonteCarlo\Detectors\TransmittedDynamicMTOfRhoAndSubregionHistDetector.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Detectors\TransmittedDynamicMTOfXAndYAndSubregionHistDetector.cs" Link="MonteCarlo\Detectors\TransmittedDynamicMTOfXAndYAndSubregionHistDetector.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Detectors\TransmittedMTOfRhoAndSubregionHistDetector.cs" Link="MonteCarlo\Detectors\TransmittedMTOfRhoAndSubregionHistDetector.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Detectors\TransmittedMTOfXAndYAndSubregionHistDetector.cs" Link="MonteCarlo\Detectors\TransmittedMTOfXAndYAndSubregionHistDetector.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Enums.cs" Link="MonteCarlo\Enums.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Extensions\DatabaseExtensionMethods.cs" Link="MonteCarlo\Extensions\DatabaseExtensionMethods.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Extensions\ITissueRegionExtensions.cs" Link="MonteCarlo\Extensions\ITissueRegionExtensions.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Extensions\PhotonDataExtensionMethods.cs" Link="MonteCarlo\Extensions\PhotonDataExtensionMethods.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Extensions\SimulationInputExtensions.cs" Link="MonteCarlo\Extensions\SimulationInputExtensions.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Extensions\StatisticsExtensions.cs" Link="MonteCarlo\Extensions\StatisticsExtensions.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Extensions\VirtualBoundariesExtensionMethods.cs" Link="MonteCarlo\Extensions\VirtualBoundariesExtensionMethods.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Factories\DatabaseWriterFactory.cs" Link="Factories\DatabaseWriterFactory.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Factories\DetectorControllerFactory.cs" Link="Factories\DetectorControllerFactory.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Factories\DetectorFactory.cs" Link="Factories\DetectorFactory.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Factories\PhotonDatabaseFactory.cs" Link="Factories\PhotonDatabaseFactory.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Factories\RandomNumberGeneratorFactory.cs" Link="Factories\RandomNumberGeneratorFactory.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Factories\SourceFactory.cs" Link="Factories\SourceFactory.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Factories\TissueFactory.cs" Link="Factories\TissueFactory.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Factories\VirtualBoundaryFactory.cs" Link="Factories\VirtualBoundaryFactory.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Helpers\DetectorBinning.cs" Link="MonteCarlo\Helpers\DetectorBinning.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Helpers\ErrorCalculation.cs" Link="MonteCarlo\Helpers\ErrorCalculation.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Helpers\Optics.cs" Link="MonteCarlo\Helpers\Optics.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Helpers\PolarAzimuthalAngles.cs" Link="MonteCarlo\Helpers\PolarAzimuthalAngles.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Helpers\SourceDefaults.cs" Link="MonteCarlo\Helpers\SourceDefaults.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Helpers\SourceFlags.cs" Link="MonteCarlo\Helpers\SourceFlags.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Helpers\SourceProfiles\ArbitrarySourceProfile.cs" Link="MonteCarlo\Helpers\SourceProfiles\ArbitrarySourceProfile.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Helpers\SourceProfiles\FlatSourceProfile.cs" Link="MonteCarlo\Helpers\SourceProfiles\FlatSourceProfile.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Helpers\SourceProfiles\GaussianSourceProfile.cs" Link="MonteCarlo\Helpers\SourceProfiles\GaussianSourceProfile.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Helpers\SourceToolbox.cs" Link="MonteCarlo\Helpers\SourceToolbox.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Helpers\ThreeAxisRotation.cs" Link="MonteCarlo\Helpers\ThreeAxisRotation.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Interfaces\IDetector.cs" Link="MonteCarlo\Interfaces\IDetector.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Interfaces\IDetectorController.cs" Link="MonteCarlo\Interfaces\IDetectorController.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Interfaces\IDetectorInput.cs" Link="MonteCarlo\Interfaces\IDetectorInput.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Interfaces\IHistoryDetector.cs" Link="MonteCarlo\Interfaces\IHistoryDetector.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Interfaces\IpMCDetectorInput.cs" Link="MonteCarlo\Interfaces\IpMCDetectorInput.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Interfaces\ISource.cs" Link="MonteCarlo\Interfaces\ISource.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Interfaces\ISourceInput.cs" Link="MonteCarlo\Interfaces\ISourceInput.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Interfaces\ISourceProfile.cs" Link="MonteCarlo\Interfaces\ISourceProfile.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Interfaces\ITissue.cs" Link="MonteCarlo\Interfaces\ITissue.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Interfaces\ITissueInput.cs" Link="MonteCarlo\Interfaces\ITissueInput.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Interfaces\ITissueProvider.cs" Link="MonteCarlo\Interfaces\ITissueProvider.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Interfaces\ITissueRegion.cs" Link="MonteCarlo\Interfaces\ITissueRegion.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Interfaces\IVirtualBoundary.cs" Link="MonteCarlo\Interfaces\IVirtualBoundary.cs" />
+    <Compile Include="..\Vts\MonteCarlo\IO\DatabaseOfT.cs" Link="MonteCarlo\IO\DatabaseOfT.cs" />
+    <Compile Include="..\Vts\MonteCarlo\IO\DatabaseReader.cs" Link="MonteCarlo\IO\DatabaseReader.cs" />
+    <Compile Include="..\Vts\MonteCarlo\IO\DatabaseWriter.cs" Link="MonteCarlo\IO\DatabaseWriter.cs" />
+    <Compile Include="..\Vts\MonteCarlo\IO\DetectorIO.cs" Link="MonteCarlo\IO\DetectorIO.cs" />
+    <Compile Include="..\Vts\MonteCarlo\mc_allvox.cs" Link="MonteCarlo\mc_allvox.cs" />
+    <Compile Include="..\Vts\MonteCarlo\MonteCarloSimulation.cs" Link="MonteCarlo\MonteCarloSimulation.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Photon.cs" Link="MonteCarlo\Photon.cs" />
+    <Compile Include="..\Vts\MonteCarlo\PhotonData\CollisionInfo.cs" Link="MonteCarlo\PhotonData\CollisionInfo.cs" />
+    <Compile Include="..\Vts\MonteCarlo\PhotonData\CollisionInfoDatabase.cs" Link="MonteCarlo\PhotonData\CollisionInfoDatabase.cs" />
+    <Compile Include="..\Vts\MonteCarlo\PhotonData\CollisionInfoDatabaseWriter.cs" Link="MonteCarlo\PhotonData\CollisionInfoDatabaseWriter.cs" />
+    <Compile Include="..\Vts\MonteCarlo\PhotonData\CollisionInfoSerializer.cs" Link="MonteCarlo\PhotonData\CollisionInfoSerializer.cs" />
+    <Compile Include="..\Vts\MonteCarlo\PhotonData\PhotonDatabase.cs" Link="MonteCarlo\PhotonData\PhotonDatabase.cs" />
+    <Compile Include="..\Vts\MonteCarlo\PhotonData\PhotonDatabaseWriter.cs" Link="MonteCarlo\PhotonData\PhotonDatabaseWriter.cs" />
+    <Compile Include="..\Vts\MonteCarlo\PhotonData\PhotonDataPoint.cs" Link="MonteCarlo\PhotonData\PhotonDataPoint.cs" />
+    <Compile Include="..\Vts\MonteCarlo\PhotonData\PhotonDataPointSerializer.cs" Link="MonteCarlo\PhotonData\PhotonDataPointSerializer.cs" />
+    <Compile Include="..\Vts\MonteCarlo\PhotonData\pMCDatabase.cs" Link="MonteCarlo\PhotonData\pMCDatabase.cs" />
+    <Compile Include="..\Vts\MonteCarlo\PhotonData\pMCDataPoint.cs" Link="MonteCarlo\PhotonData\pMCDataPoint.cs" />
+    <Compile Include="..\Vts\MonteCarlo\PhotonData\SubRegionCollisionInfo.cs" Link="MonteCarlo\PhotonData\SubRegionCollisionInfo.cs" />
+    <Compile Include="..\Vts\MonteCarlo\PhotonHistory.cs" Link="MonteCarlo\PhotonHistory.cs" />
+    <Compile Include="..\Vts\MonteCarlo\PostProcessing\PhotonDatabasePostProcessor.cs" Link="MonteCarlo\PostProcessing\PhotonDatabasePostProcessor.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Rng\MersenneTwisterSerializationInfo.cs" Link="MonteCarlo\Rng\MersenneTwisterSerializationInfo.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Rng\SerializableMersenneTwister.cs" Link="MonteCarlo\Rng\SerializableMersenneTwister.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Sources\PointAndLineSources\LineSources\CustomLineSource.cs" Link="MonteCarlo\Sources\PointAndLineSources\LineSources\CustomLineSource.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Sources\PointAndLineSources\LineSources\DirectionalLineSource.cs" Link="MonteCarlo\Sources\PointAndLineSources\LineSources\DirectionalLineSource.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Sources\PointAndLineSources\LineSources\IsotropicLineSource.cs" Link="MonteCarlo\Sources\PointAndLineSources\LineSources\IsotropicLineSource.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Sources\PointAndLineSources\LineSources\LineSourceBase.cs" Link="MonteCarlo\Sources\PointAndLineSources\LineSources\LineSourceBase.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Sources\PointAndLineSources\PointSources\CustomPointSource.cs" Link="MonteCarlo\Sources\PointAndLineSources\PointSources\CustomPointSource.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Sources\PointAndLineSources\PointSources\DirectionalPointSource.cs" Link="MonteCarlo\Sources\PointAndLineSources\PointSources\DirectionalPointSource.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Sources\PointAndLineSources\PointSources\IsotropicPointSource.cs" Link="MonteCarlo\Sources\PointAndLineSources\PointSources\IsotropicPointSource.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Sources\PointAndLineSources\PointSources\PointSourceBase.cs" Link="MonteCarlo\Sources\PointAndLineSources\PointSources\PointSourceBase.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Sources\SurfaceEmittingBulkSources\CylindricalFiber\LambertianSurfaceEmittingCylindricalFiberSource.cs" Link="MonteCarlo\Sources\SurfaceEmittingBulkSources\CylindricalFiber\LambertianSurfaceEmittingCylindricalFiberSource.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Sources\SurfaceEmittingBulkSources\CylindricalFiber\SurfaceEmittingCylindricalFiberSourceBase.cs" Link="MonteCarlo\Sources\SurfaceEmittingBulkSources\CylindricalFiber\SurfaceEmittingCylindricalFiberSourceBase.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Sources\SurfaceEmittingBulkSources\Spherical\CustomSurfaceEmittingSphericalSource.cs" Link="MonteCarlo\Sources\SurfaceEmittingBulkSources\Spherical\CustomSurfaceEmittingSphericalSource.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Sources\SurfaceEmittingBulkSources\Spherical\LambertianSurfaceEmittingSphericalSource.cs" Link="MonteCarlo\Sources\SurfaceEmittingBulkSources\Spherical\LambertianSurfaceEmittingSphericalSource.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Sources\SurfaceEmittingBulkSources\Spherical\SurfaceEmittingSphericalSourceBase.cs" Link="MonteCarlo\Sources\SurfaceEmittingBulkSources\Spherical\SurfaceEmittingSphericalSourceBase.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Sources\SurfaceEmittingBulkSources\SurfaceEmittingCuboidal\LambertianSurfaceEmittingCuboidalSource.cs" Link="MonteCarlo\Sources\SurfaceEmittingBulkSources\SurfaceEmittingCuboidal\LambertianSurfaceEmittingCuboidalSource.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Sources\SurfaceEmittingBulkSources\SurfaceEmittingCuboidal\SurfaceEmittingCuboidalSourceBase.cs" Link="MonteCarlo\Sources\SurfaceEmittingBulkSources\SurfaceEmittingCuboidal\SurfaceEmittingCuboidalSourceBase.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Sources\SurfaceEmittingBulkSources\Tubular\LambertianSurfaceEmittingTubularSource.cs" Link="MonteCarlo\Sources\SurfaceEmittingBulkSources\Tubular\LambertianSurfaceEmittingTubularSource.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Sources\SurfaceEmittingBulkSources\Tubular\SurfaceEmittingTubularSourceBase.cs" Link="MonteCarlo\Sources\SurfaceEmittingBulkSources\Tubular\SurfaceEmittingTubularSourceBase.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Sources\SurfaceEmittingFlatSources\Circular\CircularSourceBase.cs" Link="MonteCarlo\Sources\SurfaceEmittingFlatSources\Circular\CircularSourceBase.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Sources\SurfaceEmittingFlatSources\Circular\CustomCircularSource.cs" Link="MonteCarlo\Sources\SurfaceEmittingFlatSources\Circular\CustomCircularSource.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Sources\SurfaceEmittingFlatSources\Circular\DirectionalCircularSource.cs" Link="MonteCarlo\Sources\SurfaceEmittingFlatSources\Circular\DirectionalCircularSource.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Sources\SurfaceEmittingFlatSources\Elliptical\CustomEllipticalSource.cs" Link="MonteCarlo\Sources\SurfaceEmittingFlatSources\Elliptical\CustomEllipticalSource.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Sources\SurfaceEmittingFlatSources\Elliptical\DirectionalEllipticalSource.cs" Link="MonteCarlo\Sources\SurfaceEmittingFlatSources\Elliptical\DirectionalEllipticalSource.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Sources\SurfaceEmittingFlatSources\Elliptical\EllipticalSourceBase.cs" Link="MonteCarlo\Sources\SurfaceEmittingFlatSources\Elliptical\EllipticalSourceBase.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Sources\SurfaceEmittingFlatSources\Rectangular\CustomRectangularSource.cs" Link="MonteCarlo\Sources\SurfaceEmittingFlatSources\Rectangular\CustomRectangularSource.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Sources\SurfaceEmittingFlatSources\Rectangular\DirectionalRectangularSource.cs" Link="MonteCarlo\Sources\SurfaceEmittingFlatSources\Rectangular\DirectionalRectangularSource.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Sources\SurfaceEmittingFlatSources\Rectangular\RectangularSourceBase.cs" Link="MonteCarlo\Sources\SurfaceEmittingFlatSources\Rectangular\RectangularSourceBase.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Sources\VolumetricSources\Ellipsoidal\CustomVolumetricEllipsoidalSource.cs" Link="MonteCarlo\Sources\VolumetricSources\Ellipsoidal\CustomVolumetricEllipsoidalSource.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Sources\VolumetricSources\Ellipsoidal\IsotropicVolumetricEllipsoidalSource.cs" Link="MonteCarlo\Sources\VolumetricSources\Ellipsoidal\IsotropicVolumetricEllipsoidalSource.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Sources\VolumetricSources\Ellipsoidal\VolumetricEllipsoidalSourceBase.cs" Link="MonteCarlo\Sources\VolumetricSources\Ellipsoidal\VolumetricEllipsoidalSourceBase.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Sources\VolumetricSources\VolumtricCuboidal\CustomVolumetricCuboidalSource.cs" Link="MonteCarlo\Sources\VolumetricSources\VolumetricCuboidal\CustomVolumetricCuboidalSource.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Sources\VolumetricSources\VolumtricCuboidal\IsotropicVolumetricCuboidalSource.cs" Link="MonteCarlo\Sources\VolumetricSources\VolumetricCuboidal\IsotropicVolumetricCuboidalSource.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Sources\VolumetricSources\VolumtricCuboidal\VolumetricCuboidalSourceBase.cs" Link="MonteCarlo\Sources\VolumetricSources\VolumetricCuboidal\VolumetricCuboidalSourceBase.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Tissues\CylinderTissueRegion.cs" Link="MonteCarlo\Tissues\CylinderTissueRegion.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Tissues\EllipsoidTissueRegion.cs" Link="MonteCarlo\Tissues\EllipsoidTissueRegion.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Tissues\LayerTissueRegion.cs" Link="MonteCarlo\Tissues\LayerTissueRegion.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Tissues\MultiEllipsoidTissue.cs" Link="MonteCarlo\Tissues\MultiEllipsoidTissue.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Tissues\MultiLayerTissue.cs" Link="MonteCarlo\Tissues\MultiLayerTissue.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Tissues\SemiInfiniteTissue.cs" Link="MonteCarlo\Tissues\SemiInfiniteTissue.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Tissues\SemiInfiniteTissueRegion.cs" Link="MonteCarlo\Tissues\SemiInfiniteTissueRegion.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Tissues\SingleEllipsoidTissue.cs" Link="MonteCarlo\Tissues\SingleEllipsoidTissue.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Tissues\SingleInclusionTissue.cs" Link="MonteCarlo\Tissues\SingleInclusionTissue.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Tissues\SingleVoxelTissue.cs" Link="MonteCarlo\Tissues\SingleVoxelTissue.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Tissues\TissueBase.cs" Link="MonteCarlo\Tissues\TissueBase.cs" />
+    <Compile Include="..\Vts\MonteCarlo\Tissues\VoxelTissueRegion.cs" Link="MonteCarlo\Tissues\VoxelTissueRegion.cs" />
+    <Compile Include="..\Vts\MonteCarlo\VirtualBoundaries\DiffuseReflectanceVirtualBoundary.cs" Link="MonteCarlo\VirtualBoundaries\DiffuseReflectanceVirtualBoundary.cs" />
+    <Compile Include="..\Vts\MonteCarlo\VirtualBoundaries\DiffuseTransmittanceVirtualBoundary.cs" Link="MonteCarlo\VirtualBoundaries\DiffuseTransmittanceVirtualBoundary.cs" />
+    <Compile Include="..\Vts\MonteCarlo\VirtualBoundaries\GenericVolumeVirtualBoundary.cs" Link="MonteCarlo\VirtualBoundaries\GenericVolumeVirtualBoundary.cs" />
+    <Compile Include="..\Vts\MonteCarlo\VirtualBoundaries\pMCDiffuseReflectanceVirtualBoundary.cs" Link="MonteCarlo\VirtualBoundaries\pMCDiffuseReflectanceVirtualBoundary.cs" />
+    <Compile Include="..\Vts\MonteCarlo\VirtualBoundaries\RadianceVirtualBoundary.cs" Link="MonteCarlo\VirtualBoundaries\RadianceVirtualBoundary.cs" />
+    <Compile Include="..\Vts\MonteCarlo\VirtualBoundaries\SpecularReflectanceVirtualBoundary.cs" Link="MonteCarlo\VirtualBoundaries\SpecularReflectanceVirtualBoundary.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="..\Vts\Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\ROfFxAndTime.txt" Link="Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\ROfFxAndTime.txt" />
+    <Content Include="..\Vts\Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\ROfRhoAndTime.txt" Link="Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\ROfRhoAndTime.txt" />
+    <Content Include="..\Vts\Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\spaceNurbsValues.txt" Link="Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\spaceNurbsValues.txt" />
+    <Content Include="..\Vts\Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\spaceNurbsValues.xml" Link="Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\spaceNurbsValues.xml" />
+    <Content Include="..\Vts\Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\timeNurbsValues.txt" Link="Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\timeNurbsValues.txt" />
+    <Content Include="..\Vts\Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\timeNurbsValues.xml" Link="Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\timeNurbsValues.xml" />
+    <Content Include="..\Vts\Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\spaceNurbsValues.txt" Link="Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\spaceNurbsValues.txt" />
+    <Content Include="..\Vts\Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\spaceNurbsValues.xml" Link="Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\spaceNurbsValues.xml" />
+    <Content Include="..\Vts\Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\timeNurbsValues.txt" Link="Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\timeNurbsValues.txt" />
+    <Content Include="..\Vts\Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\timeNurbsValues.xml" Link="Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\timeNurbsValues.xml" />
+    <Content Include="..\Vts\Modeling\Spectroscopy\Resources\Spectra.txt" Link="Modeling\Spectroscopy\Resources\Spectra.txt" />
+    <Content Include="..\Vts\Modeling\Spectroscopy\Resources\SpectralDictionary.txt" Link="Modeling\Spectroscopy\Resources\SpectralDictionary.txt" />
+    <Content Include="..\Vts\Modeling\Spectroscopy\Resources\SpectralDictionary.xml" Link="Modeling\Spectroscopy\Resources\SpectralDictionary.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="..\Vts\Common\Resources\Strings.resx" Link="Common\Resources\Strings.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Common\Extensions\" />
+    <Folder Include="Common\Helpers\Range\" />
+    <Folder Include="Common\Interfaces\" />
+    <Folder Include="Common\Logging\" />
+    <Folder Include="Common\Math\" />
+    <Folder Include="Common\Resources\" />
+    <Folder Include="Factories\" />
+    <Folder Include="FemModeling\MGRTE\2D\DataStructures\MeshInputs\" />
+    <Folder Include="FemModeling\MGRTE\2D\DataStructures\SourceInputs\ExternalSourceInputs\" />
+    <Folder Include="FemModeling\MGRTE\2D\DataStructures\SourceInputs\InternalSourceInputs\" />
+    <Folder Include="FemModeling\MGRTE\2D\Factory\" />
+    <Folder Include="FemModeling\MGRTE\2D\Interfaces\" />
+    <Folder Include="FemModeling\MGRTE\2D\Sources\ExternalSources\" />
+    <Folder Include="FemModeling\MGRTE\2D\Sources\InternalSources\" />
+    <Folder Include="IO\" />
+    <Folder Include="Modeling\Analyzers\" />
+    <Folder Include="Modeling\ForwardSolvers\DiscreteOrdinates\" />
+    <Folder Include="Modeling\Input\" />
+    <Folder Include="Modeling\Optimizers\" />
+    <Folder Include="Modeling\Resources\HankelData\" />
+    <Folder Include="Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\" />
+    <Folder Include="Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\" />
+    <Folder Include="Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\" />
+    <Folder Include="Modeling\Spectroscopy\Resources\" />
+    <Folder Include="Modeling\Tools\" />
+    <Folder Include="MonteCarlo\Controllers\" />
+    <Folder Include="MonteCarlo\DataStructuresValidation\DetectorInputs\" />
+    <Folder Include="MonteCarlo\DataStructuresValidation\PostProcessorInputs\" />
+    <Folder Include="MonteCarlo\DataStructuresValidation\TissueInputs\" />
+    <Folder Include="MonteCarlo\DataStructures\PostProcessorInputs\" />
+    <Folder Include="MonteCarlo\Detectors\" />
+    <Folder Include="MonteCarlo\Extensions\" />
+    <Folder Include="MonteCarlo\Factories\" />
+    <Folder Include="MonteCarlo\Helpers\SourceProfiles\" />
+    <Folder Include="MonteCarlo\Interfaces\" />
+    <Folder Include="MonteCarlo\IO\" />
+    <Folder Include="MonteCarlo\PhotonData\" />
+    <Folder Include="MonteCarlo\PostProcessing\" />
+    <Folder Include="MonteCarlo\Rng\" />
+    <Folder Include="MonteCarlo\Sources\PointAndLineSources\LineSources\" />
+    <Folder Include="MonteCarlo\Sources\PointAndLineSources\PointSources\" />
+    <Folder Include="MonteCarlo\Sources\SurfaceEmittingBulkSources\CylindricalFiber\" />
+    <Folder Include="MonteCarlo\Sources\SurfaceEmittingBulkSources\Spherical\" />
+    <Folder Include="MonteCarlo\Sources\SurfaceEmittingBulkSources\SurfaceEmittingCuboidal\" />
+    <Folder Include="MonteCarlo\Sources\SurfaceEmittingBulkSources\Tubular\" />
+    <Folder Include="MonteCarlo\Sources\SurfaceEmittingFlatSources\Circular\" />
+    <Folder Include="MonteCarlo\Sources\SurfaceEmittingFlatSources\Elliptical\" />
+    <Folder Include="MonteCarlo\Sources\SurfaceEmittingFlatSources\Rectangular\" />
+    <Folder Include="MonteCarlo\Sources\VolumetricSources\Ellipsoidal\" />
+    <Folder Include="MonteCarlo\Sources\VolumetricSources\VolumetricCuboidal\" />
+    <Folder Include="MonteCarlo\Tissues\" />
+    <Folder Include="MonteCarlo\Unmanaged\" />
+    <Folder Include="MonteCarlo\VirtualBoundaries\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\Vts\Modeling\Resources\HankelData\basepoints.dat" Link="Modeling\Resources\HankelData\basepoints.dat" />
+    <None Include="..\Vts\Modeling\Resources\HankelData\hankelweights.dat" Link="Modeling\Resources\HankelData\hankelweights.dat" />
+    <None Include="..\Vts\Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\ROfFxAndTime" Link="Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\ROfFxAndTime" />
+    <None Include="..\Vts\Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\ROfRhoAndTime" Link="Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\ROfRhoAndTime" />
+    <None Include="..\Vts\Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\controlPoints" Link="Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\controlPoints" />
+    <None Include="..\Vts\Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\degrees" Link="Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\degrees" />
+    <None Include="..\Vts\Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\dims" Link="Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\dims" />
+    <None Include="..\Vts\Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\maxValues" Link="Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\maxValues" />
+    <None Include="..\Vts\Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\minValidTimes" Link="Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\minValidTimes" />
+    <None Include="..\Vts\Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\nativeTimes" Link="Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\nativeTimes" />
+    <None Include="..\Vts\Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\rhos" Link="Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\rhos" />
+    <None Include="..\Vts\Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\spaceKnots" Link="Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\spaceKnots" />
+    <None Include="..\Vts\Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\timeKnots" Link="Modeling\Resources\ReferenceNurbs\RealDomain\v0p1\timeKnots" />
+    <None Include="..\Vts\Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\controlPoints" Link="Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\controlPoints" />
+    <None Include="..\Vts\Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\degrees" Link="Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\degrees" />
+    <None Include="..\Vts\Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\dims" Link="Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\dims" />
+    <None Include="..\Vts\Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\maxValues" Link="Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\maxValues" />
+    <None Include="..\Vts\Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\nativeTimes" Link="Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\nativeTimes" />
+    <None Include="..\Vts\Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\spaceKnots" Link="Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\spaceKnots" />
+    <None Include="..\Vts\Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\timeKnots" Link="Modeling\Resources\ReferenceNurbs\SpatialFrequencyDomain\v0p1\timeKnots" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="csmpfit" Version="1.1.0" />
+    <PackageReference Include="DotNetZip" Version="1.10.1" />
+    <PackageReference Include="MathNet.Numerics" Version="3.19.0" />
+    <PackageReference Include="Meta.Numerics" Version="3.1.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.2" />
+    <PackageReference Include="NLog" Version="4.4.10" />
+    <PackageReference Include="System.Reactive" Version="3.1.1" />
+    <PackageReference Include="Unity" Version="4.0.1" />
+  </ItemGroup>
+
+</Project>
