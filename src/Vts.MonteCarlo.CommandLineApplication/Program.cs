@@ -77,7 +77,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
     /// </summary>
     public static class Program
     {
-        private static ILogger logger = LoggerFactoryLocator.GetDefaultNLogFactory().Create(typeof(Program));
+        private static Vts.Common.Logging.ILogger logger = LoggerFactoryLocator.GetDefaultNLogFactory().Create(typeof(Program));
 
         /// <summary>
         /// main Monte Carlo CommandLine (MCCL) application
