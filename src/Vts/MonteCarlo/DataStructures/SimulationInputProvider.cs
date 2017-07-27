@@ -731,7 +731,7 @@ namespace Vts.MonteCarlo
         public static SimulationInput DirectionalCircularSourceEmbeddedOneLayerTissueFluenceOfXAndYAndZ()
         {
             return new SimulationInput(
-                10000,
+                100,
                 "directionalCircularSourceEmbedded",
                 new SimulationOptions(
                     0, // random number generator seed, -1=random seed, 0=fixed seed
