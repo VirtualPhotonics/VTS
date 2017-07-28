@@ -29,7 +29,7 @@ namespace Vts.MonteCarlo.Sources
             Position translationFromOrigin,
             int initialTissueRegionIndex)
         {
-            SourceType = "LambertianSurfaceEmittingTubular";
+            SourceType = "LambertianSurfaceEmittingCylindricalFiber";
             FiberRadius = fiberRadius;
             FiberHeightZ = fiberHeightZ;
             CurvedSurfaceEfficiency = curvedSurfaceEfficiency;

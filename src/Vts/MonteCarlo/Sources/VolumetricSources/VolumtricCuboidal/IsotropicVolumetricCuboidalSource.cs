@@ -32,7 +32,7 @@ namespace Vts.MonteCarlo.Sources
             Position translationFromOrigin,
             int initialTissueRegionIndex)
         {
-            SourceType = "CustomVolumetricCubiodal";
+            SourceType = "IsotropicVolumetricCubiodal";
             CubeLengthX = cubeLengthX;
             CubeWidthY = cubeWidthY;
             CubeHeightZ = cubeHeightZ;
