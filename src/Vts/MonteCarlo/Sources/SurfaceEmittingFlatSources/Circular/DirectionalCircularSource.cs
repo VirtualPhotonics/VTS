@@ -16,7 +16,7 @@ namespace Vts.MonteCarlo.Sources
         /// <summary>
         /// Initializes a new instance of DirectionalCircularSourceInput class
         /// </summary>
-        /// <param name="thetaConvOrDiv">Convergence(positive angle in radians) or Divergence (negative angle in radians) angle {= 0, for a collimated beam</param>
+        /// <param name="thetaConvOrDiv">Convergence(negative angle in radians) or Divergence (positive angle in radians) angle {= 0, for a collimated beam}</param>
         /// <param name="outerRadius">The outer radius of the circular source</param>
         /// <param name="innerRadius">The inner radius of the circular source</param>
         /// <param name="sourceProfile">Source Profile {Flat / Gaussian}</param>
@@ -48,7 +48,7 @@ namespace Vts.MonteCarlo.Sources
         /// <summary>
         /// Initializes a new instance of DirectionalCircularSourceInput class
         /// </summary>
-        /// <param name="thetaConvOrDiv">Convergence(positive angle in radians) or Divergence (negative angle in radians) angle {= 0, for a collimated beam</param>
+        /// <param name="thetaConvOrDiv">Convergence(negative angle in radians) or Divergence (positive angle in radians) angle {= 0, for a collimated beam}</param>
         /// <param name="outerRadius">The outer radius of the circular source</param>
         /// <param name="innerRadius">The inner radius of the circular source</param>
         /// <param name="sourceProfile">Source Profile {Flat / Gaussian}</param>
@@ -82,7 +82,7 @@ namespace Vts.MonteCarlo.Sources
                 0) { }
 
         /// <summary>
-        /// Convergence(positive angle in radians) or Divergence (negative angle in radians) angle {= 0, for a collimated beam}
+        /// Convergence(negative angle in radians) or Divergence (positive angle in radians) angle {= 0, for a collimated beam}
         /// </summary>
         public double ThetaConvOrDiv { get; set; }
         /// <summary>
@@ -151,7 +151,7 @@ namespace Vts.MonteCarlo.Sources
         /// Returns an instance of directional (diverging/converging/collimated) Circular Source with specified length and width, 
         /// source profile (Flat/Gaussian), polar and azimuthal angle range, new source axis direction, translation, and  inward normal ray rotation
         /// </summary>
-        /// <param name="thetaConvOrDiv">Convergence(positive angle in radians) or Divergence (negative angle in radians) angle {= 0, for a collimated beam</param>
+        /// <param name="thetaConvOrDiv">Convergence(negative angle in radians) or Divergence (positive angle in radians) angle {= 0, for a collimated beam}</param>
         /// <param name="innerRadius">The inner radius of the circular source</param>
         /// <param name="outerRadius">The outer radius of the circular source</param>
         /// <param name="sourceProfile">Source Profile {Flat / Gaussian}</param>
