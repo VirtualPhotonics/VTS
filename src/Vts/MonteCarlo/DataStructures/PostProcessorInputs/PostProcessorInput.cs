@@ -34,19 +34,16 @@ namespace Vts.MonteCarlo
         /// constructor for post-processor input
         /// </summary>
         /// <param name="detectorInputs">list of detector inputs</param>
-        /// <param name="tallySecondMoment">flag indicating whether to tally second moment info for error results</param>
         /// <param name="inputFolder">input folder name, where database file(s), etc. reside</param>
         /// <param name="databaseSimulationInputFilename">filename of simulation input file that generated database to be post-processed</param>
         /// <param name="outputName"></param>
         public PostProcessorInput(
             IList<IDetectorInput> detectorInputs,
-            bool tallySecondMoment,
             string inputFolder,
             string databaseSimulationInputFilename,
             string outputName)
         {
             DetectorInputs = detectorInputs;
-            TallySecondMoment = tallySecondMoment;
             InputFolder = inputFolder;
             DatabaseSimulationInputFilename = databaseSimulationInputFilename;
             OutputName = outputName;
@@ -65,7 +62,6 @@ namespace Vts.MonteCarlo
                             Rho = new DoubleRange(0.0, 40.0, 201), // rho: nr=200 dr=0.2mm used for workshop)
                         }
                     },
-                false, // tally second moment
                 "results",
                 "infile",
                 "ppresults"

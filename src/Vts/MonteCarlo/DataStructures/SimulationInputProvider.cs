@@ -33,7 +33,8 @@ namespace Vts.MonteCarlo
                 FlatSourceOneLayerTissueROfRhoDetector(),
                 PointSourceMultiLayerMomentumTransferDetectors(),
                 PointSourceSingleVoxelTissueROfXAndYAndFluenceOfXAndYAndZDetector(),
-                PointSourceThreeLayerReflectedTimeOfRhoAndSubregionHistDetector()
+                PointSourceThreeLayerReflectedTimeOfRhoAndSubregionHistDetector(),
+                EmbeddedDirectionalCircularSourceEllipTissueFluenceOfXAndYAndZ()
             };
         }
 
@@ -719,6 +720,62 @@ namespace Vts.MonteCarlo
                     new ReflectedTimeOfRhoAndSubregionHistDetectorInput(){
                           Rho=new DoubleRange(0.0, 10.0, 21), // rho bins
                           Time=new DoubleRange(0.0, 1.0, 11)} // time bins
+                }
+            );
+        }
+        #endregion
+
+        #region directional circular source embedded in tissue pointed downward
+        /// <summary>
+        /// </summary>
+        public static SimulationInput EmbeddedDirectionalCircularSourceEllipTissueFluenceOfXAndYAndZ()
+        {
+            return new SimulationInput(
+                100,
+                "embeddedDirectionalCircularSourceEllipTissue",
+                new SimulationOptions(
+                    0, // random number generator seed, -1=random seed, 0=fixed seed
+                    RandomNumberGeneratorType.MersenneTwister,
+                    AbsorptionWeightingType.Discrete,
+                    PhaseFunctionType.HenyeyGreenstein,
+                    new List<DatabaseType>() { }, // databases to be written
+                    false, // track statistics
+                    0.0, // RR threshold -> no RR performed
+                    0),
+                new DirectionalCircularSourceInput(
+                    0.7071, // < 0: Converging beam, > 0: Diverging beam, = 0: Collimated beam
+                    0.2, // outer radius in mm
+                    0, // inner radius
+                    new FlatSourceProfile(), // flat beam
+                    new Direction(0, 0, 1), // direction of principal source axis 
+                    new Position(0.0, 0.0, 5.0), // translation from origin
+                    new PolarAzimuthalAngles(0.0, 0.0), // beam rotation from inward normal
+                    1), // 0=start in air, 1=start in tissue
+                new SingleEllipsoidTissueInput(
+                    new EllipsoidTissueRegion(
+                        new Position(0, 0, 7),
+                        5,
+                        0.5,
+                        0.5,
+                        new OpticalProperties(0.01, 1.0, 0.8, 1.4)
+                    ),
+                    new ITissueRegion[]
+                    { 
+                        new LayerTissueRegion(
+                            new DoubleRange(double.NegativeInfinity, 0.0),
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
+                        new LayerTissueRegion(
+                            new DoubleRange(0.0, 100.0),
+                            new OpticalProperties(0.01, 1e-5, 0.8, 1.4)),
+                        new LayerTissueRegion(
+                            new DoubleRange(100.0, double.PositiveInfinity),
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
+                    }
+                ),
+                new List<IDetectorInput>()
+                {
+                    // units space[mm], time[ns], temporal-freq[GHz], abs./scat. coeff[/mm]    
+                    new FluenceOfXAndYAndZDetectorInput(){X=new DoubleRange(-5, 5, 100),Y=new DoubleRange(-5, 5, 100),Z=new DoubleRange(0, 10, 101)},
                 }
             );
         }

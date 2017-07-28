@@ -167,7 +167,8 @@ namespace Vts.Test.MonteCarlo.Detectors
                                 _referenceInputOneLayerTissue.TissueInput.Regions[0].RegionOP,
                                 _referenceInputOneLayerTissue.TissueInput.Regions[1].RegionOP,
                                 _referenceInputOneLayerTissue.TissueInput.Regions[2].RegionOP},
-                            PerturbedRegionsIndices=new List<int>() { 1 } 
+                            PerturbedRegionsIndices=new List<int>() { 1 },
+                            TallySecondMoment = true
                         }
                     },
                 _databaseOneLayerTissue,
@@ -177,6 +178,8 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.Less(Math.Abs(postProcessedOutput.pMC_R_r[0] - _referenceOutputOneLayerTissue.R_r[0]), 0.00000000001);
             // validation value obtained from linux run using above input and seeded the same
             Assert.Less(Math.Abs(postProcessedOutput.pMC_R_r[0]*_factor - 0.615238307), 0.000000001);
+            // validation value based on previous run
+            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_r2[0] - 20.022918), 0.000001);
         }
         /// <summary>
         /// Test to validate that setting mua and mus to the perturbed values (mua*2, mus*1.1)

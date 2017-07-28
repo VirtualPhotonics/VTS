@@ -37,7 +37,6 @@ namespace Vts.MonteCarlo
                         Rho = new DoubleRange(0.0, 10, 101)
                     }
                 },
-                true,
                 "one_layer_ROfRho_DAW",
                 "one_layer_ROfRho_DAW",
                 "PostProcessor_ROfRho"
@@ -66,6 +65,7 @@ namespace Vts.MonteCarlo
                                 new OpticalProperties(0.0, 1e-10, 1.0, 1.0)
                             },
                         PerturbedRegionsIndices = new List<int>() { 1 },
+                        TallySecondMoment = true,
                         Name="pMCROfRhoReference",
                     },
                     new pMCROfRhoDetectorInput()
@@ -77,6 +77,7 @@ namespace Vts.MonteCarlo
                                 new OpticalProperties(0.01, 1.5, 0.8, 1.4),
                                 new OpticalProperties(0.0, 1e-10, 0.0, 1.0)},
                         PerturbedRegionsIndices = new List<int>() { 1 },
+                        TallySecondMoment = true,
                         Name="pMCROfRho_mus1p5",
                     },
                     new pMCROfRhoDetectorInput()
@@ -88,6 +89,7 @@ namespace Vts.MonteCarlo
                                 new OpticalProperties(0.01, 0.5, 0.8, 1.4),
                                 new OpticalProperties(0.0, 1e-10, 0.0, 1.0)},
                         PerturbedRegionsIndices = new List<int>() { 1 },
+                        TallySecondMoment = true,
                         Name="pMCROfRho_mus0p5",
                     },
                     new pMCROfRhoAndTimeDetectorInput()
@@ -103,7 +105,6 @@ namespace Vts.MonteCarlo
                         Name="pMCROfRhoAndTime_mus1p5"
                     },
                 },
-                true,
                 "pMC_one_layer_ROfRho_DAW",
                 "pMC_one_layer_ROfRho_DAW",
                 "PostProcessor_pMC_ROfRhoROfRhoAndTime"
