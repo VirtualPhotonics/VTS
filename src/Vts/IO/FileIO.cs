@@ -40,7 +40,21 @@ namespace Vts.IO
         }
 
         /// <summary>
-        /// Statis method to delete a file in Silverlight or Desktop
+        /// Static method to check if a directory exists in Silverlight or Desktop
+        /// </summary>
+        /// <param name="folder">Name of the directory</param>
+        public static bool DirectoryExists(string folder)
+        {
+#if SILVERLIGHT
+            var objStore = IsolatedStorageFile.GetUserStoreForApplication();
+            return objStore.DirectoryExists(folder);
+#else
+            return Directory.Exists(folder);
+#endif
+        }
+
+        /// <summary>
+        /// Static method to delete a file in Silverlight or Desktop
         /// </summary>
         /// <param name="fileName">Name of the file to delete</param>
         public static void FileDelete(string fileName)
@@ -55,6 +69,28 @@ namespace Vts.IO
             if(File.Exists(fileName))
             {
                 File.Delete(fileName);
+            }
+#endif
+        }
+
+        /// <summary>
+        /// Static method to delete a directory in Silverlight or Desktop
+        /// </summary>
+        /// <param name="folder">Name of the directory to delete</param>
+        public static void DeleteDirectory(string folder)
+        {
+#if SILVERLIGHT
+            var objStore = IsolatedStorageFile.GetUserStoreForApplication();
+            if (objStore.DirectoryExists(folder))
+            {
+                ClearDirectory(folder);
+                objStore.DeleteDirectory(folder);
+            }
+#else
+            if(Directory.Exists(folder))
+            {
+                ClearDirectory(folder);
+                Directory.Delete(folder);
             }
 #endif
         }
@@ -121,7 +157,7 @@ namespace Vts.IO
                 if (store.DirectoryExists(folderPath))
                 {
                     //DeleteDirectoryRecursive(store, folderPath);
-                    foreach (var file in store.GetFileNames(folderPath + "\\"))
+                    foreach (var file in store.GetFileNames(folderPath + "/*"))
                     {
                         store.DeleteFile(Path.Combine(folderPath, file));
                     }
@@ -132,7 +168,7 @@ namespace Vts.IO
             {
                 foreach (var file in Directory.GetFiles(folderPath))
                 {
-                    File.Delete(Path.Combine(folderPath, file));
+                    File.Delete(file);
                 }
             }
 #endif
@@ -330,8 +366,8 @@ namespace Vts.IO
         /// Copy a folder and contents to an external location
         /// </summary>
         /// <param name="folderName">Name of the folder to copy</param>
-        /// <param name="projectName">The name of the project where the file is located</param>
         /// <param name="destinationFolder">The name of the folder to copy the folder</param>
+        /// <param name="projectName">The name of the project where the file is located</param>
         /// <param name="includeFolder">Boolean value to determine whether for include the containing folder</param>
         /// <returns>Returns a list of the copied files</returns>
         public static List<string> CopyFolderFromEmbeddedResources(string folderName, string destinationFolder, string projectName, bool includeFolder)
