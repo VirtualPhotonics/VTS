@@ -127,6 +127,8 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
             string[] arguments = new string[] { "infile=infile_one_layer_ROfRho_FluenceOfRhoAndZ.txt" };
             Program.Main(arguments);
             Assert.IsTrue(Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ"));
+            // verify infile gets written to output folder
+            Assert.IsTrue(File.Exists("one_layer_ROfRho_FluenceOfRhoAndZ/one_layer_ROfRho_FluenceOfRhoAndZ.txt"));
         }
         /// <summary>
         /// test to verify correct parameter sweep folder names created for output
