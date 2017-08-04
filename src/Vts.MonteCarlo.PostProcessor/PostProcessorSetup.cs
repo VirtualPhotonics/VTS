@@ -144,7 +144,7 @@ namespace Vts.MonteCarlo.PostProcessor
             input.ToFile(Path.Combine(resultsFolder, input.OutputName + ".txt"));
 
             // save database generation input file to output folder
-            databaseGenerationInputFile.ToFile(resultsFolder + "\\" + input.OutputName + "_database_infile.txt");
+            databaseGenerationInputFile.ToFile(Path.Combine(resultsFolder, input.OutputName + "_database_infile.txt"));
 
             if (postProcessedOutput != null)
             {
