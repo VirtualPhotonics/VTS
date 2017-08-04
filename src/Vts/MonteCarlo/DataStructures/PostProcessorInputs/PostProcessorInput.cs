@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Runtime.Serialization;
 using Vts.Common;
 using Vts.IO;
 using Vts.MonteCarlo.Detectors;
@@ -13,10 +11,6 @@ namespace Vts.MonteCarlo
         /// IList of IDetectorInput
         /// </summary>
         public IList<IDetectorInput> DetectorInputs;
-        /// <summary>
-        /// boolean indicating whether to tally 2nd moment or not
-        /// </summary>
-        public bool TallySecondMoment;
         /// <summary>
         /// string input folder
         /// </summary>
