@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Vts.MonteCarlo.DataStructuresValidation;
-using Vts.MonteCarlo.Extensions;
 using Vts.MonteCarlo.Factories;
 using Vts.MonteCarlo.IO;
 using Vts.MonteCarlo.PostProcessing;

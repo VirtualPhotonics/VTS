@@ -1,11 +1,11 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
-using MathNet.Numerics;
 using System.Runtime.Serialization;
 using Vts.Common;
-using Vts.IO;
 using Vts.MonteCarlo.PhotonData;
+using Vts.IO;
 
 namespace Vts.MonteCarlo.Detectors
 {
@@ -21,7 +21,7 @@ namespace Vts.MonteCarlo.Detectors
         {
             TallyType = "pMCROfFx";
             Name = "pMCROfFx";
-            Fx = new DoubleRange(0.0, 10, 101);
+            Fx = new DoubleRange(0.0, 0.5, 11);
 
             // modify base class TallyDetails to take advantage of built-in validation capabilities (error-checking)
             TallyDetails.IspMCReflectanceTally = true;
@@ -33,11 +33,11 @@ namespace Vts.MonteCarlo.Detectors
         /// <summary>
         /// list of perturbed OPs listed in order of tissue regions
         /// </summary>
-        public OpticalProperties[] PerturbedOps { get; set; }
+        public IList<OpticalProperties> PerturbedOps { get; set; }
         /// <summary>
         /// list of perturbed regions indices
         /// </summary>
-        public int[] PerturbedRegionsIndices { get; set; }
+        public IList<int> PerturbedRegionsIndices { get; set; }
 
         public IDetector CreateDetector()
         {
@@ -63,10 +63,10 @@ namespace Vts.MonteCarlo.Detectors
     public class pMCROfFxDetector : Detector, IDetector
     {
         private double[] _fxArray;
-        private OpticalProperties[] _referenceOps;
-        private OpticalProperties[] _perturbedOps;
-        private int[] _perturbedRegionsIndices;
-        private Func<long[], double[], OpticalProperties[], OpticalProperties[], int[], double> _absorbAction;
+        private IList<OpticalProperties> _referenceOps;
+        private IList<OpticalProperties> _perturbedOps;
+        private IList<int> _perturbedRegionsIndices;
+        private Func<IList<long>, IList<double>, IList<OpticalProperties>, IList<OpticalProperties>, IList<int>, double> _absorbAction;
 
         /* ==== Place optional/user-defined input properties here. They will be saved in text (JSON) format ==== */
         /* ==== Note: make sure to copy over all optional/user-defined inputs from corresponding input class ==== */
@@ -77,11 +77,11 @@ namespace Vts.MonteCarlo.Detectors
         /// <summary>
         /// list of perturbed OPs listed in order of tissue regions
         /// </summary>
-        public OpticalProperties[] PerturbedOps { get; set; }
+        public IList<OpticalProperties> PerturbedOps { get; set; }
         /// <summary>
         /// list of perturbed regions indices
         /// </summary>
-        public int[] PerturbedRegionsIndices { get; set; }
+        public IList<int> PerturbedRegionsIndices { get; set; }
 
         /* ==== Place user-defined output arrays here. They should be prepended with "[IgnoreDataMember]" attribute ==== */
         /* ==== Then, GetBinaryArrays() should be implemented to save them separately in binary format ==== */
@@ -103,7 +103,7 @@ namespace Vts.MonteCarlo.Detectors
         public long TallyCount { get; set; }
 
         public void Initialize(ITissue tissue, Random rng)
-        {
+        {            
             // assign any user-defined outputs (except arrays...we'll make those on-demand)
             TallyCount = 0;
 
@@ -115,10 +115,10 @@ namespace Vts.MonteCarlo.Detectors
             _perturbedOps = PerturbedOps;
             _perturbedRegionsIndices = PerturbedRegionsIndices;
             _referenceOps = tissue.Regions.Select(r => r.RegionOP).ToArray();
-            TallyCount = 0;
             _absorbAction = AbsorptionWeightingMethods.GetpMCTerminationAbsorptionWeightingMethod(tissue, this);
             _fxArray = Fx.AsEnumerable().ToArray();
         }
+
 
         /// <summary>
         /// method to tally to detector
@@ -130,10 +130,9 @@ namespace Vts.MonteCarlo.Detectors
             var x = dp.Position.X;
 
             double weightFactor = _absorbAction(
-                photon.History.SubRegionInfoList.Select(c => c.NumberOfCollisions).ToArray(),
-                photon.History.SubRegionInfoList.Select(p => p.PathLength).ToArray(),
+                photon.History.SubRegionInfoList.Select(c => c.NumberOfCollisions).ToList(),
+                photon.History.SubRegionInfoList.Select(p => p.PathLength).ToList(),
                 _perturbedOps, _referenceOps, _perturbedRegionsIndices);
-
 
             for (int ifx = 0; ifx < _fxArray.Length; ++ifx)
             {
@@ -145,20 +144,19 @@ namespace Vts.MonteCarlo.Detectors
                 /* convert to Hz-sec from MHz-ns 1e-6*1e9=1e-3 */
                 // convert to Hz-sec from GHz-ns 1e-9*1e9=1
 
-                var deltaWeight = (weightFactor * dp.Weight) * (cosNegativeTwoPiFX + Complex.ImaginaryOne * sinNegativeTwoPiFX);
+                var deltaWeight = dp.Weight * weightFactor * (cosNegativeTwoPiFX + Complex.ImaginaryOne * sinNegativeTwoPiFX);
 
                 Mean[ifx] += deltaWeight;
                 if (TallySecondMoment)  // 2nd moment is E[xx*]=E[xreal^2]+E[ximag^2]
                 {
                     var deltaWeight2 =
-                        weightFactor * weightFactor * dp.Weight * dp.Weight * cosNegativeTwoPiFX * cosNegativeTwoPiFX +
-                        weightFactor * weightFactor * dp.Weight * dp.Weight * sinNegativeTwoPiFX * sinNegativeTwoPiFX;
+                        dp.Weight * dp.Weight * weightFactor * weightFactor * cosNegativeTwoPiFX * cosNegativeTwoPiFX +
+                        dp.Weight * dp.Weight * weightFactor * weightFactor * sinNegativeTwoPiFX * sinNegativeTwoPiFX;
                     // second moment of complex tally is square of real and imag separately
                     SecondMoment[ifx] += deltaWeight2;
                 }
             }
-            TallyCount++;
-            
+            TallyCount++;           
         }
 
         /// <summary>
@@ -170,7 +168,6 @@ namespace Vts.MonteCarlo.Detectors
             for (int ifx = 0; ifx < Fx.Count; ifx++)
             {
                 Mean[ifx] /= numPhotons;
-                // the above is pi(rmax*rmax-rmin*rmin) * FxDelta * N
                 if (TallySecondMoment)
                 {
                     SecondMoment[ifx] /= numPhotons;

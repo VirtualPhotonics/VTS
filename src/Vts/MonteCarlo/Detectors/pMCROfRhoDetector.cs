@@ -66,9 +66,8 @@ namespace Vts.MonteCarlo.Detectors
         private IList<OpticalProperties> _referenceOps;
         private IList<OpticalProperties> _perturbedOps;
         private IList<int> _perturbedRegionsIndices;
-        private double _rhoDelta; // need to kep this because DoubleRange adjust deltas automatically
-        private Func<IList<long>, IList<double>, IList<OpticalProperties>, double> _absorbAction; 
-        private AbsorptionWeightingType _awt;
+        private double _rhoDelta; // need to kep this because DoubleRange adjust deltas automatically       
+        private Func<IList<long>, IList<double>, IList<OpticalProperties>, IList<OpticalProperties>, IList<int>, double> _absorbAction;
  
         /* ==== Place optional/user-defined input properties here. They will be saved in text (JSON) format ==== */
         /* ==== Note: make sure to copy over all optional/user-defined inputs from corresponding input class ==== */
@@ -115,43 +114,22 @@ namespace Vts.MonteCarlo.Detectors
             _perturbedOps = PerturbedOps;
             _perturbedRegionsIndices = PerturbedRegionsIndices;
             _referenceOps = tissue.Regions.Select(r => r.RegionOP).ToList();
-            SetAbsorbAction(tissue.AbsorptionWeightingType);
-            TallyCount = 0;
-            _awt = tissue.AbsorptionWeightingType;
+            _absorbAction = AbsorptionWeightingMethods.GetpMCTerminationAbsorptionWeightingMethod(tissue, this);
         }
 
-        /// <summary>
-        /// Set the absorption to discrete or continuous
-        /// </summary>
-        /// <param name="awt">absorption weighting type</param>
-        protected void SetAbsorbAction(AbsorptionWeightingType awt)
-        {
-            switch (awt)
-            {
-                // note: pMC is not applied to analog processing,
-                // only DAW and CAW
-                case AbsorptionWeightingType.Continuous:
-                    _absorbAction = AbsorbContinuous;
-                    break;
-                case AbsorptionWeightingType.Discrete:
-                default:
-                    _absorbAction = AbsorbDiscrete;
-                    break;
-            }
-        }
         /// <summary>
         /// method to tally to detector
         /// </summary>
         /// <param name="photon">photon data needed to tally</param>
         public void Tally(Photon photon)
         {
-            var ir = DetectorBinning.WhichBinExclusive(DetectorBinning.GetRho(photon.DP.Position.X, photon.DP.Position.Y), Rho.Count - 1, Rho.Delta, Rho.Start);
+            var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(photon.DP.Position.X, photon.DP.Position.Y), Rho.Count - 1, Rho.Delta, Rho.Start);
             if (ir != -1)
             {
                 double weightFactor = _absorbAction(
                     photon.History.SubRegionInfoList.Select(c => c.NumberOfCollisions).ToList(),
                     photon.History.SubRegionInfoList.Select(p => p.PathLength).ToList(),
-                    _perturbedOps);
+                    _perturbedOps, _referenceOps, _perturbedRegionsIndices);
 
                 Mean[ir] += photon.DP.Weight * weightFactor;
                 if (TallySecondMoment)
@@ -162,54 +140,6 @@ namespace Vts.MonteCarlo.Detectors
             }
         }
 
-        private double AbsorbContinuous(IList<long> numberOfCollisions, IList<double> pathLength, IList<OpticalProperties> perturbedOps)
-        {
-            double weightFactor = 1.0;
-
-            foreach (var i in _perturbedRegionsIndices)
-            {
-                weightFactor *=
-                    Math.Exp(-(perturbedOps[i].Mua - _referenceOps[i].Mua) * pathLength[i]); // mua pert
-                if (numberOfCollisions[i] > 0) // mus pert
-                {
-                    // the following is more numerically stable
-                    weightFactor *= Math.Pow(
-                        (_perturbedOps[i].Mus / _referenceOps[i].Mus) * Math.Exp(-(_perturbedOps[i].Mus - _referenceOps[i].Mus) *
-                            pathLength[i] / numberOfCollisions[i]),
-                        numberOfCollisions[i]);
-                }
-                else
-                {
-                    weightFactor *= Math.Exp(-(_perturbedOps[i].Mus - _referenceOps[i].Mus) * pathLength[i]);
-                }
-            }
-            return weightFactor;
-        }
-
-        private double AbsorbDiscrete(IList<long> numberOfCollisions, IList<double> pathLength, IList<OpticalProperties> perturbedOps)
-        {
-            double weightFactor = 1.0;
-
-            foreach (var i in _perturbedRegionsIndices)
-            {
-                if (numberOfCollisions[i] > 0)
-                {
-                    weightFactor *=
-                        Math.Pow(
-                            (_perturbedOps[i].Mus / _referenceOps[i].Mus) *
-                                Math.Exp(-(_perturbedOps[i].Mus + _perturbedOps[i].Mua - _referenceOps[i].Mus - _referenceOps[i].Mua) *
-                                pathLength[i] / numberOfCollisions[i]),
-                            numberOfCollisions[i]);
-                }
-                else
-                {
-                    weightFactor *=
-                        Math.Exp(-(_perturbedOps[i].Mus + _perturbedOps[i].Mua - _referenceOps[i].Mus - _referenceOps[i].Mua) *
-                                pathLength[i]);
-                }
-            }
-            return weightFactor;
-        }
 
         /// <summary>
         /// method to normalize detector results after numPhotons launched

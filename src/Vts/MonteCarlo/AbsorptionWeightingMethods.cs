@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Vts.MonteCarlo.PhotonData;
 
 namespace Vts.MonteCarlo
@@ -32,12 +33,12 @@ namespace Vts.MonteCarlo
         /// <param name="tissue"></param>
         /// <param name="detector"></param>
         /// <returns></returns>
-        public static Func<long[], double[], OpticalProperties[], OpticalProperties[], int[], double> GetpMCTerminationAbsorptionWeightingMethod(ITissue tissue, IDetector detector)
+        public static Func<IList<long>, IList<double>, IList<OpticalProperties>, IList<OpticalProperties>, IList<int>, double> GetpMCTerminationAbsorptionWeightingMethod(ITissue tissue, IDetector detector)
         {
             switch (tissue.AbsorptionWeightingType)
             {
                 case AbsorptionWeightingType.Analog:
-                    throw new NotImplementedException("CAW is not currently implemented for volume tallies.");
+                    throw new NotImplementedException("Analog cannot be used for pMC estimates.");
                 case AbsorptionWeightingType.Continuous:
                     return (numberOfCollisions, pathLength, perturbedOps, referenceOps, perturbedRegionsIndices) =>
                         pMCAbsorbContinuous(numberOfCollisions, pathLength, perturbedOps, referenceOps, perturbedRegionsIndices);
@@ -100,7 +101,7 @@ namespace Vts.MonteCarlo
             throw new NotImplementedException();
         }
         
-        private static double pMCAbsorbContinuous(long[] numberOfCollisions, double[] pathLength, OpticalProperties[] perturbedOps, OpticalProperties[] referenceOps, int[] perturbedRegionsIndices)
+        private static double pMCAbsorbContinuous(IList<long> numberOfCollisions, IList<double> pathLength, IList<OpticalProperties> perturbedOps, IList<OpticalProperties> referenceOps, IList<int> perturbedRegionsIndices)
         {
             double weightFactor = 1.0;
 
@@ -124,7 +125,7 @@ namespace Vts.MonteCarlo
             return weightFactor;
         }
 
-        private static double pMCAbsorbDiscrete(long[] numberOfCollisions, double[] pathLength, OpticalProperties[] perturbedOps, OpticalProperties[] referenceOps, int[] perturbedRegionsIndices)
+        private static double pMCAbsorbDiscrete(IList<long> numberOfCollisions, IList<double> pathLength, IList<OpticalProperties> perturbedOps, IList<OpticalProperties> referenceOps, IList<int> perturbedRegionsIndices)
         {
             double weightFactor = 1.0;
 

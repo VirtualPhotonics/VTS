@@ -1,7 +1,6 @@
 using System;
 using System.Linq;
 using System.Numerics;
-using MathNet.Numerics;
 using System.Runtime.Serialization;
 using Vts.Common;
 using Vts.IO;
@@ -112,24 +111,27 @@ namespace Vts.MonteCarlo.Detectors
             var dp = photon.DP;
             var it = DetectorBinning.WhichBin(dp.TotalTime, Time.Count - 1, Time.Delta, Time.Start);
 
-            var x = dp.Position.X;
-            var fxArray = Fx.AsEnumerable().ToArray();
-            for (int ifx = 0; ifx < fxArray.Length; ifx++)
-            {
-                double freq = fxArray[ifx];
-                var sinNegativeTwoPiFX = Math.Sin(-2 * Math.PI * freq * x);
-                var cosNegativeTwoPiFX = Math.Cos(-2 * Math.PI * freq * x);
-                // convert to Hz-sec from GHz-ns 1e-9*1e9=1
-                var deltaWeight = dp.Weight * (cosNegativeTwoPiFX + Complex.ImaginaryOne * sinNegativeTwoPiFX);
-
-                Mean[ifx, it] += deltaWeight;
-                if (TallySecondMoment) // 2nd moment is E[xx*]=E[xreal^2]+E[ximag^2]
+            if (it != -1)
+            { 
+                var x = dp.Position.X;
+                var fxArray = Fx.AsEnumerable().ToArray();
+                for (int ifx = 0; ifx < fxArray.Length; ifx++)
                 {
-                    var deltaWeight2 = dp.Weight * dp.Weight * cosNegativeTwoPiFX * cosNegativeTwoPiFX +
-                                       dp.Weight * dp.Weight * sinNegativeTwoPiFX * sinNegativeTwoPiFX;
-                    SecondMoment[ifx, it] += deltaWeight2;
+                    double freq = fxArray[ifx];
+                    var sinNegativeTwoPiFX = Math.Sin(-2*Math.PI*freq*x);
+                    var cosNegativeTwoPiFX = Math.Cos(-2*Math.PI*freq*x);
+                    // convert to Hz-sec from GHz-ns 1e-9*1e9=1
+                    var deltaWeight = dp.Weight*(cosNegativeTwoPiFX + Complex.ImaginaryOne*sinNegativeTwoPiFX);
+
+                    Mean[ifx, it] += deltaWeight;
+                    if (TallySecondMoment) // 2nd moment is E[xx*]=E[xreal^2]+E[ximag^2]
+                    {
+                        var deltaWeight2 = dp.Weight*dp.Weight*cosNegativeTwoPiFX*cosNegativeTwoPiFX +
+                                           dp.Weight*dp.Weight*sinNegativeTwoPiFX*sinNegativeTwoPiFX;
+                        SecondMoment[ifx, it] += deltaWeight2;
+                    }
+                    TallyCount++;
                 }
-                TallyCount++;
             }
         }
 

@@ -18,7 +18,8 @@ namespace Vts.MonteCarlo
             return new List<PostProcessorInput>()
             {
                 PostProcessorROfRho(),
-                pMCROfRhoROfRhoAndTime()
+                pMCROfRhoROfRhoAndTime(),
+                pMCROfFxROfFxAndTime()
             };
         }
 
@@ -46,7 +47,7 @@ namespace Vts.MonteCarlo
 
         #region pMC R(rho) and R(rho,time)
         /// <summary>
-        /// Perturbation MC R(rho).  This assumes database being post-processed is for
+        /// Perturbation MC R(rho) and R(rho,time).  This assumes database being post-processed is for
         /// tissue system with one layer.
         /// </summary>
         public static PostProcessorInput pMCROfRhoROfRhoAndTime()
@@ -108,6 +109,74 @@ namespace Vts.MonteCarlo
                 "pMC_one_layer_ROfRho_DAW",
                 "pMC_one_layer_ROfRho_DAW",
                 "PostProcessor_pMC_ROfRhoROfRhoAndTime"
+            );
+        }
+        #endregion
+
+        #region pMC R(fx) and R(fx,time)
+        /// <summary>
+        /// Perturbation MC R(fx) and R(fx,time).  This assumes database being post-processed is for
+        /// tissue system with one layer.
+        /// </summary>
+        public static PostProcessorInput pMCROfFxROfFxAndTime()
+        {
+            return new PostProcessorInput(
+                //VirtualBoundaryType.pMCDiffuseReflectance,
+                new List<IDetectorInput>()
+                {
+                    new pMCROfFxDetectorInput()
+                    {
+                        Fx=new DoubleRange(0.0, 0.5, 11),
+                        PerturbedOps =      // set perturbed ops to reference ops
+                            new List<OpticalProperties>() { 
+                                new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
+                                new OpticalProperties(0.01, 1.0, 0.8, 1.4),
+                                new OpticalProperties(0.0, 1e-10, 1.0, 1.0)
+                            },
+                        PerturbedRegionsIndices = new List<int>() { 1 },
+                        TallySecondMoment = true,
+                        Name="pMCROfFxReference",
+                    },
+                    new pMCROfFxDetectorInput()
+                    {                      
+                        Fx=new DoubleRange(0.0, 0.5, 11),
+                        PerturbedOps =  // perturb mus' by +50%
+                            new List<OpticalProperties>() { 
+                                new OpticalProperties(0.0, 1e-10, 0.0, 1.0),
+                                new OpticalProperties(0.01, 1.5, 0.8, 1.4),
+                                new OpticalProperties(0.0, 1e-10, 0.0, 1.0)},
+                        PerturbedRegionsIndices = new List<int>() { 1 },
+                        TallySecondMoment = true,
+                        Name="pMCROfFx_mus1p5",
+                    },
+                    new pMCROfFxDetectorInput()
+                    {                        
+                        Fx=new DoubleRange(0.0, 0.5, 11),
+                        PerturbedOps = // perturb mus' by -50%
+                            new List<OpticalProperties>() { 
+                                new OpticalProperties(0.0, 1e-10, 0.0, 1.0),
+                                new OpticalProperties(0.01, 0.5, 0.8, 1.4),
+                                new OpticalProperties(0.0, 1e-10, 0.0, 1.0)},
+                        PerturbedRegionsIndices = new List<int>() { 1 },
+                        TallySecondMoment = true,
+                        Name="pMCROfFx_mus0p5",
+                    },
+                    new pMCROfFxAndTimeDetectorInput()
+                    {                        
+                        Fx=new DoubleRange(0.0, 0.5, 11),
+                        Time=new DoubleRange(0.0, 10, 101),
+                        PerturbedOps = 
+                            new List<OpticalProperties>() {
+                                new OpticalProperties(0.0, 1e-10, 0.0, 1.0),
+                                new OpticalProperties(0.01, 1.5, 0.8, 1.4),
+                                new OpticalProperties(0.0, 1e-10, 0.0, 1.0)},
+                        PerturbedRegionsIndices = new List<int>() { 1 },
+                        Name="pMCROfFxAndTime_mus1p5"
+                    },
+                },
+                "pMC_one_layer_ROfFx_DAW",
+                "pMC_one_layer_ROfFx_DAW",
+                "PostProcessor_pMC_ROfFxROfFxAndTime"
             );
         }
         #endregion
