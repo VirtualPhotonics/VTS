@@ -938,7 +938,7 @@ end
                 tempData = readBinaryData([datadir slash detector.Name '_2'],2*length(pMCROfFx.Fx));
                 pMCROfFx.SecondMoment = tempData(1:2:end) + 1i*tempData(2:2:end);
                 pMCROfFx.Stdev = sqrt((pMCROfFx.SecondMoment + real(pMCROfFx.Mean) .* real(pMCROfFx.Mean) + ...
-                    imag(pMCROfFx.Mean) .* imag(pMCROfFx.Mean)) / json.N);
+                    imag(pMCROfFx.Mean) .* imag(pMCROfFx.Mean)) / databaseInputJson.N);
             end
             results{di}.pMCROfFx = pMCROfFx;
     end %detector.Name switch
