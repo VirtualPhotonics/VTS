@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.30501.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.26510.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "core", "core", "{E87433B1-D691-4D36-BB6B-3B766192CC8E}"
 EndProject
@@ -51,6 +51,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{29A8C8
 		.nuget\NuGet.exe = .nuget\NuGet.exe
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vts.NetStandard", "Vts.NetStandard\Vts.NetStandard.csproj", "{2513DF48-1E2B-442C-9D61-2DF3A026008B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -358,6 +360,30 @@ Global
 		{B2B25DB9-0E34-455B-A717-37F1D179C867}.ReleaseWhiteList|Mixed Platforms.Build.0 = Release|Any CPU
 		{B2B25DB9-0E34-455B-A717-37F1D179C867}.ReleaseWhiteList|Win32.ActiveCfg = Release|Any CPU
 		{B2B25DB9-0E34-455B-A717-37F1D179C867}.ReleaseWhiteList|x86.ActiveCfg = Release|Any CPU
+		{2513DF48-1E2B-442C-9D61-2DF3A026008B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2513DF48-1E2B-442C-9D61-2DF3A026008B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2513DF48-1E2B-442C-9D61-2DF3A026008B}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{2513DF48-1E2B-442C-9D61-2DF3A026008B}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{2513DF48-1E2B-442C-9D61-2DF3A026008B}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{2513DF48-1E2B-442C-9D61-2DF3A026008B}.Debug|Win32.Build.0 = Debug|Any CPU
+		{2513DF48-1E2B-442C-9D61-2DF3A026008B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{2513DF48-1E2B-442C-9D61-2DF3A026008B}.Debug|x86.Build.0 = Debug|Any CPU
+		{2513DF48-1E2B-442C-9D61-2DF3A026008B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2513DF48-1E2B-442C-9D61-2DF3A026008B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2513DF48-1E2B-442C-9D61-2DF3A026008B}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{2513DF48-1E2B-442C-9D61-2DF3A026008B}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{2513DF48-1E2B-442C-9D61-2DF3A026008B}.Release|Win32.ActiveCfg = Release|Any CPU
+		{2513DF48-1E2B-442C-9D61-2DF3A026008B}.Release|Win32.Build.0 = Release|Any CPU
+		{2513DF48-1E2B-442C-9D61-2DF3A026008B}.Release|x86.ActiveCfg = Release|Any CPU
+		{2513DF48-1E2B-442C-9D61-2DF3A026008B}.Release|x86.Build.0 = Release|Any CPU
+		{2513DF48-1E2B-442C-9D61-2DF3A026008B}.ReleaseWhiteList|Any CPU.ActiveCfg = Release|Any CPU
+		{2513DF48-1E2B-442C-9D61-2DF3A026008B}.ReleaseWhiteList|Any CPU.Build.0 = Release|Any CPU
+		{2513DF48-1E2B-442C-9D61-2DF3A026008B}.ReleaseWhiteList|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{2513DF48-1E2B-442C-9D61-2DF3A026008B}.ReleaseWhiteList|Mixed Platforms.Build.0 = Release|Any CPU
+		{2513DF48-1E2B-442C-9D61-2DF3A026008B}.ReleaseWhiteList|Win32.ActiveCfg = Release|Any CPU
+		{2513DF48-1E2B-442C-9D61-2DF3A026008B}.ReleaseWhiteList|Win32.Build.0 = Release|Any CPU
+		{2513DF48-1E2B-442C-9D61-2DF3A026008B}.ReleaseWhiteList|x86.ActiveCfg = Release|Any CPU
+		{2513DF48-1E2B-442C-9D61-2DF3A026008B}.ReleaseWhiteList|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -379,6 +405,7 @@ Global
 		{36DE9584-F033-4EC0-A18F-1AE60EE55754} = {920000AB-D955-4399-AD00-78523C740E2A}
 		{8A1194A0-C773-483B-BD78-9D013105CEA1} = {920000AB-D955-4399-AD00-78523C740E2A}
 		{B2B25DB9-0E34-455B-A717-37F1D179C867} = {E3F0B7B7-920E-4820-A025-4D643FBDC01B}
+		{2513DF48-1E2B-442C-9D61-2DF3A026008B} = {E87433B1-D691-4D36-BB6B-3B766192CC8E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.2\lib\NET35
