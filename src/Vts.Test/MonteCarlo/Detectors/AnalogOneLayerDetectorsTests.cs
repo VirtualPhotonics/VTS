@@ -8,7 +8,6 @@ using Vts.Common;
 using Vts.MonteCarlo;
 using Vts.MonteCarlo.Detectors;
 using Vts.MonteCarlo.Helpers;
-using Vts.MonteCarlo.PhaseFunctionInputs;
 using Vts.MonteCarlo.Sources;
 using Vts.MonteCarlo.Tissues;
 
@@ -69,7 +68,6 @@ namespace Vts.Test.MonteCarlo.Detectors
                      0,
                      RandomNumberGeneratorType.MersenneTwister,
                      AbsorptionWeightingType.Analog,
-                //PhaseFunctionType.HenyeyGreenstein,
                      new List<DatabaseType>() { }, // databases to be written
                      true, // track statistics
                      0.0, // RR threshold -> 0 = no RR performed

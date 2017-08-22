@@ -20,7 +20,7 @@ namespace Vts.MonteCarlo
         /// Default constructor for serialization purposes only
         /// </summary>
         public LookupTablePhaseFunctionInput() : this(
-            new PolarLookupTablePhaseFunctionData
+            new PolarLookupTablePhaseFunctionData()
                 {
                     LutAngles = new[] { 0, Math.PI/6, Math.PI/3, Math.PI/2, 2*Math.PI/3, Math.PI*5/6, Math.PI },
                     LutPdf = new[] { 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5 },

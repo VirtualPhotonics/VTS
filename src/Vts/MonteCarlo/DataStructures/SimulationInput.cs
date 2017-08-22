@@ -1,11 +1,9 @@
-using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Vts.Common;
 using Vts.IO;
 using Vts.MonteCarlo.PhaseFunctionInputs;
 using Vts.MonteCarlo.Detectors;
-using Vts.MonteCarlo.Factories;
 using Vts.MonteCarlo.Sources;
 using Vts.MonteCarlo.Tissues;
 
@@ -96,7 +94,6 @@ namespace Vts.MonteCarlo
                     -1, // get random seed
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Discrete,
-                    //new HenyeyGreensteinPhaseFunctionInput(),
                     new List<DatabaseType>() {},
                     false, // track statistics
                     0.0, // RR threshold -> no RR performed

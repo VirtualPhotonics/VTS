@@ -16,7 +16,7 @@ namespace Vts.Test.MonteCarlo
         /// <summary>
         /// Tests whether ScatterToNewTheta samples the polar angle correctly.  Obtains a sample of 500 polar angles and performs a KS test on the sample.
         /// </summary>
-        //[Test] CKH COMMENT OUT 4/18/14 BECAUSE NOT COMPILING
+        //[Test] //CKH COMMENT OUT 4/18/14 BECAUSE NOT COMPILING
         //public void validate_theta_sampling()
         //{
         //    int sampleSize = 500;
@@ -34,7 +34,7 @@ namespace Vts.Test.MonteCarlo
         //    //obtaining a sample of the distribution and sort it in ascending order.
         //    List<double> sampleXi2 = new List<double>();
         //    for (int i = 0; i < sampleSize; i++)
-        //        sampleXi2.Add(tester.ScatterToNewTheta(dir));
+        //        sampleXi2.Add(tester.ScatterToNewTheta(dir)); 
         //    sampleXi2.Sort();
         //    for (int i = 0; i < sampleSize; i++)
         //        sampleXi.Add(-1*Math.Cos(sampleXi2[i]));

@@ -5,7 +5,6 @@ using NUnit.Framework;
 using Vts.Common;
 using Vts.MonteCarlo;
 using Vts.MonteCarlo.Helpers;
-using Vts.MonteCarlo.PhaseFunctionInputs;
 using Vts.MonteCarlo.Sources;
 using Vts.MonteCarlo.Tissues;
 using Vts.MonteCarlo.Detectors;
@@ -48,7 +47,6 @@ namespace Vts.Test.MonteCarlo.Detectors
                     0, // rng seed = same as linux (0)
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Continuous,
-                    //PhaseFunctionType.HenyeyGreenstein,
                     new List<DatabaseType>() { }, // databases to be written
                     false, // track statistics
                     0.0, // RR threshold -> 0 = no RR performed

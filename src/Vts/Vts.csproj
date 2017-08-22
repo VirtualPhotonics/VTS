@@ -311,7 +311,7 @@
     <Compile Include="MonteCarlo\Interfaces\IPhaseFunctionInput.cs" />
     <Compile Include="MonteCarlo\Interfaces\IVirtualBoundary.cs" />
     <Compile Include="MonteCarlo\Extensions\PhotonDataExtensionMethods.cs" />
-     <Compile Include="IO\BinaryArraySerializer.cs" />
+    <Compile Include="IO\BinaryArraySerializer.cs" />
     <Compile Include="MonteCarlo\PhaseFunctions\BidirectionalPhaseFunction.cs" />
     <Compile Include="MonteCarlo\PhaseFunctions\AxiallySymmetricScattererMuellerMatrix.cs" />
     <Compile Include="MonteCarlo\PhaseFunctions\MieScattererMuellerMatrix.cs" />

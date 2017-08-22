@@ -20,9 +20,6 @@ namespace Vts.MonteCarlo.PhaseFunctions
         /// <param name="incomingDirectionToModify">The input direction</param>
         public void ScatterToNewDirection(Direction incomingDirectionToModify)
         {
-            //double g = _tissue.Regions[currentRegionIndex].RegionOP.G;
-
-            // comment for compile
             if (_rng.NextDouble() < ((1 + _g) / 2.0))
                 incomingDirectionToModify.Uz *= 1.0;
             else
