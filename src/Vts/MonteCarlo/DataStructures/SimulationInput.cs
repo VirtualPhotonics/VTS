@@ -1,8 +1,6 @@
 using System.Collections.Generic;
-using System.Runtime.Serialization;
 using Vts.Common;
 using Vts.IO;
-using Vts.MonteCarlo.PhaseFunctionInputs;
 using Vts.MonteCarlo.Detectors;
 using Vts.MonteCarlo.Sources;
 using Vts.MonteCarlo.Tissues;
@@ -14,12 +12,6 @@ namespace Vts.MonteCarlo
     /// file name, number of photons to execute (N), source, tissue and detector
     /// definitions.
     ///</summary>
-    // phase function inputs
-    [KnownType(typeof (BidirectionalPhaseFunctionInput))]
-    [KnownType(typeof (HenyeyGreensteinPhaseFunctionInput))]
-    [KnownType(typeof (LookupTablePhaseFunctionInput))]
-    [KnownType(typeof (PolarAndAzimuthalLookupTablePhaseFunctionData))]
-    [KnownType(typeof (PolarLookupTablePhaseFunctionData))]
 
     public class SimulationInput
     {

@@ -20,7 +20,7 @@ namespace Vts.MonteCarlo.Factories
             if (input is LookupTablePhaseFunctionInput)
             {
                 var lutPhaseFunctionInput = (LookupTablePhaseFunctionInput)input;
-                phaseFunction = new LookupTablePhaseFunction(rng, lutPhaseFunctionInput.RegionPhaseFunctionData);
+                phaseFunction = new LookupTablePhaseFunction(lutPhaseFunctionInput.RegionPhaseFunctionData, rng);
             }
 
             if (input is BidirectionalPhaseFunctionInput)

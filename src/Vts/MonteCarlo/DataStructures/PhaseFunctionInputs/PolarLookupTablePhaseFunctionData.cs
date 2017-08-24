@@ -1,4 +1,6 @@
-﻿namespace Vts.MonteCarlo
+﻿using System.Runtime.Serialization;
+
+namespace Vts.MonteCarlo
 {
     public class PolarLookupTablePhaseFunctionData : ILookupTablePhaseFunctionData
     {
@@ -13,14 +15,14 @@
         /// <summary>
         /// LutAngles are the theta angles
         /// </summary>
-        public double[] LutAngles { get; set; }
+        [IgnoreDataMember] public double[] LutAngles { get; set; }
         /// <summary>
         /// LutPdf is the scattering angles probability distribution function (PDF) for each theta angle
         /// </summary>
-        public double[] LutPdf { get; set; }
+        [IgnoreDataMember] public double[] LutPdf { get; set; }
         /// <summary>
         /// lutCdf is the cumulative distribution function (CDF) associated with the PDF
         /// </summary>
-        public double[] LutCdf { get; set; }
+        [IgnoreDataMember] public double[] LutCdf { get; set; }
     }
 }

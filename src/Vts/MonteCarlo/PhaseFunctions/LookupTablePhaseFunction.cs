@@ -1,7 +1,5 @@
 ﻿using System;
 using Vts.Common;
-using Vts.MonteCarlo.PhaseFunctionInputs;
-
 
 namespace Vts.MonteCarlo.PhaseFunctions
 {
@@ -18,7 +16,7 @@ namespace Vts.MonteCarlo.PhaseFunctions
         /// <summary>
         /// Constructor that intializes private member variables.
         /// </summary>
-        public LookupTablePhaseFunction(Random rng, ILookupTablePhaseFunctionData lutData)
+        public LookupTablePhaseFunction(ILookupTablePhaseFunctionData lutData, Random rng)
         {
             _rng = rng;
             _lutData = lutData;
@@ -38,5 +36,7 @@ namespace Vts.MonteCarlo.PhaseFunctions
             theta = Vts.Common.Math.Interpolation.interp1(pLookUpTablePhaseFunctionData.LutCdf, pLookUpTablePhaseFunctionData.LutAngles, mu);
             Scatter(incomingDirectionToModify, theta, phi);
         }
+
+
     }
 }
