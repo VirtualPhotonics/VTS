@@ -6,12 +6,12 @@ namespace Vts.MonteCarlo
     {
         public BidirectionalPhaseFunctionInput()
         {
-            PhaseFunctionType = PhaseFunctionType.Bidirectional;
+            PhaseFunctionType = "Bidirectional";
         }
 
         /// <summary>
         /// Phase function type
         /// </summary>
-        public PhaseFunctionType PhaseFunctionType { get; set; }
+        public string PhaseFunctionType { get; set; }
     }
 }

@@ -13,6 +13,7 @@ using Vts.MonteCarlo.Interfaces;
 using Vts.MonteCarlo.Sources;
 using Vts.MonteCarlo.Sources.SourceProfiles;
 using Vts.MonteCarlo.Tissues;
+using Vts.MonteCarlo.PhaseFunctions;
 
 namespace Vts.IO
 {
@@ -61,7 +62,9 @@ namespace Vts.IO
             new ConventionBasedConverter<ITissueRegion>(typeof(VoxelTissueRegion), "TissueRegionType", TissueRegionType.BuiltInTypes),
             new ConventionBasedConverter<IDetectorInput>(typeof(ROfRhoDetectorInput), "TallyType", TallyType.BuiltInTypes),
             new ConventionBasedConverter<IDetector>(typeof(ROfRhoDetector), "TallyType", TallyType.BuiltInTypes),
+            new ConventionBasedConverter<ILookupTablePhaseFunctionData>(typeof(PolarLookupTablePhaseFunctionData),"Name",Vts.MonteCarlo.LookupTablePhaseFunctionDataType.BuiltInTypes),
             ConventionBasedConverter<IPhaseFunctionInput>.CreateFromEnum<Vts.PhaseFunctionType>(typeof(HenyeyGreensteinPhaseFunctionInput)),
+            //ConventionBasedConverter<ILookupTablePhaseFunctionData>.CreateFromEnum<Vts.LookupTablePhaseFunctionDataType>(typeof(PolarLookupTablePhaseFunctionData)),
             ConventionBasedConverter<ISourceProfile>.CreateFromEnum<Vts.MonteCarlo.SourceProfileType>(typeof(FlatSourceProfile)),
             
         };

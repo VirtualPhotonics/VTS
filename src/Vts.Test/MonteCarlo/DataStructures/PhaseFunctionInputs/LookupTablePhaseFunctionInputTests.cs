@@ -1,7 +1,5 @@
 ﻿using NUnit.Framework;
 using System;
-using System.Runtime.Serialization;
-using Vts.MonteCarlo.PhaseFunctions;
 
 namespace Vts.MonteCarlo.PhaseFunctionInputs
 {
@@ -29,7 +27,7 @@ namespace Vts.MonteCarlo.PhaseFunctionInputs
         {
             var data = new PolarLookupTablePhaseFunctionData();
             var input = new LookupTablePhaseFunctionInput(data);
-            Assert.IsTrue(input.PhaseFunctionType.Equals(PhaseFunctionType.LookupTable));
+            Assert.IsTrue(input.PhaseFunctionType.Equals("LookupTable"));
             Assert.IsTrue(input.RegionPhaseFunctionData.Equals(data));
         }
     }

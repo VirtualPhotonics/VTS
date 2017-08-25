@@ -6,12 +6,12 @@ namespace Vts.MonteCarlo
     {
         public HenyeyGreensteinPhaseFunctionInput()
         {
-            PhaseFunctionType = PhaseFunctionType.HenyeyGreenstein;
+            PhaseFunctionType = "HenyeyGreenstein";
         }
 
         /// <summary>
         /// Phase function type
         /// </summary>
-        public PhaseFunctionType PhaseFunctionType { get; set; }
+        public string PhaseFunctionType { get; set; }
     }
 }
