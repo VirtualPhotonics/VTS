@@ -4,7 +4,8 @@ using Vts.Common;
 namespace Vts.MonteCarlo.PhaseFunctions
 {
     /// <summary>
-    /// An abstract class from which other phase function classes may inherit from.  Subclasses must be able to sample polar and azimuthal angles.
+    /// An abstract class from which other phase function classes may inherit from.  
+    /// Subclasses must be able to sample polar and azimuthal angles.
     /// </summary>
     public abstract class PolarAndAzimuthalPhaseFunction
     {

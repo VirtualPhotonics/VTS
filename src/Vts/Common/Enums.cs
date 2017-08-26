@@ -530,14 +530,14 @@ namespace Vts
         LookupTable,
     }
 
-    ///// <summary>
-    ///// Lookup table phase function data type used within the Monte Carlo code
-    ///// </summary>
-    //public enum LookupTablePhaseFunctionDataType
-    //{
-    //    PolarLookupTablePhaseFunctionData,
-    //    PolarAndAziumuthalLookupTablePhaseFunctionData
-    //}
+    /// <summary>
+    /// Lookup table phase function data type used within the Monte Carlo code
+    /// </summary>
+    public enum LookupTablePhaseFunctionDataType
+    {
+        PolarLookupTablePhaseFunctionData,
+        PolarAndAziumuthalLookupTablePhaseFunctionData
+    }
 
     /// <summary>
     /// Phase function type used within the Monte Carlo code

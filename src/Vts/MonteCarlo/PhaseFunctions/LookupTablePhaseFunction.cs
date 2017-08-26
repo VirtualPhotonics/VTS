@@ -1,14 +1,14 @@
 ﻿using System;
 using Vts.Common;
-using Vts.MonteCarlo.PhaseFunctions;
 
 namespace Vts.MonteCarlo.PhaseFunctions
 {
     /// <summary>
-    /// A class that describes a tabulated phase function.
+    /// A class that describes a tabulated phase function for a POLAR angle and uniform azimuthal scattering angle.
     /// </summary>
     /// <param name="_lutData">Stores the polar angles and phase function values evaluated at those polar angles.</param>
     /// <param name="_rng">Random number generator.</param>
+    /// CKH 8/25/17 should this be named PolarPhaseFunction?  And why does it inherit PolarAndAzi...?
     public class LookupTablePhaseFunction : PolarAndAzimuthalPhaseFunction, IPhaseFunction
     {
         private Random _rng;
@@ -21,10 +21,10 @@ namespace Vts.MonteCarlo.PhaseFunctions
         {
             _rng = rng;
             //_lutData = lutData;
-            LutData = (PolarLookupTablePhaseFunctionData)lutData;
+            LutData = lutData;
         }
-        public PolarLookupTablePhaseFunctionData LutData { get; set; }
 
+        public ILookupTablePhaseFunctionData LutData; // CKH add 8/24/17
         /// <summary>
         /// Method to scatter based on a discretized lookup table
         /// </summary>
@@ -33,7 +33,7 @@ namespace Vts.MonteCarlo.PhaseFunctions
         {
             double phi = 0;
             double theta = 0;
-            var pLookUpTablePhaseFunctionData = (PolarLookupTablePhaseFunctionData) LutData;//_lutData;
+            var pLookUpTablePhaseFunctionData = (PolarLookupTablePhaseFunctionData) LutData; // _lutData; 
             phi = _rng.NextDouble() * 2 * Math.PI;
             double mu = _rng.NextDouble();//random variable for picking theta
             theta = Vts.Common.Math.Interpolation.interp1(pLookUpTablePhaseFunctionData.LutCdf, pLookUpTablePhaseFunctionData.LutAngles, mu);

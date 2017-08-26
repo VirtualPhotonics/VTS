@@ -428,7 +428,8 @@ namespace Vts.MonteCarlo
     {
         public static readonly string[] BuiltInTypes =
         {
-            "PolarLookupTablePhaseFunctionData"
+            "PolarLookupTablePhaseFunctionData",
+            "PolarAndAzimuthalLookupTablePhaseFunctionData"
         };
     }
 

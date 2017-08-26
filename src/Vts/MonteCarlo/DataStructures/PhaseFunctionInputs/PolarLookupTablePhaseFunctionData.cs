@@ -6,15 +6,12 @@ namespace Vts.MonteCarlo
     {
         public PolarLookupTablePhaseFunctionData()
         {
-            Name = "PolarLookupTablePhaseFunctionData";
-            //Type = LookupTablePhaseFunctionDataType.PolarLookupTablePhaseFunctionData;
-
+            LookupTableDataType = "PolarLookupTablePhaseFunctionData";
         }
-        //public LookupTablePhaseFunctionDataType Type { get; set; }
         /// <summary>
         /// Name
         /// </summary>
-        public string Name { get; set; }
+        public string LookupTableDataType { get; set; }
         /// <summary>
         /// LutAngles are the theta angles
         /// </summary>

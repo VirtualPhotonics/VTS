@@ -1,4 +1,5 @@
 ﻿using System;
+using Vts.MonteCarlo.PhaseFunctionInputs;
 using Vts.MonteCarlo.PhaseFunctions;
 
 namespace Vts.MonteCarlo.Factories
@@ -20,7 +21,16 @@ namespace Vts.MonteCarlo.Factories
             if (input is LookupTablePhaseFunctionInput)
             {
                 var lutPhaseFunctionInput = (LookupTablePhaseFunctionInput)input;
-                phaseFunction = new LookupTablePhaseFunction(lutPhaseFunctionInput.RegionPhaseFunctionData, rng);
+                if (lutPhaseFunctionInput.RegionPhaseFunctionData is PolarLookupTablePhaseFunctionData)
+                {
+                    phaseFunction = new LookupTablePhaseFunction(
+                        (PolarLookupTablePhaseFunctionData)lutPhaseFunctionInput.RegionPhaseFunctionData, rng);   
+                }
+                if (lutPhaseFunctionInput.RegionPhaseFunctionData is PolarAndAzimuthalLookupTablePhaseFunctionData)
+                {
+                    phaseFunction = new LookupTablePhaseFunction(
+                        (PolarAndAzimuthalLookupTablePhaseFunctionData)lutPhaseFunctionInput.RegionPhaseFunctionData, rng);
+                }
             }
 
             if (input is BidirectionalPhaseFunctionInput)

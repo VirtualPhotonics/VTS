@@ -4,12 +4,12 @@
     {
         public PolarAndAzimuthalLookupTablePhaseFunctionData()
         {
-            Name = "PolarAndAzimuthalLookupTablePhaseFunctionData";
+            LookupTableDataType = "PolarAndAzimuthalLookupTablePhaseFunctionData";
         }
         /// <summary>
         /// Name of data
         /// </summary>
-        public string Name { get; set; }
+        public string LookupTableDataType { get; set; }
         /// <summary>
         /// theta, phi angles
         /// </summary>

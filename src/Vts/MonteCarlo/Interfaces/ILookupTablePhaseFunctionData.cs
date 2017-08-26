@@ -2,6 +2,6 @@
 {
     public interface ILookupTablePhaseFunctionData
     {
-        string Name { get; }
+        string LookupTableDataType { get; }
     }
 }
