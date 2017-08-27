@@ -13,7 +13,7 @@ namespace Vts.MonteCarlo.PhaseFunctions
     public class LookupTablePhaseFunction : PolarAndAzimuthalPhaseFunction, IPhaseFunction
     {
         private Random _rng;
-        //private ILookupTablePhaseFunctionData _lutData; 
+        private ILookupTablePhaseFunctionData _lutData; 
 
         /// <summary>
         /// Constructor that intializes private member variables.
@@ -21,11 +21,11 @@ namespace Vts.MonteCarlo.PhaseFunctions
         public LookupTablePhaseFunction(ILookupTablePhaseFunctionData lutData, Random rng)
         {
             _rng = rng;
-            //_lutData = lutData;
-            LutData = lutData;
+            _lutData = lutData;
+            //LutData = lutData;
         }
 
-        public ILookupTablePhaseFunctionData LutData; // CKH add 8/24/17
+        //public ILookupTablePhaseFunctionData LutData; // CKH add 8/24/17
         /// <summary>
         /// Method to scatter based on a discretized lookup table
         /// </summary>
@@ -34,7 +34,7 @@ namespace Vts.MonteCarlo.PhaseFunctions
         {
             double phi = 0;
             double theta = 0;
-            var pLookUpTablePhaseFunctionData = (PolarLookupTablePhaseFunctionData) LutData; // _lutData; 
+            var pLookUpTablePhaseFunctionData = (PolarLookupTablePhaseFunctionData) _lutData; 
             phi = _rng.NextDouble() * 2 * Math.PI;
             double mu = _rng.NextDouble();//random variable for picking theta
             theta = Vts.Common.Math.Interpolation.interp1(pLookUpTablePhaseFunctionData.LutCdf, pLookUpTablePhaseFunctionData.LutAngles, mu);

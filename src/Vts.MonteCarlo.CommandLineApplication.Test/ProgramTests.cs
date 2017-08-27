@@ -17,7 +17,7 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
         {
             //"infile_ellip_FluenceOfRhoAndZ.txt",
             //"infile_Flat_source_one_layer_ROfRho.txt",
-            //"infile_Gaussian_source_one_layer_ROfRho.txt", 
+            "infile_Gaussian_source_one_layer_ROfRho.txt", 
             //"infile_one_layer_all_detectors.txt",
             //"infile_one_layer_FluenceOfRhoAndZ_RadianceOfRhoAndZAndAngle.txt",
             "infile_one_layer_LUT_ROfRho.txt",
