@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using Vts.MonteCarlo;
-using Vts.MonteCarlo.Tissues;
 using Vts.MonteCarlo.Detectors;
-using Vts.MonteCarlo.PhaseFunctionInputs;
+using Vts.MonteCarlo.Tissues;
 
 namespace Vts.IO
 {
@@ -13,19 +12,12 @@ namespace Vts.IO
     /// </summary>
     public static class KnownTypes
     {
-        private static readonly IDictionary<string,Type> _types;
+        private static readonly IDictionary<string, Type> _types;
 
         static KnownTypes()
         {
             var knownTypesArray = new Type[] {	
 	                // nothing here anymore...not using XML DataContractSerializer
-
-                    // phase function types...
-                    typeof (LookupTablePhaseFunctionInput),
-                    typeof (HenyeyGreensteinPhaseFunctionInput),
-                    typeof (BidirectionalPhaseFunctionInput),
-                    typeof (PolarLookupTablePhaseFunctionData),
-                    typeof (PolarAndAzimuthalLookupTablePhaseFunctionData),
                 };
 
             _types = knownTypesArray.ToDictionary(type => type.ToString());
@@ -42,7 +34,7 @@ namespace Vts.IO
         /// <param name="t">The type to add</param>
         public static void Add(Type t)
         {
-            if(!_types.ContainsKey(t.ToString()))
+            if (!_types.ContainsKey(t.ToString()))
             {
                 _types.Add(t.ToString(), t);
             }

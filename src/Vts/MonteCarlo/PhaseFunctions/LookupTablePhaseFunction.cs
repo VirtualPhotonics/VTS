@@ -1,5 +1,6 @@
 ﻿using System;
 using Vts.Common;
+using Vts.MonteCarlo.Interfaces;
 
 namespace Vts.MonteCarlo.PhaseFunctions
 {

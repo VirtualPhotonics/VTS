@@ -1,7 +1,6 @@
 using System;
 using System.Runtime.Serialization;
 using Vts.Common;
-using Vts.MonteCarlo.PhaseFunctionInputs;
 
 namespace Vts.MonteCarlo.Tissues
 {

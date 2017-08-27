@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using Vts.Common;
-using Vts.MonteCarlo.PhaseFunctionInputs;
-using Vts.MonteCarlo.PhaseFunctions;
+using Vts.MonteCarlo.Interfaces;
 
 namespace Vts.MonteCarlo.PhaseFunctions
 {
@@ -39,7 +37,7 @@ namespace Vts.MonteCarlo.PhaseFunctions
             double theta = 0;
             int theta_index;
             double rand1, rand2, rand3, temp = 0; 
-            var pLookUpTablePhaseFunctionData = (PolarLookupTablePhaseFunctionData)_lutData;
+            //var pLookUpTablePhaseFunctionData = (PolarLookupTablePhaseFunctionData)_lutData;
             
             for (int i = 0; i < 5000; i++) {
         		rand1 = _rng.NextDouble();

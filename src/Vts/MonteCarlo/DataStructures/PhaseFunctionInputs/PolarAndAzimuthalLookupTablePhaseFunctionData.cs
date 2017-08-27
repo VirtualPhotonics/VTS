@@ -1,15 +1,21 @@
-﻿namespace Vts.MonteCarlo.PhaseFunctionInputs
+﻿using Vts.MonteCarlo.Interfaces;
+
+namespace Vts.MonteCarlo.PhaseFunctions
 {
     public class PolarAndAzimuthalLookupTablePhaseFunctionData : ILookupTablePhaseFunctionData
     {
         public PolarAndAzimuthalLookupTablePhaseFunctionData()
         {
-            LookupTableDataType = "PolarAndAzimuthalLookupTablePhaseFunctionData";
+            //LookupTableDataType = "PolarAndAzimuthalLookupTablePhaseFunctionData";
         }
         /// <summary>
-        /// Name of data
+        /// Type of data
         /// </summary>
-        public string LookupTableDataType { get; set; }
+        //public string LookupTableDataType { get { return "PolarAndAziumuthalLookupTablePhaseFunctionData";} }
+        public Vts.LookupTablePhaseFunctionDataType LookupTablePhaseFunctionDataType { get
+        {
+            return Vts.LookupTablePhaseFunctionDataType.PolarAndAziumuthalLookupTablePhaseFunctionData;
+        } }
         /// <summary>
         /// theta, phi angles
         /// </summary>

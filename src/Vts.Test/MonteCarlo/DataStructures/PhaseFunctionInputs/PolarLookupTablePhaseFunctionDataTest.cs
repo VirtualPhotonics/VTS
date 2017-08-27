@@ -22,7 +22,7 @@ namespace Vts.Test.MonteCarlo
         public void validate_constructor()
         {
             var data = new PolarLookupTablePhaseFunctionData();
-            Assert.IsTrue(Equals(data.LookupTableDataType, "PolarLookupTablePhaseFunctionData"));
+            Assert.IsTrue(Equals(data.LookupTablePhaseFunctionDataType, Vts.LookupTablePhaseFunctionDataType.PolarLookupTablePhaseFunctionData));
         }
         /// <summary>
         /// Test setting the member variables.

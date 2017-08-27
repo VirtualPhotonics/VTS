@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using System;
+using Vts.MonteCarlo.PhaseFunctions;
 
 namespace Vts.MonteCarlo.PhaseFunctionInputs
 {

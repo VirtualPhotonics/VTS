@@ -1,5 +1,4 @@
 ﻿using System;
-using Vts.MonteCarlo.PhaseFunctionInputs;
 using Vts.MonteCarlo.PhaseFunctions;
 
 namespace Vts.MonteCarlo.Factories

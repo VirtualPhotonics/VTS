@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using Vts.Common;
-using Vts.MonteCarlo.PhaseFunctionInputs;
 using Vts.MonteCarlo.Detectors;
 using Vts.MonteCarlo.Sources;
 using Vts.MonteCarlo.Tissues;

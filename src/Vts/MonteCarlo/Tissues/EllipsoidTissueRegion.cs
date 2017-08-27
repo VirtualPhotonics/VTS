@@ -1,6 +1,5 @@
 using System;
 using Vts.Common;
-using Vts.MonteCarlo.PhaseFunctionInputs;
 
 namespace Vts.MonteCarlo.Tissues
 {
