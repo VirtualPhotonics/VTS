@@ -1,6 +1,4 @@
 using System;
-using System.Numerics;
-using System.Linq;
 using System.Collections.Generic;
 using NUnit.Framework;
 using Vts.Common;
@@ -48,7 +46,6 @@ namespace Vts.Test.MonteCarlo.Detectors
                 0,
                 RandomNumberGeneratorType.MersenneTwister,
                 AbsorptionWeightingType.Discrete,
-                PhaseFunctionType.HenyeyGreenstein,
                 new List<DatabaseType>() { }, // databases to be written
                 false, // track statistics
                 0.0, // RR threshold -> 0 = no RR performed
@@ -67,53 +64,71 @@ namespace Vts.Test.MonteCarlo.Detectors
                     new TOfAngleDetectorInput() {Angle=new DoubleRange(0.0, Math.PI / 2, 2)},
                     new ATotalDetectorInput(),
                 };
+            var ti = new MultiLayerTissueInput(
+                new ITissueRegion[]
+                {
+                    new LayerTissueRegion(
+                        new DoubleRange(double.NegativeInfinity, 0.0),
+                        new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
+                        "HenyeyGreensteinKey1"),
+                    new LayerTissueRegion(
+                        new DoubleRange(0.0, 20.0),
+                        new OpticalProperties(0.01, 1.0, 0.8, 1.4),
+                        "HenyeyGreensteinKey2"),
+                    new LayerTissueRegion(
+                        new DoubleRange(20.0, double.PositiveInfinity),
+                        new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
+                        "HenyeyGreensteinKey3")
+                }
+                );
+            ti.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey1", new HenyeyGreensteinPhaseFunctionInput());
+            ti.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey2", new HenyeyGreensteinPhaseFunctionInput());
+            ti.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey3", new HenyeyGreensteinPhaseFunctionInput());
+
             _inputOneRegionTissue = new SimulationInput(
                 100,
                 "",
                 simulationOptions,
                 source,
-                new MultiLayerTissueInput(
-                    new ITissueRegion[]
-                    { 
-                        new LayerTissueRegion(
-                            new DoubleRange(double.NegativeInfinity, 0.0),
-                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
-                        new LayerTissueRegion(
-                            new DoubleRange(0.0, 20.0),
-                            new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
-                        new LayerTissueRegion(
-                            new DoubleRange(20.0, double.PositiveInfinity),
-                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
-                    }
-                ),
+                ti,
                 detectors);             
             _outputOneRegionTissue = new MonteCarloSimulation(_inputOneRegionTissue).Run();
 
+            var ti2 = new SingleVoxelTissueInput(
+                new VoxelTissueRegion(
+                    new DoubleRange(-5, 5),
+                    new DoubleRange(-5, 5),
+                    new DoubleRange(1e-9, 5), // smallest Z.Start with tests passing is 1e-9 
+                    new OpticalProperties(0.01, 1.0, 0.8, 1.4), //debug with g=1
+                    "HenyeyGreensteinKey1"
+                    ),
+                new LayerTissueRegion[]
+                {
+                    new LayerTissueRegion(
+                        new DoubleRange(double.NegativeInfinity, 0.0),
+                        new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
+                        "HenyeyGreensteinKey2"),
+                    new LayerTissueRegion(
+                        new DoubleRange(0.0, 20.0), // debug with thin slab d=2
+                        new OpticalProperties(0.01, 1.0, 0.8, 1.4),
+                        "HenyeyGreensteinKey3"), // debug with g=1
+                    new LayerTissueRegion(
+                        new DoubleRange(20.0, double.PositiveInfinity),
+                        new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
+                        "HenyeyGreensteinKey4")
+                }
+                );
+            ti2.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey1", new HenyeyGreensteinPhaseFunctionInput());
+            ti2.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey2", new HenyeyGreensteinPhaseFunctionInput());
+            ti2.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey3", new HenyeyGreensteinPhaseFunctionInput());
+            ti2.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey4", new HenyeyGreensteinPhaseFunctionInput());
+    
             _inputTwoRegionTissue = new SimulationInput(
                 100,
                 "",
                 simulationOptions,
                 source,
-                new SingleVoxelTissueInput(
-                     new VoxelTissueRegion(
-                        new DoubleRange(-5, 5), 
-                        new DoubleRange(-5, 5),
-                        new DoubleRange(1e-9, 5),  // smallest Z.Start with tests passing is 1e-9 
-                        new OpticalProperties(0.01, 1.0, 0.8, 1.4) //debug with g=1
-                    ), 
-                    new LayerTissueRegion[]
-                    { 
-                        new LayerTissueRegion(
-                            new DoubleRange(double.NegativeInfinity, 0.0),
-                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
-                        new LayerTissueRegion(
-                            new DoubleRange(0.0, 20.0), // debug with thin slab d=2
-                            new OpticalProperties(0.01, 1.0, 0.8, 1.4)),// debug with g=1
-                        new LayerTissueRegion(
-                            new DoubleRange(20.0, double.PositiveInfinity),
-                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
-                    }
-                ),
+                ti2,
                 detectors);
             _outputTwoRegionTissue = new MonteCarloSimulation(_inputTwoRegionTissue).Run();
 

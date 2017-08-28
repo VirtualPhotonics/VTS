@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Vts.Common;
@@ -5,7 +6,7 @@ using Vts.Extensions;
 using Vts.MonteCarlo.PhotonData;
 
 namespace Vts.MonteCarlo.Tissues
-{   
+{
     /// <summary>
     /// Implements ITissue.  Defines a tissue geometry comprised of an
     /// inclusion embedded within a layered slab.
@@ -41,7 +42,9 @@ namespace Vts.MonteCarlo.Tissues
         public SingleInclusionTissue()
             : this(
                 new EllipsoidTissueRegion(),
-                new MultiLayerTissueInput().Regions) { }
+                new MultiLayerTissueInput().Regions)
+        {
+        }
         /// <summary>
         /// method to get tissue region index of photon's current position
         /// </summary>
@@ -71,8 +74,9 @@ namespace Vts.MonteCarlo.Tissues
             //    return base.GetNeighborRegionIndex(photon);
             //}
 
-            // if we're in the layer region of the inclusion, could be on boundary of layer
-            if ((regionIndex == _layerRegionIndexOfInclusion) && !Regions[_layerRegionIndexOfInclusion].OnBoundary(photon.DP.Position) )
+            // if we're in the layer region of the inclusion, could be on boundary of inclusion
+            // or boundary of layer
+            if ((regionIndex == _layerRegionIndexOfInclusion) && !Regions[_layerRegionIndexOfInclusion].OnBoundary(photon.DP.Position))
             {
                 return _inclusionRegionIndex;
             }
@@ -119,9 +123,9 @@ namespace Vts.MonteCarlo.Tissues
                     return distanceToBoundary;
                 }
                 else // otherwise, check that a projected track will hit the inclusion boundary
-                {          
+                {
                     var projectedPhoton = new Photon();
-                    projectedPhoton.DP = new PhotonDataPoint(photon.DP.Position, photon.DP.Direction, photon.DP.Weight, 
+                    projectedPhoton.DP = new PhotonDataPoint(photon.DP.Position, photon.DP.Direction, photon.DP.Weight,
                         photon.DP.TotalTime, photon.DP.StateFlag);
                     projectedPhoton.S = 100;
                     if (_inclusionRegion.RayIntersectBoundary(projectedPhoton, out distanceToBoundary))

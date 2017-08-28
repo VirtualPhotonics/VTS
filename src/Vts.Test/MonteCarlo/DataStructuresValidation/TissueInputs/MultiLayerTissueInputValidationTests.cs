@@ -16,25 +16,31 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation.TissueInputs
         [Test]
         public void validate_layers_do_not_overlap()
         {
+            MultiLayerTissueInput ti = new MultiLayerTissueInput(
+                    new ITissueRegion[]
+                    { 
+                        new LayerTissueRegion(
+                            new DoubleRange(double.NegativeInfinity, 0.0),
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
+                            "HenyeyGreensteinKey1"),
+                            new LayerTissueRegion(
+                            new DoubleRange(0.0, 50.0),
+                            new OpticalProperties(0.01, 1.0, 0.8, 1.4),
+                            "HenyeyGreensteinKey2"),
+                            new LayerTissueRegion(
+                            new DoubleRange(20.0, double.PositiveInfinity),
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
+                            "HenyeyGreensteinKey1")
+                    }
+                );
+            if (!ti.RegionPhaseFunctionInputs.ContainsKey("HenyeyGreensteinKey1"))
+                ti.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey1", new HenyeyGreensteinPhaseFunctionInput());
             var input = new SimulationInput(
                 10,
                 "",
                 new SimulationOptions(),
                 new DirectionalPointSourceInput(),
-                new MultiLayerTissueInput(
-                    new ITissueRegion[]
-                    { 
-                        new LayerTissueRegion(
-                            new DoubleRange(double.NegativeInfinity, 0.0),
-                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
-                        new LayerTissueRegion(
-                            new DoubleRange(0.0, 50.0),
-                            new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
-                        new LayerTissueRegion(
-                            new DoubleRange(20.0, double.PositiveInfinity),
-                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
-                    }
-                ),
+                ti,
                 new List<IDetectorInput>(){ }
             );
             var result = SimulationInputValidation.ValidateInput(input);
@@ -56,13 +62,16 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation.TissueInputs
                     { 
                         new LayerTissueRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
-                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
+                        ""),
                         new LayerTissueRegion(
                             new DoubleRange(0.0, 0.0),
-                            new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
+                            new OpticalProperties(0.01, 1.0, 0.8, 1.4),
+                        ""),
                         new LayerTissueRegion(
                             new DoubleRange(0.0, double.PositiveInfinity),
-                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
+                        "")
                     }
                 ),
                 new List<IDetectorInput>(){ }

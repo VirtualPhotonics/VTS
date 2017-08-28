@@ -1,5 +1,6 @@
 using System.Linq;
 using System.Runtime.Serialization;
+using System.Collections.Generic;
 using Vts.Common;
 using Vts.Extensions;
 
@@ -23,6 +24,7 @@ namespace Vts.MonteCarlo.Tissues
             TissueType = "SingleVoxel";
             _voxelRegion = voxelRegion;
             _layerRegions = layerRegions;
+            RegionPhaseFunctionInputs = new Dictionary<string, IPhaseFunctionInput>();
         }
 
         /// <summary>
@@ -35,21 +37,29 @@ namespace Vts.MonteCarlo.Tissues
                     new DoubleRange(-5, 5), 
                     new DoubleRange(-5, 5), 
                     new DoubleRange(1, 6),
-                    new OpticalProperties(0.05, 1.0, 0.8, 1.4)
+                    new OpticalProperties(0.05, 1.0, 0.8, 1.4),
+                    "HenyeyGreensteinKey1"
                 ),
                 new ITissueRegion[] 
                 { 
                     new LayerTissueRegion(
                         new DoubleRange(double.NegativeInfinity, 0.0),
-                        new OpticalProperties( 0.0, 1e-10, 1.0, 1.0)),
+                        new OpticalProperties( 0.0, 1e-10, 1.0, 1.0),
+                        "HenyeyGreensteinKey2"),
                     new LayerTissueRegion(
                         new DoubleRange(0.0, 100.0),
-                        new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
+                        new OpticalProperties(0.01, 1.0, 0.8, 1.4),
+                        "HenyeyGreensteinKey3"),
                     new LayerTissueRegion(
                         new DoubleRange(100.0, double.PositiveInfinity),
-                        new OpticalProperties( 0.0, 1e-10, 1.0, 1.0))
+                        new OpticalProperties( 0.0, 1e-10, 1.0, 1.0),
+                        "HenyeyGreensteinKey4")
                 })
         {
+            RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey1", new HenyeyGreensteinPhaseFunctionInput());
+            RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey2", new HenyeyGreensteinPhaseFunctionInput());
+            RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey3", new HenyeyGreensteinPhaseFunctionInput());
+            RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey4", new HenyeyGreensteinPhaseFunctionInput());
         }
 
         /// <summary>
@@ -65,20 +75,24 @@ namespace Vts.MonteCarlo.Tissues
         /// tissue layer regions
         /// </summary>
         public ITissueRegion[] LayerRegions { get { return _layerRegions; } set { _layerRegions = value; } }
+        /// <summary>
+        /// dictionary of region phase function inputs
+        /// </summary>
+        public IDictionary<string, IPhaseFunctionInput> RegionPhaseFunctionInputs { get; set; }
 
         /// <summary>
         ///// Required factory method to create the corresponding 
         ///// ITissue based on the ITissueInput data
         /// </summary>
         /// <param name="awt">Absorption Weighting Type</param>
-        /// <param name="pft">Phase Function Type</param>
+        /// <param name="regionPhaseFunctions">Phase Function Dictionary</param>
         /// <param name="russianRouletteWeightThreshold">Russian Roulette Weight Threshold</param>
         /// <returns></returns>
-        public ITissue CreateTissue(AbsorptionWeightingType awt, PhaseFunctionType pft, double russianRouletteWeightThreshold)
+        public ITissue CreateTissue(AbsorptionWeightingType awt, IDictionary<string, IPhaseFunction> regionPhaseFunctions, double russianRouletteWeightThreshold)
         {
             var t = new SingleInclusionTissue(VoxelRegion, LayerRegions);
 
-            t.Initialize(awt, pft, russianRouletteWeightThreshold);
+            t.Initialize(awt, regionPhaseFunctions, russianRouletteWeightThreshold);
 
             return t;
         }

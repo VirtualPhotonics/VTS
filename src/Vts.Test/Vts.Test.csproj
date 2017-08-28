@@ -183,6 +183,7 @@
     <Compile Include="Modeling\Spectroscopy\ChromophoreSpectrumTests.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Modeling\Spectroscopy\MieScattererTests.cs" />
     <Compile Include="Modeling\Spectroscopy\SpectralConverterTests.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -215,6 +216,11 @@
     <Compile Include="MonteCarlo\DataStructures\OutputTests.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="MonteCarlo\DataStructures\PhaseFunctionInputs\LookupTablePhaseFunctionInputTests.cs" />
+    <Compile Include="MonteCarlo\DataStructures\PhaseFunctionInputs\PolarLookupTablePhaseFunctionDataTest.cs" />
+    <Compile Include="MonteCarlo\PhaseFunctions\AxiallySymmetricScattererMuellerMatrixTests.cs" />
+    <Compile Include="MonteCarlo\PhaseFunctions\MuellerMatrixTests.cs" />
+    <Compile Include="MonteCarlo\PhaseFunctions\LookupTablePhaseFunctionTests.cs" />
     <Compile Include="MonteCarlo\DataStructures\SimulationInputExtensionsTests.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -250,6 +256,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="MonteCarlo\MonteCarloSimulationTests.cs" />
+    <Compile Include="MonteCarlo\PhaseFunctions\MieScattererMuellerMatrixTests.cs" />
+    <Compile Include="MonteCarlo\PhaseFunctions\RejectionSampledLookupTablePhaseFunctionTests.cs" />
+    <Compile Include="MonteCarlo\PhaseFunctions\StokesVectorTests.cs" />
     <Compile Include="MonteCarlo\PhotonData\CollisionInfoDatabaseTests.cs">
       <SubType>Code</SubType>
     </Compile>

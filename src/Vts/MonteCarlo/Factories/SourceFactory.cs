@@ -1,5 +1,4 @@
 using System;
-using Vts.MonteCarlo.Sources;
 
 namespace Vts.MonteCarlo.Factories
 {
@@ -12,7 +11,6 @@ namespace Vts.MonteCarlo.Factories
         /// Method to instantiate the correct source given ISourceInput
         /// </summary>
         /// <param name="input">ISourceInput</param>
-        /// <param name="tissue">ITissue</param>
         /// <param name="rng">random number generator instance</param>
         /// <returns>ISource</returns>
         public static ISource GetSource(ISourceInput input, Random rng)

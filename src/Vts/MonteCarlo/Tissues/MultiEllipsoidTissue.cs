@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Vts.Common;
 
@@ -23,6 +24,7 @@ namespace Vts.MonteCarlo.Tissues
             TissueType = "MultiEllipsoid";
             _ellipsoidRegions = ellipsoidRegions;
             _layerRegions = layerRegions;
+            RegionPhaseFunctionInputs = new Dictionary<string, IPhaseFunctionInput>();
         }
 
         /// <summary>
@@ -38,27 +40,38 @@ namespace Vts.MonteCarlo.Tissues
                         5.0, 
                         1.0, 
                         5.0,
-                        new OpticalProperties(0.1, 1.0, 0.8, 1.4)),
+                        new OpticalProperties(0.1, 1.0, 0.8, 1.4),
+                        "HenyeyGreensteinKey1"),
                     new EllipsoidTissueRegion(
                         new Position(0, 0, 40), 
                         5.0, 
                         0, 
                         5.0,
-                        new OpticalProperties(0.05, 1.0, 0.8, 1.4))
+                        new OpticalProperties(0.05, 1.0, 0.8, 1.4),
+                        "HenyeyGreensteinKey2")
                 },
                 new ITissueRegion[] 
                 { 
                     new LayerTissueRegion(
                         new DoubleRange(double.NegativeInfinity, 0.0),
-                        new OpticalProperties( 0.0, 1e-10, 1.0, 1.0)),
+                        new OpticalProperties( 0.0, 1e-10, 1.0, 1.0),
+                        "HenyeyGreensteinKey3"),
                     new LayerTissueRegion(
                         new DoubleRange(0.0, 50.0),
-                        new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
+                        new OpticalProperties(0.01, 1.0, 0.8, 1.4),
+                        "HenyeyGreensteinKey4"),
                     new LayerTissueRegion(
                         new DoubleRange(100.0, double.PositiveInfinity),
-                        new OpticalProperties( 0.0, 1e-10, 1.0, 1.0))
+                        new OpticalProperties( 0.0, 1e-10, 1.0, 1.0),
+                        "HenyeyGreensteinKey5")
                 })
-        {
+        {  
+            RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey1", new HenyeyGreensteinPhaseFunctionInput());
+            RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey2", new HenyeyGreensteinPhaseFunctionInput());
+            RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey3", new HenyeyGreensteinPhaseFunctionInput());
+            RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey4", new HenyeyGreensteinPhaseFunctionInput());
+            RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey5", new HenyeyGreensteinPhaseFunctionInput());
+   
         }
 
         /// <summary>
@@ -74,7 +87,11 @@ namespace Vts.MonteCarlo.Tissues
         /// tissue layer regions
         /// </summary>
         public ITissueRegion[] LayerRegions { get { return _layerRegions; } set { _layerRegions = value; } }
-        
+       /// <summary>
+        /// dictionary of region phase function inputs
+        /// </summary>
+        public IDictionary<string, IPhaseFunctionInput> RegionPhaseFunctionInputs { get; set; }
+ 
         /// <summary>
         ///// Required factory method to create the corresponding 
         ///// ITissue based on the ITissueInput data
@@ -83,7 +100,7 @@ namespace Vts.MonteCarlo.Tissues
         /// <param name="pft">Phase Function Type</param>
         /// <param name="russianRouletteWeightThreshold">Russian Roulette Weight Threshold</param>
         /// <returns></returns>
-        public ITissue CreateTissue(AbsorptionWeightingType awt, PhaseFunctionType pft, double russianRouletteWeightThreshold)
+        public ITissue CreateTissue(AbsorptionWeightingType awt, IDictionary<string, IPhaseFunction> regionPhaseFunctions, double russianRouletteWeightThreshold)
         {
             throw new NotImplementedException();
 
@@ -93,5 +110,6 @@ namespace Vts.MonteCarlo.Tissues
 
             //return t;
         }
+     
     }
 }

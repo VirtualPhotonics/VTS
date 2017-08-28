@@ -16,7 +16,6 @@ namespace Vts.MonteCarlo
         /// <param name="seed">random number generator seed (-1=randomly chosen seed, >=0 reproducible sequence)</param>
         /// <param name="rngType">random number generator type</param>
         /// <param name="absWeightingType">absorption weighting type</param>
-        /// <param name="phaseFunctionType">phase function type</param>
         /// <param name="databases">list of DatabaseType indicating data to be written database for post-processing</param>
         /// <param name="trackStatistics">flag indicating whether to track statistics about where photons end up</param>
         /// <param name="russianRouletteWeightThreshold">weight threshold to perform RR (default=0, no RR)</param>
@@ -25,7 +24,6 @@ namespace Vts.MonteCarlo
             int seed, 
             RandomNumberGeneratorType rngType, 
             AbsorptionWeightingType absWeightingType,
-            PhaseFunctionType phaseFunctionType,
             IList<DatabaseType> databases,
             bool trackStatistics,
             double russianRouletteWeightThreshold,
@@ -33,7 +31,6 @@ namespace Vts.MonteCarlo
         {
             RandomNumberGeneratorType = rngType;
             AbsorptionWeightingType = absWeightingType;
-            PhaseFunctionType = phaseFunctionType;
             Databases = databases;
             // check if databases list is null and if so make empty
             if (Databases == null)
@@ -62,8 +59,7 @@ namespace Vts.MonteCarlo
             AbsorptionWeightingType absWeightingType)
             : this(seed, 
                 rngType, 
-                absWeightingType, 
-                PhaseFunctionType.HenyeyGreenstein,
+                absWeightingType,  
                 new List<DatabaseType>() { }, // databases to be written
                 false, // track statistics
                 0.0, // Russian Roulette weight threshold: =0.0 -> no RR performed
@@ -77,7 +73,6 @@ namespace Vts.MonteCarlo
             : this(seed, 
                 RandomNumberGeneratorType.MersenneTwister,  
                 AbsorptionWeightingType.Discrete, 
-                PhaseFunctionType.HenyeyGreenstein,
                 null,
                 false,
                 0.0,
@@ -90,7 +85,6 @@ namespace Vts.MonteCarlo
             : this(-1, // default constructor needs -1 here to invoke GetRandomSeed
                 RandomNumberGeneratorType.MersenneTwister, 
                 AbsorptionWeightingType.Discrete, 
-                PhaseFunctionType.HenyeyGreenstein,
                 null,
                 false,
                 0.0,
@@ -108,10 +102,6 @@ namespace Vts.MonteCarlo
         /// absorption weighting type
         /// </summary>
         public AbsorptionWeightingType AbsorptionWeightingType { get; set; }
-        /// <summary>
-        /// phase function type
-        /// </summary>
-        public PhaseFunctionType PhaseFunctionType { get; set; }
         /// <summary>
         /// list of databases to be written
         /// </summary>

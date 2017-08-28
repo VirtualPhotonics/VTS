@@ -259,6 +259,11 @@
     <Compile Include="MonteCarlo\DataStructuresValidation\PostProcessorInputs\PostProcessorInputValidation.cs" />
     <Compile Include="MonteCarlo\DataStructuresValidation\TissueInputs\SingleVoxelTissueInputValidation.cs" />
     <Compile Include="MonteCarlo\DataStructuresValidation\TissueInputs\SingleEllipsoidTissueInputValidation.cs" />
+    <Compile Include="MonteCarlo\DataStructures\PhaseFunctionInputs\BidirectionalPhaseFunctionInput.cs" />
+    <Compile Include="MonteCarlo\DataStructures\PhaseFunctionInputs\PolarAndAzimuthalLookupTablePhaseFunctionData.cs" />
+    <Compile Include="MonteCarlo\DataStructures\PhaseFunctionInputs\HenyeyGreensteinPhaseFunctionInput.cs" />
+    <Compile Include="MonteCarlo\DataStructures\PhaseFunctionInputs\LookupTablePhaseFunctionInput.cs" />
+    <Compile Include="MonteCarlo\DataStructures\PhaseFunctionInputs\PolarLookupTablePhaseFunctionData.cs" />
     <Compile Include="MonteCarlo\DataStructures\PostProcessorInputs\PostProcessorInput.cs" />
     <Compile Include="MonteCarlo\DataStructures\PostProcessorInputs\PostProcessorInputProvider.cs" />
     <Compile Include="MonteCarlo\DataStructures\SimulationInputProvider.cs" />
@@ -295,6 +300,7 @@
     <Compile Include="MonteCarlo\Extensions\ITissueRegionExtensions.cs" />
     <Compile Include="MonteCarlo\Factories\DatabaseWriterFactory.cs" />
     <Compile Include="MonteCarlo\Factories\DetectorControllerFactory.cs" />
+    <Compile Include="MonteCarlo\Factories\PhaseFunctionFactory.cs" />
     <Compile Include="MonteCarlo\Factories\PhotonDatabaseFactory.cs" />
     <Compile Include="MonteCarlo\Factories\SourceFactory.cs">
       <SubType>Code</SubType>
@@ -304,9 +310,21 @@
     <Compile Include="MonteCarlo\Interfaces\IHistoryDetector.cs" />
     <Compile Include="MonteCarlo\Interfaces\IDetectorController.cs" />
     <Compile Include="MonteCarlo\Interfaces\ITissueProvider.cs" />
+    <Compile Include="MonteCarlo\Interfaces\ILookupTablePhaseFunctionData.cs" />
+    <Compile Include="MonteCarlo\Interfaces\IPhaseFunction.cs" />
+    <Compile Include="MonteCarlo\Interfaces\IPhaseFunctionInput.cs" />
     <Compile Include="MonteCarlo\Interfaces\IVirtualBoundary.cs" />
     <Compile Include="MonteCarlo\Extensions\PhotonDataExtensionMethods.cs" />
     <Compile Include="IO\BinaryArraySerializer.cs" />
+    <Compile Include="MonteCarlo\PhaseFunctions\BidirectionalPhaseFunction.cs" />
+    <Compile Include="MonteCarlo\PhaseFunctions\AxiallySymmetricScattererMuellerMatrix.cs" />
+    <Compile Include="MonteCarlo\PhaseFunctions\MieScattererMuellerMatrix.cs" />
+    <Compile Include="MonteCarlo\PhaseFunctions\MuellerMatrix.cs" />
+    <Compile Include="MonteCarlo\PhaseFunctions\StokesVector.cs" />
+    <Compile Include="MonteCarlo\PhaseFunctions\RejectionSampledLookupTablePhaseFunction.cs" />
+    <Compile Include="MonteCarlo\PhaseFunctions\HenyeyGreensteinPhaseFunction.cs" />
+    <Compile Include="MonteCarlo\PhaseFunctions\LookupTablePhaseFunction.cs" />
+    <Compile Include="MonteCarlo\PhaseFunctions\PolarAndAzimuthalPhaseFunction.cs" />
     <Compile Include="MonteCarlo\Rng\MersenneTwisterSerializationInfo.cs" />
     <Compile Include="MonteCarlo\Rng\SerializableMersenneTwister.cs" />
     <Compile Include="Factories\ComputationFactory.cs" />

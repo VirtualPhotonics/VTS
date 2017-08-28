@@ -300,8 +300,9 @@ namespace Vts.SpectralMapping
                 gNumerator  += MieScattParams.S11[j] * cost * 2 * Math.PI * sint * dTheta;
                 gDenominator += MieScattParams.S11[j] * 2 * Math.PI * sint* dTheta;
             }
-            MieScattParams.G = gNumerator/gDenominator;
-            
+//            for (int st = 0; st < MieScattParams.S11.Length; st++)
+//            {
+//            }
             return MieScattParams;
         }
         

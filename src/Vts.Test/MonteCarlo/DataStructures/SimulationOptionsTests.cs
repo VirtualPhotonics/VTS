@@ -25,7 +25,7 @@ namespace Vts.Test.MonteCarlo
                 0,
                 RandomNumberGeneratorType.MersenneTwister, 
                 AbsorptionWeightingType.Discrete,
-                PhaseFunctionType.Bidirectional,
+                //PhaseFunctionType.Bidirectional,
                 null,
                 false,
                 0.0,

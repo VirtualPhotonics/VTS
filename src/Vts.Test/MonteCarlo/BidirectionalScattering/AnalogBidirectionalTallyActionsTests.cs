@@ -33,14 +33,37 @@ namespace Vts.Test.MonteCarlo.BidirectionalScattering
         [TestFixtureSetUp]
         public void execute_Monte_Carlo()
         {
+            MultiLayerTissueInput ti = new MultiLayerTissueInput(
+                    new ITissueRegion[]
+                    { 
+                        new LayerTissueRegion(
+                            new DoubleRange(double.NegativeInfinity, 0.0),
+                            new OpticalProperties(0.0, 1e-10, 0.0, 1.0),
+                        //new BidirectionalPhaseFunctionInput()),
+                        "BidirectionalPhaseFunctionKey1"),
+                        new LayerTissueRegion(
+                            new DoubleRange(0.0, _slabThickness),
+                            new OpticalProperties(_mua, _musp, _g, 1.0),
+                        //new BidirectionalPhaseFunctionInput()), // index matched slab
+                        "BidirectionalPhaseFunctionKey2"),
+                        new LayerTissueRegion(
+                            new DoubleRange(_slabThickness, double.PositiveInfinity),
+                            new OpticalProperties(0.0, 1e-10, 0.0, 1.0),
+                        //new BidirectionalPhaseFunctionInput())
+                        "BidirectionalPhaseFunctionKey3")
+                    }
+                );
+            ti.RegionPhaseFunctionInputs.Add("BidirectionalPhaseFunctionKey1", new BidirectionalPhaseFunctionInput());
+            ti.RegionPhaseFunctionInputs.Add("BidirectionalPhaseFunctionKey2", new BidirectionalPhaseFunctionInput());
+            ti.RegionPhaseFunctionInputs.Add("BidirectionalPhaseFunctionKey3", new BidirectionalPhaseFunctionInput());
             _input = new SimulationInput(
                 10000, // number needed to get enough photons to Td 
                 "results",
                 new SimulationOptions(
-                    0, 
+                    0,
                     RandomNumberGeneratorType.MersenneTwister,
-                    AbsorptionWeightingType.Analog, 
-                    PhaseFunctionType.Bidirectional,
+                    AbsorptionWeightingType.Analog,
+                //PhaseFunctionType.Bidirectional,
                     new List<DatabaseType>() { }, // databases to be written
                     true, // track statistics
                     0.0, // RR threshold -> 0 = no RR performed
@@ -48,22 +71,9 @@ namespace Vts.Test.MonteCarlo.BidirectionalScattering
                 new DirectionalPointSourceInput(
                     new Position(0.0, 0.0, 0.0),
                     new Direction(0.0, 0.0, 1.0),
-                    0                   
+                    0
                 ),
-                new MultiLayerTissueInput(
-                    new ITissueRegion[]
-                    { 
-                        new LayerTissueRegion(
-                            new DoubleRange(double.NegativeInfinity, 0.0),
-                            new OpticalProperties(0.0, 1e-10, 0.0, 1.0)),
-                        new LayerTissueRegion(
-                            new DoubleRange(0.0, _slabThickness),
-                            new OpticalProperties(_mua, _musp, _g, 1.0)), // index matched slab
-                        new LayerTissueRegion(
-                            new DoubleRange(_slabThickness, double.PositiveInfinity),
-                            new OpticalProperties(0.0, 1e-10, 0.0, 1.0))
-                    }
-                ),
+                ti,
                 new List<IDetectorInput>() 
                 { 
                     new RDiffuseDetectorInput() { TallySecondMoment = true },
@@ -88,8 +98,8 @@ namespace Vts.Test.MonteCarlo.BidirectionalScattering
                 -1, // direction -1=up
                 0); // position at surface
             var sd = ErrorCalculation.StandardDeviation(_output.Input.N, _output.Rd, _output.Rd2);
-            Assert.Less(Math.Abs(_output.Rd - analyticSolution), 3 * sd); 
-        } 
+            Assert.Less(Math.Abs(_output.Rd - analyticSolution), 3 * sd);
+        }
         // Total Absorption
         [Test]
         public void validate_bidirectional_analog_ATotal()
@@ -101,7 +111,7 @@ namespace Vts.Test.MonteCarlo.BidirectionalScattering
                 1,
                 0,
                 _slabThickness);
-            var analyticSolutionLeft = 
+            var analyticSolutionLeft =
                 BidirectionalAnalyticSolutions.GetBidirectionalRadianceIntegratedOverInterval(
                 _slabThickness,
                 new OpticalProperties(_mua, _musp, _g, 1.0),

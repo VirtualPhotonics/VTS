@@ -10,6 +10,7 @@ using Newtonsoft.Json.Serialization;
 using Vts.MonteCarlo;
 using Vts.MonteCarlo.Detectors;
 using Vts.MonteCarlo.Interfaces;
+using Vts.MonteCarlo.PhaseFunctions;
 using Vts.MonteCarlo.Sources;
 using Vts.MonteCarlo.Sources.SourceProfiles;
 using Vts.MonteCarlo.Tissues;
@@ -61,6 +62,9 @@ namespace Vts.IO
             new ConventionBasedConverter<ITissueRegion>(typeof(VoxelTissueRegion), "TissueRegionType", TissueRegionType.BuiltInTypes),
             new ConventionBasedConverter<IDetectorInput>(typeof(ROfRhoDetectorInput), "TallyType", TallyType.BuiltInTypes),
             new ConventionBasedConverter<IDetector>(typeof(ROfRhoDetector), "TallyType", TallyType.BuiltInTypes),
+            //new ConventionBasedConverter<ILookupTablePhaseFunctionData>(typeof(PolarLookupTablePhaseFunctionData),"LookupTableDataType",Vts.MonteCarlo.LookupTablePhaseFunctionDataType.BuiltInTypes),
+            ConventionBasedConverter<IPhaseFunctionInput>.CreateFromEnum<Vts.PhaseFunctionType>(typeof(HenyeyGreensteinPhaseFunctionInput)),
+            ConventionBasedConverter<ILookupTablePhaseFunctionData>.CreateFromEnum<Vts.LookupTablePhaseFunctionDataType>(typeof(PolarLookupTablePhaseFunctionData)),
             ConventionBasedConverter<ISourceProfile>.CreateFromEnum<Vts.MonteCarlo.SourceProfileType>(typeof(FlatSourceProfile)),
             
         };

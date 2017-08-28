@@ -45,15 +45,21 @@ namespace Vts.Test.MonteCarlo.PostProcessing
                     { 
                         new LayerTissueRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
-                            new OpticalProperties(0.0, 1e-10, 0.0, 1.0)),
+                            new OpticalProperties(0.0, 1e-10, 0.0, 1.0),
+                        "HenyeyGreensteinKey1"),
                         new LayerTissueRegion(
                             new DoubleRange(0.0, 20.0),
-                            new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
+                            new OpticalProperties(0.01, 1.0, 0.8, 1.4),
+                        "HenyeyGreensteinKey1"),
                         new LayerTissueRegion(
                             new DoubleRange(20.0, double.PositiveInfinity),
-                            new OpticalProperties(0.0, 1e-10, 0.0, 1.0))
+                            new OpticalProperties(0.0, 1e-10, 0.0, 1.0),
+                        "HenyeyGreensteinKey1")
                     }
             );
+
+            if (!_tissueInput.RegionPhaseFunctionInputs.ContainsKey("HenyeyGreensteinKey1"))
+                _tissueInput.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey1", new HenyeyGreensteinPhaseFunctionInput());
         }
         /// <summary>
         /// validate_photon_database_postprocessor_ROfRhoAndTime reads the output data 
@@ -108,7 +114,7 @@ namespace Vts.Test.MonteCarlo.PostProcessing
                     0,
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Discrete,
-                    PhaseFunctionType.HenyeyGreenstein,
+                    //PhaseFunctionType.HenyeyGreenstein,
                     new List<DatabaseType>() { DatabaseType.DiffuseReflectance },
                     false, // track statistics
                     0.0, // RR threshold -> 0 = no RR performed
@@ -131,7 +137,7 @@ namespace Vts.Test.MonteCarlo.PostProcessing
                     0,
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Continuous,
-                    PhaseFunctionType.HenyeyGreenstein,
+                    //PhaseFunctionType.HenyeyGreenstein,
                     new List<DatabaseType>() { DatabaseType.DiffuseReflectance },
                     false, // track statistics
                     0.0, // RR threshold -> 0 = no RR performed
@@ -188,7 +194,7 @@ namespace Vts.Test.MonteCarlo.PostProcessing
                     0,
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Discrete,
-                    PhaseFunctionType.HenyeyGreenstein,
+                    //PhaseFunctionType.HenyeyGreenstein,
                     new List<DatabaseType>() { DatabaseType.DiffuseReflectance }, // SPECIFY DATABASE
                     false, // track statistics
                     0.0, // RR threshold -> 0 = no RR performed

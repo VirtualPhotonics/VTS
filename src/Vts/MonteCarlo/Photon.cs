@@ -3,11 +3,13 @@ using System.Linq;
 using Vts.Common;
 using Vts.MonteCarlo.Factories;
 using Vts.MonteCarlo.Helpers;
+using Vts.MonteCarlo.Interfaces;
 using Vts.MonteCarlo.PhotonData;
 using Vts.MonteCarlo.Tissues;
 
 namespace Vts.MonteCarlo
 {
+
     /// <summary>
     /// Handles all data and methods necessary to photon biography generation.
     /// </summary>
@@ -54,6 +56,8 @@ namespace Vts.MonteCarlo
             S = 0.0;
             SLeft = 0.0;        
             CurrentRegionIndex = currentTissueRegionIndex;
+            CurrentRegionKey = tissue.Regions[CurrentRegionIndex].PhaseFunctionKey;
+
             // flag to determin whether passing through specular or not
             // the following assumes tissues considered are slabs, only ones we have coded to date
             // todo: make more general to handle other types of tissues
@@ -65,9 +69,10 @@ namespace Vts.MonteCarlo
             CurrentTrackIndex = 0;
             _tissue = tissue;
             SetAbsorbAction(_tissue.AbsorptionWeightingType);
-            SetScatterAction(_tissue.PhaseFunctionType);
+
             _rng = generator;
             _russianRouletteWeightThreshold = _tissue.RussianRouletteWeightThreshold;
+            
         }
         /// <summary>
         /// default constructor for Photon
@@ -104,15 +109,16 @@ namespace Vts.MonteCarlo
         /// <summary>
         /// index of current track of photon
         /// </summary>
+        public string CurrentRegionKey { get; set; }
         public int CurrentTrackIndex { get; private set; }
         /// <summary>
         /// absorb action: analog, discrete, continuous
         /// </summary>
         public Action Absorb { get; private set; }
-        /// <summary>
-        /// scatter action: Henyey-Greenstein, bidirectional, Mie
-        /// </summary>
-        public Action Scatter { get; private set; }
+        ///// <summary>
+        ///// scatter action: Henyey-Greenstein, bidirectional, Mie
+        ///// </summary>
+        //public Action Scatter { get; private set; }
 
         private void SetAbsorbAction(AbsorptionWeightingType awt)
         {
@@ -130,18 +136,7 @@ namespace Vts.MonteCarlo
                     break;
             }
         }
-        private void SetScatterAction(PhaseFunctionType st)
-        {
-            switch (st)
-            {
-                case PhaseFunctionType.HenyeyGreenstein:
-                    Scatter = ScatterHenyeyGreenstein;
-                    break;
-                case PhaseFunctionType.Bidirectional:
-                    Scatter = Scatter1D;
-                    break;
-            }
-        }
+
         /// <summary>
         /// method that determines photon's step size based on the RegionScatterLength (1/mus or 1/mut depending on CAW or DAW)
         /// </summary>
@@ -243,8 +238,6 @@ namespace Vts.MonteCarlo
                     {
                         AbsorbContinuous();
                     }
-
-                    CurrentRegionIndex = neighborIndex;
                     //don't need to update these unless photon not dead upon exiting tissue
                     //DP.Direction.Ux *= nCurrent / nNext;
                     //DP.Direction.Uy *= nCurrent / nNext;
@@ -252,7 +245,7 @@ namespace Vts.MonteCarlo
                 }
                 else // not on domain boundary, at internal interface or first time enter tissue, pass to next
                 {
-                    CurrentRegionIndex = neighborIndex;
+                    
                     DP.Direction = _tissue.GetRefractedDirection(DP.Position, DP.Direction,
                         nCurrent, nNext, cosThetaSnell);
                     if (_firstTimeEnteringDomain)
@@ -260,6 +253,8 @@ namespace Vts.MonteCarlo
                         _firstTimeEnteringDomain = false;
                     }
                 }
+                CurrentRegionIndex = neighborIndex;
+                CurrentRegionKey = _tissue.Regions[neighborIndex].PhaseFunctionKey;
             }
             else  // don't cross, reflect
             {
@@ -272,65 +267,11 @@ namespace Vts.MonteCarlo
             }
         }
 
-        /// <summary>
-        /// Method to scatter according to Henyey-Greenstein scatter function
-        /// </summary>
-        public void ScatterHenyeyGreenstein()
+        public void Scatter()
         {
-            // readability eased with local copies of following
-            double ux = DP.Direction.Ux;
-            double uy = DP.Direction.Uy;
-            double uz = DP.Direction.Uz;
-            //Direction dir = DP.Direction;
-
-            double g = _tissue.Regions[CurrentRegionIndex].RegionOP.G;
-            double cost, sint;    /* cosine and sine of theta */
-            double cosp, sinp;    /* cosine and sine of phi */
-            double psi;
-
-            if (g == 0.0)
-                cost = 2 * _rng.NextDouble() - 1;
-            else
-            {
-                double temp = (1 - g * g) / (1 - g + 2 * g * _rng.NextDouble());
-                cost = (1 + g * g - temp * temp) / (2 * g);
-                if (cost < -1) cost = -1;
-                else if (cost > 1) cost = 1;
-            }
-            sint = Math.Sqrt(1.0 - cost * cost);
-
-            psi = 2.0 * Math.PI * _rng.NextDouble();
-            cosp = Math.Cos(psi);
-            sinp = Math.Sin(psi);
-
-            if (Math.Abs(DP.Direction.Uz) > (1 - 1e-10))
-            {   /* normal incident. */
-                DP.Direction.Ux = sint * cosp;
-                DP.Direction.Uy = sint * sinp;
-                DP.Direction.Uz = cost * DP.Direction.Uz / Math.Abs(DP.Direction.Uz);
-            }
-            else
-            {
-                double temp = Math.Sqrt(1.0 - uz * uz);
-                DP.Direction.Ux = sint * (ux * uz * cosp - uy * sinp) / temp + ux * cost;
-                DP.Direction.Uy = sint * (uy * uz * cosp + ux * sinp) / temp + uy * cost;
-                DP.Direction.Uz = -sint * cosp * temp + uz * cost;
-            }
-
+            _tissue.RegionPhaseFunctions[CurrentRegionKey].ScatterToNewDirection(DP.Direction);
         }
-        /// <summary>
-        /// Method to scatter bidirectionally
-        /// </summary>
-        public void Scatter1D()
-        {
-            double g = this._tissue.Regions[CurrentRegionIndex].RegionOP.G;
 
-            // comment for compile
-            if (_rng.NextDouble() < ((1 + g) / 2.0))
-                this.DP.Direction.Uz *= 1.0;
-            else
-                this.DP.Direction.Uz *= -1.0;
-        }
         /// <summary>
         /// Method to check for absorption according to analog random walk process
         /// </summary>
