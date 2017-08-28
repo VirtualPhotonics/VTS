@@ -4,8 +4,7 @@ using System.Linq;
 using NUnit.Framework;
 using Vts.Common;
 using Vts.MonteCarlo.PhaseFunctions;
-using Meta.Numerics.Statistics;
-using Vts.MonteCarlo.PhaseFunctionInputs;
+using Meta.Numerics.Statistics.Distributions;
 
 namespace Vts.Test.MonteCarlo
 {
