@@ -530,37 +530,39 @@ namespace Vts
         LookupTable,
     }
 
-    /// <summary>
-    /// Lookup table phase function data type used within the Monte Carlo code
-    /// </summary>
-    public enum LookupTablePhaseFunctionDataType
-    {
-        PolarLookupTablePhaseFunctionData,
-        PolarAndAziumuthalLookupTablePhaseFunctionData
-    }
+    /// The following is in Vts.MonteCarlo.Enums
+    ///// <summary>
+    ///// Lookup table phase function data type used within the Monte Carlo code
+    ///// </summary>
+    //public enum LookupTablePhaseFunctionDataType
+    //{
+    //    Polar,
+    //    PolarAndAziumuthal
+    //}
 
-    /// <summary>
-    /// Phase function type used within the Monte Carlo code
-    /// </summary>
-    public enum MuellerMatrixType
-    {
-        /// <summary>
-        /// Mueller Matrix for a Mie Scatterer
-        /// </summary>
-        Mie,
-        /// <summary>
-        /// Mueller Matrix obtained from T-matrix method for axially symmetric scatterers
-        /// </summary>
-        TMatrix,
-        /// <summary>
-        /// Mueller Matrix for a linear vertical polarizer.  (Default constructor for the Mueller Matrix class.)
-        /// </summary>
-        LinearVerticalPolarizer,
-        /// <summary>
-        /// Mueller Matrix for an arbitrary scatterer.
-        /// </summary>
-        General,
-    }
+    // The following is in Vts.MonteCarlo.Enums
+    ///// <summary>
+    ///// Phase function type used within the Monte Carlo code
+    ///// </summary>
+    //public enum MuellerMatrixType
+    //{
+    //    /// <summary>
+    //    /// Mueller Matrix for a Mie Scatterer
+    //    /// </summary>
+    //    Mie,
+    //    /// <summary>
+    //    /// Mueller Matrix obtained from T-matrix method for axially symmetric scatterers
+    //    /// </summary>
+    //    TMatrix,
+    //    /// <summary>
+    //    /// Mueller Matrix for a linear vertical polarizer.  (Default constructor for the Mueller Matrix class.)
+    //    /// </summary>
+    //    LinearVerticalPolarizer,
+    //    /// <summary>
+    //    /// Mueller Matrix for an arbitrary scatterer.
+    //    /// </summary>
+    //    General,
+    //}
 
     /// <summary>
     /// input parameters types used in the Monte Carlo CommandLine application for parameter sweeps

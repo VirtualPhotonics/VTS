@@ -1,4 +1,5 @@
 ﻿using System;
+using Vts.MonteCarlo.LookupTablePhaseFunctionData;
 using Vts.MonteCarlo.PhaseFunctions;
 
 namespace Vts.MonteCarlo.Factories

@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 using Vts.Common;
-using Vts.MonteCarlo.PhaseFunctions;
+using Vts.MonteCarlo;
 using Meta.Numerics.Statistics.Distributions;
+using Vts.MonteCarlo.LookupTablePhaseFunctionData;
+using Vts.MonteCarlo.PhaseFunctions;
 
 namespace Vts.Test.MonteCarlo
 {

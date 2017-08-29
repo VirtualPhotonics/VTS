@@ -1,13 +1,13 @@
 ﻿using System;
 using Vts.MonteCarlo.Interfaces;
 
-namespace Vts.MonteCarlo.PhaseFunctions
+namespace Vts.MonteCarlo.LookupTablePhaseFunctionData
 {
     public class PolarLookupTablePhaseFunctionData : ILookupTablePhaseFunctionData
     {
         public PolarLookupTablePhaseFunctionData(double [] lutAngles, double[] lutPdf, double[] lutCdf)
         {
-            //LookupTablePhaseFunctionDataType = "PolarLookupTablePhaseFunctionData";
+            LookupTablePhaseFunctionDataType = "Polar";
             LutAngles = lutAngles;
             LutPdf = lutPdf;
             LutCdf = lutCdf;
@@ -27,10 +27,7 @@ namespace Vts.MonteCarlo.PhaseFunctions
         /// <summary>
         /// Type of data
         /// </summary>
-        public Vts.LookupTablePhaseFunctionDataType LookupTablePhaseFunctionDataType
-        {
-            get { return Vts.LookupTablePhaseFunctionDataType.PolarLookupTablePhaseFunctionData; }
-        }
+        public string LookupTablePhaseFunctionDataType { get; set; }
         /// <summary>
         /// LutAngles are the theta angles
         /// </summary>

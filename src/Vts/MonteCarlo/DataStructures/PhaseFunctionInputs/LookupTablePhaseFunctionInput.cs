@@ -1,6 +1,6 @@
 ﻿using System;
 using Vts.MonteCarlo.Interfaces;
-using Vts.MonteCarlo.PhaseFunctions;
+using Vts.MonteCarlo.LookupTablePhaseFunctionData;
 
 namespace Vts.MonteCarlo
 {

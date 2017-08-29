@@ -424,14 +424,14 @@ namespace Vts.MonteCarlo
         "LookupTable",
         };
     }
-    //public static class LookupTablePhaseFunctionDataType
-    //{
-    //    public static readonly string[] BuiltInTypes =
-    //    {
-    //        "PolarLookupTablePhaseFunctionData",
-    //        "PolarAndAzimuthalLookupTablePhaseFunctionData"
-    //    };
-    //}
+    public static class LookupTablePhaseFunctionDataType
+    {
+        public static readonly string[] BuiltInTypes =
+        {
+            "Polar",
+            "PolarAndAzimuthal"
+        };
+    }
 
     public static class TallyType
     {

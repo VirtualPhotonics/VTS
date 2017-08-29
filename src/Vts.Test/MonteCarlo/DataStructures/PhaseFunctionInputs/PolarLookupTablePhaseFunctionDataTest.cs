@@ -4,6 +4,7 @@ using System;
 using Vts.Common;
 using Vts.Common.Math;
 using Vts.MonteCarlo;
+using Vts.MonteCarlo.LookupTablePhaseFunctionData;
 using Vts.MonteCarlo.PhaseFunctions;
 using Vts.MonteCarlo.PhaseFunctionInputs;
 
@@ -22,7 +23,7 @@ namespace Vts.Test.MonteCarlo
         public void validate_constructor()
         {
             var data = new PolarLookupTablePhaseFunctionData();
-            Assert.IsTrue(Equals(data.LookupTablePhaseFunctionDataType, Vts.LookupTablePhaseFunctionDataType.PolarLookupTablePhaseFunctionData));
+            Assert.IsTrue(Equals(data.LookupTablePhaseFunctionDataType, "Polar"));
         }
         /// <summary>
         /// Test setting the member variables.
