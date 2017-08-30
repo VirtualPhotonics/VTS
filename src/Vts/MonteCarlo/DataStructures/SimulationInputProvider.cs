@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Vts.Common;
 using Vts.MonteCarlo.Detectors;
 using Vts.MonteCarlo.Helpers;
+using Vts.MonteCarlo.LookupTablePhaseFunctionData;
 using Vts.MonteCarlo.Sources;
 using Vts.MonteCarlo.Sources.SourceProfiles;
 using Vts.MonteCarlo.Tissues;
@@ -431,12 +432,12 @@ namespace Vts.MonteCarlo
                 );
             ti.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey1", new HenyeyGreensteinPhaseFunctionInput());
             ti.RegionPhaseFunctionInputs.Add("LUT1", new LookupTablePhaseFunctionInput(
-                //new PolarLookupTablePhaseFunctionData
-                //{
-                //    LutAngles = new[] { 0, Math.PI/6, Math.PI/3, Math.PI/2, 2*Math.PI/3, Math.PI*5/6, Math.PI },
-                //    LutPdf = new[] { 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5 },
-                //    LutCdf = new[] { 0, 0.5 * (1 - Math.Sqrt(3) / 2), 0.25 , 0.5, 0.75 , 0.5 * (1 + Math.Sqrt(3) / 2), 1},
-                //}
+                new PolarLookupTablePhaseFunctionData
+                {
+                    LutAngles = new[] { 0, Math.PI / 6, Math.PI / 3, Math.PI / 2, 2 * Math.PI / 3, Math.PI * 5 / 6, Math.PI },
+                    LutPdf = new[] { 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5 }
+                    //LutCdf = new[] { 0, 0.5 * (1 - Math.Sqrt(3) / 2), 0.25, 0.5, 0.75, 0.5 * (1 + Math.Sqrt(3) / 2), 1 },
+                }
             ));
             ti.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey2", new HenyeyGreensteinPhaseFunctionInput());
             return new SimulationInput(
@@ -550,7 +551,6 @@ namespace Vts.MonteCarlo
                     0, // random number generator seed, -1=random seed, 0=fixed seed
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Discrete,
-                //new HenyeyGreensteinPhaseFunctionInput(),
                     new List<DatabaseType>() { }, // databases to be written
                     false, // track statistics
                     0.0, // RR threshold -> 0 = no RR performed

@@ -23,10 +23,8 @@ namespace Vts.MonteCarlo.PhaseFunctions
         {
             _rng = rng;
             _lutData = lutData;
-            //LutData = lutData;
         }
 
-        //public ILookupTablePhaseFunctionData LutData; // CKH add 8/24/17
         /// <summary>
         /// Method to scatter based on a discretized lookup table
         /// </summary>
