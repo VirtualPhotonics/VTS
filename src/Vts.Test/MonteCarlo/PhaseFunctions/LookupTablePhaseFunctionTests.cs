@@ -14,10 +14,11 @@ namespace Vts.Test.MonteCarlo
     public class LookupTablePhaseFunctionTests
     {
         /// <summary>
-        /// Tests whether ScatterToNewTheta samples the polar angle correctly.  Obtains a sample of 500 polar angles and performs a KS test on the sample.
+        /// Tests whether ScatterToNewTheta samples the polar angle correctly.  Obtains a sample of 500 polar angles 
+        /// and performs a Komogorov-Smirnov (KS) test on the sample to verify it abides by the distribution.
         /// </summary>
         [Test]
-        public void validate_theta_sampling()
+        public void validate_theta_sampling_of_uniform_pdf_with_KS_test()
         {
             int sampleSize = 500;
             Random rng = new Random(0); // seed rng so test has same sequence every time it is executed
@@ -30,7 +31,12 @@ namespace Vts.Test.MonteCarlo
             LookupTablePhaseFunction tester = new LookupTablePhaseFunction(data, rng);
             Direction dir = new Direction(0, 0, 1);
             
-            //obtaining a sample of the theta distribution and sort it in ascending order.
+            // Kolmogorov-Smirnov statistic for a given CDF F(x) is Dn=sup_x|Fn(x)-F(x)|
+            // where Fn is the empirical distribution function and F is the actual.
+            // Goodness-of-fit test is if sqrt(n)Dn > Kalpha where n is number of samples and
+            // K_alpha is found from Pr(K<=K_alpha)=1-alpha
+
+            // obtain a empirical sample of the theta distribution and sort it in ascending order
             List<double> sampleMu = new List<double>();
             for (int i = 0; i < sampleSize; i++)
             {
@@ -56,8 +62,8 @@ namespace Vts.Test.MonteCarlo
             double Dn = 0;                                        //variable for KS test statistic.
             double [] Fn = new double[sampleSize];              //empircal distribution function.
             
-            // construct Fn. Fn goes from [1/sampleSize-1.0]
-            // Note: values stored in Fn and the sorted list sampleXi form the tabulated empirical distribution function
+            // construct Fn. Fn goes from [1/sampleSize-1.0] in uniform steps since pdf uniform
+            // Note: values stored in Fn and the sorted list sampleMu form the tabulated empirical distribution function
             double test = (double)1/sampleSize;
             for (int j = 0; j < sampleSize; j++)
             {
@@ -100,16 +106,21 @@ namespace Vts.Test.MonteCarlo
             // Null hypothesis is that the sample came from this probability distribution
             Assert.LessOrEqual(Math.Sqrt((double)sampleSize) * Dn, K_alpha);
         }
-        public void validate_Scatter()
+        /// <summary>
+        /// this test validates the Scatter method in PolarAndAzimuthalPhaseFunction
+        /// </summary>
+        [Test]
+        public void validate_Scatter_method_calculates_new_angle_correctly()
         {
             var d1 = new Direction(1, 0, 0);
-            var rng = new Random();
+            var rng = new Random(0);
             var lutData = new PolarLookupTablePhaseFunctionData();
             var phaseFunc = new LookupTablePhaseFunction(lutData, rng);
-            phaseFunc.Scatter(d1, Math.PI / 6, Math.PI);
-            Assert.AreEqual(d1.Ux, -Math.Sqrt(3)/2);
-            Assert.AreEqual(d1.Uy, 0.0);
-            Assert.AreEqual(d1.Uz, 0.5);
+            phaseFunc.Scatter(d1, Math.PI / 6, Math.PI); // incoming direction, theta, phi
+            // validation results based on prior run
+            Assert.Less(Math.Abs(d1.Ux - Math.Sqrt(3)/2), 1e-6);
+            Assert.Less(Math.Abs(d1.Uy), 1e-6);
+            Assert.Less(Math.Abs(d1.Uz - 0.5), 1e-6);
         }
 /*        [Test]
         public void ScatterToNewTheta_validate()

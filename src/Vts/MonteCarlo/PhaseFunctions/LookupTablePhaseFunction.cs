@@ -7,10 +7,12 @@ namespace Vts.MonteCarlo.PhaseFunctions
 {
     /// <summary>
     /// A class that describes a tabulated phase function for a POLAR angle and uniform azimuthal scattering angle.
+    /// In ScatterToNewDirection the polar angle theta is determined from lutCdf and the azimuthal angle phi is determine
+    /// from Unif[0,2pi].  With theta, phi determined, the Scatter function in PolarAndAzimuthalPhaseFunction is then 
+    /// called to determine updated direction cosines of photon.
     /// </summary>
     /// <param name="_lutData">Stores the polar angles and phase function values evaluated at those polar angles.</param>
     /// <param name="_rng">Random number generator.</param>
-    /// CKH 8/25/17 should this be named PolarPhaseFunction?  And why does it inherit PolarAndAzi...?
     public class LookupTablePhaseFunction : PolarAndAzimuthalPhaseFunction, IPhaseFunction
     {
         private Random _rng;
