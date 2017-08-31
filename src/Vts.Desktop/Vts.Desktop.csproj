@@ -920,6 +920,9 @@
     <Compile Include="..\Vts\MonteCarlo\MonteCarloSimulation.cs">
       <Link>MonteCarlo\MonteCarloSimulation.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\PhaseFunctions\AxiallySymmetricScattererMuellerMatrix.cs">
+      <Link>MonteCarlo\PhaseFunctions\AxiallySymmetricScattererMuellerMatrix.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\PhaseFunctions\BidirectionalPhaseFunction.cs">
       <Link>MonteCarlo\PhaseFunctions\BidirectionalPhaseFunction.cs</Link>
     </Compile>
@@ -929,8 +932,20 @@
     <Compile Include="..\Vts\MonteCarlo\PhaseFunctions\LookupTablePhaseFunction.cs">
       <Link>MonteCarlo\PhaseFunctions\LookupTablePhaseFunction.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\PhaseFunctions\MieScattererMuellerMatrix.cs">
+      <Link>MonteCarlo\PhaseFunctions\MieScattererMuellerMatrix.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\PhaseFunctions\MuellerMatrix.cs">
+      <Link>MonteCarlo\PhaseFunctions\MuellerMatrix.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\PhaseFunctions\PolarAndAzimuthalPhaseFunction.cs">
       <Link>MonteCarlo\PhaseFunctions\PolarAndAzimuthalPhaseFunction.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\PhaseFunctions\RejectionSampledLookupTablePhaseFunction.cs">
+      <Link>MonteCarlo\PhaseFunctions\RejectionSampledLookupTablePhaseFunction.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\PhaseFunctions\StokesVector.cs">
+      <Link>MonteCarlo\PhaseFunctions\StokesVector.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Photon.cs">
       <Link>MonteCarlo\Photon.cs</Link>
