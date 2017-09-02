@@ -10,6 +10,16 @@ namespace Vts.MonteCarlo.Factories
         {
             IPhaseFunction phaseFunction = null;
 
+            if (ti.RegionPhaseFunctionInputs.Count == 0)
+            {
+                throw new Exception(String.Format("Dictionary {0} is empty", ti.RegionPhaseFunctionInputs.ToString()));
+            }
+
+            if (!ti.RegionPhaseFunctionInputs.ContainsKey(tissueRegion.PhaseFunctionKey))
+            {
+                throw new Exception(String.Format("Key {0} was not found", tissueRegion.PhaseFunctionKey));
+            }
+
             var input = ti.RegionPhaseFunctionInputs[tissueRegion.PhaseFunctionKey];
 
             if (input is HenyeyGreensteinPhaseFunctionInput)

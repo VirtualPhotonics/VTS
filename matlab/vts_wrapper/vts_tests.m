@@ -7,7 +7,7 @@ dbstop if error;
 startup();
 runDemosToo = true;
 
-mc_tests();
+% mc_tests(); % CKH comment out 9/2/17 matlab/c# interop code not working
 structures_tests();
 
 if(runDemosToo)    

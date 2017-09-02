@@ -69,10 +69,20 @@ namespace Vts.MonteCarlo
 
             IDictionary <string, IPhaseFunction> phaseFunctions = new Dictionary <string, IPhaseFunction>();
             for (int i = 0; i < _input.TissueInput.Regions.Length; i++)
-                if(!phaseFunctions.ContainsKey(input.TissueInput.Regions[i].PhaseFunctionKey))
-                    phaseFunctions.Add(_input.TissueInput.Regions[i].PhaseFunctionKey, PhaseFunctionFactory.GetPhaseFunction(_input.TissueInput.Regions[i], _input.TissueInput, _rng));
+            {
+                if (!phaseFunctions.ContainsKey(input.TissueInput.Regions[i].PhaseFunctionKey))
+                {
+                    phaseFunctions.Add(_input.TissueInput.Regions[i].PhaseFunctionKey,
+                        PhaseFunctionFactory.GetPhaseFunction(_input.TissueInput.Regions[i], _input.TissueInput, _rng));
+                }
+            }
             //Dictionary phaseFunctions = input.TissueInput.Regions.Select((region, idx) => PhaseFunctionFactory.GetPhaseFunction(region, _input.TissueInput, _rng)).ToList();
 
+            // CKH 9/2/17 debug of matlab interop
+            //if (phaseFunctions.ContainsKey(input.TissueInput.Regions[1].PhaseFunctionKey))
+            //{
+            //    throw new Exception(String.Format("phaseFunctions value {0} is okay", phaseFunctions[input.TissueInput.Regions[1].PhaseFunctionKey].ToString()));
+            //}
             _tissue = TissueFactory.GetTissue(input.TissueInput, input.Options.AbsorptionWeightingType, phaseFunctions, input.Options.RussianRouletteWeightThreshold);
 
             _source = SourceFactory.GetSource(input.SourceInput, _rng);

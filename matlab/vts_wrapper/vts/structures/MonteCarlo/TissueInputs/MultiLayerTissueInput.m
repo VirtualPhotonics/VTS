@@ -10,18 +10,20 @@ classdef MultiLayerTissueInput < handle % deriving from handle allows us to keep
                 [0.0, 1e-10, 1.0, 1.0], ...
                 [0.0, 1.0, 0.8, 1.4], ...
                 [0.0, 1e-10, 1.0, 1.0]  }, ...
-            'RegionPhaseFunctionInputs', ...
-                containers.Map({'HenyeyGreenstein1','HenyeyGreenstein2','HenyeyGreenstein3'},...
-                               {Vts.PhaseFunctionType.HenyeyGreenstein,...
-                                Vts.PhaseFunctionType.HenyeyGreenstein,...
-                                Vts.PhaseFunctionType.HenyeyGreenstein})...
-                            );
-       
+            'PhaseFunctionKey', {...
+                'HenyeyGreensteinKey1',... 
+                'HenyeyGreensteinKey2',...
+                'HenyeyGreensteinKey3'}...
+            );
+%        RegionPhaseFunctionInputs = 'RegionPhaseFunctionInputs';
+         RegionPhaseFunctionInputs = containers.Map({'HenyeyGreensteinKey1','HenyeyGreensteinKey2','HenyeyGreensteinKey3'},...
+            {HenyeyGreensteinPhaseFunctionInput,HenyeyGreensteinPhaseFunctionInput,HenyeyGreensteinPhaseFunctionInput});
     end
     
     methods (Static)
         function input = FromInputNET(inputNET)
             input = MultiLayerTissueInput;
+            input.RegionPhaseFunctionInputs = inputNET.RegionPhaseFunctionInputs;
             regionNET = inputNET.Regions;
             for i=1:regionNET.Length
                 regions(i).ZRange = [...
@@ -34,25 +36,26 @@ classdef MultiLayerTissueInput < handle % deriving from handle allows us to keep
                     regionNET(i).RegionOP.G, ...
                     regionNET(i).RegionOP.N ...
                     ];
-                regions(i).RegionPhaseFunctionInputs = [ ...
-                    regionNET(i).RegionPhaseFunctionInputs, ... 
-                    ];
+                regions(i).PhaseFunctionKey = ...
+                    regionNET(i).PhaseFunctionKey; ... 
             end
             input.LayerRegions = regions;
         end
         
         function inputNET = ToInputNET(input)                
             regionsNET = NET.createArray('Vts.MonteCarlo.ITissueRegion', length(input.LayerRegions));
+%             mapNET = NET.GenericClass('System.Collections.Generic.KeyValuePair','System.String',...
+%                 'Vts.PhaseFunctionType'); 
+%             mapListNET = NET.createGeneric('System.Collections.Generic.List',{mapNET},length(input.LayerRegions));
+            map = input.RegionPhaseFunctionInputs;
+            mapKeys = keys(map);
+            mapValues = values(map);
             layerRegions = input.LayerRegions;
             for i=1:length(input.LayerRegions)
                 zRange = layerRegions(i).ZRange;
                 regionOP = layerRegions(i).RegionOP;
-                inputKeys = keys(layerRegions(i).RegionPhaseFunctionInputs);
-                inputValues = values(layerRegions(i).RegionPhaseFunctionInputs);
-                key = char(inputKeys(i));
-                value = inputValues(i);
-                % Part of problem: Vts.MonteCarlo.Tissue.LayerTissueRegion
-                % only knows about PhaseFunctionKey not about Dietionary.
+                regionKey = layerRegions(i).PhaseFunctionKey;
+                % Note LayerTissueRegion knows only about the keys not the the values
                 regionsNET(i) = Vts.MonteCarlo.Tissues.LayerTissueRegion(...
                     Vts.Common.DoubleRange( ...
                         zRange(1), ...
@@ -64,28 +67,16 @@ classdef MultiLayerTissueInput < handle % deriving from handle allows us to keep
                         regionOP(3), ...
                         regionOP(4) ...
                         ),...
-                    key...
+                    regionKey...
                     );
             end
-            
-            %regionPhaseFunctionInputs=containers.Map(inputKeys,inputValues);
-            
-            % how can I create RegionPhaseFunctionInputNET since
-            % RegionPhaseFunctionInputs is a Property of
-            % Vts.MonteCarlo.Tissues.MultiLayerTissueInput but not directly
-            % set-able from here?  The following line works through this
-            % script but then Run has unassigned key
-            inputNET = Vts.MonteCarlo.Tissues.MultiLayerTissueInput(regionsNET);
-            
-            % the following is my attempt at trying to set inputNET with
-            % correct RegionPhaseFunctionInputs
-%             temp = Vts.MonteCarlo.Tissues.MultiLayerTissueInput(regionsNET);  
-%             rng = System.Random;
-%             for i=1:length(input.LayerRegions)
-%                 pfi = Vts.Factories.PhaseFunctionFactory.GetPhaseFunction(input.LayerRegions(i), input, rng);   
-%                 temp.RegionPhaseFunctionInputs.Add(inputKeys(i),pfi);
-%             end
-%             inputNET = temp;
+            RegionPhaseFunctionInputs = containers.Map(mapKeys, mapValues);
+%             inputNET = Vts.MonteCarlo.Tissues.MultiLayerTissueInput(regionsNET);
+            temp = Vts.MonteCarlo.Tissues.MultiLayerTissueInput(regionsNET);
+%                 assignin(temp,'RegionPhaseFunctionInputs.Keys',mapKeys);
+%                 assignin(temp,'RegionPhaseFunctionInputs.Values',mapValues);
+            inputNET = temp;
+            % at this point regionsNET(1).PhaseFunctionKey and inputNET.Regions(1).PhaseFunctionKey are set correctly
         end
     end
 end

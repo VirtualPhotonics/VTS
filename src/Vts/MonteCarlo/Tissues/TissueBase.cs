@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Vts.Common;
 using Vts.Extensions;
@@ -72,6 +73,7 @@ namespace Vts.MonteCarlo.Tissues
             double russianRouletteWeightThreshold = 0.0)
         {
             AbsorptionWeightingType = awt;
+
             if (regionPhaseFunctions != null)
             {
                 RegionPhaseFunctions = new Dictionary<string, IPhaseFunction>();
@@ -80,6 +82,7 @@ namespace Vts.MonteCarlo.Tissues
                     RegionPhaseFunctions.Add(phaseFunction.Key, phaseFunction.Value);
                 }
             }
+
             RussianRouletteWeightThreshold = russianRouletteWeightThreshold;
 
             RegionScatterLengths = Regions.Select(region => region.RegionOP.GetScatterLength(awt)).ToArray();
