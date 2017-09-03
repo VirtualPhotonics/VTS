@@ -30,7 +30,7 @@ rem ********** RUN MATLAB INTEROP AND MONTE CARLO POST-PROCESSING TESTS ********
 if exist "%ProgramFiles%\MATLAB" call "%rootdir%RunMatlabUnitTests.bat"
 
 rem ********** BUILD THE SILVERLIGHT VERSION **********
- call "%rootdir%SilverlightBuild.bat"
+call "%rootdir%SilverlightBuild.bat"
 
 cd "%rootdir%src\Vts.Test\bin\Debug\"
 start TestPage.html
