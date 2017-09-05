@@ -90,5 +90,35 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation
             var result = SimulationInputValidation.ValidateInput(input);
             Assert.IsFalse(result.IsValid);
         }
+        [Test]
+        public void validate_ellipsoid_tissue_and_ROfFx_detectors_are_not_defined_together()
+        {
+            // generate input embedded ellipsoid tissue and cylindrical detector
+            var input = new SimulationInput()
+            {
+                TissueInput = new SingleEllipsoidTissueInput()
+                {
+                    EllipsoidRegion = new EllipsoidTissueRegion() { Dx = 1.0, Dy = 2.0 }
+                },
+                DetectorInputs = new List<IDetectorInput> { new ROfFxDetectorInput() }
+            };
+            var result = SimulationInputValidation.ValidateInput(input);
+            Assert.IsFalse(result.IsValid);
+        }
+        [Test]
+        public void validate_voxel_tissue_and_ROfFx_detectors_are_not_defined_together()
+        {
+            // generate input embedded ellipsoid tissue and cylindrical detector
+            var input = new SimulationInput()
+            {
+                TissueInput = new SingleVoxelTissueInput()
+                {
+                    VoxelRegion = new VoxelTissueRegion()
+                },
+                DetectorInputs = new List<IDetectorInput> { new ROfFxDetectorInput() }
+            };
+            var result = SimulationInputValidation.ValidateInput(input);
+            Assert.IsFalse(result.IsValid);
+        }
     }
 }

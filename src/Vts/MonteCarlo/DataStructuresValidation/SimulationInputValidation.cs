@@ -156,6 +156,13 @@ namespace Vts.MonteCarlo
                             "Ellipsoid must have Dx=Dy for cylindrical tallies",
                             "Change ellipsoid.Dx to be = to Dy or specify non-cylindrical type tally");
                     }
+                    if (detectorInput.TallyType == TallyType.ROfFx)
+                    {
+                        return new ValidationResult(
+                            false,
+                            "R(fx) tallies assume a homogeneous or layered tissue geometry",
+                            "Change tissue type to be homogeneous or layered"); 
+                    }
                  }
             }
             // check that if single voxel tissue specified, cannot specify (r,z) detector 
@@ -169,6 +176,13 @@ namespace Vts.MonteCarlo
                             false,
                             "Cannot use Single Voxel Tissue for cylindrical tallies",
                             "Change detector inputs to specify non-cylindrical type tallies");
+                    }
+                    if (detectorInput.TallyType == TallyType.ROfFx)
+                    {
+                        return new ValidationResult(
+                            false,
+                            "R(fx) tallies assume a homogeneous or layered tissue geometry",
+                            "Change tissue type to be homogeneous or layered");
                     }
                 }
             }
