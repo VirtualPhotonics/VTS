@@ -11,7 +11,7 @@ namespace Vts.Gui.Silverlight.ViewModel
         private SimulationOptions _simulationOptions;
         private OptionViewModel<AbsorptionWeightingType> _absorptionWeightingTypeVM;
         private OptionViewModel<RandomNumberGeneratorType> _randomNumberGeneratorTypeVM;
-        private OptionViewModel<PhaseFunctionType> _phaseFunctionTypeVM;
+        //private OptionViewModel<PhaseFunctionType> _phaseFunctionTypeVM; // phase function type no longer global setting
         
         public SimulationOptionsViewModel(SimulationOptions options)
         {
@@ -48,7 +48,7 @@ namespace Vts.Gui.Silverlight.ViewModel
 
                 _absorptionWeightingTypeVM.Options[_simulationOptions.AbsorptionWeightingType].IsSelected = true;
                 _randomNumberGeneratorTypeVM.Options[_simulationOptions.RandomNumberGeneratorType].IsSelected = true;
-                //_phaseFunctionTypeVM.Options[_simulationOptions.PhaseFunctionType].IsSelected = true;
+                //_phaseFunctionTypeVM.Options[_simulationOptions.PhaseFunctionType].IsSelected = true; // This was moved to tissue input
 
                 // note: the alternative to these below is to have SimulationOptions implement INotifyPropertyChanged (derive from BindableObject)
                 OnPropertyChanged("Seed");
@@ -108,14 +108,14 @@ namespace Vts.Gui.Silverlight.ViewModel
             }
         }
 
-        public OptionViewModel<PhaseFunctionType> PhaseFunctionTypeVM
-        {
-            get { return _phaseFunctionTypeVM; }
-            set
-            {
-                _phaseFunctionTypeVM = value;
-                OnPropertyChanged("PhaseFunctionTypeVM");
-            }
-        }
+        //public OptionViewModel<PhaseFunctionType> PhaseFunctionTypeVM // no longer global setting
+        //{
+        //    get { return _phaseFunctionTypeVM; }
+        //    set
+        //    {
+        //        _phaseFunctionTypeVM = value;
+        //        OnPropertyChanged("PhaseFunctionTypeVM");
+        //    }
+        //}
     }
 }
