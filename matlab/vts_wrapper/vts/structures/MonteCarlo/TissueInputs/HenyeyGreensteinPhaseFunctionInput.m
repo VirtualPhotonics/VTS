@@ -11,8 +11,7 @@ classdef HenyeyGreensteinPhaseFunctionInput < handle % deriving from handle allo
       end
       
       function inputNET = ToInputNET(input)                    
-          inputNET = Vts.MonteCarlo.HenyeyGreensteinPhaseFunctionInput( ...
-          );
+          inputNET = Vts.MonteCarlo.HenyeyGreensteinPhaseFunctionInput();
       end
   end
 end

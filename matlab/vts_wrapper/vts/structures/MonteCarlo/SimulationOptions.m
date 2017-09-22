@@ -10,8 +10,6 @@ classdef SimulationOptions < handle % deriving from handle allows us to keep a s
     RandomNumberGeneratorType = 'MersenneTwister';
     % absorption weighting type
     AbsorptionWeightingType = 'Discrete';
-    % phase function type
-    PhaseFunctionType  = 'HenyeyGreenstein';
     % list of databases to be written
     Databases = {};
     % flag indicating whether to track statistics about where photon ends up
@@ -28,7 +26,6 @@ classdef SimulationOptions < handle % deriving from handle allows us to keep a s
           options.Seed = optionsNET.Seed;
           options.RandomNumberGeneratorType = char(optionsNET.RandomNumberGeneratorType);
           options.AbsorptionWeightingType = char(optionsNET.AbsorptionWeightingType);
-          options.PhaseFunctionType = char(optionsNET.PhaseFunctionType);
           options.Databases = {};
           databasesNET = optionsNET.Databases;
           nDatabases = NET.invokeGenericMethod('System.Linq.Enumerable', 'Count', ...
