@@ -79,7 +79,9 @@ classdef MultiLayerTissueInput < handle % deriving from handle allows us to keep
             %rng = System.Random;
              for i=1:length(input.LayerRegions)
 %               pfi = Vts.MonteCarlo.Factories.PhaseFunctionFactory.GetPhaseFunction(input.LayerRegions(i), input, rng);   
-                % the following works but I'm basically recreating code in factory
+                % the following works but I'm basically recreating code in
+                % factory and have to add in all cases (there are currently
+                % 4)
                 if (phaseFunctionValues{i}.PhaseFunctionType == 'HenyeyGreenstein')
                     phaseFunctionValue = Vts.MonteCarlo.HenyeyGreensteinPhaseFunctionInput();
                 end
