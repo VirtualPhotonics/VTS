@@ -16,7 +16,9 @@ classdef MultiLayerTissueInput < handle % deriving from handle allows us to keep
                 'HenyeyGreensteinKey3'}...
             );
          RegionPhaseFunctionInputs = containers.Map({'HenyeyGreensteinKey1','HenyeyGreensteinKey2','HenyeyGreensteinKey3'},...
-            {HenyeyGreensteinPhaseFunctionInput(),HenyeyGreensteinPhaseFunctionInput(),HenyeyGreensteinPhaseFunctionInput()});
+            {Vts.MonteCarlo.HenyeyGreensteinPhaseFunctionInput(),...
+            Vts.MonteCarlo.HenyeyGreensteinPhaseFunctionInput(),...
+            Vts.MonteCarlo.HenyeyGreensteinPhaseFunctionInput()});
     end
     
     methods (Static)
@@ -44,7 +46,6 @@ classdef MultiLayerTissueInput < handle % deriving from handle allows us to keep
         function inputNET = ToInputNET(input)                
             regionsNET = NET.createArray('Vts.MonteCarlo.ITissueRegion', length(input.LayerRegions));
             phaseFunctionInputs = input.RegionPhaseFunctionInputs;
-            %temp = NET.createGeneric('System.Collections.Generic.Dictionary', {'System.String' ,'Vts.MonteCarlo.IPhaseFunctionInput'});     
             phaseFunctionKeys = keys(phaseFunctionInputs);
             phaseFunctionValues = values(phaseFunctionInputs);
             layerRegions = input.LayerRegions;
@@ -66,24 +67,17 @@ classdef MultiLayerTissueInput < handle % deriving from handle allows us to keep
                         ),...
                     regionKey...
                  );
-             %temp.Add(regionKey, Vts.MonteCarlo.HenyeyGreensteinPhaseFunctionInput());
             end
             
             inputNET = Vts.MonteCarlo.Tissues.MultiLayerTissueInput(regionsNET);
             temp = NET.createGeneric('System.Collections.Generic.Dictionary', {'System.String' ,'Vts.MonteCarlo.IPhaseFunctionInput'});
-            %temp.Add('HenyeyGreensteinKey1', Vts.MonteCarlo.HenyeyGreensteinPhaseFunctionInput());
-            %temp.Add('HenyeyGreensteinKey2', Vts.MonteCarlo.HenyeyGreensteinPhaseFunctionInput());
-            %temp.Add('HenyeyGreensteinKey3', Vts.MonteCarlo.HenyeyGreensteinPhaseFunctionInput());
-            
-            % the following is my attempt at trying to set inputNET with correct RegionPhaseFunctionInputs  
-            %rng = System.Random;
-             for i=1:length(input.LayerRegions)
-%               pfi = Vts.MonteCarlo.Factories.PhaseFunctionFactory.GetPhaseFunction(input.LayerRegions(i), input, rng);   
-                % the following works but I'm basically recreating code in
-                % factory and have to add in all cases (there are currently
-                % 4)
+            for i=1:length(input.LayerRegions)
                 if (phaseFunctionValues{i}.PhaseFunctionType == 'HenyeyGreenstein')
                     phaseFunctionValue = Vts.MonteCarlo.HenyeyGreensteinPhaseFunctionInput();
+                elseif (phaseFunctionValues{i}.PhaseFunctionType == 'LookupTable')
+                    phaseFunctionValue = Vts.MonteCarlo.LookupTablePhaseFunctionInput();
+                elseif (phaseFunctionValues{i}.PhaseFunctionType == 'Bidirectional')
+                    phaseFunctionValue = Vts.MonteCarlo.LookupTablePhaseFunctionInput();
                 end
                 temp.Add(phaseFunctionKeys{i},phaseFunctionValue);
              end
