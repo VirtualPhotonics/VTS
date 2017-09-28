@@ -34,11 +34,7 @@ classdef SimulationInput < handle % deriving from handle allows us to keep a sin
             detectorInputsNET = NET.createArray('Vts.MonteCarlo.IDetectorInput', length(input.DetectorInputs));
             for i=1:length(input.DetectorInputs)
                 detectorInputsNET(i) = DetectorInput.ToInputNET(input.DetectorInputs{i});
-             end
-             
-%             tissueInputNET = NET.createGeneric('Vts.MonteCarlo.ITissueInput');
-%             tissueInputNET.Regions = MultiLayerTissueInput.ToInputNET(input.TissueInput);
-%             tissueInputNET.RegionPhaseFunctionInputs = RegionPhaseFunctionInputs.ToInputNET(input.TissueInput);
+            end
             
             inputNET = Vts.MonteCarlo.SimulationInput( ...
                 input.N, ...

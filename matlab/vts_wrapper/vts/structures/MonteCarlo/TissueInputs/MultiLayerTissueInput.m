@@ -45,9 +45,6 @@ classdef MultiLayerTissueInput < handle % deriving from handle allows us to keep
         
         function inputNET = ToInputNET(input)                
             regionsNET = NET.createArray('Vts.MonteCarlo.ITissueRegion', length(input.LayerRegions));
-            phaseFunctionInputs = input.RegionPhaseFunctionInputs;
-            phaseFunctionKeys = keys(phaseFunctionInputs);
-            phaseFunctionValues = values(phaseFunctionInputs);
             layerRegions = input.LayerRegions;
             for i=1:length(input.LayerRegions)
                 zRange = layerRegions(i).ZRange;
@@ -72,14 +69,18 @@ classdef MultiLayerTissueInput < handle % deriving from handle allows us to keep
             inputNET = Vts.MonteCarlo.Tissues.MultiLayerTissueInput(regionsNET);
             temp = NET.createGeneric('System.Collections.Generic.Dictionary', {'System.String' ,'Vts.MonteCarlo.IPhaseFunctionInput'});
             for i=1:length(input.LayerRegions)
-                if (phaseFunctionValues{i}.PhaseFunctionType == 'HenyeyGreenstein')
+                % use layerRegion key to get correct PhaseFunctionInput in dictionary
+                phaseFunctionKey = layerRegions(i).PhaseFunctionKey; % get key from layerRegion
+                phaseFunctionValue = input.RegionPhaseFunctionInputs(phaseFunctionKey); % find type using dictionary
+                phaseFunctionType = phaseFunctionValue.PhaseFunctionType;
+                if (phaseFunctionType == 'HenyeyGreenstein')
                     phaseFunctionValue = Vts.MonteCarlo.HenyeyGreensteinPhaseFunctionInput();
-                elseif (phaseFunctionValues{i}.PhaseFunctionType == 'LookupTable')
-                    phaseFunctionValue = Vts.MonteCarlo.LookupTablePhaseFunctionInput();
-                elseif (phaseFunctionValues{i}.PhaseFunctionType == 'Bidirectional')
-                    phaseFunctionValue = Vts.MonteCarlo.LookupTablePhaseFunctionInput();
+                elseif (phaseFunctionType == 'LookupTable')
+                    phaseFunctionValue = LookupTablePhaseFunctionInput.ToInputNET(phaseFunctionValue);
+                else (phaseFunctionType == 'Bidirectional')
+                    phaseFunctionValue = Vts.MonteCarlo.BidirectionalPhaseFunctionInput();
                 end
-                temp.Add(phaseFunctionKeys{i},phaseFunctionValue);
+                temp.Add(layerRegions(i).PhaseFunctionKey, phaseFunctionValue);
              end
             inputNET.RegionPhaseFunctionInputs = temp;
 

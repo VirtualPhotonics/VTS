@@ -481,4 +481,84 @@ d2 = output.Detectors(output.DetectorNames{2}); % TOfFx
 f = figure; plot(d2.Fx, abs(d2.Mean)); ylabel('T(fx) [unitless]'); xlabel('Fx (mm^-^1)');
 title('Transmittance vs fx for N=1000');
 set(f,'Name','Transmittance vs Fx for N=1000');
+% ======================================================================= %
+%% Example 10: run a Monte Carlo simulation with a LUT phase function
+
+% Source definition
+% create a new 'instance' of the DirectionalPointSourceInput class
+sourceInput = DirectionalPointSourceInput();
+% New position 
+sourceInput.PointLocation = [0 0 0];    
+% Point source emitting direction
+sourceInput.Direction = [0 0 1];  
+% Initial tissue region index        
+sourceInput.InitialTissueRegionIndex = 0;
+
+% Tissue definition
+% create a new 'instance' of the MultiLayerTissueInput class
+
+tissueInput = MultiLayerTissueInput();
+% assign the tissue layer regions struct
+tissueInput.LayerRegions = struct(...
+    'ZRange', ...
+    {...
+        [-Inf, 0], ... % air "z" range
+        [0, 100], ... % tissue "z" range
+        [100, +Inf] ... % air "z" range
+    }, ...
+    'RegionOP', ...
+    {...
+        [0.0, 1e-10, 1.0, 1.0], ... % air optical properties
+        [0.0, 1.0, 0.8, 1.4], ... % tissue optical properties
+        [0.0, 1e-10, 1.0, 1.0] ... % air optical properties
+    }, ...
+    'PhaseFunctionKey', ...
+    { ...
+        'HenyeyGreensteinKey1', ...
+        'LookupTableKey1', ...
+        'HenyeyGreensteinKey2'...
+    }...
+);
+% remove default RegionPhaseFunctionInputs and replace with LUT key and data
+remove(tissueInput.RegionPhaseFunctionInputs,{'LookupTableKey1'});
+% % set up lookup table data
+%temp = Vts.MonteCarlo.LookupTablePhaseFunctionInput(); % try using ours here 
+temp = LookupTablePhaseFunctionInput();
+temp.RegionPhaseFunctionData.LutAngles = [0, pi/6, pi/3, pi/2, 2*pi/3, pi*5/6, pi]; % theta angles
+temp.RegionPhaseFunctionData.LutPdf=[0.6, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5];        % p(theta) pdf
+temp.RegionPhaseFunctionData = Vts.MonteCarlo.LookupTablePhaseFunctionData.PolarLookupTablePhaseFunctionData(...
+    temp.RegionPhaseFunctionData.LutAngles, temp.RegionPhaseFunctionData.LutPdf); 
+lut =  LookupTablePhaseFunctionInput.ToInputNET(temp);
+tissueInput.RegionPhaseFunctionInputs('LookupTableKey1')=lut;
+
+% Detector definition
+fx = 0:0.001:0.2; % range of spatial frequencies in 1/mm
+detectorInputs = {...
+    DetectorInput.ROfFx(fx)... % specifies endpoints of rho bins
+};
+
+% use default SimulationOptions
+options = SimulationOptions(); 
+
+% define instance of SimulationInput and set particulars below
+input = SimulationInput();
+% number of photons
+input.N = 100;
+% name of output folder (if being written to file)
+input.OutputName = 'results';
+% assign source, tissue, and detector above to our input class
+input.SourceInput = sourceInput;
+input.TissueInput = tissueInput;
+%input.LookupTablePhaseFunctionData = lutInput;
+input.DetectorInputs = detectorInputs;
+input.Options = options;
+% Run simulation
+output = VtsMonteCarlo.RunSimulation(input);
+% Plot detector results
+d1 = output.Detectors(output.DetectorNames{1}); % R(fx)
+f = figure; semilogy(d1.Fx, abs(d1.Mean));  % plot amplitude
+title('Reflectance vs spatial frequency'); 
+ylabel('R(f_x)');
+xlabel('Spatial frequency, f_x [mm^-^1]');
+
 
