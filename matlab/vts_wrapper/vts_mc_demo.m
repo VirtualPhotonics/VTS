@@ -519,15 +519,12 @@ tissueInput.LayerRegions = struct(...
         'HenyeyGreensteinKey2'...
     }...
 );
-% remove default RegionPhaseFunctionInputs and replace with LUT key and data
-remove(tissueInput.RegionPhaseFunctionInputs,{'LookupTableKey1'});
-% % set up lookup table data
-%temp = Vts.MonteCarlo.LookupTablePhaseFunctionInput(); % try using ours here 
-temp = LookupTablePhaseFunctionInput();
+% % set up lookup table data to match input structure
+temp.PhaseFunctionType = 'LookupTable';
 temp.RegionPhaseFunctionData.LutAngles = [0, pi/6, pi/3, pi/2, 2*pi/3, pi*5/6, pi]; % theta angles
 temp.RegionPhaseFunctionData.LutPdf=[0.6, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5];        % p(theta) pdf
-temp.RegionPhaseFunctionData = Vts.MonteCarlo.LookupTablePhaseFunctionData.PolarLookupTablePhaseFunctionData(...
-    temp.RegionPhaseFunctionData.LutAngles, temp.RegionPhaseFunctionData.LutPdf); 
+temp.RegionPhaseFunctionData = PolarLookupTablePhaseFunctionData(temp.RegionPhaseFunctionData.LutAngles,...
+    temp.RegionPhaseFunctionData.LutPdf);
 lut =  LookupTablePhaseFunctionInput.ToInputNET(temp);
 tissueInput.RegionPhaseFunctionInputs('LookupTableKey1')=lut;
 

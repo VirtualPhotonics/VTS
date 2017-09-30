@@ -31,11 +31,12 @@ classdef SimulationInput < handle % deriving from handle allows us to keep a sin
         
         function inputNET = ToInputNET(input)
             optionsNET = SimulationOptions.ToOptionsNET(input.Options);
+            
             detectorInputsNET = NET.createArray('Vts.MonteCarlo.IDetectorInput', length(input.DetectorInputs));
             for i=1:length(input.DetectorInputs)
                 detectorInputsNET(i) = DetectorInput.ToInputNET(input.DetectorInputs{i});
             end
-            
+                        
             inputNET = Vts.MonteCarlo.SimulationInput( ...
                 input.N, ...
                 input.OutputName, ...

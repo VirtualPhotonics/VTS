@@ -6,13 +6,12 @@ classdef LookupTablePhaseFunctionInput < handle % deriving from handle allows us
         RegionPhaseFunctionData = Vts.MonteCarlo.LookupTablePhaseFunctionData.PolarLookupTablePhaseFunctionData();
   end
   
-  methods (Static)
+  methods (Static)      
       function input = FromInputNET(inputNET)
           input.PhaseFunctionType = char(inputNET.PhaseFunctionType);
       end
       
       function inputNET = ToInputNET(input)   
-          PhaseFunctionType = input.PhaseFunctionType;
           RegionPhaseFunctionData = input.RegionPhaseFunctionData;
           if (RegionPhaseFunctionData.LookupTablePhaseFunctionDataType == 'Polar')
             inputNET = Vts.MonteCarlo.LookupTablePhaseFunctionInput(...

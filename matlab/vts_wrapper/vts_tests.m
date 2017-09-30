@@ -7,10 +7,10 @@ dbstop if error;
 startup();
 runDemosToo = true;
 
-% mc_tests(); % CKH comment out 9/2/17 matlab/mccl interop code not working
+mc_tests(); 
 structures_tests();
 
 if(runDemosToo)    
     vts_solver_demo();    
-    %vts_mc_demo(); % CKH comment out 9/2/17 matlab/mccl interop not working
+    vts_mc_demo(); 
 end

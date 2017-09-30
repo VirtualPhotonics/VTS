@@ -10,11 +10,10 @@ si.N = 101;
 % Test for detector input ROFAngle
 si.DetectorInputs = { DetectorInput.ROfAngle(linspace(0,pi/2,2)) };
 
-% % ckh quick fix trial
-% tissueInput = MultiLayerTissueInput();
-% 
+% use default tissue input 
+tissueInput = MultiLayerTissueInput();
+
 % % assign the tissue layer regions struct
-% 
 % tissueInput.LayerRegions = struct(...
 %     'ZRange', ...
 %     {...
@@ -28,22 +27,16 @@ si.DetectorInputs = { DetectorInput.ROfAngle(linspace(0,pi/2,2)) };
 %         [0.0, 1.0, 0.8, 1.4], ... % tissue optical properties
 %         [0.0, 1e-10, 1.0, 1.0] ... % air optical properties
 %     }, ...
-%     'RegionPhaseFunctionInputs', ...
+%     'PhaseFunctionKey', ...
 %     {...
 %         'HenyeyGreensteinKey1', ...
 %         'HenyeyGreensteinKey2', ...
 %         'HenyeyGreensteinKey3', ...
 %     } ...
 % );
-% 
-% tissueInput.RegionPhaseFunctionInputs = containers.Map({'HenyeyGreensteinKey1','HenyeyGreensteinKey2','HenyeyGreensteinKey3'},...
-%     {EnumHelper.GetValueNET('Vts.PhaseFunctionType', 'HenyeyGreenstein'),...
-%      EnumHelper.GetValueNET('Vts.PhaseFunctionType', 'HenyeyGreenstein'),...
-%      EnumHelper.GetValueNET('Vts.PhaseFunctionType', 'HenyeyGreenstein')});
-% 
-% % assign tissue above to our input class
-% si.TissueInput = tissueInput;
-% % end of ckh quick fix trial
+
+% assign tissue above to our input class
+si.TissueInput = tissueInput;
 
 output = VtsMonteCarlo.RunSimulation(si);
 
@@ -100,7 +93,7 @@ ppi.TallySecondMoment = 0;
 ppi.InputFolder = 'results';
 ppi.DatabaseSimulationInputFilename = 'infile'; % unused if 2nd argument below is supplied
 ppi.OutputName = 'ppresults';
-output = VtsMonteCarlo.RunPostProcessor(ppi, output.Input);
+output = VtsMonteCarlo.RunPostProcessor(ppi, si);
 % 
 % %% plot the post-processed results
 % 
