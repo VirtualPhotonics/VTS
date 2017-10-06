@@ -37,7 +37,6 @@ namespace Vts.MonteCarlo
                         Rho = new DoubleRange(0.0, 10, 101)
                     }
                 },
-                true,
                 "one_layer_ROfRho_DAW",
                 "one_layer_ROfRho_DAW",
                 "PostProcessor_ROfRho"
@@ -103,7 +102,6 @@ namespace Vts.MonteCarlo
                         Name="pMCROfRhoAndTime_mus1p5"
                     },
                 },
-                true,
                 "pMC_one_layer_ROfRho_DAW",
                 "pMC_one_layer_ROfRho_DAW",
                 "PostProcessor_pMC_ROfRhoROfRhoAndTime"
