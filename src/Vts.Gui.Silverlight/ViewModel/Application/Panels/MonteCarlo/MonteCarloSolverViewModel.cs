@@ -169,7 +169,7 @@ namespace Vts.Gui.Silverlight.ViewModel
                         var zs = Enumerable.Zip(zsMC.Skip(1), rhosMC.Take(zsMC.Length - 1), (first, second) => (first + second) / 2).ToArray();
 
                         var dRhos = Enumerable.Select(rhos, rho => 2 * Math.PI * Math.Abs(rho) * detectorInput.Rho.Delta).ToArray();
-                        var dZs = Enumerable.Select(zs, z => detectorInput.Rho.Delta).ToArray();
+                        var dZs = Enumerable.Select(zs, z => detectorInput.Z.Delta).ToArray();
 
                         if (_mapArrayBuffer == null || _mapArrayBuffer.Length != _output.Flu_rz.Length * 2)
                         {
