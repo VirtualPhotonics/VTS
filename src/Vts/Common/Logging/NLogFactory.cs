@@ -13,10 +13,12 @@
 // limitations under the License.
 
 using System;
+using System.Diagnostics;
 using System.IO;
 using NLog;
 using NLog.Config;
 using NLog.Targets;
+using NLog.Targets.Wrappers;
 
 namespace Vts.Common.Logging.NLogIntegration
 {
@@ -53,7 +55,14 @@ namespace Vts.Common.Logging.NLogIntegration
 #if SILVERLIGHT
                 LogManager.Configuration = GetDefaultLoggingConfiguration();
 #else
-                LogManager.Configuration = GetDefaultDesktopLoggingConfiguration();
+                if (Debugger.IsAttached == true) // true if IDE running
+                {
+                    LogManager.Configuration = GetDefaultLoggingConfiguration();
+                }
+                else
+                {
+                     LogManager.Configuration = GetDefaultDesktopLoggingConfiguration();
+                }
 #endif
             }
         }
