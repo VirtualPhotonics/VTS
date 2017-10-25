@@ -43,8 +43,6 @@
             <StackPanel Orientation="Vertical" DataContext="{Binding SimulationOptionsVM}">
                 <TextBlock Text="Simulation Options" FontWeight="Bold"/>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="3,0,0,0">
-                    <CheckBox IsChecked="{Binding TallySecondMoment, Mode=TwoWay}" VerticalAlignment="Center"/>
-                    <TextBlock Text="Tally second moment" VerticalAlignment="Center" Margin="0,0,10,0"/>
                     <CheckBox IsChecked="{Binding TrackStatistics, Mode=TwoWay}" VerticalAlignment="Center"/>
                     <TextBlock Text="Track statistics" VerticalAlignment="Center" TextAlignment="Left" Margin="0,0,10,0"/>
                     <TextBlock Text="Seed:" VerticalAlignment="Center"/>
