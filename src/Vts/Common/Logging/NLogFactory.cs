@@ -34,8 +34,15 @@ namespace Vts.Common.Logging.NLogIntegration
         {
 #if SILVERLIGHT
             LogManager.Configuration = GetDefaultLoggingConfiguration();
-#else
-            LogManager.Configuration = GetDefaultDesktopLoggingConfiguration();
+#else                
+            if (Environment.UserInteractive) // if current process in running *with* a user interface
+            {
+                LogManager.Configuration = GetDefaultLoggingConfiguration();
+            }
+            else
+            {
+                LogManager.Configuration = GetDefaultDesktopLoggingConfiguration();
+            }
 #endif
         }
 
@@ -55,13 +62,13 @@ namespace Vts.Common.Logging.NLogIntegration
 #if SILVERLIGHT
                 LogManager.Configuration = GetDefaultLoggingConfiguration();
 #else
-                if (Debugger.IsAttached == true) // true if IDE running
+                if (Environment.UserInteractive) // if current process in running *with* a user interface
                 {
                     LogManager.Configuration = GetDefaultLoggingConfiguration();
                 }
                 else
                 {
-                     LogManager.Configuration = GetDefaultDesktopLoggingConfiguration();
+                    LogManager.Configuration = GetDefaultDesktopLoggingConfiguration();
                 }
 #endif
             }
