@@ -272,9 +272,8 @@ namespace Vts.MonteCarlo.Detectors
         /// <summary>
         /// Method to determine if photon is within detector
         /// </summary>
-        /// <param name="dp">photon data point</param>
-        /// <returns>method always returns true</returns>
-        public bool ContainsPoint(PhotonDataPoint dp)
+        /// <param name="photon">photon</param>
+        public bool IsWithinDetectorAperture(Photon photon)
         {
             return true; // or, possibly test for NA or confined position, etc
             //return (dp.StateFlag.Has(PhotonStateType.PseudoTransmissionDomainTopBoundary));

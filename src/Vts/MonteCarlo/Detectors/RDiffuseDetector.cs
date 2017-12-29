@@ -1,5 +1,7 @@
 using System;
+using Vts.Common;
 using Vts.IO;
+using Vts.MonteCarlo.Extensions;
 using Vts.MonteCarlo.PhotonData;
 
 namespace Vts.MonteCarlo.Detectors
@@ -17,10 +19,20 @@ namespace Vts.MonteCarlo.Detectors
         {
             TallyType = "RDiffuse";
             Name = "RDiffuse";
+            NA = double.PositiveInfinity; // set default NA completely open regardless of detector region refractive index
+            FinalTissueRegionIndex = 0; // assume detector is in air
 
             // modify base class TallyDetails to take advantage of built-in validation capabilities (error-checking)
             TallyDetails.IsReflectanceTally = true;
         }
+        /// <summary>
+        /// Detector region index
+        /// </summary>
+        public int FinalTissueRegionIndex { get; set; }
+        /// <summary>
+        /// numerical aperture
+        /// </summary>
+        public double NA { get; set; }
 
         public IDetector CreateDetector()
         {
@@ -33,6 +45,8 @@ namespace Vts.MonteCarlo.Detectors
                 TallyDetails = this.TallyDetails,
 
                 // optional/custom detector-specific properties
+                NA = this.NA,
+                FinalTissueRegionIndex = this.FinalTissueRegionIndex
             };
         }
     }
@@ -43,9 +57,18 @@ namespace Vts.MonteCarlo.Detectors
     /// </summary>
     public class RDiffuseDetector : Detector, IDetector
     {
+        private ITissue _tissue;
+
         /* ==== Place optional/user-defined input properties here. They will be saved in text (JSON) format ==== */
         /* ==== Note: make sure to copy over all optional/user-defined inputs from corresponding input class ==== */
-
+        /// <summary>
+        /// Detector region index
+        /// </summary>
+        public int FinalTissueRegionIndex { get; set; }
+        /// <summary>
+        /// numerical aperture
+        /// </summary>
+        public double NA { get; set; }
         /* ==== Place user-defined output arrays here. They should be prepended with "[IgnoreDataMember]" attribute ==== */
         /* ==== Then, GetBinaryArrays() should be implemented to save them separately in binary format ==== */
         /// <summary>
@@ -78,6 +101,7 @@ namespace Vts.MonteCarlo.Detectors
             }
 
             // intialize any other necessary class fields here
+            _tissue = tissue;
         }
 
         /// <summary>
@@ -86,6 +110,9 @@ namespace Vts.MonteCarlo.Detectors
         /// <param name="photon">photon data needed to tally</param>
         public void Tally(Photon photon)
         {
+            if (!IsWithinDetectorAperture(photon))
+                return;
+            
             Mean += photon.DP.Weight;
             if (TallySecondMoment)
             {
@@ -112,14 +139,25 @@ namespace Vts.MonteCarlo.Detectors
         {
             return null;
         }
+
         /// <summary>
-        /// Method to determine if photon is within detector
+        /// Method to determine if photon is within detector NA
         /// </summary>
-        /// <param name="dp">photon data point</param>
-        /// <returns>method always returns true</returns>
-        public bool ContainsPoint(PhotonDataPoint dp)
+        /// <param name="photon">photon</param>
+        public bool IsWithinDetectorAperture(Photon photon)
         {
-            return true; // or, possibly test for NA or confined position, etc
+            if (photon.CurrentRegionIndex == FinalTissueRegionIndex)
+            {
+                var detectorRegionN = _tissue.Regions[photon.CurrentRegionIndex].RegionOP.N;
+                return photon.DP.IsWithinNA(NA, Direction.AlongNegativeZAxis, detectorRegionN);
+            }
+            else // determine n of prior tissue region
+            {
+                var detectorRegionN = _tissue.Regions[FinalTissueRegionIndex].RegionOP.N;
+                return photon.History.PreviousDP.IsWithinNA(NA, Direction.AlongNegativeZAxis, detectorRegionN);
+            }
+            //return true; // or, possibly test for NA or confined position, etc
+            //return (dp.StateFlag.Has(PhotonStateType.PseudoTransmissionDomainTopBoundary));
         }
     }
 }
