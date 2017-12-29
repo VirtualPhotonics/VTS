@@ -74,7 +74,6 @@ namespace Vts.Test.MonteCarlo.Detectors
                 0,
                 RandomNumberGeneratorType.MersenneTwister,
                 AbsorptionWeightingType.Discrete,
-                PhaseFunctionType.HenyeyGreenstein,
                 new List<DatabaseType>() {DatabaseType.pMCDiffuseReflectance},
                 false, // track statistics
                 0.0, // RR threshold -> 0 = no RR performed
@@ -91,25 +90,32 @@ namespace Vts.Test.MonteCarlo.Detectors
                 new ROfFxAndTimeDetectorInput() { Fx = new DoubleRange(0.0, 0.5, 11),Time = new DoubleRange(0.0, 1.0, 101)}
  
             };
+            MultiLayerTissueInput ti = new MultiLayerTissueInput(
+                    new ITissueRegion[]
+                        {
+                            new LayerTissueRegion(
+                                new DoubleRange(double.NegativeInfinity, 0.0),
+                                new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
+                        "HenyeyGreensteinKey1"),
+                        new LayerTissueRegion(
+                                new DoubleRange(0.0, 20.0),
+                                new OpticalProperties(0.01, 1.0, 0.8, 1.4),
+                        "HenyeyGreensteinKey2"),
+                        new LayerTissueRegion(
+                                new DoubleRange(20.0, double.PositiveInfinity),
+                                new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
+                        "HenyeyGreensteinKey3")
+                        }
+                    );
+            ti.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey1", new HenyeyGreensteinPhaseFunctionInput());
+            ti.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey2", new HenyeyGreensteinPhaseFunctionInput());
+            ti.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey3", new HenyeyGreensteinPhaseFunctionInput());
             _referenceInputOneLayerTissue = new SimulationInput(
                 100,
                 "", // can't create folder in isolated storage
                 simulationOptions,
                 sourceInput,
-                new MultiLayerTissueInput(
-                    new ITissueRegion[]
-                        {
-                            new LayerTissueRegion(
-                                new DoubleRange(double.NegativeInfinity, 0.0),
-                                new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
-                            new LayerTissueRegion(
-                                new DoubleRange(0.0, 20.0),
-                                new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
-                            new LayerTissueRegion(
-                                new DoubleRange(20.0, double.PositiveInfinity),
-                                new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
-                        }
-                    ),
+                ti,
                 detectorInputs);
             _factor = 1.0 - Optics.Specular(
                 _referenceInputOneLayerTissue.TissueInput.Regions[0].RegionOP.N,

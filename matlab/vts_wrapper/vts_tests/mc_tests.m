@@ -9,6 +9,35 @@ si.N = 101;
 
 % Test for detector input ROFAngle
 si.DetectorInputs = { DetectorInput.ROfAngle(linspace(0,pi/2,2)) };
+
+% use default tissue input 
+tissueInput = MultiLayerTissueInput();
+
+% % assign the tissue layer regions struct
+% tissueInput.LayerRegions = struct(...
+%     'ZRange', ...
+%     {...
+%         [-Inf, 0], ... % air "z" range
+%         [0, 100], ... % tissue "z" range
+%         [100, +Inf] ... % air "z" range
+%     }, ...
+%     'RegionOP', ...
+%     {...
+%         [0.0, 1e-10, 1.0, 1.0], ... % air optical properties
+%         [0.0, 1.0, 0.8, 1.4], ... % tissue optical properties
+%         [0.0, 1e-10, 1.0, 1.0] ... % air optical properties
+%     }, ...
+%     'PhaseFunctionKey', ...
+%     {...
+%         'HenyeyGreensteinKey1', ...
+%         'HenyeyGreensteinKey2', ...
+%         'HenyeyGreensteinKey3', ...
+%     } ...
+% );
+
+% assign tissue above to our input class
+si.TissueInput = tissueInput;
+
 output = VtsMonteCarlo.RunSimulation(si);
 
 % Test using alternate source inputs
@@ -64,7 +93,7 @@ ppi.TallySecondMoment = 0;
 ppi.InputFolder = 'results';
 ppi.DatabaseSimulationInputFilename = 'infile'; % unused if 2nd argument below is supplied
 ppi.OutputName = 'ppresults';
-output = VtsMonteCarlo.RunPostProcessor(ppi, output.Input);
+output = VtsMonteCarlo.RunPostProcessor(ppi, si);
 % 
 % %% plot the post-processed results
 % 

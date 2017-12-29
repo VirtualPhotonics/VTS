@@ -16,38 +16,45 @@ namespace Vts.Test.MonteCarlo
         [TestFixtureSetUp]
         public void initialize_simulation_input()
         {
+            MultiLayerTissueInput ti = new MultiLayerTissueInput(
+                    new ITissueRegion[]
+					{ 
+						new LayerTissueRegion(
+							new DoubleRange(double.NegativeInfinity, 0.0),
+							new OpticalProperties(0.0, 1e-10, 0.0, 1.0),
+                                                        "HenyeyGreensteinKey1"),
+						new LayerTissueRegion(
+							new DoubleRange(0.0, 1.0),
+							new OpticalProperties(0.01, 1.0, 0.8, 1.4),
+                                                        "HenyeyGreensteinKey1"),
+						new LayerTissueRegion(
+							new DoubleRange(1.0, 20.0),
+							new OpticalProperties(0.01, 1.0, 0.8, 1.4),
+                                                        "HenyeyGreensteinKey1"),
+						new LayerTissueRegion(
+							new DoubleRange(20.0, double.PositiveInfinity),
+							new OpticalProperties(0.0, 1e-10, 0.0, 1.0),
+                                                        "HenyeyGreensteinKey1")
+					}
+                );
+            if (!ti.RegionPhaseFunctionInputs.ContainsKey("HenyeyGreensteinKey1"))
+                ti.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey1", new HenyeyGreensteinPhaseFunctionInput());
             // create input with two tissue layers
             _input = new SimulationInput(
                 10,
                 "Output",
                 new SimulationOptions(),
                 new DirectionalPointSourceInput(),
-                new MultiLayerTissueInput(
-                    new ITissueRegion[]
-					{ 
-						new LayerTissueRegion(
-							new DoubleRange(double.NegativeInfinity, 0.0),
-							new OpticalProperties(0.0, 1e-10, 0.0, 1.0)),
-						new LayerTissueRegion(
-							new DoubleRange(0.0, 1.0),
-							new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
-						new LayerTissueRegion(
-							new DoubleRange(1.0, 20.0),
-							new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
-						new LayerTissueRegion(
-							new DoubleRange(20.0, double.PositiveInfinity),
-							new OpticalProperties(0.0, 1e-10, 0.0, 1.0))
-					}
-                ),
+                ti,
                 new List<IDetectorInput>
                 {
                     new RDiffuseDetectorInput(), 
-                }     
+                }
             );
         }
         [Test]
         public void verify_WithValue_method_modifies_mua1_correctly()
-        {      
+        {
             var inputWithChange = _input.WithValue(InputParameterType.Mua1.ToString(), 99.0);
             Assert.AreEqual(inputWithChange.TissueInput.Regions[1].RegionOP.Mua, 99.0);
         }

@@ -11,7 +11,7 @@ namespace Vts.Gui.Silverlight.ViewModel
         private SimulationOptions _simulationOptions;
         private OptionViewModel<AbsorptionWeightingType> _absorptionWeightingTypeVM;
         private OptionViewModel<RandomNumberGeneratorType> _randomNumberGeneratorTypeVM;
-        private OptionViewModel<PhaseFunctionType> _phaseFunctionTypeVM;
+        //private OptionViewModel<PhaseFunctionType> _phaseFunctionTypeVM; // phase function type no longer global setting
         
         public SimulationOptionsViewModel(SimulationOptions options)
         {
@@ -20,19 +20,19 @@ namespace Vts.Gui.Silverlight.ViewModel
 #if WHITELIST 
             _absorptionWeightingTypeVM = new OptionViewModel<AbsorptionWeightingType>("Absorption Weighting Type:", false, _simulationOptions.AbsorptionWeightingType, WhiteList.AbsorptionWeightingTypes);
             _randomNumberGeneratorTypeVM = new OptionViewModel<RandomNumberGeneratorType>("Random Number Generator Type:", false, _simulationOptions.RandomNumberGeneratorType, WhiteList.RandomNumberGeneratorTypes);
-            _phaseFunctionTypeVM = new OptionViewModel<PhaseFunctionType>("Phase Function Type:", false, _simulationOptions.PhaseFunctionType, WhiteList.PhaseFunctionTypes);
+           // _phaseFunctionTypeVM = new OptionViewModel<PhaseFunctionType>("Phase Function Type:", false, _simulationOptions.PhaseFunctionType, WhiteList.PhaseFunctionTypes);
 #else
             _absorptionWeightingTypeVM = new OptionViewModel<AbsorptionWeightingType>("Absorption Weighting Type:", false, _simulationOptions.AbsorptionWeightingType);
             _randomNumberGeneratorTypeVM = new OptionViewModel<RandomNumberGeneratorType>("Random Number Generator:", false, _simulationOptions.RandomNumberGeneratorType);
-            _phaseFunctionTypeVM = new OptionViewModel<PhaseFunctionType>("Phase Function Type:", false, _simulationOptions.PhaseFunctionType);
+            //_phaseFunctionTypeVM = new OptionViewModel<PhaseFunctionType>("Phase Function Type:", false, _simulationOptions.PhaseFunctionType);
 #endif
 
             _absorptionWeightingTypeVM.PropertyChanged += (sender, args) =>
                 _simulationOptions.AbsorptionWeightingType = _absorptionWeightingTypeVM.SelectedValue;
             _randomNumberGeneratorTypeVM.PropertyChanged += (sender, args) =>
                 _simulationOptions.RandomNumberGeneratorType = _randomNumberGeneratorTypeVM.SelectedValue;
-            _phaseFunctionTypeVM.PropertyChanged += (sender, args) =>
-                _simulationOptions.PhaseFunctionType = _phaseFunctionTypeVM.SelectedValue;
+            //_phaseFunctionTypeVM.PropertyChanged += (sender, args) =>
+                //_simulationOptions.PhaseFunctionType = _phaseFunctionTypeVM.SelectedValue;
         }
 
         public SimulationOptionsViewModel() : this(new SimulationOptions())
@@ -48,7 +48,7 @@ namespace Vts.Gui.Silverlight.ViewModel
 
                 _absorptionWeightingTypeVM.Options[_simulationOptions.AbsorptionWeightingType].IsSelected = true;
                 _randomNumberGeneratorTypeVM.Options[_simulationOptions.RandomNumberGeneratorType].IsSelected = true;
-                _phaseFunctionTypeVM.Options[_simulationOptions.PhaseFunctionType].IsSelected = true;
+                //_phaseFunctionTypeVM.Options[_simulationOptions.PhaseFunctionType].IsSelected = true; // This was moved to tissue input
 
                 // note: the alternative to these below is to have SimulationOptions implement INotifyPropertyChanged (derive from BindableObject)
                 OnPropertyChanged("Seed");
@@ -108,14 +108,14 @@ namespace Vts.Gui.Silverlight.ViewModel
             }
         }
 
-        public OptionViewModel<PhaseFunctionType> PhaseFunctionTypeVM
-        {
-            get { return _phaseFunctionTypeVM; }
-            set
-            {
-                _phaseFunctionTypeVM = value;
-                OnPropertyChanged("PhaseFunctionTypeVM");
-            }
-        }
+        //public OptionViewModel<PhaseFunctionType> PhaseFunctionTypeVM // no longer global setting
+        //{
+        //    get { return _phaseFunctionTypeVM; }
+        //    set
+        //    {
+        //        _phaseFunctionTypeVM = value;
+        //        OnPropertyChanged("PhaseFunctionTypeVM");
+        //    }
+        //}
     }
 }

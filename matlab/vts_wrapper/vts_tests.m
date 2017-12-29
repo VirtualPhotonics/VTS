@@ -7,10 +7,10 @@ dbstop if error;
 startup();
 runDemosToo = true;
 
-mc_tests();
+mc_tests(); 
 structures_tests();
 
 if(runDemosToo)    
     vts_solver_demo();    
-    vts_mc_demo();
+    vts_mc_demo(); 
 end

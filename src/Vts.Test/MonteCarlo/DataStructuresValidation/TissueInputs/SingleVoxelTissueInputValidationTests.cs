@@ -26,7 +26,8 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation.TissueInputs
                     new VoxelTissueRegion(new DoubleRange(0, 0),
                         new DoubleRange(-10, 10), 
                         new DoubleRange(1, 5),
-                        new OpticalProperties()), 
+                        new OpticalProperties(),
+                        "HenyeyGreensteinKey1"), 
                     new ITissueRegion[]
                     { 
                         new LayerTissueRegion(
@@ -88,7 +89,8 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation.TissueInputs
                     new VoxelTissueRegion(new DoubleRange(-5, 5), 
                         new DoubleRange(-5, 5),
                         new DoubleRange(0, 10), // eheck that voxel not at surface
-                        new OpticalProperties()), 
+                        new OpticalProperties(),
+                        "HenyeyGreensteinKey1"), 
                     new ITissueRegion[]
                     { 
                         new LayerTissueRegion(
@@ -122,7 +124,8 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation.TissueInputs
                     new VoxelTissueRegion(new DoubleRange(-5, 5),  
                         new DoubleRange(-5, 5),
                         new DoubleRange(1, 2),
-                        new OpticalProperties(0.01, 1.0, 0.9, 1.3)),
+                        new OpticalProperties(0.01, 1.0, 0.9, 1.3),
+                        "HenyeyGreensteinKey1"),
                     new ITissueRegion[]
                     { 
                         new LayerTissueRegion(

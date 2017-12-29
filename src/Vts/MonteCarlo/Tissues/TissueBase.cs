@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Vts.Common;
 using Vts.Extensions;
@@ -31,11 +32,16 @@ namespace Vts.MonteCarlo.Tissues
         public TissueBase(IList<ITissueRegion> regions)
         {
             Regions = regions;
+
+            // obsolete: phase function now region-specific
+            // PhaseFunctionType = phaseFunctionType;
+
         }
         /// <summary>
         /// list of tissue regions
         /// </summary>
         public IList<ITissueRegion> Regions { get; protected set; }
+
         /// <summary>
         /// scatter lengths of region, either 1/mut or 1/mus depending on AbsorptionWeightingTyp
         /// </summary>
@@ -44,10 +50,11 @@ namespace Vts.MonteCarlo.Tissues
         /// type of absorption deweighting employed
         /// </summary>
         public AbsorptionWeightingType AbsorptionWeightingType { get; protected set; }
-        /// <summary>
-        /// type of phase function used within region
-        /// </summary>
-        public PhaseFunctionType PhaseFunctionType { get; protected set; }
+
+        ///// <summary>
+        ///// Phase function used within each region
+        ///// </summary>
+        public IDictionary<string, IPhaseFunction> RegionPhaseFunctions { get; set; }
         /// <summary>
         /// photon weight threshold, below which turns on Russian Roulette
         /// </summary>
@@ -56,18 +63,29 @@ namespace Vts.MonteCarlo.Tissues
         /// <summary>
         /// Required method to initialiize the corresponding ITissue
         /// </summary>
-        /// <param name="tissue"></param>
+        /// <param name="awt">absorption weighting type</param>
+        /// <param name="regionPhaseFunctions">dictionary of region phase functions</param>
+        /// <param name="russianRouletteWeightThreshold">threshold for Russian Roulette</param>
+        /// Note: phase function inputs go through the factory to convert to phase funcions in MonteCarloSimulation
         public void Initialize(
-            AbsorptionWeightingType awt = AbsorptionWeightingType.Discrete, 
-            PhaseFunctionType pft = PhaseFunctionType.HenyeyGreenstein,
+            AbsorptionWeightingType awt = AbsorptionWeightingType.Discrete,
+            IDictionary<string,IPhaseFunction> regionPhaseFunctions = null,
             double russianRouletteWeightThreshold = 0.0)
         {
             AbsorptionWeightingType = awt;
-            PhaseFunctionType = pft;
+
+            if (regionPhaseFunctions != null)
+            {
+                RegionPhaseFunctions = new Dictionary<string, IPhaseFunction>();
+                foreach (var phaseFunction in regionPhaseFunctions)
+                {
+                    RegionPhaseFunctions.Add(phaseFunction.Key, phaseFunction.Value);
+                }
+            }
+
             RussianRouletteWeightThreshold = russianRouletteWeightThreshold;
 
             RegionScatterLengths = Regions.Select(region => region.RegionOP.GetScatterLength(awt)).ToArray();
         }
     }
-
 }

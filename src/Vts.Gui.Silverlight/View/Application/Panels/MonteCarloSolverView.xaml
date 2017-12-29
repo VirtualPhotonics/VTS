@@ -56,10 +56,10 @@
                     <TextBlock Text="Random NumberGenerator Type:" VerticalAlignment="Center"/>
                     <v:RadioButtonOptionView DataContext="{Binding RandomNumberGeneratorTypeVM, Mode=TwoWay}" />
                 </StackPanel>
-                <StackPanel Orientation="Horizontal" Margin="3,0,0,0">
+                <!--<StackPanel Orientation="Horizontal" Margin="3,0,0,0">
                     <TextBlock Text="Phase Function Type:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
                     <v:RadioButtonOptionView DataContext="{Binding PhaseFunctionTypeVM, Mode=TwoWay}" />
-                </StackPanel>
+                </StackPanel>-->
             </StackPanel>
             <v:MultiRegionOpticalPropertyView DataContext="{Binding TissueInputVM, Mode=TwoWay}"/>
             <!-- Move these to the MultiRegionOpticalPropertyView:

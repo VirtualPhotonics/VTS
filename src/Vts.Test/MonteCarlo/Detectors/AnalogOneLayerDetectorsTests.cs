@@ -40,38 +40,45 @@ namespace Vts.Test.MonteCarlo.Detectors
             {
                 File.Delete("statistics.txt");
             }
-           _input = new SimulationInput(
-                100,
-                "Output",
-                new SimulationOptions(
-                    0, 
-                    RandomNumberGeneratorType.MersenneTwister,
-                    AbsorptionWeightingType.Analog, 
-                    PhaseFunctionType.HenyeyGreenstein,
-                    new List<DatabaseType>() { }, // databases to be written
-                    true, // track statistics
-                    0.0, // RR threshold -> 0 = no RR performed
-                    0),
-                new DirectionalPointSourceInput(
-                    new Position(0.0, 0.0, 0.0),
-                    new Direction(0.0, 0.0, 1.0),
-                    1 // start off inside tissue 
-                ),
-                new MultiLayerTissueInput(
+
+            MultiLayerTissueInput ti = new MultiLayerTissueInput(
                     new ITissueRegion[]
                     { 
                         new LayerTissueRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
-                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
+                        "HenyeyGreensteinKey1"),
                         new LayerTissueRegion(
                             new DoubleRange(0.0, 20.0),
-                            new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
+                            new OpticalProperties(0.01, 1.0, 0.8, 1.4),
+                        "HenyeyGreensteinKey2"),
                         new LayerTissueRegion(
                             new DoubleRange(20.0, double.PositiveInfinity),
-                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
+                        "HenyeyGreensteinKey3")
                     }
-                ),
-                new List<IDetectorInput>
+                );
+            ti.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey1", new HenyeyGreensteinPhaseFunctionInput());
+            ti.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey2", new HenyeyGreensteinPhaseFunctionInput());
+            ti.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey3", new HenyeyGreensteinPhaseFunctionInput());
+            _input = new SimulationInput(
+                 100,
+                 "Output",
+                 new SimulationOptions(
+                     0,
+                     RandomNumberGeneratorType.MersenneTwister,
+                     AbsorptionWeightingType.Analog,
+                     new List<DatabaseType>() { }, // databases to be written
+                     true, // track statistics
+                     0.0, // RR threshold -> 0 = no RR performed
+                     0),
+                 new DirectionalPointSourceInput(
+                     new Position(0.0, 0.0, 0.0),
+                     new Direction(0.0, 0.0, 1.0),
+                     1 // start off inside tissue 
+                 ),
+                 ti,             
+                 new List<IDetectorInput>
                 {
                     new RDiffuseDetectorInput() {TallySecondMoment = true},
                     new ROfAngleDetectorInput() {Angle=new DoubleRange(Math.PI / 2 , Math.PI, 2)},
@@ -100,7 +107,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                         Angle=new DoubleRange(-Math.PI / 2, Math.PI / 2, 5)
                     }
                 }
-            );
+             );
 
             _output = new MonteCarloSimulation(_input).Run();
 
@@ -110,7 +117,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                             _input.TissueInput.Regions[0].RegionOP.N,
                             _input.TissueInput.Regions[1].RegionOP.N);
         }
-   
+
         // validation values obtained from linux run using above input and seeded 
         // the same for:
         //// Diffuse Reflectance

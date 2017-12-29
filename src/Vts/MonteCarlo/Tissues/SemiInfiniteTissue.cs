@@ -1,6 +1,6 @@
 using System;
+using System.Collections.Generic;
 using Vts.MonteCarlo.Tissues;
-
 namespace Vts.MonteCarlo.Tissues
 {
     /// <summary>
@@ -18,13 +18,14 @@ namespace Vts.MonteCarlo.Tissues
         {
             TissueType = "SemiInfinite";
             _regions = new[] { region };
+            RegionPhaseFunctionInputs = new Dictionary<string, IPhaseFunctionInput>();
         }
 
         /// <summary>
         /// SemiInfiniteTissueInput default constructor provides homogeneous tissue
         /// </summary>
         public SemiInfiniteTissueInput()
-            : this(new SemiInfiniteTissueRegion(new OpticalProperties(0.02, 1.0, 0.8, 1.4)))
+            : this(new SemiInfiniteTissueRegion(new OpticalProperties(0.02, 1.0, 0.8, 1.4), "HenyeyGreensteinKey1"))
         {
         }
 
@@ -32,6 +33,10 @@ namespace Vts.MonteCarlo.Tissues
         /// list of tissue regions comprising tissue
         /// </summary>
         public ITissueRegion[] Regions { get { return _regions; } set { _regions = value; } }
+        /// <summary>
+        /// dictionary of region phase functions
+        /// </summary>
+        public IDictionary<string, IPhaseFunctionInput> RegionPhaseFunctionInputs { get; set; }
 
         /// <summary>
         ///// Required factory method to create the corresponding 
@@ -41,7 +46,7 @@ namespace Vts.MonteCarlo.Tissues
         /// <param name="pft">Phase Function Type</param>
         /// <param name="russianRouletteWeightThreshold">Russian Roulette Weight Threshold</param>
         /// <returns></returns>
-        public ITissue CreateTissue(AbsorptionWeightingType awt, PhaseFunctionType pft, double russianRouletteWeightThreshold)
+        public ITissue CreateTissue(AbsorptionWeightingType awt, IDictionary<string, IPhaseFunction> regionPhaseFunctions, double russianRouletteWeightThreshold)
         {
             throw new NotImplementedException();
 

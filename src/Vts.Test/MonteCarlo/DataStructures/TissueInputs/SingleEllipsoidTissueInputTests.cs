@@ -13,7 +13,7 @@ namespace Vts.Test.MonteCarlo
         public void validate_deserialized_class_is_correct()
         {
             var i = new SingleEllipsoidTissueInput(new EllipsoidTissueRegion(new Position(0, 0, 1), 0.5, 0.5, 0.5,
-            new OpticalProperties(0.05, 1.0, 0.8, 1.4)), new ITissueRegion[]
+            new OpticalProperties(0.05, 1.0, 0.8, 1.4), ""), new ITissueRegion[]
                     { 
                         new LayerTissueRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
@@ -36,7 +36,7 @@ namespace Vts.Test.MonteCarlo
         public void validate_deserialized_class_is_correct_when_using_FileIO()
         {
             var i = new SingleEllipsoidTissueInput(new EllipsoidTissueRegion(new Position(0, 0, 1), 0.5, 0.5, 0.5,
-            new OpticalProperties(0.05, 1.0, 0.8, 1.4)), new ITissueRegion[]
+            new OpticalProperties(0.05, 1.0, 0.8, 1.4), ""), new ITissueRegion[]
                     { 
                         new LayerTissueRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
