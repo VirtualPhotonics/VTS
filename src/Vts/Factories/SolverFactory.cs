@@ -1,5 +1,13 @@
 using System;
-using Microsoft.Practices.Unity;
+#if SILVERLIGHT
+    using Microsoft.Practices.Unity;
+#endif
+#if !SILVERLIGHT 
+    using Unity;
+    using Unity.Injection;
+    using Unity.Lifetime;
+    using Unity.Registration;
+#endif
 using Vts.Modeling.ForwardSolvers;
 using Vts.Modeling.Optimizers;
 using Vts.SpectralMapping;
