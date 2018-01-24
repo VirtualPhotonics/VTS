@@ -2,7 +2,15 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Microsoft.Practices.Unity;
+#if SILVERLIGHT
+    using Microsoft.Practices.Unity;
+#endif
+#if !SILVERLIGHT
+using Unity;
+using Unity.Injection;
+using Unity.Lifetime;
+using Unity.Registration;
+#endif
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
