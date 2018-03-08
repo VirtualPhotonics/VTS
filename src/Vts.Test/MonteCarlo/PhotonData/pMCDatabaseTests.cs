@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using NUnit.Framework;
 using Vts.Common;
 using Vts.MonteCarlo;
@@ -9,6 +11,52 @@ namespace Vts.Test.MonteCarlo.PhotonData
     [TestFixture]
     public class pMCDatabaseTests
     {
+        /// <summary>
+        /// list of temporary files created by these unit tests
+        /// </summary>
+        List<string> listOfTestDatabases = new List<string>()
+        {
+            "testpmcdatabase",
+        };
+
+        /// <summary>
+        /// clear all previously generated files.
+        /// </summary>
+        [TestFixtureSetUp]
+        public void clear_previously_generated_files()
+        {
+            // delete any previously generated files
+            foreach (var testDatabase in listOfTestDatabases)
+            {
+                if (File.Exists(testDatabase))
+                {
+                    File.Delete(testDatabase);
+                }
+                if (File.Exists(testDatabase + ".txt"))
+                {
+                    File.Delete(testDatabase + ".txt");
+                }
+            }
+        }
+        /// <summary>
+        /// clear all newly generated files
+        /// </summary>
+        [TestFixtureTearDown]
+        public void clear_newly_generated_files()
+        {
+            // delete any newly generated files
+            foreach (var testDatabase in listOfTestDatabases)
+            {
+                //if (File.Exists(testDatabase)) 
+                //{
+                //    File.Delete(testDatabase); // delete currently fails ckh 3/7/18
+                //}
+                if (File.Exists(testDatabase + ".txt"))
+                {
+                    File.Delete(testDatabase + ".txt");
+                }
+            }
+        }
         /// <summary>
         /// test to verify that PhotonDatabaseWriter and PhotonDatabase.FromFile
         /// are working correctly.
