@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using NUnit.Framework;
 using Vts.MonteCarlo;
@@ -45,10 +46,11 @@ namespace Vts.Test.MonteCarlo.PhotonData
             // delete any newly generated files
             foreach (var testDatabase in listOfTestDatabases)
             {
-                //if (File.Exists(testDatabase))
-                //{
-                //    File.Delete(testDatabase);// delete currently fails ckh 3/7/18
-                //}
+                if (File.Exists(testDatabase))
+                {
+                    GC.Collect(); // need to clean up before file can be deleted
+                    File.Delete(testDatabase);
+                }
                 if (File.Exists(testDatabase + ".txt"))
                 {
                     File.Delete(testDatabase + ".txt");
@@ -95,9 +97,6 @@ namespace Vts.Test.MonteCarlo.PhotonData
                             new SubRegionCollisionInfo(50.0, 5000),
                             new SubRegionCollisionInfo(60.0, 6000)
                         });
-
-                // close database so that it can be deleted
-                dbWriter.Close();
             }
 
             var dbcloned = CollisionInfoDatabase.FromFile(databaseFilename);
