@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using NUnit.Framework;
@@ -47,10 +48,11 @@ namespace Vts.Test.MonteCarlo.PhotonData
             // delete any newly generated files
             foreach (var testDatabase in listOfTestDatabases)
             {
-                //if (File.Exists(testDatabase)) 
-                //{
-                //    File.Delete(testDatabase); // delete currently fails ckh 3/7/18
-                //}
+                if (File.Exists(testDatabase))
+                {
+                    GC.Collect(); // need to clean up before file can be deleted
+                    File.Delete(testDatabase); 
+                }
                 if (File.Exists(testDatabase + ".txt"))
                 {
                     File.Delete(testDatabase + ".txt");
