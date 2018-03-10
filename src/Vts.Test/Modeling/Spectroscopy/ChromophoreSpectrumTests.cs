@@ -12,14 +12,43 @@ namespace Vts.Test.Modeling.Spectroscopy
     public class ChromophoreSpectrumTests
     {
         /// <summary>
+        /// list of temporary files created by these unit tests
+        /// </summary>
+        List<string> listOfFiles = new List<string>()
+        {
+            "ChromophoreSpectrum.txt",
+        };
+
+        /// <summary>
         /// Runs before every unit test after the TestFixtureSetup
         /// </summary>
         [SetUp]
-        public void clear_folders_and_files()
+        public void setup()
         {
-            if (FileIO.FileExists("ChromophoreSpectrum.txt"))
+        }
+
+        /// <summary>
+        /// clear all previously generated folders and files
+        /// </summary>
+        [TestFixtureSetUp]
+        public void clear_previously_generated_folders_and_files()
+        {
+            foreach (var file in listOfFiles)
             {
-                FileIO.FileDelete("ChromophoreSpectrum.txt");
+                // ckh: should there be a check prior to delete that checks for file existence?
+                FileIO.FileDelete(file);
+            }
+        }
+        /// <summary>
+        /// clear all newly generated folders and files
+        /// </summary>
+        [TestFixtureTearDown]
+        public void clear_newly_generated_folders_and_files()
+        {
+            foreach (var file in listOfFiles)
+            {
+                // ckh: should there be a check prior to delete that checks for file existence?
+                FileIO.FileDelete(file);
             }
         }
 

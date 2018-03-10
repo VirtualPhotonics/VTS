@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using NUnit.Framework;
 using Vts.Common;
+using Vts.IO;
 using Vts.MonteCarlo;
 using Vts.MonteCarlo.Detectors;
 using Vts.MonteCarlo.Helpers;
@@ -25,12 +27,41 @@ namespace Vts.Test.MonteCarlo.BidirectionalScattering
         double _mua = 0.01;
         double _musp = 0.198;  // mus = 0.99
         double _g = 0.8;
-        SimulationStatistics _simulationStatistics;
+        private SimulationStatistics _simulationStatistics;
 
+        /// <summary>
+        /// list of temporary files created by these unit tests
+        /// </summary>
+        List<string> listOfFolders = new List<string>()
+        {
+            "results"
+        };
+        List<string> listOfFiles = new List<string>()
+        {
+            "file.txt"  // file that captures the screen output of MC simulation
+        };
+        [TestFixtureSetUp]
+        public void execute_reference_Monte_Carlo()
+        {
+            foreach (var folder in listOfFolders)
+            {
+                if (File.Exists(folder))
+                {
+                    File.Delete(folder);
+                }
+            }
+            foreach (var file in listOfFiles)
+            {
+                if (File.Exists(file))
+                {
+                    File.Delete(file);
+                }
+            }
+            execute_Monte_Carlo();
+        }
         /// <summary>
         /// Setup input to the MC, SimulationInput, and execute MC
         /// </summary>
-        [TestFixtureSetUp]
         public void execute_Monte_Carlo()
         {
             _input = new SimulationInput(
@@ -74,6 +105,21 @@ namespace Vts.Test.MonteCarlo.BidirectionalScattering
             _output = new MonteCarloSimulation(_input).Run();
 
             _simulationStatistics = SimulationStatistics.FromFile(_input.OutputName + "/statistics.txt");
+        }
+        /// <summary>
+        /// clear all newly generated folders and files
+        /// </summary>
+        [TestFixtureTearDown]
+        public void clear_new_folders_and_files()
+        {
+            foreach (var folder in listOfFolders)
+            {
+                FileIO.DeleteDirectory(folder);
+            }
+            foreach (var file in listOfFiles)
+            {
+                FileIO.FileDelete(file);
+            }
         }
 
         // todo: add analytic variance and use this for error bounds

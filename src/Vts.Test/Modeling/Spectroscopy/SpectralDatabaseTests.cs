@@ -14,6 +14,25 @@ namespace Vts.Test.Modeling.Spectroscopy
     public class SpectralDatabaseTests
     {
         /// <summary>
+        /// list of temporary files created by these unit tests
+        /// </summary>
+        List<string> listOfFiles = new List<string>()
+        {
+            "SpectralDictionary.txt",
+            "dictionary.txt",
+            "dictionary2.txt",
+            "dictionary3.txt",
+            "dictionary4.txt",
+            "dictionary5.txt",
+            "absorber-Fat.txt",
+            "absorber-Hb.txt",
+            "absorber-HbO2.txt",
+            "absorber-H2O.txt",
+            "absorber-Melanin.txt",
+            "absorber-Nigrosin.txt"
+        };
+
+        /// <summary>
         /// Runs before every unit test after the TestFixtureSetup
         /// </summary>
         [SetUp]
@@ -25,55 +44,24 @@ namespace Vts.Test.Modeling.Spectroscopy
         /// clear all previously generated folders and files
         /// </summary>
         [TestFixtureSetUp]
-        public void clear_folders_and_files()
+        public void clear_previously_generated_folders_and_files()
         {
-            if (FileIO.FileExists("SpectralDictionary.txt"))
+            foreach (var file in listOfFiles)
             {
-                FileIO.FileDelete("SpectralDictionary.txt");
+                // ckh: should there be a check prior to delete that checks for file existence?
+                FileIO.FileDelete(file);
             }
-            if (FileIO.FileExists("dictionary.txt"))
+        }
+        /// <summary>
+        /// clear all newly generated folders and files
+        /// </summary>
+        [TestFixtureTearDown]
+        public void clear_newly_generated_folders_and_files()
+        {
+            foreach (var file in listOfFiles)
             {
-                FileIO.FileDelete("dictionary.txt");
-            }
-            if (FileIO.FileExists("dictionary2.txt"))
-            {
-                FileIO.FileDelete("dictionary2.txt");
-            }
-            if (FileIO.FileExists("dictionary3.txt"))
-            {
-                FileIO.FileDelete("dictionary3.txt");
-            }
-            if (FileIO.FileExists("dictionary4.txt"))
-            {
-                FileIO.FileDelete("dictionary4.txt");
-            }
-            if (FileIO.FileExists("dictionary5.txt"))
-            {
-                FileIO.FileDelete("dictionary5.txt");
-            }
-            if (FileIO.FileExists("absorber-Fat.txt"))
-            {
-                FileIO.FileDelete("absorber-Fat.txt");
-            }
-            if (FileIO.FileExists("absorber-Hb.txt"))
-            {
-                FileIO.FileDelete("absorber-Hb.txt");
-            }
-            if (FileIO.FileExists("absorber-HbO2.txt"))
-            {
-                FileIO.FileDelete("absorber-HbO2.txt");
-            }
-            if (FileIO.FileExists("absorber-H2O.txt"))
-            {
-                FileIO.FileDelete("absorber-H2O.txt");
-            }
-            if (FileIO.FileExists("absorber-Melanin.txt"))
-            {
-                FileIO.FileDelete("absorber-Melanin.txt");
-            }
-            if (FileIO.FileExists("absorber-Nigrosin.txt"))
-            {
-                FileIO.FileDelete("absorber-Nigrosin.txt");
+                // ckh: should there be a check prior to delete that checks for file existence?
+                FileIO.FileDelete(file);
             }
         }
 

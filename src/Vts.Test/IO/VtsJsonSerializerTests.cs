@@ -45,20 +45,20 @@ namespace Vts.Test.IO
     [TestFixture]
     public class VtsJsonSerializerTests
     {
+        private List<string> listOfFiles = new List<string>()
+        {
+            "VtsJsonSerializerTests_file1.txt", 
+            "VtsJsonSerializerTests_file2.txt", 
+            "VtsJsonSerializerTests_file3.txt", 
+            "VtsJsonSerializerTests_file4.txt"
+        };
         /// <summary>
         /// clear all previously generated folders and files
         /// </summary>
         [TestFixtureSetUp]
-        public void clear_folders_and_files()
+        public void clear_previously_generated_folders_and_files()
         {
-            string[] fileList =
-                {
-                    "VtsJsonSerializerTests_file1.txt", 
-                    "VtsJsonSerializerTests_file2.txt", 
-                    "VtsJsonSerializerTests_file3.txt", 
-                    "VtsJsonSerializerTests_file4.txt"
-                };
-            foreach (var file in fileList)
+            foreach (var file in listOfFiles)
             {
                 if (FileIO.FileExists(file))
                 {
@@ -66,7 +66,18 @@ namespace Vts.Test.IO
                 }
             }
         }
-
+        /// <summary>
+        /// clear all newly generated folders and files
+        /// </summary>
+        [TestFixtureTearDown]
+        public void clear_newly_generated_folders_and_files()
+        {
+            foreach (var file in listOfFiles)
+            {
+                // ckh: should there be a check prior to delete that checks for file existence?
+                FileIO.FileDelete(file);
+            }
+        }
         [Test]
         public void validate_file_exists_after_writing()
         {
