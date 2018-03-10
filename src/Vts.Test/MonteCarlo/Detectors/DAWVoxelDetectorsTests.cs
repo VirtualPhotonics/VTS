@@ -1,7 +1,6 @@
 using System;
-using System.Numerics;
-using System.Linq;
 using System.Collections.Generic;
+using System.IO;
 using NUnit.Framework;
 using Vts.Common;
 using Vts.MonteCarlo;
@@ -28,7 +27,25 @@ namespace Vts.Test.MonteCarlo.Detectors
         private SimulationInput _inputOneRegionTissue;
         private SimulationInput _inputTwoRegionTissue;
         private double _factor;
-
+        /// <summary>
+        /// list of temporary files created by these unit tests
+        /// </summary>
+        List<string> listOfTestFiles = new List<string>()
+        {
+            "file.txt", // file that captures screen output of MC simulation
+        };
+        [TestFixtureSetUp]
+        public void execute_reference_Monte_Carlo()
+        {
+            foreach (var file in listOfTestFiles)
+            {
+                if (File.Exists(file))
+                {
+                    File.Delete(file);
+                }
+            }
+            execute_Monte_Carlo();
+        }
         /// <summary>
         /// DiscreteAbsorptionWeighting detection.
         /// Setup input to the MC for a homogeneous one layer tissue and a single
@@ -40,7 +57,6 @@ namespace Vts.Test.MonteCarlo.Detectors
         /// NOTE: currently two region executes same photon biography except for pauses
         /// at layer interface.  Variance for DAW results not degraded.
         /// </summary>
-        [TestFixtureSetUp]
         public void execute_Monte_Carlo()
         {
             // instantiate common classes
@@ -120,6 +136,21 @@ namespace Vts.Test.MonteCarlo.Detectors
             _factor = 1.0 - Optics.Specular(
                             _inputOneRegionTissue.TissueInput.Regions[0].RegionOP.N,
                             _inputOneRegionTissue.TissueInput.Regions[1].RegionOP.N);
+        }
+        /// <summary>
+        /// clear all newly generated files
+        /// </summary>
+        [TestFixtureTearDown]
+        public void clear_newly_generated_files()
+        {
+            // delete any newly generated files
+            foreach (var file in listOfTestFiles)
+            {
+                if (File.Exists(file))
+                {
+                    File.Delete(file);
+                }
+            }
         }
 
         // validation values obtained from linux run using above input and 

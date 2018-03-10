@@ -28,18 +28,32 @@ namespace Vts.Test.MonteCarlo.Detectors
         private SimulationInput _input;
         private double _factor;
         private SimulationStatistics _simulationStatistics;
+        /// <summary>
+        /// list of temporary files created by these unit tests
+        /// </summary>
+        List<string> listOfTestFiles = new List<string>()
+        {
+            "statistics.txt",
+            "file.txt", // file that captures screen output of MC simulation
+        };
 
+        [TestFixtureSetUp]
+        public void execute_reference_Monte_Carlo()
+        {
+            foreach (var file in listOfTestFiles)
+            {
+                if (File.Exists(file))
+                {
+                    File.Delete(file);
+                }
+            }
+            execute_Monte_Carlo();
+        }
         /// <summary>
         /// Setup input to the MC, SimulationInput, and execute MC
         /// </summary>
-        [TestFixtureSetUp]
         public void execute_Monte_Carlo()
         {
-            // make sure statistic file generated from previous tests are deleted
-            if (File.Exists("statistics.txt"))
-            {
-                File.Delete("statistics.txt");
-            }
            _input = new SimulationInput(
                 100,
                 "Output",
@@ -110,7 +124,21 @@ namespace Vts.Test.MonteCarlo.Detectors
                             _input.TissueInput.Regions[0].RegionOP.N,
                             _input.TissueInput.Regions[1].RegionOP.N);
         }
-   
+        /// <summary>
+        /// clear all newly generated files
+        /// </summary>
+        [TestFixtureTearDown]
+        public void clear_newly_generated_files()
+        {
+            // delete any newly generated files
+            foreach (var file in listOfTestFiles)
+            {
+                if (File.Exists(file))
+                {
+                    File.Delete(file);
+                }
+            }
+        }
         // validation values obtained from linux run using above input and seeded 
         // the same for:
         //// Diffuse Reflectance

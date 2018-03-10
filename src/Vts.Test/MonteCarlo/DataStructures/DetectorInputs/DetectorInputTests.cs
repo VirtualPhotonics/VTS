@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization;
-using System.Runtime.Serialization.Json;
 using NUnit.Framework;
 using Vts.Common;
 using Vts.IO;
@@ -17,7 +16,41 @@ namespace Vts.Test.MonteCarlo
     public class DetectorInputTests
     {
         // todo: need to show working with SimulationInput using serialization
+        /// <summary>
+        /// list of temporary files created by these unit tests
+        /// </summary>
+        List<string> listOfTestFiles = new List<string>()
+        {
+            "test",
+            "test.txt"
+        };
 
+        [TestFixtureSetUp]
+        public void clear_previously_generated_files()
+        {
+            foreach (var file in listOfTestFiles)
+            {
+                if (File.Exists(file))
+                {
+                    File.Delete(file);
+                }
+            }
+        }
+        /// <summary>
+        /// clear all newly generated files
+        /// </summary>
+        [TestFixtureTearDown]
+        public void clear_newly_generated_files()
+        {
+            // delete any newly generated files
+            foreach (var file in listOfTestFiles)
+            {
+                if (File.Exists(file))
+                {
+                    File.Delete(file);
+                }
+            }
+        }
         [Test]
         public void validate_class_can_be_serialized_as_part_of_SimulationInput()
         {

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Numerics;
 using NUnit.Framework;
 using Vts.Common;
@@ -27,7 +28,26 @@ namespace Vts.Test.MonteCarlo.Detectors
         private SimulationOutput _outputTwoLayerTissue;
         private double _layerThickness = 2.0;
         private double _factor;
+        /// <summary>
+        /// list of temporary files created by these unit tests
+        /// </summary>
+        List<string> listOfTestFiles = new List<string>()
+        {
+            "file.txt", // file that captures screen output of MC simulation
+        };
 
+        [TestFixtureSetUp]
+        public void execute_reference_Monte_Carlo()
+        {
+            foreach (var file in listOfTestFiles)
+            {
+                if (File.Exists(file))
+                {
+                    File.Delete(file);
+                }
+            }
+            execute_Monte_Carlo();
+        }
         /// <summary>
         /// ContinuousAbsorptionWeighting detection.
         /// Setup input to the MC for a homogeneous one layer tissue and a homogeneous
@@ -39,7 +59,6 @@ namespace Vts.Test.MonteCarlo.Detectors
         /// NOTE: currently two region executes same photon biography except for pauses
         /// at layer interface, BUT CAW results have greater variance.  Why? CKH to look into.
         /// </summary>
-        [TestFixtureSetUp]
         public void execute_Monte_Carlo()
         {
             // instantiate common classes
@@ -128,7 +147,21 @@ namespace Vts.Test.MonteCarlo.Detectors
                            inputOneLayerTissue.TissueInput.Regions[0].RegionOP.N,
                            inputOneLayerTissue.TissueInput.Regions[1].RegionOP.N);
         }
-
+        /// <summary>
+        /// clear all newly generated files
+        /// </summary>
+        [TestFixtureTearDown]
+        public void clear_newly_generated_files()
+        {
+            // delete any newly generated files
+            foreach (var file in listOfTestFiles)
+            {
+                if (File.Exists(file))
+                {
+                    File.Delete(file);
+                }
+            }
+        }
         // validation values obtained from linux run using above input and seeded the same
         // Diffuse Reflectance
         [Test]

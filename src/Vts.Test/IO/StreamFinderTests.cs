@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Reflection;
 using System.Text;
 using NUnit.Framework;
@@ -12,6 +14,38 @@ namespace Vts.Test.IO
     [TestFixture]
     public class StreamFinderTests
     {
+        /// <summary>
+        /// list of temporary files created by these unit tests
+        /// </summary>
+        List<string> listOfFiles = new List<string>()
+        {
+            "file4.txt",
+        };
+        /// <summary>
+        /// clear all previously generated folders and files
+        /// </summary>
+        [TestFixtureSetUp]
+        public void clear_previously_generated_folders_and_files()
+        {
+            foreach (var file in listOfFiles)
+            {
+                // ckh: should there be a check prior to delete that checks for file existence?
+                FileIO.FileDelete(file);
+            }
+        }
+        /// <summary>
+        /// clear all newly generated folders and files
+        /// </summary>
+        [TestFixtureTearDown]
+        public void clear_newly_generated_folders_and_files()
+        {
+            foreach (var file in listOfFiles)
+            {
+                // ckh: should there be a check prior to delete that checks for file existence?
+                GC.Collect();
+                FileIO.FileDelete(file);
+            }
+        }
         /// <summary>
         /// Validate writing text to a stream
         /// </summary>

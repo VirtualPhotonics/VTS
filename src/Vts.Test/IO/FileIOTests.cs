@@ -1,7 +1,6 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
-using System.Runtime.InteropServices;
 using System.Text;
 using NUnit.Framework;
 using Vts.Common;
@@ -13,22 +12,60 @@ namespace Vts.Test.IO
     public class FileIOTests
     {
         /// <summary>
+        /// list of temporary files created by these unit tests
+        /// </summary>
+        List<string> listOfFolders = new List<string>()
+        {
+            "folder",
+            "folder1",
+            "folder2",
+            "folder3",
+            "folder4"
+        };
+        List<string> listOfFiles = new List<string>()
+        {
+            "file1.txt",
+            "file2.txt",
+            "file3.txt",
+            "file4.txt",
+            "file5.txt",
+            "array1",
+            "array1.txt",
+            "embeddedresourcefile.txt",
+            "resourcefile.txt"
+        };
+
+        /// <summary>
         /// clear all previously generated folders and files
         /// </summary>
         [TestFixtureSetUp]
         public void clear_folders_and_files()
         {
-            FileIO.FileDelete("file1.txt");
-            FileIO.FileDelete("file2.txt");
-            FileIO.FileDelete("file3.txt");
-            FileIO.FileDelete("file4.txt");
-            FileIO.FileDelete("file5.txt");
-            FileIO.FileDelete("array1");
-            FileIO.FileDelete("array1.txt");
-            FileIO.DeleteDirectory("folder1");
-            FileIO.DeleteDirectory("folder2");
-            FileIO.DeleteDirectory("folder3");
-            FileIO.DeleteDirectory("folder4");
+            foreach (var file in listOfFiles)
+            {
+                // ckh: should there be a check prior to delete that checks for file existence?
+                FileIO.FileDelete(file);
+            }
+            foreach (var folder in listOfFolders)
+            {
+                FileIO.DeleteDirectory(folder);
+            }
+        }
+        /// <summary>
+        /// clear all newly generated folders and files
+        /// </summary>
+        [TestFixtureTearDown]
+        public void clear_new_folders_and_files()
+        {
+            foreach (var file in listOfFiles)
+            {
+                // ckh: should there be a check prior to delete that checks for file existence?
+                FileIO.FileDelete(file);
+            }
+            foreach (var folder in listOfFolders)
+            {
+                FileIO.DeleteDirectory(folder);
+            }
         }
 
         [Test]
@@ -100,7 +137,7 @@ namespace Vts.Test.IO
                 {
                     var name = Assembly.GetExecutingAssembly().FullName;
                     var assemblyName = new AssemblyName(name).Name;
-                    FileIO.CopyFileFromEmbeddedResources(assemblyName + ".Resources.embeddedresourcefile.txt", "embeddededresourcefile.txt", name);
+                    FileIO.CopyFileFromEmbeddedResources(assemblyName + ".Resources.embeddedresourcefile.txt", "embeddedresourcefile.txt", name);
                 }
             }
             Assert.IsTrue(FileIO.FileExists(Path.Combine(folder, "embeddedresourcefile.txt")));
@@ -257,8 +294,8 @@ namespace Vts.Test.IO
         {
             var name = Assembly.GetExecutingAssembly().FullName;
             var assemblyName = new AssemblyName(name).Name;
-            FileIO.CopyFileFromEmbeddedResources(assemblyName + ".Resources.embeddedresourcefile.txt", "embeddededresourcefile.txt", name);
-            Assert.IsTrue(FileIO.FileExists("embeddededresourcefile.txt"));
+            FileIO.CopyFileFromEmbeddedResources(assemblyName + ".Resources.embeddedresourcefile.txt", "embeddedresourcefile.txt", name);
+            Assert.IsTrue(FileIO.FileExists("embeddedresourcefile.txt"));
         }
 
         [Test]

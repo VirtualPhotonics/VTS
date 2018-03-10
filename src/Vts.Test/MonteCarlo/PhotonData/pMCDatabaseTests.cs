@@ -18,6 +18,8 @@ namespace Vts.Test.MonteCarlo.PhotonData
         List<string> listOfTestDatabases = new List<string>()
         {
             "testpmcdatabase",
+            "testpmccollisiondatabase",
+            "SimulationInputTest.txt"
         };
 
         /// <summary>
