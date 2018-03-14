@@ -13,32 +13,20 @@ namespace Vts.Test.MonteCarlo
         /// <summary>
         /// list of temporary files created by these unit tests
         /// </summary>
-        List<string> listOfFiles = new List<string>()
+        List<string> listOfTestGeneratedFiles = new List<string>()
         {
             "SingleVoxelTissue.txt"
         };
 
         /// <summary>
-        /// clear previously generated folders and files
+        /// clear all generated folders and files
         /// </summary>
         [TestFixtureSetUp]
-        public void clear_previously_generated_folders_and_files()
-        {
-            foreach (var file in listOfFiles)
-            {
-                // ckh: should there be a check prior to delete that checks for file existence?
-                FileIO.FileDelete(file);
-            }
-        }
-        /// <summary>
-        /// clear all newly generated folders and files
-        /// </summary>
         [TestFixtureTearDown]
-        public void clear_newly_generated_folders_and_files()
+        public void clear_folders_and_files()
         {
-            foreach (var file in listOfFiles)
+            foreach (var file in listOfTestGeneratedFiles)
             {
-                // ckh: should there be a check prior to delete that checks for file existence?
                 FileIO.FileDelete(file);
             }
         }

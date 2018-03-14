@@ -19,38 +19,22 @@ namespace Vts.Test.MonteCarlo
         /// <summary>
         /// list of temporary files created by these unit tests
         /// </summary>
-        List<string> listOfTestFiles = new List<string>()
+        List<string> listOfTestGeneratedFiles = new List<string>()
         {
             "test",
             "test.txt"
         };
 
         [TestFixtureSetUp]
+        [TestFixtureTearDown]
         public void clear_previously_generated_files()
         {
-            foreach (var file in listOfTestFiles)
+            foreach (var file in listOfTestGeneratedFiles)
             {
-                if (File.Exists(file))
-                {
-                    File.Delete(file);
-                }
+                FileIO.FileDelete(file);
             }
         }
-        /// <summary>
-        /// clear all newly generated files
-        /// </summary>
-        [TestFixtureTearDown]
-        public void clear_newly_generated_files()
-        {
-            // delete any newly generated files
-            foreach (var file in listOfTestFiles)
-            {
-                if (File.Exists(file))
-                {
-                    File.Delete(file);
-                }
-            }
-        }
+
         [Test]
         public void validate_class_can_be_serialized_as_part_of_SimulationInput()
         {

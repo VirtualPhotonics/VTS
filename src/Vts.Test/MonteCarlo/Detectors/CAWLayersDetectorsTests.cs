@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Numerics;
 using NUnit.Framework;
 using Vts.Common;
+using Vts.IO;
 using Vts.MonteCarlo;
 using Vts.MonteCarlo.Helpers;
 using Vts.MonteCarlo.Sources;
@@ -13,14 +13,16 @@ using Vts.MonteCarlo.Detectors;
 namespace Vts.Test.MonteCarlo.Detectors
 {
     /// <summary>
-    /// These tests execute a continuous absorption weighting (CAW)
-    /// MC simulation with 100 photons and verify
-    /// that the tally results match the linux results given the same seed
+    /// ContinuousAbsorptionWeighting detection.
+    /// Setup input to the MC for a homogeneous one layer tissue and a homogeneous
+    /// two layer tissue (both layers have same optical properties), execute simulations
+    /// and verify results agree with linux results given the same seed
     /// mersenne twister STANDARD_TEST.  The linux results assumes photon passes
     /// through specular and deweights photon by specular.  This test starts photon 
-    /// inside tissue and then multiplies result by specular deweighting to match 
-    /// linux results.
-    /// </summary>
+    /// inside tissue and then multiplies result by specular deweighting to match.
+    /// NOTE: currently two region executes same photon biography except for pauses
+    /// at layer interface, BUT CAW results have greater variance.  Why? CKH to look into.
+    /// </summary> 
     [TestFixture]
     public class CAWLayersDetectorsTests
     {
@@ -31,36 +33,26 @@ namespace Vts.Test.MonteCarlo.Detectors
         /// <summary>
         /// list of temporary files created by these unit tests
         /// </summary>
-        List<string> listOfTestFiles = new List<string>()
+        List<string> listOfTestGeneratedFiles = new List<string>()
         {
             "file.txt", // file that captures screen output of MC simulation
         };
 
-        [TestFixtureSetUp]
-        public void execute_reference_Monte_Carlo()
+        [TestFixtureTearDown]
+        public void clear_folders_and_files()
         {
-            foreach (var file in listOfTestFiles)
+            foreach (var file in listOfTestGeneratedFiles)
             {
-                if (File.Exists(file))
-                {
-                    File.Delete(file);
-                }
+                FileIO.FileDelete(file);
             }
-            execute_Monte_Carlo();
         }
-        /// <summary>
-        /// ContinuousAbsorptionWeighting detection.
-        /// Setup input to the MC for a homogeneous one layer tissue and a homogeneous
-        /// two layer tissue (both layers have same optical properties), execute simulations
-        /// and verify results agree with linux results given the same seed
-        /// mersenne twister STANDARD_TEST.  The linux results assumes photon passes
-        /// through specular and deweights photon by specular.  This test starts photon 
-        /// inside tissue and then multiplies result by specular deweighting to match.
-        /// NOTE: currently two region executes same photon biography except for pauses
-        /// at layer interface, BUT CAW results have greater variance.  Why? CKH to look into.
-        /// </summary>
+
+        [TestFixtureSetUp]
         public void execute_Monte_Carlo()
         {
+            // delete any previously generated files
+            clear_folders_and_files();
+
             // instantiate common classes
             var simulationOptions = new SimulationOptions(
                     0, // rng seed = same as linux (0)
@@ -147,21 +139,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                            inputOneLayerTissue.TissueInput.Regions[0].RegionOP.N,
                            inputOneLayerTissue.TissueInput.Regions[1].RegionOP.N);
         }
-        /// <summary>
-        /// clear all newly generated files
-        /// </summary>
-        [TestFixtureTearDown]
-        public void clear_newly_generated_files()
-        {
-            // delete any newly generated files
-            foreach (var file in listOfTestFiles)
-            {
-                if (File.Exists(file))
-                {
-                    File.Delete(file);
-                }
-            }
-        }
+
         // validation values obtained from linux run using above input and seeded the same
         // Diffuse Reflectance
         [Test]

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using NUnit.Framework;
 using Vts.Common;
 using Vts.IO;
@@ -20,14 +21,15 @@ namespace Vts.Test.MonteCarlo.Detectors
     {
         private SimulationOutput _output;
         private double _specularReflectance;
+
         /// <summary>
         /// list of temporary files created by these unit tests
         /// </summary>
-        List<string> listOfFolders = new List<string>()
+        List<string> listOfTestGeneratedFolders = new List<string>()
         {
             "Output",
         };
-        List<string> listOfFiles = new List<string>()
+        List<string> listOfTestGeneratedFiles = new List<string>()
         {
             "file.txt",
         };
@@ -35,32 +37,14 @@ namespace Vts.Test.MonteCarlo.Detectors
         /// <summary>
         /// clear all previously generated folders and files
         /// </summary>
-        [TestFixtureSetUp]
+        [TestFixtureTearDown]
         public void clear_folders_and_files()
         {
-            foreach (var file in listOfFiles)
+            foreach (var file in listOfTestGeneratedFiles)
             {
-                // ckh: should there be a check prior to delete that checks for file existence?
                 FileIO.FileDelete(file);
             }
-            foreach (var folder in listOfFolders)
-            {
-                FileIO.DeleteDirectory(folder);
-            }
-            execute_Monte_Carlo();
-        }
-        /// <summary>
-        /// clear all newly generated folders and files
-        /// </summary>
-        [TestFixtureTearDown]
-        public void clear_new_folders_and_files()
-        {
-            foreach (var file in listOfFiles)
-            {
-                // ckh: should there be a check prior to delete that checks for file existence?
-                FileIO.FileDelete(file);
-            }
-            foreach (var folder in listOfFolders)
+            foreach (var folder in listOfTestGeneratedFolders)
             {
                 FileIO.DeleteDirectory(folder);
             }
@@ -69,8 +53,12 @@ namespace Vts.Test.MonteCarlo.Detectors
         /// <summary>
         /// Setup input to the MC, SimulationInput, and execute MC
         /// </summary>
+        [TestFixtureSetUp]
         public void execute_Monte_Carlo()
         {
+            // delete previously generated files
+            clear_folders_and_files();
+
             var input = new SimulationInput(
                  100,
                  "Output",
