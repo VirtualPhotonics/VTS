@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using NUnit.Framework;
 using Vts.Common;
+using Vts.IO;
 using Vts.MonteCarlo;
 using Vts.MonteCarlo.PhotonData;
 
@@ -15,10 +15,12 @@ namespace Vts.Test.MonteCarlo.PhotonData
         /// <summary>
         /// list of temporary files created by these unit tests
         /// </summary>
-        List<string> listOfTestDatabases = new List<string>()
+        List<string> listOfTestGeneratedFiles = new List<string>()
         {
             "testpmcdatabase",
+            "testpmcdatabase.txt",
             "testpmccollisiondatabase",
+            "testpmccollisiondatabase.txt",
             "SimulationInputTest.txt"
         };
 
@@ -26,39 +28,14 @@ namespace Vts.Test.MonteCarlo.PhotonData
         /// clear all previously generated files.
         /// </summary>
         [TestFixtureSetUp]
-        public void clear_previously_generated_files()
+        [TestFixtureTearDown]
+        public void clear_folders_and_files()
         {
             // delete any previously generated files
-            foreach (var testDatabase in listOfTestDatabases)
+            foreach (var file in listOfTestGeneratedFiles)
             {
-                if (File.Exists(testDatabase))
-                {
-                    File.Delete(testDatabase);
-                }
-                if (File.Exists(testDatabase + ".txt"))
-                {
-                    File.Delete(testDatabase + ".txt");
-                }
-            }
-        }
-        /// <summary>
-        /// clear all newly generated files
-        /// </summary>
-        [TestFixtureTearDown]
-        public void clear_newly_generated_files()
-        {
-            // delete any newly generated files
-            foreach (var testDatabase in listOfTestDatabases)
-            {
-                if (File.Exists(testDatabase))
-                {
-                    GC.Collect(); // need to clean up before file can be deleted
-                    File.Delete(testDatabase); 
-                }
-                if (File.Exists(testDatabase + ".txt"))
-                {
-                    File.Delete(testDatabase + ".txt");
-                }
+                GC.Collect();
+                FileIO.FileDelete(file);
             }
         }
         /// <summary>

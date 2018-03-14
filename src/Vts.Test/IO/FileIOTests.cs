@@ -14,7 +14,7 @@ namespace Vts.Test.IO
         /// <summary>
         /// list of temporary files created by these unit tests
         /// </summary>
-        List<string> listOfFolders = new List<string>()
+        List<string> listOfTestGeneratedFolders = new List<string>()
         {
             "folder",
             "folder1",
@@ -22,7 +22,7 @@ namespace Vts.Test.IO
             "folder3",
             "folder4"
         };
-        List<string> listOfFiles = new List<string>()
+        List<string> listOfTestGeneratedFiles = new List<string>()
         {
             "file1.txt",
             "file2.txt",
@@ -36,33 +36,17 @@ namespace Vts.Test.IO
         };
 
         /// <summary>
-        /// clear all previously generated folders and files
+        /// clear all generated folders and files
         /// </summary>
         [TestFixtureSetUp]
+        [TestFixtureTearDown]
         public void clear_folders_and_files()
         {
-            foreach (var file in listOfFiles)
+            foreach (var file in listOfTestGeneratedFiles)
             {
-                // ckh: should there be a check prior to delete that checks for file existence?
-                FileIO.FileDelete(file);
+                FileIO.FileDelete(file);   
             }
-            foreach (var folder in listOfFolders)
-            {
-                FileIO.DeleteDirectory(folder);
-            }
-        }
-        /// <summary>
-        /// clear all newly generated folders and files
-        /// </summary>
-        [TestFixtureTearDown]
-        public void clear_new_folders_and_files()
-        {
-            foreach (var file in listOfFiles)
-            {
-                // ckh: should there be a check prior to delete that checks for file existence?
-                FileIO.FileDelete(file);
-            }
-            foreach (var folder in listOfFolders)
+            foreach (var folder in listOfTestGeneratedFolders)
             {
                 FileIO.DeleteDirectory(folder);
             }

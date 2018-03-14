@@ -1,11 +1,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization;
-using System.Runtime.Serialization.Json;
 using NUnit.Framework;
 using Vts.Common;
 using Vts.IO;
-using Vts.MonteCarlo;
 using Vts.MonteCarlo.Detectors;
 
 namespace Vts.Test.MonteCarlo
@@ -17,37 +15,21 @@ namespace Vts.Test.MonteCarlo
         /// <summary>
         /// list of temporary files created by these unit tests
         /// </summary>
-        List<string> listOfTestFiles = new List<string>()
+        List<string> listOfTestGeneratedFiles = new List<string>()
         {
             "test", // file that captures screen output of MC simulation
         };
 
         [TestFixtureSetUp]
-        public void clear_previously_generated_files()
-        {
-            foreach (var file in listOfTestFiles)
-            {
-                if (File.Exists(file))
-                {
-                    File.Delete(file);
-                }
-            }
-        }
-        /// <summary>
-        /// clear all newly generated files
-        /// </summary>
         [TestFixtureTearDown]
-        public void clear_newly_generated_files()
+        public void clear_folders_and_files()
         {
-            // delete any newly generated files
-            foreach (var file in listOfTestFiles)
+            foreach (var file in listOfTestGeneratedFiles)
             {
-                if (File.Exists(file))
-                {
-                    File.Delete(file);
-                }
+                FileIO.FileDelete(file);
             }
         }
+
         [Test]
         public void validate_deserialized_class_is_correct()
         {

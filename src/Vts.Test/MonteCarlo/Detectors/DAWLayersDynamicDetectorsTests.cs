@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using NUnit.Framework;
 using Vts.Common;
+using Vts.IO;
 using Vts.MonteCarlo;
 using Vts.MonteCarlo.Sources;
 using Vts.MonteCarlo.Tissues;
@@ -31,25 +31,22 @@ namespace Vts.Test.MonteCarlo.Detectors
         private SimulationInput _inputOneLayerTissue;
         private SimulationInput _inputTwoLayerTissue;
         private double _layerThickness = 0.1; // tissue is homogeneous (both layer opt. props same)
+
         /// <summary>
         /// list of temporary files created by these unit tests
         /// </summary>
-        List<string> listOfTestFiles = new List<string>()
+        List<string> listOfTesGeneratedtFiles = new List<string>()
         {
             "file.txt", // file that captures screen output of MC simulation
         };
 
-        [TestFixtureSetUp]
-        public void execute_reference_Monte_Carlo()
+        [TestFixtureTearDown]
+        public void clear_folders_and_files()
         {
-            foreach (var file in listOfTestFiles)
+            foreach (var file in listOfTesGeneratedtFiles)
             {
-                if (File.Exists(file))
-                {
-                    File.Delete(file);
-                }
+                FileIO.FileDelete(file);
             }
-            execute_Monte_Carlo();
         }
         /// <summary>
         /// DiscreteAbsorptionWeighting detection.
@@ -59,8 +56,12 @@ namespace Vts.Test.MonteCarlo.Detectors
         /// NOTE: currently two region executes same photon biography except for pauses
         /// at layer interface.  Variance for DAW results not degraded.
         /// </summary>
+        [TestFixtureSetUp]
         public void execute_Monte_Carlo()
         {
+            // delete previously generated files
+            clear_folders_and_files();
+
             // instantiate common classes
             var simulationOptions = new SimulationOptions(
                 0,
@@ -201,21 +202,6 @@ namespace Vts.Test.MonteCarlo.Detectors
                 ),
                 twoLayerDetectors);
             _outputTwoLayerTissue = new MonteCarloSimulation(_inputTwoLayerTissue).Run();
-        }
-        /// <summary>
-        /// clear all newly generated files
-        /// </summary>
-        [TestFixtureTearDown]
-        public void clear_newly_generated_files()
-        {
-            // delete any newly generated files
-            foreach (var file in listOfTestFiles)
-            {
-                if (File.Exists(file))
-                {
-                    File.Delete(file);
-                }
-            }
         }
        
         // Reflected Dynamic Momentum Transfer of Rho and SubRegion

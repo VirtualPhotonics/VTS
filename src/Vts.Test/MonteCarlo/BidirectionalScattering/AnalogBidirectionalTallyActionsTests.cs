@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
 using NUnit.Framework;
 using Vts.Common;
 using Vts.IO;
@@ -32,38 +31,36 @@ namespace Vts.Test.MonteCarlo.BidirectionalScattering
         /// <summary>
         /// list of temporary files created by these unit tests
         /// </summary>
-        List<string> listOfFolders = new List<string>()
+        List<string> listOfTestGeneratedFolders = new List<string>()
         {
             "results"
         };
-        List<string> listOfFiles = new List<string>()
+        List<string> listOfTestGeneratedFiles = new List<string>()
         {
             "file.txt"  // file that captures the screen output of MC simulation
         };
-        [TestFixtureSetUp]
-        public void execute_reference_Monte_Carlo()
+
+        [TestFixtureTearDown]
+        public void clear_folders_and_files()
         {
-            foreach (var folder in listOfFolders)
+            foreach (var folder in listOfTestGeneratedFolders)
             {
-                if (File.Exists(folder))
-                {
-                    File.Delete(folder);
-                }
+                FileIO.DeleteDirectory(folder);
             }
-            foreach (var file in listOfFiles)
+            foreach (var file in listOfTestGeneratedFiles)
             {
-                if (File.Exists(file))
-                {
-                    File.Delete(file);
-                }
+                FileIO.FileDelete(file);
             }
-            execute_Monte_Carlo();
         }
         /// <summary>
         /// Setup input to the MC, SimulationInput, and execute MC
         /// </summary>
+        [TestFixtureSetUp]
         public void execute_Monte_Carlo()
         {
+            // delete any previously generated files and folders 
+            clear_folders_and_files();
+
             _input = new SimulationInput(
                 10000, // number needed to get enough photons to Td 
                 "results",
@@ -105,21 +102,6 @@ namespace Vts.Test.MonteCarlo.BidirectionalScattering
             _output = new MonteCarloSimulation(_input).Run();
 
             _simulationStatistics = SimulationStatistics.FromFile(_input.OutputName + "/statistics.txt");
-        }
-        /// <summary>
-        /// clear all newly generated folders and files
-        /// </summary>
-        [TestFixtureTearDown]
-        public void clear_new_folders_and_files()
-        {
-            foreach (var folder in listOfFolders)
-            {
-                FileIO.DeleteDirectory(folder);
-            }
-            foreach (var file in listOfFiles)
-            {
-                FileIO.FileDelete(file);
-            }
         }
 
         // todo: add analytic variance and use this for error bounds

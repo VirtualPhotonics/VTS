@@ -45,7 +45,10 @@ namespace Vts.Test.IO
     [TestFixture]
     public class VtsJsonSerializerTests
     {
-        private List<string> listOfFiles = new List<string>()
+        /// <summary>
+        /// list of temporary files created by these unit tests
+        /// </summary>
+        private List<string> listOfTestGeneratedFiles = new List<string>()
         {
             "VtsJsonSerializerTests_file1.txt", 
             "VtsJsonSerializerTests_file2.txt", 
@@ -53,31 +56,18 @@ namespace Vts.Test.IO
             "VtsJsonSerializerTests_file4.txt"
         };
         /// <summary>
-        /// clear all previously generated folders and files
+        /// clear all generated folders and files
         /// </summary>
         [TestFixtureSetUp]
-        public void clear_previously_generated_folders_and_files()
-        {
-            foreach (var file in listOfFiles)
-            {
-                if (FileIO.FileExists(file))
-                {
-                    FileIO.FileDelete(file);
-                }
-            }
-        }
-        /// <summary>
-        /// clear all newly generated folders and files
-        /// </summary>
         [TestFixtureTearDown]
-        public void clear_newly_generated_folders_and_files()
+        public void clear_folders_and_files()
         {
-            foreach (var file in listOfFiles)
+            foreach (var file in listOfTestGeneratedFiles)
             {
-                // ckh: should there be a check prior to delete that checks for file existence?
                 FileIO.FileDelete(file);
             }
         }
+
         [Test]
         public void validate_file_exists_after_writing()
         {

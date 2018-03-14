@@ -1,10 +1,10 @@
 using System;
-using System.IO;
 using System.Numerics;
 using System.Linq;
 using System.Collections.Generic;
 using NUnit.Framework;
 using Vts.Common;
+using Vts.IO;
 using Vts.MonteCarlo;
 using Vts.MonteCarlo.Detectors;
 using Vts.MonteCarlo.Helpers;
@@ -28,32 +28,33 @@ namespace Vts.Test.MonteCarlo.Detectors
         private SimulationInput _input;
         private double _factor;
         private SimulationStatistics _simulationStatistics;
+
         /// <summary>
         /// list of temporary files created by these unit tests
         /// </summary>
-        List<string> listOfTestFiles = new List<string>()
+        List<string> listOfTestGeneratedFiles = new List<string>()
         {
             "statistics.txt",
             "file.txt", // file that captures screen output of MC simulation
         };
 
-        [TestFixtureSetUp]
-        public void execute_reference_Monte_Carlo()
+        [TestFixtureTearDown]
+        public void clear_folders_and_files()
         {
-            foreach (var file in listOfTestFiles)
+            foreach (var file in listOfTestGeneratedFiles)
             {
-                if (File.Exists(file))
-                {
-                    File.Delete(file);
-                }
+                FileIO.FileDelete(file);
             }
-            execute_Monte_Carlo();
         }
         /// <summary>
         /// Setup input to the MC, SimulationInput, and execute MC
         /// </summary>
+        [TestFixtureSetUp]
         public void execute_Monte_Carlo()
         {
+            // delete any previously generated files
+            clear_folders_and_files();
+
            _input = new SimulationInput(
                 100,
                 "Output",
@@ -124,21 +125,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                             _input.TissueInput.Regions[0].RegionOP.N,
                             _input.TissueInput.Regions[1].RegionOP.N);
         }
-        /// <summary>
-        /// clear all newly generated files
-        /// </summary>
-        [TestFixtureTearDown]
-        public void clear_newly_generated_files()
-        {
-            // delete any newly generated files
-            foreach (var file in listOfTestFiles)
-            {
-                if (File.Exists(file))
-                {
-                    File.Delete(file);
-                }
-            }
-        }
+
         // validation values obtained from linux run using above input and seeded 
         // the same for:
         //// Diffuse Reflectance
