@@ -9,35 +9,53 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
     [TestFixture]
     public class ProgramTests
     {
-        /// <summary>
-        /// clear all previously generated folders and files, then regenerate sample infiles using "geninfiles" option.
-        /// </summary>
-        
         // Note: needs to be kept current with SimulationInputProvider.  If an infile is added there, it should be added here.
         List<string> listOfInfiles = new List<string>()
         {
-            "infile_ellip_FluenceOfRhoAndZ.txt",
-            "infile_Gaussian_source_one_layer_ROfRho.txt", // uncomment this when bug fixed in Gaussian source
-            "infile_one_layer_all_detectors.txt",
-            "infile_one_layer_FluenceOfRhoAndZ_RadianceOfRhoAndZAndAngle.txt",
-            "infile_one_layer_ROfRho_FluenceOfRhoAndZ.txt",
-            "infile_pMC_one_layer_ROfRho_DAW.txt",
-            "infile_three_layer_ReflectedTimeOfRhoAndSubregionHist.txt",
-            "infile_two_layer_momentum_transfer_detectors.txt",
-            "infile_voxel_ROfXAndY_FluenceOfXAndYAndZ.txt",
-            "infile_two_layer_ROfRho.txt",
-            "infile_two_layer_ROfRho_with_db.txt",
+            "ellip_FluenceOfRhoAndZ",
+            "embeddedDirectionalCircularSourceEllipTissue",
+            "Flat_source_one_layer_ROfRho",
+            "Gaussian_source_one_layer_ROfRho", // uncomment this when bug fixed in Gaussian source
+            "one_layer_all_detectors",
+            "one_layer_FluenceOfRhoAndZ_RadianceOfRhoAndZAndAngle",
+            "one_layer_ROfRho_FluenceOfRhoAndZ",
+            "pMC_one_layer_ROfRho_DAW",
+            "three_layer_ReflectedTimeOfRhoAndSubregionHist",
+            "two_layer_momentum_transfer_detectors",
+            "two_layer_ROfRho",
+            "two_layer_ROfRho_with_db",
+            "voxel_ROfXAndY_FluenceOfXAndYAndZ",
         };
+
+        /// <summary>
+        /// clear all previously generated folders and files, then regenerate sample infiles using "geninfiles" option.
+        /// </summary>
         [TestFixtureSetUp]
+        public void setup()
+        {
+            clear_folders_and_files();
+            // generate sample infiles because unit tests below rely on infiles being generated
+            string[] arguments = new string[] { "geninfiles" };
+            Program.Main(arguments);
+        }
+
+        /// <summary>
+        /// clear all previously generated folders and files.
+        /// </summary>
+        [TestFixtureTearDown]
         public void clear_folders_and_files()
         {
         // delete any previously generated infiles to test that "geninfiles" option creates them
             foreach (var infile in listOfInfiles)
             {
-                if (File.Exists(infile))
+                if (File.Exists("infile_" + infile + ".txt"))
                 {
-                    File.Delete(infile);
-                } 
+                    File.Delete("infile_" + infile + ".txt");
+                }
+                if (Directory.Exists(infile))
+                {
+                    Directory.Delete(infile, true);
+                }
             }
 
             if (Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ"))
@@ -88,9 +106,6 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
             {
                 File.Delete("pMC_one_layer_ROfRho_DAW/CollisionInfoDatabase.txt");
             }
-            // generate sample infiles because unit tests below rely on infiles being generated
-            string[] arguments = new string[] { "geninfiles" };
-            Program.Main(arguments);
         }
 
         /// <summary>
@@ -101,7 +116,7 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
         {
             foreach (var infile in listOfInfiles)
             {
-                Assert.IsTrue(File.Exists(infile));
+                Assert.IsTrue(File.Exists("infile_" + infile + ".txt"));
             }
         }
         /// <summary>
@@ -112,7 +127,7 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
         {
             foreach (var infile in listOfInfiles)
             {
-                string[] arguments = new string[] {"infile=" + infile};
+                string[] arguments = new string[] { "infile=" + "infile_" + infile + ".txt" };
 
                 var result = Program.Main(arguments);
                 Assert.IsTrue(result==0);

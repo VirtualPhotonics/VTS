@@ -55,6 +55,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Vts.MonteCarlo.CommandLineApplication\Vts.MonteCarlo.CommandLineApplication.csproj">
+      <Project>{8e45bf42-5b0b-4aef-9e63-b2966622fc23}</Project>
+      <Name>Vts.MonteCarlo.CommandLineApplication</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Vts.MonteCarlo.PostProcessor\Vts.MonteCarlo.PostProcessor.csproj">
       <Project>{169F5A43-1079-4E1F-87A2-C5E8E7A69BF9}</Project>
       <Name>Vts.MonteCarlo.PostProcessor</Name>
