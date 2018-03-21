@@ -14,32 +14,40 @@ namespace Vts.MonteCarlo.PostProcessor.Test
         // Note: needs to be kept current with PostProcessorInputProvider.  If an infile is added there, it should be added here.
         List<string> listOfInfiles = new List<string>()
         {
-            "infile_PostProcessor_ROfRho.txt",
-            "infile_PostProcessor_pMC_ROfRhoROfRhoAndTime.txt"
+            "PostProcessor_ROfRho",
+            "PostProcessor_pMC_ROfRhoROfRhoAndTime",
+            "PostProcessor_pMC_ROfFxROfFxAndTime"
         };
+
+        /// <summary>
+        /// clear all previously generated folders and files, then regenerate sample infiles using "geninfiles" option.
+        /// </summary>
         [TestFixtureSetUp]
+        public void setup()
+        {
+            clear_folders_and_files();
+            // generate sample infiles because unit tests below rely on infiles being generated
+            string[] arguments = new string[] { "geninfiles" };
+            Program.Main(arguments);
+        }
+
+        [TestFixtureTearDown]
         public void clear_folders_and_files()
         {
             // delete any previously generated infiles to test that "geninfiles" option creates them
             foreach (var infile in listOfInfiles)
             {
-                if (File.Exists(infile))
+                if (File.Exists("infile_" + infile + ".txt"))
                 {
-                    File.Delete(infile);
+                    File.Delete("infile_" + infile + ".txt");
+                }
+                if (Directory.Exists(infile))
+                {
+                    Directory.Delete(infile, true); // delete recursively
                 }
             }
-            if (Directory.Exists("PostProcessor_ROfRho"))
-            {
-                Directory.Delete("PostProcessor_ROfRho", true);
-            }
-            if (Directory.Exists("PostProcessor_pMC_ROfRhoROfRhoAndTime"))
-            {
-                Directory.Delete("PostProcessor_pMC_ROfRhoROfRhoAndTime", true); // delete recursively
-            }
-            // generate sample infiles because unit tests below rely on infiles being generated
-            string[] arguments = new string[] { "geninfiles" };
-            Program.Main(arguments);
         }
+
         /// <summary>
         /// test to verify "geninfiles" option works successfully. 
         /// </summary>
@@ -48,7 +56,7 @@ namespace Vts.MonteCarlo.PostProcessor.Test
         {
             foreach (var infile in listOfInfiles)
             {
-                Assert.IsTrue(File.Exists(infile));
+                Assert.IsTrue(File.Exists("infile_" + infile + ".txt"));
             }
         }
 
