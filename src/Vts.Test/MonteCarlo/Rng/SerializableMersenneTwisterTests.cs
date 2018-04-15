@@ -19,8 +19,8 @@ namespace Vts.Test.Common
         /// <summary>
         /// clear all generated folders and files
         /// </summary>
-        [TestFixtureSetUp]
-        [TestFixtureTearDown]
+        [OneTimeSetUp]
+        [OneTimeTearDown]
         public void clear_folders_and_files()
         {
             foreach (var file in listOfTestGeneratedFiles)

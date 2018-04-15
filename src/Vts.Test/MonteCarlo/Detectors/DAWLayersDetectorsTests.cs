@@ -40,7 +40,7 @@ namespace Vts.Test.MonteCarlo.Detectors
             "file.txt", // file that captures screen output of MC simulation
         };
 
-        [TestFixtureTearDown]
+        [OneTimeTearDown]
         public void clear_folders_and_files()
         {
             foreach (var file in listOfTestGeneratedFiles)
@@ -60,7 +60,7 @@ namespace Vts.Test.MonteCarlo.Detectors
         /// NOTE: currently two region executes same photon biography except for pauses
         /// at layer interface.  Variance for DAW results not degraded.
         /// </summary>
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void execute_Monte_Carlo()
         {
             // delete previously generated files

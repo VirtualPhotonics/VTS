@@ -38,7 +38,7 @@ namespace Vts.Test.MonteCarlo.Detectors
             "file.txt", // file that captures screen output of MC simulation
         };
 
-        [TestFixtureTearDown]
+        [OneTimeTearDown]
         public void clear_folders_and_files()
         {
             foreach (var file in listOfTestGeneratedFiles)
@@ -49,7 +49,7 @@ namespace Vts.Test.MonteCarlo.Detectors
         /// <summary>
         /// Setup input to the MC, SimulationInput, and execute MC
         /// </summary>
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void execute_Monte_Carlo()
         {
             // delete any previously generated files

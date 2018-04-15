@@ -20,8 +20,8 @@ namespace Vts.Test.MonteCarlo
             "test", // file that captures screen output of MC simulation
         };
 
-        [TestFixtureSetUp]
-        [TestFixtureTearDown]
+        [OneTimeSetUp]
+        [OneTimeTearDown]
         public void clear_folders_and_files()
         {
             foreach (var file in listOfTestGeneratedFiles)

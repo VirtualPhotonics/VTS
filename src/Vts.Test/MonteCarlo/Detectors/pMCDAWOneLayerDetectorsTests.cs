@@ -41,7 +41,7 @@ namespace Vts.Test.MonteCarlo.Detectors
             "file.txt", // file that captures screen output of MC simulation
         };
 
-        [TestFixtureTearDown]
+        [OneTimeTearDown]
         public void clear_folders_and_files()
         {
             // make sure databases generated from previous tests are deleted
@@ -55,7 +55,7 @@ namespace Vts.Test.MonteCarlo.Detectors
         /// Define SimulationInput to describe homogeneous one layer case and generate reference database
         /// </summary>
         /// <returns></returns>
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void execute_Monte_Carlo()
         {
             var simulationOptions = new SimulationOptions(

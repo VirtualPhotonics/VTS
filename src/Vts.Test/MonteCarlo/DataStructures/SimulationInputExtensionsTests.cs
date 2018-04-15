@@ -13,7 +13,7 @@ namespace Vts.Test.MonteCarlo
     public class SimulationInputExtensionsTests
     {
         private SimulationInput _input;
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void initialize_simulation_input()
         {
             // create input with two tissue layers
