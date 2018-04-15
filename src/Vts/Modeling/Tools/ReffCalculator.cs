@@ -1,3 +1,4 @@
+using MathNet.Numerics;
 using MathNet.Numerics.Interpolation;
 
 namespace Vts.Modeling
@@ -16,7 +17,7 @@ namespace Vts.Modeling
                 0.5995, 0.6282, 0.6541, 0.6775 };
 
         private static IInterpolation interpolator = 
-            Interpolate.LinearBetweenPoints(nValues,reffValues);
+            Interpolate.Linear(nValues,reffValues);
 
         public static double GetReff(double n)
         {

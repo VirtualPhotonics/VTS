@@ -40,7 +40,7 @@ namespace Vts.Test.MonteCarlo.BidirectionalScattering
             "file.txt"  // file that captures the screen output of MC simulation
         };
 
-        [TestFixtureTearDown]
+        [OneTimeTearDown]
         public void clear_folders_and_files()
         {
             foreach (var folder in listOfTestGeneratedFolders)
@@ -55,7 +55,7 @@ namespace Vts.Test.MonteCarlo.BidirectionalScattering
         /// <summary>
         /// Setup input to the MC, SimulationInput, and execute MC
         /// </summary>
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void execute_Monte_Carlo()
         {
             // delete any previously generated files and folders 

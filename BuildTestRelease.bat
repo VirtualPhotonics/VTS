@@ -20,7 +20,6 @@ rem ********** BUILD THE DESKTOP VERSION **********
 call "%rootdir%DesktopBuild.bat"
 call "%rootdir%DesktopTests.bat"
 
-
 rem ********** CREATE THE RELEASE PACKAGES **********
 call "%rootdir%src\Vts.MonteCarlo.CommandLineApplication\CreateRelease.bat" %version%
 call "%rootdir%matlab\CreateRelease.bat" %version% 
@@ -29,13 +28,4 @@ call "%rootdir%matlab\CreateRelease.bat" %version%
 rem ********** RUN MATLAB INTEROP AND MONTE CARLO POST-PROCESSING TESTS **********
 if exist "%ProgramFiles%\MATLAB" call "%rootdir%RunMatlabUnitTests.bat"
 
-rem ********** BUILD THE SILVERLIGHT VERSION **********
- call "%rootdir%SilverlightBuild.bat"
-
-cd "%rootdir%src\Vts.Test\bin\Debug\"
-start TestPage.html
-
 pause
-
-cd "%rootdir%src\Vts.Gui.Silverlight\bin\ReleaseWhiteList\"
-start TestPage.html

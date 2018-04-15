@@ -38,8 +38,8 @@ namespace Vts.Test.IO
         /// <summary>
         /// clear all generated folders and files
         /// </summary>
-        [TestFixtureSetUp]
-        [TestFixtureTearDown]
+        [OneTimeSetUp]
+        [OneTimeTearDown]
         public void clear_folders_and_files()
         {
             foreach (var file in listOfTestGeneratedFiles)
@@ -96,6 +96,8 @@ namespace Vts.Test.IO
             FileIO.CopyStream(stream1, stream2);
             Assert.IsNotNull(stream2);
             Assert.AreEqual(stream1, stream2);
+            stream1.Close();
+            stream2.Close();
         }
 
         [Test]

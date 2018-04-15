@@ -36,8 +36,8 @@ namespace Vts.Test.MonteCarlo.Factories
         /// <summary>
         /// clear all generated folders and files
         /// </summary>
-        [TestFixtureSetUp]
-        [TestFixtureTearDown]
+        [OneTimeSetUp]
+        [OneTimeTearDown]
         public void clear_folders_and_files()
         {
             foreach (var folder in listOfTestGeneratedFolders)

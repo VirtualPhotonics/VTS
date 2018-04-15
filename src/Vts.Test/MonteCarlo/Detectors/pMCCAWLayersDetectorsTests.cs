@@ -41,7 +41,7 @@ namespace Vts.Test.MonteCarlo.Detectors
             "file.txt", // file that captures screen output of MC simulation
         };
 
-        [TestFixtureTearDown]
+        [OneTimeTearDown]
         public void clear_folders_and_files()
         {
             // make sure databases generated from previous tests are deleted
@@ -54,7 +54,7 @@ namespace Vts.Test.MonteCarlo.Detectors
         /// Define SimulationInput to describe two layer tissue 
         /// </summary>
         /// <returns></returns>
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void execute_Monte_Carlo()
         {
             // delete previously generated files

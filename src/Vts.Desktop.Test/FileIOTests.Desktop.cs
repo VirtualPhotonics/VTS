@@ -15,8 +15,8 @@ namespace Vts.IO.Desktop.Test
             "test.bin", 
         };
 
-        [TestFixtureSetUp]
-        [TestFixtureTearDown]
+        [OneTimeSetUp]
+        [OneTimeTearDown]
         public void clear_folders_and_files()
         {
             foreach (var file in listOfTestGeneratedFiles)

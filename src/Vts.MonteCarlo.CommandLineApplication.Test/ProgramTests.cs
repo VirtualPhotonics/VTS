@@ -30,7 +30,7 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
         /// <summary>
         /// clear all previously generated folders and files, then regenerate sample infiles using "geninfiles" option.
         /// </summary>
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void setup()
         {
             clear_folders_and_files();
@@ -42,7 +42,7 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
         /// <summary>
         /// clear all previously generated folders and files.
         /// </summary>
-        [TestFixtureTearDown]
+        [OneTimeTearDown]
         public void clear_folders_and_files()
         {
         // delete any previously generated infiles to test that "geninfiles" option creates them

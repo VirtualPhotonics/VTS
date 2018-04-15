@@ -37,7 +37,7 @@ namespace Vts.Test.MonteCarlo.PostProcessing
         /// <summary>
         /// clear all previously generated files.
         /// </summary>
-        [TestFixtureTearDown]
+        [OneTimeTearDown]
         public void clear_folders_and_files()
         {
             // delete any previously generated files
@@ -47,7 +47,7 @@ namespace Vts.Test.MonteCarlo.PostProcessing
                 FileIO.FileDelete(testDatabase + ".txt");
             }
         }
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void setup_simulation_input_components()
         {
             // delete previously generated files

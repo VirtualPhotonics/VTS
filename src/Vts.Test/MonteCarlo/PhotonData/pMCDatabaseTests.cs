@@ -27,8 +27,8 @@ namespace Vts.Test.MonteCarlo.PhotonData
         /// <summary>
         /// clear all previously generated files.
         /// </summary>
-        [TestFixtureSetUp]
-        [TestFixtureTearDown]
+        [OneTimeSetUp]
+        [OneTimeTearDown]
         public void clear_folders_and_files()
         {
             // delete any previously generated files

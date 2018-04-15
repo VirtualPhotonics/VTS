@@ -33,7 +33,7 @@ namespace Vts.Test.Modeling.Spectroscopy
         };
 
         /// <summary>
-        /// Runs before every unit test after the TestFixtureSetup
+        /// Runs before every unit test after the OneTimeSetUp
         /// </summary>
         [SetUp]
         public void setup()
@@ -43,8 +43,8 @@ namespace Vts.Test.Modeling.Spectroscopy
         /// <summary>
         /// clear all generated folders and files
         /// </summary>
-        [TestFixtureSetUp]
-        [TestFixtureTearDown]
+        [OneTimeSetUp]
+        [OneTimeTearDown]
         public void clear_folders_and_files()
         {
             foreach (var file in listOfTestGeneratedFiles)

@@ -25,8 +25,8 @@ namespace Vts.Test.MonteCarlo
             "test.txt"
         };
 
-        [TestFixtureSetUp]
-        [TestFixtureTearDown]
+        [OneTimeSetUp]
+        [OneTimeTearDown]
         public void clear_previously_generated_files()
         {
             foreach (var file in listOfTestGeneratedFiles)

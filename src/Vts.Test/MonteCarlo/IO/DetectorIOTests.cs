@@ -56,7 +56,7 @@ namespace Vts.Test.MonteCarlo
         /// <summary>
         /// clear all previously generated files.
         /// </summary>
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void clear_previously_generated_files()
         {
             // delete any previously generated files
@@ -75,7 +75,7 @@ namespace Vts.Test.MonteCarlo
         /// <summary>
         /// clear all newly generated files
         /// </summary>
-        [TestFixtureTearDown]
+        [OneTimeTearDown]
         public void clear_newly_generated_files()
         {
             // delete any newly generated files
