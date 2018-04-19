@@ -18,15 +18,10 @@ namespace Vts.Test.MonteCarlo.Detectors
     [TestFixture]
     public class DetectorNATests
     {
-<<<<<<< HEAD
         private SimulationInput _inputForPMC;
         private SimulationOutput _outputNA0, _outputNA0p3, _outputNoNASpecified;
         private double _dosimetryDepth = 1.0;
         private pMCDatabase _pMCDatabase;
-=======
-        private SimulationOutput _outputNA0, _outputNA0p2;
-        private double _dosimetryDepth = 2.0;
->>>>>>> MC: correct bug in ROfRhoDetector IsWithinDetectorAperture.  Added AlongNegativ(X/Y/Z)Axis
 
         /// <summary>
         /// Setup input to the MC for a homogeneous one layer tissue and specify reflectance
@@ -48,7 +43,6 @@ namespace Vts.Test.MonteCarlo.Detectors
             var source = new DirectionalPointSourceInput(
                      new Position(0.0, 0.0, 0.0),
                      new Direction(0.0, 0.0, 1.0),
-<<<<<<< HEAD
                      0); // start in air
             var tissue = new MultiLayerTissueInput(
                 new ITissueRegion[]
@@ -82,43 +76,6 @@ namespace Vts.Test.MonteCarlo.Detectors
                     new TOfRhoDetectorInput() {Rho=new DoubleRange(0.0, 10.0, 11),FinalTissueRegionIndex= 2, NA = 0.0},
                     new TOfXAndYDetectorInput() { X = new DoubleRange(-10.0, 10.0, 11), Y = new DoubleRange(-10.0, 10.0, 11), FinalTissueRegionIndex = 2, NA=0.0},
                     new RadianceOfRhoAtZDetectorInput() {ZDepth=_dosimetryDepth, Rho= new DoubleRange(0.0, 10.0, 11),FinalTissueRegionIndex=1, NA=0.0},
-=======
-                     1); // start inside tissue
-            var tissue = new MultiLayerTissueInput(
-                new ITissueRegion[]
-                {
-                    new LayerTissueRegion(
-                        new DoubleRange(double.NegativeInfinity, 0.0),
-                        new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
-                    new LayerTissueRegion(
-                        new DoubleRange(0.0, 20.0),
-                        new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
-                    new LayerTissueRegion(
-                        new DoubleRange(20.0, double.PositiveInfinity),
-                        new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
-                });
-            var detectorsNA0 =  new List<IDetectorInput>
-                {
-                    //new ROfAngleDetectorInput() {Angle = new DoubleRange(Math.PI / 2 , Math.PI, 2)},
-                    new ROfRhoDetectorInput() {Rho = new DoubleRange(0.0, 10.0, 101), TallySecondMoment = true, FinalTissueRegionIndex= 1, NA = 0.0},
-                    //new ROfRhoAndAngleDetectorInput() {Rho = new DoubleRange(0.0, 10.0, 101), Angle = new DoubleRange(Math.PI / 2, Math.PI, 2)},
-                    //new ROfRhoAndTimeDetectorInput() {Rho = new DoubleRange(0.0, 10.0, 101), Time = new DoubleRange(0.0, 1.0, 101)},
-                    //new ROfXAndYDetectorInput() { X = new DoubleRange(-10.0, 10.0, 101), Y = new DoubleRange(-10.0, 10.0, 101) },
-                    //new ROfRhoAndOmegaDetectorInput() { Rho = new DoubleRange(0.0, 10.0, 101), Omega = new DoubleRange(0.05, 1.0, 20)}, // DJC - edited to reflect frequency sampling points (not bins)
-                  
-                    //new TOfAngleDetectorInput() {Angle=new DoubleRange(0.0, Math.PI / 2, 2)},
-                    //new TOfRhoDetectorInput() {Rho=new DoubleRange(0.0, 10.0, 101)},
-                    //new TOfRhoAndAngleDetectorInput(){Rho=new DoubleRange(0.0, 10.0, 101), Angle=new DoubleRange(0.0, Math.PI / 2, 2)},
-                
-                    //new RadianceOfRhoAtZDetectorInput() {ZDepth=_dosimetryDepth, Rho= new DoubleRange(0.0, 10.0, 101)},
-
-                    //new ReflectedMTOfRhoAndSubregionHistDetectorInput() 
-                    //{
-                    //        Rho=new DoubleRange(0.0, 10.0, 101), // rho bins MAKE SURE AGREES with ROfRho rho specification for unit test below
-                    //        MTBins=new DoubleRange(0.0, 500.0, 51), // MT bins
-                    //        FractionalMTBins = new DoubleRange(0.0, 1.0, 11)   
-                    //}
->>>>>>> MC: correct bug in ROfRhoDetector IsWithinDetectorAperture.  Added AlongNegativ(X/Y/Z)Axis
 
                     new ReflectedMTOfRhoAndSubregionHistDetectorInput() 
                     {
@@ -205,7 +162,6 @@ namespace Vts.Test.MonteCarlo.Detectors
                 tissue,
                 detectorsNA0);             
             _outputNA0 = new MonteCarloSimulation(input).Run();
-<<<<<<< HEAD
 
             _inputForPMC = input;  // set pMC input to one that specified database generation
             _pMCDatabase = pMCDatabase.FromFile("DiffuseReflectanceDatabase", "CollisionInfoDatabase"); // grab database 
@@ -338,24 +294,6 @@ namespace Vts.Test.MonteCarlo.Detectors
                     new TOfXAndYDetectorInput() { X = new DoubleRange(-10.0, 10.0, 11), Y = new DoubleRange(-10.0, 10.0, 11)},
                   
                     new RadianceOfRhoAtZDetectorInput() {ZDepth=_dosimetryDepth, Rho= new DoubleRange(0.0, 10.0, 11)},
-=======
-
-            // set up detectors with NA = 0.7 -> sin(theta)=0.5
-            var detectorsNA0p2 = new List<IDetectorInput>
-            {
-                //new ROfAngleDetectorInput() {Angle = new DoubleRange(Math.PI / 2 , Math.PI, 2)},
-                new ROfRhoDetectorInput() {Rho = new DoubleRange(0.0, 10.0, 101), TallySecondMoment = true, FinalTissueRegionIndex = 1, NA = 0.4},
-            };
-            input = new SimulationInput(
-                100,
-                "",
-                simulationOptions,
-                source,
-                tissue,
-                detectorsNA0p2);
-            _outputNA0p2 = new MonteCarloSimulation(input).Run();
-        }
->>>>>>> MC: correct bug in ROfRhoDetector IsWithinDetectorAperture.  Added AlongNegativ(X/Y/Z)Axis
 
                     new ReflectedMTOfRhoAndSubregionHistDetectorInput() 
                     {
@@ -434,7 +372,6 @@ namespace Vts.Test.MonteCarlo.Detectors
         [Test]
         public void validate_detector_tallies_are_zero_when_NA_is_zero()
         {
-<<<<<<< HEAD
             Assert.AreEqual(_outputNA0.Rd, 0.0);
             Assert.AreEqual(_outputNA0.R_r[0], 0.0);
             Assert.AreEqual(_outputNA0.R_a[0], 0.0);
@@ -720,54 +657,5 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.Less(Math.Abs(postProcessedOutput.dMCdMua_R_r[1] + 0.011313), 0.000001);
             Assert.Less(Math.Abs(postProcessedOutput.dMCdMus_R_r[1] + 0.001196), 0.000001);
         }
-=======
-            Assert.AreEqual(_outputNA0.R_r[0], 0.0);
-            //Assert.AreEqual(_output.R_r2[0], 0.0);
-            //Assert.AreEqual(_output.R_a[0], 0.0);
-            //Assert.AreEqual(_output.R_ra[0, 0], 0.0);
-            //Assert.AreEqual(_output.R_rt[0, 0], 0.0);
-            //Assert.AreEqual(_output.R_rw[0, 0], 0.0);
-            //Assert.AreEqual(_output.T_r[0], 0.0);
-            //Assert.AreEqual(_output.T_a[0], 0.0);
-            //Assert.AreEqual(_output.T_ra[0, 0], 0.0);
-            //Assert.AreEqual(_output.R_xy[0, 0], 0.0);
-            //Assert.AreEqual(_output.Rad_r[0], 0.0);
-        }
-        /// <summary>
-        /// test to validate partially open NA
-        /// validation values taken from prior test run
-        /// </summary>
-        [Test]
-        public void validate_detector_tallies_are_zero_when_NA_is_0p3()
-        {
-            Assert.Less(Math.Abs(_outputNA0p2.R_r[0] - 0.3170404), 0.0000001);
-            //Assert.AreEqual(_output.R_r2[0], 0.0);
-            //Assert.AreEqual(_output.R_a[0], 0.0);
-            //Assert.AreEqual(_output.R_ra[0, 0], 0.0);
-            //Assert.AreEqual(_output.R_rt[0, 0], 0.0);
-            //Assert.AreEqual(_output.R_rw[0, 0], 0.0);
-            //Assert.AreEqual(_output.T_r[0], 0.0);
-            //Assert.AreEqual(_output.T_a[0], 0.0);
-            //Assert.AreEqual(_output.T_ra[0, 0], 0.0);
-            //Assert.AreEqual(_output.R_xy[0, 0], 0.0);
-            //Assert.AreEqual(_output.Rad_r[0], 0.0);
-        }
-        //// Reflected Momentum Transfer of Rho and SubRegion
-        //[Test]
-        //public void validate_DAW_ReflectedMTOfRhoAndSubregionHist()
-        //{
-        //    // use initial results to verify any new changes to the code
-        //    Assert.Less(Math.Abs(_output.RefMT_rs_hist[0, 0] - 0.632816), 0.000001);
-        //    // make sure mean integral over MT equals R(rho) results
-        //    var mtbins = ((ReflectedMTOfRhoAndSubregionHistDetectorInput)_inputOneLayerTissue.DetectorInputs.
-        //        Where(d => d.TallyType == "ReflectedMTOfRhoAndSubregionHist").First()).MTBins;
-        //    var integral = 0.0;
-        //    for (int i = 0; i < mtbins.Count - 1; i++)
-        //    {
-        //        integral += _output.RefMT_rs_hist[0, i];
-        //    }
-        //    Assert.Less(Math.Abs(_output.R_r[0] - integral), 0.000001);
-        //}
->>>>>>> MC: correct bug in ROfRhoDetector IsWithinDetectorAperture.  Added AlongNegativ(X/Y/Z)Axis
     }
 }
