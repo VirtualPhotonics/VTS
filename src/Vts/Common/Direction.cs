@@ -150,6 +150,27 @@ namespace Vts.Common
             get { return new Direction(0.0, 0.0, 1.0); }
         }
         /// <summary>
+        /// Method that returns unit directional along positive x-axis
+        /// </summary>
+        public static Direction AlongNegativeXAxis
+        {
+            get { return new Direction(-1.0, 0.0, 0.0); }
+        }
+        /// <summary>
+        /// Method that returns unit directional along positive y-axis
+        /// </summary>
+        public static Direction AlongNegativeYAxis
+        {
+            get { return new Direction(0.0, -1.0, 0.0); }
+        }
+        /// <summary>
+        /// Method that returns unit directional along positive z-axis
+        /// </summary>
+        public static Direction AlongNegativeZAxis
+        {
+            get { return new Direction(0.0, 0.0, -1.0); }
+        }
+        /// <summary>
         /// Method to clone unit directional
         /// </summary>
         /// <returns>a direction</returns>

@@ -5,6 +5,7 @@ using System.Numerics;
 using System.Runtime.Serialization;
 using Vts.Common;
 using Vts.IO;
+using Vts.MonteCarlo.Extensions;
 using Vts.MonteCarlo.Helpers;
 using Vts.MonteCarlo.PhotonData;
 
@@ -23,6 +24,9 @@ namespace Vts.MonteCarlo.Detectors
             TallyType = "pMCROfFxAndTime";
             Name = "pMCROfFxAndTime";
             Fx = new DoubleRange(0.0, 10, 101);
+            Time = new DoubleRange(0.0, 1.0, 101);
+            NA = double.PositiveInfinity; // set default NA completely open regardless of detector region refractive index
+            FinalTissueRegionIndex = 0; // assume detector is in air
 
             // modify base class TallyDetails to take advantage of built-in validation capabilities (error-checking)
             TallyDetails.IspMCReflectanceTally = true;
@@ -43,6 +47,14 @@ namespace Vts.MonteCarlo.Detectors
         /// list of perturbed regions indices
         /// </summary>
         public IList<int> PerturbedRegionsIndices { get; set; }
+        /// <summary>
+        /// Detector region index
+        /// </summary>
+        public int FinalTissueRegionIndex { get; set; }
+        /// <summary>
+        /// numerical aperture
+        /// </summary>
+        public double NA { get; set; }
 
         public IDetector CreateDetector()
         {
@@ -59,6 +71,8 @@ namespace Vts.MonteCarlo.Detectors
                 Time = this.Time,
                 PerturbedOps = this.PerturbedOps,
                 PerturbedRegionsIndices = this.PerturbedRegionsIndices,
+                NA = this.NA,
+                FinalTissueRegionIndex = this.FinalTissueRegionIndex
             };
         }
     }
@@ -69,6 +83,7 @@ namespace Vts.MonteCarlo.Detectors
     public class pMCROfFxAndTimeDetector : Detector, IDetector
     {
         private double[] _fxArray;
+        private ITissue _tissue;
         private IList<OpticalProperties> _referenceOps;
         private IList<OpticalProperties> _perturbedOps;
         private IList<int> _perturbedRegionsIndices;
@@ -92,6 +107,14 @@ namespace Vts.MonteCarlo.Detectors
         /// list of perturbed regions indices
         /// </summary>
         public IList<int> PerturbedRegionsIndices { get; set; }
+        /// <summary>
+        /// Detector region index
+        /// </summary>
+        public int FinalTissueRegionIndex { get; set; }
+        /// <summary>
+        /// numerical aperture
+        /// </summary>
+        public double NA { get; set; }
 
         /* ==== Place user-defined output arrays here. They should be prepended with "[IgnoreDataMember]" attribute ==== */
         /* ==== Then, GetBinaryArrays() should be implemented to save them separately in binary format ==== */
@@ -125,8 +148,10 @@ namespace Vts.MonteCarlo.Detectors
             _perturbedOps = PerturbedOps;
             _perturbedRegionsIndices = PerturbedRegionsIndices;
             _referenceOps = tissue.Regions.Select(r => r.RegionOP).ToArray();
+            TallyCount = 0;
             _absorbAction = AbsorptionWeightingMethods.GetpMCTerminationAbsorptionWeightingMethod(tissue, this);
             _fxArray = Fx.AsEnumerable().ToArray();
+            _tissue = tissue;
         }
 
         /// <summary>
@@ -135,9 +160,12 @@ namespace Vts.MonteCarlo.Detectors
         /// <param name="photon">photon data needed to tally</param>
         public void Tally(Photon photon)
         {
+            if (!IsWithinDetectorAperture(photon))
+                return;
+            
             var dp = photon.DP;
             var x = dp.Position.X;
-            var it = DetectorBinning.WhichBin(dp.TotalTime, Time.Count - 1, Time.Delta, Time.Start);
+            var it = DetectorBinning.WhichBinExclusive(dp.TotalTime, Time.Count - 1, Time.Delta, Time.Start);
 
             if (it != -1)
             {
@@ -252,14 +280,23 @@ namespace Vts.MonteCarlo.Detectors
             };
         }
         /// <summary>
-        /// Method to determine if photon is within detector
+        /// Method to determine if photon is within detector NA
         /// </summary>
-        /// <param name="dp">photon data point</param>
-        /// <returns>method always returns true</returns>
-        public bool ContainsPoint(PhotonDataPoint dp)
+        /// <param name="photon">photon</param>
+        public bool IsWithinDetectorAperture(Photon photon)
         {
-            return true; // or, possibly test for NA or confined position, etc
-            // return (dp.StateFlag.Has(PhotonStateType.PseudoTransmissionDomainTopBoundary));
+            if (photon.CurrentRegionIndex == FinalTissueRegionIndex)
+            {
+                var detectorRegionN = _tissue.Regions[photon.CurrentRegionIndex].RegionOP.N;
+                return photon.DP.IsWithinNA(NA, Direction.AlongNegativeZAxis, detectorRegionN);
+            }
+            else // determine n of prior tissue region
+            {
+                var detectorRegionN = _tissue.Regions[FinalTissueRegionIndex].RegionOP.N;
+                return photon.History.PreviousDP.IsWithinNA(NA, Direction.AlongNegativeZAxis, detectorRegionN);
+            }
+            //return true; // or, possibly test for NA or confined position, etc
+            //return (dp.StateFlag.Has(PhotonStateType.PseudoTransmissionDomainTopBoundary));
         }
     }
 }

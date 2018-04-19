@@ -205,6 +205,19 @@ namespace Vts.MonteCarlo
                     }
                 }
             }
+            foreach (var detectorInput in input.DetectorInputs)
+            {
+                if (detectorInput.TallyDetails.IsTransmittanceTally && (input.TissueInput is MultiLayerTissueInput))
+                {
+                    if ((((dynamic)detectorInput).FinalTissueRegionIndex == 0))
+                    {
+                            return new ValidationResult(
+                                false,
+                                "Transmittance detectors with MultiLayerTissues cannot detect in tissue region 0",
+                                "Change FinalTissueRegionIndex to be index of air below tissue (index >= 2)");
+                    }
+                }
+            }
             return new ValidationResult(
                 true,
                 "Input options or tissue/detector combinations are valid",
