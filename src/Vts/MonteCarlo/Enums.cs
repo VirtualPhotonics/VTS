@@ -384,6 +384,55 @@ namespace Vts.MonteCarlo
         };
     }
 
+    /// <summary>
+    /// Phase function type used within the Monte Carlo code
+    /// </summary>
+    public enum MuellerMatrixType
+    {
+        /// <summary>
+        /// Mueller Matrix for a Mie Scatterer
+        /// </summary>
+        Mie,
+        /// <summary>
+        /// Mueller Matrix obtained from T-matrix method for axially symmetric scatterers
+        /// </summary>
+        TMatrix,
+        /// <summary>
+        /// Mueller Matrix for a linear vertical polarizer.  (Default constructor for the Mueller Matrix class.)
+        /// </summary>
+        LinearVerticalPolarizer,
+        /// <summary>
+        /// Mueller Matrix for an arbitrary scatterer.
+        /// </summary>
+        General,
+    }
+    public static class PhaseFunctionType
+    {
+        public static readonly string[] BuiltInTypes = 
+        {
+        /// <summary>
+        /// Henyey-Greenstein scattering phase function
+        /// </summary>
+        "HenyeyGreenstein",
+        /// <summary>
+        /// bidirectional scattering phase function
+        /// </summary>
+        "Bidirectional",
+        /// <summary>
+        /// Options for discretized p(theta) scattering phase function
+        /// </summary>
+        "LookupTable",
+        };
+    }
+    public static class LookupTablePhaseFunctionDataType
+    {
+        public static readonly string[] BuiltInTypes =
+        {
+            "Polar",
+            "PolarAndAzimuthal"
+        };
+    }
+
     public static class TallyType
     {
         public static readonly string[] BuiltInTypes =

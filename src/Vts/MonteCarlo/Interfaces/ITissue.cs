@@ -18,10 +18,12 @@ namespace Vts.MonteCarlo
         /// </summary>
         double RussianRouletteWeightThreshold { get; }
 
-        /// <summary>
-        /// PhaseFunctionType enum specifier indicating Henyey-Greenstein, Birdirectional, etc.
-        /// </summary>
-        PhaseFunctionType PhaseFunctionType { get; }
+        // obsolete: tissues now have region-specific phase functions
+        // see: IList<IPhaseFunction> RegionPhaseFunctions property
+        ///// <summary>
+        ///// PhaseFunctionType enum specifier indicating Henyey-Greenstein, Birdirectional, etc.
+        ///// </summary>
+        //PhaseFunctionType PhaseFunctionType { get; }
 
         /// <summary>
         /// A list of ITissueRegions that describes the entire system.
@@ -35,12 +37,17 @@ namespace Vts.MonteCarlo
         IList<double> RegionScatterLengths { get; }
 
         /// <summary>
+        /// Region-wise dictionary that specify phase function
+        /// </summary>
+        //IList<IPhaseFunction> RegionPhaseFunctions { get; }
+        IDictionary<string, IPhaseFunction> RegionPhaseFunctions { get; set; }
+        /// <summary>
         /// Required method to initialiize the corresponding ITissue
         /// </summary>
         /// <param name="tissue"></param>
         void Initialize(
             AbsorptionWeightingType awt = AbsorptionWeightingType.Discrete,
-            PhaseFunctionType pft = PhaseFunctionType.HenyeyGreenstein,
+            IDictionary<string, IPhaseFunction> regionPhaseFunctions = null,
             double russianRouletteWeightThreshold = 0.0);
 
         /// <summary>

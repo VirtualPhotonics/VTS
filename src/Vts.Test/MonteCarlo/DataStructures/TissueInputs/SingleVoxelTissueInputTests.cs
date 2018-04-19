@@ -39,18 +39,22 @@ namespace Vts.Test.MonteCarlo
                     new DoubleRange(-1, 1), 
                     new DoubleRange(-1, 1),
                     new DoubleRange(1, 2),
-                    new OpticalProperties(0.05, 1.0, 0.8, 1.4)), 
+                    new OpticalProperties(0.05, 1.0, 0.8, 1.4),
+                    "HenyeyGreensteinKey1"), 
                 new ITissueRegion[]
                     { 
                         new LayerTissueRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
-                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
+                        "HenyeyGreensteinKey2"),
                         new LayerTissueRegion(
                             new DoubleRange(0.0, 100.0),
-                            new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
+                            new OpticalProperties(0.01, 1.0, 0.8, 1.4),
+                        "HenyeyGreensteinKey2"),
                         new LayerTissueRegion(
                             new DoubleRange(100.0, double.PositiveInfinity),
-                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
+                        "HenyeyGreensteinKey3")
                     }
                 );
 
@@ -67,18 +71,22 @@ namespace Vts.Test.MonteCarlo
                     new DoubleRange(-1, 1),
                     new DoubleRange(-1, 1),
                     new DoubleRange(1, 2),
-                    new OpticalProperties(0.05, 1.0, 0.8, 1.4)), 
+                    new OpticalProperties(0.05, 1.0, 0.8, 1.4),
+                    "HenyeyGreensteinKey1"), 
                new ITissueRegion[]
                     { 
                         new LayerTissueRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
-                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
-                        new LayerTissueRegion(
-                            new DoubleRange(0.0, 100.0),
-                            new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
+                        "HenyeyGreensteinKey2"),
+                            new LayerTissueRegion(
+                                new DoubleRange(0.0, 100.0),
+                            new OpticalProperties(0.01, 1.0, 0.8, 1.4),
+                        "HenyeyGreensteinKey3"),
                         new LayerTissueRegion(
                             new DoubleRange(100.0, double.PositiveInfinity),
-                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
+                        "HenyeyGreensteinKey4")
                     }
                 );
             i.WriteToJson("SingleVoxelTissue.txt");

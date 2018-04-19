@@ -1,7 +1,6 @@
 ﻿
 using System.Collections.Generic;
 using System.IO;
-using System.Runtime.CompilerServices;
 using NUnit.Framework;
 
 namespace Vts.MonteCarlo.CommandLineApplication.Test
@@ -12,6 +11,7 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
         // Note: needs to be kept current with SimulationInputProvider.  If an infile is added there, it should be added here.
         List<string> listOfInfiles = new List<string>()
         {
+<<<<<<< HEAD
             "ellip_FluenceOfRhoAndZ",
             "embeddedDirectionalCircularSourceEllipTissue",
             "Flat_source_one_layer_ROfRho",
@@ -25,6 +25,21 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
             "two_layer_ROfRho",
             "two_layer_ROfRho_with_db",
             "voxel_ROfXAndY_FluenceOfXAndYAndZ",
+=======
+            //"infile_ellip_FluenceOfRhoAndZ.txt",
+            //"infile_Flat_source_one_layer_ROfRho.txt",
+            "infile_Gaussian_source_one_layer_ROfRho.txt", 
+            //"infile_one_layer_all_detectors.txt",
+            //"infile_one_layer_FluenceOfRhoAndZ_RadianceOfRhoAndZAndAngle.txt",
+            "infile_one_layer_LUT_ROfRho.txt",
+            "infile_one_layer_ROfRho_FluenceOfRhoAndZ.txt",
+            "infile_pMC_one_layer_ROfRho_DAW.txt",
+            "infile_three_layer_ReflectedTimeOfRhoAndSubregionHist.txt",
+            "infile_two_layer_momentum_transfer_detectors.txt",
+            "infile_voxel_ROfXAndY_FluenceOfXAndYAndZ.txt",
+            "infile_two_layer_ROfRho.txt",
+            "infile_two_layer_ROfRho_with_db.txt",
+>>>>>>> 752899a6043d65c6275ae79da0a6463b06d05503
         };
 
         /// <summary>

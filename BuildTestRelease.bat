@@ -28,4 +28,17 @@ call "%rootdir%matlab\CreateRelease.bat" %version%
 rem ********** RUN MATLAB INTEROP AND MONTE CARLO POST-PROCESSING TESTS **********
 if exist "%ProgramFiles%\MATLAB" call "%rootdir%RunMatlabUnitTests.bat"
 
+<<<<<<< HEAD
 pause
+=======
+rem ********** BUILD THE SILVERLIGHT VERSION **********
+call "%rootdir%SilverlightBuild.bat"
+
+cd "%rootdir%src\Vts.Test\bin\Debug\"
+start TestPage.html
+
+pause
+
+cd "%rootdir%src\Vts.Gui.Silverlight\bin\ReleaseWhiteList\"
+start TestPage.html
+>>>>>>> 752899a6043d65c6275ae79da0a6463b06d05503

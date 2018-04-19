@@ -67,10 +67,27 @@ namespace Vts.MonteCarlo
 
             this.SimulationIndex = input.Options.SimulationIndex;
 
-            _tissue = TissueFactory.GetTissue(input.TissueInput, input.Options.AbsorptionWeightingType, input.Options.PhaseFunctionType, input.Options.RussianRouletteWeightThreshold);
+            IDictionary <string, IPhaseFunction> phaseFunctions = new Dictionary <string, IPhaseFunction>();
+            for (int i = 0; i < _input.TissueInput.Regions.Length; i++)
+            {
+                if (!phaseFunctions.ContainsKey(input.TissueInput.Regions[i].PhaseFunctionKey))
+                {
+                    phaseFunctions.Add(_input.TissueInput.Regions[i].PhaseFunctionKey,
+                        PhaseFunctionFactory.GetPhaseFunction(_input.TissueInput.Regions[i], _input.TissueInput, _rng));
+                }
+            }
+            //Dictionary phaseFunctions = input.TissueInput.Regions.Select((region, idx) => PhaseFunctionFactory.GetPhaseFunction(region, _input.TissueInput, _rng)).ToList();
+
+            // CKH 9/2/17 debug of matlab interop
+            //if (phaseFunctions.ContainsKey(input.TissueInput.Regions[1].PhaseFunctionKey))
+            //{
+            //    throw new Exception(String.Format("phaseFunctions value {0} is okay", phaseFunctions[input.TissueInput.Regions[1].PhaseFunctionKey].ToString()));
+            //}
+            _tissue = TissueFactory.GetTissue(input.TissueInput, input.Options.AbsorptionWeightingType, phaseFunctions, input.Options.RussianRouletteWeightThreshold);
+
             _source = SourceFactory.GetSource(input.SourceInput, _rng);
 
-            // instantiate vb (and associated detectors) for each vb group
+               // instantiate vb (and associated detectors) for each vb group
             _virtualBoundaryController = new VirtualBoundaryController(new List<IVirtualBoundary>());
 
             List<VirtualBoundaryType> dbVirtualBoundaries =
@@ -140,7 +157,8 @@ namespace Vts.MonteCarlo
         /// <summary>
         /// Phase function enum type as specified in SimulationOptions
         /// </summary>
-        public PhaseFunctionType PhaseFunctionType { get; set; }
+        /// 
+        //public PhaseFunctionType PhaseFunctionType { get; set; }  use of this member now deprecated.
         /// <summary>
         /// Boolean indicating whether simulation is running or not
         /// </summary>

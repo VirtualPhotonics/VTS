@@ -10,29 +10,38 @@ namespace Vts.MonteCarlo.Tissues
     public class CylinderTissueRegion : ITissueRegion
     {
         /// <summary>
-        /// CylinderTissueRegion assumes cylinder axis is parallel with z-axis
+        /// key for the <string, IPhaseFunctionInput> dictionary in a class that implements ITissueInput
+        /// </summary>
+        public string PhaseFunctionKey { get; set; }
+        /// <summary>
         /// </summary>
         /// <param name="center">center position</param>
         /// <param name="radius">radius in x-y plane</param>
         /// <param name="height">height along z axis</param>
         /// <param name="op">optical properties of cylinder</param>
-        /// <param name="awt">absorption weighting type</param>
-        public CylinderTissueRegion(Position center, double radius, double height, OpticalProperties op, AbsorptionWeightingType awt) 
+        public CylinderTissueRegion(Position center, double radius, double height, OpticalProperties op, string phaseFunctionKey) 
         {
             TissueRegionType = "Cylinder";
             Center = center;
             Radius = radius;
             Height = height;
             RegionOP = op;
+
+            PhaseFunctionKey = phaseFunctionKey;
         }
+
         /// <summary>
         /// default constructor
         /// </summary>
-        public CylinderTissueRegion() : this(new Position(0, 0, 5), 1, 5, 
-            new OpticalProperties(0.01, 1.0, 0.8, 1.4), AbsorptionWeightingType.Discrete) {}
+        public CylinderTissueRegion() : this(
+            new Position(0, 0, 5), 
+            1, 
+            5, 
+            new OpticalProperties(0.01, 1.0, 0.8, 1.4),
+            "HenyeyGreensteinKey1") { }
 
         /// <summary>
-        /// tissue region identifier
+        ///  tissue region identifier
         /// </summary>
         public string TissueRegionType { get; set; }
 
@@ -52,6 +61,10 @@ namespace Vts.MonteCarlo.Tissues
         /// optical properties of cylinder
         /// </summary>
         public OpticalProperties RegionOP { get; set; }
+        /*/// <summary>
+        /// Input data for phase function
+        /// </summary>
+        public IPhaseFunctionInput PhaseFunctionInput { get; set; }*/
         
         /// <summary>
         /// method to determine if photon position within cylinder

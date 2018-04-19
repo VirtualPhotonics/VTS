@@ -130,7 +130,7 @@ namespace Vts.Test.IO
             Assert.IsTrue(jsonSerialized != null && jsonSerialized.Length > 0);
         }
 
-        [Test]
+        [Test] 
         public void validate_deserialization_of_SimulationInput()
         {
             var jsonSerialized = VtsJsonSerializer.WriteToJson(new SimulationInput());

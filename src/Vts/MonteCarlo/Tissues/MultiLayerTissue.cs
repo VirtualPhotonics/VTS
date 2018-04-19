@@ -20,6 +20,7 @@ namespace Vts.MonteCarlo.Tissues
         {
             TissueType = "MultiLayer";
             _regions = regions;
+            RegionPhaseFunctionInputs = new Dictionary<string, IPhaseFunctionInput>();
         }
 
         /// <summary>
@@ -31,35 +32,45 @@ namespace Vts.MonteCarlo.Tissues
                 { 
                     new LayerTissueRegion(
                         new DoubleRange(double.NegativeInfinity, 0.0),
-                        new OpticalProperties( 0.0, 1e-10, 1.0, 1.0)),
+                        new OpticalProperties( 0.0, 1e-10, 1.0, 1.0),
+                        "HenyeyGreensteinKey1"),
                     new LayerTissueRegion(
                         new DoubleRange(0.0, 100.0),
-                        new OpticalProperties(0.0, 1.0, 0.8, 1.4)),
+                        new OpticalProperties(0.0, 1.0, 0.8, 1.4),
+                        "HenyeyGreensteinKey2"),
                     new LayerTissueRegion(
                         new DoubleRange(100.0, double.PositiveInfinity),
-                        new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
+                        new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
+                        "HenyeyGreensteinKey3"),
                 })
         {
+            RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey1", new HenyeyGreensteinPhaseFunctionInput());
+            RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey2", new HenyeyGreensteinPhaseFunctionInput());
+            RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey3", new HenyeyGreensteinPhaseFunctionInput());
         }
 
         /// <summary>
         /// list of tissue regions comprising tissue
         /// </summary>
         public ITissueRegion[] Regions { get { return _regions; } set { _regions = value; } }
+        /// <summary>
+        /// dictionary of region phase function inputs
+        /// </summary>
+        public IDictionary<string, IPhaseFunctionInput> RegionPhaseFunctionInputs { get; set; }
 
         /// <summary>
         ///// Required factory method to create the corresponding 
         ///// ITissue based on the ITissueInput data
         /// </summary>
         /// <param name="awt">Absorption Weighting Type</param>
-        /// <param name="pft">Phase Function Type</param>
+        /// <param name="regionPhaseFunctions">Phase Function Dictionary</param>
         /// <param name="russianRouletteWeightThreshold">Russian Roulette Weight Threshold</param>
         /// <returns></returns>
-        public ITissue CreateTissue(AbsorptionWeightingType awt, PhaseFunctionType pft, double russianRouletteWeightThreshold)
+        public ITissue CreateTissue(AbsorptionWeightingType awt, IDictionary<string, IPhaseFunction> regionPhaseFunctions, double russianRouletteWeightThreshold)
         {
             var t = new MultiLayerTissue(Regions);
 
-            t.Initialize(awt, pft, russianRouletteWeightThreshold);
+            t.Initialize(awt, regionPhaseFunctions, russianRouletteWeightThreshold);
 
             return t;
         }
@@ -93,6 +104,7 @@ namespace Vts.MonteCarlo.Tissues
         public MultiLayerTissue() 
             : this(new MultiLayerTissueInput().Regions)
         {
+            RegionPhaseFunctions = new Dictionary<string, IPhaseFunction>();
         }
 
         /// <summary>

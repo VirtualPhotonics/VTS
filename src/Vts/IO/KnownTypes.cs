@@ -12,7 +12,7 @@ namespace Vts.IO
     /// </summary>
     public static class KnownTypes
     {
-        private static readonly IDictionary<string,Type> _types;
+        private static readonly IDictionary<string, Type> _types;
 
         static KnownTypes()
         {
@@ -34,7 +34,7 @@ namespace Vts.IO
         /// <param name="t">The type to add</param>
         public static void Add(Type t)
         {
-            if(!_types.ContainsKey(t.ToString()))
+            if (!_types.ContainsKey(t.ToString()))
             {
                 _types.Add(t.ToString(), t);
             }

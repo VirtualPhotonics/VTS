@@ -1,5 +1,5 @@
 using System;
-using Vts.MonteCarlo.Tissues;
+using System.Collections.Generic;
 
 namespace Vts.MonteCarlo.Factories
 {
@@ -14,12 +14,12 @@ namespace Vts.MonteCarlo.Factories
         /// </summary>
         /// <param name="ti">ITissueInput</param>
         /// <param name="awt">AbsorptionWeightingType enum</param>
-        /// <param name="pft">PhaseFunctionType enum</param>
+        /// <param name="regionPhaseFunctions">dictionary of phase functions</param>
         /// <param name="russianRouletteWeightThreshold">Russian Roulette weight threshold</param>
         /// <returns>ITissue</returns>
-        public static ITissue GetTissue(ITissueInput ti, AbsorptionWeightingType awt, PhaseFunctionType pft, double russianRouletteWeightThreshold)
+        public static ITissue GetTissue(ITissueInput ti, AbsorptionWeightingType awt, IDictionary<string, IPhaseFunction> regionPhaseFunctions, double russianRouletteWeightThreshold)
         {
-            ITissue t = ti.CreateTissue(awt, pft, russianRouletteWeightThreshold);
+            ITissue t = ti.CreateTissue(awt, regionPhaseFunctions, russianRouletteWeightThreshold);
 
             if (t == null)
                 throw new ArgumentException(

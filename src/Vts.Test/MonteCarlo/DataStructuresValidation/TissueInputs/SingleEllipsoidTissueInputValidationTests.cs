@@ -23,7 +23,7 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation.TissueInputs
                 new DirectionalPointSourceInput(),
                 new SingleEllipsoidTissueInput(
                     // set ellipsoid axis to 0.0
-                    new EllipsoidTissueRegion(new Position(0, 0, 1), 0.0, 1.0, 1.0, new OpticalProperties()), 
+                    new EllipsoidTissueRegion(new Position(0, 0, 1), 0.0, 1.0, 1.0, new OpticalProperties(), "HenyeyGreensteinKey1"), 
                     new ITissueRegion[]
                     { 
                         new LayerTissueRegion(
@@ -82,18 +82,21 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation.TissueInputs
                 new SimulationOptions(),
                 new DirectionalPointSourceInput(),
                 new SingleEllipsoidTissueInput(
-                    new EllipsoidTissueRegion(new Position(0,0,0), 1.0, 1.0, 1.0, new OpticalProperties() ), 
+                    new EllipsoidTissueRegion(new Position(0,0,0), 1.0, 1.0, 1.0, new OpticalProperties(),"" ), 
                     new ITissueRegion[]
                     { 
                         new LayerTissueRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
-                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
+                            ""),
                         new LayerTissueRegion(
                             new DoubleRange(0.0, 20.0),
-                            new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
+                            new OpticalProperties(0.01, 1.0, 0.8, 1.4),
+                            ""),
                         new LayerTissueRegion(
                             new DoubleRange(20.0, double.PositiveInfinity),
-                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
+                            "")
                     }
                 ), 
                 new List<IDetectorInput>() { }
@@ -114,7 +117,7 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation.TissueInputs
                 new DirectionalPointSourceInput(),
                 new SingleEllipsoidTissueInput(
                     new EllipsoidTissueRegion(new Position(0, 0, 3), 1.0, 1.0, 1.0, 
-                        new OpticalProperties(0.01, 1.0, 0.9, 1.3)),
+                        new OpticalProperties(0.01, 1.0, 0.9, 1.3), "HenyeyGreensteinKey1"),
                     new ITissueRegion[]
                     { 
                         new LayerTissueRegion(
