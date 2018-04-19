@@ -55,25 +55,6 @@ namespace Vts.Test.MonteCarlo.Detectors
             // delete any previously generated files
             clear_folders_and_files();
 
-           _input = new SimulationInput(
-                100,
-                "Output",
-                new SimulationOptions(
-                    0, 
-                    RandomNumberGeneratorType.MersenneTwister,
-                    AbsorptionWeightingType.Analog, 
-                    PhaseFunctionType.HenyeyGreenstein,
-                    new List<DatabaseType>() { }, // databases to be written
-                    true, // track statistics
-                    0.0, // RR threshold -> 0 = no RR performed
-                    0),
-                new DirectionalPointSourceInput(
-                    new Position(0.0, 0.0, 0.0),
-                    new Direction(0.0, 0.0, 1.0),
-                    1 // start off inside tissue 
-                ),
-                new MultiLayerTissueInput(
-
             MultiLayerTissueInput ti = new MultiLayerTissueInput(
                     new ITissueRegion[]
                     { 
