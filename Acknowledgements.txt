@@ -1,5 +1,5 @@
 Virtual Tissue Simulator (VTS) Project
-Copyright (c) 2010 Laser Microbeam and Medical Program
+Copyright (c) 2018 Laser Microbeam and Medical Program
 
 The VTS was built using libraries and resources distributed under the licenses listed below. Where it is required, we have included the license file (license.txt) with the library or resource.
 
