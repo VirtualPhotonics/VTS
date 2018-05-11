@@ -101,12 +101,12 @@
     <PackageReference Include="CommonServiceLocator" Version="2.0.3" />
     <PackageReference Include="csmpfit" Version="1.1.1" />
     <PackageReference Include="MathNet.Numerics" Version="4.4.0" />
-    <PackageReference Include="Meta.Numerics" Version="4.0.4-alpha" />
+    <PackageReference Include="Meta.Numerics" Version="4.0.7" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
-    <PackageReference Include="NLog" Version="4.5.2" />
+    <PackageReference Include="NLog" Version="4.5.3" />
     <PackageReference Include="System.Reactive" Version="4.0.0-preview00001" />
     <PackageReference Include="System.Reflection" Version="4.3.0" />
-    <PackageReference Include="Unity" Version="5.8.5" />
+    <PackageReference Include="Unity" Version="5.8.6" />
   </ItemGroup>
 
 </Project>
