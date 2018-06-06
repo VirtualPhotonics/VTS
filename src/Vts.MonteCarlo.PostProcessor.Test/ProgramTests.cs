@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 using NUnit.Framework;
 
 namespace Vts.MonteCarlo.PostProcessor.Test
@@ -39,7 +40,7 @@ namespace Vts.MonteCarlo.PostProcessor.Test
         /// clear all previously generated folders and files, then regenerate sample infiles using "geninfiles" option.
         /// </summary>
         [OneTimeSetUp]
-        public void setup()
+        public async Task setup()
         {
             clear_folders_and_files();
 
@@ -47,18 +48,12 @@ namespace Vts.MonteCarlo.PostProcessor.Test
             // generate sample MCPP infiles because unit tests below rely on infiles being generated
             Program.Main(arguments);
 
-            // CKH comment out 6/1/18
-            //// generate MCCL output so that can post-process
-            //// generate MCCL infiles - this is overkill but it verifies that we have an MCCL infile
-            //// that pairs with a MCPP infile
-            //CommandLineApplication.Program.Main(arguments);
-            //arguments = new string[] { "infile=infile_pMC_one_layer_ROfRho_DAW" };
-            //CommandLineApplication.Program.Main(arguments);
-            //// wait unit output of MCCL created so that MCPP has something to post-process
-            //while (!Directory.Exists("pMC_one_layer_ROfRho_DAW"))
-            //{
-            //    System.Threading.Thread.Sleep(500); // sleep 1/2 second
-            //}
+            // generate MCCL output so that can post-process
+            // generate MCCL infiles - this is overkill but it verifies that we have an MCCL infile
+            // that pairs with a MCPP infile
+            CommandLineApplication.Program.Main(arguments);
+            arguments = new string[] { "infile=infile_pMC_one_layer_ROfRho_DAW" };
+            await Task.Run(() => CommandLineApplication.Program.Main(arguments));
         }
 
         [OneTimeTearDown]
@@ -105,7 +100,6 @@ namespace Vts.MonteCarlo.PostProcessor.Test
         /// test to verify correct output files generated when post process MCCL database
         /// </summary>
         [Test]
-        [Ignore("Ignore a test")]
         public void validate_output_folders_and_files_correct_when_using_geninfile_infile()
         {
             string[] arguments = new string[] { "infile=infile_PostProcessor_pMC_ROfRhoROfRhoAndTime.txt" };
