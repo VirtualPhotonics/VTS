@@ -28,7 +28,7 @@ namespace Vts.IO.Desktop.Test
         [Test]
         public void test_that_a_2D_array_can_be_serialized_to_binary_with_xml_included()
         {
-            Console.Write("Trying to write a Silverlight class with Vts.IO.Desktop...");
+            Console.Write("Trying to write a class with Vts.IO.Desktop...");
             
             var array = new double[,]
             {

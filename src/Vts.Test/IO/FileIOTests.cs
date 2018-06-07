@@ -131,146 +131,164 @@ namespace Vts.Test.IO
             Assert.IsFalse(FileIO.FileExists(Path.Combine(folder, "embeddedresourcefile.txt")));
         }
 
+        
         [Test]
+        [Ignore("This test needs to be added")]
         public void validate_read_array_from_binary()
         {
 
         }
 
         [Test]
+        [Ignore("This test needs to be added")]
         public void validate_read_array_from_binary_in_resources()
         {
 
         }
 
         [Test]
+        [Ignore("This test needs to be added")]
         public void validate_read_from_binary()
         {
 
         }
 
         [Test]
+        [Ignore("This test needs to be added")]
         public void validate_read_from_binary_custom()
         {
 
         }
 
         [Test]
+        [Ignore("This test needs to be added")]
         public void validate_read_from_binary_in_resources()
         {
 
         }
 
         [Test]
+        [Ignore("This test needs to be added")]
         public void validate_read_from_binary_in_resources_custom()
         {
 
         }
 
         [Test]
+        [Ignore("This test needs to be added")]
         public void validate_read_from_binary_stream()
         {
 
         }
 
         [Test]
+        [Ignore("This test needs to be added")]
         public void validate_read_from_json()
         {
 
         }
 
         [Test]
+        [Ignore("This test needs to be added")]
         public void validate_read_from_json_in_resources()
         {
 
         }
 
         [Test]
+        [Ignore("This test needs to be added")]
         public void validate_read_from_json_stream()
         {
 
         }
 
         [Test]
+        [Ignore("This test needs to be added")]
         public void validate_read_from_stream()
         {
 
         }
 
         [Test]
+        [Ignore("This test needs to be added")]
         public void validate_read_from_xml()
         {
 
         }
 
         [Test]
+        [Ignore("This test needs to be added")]
         public void validate_read_from_xml_in_resources()
         {
 
         }
 
         [Test]
+        [Ignore("This test needs to be added")]
         public void validate_read_scalar_value_from_binary()
         {
 
         }
 
         [Test]
+        [Ignore("This test needs to be added")]
         public void validate_read_stream_from_binary_custom()
         {
 
         }
 
         [Test]
+        [Ignore("This test needs to be added")]
         public void validate_write_json_to_stream()
         {
 
         }
 
         [Test]
+        [Ignore("This test needs to be added")]
         public void validate_write_scalar_value_to_binary()
         {
 
         }
 
         [Test]
+        [Ignore("This test needs to be added")]
         public void validate_write_to_binary()
         {
 
         }
 
         [Test]
+        [Ignore("This test needs to be added")]
         public void validate_write_to_binary_custom()
         {
 
         }
 
         [Test]
+        [Ignore("This test needs to be added")]
         public void validate_write_to_binary_stream()
         {
 
         }
 
         [Test]
+        [Ignore("This test needs to be added")]
         public void validate_write_to_json()
         {
 
         }
 
         [Test]
+        [Ignore("This test needs to be added")]
         public void validate_write_to_xml()
         {
 
         }
 
         [Test]
+        [Ignore("This test needs to be added")]
         public void validate_write_to_xml_stream()
-        {
-
-        }
-
-        [Test]
-        public void validate_zip_files()
         {
 
         }

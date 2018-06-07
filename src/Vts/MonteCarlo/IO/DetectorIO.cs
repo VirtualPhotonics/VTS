@@ -29,7 +29,7 @@ namespace Vts.MonteCarlo.IO
                 {
                     filePath = folderPath + @"/" + detector.Name;
 
-                    // uses isolated storage for Silverlight, desktop folder otherwise
+                    // desktop folder
                     FileIO.CreateDirectory(folderPath);
                 }
 

@@ -32,9 +32,6 @@ namespace Vts.Common.Logging.NLogIntegration
         /// </summary>
         public NLogFactory()
         {
-#if SILVERLIGHT
-            LogManager.Configuration = GetDefaultLoggingConfiguration();
-#else                
             if (Environment.UserInteractive) // if current process in running *with* a user interface
             {
                 LogManager.Configuration = GetDefaultLoggingConfiguration();
@@ -43,7 +40,6 @@ namespace Vts.Common.Logging.NLogIntegration
             {
                 LogManager.Configuration = GetDefaultDesktopLoggingConfiguration();
             }
-#endif
         }
 
         /// <summary>
@@ -59,9 +55,6 @@ namespace Vts.Common.Logging.NLogIntegration
             }
             else
             {
-#if SILVERLIGHT
-                LogManager.Configuration = GetDefaultLoggingConfiguration();
-#else
                 if (Environment.UserInteractive) // if current process in running *with* a user interface
                 {
                     LogManager.Configuration = GetDefaultLoggingConfiguration();
@@ -70,7 +63,6 @@ namespace Vts.Common.Logging.NLogIntegration
                 {
                     LogManager.Configuration = GetDefaultDesktopLoggingConfiguration();
                 }
-#endif
             }
         }
 
@@ -98,7 +90,6 @@ namespace Vts.Common.Logging.NLogIntegration
 
             return config;
         }
-#if !SILVERLIGHT
         private static LoggingConfiguration GetDefaultDesktopLoggingConfiguration()
         {
             var config = new LoggingConfiguration();
@@ -115,7 +106,6 @@ namespace Vts.Common.Logging.NLogIntegration
 
             return config;
         }
-#endif
 
         /// <summary>
         ///   Creates a logger with specified <paramref name = "name" />.

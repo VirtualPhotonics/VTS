@@ -292,9 +292,6 @@
     <Compile Include="..\Vts\Common\Resources\Strings.Designer.cs">
       <Link>Common\Resources\Strings.Designer.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\Common\Stopwatch.cs">
-      <Link>Common\Stopwatch.cs</Link>
-    </Compile>
     <Compile Include="..\Vts\Factories\ComputationFactory.cs">
       <Link>Factories\ComputationFactory.cs</Link>
     </Compile>
