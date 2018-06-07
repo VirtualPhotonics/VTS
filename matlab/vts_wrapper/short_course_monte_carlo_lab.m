@@ -14,7 +14,7 @@ Nphot=[10, 100, 1000, 10000]; % number of photons launched takes about 1 mins
 % simulation options initiation
 options = SimulationOptions();
 % set method to account for absorption
-options.AbsorptionWeightingType = 'Analog'; % options 'Analog' or 'Discrete'
+options.AbsorptionWeightingType = 'Discrete'; % options 'Analog' or 'Discrete'
 % seed of random number generator (-1=randomly selected seed, >=0 reproducible sequence)
 options.Seed = 0;
 
@@ -109,7 +109,7 @@ for j=1:size(Nphot,2)
   pos=[left(j) bottom(j) 0.38 0.38]; % 2016b fix
   ax(j)=subplot(2,2,j); % 2016b fix
   set(ax(j),'Position',pos); % 2016b fix
-  imagesc(xs(1:end-2),z_midpoints(1:end-1),([fliplr(relErr') relErr']));
+  imagesc(xs(1:end-2),z_midpoints(1:end-1),([fliplr(relErr') relErr'])); colormap(jet);
   % for making NaN values white
   colordata = colormap;
   colordata(end,:) = [1 1 1];
@@ -117,7 +117,7 @@ for j=1:size(Nphot,2)
   colorbar;
   caxis([0 1]);
   shading('flat'); axis equal;axis([-9.5 9.5, 0 9.5]);
-  text(-8.5, 8, sprintf('N=%d',floor(Nphot(j))),'FontSize',16,'Color',[0 0 0]);
+  text(-8.5, 8, sprintf('N=%d',floor(Nphot(j))),'FontSize',16,'Color',[1 1 0]);
   title('relerr(Flu(\rho,z))', 'FontSize',16); 
   xlabel('\rho [mm]','FontSize',16); ylabel('z [mm]','FontSize',16);
   if (strcmp(options.AbsorptionWeightingType,'Analog')==true)
@@ -143,7 +143,7 @@ for j=1:size(Nphot,2)
   pos=[left(j) bottom(j) 0.38 0.38]; % 2016b fix
   ax(j)=subplot(2,2,j); % 2016b fix
   set(ax(j),'Position',pos); % 2016b fix
-  imagesc(xs,z_midpoints,([fliplr((analogRelErr-dawRelErr)') (analogRelErr-dawRelErr)'])); 
+  imagesc(xs,z_midpoints,([fliplr((analogRelErr-dawRelErr)') (analogRelErr-dawRelErr)'])); colormap(jet);
   colorbar; caxis([0 1]);
   shading('flat'); axis equal;axis([-9.5 9.5, 0 9.5]);
   text(-8.5, 8, sprintf('N=%d',floor(Nphot(j))),'FontSize',16,'Color',[1 1 1]);
@@ -178,7 +178,7 @@ tissueInput.LayerRegions = struct(...
     'RegionOP', ...
     {...
         [0.0, 1e-10, 1.0, 1.0], ... % air optical properties
-        [0.01, 1.0, 0.8, 1.4], ... % tissue OPs [ua, us', g, n]
+        [0.1, 1, 0.8, 1.4], ... % tissue OPs [ua, us', g, n]
         [0.0, 1e-10, 1.0, 1.0] ... % air optical properties
     } ...
 );
@@ -221,4 +221,3 @@ subplot(2,1,2);
 plot(d1.Rho, (d1SD./d1.Mean-d2SD./d2.Mean),'g-',d1.Rho,zeros(length(d1.Rho),1),'k:');
 %axis([0 9.9, -0.1 0.1]);
 title('analog relative error - CAW relative error'); xlabel('Rho (mm)');
-
