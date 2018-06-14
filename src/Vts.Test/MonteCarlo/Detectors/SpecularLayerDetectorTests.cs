@@ -106,6 +106,7 @@ namespace Vts.Test.MonteCarlo.Detectors
         public void validate_RSpecular()
         {
             Assert.Less(Math.Abs(_output.Rspec - _specularReflectance), 0.003);
+            Assert.AreEqual(_output.Rspec_TallyCount, 3);
         }
     }
 }
