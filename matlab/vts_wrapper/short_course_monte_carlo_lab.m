@@ -85,7 +85,8 @@ for j=1:size(Nphot,2)
   pos=[left(j) bottom(j) 0.38 0.38]; % 2016b fix
   ax(j)=subplot(2,2,j); % 2016b fix
   set(ax(j),'Position',pos); % 2016b fix
-  imagesc(xs,z_midpoints,log10([fliplr(d.Mean') d.Mean'])); 
+  imagesc(xs,z_midpoints,log10([fliplr(d.Mean') d.Mean']));
+  colormap(parula);
   colorbar; caxis([-6 1]); 
   shading('flat'); axis equal; axis([-9.5 9.5, 0 9.5]); 
   text(-8.5, 8, sprintf('N=%d',floor(Nphot(j))),'FontSize',16,'Color',[1 1 1]);
@@ -112,8 +113,8 @@ for j=1:size(Nphot,2)
   imagesc(xs(1:end-2),z_midpoints(1:end-1),([fliplr(relErr') relErr'])); colormap(jet);
   % for making NaN values white
   colordata = colormap;
-  colordata(end,:) = [1 1 1];
-  colormap(flipud(colordata));
+  colordata(end,:) = [0 0 0];
+  colormap((colordata));
   colorbar;
   caxis([0 1]);
   shading('flat'); axis equal;axis([-9.5 9.5, 0 9.5]);
@@ -143,7 +144,10 @@ for j=1:size(Nphot,2)
   pos=[left(j) bottom(j) 0.38 0.38]; % 2016b fix
   ax(j)=subplot(2,2,j); % 2016b fix
   set(ax(j),'Position',pos); % 2016b fix
-  imagesc(xs,z_midpoints,([fliplr((analogRelErr-dawRelErr)') (analogRelErr-dawRelErr)'])); colormap(jet);
+  imagesc(xs,z_midpoints,([fliplr((analogRelErr-dawRelErr)') (analogRelErr-dawRelErr)'])); 
+  colordata = colormap(jet);
+  colordata(1,:) = [0 0 0];
+  colormap((colordata));
   colorbar; caxis([0 1]);
   shading('flat'); axis equal;axis([-9.5 9.5, 0 9.5]);
   text(-8.5, 8, sprintf('N=%d',floor(Nphot(j))),'FontSize',16,'Color',[1 1 1]);
