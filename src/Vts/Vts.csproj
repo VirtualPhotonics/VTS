@@ -97,10 +97,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="7.0.1" />
     <PackageReference Include="csmpfit" Version="1.1.1" />
     <PackageReference Include="MathNet.Numerics" Version="4.5.1" />
     <PackageReference Include="Meta.Numerics" Version="4.0.7" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.5.0" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
     <PackageReference Include="NLog" Version="4.5.9" />
     <PackageReference Include="System.Reactive" Version="4.1.0" />
