@@ -97,16 +97,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="6.2.2" />
-    <PackageReference Include="CommonServiceLocator" Version="2.0.3" />
+    <PackageReference Include="AutoMapper" Version="7.0.1" />
     <PackageReference Include="csmpfit" Version="1.1.1" />
-    <PackageReference Include="MathNet.Numerics" Version="4.4.1" />
+    <PackageReference Include="MathNet.Numerics" Version="4.5.1" />
     <PackageReference Include="Meta.Numerics" Version="4.0.7" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
-    <PackageReference Include="NLog" Version="4.5.4" />
-    <PackageReference Include="System.Reactive" Version="4.0.0" />
+    <PackageReference Include="NLog" Version="4.5.9" />
+    <PackageReference Include="System.Reactive" Version="4.1.0" />
     <PackageReference Include="System.Reflection" Version="4.3.0" />
-    <PackageReference Include="Unity" Version="5.8.6" />
+    <PackageReference Include="Unity" Version="5.8.10" />
   </ItemGroup>
 
 </Project>
