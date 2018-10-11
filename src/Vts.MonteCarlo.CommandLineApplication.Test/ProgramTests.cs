@@ -74,6 +74,30 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
             {
                 Directory.Delete("one_layer_ROfRho_FluenceOfRhoAndZ_mua1_0.03", true);
             }
+            if (Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_mua1_0.01_mus1_1.00"))
+            {
+                Directory.Delete("one_layer_ROfRho_FluenceOfRhoAndZ_mua1_0.01_mus1_1.00", true);
+            }
+            if (Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_mua1_0.03_mus1_1.00"))
+            {
+                Directory.Delete("one_layer_ROfRho_FluenceOfRhoAndZ_mua1_0.03_mus1_1.00", true);
+            }
+            if (Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_mua1_0.01_mus1_1.20"))
+            {
+                Directory.Delete("one_layer_ROfRho_FluenceOfRhoAndZ_mua1_0.01_mus1_1.20", true);
+            }
+            if (Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_mua1_0.03_mus1_1.20"))
+            {
+                Directory.Delete("one_layer_ROfRho_FluenceOfRhoAndZ_mua1_0.03_mus1_1.20", true);
+            }
+            if (Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_N_10.00"))
+            {
+                Directory.Delete("one_layer_ROfRho_FluenceOfRhoAndZ_N_10.00", true);
+            }
+            if (Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_N_20.00"))
+            {
+                Directory.Delete("one_layer_ROfRho_FluenceOfRhoAndZ_N_20.00", true);
+            }
             if (Directory.Exists("myResults_mua1_0.01"))
             {
                 Directory.Delete("myResults_mua1_0.01", true);
@@ -162,9 +186,39 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
             Assert.IsTrue(Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_mua1_0.03"));
         }
         /// <summary>
+        /// test to verify 2D parameter sweep works correctly.
+        /// Note, 3D parameter sweeps work correctly too, no unit test yet.
+        /// </summary>
+        [Test]
+        public void validate_parameter_sweep_folder_names_for_2D_parameter_sweep()
+        {
+            string[] arguments = new string[]
+            {
+                "infile=infile_one_layer_ROfRho_FluenceOfRhoAndZ.txt", "paramsweep=mua1,0.01,0.03,2", "paramsweep=mus1,1.0,1.2,2"
+            };
+            Program.Main(arguments);
+            Assert.IsTrue(Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_mua1_0.01_mus1_1.00"));
+            Assert.IsTrue(Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_mua1_0.03_mus1_1.00"));
+            Assert.IsTrue(Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_mua1_0.01_mus1_1.20"));
+            Assert.IsTrue(Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_mua1_0.03_mus1_1.20"));
+        }
+        /// <summary>
+        /// test to verify N sweep
+        /// </summary>
+        [Test]
+        public void validate_parameter_sweep_folder_names_for_parameter_sweep_of_N()
+        {
+            string[] arguments = new string[]
+            {
+                "infile=infile_one_layer_ROfRho_FluenceOfRhoAndZ.txt", "paramsweep=N,10,20,2"
+            };
+            Program.Main(arguments);
+            Assert.IsTrue(Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_N_10.00"));
+            Assert.IsTrue(Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_N_20.00"));
+        }
+        /// <summary>
         /// test to verify correct parameter sweep folder names created for output
         /// </summary>
-         //can't get following to work because of the string problem
         [Test]
         public void validate_parameter_sweep_folder_names_when_specifying_outname()
         {
