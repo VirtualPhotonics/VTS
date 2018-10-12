@@ -210,11 +210,11 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
         {
             string[] arguments = new string[]
             {
-                "infile=infile_one_layer_ROfRho_FluenceOfRhoAndZ.txt", "paramsweep=N,10,20,2"
+                "infile=infile_one_layer_ROfRho_FluenceOfRhoAndZ.txt", "paramsweep=nphot,10,20,2"
             };
             Program.Main(arguments);
-            Assert.IsTrue(Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_N_10.00"));
-            Assert.IsTrue(Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_N_20.00"));
+            Assert.IsTrue(Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_nphot_10.00"));
+            Assert.IsTrue(Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_nphot_20.00"));
         }
         /// <summary>
         /// test to verify correct parameter sweep folder names created for output
