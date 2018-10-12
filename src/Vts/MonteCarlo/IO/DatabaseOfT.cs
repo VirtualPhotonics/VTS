@@ -8,9 +8,7 @@ namespace Vts.MonteCarlo.IO
     /// Describes database of generic type allowing for various classes to be written to database.
     /// </summary>
     /// <typeparam name="T">type of database</typeparam>
-    #if !SILVERLIGHT
-        [Serializable]
-    #endif
+    [Serializable]
     public class Database<T>// : IEnumerable<Time>
     {
         [IgnoreDataMember]

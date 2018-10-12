@@ -1,5 +1,5 @@
 Virtual Tissue Simulator (VTS) Project
-Copyright (c) 2010 Laser Microbeam and Medical Program
+Copyright (c) 2018 Laser Microbeam and Medical Program
 
 The VTS was built using libraries and resources distributed under the licenses listed below. Where it is required, we have included the license file (license.txt) with the library or resource.
 
@@ -9,12 +9,6 @@ The VTS was built using libraries and resources distributed under the licenses l
 
 website:	http://en.wikipedia.org/wiki/Adaptive_Simpson's_method
 License:	Wikipedia
-
--==<Chart Helper>>==-
-
-Website:	http://jmorrill.hjtcentral.com/Home/tabid/428/EntryId/351/Silverlight-Charts-Binding-multiple-Series.aspx
-License:	Public
-Credit:		Jeremiah Morrill
 
 -==<CucciaArrayMath>==-
 
@@ -36,12 +30,6 @@ License:	MSPL
 Website:	http://nunit.org
 License:	Zlib/libpng 
 
--==<Silverlight test runner for NUnit>==-
-
-Website:	http://www.jeff.wilcox.name/2009/01/nunit-and-silverlight/
-License:	Zlib/libpng (Same license as NUnit)
-Credit:		Jeff Wilcox
-
 -==<Localization in WPF>==-
 
 website:	http://www.codeproject.com/KB/WPF/InternationalizedWizard.aspx
@@ -57,22 +45,6 @@ Website:	http://msdn.microsoft.com/en-us/devlabs/ee794896.aspx
 Details:	Roll Algorithm, Custom Integration based off Tom, et al, curtesy of Owen Yang.
 License: 
 Credit:		Owen Yang, David Cuccia, Bernard Choi
-
--==<Silverlight ComboBox>==-
-
-website:	http://www.lhotka.net/weblog/SilverlightComboBoxControlAndDataBinding.aspx
-License:	Public
-Credit:		Rockford Lhokta
-
--==<Silverlight Control Toolkit>==-
-
-Website:	http://silverlight.codeplex.com/releases/view/36060
-License:	MS-PL
-
--==<SLExtensions>==-
-
-Website:	http://slextensions.codeplex.com/releases/view/18824
-License:	MSPL
 
 -==<MVVM Light Framework>==-
 

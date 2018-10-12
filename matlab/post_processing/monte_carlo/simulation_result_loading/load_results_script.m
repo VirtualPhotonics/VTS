@@ -181,7 +181,7 @@ for mci = 1:length(datanames)
     end
     if isfield(results{di}, 'FluenceOfRhoAndZ') && show.FluenceOfRhoAndZ
         numzs = length(results{di}.FluenceOfRhoAndZ.Z)-1;
-        figname = sprintf('log(%s)',results{di}.FluenceOfRhoAndZ.Name); figure; imagesc(results{di}.FluenceOfRhoAndZ.Rho_Midpoints, results{di}.FluenceOfRhoAndZ.Z_Midpoints, log(results{di}.FluenceOfRhoAndZ.Mean)); colorbar; title(figname); set(gcf,'Name', figname);ylabel('z [mm]'); xlabel('\rho [mm]');
+        figname = sprintf('log(%s)',results{di}.FluenceOfRhoAndZ.Name); figure; imagesc(results{di}.FluenceOfRhoAndZ.Rho_Midpoints, results{di}.FluenceOfRhoAndZ.Z_Midpoints, log(results{di}.FluenceOfRhoAndZ.Mean)); colorbar; title(figname); set(gcf,'Name', figname);ylabel('z [mm]'); xlabel('\rho [mm]');colormap(jet);
         rhodelta = results{di}.FluenceOfRhoAndZ.Rho(2)-results{di}.FluenceOfRhoAndZ.Rho(1);
         zdelta = results{di}.FluenceOfRhoAndZ.Z(2)-results{di}.FluenceOfRhoAndZ.Z(1);
         rhonorm = 2 * pi * results{di}.FluenceOfRhoAndZ.Rho_Midpoints * rhodelta;
@@ -191,7 +191,7 @@ for mci = 1:length(datanames)
         numtimes = length(results{di}.FluenceOfRhoAndZAndTime.Time)-1;
         numzs = length(results{di}.FluenceOfRhoAndZAndTime.Z)-1;
         for i=1:10:numtimes % do every 10 time bins
-            figname = sprintf('log(%s) time=%5.3f ns',results{di}.FluenceOfRhoAndZAndTime.Name,results{di}.FluenceOfRhoAndZAndTime.Time_Midpoints(i)); figure; imagesc(results{di}.FluenceOfRhoAndZAndTime.Rho_Midpoints, results{di}.FluenceOfRhoAndZAndTime.Z_Midpoints, log(squeeze(results{di}.FluenceOfRhoAndZAndTime.Mean(i,:,:)))); 
+            figname = sprintf('log(%s) time=%5.3f ns',results{di}.FluenceOfRhoAndZAndTime.Name,results{di}.FluenceOfRhoAndZAndTime.Time_Midpoints(i)); figure; imagesc(results{di}.FluenceOfRhoAndZAndTime.Rho_Midpoints, results{di}.FluenceOfRhoAndZAndTime.Z_Midpoints, log(squeeze(results{di}.FluenceOfRhoAndZAndTime.Mean(i,:,:)))); colormap(jet);
             colorbar; title(figname); set(gcf,'Name', figname);ylabel('z [mm]'); xlabel('\rho [mm]'); 
         end
         rhodelta = results{di}.FluenceOfRhoAndZAndTime.Rho(2)-results{di}.FluenceOfRhoAndZAndTime.Rho(1);
@@ -205,7 +205,7 @@ for mci = 1:length(datanames)
         numY = length(results{di}.FluenceOfXAndYAndZ.Y) - 1;
         center = floor(numY/2);
         for i=center+1:center+1 % 1:numY
-            figname = sprintf('log(%s) y=%5.3f mm',results{di}.FluenceOfXAndYAndZ.Name,results{di}.FluenceOfXAndYAndZ.Y_Midpoints(i)); figure; imagesc(results{di}.FluenceOfXAndYAndZ.X_Midpoints, results{di}.FluenceOfXAndYAndZ.Z_Midpoints, log(squeeze(results{di}.FluenceOfXAndYAndZ.Mean(:,i,:)))); 
+            figname = sprintf('log(%s) y=%5.3f mm',results{di}.FluenceOfXAndYAndZ.Name,results{di}.FluenceOfXAndYAndZ.Y_Midpoints(i)); figure; imagesc(results{di}.FluenceOfXAndYAndZ.X_Midpoints, results{di}.FluenceOfXAndYAndZ.Z_Midpoints, log(squeeze(results{di}.FluenceOfXAndYAndZ.Mean(:,i,:)))); colormap(jet);
             colorbar; title(figname); set(gcf,'Name', figname);ylabel('z [mm]'); xlabel('x [mm]');
             xyznorm = (results{di}.FluenceOfXAndYAndZ.X(2)-results{di}.FluenceOfXAndYAndZ.X(1))*(results{di}.FluenceOfXAndYAndZ.Y(2)-results{di}.FluenceOfXAndYAndZ.Y(1))*(results{di}.FluenceOfXAndYAndZ.Z(2)-results{di}.FluenceOfXAndYAndZ.Z(1));
             disp(['Fluence captured by FluenceOfXAndYAndZ detector: ' num2str(sum(results{di}.FluenceOfXAndYAndZ.Mean(:)*xyznorm))]);
@@ -218,7 +218,7 @@ for mci = 1:length(datanames)
         numzs = length(results{di}.FluenceOfXAndYAndZAndOmega.Z)-1;
         center = floor(numys/2)+1;
         for i=1:10:numomegas % do every 10 omegas
-            figname = sprintf('log(%s:amplitude) y=0 omega=%5.3f GHz',results{di}.FluenceOfXAndYAndZAndOmega.Name,results{di}.FluenceOfXAndYAndZAndOmega.Omega_Midpoints(i)); figure; imagesc(results{di}.FluenceOfXAndYAndZAndOmega.X_Midpoints, results{di}.FluenceOfXAndYAndZAndOmega.Z_Midpoints, log(squeeze(results{di}.FluenceOfXAndYAndZAndOmega.Amplitude(i,:,center,:)))); 
+            figname = sprintf('log(%s:amplitude) y=0 omega=%5.3f GHz',results{di}.FluenceOfXAndYAndZAndOmega.Name,results{di}.FluenceOfXAndYAndZAndOmega.Omega_Midpoints(i)); figure; imagesc(results{di}.FluenceOfXAndYAndZAndOmega.X_Midpoints, results{di}.FluenceOfXAndYAndZAndOmega.Z_Midpoints, log(squeeze(results{di}.FluenceOfXAndYAndZAndOmega.Amplitude(i,:,center,:)))); colormap(jet);
             colorbar; title(figname); set(gcf,'Name', figname);ylabel('z [mm]'); xlabel('x [mm]'); 
         end
         xdelta = results{di}.FluenceOfXAndYAndZAndOmega.X(2)-results{di}.FluenceOfXAndYAndZAndOmega.X(1);
@@ -240,7 +240,7 @@ for mci = 1:length(datanames)
         maxRadiance = max(results{di}.RadianceOfRhoAndZAndAngle.Mean(:));
         for i=1:numangles
             figname = sprintf('log(%s) %5.3f<angle<%5.3f',results{di}.RadianceOfRhoAndZAndAngle.Name,(i-1)*pi/numangles,i*pi/numangles); 
-            figure; imagesc(results{di}.RadianceOfRhoAndZAndAngle.Rho_Midpoints, results{di}.RadianceOfRhoAndZAndAngle.Z_Midpoints, log(squeeze(results{di}.RadianceOfRhoAndZAndAngle.Mean(i,:,:)))); colorbar; title(figname); set(gcf,'Name', figname);ylabel('z [mm]'); xlabel('\rho [mm]');
+            figure; imagesc(results{di}.RadianceOfRhoAndZAndAngle.Rho_Midpoints, results{di}.RadianceOfRhoAndZAndAngle.Z_Midpoints, log(squeeze(results{di}.RadianceOfRhoAndZAndAngle.Mean(i,:,:)))); colorbar; title(figname); set(gcf,'Name', figname);ylabel('z [mm]'); xlabel('\rho [mm]'); colormap(jet);
             caxis([log(minRadiance),log(maxRadiance)]);
         end
         % plot diff if two hemispheres
@@ -269,7 +269,7 @@ for mci = 1:length(datanames)
         maxRadiance = max(abs(results{di}.RadianceOfFxAndZAndAngle.Mean(:)));
         for i=1:numangles
             figname = sprintf('log(%s) amplitude %5.3f<angle<%5.3f',results{di}.RadianceOfFxAndZAndAngle.Name,(i-1)*pi/numangles,i*pi/numangles); 
-            figure; imagesc(results{di}.RadianceOfFxAndZAndAngle.Fx_Midpoints, results{di}.RadianceOfFxAndZAndAngle.Z_Midpoints, log10(squeeze(results{di}.RadianceOfFxAndZAndAngle.Amplitude(i,:,:)))); 
+            figure; imagesc(results{di}.RadianceOfFxAndZAndAngle.Fx_Midpoints, results{di}.RadianceOfFxAndZAndAngle.Z_Midpoints, log10(squeeze(results{di}.RadianceOfFxAndZAndAngle.Amplitude(i,:,:)))); colormap(jet);
             colorbar; title(figname); set(gcf,'Name', figname);ylabel('z [mm]'); xlabel('fx [/mm]');
             %caxis([log10(minRadiance),log10(maxRadiance)]);
             % plot line scan of radiance at select fxs
@@ -282,6 +282,7 @@ for mci = 1:length(datanames)
                 hold on;
                 ar{k}=sprintf('f_x = %s',num2str(results{di}.RadianceOfFxAndZAndAngle.Fx_Midpoints(j)));
                 k=k+1;
+                colormap(jet);
             end
             legend(ar);
 %             % plot relative error
@@ -314,7 +315,7 @@ for mci = 1:length(datanames)
         % plot radiance vs x and z for each theta (polar angle from Uz=[-1:1]
         for i=1:numTheta % note results array has dimensions [numPhi, numTheta, numZ, numY, numX] due to column major json reading
             figname = sprintf('log(%s) %5.3f<Theta<%5.3f',results{di}.RadianceOfXAndYAndZAndThetaAndPhi.Name,(i-1)*pi/numTheta,i*pi/numTheta); 
-            figure; imagesc(results{di}.RadianceOfXAndYAndZAndThetaAndPhi.X_Midpoints, results{di}.RadianceOfXAndYAndZAndThetaAndPhi.Z_Midpoints, log(squeeze(results{di}.RadianceOfXAndYAndZAndThetaAndPhi.Mean(1,i,:,1,:))), [-20 -5]); colorbar; title(figname); set(gcf,'Name', figname);ylabel('z [mm]'); xlabel('x [mm]');
+            figure; imagesc(results{di}.RadianceOfXAndYAndZAndThetaAndPhi.X_Midpoints, results{di}.RadianceOfXAndYAndZAndThetaAndPhi.Z_Midpoints, log(squeeze(results{di}.RadianceOfXAndYAndZAndThetaAndPhi.Mean(1,i,:,1,:))), [-20 -5]); colorbar; title(figname); set(gcf,'Name', figname);ylabel('z [mm]'); xlabel('x [mm]');colormap(jet);
         end
         xyzthetaphinorm = (results{di}.RadianceOfXAndYAndZAndThetaAndPhi.X(2)-results{di}.RadianceOfXAndYAndZAndThetaAndPhi.X(1))...
                          *(results{di}.RadianceOfXAndYAndZAndThetaAndPhi.Y(2)-results{di}.RadianceOfXAndYAndZAndThetaAndPhi.Y(1))...
@@ -328,7 +329,7 @@ for mci = 1:length(datanames)
         numsubregions = length(results{di}.ReflectedMTOfRhoAndSubregionHist.SubregionIndices);
         figname = sprintf('log(%s)',results{di}.ReflectedMTOfRhoAndSubregionHist.Name); 
         figure; imagesc(results{di}.ReflectedMTOfRhoAndSubregionHist.Rho_Midpoints, results{di}.ReflectedMTOfRhoAndSubregionHist.MTBins_Midpoints, log(results{di}.ReflectedMTOfRhoAndSubregionHist.Mean));...        
-           colorbar; title(figname); xlabel('\rho [mm]'); ylabel('MT'); set(gcf,'Name', figname);
+           colorbar; title(figname); xlabel('\rho [mm]'); ylabel('MT'); set(gcf,'Name', figname);colormap(jet);
         color=char('r-','g-','b-','c-','m-','r:','g:','b:','c:','m:');
         % note results array has dimensions [numFractionalMTBins,numSubregions, numMTBins, numRhos] due to column major json reading
         for j=2:3 % customized, general form: j=1:numsubregions
@@ -361,7 +362,7 @@ for mci = 1:length(datanames)
         figname = sprintf('log(%s) summed over y',results{di}.ReflectedMTOfXAndYAndSubregionHist.Name); 
         % plot results summed over y indices
         figure; imagesc(results{di}.ReflectedMTOfXAndYAndSubregionHist.X_Midpoints, results{di}.ReflectedMTOfXAndYAndSubregionHist.MTBins_Midpoints, log(squeeze(sum(results{di}.ReflectedMTOfXAndYAndSubregionHist.Mean,2))));...        
-           colorbar; title(figname); xlabel('x [mm]'); ylabel('MT'); set(gcf,'Name', figname);
+           colorbar; title(figname); xlabel('x [mm]'); ylabel('MT'); set(gcf,'Name', figname);colormap(jet);
         color=char('r-','g-','b-','c-','m-','r:','g:','b:','c:','m:');
         % note results array has dimensions [numFractionalMTBins,numSubregions, numMTBins, numRhos] due to column major json reading
         for j=2:3 % customized, general form: j=1:numsubregions
@@ -387,7 +388,7 @@ for mci = 1:length(datanames)
         numsubregions = length(results{di}.TransmittedMTOfRhoAndSubregionHist.SubregionIndices);
         figname = sprintf('log(%s)',results{di}.TransmittedMTOfRhoAndSubregionHist.Name); 
         figure; imagesc(results{di}.TransmittedMTOfRhoAndSubregionHist.Rho_Midpoints, results{di}.TransmittedMTOfRhoAndSubregionHist.MTBins_Midpoints, log(results{di}.TransmittedMTOfRhoAndSubregionHist.Mean));...        
-           colorbar; title(figname); xlabel('\rho [mm]'); ylabel('MT'); set(gcf,'Name', figname);
+           colorbar; title(figname); xlabel('\rho [mm]'); ylabel('MT'); set(gcf,'Name', figname);colormap(jet);
         color=char('r-','g-','b-','c-','m-','r:','g:','b:','c:','m:');
         % note results array has dimensions [numFractionalMTBins,numSubregions, numMTBins, numRhos] due to column major json reading
         for j=2:3 % customized, general form: j=1:numsubregions
@@ -420,7 +421,7 @@ for mci = 1:length(datanames)
         figname = sprintf('log(%s) at y=0',results{di}.TransmittedMTOfXAndYAndSubregionHist.Name); 
         % plot results summed over y indices
         figure; imagesc(results{di}.TransmittedMTOfXAndYAndSubregionHist.X_Midpoints, results{di}.TransmittedMTOfXAndYAndSubregionHist.MTBins_Midpoints, log(squeeze(sum(results{di}.TransmittedMTOfXAndYAndSubregionHist.Mean,2))));...        
-           colorbar; title(figname); xlabel('x [mm]'); ylabel('MT'); set(gcf,'Name', figname);
+           colorbar; title(figname); xlabel('x [mm]'); ylabel('MT'); set(gcf,'Name', figname);colormap(jet);
         color=char('r-','g-','b-','c-','m-','r:','g:','b:','c:','m:');
         % note results array has dimensions [numFractionalMTBins,numSubregions, numMTBins, numRhos] due to column major json reading
         for j=2:3 % customized, general form: j=1:numsubregions
@@ -445,7 +446,7 @@ for mci = 1:length(datanames)
         numrhos = length(results{di}.ReflectedDynamicMTOfRhoAndSubregionHist.Rho) - 1;
         figname = sprintf('log(%s)',results{di}.ReflectedDynamicMTOfRhoAndSubregionHist.Name); 
         figure; imagesc(results{di}.ReflectedDynamicMTOfRhoAndSubregionHist.Rho_Midpoints, results{di}.ReflectedDynamicMTOfRhoAndSubregionHist.MTBins_Midpoints, log(results{di}.ReflectedDynamicMTOfRhoAndSubregionHist.Mean));...        
-           colorbar; title(figname); xlabel('\rho [mm]'); ylabel('Dynamic MT'); set(gcf,'Name', figname);
+           colorbar; title(figname); xlabel('\rho [mm]'); ylabel('Dynamic MT'); set(gcf,'Name', figname);colormap(jet);
         color=char('r-','g-','b-','c-','m-','r:','g:','b:','c:','m:');
         % note results array has dimensions [numFractionalMTBins,numMTBins, numRhos] due to column major json reading
         for i=1:20:41 % customized, general form: i=1:numrhos
