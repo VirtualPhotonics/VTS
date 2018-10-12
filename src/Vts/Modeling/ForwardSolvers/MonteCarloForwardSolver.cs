@@ -55,6 +55,8 @@ namespace Vts.Modeling.ForwardSolvers
             double[] rhoScaled = new double[_monteCarloLoader.nrReference];
             foreach (var op in ops)
             {
+                // RatRhoMC has to be cleared inside the OPs loop because a cumulative sum is performed below
+                Array.Clear(RatRhoMC, 0, _monteCarloLoader.nrReference);
                 double v = GlobalConstants.C / op.N; // speed of light [mm/ns]
                 double fresnel = _monteCarloLoader.GetFresnel(1.0, op.N, 0.0);
                 rhoScaled = _monteCarloLoader.GetAllScaledRhos(op).ToArray();
@@ -180,6 +182,7 @@ namespace Vts.Modeling.ForwardSolvers
             double[] fxScaled = new double[_monteCarloLoader.nfxReference];
             foreach (var op in ops)
             {
+                Array.Clear(RatFxMC, 0, _monteCarloLoader.nfxReference); // clear so different OPs don't get summed below
                 double v = GlobalConstants.C / op.N; // speed of light [mm/ns]
                 fxScaled = _monteCarloLoader.GetAllScaledFxs(op).ToArray();
                 double fresnel = _monteCarloLoader.GetFresnel(1.0, op.N, 0.0);

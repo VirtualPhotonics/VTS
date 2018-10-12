@@ -20,16 +20,16 @@ namespace Vts.Modeling.ForwardSolvers.DiscreteOrdinates
                 T[i, i + 1] = b;
             });
 
-            RealEigensystem e = T.Eigensystem();
+            var e = T.Eigendecomposition();
 
             var indices = from i in 0.To(N - 1)
-                          orderby e.Eigenvalue(i)
-                          select i;
+                orderby e.Eigenpairs[i].Eigenvalue
+                select i;
 
             return new GaussLegendreCoefficients
             {
-                mu = indices.Select(i => e.Eigenvalue(i)).ToArray(),
-                wt = indices.Select(i => 2 * e.Eigenvector(i)[0].Pow(2)).ToArray()
+                mu = indices.Select(i => e.Eigenpairs[i].Eigenvalue).ToArray(),
+                wt = indices.Select(i => 2 * e.Eigenpairs[i].Eigenvector[0].Pow(2)).ToArray()
             };
         }
 
@@ -160,24 +160,20 @@ namespace Vts.Modeling.ForwardSolvers.DiscreteOrdinates
             PrintMatrix(A);
 
             // solve the eigenvalue problems
-
-            var e = A.Eigensystem();
+            var e = A.Eigendecomposition();
 
             //0.To(N - 1).ForEach(i => PrintVector(e.Eigenvector(i).ToArray()));
 
             // sort the eigenvalues
-
             var indices = from i in 0.To(N - 1)
-                          orderby e.Eigenvalue(i).Re
-                          select i;
-
+                orderby e.Eigenpairs[i].Eigenvalue.Re
+                select i;
             // compute the expansion coefficients for the solution
 
             // eval           = eval(N/2+1:N);
             // evec           = V(:,indx(N/2+1:N));
-
-            var eval = indices.Select(i => e.Eigenvalue(i).Re).Skip(N / 2);
-            var evec = indices.Select(i => e.Eigenvector(i)).Skip(N / 2);
+            var eval = indices.Select(i => e.Eigenpairs[i].Eigenvalue.Re).Skip(N / 2);
+            var evec = indices.Select(i => e.Eigenpairs[i].Eigenvector).Skip(N / 2);
 
             Console.WriteLine("eval:\n");
             PrintVector(eval.ToArray());
@@ -205,7 +201,7 @@ namespace Vts.Modeling.ForwardSolvers.DiscreteOrdinates
             Console.WriteLine("mInverse:\n");
             PrintMatrix(mInverse);
 
-            var c = mInverse.Transpose() * new ColumnVector(vectorValues); // why Transpose?
+            var c = mInverse.Transpose * new ColumnVector(vectorValues); // why Transpose?
             //var c = mInverse * new ColumnVector(vectorValues);
 
             // compute the reflectance

@@ -1,21 +1,12 @@
-
-//#define SILVERLIGHT_SAVE_TO_LOCAL_FILESTREAM_WITH_SAVEFILEDIALOG
-
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.IO.IsolatedStorage;
 using System.Reflection;
 using System.Runtime.Serialization;
-using System.Runtime.Serialization.Json;
-using System.Text;
-using Ionic.Zip;
 using Vts.Extensions;
-#if !SILVERLIGHT
 using System.Runtime.Serialization.Formatters.Binary;
-#endif
 
- 
+
 namespace Vts.IO
 {
     /// <summary>
@@ -26,73 +17,46 @@ namespace Vts.IO
     public static class FileIO
     {
         /// <summary>
-        /// Static method to check if a file exists in Silverlight or Desktop
+        /// Static method to check if a file exists
         /// </summary>
         /// <param name="fileName">Name of the file</param>
         public static bool FileExists(string fileName)
         {
-#if SILVERLIGHT
-            var objStore = IsolatedStorageFile.GetUserStoreForApplication();
-            return objStore.FileExists(fileName);
-#else
             return File.Exists(fileName);
-#endif
         }
 
         /// <summary>
-        /// Static method to check if a directory exists in Silverlight or Desktop
+        /// Static method to check if a directory exists
         /// </summary>
         /// <param name="folder">Name of the directory</param>
         public static bool DirectoryExists(string folder)
         {
-#if SILVERLIGHT
-            var objStore = IsolatedStorageFile.GetUserStoreForApplication();
-            return objStore.DirectoryExists(folder);
-#else
             return Directory.Exists(folder);
-#endif
         }
 
         /// <summary>
-        /// Static method to delete a file in Silverlight or Desktop
+        /// Static method to delete a file
         /// </summary>
         /// <param name="fileName">Name of the file to delete</param>
         public static void FileDelete(string fileName)
         {
-#if SILVERLIGHT
-            var objStore = IsolatedStorageFile.GetUserStoreForApplication();
-            if(objStore.FileExists(fileName))
-            {
-                objStore.DeleteFile(fileName);
-            }
-#else
             if(File.Exists(fileName))
             {
                 File.Delete(fileName);
             }
-#endif
         }
 
         /// <summary>
-        /// Static method to delete a directory in Silverlight or Desktop
+        /// Static method to delete a directory
         /// </summary>
         /// <param name="folder">Name of the directory to delete</param>
         public static void DeleteDirectory(string folder)
         {
-#if SILVERLIGHT
-            var objStore = IsolatedStorageFile.GetUserStoreForApplication();
-            if (objStore.DirectoryExists(folder))
-            {
-                ClearDirectory(folder);
-                objStore.DeleteDirectory(folder);
-            }
-#else
             if(Directory.Exists(folder))
             {
                 ClearDirectory(folder);
                 Directory.Delete(folder);
             }
-#endif
         }
 
         /// <summary>
@@ -124,46 +88,23 @@ namespace Vts.IO
         }
 
         /// <summary>
-        /// Platform-agnostic directory creation (uses isolated storage for Silverlight)
+        /// Platform-agnostic directory creation
         /// </summary>
         /// <param name="folderPath">Path for new directory</param>
         public static void CreateDirectory(string folderPath)
         {
-#if SILVERLIGHT
-            using (var store = IsolatedStorageFile.GetUserStoreForApplication())
-            {
-                if (!store.DirectoryExists(folderPath))
-                {
-                    store.CreateDirectory(folderPath);
-                }
-            }
-#else
             if (!Directory.Exists(folderPath))
             {
                 Directory.CreateDirectory(folderPath);
             }
-#endif
         }        
         
         /// <summary>
-        /// Platform-agnostic directory (uses isolated storage for Silverlight)
+        /// Platform-agnostic directory
         /// </summary>
         /// <param name="folderPath">Path for new directory</param>
         public static void ClearDirectory(string folderPath)
         {
-#if SILVERLIGHT
-            using (var store = IsolatedStorageFile.GetUserStoreForApplication())
-            {
-                if (store.DirectoryExists(folderPath))
-                {
-                    //DeleteDirectoryRecursive(store, folderPath);
-                    foreach (var file in store.GetFileNames(folderPath + "/*"))
-                    {
-                        store.DeleteFile(Path.Combine(folderPath, file));
-                    }
-                }
-            }
-#else
             if (Directory.Exists(folderPath))
             {
                 foreach (var file in Directory.GetFiles(folderPath))
@@ -171,7 +112,6 @@ namespace Vts.IO
                     File.Delete(file);
                 }
             }
-#endif
         }
 
         /// <summary>
@@ -323,9 +263,9 @@ namespace Vts.IO
         }
 
         /// <summary>
-        /// Copy a file from resources to an external location (isolated storage in silverlight)
+        /// Copy a file from resources to an external location
         /// </summary>
-        /// <example>FileIO.CopyFileFromResources("Resources/Matlab/load_results_script.m", Path.Combine(resultsFolder, "load_results_script.m"), "Vts.Gui.Silverlight");</example>
+        /// <example>FileIO.CopyFileFromResources("Resources/resourcesfile.txt", Path.Combine(resultsFolder, "resourcefile.txt"), "Vts.Desktop.Test");</example>
         /// <param name="sourceFileName">Path and filename of the file in resources</param>
         /// <param name="destinationFileName">Path and filename of the destination location</param>
         /// <param name="projectName">The name of the project where the file in resources is located</param>
@@ -341,7 +281,7 @@ namespace Vts.IO
 
         /// <summary>
         /// Copy a file from embedded resources in the project assembly and 
-        /// copies to an external location (isolated storage in silverlight)
+        /// copies to an external location
         /// </summary>
         /// <param name="sourceFileName">Path and filename of the file in resources</param>
         /// <param name="destinationFileName">Path and filename of the destination location</param>
@@ -770,66 +710,8 @@ namespace Vts.IO
             }
         }
 
-        /// <summary>
-        /// Writes one or more files to a compressed zip package
-        /// </summary>
-        /// <param name="fileNames">The files to be written (isolated storage files in Silverlight)</param>
-        /// <param name="folderPath">The root folder path where the files are located (can be null)</param>
-        /// <param name="zipFileStream">The stream of the destination zip file</param>
-        public static void ZipFiles(IEnumerable<string> fileNames, string folderPath, Stream zipFileStream)
-        {
-            // using Ionic DotNetZip v1.9.1.8, with changes documented here: http://dotnetzip.codeplex.com/discussions/268313
-            var streams = new List<Stream>();
-            try
-            {
-                // create a zip file instance to package all files
-                using (var zip = new ZipFile(Encoding.UTF8)) // todo: move zipping capability into FileIO?
-                {
-                    foreach (var fileName in fileNames)
-                    {
-                        // open a stream for each individual file
-                        var fileStream = StreamFinder.GetFileStream(Path.Combine(folderPath, fileName), FileMode.Open);
-                        // store that stream reference for future access (needed for closing)
-                        streams.Add(fileStream);
-                        // add the stream to the zip file
-                        zip.AddEntry(fileName, fileStream);
-                    }
-                    zip.Save(zipFileStream);
-                }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                throw;
-            }
-            finally
-            {
-                foreach (var stream in streams)
-                {
-                    stream.Close();
-                }
-            }
-        }
-
-        /// <summary>
-        /// Writes one or more files to a compressed zip package
-        /// </summary>
-        /// <param name="fileNames">The files to be written (isolated storage files in Silverlight)</param>
-        /// <param name="folderPath">The root folder path where the files are located (can be null)</param>
-        /// <param name="zipFilePath">The destination zip file path</param>
-        public static void ZipFiles(IEnumerable<string> fileNames, string folderPath, string zipFilePath)
-        {
-            using (Stream stream = StreamFinder.GetFileStream(zipFilePath, FileMode.Create))
-            {
-                ZipFiles(fileNames, folderPath, stream);
-            }
-        }
-
         #region Platform-Specific Methods
 
-#if SILVERLIGHT // stuff that currently only works on the Silverlight/CoreCLR platform
-#else           // stuff that currently only works on the .NET desktop/CLR platform
-                // todo: investigate Silverlight Binary serializer: http://whydoidoit.com/silverlight-serializer/
         /// <summary>
         /// Read from a binary stream
         /// </summary>
@@ -912,7 +794,6 @@ namespace Vts.IO
                 throw;
             }
         }
-#endif
         #endregion
     }
 }

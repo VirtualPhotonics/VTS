@@ -226,14 +226,15 @@ namespace Vts.Test.MonteCarlo.Detectors
                             _inputOneLayerTissue.TissueInput.Regions[1].RegionOP.N);
         }
 
-        // validation values obtained from linux run using above input and 
-        // seeded the same for:
+        // validation values obtained from linux run using above input and seeded the same for:
         // Diffuse Reflectance
         [Test]
         public void validate_DAW_RDiffuse()
         {
             Assert.Less(Math.Abs(_outputOneLayerTissue.Rd * _factor - 0.565017749), 0.000000001);
             Assert.Less(Math.Abs(_outputTwoLayerTissue.Rd * _factor - 0.565017749), 0.000000001);
+            Assert.AreEqual(_outputOneLayerTissue.Rd_TallyCount, 89);
+            Assert.AreEqual(_outputTwoLayerTissue.Rd_TallyCount, 89);
         }
         // Reflection R(rho)
         [Test]
@@ -241,6 +242,8 @@ namespace Vts.Test.MonteCarlo.Detectors
         {
             Assert.Less(Math.Abs(_outputOneLayerTissue.R_r[0] * _factor - 0.615238307), 0.000000001);
             Assert.Less(Math.Abs(_outputTwoLayerTissue.R_r[0] * _factor - 0.615238307), 0.000000001);
+            Assert.AreEqual(_outputOneLayerTissue.R_r_TallyCount, 89);
+            Assert.AreEqual(_outputTwoLayerTissue.R_r_TallyCount, 89);
         }
         // Reflection R(rho) 2nd moment, linux value output in printf statement
         [Test]
@@ -255,6 +258,8 @@ namespace Vts.Test.MonteCarlo.Detectors
         {
             Assert.Less(Math.Abs(_outputOneLayerTissue.R_a[0] * _factor - 0.0809612757), 0.0000000001);
             Assert.Less(Math.Abs(_outputTwoLayerTissue.R_a[0] * _factor - 0.0809612757), 0.0000000001);
+            Assert.AreEqual(_outputOneLayerTissue.R_a_TallyCount, 89);
+            Assert.AreEqual(_outputTwoLayerTissue.R_a_TallyCount, 89);
         }
         // Reflection R(rho,angle)
         [Test]
@@ -262,6 +267,8 @@ namespace Vts.Test.MonteCarlo.Detectors
         {
             Assert.Less(Math.Abs(_outputOneLayerTissue.R_ra[0, 0] * _factor - 0.0881573691), 0.0000000001);
             Assert.Less(Math.Abs(_outputTwoLayerTissue.R_ra[0, 0] * _factor - 0.0881573691), 0.0000000001);
+            Assert.AreEqual(_outputOneLayerTissue.R_ra_TallyCount, 89);
+            Assert.AreEqual(_outputTwoLayerTissue.R_ra_TallyCount, 89);
         }
         // Reflection R(rho,time), 2nd moment validated with prior test
         [Test]
@@ -271,6 +278,8 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.Less(Math.Abs(_outputTwoLayerTissue.R_rt[0, 0] * _factor - 61.5238307), 0.0000001);
             Assert.Less(Math.Abs(_outputOneLayerTissue.R_rt2[0, 0] - 200229.1), 0.1);
             Assert.Less(Math.Abs(_outputTwoLayerTissue.R_rt2[0, 0] - 200229.1), 0.1);
+            Assert.AreEqual(_outputOneLayerTissue.R_rt_TallyCount, 89);
+            Assert.AreEqual(_outputTwoLayerTissue.R_rt_TallyCount, 89);
 
         }
         // Reflection R(rho,omega)
@@ -284,6 +293,8 @@ namespace Vts.Test.MonteCarlo.Detectors
                 _outputOneLayerTissue.R_rw[0, 0] * _factor - (0.6152383 - Complex.ImaginaryOne * 0.0002368336)), 0.000001);
             Assert.Less(Complex.Abs(
                 _outputTwoLayerTissue.R_rw[0, 0] * _factor - (0.6152383 - Complex.ImaginaryOne * 0.0002368336)), 0.000001);
+            Assert.AreEqual(_outputOneLayerTissue.R_rw_TallyCount, 89);
+            Assert.AreEqual(_outputTwoLayerTissue.R_rw_TallyCount, 89);
         }
         // Reflectance R(x,y)
         [Test]
@@ -291,6 +302,8 @@ namespace Vts.Test.MonteCarlo.Detectors
         {
             Assert.Less(Math.Abs(_outputOneLayerTissue.R_xy[0, 0] * _factor - 0.01828126), 0.00000001);
             Assert.Less(Math.Abs(_outputTwoLayerTissue.R_xy[0, 0] * _factor - 0.01828126), 0.00000001);
+            Assert.AreEqual(_outputOneLayerTissue.R_xy_TallyCount, 89);
+            Assert.AreEqual(_outputTwoLayerTissue.R_xy_TallyCount, 89);
         }
         // Reflection R(fx) validated with prior test
         [Test]
@@ -300,6 +313,8 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.Less(Math.Abs(_outputOneLayerTissue.R_fx[1].Imaginary - 0.050931), 0.000001);
             Assert.Less(Math.Abs(_outputTwoLayerTissue.R_fx[1].Real - 0.557019), 0.000001);
             Assert.Less(Math.Abs(_outputTwoLayerTissue.R_fx[1].Imaginary - 0.050931), 0.000001);
+            Assert.AreEqual(_outputOneLayerTissue.R_fx_TallyCount, 89);
+            Assert.AreEqual(_outputTwoLayerTissue.R_fx_TallyCount, 89);
         }
         // Diffuse Transmittance
         [Test]
@@ -307,6 +322,8 @@ namespace Vts.Test.MonteCarlo.Detectors
         {
             Assert.Less(Math.Abs(_outputOneLayerTissue.Td * _factor - 0.0228405921), 0.000000001);
             Assert.Less(Math.Abs(_outputTwoLayerTissue.Td * _factor - 0.0228405921), 0.000000001);
+            Assert.AreEqual(_outputOneLayerTissue.Td_TallyCount, 11);
+            Assert.AreEqual(_outputTwoLayerTissue.Td_TallyCount, 11);
         }
         // Transmittance Time(rho)
         [Test]
@@ -314,6 +331,8 @@ namespace Vts.Test.MonteCarlo.Detectors
         {
             Assert.Less(Math.Abs(_outputOneLayerTissue.T_r[54] * _factor - 0.00169219067), 0.00000000001);
             Assert.Less(Math.Abs(_outputTwoLayerTissue.T_r[54] * _factor - 0.00169219067), 0.00000000001);
+            Assert.AreEqual(_outputOneLayerTissue.T_r_TallyCount, 11);
+            Assert.AreEqual(_outputTwoLayerTissue.T_r_TallyCount, 11);
         }
         // Transmittance T(angle)
         [Test]
@@ -321,6 +340,8 @@ namespace Vts.Test.MonteCarlo.Detectors
         {
             Assert.Less(Math.Abs(_outputOneLayerTissue.T_a[0] * _factor - 0.00327282369), 0.00000000001);
             Assert.Less(Math.Abs(_outputTwoLayerTissue.T_a[0] * _factor - 0.00327282369), 0.00000000001);
+            Assert.AreEqual(_outputOneLayerTissue.T_a_TallyCount, 11);
+            Assert.AreEqual(_outputTwoLayerTissue.T_a_TallyCount, 11);
         }
         // Transmittance T(rho,angle)
         [Test]
@@ -328,6 +349,8 @@ namespace Vts.Test.MonteCarlo.Detectors
         {
             Assert.Less(Math.Abs(_outputOneLayerTissue.T_ra[54, 0] * _factor - 0.000242473649), 0.000000000001);
             Assert.Less(Math.Abs(_outputTwoLayerTissue.T_ra[54, 0] * _factor - 0.000242473649), 0.000000000001);
+            Assert.AreEqual(_outputOneLayerTissue.T_ra_TallyCount, 11);
+            Assert.AreEqual(_outputTwoLayerTissue.T_ra_TallyCount, 11);
         }
         // Transmittance T(x,y): validation is not with linux code, but with prior execution of test so no "factor"
         [Test]
@@ -335,6 +358,8 @@ namespace Vts.Test.MonteCarlo.Detectors
         {
             Assert.Less(Math.Abs(_outputOneLayerTissue.T_xy[0, 0] - 0.0067603), 0.0000001);
             Assert.Less(Math.Abs(_outputTwoLayerTissue.T_xy[0, 0] - 0.0067603), 0.0000001);
+            Assert.AreEqual(_outputOneLayerTissue.T_xy_TallyCount, 11);
+            Assert.AreEqual(_outputTwoLayerTissue.T_xy_TallyCount, 11);
         }
         //// Verify integral over rho,angle of T(rho,angle) equals TDiffuse
         [Test]
@@ -364,7 +389,10 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.Less(Math.Abs(_outputOneLayerTissue.T_fx[1].Imaginary + 4.799287e-5), 0.000001e-5);
             Assert.Less(Math.Abs(_outputTwoLayerTissue.T_fx[1].Real - 0.019814), 0.000001);
             Assert.Less(Math.Abs(_outputTwoLayerTissue.T_fx[1].Imaginary + 4.799287e-5), 0.000001e-5);
+            Assert.AreEqual(_outputOneLayerTissue.T_fx_TallyCount, 11);
+            Assert.AreEqual(_outputTwoLayerTissue.T_fx_TallyCount, 11);
         }
+
         // Total Absorption, 2nd moment validated with prior test
         [Test]
         public void validate_DAW_ATotal()
@@ -373,6 +401,8 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.Less(Math.Abs(_outputTwoLayerTissue.Atot * _factor - 0.384363881), 0.000000001);
             Assert.Less(Math.Abs(_outputOneLayerTissue.Atot2 - 0.00052388), 0.00000001);
             Assert.Less(Math.Abs(_outputTwoLayerTissue.Atot2 - 0.00052388), 0.00000001);
+            Assert.AreEqual(_outputOneLayerTissue.Atot_TallyCount, 42334);
+            Assert.AreEqual(_outputTwoLayerTissue.Atot_TallyCount, 42334);
         }
         // Absorption A(rho,z)
         [Test]
@@ -380,6 +410,8 @@ namespace Vts.Test.MonteCarlo.Detectors
         {
             Assert.Less(Math.Abs(_outputOneLayerTissue.A_rz[0, 0] * _factor - 0.39494647), 0.00000001);
             Assert.Less(Math.Abs(_outputTwoLayerTissue.A_rz[0, 0] * _factor - 0.39494647), 0.00000001);
+            Assert.AreEqual(_outputOneLayerTissue.A_rz_TallyCount, 42334);
+            Assert.AreEqual(_outputTwoLayerTissue.A_rz_TallyCount, 42334);
         }
         // Absorption A(x,y,z) 2nd moment validation based on prior run
         [Test]
@@ -389,6 +421,8 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.Less(Math.Abs(_outputTwoLayerTissue.A_xyz[0, 0, 0] * _factor - 0.0003656252), 0.000000001);
             Assert.Less(Math.Abs(_outputOneLayerTissue.A_xyz2[0, 0, 0] - 0.00001414), 0.00000001);
             Assert.Less(Math.Abs(_outputTwoLayerTissue.A_xyz2[0, 0, 0] - 0.00001414), 0.00000001);
+            Assert.AreEqual(_outputOneLayerTissue.A_xyz_TallyCount, 42334);
+            Assert.AreEqual(_outputTwoLayerTissue.A_xyz_TallyCount, 42334);
         }
         // Fluence Flu(rho,z)
         [Test]
@@ -396,6 +430,8 @@ namespace Vts.Test.MonteCarlo.Detectors
         {
             Assert.Less(Math.Abs(_outputOneLayerTissue.Flu_rz[0, 0] * _factor - 39.4946472), 0.0000001);
             Assert.Less(Math.Abs(_outputTwoLayerTissue.Flu_rz[0, 0] * _factor - 39.4946472), 0.0000001);
+            Assert.AreEqual(_outputOneLayerTissue.Flu_rz_TallyCount, 42334);
+            Assert.AreEqual(_outputTwoLayerTissue.Flu_rz_TallyCount, 42334);
         }
         // Fluence Flu(x,y,z), 1st and 2nd moment validated with prior test
         [Test]
@@ -405,13 +441,17 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.Less(Math.Abs(_outputTwoLayerTissue.Flu_xyz[0, 0, 0] - 0.0016990), 0.0000001);
             Assert.Less(Math.Abs(_outputOneLayerTissue.Flu_xyz2[0, 0, 0] - 0.0001815), 0.0000001);
             Assert.Less(Math.Abs(_outputTwoLayerTissue.Flu_xyz2[0, 0, 0] - 0.0001815), 0.0000001);
+            Assert.AreEqual(_outputOneLayerTissue.Flu_xyz_TallyCount, 42334);
+            Assert.AreEqual(_outputTwoLayerTissue.Flu_xyz_TallyCount, 42334);
         }
         // Fluence Flu(x,y,z,omega), 1st moment validated with prior test
         [Test]
         public void validate_DAW_FluenceOfXAndYAndZAndOmega()
         {
-            Assert.Less(Math.Abs(_outputOneLayerTissue.Flu_xyzo[0, 0, 0, 10].Real + 0.0002956), 0.0000001);
-            Assert.Less(Math.Abs(_outputTwoLayerTissue.Flu_xyzo[0, 0, 0, 10].Imaginary + 0.0009234), 0.0000001);
+            Assert.Less(Math.Abs(_outputOneLayerTissue.Flu_xyzw[0, 0, 0, 10].Real + 0.0002956), 0.0000001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.Flu_xyzw[0, 0, 0, 10].Imaginary + 0.0009234), 0.0000001);
+            Assert.AreEqual(_outputOneLayerTissue.Flu_xyzw_TallyCount, 42334);
+            Assert.AreEqual(_outputTwoLayerTissue.Flu_xyzw_TallyCount, 42334);
         }
         // Volume Radiance Rad(rho,z,angle)
         // Verify integral over angle of Radiance equals Fluence
@@ -428,6 +468,8 @@ namespace Vts.Test.MonteCarlo.Detectors
                 integral += _outputOneLayerTissue.Rad_rza[0, 6, ia] * Math.Sin((ia + 0.5) * angle.Delta);
             }
             Assert.Less(Math.Abs(integral * norm - _outputOneLayerTissue.Flu_rz[0, 6]), 0.000000000001);
+            Assert.AreEqual(_outputOneLayerTissue.Rad_rza_TallyCount, 42334);
+            Assert.AreEqual(_outputTwoLayerTissue.Rad_rza_TallyCount, 42334);
         }
 
         // Volume Radiance Rad(x,y,z,theta,phi)
@@ -448,6 +490,8 @@ namespace Vts.Test.MonteCarlo.Detectors
                     integral += _outputOneLayerTissue.Rad_xyztp[0, 0, 0, it, ip] * Math.Sin((it + 0.5) * theta.Delta);
             }
             Assert.Less(Math.Abs(integral * norm - _outputOneLayerTissue.Flu_xyz[0, 0, 0]), 0.000000000001);
+            Assert.AreEqual(_outputOneLayerTissue.Rad_xyztp_TallyCount, 42334);
+            Assert.AreEqual(_outputTwoLayerTissue.Rad_xyztp_TallyCount, 42334);
         }
         // Radiance(rho) at depth Z - not sure this detector is defined correctly yet
         [Test]
@@ -455,6 +499,8 @@ namespace Vts.Test.MonteCarlo.Detectors
         {
             //need radiance detector to compare results, for now make sure both simulations give same results
             Assert.Less(Math.Abs(_outputOneLayerTissue.Rad_r[1] - _outputTwoLayerTissue.Rad_r[1]), 0.0000001);
+            Assert.AreEqual(_outputOneLayerTissue.Rad_r_TallyCount, 244);
+            Assert.AreEqual(_outputTwoLayerTissue.Rad_r_TallyCount, 244);
         }
         // sanity checks
         [Test]
@@ -510,6 +556,8 @@ namespace Vts.Test.MonteCarlo.Detectors
             // the two layers, i.e. if region 1 has =1 weight, then region 2 should have =0 same weight 
             Assert.Less(Math.Abs(_outputTwoLayerTissue.RefMT_rmt_frac[0, 0, 1, 11] - 0.632), 0.001);
             Assert.Less(Math.Abs(_outputTwoLayerTissue.RefMT_rmt_frac[0, 0, 2, 0] - 0.632), 0.001);
+            Assert.AreEqual(_outputOneLayerTissue.RefMT_rmt_TallyCount, 89);
+            Assert.AreEqual(_outputTwoLayerTissue.RefMT_rmt_TallyCount, 89);
         }
         // Transmitted Momentum Transfer of Rho and SubRegion
         [Test]
@@ -526,6 +574,8 @@ namespace Vts.Test.MonteCarlo.Detectors
                 integral += _outputOneLayerTissue.TransMT_rmt[54, i];
             }
             Assert.Less(Math.Abs(_outputOneLayerTissue.T_r[54] - integral), 0.000001);
+            Assert.AreEqual(_outputOneLayerTissue.TransMT_rmt_TallyCount, 11);
+            Assert.AreEqual(_outputTwoLayerTissue.TransMT_rmt_TallyCount, 11);
         }
         // Reflected Momentum Transfer of X, Y and SubRegion
         [Test]
@@ -579,6 +629,8 @@ namespace Vts.Test.MonteCarlo.Detectors
             // the two layers, i.e. if region 1 has (0,0.1] weight, then region 2 should have (0.9,1] same weight 
             Assert.Less(Math.Abs(_outputTwoLayerTissue.RefMT_xymt_frac[0, 0, 28, 1, 1] - 0.019), 0.001);
             Assert.Less(Math.Abs(_outputTwoLayerTissue.RefMT_xymt_frac[0, 0, 28, 2, 10] - 0.019), 0.001);
+            Assert.AreEqual(_outputOneLayerTissue.RefMT_xymt_TallyCount, 89);
+            Assert.AreEqual(_outputTwoLayerTissue.RefMT_xymt_TallyCount, 89);
         }
         // Transmitted Momentum Transfer of X, Y and SubRegion
         [Test]
@@ -595,6 +647,8 @@ namespace Vts.Test.MonteCarlo.Detectors
                 integral += _outputOneLayerTissue.TransMT_xymt[0, 0, i];
             }
             Assert.Less(Math.Abs(_outputOneLayerTissue.T_xy[0, 0] - integral), 0.000001);
+            Assert.AreEqual(_outputOneLayerTissue.TransMT_xymt_TallyCount, 11);
+            Assert.AreEqual(_outputTwoLayerTissue.TransMT_xymt_TallyCount, 11);
         }
     }
 }

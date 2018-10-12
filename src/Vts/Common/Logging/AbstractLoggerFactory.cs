@@ -17,12 +17,8 @@ using System.IO;
 
 namespace Vts.Common.Logging
 {
-#if SILVERLIGHT
-	public abstract class AbstractLoggerFactory : ILoggerFactory
-#else
     [Serializable]
     public abstract class AbstractLoggerFactory : MarshalByRefObject, ILoggerFactory
-#endif
     {
         public virtual ILogger Create(Type type)
         {
@@ -55,7 +51,6 @@ namespace Vts.Common.Logging
         /// <returns></returns>
         protected static FileInfo GetConfigFile(string fileName)
         {
-#if !SILVERLIGHT
             FileInfo result;
 
             if (Path.IsPathRooted(fileName))
@@ -68,9 +63,6 @@ namespace Vts.Common.Logging
             }
 
             return result;
-#else
-			return new FileInfo(fileName);
-#endif
         }
     }
 }

@@ -482,7 +482,50 @@ f = figure; plot(d2.Fx, abs(d2.Mean)); ylabel('T(fx) [unitless]'); xlabel('Fx (m
 title('Transmittance vs fx for N=1000');
 set(f,'Name','Transmittance vs Fx for N=1000');
 % ======================================================================= %
-%% Example 10: run a Monte Carlo simulation with a LUT phase function
+%% Example 10: run R(fx) detector results
+
+% create a default set of inputs
+si = SimulationInput();
+
+% modify number of photons
+si.N = 1000;
+
+tissueInput = MultiLayerTissueInput();
+% assign the tissue layer regions struct
+tissueInput.LayerRegions = struct(...
+    'ZRange', ...
+    {...
+        [-Inf, 0], ... % air "z" range
+        [0, 2], ... % tissue "z" range
+        [2, +Inf] ... % air "z" range
+    }, ...
+    'RegionOP', ...
+    {...
+        [0.0, 1e-10, 1.0, 1.0], ... % air optical properties
+        [0.01, 1.0, 0.8, 1.4], ... % tissue optical properties
+        [0.0, 1e-10, 1.0, 1.0] ... % air optical properties
+    }, ...
+    'PhaseFunctionKey', ...
+    { ...
+        'HenyeyGreensteinKey1', 'HenyeyGreensteinKey2','HenyeyGreensteinKey3'...
+    }...
+); 
+si.TissueInput = tissueInput;
+
+% specify a single R(rho) detector by the endpoints of rho bins
+si.DetectorInputs = { DetectorInput.ROfFx(linspace(0,0.5,51)) };
+
+% use this to run a Matlab-wrapped MonteCarloSimulation using static method
+output = VtsMonteCarlo.RunSimulation(si);
+
+% more work to do on making outputs friendly, but it's working :)
+d = output.Detectors(output.DetectorNames{1});
+f = figure; plot(d.Fx, abs(d.Mean)); ylabel('R(fx)'); xlabel('fx (/mm)');
+title('Amplitude vs fx for N=1000');
+set(f,'Name','Amplitude vs Fx for N=1000');
+
+% ======================================================================= %
+%% Example 11: run a Monte Carlo simulation with a LUT phase function
 
 % Source definition
 % create a new 'instance' of the DirectionalPointSourceInput class
@@ -496,7 +539,6 @@ sourceInput.InitialTissueRegionIndex = 0;
 
 % Tissue definition
 % create a new 'instance' of the MultiLayerTissueInput class
-
 tissueInput = MultiLayerTissueInput();
 % assign the tissue layer regions struct
 tissueInput.LayerRegions = struct(...
@@ -558,4 +600,8 @@ title('Reflectance vs spatial frequency');
 ylabel('R(f_x)');
 xlabel('Spatial frequency, f_x [mm^-^1]');
 
-
+% more work to do on making outputs friendly, but it's working :)
+d = output.Detectors(output.DetectorNames{1});
+f = figure; plot(d.Fx, abs(d.Mean)); ylabel('R(fx)'); xlabel('fx (/mm)');
+title('Amplitude vs fx for N=1000');
+set(f,'Name','Amplitude vs Fx for N=1000');

@@ -144,6 +144,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                                  _referenceOutputOneLayerTissue.R_rt[0, 0]), 0.00000000001);
             // validation value obtained from linux run using above input and seeded the same
             Assert.Less(Math.Abs(postProcessedOutput.pMC_R_rt[0, 0]*_factor - 61.5238307), 0.0000001);
+            Assert.AreEqual(postProcessedOutput.pMC_R_rt_TallyCount, 89);
         }
         /// <summary>
         /// Test to validate that setting mua and mus to the reference values
@@ -176,6 +177,7 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.Less(Math.Abs(postProcessedOutput.pMC_R_r[0]*_factor - 0.615238307), 0.000000001);
             // validation value based on previous run
             Assert.Less(Math.Abs(postProcessedOutput.pMC_R_r2[0] - 20.022918), 0.000001);
+            Assert.AreEqual(postProcessedOutput.pMC_R_r_TallyCount, 89);
         }
         /// <summary>
         /// Test to validate that setting mua and mus to the perturbed values (mua*2, mus*1.1)
@@ -210,6 +212,7 @@ namespace Vts.Test.MonteCarlo.Detectors
             var postProcessedOutput = postProcessor.Run();
             // validation value obtained from linux run using above input and seeded the same
             Assert.Less(Math.Abs(postProcessedOutput.pMC_R_r[0] * _factor - 0.7226588), 0.0000001);
+            Assert.AreEqual(postProcessedOutput.pMC_R_r_TallyCount, 89);
         }
 
         /// <summary>
@@ -261,6 +264,8 @@ namespace Vts.Test.MonteCarlo.Detectors
             // validation value obtained from linux run using above input and seeded the same
             Assert.AreNotEqual(Math.Abs(postProcessedOutput.dMCdMua_R_r[0]), double.NaN);
             Assert.AreNotEqual(Math.Abs(postProcessedOutput.dMCdMus_R_r[0]), double.NaN);
+            Assert.AreEqual(postProcessedOutput.dMCdMua_R_r_TallyCount, 68);
+            Assert.AreEqual(postProcessedOutput.dMCdMus_R_r_TallyCount, 68);
         }
 
         /// <summary>
@@ -297,6 +302,7 @@ namespace Vts.Test.MonteCarlo.Detectors
             // validation value obtained from prior run
             Assert.Less(Math.Abs(postProcessedOutput.pMC_R_fxt[1, 0].Real - 6.858014), 0.000001);
             Assert.Less(Math.Abs(postProcessedOutput.pMC_R_fxt[1, 0].Imaginary - 0.339772), 0.000001);
+            Assert.AreEqual(postProcessedOutput.pMC_R_fxt_TallyCount, 89);
         }
         /// <summary>
         /// Test to validate that setting mua and mus to the reference values
@@ -331,6 +337,7 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.Less(Math.Abs(postProcessedOutput.pMC_R_fx[1].Imaginary - 0.083909), 0.000001);
             Assert.Less(Math.Abs(postProcessedOutput.pMC_R_fx2[1].Real - 0.467357), 0.000001);
             Assert.Less(Math.Abs(postProcessedOutput.pMC_R_fx2[1].Imaginary - 0.0), 0.000001); // imag of 2nd moment is 0
+            Assert.AreEqual(postProcessedOutput.pMC_R_fx_TallyCount, 89);
         }
         /// <summary>
         /// Test to validate that setting mua and mus to the perturbed values (mua*2, mus*1.1)
@@ -366,6 +373,7 @@ namespace Vts.Test.MonteCarlo.Detectors
             // validation value obtained from prior run
             Assert.Less(Math.Abs(postProcessedOutput.pMC_R_fx[1].Real - 0.304018), 0.000001);
             Assert.Less(Math.Abs(postProcessedOutput.pMC_R_fx[1].Imaginary - 0.029895), 0.000001);
+            Assert.AreEqual(postProcessedOutput.pMC_R_fx_TallyCount, 89);
         }
 
         ///// <summary>

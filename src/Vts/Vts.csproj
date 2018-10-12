@@ -2,9 +2,22 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Description>Open-source software tools to simulate the propagation and distribution of optical radiation in cells and tissues</Description>
+    <Description>The VTS (Virtual Tissue Simulator) is an open source library for .NET that was designed as a modular and scalable platform to provide an integrated suite of computational tools to define, solve, visualize, and analyze relevant forward and inverse radiative transport problems in Biomedical Optics.</Description>
     <Company>Virtual Photonics Technology Initiative</Company>
     <Copyright>Copyright © 2018 Laser Microbeam and Medical Program</Copyright>
+    <Version>4.5.0</Version>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>David Cuccia; Carole Hayakawa; Lisa Malenfant; Janaka Ranasinghesagara; Jennifer Nguyen; Adam Gardner; Michele Martinelli</Authors>
+    <PackageId>VirtualPhotonics.Vts</PackageId>
+    <PackageLicenseUrl>https://github.com/VirtualPhotonics/VTS/blob/master/license.txt</PackageLicenseUrl>
+    <PackageTags>C# Monte-Carlo NURBS SDA Spectral-Data Reflectance Fluence Forward-Solutions Inverse-Solutions</PackageTags>
+    <PackageIconUrl>http://virtualphotonics.org/Themes/VP/Content/Images/logo.png</PackageIconUrl>
+    <PackageProjectUrl>https://github.com/VirtualPhotonics/VTS/wiki</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/VirtualPhotonics/VTS</RepositoryUrl>
+    <RepositoryType>Git</RepositoryType>
+    <PackageReleaseNotes>Updated NuGet package</PackageReleaseNotes>
+    <AssemblyVersion>4.5.0.0</AssemblyVersion>
+    <FileVersion>4.5.0.0</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -85,18 +98,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="6.2.2" />
-    <PackageReference Include="CommonServiceLocator" Version="2.0.3" />
     <PackageReference Include="csmpfit" Version="1.1.1" />
-    <PackageReference Include="DotNetZip" Version="1.10.1" />
-    <PackageReference Include="MathNet.Numerics" Version="4.4.0" />
-    <PackageReference Include="Meta.Numerics" Version="4.0.4-alpha" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.7.0" />
+    <PackageReference Include="MathNet.Numerics" Version="4.5.1" />
+    <PackageReference Include="Meta.Numerics" Version="4.0.7" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.5.0" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
-    <PackageReference Include="NLog" Version="4.5.2" />
-    <PackageReference Include="System.Reactive" Version="4.0.0-preview00001" />
+    <PackageReference Include="NLog" Version="4.5.9" />
+    <PackageReference Include="System.Reactive" Version="4.1.0" />
     <PackageReference Include="System.Reflection" Version="4.3.0" />
-    <PackageReference Include="Unity" Version="5.8.5" />
+    <PackageReference Include="Unity" Version="5.8.10" />
   </ItemGroup>
 
 </Project>

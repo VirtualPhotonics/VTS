@@ -23,11 +23,7 @@ namespace Vts.Common.Logging
             ILoggerFactory factory;
             if (!_loggerFactories.TryGetValue(loggerName, out factory) || factory == null)
             {
-#if SILVERLIGHT
-                factory = new NLogFactory();
-#else
                 factory = new NLogFactory(loggerName + ".config");
-#endif
                 _loggerFactories.Add(loggerName,factory);
             }
             return factory;

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using NLog.LayoutRenderers;
 
 namespace Vts.MonteCarlo
 {
@@ -52,6 +53,10 @@ namespace Vts.MonteCarlo
         /// </summary>
         public double Rd2 { get { return ((double)((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "RDiffuse").First().Name]).SecondMoment); } }
         /// <summary>
+        /// Diffuse Reflectance TallyCount
+        /// </summary>
+        public long Rd_TallyCount { get { return ((long)((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "RDiffuse").First().Name]).TallyCount); } }
+        /// <summary>
         /// Specular Reflectance
         /// </summary>
         public double Rspec { get { return ((double)((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "RSpecular").First().Name]).Mean); } }
@@ -59,8 +64,10 @@ namespace Vts.MonteCarlo
         /// Specular Reflectance 2nd moment
         /// </summary>
         public double Rspec2 { get { return ((double)((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "RSpecular").First().Name]).SecondMoment); } }
-        //public double Rtot { get { return ((RTotalDetector)ResultsDictionary["RTotal]).Mean; } }
-        //public double Rtot2 { get { return ((RTotalDetector)ResultsDictionary["RTotal]).SecondMoment; } }
+        /// <summary>
+        /// Specular Reflectance Tally Count
+        /// </summary>
+        public long Rspec_TallyCount { get { return ((long)((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "RSpecular").First().Name]).TallyCount); } }
         /// <summary>
         /// Reflectance as a function of rho (source-detector separation)
         /// </summary>
@@ -70,6 +77,10 @@ namespace Vts.MonteCarlo
         /// </summary>
         public double[] R_r2 { get { return ((double[])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ROfRho").First().Name]).SecondMoment); } }
         /// <summary>
+        /// Reflectance as a function of rho (source-detector separation) Tally Count
+        /// </summary>
+        public long R_r_TallyCount { get { return ((long)((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ROfRho").First().Name]).TallyCount); } }
+        /// <summary>
         /// Reflectance as a function of angle
         /// </summary>
         public double[] R_a { get { return ((double[])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ROfAngle").First().Name]).Mean); } }
@@ -77,6 +88,10 @@ namespace Vts.MonteCarlo
         /// Reflectance as a function of angle 2nd moment
         /// </summary>
         public double[] R_a2 { get { return ((double[])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ROfAngle").First().Name]).SecondMoment); } }
+        /// <summary>
+        /// Reflectance as a function of angle Tally Count
+        /// </summary>
+        public long R_a_TallyCount { get { return ((long)((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ROfAngle").First().Name]).TallyCount); } }
         /// <summary>
         /// Reflectance as a function of rho and angle
         /// </summary>
@@ -86,6 +101,10 @@ namespace Vts.MonteCarlo
         /// </summary>
         public double[,] R_ra2 { get { return ((double[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ROfRhoAndAngle").First().Name]).SecondMoment); } }
         /// <summary>
+        /// Reflectance as a function of rho and angle Tally Count
+        /// </summary>
+        public long R_ra_TallyCount { get { return ((long)((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ROfRhoAndAngle").First().Name]).TallyCount); } }
+        /// <summary>
         /// Reflectance as a function of rho and time
         /// </summary>
         public double[,] R_rt { get { return ((double[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ROfRhoAndTime").First().Name]).Mean); } }
@@ -93,6 +112,10 @@ namespace Vts.MonteCarlo
         /// Reflectance as a function of rho and time 2nd moment
         /// </summary>
         public double[,] R_rt2 { get { return ((double[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ROfRhoAndTime").First().Name]).SecondMoment); } }
+        /// <summary>
+        /// Reflectance as a function of rho and time Tally Count
+        /// </summary>
+        public long R_rt_TallyCount { get { return ((long)((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ROfRhoAndTime").First().Name]).TallyCount); } }
         /// <summary>
         /// Reflectance as a function of rho and omega (temporal frequency)
         /// </summary>
@@ -102,6 +125,10 @@ namespace Vts.MonteCarlo
         /// </summary>
         public Complex[,] R_rw2 { get { return ((Complex[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ROfRhoAndOmega").First().Name]).SecondMoment); } }
         /// <summary>
+        /// Reflectance as a function of rho and omega (temporal frequency) Tally Count
+        /// </summary>
+        public long R_rw_TallyCount { get { return ((long)((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ROfRhoAndOmega").First().Name]).TallyCount); } }
+        /// <summary>
         /// Reflectance as a function of x and y
         /// </summary>
         public double[,] R_xy { get { return ((double[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ROfXAndY").First().Name]).Mean); } }
@@ -109,6 +136,10 @@ namespace Vts.MonteCarlo
         /// Reflectance as a function of x and y 2nd moment
         /// </summary>
         public double[,] R_xy2 { get { return ((double[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ROfXAndY").First().Name]).SecondMoment); } }
+        /// <summary>
+        /// Reflectance as a function of x and y Tally Count
+        /// </summary>
+        public long R_xy_TallyCount { get { return ((long)((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ROfXAndY").First().Name]).TallyCount); } }
         /// <summary>
         /// Reflectance as a function of spatial frequency
         /// </summary>
@@ -118,6 +149,10 @@ namespace Vts.MonteCarlo
         /// </summary>
         public Complex[] R_fx2 { get { return ((Complex[])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ROfFx").First().Name]).SecondMoment); } }
         /// <summary>
+        /// Reflectance as a function of spatial frequency Tally Count
+        /// </summary>
+        public long R_fx_TallyCount { get { return ((long)((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ROfFx").First().Name]).TallyCount); } }
+        /// <summary>
         /// Reflectance as a function of spatial frequency and time
         /// </summary>
         public Complex[,] R_fxt { get { return ((Complex[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ROfFxAndTime").First().Name]).Mean); } }
@@ -125,6 +160,10 @@ namespace Vts.MonteCarlo
         /// Reflectance as a function of spatial frequency and time 2nd moment
         /// </summary>
         public Complex[,] R_fxt2 { get { return ((Complex[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ROfFxAndTime").First().Name]).SecondMoment); } }
+        /// <summary>
+        /// Reflectance as a function of spatial frequency and time Tally Count
+        /// </summary>
+        public long R_fxt_TallyCount { get { return ((long)((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ROfFxAndTime").First().Name]).TallyCount); } }
         /// <summary>
         /// Diffuse Transmittance
         /// </summary>
@@ -134,6 +173,10 @@ namespace Vts.MonteCarlo
         /// </summary>
         public double Td2 { get { return ((double)((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "TDiffuse").First().Name]).SecondMoment); } }
         /// <summary>
+        /// Diffuse Transmittance Tally Count
+        /// </summary>
+        public long Td_TallyCount { get { return ((long)((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "TDiffuse").First().Name]).TallyCount); } }
+        /// <summary>
         /// Transmittance as a function of rho (source-detector separation)
         /// </summary>
         public double[] T_r { get { return ((double[])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "TOfRho").First().Name]).Mean); } }
@@ -141,6 +184,10 @@ namespace Vts.MonteCarlo
         /// Transmittance as a function of rho (source-detector separation) 2nd moment
         /// </summary>
         public double[] T_r2 { get { return ((double[])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "TOfRho").First().Name]).SecondMoment); } }
+        /// <summary>
+        /// Transmittance as a function of rho (source-detector separation) Tally Count
+        /// </summary>
+        public long T_r_TallyCount { get { return ((long)((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "TOfRho").First().Name]).TallyCount); } }
         /// <summary>
         /// Transmittance as a function of angle
         /// </summary>
@@ -150,6 +197,10 @@ namespace Vts.MonteCarlo
         /// </summary>
         public double[] T_a2 { get { return ((double[])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "TOfAngle").First().Name]).SecondMoment); } }
         /// <summary>
+        /// Transmittance as a function of angle Tally Count
+        /// </summary>
+        public long T_a_TallyCount { get { return ((long)((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "TOfAngle").First().Name]).TallyCount); } }
+        /// <summary>
         /// Transmittance as a function of rho and angle
         /// </summary>
         public double[,] T_ra { get { return ((double[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "TOfRhoAndAngle").First().Name]).Mean); } }
@@ -157,6 +208,10 @@ namespace Vts.MonteCarlo
         /// Transmittance as a function of rho and angle 2nd moment
         /// </summary>
         public double[,] T_ra2 { get { return ((double[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "TOfRhoAndAngle").First().Name]).SecondMoment); } }
+        /// <summary>
+        /// Transmittance as a function of rho and angle Tally Count
+        /// </summary>
+        public long T_ra_TallyCount { get { return ((long)((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "TOfRhoAndAngle").First().Name]).TallyCount); } }
         /// <summary>
         /// Transmittance as a function of x and y
         /// </summary>
@@ -166,6 +221,10 @@ namespace Vts.MonteCarlo
         /// </summary>
         public double[,] T_xy2 { get { return ((double[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "TOfXAndY").First().Name]).SecondMoment); } }
         /// <summary>
+        /// Transmittance as a function of x and y Tally Count
+        /// </summary>
+        public long T_xy_TallyCount { get { return ((long)((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "TOfXAndY").First().Name]).TallyCount); } }
+        /// <summary>
         /// Transmittance as a function of spatial frequency
         /// </summary>
         public Complex[] T_fx { get { return ((Complex[])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "TOfFx").First().Name]).Mean); } }
@@ -174,6 +233,10 @@ namespace Vts.MonteCarlo
         /// </summary>
         public Complex[] T_fx2 { get { return ((Complex[])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "TOfFx").First().Name]).SecondMoment); } }
         /// <summary>
+        /// Transmitance as a function of spatial frequency Tally Count
+        /// </summary>
+        public long T_fx_TallyCount { get { return ((long)((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "TOfFx").First().Name]).TallyCount); } }
+        /// <summary>
         /// Total Absorbed Energy
         /// </summary>
         public double Atot { get { return ((double)((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ATotal").First().Name]).Mean); } }
@@ -181,15 +244,10 @@ namespace Vts.MonteCarlo
         /// Total Absorbed Energy 2nd moment
         /// </summary>
         public double Atot2 { get { return ((double)((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ATotal").First().Name]).SecondMoment); } }
-
-        //public double[] A_z { get { return ((AOfZDetector)ResultsDictionary["AOfZ]).Mean; } }
-        //public double[] A_z2 { get { return ((AOfZDetector)ResultsDictionary["AOfZ]).SecondMoment; } }
-
-        // public double[] A_layer { get { return ((ALayerDetector)ResultsDictionary["ALayer]).Mean; } }
-        // public double[] A_layer2 { get { return ((ALayerDetector)ResultsDictionary["ALayer]).SecondMoment; } }
-
-        //public double[] Flu_z { get { return ((FluenceOfZDetector)ResultsDictionary["FluenceOfZ]).Mean; } }
-        //public double[] Flu_z2 { get { return ((FluenceOfZDetector)ResultsDictionary["FluenceOfZ]).SecondMoment; } }
+        /// <summary>
+        /// Total Absorbed Energy Tally Count
+        /// </summary>
+        public long Atot_TallyCount { get { return ((long)((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ATotal").First().Name]).TallyCount); } }
         /// <summary>
         /// Absorbed Energy as a function of rho and z
         /// </summary>
@@ -199,6 +257,10 @@ namespace Vts.MonteCarlo
         /// </summary>
         public double[,] A_rz2 { get { return ((double[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "AOfRhoAndZ").First().Name]).SecondMoment); } }
         /// <summary>
+        /// Absorbed Energy as a function of rho and z Tally Count
+        /// </summary>
+        public long A_rz_TallyCount { get { return ((long)((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "AOfRhoAndZ").First().Name]).TallyCount); } }
+        /// <summary>
         /// Absorption as a function of x, y and z
         /// </summary>
         public double[, ,] A_xyz { get { return ((double[, ,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "AOfXAndYAndZ").First().Name]).Mean); } }
@@ -206,8 +268,10 @@ namespace Vts.MonteCarlo
         /// Absorption as a function of x, y and z 2nd moment
         /// </summary>
         public double[, ,] A_xyz2 { get { return ((double[, ,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "AOfXAndYAndZ").First().Name]).SecondMoment); } }
-        //public double[, ,] A_rzt { get { return ((ROfRhoAndOmegaDetector)ResultsDictionary["AOfRhoAndZAndTime]).Mean; } }
-        //public double[, ,] A_rzt2 { get { return ((ROfRhoAndOmegaDetector)ResultsDictionary["AOfRhoAndZAndTime]).SecondMoment; } }
+        /// <summary>
+        /// Absorption as a function of x, y and z Tally Count
+        /// </summary>
+        public long A_xyz_TallyCount { get { return ((long)((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "AOfXAndYAndZ").First().Name]).TallyCount); } }
         /// <summary>
         /// Fluence as a function of rho and z
         /// </summary>
@@ -215,7 +279,11 @@ namespace Vts.MonteCarlo
         /// <summary>
         /// Fluence as a function of rho and z 2nd moment
         /// </summary>
-        public double[,] Flu_rz2 { get { return ((double[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "FluenceOfRhoAndZ").First().Name]).SecondMoment); } }       
+        public double[,] Flu_rz2 { get { return ((double[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "FluenceOfRhoAndZ").First().Name]).SecondMoment); } }
+        /// <summary>
+        /// Fluence as a function of rho and z Tally Count
+        /// </summary>
+        public long Flu_rz_TallyCount { get { return ((long)((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "FluenceOfRhoAndZ").First().Name]).TallyCount); } }
         /// <summary>
         /// Fluence as a function of rho, z and time
         /// </summary>
@@ -225,6 +293,10 @@ namespace Vts.MonteCarlo
         /// </summary>
         public double[, ,] Flu_rzt2 { get { return ((double[, ,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "FluenceOfRhoAndZAndTime").First().Name]).SecondMoment); } }
         /// <summary>
+        /// Fluence as a function of rho, z and time Tally Count
+        /// </summary>
+        public long Flu_rzt_TallyCount { get { return ((long)((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "FluenceOfRhoAndZAndTime").First().Name]).TallyCount); } }
+        /// <summary>
         /// Fluence as a function of x, y and z
         /// </summary>
         public double[, ,] Flu_xyz { get { return ((double[, ,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "FluenceOfXAndYAndZ").First().Name]).Mean); } }
@@ -233,13 +305,21 @@ namespace Vts.MonteCarlo
         /// </summary>
         public double[, ,] Flu_xyz2 { get { return ((double[,,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "FluenceOfXAndYAndZ").First().Name]).SecondMoment); } }
         /// <summary>
-        /// Fluence as a function of x, y, z and omega
+        /// Fluence as a function of x, y and z Tally Count
         /// </summary>
-        public Complex[, , ,] Flu_xyzo { get { return ((Complex[, , ,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "FluenceOfXAndYAndZAndOmega").First().Name]).Mean); } }
+        public long Flu_xyz_TallyCount { get { return ((long)((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "FluenceOfXAndYAndZ").First().Name]).TallyCount); } }
+        /// <summary>
+        /// Fluence as a function of x, y, z and omega (temporal frequency)
+        /// </summary>
+        public Complex[, , ,] Flu_xyzw { get { return ((Complex[, , ,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "FluenceOfXAndYAndZAndOmega").First().Name]).Mean); } }
         /// <summary>
         /// Fluence as a function of x, y, z and omega 2nd moment
         /// </summary>
-        public Complex[, , ,] Flu_xyzo2 { get { return ((Complex[, , ,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "FluenceOfXAndYAndZAndOmega").First().Name]).SecondMoment); } }
+        public Complex[, , ,] Flu_xyzw2 { get { return ((Complex[, , ,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "FluenceOfXAndYAndZAndOmega").First().Name]).SecondMoment); } }
+        /// <summary>
+        /// Fluence as a function of x, y, z and omega Tally Count
+        /// </summary>
+        public long Flu_xyzw_TallyCount { get { return ((long)((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "FluenceOfXAndYAndZAndOmega").First().Name]).TallyCount); } }
         /// <summary>
         /// Radiance as a function of rho (surface tally) at depth Z
         /// </summary>
@@ -249,6 +329,10 @@ namespace Vts.MonteCarlo
         /// </summary>
         public double[] Rad_r2 { get { return ((double[])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "RadianceOfRhoAtZ").First().Name]).SecondMoment); } }
         /// <summary>
+        /// Radiance as a function of rho (surface tally) at depth Z Tally Count
+        /// </summary>
+        public long Rad_r_TallyCount { get { return ((long)((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "RadianceOfRhoAtZ").First().Name]).TallyCount); } }
+        /// <summary>
         /// Radiance as a function of rho, z and angle (volume tally)
         /// </summary>
         public double[, ,] Rad_rza { get { return ((double[, ,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "RadianceOfRhoAndZAndAngle").First().Name]).Mean); } }
@@ -256,6 +340,10 @@ namespace Vts.MonteCarlo
         /// Radiance as a function of rho, z and angle (volume tally) 2nd moment
         /// </summary>
         public double[, ,] Rad_rza2 { get { return ((double[, ,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "RadianceOfRhoAndZAndAngle").First().Name]).SecondMoment); } }
+        /// <summary>
+        /// Radiance as a function of rho, z and angle (volume tally) Tally Count
+        /// </summary>
+        public long Rad_rza_TallyCount { get { return ((long)((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "RadianceOfRhoAndZAndAngle").First().Name]).TallyCount); } }
         /// <summary>
         /// Radiance as a function of fx, z and angle (volume tally)
         /// </summary>
@@ -265,6 +353,10 @@ namespace Vts.MonteCarlo
         /// </summary>
         public double[, ,] Rad_fxza2 { get { return ((double[, ,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "RadianceOfFxAndZAndAngle").First().Name]).SecondMoment); } }
         /// <summary>
+        /// Radiance as a function of rho, z and angle (volume tally) Tally Count
+        /// </summary>
+        public long Rad_fxza_TallyCount { get { return ((long)((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "RadianceOfFxAndZAndAngle").First().Name]).TallyCount); } }
+        /// <summary>
         /// Radiance as a function of x, y, z, theta and phi (volume tally)
         /// </summary>
         public double[, , , ,] Rad_xyztp { get { return ((double[, , , ,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "RadianceOfXAndYAndZAndThetaAndPhi").First().Name]).Mean); } }
@@ -273,6 +365,10 @@ namespace Vts.MonteCarlo
         /// </summary>
         public double[, , , ,] Rad_xyztp2 { get { return ((double[, , , ,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "RadianceOfXAndYAndZAndThetaAndPhi").First().Name]).SecondMoment); } }
         /// <summary>
+        /// Radiance as a function of x, y, z, theta and phi (volume tally) Tally Count
+        /// </summary>
+        public long Rad_xyztp_TallyCount { get { return ((long)((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "RadianceOfXAndYAndZAndThetaAndPhi").First().Name]).TallyCount); } }
+        /// <summary>
         /// Reflected Momentum Transfer of Rho and Tissue SubRegion with a histogram of MT
         /// </summary>
         public double[,] RefMT_rmt { get { return ((double[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ReflectedMTOfRhoAndSubregionHist").First().Name]).Mean); } }
@@ -280,6 +376,10 @@ namespace Vts.MonteCarlo
         /// Reflected Momentum Transfer of Rho and Tissue SubRegion with a histogram of MT 2nd moment
         /// </summary>
         public double[,] RefMT_rmt2 { get { return ((double[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ReflectedMTOfRhoAndSubregionHist").First().Name]).SecondMoment); } }
+        /// <summary>
+        /// Reflected Momentum Transfer of Rho and Tissue SubRegion with a histogram of MT Tally Count
+        /// </summary>
+        public long RefMT_rmt_TallyCount { get { return ((long)((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ReflectedMTOfRhoAndSubregionHist").First().Name]).TallyCount); } }
         /// <summary>
         /// Reflected Momentum Transfer of Rho and Tissue SubRegion with a histogram of MT fractional MT
         /// </summary>
@@ -293,6 +393,10 @@ namespace Vts.MonteCarlo
         /// </summary>
         public double[,,] RefMT_xymt2 { get { return ((double[,,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ReflectedMTOfXAndYAndSubregionHist").First().Name]).SecondMoment); } }
         /// <summary>
+        /// Reflected Momentum Transfer of X, Y and Tissue SubRegion with a histogram of MT Tally Count
+        /// </summary>
+        public long RefMT_xymt_TallyCount { get { return ((long)((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ReflectedMTOfXAndYAndSubregionHist").First().Name]).TallyCount); } }
+        /// <summary>
         /// Reflected Momentum Transfer of X, Y and Tissue SubRegion with a histogram of MT fractional MT
         /// </summary>
         public double[,,,,] RefMT_xymt_frac { get { return ((double[,,,,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ReflectedMTOfXAndYAndSubregionHist").First().Name]).FractionalMT); } }
@@ -304,6 +408,10 @@ namespace Vts.MonteCarlo
         /// Transmitted Momentum Transfer of Rho and Tissue SubRegion with a histogram of MT 2nd moment
         /// </summary>
         public double[,] TransMT_rmt2 { get { return ((double[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "TransmittedMTOfRhoAndSubregionHist").First().Name]).SecondMoment); } }
+        /// <summary>
+        /// Transmitted Momentum Transfer of Rho and Tissue SubRegion with a histogram of MT Tally Count
+        /// </summary>
+        public long TransMT_rmt_TallyCount { get { return ((long)((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "TransmittedMTOfRhoAndSubregionHist").First().Name]).TallyCount); } }
         /// <summary>
         /// Transmitted Momentum Transfer of Rho and Tissue SubRegion with a histogram of MT fractional MT
         /// </summary>
@@ -317,6 +425,10 @@ namespace Vts.MonteCarlo
         /// </summary>
         public double[,,] TransMT_xymt2 { get { return ((double[,,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "TransmittedMTOfXAndYAndSubregionHist").First().Name]).SecondMoment); } }
         /// <summary>
+        /// Transmitted Momentum Transfer of Rho and Tissue SubRegion with a histogram of MT Tally Count
+        /// </summary>
+        public long TransMT_xymt_TallyCount { get { return ((long)((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "TransmittedMTOfXAndYAndSubregionHist").First().Name]).TallyCount); } }
+        /// <summary>
         /// Transmitted Momentum Transfer of Rho and Tissue SubRegion with a histogram of MT fractional MT
         /// </summary>
         public double[,,,,] TransMT_xymt_frac { get { return ((double[,,,,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "TransmittedMTOfXAndYAndSubregionHist").First().Name]).FractionalMT); } }
@@ -328,6 +440,10 @@ namespace Vts.MonteCarlo
         /// Reflected Dynamic Momentum Transfer of Rho and Tissue SubRegion with a histogram of MT 2nd moment
         /// </summary>
         public double[,] RefDynMT_rmt2 { get { return ((double[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ReflectedDynamicMTOfRhoAndSubregionHist").First().Name]).SecondMoment); } }
+        /// <summary>
+        /// Reflected Dynamic Momentum Transfer of Rho and Tissue SubRegion with a histogram of MT Tally Count
+        /// </summary>
+        public long RefDynMT_rmt_TallyCount { get { return ((long)((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ReflectedDynamicMTOfRhoAndSubregionHist").First().Name]).TallyCount); } }
         /// <summary>
         /// Reflected Dynamic Momentum Transfer of Rho and Tissue SubRegion with a histogram of MT fractional MT
         /// </summary>
@@ -353,6 +469,10 @@ namespace Vts.MonteCarlo
         /// </summary>
         public double[, ,] RefDynMT_xymt2 { get { return ((double[, ,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ReflectedDynamicMTOfXAndYAndSubregionHist").First().Name]).SecondMoment); } }
         /// <summary>
+        /// Reflected Dynamic Momentum Transfer of X, Y and Tissue SubRegion with a histogram of MT Tally Count
+        /// </summary>
+        public long RefDynMT_xymt_TallyCount { get { return ((long)((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ReflectedDynamicMTOfXAndYAndSubregionHist").First().Name]).TallyCount); } }
+        /// <summary>
         /// Reflected Dynamic Momentum Transfer of X, Y and Tissue SubRegion with a histogram of MT fractional MT
         /// </summary>
         public double[, , ,] RefDynMT_xymt_frac { get { return ((double[, , ,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ReflectedDynamicMTOfXAndYAndSubregionHist").First().Name]).FractionalMT); } }
@@ -376,6 +496,10 @@ namespace Vts.MonteCarlo
         /// Transmitted Dynamic Momentum Transfer of Rho and Tissue SubRegion with a histogram of MT 2nd moment
         /// </summary>
         public double[,] TransDynMT_rmt2 { get { return ((double[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "TransmittedDynamicMTOfRhoAndSubregionHist").First().Name]).SecondMoment); } }
+        /// <summary>
+        /// Transmitted Dynamic Momentum Transfer of Rho and Tissue SubRegion with a histogram of MT Tally Count
+        /// </summary>
+        public long TransDynMT_rmt_TallyCount { get { return ((long)((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "TransmittedDynamicMTOfRhoAndSubregionHist").First().Name]).TallyCount); } }
         /// <summary>
         /// Transmitted Dynamic Momentum Transfer of Rho and Tissue SubRegion with a histogram of MT fractional MT
         /// </summary>
@@ -401,6 +525,10 @@ namespace Vts.MonteCarlo
         /// </summary>
         public double[, ,] TransDynMT_xymt2 { get { return ((double[, ,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "TransmittedDynamicMTOfXAndYAndSubregionHist").First().Name]).SecondMoment); } }
         /// <summary>
+        /// Transmitted Dynamic Momentum Transfer of X, Y and Tissue SubRegion with a histogram of MT Tally Count
+        /// </summary>
+        public long TransDynMT_xymt_TallyCount { get { return ((long)((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "TransmittedDynamicMTOfXAndYAndSubregionHist").First().Name]).TallyCount); } }
+        /// <summary>
         /// Transmitted Dynamic Momentum Transfer of X, Y and Tissue SubRegion with a histogram of MT fractional MT
         /// </summary>
         public double[, , ,] TransDynMT_xymt_frac { get { return ((double[, , ,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "TransmittedDynamicMTOfXAndYAndSubregionHist").First().Name]).FractionalMT); } }
@@ -425,6 +553,10 @@ namespace Vts.MonteCarlo
         /// Reflected Time of Rho and Tissue SubRegion with a histogram of Time 2nd moment
         /// </summary>
         public double[, ,] RefTime_rs_hist2 { get { return ((double[, ,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ReflectedTimeOfRhoAndSubregionHist").First().Name]).SecondMoment); } }
+        /// <summary>
+        /// Reflected Time of Rho and Tissue SubRegion with a histogram of Time Tally Count
+        /// </summary>
+        public long RefTime_rs_hist_TallyCount { get { return ((long)((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ReflectedTimeOfRhoAndSubregionHist").First().Name]).TallyCount); } }
 
         /// <summary>
         /// perturbation MC Reflectance as a function of rho 
@@ -435,6 +567,10 @@ namespace Vts.MonteCarlo
         /// </summary>
         public double[] pMC_R_r2 { get { return ((double[])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "pMCROfRho").First().Name]).SecondMoment); } }
         /// <summary>
+        /// perturbation MC Reflectance as a function of rho Tally Count
+        /// </summary>
+        public long pMC_R_r_TallyCount { get { return ((long)((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "pMCROfRho").First().Name]).TallyCount); } }
+        /// <summary>
         /// perturbation MC Reflectance as a function of rho and time
         /// </summary>
         public double[,] pMC_R_rt { get { return ((double[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "pMCROfRhoAndTime").First().Name]).Mean); } }
@@ -443,13 +579,33 @@ namespace Vts.MonteCarlo
         /// </summary>
         public double[,] pMC_R_rt2 { get { return ((double[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "pMCROfRhoAndTime").First().Name]).SecondMoment); } }
         /// <summary>
+        /// perturbation MC Reflectance as a function of rho and time Tally Count
+        /// </summary>
+        public long pMC_R_rt_TallyCount { get { return ((long)((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "pMCROfRhoAndTime").First().Name]).TallyCount); } }
+        /// <summary>
         /// differential MC Reflectance as a function of rho wrt to mua
         /// </summary>
         public double[] dMCdMua_R_r { get { return ((double[])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "dMCdROfRhodMua").First().Name]).Mean); } }
         /// <summary>
+        /// differential MC Reflectance as a function of rho wrt to mua 2nd moment
+        /// </summary>
+        public double[] dMCdMua_R_r2 { get { return ((double[])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "dMCdROfRhodMua").First().Name]).SecondMoment); } }
+        /// <summary>
+        /// differential MC Reflectance as a function of rho wrt to mua Tally Count
+        /// </summary>
+        public long dMCdMua_R_r_TallyCount { get { return ((long)((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "dMCdROfRhodMua").First().Name]).TallyCount); } }
+        /// <summary>
         /// differential MC Reflectance as a function of rho wrt to mus
         /// </summary>
         public double[] dMCdMus_R_r { get { return ((double[])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "dMCdROfRhodMus").First().Name]).Mean); } }
+        /// <summary>
+        /// differential MC Reflectance as a function of rho wrt to mus 2nd moment
+        /// </summary>
+        public double[] dMCdMus_R_r2 { get { return ((double[])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "dMCdROfRhodMus").First().Name]).SecondMoment); } }
+        /// <summary>
+        /// differential MC Reflectance as a function of rho wrt to mus Tally Count
+        /// </summary>
+        public long dMCdMus_R_r_TallyCount { get { return ((long)((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "dMCdROfRhodMus").First().Name]).TallyCount); } }
         /// <summary>
         /// perturbation MC Reflectance as a function of fx
         /// </summary>
@@ -459,6 +615,10 @@ namespace Vts.MonteCarlo
         /// </summary>
         public Complex[] pMC_R_fx2 { get { return ((Complex[])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "pMCROfFx").First().Name]).SecondMoment); } }
         /// <summary>
+        /// perturbation MC Reflectance as a function of fx Tally Count
+        /// </summary>
+        public long pMC_R_fx_TallyCount { get { return ((long)((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "pMCROfFx").First().Name]).TallyCount); } }
+        /// <summary>
         /// perturbation MC Reflectance as a function of fx and time
         /// </summary>
         public Complex[,] pMC_R_fxt { get { return ((Complex[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "pMCROfFxAndTime").First().Name]).Mean); } }
@@ -466,6 +626,10 @@ namespace Vts.MonteCarlo
         /// perturbation MC Reflectance as a function of fx and time 2nd moment
         /// </summary>
         public Complex[,] pMC_R_fxt2 { get { return ((Complex[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "pMCROfFxAndTime").First().Name]).SecondMoment); } }
+        /// <summary>
+        /// perturbation MC Reflectance as a function of fx and time Tally count
+        /// </summary>
+        public long pMC_R_fxt_TallyCount { get { return ((long)((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "pMCROfFxAndTime").First().Name]).TallyCount); } }
 
         /// <summary>
         /// Simulation Input that generated this SimulationOutput

@@ -171,8 +171,8 @@ namespace Vts.MonteCarlo.Detectors
                                                (Math.Cos(-2 * Math.PI * freq * totalTime) +
                          Complex.ImaginaryOne * Math.Sin(-2 * Math.PI * freq * totalTime));
                     }
-                    TallyCount++;
                 }
+                TallyCount++;
             }
         }
         /// <summary>

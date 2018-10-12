@@ -1,7 +1,17 @@
+@echo off
 set rootdir=%~dp0
 set debugbuildswitches=/p:WarningLevel=2 /nologo /v:n
 set releasebuildswitches=/p:Configuration=Release /p:WarningLevel=2 /nologo /v:n
-set msbuild=%WINDIR%\Microsoft.Net\Framework64\v4.0.30319\msbuild
+set msbuild=%PROGRAMFILES(X86)%\Microsoft Visual Studio\2017\BuildTools\MSBuild\15.0\Bin\MSBuild.exe
+if not exist "%msbuild%" set msbuild=%PROGRAMFILES(X86)%\Microsoft Visual Studio\2017\Professional\MSBuild\15.0\Bin\MSBuild.exe
+if not exist "%msbuild%" set msbuild=%PROGRAMFILES(X86)%\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\MSBuild.exe
+if not exist "%msbuild%" set msbuild=%PROGRAMFILES(X86)%\MSBuild\14.0\Bin\MSBuild.exe
+if not exist "%msbuild%" ( 
+echo *************** Please install the prerequisites to build VTS ***************
+pause
+exit
+)
+echo %msbuild%
 set EnableNuGetPackageRestore=true
 
 "%msbuild%" "%rootdir%\src\Vts.Desktop\Vts.Desktop.csproj" %debugbuildswitches%
