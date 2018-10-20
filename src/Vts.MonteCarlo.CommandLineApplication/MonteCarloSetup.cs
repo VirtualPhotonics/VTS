@@ -54,55 +54,78 @@ namespace Vts.MonteCarlo.CommandLineApplication
             }
         }
 
-        public static ParameterSweep CreateParameterSweep(string[] parameterSweepString, bool useDelta) // todo: check for null returns
+        public static ParameterSweep CreateParameterSweep(string[] parameterSweepString, ParameterSweepType type) // todo: check for null returns
         {
-            if (parameterSweepString.Length != 4)
+            if ((type == ParameterSweepType.Count || type == ParameterSweepType.Delta))
             {
-                string message = 
-                    " *** Invalid sweep parameter ***" +
-                    "\n\t\tsweep parameters should have 4 values in the format:";
-
-                if (useDelta)
+                if (parameterSweepString.Length != 4)
                 {
-                    message += "\n\t\tparamsweepdelta=<ParameterSweepType>,Start,Stop,Delta";
+                    {
+                        string message =
+                            " *** Invalid sweep parameter ***" +
+                            "\n\t\tsweep parameters should have 4 values in the format:";
+                        if (type == ParameterSweepType.Delta)
+                        {
+                            message += "\n\t\tparamsweepdelta=<Parameter>,Start,Stop,Delta";
+                        }
+                        else
+                        {
+                            message += "\n\t\tparamsweep=<Parameter>,Start,Stop,Count";
+                        }
+                        message += "\n\t\tIgnoring this sweep parameter\n";
+                        logger.Warn(() => message);
+                        return null;
+                    }
                 }
-                else
+            }
+            else // type==ParameterSweepType.List
+            {
+                var number = double.Parse(parameterSweepString[1]);
+                // check that number is an integer and that number of parameters is 2 more than number
+                if ((number == Math.Floor(number)) && (parameterSweepString.Length != number + 2))
                 {
-                     message += "\n\t\tparamsweep=<ParameterSweepType>,Start,Stop,Count";
+                    string message =
+                        " *** Invalid sweep parameter: either Number or number of Vals is in error ***" +
+                        "\n\t\tsweep parameters should have format paramsweeplist=<Parameter>,NumVals,Val1,...,ValN";
+                    message += "\n\t\tIgnoring this sweep parameter\n";
+                    logger.Warn(() => message);
+                    return null;
                 }
-
-                message += "\n\t\tIgnoring this sweep parameter\n";
-
-                logger.Warn(() => message);
-                return null;
             }
 
             try
             {
                 var inputParameterType = parameterSweepString[0];
+                double start, stop, delta;
+                int count;
                 DoubleRange sweepRange = null;
-                // batch parameter values should come in fours
-                if (useDelta)
+                switch (type)
                 {
-                    // eg. paramsweepdelta=mua1,-4.0,4.0,0.05 paramsweepdelta=mus1,0.5,1.5,0.1 paramsweepdelta=mus2,0.5,1.5,0.1 ...
-                    var start = double.Parse(parameterSweepString[1]);
-                    var stop = double.Parse(parameterSweepString[2]);
-                    var delta = double.Parse(parameterSweepString[3]);
-
-                    sweepRange = new DoubleRange(start, stop, (int)((stop - start) / delta) + 1);
+                    // batch parameter values should come in fours for Delta and Count
+                    case ParameterSweepType.Delta:
+                        // eg. paramsweepdelta=mua1,-4.0,4.0,0.05 paramsweepdelta=mus1,0.5,1.5,0.1 paramsweepdelta=mus2,0.5,1.5,0.1 ...
+                        start = double.Parse(parameterSweepString[1]);
+                        stop = double.Parse(parameterSweepString[2]);
+                        delta = double.Parse(parameterSweepString[3]);
+                        sweepRange = new DoubleRange(start, stop, (int)((stop - start) / delta) + 1);
+                        return new ParameterSweep(inputParameterType, sweepRange);
+                    case ParameterSweepType.Count: 
+                        // eg. paramsweep=mua1,-4.0,4.0,101 paramsweep=mus1,0.5,1.5,3 paramsweep=mus2,0.5,1.5,3 ...
+                        start = double.Parse(parameterSweepString[1]);
+                        stop = double.Parse(parameterSweepString[2]);
+                        count = int.Parse(parameterSweepString[3]);
+                        sweepRange = new DoubleRange(start, stop, count);
+                        return new ParameterSweep(inputParameterType, sweepRange);
+                    case ParameterSweepType.List:
+                        var number = int.Parse(parameterSweepString[1]);
+                        var sweepList = new double[number];
+                        for (int i = 0; i < number; i++)
+                        { 
+                            sweepList[i]=double.Parse(parameterSweepString[i + 2]);
+                        }
+                        return new ParameterSweep(inputParameterType, sweepList);
                 }
-                else
-                {
-                    // batch parameter values should come in fours 
-                    // eg. paramsweep=mua1,-4.0,4.0,101 paramsweep=mus1,0.5,1.5,3 paramsweep=mus2,0.5,1.5,3 ...
-                    var start = double.Parse(parameterSweepString[1]);
-                    var stop = double.Parse(parameterSweepString[2]);
-                    var count = int.Parse(parameterSweepString[3]);
-
-                    sweepRange = new DoubleRange(start, stop, count);
-                }
-
-                return new ParameterSweep(inputParameterType, sweepRange);
+                return null;
             }
             catch
             {
@@ -117,7 +140,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
 
             foreach (var parameterSweep in parameterSweeps)
             {
-                var sweepValues = parameterSweep.Range.AsEnumerable();
+                var sweepValues = parameterSweep.Values.ToEnumerable<double>();
 
                 batchInputs = batchInputs.WithParameterSweep(sweepValues, parameterSweep.Name.ToLower());
             }

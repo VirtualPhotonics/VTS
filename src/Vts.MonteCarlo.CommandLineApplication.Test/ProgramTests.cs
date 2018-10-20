@@ -90,13 +90,13 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
             {
                 Directory.Delete("one_layer_ROfRho_FluenceOfRhoAndZ_mua1_0.03_mus1_1.20", true);
             }
-            if (Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_N_10.00"))
+            if (Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_nphot_10.00"))
             {
-                Directory.Delete("one_layer_ROfRho_FluenceOfRhoAndZ_N_10.00", true);
+                Directory.Delete("one_layer_ROfRho_FluenceOfRhoAndZ_nphot_10.00", true);
             }
-            if (Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_N_20.00"))
+            if (Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_nphot_20.00"))
             {
-                Directory.Delete("one_layer_ROfRho_FluenceOfRhoAndZ_N_20.00", true);
+                Directory.Delete("one_layer_ROfRho_FluenceOfRhoAndZ_nphot_20.00", true);
             }
             if (Directory.Exists("myResults_mua1_0.01"))
             {
@@ -173,12 +173,28 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
         /// test to verify correct parameter sweep folder names created for output
         /// </summary>
         [Test]
-        public void validate_parameter_sweep_folder_names_when_using_geninfile_infile()
+        public void validate_parameter_sweep_folder_names_when_using_geninfile_infile_and_paramsweep()
         {
             // the following string does not work because it sweeps 0.01, 0.03 due to round
             // off error in MonteCarloSetup
             //string[] arguments = new string[] { "paramsweepdelta=mua1,0.01,0.03,0.01" };
             string[] arguments = new string[] { "infile=infile_one_layer_ROfRho_FluenceOfRhoAndZ.txt", "paramsweep=mua1,0.01,0.03,3" };
+            Program.Main(arguments);
+            // the default infile.txt that is used has OutputName="results"
+            Assert.IsTrue(Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_mua1_0.01"));
+            Assert.IsTrue(Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_mua1_0.02"));
+            Assert.IsTrue(Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_mua1_0.03"));
+        }
+        /// <summary>
+        /// test to verify correct parameter sweep folder names created for output when paramsweeplist is used
+        /// </summary>
+        [Test]
+        public void validate_parameter_sweep_folder_names_when_using_genfile_infile_and_paramsweeplist()
+        {
+            // the following string does not work because it sweeps 0.01, 0.03 due to round
+            // off error in MonteCarloSetup
+            //string[] arguments = new string[] { "paramsweepdelta=mua1,0.01,0.03,0.01" };
+            string[] arguments = new string[] { "infile=infile_one_layer_ROfRho_FluenceOfRhoAndZ.txt", "paramsweeplist=mua1,3,0.01,0.02,0.03" };
             Program.Main(arguments);
             // the default infile.txt that is used has OutputName="results"
             Assert.IsTrue(Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_mua1_0.01"));
