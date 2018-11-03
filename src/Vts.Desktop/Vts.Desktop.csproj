@@ -662,6 +662,9 @@
     <Compile Include="..\Vts\MonteCarlo\Detectors\dMCdROfRhodMusDetector.cs">
       <Link>MonteCarlo\Detectors\dMCdROfRhodMusDetector.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\FluenceOfRhoAndZAndOmegaDetector.cs">
+      <Link>MonteCarlo\Detectors\FluenceOfRhoAndZAndOmegaDetector.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\FluenceOfRhoAndZAndTimeDetector.cs">
       <Link>MonteCarlo\Detectors\FluenceOfRhoAndZAndTimeDetector.cs</Link>
     </Compile>

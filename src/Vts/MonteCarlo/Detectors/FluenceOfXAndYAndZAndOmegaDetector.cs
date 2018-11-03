@@ -11,7 +11,7 @@ using Vts.MonteCarlo.Helpers;
 namespace Vts.MonteCarlo.Detectors
 {
     /// <summary>
-    /// DetectorInput for Fluence(x,y,z)
+    /// DetectorInput for Fluence(x,y,z,ft). Fluence in Cartesian coordinates and temporal-frequency.
     /// </summary>
     public class FluenceOfXAndYAndZAndOmegaDetectorInput : DetectorInput, IDetectorInput
     {

@@ -321,6 +321,18 @@ namespace Vts.MonteCarlo
         /// </summary>
         public long Flu_xyzw_TallyCount { get { return ((long)((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "FluenceOfXAndYAndZAndOmega").First().Name]).TallyCount); } }
         /// <summary>
+        /// Fluence as a function of rho, z and omega (temporal frequency)
+        /// </summary>
+        public Complex[,,] Flu_rzw { get { return ((Complex[,,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "FluenceOfRhoAndZAndOmega").First().Name]).Mean); } }
+        /// <summary>
+        /// Fluence as a function of rho, z and omega 2nd moment
+        /// </summary>
+        public Complex[,,] Flu_rzw2 { get { return ((Complex[,,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "FluenceOfRhoAndZAndOmega").First().Name]).SecondMoment); } }
+        /// <summary>
+        /// Fluence as a function of rho, z and omega Tally Count
+        /// </summary>
+        public long Flu_rzw_TallyCount { get { return ((long)((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "FluenceOfRhoAndZAndOmega").First().Name]).TallyCount); } }
+        /// <summary>
         /// Radiance as a function of rho (surface tally) at depth Z
         /// </summary>
         public double[] Rad_r { get { return ((double[])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "RadianceOfRhoAtZ").First().Name]).Mean); } }
