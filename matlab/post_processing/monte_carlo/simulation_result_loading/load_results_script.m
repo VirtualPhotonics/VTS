@@ -37,6 +37,7 @@ show.FluenceOfRhoAndZ =         1;
 show.FluenceOfXAndYAndZ =       1;
 show.FluenceOfRhoAndZAndTime =  1;
 show.FluenceOfXAndYAndZAndOmega =  1;
+show.FluenceOfRhoAndZAndOmega = 1;
 show.RadianceOfRhoAndZAndAngle = 1;
 show.RadianceOfFxAndZAndAngle = 1;
 show.RadianceOfXAndYAndZAndThetaAndPhi = 1;
@@ -218,7 +219,9 @@ for mci = 1:length(datanames)
         numzs = length(results{di}.FluenceOfXAndYAndZAndOmega.Z)-1;
         center = floor(numys/2)+1;
         for i=1:10:numomegas % do every 10 omegas
-            figname = sprintf('log(%s:amplitude) y=0 omega=%5.3f GHz',results{di}.FluenceOfXAndYAndZAndOmega.Name,results{di}.FluenceOfXAndYAndZAndOmega.Omega_Midpoints(i)); figure; imagesc(results{di}.FluenceOfXAndYAndZAndOmega.X_Midpoints, results{di}.FluenceOfXAndYAndZAndOmega.Z_Midpoints, log(squeeze(results{di}.FluenceOfXAndYAndZAndOmega.Amplitude(i,:,center,:)))); colormap(jet);
+            figname = sprintf('log(%s:amplitude) y=0 omega=%5.3f GHz',results{di}.FluenceOfXAndYAndZAndOmega.Name,results{di}.FluenceOfXAndYAndZAndOmega.Omega_Midpoints(i)); 
+            figure; imagesc(results{di}.FluenceOfXAndYAndZAndOmega.X_Midpoints, results{di}.FluenceOfXAndYAndZAndOmega.Z_Midpoints, log(squeeze(results{di}.FluenceOfXAndYAndZAndOmega.Amplitude(i,:,center,:)))); 
+            colormap(jet);
             colorbar; title(figname); set(gcf,'Name', figname);ylabel('z [mm]'); xlabel('x [mm]'); 
         end
         xdelta = results{di}.FluenceOfXAndYAndZAndOmega.X(2)-results{di}.FluenceOfXAndYAndZAndOmega.X(1);
@@ -227,6 +230,24 @@ for mci = 1:length(datanames)
         voxnorm = xdelta * ydelta * zdelta;
         disp(sprintf('Fluence captured by FluenceOfXAndYAndZAndOmega detector at omega=%5.3f GHz: %5.3f',...
             results{di}.FluenceOfXAndYAndZAndOmega.Omega_Midpoints(1),sum(sum(sum(voxnorm*results{di}.FluenceOfXAndYAndZAndOmega.Amplitude(1,:,:,:))))));
+    end
+    if isfield(results{di}, 'FluenceOfRhoAndZAndOmega') && show.FluenceOfRhoAndZAndOmega
+        numomegas = length(results{di}.FluenceOfRhoAndZAndOmega.Omega);
+        numrhos = length(results{di}.FluenceOfRhoAndZAndOmega.Rho)-1;
+        numzs = length(results{di}.FluenceOfRhoAndZAndOmega.Z)-1;
+        center = floor(numys/2)+1;
+        for i=1:10:numomegas % do every 10 omegas
+            figname = sprintf('log(%s:amplitude) omega=%5.3f GHz',results{di}.FluenceOfRhoAndZAndOmega.Name,results{di}.FluenceOfRhoAndZAndOmega.Omega_Midpoints(i)); 
+            figure; imagesc(results{di}.FluenceOfRhoAndZAndOmega.Rho_Midpoints, results{di}.FluenceOfRhoAndZAndOmega.Z_Midpoints, log(squeeze(results{di}.FluenceOfRhoAndZAndOmega.Amplitude(i,:,:)))); 
+            colormap(jet);
+            colorbar; title(figname); set(gcf,'Name', figname);ylabel('z [mm]'); xlabel('\rho [mm]'); 
+        end
+        rhodelta = results{di}.FluenceOfRhoAndZAndOmega.Rho(2)-results{di}.FluenceOfRhoAndZAndOmega.Rho(1);
+        zdelta = results{di}.FluenceOfRhoAndZAndOmega.Z(2)-results{di}.FluenceOfRhoAndZAndOmega.Z(1);
+        rhonorm = 2 * pi * results{di}.FluenceOfRhoAndZAndOmega.Rho_Midpoints * rhodelta;
+        rhomatrix = repmat(rhonorm',[1,numzs]); % calculate total fluence at single omega
+        disp(sprintf('Fluence captured by FluenceOfRhoAndZAndOmega detector at omega=%5.3f GHz: %5.3f',...
+            results{di}.FluenceOfRhoAndZAndOmega.Omega_Midpoints(1),sum(sum(zdelta*squeeze(results{di}.FluenceOfRhoAndZAndOmega.Amplitude(1,:,:)).*permute(rhomatrix,[2,1])))));
     end
     if isfield(results{di}, 'RadianceOfRhoAndZAndAngle') && show.RadianceOfRhoAndZAndAngle
         numrhos = length(results{di}.RadianceOfRhoAndZAndAngle.Rho) - 1;
