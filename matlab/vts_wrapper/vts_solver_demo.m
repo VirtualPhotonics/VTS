@@ -96,6 +96,7 @@ scatterer.b = 1.42;
 % scatterer.radius =  0.5;
 % scatterer.n =       1.4;
 % scatterer.nMedium = 1.0;
+% scatterer.vol_frac = 0.5;
 
 op = VtsSpectroscopy.GetOP(absorbers, scatterer, wv);
 
@@ -322,7 +323,8 @@ PlotHelper.CreateLegend(op(:,1), '\mu_a: ', 'mm^-^1', options);
 ylabel('R(f_x)');
 xlabel('Spatial frequency, f_x [mm^-^1]');
 
-%% Example ROfFx (multiple optical properties, varying mua as a function of wavelength)
+
+%% Example ROfFx (multiple optical properties, varying mua as a function of wavelength, mus' as intralipid scatterer)
 % Evaluate reflectance as a function of spacial-frequency with multiple 
 % sets of optical properties, varying mua as a function of wavelength.
 
@@ -335,19 +337,80 @@ absorbers.Names =           {'HbO2', 'Hb', 'H2O'};
 absorbers.Concentrations =  [70,     30,   0.8  ];
 
 % create a scatterer (PowerLaw, Intralipid, or Mie)
-scatterer.Type = 'PowerLaw';
-scatterer.A = 1.2;
-scatterer.b = 1.42;
+% scatterer.Type = 'PowerLaw';
+% scatterer.A = 1.2;
+% scatterer.b = 1.42;
 
 % % or 
-% scatterer.Type = 'Intralipid';
-% scatterer.vol_frac =  0.5;
+scatterer.Type = 'Intralipid';
+scatterer.vol_frac =  0.5;
 
 % % or 
 % scatterer.Type = 'Mie';
 % scatterer.radius =  0.5;
 % scatterer.n =       1.4;
 % scatterer.nMedium = 1.0;
+% scatterer.vol_frac = 0.5;
+
+op = VtsSpectroscopy.GetOP(absorbers, scatterer, wv);
+
+% plot the absorption spectrum
+f = figure; plot(wv, op(:,1));
+set(f, 'Name', 'R of fx (plot absorption spectrum)');
+title('Absorption vs wavelength');
+ylabel('\mu_a(\lambda)');
+xlabel('Wavelength, \lambda [nm]');
+
+% plot the log of the absorption spectrum
+f = figure; semilogy(wv, op(:,1));
+set(f, 'Name', 'R of fx (plot log of the absorption spectrum)');
+title('log(Absorption) vs wavelength'); 
+ylabel('\mu_a(\lambda)');
+xlabel('Wavelength, \lambda [nm]');
+
+% plot the scattering spectrum
+f = figure; plot(wv, op(:,2));
+set(f, 'Name', 'R of fx (plot scattering spectrum)');
+title('Reduced scattering vs wavelength'); 
+ylabel('\mu_s^''(\lambda)');
+xlabel('Wavelength, \lambda [nm]');
+
+% calculate and plot the resulting reflectance spectrum at each frequency
+test3 = VtsSolvers.ROfFx(op, fx);
+f = figure; plot(wv, test3);
+set(f, 'Name', 'R of fx (plot resulting reflectance spectrum at each frequency)');
+title('SFD Reflectance vs wavelength'); 
+ylabel('R(\lambda)');
+xlabel('Wavelength, \lambda [nm]');
+options = [{'Location', 'NorthWest'}; {'FontSize', 12}; {'Box', 'on'}];
+PlotHelper.CreateLegend(fx, 'f_x = ', 'mm^-^1', options);
+%% Example ROfFx (multiple optical properties, varying mua as a function of wavelength, mus' as mie scatterer)
+% Evaluate reflectance as a function of spacial-frequency with multiple 
+% sets of optical properties, varying mua as a function of wavelength.
+
+fx = 0:0.05:0.2; % range of spatial frequencies in 1/mm
+wv = 450:0.5:1000;
+nwv = length(wv);
+
+% create a list of chromophore absorbers and their concentrations
+absorbers.Names =           {'HbO2', 'Hb', 'H2O'};
+absorbers.Concentrations =  [70,     30,   0.8  ];
+
+% create a scatterer (PowerLaw, Intralipid, or Mie)
+% scatterer.Type = 'PowerLaw';
+% scatterer.A = 1.2;
+% scatterer.b = 1.42;
+
+% % or 
+% scatterer.Type = 'Intralipid';
+% scatterer.vol_frac =  0.5;
+
+% % or 
+scatterer.Type = 'Mie';
+scatterer.radius =  0.5;
+scatterer.n =       1.4;
+scatterer.nMedium = 1.0;
+scatterer.vol_frac = 0.5;
 
 op = VtsSpectroscopy.GetOP(absorbers, scatterer, wv);
 

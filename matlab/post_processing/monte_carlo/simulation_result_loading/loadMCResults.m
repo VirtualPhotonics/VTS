@@ -119,7 +119,9 @@ for di = 1:numDetectors
             ROfFx.Fx = linspace((tempFx.Start), (tempFx.Stop), (tempFx.Count));
             ROfFx.Fx_Midpoints = ROfFx.Fx;
             tempData = readBinaryData([datadir slash detector.Name],2*length(ROfFx.Fx));
-            ROfFx.Mean = tempData(1:2:end) + 1i*tempData(2:2:end);          
+            ROfFx.Mean = tempData(1:2:end) + 1i*tempData(2:2:end);  
+            ROfFx.Amplitude = abs(ROfFx.Mean);
+            ROfFx.Phase = -angle(ROfFx.Mean);
             if(detector.TallySecondMoment && exist([datadir slash detector.Name '_2'],'file'))
                 tempData = readBinaryData([datadir slash detector.Name '_2'],2*length(ROfFx.Fx));
                 ROfFx.SecondMoment = tempData(1:2:end) + tempData(2:2:end); % SecondMoment=E[re^2]+E[im^2] is real
@@ -128,6 +130,26 @@ for di = 1:numDetectors
                                                        - imag(ROfFx.Mean) .* imag(ROfFx.Mean)) / json.N);
             end
             results{di}.ROfFx = ROfFx;
+        case 'ROfFxAndTime'
+            ROfFxAndTime.Name = detector.Name;
+            tempFx = detector.Fx;
+            tempTime = detector.Time;
+            ROfFxAndTime.Fx = linspace((tempFx.Start), (tempFx.Stop), (tempFx.Count));
+            ROfFxAndTime.Time = linspace((tempTime.Start), (tempTime.Stop), (tempTime.Count));
+            ROfFxAndTime.Fx_Midpoints = ROfFxAndTime.Fx;
+            ROfFxAndTime.Time_Midpoints = (ROfFxAndTime.Time(1:end-1) + ROfFxAndTime.Time(2:end))/2;
+            tempData = readBinaryData([datadir slash detector.Name],[2*(length(ROfFxAndTime.Time)-1), length(ROfFxAndTime.Fx)]); % column major but complex
+            ROfFxAndTime.Mean = tempData(1:2:end,:) + 1i*tempData(2:2:end,:);  
+            ROfFxAndTime.Amplitude = abs(ROfFxAndTime.Mean);
+            ROfFxAndTime.Phase = -angle(ROfFxAndTime.Mean);
+            if(detector.TallySecondMoment && exist([datadir slash detector.Name '_2'],'file'))
+                tempData = readBinaryData([datadir slash detector.Name '_2'],[2*(length(ROfFxAndTime.Time)-1), length(ROfFxAndTime.Fx)]);
+                ROfFxAndTime.SecondMoment = tempData(1:2:end) + tempData(2:2:end); % SecondMoment=E[re^2]+E[im^2] is real
+                % SD=sqrt( SecondMoment - E[re]^2 - E[im]^2 )
+                ROfFxAndTime.Stdev = sqrt((ROfFxAndTime.SecondMoment - real(ROfFxAndTime.Mean) .* real(ROfFxAndTime.Mean) ...
+                                                       - imag(ROfFxAndTime.Mean) .* imag(ROfFxAndTime.Mean)) / json.N);
+            end
+            results{di}.ROfFxAndTime = ROfFxAndTime;
         case 'TDiffuse'
             TDiffuse.Name = detector.Name;
             TDiffuse_txt = readAndParseJson([datadir slash detector.Name '.txt']);
@@ -191,7 +213,9 @@ for di = 1:numDetectors
             TOfFx.Fx = linspace((tempFx.Start), (tempFx.Stop), (tempFx.Count));
             TOfFx.Fx_Midpoints = TOfFx.Fx;
             tempData = readBinaryData([datadir slash detector.Name],2*length(TOfFx.Fx));
-            TOfFx.Mean = tempData(1:2:end) + 1i*tempData(2:2:end);          
+            TOfFx.Mean = tempData(1:2:end) + 1i*tempData(2:2:end);     
+            TOfFx.Amplitude = abs(TOfFx.Mean);
+            TOfFx.Phase = -angle(TOfFx.Mean);
             if(detector.TallySecondMoment && exist([datadir slash detector.Name '_2'],'file'))
                 tempData = readBinaryData([datadir slash detector.Name '_2'],2*length(TOfFx.Fx));
                 TOfFx.SecondMoment = tempData(1:2:end) + tempData(2:2:end); % SecondMoment=E[re^2]+E[im^2] is real
@@ -242,7 +266,7 @@ for di = 1:numDetectors
                     [length(AOfXAndYAndZ.Z)-1,length(AOfXAndYAndZ.Y)-1,length(AOfXAndYAndZ.X)-1]);
                 AOfXAndYAndZ.Stdev = sqrt((AOfXAndYAndZ.SecondMoment - (AOfXAndYAndZ.Mean .* AOfXAndYAndZ.Mean)) / json.N);  
             end
-            results{di}.AOfXAndYAndZ = AOfXAndYAndZ
+            results{di}.AOfXAndYAndZ = AOfXAndYAndZ;
         case 'FluenceOfRhoAndZ'
             FluenceOfRhoAndZ.Name = detector.Name;
             tempRho = detector.Rho;
@@ -332,8 +356,59 @@ for di = 1:numDetectors
                 % SD=sqrt( SecondMoment - E[re]^2 - E[im]^2 )
                 FluenceOfXAndYAndZAndOmega.Stdev = sqrt((FluenceOfXAndYAndZAndOmega.SecondMoment - real(FluenceOfXAndYAndZAndOmega.Mean) .* real(FluenceOfXAndYAndZAndOmega.Mean) ...
                                                                            - imag(FluenceOfXAndYAndZAndOmega.Mean) .* imag(FluenceOfXAndYAndZAndOmega.Mean)) / json.N);
-end                 
+            end                 
             results{di}.FluenceOfXAndYAndZAndOmega = FluenceOfXAndYAndZAndOmega;
+        case 'FluenceOfRhoAndZAndOmega'
+            FluenceOfRhoAndZAndOmega.Name = detector.Name;
+            tempRho = detector.Rho;
+            tempZ = detector.Z;
+            tempOmega = detector.Omega;
+            FluenceOfRhoAndZAndOmega.Rho = linspace((tempRho.Start), (tempRho.Stop), (tempRho.Count));
+            FluenceOfRhoAndZAndOmega.Z = linspace((tempZ.Start), (tempZ.Stop), (tempZ.Count));
+            FluenceOfRhoAndZAndOmega.Omega = linspace((tempOmega.Start), (tempOmega.Stop), (tempOmega.Count));
+            FluenceOfRhoAndZAndOmega.Rho_Midpoints = (FluenceOfRhoAndZAndOmega.Rho(1:end-1) + FluenceOfRhoAndZAndOmega.Rho(2:end))/2;
+            FluenceOfRhoAndZAndOmega.Z_Midpoints = (FluenceOfRhoAndZAndOmega.Z(1:end-1) + FluenceOfRhoAndZAndOmega.Z(2:end))/2;
+            FluenceOfRhoAndZAndOmega.Omega_Midpoints = FluenceOfRhoAndZAndOmega.Omega; % omega is not binned, value is used
+            tempData = readBinaryData([datadir slash detector.Name], ...
+                [2*(length(FluenceOfRhoAndZAndOmega.Rho)-1)*(length(FluenceOfRhoAndZAndOmega.Z)-1)*(length(FluenceOfRhoAndZAndOmega.Omega))]); 
+            tempDataReshape = reshape(tempData, ...% column major json binary
+                [2*length(FluenceOfRhoAndZAndOmega.Omega),length(FluenceOfRhoAndZAndOmega.Z)-1,length(FluenceOfRhoAndZAndOmega.Rho)-1]);
+            FluenceOfRhoAndZAndOmega.Mean = tempDataReshape(1:2:end,:,:) + 1i*tempDataReshape(2:2:end,:,:);
+            FluenceOfRhoAndZAndOmega.Amplitude = abs(FluenceOfRhoAndZAndOmega.Mean);
+            FluenceOfRhoAndZAndOmega.Phase = -angle(FluenceOfRhoAndZAndOmega.Mean);
+            if(detector.TallySecondMoment && exist([datadir slash detector.Name '_2'],'file'))
+                tempData = readBinaryData([datadir slash detector.Name '_2'], ...
+                    [2*(length(FluenceOfRhoAndZAndOmega.Rho)-1)*(length(FluenceOfRhoAndZAndOmega.Z)-1)*(length(FluenceOfRhoAndZAndOmega.Omega))]);
+                tempDataReshape = reshape(tempData, ... % column major json binary
+                    [2*length(FluenceOfRhoAndZAndOmega.Omega),length(FluenceOfRhoAndZAndOmega.Z)-1,length(FluenceOfRhoAndZAndOmega.X)-1]);
+                FluenceOfRhoAndZAndOmega.SecondMoment = tempDataReshape(1:2:end,:,:) + tempDataReshape(2:2:end,:,:); % SecondMoment=E[re^2]+E[im^2] is real
+                % SD=sqrt( SecondMoment - E[re]^2 - E[im]^2 )
+                FluenceOfRhoAndZAndOmega.Stdev = sqrt((FluenceOfRhoAndZAndOmega.SecondMoment - real(FluenceOfRhoAndZAndOmega.Mean) .* real(FluenceOfRhoAndZAndOmega.Mean) ...
+                                                                           - imag(FluenceOfRhoAndZAndOmega.Mean) .* imag(FluenceOfRhoAndZAndOmega.Mean)) / json.N);
+            end                 
+            results{di}.FluenceOfRhoAndZAndOmega = FluenceOfRhoAndZAndOmega;
+        case 'FluenceOfFxAndZ'
+            FluenceOfFxAndZ.Name = detector.Name;
+            tempFx = detector.Fx;
+            tempZ = detector.Z;
+            FluenceOfFxAndZ.Fx = linspace((tempFx.Start), (tempFx.Stop), (tempFx.Count));
+            FluenceOfFxAndZ.Z = linspace((tempZ.Start), (tempZ.Stop), (tempZ.Count));
+            FluenceOfFxAndZ.Fx_Midpoints = FluenceOfFxAndZ.Fx;
+            FluenceOfFxAndZ.Z_Midpoints = (FluenceOfFxAndZ.Z(1:end-1) + FluenceOfFxAndZ.Z(2:end))/2;
+            tempData = readBinaryData([datadir slash detector.Name], ...
+                [2*(length(FluenceOfFxAndZ.Z)-1),length(FluenceOfFxAndZ.Fx)]); % column major but with complex
+            FluenceOfFxAndZ.Mean = tempData(1:2:end,:) + 1i*tempData(2:2:end,:);
+            FluenceOfFxAndZ.Amplitude = abs(FluenceOfFxAndZ.Mean);
+            FluenceOfFxAndZ.Phase = -angle(FluenceOfFxAndZ.Mean);
+            if(detector.TallySecondMoment && exist([datadir slash detector.Name '_2'],'file'))
+                tempData = readBinaryData([datadir slash detector.Name '_2'], ...
+                    [2*(length(FluenceOfFxAndZ.Z)-1),length(FluenceOfFxAndZ.Fx)]);
+                FluenceOfFxAndZ.SecondMoment = tempData(1:2:end,:) + tempData(2:2:end,:); % SecondMoment=E[re^2]+E[im^2] is real
+                % SD=sqrt( SecondMoment - E[re]^2 - E[im]^2 )
+                FluenceOfFxAndZ.Stdev = sqrt((FluenceOfFxAndZ.SecondMoment - real(FluenceOfFxAndZ.Mean) .* real(FluenceOfFxAndZ.Mean) ...
+                                                                           - imag(FluenceOfFxAndZ.Mean) .* imag(FluenceOfFxAndZ.Mean)) / json.N);
+            end                 
+            results{di}.FluenceOfFxAndZ = FluenceOfFxAndZ;
         case 'RadianceOfRhoAndZAndAngle'
             RadianceOfRhoAndZAndAngle.Name = detector.Name;
             tempRho = detector.Rho;

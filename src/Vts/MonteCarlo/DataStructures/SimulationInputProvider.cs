@@ -84,6 +84,8 @@ namespace Vts.MonteCarlo
                     new FluenceOfRhoAndZDetectorInput() {Rho=new DoubleRange(0.0, 10, 101),Z=new DoubleRange(0.0, 10, 101)},
                     new FluenceOfXAndYAndZDetectorInput(){X=new DoubleRange(-10, 10, 201),Y=new DoubleRange(-10, 10, 2),Z=new DoubleRange(0, 10, 101)},
                     new FluenceOfXAndYAndZAndOmegaDetectorInput(){X=new DoubleRange(-10, 10, 201),Y=new DoubleRange(-10, 10, 2),Z=new DoubleRange(0, 10, 101),Omega=new DoubleRange(0.0, 1, 21)},
+                    new FluenceOfRhoAndZAndOmegaDetectorInput(){Rho=new DoubleRange(0, 10, 101),Z=new DoubleRange(0, 10, 101),Omega=new DoubleRange(0.0, 1, 21)},
+                    new FluenceOfFxAndZDetectorInput(){Fx=new DoubleRange(0, 0.5, 51),Z=new DoubleRange(0, 10, 101)},
                     new RadianceOfRhoAndZAndAngleDetectorInput(){Rho=new DoubleRange(0.0, 10, 101),Z=new DoubleRange(0.0, 10, 101),Angle=new DoubleRange(0, Math.PI, 3)},
                     new RadianceOfFxAndZAndAngleDetectorInput(){Fx=new DoubleRange(0.0, 0.5, 51),Z=new DoubleRange(0.0, 10, 101),Angle=new DoubleRange(0, Math.PI, 3)},
                     new RadianceOfXAndYAndZAndThetaAndPhiDetectorInput(){

@@ -34,7 +34,7 @@ classdef VtsSpectroscopy
                 case 'Intralipid'
                     if(isfield(scatterer, 'vol_frac'))
                         scattererNET = Vts.SpectralMapping.IntralipidScatterer(...
-                            scatterer.VolumeFraction);
+                            scatterer.vol_frac);
                     else % call default constructor
                         scattererNET = Vts.SpectralMapping.IntralipidScatterer;
                     end
@@ -43,7 +43,8 @@ classdef VtsSpectroscopy
                         scattererNET = Vts.SpectralMapping.MieScatterer(...
                             scatterer.radius, ...
                             scatterer.n, ...
-                            scatterer.nMedium);
+                            scatterer.nMedium,...
+                            scatterer.vol_frac);
                     else % call default constructor
                         scattererNET = Vts.SpectralMapping.MieScatterer;
                     end
