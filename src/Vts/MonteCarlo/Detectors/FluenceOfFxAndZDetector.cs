@@ -97,13 +97,11 @@ namespace Vts.MonteCarlo.Detectors
         private ITissue _tissue;
         private IList<OpticalProperties> _ops;
         private Complex[,] _tallyForOnePhoton;
-        int otherTally;
 
         public void Initialize(ITissue tissue, Random rng)
         {
             // assign any user-defined outputs (except arrays...we'll make those on-demand)
             TallyCount = 0;
-            otherTally = 0;
 
             // if the data arrays are null, create them (only create second moment if TallySecondMoment is true)
             Mean = Mean ?? new Complex[Fx.Count, Z.Count - 1];
@@ -150,10 +148,6 @@ namespace Vts.MonteCarlo.Detectors
                     }
                 }
                 TallyCount++;
-            }
-            else
-            {
-                otherTally++;
             }
         }
         /// <summary>
