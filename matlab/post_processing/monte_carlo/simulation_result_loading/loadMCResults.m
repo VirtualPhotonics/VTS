@@ -130,6 +130,26 @@ for di = 1:numDetectors
                                                        - imag(ROfFx.Mean) .* imag(ROfFx.Mean)) / json.N);
             end
             results{di}.ROfFx = ROfFx;
+        case 'ROfFxAndTime'
+            ROfFxAndTime.Name = detector.Name;
+            tempFx = detector.Fx;
+            tempTime = detector.Time;
+            ROfFxAndTime.Fx = linspace((tempFx.Start), (tempFx.Stop), (tempFx.Count));
+            ROfFxAndTime.Time = linspace((tempTime.Start), (tempTime.Stop), (tempTime.Count));
+            ROfFxAndTime.Fx_Midpoints = ROfFxAndTime.Fx;
+            ROfFxAndTime.Time_Midpoints = (ROfFxAndTime.Time(1:end-1) + ROfFxAndTime.Time(2:end))/2;
+            tempData = readBinaryData([datadir slash detector.Name],[2*(length(ROfFxAndTime.Time)-1), length(ROfFxAndTime.Fx)]); % column major but complex
+            ROfFxAndTime.Mean = tempData(1:2:end,:) + 1i*tempData(2:2:end,:);  
+            ROfFxAndTime.Amplitude = abs(ROfFxAndTime.Mean);
+            ROfFxAndTime.Phase = -angle(ROfFxAndTime.Mean);
+            if(detector.TallySecondMoment && exist([datadir slash detector.Name '_2'],'file'))
+                tempData = readBinaryData([datadir slash detector.Name '_2'],[2*(length(ROfFxAndTime.Time)-1), length(ROfFxAndTime.Fx)]);
+                ROfFxAndTime.SecondMoment = tempData(1:2:end) + tempData(2:2:end); % SecondMoment=E[re^2]+E[im^2] is real
+                % SD=sqrt( SecondMoment - E[re]^2 - E[im]^2 )
+                ROfFxAndTime.Stdev = sqrt((ROfFxAndTime.SecondMoment - real(ROfFxAndTime.Mean) .* real(ROfFxAndTime.Mean) ...
+                                                       - imag(ROfFxAndTime.Mean) .* imag(ROfFxAndTime.Mean)) / json.N);
+            end
+            results{di}.ROfFxAndTime = ROfFxAndTime;
         case 'TDiffuse'
             TDiffuse.Name = detector.Name;
             TDiffuse_txt = readAndParseJson([datadir slash detector.Name '.txt']);

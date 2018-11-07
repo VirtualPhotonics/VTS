@@ -23,6 +23,7 @@ show.ROfRhoAndTime =            1;
 show.ROfRhoAndAngle =           1;
 show.ROfRhoAndOmega =           1;
 show.ROfFx =                    1;
+show.ROfFxAndTime =             1;
 show.RSpecular =                1;
 show.TDiffuse =                 1;
 show.TOfRho =                   1;
@@ -122,6 +123,14 @@ for mci = 1:length(datanames)
         disp(['Total reflectance captured by ROfFx detector: ' num2str(results{di}.ROfFx.Amplitude(1))]);
     end
 
+    if isfield(results{di}, 'ROfFxAndTime') && show.ROfFxAndTime
+        figname = sprintf('%s - log(Amplitude)',results{di}.ROfFxAndTime.Name); 
+        figure; imagesc(results{di}.ROfFxAndTime.Time_Midpoints, results{di}.ROfFxAndTime.Fx_Midpoints, log(results{di}.ROfFxAndTime.Amplitude')); 
+        title(figname); set(gcf,'Name', figname);colorbar; xlabel('time [ns]'); ylabel('f_x [/mm]');
+        timedelta = results{di}.ROfFxAndTime.Time(2)-results{di}.ROfFxAndTime.Time(1);
+        disp(['Total reflectance captured by ROfFxAndTime detector: ' num2str(sum(timedelta*results{di}.ROfFxAndTime.Amplitude(:,1)))]);
+        end
+    
     if isfield(results{di}, 'TDiffuse') && show.TDiffuse
         disp(['Total transmittance captured by TDiffuse detector: ' num2str(results{di}.TDiffuse.Mean)]);
     end
