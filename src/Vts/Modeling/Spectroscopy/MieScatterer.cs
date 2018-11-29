@@ -123,12 +123,21 @@ namespace Vts.SpectralMapping
 
         /// <summary>
         /// Volume fraction
+        /// Note: force value to be between [0, 1]
         /// </summary>
         public double VolumeFraction
         {
             get { return _VolumeFraction; }
             set
             {
+                if (value > 1)
+                {
+                    value = 1;
+                }
+                if (value < 0)
+                {
+                    value = 0;
+                }
                 _VolumeFraction = value;
             }
         }
