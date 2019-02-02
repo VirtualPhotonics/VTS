@@ -1,8 +1,11 @@
 ﻿
+using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using NUnit.Framework;
+using Vts.IO;
 
 namespace Vts.MonteCarlo.CommandLineApplication.Test
 {
@@ -15,7 +18,7 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
             "ellip_FluenceOfRhoAndZ",
             "embeddedDirectionalCircularSourceEllipTissue",
             "Flat_source_one_layer_ROfRho",
-            "Gaussian_source_one_layer_ROfRho", // uncomment this when bug fixed in Gaussian source
+            "Gaussian_source_one_layer_ROfRho", 
             "one_layer_all_detectors",
             "one_layer_FluenceOfRhoAndZ_RadianceOfRhoAndZAndAngle",
             "one_layer_ROfRho_FluenceOfRhoAndZ",
@@ -58,10 +61,6 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
                 }
             }
 
-            if (Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ"))
-            {
-                Directory.Delete("one_layer_ROfRho_FluenceOfRhoAndZ", true); // delete recursively
-            }
             if (Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_mua1_0.01"))
             {
                 Directory.Delete("one_layer_ROfRho_FluenceOfRhoAndZ_mua1_0.01", true);
@@ -109,26 +108,10 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
             if (Directory.Exists("myResults_mua1_0.03"))
             {
                 Directory.Delete("myResults_mua1_0.03", true);
-            } 
-            if (Directory.Exists("pMC_one_layer_ROfRho_DAW"))
-            {
-                Directory.Delete("pMC_one_layer_ROfRho_DAW", true);
-            } 
-            if (File.Exists("pMC_one_layer_ROfRho_DAW/DiffuseReflectanceDatabase"))
-            {
-                File.Delete("pMC_one_layer_ROfRho_DAW/DiffuseReflectanceDatabase");
-            } 
-            if (File.Exists("pMC_one_layer_ROfRho_DAW/DiffuseReflectanceDatabase.txt"))
-            {
-                File.Delete("pMC_one_layer_ROfRho_DAW/DiffuseReflectance.txt");
             }
-            if (File.Exists("pMC_one_layer_ROfRho_DAW/CollisionInfoDatabase"))
+            if (Directory.Exists("one_layer_ROfRho_Mus_only"))
             {
-                File.Delete("pMC_one_layer_ROfRho_DAW/CollisionInfoDatabase");
-            }
-            if (File.Exists("pMC_one_layer_ROfRho_DAW/CollisionInfoDatabase.txt"))
-            {
-                File.Delete("pMC_one_layer_ROfRho_DAW/CollisionInfoDatabase.txt");
+                Directory.Delete("one_layer_ROfRho_Mus_only", true);
             }
         }
 
@@ -262,6 +245,54 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
             Assert.IsTrue(File.Exists("pMC_one_layer_ROfRho_DAW/DiffuseReflectanceDatabase.txt"));
             Assert.IsTrue(File.Exists("pMC_one_layer_ROfRho_DAW/CollisionInfoDatabase"));
             Assert.IsTrue(File.Exists("pMC_one_layer_ROfRho_DAW/CollisionInfoDatabase.txt"));
+        }
+        /// <summary>
+        /// Test to verify that change (Jan 2019) to deserialization of infile to handle specification of
+        /// 1) Mus only (no Musp)
+        /// 2) Musp only (no Mus)
+        /// 3) Mus and Musp specified but inconsistent
+        /// </summary>
+        [Test]
+        public void validate_deserialization_of_infile_for_Mus_only_specification()
+        {
+            var name = Assembly.GetExecutingAssembly().FullName;
+            var assemblyName = new AssemblyName(name).Name;
+            FileIO.CopyFileFromEmbeddedResources(
+                assemblyName + ".Resources.infile_unit_test_one_layer_ROfRho_Mus_only.txt", 
+                "infile_unit_test_one_layer_ROfRho_Mus_only.txt", name);
+            string[] arguments = new string[] { "infile=infile_unit_test_one_layer_ROfRho_Mus_only.txt" };
+            Program.Main(arguments);
+            Assert.IsTrue(Directory.Exists("one_layer_ROfRho_Mus_only"));
+        }
+        [Test]
+        public void validate_deserialization_of_infile_for_Musp_only_specification()
+        {
+            var name = Assembly.GetExecutingAssembly().FullName;
+            var assemblyName = new AssemblyName(name).Name;
+            FileIO.CopyFileFromEmbeddedResources(
+                assemblyName + ".Resources.infile_unit_test_one_layer_ROfRho_Musp_only.txt",
+                "infile_unit_test_one_layer_ROfRho_Musp_only.txt", name);
+            string[] arguments = new string[] { "infile=infile_unit_test_one_layer_ROfRho_Musp_only.txt" };
+            Program.Main(arguments);
+            Assert.IsTrue(Directory.Exists("one_layer_ROfRho_Musp_only"));
+        }
+        [Test]
+        public void validate_deserialization_of_infile_for_Mus_and_Musp_inconsistent_specification()
+        {
+            var name = Assembly.GetExecutingAssembly().FullName;
+            var assemblyName = new AssemblyName(name).Name;
+            FileIO.CopyFileFromEmbeddedResources(
+                assemblyName + ".Resources.infile_unit_test_one_layer_ROfRho_Musp_and_Mus_inconsistent.txt",
+                "infile_unit_test_one_layer_ROfRho_Musp_and_Mus_inconsistent.txt", name);
+            string[] arguments = new string[] { "infile=infile_unit_test_one_layer_ROfRho_Musp_and_Mus_inconsistent.txt" };
+            Program.Main(arguments);
+            Assert.IsTrue(Directory.Exists("one_layer_ROfRho_Musp_and_Mus_inconsistent"));
+            var writtenInfile = SimulationInput.FromFile(
+                "one_layer_RofRho_Musp_and_Mus_inconsistent/one_layer_ROfRho_Musp_and_Mus_inconsistent.txt");
+            // infile specifies Mus=5.0 and Musp=1.2 with g=0.8
+            // when there is inconsistency in Mus and Musp specification, code modifies Mus to conform to Musp
+            // the following test verifies that Mus was modified accordingly
+            Assert.Less(Math.Abs(writtenInfile.TissueInput.Regions[1].RegionOP.Mus - 6.0), 1e-6);
         }
     }
 }

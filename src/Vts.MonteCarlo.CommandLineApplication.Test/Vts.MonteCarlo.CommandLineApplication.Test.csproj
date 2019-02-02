@@ -55,6 +55,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Vts.Desktop\Vts.Desktop.csproj">
+      <Project>{05B6020A-B646-4BBB-B9A0-B524F5F85023}</Project>
+      <Name>Vts.Desktop</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Vts.MonteCarlo.CommandLineApplication\Vts.MonteCarlo.CommandLineApplication.csproj">
       <Project>{8E45BF42-5B0B-4AEF-9E63-B2966622FC23}</Project>
       <Name>Vts.MonteCarlo.CommandLineApplication</Name>
@@ -66,6 +70,12 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\infile_unit_test_one_layer_ROfRho_Musp_and_Mus_inconsistent.txt" />
+    <EmbeddedResource Include="Resources\infile_unit_test_one_layer_ROfRho_Musp_only.txt" />
+    <EmbeddedResource Include="Resources\infile_unit_test_one_layer_ROfRho_Mus_only.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
