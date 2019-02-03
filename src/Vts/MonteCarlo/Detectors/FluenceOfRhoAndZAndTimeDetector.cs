@@ -138,6 +138,8 @@ namespace Vts.MonteCarlo.Detectors
             var it = DetectorBinning.WhichBin(dp.TotalTime, Time.Count - 1, Time.Delta, Time.Start);           
 
             var weight = _absorptionWeightingMethod(previousDP, dp, currentRegionIndex);
+            // Note: GetVolumeAbsorptionWeightingMethod in Initialize method determines the *absorbed* weight
+            //  so for fluence this weight is divided by Mua
 
             var regionIndex = currentRegionIndex;
 
