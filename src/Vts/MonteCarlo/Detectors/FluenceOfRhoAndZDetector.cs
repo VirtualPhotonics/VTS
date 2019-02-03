@@ -126,6 +126,8 @@ namespace Vts.MonteCarlo.Detectors
             var iz = DetectorBinning.WhichBin(dp.Position.Z, Z.Count - 1, Z.Delta, Z.Start);
 
             var weight = _absorptionWeightingMethod(previousDP, dp, currentRegionIndex);
+            // Note: GetVolumeAbsorptionWeightingMethod in Initialize method determines the *absorbed* weight
+            //  so for fluence this weight is divided by Mua
 
             var regionIndex = currentRegionIndex;
 
@@ -175,16 +177,19 @@ namespace Vts.MonteCarlo.Detectors
         /// <param name="numPhotons">number of photons launched</param>
         public void Normalize(long numPhotons)
         {
+            // vol=pi(r+delr)^2 delz - pi r^2 delz = pi(r*r+2*r*delr+delr*delr)delz - pi(r*r*delz)
+            // = pi(r*r*delz)+pi*2*r*delr*delz+pi*delr*delr*delz-p(r*r*delz)
+            // = pi*2*r*delr*delz+pi*delr*delr*delz= pi*2*delr*delz*(r+delr/2)
             var normalizationFactor = 2.0 * Math.PI * Rho.Delta * Z.Delta;
             for (int ir = 0; ir < Rho.Count - 1; ir++)
             {
+                var volumeNorm = (Rho.Start + (ir + 0.5) * Rho.Delta) * normalizationFactor;
                 for (int iz = 0; iz < Z.Count - 1; iz++)
-                {
-                    var areaNorm = (Rho.Start + (ir + 0.5) * Rho.Delta) * normalizationFactor;
-                    Mean[ir, iz] /= areaNorm * numPhotons;
+                {                  
+                    Mean[ir, iz] /= volumeNorm * numPhotons;
                     if (TallySecondMoment)
                     {
-                        SecondMoment[ir, iz] /= areaNorm * areaNorm * numPhotons;
+                        SecondMoment[ir, iz] /= volumeNorm * volumeNorm * numPhotons;
                     }
                 }
             }

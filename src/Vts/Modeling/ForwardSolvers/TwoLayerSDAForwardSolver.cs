@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using MathNet.Numerics;
 using MathNet.Numerics.IntegralTransforms;
 using Vts.Extensions;
 
@@ -424,6 +425,39 @@ namespace Vts.Modeling.ForwardSolvers
             return fluence / (2 * Math.PI);
         }
 
+
+        public override IEnumerable<Complex> FluenceOfRhoAndZAndFt(
+            IEnumerable<IOpticalPropertyRegion[]> regions, 
+            IEnumerable<double> rhos,
+            IEnumerable<double> zs, 
+            IEnumerable<double> fts)
+        {
+            foreach (var region in regions)
+            {
+                var dps  = GetDiffusionParameters(region);
+                var layerThicknesses = GetLayerThicknesses(region);
+                foreach (var rho in rhos)
+                {
+                    foreach (var z in zs)
+                    {
+                        foreach (var ft in fts)
+                        {
+
+                            yield return TemporalFrequencyFluence(rho, z, ft, dps, layerThicknesses).Magnitude;
+                        }
+                    }
+                }
+            }
+        }
+        /// <summary>
+        /// used to determine temporal frequency reflectance
+        /// </summary>
+        /// <param name="rho"></param>
+        /// <param name="z"></param>
+        /// <param name="temporalFrequency"></param>
+        /// <param name="dp"></param>
+        /// <param name="layerThicknesses"></param>
+        /// <returns></returns>
         public static Complex TemporalFrequencyZFlux(double rho, double z, double temporalFrequency,
             DiffusionParameters[] dp, double[] layerThicknesses )
         {

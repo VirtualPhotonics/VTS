@@ -296,6 +296,9 @@
     <Compile Include="..\Vts\Common\OpticalProperties.cs">
       <Link>Common\OpticalProperties.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\Common\OpticalPropertiesConverter.cs">
+      <Link>Common\OpticalPropertiesConverter.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\Common\Position.cs">
       <Link>Common\Position.cs</Link>
     </Compile>
@@ -661,6 +664,12 @@
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\dMCdROfRhodMusDetector.cs">
       <Link>MonteCarlo\Detectors\dMCdROfRhodMusDetector.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\FluenceOfFxAndZDetector.cs">
+      <Link>MonteCarlo\Detectors\FluenceOfFxAndZDetector.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\FluenceOfRhoAndZAndOmegaDetector.cs">
+      <Link>MonteCarlo\Detectors\FluenceOfRhoAndZAndOmegaDetector.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\FluenceOfRhoAndZAndTimeDetector.cs">
       <Link>MonteCarlo\Detectors\FluenceOfRhoAndZAndTimeDetector.cs</Link>

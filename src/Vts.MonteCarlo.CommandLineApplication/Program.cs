@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using NLog;
+using Vts.Common;
 using Vts.Common.Logging;
 
 namespace Vts.MonteCarlo.CommandLineApplication
@@ -150,7 +151,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
                new CommandLine.Switch("paramsweep", val =>
                {
                    var sweepString = val.ToArray();
-                   var sweep = MonteCarloSetup.CreateParameterSweep(sweepString, false);
+                   var sweep = MonteCarloSetup.CreateParameterSweep(sweepString, ParameterSweepType.Count);
                    if (sweep != null)
                    {
                        paramSweep.Add(sweep);
@@ -160,13 +161,23 @@ namespace Vts.MonteCarlo.CommandLineApplication
                new CommandLine.Switch("paramsweepdelta", val =>
                {
                    var sweepString = val.ToArray();
-                   var sweep = MonteCarloSetup.CreateParameterSweep(sweepString, true);
+                   var sweep = MonteCarloSetup.CreateParameterSweep(sweepString, ParameterSweepType.Delta);
                    if (sweep != null)
                    {
                        paramSweep.Add(sweep);
                        logger.Info(() => "parameter sweep specified as " + sweepString[0] + " from " + sweepString[1] + " to " + sweepString[2] + ", with a delta of " + sweepString[3]);
                    }
-               }));
+               }),
+                new CommandLine.Switch("paramsweeplist", val =>
+                {
+                    var sweepString = val.ToArray();
+                    var sweep = MonteCarloSetup.CreateParameterSweep(sweepString, ParameterSweepType.List);
+                    if (sweep != null)
+                    {
+                        paramSweep.Add(sweep);
+                        logger.Info(() => "parameter sweep specified as " + sweepString[0] + " values");
+                    }
+                }));
 
             if (!infoOnlyOption)
             {
@@ -275,6 +286,8 @@ namespace Vts.MonteCarlo.CommandLineApplication
             logger.Info("\t\tparamsweep=<SweepParameterType>,Start,Stop,Count");
             logger.Info("paramsweepdelta\ttakes the sweep parameter name and values in the format:");
             logger.Info("\t\tparamsweepdelta=<SweepParameterType>,Start,Stop,Delta");
+            logger.Info("paramsweeplist\ttakes the sweep parameter name and values in the format:");
+            logger.Info("\t\tparamsweeplist=<SweepParameterType>,NumVals,Val1,Val2,...");
             logger.Info("\ngeninfiles\tgenerates example infiles and names them infile_XXX.txt");
             logger.Info("\t\tinfile_XXX.txt where XXX describes the type of input specified");
             logger.Info("\nlist of sweep parameters (paramsweep):");
@@ -343,8 +356,17 @@ namespace Vts.MonteCarlo.CommandLineApplication
                     logger.Info("FORMAT:");
                     logger.Info("\tparamsweepdelta=<SweepParameterType>,Start,Stop,Delta");
                     logger.Info("EXAMPLES:");
-                    logger.Info("\tparamsweep=mua1,0.01,0.04,0.01");
-                    logger.Info("\tparamsweep=mus1,10,20,5");
+                    logger.Info("\tparamsweepdelta=mua1,0.01,0.04,0.01");
+                    logger.Info("\tparamsweepdelta=mus1,10,20,5");
+                    break;
+                case "paramsweepList":
+                    logger.Info("\nPARAMSWEEPLIST");
+                    logger.Info("Defines the parameter sweep and its values.");
+                    logger.Info("FORMAT:");
+                    logger.Info("\tparamsweeplist=<SweepParameterType>,NumValues,Val1,Val2,Val3,...");
+                    logger.Info("EXAMPLES:");
+                    logger.Info("\tparamsweeplist=mua1,3,0.01,0.03,0.04");
+                    logger.Info("\tparamsweeplist=mus1,5,0.01,1,10,100,1000");
                     break;
                 default:
                     ShowHelp();
