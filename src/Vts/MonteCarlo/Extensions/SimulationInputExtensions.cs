@@ -38,6 +38,9 @@ namespace Vts.MonteCarlo.Extensions
 
             switch (parameterString)
             {
+                case "nphot":
+                    result.N = (long)value;
+                    break;
                 case "mua":
                     if (regionIndex >= 0 && result.TissueInput.Regions.Count() > regionIndex)
                         result.TissueInput.Regions[regionIndex].RegionOP.Mua = value;

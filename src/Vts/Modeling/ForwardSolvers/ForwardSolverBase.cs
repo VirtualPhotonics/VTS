@@ -1158,12 +1158,12 @@ namespace Vts.Modeling.ForwardSolvers
         #region Dummy default fluence versions of the vectorized methods. Override these in child classes to take advantage of optimization strategies.
 
         /// <summary>
-        /// Overload of scalar FluenceOfRhoAndZ function. Determines reflectances at optical properties 'ops' and source-detector separations 'rhos' and 'zs'
+        /// Overload of scalar FluenceOfRhoAndZ function. Determines fluences at optical properties 'ops' and source-detector separations 'rhos' and 'zs'
         /// </summary>
         /// <param name="ops">sets of medium optical properties </param>
         /// <param name="rhos">source-detector separations (mm)</param>
         /// <param name="zs">z values (mm)</param>
-        /// <returns>reflectance at given optical properties, rhos and depths (zs)</returns>
+        /// <returns>fluence at given optical properties, rhos and depths (zs)</returns>
         public virtual IEnumerable<double> FluenceOfRhoAndZ(
             IEnumerable<OpticalProperties> ops,
             IEnumerable<double> rhos,
@@ -1172,12 +1172,12 @@ namespace Vts.Modeling.ForwardSolvers
             throw new NotImplementedException();
         }
         /// <summary>
-        /// Overload of scalar FluenceOfRhoAndZ function. Determines reflectances of tissue 'regions' and source-detector separations 'rhos' and 'zs'
+        /// Overload of scalar FluenceOfRhoAndZ function. Determines fluences of tissue 'regions' and source-detector separations 'rhos' and 'zs'
         /// </summary>
         /// <param name="regions">sets of medium regions </param>
         /// <param name="rhos">source-detector separations (mm)</param>
         /// <param name="zs">z values (mm)</param>
-        /// <returns>reflectance of given tissue regions, rhos and depths (zs)</returns>
+        /// <returns>fluence of given tissue regions, rhos and depths (zs)</returns>
         public virtual IEnumerable<double> FluenceOfRhoAndZ(
             IEnumerable<IOpticalPropertyRegion[]> regions,
             IEnumerable<double> rhos,
@@ -1187,16 +1187,34 @@ namespace Vts.Modeling.ForwardSolvers
         }
 
         /// <summary>
-        /// Overload of scalar FluenceOfRhoAndZAndTime function. Determines reflectances at optical properties 'ops', source-detector separations 'rhos', 'zs' and times 'ts'
+        /// Overload of scalar FluenceOfRhoAndZAndTime function. Determines fluences at optical properties 'ops', source-detector separations 'rhos', 'zs' and times 'ts'
         /// </summary>
         /// <param name="ops">sets of medium optical properties </param>
         /// <param name="rhos">source-detector separations (mm)</param>
         /// <param name="zs">z values (mm)</param>
         /// <param name="ts">times (ns)</param>
-        /// <returns>reflectance at vien optical properties, rhos, depths (zs) and times</returns>
+        /// <returns>fluence at given optical properties, rhos, depths (zs) and times</returns>
         /// <remarks>IEnumerables can be one or more values - use the .AsEnumerable() extension method (in Vts.Extensions) on single items</remarks>
         public virtual IEnumerable<double> FluenceOfRhoAndZAndTime(
             IEnumerable<OpticalProperties> ops,
+            IEnumerable<double> rhos,
+            IEnumerable<double> zs,
+            IEnumerable<double> ts)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Overload of scalar FluenceOfRhoAndZAndTime function. Determines fluences at optical properties 'ops', source-detector separations 'rhos', 'zs' and times 'ts'
+        /// </summary>
+        /// <param name="regions">sets of medium regions </param>
+        /// <param name="rhos">source-detector separations (mm)</param>
+        /// <param name="zs">z values (mm)</param>
+        /// <param name="ts">times (ns)</param>
+        /// <returns>fluence at given optical properties, rhos, depths (zs) and times</returns>
+        /// <remarks>IEnumerables can be one or more values - use the .AsEnumerable() extension method (in Vts.Extensions) on single items</remarks>
+        public virtual IEnumerable<double> FluenceOfRhoAndZAndTime(
+            IEnumerable<IOpticalPropertyRegion[]> regions,
             IEnumerable<double> rhos,
             IEnumerable<double> zs,
             IEnumerable<double> ts)
@@ -1211,7 +1229,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="rhos">source-detector separations (mm)</param>
         /// <param name="zs">z values (mm)</param>
         /// <param name="fts">modulation frequencies (GHz)</param>
-        /// <returns>reflectance at given optical properties, rhos, depths (zs) and modulation frequencies</returns>
+        /// <returns>fluence at given optical properties, rhos, depths (zs) and modulation frequencies</returns>
         /// <remarks>IEnumerables can be one or more values - use the .AsEnumerable() extension method (in Vts.Extensions) on single items</remarks>
         public virtual IEnumerable<Complex> FluenceOfRhoAndZAndFt(
             IEnumerable<OpticalProperties> ops,
@@ -1221,9 +1239,26 @@ namespace Vts.Modeling.ForwardSolvers
         {
             throw new NotImplementedException();
         }
+        /// <summary>
+        /// Overload of scalar FluenceOfRhoAndZAndFt function. Determines reflectances at tissue 'regions', source-detector separations 'rhos', 'zs' and time frequencies 'fts'
+        /// </summary>
+        /// <param name="regions">sets of medium regions </param>
+        /// <param name="rhos">source-detector separations (mm)</param>
+        /// <param name="zs">z values (mm)</param>
+        /// <param name="fts">modulation frequencies (GHz)</param>
+        /// <returns>fluence at given tissue regions, rhos, depths (zs) and modulation frequencies</returns>
+        /// <remarks>IEnumerables can be one or more values - use the .AsEnumerable() extension method (in Vts.Extensions) on single items</remarks>
+        public virtual IEnumerable<Complex> FluenceOfRhoAndZAndFt(
+            IEnumerable<IOpticalPropertyRegion[]> regions,
+            IEnumerable<double> rhos,
+            IEnumerable<double> zs,
+            IEnumerable<double> fts)
+        {
+            throw new NotImplementedException();
+        }
 
         /// <summary>
-        /// Overload of scalar FluenceOfFxAndZ function. Determines reflectances at optical properties 'ops' and spatial frequencies 'fxs' and 'zs'
+        /// Overload of scalar FluenceOfFxAndZ function. Determines fluences at optical properties 'ops' and spatial frequencies 'fxs' and 'zs'
         /// </summary>
         /// <param name="ops">sets of medium optical properties </param>
         /// <param name="fxs">spatial frequencies (1/mm)</param>
@@ -1238,7 +1273,7 @@ namespace Vts.Modeling.ForwardSolvers
         }
 
         /// <summary>
-        /// Overload of scalar FluenceOfFxAndZAndTime function. Determines reflectances at optical properties 'ops', spatial frequencies 'fxs', 'zs' and times 'ts'
+        /// Overload of scalar FluenceOfFxAndZAndTime function. Determines fluences at optical properties 'ops', spatial frequencies 'fxs', 'zs' and times 'ts'
         /// </summary>
         /// <param name="ops">sets of medium optical properties </param>
         /// <param name="fxs">spatial frequencies (1/mm)</param>
@@ -1255,13 +1290,13 @@ namespace Vts.Modeling.ForwardSolvers
         }
 
         /// <summary>
-        /// Overload of scalar FluenceOfFxAndZAndFt function. Determines reflectances at optical properties 'ops', spatial frequencies 'fxs' and time frequencies 'fts'
+        /// Overload of scalar FluenceOfFxAndZAndFt function. Determines fluences at optical properties 'ops', spatial frequencies 'fxs' and time frequencies 'fts'
         /// </summary>
         /// <param name="ops">sets of medium optical properties </param>
         /// <param name="fxs">spatial frequencies (1/mm)</param>
         /// <param name="zs">z values (mm)</param>
         /// <param name="fts">modulation frequencies (GHz)</param>
-        /// <returns>reflectance at vien optical properties, spatial frequencies, z values and modulation frequencies</returns>
+        /// <returns>fluence at given optical properties, spatial frequencies, z values and modulation frequencies</returns>
         public virtual IEnumerable<Complex> FluenceOfFxAndZAndFt(
             IEnumerable<OpticalProperties> ops,
             IEnumerable<double> fxs,
@@ -1276,12 +1311,12 @@ namespace Vts.Modeling.ForwardSolvers
         #region Convenience array overloads for fluence methods
 
         /// <summary>
-        /// Overload of FluenceOfRhoAndZ function. Determines reflectances at optical properties 'ops', source-detector separations 'rhos' and 'zs'
+        /// Overload of FluenceOfRhoAndZ function. Determines fluences at optical properties 'ops', source-detector separations 'rhos' and 'zs'
         /// </summary>
         /// <param name="ops">sets of medium optical properties </param>
         /// <param name="rhos">source-detector separations (mm)</param>
         /// <param name="zs">z values (mm)</param>
-        /// <returns>reflectance at given optical properties, rhos and z values</returns>
+        /// <returns>fluence at given optical properties, rhos and z values</returns>
         public double[] FluenceOfRhoAndZ(OpticalProperties[] ops, double[] rhos, double[] zs)
         {
             var output = new double[ops.Length * rhos.Length * zs.Length];
@@ -1290,12 +1325,12 @@ namespace Vts.Modeling.ForwardSolvers
             return output;
         }
         /// <summary>
-        /// Overload of FluenceOfRhoAndZ function. Determines reflectances of tissue 'regions', source-detector separations 'rhos' and 'zs'
+        /// Overload of FluenceOfRhoAndZ function. Determines fluences of tissue 'regions', source-detector separations 'rhos' and 'zs'
         /// </summary>
         /// <param name="regions">sets of medium regions </param>
         /// <param name="rhos">source-detector separations (mm)</param>
         /// <param name="zs">z values (mm)</param>
-        /// <returns>reflectance of given tissue regions, rhos and z values</returns>
+        /// <returns>fluence of given tissue regions, rhos and z values</returns>
         public double[] FluenceOfRhoAndZ(IOpticalPropertyRegion[][] regions, double[] rhos, double[] zs)
         {
             var output = new double[regions.Length * rhos.Length * zs.Length];
@@ -1304,17 +1339,32 @@ namespace Vts.Modeling.ForwardSolvers
             return output;
         }
         /// <summary>
-        /// Overload of FluenceOfRhoAndZAndTime function. Determines reflectances at optical properties 'ops', source-detector separations 'rhos', 'zs' and times 'ts'
+        /// Overload of FluenceOfRhoAndZAndTime function. Determines fluences at optical properties 'ops', source-detector separations 'rhos', 'zs' and times 'ts'
         /// </summary>
         /// <param name="ops">sets of medium optical properties </param>
         /// <param name="rhos">source-detector separations (mm)</param>
         /// <param name="zs">z values (mm)</param>
         /// <param name="ts">times (ns)</param>
-        /// <returns>reflectance at given optical properties, rhos, z values (depths) and times</returns>
+        /// <returns>fluence at given optical properties, rhos, z values (depths) and times</returns>
         public double[] FluenceOfRhoAndZAndTime(OpticalProperties[] ops, double[] rhos, double[] zs, double[] ts)
         {
             var output = new double[ops.Length * rhos.Length * zs.Length * ts.Length];
             var query = FluenceOfRhoAndZAndTime((IEnumerable<OpticalProperties>)ops, (IEnumerable<double>)rhos, (IEnumerable<double>)zs, (IEnumerable<double>)ts);
+            Vts.Extensions.IEnumerableArrayExtensions.PopulateFromEnumerable(output, query);
+            return output;
+        }
+        /// <summary>
+        /// Overload of FluenceOfRhoAndZAndTime function. Determines fluences at optical properties 'ops', source-detector separations 'rhos', 'zs' and times 'ts'
+        /// </summary>
+        /// <param name="regions">sets of medium regions </param>
+        /// <param name="rhos">source-detector separations (mm)</param>
+        /// <param name="zs">z values (mm)</param>
+        /// <param name="ts">times (ns)</param>
+        /// <returns>fluence at given optical properties, rhos, z values (depths) and times</returns>
+        public double[] FluenceOfRhoAndZAndTime(IOpticalPropertyRegion[][] regions, double[] rhos, double[] zs, double[] ts)
+        {
+            var output = new double[regions.Length * rhos.Length * zs.Length * ts.Length];
+            var query = FluenceOfRhoAndZAndTime((IEnumerable<IOpticalPropertyRegion[]>)regions, (IEnumerable<double>)rhos, (IEnumerable<double>)zs, (IEnumerable<double>)ts);
             Vts.Extensions.IEnumerableArrayExtensions.PopulateFromEnumerable(output, query);
             return output;
         }
@@ -1326,7 +1376,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="rhos">source-detector separations (mm)</param>
         /// <param name="zs">z values (mm)</param>
         /// <param name="fts">modulation frequencies (GHz)</param>
-        /// <returns>reflectance at given optical properties, rhos, z values (depths) and modulation frequencies</returns>
+        /// <returns>fluence at given optical properties, rhos, z values (depths) and modulation frequencies</returns>
         public Complex[] FluenceOfRhoAndZAndFt(OpticalProperties[] ops, double[] rhos, double[] zs, double[] fts)
         {
             var output = new Complex[ops.Length * rhos.Length * zs.Length * fts.Length];
@@ -1335,6 +1385,21 @@ namespace Vts.Modeling.ForwardSolvers
             return output;
         }
 
+        /// <summary>
+        /// Overload of FluenceOfRhoAndZAndFt function. Determines reflectances at tissue 'regions', source-detector separations 'rhos', 'zs' and time frequencies 'fts'
+        /// </summary>
+        /// <param name="regions">sets of medium regions </param>
+        /// <param name="rhos">source-detector separations (mm)</param>
+        /// <param name="zs">z values (mm)</param>
+        /// <param name="fts">modulation frequencies (GHz)</param>
+        /// <returns>fluence at given tissue regions, rhos, z values (depths) and modulation frequencies</returns>
+        public Complex[] FluenceOfRhoAndZAndFt(IOpticalPropertyRegion[][] regions, double[] rhos, double[] zs, double[] fts)
+        {
+            var output = new Complex[regions.Length * rhos.Length * zs.Length * fts.Length];
+            var query = FluenceOfRhoAndZAndFt((IEnumerable<ILayerOpticalPropertyRegion[]>)regions, (IEnumerable<double>)rhos, (IEnumerable<double>)zs, (IEnumerable<double>)fts);
+            Vts.Extensions.IEnumerableArrayExtensions.PopulateFromEnumerable(output, query);
+            return output;
+        }
         /// <summary>
         /// Overload of FluenceOfFxAndZ function. Determines reflectances at optical properties 'ops', spatial frequencies 'fxs' and 'zs'
         /// </summary>

@@ -70,7 +70,7 @@ namespace Vts.IO
             ConventionBasedConverter<IPhaseFunctionInput>.CreateFromEnum<Vts.PhaseFunctionType>(typeof(HenyeyGreensteinPhaseFunctionInput)),
             //ConventionBasedConverter<ILookupTablePhaseFunctionData>.CreateFromEnum<Vts.LookupTablePhaseFunctionDataType>(typeof(PolarLookupTablePhaseFunctionData)),
             ConventionBasedConverter<ISourceProfile>.CreateFromEnum<Vts.MonteCarlo.SourceProfileType>(typeof(FlatSourceProfile)),
-            
+            new OpticalPropertiesConverter(),
         };
 
         public static T ReadFromJson<T>(this string myString)

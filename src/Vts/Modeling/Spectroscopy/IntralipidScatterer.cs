@@ -34,12 +34,21 @@ namespace Vts.SpectralMapping
 
         /// <summary>
         /// The volume fraction
+        /// Note: force value to be between [0, 1]
         /// </summary>
         public double VolumeFraction
         {
             get { return _volumeFraction; }
             set
             {
+                if (value > 1)
+                {
+                    value = 1;
+                }
+                if (value < 0)
+                {
+                    value = 0;
+                }
                 _volumeFraction = value;
                 OnPropertyChanged("VolumeFraction");
             }

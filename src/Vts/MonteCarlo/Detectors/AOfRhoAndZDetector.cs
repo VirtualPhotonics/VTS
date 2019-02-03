@@ -125,6 +125,7 @@ namespace Vts.MonteCarlo.Detectors
             var iz = DetectorBinning.WhichBin(dp.Position.Z, Z.Count - 1, Z.Delta, Z.Start);
 
             var weight = _absorptionWeightingMethod(previousDP, dp, currentRegionIndex);
+            // Note: GetVolumeAbsorptionWeightingMethod in Initialize method determines the *absorbed* weight
 
             if (weight != 0.0)
             {
