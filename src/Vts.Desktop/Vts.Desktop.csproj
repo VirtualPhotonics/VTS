@@ -1070,6 +1070,9 @@
     <Compile Include="..\Vts\MonteCarlo\Tissues\EllipsoidTissueRegion.cs">
       <Link>MonteCarlo\Tissues\EllipsoidTissueRegion.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Tissues\InfiniteCylinderTissueRegion.cs">
+      <Link>MonteCarlo\Tissues\InfiniteCylinderTissueRegion.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Tissues\LayerTissueRegion.cs">
       <Link>MonteCarlo\Tissues\LayerTissueRegion.cs</Link>
     </Compile>

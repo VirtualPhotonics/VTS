@@ -29,8 +29,9 @@ namespace Vts.MonteCarlo
                 PointSourceTwoLayerTissueROfRhoDetectorWithPhotonDatabase(),
                 PointSourceSingleEllipsoidTissueFluenceOfRhoAndZDetector(),
                 pMCPointSourceOneLayerTissueROfRhoDAW(),
-                GaussianSourceOneLayerTissueROfRhoDetector(),
-                FlatSourceOneLayerTissueROfRhoDetector(),
+                Gaussian2DSourceOneLayerTissueROfRhoDetector(),
+                Flat2DSourceOneLayerTissueROfRhoDetector(),
+                GaussianLineSourceOneLayerTissueROfRhoDetector(),
                 PointSourceMultiLayerMomentumTransferDetectors(),
                 PointSourceSingleVoxelTissueROfXAndYAndFluenceOfXAndYAndZDetector(),
                 PointSourceThreeLayerReflectedTimeOfRhoAndSubregionHistDetector(),
@@ -410,15 +411,15 @@ namespace Vts.MonteCarlo
         }
         #endregion
 
-        #region Gaussian source one layer R(rho)
+        #region Gaussian 2D source one layer R(rho)
         /// <summary>
-        /// Gaussian source, single tissue layer definition, only ROfRho detector included
+        /// Gaussian 2D source, single tissue layer definition, only ROfRho detector included
         /// </summary>
-        public static SimulationInput GaussianSourceOneLayerTissueROfRhoDetector()
+        public static SimulationInput Gaussian2DSourceOneLayerTissueROfRhoDetector()
         {
             return new SimulationInput(
                 100,
-                "Gaussian_source_one_layer_ROfRho",
+                "Gaussian_2D_source_one_layer_ROfRho",
                 new SimulationOptions(
                     0, // random number generator seed, -1=random seed, 0=fixed seed
                     RandomNumberGeneratorType.MersenneTwister,
@@ -463,15 +464,15 @@ namespace Vts.MonteCarlo
         }
         #endregion
 
-        #region Flat source one layer R(rho)
+        #region Flat 2D source one layer R(rho)
         /// <summary>
-        /// Flat source, single tissue layer definition, only ROfRho detector included
+        /// Flat 2D source, single tissue layer definition, only ROfRho detector included
         /// </summary>
-        public static SimulationInput FlatSourceOneLayerTissueROfRhoDetector()
+        public static SimulationInput Flat2DSourceOneLayerTissueROfRhoDetector()
         {
             return new SimulationInput(
                 100,
-                "Flat_source_one_layer_ROfRho",
+                "Flat_2D_source_one_layer_ROfRho",
                 new SimulationOptions(
                     0, // random number generator seed, -1=random seed, 0=fixed seed
                     RandomNumberGeneratorType.MersenneTwister,
@@ -494,6 +495,58 @@ namespace Vts.MonteCarlo
                 new MultiLayerTissueInput(
                     new ITissueRegion[]
                     { 
+                        new LayerTissueRegion(
+                            new DoubleRange(double.NegativeInfinity, 0.0),
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
+                        new LayerTissueRegion(
+                            new DoubleRange(0.0, 100.0),
+                            new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
+                        new LayerTissueRegion(
+                            new DoubleRange(100.0, double.PositiveInfinity),
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
+                    }
+                ),
+                new List<IDetectorInput>()
+                {
+                    new ROfRhoDetectorInput
+                    {
+                        Rho =new DoubleRange(0.0, 10, 101)
+                    },
+                }
+             );
+        }
+        #endregion
+
+        #region Gaussian line source one layer R(rho)
+        /// <summary>
+        /// Gaussian line source, single tissue layer definition, only ROfRho detector included
+        /// </summary>
+        public static SimulationInput GaussianLineSourceOneLayerTissueROfRhoDetector()
+        {
+            return new SimulationInput(
+                100,
+                "Gaussian_line_source_one_layer_ROfRho",
+                new SimulationOptions(
+                    0, // random number generator seed, -1=random seed, 0=fixed seed
+                    RandomNumberGeneratorType.MersenneTwister,
+                    AbsorptionWeightingType.Discrete,
+                    PhaseFunctionType.HenyeyGreenstein,
+                    new List<DatabaseType>() { }, // databases to be written
+                    false, // track statistics
+                    0.0, // RR threshold -> 0 = no RR performed
+                    0),
+                new CustomLineSourceInput(
+                    3.0, // line length
+                    new GaussianSourceProfile(1.0), // fwhm
+                    new DoubleRange(0.0, 0.0), // polar angle emission range
+                    new DoubleRange(0.0, 0.0), // azimuthal angle emmision range
+                    new Direction(0, 0, 1), // normal to tissue
+                    new Position(0, 0, 0), // center of beam on surface
+                    new PolarAzimuthalAngles(0, 0), // no beam rotation         
+                    0), // 0=start in air, 1=start in tissue
+                new MultiLayerTissueInput(
+                    new ITissueRegion[]
+                    {
                         new LayerTissueRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),

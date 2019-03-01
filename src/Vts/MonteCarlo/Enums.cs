@@ -380,7 +380,8 @@ namespace Vts.MonteCarlo
             "Voxel",
             "Layer",
             "Ellipsoid",
-            "Cylinder"
+            "Cylinder",
+            "InfiniteCylinder"
         };
     }
 

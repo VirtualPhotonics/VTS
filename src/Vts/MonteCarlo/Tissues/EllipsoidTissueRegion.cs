@@ -85,11 +85,11 @@ namespace Vts.MonteCarlo.Tissues
                 {
                     return false;
                 }
-                else  // on boundary
+                else  // on boundary means ellipsoid contains position
                 {
                     _onBoundary = true;
-                    //return false; // ckh try 8/21/11
-                    return true;
+                    //return false; // ckh try 8/21/11 
+                    return true;  // ckh 2/28/19 this has to return true or unit tests fail
                 }
         }
         /// <summary>
@@ -103,6 +103,12 @@ namespace Vts.MonteCarlo.Tissues
         }
         /// <summary>
         /// method to determine if photon track or ray intersects boundary of ellipsoid
+        /// equations to determine intersection are derived by parameterizing ray from p1 to p2
+        /// as p2=p1+[dx dy dz]t t in [0,1] where dx=p2.x-p1.x dy=p2.y-p1.y dz=p2.z-p2.z
+        /// and substituting into ellipsoid equations and solving quadratic in t, i.e. t1, t2
+        /// t1,t2<0 or t1,t2>1 => no intersection
+        /// 0<t1<1 => one intersection
+        /// 0<t2<1 => one intersections, if above line true too => two intersections
         /// </summary>
         /// <param name="photon">Photon</param>
         /// <param name="distanceToBoundary">return: distance to boundary</param>
