@@ -236,10 +236,10 @@ namespace Vts.MonteCarlo.Tissues
                     -cosThetaSnell);
         }
         /// <summary>
-        /// method to get angle between photons current direction and boundary normal
+        /// method to get cosine of the angle between photons current direction and boundary normal
         /// </summary>
         /// <param name="photon"></param>
-        /// <returns></returns>
+        /// <returns>Uz=cos(theta)</returns>
         public double GetAngleRelativeToBoundaryNormal(Photon photon)
         {
             return Math.Abs(photon.DP.Direction.Uz); // abs will work for upward normal and downward normal

@@ -55,8 +55,12 @@ namespace Vts.MonteCarlo
         ///// <remarks>This method may be faster if the distance is not required</remarks>
         //bool RayIntersectBoundary(Photon p); // I don't think this is needed - ckh
 
-        // Direction SurfaceNormal(Position position);
-        // bool OnRegionBoundary(Position position);
+        /// <summary>
+        /// Determines surface normal at position
+        /// </summary>
+        /// <param name="position"></param>
+        /// <returns></returns>
+        Direction SurfaceNormal(Position position);
         // RegionIntersectionType ContainsPoint(Position position, Direction direction);
     }
 }

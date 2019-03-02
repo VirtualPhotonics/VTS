@@ -70,21 +70,21 @@ namespace Vts.MonteCarlo.Tissues
             _onBoundary = (Math.Abs(surfaceEqn - Radius) < 1e-7); // allow numerical precison
             return _onBoundary ;
         }
-        ///// <summary>
-        ///// method to determine normal to surface at given position. Note this returns outward facing normal.
-        ///// </summary>
-        ///// <param name="position"></param>
-        ///// <returns>Direction</returns>
-        //public Direction SurfaceNormal(Position position)
-        //{
-        //    var norm = Math.Sqrt(4 * (position.X - Center.X) * (position.X - Center.X) +
-        //                         4 * (position.Z - Center.Z) * (position.Z - Center.Z));
-        //    return new Direction(
-        //        2 * (position.X - Center.X) / norm,
-        //        0,
-        //        2 * (position.Z - Center.Z) / norm);
-        //    //throw new NotImplementedException();
-        //}
+        /// <summary>
+        /// method to determine normal to surface at given position. Note this returns outward facing normal.
+        /// </summary>
+        /// <param name="position"></param>
+        /// <returns>Direction</returns>
+        public Direction SurfaceNormal(Position position)
+        {
+            var norm = Math.Sqrt(4 * (position.X - Center.X) * (position.X - Center.X) +
+                                 4 * (position.Z - Center.Z) * (position.Z - Center.Z));
+            return new Direction(
+                2 * (position.X - Center.X) / norm,
+                0,
+                2 * (position.Z - Center.Z) / norm);
+            //throw new NotImplementedException();
+        }
         /// <summary>
         /// method to determine if photon ray (or track) will intersect boundary of cylinder
         /// equations to determine intersection are derived by parameterizing ray from p1 to p2
