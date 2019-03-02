@@ -1094,6 +1094,9 @@
     <Compile Include="..\Vts\MonteCarlo\Tissues\SingleInclusionTissue.cs">
       <Link>MonteCarlo\Tissues\SingleInclusionTissue.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Tissues\SingleInfiniteCylinderTissue.cs">
+      <Link>MonteCarlo\Tissues\SingleInfiniteCylinderTissue.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Tissues\SingleVoxelTissue.cs">
       <Link>MonteCarlo\Tissues\SingleVoxelTissue.cs</Link>
     </Compile>

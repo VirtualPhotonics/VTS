@@ -54,11 +54,8 @@ namespace Vts.MonteCarlo.Tissues
         /// <returns>boolean</returns>
         public bool ContainsPosition(Position position)
         {
-            if ((Math.Sqrt((position.X - Center.X) * (position.X - Center.X) + 
-                           (position.Z - Center.Z) * (position.Z - Center.Z)) < Radius)) 
-                return true;
-            else
-                return false;
+            return (Math.Sqrt((position.X - Center.X) * (position.X - Center.X) +
+                              (position.Z - Center.Z) * (position.Z - Center.Z)) < Radius);
         }
         /// <summary>
         /// method to determine if photon on boundary of cylinder
@@ -67,8 +64,10 @@ namespace Vts.MonteCarlo.Tissues
         /// <returns>boolean</returns>
         public bool OnBoundary(Position position)
         {
-            _onBoundary = (Math.Sqrt((position.X - Center.X) * (position.X - Center.X) + 
-                                     (position.Z - Center.Z) * (position.Z - Center.Z)) == Radius);
+            _onBoundary = false;
+            var surfaceEqn = Math.Sqrt((position.X - Center.X) * (position.X - Center.X) +
+                                       (position.Z - Center.Z) * (position.Z - Center.Z));
+            _onBoundary = (Math.Abs(surfaceEqn - Radius) < 1e-7); // allow numerical precison
             return _onBoundary ;
         }
         ///// <summary>
@@ -108,7 +107,9 @@ namespace Vts.MonteCarlo.Tissues
             var d1 = dp.Direction;
 
             // determine location of end of ray
-            var p2 = new Position(p1.X + d1.Ux * photon.S, p1.Y + d1.Uy * photon.S, p1.Z + d1.Uz * photon.S);
+            var p2 = new Position(p1.X + d1.Ux * photon.S, 
+                                  p1.Y + d1.Uy * photon.S, 
+                                  p1.Z + d1.Uz * photon.S);
 
             bool one_in = this.ContainsPosition(p1);
             bool two_in = this.ContainsPosition(p2);
@@ -127,13 +128,12 @@ namespace Vts.MonteCarlo.Tissues
             double A = dx * dx + dz * dz;
 
             double B =
-                2 * p1.X * dx - 2 * Center.X * dx + 
-                2 * p1.Z * dz - 2 * Center.Z * dz;
+                2 * (p1.X - Center.X) * dx + 
+                2 * (p1.Z - Center.Z) * dz;
 
             double C =
-                p1.X * p1.X - 2 * p1.X * Center.X + Center.X * Center.X +
-                p1.Z * p1.Z - 2 * p1.Z * Center.Z + Center.Z * Center.Z -
-                Radius * Radius;
+                (p1.X - Center.X) * (p1.X - Center.X)  +
+                (p1.Z - Center.Z) * (p1.Z - Center.Z) - Radius * Radius;
 
             double rootTerm = B * B - 4 * A * C;
 
@@ -146,14 +146,12 @@ namespace Vts.MonteCarlo.Tissues
                 int numint = 0; //number of intersections
 
                 if ((root1 < 1) && (root1 > 0))
-                //if (root1 > 0)
                 {
                     numint += 1;
                     root = root1;
                 }
 
                 if ((root2 < 1) && (root2 > 0))
-                //if (root2 > 0)
                 {
                     numint += 1;
                     root = root2;
@@ -164,55 +162,49 @@ namespace Vts.MonteCarlo.Tissues
                     case 0: /* roots real but no intersection */
                         return false;
                     case 1:
-                        if ((!one_in) && (Math.Abs(root) < 1e-7))
-                        {
-                            return false;
-                        }
+                        //if ((!one_in) && (Math.Abs(root) < 1e-7))
+                        //{
+                        //    return false;
+                        //}
                         /*entering or exiting cylinder. It's the same*/
                         xto = p1.X + root * dx;
                         yto = p1.Y + root * dy;
                         zto = p1.Z + root * dz;
-                        //xto = p1.X + root * d1.Ux;
-                        //yto = p1.Y + root * d1.Uy;
-                        //zto = p1.Z + root * d1.Uz;
 
                         /*distance to the boundary*/
                         distanceToBoundary = Math.Sqrt((xto - p1.X) * (xto - p1.X) +
-                                (yto - p1.Y) * (yto - p1.Y) +
-                                (zto - p1.Z) * (zto - p1.Z));
+                                                       (yto - p1.Y) * (yto - p1.Y) +
+                                                       (zto - p1.Z) * (zto - p1.Z));
 
-                        // ckh fix 8/25/11: check if on boundary of cylinder
-                        if (distanceToBoundary < 1e-11)
-                        {
-                            return false;
-                        }
+                        //// ckh fix 8/25/11: check if on boundary of cylinder
+                        //if (distanceToBoundary < 1e-11)
+                        //{
+                        //    return false;
+                        //}
 
                         return true;
                     case 2:  /* went through cylinder: must stop at nearest intersection */
-                        /*which is nearest?*/
-                        if (one_in)
-                        {
-                            if (root1 > root2) //CKH FIX 11/11
+                        ///*which is nearest?*/
+                        //if (one_in)
+                        //{
+                        //    if (root1 > root2) 
+                        //        root = root1;
+                        //    else root = root2;
+                        //}
+                        //else
+                        //{
+                            if (root1 < root2) 
                                 root = root1;
                             else root = root2;
-                        }
-                        else
-                        {
-                            if (root1 < root2) //CKH FIX 11/11
-                                root = root1;
-                            else root = root2;
-                        }
+                        //}
                         xto = p1.X + root * dx;
                         yto = p1.Y + root * dy;
                         zto = p1.Z + root * dz;
-                        //xto = p1.X + root * d1.Ux;
-                        //yto = p1.Y + root * d1.Uy;
-                        //zto = p1.Z + root * d1.Uz;
 
                         /*distance to the nearest boundary*/
                         distanceToBoundary = Math.Sqrt((xto - p1.X) * (xto - p1.X) +
-                                (yto - p1.Y) * (yto - p1.Y) +
-                                (zto - p1.Z) * (zto - p1.Z));
+                                                       (yto - p1.Y) * (yto - p1.Y) +
+                                                       (zto - p1.Z) * (zto - p1.Z));
 
                         return true;
 

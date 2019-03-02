@@ -28,6 +28,7 @@ namespace Vts.MonteCarlo
                 PointSourceTwoLayerTissueROfRhoDetector(),
                 PointSourceTwoLayerTissueROfRhoDetectorWithPhotonDatabase(),
                 PointSourceSingleEllipsoidTissueFluenceOfRhoAndZDetector(),
+                PointSourceSingleInfiniteCylinderTissueFluenceOfRhoAndZDetector(),
                 pMCPointSourceOneLayerTissueROfRhoDAW(),
                 Gaussian2DSourceOneLayerTissueROfRhoDetector(),
                 Flat2DSourceOneLayerTissueROfRhoDetector(),
@@ -313,9 +314,9 @@ namespace Vts.MonteCarlo
         }
         #endregion
 
-        #region point source single ellipsoid Fluence(rho)
+        #region point source single ellipsoid Fluence(rho,z)
         /// <summary>
-        /// Point source, single ellipsoid tissue definition, only ROfRho detector included
+        /// Point source, single ellipsoid tissue definition, only FluenceOfRhoAndZ detector included
         /// </summary>
         public static SimulationInput PointSourceSingleEllipsoidTissueFluenceOfRhoAndZDetector()
         {
@@ -345,6 +346,55 @@ namespace Vts.MonteCarlo
                     ),
                     new ITissueRegion[]
                     { 
+                        new LayerTissueRegion(
+                            new DoubleRange(double.NegativeInfinity, 0.0),
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
+                        new LayerTissueRegion(
+                            new DoubleRange(0.0, 100.0),
+                            new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
+                        new LayerTissueRegion(
+                            new DoubleRange(100.0, double.PositiveInfinity),
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
+                    }
+                ),
+                new List<IDetectorInput>()
+                {
+                    new FluenceOfRhoAndZDetectorInput(){Rho=new DoubleRange(0.0, 10, 101),Z= new DoubleRange(0.0, 10, 101)}
+                }
+            );
+        }
+        #endregion
+
+        #region point source single ellipsoid Fluence(rho,z)
+        /// <summary>
+        /// Point source, single infinite cylinder tissue definition, only FluenceOfRhoAndZ detector included
+        /// </summary>
+        public static SimulationInput PointSourceSingleInfiniteCylinderTissueFluenceOfRhoAndZDetector()
+        {
+            return new SimulationInput(
+                100,
+                "infinite_cylinder_FluenceOfRhoAndZ",
+                new SimulationOptions(
+                    0, // random number generator seed, -1=random seed, 0=fixed seed
+                    RandomNumberGeneratorType.MersenneTwister,
+                    AbsorptionWeightingType.Discrete,
+                    PhaseFunctionType.HenyeyGreenstein,
+                    new List<DatabaseType>() { }, // databases to be written
+                    false, // track statistics
+                    0.0, // RR threshold -> no RR performed
+                    0),
+                new DirectionalPointSourceInput(
+                    new Position(0.0, 0.0, 0.0),
+                    new Direction(0.0, 0.0, 1.0),
+                    0), // 0=start in air, 1=start in tissue
+                new SingleInfiniteCylinderTissueInput(
+                    new InfiniteCylinderTissueRegion(
+                        new Position(0, 0, 1),
+                        1.0,
+                        new OpticalProperties(0.05, 1.0, 0.8, 1.4)
+                    ),
+                    new ITissueRegion[]
+                    {
                         new LayerTissueRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
