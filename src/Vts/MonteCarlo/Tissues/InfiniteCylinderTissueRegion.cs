@@ -54,8 +54,28 @@ namespace Vts.MonteCarlo.Tissues
         /// <returns>boolean</returns>
         public bool ContainsPosition(Position position)
         {
-            return (Math.Sqrt((position.X - Center.X) * (position.X - Center.X) +
-                              (position.Z - Center.Z) * (position.Z - Center.Z)) < Radius);
+            //return (Math.Sqrt((position.X - Center.X) * (position.X - Center.X) +
+            //                  (position.Z - Center.Z) * (position.Z - Center.Z)) < Radius);
+            // wrote following to match EllipsoidTissueRegion because it seems to work better than above
+            double inside = Math.Sqrt((position.X - Center.X) * (position.X - Center.X) +
+                                      (position.Z - Center.Z) * (position.Z - Center.Z));
+
+            //if (inside < 0.9999999)
+            if (inside < 0.9999999999 * Radius)
+            {
+                return true;
+            }
+            //else if (inside > 1.0000001)
+            else if (inside > 1.00000000001 * Radius)
+            {
+                return false;
+            }
+            else  // on boundary means cylinder contains position
+            {
+                _onBoundary = true;
+                //return false; // ckh try 8/21/11 
+                return true;  // ckh 2/28/19 this has to return true or unit tests fail
+            }
         }
         /// <summary>
         /// method to determine if photon on boundary of cylinder
@@ -64,11 +84,12 @@ namespace Vts.MonteCarlo.Tissues
         /// <returns>boolean</returns>
         public bool OnBoundary(Position position)
         {
-            _onBoundary = false;
-            var surfaceEqn = Math.Sqrt((position.X - Center.X) * (position.X - Center.X) +
-                                       (position.Z - Center.Z) * (position.Z - Center.Z));
-            _onBoundary = (Math.Abs(surfaceEqn - Radius) < 1e-7); // allow numerical precison
-            return _onBoundary ;
+            //_onBoundary = false;
+            //var surfaceEqn = Math.Sqrt((position.X - Center.X) * (position.X - Center.X) +
+            //                           (position.Z - Center.Z) * (position.Z - Center.Z));
+            //_onBoundary = (Math.Abs(surfaceEqn - Radius) < 1e-7); // 
+            //return _onBoundary ;
+            return !ContainsPosition(position) && _onBoundary; // match with EllipsoidTissueRegion
         }
         ///// <summary>
         ///// method to determine normal to surface at given position. Note this returns outward facing normal.
@@ -113,6 +134,11 @@ namespace Vts.MonteCarlo.Tissues
 
             bool one_in = this.ContainsPosition(p1);
             bool two_in = this.ContainsPosition(p2);
+            //if ((Math.Abs(p1.X)<2)&& one_in)
+            //{
+            //    Console.WriteLine(String.Format("p1.x,y,z={0:F}, {1:F}, {2:F}, in={3}",p1.X,p1.Y,p1.Z,one_in));
+            //    Console.WriteLine("****");
+            //}
 
             // check if ray within cylinder
             if ((one_in || _onBoundary) && two_in)
@@ -162,10 +188,10 @@ namespace Vts.MonteCarlo.Tissues
                     case 0: /* roots real but no intersection */
                         return false;
                     case 1:
-                        //if ((!one_in) && (Math.Abs(root) < 1e-7))
-                        //{
-                        //    return false;
-                        //}
+                        if ((!one_in) && (Math.Abs(root) < 1e-7))
+                        {
+                            return false;
+                        }
                         /*entering or exiting cylinder. It's the same*/
                         xto = p1.X + root * dx;
                         yto = p1.Y + root * dy;
@@ -177,26 +203,26 @@ namespace Vts.MonteCarlo.Tissues
                                                        (zto - p1.Z) * (zto - p1.Z));
 
                         //// ckh fix 8/25/11: check if on boundary of cylinder
-                        //if (distanceToBoundary < 1e-11)
-                        //{
-                        //    return false;
-                        //}
+                        if (distanceToBoundary < 1e-11)
+                        {
+                            return false;
+                        }
 
                         return true;
                     case 2:  /* went through cylinder: must stop at nearest intersection */
                         ///*which is nearest?*/
-                        //if (one_in)
-                        //{
-                        //    if (root1 > root2) 
-                        //        root = root1;
-                        //    else root = root2;
-                        //}
-                        //else
-                        //{
-                            if (root1 < root2) 
+                        if (one_in)
+                        {
+                            if (root1 > root2)
                                 root = root1;
                             else root = root2;
-                        //}
+                        }
+                        else
+                        {
+                            if (root1 < root2)
+                                root = root1;
+                            else root = root2;
+                        }
                         xto = p1.X + root * dx;
                         yto = p1.Y + root * dy;
                         zto = p1.Z + root * dz;
