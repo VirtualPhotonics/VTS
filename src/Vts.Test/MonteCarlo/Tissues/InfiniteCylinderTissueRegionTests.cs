@@ -32,17 +32,17 @@ namespace Vts.Test.MonteCarlo.Tissues
             Assert.AreEqual(_infiniteCylinderTissueRegion.Center.Y, 0.0);
             Assert.AreEqual(_infiniteCylinderTissueRegion.Center.Z, 3.0);
         }
-        /// <summary>
-        /// Validate method OnBoundary return correct boolean
-        /// </summary>
-        [Test]
-        public void verify_OnBoundary_method_returns_correct_result()
-        {
-            bool result = _infiniteCylinderTissueRegion.OnBoundary(new Position(0, 0, 2.0));
-            Assert.IsTrue(result);
-            result = _infiniteCylinderTissueRegion.OnBoundary(new Position(0, 0, 1.0));
-            Assert.IsFalse(result);
-        }
+        ///// <summary>
+        ///// Validate method OnBoundary return correct boolean
+        ///// </summary>
+        //[Test]
+        //public void verify_OnBoundary_method_returns_correct_result()
+        //{
+        //    bool result = _infiniteCylinderTissueRegion.OnBoundary(new Position(0, 0, 2.0));
+        //    Assert.IsTrue(result);
+        //    result = _infiniteCylinderTissueRegion.OnBoundary(new Position(0, 0, 1.0));
+        //    Assert.IsFalse(result);
+        //}
         ///// <summary>
         ///// Validate method SurfaceNormal return correct normal vector
         ///// </summary>
