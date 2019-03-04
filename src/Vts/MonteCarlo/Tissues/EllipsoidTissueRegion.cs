@@ -102,6 +102,19 @@ namespace Vts.MonteCarlo.Tissues
             return !ContainsPosition(position) && _onBoundary;
         }
         /// <summary>
+        /// method to determine normal to surface at given position. Note this returns outward facing normal.
+        /// </summary>
+        /// <param name="position"></param>
+        /// <returns>Direction</returns>
+        public Direction SurfaceNormal(Position position)
+        {
+            return new Direction(
+                2 * (position.X - Center.X) / (Dx * Dx),
+                2 * (position.Y - Center.Y) / (Dy * Dy),
+                2 * (position.Z - Center.Z) / (Dz * Dz));
+            //throw new NotImplementedException();
+        }
+        /// <summary>
         /// method to determine if photon track or ray intersects boundary of ellipsoid
         /// equations to determine intersection are derived by parameterizing ray from p1 to p2
         /// as p2=p1+[dx dy dz]t t in [0,1] where dx=p2.x-p1.x dy=p2.y-p1.y dz=p2.z-p2.z

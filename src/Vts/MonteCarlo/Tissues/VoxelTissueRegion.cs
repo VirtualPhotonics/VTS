@@ -210,5 +210,14 @@ namespace Vts.MonteCarlo.Tissues
                               (position.X >= X.Start) && (position.X <= X.Stop) &&
                               (position.Y >= Y.Start) && (position.Y <= Y.Stop));
         }
+        /// <summary>
+        /// method to determine normal to surface at given position
+        /// </summary>
+        /// <param name="position"></param>
+        /// <returns>Direction</returns>
+        public Direction SurfaceNormal(Position position)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

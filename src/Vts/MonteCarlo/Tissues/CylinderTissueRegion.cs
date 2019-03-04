@@ -93,5 +93,15 @@ namespace Vts.MonteCarlo.Tissues
         //{
         //    throw new NotImplementedException();
         //}
+
+        /// <summary>
+        /// method to determine normal to surface at given position
+        /// </summary>
+        /// <param name="position"></param>
+        /// <returns>Direction</returns>
+        public Direction SurfaceNormal(Position position)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
