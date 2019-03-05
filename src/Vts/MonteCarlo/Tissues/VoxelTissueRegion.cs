@@ -181,7 +181,7 @@ namespace Vts.MonteCarlo.Tissues
         }
 
         /// <summary>
-        /// method to determine if photon at designated position resides within voxel
+        /// method to determine if photon at designated position resides within or on voxel
         /// </summary>
         /// <param name="position">position of photon</param>
         /// <returns>boolean</returns>

@@ -65,7 +65,7 @@ namespace Vts.MonteCarlo.Tissues
         /// method to determine if given Position lies within ellipsoid
         /// </summary>
         /// <param name="position">Position</param>
-        /// <returns>boolean, true if within, false otherwise</returns>
+        /// <returns>boolean, true if within or on, false otherwise</returns>
         public bool ContainsPosition(Position position)
         {
                 double inside = (position.X - Center.X) * (position.X - Center.X) /
@@ -89,7 +89,7 @@ namespace Vts.MonteCarlo.Tissues
                 {
                     _onBoundary = true;
                     //return false; // ckh try 8/21/11 
-                    return true;  // ckh 2/28/19 this has to return true or unit tests fail
+                    return true;  // ckh 2/28/19 this has to return true or unit tests fail => contains if on ellipsoid
                 }
         }
         /// <summary>

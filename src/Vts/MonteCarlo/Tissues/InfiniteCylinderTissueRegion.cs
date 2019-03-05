@@ -48,7 +48,7 @@ namespace Vts.MonteCarlo.Tissues
         public OpticalProperties RegionOP { get; set; }
         
         /// <summary>
-        /// method to determine if photon position within cylinder
+        /// method to determine if photon position within or on cylinder
         /// </summary>
         /// <param name="position">photon position</param>
         /// <returns>boolean</returns>

@@ -54,15 +54,15 @@ namespace Vts.MonteCarlo.Tissues
         public OpticalProperties RegionOP { get; set; }
         
         /// <summary>
-        /// method to determine if photon position within cylinder
+        /// method to determine if photon position within or on cylinder
         /// </summary>
         /// <param name="position">photon position</param>
         /// <returns>boolean</returns>
         public bool ContainsPosition(Position position)
         {
-            if (((Math.Sqrt(position.X * position.X + position.Y * position.Y) < Radius)) &&
-                (position.Z < Center.Z + Height) &&
-                (position.Z > Center.Z - Height))
+            if (((Math.Sqrt(position.X * position.X + position.Y * position.Y) <= Radius)) &&
+                (position.Z <= Center.Z + Height) &&
+                (position.Z >= Center.Z - Height))
                 return true;
             else
                 return false;
