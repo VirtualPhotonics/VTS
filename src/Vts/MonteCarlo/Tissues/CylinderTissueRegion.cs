@@ -68,7 +68,8 @@ namespace Vts.MonteCarlo.Tissues
                 return false;
         }
         /// <summary>
-        /// method to determine if photon on boundary of cylinder
+        /// Method to determine if photon on boundary of cylinder.
+        /// Currently OnBoundary of an inclusion region isn't called by any code ckh 3/5/19.
         /// </summary>
         /// <param name="position">photon position</param>
         /// <returns>boolean</returns>

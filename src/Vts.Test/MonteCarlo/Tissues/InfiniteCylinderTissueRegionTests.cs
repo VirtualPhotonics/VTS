@@ -33,7 +33,8 @@ namespace Vts.Test.MonteCarlo.Tissues
             Assert.AreEqual(_infiniteCylinderTissueRegion.Center.Z, 3.0);
         }
         ///// <summary>
-        ///// Validate method OnBoundary return correct boolean
+        ///// Validate method OnBoundary return correct boolean.
+        ///// Currently OnBoundary of an inclusion region isn't called by any code ckh 3/5/19.
         ///// </summary>
         //[Test]
         //public void verify_OnBoundary_method_returns_correct_result()

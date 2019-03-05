@@ -93,7 +93,8 @@ namespace Vts.MonteCarlo.Tissues
                 }
         }
         /// <summary>
-        /// method to determine if given Position lies on boundary of ellipsoid
+        /// Method to determine if given Position lies on boundary of ellipsoid.
+        /// Currently OnBoundary of an inclusion region isn't called by any code ckh 3/5/19.
         /// </summary>
         /// <param name="position">Position</param>
         /// <returns>true if on boundary, false otherwise</returns>

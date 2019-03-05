@@ -36,7 +36,8 @@ namespace Vts.Test.MonteCarlo.Tissues
             Assert.AreEqual(_ellipsoidTissueRegion.Dz, 2.0);
         }
         /// <summary>
-        /// Validate method OnBoundary return correct boolean
+        /// Validate method OnBoundary return correct boolean.
+        /// Currently OnBoundary of an inclusion region isn't called by any code ckh 3/5/19.
         /// </summary>
         [Test]
         public void verify_OnBoundary_method_returns_correct_result()
@@ -62,28 +63,28 @@ namespace Vts.Test.MonteCarlo.Tissues
         //    result = _ellipsoidTissueRegion.SurfaceNormal(new Position(0, 0, 5.0));
         //    Assert.AreEqual(new Direction(0, 0, 1), result);
         //}
-        ///// <summary>
-        ///// Validate method RayIntersectBoundary return correct result
-        ///// </summary>
-        //[Test]
-        //public void verify_RayIntersectBoundary_method_returns_correct_result()
-        //{
-        //    Photon photon = new Photon();
-        //    photon.DP.Position = new Position(-2, 0, 3);
-        //    photon.DP.Direction = new Direction(1, 0, 0);
-        //    photon.S = 2.0; // definitely intersect
-        //    double distanceToBoundary;
-        //    bool result = _ellipsoidTissueRegion.RayIntersectBoundary(photon, out distanceToBoundary);
-        //    Assert.AreEqual(true, result);
-        //    Assert.AreEqual(1.0, distanceToBoundary);
-        //    photon.S = 0.5; // definitely don't intersect
-        //    result = _ellipsoidTissueRegion.RayIntersectBoundary(photon, out distanceToBoundary);
-        //    Assert.AreEqual(false, result);
-        //    Assert.AreEqual(Double.PositiveInfinity, distanceToBoundary);
-        //    photon.S = 1.0; // ends right at boundary => both out and no intersection
-        //    result = _ellipsoidTissueRegion.RayIntersectBoundary(photon, out distanceToBoundary);
-        //    Assert.AreEqual(false, result);
-        //    Assert.AreEqual(Double.PositiveInfinity, distanceToBoundary);
-        //}
+        /// <summary>
+        /// Validate method RayIntersectBoundary return correct result
+        /// </summary>
+        [Test]
+        public void verify_RayIntersectBoundary_method_returns_correct_result()
+        {
+            Photon photon = new Photon();
+            photon.DP.Position = new Position(-2, 0, 3);
+            photon.DP.Direction = new Direction(1, 0, 0);
+            photon.S = 2.0; // definitely intersect
+            double distanceToBoundary;
+            bool result = _ellipsoidTissueRegion.RayIntersectBoundary(photon, out distanceToBoundary);
+            Assert.AreEqual(true, result);
+            Assert.AreEqual(1.0, distanceToBoundary);
+            photon.S = 0.5; // definitely don't intersect
+            result = _ellipsoidTissueRegion.RayIntersectBoundary(photon, out distanceToBoundary);
+            Assert.AreEqual(false, result);
+            Assert.AreEqual(Double.PositiveInfinity, distanceToBoundary);
+            photon.S = 1.0; // ends right at boundary => both out and no intersection
+            result = _ellipsoidTissueRegion.RayIntersectBoundary(photon, out distanceToBoundary);
+            Assert.AreEqual(false, result);
+            Assert.AreEqual(Double.PositiveInfinity, distanceToBoundary);
+        }
     }
 }
