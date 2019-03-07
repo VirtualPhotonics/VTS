@@ -1,5 +1,5 @@
 {
-  "OutputName": "one_layer_ROfRho_Mus_only",
+  "OutputName": "unit_test_one_layer_ROfRho_Mus_only",
   "N": 100,
   "Options": {
     "Seed": 0,

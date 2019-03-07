@@ -54,21 +54,22 @@ namespace Vts.MonteCarlo.Tissues
         public OpticalProperties RegionOP { get; set; }
         
         /// <summary>
-        /// method to determine if photon position within cylinder
+        /// method to determine if photon position within or on cylinder
         /// </summary>
         /// <param name="position">photon position</param>
         /// <returns>boolean</returns>
         public bool ContainsPosition(Position position)
         {
-            if (((Math.Sqrt(position.X * position.X + position.Y * position.Y) < Radius)) &&
-                (position.Z < Center.Z + Height) &&
-                (position.Z > Center.Z - Height))
+            if (((Math.Sqrt(position.X * position.X + position.Y * position.Y) <= Radius)) &&
+                (position.Z <= Center.Z + Height) &&
+                (position.Z >= Center.Z - Height))
                 return true;
             else
                 return false;
         }
         /// <summary>
-        /// method to determine if photon on boundary of cylinder
+        /// Method to determine if photon on boundary of cylinder.
+        /// Currently OnBoundary of an inclusion region isn't called by any code ckh 3/5/19.
         /// </summary>
         /// <param name="position">photon position</param>
         /// <returns>boolean</returns>
@@ -93,5 +94,15 @@ namespace Vts.MonteCarlo.Tissues
         //{
         //    throw new NotImplementedException();
         //}
+
+        /// <summary>
+        /// method to determine normal to surface at given position
+        /// </summary>
+        /// <param name="position"></param>
+        /// <returns>Direction</returns>
+        public Direction SurfaceNormal(Position position)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

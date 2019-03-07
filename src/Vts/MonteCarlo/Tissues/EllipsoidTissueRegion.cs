@@ -65,7 +65,7 @@ namespace Vts.MonteCarlo.Tissues
         /// method to determine if given Position lies within ellipsoid
         /// </summary>
         /// <param name="position">Position</param>
-        /// <returns>boolean, true if within, false otherwise</returns>
+        /// <returns>boolean, true if within or on, false otherwise</returns>
         public bool ContainsPosition(Position position)
         {
                 double inside = (position.X - Center.X) * (position.X - Center.X) /
@@ -85,15 +85,16 @@ namespace Vts.MonteCarlo.Tissues
                 {
                     return false;
                 }
-                else  // on boundary
+                else  // on boundary means ellipsoid contains position
                 {
                     _onBoundary = true;
-                    //return false; // ckh try 8/21/11
-                    return true;
+                    //return false; // ckh try 8/21/11 
+                    return true;  // ckh 2/28/19 this has to return true or unit tests fail => contains if on ellipsoid
                 }
         }
         /// <summary>
-        /// method to determine if given Position lies on boundary of ellipsoid
+        /// Method to determine if given Position lies on boundary of ellipsoid.
+        /// Currently OnBoundary of an inclusion region isn't called by any code ckh 3/5/19.
         /// </summary>
         /// <param name="position">Position</param>
         /// <returns>true if on boundary, false otherwise</returns>
@@ -102,7 +103,26 @@ namespace Vts.MonteCarlo.Tissues
             return !ContainsPosition(position) && _onBoundary;
         }
         /// <summary>
+        /// method to determine normal to surface at given position. Note this returns outward facing normal.
+        /// </summary>
+        /// <param name="position"></param>
+        /// <returns>Direction</returns>
+        public Direction SurfaceNormal(Position position)
+        {
+            return new Direction(
+                2 * (position.X - Center.X) / (Dx * Dx),
+                2 * (position.Y - Center.Y) / (Dy * Dy),
+                2 * (position.Z - Center.Z) / (Dz * Dz));
+            //throw new NotImplementedException();
+        }
+        /// <summary>
         /// method to determine if photon track or ray intersects boundary of ellipsoid
+        /// equations to determine intersection are derived by parameterizing ray from p1 to p2
+        /// as p2=p1+[dx dy dz]t t in [0,1] where dx=p2.x-p1.x dy=p2.y-p1.y dz=p2.z-p2.z
+        /// and substituting into ellipsoid equations and solving quadratic in t, i.e. t1, t2
+        /// t1,t2<0 or t1,t2>1 => no intersection
+        /// 0<t1<1 => one intersection
+        /// 0<t2<1 => one intersections, if above line true too => two intersections
         /// </summary>
         /// <param name="photon">Photon</param>
         /// <param name="distanceToBoundary">return: distance to boundary</param>

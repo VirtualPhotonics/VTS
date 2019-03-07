@@ -16,9 +16,11 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
         List<string> listOfInfiles = new List<string>()
         {
             "ellip_FluenceOfRhoAndZ",
+            "infinite_cylinder_FluenceOfRhoAndZ",
             "embeddedDirectionalCircularSourceEllipTissue",
-            "Flat_source_one_layer_ROfRho",
-            "Gaussian_source_one_layer_ROfRho", 
+            "Flat_2D_source_one_layer_ROfRho",
+            "Gaussian_2D_source_one_layer_ROfRho", 
+            "Gaussian_line_source_one_layer_ROfRho",
             "one_layer_all_detectors",
             "one_layer_FluenceOfRhoAndZ_RadianceOfRhoAndZAndAngle",
             "one_layer_ROfRho_FluenceOfRhoAndZ",
@@ -28,6 +30,9 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
             "two_layer_ROfRho",
             "two_layer_ROfRho_with_db",
             "voxel_ROfXAndY_FluenceOfXAndYAndZ",
+            "unit_test_one_layer_ROfRho_Mus_only", // the next 3 are from the unit test resources
+            "unit_test_one_layer_ROfRho_Musp_only",
+            "unit_test_one_layer_ROfRho_Musp_and_Mus_inconsistent"
         };
 
         /// <summary>
@@ -262,7 +267,7 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
                 "infile_unit_test_one_layer_ROfRho_Mus_only.txt", name);
             string[] arguments = new string[] { "infile=infile_unit_test_one_layer_ROfRho_Mus_only.txt" };
             Program.Main(arguments);
-            Assert.IsTrue(Directory.Exists("one_layer_ROfRho_Mus_only"));
+            Assert.IsTrue(Directory.Exists("unit_test_one_layer_ROfRho_Mus_only"));
         }
         [Test]
         public void validate_deserialization_of_infile_for_Musp_only_specification()
@@ -274,7 +279,7 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
                 "infile_unit_test_one_layer_ROfRho_Musp_only.txt", name);
             string[] arguments = new string[] { "infile=infile_unit_test_one_layer_ROfRho_Musp_only.txt" };
             Program.Main(arguments);
-            Assert.IsTrue(Directory.Exists("one_layer_ROfRho_Musp_only"));
+            Assert.IsTrue(Directory.Exists("unit_test_one_layer_ROfRho_Musp_only"));
         }
         [Test]
         public void validate_deserialization_of_infile_for_Mus_and_Musp_inconsistent_specification()
@@ -286,9 +291,9 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
                 "infile_unit_test_one_layer_ROfRho_Musp_and_Mus_inconsistent.txt", name);
             string[] arguments = new string[] { "infile=infile_unit_test_one_layer_ROfRho_Musp_and_Mus_inconsistent.txt" };
             Program.Main(arguments);
-            Assert.IsTrue(Directory.Exists("one_layer_ROfRho_Musp_and_Mus_inconsistent"));
+            Assert.IsTrue(Directory.Exists("unit_test_one_layer_ROfRho_Musp_and_Mus_inconsistent"));
             var writtenInfile = SimulationInput.FromFile(
-                "one_layer_RofRho_Musp_and_Mus_inconsistent/one_layer_ROfRho_Musp_and_Mus_inconsistent.txt");
+                "unit_test_one_layer_ROfRho_Musp_and_Mus_inconsistent/unit_test_one_layer_ROfRho_Musp_and_Mus_inconsistent.txt");
             // infile specifies Mus=5.0 and Musp=1.2 with g=0.8
             // when there is inconsistency in Mus and Musp specification, code modifies Mus to conform to Musp
             // the following test verifies that Mus was modified accordingly
