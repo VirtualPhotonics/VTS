@@ -70,7 +70,8 @@ namespace Vts.MonteCarlo.Extensions
         {
             var photonDirection = dp.Direction;
             // determine if sin(theta)<=NA/n where theta is angle between photon direction and detector normal
-            return detectorNA/n >= Math.Sqrt(1-Direction.GetDotProduct(photonDirection, detectorNormal));
+            var cosTheta = Direction.GetDotProduct(photonDirection, detectorNormal);
+            return (detectorNA/n) >= Math.Sqrt(1 - cosTheta * cosTheta);
         }
 
 

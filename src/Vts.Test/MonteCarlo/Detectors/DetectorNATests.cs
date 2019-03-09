@@ -408,33 +408,33 @@ namespace Vts.Test.MonteCarlo.Detectors
         [Test]
         public void validate_detector_tallies_when_NA_is_0p3()
         {
-            Assert.Less(Math.Abs(_outputNA0p3.Rd - 0.082815), 0.000001);
-            //Assert.Less(Math.Abs(_outputNA0p3.R_r[1] - 0.002943), 0.000001);
-            Assert.Less(Math.Abs(_outputNA0p3.R_a[0] - 0.011866), 0.000001);
-            Assert.Less(Math.Abs(_outputNA0p3.R_ra[1, 0] - 0.000421), 0.000001);
-            Assert.Less(Math.Abs(_outputNA0p3.R_rt[1, 0] - 0.029431), 0.000001);
-            Assert.Less(Math.Abs(_outputNA0p3.R_rw[1, 0].Real - 0.002942), 0.000001);
-            Assert.Less(Math.Abs(_outputNA0p3.R_rw[1, 0].Imaginary + 3.36012e-5), 0.00001e-5);
-            Assert.Less(Math.Abs(_outputNA0p3.R_xy[0, 7] - 0.001780), 0.000001);
-            Assert.Less(Math.Abs(_outputNA0p3.R_fx[1].Real - 0.080613), 0.000001);
-            Assert.Less(Math.Abs(_outputNA0p3.R_fx[1].Imaginary - 0.006354), 0.000001);
-            Assert.Less(Math.Abs(_outputNA0p3.R_fxt[1, 0].Real - 0.106022), 0.000001);
-            Assert.Less(Math.Abs(_outputNA0p3.R_fxt[1, 0].Imaginary - 0.108368), 0.000001);
-            Assert.AreEqual(_outputNA0p3.Rspec, 0.03);
-            Assert.Less(Math.Abs(_outputNA0p3.Td - 0.038553), 0.000001);
-            Assert.Less(Math.Abs(_outputNA0p3.T_r[4] - 0.000239), 0.000001);
-            Assert.Less(Math.Abs(_outputNA0p3.T_a[0] - 0.005524), 0.000001);
-            Assert.Less(Math.Abs(_outputNA0p3.T_ra[1, 0] - 0.000216), 0.000001);
-            Assert.Less(Math.Abs(_outputNA0p3.T_xy[0, 3] - 0.000221), 0.000001);
-            Assert.Less(Math.Abs(_outputNA0p3.Rad_r[0] - 0.022439), 0.000001);
-            Assert.Less(Math.Abs(_outputNA0p3.RefMT_rmt[1, 0] - 0.002943), 0.000001);
-            Assert.Less(Math.Abs(_outputNA0p3.RefMT_xymt[0, 7, 0] - 0.001780), 0.000001);
-            Assert.Less(Math.Abs(_outputNA0p3.TransMT_rmt[1, 0] - 0.001512), 0.000001);
-            Assert.Less(Math.Abs(_outputNA0p3.TransMT_xymt[0, 3, 1] - 0.000221), 0.000001);
-            Assert.Less(Math.Abs(_outputNA0p3.RefDynMT_rmt[1, 0] - 0.002943), 0.000001);
-            Assert.Less(Math.Abs(_outputNA0p3.RefDynMT_xymt[0, 7, 0] - 0.001780), 0.000001);
-            Assert.Less(Math.Abs(_outputNA0p3.TransDynMT_rmt[1, 0] - 0.001512), 0.000001);
-            Assert.Less(Math.Abs(_outputNA0p3.TransDynMT_xymt[0, 3, 1] - 0.000221), 0.000001);
+            Assert.Less(Math.Abs(_outputNA0p3.Rd - 0.041371), 0.000001);
+            Assert.Less(Math.Abs(_outputNA0p3.R_r[2] - 0.000610), 0.000001);
+            Assert.Less(Math.Abs(_outputNA0p3.R_a[0] - 0.005928), 0.000001);
+            Assert.Less(Math.Abs(_outputNA0p3.R_ra[2, 0] - 8.747283e-5), 0.00001e-5);
+            Assert.Less(Math.Abs(_outputNA0p3.R_rt[2, 0] - 0.006104), 0.000001);
+            Assert.Less(Math.Abs(_outputNA0p3.R_rw[2, 0].Real - 0.000610), 0.000001);
+            Assert.Less(Math.Abs(_outputNA0p3.R_rw[2, 0].Imaginary + 3.691193e-6), 0.00001e-6);
+            Assert.Less(Math.Abs(_outputNA0p3.R_xy[3, 7] - 0.001751), 0.000001);
+            Assert.Less(Math.Abs(_outputNA0p3.R_fx[1].Real - 0.040582), 0.000001);
+            Assert.Less(Math.Abs(_outputNA0p3.R_fx[1].Imaginary + 6.894488e-5), 0.00001e-5);
+            Assert.Less(Math.Abs(_outputNA0p3.R_fxt[1, 0].Real - 0.042811), 0.000001);
+            Assert.Less(Math.Abs(_outputNA0p3.R_fxt[1, 0].Imaginary - 0.176853), 0.000001);
+            Assert.AreEqual(_outputNA0p3.Rspec, 0.01);
+            Assert.Less(Math.Abs(_outputNA0p3.Td - 0.027105), 0.000001);
+            Assert.Less(Math.Abs(_outputNA0p3.T_r[2] - 0.000104), 0.000001);
+            Assert.Less(Math.Abs(_outputNA0p3.T_a[0] - 0.003883), 0.000001);
+            Assert.Less(Math.Abs(_outputNA0p3.T_ra[0, 0] - 3.768329e-5), 0.00001e-5);
+            Assert.Less(Math.Abs(_outputNA0p3.T_xy[1, 5] - 0.001443), 0.000001);
+            Assert.Less(Math.Abs(_outputNA0p3.Rad_r[0] - 0.022294), 0.000001);
+            Assert.Less(Math.Abs(_outputNA0p3.RefMT_rmt[2, 0] - 0.000610), 0.000001);
+            Assert.Less(Math.Abs(_outputNA0p3.RefMT_xymt[3, 7, 0] - 0.001751), 0.000001);
+            Assert.Less(Math.Abs(_outputNA0p3.TransMT_rmt[0, 1] - 0.000262), 0.000001);
+            Assert.Less(Math.Abs(_outputNA0p3.TransMT_xymt[0, 5, 1] - 0.000460), 0.000001);
+            Assert.Less(Math.Abs(_outputNA0p3.RefDynMT_rmt[2, 0] - 0.000610), 0.000001);
+            Assert.Less(Math.Abs(_outputNA0p3.RefDynMT_xymt[3, 7, 0] - 0.001751), 0.000001);
+            Assert.Less(Math.Abs(_outputNA0p3.TransDynMT_rmt[0, 1] - 0.000262), 0.000001);
+            Assert.Less(Math.Abs(_outputNA0p3.TransDynMT_xymt[0, 5, 1] - 0.000460), 0.000001);
         }
 
         /// <summary>
@@ -650,10 +650,10 @@ namespace Vts.Test.MonteCarlo.Detectors
 
             Assert.Less(Math.Abs(postProcessedOutput.pMC_R_r[1] - 0.000954), 0.000001);
             Assert.Less(Math.Abs(postProcessedOutput.pMC_R_rt[1, 0] - 0.009544), 0.000001);
-            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_fx[1].Real - 0.031503), 0.000001);
-            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_fx[1].Imaginary + 0.011764), 0.000001);
-            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_fxt[1, 0].Real - 0.197593), 0.000001);
-            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_fxt[1, 0].Imaginary + 0.141953), 0.000001);
+            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_fx[1].Real - 0.019533), 0.000001);
+            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_fx[1].Imaginary + 0.005684), 0.000001);
+            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_fxt[1, 0].Real - 0.110045), 0.000001);
+            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_fxt[1, 0].Imaginary + 0.134473), 0.000001);
             Assert.Less(Math.Abs(postProcessedOutput.dMCdMua_R_r[1] + 0.011313), 0.000001);
             Assert.Less(Math.Abs(postProcessedOutput.dMCdMus_R_r[1] + 0.001196), 0.000001);
         }

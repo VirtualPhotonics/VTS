@@ -156,7 +156,7 @@ namespace Vts.MonteCarlo
                 ),
                 new List<IDetectorInput>()
                 {
-                    new ROfRhoDetectorInput() { Rho =new DoubleRange(0.0, 10, 101)},
+                    new ROfRhoDetectorInput() { Rho =new DoubleRange(0.0, 10, 101), FinalTissueRegionIndex=0, NA=1.0},
                     new FluenceOfRhoAndZDetectorInput() {Rho=new DoubleRange(0.0, 10, 101),Z=new DoubleRange(0.0, 10, 101)}
                 }
              );
