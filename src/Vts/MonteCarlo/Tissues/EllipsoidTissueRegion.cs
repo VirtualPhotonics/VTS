@@ -109,11 +109,11 @@ namespace Vts.MonteCarlo.Tissues
         /// <returns>Direction</returns>
         public Direction SurfaceNormal(Position position)
         {
-            return new Direction(
-                2 * (position.X - Center.X) / (Dx * Dx),
-                2 * (position.Y - Center.Y) / (Dy * Dy),
-                2 * (position.Z - Center.Z) / (Dz * Dz));
-            //throw new NotImplementedException();
+            var newX = 2 * (position.X - Center.X) / (Dx * Dx);
+            var newY = 2 * (position.Y - Center.Y) / (Dy * Dy);
+            var newZ = 2 * (position.Z - Center.Z) / (Dz * Dz);
+            var norm = Math.Sqrt(newX * newX + newY * newY + newZ * newZ);
+            return new Direction(newX / norm, newY / norm, newZ / norm);
         }
         /// <summary>
         /// method to determine if photon track or ray intersects boundary of ellipsoid

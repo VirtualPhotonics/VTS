@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Vts.Common;
@@ -7,8 +8,10 @@ using Vts.MonteCarlo.PhotonData;
 namespace Vts.MonteCarlo.Tissues
 {   
     /// <summary>
-    /// Implements ITissue.  Defines a tissue geometry comprised of an
-    /// inclusion embedded within a layered slab.
+    /// Implements ITissue.  Defines a tissue geometry comprised of an inclusion embedded within a layered slab.
+    /// Note that many of the methods in this class are invoked by Photon classs and Photon masterminds their returns.
+    /// For example, when the photon is on the boundary of the domain or the inclusion, Photon determines whether
+    /// in the critical angle and if so whether to reflect or refract, then invokes the methods below accordingly.
     /// </summary>
     public class SingleInclusionTissue : MultiLayerTissue, ITissue
     {
@@ -145,15 +148,28 @@ namespace Vts.MonteCarlo.Tissues
             Direction currentDirection)
         {
             // needs to call MultiLayerTissue when crossing top and bottom layer
-            if (base.OnDomainBoundary(currentPosition))
+            if (base.OnDomainBoundary(currentPosition)) // OnDomainBoundary checks if on tissue boundary
             {
                 return base.GetReflectedDirection(currentPosition, currentDirection);
             }
-            else
+            else // on boundary of inclusion
             {
-                return currentDirection;
+                if (_inclusionRegion.RegionOP.N == Regions[_layerRegionIndexOfInclusion].RegionOP.N)
+                {
+                    return currentDirection;  // no refractive index mismatch
+                }
+                else
+                {                 
+                    // reflection equation reflected = incident - 2(incident dot surfaceNormal)surfaceNormal
+                    Direction surfaceNormal = _inclusionRegion.SurfaceNormal(currentPosition);
+                    var currentDirDotNormal = Direction.GetDotProduct(currentDirection, surfaceNormal);
+                    var newX = currentDirection.Ux - 2 * currentDirDotNormal * surfaceNormal.Ux;
+                    var newY = currentDirection.Uy - 2 * currentDirDotNormal * surfaceNormal.Uy;
+                    var newZ = currentDirection.Uz - 2 * currentDirDotNormal * surfaceNormal.Uz;
+                    var norm = Math.Sqrt(newX * newX + newY * newY + newZ * newZ);
+                    return new Direction(newX / norm, newY / norm, newZ / norm);
+                }
             }
-            //throw new NotImplementedException(); // hopefully, this won't happen when the tissue inclusion is index-matched
         }
         /// <summary>
         /// method that provides refracted direction when phton refracts off boundary
@@ -175,9 +191,36 @@ namespace Vts.MonteCarlo.Tissues
             }
             else
             {
-                return currentDirection;
+                if (_inclusionRegion.RegionOP.N == Regions[_layerRegionIndexOfInclusion].RegionOP.N)
+                {
+                    return currentDirection;  // no refractive index mismatch
+                }
+                else
+                {
+                    // refraction equation
+                    return currentDirection; // FIX!!!
+                }
             }
-            //throw new NotImplementedException(); // hopefully, this won't happen when the tissue inclusion is index-matched
+        }
+        /// <summary>
+        /// Method to get cosine of the angle between photons current direction and boundary normal.
+        /// When this method is called photon is sitting on boundary of region and CurrentRegionIndex is Index
+        /// of region photon had been in.
+        /// </summary>
+        /// <param name="photon"></param>
+        /// <returns>Uz=cos(theta)</returns>
+        public double GetAngleRelativeToBoundaryNormal(Photon photon)
+        {
+            // needs to call MultiLayerTissue when crossing top and bottom layer
+            if (base.OnDomainBoundary(photon.DP.Position))
+            {
+                return base.GetAngleRelativeToBoundaryNormal(photon);
+            }
+            else
+            {
+                return Math.Abs(
+                    Direction.GetDotProduct(photon.DP.Direction, _inclusionRegion.SurfaceNormal(photon.DP.Position)));
+            }
         }
     }
 }

@@ -79,17 +79,17 @@ namespace Vts.Test.MonteCarlo.Tissues
             Assert.AreEqual(false, result);
             Assert.AreEqual(Double.PositiveInfinity, distanceToBoundary);
         }
-        ///// <summary>
-        ///// Validate method SurfaceNormal return correct normal vector
-        ///// </summary>
-        //[Test]
-        //public void verify_SurfaceNormal_method_returns_correct_result()
-        //{
-        //    Direction result = _infiniteCylinderTissueRegion.SurfaceNormal(new Position(0, 0, 2.0));
-        //    Assert.AreEqual(new Direction(0, 0, -1), result);
-        //    result = _infiniteCylinderTissueRegion.SurfaceNormal(new Position(0, 0, 5.0));
-        //    Assert.AreEqual(new Direction(0, 0, 1), result);
-        //}
+        /// <summary>
+        /// Validate method SurfaceNormal return correct normal vector.  Should be outward directed normal.
+        /// </summary>
+        [Test]
+        public void verify_SurfaceNormal_method_returns_correct_result()
+        {
+            Direction result = _infiniteCylinderTissueRegion.SurfaceNormal(new Position(0, 0, 2.0));
+            Assert.AreEqual(new Direction(0, 0, -1), result);
+            result = _infiniteCylinderTissueRegion.SurfaceNormal(new Position(0, 0, 4.0));
+            Assert.AreEqual(new Direction(0, 0, 1), result);
+        }
 
     }
 }

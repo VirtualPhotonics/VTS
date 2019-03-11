@@ -9,6 +9,7 @@ namespace Vts.MonteCarlo.Tissues
     /// </summary>
     public class VoxelTissueRegion : ITissueRegion
     {
+        private bool _onBoundary = false;
         /// <summary>
         /// constructor for voxel region
         /// </summary>
@@ -118,6 +119,14 @@ namespace Vts.MonteCarlo.Tissues
             {
                 return false;
             }
+            // check if ray outside voxel
+            if ((!one_in && !two_in) &&
+                ((p1.X < X.Start) && (p2.X < X.Start)) || ((p1.X > X.Stop) && (p2.X > X.Stop)) ||
+                ((p1.Y < Y.Start) && (p2.Y < Y.Start)) || ((p1.Y > Y.Stop) && (p2.Y > Y.Stop)) ||
+                ((p1.Z < Z.Start) && (p2.Z < Z.Start)) || ((p1.Z > Z.Stop) && (p2.Z > Z.Stop)))
+            {
+                return false;
+            }
 
             double xint, yint, zint;
 
@@ -188,9 +197,16 @@ namespace Vts.MonteCarlo.Tissues
         public bool ContainsPosition(Position position)
         {
             //// inclusion defined in half-open interval [start,stop) so that continuum of voxels do not overlap
-            return (position.X >= X.Start) && (position.X <= X.Stop) &&
-                   (position.Y >= Y.Start) && (position.Y <= Y.Stop) &&
-                   (position.Z >= Z.Start) && (position.Z <= Z.Stop);
+            if ((position.X >= X.Start) && (position.X <= X.Stop) &&
+                (position.Y >= Y.Start) && (position.Y <= Y.Stop) &&
+                (position.Z >= Z.Start) && (position.Z <= Z.Stop))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         /// <summary>
@@ -201,15 +217,26 @@ namespace Vts.MonteCarlo.Tissues
         /// <returns>boolean</returns>
         public bool OnBoundary(Position position)
         {
-            return (((position.X == X.Start) || (position.X == X.Stop)) &&
-                            (position.Y >= Y.Start) && (position.Y <= Y.Stop) &&
-                            (position.Z >= Z.Start) && (position.Z <= Z.Stop)) ||
-                   (((position.Y == Y.Start) || (position.Y == Y.Stop)) &&
-                            (position.X >= X.Start) && (position.X <= X.Stop) &&
-                            (position.Z >= Z.Start) && (position.Z <= Z.Stop)) ||
-                   (((position.Z == Z.Start) || (position.Z == Z.Stop)) &&
-                              (position.X >= X.Start) && (position.X <= X.Stop) &&
-                              (position.Y >= Y.Start) && (position.Y <= Y.Stop));
+            double tol = 1e-11;
+            if ((((Math.Abs(position.X - X.Start) < tol) || (Math.Abs(position.X - X.Stop) < tol)) &&
+                 ((position.Y >= Y.Start) && (position.Y <= Y.Stop) &&
+                  (position.Z >= Z.Start) && (position.Z <= Z.Stop))) ||
+                (((Math.Abs(position.Y - Y.Start) < tol) || (Math.Abs(position.Y - Y.Stop) < tol)) &&
+                 ((position.X >= X.Start) && (position.X <= X.Stop) &&
+                  (position.Z >= Z.Start) && (position.Z <= Z.Stop))) ||
+                (((Math.Abs(position.Z - Z.Start) < tol) || (Math.Abs(position.Z - Z.Stop) < tol)) &&
+                 (position.X >= X.Start) && (position.X <= X.Stop) &&
+                 (position.Y >= Y.Start) && (position.Y <= Y.Stop)))
+            {
+                _onBoundary = true;
+                return true;
+            }
+            else
+            {
+                _onBoundary = false;
+                return false;
+            }
+            //return !ContainsPosition(position) && _onBoundary; // match with EllipsoidTissueRegion
         }
         /// <summary>
         /// method to determine normal to surface at given position
@@ -218,7 +245,35 @@ namespace Vts.MonteCarlo.Tissues
         /// <returns>Direction</returns>
         public Direction SurfaceNormal(Position position)
         {
-            throw new NotImplementedException();
+            var tol = 1e-11; // use tolerance because position will have floating point errors
+
+            // the following code doesn't handle if on corner, but may not be problem
+            if (Math.Abs(position.X - X.Start) < tol)
+            {
+                return new Direction(-1, 0, 0);
+            }
+            else if (Math.Abs(position.X - X.Stop) < tol)
+            {
+                return new Direction(1, 0, 0);
+            }
+            else if (Math.Abs(position.Y - Y.Start) < tol)
+            {
+                return new Direction(0, -1, 0);
+            }
+            else if (Math.Abs(position.Y - Y.Stop) < tol)
+            {
+                return new Direction(0, 1, 0);
+            }
+            else if (Math.Abs(position.Z - Z.Start) < tol)
+            {
+                return new Direction(0, 0, -1);
+            }
+            else if (Math.Abs(position.Z - Z.Stop) < tol)
+            {
+                return new Direction(0, 0, 1);
+            }
+
+            return new Direction(0, 0, 0); // need to fix
         }
     }
 }

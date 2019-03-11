@@ -224,7 +224,7 @@ namespace Vts.MonteCarlo
             double cosThetaSnell;
             // call Fresnel be default to have uZSnell set, used to be within else
             probOfReflecting = Optics.Fresnel(nCurrent, nNext, cosTheta, out cosThetaSnell);
-            if (cosTheta <= coscrit)
+            if (cosTheta <= coscrit) // this check assumes cosTheta is positive - not sure this is correct ckh 3/11/19
                 probOfReflecting = 1.0;
             //else
             //    probOfReflecting = Optics.Fresnel(nCurrent, nNext, cosTheta, out cosThetaSnell);

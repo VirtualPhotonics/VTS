@@ -105,7 +105,6 @@ namespace Vts.MonteCarlo.Tissues
                 2 * (position.X - Center.X) / norm,
                 0,
                 2 * (position.Z - Center.Z) / norm);
-            //throw new NotImplementedException();
         }
         /// <summary>
         /// method to determine if photon ray (or track) will intersect boundary of cylinder
