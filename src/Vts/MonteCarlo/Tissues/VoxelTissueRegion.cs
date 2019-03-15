@@ -247,7 +247,7 @@ namespace Vts.MonteCarlo.Tissues
         {
             var tol = 1e-11; // use tolerance because position will have floating point errors
 
-            // the following code doesn't handle if on corner, but may not be problem
+            // the following code doesn't handle if on or edge corner, but may not be problem
             if (Math.Abs(position.X - X.Start) < tol)
             {
                 return new Direction(-1, 0, 0);
@@ -272,8 +272,7 @@ namespace Vts.MonteCarlo.Tissues
             {
                 return new Direction(0, 0, 1);
             }
-
-            return new Direction(0, 0, 0); // need to fix
+            return null;
         }
     }
 }

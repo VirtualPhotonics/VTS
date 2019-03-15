@@ -76,17 +76,69 @@ namespace Vts.Test.MonteCarlo.Tissues
         [Test]
         public void verify_GetReflectedDirection_method_returns_correct_result()
         {
-            // index matched
-            var currentPosition = new Position(0, 0, 2); // put photon on ellipsoid
-            var currentDirection = new Direction(0, 0, 1);
+            // put photon on boundary of domain to make sure base (MultiLayerTissue) call works
+            var currentPosition = new Position(10, 10, 0);
+            var currentDirection = new Direction(1/Math.Sqrt(2), 0, -1/Math.Sqrt(2));
             Direction reflectedDir = _tissue.GetReflectedDirection(currentPosition, currentDirection);
-            Assert.AreEqual(reflectedDir, new Direction(0, 0, 1));
-            // index mismatched
-            _tissue.Regions[3].RegionOP.N = 1.5; // surrounding layer has n=1.4
+            Assert.AreEqual(reflectedDir.Ux, 1/Math.Sqrt(2));
+            Assert.AreEqual(reflectedDir.Uy, 0);
+            Assert.AreEqual(reflectedDir.Uz, 1/Math.Sqrt(2)); // reflection off layer just flips sign of Uz
+            // index matched
             currentPosition = new Position(0, 0, 2); // put photon on ellipsoid
             currentDirection = new Direction(0, 0, 1);
             reflectedDir = _tissue.GetReflectedDirection(currentPosition, currentDirection);
-            Assert.AreEqual(reflectedDir, new Direction(0, 0, -1));
+            Assert.AreEqual(reflectedDir.Ux, 0);
+            Assert.AreEqual(reflectedDir.Uy, 0);
+            Assert.AreEqual(reflectedDir.Uz, 1);
+            // index mismatched
+            _tissue.Regions[3].RegionOP.N = 1.5; // surrounding layer has n=1.4
+            currentPosition = new Position(0, 0, 2); // put photon on top of ellipsoid
+            currentDirection = new Direction(0, 0, 1); // perpendicular to tangent surface
+            reflectedDir = _tissue.GetReflectedDirection(currentPosition, currentDirection);
+            Assert.AreEqual(reflectedDir.Ux, 0);
+            Assert.AreEqual(reflectedDir.Uy, 0);
+            Assert.AreEqual(reflectedDir.Uz, -1);
+            currentDirection = new Direction(1/Math.Sqrt(2), 0, 1/Math.Sqrt(2)); // 45 deg to tangent surface
+            reflectedDir = _tissue.GetReflectedDirection(currentPosition, currentDirection);
+            Assert.IsTrue(Math.Abs(reflectedDir.Ux - 1/Math.Sqrt(2)) < 1e-7);
+            Assert.AreEqual(reflectedDir.Uy, 0);
+            Assert.IsTrue(Math.Abs(reflectedDir.Uz + 1/Math.Sqrt(2)) < 1e-7);
+        }
+        /// <summary>
+        /// Validate method GetReflectedDirection returns correct direction.
+        /// </summary>
+        [Test]
+        public void verify_GetRefractedDirection_method_returns_correct_result()
+        {
+            // put photon on boundary of domain to make sure base (MultiLayerTissue) call works
+            var currentPosition = new Position(10, 10, 0);
+            var currentDirection = new Direction(1/Math.Sqrt(2), 0, -1/Math.Sqrt(2));
+            var nCurrent = 1.4;
+            var nNext = 1.4; 
+            var cosThetaSnell = 1/Math.Sqrt(2);
+            Direction refractedDir = _tissue.GetRefractedDirection(currentPosition, currentDirection, nCurrent, nNext, cosThetaSnell);
+            Assert.AreEqual(refractedDir.Ux, 1/Math.Sqrt(2));
+            Assert.AreEqual(refractedDir.Uy, 0);
+            Assert.AreEqual(refractedDir.Uz, -1/Math.Sqrt(2));
+            // put photon on ellipsoid: index matched
+            currentPosition = new Position(0, 0, 2); 
+            currentDirection = new Direction(1/Math.Sqrt(2), 0, 1/Math.Sqrt(2));
+            nNext = 1.4;
+            refractedDir = _tissue.GetRefractedDirection(currentPosition, currentDirection, nCurrent, nNext, cosThetaSnell);
+            Assert.AreEqual(refractedDir.Ux, 1/Math.Sqrt(2));
+            Assert.AreEqual(refractedDir.Uy, 0);
+            Assert.AreEqual(refractedDir.Uz, 1/Math.Sqrt(2));
+            // put photon on ellipsoid: index mismatched
+            currentPosition = new Position(0, 0, 2);
+            currentDirection = new Direction(1 / Math.Sqrt(14), 2 / Math.Sqrt(14), 3 / Math.Sqrt(14));
+            nNext = 1.5;
+            refractedDir = _tissue.GetRefractedDirection(currentPosition, currentDirection, nCurrent, nNext, cosThetaSnell);
+            Assert.IsTrue(Math.Abs(refractedDir.Ux - 0.104257) < 1e-6);
+            Assert.IsTrue(Math.Abs(refractedDir.Uy - 0.208514) < 1e-6);
+            Assert.IsTrue(Math.Abs(refractedDir.Uz - 0.972446) < 1e-6);
+            Assert.IsTrue(Math.Sqrt(refractedDir.Ux * refractedDir.Ux +
+                                    refractedDir.Uy * refractedDir.Uy +
+                                    refractedDir.Uz * refractedDir.Uz) - 1 < 1e-6);
         }
         /// <summary>
         /// Validate method GetAngleRelativeToBoundaryNormal return correct value.   Note that this

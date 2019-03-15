@@ -138,7 +138,7 @@ namespace Vts.MonteCarlo.Tissues
             return base.GetDistanceToBoundary(photon);
         }
         /// <summary>
-        /// method that provides reflected direction when phton reflects off boundary
+        /// Method that provides reflected direction when photon reflects off boundary.
         /// </summary>
         /// <param name="currentPosition">Position</param>
         /// <param name="currentDirection">Direction</param>
@@ -172,10 +172,14 @@ namespace Vts.MonteCarlo.Tissues
             }
         }
         /// <summary>
-        /// method that provides refracted direction when phton refracts off boundary
+        /// Method that provides refracted direction when photon refracts through boundary.
+        /// ref: Bram de Greve "Reflections and Refractions in Ray Tracing" dated 11/13/2006, off web not published
         /// </summary>
         /// <param name="currentPosition">Position</param>
         /// <param name="currentDirection">Direction</param>
+        /// <param name="nCurrent">N of tissue photon is exiting</param>
+        /// <param name="nNext">N of tissue photon is entering</param>
+        /// <param name="cosThetaSnell">cosine theta=normal dot exiting direction due to Snell's law</param>
         /// <returns>new Direction</returns>
         public Direction GetRefractedDirection(
             Position currentPosition,
@@ -191,14 +195,24 @@ namespace Vts.MonteCarlo.Tissues
             }
             else
             {
-                if (_inclusionRegion.RegionOP.N == Regions[_layerRegionIndexOfInclusion].RegionOP.N)
+                if (nCurrent == nNext)
                 {
                     return currentDirection;  // no refractive index mismatch
                 }
                 else
                 {
-                    // refraction equation
-                    return currentDirection; // FIX!!!
+                    // refraction equations in ref
+                    // where theta1 and theta2 are angles relative to normal
+                    Direction normal = _inclusionRegion.SurfaceNormal(currentPosition);
+                    var cosTheta1 = Direction.GetDotProduct(currentDirection, normal);
+                    var nRatio = nCurrent / nNext;
+                    var sinTheta2Squared = nRatio * nRatio * (1 - cosTheta1 * cosTheta1);
+                    var factor = nRatio * cosTheta1 - Math.Sqrt(1 - sinTheta2Squared);
+                    var newX = nRatio * currentDirection.Ux + factor * normal.Ux;
+                    var newY = nRatio * currentDirection.Uy + factor * normal.Uy;
+                    var newZ = nRatio * currentDirection.Uz + factor * normal.Uz;
+                    var norm = Math.Sqrt(newX * newX + newY * newY + newZ * newZ);
+                    return new Direction(newX / norm, newY / norm, newZ / norm);
                 }
             }
         }

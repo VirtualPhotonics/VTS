@@ -68,17 +68,21 @@ namespace Vts.Test.MonteCarlo.Tissues
             result = _voxelTissueRegion.ContainsPosition(new Position(0, 0, 1.0)); // on boundary
             Assert.IsTrue(result);
         }
-        ///// <summary>
-        ///// Validate method SurfaceNormal return correct normal vector
-        ///// </summary>
-        //[Test]
-        //public void verify_SurfaceNormal_method_returns_correct_result()
-        //{
-        //    Direction result = _VoxelTissueRegion.SurfaceNormal(new Position(0, 0, 1.0));
-        //    Assert.AreEqual(new Direction(0, 0, -1), result);
-        //    result = _VoxelTissueRegion.SurfaceNormal(new Position(0, 0, 5.0));
-        //    Assert.AreEqual(new Direction(0, 0, 1), result);
-        //}
+        /// <summary>
+        /// Validate method SurfaceNormal return correct normal vector
+        /// </summary>
+        [Test]
+        public void verify_SurfaceNormal_method_returns_correct_result()
+        {
+            Direction result = _voxelTissueRegion.SurfaceNormal(new Position(0, 0, 1.0));
+            Assert.AreEqual(result.Ux, 0);
+            Assert.AreEqual(result.Uy, 0);
+            Assert.AreEqual(result.Uz, -1);
+            result = _voxelTissueRegion.SurfaceNormal(new Position(0, 0, 3.0));
+            Assert.AreEqual(result.Ux, 0);
+            Assert.AreEqual(result.Uy, 0);
+            Assert.AreEqual(result.Uz, 1);
+        }
         /// <summary>
         /// Validate method RayIntersectBoundary return correct result
         /// </summary>
