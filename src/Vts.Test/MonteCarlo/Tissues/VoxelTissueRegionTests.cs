@@ -74,14 +74,30 @@ namespace Vts.Test.MonteCarlo.Tissues
         [Test]
         public void verify_SurfaceNormal_method_returns_correct_result()
         {
-            Direction result = _voxelTissueRegion.SurfaceNormal(new Position(0, 0, 1.0));
+            Direction result = _voxelTissueRegion.SurfaceNormal(new Position(0, 0, 1.0)); // top
             Assert.AreEqual(result.Ux, 0);
             Assert.AreEqual(result.Uy, 0);
             Assert.AreEqual(result.Uz, -1);
-            result = _voxelTissueRegion.SurfaceNormal(new Position(0, 0, 3.0));
+            result = _voxelTissueRegion.SurfaceNormal(new Position(0, 0, 3.0));  //bottom
             Assert.AreEqual(result.Ux, 0);
             Assert.AreEqual(result.Uy, 0);
             Assert.AreEqual(result.Uz, 1);
+            result = _voxelTissueRegion.SurfaceNormal(new Position(1.0, 0, 2.0)); // right side
+            Assert.AreEqual(result.Ux, 1);
+            Assert.AreEqual(result.Uy, 0);
+            Assert.AreEqual(result.Uz, 0);
+            result = _voxelTissueRegion.SurfaceNormal(new Position(-1.0, 0, 2.0));  //left side
+            Assert.AreEqual(result.Ux, -1);
+            Assert.AreEqual(result.Uy, 0);
+            Assert.AreEqual(result.Uz, 0);
+            result = _voxelTissueRegion.SurfaceNormal(new Position(0.0, -1.0, 2.0)); // back side
+            Assert.AreEqual(result.Ux, 0);
+            Assert.AreEqual(result.Uy, -1);
+            Assert.AreEqual(result.Uz, 0);
+            result = _voxelTissueRegion.SurfaceNormal(new Position(0.0, 1.0, 2.0));  //front side
+            Assert.AreEqual(result.Ux, 0);
+            Assert.AreEqual(result.Uy, 1);
+            Assert.AreEqual(result.Uz, 0);
         }
         /// <summary>
         /// Validate method RayIntersectBoundary return correct result

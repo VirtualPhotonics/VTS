@@ -154,7 +154,19 @@ namespace Vts.Test.MonteCarlo.Tissues
             var dirCosine = _tissue.GetAngleRelativeToBoundaryNormal(photon);
             Assert.AreEqual(dirCosine, 1);
             photon.DP.Position = new Position(0, 0, 4); // put photon on ellipsoid bottom
-            photon.DP.Direction = new Direction(0, 0, 1);
+            photon.DP.Direction = new Direction(0, 0, 1); // direction in line with surface normal
+            dirCosine = _tissue.GetAngleRelativeToBoundaryNormal(photon);
+            Assert.AreEqual(dirCosine, 1);
+            photon.DP.Position = new Position(1, 0, 3); // put photon on right
+            photon.DP.Direction = new Direction(0, 0, 1); // straight down 90 degrees to normal
+            dirCosine = _tissue.GetAngleRelativeToBoundaryNormal(photon);
+            Assert.AreEqual(dirCosine, 0);
+            photon.DP.Position = new Position(-1, 0, 3); // put photon on left
+            photon.DP.Direction = new Direction(-1, 0, 0); // in line with surface normal
+            dirCosine = _tissue.GetAngleRelativeToBoundaryNormal(photon);
+            Assert.AreEqual(dirCosine, 1);
+            photon.DP.Position = new Position(0, 1, 3); // put photon on front
+            photon.DP.Direction = new Direction(0, -1, 0); // opposite surface normal
             dirCosine = _tissue.GetAngleRelativeToBoundaryNormal(photon);
             Assert.AreEqual(dirCosine, 1);
         }
