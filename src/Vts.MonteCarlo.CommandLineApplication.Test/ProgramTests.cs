@@ -12,7 +12,9 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
     [TestFixture]
     public class ProgramTests
     {
-        // Note: needs to be kept current with SimulationInputProvider.  If an infile is added there, it should be added here.
+        // Note: needs to be kept current with SimulationInputProvider.  If an infile is added there,
+        // it should be added here.  Also! make sure ProgramTests.cs for MCPP listOfInfiles agrees so
+        // that unit tests clean up after themselves.
         List<string> listOfInfiles = new List<string>()
         {
             "ellip_FluenceOfRhoAndZ",
