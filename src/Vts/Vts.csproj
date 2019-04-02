@@ -103,10 +103,10 @@
     <PackageReference Include="Meta.Numerics" Version="4.0.7" />
     <PackageReference Include="Microsoft.CSharp" Version="4.5.0" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
-    <PackageReference Include="NLog" Version="4.6.0" />
+    <PackageReference Include="NLog" Version="4.6.1" />
     <PackageReference Include="System.Reactive" Version="4.1.3" />
     <PackageReference Include="System.Reflection" Version="4.3.0" />
-    <PackageReference Include="Unity" Version="5.10.1" />
+    <PackageReference Include="Unity" Version="5.10.2" />
   </ItemGroup>
 
 </Project>
