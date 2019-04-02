@@ -281,11 +281,14 @@ namespace Vts.Modeling.ForwardSolvers
             IEnumerable<double> rhos,
             IEnumerable<double> zs)
         {
-
             foreach (var region in regions)
             {
                 var dp = GetDiffusionParameters(region);
                 var layerThicknesses = GetLayerThicknesses(region);
+                if (dp[0].zp > layerThicknesses[0])
+                {
+                    throw new ArgumentException("Top layer thickness must be greater than l* = 1/(mua+musp)");
+                }
                 foreach (var rho in rhos)
                 {
                     foreach (var z in zs)
@@ -436,6 +439,10 @@ namespace Vts.Modeling.ForwardSolvers
             {
                 var dps  = GetDiffusionParameters(region);
                 var layerThicknesses = GetLayerThicknesses(region);
+                if (dps[0].zp > layerThicknesses[0])
+                {
+                    throw new ArgumentException("Top layer thickness must be greater than l* = 1/(mua+musp)");
+                }
                 foreach (var rho in rhos)
                 {
                     foreach (var z in zs)
