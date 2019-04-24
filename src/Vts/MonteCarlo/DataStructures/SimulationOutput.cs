@@ -45,6 +45,19 @@ namespace Vts.MonteCarlo
             _detectorResults = detectorResults;
         }
         /// <summary>
+        /// Cylindrical fiber
+        /// </summary>
+        public double CylFib { get { return ((double)((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "CylindricalFiber").First().Name]).Mean); } }
+        /// <summary>
+        /// Cylindrical fiber 2nd moment
+        /// </summary>
+        public double CylFib2 { get { return ((double)((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "CylindricalFiber").First().Name]).SecondMoment); } }
+        /// <summary>
+        /// Cylindrical fiber tally count
+        /// </summary>
+        public double CylFib_TallyCount { get { return ((double)((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "CylindricalFiber").First().Name]).TallyCount); } }
+
+        /// <summary>
         /// Diffuse Reflectance
         /// </summary>
         public double Rd { get { return ((double)((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "RDiffuse").First().Name]).Mean); } }

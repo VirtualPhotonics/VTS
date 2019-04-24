@@ -363,6 +363,10 @@ namespace Vts.MonteCarlo
             /// </summary>
             "SingleEllipsoid",
             /// <summary>
+            /// Tissue slab with embedded cylinder
+            /// </summary>
+            "SingleCylinder",
+            /// <summary>
             /// Tissue slab with multiple embedded ellipsoids
             /// </summary>
             "MultiEllipsoid",            
@@ -393,6 +397,10 @@ namespace Vts.MonteCarlo
     {
         public static readonly string[] BuiltInTypes =
         {
+            /// <summary>
+            /// Cylindrical fiber 
+            /// </summary>
+            "CylindricalFiber",
              /// <summary>
             /// Reflectance as a function of source-detector separation (rho) and angle
             /// </summary>
@@ -570,6 +578,10 @@ namespace Vts.MonteCarlo
             /// </summary>
             "dMCdROfRhodMus",
         };
+        /// <summary>
+        /// cylindrical fiber detector
+        /// </summary>
+        public static string CylindricalFiber { get { return "CylindricalFiber"; } }
         /// <summary>
         /// Total diffuse reflectance
         /// </summary>

@@ -318,14 +318,19 @@
     <Compile Include="..\Vts.Test\MonteCarlo\Sources\SurfaceEmittingFlatSourcesTests.cs">
       <Link>MonteCarlo\Sources\SurfaceEmittingFlatSourcesTests.cs</Link>
     </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Tissues\CylinderTissueRegionTests.cs">
+      <Link>MonteCarlo\Tissues\CylinderTissueRegionTests.cs</Link>
+    </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\Tissues\EllipsoidTissueRegionTests.cs">
       <Link>MonteCarlo\Tissues\EllipsoidTissueRegionTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Tissues\InfiniteCylinderTissueRegionTests.cs">
+      <Link>MonteCarlo\Tissues\InfiniteCylinderTissueRegionTests.cs</Link>
     </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\Tissues\SingleInclusionTissueTests.cs">
       <Link>MonteCarlo\Tissues\SingleInclusionTissueTests.cs</Link>
     </Compile>
     <Compile Include="FileIOTests.Desktop.cs" />
-    <Compile Include="MonteCarlo\Tissues\InfiniteCylinderTissueRegionTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
