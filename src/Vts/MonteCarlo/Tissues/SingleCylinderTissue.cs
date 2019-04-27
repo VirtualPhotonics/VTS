@@ -21,7 +21,7 @@ namespace Vts.MonteCarlo.Tissues
         public SingleCylinderTissueInput(ITissueRegion cylinderRegion, ITissueRegion[] layerRegions)
         {
             TissueType = "SingleCylinder";
-            _cylinderRegion = CylinderRegion;
+            _cylinderRegion = cylinderRegion;
             _layerRegions = layerRegions;
         }
 

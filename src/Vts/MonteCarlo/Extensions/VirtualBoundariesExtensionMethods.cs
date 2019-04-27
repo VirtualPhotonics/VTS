@@ -18,7 +18,7 @@ namespace Vts.MonteCarlo.Extensions
                 case VirtualBoundaryType.DiffuseTransmittance:
                 case VirtualBoundaryType.SpecularReflectance:
                 case VirtualBoundaryType.pMCDiffuseReflectance:
-                case VirtualBoundaryType.SurfaceRadiance:
+                case VirtualBoundaryType.Dosimetry:
                     return true;
                 default:
                     return false;
@@ -86,15 +86,30 @@ namespace Vts.MonteCarlo.Extensions
             }
         }
         /// <summary>
-        /// Method to determine if internal surface VB or not
+        /// Method to determine if dosimetry VB or not
         /// </summary>
         /// <param name="virtualBoundaryType">VB type </param>
         /// <returns>true if internal surface VB, false if not</returns>
-        public static bool IsInternalSurfaceVirtualBoundary(this VirtualBoundaryType virtualBoundaryType)
+        public static bool IsDosimetryVirtualBoundary(this VirtualBoundaryType virtualBoundaryType)
         {
             switch (virtualBoundaryType)
             {
-                case VirtualBoundaryType.SurfaceRadiance:
+                case VirtualBoundaryType.Dosimetry:
+                    return true;
+                default:
+                    return false;
+            }
+        }
+        /// <summary>
+        /// Method to determine if internal fiber VB or not
+        /// </summary>
+        /// <param name="virtualBoundaryType">VB type </param>
+        /// <returns>true if internal surface VB, false if not</returns>
+        public static bool IsInternalFiberVirtualBoundary(this VirtualBoundaryType virtualBoundaryType)
+        {
+            switch (virtualBoundaryType)
+            {
+                case VirtualBoundaryType.InternalFiber:
                     return true;
                 default:
                     return false;
@@ -130,7 +145,7 @@ namespace Vts.MonteCarlo.Extensions
                 case VirtualBoundaryType.DiffuseReflectance:
                 case VirtualBoundaryType.DiffuseTransmittance:
                 case VirtualBoundaryType.SpecularReflectance:
-                case VirtualBoundaryType.SurfaceRadiance:
+                case VirtualBoundaryType.Dosimetry:
                     return false;
             }
         }

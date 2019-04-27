@@ -120,9 +120,13 @@ namespace Vts.MonteCarlo.Factories
                     vb = new SpecularReflectanceVirtualBoundary(
                          tissue, detectorController, VirtualBoundaryType.SpecularReflectance.ToString());
                     break;
-                case VirtualBoundaryType.SurfaceRadiance:
-                    vb = new RadianceVirtualBoundary(
-                        detectorController, VirtualBoundaryType.SurfaceRadiance.ToString());
+                case VirtualBoundaryType.Dosimetry:
+                    vb = new DosimetryVirtualBoundary(
+                        detectorController, VirtualBoundaryType.Dosimetry.ToString());
+                    break;
+                case VirtualBoundaryType.InternalFiber:
+                    vb = new InternalFiberVirtualBoundary(
+                        detectorController, VirtualBoundaryType.InternalFiber.ToString());
                     break;
                 case VirtualBoundaryType.GenericVolumeBoundary:
                     vb = new GenericVolumeVirtualBoundary(

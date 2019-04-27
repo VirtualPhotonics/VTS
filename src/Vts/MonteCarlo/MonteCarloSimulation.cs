@@ -97,9 +97,12 @@ namespace Vts.MonteCarlo
                     case VirtualBoundaryType.GenericVolumeBoundary:
                         detectorInputs = input.DetectorInputs.Where(d => d.TallyDetails.IsVolumeTally).ToList();
                         break;                                            
-                    case VirtualBoundaryType.SurfaceRadiance:
-                        detectorInputs = input.DetectorInputs.Where(d => d.TallyDetails.IsInternalSurfaceTally).ToList();
-                        break;                                            
+                    case VirtualBoundaryType.Dosimetry:
+                        detectorInputs = input.DetectorInputs.Where(d => d.TallyDetails.IsDosimetryTally).ToList();
+                        break;
+                    case VirtualBoundaryType.InternalFiber:
+                        detectorInputs = input.DetectorInputs.Where(d => d.TallyDetails.IsInternalFiberTally).ToList();
+                        break;
                     case VirtualBoundaryType.pMCDiffuseReflectance:
                         detectorInputs = input.DetectorInputs.Where(d => d.TallyDetails.IspMCReflectanceTally).ToList();
                         break;

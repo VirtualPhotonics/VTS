@@ -13,12 +13,13 @@ namespace Vts.MonteCarlo.Detectors
     public class CylindricalFiberDetectorInput : DetectorInput, IDetectorInput
     {
         /// <summary>
-        /// constructor for cylindrical fiber detector input
+        /// constructor for cylindrical fiber detector input. The fiber only detects as photon
+        /// crosses bottom cap in an upward direction (negative z direction)
         /// </summary>
         public CylindricalFiberDetectorInput()
         {
             TallyType = "CylindricalFiber";
-            Center = new Position(0, 0, 5);
+            Center = new Position(0, 0, 0.5);
             Radius = 0.6;
             HeightZ = 1.0;
             Name = "CylindricalFiberDetector";
@@ -26,7 +27,7 @@ namespace Vts.MonteCarlo.Detectors
             FinalTissueRegionIndex = 0; // assume detector is in air
 
             // modify base class TallyDetails to take advantage of built-in validation capabilities (error-checking)
-            TallyDetails.IsReflectanceTally = true;
+            TallyDetails.IsInternalFiberTally = true;
             TallyDetails.IsCylindricalTally = false;
         }
 

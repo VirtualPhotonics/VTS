@@ -26,8 +26,8 @@ namespace Vts.MonteCarlo.Tissues
             Radius = radius;
             Height = height;
             RegionOP = op;
-            _topCapPlane = Center.Z + Height / 2;
-            _bottomCapPlane = Center.Z - Height / 2;
+            _bottomCapPlane = Center.Z + Height / 2;
+            _topCapPlane = Center.Z - Height / 2;
         }
         /// <summary>
         /// default constructor
@@ -65,12 +65,41 @@ namespace Vts.MonteCarlo.Tissues
         /// <returns>boolean</returns>
         public bool ContainsPosition(Position position)
         {
-            if (((Math.Sqrt(position.X * position.X + position.Y * position.Y) <= Radius)) &&
-                (position.Z <= Center.Z + Height / 2) &&
-                (position.Z >= Center.Z - Height / 2))
-                return true;
+            //if (((Math.Sqrt(position.X * position.X + position.Y * position.Y) <= Radius)) &&
+            //    (position.Z <= Center.Z + Height / 2) &&
+            //    (position.Z >= Center.Z - Height / 2))
+            //    return true;
+            //else
+            //    return false;
+
+            // check axial extent first
+            if ((position.Z <= Center.Z + Height / 2) && (position.Z >= Center.Z - Height / 2))
+            {
+                double inside = ((position.X - Center.X) * (position.X - Center.X) + 
+                                 (position.Y - Center.Y) * (position.Y - Center.Y)) / (Radius * Radius);
+
+                //if (inside < 0.9999999)
+                if (inside < 0.9999999999)
+                {
+                    return true;
+                }
+                //else if (inside > 1.0000001)
+                else if (inside > 1.00000000001 )
+                {
+                    return false;
+                }
+                else  // on boundary means cylinder contains position
+                {
+                    _onBoundary = true;
+                    //return false; // ckh try 8/21/11 
+                    return true;  // ckh 2/28/19 this has to return true 
+                }
+            }
             else
+            {
                 return false;
+            }
+
         }
         /// <summary>
         /// Method to determine if photon on boundary of cylinder.

@@ -79,9 +79,13 @@ namespace Vts.MonteCarlo
         /// </summary>
         PseudoGenericVolumeVirtualBoundary = 0x80000,
         /// <summary>
-        /// photon pseudo-collision at SurfaceRadiance Virtual Boundary (VB)
+        /// photon pseudo-collision at Dosimetry Virtual Boundary (VB)
         /// </summary>
-        PseudoSurfaceRadianceVirtualBoundary = 0x100000,
+        PseudoDosimetryVirtualBoundary = 0x100000,
+        /// <summary>
+        /// photon pseudo-collision at Internal Fiber Virtual Boundary (VB)
+        /// </summary>
+        PseudoInternalFiberVirtualBoundary = 0x120000,
     }
     /// <summary>
     /// Virtual boundaries are entities upon which detectors are attached.
@@ -108,9 +112,13 @@ namespace Vts.MonteCarlo
         /// </summary>
         GenericVolumeBoundary,
         /// <summary>
-        /// Internal surface detectors attach to this virtual boundary type
+        /// Internal dosimetry detectors attach to this virtual boundary type
         /// </summary>
-        SurfaceRadiance,
+        Dosimetry,
+        /// <summary>
+        /// Interval fiber detectors attach to this virtual boundary type
+        /// </summary>
+        InternalFiber,
         /// <summary>
         /// Virtual boundary used for pMC diffuse reflectance detectors
         /// </summary>
