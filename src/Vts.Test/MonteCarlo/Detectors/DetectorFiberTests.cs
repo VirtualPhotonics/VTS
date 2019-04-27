@@ -136,21 +136,21 @@ namespace Vts.Test.MonteCarlo.Detectors
         /// Test to validate fiber internal to tissue which has OPs that match surrounding tissue.
         /// Validation values based on prior test.
         /// </summary>
-        [Test]
-        public void validate_internal_fiber_detector_with_matching_OPs_does_not_change_results()
-        {
-            Assert.Less(Math.Abs(_outputWithInternalFiber.R_r[2] - 0.000610), 0.000001);
-            Assert.AreEqual(_outputWithInternalFiber.CylFib, 0.0);
-        }
+        //[Test]
+        //public void validate_internal_fiber_detector_with_matching_OPs_does_not_change_results()
+        //{
+        //    Assert.Less(Math.Abs(_outputWithInternalFiber.R_r[2] - 0.000610), 0.000001);
+        //    Assert.AreEqual(_outputWithInternalFiber.CylFib, 0.0);
+        //}
         /// <summary>
         /// Test to validate fiber at tissue surface.
         /// Validation values based on prior test.
         /// </summary>
-        [Test]
-        public void validate_surface_fiber_detector_produces_correct_results()
-        {
-            Assert.Less(Math.Abs(_outputWithSurfaceFiber.R_r[2] - 0.000610), 0.000001);
-            Assert.AreEqual(_outputWithSurfaceFiber.CylFib, 0.0);
-        }
+        //[Test]
+        //public void validate_surface_fiber_detector_produces_correct_results()
+        //{
+        //    Assert.Less(Math.Abs(_outputWithSurfaceFiber.R_r[2] - 0.000610), 0.000001);
+        //    Assert.AreEqual(_outputWithSurfaceFiber.CylFib, 0.0);
+        //}
     }
 }
