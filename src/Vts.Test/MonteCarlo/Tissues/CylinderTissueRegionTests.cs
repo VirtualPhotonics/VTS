@@ -35,7 +35,7 @@ namespace Vts.Test.MonteCarlo.Tissues
             Assert.AreEqual(_cylinderTissueRegion.Center.Y, 0.0);
             Assert.AreEqual(_cylinderTissueRegion.Center.Z, 2.0);
             Assert.AreEqual(_cylinderTissueRegion.Radius, 1.0);
-            Assert.AreEqual(_cylinderTissueRegion.Height, 2.0);
+            Assert.AreEqual(_cylinderTissueRegion.HeightZ, 2.0);
             Assert.AreEqual(_cylinderTissueRegion.RegionOP.Mua, 0.01);
             Assert.AreEqual(_cylinderTissueRegion.RegionOP.Musp, 1.0);
             Assert.AreEqual(_cylinderTissueRegion.RegionOP.G, 0.8);
@@ -98,7 +98,7 @@ namespace Vts.Test.MonteCarlo.Tissues
             Assert.AreEqual(true, result);
             Assert.AreEqual(1.0, distanceToBoundary);
             // test infinitely thin cylinder
-            _cylinderTissueRegion.Height = 0;
+            _cylinderTissueRegion.HeightZ = 0;
             _cylinderTissueRegion.Center.Z = 0;
             photon.DP.Direction = new Direction(0, 0, -1);
             photon.S = 2;

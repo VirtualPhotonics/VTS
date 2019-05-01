@@ -13,7 +13,7 @@ namespace Vts.MonteCarlo.VirtualBoundaries
     {
         private IDetectorController _detectorController;
         private double _zPlanePosition;
-        private double _radius;
+        private double _radius, _xCenter, _yCenter;
 
         /// <summary>
         /// Radiance virtual boundary
@@ -33,6 +33,8 @@ namespace Vts.MonteCarlo.VirtualBoundaries
             {
                 _zPlanePosition = ((dynamic)submergedFiberDetector).Center.Z + ((dynamic)submergedFiberDetector).HeightZ / 2;
                 _radius = ((dynamic) submergedFiberDetector).Radius;
+                _xCenter = ((dynamic) submergedFiberDetector).Center.X;
+                _yCenter = ((dynamic) submergedFiberDetector).Center.Y;
 
                 WillHitBoundary = dp =>
                     dp.StateFlag.HasFlag(PhotonStateType.PseudoReflectedTissueBoundary) &&
@@ -98,9 +100,10 @@ namespace Vts.MonteCarlo.VirtualBoundaries
             var distanceToPlane = (_zPlanePosition - dp.Position.Z) / dp.Direction.Uz;
             var xIntersect = dp.Position.X + distanceToPlane * dp.Direction.Ux;
             var yIntersect = dp.Position.Y + distanceToPlane * dp.Direction.Uy;
-            if (Math.Sqrt(xIntersect * xIntersect + yIntersect * yIntersect) < _radius)
+            if (Math.Sqrt((xIntersect - _xCenter) * (xIntersect - _xCenter) + 
+                          (yIntersect - _yCenter) * (yIntersect - _yCenter)) < _radius)
             {
-                return distanceToBoundary;
+                return distanceToPlane;
             }
             return double.PositiveInfinity; // return infinity                           
         }

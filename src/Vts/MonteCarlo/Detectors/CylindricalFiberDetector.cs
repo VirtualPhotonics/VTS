@@ -22,9 +22,10 @@ namespace Vts.MonteCarlo.Detectors
             Center = new Position(0, 0, 0.5);
             Radius = 0.6;
             HeightZ = 1.0;
+            N = 1.4;
             Name = "CylindricalFiberDetector";
             NA = double.PositiveInfinity; // set default NA completely open regardless of detector region refractive index
-            FinalTissueRegionIndex = 0; // assume detector is in air
+            FinalTissueRegionIndex = 3; // assume detector is in cylinder region
 
             // modify base class TallyDetails to take advantage of built-in validation capabilities (error-checking)
             TallyDetails.IsInternalFiberTally = true;
@@ -118,11 +119,11 @@ namespace Vts.MonteCarlo.Detectors
         /// <summary>
         /// detector mean
         /// </summary>
-        [IgnoreDataMember] public double Mean { get; set; }
+        public double Mean { get; set; }
         /// <summary>
         /// detector second moment
         /// </summary>
-        [IgnoreDataMember] public double SecondMoment { get; set; }
+        public double SecondMoment { get; set; }
 
         /* ==== Place optional/user-defined output properties here. They will be saved in text (JSON) format ==== */
         /// <summary>
@@ -171,7 +172,7 @@ namespace Vts.MonteCarlo.Detectors
         /// <param name="numPhotons">number of photons launched</param>
         public void Normalize(long numPhotons)
         {
-            var areaNorm = 2.0 * Math.PI * Radius;
+            var areaNorm = 2.0 * Math.PI * Radius; // do we normalize fiber detector results by area of fiber end?
             Mean /= areaNorm * numPhotons;
             if (TallySecondMoment)
             {
@@ -190,16 +191,9 @@ namespace Vts.MonteCarlo.Detectors
         /// <param name="photon">photon</param>
         public bool IsWithinDetectorAperture(Photon photon)
         {
-            if (photon.CurrentRegionIndex == FinalTissueRegionIndex)
-            {
-                var detectorRegionN = _tissue.Regions[photon.CurrentRegionIndex].RegionOP.N;
-                return photon.DP.IsWithinNA(NA, Direction.AlongNegativeZAxis, detectorRegionN);
-            }
-            else // determine n of prior tissue region
-            {
-                var detectorRegionN = _tissue.Regions[FinalTissueRegionIndex].RegionOP.N;
-                return photon.History.PreviousDP.IsWithinNA(NA, Direction.AlongNegativeZAxis, detectorRegionN);
-            }
+            var detectorRegionN = _tissue.Regions[FinalTissueRegionIndex].RegionOP.N;
+            return photon.DP.IsWithinNA(NA, Direction.AlongNegativeZAxis, detectorRegionN);            
+
             //return true; // or, possibly test for NA or confined position, etc
             //return (dp.StateFlag.Has(PhotonStateType.PseudoTransmissionDomainTopBoundary));
         }

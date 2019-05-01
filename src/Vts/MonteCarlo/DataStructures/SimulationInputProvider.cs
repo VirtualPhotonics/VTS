@@ -366,7 +366,7 @@ namespace Vts.MonteCarlo
         }
         #endregion
 
-        #region point source single ellipsoid Fluence(rho,z)
+        #region point source single infinite cylinder Fluence(rho,z)
         /// <summary>
         /// Point source, single infinite cylinder tissue definition, only FluenceOfRhoAndZ detector included
         /// </summary>
@@ -888,14 +888,14 @@ namespace Vts.MonteCarlo
         #endregion
 
 
-        #region point source one layer Circular Fiber Detector at surface (height = 0)
+        #region point source one layer Circular Fiber Detector at surface 
         /// <summary>
         /// </summary>
         public static SimulationInput PointSourceOneLayerTissueCylindricalFiberDetector()
         {
             return new SimulationInput(
                 100,
-                "pointSourceOneLayerCircularFiberDetector",
+                "circular_fiber_detector",
                 new SimulationOptions(
                     0, // random number generator seed, -1=random seed, 0=fixed seed
                     RandomNumberGeneratorType.MersenneTwister,
@@ -908,13 +908,13 @@ namespace Vts.MonteCarlo
                 new DirectionalPointSourceInput(
                     new Position(0.0, 0.0, 0.0),
                     new Direction(0.0, 0.0, 1.0),
-                    0), // 0=start in air, 1=start in tissue, start in tissue so no MT tally at tissue crossing in air
+                    1), // 0=start in air, 1=start in tissue, start in tissue so no MT tally at tissue crossing in air
                 new SingleCylinderTissueInput(
                     new CylinderTissueRegion(
-                        new Position(0, 0, 0),
-                        0.6,
-                        0.0,
-                        new OpticalProperties(0.01, 1.0, 0.8, 1.4)
+                        new Position(0, 0, -1e-10),
+                        0.3,
+                        2e-10,
+                        new OpticalProperties(0.01, 1.0, 0.8, 1.45)
                     ),
                     new ITissueRegion[]
                     {
@@ -923,7 +923,7 @@ namespace Vts.MonteCarlo
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
                         new LayerTissueRegion(
                             new DoubleRange(0.0, 100.0),
-                            new OpticalProperties(0.01, 1e-5, 0.8, 1.4)),
+                            new OpticalProperties(0.01, 1, 0.8, 1.35)),
                         new LayerTissueRegion(
                             new DoubleRange(100.0, double.PositiveInfinity),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
@@ -933,11 +933,22 @@ namespace Vts.MonteCarlo
                 {
                     new CylindricalFiberDetectorInput()
                     {
-                        Center = new Position(0, 0, 0), // needs to match tissue region
-                        Radius = 0.6, // needs to match tissue region
-                        HeightZ = 0, // needs to match tissue region
+                        Center = new Position(0, 0, -1e-10), // needs to match tissue region
+                        Radius = 0.3, // needs to match tissue region
+                        HeightZ = 2e-10, // needs to match tissue region
+                        N = 1.45,
+                        Name = "CylindricalFiber_Open",
+                        FinalTissueRegionIndex = 3
+                    },
+                    new CylindricalFiberDetectorInput()
+                    {
+                        Center = new Position(0, 0, -1e-10), // needs to match tissue region
+                        Radius = 0.3, // needs to match tissue region
+                        HeightZ = 2e-10, // needs to match tissue region
+                        N = 1.45,
                         NA = 0.22,
-                        FinalTissueRegionIndex = 1
+                        Name = "CylindricalFiber_NA0p22",
+                        FinalTissueRegionIndex = 3
                     }
                 }
             );

@@ -10,8 +10,7 @@ namespace Vts.MonteCarlo.Tissues
     public class CylinderTissueRegion : ITissueRegion
     {
         private bool _onBoundary = false;
-        private double _topCapPlane;
-        private double _bottomCapPlane;
+
         /// <summary>
         /// CylinderTissueRegion assumes cylinder axis is parallel with z-axis
         /// </summary>
@@ -19,15 +18,13 @@ namespace Vts.MonteCarlo.Tissues
         /// <param name="radius">radius in x-y plane</param>
         /// <param name="height">height along z axis</param>
         /// <param name="op">optical properties of cylinder</param>
-        public CylinderTissueRegion(Position center, double radius, double height, OpticalProperties op) 
+        public CylinderTissueRegion(Position center, double radius, double heightZ, OpticalProperties op) 
         {
             TissueRegionType = "Cylinder";
             Center = center;
             Radius = radius;
-            Height = height;
+            HeightZ = heightZ;
             RegionOP = op;
-            _bottomCapPlane = Center.Z + Height / 2;
-            _topCapPlane = Center.Z - Height / 2;
         }
         /// <summary>
         /// default constructor
@@ -51,7 +48,7 @@ namespace Vts.MonteCarlo.Tissues
         /// <summary>
         /// height of cylinder
         /// </summary>
-        public double Height { get; set; }
+        public double HeightZ { get; set; }
         /// <summary>
         /// optical properties of cylinder
         /// </summary>
@@ -73,7 +70,7 @@ namespace Vts.MonteCarlo.Tissues
             //    return false;
 
             // check axial extent first
-            if ((position.Z <= Center.Z + Height / 2) && (position.Z >= Center.Z - Height / 2))
+            if ((position.Z <= Center.Z + HeightZ / 2) && (position.Z >= Center.Z - HeightZ / 2))
             {
                 double inside = ((position.X - Center.X) * (position.X - Center.X) + 
                                  (position.Y - Center.Y) * (position.Y - Center.Y)) / (Radius * Radius);
@@ -144,10 +141,10 @@ namespace Vts.MonteCarlo.Tissues
             var p2 = new Position(p1.X + d1.Ux * photon.S,
                                   p1.Y + d1.Uy * photon.S,
                                   p1.Z + d1.Uz * photon.S);
-            if (Height == 0) // check if cylinder is infinitely thin disk at surface
+            if (Math.Abs(Center.Z - HeightZ/2) < 1e-6) // check if thin disk at surface 
             {
-                // check if intersection with one cap (they should be equal)
-                if (RayIntersectCap(_topCapPlane, p1, p2, d1, out distanceToBoundary))
+                // check if intersection with bottom cap
+                if (RayIntersectCap(Center.Z - HeightZ/2, p1, p2, d1, out distanceToBoundary))
                 {
                     _onBoundary = false;
                     return true;
@@ -204,8 +201,8 @@ namespace Vts.MonteCarlo.Tissues
                 {
                     case 0: /* roots real but no intersection */
                         // check if intersection with caps
-                        if (RayIntersectCap(_topCapPlane, p1, p2, d1, out distanceToCap1) ||
-                            RayIntersectCap(_bottomCapPlane, p1, p2, d1, out distanceToCap2))
+                        if (RayIntersectCap(Center.Z + HeightZ / 2, p1, p2, d1, out distanceToCap1) ||
+                            RayIntersectCap(Center.Z - HeightZ / 2, p1, p2, d1, out distanceToCap2))
                         {
                             distanceToBoundary = (distanceToCap1 < distanceToCap2) ? distanceToCap1 : distanceToCap2;
                             return true;
@@ -222,7 +219,7 @@ namespace Vts.MonteCarlo.Tissues
                         zto = p1.Z + root * dz;
 
                         // check if zto is between caps
-                        if ((zto > Center.Z - Height / 2) && (zto < Center.Z + Height / 2))
+                        if ((zto > Center.Z - HeightZ / 2) && (zto < Center.Z + HeightZ / 2))
                         {
                             /*distance to the boundary*/
                             distanceToBoundary = Math.Sqrt((xto - p1.X) * (xto - p1.X) +
@@ -240,8 +237,8 @@ namespace Vts.MonteCarlo.Tissues
                         else // zto is not between caps
                         {
                             // check if intersection with caps
-                            if (RayIntersectCap(_topCapPlane, p1, p2, d1, out distanceToCap1) ||
-                                RayIntersectCap(_bottomCapPlane, p1, p2, d1, out distanceToCap2))
+                            if (RayIntersectCap(Center.Z + HeightZ / 2, p1, p2, d1, out distanceToCap1) ||
+                                RayIntersectCap(Center.Z - HeightZ / 2, p1, p2, d1, out distanceToCap2))
                             {
                                 distanceToBoundary = (distanceToCap1 < distanceToCap2) ? distanceToCap1 : distanceToCap2;
                                 return true;
@@ -279,9 +276,10 @@ namespace Vts.MonteCarlo.Tissues
             } /* BB-4AC>0 */
 
             /* roots imaginary -> no intersection with sides */
-            // check if intersection with caps
-            if (RayIntersectCap(_topCapPlane, p1, p2, d1, out distanceToCap1) ||
-                RayIntersectCap(_bottomCapPlane, p1, p2, d1, out distanceToCap2))
+            // check if intersection with top cap
+            
+            if ((!(Center.Z - HeightZ / 2 < 0) && RayIntersectCap(Center.Z + HeightZ / 2, p1, p2, d1, out distanceToCap1)) ||
+                RayIntersectCap(Center.Z - HeightZ / 2, p1, p2, d1, out distanceToCap2))
             {
                 distanceToBoundary = (distanceToCap1 < distanceToCap2) ? distanceToCap1 : distanceToCap2;
                 return true;
@@ -291,18 +289,18 @@ namespace Vts.MonteCarlo.Tissues
 
         public bool RayIntersectCap(double capZ, Position p1, Position p2, Direction d1, out double distanceToBoundary)
         {
-            if (((p1.Z >= capZ) && (p2.Z <= capZ)) || ((p1.Z <= capZ) && (p2.Z >= capZ))) // pointed up or down
+            if (((p1.Z >= capZ) && (p2.Z <= capZ)) || ((p1.Z <= capZ) && (p2.Z >= capZ))) // cross cap plane
             {
                 distanceToBoundary = (capZ - p1.Z) / d1.Uz; // denom and numer are either both pos or both neg
                 double xTo = p1.X + distanceToBoundary * d1.Ux;
                 double yTo = p1.Y + distanceToBoundary * d1.Uy;
-                return (xTo * xTo + yTo * yTo < Radius);
+                if ((xTo - Center.X) * (xTo - Center.X) + (yTo - Center.Y) * (yTo - Center.Y) < Radius)
+                {
+                    return true;
+                }
             }
-            else
-            {
-                distanceToBoundary = double.PositiveInfinity;
-                return false;
-            }
+            distanceToBoundary = double.PositiveInfinity;
+            return false;            
         }
 
         //public bool RayIntersectBoundary(Photon photptr)

@@ -18,8 +18,12 @@ namespace Vts.Test.MonteCarlo.Detectors
     [TestFixture]
     public class DetectorFiberTests
     {
-        private SimulationInput _inputWithInternalFiber, _inputWithSurfaceFiber;
-        private SimulationOutput _outputWithInternalFiber, _outputWithSurfaceFiber;
+        SimulationOutput _outputWithInternalFiber, _outputWithOpenSurfaceFiber, _outputWithNA0p22SurfaceFiber;
+        private double _detectorRadius = 1;
+        private double _internalDetectorCenterZ = 0;
+        private double _internalDetectorHeight = 2;
+        private double _surfaceDetectorCenterZ = -1e-6;
+        private double _surfaceDetectorHeight = 2e-6;
 
         /// <summary>
         /// Setup input to the MC for a homogeneous one layer tissue with fiber cylinder and specify fiber detector
@@ -40,12 +44,12 @@ namespace Vts.Test.MonteCarlo.Detectors
             var source = new DirectionalPointSourceInput(
                      new Position(0.0, 0.0, 0.0),
                      new Direction(0.0, 0.0, 1.0),
-                     3); 
+                     1); 
             var tissueWithInternalFiber = new SingleCylinderTissueInput(
                 new CylinderTissueRegion(
-                    new Position(1, 0, 1), // center of cylinder
-                    0.6,
-                    2.0,
+                    new Position(0, 0,  _internalDetectorCenterZ), // center of cylinder
+                    _detectorRadius,
+                    _internalDetectorHeight,
                     new OpticalProperties(0.01, 1.0, 0.8, 1.4)
                 ),
                 new ITissueRegion[]
@@ -63,9 +67,9 @@ namespace Vts.Test.MonteCarlo.Detectors
             );
             var tissueWithSurfaceFiber = new SingleCylinderTissueInput(
                 new CylinderTissueRegion(
-                    new Position(0, 0, 1e-6), // center of cylinder
-                    0.6,
-                    0.0,
+                    new Position(0, 0, _surfaceDetectorCenterZ), // center of cylinder
+                    _detectorRadius,
+                    _surfaceDetectorHeight,
                     new OpticalProperties(0.01, 1.0, 0.8, 1.4)
                 ),
                 new ITissueRegion[]
@@ -85,26 +89,27 @@ namespace Vts.Test.MonteCarlo.Detectors
                 {
                     new CylindricalFiberDetectorInput()
                     {
-                        Center = new Position(1, 0, 1), // needs to match tissue region
-                        Radius = 0.6, // needs to match tissue region
-                        HeightZ = 2.0, // needs to match tissue region
+                        Center = new Position(0, 0, _internalDetectorCenterZ), // needs to match tissue region
+                        Radius = _detectorRadius, // needs to match tissue region
+                        HeightZ = _internalDetectorHeight, // needs to match tissue region
+                        N = 1.4,
                         NA = double.PositiveInfinity,
-                        FinalTissueRegionIndex = 1
+                        FinalTissueRegionIndex = 3 // same results if this is set to 1
                     },
                     new ROfRhoDetectorInput()
                     {
                         Rho = new DoubleRange(0.0, 10.0, 11), FinalTissueRegionIndex= 0
                     },
                 };
-            var detectorSurface = new List<IDetectorInput>
+            var detectorSurfaceOpen = new List<IDetectorInput>
             {
                 new CylindricalFiberDetectorInput()
                 {
-                    Center = new Position(0, 0, 0), // needs to match tissue region
-                    Radius = 0.6, // needs to match tissue region
-                    HeightZ = 0.0, // needs to match tissue region
-                    NA = 0.22,
-                    FinalTissueRegionIndex = 1
+                    Center = new Position(0, 0, _surfaceDetectorCenterZ), // needs to match tissue region
+                    Radius = _detectorRadius, // needs to match tissue region
+                    HeightZ = _surfaceDetectorHeight, // needs to match tissue region
+                    N = 1.4,
+                    FinalTissueRegionIndex = 3
                 },
                 new ROfRhoDetectorInput()
                 {
@@ -112,14 +117,23 @@ namespace Vts.Test.MonteCarlo.Detectors
                 },
 
             };
-            //var _inputWithSurfaceFiber = new SimulationInput(
-            //    100,
-            //    "",
-            //    simulationOptions,
-            //    source,
-            //    tissueWithSurfaceFiber,
-            //    detectorSurface);
-            //_outputWithSurfaceFiber = new MonteCarloSimulation(_inputWithSurfaceFiber).Run();
+            var detectorSurfaceNA0p22 = new List<IDetectorInput>
+            {
+                new CylindricalFiberDetectorInput()
+                {
+                    Center = new Position(0, 0, _surfaceDetectorCenterZ), // needs to match tissue region
+                    Radius = _detectorRadius, // needs to match tissue region
+                    HeightZ = _surfaceDetectorHeight, // needs to match tissue region
+                    N = 1.4,
+                    FinalTissueRegionIndex = 3,
+                    NA = 0.22
+                },
+                new ROfRhoDetectorInput()
+                {
+                    Rho = new DoubleRange(0.0, 10.0, 11), FinalTissueRegionIndex= 0, NA = 0.22
+                },
+
+            };
 
             var _inputWithInternalFiber = new SimulationInput(
                 100,
@@ -130,27 +144,58 @@ namespace Vts.Test.MonteCarlo.Detectors
                 detectorInternal);
             _outputWithInternalFiber = new MonteCarloSimulation(_inputWithInternalFiber).Run();
 
+            var _inputWithOpenSurfaceFiber = new SimulationInput(
+                100,
+                "",
+                simulationOptions,
+                source,
+                tissueWithSurfaceFiber,
+                detectorSurfaceOpen);
+            _outputWithOpenSurfaceFiber = new MonteCarloSimulation(_inputWithOpenSurfaceFiber).Run();
+
+            var _inputWithNA0p22SurfaceFiber = new SimulationInput(
+                100,
+                "",
+                simulationOptions,
+                source,
+                tissueWithSurfaceFiber,
+                detectorSurfaceNA0p22);
+            _outputWithNA0p22SurfaceFiber = new MonteCarloSimulation(_inputWithNA0p22SurfaceFiber).Run();
+
         }
 
         /// <summary>
         /// Test to validate fiber internal to tissue which has OPs that match surrounding tissue.
         /// Validation values based on prior test.
         /// </summary>
-        //[Test]
-        //public void validate_internal_fiber_detector_with_matching_OPs_does_not_change_results()
-        //{
-        //    Assert.Less(Math.Abs(_outputWithInternalFiber.R_r[2] - 0.000610), 0.000001);
-        //    Assert.AreEqual(_outputWithInternalFiber.CylFib, 0.0);
-        //}
+        [Test]
+        public void validate_internal_fiber_detector_with_matching_OPs_does_not_change_results()
+        {
+            Assert.Less(Math.Abs(_outputWithInternalFiber.R_r[1] - 0.016491), 0.000001);
+            Assert.Less(Math.Abs(_outputWithInternalFiber.CylFib - 0.00), 0.000001);
+            Assert.AreEqual(_outputWithInternalFiber.CylFib_TallyCount, 0);
+        }
         /// <summary>
-        /// Test to validate fiber at tissue surface.
+        /// Test to validate fiber at tissue surface fully open.
         /// Validation values based on prior test.
         /// </summary>
-        //[Test]
-        //public void validate_surface_fiber_detector_produces_correct_results()
-        //{
-        //    Assert.Less(Math.Abs(_outputWithSurfaceFiber.R_r[2] - 0.000610), 0.000001);
-        //    Assert.AreEqual(_outputWithSurfaceFiber.CylFib, 0.0);
-        //}
+        [Test]
+        public void validate_fully_open_surface_fiber_detector_produces_correct_results()
+        {
+            Assert.Less(Math.Abs(_outputWithOpenSurfaceFiber.R_r[1] - 0.003095), 0.000001);
+            Assert.Less(Math.Abs(_outputWithOpenSurfaceFiber.CylFib - 0.004736), 0.000001);
+            Assert.AreEqual(_outputWithOpenSurfaceFiber.CylFib_TallyCount, 3);
+        }
+        /// <summary>
+        /// Test to validate fiber at tissue surface fully open.
+        /// Validation values based on prior test.
+        /// </summary>
+        [Test]
+        public void validate_NA0p22_surface_fiber_detector_produces_correct_results()
+        {
+            Assert.Less(Math.Abs(_outputWithNA0p22SurfaceFiber.R_r[1] - 0.00), 0.000001);
+            Assert.Less(Math.Abs(_outputWithNA0p22SurfaceFiber.CylFib - 0.00), 0.000001);
+            Assert.AreEqual(_outputWithOpenSurfaceFiber.CylFib_TallyCount, 0);
+        }
     }
 }
