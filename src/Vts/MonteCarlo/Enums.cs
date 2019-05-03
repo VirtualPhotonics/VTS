@@ -82,10 +82,6 @@ namespace Vts.MonteCarlo
         /// photon pseudo-collision at Dosimetry Virtual Boundary (VB)
         /// </summary>
         PseudoDosimetryVirtualBoundary = 0x100000,
-        /// <summary>
-        /// photon pseudo-collision at Internal Fiber Virtual Boundary (VB)
-        /// </summary>
-        PseudoInternalFiberVirtualBoundary = 0x120000,
     }
     /// <summary>
     /// Virtual boundaries are entities upon which detectors are attached.
@@ -115,10 +111,6 @@ namespace Vts.MonteCarlo
         /// Internal dosimetry detectors attach to this virtual boundary type
         /// </summary>
         Dosimetry,
-        /// <summary>
-        /// Interval fiber detectors attach to this virtual boundary type
-        /// </summary>
-        InternalFiber,
         /// <summary>
         /// Virtual boundary used for pMC diffuse reflectance detectors
         /// </summary>
@@ -406,9 +398,9 @@ namespace Vts.MonteCarlo
         public static readonly string[] BuiltInTypes =
         {
             /// <summary>
-            /// Cylindrical fiber 
+            /// Reflectance Surface fiber 
             /// </summary>
-            "CylindricalFiber",
+            "SurfaceFiber",
              /// <summary>
             /// Reflectance as a function of source-detector separation (rho) and angle
             /// </summary>

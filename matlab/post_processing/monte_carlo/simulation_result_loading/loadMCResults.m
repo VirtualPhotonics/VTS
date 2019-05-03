@@ -14,6 +14,13 @@ numDetectors = length(json.DetectorInputs);
 for di = 1:numDetectors
     detector = json.DetectorInputs{di};
     switch(detector.TallyType)
+        case 'SurfaceFiber'
+            SurfaceFiber.Name = detector.Name;
+            SurfaceFiber_txt = readAndParseJson([datadir slash detector.Name '.txt']);
+            SurfaceFiber.Mean = SurfaceFiber_txt.Mean;              
+            SurfaceFiber.SecondMoment = SurfaceFiber_txt.SecondMoment;
+            SurfaceFiber.Stdev = sqrt((SurfaceFiber.SecondMoment - (SurfaceFiber.Mean .* SurfaceFiber.Mean)) / (json.N)); 
+            results{di}.SurfaceFiber = SurfaceFiber;
         case 'RDiffuse'
             RDiffuse.Name = detector.Name;
             RDiffuse_txt = readAndParseJson([datadir slash detector.Name '.txt']);

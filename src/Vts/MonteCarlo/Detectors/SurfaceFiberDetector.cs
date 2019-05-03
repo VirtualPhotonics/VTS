@@ -1,8 +1,8 @@
 using System;
-using System.Runtime.Serialization;
 using Vts.Common;
 using Vts.IO;
 using Vts.MonteCarlo.Extensions;
+using Vts.MonteCarlo.Factories;
 using Vts.MonteCarlo.Helpers;
 
 namespace Vts.MonteCarlo.Detectors
@@ -10,25 +10,24 @@ namespace Vts.MonteCarlo.Detectors
     /// <summary>
     /// DetectorInput for an actual fiber detector
     /// </summary>
-    public class CylindricalFiberDetectorInput : DetectorInput, IDetectorInput
+    public class SurfaceFiberDetectorInput : DetectorInput, IDetectorInput
     {
         /// <summary>
         /// constructor for cylindrical fiber detector input. The fiber only detects as photon
         /// crosses bottom cap in an upward direction (negative z direction)
         /// </summary>
-        public CylindricalFiberDetectorInput()
+        public SurfaceFiberDetectorInput()
         {
-            TallyType = "CylindricalFiber";
+            TallyType = "SurfaceFiber";
             Center = new Position(0, 0, 0.5);
             Radius = 0.6;
-            HeightZ = 1.0;
             N = 1.4;
-            Name = "CylindricalFiberDetector";
+            Name = "SurfaceFiberDetector";
             NA = double.PositiveInfinity; // set default NA completely open regardless of detector region refractive index
             FinalTissueRegionIndex = 3; // assume detector is in cylinder region
 
             // modify base class TallyDetails to take advantage of built-in validation capabilities (error-checking)
-            TallyDetails.IsInternalFiberTally = true;
+            TallyDetails.IsReflectanceTally = true;
             TallyDetails.IsCylindricalTally = false;
         }
 
@@ -40,10 +39,6 @@ namespace Vts.MonteCarlo.Detectors
         /// detector Radius
         /// </summary>
         public double Radius { get; set; }
-        /// <summary>
-        /// detector fiber height into tissue
-        /// </summary>
-        public double HeightZ { get; set; }
         /// <summary>
         /// detector fiber refractive index
         /// </summary>
@@ -60,7 +55,7 @@ namespace Vts.MonteCarlo.Detectors
 
         public IDetector CreateDetector()
         {
-            return new CylindricalFiberDetectorDetector
+            return new SurfaceFiberDetectorDetector
             {
                 // required properties (part of DetectorInput/Detector base classes)
                 TallyType = this.TallyType,
@@ -71,7 +66,6 @@ namespace Vts.MonteCarlo.Detectors
                 // optional/custom detector-specific properties
                 Center = this.Center,
                 Radius = this.Radius,
-                HeightZ = this.HeightZ,
                 N = this.N,
                 NA = this.NA,
                 FinalTissueRegionIndex = this.FinalTissueRegionIndex
@@ -83,9 +77,10 @@ namespace Vts.MonteCarlo.Detectors
     /// Implements IDetector.  Tally for fiber detection.
     /// This implementation works for Analog, DAW and CAW processing.
     /// </summary>
-    public class CylindricalFiberDetectorDetector : Detector, IDetector
+    public class SurfaceFiberDetectorDetector : Detector, IDetector
     {
         private ITissue _tissue;
+        private Random _rng;
 
         /* ==== Place optional/user-defined input properties here. They will be saved in text (JSON) format ==== */
         /* ==== Note: make sure to copy over all optional/user-defined inputs from corresponding input class ==== */
@@ -97,10 +92,6 @@ namespace Vts.MonteCarlo.Detectors
         /// detector Radius
         /// </summary>
         public double Radius { get; set; }
-        /// <summary>
-        /// detector fiber height into tissue
-        /// </summary>
-        public double HeightZ { get; set; }
         /// <summary>
         /// detector fiber refractive index
         /// </summary>
@@ -147,6 +138,7 @@ namespace Vts.MonteCarlo.Detectors
 
             // intialize any other necessary class fields here
             _tissue = tissue;
+            _rng = RandomNumberGeneratorFactory.GetRandomNumberGenerator(RandomNumberGeneratorType.MersenneTwister);
         }
 
         /// <summary>
@@ -155,15 +147,40 @@ namespace Vts.MonteCarlo.Detectors
         /// <param name="photon">photon data needed to tally</param>
         public void Tally(Photon photon)
         {
-            if (!IsWithinDetectorAperture(photon))
-                return;          
-
-            Mean += photon.DP.Weight;
-            if (TallySecondMoment)
+            // check if in detector
+            if (Math.Sqrt((photon.DP.Position.X - Center.X) * (photon.DP.Position.X - Center.X) +
+                          (photon.DP.Position.Y - Center.Y) * (photon.DP.Position.Y - Center.Y)) < Radius)
             {
-                SecondMoment += photon.DP.Weight*photon.DP.Weight;
+                // check if passes Fresnel
+                double cosTheta = _tissue.GetAngleRelativeToBoundaryNormal(photon);
+                var nCurrent = _tissue.Regions[photon.CurrentRegionIndex].RegionOP.N;
+                double coscrit;
+                if (nCurrent > N)
+                    coscrit = Math.Sqrt(1.0 - (N / nCurrent) * (N / nCurrent));
+                else
+                    coscrit = 0.0;
+
+                double cosThetaSnell;
+
+                double probOfReflecting = Optics.Fresnel(nCurrent, N, cosTheta, out cosThetaSnell);
+                if (cosTheta <= coscrit)
+                    probOfReflecting = 1.0;
+                // perform first check so that rng not called on pseudo-collisions
+                if ((probOfReflecting == 0.0) || (_rng.NextDouble() > probOfReflecting)) // transmitted
+                {
+                    // if transmitted check if within aperture
+                    if (!IsWithinDetectorAperture(photon))
+                        return;
+
+                    Mean += photon.DP.Weight;
+                    if (TallySecondMoment)
+                    {
+                        SecondMoment += photon.DP.Weight * photon.DP.Weight;
+                    }
+
+                    TallyCount++;
+                }
             }
-            TallyCount++;
         }
 
         /// <summary>

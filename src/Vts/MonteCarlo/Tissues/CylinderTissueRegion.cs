@@ -120,7 +120,8 @@ namespace Vts.MonteCarlo.Tissues
         /// 0<t1<1 => one intersection
         /// 0<t2<1 => one intersections, if above line true too => two intersections
         /// Equations obtained from pdf at https://mrl.nyu.edu/~dzorin/rendering/lectures/lecture3/lecture3-6pp.pdf
-        /// and modified to assume cylinder finite along z-axis with caps in x-y planes 
+        /// and modified to assume cylinder finite along z-axis with caps in x-y planes.
+        /// Note: can't vouch for this code yet, especially if photon intersects sides AND cap
         /// </summary>
         /// <param name="photon">photon position, direction, etc.</param>
         /// <param name="distanceToBoundary">distance to boundary</param>
@@ -141,15 +142,15 @@ namespace Vts.MonteCarlo.Tissues
             var p2 = new Position(p1.X + d1.Ux * photon.S,
                                   p1.Y + d1.Uy * photon.S,
                                   p1.Z + d1.Uz * photon.S);
-            if (Math.Abs(Center.Z - HeightZ/2) < 1e-6) // check if thin disk at surface 
-            {
-                // check if intersection with bottom cap
-                if (RayIntersectCap(Center.Z - HeightZ/2, p1, p2, d1, out distanceToBoundary))
-                {
-                    _onBoundary = false;
-                    return true;
-                }
-            }
+            //if (Math.Abs(Center.Z - HeightZ/2) < 1e-6) // check if thin disk at surface 
+            //{
+            //    // check if intersection with bottom cap
+            //    if (RayIntersectCap(Center.Z - HeightZ/2, p1, p2, d1, out distanceToBoundary))
+            //    {
+            //        _onBoundary = false;
+            //        return true;
+            //    }
+            //}
 
             bool one_in = this.ContainsPosition(p1);
             bool two_in = this.ContainsPosition(p2);

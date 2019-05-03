@@ -37,7 +37,7 @@ namespace Vts.MonteCarlo
                 PointSourceSingleVoxelTissueROfXAndYAndFluenceOfXAndYAndZDetector(),
                 PointSourceThreeLayerReflectedTimeOfRhoAndSubregionHistDetector(),
                 EmbeddedDirectionalCircularSourceEllipTissueFluenceOfXAndYAndZ(),
-                PointSourceOneLayerTissueCylindricalFiberDetector()
+                PointSourceOneLayerTissueSurfaceFiberDetector()
             };
         }
 
@@ -887,15 +887,14 @@ namespace Vts.MonteCarlo
         }
         #endregion
 
-
-        #region point source one layer Circular Fiber Detector at surface 
+        #region point source one layer Surface Fiber Detector 
         /// <summary>
         /// </summary>
-        public static SimulationInput PointSourceOneLayerTissueCylindricalFiberDetector()
+        public static SimulationInput PointSourceOneLayerTissueSurfaceFiberDetector()
         {
             return new SimulationInput(
                 100,
-                "circular_fiber_detector",
+                "surface_fiber_detector",
                 new SimulationOptions(
                     0, // random number generator seed, -1=random seed, 0=fixed seed
                     RandomNumberGeneratorType.MersenneTwister,
@@ -909,13 +908,7 @@ namespace Vts.MonteCarlo
                     new Position(0.0, 0.0, 0.0),
                     new Direction(0.0, 0.0, 1.0),
                     1), // 0=start in air, 1=start in tissue, start in tissue so no MT tally at tissue crossing in air
-                new SingleCylinderTissueInput(
-                    new CylinderTissueRegion(
-                        new Position(0, 0, -1e-10),
-                        0.3,
-                        2e-10,
-                        new OpticalProperties(0.01, 1.0, 0.8, 1.45)
-                    ),
+                new MultiLayerTissueInput(
                     new ITissueRegion[]
                     {
                         new LayerTissueRegion(
@@ -931,24 +924,24 @@ namespace Vts.MonteCarlo
                 ),
                 new List<IDetectorInput>()
                 {
-                    new CylindricalFiberDetectorInput()
+                    new SurfaceFiberDetectorInput()
                     {
-                        Center = new Position(0, 0, -1e-10), // needs to match tissue region
-                        Radius = 0.3, // needs to match tissue region
-                        HeightZ = 2e-10, // needs to match tissue region
+                        Center = new Position(0, 0, 0), 
+                        Radius = 0.3, 
                         N = 1.45,
-                        Name = "CylindricalFiber_Open",
-                        FinalTissueRegionIndex = 3
+                        Name = "SurfaceFiber_Open",
+                        FinalTissueRegionIndex = 1,
+                        TallySecondMoment = true
                     },
-                    new CylindricalFiberDetectorInput()
+                    new SurfaceFiberDetectorInput()
                     {
-                        Center = new Position(0, 0, -1e-10), // needs to match tissue region
-                        Radius = 0.3, // needs to match tissue region
-                        HeightZ = 2e-10, // needs to match tissue region
+                        Center = new Position(0, 0, 0), 
+                        Radius = 0.3, 
                         N = 1.45,
                         NA = 0.22,
-                        Name = "CylindricalFiber_NA0p22",
-                        FinalTissueRegionIndex = 3
+                        Name = "SurfaceFiber_NA0p22",
+                        FinalTissueRegionIndex = 1,
+                        TallySecondMoment = true
                     }
                 }
             );

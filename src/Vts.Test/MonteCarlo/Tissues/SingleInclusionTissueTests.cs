@@ -97,37 +97,6 @@ namespace Vts.Test.MonteCarlo.Tissues
             Assert.AreEqual(index, 2);
         }
 
-        /// <summary>
-        /// Validate method GetNeighborRegionIndex for tissueWithThinCylinder return correct boolean
-        /// </summary>
-        [Test]
-        public void verify_tissueWithThinCylinder_GetNeighborRegionIndex_method_correct_when_photon_on_cylinder_exiting()
-        {
-            Photon photon = new Photon( // at surface on cylinder pointing up at cylinder
-                new Position(0, 0, 0),
-                new Direction(0.0, 0, -1.0),
-                _tissueWithThinCylinder,
-                1,
-                new Random());
-            var index = _tissueWithThinCylinder.GetNeighborRegionIndex(photon);
-            Assert.AreEqual(index, 3);
-        }
-        /// <summary>
-        /// Validate method GetNeighborRegionIndex for tissueWithThinCylinder return correct boolean
-        /// </summary>
-        [Test]
-        public void verify_tissueWithThinCylinder_GetNeighborRegionIndex_method_correct_when_photon_on_cylinder_entering()
-        {
-            Photon photon = new Photon( // at surface on cylinder pointing down 
-                new Position(0, 0, 0),
-                new Direction(0.0, 0, -1.0),
-                _tissueWithThinCylinder,
-                0,
-                new Random());
-            photon.DP.Direction = new Direction(0, 0, 1); // at surface pointing down at cylinder from air
-            var index = _tissueWithEllipsoid.GetNeighborRegionIndex(photon);
-            Assert.AreEqual(index, 1);
-        }
 
         ///// <summary>
         ///// Validate method GetAngleRelativeToBoundaryNormal return correct boolean

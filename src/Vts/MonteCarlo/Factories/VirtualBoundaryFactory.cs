@@ -124,10 +124,6 @@ namespace Vts.MonteCarlo.Factories
                     vb = new DosimetryVirtualBoundary(
                         detectorController, VirtualBoundaryType.Dosimetry.ToString());
                     break;
-                case VirtualBoundaryType.InternalFiber:
-                    vb = new InternalFiberVirtualBoundary(
-                        detectorController, VirtualBoundaryType.InternalFiber.ToString());
-                    break;
                 case VirtualBoundaryType.GenericVolumeBoundary:
                     vb = new GenericVolumeVirtualBoundary(
                         tissue, detectorController, VirtualBoundaryType.GenericVolumeBoundary.ToString());

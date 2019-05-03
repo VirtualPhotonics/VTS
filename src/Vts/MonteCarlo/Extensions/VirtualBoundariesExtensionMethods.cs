@@ -100,21 +100,7 @@ namespace Vts.MonteCarlo.Extensions
                     return false;
             }
         }
-        /// <summary>
-        /// Method to determine if internal fiber VB or not
-        /// </summary>
-        /// <param name="virtualBoundaryType">VB type </param>
-        /// <returns>true if internal surface VB, false if not</returns>
-        public static bool IsInternalFiberVirtualBoundary(this VirtualBoundaryType virtualBoundaryType)
-        {
-            switch (virtualBoundaryType)
-            {
-                case VirtualBoundaryType.InternalFiber:
-                    return true;
-                default:
-                    return false;
-            }
-        }
+
         /// <summary>
         /// Method to determine if generic volume VB or not
         /// </summary>

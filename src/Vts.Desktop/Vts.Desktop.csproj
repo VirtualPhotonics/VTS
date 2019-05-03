@@ -656,9 +656,6 @@
     <Compile Include="..\Vts\MonteCarlo\Detectors\ATotalDetector.cs">
       <Link>MonteCarlo\Detectors\ATotalDetector.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Detectors\CylindricalFiberDetector.cs">
-      <Link>MonteCarlo\Detectors\CylindricalFiberDetector.cs</Link>
-    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\Detector.cs">
       <Link>MonteCarlo\Detectors\Detector.cs</Link>
     </Compile>
@@ -754,6 +751,9 @@
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\RSpecularDetector.cs">
       <Link>MonteCarlo\Detectors\RSpecularDetector.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\SurfaceFiberDetector.cs">
+      <Link>MonteCarlo\Detectors\SurfaceFiberDetector.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\TallyDetails.cs">
       <Link>MonteCarlo\Detectors\TallyDetails.cs</Link>
@@ -1123,9 +1123,6 @@
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\VirtualBoundaries\GenericVolumeVirtualBoundary.cs">
       <Link>MonteCarlo\VirtualBoundaries\GenericVolumeVirtualBoundary.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\MonteCarlo\VirtualBoundaries\InternalFiberVirtualBoundary.cs">
-      <Link>MonteCarlo\VirtualBoundaries\InternalFiberVirtualBoundary.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\VirtualBoundaries\pMCDiffuseReflectanceVirtualBoundary.cs">
       <Link>MonteCarlo\VirtualBoundaries\pMCDiffuseReflectanceVirtualBoundary.cs</Link>

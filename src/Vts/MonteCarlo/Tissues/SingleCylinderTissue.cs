@@ -32,7 +32,7 @@ namespace Vts.MonteCarlo.Tissues
         public SingleCylinderTissueInput()
             : this(
                 new CylinderTissueRegion(
-                    new Position(0, 0, -1),
+                    new Position(0, 0, 3),
                     2,
                     2,
                     new OpticalProperties(0.05, 1.0, 0.8, 1.4)

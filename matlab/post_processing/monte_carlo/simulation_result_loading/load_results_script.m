@@ -9,12 +9,13 @@ slash = filesep;  % get correct path delimiter for platform
 addpath([cd slash 'jsonlab']);
 
 % names of individual MC simulations
-datanames = { 'one_layer_all_detectors' };
+datanames = { 'surface_fiber_detector' };
 % datanames = { 'results_mua0.1musp1.0' 'results_mua0.1musp1.1' }; %...etc
 
 % outdir = 'C:\Projects\vts\src\Vts.MonteCarlo.CommandLineApplication\bin\Release';
 outdir = '.';
 
+show.SurfaceFiber =             1;
 show.RDiffuse =                 1;
 show.ROfRho =                   1;
 show.ROfAngle =                 1;
@@ -60,6 +61,15 @@ for mci = 1:length(datanames)
   dataname = datanames{mci};
   results = loadMCResults(outdir, dataname);  
   for di = 1:size(results, 2)
+      
+    if isfield(results{di}, 'SurfaceFiber') && show.SurfaceFiber
+        disp(['Total reflectance captured by SurfaceFiber detector: ' num2str(results{di}.SurfaceFiber.Mean)]);
+        disp(['Standard Deviation captured by SurfaceFiber detector: ' num2str(results{di}.SurfaceFiber.Stdev)]);
+        disp(['+/- 3sigma by SurfaceFiber detector: ' ...
+            num2str(results{di}.SurfaceFiber.Mean - 3 * results{di}.SurfaceFiber.Stdev) ' - ' ...
+            num2str(results{di}.SurfaceFiber.Mean + 3 * results{di}.SurfaceFiber.Stdev)]);
+    end
+    
     if isfield(results{di}, 'RDiffuse') && show.RDiffuse
         disp(['Total reflectance captured by RDiffuse detector: ' num2str(results{di}.RDiffuse.Mean)]);
     end
