@@ -1,14 +1,19 @@
 using System;
+using System.Linq;
 using Vts.Common;
 using Vts.IO;
 using Vts.MonteCarlo.Extensions;
 using Vts.MonteCarlo.Factories;
 using Vts.MonteCarlo.Helpers;
+using Vts.MonteCarlo.PhotonData;
 
 namespace Vts.MonteCarlo.Detectors
 {
     /// <summary>
-    /// DetectorInput for an actual fiber detector
+    /// DetectorInput for an actual fiber detector.  This is a special case of a volume detector since
+    /// it tallies only after passing out the surface.  However, volume detectors go through each collision
+    /// and process it.  This allows the checking of if a reflection at the surface should be tallied if
+    /// it is under the fiber.
     /// </summary>
     public class SurfaceFiberDetectorInput : DetectorInput, IDetectorInput
     {
@@ -27,7 +32,7 @@ namespace Vts.MonteCarlo.Detectors
             FinalTissueRegionIndex = 3; // assume detector is in cylinder region
 
             // modify base class TallyDetails to take advantage of built-in validation capabilities (error-checking)
-            TallyDetails.IsReflectanceTally = true;
+            TallyDetails.IsVolumeTally = true;
             TallyDetails.IsCylindricalTally = false;
         }
 
@@ -77,10 +82,11 @@ namespace Vts.MonteCarlo.Detectors
     /// Implements IDetector.  Tally for fiber detection.
     /// This implementation works for Analog, DAW and CAW processing.
     /// </summary>
-    public class SurfaceFiberDetectorDetector : Detector, IDetector
+    public class SurfaceFiberDetectorDetector : Detector, IHistoryDetector
     {
         private ITissue _tissue;
         private Random _rng;
+        private bool _dead;
 
         /* ==== Place optional/user-defined input properties here. They will be saved in text (JSON) format ==== */
         /* ==== Note: make sure to copy over all optional/user-defined inputs from corresponding input class ==== */
@@ -136,50 +142,80 @@ namespace Vts.MonteCarlo.Detectors
                 SecondMoment = new double();
             }
 
-            // intialize any other necessary class fields here
+            // initialize any other necessary class fields here
             _tissue = tissue;
-            _rng = RandomNumberGeneratorFactory.GetRandomNumberGenerator(RandomNumberGeneratorType.MersenneTwister);
+            _rng = rng;
         }
 
+        /// <summary>
+        /// method to tally given two consecutive photon data points
+        /// </summary>
+        /// <param name="previousDP">previous data point</param>
+        /// <param name="dp">current data point</param>
+        /// <param name="currentRegionIndex">index of region photon current is in</param>
+        public void TallySingle(PhotonDataPoint previousDP, PhotonDataPoint dp, int currentRegionIndex)
+        {
+            // check if at pseudo-collision due to reflection at the surface
+            if (Math.Abs(dp.Position.Z) < 1E-6)
+            {
+                var weight = dp.Weight;
+                if (weight != 0.0)
+                {
+                    var photon = new Photon(dp.Position, dp.Direction, _tissue, currentRegionIndex, _rng);
+                    
+                    // check if in detector
+                    if (Math.Sqrt((dp.Position.X - Center.X) * (dp.Position.X - Center.X) +
+                                  (dp.Position.Y - Center.Y) * (dp.Position.Y - Center.Y)) < Radius)
+                    {
+                        // check if passes Fresnel
+                        double cosTheta = _tissue.GetAngleRelativeToBoundaryNormal(photon);
+                        var nCurrent = _tissue.Regions[currentRegionIndex].RegionOP.N;
+                        double coscrit;
+                        if (nCurrent > N)
+                            coscrit = Math.Sqrt(1.0 - (N / nCurrent) * (N / nCurrent));
+                        else
+                            coscrit = 0.0;
+
+                        double cosThetaSnell;
+
+                        double probOfReflecting = Optics.Fresnel(nCurrent, N, cosTheta, out cosThetaSnell);
+                        if (cosTheta <= coscrit)
+                            probOfReflecting = 1.0;
+                        // perform first check so that rng not called on pseudo-collisions
+                        if ((probOfReflecting == 0.0) || (_rng.NextDouble() > probOfReflecting)) // transmitted
+                        {
+                            // if transmitted check if within aperture
+                            if (!IsWithinDetectorAperture(photon))
+                                return;
+
+                            Mean += weight;
+                            if (TallySecondMoment)
+                            {
+                                SecondMoment += weight * weight;
+                            }
+
+                            TallyCount++;
+                            _dead = true;
+                        }
+                    }
+                }
+            }
+        }
         /// <summary>
         /// method to tally to detector
         /// </summary>
         /// <param name="photon">photon data needed to tally</param>
         public void Tally(Photon photon)
         {
-            // check if in detector
-            if (Math.Sqrt((photon.DP.Position.X - Center.X) * (photon.DP.Position.X - Center.X) +
-                          (photon.DP.Position.Y - Center.Y) * (photon.DP.Position.Y - Center.Y)) < Radius)
+            PhotonDataPoint previousDP = photon.History.HistoryData.First();
+            _dead = false;
+            foreach (PhotonDataPoint dp in photon.History.HistoryData.Skip(1))
             {
-                // check if passes Fresnel
-                double cosTheta = _tissue.GetAngleRelativeToBoundaryNormal(photon);
-                var nCurrent = _tissue.Regions[photon.CurrentRegionIndex].RegionOP.N;
-                double coscrit;
-                if (nCurrent > N)
-                    coscrit = Math.Sqrt(1.0 - (N / nCurrent) * (N / nCurrent));
-                else
-                    coscrit = 0.0;
-
-                double cosThetaSnell;
-
-                double probOfReflecting = Optics.Fresnel(nCurrent, N, cosTheta, out cosThetaSnell);
-                if (cosTheta <= coscrit)
-                    probOfReflecting = 1.0;
-                // perform first check so that rng not called on pseudo-collisions
-                if ((probOfReflecting == 0.0) || (_rng.NextDouble() > probOfReflecting)) // transmitted
-                {
-                    // if transmitted check if within aperture
-                    if (!IsWithinDetectorAperture(photon))
-                        return;
-
-                    Mean += photon.DP.Weight;
-                    if (TallySecondMoment)
-                    {
-                        SecondMoment += photon.DP.Weight * photon.DP.Weight;
-                    }
-
-                    TallyCount++;
-                }
+                if (!_dead)
+                { 
+                    TallySingle(previousDP, dp, _tissue.GetRegionIndex(dp.Position)); 
+                    previousDP = dp;
+                } 
             }
         }
 

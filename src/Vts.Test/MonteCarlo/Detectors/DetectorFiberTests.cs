@@ -19,7 +19,7 @@ namespace Vts.Test.MonteCarlo.Detectors
         private SimulationOptions _simulationOptions;
         private ISourceInput _source;
         private ITissueInput _tissueWithSurfaceFiber;
-        private IList<IDetectorInput> _detectorSurfaceOpen, _detectorSurfaceNA1p0;
+        private IList<IDetectorInput> _detectorSurfaceOpen, _detectorSurfaceNA;
         private double _detectorRadius = 1; // debug set to 10
 
         /// <summary>
@@ -73,7 +73,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                     Rho = new DoubleRange(0.0, 10.0, 11), FinalTissueRegionIndex= 0, TallySecondMoment=true
                 },
             };
-            _detectorSurfaceNA1p0 = new List<IDetectorInput>
+            _detectorSurfaceNA = new List<IDetectorInput>
             {
                 new SurfaceFiberDetectorInput()
                 {
@@ -82,7 +82,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                     TallySecondMoment = true,
                     N = 1.4,
                     FinalTissueRegionIndex = 1,
-                    NA = 1.0
+                    NA = 0.22
                 },
                 new ROfRhoDetectorInput() // 1mm wide rings
                 {
@@ -98,14 +98,14 @@ namespace Vts.Test.MonteCarlo.Detectors
                 _detectorSurfaceOpen);
             _outputWithOpenSurfaceFiber = new MonteCarloSimulation(_inputWithOpenSurfaceFiber).Run();
 
-            var _inputWithNA1p0SurfaceFiber = new SimulationInput(
+            var _inputWithNASurfaceFiber = new SimulationInput(
                 100,
                 "",
                 _simulationOptions,
                 _source,
                 _tissueWithSurfaceFiber,
-                _detectorSurfaceNA1p0);
-            _outputWithNA1p0SurfaceFiber = new MonteCarloSimulation(_inputWithNA1p0SurfaceFiber).Run();
+                _detectorSurfaceNA);
+            _outputWithNA1p0SurfaceFiber = new MonteCarloSimulation(_inputWithNASurfaceFiber).Run();
         }
 
         /// <summary>
@@ -116,31 +116,31 @@ namespace Vts.Test.MonteCarlo.Detectors
         public void validate_fully_open_surface_fiber_detector_produces_correct_results()
         {
             Assert.Less(Math.Abs(_outputWithOpenSurfaceFiber.R_r[0] - 0.039926), 0.000001);
-            Assert.Less(Math.Abs(_outputWithOpenSurfaceFiber.SurFib - 0.019963), 0.000001);
-            Assert.Less(Math.Abs(_outputWithOpenSurfaceFiber.SurFib2 - 0.003071), 0.000001);
+            Assert.Less(Math.Abs(_outputWithOpenSurfaceFiber.SurFib - 0.037243), 0.000001);
+            Assert.Less(Math.Abs(_outputWithOpenSurfaceFiber.SurFib2 - 0.005786), 0.000001);
             var sd = Math.Sqrt((_outputWithOpenSurfaceFiber.SurFib2 -
                                 _outputWithOpenSurfaceFiber.SurFib * _outputWithOpenSurfaceFiber.SurFib) / 100);
             var threeSigmaPos = _outputWithOpenSurfaceFiber.SurFib + 3 * sd;
             var threeSigmaNeg = _outputWithOpenSurfaceFiber.SurFib - 3 * sd;
-            Assert.AreEqual(_outputWithOpenSurfaceFiber.SurFib_TallyCount, 13);
+            Assert.AreEqual(_outputWithOpenSurfaceFiber.SurFib_TallyCount, 24);
         }
         /// <summary>
         /// Test to validate fiber at tissue surface fully open. Validation values based on prior test.
         /// Theory [Bargo et al., AO 42(16) 2003] states (R_NA/R_Open)=(NA/ntiss)^2
-        /// (1.0/1.4)^2=0.510
-        /// taking means of both (R_NA/R_Open)=0.343 -> not so good but if take 3sigma range may agree
+        /// (0.22/1.4)^2=0.0246
+        /// taking means of both (R_NA/R_Open)=0.035 -> not so good but if take 3sigma range may agree
         /// </summary>
         [Test]
-        public void validate_NA1p0_surface_fiber_detector_produces_correct_results()
+        public void validate_NA_surface_fiber_detector_produces_correct_results()
         {
             Assert.Less(Math.Abs(_outputWithNA1p0SurfaceFiber.R_r[0] - 0.039926), 0.000001);
-            Assert.Less(Math.Abs(_outputWithNA1p0SurfaceFiber.SurFib - 0.013704), 0.000001);
-            Assert.Less(Math.Abs(_outputWithNA1p0SurfaceFiber.SurFib2 - 0.002091), 0.000001);
+            Assert.Less(Math.Abs(_outputWithNA1p0SurfaceFiber.SurFib - 0.001321), 0.000001);
+            Assert.Less(Math.Abs(_outputWithNA1p0SurfaceFiber.SurFib2 - 0.000174), 0.000001);
             var sd = Math.Sqrt((_outputWithNA1p0SurfaceFiber.SurFib2 -
                                 _outputWithNA1p0SurfaceFiber.SurFib * _outputWithNA1p0SurfaceFiber.SurFib) / 100);
             var threeSigmaPos = _outputWithNA1p0SurfaceFiber.SurFib + 3 * sd;
             var threeSigmaNeg = _outputWithNA1p0SurfaceFiber.SurFib - 3 * sd;
-            Assert.AreEqual(_outputWithNA1p0SurfaceFiber.SurFib_TallyCount, 9);
+            Assert.AreEqual(_outputWithNA1p0SurfaceFiber.SurFib_TallyCount, 1);
         }
     }
 }
