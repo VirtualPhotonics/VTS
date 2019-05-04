@@ -172,15 +172,22 @@ namespace Vts.MonteCarlo.Detectors
                         var nCurrent = _tissue.Regions[currentRegionIndex].RegionOP.N;
                         double coscrit;
                         if (nCurrent > N)
+                        {
                             coscrit = Math.Sqrt(1.0 - (N / nCurrent) * (N / nCurrent));
+                        }
                         else
+                        {
                             coscrit = 0.0;
+                        }
 
                         double cosThetaSnell;
 
                         double probOfReflecting = Optics.Fresnel(nCurrent, N, cosTheta, out cosThetaSnell);
                         if (cosTheta <= coscrit)
+                        {
                             probOfReflecting = 1.0;
+                        }
+
                         // perform first check so that rng not called on pseudo-collisions
                         if ((probOfReflecting == 0.0) || (_rng.NextDouble() > probOfReflecting)) // transmitted
                         {
@@ -209,13 +216,19 @@ namespace Vts.MonteCarlo.Detectors
         {
             PhotonDataPoint previousDP = photon.History.HistoryData.First();
             _dead = false;
+            //var count = 1;  // debug code to check that reflected photons actually got tallied
             foreach (PhotonDataPoint dp in photon.History.HistoryData.Skip(1))
             {
                 if (!_dead)
                 { 
                     TallySingle(previousDP, dp, _tissue.GetRegionIndex(dp.Position)); 
                     previousDP = dp;
-                } 
+                    //count = count + 1;
+                }
+                //else
+                //{
+                //    var index = count;
+                //}
             }
         }
 
