@@ -5,7 +5,6 @@
         public bool IsReflectanceTally { get; set; }
         public bool IsTransmittanceTally { get; set; }
         public bool IsSpecularReflectanceTally { get; set; }
-        public bool IsInternalFiberTally { get; set; }
         public bool IspMCReflectanceTally { get; set; }
         public bool IsDosimetryTally { get; set; }
         public bool IsVolumeTally { get; set; }
