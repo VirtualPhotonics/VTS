@@ -3,7 +3,6 @@ using System.Linq;
 using Vts.Common;
 using Vts.IO;
 using Vts.MonteCarlo.Extensions;
-using Vts.MonteCarlo.Factories;
 using Vts.MonteCarlo.Helpers;
 using Vts.MonteCarlo.PhotonData;
 
@@ -81,6 +80,7 @@ namespace Vts.MonteCarlo.Detectors
     /// <summary>
     /// Implements IDetector.  Tally for fiber detection.
     /// This implementation works for Analog, DAW and CAW processing.
+    /// This implements IHistoryDetector because need to tally at intermediate collisions
     /// </summary>
     public class SurfaceFiberDetectorDetector : Detector, IHistoryDetector
     {
@@ -155,58 +155,61 @@ namespace Vts.MonteCarlo.Detectors
         /// <param name="currentRegionIndex">index of region photon current is in</param>
         public void TallySingle(PhotonDataPoint previousDP, PhotonDataPoint dp, int currentRegionIndex)
         {
-            // check if at pseudo-collision due to reflection at the surface
-            if (Math.Abs(dp.Position.Z) < 1E-6)
+            var weight = dp.Weight; //* Math.Abs(dp.Direction.Uz);
+            if (weight != 0.0)
             {
-                var weight = dp.Weight;
-                if (weight != 0.0)
+                // is this photon conflicting with photon passed into IsWithinAperture?
+                var photon = new Photon(dp.Position, dp.Direction, _tissue, currentRegionIndex, _rng);
+
+                // check if passes Fresnel Note!  this may only work if N tissue = N detector
+                double cosTheta = _tissue.GetAngleRelativeToBoundaryNormal(photon);
+                var nCurrent = _tissue.Regions[currentRegionIndex].RegionOP.N;
+                double coscrit;
+                if (nCurrent > N)
                 {
-                    var photon = new Photon(dp.Position, dp.Direction, _tissue, currentRegionIndex, _rng);
-                    
-                    // check if in detector
-                    if (Math.Sqrt((dp.Position.X - Center.X) * (dp.Position.X - Center.X) +
-                                  (dp.Position.Y - Center.Y) * (dp.Position.Y - Center.Y)) < Radius)
+                    coscrit = Math.Sqrt(1.0 - (N / nCurrent) * (N / nCurrent));
+                }
+                else
+                {
+                    coscrit = 0.0;
+                }
+
+                double cosThetaSnell;
+                
+                double probOfReflecting = Optics.Fresnel(nCurrent, N, cosTheta, out cosThetaSnell);
+                if (cosTheta <= coscrit)
+                {
+                    probOfReflecting = 1.0;
+                }
+
+                // perform first check so that rng not called on pseudo-collisions
+                if ((probOfReflecting == 0.0) || (_rng.NextDouble() > probOfReflecting)) // transmitted
+                {
+                    // refract into detector
+                    photon.DP.Direction = _tissue.GetRefractedDirection(dp.Position, dp.Direction,
+                        nCurrent, N, cosThetaSnell);
+
+                    // if transmitted check if within aperture
+                    if (!IsWithinDetectorAperture(photon))
                     {
-                        // check if passes Fresnel
-                        double cosTheta = _tissue.GetAngleRelativeToBoundaryNormal(photon);
-                        var nCurrent = _tissue.Regions[currentRegionIndex].RegionOP.N;
-                        double coscrit;
-                        if (nCurrent > N)
-                        {
-                            coscrit = Math.Sqrt(1.0 - (N / nCurrent) * (N / nCurrent));
-                        }
-                        else
-                        {
-                            coscrit = 0.0;
-                        }
-
-                        double cosThetaSnell;
-
-                        double probOfReflecting = Optics.Fresnel(nCurrent, N, cosTheta, out cosThetaSnell);
-                        if (cosTheta <= coscrit)
-                        {
-                            probOfReflecting = 1.0;
-                        }
-
-                        // perform first check so that rng not called on pseudo-collisions
-                        if ((probOfReflecting == 0.0) || (_rng.NextDouble() > probOfReflecting)) // transmitted
-                        {
-                            // if transmitted check if within aperture
-                            if (!IsWithinDetectorAperture(photon))
-                                return;
-
-                            Mean += weight;
-                            if (TallySecondMoment)
-                            {
-                                SecondMoment += weight * weight;
-                            }
-
-                            TallyCount++;
-                            _dead = true;
-                        }
+                        return;
                     }
+
+                    if (NA == 0.22)
+                    {
+                        var count = 1;
+                    }
+                    Mean += weight;
+                    if (TallySecondMoment)
+                    {
+                        SecondMoment += weight * weight;
+                    }
+
+                    TallyCount++;
+                    _dead = true;
                 }
             }
+                
         }
         /// <summary>
         /// method to tally to detector
@@ -214,21 +217,28 @@ namespace Vts.MonteCarlo.Detectors
         /// <param name="photon">photon data needed to tally</param>
         public void Tally(Photon photon)
         {
+            // concern: rng used to determine whether detected or not varies with detector
             PhotonDataPoint previousDP = photon.History.HistoryData.First();
             _dead = false;
-            //var count = 1;  // debug code to check that reflected photons actually got tallied
+            int index = 0;
             foreach (PhotonDataPoint dp in photon.History.HistoryData.Skip(1))
             {
-                if (!_dead)
-                { 
-                    TallySingle(previousDP, dp, _tissue.GetRegionIndex(dp.Position)); 
-                    previousDP = dp;
-                    //count = count + 1;
+                if (_dead)
+                {
+                    return;
                 }
-                //else
-                //{
-                //    var index = count;
-                //}
+
+                index = index + 1;
+                // check if at pseudo-collision due to reflection at the surface and in detector
+                if ((Math.Abs(dp.Position.Z) < 1E-6) &&
+                    (Math.Sqrt((dp.Position.X - Center.X) * (dp.Position.X - Center.X) +
+                               (dp.Position.Y - Center.Y) * (dp.Position.Y - Center.Y)) < Radius)) 
+                {
+                    // FIX! debug hard code index=1 
+                    TallySingle(previousDP, dp, 1);
+                }
+                previousDP = dp;
+                
             }
         }
 
@@ -238,7 +248,8 @@ namespace Vts.MonteCarlo.Detectors
         /// <param name="numPhotons">number of photons launched</param>
         public void Normalize(long numPhotons)
         {
-            var areaNorm = 2.0 * Math.PI * Radius; // do we normalize fiber detector results by area of fiber end?
+            //var areaNorm = 2.0 * Math.PI * Radius; // do we normalize fiber detector results by area of fiber end?
+            var areaNorm = 1;
             Mean /= areaNorm * numPhotons;
             if (TallySecondMoment)
             {
@@ -257,10 +268,9 @@ namespace Vts.MonteCarlo.Detectors
         /// <param name="photon">photon</param>
         public bool IsWithinDetectorAperture(Photon photon)
         {
-            var detectorRegionN = _tissue.Regions[FinalTissueRegionIndex].RegionOP.N;
-            return photon.DP.IsWithinNA(NA, Direction.AlongNegativeZAxis, detectorRegionN);            
+            //var detectorRegionN = _tissue.Regions[FinalTissueRegionIndex].RegionOP.N;
+            return photon.DP.IsWithinNA(NA, Direction.AlongNegativeZAxis, N);            
 
-            //return true; // or, possibly test for NA or confined position, etc
             //return (dp.StateFlag.Has(PhotonStateType.PseudoTransmissionDomainTopBoundary));
         }
     }

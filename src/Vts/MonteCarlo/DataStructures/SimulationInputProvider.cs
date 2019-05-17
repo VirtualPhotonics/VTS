@@ -37,7 +37,7 @@ namespace Vts.MonteCarlo
                 PointSourceSingleVoxelTissueROfXAndYAndFluenceOfXAndYAndZDetector(),
                 PointSourceThreeLayerReflectedTimeOfRhoAndSubregionHistDetector(),
                 EmbeddedDirectionalCircularSourceEllipTissueFluenceOfXAndYAndZ(),
-                PointSourceOneLayerTissueSurfaceFiberDetector()
+                CircularSourceOneLayerTissueSurfaceFiberDetector()
             };
         }
 
@@ -887,10 +887,10 @@ namespace Vts.MonteCarlo
         }
         #endregion
 
-        #region point source one layer Surface Fiber Detector 
+        #region circular source one layer Surface Fiber Detector 
         /// <summary>
         /// </summary>
-        public static SimulationInput PointSourceOneLayerTissueSurfaceFiberDetector()
+        public static SimulationInput CircularSourceOneLayerTissueSurfaceFiberDetector()
         {
             return new SimulationInput(
                 100,
@@ -901,13 +901,23 @@ namespace Vts.MonteCarlo
                     AbsorptionWeightingType.Discrete,
                     PhaseFunctionType.HenyeyGreenstein,
                     new List<DatabaseType>() { }, // databases to be written
-                    false, // track statistics
+                    true, // track statistics
                     0.0, // RR threshold -> no RR performed
                     0),
                 new DirectionalPointSourceInput(
                     new Position(0.0, 0.0, 0.0),
                     new Direction(0.0, 0.0, 1.0),
-                    1), // 0=start in air, 1=start in tissue, start in tissue so no MT tally at tissue crossing in air
+                    1),
+                //new CustomCircularSourceInput(
+                //    0.3, // outer radius
+                //    0.0, // inner radius
+                //    new FlatSourceProfile(),
+                //    new DoubleRange(0.0, 0.0), // polar angle emission range
+                //    new DoubleRange(0.0, 0.0), // azimuthal angle emmision range
+                //    new Direction(0, 0, 1), // normal to tissue
+                //    new Position(0, 0, 0), // center of beam on surface
+                //    new PolarAzimuthalAngles(0, 0), // no beam rotation         
+                //    1), // 0=start in air, 1=start in tissue 
                 new MultiLayerTissueInput(
                     new ITissueRegion[]
                     {
@@ -916,7 +926,7 @@ namespace Vts.MonteCarlo
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
                         new LayerTissueRegion(
                             new DoubleRange(0.0, 100.0),
-                            new OpticalProperties(0.01, 1, 0.8, 1.35)),
+                            new OpticalProperties(0.01, 10, 0.8, 1.4)),  
                         new LayerTissueRegion(
                             new DoubleRange(100.0, double.PositiveInfinity),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
@@ -928,7 +938,8 @@ namespace Vts.MonteCarlo
                     {
                         Center = new Position(0, 0, 0), 
                         Radius = 0.3, 
-                        N = 1.45,
+                        N = 1.4,
+                        NA = double.PositiveInfinity,
                         Name = "SurfaceFiber_Open",
                         FinalTissueRegionIndex = 1,
                         TallySecondMoment = true
@@ -937,12 +948,36 @@ namespace Vts.MonteCarlo
                     {
                         Center = new Position(0, 0, 0), 
                         Radius = 0.3, 
-                        N = 1.45,
+                        N = 1.4,
                         NA = 0.22,
                         Name = "SurfaceFiber_NA0p22",
                         FinalTissueRegionIndex = 1,
                         TallySecondMoment = true
-                    }
+                    },
+                    new SurfaceFiberDetectorInput()
+                    {
+                        Center = new Position(0, 0, 0),
+                        Radius = 0.3,
+                        N = 1.4,
+                        NA = 0.39,
+                        Name = "SurfaceFiber_NA0p39",
+                        FinalTissueRegionIndex = 1,
+                        TallySecondMoment = true
+                    },
+                    new ROfRhoDetectorInput
+                    {
+                        Rho =new DoubleRange(0.0, 0.6, 3),
+                        NA = Double.PositiveInfinity,
+                        FinalTissueRegionIndex = 0,
+                        Name = "ROfRho_Open"
+                    },
+                    new ROfRhoDetectorInput
+                    {
+                        Rho =new DoubleRange(0.0, 0.6, 3),
+                        NA = 0.22,
+                        FinalTissueRegionIndex = 0,
+                        Name = "ROfRho_NA0p22"
+                    },
                 }
             );
         }
