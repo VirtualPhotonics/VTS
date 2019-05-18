@@ -912,6 +912,7 @@ namespace Vts.MonteCarlo
                     new SurfaceFiberTissueRegion(
                         new Position(0, 0, 0),
                         0.3, // needs to match SurfaceFiberDetectorInput
+                        0.22,
                         new OpticalProperties(0.01, 1.0, 0.8, 1.4)
                     ),
                     new ITissueRegion[]

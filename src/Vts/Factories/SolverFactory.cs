@@ -56,12 +56,29 @@ namespace Vts.Factories
                 var classType = Type.GetType(namespaceString + @"." + enumValue + interfaceBasename, false, true);
                 if (!object.Equals(classType, null))
                 {
-                    _container.RegisterType(
-                     interfaceType,
-                     classType,
-                     enumValue.ToString(), // use the enum string to register each class
-                     useSingleton ? new ContainerControlledLifetimeManager() : null,
-                     useDefaultConstructor ? new InjectionMember[] { new InjectionConstructor() } : null);
+                    if (useSingleton)
+                    {
+                        _container.RegisterSingleton(
+                            interfaceType,
+                            classType,
+                            enumValue.ToString(),
+                            useDefaultConstructor ? new InjectionMember[] { new InjectionConstructor() } : null);
+                    }
+                    else
+                    {
+                        _container.RegisterType(
+                            interfaceType,
+                            classType,
+                            enumValue.ToString(),
+                            useDefaultConstructor ? new InjectionMember[] { new InjectionConstructor() } : null);
+                    }
+
+                    //_container.RegisterType(
+                    // interfaceType,
+                    // classType,
+                    // enumValue.ToString(), // use the enum string to register each class
+                    // useSingleton ? new ContainerControlledLifetimeManager() : null,
+                    // useDefaultConstructor ? new InjectionMember[] { new InjectionConstructor() } : null);
                 }
             }
         }
@@ -77,7 +94,7 @@ namespace Vts.Factories
             {
                 return _container.Resolve<IForwardSolver>(forwardSolverType);
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 return null;
             }

@@ -21,10 +21,12 @@ namespace Vts.MonteCarlo.PostProcessor.Test
         };
         List<string> listOfMCCLInfiles = new List<string>()
         {
-            "ellip_FluenceOfRhoAndZ", 
+            "ellip_FluenceOfRhoAndZ",
+            "infinite_cylinder_FluenceOfRhoAndZ",
             "embeddedDirectionalCircularSourceEllipTissue",
-            "Flat_source_one_layer_ROfRho",
-            "Gaussian_source_one_layer_ROfRho",
+            "Flat_2D_source_one_layer_ROfRho",
+            "Gaussian_2D_source_one_layer_ROfRho",
+            "Gaussian_line_source_one_layer_ROfRho",
             "one_layer_all_detectors",
             "one_layer_FluenceOfRhoAndZ_RadianceOfRhoAndZAndAngle",
             "one_layer_ROfRho_FluenceOfRhoAndZ",

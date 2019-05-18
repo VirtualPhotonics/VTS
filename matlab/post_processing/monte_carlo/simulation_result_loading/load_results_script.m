@@ -128,7 +128,7 @@ for mci = 1:length(datanames)
     end
 
     if isfield(results{di}, 'ROfFx') && show.ROfFx
-        figname = sprintf('log(%s)',results{di}.ROfFx.Name); figure; plot(results{di}.ROfFx.Fx_Midpoints, abs(results{di}.ROfFx.Mean)); title(figname); set(gcf,'Name', figname); 
+        figname = sprintf('%s',results{di}.ROfFx.Name); figure; plot(results{di}.ROfFx.Fx_Midpoints, abs(results{di}.ROfFx.Mean)); title(figname); set(gcf,'Name', figname); 
         xlabel('f_x [/mm]'); ylabel('R(f_x) [unitless]');
         disp(['Total reflectance captured by ROfFx detector: ' num2str(results{di}.ROfFx.Amplitude(1))]);
     end
