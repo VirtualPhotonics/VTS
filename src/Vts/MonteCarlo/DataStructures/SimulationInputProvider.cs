@@ -37,7 +37,7 @@ namespace Vts.MonteCarlo
                 PointSourceSingleVoxelTissueROfXAndYAndFluenceOfXAndYAndZDetector(),
                 PointSourceThreeLayerReflectedTimeOfRhoAndSubregionHistDetector(),
                 EmbeddedDirectionalCircularSourceEllipTissueFluenceOfXAndYAndZ(),
-                CircularSourceOneLayerTissueSurfaceFiberDetector()
+                PointSourceSurfaceFiberTissueAndDetector()
             };
         }
 
@@ -887,10 +887,10 @@ namespace Vts.MonteCarlo
         }
         #endregion
 
-        #region circular source one layer Surface Fiber Detector 
+        #region point source one layer Surface Fiber Detector 
         /// <summary>
         /// </summary>
-        public static SimulationInput CircularSourceOneLayerTissueSurfaceFiberDetector()
+        public static SimulationInput PointSourceSurfaceFiberTissueAndDetector()
         {
             return new SimulationInput(
                 100,
@@ -908,17 +908,12 @@ namespace Vts.MonteCarlo
                     new Position(0.0, 0.0, 0.0),
                     new Direction(0.0, 0.0, 1.0),
                     1),
-                //new CustomCircularSourceInput(
-                //    0.3, // outer radius
-                //    0.0, // inner radius
-                //    new FlatSourceProfile(),
-                //    new DoubleRange(0.0, 0.0), // polar angle emission range
-                //    new DoubleRange(0.0, 0.0), // azimuthal angle emmision range
-                //    new Direction(0, 0, 1), // normal to tissue
-                //    new Position(0, 0, 0), // center of beam on surface
-                //    new PolarAzimuthalAngles(0, 0), // no beam rotation         
-                //    1), // 0=start in air, 1=start in tissue 
-                new MultiLayerTissueInput(
+                new MultiLayerWithSurfaceFiberTissueInput(
+                    new SurfaceFiberTissueRegion(
+                        new Position(0, 0, 0),
+                        0.3, // needs to match SurfaceFiberDetectorInput
+                        new OpticalProperties(0.01, 1.0, 0.8, 1.4)
+                    ),
                     new ITissueRegion[]
                     {
                         new LayerTissueRegion(
@@ -963,20 +958,6 @@ namespace Vts.MonteCarlo
                         Name = "SurfaceFiber_NA0p39",
                         FinalTissueRegionIndex = 1,
                         TallySecondMoment = true
-                    },
-                    new ROfRhoDetectorInput
-                    {
-                        Rho =new DoubleRange(0.0, 0.6, 3),
-                        NA = Double.PositiveInfinity,
-                        FinalTissueRegionIndex = 0,
-                        Name = "ROfRho_Open"
-                    },
-                    new ROfRhoDetectorInput
-                    {
-                        Rho =new DoubleRange(0.0, 0.6, 3),
-                        NA = 0.22,
-                        FinalTissueRegionIndex = 0,
-                        Name = "ROfRho_NA0p22"
                     },
                 }
             );

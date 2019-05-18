@@ -378,6 +378,10 @@ namespace Vts.MonteCarlo
             /// Tissue slab with embedded infinite cylinder
             /// </summary>
             "SingleInfiniteCylinder",
+            /// <summary>
+            /// MultiLayer tissue with a surface fiber circle with different OPs
+            /// </summary>
+            "MultiLayerWithSurfaceFiber"
         };
     }
 
@@ -389,7 +393,8 @@ namespace Vts.MonteCarlo
             "Layer",
             "Ellipsoid",
             "Cylinder",
-            "InfiniteCylinder"
+            "InfiniteCylinder",
+            "SurfaceFiber"
         };
     }
 
@@ -581,7 +586,7 @@ namespace Vts.MonteCarlo
         /// <summary>
         /// cylindrical fiber detector
         /// </summary>
-        public static string CylindricalFiber { get { return "CylindricalFiber"; } }
+        public static string SurfaceFiber { get { return "SurfaceFiber"; } }
         /// <summary>
         /// Total diffuse reflectance
         /// </summary>

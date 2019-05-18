@@ -1085,6 +1085,9 @@
     <Compile Include="..\Vts\MonteCarlo\Tissues\MultiLayerTissue.cs">
       <Link>MonteCarlo\Tissues\MultiLayerTissue.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Tissues\MultiLayerWithSurfaceFiberTissue.cs">
+      <Link>MonteCarlo\Tissues\MultiLayerWithSurfaceFiberTissue.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Tissues\SemiInfiniteTissue.cs">
       <Link>MonteCarlo\Tissues\SemiInfiniteTissue.cs</Link>
     </Compile>
@@ -1105,6 +1108,9 @@
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Tissues\SingleVoxelTissue.cs">
       <Link>MonteCarlo\Tissues\SingleVoxelTissue.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Tissues\SurfaceFiberTissueRegion.cs">
+      <Link>MonteCarlo\Tissues\SurfaceFiberTissueRegion.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Tissues\TissueBase.cs">
       <Link>MonteCarlo\Tissues\TissueBase.cs</Link>
