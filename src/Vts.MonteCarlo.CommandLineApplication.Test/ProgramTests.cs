@@ -32,7 +32,11 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
             "two_layer_ROfRho",
             "two_layer_ROfRho_with_db",
             "voxel_ROfXAndY_FluenceOfXAndYAndZ",
-            "unit_test_one_layer_ROfRho_Mus_only", // the next 3 are from the unit test resources
+        };
+
+        private List<string> listOfInfilesInResources = new List<string>()
+        {
+            "unit_test_one_layer_ROfRho_Mus_only",
             "unit_test_one_layer_ROfRho_Musp_only",
             "unit_test_one_layer_ROfRho_Musp_and_Mus_inconsistent"
         };
@@ -57,6 +61,17 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
         {
         // delete any previously generated infiles to test that "geninfiles" option creates them
             foreach (var infile in listOfInfiles)
+            {
+                if (File.Exists("infile_" + infile + ".txt"))
+                {
+                    File.Delete("infile_" + infile + ".txt");
+                }
+                if (Directory.Exists(infile))
+                {
+                    Directory.Delete(infile, true);
+                }
+            }
+            foreach (var infile in listOfInfilesInResources)
             {
                 if (File.Exists("infile_" + infile + ".txt"))
                 {
