@@ -330,8 +330,14 @@
     <Compile Include="..\Vts.Test\MonteCarlo\Tissues\InfiniteCylinderTissueRegionTests.cs">
       <Link>MonteCarlo\Tissues\InfiniteCylinderTissueRegionTests.cs</Link>
     </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Tissues\MultiLayerWithSurfaceFiberTissueTests.cs">
+      <Link>MonteCarlo\Tissues\MultiLayerWithSurfaceFiberTissueTests.cs</Link>
+    </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\Tissues\SingleInclusionTissueTests.cs">
       <Link>MonteCarlo\Tissues\SingleInclusionTissueTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Tissues\SurfaceFiberTissueRegionTests.cs">
+      <Link>MonteCarlo\Tissues\SurfaceFiberTissueRegionTests.cs</Link>
     </Compile>
     <Compile Include="FileIOTests.Desktop.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

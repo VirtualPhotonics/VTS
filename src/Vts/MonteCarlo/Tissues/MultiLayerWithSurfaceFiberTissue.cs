@@ -40,7 +40,6 @@ namespace Vts.MonteCarlo.Tissues
                 new SurfaceFiberTissueRegion(
                     new Position(0, 0, 0),
                     0.3,
-                    0.22,
                     new OpticalProperties(0.01, 1.0, 0.8, 1.4)
                 ),
                 new ITissueRegion[]
@@ -130,13 +129,12 @@ namespace Vts.MonteCarlo.Tissues
         /// <returns></returns>
         public int GetRegionIndex(Position position)
         {
-            // use ITissueRegion interface method ContainsPosition for LayerTissueRegion to determine
+            // use ITissueRegion interface method ContainsPosition for TissueRegions to determine
             // which region photon resides
-
             int index = -1;
-            for (int i = 0; i < _layerRegions.Count(); i++)
+            for (int i = 0; i < Regions.Count; i++) // catch if in surface fiber AFTER layer 1
             {
-                if (_layerRegions[i].ContainsPosition(position))
+                if (Regions[i].ContainsPosition(position))
                 {
                     index = i;
                 }

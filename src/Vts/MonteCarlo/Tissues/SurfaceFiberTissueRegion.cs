@@ -16,18 +16,17 @@ namespace Vts.MonteCarlo.Tissues
         /// <param name="center">center position</param>
         /// <param name="radius">radius in x-y plane</param>
         /// <param name="op">optical properties of SurfaceFiber</param>
-        public SurfaceFiberTissueRegion(Position center, double radius, double na, OpticalProperties op) 
+        public SurfaceFiberTissueRegion(Position center, double radius, OpticalProperties op) 
         {
             TissueRegionType = "SurfaceFiber";
             Center = center;
             Radius = radius;
-            NA = na;
             RegionOP = op;
         }
         /// <summary>
         /// default constructor
         /// </summary>
-        public SurfaceFiberTissueRegion() : this(new Position(0, 0, 5), 1, 0.22,
+        public SurfaceFiberTissueRegion() : this(new Position(0, 0, 5), 1,
             new OpticalProperties(0.01, 1.0, 0.8, 1.4)) {}
 
         /// <summary>
@@ -43,10 +42,6 @@ namespace Vts.MonteCarlo.Tissues
         /// radius of SurfaceFiber
         /// </summary>
         public double Radius { get; set; }
-        /// <summary>
-        /// height of SurfaceFiber
-        /// </summary>
-        public double NA { get; set; }
         /// <summary>
         /// optical properties of SurfaceFiber
         /// </summary>
