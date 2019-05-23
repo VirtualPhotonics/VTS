@@ -358,12 +358,12 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
         [Test]
         public void verify_timing_of_execution()
         {
-            string[] arguments = new string[] { "infile=infile_ellip_FluenceOfRhoAndZ.txt" };
+            string[] arguments = new string[] { "infile=infile_infinite_cylinder_ROfRho_FluenceOfRhoAndZ.txt" };
             Stopwatch stopwatch = Stopwatch.StartNew();
             Program.Main(arguments);
             stopwatch.Stop();
             // verify infile gets written to output folder
-            Assert.Less(stopwatch.ElapsedMilliseconds, 16291);
+            Assert.Less(stopwatch.ElapsedMilliseconds, 6000);
         }
     }
 }
