@@ -11,10 +11,6 @@ namespace Vts.MonteCarlo.Tissues
     public class LayerTissueRegion : ITissueRegion, ILayerOpticalPropertyRegion
     {
         /// <summary>
-        /// key for the <string, IPhaseFunctionInput> dictionary in a class that implements ITissueInput
-        /// </summary>
-        public string PhaseFunctionKey { get; set; }
-        /// <summary>
         /// constructor for layer region
         /// </summary>
         /// <param name="zRange">specifies extent of layer</param>
@@ -58,6 +54,10 @@ namespace Vts.MonteCarlo.Tissues
         /// optical properties of layer
         /// </summary>
         public OpticalProperties RegionOP { get; set; }
+        /// <summary>
+        /// key for the <string, IPhaseFunctionInput> dictionary in a class that implements ITissueInput
+        /// </summary>
+        public string PhaseFunctionKey { get; set; }
 
         /*/// <summary>
         /// Input data for phase function
@@ -113,6 +113,15 @@ namespace Vts.MonteCarlo.Tissues
                 onBoundary = true;
             }
             return onBoundary;
+        }
+        /// <summary>
+        /// method to determine normal to surface at given position
+        /// </summary>
+        /// <param name="position"></param>
+        /// <returns>Direction</returns>
+        public Direction SurfaceNormal(Position position)
+        {
+            throw new NotImplementedException();
         }
         /// <summary>
         /// method to determine if photon track or ray intersects layer boundary

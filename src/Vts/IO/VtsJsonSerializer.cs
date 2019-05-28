@@ -178,8 +178,7 @@ namespace Vts.IO
                     _container.RegisterType(
                         _interfaceType,
                         item.ClassType,
-                        item.ClassPrefixString, // use the prefix string to register each class
-                        useSingleton ? new ContainerControlledLifetimeManager() : null,
+                        item.ClassPrefixString,
                         useDefaultConstructor ? new InjectionMember[] { new InjectionConstructor() } : null);
                 }
             }

@@ -68,7 +68,7 @@ namespace Vts.MonteCarlo.Tissues
         [IgnoreDataMember]
         public ITissueRegion[] Regions { get { return _layerRegions.Concat(_voxelRegion).ToArray(); } }
         /// <summary>
-        /// tissue ellipsoid region
+        /// tissue voxel region
         /// </summary>
         public ITissueRegion VoxelRegion { get { return _voxelRegion; } set { _voxelRegion = value; } }
         /// <summary>
@@ -88,7 +88,9 @@ namespace Vts.MonteCarlo.Tissues
         /// <param name="regionPhaseFunctions">Phase Function Dictionary</param>
         /// <param name="russianRouletteWeightThreshold">Russian Roulette Weight Threshold</param>
         /// <returns></returns>
-        public ITissue CreateTissue(AbsorptionWeightingType awt, IDictionary<string, IPhaseFunction> regionPhaseFunctions, double russianRouletteWeightThreshold)
+        public ITissue CreateTissue(AbsorptionWeightingType awt, 
+            IDictionary<string, IPhaseFunction> regionPhaseFunctions, 
+            double russianRouletteWeightThreshold)
         {
             var t = new SingleInclusionTissue(VoxelRegion, LayerRegions);
 

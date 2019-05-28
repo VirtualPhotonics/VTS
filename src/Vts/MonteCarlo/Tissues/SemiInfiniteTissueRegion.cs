@@ -71,7 +71,15 @@ namespace Vts.MonteCarlo.Tissues
             }
             return onBoundary;
         }
-
+        /// <summary>
+        /// method to determine normal to surface at given position
+        /// </summary>
+        /// <param name="position"></param>
+        /// <returns>Direction</returns>
+        public Direction SurfaceNormal(Position position)
+        {
+            throw new NotImplementedException();
+        }
         /// <summary>
         /// method to determine if photon track or ray intersects layer boundary
         /// </summary>

@@ -10,10 +10,6 @@ namespace Vts.MonteCarlo.Tissues
     public class CylinderTissueRegion : ITissueRegion
     {
         /// <summary>
-        /// key for the <string, IPhaseFunctionInput> dictionary in a class that implements ITissueInput
-        /// </summary>
-        public string PhaseFunctionKey { get; set; }
-        /// <summary>
         /// </summary>
         /// <param name="center">center position</param>
         /// <param name="radius">radius in x-y plane</param>
@@ -26,7 +22,6 @@ namespace Vts.MonteCarlo.Tissues
             Radius = radius;
             Height = height;
             RegionOP = op;
-
             PhaseFunctionKey = phaseFunctionKey;
         }
 
@@ -61,27 +56,32 @@ namespace Vts.MonteCarlo.Tissues
         /// optical properties of cylinder
         /// </summary>
         public OpticalProperties RegionOP { get; set; }
+        /// <summary>
+        /// key for the <string, IPhaseFunctionInput> dictionary in a class that implements ITissueInput
+        /// </summary>
+        public string PhaseFunctionKey { get; set; }
         /*/// <summary>
         /// Input data for phase function
         /// </summary>
         public IPhaseFunctionInput PhaseFunctionInput { get; set; }*/
-        
+
         /// <summary>
-        /// method to determine if photon position within cylinder
+        /// method to determine if photon position within or on cylinder
         /// </summary>
         /// <param name="position">photon position</param>
         /// <returns>boolean</returns>
         public bool ContainsPosition(Position position)
         {
-            if (((Math.Sqrt(position.X * position.X + position.Y * position.Y) < Radius)) &&
-                (position.Z < Center.Z + Height) &&
-                (position.Z > Center.Z - Height))
+            if (((Math.Sqrt(position.X * position.X + position.Y * position.Y) <= Radius)) &&
+                (position.Z <= Center.Z + Height) &&
+                (position.Z >= Center.Z - Height))
                 return true;
             else
                 return false;
         }
         /// <summary>
-        /// method to determine if photon on boundary of cylinder
+        /// Method to determine if photon on boundary of cylinder.
+        /// Currently OnBoundary of an inclusion region isn't called by any code ckh 3/5/19.
         /// </summary>
         /// <param name="position">photon position</param>
         /// <returns>boolean</returns>
@@ -106,5 +106,15 @@ namespace Vts.MonteCarlo.Tissues
         //{
         //    throw new NotImplementedException();
         //}
+
+        /// <summary>
+        /// method to determine normal to surface at given position
+        /// </summary>
+        /// <param name="position"></param>
+        /// <returns>Direction</returns>
+        public Direction SurfaceNormal(Position position)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
