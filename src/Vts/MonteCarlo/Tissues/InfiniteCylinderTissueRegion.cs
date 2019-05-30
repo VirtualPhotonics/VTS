@@ -210,7 +210,7 @@ namespace Vts.MonteCarlo.Tissues
 
                         return true;
                     case 2:  /* went through cylinder: must stop at nearest intersection */
-                        ///*which is nearest?*/
+                        //*which is nearest?*/
                         if (one_in)
                         {
                             if (root1 > root2)

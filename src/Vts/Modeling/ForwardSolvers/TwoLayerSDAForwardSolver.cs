@@ -137,13 +137,13 @@ namespace Vts.Modeling.ForwardSolvers
             //var maxImag = relDiffImag.Max();
             //var dum1 = maxReal;
             //var dum2 = maxImag;
-            //dft2.Radix2Inverse(rOfTime, FourierOptions.NoScaling); // debug convert to R(t)
+            //dft2.Inverse(rOfTime, FourierOptions.NoScaling); // debug convert to R(t)
             // end debug code
 
             // FFT R(ft) to R(t)
             //var dft = new MathNet.Numerics.IntegralTransforms.Algorithms.DiscreteFourierTransform();            
-            //dft.Radix2Inverse(rOfFt, FourierOptions.NoScaling); // convert to R(t)
-            Fourier.Radix2Inverse(rOfFt, FourierOptions.NoScaling); 
+            //dft.Inverse(rOfFt, FourierOptions.NoScaling); // convert to R(t)
+            Fourier.Inverse(rOfFt, FourierOptions.NoScaling); 
             var rOfTime = new double[FFTTimeSequence.Length];
             rOfTime = rOfFt.Select(r => r.Real / (numFreq / 2)).ToArray();
             return rOfTime;
@@ -180,7 +180,7 @@ namespace Vts.Modeling.ForwardSolvers
             // FFT R(ft) to R(t)
             //var dft = new MathNet.Numerics.IntegralTransforms.Algorithms.DiscreteFourierTransform();
             //dft.Radix2Inverse(rOfFt, FourierOptions.NoScaling); // convert to R(t)
-            Fourier.Radix2Inverse(rOfFt, FourierOptions.NoScaling);
+            Fourier.Inverse(rOfFt, FourierOptions.NoScaling);
             var rOfTime = new double[FFTTimeSequence.Length];
             rOfTime = rOfFt.Select(r => r.Real / (numFreq / 2)).ToArray();
             return rOfTime;
