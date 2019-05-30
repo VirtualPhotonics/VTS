@@ -4,11 +4,12 @@ SolutionDir=$PWD
 #./GetMonoLibs.sh 
 
 # tell mono certs to trust when doing https:
-# following is version for ubuntu or debian systems
-cert-sync /etc/ssl/certs/ca-certificates.crt
-
-# following is version for Red Hat systems
-# cert-sync /etc/pki/tls/certs/ca-bundle.crt
+# following is version for ubuntu or debian dists else RedHat dist
+if [ -f /etc/lsb-release ]; then
+  sudo cert-sync /etc/ssl/certs/ca-certificates.crt
+elif [ -f /etc/redhat-release ]; then
+  sudo cert-sync /etc/pki/tls/certs/ca-bundle.crt
+fi
 
 # use an environment variable to enable package restore 
 export EnableNuGetPackageRestore=true
