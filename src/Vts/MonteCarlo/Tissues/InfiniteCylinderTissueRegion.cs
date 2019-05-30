@@ -15,7 +15,6 @@ namespace Vts.MonteCarlo.Tissues
         /// <param name="center">center position</param>
         /// <param name="radius">radius in x-y plane</param>
         /// <param name="op">optical properties of cylinder</param>
-        /// <param name="awt">absorption weighting type</param>
         public InfiniteCylinderTissueRegion(Position center, double radius, OpticalProperties op) 
         {
             TissueRegionType = "InfiniteCylinder";

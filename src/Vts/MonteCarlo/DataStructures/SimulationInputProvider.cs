@@ -389,9 +389,9 @@ namespace Vts.MonteCarlo
                     0), // 0=start in air, 1=start in tissue
                 new SingleInfiniteCylinderTissueInput(
                     new InfiniteCylinderTissueRegion(
-                        new Position(0, 0, 1),
+                        new Position(0, 0, 2),
                         1.0,
-                        new OpticalProperties(0.05, 1.0, 0.8, 1.4)
+                        new OpticalProperties(0.05, 1.0, 0.8, 1.0)
                     ),
                     new ITissueRegion[]
                     {
