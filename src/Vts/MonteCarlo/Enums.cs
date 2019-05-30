@@ -175,118 +175,76 @@ namespace Vts.MonteCarlo
                 //POINT AND LINE SOURCES
 
                 //Point Sources
-                /// <summary>
-                /// Point sources: isotropic
-                /// </summary>
+                // Point sources: isotropic
                 "IsotropicPoint",
-                /// <summary>
-                /// Point sources: directional point
-                /// </summary>
+                // Point sources: directional point
                 "DirectionalPoint",
-                /// <summary>
-                /// Point sources: custom point
-                /// </summary>
+                // Point sources: custom point
                 "CustomPoint",
 
                 // Line Sources
-                /// <summary>
-                /// 1D Line sources: isotropic line
-                /// </summary>
+                // 1D Line sources: isotropic line
                 "IsotropicLine",
-                /// <summary>
-                /// 1D Line sources: directional line 
-                /// </summary>
+                // 1D Line sources: directional line 
                 "DirectionalLine",
-                /// <summary>
-                /// 1D Line sources: custom
-                /// </summary>
+                // 1D Line sources: custom
                 "CustomLine",
 
 
                 // SURFACE EMITTING FLAT SOURCES (2D SURFACE SOURCES)
 
                 // Circular Surface Sources
-                /// <summary>
-                /// 2D Circular surface sources: directional 
-                /// </summary>
+                // 2D Circular surface sources: directional 
                 "DirectionalCircular",
-                /// <summary>
-                /// 2D Circular surface sources: custom
-                /// </summary>
+                // 2D Circular surface sources: custom
                 "CustomCircular",
 
                 // Elliptical Surface Sources
-                /// <summary>
-                /// 2D Elliptical surface sources: directional 
-                /// </summary>
+                // 2D Elliptical surface sources: directional 
                 "DirectionalElliptical",
-                /// <summary>
-                /// 2D Elliptical surface sources: custom
-                /// </summary>
+                // 2D Elliptical surface sources: custom
                 "CustomElliptical",
 
                 // Rectangular Surface Sources
-                /// <summary>
-                /// 2D Rectangular surface sources: directional
-                /// </summary>
+                // 2D Rectangular surface sources: directional
                 "DirectionalRectangular",
-                /// <summary>
-                /// 2D Rectangular surface sources: custom
-                /// </summary>
+                // 2D Rectangular surface sources: custom
                 "CustomRectangular",
 
 
                 // SURFACE EMITTING BULK SOURCES (3D SURFACE SOURCES)
 
                 // Spherical Surface Sources
-                /// <summary>
-                /// Spherical surface sources: Lambertian
-                /// </summary>
+                // Spherical surface sources: Lambertian
                 "LambertianSurfaceEmittingSpherical", // e.g. change to LambertianSphericalSurface
-                /// <summary>
-                /// Spherical surface sources: custom
-                /// </summary>
+                // Spherical surface sources: custom
                 "CustomSurfaceEmittingSpherical",
 
                 // Cubiodal Surface Sources
-                /// <summary>
-                /// Cubiodal surface sources: Lambertian surface emitting cubiodal
-                /// </summary>
+                // Cubiodal surface sources: Lambertian surface emitting cubiodal
                 "LambertianSurfaceEmittingCubiodal",
 
                 // Tubular Sources
-                /// <summary>
-                /// Tubular sources: Lambertian
-                /// </summary>
+                // Tubular sources: Lambertian
                 "LambertianSurfaceEmittingTubular",
 
                 //Cylindrical Fiber Source
-                /// <summary>
-                /// Cylindrical fiber sources: Lambertian cylindrial fiber
-                /// </summary>
+                // Cylindrical fiber sources: Lambertian cylindrial fiber
                 "LambertianSurfaceEmittingCylindricalFiber",
 
 
                 // VOLUMETRIC SOURCES (3D)
 
                 // Cubiodal Volume Sources
-                /// <summary>
-                /// 3D Cubiodal volume sources: isotropic
-                /// </summary>
+                // 3D Cubiodal volume sources: isotropic
                 "IsotropicVolumetricCuboidal",
-                /// <summary>
-                /// 3D Cubiodal volume sources: custom
-                /// </summary>
+                // 3D Cubiodal volume sources: custom
                 "CustomVolumetricCubiodal",
 
                 // Ellipsoidal Volume Sources
-                /// <summary>
-                /// 3D Ellipsoidal volume sources: isotropic
-                /// </summary>
+                // 3D Ellipsoidal volume sources: isotropic
                 "IsotropicVolumetricEllipsoidal",
-                /// <summary>
-                /// 3D Ellipsoidal volume sources: custom
-                /// </summary>
+                // 3D Ellipsoidal volume sources: custom
                 "CustomVolumetricEllipsoidal",
 
                 // ...others, based on Fluence or Radiance?                  
