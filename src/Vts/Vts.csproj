@@ -21,6 +21,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Common\Helpers\FuncOfT.cs" />
+    <Compile Remove="Common\Helpers\Tuple.cs" />
     <Compile Remove="MonteCarlo\VirtualBoundaries\PlanarReflectionVirtualBoundary.cs" />
     <Compile Remove="MonteCarlo\VirtualBoundaries\PlanarTransmissionVirtualBoundary.cs" />
   </ItemGroup>
