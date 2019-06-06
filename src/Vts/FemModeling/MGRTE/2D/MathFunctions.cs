@@ -92,6 +92,7 @@ namespace Vts.FemModeling.MGRTE._2D
         /// <param name="theta">Angular array</param>
         /// <param name="nAngle">number of angles</param>
         /// <param name="g">anisotropy factor</param>
+        /// <param name="region"></param>
         public static void Weight_2D(double[][][] w, double[][] theta, int nAngle, double g, int region)
         {
             int i, j, n, nj;
@@ -527,7 +528,6 @@ namespace Vts.FemModeling.MGRTE._2D
         /// </summary>
         /// <param name="amesh"></param>
         /// <param name="aLevel"></param>
-        /// <param name="g"></param>
         /// <param name="tissueInput"> </param>
         public static void CreateAnglularMesh(ref AngularMesh[] amesh, int aLevel, MultiEllipsoidTissueInput tissueInput)
         {

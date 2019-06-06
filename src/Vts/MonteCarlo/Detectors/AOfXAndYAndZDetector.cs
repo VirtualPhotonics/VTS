@@ -31,16 +31,6 @@ namespace Vts.MonteCarlo.Detectors
         }
 
         /// <summary>
-        /// detector identifier
-        /// </summary>
-        public string TallyType { get; set; }
-
-        /// <summary>
-        /// detector name
-        /// </summary>
-        public string Name { get; set; }
-
-        /// <summary>
         /// x binning
         /// </summary>
         public DoubleRange X { get; set; }
@@ -125,7 +115,7 @@ namespace Vts.MonteCarlo.Detectors
             Mean = Mean ?? new double[X.Count - 1, Y.Count - 1, Z.Count - 1];
             SecondMoment = SecondMoment ?? (TallySecondMoment ? new double[X.Count - 1, Y.Count - 1, Z.Count - 1] : null);
 
-            // intialize any other necessary class fields here
+            // initialize any other necessary class fields here
             _absorptionWeightingMethod = AbsorptionWeightingMethods.GetVolumeAbsorptionWeightingMethod(tissue, this);
             _tissue = tissue;
             _ops = _tissue.Regions.Select(r => r.RegionOP).ToArray();

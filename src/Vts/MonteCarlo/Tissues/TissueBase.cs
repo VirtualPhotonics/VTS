@@ -54,9 +54,11 @@ namespace Vts.MonteCarlo.Tissues
         public double RussianRouletteWeightThreshold { get; protected set; }
 
         /// <summary>
-        /// Required method to initialiize the corresponding ITissue
+        /// Required method to initialize the corresponding ITissue
         /// </summary>
-        /// <param name="tissue"></param>
+        /// <param name="awt">absorption weighting type</param>
+        /// <param name="pft">phase function type</param>
+        /// <param name="russianRouletteWeightThreshold">Russian Roulette threshold (default=0)</param>
         public void Initialize(
             AbsorptionWeightingType awt = AbsorptionWeightingType.Discrete, 
             PhaseFunctionType pft = PhaseFunctionType.HenyeyGreenstein,

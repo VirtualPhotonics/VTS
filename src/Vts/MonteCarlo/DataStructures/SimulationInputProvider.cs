@@ -28,7 +28,7 @@ namespace Vts.MonteCarlo
                 PointSourceTwoLayerTissueROfRhoDetector(),
                 PointSourceTwoLayerTissueROfRhoDetectorWithPhotonDatabase(),
                 PointSourceSingleEllipsoidTissueFluenceOfRhoAndZDetector(),
-                PointSourceSingleInfiniteCylinderTissueFluenceOfRhoAndZDetector(),
+                PointSourceSingleInfiniteCylinderTissueROfRhoAndFluenceOfRhoAndZDetector(),
                 pMCPointSourceOneLayerTissueROfRhoDAW(),
                 Gaussian2DSourceOneLayerTissueROfRhoDetector(),
                 Flat2DSourceOneLayerTissueROfRhoDetector(),
@@ -370,11 +370,11 @@ namespace Vts.MonteCarlo
         /// <summary>
         /// Point source, single infinite cylinder tissue definition, only FluenceOfRhoAndZ detector included
         /// </summary>
-        public static SimulationInput PointSourceSingleInfiniteCylinderTissueFluenceOfRhoAndZDetector()
+        public static SimulationInput PointSourceSingleInfiniteCylinderTissueROfRhoAndFluenceOfRhoAndZDetector()
         {
             return new SimulationInput(
                 100,
-                "infinite_cylinder_FluenceOfRhoAndZ",
+                "infinite_cylinder_ROfRho_FluenceOfRhoAndZ",
                 new SimulationOptions(
                     0, // random number generator seed, -1=random seed, 0=fixed seed
                     RandomNumberGeneratorType.MersenneTwister,
@@ -409,6 +409,7 @@ namespace Vts.MonteCarlo
                 ),
                 new List<IDetectorInput>()
                 {
+                    new ROfRhoDetectorInput() { Rho =new DoubleRange(0.0, 10, 101)},
                     new FluenceOfRhoAndZDetectorInput(){Rho=new DoubleRange(0.0, 10, 101),Z= new DoubleRange(0.0, 10, 101)}
                 }
             );

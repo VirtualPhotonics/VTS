@@ -9,9 +9,9 @@ namespace Vts.MonteCarlo
         /// <summary>
         /// Method that returns a function providing the correct absorption weighting for analog and DAW
         /// </summary>
-        /// <param name="tissue"></param>
-        /// <param name="detector"></param>
-        /// <returns></returns>
+        /// <param name="tissue">tissue specification</param>
+        /// <param name="detector">detector specification</param>
+        /// <returns>func providing correct absorption weighting for analog and DAW</returns>
         public static Func<PhotonDataPoint, PhotonDataPoint, int, double> GetVolumeAbsorptionWeightingMethod(ITissue tissue, IDetector detector)
         {
             switch (tissue.AbsorptionWeightingType)
@@ -30,9 +30,9 @@ namespace Vts.MonteCarlo
         /// <summary>
         /// Method that returns a function providing the correct absorption weighting for analog and DAW
         /// </summary>
-        /// <param name="tissue"></param>
-        /// <param name="detector"></param>
-        /// <returns></returns>
+        /// <param name="tissue">tissue specification</param>
+        /// <param name="detector">detector specification</param>
+        /// <returns>func providing correct absorption weighting for analog and DAW</returns>
         public static Func<IList<long>, IList<double>, IList<OpticalProperties>, IList<OpticalProperties>, IList<int>, double> GetpMCTerminationAbsorptionWeightingMethod(ITissue tissue, IDetector detector)
         {
             switch (tissue.AbsorptionWeightingType)

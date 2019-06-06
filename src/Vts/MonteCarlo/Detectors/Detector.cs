@@ -9,7 +9,7 @@
             TallySecondMoment = false;
             TallyDetails = new TallyDetails();
         }
-        // mandatory user inputs (required for IDetetorInput contract)
+        // mandatory user inputs (required for IDetectorInput contract)
         public string TallyType { get; set; }
         public string Name { get; set; }
         public bool TallySecondMoment { get; set; }

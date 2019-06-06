@@ -175,118 +175,76 @@ namespace Vts.MonteCarlo
                 //POINT AND LINE SOURCES
 
                 //Point Sources
-                /// <summary>
-                /// Point sources: isotropic
-                /// </summary>
+                // Point sources: isotropic
                 "IsotropicPoint",
-                /// <summary>
-                /// Point sources: directional point
-                /// </summary>
+                // Point sources: directional point
                 "DirectionalPoint",
-                /// <summary>
-                /// Point sources: custom point
-                /// </summary>
+                // Point sources: custom point
                 "CustomPoint",
 
                 // Line Sources
-                /// <summary>
-                /// 1D Line sources: isotropic line
-                /// </summary>
+                // 1D Line sources: isotropic line
                 "IsotropicLine",
-                /// <summary>
-                /// 1D Line sources: directional line 
-                /// </summary>
+                // 1D Line sources: directional line 
                 "DirectionalLine",
-                /// <summary>
-                /// 1D Line sources: custom
-                /// </summary>
+                // 1D Line sources: custom
                 "CustomLine",
 
 
                 // SURFACE EMITTING FLAT SOURCES (2D SURFACE SOURCES)
 
                 // Circular Surface Sources
-                /// <summary>
-                /// 2D Circular surface sources: directional 
-                /// </summary>
+                // 2D Circular surface sources: directional 
                 "DirectionalCircular",
-                /// <summary>
-                /// 2D Circular surface sources: custom
-                /// </summary>
+                // 2D Circular surface sources: custom
                 "CustomCircular",
 
                 // Elliptical Surface Sources
-                /// <summary>
-                /// 2D Elliptical surface sources: directional 
-                /// </summary>
+                // 2D Elliptical surface sources: directional 
                 "DirectionalElliptical",
-                /// <summary>
-                /// 2D Elliptical surface sources: custom
-                /// </summary>
+                // 2D Elliptical surface sources: custom
                 "CustomElliptical",
 
                 // Rectangular Surface Sources
-                /// <summary>
-                /// 2D Rectangular surface sources: directional
-                /// </summary>
+                // 2D Rectangular surface sources: directional
                 "DirectionalRectangular",
-                /// <summary>
-                /// 2D Rectangular surface sources: custom
-                /// </summary>
+                // 2D Rectangular surface sources: custom
                 "CustomRectangular",
 
 
                 // SURFACE EMITTING BULK SOURCES (3D SURFACE SOURCES)
 
                 // Spherical Surface Sources
-                /// <summary>
-                /// Spherical surface sources: Lambertian
-                /// </summary>
+                // Spherical surface sources: Lambertian
                 "LambertianSurfaceEmittingSpherical", // e.g. change to LambertianSphericalSurface
-                /// <summary>
-                /// Spherical surface sources: custom
-                /// </summary>
+                // Spherical surface sources: custom
                 "CustomSurfaceEmittingSpherical",
 
                 // Cubiodal Surface Sources
-                /// <summary>
-                /// Cubiodal surface sources: Lambertian surface emitting cubiodal
-                /// </summary>
+                // Cubiodal surface sources: Lambertian surface emitting cubiodal
                 "LambertianSurfaceEmittingCubiodal",
 
                 // Tubular Sources
-                /// <summary>
-                /// Tubular sources: Lambertian
-                /// </summary>
+                // Tubular sources: Lambertian
                 "LambertianSurfaceEmittingTubular",
 
                 //Cylindrical Fiber Source
-                /// <summary>
-                /// Cylindrical fiber sources: Lambertian cylindrial fiber
-                /// </summary>
+                // Cylindrical fiber sources: Lambertian cylindrial fiber
                 "LambertianSurfaceEmittingCylindricalFiber",
 
 
                 // VOLUMETRIC SOURCES (3D)
 
                 // Cubiodal Volume Sources
-                /// <summary>
-                /// 3D Cubiodal volume sources: isotropic
-                /// </summary>
+                // 3D Cubiodal volume sources: isotropic
                 "IsotropicVolumetricCuboidal",
-                /// <summary>
-                /// 3D Cubiodal volume sources: custom
-                /// </summary>
+                // 3D Cubiodal volume sources: custom
                 "CustomVolumetricCubiodal",
 
                 // Ellipsoidal Volume Sources
-                /// <summary>
-                /// 3D Ellipsoidal volume sources: isotropic
-                /// </summary>
+                // 3D Ellipsoidal volume sources: isotropic
                 "IsotropicVolumetricEllipsoidal",
-                /// <summary>
-                /// 3D Ellipsoidal volume sources: custom
-                /// </summary>
+                // 3D Ellipsoidal volume sources: custom
                 "CustomVolumetricEllipsoidal",
 
                 // ...others, based on Fluence or Radiance?                  
@@ -350,41 +308,27 @@ namespace Vts.MonteCarlo
     {
         public static readonly string[] BuiltInTypes = new []
         {
-            /// <summary>
-            /// SemiInfinite tissue type.  Includes homogeneous tissues.
-            /// </summary>
+            // SemiInfinite tissue type.  Includes homogeneous tissues.
             "SemiInfinite",
-            /// <summary>
-            /// Multilayer tissue type.  Includes homogeneous tissues.
-            /// </summary>
+            // Multilayer tissue type.  Includes homogeneous tissues.
             "MultiLayer",
-            /// <summary>
-            /// Tissue slab with embedded ellipsoid
-            /// </summary>
+            // Tissue slab with embedded ellipsoid
             "SingleEllipsoid",
-            /// <summary>
-            /// Tissue slab with embedded cylinder
-            /// </summary>
+            // Tissue slab with embedded cylinder
             "SingleCylinder",
-            /// <summary>
-            /// Tissue slab with multiple embedded ellipsoids
-            /// </summary>
-            "MultiEllipsoid",            
-            /// <summary>
-            /// Tissue slab with embedded voxel
-            /// </summary>
+            // Tissue slab with multiple embedded ellipsoids
+            "MultiEllipsoid", 
+            // Tissue slab with embedded voxel
             "SingleVoxel",
-            /// <summary>
-            /// Tissue slab with embedded infinite cylinder
-            /// </summary>
+            // Tissue slab with embedded infinite cylinder
             "SingleInfiniteCylinder",
-            /// <summary>
-            /// MultiLayer tissue with a surface fiber circle with different OPs
-            /// </summary>
+            // MultiLayer tissue with a surface fiber circle with different OPs
             "MultiLayerWithSurfaceFiber"
         };
     }
-
+    /// <summary>
+    /// Tissue region type, sub-regions of layers
+    /// </summary>
     public static class TissueRegionType
     {
         public static readonly string[] BuiltInTypes = new []
@@ -402,185 +346,98 @@ namespace Vts.MonteCarlo
     {
         public static readonly string[] BuiltInTypes =
         {
-            /// <summary>
-            /// Reflectance Surface fiber 
-            /// </summary>
+            // Reflectance Surface fiber 
             "SurfaceFiber",
-             /// <summary>
-            /// Reflectance as a function of source-detector separation (rho) and angle
-            /// </summary>
+            // Reflectance as a function of source-detector separation (rho) and angle
             "ROfRhoAndAngle",
-            /// <summary>
-            /// Reflectance as a function of source-detector separation (rho)
-            /// </summary>
+            // Reflectance as a function of source-detector separation (rho)
             "ROfRho",
-            /// <summary>
-            /// Reflectance as a function of angle
-            /// </summary>
+            // Reflectance as a function of angle
             "ROfAngle",
-            /// <summary>
-            /// Reflectance as a function of source-detector separation (rho) and temporal-frequency (omega)
-            /// </summary>
+            // Reflectance as a function of source-detector separation (rho) and temporal-frequency (omega)
             "ROfRhoAndOmega",
-            /// <summary>
-            /// Reflectance as a function of source-detector separation (rho) and time
-            /// </summary>
+            // Reflectance as a function of source-detector separation (rho) and time
             "ROfRhoAndTime",
-            /// <summary>
-            /// Reflectance as a function of Cartesian position on the surface of the tissue
-            /// </summary>
+            // Reflectance as a function of Cartesian position on the surface of the tissue
             "ROfXAndY",
-            /// <summary>
-            /// Total diffuse reflectance
-            /// </summary>
+            // Total diffuse reflectance
             "RDiffuse",
-            /// <summary>
-            /// Total specular reflectance
-            /// </summary>
+            // Total specular reflectance
             "RSpecular",
-            /// <summary>
-            /// Reflectance as a function of spatial frequency along the x-axis
-            /// </summary>
+            // Reflectance as a function of spatial frequency along the x-axis
             "ROfFx",
-            /// <summary>
-            /// Reflectance as a function of spatial frequency along the x-axis, and time
-            /// </summary>
+            // Reflectance as a function of spatial frequency along the x-axis, and time
             "ROfFxAndTime",
-            /// <summary>
-            /// Total diffuse transmittance
-            /// </summary>
+            // Total diffuse transmittance
             "TDiffuse",
-            /// <summary>
-            /// Transmittance as a functino of source-detector separation (rho)
-            /// </summary>
+            // Transmittance as a functino of source-detector separation (rho)
             "TOfRho",
-            /// <summary>
-            /// Transmittance as a function of angle
-            /// </summary>
+            // Transmittance as a function of angle
             "TOfAngle",
-            /// <summary>
-            /// Transmittance as a function of source-detector separation (rho) and angle
-            /// </summary>
+            // Transmittance as a function of source-detector separation (rho) and angle
             "TOfRhoAndAngle",
-            /// <summary>
-            /// Transmittance as a function of x and y
-            /// </summary>
+            // Transmittance as a function of x and y
             "TOfXAndY",
-            /// <summary>
-            /// Transmittance as a function of spatial frequency (fx)
-            /// </summary>
-            "TOfFx",           
-            /// <summary>
-            /// Fluence as a function of source-detector separation (rho) and tissue depth (Z)
-            /// </summary>
+            // Transmittance as a function of spatial frequency (fx)
+            "TOfFx", 
+            // Fluence as a function of source-detector separation (rho) and tissue depth (Z)
             "FluenceOfRhoAndZ",
-            /// <summary>
-            /// Fluence as a function of source-detector separation (rho) and tissue depth (Z) and time
-            /// </summary>
+            // Fluence as a function of source-detector separation (rho) and tissue depth (Z) and time
             "FluenceOfRhoAndZAndTime",
-            /// <summary>
-            /// Fluence as a function of x, y and z
-            /// </summary>
+            // Fluence as a function of x, y and z
             "FluenceOfXAndYAndZ",
-            /// <summary>
-            /// Fluence as a function of x, y, z and omega
-            /// </summary>
+            // Fluence as a function of x, y, z and omega
             "FluenceOfXAndYAndZAndOmega",
-            /// <summary>
-            /// Fluence as a function of rho, z and omega
-            /// </summary>
+            // Fluence as a function of rho, z and omega
             "FluenceOfRhoAndZAndOmega",
-            /// <summary>
-            /// Fluence as a function of fx and z
-            /// </summary>
+            // Fluence as a function of fx and z
             "FluenceOfFxAndZ",
-            /// <summary>
-            /// Absorbed energy as a function of source-detector separation (rho) and tissue depth (Z)
-            /// </summary>
+            // Absorbed energy as a function of source-detector separation (rho) and tissue depth (Z)
             "AOfRhoAndZ",
-            /// <summary>
-            /// Absorbed energy as a function of X, Y and tissue depth (Z)
-            /// </summary>
+            // Absorbed energy as a function of X, Y and tissue depth (Z)
             "AOfXAndYAndZ",
-            /// <summary>
-            /// Total absorbed energy
-            /// </summary>
+            // Total absorbed energy
             "ATotal",
-            /// <summary>
-            /// Reflected momentum transfer as a function of source-detector separation (rho) and tissue region with histogram of MT
-            /// </summary>
+            // Reflected momentum transfer as a function of source-detector separation (rho) and tissue region with histogram of MT
             "ReflectedMTOfRhoAndSubregionHist",
-            /// <summary>
-            /// Reflected momentum transfer as a function of x, y and tissue region with histogram of MT
-            /// </summary>
+            // Reflected momentum transfer as a function of x, y and tissue region with histogram of MT
             "ReflectedMTOfXAndYAndSubregionHist",
-            /// <summary>
-            /// Transmitted momentum transfer as a function of source-detector separation (rho) and tissue region with histogram of MT
-            /// </summary>
+            // Transmitted momentum transfer as a function of source-detector separation (rho) and tissue region
+            // with histogram of MT
             "TransmittedMTOfRhoAndSubregionHist",
-            /// <summary>
-            /// Transmitted momentum transfer as a function of x, y and tissue region with histogram of MT
-            /// </summary>
-            "TransmittedMTOfXAndYAndSubregionHist",            
-            /// <summary>
-            /// Reflected dynamic momentum transfer as a function of source-detector separation (rho) and tissue region with histogram of MT
-            /// </summary>
+            // Transmitted momentum transfer as a function of x, y and tissue region with histogram of MT
+            "TransmittedMTOfXAndYAndSubregionHist", 
+            // Reflected dynamic momentum transfer as a function of source-detector separation (rho) and
+            // tissue region with histogram of MT
             "ReflectedDynamicMTOfRhoAndSubregionHist",
-            /// <summary>
-            /// Reflected dynamic momentum transfer as a function of x, y and tissue region with histogram of MT
-            /// </summary>
+            // Reflected dynamic momentum transfer as a function of x, y and tissue region with histogram of MT
             "ReflectedDynamicMTOfXAndYAndSubregionHist",
-            /// <summary>
-            /// Transmitted dynamic momentum transfer as a function of source-detector separation (rho) and tissue region with histogram of MT
-            /// </summary>
+            // Transmitted dynamic momentum transfer as a function of source-detector separation (rho) and
+            // tissue region with histogram of MT
             "TransmittedDynamicMTOfRhoAndSubregionHist",
-            /// <summary>
-            /// Transmitted dynamic momentum transfer as a function of x, y and tissue region with histogram of MT
-            /// </summary>
+            // Transmitted dynamic momentum transfer as a function of x, y and tissue region with histogram of MT
             "TransmittedDynamicMTOfXAndYAndSubregionHist",    
-            /// <summary>
-            /// Reflected subregion time as a function of source-detector separation (rho) and tissue region 
-            /// </summary>
+            // Reflected subregion time as a function of source-detector separation (rho) and tissue region 
             "ReflectedTimeOfRhoAndSubregionHist",
-            /// <summary>
-            /// Surface radiance as a function of source-detector separation (rho)
-            /// </summary>
+            // Surface radiance as a function of source-detector separation (rho)
             "RadianceOfRhoAtZ",
-            /// <summary>
-            /// Volume randiance as a function of source-detector separation (rho), tissue depth (Z) and angle
-            /// </summary>
+            // Volume randiance as a function of source-detector separation (rho), tissue depth (Z) and angle
             "RadianceOfRhoAndZAndAngle",
-            /// <summary>
-            /// Volume randiance as a function of spatial-frequency (fx), tissue depth (Z) and angle
-            /// </summary>
+            // Volume randiance as a function of spatial-frequency (fx), tissue depth (Z) and angle
             "RadianceOfFxAndZAndAngle",
-            /// <summary>
-            /// Volume randiance as a function of x, y, z, theta and phi
-            /// </summary>
+            // Volume randiance as a function of x, y, z, theta and phi
             "RadianceOfXAndYAndZAndThetaAndPhi",
-            /// <summary>
-            /// perturbation Monte Carlo (pMC) reflectance as a function of source-detector sep. (rho) and time
-            /// </summary>
-            "pMCROfRhoAndTime", // maybe these should be in separate enum?
-            /// <summary>
-            /// perturbation Monte Carlo (pMC) reflectance as a function of source-detector separation (rho)
-            /// </summary>
+            // perturbation Monte Carlo (pMC) reflectance as a function of source-detector sep. (rho) and time
+            "pMCROfRhoAndTime", 
+            // perturbation Monte Carlo (pMC) reflectance as a function of source-detector separation (rho)
             "pMCROfRho",
-            /// <summary>
-            /// perturbation Monte Carlo (pMC) reflectance as a function of spatial frequency (fx)
-            /// </summary>
+            // perturbation Monte Carlo (pMC) reflectance as a function of spatial frequency (fx)
             "pMCROfFx",
-            /// <summary>
-            /// perturbation Monte Carlo (pMC) reflectance as a function of spatial frequency (fx) and time
-            /// </summary>
+            // perturbation Monte Carlo (pMC) reflectance as a function of spatial frequency (fx) and time
             "pMCROfFxAndTime",
-            /// <summary>
-            /// differential Monte Carlo (dMC) d(reflectance)/dMua as a function of source-detector separation (rho)
-            /// </summary>
+            // differential Monte Carlo (dMC) d(reflectance)/dMua as a function of source-detector separation (rho)
             "dMCdROfRhodMua",
-            /// <summary>
-            /// differential Monte Carlo (dMC) d(reflectance)/dMus as a function of source-detector separation (rho) 
-            /// </summary>
+            // differential Monte Carlo (dMC) d(reflectance)/dMus as a function of source-detector separation (rho) 
             "dMCdROfRhodMus",
         };
         /// <summary>
