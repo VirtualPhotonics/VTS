@@ -50,7 +50,7 @@ namespace Vts.MonteCarlo.Tissues
         /// </summary>
         /// <param name="position">photon Position</param>
         /// <returns>integer tissue region index</returns>
-        public int GetRegionIndex(Position position)
+        public override int GetRegionIndex(Position position)
         {
             // if it's in the inclusion, return "3", otherwise, call the layer method to determine
             return _inclusionRegion.ContainsPosition(position) ? _inclusionRegionIndex : base.GetRegionIndex(position);
@@ -63,7 +63,7 @@ namespace Vts.MonteCarlo.Tissues
         /// </summary>
         /// <param name="photon">Photon</param>
         /// <returns>index of neighbor index</returns>
-        public int GetNeighborRegionIndex(Photon photon)
+        public override int GetNeighborRegionIndex(Photon photon)
         {
             // first, check what region the photon is in
             int regionIndex = photon.CurrentRegionIndex;
@@ -109,7 +109,7 @@ namespace Vts.MonteCarlo.Tissues
         /// </summary>
         /// <param name="photon">Photon</param>
         /// <returns>distance to boundary</returns>
-        public double GetDistanceToBoundary(Photon photon)
+        public override double GetDistanceToBoundary(Photon photon)
         {
             // first, check what region the photon is in
             int regionIndex = photon.CurrentRegionIndex;
@@ -144,7 +144,7 @@ namespace Vts.MonteCarlo.Tissues
         /// <param name="currentPosition">Position</param>
         /// <param name="currentDirection">Direction</param>
         /// <returns>new Direction</returns>
-        public Direction GetReflectedDirection(
+        public override Direction GetReflectedDirection(
             Position currentPosition,
             Direction currentDirection)
         {
@@ -165,7 +165,7 @@ namespace Vts.MonteCarlo.Tissues
         /// <param name="currentPosition">Position</param>
         /// <param name="currentDirection">Direction</param>
         /// <returns>new Direction</returns>
-        public Direction GetRefractedDirection(
+        public override Direction GetRefractedDirection(
             Position currentPosition,
             Direction currentDirection,
             double nCurrent,

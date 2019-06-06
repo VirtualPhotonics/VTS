@@ -44,7 +44,9 @@ namespace Vts.MonteCarlo
         /// <summary>
         /// Required method to initialiize the corresponding ITissue
         /// </summary>
-        /// <param name="tissue"></param>
+        /// <param name="awt">absorption weighting type</param>
+        /// <param name="pft">phase function type</param>
+        /// <param name="russianRouletteWeightThreshold">Russian Roulette threshold</param>
         void Initialize(
             AbsorptionWeightingType awt = AbsorptionWeightingType.Discrete,
             IDictionary<string, IPhaseFunction> regionPhaseFunctions = null,

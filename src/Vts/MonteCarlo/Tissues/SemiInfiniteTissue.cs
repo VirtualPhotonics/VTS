@@ -39,8 +39,8 @@ namespace Vts.MonteCarlo.Tissues
         public IDictionary<string, IPhaseFunctionInput> RegionPhaseFunctionInputs { get; set; }
 
         /// <summary>
-        ///// Required factory method to create the corresponding 
-        ///// ITissue based on the ITissueInput data
+        /// Required factory method to create the corresponding 
+        /// ITissue based on the ITissueInput data
         /// </summary>
         /// <param name="awt">Absorption Weighting Type</param>
         /// <param name="pft">Phase Function Type</param>

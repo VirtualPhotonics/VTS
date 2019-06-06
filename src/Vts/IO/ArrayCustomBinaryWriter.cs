@@ -9,7 +9,6 @@ namespace Vts.IO
     /// <summary>
     /// Class that implements the interface ICustomBinaryWriter to write different types of Array to a binary stream
     /// </summary>
-    /// <typeparam name="T">Type of Array to be written</typeparam>
     public class ArrayCustomBinaryWriter//<T>
         : ICustomBinaryWriter<Array> //where T : struct
     {

@@ -450,7 +450,6 @@ namespace Vts.IO
         /// Writes an array to a binary file and optionally accompanying .xml file 
         /// (to store array dimensions) if includeMetaData = true
         /// </summary>
-        /// <typeparam name="T">Type of the array to be written</typeparam>
         /// <param name="dataIN">Array to be written</param>
         /// <param name="filename">Name of the file where the data is written</param>
         /// <param name="includeMetaData">Boolean to determine whether to include meta data, if set to true, an accompanying XML file will be created with the same name</param>

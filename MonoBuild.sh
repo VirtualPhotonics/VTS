@@ -4,15 +4,21 @@ SolutionDir=$PWD
 #./GetMonoLibs.sh 
 
 # tell mono certs to trust when doing https:
-mozroots --import --sync
+# following is version for ubuntu or debian dists else RedHat dist
+if [ -f /etc/lsb-release ]; then
+  sudo cert-sync /etc/ssl/certs/ca-certificates.crt
+elif [ -f /etc/redhat-release ]; then
+  sudo cert-sync /etc/pki/tls/certs/ca-bundle.crt
+fi
+
 # use an environment variable to enable package restore 
 export EnableNuGetPackageRestore=true
 
 #Build the solution in Debug configuration
-xbuild $SolutionDir/src/Vts-Mono.sln /p:WarningLevel=2
+msbuild $SolutionDir/src/Vts-Mono.sln /p:WarningLevel=2
 
 #Build the solution in Release configuration
-xbuild $SolutionDir/src/Vts-Mono.sln /p:configuration=Release /p:WarningLevel=2
+msbuild $SolutionDir/src/Vts-Mono.sln /p:configuration=Release /p:WarningLevel=2
 
 #Post build events:
 ConfigName=Debug

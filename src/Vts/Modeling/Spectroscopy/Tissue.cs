@@ -148,7 +148,7 @@ namespace Vts.SpectralMapping
         /// <summary>
         /// Returns the optical properties for a given wavelength
         /// </summary>
-        /// <param name="wavelength">Wavelength</param>
+        /// <param name="wavelengths">Wavelength</param>
         /// <returns>The optical properties</returns>
         public OpticalProperties[] GetOpticalProperties(double[] wavelengths)
         {

@@ -22,8 +22,9 @@ namespace Vts.MonteCarlo
         /// </summary>
         IDictionary<string, IPhaseFunctionInput> RegionPhaseFunctionInputs { get; set; }
 
-        ///// Required factory method to create the corresponding 
-        ///// ITissue based on the ITissueInput data
+        /// <summary>
+        /// Required factory method to create the corresponding 
+        /// ITissue based on the ITissueInput data
         /// </summary>
         /// <param name="awt">Absorption Weighting Type</param>
         /// <param name="regionPhaseFunctions">dictionary of phase functions</param>

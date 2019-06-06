@@ -429,6 +429,8 @@ namespace Vts.Modeling.ForwardSolvers
             Vts.Extensions.IEnumerableArrayExtensions.PopulateFromEnumerable(output, query);
             return output;
         }
+        /// <summary>
+        /// Convenience array overload of ROfRhoAndTime. Determines reflectances at regions, source-detector separations 'rhos' and times 'ts'
         /// </summary>
         /// <param name="regions">sets of medium regions</param>
         /// <param name="rhos">source-detector separations (mm)</param>
@@ -1073,8 +1075,8 @@ namespace Vts.Modeling.ForwardSolvers
         /// Overload of ROfFxAndTime. Determines reflectances of tissue 'regions', spatial frequencies 'fxs' and time 't'
         /// </summary>
         /// <param name="regions">sets of medium regions</param>
-        /// <param name="fx">spatial frequencies (1/mm)</param>
-        /// <param name="ts">time (ns)</param>
+        /// <param name="fxs">spatial frequencies (1/mm)</param>
+        /// <param name="t">time (ns)</param>
         /// <returns>reflectance of given tissue regions, single spatial frequencies and time</returns>
         public double[] ROfFxAndTime(IOpticalPropertyRegion[] regions, double[] fxs, double t)
         {

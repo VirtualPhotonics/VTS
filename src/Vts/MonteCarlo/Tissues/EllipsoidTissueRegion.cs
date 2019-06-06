@@ -53,11 +53,11 @@ namespace Vts.MonteCarlo.Tissues
             new Position(0, 0, 1), 0.5, 0.5, 0.5,
             new OpticalProperties(0.05, 1.0, 0.8, 1.4), 
             "HenyeyGreensteinKey1") {}
+
         /// <summary>
         /// tissue region identifier
         /// </summary>
         public string TissueRegionType { get; set; }
-
         /// <summary>
         /// optical properties of ellipsoid
         /// </summary>
@@ -126,7 +126,7 @@ namespace Vts.MonteCarlo.Tissues
         /// Method to determine if given Position lies on boundary of ellipsoid.
         /// Currently OnBoundary of an inclusion region isn't called by any code ckh 3/5/19.
         /// </summary>
-        /// <param name="position">Position</param>
+        /// <param name="position">position to be checked</param>
         /// <returns>true if on boundary, false otherwise</returns>
         public bool OnBoundary(Position position)
         {
@@ -135,8 +135,8 @@ namespace Vts.MonteCarlo.Tissues
         /// <summary>
         /// method to determine normal to surface at given position. Note this returns outward facing normal.
         /// </summary>
-        /// <param name="position"></param>
-        /// <returns>Direction</returns>
+        /// <param name="position">position of surface normal</param>
+        /// <returns>direction of normal</returns>
         public Direction SurfaceNormal(Position position)
         {
             return new Direction(
@@ -150,9 +150,9 @@ namespace Vts.MonteCarlo.Tissues
         /// equations to determine intersection are derived by parameterizing ray from p1 to p2
         /// as p2=p1+[dx dy dz]t t in [0,1] where dx=p2.x-p1.x dy=p2.y-p1.y dz=p2.z-p2.z
         /// and substituting into ellipsoid equations and solving quadratic in t, i.e. t1, t2
-        /// t1,t2<0 or t1,t2>1 => no intersection
-        /// 0<t1<1 => one intersection
-        /// 0<t2<1 => one intersections, if above line true too => two intersections
+        /// t1,t2 less than 0 or t1,t2 greater than 1 => no intersection
+        /// 0 less than t1 less than 1 => one intersection
+        /// 0 less than t2 less than 1 => one intersections, if above line true too => two intersections
         /// </summary>
         /// <param name="photon">Photon</param>
         /// <param name="distanceToBoundary">return: distance to boundary</param>
@@ -389,7 +389,5 @@ namespace Vts.MonteCarlo.Tissues
         //    else
         //        photptr.CurrentRegionIndex++;
         //}
-
     }
-
 }

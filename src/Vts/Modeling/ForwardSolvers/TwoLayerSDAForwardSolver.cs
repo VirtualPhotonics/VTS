@@ -69,7 +69,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <summary>
         /// Evaluates spatially- and temporally- resolved reflectance at sets of tissue regions, rhos and times
         /// </summary>
-        /// <param name="regions">multiple sets of tissue regions</param>
+        /// <param name="setsOfRegions">multiple sets of tissue regions</param>
         /// <param name="rhos">rhos</param>
         /// <param name="times">times</param>
         /// <returns>reflectance at specified optical properties, rhos and times</returns>
@@ -94,7 +94,8 @@ namespace Vts.Modeling.ForwardSolvers
         }
 
         // this method builds an R(rho, ft) array and then uses FFT to generate R(rho, t)
-        private double[] DetermineROfTimeFromROfFtForFixedRho(double rho, IOpticalPropertyRegion[] regions, out double[] FFTTimeSequence)
+        private double[] DetermineROfTimeFromROfFtForFixedRho(double rho, IOpticalPropertyRegion[] regions, 
+            out double[] FFTTimeSequence)
         {
             // get ops of top tissue region
             var op0 = regions[0].RegionOP;
@@ -136,13 +137,13 @@ namespace Vts.Modeling.ForwardSolvers
             //var maxImag = relDiffImag.Max();
             //var dum1 = maxReal;
             //var dum2 = maxImag;
-            //dft2.Radix2Inverse(rOfTime, FourierOptions.NoScaling); // debug convert to R(t)
+            //dft2.Inverse(rOfTime, FourierOptions.NoScaling); // debug convert to R(t)
             // end debug code
 
             // FFT R(ft) to R(t)
             //var dft = new MathNet.Numerics.IntegralTransforms.Algorithms.DiscreteFourierTransform();            
-            //dft.Radix2Inverse(rOfFt, FourierOptions.NoScaling); // convert to R(t)
-            Fourier.Radix2Inverse(rOfFt, FourierOptions.NoScaling); 
+            //dft.Inverse(rOfFt, FourierOptions.NoScaling); // convert to R(t)
+            Fourier.Inverse(rOfFt, FourierOptions.NoScaling); 
             var rOfTime = new double[FFTTimeSequence.Length];
             rOfTime = rOfFt.Select(r => r.Real / (numFreq / 2)).ToArray();
             return rOfTime;
@@ -179,11 +180,18 @@ namespace Vts.Modeling.ForwardSolvers
             // FFT R(ft) to R(t)
             //var dft = new MathNet.Numerics.IntegralTransforms.Algorithms.DiscreteFourierTransform();
             //dft.Radix2Inverse(rOfFt, FourierOptions.NoScaling); // convert to R(t)
-            Fourier.Radix2Inverse(rOfFt, FourierOptions.NoScaling);
+            Fourier.Inverse(rOfFt, FourierOptions.NoScaling);
             var rOfTime = new double[FFTTimeSequence.Length];
             rOfTime = rOfFt.Select(r => r.Real / (numFreq / 2)).ToArray();
             return rOfTime;
         }
+        /// <summary>
+        /// reflectance versus rho and temporal-frequency
+        /// </summary>
+        /// <param name="regions">optical properties of two layers</param>
+        /// <param name="rho">source-detector separation</param>
+        /// <param name="ft">temporal-frequency of interest</param>
+        /// <returns></returns>
         public override Complex ROfRhoAndFt(IOpticalPropertyRegion[] regions, double rho, double ft)
         {
             // get ops of top tissue region
@@ -202,7 +210,12 @@ namespace Vts.Modeling.ForwardSolvers
 
             return TemporalFrequencyReflectance(rho, ft, diffusionParameters, layerThicknesses, fr1, fr2);
         }
-
+        /// <summary>
+        /// reflectance versus spatial-frequency
+        /// </summary>
+        /// <param name="regions">optical properties of two layers</param>
+        /// <param name="fx">spatial frequency of interest</param>
+        /// <returns></returns>
         public override double ROfFx(IOpticalPropertyRegion[] regions, double fx)
         {
             // get ops of top tissue region
@@ -220,7 +233,13 @@ namespace Vts.Modeling.ForwardSolvers
             }
             return SpatialFrequencyReflectance(2*Math.PI*fx, diffusionParameters, layerThicknesses, fr1, fr2);
         }
-
+        /// <summary>
+        /// reflectance versus spatial-frequency and time
+        /// </summary>
+        /// <param name="regions">optical properties of two layers</param>
+        /// <param name="fx">spatial-frequency of interest</param>
+        /// <param name="time">time point of interest</param>
+        /// <returns></returns>
         public override double ROfFxAndTime(IOpticalPropertyRegion[] regions, double fx, double time)
         {
             var diffusionParameters = GetDiffusionParameters(regions);
@@ -236,8 +255,8 @@ namespace Vts.Modeling.ForwardSolvers
         /// <summary>
         /// Evaluates spatial-frequency and temporally- resolved reflectance at sets of tissue regions, fs and times
         /// </summary>
-        /// <param name="regions">multiple sets of tissue regions</param>
-        /// <param name="fx">spatial frequencies</param>
+        /// <param name="setsOfRegions">multiple sets of tissue regions</param>
+        /// <param name="fxs">spatial frequencies</param>
         /// <param name="times">times</param>
         /// <returns>reflectance at specified optical properties, rhos and times</returns>
         public override IEnumerable<double> ROfFxAndTime(IEnumerable<IOpticalPropertyRegion[]> setsOfRegions,
@@ -257,6 +276,13 @@ namespace Vts.Modeling.ForwardSolvers
                 }
             }
         }
+        /// <summary>
+        /// reflectance versus spatial-frequency and temporal-frequency
+        /// </summary>
+        /// <param name="regions">optical properties of two layers</param>
+        /// <param name="fx">spatial-frequency of interest</param>
+        /// <param name="ft">temporal-frequency of interest</param>
+        /// <returns></returns>
         public override Complex ROfFxAndFt(IOpticalPropertyRegion[] regions, double fx, double ft)
         {
             // get ops of top tissue region
@@ -275,7 +301,13 @@ namespace Vts.Modeling.ForwardSolvers
             return SpatialAndTemporalFrequencyReflectance(2 * Math.PI * fx, ft, diffusionParameters, 
                 layerThicknesses, fr1, fr2);
         }
-
+        /// <summary>
+        /// fluence versus rho and depth z
+        /// </summary>
+        /// <param name="regions">optical properties of two layers</param>
+        /// <param name="rhos">source-detector separations of interest</param>
+        /// <param name="zs">depths of interest</param>
+        /// <returns></returns>
         public override IEnumerable<double> FluenceOfRhoAndZ(
             IEnumerable<IOpticalPropertyRegion[]> regions,
             IEnumerable<double> rhos,

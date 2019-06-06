@@ -56,7 +56,7 @@ namespace Vts.MonteCarlo.Rng
 
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MersenneTwister"/> class.
+        /// Initializes a new instance of the MersenneTwister class.
         /// </summary>
         /// <param name="seed">The seed value.</param>
         /// <param name="threadSafe">if set to <c>true</c>, the class is thread safe.</param>
@@ -66,11 +66,11 @@ namespace Vts.MonteCarlo.Rng
             init_genrand((uint)seed);
         }
         /// <summary>
-        /// Initializes a new instance of the <see cref="MersenneTwister"/> class using
+        /// Initializes a new instance of the MersenneTwister class using
         /// the current time as the seed.
         /// </summary>
         /// <remarks>If the seed value is zero, it is set to one. Uses the
-        /// value of <see cref="Control.ThreadSafeRandomNumberGenerators"/> to
+        /// value of Control.ThreadSafeRandomNumberGenerators to
         /// set whether the instance is thread safe.</remarks>
         public SerializableMersenneTwister()
             : this((int)DateTime.Now.Ticks)
@@ -78,7 +78,7 @@ namespace Vts.MonteCarlo.Rng
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MersenneTwister"/> class using
+        /// Initializes a new instance of the MersenneTwister class using
         /// the current time as the seed.
         /// </summary>
         /// <param name="threadSafe">if set to <c>true</c> , the class is thread safe.</param>
@@ -88,10 +88,10 @@ namespace Vts.MonteCarlo.Rng
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MersenneTwister"/> class.
+        /// Initializes a new instance of the MersenneTwister class.
         /// </summary>
         /// <param name="seed">The seed value.</param>
-        /// <remarks>Uses the value of <see cref="MathNet.Numerics.Control.ThreadSafeRandomNumberGenerators"/> to
+        /// <remarks>Uses the value of MathNet.Numerics.Control.ThreadSafeRandomNumberGenerators to
         /// set whether the instance is thread safe.</remarks>        
         public SerializableMersenneTwister(int seed)
             : this(seed, MathNet.Numerics.Control.ThreadSafeRandomNumberGenerators)
@@ -100,11 +100,11 @@ namespace Vts.MonteCarlo.Rng
 
         // public properties for serialization
         /// <summary>
-        /// variable within algorithm needed to resume series if interruptes
+        /// variable within algorithm needed to resume series if interrupts
         /// </summary>
         public uint[] MT { get { return _mt; } set { _mt = value; } }
         /// <summary>
-        /// variable within algorithm needed to resume series if interruptes
+        /// variable within algorithm needed to resume series if interrupts
         /// </summary>
         public int MTI { get { return mti; } set { mti = value; } }
 
@@ -118,7 +118,7 @@ namespace Vts.MonteCarlo.Rng
         }
 
         /*/// <summary>
-        /// Initializes a new instance of the <see cref="MersenneTwister"/> class.
+        /// Initializes a new instance of the MersenneTwister class.
         /// </summary>
         /// <param name="init_key">The initialization key.</param>
         public MersenneTwister(int[] init_key)
