@@ -140,7 +140,7 @@ namespace Vts.Common.Logging.NLogIntegration
         /// <param name = "message">The message to log</param>
         public void Debug(string message, Exception exception)
         {
-            Logger.DebugException(message, exception);
+            Logger.Debug(exception, message);
         }
 
         /// <summary>
@@ -161,7 +161,7 @@ namespace Vts.Common.Logging.NLogIntegration
         /// <param name = "args">Format arguments for the message to log</param>
         public void DebugFormat(Exception exception, string format, params object[] args)
         {
-            Logger.DebugException(String.Format(format, args), exception);
+            Logger.Debug(exception, String.Format(format, args));
         }
 
         /// <summary>
@@ -184,7 +184,7 @@ namespace Vts.Common.Logging.NLogIntegration
         /// <param name = "args">Format arguments for the message to log</param>
         public void DebugFormat(Exception exception, IFormatProvider formatProvider, string format, params object[] args)
         {
-            Logger.DebugException(String.Format(formatProvider, format, args), exception);
+            Logger.Debug(exception, String.Format(formatProvider, format, args));
         }
 
         /// <summary>
@@ -212,7 +212,7 @@ namespace Vts.Common.Logging.NLogIntegration
         /// <param name = "message">The message to log</param>
         public void Error(string message, Exception exception)
         {
-            Logger.ErrorException(message, exception);
+            Logger.Error(exception, message);
         }
 
         /// <summary>
@@ -233,7 +233,7 @@ namespace Vts.Common.Logging.NLogIntegration
         /// <param name = "args">Format arguments for the message to log</param>
         public void ErrorFormat(Exception exception, string format, params object[] args)
         {
-            Logger.ErrorException(String.Format(format, args), exception);
+            Logger.Error(exception, String.Format(format, args));
         }
 
         /// <summary>
@@ -256,7 +256,7 @@ namespace Vts.Common.Logging.NLogIntegration
         /// <param name = "args">Format arguments for the message to log</param>
         public void ErrorFormat(Exception exception, IFormatProvider formatProvider, string format, params object[] args)
         {
-            Logger.ErrorException(String.Format(formatProvider, format, args), exception);
+            Logger.Error(exception, String.Format(formatProvider, format, args));
         }
 
         /// <summary>
@@ -285,7 +285,7 @@ namespace Vts.Common.Logging.NLogIntegration
         /// <param name = "message">The message to log</param>
         public void Fatal(string message, Exception exception)
         {
-            Logger.FatalException(message, exception);
+            Logger.Fatal(exception, message);
         }
 
         /// <summary>
@@ -306,7 +306,7 @@ namespace Vts.Common.Logging.NLogIntegration
         /// <param name = "args">Format arguments for the message to log</param>
         public void FatalFormat(Exception exception, string format, params object[] args)
         {
-            Logger.FatalException(String.Format(format, args), exception);
+            Logger.Fatal(exception, String.Format(format, args));
         }
 
         /// <summary>
@@ -329,7 +329,7 @@ namespace Vts.Common.Logging.NLogIntegration
         /// <param name = "args">Format arguments for the message to log</param>
         public void FatalFormat(Exception exception, IFormatProvider formatProvider, string format, params object[] args)
         {
-            Logger.FatalException(String.Format(formatProvider, format, args), exception);
+            Logger.Fatal(exception, String.Format(formatProvider, format, args));
         }
 
         /// <summary>
@@ -357,7 +357,7 @@ namespace Vts.Common.Logging.NLogIntegration
         /// <param name = "message">The message to log</param>
         public void Info(string message, Exception exception)
         {
-            Logger.InfoException(message, exception);
+            Logger.Info(exception, message);
         }
 
         /// <summary>
@@ -378,7 +378,7 @@ namespace Vts.Common.Logging.NLogIntegration
         /// <param name = "args">Format arguments for the message to log</param>
         public void InfoFormat(Exception exception, string format, params object[] args)
         {
-            Logger.InfoException(String.Format(format, args), exception);
+            Logger.Info(exception, String.Format(format, args));
         }
 
         /// <summary>
@@ -401,7 +401,7 @@ namespace Vts.Common.Logging.NLogIntegration
         /// <param name = "args">Format arguments for the message to log</param>
         public void InfoFormat(Exception exception, IFormatProvider formatProvider, string format, params object[] args)
         {
-            Logger.InfoException(String.Format(formatProvider, format, args), exception);
+            Logger.Info(exception, String.Format(formatProvider, format, args));
         }
 
         /// <summary>
@@ -429,7 +429,7 @@ namespace Vts.Common.Logging.NLogIntegration
         /// <param name = "message">The message to log</param>
         public void Warn(string message, Exception exception)
         {
-            Logger.WarnException(message, exception);
+            Logger.Warn(exception, message);
         }
 
         /// <summary>
@@ -450,7 +450,7 @@ namespace Vts.Common.Logging.NLogIntegration
         /// <param name = "args">Format arguments for the message to log</param>
         public void WarnFormat(Exception exception, string format, params object[] args)
         {
-            Logger.WarnException(String.Format(format, args), exception);
+            Logger.Warn(exception, String.Format(format, args));
         }
 
         /// <summary>
@@ -473,7 +473,7 @@ namespace Vts.Common.Logging.NLogIntegration
         /// <param name = "args">Format arguments for the message to log</param>
         public void WarnFormat(Exception exception, IFormatProvider formatProvider, string format, params object[] args)
         {
-            Logger.WarnException(String.Format(formatProvider, format, args), exception);
+            Logger.Warn(exception, String.Format(formatProvider, format, args));
         }
     }
 }

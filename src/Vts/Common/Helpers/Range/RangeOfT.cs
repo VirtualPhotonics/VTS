@@ -90,11 +90,10 @@ namespace Vts
                 //OnPropertyChanged("Count");
             }
         }
-
-        [DataMember]
         /// <summary>
         /// The number of values in the range, inclusive of the endpoints
         /// </summary>
+        [DataMember]
         public int Count
         {
             get { return _Count; }

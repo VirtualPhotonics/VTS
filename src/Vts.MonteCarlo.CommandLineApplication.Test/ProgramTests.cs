@@ -363,7 +363,7 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
             Program.Main(arguments);
             stopwatch.Stop();
             // verify infile gets written to output folder
-            Assert.Less(stopwatch.ElapsedMilliseconds, 6000);
+            Assert.Less(stopwatch.ElapsedMilliseconds, 9000);
         }
     }
 }

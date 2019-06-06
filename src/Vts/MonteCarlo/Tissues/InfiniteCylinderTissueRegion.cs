@@ -34,7 +34,7 @@ namespace Vts.MonteCarlo.Tissues
         public string TissueRegionType { get; set; }
 
         /// <summary>
-        /// center of cyliner
+        /// center of cylinder
         /// </summary>
         public Position Center { get; set; }
         /// <summary>
@@ -110,9 +110,9 @@ namespace Vts.MonteCarlo.Tissues
         /// equations to determine intersection are derived by parameterizing ray from p1 to p2
         /// as p2=p1+[dx dy dz]t t in [0,1] where dx=p2.x-p1.x dy=p2.y-p1.y dz=p2.z-p2.z
         /// and substituting into ellipsoid equations and solving quadratic in t, i.e. t1, t2
-        /// t1,t2<0 or t1,t2>1 => no intersection
-        /// 0<t1<1 => one intersection
-        /// 0<t2<1 => one intersections, if above line true too => two intersections
+        /// t1,t2 less than 0 or t1,t2 greater than 1 => no intersection
+        /// 0 less than t1 less than 1 => one intersection
+        /// 0 less than t2 less than 1 => one intersections, if above line true too => two intersections
         /// </summary>
         /// <param name="photon">photon position, direction, etc.</param>
         /// <param name="distanceToBoundary">distance to boundary</param>
@@ -209,7 +209,7 @@ namespace Vts.MonteCarlo.Tissues
 
                         return true;
                     case 2:  /* went through cylinder: must stop at nearest intersection */
-                        ///*which is nearest?*/
+                        //*which is nearest?*/
                         if (one_in)
                         {
                             if (root1 > root2)
@@ -239,7 +239,6 @@ namespace Vts.MonteCarlo.Tissues
 
             /* roots imaginary -> no intersection */
             return false;
-        }
-  
+        }  
     }
 }

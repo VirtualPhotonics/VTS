@@ -9,6 +9,7 @@ namespace Vts
     /// Describes optical properties Converter for deserializing OPs based on (mua, mus, g, n)
     /// not on (mua, musp, g, n)
     /// ref: https://stackoverflow.com/questions/23017716/json-net-how-to-deserialize-without-using-the-default-constructor/23017892#23017892
+    /// </summary>
     [DataContract]
     public class OpticalPropertiesConverter : JsonConverter
     {

@@ -32,14 +32,6 @@ namespace Vts.MonteCarlo.Detectors
         }
 
         /// <summary>
-        /// detector identifier
-        /// </summary>
-        public string TallyType { get; set; }
-        /// <summary>
-        /// detector name
-        /// </summary>
-        public string Name { get; set; }
-        /// <summary>
         /// rho binning
         /// </summary>
         public DoubleRange Rho { get; set; }

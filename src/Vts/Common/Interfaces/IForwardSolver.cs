@@ -291,7 +291,7 @@ namespace Vts
         /// separations 'rhos'and temporal frequencies fts
         /// </summary>
         /// <param name="regions">medium optical and geometrical properties for each sub-region</param>
-        /// <param name="rho">source-detector separation (mm)</param>
+        /// <param name="fx">spatial-frequency</param>
         /// <param name="fts">temporal frequencies</param>
         /// <returns></returns>
         Complex[] ROfFxAndFt(IOpticalPropertyRegion[] regions, double fx, double[] fts);

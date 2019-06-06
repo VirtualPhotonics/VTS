@@ -17,7 +17,7 @@ namespace Vts.MonteCarlo.Detectors
     {
         /// <summary>
         /// constructor for fluence as a function of Fx and Z detector input
-        /// </summary
+        /// </summary>
         public FluenceOfFxAndZDetectorInput()
         {
             TallyType = "FluenceOfFxAndZ";
@@ -107,7 +107,7 @@ namespace Vts.MonteCarlo.Detectors
             Mean = Mean ?? new Complex[Fx.Count, Z.Count - 1];
             SecondMoment = SecondMoment ?? (TallySecondMoment ? new Complex[Fx.Count, Z.Count - 1] : null);
 
-            // intialize any other necessary class fields here
+            // initialize any other necessary class fields here
             _absorptionWeightingMethod = AbsorptionWeightingMethods.GetVolumeAbsorptionWeightingMethod(tissue, this);
             _tissue = tissue;
             _ops = _tissue.Regions.Select(r => r.RegionOP).ToArray();
@@ -203,7 +203,7 @@ namespace Vts.MonteCarlo.Detectors
         }
 
         // this is to allow saving of large arrays separately as a binary file
-        public BinaryArraySerializer[] GetBinarySerializers() // NEED TO ASK DC: about complex array implementation
+        public BinaryArraySerializer[] GetBinarySerializers() 
         {
             return new[] {
                 new BinaryArraySerializer {

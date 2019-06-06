@@ -188,9 +188,6 @@
     <Compile Include="..\Vts\Common\Helpers\EnumHelper.cs">
       <Link>Common\Helpers\EnumHelper.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\Common\Helpers\FuncOfT.cs">
-      <Link>Common\Helpers\FuncOfT.cs</Link>
-    </Compile>
     <Compile Include="..\Vts\Common\Helpers\Range\DoubleRange.cs">
       <Link>Common\Helpers\Range\DoubleRange.cs</Link>
     </Compile>
@@ -208,9 +205,6 @@
     </Compile>
     <Compile Include="..\Vts\Common\Helpers\Range\UIntRange.cs">
       <Link>Common\Helpers\Range\UIntRange.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\Common\Helpers\Tuple.cs">
-      <Link>Common\Helpers\Tuple.cs</Link>
     </Compile>
     <Compile Include="..\Vts\Common\Interfaces\IChangeTracking.cs">
       <Link>Common\Interfaces\IChangeTracking.cs</Link>
@@ -898,9 +892,6 @@
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\IO\DetectorIO.cs">
       <Link>MonteCarlo\IO\DetectorIO.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\MonteCarlo\mc_allvox.cs">
-      <Link>MonteCarlo\mc_allvox.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\MonteCarloSimulation.cs">
       <Link>MonteCarlo\MonteCarloSimulation.cs</Link>
