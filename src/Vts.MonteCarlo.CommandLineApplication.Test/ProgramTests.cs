@@ -1,7 +1,6 @@
 ﻿
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using NUnit.Framework;
@@ -101,34 +100,34 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
                 Directory.Delete("one_layer_ROfRho_FluenceOfRhoAndZ_mua1_0.03", true);
             }
 
-            if (Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_mua1_0.01_mus1_1.00"))
+            if (Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_mua1_0.01_mus1_1"))
             {
-                Directory.Delete("one_layer_ROfRho_FluenceOfRhoAndZ_mua1_0.01_mus1_1.00", true);
+                Directory.Delete("one_layer_ROfRho_FluenceOfRhoAndZ_mua1_0.01_mus1_1", true);
             }
 
-            if (Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_mua1_0.03_mus1_1.00"))
+            if (Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_mua1_0.03_mus1_1"))
             {
-                Directory.Delete("one_layer_ROfRho_FluenceOfRhoAndZ_mua1_0.03_mus1_1.00", true);
+                Directory.Delete("one_layer_ROfRho_FluenceOfRhoAndZ_mua1_0.03_mus1_1", true);
             }
 
-            if (Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_mua1_0.01_mus1_1.20"))
+            if (Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_mua1_0.01_mus1_1.2"))
             {
-                Directory.Delete("one_layer_ROfRho_FluenceOfRhoAndZ_mua1_0.01_mus1_1.20", true);
+                Directory.Delete("one_layer_ROfRho_FluenceOfRhoAndZ_mua1_0.01_mus1_1.2", true);
             }
 
-            if (Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_mua1_0.03_mus1_1.20"))
+            if (Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_mua1_0.03_mus1_1.2"))
             {
-                Directory.Delete("one_layer_ROfRho_FluenceOfRhoAndZ_mua1_0.03_mus1_1.20", true);
+                Directory.Delete("one_layer_ROfRho_FluenceOfRhoAndZ_mua1_0.03_mus1_1.2", true);
             }
 
-            if (Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_nphot_10.00"))
+            if (Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_nphot_10"))
             {
-                Directory.Delete("one_layer_ROfRho_FluenceOfRhoAndZ_nphot_10.00", true);
+                Directory.Delete("one_layer_ROfRho_FluenceOfRhoAndZ_nphot_10", true);
             }
 
-            if (Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_nphot_20.00"))
+            if (Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_nphot_20"))
             {
-                Directory.Delete("one_layer_ROfRho_FluenceOfRhoAndZ_nphot_20.00", true);
+                Directory.Delete("one_layer_ROfRho_FluenceOfRhoAndZ_nphot_20", true);
             }
 
             if (Directory.Exists("myResults_mua1_0.01"))
@@ -203,6 +202,9 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
             //string[] arguments = new string[] { "paramsweepdelta=mua1,0.01,0.03,0.01" };
             string[] arguments = new string[]
                 {"infile=infile_one_layer_ROfRho_FluenceOfRhoAndZ.txt", "paramsweep=mua1,0.01,0.03,3"};
+            // use the following string to check smaller parameter values
+            //string[] arguments = new string[]
+            //    {"infile=infile_one_layer_ROfRho_FluenceOfRhoAndZ.txt", "paramsweep=mus1,0.0001,0.0003,3"};
             Program.Main(arguments);
             // the default infile.txt that is used has OutputName="results"
             Assert.IsTrue(Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_mua1_0.01"));
@@ -241,10 +243,10 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
                 "paramsweep=mus1,1.0,1.2,2"
             };
             Program.Main(arguments);
-            Assert.IsTrue(Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_mua1_0.01_mus1_1.00"));
-            Assert.IsTrue(Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_mua1_0.03_mus1_1.00"));
-            Assert.IsTrue(Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_mua1_0.01_mus1_1.20"));
-            Assert.IsTrue(Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_mua1_0.03_mus1_1.20"));
+            Assert.IsTrue(Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_mua1_0.01_mus1_1"));
+            Assert.IsTrue(Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_mua1_0.03_mus1_1"));
+            Assert.IsTrue(Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_mua1_0.01_mus1_1.2"));
+            Assert.IsTrue(Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_mua1_0.03_mus1_1.2"));
         }
 
         /// <summary>
@@ -258,8 +260,8 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
                 "infile=infile_one_layer_ROfRho_FluenceOfRhoAndZ.txt", "paramsweep=nphot,10,20,2"
             };
             Program.Main(arguments);
-            Assert.IsTrue(Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_nphot_10.00"));
-            Assert.IsTrue(Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_nphot_20.00"));
+            Assert.IsTrue(Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_nphot_10"));
+            Assert.IsTrue(Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_nphot_20"));
         }
 
         /// <summary>
@@ -350,20 +352,20 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
             // the following test verifies that Mus was modified accordingly
             Assert.Less(Math.Abs(writtenInfile.TissueInput.Regions[1].RegionOP.Mus - 6.0), 1e-6);
         }
-
-        /// <summary>
-        /// Test to keep an eye on if the MC execution time is growing.
-        /// First test simple infile with 
-        /// </summary>
-        [Test]
-        public void verify_timing_of_execution()
-        {
-            string[] arguments = new string[] { "infile=infile_infinite_cylinder_ROfRho_FluenceOfRhoAndZ.txt" };
-            Stopwatch stopwatch = Stopwatch.StartNew();
-            Program.Main(arguments);
-            stopwatch.Stop();
-            // verify infile gets written to output folder
-            Assert.Less(stopwatch.ElapsedMilliseconds, 9000);
-        }
+        // removed because not a good way to text whether MCCL is taking longer to execute.
+        ///// <summary>
+        ///// Test to keep an eye on if the MC execution time is growing.
+        ///// First test simple infile with 
+        ///// </summary>
+        //[Test]
+        //public void verify_timing_of_execution()
+        //{
+        //    string[] arguments = new string[] { "infile=infile_infinite_cylinder_ROfRho_FluenceOfRhoAndZ.txt" };
+        //    Stopwatch stopwatch = Stopwatch.StartNew();
+        //    Program.Main(arguments);
+        //    stopwatch.Stop();
+        //    // verify infile gets written to output folder
+        //    Assert.Less(stopwatch.ElapsedMilliseconds, 9000);
+        //}
     }
 }
