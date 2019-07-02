@@ -528,7 +528,7 @@ namespace Vts.Factories
         /// Method to generate absorbed energy given fluence and mua for heterogeneous tissue.
         /// </summary>
         /// <param name="fluence">fluence serialized to a 1D IEnumerable of double</param>
-        /// <param name="mua">absorption coefficient serialized to a 1D IEnumerable</param>
+        /// <param name="muas">absorption coefficient serialized to a 1D IEnumerable</param>
         /// <returns>absorbed energy in a 1D IEnumerable of double</returns>
         public static IEnumerable<double> GetAbsorbedEnergy(IEnumerable<double> fluence, IEnumerable<double> muas)
         {

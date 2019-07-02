@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
-using System.Runtime.CompilerServices;
 using NUnit.Framework;
 using Vts.IO;
 
@@ -18,10 +17,10 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
         List<string> listOfInfiles = new List<string>()
         {
             "ellip_FluenceOfRhoAndZ",
-            "infinite_cylinder_FluenceOfRhoAndZ",
+            "infinite_cylinder_ROfRho_FluenceOfRhoAndZ",
             "embeddedDirectionalCircularSourceEllipTissue",
             "Flat_2D_source_one_layer_ROfRho",
-            "Gaussian_2D_source_one_layer_ROfRho", 
+            "Gaussian_2D_source_one_layer_ROfRho",
             "Gaussian_line_source_one_layer_ROfRho",
             "one_layer_all_detectors",
             "one_layer_FluenceOfRhoAndZ_RadianceOfRhoAndZAndAngle",
@@ -32,7 +31,11 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
             "two_layer_ROfRho",
             "two_layer_ROfRho_with_db",
             "voxel_ROfXAndY_FluenceOfXAndYAndZ",
-            "unit_test_one_layer_ROfRho_Mus_only", // the next 3 are from the unit test resources
+        };
+
+        private List<string> listOfInfilesInResources = new List<string>()
+        {
+            "unit_test_one_layer_ROfRho_Mus_only",
             "unit_test_one_layer_ROfRho_Musp_only",
             "unit_test_one_layer_ROfRho_Musp_and_Mus_inconsistent"
         };
@@ -45,7 +48,7 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
         {
             clear_folders_and_files();
             // generate sample infiles because unit tests below rely on infiles being generated
-            string[] arguments = new string[] { "geninfiles" };
+            string[] arguments = new string[] {"geninfiles"};
             Program.Main(arguments);
         }
 
@@ -55,13 +58,27 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
         [OneTimeTearDown]
         public void clear_folders_and_files()
         {
-        // delete any previously generated infiles to test that "geninfiles" option creates them
+            // delete any previously generated infiles to test that "geninfiles" option creates them
             foreach (var infile in listOfInfiles)
             {
                 if (File.Exists("infile_" + infile + ".txt"))
                 {
                     File.Delete("infile_" + infile + ".txt");
                 }
+
+                if (Directory.Exists(infile))
+                {
+                    Directory.Delete(infile, true);
+                }
+            }
+
+            foreach (var infile in listOfInfilesInResources)
+            {
+                if (File.Exists("infile_" + infile + ".txt"))
+                {
+                    File.Delete("infile_" + infile + ".txt");
+                }
+
                 if (Directory.Exists(infile))
                 {
                     Directory.Delete(infile, true);
@@ -72,50 +89,62 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
             {
                 Directory.Delete("one_layer_ROfRho_FluenceOfRhoAndZ_mua1_0.01", true);
             }
+
             if (Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_mua1_0.02"))
             {
                 Directory.Delete("one_layer_ROfRho_FluenceOfRhoAndZ_mua1_0.02", true);
             }
+
             if (Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_mua1_0.03"))
             {
                 Directory.Delete("one_layer_ROfRho_FluenceOfRhoAndZ_mua1_0.03", true);
             }
-            if (Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_mua1_0.01_mus1_1.00"))
+
+            if (Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_mua1_0.01_mus1_1"))
             {
-                Directory.Delete("one_layer_ROfRho_FluenceOfRhoAndZ_mua1_0.01_mus1_1.00", true);
+                Directory.Delete("one_layer_ROfRho_FluenceOfRhoAndZ_mua1_0.01_mus1_1", true);
             }
-            if (Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_mua1_0.03_mus1_1.00"))
+
+            if (Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_mua1_0.03_mus1_1"))
             {
-                Directory.Delete("one_layer_ROfRho_FluenceOfRhoAndZ_mua1_0.03_mus1_1.00", true);
+                Directory.Delete("one_layer_ROfRho_FluenceOfRhoAndZ_mua1_0.03_mus1_1", true);
             }
-            if (Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_mua1_0.01_mus1_1.20"))
+
+            if (Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_mua1_0.01_mus1_1.2"))
             {
-                Directory.Delete("one_layer_ROfRho_FluenceOfRhoAndZ_mua1_0.01_mus1_1.20", true);
+                Directory.Delete("one_layer_ROfRho_FluenceOfRhoAndZ_mua1_0.01_mus1_1.2", true);
             }
-            if (Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_mua1_0.03_mus1_1.20"))
+
+            if (Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_mua1_0.03_mus1_1.2"))
             {
-                Directory.Delete("one_layer_ROfRho_FluenceOfRhoAndZ_mua1_0.03_mus1_1.20", true);
+                Directory.Delete("one_layer_ROfRho_FluenceOfRhoAndZ_mua1_0.03_mus1_1.2", true);
             }
-            if (Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_nphot_10.00"))
+
+            if (Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_nphot_10"))
             {
-                Directory.Delete("one_layer_ROfRho_FluenceOfRhoAndZ_nphot_10.00", true);
+                Directory.Delete("one_layer_ROfRho_FluenceOfRhoAndZ_nphot_10", true);
             }
-            if (Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_nphot_20.00"))
+
+            if (Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_nphot_20"))
             {
-                Directory.Delete("one_layer_ROfRho_FluenceOfRhoAndZ_nphot_20.00", true);
+                Directory.Delete("one_layer_ROfRho_FluenceOfRhoAndZ_nphot_20", true);
             }
+
             if (Directory.Exists("myResults_mua1_0.01"))
             {
                 Directory.Delete("myResults_mua1_0.01", true);
             }
+
             if (Directory.Exists("myResults_mua1_0.02"))
             {
                 Directory.Delete("myResults_mua1_0.02", true);
             }
+
             if (Directory.Exists("myResults_mua1_0.03"))
             {
                 Directory.Delete("myResults_mua1_0.03", true);
             }
+
             if (Directory.Exists("one_layer_ROfRho_Mus_only"))
             {
                 Directory.Delete("one_layer_ROfRho_Mus_only", true);
@@ -133,6 +162,7 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
                 Assert.IsTrue(File.Exists("infile_" + infile + ".txt"));
             }
         }
+
         /// <summary>
         /// test to verify infiles generated run successfully
         /// </summary>
@@ -141,24 +171,26 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
         {
             foreach (var infile in listOfInfiles)
             {
-                string[] arguments = new string[] { "infile=" + "infile_" + infile + ".txt" };
+                string[] arguments = new string[] {"infile=" + "infile_" + infile + ".txt"};
 
                 var result = Program.Main(arguments);
-                Assert.IsTrue(result==0);
+                Assert.IsTrue(result == 0);
             }
         }
+
         /// <summary>
         /// test to verify correct folder name created for output
         /// </summary>
         [Test]
         public void validate_output_folder_name_when_using_geninfile_infile()
         {
-            string[] arguments = new string[] { "infile=infile_one_layer_ROfRho_FluenceOfRhoAndZ.txt" };
+            string[] arguments = new string[] {"infile=infile_one_layer_ROfRho_FluenceOfRhoAndZ.txt"};
             Program.Main(arguments);
             Assert.IsTrue(Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ"));
             // verify infile gets written to output folder
             Assert.IsTrue(File.Exists("one_layer_ROfRho_FluenceOfRhoAndZ/one_layer_ROfRho_FluenceOfRhoAndZ.txt"));
         }
+
         /// <summary>
         /// test to verify correct parameter sweep folder names created for output
         /// </summary>
@@ -168,13 +200,18 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
             // the following string does not work because it sweeps 0.01, 0.03 due to round
             // off error in MonteCarloSetup
             //string[] arguments = new string[] { "paramsweepdelta=mua1,0.01,0.03,0.01" };
-            string[] arguments = new string[] { "infile=infile_one_layer_ROfRho_FluenceOfRhoAndZ.txt", "paramsweep=mua1,0.01,0.03,3" };
+            string[] arguments = new string[]
+                {"infile=infile_one_layer_ROfRho_FluenceOfRhoAndZ.txt", "paramsweep=mua1,0.01,0.03,3"};
+            // use the following string to check smaller parameter values
+            //string[] arguments = new string[]
+            //    {"infile=infile_one_layer_ROfRho_FluenceOfRhoAndZ.txt", "paramsweep=mus1,0.0001,0.0003,3"};
             Program.Main(arguments);
             // the default infile.txt that is used has OutputName="results"
             Assert.IsTrue(Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_mua1_0.01"));
             Assert.IsTrue(Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_mua1_0.02"));
             Assert.IsTrue(Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_mua1_0.03"));
         }
+
         /// <summary>
         /// test to verify correct parameter sweep folder names created for output when paramsweeplist is used
         /// </summary>
@@ -184,13 +221,15 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
             // the following string does not work because it sweeps 0.01, 0.03 due to round
             // off error in MonteCarloSetup
             //string[] arguments = new string[] { "paramsweepdelta=mua1,0.01,0.03,0.01" };
-            string[] arguments = new string[] { "infile=infile_one_layer_ROfRho_FluenceOfRhoAndZ.txt", "paramsweeplist=mua1,3,0.01,0.02,0.03" };
+            string[] arguments = new string[]
+                {"infile=infile_one_layer_ROfRho_FluenceOfRhoAndZ.txt", "paramsweeplist=mua1,3,0.01,0.02,0.03"};
             Program.Main(arguments);
             // the default infile.txt that is used has OutputName="results"
             Assert.IsTrue(Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_mua1_0.01"));
             Assert.IsTrue(Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_mua1_0.02"));
             Assert.IsTrue(Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_mua1_0.03"));
         }
+
         /// <summary>
         /// test to verify 2D parameter sweep works correctly.
         /// Note, 3D parameter sweeps work correctly too, no unit test yet.
@@ -200,14 +239,16 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
         {
             string[] arguments = new string[]
             {
-                "infile=infile_one_layer_ROfRho_FluenceOfRhoAndZ.txt", "paramsweep=mua1,0.01,0.03,2", "paramsweep=mus1,1.0,1.2,2"
+                "infile=infile_one_layer_ROfRho_FluenceOfRhoAndZ.txt", "paramsweep=mua1,0.01,0.03,2",
+                "paramsweep=mus1,1.0,1.2,2"
             };
             Program.Main(arguments);
-            Assert.IsTrue(Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_mua1_0.01_mus1_1.00"));
-            Assert.IsTrue(Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_mua1_0.03_mus1_1.00"));
-            Assert.IsTrue(Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_mua1_0.01_mus1_1.20"));
-            Assert.IsTrue(Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_mua1_0.03_mus1_1.20"));
+            Assert.IsTrue(Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_mua1_0.01_mus1_1"));
+            Assert.IsTrue(Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_mua1_0.03_mus1_1"));
+            Assert.IsTrue(Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_mua1_0.01_mus1_1.2"));
+            Assert.IsTrue(Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_mua1_0.03_mus1_1.2"));
         }
+
         /// <summary>
         /// test to verify N sweep
         /// </summary>
@@ -219,9 +260,10 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
                 "infile=infile_one_layer_ROfRho_FluenceOfRhoAndZ.txt", "paramsweep=nphot,10,20,2"
             };
             Program.Main(arguments);
-            Assert.IsTrue(Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_nphot_10.00"));
-            Assert.IsTrue(Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_nphot_20.00"));
+            Assert.IsTrue(Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_nphot_10"));
+            Assert.IsTrue(Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_nphot_20"));
         }
+
         /// <summary>
         /// test to verify correct parameter sweep folder names created for output
         /// </summary>
@@ -229,7 +271,11 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
         public void validate_parameter_sweep_folder_names_when_specifying_outname()
         {
             // have to break up arg. strings, otherwise outname taken to be "myResults paramsweep..."
-            string[] arguments = new string[] { "infile=infile_one_layer_ROfRho_FluenceOfRhoAndZ.txt", "outname=myResults", "paramsweep=mua1,0.01,0.03,3" };
+            string[] arguments = new string[]
+            {
+                "infile=infile_one_layer_ROfRho_FluenceOfRhoAndZ.txt", "outname=myResults",
+                "paramsweep=mua1,0.01,0.03,3"
+            };
             Program.Main(arguments);
             // the default infile.txt that is used has OutputName="results" 
             // so following tests verify that that name got overwritten
@@ -237,6 +283,7 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
             Assert.IsTrue(Directory.Exists("myResults_mua1_0.02"));
             Assert.IsTrue(Directory.Exists("myResults_mua1_0.03"));
         }
+
         /// <summary>
         /// test to verify database gets generated for post-processing
         /// </summary>
@@ -245,7 +292,7 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
         public void validate_database_generation()
         {
             // have to break up arg. strings, otherwise outname taken to be "myResults paramsweep..."
-            string[] arguments = new string[] { "infile=infile_pMC_one_layer_ROfRho_DAW.txt" };
+            string[] arguments = new string[] {"infile=infile_pMC_one_layer_ROfRho_DAW.txt"};
             Program.Main(arguments);
             Assert.IsTrue(Directory.Exists("pMC_one_layer_ROfRho_DAW"));
             Assert.IsTrue(File.Exists("pMC_one_layer_ROfRho_DAW/DiffuseReflectanceDatabase"));
@@ -253,6 +300,7 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
             Assert.IsTrue(File.Exists("pMC_one_layer_ROfRho_DAW/CollisionInfoDatabase"));
             Assert.IsTrue(File.Exists("pMC_one_layer_ROfRho_DAW/CollisionInfoDatabase.txt"));
         }
+
         /// <summary>
         /// Test to verify that change (Jan 2019) to deserialization of infile to handle specification of
         /// 1) Mus only (no Musp)
@@ -265,12 +313,13 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
             var name = Assembly.GetExecutingAssembly().FullName;
             var assemblyName = new AssemblyName(name).Name;
             FileIO.CopyFileFromEmbeddedResources(
-                assemblyName + ".Resources.infile_unit_test_one_layer_ROfRho_Mus_only.txt", 
+                assemblyName + ".Resources.infile_unit_test_one_layer_ROfRho_Mus_only.txt",
                 "infile_unit_test_one_layer_ROfRho_Mus_only.txt", name);
-            string[] arguments = new string[] { "infile=infile_unit_test_one_layer_ROfRho_Mus_only.txt" };
+            string[] arguments = new string[] {"infile=infile_unit_test_one_layer_ROfRho_Mus_only.txt"};
             Program.Main(arguments);
             Assert.IsTrue(Directory.Exists("unit_test_one_layer_ROfRho_Mus_only"));
         }
+
         [Test]
         public void validate_deserialization_of_infile_for_Musp_only_specification()
         {
@@ -279,10 +328,11 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
             FileIO.CopyFileFromEmbeddedResources(
                 assemblyName + ".Resources.infile_unit_test_one_layer_ROfRho_Musp_only.txt",
                 "infile_unit_test_one_layer_ROfRho_Musp_only.txt", name);
-            string[] arguments = new string[] { "infile=infile_unit_test_one_layer_ROfRho_Musp_only.txt" };
+            string[] arguments = new string[] {"infile=infile_unit_test_one_layer_ROfRho_Musp_only.txt"};
             Program.Main(arguments);
             Assert.IsTrue(Directory.Exists("unit_test_one_layer_ROfRho_Musp_only"));
         }
+
         [Test]
         public void validate_deserialization_of_infile_for_Mus_and_Musp_inconsistent_specification()
         {
@@ -291,7 +341,8 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
             FileIO.CopyFileFromEmbeddedResources(
                 assemblyName + ".Resources.infile_unit_test_one_layer_ROfRho_Musp_and_Mus_inconsistent.txt",
                 "infile_unit_test_one_layer_ROfRho_Musp_and_Mus_inconsistent.txt", name);
-            string[] arguments = new string[] { "infile=infile_unit_test_one_layer_ROfRho_Musp_and_Mus_inconsistent.txt" };
+            string[] arguments = new string[]
+                {"infile=infile_unit_test_one_layer_ROfRho_Musp_and_Mus_inconsistent.txt"};
             Program.Main(arguments);
             Assert.IsTrue(Directory.Exists("unit_test_one_layer_ROfRho_Musp_and_Mus_inconsistent"));
             var writtenInfile = SimulationInput.FromFile(
@@ -301,5 +352,20 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
             // the following test verifies that Mus was modified accordingly
             Assert.Less(Math.Abs(writtenInfile.TissueInput.Regions[1].RegionOP.Mus - 6.0), 1e-6);
         }
+        // removed because not a good way to text whether MCCL is taking longer to execute.
+        ///// <summary>
+        ///// Test to keep an eye on if the MC execution time is growing.
+        ///// First test simple infile with 
+        ///// </summary>
+        //[Test]
+        //public void verify_timing_of_execution()
+        //{
+        //    string[] arguments = new string[] { "infile=infile_infinite_cylinder_ROfRho_FluenceOfRhoAndZ.txt" };
+        //    Stopwatch stopwatch = Stopwatch.StartNew();
+        //    Program.Main(arguments);
+        //    stopwatch.Stop();
+        //    // verify infile gets written to output folder
+        //    Assert.Less(stopwatch.ElapsedMilliseconds, 9000);
+        //}
     }
 }

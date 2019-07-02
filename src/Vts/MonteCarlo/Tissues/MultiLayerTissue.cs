@@ -48,8 +48,8 @@ namespace Vts.MonteCarlo.Tissues
         public ITissueRegion[] Regions { get { return _regions; } set { _regions = value; } }
 
         /// <summary>
-        ///// Required factory method to create the corresponding 
-        ///// ITissue based on the ITissueInput data
+        /// Required factory method to create the corresponding 
+        /// ITissue based on the ITissueInput data
         /// </summary>
         /// <param name="awt">Absorption Weighting Type</param>
         /// <param name="pft">Phase Function Type</param>
@@ -100,7 +100,7 @@ namespace Vts.MonteCarlo.Tissues
         /// </summary>
         /// <param name="position"></param>
         /// <returns></returns>
-        public int GetRegionIndex(Position position)
+        public virtual int GetRegionIndex(Position position)
         {
             // use ITissueRegion interface method ContainsPosition for LayerTissueRegion to determine
             // which region photon resides
@@ -120,7 +120,7 @@ namespace Vts.MonteCarlo.Tissues
         /// Finds the distance to the next boundary and independent of hitting it
         /// </summary>
         /// <param name="photon"></param>
-        public double GetDistanceToBoundary(Photon photon)
+        public virtual double GetDistanceToBoundary(Photon photon)
         {
             if (photon.DP.Direction.Uz == 0.0)
             {
@@ -153,7 +153,7 @@ namespace Vts.MonteCarlo.Tissues
         /// </summary>
         /// <param name="position">photon position</param>
         /// <returns></returns>
-        public bool OnDomainBoundary(Position position)
+        public virtual bool OnDomainBoundary(Position position)
         {
             // this code assumes that the first and last layer is air
             return 
@@ -165,7 +165,7 @@ namespace Vts.MonteCarlo.Tissues
         /// </summary>
         /// <param name="photon">photon info including position and direction</param>
         /// <returns>region index</returns>
-        public int GetNeighborRegionIndex(Photon photon)
+        public virtual int GetNeighborRegionIndex(Photon photon)
         {
             if (photon.DP.Direction.Uz == 0.0)
             {
@@ -199,7 +199,7 @@ namespace Vts.MonteCarlo.Tissues
         /// <param name="positionCurrent"></param>
         /// <param name="directionCurrent"></param>
         /// <returns></returns>
-        public Direction GetReflectedDirection(
+        public virtual Direction GetReflectedDirection(
             Position positionCurrent, 
             Direction directionCurrent)
         {
@@ -217,7 +217,7 @@ namespace Vts.MonteCarlo.Tissues
         /// <param name="nNext">refractive index of next region</param>
         /// <param name="cosThetaSnell">cos(theta) resulting from Snell's law</param>
         /// <returns>direction</returns>
-        public Direction GetRefractedDirection(
+        public virtual Direction GetRefractedDirection(
             Position positionCurrent, 
             Direction directionCurrent, 
             double nCurrent, 

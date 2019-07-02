@@ -107,7 +107,8 @@ namespace Vts.MonteCarlo.CommandLineApplication
                         start = double.Parse(parameterSweepString[1]);
                         stop = double.Parse(parameterSweepString[2]);
                         delta = double.Parse(parameterSweepString[3]);
-                        sweepRange = new DoubleRange(start, stop, (int)((stop - start) / delta) + 1);
+                        // use Math.Round to make sure floating point precision doesn't reduce/increase count
+                        sweepRange = new DoubleRange(start, stop, (int)(Math.Round((stop - start) / delta)) + 1);
                         return new ParameterSweep(inputParameterType, sweepRange);
                     case ParameterSweepType.Count: 
                         // eg. paramsweep=mua1,-4.0,4.0,101 paramsweep=mus1,0.5,1.5,3 paramsweep=mus2,0.5,1.5,3 ...
