@@ -143,12 +143,6 @@ namespace Vts.MonteCarlo.PostProcessor
                     postProcessedOutput = postProcessor.Run();
                 }
 
-                var folderPath = input.OutputName;
-                if (!Directory.Exists(folderPath))
-                {
-                    Directory.CreateDirectory(folderPath);
-                }                    
-
                 // save input file to output folder with results
                 input.ToFile(Path.Combine(resultsFolder, input.OutputName + ".txt"));
 
@@ -161,7 +155,7 @@ namespace Vts.MonteCarlo.PostProcessor
                     foreach (var result in postProcessedOutput.ResultsDictionary.Values)
                     {
                         // save all detector data to the specified folder
-                        DetectorIO.WriteDetectorToFile(result, folderPath);
+                        DetectorIO.WriteDetectorToFile(result, resultsFolder);
                     }
                 }
             }
