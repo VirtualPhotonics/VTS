@@ -22,7 +22,7 @@ namespace Vts.MonteCarlo.PostProcessor.Test
         List<string> listOfMCCLInfiles = new List<string>()
         {
             "ellip_FluenceOfRhoAndZ",
-            "infinite_cylinder_ROfRho_FluenceOfRhoAndZ",
+            "infinite_cylinder_ROfXAndY_FluenceOfXAndYAndZ",
             "embeddedDirectionalCircularSourceEllipTissue",
             "Flat_2D_source_one_layer_ROfRho",
             "Gaussian_2D_source_one_layer_ROfRho",
@@ -36,6 +36,7 @@ namespace Vts.MonteCarlo.PostProcessor.Test
             "two_layer_ROfRho",
             "two_layer_ROfRho_with_db",
             "voxel_ROfXAndY_FluenceOfXAndYAndZ",
+            "fluorescenceEmissionAOfXAndYAndZSourceInfiniteCylinder",
         };
 
         /// <summary>

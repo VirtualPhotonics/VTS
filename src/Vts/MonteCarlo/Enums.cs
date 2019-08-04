@@ -247,6 +247,9 @@ namespace Vts.MonteCarlo
                 // 3D Ellipsoidal volume sources: custom
                 "CustomVolumetricEllipsoidal",
 
+                // Fluorescence Emission Volume Sources
+                "FluorescenceEmissionAOfXAndYAndZ",
+
                 // ...others, based on Fluence or Radiance?                  
             };
     }
