@@ -303,6 +303,9 @@
     <Compile Include="..\Vts.Test\MonteCarlo\Rng\SerializableMersenneTwisterTests.cs">
       <Link>MonteCarlo\Rng\SerializableMersenneTwisterTests.cs</Link>
     </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Sources\FluorescenceEmissionSourcesTests.cs">
+      <Link>MonteCarlo\Sources\FluorescenceEmissionSourcesTests.cs</Link>
+    </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\Sources\LineSourcesTests.cs">
       <Link>MonteCarlo\Sources\LineSourcesTests.cs</Link>
     </Compile>
