@@ -16,31 +16,21 @@ namespace Vts.MonteCarlo.Sources
         /// </summary>
         /// <param name="inputFolder">Folder where AOfXAndYAndZ resides</param>
         /// <param name="infile">Infile for simulation that generated AOfXAndYAndZ</param>
-        /// <param name="detectorName">Name of AOfXAndYAndZ detector binary (default=AOfXAndYAndZ)</param>
         /// <param name="initialTissueRegionIndex">Tissue region of fluorescence</param>
         public FluorescenceEmissionAOfXAndYAndZSourceInput(
-            string inputFolder, string infile, string detectorName, int initialTissueRegionIndex)
+            string inputFolder, string infile, int initialTissueRegionIndex)
         {
             SourceType = "FluorescenceEmissionAOfXAndYAndZ";
             InputFolder = inputFolder;
             Infile = infile;
-            DetectorName = detectorName;
             InitialTissueRegionIndex = initialTissueRegionIndex;
         }
-
-        /// <summary>
-        /// Initializes a new instance of FluorescenceEmissionAOfXAndYAndZSourceInput class
-        /// </summary>
-        /// <param name="inputFolder">Folder where AOfXAndYAndZ resides</param>
-        /// <param name="infile">infile of simulation that generated AOfXAndYAndZ </param>
-        public FluorescenceEmissionAOfXAndYAndZSourceInput(string inputFolder, string infile, int initialTissueRegionIndex)
-            : this(inputFolder, infile, "AOfXAndYAndZ", initialTissueRegionIndex) { }
 
         /// <summary>
         /// Initializes the default constructor of FluorescenceEmissionAOfXAndYAndZSourceInput class
         /// </summary>
         public FluorescenceEmissionAOfXAndYAndZSourceInput()
-            : this("", "", "AOfXandYAndZ", 0) { }
+            : this("", "",  0) { }
 
         /// <summary>
         ///  fluorescence emission source type
@@ -54,10 +44,6 @@ namespace Vts.MonteCarlo.Sources
         /// Infile that generated AOfXAndYAndZ
         /// </summary>
         public string Infile { get; set; }
-        /// <summary>
-        /// Name of detector binary, default=AOfXAndYAndZ
-        /// </summary>
-        public string DetectorName { get; set; }
         /// <summary>
         /// Initial tissue region index = tissue region index of fluorescence
         /// </summary>
@@ -75,7 +61,6 @@ namespace Vts.MonteCarlo.Sources
             return new FluorescenceEmissionAOfXAndYAndZSource(
                 this.InputFolder,
                 this.Infile,
-                this.DetectorName,
                 this.InitialTissueRegionIndex) { Rng = rng };
         }
     }
@@ -86,8 +71,11 @@ namespace Vts.MonteCarlo.Sources
     /// </summary>
     public class FluorescenceEmissionAOfXAndYAndZSource : FluorescenceEmissionSourceBase
     {
-        private static AOfXAndYAndZLoader _aOfXAndYAndZLoader;
-
+        /// <summary>
+        /// class that holds all Source arrays for proper initiation
+        /// </summary>
+        public AOfXAndYAndZLoader Loader { get; set; }
+ 
         /// <summary>
         /// Returns an instance of  Fluorescence Emission AOfXAndYAndZ Source with
         /// a Lambertian angular distribution.
@@ -96,39 +84,35 @@ namespace Vts.MonteCarlo.Sources
         public FluorescenceEmissionAOfXAndYAndZSource(
             string inputFolder,
             string infile,
-            string detectorName,
             int initialTissueRegionIndex)
             : base(
                 inputFolder,
                 infile,
-                detectorName,
                 initialTissueRegionIndex)
         {
-            _aOfXAndYAndZLoader = new AOfXAndYAndZLoader(inputFolder, infile, detectorName, initialTissueRegionIndex);
+            Loader = new AOfXAndYAndZLoader(inputFolder, infile, initialTissueRegionIndex);
         }
 
-        protected override Position GetFinalPosition(ITissue tissue, int initialTissueRegionIndex, Random rng)
+        protected override Position GetFinalPosition(Random rng)
         {
             Position finalPosition = null;
             // determine position from CDF determined in AOfXAndYAndZLoader
+            // due to ordering of indices CDF will be increasing with each increment
             double rho = rng.NextDouble();
-            for (int i = 0; i < _aOfXAndYAndZLoader.X.Count - 1; i++)
+            for (int i = 0; i < Loader.X.Count - 1; i++)
             {
-                double xMidpoint = _aOfXAndYAndZLoader.X.Start + i * _aOfXAndYAndZLoader.X.Delta;
-                for (int j = 0; j < _aOfXAndYAndZLoader.Y.Count - 1; j++)
+                for (int j = 0; j < Loader.Y.Count - 1; j++)
                 {
-                    double yMidpoint = _aOfXAndYAndZLoader.X.Start + j * _aOfXAndYAndZLoader.Y.Delta;
-                    for (int k = 0; k < _aOfXAndYAndZLoader.Z.Count - 1; k++)
+                    for (int k = 0; k < Loader.Z.Count - 1; k++)
                     {
-
-                        double zMidpoint = _aOfXAndYAndZLoader.Z.Start + k * _aOfXAndYAndZLoader.Z.Delta;
-                        if (_aOfXAndYAndZLoader.MapOfXAndYAndZ[i, j, k] == 1)
+                        if (Loader.MapOfXAndYAndZ[i, j, k] == 1)
                         {
-                            if (rho > _aOfXAndYAndZLoader.CDFOfXAndYAndZ[i, j, k])
+                            if (rho < Loader.CDFOfXAndYAndZ[i, j, k]) 
                             {
-                                finalPosition.X = xMidpoint;
-                                finalPosition.Y = yMidpoint;
-                                finalPosition.Z = zMidpoint;
+                                double xMidpoint = Loader.X.Start + i * Loader.X.Delta + Loader.X.Delta / 2;
+                                double yMidpoint = Loader.Y.Start + j * Loader.Y.Delta + Loader.Y.Delta / 2;
+                                double zMidpoint = Loader.Z.Start + k * Loader.Z.Delta + Loader.Z.Delta / 2;
+                                return new Position(xMidpoint, yMidpoint, zMidpoint);
                             }
                         }
                     }

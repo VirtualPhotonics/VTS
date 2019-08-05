@@ -13,16 +13,10 @@ namespace Vts.MonteCarlo.Sources
         /// Input folder where AE(x,y,z) resides
         /// </summary>
         protected string _inputFolder;
-
         /// <summary>
         /// Infile that generated AOfXAndYAndZ
         /// </summary>
-        protected string _infile;
-
-        /// <summary>
-        /// Name of detector binary, default=AOfXAndYAndZ
-        /// </summary>
-        protected string _detectorName;
+        protected string _infile;        
         /// <summary>
         /// Initial tissue region index = tissue region of fluorescence
         /// </summary>
@@ -32,12 +26,11 @@ namespace Vts.MonteCarlo.Sources
         /// Defines FluorescenceEmissionSourceBase class
         /// </summary>
         /// <param name="initialTissueRegionIndex">fluorescence tissue region index</param>
-        protected FluorescenceEmissionSourceBase(string inputFolder, string infile, string detectorName,
+        protected FluorescenceEmissionSourceBase(string inputFolder, string infile,
             int fluorescenceTissueRegionIndex)
         {
             _inputFolder = inputFolder;
             _infile = infile;
-            _detectorName = detectorName;
             _initialTissueRegionIndex = fluorescenceTissueRegionIndex;
         }
 
@@ -49,7 +42,7 @@ namespace Vts.MonteCarlo.Sources
         public Photon GetNextPhoton(ITissue tissue)
         {
             //Source starts from anywhere in the tissue region of fluorescence
-            Position finalPosition = GetFinalPosition(tissue, _initialTissueRegionIndex, Rng);
+            Position finalPosition = GetFinalPosition(Rng);
 
             Direction finalDirection = GetFinalDirection(Rng);
 
@@ -73,7 +66,7 @@ namespace Vts.MonteCarlo.Sources
         /// each inheritor generates own GetFinalPosition
         /// </summary>
         /// <returns></returns>
-        protected abstract Position GetFinalPosition(ITissue tissue, int initialTissueRegionIndex, Random rng);
+        protected abstract Position GetFinalPosition(Random rng);
 
         #region Random number generator code (copy-paste into all sources)
         /// <summary>

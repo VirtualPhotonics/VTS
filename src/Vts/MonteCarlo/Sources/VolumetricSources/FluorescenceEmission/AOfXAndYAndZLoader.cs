@@ -1,4 +1,4 @@
-using System.Linq;
+using System;
 using Vts.Common;
 using Vts.MonteCarlo.Detectors;
 using Vts.MonteCarlo.IO;
@@ -42,47 +42,57 @@ namespace Vts.MonteCarlo.Sources
         /// CDF of fluorescent tissue region first index=row dominant index of MapOfXAndYAndZ
         /// </summary>
         public double[,,] CDFOfXAndYAndZ { get; set; }
+        /// <summary>
+        /// tissue region of fluorescence
+        /// </summary>
+        public ITissueRegion FluorescentTissueRegion;
 
         /// <summary>
         /// constructor that load excitation simulation AOfXAndYAndZ
         /// </summary>
-        public AOfXAndYAndZLoader(string inputFolder, string infile, string detectorName,
-            int fluorescentTissueRegionIndex)
+        public AOfXAndYAndZLoader(string inputFolder, string infile, int fluorescentTissueRegionIndex)
         {
-            InitializeFluorescentRegionArrays(inputFolder, infile, detectorName, fluorescentTissueRegionIndex);
+            if (inputFolder != "")
+            {
+                var aOfXAndYAndZDetector = (AOfXAndYAndZDetector) DetectorIO.ReadDetectorFromFile(
+                    "AOfXAndYAndZ", inputFolder);
+                // use DoubleRange X,Y,Z to match detector dimensions
+                X = ((AOfXAndYAndZDetector) aOfXAndYAndZDetector).X;
+                Y = ((AOfXAndYAndZDetector) aOfXAndYAndZDetector).Y;
+                Z = ((AOfXAndYAndZDetector) aOfXAndYAndZDetector).Z;
+                AOfXAndYAndZ = ((AOfXAndYAndZDetector) aOfXAndYAndZDetector).Mean;
+
+                var exciteInfile = SimulationInput.FromFile(inputFolder + "/" + infile);
+                FluorescentTissueRegion = exciteInfile.TissueInput.Regions[fluorescentTissueRegionIndex];
+
+                // separate setup of arrays so can unit test method
+                InitializeFluorescentRegionArrays();
+            }
+            //else
+            //{
+            //    throw new ArgumentException("inputFolder string is empty");
+            //}
         }
 
-        private void InitializeFluorescentRegionArrays(string inputFolder, string infile, string detectorName,
-            int fluorescentTissueRegionIndex)
-        {
-            var aOfXAndYAndZDetector = (AOfXAndYAndZDetector)DetectorIO.ReadDetectorFromFile(
-                "AOfXAndYAndZ",
-                inputFolder + "/" + detectorName);
-            // use DoubleRange X,Y,Z to match detector dimensions
-            X = ((AOfXAndYAndZDetector)aOfXAndYAndZDetector).X;
-            Y = ((AOfXAndYAndZDetector)aOfXAndYAndZDetector).Y;
-            Z = ((AOfXAndYAndZDetector)aOfXAndYAndZDetector).Z;
-            AOfXAndYAndZ = ((AOfXAndYAndZDetector)aOfXAndYAndZDetector).Mean;
-
+        public void InitializeFluorescentRegionArrays()
+        {     
             MapOfXAndYAndZ = new int[X.Count - 1, Y.Count - 1, Z.Count - 1];
             PDFOfXAndYAndZ = new double[X.Count - 1, Y.Count - 1, Z.Count - 1];
-
-            var exciteInfile = SimulationInput.FromFile(inputFolder + "/" + infile);
-            var fluorescentTissueRegion = exciteInfile.TissueInput.Regions[fluorescentTissueRegionIndex];
+            CDFOfXAndYAndZ = new double[X.Count - 1, Y.Count - 1, Z.Count - 1];
 
             // the following algorithm assumes that if the midpoint of the voxel is inside the 
             // fluorescent tissue region, then it is part of emission
             TotalProb = 0.0;
             for (int i = 0; i < X.Count - 1; i++)
             {
-                double xMidpoint = X.Start + i * X.Delta;
+                double xMidpoint = X.Start + i * X.Delta + X.Delta / 2;
                 for (int j = 0; j < Y.Count - 1; j++)
                 {
-                    var yMidpoint = Y.Start + j * Y.Delta;
+                    var yMidpoint = Y.Start + j * Y.Delta + Y.Delta / 2;
                     for (int k = 0; k < Z.Count - 1; k++)
                     {
-                        var zMidpoint = Z.Start + k * Z.Delta;
-                        bool inFluorescentTissue = fluorescentTissueRegion.ContainsPosition(
+                        var zMidpoint = Z.Start + k * Z.Delta + Z.Delta / 2;
+                        bool inFluorescentTissue = FluorescentTissueRegion.ContainsPosition(
                             new Position(xMidpoint, yMidpoint, zMidpoint));
                         // default values of numeric array elements are set to 0 so no else needed
                         if (inFluorescentTissue)
@@ -90,6 +100,7 @@ namespace Vts.MonteCarlo.Sources
                             MapOfXAndYAndZ[i, j, k] = 1;
                             PDFOfXAndYAndZ[i, j, k] = AOfXAndYAndZ[i, j, k];
                             TotalProb += AOfXAndYAndZ[i, j, k];
+                            CDFOfXAndYAndZ[i, j, k] += TotalProb;
                         }
                     }
                 }
@@ -104,7 +115,7 @@ namespace Vts.MonteCarlo.Sources
                         if (MapOfXAndYAndZ[i, j, k] == 1)
                         {
                             PDFOfXAndYAndZ[i, j, k] /= TotalProb;
-                            CDFOfXAndYAndZ[i, j, k] += PDFOfXAndYAndZ[i, j, k];
+                            CDFOfXAndYAndZ[i, j, k] /= TotalProb;
                         }                    
                     }
                 }
