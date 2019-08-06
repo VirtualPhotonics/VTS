@@ -28,7 +28,7 @@ namespace Vts.MonteCarlo
                 PointSourceTwoLayerTissueROfRhoDetector(),
                 PointSourceTwoLayerTissueROfRhoDetectorWithPhotonDatabase(),
                 PointSourceSingleEllipsoidTissueFluenceOfRhoAndZDetector(),
-                PointSourceSingleInfiniteCylinderTissueROfRhoAndFluenceOfRhoAndZDetector(),
+                PointSourceSingleInfiniteCylinderTissueAOfXAndYAndZDetector(),
                 pMCPointSourceOneLayerTissueROfRhoDAW(),
                 Gaussian2DSourceOneLayerTissueROfRhoDetector(),
                 Flat2DSourceOneLayerTissueROfRhoDetector(),
@@ -365,15 +365,15 @@ namespace Vts.MonteCarlo
         }
         #endregion
 
-        #region point source single infinite cylinder Fluence(rho,z)
+        #region point source single infinite cylinder A(x,y,z)
         /// <summary>
-        /// Point source, single infinite cylinder tissue definition, only FluenceOfRhoAndZ detector included
+        /// Point source, single infinite cylinder tissue definition, only AOfXAndYAndZ detector included
         /// </summary>
-        public static SimulationInput PointSourceSingleInfiniteCylinderTissueROfRhoAndFluenceOfRhoAndZDetector()
+        public static SimulationInput PointSourceSingleInfiniteCylinderTissueAOfXAndYAndZDetector()
         {
             return new SimulationInput(
                 100,
-                "infinite_cylinder_ROfRho_FluenceOfRhoAndZ",
+                "infinite_cylinder_AOfRhoAndZ",
                 new SimulationOptions(
                     0, // random number generator seed, -1=random seed, 0=fixed seed
                     RandomNumberGeneratorType.MersenneTwister,
@@ -408,8 +408,10 @@ namespace Vts.MonteCarlo
                 ),
                 new List<IDetectorInput>()
                 {
-                    new ROfRhoDetectorInput() { Rho =new DoubleRange(0.0, 10, 101)},
-                    new FluenceOfRhoAndZDetectorInput(){Rho=new DoubleRange(0.0, 10, 101),Z= new DoubleRange(0.0, 10, 101)}
+                    new AOfXAndYAndZDetectorInput(){
+                        X =new DoubleRange(-10, 10, 201),
+                        Y =new DoubleRange(-10, 10, 2),
+                        Z =new DoubleRange(0, 10, 101)},
                 }
             );
         }
