@@ -16,22 +16,21 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
         // that unit tests clean up after themselves.
         List<string> listOfInfiles = new List<string>()
         {
-            //"ellip_FluenceOfRhoAndZ", !FIX!!!
-            //"infinite_cylinder_ROfXAndY_FluenceOfXAndYAndZ",
-            //"embeddedDirectionalCircularSourceEllipTissue",
-            //"Flat_2D_source_one_layer_ROfRho",
-            //"Gaussian_2D_source_one_layer_ROfRho",
-            //"Gaussian_line_source_one_layer_ROfRho",
-            //"one_layer_all_detectors",
-            //"one_layer_FluenceOfRhoAndZ_RadianceOfRhoAndZAndAngle",
-            //"one_layer_ROfRho_FluenceOfRhoAndZ",
-            //"pMC_one_layer_ROfRho_DAW",
-            //"three_layer_ReflectedTimeOfRhoAndSubregionHist",
-            //"two_layer_momentum_transfer_detectors",
-            //"two_layer_ROfRho",
-            //"two_layer_ROfRho_with_db",
-            //"voxel_ROfXAndY_FluenceOfXAndYAndZ",
-            "fluorescenceEmissionAOfXAndYAndZSourceInfiniteCylinder",
+            "ellip_FluenceOfRhoAndZ",
+            "infinite_cylinder_ROfRho_FluenceOfRhoAndZ",
+            "embeddedDirectionalCircularSourceEllipTissue",
+            "Flat_2D_source_one_layer_ROfRho",
+            "Gaussian_2D_source_one_layer_ROfRho",
+            "Gaussian_line_source_one_layer_ROfRho",
+            "one_layer_all_detectors",
+            "one_layer_FluenceOfRhoAndZ_RadianceOfRhoAndZAndAngle",
+            "one_layer_ROfRho_FluenceOfRhoAndZ",
+            "pMC_one_layer_ROfRho_DAW",
+            "three_layer_ReflectedTimeOfRhoAndSubregionHist",
+            "two_layer_momentum_transfer_detectors",
+            "two_layer_ROfRho",
+            "two_layer_ROfRho_with_db",
+            "voxel_ROfXAndY_FluenceOfXAndYAndZ",
         };
 
         private List<string> listOfInfilesInResources = new List<string>()
