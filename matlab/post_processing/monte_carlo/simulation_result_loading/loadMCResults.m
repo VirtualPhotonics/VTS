@@ -760,6 +760,7 @@ for di = 1:numDetectors
             ReflectedDynamicMTOfXAndYAndSubregionHist.Name = detector.Name;
             tempX = detector.X;
             tempY = detector.Y;
+            tempZ = detector.Z;
             tempMTBins = detector.MTBins;              
             tempFractionalMTBinsLength = detector.FractionalMTBins.Count+1; % +1 due to addition of =0,=1 bins
             if (postProcessorResults)        
@@ -825,6 +826,7 @@ for di = 1:numDetectors
         case 'TransmittedDynamicMTOfRhoAndSubregionHist'
             TransmittedDynamicMTOfRhoAndSubregionHist.Name = detector.Name;
             tempRho = detector.Rho;
+            tempZ = detector.Z;
             tempMTBins = detector.MTBins;
             tempFractionalMTBinsLength = detector.FractionalMTBins.Count+1; % +1 due to addition of =0,=1 bins
             if (postProcessorResults)        
@@ -885,6 +887,7 @@ for di = 1:numDetectors
             TransmittedDynamicMTOfXAndYAndSubregionHist.Name = detector.Name;
             tempX = detector.X;
             tempY = detector.Y;
+            tempZ = detector.Z;
             tempMTBins = detector.MTBins;
             tempFractionalMTBinsLength = detector.FractionalMTBins.Count+1; % +1 due to addition of =0,=1 bins
             if (postProcessorResults)        
