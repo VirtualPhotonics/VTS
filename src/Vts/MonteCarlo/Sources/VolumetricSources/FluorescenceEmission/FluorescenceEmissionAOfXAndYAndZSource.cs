@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using Vts.Common;
 
 namespace Vts.MonteCarlo.Sources

@@ -32,7 +32,7 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
             "two_layer_ROfRho_with_db",
             "voxel_ROfXAndY_FluenceOfXAndYAndZ",
         };
-        private List<string> listOfInfileThatRequireExistingResultsToRun = new List<string>()
+        private List<string> listOfInfilesThatRequireExistingResultsToRun = new List<string>()
         {
             "fluorescenceEmissionAOfXAndYAndZSourceInfiniteCylinder",
         };
@@ -75,7 +75,7 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
                     Directory.Delete(infile, true);
                 }
             }
-            foreach (var infile in listOfInfileThatRequireExistingResultsToRun)
+            foreach (var infile in listOfInfilesThatRequireExistingResultsToRun)
             {
                 if (File.Exists("infile_" + infile + ".txt"))
                 {

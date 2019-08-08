@@ -37,7 +37,7 @@ namespace Vts.MonteCarlo
                 PointSourceSingleVoxelTissueROfXAndYAndFluenceOfXAndYAndZDetector(),
                 PointSourceThreeLayerReflectedTimeOfRhoAndSubregionHistDetector(),
                 EmbeddedDirectionalCircularSourceEllipTissueFluenceOfXAndYAndZ(),
-                FluorescenceEmissionAOfXAndYAndZSourceSingleInfiniteCylinderTissueROfXAndYDetector()
+                FluorescenceEmissionAOfXAndYAndZSourceInfiniteCylinder()
             };
         }
 
@@ -85,7 +85,7 @@ namespace Vts.MonteCarlo
                     new ATotalDetectorInput(),      
                     new FluenceOfRhoAndZAndTimeDetectorInput(){Rho=new DoubleRange(0.0, 10, 101),Z=new DoubleRange(0.0, 10, 101),Time= new DoubleRange(0.0, 10, 101)},              
                     new FluenceOfRhoAndZDetectorInput() {Rho=new DoubleRange(0.0, 10, 101),Z=new DoubleRange(0.0, 10, 101)},
-                    new ROfXAndYDetectorInput() {X=new DoubleRange(-100.0, 100.0, 21), Y= new DoubleRange(-100.0, 100.0, 21)},
+                    new FluenceOfXAndYAndZDetectorInput(){X=new DoubleRange(-10, 10, 201),Y=new DoubleRange(-10, 10, 2),Z=new DoubleRange(0, 10, 101)},
                     new FluenceOfXAndYAndZAndOmegaDetectorInput(){X=new DoubleRange(-10, 10, 201),Y=new DoubleRange(-10, 10, 2),Z=new DoubleRange(0, 10, 101),Omega=new DoubleRange(0.0, 1, 21)},
                     new FluenceOfRhoAndZAndOmegaDetectorInput(){Rho=new DoubleRange(0, 10, 101),Z=new DoubleRange(0, 10, 101),Omega=new DoubleRange(0.0, 1, 21)},
                     new FluenceOfFxAndZDetectorInput(){Fx=new DoubleRange(0, 0.5, 51),Z=new DoubleRange(0, 10, 101)},
@@ -368,7 +368,7 @@ namespace Vts.MonteCarlo
 
         #region point source single infinite cylinder A(x,y,z)
         /// <summary>
-        /// Point source, single infinite cylinder tissue definition, ROfXAndY, AOfXAndYAndZ detectors included
+        /// Point source, single infinite cylinder tissue definition, only AOfXAndYAndZ detector included
         /// </summary>
         public static SimulationInput PointSourceSingleInfiniteCylinderTissueAOfXAndYAndZDetector()
         {
@@ -408,9 +408,11 @@ namespace Vts.MonteCarlo
                     }
                 ),
                 new List<IDetectorInput>()
-                {  // if excitation, make A(x,y,z) tight around cylinder, leave buffer of edge bins
-                    new AOfXAndYAndZDetectorInput(){X=new DoubleRange(-2, 2, 41),
-                        Y=new DoubleRange(-10, 10, 2), Z= new DoubleRange(0, 3, 31)}
+                {
+                    new AOfXAndYAndZDetectorInput(){
+                        X =new DoubleRange(-10, 10, 201),
+                        Y =new DoubleRange(-10, 10, 2),
+                        Z =new DoubleRange(0, 10, 101)}
                 }
             );
         }
@@ -891,8 +893,7 @@ namespace Vts.MonteCarlo
         #region fluorescence emission source based on AOfXAndYAndZ of prior simulation this pairs 
         /// <summary>
         /// </summary>
-        public static SimulationInput
-         FluorescenceEmissionAOfXAndYAndZSourceSingleInfiniteCylinderTissueROfXAndYDetector()
+        public static SimulationInput FluorescenceEmissionAOfXAndYAndZSourceInfiniteCylinder()
         {
             return new SimulationInput(
                 100,
@@ -939,6 +940,5 @@ namespace Vts.MonteCarlo
             );
         }
         #endregion
-
     }
 }
