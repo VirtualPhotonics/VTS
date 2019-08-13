@@ -111,6 +111,10 @@ namespace Vts.MonteCarlo.Sources
                                 double xMidpoint = Loader.X.Start + i * Loader.X.Delta + Loader.X.Delta / 2;
                                 double yMidpoint = Loader.Y.Start + j * Loader.Y.Delta + Loader.Y.Delta / 2;
                                 double zMidpoint = Loader.Z.Start + k * Loader.Z.Delta + Loader.Z.Delta / 2;
+                                // the following outputs initial positions so that a plot can show distribution
+                                //Console.WriteLine(xMidpoint.ToString("") + " " +
+                                //                  yMidpoint.ToString("") + " " +
+                                //                  zMidpoint.ToString(""));
                                 return new Position(xMidpoint, yMidpoint, zMidpoint);
                             }
                         }
