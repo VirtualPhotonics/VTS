@@ -689,6 +689,9 @@
     <Compile Include="..\Vts\MonteCarlo\Detectors\RDiffuseDetector.cs">
       <Link>MonteCarlo\Detectors\RDiffuseDetector.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\ReflectedDynamicMTOfFxAndSubregionHistDetector.cs">
+      <Link>MonteCarlo\Detectors\ReflectedDynamicMTOfFxAndSubregionHistDetector.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\ReflectedDynamicMTOfRhoAndSubregionHistDetector.cs">
       <Link>MonteCarlo\Detectors\ReflectedDynamicMTOfRhoAndSubregionHistDetector.cs</Link>
     </Compile>
