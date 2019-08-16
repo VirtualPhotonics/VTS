@@ -755,6 +755,9 @@
     <Compile Include="..\Vts\MonteCarlo\Detectors\TOfXAndYDetector.cs">
       <Link>MonteCarlo\Detectors\TOfXAndYDetector.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\TransmittedDynamicMTOfFxAndSubregionHistDetector.cs">
+      <Link>MonteCarlo\Detectors\TransmittedDynamicMTOfFxAndSubregionHistDetector.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\TransmittedDynamicMTOfRhoAndSubregionHistDetector.cs">
       <Link>MonteCarlo\Detectors\TransmittedDynamicMTOfRhoAndSubregionHistDetector.cs</Link>
     </Compile>

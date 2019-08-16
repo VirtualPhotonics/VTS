@@ -823,6 +823,66 @@ for di = 1:numDetectors
                 ReflectedDynamicMTOfXAndYAndSubregionHist.DynamicMTOfZStdev = sqrt((ReflectedDynamicMTOfXAndYAndSubregionHist.DynamicMTOfZSecondMoment - (ReflectedDynamicMTOfXAndYAndSubregionHist.DynamicMTOfZ .* ReflectedDynamicMTOfXAndYAndSubregionHist.DynamicMTOfZ)) / (N));               
             end
             results{di}.ReflectedDynamicMTOfXAndYAndSubregionHist = ReflectedDynamicMTOfXAndYAndSubregionHist;
+        case 'ReflectedDynamicMTOfFxAndSubregionHist'
+            ReflectedDynamicMTOfFxAndSubregionHist.Name = detector.Name;
+            tempFx = detector.Fx;
+            tempMTBins = detector.MTBins;
+            tempZ = detector.Z;
+            tempFractionalMTBinsLength = detector.FractionalMTBins.Count+1; % +1 due to addition of =0,=1 bins
+            if (postProcessorResults)        
+                tempSubregionIndices = (1:1:length(databaseInputJson.TissueInput.Regions));
+                N = databaseInputJson.N;
+            else   
+                tempSubregionIndices = (1:1:length(json.TissueInput.Regions));
+                N = json.N;
+            end
+            ReflectedDynamicMTOfFxAndSubregionHist.Fx = linspace((tempFx.Start), (tempFx.Stop), (tempFx.Count));                     
+            ReflectedDynamicMTOfFxAndSubregionHist.MTBins = linspace((tempMTBins.Start), (tempMTBins.Stop), (tempMTBins.Count));
+            ReflectedDynamicMTOfFxAndSubregionHist.Z = linspace((tempZ.Start), (tempZ.Stop), (tempZ.Count));
+            ReflectedDynamicMTOfFxAndSubregionHist.Fx_Midpoints = ReflectedDynamicMTOfFxAndSubregionHist.Fx;
+            ReflectedDynamicMTOfFxAndSubregionHist.MTBins_Midpoints = (ReflectedDynamicMTOfFxAndSubregionHist.MTBins(1:end-1) + ReflectedDynamicMTOfFxAndSubregionHist.MTBins(2:end))/2;
+            ReflectedDynamicMTOfFxAndSubregionHist.Z_Midpoints = (ReflectedDynamicMTOfFxAndSubregionHist.Z(1:end-1) + ReflectedDynamicMTOfFxAndSubregionHist.Z(2:end))/2;
+            ReflectedDynamicMTOfFxAndSubregionHist.SubregionIndices = tempSubregionIndices;
+            ReflectedDynamicMTOfFxAndSubregionHist.Mean = readBinaryData([datadir slash detector.Name], ... 
+                (length(ReflectedDynamicMTOfFxAndSubregionHist.MTBins)-1) * (2*length(ReflectedDynamicMTOfFxAndSubregionHist.Fx)));  
+            ReflectedDynamicMTOfFxAndSubregionHist.Mean = reshape(ReflectedDynamicMTOfFxAndSubregionHist.Mean, ...
+                [length(ReflectedDynamicMTOfFxAndSubregionHist.MTBins)-1,2*length(ReflectedDynamicMTOfFxAndSubregionHist.Fx)]);  % read column major json binary          
+            ReflectedDynamicMTOfFxAndSubregionHist.FractionalMT = readBinaryData([datadir slash detector.Name '_FractionalMT'], ... 
+                (2*length(ReflectedDynamicMTOfFxAndSubregionHist.Fx)) * (length(ReflectedDynamicMTOfFxAndSubregionHist.MTBins)-1) * ...
+                (tempFractionalMTBinsLength)); 
+            ReflectedDynamicMTOfFxAndSubregionHist.FractionalMT = reshape(ReflectedDynamicMTOfFxAndSubregionHist.FractionalMT, ...            
+                [tempFractionalMTBinsLength, length(ReflectedDynamicMTOfFxAndSubregionHist.MTBins)-1, 2*length(ReflectedDynamicMTOfFxAndSubregionHist.Fx)]); % read column major json binary
+            ReflectedDynamicMTOfFxAndSubregionHist.TotalMTOfZ = readBinaryData([datadir slash detector.Name '_TotalMTOfZ'], ... 
+                (2*length(ReflectedDynamicMTOfFxAndSubregionHist.Fx)) * (length(ReflectedDynamicMTOfFxAndSubregionHist.Z)-1)); 
+            ReflectedDynamicMTOfFxAndSubregionHist.TotalMTOfZ = reshape(ReflectedDynamicMTOfFxAndSubregionHist.TotalMTOfZ, ...            
+                [length(ReflectedDynamicMTOfFxAndSubregionHist.Z)-1, 2*length(ReflectedDynamicMTOfFxAndSubregionHist.Fx)]); % read column major json binary
+            ReflectedDynamicMTOfFxAndSubregionHist.DynamicMTOfZ = readBinaryData([datadir slash detector.Name '_DynamicMTOfZ'], ... 
+                (2*length(ReflectedDynamicMTOfFxAndSubregionHist.Fx)) * (length(ReflectedDynamicMTOfFxAndSubregionHist.Z)-1)); 
+            ReflectedDynamicMTOfFxAndSubregionHist.DynamicMTOfZ = reshape(ReflectedDynamicMTOfFxAndSubregionHist.DynamicMTOfZ, ...            
+                [length(ReflectedDynamicMTOfFxAndSubregionHist.Z)-1, 2*length(ReflectedDynamicMTOfFxAndSubregionHist.Fx)]); % read column major json binary    
+            ReflectedDynamicMTOfFxAndSubregionHist.SubregionCollisions = readBinaryData([datadir slash detector.Name '_SubregionCollisions'], ... 
+                (length(tempSubregionIndices) * 2)); % 2 for static vs dynamic tallies
+            ReflectedDynamicMTOfFxAndSubregionHist.SubregionCollisions = reshape(ReflectedDynamicMTOfFxAndSubregionHist.SubregionCollisions, ...            
+                [2, length(tempSubregionIndices)]); % read column major json binary    
+            if(detector.TallySecondMoment && exist([datadir slash detector.Name '_2'],'file'))
+                ReflectedDynamicMTOfFxAndSubregionHist.SecondMoment = readBinaryData([datadir slash detector.Name '_2'], ... 
+                (length(ReflectedDynamicMTOfFxAndSubregionHist.MTBins)-1) * (2*length(ReflectedDynamicMTOfFxAndSubregionHist.Fx))); % read column major json binary
+                ReflectedDynamicMTOfFxAndSubregionHist.SecondMoment = reshape(ReflectedDynamicMTOfFxAndSubregionHist.SecondMoment, ...
+                [length(ReflectedDynamicMTOfFxAndSubregionHist.MTBins)-1,2*length(ReflectedDynamicMTOfFxAndSubregionHist.Fx)]);  
+                ReflectedDynamicMTOfFxAndSubregionHist.Stdev = sqrt((ReflectedDynamicMTOfFxAndSubregionHist.SecondMoment - (ReflectedDynamicMTOfFxAndSubregionHist.Mean .* ReflectedDynamicMTOfFxAndSubregionHist.Mean)) / (N));               
+                % depth dependent output
+                ReflectedDynamicMTOfFxAndSubregionHist.TotalMTOfZSecondMoment = readBinaryData([datadir slash detector.Name '_TotalMTOfZ_2'], ... 
+                (length(ReflectedDynamicMTOfFxAndSubregionHist.Z)-1) * (2*length(ReflectedDynamicMTOfFxAndSubregionHist.Fx))); % read column major json binary
+                ReflectedDynamicMTOfFxAndSubregionHist.TotalMTOfZSecondMoment = reshape(ReflectedDynamicMTOfFxAndSubregionHist.TotalMTOfZSecondMoment, ...
+                [length(ReflectedDynamicMTOfFxAndSubregionHist.Z)-1,2*length(ReflectedDynamicMTOfFxAndSubregionHist.Fx)]);  
+                ReflectedDynamicMTOfFxAndSubregionHist.TotalMTOfZStdev = sqrt((ReflectedDynamicMTOfFxAndSubregionHist.TotalMTOfZSecondMoment - (ReflectedDynamicMTOfFxAndSubregionHist.TotalMTOfZ .* ReflectedDynamicMTOfFxAndSubregionHist.TotalMTOfZ)) / (N));               
+                ReflectedDynamicMTOfFxAndSubregionHist.DynamicMTOfZSecondMoment = readBinaryData([datadir slash detector.Name '_DynamicMTOfZ_2'], ... 
+                (length(ReflectedDynamicMTOfFxAndSubregionHist.Z)-1) * (2*length(ReflectedDynamicMTOfFxAndSubregionHist.Fx))); % read column major json binary
+                ReflectedDynamicMTOfFxAndSubregionHist.DynamicMTOfZSecondMoment = reshape(ReflectedDynamicMTOfFxAndSubregionHist.DynamicMTOfZSecondMoment, ...
+                [length(ReflectedDynamicMTOfFxAndSubregionHist.Z)-1,2*length(ReflectedDynamicMTOfFxAndSubregionHist.Fx)]);  
+                ReflectedDynamicMTOfFxAndSubregionHist.DynamicMTOfZStdev = sqrt((ReflectedDynamicMTOfFxAndSubregionHist.DynamicMTOfZSecondMoment - (ReflectedDynamicMTOfFxAndSubregionHist.DynamicMTOfZ .* ReflectedDynamicMTOfFxAndSubregionHist.DynamicMTOfZ)) / (N));               
+            end
+            results{di}.ReflectedDynamicMTOfFxAndSubregionHist = ReflectedDynamicMTOfFxAndSubregionHist;
         case 'TransmittedDynamicMTOfRhoAndSubregionHist'
             TransmittedDynamicMTOfRhoAndSubregionHist.Name = detector.Name;
             tempRho = detector.Rho;
@@ -950,6 +1010,66 @@ for di = 1:numDetectors
                 TransmittedDynamicMTOfXAndYAndSubregionHist.DynamicMTOfZStdev = sqrt((TransmittedDynamicMTOfXAndYAndSubregionHist.DynamicMTOfZSecondMoment - (TransmittedDynamicMTOfXAndYAndSubregionHist.DynamicMTOfZ .* TransmittedDynamicMTOfXAndYAndSubregionHist.DynamicMTOfZ)) / (N));               
             end
             results{di}.TransmittedDynamicMTOfXAndYAndSubregionHist = TransmittedDynamicMTOfXAndYAndSubregionHist;
+        case 'TransmittedDynamicMTOfFxAndSubregionHist'
+            TransmittedDynamicMTOfFxAndSubregionHist.Name = detector.Name;
+            tempFx = detector.Fx;
+            tempMTBins = detector.MTBins;
+            tempZ = detector.Z;
+            tempFractionalMTBinsLength = detector.FractionalMTBins.Count+1; % +1 due to addition of =0,=1 bins
+            if (postProcessorResults)        
+                tempSubregionIndices = (1:1:length(databaseInputJson.TissueInput.Regions));
+                N = databaseInputJson.N;
+            else   
+                tempSubregionIndices = (1:1:length(json.TissueInput.Regions));
+                N = json.N;
+            end
+            TransmittedDynamicMTOfFxAndSubregionHist.Fx = linspace((tempFx.Start), (tempFx.Stop), (tempFx.Count));                     
+            TransmittedDynamicMTOfFxAndSubregionHist.MTBins = linspace((tempMTBins.Start), (tempMTBins.Stop), (tempMTBins.Count));
+            TransmittedDynamicMTOfFxAndSubregionHist.Z = linspace((tempZ.Start), (tempZ.Stop), (tempZ.Count));
+            TransmittedDynamicMTOfFxAndSubregionHist.Fx_Midpoints = TransmittedDynamicMTOfFxAndSubregionHist.Fx;
+            TransmittedDynamicMTOfFxAndSubregionHist.MTBins_Midpoints = (TransmittedDynamicMTOfFxAndSubregionHist.MTBins(1:end-1) + TransmittedDynamicMTOfFxAndSubregionHist.MTBins(2:end))/2;
+            TransmittedDynamicMTOfFxAndSubregionHist.Z_Midpoints = (TransmittedDynamicMTOfFxAndSubregionHist.Z(1:end-1) + TransmittedDynamicMTOfFxAndSubregionHist.Z(2:end))/2;
+            TransmittedDynamicMTOfFxAndSubregionHist.SubregionIndices = tempSubregionIndices;
+            TransmittedDynamicMTOfFxAndSubregionHist.Mean = readBinaryData([datadir slash detector.Name], ... 
+                (length(TransmittedDynamicMTOfFxAndSubregionHist.MTBins)-1) * (2*length(TransmittedDynamicMTOfFxAndSubregionHist.Fx)));  
+            TransmittedDynamicMTOfFxAndSubregionHist.Mean = reshape(TransmittedDynamicMTOfFxAndSubregionHist.Mean, ...
+                [length(TransmittedDynamicMTOfFxAndSubregionHist.MTBins)-1,2*length(TransmittedDynamicMTOfFxAndSubregionHist.Fx)]);  % read column major json binary          
+            TransmittedDynamicMTOfFxAndSubregionHist.FractionalMT = readBinaryData([datadir slash detector.Name '_FractionalMT'], ... 
+                (2*length(TransmittedDynamicMTOfFxAndSubregionHist.Fx)) * (length(TransmittedDynamicMTOfFxAndSubregionHist.MTBins)-1) * ...
+                (tempFractionalMTBinsLength)); 
+            TransmittedDynamicMTOfFxAndSubregionHist.FractionalMT = reshape(TransmittedDynamicMTOfFxAndSubregionHist.FractionalMT, ...            
+                [tempFractionalMTBinsLength, length(TransmittedDynamicMTOfFxAndSubregionHist.MTBins)-1, 2*length(TransmittedDynamicMTOfFxAndSubregionHist.Fx)]); % read column major json binary
+            TransmittedDynamicMTOfFxAndSubregionHist.TotalMTOfZ = readBinaryData([datadir slash detector.Name '_TotalMTOfZ'], ... 
+                (2*length(TransmittedDynamicMTOfFxAndSubregionHist.Fx)) * (length(TransmittedDynamicMTOfFxAndSubregionHist.Z)-1)); 
+            TransmittedDynamicMTOfFxAndSubregionHist.TotalMTOfZ = reshape(TransmittedDynamicMTOfFxAndSubregionHist.TotalMTOfZ, ...            
+                [length(TransmittedDynamicMTOfFxAndSubregionHist.Z)-1, 2*length(TransmittedDynamicMTOfFxAndSubregionHist.Fx)]); % read column major json binary
+            TransmittedDynamicMTOfFxAndSubregionHist.DynamicMTOfZ = readBinaryData([datadir slash detector.Name '_DynamicMTOfZ'], ... 
+                (2*length(TransmittedDynamicMTOfFxAndSubregionHist.Fx)) * (length(TransmittedDynamicMTOfFxAndSubregionHist.Z)-1)); 
+            TransmittedDynamicMTOfFxAndSubregionHist.DynamicMTOfZ = reshape(TransmittedDynamicMTOfFxAndSubregionHist.DynamicMTOfZ, ...            
+                [length(TransmittedDynamicMTOfFxAndSubregionHist.Z)-1, 2*length(TransmittedDynamicMTOfFxAndSubregionHist.Fx)]); % read column major json binary    
+            TransmittedDynamicMTOfFxAndSubregionHist.SubregionCollisions = readBinaryData([datadir slash detector.Name '_SubregionCollisions'], ... 
+                (length(tempSubregionIndices) * 2)); % 2 for static vs dynamic tallies
+            TransmittedDynamicMTOfFxAndSubregionHist.SubregionCollisions = reshape(TransmittedDynamicMTOfFxAndSubregionHist.SubregionCollisions, ...            
+                [2, length(tempSubregionIndices)]); % read column major json binary    
+            if(detector.TallySecondMoment && exist([datadir slash detector.Name '_2'],'file'))
+                TransmittedDynamicMTOfFxAndSubregionHist.SecondMoment = readBinaryData([datadir slash detector.Name '_2'], ... 
+                (length(TransmittedDynamicMTOfFxAndSubregionHist.MTBins)-1) * (2*length(TransmittedDynamicMTOfFxAndSubregionHist.Fx))); % read column major json binary
+                TransmittedDynamicMTOfFxAndSubregionHist.SecondMoment = reshape(TransmittedDynamicMTOfFxAndSubregionHist.SecondMoment, ...
+                [length(TransmittedDynamicMTOfFxAndSubregionHist.MTBins)-1,2*length(TransmittedDynamicMTOfFxAndSubregionHist.Fx)]);  
+                TransmittedDynamicMTOfFxAndSubregionHist.Stdev = sqrt((TransmittedDynamicMTOfFxAndSubregionHist.SecondMoment - (TransmittedDynamicMTOfFxAndSubregionHist.Mean .* TransmittedDynamicMTOfFxAndSubregionHist.Mean)) / (N));               
+                % depth dependent output
+                TransmittedDynamicMTOfFxAndSubregionHist.TotalMTOfZSecondMoment = readBinaryData([datadir slash detector.Name '_TotalMTOfZ_2'], ... 
+                (length(TransmittedDynamicMTOfFxAndSubregionHist.Z)-1) * (2*length(TransmittedDynamicMTOfFxAndSubregionHist.Fx))); % read column major json binary
+                TransmittedDynamicMTOfFxAndSubregionHist.TotalMTOfZSecondMoment = reshape(TransmittedDynamicMTOfFxAndSubregionHist.TotalMTOfZSecondMoment, ...
+                [length(TransmittedDynamicMTOfFxAndSubregionHist.Z)-1,2*length(TransmittedDynamicMTOfFxAndSubregionHist.Fx)]);  
+                TransmittedDynamicMTOfFxAndSubregionHist.TotalMTOfZStdev = sqrt((TransmittedDynamicMTOfFxAndSubregionHist.TotalMTOfZSecondMoment - (TransmittedDynamicMTOfFxAndSubregionHist.TotalMTOfZ .* TransmittedDynamicMTOfFxAndSubregionHist.TotalMTOfZ)) / (N));               
+                TransmittedDynamicMTOfFxAndSubregionHist.DynamicMTOfZSecondMoment = readBinaryData([datadir slash detector.Name '_DynamicMTOfZ_2'], ... 
+                (length(TransmittedDynamicMTOfFxAndSubregionHist.Z)-1) * (2*length(TransmittedDynamicMTOfFxAndSubregionHist.Fx))); % read column major json binary
+                TransmittedDynamicMTOfFxAndSubregionHist.DynamicMTOfZSecondMoment = reshape(TransmittedDynamicMTOfFxAndSubregionHist.DynamicMTOfZSecondMoment, ...
+                [length(TransmittedDynamicMTOfFxAndSubregionHist.Z)-1,2*length(TransmittedDynamicMTOfFxAndSubregionHist.Fx)]);  
+                TransmittedDynamicMTOfFxAndSubregionHist.DynamicMTOfZStdev = sqrt((TransmittedDynamicMTOfFxAndSubregionHist.DynamicMTOfZSecondMoment - (TransmittedDynamicMTOfFxAndSubregionHist.DynamicMTOfZ .* TransmittedDynamicMTOfFxAndSubregionHist.DynamicMTOfZ)) / (N));               
+            end
+            results{di}.TransmittedDynamicMTOfFxAndSubregionHist = TransmittedDynamicMTOfFxAndSubregionHist;
         case 'ReflectedTimeOfRhoAndSubregionHist'
             ReflectedTimeOfRhoAndSubregionHist.Name = detector.Name;
             tempRho = detector.Rho;

@@ -720,6 +720,21 @@ namespace Vts.MonteCarlo
                         FractionalMTBins = new DoubleRange(0.0, 1.0, 11), // fractional MT bins
                         BloodVolumeFraction = new List<double>() { 0, 0.5, 0.5, 0 },
                         TallySecondMoment = true},
+                    // SFD detectors
+                    new ReflectedDynamicMTOfFxAndSubregionHistDetectorInput(){
+                        Fx=new DoubleRange(0.0, 0.5, 11), // fx bins                
+                        Z= new DoubleRange(0.0, 10.0, 11),
+                        MTBins=new DoubleRange(0.0, 500.0, 51), // MT bins
+                        FractionalMTBins = new DoubleRange(0.0, 1.0, 11), // fractional MT bins                        
+                        BloodVolumeFraction = new List<double>() { 0, 0.5, 0.5, 0 },
+                        TallySecondMoment = true},
+                    new TransmittedDynamicMTOfFxAndSubregionHistDetectorInput(){
+                        Fx=new DoubleRange(0.0, 0.5, 11), // fx bins                
+                        Z= new DoubleRange(0.0, 10.0, 11),
+                        MTBins=new DoubleRange(0.0, 500.0, 51), // MT bins
+                        FractionalMTBins = new DoubleRange(0.0, 1.0, 11), // fractional MT bins                        
+                        BloodVolumeFraction = new List<double>() { 0, 0.5, 0.5, 0 },
+                        TallySecondMoment = true},
                 }
             );
         }
