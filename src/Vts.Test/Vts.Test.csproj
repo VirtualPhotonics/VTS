@@ -9,12 +9,18 @@
     <None Remove="Resources\embeddedresourcefile.txt" />
     <None Remove="Resources\folder\embeddedresourcefile.txt" />
     <None Remove="Resources\resourcefile.txt" />
+    <None Remove="Resources\sourcetest\AOfXAndYAndZ" />
+    <None Remove="Resources\sourcetest\AOfXAndYAndZ.txt" />
+    <None Remove="Resources\sourcetest\input.txt" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="Resources\embeddedresourcefile.txt" />
     <EmbeddedResource Include="Resources\folder\embeddedresourcefile.txt" />
     <EmbeddedResource Include="Resources\resourcefile.txt" />
+    <EmbeddedResource Include="Resources\sourcetest\AOfXAndYAndZ" />
+    <EmbeddedResource Include="Resources\sourcetest\AOfXAndYAndZ.txt" />
+    <EmbeddedResource Include="Resources\sourcetest\input.txt" />
   </ItemGroup>
 
   <ItemGroup>

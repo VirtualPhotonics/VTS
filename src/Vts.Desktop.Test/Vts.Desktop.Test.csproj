@@ -69,6 +69,7 @@
     <Reference Include="Meta.Numerics, Version=4.0.7.0, Culture=neutral, PublicKeyToken=67d25c65a6631347, processorArchitecture=MSIL">
       <HintPath>..\packages\Meta.Numerics.4.0.7\lib\netstandard1.1\Meta.Numerics.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -354,6 +355,9 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="..\Vts.Test\Resources\sourcetest\AOfXAndYAndZ">
+      <Link>Resources\sourcetest\AOfXAndYAndZ</Link>
+    </EmbeddedResource>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -366,6 +370,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="..\Vts.Test\Resources\resourcefile.txt">
       <Link>Resources\resourcefile.txt</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts.Test\Resources\sourcetest\AOfXAndYAndZ.txt">
+      <Link>Resources\sourcetest\AOfXAndYAndZ.txt</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts.Test\Resources\sourcetest\input.txt">
+      <Link>Resources\sourcetest\input.txt</Link>
     </EmbeddedResource>
     <Content Include="App_Readme\MathNet.Numerics.authors.txt" />
     <Content Include="App_Readme\MathNet.Numerics.copyright.txt" />

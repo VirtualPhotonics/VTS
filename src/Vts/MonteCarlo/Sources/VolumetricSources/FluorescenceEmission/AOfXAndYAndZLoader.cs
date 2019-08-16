@@ -52,8 +52,17 @@ namespace Vts.MonteCarlo.Sources
         /// </summary>
         public AOfXAndYAndZLoader(string inputFolder, string infile, int fluorescentTissueRegionIndex)
         {
-            if (inputFolder != "")
+            if (infile != "")
             {
+                var inputPath = "";
+                if (inputFolder == "")
+                {
+                    inputPath = infile;
+                }
+                else
+                {
+                    inputPath = inputFolder + @"/" + infile;
+                }
                 var aOfXAndYAndZDetector = (AOfXAndYAndZDetector) DetectorIO.ReadDetectorFromFile(
                     "AOfXAndYAndZ", inputFolder);
                 // use DoubleRange X,Y,Z to match detector dimensions
@@ -62,16 +71,16 @@ namespace Vts.MonteCarlo.Sources
                 Z = ((AOfXAndYAndZDetector) aOfXAndYAndZDetector).Z;
                 AOfXAndYAndZ = ((AOfXAndYAndZDetector) aOfXAndYAndZDetector).Mean;
 
-                var exciteInfile = SimulationInput.FromFile(inputFolder + "/" + infile);
+                var exciteInfile = SimulationInput.FromFile(inputPath);
                 FluorescentTissueRegion = exciteInfile.TissueInput.Regions[fluorescentTissueRegionIndex];
 
                 // separate setup of arrays so can unit test method
                 InitializeFluorescentRegionArrays();
             }
-            //else
-            //{
-            //    throw new ArgumentException("inputFolder string is empty");
-            //}
+            else
+            {
+                throw new ArgumentException("infile string is empty");
+            }
         }
 
         public void InitializeFluorescentRegionArrays()

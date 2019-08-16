@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Reflection;
 using NUnit.Framework;
-using Vts.Common;
+using Vts.IO;
 using Vts.MonteCarlo;
 using Vts.MonteCarlo.Detectors;
+using Vts.MonteCarlo.IO;
 using Vts.MonteCarlo.Sources;
 using Vts.MonteCarlo.Tissues;
 
@@ -19,18 +22,94 @@ namespace Vts.Test.MonteCarlo.Sources
         private AOfXAndYAndZLoader _loader;
 
         /// <summary>
-        /// set up A(x,y,z) detector to test source
+        /// list of temporary files created by these unit tests
+        /// </summary>
+        List<string> listOfTestGeneratedFolders = new List<string>()
+        {
+            "sourcetest",
+        };
+        List<string> listOfTestGeneratedFiles = new List<string>()
+        {
+            "input.txt",
+            "AOfXAndYAndZ",
+            "AOfXAndYAndZ.txt"
+        };
+        /// <summary>
+        /// clear all generated folders and files
+        /// </summary>
+        [OneTimeSetUp]
+        [OneTimeTearDown]
+        public void clear_folders_and_files()
+        {
+            foreach (var file in listOfTestGeneratedFiles)
+            {
+                FileIO.FileDelete(file);
+            }
+            foreach (var folder in listOfTestGeneratedFolders)
+            {
+                FileIO.DeleteDirectory(folder);
+            }
+        }
+        /// <summary>
+        /// set up A(x,y,z) detector to test that AOfXAndYAndZLoader initialized all arrays correctly.
+        /// Note about this unit test: a) could not just run MC simulation and read results because MC sim
+        /// puts results in Vts.MCCL/bin/Debug an not accessible by this unit test, b) goal was to test
+        /// if source reads data correctly, to do this needed to have correct files in resources then
+        /// write them locally so that they could be read by this unit test.
         /// </summary>
         [OneTimeSetUp]
         public void setup()
         {
-            // following setup is used to test AOfXAndYAndZLoader
-            _aOfXAndYAndZDetector = new AOfXAndYAndZDetector();
-            _aOfXAndYAndZDetector.X = new DoubleRange(-2, 2, 5);
-            _aOfXAndYAndZDetector.Y = new DoubleRange(-10, 10, 2);
-            _aOfXAndYAndZDetector.Z = new DoubleRange(0, 3, 4);
-            _aOfXAndYAndZDetector.Mean = new double[_aOfXAndYAndZDetector.X.Count - 1,
-                _aOfXAndYAndZDetector.Y.Count - 1, _aOfXAndYAndZDetector.Z.Count - 1];
+            // set up MC simulation that generated the absorbed energy detector results in embedded resources
+            //var input = new SimulationInput(
+            //100,
+            //"test",
+            //new SimulationOptions(
+            //    0, // random number generator seed, -1=random seed, 0=fixed seed
+            //    RandomNumberGeneratorType.MersenneTwister,
+            //    AbsorptionWeightingType.Discrete,
+            //    PhaseFunctionType.HenyeyGreenstein,
+            //    new List<DatabaseType>() { }, // databases to be written
+            //    false, // track statistics
+            //    0.0, // RR threshold -> no RR performed
+            //    0),
+            //    new DirectionalPointSourceInput(
+            //        new Position(0.0, 0.0, 0.0),
+            //        new Direction(0.0, 0.0, 1.0),
+            //        0), // 0=start in air, 1=start in tissue
+            //    new SingleInfiniteCylinderTissueInput(
+            //        new InfiniteCylinderTissueRegion(
+            //            new Position(0, 0, 1),
+            //            1.0,
+            //            new OpticalProperties(0.05, 1.0, 0.8, 1.4)
+            //        ),
+            //        new ITissueRegion[]
+            //        {
+            //            new LayerTissueRegion(
+            //                new DoubleRange(double.NegativeInfinity, 0.0),
+            //                new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
+            //            new LayerTissueRegion(
+            //                new DoubleRange(0.0, 100.0),
+            //                new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
+            //            new LayerTissueRegion(
+            //                new DoubleRange(100.0, double.PositiveInfinity),
+            //                new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
+            //        }
+            //    ),
+            //    new List<IDetectorInput>()
+            //    {
+            //        new AOfXAndYAndZDetectorInput(){
+            //            X =new DoubleRange(-2, 2, 5),
+            //            Y =new DoubleRange(-10, 10, 2),
+            //            Z =new DoubleRange(0, 3, 4)}
+            //    }
+            //);
+            //var output = new MonteCarloSimulation(input).Run();  //NOTE: this puts output in Vts.MCCL/bin/Debug
+            var name = Assembly.GetExecutingAssembly().FullName;
+            var assemblyName = new AssemblyName(name).Name;
+            _aOfXAndYAndZDetector = (dynamic)DetectorIO.ReadDetectorFromFileInResources(
+                "AOfXAndYAndZ", "Resources/sourcetest/", assemblyName);
+            // overwrite statistical data in Mean with deterministic values to test
             int count = 1;
             for (int i = 0; i < _aOfXAndYAndZDetector.X.Count - 1; i++)
             {
@@ -43,24 +122,18 @@ namespace Vts.Test.MonteCarlo.Sources
                     }
                 }
             }
+            DetectorIO.WriteDetectorToFile(_aOfXAndYAndZDetector, "sourcetest");  
+
+            FileIO.CopyFileFromResources(
+                "Resources/sourcetest/input.txt", "sourcetest/input.txt", assemblyName);
             // following setup is used to test FluorescenceEmissionSource
             _fluorescenceEmissionAOfXAndYAndZSource = new FluorescenceEmissionAOfXAndYAndZSource(
-                "", "", 3);
+                "sourcetest", "input.txt", 3);
             // empty infileFolder will initialize AOfXAndYAndZLoader with no AOfXAndYAndZ read
             _fluorescenceEmissionAOfXAndYAndZSource.Loader = new AOfXAndYAndZLoader(
-                "", "", 3);
+                "sourcetest", "input.txt", 3);
             _loader = _fluorescenceEmissionAOfXAndYAndZSource.Loader;
-            _loader.X = _aOfXAndYAndZDetector.X;
-            _loader.Y = _aOfXAndYAndZDetector.Y;
-            _loader.Z = _aOfXAndYAndZDetector.Z;
-            _loader.AOfXAndYAndZ = _aOfXAndYAndZDetector.Mean;
-            _loader.FluorescentTissueRegion = new InfiniteCylinderTissueRegion()
-            {
-                Center = new Position(0, 0, 1),
-                Radius = 1,
-                RegionOP = new OpticalProperties(0.01, 1, 0.8, 1.4)
-            };
-            // invoke method and check if arrays set up properly
+            
             _loader.InitializeFluorescentRegionArrays();
         }
 

@@ -91,7 +91,6 @@ namespace Vts.MonteCarlo.Sources
         {
             Loader = new AOfXAndYAndZLoader(inputFolder, infile, initialTissueRegionIndex);
         }
-
         protected override Position GetFinalPosition(Random rng)
         {
             Position finalPosition = null;
