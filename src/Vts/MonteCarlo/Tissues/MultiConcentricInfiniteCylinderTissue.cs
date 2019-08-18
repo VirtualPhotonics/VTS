@@ -87,7 +87,7 @@ namespace Vts.MonteCarlo.Tissues
         /// <returns></returns>
         public ITissue CreateTissue(AbsorptionWeightingType awt, PhaseFunctionType pft, double russianRouletteWeightThreshold)
         {
-            var t = new MultiConcentricInfiniteCylinderTissue(Regions);
+            var t = new MultiConcentricInfiniteCylinderTissue(InfiniteCylinderRegions, LayerRegions);
 
             t.Initialize(awt, pft, russianRouletteWeightThreshold);
 
@@ -100,11 +100,12 @@ namespace Vts.MonteCarlo.Tissues
     /// (including homogenous with air layers above and below).  Layers are infinite along
     /// x- and y- axes.
     /// </summary>
-    public class MultiConcentricInfiniteCylinderTissue : TissueBase, ITissue
+    public class MultiConcentricInfiniteCylinderTissue : MultiLayerTissue, ITissue
     {
         private IList<LayerTissueRegion> _layerRegions;
         private IList<InfiniteCylinderTissueRegion> _infiniteCylinderRegions;
         private int _inclusionRegionIndex;
+        private int _layerRegionIndexOfInclusion;
 
         /// <summary>
         /// Creates an instance of a MultiConcentricInfiniteCylinderTissue
@@ -112,13 +113,20 @@ namespace Vts.MonteCarlo.Tissues
         /// <param name="regions">list of tissue regions comprising tissue</param>
         /// <remarks>air above and below tissue needs to be specified for a slab geometry</remarks>
         public MultiConcentricInfiniteCylinderTissue(
-            IList<ITissueRegion> regions)
-            : base(regions)
+            IList<ITissueRegion> infiniteCylinderRegions,
+            IList<ITissueRegion> layerRegions)
+            : base(layerRegions)
         {
-            _layerRegions = regions.Select(region => (LayerTissueRegion) region).ToArray();
-            _infiniteCylinderRegions = regions.Select(region => (InfiniteCylinderTissueRegion) region).ToArray();
+            // overwrite the Regions property in the TissueBase class (will be called last in the most derived class)
+            Regions = layerRegions.Concat(infiniteCylinderRegions).ToArray();
+
+            _layerRegions = layerRegions.Select(r => (LayerTissueRegion)r).ToList();
+            _infiniteCylinderRegions = infiniteCylinderRegions.Select(r => (InfiniteCylinderTissueRegion) r).ToList();
             _inclusionRegionIndex = _layerRegions.Count; // index is, by convention, after the layer region indices
             // also by convention larger radius infinite cylinder is first
+            _layerRegionIndexOfInclusion = Enumerable.Range(0, _layerRegions.Count)
+                .FirstOrDefault(i => ((LayerTissueRegion)_layerRegions[i])
+                    .ContainsPosition(_infiniteCylinderRegions[0].Center)); // if outer cyl in layer, inner is
         }
 
         /// <summary>
@@ -126,7 +134,13 @@ namespace Vts.MonteCarlo.Tissues
         /// and discrete absorption weighting
         /// </summary>
         public MultiConcentricInfiniteCylinderTissue() 
-            : this(new MultiConcentricInfiniteCylinderTissueInput().Regions)
+            : this(
+                new ITissueRegion[]
+                    {
+                        new InfiniteCylinderTissueRegion(),
+                        new InfiniteCylinderTissueRegion()
+                    },
+        new MultiLayerTissueInput().Regions)
         {
         }
 
@@ -137,8 +151,8 @@ namespace Vts.MonteCarlo.Tissues
         /// <returns></returns>
         public virtual int GetRegionIndex(Position position)
         {
-            // first use LayerTissueRegion to determine which region photon resides
             int index = -1;
+            // use LayerTissueRegion to determine which region photon resides
             for (int i = 0; i < _layerRegions.Count(); i++)
             {
                 if (_layerRegions[i].ContainsPosition(position))
@@ -146,12 +160,13 @@ namespace Vts.MonteCarlo.Tissues
                     index = i;
                 }
             }
-            // then use InfiniteTissueRegion to determine if within one of cylinders
+            // use InfiniteTissueRegion to determine if within one of cylinders
+            // check goes from largest to smallest so index that contains point will be returned
             for (int j = 0; j < _infiniteCylinderRegions.Count(); j++)
             {
                 if (_infiniteCylinderRegions[j].ContainsPosition(position))
                 {
-                    index = j;
+                    index = _layerRegions.Count + j;
                 }
             }
             return index;
@@ -163,32 +178,44 @@ namespace Vts.MonteCarlo.Tissues
         /// <param name="photon"></param>
         public virtual double GetDistanceToBoundary(Photon photon)
         {
-            if (photon.DP.Direction.Uz == 0.0)
-            {
-                return double.PositiveInfinity;
-            }
+            // first check if closest boundary is layer
 
             // going "up" in negative z-direction
             bool goingUp = photon.DP.Direction.Uz < 0.0;
 
             // get current and adjacent regions
             int currentRegionIndex = photon.CurrentRegionIndex; 
-            // check if in embedded tissue region ckh fix 8/10/11
+            // check if not in embedded tissue region ckh fix 8/10/11
             LayerTissueRegion currentRegion = _layerRegions[1];
             if (currentRegionIndex < _layerRegions.Count)
             {
                 currentRegion = _layerRegions[currentRegionIndex];
             }
-
             // calculate distance to boundary based on z-projection of photon trajectory
-            double distanceToBoundary =
+            double distanceToLayer =
                 goingUp
                     ? (currentRegion.ZRange.Start - photon.DP.Position.Z) / photon.DP.Direction.Uz
                     : (currentRegion.ZRange.Stop - photon.DP.Position.Z) / photon.DP.Direction.Uz;
 
+            // then check if infinite cylinder boundaries are closer
+            double smallestInfCylDistance = double.PositiveInfinity;
+            double distToInfiniteCylinder;
+            for (int i = 0; i < _infiniteCylinderRegions.Count; i++)
+            {
+                _infiniteCylinderRegions[i].RayIntersectBoundary(photon, out distToInfiniteCylinder);
+                if (distToInfiniteCylinder < smallestInfCylDistance)
+                {
+                    smallestInfCylDistance = distToInfiniteCylinder;
+                }
+            }
 
-            return distanceToBoundary;
+            if (smallestInfCylDistance < distanceToLayer)
+            {
+                return smallestInfCylDistance;
+            }
+            return distanceToLayer;
         }
+
         /// <summary>
         /// method to determine if on boundary of tissue, i.e. at tissue/air interface
         /// </summary>
@@ -196,11 +223,13 @@ namespace Vts.MonteCarlo.Tissues
         /// <returns></returns>
         public virtual bool OnDomainBoundary(Position position)
         {
+            // Domain boundary: so check layer boundary
             // this code assumes that the first and last layer is air
-            return 
+            return
                 position.Z < 1e-10 ||
                 (Math.Abs(position.Z - (_layerRegions.Last()).ZRange.Start) < 1e-10);
         }
+    
         /// <summary>
         /// method to determine index of region photon is about to enter
         /// </summary>
@@ -208,17 +237,32 @@ namespace Vts.MonteCarlo.Tissues
         /// <returns>region index</returns>
         public virtual int GetNeighborRegionIndex(Photon photon)
         {
-            if (photon.DP.Direction.Uz == 0.0)
+            // check if coming from inner infinite cylinder
+            if (photon.CurrentRegionIndex == _layerRegions.Count + 1)
             {
-                throw new Exception("GetNeighborRegionIndex called and Photon not on boundary");
+                return _layerRegions.Count; // inner inf cylinder is inside outer so always neighbor
             }
-
-            if (photon.DP.Direction.Uz > 0.0)
+            // if coming from outer infinite cylinder => layer of inclusion or inner cylinder
+            //double distanceToBoundary = double.PositiveInfinity;
+            if (photon.CurrentRegionIndex == _layerRegions.Count)
             {
-                return Math.Min(photon.CurrentRegionIndex + 1, Regions.Count - 1);
+                if (_infiniteCylinderRegions[1].ContainsPosition(photon.DP.Position)) // must be entering inner
+                //if (double.IsPositiveInfinity(distanceToBoundary))
+                {
+                    return _layerRegions.Count + 1;
+                }
+                return _layerRegionIndexOfInclusion;
             }
-                
-            return Math.Max(photon.CurrentRegionIndex - 1, 0);
+            // could be on layer boundary
+            if (photon.CurrentRegionIndex == _layerRegionIndexOfInclusion)
+            {
+                if (!_layerRegions[_layerRegionIndexOfInclusion].OnBoundary(photon.DP.Position))
+                {
+                    return _layerRegions.Count; // return outer cylinder index
+                }
+            }
+            // finally must be on layer boundary
+            return base.GetNeighborRegionIndex(photon);
         }
         /// <summary>
         /// method to determine photon state type of photon exiting tissue boundary
@@ -244,10 +288,15 @@ namespace Vts.MonteCarlo.Tissues
             Position positionCurrent, 
             Direction directionCurrent)
         {
-            return new Direction(
-                directionCurrent.Ux,
-                directionCurrent.Uy,
-                -directionCurrent.Uz);
+            // check if crossing top and bottom layer
+            if (positionCurrent.Z < 1e-10 ||
+                (Math.Abs(positionCurrent.Z - (_layerRegions.Last()).ZRange.Start) < 1e-10))
+            {
+                return base.GetReflectedDirection(positionCurrent, directionCurrent);
+            }
+            // must be on cylinders for now no reflection NOTE: when refractive index mismatch branch merged
+            // change code to call infiniteCylinderTissueRegion.GetReflectedDirection
+            return directionCurrent;
         }
         /// <summary>
         /// method to determine refracted direction of photon
@@ -264,17 +313,16 @@ namespace Vts.MonteCarlo.Tissues
             double nCurrent, 
             double nNext, 
             double cosThetaSnell)
-        {
-            if (directionCurrent.Uz > 0)
-                return new Direction(
-                    directionCurrent.Ux * nCurrent / nNext,
-                    directionCurrent.Uy * nCurrent / nNext,
-                    cosThetaSnell);
-            else
-                return new Direction(
-                    directionCurrent.Ux * nCurrent / nNext,
-                    directionCurrent.Uy * nCurrent / nNext,
-                    -cosThetaSnell);
+        {            
+            // check if crossing top and bottom layer
+            if (positionCurrent.Z < 1e-10 ||
+                (Math.Abs(positionCurrent.Z - (_layerRegions.Last()).ZRange.Start) < 1e-10))
+            {
+                return base.GetRefractedDirection(positionCurrent, directionCurrent, nCurrent, nNext, cosThetaSnell);
+            }
+            // must be on cylinders for now no reflection NOTE: when refractive index mismatch branch merged
+            // change code to call infiniteCylinderTissueRegion.GetRefractedDirection
+            return directionCurrent;
         }
         /// <summary>
         /// method to get cosine of the angle between photons current direction and boundary normal

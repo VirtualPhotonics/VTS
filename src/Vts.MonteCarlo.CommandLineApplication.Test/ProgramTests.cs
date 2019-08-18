@@ -17,7 +17,8 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
         List<string> listOfInfiles = new List<string>()
         {
             "ellip_FluenceOfRhoAndZ",
-            "infinite_cylinder_AOfRhoAndZ",
+            "infinite_cylinder_AOfXAndYAndZ",
+            "multi_infinite_cylinder_AOfXAndYAndZ",
             "embeddedDirectionalCircularSourceEllipTissue",
             "Flat_2D_source_one_layer_ROfRho",
             "Gaussian_2D_source_one_layer_ROfRho",

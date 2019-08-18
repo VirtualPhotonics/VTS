@@ -320,6 +320,8 @@ namespace Vts.MonteCarlo
             "SingleVoxel",
             // Tissue slab with embedded infinite cylinder
             "SingleInfiniteCylinder",
+            // Multiple (2 right now) concentric infinite cylinder
+            "MultiConcentricInfiniteCylinder"
         };
     }
     /// <summary>
