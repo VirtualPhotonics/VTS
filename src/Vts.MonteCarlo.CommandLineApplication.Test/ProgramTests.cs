@@ -18,6 +18,7 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
         {
             "ellip_FluenceOfRhoAndZ",
             "infinite_cylinder_AOfXAndYAndZ",
+            "multi_infinite_cylinder_AOfXAndYAndZ",
             "embeddedDirectionalCircularSourceEllipTissue",
             "Flat_2D_source_one_layer_ROfRho",
             "Gaussian_2D_source_one_layer_ROfRho",

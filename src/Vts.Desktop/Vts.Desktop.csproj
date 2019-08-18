@@ -689,6 +689,9 @@
     <Compile Include="..\Vts\MonteCarlo\Detectors\RDiffuseDetector.cs">
       <Link>MonteCarlo\Detectors\RDiffuseDetector.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\ReflectedDynamicMTOfFxAndSubregionHistDetector.cs">
+      <Link>MonteCarlo\Detectors\ReflectedDynamicMTOfFxAndSubregionHistDetector.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\ReflectedDynamicMTOfRhoAndSubregionHistDetector.cs">
       <Link>MonteCarlo\Detectors\ReflectedDynamicMTOfRhoAndSubregionHistDetector.cs</Link>
     </Compile>
@@ -751,6 +754,9 @@
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\TOfXAndYDetector.cs">
       <Link>MonteCarlo\Detectors\TOfXAndYDetector.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\TransmittedDynamicMTOfFxAndSubregionHistDetector.cs">
+      <Link>MonteCarlo\Detectors\TransmittedDynamicMTOfFxAndSubregionHistDetector.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\TransmittedDynamicMTOfRhoAndSubregionHistDetector.cs">
       <Link>MonteCarlo\Detectors\TransmittedDynamicMTOfRhoAndSubregionHistDetector.cs</Link>
@@ -1060,6 +1066,9 @@
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Tissues\LayerTissueRegion.cs">
       <Link>MonteCarlo\Tissues\LayerTissueRegion.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Tissues\MultiConcentricInfiniteCylinderTissue.cs">
+      <Link>MonteCarlo\Tissues\MultiConcentricInfiniteCylinderTissue.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Tissues\MultiEllipsoidTissue.cs">
       <Link>MonteCarlo\Tissues\MultiEllipsoidTissue.cs</Link>

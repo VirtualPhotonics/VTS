@@ -29,6 +29,7 @@ namespace Vts.MonteCarlo
                 PointSourceTwoLayerTissueROfRhoDetectorWithPhotonDatabase(),
                 PointSourceSingleEllipsoidTissueFluenceOfRhoAndZDetector(),
                 PointSourceSingleInfiniteCylinderTissueAOfXAndYAndZDetector(),
+                PointSourceMultiInfiniteCylinderTissueAOfXAndYAndZDetector(),
                 pMCPointSourceOneLayerTissueROfRhoDAW(),
                 Gaussian2DSourceOneLayerTissueROfRhoDetector(),
                 Flat2DSourceOneLayerTissueROfRhoDetector(),
@@ -418,6 +419,66 @@ namespace Vts.MonteCarlo
         }
         #endregion
 
+        #region point source multi infinite cylinder A(x,y,z)
+        /// <summary>
+        /// Point source, multi infinite cylinder tissue definition, only AOfXAndYAndZ detector included
+        /// </summary>
+        public static SimulationInput PointSourceMultiInfiniteCylinderTissueAOfXAndYAndZDetector()
+        {
+            return new SimulationInput(
+                100,
+                "multi_infinite_cylinder_AOfXAndYAndZ",
+                new SimulationOptions(
+                    0, // random number generator seed, -1=random seed, 0=fixed seed
+                    RandomNumberGeneratorType.MersenneTwister,
+                    AbsorptionWeightingType.Discrete,
+                    PhaseFunctionType.HenyeyGreenstein,
+                    new List<DatabaseType>() { }, // databases to be written
+                    false, // track statistics
+                    0.0, // RR threshold -> no RR performed
+                    0),
+                new DirectionalPointSourceInput(
+                    new Position(0.0, 0.0, 0.0),
+                    new Direction(0.0, 0.0, 1.0),
+                    0), // 0=start in air, 1=start in tissue
+                new MultiConcentricInfiniteCylinderTissueInput(
+new ITissueRegion[]
+                    {
+                        new InfiniteCylinderTissueRegion(
+                            new Position(0, 0, 1),
+                            1.0,
+                            new OpticalProperties(0.05, 1.0, 0.8, 1.4)
+                        ),
+                        new InfiniteCylinderTissueRegion(
+                            new Position(0, 0, 1),
+                            0.75,
+                            new OpticalProperties(0.05, 1.0, 0.8, 1.4)
+                        ),
+                    },
+        new ITissueRegion[]
+                    {
+                    new LayerTissueRegion(
+                        new DoubleRange(double.NegativeInfinity, 0.0),
+                        new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
+                    new LayerTissueRegion(
+                        new DoubleRange(0.0, 100.0),
+                        new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
+                    new LayerTissueRegion(
+                        new DoubleRange(100.0, double.PositiveInfinity),
+                        new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
+                    }
+                ),
+                new List<IDetectorInput>()
+                {
+                    new AOfXAndYAndZDetectorInput(){
+                        X =new DoubleRange(-10, 10, 201),
+                        Y =new DoubleRange(-10, 10, 2),
+                        Z =new DoubleRange(0, 10, 101)},
+                }
+            );
+        }
+        #endregion
+
         #region pMC point source one layer tissue R(rho) DAW
         /// <summary>
         /// Perturbation MC point source, single tissue layer definition, R(rho) included
@@ -719,6 +780,21 @@ namespace Vts.MonteCarlo
                         Z= new DoubleRange(0.0, 10.0, 11),
                         MTBins=new DoubleRange(0.0, 500.0, 51), // MT bins
                         FractionalMTBins = new DoubleRange(0.0, 1.0, 11), // fractional MT bins
+                        BloodVolumeFraction = new List<double>() { 0, 0.5, 0.5, 0 },
+                        TallySecondMoment = true},
+                    // SFD detectors
+                    new ReflectedDynamicMTOfFxAndSubregionHistDetectorInput(){
+                        Fx=new DoubleRange(0.0, 0.5, 11), // fx bins                
+                        Z= new DoubleRange(0.0, 10.0, 11),
+                        MTBins=new DoubleRange(0.0, 500.0, 51), // MT bins
+                        FractionalMTBins = new DoubleRange(0.0, 1.0, 11), // fractional MT bins                        
+                        BloodVolumeFraction = new List<double>() { 0, 0.5, 0.5, 0 },
+                        TallySecondMoment = true},
+                    new TransmittedDynamicMTOfFxAndSubregionHistDetectorInput(){
+                        Fx=new DoubleRange(0.0, 0.5, 11), // fx bins                
+                        Z= new DoubleRange(0.0, 10.0, 11),
+                        MTBins=new DoubleRange(0.0, 500.0, 51), // MT bins
+                        FractionalMTBins = new DoubleRange(0.0, 1.0, 11), // fractional MT bins                        
                         BloodVolumeFraction = new List<double>() { 0, 0.5, 0.5, 0 },
                         TallySecondMoment = true},
                 }
