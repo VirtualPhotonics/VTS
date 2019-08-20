@@ -212,6 +212,9 @@ namespace Vts.MonteCarlo.Detectors
             var totalMTOfZForOnePhoton = new Complex[Fx.Count, Z.Count - 1];
             var dynamicMTOfZForOnePhoton = new Complex[Fx.Count, Z.Count - 1];
             var fxArray = Fx.AsEnumerable().ToArray();
+            var x = photon.DP.Position.X; // use final exiting x position
+            var sinNegativeTwoPiFX = fxArray.Select(fx => Math.Sin(-2 * Math.PI * fx * x)).ToArray();
+            var cosNegativeTwoPiFX = fxArray.Select(fx => Math.Cos(-2 * Math.PI * fx * x)).ToArray();
 
             // go through photon history and claculate momentum transfer
             // assumes that no MT tallied at pseudo-collisions (reflections and refractions)
@@ -220,7 +223,6 @@ namespace Vts.MonteCarlo.Detectors
             PhotonDataPoint currentDP = photon.History.HistoryData.Skip(1).Take(1).First();
             foreach (PhotonDataPoint nextDP in photon.History.HistoryData.Skip(2))
             {
-                var x = photon.DP.Position.X;
                 if (previousDP.Weight != currentDP.Weight) // only for true collision points
                 {
                     var csr = _tissue.GetRegionIndex(currentDP.Position); // get current region index
@@ -232,11 +234,8 @@ namespace Vts.MonteCarlo.Detectors
                     totalMT += momentumTransfer;
                     for (int ifx = 0; ifx < Fx.Count; ifx++)
                     {
-                        double freq = fxArray[ifx];
-                        var sinNegativeTwoPiFX = Math.Sin(-2 * Math.PI * freq * x);
-                        var cosNegativeTwoPiFX = Math.Cos(-2 * Math.PI * freq * x);
-                        var deltaWeight = photon.DP.Weight * (cosNegativeTwoPiFX +
-                                                              Complex.ImaginaryOne * sinNegativeTwoPiFX);
+                        var deltaWeight = photon.DP.Weight * cosNegativeTwoPiFX[ifx] +
+                                          Complex.ImaginaryOne * sinNegativeTwoPiFX[ifx];
                         TotalMTOfZ[ifx, iz] += deltaWeight * momentumTransfer;
                         totalMTOfZForOnePhoton[ifx, iz] += deltaWeight * momentumTransfer;
                     }
@@ -245,8 +244,10 @@ namespace Vts.MonteCarlo.Detectors
                         tissueMT[1] += momentumTransfer;
                         for (int ifx = 0; ifx < Fx.Count; ifx++)
                         {
-                            DynamicMTOfZ[ifx, iz] += photon.DP.Weight * momentumTransfer;
-                            dynamicMTOfZForOnePhoton[ifx, iz] += photon.DP.Weight * momentumTransfer;
+                            var deltaWeight = photon.DP.Weight * cosNegativeTwoPiFX[ifx] +
+                                              Complex.ImaginaryOne * sinNegativeTwoPiFX[ifx];
+                            DynamicMTOfZ[ifx, iz] += deltaWeight * momentumTransfer;
+                            dynamicMTOfZForOnePhoton[ifx, iz] += deltaWeight * momentumTransfer;
                         }
                         SubregionCollisions[csr, 1] += 1; // add to dynamic collision count
                     }
@@ -265,10 +266,12 @@ namespace Vts.MonteCarlo.Detectors
                 var imt = DetectorBinning.WhichBin(totalMT, MTBins.Count - 1, MTBins.Delta, MTBins.Start);
                 for (int ifx = 0; ifx < Fx.Count; ifx++)
                 {
-                    Mean[ifx, imt] += photon.DP.Weight;
+                    var deltaWeight = photon.DP.Weight * cosNegativeTwoPiFX[ifx] +
+                                      Complex.ImaginaryOne * sinNegativeTwoPiFX[ifx];
+                    Mean[ifx, imt] += deltaWeight;
                     if (TallySecondMoment)
                     {
-                        SecondMoment[ifx, imt] += photon.DP.Weight * photon.DP.Weight;
+                        SecondMoment[ifx, imt] += deltaWeight * deltaWeight;
                         for (int i = 0; i < Fx.Count - 1; i++)
                         {
                             for (int j = 0; j < Z.Count - 1; j++)
@@ -302,7 +305,7 @@ namespace Vts.MonteCarlo.Detectors
                             ifrac = FractionalMTBins.Count;
                         }
 
-                        FractionalMT[ifx, imt, ifrac] += photon.DP.Weight;
+                        FractionalMT[ifx, imt, ifrac] += deltaWeight;
                     }
                 }
             }
