@@ -565,8 +565,10 @@ for mci = 1:length(datanames)
     if isfield(results{di}, 'ReflectedDynamicMTOfFxAndSubregionHist') && show.ReflectedDynamicMTOfFxAndSubregionHist
         numFxs = length(results{di}.ReflectedDynamicMTOfFxAndSubregionHist.Fx);
         figname = sprintf('log(%s)',results{di}.ReflectedDynamicMTOfFxAndSubregionHist.Name); 
-        figure; imagesc(results{di}.ReflectedDynamicMTOfFxAndSubregionHist.Fx_Midpoints, results{di}.ReflectedDynamicMTOfFxAndSubregionHist.MTBins_Midpoints, log(results{di}.ReflectedDynamicMTOfFxAndSubregionHist.Mean));...        
-           colorbar; title(figname); xlabel('Fx [/mm]'); ylabel('Dynamic MT'); set(gcf,'Name', figname);colormap(jet);
+        figure; 
+        imagesc(results{di}.ReflectedDynamicMTOfFxAndSubregionHist.Fx_Midpoints, results{di}.ReflectedDynamicMTOfFxAndSubregionHist.MTBins_Midpoints, ...
+            log(abs(results{di}.ReflectedDynamicMTOfFxAndSubregionHist.Mean)));       
+        colorbar; title(figname); xlabel('Fx [/mm]'); ylabel('Dynamic MT'); set(gcf,'Name', figname);colormap(jet);
         color=char('r-','g-','b-','c-','m-','r:','g:','b:','c:','m:');
         % note results array has dimensions [numFractionalMTBins,numMTBins, numFxs] due to column major json reading
         for i=1:10:numFxs
@@ -682,8 +684,10 @@ for mci = 1:length(datanames)
     if isfield(results{di}, 'TransmittedDynamicMTOfFxAndSubregionHist') && show.TransmittedDynamicMTOfFxAndSubregionHist
         numFxs = length(results{di}.TransmittedDynamicMTOfFxAndSubregionHist.Fx);
         figname = sprintf('log(%s)',results{di}.TransmittedDynamicMTOfFxAndSubregionHist.Name); 
-        figure; imagesc(results{di}.TransmittedDynamicMTOfFxAndSubregionHist.Fx_Midpoints, results{di}.TransmittedDynamicMTOfFxAndSubregionHist.MTBins_Midpoints, log(abs(results{di}.TransmittedDynamicMTOfFxAndSubregionHist.Mean)));...        
-           colorbar; title(figname); xlabel('Fx [/mm]'); ylabel('Dynamic MT'); set(gcf,'Name', figname);colormap(jet);
+        figure; 
+        imagesc(results{di}.TransmittedDynamicMTOfFxAndSubregionHist.Fx_Midpoints, results{di}.TransmittedDynamicMTOfFxAndSubregionHist.MTBins_Midpoints,...
+            log(abs(results{di}.TransmittedDynamicMTOfFxAndSubregionHist.Mean)));...        
+        colorbar; title(figname); xlabel('Fx [/mm]'); ylabel('Dynamic MT'); set(gcf,'Name', figname);colormap(jet);
         color=char('r-','g-','b-','c-','m-','r:','g:','b:','c:','m:');
         % note results array has dimensions [numFractionalMTBins,numMTBins, numFxs] due to column major json reading
         for i=1:10:numFxs
