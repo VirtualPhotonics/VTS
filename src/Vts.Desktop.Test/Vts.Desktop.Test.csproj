@@ -380,6 +380,9 @@
     <EmbeddedResource Include="..\Vts.Test\Resources\sourcetest\input.txt">
       <Link>Resources\sourcetest\input.txt</Link>
     </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts.Test\Resources\position.txt">
+      <Link>Resources\position.txt</Link>
+    </EmbeddedResource>
     <Content Include="App_Readme\MathNet.Numerics.authors.txt" />
     <Content Include="App_Readme\MathNet.Numerics.copyright.txt" />
     <Content Include="App_Readme\MathNet.Numerics.readme.txt" />

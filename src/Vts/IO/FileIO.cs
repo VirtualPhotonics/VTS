@@ -239,7 +239,7 @@ namespace Vts.IO
         /// <typeparam name="T">Type of the data</typeparam>
         /// <param name="filename">Name of the XML file to be read</param>
         /// <returns>The data as the specified type</returns>
-        public static T ReadFromXML<T>(String filename)
+        public static T ReadFromXML<T>(string filename)
         {
             using (Stream stream = StreamFinder.GetFileStream(filename, FileMode.Open))
             {
@@ -254,7 +254,7 @@ namespace Vts.IO
         /// <typeparam name="T">Type of the data</typeparam>
         /// <param name="filename">Name of the JSON file to be read</param>
         /// <returns>The data as the specified type</returns>
-        public static T ReadFromJson<T>(String filename)
+        public static T ReadFromJson<T>(string filename)
         {
             using (Stream stream = StreamFinder.GetFileStream(filename, FileMode.Open))
             {
@@ -528,12 +528,7 @@ namespace Vts.IO
             {
                 using (BinaryReader br = new BinaryReader(s))
                 {
-                    //Array dataOut = Array.CreateInstance(typeof(Time), dims);
-
                     return new ArrayCustomBinaryReader<T>(dims).ReadFromBinary(br);
-                    //ReadArrayFromBinaryInternal<Time>(br, ref dataOut);
-
-                    //return dataOut;
                 }
             }
         }

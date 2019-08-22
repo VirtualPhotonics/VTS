@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Numerics;
 using System.Reflection;
 using System.Text;
 using NUnit.Framework;
@@ -30,11 +31,14 @@ namespace Vts.Test.IO
             "file3.txt",
             "file4.txt",
             "file5.txt",
+            "file6.txt",
+            "file7.txt",
             "array1",
             "array1.txt",
             "embeddedresourcefile.txt",
             "resourcefile.txt",
-            "AOfXAndYAndZ"
+            "AOfXAndYAndZ",
+            "position.txt"
         };
 
         /// <summary>
@@ -138,7 +142,6 @@ namespace Vts.Test.IO
         [Ignore("This test needs to be added")]
         public void validate_read_array_from_binary()
         {
-
         }
 
         [Test]
@@ -184,24 +187,39 @@ namespace Vts.Test.IO
         }
 
         [Test]
-        [Ignore("This test needs to be added")]
         public void validate_read_from_json()
         {
-
+            var name = Assembly.GetExecutingAssembly().FullName;
+            var assemblyName = new AssemblyName(name).Name;
+            FileIO.CopyFileFromResources("Resources/position.txt", "position.txt", assemblyName);
+            var pos = FileIO.ReadFromJson<Position>("position.txt");
+            Assert.AreEqual(pos.X, 5);
+            Assert.AreEqual(pos.Y, 10);
+            Assert.AreEqual(pos.Z, 15);
         }
 
         [Test]
-        [Ignore("This test needs to be added")]
         public void validate_read_from_json_in_resources()
         {
-
+            var name = Assembly.GetExecutingAssembly().FullName;
+            var assemblyName = new AssemblyName(name).Name;
+            var pos = FileIO.ReadFromJsonInResources<Position>("Resources/position.txt", assemblyName);
+            Assert.AreEqual(pos.X, 5);
+            Assert.AreEqual(pos.Y, 10);
+            Assert.AreEqual(pos.Z, 15);
         }
 
         [Test]
-        [Ignore("This test needs to be added")]
         public void validate_read_from_json_stream()
         {
-
+            var name = Assembly.GetExecutingAssembly().FullName;
+            var assemblyName = new AssemblyName(name).Name;
+            // create a JSON stream
+            var stream = StreamFinder.GetFileStreamFromResources("Resources/position.txt", assemblyName);
+            var pos = FileIO.ReadFromJsonStream<Position>(stream);
+            Assert.AreEqual(pos.X, 5);
+            Assert.AreEqual(pos.Y, 10);
+            Assert.AreEqual(pos.Z, 15);
         }
 
         [Test]
@@ -240,10 +258,15 @@ namespace Vts.Test.IO
         }
 
         [Test]
-        [Ignore("This test needs to be added")]
         public void validate_write_json_to_stream()
         {
-
+            var pos = new Position(2, 4, 6);
+            Stream stream = StreamFinder.GetFileStream("file6.txt", FileMode.Create);
+            FileIO.WriteJsonToStream(pos, stream);
+            var pos2 = FileIO.ReadFromJson<Position>("file6.txt");
+            Assert.AreEqual(pos2.X, 2.0);
+            Assert.AreEqual(pos2.Y, 4.0);
+            Assert.AreEqual(pos2.Z, 6.0);
         }
 
         [Test]
@@ -275,10 +298,14 @@ namespace Vts.Test.IO
         }
 
         [Test]
-        [Ignore("This test needs to be added")]
         public void validate_write_to_json()
         {
-
+            var pos = new Position(2, 4, 6);
+            FileIO.WriteToJson(pos, "file7.txt");
+            var pos2 = FileIO.ReadFromJson<Position>("file7.txt");
+            Assert.AreEqual(pos2.X, 2.0);
+            Assert.AreEqual(pos2.Y, 4.0);
+            Assert.AreEqual(pos2.Z, 6.0);
         }
 
         [Test]
@@ -394,10 +421,15 @@ namespace Vts.Test.IO
             Assert.IsNotNull(stream);
         }
 
+        /// <summary>
+        /// This unit test does not verify the actual array and when
+        /// trying to use this code for validating the read array from 
+        /// binary there are errors - NEEDS REVISION
+        /// </summary>
         [Test]
         public void validate_write_array_to_binary()
         {
-            double[] array = new double[3] {1, 2, 3};
+            double[] array = new double[3] {1.0, 2.0, 3.0};
             FileIO.WriteArrayToBinary<double>(array, "array1", true);
             Assert.IsTrue(FileIO.FileExists("array1"));
             Assert.IsTrue(FileIO.FileExists("array1.txt"));
