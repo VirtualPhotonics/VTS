@@ -20,7 +20,8 @@ namespace Vts.Test.IO
             "folder1",
             "folder2",
             "folder3",
-            "folder4"
+            "folder4",
+            "sourcetest"
         };
         List<string> listOfTestGeneratedFiles = new List<string>()
         {
@@ -32,7 +33,8 @@ namespace Vts.Test.IO
             "array1",
             "array1.txt",
             "embeddedresourcefile.txt",
-            "resourcefile.txt"
+            "resourcefile.txt",
+            "AOfXAndYAndZ"
         };
 
         /// <summary>
@@ -303,6 +305,15 @@ namespace Vts.Test.IO
         }
 
         [Test]
+        public void validate_copy_binary_file_from_embedded_resources()
+        {
+            var name = Assembly.GetExecutingAssembly().FullName;
+            var assemblyName = new AssemblyName(name).Name;
+            FileIO.CopyFileFromEmbeddedResources(assemblyName + ".Resources.source.AOfXAndYAndZ", "AOfXAndYAndZ", name);
+            Assert.IsTrue(FileIO.FileExists("AOfXAndYAndZ"));
+        }
+
+        [Test]
         public void validate_copy_file_from_resources()
         {
             var name = Assembly.GetExecutingAssembly().FullName;
@@ -317,6 +328,16 @@ namespace Vts.Test.IO
             var folder = "folder";
             FileIO.CopyFolderFromEmbeddedResources(folder, "", Assembly.GetExecutingAssembly().FullName, true);
             Assert.IsTrue(FileIO.FileExists(Path.Combine(folder, "embeddedresourcefile.txt")));
+        }
+
+        [Test]
+        public void validate_copy_folder_containing_binary_from_embedded_resources()
+        {
+            var folder = "sourcetest";
+            FileIO.CopyFolderFromEmbeddedResources(folder, "", Assembly.GetExecutingAssembly().FullName, true);
+            Assert.IsTrue(FileIO.FileExists(Path.Combine(folder, "AOfXAndYAndZ")));
+            Assert.IsTrue(FileIO.FileExists(Path.Combine(folder, "AOfXAndYAndZ.txt")));
+            Assert.IsTrue(FileIO.FileExists(Path.Combine(folder, "input.txt")));
         }
 
         [Test]
