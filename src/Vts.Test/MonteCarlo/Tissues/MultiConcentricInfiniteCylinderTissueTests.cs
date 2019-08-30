@@ -23,14 +23,14 @@ namespace Vts.Test.MonteCarlo.Tissues
          new ITissueRegion[]
                 {
                     new InfiniteCylinderTissueRegion(
-                        new Position(0, 0, 1),
-                        1.0,
+                        new Position(0, 0, 3),
+                        3.0,
                         new OpticalProperties(0.05, 1.0, 0.8, 1.4)
                     ),
                     new InfiniteCylinderTissueRegion(
-                        new Position(0, 0, 1),
-                        0.75,
-                        new OpticalProperties(0.05, 1.0, 0.8, 1.4)
+                        new Position(0, 0, 3),
+                        2.5,
+                        new OpticalProperties(0.05, 0.0, 0.8, 1.4)
                     )
                 },
                 new ITissueRegion []
@@ -54,9 +54,9 @@ namespace Vts.Test.MonteCarlo.Tissues
         [Test]
         public void verify_GetRegionIndex_method_returns_correct_result()
         {
-            int index = _tissue.GetRegionIndex(new Position(0, 0, 5)); // outside both infinite cylinders
+            int index = _tissue.GetRegionIndex(new Position(0, 0, 7)); // outside both infinite cylinders
             Assert.AreEqual(index, 1);
-            index = _tissue.GetRegionIndex(new Position(0, 0, 1.8)); // inside outer cylinder outside inner
+            index = _tissue.GetRegionIndex(new Position(0, 0, 0.1)); // inside outer cylinder outside inner
             Assert.AreEqual(index, 3);
             index = _tissue.GetRegionIndex(new Position(0, 0, 1.0)); // inside inner cylinder
             Assert.AreEqual(index, 4);
@@ -69,7 +69,7 @@ namespace Vts.Test.MonteCarlo.Tissues
         public void verify_GetNeighborRegionIndex_method_returns_correct_result()
         {
             Photon photon = new Photon( // on bottom of outer infinite cylinder pointed into it
-                new Position(0, 0, 2.0),
+                new Position(0, 0, 6.0),
                 new Direction(0.0, 0, -1.0),
                 _tissue,
                 1,
@@ -77,7 +77,7 @@ namespace Vts.Test.MonteCarlo.Tissues
             var index = _tissue.GetNeighborRegionIndex(photon);
             Assert.AreEqual(index, 3);
             photon = new Photon( // on bottom of outer infinite cylinder pointed out of it
-                new Position(0, 0, 2.0),
+                new Position(0, 0, 6.0),
                 new Direction(0.0, 0, 1.0),
                 _tissue,
                 3,
@@ -85,7 +85,7 @@ namespace Vts.Test.MonteCarlo.Tissues
             index = _tissue.GetNeighborRegionIndex(photon);
             Assert.AreEqual(index, 1);
             photon = new Photon( // on bottom of inner infinite cylinder pointed into it
-                new Position(0, 0, 1.75),
+                new Position(0, 0, 5.5),
                 new Direction(0.0, 0, -1.0),
                 _tissue,
                 3,
@@ -93,7 +93,7 @@ namespace Vts.Test.MonteCarlo.Tissues
             index = _tissue.GetNeighborRegionIndex(photon);
             Assert.AreEqual(index, 4);
             photon = new Photon( // on bottom of inner infinite cylinder pointed out of it
-                new Position(0, 0, 1.75),
+                new Position(0, 0, 5.5),
                 new Direction(0.0, 0, 1.0),
                 _tissue,
                 4,
@@ -116,7 +116,7 @@ namespace Vts.Test.MonteCarlo.Tissues
         public void validate_GetDistanceToBoundary_method_returns_correct_results()
         {
             Photon photon = new Photon( // below outer infinite cylinder pointed into it
-                new Position(0, 0, 3),
+                new Position(0, 0, 7),
                 new Direction(0.0, 0, -1.0),
                 _tissue,
                 1,
@@ -132,7 +132,7 @@ namespace Vts.Test.MonteCarlo.Tissues
                 new Random());
             photon.S = 10;
             distance = _tissue.GetDistanceToBoundary(photon);
-            Assert.IsTrue(Math.Abs(distance - 0.15) < 1e-6);
+            Assert.IsTrue(Math.Abs(distance - 0.4) < 1e-6);
             photon = new Photon(        // inside inner infinite cylinder pointed out and down
                 new Position(0, 0, 1.0),
                 new Direction(0.0, 0, 1.0),
@@ -141,7 +141,7 @@ namespace Vts.Test.MonteCarlo.Tissues
                 new Random());
             photon.S = 10;
             distance = _tissue.GetDistanceToBoundary(photon);
-            Assert.IsTrue(Math.Abs(distance - 0.75) < 1e-6);
+            Assert.IsTrue(Math.Abs(distance - 4.5) < 1e-6);
             photon = new Photon( // on bottom of slab pointed out
                 new Position(0, 0, 95.0),
                 new Direction(0.0, 0, 1.0),

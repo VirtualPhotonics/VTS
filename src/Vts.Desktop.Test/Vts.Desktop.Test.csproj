@@ -250,6 +250,9 @@
     <Compile Include="..\Vts.Test\MonteCarlo\Detectors\CAWLayersDetectorsTests.cs">
       <Link>MonteCarlo\Detectors\CAWLayersDetectorsTests.cs</Link>
     </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Detectors\DAWInfiniteCylinderDetectorsTests.cs">
+      <Link>MonteCarlo\Detectors\DAWInfiniteCylinderDetectorsTests.cs</Link>
+    </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\Detectors\DAWLayersDetectorsTests.cs">
       <Link>MonteCarlo\Detectors\DAWLayersDetectorsTests.cs</Link>
     </Compile>
@@ -258,6 +261,9 @@
     </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\Detectors\DAWLayersDynamicFxDetectorsTests.cs">
       <Link>MonteCarlo\Detectors\DAWLayersDynamicFxDetectorsTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Detectors\DAWMultiInfiniteCylinderDetectorsTests.cs">
+      <Link>MonteCarlo\Detectors\DAWMultiInfiniteCylinderDetectorsTests.cs</Link>
     </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\Detectors\DAWSphereDetectorsTests.cs">
       <Link>MonteCarlo\Detectors\DAWSphereDetectorsTests.cs</Link>
