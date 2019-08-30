@@ -361,27 +361,36 @@
     <EmbeddedResource Include="..\Vts.Test\Resources\sourcetest\AOfXAndYAndZ">
       <Link>Resources\sourcetest\AOfXAndYAndZ</Link>
     </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts.Test\Resources\fileiotest\ROfRho">
+      <Link>Resources\fileiotest\ROfRho</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts.Test\Resources\fileiotest\binarydbl">
+      <Link>Resources\fileiotest\binarydbl</Link>
+    </EmbeddedResource>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
-    <EmbeddedResource Include="..\Vts.Test\Resources\embeddedresourcefile.txt">
-      <Link>Resources\embeddedresourcefile.txt</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\Vts.Test\Resources\folder\embeddedresourcefile.txt">
-      <Link>Resources\folder\embeddedresourcefile.txt</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\Vts.Test\Resources\resourcefile.txt">
-      <Link>Resources\resourcefile.txt</Link>
-    </EmbeddedResource>
     <EmbeddedResource Include="..\Vts.Test\Resources\sourcetest\AOfXAndYAndZ.txt">
       <Link>Resources\sourcetest\AOfXAndYAndZ.txt</Link>
     </EmbeddedResource>
     <EmbeddedResource Include="..\Vts.Test\Resources\sourcetest\input.txt">
       <Link>Resources\sourcetest\input.txt</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\Vts.Test\Resources\position.txt">
-      <Link>Resources\position.txt</Link>
+    <EmbeddedResource Include="..\Vts.Test\Resources\fileiotest\file7.xml">
+      <Link>Resources\fileiotest\file7.xml</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts.Test\Resources\fileiotest\position.txt">
+      <Link>Resources\fileiotest\position.txt</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts.Test\Resources\fileiotest\embeddedresourcefile.txt">
+      <Link>Resources\fileiotest\embeddedresourcefile.txt</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts.Test\Resources\fileiotest\folder\embeddedresourcefile.txt">
+      <Link>Resources\fileiotest\folder\embeddedresourcefile.txt</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts.Test\Resources\streamfindertest\resourcefile.txt">
+      <Link>Resources\streamfindertest\resourcefile.txt</Link>
     </EmbeddedResource>
     <Content Include="App_Readme\MathNet.Numerics.authors.txt" />
     <Content Include="App_Readme\MathNet.Numerics.copyright.txt" />

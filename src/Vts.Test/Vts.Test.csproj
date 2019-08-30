@@ -7,7 +7,10 @@
 
   <ItemGroup>
     <None Remove="Resources\embeddedresourcefile.txt" />
-    <None Remove="Resources\folder\embeddedresourcefile.txt" />
+    <None Remove="Resources\fileiotest\binarydbl" />
+    <None Remove="Resources\fileiotest\file7.xml" />
+    <None Remove="Resources\fileiotest\ROfRho" />
+    <None Remove="Resources\fileiotest\folder\embeddedresourcefile.txt" />
     <None Remove="Resources\position.txt" />
     <None Remove="Resources\resourcefile.txt" />
     <None Remove="Resources\sourcetest\AOfXAndYAndZ" />
@@ -16,10 +19,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Resources\embeddedresourcefile.txt" />
-    <EmbeddedResource Include="Resources\folder\embeddedresourcefile.txt" />
-    <EmbeddedResource Include="Resources\position.txt" />
-    <EmbeddedResource Include="Resources\resourcefile.txt" />
+    <EmbeddedResource Include="Resources\fileiotest\binarydbl" />
+    <EmbeddedResource Include="Resources\fileiotest\embeddedresourcefile.txt" />
+    <EmbeddedResource Include="Resources\fileiotest\file7.xml" />
+    <EmbeddedResource Include="Resources\fileiotest\ROfRho" />
+    <EmbeddedResource Include="Resources\fileiotest\folder\embeddedresourcefile.txt" />
+    <EmbeddedResource Include="Resources\fileiotest\position.txt" />
+    <EmbeddedResource Include="Resources\streamfindertest\resourcefile.txt" />
     <EmbeddedResource Include="Resources\sourcetest\AOfXAndYAndZ" />
     <EmbeddedResource Include="Resources\sourcetest\AOfXAndYAndZ.txt" />
     <EmbeddedResource Include="Resources\sourcetest\input.txt" />
