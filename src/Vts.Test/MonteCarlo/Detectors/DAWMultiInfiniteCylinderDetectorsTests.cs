@@ -53,7 +53,7 @@ namespace Vts.Test.MonteCarlo.Detectors
 
             // instantiate common classes
             var simulationOptions = new SimulationOptions(
-                0,
+                0, // reproducible
                 RandomNumberGeneratorType.MersenneTwister,
                 AbsorptionWeightingType.Discrete,
                 PhaseFunctionType.HenyeyGreenstein,
@@ -92,7 +92,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
                         new LayerTissueRegion(
                             new DoubleRange(0.0, 20.0),
-                            new OpticalProperties(0.01, 1.0, 1.0, 1.4)),
+                            new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
                         new LayerTissueRegion(
                             new DoubleRange(20.0, double.PositiveInfinity),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
@@ -112,12 +112,12 @@ namespace Vts.Test.MonteCarlo.Detectors
                          new InfiniteCylinderTissueRegion(
                              new Position(0, 0, 1),
                              0.75,
-                             new OpticalProperties(0.01, 1.0, 1, 1.4) //debug with g=1
+                             new OpticalProperties(0.01, 1.0, 0.8, 1.4) //debug with g=1
                          ),
                          new InfiniteCylinderTissueRegion(
                              new Position(0, 0, 1),
                              0.5,
-                             new OpticalProperties(0.01, 1.0, 1, 1.4) //debug with g=1
+                             new OpticalProperties(0.01, 1.0, 0.8, 1.4) //debug with g=1
                          ),
                      },
                     new ITissueRegion[]
@@ -127,7 +127,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
                         new LayerTissueRegion(
                             new DoubleRange(0.0, 20.0), // debug with thin slab d=2
-                            new OpticalProperties(0.01, 1.0, 1, 1.4)),// debug with g=1
+                            new OpticalProperties(0.01, 1.0, 0.8, 1.4)),// debug with g=1
                         new LayerTissueRegion(
                             new DoubleRange(20.0, double.PositiveInfinity),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
@@ -153,13 +153,13 @@ namespace Vts.Test.MonteCarlo.Detectors
         [Test]
         public void validate_DAW_multiinfinitecylinder_TDiffuse()
         {
-            Assert.Less(Math.Abs(_outputOneRegionTissue.Td - _outputTwoRegionTissue.Td), 0.0005);
+            Assert.Less(Math.Abs(_outputOneRegionTissue.Td - _outputTwoRegionTissue.Td), 0.000001);
         }
         // Transmittance Time(angle)
         [Test]
         public void validate_DAW_multiinfinitecylinder_TOfAngle()
         {
-            Assert.Less(Math.Abs(_outputOneRegionTissue.T_a[0] - _outputTwoRegionTissue.T_a[0]), 0.0005);
+            Assert.Less(Math.Abs(_outputOneRegionTissue.T_a[0] - _outputTwoRegionTissue.T_a[0]), 0.000001);
         }
         // Reflectance R(x,y)
         [Test]
@@ -172,14 +172,14 @@ namespace Vts.Test.MonteCarlo.Detectors
         [Test]
         public void validate_DAW_multiinfinitecylinder_ATotal()
         {
-            Assert.Less(Math.Abs(_outputOneRegionTissue.Atot -_outputTwoRegionTissue.Atot), 0.0005);
+            Assert.Less(Math.Abs(_outputOneRegionTissue.Atot -_outputTwoRegionTissue.Atot), 0.000001);
         }
         // Absorption(x,y,z)
         [Test]
         public void validate_DAW_multiinfinitecylinder_AOfXAndYAndZ()
         {
-            Assert.Less(Math.Abs(_outputOneRegionTissue.A_xyz[10,0,10] - 
-                                 _outputTwoRegionTissue.A_xyz[10,0,10]), 0.000001);
+            Assert.Less(Math.Abs(_outputOneRegionTissue.A_xyz[20,0,0] - 
+                                 _outputTwoRegionTissue.A_xyz[20,0,0]), 0.000001);
         }
         // sanity checks
         [Test]
