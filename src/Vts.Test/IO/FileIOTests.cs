@@ -187,36 +187,30 @@ namespace Vts.Test.IO
             Assert.AreEqual(data, 10);
         }
 
-        [Test] // CH: need help
-
-        [Ignore("This test needs to be added")]
+        [Test] 
         public void validate_read_from_binary_in_resources_custom()
         {
-            //var name = Assembly.GetExecutingAssembly().FullName;
-            //var assemblyName = new AssemblyName(name).Name;
-            //double ReadMap(BinaryReader b) => b.Read();
-            //// the following method has a "yield return"
-            //var listRead = FileIO.ReadFromBinaryInResourcesCustom<double>(
-            //    "Resources/fileiotest/binarydbl", assemblyName, ReadMap);
-            //Assert.AreEqual(listRead.First(), 0); // should be 10
+            var name = Assembly.GetExecutingAssembly().FullName;
+            var assemblyName = new AssemblyName(name).Name;
+            double ReadMap(BinaryReader b) => b.ReadDouble();
+            // the following method has a "yield return" so won't load until accessed
+            var arrayRead = FileIO.ReadFromBinaryInResourcesCustom<double>(
+                "Resources/fileiotest/ROfRho", assemblyName, ReadMap);
+            Assert.IsTrue(Math.Abs(arrayRead.Skip(2).Take(1).First() - 0.052445) < 0.000001);
         }
 
 
-        [Test] // CH: need help
-        [Ignore("This test needs to be added")]
+        [Test] 
         public void validate_read_from_binary_custom()
         {
-            //var name = Assembly.GetExecutingAssembly().FullName;
-            //var assemblyName = new AssemblyName(name).Name;
-            //int size = 100;
-            //// read file from resources and write it so that can be read in
-            //double data;
-            //data = (double)FileIO.ReadFromBinaryInResources<double>(
-            //    "Resources/fileiotest/binarydbl", assemblyName);
-            //FileIO.WriteToBinary<double>(data, "array6");
-            //double ReadMap(BinaryReader b) => b.Read();
-            //var listRead = FileIO.ReadFromBinaryCustom<double>("array6", ReadMap);
-            //Assert.AreEqual(listRead.First(), 0); // should be 10
+            IEnumerable<double> arrayWritten = Enumerable.Range(15, 3).Select(x => (double)x);
+            void WriteMap(BinaryWriter b, double s) => b.Write(s);
+            FileIO.WriteToBinaryCustom<double>(arrayWritten, "array6", WriteMap);
+            double ReadMap(BinaryReader b) => b.ReadDouble();
+            // the following method has a "yield return" so won't load until accessed
+            var listRead = FileIO.ReadFromBinaryCustom<double>("array6", ReadMap);
+            var arrayRead = listRead.Take(3).ToArray();
+            Assert.AreEqual(arrayRead[1], 16);
         }
 
         [Test]
