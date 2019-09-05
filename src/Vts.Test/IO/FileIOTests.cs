@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 using NUnit.Framework;
@@ -40,6 +41,9 @@ namespace Vts.Test.IO
             "array2",
             "array3",
             "array4",
+            "array5",
+            "array6",
+            "scalar",
             "embeddedresourcefile.txt",
             "resourcefile.txt",
             "AOfXAndYAndZ",
@@ -144,7 +148,7 @@ namespace Vts.Test.IO
 
 
         [Test]
-        public void validate_read_array_from_binary_in_resources()
+        public void validate_read_array_from_binary_in_resources_with_size_parameter()
         {
             var name = Assembly.GetExecutingAssembly().FullName;
             var assemblyName = new AssemblyName(name).Name;
@@ -158,9 +162,18 @@ namespace Vts.Test.IO
 
         [Test]
         [Ignore("This test needs to be added")]
-        public void validate_read_from_binary_custom()
+        public void validate_read_array_from_binary_in_resources_without_parameter_dimensions()
         {
-
+            // ReadArrayFromBinaryInResources without parameter dimensions calls ReadFromJsonInResources
+            // which does not set dims and so next line in method fails
+            //var name = Assembly.GetExecutingAssembly().FullName;
+            //var assemblyName = new AssemblyName(name).Name;
+            //string dataLocation = "Resources/sourcetest/";
+            //double[,,] data = new double[4, 1, 3];
+            //// CH: since the following method does not instantiate return, need to know size prior to calling it
+            //data = (double[,,])FileIO.ReadArrayFromBinaryInResources<double>
+            //    (dataLocation + @"AOfXAndYAndZ", assemblyName);
+            //Assert.IsTrue(Math.Abs(data[0,0,0]) < 0.000001);
         }
 
         [Test]
@@ -168,24 +181,61 @@ namespace Vts.Test.IO
         {
             var name = Assembly.GetExecutingAssembly().FullName;
             var assemblyName = new AssemblyName(name).Name;
-            string dataLocation = "Resources/fileiotest/";
             double data;
-            data = (double)FileIO.ReadFromBinaryInResources<double>("Resources/fileiotest/binarydbl", assemblyName);
+            data = (double)FileIO.ReadFromBinaryInResources<double>(
+                "Resources/fileiotest/binarydbl", assemblyName);
             Assert.AreEqual(data, 10);
         }
 
-        [Test]
+        [Test] // CH: need help
+
         [Ignore("This test needs to be added")]
         public void validate_read_from_binary_in_resources_custom()
         {
+            //var name = Assembly.GetExecutingAssembly().FullName;
+            //var assemblyName = new AssemblyName(name).Name;
+            //double ReadMap(BinaryReader b) => b.Read();
+            //// the following method has a "yield return"
+            //var listRead = FileIO.ReadFromBinaryInResourcesCustom<double>(
+            //    "Resources/fileiotest/binarydbl", assemblyName, ReadMap);
+            //Assert.AreEqual(listRead.First(), 0); // should be 10
+        }
 
+
+        [Test] // CH: need help
+        [Ignore("This test needs to be added")]
+        public void validate_read_from_binary_custom()
+        {
+            //var name = Assembly.GetExecutingAssembly().FullName;
+            //var assemblyName = new AssemblyName(name).Name;
+            //int size = 100;
+            //// read file from resources and write it so that can be read in
+            //double data;
+            //data = (double)FileIO.ReadFromBinaryInResources<double>(
+            //    "Resources/fileiotest/binarydbl", assemblyName);
+            //FileIO.WriteToBinary<double>(data, "array6");
+            //double ReadMap(BinaryReader b) => b.Read();
+            //var listRead = FileIO.ReadFromBinaryCustom<double>("array6", ReadMap);
+            //Assert.AreEqual(listRead.First(), 0); // should be 10
         }
 
         [Test]
-        [Ignore("This test needs to be added")]
         public void validate_read_from_binary_stream()
         {
-
+            var name = Assembly.GetExecutingAssembly().FullName;
+            var assemblyName = new AssemblyName(name).Name;
+            int size = 100;
+            var arrayWritten = new double[size];
+            // read file from resources and write it so that can be read in
+            arrayWritten = (double[])FileIO.ReadArrayFromBinaryInResources<double>
+                ("Resources/fileiotest/ROfRho", assemblyName, size);
+            FileIO.WriteToBinary<double[]>(arrayWritten, "array5");
+            double[] arrayRead = new double[100];
+            using (Stream stream = StreamFinder.GetFileStream("array5", FileMode.Open))
+            {
+                arrayRead = FileIO.ReadFromBinaryStream<double[]>(stream);
+            }
+            Assert.IsTrue(Math.Abs(arrayRead[2] - 0.052445) < 0.000001);
         }
 
         [Test]
@@ -254,19 +304,6 @@ namespace Vts.Test.IO
             Assert.AreEqual(pos.Z, 6);
         }
 
-        [Test]
-        [Ignore("This test needs to be added")]
-        public void validate_read_scalar_value_from_binary()
-        {
-
-        }
-
-        [Test]
-        [Ignore("This test needs to be added")]
-        public void validate_read_stream_from_binary_custom()
-        {
-
-        }
 
         [Test]
         public void validate_write_json_to_stream()
@@ -281,18 +318,18 @@ namespace Vts.Test.IO
         }
 
         [Test]
-        [Ignore("This test needs to be added")]
-        public void validate_write_scalar_value_to_binary()
+        public void validate_write_scalar_value_to_binary_and_read_scalar_value_from_binary()
         {
-            // CH: the following does not work
-            //int scalar = 11;
-            //Action<BinaryWriter, int> writeMap = (b, s) => b.;
-            //FileIO.WriteScalarValueToBinary<int>(scalar, "scalar", writeMap);
-            //Assert.IsTrue(FileIO.FileExists("scalar"));
-            //Assert.IsTrue(new FileInfo("scalar").Length != 0);
-            //int data;
-            //data = FileIO.ReadScalarValueFromBinary<int>("scalar", 3);
-            //Assert.AreEqual(data[0], 1.0);
+            // write scalar using Action=WriteMap and validate file exists and non-zero length
+            var scalar = 11;
+            void WriteMap(BinaryWriter b, int s) => b.Write(s);
+            FileIO.WriteScalarValueToBinary<int>(scalar, "scalar", WriteMap);
+            Assert.IsTrue(FileIO.FileExists("scalar"));
+            Assert.IsTrue(new FileInfo("scalar").Length != 0);
+            // then read what what written using func ReadMap and validate value
+            int ReadMap(BinaryReader b) => b.Read();
+            var data = FileIO.ReadScalarValueFromBinary<int>("scalar", ReadMap);
+            Assert.AreEqual(data, 11);
         }
 
         [Test]
@@ -308,31 +345,32 @@ namespace Vts.Test.IO
         }
 
         [Test]
-        [Ignore("This test needs to be added")]
         public void validate_write_to_binary_custom()
         {
-            // CH: the following does not work
-            //IEnumerable<double> array = new double[3] { 7.0, 8.0, 9.0 };
-            //Action<BinaryWriter, double> writerMap = (b,d) => Console.WriteLine("{0:3.2f}", d);
-            //FileIO.WriteToBinaryCustom<double>(array, "array3", writerMap);
-            //string readBack = Console.ReadLine();
-            //Assert.IsTrue(readBack == "9.00");
+            IEnumerable<double> arrayWritten = Enumerable.Range(7, 3).Select(x => (double) x);          
+            void WriteMap(BinaryWriter b, double s) => b.Write(s);
+            FileIO.WriteToBinaryCustom<double>(arrayWritten, "array3", WriteMap);
+            Assert.IsTrue(FileIO.FileExists("array3"));
+            Assert.IsTrue(new FileInfo("array3").Length != 0);
         }
 
         [Test]
-        public void validate_write_to_binary_stream()
+        public void validate_write_to_binary_stream_and_read_from_binary_stream()
         {
+            // first create stream, write array, validate written and close stream
             double[] array = new double[3] { 10, 11, 12 };
-            Stream stream = StreamFinder.GetFileStream("array4", FileMode.Create);
-            FileIO.WriteToBinaryStream(array, stream);
-            Assert.IsNotNull(stream);
+            Stream streamWrite = StreamFinder.GetFileStream("array4", FileMode.Create);
+            FileIO.WriteToBinaryStream(array, streamWrite);
+            Assert.IsNotNull(streamWrite);
             Assert.IsTrue(FileIO.FileExists("array4"));
             Assert.IsTrue(new FileInfo("array4").Length != 0);
-            stream.Close();
-            // CH: the following does not work 
-            //double[] data = new double[3];
-            //data = (double[])FileIO.ReadFromBinaryStream<double[]>(stream);
-            //Assert.AreEqual(data[0], 10);
+            streamWrite.Close();
+            // then open stream, read array, validate values and close stream
+            Stream streamRead = StreamFinder.GetFileStream("array4", FileMode.Open);
+            double[] data = new double[3];
+            data = FileIO.ReadFromBinaryStream<double[]>(streamRead);
+            Assert.AreEqual(data[0], 10);
+            streamRead.Close();
         }
 
         [Test]
