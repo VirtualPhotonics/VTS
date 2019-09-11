@@ -19,48 +19,60 @@ namespace Vts.IO
         /// <param name="input">The Array to write</param>
         public void WriteToBinary(BinaryWriter bw, Array input)
         {
-            //IEnumerable<T> array = input.ToEnumerable<T>();
-            object array = null;
-            // testing whether this class really needs to be generic, or if we can test like this...
-            var array1 = input.ToEnumerable<float>();
-            var array2 = input.ToEnumerable<double>();
+            var length = input.GetLength(0);
+            int count = 0;
+            var array1 = input.ToEnumerable<double>();
+            foreach (var val in array1)
+            {
+                count++;
+            }
+            if (length == count && array1 is IEnumerable<double>)
+            {
+                (array1 as IEnumerable<double>).ForEach(bw.Write);
+                return;
+            }
+            var array2 = input.ToEnumerable<float>();
+            count = 0;
+            foreach (var val in array2)
+            {
+                count++;
+            }
+            if (length == count && array2 is IEnumerable<float>)
+            {
+                (array2 as IEnumerable<float>).ForEach(bw.Write);
+                return;
+            }
             var array3 = input.ToEnumerable<Complex>();
+            count = 0;
+            foreach (var val in array3)
+            {
+                count++;
+            }
+            if (length == count && array3 is IEnumerable<Complex>)
+            {
+                (array3 as IEnumerable<Complex>).ForEach(c => { bw.Write(c.Real); bw.Write(c.Imaginary); });
+                return;
+            }
             var array4 = input.ToEnumerable<ushort>();
+            count = 0;
+            foreach (var val in array4)
+            {
+                count++;
+            }
+            if (length == count && array4 is IEnumerable<ushort>)
+            {
+                (array4 as IEnumerable<ushort>).ForEach(bw.Write);
+                return;
+            }
             var array5 = input.ToEnumerable<byte>();
-           
-            if (array1 != null) {Console.WriteLine(array1); array = array1;}
-            if (array2 != null) {Console.WriteLine(array2); array = array2;}
-            if (array3 != null) {Console.WriteLine(array3); array = array3;}
-            if (array4 != null) {Console.WriteLine(array4); array = array4;}
-            if (array5 != null) {Console.WriteLine(array5); array = array5;}
-
-            if (array is IEnumerable<float>)
+            count = 0;
+            foreach (var val in array5)
             {
-                (array as IEnumerable<float>).ForEach(bw.Write);
-                return;
+                count++;
             }
-
-            if (array is IEnumerable<double>)
+            if (length == count && array5 is IEnumerable<byte>)
             {
-                (array as IEnumerable<double>).ForEach(bw.Write);
-                return;
-            }
-
-            if (array is IEnumerable<Complex>)
-            {
-                (array as IEnumerable<Complex>).ForEach(c => { bw.Write(c.Real); bw.Write(c.Imaginary); });
-                return;
-            }
-
-            if (array is IEnumerable<ushort>)
-            {
-                (array as IEnumerable<ushort>).ForEach(bw.Write);
-                return;
-            }
-
-            if (array is IEnumerable<byte>)
-            {
-                (array as IEnumerable<byte>).ForEach(bw.Write);
+                (array5 as IEnumerable<byte>).ForEach(bw.Write);
                 return;
             }
         }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Numerics;
 using System.Reflection;
 using System.Text;
 using NUnit.Framework;
@@ -44,6 +45,14 @@ namespace Vts.Test.IO
             "array5",
             "array6",
             "scalar",
+            "floatarray",
+            "floatarray.txt",
+            "complexarray",
+            "complexarray.txt",
+            "bytearray",
+            "bytearray.txt",
+            "ushortarray",
+            "ushortarray.txt",
             "embeddedresourcefile.txt",
             "resourcefile.txt",
             "AOfXAndYAndZ",
@@ -504,20 +513,79 @@ namespace Vts.Test.IO
         /// reads back array with ReadArrayFromBinary and checks values
         /// </summary>
         [Test]
-        [Ignore("This test needs to be added")]
-        public void validate_write_array_to_binary_and_read_array_from_binary()
+        public void validate_write_double_array_to_binary_and_read_array_from_binary()
         {
-            // if the commented out code in ArrayCustomBinaryWriter is used, the following works
-            // however Vts.ReportForward/InverseSolver.Desktop does not build
-            // decided to revert code and comment out this test
-            //double[] array = new double[3] { 1.0, 2.0, 3.0 };
-            //FileIO.WriteArrayToBinary(array, "array1", true);
-            //Assert.IsTrue(FileIO.FileExists("array1"));
-            //Assert.IsTrue(new FileInfo("array1").Length != 0);
-            //Assert.IsTrue(FileIO.FileExists("array1.txt"));
-            //double[] data = new double[3];
-            //data = (double[])FileIO.ReadArrayFromBinary<double>("array1", 3);
-            //Assert.AreEqual(data[0], 1.0);
+            var array = new double[3] { 1.0, 2.0, 3.0 };
+            FileIO.WriteArrayToBinary(array, "array1", true);
+            Assert.IsTrue(FileIO.FileExists("array1"));
+            Assert.IsTrue(new FileInfo("array1").Length != 0);
+            Assert.IsTrue(FileIO.FileExists("array1.txt"));
+            var data = (double[])FileIO.ReadArrayFromBinary<double>("array1", 3);
+            Assert.AreEqual(data[0], 1.0);
+        }
+
+        /// <summary>
+        /// This unit test first verifies WriteArrayToBinary works successfully the
+        /// reads back array with ReadArrayFromBinary and checks values
+        /// </summary>
+        [Test]
+        public void validate_write_floating_point_array_to_binary_and_read_array_from_binary()
+        {
+            var array = new float[3] { 1.0F, 2.0F, 3.0F };
+            FileIO.WriteArrayToBinary(array, "floatarray", true);
+            Assert.IsTrue(FileIO.FileExists("floatarray"));
+            Assert.IsTrue(new FileInfo("floatarray").Length != 0);
+            Assert.IsTrue(FileIO.FileExists("floatarray.txt"));
+            var data = (float[])FileIO.ReadArrayFromBinary<float>("floatarray", 3);
+            Assert.AreEqual(data[0], 1.0F);
+        }
+
+        /// <summary>
+        /// This unit test first verifies WriteArrayToBinary works successfully the
+        /// reads back array with ReadArrayFromBinary and checks values
+        /// </summary>
+        [Test]
+        public void validate_write_complex_array_to_binary_and_read_array_from_binary()
+        {
+            var array = new Complex[2] { new Complex(0.85, 0.0), new Complex(0.3, 0.0) };
+            FileIO.WriteArrayToBinary(array, "complexarray", true);
+            Assert.IsTrue(FileIO.FileExists("complexarray"));
+            Assert.IsTrue(new FileInfo("complexarray").Length != 0);
+            Assert.IsTrue(FileIO.FileExists("complexarray.txt"));
+            var data = (Complex[])FileIO.ReadArrayFromBinary<Complex>("complexarray", 2);
+            Assert.AreEqual(data[1], new Complex(0.3, 0.0));
+        }
+
+        /// <summary>
+        /// This unit test first verifies WriteArrayToBinary works successfully the
+        /// reads back array with ReadArrayFromBinary and checks values
+        /// </summary>
+        [Test]
+        public void validate_write_ushort_array_to_binary_and_read_array_from_binary()
+        {
+            var array = new ushort[2] { 5, 7 };
+            FileIO.WriteArrayToBinary(array, "ushortarray", true);
+            Assert.IsTrue(FileIO.FileExists("ushortarray"));
+            Assert.IsTrue(new FileInfo("ushortarray").Length != 0);
+            Assert.IsTrue(FileIO.FileExists("ushortarray.txt"));
+            var data = (ushort[])FileIO.ReadArrayFromBinary<ushort>("ushortarray", 2);
+            Assert.AreEqual(data[1], 7);
+        }
+
+        /// <summary>
+        /// This unit test first verifies WriteArrayToBinary works successfully the
+        /// reads back array with ReadArrayFromBinary and checks values
+        /// </summary>
+        [Test]
+        public void validate_write_byte_array_to_binary_and_read_array_from_binary()
+        {
+            var array = new byte[5] { 1, 0, 0, 1, 0 };
+            FileIO.WriteArrayToBinary(array, "bytearray", true);
+            Assert.IsTrue(FileIO.FileExists("bytearray"));
+            Assert.IsTrue(new FileInfo("bytearray").Length != 0);
+            Assert.IsTrue(FileIO.FileExists("bytearray.txt"));
+            var data = (byte[])FileIO.ReadArrayFromBinary<byte>("bytearray", 5);
+            Assert.AreEqual(data[1], 0);
         }
     }
 }
