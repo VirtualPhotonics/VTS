@@ -154,26 +154,21 @@ namespace Vts.Test.IO
             var assemblyName = new AssemblyName(name).Name;
             string dataLocation = "Resources/fileiotest/";
             int size = 100;
-            double[] data = new double[100];
-            data = (double[])FileIO.ReadArrayFromBinaryInResources<double>
+            var data = (double[])FileIO.ReadArrayFromBinaryInResources<double>
                 (dataLocation + @"ROfRho", assemblyName, size);
             Assert.IsTrue(Math.Abs(data[2] - 0.052445) < 0.000001);
         }
 
         [Test]
-        [Ignore("This test needs to be added")]
         public void validate_read_array_from_binary_in_resources_without_parameter_dimensions()
         {
             // ReadArrayFromBinaryInResources without parameter dimensions calls ReadFromJsonInResources
-            // which does not set dims and so next line in method fails
-            //var name = Assembly.GetExecutingAssembly().FullName;
-            //var assemblyName = new AssemblyName(name).Name;
-            //string dataLocation = "Resources/sourcetest/";
-            //double[,,] data = new double[4, 1, 3];
-            //// CH: since the following method does not instantiate return, need to know size prior to calling it
-            //data = (double[,,])FileIO.ReadArrayFromBinaryInResources<double>
-            //    (dataLocation + @"AOfXAndYAndZ", assemblyName);
-            //Assert.IsTrue(Math.Abs(data[0,0,0]) < 0.000001);
+            var name = Assembly.GetExecutingAssembly().FullName;
+            var assemblyName = new AssemblyName(name).Name;
+            string dataLocation = "Resources/fileiotest/";
+            var data = (double[])FileIO.ReadArrayFromBinaryInResources<double>
+                (dataLocation + @"ROfRho", assemblyName);
+            Assert.IsTrue(Math.Abs(data[2] - 0.052445) < 0.000001);
         }
 
         [Test]

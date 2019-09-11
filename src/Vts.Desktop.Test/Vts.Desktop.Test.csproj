@@ -398,6 +398,9 @@
     <EmbeddedResource Include="..\Vts.Test\Resources\streamfindertest\resourcefile.txt">
       <Link>Resources\streamfindertest\resourcefile.txt</Link>
     </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts.Test\Resources\fileiotest\ROfRho.txt">
+      <Link>Resources\fileiotest\ROfRho.txt</Link>
+    </EmbeddedResource>
     <Content Include="App_Readme\MathNet.Numerics.authors.txt" />
     <Content Include="App_Readme\MathNet.Numerics.copyright.txt" />
     <Content Include="App_Readme\MathNet.Numerics.readme.txt" />

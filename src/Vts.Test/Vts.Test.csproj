@@ -11,6 +11,7 @@
     <None Remove="Resources\fileiotest\file7.xml" />
     <None Remove="Resources\fileiotest\ROfRho" />
     <None Remove="Resources\fileiotest\folder\embeddedresourcefile.txt" />
+    <None Remove="Resources\fileiotest\ROfRho.txt" />
     <None Remove="Resources\position.txt" />
     <None Remove="Resources\resourcefile.txt" />
     <None Remove="Resources\sourcetest\AOfXAndYAndZ" />
@@ -25,6 +26,7 @@
     <EmbeddedResource Include="Resources\fileiotest\ROfRho" />
     <EmbeddedResource Include="Resources\fileiotest\folder\embeddedresourcefile.txt" />
     <EmbeddedResource Include="Resources\fileiotest\position.txt" />
+    <EmbeddedResource Include="Resources\fileiotest\ROfRho.txt" />
     <EmbeddedResource Include="Resources\streamfindertest\resourcefile.txt" />
     <EmbeddedResource Include="Resources\sourcetest\AOfXAndYAndZ" />
     <EmbeddedResource Include="Resources\sourcetest\AOfXAndYAndZ.txt" />
