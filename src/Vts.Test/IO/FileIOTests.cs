@@ -45,6 +45,8 @@ namespace Vts.Test.IO
             "array5",
             "array6",
             "scalar",
+            "2darray",
+            "2darray.txt",
             "floatarray",
             "floatarray.txt",
             "complexarray",
@@ -334,12 +336,26 @@ namespace Vts.Test.IO
         public void validate_write_to_binary_and_read_from_binary()
         {
             double[] array = new double[3] { 4.0, 5.0, 6.0 };
-            FileIO.WriteToBinary<double[]>(array, "array2");
+            FileIO.WriteToBinary(array, "array2");
             Assert.IsTrue(FileIO.FileExists("array2"));
             Assert.IsTrue(new FileInfo("array2").Length != 0);
-            double[] data = new double[3];
-            data = FileIO.ReadFromBinary<double[]>("array2");
+            var data = FileIO.ReadFromBinary<double[]>("array2");
             Assert.AreEqual(data[0], 4.0);
+        }
+
+        [Test]
+        public void validate_write_2D_array_to_binary_and_read_from_binary()
+        {
+            var array = new double[,]
+            {
+                {1D, 2D},
+                {3D, 4D}
+            };
+            FileIO.WriteToBinary(array, "2darray");
+            Assert.IsTrue(FileIO.FileExists("2darray"));
+            Assert.IsTrue(new FileInfo("2darray").Length != 0);
+            var data = FileIO.ReadFromBinary<double[,]>("2darray");
+            Assert.AreEqual(data[0, 1], 2D);
         }
 
         [Test]
@@ -365,8 +381,7 @@ namespace Vts.Test.IO
             streamWrite.Close();
             // then open stream, read array, validate values and close stream
             Stream streamRead = StreamFinder.GetFileStream("array4", FileMode.Open);
-            double[] data = new double[3];
-            data = FileIO.ReadFromBinaryStream<double[]>(streamRead);
+            var data = FileIO.ReadFromBinaryStream<double[]>(streamRead);
             Assert.AreEqual(data[0], 10);
             streamRead.Close();
         }

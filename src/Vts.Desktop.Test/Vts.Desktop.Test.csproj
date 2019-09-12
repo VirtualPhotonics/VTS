@@ -145,6 +145,12 @@
     <Compile Include="..\Vts.Test\Factories\SolverFactoryTests.cs">
       <Link>Factories\SolverFactoryTests.cs</Link>
     </Compile>
+    <Compile Include="..\Vts.Test\IO\ArrayCustomBinaryReaderTests.cs">
+      <Link>IO\ArrayCustomBinaryReaderTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\IO\ArrayCustomBinaryWriterTests.cs">
+      <Link>IO\ArrayCustomBinaryWriterTests.cs</Link>
+    </Compile>
     <Compile Include="..\Vts.Test\IO\FileIOTests.cs">
       <Link>IO\FileIOTests.cs</Link>
     </Compile>
@@ -337,7 +343,6 @@
     <Compile Include="..\Vts.Test\MonteCarlo\Tissues\SingleInclusionTissueTests.cs">
       <Link>MonteCarlo\Tissues\SingleInclusionTissueTests.cs</Link>
     </Compile>
-    <Compile Include="FileIOTests.Desktop.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
