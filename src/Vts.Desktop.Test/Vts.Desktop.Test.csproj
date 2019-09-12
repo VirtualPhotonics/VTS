@@ -331,6 +331,9 @@
     <Compile Include="..\Vts.Test\MonteCarlo\Tissues\InfiniteCylinderTissueRegionTests.cs">
       <Link>MonteCarlo\Tissues\InfiniteCylinderTissueRegionTests.cs</Link>
     </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Tissues\MultiConcentricInfiniteCylinderTissueTests.cs">
+      <Link>MonteCarlo\Tissues\MultiConcentricInfiniteCylinderTissueTests.cs</Link>
+    </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\Tissues\SingleInclusionTissueTests.cs">
       <Link>MonteCarlo\Tissues\SingleInclusionTissueTests.cs</Link>
     </Compile>
