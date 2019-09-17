@@ -59,6 +59,10 @@ namespace Vts.MonteCarlo.Detectors
         /// </summary>
         public DoubleRange MTBins { get; set; }        
         /// <summary>
+        /// fractional momentum transfer binning
+        /// </summary>
+        public DoubleRange FractionalMTBins { get; set; }
+        /// <summary>
         /// Detector region index
         /// </summary>
         public int FinalTissueRegionIndex { get; set; }
@@ -66,11 +70,7 @@ namespace Vts.MonteCarlo.Detectors
         /// detector numerical aperture
         /// </summary>
         public double NA { get; set; }
-        /// <summary>
-        /// fractional momentum transfer binning
-        /// </summary>
-        public DoubleRange FractionalMTBins { get; set; }
-        
+
         public IDetector CreateDetector()
         {
             return new ReflectedDynamicMTOfXAndYAndSubregionHistDetector

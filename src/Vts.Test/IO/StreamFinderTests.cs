@@ -20,6 +20,7 @@ namespace Vts.Test.IO
         List<string> listOfTestGeneratedFiles = new List<string>()
         {
             "file4.txt",
+            "resourcefile.txt"
         };
         /// <summary>
         /// clear all generated folders and files
@@ -52,7 +53,7 @@ namespace Vts.Test.IO
         {
             var name = Assembly.GetExecutingAssembly().FullName;
             var assemblyName = new AssemblyName(name).Name;
-            var stream = StreamFinder.GetFileStreamFromResources("Resources/resourcefile.txt", assemblyName);
+            var stream = StreamFinder.GetFileStreamFromResources("Resources/streamfindertest/resourcefile.txt", assemblyName);
             Assert.IsNotNull(stream);
         }
 

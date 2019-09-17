@@ -4,7 +4,6 @@ using NUnit.Framework;
 using Vts.Common;
 using Vts.MonteCarlo;
 using Vts.MonteCarlo.Detectors;
-using Vts.MonteCarlo.Helpers;
 using Vts.MonteCarlo.Sources;
 using Vts.MonteCarlo.Tissues;
 using Vts.MonteCarlo.PostProcessing;
@@ -111,48 +110,6 @@ namespace Vts.Test.MonteCarlo.Detectors
                             FinalTissueRegionIndex= 2, 
                             NA = 0.0
                     },
-                    new ReflectedDynamicMTOfRhoAndSubregionHistDetectorInput() 
-                    {
-                        Rho=new DoubleRange(0.0, 10.0, 11), 
-                        Z = new DoubleRange(0.0, 10.0, 11),
-                        MTBins=new DoubleRange(0.0, 500.0, 5),
-                        FractionalMTBins = new DoubleRange(0.0, 1.0, 11),
-                        BloodVolumeFraction = new List<double>() { 0, 0.5, 0},
-                        FinalTissueRegionIndex= 0, 
-                        NA = 0.0
-                    },
-                    new TransmittedDynamicMTOfRhoAndSubregionHistDetectorInput() 
-                    {
-                        Rho=new DoubleRange(0.0, 10.0, 11), 
-                        Z = new DoubleRange(0.0, 10.0, 11),
-                        MTBins=new DoubleRange(0.0, 500.0, 5),
-                        FractionalMTBins = new DoubleRange(0.0, 1.0, 11),
-                        BloodVolumeFraction = new List<double>() { 0, 0.5, 0 },
-                        FinalTissueRegionIndex= 2, 
-                        NA = 0.0
-                    },
-                    new ReflectedDynamicMTOfXAndYAndSubregionHistDetectorInput() 
-                    {
-                        X = new DoubleRange(-10.0, 10.0, 11), 
-                        Y = new DoubleRange(-10.0, 10.0, 11), 
-                        Z = new DoubleRange(0.0, 10.0, 21),
-                        MTBins=new DoubleRange(0.0, 500.0, 5), 
-                        FractionalMTBins = new DoubleRange(0.0, 1.0, 11),
-                        BloodVolumeFraction = new List<double>() { 0, 0.5, 0},
-                        FinalTissueRegionIndex= 0, 
-                        NA = 0.0
-                    },
-                    new TransmittedDynamicMTOfXAndYAndSubregionHistDetectorInput() 
-                    {    
-                        X = new DoubleRange(-10.0, 10.0, 11), 
-                        Y = new DoubleRange(-10.0, 10.0, 11), 
-                        Z = new DoubleRange(0.0, 10.0, 11),
-                        MTBins=new DoubleRange(0.0, 500.0, 5),
-                        FractionalMTBins = new DoubleRange(0.0, 1.0, 11),
-                        BloodVolumeFraction = new List<double>() { 0, 0.5, 0} ,
-                        FinalTissueRegionIndex= 2, 
-                        NA = 0.0
-                    }
                 };
             var input = new SimulationInput(
                 100,
@@ -222,48 +179,6 @@ namespace Vts.Test.MonteCarlo.Detectors
                             FinalTissueRegionIndex= 2, 
                             NA=0.3
                     },
-                    new ReflectedDynamicMTOfRhoAndSubregionHistDetectorInput() 
-                    {
-                        Rho=new DoubleRange(0.0, 10.0, 11), 
-                        Z = new DoubleRange(0.0, 10.0, 11),
-                        MTBins=new DoubleRange(0.0, 500.0, 5),
-                        FractionalMTBins = new DoubleRange(0.0, 1.0, 11),
-                        BloodVolumeFraction = new List<double>() { 0, 0.5, 0},
-                        FinalTissueRegionIndex= 0, 
-                        NA=0.3
-                    },
-                    new TransmittedDynamicMTOfRhoAndSubregionHistDetectorInput() 
-                    {
-                        Rho=new DoubleRange(0.0, 10.0, 11), 
-                        Z = new DoubleRange(0.0, 10.0, 11),
-                        MTBins=new DoubleRange(0.0, 500.0, 5), 
-                        FractionalMTBins = new DoubleRange(0.0, 1.0, 11),
-                        BloodVolumeFraction = new List<double>() { 0, 0.5, 0 },
-                        FinalTissueRegionIndex= 2, 
-                        NA=0.3
-                    },
-                    new ReflectedDynamicMTOfXAndYAndSubregionHistDetectorInput() 
-                    {
-                        X = new DoubleRange(-10.0, 10.0, 11), 
-                        Y = new DoubleRange(-10.0, 10.0, 11), 
-                        Z = new DoubleRange(0.0, 10.0, 21),
-                        MTBins=new DoubleRange(0.0, 500.0, 5), 
-                        FractionalMTBins = new DoubleRange(0.0, 1.0, 11),
-                        BloodVolumeFraction = new List<double>() { 0, 0.5, 0},
-                        FinalTissueRegionIndex= 0, 
-                        NA=0.3
-                    },
-                    new TransmittedDynamicMTOfXAndYAndSubregionHistDetectorInput() 
-                    {    
-                        X = new DoubleRange(-10.0, 10.0, 11), 
-                        Y = new DoubleRange(-10.0, 10.0, 11), 
-                        Z = new DoubleRange(0.0, 10.0, 11),
-                        MTBins=new DoubleRange(0.0, 500.0, 5),
-                        FractionalMTBins = new DoubleRange(0.0, 1.0, 11),
-                        BloodVolumeFraction = new List<double>() { 0, 0.5, 0} ,
-                        FinalTissueRegionIndex= 2, 
-                        NA = 0.3
-                    }
                 };
             input = new SimulationInput(
                 100,
@@ -321,40 +236,6 @@ namespace Vts.Test.MonteCarlo.Detectors
                             MTBins=new DoubleRange(0.0, 500.0, 5), 
                             FractionalMTBins = new DoubleRange(0.0, 1.0, 11),
                     },
-                    new ReflectedDynamicMTOfRhoAndSubregionHistDetectorInput() 
-                    {
-                        Rho=new DoubleRange(0.0, 10.0, 11), 
-                        Z = new DoubleRange(0.0, 10.0, 11),
-                        MTBins=new DoubleRange(0.0, 500.0, 5),
-                        FractionalMTBins = new DoubleRange(0.0, 1.0, 11),
-                        BloodVolumeFraction = new List<double>() { 0, 0.5, 0},
-                    },
-                    new TransmittedDynamicMTOfRhoAndSubregionHistDetectorInput() 
-                    {
-                        Rho=new DoubleRange(0.0, 10.0, 11), 
-                        Z = new DoubleRange(0.0, 10.0, 11),
-                        MTBins=new DoubleRange(0.0, 500.0, 5), 
-                        FractionalMTBins = new DoubleRange(0.0, 1.0, 11),
-                        BloodVolumeFraction = new List<double>() { 0, 0.5, 0 },
-                    },
-                    new ReflectedDynamicMTOfXAndYAndSubregionHistDetectorInput() 
-                    {
-                        X = new DoubleRange(-10.0, 10.0, 11), 
-                        Y = new DoubleRange(-10.0, 10.0, 11), 
-                        Z = new DoubleRange(0.0, 10.0, 21),
-                        MTBins=new DoubleRange(0.0, 500.0, 5), 
-                        FractionalMTBins = new DoubleRange(0.0, 1.0, 11),
-                        BloodVolumeFraction = new List<double>() { 0, 0.5, 0},
-                    },
-                    new TransmittedDynamicMTOfXAndYAndSubregionHistDetectorInput() 
-                    {    
-                        X = new DoubleRange(-10.0, 10.0, 11), 
-                        Y = new DoubleRange(-10.0, 10.0, 11), 
-                        Z = new DoubleRange(0.0, 10.0, 11),
-                        MTBins=new DoubleRange(0.0, 500.0, 5),
-                        FractionalMTBins = new DoubleRange(0.0, 1.0, 11),
-                        BloodVolumeFraction = new List<double>() { 0, 0.5, 0} ,
-                    }
                 };
             input = new SimulationInput(
                 100,
@@ -384,57 +265,47 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.AreEqual(_outputNA0.R_fx[0].Imaginary, 0.0);
             Assert.AreEqual(_outputNA0.R_fxt[0, 0].Real, 0.0);
             Assert.AreEqual(_outputNA0.R_fxt[0, 0].Imaginary, 0.0);
-            Assert.AreEqual(_outputNA0.Rspec, 0.02); // specular reflection of collimated beam is [0,0,-1] so passes NA
+            Assert.AreEqual(_outputNA0.Rspec, 0.01); // specular reflection of collimated beam is [0,0,-1] so passes NA
             Assert.AreEqual(_outputNA0.Td, 0.0);
             Assert.AreEqual(_outputNA0.T_r[0], 0.0);
             Assert.AreEqual(_outputNA0.T_a[0], 0.0);
             Assert.AreEqual(_outputNA0.T_ra[0, 0], 0.0);
             Assert.AreEqual(_outputNA0.T_xy[0, 0], 0.0);
-            Assert.Less(Math.Abs(_outputNA0.Rad_r[0] - 0.006366), 0.000001); // shallow dosimetry depth catches initial flight of [0,0,1] so passes NA
+            Assert.AreEqual(_outputNA0.Rad_r[0], 0.0); 
             Assert.AreEqual(_outputNA0.RefMT_rmt[0, 0], 0.0);
             Assert.AreEqual(_outputNA0.RefMT_xymt[0, 0, 0], 0.0);
             Assert.AreEqual(_outputNA0.TransMT_rmt[0, 0], 0.0);
             Assert.AreEqual(_outputNA0.TransMT_xymt[0, 0, 0], 0.0);
-            Assert.AreEqual(_outputNA0.RefDynMT_rmt[0, 0], 0.0);
-            Assert.AreEqual(_outputNA0.RefDynMT_xymt[0, 0, 0], 0.0);
-            Assert.AreEqual(_outputNA0.TransDynMT_rmt[0, 0], 0.0);
-            Assert.AreEqual(_outputNA0.TransDynMT_xymt[0, 0, 0], 0.0);
         }
         /// <summary>
         /// test to validate partially open NA validation values taken from prior test run
-        /// Note: these results will not align with DAWLayersDetectorsTests because Dynamic detectors included
-        /// and they change sequence of RNG
         /// </summary>
         [Test]
         public void validate_detector_tallies_when_NA_is_0p3()
         {
-            Assert.Less(Math.Abs(_outputNA0p3.Rd - 0.041371), 0.000001);
-            Assert.Less(Math.Abs(_outputNA0p3.R_r[2] - 0.000610), 0.000001);
-            Assert.Less(Math.Abs(_outputNA0p3.R_a[0] - 0.005928), 0.000001);
-            Assert.Less(Math.Abs(_outputNA0p3.R_ra[2, 0] - 8.747283e-5), 0.00001e-5);
-            Assert.Less(Math.Abs(_outputNA0p3.R_rt[2, 0] - 0.006104), 0.000001);
-            Assert.Less(Math.Abs(_outputNA0p3.R_rw[2, 0].Real - 0.000610), 0.000001);
-            Assert.Less(Math.Abs(_outputNA0p3.R_rw[2, 0].Imaginary + 3.691193e-6), 0.00001e-6);
-            Assert.Less(Math.Abs(_outputNA0p3.R_xy[3, 7] - 0.001751), 0.000001);
-            Assert.Less(Math.Abs(_outputNA0p3.R_fx[1].Real - 0.040582), 0.000001);
-            Assert.Less(Math.Abs(_outputNA0p3.R_fx[1].Imaginary + 6.894488e-5), 0.00001e-5);
-            Assert.Less(Math.Abs(_outputNA0p3.R_fxt[1, 0].Real - 0.042811), 0.000001);
-            Assert.Less(Math.Abs(_outputNA0p3.R_fxt[1, 0].Imaginary - 0.176853), 0.000001);
+            Assert.Less(Math.Abs(_outputNA0p3.Rd - 0.045615), 0.000001);
+            Assert.Less(Math.Abs(_outputNA0p3.R_r[0] - 0.003170), 0.000001);
+            Assert.Less(Math.Abs(_outputNA0p3.R_a[0] - 0.006536), 0.000001);
+            Assert.Less(Math.Abs(_outputNA0p3.R_ra[0, 0] - 0.000454), 0.000001);
+            Assert.Less(Math.Abs(_outputNA0p3.R_rt[0, 0] - 0.031704), 0.000001);
+            Assert.Less(Math.Abs(_outputNA0p3.R_rw[0, 0].Real - 0.003170), 0.000001);
+            Assert.Less(Math.Abs(_outputNA0p3.R_rw[0, 0].Imaginary + 1.474517e-6), 0.00001e-6);
+            Assert.Less(Math.Abs(_outputNA0p3.R_xy[3, 6] - 0.001351), 0.000001);
+            Assert.Less(Math.Abs(_outputNA0p3.R_fx[1].Real - 0.044879), 0.000001);
+            Assert.Less(Math.Abs(_outputNA0p3.R_fx[1].Imaginary - 0.000765), 0.000001);
+            Assert.Less(Math.Abs(_outputNA0p3.R_fxt[1, 0].Real - 0.252024), 0.000001);
+            Assert.Less(Math.Abs(_outputNA0p3.R_fxt[1, 0].Imaginary - 0.089027), 0.000001);
             Assert.AreEqual(_outputNA0p3.Rspec, 0.01);
-            Assert.Less(Math.Abs(_outputNA0p3.Td - 0.027105), 0.000001);
-            Assert.Less(Math.Abs(_outputNA0p3.T_r[2] - 0.000104), 0.000001);
-            Assert.Less(Math.Abs(_outputNA0p3.T_a[0] - 0.003883), 0.000001);
-            Assert.Less(Math.Abs(_outputNA0p3.T_ra[0, 0] - 3.768329e-5), 0.00001e-5);
-            Assert.Less(Math.Abs(_outputNA0p3.T_xy[1, 5] - 0.001443), 0.000001);
-            Assert.Less(Math.Abs(_outputNA0p3.Rad_r[0] - 0.022294), 0.000001);
-            Assert.Less(Math.Abs(_outputNA0p3.RefMT_rmt[2, 0] - 0.000610), 0.000001);
-            Assert.Less(Math.Abs(_outputNA0p3.RefMT_xymt[3, 7, 0] - 0.001751), 0.000001);
-            Assert.Less(Math.Abs(_outputNA0p3.TransMT_rmt[0, 1] - 0.000262), 0.000001);
-            Assert.Less(Math.Abs(_outputNA0p3.TransMT_xymt[0, 5, 1] - 0.000460), 0.000001);
-            Assert.Less(Math.Abs(_outputNA0p3.RefDynMT_rmt[2, 0] - 0.000610), 0.000001);
-            Assert.Less(Math.Abs(_outputNA0p3.RefDynMT_xymt[3, 7, 0] - 0.001751), 0.000001);
-            Assert.Less(Math.Abs(_outputNA0p3.TransDynMT_rmt[0, 1] - 0.000262), 0.000001);
-            Assert.Less(Math.Abs(_outputNA0p3.TransDynMT_xymt[0, 5, 1] - 0.000460), 0.000001);
+            Assert.Less(Math.Abs(_outputNA0p3.Td - 0.023415), 0.000001);
+            Assert.Less(Math.Abs(_outputNA0p3.T_r[1] - 0.001520), 0.000001);
+            Assert.Less(Math.Abs(_outputNA0p3.T_a[0] - 0.003355), 0.000001);
+            Assert.Less(Math.Abs(_outputNA0p3.T_ra[1, 0] - 0.000217), 0.000001);
+            Assert.Less(Math.Abs(_outputNA0p3.T_xy[4, 7] - 0.000997), 0.000001);
+            Assert.Less(Math.Abs(_outputNA0p3.Rad_r[0] - 0.015929), 0.000001);
+            Assert.Less(Math.Abs(_outputNA0p3.RefMT_rmt[2, 0] - 0.000599), 0.000001);
+            Assert.Less(Math.Abs(_outputNA0p3.RefMT_xymt[3, 6, 0] - 0.001351), 0.000001);
+            Assert.Less(Math.Abs(_outputNA0p3.TransMT_rmt[1, 0] - 0.001520), 0.000001);
+            Assert.Less(Math.Abs(_outputNA0p3.TransMT_xymt[4, 7, 0] - 0.000997), 0.000001);
         }
 
         /// <summary>
@@ -452,27 +323,24 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.AreNotEqual(_outputNoNASpecified.R_rt[1, 0], 0.0);
             Assert.AreNotEqual(_outputNoNASpecified.R_rw[1, 0].Real, 0.0);
             Assert.AreNotEqual(_outputNoNASpecified.R_rw[1, 0].Imaginary, 0.0);
-            Assert.AreNotEqual(_outputNoNASpecified.R_xy[0, 9], 0.0);
+            Assert.AreNotEqual(_outputNoNASpecified.R_xy[0, 1], 0.0);
             Assert.AreNotEqual(_outputNoNASpecified.R_fx[1].Real, 0.0);
             Assert.AreNotEqual(_outputNoNASpecified.R_fx[1].Imaginary, 0.0);
             Assert.AreNotEqual(_outputNoNASpecified.R_fxt[1, 0].Real, 0.0);
             Assert.AreNotEqual(_outputNoNASpecified.R_fxt[1, 0].Imaginary, 0.0);
             Assert.AreNotEqual(_outputNoNASpecified.Rspec, 0.0);
             Assert.AreNotEqual(_outputNoNASpecified.Td, 0.0);
-            Assert.AreNotEqual(_outputNoNASpecified.T_r[4], 0.0);
+            Assert.AreNotEqual(_outputNoNASpecified.T_r[1], 0.0);
             Assert.AreNotEqual(_outputNoNASpecified.T_a[0], 0.0);
             Assert.AreNotEqual(_outputNoNASpecified.T_ra[1, 0], 0.0);
-            Assert.AreNotEqual(_outputNoNASpecified.T_xy[0, 0], 0.0);
+            Assert.AreNotEqual(_outputNoNASpecified.T_xy[0, 2], 0.0);
             Assert.AreNotEqual(_outputNoNASpecified.Rad_r[0], 0.0);
             Assert.AreNotEqual(_outputNoNASpecified.RefMT_rmt[1, 0], 0.0);
-            Assert.AreNotEqual(_outputNoNASpecified.RefMT_xymt[0, 9, 1], 0.0);
+            Assert.AreNotEqual(_outputNoNASpecified.RefMT_xymt[0, 1, 0], 0.0);
             Assert.AreNotEqual(_outputNoNASpecified.TransMT_rmt[1, 0], 0.0);
-            Assert.AreNotEqual(_outputNoNASpecified.TransMT_xymt[0, 0, 0], 0.0);
-            Assert.AreNotEqual(_outputNoNASpecified.RefDynMT_rmt[1, 0], 0.0);
-            Assert.AreNotEqual(_outputNoNASpecified.RefDynMT_xymt[0, 9, 1], 0.0);
-            Assert.AreNotEqual(_outputNoNASpecified.TransDynMT_rmt[1, 0], 0.0);
-            Assert.AreNotEqual(_outputNoNASpecified.TransDynMT_xymt[0, 0, 0], 0.0);
+            Assert.AreNotEqual(_outputNoNASpecified.TransMT_xymt[0, 2, 0], 0.0);
         }
+
         /// <summary>
         /// Test to validate that pMC/dMC detectors tallies are 0 when NA=0
         /// </summary>
@@ -648,14 +516,14 @@ namespace Vts.Test.MonteCarlo.Detectors
                 _inputForPMC);
             var postProcessedOutput = postProcessor.Run();
 
-            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_r[1] - 0.000954), 0.000001);
-            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_rt[1, 0] - 0.009544), 0.000001);
-            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_fx[1].Real - 0.019533), 0.000001);
-            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_fx[1].Imaginary + 0.005684), 0.000001);
-            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_fxt[1, 0].Real - 0.110045), 0.000001);
-            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_fxt[1, 0].Imaginary + 0.134473), 0.000001);
-            Assert.Less(Math.Abs(postProcessedOutput.dMCdMua_R_r[1] + 0.011313), 0.000001);
-            Assert.Less(Math.Abs(postProcessedOutput.dMCdMus_R_r[1] + 0.001196), 0.000001);
+            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_r[0] - 0.003170), 0.000001);
+            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_rt[0, 0] - 0.031704), 0.000001);
+            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_fx[1].Real - 0.019227), 0.000001);
+            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_fx[1].Imaginary - 0.012466), 0.000001);
+            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_fxt[1, 0].Real - 0.252024), 0.000001);
+            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_fxt[1, 0].Imaginary - 0.089027), 0.000001);
+            Assert.Less(Math.Abs(postProcessedOutput.dMCdMua_R_r[0] + 0.001005), 0.000001);
+            Assert.Less(Math.Abs(postProcessedOutput.dMCdMus_R_r[0] - 0.000263), 0.000001);
         }
     }
 }

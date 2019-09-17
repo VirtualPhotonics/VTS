@@ -53,8 +53,10 @@ show.TransmittedMTOfRhoAndSubregionHist = 1;
 show.TransmittedMTOfXAndYAndSubregionHist = 1;
 show.ReflectedDynamicMTOfRhoAndSubregionHist = 1;
 show.ReflectedDynamicMTOfXAndYAndSubregionHist = 1;
+show.ReflectedDynamicMTOfFxAndSubregionHist = 1;
 show.TransmittedDynamicMTOfRhoAndSubregionHist = 1;
 show.TransmittedDynamicMTOfXAndYAndSubregionHist = 1;
+show.TransmittedDynamicMTOfFxAndSubregionHist = 1;
 show.ReflectedTimeOfRhoAndSubregionHist = 1;
 
 for mci = 1:length(datanames)
@@ -382,7 +384,7 @@ for mci = 1:length(datanames)
         color=char('r-','g-','b-','c-','m-','r:','g:','b:','c:','m:');
         % note results array has dimensions [numFractionalMTBins,numSubregions, numMTBins, numRhos] due to column major json reading
         for j=2:3 % customized, general form: j=1:numsubregions
-        for i=1:20:41 % customized, general form: i=1:numrhos
+        for i=1:20:numrhos
             %figure; plot(results{di}.ReflectedMTOfRhoAndSubregionHist.MTBins_Midpoints,results{di}.ReflectedMTOfRhoAndSubregionHist.Mean(i,:)); % debug plots
             figure;figname = sprintf('Reflected Fractional MT in Region %2d, Rho = %5.3f mm',j-1,results{di}.ReflectedMTOfRhoAndSubregionHist.Rho_Midpoints(i));
             MT=results{di}.ReflectedMTOfRhoAndSubregionHist.MTBins_Midpoints;
@@ -441,7 +443,7 @@ for mci = 1:length(datanames)
         color=char('r-','g-','b-','c-','m-','r:','g:','b:','c:','m:');
         % note results array has dimensions [numFractionalMTBins,numSubregions, numMTBins, numRhos] due to column major json reading
         for j=2:3 % customized, general form: j=1:numsubregions
-        for i=1:20:41 % customized, general form: i=1:numrhos
+        for i=1:20:numrhos
             %figure; plot(results{di}.TransmittedMTOfRhoAndSubregionHist.MTBins_Midpoints,results{di}.TransmittedMTOfRhoAndSubregionHist.Mean(i,:)); % debug plots
             figure;figname = sprintf('Transmitted Fractional MT in Region %2d, Rho = %5.3f mm',j-1,results{di}.TransmittedMTOfRhoAndSubregionHist.Rho_Midpoints(i));
             MT=results{di}.TransmittedMTOfRhoAndSubregionHist.MTBins_Midpoints;
@@ -498,7 +500,7 @@ for mci = 1:length(datanames)
            colorbar; title(figname); xlabel('\rho [mm]'); ylabel('Dynamic MT'); set(gcf,'Name', figname);colormap(jet);
         color=char('r-','g-','b-','c-','m-','r:','g:','b:','c:','m:');
         % note results array has dimensions [numFractionalMTBins,numMTBins, numRhos] due to column major json reading
-        for i=1:20:41 % customized, general form: i=1:numrhos
+        for i=1:20:numrhos
             %figure; plot(results{di}.ReflectedDynamicMTOfRhoAndSubregionHist.MTBins_Midpoints,results{di}.ReflectedDynamicMTOfRhoAndSubregionHist.Mean(i,:)); % debug plots
             figure;figname = sprintf('Reflected Fractional Dynamic MT, Rho = %5.3f mm',results{di}.ReflectedDynamicMTOfRhoAndSubregionHist.Rho_Midpoints(i));
             MT=results{di}.ReflectedDynamicMTOfRhoAndSubregionHist.MTBins_Midpoints;
@@ -568,6 +570,48 @@ for mci = 1:length(datanames)
         figure;figname='Reflected Dynamic MT Of X and Y: Subregion Collisions';
         plot(results{di}.ReflectedDynamicMTOfXAndYAndSubregionHist.SubregionIndices, results{di}.ReflectedDynamicMTOfXAndYAndSubregionHist.SubregionCollisions(1,:),...
              results{di}.ReflectedDynamicMTOfXAndYAndSubregionHist.SubregionIndices, results{di}.ReflectedDynamicMTOfXAndYAndSubregionHist.SubregionCollisions(2,:));
+        title(figname);xlabel('tissue region index');ylabel('Collisions');legend('static','dynamic');
+    end
+    if isfield(results{di}, 'ReflectedDynamicMTOfFxAndSubregionHist') && show.ReflectedDynamicMTOfFxAndSubregionHist
+        numFxs = length(results{di}.ReflectedDynamicMTOfFxAndSubregionHist.Fx);
+        figname = sprintf('log(%s)',results{di}.ReflectedDynamicMTOfFxAndSubregionHist.Name); 
+        figure; 
+        imagesc(results{di}.ReflectedDynamicMTOfFxAndSubregionHist.Fx_Midpoints, results{di}.ReflectedDynamicMTOfFxAndSubregionHist.MTBins_Midpoints, ...
+            log(abs(results{di}.ReflectedDynamicMTOfFxAndSubregionHist.Mean)));       
+        colorbar; title(figname); xlabel('Fx [/mm]'); ylabel('Dynamic MT'); set(gcf,'Name', figname);colormap(jet);
+        color=char('r-','g-','b-','c-','m-','r:','g:','b:','c:','m:');
+        % note results array has dimensions [numFractionalMTBins,numMTBins, numFxs] due to column major json reading
+        for i=1:10:numFxs
+            %figure; plot(results{di}.ReflectedDynamicMTOfFxAndSubregionHist.MTBins_Midpoints,results{di}.ReflectedDynamicMTOfFxAndSubregionHist.Mean(i,:)); % debug plots
+            figure;figname = sprintf('Reflected Fractional Dynamic MT, Fx = %5.3f mm',results{di}.ReflectedDynamicMTOfFxAndSubregionHist.Fx_Midpoints(i));
+            MT=results{di}.ReflectedDynamicMTOfFxAndSubregionHist.MTBins_Midpoints;
+            layerfrac=squeeze(abs(results{di}.ReflectedDynamicMTOfFxAndSubregionHist.FractionalMT(:,:,i)));
+            bar(MT,layerfrac','stacked'); title(figname);xlabel('Dynamic MT'),ylabel('photon weight');
+%           stack=zeros(size(results{di}.ReflectedDynamicMTOfFxAndSubregionHist.FractionalMT(1,j,:,i)));
+%             for k=1:size(results{di}.ReflectedDynamicMTOfFxAndSubregionHist.FractionalMT,1)                
+%                 %stack=stack+results{di}.ReflectedDynamicMTOfFxAndSubregionHist.FractionalMT(i,:,j,k);
+%                 stack=stack+results{di}.ReflectedDynamicMTOfFxAndSubregionHist.FractionalMT(k,j,:,i);
+%                 semilogy(X,squeeze(stack),color(k,:),'LineWidth',3);axis([0 max(X) 1e-7 1]);title(figname);xlabel('MT'),ylabel('stacked log(photon weight)'); hold on;
+%             end
+            % variable size legend based on layerfrac size
+            numfracs=size(layerfrac,1);
+            ar{1}='=0';ar{numfracs}='=1';
+            for k=2:numfracs-1
+                ar{k}=sprintf('[%3.2f-%3.2f]',(1.0/(numfracs-2))*(k-2),(1.0/(numfracs-2))*(k-1));
+            end
+            legend(ar);
+            figure;figname = sprintf('Reflected Total MT of Z, Fx = %5.3f mm',results{di}.ReflectedDynamicMTOfFxAndSubregionHist.Fx_Midpoints(i));
+            errorbar(results{di}.ReflectedDynamicMTOfFxAndSubregionHist.Z_Midpoints,abs(results{di}.ReflectedDynamicMTOfFxAndSubregionHist.TotalMTOfZ(:,i)),...
+                abs(results{di}.ReflectedDynamicMTOfFxAndSubregionHist.TotalMTOfZStdev(:,i)));
+            title(figname);xlabel('z (mm)');ylabel('Total MT');
+            figure;figname = sprintf('Reflected Dynamic MT of Z, Fx = %5.3f mm',results{di}.ReflectedDynamicMTOfFxAndSubregionHist.Fx_Midpoints(i));
+            errorbar(results{di}.ReflectedDynamicMTOfFxAndSubregionHist.Z_Midpoints,abs(results{di}.ReflectedDynamicMTOfFxAndSubregionHist.DynamicMTOfZ(:,i)),...
+                abs(results{di}.ReflectedDynamicMTOfFxAndSubregionHist.DynamicMTOfZStdev(:,i)));
+            title(figname);xlabel('z (mm)');ylabel('Dynamic MT');
+        end
+        figure;figname='Reflected Dynamic MT Of Fx: Subregion Collisions';
+        plot(results{di}.ReflectedDynamicMTOfFxAndSubregionHist.SubregionIndices, results{di}.ReflectedDynamicMTOfFxAndSubregionHist.SubregionCollisions(1,:),...
+             results{di}.ReflectedDynamicMTOfFxAndSubregionHist.SubregionIndices, results{di}.ReflectedDynamicMTOfFxAndSubregionHist.SubregionCollisions(2,:));
         title(figname);xlabel('tissue region index');ylabel('Collisions');legend('static','dynamic');
     end
     if isfield(results{di}, 'TransmittedDynamicMTOfRhoAndSubregionHist') && show.TransmittedDynamicMTOfRhoAndSubregionHist
@@ -646,7 +690,49 @@ for mci = 1:length(datanames)
         plot(results{di}.TransmittedDynamicMTOfXAndYAndSubregionHist.SubregionIndices, results{di}.TransmittedDynamicMTOfXAndYAndSubregionHist.SubregionCollisions(1,:),...
              results{di}.TransmittedDynamicMTOfXAndYAndSubregionHist.SubregionIndices, results{di}.TransmittedDynamicMTOfXAndYAndSubregionHist.SubregionCollisions(2,:));
         title(figname);xlabel('tissue region index');ylabel('Collisions');legend('static','dynamic');
-    end
+    end   
+    if isfield(results{di}, 'TransmittedDynamicMTOfFxAndSubregionHist') && show.TransmittedDynamicMTOfFxAndSubregionHist
+        numFxs = length(results{di}.TransmittedDynamicMTOfFxAndSubregionHist.Fx);
+        figname = sprintf('log(%s)',results{di}.TransmittedDynamicMTOfFxAndSubregionHist.Name); 
+        figure; 
+        imagesc(results{di}.TransmittedDynamicMTOfFxAndSubregionHist.Fx_Midpoints, results{di}.TransmittedDynamicMTOfFxAndSubregionHist.MTBins_Midpoints,...
+            log(abs(results{di}.TransmittedDynamicMTOfFxAndSubregionHist.Mean)));...        
+        colorbar; title(figname); xlabel('Fx [/mm]'); ylabel('Dynamic MT'); set(gcf,'Name', figname);colormap(jet);
+        color=char('r-','g-','b-','c-','m-','r:','g:','b:','c:','m:');
+        % note results array has dimensions [numFractionalMTBins,numMTBins, numFxs] due to column major json reading
+        for i=1:10:numFxs
+            %figure; plot(results{di}.TransmittedDynamicMTOfFxAndSubregionHist.MTBins_Midpoints,results{di}.TransmittedDynamicMTOfFxAndSubregionHist.Mean(i,:)); % debug plots
+            figure;figname = sprintf('Transmitted Fractional Dynamic MT, Fx = %5.3f mm',results{di}.TransmittedDynamicMTOfFxAndSubregionHist.Fx_Midpoints(i));
+            MT=results{di}.TransmittedDynamicMTOfFxAndSubregionHist.MTBins_Midpoints;
+            layerfrac=squeeze(abs(results{di}.TransmittedDynamicMTOfFxAndSubregionHist.FractionalMT(:,:,i)));
+            bar(MT,layerfrac','stacked'); title(figname);xlabel('Dynamic MT'),ylabel('photon weight');
+%           stack=zeros(size(results{di}.TransmittedDynamicMTOfFxAndSubregionHist.FractionalMT(1,j,:,i)));
+%             for k=1:size(results{di}.TransmittedDynamicMTOfFxAndSubregionHist.FractionalMT,1)                
+%                 %stack=stack+results{di}.TransmittedDynamicMTOfFxAndSubregionHist.FractionalMT(i,:,j,k);
+%                 stack=stack+results{di}.TransmittedDynamicMTOfFxAndSubregionHist.FractionalMT(k,j,:,i);
+%                 semilogy(X,squeeze(stack),color(k,:),'LineWidth',3);axis([0 max(X) 1e-7 1]);title(figname);xlabel('MT'),ylabel('stacked log(photon weight)'); hold on;
+%             end
+            % variable size legend based on layerfrac size
+            numfracs=size(layerfrac,1);
+            ar{1}='=0';ar{numfracs}='=1';
+            for k=2:numfracs-1
+                ar{k}=sprintf('[%3.2f-%3.2f]',(1.0/(numfracs-2))*(k-2),(1.0/(numfracs-2))*(k-1));
+            end
+            legend(ar);
+            figure;figname = sprintf('Transmitted Total MT of Z, Fx = %5.3f mm',results{di}.TransmittedDynamicMTOfFxAndSubregionHist.Fx_Midpoints(i));
+            errorbar(results{di}.TransmittedDynamicMTOfFxAndSubregionHist.Z_Midpoints,abs(results{di}.TransmittedDynamicMTOfFxAndSubregionHist.TotalMTOfZ(:,i)),...
+                abs(results{di}.TransmittedDynamicMTOfFxAndSubregionHist.TotalMTOfZStdev(:,i)));
+            title(figname);xlabel('z (mm)');ylabel('Total MT');
+            figure;figname = sprintf('Transmitted Dynamic MT of Z, Fx = %5.3f mm',results{di}.TransmittedDynamicMTOfFxAndSubregionHist.Fx_Midpoints(i));
+            errorbar(results{di}.TransmittedDynamicMTOfFxAndSubregionHist.Z_Midpoints,results{di}.TransmittedDynamicMTOfFxAndSubregionHist.DynamicMTOfZ(:,i),...
+                results{di}.TransmittedDynamicMTOfFxAndSubregionHist.DynamicMTOfZStdev(:,i));
+            title(figname);xlabel('z (mm)');ylabel('Dynamic MT');
+        end
+        figure;figname='Transmitted Dynamic MT Of Fx: Subregion Collisions';
+        plot(results{di}.TransmittedDynamicMTOfFxAndSubregionHist.SubregionIndices, results{di}.TransmittedDynamicMTOfFxAndSubregionHist.SubregionCollisions(1,:),...
+             results{di}.TransmittedDynamicMTOfFxAndSubregionHist.SubregionIndices, results{di}.TransmittedDynamicMTOfFxAndSubregionHist.SubregionCollisions(2,:));
+        title(figname);xlabel('tissue region index');ylabel('Collisions');legend('static','dynamic');
+    end    
     if isfield(results{di}, 'ReflectedTimeOfRhoAndSubregionHist') && show.ReflectedTimeOfRhoAndSubregionHist
         numtissueregions = length(results{di}.ReflectedTimeOfRhoAndSubregionHist.SubregionIndices);
         for i=1:numtissueregions

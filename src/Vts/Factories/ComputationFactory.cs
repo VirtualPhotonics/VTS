@@ -631,10 +631,12 @@ namespace Vts.Factories
             var opticalPropertyGuess = (OpticalProperties[])(independentValues[0]);
             var fitParametersArray = opticalPropertyGuess.SelectMany(opgi => new[] { opgi.Mua, opgi.Musp, opgi.G, opgi.N }).ToArray();
             var parametersToFitArray = Enumerable.Range(0, opticalPropertyGuess.Count()).SelectMany(_ => parametersToFit).ToArray();
+            var lowerBoundsArray = Enumerable.Range(0, opticalPropertyGuess.Count()).SelectMany(_ => lowerBounds).ToArray();
+            var upperBoundsArray = Enumerable.Range(0, opticalPropertyGuess.Count()).SelectMany(_ => upperBounds).ToArray();
 
             Func<double[], object[], double[]> func = GetForwardReflectanceFuncForOptimization(forwardSolver, solutionDomainType);
 
-            var fit = optimizer.SolveWithConstraints(fitParametersArray, parametersToFitArray, lowerBounds, upperBounds, dependentValues.ToArray(),
+            var fit = optimizer.SolveWithConstraints(fitParametersArray, parametersToFitArray, lowerBoundsArray, upperBoundsArray, dependentValues.ToArray(),
                                       standardDeviationValues.ToArray(), func, independentValues.ToArray());
 
             return fit;

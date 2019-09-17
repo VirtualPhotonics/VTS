@@ -17,7 +17,9 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
         List<string> listOfInfiles = new List<string>()
         {
             "ellip_FluenceOfRhoAndZ",
-            "infinite_cylinder_ROfRho_FluenceOfRhoAndZ",
+            "infinite_cylinder_AOfXAndYAndZ",
+            "multi_infinite_cylinder_AOfXAndYAndZ",
+            "fluorescenceEmissionAOfXAndYAndZSourceInfiniteCylinder",
             "embeddedDirectionalCircularSourceEllipTissue",
             "Flat_2D_source_one_layer_ROfRho",
             "Gaussian_2D_source_one_layer_ROfRho",
@@ -32,6 +34,10 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
             "two_layer_ROfRho_with_db",
             "voxel_ROfXAndY_FluenceOfXAndYAndZ",
             "surface_fiber_detector"
+        };
+        private List<string> listOfInfilesThatRequireExistingResultsToRun = new List<string>()
+        {
+            "fluorescenceEmissionAOfXAndYAndZSourceInfiniteCylinder",
         };
 
         private List<string> listOfInfilesInResources = new List<string>()
@@ -72,7 +78,18 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
                     Directory.Delete(infile, true);
                 }
             }
+            foreach (var infile in listOfInfilesThatRequireExistingResultsToRun)
+            {
+                if (File.Exists("infile_" + infile + ".txt"))
+                {
+                    File.Delete("infile_" + infile + ".txt");
+                }
 
+                if (Directory.Exists(infile))
+                {
+                    Directory.Delete(infile, true);
+                }
+            }
             foreach (var infile in listOfInfilesInResources)
             {
                 if (File.Exists("infile_" + infile + ".txt"))
@@ -352,6 +369,28 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
             // when there is inconsistency in Mus and Musp specification, code modifies Mus to conform to Musp
             // the following test verifies that Mus was modified accordingly
             Assert.Less(Math.Abs(writtenInfile.TissueInput.Regions[1].RegionOP.Mus - 6.0), 1e-6);
+        }
+        /// <summary>
+        /// Test to verify fluorescence emission infile runs successfully.  Test first runs MCCL with
+        /// infile_infinite_cylinder_AOfXAndYAndZ.txt to generate absorbed energy result.  Then
+        /// runs infile_fluorescenceEmissionAOfXAndYAndZSourceInfiniteCylinder.txt to read AOfXAndYAndZ
+        /// results and generate emission source
+        /// </summary>
+        [Test]
+        public void validate_fluorescence_emission_infile_runs_successfully()
+        {
+            // run excitation simulation
+            string[] arguments = new string[] { "infile=infile_infinite_cylinder_AOfXAndYAndZ.txt" };
+            Program.Main(arguments);
+            Assert.IsTrue(Directory.Exists("infinite_cylinder_AOfXAndYAndZ"));
+            // verify infile and detector results gets written to output folder
+            Assert.IsTrue(File.Exists("infinite_cylinder_AOfXAndYAndZ/infinite_cylinder_AOfXAndYAndZ.txt"));
+            Assert.IsTrue(File.Exists("infinite_cylinder_AOfXAndYAndZ/AOfXAndYAndZ"));
+            // run emission simulation
+            arguments = new string[] { "infile=infile_fluorescenceEmissionAOfXAndYAndZSourceInfiniteCylinder.txt" };
+            Program.Main(arguments);
+            Assert.IsTrue(Directory.Exists("fluorescenceEmissionAOfXAndYAndZSourceInfiniteCylinder"));
+            Assert.IsTrue(File.Exists("fluorescenceEmissionAOfXAndYAndZSourceInfiniteCylinder/ROfXAndY"));
         }
         // removed because not a good way to text whether MCCL is taking longer to execute.
         ///// <summary>

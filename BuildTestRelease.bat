@@ -1,6 +1,10 @@
 rem ********** RUN THIS FILE AS ADMINISTRATOR **********
 set rootdir=%~dp0
+<<<<<<< HEAD
 set version=0.0.3
+=======
+set version=4.8.0
+>>>>>>> master
 set EnableNuGetPackageRestore=true
 
 rem ********** CHANGE CURRENT DIR TO LOCATION OF BAT FILE **********

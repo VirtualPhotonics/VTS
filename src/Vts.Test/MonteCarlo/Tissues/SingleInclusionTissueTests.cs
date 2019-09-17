@@ -14,7 +14,7 @@ namespace Vts.Test.MonteCarlo.Tissues
     {
         private SingleInclusionTissue _tissueWithEllipsoid, _tissueWithCylinder, _tissueWithThinCylinder;
         /// <summary>
-        /// Validate general constructor of TissueRegion
+        /// Validate general constructor of Tissue
         /// </summary>
         [OneTimeSetUp]
         public void create_instance_of_class()
