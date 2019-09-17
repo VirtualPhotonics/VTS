@@ -72,12 +72,19 @@ namespace Vts.MonteCarlo.PostProcessor
 
     public static class Program
     {
-        public static void Main(string[] args)
+        /// <summary>
+        /// main Monte Carlo Post Processor (MCPP) application
+        /// </summary>
+        /// <returns>int = 0 (successful completion)</returns>
+        /// <returns>int = 1 (infile null or missing)</returns>
+        /// <returns>int = 2 (infile exists but does not pass validation)</returns>
+        public static int Main(string[] args)
         {
 #if PROCESS_ATTACH_DEBUG
             Console.Read();
 #endif
             string inFile = "infile.txt";
+            string inPath = "";
             string outName = "";
             string outPath = "";
             bool displayHelp = false;
@@ -102,13 +109,18 @@ namespace Vts.MonteCarlo.PostProcessor
                 new CommandLine.Switch("infile", val =>
                 {
                     inFile = val.First();
-                    Console.WriteLine("input file specified as {0}", val.First());
+                    Console.WriteLine("input file specified as {0}", inFile);
                     //PostProcessorSetup.InputFilename = val.First();
+                }),
+                new CommandLine.Switch("inpath", val =>
+                {
+                    inPath = val.First();
+                    Console.WriteLine("input path specified as {0}", inPath);
                 }),
                 new CommandLine.Switch("outname", val =>
                 {
                     outName = val.First();
-                    Console.WriteLine("output file specified as {0}", val.First());
+                    Console.WriteLine("output file specified as {0}", outName);
                     //PostProcessorSetup.OutputFolder = val.First();
                 }),
                 new CommandLine.Switch("outpath", val =>
@@ -121,13 +133,13 @@ namespace Vts.MonteCarlo.PostProcessor
             if (displayHelp)
             {
                 ShowHelp();
-                return;
+                return 0;
             }
 
             var input = PostProcessorSetup.ReadPostProcessorInputFromFile(inFile);
             if (input == null)
             {
-                return;
+                return 1;
             }
 
             var validationResult = PostProcessorSetup.ValidatePostProcessorInput(input);
@@ -135,15 +147,16 @@ namespace Vts.MonteCarlo.PostProcessor
             {
                 Console.Write("\nPost-processor) completed with errors. Press enter key to exit.");
                 Console.Read();
-                return;
+                return 2;
             }
             // override the output name with the user-specified name
             if (!string.IsNullOrEmpty(outName))
             {
                 input.OutputName = outName;
             }
-            PostProcessorSetup.RunPostProcessor(input, outPath);
+            PostProcessorSetup.RunPostProcessor(input, inPath, outPath);
             Console.WriteLine("\nPost-processing complete.");
+            return 0;
         }
 
         private static void GenerateDefaultInputFiles()
@@ -166,14 +179,15 @@ namespace Vts.MonteCarlo.PostProcessor
             Console.WriteLine("list of arguments:");
             Console.WriteLine();
             Console.WriteLine("infile\t\tthe input file, accepts relative and absolute paths");
+            Console.WriteLine("inpath\t\tthe input path, accepts relative and absolute paths");
             Console.WriteLine("outpath\t\tthe output path, accepts relative and absolute paths");
             Console.WriteLine("outname\t\toutput name, this overwrites output name in input file");
             Console.WriteLine();
-            Console.WriteLine("geninfiles\t\tgenerates new infiles and names them infile_XXX.txt");
+            Console.WriteLine("geninfiles\t\tgenerates example infiles and names them infile_XXX.txt");
             Console.WriteLine();
             Console.WriteLine("sample usage:");
             Console.WriteLine();
-            Console.WriteLine("mc_post infile=myinput outfile=myoutput");
+            Console.WriteLine("mc_post infile=myinput outname=myoutput");
         }
     }
 }

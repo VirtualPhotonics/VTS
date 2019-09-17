@@ -30,7 +30,8 @@ namespace Vts.MonteCarlo
                 PointSourceTwoLayerTissueROfRhoDetectorWithPhotonDatabase(),
                 PointSourceSingleEllipsoidTissueFluenceOfRhoAndZDetector(),
                 PointSourceOneLayerTissueLUTPhaseFunctionROfRhoDetector(),
-                PointSourceSingleInfiniteCylinderTissueROfRhoAndFluenceOfRhoAndZDetector(),
+                PointSourceSingleInfiniteCylinderTissueAOfXAndYAndZDetector(),
+                PointSourceMultiInfiniteCylinderTissueAOfXAndYAndZDetector(),
                 pMCPointSourceOneLayerTissueROfRhoDAW(),
                 Gaussian2DSourceOneLayerTissueROfRhoDetector(),
                 Flat2DSourceOneLayerTissueROfRhoDetector(),
@@ -38,7 +39,8 @@ namespace Vts.MonteCarlo
                 PointSourceMultiLayerMomentumTransferDetectors(),
                 PointSourceSingleVoxelTissueROfXAndYAndFluenceOfXAndYAndZDetector(),
                 PointSourceThreeLayerReflectedTimeOfRhoAndSubregionHistDetector(),
-                EmbeddedDirectionalCircularSourceEllipTissueFluenceOfXAndYAndZ()
+                EmbeddedDirectionalCircularSourceEllipTissueFluenceOfXAndYAndZ(),
+                FluorescenceEmissionAOfXAndYAndZSourceInfiniteCylinder()
             };
         }
 
@@ -468,11 +470,11 @@ namespace Vts.MonteCarlo
         }
         #endregion
 
-        #region point source single infinite cylinder Fluence(rho,z)
+        #region point source single infinite cylinder A(x,y,z)
         /// <summary>
-        /// Point source, single infinite cylinder tissue definition, only FluenceOfRhoAndZ detector included
+        /// Point source, single infinite cylinder tissue definition, only AOfXAndYAndZ detector included
         /// </summary>
-        public static SimulationInput PointSourceSingleInfiniteCylinderTissueROfRhoAndFluenceOfRhoAndZDetector()
+        public static SimulationInput PointSourceSingleInfiniteCylinderTissueAOfXAndYAndZDetector()
         {
             SingleInfiniteCylinderTissueInput ti = new SingleInfiniteCylinderTissueInput(
                 new InfiniteCylinderTissueRegion(
@@ -503,7 +505,7 @@ namespace Vts.MonteCarlo
             ti.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey4", new HenyeyGreensteinPhaseFunctionInput());
             return new SimulationInput(
                 100,
-                "infinite_cylinder_ROfRho_FluenceOfRhoAndZ",
+                "infinite_cylinder_AOfXAndYAndZ",
                 new SimulationOptions(
                     0, // random number generator seed, -1=random seed, 0=fixed seed
                     RandomNumberGeneratorType.MersenneTwister,
@@ -519,8 +521,81 @@ namespace Vts.MonteCarlo
                 ti,
                 new List<IDetectorInput>()
                 {
-                    new ROfRhoDetectorInput() { Rho =new DoubleRange(0.0, 10, 101)},
-                    new FluenceOfRhoAndZDetectorInput(){Rho=new DoubleRange(0.0, 10, 101),Z= new DoubleRange(0.0, 10, 101)}
+                    new AOfXAndYAndZDetectorInput(){
+                        X =new DoubleRange(-10, 10, 201),
+                        Y =new DoubleRange(-10, 10, 2),
+                        Z =new DoubleRange(0, 10, 101)}
+                }
+            );
+        }
+        #endregion
+
+        #region point source multi infinite cylinder A(x,y,z)
+        /// <summary>
+        /// Point source, multi infinite cylinder tissue definition, only AOfXAndYAndZ detector included
+        /// </summary>
+        public static SimulationInput PointSourceMultiInfiniteCylinderTissueAOfXAndYAndZDetector()
+        {
+            var tissue = new MultiConcentricInfiniteCylinderTissueInput(
+                new ITissueRegion[]
+                {
+                    new InfiniteCylinderTissueRegion(
+                        new Position(0, 0, 1),
+                        1.0,
+                        new OpticalProperties(0.05, 1.0, 0.8, 1.4),
+                        "HenyeyGreensteinKey4"
+                    ),
+                    new InfiniteCylinderTissueRegion(
+                        new Position(0, 0, 1),
+                        0.75,
+                        new OpticalProperties(0.05, 1.0, 0.8, 1.4),
+                        "HenyeyGreensteinKey5"
+                    ),
+                },
+                new ITissueRegion[]
+                {
+                    new LayerTissueRegion(
+                        new DoubleRange(double.NegativeInfinity, 0.0),
+                        new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
+                        "HenyeyGreensteinKey1"),
+                    new LayerTissueRegion(
+                        new DoubleRange(0.0, 100.0),
+                        new OpticalProperties(0.01, 1.0, 0.8, 1.4),
+                        "HenyeyGreensteinKey2"),
+                    new LayerTissueRegion(
+                        new DoubleRange(100.0, double.PositiveInfinity),
+                        new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
+                        "HenyeyGreensteinKey3")
+                }
+            );
+            tissue.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey1", new HenyeyGreensteinPhaseFunctionInput());
+            tissue.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey2", new HenyeyGreensteinPhaseFunctionInput());
+            tissue.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey3", new HenyeyGreensteinPhaseFunctionInput());
+            tissue.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey4", new HenyeyGreensteinPhaseFunctionInput());
+            tissue.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey5", new HenyeyGreensteinPhaseFunctionInput());
+
+            return new SimulationInput(
+                100,
+                "multi_infinite_cylinder_AOfXAndYAndZ",
+                new SimulationOptions(
+                    0, // random number generator seed, -1=random seed, 0=fixed seed
+                    RandomNumberGeneratorType.MersenneTwister,
+                    AbsorptionWeightingType.Discrete,
+                    new List<DatabaseType>() { }, // databases to be written
+                    false, // track statistics
+                    0.0, // RR threshold -> no RR performed
+                    0),
+                new DirectionalPointSourceInput(
+                    new Position(0.0, 0.0, 0.0),
+                    new Direction(0.0, 0.0, 1.0),
+                    0), // 0=start in air, 1=start in tissue
+                    tissue,
+                new List<IDetectorInput>()
+                {
+                    new AOfXAndYAndZDetectorInput(){
+                        X =new DoubleRange(-10, 10, 201),
+                        Y =new DoubleRange(-10, 10, 2),
+                        Z =new DoubleRange(0, 10, 101)},
                 }
             );
         }
@@ -864,6 +939,21 @@ namespace Vts.MonteCarlo
                         FractionalMTBins = new DoubleRange(0.0, 1.0, 11), // fractional MT bins
                         BloodVolumeFraction = new List<double>() { 0, 0.5, 0.5, 0 },
                         TallySecondMoment = true},
+                    // SFD detectors
+                    new ReflectedDynamicMTOfFxAndSubregionHistDetectorInput(){
+                        Fx=new DoubleRange(0.0, 0.5, 11), // fx bins                
+                        Z= new DoubleRange(0.0, 10.0, 11),
+                        MTBins=new DoubleRange(0.0, 500.0, 51), // MT bins
+                        FractionalMTBins = new DoubleRange(0.0, 1.0, 11), // fractional MT bins                        
+                        BloodVolumeFraction = new List<double>() { 0, 0.5, 0.5, 0 },
+                        TallySecondMoment = true},
+                    new TransmittedDynamicMTOfFxAndSubregionHistDetectorInput(){
+                        Fx=new DoubleRange(0.0, 0.5, 11), // fx bins                
+                        Z= new DoubleRange(0.0, 10.0, 11),
+                        MTBins=new DoubleRange(0.0, 500.0, 51), // MT bins
+                        FractionalMTBins = new DoubleRange(0.0, 1.0, 11), // fractional MT bins                        
+                        BloodVolumeFraction = new List<double>() { 0, 0.5, 0.5, 0 },
+                        TallySecondMoment = true},
                 }
             );
         }
@@ -1056,6 +1146,66 @@ namespace Vts.MonteCarlo
                 {
                     // units space[mm], time[ns], temporal-freq[GHz], abs./scat. coeff[/mm]    
                     new FluenceOfXAndYAndZDetectorInput(){X=new DoubleRange(-5, 5, 100),Y=new DoubleRange(-5, 5, 100),Z=new DoubleRange(0, 10, 101)},
+                }
+            );
+        }
+        #endregion
+
+        #region fluorescence emission source based on AOfXAndYAndZ of prior simulation this pairs 
+        /// <summary>
+        /// </summary>
+        public static SimulationInput FluorescenceEmissionAOfXAndYAndZSourceInfiniteCylinder()
+        {
+            var tissue = new SingleInfiniteCylinderTissueInput(
+                new InfiniteCylinderTissueRegion(
+                    new Position(0, 0, 1),
+                    1.0,
+                    new OpticalProperties(0.05, 1.0, 0.8, 1.4),
+                    "HenyeyGreensteinKey4"
+                ),
+                new ITissueRegion[]
+                {
+                    new LayerTissueRegion(
+                        new DoubleRange(double.NegativeInfinity, 0.0),
+                        new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
+                        "HenyeyGreensteinKey1"),
+                    new LayerTissueRegion(
+                        new DoubleRange(0.0, 100.0),
+                        new OpticalProperties(0.01, 1.0, 0.8, 1.4),
+                        "HenyeyGreensteinKey2"),
+                    new LayerTissueRegion(
+                        new DoubleRange(100.0, double.PositiveInfinity),
+                        new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
+                        "HenyeyGreensteinKey3")
+                }
+            );
+            tissue.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey1", new HenyeyGreensteinPhaseFunctionInput());
+            tissue.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey2", new HenyeyGreensteinPhaseFunctionInput());
+            tissue.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey3", new HenyeyGreensteinPhaseFunctionInput());
+            tissue.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey4", new HenyeyGreensteinPhaseFunctionInput());
+
+            return new SimulationInput(
+                100,
+                "fluorescenceEmissionAOfXAndYAndZSourceInfiniteCylinder",
+                new SimulationOptions(
+                    0, // random number generator seed, -1=random seed, 0=fixed seed
+                    RandomNumberGeneratorType.MersenneTwister,
+                    AbsorptionWeightingType.Discrete,
+                    new List<DatabaseType>() { }, // databases to be written
+                    false, // track statistics
+                    0.0, // RR threshold -> no RR performed
+                    0),
+                // pairs w above infinite_cylinder_ROfRho_FluenceOfRhoAndZ
+                new FluorescenceEmissionAOfXAndYAndZSourceInput( 
+                    "infinite_cylinder_AOfXAndYAndZ",
+                    "infinite_cylinder_AOfXAndYAndZ.txt",
+                    3
+                    ),
+                tissue,
+                new List<IDetectorInput>()
+                {
+                    new ROfXAndYDetectorInput() {X=new DoubleRange(-10, 10, 101),
+                        Y = new DoubleRange(-100.0, 100.0, 2)},
                 }
             );
         }

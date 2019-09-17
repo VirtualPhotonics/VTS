@@ -165,8 +165,10 @@ namespace Vts.MonteCarlo
                     }
                  }
             }
-            // check that if single voxel tissue specified, cannot specify (r,z) detector 
-            if (input.TissueInput is SingleVoxelTissueInput)
+            // check that if single voxel or single infinite cylinder tissue specified,
+            // cannot specify (r,z) detector 
+            if ((input.TissueInput is SingleVoxelTissueInput) || 
+                (input.TissueInput is SingleInfiniteCylinderTissueInput))
             {
                 foreach (var detectorInput in input.DetectorInputs)
                 {

@@ -213,7 +213,7 @@ namespace Vts.IO
         {
             using (Stream stream = StreamFinder.GetFileStream(filename, FileMode.Create))
             {
-                //new DataContractSerializer(typeof(Time)).WriteObject(stream, myObject);
+                //new DataContractSerializer(typeof(T)).WriteObject(stream, myObject);
                 myObject.WriteToXMLStream(stream);
             }
         }
@@ -228,7 +228,7 @@ namespace Vts.IO
         {
             using (Stream stream = StreamFinder.GetFileStream(filename, FileMode.Create))
             {
-                //new DataContractSerializer(typeof(Time)).WriteObject(stream, myObject);
+                //new DataContractSerializer(typeof(T)).WriteObject(stream, myObject);
                 myObject.WriteJsonToStream(stream);
             }
         }
@@ -239,12 +239,12 @@ namespace Vts.IO
         /// <typeparam name="T">Type of the data</typeparam>
         /// <param name="filename">Name of the XML file to be read</param>
         /// <returns>The data as the specified type</returns>
-        public static T ReadFromXML<T>(String filename)
+        public static T ReadFromXML<T>(string filename)
         {
             using (Stream stream = StreamFinder.GetFileStream(filename, FileMode.Open))
             {
                 return ReadFromStream<T>(stream);
-                //return (Time)new DataContractSerializer(typeof(Time)).ReadObject(stream);
+                //return (T)new DataContractSerializer(typeof(T)).ReadObject(stream);
             }
         }
 
@@ -254,7 +254,7 @@ namespace Vts.IO
         /// <typeparam name="T">Type of the data</typeparam>
         /// <param name="filename">Name of the JSON file to be read</param>
         /// <returns>The data as the specified type</returns>
-        public static T ReadFromJson<T>(String filename)
+        public static T ReadFromJson<T>(string filename)
         {
             using (Stream stream = StreamFinder.GetFileStream(filename, FileMode.Open))
             {
@@ -303,12 +303,16 @@ namespace Vts.IO
         }
 
         /// <summary>
-        /// Copy a folder and contents to an external location
+        /// Copy a folder and its contents to an external location.
+        /// Due to the file and folder delimeters being a dot, there are 
+        /// some assumptions with this method. The file extension must be 
+        /// only 3 characters and a file without an extension must have a 
+        /// name with more than 3 characters.
         /// </summary>
         /// <param name="folderName">Name of the folder to copy</param>
-        /// <param name="destinationFolder">The name of the folder to copy the folder</param>
-        /// <param name="projectName">The name of the project where the file is located</param>
-        /// <param name="includeFolder">Boolean value to determine whether for include the containing folder</param>
+        /// <param name="destinationFolder">Name of the destination folder to copy the folder</param>
+        /// <param name="projectName">Name of the project where the file is located</param>
+        /// <param name="includeFolder">Boolean value to determine whether to include the containing folder</param>
         /// <returns>Returns a list of the copied files</returns>
         public static List<string> CopyFolderFromEmbeddedResources(string folderName, string destinationFolder, string projectName, bool includeFolder)
         {
@@ -317,32 +321,48 @@ namespace Vts.IO
             var listAssemblies = currentAssembly.GetManifestResourceNames();
             foreach (var i in listAssemblies)
             {
-                // check to see if folder name is in the name
-                if (!i.Contains(folderName)) continue;
-                //CreateDirectory(folderName);
-                // get the filename extension
-                var ext = i.Substring(i.LastIndexOf(".", StringComparison.Ordinal));
-                var startOfFolderIndex = i.IndexOf(folderName, StringComparison.Ordinal) + folderName.Length + 1;
-                var lastDotIndex = (i.Length - startOfFolderIndex) - (i.Length - i.LastIndexOf(".", StringComparison.Ordinal));
-                var folderToLastDot = i.Substring(startOfFolderIndex, lastDotIndex);
-                // get the filename if there are more folders
-                var filename = folderToLastDot;
+                // check to see if folder name is in the name - add the dots so it will check the whole folder name
+                if (!i.Contains($".{folderName}.")) continue;
+                var destinationFileName = "";
                 var destination = "";
+                var startOfFolderIndex = i.IndexOf($".{folderName}.", StringComparison.Ordinal) + folderName.Length + 2; // includes the dots so add 2
+                var possibleFileName = i.Substring(startOfFolderIndex); // possible filename but it could also be a sub folder and filename
+                if (!possibleFileName.Contains(".")) // file in the root of the folder with no extension
+                {
+                    destinationFileName = possibleFileName;
+                }
+                else
+                {
+                    // get the filename extension
+                    var ext = i.Substring(i.LastIndexOf(".", StringComparison.Ordinal));
+                    // get the length of the filename without the extension
+                    var filenameLength = (i.Length - startOfFolderIndex) - (i.Length - i.LastIndexOf(".", StringComparison.Ordinal));
+                    var folderToLastDot = i.Substring(startOfFolderIndex, filenameLength);
+                    if (ext.Length > 4) // extensions are usually dot + 3 chars 
+                    {
+                        // if the extension is longer assume it's a filename not an extension
+                        destinationFileName = ext.Substring(1); // get the name after the dot
+                        ext = "";
+                        folderToLastDot = possibleFileName;
+                    }
+                    // get the filename if there are more folders
+                    var filename = folderToLastDot;
+                    if (folderToLastDot.Contains("."))
+                    {
+                        filename = folderToLastDot.Substring(folderToLastDot.LastIndexOf(".", StringComparison.Ordinal) + 1);
+                        var folders = folderToLastDot.Substring(0, folderToLastDot.Length - (folderToLastDot.Length - folderToLastDot.LastIndexOf(".", StringComparison.Ordinal)));
+                        var folderList = folders.Split('.');
+                        foreach (var folder in folderList)
+                        {
+                            destination = Path.Combine(destination, folder);
+                        }
+                    }
+                    destinationFileName = filename + ext;
+                }
                 if (includeFolder)
                 {
-                    destination = folderName;
+                    destination = Path.Combine(folderName, destination);
                 }
-                if (folderToLastDot.Contains("."))
-                {
-                    filename = folderToLastDot.Substring(folderToLastDot.LastIndexOf(".", StringComparison.Ordinal) + 1);
-                    var folders = folderToLastDot.Substring(0, folderToLastDot.Length - (folderToLastDot.Length - folderToLastDot.LastIndexOf(".", StringComparison.Ordinal)));
-                    var folderList = folders.Split('.');
-                    foreach (var folder in folderList)
-                    {
-                        destination = Path.Combine(destination, folder);
-                    }
-                }
-                var destinationFileName = filename + ext;
                 var sourceFileName = i;
                 CreateDirectory(Path.Combine(destinationFolder, destination));
                 CopyFileFromEmbeddedResources(sourceFileName, Path.Combine(destinationFolder, destination, destinationFileName), projectName);
@@ -441,7 +461,7 @@ namespace Vts.IO
                 using (BinaryWriter bw = new BinaryWriter(s))
                 {
                     new ArrayCustomBinaryWriter().WriteToBinary(bw, dataIN);
-                    //WriteArrayToBinaryInternal(bw, dataIN.ToEnumerable<Time>());
+                    //WriteArrayToBinaryInternal(bw, dataIN.ToEnumerable<T>());
                 }
             }
         }
@@ -466,7 +486,7 @@ namespace Vts.IO
                 using (BinaryWriter bw = new BinaryWriter(s))
                 {
                     new ArrayCustomBinaryWriter().WriteToBinary(bw, dataIN);
-                    //WriteArrayToBinaryInternal(bw, dataIN.ToEnumerable<Time>());
+                    //WriteArrayToBinaryInternal(bw, dataIN.ToEnumerable<T>());
                 }
             }
         }
@@ -508,12 +528,7 @@ namespace Vts.IO
             {
                 using (BinaryReader br = new BinaryReader(s))
                 {
-                    //Array dataOut = Array.CreateInstance(typeof(Time), dims);
-
                     return new ArrayCustomBinaryReader<T>(dims).ReadFromBinary(br);
-                    //ReadArrayFromBinaryInternal<Time>(br, ref dataOut);
-
-                    //return dataOut;
                 }
             }
         }
@@ -549,9 +564,9 @@ namespace Vts.IO
                 using (BinaryReader br = new BinaryReader(stream))
                 {
                     // Initialize the array
-                    //Array dataOut = Array.CreateInstance(typeof(Time), dims);
+                    //Array dataOut = Array.CreateInstance(typeof(T), dims);
                     // Fill with data
-                    //ReadArrayFromBinaryInternal<Time>(br, ref dataOut);
+                    //ReadArrayFromBinaryInternal<T>(br, ref dataOut);
 
                     return new ArrayCustomBinaryReader<T>(dims).ReadFromBinary(br);
                 }
@@ -560,7 +575,7 @@ namespace Vts.IO
 
         //#region Write/ReadArrayToBinary Helpers
 
-        //private static void WriteArrayToBinaryInternal<Time>(BinaryWriter bw, IEnumerable<Time> array) where Time : struct
+        //private static void WriteArrayToBinaryInternal<T>(BinaryWriter bw, IEnumerable<T> array) where T : struct
         //{
         //    if (array is IEnumerable<float>)
         //    {
@@ -580,9 +595,9 @@ namespace Vts.IO
         //    }
         //}
 
-        //private static void ReadArrayFromBinaryInternal<Time>(BinaryReader br, ref Array myArray) where Time : struct
+        //private static void ReadArrayFromBinaryInternal<T>(BinaryReader br, ref Array myArray) where T : struct
         //{
-        //    var dataType = typeof (Time);
+        //    var dataType = typeof (T);
 
         //    if (dataType == typeof(double))
         //    {
@@ -690,7 +705,7 @@ namespace Vts.IO
             }
         }
 
-        // both versions of ReadArrayFromBinary<Time> call this method to actually read the data - is this still true?
+        // both versions of ReadArrayFromBinary<T> call this method to actually read the data - is this still true?
         /// <summary>
         /// 
         /// </summary>
@@ -726,12 +741,12 @@ namespace Vts.IO
         }
 
         /// <summary>
-        /// Read an object of type Time from a binary file in resources
+        /// Read an object of type T from a binary file in resources
         /// </summary>
         /// <typeparam name="T">Type of the object</typeparam>
         /// <param name="filename">Name of the binary file in resources</param>
         /// <param name="projectName">Name of the project where the resources are located</param>
-        /// <returns>The object of type Time</returns>
+        /// <returns>The object of type T</returns>
         public static T ReadFromBinaryInResources<T>(string filename, string projectName)
         {
             using (Stream stream = StreamFinder.GetFileStreamFromResources(filename, projectName))
@@ -741,7 +756,7 @@ namespace Vts.IO
         }
 
         /// <summary>
-        /// Write an object of type Time to a binary file
+        /// Write an object of type T to a binary file
         /// </summary>
         /// <typeparam name="T">Type of the object</typeparam>
         /// <param name="myObject">Object</param>
@@ -759,7 +774,7 @@ namespace Vts.IO
         /// </summary>
         /// <typeparam name="T">Type of the object</typeparam>
         /// <param name="s">Stream to deserialize</param>
-        /// <returns>The object of type Time</returns>
+        /// <returns>The object of type T</returns>
         public static T ReadFromBinaryStream<T>(Stream s)
         {
             BinaryFormatter formatter = new BinaryFormatter();
@@ -775,7 +790,7 @@ namespace Vts.IO
         }
 
         /// <summary>
-        /// Serializes an object of type Time to the given stream
+        /// Serializes an object of type T to the given stream
         /// </summary>
         /// <typeparam name="T">Type of the object</typeparam>
         /// <param name="myObject">Object</param>

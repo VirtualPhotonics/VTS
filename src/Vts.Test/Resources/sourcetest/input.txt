@@ -1,0 +1,129 @@
+{
+  "OutputName": "test",
+  "N": 100,
+  "Options": {
+    "Seed": 0,
+    "RandomNumberGeneratorType": "MersenneTwister",
+    "AbsorptionWeightingType": "Discrete",
+    "PhaseFunctionType": "HenyeyGreenstein",
+    "Databases": [],
+    "TrackStatistics": false,
+    "RussianRouletteWeightThreshold": 0.0,
+    "SimulationIndex": 0
+  },
+  "SourceInput": {
+    "SourceType": "DirectionalPoint",
+    "PointLocation": {
+      "X": 0.0,
+      "Y": 0.0,
+      "Z": 0.0
+    },
+    "Direction": {
+      "Ux": 0.0,
+      "Uy": 0.0,
+      "Uz": 1.0
+    },
+    "InitialTissueRegionIndex": 0
+  },
+  "TissueInput": {
+    "InfiniteCylinderRegion": {
+      "TissueRegionType": "InfiniteCylinder",
+      "Center": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 1.0
+      },
+      "Radius": 1.0,
+      "RegionOP": {
+        "Mua": 0.05,
+        "Mus": 5.0000000000000009,
+        "G": 0.8,
+        "N": 1.4,
+        "Musp": 1.0
+      }
+    },
+    "LayerRegions": [
+      {
+        "TissueRegionType": "Layer",
+        "ZRange": {
+          "Start": "-Infinity",
+          "Stop": 0.0,
+          "Count": 2
+        },
+        "RegionOP": {
+          "Mua": 0.0,
+          "Mus": 1E-10,
+          "G": 1.0,
+          "N": 1.0,
+          "Musp": 1E-10
+        }
+      },
+      {
+        "TissueRegionType": "Layer",
+        "ZRange": {
+          "Start": 0.0,
+          "Stop": 100.0,
+          "Count": 2
+        },
+        "RegionOP": {
+          "Mua": 0.01,
+          "Mus": 5.0000000000000009,
+          "G": 0.8,
+          "N": 1.4,
+          "Musp": 1.0
+        }
+      },
+      {
+        "TissueRegionType": "Layer",
+        "ZRange": {
+          "Start": 100.0,
+          "Stop": "Infinity",
+          "Count": 2
+        },
+        "RegionOP": {
+          "Mua": 0.0,
+          "Mus": 1E-10,
+          "G": 1.0,
+          "N": 1.0,
+          "Musp": 1E-10
+        }
+      }
+    ],
+    "TissueType": "SingleInfiniteCylinder"
+  },
+  "DetectorInputs": [
+    {
+      "X": {
+        "Start": -2.0,
+        "Stop": 2.0,
+        "Count": 5
+      },
+      "Y": {
+        "Start": -10.0,
+        "Stop": 10.0,
+        "Count": 2
+      },
+      "Z": {
+        "Start": 0.0,
+        "Stop": 3.0,
+        "Count": 4
+      },
+      "TallyType": "AOfXAndYAndZ",
+      "Name": "AOfXAndYAndZ",
+      "TallySecondMoment": false,
+      "TallyDetails": {
+        "IsReflectanceTally": false,
+        "IsTransmittanceTally": false,
+        "IsSpecularReflectanceTally": false,
+        "IsInternalSurfaceTally": false,
+        "IspMCReflectanceTally": false,
+        "IsDosimetryTally": false,
+        "IsVolumeTally": true,
+        "IsCylindricalTally": false,
+        "IsNotImplementedForDAW": false,
+        "IsNotImplementedForCAW": true,
+        "IsNotImplementedYet": false
+      }
+    }
+  ]
+}

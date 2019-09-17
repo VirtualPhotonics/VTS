@@ -7,10 +7,10 @@ using Vts.Extensions;
 namespace Vts.IO
 {
     /// <summary>
-    /// Class that implements the interface ICustomBinaryWriter to write different types of Array to a binary stream
+    /// Class that implements the interface ICustomBinaryWriter to write different types of Array to a binary stream supported types are double, float, ushort, Complex and byte
     /// </summary>
-    public class ArrayCustomBinaryWriter//<T>
-        : ICustomBinaryWriter<Array> //where T : struct
+    public class ArrayCustomBinaryWriter
+        : ICustomBinaryWriter<Array> 
     {
         /// <summary>
         /// Write Array to a binary stream
@@ -19,48 +19,40 @@ namespace Vts.IO
         /// <param name="input">The Array to write</param>
         public void WriteToBinary(BinaryWriter bw, Array input)
         {
-            //IEnumerable<T> array = input.ToEnumerable<T>();
-            object array = null;
-            // testing whether this class really needs to be generic, or if we can test like this...
-            var array1 = input.ToEnumerable<float>();
-            var array2 = input.ToEnumerable<double>();
-            var array3 = input.ToEnumerable<Complex>();
-            var array4 = input.ToEnumerable<ushort>();
-            var array5 = input.ToEnumerable<byte>();
-           
-            if (array1 != null) {Console.WriteLine(array1); array = array1;}
-            if (array2 != null) {Console.WriteLine(array2); array = array2;}
-            if (array3 != null) {Console.WriteLine(array3); array = array3;}
-            if (array4 != null) {Console.WriteLine(array4); array = array4;}
-            if (array5 != null) {Console.WriteLine(array5); array = array5;}
-
-            if (array is IEnumerable<float>)
+            Type valueType = input.GetType();
+            var expectedType = typeof(double);
+            if (expectedType.IsAssignableFrom(valueType.GetElementType()))
             {
-                (array as IEnumerable<float>).ForEach(bw.Write);
-                return;
-            }
-
-            if (array is IEnumerable<double>)
-            {
+                var array = input.ToEnumerable<double>();
                 (array as IEnumerable<double>).ForEach(bw.Write);
                 return;
             }
-
-            if (array is IEnumerable<Complex>)
+            expectedType = typeof(float);
+            if (expectedType.IsAssignableFrom(valueType.GetElementType()))
             {
-                (array as IEnumerable<Complex>).ForEach(c => { bw.Write(c.Real); bw.Write(c.Imaginary); });
+                var array = input.ToEnumerable<float>();
+                (array as IEnumerable<float>).ForEach(bw.Write);
                 return;
             }
-
-            if (array is IEnumerable<ushort>)
+            expectedType = typeof(ushort);
+            if (expectedType.IsAssignableFrom(valueType.GetElementType()))
             {
+                var array = input.ToEnumerable<ushort>();
                 (array as IEnumerable<ushort>).ForEach(bw.Write);
                 return;
             }
-
-            if (array is IEnumerable<byte>)
+            expectedType = typeof(byte);
+            if (expectedType.IsAssignableFrom(valueType.GetElementType()))
             {
+                var array = input.ToEnumerable<byte>();
                 (array as IEnumerable<byte>).ForEach(bw.Write);
+                return;
+            }
+            expectedType = typeof(Complex);
+            if (expectedType.IsAssignableFrom(valueType.GetElementType()))
+            {
+                var array = input.ToEnumerable<Complex>();
+                (array as IEnumerable<Complex>).ForEach(c => { bw.Write(c.Real); bw.Write(c.Imaginary); });
                 return;
             }
         }

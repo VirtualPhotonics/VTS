@@ -67,8 +67,8 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MathNet.Numerics, Version=4.7.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MathNet.Numerics.4.7.0\lib\net461\MathNet.Numerics.dll</HintPath>
+    <Reference Include="MathNet.Numerics, Version=4.8.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MathNet.Numerics.4.8.1\lib\net461\MathNet.Numerics.dll</HintPath>
     </Reference>
     <Reference Include="Meta.Numerics, Version=4.0.7.0, Culture=neutral, PublicKeyToken=67d25c65a6631347, processorArchitecture=MSIL">
       <HintPath>..\packages\Meta.Numerics.4.0.7\lib\netstandard1.1\Meta.Numerics.dll</HintPath>
@@ -78,10 +78,10 @@
       <HintPath>..\packages\csmpfit.1.1.1\lib\net20\MPFitLib.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
-      <HintPath>..\packages\NLog.4.6.1\lib\net45\NLog.dll</HintPath>
+      <HintPath>..\packages\NLog.4.6.7\lib\net45\NLog.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
@@ -135,11 +135,11 @@
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="Unity.Abstractions, Version=4.1.2.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
-      <HintPath>..\packages\Unity.5.10.2\lib\net46\Unity.Abstractions.dll</HintPath>
+    <Reference Include="Unity.Abstractions, Version=5.11.1.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.5.11.1\lib\net46\Unity.Abstractions.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.Container, Version=5.10.2.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
-      <HintPath>..\packages\Unity.5.10.2\lib\net46\Unity.Container.dll</HintPath>
+    <Reference Include="Unity.Container, Version=5.11.1.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.5.11.1\lib\net46\Unity.Container.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -704,6 +704,9 @@
     <Compile Include="..\Vts\MonteCarlo\Detectors\RDiffuseDetector.cs">
       <Link>MonteCarlo\Detectors\RDiffuseDetector.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\ReflectedDynamicMTOfFxAndSubregionHistDetector.cs">
+      <Link>MonteCarlo\Detectors\ReflectedDynamicMTOfFxAndSubregionHistDetector.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\ReflectedDynamicMTOfRhoAndSubregionHistDetector.cs">
       <Link>MonteCarlo\Detectors\ReflectedDynamicMTOfRhoAndSubregionHistDetector.cs</Link>
     </Compile>
@@ -766,6 +769,9 @@
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\TOfXAndYDetector.cs">
       <Link>MonteCarlo\Detectors\TOfXAndYDetector.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\TransmittedDynamicMTOfFxAndSubregionHistDetector.cs">
+      <Link>MonteCarlo\Detectors\TransmittedDynamicMTOfFxAndSubregionHistDetector.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\TransmittedDynamicMTOfRhoAndSubregionHistDetector.cs">
       <Link>MonteCarlo\Detectors\TransmittedDynamicMTOfRhoAndSubregionHistDetector.cs</Link>
@@ -1085,6 +1091,15 @@
     <Compile Include="..\Vts\MonteCarlo\Sources\VolumetricSources\Ellipsoidal\VolumetricEllipsoidalSourceBase.cs">
       <Link>MonteCarlo\Sources\VolumetricSources\Ellipsoidal\VolumetricEllipsoidalSourceBase.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Sources\VolumetricSources\FluorescenceEmission\AOfXAndYAndZLoader.cs">
+      <Link>MonteCarlo\Sources\VolumetricSources\FluorescenceEmission\AOfXAndYAndZLoader.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Sources\VolumetricSources\FluorescenceEmission\FluorescenceEmissionAOfXAndYAndZSource.cs">
+      <Link>MonteCarlo\Sources\VolumetricSources\FluorescenceEmission\FluorescenceEmissionAOfXAndYAndZSource.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Sources\VolumetricSources\FluorescenceEmission\FluorescenceEmissionSourceBase.cs">
+      <Link>MonteCarlo\Sources\VolumetricSources\FluorescenceEmission\FluorescenceEmissionSourceBase.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Sources\VolumetricSources\VolumtricCuboidal\CustomVolumetricCuboidalSource.cs">
       <Link>MonteCarlo\Sources\VolumetricSources\VolumetricCuboidal\CustomVolumetricCuboidalSource.cs</Link>
     </Compile>
@@ -1105,6 +1120,9 @@
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Tissues\LayerTissueRegion.cs">
       <Link>MonteCarlo\Tissues\LayerTissueRegion.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Tissues\MultiConcentricInfiniteCylinderTissue.cs">
+      <Link>MonteCarlo\Tissues\MultiConcentricInfiniteCylinderTissue.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Tissues\MultiEllipsoidTissue.cs">
       <Link>MonteCarlo\Tissues\MultiEllipsoidTissue.cs</Link>
