@@ -513,6 +513,35 @@ namespace Vts.MonteCarlo
         /// </summary>
         public double[,] RefDynMT_xymt_subrcols { get { return ((double[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ReflectedDynamicMTOfXAndYAndSubregionHist").First().Name]).SubregionCollisions); } }
         /// <summary>
+        /// Reflected Dynamic Momentum Transfer of Fx and Tissue SubRegion with a histogram of MT
+        /// </summary>
+        public Complex[,] RefDynMT_fxmt { get { return ((Complex[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ReflectedDynamicMTOfFxAndSubregionHist").First().Name]).Mean); } }
+        /// <summary>
+        /// Reflected Dynamic Momentum Transfer of Fx and Tissue SubRegion with a histogram of MT 2nd moment
+        /// </summary>
+        public Complex[,] RefDynMT_fxmt2 { get { return ((Complex[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ReflectedDynamicMTOfFxAndSubregionHist").First().Name]).SecondMoment); } }
+        /// <summary>
+        /// Reflected Dynamic Momentum Transfer of Fx and Tissue SubRegion with a histogram of MT Tally Count
+        /// </summary>
+        public long RefDynMT_fxmt_TallyCount { get { return ((long)((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ReflectedDynamicMTOfFxAndSubregionHist").First().Name]).TallyCount); } }
+        /// <summary>
+        /// Reflected Dynamic Momentum Transfer of Fx and Tissue SubRegion with a histogram of MT fractional MT
+        /// </summary>
+        public Complex[,,] RefDynMT_fxmt_frac { get { return ((Complex[,,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ReflectedDynamicMTOfFxAndSubregionHist").First().Name]).FractionalMT); } }
+        /// <summary>
+        /// Reflected Dynamic Momentum Transfer of Fx and Tissue SubRegion with Total MT of Z
+        /// </summary>
+        public Complex[,] RefDynMT_fxmt_totofz { get { return ((Complex[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ReflectedDynamicMTOfFxAndSubregionHist").First().Name]).TotalMTOfZ); } }
+        /// <summary>
+        /// Reflected Dynamic Momentum Transfer of Fx and Tissue SubRegion with Dynamic MT of Z
+        /// </summary>
+        public Complex[,] RefDynMT_fxmt_dynofz { get { return ((Complex[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ReflectedDynamicMTOfFxAndSubregionHist").First().Name]).DynamicMTOfZ); } }
+        /// <summary>
+        /// Reflected Dynamic Momentum Transfer of Fx and Tissue SubRegion with SubregionCollisions
+        /// </summary>
+        public double[,] RefDynMT_fxmt_subrcols { get { return ((double[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ReflectedDynamicMTOfFxAndSubregionHist").First().Name]).SubregionCollisions); } }
+
+        /// <summary>
         /// Transmitted Dynamic Momentum Transfer of Rho and Tissue SubRegion with a histogram of MT
         /// </summary>
         public double[,] TransDynMT_rmt { get { return ((double[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "TransmittedDynamicMTOfRhoAndSubregionHist").First().Name]).Mean); } }
@@ -568,7 +597,35 @@ namespace Vts.MonteCarlo
         /// Transmitted Dynamic Momentum Transfer of X, Y and Tissue SubRegion with SubregionCollisions
         /// </summary>
         public double[,] TransDynMT_xymt_subrcols { get { return ((double[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "TransmittedDynamicMTOfRhoAndSubregionHist").First().Name]).SubregionCollisions); } }
-  
+        /// <summary>
+        /// Transmitted Dynamic Momentum Transfer of Fx and Tissue SubRegion with a histogram of MT
+        /// </summary>
+        public Complex[,] TransDynMT_fxmt { get { return ((Complex[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "TransmittedDynamicMTOfFxAndSubregionHist").First().Name]).Mean); } }
+        /// <summary>
+        /// Transmitted Dynamic Momentum Transfer of Fx and Tissue SubRegion with a histogram of MT 2nd moment
+        /// </summary>
+        public Complex[,] TransDynMT_fxmt2 { get { return ((Complex[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "TransmittedDynamicMTOfFxAndSubregionHist").First().Name]).SecondMoment); } }
+        /// <summary>
+        /// Transmitted Dynamic Momentum Transfer of Fx and Tissue SubRegion with a histogram of MT Tally Count
+        /// </summary>
+        public long TransDynMT_fxmt_TallyCount { get { return ((long)((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "TransmittedDynamicMTOfFxAndSubregionHist").First().Name]).TallyCount); } }
+        /// <summary>
+        /// Transmitted Dynamic Momentum Transfer of Fx and Tissue SubRegion with a histogram of MT fractional MT
+        /// </summary>
+        public Complex[,,] TransDynMT_fxmt_frac { get { return ((Complex[,,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "TransmittedDynamicMTOfFxAndSubregionHist").First().Name]).FractionalMT); } }
+        /// <summary>
+        /// Transmitted Dynamic Momentum Transfer of Fx and Tissue SubRegion with Total MT of Z
+        /// </summary>
+        public Complex[,] TransDynMT_fxmt_totofz { get { return ((Complex[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "TransmittedDynamicMTOfFxAndSubregionHist").First().Name]).TotalMTOfZ); } }
+        /// <summary>
+        /// Transmitted Dynamic Momentum Transfer of Fx and Tissue SubRegion with Dynamic MT of Z
+        /// </summary>
+        public Complex[,] TransDynMT_fxmt_dynofz { get { return ((Complex[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "TransmittedDynamicMTOfFxAndSubregionHist").First().Name]).DynamicMTOfZ); } }
+        /// <summary>
+        /// Transmitted Dynamic Momentum Transfer of Fx and Tissue SubRegion with SubregionCollisions
+        /// </summary>
+        public double[,] TransDynMT_fxmt_subrcols { get { return ((double[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "TransmittedDynamicMTOfFxAndSubregionHist").First().Name]).SubregionCollisions); } }
+
         /// <summary>
         /// Reflected Time of Rho and Tissue SubRegion with a histogram of Time
         /// </summary>

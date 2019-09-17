@@ -1,0 +1,8 @@
+{
+  "dims": [
+    100
+  ],
+  "datetime": "2019-09-11T09:01:34.4878295-07:00",
+  "ObjectType": "System.Double[]",
+  "filename": null
+}

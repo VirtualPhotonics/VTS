@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\NUnit3TestAdapter.3.13.0\build\net35\NUnit3TestAdapter.props" Condition="Exists('..\packages\NUnit3TestAdapter.3.13.0\build\net35\NUnit3TestAdapter.props')" />
-  <Import Project="..\packages\NUnit.3.11.0\build\NUnit.props" Condition="Exists('..\packages\NUnit.3.11.0\build\NUnit.props')" />
+  <Import Project="..\packages\NUnit3TestAdapter.3.15.1\build\net35\NUnit3TestAdapter.props" Condition="Exists('..\packages\NUnit3TestAdapter.3.15.1\build\net35\NUnit3TestAdapter.props')" />
+  <Import Project="..\packages\NUnit.3.12.0\build\NUnit.props" Condition="Exists('..\packages\NUnit.3.12.0\build\NUnit.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -63,17 +63,18 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MathNet.Numerics, Version=4.7.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MathNet.Numerics.4.7.0\lib\net461\MathNet.Numerics.dll</HintPath>
+    <Reference Include="MathNet.Numerics, Version=4.8.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MathNet.Numerics.4.8.1\lib\net461\MathNet.Numerics.dll</HintPath>
     </Reference>
     <Reference Include="Meta.Numerics, Version=4.0.7.0, Culture=neutral, PublicKeyToken=67d25c65a6631347, processorArchitecture=MSIL">
       <HintPath>..\packages\Meta.Numerics.4.0.7\lib\netstandard1.1\Meta.Numerics.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="nunit.framework, Version=3.11.0.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
-      <HintPath>..\packages\NUnit.3.11.0\lib\net45\nunit.framework.dll</HintPath>
+    <Reference Include="nunit.framework, Version=3.12.0.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\NUnit.3.12.0\lib\net45\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
@@ -143,6 +144,12 @@
     </Compile>
     <Compile Include="..\Vts.Test\Factories\SolverFactoryTests.cs">
       <Link>Factories\SolverFactoryTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\IO\ArrayCustomBinaryReaderTests.cs">
+      <Link>IO\ArrayCustomBinaryReaderTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\IO\ArrayCustomBinaryWriterTests.cs">
+      <Link>IO\ArrayCustomBinaryWriterTests.cs</Link>
     </Compile>
     <Compile Include="..\Vts.Test\IO\FileIOTests.cs">
       <Link>IO\FileIOTests.cs</Link>
@@ -249,11 +256,20 @@
     <Compile Include="..\Vts.Test\MonteCarlo\Detectors\CAWLayersDetectorsTests.cs">
       <Link>MonteCarlo\Detectors\CAWLayersDetectorsTests.cs</Link>
     </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Detectors\DAWInfiniteCylinderDetectorsTests.cs">
+      <Link>MonteCarlo\Detectors\DAWInfiniteCylinderDetectorsTests.cs</Link>
+    </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\Detectors\DAWLayersDetectorsTests.cs">
       <Link>MonteCarlo\Detectors\DAWLayersDetectorsTests.cs</Link>
     </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\Detectors\DAWLayersDynamicDetectorsTests.cs">
       <Link>MonteCarlo\Detectors\DAWLayersDynamicDetectorsTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Detectors\DAWLayersDynamicFxDetectorsTests.cs">
+      <Link>MonteCarlo\Detectors\DAWLayersDynamicFxDetectorsTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Detectors\DAWMultiInfiniteCylinderDetectorsTests.cs">
+      <Link>MonteCarlo\Detectors\DAWMultiInfiniteCylinderDetectorsTests.cs</Link>
     </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\Detectors\DAWSphereDetectorsTests.cs">
       <Link>MonteCarlo\Detectors\DAWSphereDetectorsTests.cs</Link>
@@ -306,6 +322,9 @@
     <Compile Include="..\Vts.Test\MonteCarlo\Rng\SerializableMersenneTwisterTests.cs">
       <Link>MonteCarlo\Rng\SerializableMersenneTwisterTests.cs</Link>
     </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Sources\FluorescenceEmissionSourcesTests.cs">
+      <Link>MonteCarlo\Sources\FluorescenceEmissionSourcesTests.cs</Link>
+    </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\Sources\LineSourcesTests.cs">
       <Link>MonteCarlo\Sources\LineSourcesTests.cs</Link>
     </Compile>
@@ -321,10 +340,12 @@
     <Compile Include="..\Vts.Test\MonteCarlo\Tissues\InfiniteCylinderTissueRegionTests.cs">
       <Link>MonteCarlo\Tissues\InfiniteCylinderTissueRegionTests.cs</Link>
     </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Tissues\MultiConcentricInfiniteCylinderTissueTests.cs">
+      <Link>MonteCarlo\Tissues\MultiConcentricInfiniteCylinderTissueTests.cs</Link>
+    </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\Tissues\SingleInclusionTissueTests.cs">
       <Link>MonteCarlo\Tissues\SingleInclusionTissueTests.cs</Link>
     </Compile>
-    <Compile Include="FileIOTests.Desktop.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -354,18 +375,42 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="..\Vts.Test\Resources\sourcetest\AOfXAndYAndZ">
+      <Link>Resources\sourcetest\AOfXAndYAndZ</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts.Test\Resources\fileiotest\ROfRho">
+      <Link>Resources\fileiotest\ROfRho</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts.Test\Resources\fileiotest\binarydbl">
+      <Link>Resources\fileiotest\binarydbl</Link>
+    </EmbeddedResource>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
-    <EmbeddedResource Include="..\Vts.Test\Resources\embeddedresourcefile.txt">
-      <Link>Resources\embeddedresourcefile.txt</Link>
+    <EmbeddedResource Include="..\Vts.Test\Resources\sourcetest\AOfXAndYAndZ.txt">
+      <Link>Resources\sourcetest\AOfXAndYAndZ.txt</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\Vts.Test\Resources\folder\embeddedresourcefile.txt">
-      <Link>Resources\folder\embeddedresourcefile.txt</Link>
+    <EmbeddedResource Include="..\Vts.Test\Resources\sourcetest\input.txt">
+      <Link>Resources\sourcetest\input.txt</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\Vts.Test\Resources\resourcefile.txt">
-      <Link>Resources\resourcefile.txt</Link>
+    <EmbeddedResource Include="..\Vts.Test\Resources\fileiotest\file7.xml">
+      <Link>Resources\fileiotest\file7.xml</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts.Test\Resources\fileiotest\position.txt">
+      <Link>Resources\fileiotest\position.txt</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts.Test\Resources\fileiotest\embeddedresourcefile.txt">
+      <Link>Resources\fileiotest\embeddedresourcefile.txt</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts.Test\Resources\fileiotest\folder\embeddedresourcefile.txt">
+      <Link>Resources\fileiotest\folder\embeddedresourcefile.txt</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts.Test\Resources\streamfindertest\resourcefile.txt">
+      <Link>Resources\streamfindertest\resourcefile.txt</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts.Test\Resources\fileiotest\ROfRho.txt">
+      <Link>Resources\fileiotest\ROfRho.txt</Link>
     </EmbeddedResource>
     <Content Include="App_Readme\MathNet.Numerics.authors.txt" />
     <Content Include="App_Readme\MathNet.Numerics.copyright.txt" />
@@ -378,8 +423,8 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
-    <Error Condition="!Exists('..\packages\NUnit.3.11.0\build\NUnit.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\NUnit.3.11.0\build\NUnit.props'))" />
-    <Error Condition="!Exists('..\packages\NUnit3TestAdapter.3.13.0\build\net35\NUnit3TestAdapter.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\NUnit3TestAdapter.3.13.0\build\net35\NUnit3TestAdapter.props'))" />
+    <Error Condition="!Exists('..\packages\NUnit.3.12.0\build\NUnit.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\NUnit.3.12.0\build\NUnit.props'))" />
+    <Error Condition="!Exists('..\packages\NUnit3TestAdapter.3.15.1\build\net35\NUnit3TestAdapter.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\NUnit3TestAdapter.3.15.1\build\net35\NUnit3TestAdapter.props'))" />
   </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

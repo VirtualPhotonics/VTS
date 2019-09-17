@@ -58,112 +58,122 @@ namespace Vts.MonteCarlo.PostProcessor
         /// <summary>
         /// Runs the Monte Carlo Post-processor
         /// </summary>
-        public static void RunPostProcessor(PostProcessorInput input, string outputFolderPath)
+        public static void RunPostProcessor(PostProcessorInput input, string inputFolderPath, string outputFolderPath)
         {
-            // locate root folder for output, creating it if necessary
-            var path = string.IsNullOrEmpty(outputFolderPath)
+            // locate root folder for input, should already be created
+            var inPath = string.IsNullOrEmpty(inputFolderPath)
                 ? Path.GetFullPath(Directory.GetCurrentDirectory())
-                : Path.GetFullPath(outputFolderPath);
-            if (!Directory.Exists(path))
+                : Path.GetFullPath(inputFolderPath);
+            if (Directory.Exists(inPath))
             {
-                Directory.CreateDirectory(path);
-            }
+                var inputFolder = Path.Combine(inPath, input.InputFolder);
 
-            // locate destination folder for output, creating it if necessary
-            var resultsFolder = Path.Combine(path, input.OutputName);
-            if (!Directory.Exists(resultsFolder))
-            {
-                Directory.CreateDirectory(resultsFolder);
-            }
-
-            SimulationOutput postProcessedOutput = null;
-
-            var databaseGenerationInputFile = SimulationInput.FromFile(Path.Combine(input.InputFolder, input.DatabaseSimulationInputFilename + ".txt"));
-            // check for pMC tallies first because could have ReflectanceTallies mixed in and want to load CollisionInfo
-
-            // Why not mirror the "on-the-fly" code, and allow for all kinds of detector inputs simultaneously? (dc 12/21/2011)
-            if (input.DetectorInputs.Where(di => di.TallyDetails.IspMCReflectanceTally).Any())
-            {
-                IList<IDetectorInput> pMCDetectorInputs;
-                pMCDetectorInputs = input.DetectorInputs;
-                var postProcessor = new PhotonDatabasePostProcessor(
-                    VirtualBoundaryType.pMCDiffuseReflectance,
-                    pMCDetectorInputs,
-                    PhotonDatabaseFactory.GetpMCDatabase( // database filenames are assumed to be convention
-                        VirtualBoundaryType.pMCDiffuseReflectance,
-                        input.InputFolder),
-                    databaseGenerationInputFile
-                    );
-                postProcessedOutput = postProcessor.Run();
-            }
-            else if (input.DetectorInputs.Where(di => di.TallyDetails.IsReflectanceTally).Any())
-            {
-              
-                var postProcessor = new PhotonDatabasePostProcessor(
-                    VirtualBoundaryType.DiffuseReflectance,
-                    input.DetectorInputs, 
-                    PhotonDatabaseFactory.GetPhotonDatabase( //database filenames are assumed to be convention
-                        VirtualBoundaryType.DiffuseReflectance,
-                        input.InputFolder),
-                    databaseGenerationInputFile
-                );
-                postProcessedOutput = postProcessor.Run();
-            }
-            else if (input.DetectorInputs.Where(di => di.TallyDetails.IsTransmittanceTally).Any())
-            {
-                var postProcessor = new PhotonDatabasePostProcessor(
-                    VirtualBoundaryType.DiffuseTransmittance,
-                    input.DetectorInputs,
-                    PhotonDatabaseFactory.GetPhotonDatabase( //database filenames are assumed to be convention
-                        VirtualBoundaryType.DiffuseTransmittance,
-                        input.InputFolder),
-                    databaseGenerationInputFile
-                );
-                postProcessedOutput = postProcessor.Run();
-            }
-            else if (input.DetectorInputs.Where(di => di.TallyDetails.IsSpecularReflectanceTally).Any())
-            {
-                var postProcessor = new PhotonDatabasePostProcessor(
-                    VirtualBoundaryType.SpecularReflectance,
-                    input.DetectorInputs,
-                    PhotonDatabaseFactory.GetPhotonDatabase( //database filenames are assumed to be convention
-                        VirtualBoundaryType.SpecularReflectance,
-                        input.InputFolder),
-                    databaseGenerationInputFile
-                );
-                postProcessedOutput = postProcessor.Run();
-            }
-
-
-            var folderPath = input.OutputName;
-            if (!Directory.Exists(folderPath))
-                Directory.CreateDirectory(folderPath);
-
-            // save input file to output folder with results
-            input.ToFile(Path.Combine(resultsFolder, input.OutputName + ".txt"));
-
-            // save database generation input file to output folder
-            databaseGenerationInputFile.ToFile(Path.Combine(resultsFolder, input.OutputName + "_database_infile.txt"));
-
-            if (postProcessedOutput != null)
-            {
-                foreach (var result in postProcessedOutput.ResultsDictionary.Values)
+                // locate root folder for output, creating it if necessary
+                var outPath = string.IsNullOrEmpty(outputFolderPath)
+                    ? Path.GetFullPath(Directory.GetCurrentDirectory())
+                    : Path.GetFullPath(outputFolderPath);
+                if (!Directory.Exists(outPath))
                 {
-                    // save all detector data to the specified folder
-                    DetectorIO.WriteDetectorToFile(result, folderPath);
+                    Directory.CreateDirectory(outPath);
                 }
+
+                // locate destination folder for output, creating it if necessary
+                var resultsFolder = Path.Combine(outPath, input.OutputName);
+                if (!Directory.Exists(resultsFolder))
+                {
+                    Directory.CreateDirectory(resultsFolder);
+                }
+
+                SimulationOutput postProcessedOutput = null;
+
+                var databaseGenerationInputFile = SimulationInput.FromFile(Path.Combine(inputFolder,
+                    input.DatabaseSimulationInputFilename + ".txt"));
+                // check for pMC tallies first because could have ReflectanceTallies mixed in and want to load CollisionInfo
+
+                // Why not mirror the "on-the-fly" code, and allow for all kinds of detector inputs simultaneously? (dc 12/21/2011)
+                if (input.DetectorInputs.Where(di => di.TallyDetails.IspMCReflectanceTally).Any())
+                {
+                    IList<IDetectorInput> pMCDetectorInputs;
+                    pMCDetectorInputs = input.DetectorInputs;
+                    var postProcessor = new PhotonDatabasePostProcessor(
+                        VirtualBoundaryType.pMCDiffuseReflectance,
+                        pMCDetectorInputs,
+                        PhotonDatabaseFactory.GetpMCDatabase( // database filenames are assumed to be convention
+                            VirtualBoundaryType.pMCDiffuseReflectance,
+                            inputFolder),
+                        databaseGenerationInputFile
+                    );
+                    postProcessedOutput = postProcessor.Run();
+                }
+                else if (input.DetectorInputs.Where(di => di.TallyDetails.IsReflectanceTally).Any())
+                {
+
+                    var postProcessor = new PhotonDatabasePostProcessor(
+                        VirtualBoundaryType.DiffuseReflectance,
+                        input.DetectorInputs,
+                        PhotonDatabaseFactory.GetPhotonDatabase( //database filenames are assumed to be convention
+                            VirtualBoundaryType.DiffuseReflectance,
+                            inputFolder),
+                        databaseGenerationInputFile
+                    );
+                    postProcessedOutput = postProcessor.Run();
+                }
+                else if (input.DetectorInputs.Where(di => di.TallyDetails.IsTransmittanceTally).Any())
+                {
+                    var postProcessor = new PhotonDatabasePostProcessor(
+                        VirtualBoundaryType.DiffuseTransmittance,
+                        input.DetectorInputs,
+                        PhotonDatabaseFactory.GetPhotonDatabase( //database filenames are assumed to be convention
+                            VirtualBoundaryType.DiffuseTransmittance,
+                            inputFolder),
+                        databaseGenerationInputFile
+                    );
+                    postProcessedOutput = postProcessor.Run();
+                }
+                else if (input.DetectorInputs.Where(di => di.TallyDetails.IsSpecularReflectanceTally).Any())
+                {
+                    var postProcessor = new PhotonDatabasePostProcessor(
+                        VirtualBoundaryType.SpecularReflectance,
+                        input.DetectorInputs,
+                        PhotonDatabaseFactory.GetPhotonDatabase( //database filenames are assumed to be convention
+                            VirtualBoundaryType.SpecularReflectance,
+                            inputFolder),
+                        databaseGenerationInputFile
+                    );
+                    postProcessedOutput = postProcessor.Run();
+                }
+
+                // save input file to output folder with results
+                input.ToFile(Path.Combine(resultsFolder, input.OutputName + ".txt"));
+
+                // save database generation input file to output folder
+                databaseGenerationInputFile.ToFile(Path.Combine(resultsFolder,
+                    input.OutputName + "_database_infile.txt"));
+
+                if (postProcessedOutput != null)
+                {
+                    foreach (var result in postProcessedOutput.ResultsDictionary.Values)
+                    {
+                        // save all detector data to the specified folder
+                        DetectorIO.WriteDetectorToFile(result, resultsFolder);
+                    }
+                }
+            }
+            else
+            {
+                Console.WriteLine("input path {0} does not exist", inPath);
             }
         }
 
         /// <summary>
         /// Runs multiple Post-Processor tasks in parallel using all available CPU cores
         /// </summary>
-        public static void RunPostProcessors(IEnumerable<PostProcessorInput> inputs, string outputFolderPath)
+        public static void RunPostProcessors(IEnumerable<PostProcessorInput> inputs, string inputFolderPath, string outputFolderPath)
         {
             var options = new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount };
             Parallel.ForEach(inputs, options, (input, state, index) =>
             {
-                RunPostProcessor(input, outputFolderPath);
+                RunPostProcessor(input, inputFolderPath, outputFolderPath);
             });
         }
     }

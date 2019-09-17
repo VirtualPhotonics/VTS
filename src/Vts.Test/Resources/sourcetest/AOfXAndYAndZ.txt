@@ -1,0 +1,34 @@
+{
+  "X": {
+    "Start": -2.0,
+    "Stop": 2.0,
+    "Count": 5
+  },
+  "Y": {
+    "Start": -10.0,
+    "Stop": 10.0,
+    "Count": 2
+  },
+  "Z": {
+    "Start": 0.0,
+    "Stop": 3.0,
+    "Count": 4
+  },
+  "TallyCount": 190604,
+  "TallyType": "AOfXAndYAndZ",
+  "Name": "AOfXAndYAndZ",
+  "TallySecondMoment": false,
+  "TallyDetails": {
+    "IsReflectanceTally": false,
+    "IsTransmittanceTally": false,
+    "IsSpecularReflectanceTally": false,
+    "IsInternalSurfaceTally": false,
+    "IspMCReflectanceTally": false,
+    "IsDosimetryTally": false,
+    "IsVolumeTally": true,
+    "IsCylindricalTally": false,
+    "IsNotImplementedForDAW": false,
+    "IsNotImplementedForCAW": true,
+    "IsNotImplementedYet": false
+  }
+}

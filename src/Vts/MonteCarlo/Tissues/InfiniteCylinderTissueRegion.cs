@@ -120,6 +120,7 @@ namespace Vts.MonteCarlo.Tissues
         public bool RayIntersectBoundary(Photon photon, out double distanceToBoundary)
         {
             distanceToBoundary = double.PositiveInfinity;
+            _onBoundary = false; // reset _onBoundary
             double root1, root2, xto, yto, zto;
             double root = 0;
             var dp = photon.DP;
