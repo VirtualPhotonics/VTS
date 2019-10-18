@@ -710,6 +710,9 @@
     <Compile Include="..\Vts\MonteCarlo\Detectors\ROfAngleDetector.cs">
       <Link>MonteCarlo\Detectors\ROfAngleDetector.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\ROfFxAndAngleDetector.cs">
+      <Link>MonteCarlo\Detectors\ROfFxAndAngleDetector.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\ROfFxAndTimeDetector.cs">
       <Link>MonteCarlo\Detectors\ROfFxAndTimeDetector.cs</Link>
     </Compile>

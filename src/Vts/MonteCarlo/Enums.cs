@@ -366,6 +366,8 @@ namespace Vts.MonteCarlo
             "ROfFx",
             // Reflectance as a function of spatial frequency along the x-axis, and time
             "ROfFxAndTime",
+            // Reflectance as a function of spatial frequency along the x-axis, and angle
+            "ROfFxAndAngle",
             // Total diffuse transmittance
             "TDiffuse",
             // Transmittance as a functino of source-detector separation (rho)
@@ -483,6 +485,10 @@ namespace Vts.MonteCarlo
         /// Reflectance as a function of spatial frequency along the x-axis, and time
         /// </summary>
         public static string ROfFxAndTime { get { return "ROfFxAndTime"; } }
+        /// <summary>
+        /// Reflectance as a function of spatial frequency along the x-axis, and angle
+        /// </summary>
+        public static string ROfFxAndAngle { get { return "ROfFxAndAngle"; } }
         /// <summary>
         /// Total diffuse transmittance
         /// </summary>
