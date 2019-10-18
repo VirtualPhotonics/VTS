@@ -144,12 +144,32 @@ for di = 1:numDetectors
             ROfFxAndTime.Phase = -angle(ROfFxAndTime.Mean);
             if(detector.TallySecondMoment && exist([datadir slash detector.Name '_2'],'file'))
                 tempData = readBinaryData([datadir slash detector.Name '_2'],[2*(length(ROfFxAndTime.Time)-1), length(ROfFxAndTime.Fx)]);
-                ROfFxAndTime.SecondMoment = tempData(1:2:end) + tempData(2:2:end); % SecondMoment=E[re^2]+E[im^2] is real
+                ROfFxAndTime.SecondMoment = tempData(1:2:end,:) + tempData(2:2:end,:); % SecondMoment=E[re^2]+E[im^2] is real
                 % SD=sqrt( SecondMoment - E[re]^2 - E[im]^2 )
                 ROfFxAndTime.Stdev = sqrt((ROfFxAndTime.SecondMoment - real(ROfFxAndTime.Mean) .* real(ROfFxAndTime.Mean) ...
                                                        - imag(ROfFxAndTime.Mean) .* imag(ROfFxAndTime.Mean)) / json.N);
             end
             results{di}.ROfFxAndTime = ROfFxAndTime;
+        case 'ROfFxAndAngle'
+            ROfFxAndAngle.Name = detector.Name;
+            tempFx = detector.Fx;
+            tempAngle = detector.Angle;
+            ROfFxAndAngle.Fx = linspace((tempFx.Start), (tempFx.Stop), (tempFx.Count));
+            ROfFxAndAngle.Angle = linspace((tempAngle.Start), (tempAngle.Stop), (tempAngle.Count));
+            ROfFxAndAngle.Fx_Midpoints = ROfFxAndAngle.Fx;
+            ROfFxAndAngle.Angle_Midpoints = (ROfFxAndAngle.Angle(1:end-1) + ROfFxAndAngle.Angle(2:end))/2;
+            tempData = readBinaryData([datadir slash detector.Name],[2*(length(ROfFxAndAngle.Angle)-1), length(ROfFxAndAngle.Fx)]); % column major but complex
+            ROfFxAndAngle.Mean = tempData(1:2:end,:) + 1i*tempData(2:2:end,:);  
+            ROfFxAndAngle.Amplitude = abs(ROfFxAndAngle.Mean);
+            ROfFxAndAngle.Phase = -angle(ROfFxAndAngle.Mean);
+            if(detector.TallySecondMoment && exist([datadir slash detector.Name '_2'],'file'))
+                tempData = readBinaryData([datadir slash detector.Name '_2'],[2*(length(ROfFxAndAngle.Angle)-1), length(ROfFxAndAngle.Fx)]);
+                ROfFxAndAngle.SecondMoment = tempData(1:2:end,:) + tempData(2:2:end,:); % SecondMoment=E[re^2]+E[im^2] is real
+                % SD=sqrt( SecondMoment - E[re]^2 - E[im]^2 )
+                ROfFxAndAngle.Stdev = sqrt((ROfFxAndAngle.SecondMoment - real(ROfFxAndAngle.Mean) .* real(ROfFxAndAngle.Mean) ...
+                                                       - imag(ROfFxAndAngle.Mean) .* imag(ROfFxAndAngle.Mean)) / json.N);
+            end
+            results{di}.ROfFxAndAngle = ROfFxAndAngle;
         case 'TDiffuse'
             TDiffuse.Name = detector.Name;
             TDiffuse_txt = readAndParseJson([datadir slash detector.Name '.txt']);
