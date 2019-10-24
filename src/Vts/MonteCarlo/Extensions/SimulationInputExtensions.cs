@@ -25,7 +25,7 @@ namespace Vts.MonteCarlo.Extensions
             var result = data.Clone();
 
             // append sweep value to the output name
-            result.OutputName += ("_" + inputParameter + "_" + String.Format("{0:g}", value));
+            result.OutputName += ("_" + inputParameter + "_" + String.Format("{0:G15}", value));
 
             var parameterString = inputParameter.ToLower().TrimEnd("0123456789".ToCharArray());
             var regionString = inputParameter.Substring(parameterString.Length);
