@@ -107,7 +107,13 @@ namespace Vts.Test.MonteCarlo.Detectors
                         TallySecondMoment = true
                     },
                     new ATotalDetectorInput() { TallySecondMoment = true },
-                    new FluenceOfRhoAndZDetectorInput() {Rho=new DoubleRange(0.0, 10.0, 101),Z=new DoubleRange(0.0, 10.0, 101)},   
+                    new FluenceOfRhoAndZDetectorInput() {Rho=new DoubleRange(0.0, 10.0, 101),Z=new DoubleRange(0.0, 10.0, 101)},
+                    new FluenceOfRhoAndZAndOmegaDetectorInput()
+                    {
+                        Rho = new DoubleRange(0.0, 10.0, 11),
+                        Z =  new DoubleRange(0.0, 10.0, 11),
+                        Omega = new DoubleRange(0.05, 1.0, 20)
+                    },
                     new FluenceOfXAndYAndZDetectorInput()
                     {
                         X = new DoubleRange(-10.0, 10.0, 11), 
@@ -122,11 +128,13 @@ namespace Vts.Test.MonteCarlo.Detectors
                         Z =  new DoubleRange(0.0, 10.0, 11),
                         Omega = new DoubleRange(0.05, 1.0, 20)
                     },
-                    new FluenceOfRhoAndZAndOmegaDetectorInput()
+                    new FluenceOfXAndYAndZAndTimeDetectorInput()
                     {
-                        Rho = new DoubleRange(0.0, 10.0, 11),
+                        X = new DoubleRange(-10.0, 10.0, 11),
+                        Y = new DoubleRange(-10.0, 10.0, 11),
                         Z =  new DoubleRange(0.0, 10.0, 11),
-                        Omega = new DoubleRange(0.05, 1.0, 20)
+                        Time = new DoubleRange(0.0, 1.0, 11),
+                        TallySecondMoment = true
                     },
                     new FluenceOfFxAndZDetectorInput()
                     {
@@ -496,7 +504,44 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.Less(Math.Abs(integral * mua - _outputOneLayerTissue.Atot), 0.0006);
             Assert.AreEqual(_outputOneLayerTissue.Flu_xyzw_TallyCount, 42334);
             Assert.AreEqual(_outputTwoLayerTissue.Flu_xyzw_TallyCount, 42334);
-        }        
+        }
+
+        // Fluence Flu(x,y,z,time), 1st moment validated with prior test
+        // Verify integral * mua over rho,z,omega equals ATotal
+        [Test]
+        public void validate_DAW_FluenceOfXAndYAndZAndTime()
+        {
+            Assert.Less(Math.Abs(_outputOneLayerTissue.Flu_xyzt[0, 0, 0, 4] - 0.012811), 0.000001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.Flu_xyzt2[0, 0, 0, 4] - 0.016414), 0.000001); 
+            // undo angle bin normalization
+            var x = ((FluenceOfXAndYAndZAndTimeDetectorInput)_inputOneLayerTissue.DetectorInputs.
+                Where(d => d.TallyType == "FluenceOfXAndYAndZAndTime").First()).X;
+            var y = ((FluenceOfXAndYAndZAndTimeDetectorInput)_inputOneLayerTissue.DetectorInputs.
+                Where(d => d.TallyType == "FluenceOfXAndYAndZAndTime").First()).Y;
+            var z = ((FluenceOfXAndYAndZAndTimeDetectorInput)_inputOneLayerTissue.DetectorInputs.
+                Where(d => d.TallyType == "FluenceOfXAndYAndZAndTime").First()).Z;
+            var t = ((FluenceOfXAndYAndZAndTimeDetectorInput)_inputOneLayerTissue.DetectorInputs.
+                Where(d => d.TallyType == "FluenceOfXAndYAndZAndTime").First()).Time;
+            var norm = x.Delta * y.Delta * z.Delta * t.Delta;
+            var integral = 0.0;
+            for (int ix = 0; ix < x.Count - 1; ix++)
+            {
+                for (int iy = 0; iy < y.Count - 1; iy++)
+                {
+                    for (int iz = 0; iz < z.Count - 1; iz++)
+                    {
+                        for (int it = 0; it < t.Count - 1; it++)
+                        {
+                            integral += _outputOneLayerTissue.Flu_xyzt[ix, iy, iz, it] * norm;
+                        } 
+                    }
+                }
+            }
+            var mua = _inputOneLayerTissue.TissueInput.Regions[1].RegionOP.Mua;
+            Assert.Less(Math.Abs(integral * mua - _outputOneLayerTissue.Atot), 0.0006);
+            Assert.AreEqual(_outputOneLayerTissue.Flu_xyzw_TallyCount, 42334);
+            Assert.AreEqual(_outputTwoLayerTissue.Flu_xyzw_TallyCount, 42334);
+        }
         // Fluence Flu(rho,z,omega), 1st moment validated with prior test
         // Verify integral * mua over rho,z,omega equals ATotal
         [Test]

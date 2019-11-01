@@ -321,6 +321,18 @@ namespace Vts.MonteCarlo
         /// </summary>
         public long Flu_xyz_TallyCount { get { return ((long)((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "FluenceOfXAndYAndZ").First().Name]).TallyCount); } }
         /// <summary>
+        /// Fluence as a function of x, y and z
+        /// </summary>
+        public double[,,,] Flu_xyzt { get { return ((double[,,,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "FluenceOfXAndYAndZAndTime").First().Name]).Mean); } }
+        /// <summary>
+        /// Fluence as a function of x, y and z 2nd moment
+        /// </summary>
+        public double[,,,] Flu_xyzt2 { get { return ((double[,,,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "FluenceOfXAndYAndZAndTime").First().Name]).SecondMoment); } }
+        /// <summary>
+        /// Fluence as a function of x, y and z Tally Count
+        /// </summary>
+        public long Flu_xyzt_TallyCount { get { return ((long)((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "FluenceOfXAndYAndZAndTime").First().Name]).TallyCount); } }
+        /// <summary>
         /// Fluence as a function of x, y, z and omega (temporal frequency)
         /// </summary>
         public Complex[, , ,] Flu_xyzw { get { return ((Complex[, , ,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "FluenceOfXAndYAndZAndOmega").First().Name]).Mean); } }
