@@ -21,7 +21,6 @@ namespace Vts.Test.MonteCarlo.Detectors
         private SimulationOutput _outputTwoRegionTissue;
         private SimulationInput _inputOneRegionTissue;
         private SimulationInput _inputTwoRegionTissue;
-        private double _factor;
 
         /// <summary>
         /// list of temporary files created by these unit tests

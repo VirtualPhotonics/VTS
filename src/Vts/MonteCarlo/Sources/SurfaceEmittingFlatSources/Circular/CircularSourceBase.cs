@@ -102,7 +102,7 @@ namespace Vts.MonteCarlo.Sources
                 _beamRotationFromInwardNormal,                
                 _rotationAndTranslationFlags);
 
-            var photon = new Photon(finalPosition, finalDirection, tissue, _initialTissueRegionIndex, Rng);
+            var photon = new Photon(finalPosition, finalDirection,1.0,  tissue, _initialTissueRegionIndex, Rng);
 
             return photon;
         }

@@ -386,7 +386,6 @@ namespace Vts.Test.Modeling.ForwardSolvers
             var waterAbsorber = new ChromophoreAbsorber(ChromophoreType.H2O, 0.99);
             var _twoLayerSDAForwardSolver = new TwoLayerSDAForwardSolver();
             var _oneLayerPointSourceForwardSolver = new PointSourceSDAForwardSolver();
-            double _topLayerThickness = 3; // mm
 
             var n = 1.4;
             var wvs = new DoubleRange(650, 1000, 36).AsEnumerable().ToArray();

@@ -58,6 +58,7 @@ namespace Vts.Test.MonteCarlo.Tissues
             Photon photon = new Photon( // on top of ellipsoid pointed into it
                 new Position(0, 0, 1.0),
                 new Direction(0.0, 0, 1.0),
+                1.0,
                 _tissue,
                 1,
                 new Random());

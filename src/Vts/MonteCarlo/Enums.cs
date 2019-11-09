@@ -304,6 +304,18 @@ namespace Vts.MonteCarlo
         Normal,
     }
 
+    public enum SourcePositionSamplingType
+    {
+        /// <summary>
+        /// Sample location using PDF
+        /// </summary>
+        CDF,
+        /// <summary>
+        /// Sample location uniformly in space
+        /// </summary>
+        Uniform
+    }
+
     /// <summary>
     /// Tissue types
     /// </summary>

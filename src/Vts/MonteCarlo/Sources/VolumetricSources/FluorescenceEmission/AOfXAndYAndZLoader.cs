@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Vts.Common;
 using Vts.MonteCarlo.Detectors;
 using Vts.MonteCarlo.IO;
@@ -46,6 +47,10 @@ namespace Vts.MonteCarlo.Sources
         /// tissue region of fluorescence
         /// </summary>
         public ITissueRegion FluorescentTissueRegion;
+        /// <summary>
+        /// dictionary that maps key=count to triple of indices to go through AOfXAndYAndZ fluorescent region in order
+        /// </summary>
+        public Dictionary<int, List<int>> FluorescentRegionIndicesInOrder;
 
         /// <summary>
         /// constructor that load excitation simulation AOfXAndYAndZ
@@ -76,6 +81,7 @@ namespace Vts.MonteCarlo.Sources
 
                 // separate setup of arrays so can unit test method
                 InitializeFluorescentRegionArrays();
+                SetupRegionIndices();
             }
             else
             {
@@ -126,6 +132,27 @@ namespace Vts.MonteCarlo.Sources
                             PDFOfXAndYAndZ[i, j, k] /= TotalProb;
                             CDFOfXAndYAndZ[i, j, k] /= TotalProb;
                         }                    
+                    }
+                }
+            }
+        }
+
+        // set up order of fluor region indices using row major
+        private void SetupRegionIndices()
+        {
+            FluorescentRegionIndicesInOrder = new Dictionary<int, List<int>>();
+            int count = 0;
+            for (int i = 0; i < X.Count - 1; i++)
+            {
+                for (int j = 0; j < Y.Count - 1; j++)
+                {
+                    for (int k = 0; k < Z.Count - 1; k++)
+                    {
+                        if (MapOfXAndYAndZ[i, j, k] == 1)
+                        { 
+                            FluorescentRegionIndicesInOrder.Add(count, new List<int>() { i, j, k });
+                            count = count + 1;
+                        }
                     }
                 }
             }

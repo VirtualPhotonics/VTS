@@ -989,7 +989,8 @@ new ITissueRegion[]
                 new FluorescenceEmissionAOfXAndYAndZSourceInput( 
                     "infinite_cylinder_AOfXAndYAndZ",
                     "infinite_cylinder_AOfXAndYAndZ.txt",
-                    3
+                    3,
+                    SourcePositionSamplingType.CDF
                     ),
                 new SingleInfiniteCylinderTissueInput(
                     new InfiniteCylinderTissueRegion(
