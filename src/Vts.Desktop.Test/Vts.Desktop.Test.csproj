@@ -358,7 +358,6 @@
     <Compile Include="..\Vts.Test\MonteCarlo\Tissues\SurfaceFiberTissueRegionTests.cs">
       <Link>MonteCarlo\Tissues\SurfaceFiberTissueRegionTests.cs</Link>
     </Compile>
-    <Compile Include="FileIOTests.Desktop.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
