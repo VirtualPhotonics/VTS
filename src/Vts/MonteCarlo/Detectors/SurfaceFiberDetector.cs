@@ -13,18 +13,18 @@ namespace Vts.MonteCarlo.Detectors
     public class SurfaceFiberDetectorInput : DetectorInput, IDetectorInput
     {
         /// <summary>
-        /// constructor for cylindrical fiber detector input. The fiber only detects as photon
+        /// constructor for cylindrical surface fiber detector input. The fiber only detects as photon
         /// crosses bottom cap in an upward direction (negative z direction)
         /// </summary>
         public SurfaceFiberDetectorInput()
         {
             TallyType = "SurfaceFiber";
-            Center = new Position(0, 0, 0.5);
+            Center = new Position(0, 0, 0);
             Radius = 0.6;
             N = 1.4;
             Name = "SurfaceFiberDetector";
             NA = double.PositiveInfinity; // set default NA completely open regardless of detector region refractive index
-            FinalTissueRegionIndex = 3; // assume detector is in surface fiber region
+            FinalTissueRegionIndex = 1; // assume detector is in surface fiber region
 
             // modify base class TallyDetails to take advantage of built-in validation capabilities (error-checking)
             TallyDetails.IsReflectanceTally = true;

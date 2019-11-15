@@ -578,6 +578,9 @@
     <Compile Include="..\Vts\MonteCarlo\DataStructuresValidation\DetectorInputs\ReflectedDynamicMTOfXAndYAndSubregionHistDetectorInputValidation.cs">
       <Link>MonteCarlo\DataStructuresValidation\DetectorInputs\ReflectedDynamicMTOfXAndYAndSubregionHistDetectorInputValidation.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\DataStructuresValidation\DetectorInputs\SurfaceFiberDetectorInputValidation.cs">
+      <Link>MonteCarlo\DataStructuresValidation\DetectorInputs\SurfaceFiberDetectorInputValidation.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\DataStructuresValidation\DetectorInputs\TransmittedDynamicMTOfRhoAndSubregionHistDetectorInputValidation.cs">
       <Link>MonteCarlo\DataStructuresValidation\DetectorInputs\TransmittedDynamicMTOfRhoAndSubregionHistDetectorInputValidation.cs</Link>
     </Compile>

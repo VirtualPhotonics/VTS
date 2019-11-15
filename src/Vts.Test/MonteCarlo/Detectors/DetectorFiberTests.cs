@@ -137,7 +137,7 @@ namespace Vts.Test.MonteCarlo.Detectors
         /// Theory [Bargo et al., AO 42(16) 2003] states (R_NA/R_Open)=(NA/ntiss)^2
         /// (0.22/1.4)^2=0.0246
         /// taking means of both (R_NA/R_Open)=0.035 -> not so good
-        //// [mean-3sig, mean+3sig]=[0.0, 0.0053] -> agreement
+        /// [mean-3sig, mean+3sig]=[0.0, 0.0053] -> agreement
         /// but if take 3sigma range may agree
         /// </summary>
         [Test]
