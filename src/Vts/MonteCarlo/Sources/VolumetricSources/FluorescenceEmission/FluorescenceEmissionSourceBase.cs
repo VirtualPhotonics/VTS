@@ -68,7 +68,7 @@ namespace Vts.MonteCarlo.Sources
                     rng);
         }
         /// <summary>
-        /// each inheritor generates own GetFinalPosition
+        /// each inheritor generates own GetFinalPositionAndWeight
         /// </summary>
         /// <returns></returns>
         protected abstract Position GetFinalPositionAndWeight(Random rng, out double weight);

@@ -79,6 +79,7 @@ namespace Vts.MonteCarlo.Sources
     /// </summary>
     public class FluorescenceEmissionAOfXAndYAndZSource : FluorescenceEmissionSourceBase
     {
+        double _totalWeight = 0.0;
         /// <summary>
         /// class that holds all Source arrays for proper initiation
         /// </summary>
@@ -153,6 +154,8 @@ namespace Vts.MonteCarlo.Sources
                     if (IndexCount > Loader.FluorescentRegionIndicesInOrder.Count - 1)
                     {
                         IndexCount = 0;
+                        // the following output is to verify after each cycle through voxels total AE correct
+                        //Console.WriteLine("totalWeight = " + _totalWeight.ToString(""));
                     }
                     var indices = Loader.FluorescentRegionIndicesInOrder[IndexCount].ToArray();
                     var ix = indices[0];
@@ -161,7 +164,10 @@ namespace Vts.MonteCarlo.Sources
                     xMidpoint = Loader.X.Start + ix * Loader.X.Delta + Loader.X.Delta / 2;
                     yMidpoint = Loader.Y.Start + iy * Loader.Y.Delta + Loader.Y.Delta / 2;
                     zMidpoint = Loader.Z.Start + iz * Loader.Z.Delta + Loader.Z.Delta / 2;
-                    weight = Loader.AOfXAndYAndZ[ix, iy, iz];
+                    // undo normalization performed when AOfXAndYAndZDetector saved
+                    var xyzNorm = Loader.X.Delta * Loader.Y.Delta * Loader.Z.Delta;
+                    weight = Loader.AOfXAndYAndZ[ix, iy, iz] * xyzNorm;
+                    _totalWeight = _totalWeight + weight;
                     IndexCount = IndexCount + 1;
                     return new Position(xMidpoint, yMidpoint, zMidpoint);
             }

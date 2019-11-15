@@ -221,11 +221,9 @@ namespace Vts.Test.MonteCarlo.Sources
             ITissueInput tissueInput = new SingleInfiniteCylinderTissueInput();
             ITissue tissue = tissueInput.CreateTissue(AbsorptionWeightingType.Discrete,
                 PhaseFunctionType.HenyeyGreenstein, 0);
-            tissue.Regions[3] = _loaderCDF.FluorescentTissueRegion;
-            var ixseq = new double[] {0.5, -0.5, 0.5 , 0.5};
-            var izseq = new double[] {0.5, 1.5, 1.5, 1.5, 0.5};
+            tissue.Regions[3] = _loaderUnif.FluorescentTissueRegion;
+            var xyzNorm = _loaderUnif.X.Delta * _loaderUnif.Y.Delta * _loaderUnif.Z.Delta;
             int ix, iz;
-            double x, z;
             for (int i = 0; i < 100; i++)
             {
                 var photon = _fluorEmissionAOfXAndYAndZSourceUnif.GetNextPhoton(tissue);
@@ -240,7 +238,8 @@ namespace Vts.Test.MonteCarlo.Sources
                 // verify weight at location is equal to AOfXAndYAndZ note: setup with single y bin
                 // expected: Map [ 0 1 1 0; 0 1 1 0; 0 0 0 0] row major
                 // expected: A   [ 1 4 7 10; 2 5 8 11; 3 6 9 12] row major
-                Assert.IsTrue(Math.Abs(photon.DP.Weight - _loaderUnif.AOfXAndYAndZ[ix, 0, iz]) < 1e-6);
+                Assert.IsTrue(Math.Abs(photon.DP.Weight - 
+                                       _loaderUnif.AOfXAndYAndZ[ix, 0, iz] * xyzNorm) < 1e-6);
             }
         }
 
