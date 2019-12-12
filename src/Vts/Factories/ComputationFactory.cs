@@ -281,8 +281,8 @@ namespace Vts.Factories
         }
 
         /// <summary>
-        /// ComputeFluence determines fluence.  This overload has a single set of OpticalProperties parameters rather
-        /// than an array.
+        /// ComputeFluence determines fluence.  This overload has a single set of OpticalProperties parameters
+        /// rather than an array.
         /// </summary>
         /// <param name="forwardSolver">Interface for forward solvers to allow dependency injection of forward solver of interest</param>
         /// <param name="solutionDomainType">FluenceSolutionDomainType enum (e.g. FluenceOfRhoAndZ, FluenceOfFxAndZ etc.)</param>
@@ -312,7 +312,7 @@ namespace Vts.Factories
         /// ComputeFluenceComplex computes fluence for complex forward solvers.
         /// </summary>
         /// <param name="forwardSolverType">ForwardSolverType enum (e.g. PointSourceSDA, DistributedPointSourceSDA, etc.)</param>
-        /// <param name="solutionDomainType">FluenceSolutionDomainType enum (e.g. FluenceOfRhoAndZ, FluenceOfFxAndZ etc.)</param>
+        /// <param name="solutionDomainType">FluenceSolutionDomainType enum (e.g. FluenceOfRhoAndZAndFt, FluenceOfFxAndZAndFt etc.)</param>
         /// <param name="independentAxesTypes">array of IndependentVariableAxis enum (Rho, Time, Fx, Ft, Z)</param>
         /// <param name="independentValues">double array of independent type axis values</param>
         /// <param name="opticalProperties">single set of optical properties</param>
@@ -342,7 +342,7 @@ namespace Vts.Factories
         /// ComputeFluenceComplex overload computes fluence for complex forward solvers.
         /// </summary>
         /// <param name="forwardSolverType">ForwardSolverType enum (e.g. PointSourceSDA, DistributedPointSourceSDA, etc.)</param>
-        /// <param name="solutionDomainType">FluenceSolutionDomainType enum (e.g. FluenceOfRhoAndZ, FluenceOfFxAndZ etc.)</param>
+        /// <param name="solutionDomainType">FluenceSolutionDomainType enum (e.g. FluenceOfRhoAndZAndFt, FluenceOfFxAndZAndFt etc.)</param>
         /// <param name="independentAxesTypes">array of IndependentVariableAxis enum (Rho, Time, Fx, Ft, Z)</param>
         /// <param name="independentValues">double array of independent type axis values</param>
         /// <param name="tissueRegions">array of IOpticalPropertyRegions</param>
@@ -372,7 +372,7 @@ namespace Vts.Factories
         /// ComputeFluenceComplex overload computes fluence for complex forward solvers.
         /// </summary>
         /// <param name="forwardSolver">Interface for forward solvers to allow dependency injection of forward solver of interest</param>
-        /// <param name="solutionDomainType">FluenceSolutionDomainType enum (e.g. FluenceOfRhoAndZ, FluenceOfFxAndZ etc.)</param>
+        /// <param name="solutionDomainType">FluenceSolutionDomainType enum (e.g. FluenceOfRhoAndZAndFt, FluenceOfFxAndZAndFt etc.)</param>
         /// <param name="independentAxesTypes">array of IndependentVariableAxis enum (Rho, Time, Fx, Ft, Z)</param>
         /// <param name="independentValues">double array of independent type axis values</param>
         /// <param name="opticalProperties">single set of optical properties</param>
@@ -408,7 +408,7 @@ namespace Vts.Factories
         /// optical properties.
         /// </summary>
         /// <param name="forwardSolver">Interface for forward solvers to allow dependency injection of forward solver of interest</param>
-        /// <param name="solutionDomainType">FluenceSolutionDomainType enum (e.g. FluenceOfRhoAndZ, FluenceOfFxAndZ etc.)</param>
+        /// <param name="solutionDomainType">FluenceSolutionDomainType enum (e.g. FluenceOfRhoAndZAndFt, FluenceOfFxAndZAndFt etc.)</param>
         /// <param name="independentAxesTypes">array of IndependentVariableAxis enum (Rho, Time, Fx, Ft, Z)</param>
         /// <param name="independentValues">double array of independent type axis values</param>
         /// <param name="tissueRegions">array of IOpticalPropertyRegions</param>
