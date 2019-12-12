@@ -59,7 +59,7 @@ namespace Vts.Factories
         /// ComputeReflectance overload determines reflectance.  It uses the first parameter
         /// IForwardSolver instead of ForwardSolverType.
         /// </summary>
-        /// <param name="forwardSolver">Interface for forward solvers to allow dependency injection of forward solver of interest</param>
+        /// <param name="forwardSolver">forward solver class</param>
         /// <param name="solutionDomainType">SolutionDomainType enum (e.g. RofRho, RofRx, etc.)</param>
         /// <param name="forwardAnalysisType">ForwardAnalysisType enum (e.g. R, dRdMua, dRdMusp, etc.)</param>
         /// <param name="independentValues">an array of objects: first element = OpticalProperties,
@@ -178,7 +178,7 @@ namespace Vts.Factories
         /// <summary>
         /// ComputeFluence overload determines fluence given the input parameters.  
         /// </summary>
-        /// <param name="forwardSolver">Interface for forward solvers to allow dependency injection of forward solver of interest</param>
+        /// <param name="forwardSolver">forward solver class</param>
         /// <param name="solutionDomainType">FluenceSolutionDomainType enum (e.g. FluenceOfRhoAndZ, FluenceOfFxAndZ etc.)</param>
         /// <param name="independentAxesTypes">array of IndependentVariableAxis enum (Rho, Time, Fx, Ft, Z)</param>
         /// <param name="independentValues">double array of independent type axis values</param>
@@ -234,7 +234,7 @@ namespace Vts.Factories
         /// <summary>
         /// ComputeFluence overload computes fluence for specified forward solver.
         /// </summary>
-        /// <param name="forwardSolver">Interface for forward solvers to allow dependency injection of forward solver of interest</param>
+        /// <param name="forwardSolver">forward solver class</param>
         /// <param name="solutionDomainType">FluenceSolutionDomainType enum (e.g. FluenceOfRhoAndZ, FluenceOfFxAndZ etc.)</param>
         /// <param name="independentAxesTypes">array of IndependentVariableAxis enum (Rho, Time, Fx, Ft, Z)</param>
         /// <param name="independentValues">double array of independent type axis values</param>
@@ -284,7 +284,7 @@ namespace Vts.Factories
         /// ComputeFluence determines fluence.  This overload has a single set of OpticalProperties parameters
         /// rather than an array.
         /// </summary>
-        /// <param name="forwardSolver">Interface for forward solvers to allow dependency injection of forward solver of interest</param>
+        /// <param name="forwardSolver">forward solver class</param>
         /// <param name="solutionDomainType">FluenceSolutionDomainType enum (e.g. FluenceOfRhoAndZ, FluenceOfFxAndZ etc.)</param>
         /// <param name="independentAxesTypes">array of IndependentVariableAxis enum (Rho, Time, Fx, Ft, Z)</param>
         /// <param name="independentValues">double array of independent type axis values</param>
@@ -371,7 +371,7 @@ namespace Vts.Factories
         /// <summary>
         /// ComputeFluenceComplex overload computes fluence for complex forward solvers.
         /// </summary>
-        /// <param name="forwardSolver">Interface for forward solvers to allow dependency injection of forward solver of interest</param>
+        /// <param name="forwardSolver">forward solver class</param>
         /// <param name="solutionDomainType">FluenceSolutionDomainType enum (e.g. FluenceOfRhoAndZAndFt, FluenceOfFxAndZAndFt etc.)</param>
         /// <param name="independentAxesTypes">array of IndependentVariableAxis enum (Rho, Time, Fx, Ft, Z)</param>
         /// <param name="independentValues">double array of independent type axis values</param>
@@ -407,7 +407,7 @@ namespace Vts.Factories
         /// parameter specifies tissue regions using IOpticalPropertyRegion[] instead of a single set of
         /// optical properties.
         /// </summary>
-        /// <param name="forwardSolver">Interface for forward solvers to allow dependency injection of forward solver of interest</param>
+        /// <param name="forwardSolver">forward solver class</param>
         /// <param name="solutionDomainType">FluenceSolutionDomainType enum (e.g. FluenceOfRhoAndZAndFt, FluenceOfFxAndZAndFt etc.)</param>
         /// <param name="independentAxesTypes">array of IndependentVariableAxis enum (Rho, Time, Fx, Ft, Z)</param>
         /// <param name="independentValues">double array of independent type axis values</param>
@@ -461,7 +461,7 @@ namespace Vts.Factories
         /// Overload of GetPHD that uses internal DI framework-supplied solver singletons
         /// </summary>
         /// <param name="forwardSolverType">ForwardSolverType enum (e.g. PointSourceSDA, DistributedPointSourceSDA, etc.)</param>
-        /// <param name="fluence">fluence</param>
+        /// <param name="fluence">linearized fluence to be used to generate PHD, column major</param>
         /// <param name="sdSeparation">source detector separation (in mm)</param>
         /// <param name="ops">optical properties</param>
         /// <param name="rhos">detector locations (in mm)</param>
@@ -476,8 +476,8 @@ namespace Vts.Factories
         /// <summary>
         /// Method to generate Photon Hitting Density (PHD) Map 
         /// </summary>
-        /// <param name="forwardSolver">Interface for forward solvers to allow dependency injection of forward solver of interest</param>
-        /// <param name="fluence">fluence</param>
+        /// <param name="forwardSolver">forward solver class</param>
+        /// <param name="fluence">linearized fluence to be used to generate PHD, column major</param>
         /// <param name="sdSeparation">source detector separation (in mm)</param>
         /// <param name="ops">optical properties</param>
         /// <param name="rhos">detector locations (in mm)</param>
@@ -506,7 +506,7 @@ namespace Vts.Factories
         /// Overload of GetPHD that uses internal DI framework-supplied solver singletons
         /// </summary>
         /// <param name="forwardSolverType">ForwardSolverType enum (e.g. PointSourceSDA, DistributedPointSourceSDA, etc.)</param>
-        /// <param name="fluence">fluence</param>
+        /// <param name="fluence">linearlized fluence used to generate PHD, column major</param>
         /// <param name="sdSeparation">source detector separation (in mm)</param>
         /// <param name="ops">optical properties</param>
         /// <param name="rhos">detector locations (in mm)</param>
@@ -523,8 +523,8 @@ namespace Vts.Factories
         /// <summary>
         /// Method to generate Photon Hitting Density (PHD) map
         /// </summary>
-        /// <param name="forwardSolver">Interface for forward solvers to allow dependency injection of forward solver of interest</param>
-        /// <param name="fluence">fluence</param>
+        /// <param name="forwardSolver">forward solver class</param>
+        /// <param name="fluence">linearlized fluence used to generate PHD, column major</param>
         /// <param name="sdSeparation">source detector separation (in mm)</param>
         /// <param name="ops">optical properties</param>
         /// <param name="rhos">detector locations (in mm)</param>
@@ -553,8 +553,8 @@ namespace Vts.Factories
         ///// <summary>
         ///// Method to generate PHD 
         ///// </summary>
-        ///// <param name="forwardSolver">Interface for forward solvers to allow dependency injection of forward solver of interest</param>
-        ///// <param name="fluence">fluence</param>
+        ///// <param name="forwardSolver">forward solver class</param>
+        ///// <param name="fluence">linearized fluence used to generate PHD, column major</param>
         ///// <param name="sdSeparation">source detector separation (in mm)</param>
         ///// <param name="ops">optical properties</param>
         ///// <param name="rhos">detector locations (in mm)</param>
@@ -616,13 +616,15 @@ namespace Vts.Factories
         /// <summary>
         /// Method to provide the inverse solution.
         /// </summary>
-        /// <param name="forwardSolverType"></param>
-        /// <param name="optimizerType"></param>
-        /// <param name="solutionDomainType"></param>
-        /// <param name="dependentValues"></param>
-        /// <param name="standardDeviationValues"></param>
-        /// <param name="inverseFitType"></param>
-        /// <param name="independentValues"></param>
+        /// <param name="forwardSolverType">ForwardSolverType enum (e.g. PointSourceSDA, DistributedPointSourceSDA, etc.)</param>
+        /// <param name="optimizerType">OptimizerType enum (e.g. MPFitLevenbergMarquardt)</param>
+        /// <param name="solutionDomainType">>SolutionDomainType enum (e.g. ROfRho, ROfFx)</param>
+        /// <param name="dependentValues">measured data length = x axis variable count</param>
+        /// <param name="standardDeviationValues">standard deviation of measured data</param>
+        /// <param name="inverseFitType">InverseFitType enum (e.g. Mua, Musp, MuaMusp, MuaMuspG)</param>
+        /// <param name="independentValues">an array of objects: first element = OpticalProperties,
+        /// second element = double[] of x axis values, for example:
+        /// new object[]{ new[]{ new OpticalProperties(0.01, 1, 0.8, 1.4) }, new double[] { 1, 2, 3 } })</param>
         /// <returns></returns>
         public static double[] SolveInverse(
             ForwardSolverType forwardSolverType,
@@ -645,7 +647,19 @@ namespace Vts.Factories
                 inverseFitType,
                 independentValues);
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="forwardSolver">forward solver class</param>
+        /// <param name="optimizer">optimizer class</param>
+        /// <param name="solutionDomainType">>SolutionDomainType enum (e.g. ROfRho, ROfFx)</param>
+        /// <param name="dependentValues">measured data length = x axis variable count</param>
+        /// <param name="standardDeviationValues">standard deviation of measured data</param>
+        /// <param name="inverseFitType">InverseFitType enum (e.g. Mua, Musp, MuaMusp, MuaMuspG)</param>
+        /// <param name="independentValues">an array of objects: first element = OpticalProperties,
+        /// second element = double[] of x axis values, for example:
+        /// new object[]{ new[]{ new OpticalProperties(0.01, 1, 0.8, 1.4) }, new double[] { 1, 2, 3 } })</param>
+        /// <returns></returns>
         public static double[] SolveInverse(
             IForwardSolver forwardSolver,
             IOptimizer optimizer,
@@ -672,7 +686,21 @@ namespace Vts.Factories
 
             return fit;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="forwardSolverType">ForwardSolverType enum (e.g. PointSourceSDA, DistributedPointSourceSDA, etc.)</param>
+        /// <param name="optimizerType">OptimizerType enum (e.g. MPFitLevenbergMarguardt</param>
+        /// <param name="solutionDomainType">SolutionDomainType enum (e.g. ROfRho, ROfFx)</param>
+        /// <param name="dependentValues">measured data length = x axis variable count</param>
+        /// <param name="standardDeviationValues">standard deviation of measured data</param>
+        /// <param name="inverseFitType">InverseFitType enum (e.g. Mua, Musp, MuaMusp, MuaMuspG)</param>
+        /// <param name="independentValues">an array of objects: first element = OpticalProperties,
+        /// second element = double[] of x axis values, for example:
+        /// new object[]{ new[]{ new OpticalProperties(0.01, 1, 0.8, 1.4) }, new double[] { 1, 2, 3 } })</param>
+        /// <param name="lowerBounds">constrained fit with lower bounds for OPs, size = 4 for all OPs</param>
+        /// <param name="upperBounds">constrained fit with upper bounds for OPs, size = 4 for all OPs</param>
+        /// <returns></returns>
         public static double[] SolveInverse(
         ForwardSolverType forwardSolverType,
         OptimizerType optimizerType,
@@ -698,7 +726,21 @@ namespace Vts.Factories
                 lowerBounds,
                 upperBounds);
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="forwardSolver">forward solver class</param>
+        /// <param name="optimizer">optimizer class</param>
+        /// <param name="solutionDomainType">>SolutionDomainType enum (e.g. ROfRho, ROfFx)</param>
+        /// <param name="dependentValues">measured data length = x axis variable count</param>
+        /// <param name="standardDeviationValues">standard deviation of measured data</param>
+        /// <param name="inverseFitType">InverseFitType enum (e.g. Mua, Musp, MuaMusp, MuaMuspG)</param>
+        /// <param name="independentValues">an array of objects: first element = OpticalProperties,
+        /// second element = double[] of xaxis values, for example:
+        /// new object[]{ new[]{ new OpticalProperties(0.01, 1, 0.8, 1.4) }, new double[] { 1, 2, 3 } })</param>
+        /// <param name="lowerBounds"></param>
+        /// <param name="upperBounds"></param>
+        /// <returns></returns>
         public static double[] SolveInverse(
             IForwardSolver forwardSolver,
             IOptimizer optimizer,
