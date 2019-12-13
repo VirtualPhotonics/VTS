@@ -12,9 +12,34 @@ namespace Vts.Test.Factories
     [TestFixture]
     public class ComputationFactoryTests
     {
+        double[] realFluenceForPHD;
+        double[] xAxis, zAxis;
+        Complex[] complexFluenceForPHD;
+
         [SetUp]
         public void Setup()
         {
+            // need to generate fluence to send into GetPHD
+            xAxis = new double[] { 1, 2, 3 };
+            zAxis = new double[] { 1, 2, 3, 4 };
+            double[][] independentValues = new double[][] { xAxis, zAxis };
+            realFluenceForPHD = ComputationFactory.ComputeFluence(
+                ForwardSolverType.PointSourceSDA,
+                FluenceSolutionDomainType.FluenceOfRhoAndZ,
+                new IndependentVariableAxis[] { IndependentVariableAxis.Rho, IndependentVariableAxis.Z },
+                independentValues,
+                // could have array of OPs, one set for each tissue region
+                new OpticalProperties[] { new OpticalProperties(0.01, 1, 0.8, 1.4) },
+                new double[] { 0 }
+            );
+            complexFluenceForPHD = ComputationFactory.ComputeFluenceComplex(
+                ForwardSolverType.PointSourceSDA,
+                FluenceSolutionDomainType.FluenceOfRhoAndZAndFt,
+                new IndependentVariableAxis[] { IndependentVariableAxis.Rho, IndependentVariableAxis.Z },
+                independentValues,
+                new OpticalProperties(0.01, 1, 0.8, 1.4), // single OPs
+                new double[] { 0 }
+            );
         }
 
         /// <summary>
@@ -192,8 +217,8 @@ namespace Vts.Test.Factories
             Assert.IsTrue(Math.Abs(fluence[0].Real - 0.188294) < 0.000001);
         }
         /// <summary>
-        /// Test against the ComputationFactory class ComputeFluence routine using IForwardSolver and
-        /// array of OPs
+        /// Test against the ComputationFactory class ComputeFluence routine using IForwardSolver class and
+        /// array Tissue Regions
         /// </summary>
         [Test]
         public void validate_ComputeFluenceComplex_can_be_called_using_IForwardSolver_and_IOpticalPropertyRegion_array()
@@ -219,8 +244,8 @@ namespace Vts.Test.Factories
         }
 
         /// <summary>
-        /// Test against the ComputationFactory class ComputeFluenceComplex routine using IForwardSolver and
-        /// single set of OPs
+        /// Test against the ComputationFactory class ComputeFluenceComplex routine using IForwardSolver
+        /// class and single set of OPs
         /// </summary>
         [Test]
         public void validate_ComputeFluenceComplex_can_be_called_using_IForwardSolver_and_single_optical_properties()
@@ -242,7 +267,7 @@ namespace Vts.Test.Factories
 
         /// <summary>
         /// Test against the ComputationFactory class SolveInverse routine using enum
-        /// forward solver and array of optical properties
+        /// forward solver and optimizer type
         /// </summary>
         [Test]
         public void validate_SolveInverse_can_be_called_using_enum_forward_solver()
@@ -266,8 +291,8 @@ namespace Vts.Test.Factories
         }
 
         /// <summary>
-        /// Test against the ComputationFactory class SolveInverse routine using enum
-        /// forward solver and single set of OPs
+        /// Test against the ComputationFactory class SolveInverse routine using IForwardSolver
+        /// and IOptimizer classes 
         /// </summary>
         [Test]
         public void validate_SolveInverse_can_be_called_using_IForwardSolver_and_IOptimizer()
@@ -352,6 +377,86 @@ namespace Vts.Test.Factories
             Assert.IsTrue(Math.Abs(solution[1] - 3.75530) < 0.00001);
         }
 
+
+        /// <summary>
+        /// Test against the ComputationFactory class GetPHD routine using enum forward solver 
+        /// </summary>
+        [Test]
+        public void validate_GetPHD_can_be_called_using_enum_forward_solver()
+        {
+            double sourceDetectorSeparation = 3;
+            double[] phd = ComputationFactory.GetPHD(
+                ForwardSolverType.PointSourceSDA,
+                realFluenceForPHD,
+                sourceDetectorSeparation,
+                new[] {new OpticalProperties(0.01, 1.0, 0.8, 1.4)},
+                xAxis,
+                zAxis);
+            // solution is linearized PHD, column major
+            Assert.IsTrue(Math.Abs(phd[0] - 0.010336) < 0.000001);
+        }
+
+        /// <summary>
+        /// Test against the ComputationFactory class GetPHD routine using IForwardSolver class
+        /// </summary>
+        [Test]
+        public void validate_GetPHD_can_be_called_using_IForwardSolver()
+        {
+            double sourceDetectorSeparation = 3;
+            double[] phd = ComputationFactory.GetPHD(
+                new PointSourceSDAForwardSolver(),
+                realFluenceForPHD,
+                sourceDetectorSeparation,
+                new[] { new OpticalProperties(0.01, 1.0, 0.8, 1.4) },
+                xAxis,
+                zAxis
+            );
+            // solution is linearized PHD, column major
+            Assert.IsTrue(Math.Abs(phd[0] - 0.010336) < 0.000001);
+        }
+        /// <summary>
+        /// Test against the ComputationFactory class GetPHD routine using enum forward solver type
+        /// for the Temporal-Frequency domain (FluenceOfRhoAndZAndFt)
+        /// </summary>
+        [Test]
+        public void validate_GetPHD_can_be_called_using_enum_forward_solver_and_temporal_modulation_frequency()
+        {
+            double sourceDetectorSeparation = 3;
+            double modulationFrequency = 0;
+            var phd = ComputationFactory.GetPHD(
+                ForwardSolverType.PointSourceSDA,
+                complexFluenceForPHD,
+                sourceDetectorSeparation,
+                modulationFrequency,
+                new [] { new OpticalProperties(0.01, 1.0, 0.8, 1.4) },
+                xAxis,
+                zAxis
+            );
+            // solution is linearized PHD, column major
+            Assert.IsTrue(Math.Abs(phd[0] - 0.010336) < 0.000001);
+        }
+
+        /// <summary>
+        /// Test against the ComputationFactory class SolveInverse routine using IForwardSolver for
+        /// the Temporal-Frequency domain (FluenceOfRhoAndZAndFt)
+        /// </summary>
+        [Test]
+        public void validate_GetPHD_can_be_called_using_IForwardSolver_and_temporal_modulation_frequency()
+        {
+            double sourceDetectorSeparation = 3;
+            double modulationFrequency = 0;
+            var phd = ComputationFactory.GetPHD(
+                new PointSourceSDAForwardSolver(),
+                complexFluenceForPHD,
+                sourceDetectorSeparation,
+                modulationFrequency,
+                new[] { new OpticalProperties(0.01, 1.0, 0.8, 1.4) },
+                xAxis,
+                zAxis
+            );
+            // solution is linearized PHD, column major
+            Assert.IsTrue(Math.Abs(phd[0] - 0.010336) < 0.000001);
+        }
         [TearDown]
         public void TearDown()
         {

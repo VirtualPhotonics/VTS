@@ -506,8 +506,9 @@ namespace Vts.Factories
         /// Overload of GetPHD that uses internal DI framework-supplied solver singletons
         /// </summary>
         /// <param name="forwardSolverType">ForwardSolverType enum (e.g. PointSourceSDA, DistributedPointSourceSDA, etc.)</param>
-        /// <param name="fluence">linearlized fluence used to generate PHD, column major</param>
+        /// <param name="fluence">linearized fluence used to generate PHD, column major</param>
         /// <param name="sdSeparation">source detector separation (in mm)</param>
+        /// <param name="timeModulationFrequency">modulation frequency of Time-Domain fluence</param>
         /// <param name="ops">optical properties</param>
         /// <param name="rhos">detector locations (in mm)</param>
         /// <param name="zs">z values (in mm)</param>
@@ -524,8 +525,9 @@ namespace Vts.Factories
         /// Method to generate Photon Hitting Density (PHD) map
         /// </summary>
         /// <param name="forwardSolver">forward solver class</param>
-        /// <param name="fluence">linearlized fluence used to generate PHD, column major</param>
+        /// <param name="fluence">linearized fluence used to generate PHD, column major</param>
         /// <param name="sdSeparation">source detector separation (in mm)</param>
+        /// <param name="modulationFrequency">modulation frequency of Time-Domain fluence</param>
         /// <param name="ops">optical properties</param>
         /// <param name="rhos">detector locations (in mm)</param>
         /// <param name="zs">z values (in mm)</param>
