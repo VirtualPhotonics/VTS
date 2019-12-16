@@ -1,4 +1,7 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using System.Numerics;
 using NUnit.Framework;
 using Vts.Common;
@@ -12,9 +15,9 @@ namespace Vts.Test.Factories
     [TestFixture]
     public class ComputationFactoryTests
     {
-        double[] realFluenceForPHD;
+        double[] realFluence;
         double[] xAxis, zAxis;
-        Complex[] complexFluenceForPHD;
+        Complex[] complexFluence;
 
         [SetUp]
         public void Setup()
@@ -23,7 +26,7 @@ namespace Vts.Test.Factories
             xAxis = new double[] { 1, 2, 3 };
             zAxis = new double[] { 1, 2, 3, 4 };
             double[][] independentValues = new double[][] { xAxis, zAxis };
-            realFluenceForPHD = ComputationFactory.ComputeFluence(
+            realFluence = ComputationFactory.ComputeFluence(
                 ForwardSolverType.PointSourceSDA,
                 FluenceSolutionDomainType.FluenceOfRhoAndZ,
                 new IndependentVariableAxis[] { IndependentVariableAxis.Rho, IndependentVariableAxis.Z },
@@ -32,7 +35,7 @@ namespace Vts.Test.Factories
                 new OpticalProperties[] { new OpticalProperties(0.01, 1, 0.8, 1.4) },
                 new double[] { 0 }
             );
-            complexFluenceForPHD = ComputationFactory.ComputeFluenceComplex(
+            complexFluence = ComputationFactory.ComputeFluenceComplex(
                 ForwardSolverType.PointSourceSDA,
                 FluenceSolutionDomainType.FluenceOfRhoAndZAndFt,
                 new IndependentVariableAxis[] { IndependentVariableAxis.Rho, IndependentVariableAxis.Z },
@@ -387,7 +390,7 @@ namespace Vts.Test.Factories
             double sourceDetectorSeparation = 3;
             double[] phd = ComputationFactory.GetPHD(
                 ForwardSolverType.PointSourceSDA,
-                realFluenceForPHD,
+                realFluence,
                 sourceDetectorSeparation,
                 new[] {new OpticalProperties(0.01, 1.0, 0.8, 1.4)},
                 xAxis,
@@ -405,7 +408,7 @@ namespace Vts.Test.Factories
             double sourceDetectorSeparation = 3;
             double[] phd = ComputationFactory.GetPHD(
                 new PointSourceSDAForwardSolver(),
-                realFluenceForPHD,
+                realFluence,
                 sourceDetectorSeparation,
                 new[] { new OpticalProperties(0.01, 1.0, 0.8, 1.4) },
                 xAxis,
@@ -425,7 +428,7 @@ namespace Vts.Test.Factories
             double modulationFrequency = 0;
             var phd = ComputationFactory.GetPHD(
                 ForwardSolverType.PointSourceSDA,
-                complexFluenceForPHD,
+                complexFluence,
                 sourceDetectorSeparation,
                 modulationFrequency,
                 new [] { new OpticalProperties(0.01, 1.0, 0.8, 1.4) },
@@ -447,7 +450,7 @@ namespace Vts.Test.Factories
             double modulationFrequency = 0;
             var phd = ComputationFactory.GetPHD(
                 new PointSourceSDAForwardSolver(),
-                complexFluenceForPHD,
+                complexFluence,
                 sourceDetectorSeparation,
                 modulationFrequency,
                 new[] { new OpticalProperties(0.01, 1.0, 0.8, 1.4) },
@@ -456,6 +459,63 @@ namespace Vts.Test.Factories
             );
             // solution is linearized PHD, column major
             Assert.IsTrue(Math.Abs(phd[0] - 0.010336) < 0.000001);
+        }
+        /// <summary>
+        /// Test GetAbsorbedEnergy for real fluence solutions and homogeneous tissue (single mua value)
+        /// </summary>
+        [Test]
+        public void validate_GetAbsorbedEnergy_can_be_called_for_homogeneous_real_fluence_solutions()
+        {
+            double mua = 0.1;
+            IEnumerable<double> absorbedEnergy = ComputationFactory.GetAbsorbedEnergy(realFluence, mua);
+            Assert.IsTrue(Math.Abs(absorbedEnergy.First() - 0.018829) < 0.000001);
+        }
+        /// <summary>
+        /// Test GetAbsorbedEnergy for Complex fluence solutions and homogeneous tissue (single mua value)
+        /// </summary>
+        [Test]
+        public void validate_GetAbsorbedEnergy_can_be_called_for_homogeneous_complex_fluence_solutions()
+        {
+            double mua = 0.1;
+            IEnumerable<Complex> absorbedEnergy = ComputationFactory.GetAbsorbedEnergy(complexFluence, mua);
+            Assert.IsTrue(Math.Abs(absorbedEnergy.First().Real - 0.018829) < 0.000001);
+        }
+        /// <summary>
+        /// Test GetAbsorbedEnergy for Complex fluence solutions and heterogeneous tissue (multiple mua values)
+        /// </summary>
+        [Test]
+        public void validate_GetAbsorbedEnergy_can_be_called_for_heterogeneous_real_fluence_solutions()
+        {
+            double[] muas = { 0.1, 0.2 };
+            // fluence is column major so to divide into layers need to select first z's  of each column
+            // this example divides into equal layers
+            var topLayerFluence = new double[xAxis.Length * zAxis.Length / 2];
+            var bottomLayerFluence = new double[xAxis.Length * zAxis.Length / 2];
+            var testFluence = new double[] {1, 4, 7, 10, 2, 5, 8, 11, 3, 6, 9, 12};
+            // top and bottom fluence could have been just initialized with above data, instead added code in case this helps user
+            int topCount = 0;
+            int bottomCount = 0;
+            for (int i = 0; i < xAxis.Length; i++)
+            {
+                for (int j = 0; j < zAxis.Length; j++)
+                {
+                    if (j < zAxis.Length / 2)
+                    {
+                        topLayerFluence[topCount] = testFluence[i * zAxis.Length + j];
+                        ++topCount;
+                    }
+                    else
+                    {
+                        bottomLayerFluence[bottomCount] = testFluence[i * zAxis.Length + j];
+                        ++bottomCount;
+                    }
+                }
+            }
+            var fluenceArray = new List<double[]>();
+            fluenceArray.Add(topLayerFluence);
+            fluenceArray.Add(bottomLayerFluence);
+            IEnumerable<double> absorbedEnergy = ComputationFactory.GetAbsorbedEnergy(fluenceArray.AsEnumerable(), muas.AsEnumerable());
+            Assert.IsTrue(Math.Abs(absorbedEnergy.First() - 0.1) < 0.000001);
         }
         [TearDown]
         public void TearDown()

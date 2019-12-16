@@ -477,7 +477,7 @@ namespace Vts.Factories
         /// Method to generate Photon Hitting Density (PHD) Map 
         /// </summary>
         /// <param name="forwardSolver">forward solver class</param>
-        /// <param name="fluence">linearized fluence to be used to generate PHD, column major</param>
+        /// <param name="fluence">linearized fluence used to generate PHD, column major</param>
         /// <param name="sdSeparation">source detector separation (in mm)</param>
         /// <param name="ops">optical properties</param>
         /// <param name="rhos">detector locations (in mm)</param>
@@ -605,14 +605,26 @@ namespace Vts.Factories
         /// <summary>
         /// Method to generate absorbed energy given fluence and mua for heterogeneous tissue.
         /// </summary>
-        /// <param name="fluence">fluence serialized to a 1D IEnumerable of double</param>
+        /// <param name="fluences">IEnumerable list of fluences serialized to array of doubles</param>
         /// <param name="muas">absorption coefficient serialized to a 1D IEnumerable</param>
         /// <returns>absorbed energy in a 1D IEnumerable of double</returns>
-        public static IEnumerable<double> GetAbsorbedEnergy(IEnumerable<double> fluence, IEnumerable<double> muas)
+        public static IEnumerable<double> GetAbsorbedEnergy(IEnumerable<double[]> fluences, IEnumerable<double> muas)
         {
-            if (fluence.Count() != muas.Count())
-                throw new ArgumentException("fluence and muas must be same length");
-            IEnumerable<double> result = Enumerable.Zip(fluence, muas, (flu, mua) => flu * mua);
+            if (fluences.Count() != muas.Count())
+                throw new ArgumentException("fluences and muas must be same length");
+            int numElements = fluences.Sum(f => f.Length);
+            double[] result = new double[numElements];
+            int count = 0;
+            for (int i = 0; i < fluences.Count(); i++)
+            {
+                var fluence = fluences.ToArray()[i];
+                var mua = muas.ToArray()[i];
+                for (int j = 0; j < fluence.Count(); j++)
+                {
+                    result[count] = fluence[j] * mua;
+                    ++count;
+                }
+            }
             return result;
         }
         /// <summary>
