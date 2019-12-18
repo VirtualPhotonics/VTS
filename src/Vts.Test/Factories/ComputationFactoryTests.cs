@@ -486,36 +486,11 @@ namespace Vts.Test.Factories
         [Test]
         public void validate_GetAbsorbedEnergy_can_be_called_for_heterogeneous_real_fluence_solutions()
         {
-            double[] muas = { 0.1, 0.2 };
-            // fluence is column major so to divide into layers need to select first z's  of each column
-            // this example divides into equal layers
-            var topLayerFluence = new double[xAxis.Length * zAxis.Length / 2];
-            var bottomLayerFluence = new double[xAxis.Length * zAxis.Length / 2];
-            var testFluence = new double[] {1, 4, 7, 10, 2, 5, 8, 11, 3, 6, 9, 12};
-            // top and bottom fluence could have been just initialized with above data, instead added code in case this helps user
-            int topCount = 0;
-            int bottomCount = 0;
-            for (int i = 0; i < xAxis.Length; i++)
-            {
-                for (int j = 0; j < zAxis.Length; j++)
-                {
-                    if (j < zAxis.Length / 2)
-                    {
-                        topLayerFluence[topCount] = testFluence[i * zAxis.Length + j];
-                        ++topCount;
-                    }
-                    else
-                    {
-                        bottomLayerFluence[bottomCount] = testFluence[i * zAxis.Length + j];
-                        ++bottomCount;
-                    }
-                }
-            }
-            var fluenceArray = new List<double[]>();
-            fluenceArray.Add(topLayerFluence);
-            fluenceArray.Add(bottomLayerFluence);
-            IEnumerable<double> absorbedEnergy = ComputationFactory.GetAbsorbedEnergy(fluenceArray.AsEnumerable(), muas.AsEnumerable());
-            Assert.IsTrue(Math.Abs(absorbedEnergy.First() - 0.1) < 0.000001);
+            // use real Fluence as fluence for two layer tissue which is a 4x3 and 
+            // define muas so that top 2 rows have one value, bottom have different value (matrix is column major)
+            double[] muas = new double[12] {0.1, 0.1, 0.2, 0.2, 0.1, 0.1, 0.2, 0.2, 0.1, 0.1, 0.2, 0.2};
+            IEnumerable<double> absorbedEnergy = ComputationFactory.GetAbsorbedEnergy(realFluence.AsEnumerable(), muas.AsEnumerable());
+            Assert.IsTrue(Math.Abs(absorbedEnergy.First() - 0.018829) < 0.000001);
         }
         [TearDown]
         public void TearDown()

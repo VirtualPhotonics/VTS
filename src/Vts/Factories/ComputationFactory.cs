@@ -17,6 +17,46 @@ namespace Vts.Factories
     /// </summary>
     public static class ComputationFactory
     {
+        // todo: the following two methods are a result of a leaky abstraction 
+        // if we did our job of abstracting the computation, external users wouldn't have to worry about this
+
+        // the following methods are necessary to the GUI
+        public static bool IsSolverWithConstantValues(SolutionDomainType solutionDomainType)
+        {
+            return
+                !(solutionDomainType == SolutionDomainType.ROfRho) &&
+                !(solutionDomainType == SolutionDomainType.ROfFx);
+        }
+
+        public static bool IsSolverWithConstantValues(FluenceSolutionDomainType solutionDomainType)
+        {
+            return
+                !(solutionDomainType == FluenceSolutionDomainType.FluenceOfRhoAndZ) &&
+                !(solutionDomainType == FluenceSolutionDomainType.FluenceOfFxAndZ);
+        }
+
+        // CH proposed new extension method prior version is not refined enough, need to 
+        // know independent axis variable to know whether solver is complex, e.g. ROfRhoAndFt
+        // with independent axis varaible = rho is not complex
+        //public static bool IsComplexSolver(IndependentVariableAxis independentVariableAxis)
+        //{
+        //    return (independentVariableAxis == IndependentVariableAxis.Ft);
+        //}
+
+        public static bool IsComplexSolver(SolutionDomainType solutionDomainType)
+        {
+            return
+                (solutionDomainType == SolutionDomainType.ROfRhoAndFt) ||
+                (solutionDomainType == SolutionDomainType.ROfFxAndFt);
+        }
+
+        public static bool IsComplexSolver(FluenceSolutionDomainType solutionDomainType)
+        {
+            return
+                (solutionDomainType == FluenceSolutionDomainType.FluenceOfRhoAndZAndFt) ||
+                (solutionDomainType == FluenceSolutionDomainType.FluenceOfFxAndZAndFt);
+        }
+
         private static double[] FlattenRealAndImaginary(this Complex[] values)
         {
             var flattened = new double[values.Length * 2];
@@ -605,26 +645,14 @@ namespace Vts.Factories
         /// <summary>
         /// Method to generate absorbed energy given fluence and mua for heterogeneous tissue.
         /// </summary>
-        /// <param name="fluences">IEnumerable list of fluences serialized to array of doubles</param>
-        /// <param name="muas">absorption coefficient serialized to a 1D IEnumerable</param>
+        /// <param name="fluence">fluence serialized to a 1D IEnumerable</param>
+        /// <param name="muas">absorption coefficient serialized to a 1D IEnumerable with Count equal to that of fluence</param>
         /// <returns>absorbed energy in a 1D IEnumerable of double</returns>
-        public static IEnumerable<double> GetAbsorbedEnergy(IEnumerable<double[]> fluences, IEnumerable<double> muas)
+        public static IEnumerable<double> GetAbsorbedEnergy(IEnumerable<double> fluence, IEnumerable<double> muas)
         {
-            if (fluences.Count() != muas.Count())
-                throw new ArgumentException("fluences and muas must be same length");
-            int numElements = fluences.Sum(f => f.Length);
-            double[] result = new double[numElements];
-            int count = 0;
-            for (int i = 0; i < fluences.Count(); i++)
-            {
-                var fluence = fluences.ToArray()[i];
-                var mua = muas.ToArray()[i];
-                for (int j = 0; j < fluence.Count(); j++)
-                {
-                    result[count] = fluence[j] * mua;
-                    ++count;
-                }
-            }
+            if (fluence.Count() != muas.Count())
+                throw new ArgumentException("fluence and muas must be same length");
+            IEnumerable<double> result = Enumerable.Zip(fluence, muas, (flu, mua) => flu * mua);
             return result;
         }
         /// <summary>
