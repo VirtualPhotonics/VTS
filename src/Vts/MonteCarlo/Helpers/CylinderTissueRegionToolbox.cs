@@ -5,7 +5,8 @@ namespace Vts.MonteCarlo.Tissues
 {
     /// <summary>
     /// Helper methods for  cylindrical tissue region methods.  For example, ray intersect infinite cylinder of given axis alignment
-    /// and ray intersect finite cylinder.
+    /// and ray intersect finite cylinder.  Currently this method only makes sense with our current tissue classes, if axis alignment
+    /// is along x- or y- axes because if along z-axis will intersect tissue surface and bottom.
     /// </summary>
     public abstract class CylinderTissueRegionToolbox 
     {
@@ -18,7 +19,12 @@ namespace Vts.MonteCarlo.Tissues
         /// 0 less than t1 less than 1 => one intersection
         /// 0 less than t2 less than 1 => one intersections, if above line true too => two intersections
         /// </summary>
-        /// <param name="photon">photon position, direction, etc.</param>
+        /// <param name="p1">ray starting position</param>
+        /// <param name="p2">ray ending position</param>
+        /// <param name="oneIn">boolean indicating whether p1 is inside infinite cylinder</param>
+        /// <param name="axis">axis of cylinder: CylinderTissueRegionAxisType.X, Y or Z</param>
+        /// <param name="center">position of center of cylinder</param>
+        /// <param name="radius">radius of cylinder</param>
         /// <param name="distanceToBoundary">distance to boundary</param>
         /// <returns>boolean</returns>
         public static bool RayIntersectInfiniteCylinder(Position p1, Position p2, bool oneIn, CylinderTissueRegionAxisType axis, Position center, double radius, 
