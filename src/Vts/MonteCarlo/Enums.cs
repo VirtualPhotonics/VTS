@@ -316,6 +316,15 @@ namespace Vts.MonteCarlo
         Uniform
     }
 
+    public enum CylinderTissueRegionAxisType
+    {
+        /// <summary>
+        /// axis of cylinder
+        /// </summary>
+        X,
+        Y,
+        Z
+    }
     /// <summary>
     /// Tissue types
     /// </summary>

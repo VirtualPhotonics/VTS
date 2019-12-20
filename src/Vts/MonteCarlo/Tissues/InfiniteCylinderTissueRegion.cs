@@ -47,7 +47,8 @@ namespace Vts.MonteCarlo.Tissues
         public OpticalProperties RegionOP { get; set; }
         
         /// <summary>
-        /// method to determine if photon position within or on cylinder
+        /// Method to determine if photon position within or on cylinder.  The loss of precision in floating
+        /// point operations necessitates the checks of if "inside" is close but not exact
         /// </summary>
         /// <param name="position">photon position</param>
         /// <returns>boolean</returns>
@@ -122,7 +123,6 @@ namespace Vts.MonteCarlo.Tissues
         {
             distanceToBoundary = double.PositiveInfinity;
             _onBoundary = false; // reset _onBoundary
-            double root1, root2, xto, yto, zto;
             double root = 0;
             var dp = photon.DP;
             var p1 = dp.Position;
@@ -133,8 +133,8 @@ namespace Vts.MonteCarlo.Tissues
                                   p1.Y + d1.Uy * photon.S, 
                                   p1.Z + d1.Uz * photon.S);
 
-            bool one_in = this.ContainsPosition(p1);
-            bool two_in = this.ContainsPosition(p2);
+            bool oneIn = this.ContainsPosition(p1);
+            bool twoIn = this.ContainsPosition(p2);
             //if ((Math.Abs(p1.X)<2)&& one_in)
             //{
             //    Console.WriteLine(String.Format("p1.x,y,z={0:F}, {1:F}, {2:F}, in={3}",p1.X,p1.Y,p1.Z,one_in));
@@ -142,105 +142,15 @@ namespace Vts.MonteCarlo.Tissues
             //}
 
             // check if ray within cylinder
-            if ((one_in || _onBoundary) && two_in)
+            if ((oneIn || _onBoundary) && twoIn)
             {
                 return false;
             }
             _onBoundary = false; // reset flag
 
-            double dx = (p2.X - p1.X);
-            double dy = (p2.Y - p1.Y);
-            double dz = (p2.Z - p1.Z);
-
-            double A = dx * dx + dz * dz;
-
-            double B =
-                2 * (p1.X - Center.X) * dx + 
-                2 * (p1.Z - Center.Z) * dz;
-
-            double C =
-                (p1.X - Center.X) * (p1.X - Center.X)  +
-                (p1.Z - Center.Z) * (p1.Z - Center.Z) - Radius * Radius;
-
-            double rootTerm = B * B - 4 * A * C;
-
-            if (rootTerm > 0)  // roots are real 
-            {
-                double rootTermSqrt = Math.Sqrt(rootTerm);
-                root1 = (-B - rootTermSqrt) / (2 * A);
-                root2 = (-B + rootTermSqrt) / (2 * A);
-
-                int numint = 0; //number of intersections
-
-                if ((root1 < 1) && (root1 > 0))
-                {
-                    numint += 1;
-                    root = root1;
-                }
-
-                if ((root2 < 1) && (root2 > 0))
-                {
-                    numint += 1;
-                    root = root2;
-                }
-
-                switch (numint)
-                {
-                    case 0: /* roots real but no intersection */
-                        return false;
-                    case 1:
-                        if ((!one_in) && (Math.Abs(root) < 1e-7))
-                        {
-                            return false;
-                        }
-                        /*entering or exiting cylinder. It's the same*/
-                        xto = p1.X + root * dx;
-                        yto = p1.Y + root * dy;
-                        zto = p1.Z + root * dz;
-
-                        /*distance to the boundary*/
-                        distanceToBoundary = Math.Sqrt((xto - p1.X) * (xto - p1.X) +
-                                                       (yto - p1.Y) * (yto - p1.Y) +
-                                                       (zto - p1.Z) * (zto - p1.Z));
-
-                        //// ckh fix 8/25/11: check if on boundary of cylinder
-                        if (distanceToBoundary < 1e-11)
-                        {
-                            return false;
-                        }
-
-                        return true;
-                    case 2:  /* went through cylinder: must stop at nearest intersection */
-                        //*which is nearest?*/
-                        if (one_in)
-                        {
-                            if (root1 > root2)
-                                root = root1;
-                            else root = root2;
-                        }
-                        else
-                        {
-                            if (root1 < root2)
-                                root = root1;
-                            else root = root2;
-                        }
-                        xto = p1.X + root * dx;
-                        yto = p1.Y + root * dy;
-                        zto = p1.Z + root * dz;
-
-                        /*distance to the nearest boundary*/
-                        distanceToBoundary = Math.Sqrt((xto - p1.X) * (xto - p1.X) +
-                                                       (yto - p1.Y) * (yto - p1.Y) +
-                                                       (zto - p1.Z) * (zto - p1.Z));
-
-                        return true;
-
-                } /* end switch */
-
-            } /* BB-4AC>0 */
-
-            /* roots imaginary -> no intersection */
-            return false;
+            return (CylinderTissueRegionToolbox.RayIntersectInfiniteCylinder(p1, p2, oneIn,
+                CylinderTissueRegionAxisType.Y, Center, Radius,
+                out distanceToBoundary));
         }  
     }
 }

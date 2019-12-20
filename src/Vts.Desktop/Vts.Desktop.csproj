@@ -821,6 +821,9 @@
     <Compile Include="..\Vts\MonteCarlo\Factories\VirtualBoundaryFactory.cs">
       <Link>MonteCarlo\Factories\VirtualBoundaryFactory.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Helpers\CylinderTissueRegionToolbox.cs">
+      <Link>MonteCarlo\Helpers\CylinderTissueRegionToolbox.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Helpers\DetectorBinning.cs">
       <Link>MonteCarlo\Helpers\DetectorBinning.cs</Link>
     </Compile>
