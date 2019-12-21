@@ -25,7 +25,7 @@ namespace Vts.MonteCarlo.Tissues
         /// <param name="axis">axis of cylinder: CylinderTissueRegionAxisType.X, Y or Z</param>
         /// <param name="center">position of center of cylinder</param>
         /// <param name="radius">radius of cylinder</param>
-        /// <param name="distanceToBoundary">distance to boundary</param>
+        /// <param name="distanceToBoundary">return: distance to boundary, infinity if no intersection</param>
         /// <returns>boolean</returns>
         public static bool RayIntersectInfiniteCylinder(Position p1, Position p2, bool oneIn, CylinderTissueRegionAxisType axis, Position center, double radius, 
             out double distanceToBoundary)

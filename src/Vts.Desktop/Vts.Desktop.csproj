@@ -1064,6 +1064,12 @@
     <Compile Include="..\Vts\MonteCarlo\Sources\VolumetricSources\VolumtricCuboidal\VolumetricCuboidalSourceBase.cs">
       <Link>MonteCarlo\Sources\VolumetricSources\VolumetricCuboidal\VolumetricCuboidalSourceBase.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Tissues\BoundedTissue.cs">
+      <Link>MonteCarlo\Tissues\BoundedTissue.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Tissues\BoundingCylinderTissue.cs">
+      <Link>MonteCarlo\Tissues\BoundingCylinderTissue.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Tissues\CylinderTissueRegion.cs">
       <Link>MonteCarlo\Tissues\CylinderTissueRegion.cs</Link>
     </Compile>

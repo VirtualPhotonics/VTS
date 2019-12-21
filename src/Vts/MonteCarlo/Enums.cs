@@ -345,7 +345,9 @@ namespace Vts.MonteCarlo
             // Tissue slab with embedded infinite cylinder
             "SingleInfiniteCylinder",
             // Multiple (2 right now) concentric infinite cylinder
-            "MultiConcentricInfiniteCylinder"
+            "MultiConcentricInfiniteCylinder",
+            // Multilayer tissue bounded by vertical cylinder laterally
+            "BoundingCylinderTissue"
         };
     }
     /// <summary>

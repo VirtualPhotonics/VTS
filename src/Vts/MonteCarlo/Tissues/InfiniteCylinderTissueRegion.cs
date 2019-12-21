@@ -117,7 +117,7 @@ namespace Vts.MonteCarlo.Tissues
         /// 0 less than t2 less than 1 => one intersections, if above line true too => two intersections
         /// </summary>
         /// <param name="photon">photon position, direction, etc.</param>
-        /// <param name="distanceToBoundary">distance to boundary</param>
+        /// <param name="distanceToBoundary">return: distance to boundary</param>
         /// <returns>boolean</returns>
         public bool RayIntersectBoundary(Photon photon, out double distanceToBoundary)
         {
