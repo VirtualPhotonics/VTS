@@ -98,7 +98,7 @@ namespace Vts.MonteCarlo.Tissues
         /// <summary>
         /// method to determine region index of region photon is currently in
         /// </summary>
-        /// <param name="position"></param>
+        /// <param name="position">photon position</param>
         /// <returns></returns>
         public virtual int GetRegionIndex(Position position)
         {
@@ -119,32 +119,41 @@ namespace Vts.MonteCarlo.Tissues
         /// <summary>
         /// Finds the distance to the next boundary and independent of hitting it
         /// </summary>
-        /// <param name="photon"></param>
+        /// <param name="photon">photon</param>
         public virtual double GetDistanceToBoundary(Photon photon)
         {
-            if (photon.DP.Direction.Uz == 0.0)
-            {
-                return double.PositiveInfinity;
-            }
+            //if (photon.DP.Direction.Uz == 0.0)
+            //{
+            //    return double.PositiveInfinity;
+            //}
 
             // going "up" in negative z-direction
-            bool goingUp = photon.DP.Direction.Uz < 0.0;
+            //bool goingUp = photon.DP.Direction.Uz < 0.0;
 
-            // get current and adjacent regions
-            int currentRegionIndex = photon.CurrentRegionIndex; 
+            //// get current and adjacent regions
+            //int currentRegionIndex = photon.CurrentRegionIndex; 
+            //// check if in embedded tissue region ckh fix 8/10/11
+            //LayerTissueRegion currentRegion = _layerRegions[1];
+            //if (currentRegionIndex < _layerRegions.Count)
+            //{
+            //    currentRegion = _layerRegions[currentRegionIndex];
+            //}
+            //// calculate distance to boundary based on z-projection of photon trajectory
+            //double distanceToBoundary =
+            //    goingUp
+            //        ? (currentRegion.ZRange.Start - photon.DP.Position.Z) / photon.DP.Direction.Uz
+            //        : (currentRegion.ZRange.Stop - photon.DP.Position.Z) / photon.DP.Direction.Uz;
+
+            // get current region index, could be index of inclusion
+            int currentRegionIndex = photon.CurrentRegionIndex;
             // check if in embedded tissue region ckh fix 8/10/11
             LayerTissueRegion currentRegion = _layerRegions[1];
             if (currentRegionIndex < _layerRegions.Count)
             {
                 currentRegion = _layerRegions[currentRegionIndex];
             }
-
-            // calculate distance to boundary based on z-projection of photon trajectory
-            double distanceToBoundary =
-                goingUp
-                    ? (currentRegion.ZRange.Start - photon.DP.Position.Z) / photon.DP.Direction.Uz
-                    : (currentRegion.ZRange.Stop - photon.DP.Position.Z) / photon.DP.Direction.Uz;
-
+            double distanceToBoundary;
+            var intersect = currentRegion.RayIntersectBoundary(photon, out distanceToBoundary);
 
             return distanceToBoundary;
         }

@@ -103,20 +103,31 @@ namespace Vts.MonteCarlo.Tissues
             throw new NotImplementedException();
         }
         /// <summary>
-        /// method to determine if photon track or ray intersects layer boundary
+        /// Method to determine if photon track or ray intersects layer boundary.
+        /// Note: LayerTissueRegion.RayIntersectBoundary does NOT use photon.S in the calculation
+        /// so all photons (unless horizontal) intersect the top or bottom of the layer and the
+        /// returned distance is not infinity (unless horizontal).  This is because MonteCarloSimulation
+        /// uses the distance to the boundary without intersection in its processing.
+        /// This is different that all other TissueRegions.  
         /// </summary>
-        /// <param name="p">Photon</param>
-        /// <param name="distanceToBoundary">return distance to boundary</param>
+        /// <param name="photon">Photon</param>
+        /// <param name="distanceToBoundary">return: distance to boundary, actual distance if no intersection</param>
         /// <returns>true if intersection, false otherwise</returns>
-        public bool RayIntersectBoundary(Photon p, out double distanceToBoundary)
+        public bool RayIntersectBoundary(Photon photon, out double distanceToBoundary)
         {
-            throw new System.NotImplementedException(); // currently, implemented by MultiLayerTissue...should revisit so this can be independent
+            if (photon.DP.Direction.Uz == 0.0)
+            {
+                distanceToBoundary =  double.PositiveInfinity;
+                return false;
+            }
+            // going "up" in negative z-direction
+            bool goingUp = photon.DP.Direction.Uz < 0.0;
+            distanceToBoundary =
+                goingUp
+                    ? (ZRange.Start - photon.DP.Position.Z) / photon.DP.Direction.Uz
+                    : (ZRange.Stop - photon.DP.Position.Z) / photon.DP.Direction.Uz;
+            return true;
         }
-
-        //public bool RayIntersectBoundary(Photon p)
-        //{
-        //    throw new System.NotImplementedException(); // currently, implemented by MultiLayerTissue...should revisit so this can be independent
-        //}
 
         //public bool RayExitBoundary(Photon photptr, ref double distanceToBoundary)
         //{
