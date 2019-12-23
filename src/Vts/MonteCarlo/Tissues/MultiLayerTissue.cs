@@ -122,27 +122,8 @@ namespace Vts.MonteCarlo.Tissues
         /// <param name="photon">photon</param>
         public virtual double GetDistanceToBoundary(Photon photon)
         {
-            //if (photon.DP.Direction.Uz == 0.0)
-            //{
-            //    return double.PositiveInfinity;
-            //}
-
-            // going "up" in negative z-direction
-            //bool goingUp = photon.DP.Direction.Uz < 0.0;
-
-            //// get current and adjacent regions
-            //int currentRegionIndex = photon.CurrentRegionIndex; 
-            //// check if in embedded tissue region ckh fix 8/10/11
-            //LayerTissueRegion currentRegion = _layerRegions[1];
-            //if (currentRegionIndex < _layerRegions.Count)
-            //{
-            //    currentRegion = _layerRegions[currentRegionIndex];
-            //}
-            //// calculate distance to boundary based on z-projection of photon trajectory
-            //double distanceToBoundary =
-            //    goingUp
-            //        ? (currentRegion.ZRange.Start - photon.DP.Position.Z) / photon.DP.Direction.Uz
-            //        : (currentRegion.ZRange.Stop - photon.DP.Position.Z) / photon.DP.Direction.Uz;
+            // moved code that used to be here to LayerTissueRegion.RayIntersectBoundary
+            // where it should be
 
             // get current region index, could be index of inclusion
             int currentRegionIndex = photon.CurrentRegionIndex;

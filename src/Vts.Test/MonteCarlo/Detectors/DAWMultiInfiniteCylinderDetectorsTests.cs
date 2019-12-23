@@ -18,9 +18,9 @@ namespace Vts.Test.MonteCarlo.Detectors
     public class DAWMultiInfiniteCylinderDetectorsTests
     {
         private SimulationOutput _outputOneRegionTissue;
-        private SimulationOutput _outputTwoRegionTissue;
+        private SimulationOutput _outputThreeRegionTissue;
         private SimulationInput _inputOneRegionTissue;
-        private SimulationInput _inputTwoRegionTissue;
+        private SimulationInput _inputThreeRegionTissue;
 
         /// <summary>
         /// list of temporary files created by these unit tests
@@ -100,7 +100,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                 detectors);             
             _outputOneRegionTissue = new MonteCarloSimulation(_inputOneRegionTissue).Run();
 
-            _inputTwoRegionTissue = new SimulationInput(
+            _inputThreeRegionTissue = new SimulationInput(
                 100,
                 "",
                 simulationOptions,
@@ -133,59 +133,60 @@ namespace Vts.Test.MonteCarlo.Detectors
                     }
                 ),
                 detectors);
-            _outputTwoRegionTissue = new MonteCarloSimulation(_inputTwoRegionTissue).Run();
+            _outputThreeRegionTissue = new MonteCarloSimulation(_inputThreeRegionTissue).Run();
         }
 
         // Diffuse Reflectance
         [Test]
         public void validate_DAW_multiinfinitecylinder_RDiffuse()
         {
-            Assert.Less(Math.Abs(_outputOneRegionTissue.Rd - _outputTwoRegionTissue.Rd), 0.000001);
+            Assert.Less(Math.Abs(_outputOneRegionTissue.Rd - _outputThreeRegionTissue.Rd), 0.000001);
         }
         // Reflection R(angle)
         [Test]
         public void validate_DAW_multiinfinitecylinder_ROfAngle()
         {
-            Assert.Less(Math.Abs(_outputOneRegionTissue.R_a[0] - _outputTwoRegionTissue.R_a[0]), 0.000001);
+            Assert.Less(Math.Abs(_outputOneRegionTissue.R_a[0] - _outputThreeRegionTissue.R_a[0]), 0.000001);
         }
         // Diffuse Transmittance
         [Test]
         public void validate_DAW_multiinfinitecylinder_TDiffuse()
         {
-            Assert.Less(Math.Abs(_outputOneRegionTissue.Td - _outputTwoRegionTissue.Td), 0.000001);
+            Assert.Less(Math.Abs(_outputOneRegionTissue.Td - _outputThreeRegionTissue.Td), 0.000001);
         }
         // Transmittance Time(angle)
         [Test]
         public void validate_DAW_multiinfinitecylinder_TOfAngle()
         {
-            Assert.Less(Math.Abs(_outputOneRegionTissue.T_a[0] - _outputTwoRegionTissue.T_a[0]), 0.000001);
+            Assert.Less(Math.Abs(_outputOneRegionTissue.T_a[0] - _outputThreeRegionTissue.T_a[0]), 0.000001);
         }
         // Reflectance R(x,y)
         [Test]
         public void validate_DAW_multiinfinitecylinder_ROfXAndY()
         {
             Assert.Less(Math.Abs(_outputOneRegionTissue.R_xy[10, 0] -
-                                 _outputTwoRegionTissue.R_xy[10, 0]), 0.000001);
+                                 _outputThreeRegionTissue.R_xy[10, 0]), 0.000001);
         }
         // Total Absorption
         [Test]
         public void validate_DAW_multiinfinitecylinder_ATotal()
         {
-            Assert.Less(Math.Abs(_outputOneRegionTissue.Atot -_outputTwoRegionTissue.Atot), 0.000001);
+            Assert.Less(Math.Abs(_outputOneRegionTissue.Atot -_outputThreeRegionTissue.Atot), 0.000001);
         }
         // Absorption(x,y,z)
         [Test]
         public void validate_DAW_multiinfinitecylinder_AOfXAndYAndZ()
         {
             Assert.Less(Math.Abs(_outputOneRegionTissue.A_xyz[20,0,0] - 
-                                 _outputTwoRegionTissue.A_xyz[20,0,0]), 0.000001);
+                                 _outputThreeRegionTissue.A_xyz[20,0,0]), 0.000001);
         }
         // sanity checks
         [Test]
         public void validate_DAW_multiinfinitecylinder_RDiffuse_plus_ATotal_plus_TDiffuse_equals_one()
         {
             // no specular because photons started inside tissue
-            Assert.Less(Math.Abs(_outputOneRegionTissue.Rd + _outputOneRegionTissue.Atot + _outputOneRegionTissue.Td - 1), 0.00000000001);
+            Assert.Less(Math.Abs(_outputThreeRegionTissue.Rd + _outputThreeRegionTissue.Atot + 
+                                 _outputThreeRegionTissue.Td - 1), 0.00000000001);
         }
     }
 }
