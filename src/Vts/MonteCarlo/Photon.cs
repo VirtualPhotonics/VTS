@@ -397,7 +397,8 @@ namespace Vts.MonteCarlo
             // if VB crossing flagged
             if (DP.StateFlag.HasFlag(PhotonStateType.PseudoDiffuseReflectanceVirtualBoundary)  ||
                 DP.StateFlag.HasFlag(PhotonStateType.PseudoDiffuseTransmittanceVirtualBoundary) ||
-                DP.StateFlag.HasFlag(PhotonStateType.PseudoSpecularReflectanceVirtualBoundary))
+                DP.StateFlag.HasFlag(PhotonStateType.PseudoSpecularReflectanceVirtualBoundary) ||
+                DP.StateFlag.HasFlag(PhotonStateType.PseudoBoundingCylinderVolumeVirtualBoundary))
             {
                 //todo: revisit performance of the bitwise operations
                 DP.StateFlag = DP.StateFlag.Remove(PhotonStateType.Alive);

@@ -256,6 +256,9 @@
     <Compile Include="..\Vts.Test\MonteCarlo\Detectors\CAWLayersDetectorsTests.cs">
       <Link>MonteCarlo\Detectors\CAWLayersDetectorsTests.cs</Link>
     </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Detectors\DAWBoundingCylinderDetectorsTests.cs">
+      <Link>MonteCarlo\Detectors\DAWBoundingCylinderDetectorsTests.cs</Link>
+    </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\Detectors\DAWInfiniteCylinderDetectorsTests.cs">
       <Link>MonteCarlo\Detectors\DAWInfiniteCylinderDetectorsTests.cs</Link>
     </Compile>

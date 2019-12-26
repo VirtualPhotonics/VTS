@@ -590,6 +590,9 @@
     <Compile Include="..\Vts\MonteCarlo\DataStructuresValidation\SimulationInputValidation.cs">
       <Link>MonteCarlo\DataStructuresValidation\SimulationInputValidation.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\DataStructuresValidation\TissueInputs\BoundingCylinderTissueInputValidation.cs">
+      <Link>MonteCarlo\DataStructuresValidation\TissueInputs\BoundingCylinderTissueInputValidation.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\DataStructuresValidation\TissueInputs\MultiLayerTissueInputValidation.cs">
       <Link>MonteCarlo\DataStructuresValidation\TissueInputs\MultiLayerTissueInputValidation.cs</Link>
     </Compile>
@@ -631,6 +634,9 @@
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\AOfXAndYAndZDetector.cs">
       <Link>MonteCarlo\Detectors\AOfXAndYAndZDetector.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\ATotalBoundingVolumeDetector.cs">
+      <Link>MonteCarlo\Detectors\ATotalBoundingVolumeDetector.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\ATotalDetector.cs">
       <Link>MonteCarlo\Detectors\ATotalDetector.cs</Link>
@@ -1114,6 +1120,9 @@
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Tissues\VoxelTissueRegion.cs">
       <Link>MonteCarlo\Tissues\VoxelTissueRegion.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\VirtualBoundaries\BoundingCylinderVirtualBoundary.cs">
+      <Link>MonteCarlo\VirtualBoundaries\BoundingCylinderVirtualBoundary.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\VirtualBoundaries\DiffuseReflectanceVirtualBoundary.cs">
       <Link>MonteCarlo\VirtualBoundaries\DiffuseReflectanceVirtualBoundary.cs</Link>

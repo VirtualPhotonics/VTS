@@ -261,6 +261,18 @@ namespace Vts.MonteCarlo
         /// </summary>
         public long Atot_TallyCount { get { return ((long)((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ATotal").First().Name]).TallyCount); } }
         /// <summary>
+        /// Total Absorbed Energy in bounding volume
+        /// </summary>
+        public double AtotBV { get { return ((double)((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ATotalBoundingVolume").First().Name]).Mean); } }
+        /// <summary>
+        /// Total Absorbed Energy in bounding volume 2nd moment
+        /// </summary>
+        public double AtotBV2 { get { return ((double)((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ATotalBoundingVolume").First().Name]).SecondMoment); } }
+        /// <summary>
+        /// Total Absorbed Energy in bounding volume Tally Count
+        /// </summary>
+        public long AtotBV_TallyCount { get { return ((long)((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ATotalBoundingVolume").First().Name]).TallyCount); } }
+        /// <summary>
         /// Absorbed Energy as a function of rho and z
         /// </summary>
         public double[,] A_rz { get { return ((double[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "AOfRhoAndZ").First().Name]).Mean); } }

@@ -77,9 +77,12 @@ namespace Vts.MonteCarlo.Tissues
         /// <returns>boolean</returns>
         public bool OnBoundary(Position position)
         {
-            return (Math.Abs(position.Z - (Center.Z - Height / 2)) < 1e-10 || 
-                    Math.Abs(position.Z - (Center.Z + Height / 2)) < 1e-10) &&
-                Math.Sqrt(position.X * position.X + position.Y * position.Y) <= Radius;
+            bool onCylinder = Math.Abs(
+                                  Math.Sqrt(position.X * position.X + position.Y * position.Y) - Radius) < 1e-10;
+            bool inRadius = Math.Sqrt(position.X * position.X + position.Y * position.Y) < Radius;
+            bool onOneCap = (Math.Abs(position.Z - (Center.Z - Height / 2)) < 1e-10 || 
+                    Math.Abs(position.Z - (Center.Z + Height / 2)) < 1e-10) && inRadius;
+            return onCylinder || onOneCap;
         }
 
         /// <summary>

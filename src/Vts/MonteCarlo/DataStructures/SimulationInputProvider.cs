@@ -637,6 +637,7 @@ new ITissueRegion[]
                         Rho =new DoubleRange(0.0, 10, 101),
                         Z = new DoubleRange(0, 100, 101)
                     },
+                    new ATotalBoundingVolumeDetectorInput(),
                 }
              );
         }

@@ -57,7 +57,10 @@ namespace Vts.MonteCarlo
         /// photon pseudo-collision at specular tissue boundary
         /// </summary>
         PseudoSpecularTissueBoundary = 0x100,
-        //PseudoRadianceTissueBoundary = 0x200,
+        /// <summary>
+        /// photon pseudo-collision at bounding volume boundary
+        /// </summary>
+        PseudoBoundingVolumeTissueBoundary = 0x200,
 
         // virtual boundary flags, can we 1-1 map to virtualBoundary "Name"
         // move up to 16th position
@@ -82,6 +85,10 @@ namespace Vts.MonteCarlo
         /// photon pseudo-collision at SurfaceRadiance Virtual Boundary (VB)
         /// </summary>
         PseudoSurfaceRadianceVirtualBoundary = 0x100000,
+        /// <summary>
+        /// photon pseudo-collision at BoundingVolume Virtual Boundary (VB)
+        /// </summary>
+        PseudoBoundingCylinderVolumeVirtualBoundary = 0x110000,
     }
     /// <summary>
     /// Virtual boundaries are entities upon which detectors are attached.
@@ -115,6 +122,10 @@ namespace Vts.MonteCarlo
         /// Virtual boundary used for pMC diffuse reflectance detectors
         /// </summary>
         pMCDiffuseReflectance,
+        /// <summary>
+        /// Virtual boundary used to capture photons if leave this lateral boundary
+        /// </summary>
+        BoundingCylinderVolume,
     }
     /// <summary>
     /// This should match VirtualBoundaryType one for one.  Commented out ones have not made
@@ -423,6 +434,8 @@ namespace Vts.MonteCarlo
             "AOfXAndYAndZ",
             // Total absorbed energy
             "ATotal",
+            // Total absorbed energy in bounding volume
+            "ATotalBoundingVolume",
             // Reflected momentum transfer as a function of source-detector separation (rho) and tissue region with histogram of MT
             "ReflectedMTOfRhoAndSubregionHist",
             // Reflected momentum transfer as a function of x, y and tissue region with histogram of MT

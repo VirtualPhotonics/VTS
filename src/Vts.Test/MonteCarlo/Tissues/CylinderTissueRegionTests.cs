@@ -42,12 +42,15 @@ namespace Vts.Test.MonteCarlo.Tissues
         public void verify_OnBoundary_method_returns_correct_result()
         {
             // OnBoundary returns true if *exactly* on boundary
-            bool result = _cylinderTissueRegion.OnBoundary(new Position(0, 0, 1.0)); // on boundary
+            bool result = _cylinderTissueRegion.OnBoundary(new Position(0, 0, 1.0)); // on top cap boundary
             Assert.IsTrue(result);
-            result = _cylinderTissueRegion.OnBoundary(new Position(0, 0, 3.0)); // on boundary
+            result = _cylinderTissueRegion.OnBoundary(new Position(0, 0, 3.0)); // on bottom cap boundary
             Assert.IsTrue(result);
             result = _cylinderTissueRegion.OnBoundary(new Position(0, 0, 10.0)); // not on boundary
             Assert.IsFalse(result);
+            // on cylinder
+            result = _cylinderTissueRegion.OnBoundary(new Position(1.0/Math.Sqrt(2), 1.0/Math.Sqrt(2), 2.0)); 
+            Assert.IsTrue(result);
         }
         /// <summary>
         /// Validate method ContainsPositions return correct boolean. ContainsPosition is true if inside

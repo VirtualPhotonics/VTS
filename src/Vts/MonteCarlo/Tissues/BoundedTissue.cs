@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Vts.Common;
@@ -11,6 +12,7 @@ namespace Vts.MonteCarlo.Tissues
     public class BoundedTissue : MultiLayerTissue, ITissue
     {
         private ITissueRegion _boundingRegion;
+        private IList<ITissueRegion> _layers;
         private int _boundingRegionExteriorIndex;
 
         /// <summary>
@@ -26,9 +28,9 @@ namespace Vts.MonteCarlo.Tissues
             // boundingRegionExteriorIndex is the area *outside* of the bounding region
             _boundingRegionExteriorIndex = layerRegions.Count; // index is, by convention, after the layer region indices
             // overwrite the Regions property in the TissueBase class (will be called last in the most derived class)
-            // the concatonation is with the outside of the bounding region by convention
+            // the concat is with the outside of the bounding region by convention
             Regions = layerRegions.Concat(boundingRegion).ToArray();
-
+            _layers = layerRegions;
             _boundingRegion = boundingRegion;
         }
 
@@ -49,7 +51,45 @@ namespace Vts.MonteCarlo.Tissues
             // if it's in the inclusion, return "3", otherwise, call the layer method to determine
             return !_boundingRegion.ContainsPosition(position)  ? _boundingRegionExteriorIndex : base.GetRegionIndex(position);
         }
-        
+
+        /// <summary>
+        /// method to get distance from current photon position and direction to boundary of region
+        /// </summary>
+        /// <param name="photon">Photon</param>
+        /// <returns>distance to boundary</returns>
+        public override double GetDistanceToBoundary(Photon photon)
+        {
+            // if we're inside or outside the bounding region, distance is either to bounding region or
+            // edge of layer
+
+            // check if current track will hit the bounding boundary
+            double distanceToBoundingBoundary;
+            if (_boundingRegion.RayIntersectBoundary(photon, out distanceToBoundingBoundary))
+            {
+                // check if will hit layer boundary
+                double distanceToLayerBoundary = base.GetDistanceToBoundary(photon);
+                if (distanceToBoundingBoundary < distanceToLayerBoundary)
+                {
+                    return distanceToBoundingBoundary;
+                }
+                return distanceToLayerBoundary;
+            }
+            
+            // if not hitting the inclusion, call the base (layer) method
+            return base.GetDistanceToBoundary(photon);
+        }
+        /// <summary>
+        /// method to determine if on boundary of tissue, i.e. at tissue/air interface
+        /// </summary>
+        /// <param name="position">photon position</param>
+        /// <returns></returns>
+        public virtual bool OnDomainBoundary(Position position)
+        {
+            // this code assumes that the first and last layer is air
+            return _boundingRegion.OnBoundary(position) ||
+                position.Z < 1e-10 ||
+                (Math.Abs(position.Z - ((LayerTissueRegion)_layers.Last()).ZRange.Start) < 1e-10);
+        }
         /// <summary>
         /// method to get index of neighbor tissue region when photon on boundary of two regions
         /// </summary>
@@ -76,32 +116,13 @@ namespace Vts.MonteCarlo.Tissues
             return base.GetNeighborRegionIndex(photon);
         }
         /// <summary>
-        /// method to get distance from current photon position and direction to boundary of region
+        /// method to determine photon state type of photon exiting tissue boundary
         /// </summary>
-        /// <param name="photon">Photon</param>
-        /// <returns>distance to boundary</returns>
-        public override double GetDistanceToBoundary(Photon photon)
+        /// <param name="position"></param>
+        /// <returns></returns>
+        public PhotonStateType GetPhotonDataPointStateOnExit(Position position)
         {
-            // first, check what region the photon is in
-            int regionIndex = photon.CurrentRegionIndex;
-
-            // if we're outside the bounding region distance is either to bounding region or top or bottom of tissue
-            if (regionIndex == _boundingRegionExteriorIndex)
-            {
-                // check if current track will hit the inclusion boundary, returning the correct distance
-                double distanceToBoundingBoundary;
-                if (_boundingRegion.RayIntersectBoundary(photon, out distanceToBoundingBoundary))
-                {
-                    double distanceToTissueBoundary = base.GetDistanceToBoundary(photon);
-                    if (distanceToBoundingBoundary < distanceToTissueBoundary)
-                    {
-                        return distanceToBoundingBoundary;
-                    }
-                    return distanceToTissueBoundary;
-                }
-            }
-            // if not hitting the inclusion, call the base (layer) method
-            return base.GetDistanceToBoundary(photon);
+            return PhotonStateType.PseudoBoundingVolumeTissueBoundary;
         }
         /// <summary>
         /// method that provides reflected direction when phton reflects off boundary

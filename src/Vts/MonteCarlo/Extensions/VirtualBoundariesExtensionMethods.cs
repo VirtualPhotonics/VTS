@@ -35,6 +35,8 @@ namespace Vts.MonteCarlo.Extensions
             {
                 case VirtualBoundaryType.GenericVolumeBoundary:
                     return true;
+                case VirtualBoundaryType.BoundingCylinderVolume:
+                    return true;
                 default:
                     return false;
             }
