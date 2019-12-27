@@ -576,6 +576,10 @@ namespace Vts.MonteCarlo
         /// </summary>
         public static string ATotal { get { return "ATotal"; } }
         /// <summary>
+        /// Total absorbed energy in a bounding volume
+        /// </summary>
+        public static string ATotalBoundingVolume { get { return "ATotalBoundingVolume"; } }
+        /// <summary>
         /// Reflected momentum transfer as a function of source-detector separation (rho) and tissue region with histogram of MT
         /// </summary>
         public static string ReflectedMTOfRhoAndSubregionHist { get { return "ReflectedMTOfRhoAndSubregionHist"; } }

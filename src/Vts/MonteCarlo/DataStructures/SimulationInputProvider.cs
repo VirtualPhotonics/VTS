@@ -552,7 +552,7 @@ new ITissueRegion[]
                     0.0, // inner radius
                     new GaussianSourceProfile(1.0), // fwhm
                     new DoubleRange(0.0, 0.0), // polar angle emission range
-                    new DoubleRange (0.0, 0.0), // azimuthal angle emmision range
+                    new DoubleRange (0.0, 0.0), // azimuthal angle emission range
                     new Direction(0, 0, 1), // normal to tissue
                     new Position(0, 0, 0), // center of beam on surface
                     new PolarAzimuthalAngles(0,0), // no beam rotation         
@@ -599,13 +599,13 @@ new ITissueRegion[]
                     new List<DatabaseType>() { }, // databases to be written
                     false, // track statistics
                     0.0, // RR threshold -> 0 = no RR performed
-                    0),
+                    0), 
                 new CustomCircularSourceInput(
-                    1.0, // outer radius
+                    0.1, // outer radius
                     0.0, // inner radius
-                    new FlatSourceProfile(), 
+                    new FlatSourceProfile(),
                     new DoubleRange(0.0, 0.0), // polar angle emission range
-                    new DoubleRange(0.0, 0.0), // azimuthal angle emmision range
+                    new DoubleRange(0.0, 0.0), // azimuthal angle emission range
                     new Direction(0, 0, 1), // normal to tissue
                     new Position(0, 0, 0), // center of beam on surface
                     new PolarAzimuthalAngles(0, 0), // no beam rotation         
@@ -666,7 +666,7 @@ new ITissueRegion[]
                     0.0, // inner radius
                     new FlatSourceProfile(),
                     new DoubleRange(0.0, 0.0), // polar angle emission range
-                    new DoubleRange(0.0, 0.0), // azimuthal angle emmision range
+                    new DoubleRange(0.0, 0.0), // azimuthal angle emission range
                     new Direction(0, 0, 1), // normal to tissue
                     new Position(0, 0, 0), // center of beam on surface
                     new PolarAzimuthalAngles(0, 0), // no beam rotation         
@@ -718,7 +718,7 @@ new ITissueRegion[]
                     3.0, // line length
                     new GaussianSourceProfile(1.0), // fwhm
                     new DoubleRange(0.0, 0.0), // polar angle emission range
-                    new DoubleRange(0.0, 0.0), // azimuthal angle emmision range
+                    new DoubleRange(0.0, 0.0), // azimuthal angle emission range
                     new Direction(0, 0, 1), // normal to tissue
                     new Position(0, 0, 0), // center of beam on surface
                     new PolarAzimuthalAngles(0, 0), // no beam rotation         
@@ -1000,7 +1000,7 @@ new ITissueRegion[]
                     new Position(0.0, 0.0, 5.0), // translation from origin
                     new PolarAzimuthalAngles(0.0, 0.0), // beam rotation from inward normal
                     1), // 0=start in air, 1=start in tissue
-                new BoundingCylinderTissueInput(
+                new SingleEllipsoidTissueInput(
                     new EllipsoidTissueRegion(
                         new Position(0, 0, 7),
                         5,

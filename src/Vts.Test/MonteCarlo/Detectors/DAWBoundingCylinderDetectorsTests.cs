@@ -7,6 +7,8 @@ using Vts.MonteCarlo;
 using Vts.MonteCarlo.Sources;
 using Vts.MonteCarlo.Tissues;
 using Vts.MonteCarlo.Detectors;
+using Vts.MonteCarlo.Helpers;
+using Vts.MonteCarlo.Sources.SourceProfiles;
 
 namespace Vts.Test.MonteCarlo.Detectors
 {
@@ -49,6 +51,7 @@ namespace Vts.Test.MonteCarlo.Detectors
             clear_folders_and_files();
 
             var cylinderRadius = 1.0;
+            var tissueThickness = 10.0;
 
             // instantiate common classes
             var simulationOptions = new SimulationOptions(
@@ -60,11 +63,22 @@ namespace Vts.Test.MonteCarlo.Detectors
                 false, // track statistics
                 0.0, // RR threshold -> 0 = no RR performed
                 0);
-            var source = new DirectionalPointSourceInput(
-                new Position(0.0, 0.0, 0.0),
-                new Direction(0.0, 0.0, 1.0),
-                //new Direction(1/Math.Sqrt(2), 0.0, 1/Math.Sqrt(2)),// debug with 45 degree direction and g=1.0
-                1); // start inside tissue
+            var source = new CustomCircularSourceInput(
+                cylinderRadius / 100, // outer radius
+                0.0, // inner radius
+                new FlatSourceProfile(),
+                new DoubleRange(0.0, 0.0), // polar angle emission range
+                new DoubleRange(0.0, 0.0), // azimuthal angle emission range
+                new Direction(0, 0, 1), // normal to tissue
+                new Position(0, 0, 0), // center of beam on surface
+                new PolarAzimuthalAngles(0, 0), // no beam rotation         
+                1); // 0=start in air, 1=start in tissue
+            // debug with point source
+            //var source = new DirectionalPointSourceInput(
+            //    new Position(0.0, 0.0, 0.0),
+            //    new Direction(0.0, 0.0, 1.0),
+            //    //new Direction(1/Math.Sqrt(2), 0.0, 1/Math.Sqrt(2)),// debug with 45 degree direction and g=1.0
+            //    1); // start inside tissue
             var detectors = 
                 new List<IDetectorInput>  
                 {
@@ -72,7 +86,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                     new TDiffuseDetectorInput(),
                     new TOfRhoDetectorInput() {Rho=new DoubleRange(0.0, cylinderRadius, 11)},
                     new AOfRhoAndZDetectorInput() {Rho=new DoubleRange(0.0, cylinderRadius, 11),
-                        Z=new DoubleRange(0, 20, 21)},
+                        Z=new DoubleRange(0, tissueThickness, 11)},
                     new ATotalDetectorInput(),
                     new ATotalBoundingVolumeDetectorInput()
                 };
@@ -86,7 +100,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                     new CylinderTissueRegion(
                         new Position(0, 0, 1),
                         cylinderRadius,
-                        20.0,
+                        tissueThickness,
                         new OpticalProperties(0.02, 1.0, 0.8, 1.4) 
                     ),
                     new ITissueRegion[]
@@ -95,10 +109,10 @@ namespace Vts.Test.MonteCarlo.Detectors
                             new DoubleRange(double.NegativeInfinity, 0.0),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
                         new LayerTissueRegion(
-                            new DoubleRange(0.0, 10.0),
+                            new DoubleRange(0.0, tissueThickness),
                             new OpticalProperties(0.01, 1.0, 0.8, 1.4)), // debug g=1.0
                         new LayerTissueRegion(
-                            new DoubleRange(10.0, double.PositiveInfinity),
+                            new DoubleRange(tissueThickness, double.PositiveInfinity),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
                     }
                 ),
@@ -134,19 +148,19 @@ namespace Vts.Test.MonteCarlo.Detectors
         [Test]
         public void validate_DAW_boundingcylinder_ATotal()
         {
-            Assert.Less(Math.Abs(_outputBoundedTissue.Atot - 0.022968), 0.000001);
+            Assert.Less(Math.Abs(_outputBoundedTissue.Atot - 0.022630), 0.000001);
         }
         // Total Absorption in Bounding Volume
         [Test]
         public void validate_DAW_boundingcylinder_ATotalBoundingCylinder()
         {
-            Assert.Less(Math.Abs(_outputBoundedTissue.AtotBV - 0.977031), 0.000001);
+            Assert.Less(Math.Abs(_outputBoundedTissue.AtotBV - 0.977369), 0.000001);
         }
         // Absorption(x,y,z)
         [Test]
         public void validate_DAW_boundingcylinder_AOfRhoAndZ()
         {
-            Assert.Less(Math.Abs(_outputBoundedTissue.A_rz[0, 0] - 0.174212), 0.000001);
+            Assert.Less(Math.Abs(_outputBoundedTissue.A_rz[0, 0] - 0.173621), 0.000001);
         }
         // sanity checks
         [Test]
