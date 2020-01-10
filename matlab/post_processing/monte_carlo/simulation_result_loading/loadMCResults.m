@@ -1191,6 +1191,20 @@ for di = 1:numDetectors
                 pMCROfRhoAndTime.Stdev = sqrt((pMCROfRhoAndTime.SecondMoment - (pMCROfRhoAndTime.Mean .* pMCROfRhoAndTime.Mean)) / (databaseInputJson.N));
             end
             results{di}.pMCROfRhoAndTime = pMCROfRhoAndTime;
+        case 'pMCROfXAndY'
+            pMCROfXAndY.Name = detector.Name;
+            tempX = detector.X;
+            tempY = detector.Y;
+            pMCROfXAndY.X = linspace((tempX.Start), (tempX.Stop), (tempX.Count));
+            pMCROfXAndY.Y = linspace((tempY.Start), (tempY.Stop), (tempY.Count));
+            pMCROfXAndY.X_Midpoints = (pMCROfXAndY.X(1:end-1) + pMCROfXAndY.X(2:end))/2;
+            pMCROfXAndY.Y_Midpoints = (pMCROfXAndY.Y(1:end-1) + pMCROfXAndY.Y(2:end))/2;
+            pMCROfXAndY.Mean = readBinaryData([datadir slash detector.Name],[length(pMCROfXAndY.Y)-1,length(pMCROfXAndY.X)-1]); % read column major json binary            
+            if(detector.TallySecondMoment && exist([datadir slash detector.Name '_2'],'file'))
+                pMCROfXAndY.SecondMoment = readBinaryData([datadir slash detector.Name '_2'],[length(pMCROfXAndY.Y)-1,length(pMCROfXAndY.X)-1]);
+                pMCROfXAndY.Stdev = sqrt((pMCROfXAndY.SecondMoment - (pMCROfXAndY.Mean .* pMCROfXAndY.Mean)) / (databaseInputJson.N));
+            end
+            results{di}.pMCROfXAndY = pMCROfXAndY;
         case 'pMCROfFx'
             pMCROfFx.Name = detector.Name;
             tempFx = detector.Fx;
