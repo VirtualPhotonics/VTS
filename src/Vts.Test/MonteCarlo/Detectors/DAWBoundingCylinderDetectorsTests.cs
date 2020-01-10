@@ -108,8 +108,11 @@ namespace Vts.Test.MonteCarlo.Detectors
                         new LayerTissueRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
+                        new LayerTissueRegion( // note two layer and one layer give same results Yay!
+                            new DoubleRange(0.0, 1.0),
+                            new OpticalProperties(0.01, 1.0, 0.8, 1.4)), // debug g=1.0
                         new LayerTissueRegion(
-                            new DoubleRange(0.0, tissueThickness),
+                            new DoubleRange(1.0, tissueThickness),
                             new OpticalProperties(0.01, 1.0, 0.8, 1.4)), // debug g=1.0
                         new LayerTissueRegion(
                             new DoubleRange(tissueThickness, double.PositiveInfinity),
