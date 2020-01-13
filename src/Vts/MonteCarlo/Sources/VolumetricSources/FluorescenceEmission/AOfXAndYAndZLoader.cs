@@ -158,6 +158,7 @@ namespace Vts.MonteCarlo.Sources
             }
             // output number of voxels in fluorescent region so that can normalize results
             Console.WriteLine("number of fluorescent voxels = " + count.ToString(""));
+            Console.WriteLine("if using Uniform SamplingMethod, multiply results by this factor");
         }
     }
 }
