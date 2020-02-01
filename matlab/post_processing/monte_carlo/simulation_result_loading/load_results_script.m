@@ -35,6 +35,7 @@ show.TOfFx =					1;
 show.ATotal =                   1;
 show.AOfRhoAndZ =               1;
 show.AOfXAndYAndZ = 			1;
+show.ATotalBoundingVolume =     1;
 show.FluenceOfRhoAndZ =         1;
 show.FluenceOfRhoAndZAndTime =  1;
 show.FluenceOfRhoAndZAndOmega = 1;
@@ -200,6 +201,9 @@ for mci = 1:length(datanames)
             xyznorm = (results{di}.AOfXAndYAndZ.X(2)-results{di}.AOfXAndYAndZ.X(1))*(results{di}.AOfXAndYAndZ.Y(2)-results{di}.AOfXAndYAndZ.Y(1))*(results{di}.AOfXAndYAndZ.Z(2)-results{di}.AOfXAndYAndZ.Z(1));
             disp(['Absorbed Energy captured by AOfXAndYAndZ detector: ' num2str(sum(results{di}.AOfXAndYAndZ.Mean(:)*xyznorm))]);
         end
+    end
+    if isfield(results{di}, 'ATotalBoundingVolume') && show.ATotalBoundingVolume
+        disp(['Total absorption captured by ATotalBoundingVolume detector: ' num2str(results{di}.ATotalBoundingVolume.Mean)]);
     end
     if isfield(results{di}, 'FluenceOfRhoAndZ') && show.FluenceOfRhoAndZ
         numzs = length(results{di}.FluenceOfRhoAndZ.Z)-1;

@@ -287,6 +287,13 @@ for di = 1:numDetectors
                 AOfXAndYAndZ.Stdev = sqrt((AOfXAndYAndZ.SecondMoment - (AOfXAndYAndZ.Mean .* AOfXAndYAndZ.Mean)) / json.N);  
             end
             results{di}.AOfXAndYAndZ = AOfXAndYAndZ;
+        case 'ATotalBoundingVolume'
+            ATotalBoundingVolume.Name = detector.Name;
+            ATotalBoundingVolume_txt = readAndParseJson([datadir slash detector.Name '.txt']);
+            ATotalBoundingVolume.Mean = ATotalBoundingVolume_txt.Mean;              
+            ATotalBoundingVolume.SecondMoment = ATotalBoundingVolume_txt.SecondMoment; 
+            ATotalBoundingVolume.Stdev = sqrt((ATotalBoundingVolume.SecondMoment - (ATotalBoundingVolume.Mean .* ATotalBoundingVolume.Mean)) / (json.N));
+            results{di}.ATotalBoundingVolume = ATotalBoundingVolume;
         case 'FluenceOfRhoAndZ'
             FluenceOfRhoAndZ.Name = detector.Name;
             tempRho = detector.Rho;
