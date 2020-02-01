@@ -72,7 +72,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                 new Direction(0, 0, 1), // normal to tissue
                 new Position(0, 0, 0), // center of beam on surface
                 new PolarAzimuthalAngles(0, 0), // no beam rotation         
-                1); // 0=start in air, 1=start in tissue
+                0); // 0=start in air, 1=start in tissue
             // debug with point source
             //var source = new DirectionalPointSourceInput(
             //    new Position(0.0, 0.0, 0.0),
@@ -82,6 +82,7 @@ namespace Vts.Test.MonteCarlo.Detectors
             var detectors = 
                 new List<IDetectorInput>  
                 {
+                    new RSpecularDetectorInput(),
                     new RDiffuseDetectorInput(), new ROfRhoDetectorInput() {Rho=new DoubleRange(0.0, cylinderRadius, 11)}, 
                     new TDiffuseDetectorInput(),
                     new TOfRhoDetectorInput() {Rho=new DoubleRange(0.0, cylinderRadius, 11)},
@@ -97,8 +98,8 @@ namespace Vts.Test.MonteCarlo.Detectors
                 simulationOptions,
                 source,
                 new BoundingCylinderTissueInput(
-                    new CylinderTissueRegion(
-                        new Position(0, 0, 1),
+                    new CaplessCylinderTissueRegion(
+                        new Position(0, 0, tissueThickness / 2),
                         cylinderRadius,
                         tissueThickness,
                         new OpticalProperties(0.02, 1.0, 0.8, 1.4) 
@@ -151,26 +152,26 @@ namespace Vts.Test.MonteCarlo.Detectors
         [Test]
         public void validate_DAW_boundingcylinder_ATotal()
         {
-            Assert.Less(Math.Abs(_outputBoundedTissue.Atot - 0.022630), 0.000001);
+            Assert.Less(Math.Abs(_outputBoundedTissue.Atot - 0.021911), 0.000001);
         }
         // Total Absorption in Bounding Volume
         [Test]
         public void validate_DAW_boundingcylinder_ATotalBoundingCylinder()
         {
-            Assert.Less(Math.Abs(_outputBoundedTissue.AtotBV - 0.977369), 0.000001);
+            Assert.Less(Math.Abs(_outputBoundedTissue.AtotBV - 0.938088), 0.000001);
         }
         // Absorption(x,y,z)
         [Test]
         public void validate_DAW_boundingcylinder_AOfRhoAndZ()
         {
-            Assert.Less(Math.Abs(_outputBoundedTissue.A_rz[0, 0] - 0.173621), 0.000001);
+            Assert.Less(Math.Abs(_outputBoundedTissue.A_rz[0, 0] - 0.154619), 0.000001);
         }
         // sanity checks
         [Test]
         public void validate_DAW_boundingcylinder_RDiffuse_plus_ATotal_plus_TDiffuse_equals_one()
         {
-            // no specular because photons started inside tissue
-            Assert.Less(Math.Abs(_outputBoundedTissue.Rd + _outputBoundedTissue.Atot + 
+            // add specular because photons started outside tissue
+            Assert.Less(Math.Abs(_outputBoundedTissue.Rd + _outputBoundedTissue.Atot + _outputBoundedTissue.Rspec +
                                     _outputBoundedTissue.AtotBV + _outputBoundedTissue.Td - 1), 0.000001);
         }
 

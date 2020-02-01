@@ -372,6 +372,7 @@ namespace Vts.MonteCarlo
             "Layer",
             "Ellipsoid",
             "Cylinder",
+            "CaplessCylinder",
             "InfiniteCylinder"
         };
     }

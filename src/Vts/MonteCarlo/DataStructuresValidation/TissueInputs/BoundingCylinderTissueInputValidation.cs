@@ -20,7 +20,7 @@ namespace Vts.MonteCarlo
         public static ValidationResult ValidateInput(ITissueInput input)
         {
             var layers = ((BoundingCylinderTissueInput)input).LayerRegions.Select(region => (LayerTissueRegion)region).ToArray();
-            var boundingCylinder = (CylinderTissueRegion)((BoundingCylinderTissueInput)input).CylinderRegion;
+            var boundingCylinder = (CaplessCylinderTissueRegion)((BoundingCylinderTissueInput)input).CylinderRegion;
             ValidationResult tempResult;
             tempResult = ValidateGeometry(layers, boundingCylinder);
             if (!tempResult.IsValid)
@@ -42,7 +42,7 @@ namespace Vts.MonteCarlo
         /// <param name="boundingCylinder">CylinderTissueRegion</param>
         /// <returns>ValidationResult</returns>
         private static ValidationResult ValidateGeometry(IList<LayerTissueRegion> layers, 
-            CylinderTissueRegion boundingCylinder)
+            CaplessCylinderTissueRegion boundingCylinder)
         {            
             // check that layer definition is valid
             var tempResult = MultiLayerTissueInputValidation.ValidateLayers(layers);
@@ -88,7 +88,7 @@ namespace Vts.MonteCarlo
         /// <param name="boundingCylinder">CylinderTissueRegion></param>
         /// <returns>ValidationResult</returns>
         private static ValidationResult ValidateRefractiveIndexMatch(
-            IList<LayerTissueRegion> layers, CylinderTissueRegion boundingCylinder)
+            IList<LayerTissueRegion> layers, CaplessCylinderTissueRegion boundingCylinder)
         {
             // for all tissue layers
             for (int i = 1; i < layers.Count - 2; i++)

@@ -25,7 +25,7 @@ namespace Vts.MonteCarlo.VirtualBoundaries
         {
             _boundingTissueRegion = tissue.Regions[tissue.Regions.Count - 1]; // bounding region always last by convention
             _center = _boundingTissueRegion.Center;
-            _radius = ((CylinderTissueRegion)_boundingTissueRegion).Radius;
+            _radius = ((CaplessCylinderTissueRegion)_boundingTissueRegion).Radius;
 
             WillHitBoundary = dp =>
                 dp.StateFlag.HasFlag(PhotonStateType.PseudoBoundingVolumeTissueBoundary) &&

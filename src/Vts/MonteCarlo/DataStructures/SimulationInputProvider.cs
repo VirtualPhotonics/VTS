@@ -611,8 +611,8 @@ new ITissueRegion[]
                     new PolarAzimuthalAngles(0, 0), // no beam rotation         
                     0), // 0=start in air, 1=start in tissue
                 new BoundingCylinderTissueInput(
-                    new CylinderTissueRegion(
-                        new Position(0, 0, 1),
+                    new CaplessCylinderTissueRegion(
+                        new Position(0, 0, 50.0),
                         1.0,
                         100.0,
                         new OpticalProperties(0.05, 1.0, 0.8, 1.4)

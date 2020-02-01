@@ -11,18 +11,18 @@ namespace Vts.MonteCarlo.Tissues
     /// </summary>
     public class BoundingCylinderTissueInput : TissueInput, ITissueInput
     {
-        private ITissueRegion _cylinderRegion;
+        private ITissueRegion _caplessCylinderRegion;
         private ITissueRegion[] _layerRegions;
 
         /// <summary>
-        /// allows definition of single ellipsoid tissue
+        /// allows definition of tissue bounded by capless cylinder height of tissue
         /// </summary>
         /// <param name="cylinderRegion">bounding vertical cylinder region specification</param>
         /// <param name="layerRegions">tissue layer specification</param>
-        public BoundingCylinderTissueInput(ITissueRegion cylinderRegion, ITissueRegion[] layerRegions)
+        public BoundingCylinderTissueInput(ITissueRegion caplessCylinderRegion, ITissueRegion[] layerRegions)
         {
             TissueType = "BoundingCylinder";
-            _cylinderRegion = cylinderRegion;
+            _caplessCylinderRegion = caplessCylinderRegion;
             _layerRegions = layerRegions;
         }
 
@@ -32,8 +32,8 @@ namespace Vts.MonteCarlo.Tissues
         /// </summary>
         public BoundingCylinderTissueInput()
             : this(
-                new CylinderTissueRegion(
-                    new Position(0, 0, 1),
+                new CaplessCylinderTissueRegion(
+                    new Position(0, 0, 50),
                     1.0,
                     100.0,
                     new OpticalProperties(0.05, 1.0, 0.8, 1.4)
@@ -57,11 +57,11 @@ namespace Vts.MonteCarlo.Tissues
         /// regions of tissue (layers and ellipsoid)
         /// </summary>
         [IgnoreDataMember]
-        public ITissueRegion[] Regions { get { return _layerRegions.Concat(_cylinderRegion).ToArray(); } }
+        public ITissueRegion[] Regions { get { return _layerRegions.Concat(_caplessCylinderRegion).ToArray(); } }
         /// <summary>
         /// tissue ellipsoid region
         /// </summary>
-        public ITissueRegion CylinderRegion { get { return _cylinderRegion; } set { _cylinderRegion = value; } }
+        public ITissueRegion CylinderRegion { get { return _caplessCylinderRegion; } set { _caplessCylinderRegion = value; } }
         /// <summary>
         /// tissue layer regions
         /// </summary>
