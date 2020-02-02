@@ -22,7 +22,7 @@ namespace Vts.MonteCarlo.Tissues
         public BoundingCylinderTissueInput(ITissueRegion caplessCylinderRegion, ITissueRegion[] layerRegions)
         {
             TissueType = "BoundingCylinder";
-            _caplessCylinderRegion = caplessCylinderRegion;
+            _caplessCylinderRegion = (CaplessCylinderTissueRegion)caplessCylinderRegion;
             _layerRegions = layerRegions;
         }
 

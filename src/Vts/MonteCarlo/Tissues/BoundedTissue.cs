@@ -39,7 +39,7 @@ namespace Vts.MonteCarlo.Tissues
         /// </summary>
         public BoundedTissue()
             : this(
-                new CylinderTissueRegion(),
+                new CaplessCylinderTissueRegion(),
                 new MultiLayerTissueInput().Regions) { }
         /// <summary>
         /// method to get tissue region index of photon's current position
@@ -48,7 +48,7 @@ namespace Vts.MonteCarlo.Tissues
         /// <returns>integer tissue region index</returns>
         public override int GetRegionIndex(Position position)
         {
-            // if it's in the inclusion, return "3", otherwise, call the layer method to determine
+            // if it's in the bounding region, return "3", otherwise, call the layer method to determine
             return !_boundingRegion.ContainsPosition(position)  ? _boundingRegionExteriorIndex : base.GetRegionIndex(position);
         }
 
@@ -122,6 +122,14 @@ namespace Vts.MonteCarlo.Tissues
         /// <returns></returns>
         public PhotonStateType GetPhotonDataPointStateOnExit(Position position)
         {
+            if (position.Z < 1e-10)
+            {
+                return PhotonStateType.PseudoReflectedTissueBoundary;
+            }
+            if (Math.Abs(position.Z - ((LayerTissueRegion)_layers.Last()).ZRange.Start) < 1e-10)
+            {
+                return PhotonStateType.PseudoTransmittedTissueBoundary;
+            }
             return PhotonStateType.PseudoBoundingVolumeTissueBoundary;
         }
         /// <summary>

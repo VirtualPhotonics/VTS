@@ -50,8 +50,8 @@ namespace Vts.Test.MonteCarlo.Detectors
             // delete previously generated files
             clear_folders_and_files();
 
-            var cylinderRadius = 1.0;
-            var tissueThickness = 10.0;
+            var cylinderRadius = 5.0;
+            var tissueThickness = 2.0;
 
             // instantiate common classes
             var simulationOptions = new SimulationOptions(
@@ -64,7 +64,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                 0.0, // RR threshold -> 0 = no RR performed
                 0);
             var source = new CustomCircularSourceInput(
-                cylinderRadius / 100, // outer radius
+                cylinderRadius - 0.01, // outer radius
                 0.0, // inner radius
                 new FlatSourceProfile(),
                 new DoubleRange(0.0, 0.0), // polar angle emission range
@@ -128,43 +128,43 @@ namespace Vts.Test.MonteCarlo.Detectors
         [Test]
         public void validate_DAW_boundingcylinder_RDiffuse()
         {
-              Assert.Less(Math.Abs(_outputBoundedTissue.Rd - 0.0), 0.000001);
+              Assert.Less(Math.Abs(_outputBoundedTissue.Rd - 0.238231), 0.000001);
         }
         // Reflection R(rho)
         [Test]
         public void validate_DAW_boundingcylinder_ROfRho()
         {
-             Assert.Less(Math.Abs(_outputBoundedTissue.R_r[0] - 0.0), 0.000001);
+             Assert.Less(Math.Abs(_outputBoundedTissue.R_r[0] - 0.0), 0.12381000001);
         }
         // Diffuse Transmittance
         [Test]
         public void validate_DAW_boundingcylinder_TDiffuse()
         {
-             Assert.Less(Math.Abs(_outputBoundedTissue.Td - 0.0), 0.000001);
+             Assert.Less(Math.Abs(_outputBoundedTissue.Td - 0.256878), 0.000001);
         }
         // Transmittance T(rho)
         [Test]
         public void validate_DAW_boundingcylinder_TOfRho()
         {
-            Assert.Less(Math.Abs(_outputBoundedTissue.T_r[0] - 0.0), 0.000001);
+            Assert.Less(Math.Abs(_outputBoundedTissue.T_r[1] - 0.003941), 0.000001);
         }
         // Total Absorption
         [Test]
         public void validate_DAW_boundingcylinder_ATotal()
         {
-            Assert.Less(Math.Abs(_outputBoundedTissue.Atot - 0.021911), 0.000001);
+            Assert.Less(Math.Abs(_outputBoundedTissue.Atot - 0.047790), 0.000001);
         }
         // Total Absorption in Bounding Volume
         [Test]
         public void validate_DAW_boundingcylinder_ATotalBoundingCylinder()
         {
-            Assert.Less(Math.Abs(_outputBoundedTissue.AtotBV - 0.938088), 0.000001);
+            Assert.Less(Math.Abs(_outputBoundedTissue.AtotBV - 0.427099), 0.000001);
         }
         // Absorption(x,y,z)
         [Test]
         public void validate_DAW_boundingcylinder_AOfRhoAndZ()
         {
-            Assert.Less(Math.Abs(_outputBoundedTissue.A_rz[0, 0] - 0.154619), 0.000001);
+            Assert.Less(Math.Abs(_outputBoundedTissue.A_rz[0, 0] - 0.000746), 0.000001);
         }
         // sanity checks
         [Test]
