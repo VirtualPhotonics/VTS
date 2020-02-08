@@ -200,7 +200,7 @@ namespace Vts.MonteCarlo
                 {
                     return new ValidationResult(
                         false,
-                        "BoundingCylinderTissueInput needs associated detector to be defined",
+                        "BoundingCylinderTissueInput needs associated detector ATotalBoundingVolume to be defined",
                         "Add ATotalBoundingVolumeDetectorInput to detector inputs");
                 }
             }

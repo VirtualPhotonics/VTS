@@ -412,7 +412,17 @@ namespace Vts.MonteCarlo
                             _input.OutputName));
             }
         }
-
+        /// <summary>
+        /// Move (different than Photon.Move) checks if whether photon is going to first
+        /// a) hit tissue boundary (BoundaryHitType.Tissue), and if so Photon.Move to 
+        /// intersection position, then
+        /// b) Photon.CrossOrReflect checks if at border of system and sets
+        /// appropriate photon state flag, e.g. PhotonStateType.PseudoBoundingVolumeTissueBoundary
+        /// c) finally sets BoundaryHitType.Virtual and tallies in main MC loop
+        /// </summary>
+        /// <param name="photon"></param>
+        /// <param name="closestVirtualBoundary"></param>
+        /// <returns></returns>
         private BoundaryHitType Move(Photon photon, out IVirtualBoundary closestVirtualBoundary)
         {
             // get distance to any tissue boundary

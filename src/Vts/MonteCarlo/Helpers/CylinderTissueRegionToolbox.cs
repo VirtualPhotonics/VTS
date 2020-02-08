@@ -14,7 +14,7 @@ namespace Vts.MonteCarlo.Tissues
         /// method to determine if photon ray (or track) will intersect boundary of cylinder
         /// equations to determine intersection are derived by parameterizing ray from p1 to p2
         /// as p2=p1+[dx dy dz]t t in [0,1] where dx=p2.x-p1.x dy=p2.y-p1.y dz=p2.z-p2.z
-        /// and substituting into ellipsoid equations and solving quadratic in t, i.e. t1, t2
+        /// and substituting into cylinder equations and solving quadratic in t, i.e. t1, t2
         /// t1,t2 less than 0 or t1,t2 greater than 1 => no intersection
         /// 0 less than t1 less than 1 => one intersection
         /// 0 less than t2 less than 1 => one intersections, if above line true too => two intersections
@@ -26,7 +26,7 @@ namespace Vts.MonteCarlo.Tissues
         /// <param name="center">position of center of cylinder</param>
         /// <param name="radius">radius of cylinder</param>
         /// <param name="distanceToBoundary">return: distance to boundary, infinity if no intersection</param>
-        /// <returns>boolean</returns>
+        /// <returns>boolean: true if intersection, false if on boundary of cylinder</returns>
         public static bool RayIntersectInfiniteCylinder(Position p1, Position p2, bool oneIn, CylinderTissueRegionAxisType axis, Position center, double radius, 
             out double distanceToBoundary)
         {
@@ -142,6 +142,6 @@ namespace Vts.MonteCarlo.Tissues
 
             /* roots imaginary -> no intersection */
             return false;
-        }  
+       }  
     }
 }
