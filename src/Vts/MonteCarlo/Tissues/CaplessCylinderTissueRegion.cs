@@ -61,26 +61,33 @@ namespace Vts.MonteCarlo.Tissues
         /// <returns>boolean</returns>
         public bool ContainsPosition(Position position)
         {
-            double radialPosition = Math.Sqrt(position.X * position.X + position.Y * position.Y);
-            // check if within caps vertically and within radius
-            if ((position.Z <= Center.Z + Height / 2) && (position.Z >= Center.Z - Height / 2) &&
-                (radialPosition < Radius)) 
+            double inside = Math.Sqrt(position.X * position.X + position.Y * position.Y);
+            // check if within radius
+            if (inside < 0.9999999999 * Radius)
             {
                 return true;
             }
-            return false;
+            else if (inside > 1.00000000001 * Radius)
+            {
+                return false;
+            }
+            else  // on boundary means cylinder contains position
+            {
+                _onBoundary = true; 
+                return true;
+            }
         }
         /// <summary>
         /// Method to determine if photon on boundary of cylinder.
-        /// Currently OnBoundary of an inclusion region isn't called by any code ckh 3/5/19.
         /// </summary>
         /// <param name="position">photon position</param>
         /// <returns>boolean</returns>
         public bool OnBoundary(Position position)
         {
-            bool onCylinder = Math.Abs(
-                                  Math.Sqrt(position.X * position.X + position.Y * position.Y) - Radius) < 1e-10;
-           return onCylinder;
+            // need to call ContainsPosition because it sets _onBoundary
+            // note this method different than other TissueRegion OnBoundary due
+            // to used to bound tissue and photon dead when outside this region
+            return ContainsPosition(position) && _onBoundary;
         }
 
         /// <summary>
@@ -116,46 +123,8 @@ namespace Vts.MonteCarlo.Tissues
 
             double distanceToSides = double.PositiveInfinity;
             // first check if intersect with infinite cylinder
-            var intersectSides = (CylinderTissueRegionToolbox.RayIntersectInfiniteCylinder(p1, p2, oneIn,
-                CylinderTissueRegionAxisType.Z, Center, Radius,
-                out distanceToSides));
-            //// then check if intersect caps, create three tissue layers 1) above cylinder, 2) cylinder, 3) below
-            //double distanceToTopLayer = double.PositiveInfinity;
-            //var topLayer = new LayerTissueRegion(
-            //    new DoubleRange(0, Center.Z - (Height / 2)),
-            //    new OpticalProperties()); // doesn't matter what OPs are
-            //var intersectTopLayer = topLayer.RayIntersectBoundary(photon, out distanceToTopLayer);
-            //double distanceToCapLayer = double.PositiveInfinity;
-            //var enclosingLayer =
-            //    new LayerTissueRegion(
-            //        new DoubleRange(Center.Z - (Height / 2), Center.Z + (Height / 2)),
-            //        new OpticalProperties()); 
-            //var intersectCapLayer = enclosingLayer.RayIntersectBoundary(photon, out distanceToCapLayer);
-            //double distanceToBottomLayer = double.PositiveInfinity;
-            //var bottomLayer = new LayerTissueRegion(
-            //    new DoubleRange(Center.Z + (Height / 2), double.PositiveInfinity),
-            //    new OpticalProperties()); // doesn't matter what OPs are
-            //var intersectBottomLayer = bottomLayer.RayIntersectBoundary(photon, out distanceToBottomLayer);
-            //var hitCaps = false;
-            //double distanceToCap = double.PositiveInfinity;
-            //if (intersectTopLayer || intersectCapLayer || intersectBottomLayer)
-            //{
-            //    distanceToCap = Math.Min(distanceToTopLayer, Math.Min(distanceToCapLayer, distanceToBottomLayer));
-            //    double xto = p1.X + distanceToCap * d1.Ux;
-            //    double yto = p1.Y + distanceToCap * d1.Uy;
-            //    double zto = p1.Z + distanceToCap * d1.Uz;
-            //    if ((Math.Abs(zto - (Center.Z + (Height / 2))) < 1e-10 ||
-            //         Math.Abs(zto - (Center.Z - (Height / 2))) < 1e-10) &&
-            //        Math.Sqrt(xto * xto + yto * yto) < Radius)
-            //    {
-            //        hitCaps = true;
-            //    }
-            //}
-            //if (hitCaps && distanceToCap < distanceToSides)
-            //{
-            //    distanceToBoundary = distanceToCap;
-            //    return true;
-            //}
+            var intersectSides = (CylinderTissueRegionToolbox.RayIntersectInfiniteCylinder(
+                p1, p2, oneIn, CylinderTissueRegionAxisType.Z, Center, Radius, out distanceToSides));
 
             if (intersectSides)
             {

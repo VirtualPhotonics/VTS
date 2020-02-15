@@ -260,6 +260,7 @@ namespace Vts.MonteCarlo
 
                 // Fluorescence Emission Volume Sources
                 "FluorescenceEmissionAOfXAndYAndZ",
+                "FluorescenceEmissionAOfRhoAndZ"
 
                 // ...others, based on Fluence or Radiance?                  
             };

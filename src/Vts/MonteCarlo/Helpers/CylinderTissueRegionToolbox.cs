@@ -142,6 +142,6 @@ namespace Vts.MonteCarlo.Tissues
 
             /* roots imaginary -> no intersection */
             return false;
-       }  
+        }  
     }
 }

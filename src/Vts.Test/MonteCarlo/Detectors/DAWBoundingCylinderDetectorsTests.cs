@@ -102,7 +102,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                         new Position(0, 0, tissueThickness / 2),
                         cylinderRadius,
                         tissueThickness,
-                        new OpticalProperties(0.02, 1.0, 0.8, 1.4) 
+                        new OpticalProperties(0.0, 1e-10, 1.0, 1.4) 
                     ),
                     new ITissueRegion[]
                     {

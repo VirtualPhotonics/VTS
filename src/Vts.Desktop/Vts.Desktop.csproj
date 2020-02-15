@@ -1055,8 +1055,14 @@
     <Compile Include="..\Vts\MonteCarlo\Sources\VolumetricSources\Ellipsoidal\VolumetricEllipsoidalSourceBase.cs">
       <Link>MonteCarlo\Sources\VolumetricSources\Ellipsoidal\VolumetricEllipsoidalSourceBase.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Sources\VolumetricSources\FluorescenceEmission\AOfRhoAndZLoader.cs">
+      <Link>MonteCarlo\Sources\VolumetricSources\FluorescenceEmission\AOfRhoAndZLoader.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Sources\VolumetricSources\FluorescenceEmission\AOfXAndYAndZLoader.cs">
       <Link>MonteCarlo\Sources\VolumetricSources\FluorescenceEmission\AOfXAndYAndZLoader.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Sources\VolumetricSources\FluorescenceEmission\FluorescenceEmissionAOfRhoAndZSource.cs">
+      <Link>MonteCarlo\Sources\VolumetricSources\FluorescenceEmission\FluorescenceEmissionAOfRhoAndZSource.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Sources\VolumetricSources\FluorescenceEmission\FluorescenceEmissionAOfXAndYAndZSource.cs">
       <Link>MonteCarlo\Sources\VolumetricSources\FluorescenceEmission\FluorescenceEmissionAOfXAndYAndZSource.cs</Link>
