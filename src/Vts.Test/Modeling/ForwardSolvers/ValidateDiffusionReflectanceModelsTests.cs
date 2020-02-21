@@ -322,7 +322,8 @@ namespace Vts.Test.Modeling.ForwardSolvers
             }
         }
         #endregion Stationary Spatial Frequency Reflectance   
-            
+
+        #region Wavelength Dependence Tests
         [Test]
         public void validate_forward_solver_can_vectorize_based_on_OpticalProperties()
         {
@@ -411,5 +412,226 @@ namespace Vts.Test.Modeling.ForwardSolvers
             // check that change in absorption changes the reflectance
             Assert.IsTrue(reflectanceVsWavelength[1] != reflectanceVsWavelength[2]);
         }
+        #endregion
+
+        #region Multi-Axis Tests
+        [Test]
+        public void validate_ROfRhoAndTime_With_Wavelength()
+        {
+            // used values for tissue=liver
+            var scatterer = new PowerLawScatterer(0.84, 0.55);
+            var hbAbsorber = new ChromophoreAbsorber(ChromophoreType.Hb, 66);
+            var hbo2Absorber = new ChromophoreAbsorber(ChromophoreType.HbO2, 124);
+            var fatAbsorber = new ChromophoreAbsorber(ChromophoreType.Fat, 0.02);
+            var waterAbsorber = new ChromophoreAbsorber(ChromophoreType.H2O, 0.87);
+
+            var n = 1.4;
+            var wvs = new double[] { 650, 700 };
+            var rhos = new double[] { 0.5, 1.625 };
+            var times = new double[] { 0.05, 0.10 };
+
+            var tissue = new Tissue(
+                new IChromophoreAbsorber[] { hbAbsorber, hbo2Absorber, fatAbsorber, waterAbsorber },
+                scatterer,
+                "test_tissue",
+                n);
+
+            var ops = wvs.Select(wv => tissue.GetOpticalProperties(wv)).ToArray();
+
+            var fs = new PointSourceSDAForwardSolver();
+
+            var rVsWavelength = fs.ROfRhoAndTime(ops, rhos, times);
+            // return from ROfRhoAndTime is new double[ops.Length * rhos.Length * ts.Length];
+            // order is: (ops0,rhos0,ts0), (ops0,rhos0,ts1)...(ops0,rhos0,tsnt-1)
+            //           (ops0,rhos1,ts0), (ops0,rhos1,ts1)...(ops0,rhos1,tsnt-1)
+            //           ...
+            //           (ops0,rhosnr-1,ts0),.................(ops0,rhosnr-1,tsnt-1)
+            //           ... repeat above with ops1...
+
+            // [0] -> ops0=650, rho0=0.5, ts0=0.05
+            Assert.IsTrue(Math.Abs(rVsWavelength[0] - 0.044606) < 0.000001); // API match
+            // [1] -> ops0=650, rho0=0.5, ts1=0.10
+            Assert.IsTrue(Math.Abs(rVsWavelength[1] - 0.005555) < 0.000001);
+            // [2] -> ops0=650, rho1=1.635, ts0=0.05
+            Assert.IsTrue(Math.Abs(rVsWavelength[2] - 0.036900) < 0.000001); // API match
+            // [3] -> ops0=650, rho1=1.635, ts1=0.10
+            Assert.IsTrue(Math.Abs(rVsWavelength[3] - 0.005053) < 0.000001);
+            // [4] -> ops1=700, rho0=0.5, ts0=0.05
+            Assert.IsTrue(Math.Abs(rVsWavelength[4] - 0.057894) < 0.000001); // API match
+            // [5] -> ops1=700, rho0=0.5, ts1=0.10
+            Assert.IsTrue(Math.Abs(rVsWavelength[5] - 0.010309) < 0.000001);
+            // [6] -> ops1=700, rho1=1.635, ts0=0.05
+            Assert.IsTrue(Math.Abs(rVsWavelength[6] - 0.048493) < 0.000001); // API match
+            // [7] -> ops1=700, rho1=1.635, ts1=0.10
+            Assert.IsTrue(Math.Abs(rVsWavelength[7] - 0.009434) < 0.000001); 
+        }
+
+        [Test]
+        public void validate_ROfRhoAndFt_With_Wavelength()
+        {
+            // used values for tissue=liver
+            var scatterer = new PowerLawScatterer(0.84, 0.55);
+            var hbAbsorber = new ChromophoreAbsorber(ChromophoreType.Hb, 66);
+            var hbo2Absorber = new ChromophoreAbsorber(ChromophoreType.HbO2, 124);
+            var fatAbsorber = new ChromophoreAbsorber(ChromophoreType.Fat, 0.02);
+            var waterAbsorber = new ChromophoreAbsorber(ChromophoreType.H2O, 0.87);
+
+            var n = 1.4;
+            var wvs = new double[] { 650, 700 };
+            var rhos = new double[] { 0.5, 1.625 };
+            var fts = new double[] { 0.0, 0.50 };
+
+            var tissue = new Tissue(
+                new IChromophoreAbsorber[] { hbAbsorber, hbo2Absorber, fatAbsorber, waterAbsorber },
+                scatterer,
+                "test_tissue",
+                n);
+
+            var ops = wvs.Select(wv => tissue.GetOpticalProperties(wv)).ToArray();
+
+            var fs = new PointSourceSDAForwardSolver();
+
+            var rVsWavelength = fs.ROfRhoAndFt(ops, rhos, fts);
+            // return from ROfRhoAndFt is new double[ops.Length * rhos.Length * fts.Length];
+            // order is: (ops0,rhos0,fts0), (ops0,rhos0,fts1)...(ops0,rhos0,ftsnt-1)
+            //           (ops0,rhos1,fts0), (ops0,rhos1,fts1)...(ops0,rhos1,ftsnt-1)
+            //           ...
+            //           (ops0,rhosnr-1,fts0),.................(ops0,rhosnr-1,ftsnt-1)
+            //           ... repeat above with ops1...
+
+            // [0] -> ops0=650, rho0=0.5, fts0=0.0
+            Assert.IsTrue(Math.Abs(rVsWavelength[0].Real - 0.037575) < 0.000001);
+            Assert.IsTrue(Math.Abs(rVsWavelength[0].Imaginary - 0.0) < 0.000001);
+            // [1] -> ops0=650, rho0=0.5, fts1=0.5
+            Assert.IsTrue(Math.Abs(rVsWavelength[1].Real - 0.037511) < 0.000001);
+            Assert.IsTrue(Math.Abs(rVsWavelength[1].Imaginary + 0.001200) < 0.000001);
+            // [2] -> ops0=650, rho1=1.635, fts0=0.0
+            Assert.IsTrue(Math.Abs(rVsWavelength[2].Real - 0.009306) < 0.000001);
+            Assert.IsTrue(Math.Abs(rVsWavelength[2].Imaginary - 0.0) < 0.000001);
+            // [3] -> ops0=650, rho1=1.635, fts1=0.5
+            Assert.IsTrue(Math.Abs(rVsWavelength[3].Real - 0.009255) < 0.000001);
+            Assert.IsTrue(Math.Abs(rVsWavelength[3].Imaginary + 0.000674) < 0.000001);
+            // [4] -> ops1=700, rho0=0.5, fts0=0.0
+            Assert.IsTrue(Math.Abs(rVsWavelength[4].Real - 0.036425) < 0.000001);
+            Assert.IsTrue(Math.Abs(rVsWavelength[4].Imaginary - 0.0) < 0.000001);
+            // [5] -> ops1=700, rho0=0.5, fts1=0.5
+            Assert.IsTrue(Math.Abs(rVsWavelength[5].Real - 0.036310) < 0.000001);
+            Assert.IsTrue(Math.Abs(rVsWavelength[5].Imaginary + 0.001446) < 0.000001);
+            // [6] -> ops1=700, rho1=1.635, fts0=0.0
+            Assert.IsTrue(Math.Abs(rVsWavelength[6].Real - 0.010657) < 0.000001);
+            Assert.IsTrue(Math.Abs(rVsWavelength[6].Imaginary - 0.0) < 0.000001);
+            // [7] -> ops1=700, rho1=1.635, fts1=0.5
+            Assert.IsTrue(Math.Abs(rVsWavelength[7].Real - 0.010558) < 0.000001);
+            Assert.IsTrue(Math.Abs(rVsWavelength[7].Imaginary + 0.000929) < 0.000001);
+        }
+        [Test]
+        public void validate_ROfFtAndTime_With_Wavelength()
+        {
+            // used values for tissue=liver
+            var scatterer = new PowerLawScatterer(0.84, 0.55);
+            var hbAbsorber = new ChromophoreAbsorber(ChromophoreType.Hb, 66);
+            var hbo2Absorber = new ChromophoreAbsorber(ChromophoreType.HbO2, 124);
+            var fatAbsorber = new ChromophoreAbsorber(ChromophoreType.Fat, 0.02);
+            var waterAbsorber = new ChromophoreAbsorber(ChromophoreType.H2O, 0.87);
+
+            var n = 1.4;
+            var wvs = new double[] { 650, 700 };
+            var fxs = new double[] { 0.0, 0.5 };
+            var times = new double[] { 0.05, 0.10 };
+
+            var tissue = new Tissue(
+                new IChromophoreAbsorber[] { hbAbsorber, hbo2Absorber, fatAbsorber, waterAbsorber },
+                scatterer,
+                "test_tissue",
+                n);
+
+            var ops = wvs.Select(wv => tissue.GetOpticalProperties(wv)).ToArray();
+
+            var fs = new DistributedPointSourceSDAForwardSolver();
+
+            var rVsWavelength = fs.ROfFxAndTime(ops, fxs, times);
+            // return from ROfFxAndTime is new double[ops.Length * fxs.Length * ts.Length];
+            // order is: (ops0,fxs0,ts0), (ops0,fxs0,ts1)...(ops0,fxs0,tsnt-1)
+            //           (ops0,fxs1,ts0), (ops0,fxs1,ts1)...(ops0,fxs1,tsnt-1)
+            //           ...
+            //           (ops0,fxsnf-1,ts0),................(ops0,fxsnf-1,tsnt-1)
+            //           ... repeat above with ops1...
+
+            // [0] -> ops0=650, fx0=0.0, ts0=0.05
+            Assert.IsTrue(Math.Abs(rVsWavelength[0] - 1.558702) < 0.000001);
+            // [1] -> ops0=650, fx0=0.0, ts1=0.10
+            Assert.IsTrue(Math.Abs(rVsWavelength[1] - 0.391871) < 0.000001);
+            // [2] -> ops0=650, fx1=0.5, ts0=0.05
+            Assert.IsTrue(Math.Abs(rVsWavelength[2] - 5.023055e-12) < 0.000001e-12);
+            // [3] -> ops0=650, fx1=0.5, ts1=0.10
+            Assert.IsTrue(Math.Abs(rVsWavelength[3] - 1.032586e-13) < 0.000001e-13);
+            // [4] -> ops1=700, fx0=0.0, ts0=0.05
+            Assert.IsTrue(Math.Abs(rVsWavelength[4] - 2.218329) < 0.000001);
+            // [5] -> ops1=700, fx1=0.5, ts1=0.10
+            Assert.IsTrue(Math.Abs(rVsWavelength[5] - 0.797200) < 0.000001);
+            // [6] -> ops1=700, fx0=0.0, ts0=0.05
+            Assert.IsTrue(Math.Abs(rVsWavelength[6] - 1.347053e-12) < 0.000001e-12);
+            // [7] -> ops1=700, fx1=0.5, ts1=0.10
+            Assert.IsTrue(Math.Abs(rVsWavelength[7] - 2.052883e-13) < 0.000001e-13);
+        }
+        [Test]
+        public void validate_ROfFxAndFt_With_Wavelength()
+        {
+            // used values for tissue=liver
+            var scatterer = new PowerLawScatterer(0.84, 0.55);
+            var hbAbsorber = new ChromophoreAbsorber(ChromophoreType.Hb, 66);
+            var hbo2Absorber = new ChromophoreAbsorber(ChromophoreType.HbO2, 124);
+            var fatAbsorber = new ChromophoreAbsorber(ChromophoreType.Fat, 0.02);
+            var waterAbsorber = new ChromophoreAbsorber(ChromophoreType.H2O, 0.87);
+
+            var n = 1.4;
+            var wvs = new double[] { 650, 700 };
+            var fxs = new double[] { 0.0, 0.5 };
+            var fts = new double[] { 0.0, 0.50 };
+
+            var tissue = new Tissue(
+                new IChromophoreAbsorber[] { hbAbsorber, hbo2Absorber, fatAbsorber, waterAbsorber },
+                scatterer,
+                "test_tissue",
+                n);
+
+            var ops = wvs.Select(wv => tissue.GetOpticalProperties(wv)).ToArray();
+
+            var fs = new DistributedPointSourceSDAForwardSolver();
+
+            var rVsWavelength = fs.ROfFxAndFt(ops, fxs, fts);
+            // return from ROfFxAndFt is new double[ops.Length * fxs.Length * fts.Length];
+            // order is: (ops0,fxs0,fts0), (ops0,fxs0,ts1)...(ops0,fxs0,ftsnt-1)
+            //           (ops0,fxs1,fts0), (ops0,fxs1,ts1)...(ops0,fxs1,ftsnt-1)
+            //           ...
+            //           (ops0,fxsnf-1,fts0),.................(ops0,fxsnf-1,ftsnt-1)
+            //           ... repeat above with ops1...
+
+            // [0] -> ops0=650, fx0=0.0, fts0=0.0
+            Assert.IsTrue(Math.Abs(rVsWavelength[0].Real - 1.890007) < 0.000001); // API match
+            Assert.IsTrue(Math.Abs(rVsWavelength[0].Imaginary - 0.0) < 0.000001); // API match
+            // [1] -> ops0=650, fx0=0.0, fts1=0.5
+            Assert.IsTrue(Math.Abs(rVsWavelength[1].Real - 1.888160) < 0.000001);
+            Assert.IsTrue(Math.Abs(rVsWavelength[1].Imaginary + 0.045122) < 0.000001);
+            // [2] -> ops0=650, fx1=0.5, fts0=0.0
+            Assert.IsTrue(Math.Abs(rVsWavelength[2].Real - 0.562537) < 0.000001); // API match
+            Assert.IsTrue(Math.Abs(rVsWavelength[2].Imaginary - 0.0) < 0.000001); // API match
+            // [3] -> ops0=650, fx1=0.5, fts1=0.5
+            Assert.IsTrue(Math.Abs(rVsWavelength[3].Real - 0.562543) < 0.000001);
+            Assert.IsTrue(Math.Abs(rVsWavelength[3].Imaginary + 0.000799) < 0.000001);
+            // [4] -> ops1=700, fx0=0.0, fts0=0.0
+            Assert.IsTrue(Math.Abs(rVsWavelength[4].Real - 2.118427) < 0.000001); // API match
+            Assert.IsTrue(Math.Abs(rVsWavelength[4].Imaginary - 0.0) < 0.000001); // API match
+            // [5] -> ops1=700, fx0=0.0, fts1=0.5
+            Assert.IsTrue(Math.Abs(rVsWavelength[5].Real - 2.113377) < 0.000001);
+            Assert.IsTrue(Math.Abs(rVsWavelength[5].Imaginary + 0.071758) < 0.000001);
+            // [6] -> ops1=700, fx1=0.5, fts0=0.0
+            Assert.IsTrue(Math.Abs(rVsWavelength[6].Real - 0.543539) < 0.000001); // API match
+            Assert.IsTrue(Math.Abs(rVsWavelength[6].Imaginary - 0.0) < 0.000001); // API match
+            // [7] -> ops1=700, fx1=0.5, fts1=0.5
+            Assert.IsTrue(Math.Abs(rVsWavelength[7].Real - 0.543546) < 0.000001);
+            Assert.IsTrue(Math.Abs(rVsWavelength[7].Imaginary + 0.000651) < 0.000001);
+        }
+        #endregion
     }
 }
