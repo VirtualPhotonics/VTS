@@ -300,7 +300,7 @@ for mci = 1:length(datanames)
         colormap(jet);
         colorbar; title(figname); set(gcf,'Name', figname);ylabel('z [mm]'); xlabel('fx [/mm]');   
         zdelta = results{di}.FluenceOfFxAndZ.Z(2)-results{di}.FluenceOfFxAndZ.Z(1);
-        disp(sprintf('Fluence captured by FluenceOfFxAndZ detector: %5.3f',...
+        disp(sprintf('Fluence captured by FluenceOfFxAndZ detector at fx=0: %5.3f',...
             sum(zdelta*results{di}.FluenceOfFxAndZ.Amplitude(:,1))));
     end
     if isfield(results{di}, 'RadianceOfRhoAndZAndAngle') && show.RadianceOfRhoAndZAndAngle
@@ -330,7 +330,8 @@ for mci = 1:length(datanames)
         rhonorm = 2 * pi * results{di}.RadianceOfRhoAndZAndAngle.Rho_Midpoints * rhodelta;
         anglenorm = 2 * pi * sin(results{di}.RadianceOfRhoAndZAndAngle.Angle_Midpoints * angledelta) * angledelta;
         rhomatrix = repmat(rhonorm',[1,numzs,numangles]);
-        disp(['Radiance captured by RadianceOfRhoAndZAndAngle detector: ' num2str(sum(sum(sum(zdelta*results{di}.RadianceOfRhoAndZAndAngle.Mean.*repmat(anglenorm',[1,numzs,numrhos]).*permute(rhomatrix,[3,2,1])))))]);
+        anglematrix = repmat(anglenorm',[1,numzs,numrhos]);
+        disp(['Radiance captured by RadianceOfRhoAndZAndAngle detector: ' num2str(sum(sum(sum(zdelta*results{di}.RadianceOfRhoAndZAndAngle.Mean.*anglematrix.*permute(rhomatrix,[3,2,1])))))]);
     end
     if isfield(results{di}, 'RadianceOfFxAndZAndAngle') && show.RadianceOfFxAndZAndAngle
         numfxs = length(results{di}.RadianceOfFxAndZAndAngle.Fx);
@@ -382,26 +383,33 @@ for mci = 1:length(datanames)
         fxdelta = results{di}.RadianceOfFxAndZAndAngle.Fx(2)-results{di}.RadianceOfFxAndZAndAngle.Fx(1);
         zdelta = results{di}.RadianceOfFxAndZAndAngle.Z(2)-results{di}.RadianceOfFxAndZAndAngle.Z(1);
         angledelta = results{di}.RadianceOfFxAndZAndAngle.Angle(2)-results{di}.RadianceOfFxAndZAndAngle.Angle(1);
-        anglenorm = 2 * pi * sin(results{di}.RadianceOfFxAndZAndAngle.Angle_Midpoints * angledelta) * angledelta;      
-        disp(['Radiance captured by RadianceOfFxAndZAndAngle detector: ' num2str(sum(sum(sum(zdelta*results{di}.RadianceOfFxAndZAndAngle.Amplitude.*repmat(anglenorm',[1,numzs,numfxs])))))]);
+        anglenorm = 2 * pi * sin(results{di}.RadianceOfFxAndZAndAngle.Angle_Midpoints * angledelta) * angledelta; 
+        anglematrix = repmat(anglenorm',[1,numzs]);
+        disp(['Radiance captured by RadianceOfFxAndZAndAngle detector for fx=0: ' num2str(sum(sum(sum(zdelta*results{di}.RadianceOfFxAndZAndAngle.Amplitude(:,:,1).*anglematrix))))]);
     end
     if isfield(results{di}, 'RadianceOfXAndYAndZAndThetaAndPhi') && show.RadianceOfXAndYAndZAndThetaAndPhi
-        numTheta = length(results{di}.RadianceOfXAndYAndZAndThetaAndPhi.Theta) - 1;      
+        numxs = length(results{di}.RadianceOfXAndYAndZAndThetaAndPhi.X) - 1;
+        numys = length(results{di}.RadianceOfXAndYAndZAndThetaAndPhi.Y) - 1;
+        numzs = length(results{di}.RadianceOfXAndYAndZAndThetaAndPhi.Z) - 1;
+        numphis = length(results{di}.RadianceOfXAndYAndZAndThetaAndPhi.Phi) - 1;
+        numthetas = length(results{di}.RadianceOfXAndYAndZAndThetaAndPhi.Theta) - 1;      
         % plot radiance vs x and z for each theta (polar angle from Uz=[-1:1]
-        for i=1:numTheta % note results array has dimensions [numPhi, numTheta, numZ, numY, numX] due to column major json reading
-            figname = sprintf('log(%s) %5.3f<Theta<%5.3f',results{di}.RadianceOfXAndYAndZAndThetaAndPhi.Name,(i-1)*pi/numTheta,i*pi/numTheta); 
+        for i=1:numthetas % note results array has dimensions [numphis, numthetas, numzs, numys, numxs] due to column major json reading
+            figname = sprintf('log(%s) %5.3f<Theta<%5.3f',results{di}.RadianceOfXAndYAndZAndThetaAndPhi.Name,(i-1)*pi/numthetas,i*pi/numthetas); 
             figure; imagesc(results{di}.RadianceOfXAndYAndZAndThetaAndPhi.X_Midpoints, results{di}.RadianceOfXAndYAndZAndThetaAndPhi.Z_Midpoints, log(squeeze(results{di}.RadianceOfXAndYAndZAndThetaAndPhi.Mean(1,i,:,1,:))), [-20 -5]); colorbar; title(figname); set(gcf,'Name', figname);ylabel('z [mm]'); xlabel('x [mm]');colormap(jet);
         end
-        xyzthetaphinorm = (results{di}.RadianceOfXAndYAndZAndThetaAndPhi.X(2)-results{di}.RadianceOfXAndYAndZAndThetaAndPhi.X(1))...
+        xyzphinorm = (results{di}.RadianceOfXAndYAndZAndThetaAndPhi.X(2)-results{di}.RadianceOfXAndYAndZAndThetaAndPhi.X(1))...
                          *(results{di}.RadianceOfXAndYAndZAndThetaAndPhi.Y(2)-results{di}.RadianceOfXAndYAndZAndThetaAndPhi.Y(1))...
                          *(results{di}.RadianceOfXAndYAndZAndThetaAndPhi.Z(2)-results{di}.RadianceOfXAndYAndZAndThetaAndPhi.Z(1))...
-                         *(results{di}.RadianceOfXAndYAndZAndThetaAndPhi.Theta(2)-results{di}.RadianceOfXAndYAndZAndThetaAndPhi.Theta(1))...
-                         *(results{di}.RadianceOfXAndYAndZAndThetaAndPhi.Phi(2)-results{di}.RadianceOfXAndYAndZAndThetaAndPhi.Phi(1));    
-        disp(['Radiance captured by RadianceOfXAndYAndZAndThetaAndPhi detector: ' num2str(sum(results{di}.RadianceOfXAndYAndZAndThetaAndPhi.Mean(:)*xyzthetaphinorm))]);
+                         *(results{di}.RadianceOfXAndYAndZAndThetaAndPhi.Phi(2)-results{di}.RadianceOfXAndYAndZAndThetaAndPhi.Phi(1)); 
+        partialsum=xyzphinorm*sum(results{di}.RadianceOfXAndYAndZAndThetaAndPhi.Mean,[1,3,4,5]);
+        thetadelta = results{di}.RadianceOfXAndYAndZAndThetaAndPhi.Theta(2)-results{di}.RadianceOfXAndYAndZAndThetaAndPhi.Theta(1);
+        thetanorm = sin(results{di}.RadianceOfXAndYAndZAndThetaAndPhi.Theta_Midpoints * thetadelta) * thetadelta;  
+        disp(['Radiance captured by RadianceOfXAndYAndZAndThetaAndPhi detector: ' num2str(sum(partialsum.*thetanorm))]);
     end
     if isfield(results{di}, 'ReflectedMTOfRhoAndSubregionHist') && show.ReflectedMTOfRhoAndSubregionHist
         numrhos = length(results{di}.ReflectedMTOfRhoAndSubregionHist.Rho) - 1;
-        numsubregions = length(results{di}.ReflectedMTOfRhoAndSubregionHist.SubregionIndices);
+        numsubregions = length(results{di}.ReflectedMTOfRhoAndSubregionHist.SubregionIndices)
         figname = sprintf('log(%s)',results{di}.ReflectedMTOfRhoAndSubregionHist.Name); 
         figure; imagesc(results{di}.ReflectedMTOfRhoAndSubregionHist.Rho_Midpoints, results{di}.ReflectedMTOfRhoAndSubregionHist.MTBins_Midpoints, log(results{di}.ReflectedMTOfRhoAndSubregionHist.Mean));...        
            colorbar; title(figname); xlabel('\rho [mm]'); ylabel('MT'); set(gcf,'Name', figname);colormap(jet);
