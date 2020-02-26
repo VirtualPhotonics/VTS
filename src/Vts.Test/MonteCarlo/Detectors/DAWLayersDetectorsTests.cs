@@ -337,10 +337,10 @@ namespace Vts.Test.MonteCarlo.Detectors
         [Test]
         public void validate_DAW_ROfFxAndAngle()
         {
-            Assert.Less(Math.Abs(_outputOneLayerTissue.R_fxa[1,3].Real - 0.528540), 0.000001);
-            Assert.Less(Math.Abs(_outputOneLayerTissue.R_fxa[1,3].Imaginary - 0.022705), 0.000001);
-            Assert.Less(Math.Abs(_outputTwoLayerTissue.R_fxa[1,3].Real - 0.528540), 0.000001);
-            Assert.Less(Math.Abs(_outputTwoLayerTissue.R_fxa[1,3].Imaginary - 0.022705), 0.000001);
+            Assert.Less(Math.Abs(_outputOneLayerTissue.R_fxa[1,3].Real - 0.085767), 0.000001);
+            Assert.Less(Math.Abs(_outputOneLayerTissue.R_fxa[1,3].Imaginary - 0.003684), 0.000001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.R_fxa[1,3].Real - 0.085767), 0.000001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.R_fxa[1,3].Imaginary - 0.003684), 0.000001);
             Assert.AreEqual(_outputOneLayerTissue.R_fxa_TallyCount, 89);
             Assert.AreEqual(_outputTwoLayerTissue.R_fxa_TallyCount, 89);
         }

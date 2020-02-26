@@ -141,14 +141,16 @@ namespace Vts.MonteCarlo.Detectors
         /// <param name="numPhotons">number of photons launched</param>
         public void Normalize(long numPhotons)
         {
+            var normalizationFactor = 2.0 * Math.PI * Angle.Delta;
             for (int ifx = 0; ifx < Fx.Count; ifx++)
             {
-                for (int it = 0; it < Angle.Count - 1; it++)
+                for (int ia = 0; ia < Angle.Count - 1; ia++)
                 {
-                    Mean[ifx, it] /= numPhotons * Angle.Delta;
+                    var areaNorm = Math.Sin((ia + 0.5) * Angle.Delta) * normalizationFactor;
+                    Mean[ifx, ia] /= areaNorm * numPhotons;
                     if (TallySecondMoment)
                     {
-                        SecondMoment[ifx, it] /= numPhotons * Angle.Delta * Angle.Delta;
+                        SecondMoment[ifx, ia] /= areaNorm * areaNorm * numPhotons;
                     } 
                 }
             }
