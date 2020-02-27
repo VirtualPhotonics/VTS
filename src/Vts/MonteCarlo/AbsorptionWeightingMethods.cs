@@ -109,7 +109,7 @@ namespace Vts.MonteCarlo
             {
                 weightFactor *=
                     Math.Exp(-(perturbedOps[i].Mua - referenceOps[i].Mua) * pathLength[i]); // mua pert
-                if (numberOfCollisions[i] > 0) // mus pert
+                if ((numberOfCollisions[i] > 0) && (perturbedOps[i].Mus > 0.0)) // mus pert
                 {
                     // the following is more numerically stable
                     weightFactor *= Math.Pow(
@@ -131,14 +131,14 @@ namespace Vts.MonteCarlo
 
             foreach (var i in perturbedRegionsIndices)
             {
-                if (numberOfCollisions[i] > 0)
+                if ((numberOfCollisions[i] > 0) && (referenceOps[i].Mus > 0.0))
                 {
                     weightFactor *=
                         Math.Pow(
-                            (perturbedOps[i].Mus / referenceOps[i].Mus) *
-                                Math.Exp(-(perturbedOps[i].Mus + perturbedOps[i].Mua - referenceOps[i].Mus - referenceOps[i].Mua) *
-                                pathLength[i] / numberOfCollisions[i]),
-                            numberOfCollisions[i]);
+                          (perturbedOps[i].Mus / referenceOps[i].Mus) *
+                          Math.Exp(-(perturbedOps[i].Mus + perturbedOps[i].Mua - referenceOps[i].Mus - referenceOps[i].Mua) *
+                          pathLength[i] / numberOfCollisions[i]),
+                              numberOfCollisions[i]);
                 }
                 else
                 {

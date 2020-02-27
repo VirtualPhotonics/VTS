@@ -11,20 +11,13 @@ namespace Vts.MonteCarlo.VirtualBoundaries
         private IDetectorController _detectorController;
 
         /// <summary>
-        /// generic volume virtual boundary, used to capture all internal volume detectors
+        /// generic volume virtual boundary, used to capture all internal volume detectors e.g. FluenceOfRhoAndZ
         /// </summary>
         /// <param name="tissue">ITissue</param>
         /// <param name="detectorController">IDetectorController</param>
         /// <param name="name">string name</param>
         public GenericVolumeVirtualBoundary(ITissue tissue, IDetectorController detectorController, string name)
         {
-            //_zPlanePosition = ((LayerTissueRegion)tissue.Regions[0]).ZRange.Stop;
-
-            //WillHitBoundary = dp =>
-            //            dp.StateFlag.Has(PhotonStateType.Transmitted) &&
-            //            dp.Direction.Uz < 0 &&
-            //            Math.Abs(dp.Position.Z - _zPlanePosition) < 10E-16;
-
             VirtualBoundaryType = VirtualBoundaryType.GenericVolumeBoundary;
             PhotonStateType = PhotonStateType.PseudoGenericVolumeVirtualBoundary;
 

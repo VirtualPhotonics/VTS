@@ -21,6 +21,10 @@ namespace Vts.MonteCarlo.Sources
         /// Initial tissue region index = tissue region of fluorescence
         /// </summary>
         protected int _initialTissueRegionIndex;
+        /// <summary>
+        /// Photon weight as determined by GetNextPositionAndWeight
+        /// </summary>
+        protected double _weight;
         
         /// <summary>
         /// Defines FluorescenceEmissionSourceBase class
@@ -42,11 +46,12 @@ namespace Vts.MonteCarlo.Sources
         public Photon GetNextPhoton(ITissue tissue)
         {
             //Source starts from anywhere in the tissue region of fluorescence
-            Position finalPosition = GetFinalPosition(Rng);
-
+            Position finalPosition = GetFinalPositionAndWeight(Rng, out _weight);
+            //Starting weight based on sampling method
+            //Lambertian direction
             Direction finalDirection = GetFinalDirection(Rng);
-
-            var photon = new Photon(finalPosition, finalDirection, tissue, _initialTissueRegionIndex, Rng);
+            
+            var photon = new Photon(finalPosition, finalDirection, _weight, tissue, _initialTissueRegionIndex, Rng);
             return photon;
         }
 
@@ -63,10 +68,10 @@ namespace Vts.MonteCarlo.Sources
                     rng);
         }
         /// <summary>
-        /// each inheritor generates own GetFinalPosition
+        /// each inheritor generates own GetFinalPositionAndWeight
         /// </summary>
         /// <returns></returns>
-        protected abstract Position GetFinalPosition(Random rng);
+        protected abstract Position GetFinalPositionAndWeight(Random rng, out double weight);
 
         #region Random number generator code (copy-paste into all sources)
         /// <summary>

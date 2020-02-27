@@ -84,6 +84,10 @@ namespace Vts.MonteCarlo
             {
                 return SingleVoxelTissueInputValidation.ValidateInput(tissueInput);
             }
+            if (tissueInput is BoundingCylinderTissueInput)
+            {
+                return BoundingCylinderTissueInputValidation.ValidateInput(tissueInput);
+            }
 
             return new ValidationResult(
                 true,
@@ -188,8 +192,18 @@ namespace Vts.MonteCarlo
                     }
                 }
             }
-            // check that if non-normal source defined, that detectors defined are not cylindrical tallies
-            // this could be greatly expanded, just an initial start 
+            // check that if bounding volume tissue specified, the ATotalBoundingVolumeTissueInput detector needs
+            // to be specified
+            if (input.TissueInput is BoundingCylinderTissueInput)
+            {
+                if (!input.DetectorInputs.Any(d => d.TallyType == TallyType.ATotalBoundingVolume))
+                {
+                    return new ValidationResult(
+                        false,
+                        "BoundingCylinderTissueInput needs associated detector ATotalBoundingVolume to be defined",
+                        "Add ATotalBoundingVolumeDetectorInput to detector inputs");
+                }
+            }
             if (input.SourceInput is DirectionalPointSourceInput)
             {
                 var source = (DirectionalPointSourceInput) input.SourceInput;

@@ -60,7 +60,7 @@ namespace Vts.MonteCarlo.Tissues
         /// </summary>
         public double Dz { get; set; }
         /// <summary>
-        /// method to determine if given Position lies within ellipsoid
+        /// method to determine if given Position lies within ellipsoid allows for floating point imprecision
         /// </summary>
         /// <param name="position">Position</param>
         /// <returns>boolean, true if within or on, false otherwise</returns>
@@ -123,7 +123,7 @@ namespace Vts.MonteCarlo.Tissues
         /// 0 less than t2 less than 1 => one intersections, if above line true too => two intersections
         /// </summary>
         /// <param name="photon">Photon</param>
-        /// <param name="distanceToBoundary">return: distance to boundary</param>
+        /// <param name="distanceToBoundary">return: distance to boundary, infinity if no intersection</param>
         /// <returns>boolean true if intersection, false otherwise</returns>
         public bool RayIntersectBoundary(Photon photon, out double distanceToBoundary)
         {

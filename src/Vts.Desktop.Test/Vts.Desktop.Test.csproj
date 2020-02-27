@@ -256,6 +256,9 @@
     <Compile Include="..\Vts.Test\MonteCarlo\Detectors\CAWLayersDetectorsTests.cs">
       <Link>MonteCarlo\Detectors\CAWLayersDetectorsTests.cs</Link>
     </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Detectors\DAWBoundingCylinderDetectorsTests.cs">
+      <Link>MonteCarlo\Detectors\DAWBoundingCylinderDetectorsTests.cs</Link>
+    </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\Detectors\DAWInfiniteCylinderDetectorsTests.cs">
       <Link>MonteCarlo\Detectors\DAWInfiniteCylinderDetectorsTests.cs</Link>
     </Compile>
@@ -334,11 +337,20 @@
     <Compile Include="..\Vts.Test\MonteCarlo\Sources\SurfaceEmittingFlatSourcesTests.cs">
       <Link>MonteCarlo\Sources\SurfaceEmittingFlatSourcesTests.cs</Link>
     </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Tissues\BoundedTissueTests.cs">
+      <Link>MonteCarlo\Tissues\BoundedTissueTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Tissues\CylinderTissueRegionTests.cs">
+      <Link>MonteCarlo\Tissues\CylinderTissueRegionTests.cs</Link>
+    </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\Tissues\EllipsoidTissueRegionTests.cs">
       <Link>MonteCarlo\Tissues\EllipsoidTissueRegionTests.cs</Link>
     </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\Tissues\InfiniteCylinderTissueRegionTests.cs">
       <Link>MonteCarlo\Tissues\InfiniteCylinderTissueRegionTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Tissues\LayerTissueRegionTests.cs">
+      <Link>MonteCarlo\Tissues\LayerTissueRegionTests.cs</Link>
     </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\Tissues\MultiConcentricInfiniteCylinderTissueTests.cs">
       <Link>MonteCarlo\Tissues\MultiConcentricInfiniteCylinderTissueTests.cs</Link>
@@ -384,15 +396,15 @@
     <EmbeddedResource Include="..\Vts.Test\Resources\fileiotest\binarydbl">
       <Link>Resources\fileiotest\binarydbl</Link>
     </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts.Test\Resources\sourcetest\AOfRhoAndZ">
+      <Link>Resources\sourcetest\AOfRhoAndZ</Link>
+    </EmbeddedResource>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
     <EmbeddedResource Include="..\Vts.Test\Resources\sourcetest\AOfXAndYAndZ.txt">
       <Link>Resources\sourcetest\AOfXAndYAndZ.txt</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\Vts.Test\Resources\sourcetest\input.txt">
-      <Link>Resources\sourcetest\input.txt</Link>
     </EmbeddedResource>
     <EmbeddedResource Include="..\Vts.Test\Resources\fileiotest\file7.xml">
       <Link>Resources\fileiotest\file7.xml</Link>
@@ -411,6 +423,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="..\Vts.Test\Resources\fileiotest\ROfRho.txt">
       <Link>Resources\fileiotest\ROfRho.txt</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts.Test\Resources\sourcetest\AOfRhoAndZ.txt">
+      <Link>Resources\sourcetest\AOfRhoAndZ.txt</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts.Test\Resources\sourcetest\inputAOfRhoAndZ.txt">
+      <Link>Resources\sourcetest\inputAOfRhoAndZ.txt</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Vts.Test\Resources\sourcetest\inputAOfXAndYAndZ.txt">
+      <Link>Resources\sourcetest\inputAOfXAndYAndZ.txt</Link>
     </EmbeddedResource>
     <Content Include="App_Readme\MathNet.Numerics.authors.txt" />
     <Content Include="App_Readme\MathNet.Numerics.copyright.txt" />
