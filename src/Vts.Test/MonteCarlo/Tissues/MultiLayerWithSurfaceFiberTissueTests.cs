@@ -58,6 +58,7 @@ namespace Vts.Test.MonteCarlo.Tissues
             Photon photon = new Photon( // in fiber pointed into it within NA
                 new Position(0, 0, 0.0),
                 new Direction(0.0, 0, -1.0),
+                1,
                 _tissue,
                 1,
                 new Random());
@@ -75,6 +76,7 @@ namespace Vts.Test.MonteCarlo.Tissues
             Photon photon = new Photon( // have to reinitialize photon so that _onBoundary is set to false
                 new Position(0, 0, 100.0),
                 new Direction(0.0, 0, 1.0),
+                1,
                 _tissue,
                 1,
                 new Random());

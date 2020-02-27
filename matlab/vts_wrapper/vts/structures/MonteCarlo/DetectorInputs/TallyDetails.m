@@ -5,7 +5,7 @@ classdef TallyDetails
             details.IsTransmittanceTally = false;
             details.IsSpecularReflectanceTally = false;
             details.IspMCReflectanceTally = false;
-            details.IsDosimetryTally = false;
+            details.IsInternalSurfaceTally = false;
             details.IsVolumeTally = false;
             details.IsCylindricalTally = false;
             details.IsNotImplementedForDAW = false;
@@ -17,7 +17,6 @@ classdef TallyDetails
             details.IsTransmittanceTally = detailsNET.IsTransmittanceTally;
             details.IsSpecularReflectanceTally = detailsNET.IsSpecularReflectanceTally;
             details.IspMCReflectanceTally = detailsNET.IspMCReflectanceTally;
-            details.IsDosimetryTally = detailsNET.IsDosimetryTally;
             details.IsVolumeTally = detailsNET.IsVolumeTally;
             details.IsCylindricalTally = detailsNET.IsCylindricalTally;
             details.IsNotImplementedForDAW = detailsNET.IsNotImplementedForDAW;
@@ -30,7 +29,6 @@ classdef TallyDetails
             detailsNET.IsTransmittanceTally = details.IsTransmittanceTally;
             detailsNET.IsSpecularReflectanceTally = details.IsSpecularReflectanceTally;
             detailsNET.IspMCReflectanceTally = details.IspMCReflectanceTally;
-            detailsNET.IsDosimetryTally = details.IsDosimetryTally;
             detailsNET.IsVolumeTally = details.IsVolumeTally;
             detailsNET.IsCylindricalTally = details.IsCylindricalTally;
             detailsNET.IsNotImplementedForDAW = details.IsNotImplementedForDAW;

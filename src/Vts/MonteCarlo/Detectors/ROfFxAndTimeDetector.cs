@@ -157,8 +157,8 @@ namespace Vts.MonteCarlo.Detectors
                                            dp.Weight*dp.Weight*sinNegativeTwoPiFX*sinNegativeTwoPiFX;
                         SecondMoment[ifx, it] += deltaWeight2;
                     }
-                    TallyCount++;
                 }
+                TallyCount++;
             }
         }
 

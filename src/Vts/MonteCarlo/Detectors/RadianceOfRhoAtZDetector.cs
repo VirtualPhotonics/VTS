@@ -26,7 +26,7 @@ namespace Vts.MonteCarlo.Detectors
             FinalTissueRegionIndex = 0; // assume detector is in air
 
             // modify base class TallyDetails to take advantage of built-in validation capabilities (error-checking)
-            TallyDetails.IsDosimetryTally = true;
+            TallyDetails.IsInternalSurfaceTally = true;
             TallyDetails.IsCylindricalTally = true;
         }
 

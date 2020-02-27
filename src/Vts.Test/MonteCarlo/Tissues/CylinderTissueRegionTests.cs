@@ -20,7 +20,7 @@ namespace Vts.Test.MonteCarlo.Tissues
         public void create_instance_of_class()
         {
             _cylinderTissueRegion = new CylinderTissueRegion(
-                new Position(0, 0, 2), // center
+               new Position(0, 0, 2), // center
                 1.0, 
                 2.0, // z goes from z=1 to 3
                 new OpticalProperties(0.01, 1.0, 0.8, 1.4));
@@ -35,7 +35,7 @@ namespace Vts.Test.MonteCarlo.Tissues
             Assert.AreEqual(_cylinderTissueRegion.Center.Y, 0.0);
             Assert.AreEqual(_cylinderTissueRegion.Center.Z, 2.0);
             Assert.AreEqual(_cylinderTissueRegion.Radius, 1.0);
-            Assert.AreEqual(_cylinderTissueRegion.HeightZ, 2.0);
+            Assert.AreEqual(_cylinderTissueRegion.Height, 2.0);
             Assert.AreEqual(_cylinderTissueRegion.RegionOP.Mua, 0.01);
             Assert.AreEqual(_cylinderTissueRegion.RegionOP.Musp, 1.0);
             Assert.AreEqual(_cylinderTissueRegion.RegionOP.G, 0.8);
@@ -52,6 +52,37 @@ namespace Vts.Test.MonteCarlo.Tissues
         //    result = _infiniteCylinderTissueRegion.OnBoundary(new Position(0, 0, 1.0));
         //    Assert.IsFalse(result);
         //}
+
+       /// <summary>
+        /// Validate method OnBoundary return correct boolean.
+        /// Currently OnBoundary of an inclusion region isn't called by any code ckh 3/5/19.
+        /// </summary>
+        [Test]
+        public void verify_OnBoundary_method_returns_correct_result()
+        {
+            // OnBoundary returns true if *exactly* on boundary
+            bool result = _cylinderTissueRegion.OnBoundary(new Position(0, 0, 1.0)); // on top cap boundary
+            Assert.IsTrue(result);
+            result = _cylinderTissueRegion.OnBoundary(new Position(0, 0, 3.0)); // on bottom cap boundary
+            Assert.IsTrue(result);
+            result = _cylinderTissueRegion.OnBoundary(new Position(0, 0, 10.0)); // not on boundary
+            Assert.IsFalse(result);
+            // on cylinder
+            result = _cylinderTissueRegion.OnBoundary(new Position(1.0/Math.Sqrt(2), 1.0/Math.Sqrt(2), 2.0)); 
+            Assert.IsTrue(result);
+        }
+        /// <summary>
+        /// Validate method ContainsPositions return correct boolean. ContainsPosition is true if inside
+        /// or *on* boundary.
+        /// </summary>
+        [Test]
+        public void verify_ContainsPosition_method_returns_correct_result()
+        {
+            bool result = _cylinderTissueRegion.ContainsPosition(new Position(0, 0, 2.0)); // inside
+            Assert.IsTrue(result);
+            result = _cylinderTissueRegion.ContainsPosition(new Position(0, 0, 3.0)); // on boundary
+            Assert.IsTrue(result);
+        }
         ///// <summary>
         ///// Validate method SurfaceNormal return correct normal vector
         ///// </summary>
@@ -86,22 +117,23 @@ namespace Vts.Test.MonteCarlo.Tissues
             result = _cylinderTissueRegion.RayIntersectBoundary(photon, out distanceToBoundary);
             Assert.AreEqual(false, result);
             Assert.AreEqual(Double.PositiveInfinity, distanceToBoundary);
-            // test intersection with caps
-            photon.DP.Direction = new Direction(0, 0, -1);
-            photon.S = 2;
+            // intersect cap of cylinder tests
+            photon.DP.Position = new Position(0, 0, 0); // intersect top cap
+            photon.DP.Direction = new Direction(0, 0, 1);  
+            photon.S = 2.0; // make sure intersects top cap
             result = _cylinderTissueRegion.RayIntersectBoundary(photon, out distanceToBoundary);
             Assert.AreEqual(true, result);
             Assert.AreEqual(1.0, distanceToBoundary);
+            photon.DP.Position = new Position(0, 0, 4); // intersect bottom cap
+            photon.DP.Direction = new Direction(0, 0, -1);
+            photon.S = 2.0; // make sure intersects top cap
+            result = _cylinderTissueRegion.RayIntersectBoundary(photon, out distanceToBoundary);
+            Assert.AreEqual(true, result);
+            Assert.AreEqual(1.0, distanceToBoundary);
+            photon.DP.Position = new Position(0, 0, 0); // intersect both
             photon.DP.Direction = new Direction(0, 0, 1);
-            photon.S = 2;
+            photon.S = 10.0; // make sure intersects both
             result = _cylinderTissueRegion.RayIntersectBoundary(photon, out distanceToBoundary);
-            Assert.AreEqual(true, result);
-            Assert.AreEqual(1.0, distanceToBoundary);
-            // test infinitely thin cylinder
-            _cylinderTissueRegion.HeightZ = 0;
-            _cylinderTissueRegion.Center.Z = 0;
-            photon.DP.Direction = new Direction(0, 0, -1);
-            photon.S = 2;
             Assert.AreEqual(true, result);
             Assert.AreEqual(1.0, distanceToBoundary);
         }

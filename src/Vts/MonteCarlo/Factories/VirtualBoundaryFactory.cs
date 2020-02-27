@@ -46,7 +46,7 @@ namespace Vts.MonteCarlo.Factories
 
         //        case VirtualBoundaryType.SurfaceRadiance:
         //            return
-        //                tallyType == TallyType.RadianceOfRho;
+        //                tallyType == TallyType.RadianceOfRhoAtZ;
 
         //        default:
         //            throw new ArgumentOutOfRangeException(tallyType.ToString());
@@ -121,7 +121,7 @@ namespace Vts.MonteCarlo.Factories
                          tissue, detectorController, VirtualBoundaryType.SpecularReflectance.ToString());
                     break;
                 case VirtualBoundaryType.Dosimetry:
-                    vb = new DosimetryVirtualBoundary(
+                    vb = new RadianceVirtualBoundary(
                         detectorController, VirtualBoundaryType.Dosimetry.ToString());
                     break;
                 case VirtualBoundaryType.GenericVolumeBoundary:
@@ -131,6 +131,10 @@ namespace Vts.MonteCarlo.Factories
                 case VirtualBoundaryType.pMCDiffuseReflectance:
                     vb = new pMCDiffuseReflectanceVirtualBoundary(
                         tissue, detectorController, VirtualBoundaryType.DiffuseReflectance.ToString());
+                    break;
+                case VirtualBoundaryType.BoundingCylinderVolume:
+                    vb = new BoundingCylinderVirtualBoundary(
+                        tissue, detectorController, VirtualBoundaryType.BoundingCylinderVolume.ToString());
                     break;
                 default:
                     throw new ArgumentOutOfRangeException("Virtual boundary type not recognized: " + vbType);

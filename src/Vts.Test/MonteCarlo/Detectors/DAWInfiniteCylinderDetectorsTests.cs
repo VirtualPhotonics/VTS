@@ -21,7 +21,6 @@ namespace Vts.Test.MonteCarlo.Detectors
         private SimulationOutput _outputTwoRegionTissue;
         private SimulationInput _inputOneRegionTissue;
         private SimulationInput _inputTwoRegionTissue;
-        private double _factor;
 
         /// <summary>
         /// list of temporary files created by these unit tests
@@ -178,7 +177,8 @@ namespace Vts.Test.MonteCarlo.Detectors
         public void validate_DAW_infinitecylinder_RDiffuse_plus_ATotal_plus_TDiffuse_equals_one()
         {
             // no specular because photons started inside tissue
-            Assert.Less(Math.Abs(_outputOneRegionTissue.Rd + _outputOneRegionTissue.Atot + _outputOneRegionTissue.Td - 1), 0.00000000001);
+            Assert.Less(Math.Abs(_outputTwoRegionTissue.Rd + _outputTwoRegionTissue.Atot + 
+                                 _outputTwoRegionTissue.Td - 1), 0.00000000001);
         }
     }
 }

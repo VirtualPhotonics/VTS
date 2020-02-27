@@ -71,6 +71,7 @@ namespace Vts.Test.MonteCarlo.Tissues
             Photon photon = new Photon( // on bottom of outer infinite cylinder pointed into it
                 new Position(0, 0, 6.0),
                 new Direction(0.0, 0, -1.0),
+                1.0,
                 _tissue,
                 1,
                 new Random());
@@ -79,6 +80,7 @@ namespace Vts.Test.MonteCarlo.Tissues
             photon = new Photon( // on bottom of outer infinite cylinder pointed out of it
                 new Position(0, 0, 6.0),
                 new Direction(0.0, 0, 1.0),
+                1.0,
                 _tissue,
                 3,
                 new Random());
@@ -87,6 +89,7 @@ namespace Vts.Test.MonteCarlo.Tissues
             photon = new Photon( // on bottom of inner infinite cylinder pointed into it
                 new Position(0, 0, 5.5),
                 new Direction(0.0, 0, -1.0),
+                1.0,
                 _tissue,
                 3,
                 new Random());
@@ -95,6 +98,7 @@ namespace Vts.Test.MonteCarlo.Tissues
             photon = new Photon( // on bottom of inner infinite cylinder pointed out of it
                 new Position(0, 0, 5.5),
                 new Direction(0.0, 0, 1.0),
+                1.0,
                 _tissue,
                 4,
                 new Random());
@@ -103,6 +107,7 @@ namespace Vts.Test.MonteCarlo.Tissues
             photon = new Photon( // on bottom of slab pointed out
                 new Position(0, 0, 100.0),
                 new Direction(0.0, 0, 1.0),
+                1.0,
                 _tissue,
                 1,
                 new Random());
@@ -118,6 +123,7 @@ namespace Vts.Test.MonteCarlo.Tissues
             Photon photon = new Photon( // below outer infinite cylinder pointed into it
                 new Position(0, 0, 7),
                 new Direction(0.0, 0, -1.0),
+                1.0,
                 _tissue,
                 1,
                 new Random());
@@ -127,6 +133,7 @@ namespace Vts.Test.MonteCarlo.Tissues
             photon = new Photon(        // above inner infinite cylinder pointed into it
                 new Position(0, 0, 0.1),
                 new Direction(0.0, 0, 1.0),
+                1.0,
                 _tissue,
                 3,
                 new Random());
@@ -136,6 +143,7 @@ namespace Vts.Test.MonteCarlo.Tissues
             photon = new Photon(        // inside inner infinite cylinder pointed out and down
                 new Position(0, 0, 1.0),
                 new Direction(0.0, 0, 1.0),
+                1.0,
                 _tissue,
                 3,
                 new Random());
@@ -145,6 +153,7 @@ namespace Vts.Test.MonteCarlo.Tissues
             photon = new Photon( // on bottom of slab pointed out
                 new Position(0, 0, 95.0),
                 new Direction(0.0, 0, 1.0),
+                1.0,
                 _tissue,
                 1,
                 new Random());

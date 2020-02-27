@@ -19,9 +19,10 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
             "ellip_FluenceOfRhoAndZ",
             "infinite_cylinder_AOfXAndYAndZ",
             "multi_infinite_cylinder_AOfXAndYAndZ",
-            "fluorescenceEmissionAOfXAndYAndZSourceInfiniteCylinder",
-            "embeddedDirectionalCircularSourceEllipTissue",
+            "fluorescence_emission_AOfXAndYAndZ_source_infinite_cylinder",
+            "embedded_directional_circular_source_ellip_tissue",
             "Flat_2D_source_one_layer_ROfRho",
+            "Flat_2D_source_two_layer_bounded_AOfRhoAndZ",
             "Gaussian_2D_source_one_layer_ROfRho",
             "Gaussian_line_source_one_layer_ROfRho",
             "one_layer_all_detectors",
@@ -387,10 +388,10 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
             Assert.IsTrue(File.Exists("infinite_cylinder_AOfXAndYAndZ/infinite_cylinder_AOfXAndYAndZ.txt"));
             Assert.IsTrue(File.Exists("infinite_cylinder_AOfXAndYAndZ/AOfXAndYAndZ"));
             // run emission simulation
-            arguments = new string[] { "infile=infile_fluorescenceEmissionAOfXAndYAndZSourceInfiniteCylinder.txt" };
+            arguments = new string[] { "infile=infile_fluorescence_emission_AOfXAndYAndZ_source_infinite_cylinder.txt" };
             Program.Main(arguments);
-            Assert.IsTrue(Directory.Exists("fluorescenceEmissionAOfXAndYAndZSourceInfiniteCylinder"));
-            Assert.IsTrue(File.Exists("fluorescenceEmissionAOfXAndYAndZSourceInfiniteCylinder/ROfXAndY"));
+            Assert.IsTrue(Directory.Exists("fluorescence_emission_AOfXAndYAndZ_source_infinite_cylinder"));
+            Assert.IsTrue(File.Exists("fluorescence_emission_AOfXAndYAndZ_source_infinite_cylinder/ROfXAndY"));
         }
         // removed because not a good way to text whether MCCL is taking longer to execute.
         ///// <summary>

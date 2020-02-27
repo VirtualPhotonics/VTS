@@ -54,7 +54,7 @@ namespace Vts.Test.MonteCarlo
                     }
                     ).WriteToJson("test.txt");
             }
-            catch (Exception se)
+            catch (Exception)
             {
                 Assert.Fail("SimulationInput class could not be serialized.");
             }

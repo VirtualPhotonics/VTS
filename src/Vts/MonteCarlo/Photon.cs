@@ -31,12 +31,14 @@ namespace Vts.MonteCarlo
         /// </summary>
         /// <param name="p">Position</param>
         /// <param name="d">Direction</param>
+        /// <param name="weight">Initial weight</param>
         /// <param name="tissue">Tissue></param>
         /// <param name="currentTissueRegionIndex">integer index within ITissue definition indicating photon's current position</param>
         /// <param name="generator">Random Number Generator</param>
         public Photon(
             Position p,
             Direction d,
+            double weight,
             ITissue tissue,
             int currentTissueRegionIndex,
             Random generator)
@@ -44,7 +46,7 @@ namespace Vts.MonteCarlo
             DP = new PhotonDataPoint(
                     p,
                     d,
-                    1.0, // weight
+                    weight, // weight
                     0.0, // total time
                     PhotonStateType.Alive);
             //PreviousDP = null;
@@ -76,6 +78,7 @@ namespace Vts.MonteCarlo
             : this(
                 new Position(0, 0, 0),
                 new Direction(0, 0, 1),
+                1.0,
                 new MultiLayerTissue(),
                 0, 
                 RandomNumberGeneratorFactory.GetRandomNumberGenerator(RandomNumberGeneratorType.MersenneTwister)
@@ -387,7 +390,8 @@ namespace Vts.MonteCarlo
             // if VB crossing flagged
             if (DP.StateFlag.HasFlag(PhotonStateType.PseudoDiffuseReflectanceVirtualBoundary)  ||
                 DP.StateFlag.HasFlag(PhotonStateType.PseudoDiffuseTransmittanceVirtualBoundary) ||
-                DP.StateFlag.HasFlag(PhotonStateType.PseudoSpecularReflectanceVirtualBoundary))
+                DP.StateFlag.HasFlag(PhotonStateType.PseudoSpecularReflectanceVirtualBoundary) ||
+                DP.StateFlag.HasFlag(PhotonStateType.PseudoBoundingCylinderVolumeVirtualBoundary))
             {
                 //todo: revisit performance of the bitwise operations
                 DP.StateFlag = DP.StateFlag.Remove(PhotonStateType.Alive);

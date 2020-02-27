@@ -9,7 +9,7 @@ namespace Vts.MonteCarlo.VirtualBoundaries
     /// <summary>
     /// Implements IVirtualBoundary.  Used to capture surface radiance detectors
     /// </summary>
-    public class DosimetryVirtualBoundary : IVirtualBoundary
+    public class RadianceVirtualBoundary : IVirtualBoundary
     {
         private IDetectorController _detectorController;
         private double _zPlanePosition;
@@ -19,13 +19,13 @@ namespace Vts.MonteCarlo.VirtualBoundaries
         /// </summary>
         /// <param name="detectorController">IDetectorController</param>
         /// <param name="name">string name</param>
-        public DosimetryVirtualBoundary(IDetectorController detectorController, string name)
+        public RadianceVirtualBoundary(IDetectorController detectorController, string name)
         {
             _detectorController = detectorController;
 
             // not sure following is best design
             // todo: revisit design (dc 6/10/12)
-            IDetector dosimetryDetector = DetectorController.Detectors.Where(d => d.TallyDetails.IsDosimetryTally).FirstOrDefault();
+            IDetector dosimetryDetector = DetectorController.Detectors.Where(d => d.TallyDetails.IsInternalSurfaceTally).FirstOrDefault();
 
             if (dosimetryDetector != null)
             {
@@ -37,7 +37,7 @@ namespace Vts.MonteCarlo.VirtualBoundaries
                                   Math.Abs(dp.Position.Z - _zPlanePosition) < 10E-16;
 
                 VirtualBoundaryType = VirtualBoundaryType.Dosimetry;
-                PhotonStateType = PhotonStateType.PseudoDosimetryVirtualBoundary;
+                PhotonStateType = PhotonStateType.PseudoSurfaceRadianceVirtualBoundary;
 
                 Name = name;
             }
