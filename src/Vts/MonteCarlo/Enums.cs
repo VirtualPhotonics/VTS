@@ -57,7 +57,10 @@ namespace Vts.MonteCarlo
         /// photon pseudo-collision at specular tissue boundary
         /// </summary>
         PseudoSpecularTissueBoundary = 0x100,
-        //PseudoRadianceTissueBoundary = 0x200,
+        /// <summary>
+        /// photon pseudo-collision at bounding volume boundary
+        /// </summary>
+        PseudoBoundingVolumeTissueBoundary = 0x200,
 
         // virtual boundary flags, can we 1-1 map to virtualBoundary "Name"
         // move up to 16th position
@@ -82,6 +85,10 @@ namespace Vts.MonteCarlo
         /// photon pseudo-collision at SurfaceRadiance Virtual Boundary (VB)
         /// </summary>
         PseudoSurfaceRadianceVirtualBoundary = 0x100000,
+        /// <summary>
+        /// photon pseudo-collision at BoundingVolume Virtual Boundary (VB)
+        /// </summary>
+        PseudoBoundingCylinderVolumeVirtualBoundary = 0x110000,
     }
     /// <summary>
     /// Virtual boundaries are entities upon which detectors are attached.
@@ -115,6 +122,10 @@ namespace Vts.MonteCarlo
         /// Virtual boundary used for pMC diffuse reflectance detectors
         /// </summary>
         pMCDiffuseReflectance,
+        /// <summary>
+        /// Virtual boundary used to capture photons if leave this lateral boundary
+        /// </summary>
+        BoundingCylinderVolume,
     }
     /// <summary>
     /// This should match VirtualBoundaryType one for one.  Commented out ones have not made
@@ -249,6 +260,7 @@ namespace Vts.MonteCarlo
 
                 // Fluorescence Emission Volume Sources
                 "FluorescenceEmissionAOfXAndYAndZ",
+                "FluorescenceEmissionAOfRhoAndZ"
 
                 // ...others, based on Fluence or Radiance?                  
             };
@@ -304,6 +316,27 @@ namespace Vts.MonteCarlo
         Normal,
     }
 
+    public enum SourcePositionSamplingType
+    {
+        /// <summary>
+        /// Sample location using PDF
+        /// </summary>
+        CDF,
+        /// <summary>
+        /// Sample location uniformly in space
+        /// </summary>
+        Uniform
+    }
+
+    public enum CylinderTissueRegionAxisType
+    {
+        /// <summary>
+        /// axis of cylinder
+        /// </summary>
+        X,
+        Y,
+        Z
+    }
     /// <summary>
     /// Tissue types
     /// </summary>
@@ -324,7 +357,9 @@ namespace Vts.MonteCarlo
             // Tissue slab with embedded infinite cylinder
             "SingleInfiniteCylinder",
             // Multiple (2 right now) concentric infinite cylinder
-            "MultiConcentricInfiniteCylinder"
+            "MultiConcentricInfiniteCylinder",
+            // Multilayer tissue bounded by vertical cylinder laterally
+            "BoundingCylinder"
         };
     }
     /// <summary>
@@ -338,6 +373,7 @@ namespace Vts.MonteCarlo
             "Layer",
             "Ellipsoid",
             "Cylinder",
+            "CaplessCylinder",
             "InfiniteCylinder"
         };
     }
@@ -415,6 +451,8 @@ namespace Vts.MonteCarlo
             "ROfFx",
             // Reflectance as a function of spatial frequency along the x-axis, and time
             "ROfFxAndTime",
+            // Reflectance as a function of spatial frequency along the x-axis, and angle
+            "ROfFxAndAngle",
             // Total diffuse transmittance
             "TDiffuse",
             // Transmittance as a functino of source-detector separation (rho)
@@ -431,12 +469,14 @@ namespace Vts.MonteCarlo
             "FluenceOfRhoAndZ",
             // Fluence as a function of source-detector separation (rho) and tissue depth (Z) and time
             "FluenceOfRhoAndZAndTime",
-            // Fluence as a function of x, y and z
-            "FluenceOfXAndYAndZ",
-            // Fluence as a function of x, y, z and omega
-            "FluenceOfXAndYAndZAndOmega",
             // Fluence as a function of rho, z and omega
             "FluenceOfRhoAndZAndOmega",
+            // Fluence as a function of x, y and z
+            "FluenceOfXAndYAndZ",
+            // Fluence as a function of x, y, z and time
+            "FluenceOfXAndYAndZAndTime",
+            // Fluence as a function of x, y, z and omega
+            "FluenceOfXAndYAndZAndOmega",
             // Fluence as a function of fx and z
             "FluenceOfFxAndZ",
             // Absorbed energy as a function of source-detector separation (rho) and tissue depth (Z)
@@ -445,6 +485,8 @@ namespace Vts.MonteCarlo
             "AOfXAndYAndZ",
             // Total absorbed energy
             "ATotal",
+            // Total absorbed energy in bounding volume
+            "ATotalBoundingVolume",
             // Reflected momentum transfer as a function of source-detector separation (rho) and tissue region with histogram of MT
             "ReflectedMTOfRhoAndSubregionHist",
             // Reflected momentum transfer as a function of x, y and tissue region with histogram of MT
@@ -483,6 +525,8 @@ namespace Vts.MonteCarlo
             "pMCROfRhoAndTime", 
             // perturbation Monte Carlo (pMC) reflectance as a function of source-detector separation (rho)
             "pMCROfRho",
+            // perturbation Monte Carlo (pMC) reflectance as a function of Cartesian coordinates (x,y)
+            "pMCROfXAndY",
             // perturbation Monte Carlo (pMC) reflectance as a function of spatial frequency (fx)
             "pMCROfFx",
             // perturbation Monte Carlo (pMC) reflectance as a function of spatial frequency (fx) and time
@@ -533,6 +577,10 @@ namespace Vts.MonteCarlo
         /// </summary>
         public static string ROfFxAndTime { get { return "ROfFxAndTime"; } }
         /// <summary>
+        /// Reflectance as a function of spatial frequency along the x-axis, and angle
+        /// </summary>
+        public static string ROfFxAndAngle { get { return "ROfFxAndAngle"; } }
+        /// <summary>
         /// Total diffuse transmittance
         /// </summary>
         public static string TDiffuse { get { return "TDiffuse"; } }
@@ -580,6 +628,10 @@ namespace Vts.MonteCarlo
         /// Total absorbed energy
         /// </summary>
         public static string ATotal { get { return "ATotal"; } }
+        /// <summary>
+        /// Total absorbed energy in a bounding volume
+        /// </summary>
+        public static string ATotalBoundingVolume { get { return "ATotalBoundingVolume"; } }
         /// <summary>
         /// Reflected momentum transfer as a function of source-detector separation (rho) and tissue region with histogram of MT
         /// </summary>
@@ -651,6 +703,10 @@ namespace Vts.MonteCarlo
         /// perturbation Monte Carlo (pMC) reflectance as a function of source-detector separation (rho)
         /// </summary>
         public static string pMCROfRho { get { return "pMCROfRho"; } }
+        /// <summary>
+        /// perturbation Monte Carlo (pMC) reflectance as a function of Cartesian coordinates (x,y)
+        /// </summary>
+        public static string pMCROfXAndY { get { return "pMCROfXAndY"; } }
         /// <summary>
         /// perturbation Monte Carlo (pMC) reflectance as a function of spatial frequency (fx)
         /// </summary>

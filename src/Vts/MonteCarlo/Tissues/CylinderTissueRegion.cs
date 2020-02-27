@@ -9,6 +9,7 @@ namespace Vts.MonteCarlo.Tissues
     /// </summary>
     public class CylinderTissueRegion : ITissueRegion
     {
+        private bool _onBoundary = false;
         /// <summary>
         /// </summary>
         /// <param name="center">center position</param>
@@ -72,12 +73,14 @@ namespace Vts.MonteCarlo.Tissues
         /// <returns>boolean</returns>
         public bool ContainsPosition(Position position)
         {
-            if (((Math.Sqrt(position.X * position.X + position.Y * position.Y) <= Radius)) &&
-                (position.Z <= Center.Z + Height) &&
-                (position.Z >= Center.Z - Height))
+            double radialPosition = Math.Sqrt(position.X * position.X + position.Y * position.Y);
+            // check if within caps vertically and within radius
+            if ((position.Z <= Center.Z + Height / 2) && (position.Z >= Center.Z - Height / 2) &&
+                (radialPosition < Radius)) 
+            {
                 return true;
-            else
-                return false;
+            }
+            return false;
         }
         /// <summary>
         /// Method to determine if photon on boundary of cylinder.
@@ -87,8 +90,12 @@ namespace Vts.MonteCarlo.Tissues
         /// <returns>boolean</returns>
         public bool OnBoundary(Position position)
         {
-            return ((position.Z == Center.Z + Height) || (position.Z == Center.Z - Height)) &&
-                Math.Sqrt(position.X * position.X + position.Y * position.Y) == Radius;
+            bool onCylinder = Math.Abs(
+                                  Math.Sqrt(position.X * position.X + position.Y * position.Y) - Radius) < 1e-10;
+            bool inRadius = Math.Sqrt(position.X * position.X + position.Y * position.Y) < Radius;
+            bool onOneCap = (Math.Abs(position.Z - (Center.Z - Height / 2)) < 1e-10 || 
+                    Math.Abs(position.Z - (Center.Z + Height / 2)) < 1e-10) && inRadius;
+            return onCylinder || onOneCap;
         }
 
         /// <summary>
@@ -99,7 +106,79 @@ namespace Vts.MonteCarlo.Tissues
         /// <returns>boolean</returns>
         public bool RayIntersectBoundary(Photon photon, out double distanceToBoundary)
         {
-            throw new NotImplementedException();
+            distanceToBoundary = double.PositiveInfinity;
+            _onBoundary = false; // reset _onBoundary
+            double root = 0;
+            var dp = photon.DP;
+            var p1 = dp.Position;
+            var d1 = dp.Direction;
+
+            // determine location of end of ray
+            var p2 = new Position(p1.X + d1.Ux * photon.S,
+                p1.Y + d1.Uy * photon.S,
+                p1.Z + d1.Uz * photon.S);
+
+            bool oneIn = this.ContainsPosition(p1);
+            bool twoIn = this.ContainsPosition(p2);
+
+            // check if ray within cylinder
+            if ((oneIn || _onBoundary) && twoIn)
+            {
+                return false;
+            }
+            _onBoundary = false; // reset flag
+
+            double distanceToSides = double.PositiveInfinity;
+            // first check if intersect with infinite cylinder
+            var intersectSides = (CylinderTissueRegionToolbox.RayIntersectInfiniteCylinder(p1, p2, oneIn,
+                CylinderTissueRegionAxisType.Z, Center, Radius,
+                out distanceToSides));
+            // then check if intersect caps, create three tissue layers 1) above cylinder, 2) cylinder, 3) below
+            double distanceToTopLayer = double.PositiveInfinity;
+            var topLayer = new LayerTissueRegion(
+                new DoubleRange(0, Center.Z - (Height / 2)),
+                new OpticalProperties()); // doesn't matter what OPs are
+            var intersectTopLayer = topLayer.RayIntersectBoundary(photon, out distanceToTopLayer);
+            double distanceToCapLayer = double.PositiveInfinity;
+            var enclosingLayer =
+                new LayerTissueRegion(
+                    new DoubleRange(Center.Z - (Height / 2), Center.Z + (Height / 2)),
+                    new OpticalProperties()); 
+            var intersectCapLayer = enclosingLayer.RayIntersectBoundary(photon, out distanceToCapLayer);
+            double distanceToBottomLayer = double.PositiveInfinity;
+            var bottomLayer = new LayerTissueRegion(
+                new DoubleRange(Center.Z + (Height / 2), double.PositiveInfinity),
+                new OpticalProperties()); // doesn't matter what OPs are
+            var intersectBottomLayer = bottomLayer.RayIntersectBoundary(photon, out distanceToBottomLayer);
+            var hitCaps = false;
+            double distanceToCap = double.PositiveInfinity;
+            if (intersectTopLayer || intersectCapLayer || intersectBottomLayer)
+            {
+                distanceToCap = Math.Min(distanceToTopLayer, Math.Min(distanceToCapLayer, distanceToBottomLayer));
+                double xto = p1.X + distanceToCap * d1.Ux;
+                double yto = p1.Y + distanceToCap * d1.Uy;
+                double zto = p1.Z + distanceToCap * d1.Uz;
+                if ((Math.Abs(zto - (Center.Z + (Height / 2))) < 1e-10 ||
+                     Math.Abs(zto - (Center.Z - (Height / 2))) < 1e-10) &&
+                    Math.Sqrt(xto * xto + yto * yto) < Radius)
+                {
+                    hitCaps = true;
+                }
+            }
+            if (hitCaps && distanceToCap < distanceToSides)
+            {
+                distanceToBoundary = distanceToCap;
+                return true;
+            }
+
+            if (intersectSides && distanceToSides < distanceToCapLayer)
+            {
+                distanceToBoundary = distanceToSides;
+                return true;
+            }
+
+            distanceToBottomLayer = double.PositiveInfinity;
+            return false;
         }
 
         //public bool RayIntersectBoundary(Photon photptr)

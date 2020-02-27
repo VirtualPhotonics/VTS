@@ -35,6 +35,7 @@ namespace Vts.MonteCarlo
                 pMCPointSourceOneLayerTissueROfRhoDAW(),
                 Gaussian2DSourceOneLayerTissueROfRhoDetector(),
                 Flat2DSourceOneLayerTissueROfRhoDetector(),
+                Flat2DSourceTwoLayerBoundedTissueAOfRhoAndZDetector(),
                 GaussianLineSourceOneLayerTissueROfRhoDetector(),
                 PointSourceMultiLayerMomentumTransferDetectors(),
                 PointSourceSingleVoxelTissueROfXAndYAndFluenceOfXAndYAndZDetector(),
@@ -96,10 +97,11 @@ namespace Vts.MonteCarlo
                     new FluenceOfRhoAndZDetectorInput() {Rho=new DoubleRange(0.0, 10, 101),Z=new DoubleRange(0.0, 10, 101)},
                     new FluenceOfXAndYAndZDetectorInput(){X=new DoubleRange(-10, 10, 201),Y=new DoubleRange(-10, 10, 2),Z=new DoubleRange(0, 10, 101)},
                     new FluenceOfXAndYAndZAndOmegaDetectorInput(){X=new DoubleRange(-10, 10, 201),Y=new DoubleRange(-10, 10, 2),Z=new DoubleRange(0, 10, 101),Omega=new DoubleRange(0.0, 1, 21)},
+                    new FluenceOfXAndYAndZAndTimeDetectorInput(){X=new DoubleRange(-10, 10, 201),Y=new DoubleRange(-10, 10, 2),Z=new DoubleRange(0, 10, 101),Time=new DoubleRange(0.0, 1, 21)},
                     new FluenceOfRhoAndZAndOmegaDetectorInput(){Rho=new DoubleRange(0, 10, 101),Z=new DoubleRange(0, 10, 101),Omega=new DoubleRange(0.0, 1, 21)},
                     new FluenceOfFxAndZDetectorInput(){Fx=new DoubleRange(0, 0.5, 51),Z=new DoubleRange(0, 10, 101)},
-                    new RadianceOfRhoAndZAndAngleDetectorInput(){Rho=new DoubleRange(0.0, 10, 101),Z=new DoubleRange(0.0, 10, 101),Angle=new DoubleRange(0, Math.PI, 3)},
-                    new RadianceOfFxAndZAndAngleDetectorInput(){Fx=new DoubleRange(0.0, 0.5, 51),Z=new DoubleRange(0.0, 10, 101),Angle=new DoubleRange(0, Math.PI, 3)},
+                    new RadianceOfRhoAndZAndAngleDetectorInput(){Rho=new DoubleRange(0.0, 10, 101),Z=new DoubleRange(0.0, 10, 101),Angle=new DoubleRange(0, Math.PI, 5)},
+                    new RadianceOfFxAndZAndAngleDetectorInput(){Fx=new DoubleRange(0.0, 0.5, 51),Z=new DoubleRange(0.0, 10, 101),Angle=new DoubleRange(0, Math.PI, 5)},
                     new RadianceOfXAndYAndZAndThetaAndPhiDetectorInput(){
                         X=new DoubleRange(-10.0, 10.0, 101),
                         Y= new DoubleRange(-10.0, 10.0, 101),
@@ -109,11 +111,12 @@ namespace Vts.MonteCarlo
                     new RadianceOfRhoAtZDetectorInput() {Rho = new DoubleRange(0.0, 10, 101), ZDepth = 3},
                     new RDiffuseDetectorInput(),
                     new ROfAngleDetectorInput() {Angle=new DoubleRange(Math.PI / 2 , Math.PI, 5)},
-                    new ROfFxAndTimeDetectorInput() {Fx = new DoubleRange(0.0, 0.5, 51), Time= new DoubleRange(0.0, 10, 101)},
+                    new ROfFxAndTimeDetectorInput() {Fx = new DoubleRange(0.0, 0.5, 51), Time= new DoubleRange(0.0, 10, 11)},
                     new ROfFxDetectorInput() {Fx = new DoubleRange(0.0, 0.5, 51)},
+                    new ROfFxAndAngleDetectorInput() {Fx = new DoubleRange(0.0, 0.5, 51), Angle= new DoubleRange(Math.PI / 2, Math.PI, 5)},
                     new ROfRhoAndAngleDetectorInput() {Rho=new DoubleRange(0.0, 10, 101),Angle=new DoubleRange(Math.PI / 2 , Math.PI, 5)},             
                     new ROfRhoAndOmegaDetectorInput() {Rho=new DoubleRange(0.0, 10, 101),Omega=new DoubleRange(0.0, 1, 21)}, // GHz
-                    new ROfRhoAndTimeDetectorInput() {Rho= new DoubleRange(0.0, 10, 101),Time=new DoubleRange(0.0, 10, 101)},       
+                    new ROfRhoAndTimeDetectorInput() {Rho= new DoubleRange(0.0, 10, 101),Time=new DoubleRange(0.0, 10, 11)},       
                     new ROfRhoDetectorInput() {Rho =new DoubleRange(0.0, 10, 101)},
                     new ROfXAndYDetectorInput() {X=new DoubleRange(-100.0, 100.0, 21), Y= new DoubleRange(-100.0, 100.0, 21)}, 
                     new RSpecularDetectorInput(),
@@ -697,7 +700,7 @@ namespace Vts.MonteCarlo
                     0.0, // inner radius
                     new GaussianSourceProfile(1.0), // fwhm
                     new DoubleRange(0.0, 0.0), // polar angle emission range
-                    new DoubleRange(0.0, 0.0), // azimuthal angle emmision range
+                    new DoubleRange (0.0, 0.0), // azimuthal angle emission range
                     new Direction(0, 0, 1), // normal to tissue
                     new Position(0, 0, 0), // center of beam on surface
                     new PolarAzimuthalAngles(0, 0), // no beam rotation         
@@ -709,6 +712,76 @@ namespace Vts.MonteCarlo
                     {
                         Rho =new DoubleRange(0.0, 10, 101)
                     },
+                }
+             );
+        }
+        #endregion
+
+        #region Flat 2D source two layer bounded tissue A(rho,z)
+        /// <summary>
+        /// Flat 2D source, two layer, bounded tissue, AOfRhoAndZ detector included
+        /// </summary>
+        public static SimulationInput Flat2DSourceTwoLayerBoundedTissueAOfRhoAndZDetector()
+        {
+            var ti = new BoundingCylinderTissueInput(
+                    new CaplessCylinderTissueRegion(
+                        new Position(0, 0, 50.0),
+                        1.0,
+                        100.0,
+                        new OpticalProperties(0.05, 1.0, 0.8, 1.4),
+                        "HenyeyGreensteinKey1"
+                    ),
+                    new ITissueRegion[]
+                    {
+                        new LayerTissueRegion(
+                            new DoubleRange(double.NegativeInfinity, 0.0),
+                            new OpticalProperties( 0.0, 1e-10, 1.0, 1.0),
+                            "HenyeyGreensteinKey2"),
+                        new LayerTissueRegion(
+                            new DoubleRange(0.0, 100.0),
+                            new OpticalProperties(0.01, 1.0, 0.8, 1.4),
+                            "HenyeyGreensteinKey3"),
+                        new LayerTissueRegion(
+                            new DoubleRange(100.0, double.PositiveInfinity),
+                            new OpticalProperties( 0.0, 1e-10, 1.0, 1.0),
+                            "HenyeyGreensteinKey4")
+                    }
+                );
+            ti.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey1", new HenyeyGreensteinPhaseFunctionInput());
+            ti.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey2", new HenyeyGreensteinPhaseFunctionInput());
+            ti.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey3", new HenyeyGreensteinPhaseFunctionInput());
+            ti.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey4", new HenyeyGreensteinPhaseFunctionInput());
+
+            return new SimulationInput(
+                100,
+                "Flat_2D_source_two_layer_bounded_AOfRhoAndZ",
+                new SimulationOptions(
+                    0, // random number generator seed, -1=random seed, 0=fixed seed
+                    RandomNumberGeneratorType.MersenneTwister,
+                    AbsorptionWeightingType.Discrete,
+                    new List<DatabaseType>() { }, // databases to be written
+                    false, // track statistics
+                    0.0, // RR threshold -> 0 = no RR performed
+                    0), 
+                new CustomCircularSourceInput(
+                    0.1, // outer radius
+                    0.0, // inner radius
+                    new FlatSourceProfile(),
+                    new DoubleRange(0.0, 0.0), // polar angle emission range
+                    new DoubleRange(0.0, 0.0), // azimuthal angle emission range
+                    new Direction(0, 0, 1), // normal to tissue
+                    new Position(0, 0, 0), // center of beam on surface
+                    new PolarAzimuthalAngles(0, 0), // no beam rotation         
+                    0), // 0=start in air, 1=start in tissue
+                ti,
+                new List<IDetectorInput>()
+                {
+                    new AOfRhoAndZDetectorInput
+                    {
+                        Rho =new DoubleRange(0.0, 10, 101),
+                        Z = new DoubleRange(0, 100, 101)
+                    },
+                    new ATotalBoundingVolumeDetectorInput(),
                 }
              );
         }
@@ -755,9 +828,9 @@ namespace Vts.MonteCarlo
                 new CustomCircularSourceInput(
                     3.0, // outer radius
                     0.0, // inner radius
-                    new FlatSourceProfile(), 
+                    new FlatSourceProfile(),
                     new DoubleRange(0.0, 0.0), // polar angle emission range
-                    new DoubleRange(0.0, 0.0), // azimuthal angle emmision range
+                    new DoubleRange(0.0, 0.0), // azimuthal angle emission range
                     new Direction(0, 0, 1), // normal to tissue
                     new Position(0, 0, 0), // center of beam on surface
                     new PolarAzimuthalAngles(0, 0), // no beam rotation         
@@ -815,7 +888,7 @@ namespace Vts.MonteCarlo
                     3.0, // line length
                     new GaussianSourceProfile(1.0), // fwhm
                     new DoubleRange(0.0, 0.0), // polar angle emission range
-                    new DoubleRange(0.0, 0.0), // azimuthal angle emmision range
+                    new DoubleRange(0.0, 0.0), // azimuthal angle emission range
                     new Direction(0, 0, 1), // normal to tissue
                     new Position(0, 0, 0), // center of beam on surface
                     new PolarAzimuthalAngles(0, 0), // no beam rotation         
@@ -1123,7 +1196,7 @@ namespace Vts.MonteCarlo
             ti.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey4", new HenyeyGreensteinPhaseFunctionInput());
             return new SimulationInput(
                 100,
-                "embeddedDirectionalCircularSourceEllipTissue",
+                "embedded_directional_circular_source_ellip_tissue",
                 new SimulationOptions(
                     0, // random number generator seed, -1=random seed, 0=fixed seed
                     RandomNumberGeneratorType.MersenneTwister,
@@ -1186,7 +1259,7 @@ namespace Vts.MonteCarlo
 
             return new SimulationInput(
                 100,
-                "fluorescenceEmissionAOfXAndYAndZSourceInfiniteCylinder",
+                "fluorescence_emission_AOfXAndYAndZ_source_infinite_cylinder",
                 new SimulationOptions(
                     0, // random number generator seed, -1=random seed, 0=fixed seed
                     RandomNumberGeneratorType.MersenneTwister,
@@ -1199,7 +1272,8 @@ namespace Vts.MonteCarlo
                 new FluorescenceEmissionAOfXAndYAndZSourceInput( 
                     "infinite_cylinder_AOfXAndYAndZ",
                     "infinite_cylinder_AOfXAndYAndZ.txt",
-                    3
+                    3,
+                    SourcePositionSamplingType.CDF
                     ),
                 tissue,
                 new List<IDetectorInput>()

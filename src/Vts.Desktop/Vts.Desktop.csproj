@@ -590,6 +590,9 @@
     <Compile Include="..\Vts\MonteCarlo\DataStructuresValidation\SimulationInputValidation.cs">
       <Link>MonteCarlo\DataStructuresValidation\SimulationInputValidation.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\DataStructuresValidation\TissueInputs\BoundingCylinderTissueInputValidation.cs">
+      <Link>MonteCarlo\DataStructuresValidation\TissueInputs\BoundingCylinderTissueInputValidation.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\DataStructuresValidation\TissueInputs\MultiLayerTissueInputValidation.cs">
       <Link>MonteCarlo\DataStructuresValidation\TissueInputs\MultiLayerTissueInputValidation.cs</Link>
     </Compile>
@@ -647,6 +650,9 @@
     <Compile Include="..\Vts\MonteCarlo\Detectors\AOfXAndYAndZDetector.cs">
       <Link>MonteCarlo\Detectors\AOfXAndYAndZDetector.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\ATotalBoundingVolumeDetector.cs">
+      <Link>MonteCarlo\Detectors\ATotalBoundingVolumeDetector.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\ATotalDetector.cs">
       <Link>MonteCarlo\Detectors\ATotalDetector.cs</Link>
     </Compile>
@@ -674,6 +680,9 @@
     <Compile Include="..\Vts\MonteCarlo\Detectors\FluenceOfXAndYAndZAndOmegaDetector.cs">
       <Link>MonteCarlo\Detectors\FluenceOfXAndYAndZAndOmegaDetector.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\FluenceOfXAndYAndZAndTimeDetector.cs">
+      <Link>MonteCarlo\Detectors\FluenceOfXAndYAndZAndTimeDetector.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\FluenceOfXAndYAndZDetector.cs">
       <Link>MonteCarlo\Detectors\FluenceOfXAndYAndZDetector.cs</Link>
     </Compile>
@@ -688,6 +697,9 @@
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\pMCROfRhoDetector.cs">
       <Link>MonteCarlo\Detectors\pMCROfRhoDetector.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\pMCROfXAndYDetector.cs">
+      <Link>MonteCarlo\Detectors\pMCROfXAndYDetector.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\RadianceOfFxAndZAndAngleDetector.cs">
       <Link>MonteCarlo\Detectors\RadianceOfFxAndZAndAngleDetector.cs</Link>
@@ -724,6 +736,9 @@
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\ROfAngleDetector.cs">
       <Link>MonteCarlo\Detectors\ROfAngleDetector.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\ROfFxAndAngleDetector.cs">
+      <Link>MonteCarlo\Detectors\ROfFxAndAngleDetector.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\ROfFxAndTimeDetector.cs">
       <Link>MonteCarlo\Detectors\ROfFxAndTimeDetector.cs</Link>
@@ -832,6 +847,9 @@
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Factories\VirtualBoundaryFactory.cs">
       <Link>MonteCarlo\Factories\VirtualBoundaryFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Helpers\CylinderTissueRegionToolbox.cs">
+      <Link>MonteCarlo\Helpers\CylinderTissueRegionToolbox.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Helpers\DetectorBinning.cs">
       <Link>MonteCarlo\Helpers\DetectorBinning.cs</Link>
@@ -1091,8 +1109,14 @@
     <Compile Include="..\Vts\MonteCarlo\Sources\VolumetricSources\Ellipsoidal\VolumetricEllipsoidalSourceBase.cs">
       <Link>MonteCarlo\Sources\VolumetricSources\Ellipsoidal\VolumetricEllipsoidalSourceBase.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Sources\VolumetricSources\FluorescenceEmission\AOfRhoAndZLoader.cs">
+      <Link>MonteCarlo\Sources\VolumetricSources\FluorescenceEmission\AOfRhoAndZLoader.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Sources\VolumetricSources\FluorescenceEmission\AOfXAndYAndZLoader.cs">
       <Link>MonteCarlo\Sources\VolumetricSources\FluorescenceEmission\AOfXAndYAndZLoader.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Sources\VolumetricSources\FluorescenceEmission\FluorescenceEmissionAOfRhoAndZSource.cs">
+      <Link>MonteCarlo\Sources\VolumetricSources\FluorescenceEmission\FluorescenceEmissionAOfRhoAndZSource.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Sources\VolumetricSources\FluorescenceEmission\FluorescenceEmissionAOfXAndYAndZSource.cs">
       <Link>MonteCarlo\Sources\VolumetricSources\FluorescenceEmission\FluorescenceEmissionAOfXAndYAndZSource.cs</Link>
@@ -1108,6 +1132,15 @@
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Sources\VolumetricSources\VolumtricCuboidal\VolumetricCuboidalSourceBase.cs">
       <Link>MonteCarlo\Sources\VolumetricSources\VolumetricCuboidal\VolumetricCuboidalSourceBase.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Tissues\BoundedTissue.cs">
+      <Link>MonteCarlo\Tissues\BoundedTissue.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Tissues\BoundingCylinderTissue.cs">
+      <Link>MonteCarlo\Tissues\BoundingCylinderTissue.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Tissues\CaplessCylinderTissueRegion.cs">
+      <Link>MonteCarlo\Tissues\CaplessCylinderTissueRegion.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Tissues\CylinderTissueRegion.cs">
       <Link>MonteCarlo\Tissues\CylinderTissueRegion.cs</Link>
@@ -1153,6 +1186,9 @@
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Tissues\VoxelTissueRegion.cs">
       <Link>MonteCarlo\Tissues\VoxelTissueRegion.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\VirtualBoundaries\BoundingCylinderVirtualBoundary.cs">
+      <Link>MonteCarlo\VirtualBoundaries\BoundingCylinderVirtualBoundary.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\VirtualBoundaries\DiffuseReflectanceVirtualBoundary.cs">
       <Link>MonteCarlo\VirtualBoundaries\DiffuseReflectanceVirtualBoundary.cs</Link>

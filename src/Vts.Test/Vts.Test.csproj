@@ -14,9 +14,12 @@
     <None Remove="Resources\fileiotest\ROfRho.txt" />
     <None Remove="Resources\position.txt" />
     <None Remove="Resources\resourcefile.txt" />
+    <None Remove="Resources\sourcetest\AOfRhoAndZ" />
+    <None Remove="Resources\sourcetest\AOfRhoAndZ.txt" />
     <None Remove="Resources\sourcetest\AOfXAndYAndZ" />
     <None Remove="Resources\sourcetest\AOfXAndYAndZ.txt" />
-    <None Remove="Resources\sourcetest\input.txt" />
+    <None Remove="Resources\sourcetest\inputAOfRhoAndZ.txt" />
+    <None Remove="Resources\sourcetest\inputAOfXAndYAndZ.txt" />
   </ItemGroup>
 
   <ItemGroup>
@@ -27,10 +30,13 @@
     <EmbeddedResource Include="Resources\fileiotest\folder\embeddedresourcefile.txt" />
     <EmbeddedResource Include="Resources\fileiotest\position.txt" />
     <EmbeddedResource Include="Resources\fileiotest\ROfRho.txt" />
+    <EmbeddedResource Include="Resources\sourcetest\AOfRhoAndZ" />
+    <EmbeddedResource Include="Resources\sourcetest\AOfRhoAndZ.txt" />
+    <EmbeddedResource Include="Resources\sourcetest\inputAOfRhoAndZ.txt" />
     <EmbeddedResource Include="Resources\streamfindertest\resourcefile.txt" />
     <EmbeddedResource Include="Resources\sourcetest\AOfXAndYAndZ" />
     <EmbeddedResource Include="Resources\sourcetest\AOfXAndYAndZ.txt" />
-    <EmbeddedResource Include="Resources\sourcetest\input.txt" />
+    <EmbeddedResource Include="Resources\sourcetest\inputAOfXAndYAndZ.txt" />
   </ItemGroup>
 
   <ItemGroup>

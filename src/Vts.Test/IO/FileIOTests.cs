@@ -466,7 +466,7 @@ namespace Vts.Test.IO
             FileIO.CopyFolderFromEmbeddedResources(folder, "", Assembly.GetExecutingAssembly().FullName, true);
             Assert.IsTrue(FileIO.FileExists(Path.Combine(folder, "AOfXAndYAndZ")));
             Assert.IsTrue(FileIO.FileExists(Path.Combine(folder, "AOfXAndYAndZ.txt")));
-            Assert.IsTrue(FileIO.FileExists(Path.Combine(folder, "input.txt")));
+            Assert.IsTrue(FileIO.FileExists(Path.Combine(folder, "inputAOfXAndYAndZ.txt")));
         }
 
         [Test]

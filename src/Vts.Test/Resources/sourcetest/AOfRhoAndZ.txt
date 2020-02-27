@@ -1,0 +1,29 @@
+{
+  "Rho": {
+    "Start": 0.0,
+    "Stop": 4.0,
+    "Count": 5
+  },
+  "Z": {
+    "Start": 0.0,
+    "Stop": 2.0,
+    "Count": 3
+  },
+  "TallyCount": 3208,
+  "TallyType": "AOfRhoAndZ",
+  "Name": "AOfRhoAndZ",
+  "TallySecondMoment": false,
+  "TallyDetails": {
+    "IsReflectanceTally": false,
+    "IsTransmittanceTally": false,
+    "IsSpecularReflectanceTally": false,
+    "IsInternalSurfaceTally": false,
+    "IspMCReflectanceTally": false,
+    "IsBoundingVolumeTally": false,
+    "IsVolumeTally": true,
+    "IsCylindricalTally": true,
+    "IsNotImplementedForDAW": false,
+    "IsNotImplementedForCAW": true,
+    "IsNotImplementedYet": false
+  }
+}

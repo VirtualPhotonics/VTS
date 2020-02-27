@@ -19,7 +19,6 @@ namespace Vts.MonteCarlo.GenerateReferenceData
                         0,
                         RandomNumberGeneratorType.MersenneTwister,
                         AbsorptionWeightingType.Continuous,
-                        //PhaseFunctionType.HenyeyGreenstein,
                         new List<DatabaseType>() { }, // databases to be written
                         false, // track statistics
                         0.0, // RR threshold -> 0 = no RR performed
@@ -37,10 +36,6 @@ namespace Vts.MonteCarlo.GenerateReferenceData
                             "HenyeyGreensteinPhaseFunctionKey1"
                             //new HenyeyGreensteinPhaseFunctionInput()
                             ),
-                        //new LayerTissueRegion(
-                        //    new DoubleRange(0.0, 0.1),
-                        //    new OpticalProperties(0.033, 1.0, 0.8, 1.38)
-                        //    ),
                         new LayerTissueRegion(
                             new DoubleRange(0.0, 100.0),
                             new OpticalProperties(0.0, 1.0, 0.8, 1.38),

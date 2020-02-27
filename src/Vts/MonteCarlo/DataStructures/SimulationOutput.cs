@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
-using NLog.LayoutRenderers;
 
 namespace Vts.MonteCarlo
 {
@@ -165,6 +164,18 @@ namespace Vts.MonteCarlo
         /// </summary>
         public long R_fxt_TallyCount { get { return ((long)((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ROfFxAndTime").First().Name]).TallyCount); } }
         /// <summary>
+        /// Reflectance as a function of spatial frequency and angle
+        /// </summary>
+        public Complex[,] R_fxa { get { return ((Complex[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ROfFxAndAngle").First().Name]).Mean); } }
+        /// <summary>
+        /// Reflectance as a function of spatial frequency and time 2nd moment
+        /// </summary>
+        public Complex[,] R_fxa2 { get { return ((Complex[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ROfFxAndAngle").First().Name]).SecondMoment); } }
+        /// <summary>
+        /// Reflectance as a function of spatial frequency and time Tally Count
+        /// </summary>
+        public long R_fxa_TallyCount { get { return ((long)((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ROfFxAndAngle").First().Name]).TallyCount); } }
+        /// <summary>
         /// Diffuse Transmittance
         /// </summary>
         public double Td { get { return ((double)((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "TDiffuse").First().Name]).Mean); } }
@@ -249,6 +260,18 @@ namespace Vts.MonteCarlo
         /// </summary>
         public long Atot_TallyCount { get { return ((long)((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ATotal").First().Name]).TallyCount); } }
         /// <summary>
+        /// Total Absorbed Energy in bounding volume
+        /// </summary>
+        public double AtotBV { get { return ((double)((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ATotalBoundingVolume").First().Name]).Mean); } }
+        /// <summary>
+        /// Total Absorbed Energy in bounding volume 2nd moment
+        /// </summary>
+        public double AtotBV2 { get { return ((double)((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ATotalBoundingVolume").First().Name]).SecondMoment); } }
+        /// <summary>
+        /// Total Absorbed Energy in bounding volume Tally Count
+        /// </summary>
+        public long AtotBV_TallyCount { get { return ((long)((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ATotalBoundingVolume").First().Name]).TallyCount); } }
+        /// <summary>
         /// Absorbed Energy as a function of rho and z
         /// </summary>
         public double[,] A_rz { get { return ((double[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "AOfRhoAndZ").First().Name]).Mean); } }
@@ -308,6 +331,18 @@ namespace Vts.MonteCarlo
         /// Fluence as a function of x, y and z Tally Count
         /// </summary>
         public long Flu_xyz_TallyCount { get { return ((long)((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "FluenceOfXAndYAndZ").First().Name]).TallyCount); } }
+        /// <summary>
+        /// Fluence as a function of x, y and z
+        /// </summary>
+        public double[,,,] Flu_xyzt { get { return ((double[,,,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "FluenceOfXAndYAndZAndTime").First().Name]).Mean); } }
+        /// <summary>
+        /// Fluence as a function of x, y and z 2nd moment
+        /// </summary>
+        public double[,,,] Flu_xyzt2 { get { return ((double[,,,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "FluenceOfXAndYAndZAndTime").First().Name]).SecondMoment); } }
+        /// <summary>
+        /// Fluence as a function of x, y and z Tally Count
+        /// </summary>
+        public long Flu_xyzt_TallyCount { get { return ((long)((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "FluenceOfXAndYAndZAndTime").First().Name]).TallyCount); } }
         /// <summary>
         /// Fluence as a function of x, y, z and omega (temporal frequency)
         /// </summary>
@@ -663,6 +698,18 @@ namespace Vts.MonteCarlo
         /// perturbation MC Reflectance as a function of rho and time Tally Count
         /// </summary>
         public long pMC_R_rt_TallyCount { get { return ((long)((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "pMCROfRhoAndTime").First().Name]).TallyCount); } }
+        /// <summary>
+        /// perturbation MC Reflectance as a function of x and y
+        /// </summary>
+        public double[,] pMC_R_xy { get { return ((double[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "pMCROfXAndY").First().Name]).Mean); } }
+        /// <summary>
+        /// perturbation MC Reflectance as a function of x and y 2nd moment
+        /// </summary>
+        public double[,] pMC_R_xy2 { get { return ((double[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "pMCROfXAndY").First().Name]).SecondMoment); } }
+        /// <summary>
+        /// perturbation MC Reflectance as a function of x and y Tally Count
+        /// </summary>
+        public long pMC_R_xy_TallyCount { get { return ((long)((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "pMCROfXAndY").First().Name]).TallyCount); } }
         /// <summary>
         /// differential MC Reflectance as a function of rho wrt to mua
         /// </summary>

@@ -109,7 +109,6 @@ namespace Vts.MonteCarlo
                         break;                                            
                     case VirtualBoundaryType.SpecularReflectance:
                         detectorInputs = input.DetectorInputs.Where(d => d.TallyDetails.IsSpecularReflectanceTally).ToList();
-                                                                          
                         break;                                            
                     case VirtualBoundaryType.GenericVolumeBoundary:
                         detectorInputs = input.DetectorInputs.Where(d => d.TallyDetails.IsVolumeTally).ToList();
@@ -119,6 +118,9 @@ namespace Vts.MonteCarlo
                         break;                                            
                     case VirtualBoundaryType.pMCDiffuseReflectance:
                         detectorInputs = input.DetectorInputs.Where(d => d.TallyDetails.IspMCReflectanceTally).ToList();
+                        break;
+                    case VirtualBoundaryType.BoundingCylinderVolume:
+                        detectorInputs = input.DetectorInputs.Where(d => d.TallyDetails.IsBoundingVolumeTally).ToList();
                         break;
                 }
 
@@ -428,7 +430,17 @@ namespace Vts.MonteCarlo
                             _input.OutputName));
             }
         }
-
+        /// <summary>
+        /// Move (different than Photon.Move) checks if whether photon is going to first
+        /// a) hit tissue boundary (BoundaryHitType.Tissue), and if so Photon.Move to 
+        /// intersection position, then
+        /// b) Photon.CrossOrReflect checks if at border of system and sets
+        /// appropriate photon state flag, e.g. PhotonStateType.PseudoBoundingVolumeTissueBoundary
+        /// c) finally sets BoundaryHitType.Virtual and tallies in main MC loop
+        /// </summary>
+        /// <param name="photon"></param>
+        /// <param name="closestVirtualBoundary"></param>
+        /// <returns></returns>
         private BoundaryHitType Move(Photon photon, out IVirtualBoundary closestVirtualBoundary)
         {
             // get distance to any tissue boundary
@@ -440,9 +452,9 @@ namespace Vts.MonteCarlo
             // find closest VB (will return null if no closest VB exists)
             closestVirtualBoundary = _virtualBoundaryController.GetClosestVirtualBoundary(photon.DP, out vbDistance);
 
-            if (tissueDistance < vbDistance) // determine if will hit tissue boundary first
+            if (tissueDistance < vbDistance) // photon won't hit VB, but might not hit tissue boundary either
             {
-                // DC - logic confusing; why no pseudo added here but added below for vb?
+                // no pseudo added here because set by tissue class
                 var hitTissueBoundary = photon.Move(tissueDistance);
                 return hitTissueBoundary ? BoundaryHitType.Tissue : BoundaryHitType.None;
             }
@@ -458,7 +470,7 @@ namespace Vts.MonteCarlo
 
             var hitVirtualBoundary = photon.Move(vbDistance);
 
-            // DC - logic confusing; why add pseudo here for vb, but no pseudo in this method for tissue boundary?
+            // pseudo for tissue boundary set by tissue class
             photon.DP.StateFlag = photon.DP.StateFlag.Add(closestVirtualBoundary.PhotonStateType); // add pseudo-collision for vb 
 
             // DC - also confusing that we'd add a pseudo for the vb if hitVirtualBoundary is false...
