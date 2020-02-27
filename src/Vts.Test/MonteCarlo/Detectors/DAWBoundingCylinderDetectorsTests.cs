@@ -78,31 +78,13 @@ namespace Vts.Test.MonteCarlo.Detectors
             //    new Direction(0.0, 0.0, 1.0),
             //    //new Direction(1/Math.Sqrt(2), 0.0, 1/Math.Sqrt(2)),// debug with 45 degree direction and g=1.0
             //    1); // start inside tissue
-            var detectors = 
-                new List<IDetectorInput>  
-                {
-                    new RSpecularDetectorInput(),
-                    new RDiffuseDetectorInput(), new ROfRhoDetectorInput() {Rho=new DoubleRange(0.0, cylinderRadius, 11)}, 
-                    new TDiffuseDetectorInput(),
-                    new TOfRhoDetectorInput() {Rho=new DoubleRange(0.0, cylinderRadius, 11)},
-                    new AOfRhoAndZDetectorInput() {Rho=new DoubleRange(0.0, cylinderRadius, 11),
-                        Z=new DoubleRange(0, tissueThickness, 11)},
-                    new ATotalDetectorInput(),
-                    new ATotalBoundingVolumeDetectorInput()
-                };
-
-            _inputBoundedTissue = new SimulationInput(
-                100,
-                "",
-                simulationOptions,
-                source,
-                new BoundingCylinderTissueInput(
+            var ti = new BoundingCylinderTissueInput(
                     new CaplessCylinderTissueRegion(
                         new Position(0, 0, tissueThickness / 2),
                         cylinderRadius,
                         tissueThickness,
                         new OpticalProperties(0.0, 1e-10, 1.0, 1.4),
-                        "HenyeyGreensteinKey5"                   
+                        "HenyeyGreensteinKey5"
                     ),
                     new ITissueRegion[]
                     {
@@ -123,7 +105,32 @@ namespace Vts.Test.MonteCarlo.Detectors
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
                             "HenyeyGreensteinKey4")
                     }
-                ),
+                    );
+            ti.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey1", new HenyeyGreensteinPhaseFunctionInput());
+            ti.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey2", new HenyeyGreensteinPhaseFunctionInput());
+            ti.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey3", new HenyeyGreensteinPhaseFunctionInput());
+            ti.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey4", new HenyeyGreensteinPhaseFunctionInput());
+            ti.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey5", new HenyeyGreensteinPhaseFunctionInput());
+
+            var detectors = 
+                new List<IDetectorInput>  
+                {
+                    new RSpecularDetectorInput(),
+                    new RDiffuseDetectorInput(), new ROfRhoDetectorInput() {Rho=new DoubleRange(0.0, cylinderRadius, 11)}, 
+                    new TDiffuseDetectorInput(),
+                    new TOfRhoDetectorInput() {Rho=new DoubleRange(0.0, cylinderRadius, 11)},
+                    new AOfRhoAndZDetectorInput() {Rho=new DoubleRange(0.0, cylinderRadius, 11),
+                        Z=new DoubleRange(0, tissueThickness, 11)},
+                    new ATotalDetectorInput(),
+                    new ATotalBoundingVolumeDetectorInput()
+                };
+
+            _inputBoundedTissue = new SimulationInput(
+                100,
+                "",
+                simulationOptions,
+                source,
+                ti,
                 detectors);
             _outputBoundedTissue = new MonteCarloSimulation(_inputBoundedTissue).Run();
         }
