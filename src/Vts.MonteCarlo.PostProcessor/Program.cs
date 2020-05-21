@@ -142,7 +142,7 @@ namespace Vts.MonteCarlo.PostProcessor
                 return 1;
             }
 
-            var validationResult = PostProcessorSetup.ValidatePostProcessorInput(input);
+            var validationResult = PostProcessorSetup.ValidatePostProcessorInput(input, inPath);
             if (!validationResult.IsValid)
             {
                 Console.Write("\nPost-processor) completed with errors. Press enter key to exit.");

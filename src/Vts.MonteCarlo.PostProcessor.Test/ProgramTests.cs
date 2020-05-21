@@ -92,6 +92,10 @@ namespace Vts.MonteCarlo.PostProcessor.Test
             {
                 Directory.Delete("test", true); // delete recursively
             }
+            if (Directory.Exists("test2"))
+            {
+                Directory.Delete("test2", true); // delete recursively
+            }
         }
 
         /// <summary>
@@ -158,10 +162,10 @@ namespace Vts.MonteCarlo.PostProcessor.Test
             // give inpath that matches one specified by outpath
             arguments = new string[]
             {
-                "infile=infile_PostProcessor_pMC_ROfRhoROfRhoAndTime.txt", "inpath=test"
+                "infile=infile_PostProcessor_pMC_ROfRhoROfRhoAndTime.txt", "inpath=test", "outpath=test2"
             };
             Program.Main(arguments);
-            Assert.IsTrue(Directory.Exists("PostProcessor_pMC_ROfRhoROfRhoAndTime"));
+            Assert.IsTrue(Directory.Exists("test2"));
         }
     }
 }

@@ -1,6 +1,8 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.1000
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vts.Desktop", "Vts.Desktop\Vts.Desktop.csproj", "{05B6020A-B646-4BBB-B9A0-B524F5F85023}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vts.Desktop.Test", "Vts.Desktop.Test\Vts.Desktop.Test.csproj", "{BA3C3229-E3D5-4B20-BB08-BC7DF0F4D91F}"
@@ -12,8 +14,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vts.MonteCarlo.PostProcessor", "Vts.MonteCarlo.PostProcessor\Vts.MonteCarlo.PostProcessor.csproj", "{169F5A43-1079-4E1F-87A2-C5E8E7A69BF9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vts.MonteCarlo.PostProcessor.Test", "Vts.MonteCarlo.PostProcessor.Test\Vts.MonteCarlo.PostProcessor.Test.csproj", "{8A1194A0-C773-483B-BD78-9D013105CEA1}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vts.ImportSpectralData.Desktop", "Vts.ImportSpectralData.Desktop\Vts.ImportSpectralData.Desktop.csproj", "{B2B25DB9-0E34-455B-A717-37F1D179C867}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,17 +45,12 @@ Global
 		{8A1194A0-C773-483B-BD78-9D013105CEA1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8A1194A0-C773-483B-BD78-9D013105CEA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8A1194A0-C773-483B-BD78-9D013105CEA1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B2B25DB9-0E34-455B-A717-37F1D179C867}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B2B25DB9-0E34-455B-A717-37F1D179C867}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B2B25DB9-0E34-455B-A717-37F1D179C867}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B2B25DB9-0E34-455B-A717-37F1D179C867}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|Any CPU = Debug|Any CPU
-		Release|Any CPU = Release|Any CPU
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {16B1307A-F2F4-41DF-B89D-0A8E9441BDBA}
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = Vts.MonteCarlo.CommandLineApplication\Vts.MonteCarlo.CommandLineApplication.csproj

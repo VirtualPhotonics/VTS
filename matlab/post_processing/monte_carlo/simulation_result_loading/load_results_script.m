@@ -9,7 +9,7 @@ slash = filesep;  % get correct path delimiter for platform
 addpath([cd slash 'jsonlab']);
 
 % names of individual MC simulations
-datanames = { 'surface_fiber_detector' };
+datanames = { 'one_layer_all_detectors' };
 % datanames = { 'results_mua0.1musp1.0' 'results_mua0.1musp1.1' }; %...etc
 
 % outdir = 'C:\Projects\vts\src\Vts.MonteCarlo.CommandLineApplication\bin\Release';
@@ -94,7 +94,7 @@ for mci = 1:length(datanames)
     if isfield(results{di}, 'ROfAngle') && show.ROfAngle
         figname = sprintf('log(%s)',results{di}.ROfAngle.Name); figure; plot(results{di}.ROfAngle.Angle_Midpoints, log(results{di}.ROfAngle.Mean)); title(figname); set(gcf,'Name', figname); xlabel('\angle [rad]'); ylabel('R(angle) [rad^-^1]');
         angledelta = results{di}.ROfAngle.Angle(2)-results{di}.ROfAngle.Angle(1);
-        anglenorm = 2 * pi * sin(results{di}.ROfAngle.Angle_Midpoints * angledelta) * angledelta;
+        anglenorm = 2 * pi * sin(results{di}.ROfAngle.Angle_Midpoints) * angledelta;
         disp(['Total reflectance captured by ROfAngle detector: ' num2str(sum(results{di}.ROfAngle.Mean.*anglenorm'))]);
     end
 
@@ -121,7 +121,7 @@ for mci = 1:length(datanames)
         rhodelta = results{di}.ROfRhoAndAngle.Rho(2)-results{di}.ROfRhoAndAngle.Rho(1);
         angledelta = results{di}.ROfRhoAndAngle.Angle(2)-results{di}.ROfRhoAndAngle.Angle(1);
         rhonorm = 2 * pi * results{di}.ROfRhoAndAngle.Rho_Midpoints * rhodelta;
-        anglenorm = 2 * pi * sin(results{di}.ROfRhoAndAngle.Angle_Midpoints * angledelta) * angledelta;
+        anglenorm = 2 * pi * sin(results{di}.ROfRhoAndAngle.Angle_Midpoints) * angledelta;
         disp(['Total reflectance captured by ROfRhoAndAngle detector: ' num2str(sum(sum(results{di}.ROfRhoAndAngle.Mean.*repmat(anglenorm',[1,size(rhonorm,2)]).*repmat(rhonorm,[size(anglenorm,2),1]))))]);
     end
 
@@ -167,7 +167,7 @@ for mci = 1:length(datanames)
     if isfield(results{di}, 'TOfAngle') && show.TOfAngle
         figname = sprintf('log(%s)',results{di}.TOfAngle.Name); figure; plot(results{di}.TOfAngle.Angle_Midpoints, log(results{di}.TOfAngle.Mean)); title(figname); set(gcf,'Name', figname); xlabel('\angle [rad]'); ylabel('T(angle) [rad^-^1]');
         angledelta = results{di}.TOfAngle.Angle(2)-results{di}.TOfAngle.Angle(1);
-        anglenorm = 2 * pi * sin(results{di}.TOfAngle.Angle_Midpoints * angledelta) * angledelta;
+        anglenorm = 2 * pi * sin(results{di}.TOfAngle.Angle_Midpoints) * angledelta;
         disp(['Total transmittance captured by TOfAngle detector: ' num2str(sum(results{di}.TOfAngle.Mean.*anglenorm'))]);
     end
     if isfield(results{di}, 'TOfRhoAndAngle') && show.TOfRhoAndAngle
@@ -175,7 +175,7 @@ for mci = 1:length(datanames)
         rhodelta = results{di}.TOfRhoAndAngle.Rho(2)-results{di}.TOfRhoAndAngle.Rho(1);
         angledelta = results{di}.TOfRhoAndAngle.Angle(2)-results{di}.TOfRhoAndAngle.Angle(1);
         rhonorm = 2 * pi * results{di}.TOfRhoAndAngle.Rho_Midpoints * rhodelta;
-        anglenorm = 2 * pi * sin(results{di}.TOfRhoAndAngle.Angle_Midpoints * angledelta) * angledelta;
+        anglenorm = 2 * pi * sin(results{di}.TOfRhoAndAngle.Angle_Midpoints) * angledelta;
         disp(['Total transmittance captured by TOfRhoAndAngle detector: ' num2str(sum(sum(results{di}.TOfRhoAndAngle.Mean.*repmat(anglenorm',[1,size(rhonorm,2)]).*repmat(rhonorm,[size(anglenorm,2),1]))))]);
     end    
     if isfield(results{di}, 'TOfXAndY') && show.TOfXAndY
@@ -338,7 +338,7 @@ for mci = 1:length(datanames)
         zdelta = results{di}.RadianceOfRhoAndZAndAngle.Z(2)-results{di}.RadianceOfRhoAndZAndAngle.Z(1);
         angledelta = results{di}.RadianceOfRhoAndZAndAngle.Angle(2)-results{di}.RadianceOfRhoAndZAndAngle.Angle(1);
         rhonorm = 2 * pi * results{di}.RadianceOfRhoAndZAndAngle.Rho_Midpoints * rhodelta;
-        anglenorm = 2 * pi * sin(results{di}.RadianceOfRhoAndZAndAngle.Angle_Midpoints * angledelta) * angledelta;
+        anglenorm = 2 * pi * sin(results{di}.RadianceOfRhoAndZAndAngle.Angle_Midpoints) * angledelta;
         rhomatrix = repmat(rhonorm',[1,numzs,numangles]);
         anglematrix = repmat(anglenorm',[1,numzs,numrhos]);
         disp(['Radiance captured by RadianceOfRhoAndZAndAngle detector: ' num2str(sum(sum(sum(zdelta*results{di}.RadianceOfRhoAndZAndAngle.Mean.*anglematrix.*permute(rhomatrix,[3,2,1])))))]);
@@ -390,10 +390,9 @@ for mci = 1:length(datanames)
 %             legend(ar);
 %             line([0 10.0],[0.05 0.05],'Color',[0 0 0],'LineStyle',':');
         end
-        fxdelta = results{di}.RadianceOfFxAndZAndAngle.Fx(2)-results{di}.RadianceOfFxAndZAndAngle.Fx(1);
         zdelta = results{di}.RadianceOfFxAndZAndAngle.Z(2)-results{di}.RadianceOfFxAndZAndAngle.Z(1);
         angledelta = results{di}.RadianceOfFxAndZAndAngle.Angle(2)-results{di}.RadianceOfFxAndZAndAngle.Angle(1);
-        anglenorm = 2 * pi * sin(results{di}.RadianceOfFxAndZAndAngle.Angle_Midpoints * angledelta) * angledelta; 
+        anglenorm = 2 * pi * sin(results{di}.RadianceOfFxAndZAndAngle.Angle_Midpoints) * angledelta; 
         anglematrix = repmat(anglenorm',[1,numzs]);
         disp(['Radiance captured by RadianceOfFxAndZAndAngle detector for fx=0: ' num2str(sum(sum(sum(zdelta*results{di}.RadianceOfFxAndZAndAngle.Amplitude(:,:,1).*anglematrix))))]);
     end
@@ -414,7 +413,7 @@ for mci = 1:length(datanames)
                          *(results{di}.RadianceOfXAndYAndZAndThetaAndPhi.Phi(2)-results{di}.RadianceOfXAndYAndZAndThetaAndPhi.Phi(1)); 
         partialsum=xyzphinorm*sum(results{di}.RadianceOfXAndYAndZAndThetaAndPhi.Mean,[1,3,4,5]);
         thetadelta = results{di}.RadianceOfXAndYAndZAndThetaAndPhi.Theta(2)-results{di}.RadianceOfXAndYAndZAndThetaAndPhi.Theta(1);
-        thetanorm = sin(results{di}.RadianceOfXAndYAndZAndThetaAndPhi.Theta_Midpoints * thetadelta) * thetadelta;  
+        thetanorm = sin(results{di}.RadianceOfXAndYAndZAndThetaAndPhi.Theta_Midpoints) * thetadelta;  
         disp(['Radiance captured by RadianceOfXAndYAndZAndThetaAndPhi detector: ' num2str(sum(partialsum.*thetanorm))]);
     end
     if isfield(results{di}, 'ReflectedMTOfRhoAndSubregionHist') && show.ReflectedMTOfRhoAndSubregionHist
