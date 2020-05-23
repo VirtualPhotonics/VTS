@@ -129,6 +129,22 @@ namespace Vts.MonteCarlo
         /// </summary>
         public long R_rt_TallyCount { get { return ((long)((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ROfRhoAndTime").First().Name]).TallyCount); } }
         /// <summary>
+        /// Reflectance as a function of rho and maximum depth attained
+        /// </summary>
+        public double[,] R_rmd { get { return ((double[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ROfRhoAndMaxDepth").First().Name]).Mean); } }
+        /// <summary>
+        /// Reflectance as a function of rho and max depth 2nd moment
+        /// </summary>
+        public double[,] R_rmd2 { get { return ((double[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ROfRhoAndMaxDepth").First().Name]).SecondMoment); } }
+        /// <summary>
+        /// Reflectance as a function of rho and max depth Tally Count
+        /// </summary>
+        public long R_rmd_TallyCount { get { return ((long)((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ROfRhoAndMaxDepth").First().Name]).TallyCount); } }
+        /// <summary>
+        /// Reflectance as a function of rho and maximum depth attained
+        /// </summary>
+        public double[,] R_rmd_dist { get { return ((double[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ROfRhoAndMaxDepth").First().Name]).MaxDepthDistribution); } }
+        /// <summary>
         /// Reflectance as a function of rho and omega (temporal frequency)
         /// </summary>
         public Complex[,] R_rw { get { return ((Complex[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ROfRhoAndOmega").First().Name]).Mean); } }

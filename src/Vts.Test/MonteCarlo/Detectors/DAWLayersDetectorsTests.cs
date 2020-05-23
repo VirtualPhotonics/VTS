@@ -87,6 +87,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                     new ROfRhoDetectorInput() {Rho = new DoubleRange(0.0, 10.0, 101), TallySecondMoment = true},
                     new ROfRhoAndAngleDetectorInput() {Rho = new DoubleRange(0.0, 10.0, 101), Angle = new DoubleRange(Math.PI / 2, Math.PI, 2)},
                     new ROfRhoAndTimeDetectorInput() {Rho = new DoubleRange(0.0, 10.0, 101), Time = new DoubleRange(0.0, 1.0, 101), TallySecondMoment = true },
+                    new ROfRhoAndMaxDepthDetectorInput() {Rho = new DoubleRange(0.0, 10.0, 101), MaxDepth = new DoubleRange(0.0, 1.0, 51)},
                     new ROfXAndYDetectorInput() { X = new DoubleRange(-10.0, 10.0, 101), Y = new DoubleRange(-10.0, 10.0, 101) },
                     new ROfRhoAndOmegaDetectorInput() { Rho = new DoubleRange(0.0, 10.0, 101), Omega = new DoubleRange(0.05, 1.0, 20)}, // DJC - edited to reflect frequency sampling points (not bins)
                     new ROfFxDetectorInput() {Fx = new DoubleRange(0.0, 0.5, 51)},
@@ -286,6 +287,31 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.Less(Math.Abs(_outputTwoLayerTissue.R_rt2[0, 0] - 200229.1), 0.1);
             Assert.AreEqual(_outputOneLayerTissue.R_rt_TallyCount, 89);
             Assert.AreEqual(_outputTwoLayerTissue.R_rt_TallyCount, 89);
+
+        }
+        // Reflection R(rho,maxdepth), validated with integrated R(rho) results and prior test
+        [Test]
+        public void validate_DAW_ROfRhoAndMaxDepth()
+        {
+            var rho = ((ROfRhoAndMaxDepthDetectorInput)_inputOneLayerTissue.DetectorInputs
+             .Where(d => d.TallyType == "ROfRhoAndMaxDepth").First()).Rho;
+            var maxDepth = ((ROfRhoAndMaxDepthDetectorInput)_inputOneLayerTissue.DetectorInputs
+                .Where(d => d.TallyType == "ROfRhoAndMaxDepth").First()).MaxDepth;
+            double integralOneLayer = 0.0;
+            double integralTwoLayer = 0.0;
+            for (int i = 0; i < maxDepth.Count - 1; i++)
+            {
+                integralOneLayer += _outputOneLayerTissue.R_rmd[0, i];
+                integralTwoLayer += _outputTwoLayerTissue.R_rmd[0, i];
+            }
+            Assert.Less(Math.Abs(integralOneLayer * _factor - 0.6152383), 0.0000001);  //R(rho) result
+            Assert.Less(Math.Abs(integralTwoLayer * _factor - 0.6152383), 0.0000001);
+            Assert.Less(Math.Abs(_outputOneLayerTissue.R_rmd[0, 4] - 0.315776), 0.000001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.R_rmd[0, 4] - 0.315776), 0.000001);
+            Assert.Less(Math.Abs(_outputOneLayerTissue.R_rmd_dist[0, 4] - 0.318309), 0.000001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.R_rmd_dist[0, 4] - 0.318309), 0.000001);
+            Assert.AreEqual(_outputOneLayerTissue.R_rmd_TallyCount, 89);
+            Assert.AreEqual(_outputTwoLayerTissue.R_rmd_TallyCount, 89);
 
         }
         // Reflection R(rho,omega)

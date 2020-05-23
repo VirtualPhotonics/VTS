@@ -739,6 +739,9 @@
     <Compile Include="..\Vts\MonteCarlo\Detectors\ROfRhoAndAngleDetector.cs">
       <Link>MonteCarlo\Detectors\ROfRhoAndAngleDetector.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\ROfRhoAndMaxDepthDetector.cs">
+      <Link>MonteCarlo\Detectors\ROfRhoAndMaxDepthDetector.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\ROfRhoAndOmegaDetector.cs">
       <Link>MonteCarlo\Detectors\ROfRhoAndOmegaDetector.cs</Link>
     </Compile>

@@ -71,7 +71,6 @@ for di = 1:numDetectors
                 ROfXAndY.Stdev = sqrt((ROfXAndY.SecondMoment - (ROfXAndY.Mean .* ROfXAndY.Mean)) / json.N); 
             end      
             results{di}.ROfXAndY = ROfXAndY;
-
         case 'ROfRhoAndTime'
             ROfRhoAndTime.Name = detector.Name;
             tempRho = detector.Rho;
@@ -86,6 +85,22 @@ for di = 1:numDetectors
                 ROfRhoAndTime.Stdev = sqrt((ROfRhoAndTime.SecondMoment - (ROfRhoAndTime.Mean .* ROfRhoAndTime.Mean)) / json.N);
             end
             results{di}.ROfRhoAndTime = ROfRhoAndTime;
+        case 'ROfRhoAndMaxDepth'
+            ROfRhoAndMaxDepth.Name = detector.Name;
+            tempRho = detector.Rho;
+            tempMaxDepth = detector.MaxDepth;
+            ROfRhoAndMaxDepth.Rho = linspace((tempRho.Start), (tempRho.Stop), (tempRho.Count));
+            ROfRhoAndMaxDepth.MaxDepth = linspace((tempMaxDepth.Start), (tempMaxDepth.Stop), (tempMaxDepth.Count));
+            ROfRhoAndMaxDepth.Rho_Midpoints = (ROfRhoAndMaxDepth.Rho(1:end-1) + ROfRhoAndMaxDepth.Rho(2:end))/2;
+            ROfRhoAndMaxDepth.MaxDepth_Midpoints = (ROfRhoAndMaxDepth.MaxDepth(1:end-1) + ROfRhoAndMaxDepth.MaxDepth(2:end))/2;
+            ROfRhoAndMaxDepth.Mean = readBinaryData([datadir slash detector.Name],[length(ROfRhoAndMaxDepth.MaxDepth)-1,length(ROfRhoAndMaxDepth.Rho)-1]); % read column major json binary             
+            ROfRhoAndMaxDepth.MaxDepthDistribution = readBinaryData([datadir slash detector.Name '_MaxDepthDistribution'],[length(ROfRhoAndMaxDepth.MaxDepth)-1,length(ROfRhoAndMaxDepth.Rho)-1]); % read column major json binary             
+            if(detector.TallySecondMoment && exist([datadir slash detector.Name '_2'],'file'))
+                ROfRhoAndMaxDepth.SecondMoment = readBinaryData([datadir slash detector.Name '_2'],[length(ROfRhoAndMaxDepth.MaxDepth)-1,length(ROfRhoAndMaxDepth.Rho)-1]);
+                ROfRhoAndMaxDepth.Stdev = sqrt((ROfRhoAndMaxDepth.SecondMoment - (ROfRhoAndMaxDepth.Mean .* ROfRhoAndMaxDepth.Mean)) / json.N);
+            end
+            results{di}.ROfRhoAndMaxDepth = ROfRhoAndMaxDepth;
+  
         case 'ROfRhoAndAngle'
             ROfRhoAndAngle.Name = detector.Name;
             tempRho = detector.Rho;

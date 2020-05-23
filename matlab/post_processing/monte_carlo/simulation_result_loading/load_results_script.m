@@ -21,6 +21,7 @@ show.ROfRho =                   1;
 show.ROfAngle =                 1;
 show.ROfXAndY =                 1;
 show.ROfRhoAndTime =            1;
+show.ROfRhoAndMaxDepth =        1;
 show.ROfRhoAndAngle =           1;
 show.ROfRhoAndOmega =           1;
 show.ROfFx =                    1;
@@ -116,6 +117,27 @@ for mci = 1:length(datanames)
         disp(['Total reflectance captured by ROfRhoAndTime detector: ' num2str(sum(sum(timedelta*results{di}.ROfRhoAndTime.Mean.*repmat(rhonorm,[numtimes,1]))))]);
     end
 
+    if isfield(results{di}, 'ROfRhoAndMaxDepth') && show.ROfRhoAndMaxDepth
+        numrhos = length(results{di}.ROfRhoAndMaxDepth.Rho)-1;
+        numdepths = length(results{di}.ROfRhoAndMaxDepth.MaxDepth)-1;
+        figname = sprintf('log(%s)',results{di}.ROfRhoAndMaxDepth.Name); figure; imagesc(results{di}.ROfRhoAndMaxDepth.Rho_Midpoints, results{di}.ROfRhoAndMaxDepth.MaxDepth_Midpoints,log(results{di}.ROfRhoAndMaxDepth.Mean)); colorbar; title(figname); set(gcf,'Name', figname); ylabel('max depths [mm]'); xlabel('\rho [mm]');
+        rhodelta = results{di}.ROfRhoAndMaxDepth.Rho(2)-results{di}.ROfRhoAndMaxDepth.Rho(1);
+        depthdelta = results{di}.ROfRhoAndMaxDepth.MaxDepth(2)-results{di}.ROfRhoAndMaxDepth.MaxDepth(1);
+        rhonorm = 2 * pi * results{di}.ROfRhoAndMaxDepth.Rho_Midpoints * rhodelta;
+        % plot distribution for select rhow
+        figname = 'Max Depth Distribution';figure;
+        k=1; % index for legend
+        for i=1:10:numrhos % do every 10 rhos
+            plot(results{di}.ROfRhoAndMaxDepth.MaxDepth_Midpoints,results{di}.ROfRhoAndMaxDepth.MaxDepthDistribution(:,i));
+            br{k}=sprintf('rho=%s',results{di}.ROfRhoAndMaxDepth.Rho_Midpoints(i));
+            hold on;
+            k=k+1;
+        end
+        legend(br);
+        title(figname);xlabel('z [mm]');ylabel('max depth');
+        disp(['Total reflectance captured by ROfRhoAndMaxDepth detector: ' num2str(sum(sum(results{di}.ROfRhoAndMaxDepth.Mean.*repmat(rhonorm,[numdepths,1]))))]);
+    end
+    
     if isfield(results{di}, 'ROfRhoAndAngle') && show.ROfRhoAndAngle        
         figname = sprintf('log(%s)',results{di}.ROfRhoAndAngle.Name); figure; imagesc(results{di}.ROfRhoAndAngle.Rho_Midpoints, results{di}.ROfRhoAndAngle.Angle_Midpoints, log(results{di}.ROfRhoAndAngle.Mean)); colorbar; title(figname); set(gcf,'Name', figname);ylabel('\angle [rad]'); xlabel('\rho [mm]'); 
         rhodelta = results{di}.ROfRhoAndAngle.Rho(2)-results{di}.ROfRhoAndAngle.Rho(1);
