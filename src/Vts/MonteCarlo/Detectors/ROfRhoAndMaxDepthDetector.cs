@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 using Vts.Common;
 using Vts.IO;
 using Vts.MonteCarlo.Helpers;
-using Vts.MonteCarlo.PhotonData;
+using Vts.MonteCarlo.Extensions;
 
 namespace Vts.MonteCarlo.Detectors
 {
@@ -23,6 +23,8 @@ namespace Vts.MonteCarlo.Detectors
             Name = "ROfRhoAndMaxDepth";
             Rho = new DoubleRange(0.0, 10, 101);
             MaxDepth = new DoubleRange(0.0, 1.0, 101);
+            NA = double.PositiveInfinity; // set default NA completely open regardless of detector region refractive index
+            FinalTissueRegionIndex = 0; // assume detector is in air
 
             // modify base class TallyDetails to take advantage of built-in validation capabilities (error-checking)
             TallyDetails.IsReflectanceTally = true;
@@ -38,6 +40,15 @@ namespace Vts.MonteCarlo.Detectors
         /// </summary>
         public DoubleRange MaxDepth { get; set; }
 
+        /// <summary>
+        /// Detector region index
+        /// </summary>
+        public int FinalTissueRegionIndex { get; set; }
+        /// <summary>
+        /// detector numerical aperture
+        /// </summary>
+        public double NA { get; set; }
+
         public IDetector CreateDetector()
         {
             return new ROfRhoAndMaxDepthDetector
@@ -50,7 +61,9 @@ namespace Vts.MonteCarlo.Detectors
 
                 // optional/custom detector-specific properties
                 Rho = this.Rho,
-                MaxDepth = this.MaxDepth
+                MaxDepth = this.MaxDepth,
+                NA = this.NA,
+                FinalTissueRegionIndex = this.FinalTissueRegionIndex
             };
         }
     }
@@ -60,6 +73,8 @@ namespace Vts.MonteCarlo.Detectors
     /// </summary>
     public class ROfRhoAndMaxDepthDetector : Detector, IDetector
     {
+        private ITissue _tissue;
+
         /* ==== Place optional/user-defined input properties here. They will be saved in text (JSON) format ==== */
         /* ==== Note: make sure to copy over all optional/user-defined inputs from corresponding input class ==== */
         /// <summary>
@@ -70,6 +85,14 @@ namespace Vts.MonteCarlo.Detectors
         /// MaxDepth binning
         /// </summary>
         public DoubleRange MaxDepth { get; set; }
+        /// <summary>
+        /// Detector region index
+        /// </summary>
+        public int FinalTissueRegionIndex { get; set; }
+        /// <summary>
+        /// numerical aperture
+        /// </summary>
+        public double NA { get; set; }
 
         /* ==== Place user-defined output arrays here. They should be prepended with "[IgnoreDataMember]" attribute ==== */
         /* ==== Then, GetBinaryArrays() should be implemented to save them separately in binary format ==== */
@@ -82,7 +105,7 @@ namespace Vts.MonteCarlo.Detectors
         /// detector second moment
         /// </summary>
         [IgnoreDataMember]
-        public double[,] SecondMoment { get; set; }        
+        public double[,] SecondMoment { get; set; }
         /// <summary>
         /// distribution of maximum depths at each rho
         /// </summary>
@@ -104,15 +127,19 @@ namespace Vts.MonteCarlo.Detectors
             Mean = Mean ?? new double[Rho.Count - 1, MaxDepth.Count - 1];
             SecondMoment = SecondMoment ?? (TallySecondMoment ? new double[Rho.Count - 1, MaxDepth.Count - 1] : null);
 
-            // intialize any other necessary class fields here
-            MaxDepthDistribution = MaxDepthDistribution ?? new double[Rho.Count - 1, MaxDepth.Count - 1];        }
-
+            // initialize any other necessary class fields here
+            MaxDepthDistribution = MaxDepthDistribution ?? new double[Rho.Count - 1, MaxDepth.Count - 1]; 
+            _tissue = tissue;
+        }
         /// <summary>
         /// method to tally to detector
         /// </summary>
         /// <param name="photon">photon data needed to tally</param>
         public void Tally(Photon photon)
         {
+            if (!IsWithinDetectorAperture(photon))
+                return;
+
             var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(photon.DP.Position.X, photon.DP.Position.Y), Rho.Count - 1, Rho.Delta, Rho.Start);
             double maxDepth = photon.History.HistoryData.Max(d => d.Position.Z);
             var id = DetectorBinning.WhichBin(maxDepth, MaxDepth.Count - 1, MaxDepth.Delta, MaxDepth.Start);
@@ -227,15 +254,23 @@ namespace Vts.MonteCarlo.Detectors
         }
 
         /// <summary>
-        /// Method to determine if photon is within detector
+        /// Method to determine if photon is within detector NA
         /// </summary>
-        /// <param name="dp">photon data point</param>
-        /// <returns>method always returns true</returns>
-        public bool ContainsPoint(PhotonDataPoint dp)
+        /// <param name="photon">photon</param>
+        public bool IsWithinDetectorAperture(Photon photon)
         {
-            return true; // or, possibly test for NA or confined position, etc
+            if (photon.CurrentRegionIndex == FinalTissueRegionIndex)
+            {
+                var detectorRegionN = _tissue.Regions[photon.CurrentRegionIndex].RegionOP.N;
+                return photon.DP.IsWithinNA(NA, Direction.AlongNegativeZAxis, detectorRegionN);
+            }
+            else // determine n of prior tissue region
+            {
+                var detectorRegionN = _tissue.Regions[FinalTissueRegionIndex].RegionOP.N;
+                return photon.History.PreviousDP.IsWithinNA(NA, Direction.AlongNegativeZAxis, detectorRegionN);
+            }
+            //return true; // or, possibly test for NA or confined position, etc
             //return (dp.StateFlag.Has(PhotonStateType.PseudoTransmissionDomainTopBoundary));
         }
-
     }
 }
