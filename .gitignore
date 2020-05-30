@@ -79,3 +79,4 @@ CVS
 *.nuspec
 *.nupkg
 src/.vs/
+publish/
