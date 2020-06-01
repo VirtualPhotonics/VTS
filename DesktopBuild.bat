@@ -17,22 +17,7 @@ set EnableNuGetPackageRestore=true
 "%msbuild%" "%rootdir%\src\Vts.Desktop\Vts.Desktop.csproj" %debugbuildswitches%
 "%msbuild%" "%rootdir%\src\Vts.Desktop\Vts.Desktop.csproj" %releasebuildswitches%
 
-"%msbuild%" "%rootdir%\src\Vts.MGRTE.ConsoleApp\Vts.MGRTE.ConsoleApp.csproj" %debugbuildswitches%
-"%msbuild%" "%rootdir%\src\Vts.MGRTE.ConsoleApp\Vts.MGRTE.ConsoleApp.csproj" %releasebuildswitches%
-
-"%msbuild%" "%rootdir%\src\Vts.MonteCarlo.CommandLineApplication\Vts.MonteCarlo.CommandLineApplication.csproj" %debugbuildswitches%
-"%msbuild%" "%rootdir%\src\Vts.MonteCarlo.CommandLineApplication\Vts.MonteCarlo.CommandLineApplication.csproj" %releasebuildswitches%
-
-"%msbuild%" "%rootdir%\src\Vts.MonteCarlo.PostProcessor\Vts.MonteCarlo.PostProcessor.csproj" %debugbuildswitches%
-"%msbuild%" "%rootdir%\src\Vts.MonteCarlo.PostProcessor\Vts.MonteCarlo.PostProcessor.csproj" %releasebuildswitches%
-
 "%msbuild%" "%rootdir%\src\Vts.Desktop.Test\Vts.Desktop.Test.csproj" %debugbuildswitches%
 "%msbuild%" "%rootdir%\src\Vts.Desktop.Test\Vts.Desktop.Test.csproj" %releasebuildswitches%
-
-"%msbuild%" "%rootdir%\src\Vts.MonteCarlo.CommandLineApplication.Test\Vts.MonteCarlo.CommandLineApplication.Test.csproj" %debugbuildswitches%
-"%msbuild%" "%rootdir%\src\Vts.MonteCarlo.CommandLineApplication.Test\Vts.MonteCarlo.CommandLineApplication.Test.csproj" %releasebuildswitches%
-
-"%msbuild%" "%rootdir%\src\Vts.MonteCarlo.PostProcessor.Test\Vts.MonteCarlo.PostProcessor.Test.csproj" %debugbuildswitches%
-"%msbuild%" "%rootdir%\src\Vts.MonteCarlo.PostProcessor.Test\Vts.MonteCarlo.PostProcessor.Test.csproj" %releasebuildswitches%
 
 rem pause

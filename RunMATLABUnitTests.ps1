@@ -8,13 +8,9 @@ $matlablibdir = "$vtslevel\matlab\vts_wrapper\vts_libraries"
 Remove-Item $matlablibdir -Recurse -ErrorAction Ignore
 New-Item $matlablibdir -ItemType "directory"
 
-# put MCCL and MCPP executables and supporting libraries into vts_libraries folder
-$mcclcsproj = "$vtslevel\src\Vts.MonteCarlo.CommandLineApplication\Vts.MonteCarlo.CommandLineApplication.csproj"
-dotnet publish  $mcclcsproj -c Release -r win-x64 --self-contained false -o $matlablibdir
-dotnet build $mcclcsproj -c Release -r win-x64 -o $matlablibdir
-$mcppcsproj = "$vtslevel\src\Vts.MonteCarlo.PostProcessor\Vts.MonteCarlo.PostProcessor.csproj"
-dotnet publish $mcppcsproj -c Release -r win-x64 --self-contained false -o $matlablibdir
-dotnet build $mcppcsproj -c Release -r win-x64 -o $matlablibdir
+# put supporting libraries into vts_libraries folder
+$vtsdesktop = "$vtslevel\src\Vts.Desktop\bin\Release"
+Copy-Item -Path "$vtsdesktop\*" -Destination "$matlablibdir"
 
 # UNCOMMENT NEXT LINE WHEN FILES IN vts_libraries
 matlab -r "vts_tests; quit" 
