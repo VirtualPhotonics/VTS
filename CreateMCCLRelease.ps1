@@ -3,6 +3,9 @@ $runtime = $args[1];
 Write-Host "version = $version runtime = $runtime" -ForegroundColor Green
 
 $builddir = ".\build\$runtime"
+if (Test-Path "$builddir") {
+  Remove-Item "$builddir" -Recurse -ErrorAction Ignore
+}
 New-Item -Path $PWD -Name $builddir -ItemType "directory"
 $archive = $builddir + "\MC_v" + $version + "Beta.zip"
 $source = "publish\$runtime\*"
