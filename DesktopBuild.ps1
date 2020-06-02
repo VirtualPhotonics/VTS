@@ -1,6 +1,5 @@
-$debugbuildswitches="/p:WarningLevel=2 /nologo /v:n"
-#$releasebuildswitches="/p:Configuration=Release /p:WarningLevel=2 /nologo /v:n" can't get this to work
-$releasebuildswitches="/p:Configuration=Release"
+$debugbuildswitches='/p:WarningLevel=2','/nologo','/v:n'
+$releasebuildswitches='/p:Configuration=Release','/p:WarningLevel=2','/nologo','/v:n' 
 
 $msbuild="C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\MSBuild\15.0\Bin\MSBuild.exe"
 if (-not (Test-Path "$msbuild")) {
