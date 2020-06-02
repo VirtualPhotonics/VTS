@@ -3,22 +3,17 @@ $version = "4.10.0"
 Write-Host "Build Vts and Vts.Desktop libraries Debug & Release" -ForegroundColor Green
 dotnet build $PWD\src\Vts\Vts.csproj -c Debug
 dotnet build $PWD\src\Vts\Vts.csproj -c Release
-Start-Process $PWD\DesktopBuild.bat -Wait
+Invoke-Expression "& .\DesktopBuild.ps1 -wait"
 
-Write-Host "Build MCCL Debug, Release & Publish" -ForegroundColor Green
-Remove-Item $PWD\publish -Recurse -ErrorAction Ignore
+Write-Host "Build MCCL Debug, Release" -ForegroundColor Green
 $mcclcsproj = "$PWD\src\Vts.MonteCarlo.CommandLineApplication\Vts.MonteCarlo.CommandLineApplication.csproj"
 dotnet build $mcclcsproj -c Debug
 dotnet build $mcclcsproj -c Release
-dotnet build $mcclcsproj -c Release -r win-x64 -o $PWD\publish\win-x64
-dotnet build $mcclcsproj -c Release -r linux-x64 -o $PWD\publish\linux-x64
 
-Write-Host "Build MCPP Debug, Release & Publish" -ForegroundColor Green
+Write-Host "Build MCPP Debug, Release" -ForegroundColor Green
 $mcppcsproj = "$PWD\src\Vts.MonteCarlo.PostProcessor\Vts.MonteCarlo.PostProcessor.csproj"
 dotnet build $mcppcsproj -c Debug
 dotnet build $mcppcsproj -c Release
-dotnet build $mcppcsproj -c Release -r win-x64 -o $PWD\publish\win-x64
-dotnet build $mcppcsproj -c Release -r linux-x64 -o $PWD\publish\linux-x64
 
 Write-Host "Build Vts.Test Debug & Release" -ForegroundColor Green
 dotnet build $PWD\src\Vts.Test\Vts.Test.csproj -c Debug
@@ -26,22 +21,28 @@ dotnet build $PWD\src\Vts.Test\Vts.Test.csproj -c Release
 Write-Host "Run Vts.Test Debug and Release" -ForegroundColor Green
 dotnet test $PWD\src\Vts.Test\Vts.Test.csproj -c Debug
 dotnet test $PWD\src\Vts.Test\Vts.Test.csproj -c Release
-Write-Host "Run Vts.Desktop.Test Debug and Release" -ForegroundColor Green
-Start-Process $PWD\DesktopTests.bat -WAIT
 
-Write-Host "Run MATLAB unit tests" -ForegroundColor Green
-Invoke-Expression "& .\RunMATLABUnitTests.ps1"
+Write-Host "Test Vts.Desktop.Test Debug and Release" -ForegroundColor Green
+Invoke-Expression "& .\DesktopTests.ps1 -wait" > $null
 
-Write-Host "Clean Release Folders" -ForegroundColor Green
+Write-Host "Release Packages" -ForegroundColor Green
+Write-Host "Clean Release folders" -ForegroundColor Green
 Remove-Item "$PWD/build" -Recurse -ErrorAction Ignore
 Remove-Item "$PWD/matlab/vts_wrapper/vts_libraries" -Recurse -ErrorAction Ignore
 Remove-Item "$PWD/matlab/vts_wrapper/results*" -Recurse -ErrorAction Ignore
 
-Write-Host "Create Release Packages" -ForegroundColor Green
+Write-Host "Test MATLAB unit tests" -ForegroundColor Green
+# RunMATLABUnitTests copies Vts.Desktop/bin/Release files to matlab/vts_wrapper/vts_libraries
+Start-Process -wait .\RunMATLABUnitTests.ps1
+
+if (Test-Path $PWD\publish) {
+  Remove-Item $PWD\publish -Recurse -ErrorAction Ignore
+}
+New-Item -Path $PWD -Name ".\publish" -ItemType "directory"
+dotnet build $mcclcsproj -c Release -r win-x64 -o $PWD\publish\win-x64 
+dotnet build $mcppcsproj -c Release -r win-x64 -o $PWD\publish\win-x64 
 $runtime = "win-x64"
 Invoke-Expression "& .\CreateMCCLRelease.ps1 $version $runtime"
-$runtime = "linux-x64"
-Invoke-Expression "& .\CreateMCCLRelease.ps1 $version $runtime"
-Start-Process $PWD\CreateMATLABRelease.bat $version 
+Invoke-Expression "& .\CreateMATLABRelease.ps1 $version"
 
 Read-Host -Prompt "Press Enter to exit"
