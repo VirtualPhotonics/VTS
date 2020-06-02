@@ -35,6 +35,8 @@ Write-Host "Test MATLAB unit tests" -ForegroundColor Green
 # RunMATLABUnitTests copies Vts.Desktop/bin/Release files to matlab/vts_wrapper/vts_libraries
 .\RunMATLABUnitTests.ps1 -wait
 
+Read-Host -Prompt "Wait for MATLAB to close, then press Enter to exit"
+
 if (Test-Path $PWD\publish) {
   Remove-Item $PWD\publish -Recurse -ErrorAction Ignore
 }
