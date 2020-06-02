@@ -3,7 +3,7 @@ $version = "4.10.0"
 Write-Host "Build Vts and Vts.Desktop libraries Debug & Release" -ForegroundColor Green
 dotnet build $PWD\src\Vts\Vts.csproj -c Debug
 dotnet build $PWD\src\Vts\Vts.csproj -c Release
-Invoke-Expression "& .\DesktopBuild.ps1 -wait"
+.\DesktopBuild.ps1 -wait
 
 Write-Host "Build MCCL Debug, Release" -ForegroundColor Green
 $mcclcsproj = "$PWD\src\Vts.MonteCarlo.CommandLineApplication\Vts.MonteCarlo.CommandLineApplication.csproj"
@@ -23,7 +23,7 @@ dotnet test $PWD\src\Vts.Test\Vts.Test.csproj -c Debug
 dotnet test $PWD\src\Vts.Test\Vts.Test.csproj -c Release
 
 Write-Host "Test Vts.Desktop.Test Debug and Release" -ForegroundColor Green
-Invoke-Expression "& .\DesktopTests.ps1 -wait" > $null
+.\DesktopTests.ps1 -wait > $null
 
 Write-Host "Release Packages" -ForegroundColor Green
 Write-Host "Clean Release folders" -ForegroundColor Green
@@ -33,7 +33,7 @@ Remove-Item "$PWD/matlab/vts_wrapper/results*" -Recurse -ErrorAction Ignore
 
 Write-Host "Test MATLAB unit tests" -ForegroundColor Green
 # RunMATLABUnitTests copies Vts.Desktop/bin/Release files to matlab/vts_wrapper/vts_libraries
-Start-Process -wait .\RunMATLABUnitTests.ps1
+.\RunMATLABUnitTests.ps1 -wait
 
 if (Test-Path $PWD\publish) {
   Remove-Item $PWD\publish -Recurse -ErrorAction Ignore
@@ -42,7 +42,7 @@ New-Item -Path $PWD -Name ".\publish" -ItemType "directory"
 dotnet build $mcclcsproj -c Release -r win-x64 -o $PWD\publish\win-x64 
 dotnet build $mcppcsproj -c Release -r win-x64 -o $PWD\publish\win-x64 
 $runtime = "win-x64"
-Invoke-Expression "& .\CreateMCCLRelease.ps1 $version $runtime"
-Invoke-Expression "& .\CreateMATLABRelease.ps1 $version"
+Invoke-Expression ".\CreateMCCLRelease.ps1 $version $runtime"
+Invoke-Expression ".\CreateMATLABRelease.ps1 $version"
 
 Read-Host -Prompt "Press Enter to exit"
