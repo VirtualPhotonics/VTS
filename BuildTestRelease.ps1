@@ -30,19 +30,19 @@ Write-Host "Clean Release folders" -ForegroundColor Green
 Remove-Item "$PWD/build" -Recurse -ErrorAction Ignore
 Remove-Item "$PWD/matlab/vts_wrapper/vts_libraries" -Recurse -ErrorAction Ignore
 Remove-Item "$PWD/matlab/vts_wrapper/results*" -Recurse -ErrorAction Ignore
-
-Write-Host "Test MATLAB unit tests" -ForegroundColor Green
-# RunMATLABUnitTests copies Vts.Desktop/bin/Release files to matlab/vts_wrapper/vts_libraries
-.\RunMATLABUnitTests.ps1 -wait
-
-Read-Host -Prompt "Wait for MATLAB to close, then press Enter to exit"
-
 if (Test-Path $PWD\publish) {
   Remove-Item $PWD\publish -Recurse -ErrorAction Ignore
 }
-New-Item -Path $PWD -Name ".\publish" -ItemType "directory"
+New-Item -Path $PWD -Name ".\publish\win-x64" -ItemType "directory"
+
+# run next 2 line prior to RunMATLABUnitTests to setup up publish with results
 dotnet build $mcclcsproj -c Release -r win-x64 -o $PWD\publish\win-x64 
 dotnet build $mcppcsproj -c Release -r win-x64 -o $PWD\publish\win-x64 
+
+Write-Host "Test MATLAB unit tests" -ForegroundColor Green
+# RunMATLABUnitTests copies Vts.Desktop/bin/Release files to matlab/vts_wrapper/vts_libraries
+.\RunMATLABUnitTests.ps1 
+
 $runtime = "win-x64"
 Invoke-Expression ".\CreateMCCLRelease.ps1 $version $runtime"
 Invoke-Expression ".\CreateMATLABRelease.ps1 $version"

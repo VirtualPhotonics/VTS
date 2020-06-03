@@ -13,12 +13,19 @@ $vtsdesktop = "$vtslevel\src\Vts.Desktop\bin\Release"
 Copy-Item -Path "$vtsdesktop\*" -Destination "$matlablibdir"
 
 # UNCOMMENT NEXT LINE WHEN FILES IN vts_libraries
-matlab -r "vts_tests; quit" 
+matlab -wait -r "vts_tests; quit" 
 #matlab -r "mc_tests; structures_tests; quit" # to only run unit tests
 
 Write-Host "Run MCCL MATLAB post-processing tests" -ForegroundColor Green
+# setup up publish with results
+$mcclcsproj = "$vtslevel\src\Vts.MonteCarlo.CommandLineApplication\Vts.MonteCarlo.CommandLineApplication.csproj"
+dotnet build $mcclcsproj -c Release -r win-x64 -o $vtslevel\publish\win-x64 
+$mcppcsproj = "$vtslevel\src\Vts.MonteCarlo.PostProcessor\Vts.MonteCarlo.PostProcessor.csproj"
+dotnet build $mcppcsproj -c Release -r win-x64 -o $vtslevel\publish\win-x64 
+
 # Change current dir to publish (assumes NetStandardBuildTest run prior)
 cd "$vtslevel\publish\win-x64"
+$PWD
 # Generate infiles and run Monte Carlo with general infile
 .\mc.exe geninfiles
 .\mc.exe infile=infile_one_layer_all_detectors.txt
@@ -35,6 +42,6 @@ $MCresults = "$vtslevel\publish\win-x64\one_layer_all_detectors\*"
 Copy-Item -Path $MCresults -Destination $MCmatlabdir -Recurse -ErrorAction Ignore
 
 # run load_results_script (default datanames is set to one_layer_all_detectors) 
-#matlab -r "load_results_script; quit"
+matlab -wait -r "load_results_script; quit"
 # cd back to start
 cd $vtslevel
