@@ -23,7 +23,7 @@ dotnet build $mcclcsproj -c Release -r win-x64 -o $vtslevel\publish\win-x64
 $mcppcsproj = "$vtslevel\src\Vts.MonteCarlo.PostProcessor\Vts.MonteCarlo.PostProcessor.csproj"
 dotnet build $mcppcsproj -c Release -r win-x64 -o $vtslevel\publish\win-x64 
 
-# Change current dir to publish (assumes NetStandardBuildTest run prior)
+# Change current dir to publish (assumes BuildTestReleaseMCCL run prior)
 cd "$vtslevel\publish\win-x64"
 $PWD
 # Generate infiles and run Monte Carlo with general infile
