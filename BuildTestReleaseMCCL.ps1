@@ -1,5 +1,11 @@
 ﻿$version = $args[0];
 $runtime = $args[1];
+if (!$args) {
+  $version="x.xx.x"
+  echo "version set to x.xx.x"
+  $runtime = "win-x64"
+  echo "runtime set to win-x64"
+}
 
 $vtslevel = $PWD
 Write-Host "Build Vts library Debug & Release" -ForegroundColor Green
@@ -47,23 +53,28 @@ $source = "publish\$runtime\*"
 
 Compress-Archive -Path $source -DestinationPath $archive 
 
-$matlabfiles = "$PWD\matlab\post_processing\monte_carlo\simulation_result_loading\*"
+$matlabfiles = "$PWD\matlab\post_processing\*"
 Compress-Archive -Path $matlabfiles -Update -DestinationPath $archive
+
+if ($runtime -Match "linux") {
+  $mcinversefiles = "$PWD\matlab\monte_carlo_inverse\*"
+  Compress-Archive -Path $mcinversefiles -Update -DestinationPath $archive
+}
 
 Write-Host "Run MCCL MATLAB post-processing tests" -ForegroundColor Green
 # Change current dir to publish 
 cd "$vtslevel\publish\$runtime"
-#$PWD
+
 # Generate infiles and run Monte Carlo with general infile
 ./mc geninfiles
 ./mc infile=infile_one_layer_all_detectors.txt
 
 # Change current dir to MATLAB Monte Carlo post-processing
-cd "$vtslevel\matlab\post_processing\monte_carlo\simulation_result_loading"
+cd "$vtslevel\matlab\post_processing"
 
 # remove any residual folder
 # Copy results from Monte Carlo to current directory 
-$MCmatlabdir = "$vtslevel\matlab\post_processing\monte_carlo\simulation_result_loading\one_layer_all_detectors"
+$MCmatlabdir = "$vtslevel\matlab\post_processing\one_layer_all_detectors"
 Remove-Item  $MCmatlabdir -Recurse -ErrorAction Ignore
 New-Item $MCmatlabdir -ItemType "directory"
 $MCresults = "$vtslevel\publish\$runtime\one_layer_all_detectors\*"

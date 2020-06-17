@@ -15,3 +15,6 @@ Copy-Item -Path "$vtsdesktop\*" -Destination "$matlablibdir"
 # UNCOMMENT NEXT LINE WHEN FILES IN vts_libraries
 matlab -wait -r "vts_tests; quit" 
 #matlab -r "mc_tests; structures_tests; quit" # to only run unit tests
+
+# return to vts level
+cd $vtslevel

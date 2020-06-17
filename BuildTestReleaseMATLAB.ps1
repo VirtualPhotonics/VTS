@@ -1,4 +1,8 @@
 ﻿$version = $args[0];
+if (!$args) {
+  $version="x.xx.x"
+  echo "version set to x.xx.x"
+}
 
 Write-Host "Build Vts.Desktop library Debug & Release" -ForegroundColor Green
 $debugbuildswitches='/p:WarningLevel=2','/nologo','/v:n'
