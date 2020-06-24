@@ -9,7 +9,7 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>David Cuccia; Carole Hayakawa; Lisa Malenfant; Janaka Ranasinghesagara; Jennifer Nguyen; Adam Gardner; Michele Martinelli</Authors>
     <PackageId>VirtualPhotonics.Vts</PackageId>
-    <PackageLicenseUrl>https://github.com/VirtualPhotonics/VTS/blob/master/license.txt</PackageLicenseUrl>
+    <PackageLicenseUrl>https://github.com/VirtualPhotonics/VTS/blob/master/license.md</PackageLicenseUrl>
     <PackageTags>C# Monte-Carlo NURBS SDA Spectral-Data Reflectance Fluence Forward-Solutions Inverse-Solutions</PackageTags>
     <PackageIconUrl>http://virtualphotonics.org/Themes/VP/Content/Images/logo.png</PackageIconUrl>
     <PackageProjectUrl>https://github.com/VirtualPhotonics/VTS/wiki</PackageProjectUrl>
