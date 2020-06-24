@@ -38,8 +38,15 @@ if (Test-Path $PWD\publish) {
 New-Item -Path $PWD -Name ".\publish\$runtime" -ItemType "directory"
 
 # run next 2 line prior to RunMATLABUnitTests to setup up publish with results
-dotnet build $mcclcsproj -c Release -r $runtime -o $PWD\publish\$runtime 
-dotnet build $mcppcsproj -c Release -r $runtime -o $PWD\publish\$runtime 
+dotnet build $mcclcsproj -c Release
+dotnet publish $mcclcsproj -c Release -r linux-x64 -o $PWD\publish\linux-x64 --self-contained false 
+dotnet publish $mcclcsproj -c Release -r win-x64 -o $PWD\publish\win-x64 --self-contained false 
+dotnet publish $mcclcsproj -c Release -r osx-x64 -o $PWD\publish\osx-x64 --self-contained false 
+
+dotnet build $mcppcsproj -c Release
+dotnet publish $mcppcsproj -c Release -r linux-x64 -o $PWD\publish\linux-x64 --self-contained false
+dotnet publish $mcclcsproj -c Release -r win-x64 -o $PWD\publish\win-x64 --self-contained false 
+dotnet publish $mcclcsproj -c Release -r osx-x64 -o $PWD\publish\osx-x64 --self-contained false 
 
 Write-Host "version = $version runtime = $runtime" -ForegroundColor Green
 
