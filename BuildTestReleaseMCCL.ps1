@@ -75,8 +75,8 @@ Write-Host "Run MCCL MATLAB post-processing tests" -ForegroundColor Green
 cd "$vtslevel\publish\local"
 
 # Generate infiles and run Monte Carlo with general infile
-./mc.dll geninfiles
-./mc.dll infile=infile_one_layer_all_detectors.txt
+dotnet mc.dll geninfiles
+dotnet mc.dll infile=infile_one_layer_all_detectors.txt
 
 # Change current dir to MATLAB Monte Carlo post-processing
 cd "$vtslevel\matlab\post_processing"
