@@ -79,9 +79,7 @@ namespace Vts.MonteCarlo.Detectors
         private IList<OpticalProperties> _referenceOps;
         private IList<OpticalProperties> _perturbedOps;
         private IList<int> _perturbedRegionsIndices;
-        private AbsorptionWeightingType _awt;
         private ITissue _tissue;
-        private double _rhoDelta; // need to keep this because DoubleRange adjust deltas automatically       
         private Func<IList<long>, IList<double>, IList<OpticalProperties>, IList<OpticalProperties>, IList<int>, double> _absorbAction;
  
         /* ==== Place optional/user-defined input properties here. They will be saved in text (JSON) format ==== */
@@ -137,8 +135,6 @@ namespace Vts.MonteCarlo.Detectors
             _perturbedOps = PerturbedOps;
             _perturbedRegionsIndices = PerturbedRegionsIndices;
             _referenceOps = tissue.Regions.Select(r => r.RegionOP).ToList();
-            TallyCount = 0;
-            _awt = tissue.AbsorptionWeightingType;
             _tissue = tissue;
             _absorbAction = AbsorptionWeightingMethods.GetpMCTerminationAbsorptionWeightingMethod(tissue, this);
         }

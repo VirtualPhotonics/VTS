@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 using Vts.Common;
 using Vts.IO;
 using Vts.MonteCarlo.Helpers;
-using Vts.MonteCarlo.PhotonData;
+using Vts.MonteCarlo.Extensions;
 
 namespace Vts.MonteCarlo.Detectors
 {
@@ -23,9 +23,11 @@ namespace Vts.MonteCarlo.Detectors
             Name = "pMCROfXAndY";
             X = new DoubleRange(-10.0, 10.0, 101);
             Y = new DoubleRange(-10.0, 10.0, 101);
+            NA = double.PositiveInfinity; // set default NA completely open regardless of detector region refractive index
+            FinalTissueRegionIndex = 0; // assume detector is in air
 
             // modify base class TallyDetails to take advantage of built-in validation capabilities (error-checking)
-              TallyDetails.IspMCReflectanceTally = true;
+            TallyDetails.IspMCReflectanceTally = true;
         }
         /// <summary>
         /// detector x binning
@@ -43,6 +45,14 @@ namespace Vts.MonteCarlo.Detectors
         /// perturbed regions indices
         /// </summary>
         public IList<int> PerturbedRegionsIndices { get; set; }
+        /// <summary>
+        /// Detector region index
+        /// </summary>
+        public int FinalTissueRegionIndex { get; set; }
+        /// <summary>
+        /// numerical aperture
+        /// </summary>
+        public double NA { get; set; }
 
         public IDetector CreateDetector()
         {
@@ -59,6 +69,8 @@ namespace Vts.MonteCarlo.Detectors
                 Y = this.Y,
                 PerturbedOps = this.PerturbedOps,
                 PerturbedRegionsIndices = this.PerturbedRegionsIndices,
+                NA = this.NA,
+                FinalTissueRegionIndex = this.FinalTissueRegionIndex
             };
         }
     }
@@ -71,7 +83,7 @@ namespace Vts.MonteCarlo.Detectors
         private IList<OpticalProperties> _referenceOps;
         private IList<OpticalProperties> _perturbedOps;
         private IList<int> _perturbedRegionsIndices;
-        private double _rhoDelta; // need to keep this because DoubleRange adjust deltas automatically
+        private ITissue _tissue;
         private Func<IList<long>, IList<double>, IList<OpticalProperties>, IList<OpticalProperties>, IList<int>, double> _absorbAction;
 
         /* ==== Place optional/user-defined input properties here. They will be saved in text (JSON) format ==== */
@@ -92,6 +104,14 @@ namespace Vts.MonteCarlo.Detectors
         /// perturbed regions indices
         /// </summary>
         public IList<int> PerturbedRegionsIndices { get; set; }
+        /// <summary>
+        /// Detector region index
+        /// </summary>
+        public int FinalTissueRegionIndex { get; set; }
+        /// <summary>
+        /// numerical aperture
+        /// </summary>
+        public double NA { get; set; }
 
         /* ==== Place user-defined output arrays here. They should be prepended with "[IgnoreDataMember]" attribute ==== */
         /* ==== Then, GetBinaryArrays() should be implemented to save them separately in binary format ==== */
@@ -126,6 +146,7 @@ namespace Vts.MonteCarlo.Detectors
             _referenceOps = tissue.Regions.Select(r => r.RegionOP).ToList();
             _perturbedRegionsIndices = PerturbedRegionsIndices;
             _absorbAction = AbsorptionWeightingMethods.GetpMCTerminationAbsorptionWeightingMethod(tissue, this);
+            _tissue = tissue;
         }
 
         /// <summary>
@@ -134,6 +155,9 @@ namespace Vts.MonteCarlo.Detectors
         /// <param name="photon">photon data needed to tally</param>
         public void Tally(Photon photon)
         {
+            if (!IsWithinDetectorAperture(photon))
+                return;
+
             var ix = DetectorBinning.WhichBin(photon.DP.Position.X, X.Count - 1, X.Delta, X.Start);
             var iy = DetectorBinning.WhichBin(photon.DP.Position.Y, Y.Count - 1, Y.Delta, Y.Start);
             if ((ix != -1) && (iy != -1))
@@ -225,15 +249,25 @@ namespace Vts.MonteCarlo.Detectors
                 },
             };
         }
+
         /// <summary>
-        /// Method to determine if photon is within detector
+        /// Method to determine if photon is within detector NA
         /// </summary>
-        /// <param name="dp">photon data point</param>
-        /// <returns>method always returns true</returns>
-        public bool ContainsPoint(PhotonDataPoint dp)
+        /// <param name="photon">photon</param>
+        public bool IsWithinDetectorAperture(Photon photon)
         {
-            return true; // or, possibly test for NA or confined position, etc
-            // return (dp.StateFlag.Has(PhotonStateType.PseudoTransmissionDomainTopBoundary));
+            if (photon.CurrentRegionIndex == FinalTissueRegionIndex)
+            {
+                var detectorRegionN = _tissue.Regions[photon.CurrentRegionIndex].RegionOP.N;
+                return photon.DP.IsWithinNA(NA, Direction.AlongNegativeZAxis, detectorRegionN);
+            }
+            else // determine n of prior tissue region
+            {
+                var detectorRegionN = _tissue.Regions[FinalTissueRegionIndex].RegionOP.N;
+                return photon.History.PreviousDP.IsWithinNA(NA, Direction.AlongNegativeZAxis, detectorRegionN);
+            }
+            //return true; // or, possibly test for NA or confined position, etc
+            //return (dp.StateFlag.Has(PhotonStateType.PseudoTransmissionDomainTopBoundary));
         }
     }
 }
