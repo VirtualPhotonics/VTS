@@ -60,13 +60,13 @@ namespace Vts.MonteCarlo.Tissues
             double inside = Math.Sqrt((position.X - Center.X) * (position.X - Center.X) +
                                       (position.Z - Center.Z) * (position.Z - Center.Z));
 
-            //if (inside < 0.9999999)
-            if (inside < 0.9999999999 * Radius)
+            // the epsilon subtracted and added needs to match MultiConcentricInfiniteCylinder
+            // GetDistanceToBoundary or code goes through cycles at cylinder boundary
+            if (inside < (1 - 1e-12) * Radius)
             {
                 return true;
             }
-            //else if (inside > 1.0000001)
-            else if (inside > 1.00000000001 * Radius)
+            else if (inside > (1 + 1e-12) * Radius)
             {
                 return false;
             }

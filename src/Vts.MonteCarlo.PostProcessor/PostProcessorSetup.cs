@@ -48,10 +48,15 @@ namespace Vts.MonteCarlo.PostProcessor
                 return null;
             }
         }
-
-        public static ValidationResult ValidatePostProcessorInput(PostProcessorInput input)
+        /// <summary>
+        /// Validate PostProcessor input with optional overriding command line "infile" option
+        /// </summary>
+        /// <param name="input">PostProcessor infile</param>
+        /// <param name="inpath">command line path for inpath (where database resides)</param>
+        /// <returns></returns>
+        public static ValidationResult ValidatePostProcessorInput(PostProcessorInput input, string inpath)
         {
-            return PostProcessorInputValidation.ValidateInput(input);
+            return PostProcessorInputValidation.ValidateInput(input, inpath);
         }
 
         // need to work on following
