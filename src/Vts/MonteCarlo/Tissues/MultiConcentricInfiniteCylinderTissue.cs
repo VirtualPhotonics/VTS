@@ -204,9 +204,9 @@ namespace Vts.MonteCarlo.Tissues
             {
                 _infiniteCylinderRegions[i].RayIntersectBoundary(photon, out distToInfiniteCylinder);
                 // first check that photon isn't sitting on boundary of one of the cylinders
-                // note 1e-12 was found by trial and error using unit tests to verify selection
+                // note 1e-9 was found by trial and error using unit tests to verify selection
                 // if you change value, need to update InfiniteCylinderTissueRegion.ContainsPosition eps
-                if ((distToInfiniteCylinder > 1e-12) && (distToInfiniteCylinder < smallestInfCylDistance))
+                if ((distToInfiniteCylinder > 1e-9) && (distToInfiniteCylinder < smallestInfCylDistance))
                 {
                     smallestInfCylDistance = distToInfiniteCylinder;
                 }

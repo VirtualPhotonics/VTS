@@ -62,11 +62,11 @@ namespace Vts.MonteCarlo.Tissues
 
             // the epsilon subtracted and added needs to match MultiConcentricInfiniteCylinder
             // GetDistanceToBoundary or code goes through cycles at cylinder boundary
-            if (inside < (1 - 1e-12) * Radius)
+            if (inside < (1 - 1e-9) * Radius)
             {
                 return true;
             }
-            else if (inside > (1 + 1e-12) * Radius)
+            else if (inside > (1 + 1e-9) * Radius)
             {
                 return false;
             }
