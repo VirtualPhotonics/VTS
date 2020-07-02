@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Vts.Common;
 using Vts.MonteCarlo.Detectors;
 using Vts.MonteCarlo.IO;
+using Vts.MonteCarlo.Tissues;
 
 namespace Vts.MonteCarlo.Sources
 {
@@ -44,6 +45,10 @@ namespace Vts.MonteCarlo.Sources
         /// </summary>
         public ITissueRegion FluorescentTissueRegion;
         /// <summary>
+        /// potential bounding of FluorescentTissueRegion
+        /// </summary>
+        public ITissueRegion BoundedTissueRegion;
+        /// <summary>
         /// dictionary that maps key=count to triple of indices to go through AOfRhoAndZ fluorescent region in order
         /// </summary>
         public Dictionary<int, List<int>> FluorescentRegionIndicesInOrder;
@@ -73,6 +78,20 @@ namespace Vts.MonteCarlo.Sources
 
                 var exciteInfile = SimulationInput.FromFile(inputPath);
                 FluorescentTissueRegion = exciteInfile.TissueInput.Regions[fluorescentTissueRegionIndex];
+                BoundedTissueRegion = null;
+                // check if tissue bounded CH: can this be made more generic?
+                if (exciteInfile.TissueInput.TissueType == "BoundingCylinder")
+                {
+                    var cylinderIndex = exciteInfile.TissueInput.Regions.Length - 1;
+                    CaplessCylinderTissueRegion boundingCylinder =
+                        (CaplessCylinderTissueRegion)exciteInfile.TissueInput.Regions[cylinderIndex];
+                    BoundedTissueRegion = new CaplessCylinderTissueRegion(
+                        boundingCylinder.Center,
+                        boundingCylinder.Radius,
+                        boundingCylinder.Height,
+                        boundingCylinder.RegionOP,
+                        boundingCylinder.PhaseFunctionKey);
+                }
 
                 // separate setup of arrays so can unit test method
                 InitializeFluorescentRegionArrays();
@@ -104,6 +123,12 @@ namespace Vts.MonteCarlo.Sources
                     var zMidpoint = Z.Start + k * Z.Delta + Z.Delta / 2;
                     bool inFluorescentTissue = FluorescentTissueRegion.ContainsPosition(
                         new Position(xMidpoint, yMidpoint, zMidpoint));
+                    // next check if not in bounding region if exists
+                    if (BoundedTissueRegion != null)
+                    {
+                        inFluorescentTissue = BoundedTissueRegion.ContainsPosition(
+                            new Position(xMidpoint, yMidpoint, zMidpoint));
+                    }
                     // default values of numeric array elements are set to 0 so no else needed
                     if (inFluorescentTissue)
                     {

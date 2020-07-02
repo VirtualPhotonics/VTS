@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using Vts.MonteCarlo.Detectors;
 
 namespace Vts.MonteCarlo.PostProcessor
 {
@@ -87,7 +86,7 @@ namespace Vts.MonteCarlo.PostProcessor
             string inPath = "";
             string outName = "";
             string outPath = "";
-            bool displayHelp = false;
+            bool infoOnlyOption = false;
             args.Process(() =>
                 {
                     Console.WriteLine("Virtual Photonics MC Post-Processor 1.0");
@@ -97,13 +96,14 @@ namespace Vts.MonteCarlo.PostProcessor
                 },
                 new CommandLine.Switch("help", val =>
                 {
-                    displayHelp = true;
+                    infoOnlyOption = true;
+                    ShowHelp();
                     return;
                 }),
                 new CommandLine.Switch("geninfiles", val =>
                 {
                     GenerateDefaultInputFiles();
-                    displayHelp = true;
+                    infoOnlyOption = true;
                     return;
                 }),
                 new CommandLine.Switch("infile", val =>
@@ -130,32 +130,30 @@ namespace Vts.MonteCarlo.PostProcessor
                 })
             );
 
-            if (displayHelp)
+            if (!infoOnlyOption)
             {
-                ShowHelp();
+                var input = PostProcessorSetup.ReadPostProcessorInputFromFile(inFile);
+                if (input == null)
+                {
+                    return 1;
+                }
+
+                var validationResult = PostProcessorSetup.ValidatePostProcessorInput(input, inPath);
+                if (!validationResult.IsValid)
+                {
+                    Console.Write("\nPost-processor) completed with errors. Press enter key to exit.");
+                    Console.Read();
+                    return 2;
+                }
+                // override the output name with the user-specified name
+                if (!string.IsNullOrEmpty(outName))
+                {
+                    input.OutputName = outName;
+                }
+                PostProcessorSetup.RunPostProcessor(input, inPath, outPath);
+                Console.WriteLine("\nPost-processing complete.");
                 return 0;
             }
-
-            var input = PostProcessorSetup.ReadPostProcessorInputFromFile(inFile);
-            if (input == null)
-            {
-                return 1;
-            }
-
-            var validationResult = PostProcessorSetup.ValidatePostProcessorInput(input);
-            if (!validationResult.IsValid)
-            {
-                Console.Write("\nPost-processor) completed with errors. Press enter key to exit.");
-                Console.Read();
-                return 2;
-            }
-            // override the output name with the user-specified name
-            if (!string.IsNullOrEmpty(outName))
-            {
-                input.OutputName = outName;
-            }
-            PostProcessorSetup.RunPostProcessor(input, inPath, outPath);
-            Console.WriteLine("\nPost-processing complete.");
             return 0;
         }
 

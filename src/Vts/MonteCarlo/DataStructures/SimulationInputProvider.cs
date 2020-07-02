@@ -116,7 +116,8 @@ namespace Vts.MonteCarlo
                     new ROfFxAndAngleDetectorInput() {Fx = new DoubleRange(0.0, 0.5, 51), Angle= new DoubleRange(Math.PI / 2, Math.PI, 5)},
                     new ROfRhoAndAngleDetectorInput() {Rho=new DoubleRange(0.0, 10, 101),Angle=new DoubleRange(Math.PI / 2 , Math.PI, 5)},             
                     new ROfRhoAndOmegaDetectorInput() {Rho=new DoubleRange(0.0, 10, 101),Omega=new DoubleRange(0.0, 1, 21)}, // GHz
-                    new ROfRhoAndTimeDetectorInput() {Rho= new DoubleRange(0.0, 10, 101),Time=new DoubleRange(0.0, 10, 11)},       
+                    new ROfRhoAndTimeDetectorInput() {Rho= new DoubleRange(0.0, 10, 101),Time=new DoubleRange(0.0, 10, 11)},
+                    new ROfRhoAndMaxDepthDetectorInput() {Rho= new DoubleRange(0.0, 10, 101),MaxDepth=new DoubleRange(0.0, 10, 11)},
                     new ROfRhoDetectorInput() {Rho =new DoubleRange(0.0, 10, 101)},
                     new ROfXAndYDetectorInput() {X=new DoubleRange(-100.0, 100.0, 21), Y= new DoubleRange(-100.0, 100.0, 21)}, 
                     new RSpecularDetectorInput(),

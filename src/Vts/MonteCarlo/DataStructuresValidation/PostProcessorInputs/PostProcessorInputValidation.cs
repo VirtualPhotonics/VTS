@@ -12,23 +12,30 @@ namespace Vts.MonteCarlo
     /// </summary>
     public class PostProcessorInputValidation
     {
-        public static ValidationResult ValidateInput(PostProcessorInput input)
+        /// <summary>
+        /// validate infile as well as overriding command line input
+        /// </summary>
+        /// <param name="input">PostProcessorInput file</param>
+        /// <param name="inpath">command line option inpath</param>
+        /// <returns></returns>
+        public static ValidationResult ValidateInput(PostProcessorInput input, string inpath)
         {
             ValidationResult tempResult;
 
-            tempResult = ValidateInputFolderExistence(input.InputFolder);
+            tempResult = ValidateInputFolderExistence(Path.Combine(inpath, input.InputFolder));
             if (!tempResult.IsValid)
             {
                 return tempResult;
             }
 
-            tempResult = ValidatePhotonDatabaseExistence(input.DetectorInputs, input.InputFolder);
+            tempResult = ValidatePhotonDatabaseExistence(input.DetectorInputs, Path.Combine(inpath, input.InputFolder));
             if (!tempResult.IsValid)
             {
                 return tempResult;
             }
 
-            tempResult = ValidateSimulationInputExistence(input.DatabaseSimulationInputFilename, input.InputFolder);
+            tempResult = ValidateSimulationInputExistence(input.DatabaseSimulationInputFilename, 
+                Path.Combine(inpath, input.InputFolder));
             if (!tempResult.IsValid)
             {
                 return tempResult;
