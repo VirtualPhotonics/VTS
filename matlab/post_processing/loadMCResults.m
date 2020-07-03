@@ -1206,6 +1206,28 @@ for di = 1:numDetectors
                 pMCROfRho.Stdev = sqrt((pMCROfRho.SecondMoment - (pMCROfRho.Mean .* pMCROfRho.Mean)) / (databaseInputJson.N));
             end
             results{di}.pMCROfRho = pMCROfRho;
+      case 'dMCdROfRhodMua'
+            dMCdROfRhodMua.Name = detector.Name;
+            tempRho = detector.Rho;
+            dMCdROfRhodMua.Rho = linspace((tempRho.Start), (tempRho.Stop), (tempRho.Count));
+            dMCdROfRhodMua.Rho_Midpoints = (dMCdROfRhodMua.Rho(1:end-1) + dMCdROfRhodMua.Rho(2:end))/2;
+            dMCdROfRhodMua.Mean = readBinaryData([datadir slash detector.Name],length(dMCdROfRhodMua.Rho)-1);              
+            if(detector.TallySecondMoment && exist([datadir slash detector.Name '_2'],'file'))
+                dMCdROfRhodMua.SecondMoment = readBinaryData([datadir slash detector.Name '_2'],length(dMCdROfRhodMua.Rho)-1);
+                dMCROfRhodMua.Stdev = sqrt((dMCdROfRhodMua.SecondMoment - (dMCdROfRhodMua.Mean .* dMCdROfRhodMua.Mean)) / (databaseInputJson.N));
+            end
+            results{di}.dMCdROfRhodMua = dMCdROfRhodMua;
+      case 'dMCdROfRhodMus'
+            dMCdROfRhodMus.Name = detector.Name;
+            tempRho = detector.Rho;
+            dMCdROfRhodMus.Rho = linspace((tempRho.Start), (tempRho.Stop), (tempRho.Count));
+            dMCdROfRhodMus.Rho_Midpoints = (dMCdROfRhodMus.Rho(1:end-1) + dMCdROfRhodMus.Rho(2:end))/2;
+            dMCdROfRhodMus.Mean = readBinaryData([datadir slash detector.Name],length(dMCdROfRhodMus.Rho)-1);              
+            if(detector.TallySecondMoment && exist([datadir slash detector.Name '_2'],'file'))
+                dMCdROfRhodMus.SecondMoment = readBinaryData([datadir slash detector.Name '_2'],length(dMCdROfRhodMus.Rho)-1);
+                dMCROfRhodMus.Stdev = sqrt((dMCdROfRhodMus.SecondMoment - (dMCdROfRhodMus.Mean .* dMCdROfRhodMus.Mean)) / (databaseInputJson.N));
+            end
+            results{di}.dMCdROfRhodMus = dMCdROfRhodMus;
         case 'pMCROfRhoAndTime'
             pMCROfRhoAndTime.Name = detector.Name;
             tempRho = detector.Rho;
