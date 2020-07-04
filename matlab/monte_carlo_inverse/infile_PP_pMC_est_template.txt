@@ -2,9 +2,9 @@
   "DetectorInputs": [
     {
       "Rho": {
-        "Start": 0.0,
-        "Stop": 6.0,
-        "Count": 7 
+        "Start": rhostart,
+        "Stop": rhostop,
+        "Count": rhocount
       },
       "PerturbedOps": [
         {
@@ -51,9 +51,9 @@
     },
     {
       "Rho": {
-        "Start": 0.0,
-        "Stop": 6.0,
-        "Count": 7 
+        "Start": rhostart,
+        "Stop": rhostop,
+        "Count": rhocount
       },
       "PerturbedOps": [
         {
@@ -100,9 +100,9 @@
     },
     {
       "Rho": {
-        "Start": 0.0,
-        "Stop": 6.0,
-        "Count": 7 
+        "Start": rhostart,
+        "Stop": rhostop,
+        "Count": rhocount
       },
       "PerturbedOps": [
         {
@@ -148,7 +148,7 @@
       }
     }
   ],
-  "InputFolder": "pMC_db_gen",
-  "DatabaseSimulationInputFilename": "pMC_db_gen",
-  "OutputName": "PP_pMC_est"
+  "InputFolder": "pMC_db_var1",
+  "DatabaseSimulationInputFilename": "pMC_db_var1",
+  "OutputName": "PP_var1"
 }
