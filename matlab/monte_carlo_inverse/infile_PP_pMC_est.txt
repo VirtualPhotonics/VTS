@@ -2,9 +2,9 @@
   "DetectorInputs": [
     {
       "Rho": {
-        "Start": 0.0,
-        "Stop": 6.0,
-        "Count": 7 
+        "Start": 0.500000,
+        "Stop": 1.500000,
+        "Count": 2
       },
       "PerturbedOps": [
         {
@@ -15,11 +15,11 @@
           "Musp": 1E-10
         },
         {
-          "Mua": 0.053849,
-          "Mus": 5.163596,
+          "Mua": 0.017933,
+          "Mus": 6.000000,
           "G": 0.8,
           "N": 1.4,
-          "Musp": 1.032719
+          "Musp": 1.200000
         },
         {
           "Mua": 0.0,
@@ -51,9 +51,9 @@
     },
     {
       "Rho": {
-        "Start": 0.0,
-        "Stop": 6.0,
-        "Count": 7 
+        "Start": 0.500000,
+        "Stop": 1.500000,
+        "Count": 2
       },
       "PerturbedOps": [
         {
@@ -64,11 +64,11 @@
           "Musp": 1E-10
         },
         {
-          "Mua": 0.053849,
-          "Mus": 5.163596,
+          "Mua": 0.017933,
+          "Mus": 6.000000,
           "G": 0.8,
           "N": 1.4,
-          "Musp": 1.032719
+          "Musp": 1.200000
         },
         {
           "Mua": 0.0,
@@ -100,9 +100,9 @@
     },
     {
       "Rho": {
-        "Start": 0.0,
-        "Stop": 6.0,
-        "Count": 7 
+        "Start": 0.500000,
+        "Stop": 1.500000,
+        "Count": 2
       },
       "PerturbedOps": [
         {
@@ -113,11 +113,11 @@
           "Musp": 1E-10
         },
         {
-          "Mua": 0.053849,
-          "Mus": 5.163596,
+          "Mua": 0.017933,
+          "Mus": 6.000000,
           "G": 0.8,
           "N": 1.4,
-          "Musp": 1.032719
+          "Musp": 1.200000
         },
         {
           "Mua": 0.0,
@@ -148,7 +148,7 @@
       }
     }
   ],
-  "InputFolder": "pMC_db_gen",
-  "DatabaseSimulationInputFilename": "pMC_db_gen",
-  "OutputName": "PP_pMC_est"
+  "InputFolder": "pMC_db_wv6",
+  "DatabaseSimulationInputFilename": "pMC_db_wv6",
+  "OutputName": "PP_wv6"
 }
