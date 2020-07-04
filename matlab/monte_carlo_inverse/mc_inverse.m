@@ -1,11 +1,15 @@
 %% Monte Carlo Demo
-% This script is the equivalent to Example 7 in vts_mc_demo.m but
-% does not require MATLAB interop code to run
+% This script includes an example that is the equivalent to 
+% 1) Example 7 in vts_mc_demo.m 
+% 2) Example Example ROfRho (inverse solution for chromophore concentrations 
+%   for multiple wavelengths, single rho) in vts_solver_demo.m
+% but does not require MATLAB interop code to run
 %%
 clear all
 clc
-% ======================================================================= %
-% Example 7: run a Monte Carlo simulation with pMC post-processing enabled
+%% ======================================================================= %
+% Example 7: Inverse solution for R(rho)
+% Run a Monte Carlo simulation with pMC post-processing enabled
 % Use generated database to solve inverse problem with measured data
 % generated using Nurbs
 % NOTE: convergence to measured data optical properties affected by:
@@ -15,24 +19,32 @@ clc
 % 4) normalization of chi2
 % 5) optimset options selected
 %% read in baseline OPs from database gen infile
-infile_db_gen='infile_pMC_db_gen.txt';
-[status,muastr]=system(sprintf('./get_ops.sh Mua %s',infile_db_gen));
-muaBaseline=str2num(muastr);
-[status,musstr]=system(sprintf('./get_ops.sh Mus %s',infile_db_gen));
-musBaseline=str2num(musstr);
+x0 = [0.01, 5.0]; % baseline values for database and initial guess
+g = 0.8;
+% input rho
+rhostart=0.0;
+rhostop=6.0;
+rhocount=7;
+rho=linspace(rhostart,rhostop,rhocount);
+rhoMidpoints=(rho(1:end-1) + rho(2:end))/2;
+infile_pMC='infile_pMC_db_gen.txt';
+[status]=system(sprintf('cp infile_pMC_db_gen_template.txt %s',infile_pMC));
+[status]=system(sprintf('./sub_ops.sh var1 %s %s','rho',infile_pMC));
+[status]=system(sprintf('./sub_ops.sh a1 %f %s',x0(1),infile_pMC));
+[status]=system(sprintf('./sub_ops.sh s1 %f %s',x0(2),infile_pMC));
+[status]=system(sprintf('./sub_ops.sh sp1 %f %s',x0(2)*(1-g),infile_pMC));
+[status]=system(sprintf('./sub_ops.sh rhostart %f %s',rhostart,infile_pMC));
+[status]=system(sprintf('./sub_ops.sh rhostop %f %s',rhostop,infile_pMC));
+[status]=system(sprintf('./sub_ops.sh rhocount %d %s',rhocount,infile_pMC));
 % generate database
 system('./mc infile=infile_pMC_db_gen.txt');
-x0 = [muaBaseline, musBaseline];
-[R,pmcR,dmcRmua,dmcRmus]=load_for_inv_results('pMC_db_gen');
+[R,pmcR,dmcRmua,dmcRmus]=load_for_inv_results('pMC_db_rho');
 R_ig=R(1:end)';
 %% use unconstrained optimization lb=[-inf -inf]; ub=[inf inf];
 lb=[]; ub=[];
-x0=[0.01 5.0];
-% input rho
-rhoMidpoints=[0.5 1.5 2.5 3.5 4.5 5.5];
+
 % input measData
 measData = [0.0331 0.0099 0.0042 0.0020 0.0010 0.0005];
-% input measData  
 
 % option: divide measured data and forward model by measured data
 % this counters log decay of data and relative importance of small rho data
@@ -50,9 +62,9 @@ if(exist('lsqcurvefit','file'))
 else
 %     options = optimset('diagnostics','on','largescale','on');
     options = [];
-    recoveredOPs = fminsearch('pmc_Chi2',x0,options,rhoMidpoints,measData);
+    recoveredOPs = fminsearch('pmc_F_dmc_J',x0,options,rhoMidpoints,measData);
 end
-[R,pmcR,dmcRmua,dmcRmus]=load_for_inv_results('PP_pMC_est');
+[R,pmcR,dmcRmua,dmcRmus]=load_for_inv_results('PP_rho');
 R_conv=pmcR(1:end);
 f = figure; semilogy(rhoMidpoints,measData,'r.',...
     rhoMidpoints,R_ig,'g-',...
@@ -64,4 +76,85 @@ title('Inverse solution using pMC/dMC');
 set(f, 'Name', 'Inverse solution using pMC/dMC');
 disp(sprintf('Conv =    [%f %5.3f] Chi2=%5.3e',recoveredOPs(1),recoveredOPs(2),...
     (measData-R_conv')*(measData-R_conv')'));
+
+%% ======================================================================= %
+% Example 7+: Inverse solution for R(rho,wavelength)
+% In vts_solver_demo: Example ROfRho (inverse solution for chromophore concentrations 
+%  for multiple wavelengths, single rho) except only using every 100nm increments
+% Run a Monte Carlo simulation with pMC post-processing enabled
+% Use generated database to solve inverse problem with measured data
+% generated using Nurbs
+% input rho
+rhostart=0.5;
+rhostop=1.5;
+rhocount=2;
+rho=linspace(rhostart,rhostop,rhocount);
+rhoMidpoints=1;
+wv = 500:100:1000; % change from vts_solver_demo
+
+% create a list of chromophore absorbers and their concentrations
+% these values are the EXACT solution
+absorbers.Names =           {'HbO2', 'Hb', 'H2O'};
+measConc =                  [70,     30,   0.8  ];
+absorbers.Concentrations =  [measConc(1), measConc(2), measConc(3)];
+
+% create a scatterer for power law
+scatterers.a = 1.2;
+scatterers.b = 1.42;
+g=0.8;
+
+% ops has dimensions [numwv 4]
+ops=get_optical_properties(absorbers,scatterers,wv); 
+
+R_ig=zeros(length(wv),1);
+infile_pMC='infile_pMC_db_gen.txt';
+for iwv=1:length(wv)
+  [status]=system(sprintf('cp infile_pMC_db_gen_template.txt %s',infile_pMC));
+  [status]=system(sprintf('./sub_ops.sh var1 %s %s',sprintf('wv%d',iwv),infile_pMC));
+  [status]=system(sprintf('./sub_ops.sh a1 %f %s',ops(iwv,1),infile_pMC));
+  [status]=system(sprintf('./sub_ops.sh s1 %f %s',ops(iwv,2)/(1-g),infile_pMC));
+  [status]=system(sprintf('./sub_ops.sh sp1 %f %s',ops(iwv,2),infile_pMC));  
+  [status]=system(sprintf('./sub_ops.sh rhostart %f %s',rhostart,infile_pMC));
+  [status]=system(sprintf('./sub_ops.sh rhostop %f %s',rhostop,infile_pMC));
+  [status]=system(sprintf('./sub_ops.sh rhocount %d %s',rhocount,infile_pMC));
+  % generate databases for each wavelength
+  system('./mc infile=infile_pMC_db_gen.txt');
+  [R,pmcR,dmcRmua,dmcRmus]=load_for_inv_results(sprintf('pMC_db_wv%d',iwv));
+  R_ig(iwv)=R;
+end
+
+%% use unconstrained optimization lb=[-inf -inf]; ub=[inf inf];
+lb=[]; ub=[];
+conc0=[70, 30, 0.8];
+% input measData taken from vts_solver_demo using Nurbs
+measData = [8.8777e-3 2.208e-2 3.4631e-2 3.0051e-2 2.5056e-2 1.9823e-2];
+
+% run lsqcurvefit if have Optimization Toolbox because it makes use of
+% dMC differential Monte Carlo predictions
+% if don't have Optimization Toolbox, run non-gradient, non-constrained
+% fminsearch
+if(exist('lsqcurvefit','file'))
+    options = optimset('Jacobian','off','diagnostics','on','largescale','on');
+    [recoveredOPs,resnorm] = lsqcurvefit('pmc_F_dmc_J_wv',conc0,wv,measData',lb,ub,...
+        options,rhoMidpoints,scatterers);
+else
+%     options = optimset('diagnostics','on','largescale','on');
+    options = [];
+    recoveredOPs = fminsearch('pmc_F_dmc_J_wv2',conc0,wv,options,rhoMidpoints,measData);
+end
+R_conv=zeros(length(wv),1);
+for iwv=1:length(wv)
+  [R,pmcR,dmcRmua,dmcRmus]=load_for_inv_results(sprintf('PP_wv%d',iwv));
+  R_conv(iwv)=pmcR;
+end
+f = figure; plot(wv,measData,'r.',...
+    wv,R_ig,'g-',...
+    wv,R_conv,'b:','LineWidth',2);
+xlabel('\lambda [nm]');
+ylabel('log10(R(\lambda))');
+legend('Meas','IG','Converged','Location','SouthWest');
+title('Inverse solution using pMC/dMC'); 
+set(f, 'Name', 'Inverse solution using pMC/dMC');
+disp(sprintf('Conv =    [%5.3f %5.3f %5.3f] Chi2=%5.3e',recoveredOPs(1),recoveredOPs(2),...
+    recoveredOPs(3),(measData-R_conv')*(measData-R_conv')'));
 

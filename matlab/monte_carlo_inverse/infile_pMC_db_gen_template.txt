@@ -1,6 +1,6 @@
 {
-  "OutputName": "pMC_db_wv6",
-  "N": 10000,
+  "OutputName": "pMC_db_var1",
+  "N": 1000,
   "Options": {
     "Seed": 0,
     "RandomNumberGeneratorType": "MersenneTwister",
@@ -52,11 +52,11 @@
           "Count": 2
         },
         "RegionOP": {
-          "Mua": 0.050477,
-          "Mus": 6.000000,
+          "Mua": a1,
+          "Mus": s1,
           "G": 0.8,
           "N": 1.4,
-          "Musp": 1.200000
+          "Musp": sp1
         }
       },
       {
@@ -80,9 +80,9 @@
   "DetectorInputs": [
     {
       "Rho": {
-        "Start": 0.500000,
-        "Stop": 1.500000,
-        "Count": 2
+        "Start": rhostart,
+        "Stop": rhostop,
+        "Count": rhocount
       },
       "TallyType": "ROfRho",
       "Name": "ROfRho",
