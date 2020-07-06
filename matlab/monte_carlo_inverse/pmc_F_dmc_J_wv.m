@@ -36,8 +36,8 @@ for iwv=1:length(wavelengths)
   % run MCPP with updated infile
   [status]=system(sprintf('./mc_post infile=%s',infile_PP));
   [R,pmcR,dmcRmua,dmcRmus]=load_for_inv_results(sprintf('PP_wv%d',iwv));
-  F(iwv)=pmcR';
+  F(iwv)=pmcR(1)';
   % set jacobian derivative information
-  J(iwv,:) = [ dmcRmua dmcRmus ];
+  J(iwv,:) = [ dmcRmua(1) dmcRmus(1) ];
 end
 end
