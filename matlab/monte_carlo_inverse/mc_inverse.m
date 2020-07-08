@@ -82,13 +82,12 @@ disp(sprintf('Conv =    [%f %5.3f] Chi2=%5.3e',recoveredOPs(1),recoveredOPs(2),.
     (measData-R_conv)*(measData-R_conv)'));
 
 %% ======================================================================= %
-% Example 7+: Inverse solution for R(rho,wavelength)
+% Example 7+: Inverse solution for R(rho,wavelength) chromophore concentrations
 % In vts_solver_demo: Example ROfRho (inverse solution for chromophore concentrations 
 %  for multiple wavelengths, single rho) except only using every 100nm increments
 % Run a Monte Carlo simulation with pMC post-processing enabled
 % Use generated database to solve inverse problem with measured data
-% generated using Nurbs
-% input rho
+% generated using Nurbs and selected concentrations
 rhostart=0;
 rhostop=2;
 rhocount=8;  
@@ -98,19 +97,19 @@ gen_db=false;
 wv = 500:100:1000; % change from vts_solver_demo
 
 % create a list of chromophore absorbers and their concentrations
-% these values are the EXACT solution
+% these values are the initial guess 
 absorbers.Names =           {'HbO2', 'Hb', 'H2O'};
 igConc =                    [ 70,    30,    0.8  ];
 absorbers.Concentrations =  [igConc(1), igConc(2), igConc(3)];
 
 % create a scatterer for power law
-scatterers.a = 1.2;
-scatterers.b = 1.42;
+scatterers.Names = {}; % set empty if not fitting
+scatterers.Coefficients = [1.2, 1.42];
 g=0.8;
 n=1.4;
 
 % ops has dimensions [numwv 4]
-[ops,dmua]=get_optical_properties(absorbers,scatterers,wv); 
+[ops,dmua,dmusp]=get_optical_properties(absorbers,scatterers,wv); 
 
 R_ig=zeros(1,length(wv));
 infile_pMC='infile_pMC_db_gen.txt';
@@ -150,7 +149,7 @@ if(exist('lsqcurvefit','file'))
     options = optimoptions('lsqcurvefit','Algorithm','levenberg-marquardt',...
         'SpecifyObjectiveGradient',true,'Diagnostics','on');
     [recoveredOPs,resnorm] = lsqcurvefit('pmc_F_dmc_J_wv',igConc,wv,measData',lb,ub,...
-        options,rhoMidpoints,scatterers,g,n);
+        options,rhoMidpoints,absorbers,scatterers,g,n);
 else
     options = optimset('diagnostics','on','largescale','on');
     recoveredOPs = fminsearch('pmc_F_dmc_J_wv2',igConc,wv,options,rhoMidpoints,measData);
@@ -170,6 +169,89 @@ title('Inverse solution using pMC/dMC');
 set(f, 'Name', 'Inverse solution using pMC/dMC');
 disp(sprintf('IG   =    [%5.3f %5.3f %5.3f] Chi2=%5.3e',igConc(1),igConc(2),...
     igConc(3),(measData-R_ig)*(measData-R_ig)'));
+disp(sprintf('Conv =    [%5.3f %5.3f %5.3f] Chi2=%5.3e',recoveredOPs(1),recoveredOPs(2),...
+    recoveredOPs(3),(measData-R_conv)*(measData-R_conv)'));
+%% ======================================================================= %
+% Example 7++: Inverse solution for R(rho,wavelength) chromophore concentrations
+%   and scatterer coefficients
+rhostart=0;
+rhostop=2;
+rhocount=8;  
+rho=linspace(rhostart,rhostop,rhocount);
+rhoMidpoints=(rho(1:end-1) + rho(2:end))/2;
+gen_db=false;
+wv = 500:100:1000; % change from vts_solver_demo
+
+% create a list of chromophore absorbers and their concentrations
+% these values are the EXACT solution
+absorbers.Names =           {'H2O'};
+absorbers.Concentrations =  [ 0.8 ];
+
+% create a scatterer for power law
+scatterers.Names = {'a','b'};
+scatterers.Coefficients(1) = 1.2;
+scatterers.Coefficients(2) = 1.42;
+g=0.8;
+n=1.4;
+igParms = [absorbers.Concentrations(1) scatterers.Coefficients(1) scatterers.Coefficients(2)];
+
+% ops has dimensions [numwv 4]
+[ops,dmua,dmusp]=get_optical_properties(absorbers,scatterers,wv); 
+
+R_ig=zeros(1,length(wv));
+infile_pMC='infile_pMC_db_gen.txt';
+if (gen_db)
+  for iwv=1:length(wv)
+    [status]=system(sprintf('cp infile_pMC_db_gen_template.txt %s',infile_pMC));
+    [status]=system(sprintf('./sub_ops.sh var1 %s %s',sprintf('wv%d',iwv),infile_pMC));
+    [status]=system(sprintf('./sub_ops.sh a1 %f %s',ops(iwv,1),infile_pMC));
+    [status]=system(sprintf('./sub_ops.sh s1 %f %s',ops(iwv,2)/(1-g),infile_pMC));
+    [status]=system(sprintf('./sub_ops.sh sp1 %f %s',ops(iwv,2),infile_pMC));  
+    [status]=system(sprintf('./sub_ops.sh rhostart %f %s',rhostart,infile_pMC));
+    [status]=system(sprintf('./sub_ops.sh rhostop %f %s',rhostop,infile_pMC));
+    [status]=system(sprintf('./sub_ops.sh rhocount %d %s',rhocount,infile_pMC));
+    % generate databases for each wavelength
+    system('./mc infile=infile_pMC_db_gen.txt');
+  end
+end
+for iwv=1:length(wv)
+  [R,pmcR,dmcRmua,dmcRmus]=load_for_inv_results(sprintf('pMC_db_wv%d',iwv));
+  R_ig(iwv)=R(4);
+end
+
+%% use unconstrained optimization lb=[-inf -inf]; ub=[inf inf];
+lb=[]; ub=[];
+% input measData taken from vts_solver_demo using Nurbs rho=1mm and
+% parameters { 1.0, 1.22, 1.4 }
+measData = [0.0471 0.0434 0.0389 0.0338 0.0288 0.0210]; 
+% run lsqcurvefit if have Optimization Toolbox because it makes use of
+% dMC differential Monte Carlo predictions
+% if don't have Optimization Toolbox, run non-gradient, non-constrained
+% fminsearch
+if(exist('lsqcurvefit','file'))
+    options = optimoptions('lsqcurvefit','Algorithm','levenberg-marquardt',...
+        'SpecifyObjectiveGradient',true,'Diagnostics','on');
+    [recoveredOPs,resnorm] = lsqcurvefit('pmc_F_dmc_J_wv',igParms,wv,measData',lb,ub,...
+        options,rhoMidpoints,absorbers,scatterers,g,n);
+else
+    options = optimset('diagnostics','on','largescale','on');
+    recoveredOPs = fminsearch('pmc_F_dmc_J_wv2',igParms,wv,options,rhoMidpoints,measData);
+end
+R_conv=zeros(1,length(wv));
+for iwv=1:length(wv)
+  [R,pmcR,dmcRmua,dmcRmus]=load_for_inv_results(sprintf('PP_wv%d',iwv));
+  R_conv(iwv)=pmcR(4);
+end
+f = figure; plot(wv,measData,'r.',...
+    wv,R_ig,'g-',...
+    wv,R_conv,'b:','LineWidth',2);
+xlabel('\lambda [nm]');
+ylabel('log10(R(\lambda))');
+legend('Meas','IG','Converged','Location','SouthWest');
+title('Inverse solution using pMC/dMC'); 
+set(f, 'Name', 'Inverse solution using pMC/dMC');
+disp(sprintf('IG   =    [%5.3f %5.3f %5.3f] Chi2=%5.3e',igParms(1),igParms(2),...
+    igParms(3),(measData-R_ig)*(measData-R_ig)'));
 disp(sprintf('Conv =    [%5.3f %5.3f %5.3f] Chi2=%5.3e',recoveredOPs(1),recoveredOPs(2),...
     recoveredOPs(3),(measData-R_conv)*(measData-R_conv)'));
 
