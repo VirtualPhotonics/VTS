@@ -72,6 +72,16 @@ namespace Vts.MonteCarlo
 
         private static ValidationResult ValidateTissueInput(ITissueInput tissueInput)
         {
+            // for all types of tissues, check that OPs are non-negative (g could be neg)
+            if (tissueInput.Regions.Any(r => r.RegionOP.Mua < 0.0) ||
+                tissueInput.Regions.Any(r => r.RegionOP.Musp < 0.0) ||
+                tissueInput.Regions.Any(r => r.RegionOP.N < 0.0))
+            {
+                return new ValidationResult(
+                    false,
+                     "Tissue optical properties mua, mus', n need to be non-negative",
+                     "Please check optical properties");
+            }
             if (tissueInput is MultiLayerTissueInput)
             {
                 return MultiLayerTissueInputValidation.ValidateInput(tissueInput);

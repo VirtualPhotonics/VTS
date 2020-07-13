@@ -211,6 +211,9 @@
     <Compile Include="..\Vts.Test\MonteCarlo\DataStructuresValidation\DetectorInputs\dMCdROfRhodMusDetectorInputValidationTests.cs">
       <Link>MonteCarlo\DataStructuresValidation\DetectorInputs\dMCdROfRhodMusDetectorInputValidationTests.cs</Link>
     </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\DataStructuresValidation\PostProcessorInputs\PostProcessorInputValidationTests.cs">
+      <Link>MonteCarlo\DataStructuresValidation\PostProcessorInputs\PostProcessorInputValidationTests.cs</Link>
+    </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\DataStructuresValidation\SimulationInputValidationTests.cs">
       <Link>MonteCarlo\DataStructuresValidation\SimulationInputValidationTests.cs</Link>
     </Compile>
