@@ -2,7 +2,6 @@ using System;
 using System.Linq;
 using Vts.Common;
 using Vts.MonteCarlo.DataStructuresValidation;
-using Vts.MonteCarlo.Extensions;
 using Vts.MonteCarlo.Sources;
 using Vts.MonteCarlo.Tissues;
 
@@ -252,7 +251,7 @@ namespace Vts.MonteCarlo
                     {
                         return new ValidationResult(
                             false,
-                            "The use of Continuous Absorption Weighting with cylindrical volume detectors not implemented yet",
+                            "The use of Continuous Absorption Weighting is not implemented for one of the infile detectors",
                             "Modify AbsorptionWeightingType to Discrete");
                     }
                 }

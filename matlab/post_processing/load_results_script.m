@@ -340,11 +340,12 @@ for mci = 1:length(datanames)
             figure; imagesc(results{di}.RadianceOfRhoAndZAndAngle.Rho_Midpoints, results{di}.RadianceOfRhoAndZAndAngle.Z_Midpoints, log10(squeeze(results{di}.RadianceOfRhoAndZAndAngle.Mean(i,:,:)))); colorbar; title(figname); set(gcf,'Name', figname);ylabel('z [mm]'); xlabel('\rho [mm]'); colormap(jet);
             caxis([log10(minRadiance),log10(maxRadiance)]);
         end
-        % plot diff if two hemispheres
+        % plot ratio of two hemispheres
         if (numangles==2)
-            figname = 'log10(lower./upper)'; 
+            figname = '(lower./upper)'; 
             figure; imagesc(results{di}.RadianceOfRhoAndZAndAngle.Rho_Midpoints, results{di}.RadianceOfRhoAndZAndAngle.Z_Midpoints, ...
-                squeeze(log10(results{di}.RadianceOfRhoAndZAndAngle.Mean(1,:,:)./results{di}.RadianceOfRhoAndZAndAngle.Mean(2,:,:)))); colorbar; title(figname); set(gcf,'Name', figname);ylabel('z [mm]'); xlabel('\rho [mm]');
+                squeeze(results{di}.RadianceOfRhoAndZAndAngle.Mean(1,:,:)./results{di}.RadianceOfRhoAndZAndAngle.Mean(2,:,:))); ...
+                colorbar; title(figname); set(gcf,'Name', figname);ylabel('z [mm]'); xlabel('\rho [mm]'); caxis([0 2]);
         end
         rhodelta = results{di}.RadianceOfRhoAndZAndAngle.Rho(2)-results{di}.RadianceOfRhoAndZAndAngle.Rho(1);
         zdelta = results{di}.RadianceOfRhoAndZAndAngle.Z(2)-results{di}.RadianceOfRhoAndZAndAngle.Z(1);
