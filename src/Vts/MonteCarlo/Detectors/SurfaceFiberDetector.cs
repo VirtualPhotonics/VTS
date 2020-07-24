@@ -2,8 +2,6 @@ using System;
 using Vts.Common;
 using Vts.IO;
 using Vts.MonteCarlo.Extensions;
-using Vts.MonteCarlo.Helpers;
-using Vts.MonteCarlo.PhotonData;
 
 namespace Vts.MonteCarlo.Detectors
 {
@@ -145,15 +143,22 @@ namespace Vts.MonteCarlo.Detectors
         /// <param name="photon">photon data needed to tally</param>
         public void Tally(Photon photon)
         {
-            if (!IsWithinDetectorAperture(photon))
-                return;
-
-            Mean += photon.DP.Weight;
-            if (TallySecondMoment)
+            // check that exit location is within fiber radius
+            if (Math.Sqrt((photon.DP.Position.X - Center.X) *
+                          (photon.DP.Position.X - Center.X) +
+                          (photon.DP.Position.Y - Center.Y) *
+                          (photon.DP.Position.Y - Center.Y)) < Radius)
             {
-                SecondMoment += photon.DP.Weight * photon.DP.Weight;
+                if (!IsWithinDetectorAperture(photon))
+                    return;
+
+                Mean += photon.DP.Weight;
+                if (TallySecondMoment)
+                {
+                    SecondMoment += photon.DP.Weight * photon.DP.Weight;
+                }
+                TallyCount++;
             }
-            TallyCount++;
         }
 
         /// <summary>
