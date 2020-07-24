@@ -124,8 +124,8 @@ namespace Vts.Test.MonteCarlo.Detectors
         {
             // R_r[0] should be different than SurFib because SurFib has an N different than air
             Assert.Less(Math.Abs(_outputOpen.R_r[0] - 0.039926), 0.000001);
-            Assert.Less(Math.Abs(_outputOpen.SurFib - 0.092617), 0.000001);
-            Assert.Less(Math.Abs(_outputOpen.SurFib2 - 0.012178), 0.000001);
+            Assert.Less(Math.Abs(_outputOpen.SurFib - 0.185234), 0.000001);
+            Assert.Less(Math.Abs(_outputOpen.SurFib2 - 0.048715), 0.000001);
             var sd = Math.Sqrt((_outputOpen.SurFib2 -
                                 _outputOpen.SurFib * _outputOpen.SurFib) / 100);
             var threeSigmaPos = _outputOpen.SurFib + 3 * sd;
@@ -144,8 +144,8 @@ namespace Vts.Test.MonteCarlo.Detectors
         public void validate_NA_surface_fiber_detector_produces_correct_results()
         {
             Assert.Less(Math.Abs(_outputNA.R_r[0] - 0.002643), 0.000001);
-            Assert.Less(Math.Abs(_outputNA.SurFib - 0.002941), 0.000001);
-            Assert.Less(Math.Abs(_outputNA.SurFib2 - 0.000403), 0.000001);
+            Assert.Less(Math.Abs(_outputNA.SurFib - 0.005883), 0.000001);
+            Assert.Less(Math.Abs(_outputNA.SurFib2 - 0.001613), 0.000001);
             var sd = Math.Sqrt((_outputNA.SurFib2 -
                                 _outputNA.SurFib * _outputNA.SurFib) / 100);
             var threeSigmaPos = _outputNA.SurFib + 3 * sd;

@@ -162,7 +162,7 @@ namespace Vts.MonteCarlo.Detectors
         /// <param name="numPhotons">number of photons launched</param>
         public void Normalize(long numPhotons)
         {
-            var areaNorm = 2.0 * Math.PI * Radius; // do we normalize fiber detector results by area of fiber end?
+            var areaNorm = Math.PI * Radius * Radius; // do we normalize fiber detector results by area of fiber end?
             Mean /= areaNorm * numPhotons;
             if (TallySecondMoment)
             {
