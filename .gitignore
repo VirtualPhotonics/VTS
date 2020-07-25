@@ -88,3 +88,5 @@ src/Vts.MonteCarlo.PostProcessor.Test/Vts.MonteCarlo.PostProcessor.Application.T
 src/Vts.MonteCarlo.CommandLineApplication/Vts.MonteCarlo.Application.csproj
 src/Vts.MonteCarlo.CommandLineApplication.Test/Vts.MonteCarlo.Application.Test.csproj
 src/.gitignore
+src/license.md
+src/README.md
