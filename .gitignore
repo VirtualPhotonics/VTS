@@ -82,3 +82,9 @@ CVS
 src/.vs/
 publish/
 matlab/post_processing/one_layer_all_detectors/
+src/Vts.MonteCarlo.sln
+src/Vts.MonteCarlo.PostProcessor/Vts.MonteCarlo.PostProcessor.Application.csproj
+src/Vts.MonteCarlo.PostProcessor.Test/Vts.MonteCarlo.PostProcessor.Application.Test.csproj
+src/Vts.MonteCarlo.CommandLineApplication/Vts.MonteCarlo.Application.csproj
+src/Vts.MonteCarlo.CommandLineApplication.Test/Vts.MonteCarlo.Application.Test.csproj
+src/.gitignore
