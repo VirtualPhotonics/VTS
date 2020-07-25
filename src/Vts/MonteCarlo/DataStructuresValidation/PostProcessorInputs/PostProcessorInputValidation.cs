@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Vts.MonteCarlo.DataStructuresValidation;
-using Vts.MonteCarlo.Extensions;
 
 namespace Vts.MonteCarlo
 {
@@ -21,6 +20,12 @@ namespace Vts.MonteCarlo
         public static ValidationResult ValidateInput(PostProcessorInput input, string inpath)
         {
             ValidationResult tempResult;
+            tempResult = ValidateTissueOpticalProperties(input.DetectorInputs);
+            if (!tempResult.IsValid)
+
+            {
+                return tempResult;
+            }
 
             tempResult = ValidateInputFolderExistence(Path.Combine(inpath, input.InputFolder));
             if (!tempResult.IsValid)
@@ -96,6 +101,32 @@ namespace Vts.MonteCarlo
                 !File.Exists(Path.Combine(inputFolder, simulationInputFilename)),
                 "PostProcessorInput:  SimulationInput filename does not exist",
                 "check that a SimulationInput file exists in inputFolder");
+        }
+        private static ValidationResult ValidateTissueOpticalProperties(
+            IList<IDetectorInput> detectorInputs)
+        {
+            // for all pMC detectors, check that perturbed OPs are non-negative (g could be neg)
+            foreach (var detectorInput in detectorInputs)
+            {
+                if (detectorInput.TallyDetails.IspMCReflectanceTally)
+                {
+                    var ops = ((dynamic)detectorInput).PerturbedOps;
+                    foreach (var op in ops)
+                    {
+                        if ((op.Mua < 0.0) || (op.Musp < 0.0) || (op.N < 0.0))
+                        {
+
+                            return new ValidationResult(
+                            false,
+                             "Tissue optical properties mua, mus', n need to be non-negative",
+                             "Please check optical properties");
+                        }
+                    }
+                }
+            }
+            return new ValidationResult(
+                true,
+                "PostProcessorInput:  perturbed optical properties are all non-negative");
         }
     }
 }
