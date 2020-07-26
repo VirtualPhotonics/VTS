@@ -1082,7 +1082,7 @@ new ITissueRegion[]
                         N = 1.4,
                         NA = double.PositiveInfinity,
                         Name = "SurfaceFiber_Open",
-                        FinalTissueRegionIndex = 1,
+                        FinalTissueRegionIndex = 3,
                         TallySecondMoment = true
                     },
                     new SurfaceFiberDetectorInput()
@@ -1092,7 +1092,7 @@ new ITissueRegion[]
                         N = 1.4,
                         NA = 0.22,
                         Name = "SurfaceFiber_NA0p22",
-                        FinalTissueRegionIndex = 1,
+                        FinalTissueRegionIndex = 3,
                         TallySecondMoment = true
                     },
                     new SurfaceFiberDetectorInput()
@@ -1102,7 +1102,7 @@ new ITissueRegion[]
                         N = 1.4,
                         NA = 0.39,
                         Name = "SurfaceFiber_NA0p39",
-                        FinalTissueRegionIndex = 1,
+                        FinalTissueRegionIndex = 3,
                         TallySecondMoment = true
                     }
                 }
