@@ -206,16 +206,21 @@ namespace Vts.MonteCarlo.Tissues
             {
                 if (photon.CurrentRegionIndex == 1) // check if at surface
                 {
-                    if (Math.Sqrt(photon.DP.Position.X * photon.DP.Position.X +
-                                  photon.DP.Position.Y * photon.DP.Position.Y) <
-                        ((SurfaceFiberTissueRegion) _surfaceFiberRegion).Radius)
+                    if (_surfaceFiberRegion.ContainsPosition(photon.DP.Position))
                     {
                         return Regions.Count - 1; // return index of surfaceFiberRegion
                     }
 
                     return 0; // return air
                 }
-                return photon.CurrentRegionIndex - 1;  // move to layer above
+                else
+                {
+                    if (photon.CurrentRegionIndex == 3) // in surfaceFiberRegion
+                    {
+                        return 0;
+                    }
+                }
+                return photon.CurrentRegionIndex - 1;  // must be layer above
             }
         }
         /// <summary>

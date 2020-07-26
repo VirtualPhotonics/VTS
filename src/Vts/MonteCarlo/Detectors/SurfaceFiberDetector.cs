@@ -125,8 +125,6 @@ namespace Vts.MonteCarlo.Detectors
             TallyCount = 0;
 
             // if the data arrays are null, create them (only create second moment if TallySecondMoment is true)
-            //Mean = Mean ?? new double();
-            //SecondMoment = SecondMoment ?? (TallySecondMoment ? new double() : null);
             Mean = new double();
             if (TallySecondMoment)
             {
@@ -143,7 +141,7 @@ namespace Vts.MonteCarlo.Detectors
         /// <param name="photon">photon data needed to tally</param>
         public void Tally(Photon photon)
         {
-            // check that exit location is within fiber radius
+            //// check that exit location is within fiber radius
             if (Math.Sqrt((photon.DP.Position.X - Center.X) *
                           (photon.DP.Position.X - Center.X) +
                           (photon.DP.Position.Y - Center.Y) *
