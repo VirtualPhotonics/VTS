@@ -158,6 +158,7 @@ namespace Vts.MonteCarlo.Detectors
             if (!IsWithinDetectorAperture(photon))
                 return;
 
+            // WhichBin to match ROfXAndY
             var ix = DetectorBinning.WhichBin(photon.DP.Position.X, X.Count - 1, X.Delta, X.Start);
             var iy = DetectorBinning.WhichBin(photon.DP.Position.Y, Y.Count - 1, Y.Delta, Y.Start);
             if ((ix != -1) && (iy != -1))
@@ -252,22 +253,13 @@ namespace Vts.MonteCarlo.Detectors
 
         /// <summary>
         /// Method to determine if photon is within detector NA
+        /// pMC does not have access to PreviousDP so logic based on DP
         /// </summary>
         /// <param name="photon">photon</param>
         public bool IsWithinDetectorAperture(Photon photon)
         {
-            if (photon.CurrentRegionIndex == FinalTissueRegionIndex)
-            {
-                var detectorRegionN = _tissue.Regions[photon.CurrentRegionIndex].RegionOP.N;
-                return photon.DP.IsWithinNA(NA, Direction.AlongNegativeZAxis, detectorRegionN);
-            }
-            else // determine n of prior tissue region
-            {
-                var detectorRegionN = _tissue.Regions[FinalTissueRegionIndex].RegionOP.N;
-                return photon.History.PreviousDP.IsWithinNA(NA, Direction.AlongNegativeZAxis, detectorRegionN);
-            }
-            //return true; // or, possibly test for NA or confined position, etc
-            //return (dp.StateFlag.Has(PhotonStateType.PseudoTransmissionDomainTopBoundary));
+            var detectorRegionN = _tissue.Regions[photon.CurrentRegionIndex].RegionOP.N;
+            return photon.DP.IsWithinNA(NA, Direction.AlongNegativeZAxis, detectorRegionN);
         }
     }
 }

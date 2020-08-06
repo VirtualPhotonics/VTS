@@ -6,8 +6,6 @@ using System.Runtime.Serialization;
 using Vts.Common;
 using Vts.IO;
 using Vts.MonteCarlo.Extensions;
-using Vts.MonteCarlo.PhotonData;
-using Vts.IO;
 
 namespace Vts.MonteCarlo.Detectors
 {
@@ -256,23 +254,15 @@ namespace Vts.MonteCarlo.Detectors
             };
         }
         /// <summary>
-        /// Method to determine if photon is within detector NA
+        /// Method to determine if photon is within detector NA       
+        /// pMC does not have access to PreviousDP so logic based on DP and 
+        /// n1 sin(theta1) = n2 sin(theta2) 
         /// </summary>
         /// <param name="photon">photon</param>
         public bool IsWithinDetectorAperture(Photon photon)
         {
-            if (photon.CurrentRegionIndex == FinalTissueRegionIndex)
-            {
-                var detectorRegionN = _tissue.Regions[photon.CurrentRegionIndex].RegionOP.N;
-                return photon.DP.IsWithinNA(NA, Direction.AlongNegativeZAxis, detectorRegionN);
-            }
-            else // determine n of prior tissue region
-            {
-                var detectorRegionN = _tissue.Regions[FinalTissueRegionIndex].RegionOP.N;
-                return photon.History.PreviousDP.IsWithinNA(NA, Direction.AlongNegativeZAxis, detectorRegionN);
-            }
-            //return true; // or, possibly test for NA or confined position, etc
-            //return (dp.StateFlag.Has(PhotonStateType.PseudoTransmissionDomainTopBoundary));
+            var detectorRegionN = _tissue.Regions[photon.CurrentRegionIndex].RegionOP.N;
+            return photon.DP.IsWithinNA(NA, Direction.AlongNegativeZAxis, detectorRegionN);            
         }
     }
 }
