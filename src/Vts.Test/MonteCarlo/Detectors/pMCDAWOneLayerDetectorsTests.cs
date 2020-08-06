@@ -257,8 +257,8 @@ namespace Vts.Test.MonteCarlo.Detectors
             // validation value obtained from linux run using above input and seeded the same
             Assert.AreNotEqual(Math.Abs(postProcessedOutput.dMCdMua_R_r[0]), double.NaN);
             Assert.AreNotEqual(Math.Abs(postProcessedOutput.dMCdMus_R_r[0]), double.NaN);
-            Assert.AreEqual(postProcessedOutput.dMCdMua_R_r_TallyCount, 68);
-            Assert.AreEqual(postProcessedOutput.dMCdMus_R_r_TallyCount, 68);
+            Assert.AreEqual(postProcessedOutput.dMCdMua_R_r_TallyCount, 89);
+            Assert.AreEqual(postProcessedOutput.dMCdMus_R_r_TallyCount, 89);
         }
 
         /// <summary>
