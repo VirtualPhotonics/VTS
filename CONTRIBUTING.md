@@ -70,7 +70,7 @@ Use a space before and after operators with the exception of ++ and --
     }
 ```
 ## Comments
-There are 2 types of comments in the code, XML comments and regular code comments. We use the XML comments to generate our [XML Comments, click here](/VirtualPhotonics/VTS/wiki/Visual-Studio-XML-Comment-Tags.<br />
+There are 2 types of comments in the code, XML comments and regular code comments. We use the XML comments to generate our documentation and library helper text, [click here](https://github.com/VirtualPhotonics/VTS/wiki/Visual-Studio-XML-Comment-Tags) for more details on generating these comments.
 The style for the code comments is two slashes // even for multi-line comments. Avoid using /* comments */
 ## File Organization
 There should be one public type per source file but this file can contain multiple internal classes. Source files should ave the same name as the public class in the file. Directory names should follow the namespace of the class.<br /> 
