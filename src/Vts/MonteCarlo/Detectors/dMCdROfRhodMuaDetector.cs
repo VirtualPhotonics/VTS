@@ -170,7 +170,9 @@ namespace Vts.MonteCarlo.Detectors
             if (!IsWithinDetectorAperture(photon))
                 return;
             
-            var ir = DetectorBinning.WhichBinExclusive(DetectorBinning.GetRho(photon.DP.Position.X, photon.DP.Position.Y), Rho.Count - 1, Rho.Delta, Rho.Start);
+            // WhichBin to match pMCROfRho which matches ROfRho
+            var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(photon.DP.Position.X, photon.DP.Position.Y), Rho.Count - 1, Rho.Delta, Rho.Start);
+
             if (ir != -1)
             {
                 double weightFactor = _absorbAction(
