@@ -43,6 +43,7 @@ show.FluenceOfRhoAndZAndOmega = 1;
 show.FluenceOfXAndYAndZ =       1;
 show.FluenceOfXAndYAndZAndTime =  1;
 show.FluenceOfXAndYAndZAndOmega =  1;
+show.FluenceOfXAndYAndZAndStartingXAndY = 1;
 show.FluenceOfFxAndZ =          1;
 show.RadianceOfRhoAndZAndAngle = 1;
 show.RadianceOfFxAndZAndAngle = 1;
@@ -313,6 +314,27 @@ for mci = 1:length(datanames)
         voxnorm = xdelta * ydelta * zdelta;
         disp(sprintf('Fluence captured by FluenceOfXAndYAndZAndOmega detector at omega=%5.3f GHz: %5.3f',...
             results{di}.FluenceOfXAndYAndZAndOmega.Omega_Midpoints(1),sum(sum(sum(voxnorm*results{di}.FluenceOfXAndYAndZAndOmega.Amplitude(1,:,:,:))))));
+    end
+    if isfield(results{di}, 'FluenceOfXAndYAndZAndStartingXAndY') && show.FluenceOfXAndYAndZAndStartingXAndY
+        numxs = length(results{di}.FluenceOfXAndYAndZAndStartingXAndY.X)-1;
+        numys = length(results{di}.FluenceOfXAndYAndZAndStartingXAndY.Y)-1;
+        numzs = length(results{di}.FluenceOfXAndYAndZAndStartingXAndY.Z)-1;
+        numsxs = length(results{di}.FluenceOfXAndYAndZAndStartingXAndY.StartingX)-1;        
+        numsys = length(results{di}.FluenceOfXAndYAndZAndStartingXAndY.StartingY)-1;
+        center = floor(numys/2)+1;
+        % do for 1st Starting X=1,Y=1
+        figname = sprintf('log10(Fluence(X,Y,Z)) StartingX=%5.3f StartingY=%5.3f',...
+            results{di}.FluenceOfXAndYAndZAndStartingXAndY.StartingX_Midpoints(1),results{di}.FluenceOfXAndYAndZAndStartingXAndY.StartingY_Midpoints(1)); 
+        figure; imagesc(results{di}.FluenceOfXAndYAndZAndStartingXAndY.X_Midpoints, results{di}.FluenceOfXAndYAndZAndStartingXAndY.Z_Midpoints, ...
+            log10(squeeze(results{di}.FluenceOfXAndYAndZAndStartingXAndY.Mean(:,center,:,1,1)))); 
+        colormap(jet);
+        colorbar; title(figname); set(gcf,'Name', figname);ylabel('z [mm]'); xlabel('x [mm]');
+        disp(sprintf('# photons starting in X=3, Y=1: %d',results{di}.FluenceOfXAndYAndZAndStartingXAndY.StartingXYCount(1,1)));
+        xdelta = results{di}.FluenceOfXAndYAndZAndStartingXAndY.X(2)-results{di}.FluenceOfXAndYAndZAndStartingXAndY.X(1);
+        ydelta = results{di}.FluenceOfXAndYAndZAndStartingXAndY.Y(2)-results{di}.FluenceOfXAndYAndZAndStartingXAndY.Y(1);
+        zdelta = results{di}.FluenceOfXAndYAndZAndStartingXAndY.Z(2)-results{di}.FluenceOfXAndYAndZAndStartingXAndY.Z(1);
+        voxnorm = xdelta * ydelta * zdelta;
+        disp(sprintf('Fluence captured by FluenceOfXAndYAndZAndStartingXAndY: %5.3f',sum(voxnorm*results{di}.FluenceOfXAndYAndZAndStartingXAndY.Mean(:))));
     end
     if isfield(results{di}, 'FluenceOfFxAndZ') && show.FluenceOfFxAndZ
         numfxs = length(results{di}.FluenceOfFxAndZ.Fx);

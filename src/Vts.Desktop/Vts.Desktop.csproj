@@ -667,6 +667,9 @@
     <Compile Include="..\Vts\MonteCarlo\Detectors\FluenceOfXAndYAndZAndOmegaDetector.cs">
       <Link>MonteCarlo\Detectors\FluenceOfXAndYAndZAndOmegaDetector.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\FluenceOfXAndYAndZAndStartingXAndYDetector.cs">
+      <Link>MonteCarlo\Detectors\FluenceOfXAndYAndZAndStartingXAndYDetector.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\FluenceOfXAndYAndZAndTimeDetector.cs">
       <Link>MonteCarlo\Detectors\FluenceOfXAndYAndZAndTimeDetector.cs</Link>
     </Compile>
