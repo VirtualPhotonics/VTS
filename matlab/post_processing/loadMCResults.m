@@ -462,6 +462,42 @@ for di = 1:numDetectors
                                                                            - imag(FluenceOfXAndYAndZAndOmega.Mean) .* imag(FluenceOfXAndYAndZAndOmega.Mean)) / json.N);
             end                 
             results{di}.FluenceOfXAndYAndZAndOmega = FluenceOfXAndYAndZAndOmega;
+        case 'FluenceOfXAndYAndZAndStartingXAndY'
+            FluenceOfXAndYAndZAndStartingXAndY.Name = detector.Name;
+            tempX = detector.X;
+            tempY = detector.Y;
+            tempZ = detector.Z;
+            tempSX = detector.StartingX;
+            tempSY = detector.StartingY;
+            FluenceOfXAndYAndZAndStartingXAndY.X = linspace((tempX.Start), (tempX.Stop), (tempX.Count));
+            FluenceOfXAndYAndZAndStartingXAndY.Y = linspace((tempY.Start), (tempY.Stop), (tempY.Count));
+            FluenceOfXAndYAndZAndStartingXAndY.Z = linspace((tempZ.Start), (tempZ.Stop), (tempZ.Count));
+            FluenceOfXAndYAndZAndStartingXAndY.StartingX = linspace((tempSX.Start),(tempSX.Stop),(tempSX.Count));
+            FluenceOfXAndYAndZAndStartingXAndY.StartingY = linspace((tempSY.Start),(tempSY.Stop),(tempSY.Count));
+            FluenceOfXAndYAndZAndStartingXAndY.X_Midpoints = (FluenceOfXAndYAndZAndStartingXAndY.X(1:end-1) + FluenceOfXAndYAndZAndStartingXAndY.X(2:end))/2;
+            FluenceOfXAndYAndZAndStartingXAndY.Y_Midpoints = (FluenceOfXAndYAndZAndStartingXAndY.Y(1:end-1) + FluenceOfXAndYAndZAndStartingXAndY.Y(2:end))/2;
+            FluenceOfXAndYAndZAndStartingXAndY.Z_Midpoints = (FluenceOfXAndYAndZAndStartingXAndY.Z(1:end-1) + FluenceOfXAndYAndZAndStartingXAndY.Z(2:end))/2;
+            FluenceOfXAndYAndZAndStartingXAndY.StartingX_Midpoints = (FluenceOfXAndYAndZAndStartingXAndY.StartingX(1:end-1) + FluenceOfXAndYAndZAndStartingXAndY.StartingX(2:end))/2;
+            FluenceOfXAndYAndZAndStartingXAndY.StartingY_Midpoints = (FluenceOfXAndYAndZAndStartingXAndY.StartingY(1:end-1) + FluenceOfXAndYAndZAndStartingXAndY.StartingY(2:end))/2;
+            tempData = readBinaryData([datadir slash detector.Name], ...
+                [(length(FluenceOfXAndYAndZAndStartingXAndY.StartingX)-1)*(length(FluenceOfXAndYAndZAndStartingXAndY.StartingY)-1)*...
+                 (length(FluenceOfXAndYAndZAndStartingXAndY.X)-1)*(length(FluenceOfXAndYAndZAndStartingXAndY.Y)-1)*(length(FluenceOfXAndYAndZAndStartingXAndY.Z)-1)]); 
+            FluenceOfXAndYAndZAndStartingXAndY.Mean = reshape(tempData, ...% column major json binary
+                [length(FluenceOfXAndYAndZAndStartingXAndY.Z)-1,length(FluenceOfXAndYAndZAndStartingXAndY.Y)-1,length(FluenceOfXAndYAndZAndStartingXAndY.X)-1,...
+                 length(FluenceOfXAndYAndZAndStartingXAndY.StartingY)-1,length(FluenceOfXAndYAndZAndStartingXAndY.StartingX)-1]);
+            FluenceOfXAndYAndZAndStartingXAndY.StartingXYCount = readBinaryData([datadir slash detector.Name '_StartingXYCount'],...
+                [length(FluenceOfXAndYAndZAndStartingXAndY.StartingX)-1,length(FluenceOfXAndYAndZAndStartingXAndY.StartingY)-1]); % read column major json binary                      
+            if(detector.TallySecondMoment && exist([datadir slash detector.Name '_2'],'file'))
+                tempData = readBinaryData([datadir slash detector.Name '_2'], ...
+                   [(length(FluenceOfXAndYAndZAndStartingXAndY.StartingX)-1)*(length(FluenceOfXAndYAndZAndStartingXAndY.StartingY)-1)*...
+                 (length(FluenceOfXAndYAndZAndStartingXAndY.X)-1)*(length(FluenceOfXAndYAndZAndStartingXAndY.Y)-1)*(length(FluenceOfXAndYAndZAndStartingXAndY.Z)-1)]); 
+                FluenceOfXAndYAndZAndStartingXAndY.SecondMoment = reshape(tempData, ... % column major json binary
+                 [length(FluenceOfXAndYAndZAndStartingXAndY.Z)-1,length(FluenceOfXAndYAndZAndStartingXAndY.Y)-1,length(FluenceOfXAndYAndZAndStartingXAndY.X)-1,...
+                 length(FluenceOfXAndYAndZAndStartingXAndY.StartingY)-1,length(FluenceOfXAndYAndZAndStartingXAndY.StartingX)-1]);
+                FluenceOfXAndYAndZAndStartingXAndY.Stdev = sqrt((FluenceOfXAndYAndZAndStartingXAndY.SecondMoment -  ...
+                      (FluenceOfXAndYAndZAndStartingXAndY.Mean .* FluenceOfXAndYAndZAndStartingXAndY.Mean)) / json.N);
+            end                 
+            results{di}.FluenceOfXAndYAndZAndStartingXAndY = FluenceOfXAndYAndZAndStartingXAndY;
         case 'FluenceOfFxAndZ'
             FluenceOfFxAndZ.Name = detector.Name;
             tempFx = detector.Fx;

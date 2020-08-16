@@ -670,6 +670,9 @@
     <Compile Include="..\Vts\MonteCarlo\Detectors\FluenceOfXAndYAndZAndOmegaDetector.cs">
       <Link>MonteCarlo\Detectors\FluenceOfXAndYAndZAndOmegaDetector.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\FluenceOfXAndYAndZAndStartingXAndYDetector.cs">
+      <Link>MonteCarlo\Detectors\FluenceOfXAndYAndZAndStartingXAndYDetector.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\FluenceOfXAndYAndZAndTimeDetector.cs">
       <Link>MonteCarlo\Detectors\FluenceOfXAndYAndZAndTimeDetector.cs</Link>
     </Compile>
@@ -978,6 +981,12 @@
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Rng\SerializableMersenneTwister.cs">
       <Link>MonteCarlo\Rng\SerializableMersenneTwister.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Sources\PointAndLineSources\AdjointLineSources\AdjointLineSource.cs">
+      <Link>MonteCarlo\Sources\PointAndLineSources\AdjointLineSources\AdjointLineSource.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Sources\PointAndLineSources\AdjointLineSources\AdjointLineSourceBase.cs">
+      <Link>MonteCarlo\Sources\PointAndLineSources\AdjointLineSources\AdjointLineSourceBase.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Sources\PointAndLineSources\LineSources\CustomLineSource.cs">
       <Link>MonteCarlo\Sources\PointAndLineSources\LineSources\CustomLineSource.cs</Link>

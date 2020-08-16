@@ -137,6 +137,15 @@ namespace Vts.Test.MonteCarlo.Detectors
                         Time = new DoubleRange(0.0, 1.0, 11),
                         TallySecondMoment = true
                     },
+                    new FluenceOfXAndYAndZAndStartingXAndYDetectorInput()
+                    {
+                        StartingX = new DoubleRange(-10.0, 10.0, 3),
+                        StartingY = new DoubleRange(-10.0, 10.0, 2),
+                        X = new DoubleRange(-10.0, 10.0, 3),
+                        Y = new DoubleRange(-10.0, 10.0, 3),
+                        Z =  new DoubleRange(0.0, 10.0, 3),
+                        TallySecondMoment = true
+                    },
                     new FluenceOfFxAndZDetectorInput()
                     {
                         Fx = new DoubleRange(0.0, 0.5, 51),
@@ -533,12 +542,14 @@ namespace Vts.Test.MonteCarlo.Detectors
         }
 
         // Fluence Flu(x,y,z,time), 1st moment validated with prior test
-        // Verify integral * mua over rho,z,omega equals ATotal
+        // Verify integral * mua over x,y,z,time equals ATotal
         [Test]
         public void validate_DAW_FluenceOfXAndYAndZAndTime()
         {
             Assert.Less(Math.Abs(_outputOneLayerTissue.Flu_xyzt[0, 0, 0, 4] - 0.012811), 0.000001);
-            Assert.Less(Math.Abs(_outputTwoLayerTissue.Flu_xyzt2[0, 0, 0, 4] - 0.016414), 0.000001); 
+            Assert.Less(Math.Abs(_outputOneLayerTissue.Flu_xyzt2[0, 0, 0, 4] - 0.016414), 0.000001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.Flu_xyzt[0, 0, 0, 4] - 0.012811), 0.000001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.Flu_xyzt2[0, 0, 0, 4] - 0.016414), 0.000001);
             // undo angle bin normalization
             var x = ((FluenceOfXAndYAndZAndTimeDetectorInput)_inputOneLayerTissue.DetectorInputs.
                 Where(d => d.TallyType == "FluenceOfXAndYAndZAndTime").First()).X;
@@ -560,6 +571,50 @@ namespace Vts.Test.MonteCarlo.Detectors
                         {
                             integral += _outputOneLayerTissue.Flu_xyzt[ix, iy, iz, it] * norm;
                         } 
+                    }
+                }
+            }
+            var mua = _inputOneLayerTissue.TissueInput.Regions[1].RegionOP.Mua;
+            Assert.Less(Math.Abs(integral * mua - _outputOneLayerTissue.Atot), 0.0006);
+            Assert.AreEqual(_outputOneLayerTissue.Flu_xyzw_TallyCount, 42334);
+            Assert.AreEqual(_outputTwoLayerTissue.Flu_xyzw_TallyCount, 42334);
+        }
+        // Fluence Flu(x,y,z) and starting (x,y), 1st moment validated with prior test
+        // Verify integral * mua over x,y,z starting (x,y) equals ATotal
+        [Test]
+        public void validate_DAW_FluenceOfXAndYAndZAndStartingXAndY()
+        {
+            Assert.Less(Math.Abs(_outputOneLayerTissue.Flu_xyzxy[1, 0, 0, 0, 0] - 0.011210), 0.000001);
+            Assert.Less(Math.Abs(_outputOneLayerTissue.Flu_xyzxy2[1, 0, 0, 0, 0] - 0.000363), 0.000001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.Flu_xyzxy[1, 0, 0, 0, 0] - 0.011210), 0.000001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.Flu_xyzxy2[1, 0, 0, 0, 0] - 0.000363), 0.000001);
+            Assert.AreEqual(_outputOneLayerTissue.Flu_xyzxy_xycount[1, 0], 100);
+            // undo angle bin normalization
+            var startingX = ((FluenceOfXAndYAndZAndStartingXAndYDetectorInput)_inputOneLayerTissue.DetectorInputs.
+                Where(d => d.TallyType == "FluenceOfXAndYAndZAndStartingXAndY").First()).StartingX;
+            var startingY = ((FluenceOfXAndYAndZAndStartingXAndYDetectorInput)_inputOneLayerTissue.DetectorInputs.
+                Where(d => d.TallyType == "FluenceOfXAndYAndZAndStartingXAndY").First()).StartingY;
+            var x = ((FluenceOfXAndYAndZAndStartingXAndYDetectorInput)_inputOneLayerTissue.DetectorInputs.
+                Where(d => d.TallyType == "FluenceOfXAndYAndZAndStartingXAndY").First()).X;
+            var y = ((FluenceOfXAndYAndZAndStartingXAndYDetectorInput)_inputOneLayerTissue.DetectorInputs.
+                Where(d => d.TallyType == "FluenceOfXAndYAndZAndStartingXAndY").First()).Y;
+            var z = ((FluenceOfXAndYAndZAndStartingXAndYDetectorInput)_inputOneLayerTissue.DetectorInputs.
+                Where(d => d.TallyType == "FluenceOfXAndYAndZAndStartingXAndY").First()).Z;
+            var norm = x.Delta * y.Delta * z.Delta;
+            var integral = 0.0;
+            for (int isx = 0; isx < startingX.Count - 1; isx++)
+            {
+                for (int isy = 0; isy < startingY.Count - 1; isy++)
+                {
+                    for (int ix = 0; ix < x.Count - 1; ix++)
+                    {
+                        for (int iy = 0; iy < y.Count - 1; iy++)
+                        {
+                            for (int iz = 0; iz < z.Count - 1; iz++)
+                            {
+                                integral += _outputOneLayerTissue.Flu_xyzxy[isx, isy, ix, iy, iz] * norm;
+                            }
+                        }
                     }
                 }
             }

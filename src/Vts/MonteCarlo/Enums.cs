@@ -200,6 +200,8 @@ namespace Vts.MonteCarlo
                 "DirectionalLine",
                 // 1D Line sources: custom
                 "CustomLine",
+                // 1D Line sources: adjoint line
+                "AdjointLine",
 
 
                 // SURFACE EMITTING FLAT SOURCES (2D SURFACE SOURCES)
@@ -437,6 +439,8 @@ namespace Vts.MonteCarlo
             "FluenceOfXAndYAndZAndTime",
             // Fluence as a function of x, y, z and omega
             "FluenceOfXAndYAndZAndOmega",
+            // Fluence as a function of x, y, z, and starting x, y
+            "FluenceOfXAndYAndZAndStartingXAndY",
             // Fluence as a function of fx and z
             "FluenceOfFxAndZ",
             // Absorbed energy as a function of source-detector separation (rho) and tissue depth (Z)

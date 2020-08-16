@@ -387,6 +387,22 @@ namespace Vts.MonteCarlo
         /// </summary>
         public long Flu_xyzw_TallyCount { get { return ((long)((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "FluenceOfXAndYAndZAndOmega").First().Name]).TallyCount); } }
         /// <summary>
+        /// Fluence as a function of x, y, z and starting location x,y
+        /// </summary>
+        public double[,,,,] Flu_xyzxy { get { return ((double[,,,,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "FluenceOfXAndYAndZAndStartingXAndY").First().Name]).Mean); } }
+        /// <summary>
+        /// Fluence as a function of x, y, z and and starting location x,y 2nd moment
+        /// </summary>
+        public double[,,,,] Flu_xyzxy2 { get { return ((double[,,,,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "FluenceOfXAndYAndZAndStartingXAndY").First().Name]).SecondMoment); } }
+        /// <summary>
+        /// Fluence as a function of x, y, z and starting location x,y Tally Count
+        /// </summary>
+        public long Flu_xyzxy_TallyCount { get { return ((long)((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "FluenceOfXAndYAndZAndStartingXAndY").First().Name]).TallyCount); } }
+        /// <summary>
+        /// Fluence as a function of x, y, z and starting location x,y Count of starting photons
+        /// </summary>
+        public double[,] Flu_xyzxy_xycount { get { return ((double[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "FluenceOfXAndYAndZAndStartingXAndY").First().Name]).StartingXYCount); } }
+        /// <summary>
         /// Fluence as a function of rho, z and omega (temporal frequency)
         /// </summary>
         public Complex[,,] Flu_rzw { get { return ((Complex[,,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "FluenceOfRhoAndZAndOmega").First().Name]).Mean); } }
