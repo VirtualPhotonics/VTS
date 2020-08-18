@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using Vts.Common;
@@ -9,38 +10,44 @@ using Vts.MonteCarlo.PhotonData;
 namespace Vts.MonteCarlo.Detectors
 {
     /// <summary>
-    /// Tally for reflectance as a function of Rho and MaxDepth.
-    /// This works for Analog, DAW and CAW processing.
+    /// Tally for pMC estimation of reflectance as a function of Rho and Max Depth.
     /// </summary>
-    public class ROfRhoAndMaxDepthDetectorInput : DetectorInput, IDetectorInput
+    public class pMCROfRhoAndMaxDepthDetectorInput : DetectorInput, IDetectorInput
     {
         /// <summary>
-        /// constructor for reflectance as a function of rho and MaxDepth detector input
+        /// constructor for pMC reflectance as a function of rho detector input
         /// </summary>
-        public ROfRhoAndMaxDepthDetectorInput()
+        public pMCROfRhoAndMaxDepthDetectorInput()
         {
-            TallyType = "ROfRhoAndMaxDepth";
-            Name = "ROfRhoAndMaxDepth";
+            TallyType = "pMCROfRhoAndMaxDepth";
+            Name = "pMCROfRhoAndMaxDepth";
             Rho = new DoubleRange(0.0, 10, 101);
             MaxDepth = new DoubleRange(0.0, 1.0, 101);
 
             // modify base class TallyDetails to take advantage of built-in validation capabilities (error-checking)
-            TallyDetails.IsReflectanceTally = true;
             TallyDetails.IsCylindricalTally = true;
+            TallyDetails.IspMCReflectanceTally = true;
         }
-
         /// <summary>
-        /// rho binning
+        /// detector rho binning
         /// </summary>
         public DoubleRange Rho { get; set; }
         /// <summary>
-        /// MaxDepth binning
+        /// detector max depth binning
         /// </summary>
         public DoubleRange MaxDepth { get; set; }
+        /// <summary>
+        /// list of perturbed OPs listed in order of tissue regions
+        /// </summary>
+        public IList<OpticalProperties> PerturbedOps { get; set; }
+        /// <summary>
+        /// list of perturbed regions indices
+        /// </summary>
+        public IList<int> PerturbedRegionsIndices { get; set; }
 
         public IDetector CreateDetector()
         {
-            return new ROfRhoAndMaxDepthDetector
+            return new pMCROfRhoAndMaxDepthDetector
             {
                 // required properties (part of DetectorInput/Detector base classes)
                 TallyType = this.TallyType,
@@ -50,16 +57,24 @@ namespace Vts.MonteCarlo.Detectors
 
                 // optional/custom detector-specific properties
                 Rho = this.Rho,
-                MaxDepth = this.MaxDepth
+                MaxDepth = this.MaxDepth,
+                PerturbedOps = this.PerturbedOps,
+                PerturbedRegionsIndices = this.PerturbedRegionsIndices,
             };
         }
     }
     /// <summary>
-    /// Implements IDetector.  Tally for reflectance as a function  of Rho and MaxDepth.
-    /// This implementation works for Analog, DAW and CAW processing.
+    /// Implements IDetector.  Tally for pMC reflectance as a function  of RhoAndMaxDepth.
+    /// This implementation works for DAW and CAW processing.
     /// </summary>
-    public class ROfRhoAndMaxDepthDetector : Detector, IDetector
+    public class pMCROfRhoAndMaxDepthDetector : Detector, IDetector
     {
+        private IList<OpticalProperties> _referenceOps;
+        private IList<OpticalProperties> _perturbedOps;
+        private IList<int> _perturbedRegionsIndices;
+        private double _rhoDelta; // need to kep this because DoubleRange adjust deltas automatically       
+        private Func<IList<long>, IList<double>, IList<OpticalProperties>, IList<OpticalProperties>, IList<int>, double> _absorbAction;
+ 
         /* ==== Place optional/user-defined input properties here. They will be saved in text (JSON) format ==== */
         /* ==== Note: make sure to copy over all optional/user-defined inputs from corresponding input class ==== */
         /// <summary>
@@ -67,22 +82,28 @@ namespace Vts.MonteCarlo.Detectors
         /// </summary>
         public DoubleRange Rho { get; set; }
         /// <summary>
-        /// MaxDepth binning
+        /// max depth binning
         /// </summary>
         public DoubleRange MaxDepth { get; set; }
+        /// <summary>
+        /// list of perturbed OPs listed in order of tissue regions
+        /// </summary>
+        public IList<OpticalProperties> PerturbedOps { get; set; }
+        /// <summary>
+        /// list of perturbed regions indices
+        /// </summary>
+        public IList<int> PerturbedRegionsIndices { get; set; }
 
         /* ==== Place user-defined output arrays here. They should be prepended with "[IgnoreDataMember]" attribute ==== */
         /* ==== Then, GetBinaryArrays() should be implemented to save them separately in binary format ==== */
         /// <summary>
         /// detector mean
         /// </summary>
-        [IgnoreDataMember]
-        public double[,] Mean { get; set; }
+        [IgnoreDataMember] public double[,] Mean { get; set; }
         /// <summary>
         /// detector second moment
         /// </summary>
-        [IgnoreDataMember]
-        public double[,] SecondMoment { get; set; }        
+        [IgnoreDataMember] public double[,] SecondMoment { get; set; }
 
         /* ==== Place optional/user-defined output properties here. They will be saved in text (JSON) format ==== */
         /// <summary>
@@ -100,8 +121,12 @@ namespace Vts.MonteCarlo.Detectors
             SecondMoment = SecondMoment ?? (TallySecondMoment ? new double[Rho.Count - 1, MaxDepth.Count - 1] : null);
 
             // intialize any other necessary class fields here
+            _perturbedOps = PerturbedOps;
+            _perturbedRegionsIndices = PerturbedRegionsIndices;
+            _referenceOps = tissue.Regions.Select(r => r.RegionOP).ToList();
+            _absorbAction = AbsorptionWeightingMethods.GetpMCTerminationAbsorptionWeightingMethod(tissue, this);
         }
-      
+
         /// <summary>
         /// method to tally to detector
         /// </summary>
@@ -111,60 +136,66 @@ namespace Vts.MonteCarlo.Detectors
             var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(photon.DP.Position.X, photon.DP.Position.Y), Rho.Count - 1, Rho.Delta, Rho.Start);
             double maxDepth = photon.History.HistoryData.Max(d => d.Position.Z);
             var id = DetectorBinning.WhichBin(maxDepth, MaxDepth.Count - 1, MaxDepth.Delta, MaxDepth.Start);
-
-            Mean[ir, id] += photon.DP.Weight; // mean integrated over max depth = R(rho)
-            if (TallySecondMoment)
+            if (ir != -1)
             {
-                SecondMoment[ir, id] += photon.DP.Weight * photon.DP.Weight;
+                double weightFactor = _absorbAction(
+                    photon.History.SubRegionInfoList.Select(c => c.NumberOfCollisions).ToList(),
+                    photon.History.SubRegionInfoList.Select(p => p.PathLength).ToList(),
+                    _perturbedOps, _referenceOps, _perturbedRegionsIndices);
+
+                Mean[ir,id] += photon.DP.Weight * weightFactor;
+                if (TallySecondMoment)
+                {
+                    SecondMoment[ir,id] += photon.DP.Weight * weightFactor * photon.DP.Weight * weightFactor;
+                }
+                TallyCount++;
             }
-            TallyCount++;
         }
+
+
         /// <summary>
-        /// method to normalize detector results after all photons launched
+        /// method to normalize detector results after numPhotons launched
         /// </summary>
         /// <param name="numPhotons">number of photons launched</param>
         public void Normalize(long numPhotons)
         {
             var normalizationFactor = 2.0 * Math.PI * Rho.Delta;
-            var sum = 0.0;
             for (int ir = 0; ir < Rho.Count - 1; ir++)
             {
-                var areaNorm = (Rho.Start + (ir + 0.5) * Rho.Delta) * normalizationFactor;
                 for (int id = 0; id < MaxDepth.Count - 1; id++)
                 {
+                    var areaNorm = (Rho.Start + (ir + 0.5) * Rho.Delta) * normalizationFactor;
                     Mean[ir, id] /= areaNorm * numPhotons;
-                    sum += Mean[ir, id];
+                    // the above is pi(rmax*rmax-rmin*rmin) * rhoDelta * N
                     if (TallySecondMoment)
                     {
                         SecondMoment[ir, id] /= areaNorm * areaNorm * numPhotons;
                     }
                 }
             }
-            var dum = sum;
         }
+
         // this is to allow saving of large arrays separately as a binary file
         public BinaryArraySerializer[] GetBinarySerializers()
         {
-            return new []
-            {
+            return new[] {
                 new BinaryArraySerializer {
                     DataArray = Mean,
                     Name = "Mean",
                     FileTag = "",
                     WriteData = binaryWriter => {
-                        for (int i = 0; i < Rho.Count - 1; i++) {
-                            for (int j = 0; j < MaxDepth.Count - 1; j++)
-                            {                                
-                                binaryWriter.Write(Mean[i, j]);
+                        for (int ir = 0; ir < Rho.Count - 1; ir++) {
+                            for (int id = 0; id < MaxDepth.Count - 1; id++)
+                            {
+                                binaryWriter.Write(Mean[ir,id]);
                             }
                         }
                     },
                     ReadData = binaryReader => {
-                        Mean = Mean ?? new double[ Rho.Count - 1, MaxDepth.Count - 1];
-                        for (int i = 0; i <  Rho.Count - 1; i++) {
-                            for (int j = 0; j < MaxDepth.Count - 1; j++)
-                            {
-                               Mean[i, j] = binaryReader.ReadDouble(); 
+                        Mean = Mean ?? new double[Rho.Count - 1, MaxDepth.Count - 1];
+                        for (int ir = 0; ir < Rho.Count - 1; ir++) {
+                            for (int id = 0; id < MaxDepth.Count - 1; id++) {
+                                Mean[ir,id] = binaryReader.ReadDouble();
                             }
                         }
                     }
@@ -176,27 +207,24 @@ namespace Vts.MonteCarlo.Detectors
                     FileTag = "_2",
                     WriteData = binaryWriter => {
                         if (!TallySecondMoment || SecondMoment == null) return;
-                        for (int i = 0; i < Rho.Count - 1; i++) {
-                            for (int j = 0; j < MaxDepth.Count - 1; j++)
-                            {
-                                binaryWriter.Write(SecondMoment[i, j]);
-                            }                            
-                        }
+                        for (int ir = 0; ir < Rho.Count - 1; ir++) {
+                            for (int id = 0; id < MaxDepth.Count - 1; id++) {
+                                binaryWriter.Write(SecondMoment[ir,id]);
+                            }
+                        }                      
                     },
                     ReadData = binaryReader => {
                         if (!TallySecondMoment || SecondMoment == null) return;
-                        SecondMoment = new double[ Rho.Count - 1, MaxDepth.Count - 1];
-                        for (int i = 0; i < Rho.Count - 1; i++) {
-                            for (int j = 0; j < MaxDepth.Count - 1; j++)
-                            {
-                                SecondMoment[i, j] = binaryReader.ReadDouble();
-                            }                       
+                        SecondMoment = new double[Rho.Count - 1, MaxDepth.Count - 1];
+                        for (int ir = 0; ir < Rho.Count - 1; ir++) {
+                            for (int id = 0; id < MaxDepth.Count - 1; id++) {
+                                SecondMoment[ir,id] = binaryReader.ReadDouble();
+                            }
 			            }
                     },
                 },
             };
         }
-
         /// <summary>
         /// Method to determine if photon is within detector
         /// </summary>
@@ -205,8 +233,7 @@ namespace Vts.MonteCarlo.Detectors
         public bool ContainsPoint(PhotonDataPoint dp)
         {
             return true; // or, possibly test for NA or confined position, etc
-            //return (dp.StateFlag.Has(PhotonStateType.PseudoTransmissionDomainTopBoundary));
+            // return (dp.StateFlag.Has(PhotonStateType.PseudoTransmissionDomainTopBoundary));
         }
-
     }
 }

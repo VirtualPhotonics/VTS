@@ -482,6 +482,8 @@ namespace Vts.MonteCarlo
             "pMCROfRhoAndTime", 
             // perturbation Monte Carlo (pMC) reflectance as a function of source-detector separation (rho)
             "pMCROfRho",
+            // perturbation Monte Carlo (pMC) reflectance as a function of s-d separation(rho) and max depth
+            "pMCROfRhoAndMaxDepth",
             // perturbation Monte Carlo (pMC) reflectance as a function of Cartesian coordinates (x,y)
             "pMCROfXAndY",
             // perturbation Monte Carlo (pMC) reflectance as a function of spatial frequency (fx)
