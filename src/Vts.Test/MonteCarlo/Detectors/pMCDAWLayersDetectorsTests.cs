@@ -78,6 +78,8 @@ namespace Vts.Test.MonteCarlo.Detectors
                     FinalTissueRegionIndex =0, NA=0.3},
                 new ROfRhoAndTimeDetectorInput() { Rho = new DoubleRange(0.0, 10.0, 101),
                     Time = new DoubleRange(0.0, 1.0, 101)},
+                new ROfRhoAndMaxDepthDetectorInput() {Rho=new DoubleRange(0.0, 10.0, 101),
+                    MaxDepth =new DoubleRange(0.0, 100.0, 11)},
                 new ROfXAndYDetectorInput()
                 {
                     X = new DoubleRange(-10.0, 10.0, 11),
@@ -161,6 +163,37 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.Less(Math.Abs(postProcessedOutput.pMC_R_rt[0, 0] - _referenceOutputTwoLayerTissue.R_rt[0, 0]), 0.00000000001);
             // validation value obtained from linux run using above input and seeded the same
             Assert.Less(Math.Abs(postProcessedOutput.pMC_R_rt[0, 0] * _factor - 61.5238307), 0.0000001);
+        }
+        /// <summary>
+        /// Test to validate that setting mua and mus to the reference values
+        /// determines results equal to reference
+        /// </summary>
+        [Test]
+        public void validate_pMC_DAW_ROfRhoAndMaxDepth_zero_perturbation_of_top_layer()
+        {
+            var postProcessor = new PhotonDatabasePostProcessor(
+                VirtualBoundaryType.pMCDiffuseReflectance,
+                new List<IDetectorInput>()
+                {
+                    new pMCROfRhoAndMaxDepthDetectorInput()
+                    {
+                        Rho=new DoubleRange(0.0, 10.0, 101),
+                        MaxDepth=new DoubleRange(0.0, 100.0, 11),
+                        PerturbedOps=new List<OpticalProperties>() { // perturbed ops
+                            _referenceInputTwoLayerTissue.TissueInput.Regions[0].RegionOP,
+                            _referenceInputTwoLayerTissue.TissueInput.Regions[1].RegionOP,
+                            _referenceInputTwoLayerTissue.TissueInput.Regions[2].RegionOP,
+                            _referenceInputTwoLayerTissue.TissueInput.Regions[3].RegionOP},
+                        PerturbedRegionsIndices=new List<int>() { 1 }
+                    }
+                },
+                _databaseTwoLayerTissue,
+                _referenceInputTwoLayerTissue);
+            var postProcessedOutput = postProcessor.Run();
+            // validation value obtained from reference results
+            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_rmd[0, 0] - _referenceOutputTwoLayerTissue.R_rmd[0, 0]), 0.00000000001);
+            // validation value obtained from linux run using above input and seeded the same
+            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_rmd[0, 0] * _factor - 0.615238), 0.000001);
         }
 
         /// <summary>
