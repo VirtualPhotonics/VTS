@@ -828,11 +828,7 @@ for mci = 1:length(datanames)
     if isfield(results{di}, 'pMCROfRhoAndTime') && show.pMCROfRhoAndTime
         figname = sprintf('log10(%s)',results{di}.pMCROfRhoAndTime.Name); figure; imagesc(results{di}.pMCROfRhoAndTime.Rho_Midpoints, results{di}.pMCROfRhoAndTime.Time_Midpoints,log10(results{di}.pMCROfRhoAndTime.Mean)); colorbar; title(figname); set(gcf,'Name', figname);ylabel('time [ns]'); xlabel('\rho [mm]');
         disp(['Total reflectance captured by pMCROfRhoAndTime detector: ' num2str(sum(results{di}.pMCROfRhoAndTime.Mean(:)))]);
-    end    
-    if isfield(results{di}, 'pMCROfRhoAndMaxDepth') && show.pMCROfRhoAndMaxDepth
-        figname = sprintf('log10(%s)',results{di}.pMCROfRhoAndMaxDepth.Name); figure; imagesc(results{di}.pMCROfRhoAndMaxDepth.Rho_Midpoints, results{di}.pMCROfRhoAndMaxDepth.MaxDepth_Midpoints,log10(results{di}.pMCROfRhoAndMaxDepth.Mean)); colorbar; title(figname); set(gcf,'Name', figname);ylabel('max depth [mm]'); xlabel('\rho [mm]');
-        disp(['Total reflectance captured by pMCROfRhoAndMaxDepth detector: ' num2str(sum(results{di}.pMCROfRhoAndMaxDepth.Mean(:)))]);
-    end    
+    end       
     if isfield(results{di}, 'pMCROfXAndY') && show.pMCROfXAndY
         figname = sprintf('log10(%s)',results{di}.pMCROfXAndY.Name); figure; imagesc(results{di}.pMCROfXAndY.X_Midpoints, results{di}.pMCROfXAndY.Y_Midpoints,log10(results{di}.pMCROfXAndY.Mean)); colorbar; title(figname); set(gcf,'Name', figname);ylabel('y [mm]'); xlabel('x [mm]');
         disp(['Total reflectance captured by pMCROfXAndY detector: ' num2str(sum(results{di}.pMCROfXAndY.Mean(:)))]);
