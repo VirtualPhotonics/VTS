@@ -50,7 +50,6 @@ show.RadianceOfFxAndZAndAngle = 1;
 show.RadianceOfXAndYAndZAndThetaAndPhi = 1;
 show.pMCROfRho =                1;
 show.pMCROfRhoAndTime =         1;
-show.pMCROfRhoAndMaxDepth =     1;
 show.pMCROfXAndY =              1; 
 show.pMCROfFx =                 1;
 show.ReflectedMTOfRhoAndSubregionHist = 1;
