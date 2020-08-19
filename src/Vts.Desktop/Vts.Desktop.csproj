@@ -685,9 +685,6 @@
     <Compile Include="..\Vts\MonteCarlo\Detectors\pMCROfFxDetector.cs">
       <Link>MonteCarlo\Detectors\pMCROfFxDetector.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Detectors\pMCROfRhoAndMaxDepthDetector.cs">
-      <Link>MonteCarlo\Detectors\pMCROfRhoAndMaxDepthDetector.cs</Link>
-    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\pMCROfRhoAndTimeDetector.cs">
       <Link>MonteCarlo\Detectors\pMCROfRhoAndTimeDetector.cs</Link>
     </Compile>
