@@ -1276,7 +1276,7 @@ for di = 1:numDetectors
             pMCROfRhoAndMaxDepth.Rho = linspace((tempRho.Start), (tempRho.Stop), (tempRho.Count));
             pMCROfRhoAndMaxDepth.MaxDepth = linspace((tempMaxDepth.Start), (tempMaxDepth.Stop), (tempMaxDepth.Count));
             pMCROfRhoAndMaxDepth.Rho_Midpoints = (pMCROfRhoAndMaxDepth.Rho(1:end-1) + pMCROfRhoAndMaxDepth.Rho(2:end))/2;
-            pMCROfRhoAndMaxDepth.MaxDepth_Midpoints = (pMCROfRhoAndMaxDepth.Time(1:end-1) + pMCROfRhoAndMaxDepth.MaxDepth(2:end))/2;
+            pMCROfRhoAndMaxDepth.MaxDepth_Midpoints = (pMCROfRhoAndMaxDepth.MaxDepth(1:end-1) + pMCROfRhoAndMaxDepth.MaxDepth(2:end))/2;
             pMCROfRhoAndMaxDepth.Mean = readBinaryData([datadir slash detector.Name],[length(pMCROfRhoAndMaxDepth.MaxDepth)-1,length(pMCROfRhoAndMaxDepth.Rho)-1]); % read column major json binary            
             if(detector.TallySecondMoment && exist([datadir slash detector.Name '_2'],'file'))
                 pMCROfRhoAndMaxDepth.SecondMoment = readBinaryData([datadir slash detector.Name '_2'],[length(pMCROfRhoAndMaxDepth.MaxDepth)-1,length(pMCROfRhoAndMaxDepth.Rho)-1]);
