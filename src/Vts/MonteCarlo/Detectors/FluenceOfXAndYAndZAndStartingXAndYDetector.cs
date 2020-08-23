@@ -11,7 +11,8 @@ namespace Vts.MonteCarlo.Detectors
 {
     /// <summary>
     /// DetectorInput for Fluence(x,y,z) and starting (x,y).  This detector
-    /// captures Fluence(x,y,z) with respect to the initial tissue starting location (x,y)
+    /// captures Fluence(x,y,z) with respect to the initial tissue starting 
+    /// location (x,y).  It was written for adjoint fluorescence simulations.
     /// </summary>
     public class FluenceOfXAndYAndZAndStartingXAndYDetectorInput : DetectorInput, IDetectorInput
     {
@@ -220,12 +221,13 @@ namespace Vts.MonteCarlo.Detectors
 
         /// <summary>
         /// method to normalize detector results after numPhotons launched
+        /// for this detector normlization is based on number launched in starting
+        /// x,y bin
         /// </summary>
         /// <param name="numPhotons">number of photons launched</param>
         public void Normalize(long numPhotons)
         {
             var normalizationFactor = X.Delta * Y.Delta * Z.Delta;
-
             for (int isx = 0; isx < StartingX.Count - 1; isx++)
             {
                 for (int isy = 0; isy < StartingY.Count - 1; isy++)
@@ -236,10 +238,21 @@ namespace Vts.MonteCarlo.Detectors
                         {
                             for (int iz = 0; iz < Z.Count - 1; iz++)
                             {
-                                Mean[isx, isy, ix, iy, iz] /= normalizationFactor * numPhotons;
-                                if (TallySecondMoment)
+                                // check so no divide by 0
+                                if (StartingXYCount[isx, isy] == 0)
                                 {
-                                    SecondMoment[isx, isy, ix, iy, iz] /= normalizationFactor * normalizationFactor * numPhotons;
+                                    Mean[isx, isy, ix, iy, iz] = 0.0;
+                                }
+                                else
+                                {
+                                    Mean[isx, isy, ix, iy, iz] /=
+                                        normalizationFactor * StartingXYCount[isx, isy];
+
+                                    if (TallySecondMoment)
+                                    {
+                                        SecondMoment[isx, isy, ix, iy, iz] /=
+                                            normalizationFactor * normalizationFactor * StartingXYCount[isx, isy];
+                                    }
                                 }
                             }
                         }
