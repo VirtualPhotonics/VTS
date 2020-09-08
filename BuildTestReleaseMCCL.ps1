@@ -38,8 +38,8 @@ dotnet publish $mcclcsproj -c Release -r osx-x64 -o $PWD\publish\osx-x64 --self-
 dotnet publish $mcclcsproj -c Release -o $PWD\publish\local --self-contained false
 
 dotnet publish $mcppcsproj -c Release -r linux-x64 -o $PWD\publish\linux-x64 --self-contained false
-dotnet publish $mcclcsproj -c Release -r win-x64 -o $PWD\publish\win-x64 --self-contained false 
-dotnet publish $mcclcsproj -c Release -r osx-x64 -o $PWD\publish\osx-x64 --self-contained false 
+dotnet publish $mcppcsproj -c Release -r win-x64 -o $PWD\publish\win-x64 --self-contained false 
+dotnet publish $mcppcsproj -c Release -r osx-x64 -o $PWD\publish\osx-x64 --self-contained false 
 
 # Create MCCL zip files for different OS
 $releasedir = ".\release"
