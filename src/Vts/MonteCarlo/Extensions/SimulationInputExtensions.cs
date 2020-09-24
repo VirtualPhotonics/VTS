@@ -111,6 +111,7 @@ namespace Vts.MonteCarlo.Extensions
                         case "CustomLine":
                         case "DirectionalCircular":
                         case "CustomCircular":
+                        case "CircularAngledFromPointSource":
                         case "DirectionalElliptical":
                         case "CustomElliptical":
                         case "DirectionalRectangular":

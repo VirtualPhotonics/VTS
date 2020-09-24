@@ -1033,8 +1033,8 @@
     <Compile Include="..\Vts\MonteCarlo\Sources\SurfaceEmittingBulkSources\Tubular\SurfaceEmittingTubularSourceBase.cs">
       <Link>MonteCarlo\Sources\SurfaceEmittingBulkSources\Tubular\SurfaceEmittingTubularSourceBase.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Sources\SurfaceEmittingFlatSources\Circular\CircularAngledFromPoint.cs">
-      <Link>MonteCarlo\Sources\SurfaceEmittingFlatSources\Circular\CircularAngledFromPoint.cs</Link>
+    <Compile Include="..\Vts\MonteCarlo\Sources\SurfaceEmittingFlatSources\Circular\CircularAngledFromPointSource.cs">
+      <Link>MonteCarlo\Sources\SurfaceEmittingFlatSources\Circular\CircularAngledFromPointSource.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Sources\SurfaceEmittingFlatSources\Circular\CircularSourceBase.cs">
       <Link>MonteCarlo\Sources\SurfaceEmittingFlatSources\Circular\CircularSourceBase.cs</Link>
