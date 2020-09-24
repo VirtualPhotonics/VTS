@@ -449,10 +449,10 @@ namespace Vts.Test.MonteCarlo.Sources
             ITissue tissue = new MultiLayerTissue();
             var profile = new FlatSourceProfile();
             var _radius = 1.0;
-            var _pointPosition = new Position(0, 0, -1); // put directly above
+            var _pointLocation = new Position(0, 0, -1); // put directly above
             var _translationFromOrigin = new Position(0, 0, 0);  
 
-            var ps = new CircularAngledFromPointSource(_radius, profile, _pointPosition, _translationFromOrigin)
+            var ps = new CircularAngledFromPointSource(_radius, profile, _pointLocation, _translationFromOrigin)
             {
                 Rng = rng
             };
