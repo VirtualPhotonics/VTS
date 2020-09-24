@@ -24,14 +24,14 @@ namespace Vts.MonteCarlo.Sources
         public CircularAngledFromPointSourceInput(
             double radius,
             ISourceProfile sourceProfile,
-            Position pointPosition,
+            Position pointLocation,
             Position translationFromOrigin,
             int initialTissueRegionIndex)
         {
             SourceType = "CircularAngledFromPoint";
             Radius = radius;
             SourceProfile = sourceProfile;
-            PointPosition = pointPosition;
+            PointLocation = pointLocation;
             TranslationFromOrigin = translationFromOrigin;
             InitialTissueRegionIndex = initialTissueRegionIndex;
         }
@@ -41,15 +41,15 @@ namespace Vts.MonteCarlo.Sources
         /// </summary>
         /// <param name="radius">Radius of the circular source on tissue surface</param>
         /// <param name="sourceProfile">Source Profile {Flat / Gaussian}</param>
-        /// <param name="pointPosition">Origin point position</param>
+        /// <param name="pointLocation">Origin point location</param>
         public CircularAngledFromPointSourceInput(
             double radius,
             ISourceProfile sourceProfile,
-            Position pointPosition)
+            Position pointLocation)
             : this(
                 radius,
                 sourceProfile,
-                pointPosition,
+                pointLocation,
                 SourceDefaults.DefaultPosition.Clone(),
                 0) { }
 
@@ -77,9 +77,9 @@ namespace Vts.MonteCarlo.Sources
         /// </summary>
         public ISourceProfile SourceProfile { get; set; }
         /// <summary>
-        /// Origin point position
+        /// Origin point location
         /// </summary>
-        public Position PointPosition { get; set; }
+        public Position PointLocation { get; set; }
         /// <summary>
         /// New source location
         /// </summary>
@@ -101,7 +101,7 @@ namespace Vts.MonteCarlo.Sources
             return new CircularAngledFromPointSource(
                 this.Radius,
                 this.SourceProfile,
-                this.PointPosition,
+                this.PointLocation,
                 this.TranslationFromOrigin,
                 this.InitialTissueRegionIndex) { Rng = rng };
         }
@@ -113,7 +113,7 @@ namespace Vts.MonteCarlo.Sources
     /// </summary>
     public class CircularAngledFromPointSource : CircularSourceBase
     {
-        Position _pointPosition;
+        Position _pointLocation;
 
         /// <summary>
         /// Returns an instance of  Circular Source Angled From Point with specified radius,
@@ -121,13 +121,13 @@ namespace Vts.MonteCarlo.Sources
         /// </summary>
         /// <param name="radius">The radius of the circular source on tissue surface</param>
         /// <param name="sourceProfile">Source Profile {Flat / Gaussian}</param> 
-        /// <param name="pointPosition">Origin point position</param>     
+        /// <param name="pointLocation">Origin point location</param>     
         /// <param name="translationFromOrigin">New source location</param>
         /// <param name="initialTissueRegionIndex">Initial tissue region index</param>
         public CircularAngledFromPointSource(            
             double radius,
             ISourceProfile sourceProfile,
-            Position pointPosition,
+            Position pointLocation,
             Position translationFromOrigin,
             int initialTissueRegionIndex = 0)
             : base(                
@@ -139,7 +139,7 @@ namespace Vts.MonteCarlo.Sources
                 SourceDefaults.DefaultBeamRoationFromInwardNormal.Clone(), // beamRotationFromInwardNormal
                 initialTissueRegionIndex)
         {
-            _pointPosition = pointPosition;
+            _pointLocation = pointLocation;
             if (translationFromOrigin == null)
                 translationFromOrigin = SourceDefaults.DefaultPosition.Clone();
         }
@@ -151,15 +151,15 @@ namespace Vts.MonteCarlo.Sources
         /// <returns>new direction</returns>  
         protected override Direction GetFinalDirection(Position position)
         {
-            // determine angle from position to PointPosition
+            // determine angle from position to PointLocation
             var dist = Math.Sqrt(
-                (_pointPosition.X - position.X) * (_pointPosition.X - position.X) +
-                (_pointPosition.Y - position.Y) * (_pointPosition.Y - position.Y) +
-                (_pointPosition.Z - position.Z) * (_pointPosition.Z - position.Z));
+                (_pointLocation.X - position.X) * (_pointLocation.X - position.X) +
+                (_pointLocation.Y - position.Y) * (_pointLocation.Y - position.Y) +
+                (_pointLocation.Z - position.Z) * (_pointLocation.Z - position.Z));
             return new Direction(
-                (position.X - _pointPosition.X) / dist,
-                (position.Y - _pointPosition.Y) / dist,
-                (position.Z - _pointPosition.Z) / dist);
+                (position.X - _pointLocation.X) / dist,
+                (position.Y - _pointLocation.Y) / dist,
+                (position.Z - _pointLocation.Z) / dist);
         }
     }
 
