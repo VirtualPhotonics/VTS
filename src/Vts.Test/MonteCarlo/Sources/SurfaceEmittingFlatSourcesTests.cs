@@ -466,7 +466,7 @@ namespace Vts.Test.MonteCarlo.Sources
                 (photon.DP.Position.Y - _translationFromOrigin.Y) *
                 (photon.DP.Position.Y - _translationFromOrigin.Y)) <= 1.0);
             // make sure angle is less than 45 degrees
-            Assert.IsTrue(photon.DP.Direction.Uz <= 1 / Math.Sqrt(2));
+            Assert.IsTrue(photon.DP.Direction.Uz >= 1 / Math.Sqrt(2));
         }
     }
 }

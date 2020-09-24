@@ -19,7 +19,7 @@ namespace Vts.MonteCarlo.Sources
         /// <param name="radius">The radius of the circular source on tissue surface</param>
         /// <param name="sourceProfile">Source Profile {Flat / Gaussian}</param>
         /// <param name="pointPosition">Location of originating point</param>
-        /// <param name="translationFromOrigin">New source location</param>
+        /// <param name="translationFromOrigin">Center of circle location</param>
         /// <param name="initialTissueRegionIndex">Initial tissue region index</param>
         public CircularAngledFromPointSourceInput(
             double radius,
@@ -41,13 +41,15 @@ namespace Vts.MonteCarlo.Sources
         /// </summary>
         /// <param name="radius">Radius of the circular source on tissue surface</param>
         /// <param name="sourceProfile">Source Profile {Flat / Gaussian}</param>
+        /// <param name="pointPosition">Origin point position</param>
         public CircularAngledFromPointSourceInput(
             double radius,
-            ISourceProfile sourceProfile)
+            ISourceProfile sourceProfile,
+            Position pointPosition)
             : this(
                 radius,
                 sourceProfile,
-                new Position(0, 0, -1),
+                pointPosition,
                 SourceDefaults.DefaultPosition.Clone(),
                 0) { }
 
@@ -58,8 +60,8 @@ namespace Vts.MonteCarlo.Sources
             : this(
                 1.0,
                 new FlatSourceProfile(),
-                new Position(0, 0, -1),
-                new Position(0, 0, 0),
+                SourceDefaults.DefaultPosition.Clone(),
+                SourceDefaults.DefaultPosition.Clone(),
                 0) { }
 
         /// <summary>
@@ -149,15 +151,17 @@ namespace Vts.MonteCarlo.Sources
         /// <returns>new direction</returns>  
         protected override Direction GetFinalDirection(Position position)
         {
+            position.X = 1.0;
+            position.Y = 0.0;
             // determine angle from position to PointPosition
             var dist = Math.Sqrt(
-                (_pointPosition.X - position.X) - (_pointPosition.X - position.X) +
-                (_pointPosition.Y - position.Y) - (_pointPosition.Y - position.Y) +
-                (_pointPosition.Z - position.Z) - (_pointPosition.Z - position.Z));
+                (_pointPosition.X - position.X) * (_pointPosition.X - position.X) +
+                (_pointPosition.Y - position.Y) * (_pointPosition.Y - position.Y) +
+                (_pointPosition.Z - position.Z) * (_pointPosition.Z - position.Z));
             return new Direction(
-                (_pointPosition.X - position.X) / dist,
-                (_pointPosition.Y - position.Y) / dist,
-                (_pointPosition.Z - position.Z) / dist);
+                (position.X - _pointPosition.X) / dist,
+                (position.Y - _pointPosition.Y) / dist,
+                (position.Z - _pointPosition.Z) / dist);
         }
     }
 
