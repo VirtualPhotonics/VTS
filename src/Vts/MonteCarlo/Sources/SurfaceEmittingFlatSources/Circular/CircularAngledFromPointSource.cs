@@ -151,8 +151,6 @@ namespace Vts.MonteCarlo.Sources
         /// <returns>new direction</returns>  
         protected override Direction GetFinalDirection(Position position)
         {
-            position.X = 1.0;
-            position.Y = 0.0;
             // determine angle from position to PointPosition
             var dist = Math.Sqrt(
                 (_pointPosition.X - position.X) * (_pointPosition.X - position.X) +
