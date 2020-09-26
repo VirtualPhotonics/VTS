@@ -57,20 +57,7 @@ for di = 1:numDetectors
                 ROfAngle.Stdev = sqrt((ROfAngle.SecondMoment - (ROfAngle.Mean .* ROfAngle.Mean)) / json.N);
             end
             results{di}.ROfAngle = ROfAngle;
-        case 'ROfXAndY'
-            ROfXAndY.Name = detector.Name;
-            tempX = detector.X;
-            tempY = detector.Y;
-            ROfXAndY.X = linspace((tempX.Start), (tempX.Stop), (tempX.Count));
-            ROfXAndY.Y = linspace((tempY.Start), (tempY.Stop), (tempY.Count));
-            ROfXAndY.X_Midpoints = (ROfXAndY.X(1:end-1) + ROfXAndY.X(2:end))/2;
-            ROfXAndY.Y_Midpoints = (ROfXAndY.Y(1:end-1) + ROfXAndY.Y(2:end))/2;
-            ROfXAndY.Mean = readBinaryData([datadir slash detector.Name],[length(ROfXAndY.Y)-1,length(ROfXAndY.X)-1]);  % read column major json binary  
-            if(detector.TallySecondMoment && exist([datadir slash detector.Name '_2'],'file'))
-                ROfXAndY.SecondMoment = readBinaryData([datadir slash detector.Name '_2'],[length(ROfXAndY.Y)-1,length(ROfXAndY.X)-1]); 
-                ROfXAndY.Stdev = sqrt((ROfXAndY.SecondMoment - (ROfXAndY.Mean .* ROfXAndY.Mean)) / json.N); 
-            end      
-            results{di}.ROfXAndY = ROfXAndY;
+
         case 'ROfRhoAndTime'
             ROfRhoAndTime.Name = detector.Name;
             tempRho = detector.Rho;
@@ -134,6 +121,67 @@ for di = 1:numDetectors
                                                                          - imag(ROfRhoAndOmega.Mean) .* imag(ROfRhoAndOmega.Mean)) / json.N);
             end            
             results{di}.ROfRhoAndOmega = ROfRhoAndOmega;
+         case 'ROfXAndY'
+            ROfXAndY.Name = detector.Name;
+            tempX = detector.X;
+            tempY = detector.Y;
+            ROfXAndY.X = linspace((tempX.Start), (tempX.Stop), (tempX.Count));
+            ROfXAndY.Y = linspace((tempY.Start), (tempY.Stop), (tempY.Count));
+            ROfXAndY.X_Midpoints = (ROfXAndY.X(1:end-1) + ROfXAndY.X(2:end))/2;
+            ROfXAndY.Y_Midpoints = (ROfXAndY.Y(1:end-1) + ROfXAndY.Y(2:end))/2;
+            ROfXAndY.Mean = readBinaryData([datadir slash detector.Name],[length(ROfXAndY.Y)-1,length(ROfXAndY.X)-1]);  % read column major json binary  
+            if(detector.TallySecondMoment && exist([datadir slash detector.Name '_2'],'file'))
+                ROfXAndY.SecondMoment = readBinaryData([datadir slash detector.Name '_2'],[length(ROfXAndY.Y)-1,length(ROfXAndY.X)-1]); 
+                ROfXAndY.Stdev = sqrt((ROfXAndY.SecondMoment - (ROfXAndY.Mean .* ROfXAndY.Mean)) / json.N); 
+            end      
+            results{di}.ROfXAndY = ROfXAndY;
+         case 'ROfXAndYAndTime'
+            ROfXAndYAndTime.Name = detector.Name;
+            tempX = detector.X;
+            tempY = detector.Y;
+            tempTime = detector.Time;
+            ROfXAndYAndTime.X = linspace((tempX.Start), (tempX.Stop), (tempX.Count));
+            ROfXAndYAndTime.Y = linspace((tempY.Start), (tempY.Stop), (tempY.Count));
+            ROfXAndYAndTime.Time = linspace((tempTime.Start), (tempTime.Stop), (tempTime.Count));
+            ROfXAndYAndTime.X_Midpoints = (ROfXAndYAndTime.X(1:end-1) + ROfXAndYAndTime.X(2:end))/2;
+            ROfXAndYAndTime.Y_Midpoints = (ROfXAndYAndTime.Y(1:end-1) + ROfXAndYAndTime.Y(2:end))/2;
+            ROfXAndYAndTime.Time_Midpoints = (ROfXAndYAndTime.Time(1:end-1) + ROfXAndYAndTime.Time(2:end))/2;
+            ROfXAndYAndTime.Mean = readBinaryData([datadir slash detector.Name], ...
+                [(length(ROfXAndYAndTime.X)-1)*(length(ROfXAndYAndTime.Y)-1)*(length(ROfXAndYAndTime.Time)-1)]); 
+            ROfXAndYAndTime.Mean = reshape(ROfXAndYAndTime.Mean, ...% column major json binary
+                [length(ROfXAndYAndTime.Time)-1,length(ROfXAndYAndTime.Y)-1,length(ROfXAndYAndTime.X)-1]); 
+            if(detector.TallySecondMoment && exist([datadir slash detector.Name '_2'],'file'))
+                ROfXAndYAndTime.SecondMoment = readBinaryData([datadir slash detector.Name '_2'],...
+                  [(length(ROfXAndYAndTime.Time)-1)*(length(ROfXAndYAndTime.Y)-1)*(length(ROfXAndYAndTime.X)-1)]); 
+                ROfXAndYAndTime.SecondMoment = reshape(ROfXAndYAndTime.SecondMoment, ...% column major json binary
+                  [length(ROfXAndYAndTime.Time)-1,length(ROfXAndYAndTime.Y)-1,length(ROfXAndYAndTime.X)-1]);
+                ROfXAndYAndTime.Stdev = sqrt((ROfXAndYAndTime.SecondMoment - (ROfXAndYAndTime.Mean .* ROfXAndYAndTime.Mean)) / json.N); 
+            end      
+            results{di}.ROfXAndYAndTime = ROfXAndYAndTime;
+            
+        case 'ROfXAndYAndMaxDepth'
+            ROfXAndYAndMaxDepth.Name = detector.Name;
+            tempX = detector.X;
+            tempY = detector.Y;
+            tempMaxDepth = detector.MaxDepth;
+            ROfXAndYAndMaxDepth.X = linspace((tempX.Start), (tempX.Stop), (tempX.Count));
+            ROfXAndYAndMaxDepth.Y = linspace((tempY.Start), (tempY.Stop), (tempY.Count));
+            ROfXAndYAndMaxDepth.MaxDepth = linspace((tempMaxDepth.Start), (tempMaxDepth.Stop), (tempMaxDepth.Count));
+            ROfXAndYAndMaxDepth.X_Midpoints = (ROfXAndYAndMaxDepth.X(1:end-1) + ROfXAndYAndMaxDepth.X(2:end))/2;
+            ROfXAndYAndMaxDepth.Y_Midpoints = (ROfXAndYAndMaxDepth.Y(1:end-1) + ROfXAndYAndMaxDepth.Y(2:end))/2;
+            ROfXAndYAndMaxDepth.MaxDepth_Midpoints = (ROfXAndYAndMaxDepth.MaxDepth(1:end-1) + ROfXAndYAndMaxDepth.MaxDepth(2:end))/2;
+            ROfXAndYAndMaxDepth.Mean = readBinaryData([datadir slash detector.Name], ...
+                [(length(ROfXAndYAndMaxDepth.X)-1)*(length(ROfXAndYAndMaxDepth.Y)-1)*(length(ROfXAndYAndMaxDepth.MaxDepth)-1)]); 
+            ROfXAndYAndMaxDepth.Mean = reshape(ROfXAndYAndMaxDepth.Mean, ...% column major json binary
+                [length(ROfXAndYAndMaxDepth.MaxDepth)-1,length(ROfXAndYAndMaxDepth.Y)-1,length(ROfXAndYAndMaxDepth.X)-1]); 
+            if(detector.TallySecondMoment && exist([datadir slash detector.Name '_2'],'file'))
+                ROfXAndYAndMaxDepth.SecondMoment = readBinaryData([datadir slash detector.Name '_2'],...
+                  [(length(ROfXAndYAndMaxDepth.MaxDepth)-1)*(length(ROfXAndYAndMaxDepth.Y)-1)*(length(ROfXAndYAndMaxDepth.X)-1)]); 
+                ROfXAndYAndMaxDepth.SecondMoment = reshape(ROfXAndYAndMaxDepth.SecondMoment, ...% column major json binary
+                  [length(ROfXAndYAndMaxDepth.MaxDepth)-1,length(ROfXAndYAndMaxDepth.Y)-1,length(ROfXAndYAndMaxDepth.X)-1]);
+                ROfXAndYAndMaxDepth.Stdev = sqrt((ROfXAndYAndMaxDepth.SecondMoment - (ROfXAndYAndMaxDepth.Mean .* ROfXAndYAndMaxDepth.Mean)) / json.N); 
+            end      
+            results{di}.ROfXAndYAndMaxDepth = ROfXAndYAndMaxDepth;
         case 'ROfFx'
             ROfFx.Name = detector.Name;
             tempFx = detector.Fx;
@@ -1311,3 +1359,4 @@ end
 function json_parsed = readAndParseJson(filename)
 json_strings = textread(filename, '%s',  'whitespace', '', 'bufsize', 65536);
 json_parsed = loadjson(json_strings{1});
+

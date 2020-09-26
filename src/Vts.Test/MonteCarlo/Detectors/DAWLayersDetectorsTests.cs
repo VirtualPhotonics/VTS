@@ -80,7 +80,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                      new Position(0.0, 0.0, 0.0),
                      new Direction(0.0, 0.0, 1.0),
                      1); // start inside tissue
-            var detectors =  new List<IDetectorInput>
+            var detectors = new List<IDetectorInput>
                 {
                     new RDiffuseDetectorInput(),
                     new ROfAngleDetectorInput() {Angle = new DoubleRange(Math.PI / 2 , Math.PI, 2)},
@@ -89,6 +89,8 @@ namespace Vts.Test.MonteCarlo.Detectors
                     new ROfRhoAndTimeDetectorInput() {Rho = new DoubleRange(0.0, 10.0, 101), Time = new DoubleRange(0.0, 1.0, 101), TallySecondMoment = true },
                     new ROfRhoAndMaxDepthDetectorInput() {Rho = new DoubleRange(0.0, 10.0, 101), MaxDepth = new DoubleRange(0.0, 1.0, 51)},
                     new ROfXAndYDetectorInput() { X = new DoubleRange(-10.0, 10.0, 101), Y = new DoubleRange(-10.0, 10.0, 101) },
+                    new ROfXAndYAndTimeDetectorInput() { X = new DoubleRange(-10.0, 10.0, 101), Y = new DoubleRange(-10.0, 10.0, 101), Time = new DoubleRange(0.0, 1.0, 11) },
+                    new ROfXAndYAndMaxDepthDetectorInput() { X = new DoubleRange(-10.0, 10.0, 101), Y = new DoubleRange(-10.0, 10.0, 101), MaxDepth = new DoubleRange(0.0, 1.0, 11)},
                     new ROfRhoAndOmegaDetectorInput() { Rho = new DoubleRange(0.0, 10.0, 101), Omega = new DoubleRange(0.05, 1.0, 20)}, // DJC - edited to reflect frequency sampling points (not bins)
                     new ROfFxDetectorInput() {Fx = new DoubleRange(0.0, 0.5, 51)},
                     new ROfFxAndTimeDetectorInput() {Fx = new DoubleRange(0.0, 0.5, 51), Time = new DoubleRange(0.0, 1.0, 11)},
@@ -343,6 +345,24 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.Less(Math.Abs(_outputTwoLayerTissue.R_xy[0, 0] * _factor - 0.01828126), 0.00000001);
             Assert.AreEqual(_outputOneLayerTissue.R_xy_TallyCount, 89);
             Assert.AreEqual(_outputTwoLayerTissue.R_xy_TallyCount, 89);
+        }
+        // Reflectance R(x,y,time) validated with prior test
+        [Test]
+        public void validate_DAW_ROfXAndYAndTime()
+        {
+            Assert.Less(Math.Abs(_outputOneLayerTissue.R_xyt[0, 0, 9] - 0.188035), 0.000001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.R_xyt[0, 0, 9] - 0.188035), 0.000001);
+            Assert.AreEqual(_outputOneLayerTissue.R_xyt_TallyCount, 89);
+            Assert.AreEqual(_outputTwoLayerTissue.R_xyt_TallyCount, 89);
+        }
+        // Reflectance R(x,y,maxdepth) validated with prior test
+        [Test]
+        public void validate_DAW_ROfXAndYAndMaxDepth()
+        {
+            Assert.Less(Math.Abs(_outputOneLayerTissue.R_xymd[0, 0, 9] - 0.188035), 0.000001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.R_xymd[0, 0, 9] - 0.188035), 0.000001);
+            Assert.AreEqual(_outputOneLayerTissue.R_xymd_TallyCount, 89);
+            Assert.AreEqual(_outputTwoLayerTissue.R_xymd_TallyCount, 89);
         }
         // Reflection R(fx) validated with prior test
         [Test]

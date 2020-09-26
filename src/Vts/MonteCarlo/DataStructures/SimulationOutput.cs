@@ -165,6 +165,30 @@ namespace Vts.MonteCarlo
         /// </summary>
         public long R_xy_TallyCount { get { return ((long)((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ROfXAndY").First().Name]).TallyCount); } }
         /// <summary>
+        /// Reflectance as a function of x and y and time
+        /// </summary>
+        public double[,,] R_xyt { get { return ((double[,,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ROfXAndYAndTime").First().Name]).Mean); } }
+        /// <summary>
+        /// Reflectance as a function of x and y and time 2nd moment
+        /// </summary>
+        public double[,,] R_xyt2 { get { return ((double[,,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ROfXAndYAndTime").First().Name]).SecondMoment); } }
+        /// <summary>
+        /// Reflectance as a function of x and y and teim Tally Count
+        /// </summary>
+        public long R_xyt_TallyCount { get { return ((long)((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ROfXAndYAndTime").First().Name]).TallyCount); } }
+        /// <summary>
+        /// Reflectance as a function of x and y and max depth
+        /// </summary>
+        public double[,,] R_xymd { get { return ((double[,,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ROfXAndYAndMaxDepth").First().Name]).Mean); } }
+        /// <summary>
+        /// Reflectance as a function of x and y and max depth 2nd moment
+        /// </summary>
+        public double[,,] R_xymd2 { get { return ((double[,,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ROfXAndYAndMaxDepth").First().Name]).SecondMoment); } }
+        /// <summary>
+        /// Reflectance as a function of x and y and max depth Tally Count
+        /// </summary>
+        public long R_xymd_TallyCount { get { return ((long)((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ROfXAndYAndMaxDepth").First().Name]).TallyCount); } }
+        /// <summary>
         /// Reflectance as a function of spatial frequency
         /// </summary>
         public Complex[] R_fx { get { return ((Complex[])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ROfFx").First().Name]).Mean); } }
