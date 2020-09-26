@@ -213,7 +213,7 @@
     </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\DataStructuresValidation\DetectorInputs\SurfaceFiberDetectorInputValidationTests.cs">
       <Link>MonteCarlo\DataStructuresValidation\DetectorInputs\SurfaceFiberDetectorInputValidationTests.cs</Link>
-    </Compile>    
+    </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\DataStructuresValidation\PostProcessorInputs\PostProcessorInputValidationTests.cs">
       <Link>MonteCarlo\DataStructuresValidation\PostProcessorInputs\PostProcessorInputValidationTests.cs</Link>
     </Compile>
@@ -294,6 +294,9 @@
     </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\Detectors\DetectorNADynamicTests.cs">
       <Link>MonteCarlo\Detectors\DetectorNADynamicTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Detectors\DetectorNATests.cs">
+      <Link>MonteCarlo\Detectors\DetectorNATests.cs</Link>
     </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\Detectors\pMCCAWLayersDetectorsTests.cs">
       <Link>MonteCarlo\Detectors\pMCCAWLayersDetectorsTests.cs</Link>

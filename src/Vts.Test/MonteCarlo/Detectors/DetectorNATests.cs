@@ -63,9 +63,10 @@ namespace Vts.Test.MonteCarlo.Detectors
                     new ROfRhoDetectorInput() {Rho = new DoubleRange(0.0, 10.0, 11), FinalTissueRegionIndex= 0, NA = 0.0},
                     new ROfRhoAndAngleDetectorInput() {Rho = new DoubleRange(0.0, 10.0, 11), Angle = new DoubleRange(Math.PI / 2, Math.PI, 2),FinalTissueRegionIndex= 0, NA = 0.0},
                     new ROfRhoAndTimeDetectorInput() {Rho = new DoubleRange(0.0, 10.0, 11), Time = new DoubleRange(0.0, 1.0, 11),FinalTissueRegionIndex= 0, NA = 0.0},
+                    new ROfRhoAndOmegaDetectorInput() { Rho = new DoubleRange(0.0, 10.0, 11), Omega = new DoubleRange(0.05, 1.0, 20),FinalTissueRegionIndex= 0, NA = 0.0},
                     new ROfXAndYDetectorInput() { X = new DoubleRange(-10.0, 10.0, 11), Y = new DoubleRange(-10.0, 10.0, 11),FinalTissueRegionIndex= 0, NA = 0.0 },
-                    new ROfRhoAndOmegaDetectorInput() { Rho = new DoubleRange(0.0, 10.0, 11), Omega = new DoubleRange(0.05, 1.0, 20),FinalTissueRegionIndex= 0, NA = 0.0}, 
-                    new ROfRhoAndOmegaDetectorInput() { Rho = new DoubleRange(0.0, 10.0, 11), Omega = new DoubleRange(0.05, 1.0, 20)}, // DJC - edited to reflect frequency sampling points (not bins)
+                    new ROfXAndYAndTimeDetectorInput() { X = new DoubleRange(-10.0, 10.0, 11), Y = new DoubleRange(-10.0, 10.0, 11),Time=new DoubleRange(0, 1, 11), FinalTissueRegionIndex= 0, NA = 0.0 },
+                    new ROfXAndYAndMaxDepthDetectorInput() { X = new DoubleRange(-10.0, 10.0, 11), Y = new DoubleRange(-10.0, 10.0, 11),MaxDepth=new DoubleRange(0,10.0,11),FinalTissueRegionIndex= 0, NA = 0.0 },
                     new ROfFxDetectorInput() {Fx = new DoubleRange(0.0, 0.5, 51), FinalTissueRegionIndex = 0, NA = 0.0 },
                     new ROfFxAndTimeDetectorInput() {Fx = new DoubleRange(0.0, 0.5, 51), Time = new DoubleRange(0.0, 1.0, 11), FinalTissueRegionIndex = 0,NA=0.0},        
                     new RSpecularDetectorInput() {FinalTissueRegionIndex=0,NA=0.0},
@@ -131,9 +132,10 @@ namespace Vts.Test.MonteCarlo.Detectors
                     new ROfRhoDetectorInput() {Rho = new DoubleRange(0.0, 10.0, 11), FinalTissueRegionIndex= 0, NA=0.3},
                     new ROfRhoAndAngleDetectorInput() {Rho = new DoubleRange(0.0, 10.0, 11), Angle = new DoubleRange(Math.PI / 2, Math.PI, 2),FinalTissueRegionIndex= 0, NA=0.3},
                     new ROfRhoAndTimeDetectorInput() {Rho = new DoubleRange(0.0, 10.0, 11), Time = new DoubleRange(0.0, 1.0, 11),FinalTissueRegionIndex= 0, NA=0.3},
+                    new ROfRhoAndOmegaDetectorInput() { Rho = new DoubleRange(0.0, 10.0, 11), Omega = new DoubleRange(0.05, 1.0, 20),FinalTissueRegionIndex= 0, NA=0.3},
                     new ROfXAndYDetectorInput() { X = new DoubleRange(-10.0, 10.0, 11), Y = new DoubleRange(-10.0, 10.0, 11),FinalTissueRegionIndex= 0, NA=0.3 },
-                    new ROfRhoAndOmegaDetectorInput() { Rho = new DoubleRange(0.0, 10.0, 11), Omega = new DoubleRange(0.05, 1.0, 20),FinalTissueRegionIndex= 0, NA=0.3}, 
-                    new ROfRhoAndOmegaDetectorInput() { Rho = new DoubleRange(0.0, 10.0, 11), Omega = new DoubleRange(0.05, 1.0, 20)}, // DJC - edited to reflect frequency sampling points (not bins)
+                    new ROfXAndYAndTimeDetectorInput() { X = new DoubleRange(-10.0, 10.0, 11), Y = new DoubleRange(-10.0, 10.0, 11),Time=new DoubleRange(0, 1, 11), FinalTissueRegionIndex= 0, NA = 0.3 },
+                    new ROfXAndYAndMaxDepthDetectorInput() { X = new DoubleRange(-10.0, 10.0, 11), Y = new DoubleRange(-10.0, 10.0, 11),MaxDepth=new DoubleRange(0,10.0,11),FinalTissueRegionIndex= 0, NA = 0.3 },
                     new ROfFxDetectorInput() {Fx = new DoubleRange(0.0, 0.5, 51), FinalTissueRegionIndex = 0, NA=0.3 },
                     new ROfFxAndTimeDetectorInput() {Fx = new DoubleRange(0.0, 0.5, 5), Time = new DoubleRange(0.0, 1.0, 11), FinalTissueRegionIndex = 0,NA=0.3},        
                     new RSpecularDetectorInput() {FinalTissueRegionIndex=0,NA=0.3},
@@ -196,9 +198,10 @@ namespace Vts.Test.MonteCarlo.Detectors
                     new ROfRhoDetectorInput() {Rho = new DoubleRange(0.0, 10.0, 11)},
                     new ROfRhoAndAngleDetectorInput() {Rho = new DoubleRange(0.0, 10.0, 11), Angle = new DoubleRange(Math.PI / 2, Math.PI, 2)},
                     new ROfRhoAndTimeDetectorInput() {Rho = new DoubleRange(0.0, 10.0, 11), Time = new DoubleRange(0.0, 1.0, 11)},
+                    new ROfRhoAndOmegaDetectorInput() { Rho = new DoubleRange(0.0, 10.0, 11), Omega = new DoubleRange(0.05, 1.0, 20)},
                     new ROfXAndYDetectorInput() { X = new DoubleRange(-10.0, 10.0, 11), Y = new DoubleRange(-10.0, 10.0, 11) },
-                    new ROfRhoAndOmegaDetectorInput() { Rho = new DoubleRange(0.0, 10.0, 11), Omega = new DoubleRange(0.05, 1.0, 20)}, 
-                    new ROfRhoAndOmegaDetectorInput() { Rho = new DoubleRange(0.0, 10.0, 11), Omega = new DoubleRange(0.05, 1.0, 20)}, 
+                    new ROfXAndYAndTimeDetectorInput() { X = new DoubleRange(-10.0, 10.0, 11), Y = new DoubleRange(-10.0, 10.0, 11),Time=new DoubleRange(0, 1, 11), FinalTissueRegionIndex= 0, NA = 0.3 },
+                    new ROfXAndYAndMaxDepthDetectorInput() { X = new DoubleRange(-10.0, 10.0, 11), Y = new DoubleRange(-10.0, 10.0, 11),MaxDepth=new DoubleRange(0,10.0,11),FinalTissueRegionIndex= 0, NA = 0.3 },
                     new ROfFxDetectorInput() {Fx = new DoubleRange(0.0, 0.5, 51) },
                     new ROfFxAndTimeDetectorInput() {Fx = new DoubleRange(0.0, 0.5, 5), Time = new DoubleRange(0.0, 1.0, 11)},        
                     new RSpecularDetectorInput() {},
@@ -261,6 +264,8 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.AreEqual(_outputNA0.R_rw[0, 0].Real, 0.0);
             Assert.AreEqual(_outputNA0.R_rw[0, 0].Imaginary, 0.0);
             Assert.AreEqual(_outputNA0.R_xy[0, 0], 0.0);
+            Assert.AreEqual(_outputNA0.R_xyt[0, 0, 0], 0.0);
+            Assert.AreEqual(_outputNA0.R_xymd[0, 0, 0], 0.0);
             Assert.AreEqual(_outputNA0.R_fx[0].Real, 0.0);
             Assert.AreEqual(_outputNA0.R_fx[0].Imaginary, 0.0);
             Assert.AreEqual(_outputNA0.R_fxt[0, 0].Real, 0.0);
@@ -291,6 +296,8 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.Less(Math.Abs(_outputNA0p3.R_rw[0, 0].Real - 0.003170), 0.000001);
             Assert.Less(Math.Abs(_outputNA0p3.R_rw[0, 0].Imaginary + 1.474517e-6), 0.00001e-6);
             Assert.Less(Math.Abs(_outputNA0p3.R_xy[3, 6] - 0.001351), 0.000001);
+            Assert.Less(Math.Abs(_outputNA0p3.R_xyt[3, 6, 3] - 0.013510), 0.000001);
+            Assert.Less(Math.Abs(_outputNA0p3.R_xymd[3, 6, 5] - 0.001351), 0.000001);
             Assert.Less(Math.Abs(_outputNA0p3.R_fx[1].Real - 0.044879), 0.000001);
             Assert.Less(Math.Abs(_outputNA0p3.R_fx[1].Imaginary - 0.000765), 0.000001);
             Assert.Less(Math.Abs(_outputNA0p3.R_fxt[1, 0].Real - 0.252024), 0.000001);
@@ -324,6 +331,8 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.AreNotEqual(_outputNoNASpecified.R_rw[1, 0].Real, 0.0);
             Assert.AreNotEqual(_outputNoNASpecified.R_rw[1, 0].Imaginary, 0.0);
             Assert.AreNotEqual(_outputNoNASpecified.R_xy[0, 1], 0.0);
+            Assert.AreNotEqual(_outputNoNASpecified.R_xyt[3, 6, 3], 0.0);
+            Assert.AreNotEqual(_outputNoNASpecified.R_xymd[3, 6, 5], 0.0);
             Assert.AreNotEqual(_outputNoNASpecified.R_fx[1].Real, 0.0);
             Assert.AreNotEqual(_outputNoNASpecified.R_fx[1].Imaginary, 0.0);
             Assert.AreNotEqual(_outputNoNASpecified.R_fxt[1, 0].Real, 0.0);

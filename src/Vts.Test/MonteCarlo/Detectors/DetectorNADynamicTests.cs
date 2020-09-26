@@ -6,7 +6,6 @@ using Vts.MonteCarlo;
 using Vts.MonteCarlo.Detectors;
 using Vts.MonteCarlo.Sources;
 using Vts.MonteCarlo.Tissues;
-using Vts.MonteCarlo.PostProcessing;
 using Vts.MonteCarlo.PhotonData;
 
 namespace Vts.Test.MonteCarlo.Detectors
