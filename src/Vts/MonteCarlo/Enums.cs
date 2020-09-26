@@ -400,6 +400,10 @@ namespace Vts.MonteCarlo
             "ROfRhoAndMaxDepth",
             // Reflectance as a function of Cartesian position on the surface of the tissue
             "ROfXAndY",
+            // Reflectance as a function of Cartesian position and time on the surface of the tissue
+            "ROfXAndYAndTime",
+            // Reflectance as a function of Cartesian position and MaxDepth on the surface of the tissue
+            "ROfXAndYAndMaxDepth",
             // Total diffuse reflectance
             "RDiffuse",
             // Total specular reflectance

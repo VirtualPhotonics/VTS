@@ -18,11 +18,13 @@ outdir = '.';
 show.RDiffuse =                 1;
 show.ROfRho =                   1;
 show.ROfAngle =                 1;
-show.ROfXAndY =                 1;
 show.ROfRhoAndTime =            1;
 show.ROfRhoAndMaxDepth =        1;
 show.ROfRhoAndAngle =           1;
 show.ROfRhoAndOmega =           1;
+show.ROfXAndY =                 1;
+show.ROfXAndYAndTime =          1;
+show.ROfXAndYAndMaxDepth =      1;
 show.ROfFx =                    1;
 show.ROfFxAndTime =             1;
 show.ROfFxAndAngle =            1;
@@ -90,15 +92,6 @@ for mci = 1:length(datanames)
         disp(['Total reflectance captured by ROfAngle detector: ' num2str(sum(results{di}.ROfAngle.Mean.*anglenorm'))]);
     end
 
-    if isfield(results{di}, 'ROfXAndY') && show.ROfXAndY
-        figname = sprintf('log10(%s)',results{di}.ROfXAndY.Name); figure; imagesc(results{di}.ROfXAndY.Y_Midpoints, results{di}.ROfXAndY.X_Midpoints, log10(results{di}.ROfXAndY.Mean)); colorbar; title(figname); set(gcf,'Name', figname); ylabel('Y [mm]'); xlabel('X [mm]');
-        xynorm = (results{di}.ROfXAndY.X(2)-results{di}.ROfXAndY.X(1))*(results{di}.ROfXAndY.Y(2)-results{di}.ROfXAndY.Y(1));
-        disp(['Total reflectance captured by ROfXAndY detector: ' num2str(sum(results{di}.ROfXAndY.Mean(:)*xynorm))]);
-        % determine range of x, y midpoints that have non-zero data
-        [r,c]=find(results{di}.ROfXAndY.Mean);
-        disp(sprintf('ROfXAndY: x non-zero span [%d %d]',min(r),max(r))); disp(sprintf('ROfXAndY: y non-zero span [%d %d]',min(c),max(c)));
-    end
-
     if isfield(results{di}, 'ROfRhoAndTime') && show.ROfRhoAndTime
         numtimes = length(results{di}.ROfRhoAndTime.Time)-1;
         figname = sprintf('log10(%s)',results{di}.ROfRhoAndTime.Name); figure; imagesc(results{di}.ROfRhoAndTime.Rho_Midpoints, results{di}.ROfRhoAndTime.Time_Midpoints,log10(results{di}.ROfRhoAndTime.Mean)); colorbar; title(figname); set(gcf,'Name', figname); ylabel('time [ns]'); xlabel('\rho [mm]');
@@ -145,7 +138,40 @@ for mci = 1:length(datanames)
         rhonorm = 2 * pi * results{di}.ROfRhoAndOmega.Rho_Midpoints * rhodelta;
         disp(['Total reflectance captured by ROfRhoAndOmega detector: ' num2str(sum(results{di}.ROfRhoAndOmega.Amplitude(1,:).*rhonorm))]);
     end
-
+    if isfield(results{di}, 'ROfXAndY') && show.ROfXAndY
+        figname = sprintf('log10(%s)',results{di}.ROfXAndY.Name); figure; imagesc(results{di}.ROfXAndY.Y_Midpoints, results{di}.ROfXAndY.X_Midpoints, log10(results{di}.ROfXAndY.Mean)); colorbar; title(figname); set(gcf,'Name', figname); ylabel('Y [mm]'); xlabel('X [mm]');
+        xynorm = (results{di}.ROfXAndY.X(2)-results{di}.ROfXAndY.X(1))*(results{di}.ROfXAndY.Y(2)-results{di}.ROfXAndY.Y(1));
+        disp(['Total reflectance captured by ROfXAndY detector: ' num2str(sum(results{di}.ROfXAndY.Mean(:)*xynorm))]);
+        % determine range of x, y midpoints that have non-zero data
+        [r,c]=find(results{di}.ROfXAndY.Mean);
+        disp(sprintf('ROfXAndY: x non-zero span [%d %d]',min(r),max(r))); disp(sprintf('ROfXAndY: y non-zero span [%d %d]',min(c),max(c)));
+    end
+    if isfield(results{di}, 'ROfXAndYAndTime') && show.ROfXAndYAndTime
+        numtimes = length(results{di}.ROfXAndYAndTime.Time)-1;
+        for i=1:10:numtimes % do every 10 time bins
+            figname = sprintf('log10(%s) time=%5.3f ns',results{di}.ROfXAndYAndTime.Name,results{di}.ROfXAndYAndTime.Time_Midpoints(i)); 
+            figure; imagesc(results{di}.ROfXAndYAndTime.X_Midpoints, results{di}.ROfXAndYAndTime.Y_Midpoints, log10(squeeze(results{di}.ROfXAndYAndTime.Mean(i,:,:)))); 
+            colormap(jet); colorbar; title(figname); set(gcf,'Name', figname);ylabel('y [mm]'); xlabel('x [mm]'); 
+        end
+        xdelta = results{di}.ROfXAndYAndTime.X(2)-results{di}.ROfXAndYAndTime.X(1);        
+        ydelta = results{di}.ROfXAndYAndTime.Y(2)-results{di}.ROfXAndYAndTime.Y(1);
+        timedelta = results{di}.ROfXAndYAndTime.Time(2)-results{di}.ROfXAndYAndTime.Time(1);
+        xynorm = xdelta * ydelta;
+        disp(['Total reflectance captured by ROfXAndYAndTime detector: ' num2str(sum(sum(sum(timedelta*xynorm*results{di}.ROfXAndYAndTime.Mean))))]);
+    end
+    if isfield(results{di}, 'ROfXAndYAndMaxDepth') && show.ROfXAndYAndMaxDepth
+        numdepths = length(results{di}.ROfXAndYAndMaxDepth.MaxDepth)-1;
+        for i=1:10:numdepths % do every 10 depth bins
+            figname = sprintf('log10(%s) depth=%5.3f mm',results{di}.ROfXAndYAndMaxDepth.Name,results{di}.ROfXAndYAndMaxDepth.MaxDepth_Midpoints(i)); 
+            figure; imagesc(results{di}.ROfXAndYAndMaxDepth.X_Midpoints, results{di}.ROfXAndYAndMaxDepth.Y_Midpoints, log10(squeeze(results{di}.ROfXAndYAndMaxDepth.Mean(i,:,:)))); 
+            colormap(jet); colorbar; title(figname); set(gcf,'Name', figname);ylabel('y [mm]'); xlabel('x [mm]'); 
+        end
+        xdelta = results{di}.ROfXAndYAndMaxDepth.X(2)-results{di}.ROfXAndYAndMaxDepth.X(1);        
+        ydelta = results{di}.ROfXAndYAndMaxDepth.Y(2)-results{di}.ROfXAndYAndMaxDepth.Y(1);
+        timedelta = results{di}.ROfXAndYAndMaxDepth.MaxDepth(2)-results{di}.ROfXAndYAndMaxDepth.MaxDepth(1);
+        xynorm = xdelta * ydelta;
+        disp(['Total reflectance captured by ROfXAndYAndMaxDepth detector: ' num2str(sum(sum(sum(timedelta*xynorm*results{di}.ROfXAndYAndMaxDepth.Mean))))]);
+    end
     if isfield(results{di}, 'ROfFx') && show.ROfFx
         figname = sprintf('%s',results{di}.ROfFx.Name); figure; plot(results{di}.ROfFx.Fx_Midpoints, abs(results{di}.ROfFx.Mean)); title(figname); set(gcf,'Name', figname); 
         xlabel('f_x [/mm]'); ylabel('R(f_x) [unitless]');

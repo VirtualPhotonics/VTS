@@ -751,6 +751,12 @@
     <Compile Include="..\Vts\MonteCarlo\Detectors\ROfRhoDetector.cs">
       <Link>MonteCarlo\Detectors\ROfRhoDetector.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\ROfXAndYAndMaxDepthDetector.cs">
+      <Link>MonteCarlo\Detectors\ROfXAndYAndMaxDepthDetector.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\ROfXAndYAndTimeDetector.cs">
+      <Link>MonteCarlo\Detectors\ROfXAndYAndTimeDetector.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\ROfXAndYDetector.cs">
       <Link>MonteCarlo\Detectors\ROfXAndYDetector.cs</Link>
     </Compile>
