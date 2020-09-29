@@ -359,8 +359,8 @@ namespace Vts.Test.MonteCarlo.Detectors
         [Test]
         public void validate_DAW_ROfXAndYAndMaxDepth()
         {
-            Assert.Less(Math.Abs(_outputOneLayerTissue.R_xymd[0, 0, 9] - 0.188035), 0.000001);
-            Assert.Less(Math.Abs(_outputTwoLayerTissue.R_xymd[0, 0, 9] - 0.188035), 0.000001);
+            Assert.Less(Math.Abs(_outputOneLayerTissue.R_xymd[0, 0, 9] - 0.018803), 0.000001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.R_xymd[0, 0, 9] - 0.018803), 0.000001);
             Assert.AreEqual(_outputOneLayerTissue.R_xymd_TallyCount, 89);
             Assert.AreEqual(_outputTwoLayerTissue.R_xymd_TallyCount, 89);
         }
