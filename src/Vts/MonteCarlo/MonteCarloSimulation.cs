@@ -252,11 +252,12 @@ namespace Vts.MonteCarlo
                 var volumeVBs = _virtualBoundaryController.VirtualBoundaries.Where(
                     v => v.VirtualBoundaryType == VirtualBoundaryType.GenericVolumeBoundary).ToList();
 
-                for (long n = 1; n <= _numberOfPhotons; n++)
+                //(long n = 1; n <= _numberOfPhotons; n++)
+                Parallel.For(1, _numberOfPhotons + 1, n =>
                 {
                     if (_isCancelled)
                     {
-                        return;
+                        return; 
                     }
 
                     // todo: bug - num photons is assumed to be over 10 :)
@@ -326,7 +327,7 @@ namespace Vts.MonteCarlo
                         _simulationStatistics.TrackDeathStatistics(photon.DP);
                     }
 
-                } /* end of for n loop */
+                }); /* end of for n loop */
             }
             finally
             {
