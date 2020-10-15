@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Vts.Common.Logging;
 using Vts.IO;
@@ -62,14 +63,19 @@ namespace Vts.MonteCarlo
             {
                 _simulationStatistics = new SimulationStatistics();
             }
+            // tried this but needs to be at Photon class level and use a random seed
+            //var rngGen = new ThreadLocal<Random>(() => RandomNumberGeneratorFactory.GetRandomNumberGenerator(
+            //    input.Options.RandomNumberGeneratorType, input.Options.Seed));
+            //_rng = rngGen.Value;
+
             _rng = RandomNumberGeneratorFactory.GetRandomNumberGenerator(
-                input.Options.RandomNumberGeneratorType, input.Options.Seed);
+                 input.Options.RandomNumberGeneratorType, input.Options.Seed);
 
             this.SimulationIndex = input.Options.SimulationIndex;
 
             _tissue = TissueFactory.GetTissue(input.TissueInput, input.Options.AbsorptionWeightingType, input.Options.PhaseFunctionType, input.Options.RussianRouletteWeightThreshold);
             _source = SourceFactory.GetSource(input.SourceInput, _rng);
-
+            
             // instantiate vb (and associated detectors) for each vb group
             _virtualBoundaryController = new VirtualBoundaryController(new List<IVirtualBoundary>());
 
@@ -252,12 +258,16 @@ namespace Vts.MonteCarlo
                 var volumeVBs = _virtualBoundaryController.VirtualBoundaries.Where(
                     v => v.VirtualBoundaryType == VirtualBoundaryType.GenericVolumeBoundary).ToList();
 
-                //(long n = 1; n <= _numberOfPhotons; n++)
-                Parallel.For(1, _numberOfPhotons + 1, n =>
+                //for (long n = 1; n <= _numberOfPhotons; n++)
+                var parallelOptions = new ParallelOptions();
+                parallelOptions.MaxDegreeOfParallelism = Environment.ProcessorCount;
+
+                //private readonly object globalLock = new object();
+                Parallel.For(1, _numberOfPhotons + 1, parallelOptions, n =>
                 {
                     if (_isCancelled)
                     {
-                        return; 
+                         return; 
                     }
 
                     // todo: bug - num photons is assumed to be over 10 :)
