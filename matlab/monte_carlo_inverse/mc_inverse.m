@@ -156,7 +156,7 @@ if(exist('lsqcurvefit','file'))
         options,rhoMidpoints,absorbers,scatterers,g,n);
 else
     options = optimset('diagnostics','on','largescale','on');
-    recoveredOPs = fminsearch('pmc_F_dmc_J_wv2',igConc,wv,options,rhoMidpoints,measData);
+    recoveredOPs = fminsearch('pmc_F_dmc_J_ex2',igConc,wv,options,rhoMidpoints,measData);
 end
 R_conv=zeros(1,length(wv));
 for iwv=1:length(wv)
