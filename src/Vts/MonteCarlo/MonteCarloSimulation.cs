@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using Vts.Common.Logging;
 using Vts.IO;
@@ -16,7 +15,18 @@ namespace Vts.MonteCarlo
     /// </summary>
     public class MonteCarloSimulation
     {
-        private ILogger logger = LoggerFactoryLocator.GetDefaultNLogFactory().Create(typeof(MonteCarloSimulation));
+        /// <summary>
+        /// local variables: general
+        /// </summary>
+        private ILogger _logger = LoggerFactoryLocator.GetDefaultNLogFactory().Create(typeof(MonteCarloSimulation));
+        private bool _isRunning;
+        private bool _isCancelled;
+        private bool _resultsAvailable;
+
+        /// <summary>
+        /// local variable: input related
+        /// </summary>
+        protected SimulationInput _input;
         private ISource _source;
         private ITissue _tissue;
         private VirtualBoundaryController _virtualBoundaryController;
@@ -25,68 +35,47 @@ namespace Vts.MonteCarlo
         private SimulationStatistics _simulationStatistics;
         private DatabaseWriterController _databaseWriterController = null;
         private pMCDatabaseWriterController _pMCDatabaseWriterController = null;
-        private bool doPMC = false;
-
-        /// <summary>
-        /// SimulationInput saved locally
-        /// </summary>
-        protected SimulationInput _input;
+        private bool _doPMC = false;
         private Random _rng;
-
         private string _outputPath;
 
-        private bool _isRunning;
-        private bool _isCancelled;
-        private bool _resultsAvailable;
         /// <summary>
         /// Class that takes in SimulationInput and methods to initialize and execute Monte Carlo simulation
         /// </summary>
         /// <param name="input">SimulationInput</param>
         public MonteCarloSimulation(SimulationInput input)
         {
-            _outputPath = "";
-
             // all field/property defaults should be set here
+            this.SimulationIndex = input.Options.SimulationIndex;
             _input = input;
+            _outputPath = "";
+            _numberOfPhotons = input.N;
+            _rng = RandomNumberGeneratorFactory.GetRandomNumberGenerator(
+                 input.Options.RandomNumberGeneratorType, input.Options.Seed);
+            _tissue = TissueFactory.GetTissue(input.TissueInput, input.Options.AbsorptionWeightingType, input.Options.PhaseFunctionType, input.Options.RussianRouletteWeightThreshold);
+            _source = SourceFactory.GetSource(input.SourceInput, _rng);
 
+            AbsorptionWeightingType = input.Options.AbsorptionWeightingType; 
+            TrackStatistics = input.Options.TrackStatistics;
+            if (TrackStatistics)
+            {
+                _simulationStatistics = new SimulationStatistics();
+            }
+
+            // validate input
             var result = SimulationInputValidation.ValidateInput(_input);
             if (result.IsValid == false)
             {
                 throw new ArgumentException(result.ValidationRule + (!string.IsNullOrEmpty(result.Remarks) ? "; " + result.Remarks : ""));
             }
 
-            _numberOfPhotons = input.N;
-
-            AbsorptionWeightingType = input.Options.AbsorptionWeightingType; // CKH add 12/14/09
-            TrackStatistics = input.Options.TrackStatistics;
-            if (TrackStatistics)
-            {
-                _simulationStatistics = new SimulationStatistics();
-            }
-            // tried this but needs to be at Photon class level and use a random seed
-            //var rngGen = new ThreadLocal<Random>(() => RandomNumberGeneratorFactory.GetRandomNumberGenerator(
-            //    input.Options.RandomNumberGeneratorType, input.Options.Seed));
-            //_rng = rngGen.Value;
-
-            _rng = RandomNumberGeneratorFactory.GetRandomNumberGenerator(
-                 input.Options.RandomNumberGeneratorType, input.Options.Seed);
-
-            this.SimulationIndex = input.Options.SimulationIndex;
-
-            _tissue = TissueFactory.GetTissue(input.TissueInput, input.Options.AbsorptionWeightingType, input.Options.PhaseFunctionType, input.Options.RussianRouletteWeightThreshold);
-            _source = SourceFactory.GetSource(input.SourceInput, _rng);
-            
-            // instantiate vb (and associated detectors) for each vb group
+            // instantiate Virtual Boundaries (and associated detectors) for each VB group
             _virtualBoundaryController = new VirtualBoundaryController(new List<IVirtualBoundary>());
-
             List<VirtualBoundaryType> dbVirtualBoundaries =
                 input.Options.Databases.Select(db => db.GetCorrespondingVirtualBoundaryType()).ToList();
-
-
             foreach (var vbType in EnumHelper.GetValues<VirtualBoundaryType>())
             {
                 IEnumerable<IDetectorInput> detectorInputs = null;
-
                 switch (vbType)
                 {
                     case VirtualBoundaryType.DiffuseReflectance:
@@ -129,10 +118,10 @@ namespace Vts.MonteCarlo
             // needed?
             //_detectorControllers = _virtualBoundaryController.VirtualBoundaries.Select(vb=>vb.DetectorController).ToList();
 
-            // set doPMC flag
+            // set _doPMC flag
             if (input.Options.Databases.Any(d => d.IspMCDatabase()))
             {
-                doPMC = true;
+                _doPMC = true;
             }
 
             _isCancelled = false;
@@ -159,17 +148,26 @@ namespace Vts.MonteCarlo
         public bool ResultsAvailable { get { return _resultsAvailable; } }
 
         // private properties
+        /// <summary>
+        /// Integer index of Simulation specified in infile
+        /// </summary>
         private int SimulationIndex { get; set; }
+        /// <summary>
+        /// Absorption weighting: Discrete, Continuous, Analog, specified in infile
+        /// </summary>
         private AbsorptionWeightingType AbsorptionWeightingType { get; set; }
+        /// <summary>
+        /// flag to track statistics e.g. number of photons out top of tissue, out bottom, etc.
+        /// specified in infile
+        /// </summary>
         private bool TrackStatistics { get; set; }
-
         /// <summary>
         /// Results of the simulation 
         /// </summary>
         public SimulationOutput Results { get; private set; }
 
         /// <summary>
-        /// Method to run parallel MC simulations
+        /// Method to run parallel, individual MC simulations
         /// </summary>
         /// <param name="simulations">array of MonteCarloSimulation</param>
         /// <returns>array of SimulationOutput</returns>
@@ -191,6 +189,7 @@ namespace Vts.MonteCarlo
 
             return outputs;
         }
+
         /// <summary>
         /// Method that sets the output path (string) for databases
         /// </summary>
@@ -238,7 +237,7 @@ namespace Vts.MonteCarlo
         public void Cancel()
         {
             _isCancelled = true;
-            logger.Info(() => "Simulation cancelled.\n");
+            _logger.Info(() => "Simulation cancelled.\n");
         }
 
         /// <summary>
@@ -252,18 +251,19 @@ namespace Vts.MonteCarlo
             {
                 if (_input.Options.Databases.Count() > 0)
                 {
-                    InitialDatabases(doPMC);
+                    InitialDatabases(_doPMC);
                 }
 
                 var volumeVBs = _virtualBoundaryController.VirtualBoundaries.Where(
                     v => v.VirtualBoundaryType == VirtualBoundaryType.GenericVolumeBoundary).ToList();
 
-                //for (long n = 1; n <= _numberOfPhotons; n++)
                 var parallelOptions = new ParallelOptions();
                 parallelOptions.MaxDegreeOfParallelism = Environment.ProcessorCount;
 
                 //private readonly object globalLock = new object();
-                Parallel.For(1, _numberOfPhotons + 1, parallelOptions, n =>
+                //Parallel.For(1, _numberOfPhotons + 1, parallelOptions, n =>
+
+                for (long n = 1; n <= _numberOfPhotons; n++)
                 {
                     if (_isCancelled)
                     {
@@ -284,7 +284,7 @@ namespace Vts.MonteCarlo
 
                         IVirtualBoundary closestVirtualBoundary;
 
-                        BoundaryHitType hitType = Move(photon, out closestVirtualBoundary);
+                        BoundaryHitType hitType = MoveToBoundaryCheck(photon, out closestVirtualBoundary);
 
                         // todo: consider moving actual calls to Tally after do-while
                         // for each "hit" virtual boundary, tally respective detectors if exist
@@ -302,7 +302,7 @@ namespace Vts.MonteCarlo
                         {
                             continue;
                         }
-
+                        // check if tissue boundary and if so, then cross or reflect
                         if (hitType == BoundaryHitType.Tissue)
                         {
                             photon.CrossRegionOrReflect();
@@ -321,7 +321,7 @@ namespace Vts.MonteCarlo
 
                     if (_input.Options.Databases.Count() > 0)
                     {
-                        WriteToDatabases(doPMC, photon);
+                        WriteToDatabases(_doPMC, photon);
                     }
 
                     // note History has possibly 2 more DPs than linux code due to 
@@ -337,13 +337,13 @@ namespace Vts.MonteCarlo
                         _simulationStatistics.TrackDeathStatistics(photon.DP);
                     }
 
-                }); /* end of for n loop */
+                } /* end of for n loop */
             }
             finally
             {
                 if (_input.Options.Databases.Count() > 0)
                 {
-                    CloseDatabases(doPMC);
+                    CloseDatabases(_doPMC);
                 }
             }
 
@@ -371,13 +371,13 @@ namespace Vts.MonteCarlo
 
             stopwatch.Stop();
 
-            logger.Info(() => "Monte Carlo simulation complete (N = " + _numberOfPhotons + " photons; simulation time = "
+            _logger.Info(() => "Monte Carlo simulation complete (N = " + _numberOfPhotons + " photons; simulation time = "
                 + stopwatch.ElapsedMilliseconds / 1000f + " seconds).\r");
         }
 
-        private void CloseDatabases(bool doPMC)
+        private void CloseDatabases(bool _doPMC)
         {
-            if (!doPMC)
+            if (!_doPMC)
             {
                 _databaseWriterController.Dispose();
             }
@@ -387,9 +387,9 @@ namespace Vts.MonteCarlo
             }
         }
 
-        private void WriteToDatabases(bool doPMC, Photon photon)
+        private void WriteToDatabases(bool _doPMC, Photon photon)
         {
-            if (!doPMC)
+            if (!_doPMC)
             {
                 _databaseWriterController.WriteToSurfaceVirtualBoundaryDatabases(photon.DP);
             }
@@ -398,10 +398,14 @@ namespace Vts.MonteCarlo
                 _pMCDatabaseWriterController.WriteToSurfaceVirtualBoundaryDatabases(photon.DP, photon.History.SubRegionInfoList);
             }
         }
-
-        private void InitialDatabases(bool doPMC)
+        /// <summary>
+        /// Initializes databases for diffuse reflectance (1 database) or perturbation
+        /// MC (2 databases)
+        /// </summary>
+        /// <param name="_doPMC"></param>
+        private void InitialDatabases(bool _doPMC)
         {
-            if (!doPMC)
+            if (!_doPMC)
             {
                 _databaseWriterController = new DatabaseWriterController(
                     DatabaseWriterFactory.GetSurfaceVirtualBoundaryDatabaseWriters(
@@ -424,7 +428,7 @@ namespace Vts.MonteCarlo
             }
         }
         /// <summary>
-        /// Move (different than Photon.Move) checks if whether photon is going to first
+        /// Checks if whether photon is going to first
         /// a) hit tissue boundary (BoundaryHitType.Tissue), and if so Photon.Move to 
         /// intersection position, then
         /// b) Photon.CrossOrReflect checks if at border of system and sets
@@ -434,7 +438,7 @@ namespace Vts.MonteCarlo
         /// <param name="photon"></param>
         /// <param name="closestVirtualBoundary"></param>
         /// <returns></returns>
-        private BoundaryHitType Move(Photon photon, out IVirtualBoundary closestVirtualBoundary)
+        private BoundaryHitType MoveToBoundaryCheck(Photon photon, out IVirtualBoundary closestVirtualBoundary)
         {
             // get distance to any tissue boundary
             var tissueDistance = _tissue.GetDistanceToBoundary(photon);
@@ -476,13 +480,13 @@ namespace Vts.MonteCarlo
         private void DisplayIntro()
         {
             var header = _input.OutputName + " (" + SimulationIndex + "): ";
-            logger.Info(() => header + "                                                  \n");
-            logger.Info(() => header + "      Monte Carlo Simulation of Light Propagation \n");
-            logger.Info(() => header + "              in a multi-region tissue            \n");
-            logger.Info(() => header + "                                                  \n");
-            logger.Info(() => header + "         written by the Virtual Photonics Team    \n");
-            logger.Info(() => header + "              Beckman Laser Institute             \n");
-            logger.Info(() => header + "                                                  \n");
+            _logger.Info(() => header + "                                                  \n");
+            _logger.Info(() => header + "      Monte Carlo Simulation of Light Propagation \n");
+            _logger.Info(() => header + "              in a multi-region tissue            \n");
+            _logger.Info(() => header + "                                                  \n");
+            _logger.Info(() => header + "         written by the Virtual Photonics Team    \n");
+            _logger.Info(() => header + "              Beckman Laser Institute             \n");
+            _logger.Info(() => header + "                                                  \n");
         }
 
         /// <summary>
@@ -496,7 +500,7 @@ namespace Vts.MonteCarlo
             /* fraction of photons completed */
             double frac = 100 * n / num_phot;
 
-            logger.Info(() => header + frac + " percent complete\n");
+            _logger.Info(() => header + frac + " percent complete\n");
         }
     }
 }
