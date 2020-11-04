@@ -50,5 +50,17 @@ namespace Vts.Test.MonteCarlo
             Assert.True(outputs[0].Input.N == 30);
             Assert.True(outputs[1].Input.N == 20);
         }
+        /// <summary>
+        /// Validate method that runs multiple CPUs runs without crashing
+        /// </summary>
+        [Test]
+        public void validate_ExecuteLoopOverPhotonsInParallel_runs_without_crashing()
+        {
+            var si = new SimulationInput { N = 100 };
+            si.Options.SimulationIndex = 1;  // 0 index -> 2 CPUS
+            var mc =  new MonteCarloSimulation(si);
+            var output = mc.Run();
+            Assert.NotNull(output);
+        }
     }
 }
