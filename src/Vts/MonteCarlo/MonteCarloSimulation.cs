@@ -257,14 +257,14 @@ namespace Vts.MonteCarlo
                 //var volumeVBs = _virtualBoundaryController.VirtualBoundaries.Where(
                 //    v => v.VirtualBoundaryType == VirtualBoundaryType.GenericVolumeBoundary).ToList();
 
-                if (_input.Options.SimulationIndex > 0)
-                {
-                    ExecuteLoopOverPhotonsInParallel();
-                }
-                else
-                {
+                //if (_input.Options.SimulationIndex == 0) // command line option & check N
+                //{ 
+                //    ExecuteLoopOverPhotonsInParallel();
+                //}
+                //else
+                //{
                     ExecuteLoopOverPhotons();
-                }
+                //}
                 //for (long n = 1; n <= _numberOfPhotons; n++)
                 //{
                 //    if (_isCancelled)
@@ -464,8 +464,9 @@ namespace Vts.MonteCarlo
                 v => v.VirtualBoundaryType == VirtualBoundaryType.GenericVolumeBoundary).ToList();
             var parallelOptions = new ParallelOptions();
             parallelOptions.MaxDegreeOfParallelism = Math.Min(Environment.ProcessorCount,
-                _input.Options.SimulationIndex + 1);
-
+                2);  // make command line option
+               
+                
             //private readonly object globalLock = new object();
             Parallel.For(1, _numberOfPhotons + 1, parallelOptions, n =>
             {

@@ -32,8 +32,7 @@ namespace Vts.MonteCarlo.Rng
         /// <summary>
         /// Mersenne twister constant.
         /// </summary>
-        private const double _reciprocal = 1.0 / 4294967295.0;
-
+        private const double _reciprocal = 1.0 / 4294967296.0; 
         /// <summary>
         /// Mersenne twister constant.
         /// </summary>
@@ -47,7 +46,7 @@ namespace Vts.MonteCarlo.Rng
         /// <summary>
         /// Mersenne twister constant (should not be modified, except for serialization purposes)
         /// </summary>
-        private uint[] _mt = new uint[624];
+        private uint[] _mt = new uint[_n];
 
         /// <summary>
         /// Mersenne twister constant.
@@ -135,8 +134,11 @@ namespace Vts.MonteCarlo.Rng
             init_by_array(array);
         }
         */
-        /* initializes _mt[_n] with a seed */
-
+    
+        /// <summary>
+        /// initializes _mt[_n] with a seed
+        /// </summary>
+        /// <param name="s">seed is any 32-bit integer</param>
         private void init_genrand(uint s)
         {
             _mt[0] = s & 0xffffffff;
@@ -152,7 +154,9 @@ namespace Vts.MonteCarlo.Rng
             }
         }
 
-        /* generates a random number on [0,0xffffffff]-interval */
+        /// <summary>
+        /// generates a random number on[0, 0xffffffff]-interval
+        /// </summary>
 
         private uint genrand_int32()
         {
