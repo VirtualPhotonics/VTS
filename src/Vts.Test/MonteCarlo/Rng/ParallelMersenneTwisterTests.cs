@@ -16,10 +16,19 @@ namespace Vts.Test.MonteCarlo
             var rng = new ParallelMersenneTwister(seed);
             // example 1 inputs
             rng.init_dc(4172);
-            
-            var rng2 = rng.NextDouble();
-            var rng3 = rng.NextDouble();
-            var rng4 = rng.NextDouble();
+            // this tries to find a small MT with period 2^521-1
+            var mts = rng.get_mt_parameter(32, 521);
+            Assert.IsTrue(mts.state != null);
+            rng.sgenrand_mt(3241, mts);
+            for (int i = 0; i < 100; i++)
+            {
+                for (int j = 0; j < 5; j++)
+                {
+                    rng.genrand_mt(mts);
+                }
+            }
+  
+
             
         }
 
