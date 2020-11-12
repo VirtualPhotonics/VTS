@@ -42,10 +42,37 @@ namespace Vts.MonteCarlo.Rng
         // from mt19937.c
         private const uint _tempering_mask_b = 0x9d2c5680;
         private const uint _tempering_mask_c = 0xefc60000;
-        private Func<uint,uint> _tempering_shift_u =  y => y >> 11;
-        private Func<uint, uint> _tempering_shift_s = y => y >> 7;
-        private Func<uint, uint> _tempering_shift_t = y => y >> 15;
-        private Func<uint, uint> _tempering_shift_l = y => y >> 18;
+        private Func<uint,uint> tempering_shift_u =  y => y >> 11;
+        private Func<uint, uint> tempering_shift_s = y => y >> 7;
+        private Func<uint, uint> tempering_shift_t = y => y >> 15;
+        private Func<uint, uint> tempering_shift_l = y => y >> 18;
+
+        private Func<eqdeg_t, uint, uint> lsb = (eq, y) => y >> eq.ggap;
+        private Func<eqdeg_t, uint, uint> trnstmp = (eq, y) => y ^= (y >> eq.shift_0) & eq.greal_mask;
+        private Func<eqdeg_t, uint, uint> masktmp = (eq, y) =>
+        {
+            y ^= (y << eq.shift_s) & eq.mask_b;
+            y ^= (y << eq.shift_t) & eq.mask_c;
+            return y;
+        };
+        private Func<int, _vector, _vector, _vector> add = (int nnn, _vector u, _vector v) =>
+        {
+            int diff = (v.start -u.start + nnn) % nnn;
+            int j = 0;
+            for (int i = 0; i < nnn - diff; i++)
+            {
+                u.cf[i] ^= v.cf[i + diff];
+                j = i;
+            }
+            diff = diff - nnn;
+            for (int i = j; i < nnn; i++)
+            {
+                u.cf[i] ^= v.cf[i + diff];
+            }
+            u.next ^= v.next;
+            return u;
+        };
+
 
         /// <summary>
         /// Mersenne twister constant.
@@ -114,14 +141,43 @@ namespace Vts.MonteCarlo.Rng
             {1,0,0,1,1,0,1,1,1,1,},{1,1,0,0,0,1,1,1,1,1,},{1,0,0,1,0,1,1,1,1,1,},
             {1,1,0,1,1,1,1,1,1,1,},
         };
+        // in eqdeg.c
+        private uint[] pivot_calc_tbl = new uint[256] {
+            0, 8, 7, 8, 6, 8, 7, 8, 5, 8, 7, 8, 6, 8, 7, 8,
+            4, 8, 7, 8, 6, 8, 7, 8, 5, 8, 7, 8, 6, 8, 7, 8,
+            3, 8, 7, 8, 6, 8, 7, 8, 5, 8, 7, 8, 6, 8, 7, 8,
+            4, 8, 7, 8, 6, 8, 7, 8, 5, 8, 7, 8, 6, 8, 7, 8,
+            2, 8, 7, 8, 6, 8, 7, 8, 5, 8, 7, 8, 6, 8, 7, 8,
+            4, 8, 7, 8, 6, 8, 7, 8, 5, 8, 7, 8, 6, 8, 7, 8,
+            3, 8, 7, 8, 6, 8, 7, 8, 5, 8, 7, 8, 6, 8, 7, 8,
+            4, 8, 7, 8, 6, 8, 7, 8, 5, 8, 7, 8, 6, 8, 7, 8,
+            1, 8, 7, 8, 6, 8, 7, 8, 5, 8, 7, 8, 6, 8, 7, 8,
+            4, 8, 7, 8, 6, 8, 7, 8, 5, 8, 7, 8, 6, 8, 7, 8,
+            3, 8, 7, 8, 6, 8, 7, 8, 5, 8, 7, 8, 6, 8, 7, 8,
+            4, 8, 7, 8, 6, 8, 7, 8, 5, 8, 7, 8, 6, 8, 7, 8,
+            2, 8, 7, 8, 6, 8, 7, 8, 5, 8, 7, 8, 6, 8, 7, 8,
+            4, 8, 7, 8, 6, 8, 7, 8, 5, 8, 7, 8, 6, 8, 7, 8,
+            3, 8, 7, 8, 6, 8, 7, 8, 5, 8, 7, 8, 6, 8, 7, 8,
+            4, 8, 7, 8, 6, 8, 7, 8, 5, 8, 7, 8, 6, 8, 7, 8,
+        };
 
         // seive constants
         private const int _wordlen = 32;
         private const uint _lsb = 0x1;
         private const int _max_search = 10000;
+        private const int _found = 1;
+        private const int _not_found = 0;
         // dci constants
+        private const int _rejected = 0;
         private const int _not_rejected = 1;
         private const int _irred = 1;
+        private const int _redu = 0;
+        private const int _nonredu = 1;
+        // eqdeg constants
+        private const int SSS = 7;
+        private const int TTT = 15;
+        private const int S00 = 12;
+        private const int S01 = 18;
         // should the following be classes?
         /// <summary>
         /// structs in dci.h
@@ -151,13 +207,45 @@ namespace Vts.MonteCarlo.Rng
             public uint[] modlist;
             public polynomial[] preModPolys;
         }
+       
+        struct eqdeg_t
+        {
+            public uint[] bitmask; // dimension = 32
+            public uint mask_b;
+            public uint mask_c;
+            public uint upper_v_bits;
+            public int shift_0;
+            public int shift_1;
+            public int shift_s;
+            public int shift_t;
+            public int mmm;
+            public int nnn;
+            public int rrr;
+            public int www;
+            public uint[] aaa; // dimension 2
+            public uint gupper_mask;
+            public uint glower_mask;
+            public uint greal_mask;
+            public int ggap;
+            public int[] gcur_maxlengs; // dimension 32
+            public uint gmax_b;
+            public uint gmax_c;
+        }
+        struct _vector
+        {
+            public uint[] cf;
+            public int start;
+            public int count;
+            public uint next;
+        }
         /// struc in mt19937.h
         struct org_state
         {
             public uint[] mt;
             public  int mti;
         }
-
+        // global in seive
+        org_state global_mt19937 = new org_state();
 
         /// <summary>
         /// Initializes a new instance of the MersenneTwister class.
@@ -220,10 +308,10 @@ namespace Vts.MonteCarlo.Rng
                 st.mti = 0;
             }
             y = st.mt[st.mti++];
-            y ^= _tempering_shift_u(y);
-            y ^= _tempering_shift_s(y) & _tempering_mask_b;
-            y ^= _tempering_shift_t(y) & _tempering_mask_c;
-            y ^= _tempering_shift_l(y);
+            y ^= tempering_shift_u(y);
+            y ^= tempering_shift_s(y) & _tempering_mask_b;
+            y ^= tempering_shift_t(y) & _tempering_mask_c;
+            y ^= tempering_shift_l(y);
             return y;
         }
         public void sgenrand_mt(uint seed, mt_struct mts)
@@ -334,7 +422,7 @@ namespace Vts.MonteCarlo.Rng
             if (m < 2) m = n - 1;
             r = n * w - p;
             make_masks(r, w, mts);
-            initPrescreening_dc(pre, m, n, r, w);
+            init_prescreening_dc(pre, m, n, r, w);
             initcheck32_dc(ck, r, w);
             mts.mm = m;
             mts.nn = n;
@@ -342,7 +430,19 @@ namespace Vts.MonteCarlo.Rng
             mts.ww = w;
             return mts;
         }
-        private void initPrescreening_dc(prescr_t pre, int m, int n, int r, int w)
+        // methods in prescr.c
+        private int prescreening_dc(prescr_t pre, uint aaa)
+        {
+            for (int i = 0; i < _nirredpoly; i++)
+            {
+                if (is_reducible(pre, aaa, pre.modlist[i]) == _redu)
+                {
+                    return _not_rejected;
+                }
+            }
+            return _not_rejected;
+        }
+        private void init_prescreening_dc(prescr_t pre, int m, int n, int r, int w)
         {
             int i;
             polynomial pl;
@@ -352,7 +452,23 @@ namespace Vts.MonteCarlo.Rng
             make_pre_mod_polys(pre, m, n, r, w);
             pre.modlist = new uint[_nirredpoly];
         }
-
+        private int is_reducible(prescr_t pre, uint aaa, uint[] polylist)
+        {
+            uint x = polylist[pre.sizeOfA];
+            for (int i = pre.sizeOfA-1; i >= 0; i++)
+            {
+                if (Convert.ToBoolean(aaa & 0x1))
+                {
+                    x ^= polylist[i];
+                }
+                aaa >>= 1;
+            }
+            if (x == 0)
+            {
+                return _redu;
+            }
+            return _nonredu;
+        }
         private void make_pre_mod_polys(prescr_t pre, int mm, int nn, int rr, int ww)
         {
             polynomial t, t0, t1, s, s0, s1;
@@ -453,27 +569,346 @@ namespace Vts.MonteCarlo.Rng
             // upper_mask (most significant (w-r) bits)
             ck.upper_mask = (~ck.lower_mask) & ck.word_mask;
         }
+        /// <summary>
+        /// There are variants of this method:
+        /// get_mt_parameter(w,p)
+        /// get_mt_parameter_st(w,p,seed)        
+        /// get_mt_parameter_id(w,p,id) id must be less than 65536 and positive
+        /// get_mt_parameter_id_st(w,p,id,seed) 
+        /// </summary>
+        /// <param name="w">only w=32 or 31 allowed</param>
+        /// <param name="p">p>=521 and p<=44497</param>
+        /// <returns></returns>
         public mt_struct get_mt_parameter(int w, int p)
         {
             mt_struct mts;
-            prescr_t pre;
+            prescr_t pre = new prescr_t();
             check32_t ck = new check32_t();
-            mts = init_mt_search(ck, w, p, out pre);
+            mts = init_mt_search(ck, pre, w, p);
             if (mts.state == null)
                 return mts;
-            if (!get_irred_param(ck, pre, global_mt199937, mts, 0, 0))
+            if (get_irred_param(ck, pre, global_mt19937, mts, 0, 0) != 0) // check
             {
-                free_mt_struct(mts);
+                //free_mt_struct(mts); // do I need?
                 return null;
             }
-            _get_tempering_parameter_hard_dc(mts);
+            get_tempering_parameter_hard_dc(mts);
             end_mt_search(pre);
             return mts;
         }
-        public int get_irred_parameter(check32_t ck, prescr_t pre, org_state org,
+        // methods in eqdeg.c
+        public void get_tempering_parameter_hard_dc(mt_struct mts)
+        {
+            eqdeg_t eq;
+            eq = init_tempering(mts);
+            optimize_v(eq, 0, 0, 0);
+            mts.shift0 = eq.shift_0;
+            mts.shift1 = eq.shift_1;
+            mts.shiftB = eq.shift_s;
+            mts.shiftC = eq.shift_t;
+            mts.maskB = eq.mask_b >> eq.ggap;
+            mts.maskC = eq.mask_c >> eq.ggap;
+        }
+        private eqdeg_t init_tempering(mt_struct mts)
+        {
+            eqdeg_t eq = new eqdeg_t();
+            eq.bitmask = new uint[32]; // if class then wouldn't have to do this
+            eq.mmm = mts.mm;
+            eq.nnn = mts.nn;
+            eq.rrr = mts.rr;
+            eq.www = mts.ww;
+            eq.shift_0 = S00;
+            eq.shift_1 = S01;
+            eq.shift_s = SSS;
+            eq.shift_t = TTT;
+            eq.ggap = _wordlen - eq.www;
+            // bits are filled in mts.aaa from MSB
+            eq.aaa[0] = 0;
+            eq.aaa[1] = (mts.aaa) << eq.ggap;
+            for (int i = 0; i < _wordlen; i++)
+            {
+                eq.bitmask[i] = (uint)0x8000000 >> i;
+            }
+            for (int i = 0; i < eq.rrr; i++) // orig code for (i=0,eq.glower_mask=0; i<eq.rrr; i++)
+            {
+                eq.glower_mask = (eq.glower_mask << 1) | 0x1;
+            }
+            eq.gupper_mask = ~eq.glower_mask;
+            eq.glower_mask <<= eq.ggap;
+            eq.glower_mask <<= eq.ggap;
+            eq.greal_mask = (eq.gupper_mask | eq.glower_mask);
+            return eq;
+            // orig code has debug statements here           
+        }
+        private void optimize_v(eqdeg_t eq, uint b, uint c, int v)
+        {
+            uint[] bbb = new uint[8];
+            uint[] ccc = new uint[8];
+            int ll = push_stack(eq, b, c, v, bbb, ccc);
+            int max_i = 0;
+            int max_len = 0;
+            if (ll > 1)
+            {
+                for (int i = 0; i < ll; i++)
+                {
+                    eq.mask_b = bbb[i];
+                    eq.mask_c = ccc[i];
+                    int t = pivot_reduction(eq, v + 1);
+                    if (t > max_len)
+                    {
+                        max_len = t;
+                        max_i = i;
+                    }
+                }
+            }
+            if (v >= eq.www-1)
+            {
+                eq.mask_b = bbb[max_i];
+                eq.mask_c = ccc[max_i];
+                return;
+            }
+            optimize_v(eq, bbb[max_i], ccc[max_i], v + 1); // c# allows recursive calling?
+        }
+        private int push_stack(eqdeg_t eq, uint b, uint c, int v, uint[] bbb, uint[] ccc)
+        {
+            int ncv;
+            uint[] cv_buf = new uint[2];
+            int ll = 0;
+            if ( ( v+eq.shift_t) < eq.www)
+            {
+                ncv = 2;
+                cv_buf[0] = c | eq.bitmask[v];
+                cv_buf[1] = c;
+            }
+            else
+            {
+                ncv = 1;
+                cv_buf[0] = c;
+            }
+            for (int i = 0; i < ncv; i++)
+            {
+                ll += push_mask(eq, ll, v, b, cv_buf[i], bbb, ccc);
+            }
+            return ll;
+        }
+        private int push_mask(eqdeg_t eq, int l, int v, uint b, uint c, uint[] bbb, uint[] ccc)
+        {
+            int nbv, nbvt;
+            uint[] bv_buf = new uint[2];
+            uint[] bvt_buf = new uint[2];
+            int k = l;
+            if (eq.shift_s + v >= eq.www)
+            {
+                nbv = 1;
+                bv_buf[0] = 0;
+            }
+            else
+            {
+                if ((v >= eq.shift_t) && Convert.ToBoolean(c&eq.bitmask[v-eq.shift_t]))
+                {
+                    nbv = 1;
+                    bv_buf[0] = b & eq.bitmask[v];
+                }
+                else
+                {
+                    nbv = 2;
+                    bv_buf[0] = eq.bitmask[v];
+                    bv_buf[1] = 0;
+                }
+            }
+            if (((v+eq.shift_t+eq.shift_s) < eq.www) && Convert.ToBoolean(c&eq.bitmask[v]))
+            {
+                nbvt = 2;
+                bvt_buf[0] = eq.bitmask[v + eq.shift_t];
+                bvt_buf[1] = 0;
+            }
+            else
+            {
+                nbvt = 1;
+                bvt_buf[0] = 0;
+            }
+            uint bmask = eq.bitmask[v];
+            if ((v+eq.shift_t) < eq.www)
+            {
+                bmask |= eq.bitmask[v + eq.shift_t];
+            }
+            bmask = ~bmask;
+            for (int i = 0; i < nbvt; ++i)
+            {
+                for (int j = 0; j < nbv; ++j)
+                {
+                    bbb[k] = (b & bmask) | bv_buf[j] | bvt_buf[i];
+                    ccc[k] = c;
+                    ++k;
+                }
+            }
+            return k - l;
+        }
+        private int pivot_reduction(eqdeg_t eq, int v)
+        {
+            _vector[] lattice;
+            _vector ltmp = new _vector();
+            eq.upper_v_bits = 0;
+            for (int i = 0; i < v; i++)
+            {
+                eq.upper_v_bits |= eq.bitmask[i];
+            }
+            lattice = make_lattice(eq, v);
+            while(true)
+            {
+                int pivot = calc_pivot(lattice[v].next);
+                if (lattice[pivot].count < lattice[v].count)
+                {
+                    ltmp = lattice[pivot];
+                    lattice[pivot] = lattice[v];
+                    lattice[v] = ltmp;
+                }
+                add(eq.nnn, lattice[v], lattice[pivot]);
+                if (lattice[v].next == 0)
+                {
+                    int count = 0;
+                    int new_count = next_state(eq, lattice[v], count);
+                    if (lattice[v].next == 0)
+                    {
+                        if (Convert.ToBoolean(is_zero(eq.nnn, lattice[v])))
+                        {
+                            break;
+                        }
+                        while (lattice[v].next == 0)
+                        {
+                            new_count++;
+                            int newer_count = next_state(eq, lattice[v], new_count);
+                            if (newer_count > eq.nnn * (eq.www-1) - eq.rrr)
+                            {
+                                break;
+                            }                          
+                        }
+                        if (lattice[v].next == 0)
+                        {
+                            break;
+                        }
+                    }
+                }
+            } // while (true)
+            int min = lattice[0].count;
+            for (int i = 0; i < v; i++)
+            {
+                if (min > lattice[i].count)
+                {
+                    min = lattice[i].count;
+                }
+            }
+            return min;
+        }
+        private int calc_pivot(uint v)
+        {
+            int p1 = pivot_calc_tbl[v & 0xff];
+            if (Convert.ToBoolean(p1))
+            {
+                return p1 + 24 - 1;
+            }
+            int p2 = pivot_calc_tbl[(v >> 8) & 0xff];
+            if (Convert.ToBoolean(p2))
+            {
+                return p2 + 16 - 1;
+            }
+            int p3 = pivot_calc_tbl[(v >> 16) & 0xff];
+            if (Convert.ToBoolean(p3))
+            {
+                return p3 + 8 - 1;
+            }
+            int p4 = pivot_calc_tbl[(v >> 24) & 0xff];
+            if (Convert.ToBoolean(p4))
+            {
+                return p4 - 1;
+            }
+            return -1;
+        }
+        
+        private int is_zero(int size, _vector v)
+        {
+            if (v.cf[0]!= 0)
+            {
+                return 0;
+            }
+            for (int i = 0; i < size - 1; i++)  // totally not sure about this
+            {
+                v.cf[i] = v.cf[i] + 1;
+            }
+            return 1;
+        }
+        private _vector[] make_lattice(eqdeg_t eq, int v)
+        {
+            _vector[] lattice = new _vector[v + 1];
+            _vector bottom = new _vector();
+            bottom.cf = new uint[eq.nnn];
+
+            for (int i = 0; i < v; i++) // from 0th row to v-1-th row
+            {
+                lattice[i].next = eq.bitmask[i];
+                lattice[i].start = 0;
+                lattice[i].count = 0;
+            }
+            
+            for (int i = 0; i < eq.nnn; i++) // last row, don't think I need to do this 0-ing C# does it
+            {            
+                bottom.cf[i] = 0;
+            }
+            bottom.cf[eq.nnn - 1] = 0xc000000 & eq.greal_mask;
+            bottom.start = 0;
+            bottom.count = 0;
+            int count = 0;
+            do
+            {
+                int new_count = next_state(eq, bottom, count);
+            } while (bottom.next == 0);
+            lattice[v] = bottom;
+            return lattice;
+        }
+        
+        private int next_state(eqdeg_t eq, _vector v, int current_count)
+        {
+            uint tmp;
+            do
+            {
+                tmp = (v.cf[v.start] & eq.gupper_mask)
+                    | (v.cf[(v.start + 1) % eq.nnn] & eq.glower_mask);
+                v.cf[v.start] = v.cf[(v.start + eq.mmm) % eq.nnn]
+                   ^ (tmp >> 1) ^ eq.aaa[lsb(eq, tmp)];
+                v.cf[v.start] &= eq.greal_mask;
+                tmp = v.cf[v.start];
+                v.start = (v.start + 1) % eq.nnn;
+                v.count++;
+                tmp = trnstmp(eq, tmp);
+                tmp = masktmp(eq, tmp);
+                v.next = tmp & eq.upper_v_bits;
+                current_count++;
+                if (current_count > eq.nnn * (eq.www - 1) * eq.rrr)
+                {
+                    break;
+                }
+            } while (v.next == 0);
+            return current_count;
+        }
+
+        
+        // methods in seive.c
+        private void end_mt_search(prescr_t pre)
+        {
+            end_prescreening_dc(pre);
+        }
+        private void end_prescreening_dc(prescr_t pre)
+        {
+            for (int i = 0; i < _nirredpoly; i++)
+            {
+                pre.modlist[i] = 0; // not sure I need this: c code uses "free" here
+            }
+        }
+        private int get_irred_param(check32_t ck, prescr_t pre, org_state org,
             mt_struct mts, int id, int idw)
         {
             uint a;
+            int j = 0;
             for (int i = 0; i < _max_search; i++)
             {
                 if (idw == 0)
@@ -484,7 +919,7 @@ namespace Vts.MonteCarlo.Rng
                 {
                     a = nextA_id(org, mts.ww, id, idw);
                 }
-                if (_not_rejected == prescreening_dc(pre,a))
+                if (_not_rejected == prescreening_dc(pre, a))
                 {
                     if (_irred == check_period_dc(ck, org, a, mts.mm, mts.nn, mts.rr, mts.ww))
                     {
@@ -492,7 +927,13 @@ namespace Vts.MonteCarlo.Rng
                         break;
                     }
                 }
+                j = i;
             }
+            if (_max_search == j)
+            {
+                return _not_found;
+            }
+            return _found;
         }
         private int check_period_dc(check32_t ck, org_state st, uint a, int m, int n, int r, int w)
         {
@@ -513,12 +954,42 @@ namespace Vts.MonteCarlo.Rng
             uint[] mat = new uint[2] { 0, a };
             for (int j = 0; j < p; j++)
             {
-                for (int i = 0; i < pp; i++)
+                for (int i = 0; i < pp; i++) // generate
                 {
                     y = (x[i] & ck.upper_mask) | (x[i + 1] & ck.lower_mask);
-                    x[i+n] = x[i+m] ^ (y>>1) ^ (mat[y&])
+                    x[i + n] = x[i + m] ^ (y >> 1) ^ (mat[y & _lsb]);
+                }
+
+                for (int i = 2; i <= p; ++i) // pick up odd subscript elements
+                {
+                    x[i] = x[(i << 1) - 1];
+                }
+                for (int i = p - n; i >= 0; --i) // reverse generate
+                {
+                    y = x[i + n] ^ x[i + m] ^ mat[x[i + 1] & _lsb];
+                    y <<= 1; y |= x[i + 1] & _lsb;
+
+                    x[i + 1] = (x[i + 1] & ck.upper_mask) | (y & ck.lower_mask);
+                    x[i] = (y & ck.upper_mask) | (x[i] & ck.lower_mask);
                 }
             }
+            if ((x[0] & ck.upper_mask) == (init[0] & ck.upper_mask))
+            {
+                int j = 1;
+                for (int i = 1; i < n; ++i)
+                {
+                    if (x[i] != init[i])
+                    {
+                        j = i;
+                        break;
+                    }
+                }
+                if (j == n)
+                {
+                    return _irred;
+                }
+            }
+            return _redu;
         }
         private uint nextA(org_state org, int w)
         {
@@ -597,31 +1068,9 @@ namespace Vts.MonteCarlo.Rng
         /// </returns>
         protected override double DoSample()
         {
-            return 0.1;   // fix to compile orig: genrand_dc() * _reciprocal;
+            return genrand_dc(new org_state()) * _reciprocal;
         }
 
-        /// <summary>
-        /// methods to save current state of random number generator
-        /// </summary>
-        /// <param name="filename"></param>
-        /// <returns></returns>
-        public static SerializableMersenneTwister FromFile(string filename)
-        {
-            var info = FileIO.ReadFromJson<MersenneTwisterSerializationInfo>(filename);
-
-            return SerializableMersenneTwister.Create(info);
-        }
-
-        public void ToFile(SerializableMersenneTwister smt, string filename)
-        {
-            var info = new MersenneTwisterSerializationInfo
-            {
-                MT = smt.MT,
-                MTI = smt.MTI
-            };
-
-            FileIO.WriteToJson(info, filename);
-        }
     }
 }
 
