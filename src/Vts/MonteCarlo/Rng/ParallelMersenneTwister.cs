@@ -43,8 +43,8 @@ namespace Vts.MonteCarlo.Rng
         private const uint _tempering_mask_b = 0x9d2c5680;
         private const uint _tempering_mask_c = 0xefc60000;
         private Func<uint,uint> tempering_shift_u =  y => y >> 11;
-        private Func<uint, uint> tempering_shift_s = y => y >> 7;
-        private Func<uint, uint> tempering_shift_t = y => y >> 15;
+        private Func<uint, uint> tempering_shift_s = y => y << 7;
+        private Func<uint, uint> tempering_shift_t = y => y << 15;
         private Func<uint, uint> tempering_shift_l = y => y >> 18;
 
         private Func<eqdeg_t, uint, uint> lsb = (eq, y) => y >> eq.ggap;
@@ -286,7 +286,7 @@ namespace Vts.MonteCarlo.Rng
             }
             st.mti = _n;
         }
-        private uint genrand_dc(org_state st)
+        private uint genrand_dc(ref org_state st)
         {
             uint y;
             if (st.mti >= _n)
@@ -298,10 +298,10 @@ namespace Vts.MonteCarlo.Rng
                     st.mt[k] = st.mt[k + _m] ^ (y >> 1) ^ _mag01[y & 0x1];
                     j = k;
                 }              
-                for (int k = j; k < _n-1; k++) // this starts where last loop left off
+                for (int k = j + 1; k < _n-1; k++) // this starts where last loop left off
                 {
                     y = (st.mt[k] & _upper_mask) | (st.mt[k + 1] & _lower_mask);
-                    st.mt[k] = st.mt[k + _m] ^ (y >> 1) ^ _mag01[y & 0x1];
+                    st.mt[k] = st.mt[k + (_m - _n)] ^ (y >> 1) ^ _mag01[y & 0x1];
                 }
                 y = (st.mt[_n - 1] & _upper_mask) | (st.mt[0] & _lower_mask);
                 st.mt[_n - 1] = st.mt[_m - 1] ^ (y >> 1) ^ _mag01[y & 0x1];
@@ -415,8 +415,9 @@ namespace Vts.MonteCarlo.Rng
                 }
             }
             n = p / w + 1; // since p is Mersenne exponent, w never divides p
+            mts.state = new uint[n];
             //mts = alloc_mt_struc(n); // no allocation needed since "new" above
-            if (mts.state == null) return mts;
+            //if (mts.state == null) return mts;  // this check is on malloc
 
             m = n / 2;
             if (m < 2) m = n - 1;
@@ -435,10 +436,11 @@ namespace Vts.MonteCarlo.Rng
         {
             for (int i = 0; i < _nirredpoly; i++)
             {
-                if (is_reducible(pre, aaa, pre.modlist[i]) == _redu)
-                {
-                    return _not_rejected;
-                }
+                // comment out so compiles 
+                //if (is_reducible(pre, aaa, pre.modlist[0][i]) == _redu) // major check here
+                //{
+                //    return _not_rejected; 
+                //}
             }
             return _not_rejected;
         }
@@ -555,10 +557,11 @@ namespace Vts.MonteCarlo.Rng
         }
         private void initcheck32_dc(check32_t ck, int r, int w)
         {
+            // word_mask, lower_mask, and upper_mask agree with C code!
             // word_mask (least significant w bits)
-            ck.word_mask = 0xFFFFFFFF;
-            ck.word_mask = ck.word_mask << _wordlen - w;
-            ck.word_mask = ck.word_mask >> _wordlen - w;
+            ck.word_mask = 0xffffffff;
+            ck.word_mask <<= _wordlen - w;
+            ck.word_mask >>= _wordlen - w;
             // lower_mask (least significat r bits)
             ck.lower_mask = 0;
             for (int i = 0; i < r; ++i)
@@ -576,21 +579,28 @@ namespace Vts.MonteCarlo.Rng
         /// get_mt_parameter_id(w,p,id) id must be less than 65536 and positive
         /// get_mt_parameter_id_st(w,p,id,seed) 
         /// </summary>
-        /// <param name="w">only w=32 or 31 allowed</param>
-        /// <param name="p">p>=521 and p<=44497</param>
+        /// <param name="w">word size: only w=32 or 31 allowed</param>
+        /// <param name="p">Mersenne exponent: p>=521 and p<=44497</param>
+        /// <param name="seed">seed of original mt19937 to generate parameter</param>
         /// <returns></returns>
-        public mt_struct get_mt_parameter(int w, int p)
+        public mt_struct get_mt_parameter_st(int w, int p, uint seed)
         {
             mt_struct mts;
             prescr_t pre = new prescr_t();
+            pre.modlist = new uint[_nirredpoly];
+            org_state org = new org_state();
+            org.mt = new uint[_n];  // should next two be done in a default struct constructor?
+            org.mti = _n;
             check32_t ck = new check32_t();
+            sgenrand_dc(org, seed);  // org good to after this call
             mts = init_mt_search(ck, pre, w, p);
-            if (mts.state == null)
-                return mts;
-            if (get_irred_param(ck, pre, global_mt19937, mts, 0, 0) != 0) // check
+            //if (mts.state == null) // check on malloc
+            //    return mts;
+            if (get_irred_param(ck, pre, org, mts, 0, 0) == _not_found) 
             {
                 //free_mt_struct(mts); // do I need?
-                return null;
+                mts.state = null;  // can't return mts=null so setting state=null
+                return mts;
             }
             get_tempering_parameter_hard_dc(mts);
             end_mt_search(pre);
@@ -802,22 +812,22 @@ namespace Vts.MonteCarlo.Rng
         }
         private int calc_pivot(uint v)
         {
-            int p1 = pivot_calc_tbl[v & 0xff];
+            int p1 = (int)pivot_calc_tbl[v & 0xff]; // I cast here but not sure
             if (Convert.ToBoolean(p1))
             {
                 return p1 + 24 - 1;
             }
-            int p2 = pivot_calc_tbl[(v >> 8) & 0xff];
+            int p2 = (int)pivot_calc_tbl[(v >> 8) & 0xff];
             if (Convert.ToBoolean(p2))
             {
                 return p2 + 16 - 1;
             }
-            int p3 = pivot_calc_tbl[(v >> 16) & 0xff];
+            int p3 = (int)pivot_calc_tbl[(v >> 16) & 0xff];
             if (Convert.ToBoolean(p3))
             {
                 return p3 + 8 - 1;
             }
-            int p4 = pivot_calc_tbl[(v >> 24) & 0xff];
+            int p4 = (int)pivot_calc_tbl[(v >> 24) & 0xff];
             if (Convert.ToBoolean(p4))
             {
                 return p4 - 1;
@@ -913,7 +923,7 @@ namespace Vts.MonteCarlo.Rng
             {
                 if (idw == 0)
                 {
-                    a = nextA(org, mts.ww);
+                    a = nextA(ref org, mts.ww);
                 }
                 else
                 {
@@ -941,9 +951,10 @@ namespace Vts.MonteCarlo.Rng
             int p = n * w - r;
             uint[] x = new uint[2 * p];
             uint[] init = new uint[n];
-            for (int i = 0; i < n; i++)
+            for (int i = 0; i < n; i++) // set initial values
             {
-                init[i] = (ck.word_mask & genrand_dc(st));
+                init[i] = (ck.word_mask & genrand_dc(ref st));
+                x[i] = init[i];
             }
             if ((x[2]&_lsb) == (x[3]&_lsb))
             {
@@ -991,12 +1002,12 @@ namespace Vts.MonteCarlo.Rng
             }
             return _redu;
         }
-        private uint nextA(org_state org, int w)
+        private uint nextA(ref org_state org, int w)
         {
-            var word_mask = 0xFFFFFFFF;
+            uint word_mask = 0xFFFFFFFF;
             word_mask <<= _wordlen - w;
-            word_mask >>= _wordlen - 2;
-            var x = genrand_dc(org);
+            word_mask >>= _wordlen - w;
+            var x = genrand_dc(ref org);
             x &= word_mask;
             x |= (_lsb << (w - 1));
             return x;
@@ -1008,7 +1019,7 @@ namespace Vts.MonteCarlo.Rng
             word_mask >>= _wordlen - 2;
             word_mask >>= idw;
             word_mask <<= idw;
-            var x = genrand_dc(org);
+            var x = genrand_dc(ref org);
             x &= word_mask;
             x |= (_lsb << (w - 1));
             x |= (uint)id;
@@ -1068,7 +1079,8 @@ namespace Vts.MonteCarlo.Rng
         /// </returns>
         protected override double DoSample()
         {
-            return genrand_dc(new org_state()) * _reciprocal;
+            org_state org = new org_state();
+            return genrand_dc(ref org) * _reciprocal;
         }
 
     }
