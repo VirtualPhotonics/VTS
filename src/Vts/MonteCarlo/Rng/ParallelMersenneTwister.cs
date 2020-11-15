@@ -204,8 +204,8 @@ namespace Vts.MonteCarlo.Rng
         struct prescr_t
         {
             public int sizeOfA;
-            public uint[] modlist;
-            public polynomial[] preModPolys;
+            public uint[] modlist; // size[_nirredpoly]
+            public polynomial[] preModPolys; // size[pre.sizeOfZ+1]
         }
        
         struct eqdeg_t
@@ -434,25 +434,99 @@ namespace Vts.MonteCarlo.Rng
         // methods in prescr.c
         private int prescreening_dc(prescr_t pre, uint aaa)
         {
-            for (int i = 0; i < _nirredpoly; i++)
-            {
-                // comment out so compiles 
-                //if (is_reducible(pre, aaa, pre.modlist[0][i]) == _redu) // major check here
-                //{
-                //    return _not_rejected; 
-                //}
-            }
+            //for (int i = 0; i < _nirredpoly; i++)
+            //{
+                if (is_reducible(pre, aaa, pre.modlist) == _redu) // major check here
+                {
+                    return _not_rejected;
+                }
+            //}
             return _not_rejected;
         }
         private void init_prescreening_dc(prescr_t pre, int m, int n, int r, int w)
         {
-            int i;
             polynomial pl;
             pre.sizeOfA = w;
+            // modlist uint[_nirredpoly]
+            // preModPlolys polynomial[pre.sizeOfZ+1]
 
-            pre.preModPolys = new polynomial[(pre.sizeOfA + 1)*sizeof(uint)]; // not sure if this sb 2D
+            pre.preModPolys = new polynomial[pre.sizeOfA + 1]; 
             make_pre_mod_polys(pre, m, n, r, w);
             pre.modlist = new uint[_nirredpoly];
+            make_pre_mod_polys(pre, m, n, r, w);
+            pre.modlist = new uint[pre.sizeOfA];
+
+            for (int i = 0; i < _nirredpoly; i++)
+            {
+                pl = new_poly(_max_irred_deg);
+                next_irred_poly(pl, i);
+                make_modlist(pre, pl, i);
+            }
+            for (int i = 0; i < pre.sizeOfA; i++)
+            {
+                // free_poly // not sure I need this
+            }
+        }
+        private void next_irred_poly(polynomial pl, int nth)
+        {
+            int max_deg = 0;
+            for (int i = 0; i < _max_irred_deg; i++)
+            {
+                if ( Convert.ToBoolean(irredpolylist[nth,i]))
+                {
+                    max_deg = i;
+                }
+                pl.x[i] = irredpolylist[nth, i];
+            }
+            pl.deg = max_deg;
+        }
+        private void make_modlist(prescr_t pre, polynomial pl, int nPoly)
+        {
+            polynomial tmpPl;
+            for (int i = 0; i < pre.sizeOfA; i++)
+            {
+                tmpPl = polynomial_dup(pre.preModPolys[i]);
+                polynomial_mod(tmpPl, pl);
+                pre.modlist[i] = word2bit(tmpPl);  // not sure here
+            }
+        }
+        private void polynomial_mod(polynomial wara, polynomial waru) // waru is "const" in C code
+        {
+            int deg_diff, j = 0; 
+            while (wara.deg >= waru.deg)
+            {
+                deg_diff = wara.deg - waru.deg;
+                for (int i = 0; i < waru.deg; i++)
+                {
+                    wara.x[i + deg_diff] ^= waru.x[i];
+                }
+                for (int i = wara.deg; i >= 0; i--)
+                {
+                    if (Convert.ToBoolean(wara.x[i]))
+                    {
+                        break;
+                    }
+                    j = i;
+                }
+                wara.deg = j;
+            }
+        }
+        private uint word2bit(polynomial pl)
+        {
+            uint bx = 0;
+            for (int i = pl.deg; i > 0; i--)
+            {
+                if (Convert.ToBoolean(pl.x[i]))
+                {
+                    bx |= 0x1;
+                }
+                bx <<= 1;
+            }
+            if (Convert.ToBoolean(pl.x[0]))
+            {
+                bx |= 0x1;
+            }
+            return bx;
         }
         private int is_reducible(prescr_t pre, uint aaa, uint[] polylist)
         {
@@ -471,6 +545,15 @@ namespace Vts.MonteCarlo.Rng
             }
             return _nonredu;
         }
+        /// <summary>
+        /// method to make prescr_t pre.preModPolys
+        /// polynomial[][] pre_mod_polys; // size[pre.sizeOfZ+1][polynomial]
+        /// </summary>
+        /// <param name="pre"></param>
+        /// <param name="mm"></param>
+        /// <param name="nn"></param>
+        /// <param name="rr"></param>
+        /// <param name="ww"></param>
         private void make_pre_mod_polys(prescr_t pre, int mm, int nn, int rr, int ww)
         {
             polynomial t, t0, t1, s, s0, s1;
@@ -506,6 +589,11 @@ namespace Vts.MonteCarlo.Rng
             //free_poly(s0);
             //free_poly(s);
         }
+        /// <summary>
+        /// method duplicate polynomial 
+        /// </summary>
+        /// <param name="pl">polynomial to be duplicated</param>
+        /// <returns></returns>
         private polynomial polynomial_dup(polynomial pl)
         {
             polynomial pt = new_poly(pl.deg);
@@ -543,6 +631,12 @@ namespace Vts.MonteCarlo.Rng
             p.x[n] = p.x[m];
             return p;
         }
+    
+        /// <summary>
+        /// method creates a new polynomial of degree deg
+        /// polynomial members are int[] x and int deg
+        /// <param name="degree">degree of polynomial created</param>
+        /// <returns></returns>
         private polynomial new_poly(int degree)
         {
             polynomial p = new polynomial();
@@ -909,10 +1003,10 @@ namespace Vts.MonteCarlo.Rng
         }
         private void end_prescreening_dc(prescr_t pre)
         {
-            for (int i = 0; i < _nirredpoly; i++)
-            {
-                pre.modlist[i] = 0; // not sure I need this: c code uses "free" here
-            }
+            //for (int i = 0; i < _nirredpoly; i++)
+            //{
+            //    pre.modlist[i] = 0; // not sure I need this: c code uses "free" here
+            //}
         }
         private int get_irred_param(check32_t ck, prescr_t pre, org_state org,
             mt_struct mts, int id, int idw)
