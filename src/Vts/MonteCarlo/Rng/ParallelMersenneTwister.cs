@@ -204,8 +204,8 @@ namespace Vts.MonteCarlo.Rng
         struct prescr_t
         {
             public int sizeOfA;
-            public uint[] modlist; // size[_nirredpoly]
-            public polynomial[] preModPolys; // size[pre.sizeOfZ+1]
+            public uint[][] modlist; // size[_nirredpoly][pre.sizeOfA]
+            public polynomial[] preModPolys; // size[pre.sizeOfA+1]
         }
        
         struct eqdeg_t
@@ -384,7 +384,7 @@ namespace Vts.MonteCarlo.Rng
             }
         }
 
-        private mt_struct init_mt_search(check32_t ck, prescr_t pre, int w, int p)
+        private mt_struct init_mt_search(check32_t ck, ref prescr_t pre, int w, int p)
         {
             int n, m, r;
             mt_struct mts = new mt_struct();
@@ -423,7 +423,7 @@ namespace Vts.MonteCarlo.Rng
             if (m < 2) m = n - 1;
             r = n * w - p;
             make_masks(r, w, mts);
-            init_prescreening_dc(pre, m, n, r, w);
+            init_prescreening_dc(ref pre, m, n, r, w);
             initcheck32_dc(ck, r, w);
             mts.mm = m;
             mts.nn = n;
@@ -434,40 +434,39 @@ namespace Vts.MonteCarlo.Rng
         // methods in prescr.c
         private int prescreening_dc(prescr_t pre, uint aaa)
         {
-            //for (int i = 0; i < _nirredpoly; i++)
-            //{
-                if (is_reducible(pre, aaa, pre.modlist) == _redu) // major check here
+            for (int i = 0; i < _nirredpoly; i++)
+            {
+                if (is_reducible(pre, aaa, pre.modlist[i]) == _redu) // major check here
                 {
                     return _not_rejected;
                 }
-            //}
+            }
             return _not_rejected;
         }
-        private void init_prescreening_dc(prescr_t pre, int m, int n, int r, int w)
+        private void init_prescreening_dc(ref prescr_t pre, int m, int n, int r, int w)
         {
             polynomial pl;
             pre.sizeOfA = w;
-            // modlist uint[_nirredpoly]
-            // preModPlolys polynomial[pre.sizeOfZ+1]
-
             pre.preModPolys = new polynomial[pre.sizeOfA + 1]; 
-            make_pre_mod_polys(pre, m, n, r, w);
-            pre.modlist = new uint[_nirredpoly];
-            make_pre_mod_polys(pre, m, n, r, w);
-            pre.modlist = new uint[pre.sizeOfA];
+            make_pre_mod_polys(ref pre, m, n, r, w);
+            pre.modlist = new uint[_nirredpoly][];
+            for (int i = 0; i < _nirredpoly; i++)
+            {
+                pre.modlist[i] = new uint[pre.sizeOfA + 1];
+            }
 
             for (int i = 0; i < _nirredpoly; i++)
             {
                 pl = new_poly(_max_irred_deg);
-                next_irred_poly(pl, i);
+                next_irred_poly(ref pl, i);
                 make_modlist(pre, pl, i);
             }
-            for (int i = 0; i < pre.sizeOfA; i++)
-            {
-                // free_poly // not sure I need this
-            }
+            //for (int i = 0; i < pre.sizeOfA; i++) // don't need this
+            //{
+            //    free_poly 
+            //}
         }
-        private void next_irred_poly(polynomial pl, int nth)
+        private void next_irred_poly(ref polynomial pl, int nth)
         {
             int max_deg = 0;
             for (int i = 0; i < _max_irred_deg; i++)
@@ -483,32 +482,36 @@ namespace Vts.MonteCarlo.Rng
         private void make_modlist(prescr_t pre, polynomial pl, int nPoly)
         {
             polynomial tmpPl;
-            for (int i = 0; i < pre.sizeOfA; i++)
+            for (int i = 0; i <= pre.sizeOfA; i++)
             {
                 tmpPl = polynomial_dup(pre.preModPolys[i]);
-                polynomial_mod(tmpPl, pl);
-                pre.modlist[i] = word2bit(tmpPl);  // not sure here
+                polynomial_mod(ref tmpPl, pl);
+                pre.modlist[nPoly][i] = word2bit(tmpPl);  // not sure here
             }
         }
-        private void polynomial_mod(polynomial wara, polynomial waru) // waru is "const" in C code
+        /// <summary>
+        /// method performs wara.x (an int) mod waru.x (another in), with results stored in wara.x
+        /// </summary>
+        /// <param name="wara">first polynomial</param>
+        /// <param name="waru">second polynomial</param>
+        private void polynomial_mod(ref polynomial wara, polynomial waru) // waru is "const" in C code
         {
-            int deg_diff, j = 0; 
+            int deg_diff, i; 
             while (wara.deg >= waru.deg)
             {
                 deg_diff = wara.deg - waru.deg;
-                for (int i = 0; i < waru.deg; i++)
+                for (i = 0; i <= waru.deg; i++)
                 {
-                    wara.x[i + deg_diff] ^= waru.x[i];
+                    wara.x[i + deg_diff] ^= waru.x[i]; // XOR clears bit set at x[wara.deg-1]
                 }
-                for (int i = wara.deg; i >= 0; i--)
+                for (i = wara.deg; i >= 0; i--)
                 {
                     if (Convert.ToBoolean(wara.x[i]))
                     {
                         break;
                     }
-                    j = i;
                 }
-                wara.deg = j;
+                wara.deg = i;
             }
         }
         private uint word2bit(polynomial pl)
@@ -546,17 +549,17 @@ namespace Vts.MonteCarlo.Rng
             return _nonredu;
         }
         /// <summary>
-        /// method to make prescr_t pre.preModPolys
-        /// polynomial[][] pre_mod_polys; // size[pre.sizeOfZ+1][polynomial]
+        /// method to make prescr_t pre.preModPolys=polynomial[pre.SizeOfA+1] 
         /// </summary>
         /// <param name="pre"></param>
         /// <param name="mm"></param>
         /// <param name="nn"></param>
         /// <param name="rr"></param>
         /// <param name="ww"></param>
-        private void make_pre_mod_polys(prescr_t pre, int mm, int nn, int rr, int ww)
+        private void make_pre_mod_polys(ref prescr_t pre, int mm, int nn, int rr, int ww)
         {
             polynomial t, t0, t1, s, s0, s1;
+            int i;
             int j = 0;
             t = new_poly(0);
             t.deg = 0;
@@ -567,10 +570,10 @@ namespace Vts.MonteCarlo.Rng
             t0 = make_tntm(nn, mm);
             s = make_tntm(nn - 1, mm - 1);
 
-            for (int i = 0; i < (ww - rr); i++)
+            for (i = 1; i < (ww - rr); i++)
             {
                 pre.preModPolys[j++] = polynomial_dup(t0);
-                t1 = t0;
+                t1 = t0;    // not used
                 t0 = polynomial_mult(t0, t);
                 //free_poly(t1);
             }
@@ -578,10 +581,10 @@ namespace Vts.MonteCarlo.Rng
             s0 = polynomial_mult(t0, s);
             //free_poly(t0);
             //free_poly(t);
-            for (int i = (rr-2); i >= 0; i--)
+            for (i = (rr-2); i >= 0; i--)
             {
                 pre.preModPolys[j++] = polynomial_dup(s0);
-                s1 = s0;
+                s1 = s0;  // not used
                 s0 = polynomial_mult(s0, s);
                 //free_poly(s1);
             }
@@ -612,13 +615,13 @@ namespace Vts.MonteCarlo.Rng
                 return p;
             }
             p = new_poly(p0.deg + p1.deg);
-            for (int i = 0; i <p1.deg; i++)
+            for (int i = 0; i <= p1.deg; i++)
             {
-                if (p1.x[i] != 0)  // C equivalent to "if (p1.x[i])" if arg is int
+                if (Convert.ToBoolean(p1.x[i]))  
                 {
                     for (int j = 0; j <= p0.deg; j++)
                     {
-                        p.x[i + j] ^= p0.x[j];
+                        p.x[i + j] ^= p0.x[j]; // XOR
                     }
                 }
             }
@@ -681,13 +684,12 @@ namespace Vts.MonteCarlo.Rng
         {
             mt_struct mts;
             prescr_t pre = new prescr_t();
-            pre.modlist = new uint[_nirredpoly];
             org_state org = new org_state();
             org.mt = new uint[_n];  // should next two be done in a default struct constructor?
             org.mti = _n;
             check32_t ck = new check32_t();
             sgenrand_dc(org, seed);  // org good to after this call
-            mts = init_mt_search(ck, pre, w, p);
+            mts = init_mt_search(ck, ref pre, w, p);
             //if (mts.state == null) // check on malloc
             //    return mts;
             if (get_irred_param(ck, pre, org, mts, 0, 0) == _not_found) 
@@ -1012,8 +1014,8 @@ namespace Vts.MonteCarlo.Rng
             mt_struct mts, int id, int idw)
         {
             uint a;
-            int j = 0;
-            for (int i = 0; i < _max_search; i++)
+            int i;
+            for (i = 0; i < _max_search; i++)
             {
                 if (idw == 0)
                 {
@@ -1031,9 +1033,8 @@ namespace Vts.MonteCarlo.Rng
                         break;
                     }
                 }
-                j = i;
             }
-            if (_max_search == j)
+            if (_max_search == i)
             {
                 return _not_found;
             }
@@ -1129,8 +1130,8 @@ namespace Vts.MonteCarlo.Rng
             ut = 0;
             for (int i = 0; i < r; i++)
             {
-                ut = ut << 1;
-                ut = ut | _lsb;
+                ut <<=  1;
+                ut |= _lsb;
             }
             lm = ut;
             um = (~ut) & wm;
