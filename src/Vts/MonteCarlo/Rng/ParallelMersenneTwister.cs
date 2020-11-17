@@ -96,7 +96,7 @@ namespace Vts.MonteCarlo.Rng
         private const int _max_irred_deg = 9;
 
         /* list of irreducible polynomials whose degrees are less than 10 */
-        private int[,] irredpolylist = new int[_nirredpoly, _max_irred_deg + 1] {
+        private int[,] irredpolylist = new int[_nirredpoly,_max_irred_deg + 1] {
             {0,1,0,0,0,0,0,0,0,0,},{1,1,0,0,0,0,0,0,0,0,},{1,1,1,0,0,0,0,0,0,0,},
             {1,1,0,1,0,0,0,0,0,0,},{1,0,1,1,0,0,0,0,0,0,},{1,1,0,0,1,0,0,0,0,0,},
             {1,0,0,1,1,0,0,0,0,0,},{1,1,1,1,1,0,0,0,0,0,},{1,0,1,0,0,1,0,0,0,0,},
@@ -249,24 +249,8 @@ namespace Vts.MonteCarlo.Rng
 
         /// <summary>
         /// Initializes a new instance of the MersenneTwister class.
-        /// </summary>
-        /// <param name="seed">The seed value.</param>
-        /// <param name="threadSafe">if set to <c>true</c>, the class is thread safe.</param>
-        public ParallelMersenneTwister(int seed, bool threadSafe)
-            : base(threadSafe)
-        {
-            init_genrand_dc((uint)seed);
-        }
-
-
-        /// <summary>
-        /// Initializes a new instance of the MersenneTwister class.
-        /// </summary>
-        /// <param name="seed">The seed value.</param>
-        /// <remarks>Uses the value of MathNet.Numerics.Control.ThreadSafeRandomNumberGenerators to
-        /// set whether the instance is thread safe.</remarks>        
+        /// </summary>        
         public ParallelMersenneTwister(int seed)
-            : this(seed, MathNet.Numerics.Control.ThreadSafeRandomNumberGenerators)
         {
         }
 
@@ -384,7 +368,7 @@ namespace Vts.MonteCarlo.Rng
             }
         }
 
-        private mt_struct init_mt_search(check32_t ck, ref prescr_t pre, int w, int p)
+        private mt_struct init_mt_search(ref check32_t ck, ref prescr_t pre, int w, int p)
         {
             int n, m, r;
             mt_struct mts = new mt_struct();
@@ -422,9 +406,9 @@ namespace Vts.MonteCarlo.Rng
             m = n / 2;
             if (m < 2) m = n - 1;
             r = n * w - p;
-            make_masks(r, w, mts);
+            make_masks(r, w, ref mts);
             init_prescreening_dc(ref pre, m, n, r, w);
-            initcheck32_dc(ck, r, w);
+            init_check32_dc(ref ck, r, w);
             mts.mm = m;
             mts.nn = n;
             mts.rr = r;
@@ -438,7 +422,7 @@ namespace Vts.MonteCarlo.Rng
             {
                 if (is_reducible(pre, aaa, pre.modlist[i]) == _redu) // major check here
                 {
-                    return _not_rejected;
+                    return _rejected;
                 }
             }
             return _not_rejected;
@@ -459,7 +443,7 @@ namespace Vts.MonteCarlo.Rng
             {
                 pl = new_poly(_max_irred_deg);
                 next_irred_poly(ref pl, i);
-                make_modlist(pre, pl, i);
+                make_modlist(ref pre, pl, i);
             }
             //for (int i = 0; i < pre.sizeOfA; i++) // don't need this
             //{
@@ -468,8 +452,8 @@ namespace Vts.MonteCarlo.Rng
         }
         private void next_irred_poly(ref polynomial pl, int nth)
         {
-            int max_deg = 0;
-            for (int i = 0; i < _max_irred_deg; i++)
+            int i, max_deg;
+            for (max_deg = 0, i = 0; i <= _max_irred_deg; i++)
             {
                 if ( Convert.ToBoolean(irredpolylist[nth,i]))
                 {
@@ -479,10 +463,11 @@ namespace Vts.MonteCarlo.Rng
             }
             pl.deg = max_deg;
         }
-        private void make_modlist(prescr_t pre, polynomial pl, int nPoly)
+        private void make_modlist(ref prescr_t pre, polynomial pl, int nPoly)
         {
             polynomial tmpPl;
-            for (int i = 0; i <= pre.sizeOfA; i++)
+            int i;
+            for (i = 0; i <= pre.sizeOfA; i++)
             {
                 tmpPl = polynomial_dup(pre.preModPolys[i]);
                 polynomial_mod(ref tmpPl, pl);
@@ -531,10 +516,17 @@ namespace Vts.MonteCarlo.Rng
             }
             return bx;
         }
+        /// <summary>
+        /// method to determine if polylist is reducible
+        /// </summary>
+        /// <param name="pre">prescr_t struct</param>
+        /// <param name="aaa">uint</param>
+        /// <param name="polylist">polynomial list</param>
+        /// <returns></returns>
         private int is_reducible(prescr_t pre, uint aaa, uint[] polylist)
         {
             uint x = polylist[pre.sizeOfA];
-            for (int i = pre.sizeOfA-1; i >= 0; i++)
+            for (int i = pre.sizeOfA - 1; i >= 0; i--)
             {
                 if (Convert.ToBoolean(aaa & 0x1))
                 {
@@ -652,7 +644,7 @@ namespace Vts.MonteCarlo.Rng
             p.x = new int[degree + 1];
             return p;
         }
-        private void initcheck32_dc(check32_t ck, int r, int w)
+        private void init_check32_dc(ref check32_t ck, int r, int w)
         {
             // word_mask, lower_mask, and upper_mask agree with C code!
             // word_mask (least significant w bits)
@@ -689,25 +681,25 @@ namespace Vts.MonteCarlo.Rng
             org.mti = _n;
             check32_t ck = new check32_t();
             sgenrand_dc(org, seed);  // org good to after this call
-            mts = init_mt_search(ck, ref pre, w, p);
+            mts = init_mt_search(ref ck, ref pre, w, p);
             //if (mts.state == null) // check on malloc
             //    return mts;
             if (get_irred_param(ck, pre, org, mts, 0, 0) == _not_found) 
             {
-                //free_mt_struct(mts); // do I need?
+                //free_mt_struct(mts); // don't need
                 mts.state = null;  // can't return mts=null so setting state=null
                 return mts;
             }
-            get_tempering_parameter_hard_dc(mts);
+            get_tempering_parameter_hard_dc(ref mts);
             end_mt_search(pre);
             return mts;
         }
         // methods in eqdeg.c
-        public void get_tempering_parameter_hard_dc(mt_struct mts)
+        public void get_tempering_parameter_hard_dc(ref mt_struct mts)
         {
             eqdeg_t eq;
             eq = init_tempering(mts);
-            optimize_v(eq, 0, 0, 0);
+            optimize_v(ref eq, 0, 0, 0);
             mts.shift0 = eq.shift_0;
             mts.shift1 = eq.shift_1;
             mts.shiftB = eq.shift_s;
@@ -718,6 +710,7 @@ namespace Vts.MonteCarlo.Rng
         private eqdeg_t init_tempering(mt_struct mts)
         {
             eqdeg_t eq = new eqdeg_t();
+            eq.aaa = new uint[2];
             eq.bitmask = new uint[32]; // if class then wouldn't have to do this
             eq.mmm = mts.mm;
             eq.nnn = mts.nn;
@@ -746,8 +739,9 @@ namespace Vts.MonteCarlo.Rng
             return eq;
             // orig code has debug statements here           
         }
-        private void optimize_v(eqdeg_t eq, uint b, uint c, int v)
+        private void optimize_v(ref eqdeg_t eq, uint b, uint c, int v)
         {
+            int i;
             uint[] bbb = new uint[8];
             uint[] ccc = new uint[8];
             int ll = push_stack(eq, b, c, v, bbb, ccc);
@@ -755,11 +749,11 @@ namespace Vts.MonteCarlo.Rng
             int max_len = 0;
             if (ll > 1)
             {
-                for (int i = 0; i < ll; i++)
+                for (i = 0; i < ll; i++)
                 {
                     eq.mask_b = bbb[i];
                     eq.mask_c = ccc[i];
-                    int t = pivot_reduction(eq, v + 1);
+                    int t = pivot_reduction(ref eq, v + 1);
                     if (t > max_len)
                     {
                         max_len = t;
@@ -773,7 +767,7 @@ namespace Vts.MonteCarlo.Rng
                 eq.mask_c = ccc[max_i];
                 return;
             }
-            optimize_v(eq, bbb[max_i], ccc[max_i], v + 1); // c# allows recursive calling?
+            optimize_v(ref eq, bbb[max_i], ccc[max_i], v + 1); // c# allows recursive calling?
         }
         private int push_stack(eqdeg_t eq, uint b, uint c, int v, uint[] bbb, uint[] ccc)
         {
@@ -850,7 +844,7 @@ namespace Vts.MonteCarlo.Rng
             }
             return k - l;
         }
-        private int pivot_reduction(eqdeg_t eq, int v)
+        private int pivot_reduction(ref eqdeg_t eq, int v)
         {
             _vector[] lattice;
             _vector ltmp = new _vector();
@@ -873,7 +867,7 @@ namespace Vts.MonteCarlo.Rng
                 if (lattice[v].next == 0)
                 {
                     int count = 0;
-                    int new_count = next_state(eq, lattice[v], count);
+                    int new_count = next_state(eq, ref lattice[v], ref count);
                     if (lattice[v].next == 0)
                     {
                         if (Convert.ToBoolean(is_zero(eq.nnn, lattice[v])))
@@ -883,7 +877,7 @@ namespace Vts.MonteCarlo.Rng
                         while (lattice[v].next == 0)
                         {
                             new_count++;
-                            int newer_count = next_state(eq, lattice[v], new_count);
+                            int newer_count = next_state(eq, ref lattice[v], ref new_count);
                             if (newer_count > eq.nnn * (eq.www-1) - eq.rrr)
                             {
                                 break;
@@ -945,18 +939,19 @@ namespace Vts.MonteCarlo.Rng
         }
         private _vector[] make_lattice(eqdeg_t eq, int v)
         {
+            int i;
             _vector[] lattice = new _vector[v + 1];
-            _vector bottom = new _vector();
-            bottom.cf = new uint[eq.nnn];
 
-            for (int i = 0; i < v; i++) // from 0th row to v-1-th row
+            for (i = 0; i < v; i++) // from 0th row to v-1-th row
             {
+                lattice[i] = new_vector(eq.nnn);
                 lattice[i].next = eq.bitmask[i];
                 lattice[i].start = 0;
                 lattice[i].count = 0;
             }
-            
-            for (int i = 0; i < eq.nnn; i++) // last row, don't think I need to do this 0-ing C# does it
+            _vector bottom = new_vector(eq.nnn);
+            bottom.cf = new uint[eq.nnn];
+            for (i = 0; i < eq.nnn; i++) // last row, don't think I need to do this 0-ing C# does it
             {            
                 bottom.cf[i] = 0;
             }
@@ -966,13 +961,19 @@ namespace Vts.MonteCarlo.Rng
             int count = 0;
             do
             {
-                int new_count = next_state(eq, bottom, count);
+                int new_count = next_state(eq, ref bottom, ref count);
             } while (bottom.next == 0);
             lattice[v] = bottom;
             return lattice;
         }
         
-        private int next_state(eqdeg_t eq, _vector v, int current_count)
+        private _vector new_vector(int nnn)
+        {
+            _vector v = new _vector();
+            v.cf = new uint[nnn];
+            return v;
+        }
+        private int next_state(eqdeg_t eq, ref _vector v, ref int count)
         {
             uint tmp;
             do
@@ -988,13 +989,13 @@ namespace Vts.MonteCarlo.Rng
                 tmp = trnstmp(eq, tmp);
                 tmp = masktmp(eq, tmp);
                 v.next = tmp & eq.upper_v_bits;
-                current_count++;
-                if (current_count > eq.nnn * (eq.www - 1) * eq.rrr)
+                count++;
+                if (count > eq.nnn * (eq.www - 1) - eq.rrr)
                 {
                     break;
                 }
             } while (v.next == 0);
-            return current_count;
+            return count;
         }
 
         
@@ -1027,7 +1028,7 @@ namespace Vts.MonteCarlo.Rng
                 }
                 if (_not_rejected == prescreening_dc(pre, a))
                 {
-                    if (_irred == check_period_dc(ck, org, a, mts.mm, mts.nn, mts.rr, mts.ww))
+                    if (_irred == check_period_dc(ck, ref org, a, mts.mm, mts.nn, mts.rr, mts.ww))
                     {
                         mts.aaa = a;
                         break;
@@ -1040,13 +1041,14 @@ namespace Vts.MonteCarlo.Rng
             }
             return _found;
         }
-        private int check_period_dc(check32_t ck, org_state st, uint a, int m, int n, int r, int w)
+        private int check_period_dc(check32_t ck, ref org_state st, uint a, int m, int n, int r, int w)
         {
+            int i, j;
             uint y;
             int p = n * w - r;
             uint[] x = new uint[2 * p];
             uint[] init = new uint[n];
-            for (int i = 0; i < n; i++) // set initial values
+            for (i = 0; i < n; i++) // set initial values
             {
                 init[i] = (ck.word_mask & genrand_dc(ref st));
                 x[i] = init[i];
@@ -1058,19 +1060,19 @@ namespace Vts.MonteCarlo.Rng
             }
             int pp = 2 * p - n;
             uint[] mat = new uint[2] { 0, a };
-            for (int j = 0; j < p; j++)
+            for (j = 0; j < p; ++j)
             {
-                for (int i = 0; i < pp; i++) // generate
+                for (i = 0; i < pp; ++i) // generate
                 {
                     y = (x[i] & ck.upper_mask) | (x[i + 1] & ck.lower_mask);
                     x[i + n] = x[i + m] ^ (y >> 1) ^ (mat[y & _lsb]);
                 }
 
-                for (int i = 2; i <= p; ++i) // pick up odd subscript elements
+                for (i = 2; i <= p; ++i) // pick up odd subscript elements
                 {
                     x[i] = x[(i << 1) - 1];
                 }
-                for (int i = p - n; i >= 0; --i) // reverse generate
+                for (i = p - n; i >= 0; --i) // reverse generate
                 {
                     y = x[i + n] ^ x[i + m] ^ mat[x[i + 1] & _lsb];
                     y <<= 1; y |= x[i + 1] & _lsb;
@@ -1081,16 +1083,14 @@ namespace Vts.MonteCarlo.Rng
             }
             if ((x[0] & ck.upper_mask) == (init[0] & ck.upper_mask))
             {
-                int j = 1;
-                for (int i = 1; i < n; ++i)
+                for (i = 1; i < n; ++i)
                 {
                     if (x[i] != init[i])
                     {
-                        j = i;
                         break;
                     }
                 }
-                if (j == n)
+                if (i == n)
                 {
                     return _irred;
                 }
@@ -1121,7 +1121,7 @@ namespace Vts.MonteCarlo.Rng
             return x;
         }
 
-        private static void make_masks(int r, int w, mt_struct mts)
+        private static void make_masks(int r, int w, ref mt_struct mts)
         {
             uint ut, wm, um, lm;
             wm = 0xFFFFFFFF;
@@ -1167,7 +1167,7 @@ namespace Vts.MonteCarlo.Rng
 
 
         /// <summary>
-        /// Returns a random number between 0.0 and 1.0.
+        /// Returns a random number between 0.0 and 1.0. ONLY NEEDED IF INHERIT MATHNET.NUMERICS
         /// </summary>
         /// <returns>
         /// A double-precision floating point number greater than or equal to 0.0, and less than 1.0.
