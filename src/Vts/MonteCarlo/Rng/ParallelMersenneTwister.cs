@@ -1,5 +1,6 @@
 ﻿using System;
-using Vts.IO;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Vts.MonteCarlo.Rng
 {
@@ -47,7 +48,7 @@ namespace Vts.MonteCarlo.Rng
         private Func<uint, uint> tempering_shift_t = y => y << 15;
         private Func<uint, uint> tempering_shift_l = y => y >> 18;
 
-        private Func<eqdeg_t, uint, uint> lsb = (eq, y) => y >> eq.ggap;
+        private Func<eqdeg_t, uint, uint> lsb = (eq, y) => (y >> eq.ggap) & 1;
         private Func<eqdeg_t, uint, uint> trnstmp = (eq, y) => y ^= (y >> eq.shift_0) & eq.greal_mask;
         private Func<eqdeg_t, uint, uint> masktmp = (eq, y) =>
         {
@@ -57,15 +58,14 @@ namespace Vts.MonteCarlo.Rng
         };
         private Func<int, _vector, _vector, _vector> add = (int nnn, _vector u, _vector v) =>
         {
+            int i;
             int diff = (v.start -u.start + nnn) % nnn;
-            int j = 0;
-            for (int i = 0; i < nnn - diff; i++)
+            for (i = 0; i < nnn - diff; i++)
             {
                 u.cf[i] ^= v.cf[i + diff];
-                j = i;
             }
             diff = diff - nnn;
-            for (int i = j; i < nnn; i++)
+            for (; i < nnn; i++)
             {
                 u.cf[i] ^= v.cf[i + diff];
             }
@@ -178,6 +178,7 @@ namespace Vts.MonteCarlo.Rng
         private const int TTT = 15;
         private const int S00 = 12;
         private const int S01 = 18;
+        private const int _limit_v_best_opt = 15;
         // should the following be classes?
         /// <summary>
         /// structs in dci.h
@@ -231,12 +232,18 @@ namespace Vts.MonteCarlo.Rng
             public uint gmax_b;
             public uint gmax_c;
         }
+        // structs in eqdeg
         struct _vector
         {
             public uint[] cf;
             public int start;
             public int count;
             public uint next;
+        }
+        struct _mask_node
+        {
+            public uint b, c;
+            public int v, leng; // can't have pointer to itself so created list
         }
         /// struc in mt19937.h
         struct org_state
@@ -684,10 +691,10 @@ namespace Vts.MonteCarlo.Rng
             mts = init_mt_search(ref ck, ref pre, w, p);
             //if (mts.state == null) // check on malloc
             //    return mts;
-            if (get_irred_param(ck, pre, org, mts, 0, 0) == _not_found) 
+            if (get_irred_param(ck, pre, ref org, ref mts, 0, 0) == _not_found) 
             {
-                //free_mt_struct(mts); // don't need
-                mts.state = null;  // can't return mts=null so setting state=null
+                //free_mt_struct(mts); // don't need just frees mts.state
+                mts.state = null;  // substitute
                 return mts;
             }
             get_tempering_parameter_hard_dc(ref mts);
@@ -697,8 +704,34 @@ namespace Vts.MonteCarlo.Rng
         // methods in eqdeg.c
         public void get_tempering_parameter_hard_dc(ref mt_struct mts)
         {
-            eqdeg_t eq;
-            eq = init_tempering(mts);
+            int i;
+            _mask_node mn0, next;
+            LinkedList<_mask_node> listOfMaskNodes = null;
+            eqdeg_t eq = new eqdeg_t();
+            eq.aaa = new uint[2];
+            eq.bitmask = new uint[32]; // if class then wouldn't have to do this
+            eq.gcur_maxlengs = new int[32];
+            init_tempering(ref eq, mts);
+            for (i = 0; i < eq.www; i++)
+            {
+                eq.gcur_maxlengs[i] = -1;
+            }
+            mn0 = new _mask_node();
+            mn0.leng = 0;
+            mn0.c = 0;
+            mn0.b = 0;
+            listOfMaskNodes.AddFirst(mn0);
+            var curList = listOfMaskNodes;
+            var cur = mn0;
+            for (i = 0; i < _limit_v_best_opt; i++)
+            {
+                next = optimize_v_hard(ref eq, i, curList);
+                if (i > 0)
+                {
+                    curList.Remove(cur);
+                }
+                cur = next;
+            }
             optimize_v(ref eq, 0, 0, 0);
             mts.shift0 = eq.shift_0;
             mts.shift1 = eq.shift_1;
@@ -707,11 +740,9 @@ namespace Vts.MonteCarlo.Rng
             mts.maskB = eq.mask_b >> eq.ggap;
             mts.maskC = eq.mask_c >> eq.ggap;
         }
-        private eqdeg_t init_tempering(mt_struct mts)
+        private void init_tempering(ref eqdeg_t eq, mt_struct mts)
         {
-            eqdeg_t eq = new eqdeg_t();
-            eq.aaa = new uint[2];
-            eq.bitmask = new uint[32]; // if class then wouldn't have to do this
+            int i;
             eq.mmm = mts.mm;
             eq.nnn = mts.nn;
             eq.rrr = mts.rr;
@@ -724,11 +755,11 @@ namespace Vts.MonteCarlo.Rng
             // bits are filled in mts.aaa from MSB
             eq.aaa[0] = 0;
             eq.aaa[1] = (mts.aaa) << eq.ggap;
-            for (int i = 0; i < _wordlen; i++)
+            for (i = 0; i < _wordlen; i++)
             {
-                eq.bitmask[i] = (uint)0x8000000 >> i;
+                eq.bitmask[i] = (uint)0x80000000 >> i;
             }
-            for (int i = 0; i < eq.rrr; i++) // orig code for (i=0,eq.glower_mask=0; i<eq.rrr; i++)
+            for (i = 0; i < eq.rrr; i++) // orig code for (i=0,eq.glower_mask=0; i<eq.rrr; i++)
             {
                 eq.glower_mask = (eq.glower_mask << 1) | 0x1;
             }
@@ -736,7 +767,6 @@ namespace Vts.MonteCarlo.Rng
             eq.glower_mask <<= eq.ggap;
             eq.glower_mask <<= eq.ggap;
             eq.greal_mask = (eq.gupper_mask | eq.glower_mask);
-            return eq;
             // orig code has debug statements here           
         }
         private void optimize_v(ref eqdeg_t eq, uint b, uint c, int v)
@@ -767,7 +797,49 @@ namespace Vts.MonteCarlo.Rng
                 eq.mask_c = ccc[max_i];
                 return;
             }
-            optimize_v(ref eq, bbb[max_i], ccc[max_i], v + 1); // c# allows recursive calling?
+            optimize_v(ref eq, bbb[max_i], ccc[max_i], v + 1); // c# allows recursive calling!
+        }
+        private _mask_node optimize_v_hard(ref eqdeg_t eq, int v, LinkedList<_mask_node> prev_masks)
+        {
+            int i, ll;
+            uint[] bbb = new uint[8];
+            uint[] ccc = new uint[8];
+            LinkedList<_mask_node> cur_masks = null;
+            _mask_node return_node;
+
+            //while (prev_masks != null)
+            foreach (_mask_node node in prev_masks)
+            {
+                ll = push_stack(eq, node.b, node.c, v, bbb, ccc);
+                for (i = 0; i < ll; i++)
+                {
+                    eq.mask_b = bbb[i];
+                    eq.mask_c = ccc[i];
+                    int t = pivot_reduction(ref eq, v + 1);
+                    if (t >= eq.gcur_maxlengs[v])
+                    {
+                        eq.gcur_maxlengs[v] = t;
+                        eq.gmax_b = eq.mask_b;
+                        eq.gmax_c = eq.mask_c;
+                        //cur_masks = cons_mask_node(cur_masks, eq.mask_b, eq.mask_c, t);
+                        cur_masks.AddLast(new _mask_node() { b = eq.mask_b, c = eq.mask_c, leng = t });
+                    }
+                }
+                //prev_masks = prev_masks.Next;
+            }
+            return_node = delete_lower_mask_nodes(cur_masks, eq.gcur_maxlengs[v]);
+            return return_node;
+        }
+        /// <summary>
+        /// delete "l" _mask_nodes in linkedlist from head.  This does not match
+        /// C code because C# has LinkedList
+        /// </summary>
+        /// <param name="head">head of linkedlist to delete from</param>
+        /// <param name="l">number of nodes to delete</param>
+        /// <returns></returns>
+        private _mask_node delete_lower_mask_nodes(LinkedList<_mask_node> head, int l)
+        {
+            return head.Skip<_mask_node>(l).First();
         }
         private int push_stack(eqdeg_t eq, uint b, uint c, int v, uint[] bbb, uint[] ccc)
         {
@@ -846,28 +918,29 @@ namespace Vts.MonteCarlo.Rng
         }
         private int pivot_reduction(ref eqdeg_t eq, int v)
         {
+            int i, pivot, count, min;
             _vector[] lattice;
             _vector ltmp = new _vector();
             eq.upper_v_bits = 0;
-            for (int i = 0; i < v; i++)
+            for (i = 0; i < v; i++)
             {
                 eq.upper_v_bits |= eq.bitmask[i];
             }
             lattice = make_lattice(eq, v);
-            while(true)
+            for (;;)
             {
-                int pivot = calc_pivot(lattice[v].next);
+                pivot = calc_pivot(lattice[v].next);
                 if (lattice[pivot].count < lattice[v].count)
                 {
                     ltmp = lattice[pivot];
                     lattice[pivot] = lattice[v];
                     lattice[v] = ltmp;
                 }
-                add(eq.nnn, lattice[v], lattice[pivot]);
+                lattice[v] = add(eq.nnn, lattice[v], lattice[pivot]); // adds and puts result in 1st _vecto
                 if (lattice[v].next == 0)
                 {
-                    int count = 0;
-                    int new_count = next_state(eq, ref lattice[v], ref count);
+                    count = 0;
+                    next_state(eq, ref lattice[v], ref count);
                     if (lattice[v].next == 0)
                     {
                         if (Convert.ToBoolean(is_zero(eq.nnn, lattice[v])))
@@ -876,9 +949,9 @@ namespace Vts.MonteCarlo.Rng
                         }
                         while (lattice[v].next == 0)
                         {
-                            new_count++;
-                            int newer_count = next_state(eq, ref lattice[v], ref new_count);
-                            if (newer_count > eq.nnn * (eq.www-1) - eq.rrr)
+                            count++;
+                            next_state(eq, ref lattice[v], ref count);
+                            if (count > eq.nnn * (eq.www-1) - eq.rrr)
                             {
                                 break;
                             }                          
@@ -890,8 +963,8 @@ namespace Vts.MonteCarlo.Rng
                     }
                 }
             } // while (true)
-            int min = lattice[0].count;
-            for (int i = 0; i < v; i++)
+            min = lattice[0].count;
+            for (i = 0; i < v; i++)
             {
                 if (min > lattice[i].count)
                 {
@@ -955,13 +1028,13 @@ namespace Vts.MonteCarlo.Rng
             {            
                 bottom.cf[i] = 0;
             }
-            bottom.cf[eq.nnn - 1] = 0xc000000 & eq.greal_mask;
+            bottom.cf[eq.nnn - 1] = 0xc0000000 & eq.greal_mask;
             bottom.start = 0;
             bottom.count = 0;
             int count = 0;
             do
             {
-                int new_count = next_state(eq, ref bottom, ref count);
+                next_state(eq, ref bottom, ref count);
             } while (bottom.next == 0);
             lattice[v] = bottom;
             return lattice;
@@ -973,7 +1046,7 @@ namespace Vts.MonteCarlo.Rng
             v.cf = new uint[nnn];
             return v;
         }
-        private int next_state(eqdeg_t eq, ref _vector v, ref int count)
+        private void next_state(eqdeg_t eq, ref _vector v, ref int count)
         {
             uint tmp;
             do
@@ -981,7 +1054,7 @@ namespace Vts.MonteCarlo.Rng
                 tmp = (v.cf[v.start] & eq.gupper_mask)
                     | (v.cf[(v.start + 1) % eq.nnn] & eq.glower_mask);
                 v.cf[v.start] = v.cf[(v.start + eq.mmm) % eq.nnn]
-                   ^ (tmp >> 1) ^ eq.aaa[lsb(eq, tmp)];
+                   ^ ((tmp >> 1) ^ eq.aaa[lsb(eq, tmp)]);
                 v.cf[v.start] &= eq.greal_mask;
                 tmp = v.cf[v.start];
                 v.start = (v.start + 1) % eq.nnn;
@@ -995,7 +1068,6 @@ namespace Vts.MonteCarlo.Rng
                     break;
                 }
             } while (v.next == 0);
-            return count;
         }
 
         
@@ -1011,8 +1083,8 @@ namespace Vts.MonteCarlo.Rng
             //    pre.modlist[i] = 0; // not sure I need this: c code uses "free" here
             //}
         }
-        private int get_irred_param(check32_t ck, prescr_t pre, org_state org,
-            mt_struct mts, int id, int idw)
+        private int get_irred_param(check32_t ck, prescr_t pre, ref org_state org,
+            ref mt_struct mts, int id, int idw)
         {
             uint a;
             int i;
