@@ -706,7 +706,7 @@ namespace Vts.MonteCarlo.Rng
         {
             int i;
             _mask_node mn0, next;
-            LinkedList<_mask_node> listOfMaskNodes = null;
+            LinkedList<_mask_node> listOfMaskNodes = new LinkedList<_mask_node>();
             eqdeg_t eq = new eqdeg_t();
             eq.aaa = new uint[2];
             eq.bitmask = new uint[32]; // if class then wouldn't have to do this
@@ -716,21 +716,17 @@ namespace Vts.MonteCarlo.Rng
             {
                 eq.gcur_maxlengs[i] = -1;
             }
-            mn0 = new _mask_node();
-            mn0.leng = 0;
-            mn0.c = 0;
-            mn0.b = 0;
-            listOfMaskNodes.AddFirst(mn0);
+            mn0 = new _mask_node() { leng = 0, c = 0, b = 0 };
+            listOfMaskNodes.AddLast(mn0);
             var curList = listOfMaskNodes;
             var cur = mn0;
             for (i = 0; i < _limit_v_best_opt; i++)
             {
-                next = optimize_v_hard(ref eq, i, curList);
-                if (i > 0)
-                {
-                    curList.Remove(cur);
-                }
-                cur = next;
+                optimize_v_hard(ref eq, i, ref curList);
+                //if (i > 0)
+                //{
+                //    curList.RemoveFirst();
+                //}
             }
             optimize_v(ref eq, 0, 0, 0);
             mts.shift0 = eq.shift_0;
@@ -774,7 +770,7 @@ namespace Vts.MonteCarlo.Rng
             int i;
             uint[] bbb = new uint[8];
             uint[] ccc = new uint[8];
-            int ll = push_stack(eq, b, c, v, bbb, ccc);
+            int ll = push_stack(eq, b, c, v, ref bbb, ref ccc);
             int max_i = 0;
             int max_len = 0;
             if (ll > 1)
@@ -799,18 +795,18 @@ namespace Vts.MonteCarlo.Rng
             }
             optimize_v(ref eq, bbb[max_i], ccc[max_i], v + 1); // c# allows recursive calling!
         }
-        private _mask_node optimize_v_hard(ref eqdeg_t eq, int v, LinkedList<_mask_node> prev_masks)
+        private void optimize_v_hard(ref eqdeg_t eq, int v, ref LinkedList<_mask_node> prev_masks)
         {
             int i, ll;
             uint[] bbb = new uint[8];
             uint[] ccc = new uint[8];
-            LinkedList<_mask_node> cur_masks = null;
+            LinkedList<_mask_node> cur_masks = new LinkedList<_mask_node>();
             _mask_node return_node;
 
             //while (prev_masks != null)
             foreach (_mask_node node in prev_masks)
             {
-                ll = push_stack(eq, node.b, node.c, v, bbb, ccc);
+                ll = push_stack(eq, node.b, node.c, v, ref bbb, ref ccc);
                 for (i = 0; i < ll; i++)
                 {
                     eq.mask_b = bbb[i];
@@ -822,26 +818,53 @@ namespace Vts.MonteCarlo.Rng
                         eq.gmax_b = eq.mask_b;
                         eq.gmax_c = eq.mask_c;
                         //cur_masks = cons_mask_node(cur_masks, eq.mask_b, eq.mask_c, t);
-                        cur_masks.AddLast(new _mask_node() { b = eq.mask_b, c = eq.mask_c, leng = t });
+                        cur_masks.AddFirst(new _mask_node() { b = eq.mask_b, c = eq.mask_c, leng = t });
                     }
                 }
                 //prev_masks = prev_masks.Next;
             }
-            return_node = delete_lower_mask_nodes(cur_masks, eq.gcur_maxlengs[v]);
-            return return_node;
+            delete_lower_mask_nodes(ref cur_masks, eq.gcur_maxlengs[v]);
+
+            prev_masks = cur_masks;
         }
         /// <summary>
         /// delete "l" _mask_nodes in linkedlist from head.  This does not match
-        /// C code because C# has LinkedList
+        /// C code because C# has LinkedList.  Parameter "head" gets updated here.
         /// </summary>
         /// <param name="head">head of linkedlist to delete from</param>
         /// <param name="l">number of nodes to delete</param>
-        /// <returns></returns>
-        private _mask_node delete_lower_mask_nodes(LinkedList<_mask_node> head, int l)
+        /// <returns>void</returns>
+        private void delete_lower_mask_nodes(ref LinkedList<_mask_node> head, int l)
         {
-            return head.Skip<_mask_node>(l).First();
+            int lengthOfList = head.Count();
+            int numberToRemove = Math.Min(l, lengthOfList);
+            while (true)
+            {
+                if (!head.Any()) // check is list is empty
+                {
+                    return;
+                }
+                if (head.First().leng >= l)
+                {
+                    break;
+                }
+                head.RemoveFirst();
+            }
+            LinkedList<_mask_node> copyOfHead = new LinkedList<_mask_node>();
+            foreach (_mask_node node in head)
+            {
+                copyOfHead.AddLast(new _mask_node() { b = node.b, c = node.c, leng = node.leng });
+            }
+            foreach (_mask_node node in head)
+            {
+                if (node.leng < l)
+                {
+                    copyOfHead.Remove(node);
+                }
+            }
+            head = copyOfHead;
         }
-        private int push_stack(eqdeg_t eq, uint b, uint c, int v, uint[] bbb, uint[] ccc)
+        private int push_stack(eqdeg_t eq, uint b, uint c, int v, ref uint[] bbb, ref uint[] ccc)
         {
             int ncv;
             uint[] cv_buf = new uint[2];
@@ -859,11 +882,11 @@ namespace Vts.MonteCarlo.Rng
             }
             for (int i = 0; i < ncv; i++)
             {
-                ll += push_mask(eq, ll, v, b, cv_buf[i], bbb, ccc);
+                ll += push_mask(eq, ll, v, b, cv_buf[i], ref bbb, ref ccc);
             }
             return ll;
         }
-        private int push_mask(eqdeg_t eq, int l, int v, uint b, uint c, uint[] bbb, uint[] ccc)
+        private int push_mask(eqdeg_t eq, int l, int v, uint b, uint c, ref uint[] bbb, ref uint[] ccc)
         {
             int nbv, nbvt;
             uint[] bv_buf = new uint[2];
