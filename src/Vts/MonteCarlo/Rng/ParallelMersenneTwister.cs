@@ -15,7 +15,7 @@ namespace Vts.MonteCarlo.Rng
     public class ParallelMersenneTwister : MathNet.Numerics.Random.RandomSource
     {
         /// <summary>
-        /// Mersenne twister constant.
+        /// least significant r bits
         /// </summary>
         private const uint _lower_mask = 0x7fffffff;
 
@@ -25,7 +25,7 @@ namespace Vts.MonteCarlo.Rng
         private const int _m = 397;
 
         /// <summary>
-        /// Mersenne twister constant.
+        /// constant vector a
         /// </summary>
         private const uint _matrix_a = 0x9908b0df;
 
@@ -40,7 +40,7 @@ namespace Vts.MonteCarlo.Rng
         private const double _reciprocal = 1.0 / 4294967296.0;
 
         /// <summary>
-        /// Mersenne twister constant.
+        /// most significant w-r bits
         /// </summary>
         private const uint _upper_mask = 0x80000000;
         // from mt19937.c
@@ -76,12 +76,10 @@ namespace Vts.MonteCarlo.Rng
             return u;
         };
 
-
         /// <summary>
         /// Mersenne twister constant.
         /// </summary>
-        private static readonly uint[] _mag01 = { 0x0U, _matrix_a };
-      
+        private static readonly uint[] _mag01 = { 0x0U, _matrix_a };    
 
         /// <summary>
         /// Mersenne twister constant (should not be modified, except for serialization purposes)
@@ -207,7 +205,7 @@ namespace Vts.MonteCarlo.Rng
         }
         struct prescr_t
         {
-            public int sizeOfA;
+            public int sizeOfA;      // paramter size
             public uint[][] modlist; // size[_nirredpoly][pre.sizeOfA]
             public polynomial[] preModPolys; // size[pre.sizeOfA+1]
         }
@@ -227,11 +225,11 @@ namespace Vts.MonteCarlo.Rng
             public int rrr;
             public int www;
             public uint[] aaa; // dimension 2
-            public uint gupper_mask;
-            public uint glower_mask;
-            public uint greal_mask;
-            public int ggap;
-            public int[] gcur_maxlengs; // dimension 32
+            public uint gupper_mask; // most significant (www-rrr) bits
+            public uint glower_mask; // least significant rrr bits
+            public uint greal_mask;  // upper www bitmask
+            public int ggap;         // diff bw machine wordsize and destination wordsize
+            public int[] gcur_maxlengs; // dimension 32 used by optimize_v_hard
             public uint gmax_b;
             public uint gmax_c;
         }
@@ -246,7 +244,7 @@ namespace Vts.MonteCarlo.Rng
         struct _mask_node
         {
             public uint b, c;
-            public int v, leng; // can't have pointer to itself so created list
+            public int v, leng; // can't have pointer to itself so created LinkedList
         }
         /// struc in mt19937.h
         struct org_state
@@ -270,7 +268,12 @@ namespace Vts.MonteCarlo.Rng
             global_mt19937.mt = new uint[_n];
             sgenrand_dc(global_mt19937, seed);
         }
-        // mt19937.c methods
+        
+        /// <summary>
+        /// Initializes the array with a seed.  Method in mt19937.c
+        /// </summary>
+        /// <param name="st">org_state struct</param>
+        /// <param name="seed">seed for generator</param>
         private void sgenrand_dc(org_state st, uint seed)
         {
             for (int i = 0; i < _n; i++)
@@ -280,6 +283,11 @@ namespace Vts.MonteCarlo.Rng
             }
             st.mti = _n;
         }
+        /// <summary>
+        /// Generates _n words at one time _n=624. Method in mt19937.c
+        /// </summary>
+        /// <param name="st">org_state</param>
+        /// <returns></returns>
         private uint genrand_dc(ref org_state st)
         {
             uint y;
@@ -308,6 +316,11 @@ namespace Vts.MonteCarlo.Rng
             y ^= tempering_shift_l(y);
             return y;
         }
+        /// <summary>
+        /// Initiates mts struct given a seed. Method in genmtrand.c
+        /// </summary>
+        /// <param name="seed">seed for sequence</param>
+        /// <param name="mts">return struct</param>
         public void sgenrand_mt(uint seed, ref mt_struct mts)
         {
             int i;
@@ -315,6 +328,9 @@ namespace Vts.MonteCarlo.Rng
             {
                 mts.state[i] = seed;
                 seed = ((1812433253) * (seed ^ (seed >> 30))) + (uint)i + 1;
+                // See Knuth TAOCP Vol2. 3rd Ed. P.106 for multiplier.
+                // In the previous verions, MSBs of the seed affect 
+                // only MSBs of the array mt[]
             }
             mts.i = mts.nn;
             for (i = 0; i < mts.nn; i++)
@@ -322,6 +338,11 @@ namespace Vts.MonteCarlo.Rng
                 mts.state[i] &= mts.wmask;
             }
         }
+        /// <summary>
+        /// Generates uint random number given mts. Method in genmtrand.c
+        /// </summary>
+        /// <param name="mts">mts_struct</param>
+        /// <returns>uint random number</returns>
         public uint genrand_mt(ref mt_struct mts)
         {
             int k, n, m, lim;
@@ -357,25 +378,32 @@ namespace Vts.MonteCarlo.Rng
             x ^= x >> mts.shift1;
             return x;
         }
+        ///// <summary>
+        ///// initializing the array with a seed.  Not used I think
+        ///// </summary>
+        ///// <param name="s"></param>
+        //private void init_genrand_dc(uint s)
+        //{
+        //    _mt[0] = s & 0xffffffff;
+        //    for (mti = 1; mti < _n; mti++)
+        //    {
+        //        _mt[mti] = (1812433253 * (_mt[mti - 1] ^ (_mt[mti - 1] >> 30)) + (uint)mti);
+        //        /* See Knuth TAOCP Vol2. 3rd Ed. P.106 for multiplier. */
+        //        /* In the previous versions, MSBs of the seed affect   */
+        //        /* only MSBs of the array _mt[].                        */
+        //        /* 2002/01/09 modified by Makoto Matsumoto             */
+        //        _mt[mti] &= 0xffffffff;
+        //        /* for >32 bit machines */
+        //    }
+        //}
         /// <summary>
-        /// initializing the array with a seed
+        /// Used by get_mt_parameter_st to initialize MT search. Method in seive.c
         /// </summary>
-        /// <param name="s"></param>
-        private void init_genrand_dc(uint s)
-        {
-            _mt[0] = s & 0xffffffff;
-            for (mti = 1; mti < _n; mti++)
-            {
-                _mt[mti] = (1812433253 * (_mt[mti - 1] ^ (_mt[mti - 1] >> 30)) + (uint)mti);
-                /* See Knuth TAOCP Vol2. 3rd Ed. P.106 for multiplier. */
-                /* In the previous versions, MSBs of the seed affect   */
-                /* only MSBs of the array _mt[].                        */
-                /* 2002/01/09 modified by Makoto Matsumoto             */
-                _mt[mti] &= 0xffffffff;
-                /* for >32 bit machines */
-            }
-        }
-
+        /// <param name="ck">check32_t struct</param>
+        /// <param name="pre">prescr_t struct</param>
+        /// <param name="w">destination wordsize: needs to be 31 or 32</param>
+        /// <param name="p">exponent of MT period: needs to be [521-44497]</param>
+        /// <returns></returns>
         private mt_struct init_mt_search(ref check32_t ck, ref prescr_t pre, int w, int p)
         {
             int n, m, r;
@@ -424,6 +452,13 @@ namespace Vts.MonteCarlo.Rng
             return mts;
         }
         // methods in prescr.c
+
+        /// <summary>
+        /// Prescreens the dynamic creator
+        /// </summary>
+        /// <param name="pre">prescr_t struct</param>
+        /// <param name="aaa"></param>
+        /// <returns></returns>
         private int prescreening_dc(prescr_t pre, uint aaa)
         {
             for (int i = 0; i < _nirredpoly; i++)
@@ -669,40 +704,14 @@ namespace Vts.MonteCarlo.Rng
             // upper_mask (most significant (w-r) bits)
             ck.upper_mask = (~ck.lower_mask) & ck.word_mask;
         }
-        /// <summary>
-        /// There are variants of this method:
-        /// get_mt_parameter(w,p)
-        /// get_mt_parameter_st(w,p,seed)        
-        /// get_mt_parameter_id(w,p,id) id must be less than 65536 and positive
-        /// get_mt_parameter_id_st(w,p,id,seed) 
-        /// </summary>
-        /// <param name="w">word size: only w=32 or 31 allowed</param>
-        /// <param name="p">Mersenne exponent: p>=521 and p<=44497</param>
-        /// <param name="seed">seed of original mt19937 to generate parameter</param>
-        /// <returns></returns>
-        public mt_struct get_mt_parameter_st(int w, int p, uint seed)
-        {
-            mt_struct mts;
-            prescr_t pre = new prescr_t();
-            org_state org = new org_state();
-            org.mt = new uint[_n];  // should next two be done in a default struct constructor?
-            org.mti = _n;
-            check32_t ck = new check32_t();
-            sgenrand_dc(org, seed);  // org good to after this call
-            mts = init_mt_search(ref ck, ref pre, w, p);
-            //if (mts.state == null) // check on malloc
-            //    return mts;
-            if (get_irred_param(ck, pre, ref org, ref mts, 0, 0) == _not_found) 
-            {
-                //free_mt_struct(mts); // don't need just frees mts.state
-                mts.state = null;  // substitute
-                return mts;
-            }
-            get_tempering_parameter_hard_dc(ref mts);
-            end_mt_search(pre);
-            return mts;
-        }
+
         // methods in eqdeg.c
+
+        /// <summary>
+        /// Initializes tempering eqdeg_t struct and then updates it and
+        /// mt_struct
+        /// </summary>
+        /// <param name="mts">mt_struct</param>
         public void get_tempering_parameter_hard_dc(ref mt_struct mts)
         {
             int i;
@@ -737,6 +746,11 @@ namespace Vts.MonteCarlo.Rng
             mts.maskB = eq.mask_b >> eq.ggap;
             mts.maskC = eq.mask_c >> eq.ggap;
         }
+        /// <summary>
+        /// Initializes the eqdeg_t struct using the mts struct
+        /// </summary>
+        /// <param name="eq">eqdeg_t struct to be initialized</param>
+        /// <param name="mts">mt_struct used in initialization</param>
         private void init_tempering(ref eqdeg_t eq, mt_struct mts)
         {
             int i;
@@ -766,6 +780,13 @@ namespace Vts.MonteCarlo.Rng
             eq.greal_mask = (eq.gupper_mask | eq.glower_mask);
             // orig code has debug statements here           
         }
+        /// <summary>
+        /// Recursive method to update eqdeg_t struct passed in
+        /// </summary>
+        /// <param name="eq">eqdeg_t struct</param>
+        /// <param name="b"></param>
+        /// <param name="c"></param>
+        /// <param name="v">number of nodes in linkedlist</param>
         private void optimize_v(ref eqdeg_t eq, uint b, uint c, int v)
         {
             int i;
@@ -799,13 +820,18 @@ namespace Vts.MonteCarlo.Rng
                 optimize_v(ref eq, bbb[max_i], ccc[max_i], v + 1); // c# allows recursive calling!
             }
         }
+        /// <summary>
+        /// Manipulates the linked list of _mask_nodes
+        /// </summary>
+        /// <param name="eq">eqdeg_t struct</param>
+        /// <param name="v">length of prev_masks</param>
+        /// <param name="prev_masks">linked list of _mask_node structs</param>
         private void optimize_v_hard(ref eqdeg_t eq, int v, ref LinkedList<_mask_node> prev_masks)
         {
             int i, ll;
             uint[] bbb = new uint[8];
             uint[] ccc = new uint[8];
             LinkedList<_mask_node> cur_masks = new LinkedList<_mask_node>();
-            _mask_node return_node;
 
             int cnt = 1;
             foreach (_mask_node node in prev_masks)
@@ -1098,19 +1124,51 @@ namespace Vts.MonteCarlo.Rng
             } while (v.next == 0);
         }
 
-        
         // methods in seive.c
-        private void end_mt_search(prescr_t pre)
+
+        /// <summary>
+        /// There are variants of this method:  Methods in seive.c
+        /// get_mt_parameter(w,p)
+        /// get_mt_parameter_st(w,p,seed)        
+        /// get_mt_parameter_id(w,p,id) id must be less than 65536 and positive
+        /// get_mt_parameter_id_st(w,p,id,seed) 
+        /// </summary>
+        /// <param name="w">word size: only w=32 or 31 allowed</param>
+        /// <param name="p">Mersenne exponent: p>=521 and p<=44497</param>
+        /// <param name="seed">seed of original mt19937 to generate parameter</param>
+        /// <returns></returns>
+        public mt_struct get_mt_parameter_st(int w, int p, uint seed)
         {
-            end_prescreening_dc(pre);
+            mt_struct mts;
+            prescr_t pre = new prescr_t();
+            org_state org = new org_state();
+            org.mt = new uint[_n];  // should next two be done in a default struct constructor?
+            org.mti = _n;
+            check32_t ck = new check32_t();
+            sgenrand_dc(org, seed);  // org good to after this call
+            mts = init_mt_search(ref ck, ref pre, w, p);
+            //if (mts.state == null) // check on malloc
+            //    return mts;
+            if (get_irred_param(ck, pre, ref org, ref mts, 0, 0) == _not_found)
+            {
+                //free_mt_struct(mts); // don't need just frees mts.state
+                mts.state = null;  // substitute
+                return mts;
+            }
+            get_tempering_parameter_hard_dc(ref mts);
+            //end_mt_search(pre);
+            return mts;
         }
-        private void end_prescreening_dc(prescr_t pre)
-        {
-            //for (int i = 0; i < _nirredpoly; i++)
-            //{
-            //    pre.modlist[i] = 0; // not sure I need this: c code uses "free" here
-            //}
-        }
+        /// <summary>
+        /// Obtains irreducible parameter
+        /// </summary>
+        /// <param name="ck">check32_t struct</param>
+        /// <param name="pre"prescr_t struct></param>
+        /// <param name="org">org_state struct</param>
+        /// <param name="mts">mt_struct</param>
+        /// <param name="id"></param>
+        /// <param name="idw"></param>
+        /// <returns></returns>
         private int get_irred_param(check32_t ck, prescr_t pre, ref org_state org,
             ref mt_struct mts, int id, int idw)
         {
@@ -1240,6 +1298,11 @@ namespace Vts.MonteCarlo.Rng
             mts.umask = um;
             mts.lmask = lm;
         }
+        /// <summary>
+        /// Checks if specified MT period exponent is valid
+        /// </summary>
+        /// <param name="p">exponent value</param>
+        /// <returns>true:good parameter p, false: bad p specification</returns>
         private static bool proper_mersenne_exponent(int p)
         {
             switch(p)
