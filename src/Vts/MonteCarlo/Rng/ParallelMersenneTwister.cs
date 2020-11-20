@@ -7,7 +7,10 @@ namespace Vts.MonteCarlo.Rng
     /// <summary>
     /// This class creates a parallelizable representation of the Mersenne Twister class.
     /// Code from Dynamic Creator (dc) Home Page
-    /// http://www.math.sci.hiroshima-u.ac.jp/~m-mat/MT/DC/dc.html.
+    /// http://www.math.sci.hiroshima-u.ac.jp/~m-mat/MT/DC/dc.html or 
+    /// GitHub: https://github.com/MersenneTwister-Lab/dcmt (same code both places)
+    /// The code is in C, so this code maintained many of the constructs and coding
+    /// statements to be able to produce same results
     /// </summary>
     public class ParallelMersenneTwister : MathNet.Numerics.Random.RandomSource
     {
@@ -305,47 +308,45 @@ namespace Vts.MonteCarlo.Rng
             y ^= tempering_shift_l(y);
             return y;
         }
-        public void sgenrand_mt(uint seed, mt_struct mts)
+        public void sgenrand_mt(uint seed, ref mt_struct mts)
         {
-            for (int i = 0; i < mts.nn; i++)
+            int i;
+            for (i = 0; i < mts.nn; i++)
             {
                 mts.state[i] = seed;
-                seed = (1812433253) * (seed ^ (seed >> 30)) + (uint)i + 1;
+                seed = ((1812433253) * (seed ^ (seed >> 30))) + (uint)i + 1;
             }
             mts.i = mts.nn;
-            for (int i = 0; i < mts.nn; i++)
+            for (i = 0; i < mts.nn; i++)
             {
-                mts.state[i] = mts.state[i] & mts.wmask;
+                mts.state[i] &= mts.wmask;
             }
         }
-        public uint genrand_mt(mt_struct mts)
+        public uint genrand_mt(ref mt_struct mts)
         {
-            uint x;
+            int k, n, m, lim;
+            uint uuu, lll, aa, x;
             if (mts.i >= mts.nn)
             {
-                int n = mts.nn;
-                int m = mts.mm;
-                uint aa = mts.aaa;
-                uint uuu = mts.umask;
-                uint lll = mts.lmask;
-                int lim = n - m;
-                // check all of following
-                int k = 0;
-                for (int j = k; j < lim; j++)
+                n = mts.nn;
+                m = mts.mm;
+                aa = mts.aaa;
+                uuu = mts.umask;
+                lll = mts.lmask;
+                lim = n - m;
+                for (k = 0; k < lim; k++)
                 {
-                    x = (mts.state[j] & uuu) | (mts.state[j + 1] & lll);
-                    mts.state[j] = mts.state[j + m] ^ (x >> 1) ^ (Convert.ToBoolean(x & 1U) ? aa : 0U); // double check
-                    k++;
+                    x = (mts.state[k] & uuu) | (mts.state[k + 1] & lll);
+                    mts.state[k] = mts.state[k + m] ^ (x >> 1) ^ (Convert.ToBoolean(x & 1U) ? aa : 0U); // double check
                 }
                 lim = n - 1;
-                for (int j = k; j < lim; j++)
+                for (; k < lim; k++)
                 {
-                    x = (mts.state[j] & uuu) | (mts.state[j+ 1] & lll);
-                    mts.state[j] = mts.state[j + m] ^ (x >> 1) ^ (Convert.ToBoolean(x & 1U) ? aa : 0U); // check
-                    k++;
+                    x = (mts.state[k] & uuu) | (mts.state[k + 1] & lll);
+                    mts.state[k] = mts.state[k + m - n] ^ (x >> 1) ^ (Convert.ToBoolean(x & 1U) ? aa : 0U); // check
                 }
                 x = (mts.state[n - 1] & uuu) | (mts.state[0] & lll);
-                mts.state[n-1] = mts.state[m - 1] ^ (x >> 1) ^ (Convert.ToBoolean(x & 1U) ? aa : 0U);
+                mts.state[n - 1] = mts.state[m - 1] ^ (x >> 1) ^ (Convert.ToBoolean(x & 1U) ? aa : 0U);
                 mts.i = 0;
             }
             x = mts.state[mts.i];
@@ -728,7 +729,7 @@ namespace Vts.MonteCarlo.Rng
                 //    curList.RemoveFirst();
                 //}
             }
-            optimize_v(ref eq, 0, 0, 0);
+            optimize_v(ref eq, eq.gmax_b, eq.gmax_c, i);
             mts.shift0 = eq.shift_0;
             mts.shift1 = eq.shift_1;
             mts.shiftB = eq.shift_s;
@@ -775,7 +776,7 @@ namespace Vts.MonteCarlo.Rng
             int max_len = 0;
             if (ll > 1)
             {
-                for (i = 0; i < ll; i++)
+                for (i = 0; i < ll; ++i)
                 {
                     eq.mask_b = bbb[i];
                     eq.mask_c = ccc[i];
@@ -787,13 +788,16 @@ namespace Vts.MonteCarlo.Rng
                     }
                 }
             }
-            if (v >= eq.www-1)
+            if (v >= eq.www - 1)
             {
                 eq.mask_b = bbb[max_i];
                 eq.mask_c = ccc[max_i];
                 return;
             }
-            optimize_v(ref eq, bbb[max_i], ccc[max_i], v + 1); // c# allows recursive calling!
+            else
+            {
+                optimize_v(ref eq, bbb[max_i], ccc[max_i], v + 1); // c# allows recursive calling!
+            }
         }
         private void optimize_v_hard(ref eqdeg_t eq, int v, ref LinkedList<_mask_node> prev_masks)
         {
@@ -803,7 +807,7 @@ namespace Vts.MonteCarlo.Rng
             LinkedList<_mask_node> cur_masks = new LinkedList<_mask_node>();
             _mask_node return_node;
 
-            //while (prev_masks != null)
+            int cnt = 1;
             foreach (_mask_node node in prev_masks)
             {
                 ll = push_stack(eq, node.b, node.c, v, ref bbb, ref ccc);
@@ -822,6 +826,7 @@ namespace Vts.MonteCarlo.Rng
                     }
                 }
                 //prev_masks = prev_masks.Next;
+                ++cnt;
             }
             delete_lower_mask_nodes(ref cur_masks, eq.gcur_maxlengs[v]);
 
@@ -866,9 +871,9 @@ namespace Vts.MonteCarlo.Rng
         }
         private int push_stack(eqdeg_t eq, uint b, uint c, int v, ref uint[] bbb, ref uint[] ccc)
         {
-            int ncv;
+            int i,ll, ncv;
             uint[] cv_buf = new uint[2];
-            int ll = 0;
+            ll = 0;
             if ( ( v+eq.shift_t) < eq.www)
             {
                 ncv = 2;
@@ -880,7 +885,7 @@ namespace Vts.MonteCarlo.Rng
                 ncv = 1;
                 cv_buf[0] = c;
             }
-            for (int i = 0; i < ncv; i++)
+            for (i = 0; i < ncv; ++i)
             {
                 ll += push_mask(eq, ll, v, b, cv_buf[i], ref bbb, ref ccc);
             }
@@ -888,7 +893,7 @@ namespace Vts.MonteCarlo.Rng
         }
         private int push_mask(eqdeg_t eq, int l, int v, uint b, uint c, ref uint[] bbb, ref uint[] ccc)
         {
-            int nbv, nbvt;
+            int i, j, nbv, nbvt;
             uint[] bv_buf = new uint[2];
             uint[] bvt_buf = new uint[2];
             int k = l;
@@ -928,9 +933,9 @@ namespace Vts.MonteCarlo.Rng
                 bmask |= eq.bitmask[v + eq.shift_t];
             }
             bmask = ~bmask;
-            for (int i = 0; i < nbvt; ++i)
+            for (i = 0; i < nbvt; ++i)
             {
-                for (int j = 0; j < nbv; ++j)
+                for (j = 0; j < nbv; ++j)
                 {
                     bbb[k] = (b & bmask) | bv_buf[j] | bvt_buf[i];
                     ccc[k] = c;
