@@ -168,6 +168,7 @@ namespace Vts.MonteCarlo.Rng
         private const int _max_search = 10000;
         private const int _found = 1;
         private const int _not_found = 0;
+        private const int _default_id_size = 16;
         // dci constants
         private const int _rejected = 0;
         private const int _not_rejected = 1;
@@ -1160,6 +1161,48 @@ namespace Vts.MonteCarlo.Rng
             return mts;
         }
         /// <summary>
+        /// There are variants of this method:  Methods in seive.c
+        /// get_mt_parameter(w,p)
+        /// get_mt_parameter_st(w,p,seed)        
+        /// get_mt_parameter_id(w,p,id) id must be less than 65536 and positive
+        /// get_mt_parameter_id_st(w,p,id,seed) 
+        /// </summary>
+        /// <param name="w">word size: only w=32 or 31 allowed</param>
+        /// <param name="p">Mersenne exponent: p>=521 and p<=44497</param>
+        /// <param name="id">id must be less than 65536 and positive</param>
+        /// <param name="seed">seed of original mt19937 to generate parameter</param>
+        /// <returns></returns>
+        public mt_struct get_mt_parameter_id_st(int w, int p, int id, uint seed)
+        {
+            mt_struct mts = new mt_struct();
+            prescr_t pre = new prescr_t();
+            org_state org = new org_state();
+            org.mt = new uint[_n];  // should next two be done in a default struct constructor?
+            org.mti = _n;
+            check32_t ck = new check32_t();
+            sgenrand_dc(org, seed);  
+            if ((id > 0xffff) || (id < 0))
+            {
+                Console.WriteLine("id must be positive and less than 65536");
+                mts.state = null;
+                return mts;
+            }
+            mts = init_mt_search(ref ck, ref pre, w, p);
+            if (mts.state == null)
+            {
+                return mts;
+            }
+            if (get_irred_param(ck, pre, ref org, ref mts, id, _default_id_size) == _not_found)
+            {
+                //free_mt_struct(mts); // don't need just frees mts.state
+                mts.state = null;  // substitute
+                return mts;
+            }
+            get_tempering_parameter_hard_dc(ref mts);
+            //end_mt_search(pre);
+            return mts;
+        }
+        /// <summary>
         /// Obtains irreducible parameter
         /// </summary>
         /// <param name="ck">check32_t struct</param>
@@ -1182,7 +1225,7 @@ namespace Vts.MonteCarlo.Rng
                 }
                 else
                 {
-                    a = nextA_id(org, mts.ww, id, idw);
+                    a = nextA_id(ref org, mts.ww, id, idw);
                 }
                 if (_not_rejected == prescreening_dc(pre, a))
                 {
@@ -1265,11 +1308,11 @@ namespace Vts.MonteCarlo.Rng
             x |= (_lsb << (w - 1));
             return x;
         }
-        private uint nextA_id(org_state org, int w, int id, int idw)
+        private uint nextA_id(ref org_state org, int w, int id, int idw)
         {
-            var word_mask = 0xFFFFFFFF;
+            uint word_mask = 0xFFFFFFFF;
             word_mask <<= _wordlen - w;
-            word_mask >>= _wordlen - 2;
+            word_mask >>= _wordlen - w;
             word_mask >>= idw;
             word_mask <<= idw;
             var x = genrand_dc(ref org);

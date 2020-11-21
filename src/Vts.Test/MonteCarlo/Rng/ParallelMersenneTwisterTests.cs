@@ -4,7 +4,7 @@ using Vts.MonteCarlo.Rng;
 
 namespace Vts.Test.MonteCarlo
 {
-    [TestFixture] 
+    [TestFixture]
     public class ParalleleMersenneTwisterTests
     {
         /// <summary>
@@ -39,9 +39,53 @@ namespace Vts.Test.MonteCarlo
                 RN = genrand_mt_return * reciprocal;
                 Assert.AreEqual(genrand_mt_return, cCodeResultsUints[i]);
                 Assert.IsTrue(Math.Abs(RN - cCodeResultsRNs[i]) < 0.000001);
-            }            
+            }
         }
+        /// <summary>
+        /// This tries to find three independent small Mersenne Twisters
+        ///   with period 2^521-1.
+        /// </summary>
+        [Test]
+        public void validate_results_agree_with_c_code_new_example2()
+        {
+            uint[,] cCodeResultsUints = new uint[3, 10]
+             { {1383339478, 2005363733, 4036914666, 3582104924, 1005457172,
+                3153157470, 3681386243, 436138401,  3646769885, 389240451},
+               {11477593,   3352863655, 2127153254, 255616186,  2881273202,
+                2908447349, 3227522318, 240623780,  759472431,  1653682769},
+               {629214080,  3322450751, 2804381282, 588643975,  2162773575,
+                1409734999, 3289914192, 2605034630, 3715454267, 482776632}
+             };
+           
+            // instantiate class
+            var rng0 = new ParallelMersenneTwister(0);
+            // get first MT id = 0
+            ParallelMersenneTwister.mt_struct mts0 = rng0.get_mt_parameter_id_st(32, 521, 0, 4172);
+            Assert.IsTrue(mts0.state != null);
+            rng0.sgenrand_mt(1234, ref mts0);
+            uint temp = rng0.genrand_mt(ref mts0);
+            // get second MT id = 1
+            // instantiate class
+            var rng1 = new ParallelMersenneTwister(0);
+            ParallelMersenneTwister.mt_struct mts1 = rng1.get_mt_parameter_id_st(32, 521, 1, 4172);
+            Assert.IsTrue(mts1.state != null);
+            rng1.sgenrand_mt(4567, ref mts1);
+            // get third MT id = 999
+            var rng2 = new ParallelMersenneTwister(0);
+            ParallelMersenneTwister.mt_struct mts2 = rng2.get_mt_parameter_id_st(32, 521, 999, 4172);
+            /* id may be any=16bit integers, e.g. id=999 */
+            Assert.IsTrue(mts2.state != null);
+            rng0.sgenrand_mt(1234, ref mts0); /* initialize mts0 with seed 1234 */
+            rng1.sgenrand_mt(4567, ref mts1);
+            rng2.sgenrand_mt(8901, ref mts2);
+            // compare output of mts0, mts1, mts2, ten times */
 
+            for (int i = 0; i < 10; i++) {               
+                Assert.AreEqual(rng0.genrand_mt(ref mts0), cCodeResultsUints[0, i]);
+                Assert.AreEqual(rng1.genrand_mt(ref mts1), cCodeResultsUints[1, i]);
+                Assert.AreEqual(rng2.genrand_mt(ref mts2), cCodeResultsUints[2, i]);
+            }
+        }
     }
 
 }
