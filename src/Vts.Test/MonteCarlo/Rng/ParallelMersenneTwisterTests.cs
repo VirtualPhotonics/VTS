@@ -62,14 +62,11 @@ namespace Vts.Test.MonteCarlo
             // get first MT id = 0
             ParallelMersenneTwister.mt_struct mts0 = rng0.get_mt_parameter_id_st(32, 521, 0, 4172);
             Assert.IsTrue(mts0.state != null);
-            rng0.sgenrand_mt(1234, ref mts0);
-            uint temp = rng0.genrand_mt(ref mts0);
             // get second MT id = 1
             // instantiate class
             var rng1 = new ParallelMersenneTwister(0);
             ParallelMersenneTwister.mt_struct mts1 = rng1.get_mt_parameter_id_st(32, 521, 1, 4172);
             Assert.IsTrue(mts1.state != null);
-            rng1.sgenrand_mt(4567, ref mts1);
             // get third MT id = 999
             var rng2 = new ParallelMersenneTwister(0);
             ParallelMersenneTwister.mt_struct mts2 = rng2.get_mt_parameter_id_st(32, 521, 999, 4172);
@@ -84,6 +81,44 @@ namespace Vts.Test.MonteCarlo
                 Assert.AreEqual(rng0.genrand_mt(ref mts0), cCodeResultsUints[0, i]);
                 Assert.AreEqual(rng1.genrand_mt(ref mts1), cCodeResultsUints[1, i]);
                 Assert.AreEqual(rng2.genrand_mt(ref mts2), cCodeResultsUints[2, i]);
+            }
+        }
+        /// <summary>
+        /// This tries to find three independent small Mersenne Twisters
+        ///   with period 2^521-1.
+        /// </summary>
+        [Test]
+        public void validate_results_agree_with_c_code_new_example3()
+        {
+            int count = 0;
+            ParallelMersenneTwister.mt_struct[] mtss;
+            int[] seed = new int[3] { 1234, 4567, 8901 };
+            uint[,] cCodeResultsUints = new uint[3, 10]
+             { {521416557,  1356975151, 2575064689, 3078917597, 311176367,
+                3593596877, 3209520651, 1020983528, 4233839516, 496096299},
+               {42672848,   3338413038, 2112735407, 3792644979, 1152381491,
+                2891964980, 3261339023, 206774309,  3228790503, 2410053017},
+               {2777164674, 1158788601, 610685618,  1696361159, 2241875159,
+                2450943761, 2203684162, 1510219478, 2587673387, 1603142378}
+             };
+
+            // instantiate class
+            var rng = new ParallelMersenneTwister(0);
+            // get first MT id = 0
+            mtss = rng.get_mt_parameters_st(32, 521, 3, 5, 4172, ref count);
+            Assert.IsTrue(mtss[0].state != null);
+            for (int i = 0; i < count; i++)
+            {
+                rng.sgenrand_mt((uint)seed[i], ref mtss[i]);
+            }
+            // compare output of mts0, mts1, mts2, ten times */
+
+            for (int i = 0; i < 10; i++)
+            {
+                for (int j = 0; j < count; j++)
+                {
+                    Assert.AreEqual(rng.genrand_mt(ref mtss[j]), cCodeResultsUints[j, i]);
+                }
             }
         }
     }

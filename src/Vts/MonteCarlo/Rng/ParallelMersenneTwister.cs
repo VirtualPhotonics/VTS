@@ -1130,7 +1130,8 @@ namespace Vts.MonteCarlo.Rng
         /// <summary>
         /// There are variants of this method:  Methods in seive.c
         /// get_mt_parameter(w,p)
-        /// get_mt_parameter_st(w,p,seed)        
+        /// get_mt_parameter_st(w,p,seed)    
+        /// get_mt_parameters_st(w,p,start_id,max_id,seed,count)
         /// get_mt_parameter_id(w,p,id) id must be less than 65536 and positive
         /// get_mt_parameter_id_st(w,p,id,seed) 
         /// </summary>
@@ -1142,9 +1143,7 @@ namespace Vts.MonteCarlo.Rng
         {
             mt_struct mts;
             prescr_t pre = new prescr_t();
-            org_state org = new org_state();
-            org.mt = new uint[_n];  // should next two be done in a default struct constructor?
-            org.mti = _n;
+            org_state org = new org_state() { mt = new uint[_n], mti = _n };
             check32_t ck = new check32_t();
             sgenrand_dc(org, seed);  // org good to after this call
             mts = init_mt_search(ref ck, ref pre, w, p);
@@ -1159,6 +1158,62 @@ namespace Vts.MonteCarlo.Rng
             get_tempering_parameter_hard_dc(ref mts);
             //end_mt_search(pre);
             return mts;
+        }
+
+        /// <summary>
+        /// Variant of get_mt_parameter_st for vectors.  Methods in seive.c
+        /// get_mt_parameters_st(w,p,start_id,max_id,seed,count)
+        /// </summary>
+        /// <param name="w">word size: only w=32 or 31 allowed</param>
+        /// <param name="p">Mersenne exponent: p>=521 and p<=44497</param>
+        /// <param name="start_id"></param>
+        /// <param name="max_id"></param>
+        /// <param name="seed">seed of original mt19937 to generate parameter</param>
+        /// <param name="count"></param>
+        /// <returns></returns>
+        public mt_struct[] get_mt_parameters_st(int w, int p, int start_id, int max_id, 
+            uint seed, ref int count)
+        {
+            int i;
+            mt_struct[] mtss = new mt_struct[max_id - start_id + 1];
+            mt_struct template_mts = new mt_struct();
+            prescr_t pre = new prescr_t();
+            org_state org = new org_state() { mt = new uint[_n], mti = _n };
+            check32_t ck = new check32_t();
+            if ((start_id > max_id) || (max_id > 0xffff) || (start_id < 0))
+            {
+                mtss[0].state = null;
+                return mtss;
+            }
+            sgenrand_dc(org, seed);  
+            template_mts = init_mt_search(ref ck, ref pre, w, p);
+            if (template_mts.state == null)
+            {
+                return null;
+            }
+
+            count = 0;
+            for (i = 0; i <= max_id - start_id; i++)
+            {
+                mtss[i] = new mt_struct() { state = new uint[template_mts.nn] };
+                // copy parameters from template to mtss
+                mtss[i].nn = template_mts.nn;
+                mtss[i].mm = template_mts.mm;
+                mtss[i].rr = template_mts.rr;
+                mtss[i].ww = template_mts.ww;
+                mtss[i].wmask = template_mts.wmask;
+                mtss[i].umask = template_mts.umask;
+                mtss[i].lmask = template_mts.lmask;
+
+                if (get_irred_param(ck, pre, ref org, ref mtss[i], i + start_id, _default_id_size) == _not_found)
+                {
+                    mtss[i].state = null; 
+                    break;
+                }
+                get_tempering_parameter_hard_dc(ref mtss[i]);
+                ++count;
+            }           
+            return mtss;
         }
         /// <summary>
         /// There are variants of this method:  Methods in seive.c
