@@ -366,8 +366,8 @@ namespace Vts.Test.MonteCarlo.Detectors
         [Test]
         public void validate_DAW_ROfXAndYAndThetaAndPhi()
         {
-            Assert.Less(Math.Abs(_outputOneLayerTissue.R_xytp[0, 0, 1, 2] - 0.016497), 0.000001);
-            Assert.Less(Math.Abs(_outputTwoLayerTissue.R_xytp[0, 0, 1, 2] - 0.016497), 0.000001);
+            Assert.Less(Math.Abs(_outputOneLayerTissue.R_xytp[0, 0, 1, 2] - 0.039828), 0.000001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.R_xytp[0, 0, 1, 2] - 0.039828), 0.000001);
             Assert.AreEqual(_outputOneLayerTissue.R_xytp_TallyCount, 89);
             Assert.AreEqual(_outputTwoLayerTissue.R_xytp_TallyCount, 89);
         }
@@ -406,10 +406,10 @@ namespace Vts.Test.MonteCarlo.Detectors
         [Test]
         public void validate_DAW_ROfFxAndAngle()
         {
-            Assert.Less(Math.Abs(_outputOneLayerTissue.R_fxa[1,3].Real - 0.022442), 0.000001);
-            Assert.Less(Math.Abs(_outputOneLayerTissue.R_fxa[1,3].Imaginary - 0.000769), 0.000001);
-            Assert.Less(Math.Abs(_outputTwoLayerTissue.R_fxa[1,3].Real - 0.022442), 0.000001);
-            Assert.Less(Math.Abs(_outputTwoLayerTissue.R_fxa[1,3].Imaginary - 0.000769), 0.000001);
+            Assert.Less(Math.Abs(_outputOneLayerTissue.R_fxa[1,0].Real - 0.016654), 0.000001);
+            Assert.Less(Math.Abs(_outputOneLayerTissue.R_fxa[1,0].Imaginary - 0.003329), 0.000001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.R_fxa[1,0].Real - 0.016654), 0.000001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.R_fxa[1,0].Imaginary - 0.003329), 0.000001);
             Assert.AreEqual(_outputOneLayerTissue.R_fxa_TallyCount, 89);
             Assert.AreEqual(_outputTwoLayerTissue.R_fxa_TallyCount, 89);
         }
