@@ -24,6 +24,7 @@ show.ROfRhoAndAngle =           1;
 show.ROfRhoAndOmega =           1;
 show.ROfXAndY =                 1;
 show.ROfXAndYAndTime =          1;
+show.ROfXAndYAndThetaAndPhi =   1;
 show.ROfXAndYAndMaxDepth =      1;
 show.ROfFx =                    1;
 show.ROfFxAndTime =             1;
@@ -170,7 +171,23 @@ for mci = 1:length(datanames)
         xynorm = xdelta * ydelta;
         disp(['Total reflectance captured by ROfXAndYAndTime detector: ' num2str(sum(sum(sum(timedelta*xynorm*results{di}.ROfXAndYAndTime.Mean))))]);
     end
-    
+    if isfield(results{di}, 'ROfXAndYAndThetaAndPhi') && show.ROfXAndYAndThetaAndPhi
+        yidx = floor(length(results{di}.ROfXAndYAndThetaAndPhi.Y_Midpoints) / 2);
+        xidx = floor(length(results{di}.ROfXAndYAndThetaAndPhi.X_Midpoints) / 2);
+        figname = sprintf('log10(%s) x=%5.3f y=%5.3f',results{di}.ROfXAndYAndThetaAndPhi.Name,...
+            results{di}.ROfXAndYAndThetaAndPhi.X(xidx),results{di}.ROfXAndYAndThetaAndPhi.Y(yidx)); 
+        figure; imagesc(results{di}.ROfXAndYAndThetaAndPhi.Phi_Midpoints, results{di}.ROfXAndYAndThetaAndPhi.Theta_Midpoints, ...
+            log10(squeeze(results{di}.ROfXAndYAndThetaAndPhi.Mean(:,:,yidx,xidx)))); 
+        colormap(jet); colorbar; title(figname); set(gcf,'Name', figname);ylabel('theta [radians]'); xlabel('phi [radians]');         
+        xdelta = results{di}.ROfXAndYAndThetaAndPhi.X(2)-results{di}.ROfXAndYAndThetaAndPhi.X(1);        
+        ydelta = results{di}.ROfXAndYAndThetaAndPhi.Y(2)-results{di}.ROfXAndYAndThetaAndPhi.Y(1);
+        thetadelta = results{di}.ROfXAndYAndThetaAndPhi.Theta(2)-results{di}.ROfXAndYAndThetaAndPhi.Theta(1);
+        phidelta = results{di}.ROfXAndYAndThetaAndPhi.Phi(2)-results{di}.ROfXAndYAndThetaAndPhi.Phi(1);
+        xyphinorm = xdelta * ydelta * phidelta;
+        partialsum = xyphinorm * sum(results{di}.ROfXAndYAndThetaAndPhi.Mean,[1,3,4]);
+        thetanorm = sin(results{di}.ROfXAndYAndThetaAndPhi.Theta_Midpoints) * thetadelta;  
+        disp(['Total reflectance captured by ROfXAndYAndThetaAndPhi detector: ' num2str(sum(partialsum.*thetanorm))]);
+      end
     if isfield(results{di}, 'ROfXAndYAndMaxDepth') && show.ROfXAndYAndMaxDepth
         numdepths = length(results{di}.ROfXAndYAndMaxDepth.MaxDepth)-1;
         for i=1:10:numdepths % do every 10 depth bins
@@ -204,7 +221,8 @@ for mci = 1:length(datanames)
         figure; imagesc(results{di}.ROfFxAndAngle.Angle_Midpoints, results{di}.ROfFxAndAngle.Fx_Midpoints, log10(results{di}.ROfFxAndAngle.Amplitude')); 
         title(figname); set(gcf,'Name', figname);colorbar; xlabel('angle [rad]'); ylabel('f_x [/mm]');
         angledelta = results{di}.ROfFxAndAngle.Angle(2)-results{di}.ROfFxAndAngle.Angle(1);
-        disp(['Total reflectance captured by ROfFxAndAngle detector: ' num2str(sum(angledelta*results{di}.ROfFxAndAngle.Amplitude(:,1)))]);
+        anglenorm = 2 * pi * sin(results{di}.ROfFxAndAngle.Angle_Midpoints) * angledelta;
+        disp(['Total reflectance captured by ROfFxAndAngle detector: ' num2str(sum(anglenorm*results{di}.ROfFxAndAngle.Amplitude(:,1)))]);
     end
         
     if isfield(results{di}, 'TDiffuse') && show.TDiffuse

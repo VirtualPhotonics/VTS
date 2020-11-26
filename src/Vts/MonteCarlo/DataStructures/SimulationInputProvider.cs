@@ -117,6 +117,13 @@ namespace Vts.MonteCarlo
                     new ROfRhoDetectorInput() {Rho =new DoubleRange(0.0, 10, 101)},
                     new ROfXAndYDetectorInput() {X=new DoubleRange(-100.0, 100.0, 21), Y= new DoubleRange(-100.0, 100.0, 21)},
                     new ROfXAndYAndTimeDetectorInput() {X=new DoubleRange(-100.0, 100.0, 21), Y= new DoubleRange(-100.0, 100.0, 21),Time=new DoubleRange(0.0, 1, 11)},
+                    new ROfXAndYAndThetaAndPhiDetectorInput()
+                    {
+                        X = new DoubleRange(-10.0, 10.0, 101),
+                        Y = new DoubleRange(-10.0, 10.0, 101),
+                        Theta = new DoubleRange(Math.PI / 2, Math.PI, 3),
+                        Phi = new DoubleRange(-Math.PI, Math.PI, 5)
+                    },
                     new ROfXAndYAndMaxDepthDetectorInput() {X=new DoubleRange(-100.0, 100.0, 21), Y= new DoubleRange(-100.0, 100.0, 21),MaxDepth=new DoubleRange(0.0, 10, 11)},
                     new RSpecularDetectorInput(),
                     new TDiffuseDetectorInput(),

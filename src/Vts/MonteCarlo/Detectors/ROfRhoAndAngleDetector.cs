@@ -4,7 +4,6 @@ using Vts.Common;
 using Vts.IO;
 using Vts.MonteCarlo.Extensions;
 using Vts.MonteCarlo.Helpers;
-using Vts.MonteCarlo.PhotonData;
 
 namespace Vts.MonteCarlo.Detectors
 {
@@ -154,7 +153,8 @@ namespace Vts.MonteCarlo.Detectors
             {
                 for (int ia = 0; ia < Angle.Count - 1; ia++)
                 {
-                    var areaNorm = (Rho.Start + (ir + 0.5) * Rho.Delta) * Math.Sin((ia + 0.5) * Angle.Delta) * normalizationFactor;
+                    var areaNorm = (Rho.Start + (ir + 0.5) * Rho.Delta) * 
+                        Math.Sin(Angle.Start + (ia + 0.5) * Angle.Delta) * normalizationFactor;
                     Mean[ir, ia] /= areaNorm * numPhotons;
                     if (TallySecondMoment)
                     {

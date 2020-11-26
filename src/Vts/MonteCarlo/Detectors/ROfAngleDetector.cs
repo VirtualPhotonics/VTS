@@ -143,7 +143,7 @@ namespace Vts.MonteCarlo.Detectors
             var normalizationFactor = 2.0 * Math.PI * Angle.Delta;
             for (int ir = 0; ir < Angle.Count - 1; ir++)
             {
-                var areaNorm = Math.Sin((ir + 0.5) * Angle.Delta) * normalizationFactor;
+                var areaNorm = Math.Sin(Angle.Start + (ir + 0.5) * Angle.Delta) * normalizationFactor;
                 Mean[ir] /= areaNorm * numPhotons;
                 if (TallySecondMoment)
                 {

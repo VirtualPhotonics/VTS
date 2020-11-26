@@ -177,6 +177,18 @@ namespace Vts.MonteCarlo
         /// </summary>
         public long R_xyt_TallyCount { get { return ((long)((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ROfXAndYAndTime").First().Name]).TallyCount); } }
         /// <summary>
+        /// Reflectance as a function of x and y and theta and phi
+        /// </summary>
+        public double[,,,] R_xytp { get { return ((double[,,,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ROfXAndYAndThetaAndPhi").First().Name]).Mean); } }
+        /// <summary>
+        /// Reflectance as a function of x and y and time 2nd moment
+        /// </summary>
+        public double[,,,] R_xytp2 { get { return ((double[,,,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ROfXAndYAndThetaAndPhi").First().Name]).SecondMoment); } }
+        /// <summary>
+        /// Reflectance as a function of x and y and teim Tally Count
+        /// </summary>
+        public long R_xytp_TallyCount { get { return ((long)((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ROfXAndYAndThetaAndPhi").First().Name]).TallyCount); } }
+        /// <summary>
         /// Reflectance as a function of x and y and max depth
         /// </summary>
         public double[,,] R_xymd { get { return ((double[,,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ROfXAndYAndMaxDepth").First().Name]).Mean); } }

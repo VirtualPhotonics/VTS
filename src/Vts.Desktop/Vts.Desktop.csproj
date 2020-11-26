@@ -757,6 +757,9 @@
     <Compile Include="..\Vts\MonteCarlo\Detectors\ROfXAndYAndMaxDepthDetector.cs">
       <Link>MonteCarlo\Detectors\ROfXAndYAndMaxDepthDetector.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\ROfXAndYAndThetaAndPhiDetector.cs">
+      <Link>MonteCarlo\Detectors\ROfXAndYAndThetaAndPhiDetector.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\ROfXAndYAndTimeDetector.cs">
       <Link>MonteCarlo\Detectors\ROfXAndYAndTimeDetector.cs</Link>
     </Compile>
