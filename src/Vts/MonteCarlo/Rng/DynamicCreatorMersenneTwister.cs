@@ -12,7 +12,7 @@ namespace Vts.MonteCarlo.Rng
     /// The code is in C, so this code maintained many of the constructs and coding
     /// statements to be able to produce same results
     /// </summary>
-    public class ParallelMersenneTwister : MathNet.Numerics.Random.RandomSource
+    public class DynamicCreatorMersenneTwister : MathNet.Numerics.Random.RandomSource
     {
         /// <summary>
         /// least significant r bits
@@ -259,7 +259,7 @@ namespace Vts.MonteCarlo.Rng
         /// <summary>
         /// Initializes a new instance of the MersenneTwister class.
         /// </summary>        
-        public ParallelMersenneTwister(int seed)
+        public DynamicCreatorMersenneTwister(int seed)
         {
         }
 

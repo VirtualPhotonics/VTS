@@ -982,11 +982,11 @@
     <Compile Include="..\Vts\MonteCarlo\PostProcessing\PhotonDatabasePostProcessor.cs">
       <Link>MonteCarlo\PostProcessing\PhotonDatabasePostProcessor.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Rng\DynamicCreatorMersenneTwister.cs">
+      <Link>MonteCarlo\Rng\DynamicCreatorMersenneTwister.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Rng\MersenneTwisterSerializationInfo.cs">
       <Link>MonteCarlo\Rng\MersenneTwisterSerializationInfo.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Rng\ParallelMersenneTwister.cs">
-      <Link>MonteCarlo\Rng\ParallelMersenneTwister.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Rng\SerializableMersenneTwister.cs">
       <Link>MonteCarlo\Rng\SerializableMersenneTwister.cs</Link>

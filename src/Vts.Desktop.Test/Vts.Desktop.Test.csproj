@@ -337,8 +337,8 @@
     <Compile Include="..\Vts.Test\MonteCarlo\PostProcessing\PhotonDatabasePostProcessorTests.cs">
       <Link>MonteCarlo\PostProcessing\PhotonDatabasePostProcessorTests.cs</Link>
     </Compile>
-    <Compile Include="..\Vts.Test\MonteCarlo\Rng\ParallelMersenneTwisterTests.cs">
-      <Link>MonteCarlo\Rng\ParallelMersenneTwisterTests.cs</Link>
+    <Compile Include="..\Vts.Test\MonteCarlo\Rng\DynamicCreatorMersenneTwisterTests.cs">
+      <Link>MonteCarlo\Rng\DynamicCreatorMersenneTwisterTests.cs</Link>
     </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\Rng\SerializableMersenneTwisterTests.cs">
       <Link>MonteCarlo\Rng\SerializableMersenneTwisterTests.cs</Link>
