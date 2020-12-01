@@ -1435,8 +1435,7 @@ namespace Vts.MonteCarlo.Rng
         /// </returns>
         protected override double DoSample()
         {
-            org_state org = new org_state();
-            return genrand_dc(ref org) * _reciprocal;
+            return genrand_mt(ref this.mts) * _reciprocal;
         }
 
     }

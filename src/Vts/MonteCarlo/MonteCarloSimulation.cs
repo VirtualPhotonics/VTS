@@ -464,7 +464,7 @@ namespace Vts.MonteCarlo
                 v => v.VirtualBoundaryType == VirtualBoundaryType.GenericVolumeBoundary).ToList();
             var parallelOptions = new ParallelOptions();
             parallelOptions.MaxDegreeOfParallelism = Math.Min(Environment.ProcessorCount,
-                2);  // make command line option
+                4);  // make command line option?
                
                 
             //private readonly object globalLock = new object();
