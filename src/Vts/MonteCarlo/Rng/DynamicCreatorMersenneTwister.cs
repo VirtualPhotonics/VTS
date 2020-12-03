@@ -256,13 +256,68 @@ namespace Vts.MonteCarlo.Rng
         // global in seive
         org_state global_mt19937 = new org_state();
 
+        private mt_struct MTS;
+        private mt_struct[] MTSs; 
+
         /// <summary>
-        /// Initializes a new instance of the MersenneTwister class.
-        /// </summary>        
+        /// Initializes a new instance of the MersenneTwister class.  
+        /// </summary>
+        /// <param name="seed"></param>
         public DynamicCreatorMersenneTwister(int seed)
+            : this(32, 521, (uint)seed, (uint)seed)
         {
         }
-
+        /// <summary>
+        /// Initializes a new instance of the MersenneTwister class.  This version
+        /// allows the user to specify word length, period exponent, original MT seed and
+        /// new generator seed
+        /// </summary>
+        /// <param name="wordLength"></param>
+        /// <param name="periodExponent"></param>
+        /// <param name="origMTSeed"></param>
+        /// <param name="newGeneratorSeed"></param>
+        public DynamicCreatorMersenneTwister(int wordLength, int periodExponent, 
+            uint origMTSeed, uint newGeneratorSeed)
+        {
+            MTS = get_mt_parameter_st(wordLength, periodExponent, origMTSeed);
+            // sgenrand_mt constructs mts struct using 1st parameter seed=newGeneratorSeed
+            sgenrand_mt(newGeneratorSeed, ref MTS);
+        }
+        /// <summary>
+        /// Overload that allows and Id to be specified
+        /// </summary>
+        /// <param name="wordLength"></param>
+        /// <param name="periodExponent"></param>
+        /// <param name="Id"></param>
+        /// <param name="origMTSeed"></param>
+        /// <param name="newGeneratorSeed"></param>
+        public DynamicCreatorMersenneTwister(int wordLength, int periodExponent,
+            int Id, uint origMTSeed, uint newGeneratorSeed)
+        {
+            MTS = get_mt_parameter_id_st(wordLength, periodExponent, Id, origMTSeed);
+            // sgenrand_mt constructs mts struct using 1st parameter seed=newGeneratorSeed
+            sgenrand_mt(newGeneratorSeed, ref MTS);
+        }
+        /// <summary>
+        ///  Overload that allows multiple MTs to be specified in one call
+        /// </summary>
+        /// <param name="wordLength"></param>
+        /// <param name="periodExponent"></param>
+        /// <param name="origMTSeed"></param>
+        /// <param name="seeds"></param>
+        /// <param name="startId"></param>
+        /// <param name="maxId"></param>
+        /// <param name="count"></param>
+        public DynamicCreatorMersenneTwister(int wordLength, int periodExponent, uint origMTSeed, uint[] seeds,
+            int startId, int maxId, ref int count)
+        {
+            MTSs = get_mt_parameters_st(wordLength, periodExponent, startId, maxId, origMTSeed, ref count);
+            // sgenrand_mt constructs mts struct using 1st parameter seed=newGeneratorSeed
+            for (int i = 0; i < count; i++)
+            {
+                sgenrand_mt((uint)seeds[i], ref MTSs[i]);
+            }
+        }
         public void init_dc(uint seed)
         {
             org_state global_mt19937 = new org_state();
@@ -1137,6 +1192,25 @@ namespace Vts.MonteCarlo.Rng
         /// </summary>
         /// <param name="w">word size: only w=32 or 31 allowed</param>
         /// <param name="p">Mersenne exponent: p>=521 and p<=44497</param>
+        public mt_struct get_mt_parameter(int w, int p)
+        {
+            mt_struct mts;
+            prescr_t pre = new prescr_t();
+            check32_t ck = new check32_t();
+            mts = init_mt_search(ref ck, ref pre, w, p);
+            if (get_irred_param(ck, pre, ref global_mt19937, ref mts, 0, 0) == _not_found)
+            {
+                mts.state = null;  // substitute
+                return mts;
+            }
+            get_tempering_parameter_hard_dc(ref mts);
+            return mts;
+        }
+        /// <summary>
+        /// There are variants of this method:  Methods in seive.c
+        /// </summary>
+        /// <param name="w">word size: only w=32 or 31 allowed</param>
+        /// <param name="p">Mersenne exponent: p>=521 and p<=44497</param>
         /// <param name="seed">seed of original mt19937 to generate parameter</param>
         /// <returns></returns>
         public mt_struct get_mt_parameter_st(int w, int p, uint seed)
@@ -1217,10 +1291,6 @@ namespace Vts.MonteCarlo.Rng
         }
         /// <summary>
         /// There are variants of this method:  Methods in seive.c
-        /// get_mt_parameter(w,p)
-        /// get_mt_parameter_st(w,p,seed)        
-        /// get_mt_parameter_id(w,p,id) id must be less than 65536 and positive
-        /// get_mt_parameter_id_st(w,p,id,seed) 
         /// </summary>
         /// <param name="w">word size: only w=32 or 31 allowed</param>
         /// <param name="p">Mersenne exponent: p>=521 and p<=44497</param>
@@ -1426,7 +1496,6 @@ namespace Vts.MonteCarlo.Rng
             }
         }
 
-
         /// <summary>
         /// Returns a random number between 0.0 and 1.0. ONLY NEEDED IF INHERIT MATHNET.NUMERICS
         /// </summary>
@@ -1435,7 +1504,7 @@ namespace Vts.MonteCarlo.Rng
         /// </returns>
         protected override double DoSample()
         {
-            return genrand_mt(ref this.mts) * _reciprocal;
+            return genrand_mt(ref this.MTS) * _reciprocal;
         }
 
     }
