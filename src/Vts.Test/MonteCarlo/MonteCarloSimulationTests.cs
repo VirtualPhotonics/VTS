@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using NUnit.Framework;
 using Vts.IO;
 using Vts.MonteCarlo;
+using Vts.MonteCarlo.Detectors;
 
 namespace Vts.Test.MonteCarlo
 {
@@ -54,13 +56,24 @@ namespace Vts.Test.MonteCarlo
         /// Validate method that runs multiple CPUs runs without crashing
         /// </summary>
         [Test]
-        public void validate_ExecuteLoopOverPhotonsInParallel_runs_without_crashing()
+        public void validate_ExecuteLoopOverPhotonsInParallel_generates_equivalent_as_single_CPU()
         {
+            // first run with single processor
             var si = new SimulationInput { N = 100 };
-            si.Options.SimulationIndex = 1;  // 0 index -> 2 CPUS
+            si.Options.SimulationIndex = 0;  // 0 -> 1 CPUS
+            si.Options.Seed = 0;
+            si.DetectorInputs = new List<IDetectorInput>
+            {
+                new ATotalDetectorInput() { TallySecondMoment = true },
+            };
             var mc =  new MonteCarloSimulation(si);
             var output = mc.Run();
-            Assert.NotNull(output);
+            // then run same simulation with 2 CPUs
+            // these will never be equal unless second sequence starts right after first!!!
+            si.Options.SimulationIndex = 1;
+            mc = new MonteCarloSimulation(si);
+            var outputMultiCPUs = mc.Run();
+            Assert.IsTrue(Math.Abs(output.Atot - outputMultiCPUs.Atot) < 0.01);
         }
     }
 }
