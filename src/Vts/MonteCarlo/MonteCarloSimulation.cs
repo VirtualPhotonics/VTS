@@ -136,7 +136,7 @@ namespace Vts.MonteCarlo
         public void SetupSourceAndVBControllerBasedOnRng(Random rng, out ISource source, 
             out VirtualBoundaryController virtualBoundaryController)
         {
-             source = SourceFactory.GetSource(_input.SourceInput, rng);
+            source = SourceFactory.GetSource(_input.SourceInput, rng);
 
             // instantiate Virtual Boundaries (and associated detectors) for each VB group
             virtualBoundaryController = new VirtualBoundaryController(new List<IVirtualBoundary>());
@@ -244,6 +244,29 @@ namespace Vts.MonteCarlo
 
             return outputs;
         }
+        /// <summary>
+        /// Method to run a single MC simulation in parallel ASK LISA
+        /// </summary>
+        /// <param name="simulations">array of MonteCarloSimulation</param>
+        /// <returns>array of SimulationOutput</returns>
+        public static SimulationOutput RunSingleInParallel(MonteCarloSimulation[] simulations)
+        {
+            SimulationOutput output = null;
+            var options = new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount };
+            Parallel.ForEach(simulations, options, (sim, state, index) =>
+            {
+                try
+                {
+                    output = simulations[index].Run();
+                }
+                catch
+                {
+                    Console.WriteLine("Problem occurred running simulation #{0}. Make sure all simulations have distinct 'OutputName' properties?", index);
+                }
+            });
+
+            return output;
+        }
 
         /// <summary>
         /// Method that sets the output path (string) for databases
@@ -265,9 +288,8 @@ namespace Vts.MonteCarlo
             _resultsAvailable = false;
 
             DisplayIntro();
-
-            VirtualBoundaryController virtualBoundaryController;
-            ExecuteMCLoop(out virtualBoundaryController);
+            
+            var virtualBoundaryController = ExecuteMCLoop();
 
             _isRunning = false;
             if (_isCancelled)
@@ -299,13 +321,9 @@ namespace Vts.MonteCarlo
         /// <summary>
         /// Executes the Monte Carlo Loop
         /// </summary>
-        protected virtual void ExecuteMCLoop(out VirtualBoundaryController virtualBoundaryController)
+        protected virtual VirtualBoundaryController ExecuteMCLoop()
         {
-            ISource source;
-            virtualBoundaryController = null;
-
             var stopwatch = System.Diagnostics.Stopwatch.StartNew();
-
             try
             {
                 if (_input.Options.Databases.Count() > 0)
@@ -318,27 +336,30 @@ namespace Vts.MonteCarlo
 
                 if (_input.Options.SimulationIndex > 0) // command line option?
                 {
-                    Random parallelRng;
                     var parallelOptions = new ParallelOptions();
                     parallelOptions.MaxDegreeOfParallelism = Math.Min(Environment.ProcessorCount,
-                        _input.Options.SimulationIndex + 1);  // make command line option?               
+                        _input.Options.SimulationIndex + 1);  // make command line option?   
+
 
                     int photonsPerCPU = (int)(_numberOfPhotons / parallelOptions.MaxDegreeOfParallelism);
                     Parallel.For(0, parallelOptions.MaxDegreeOfParallelism, parallelOptions, cpuIndex =>
                     {
-                        // overwrite _rng ASK LISA 1) problems using factory here 2) using infile Seed
-                        parallelRng = //RandomNumberGeneratorFactory.GetRandomNumberGenerator(
+                        //// ASK LISA 1) problems using factory here 2) using infile Seed
+                        var parallelRng = //RandomNumberGeneratorFactory.GetRandomNumberGenerator(
                             new DynamicCreatorMersenneTwister(32, 521, cpuIndex, 4172, (uint)_input.Options.Seed);
-                        SetupSourceAndVBControllerBasedOnRng(parallelRng, out source, out virtualBoundaryController);
-                        ExecuteLoopOverPhotons(photonsPerCPU, parallelRng, source, virtualBoundaryController);
+                        SetupSourceAndVBControllerBasedOnRng(parallelRng, out var source, out var virtualBoundaryController);
+                        ExecuteLoopOverPhotons(photonsPerCPU, parallelRng, source, 
+                            virtualBoundaryController);
                     });
 
                 }
                 else  // simulation run serially
                 {
+                    ISource source;
+                    virtualBoundaryController = null;
                     var rng = RandomNumberGeneratorFactory.GetRandomNumberGenerator(
                         _input.Options.RandomNumberGeneratorType, _input.Options.Seed);
-                    SetupSourceAndVBControllerBasedOnRng(rng, out source, out virtualBoundaryController);
+                    SetupSourceAndVBControllerBasedOnRng(rng, out var source, out var virtualBoundaryController);
                     ExecuteLoopOverPhotons(_numberOfPhotons, rng, source, virtualBoundaryController);
                 }
                 //for (long n = 1; n <= _numberOfPhotons; n++)
