@@ -7,6 +7,7 @@ using Vts.IO;
 using Vts.MonteCarlo.Controllers;
 using Vts.MonteCarlo.Extensions;
 using Vts.MonteCarlo.Factories;
+using Vts.MonteCarlo.Rng;
 
 namespace Vts.MonteCarlo
 {
@@ -24,19 +25,20 @@ namespace Vts.MonteCarlo
         private bool _resultsAvailable;
 
         /// <summary>
+        /// 
         /// local variable: input related
         /// </summary>
         protected SimulationInput _input;
-        private ISource _source;
+        //private ISource _source;
         private ITissue _tissue;
-        private VirtualBoundaryController _virtualBoundaryController;
+        //private VirtualBoundaryController _virtualBoundaryController;
         //private IList<IDetectorController> _detectorControllers; // total list indep. of VBs
         private long _numberOfPhotons;
         private SimulationStatistics _simulationStatistics;
         private DatabaseWriterController _databaseWriterController = null;
         private pMCDatabaseWriterController _pMCDatabaseWriterController = null;
         private bool _doPMC = false;
-        private Random _rng;
+        //private Random _rng;
         private string _outputPath;
 
         /// <summary>
@@ -50,10 +52,10 @@ namespace Vts.MonteCarlo
             _input = input;
             _outputPath = "";
             _numberOfPhotons = input.N;
-            _rng = RandomNumberGeneratorFactory.GetRandomNumberGenerator(
+            var rng = RandomNumberGeneratorFactory.GetRandomNumberGenerator(
                  input.Options.RandomNumberGeneratorType, input.Options.Seed);
             _tissue = TissueFactory.GetTissue(input.TissueInput, input.Options.AbsorptionWeightingType, input.Options.PhaseFunctionType, input.Options.RussianRouletteWeightThreshold);
-            _source = SourceFactory.GetSource(input.SourceInput, _rng);
+            //_source = SourceFactory.GetSource(input.SourceInput, _rng);
 
             AbsorptionWeightingType = input.Options.AbsorptionWeightingType; 
             TrackStatistics = input.Options.TrackStatistics;
@@ -68,52 +70,54 @@ namespace Vts.MonteCarlo
             {
                 throw new ArgumentException(result.ValidationRule + (!string.IsNullOrEmpty(result.Remarks) ? "; " + result.Remarks : ""));
             }
+            ISource source;
+            VirtualBoundaryController virtualBoundaryController;
+            SetupSourceAndVBControllerBasedOnRng(rng, out source, out virtualBoundaryController);
 
-            // instantiate Virtual Boundaries (and associated detectors) for each VB group
-            _virtualBoundaryController = new VirtualBoundaryController(new List<IVirtualBoundary>());
-            List<VirtualBoundaryType> dbVirtualBoundaries =
-                input.Options.Databases.Select(db => db.GetCorrespondingVirtualBoundaryType()).ToList();
-            foreach (var vbType in EnumHelper.GetValues<VirtualBoundaryType>())
-            {
-                IEnumerable<IDetectorInput> detectorInputs = null;
-                switch (vbType)
-                {
-                    case VirtualBoundaryType.DiffuseReflectance:
-                    default:
-                        detectorInputs = input.DetectorInputs.Where(d => d.TallyDetails.IsReflectanceTally).ToList();
-                        break;                                            
-                    case VirtualBoundaryType.DiffuseTransmittance:
-                        detectorInputs = input.DetectorInputs.Where(d => d.TallyDetails.IsTransmittanceTally).ToList();
-                        break;                                            
-                    case VirtualBoundaryType.SpecularReflectance:
-                        detectorInputs = input.DetectorInputs.Where(d => d.TallyDetails.IsSpecularReflectanceTally).ToList();
-                        break;                                            
-                    case VirtualBoundaryType.GenericVolumeBoundary:
-                        detectorInputs = input.DetectorInputs.Where(d => d.TallyDetails.IsVolumeTally).ToList();
-                        break;                                            
-                    case VirtualBoundaryType.Dosimetry:
-                        detectorInputs = input.DetectorInputs.Where(d => d.TallyDetails.IsInternalSurfaceTally).ToList();
-                        break;
-                    case VirtualBoundaryType.pMCDiffuseReflectance:
-                        detectorInputs = input.DetectorInputs.Where(d => d.TallyDetails.IspMCReflectanceTally).ToList();
-                        break;
-                    case VirtualBoundaryType.BoundingCylinderVolume:
-                        detectorInputs = input.DetectorInputs.Where(d => d.TallyDetails.IsBoundingVolumeTally).ToList();
-                        break;
-                }
-
-                // make sure VB Controller has at least diffuse reflectance and diffuse transmittance
-                // may change this in future if tissue OnDomainBoundary changes
-                if ((detectorInputs.Count() > 0) || (vbType == VirtualBoundaryType.DiffuseReflectance) ||
-                    (vbType == VirtualBoundaryType.DiffuseTransmittance) || (dbVirtualBoundaries.Any(vb => vb == vbType)))
-                {
-                    var detectors = DetectorFactory.GetDetectors(detectorInputs, _tissue, _rng);
-                    var detectorController = DetectorControllerFactory.GetDetectorController(vbType, detectors, _tissue);
-                    // var detectorController = new DetectorController(detectors);
-                    var virtualBoundary = VirtualBoundaryFactory.GetVirtualBoundary(vbType, _tissue, detectorController);
-                    _virtualBoundaryController.VirtualBoundaries.Add(virtualBoundary);
-                }
-            }
+            //// instantiate Virtual Boundaries (and associated detectors) for each VB group
+            //_virtualBoundaryController = new VirtualBoundaryController(new List<IVirtualBoundary>());
+            //List<VirtualBoundaryType> dbVirtualBoundaries =
+            //    input.Options.Databases.Select(db => db.GetCorrespondingVirtualBoundaryType()).ToList();
+            //foreach (var vbType in EnumHelper.GetValues<VirtualBoundaryType>())
+            //{
+            //    IEnumerable<IDetectorInput> detectorInputs = null;
+            //    switch (vbType)
+            //    {
+            //        case VirtualBoundaryType.DiffuseReflectance:
+            //        default:
+            //            detectorInputs = input.DetectorInputs.Where(d => d.TallyDetails.IsReflectanceTally).ToList();
+            //            break;                                            
+            //        case VirtualBoundaryType.DiffuseTransmittance:
+            //            detectorInputs = input.DetectorInputs.Where(d => d.TallyDetails.IsTransmittanceTally).ToList();
+            //            break;                                            
+            //        case VirtualBoundaryType.SpecularReflectance:
+            //            detectorInputs = input.DetectorInputs.Where(d => d.TallyDetails.IsSpecularReflectanceTally).ToList();
+            //            break;                                            
+            //        case VirtualBoundaryType.GenericVolumeBoundary:
+            //            detectorInputs = input.DetectorInputs.Where(d => d.TallyDetails.IsVolumeTally).ToList();
+            //            break;                                            
+            //        case VirtualBoundaryType.Dosimetry:
+            //            detectorInputs = input.DetectorInputs.Where(d => d.TallyDetails.IsInternalSurfaceTally).ToList();
+            //            break;
+            //        case VirtualBoundaryType.pMCDiffuseReflectance:
+            //            detectorInputs = input.DetectorInputs.Where(d => d.TallyDetails.IspMCReflectanceTally).ToList();
+            //            break;
+            //        case VirtualBoundaryType.BoundingCylinderVolume:
+            //            detectorInputs = input.DetectorInputs.Where(d => d.TallyDetails.IsBoundingVolumeTally).ToList();
+            //            break;
+            //    }
+            //    // make sure VB Controller has at least diffuse reflectance and diffuse transmittance
+            //    // may change this in future if tissue OnDomainBoundary changes
+            //    if ((detectorInputs.Count() > 0) || (vbType == VirtualBoundaryType.DiffuseReflectance) ||
+            //        (vbType == VirtualBoundaryType.DiffuseTransmittance) || (dbVirtualBoundaries.Any(vb => vb == vbType)))
+            //    {
+            //        var detectors = DetectorFactory.GetDetectors(detectorInputs, _tissue, _rng);
+            //        var detectorController = DetectorControllerFactory.GetDetectorController(vbType, detectors, _tissue);
+            //        // var detectorController = new DetectorController(detectors);
+            //        var virtualBoundary = VirtualBoundaryFactory.GetVirtualBoundary(vbType, _tissue, detectorController);
+            //        _virtualBoundaryController.VirtualBoundaries.Add(virtualBoundary);
+            //    }
+            //}
 
             // needed?
             //_detectorControllers = _virtualBoundaryController.VirtualBoundaries.Select(vb=>vb.DetectorController).ToList();
@@ -127,6 +131,57 @@ namespace Vts.MonteCarlo
             _isCancelled = false;
             _isRunning = false;
             _resultsAvailable = false;
+        }
+
+        public void SetupSourceAndVBControllerBasedOnRng(Random rng, out ISource source, 
+            out VirtualBoundaryController virtualBoundaryController)
+        {
+             source = SourceFactory.GetSource(_input.SourceInput, rng);
+
+            // instantiate Virtual Boundaries (and associated detectors) for each VB group
+            virtualBoundaryController = new VirtualBoundaryController(new List<IVirtualBoundary>());
+            List<VirtualBoundaryType> dbVirtualBoundaries =
+                _input.Options.Databases.Select(db => db.GetCorrespondingVirtualBoundaryType()).ToList();
+            foreach (var vbType in EnumHelper.GetValues<VirtualBoundaryType>())
+            {
+                IEnumerable<IDetectorInput> detectorInputs = null;
+                switch (vbType)
+                {
+                    case VirtualBoundaryType.DiffuseReflectance:
+                    default:
+                        detectorInputs = _input.DetectorInputs.Where(d => d.TallyDetails.IsReflectanceTally).ToList();
+                        break;
+                    case VirtualBoundaryType.DiffuseTransmittance:
+                        detectorInputs = _input.DetectorInputs.Where(d => d.TallyDetails.IsTransmittanceTally).ToList();
+                        break;
+                    case VirtualBoundaryType.SpecularReflectance:
+                        detectorInputs = _input.DetectorInputs.Where(d => d.TallyDetails.IsSpecularReflectanceTally).ToList();
+                        break;
+                    case VirtualBoundaryType.GenericVolumeBoundary:
+                        detectorInputs = _input.DetectorInputs.Where(d => d.TallyDetails.IsVolumeTally).ToList();
+                        break;
+                    case VirtualBoundaryType.Dosimetry:
+                        detectorInputs = _input.DetectorInputs.Where(d => d.TallyDetails.IsInternalSurfaceTally).ToList();
+                        break;
+                    case VirtualBoundaryType.pMCDiffuseReflectance:
+                        detectorInputs = _input.DetectorInputs.Where(d => d.TallyDetails.IspMCReflectanceTally).ToList();
+                        break;
+                    case VirtualBoundaryType.BoundingCylinderVolume:
+                        detectorInputs = _input.DetectorInputs.Where(d => d.TallyDetails.IsBoundingVolumeTally).ToList();
+                        break;
+                }
+                // make sure VB Controller has at least diffuse reflectance and diffuse transmittance
+                // may change this in future if tissue OnDomainBoundary changes
+                if ((detectorInputs.Count() > 0) || (vbType == VirtualBoundaryType.DiffuseReflectance) ||
+                    (vbType == VirtualBoundaryType.DiffuseTransmittance) || (dbVirtualBoundaries.Any(vb => vb == vbType)))
+                {
+                    var detectors = DetectorFactory.GetDetectors(detectorInputs, _tissue, rng);
+                    var detectorController = DetectorControllerFactory.GetDetectorController(vbType, detectors, _tissue);
+                    // var detectorController = new DetectorController(detectors);
+                    var virtualBoundary = VirtualBoundaryFactory.GetVirtualBoundary(vbType, _tissue, detectorController);
+                    virtualBoundaryController.VirtualBoundaries.Add(virtualBoundary);
+                }
+            }
         }
 
         /// <summary>
@@ -211,7 +266,8 @@ namespace Vts.MonteCarlo
 
             DisplayIntro();
 
-            ExecuteMCLoop();
+            VirtualBoundaryController virtualBoundaryController;
+            ExecuteMCLoop(out virtualBoundaryController);
 
             _isRunning = false;
             if (_isCancelled)
@@ -220,7 +276,7 @@ namespace Vts.MonteCarlo
                 return null;
             }
 
-            var detectors = _virtualBoundaryController.VirtualBoundaries
+            var detectors = virtualBoundaryController.VirtualBoundaries
                     .Select(vb => vb.DetectorController)
                     .Where(dc => dc != null)
                     .SelectMany(dc => dc.Detectors).ToList();
@@ -243,8 +299,11 @@ namespace Vts.MonteCarlo
         /// <summary>
         /// Executes the Monte Carlo Loop
         /// </summary>
-        protected virtual void ExecuteMCLoop()
+        protected virtual void ExecuteMCLoop(out VirtualBoundaryController virtualBoundaryController)
         {
+            ISource source;
+            virtualBoundaryController = null;
+
             var stopwatch = System.Diagnostics.Stopwatch.StartNew();
 
             try
@@ -259,11 +318,28 @@ namespace Vts.MonteCarlo
 
                 if (_input.Options.SimulationIndex > 0) // command line option?
                 {
-                    ExecuteLoopOverPhotonsInParallel();
+                    Random parallelRng;
+                    var parallelOptions = new ParallelOptions();
+                    parallelOptions.MaxDegreeOfParallelism = Math.Min(Environment.ProcessorCount,
+                        _input.Options.SimulationIndex + 1);  // make command line option?               
+
+                    int photonsPerCPU = (int)(_numberOfPhotons / parallelOptions.MaxDegreeOfParallelism);
+                    Parallel.For(0, parallelOptions.MaxDegreeOfParallelism, parallelOptions, cpuIndex =>
+                    {
+                        // overwrite _rng ASK LISA 1) problems using factory here 2) using infile Seed
+                        parallelRng = //RandomNumberGeneratorFactory.GetRandomNumberGenerator(
+                            new DynamicCreatorMersenneTwister(32, 521, cpuIndex, 4172, (uint)_input.Options.Seed);
+                        SetupSourceAndVBControllerBasedOnRng(parallelRng, out source, out virtualBoundaryController);
+                        ExecuteLoopOverPhotons(photonsPerCPU, parallelRng, source, virtualBoundaryController);
+                    });
+
                 }
-                else
+                else  // simulation run serially
                 {
-                    ExecuteLoopOverPhotons(_numberOfPhotons);
+                    var rng = RandomNumberGeneratorFactory.GetRandomNumberGenerator(
+                        _input.Options.RandomNumberGeneratorType, _input.Options.Seed);
+                    SetupSourceAndVBControllerBasedOnRng(rng, out source, out virtualBoundaryController);
+                    ExecuteLoopOverPhotons(_numberOfPhotons, rng, source, virtualBoundaryController);
                 }
                 //for (long n = 1; n <= _numberOfPhotons; n++)
                 //{
@@ -350,7 +426,7 @@ namespace Vts.MonteCarlo
             }
 
             // normalize all detectors by the total number of photons (each tally records it's own "local" count as well)
-            foreach (var vb in _virtualBoundaryController.VirtualBoundaries)
+            foreach (var vb in virtualBoundaryController.VirtualBoundaries)
             {
                 if (vb.DetectorController != null) // check that VB has detectors
                 {
@@ -377,9 +453,10 @@ namespace Vts.MonteCarlo
                 + stopwatch.ElapsedMilliseconds / 1000f + " seconds).\r");
         }
 
-        private void ExecuteLoopOverPhotons(long numberOfPhotonsForLoop)
+        private void ExecuteLoopOverPhotons(long numberOfPhotonsForLoop, Random rng, ISource source, 
+            VirtualBoundaryController virtualBoundaryController)
         {
-            var volumeVBs = _virtualBoundaryController.VirtualBoundaries.Where(
+            var volumeVBs = virtualBoundaryController.VirtualBoundaries.Where(
                 v => v.VirtualBoundaryType == VirtualBoundaryType.GenericVolumeBoundary).ToList();
             for (long n = 1; n <= numberOfPhotonsForLoop; n++)
             {
@@ -394,7 +471,7 @@ namespace Vts.MonteCarlo
                     DisplayStatus(n, numberOfPhotonsForLoop);
                 }
 
-                var photon = _source.GetNextPhoton(_tissue);
+                var photon = source.GetNextPhoton(_tissue);
 
                 do
                 { /* begin do while  */
@@ -402,7 +479,7 @@ namespace Vts.MonteCarlo
 
                     IVirtualBoundary closestVirtualBoundary;
 
-                    BoundaryHitType hitType = MoveToBoundaryCheck(photon, out closestVirtualBoundary);
+                    BoundaryHitType hitType = MoveToBoundaryCheck(photon, virtualBoundaryController, out closestVirtualBoundary);
 
                     // todo: consider moving actual calls to Tally after do-while
                     // for each "hit" virtual boundary, tally respective detectors if exist
@@ -458,23 +535,25 @@ namespace Vts.MonteCarlo
             } /* end of for n loop */
         }
 
-        private void ExecuteLoopOverPhotonsInParallel()
-        {
-            var parallelOptions = new ParallelOptions();
-            parallelOptions.MaxDegreeOfParallelism = Math.Min(Environment.ProcessorCount,
-                _input.Options.SimulationIndex + 1);  // make command line option?               
+        //private void ExecuteLoopOverPhotonsInParallel()
+        //{
+        //    Random parallelRng;
+        //    var parallelOptions = new ParallelOptions();
+        //    parallelOptions.MaxDegreeOfParallelism = Math.Min(Environment.ProcessorCount,
+        //        _input.Options.SimulationIndex + 1);  // make command line option?               
 
-            int seedIndex = 0;
-            int photonsPerCPU = (int)(_numberOfPhotons / parallelOptions.MaxDegreeOfParallelism);
-            Parallel.For(0, parallelOptions.MaxDegreeOfParallelism, parallelOptions, cpus =>
-            {
-                // overwrite _rng 
-                _rng = RandomNumberGeneratorFactory.GetRandomNumberGenerator(
-                    RandomNumberGeneratorType.ParallelMersenneTwister, seedIndex);
-                ExecuteLoopOverPhotons(photonsPerCPU);
-                ++seedIndex;
-            }); 
-        }
+        //    int photonsPerCPU = (int)(_numberOfPhotons / parallelOptions.MaxDegreeOfParallelism);
+        //    Parallel.For(0, parallelOptions.MaxDegreeOfParallelism, parallelOptions, cpuIndex =>
+        //    {
+        //        // overwrite _rng ASK LISA 1) problems using factory here 2) using infile Seed
+        //        parallelRng = //RandomNumberGeneratorFactory.GetRandomNumberGenerator(
+        //            new DynamicCreatorMersenneTwister(32, 521, cpuIndex, 4172, (uint)_input.Options.Seed);
+        //        ISource parallelSource;
+        //        VirtualBoundaryController parallelVirtualBoundaryController;
+        //        SetupSourceAndVBControllerBasedOnRng(parallelRng, out parallelSource, out parallelVirtualBoundaryController);
+        //        ExecuteLoopOverPhotons(photonsPerCPU, parallelRng, parallelSource, parallelVirtualBoundaryController);
+        //    }); 
+        //}
         private void CloseDatabases(bool _doPMC)
         {
             if (!_doPMC)
@@ -538,7 +617,8 @@ namespace Vts.MonteCarlo
         /// <param name="photon"></param>
         /// <param name="closestVirtualBoundary"></param>
         /// <returns></returns>
-        private BoundaryHitType MoveToBoundaryCheck(Photon photon, out IVirtualBoundary closestVirtualBoundary)
+        private BoundaryHitType MoveToBoundaryCheck(Photon photon, 
+            VirtualBoundaryController virtualBoundaryController, out IVirtualBoundary closestVirtualBoundary)
         {
             // get distance to any tissue boundary
             var tissueDistance = _tissue.GetDistanceToBoundary(photon);
@@ -547,7 +627,7 @@ namespace Vts.MonteCarlo
             double vbDistance = double.PositiveInfinity;
 
             // find closest VB (will return null if no closest VB exists)
-            closestVirtualBoundary = _virtualBoundaryController.GetClosestVirtualBoundary(photon.DP, out vbDistance);
+            closestVirtualBoundary = virtualBoundaryController.GetClosestVirtualBoundary(photon.DP, out vbDistance);
 
             if (tissueDistance < vbDistance) // photon won't hit VB, but might not hit tissue boundary either
             {

@@ -34,7 +34,7 @@ namespace Vts.MonteCarlo.Factories
                 case RandomNumberGeneratorType.MersenneTwister:
                     //return new MathNet.Numerics.Random.MersenneTwister(seed, true);
                     return new Rng.SerializableMersenneTwister(seed, true);
-                case RandomNumberGeneratorType.ParallelMersenneTwister:
+                case RandomNumberGeneratorType.DynamicCreatorMersenneTwister:
                     return new Rng.DynamicCreatorMersenneTwister(seed);
                 default:
                     throw new ArgumentOutOfRangeException("type");

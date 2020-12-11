@@ -73,7 +73,8 @@ namespace Vts.Test.MonteCarlo
             si.Options.SimulationIndex = 1;
             mc = new MonteCarloSimulation(si);
             var outputMultiCPUs = mc.Run();
-            Assert.IsTrue(Math.Abs(output.Atot - outputMultiCPUs.Atot) < 0.01);
+            Assert.IsTrue(Math.Abs(output.Atot - outputMultiCPUs.Atot) < 0.1);
+            Assert.IsTrue(Math.Abs(output.Atot2 - outputMultiCPUs.Atot2) < 0.0001);
         }
     }
 }

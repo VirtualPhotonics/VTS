@@ -634,7 +634,7 @@ namespace Vts
         /// Dynamic creator for parallel processing 
         /// (http://www.math.sci.hiroshima-u.ac.jp/~m-mat/MT/DC/dc.html)
         /// </summary>
-        ParallelMersenneTwister,
+        DynamicCreatorMersenneTwister,
     }
 
     #region Spectral Mapping Enums

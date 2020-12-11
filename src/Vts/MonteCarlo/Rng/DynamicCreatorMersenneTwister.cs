@@ -264,7 +264,16 @@ namespace Vts.MonteCarlo.Rng
         /// </summary>
         /// <param name="seed"></param>
         public DynamicCreatorMersenneTwister(int seed)
-            : this(32, 521, (uint)seed, (uint)seed)
+            : this(32, 521, 4172, (uint)seed)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the MersenneTwister class.  
+        /// </summary>
+        /// <param name="seed"></param>
+        public DynamicCreatorMersenneTwister(int streamSeed, int seed)
+            : this(32, 521, (uint)streamSeed, (uint)seed)
         {
         }
         /// <summary>
@@ -272,46 +281,46 @@ namespace Vts.MonteCarlo.Rng
         /// allows the user to specify word length, period exponent, original MT seed and
         /// new generator seed
         /// </summary>
-        /// <param name="wordLength"></param>
-        /// <param name="periodExponent"></param>
-        /// <param name="origMTSeed"></param>
-        /// <param name="newGeneratorSeed"></param>
+        /// <param name="wordLength">word size either 31 or 32</param>
+        /// <param name="periodExponent">Mersenne exponent defining period of stream</param>
+        /// <param name="streamSeed">seed to obtain stream</param>
+        /// <param name="seed">seed within stream to start</param>
         public DynamicCreatorMersenneTwister(int wordLength, int periodExponent, 
-            uint origMTSeed, uint newGeneratorSeed)
+            uint streamSeed, uint seed)
         {
-            MTS = get_mt_parameter_st(wordLength, periodExponent, origMTSeed);
+            MTS = get_mt_parameter_st(wordLength, periodExponent, streamSeed);
             // sgenrand_mt constructs mts struct using 1st parameter seed=newGeneratorSeed
-            sgenrand_mt(newGeneratorSeed, ref MTS);
+            sgenrand_mt(seed, ref MTS);
         }
         /// <summary>
         /// Overload that allows and Id to be specified
         /// </summary>
-        /// <param name="wordLength"></param>
-        /// <param name="periodExponent"></param>
-        /// <param name="Id"></param>
-        /// <param name="origMTSeed"></param>
-        /// <param name="newGeneratorSeed"></param>
+        /// <param name="wordLength">word size either 31 or 32</param>
+        /// <param name="periodExponent">Mersenne exponent defining period of stream</param>
+        /// <param name="Id">Id of stream</param>
+        /// <param name="streamSeed">seed to obtain stream</param>
+        /// <param name="seed">seed within stream to start</param>
         public DynamicCreatorMersenneTwister(int wordLength, int periodExponent,
-            int Id, uint origMTSeed, uint newGeneratorSeed)
+            int Id, uint streamSeed, uint seed)
         {
-            MTS = get_mt_parameter_id_st(wordLength, periodExponent, Id, origMTSeed);
+            MTS = get_mt_parameter_id_st(wordLength, periodExponent, Id, streamSeed);
             // sgenrand_mt constructs mts struct using 1st parameter seed=newGeneratorSeed
-            sgenrand_mt(newGeneratorSeed, ref MTS);
+            sgenrand_mt(seed, ref MTS);
         }
         /// <summary>
-        ///  Overload that allows multiple MTs to be specified in one call
+        ///  Overload that allows multiple MT streams to be specified in one call
         /// </summary>
-        /// <param name="wordLength"></param>
-        /// <param name="periodExponent"></param>
-        /// <param name="origMTSeed"></param>
+        /// <param name="wordLength">word size either 31 or 32</param>
+        /// <param name="periodExponent">Mersenne exponent defining period of stream</param>
+        /// <param name="streamSeed">seed to search for stream</param>
         /// <param name="seeds"></param>
-        /// <param name="startId"></param>
-        /// <param name="maxId"></param>
-        /// <param name="count"></param>
-        public DynamicCreatorMersenneTwister(int wordLength, int periodExponent, uint origMTSeed, uint[] seeds,
+        /// <param name="startId">starting ID</param>
+        /// <param name="maxId">maximum ID</param>
+        /// <param name="count">number of streams</param>
+        public DynamicCreatorMersenneTwister(int wordLength, int periodExponent, uint streamSeed, uint[] seeds,
             int startId, int maxId, ref int count)
         {
-            MTSs = get_mt_parameters_st(wordLength, periodExponent, startId, maxId, origMTSeed, ref count);
+            MTSs = get_mt_parameters_st(wordLength, periodExponent, startId, maxId, streamSeed, ref count);
             // sgenrand_mt constructs mts struct using 1st parameter seed=newGeneratorSeed
             for (int i = 0; i < count; i++)
             {
