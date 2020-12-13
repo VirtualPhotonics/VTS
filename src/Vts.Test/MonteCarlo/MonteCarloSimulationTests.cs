@@ -52,7 +52,7 @@ namespace Vts.Test.MonteCarlo
             Assert.True(outputs[0].Input.N == 30);
             Assert.True(outputs[1].Input.N == 20);
         }
-        /// <summary>
+        /// <summary> MOVE THIS OUT TO OWN CLASS
         /// Validate method that runs multiple CPUs runs without crashing
         /// </summary>
         [Test]
@@ -71,8 +71,8 @@ namespace Vts.Test.MonteCarlo
             // then run same simulation with 2 CPUs
             // these will never be equal unless second sequence starts right after first!!!
             si.Options.SimulationIndex = 1;
-            mc = new MonteCarloSimulation(si);
-            var outputMultiCPUs = mc.Run();
+            var parallelMC = new ParallelMonteCarloSimulation(si);
+            var outputMultiCPUs = parallelMC.RunSingleInParallel();
             Assert.IsTrue(Math.Abs(output.Atot - outputMultiCPUs.Atot) < 0.1);
             Assert.IsTrue(Math.Abs(output.Atot2 - outputMultiCPUs.Atot2) < 0.0001);
         }
