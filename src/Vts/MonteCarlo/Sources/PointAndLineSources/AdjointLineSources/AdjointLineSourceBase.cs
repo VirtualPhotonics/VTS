@@ -6,7 +6,7 @@ namespace Vts.MonteCarlo.Sources
 {
     /// <summary>
     /// Abstract class for AdjointLineSourceBase.  Adjoint sources are ray traced
-    /// back to tissue.
+    /// back to tissue rather than sampled from a polar and azimuthal angles.
     /// </summary>
     public abstract class AdjointLineSourceBase : ISource
     {

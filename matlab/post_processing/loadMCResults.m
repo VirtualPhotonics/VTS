@@ -46,6 +46,17 @@ for di = 1:numDetectors
                 ROfRho.Stdev = sqrt((ROfRho.SecondMoment - (ROfRho.Mean .* ROfRho.Mean)) / json.N);
             end
             results{di}.ROfRho = ROfRho;
+        case 'ROfRhoRecessed'
+            ROfRhoRecessed.Name = detector.Name;
+            tempRho = detector.Rho;
+            ROfRhoRecessed.Rho = linspace((tempRho.Start), (tempRho.Stop), (tempRho.Count));
+            ROfRhoRecessed.Rho_Midpoints = (ROfRhoRecessed.Rho(1:end-1) + ROfRhoRecessed.Rho(2:end))/2;
+            ROfRhoRecessed.Mean = readBinaryData([datadir slash detector.Name],length(ROfRhoRecessed.Rho)-1);              
+            if(detector.TallySecondMoment && exist([datadir slash detector.Name '_2'],'file'))
+                ROfRhoRecessed.SecondMoment = readBinaryData([datadir slash detector.Name '_2'],length(ROfRhoRecessed.Rho)-1);
+                ROfRhoRecessed.Stdev = sqrt((ROfRhoRecessed.SecondMoment - (ROfRhoRecessed.Mean .* ROfRhoRecessed.Mean)) / json.N);
+            end
+            results{di}.ROfRhoRecessed = ROfRhoRecessed;
         case 'ROfAngle'
             ROfAngle.Name = detector.Name;
             tempAngle = detector.Angle;

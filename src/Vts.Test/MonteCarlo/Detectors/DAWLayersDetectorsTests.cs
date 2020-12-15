@@ -85,6 +85,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                     new RDiffuseDetectorInput(),
                     new ROfAngleDetectorInput() {Angle = new DoubleRange(Math.PI / 2 , Math.PI, 2)},
                     new ROfRhoDetectorInput() {Rho = new DoubleRange(0.0, 10.0, 101), TallySecondMoment = true},
+                    new ROfRhoRecessedDetectorInput() {Rho = new DoubleRange(0.0, 10.0, 101), Height = 1.0},
                     new ROfRhoAndAngleDetectorInput() {Rho = new DoubleRange(0.0, 10.0, 101), Angle = new DoubleRange(Math.PI / 2, Math.PI, 2)},
                     new ROfRhoAndTimeDetectorInput() {Rho = new DoubleRange(0.0, 10.0, 101), Time = new DoubleRange(0.0, 1.0, 101), TallySecondMoment = true },
                     new ROfRhoAndMaxDepthDetectorInput() {Rho = new DoubleRange(0.0, 10.0, 101), MaxDepth = new DoubleRange(0.0, 1.0, 51)},
@@ -276,6 +277,15 @@ namespace Vts.Test.MonteCarlo.Detectors
         {
             Assert.Less(Math.Abs(_outputOneLayerTissue.R_r2[0] * _factor * _factor - 18.92598), 0.00001);
             Assert.Less(Math.Abs(_outputTwoLayerTissue.R_r2[0] * _factor * _factor - 18.92598), 0.00001);
+        }
+        // Reflection R(rho) recessed, validated with prior test
+        [Test]
+        public void validate_DAW_ROfRhoRecessed()
+        {
+            Assert.Less(Math.Abs(_outputOneLayerTissue.R_rr[3] - 0.089146), 0.000001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.R_rr[3] - 0.089146), 0.000001);
+            Assert.AreEqual(_outputOneLayerTissue.R_rr_TallyCount, 89);
+            Assert.AreEqual(_outputTwoLayerTissue.R_rr_TallyCount, 89);
         }
         // Reflection R(angle)
         [Test]

@@ -754,6 +754,9 @@
     <Compile Include="..\Vts\MonteCarlo\Detectors\ROfRhoDetector.cs">
       <Link>MonteCarlo\Detectors\ROfRhoDetector.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\ROfRhoRecessedDetector.cs">
+      <Link>MonteCarlo\ROfRhoRecessedDetector.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\ROfXAndYAndMaxDepthDetector.cs">
       <Link>MonteCarlo\Detectors\ROfXAndYAndMaxDepthDetector.cs</Link>
     </Compile>
@@ -861,6 +864,9 @@
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Helpers\ErrorCalculation.cs">
       <Link>MonteCarlo\Helpers\ErrorCalculation.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Helpers\LayerTissueRegionToolbox.cs">
+      <Link>MonteCarlo\Helpers\LayerTissueRegionToolbox.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Helpers\Optics.cs">
       <Link>MonteCarlo\Helpers\Optics.cs</Link>

@@ -7,7 +7,8 @@ namespace Vts.MonteCarlo.Sources
 {
     /// <summary>
     /// Implements ISourceInput. Defines input data for an adjoint line source
-    /// ray traced back to tissue surface of width tissueLineLength
+    /// ray traced back to tissue surface line of width tissueLineLength.
+    /// This is different than sampling theta,phi angles performed in LineSources
     /// </summary>
     public class AdjointLineSourceInput : ISourceInput
     {

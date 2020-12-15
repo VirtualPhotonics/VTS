@@ -93,6 +93,18 @@ namespace Vts.MonteCarlo
         /// </summary>
         public long R_r_TallyCount { get { return ((long)((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ROfRho").First().Name]).TallyCount); } }
         /// <summary>
+        /// Reflectance as a function of rho (source-detector separation) recessed in air
+        /// </summary>
+        public double[] R_rr { get { return ((double[])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ROfRhoRecessed").First().Name]).Mean); } }
+        /// <summary>
+        /// Reflectance as a function of rho (source-detector separation) 2nd moment
+        /// </summary>
+        public double[] R_rr2 { get { return ((double[])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ROfRhoRecessed").First().Name]).SecondMoment); } }
+        /// <summary>
+        /// Reflectance as a function of rho (source-detector separation) Tally Count
+        /// </summary>
+        public long R_rr_TallyCount { get { return ((long)((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ROfRhoRecessed").First().Name]).TallyCount); } }
+        /// <summary>
         /// Reflectance as a function of angle
         /// </summary>
         public double[] R_a { get { return ((double[])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ROfAngle").First().Name]).Mean); } }

@@ -397,6 +397,8 @@ namespace Vts.MonteCarlo
             "ROfRhoAndAngle",
             // Reflectance as a function of source-detector separation (rho)
             "ROfRho",
+            // Reflectance as a function of source-detector separation (rho) recessed in air
+            "ROfRhoRecessed",
             // Reflectance as a function of angle
             "ROfAngle",
             // Reflectance as a function of source-detector separation (rho) and temporal-frequency (omega)
@@ -524,6 +526,10 @@ namespace Vts.MonteCarlo
         /// Reflectance as a function of source-detector separation (rho)
         /// </summary>
         public static string ROfRho { get { return "ROfRho"; } }
+        /// <summary>
+        /// Reflectance as a function of source-detector separation (rho) recessed in air
+        /// </summary>
+        public static string ROfRhoRecessed { get { return "ROfRhoRecessed"; } }
         /// <summary>
         /// Reflectance as a function of angle
         /// </summary>

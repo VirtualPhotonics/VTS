@@ -17,6 +17,7 @@ outdir = '.';
 show.SurfaceFiber =             1;
 show.RDiffuse =                 1;
 show.ROfRho =                   1;
+show.ROfRhoRecessed =           1;
 show.ROfAngle =                 1;
 show.ROfRhoAndTime =            1;
 show.ROfRhoAndMaxDepth =        1;
@@ -94,7 +95,14 @@ for mci = 1:length(datanames)
         rhonorm = 2 * pi * results{di}.ROfRho.Rho_Midpoints * rhodelta;
         disp(['Total reflectance captured by ROfRho detector: ' num2str(sum(results{di}.ROfRho.Mean.*rhonorm'))]);
     end
-
+    
+    if isfield(results{di}, 'ROfRhoRecessed') && show.ROfRhoRecessed
+        figname = sprintf('log10(%s)',results{di}.ROfRhoRecessed.Name); figure; plot(results{di}.ROfRhoRecessed.Rho_Midpoints, log10(results{di}.ROfRhoRecessed.Mean)); title(figname); set(gcf,'Name', figname); xlabel('\rho [mm]'); ylabel('R(\rho) [mm^-^2]');
+        rhodelta = results{di}.ROfRhoRecessed.Rho(2)-results{di}.ROfRhoRecessed.Rho(1);
+        rhonorm = 2 * pi * results{di}.ROfRhoRecessed.Rho_Midpoints * rhodelta;
+        disp(['Total reflectance captured by ROfRhoRecessed detector: ' num2str(sum(results{di}.ROfRhoRecessed.Mean.*rhonorm'))]);
+    end
+    
     if isfield(results{di}, 'ROfAngle') && show.ROfAngle
         figname = sprintf('log10(%s)',results{di}.ROfAngle.Name); figure; plot(results{di}.ROfAngle.Angle_Midpoints, log10(results{di}.ROfAngle.Mean)); title(figname); set(gcf,'Name', figname); xlabel('\angle [rad]'); ylabel('R(angle) [rad^-^1]');
         angledelta = results{di}.ROfAngle.Angle(2)-results{di}.ROfAngle.Angle(1);
