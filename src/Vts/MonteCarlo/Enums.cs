@@ -499,6 +499,8 @@ namespace Vts.MonteCarlo
             "pMCROfRhoAndTime", 
             // perturbation Monte Carlo (pMC) reflectance as a function of source-detector separation (rho)
             "pMCROfRho",
+            // perturbation Monte Carlo (pMC) reflectance as a function of source-detector separation (rho) recessed in air
+            "pMCROfRhoRecessed",
             // perturbation Monte Carlo (pMC) reflectance as a function of Cartesian coordinates (x,y)
             "pMCROfXAndY",
             // perturbation Monte Carlo (pMC) reflectance as a function of spatial frequency (fx)
@@ -689,6 +691,10 @@ namespace Vts.MonteCarlo
         /// perturbation Monte Carlo (pMC) reflectance as a function of source-detector separation (rho)
         /// </summary>
         public static string pMCROfRho { get { return "pMCROfRho"; } }
+        /// <summary>
+        /// perturbation Monte Carlo (pMC) reflectance as a function of source-detector separation (rho) recessed in air
+        /// </summary>
+        public static string pMCROfRhoRecessed { get { return "pMCROfRhoRecessed"; } }
         /// <summary>
         /// perturbation Monte Carlo (pMC) reflectance as a function of Cartesian coordinates (x,y)
         /// </summary>

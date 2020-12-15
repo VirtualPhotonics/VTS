@@ -73,6 +73,7 @@ namespace Vts.Test.MonteCarlo.Detectors
             var detectorInputs = new List<IDetectorInput>()
             {
                 new ROfRhoDetectorInput() {Rho=new DoubleRange(0.0, 10.0, 101)},
+                new ROfRhoRecessedDetectorInput() { Rho=new DoubleRange(0.0, 10.0, 101),Height=1.0},
                 new ROfRhoAndTimeDetectorInput() { Rho = new DoubleRange(0.0, 10.0, 101),Time = new DoubleRange(0.0, 1.0, 101)},
                 new ROfFxDetectorInput() {Fx=new DoubleRange(0.0, 0.5, 11)},
                 new ROfFxAndTimeDetectorInput() { Fx = new DoubleRange(0.0, 0.5, 11),Time = new DoubleRange(0.0, 1.0, 101)}
@@ -141,7 +142,7 @@ namespace Vts.Test.MonteCarlo.Detectors
         }
         /// <summary>
         /// Test to validate that setting mua and mus to the reference values
-        /// determines results equal to reference for R(rho)
+        /// determines results equal to reference for R(rho) and R(rho) recessed
         /// </summary>
         [Test]
         public void validate_pMC_DAW_ROfRho_zero_perturbation_one_layer_tissue()
@@ -153,6 +154,17 @@ namespace Vts.Test.MonteCarlo.Detectors
                         new pMCROfRhoDetectorInput()
                         {
                             Rho=new DoubleRange(0.0, 10.0, 101),
+                            PerturbedOps=new List<OpticalProperties>() { // perturbed ops
+                                _referenceInputOneLayerTissue.TissueInput.Regions[0].RegionOP,
+                                _referenceInputOneLayerTissue.TissueInput.Regions[1].RegionOP,
+                                _referenceInputOneLayerTissue.TissueInput.Regions[2].RegionOP},
+                            PerturbedRegionsIndices=new List<int>() { 1 },
+                            TallySecondMoment = true
+                        },
+                        new pMCROfRhoRecessedDetectorInput()
+                        {
+                            Rho=new DoubleRange(0.0, 10.0, 101),
+                            Height=1.0,
                             PerturbedOps=new List<OpticalProperties>() { // perturbed ops
                                 _referenceInputOneLayerTissue.TissueInput.Regions[0].RegionOP,
                                 _referenceInputOneLayerTissue.TissueInput.Regions[1].RegionOP,
@@ -171,6 +183,16 @@ namespace Vts.Test.MonteCarlo.Detectors
             // validation value based on previous run
             Assert.Less(Math.Abs(postProcessedOutput.pMC_R_r2[0] - 20.022918), 0.000001);
             Assert.AreEqual(postProcessedOutput.pMC_R_r_TallyCount, 89);
+
+            // validation value obtained from reference non-pMC run, pick index that have non-zero value
+            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_rr[3] - _referenceOutputOneLayerTissue.R_rr[3]), 0.00000000001);
+            // validation value obtained from linux run using above input and seeded the same
+            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_rr[3] - 0.089146), 0.000001);
+            // validation value based on previous run
+            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_rr2[3] - 0.397359), 0.000001);
+            // validate recessed results not equal to non-recessed
+            Assert.IsTrue(Math.Abs(postProcessedOutput.pMC_R_rr[3] - _referenceOutputOneLayerTissue.R_r[3]) > 0.000001);
+            Assert.AreEqual(postProcessedOutput.pMC_R_rr_TallyCount, 89);
         }
         /// <summary>
         /// Test to validate that setting mua and mus to the perturbed values (mua*2, mus*1.1)

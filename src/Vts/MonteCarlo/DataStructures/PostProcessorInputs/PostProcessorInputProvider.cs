@@ -18,7 +18,7 @@ namespace Vts.MonteCarlo
             return new List<PostProcessorInput>()
             {
                 PostProcessorROfRho(),
-                pMCROfRhoROfRhoAndTime(),
+                pMCROfRhoAndVariants(),
                 pMCROfFxROfFxAndTime()
             };
         }
@@ -45,12 +45,12 @@ namespace Vts.MonteCarlo
         }
         #endregion
 
-        #region pMC R(rho) and R(rho,time)
+        #region pMC R(rho), R(rho,time) and R(rho) recessed in air
         /// <summary>
-        /// Perturbation MC R(rho) and R(rho,time).  This assumes database being post-processed is for
+        /// Perturbation MC R(rho), R(rho) recessed, R(rho,time).  This assumes database being post-processed is for
         /// tissue system with one layer.
         /// </summary>
-        public static PostProcessorInput pMCROfRhoROfRhoAndTime()
+        public static PostProcessorInput pMCROfRhoAndVariants()
         {
             return new PostProcessorInput(
                 //VirtualBoundaryType.pMCDiffuseReflectance,
@@ -92,6 +92,19 @@ namespace Vts.MonteCarlo
                         PerturbedRegionsIndices = new List<int>() { 1 },
                         TallySecondMoment = true,
                         Name="pMCROfRho_mus0p5",
+                    },
+                    new pMCROfRhoRecessedDetectorInput()
+                    {
+                        Rho=new DoubleRange(0.0, 10, 101),
+                        Height=1.0,
+                        PerturbedOps =  // perturb mus' by +50%
+                            new List<OpticalProperties>() {
+                                new OpticalProperties(0.0, 1e-10, 0.0, 1.0),
+                                new OpticalProperties(0.01, 1.5, 0.8, 1.4),
+                                new OpticalProperties(0.0, 1e-10, 0.0, 1.0)},
+                        PerturbedRegionsIndices = new List<int>() { 1 },
+                        TallySecondMoment = true,
+                        Name="pMCROfRhoRecessed_mus1p5",
                     },
                     new pMCROfRhoAndTimeDetectorInput()
                     {                        

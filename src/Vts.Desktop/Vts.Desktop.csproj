@@ -691,6 +691,9 @@
     <Compile Include="..\Vts\MonteCarlo\Detectors\pMCROfRhoDetector.cs">
       <Link>MonteCarlo\Detectors\pMCROfRhoDetector.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\pMCROfRhoRecessedDetector.cs">
+      <Link>MonteCarlo\Detectors\pMCROfRhoRecessedDetector.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\pMCROfXAndYDetector.cs">
       <Link>MonteCarlo\Detectors\pMCROfXAndYDetector.cs</Link>
     </Compile>
