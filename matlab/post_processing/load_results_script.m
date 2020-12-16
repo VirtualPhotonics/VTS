@@ -53,6 +53,7 @@ show.RadianceOfRhoAndZAndAngle = 1;
 show.RadianceOfFxAndZAndAngle = 1;
 show.RadianceOfXAndYAndZAndThetaAndPhi = 1;
 show.pMCROfRho =                1;
+show.pMCROfRhoRecessed =        1;
 show.pMCROfRhoAndTime =         1;
 show.pMCROfXAndY =              1; 
 show.pMCROfFx =                 1;
@@ -888,6 +889,10 @@ for mci = 1:length(datanames)
     if isfield(results{di}, 'pMCROfRho') && show.pMCROfRho
         figname = sprintf('log10(%s)',results{di}.pMCROfRho.Name); figure; plot(results{di}.pMCROfRho.Rho_Midpoints, log10(results{di}.pMCROfRho.Mean)); title(figname); set(gcf,'Name', figname); xlabel('\rho [mm]'); ylabel('pMC R(\rho) [mm^-^2]');
         disp(['Total reflectance captured by pMCROfRho detector: ' num2str(sum(results{di}.pMCROfRho.Mean(:)))]);
+    end
+    if isfield(results{di}, 'pMCROfRhoRecessed') && show.pMCROfRhoRecessed
+        figname = sprintf('log10(%s)',results{di}.pMCROfRhoRecessed.Name); figure; plot(results{di}.pMCROfRhoRecessed.Rho_Midpoints, log10(results{di}.pMCROfRhoRecessed.Mean)); title(figname); set(gcf,'Name', figname); xlabel('\rho [mm]'); ylabel('pMC R(\rho) [mm^-^2]');
+        disp(['Total reflectance captured by pMCROfRhoRecessed detector: ' num2str(sum(results{di}.pMCROfRhoRecessed.Mean(:)))]);
     end
     if isfield(results{di}, 'pMCROfRhoAndTime') && show.pMCROfRhoAndTime
         figname = sprintf('log10(%s)',results{di}.pMCROfRhoAndTime.Name); figure; imagesc(results{di}.pMCROfRhoAndTime.Rho_Midpoints, results{di}.pMCROfRhoAndTime.Time_Midpoints,log10(results{di}.pMCROfRhoAndTime.Mean)); colorbar; title(figname); set(gcf,'Name', figname);ylabel('time [ns]'); xlabel('\rho [mm]');

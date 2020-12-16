@@ -1329,6 +1329,17 @@ for di = 1:numDetectors
                 pMCROfRho.Stdev = sqrt((pMCROfRho.SecondMoment - (pMCROfRho.Mean .* pMCROfRho.Mean)) / (databaseInputJson.N));
             end
             results{di}.pMCROfRho = pMCROfRho;
+        case 'pMCROfRhoRecessed'
+            pMCROfRhoRecessed.Name = detector.Name;
+            tempRho = detector.Rho;
+            pMCROfRhoRecessed.Rho = linspace((tempRho.Start), (tempRho.Stop), (tempRho.Count));
+            pMCROfRhoRecessed.Rho_Midpoints = (pMCROfRhoRecessed.Rho(1:end-1) + pMCROfRhoRecessed.Rho(2:end))/2;
+            pMCROfRhoRecessed.Mean = readBinaryData([datadir slash detector.Name],length(pMCROfRhoRecessed.Rho)-1);              
+            if(detector.TallySecondMoment && exist([datadir slash detector.Name '_2'],'file'))
+                pMCROfRhoRecessed.SecondMoment = readBinaryData([datadir slash detector.Name '_2'],length(pMCROfRhoRecessed.Rho)-1);
+                pMCROfRhoRecessed.Stdev = sqrt((pMCROfRhoRecessed.SecondMoment - (pMCROfRhoRecessed.Mean .* pMCROfRhoRecessed.Mean)) / (databaseInputJson.N));
+            end
+            results{di}.pMCROfRhoRecessed = pMCROfRhoRecessed;
       case 'dMCdROfRhodMua'
             dMCdROfRhodMua.Name = detector.Name;
             tempRho = detector.Rho;
