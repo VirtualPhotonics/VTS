@@ -85,13 +85,12 @@ namespace Vts.MonteCarlo
 
             });
             // All VirtualBoundaries are same in each CPU, add in first one
+            // VirtualBoundaryController->List<VirtualBoundary>->DetectorController->List<Detectors>
             VirtualBoundaryController uberVBController = new VirtualBoundaryController(
                 virtualBoundaryControllers.First().VirtualBoundaries);
-            var detectorsInList = uberVBController.VirtualBoundaries
-                .Select(vb => vb.DetectorController)
-                .Where(dc => dc != null)
-                .SelectMany(dc => dc.Detectors).ToList();
-            var detectorsTotal = new List<IDetector>();
+            // foreach virtualboundary in uberVBController.VirtualBoundaries
+            // switch (virtualboundaries)
+            // switch (detectors)  doesn't account for multiple detectors of the same type also adding to right Mean 
             // sum detector results
             foreach (var vbController in virtualBoundaryControllers.Skip(1)) 
             {
@@ -102,19 +101,22 @@ namespace Vts.MonteCarlo
                         foreach (var detector in virtualBoundary.DetectorController.Detectors)
                         {
                             double dum1 = ((ATotalDetector)detector).Mean;
-                            double dum2 = ((ATotalDetector)detectorsInList.Select(d => d == detector)).Mean;
-                            ((ATotalDetector)detector).Mean = dum1 + dum2;
-                            detectorsTotal.Add(detector);
+                            ((ATotalDetector)uberVBController.VirtualBoundaries[2].DetectorController.Detectors[0]).Mean += dum1;
+                            //var dum2 = ((ATotalDetector)uberVBController.VirtualBoundaries.First(v => v == virtualBoundary)
+                            //    .DetectorController.Detectors.First(d => d == detector)).Mean;
                         }
                     }
                 }
                 // TODO assign list to uberVBController
                 var virtualBoundaries = vbController.VirtualBoundaries;
             }
-            
-            //NormalizeResults(_numberOfPhotons, uberVBController);
 
-            Results = new SimulationOutput(_input, detectorsTotal);
+            NormalizeResults(_numberOfPhotons, uberVBController);
+            var uberDetectors = uberVBController.VirtualBoundaries
+                .Select(vb => vb.DetectorController)
+                .Where(dc => dc != null)
+                .SelectMany(dc => dc.Detectors).ToList();
+            Results = new SimulationOutput(_input, uberDetectors);
             return Results;
         }
 
