@@ -15,10 +15,12 @@ namespace Vts.MonteCarlo
         /// <returns>a list of the PostProcessorInputs generated</returns>
         public static IList<PostProcessorInput> GenerateAllPostProcessorInputs()
         {
+            // additions to this list need to be added to MCPP Program tests for clean up
             return new List<PostProcessorInput>()
             {
                 PostProcessorROfRho(),
-                pMCROfRhoAndVariants(),
+                pMCROfRhoAndROfRhoAndTime(), // don't change this it is part of documentation
+                pMCROfRhoVariants(),
                 pMCROfFxROfFxAndTime()
             };
         }
@@ -45,12 +47,12 @@ namespace Vts.MonteCarlo
         }
         #endregion
 
-        #region pMC R(rho), R(rho,time) and R(rho) recessed in air
+        #region pMC R(rho) and R(rho,time) part of website documentation so don't modify
         /// <summary>
-        /// Perturbation MC R(rho), R(rho) recessed, R(rho,time).  This assumes database being post-processed is for
-        /// tissue system with one layer.
+        /// Perturbation MC R(rho), R(rho) recessed, R(rho,time).  
+        /// This assumes database being post-processed is for tissue system with one layer.
         /// </summary>
-        public static PostProcessorInput pMCROfRhoAndVariants()
+        public static PostProcessorInput pMCROfRhoAndROfRhoAndTime()
         {
             return new PostProcessorInput(
                 //VirtualBoundaryType.pMCDiffuseReflectance,
@@ -60,7 +62,7 @@ namespace Vts.MonteCarlo
                     {
                         Rho=new DoubleRange(0.0, 10, 101),
                         PerturbedOps =      // set perturbed ops to reference ops
-                            new List<OpticalProperties>() { 
+                            new List<OpticalProperties>() {
                                 new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
                                 new OpticalProperties(0.01, 1.0, 0.8, 1.4),
                                 new OpticalProperties(0.0, 1e-10, 1.0, 1.0)
@@ -70,10 +72,10 @@ namespace Vts.MonteCarlo
                         Name="pMCROfRhoReference",
                     },
                     new pMCROfRhoDetectorInput()
-                    {                      
+                    {
                         Rho=new DoubleRange(0.0, 10, 101),
                         PerturbedOps =  // perturb mus' by +50%
-                            new List<OpticalProperties>() { 
+                            new List<OpticalProperties>() {
                                 new OpticalProperties(0.0, 1e-10, 0.0, 1.0),
                                 new OpticalProperties(0.01, 1.5, 0.8, 1.4),
                                 new OpticalProperties(0.0, 1e-10, 0.0, 1.0)},
@@ -82,10 +84,10 @@ namespace Vts.MonteCarlo
                         Name="pMCROfRho_mus1p5",
                     },
                     new pMCROfRhoDetectorInput()
-                    {                        
+                    {
                         Rho=new DoubleRange(0.0, 10, 101),
                         PerturbedOps = // perturb mus' by -50%
-                            new List<OpticalProperties>() { 
+                            new List<OpticalProperties>() {
                                 new OpticalProperties(0.0, 1e-10, 0.0, 1.0),
                                 new OpticalProperties(0.01, 0.5, 0.8, 1.4),
                                 new OpticalProperties(0.0, 1e-10, 0.0, 1.0)},
@@ -93,6 +95,60 @@ namespace Vts.MonteCarlo
                         TallySecondMoment = true,
                         Name="pMCROfRho_mus0p5",
                     },
+                    new pMCROfRhoAndTimeDetectorInput()
+                    {
+                        Rho=new DoubleRange(0.0, 10, 101),
+                        Time=new DoubleRange(0.0, 10, 101),
+                        PerturbedOps =
+                            new List<OpticalProperties>() {
+                                new OpticalProperties(0.0, 1e-10, 0.0, 1.0),
+                                new OpticalProperties(0.01, 1.0, 0.8, 1.4),
+                                new OpticalProperties(0.0, 1e-10, 0.0, 1.0)},
+                        PerturbedRegionsIndices = new List<int>() { 1 },
+                        Name="pMCROfRhoAndTime_reference"
+                    },
+                    new pMCROfRhoAndTimeDetectorInput()
+                    {
+                        Rho=new DoubleRange(0.0, 10, 101),
+                        Time=new DoubleRange(0.0, 10, 101),
+                        PerturbedOps =
+                            new List<OpticalProperties>() {
+                                new OpticalProperties(0.0, 1e-10, 0.0, 1.0),
+                                new OpticalProperties(0.01, 1.5, 0.8, 1.4),
+                                new OpticalProperties(0.0, 1e-10, 0.0, 1.0)},
+                        PerturbedRegionsIndices = new List<int>() { 1 },
+                        Name="pMCROfRhoAndTime_mus1p5"
+                    },
+                    new pMCROfRhoAndTimeDetectorInput()
+                    {
+                        Rho=new DoubleRange(0.0, 10, 101),
+                        Time=new DoubleRange(0.0, 10, 101),
+                        PerturbedOps =
+                            new List<OpticalProperties>() {
+                                new OpticalProperties(0.0, 1e-10, 0.0, 1.0),
+                                new OpticalProperties(0.01, 0.5, 0.8, 1.4),
+                                new OpticalProperties(0.0, 1e-10, 0.0, 1.0)},
+                        PerturbedRegionsIndices = new List<int>() { 1 },
+                        Name="pMCROfRhoAndTime_mus0p5"
+                    },
+                 },
+                "pMC_one_layer_ROfRho_DAW",
+                "pMC_one_layer_ROfRho_DAW",
+                "PostProcessor_pMC_ROfRhoROfRhoAndTime"
+            );
+        }
+        #endregion
+        #region pMC R(rho) variants that include recessed detectors 
+        /// <summary>
+        /// Perturbation MC R(rho) recessed, R(rho,time) recessed, R(rho,maxdepth) recessed
+        /// This assumes database being post-processed is for tissue system with one layer.
+        /// </summary>
+        public static PostProcessorInput pMCROfRhoVariants()
+        {
+            return new PostProcessorInput(
+                //VirtualBoundaryType.pMCDiffuseReflectance,
+                new List<IDetectorInput>()
+                {
                     new pMCROfRhoRecessedDetectorInput()
                     {
                         Rho=new DoubleRange(0.0, 10, 101),
@@ -106,22 +162,48 @@ namespace Vts.MonteCarlo
                         TallySecondMoment = true,
                         Name="pMCROfRhoRecessed_mus1p5",
                     },
-                    new pMCROfRhoAndTimeDetectorInput()
-                    {                        
+                     new pMCROfRhoAndTimeRecessedDetectorInput()
+                    {
                         Rho=new DoubleRange(0.0, 10, 101),
                         Time=new DoubleRange(0.0, 10, 101),
-                        PerturbedOps = 
+                        Height=1.0,
+                        PerturbedOps =
                             new List<OpticalProperties>() {
                                 new OpticalProperties(0.0, 1e-10, 0.0, 1.0),
                                 new OpticalProperties(0.01, 1.5, 0.8, 1.4),
                                 new OpticalProperties(0.0, 1e-10, 0.0, 1.0)},
                         PerturbedRegionsIndices = new List<int>() { 1 },
-                        Name="pMCROfRhoAndTime_mus1p5"
+                        Name="pMCROfRhoAndTimeRecessed_mus1p5"
+                    },
+                    new pMCROfRhoAndMaxDepthDetectorInput()
+                    {
+                        Rho=new DoubleRange(0.0, 10, 101),
+                        MaxDepth=new DoubleRange(0.0, 10, 101),
+                        PerturbedOps =
+                            new List<OpticalProperties>() {
+                                new OpticalProperties(0.0, 1e-10, 0.0, 1.0),
+                                new OpticalProperties(0.01, 1.5, 0.8, 1.4),
+                                new OpticalProperties(0.0, 1e-10, 0.0, 1.0)},
+                        PerturbedRegionsIndices = new List<int>() { 1 },
+                        Name="pMCROfRhoAndMaxDepth_mus1p5"
+                    },
+                    new pMCROfRhoAndMaxDepthRecessedDetectorInput()
+                    {
+                        Rho=new DoubleRange(0.0, 10, 101),
+                        MaxDepth=new DoubleRange(0.0, 10, 101),
+                        Height=1.0,
+                        PerturbedOps =
+                            new List<OpticalProperties>() {
+                                new OpticalProperties(0.0, 1e-10, 0.0, 1.0),
+                                new OpticalProperties(0.01, 1.5, 0.8, 1.4),
+                                new OpticalProperties(0.0, 1e-10, 0.0, 1.0)},
+                        PerturbedRegionsIndices = new List<int>() { 1 },
+                        Name="pMCROfRhoAndMaxDepthRecessed_mus1p5"
                     },
                 },
                 "pMC_one_layer_ROfRho_DAW",
                 "pMC_one_layer_ROfRho_DAW",
-                "PostProcessor_pMC_ROfRhoROfRhoAndTime"
+                "PostProcessor_pMC_ROfRhoVariants"
             );
         }
         #endregion

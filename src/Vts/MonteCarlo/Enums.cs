@@ -495,13 +495,19 @@ namespace Vts.MonteCarlo
             "RadianceOfFxAndZAndAngle",
             // Volume randiance as a function of x, y, z, theta and phi
             "RadianceOfXAndYAndZAndThetaAndPhi",
-            // perturbation Monte Carlo (pMC) reflectance as a function of source-detector sep. (rho) and time
-            "pMCROfRhoAndTime", 
-            // perturbation Monte Carlo (pMC) reflectance as a function of source-detector separation (rho)
+             // perturbation Monte Carlo (pMC) reflectance as a function of source-detector separation (rho) 
             "pMCROfRho",
             // perturbation Monte Carlo (pMC) reflectance as a function of source-detector separation (rho) recessed in air
             "pMCROfRhoRecessed",
-            // perturbation Monte Carlo (pMC) reflectance as a function of Cartesian coordinates (x,y)
+             // perturbation Monte Carlo (pMC) reflectance as a function of source-detector sep. (rho) and time
+            "pMCROfRhoAndTime", 
+             // perturbation Monte Carlo (pMC) reflectance as a function of source-detector sep. (rho) and time recessed in air
+            "pMCROfRhoAndTimeRecessed", 
+             // perturbation Monte Carlo (pMC) reflectance as a function of source-detector sep. (rho) and max depth
+            "pMCROfRhoAndMaxDepth", 
+             // perturbation Monte Carlo (pMC) reflectance as a function of source-detector sep. (rho) and max depth recessed in iar
+            "pMCROfRhoAndMaxDepthRecessed", 
+          // perturbation Monte Carlo (pMC) reflectance as a function of Cartesian coordinates (x,y)
             "pMCROfXAndY",
             // perturbation Monte Carlo (pMC) reflectance as a function of spatial frequency (fx)
             "pMCROfFx",
@@ -684,10 +690,6 @@ namespace Vts.MonteCarlo
         /// </summary>
         public static string RadianceOfXAndYAndZAndThetaAndPhi { get { return "RadianceOfXAndYAndZAndThetaAndPhi"; } }
         /// <summary>
-        /// perturbation Monte Carlo (pMC) reflectance as a function of source-detector sep. (rho) and time
-        /// </summary>
-        public static string pMCROfRhoAndTime { get { return "pMCROfRhoAndTime"; } } // maybe these should be in separate enum?
-        /// <summary>
         /// perturbation Monte Carlo (pMC) reflectance as a function of source-detector separation (rho)
         /// </summary>
         public static string pMCROfRho { get { return "pMCROfRho"; } }
@@ -695,6 +697,22 @@ namespace Vts.MonteCarlo
         /// perturbation Monte Carlo (pMC) reflectance as a function of source-detector separation (rho) recessed in air
         /// </summary>
         public static string pMCROfRhoRecessed { get { return "pMCROfRhoRecessed"; } }
+        /// <summary>
+        /// perturbation Monte Carlo (pMC) reflectance as a function of source-detector sep. (rho) and time
+        /// </summary>
+        public static string pMCROfRhoAndTime { get { return "pMCROfRhoAndTime"; } } // maybe these should be in separate enum?
+        /// <summary>
+        /// perturbation Monte Carlo (pMC) reflectance as a function of source-detector sep. (rho) and time recessed in air
+        /// </summary>
+        public static string pMCROfRhoAndTimeRecessed { get { return "pMCROfRhoAndTimeRecessed"; } } 
+        /// <summary>
+        /// perturbation Monte Carlo (pMC) reflectance as a function of source-detector sep. (rho) and max depth
+        /// </summary>
+        public static string pMCROfRhoAndMaxDepth { get { return "pMCROfRhoAndMaxDepth"; } } 
+        /// <summary>
+        /// perturbation Monte Carlo (pMC) reflectance as a function of source-detector sep. (rho) and max depth recessed in air
+        /// </summary>
+        public static string pMCROfRhoAndMaxDepthRecessed { get { return "pMCROfRhoAndMaxDepthRecessed"; } } 
         /// <summary>
         /// perturbation Monte Carlo (pMC) reflectance as a function of Cartesian coordinates (x,y)
         /// </summary>

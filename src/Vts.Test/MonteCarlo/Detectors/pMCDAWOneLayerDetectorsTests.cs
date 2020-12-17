@@ -109,7 +109,8 @@ namespace Vts.Test.MonteCarlo.Detectors
 
         /// <summary>
         /// Test to validate that setting mua and mus to the reference values
-        /// determines results equal to reference for R(rho,time)
+        /// determines results equal to reference for R(rho,time) and that
+        /// R(rho,time) recessed to a height of 0 are equal
         /// </summary>
         [Test]
         public void validate_pMC_DAW_ROfRhoAndTime_zero_perturbation_one_layer_tissue()
@@ -127,7 +128,19 @@ namespace Vts.Test.MonteCarlo.Detectors
                             _referenceInputOneLayerTissue.TissueInput.Regions[1].RegionOP,
                             _referenceInputOneLayerTissue.TissueInput.Regions[2].RegionOP},
                         PerturbedRegionsIndices=new List<int>() { 1 } 
-                    }  
+                    },
+                    new pMCROfRhoAndTimeRecessedDetectorInput()
+                    {
+                        Rho=new DoubleRange(0.0, 10.0, 101),
+                        Time=new DoubleRange(0, 1.0, 101),
+                        Height=0.0,
+                        PerturbedOps=new List<OpticalProperties>() { // perturbed ops
+                            _referenceInputOneLayerTissue.TissueInput.Regions[0].RegionOP,
+                            _referenceInputOneLayerTissue.TissueInput.Regions[1].RegionOP,
+                            _referenceInputOneLayerTissue.TissueInput.Regions[2].RegionOP},
+                        PerturbedRegionsIndices=new List<int>() { 1 },
+                        TallySecondMoment = true
+                    },
                 },
                 _databaseOneLayerTissue,
                 _referenceInputOneLayerTissue);
@@ -135,14 +148,20 @@ namespace Vts.Test.MonteCarlo.Detectors
 
             // validation value obtained from reference non-pMC run
             Assert.Less(Math.Abs(postProcessedOutput.pMC_R_rt[0, 0] -
-                                 _referenceOutputOneLayerTissue.R_rt[0, 0]), 0.00000000001);
+                                 _referenceOutputOneLayerTissue.R_rt[0, 0]), 1e-10);
             // validation value obtained from linux run using above input and seeded the same
             Assert.Less(Math.Abs(postProcessedOutput.pMC_R_rt[0, 0]*_factor - 61.5238307), 0.0000001);
             Assert.AreEqual(postProcessedOutput.pMC_R_rt_TallyCount, 89);
+
+            // validation value obtained from non-pMC non-recessed run
+            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_rtr[0, 0] - 
+                                _referenceOutputOneLayerTissue.R_rt[0, 0]), 1e-10);
+            Assert.AreEqual(postProcessedOutput.pMC_R_rtr_TallyCount, 89);
         }
         /// <summary>
         /// Test to validate that setting mua and mus to the reference values
         /// determines results equal to reference for R(rho) and R(rho) recessed
+        /// when Height=0, and R(rho,maxdepth) recessed when Height=0
         /// </summary>
         [Test]
         public void validate_pMC_DAW_ROfRho_zero_perturbation_one_layer_tissue()
@@ -164,7 +183,19 @@ namespace Vts.Test.MonteCarlo.Detectors
                         new pMCROfRhoRecessedDetectorInput()
                         {
                             Rho=new DoubleRange(0.0, 10.0, 101),
-                            Height=1.0,
+                            Height=0.0,
+                            PerturbedOps=new List<OpticalProperties>() { // perturbed ops
+                                _referenceInputOneLayerTissue.TissueInput.Regions[0].RegionOP,
+                                _referenceInputOneLayerTissue.TissueInput.Regions[1].RegionOP,
+                                _referenceInputOneLayerTissue.TissueInput.Regions[2].RegionOP},
+                            PerturbedRegionsIndices=new List<int>() { 1 },
+                            TallySecondMoment = true
+                        },
+                        new pMCROfRhoAndMaxDepthRecessedDetectorInput()
+                        {
+                            Rho=new DoubleRange(0.0, 10.0, 101),
+                            MaxDepth=new DoubleRange(0, 10.0, 11),
+                            Height=0.0,
                             PerturbedOps=new List<OpticalProperties>() { // perturbed ops
                                 _referenceInputOneLayerTissue.TissueInput.Regions[0].RegionOP,
                                 _referenceInputOneLayerTissue.TissueInput.Regions[1].RegionOP,
@@ -177,22 +208,22 @@ namespace Vts.Test.MonteCarlo.Detectors
                 _referenceInputOneLayerTissue);
             var postProcessedOutput = postProcessor.Run();
             // validation value obtained from reference non-pMC run
-            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_r[0] - _referenceOutputOneLayerTissue.R_r[0]), 0.00000000001);
+            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_r[0] - _referenceOutputOneLayerTissue.R_r[0]), 1e-10);
             // validation value obtained from linux run using above input and seeded the same
             Assert.Less(Math.Abs(postProcessedOutput.pMC_R_r[0]*_factor - 0.615238307), 0.000000001);
             // validation value based on previous run
             Assert.Less(Math.Abs(postProcessedOutput.pMC_R_r2[0] - 20.022918), 0.000001);
             Assert.AreEqual(postProcessedOutput.pMC_R_r_TallyCount, 89);
 
-            // validation value obtained from reference non-pMC run, pick index that have non-zero value
-            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_rr[3] - _referenceOutputOneLayerTissue.R_rr[3]), 0.00000000001);
-            // validation value obtained from linux run using above input and seeded the same
-            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_rr[3] - 0.089146), 0.000001);
-            // validation value based on previous run
-            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_rr2[3] - 0.397359), 0.000001);
-            // validate recessed results not equal to non-recessed
-            Assert.IsTrue(Math.Abs(postProcessedOutput.pMC_R_rr[3] - _referenceOutputOneLayerTissue.R_r[3]) > 0.000001);
+            // validation value obtained from non-pMC non-recessed run
+            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_rr[0] -
+                                _referenceOutputOneLayerTissue.R_r[0]), 1e-10);
             Assert.AreEqual(postProcessedOutput.pMC_R_rr_TallyCount, 89);
+
+            // validation value obtained from non-pMC non-recessed run
+            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_mdr[0, 0] -
+                                _referenceOutputOneLayerTissue.R_r[0]), 1e-10);
+            Assert.AreEqual(postProcessedOutput.pMC_R_mdr_TallyCount, 89);
         }
         /// <summary>
         /// Test to validate that setting mua and mus to the perturbed values (mua*2, mus*1.1)

@@ -20,6 +20,7 @@ namespace Vts.MonteCarlo
         /// <returns>a list of the SimulationInputs generated</returns>
         public static IList<SimulationInput> GenerateAllSimulationInputs()
         {
+            // additions to this list need to be added to MCCL Program tests for clean up
             return new List<SimulationInput>()
             {
                 PointSourceOneLayerTissueAllDetectors(),
@@ -30,7 +31,7 @@ namespace Vts.MonteCarlo
                 PointSourceSingleEllipsoidTissueFluenceOfRhoAndZDetector(),
                 PointSourceSingleInfiniteCylinderTissueAOfXAndYAndZDetector(),
                 PointSourceMultiInfiniteCylinderTissueAOfXAndYAndZDetector(),
-                pMCPointSourceOneLayerTissueROfRhoDAW(),
+                pMCPointSourceOneLayerTissueROfRhoDAW(), // don't change this it is part of documentation
                 Gaussian2DSourceOneLayerTissueROfRhoDetector(),
                 Flat2DSourceOneLayerTissueROfRhoDetector(),
                 Flat2DSourceTwoLayerBoundedTissueAOfRhoAndZDetector(),
@@ -497,7 +498,7 @@ new ITissueRegion[]
         }
         #endregion
 
-        #region pMC point source one layer tissue R(rho) DAW
+        #region pMC point source one layer tissue R(rho) DAW part of website documentation so don't modify
         /// <summary>
         /// Perturbation MC point source, single tissue layer definition, R(rho) included
         /// </summary>
