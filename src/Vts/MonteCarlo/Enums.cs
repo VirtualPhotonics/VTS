@@ -407,6 +407,8 @@ namespace Vts.MonteCarlo
             "ROfRhoAndTime",
             // Reflectance as a function of source-detector separation (rho) and maximum depth
             "ROfRhoAndMaxDepth",
+            // Reflectance as a function of source-detector separation (rho) and maximum depth recessed in air
+            "ROfRhoAndMaxDepthRecessed",
             // Reflectance as a function of Cartesian position on the surface of the tissue
             "ROfXAndY",
             // Reflectance as a function of Cartesian position and time on the surface of the tissue
@@ -503,11 +505,7 @@ namespace Vts.MonteCarlo
             "pMCROfRhoAndTime", 
              // perturbation Monte Carlo (pMC) reflectance as a function of source-detector sep. (rho) and time recessed in air
             "pMCROfRhoAndTimeRecessed", 
-             // perturbation Monte Carlo (pMC) reflectance as a function of source-detector sep. (rho) and max depth
-            "pMCROfRhoAndMaxDepth", 
-             // perturbation Monte Carlo (pMC) reflectance as a function of source-detector sep. (rho) and max depth recessed in iar
-            "pMCROfRhoAndMaxDepthRecessed", 
-          // perturbation Monte Carlo (pMC) reflectance as a function of Cartesian coordinates (x,y)
+            // perturbation Monte Carlo (pMC) reflectance as a function of Cartesian coordinates (x,y)
             "pMCROfXAndY",
             // perturbation Monte Carlo (pMC) reflectance as a function of spatial frequency (fx)
             "pMCROfFx",
@@ -554,6 +552,10 @@ namespace Vts.MonteCarlo
         /// Reflectance as a function of source-detector separation (rho) and maximum depth attained
         /// </summary>
         public static string ROfRhoAndMaxDepth { get { return "ROfRhoAndMaxDepth"; } }
+        /// <summary>
+        /// Reflectance as a function of source-detector separation (rho) and maximum depth attained recessed in air
+        /// </summary>
+        public static string ROfRhoAndMaxDepthRecessed { get { return "ROfRhoAndMaxDepthRecessed"; } }
         /// <summary>
         /// Reflectance as a function of source-detector separation (rho) and temporal-frequency (omega)
         /// </summary>
@@ -705,14 +707,6 @@ namespace Vts.MonteCarlo
         /// perturbation Monte Carlo (pMC) reflectance as a function of source-detector sep. (rho) and time recessed in air
         /// </summary>
         public static string pMCROfRhoAndTimeRecessed { get { return "pMCROfRhoAndTimeRecessed"; } } 
-        /// <summary>
-        /// perturbation Monte Carlo (pMC) reflectance as a function of source-detector sep. (rho) and max depth
-        /// </summary>
-        public static string pMCROfRhoAndMaxDepth { get { return "pMCROfRhoAndMaxDepth"; } } 
-        /// <summary>
-        /// perturbation Monte Carlo (pMC) reflectance as a function of source-detector sep. (rho) and max depth recessed in air
-        /// </summary>
-        public static string pMCROfRhoAndMaxDepthRecessed { get { return "pMCROfRhoAndMaxDepthRecessed"; } } 
         /// <summary>
         /// perturbation Monte Carlo (pMC) reflectance as a function of Cartesian coordinates (x,y)
         /// </summary>

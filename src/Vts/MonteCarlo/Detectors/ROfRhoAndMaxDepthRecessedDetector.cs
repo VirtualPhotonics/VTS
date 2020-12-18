@@ -1,46 +1,44 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using Vts.Common;
 using Vts.IO;
-using Vts.MonteCarlo.Extensions;
 using Vts.MonteCarlo.Helpers;
-using Vts.MonteCarlo.PhotonData;
+using Vts.MonteCarlo.Extensions;
 using Vts.MonteCarlo.Tissues;
 
 namespace Vts.MonteCarlo.Detectors
 {
     /// <summary>
-    /// Tally for pMC estimation of reflectance as a function of Rho and MaxDepth recessed in air.
-    /// Note: only works if Continuous absorption weighting is used in database 
-    /// that this detector is post-processing
+    /// Tally for reflectance as a function of Rho and MaxDepth recessed in air
+    /// This works for Analog, DAW and CAW processing.
     /// </summary>
-    public class pMCROfRhoAndMaxDepthRecessedDetectorInput : DetectorInput, IDetectorInput
+    public class ROfRhoAndMaxDepthRecessedDetectorInput : DetectorInput, IDetectorInput
     {
         /// <summary>
-        /// constructor for reflectance as a function of rho detector input
+        /// constructor for reflectance as a function of rho and MaxDepth detector input
         /// </summary>
-        public pMCROfRhoAndMaxDepthRecessedDetectorInput()
+        public ROfRhoAndMaxDepthRecessedDetectorInput()
         {
-            TallyType = "pMCROfRhoAndMaxDepthRecessed";
-            Name = "pMCROfRhoAndMaxDepthRecessed";
+            TallyType = "ROfRhoAndMaxDepthRecessed";
+            Name = "ROfRhoAndMaxDepthRecessed";
             Rho = new DoubleRange(0.0, 10, 101);
-            MaxDepth = new DoubleRange(0.0, 10.0, 101);
             Height = 1.0;
+            MaxDepth = new DoubleRange(0.0, 1.0, 101);
             NA = double.PositiveInfinity; // set default NA completely open regardless of detector region refractive index
             FinalTissueRegionIndex = 0; // assume detector is in air
 
             // modify base class TallyDetails to take advantage of built-in validation capabilities (error-checking)
+            TallyDetails.IsReflectanceTally = true;
             TallyDetails.IsCylindricalTally = true;
-            TallyDetails.IspMCReflectanceTally = true;
         }
+
         /// <summary>
-        /// detector rho binning
+        /// rho binning
         /// </summary>
         public DoubleRange Rho { get; set; }
         /// <summary>
-        /// time binning
+        /// MaxDepth binning
         /// </summary>
         public DoubleRange MaxDepth { get; set; }
         /// <summary>
@@ -48,25 +46,17 @@ namespace Vts.MonteCarlo.Detectors
         /// </summary>
         public double Height { get; set; }
         /// <summary>
-        /// perturbed optical properties listed in order of tissue regions
-        /// </summary>
-        public IList<OpticalProperties> PerturbedOps { get; set; }
-        /// <summary>
-        /// perturbed regions indices
-        /// </summary>
-        public IList<int> PerturbedRegionsIndices { get; set; }
-        /// <summary>
         /// Detector region index
         /// </summary>
         public int FinalTissueRegionIndex { get; set; }
         /// <summary>
-        /// numerical aperture
+        /// detector numerical aperture
         /// </summary>
         public double NA { get; set; }
 
         public IDetector CreateDetector()
         {
-            return new pMCROfRhoAndMaxDepthRecessedDetector
+            return new ROfRhoAndMaxDepthRecessedDetector
             {
                 // required properties (part of DetectorInput/Detector base classes)
                 TallyType = this.TallyType,
@@ -78,24 +68,18 @@ namespace Vts.MonteCarlo.Detectors
                 Rho = this.Rho,
                 MaxDepth = this.MaxDepth,
                 Height = this.Height,
-                PerturbedOps = this.PerturbedOps,
-                PerturbedRegionsIndices = this.PerturbedRegionsIndices,
                 NA = this.NA,
                 FinalTissueRegionIndex = this.FinalTissueRegionIndex
             };
         }
     }
     /// <summary>
-    /// Implements IDetector.  Tally for pMC reflectance as a function  of Rho and MaxDepth.
-    /// This implementation works for DAW and CAW processing.
+    /// Implements IDetector.  Tally for reflectance as a function  of Rho and MaxDepth.
+    /// This implementation works for Analog, DAW and CAW processing.
     /// </summary>
-    public class pMCROfRhoAndMaxDepthRecessedDetector : Detector, IDetector
+    public class ROfRhoAndMaxDepthRecessedDetector : Detector, IDetector
     {
-        private IList<OpticalProperties> _referenceOps;
-        private IList<OpticalProperties> _perturbedOps;
-        private IList<int> _perturbedRegionsIndices;
         private ITissue _tissue;
-        private Func<IList<long>, IList<double>, IList<OpticalProperties>, IList<OpticalProperties>, IList<int>, double> _absorbAction;
 
         /* ==== Place optional/user-defined input properties here. They will be saved in text (JSON) format ==== */
         /* ==== Note: make sure to copy over all optional/user-defined inputs from corresponding input class ==== */
@@ -104,21 +88,13 @@ namespace Vts.MonteCarlo.Detectors
         /// </summary>
         public DoubleRange Rho { get; set; }
         /// <summary>
-        /// time binning
+        /// MaxDepth binning
         /// </summary>
         public DoubleRange MaxDepth { get; set; }
         /// <summary>
         /// height above tissue in air
         /// </summary>
         public double Height { get; set; }
-        /// <summary>
-        /// perturbed optical properties listed in order of tissue regions
-        /// </summary>
-        public IList<OpticalProperties> PerturbedOps { get; set; }
-        /// <summary>
-        /// perturbed regions indices
-        /// </summary>
-        public IList<int> PerturbedRegionsIndices { get; set; }
         /// <summary>
         /// Detector region index
         /// </summary>
@@ -156,12 +132,8 @@ namespace Vts.MonteCarlo.Detectors
             Mean = Mean ?? new double[Rho.Count - 1, MaxDepth.Count - 1];
             SecondMoment = SecondMoment ?? (TallySecondMoment ? new double[Rho.Count - 1, MaxDepth.Count - 1] : null);
 
-            // intialize any other necessary class fields here
-            _perturbedOps = PerturbedOps;
-            _referenceOps = tissue.Regions.Select(r => r.RegionOP).ToList();
-            _perturbedRegionsIndices = PerturbedRegionsIndices;
+           // initialize any other necessary class fields here
             _tissue = tissue;
-            _absorbAction = AbsorptionWeightingMethods.GetpMCTerminationAbsorptionWeightingMethod(tissue, this);
         }
 
         /// <summary>
@@ -177,53 +149,45 @@ namespace Vts.MonteCarlo.Detectors
             var positionAtHeight = LayerTissueRegionToolbox.RayExtendToInfinitePlane(
                 photon.DP.Position, photon.DP.Direction, Height);
 
-            // WhichBin to match ROfRhoAndMaxDepthDetector
             var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(positionAtHeight.X, positionAtHeight.Y), Rho.Count - 1, Rho.Delta, Rho.Start);
             double maxDepth = photon.History.HistoryData.Max(d => d.Position.Z);
             var id = DetectorBinning.WhichBin(maxDepth, MaxDepth.Count - 1, MaxDepth.Delta, MaxDepth.Start);
 
-            if ((ir != -1) && (id != -1))
+            Mean[ir, id] += photon.DP.Weight; // mean integrated over max depth = R(rho)
+            if (TallySecondMoment)
             {
-                double weightFactor = _absorbAction(
-                    photon.History.SubRegionInfoList.Select(c => c.NumberOfCollisions).ToList(),
-                    photon.History.SubRegionInfoList.Select(p => p.PathLength).ToList(),
-                    _perturbedOps, _referenceOps, _perturbedRegionsIndices);
-
-                Mean[ir, id] += photon.DP.Weight * weightFactor;
-                if (TallySecondMoment)
-                {
-                    SecondMoment[ir, id] += photon.DP.Weight * weightFactor * photon.DP.Weight * weightFactor;
-                }
-                TallyCount++;
+                SecondMoment[ir, id] += photon.DP.Weight * photon.DP.Weight;
             }
+            TallyCount++;
         }
-
         /// <summary>
-        /// method to normalize detector results after numPhotons launched
+        /// method to normalize detector results after all photons launched
         /// </summary>
         /// <param name="numPhotons">number of photons launched</param>
         public void Normalize(long numPhotons)
         {
-            var normalizationFactor = 2.0 * Math.PI * Rho.Delta * MaxDepth.Delta;
+            var normalizationFactor = 2.0 * Math.PI * Rho.Delta;
+            var sum = 0.0;
             for (int ir = 0; ir < Rho.Count - 1; ir++)
             {
-                for (int it = 0; it < MaxDepth.Count - 1; it++)
+                var areaNorm = (Rho.Start + (ir + 0.5) * Rho.Delta) * normalizationFactor;
+                for (int id = 0; id < MaxDepth.Count - 1; id++)
                 {
-                    var areaNorm = (Rho.Start + (ir + 0.5) * Rho.Delta) * normalizationFactor;
-                    Mean[ir, it] /= areaNorm * numPhotons;
-                    // the above is pi(rmax*rmax-rmin*rmin) * rhoDelta * N
+                    Mean[ir, id] /= areaNorm * numPhotons;
+                    sum += Mean[ir, id];
                     if (TallySecondMoment)
                     {
-                        SecondMoment[ir, it] /= areaNorm * areaNorm * numPhotons;
+                        SecondMoment[ir, id] /= areaNorm * areaNorm * numPhotons;
                     }
                 }
             }
+            var dum = sum;
         }
-
         // this is to allow saving of large arrays separately as a binary file
         public BinaryArraySerializer[] GetBinarySerializers()
         {
-            return new[] {
+            return new []
+            {
                 new BinaryArraySerializer {
                     DataArray = Mean,
                     Name = "Mean",
@@ -273,16 +237,25 @@ namespace Vts.MonteCarlo.Detectors
                 },
             };
         }
+
         /// <summary>
         /// Method to determine if photon is within detector NA
-        /// pMC does not have access to PreviousDP so logic based on DP and 
-        /// n1 sin(theta1) = n2 sin(theta2) 
         /// </summary>
         /// <param name="photon">photon</param>
         public bool IsWithinDetectorAperture(Photon photon)
         {
-            var detectorRegionN = _tissue.Regions[photon.CurrentRegionIndex].RegionOP.N;
-            return photon.DP.IsWithinNA(NA, Direction.AlongNegativeZAxis, detectorRegionN);          
+            if (photon.CurrentRegionIndex == FinalTissueRegionIndex)
+            {
+                var detectorRegionN = _tissue.Regions[photon.CurrentRegionIndex].RegionOP.N;
+                return photon.DP.IsWithinNA(NA, Direction.AlongNegativeZAxis, detectorRegionN);
+            }
+            else // determine n of prior tissue region
+            {
+                var detectorRegionN = _tissue.Regions[FinalTissueRegionIndex].RegionOP.N;
+                return photon.History.PreviousDP.IsWithinNA(NA, Direction.AlongNegativeZAxis, detectorRegionN);
+            }
+            //return true; // or, possibly test for NA or confined position, etc
+            //return (dp.StateFlag.Has(PhotonStateType.PseudoTransmissionDomainTopBoundary));
         }
     }
 }

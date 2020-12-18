@@ -89,6 +89,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                     new ROfRhoAndAngleDetectorInput() {Rho = new DoubleRange(0.0, 10.0, 101), Angle = new DoubleRange(Math.PI / 2, Math.PI, 2)},
                     new ROfRhoAndTimeDetectorInput() {Rho = new DoubleRange(0.0, 10.0, 101), Time = new DoubleRange(0.0, 1.0, 101), TallySecondMoment = true },
                     new ROfRhoAndMaxDepthDetectorInput() {Rho = new DoubleRange(0.0, 10.0, 101), MaxDepth = new DoubleRange(0.0, 1.0, 51)},
+                    new ROfRhoAndMaxDepthRecessedDetectorInput() {Rho = new DoubleRange(0.0, 10.0, 101), MaxDepth = new DoubleRange(0.0, 1.0, 51),Height=1.0},
                     new ROfXAndYDetectorInput() { X = new DoubleRange(-10.0, 10.0, 101), Y = new DoubleRange(-10.0, 10.0, 101) },
                     new ROfXAndYAndTimeDetectorInput() { X = new DoubleRange(-10.0, 10.0, 101), Y = new DoubleRange(-10.0, 10.0, 101), Time = new DoubleRange(0.0, 1.0, 11) },
                     new ROfXAndYAndThetaAndPhiDetectorInput()
@@ -336,6 +337,16 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.Less(Math.Abs(integralTwoLayer * _factor - 0.6152383), 0.0000001);
             Assert.Less(Math.Abs(_outputOneLayerTissue.R_rmd[0, 4] - 0.315776), 0.000001);
             Assert.Less(Math.Abs(_outputTwoLayerTissue.R_rmd[0, 4] - 0.315776), 0.000001);
+            Assert.AreEqual(_outputOneLayerTissue.R_rmd_TallyCount, 89);
+            Assert.AreEqual(_outputTwoLayerTissue.R_rmd_TallyCount, 89);
+
+        }
+        // Reflection R(rho,maxdepth) recessed in air, validated with integrated R(rho) results and prior test
+        [Test]
+        public void validate_DAW_ROfRhoAndMaxDepthRecessed()
+        { 
+            Assert.Less(Math.Abs(_outputOneLayerTissue.R_rmdr[3, 24] - 0.089146), 0.000001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.R_rmdr[3, 24] - 0.089146), 0.000001);
             Assert.AreEqual(_outputOneLayerTissue.R_rmd_TallyCount, 89);
             Assert.AreEqual(_outputTwoLayerTissue.R_rmd_TallyCount, 89);
 

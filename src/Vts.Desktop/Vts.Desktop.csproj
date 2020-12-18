@@ -685,12 +685,6 @@
     <Compile Include="..\Vts\MonteCarlo\Detectors\pMCROfFxDetector.cs">
       <Link>MonteCarlo\Detectors\pMCROfFxDetector.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Detectors\pMCROfRhoAndMaxDepthDetector.cs">
-      <Link>MonteCarlo\Detectors\pMCROfRhoAndMaxDepthDetector.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Detectors\pMCROfRhoAndMaxDepthRecessedDetector.cs">
-      <Link>MonteCarlo\Detectors\pMCROfRhoAndMaxDepthRecessedDetector.cs</Link>
-    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\pMCROfRhoAndTimeDetector.cs">
       <Link>MonteCarlo\Detectors\pMCROfRhoAndTimeDetector.cs</Link>
     </Compile>
@@ -756,6 +750,9 @@
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\ROfRhoAndMaxDepthDetector.cs">
       <Link>MonteCarlo\Detectors\ROfRhoAndMaxDepthDetector.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\ROfRhoAndMaxDepthRecessedDetector.cs">
+      <Link>MonteCarlo\Detectors\ROfRhoAndMaxDepthRecessedDetector.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\ROfRhoAndOmegaDetector.cs">
       <Link>MonteCarlo\Detectors\ROfRhoAndOmegaDetector.cs</Link>

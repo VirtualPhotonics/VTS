@@ -152,7 +152,19 @@ namespace Vts.MonteCarlo
         /// Reflectance as a function of rho and max depth Tally Count
         /// </summary>
         public long R_rmd_TallyCount { get { return ((long)((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ROfRhoAndMaxDepth").First().Name]).TallyCount); } }
-      /// <summary>
+        /// <summary>
+        /// Reflectance as a function of rho and maximum depth attained recessed in air
+        /// </summary>
+        public double[,] R_rmdr { get { return ((double[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ROfRhoAndMaxDepthRecessed").First().Name]).Mean); } }
+        /// <summary>
+        /// Reflectance as a function of rho and max depth 2nd moment
+        /// </summary>
+        public double[,] R_rmdr2 { get { return ((double[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ROfRhoAndMaxDepthRecessed").First().Name]).SecondMoment); } }
+        /// <summary>
+        /// Reflectance as a function of rho and max depth Tally Count
+        /// </summary>
+        public long R_rmdr_TallyCount { get { return ((long)((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ROfRhoAndMaxDepthRecessed").First().Name]).TallyCount); } }
+        /// <summary>
         /// Reflectance as a function of rho and omega (temporal frequency)
         /// </summary>
         public Complex[,] R_rw { get { return ((Complex[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ROfRhoAndOmega").First().Name]).Mean); } }
@@ -813,31 +825,6 @@ namespace Vts.MonteCarlo
         /// perturbation MC Reflectance as a function of rho and time recessed in air Tally Count
         /// </summary>
         public long pMC_R_rtr_TallyCount { get { return ((long)((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "pMCROfRhoAndTimeRecessed").First().Name]).TallyCount); } }
-        /// <summary>
-        /// perturbation MC Reflectance as a function of rho and max depth
-        /// </summary>
-        public double[,] pMC_R_md { get { return ((double[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "pMCROfRhoAndMaxDepth").First().Name]).Mean); } }
-        /// <summary>
-        /// perturbation MC Reflectance as a function of rho and max depth 2nd moment
-        /// </summary>
-        public double[,] pMC_R_md2 { get { return ((double[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "pMCROfRhoAndMaxDepth").First().Name]).SecondMoment); } }
-        /// <summary>
-        /// perturbation MC Reflectance as a function of rho and max depth Tally Count
-        /// </summary>
-        public long pMC_R_md_TallyCount { get { return ((long)((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "pMCROfRhoAndMaxDepth").First().Name]).TallyCount); } }
-        /// <summary>
-        /// perturbation MC Reflectance as a function of rho and max depth recessed in air
-        /// </summary>
-        public double[,] pMC_R_mdr { get { return ((double[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "pMCROfRhoAndMaxDepthRecessed").First().Name]).Mean); } }
-        /// <summary>
-        /// perturbation MC Reflectance as a function of rho and max depth recessed in air 2nd moment
-        /// </summary>
-        public double[,] pMC_R_mdr2 { get { return ((double[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "pMCROfRhoAndMaxDepthRecessed").First().Name]).SecondMoment); } }
-        /// <summary>
-        /// perturbation MC Reflectance as a function of rho and max depth recessed in air Tally Count
-        /// </summary>
-        public long pMC_R_mdr_TallyCount { get { return ((long)((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "pMCROfRhoAndMaxDepthRecessed").First().Name]).TallyCount); } }
-
         /// <summary>
         /// perturbation MC Reflectance as a function of x and y
         /// </summary>

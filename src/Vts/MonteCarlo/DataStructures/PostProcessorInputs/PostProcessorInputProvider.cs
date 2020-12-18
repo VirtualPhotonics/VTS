@@ -175,31 +175,6 @@ namespace Vts.MonteCarlo
                         PerturbedRegionsIndices = new List<int>() { 1 },
                         Name="pMCROfRhoAndTimeRecessed_mus1p5"
                     },
-                    new pMCROfRhoAndMaxDepthDetectorInput()
-                    {
-                        Rho=new DoubleRange(0.0, 10, 101),
-                        MaxDepth=new DoubleRange(0.0, 10, 101),
-                        PerturbedOps =
-                            new List<OpticalProperties>() {
-                                new OpticalProperties(0.0, 1e-10, 0.0, 1.0),
-                                new OpticalProperties(0.01, 1.5, 0.8, 1.4),
-                                new OpticalProperties(0.0, 1e-10, 0.0, 1.0)},
-                        PerturbedRegionsIndices = new List<int>() { 1 },
-                        Name="pMCROfRhoAndMaxDepth_mus1p5"
-                    },
-                    new pMCROfRhoAndMaxDepthRecessedDetectorInput()
-                    {
-                        Rho=new DoubleRange(0.0, 10, 101),
-                        MaxDepth=new DoubleRange(0.0, 10, 101),
-                        Height=1.0,
-                        PerturbedOps =
-                            new List<OpticalProperties>() {
-                                new OpticalProperties(0.0, 1e-10, 0.0, 1.0),
-                                new OpticalProperties(0.01, 1.5, 0.8, 1.4),
-                                new OpticalProperties(0.0, 1e-10, 0.0, 1.0)},
-                        PerturbedRegionsIndices = new List<int>() { 1 },
-                        Name="pMCROfRhoAndMaxDepthRecessed_mus1p5"
-                    },
                 },
                 "pMC_one_layer_ROfRho_DAW",
                 "pMC_one_layer_ROfRho_DAW",
