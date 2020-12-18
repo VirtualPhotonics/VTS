@@ -23,7 +23,7 @@ namespace Vts.MonteCarlo.Detectors
             TallyType = "ROfRhoAndMaxDepthRecessed";
             Name = "ROfRhoAndMaxDepthRecessed";
             Rho = new DoubleRange(0.0, 10, 101);
-            Height = 1.0;
+            ZPlane = -1.0;
             MaxDepth = new DoubleRange(0.0, 1.0, 101);
             NA = double.PositiveInfinity; // set default NA completely open regardless of detector region refractive index
             FinalTissueRegionIndex = 0; // assume detector is in air
@@ -42,9 +42,9 @@ namespace Vts.MonteCarlo.Detectors
         /// </summary>
         public DoubleRange MaxDepth { get; set; }
         /// <summary>
-        /// height above tissue in air
+        /// z-plane above tissue in air
         /// </summary>
-        public double Height { get; set; }
+        public double ZPlane { get; set; }
         /// <summary>
         /// Detector region index
         /// </summary>
@@ -67,7 +67,7 @@ namespace Vts.MonteCarlo.Detectors
                 // optional/custom detector-specific properties
                 Rho = this.Rho,
                 MaxDepth = this.MaxDepth,
-                Height = this.Height,
+                Height = this.ZPlane,
                 NA = this.NA,
                 FinalTissueRegionIndex = this.FinalTissueRegionIndex
             };

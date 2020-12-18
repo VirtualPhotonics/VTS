@@ -25,7 +25,7 @@ namespace Vts.MonteCarlo.Detectors
             Name = "pMCROfRhoAndTimeRecessed";
             Rho = new DoubleRange(0.0, 10, 101);
             Time = new DoubleRange(0.0, 1.0, 101);
-            Height = 1.0;
+            ZPlane = -1.0;
             NA = double.PositiveInfinity; // set default NA completely open regardless of detector region refractive index
             FinalTissueRegionIndex = 0; // assume detector is in air
 
@@ -42,9 +42,9 @@ namespace Vts.MonteCarlo.Detectors
         /// </summary>
         public DoubleRange Time { get; set; }
         /// <summary>
-        /// height above tissue in air
+        /// z-plane above tissue in air
         /// </summary>
-        public double Height { get; set; }
+        public double ZPlane { get; set; }
         /// <summary>
         /// perturbed optical properties listed in order of tissue regions
         /// </summary>
@@ -75,7 +75,7 @@ namespace Vts.MonteCarlo.Detectors
                 // optional/custom detector-specific properties
                 Rho = this.Rho,
                 Time = this.Time,
-                Height = this.Height,
+                ZPlane = this.ZPlane,
                 PerturbedOps = this.PerturbedOps,
                 PerturbedRegionsIndices = this.PerturbedRegionsIndices,
                 NA = this.NA,
@@ -108,7 +108,7 @@ namespace Vts.MonteCarlo.Detectors
         /// <summary>
         /// height above tissue in air
         /// </summary>
-        public double Height { get; set; }
+        public double ZPlane { get; set; }
         /// <summary>
         /// perturbed optical properties listed in order of tissue regions
         /// </summary>
@@ -171,12 +171,12 @@ namespace Vts.MonteCarlo.Detectors
             if (!IsWithinDetectorAperture(photon))
                 return;
 
-            // ray trace exit location and direction to location at Height
-            var positionAtHeight = LayerTissueRegionToolbox.RayExtendToInfinitePlane(
-                photon.DP.Position, photon.DP.Direction, Height);
+            // ray trace exit location and direction to location at ZPlane
+            var positionAtZPlane = LayerTissueRegionToolbox.RayExtendToInfinitePlane(
+                photon.DP.Position, photon.DP.Direction, ZPlane);
 
             // WhichBin to match ROfRhoAndTimeDetector
-            var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(positionAtHeight.X, positionAtHeight.Y), Rho.Count - 1, Rho.Delta, Rho.Start);
+            var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(positionAtZPlane.X, positionAtZPlane.Y), Rho.Count - 1, Rho.Delta, Rho.Start);
             var it = DetectorBinning.WhichBin(photon.DP.TotalTime, Time.Count - 1, Time.Delta, Time.Start);
 
             if ((ir != -1) && (it != -1))

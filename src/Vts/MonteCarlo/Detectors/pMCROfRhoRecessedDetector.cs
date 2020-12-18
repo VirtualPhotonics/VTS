@@ -12,7 +12,7 @@ namespace Vts.MonteCarlo.Detectors
 {
     /// <summary>
     /// Tally for pMC estimation of reflectance as a function of Rho recessed in
-    /// air a height Height
+    /// air a height ZPlane
     /// </summary>
     public class pMCROfRhoRecessedDetectorInput : DetectorInput, IDetectorInput
     {
@@ -24,7 +24,7 @@ namespace Vts.MonteCarlo.Detectors
             TallyType = "pMCROfRhoRecessed";
             Name = "pMCROfRhoRecessed";
             Rho = new DoubleRange(0.0, 10, 101);
-            Height = 1.0;
+            ZPlane = 1.0;
             NA = double.PositiveInfinity; // set default NA completely open regardless of detector region refractive index
             FinalTissueRegionIndex = 0; // assume detector is in air
 
@@ -37,9 +37,9 @@ namespace Vts.MonteCarlo.Detectors
         /// </summary>
         public DoubleRange Rho { get; set; }
         /// <summary>
-        /// height above tissue in air
+        /// z-plane above tissue in air
         /// </summary>
-        public double Height { get; set; }
+        public double ZPlane { get; set; }
         /// <summary>
         /// list of perturbed OPs listed in order of tissue regions
         /// </summary>
@@ -69,7 +69,7 @@ namespace Vts.MonteCarlo.Detectors
 
                 // optional/custom detector-specific properties
                 Rho = this.Rho,
-                Height = this.Height,
+                ZPlane = this.ZPlane,
                 PerturbedOps = this.PerturbedOps,
                 PerturbedRegionsIndices = this.PerturbedRegionsIndices,
                 NA = this.NA,
@@ -98,7 +98,7 @@ namespace Vts.MonteCarlo.Detectors
         /// <summary>
         /// height above tissue in air
         /// </summary>
-        public double Height { get; set; }
+        public double ZPlane { get; set; }
         /// <summary>
         /// list of perturbed OPs listed in order of tissue regions
         /// </summary>
@@ -159,13 +159,13 @@ namespace Vts.MonteCarlo.Detectors
             if (!IsWithinDetectorAperture(photon))
                 return;
 
-            // ray trace exit location and direction to location at Height
-            var positionAtHeight = LayerTissueRegionToolbox.RayExtendToInfinitePlane(
-                photon.DP.Position, photon.DP.Direction, Height);
+            // ray trace exit location and direction to location at ZPlane
+            var positionAtZPlane = LayerTissueRegionToolbox.RayExtendToInfinitePlane(
+                photon.DP.Position, photon.DP.Direction, ZPlane);
 
             // WhichBin to match ROfRhoDetector
             var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(
-                positionAtHeight.X, positionAtHeight.Y), Rho.Count - 1, Rho.Delta, Rho.Start);
+                positionAtZPlane.X, positionAtZPlane.Y), Rho.Count - 1, Rho.Delta, Rho.Start);
 
             double weightFactor = _absorbAction(
                 photon.History.SubRegionInfoList.Select(c => c.NumberOfCollisions).ToList(),

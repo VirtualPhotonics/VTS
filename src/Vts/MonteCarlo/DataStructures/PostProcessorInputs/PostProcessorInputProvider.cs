@@ -152,7 +152,7 @@ namespace Vts.MonteCarlo
                     new pMCROfRhoRecessedDetectorInput()
                     {
                         Rho=new DoubleRange(0.0, 10, 101),
-                        Height=1.0,
+                        ZPlane=-1.0,
                         PerturbedOps =  // perturb mus' by +50%
                             new List<OpticalProperties>() {
                                 new OpticalProperties(0.0, 1e-10, 0.0, 1.0),
@@ -166,7 +166,7 @@ namespace Vts.MonteCarlo
                     {
                         Rho=new DoubleRange(0.0, 10, 101),
                         Time=new DoubleRange(0.0, 10, 101),
-                        Height=1.0,
+                        ZPlane=-1.0,
                         PerturbedOps =
                             new List<OpticalProperties>() {
                                 new OpticalProperties(0.0, 1e-10, 0.0, 1.0),

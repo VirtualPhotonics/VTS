@@ -73,7 +73,7 @@ namespace Vts.Test.MonteCarlo.Detectors
             var detectorInputs = new List<IDetectorInput>()
             {
                 new ROfRhoDetectorInput() {Rho=new DoubleRange(0.0, 10.0, 101)},
-                new ROfRhoRecessedDetectorInput() { Rho=new DoubleRange(0.0, 10.0, 101),Height=1.0},
+                new ROfRhoRecessedDetectorInput() { Rho=new DoubleRange(0.0, 10.0, 101),ZPlane=-1.0},
                 new ROfRhoAndTimeDetectorInput() { Rho = new DoubleRange(0.0, 10.0, 101),Time = new DoubleRange(0.0, 1.0, 101)},
                 new ROfFxDetectorInput() {Fx=new DoubleRange(0.0, 0.5, 11)},
                 new ROfFxAndTimeDetectorInput() { Fx = new DoubleRange(0.0, 0.5, 11),Time = new DoubleRange(0.0, 1.0, 101)}
@@ -133,7 +133,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                     {
                         Rho=new DoubleRange(0.0, 10.0, 101),
                         Time=new DoubleRange(0, 1.0, 101),
-                        Height=0.0,
+                        ZPlane=0.0,
                         PerturbedOps=new List<OpticalProperties>() { // perturbed ops
                             _referenceInputOneLayerTissue.TissueInput.Regions[0].RegionOP,
                             _referenceInputOneLayerTissue.TissueInput.Regions[1].RegionOP,
@@ -183,7 +183,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                         new pMCROfRhoRecessedDetectorInput()
                         {
                             Rho=new DoubleRange(0.0, 10.0, 101),
-                            Height=0.0,
+                            ZPlane=0.0,
                             PerturbedOps=new List<OpticalProperties>() { // perturbed ops
                                 _referenceInputOneLayerTissue.TissueInput.Regions[0].RegionOP,
                                 _referenceInputOneLayerTissue.TissueInput.Regions[1].RegionOP,

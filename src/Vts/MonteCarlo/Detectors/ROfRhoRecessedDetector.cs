@@ -21,6 +21,7 @@ namespace Vts.MonteCarlo.Detectors
             TallyType = "ROfRhoRecessed";
             Name = "ROfRhoRecessed";
             Rho = new DoubleRange(0.0, 10, 101);
+            ZPlane = -1;
             NA = double.PositiveInfinity; // set default NA completely open regardless of detector region refractive index
             FinalTissueRegionIndex = 0; // detector is always in air
 
@@ -36,7 +37,7 @@ namespace Vts.MonteCarlo.Detectors
         /// <summary>
         /// height above tissue in air
         /// </summary>
-        public double Height { get; set; }
+        public double ZPlane { get; set; }
 
         /// <summary>
         /// Detector region index
@@ -60,7 +61,7 @@ namespace Vts.MonteCarlo.Detectors
 
                 // optional/custom detector-specific properties
                 Rho = this.Rho,
-                Height = this.Height,
+                ZPlane = this.ZPlane,
                 NA = this.NA,
                 FinalTissueRegionIndex = this.FinalTissueRegionIndex
             };
@@ -82,9 +83,9 @@ namespace Vts.MonteCarlo.Detectors
         /// </summary>
         public DoubleRange Rho { get; set; }
         /// <summary>
-        /// height above tissue in air
+        /// z-plane above tissue in air
         /// </summary>
-        public double Height { get; set; }
+        public double ZPlane { get; set; }
         /// <summary>
         /// Detector region index
         /// </summary>
@@ -133,12 +134,12 @@ namespace Vts.MonteCarlo.Detectors
             if (!IsWithinDetectorAperture(photon))
                 return;
 
-            // ray trace exit location and direction to location at Height
-            var positionAtHeight = LayerTissueRegionToolbox.RayExtendToInfinitePlane(
-                photon.DP.Position, photon.DP.Direction, Height);
+            // ray trace exit location and direction to location at ZPlane
+            var positionAtZPlane = LayerTissueRegionToolbox.RayExtendToInfinitePlane(
+                photon.DP.Position, photon.DP.Direction, ZPlane);
 
             var ir = DetectorBinning.WhichBin(
-                DetectorBinning.GetRho(positionAtHeight.X, positionAtHeight.Y),
+                DetectorBinning.GetRho(positionAtZPlane.X, positionAtZPlane.Y),
                 Rho.Count - 1, 
                 Rho.Delta, 
                 Rho.Start);
