@@ -211,8 +211,10 @@ namespace Vts.MonteCarlo
                 "DirectionalCircular",
                 // 2D Circular surface sources: custom
                 "CustomCircular",
-                // 2D Circular source angle determined by point
+                // 2D Circular source angle determined by point in air
                 "CircularAngledFromPoint",
+                // 2D Circular source angle determined by circle in air
+                "CircularAngledFromCircle",
 
                 // Elliptical Surface Sources
                 // 2D Elliptical surface sources: directional 

@@ -1,6 +1,5 @@
 ﻿using System;
 using Vts.Common;
-using Vts.MonteCarlo.Helpers;
 using Vts.MonteCarlo.Interfaces;
 using Vts.MonteCarlo.Sources.SourceProfiles;
 
@@ -102,8 +101,8 @@ namespace Vts.MonteCarlo.Sources
         /// </summary>
         /// <param name="tissueLineLength">The length of line source on tissue</param>
         /// <param name="sourceProfile">Profile of line on tissue</param>
-        /// <param name="lineLength">The length of the line source in air</param>
-        /// <param name="translationFromOrigin">New source location</param>
+        /// <param name="lineInAirLength">The length of the line source in air</param>
+        /// <param name="lineInAirTranslationFromOrigin">New source location</param>
         /// <param name="initialTissueRegionIndex">Initial tissue region index</param>
         public LineAngledFromLineSource(
             double tissueLineLength,
@@ -115,14 +114,13 @@ namespace Vts.MonteCarlo.Sources
                   tissueLineLength,
                   sourceProfile,
                   SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone(), // newDirectionOfPrincipalSourceAxis
-                  lineInAirTranslationFromOrigin,
+                  new Position(0,0,0),
                   SourceDefaults.DefaultBeamRoationFromInwardNormal.Clone(), // beamRotationFromInwardNormal
                   initialTissueRegionIndex)
         {
             _tissueLineLength = tissueLineLength;
             _lineInAirLength = lineInAirLength;
             _lineInAirCenterPosition = lineInAirTranslationFromOrigin;
-            _translationFromOrigin = new Position(0, 0, 0);
         }
 
         /// <summary>
