@@ -201,7 +201,7 @@ namespace Vts.MonteCarlo
                 // 1D Line sources: custom
                 "CustomLine",
                 // 1D Line sources: adjoint line
-                "AdjointLine",
+                "LineAngledFromLine",
 
 
                 // SURFACE EMITTING FLAT SOURCES (2D SURFACE SOURCES)

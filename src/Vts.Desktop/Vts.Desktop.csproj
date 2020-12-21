@@ -1006,12 +1006,6 @@
     <Compile Include="..\Vts\MonteCarlo\Rng\SerializableMersenneTwister.cs">
       <Link>MonteCarlo\Rng\SerializableMersenneTwister.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Sources\PointAndLineSources\AdjointLineSources\AdjointLineSource.cs">
-      <Link>MonteCarlo\Sources\PointAndLineSources\AdjointLineSources\AdjointLineSource.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Sources\PointAndLineSources\AdjointLineSources\AdjointLineSourceBase.cs">
-      <Link>MonteCarlo\Sources\PointAndLineSources\AdjointLineSources\AdjointLineSourceBase.cs</Link>
-    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Sources\PointAndLineSources\LineSources\CustomLineSource.cs">
       <Link>MonteCarlo\Sources\PointAndLineSources\LineSources\CustomLineSource.cs</Link>
     </Compile>
@@ -1020,6 +1014,9 @@
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Sources\PointAndLineSources\LineSources\IsotropicLineSource.cs">
       <Link>MonteCarlo\Sources\PointAndLineSources\LineSources\IsotropicLineSource.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Sources\PointAndLineSources\LineSources\LineAngledFromLine.cs">
+      <Link>MonteCarlo\Sources\PointAndLineSources\LineSources\LineAngledFromLine.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Sources\PointAndLineSources\LineSources\LineSourceBase.cs">
       <Link>MonteCarlo\Sources\PointAndLineSources\LineSources\LineSourceBase.cs</Link>
