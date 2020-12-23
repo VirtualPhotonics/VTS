@@ -6,6 +6,7 @@ using Vts.Common.Logging;
 using Vts.MonteCarlo.Controllers;
 using Vts.MonteCarlo.Detectors;
 using Vts.MonteCarlo.Rng;
+using Vts.MonteCarlo.VirtualBoundaries;
 
 namespace Vts.MonteCarlo
 {
@@ -100,8 +101,19 @@ namespace Vts.MonteCarlo
                     {
                         foreach (var detector in virtualBoundary.DetectorController.Detectors)
                         {
-                            double dum1 = ((ATotalDetector)detector).Mean;
-                            ((ATotalDetector)uberVBController.VirtualBoundaries[2].DetectorController.Detectors[0]).Mean += dum1;
+                            var dum1 = ((ATotalDetector)detector).Mean;
+                            var index = uberVBController.VirtualBoundaries.IndexOf((GenericVolumeVirtualBoundary)virtualBoundary);
+                            //var count = uberVBController.VirtualBoundaries.Count;
+                            //var index = -1;
+                            //for (int i = 0; i < count; i++)
+                            //{
+                            //    if ((GenericVolumeVirtualBoundary)uberVBController.VirtualBoundaries[i] == (GenericVolumeVirtualBoundary)virtualBoundary)
+                            //    {
+                            //        index = i;
+                            //    }
+                            //}
+                            var d = uberVBController.VirtualBoundaries[index].DetectorController.Detectors.IndexOf((ATotalDetector)detector);
+                            ((ATotalDetector)uberVBController.VirtualBoundaries[index].DetectorController.Detectors[d]).Mean += dum1;
                             //var dum2 = ((ATotalDetector)uberVBController.VirtualBoundaries.First(v => v == virtualBoundary)
                             //    .DetectorController.Detectors.First(d => d == detector)).Mean;
                         }
