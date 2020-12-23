@@ -67,7 +67,7 @@ namespace Vts.MonteCarlo.Detectors
                 // optional/custom detector-specific properties
                 Rho = this.Rho,
                 MaxDepth = this.MaxDepth,
-                Height = this.ZPlane,
+                ZPlane = this.ZPlane,
                 NA = this.NA,
                 FinalTissueRegionIndex = this.FinalTissueRegionIndex
             };
@@ -94,7 +94,7 @@ namespace Vts.MonteCarlo.Detectors
         /// <summary>
         /// height above tissue in air
         /// </summary>
-        public double Height { get; set; }
+        public double ZPlane { get; set; }
         /// <summary>
         /// Detector region index
         /// </summary>
@@ -145,9 +145,9 @@ namespace Vts.MonteCarlo.Detectors
             if (!IsWithinDetectorAperture(photon))
                 return;
 
-            // ray trace exit location and direction to location at Height
+            // ray trace exit location and direction to location at ZPlane in air
             var positionAtHeight = LayerTissueRegionToolbox.RayExtendToInfinitePlane(
-                photon.DP.Position, photon.DP.Direction, Height);
+                photon.DP.Position, photon.DP.Direction, ZPlane);
 
             var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(positionAtHeight.X, positionAtHeight.Y), Rho.Count - 1, Rho.Delta, Rho.Start);
             double maxDepth = photon.History.HistoryData.Max(d => d.Position.Z);
