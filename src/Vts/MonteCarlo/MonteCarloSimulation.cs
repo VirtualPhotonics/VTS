@@ -204,7 +204,24 @@ namespace Vts.MonteCarlo
 
             return outputs;
         }
+        /// <summary>
+        /// Run the simulation
+        /// </summary>
+        /// <returns>SimulationOutput</returns>
+        public void RunInParallel()
+        {
+            ExecuteMCLoop();
+            //NormalizeResults(_numberOfPhotons, _virtualBoundaryController);
 
+            //var detectors = _virtualBoundaryController.VirtualBoundaries
+            //        .Select(vb => vb.DetectorController)
+            //        .Where(dc => dc != null)
+            //        .SelectMany(dc => dc.Detectors).ToList();
+
+            //Results = new SimulationOutput(_input, detectors);
+
+            //return Results;
+        }
         /// <summary>
         /// Method that sets the output path (string) for databases
         /// </summary>
@@ -218,7 +235,7 @@ namespace Vts.MonteCarlo
         /// Run the simulation
         /// </summary>
         /// <returns>SimulationOutput</returns>
-        public SimulationOutput Run()
+        public virtual SimulationOutput Run()
         {
             _isCancelled = false;
             _isRunning = true;
@@ -227,6 +244,7 @@ namespace Vts.MonteCarlo
             DisplayIntro();
 
             ExecuteMCLoop();
+            NormalizeResults(_numberOfPhotons, _virtualBoundaryController);
 
             _isRunning = false;
             if (_isCancelled)
@@ -383,7 +401,7 @@ namespace Vts.MonteCarlo
             //        _simulationStatistics.ToFile(_input.OutputName + "/statistics.txt");
             //    }
             //}
-            NormalizeResults(_numberOfPhotons,  _virtualBoundaryController );
+            //NormalizeResults(_numberOfPhotons,  _virtualBoundaryController );
             stopwatch.Stop();
 
             _logger.Info(() => "Monte Carlo simulation complete (N = " + _numberOfPhotons + " photons; simulation time = "

@@ -23,18 +23,7 @@ namespace Vts.MonteCarlo
         /// <summary>
         /// local variable: input related
         /// </summary>
-        private SimulationInput _input;
-        private IList<ISource> _sources;
-        private ITissue _tissue;
-        private VirtualBoundaryController _virtualBoundaryController;
-        //private IList<IDetectorController> _detectorControllers; // total list indep. of VBs
-        private long _numberOfPhotons;
-        private SimulationStatistics _simulationStatistics;
-        private DatabaseWriterController _databaseWriterController = null;
-        private pMCDatabaseWriterController _pMCDatabaseWriterController = null;
-        private bool _doPMC = false;
-        private Random _rng;
-        private string _outputPath;
+        long _numberOfPhotons;
 
         /// <summary>
         /// Class that takes in SimulationInput and methods to initialize and execute Monte Carlo simulation
@@ -46,7 +35,6 @@ namespace Vts.MonteCarlo
             //_rng = rng;
             this.SimulationIndex = input.Options.SimulationIndex;
             _input = input;
-            _outputPath = "";
             _numberOfPhotons = input.N; 
             
         }
@@ -69,10 +57,11 @@ namespace Vts.MonteCarlo
         /// <returns>array of SimulationOutput</returns>
         public SimulationOutput RunSingleInParallel()
         {
+            var numberOfCPUs = Math.Min(Environment.ProcessorCount,
+                _input.Options.SimulationIndex + 1);  // try 2 to start make command line option? 
             var parallelOptions = new ParallelOptions();
-            parallelOptions.MaxDegreeOfParallelism = Math.Min(Environment.ProcessorCount,
-                _input.Options.SimulationIndex + 1);  // try 2 to start make command line option?  
-            int photonsPerCPU = (int)( _input.N / parallelOptions.MaxDegreeOfParallelism);
+            parallelOptions.MaxDegreeOfParallelism = numberOfCPUs;
+            int photonsPerCPU = (int)( _input.N / numberOfCPUs);
             _input.N = photonsPerCPU;
             var virtualBoundaryControllers = new List<VirtualBoundaryController>();
             Parallel.For(0, parallelOptions.MaxDegreeOfParallelism, parallelOptions, cpuIndex =>
@@ -81,14 +70,17 @@ namespace Vts.MonteCarlo
                 var parallelRng = //RandomNumberGeneratorFactory.GetRandomNumberGenerator(
                     new DynamicCreatorMersenneTwister(32, 521, cpuIndex, 4172, (uint)_input.Options.Seed);
                 var mc = new MonteCarloSimulation(_input, parallelRng);
-                var output = mc.Run();
+                mc.RunInParallel();
                 virtualBoundaryControllers.Add(mc.VBController);
 
             });
+
+
             // All VirtualBoundaries are same in each CPU, add in first one
             // VirtualBoundaryController->List<VirtualBoundary>->DetectorController->List<Detectors>
             VirtualBoundaryController uberVBController = new VirtualBoundaryController(
                 virtualBoundaryControllers.First().VirtualBoundaries);
+
             // foreach virtualboundary in uberVBController.VirtualBoundaries
             // switch (virtualboundaries)
             // switch (detectors)  doesn't account for multiple detectors of the same type also adding to right Mean 
@@ -102,7 +94,7 @@ namespace Vts.MonteCarlo
                         foreach (var detector in virtualBoundary.DetectorController.Detectors)
                         {
                             var dum1 = ((ATotalDetector)detector).Mean;
-                            var index = uberVBController.VirtualBoundaries.IndexOf((GenericVolumeVirtualBoundary)virtualBoundary);
+                            //var index = uberVBController.VirtualBoundaries.IndexOf((GenericVolumeVirtualBoundary)virtualBoundary);
                             //var count = uberVBController.VirtualBoundaries.Count;
                             //var index = -1;
                             //for (int i = 0; i < count; i++)
@@ -112,8 +104,9 @@ namespace Vts.MonteCarlo
                             //        index = i;
                             //    }
                             //}
-                            var d = uberVBController.VirtualBoundaries[index].DetectorController.Detectors.IndexOf((ATotalDetector)detector);
-                            ((ATotalDetector)uberVBController.VirtualBoundaries[index].DetectorController.Detectors[d]).Mean += dum1;
+                            //var d = uberVBController.VirtualBoundaries[index].DetectorController.Detectors.IndexOf((ATotalDetector)detector);
+                            //((ATotalDetector)uberVBController.VirtualBoundaries[index].DetectorController.Detectors[d]).Mean += dum1;
+                            ((ATotalDetector)uberVBController.VirtualBoundaries[2].DetectorController.Detectors[0]).Mean += dum1;
                             //var dum2 = ((ATotalDetector)uberVBController.VirtualBoundaries.First(v => v == virtualBoundary)
                             //    .DetectorController.Detectors.First(d => d == detector)).Mean;
                         }
@@ -130,6 +123,10 @@ namespace Vts.MonteCarlo
                 .SelectMany(dc => dc.Detectors).ToList();
             Results = new SimulationOutput(_input, uberDetectors);
             return Results;
+        }
+        private void TallyCPUResults()
+        {
+
         }
 
     }
