@@ -175,11 +175,6 @@ namespace Vts.MonteCarlo
         /// Results of the simulation 
         /// </summary>
         public SimulationOutput Results { get; private set; }
-        public VirtualBoundaryController VBController
-        {
-            get { return _virtualBoundaryController; }
-            set { _virtualBoundaryController = value; }
-        }
 
         /// <summary>
         /// Method to run parallel, individual MC simulations
@@ -204,24 +199,7 @@ namespace Vts.MonteCarlo
 
             return outputs;
         }
-        /// <summary>
-        /// Run the simulation
-        /// </summary>
-        /// <returns>SimulationOutput</returns>
-        public void RunInParallel()
-        {
-            ExecuteMCLoop();
-            //NormalizeResults(_numberOfPhotons, _virtualBoundaryController);
 
-            //var detectors = _virtualBoundaryController.VirtualBoundaries
-            //        .Select(vb => vb.DetectorController)
-            //        .Where(dc => dc != null)
-            //        .SelectMany(dc => dc.Detectors).ToList();
-
-            //Results = new SimulationOutput(_input, detectors);
-
-            //return Results;
-        }
         /// <summary>
         /// Method that sets the output path (string) for databases
         /// </summary>
@@ -244,7 +222,6 @@ namespace Vts.MonteCarlo
             DisplayIntro();
 
             ExecuteMCLoop();
-            NormalizeResults(_numberOfPhotons, _virtualBoundaryController);
 
             _isRunning = false;
             if (_isCancelled)
@@ -380,53 +357,14 @@ namespace Vts.MonteCarlo
                 }
             }
 
-            //// normalize all detectors by the total number of photons (each tally records it's own "local" count as well)
-            //foreach (var vb in _virtualBoundaryController.VirtualBoundaries)
-            //{
-            //    if (vb.DetectorController != null) // check that VB has detectors
-            //    {
-            //        vb.DetectorController.NormalizeDetectors(_numberOfPhotons);
-            //    }
-            //}
-
-            //if (TrackStatistics)
-            //{
-            //    if (_input.OutputName == "")
-            //    {
-            //        _simulationStatistics.ToFile("statistics.txt");
-            //    }
-            //    else
-            //    {
-            //        FileIO.CreateDirectory(_input.OutputName);
-            //        _simulationStatistics.ToFile(_input.OutputName + "/statistics.txt");
-            //    }
-            //}
-            //NormalizeResults(_numberOfPhotons,  _virtualBoundaryController );
-            stopwatch.Stop();
-
-            _logger.Info(() => "Monte Carlo simulation complete (N = " + _numberOfPhotons + " photons; simulation time = "
-                + stopwatch.ElapsedMilliseconds / 1000f + " seconds).\r");
-        }
-        /// <summary>
-        /// Normalize results for a IList of VirtualBoundaryControllers.
-        /// For serial processing, there will be only one element of list.
-        /// For parallel processing, there will as many elements as number of CPUs used.
-        /// </summary>
-        /// <param name="numberOfPhotons"></param>
-        /// <param name="virtualBoundaryControllers"></param>
-        public void NormalizeResults(long numberOfPhotons, 
-            VirtualBoundaryController virtualBoundaryController)
-        {
             // normalize all detectors by the total number of photons (each tally records it's own "local" count as well)
-
-            foreach (var vb in virtualBoundaryController.VirtualBoundaries)
+            foreach (var vb in _virtualBoundaryController.VirtualBoundaries)
             {
                 if (vb.DetectorController != null) // check that VB has detectors
                 {
-                    vb.DetectorController.NormalizeDetectors(numberOfPhotons);
+                    vb.DetectorController.NormalizeDetectors(_numberOfPhotons);
                 }
-            }            
-
+            }
             if (TrackStatistics)
             {
                 if (_input.OutputName == "")
@@ -439,7 +377,12 @@ namespace Vts.MonteCarlo
                     _simulationStatistics.ToFile(_input.OutputName + "/statistics.txt");
                 }
             }
+            stopwatch.Stop();
+
+            _logger.Info(() => "Monte Carlo simulation complete (N = " + _numberOfPhotons + " photons; simulation time = "
+                + stopwatch.ElapsedMilliseconds / 1000f + " seconds).\r");
         }
+
 
         private void CloseDatabases(bool _doPMC)
         {

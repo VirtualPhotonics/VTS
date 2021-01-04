@@ -46,14 +46,8 @@ namespace Vts.MonteCarlo
         private int SimulationIndex { get; set; }
 
         /// <summary>
-        /// Results of the simulation 
-        /// </summary>
-        public SimulationOutput Results { get; private set; }
-
-        /// <summary>
         /// Method to run single MC simulation in parallel
         /// </summary>
-        /// <param name="simulations">array of MonteCarloSimulation</param>
         /// <returns>array of SimulationOutput</returns>
         public SimulationOutput RunSingleInParallel()
         {
@@ -63,70 +57,31 @@ namespace Vts.MonteCarlo
             parallelOptions.MaxDegreeOfParallelism = numberOfCPUs;
             int photonsPerCPU = (int)( _input.N / numberOfCPUs);
             _input.N = photonsPerCPU;
-            var virtualBoundaryControllers = new List<VirtualBoundaryController>();
+            var simulationOutputs = new List<SimulationOutput>();
             Parallel.For(0, parallelOptions.MaxDegreeOfParallelism, parallelOptions, cpuIndex =>
             {
                 // FIX back to factory once know correct call
                 var parallelRng = //RandomNumberGeneratorFactory.GetRandomNumberGenerator(
                     new DynamicCreatorMersenneTwister(32, 521, cpuIndex, 4172, (uint)_input.Options.Seed);
                 var mc = new MonteCarloSimulation(_input, parallelRng);
-                mc.RunInParallel();
-                virtualBoundaryControllers.Add(mc.VBController);
-
+                mc.Run();
+                simulationOutputs.Add(mc.Results);
             });
+            return SumResultsTogether(simulationOutputs, numberOfCPUs);
 
-
-            // All VirtualBoundaries are same in each CPU, add in first one
-            // VirtualBoundaryController->List<VirtualBoundary>->DetectorController->List<Detectors>
-            VirtualBoundaryController uberVBController = new VirtualBoundaryController(
-                virtualBoundaryControllers.First().VirtualBoundaries);
-
-            // foreach virtualboundary in uberVBController.VirtualBoundaries
-            // switch (virtualboundaries)
-            // switch (detectors)  doesn't account for multiple detectors of the same type also adding to right Mean 
-            // sum detector results
-            foreach (var vbController in virtualBoundaryControllers.Skip(1)) 
-            {
-                foreach (var virtualBoundary in vbController.VirtualBoundaries)
-                {                    
-                    if (virtualBoundary.DetectorController != null)
-                    {
-                        foreach (var detector in virtualBoundary.DetectorController.Detectors)
-                        {
-                            var dum1 = ((ATotalDetector)detector).Mean;
-                            //var index = uberVBController.VirtualBoundaries.IndexOf((GenericVolumeVirtualBoundary)virtualBoundary);
-                            //var count = uberVBController.VirtualBoundaries.Count;
-                            //var index = -1;
-                            //for (int i = 0; i < count; i++)
-                            //{
-                            //    if ((GenericVolumeVirtualBoundary)uberVBController.VirtualBoundaries[i] == (GenericVolumeVirtualBoundary)virtualBoundary)
-                            //    {
-                            //        index = i;
-                            //    }
-                            //}
-                            //var d = uberVBController.VirtualBoundaries[index].DetectorController.Detectors.IndexOf((ATotalDetector)detector);
-                            //((ATotalDetector)uberVBController.VirtualBoundaries[index].DetectorController.Detectors[d]).Mean += dum1;
-                            ((ATotalDetector)uberVBController.VirtualBoundaries[2].DetectorController.Detectors[0]).Mean += dum1;
-                            //var dum2 = ((ATotalDetector)uberVBController.VirtualBoundaries.First(v => v == virtualBoundary)
-                            //    .DetectorController.Detectors.First(d => d == detector)).Mean;
-                        }
-                    }
-                }
-                // TODO assign list to uberVBController
-                var virtualBoundaries = vbController.VirtualBoundaries;
-            }
-
-            NormalizeResults(_numberOfPhotons, uberVBController);
-            var uberDetectors = uberVBController.VirtualBoundaries
-                .Select(vb => vb.DetectorController)
-                .Where(dc => dc != null)
-                .SelectMany(dc => dc.Detectors).ToList();
-            Results = new SimulationOutput(_input, uberDetectors);
-            return Results;
         }
-        private void TallyCPUResults()
+        public SimulationOutput SumResultsTogether(IList<SimulationOutput> results, int numberOfCPUs)
         {
-
+            var summedDetectors = new List<IDetector>();
+            // need to add 2nd moment and tallycount
+            // what to do about statistics
+            var atotMeans = results.Select(output => output.Atot);
+            IDetectorInput atotInput = new ATotalDetectorInput();
+            ATotalDetector summedAtot = (ATotalDetector)atotInput.CreateDetector();
+            summedAtot.Mean = atotMeans.Sum() / numberOfCPUs;
+            summedDetectors.Add(summedAtot); 
+            var summedSimulationOutput = new SimulationOutput(_input, summedDetectors);
+            return summedSimulationOutput;
         }
 
     }
