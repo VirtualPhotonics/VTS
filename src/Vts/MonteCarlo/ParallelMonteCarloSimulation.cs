@@ -55,7 +55,7 @@ namespace Vts.MonteCarlo
                 _input.Options.SimulationIndex + 1);  // try 2 to start make command line option? 
             var parallelOptions = new ParallelOptions();
             parallelOptions.MaxDegreeOfParallelism = numberOfCPUs;
-            int photonsPerCPU = (int)( _input.N / numberOfCPUs);
+            int photonsPerCPU = (int)(_input.N / numberOfCPUs);
             _input.N = photonsPerCPU;
             var simulationOutputs = new List<SimulationOutput>();
             Parallel.For(0, parallelOptions.MaxDegreeOfParallelism, parallelOptions, cpuIndex =>
@@ -68,18 +68,33 @@ namespace Vts.MonteCarlo
                 simulationOutputs.Add(mc.Results);
             });
             return SumResultsTogether(simulationOutputs, numberOfCPUs);
-
         }
+        
         public SimulationOutput SumResultsTogether(IList<SimulationOutput> results, int numberOfCPUs)
         {
-            var summedDetectors = new List<IDetector>();
             // need to add 2nd moment and tallycount
-            // what to do about statistics
-            var atotMeans = results.Select(output => output.Atot);
-            IDetectorInput atotInput = new ATotalDetectorInput();
-            ATotalDetector summedAtot = (ATotalDetector)atotInput.CreateDetector();
-            summedAtot.Mean = atotMeans.Sum() / numberOfCPUs;
-            summedDetectors.Add(summedAtot); 
+            // what to do about statistics      
+    
+
+            var summedDetectors = new List<IDetector>();
+
+            var simulationOutputKeys = results[0].ResultsDictionary.Keys;
+            foreach (var detectorName in simulationOutputKeys)
+            {
+                // this works but creates list of list
+                //var values = results.Where(o => o.ResultsDictionary.ContainsKey(detectorName)).
+                //    Select(o => o.ResultsDictionary.Values).ToList();
+
+                // tried to mimick what is in SimulationOutput but this does not work
+                var temp = (double)((dynamic)results.Select(o => o.ResultsDictionary[detectorName])).Mean;
+
+                var detectors = results.Select(o => o.GetDetector(detectorName)).ToList();
+                var mean = detectors.Select(d => ((ATotalDetector)d).Mean).Sum() / numberOfCPUs;
+                IDetectorInput atotInput = new ATotalDetectorInput();
+                ATotalDetector summedAtot = (ATotalDetector)atotInput.CreateDetector();
+                summedAtot.Mean = mean;
+                summedDetectors.Add(summedAtot);
+            } 
             var summedSimulationOutput = new SimulationOutput(_input, summedDetectors);
             return summedSimulationOutput;
         }
