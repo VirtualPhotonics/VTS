@@ -85,10 +85,11 @@ namespace Vts.MonteCarlo
                 //var values = results.Where(o => o.ResultsDictionary.ContainsKey(detectorName)).
                 //    Select(o => o.ResultsDictionary.Values).ToList();
 
-                // tried to mimick what is in SimulationOutput but this does not work
-                var temp = (double)((dynamic)results.Select(o => o.ResultsDictionary[detectorName])).Mean;
+                // tried to mimick what is in SimulationOutput 
+                var temp = (double)((dynamic)results.Select(o => o.ResultsDictionary[detectorName]).First()).Mean;
 
                 var detectors = results.Select(o => o.GetDetector(detectorName)).ToList();
+                // shouldn't need to create new class
                 var mean = detectors.Select(d => ((ATotalDetector)d).Mean).Sum() / numberOfCPUs;
                 IDetectorInput atotInput = new ATotalDetectorInput();
                 ATotalDetector summedAtot = (ATotalDetector)atotInput.CreateDetector();
