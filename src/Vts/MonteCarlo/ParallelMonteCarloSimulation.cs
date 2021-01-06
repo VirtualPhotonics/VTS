@@ -73,10 +73,10 @@ namespace Vts.MonteCarlo
         public SimulationOutput SumResultsTogether(IList<SimulationOutput> results, int numberOfCPUs)
         {
             // need to add 2nd moment and tallycount
-            // what to do about statistics      
-    
+            // what to do about statistics          
 
             var summedDetectors = new List<IDetector>();
+            var firstSO = results.First();
 
             var simulationOutputKeys = results[0].ResultsDictionary.Keys;
             foreach (var detectorName in simulationOutputKeys)
@@ -90,14 +90,19 @@ namespace Vts.MonteCarlo
 
                 var detectors = results.Select(o => o.GetDetector(detectorName)).ToList();
                 // shouldn't need to create new class
-                var mean = detectors.Select(d => ((ATotalDetector)d).Mean).Sum() / numberOfCPUs;
-                IDetectorInput atotInput = new ATotalDetectorInput();
-                ATotalDetector summedAtot = (ATotalDetector)atotInput.CreateDetector();
-                summedAtot.Mean = mean;
-                summedDetectors.Add(summedAtot);
-            } 
-            var summedSimulationOutput = new SimulationOutput(_input, summedDetectors);
-            return summedSimulationOutput;
+                var temp2 = detectors.Select(d => (double)((dynamic)d).Mean).Sum() / numberOfCPUs;
+
+                ((dynamic)firstSO.ResultsDictionary[detectorName]).Mean = temp2;
+
+                //var mean = detectors.Select(d => ((ATotalDetector)d).Mean).Sum() / numberOfCPUs;
+                //IDetectorInput atotInput = new ATotalDetectorInput();
+                //ATotalDetector summedAtot = (ATotalDetector)atotInput.CreateDetector();
+                //summedAtot.Mean = mean;
+                //summedDetectors.Add(summedAtot);
+            }
+            //var summedSimulationOutput = new SimulationOutput(_input, summedDetectors);
+            //return summedSimulationOutput;
+            return firstSO;
         }
 
     }
