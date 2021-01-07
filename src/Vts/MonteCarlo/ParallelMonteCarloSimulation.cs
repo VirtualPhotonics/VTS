@@ -77,9 +77,8 @@ namespace Vts.MonteCarlo
 
             var simulationOutputKeys = results[0].ResultsDictionary.Keys;
             var simulationInput = results[0].Input;
-            var detectorList = results.Select(o => o.GetDetectors(simulationOutputKeys)).FirstOrDefault();
-            var detectorList2 = detectorList?.ToList();
-            SimulationOutput summedSimulationOutput = new SimulationOutput(simulationInput, detectorList2);
+            var detectorList = results.Select(o => o.GetDetectors(simulationOutputKeys)).FirstOrDefault()?.ToList();
+            SimulationOutput summedSimulationOutput = new SimulationOutput(simulationInput, detectorList);
 
             foreach (var detectorName in simulationOutputKeys)
             {
