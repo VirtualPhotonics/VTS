@@ -74,9 +74,13 @@ namespace Vts.MonteCarlo
         {
             // need to try higher dimension Means
             // what to do about statistics?      
-            SimulationOutput summedOutput = results.FirstOrDefault();
 
             var simulationOutputKeys = results[0].ResultsDictionary.Keys;
+            var simulationInput = results[0].Input;
+            var detectorList = results.Select(o => o.GetDetectors(simulationOutputKeys)).FirstOrDefault();
+            var detectorList2 = detectorList?.ToList();
+            SimulationOutput summedSimulationOutput = new SimulationOutput(simulationInput, detectorList2);
+
             foreach (var detectorName in simulationOutputKeys)
             {
                 // get list of all detectors in list of SimulationOutput with Name=detectorName
@@ -84,11 +88,11 @@ namespace Vts.MonteCarlo
                 var means = detectors.Select(d => (double)((dynamic)d).Mean).Sum() / numberOfCPUs;
                 var secondMoments = detectors.Select(d => (double)((dynamic)d).SecondMoment).Sum() / numberOfCPUs;
                 var tallyCounts = detectors.Select(d => (long)((dynamic)d).TallyCount).Sum();
-                ((dynamic)summedOutput.ResultsDictionary[detectorName]).Mean = means;
-                ((dynamic)summedOutput.ResultsDictionary[detectorName]).SecondMoment = secondMoments;
-                ((dynamic)summedOutput.ResultsDictionary[detectorName]).TallyCount = tallyCounts;
+                ((dynamic)summedSimulationOutput.ResultsDictionary[detectorName]).Mean = means;
+                ((dynamic)summedSimulationOutput.ResultsDictionary[detectorName]).SecondMoment = secondMoments;
+                ((dynamic)summedSimulationOutput.ResultsDictionary[detectorName]).TallyCount = tallyCounts;
             }
-            return summedOutput;
+            return summedSimulationOutput;
         }
 
     }
