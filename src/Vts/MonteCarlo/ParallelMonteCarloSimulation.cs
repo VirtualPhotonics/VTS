@@ -72,37 +72,23 @@ namespace Vts.MonteCarlo
         
         public SimulationOutput SumResultsTogether(IList<SimulationOutput> results, int numberOfCPUs)
         {
-            // need to add 2nd moment and tallycount
-            // what to do about statistics          
-
-            var summedDetectors = new List<IDetector>();
-            var firstSO = results.First();
+            // need to try higher dimension Means
+            // what to do about statistics?      
+            SimulationOutput summedOutput = results.FirstOrDefault();
 
             var simulationOutputKeys = results[0].ResultsDictionary.Keys;
             foreach (var detectorName in simulationOutputKeys)
             {
-                // this works but creates list of list
-                //var values = results.Where(o => o.ResultsDictionary.ContainsKey(detectorName)).
-                //    Select(o => o.ResultsDictionary.Values).ToList();
-
-                // tried to mimick what is in SimulationOutput 
-                var temp = (double)((dynamic)results.Select(o => o.ResultsDictionary[detectorName]).First()).Mean;
-
+                // get list of all detectors in list of SimulationOutput with Name=detectorName
                 var detectors = results.Select(o => o.GetDetector(detectorName)).ToList();
-                // shouldn't need to create new class
-                var temp2 = detectors.Select(d => (double)((dynamic)d).Mean).Sum() / numberOfCPUs;
-
-                ((dynamic)firstSO.ResultsDictionary[detectorName]).Mean = temp2;
-
-                //var mean = detectors.Select(d => ((ATotalDetector)d).Mean).Sum() / numberOfCPUs;
-                //IDetectorInput atotInput = new ATotalDetectorInput();
-                //ATotalDetector summedAtot = (ATotalDetector)atotInput.CreateDetector();
-                //summedAtot.Mean = mean;
-                //summedDetectors.Add(summedAtot);
+                var means = detectors.Select(d => (double)((dynamic)d).Mean).Sum() / numberOfCPUs;
+                var secondMoments = detectors.Select(d => (double)((dynamic)d).SecondMoment).Sum() / numberOfCPUs;
+                var tallyCounts = detectors.Select(d => (long)((dynamic)d).TallyCount).Sum();
+                ((dynamic)summedOutput.ResultsDictionary[detectorName]).Mean = means;
+                ((dynamic)summedOutput.ResultsDictionary[detectorName]).SecondMoment = secondMoments;
+                ((dynamic)summedOutput.ResultsDictionary[detectorName]).TallyCount = tallyCounts;
             }
-            //var summedSimulationOutput = new SimulationOutput(_input, summedDetectors);
-            //return summedSimulationOutput;
-            return firstSO;
+            return summedOutput;
         }
 
     }
