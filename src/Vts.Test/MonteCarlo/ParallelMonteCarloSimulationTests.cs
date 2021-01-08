@@ -47,7 +47,9 @@ namespace Vts.Test.MonteCarlo
             si.DetectorInputs = new List<IDetectorInput>
             {
                 new ATotalDetectorInput() { TallySecondMoment = true },
-                new ROfRhoDetectorInput() { Rho = new DoubleRange(0, 10, 11) }
+                new ROfRhoDetectorInput() { Rho = new DoubleRange(0, 10, 11), TallySecondMoment = true },
+                new ROfRhoAndTimeDetectorInput() { Rho = new DoubleRange(0, 10, 11),
+                                            Time = new DoubleRange(0,1,5) }
             };
             var mc =  new MonteCarloSimulation(si);
             var output = mc.Run();
@@ -56,6 +58,8 @@ namespace Vts.Test.MonteCarlo
             Assert.AreEqual(output.Atot_TallyCount, 275320);
             Assert.IsTrue(Math.Abs(output.R_r[0]- 0.012369) < 0.000001);
             Assert.AreEqual(output.R_r_TallyCount, 95);
+            Assert.IsTrue(Math.Abs(output.R_rt[0,0] - 0.049477) < 0.000001);
+            Assert.AreEqual(output.R_rt_TallyCount, 95);
 
             // then run same simulation with 2 CPUs
             // these will never be equal unless second sequence starts right after first!!!
@@ -67,6 +71,8 @@ namespace Vts.Test.MonteCarlo
             Assert.AreEqual(outputMultiCPUs.Atot_TallyCount, 231243);
             Assert.IsTrue(Math.Abs(output.R_r[0] - outputMultiCPUs.R_r[0]) < 0.1);
             Assert.AreEqual(outputMultiCPUs.R_r_TallyCount, 94);
+            Assert.IsTrue(Math.Abs(output.R_rt[0,0] - outputMultiCPUs.R_rt[0,0]) < 0.11);
+            Assert.AreEqual(outputMultiCPUs.R_rt_TallyCount, 94);
         }
     }
 }

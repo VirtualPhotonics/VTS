@@ -96,22 +96,45 @@ namespace Vts.MonteCarlo
                 {
                     var listOfMeans = detectors.Select(d => (double[])((dynamic)d).Mean).ToList();
                     var listOfSMs = detectors.Select(d => (double[])((dynamic)d).SecondMoment).ToList();
-                    int meanCount = listOfMeans.FirstOrDefault().Length;
-                    var means = new double[meanCount];
-                    var secondMoments = new double[meanCount];
+                    int dim = listOfMeans.FirstOrDefault().Length;
+                    var means = new double[dim];
+                    var secondMoments = new double[dim];
 
-                    for (int i = 0; i < meanCount; i++)
+                    for (int i = 0; i < dim; i++)
                     {
                         means[i] = listOfMeans.Select(d => d[i]).Sum() / numberOfCPUs;
                         if (listOfSMs.FirstOrDefault() != null)
                         {
-                            secondMoments[i] += listOfSMs.Select(d => d[i]).Sum() / numberOfCPUs;
+                            secondMoments[i] = listOfSMs.Select(d => d[i]).Sum() / numberOfCPUs;
                         }
                     }
                     ((dynamic)summedSimulationOutput.ResultsDictionary[detectorName]).Mean = means;
-                    //((dynamic)summedSimulationOutput.ResultsDictionary[detectorName]).SecondMoment = secondMoments;
+                    ((dynamic)summedSimulationOutput.ResultsDictionary[detectorName]).SecondMoment = secondMoments;
                 }
-                // can add TallyCounts at end since same type for all detectors
+                if (type.Equals(typeof(double[,])))
+                {
+                    var listOfMeans = detectors.Select(d => (double[,])((dynamic)d).Mean).ToList();
+                    var listOfSMs = detectors.Select(d => (double[,])((dynamic)d).SecondMoment).ToList();
+                    int dim1 = listOfMeans.FirstOrDefault().GetLength(0);
+                    int dim2 = listOfMeans.FirstOrDefault().GetLength(1);
+                    var means = new double[dim1,dim2];
+                    var secondMoments = new double[dim1,dim2];
+
+                    for (int i = 0; i < dim1; i++)
+                    {
+                        for (int j = 0; j < dim2; j++)
+                        {
+                            means[i,j] = listOfMeans.Select(d => d[i,j]).Sum() / numberOfCPUs;
+                            if (listOfSMs.FirstOrDefault() != null)
+                            {
+                                secondMoments[i,j] = listOfSMs.Select(d => d[i,j]).Sum() / numberOfCPUs;
+                            }
+                        }
+                    }
+                    ((dynamic)summedSimulationOutput.ResultsDictionary[detectorName]).Mean = means;
+                    ((dynamic)summedSimulationOutput.ResultsDictionary[detectorName]).SecondMoment = secondMoments;
+                }
+                // obtain TallyCounts at end since same type for all detectors
                 var tallyCounts = detectors.Select(d => (long)((dynamic)d).TallyCount).Sum();
                 ((dynamic)summedSimulationOutput.ResultsDictionary[detectorName]).TallyCount = tallyCounts;
             }
