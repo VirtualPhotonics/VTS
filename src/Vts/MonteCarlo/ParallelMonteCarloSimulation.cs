@@ -18,41 +18,30 @@ namespace Vts.MonteCarlo
         private ILogger _logger = LoggerFactoryLocator.GetDefaultNLogFactory().Create(typeof(MonteCarloSimulation));
 
         /// <summary>
-        /// local variable: input related
+        /// local variable: 
         /// </summary>
-        long _numberOfPhotons;
+        private int _numberOfCPUs;
 
         /// <summary>
         /// Class that takes in SimulationInput and methods to initialize and execute Monte Carlo simulation
         /// </summary>
         /// <param name="input">SimulationInput</param>
-        public ParallelMonteCarloSimulation(SimulationInput input) 
+        public ParallelMonteCarloSimulation(SimulationInput input, int numberOfCPUs) 
         {
             // all field/property defaults should be set here
-            //_rng = rng;
-            this.SimulationIndex = input.Options.SimulationIndex;
-            _input = input;
-            _numberOfPhotons = input.N; 
-            
+            _input = input; // _input is in MonteCarloSimulation
+            _numberOfCPUs = numberOfCPUs;            
         }
-
-        // private properties
-        /// <summary>
-        /// Integer index of Simulation specified in infile
-        /// </summary>
-        private int SimulationIndex { get; set; }
 
         /// <summary>
         /// Method to run single MC simulation in parallel
         /// </summary>
         /// <returns>array of SimulationOutput</returns>
         public SimulationOutput RunSingleInParallel()
-        {
-            var numberOfCPUs = Math.Min(Environment.ProcessorCount,
-                _input.Options.SimulationIndex + 1);  // try 2 to start make command line option? 
+        { 
             var parallelOptions = new ParallelOptions();
-            parallelOptions.MaxDegreeOfParallelism = numberOfCPUs;
-            int photonsPerCPU = (int)(_input.N / numberOfCPUs);
+            parallelOptions.MaxDegreeOfParallelism = _numberOfCPUs;
+            int photonsPerCPU = (int)(_input.N / _numberOfCPUs);
             _input.N = photonsPerCPU;
             var simulationOutputs = new List<SimulationOutput>();
             Parallel.For(0, parallelOptions.MaxDegreeOfParallelism, parallelOptions, cpuIndex =>
@@ -64,10 +53,10 @@ namespace Vts.MonteCarlo
                 mc.Run();
                 simulationOutputs.Add(mc.Results);
             });
-            return SumResultsTogether(simulationOutputs, numberOfCPUs);
+            return SumResultsTogether(simulationOutputs);
         }
         
-        public SimulationOutput SumResultsTogether(IList<SimulationOutput> results, int numberOfCPUs)
+        public SimulationOutput SumResultsTogether(IList<SimulationOutput> results)
         {
             // need to try higher dimension Means
             // what to do about statistics?      
@@ -85,8 +74,8 @@ namespace Vts.MonteCarlo
 
                 if (type.Equals(typeof(double)))
                 {
-                    var means = detectors.Select(d => (double)((dynamic)d).Mean).Sum() / numberOfCPUs;
-                    var secondMoments = detectors.Select(d => (double)((dynamic)d).SecondMoment).Sum() / numberOfCPUs;
+                    var means = detectors.Select(d => (double)((dynamic)d).Mean).Sum() / _numberOfCPUs;
+                    var secondMoments = detectors.Select(d => (double)((dynamic)d).SecondMoment).Sum() / _numberOfCPUs;
 
                     ((dynamic)summedSimulationOutput.ResultsDictionary[detectorName]).Mean = means;
                     ((dynamic)summedSimulationOutput.ResultsDictionary[detectorName]).SecondMoment = secondMoments;
@@ -102,10 +91,10 @@ namespace Vts.MonteCarlo
 
                     for (int i = 0; i < dim; i++)
                     {
-                        means[i] = listOfMeans.Select(d => d[i]).Sum() / numberOfCPUs;
+                        means[i] = listOfMeans.Select(d => d[i]).Sum() / _numberOfCPUs;
                         if (listOfSMs.FirstOrDefault() != null)
                         {
-                            secondMoments[i] = listOfSMs.Select(d => d[i]).Sum() / numberOfCPUs;
+                            secondMoments[i] = listOfSMs.Select(d => d[i]).Sum() / _numberOfCPUs;
                         }
                     }
                     ((dynamic)summedSimulationOutput.ResultsDictionary[detectorName]).Mean = means;
@@ -124,10 +113,10 @@ namespace Vts.MonteCarlo
                     {
                         for (int j = 0; j < dim2; j++)
                         {
-                            means[i,j] = listOfMeans.Select(d => d[i,j]).Sum() / numberOfCPUs;
+                            means[i,j] = listOfMeans.Select(d => d[i,j]).Sum() / _numberOfCPUs;
                             if (listOfSMs.FirstOrDefault() != null)
                             {
-                                secondMoments[i,j] = listOfSMs.Select(d => d[i,j]).Sum() / numberOfCPUs;
+                                secondMoments[i,j] = listOfSMs.Select(d => d[i,j]).Sum() / _numberOfCPUs;
                             }
                         }
                     }

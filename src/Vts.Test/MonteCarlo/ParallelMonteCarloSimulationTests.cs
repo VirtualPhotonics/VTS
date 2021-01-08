@@ -62,9 +62,7 @@ namespace Vts.Test.MonteCarlo
             Assert.AreEqual(output.R_rt_TallyCount, 95);
 
             // then run same simulation with 2 CPUs
-            // these will never be equal unless second sequence starts right after first!!!
-            si.Options.SimulationIndex = 1;
-            var parallelMC = new ParallelMonteCarloSimulation(si);
+            var parallelMC = new ParallelMonteCarloSimulation(si, 2);
             var outputMultiCPUs = parallelMC.RunSingleInParallel();
             Assert.IsTrue(Math.Abs(output.Atot - outputMultiCPUs.Atot) < 0.1);
             Assert.IsTrue(Math.Abs(output.Atot2 - outputMultiCPUs.Atot2) < 0.001);
