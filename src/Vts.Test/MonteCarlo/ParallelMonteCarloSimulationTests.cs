@@ -14,6 +14,8 @@ namespace Vts.Test.MonteCarlo
     [TestFixture]
     public class ParallelMonteCarloSimulationTests
     {
+        private SimulationOutput _outputSingleCPU;
+        private SimulationOutput _outputMultiCPU;
         /// <summary>
         /// list of temporary files created by these unit tests
         /// </summary>
@@ -24,7 +26,6 @@ namespace Vts.Test.MonteCarlo
         /// <summary>
         /// clear all generated folders and files
         /// </summary>
-        [OneTimeSetUp]
         [OneTimeTearDown]
         public void clear_folders_and_files()
         {
@@ -33,13 +34,12 @@ namespace Vts.Test.MonteCarlo
                 FileIO.FileDelete(file);   
             }
         }
-
-        /// <summary>
-        /// Validate method that runs multiple CPUs runs without crashing
-        /// </summary>
-        [Test]
-        public void validate_single_in_parallel_generates_equivalent_as_single_CPU()
+        [OneTimeSetUp]
+        public void execute_Monte_Carlo()
         {
+            // delete previously generated files
+            clear_folders_and_files();
+
             // first run with single processor
             var si = new SimulationInput { N = 100 };
             si.Options.SimulationIndex = 0;  // 0 -> 1 CPUS
@@ -51,26 +51,53 @@ namespace Vts.Test.MonteCarlo
                 new ROfRhoAndTimeDetectorInput() { Rho = new DoubleRange(0, 10, 11),
                                             Time = new DoubleRange(0,1,5) }
             };
-            var mc =  new MonteCarloSimulation(si);
-            var output = mc.Run();
-            Assert.IsTrue(Math.Abs(output.Atot - 0.431413) < 0.000001);
-            Assert.IsTrue(Math.Abs(output.Atot2 - 0.000548) < 0.000001);
-            Assert.AreEqual(output.Atot_TallyCount, 275320);
-            Assert.IsTrue(Math.Abs(output.R_r[0]- 0.012369) < 0.000001);
-            Assert.AreEqual(output.R_r_TallyCount, 95);
-            Assert.IsTrue(Math.Abs(output.R_rt[0,0] - 0.049477) < 0.000001);
-            Assert.AreEqual(output.R_rt_TallyCount, 95);
+            var mc = new MonteCarloSimulation(si);
+            _outputSingleCPU = mc.Run();
 
             // then run same simulation with 2 CPUs
             var parallelMC = new ParallelMonteCarloSimulation(si, 2);
-            var outputMultiCPUs = parallelMC.RunSingleInParallel();
-            Assert.IsTrue(Math.Abs(output.Atot - outputMultiCPUs.Atot) < 0.1);
-            Assert.IsTrue(Math.Abs(output.Atot2 - outputMultiCPUs.Atot2) < 0.001);
-            Assert.AreEqual(outputMultiCPUs.Atot_TallyCount, 231243);
-            Assert.IsTrue(Math.Abs(output.R_r[0] - outputMultiCPUs.R_r[0]) < 0.1);
-            Assert.AreEqual(outputMultiCPUs.R_r_TallyCount, 94);
-            Assert.IsTrue(Math.Abs(output.R_rt[0,0] - outputMultiCPUs.R_rt[0,0]) < 0.11);
-            Assert.AreEqual(outputMultiCPUs.R_rt_TallyCount, 94);
+            _outputMultiCPU = parallelMC.RunSingleInParallel();
+        }
+        /// <summary>
+        /// Validate method that validates that parallel processing of single value detectors
+        /// return correct results
+        /// </summary>
+        [Test]
+        public void validate_single_value_detectors_are_processed_correctly()
+        {
+            Assert.IsTrue(Math.Abs(_outputSingleCPU.Atot - 0.431413) < 0.000001);
+            Assert.IsTrue(Math.Abs(_outputSingleCPU.Atot2 - 0.000548) < 0.000001);
+            Assert.AreEqual(_outputSingleCPU.Atot_TallyCount, 275320);
+
+            Assert.IsTrue(Math.Abs(_outputSingleCPU.Atot - _outputMultiCPU.Atot) < 0.1);
+            Assert.IsTrue(Math.Abs(_outputSingleCPU.Atot2 - _outputMultiCPU.Atot2) < 0.001);
+            Assert.AreEqual(_outputMultiCPU.Atot_TallyCount, 231243);;
+        }
+        /// <summary>
+        /// Validate method that validates that parallel processing of 1D detectors
+        /// return correct results
+        /// </summary>
+        [Test]
+        public void validate_1D_detectors_are_processed_correctly()
+        {
+            Assert.IsTrue(Math.Abs(_outputSingleCPU.R_r[0] - 0.012369) < 0.000001);
+            Assert.AreEqual(_outputSingleCPU.R_r_TallyCount, 95);
+
+            Assert.IsTrue(Math.Abs(_outputSingleCPU.R_r[0] - _outputMultiCPU.R_r[0]) < 0.1);
+            Assert.AreEqual(_outputMultiCPU.R_r_TallyCount, 94);
+        }
+        /// <summary>
+        /// Validate method that validates that parallel processing of 2D detectors
+        /// return correct results
+        /// </summary>
+        [Test]
+        public void validate_2D_detectors_are_processed_correctly()
+        {
+            Assert.IsTrue(Math.Abs(_outputSingleCPU.R_rt[0, 0] - 0.049477) < 0.000001);
+            Assert.AreEqual(_outputSingleCPU.R_rt_TallyCount, 95);
+
+            Assert.IsTrue(Math.Abs(_outputSingleCPU.R_rt[0, 0] - _outputMultiCPU.R_rt[0, 0]) < 0.11);
+            Assert.AreEqual(_outputMultiCPU.R_rt_TallyCount, 94);
         }
     }
 }

@@ -95,7 +95,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
             List<string> inFiles = new List<string>();
             string outName = "";
             string outPath = "";
-            int numberOfCPUs = Environment.ProcessorCount; // default is to use all available
+            string CPUCount = "1"; // default is to use 1
             bool infoOnlyOption = false;
             IList<ParameterSweep> paramSweep = new List<ParameterSweep>();
 
@@ -148,11 +148,31 @@ namespace Vts.MonteCarlo.CommandLineApplication
                    logger.Info(() => "output path specified as " + outPath);
                    //MonteCarloSetup.OutputFolder = val.First();
                }),
-                new CommandLine.Switch("numcpus", val =>
+                new CommandLine.Switch("cpucount", val =>
                 {
-                    numberOfCPUs = Int32.Parse(val.First());
-                    logger.Info(() => "number of CPUs specified as " + numberOfCPUs);
-                    //MonteCarloSetup.OutputFolder = val.First();
+                    CPUCount = val.First();
+                    if (CPUCount == "all")
+                    {
+                        CPUCount = Environment.ProcessorCount.ToString();
+                        logger.Info(() => "changed to maximum CPUs on system " + CPUCount);
+                    }
+                    else
+                    {
+                        int CPUCountInt;
+                        if (Int32.TryParse(CPUCount, out CPUCountInt))
+                        {
+                            logger.Info(() => "number of CPUs specified as " + CPUCount);
+                            if (CPUCountInt > Environment.ProcessorCount)
+                            {
+                                CPUCount = Environment.ProcessorCount.ToString();
+                                logger.Info(() => "changed to maximum CPUs on system " + CPUCount);
+                            }
+                        }
+                        else
+                        {
+                            logger.Info(() => "unknown cpucount option " + CPUCount);
+                        }
+                    }
                 }),
                new CommandLine.Switch("paramsweep", val =>
                {
@@ -256,7 +276,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
                         input.OutputName = outName;
                     }
 
-                    MonteCarloSetup.RunSimulation(input, outPath, numberOfCPUs);
+                    MonteCarloSetup.RunSimulation(input, outPath, Int32.Parse(CPUCount));
                     logger.Info("\nSimulation complete.");
                     return 0;
                 }
@@ -288,7 +308,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
             logger.Info("\ninfile\t\tthe input file, accepts relative and absolute paths");
             logger.Info("outpath\t\tthe output path, accepts relative and absolute paths");
             logger.Info("outname\t\toutput name, this value is appended for a parameter sweep");
-            logger.Info("numcpus\t\tnumber of CPUs, default is number available on system");
+            logger.Info("cpucount\t\tnumber of CPUs, default is number is 1");
             logger.Info("paramsweep\ttakes the sweep parameter name and values in the format:");
             logger.Info("\t\tparamsweep=<SweepParameterType>,Start,Stop,Count");
             logger.Info("paramsweepdelta\ttakes the sweep parameter name and values in the format:");
@@ -348,11 +368,11 @@ namespace Vts.MonteCarlo.CommandLineApplication
                     logger.Info("EXAMPLE:");
                     logger.Info("\toutname=mcResults");
                     break;
-                case "numcpus":
-                    logger.Info("\nNUMCPUS");
-                    logger.Info("The number of CPUS designates parallel processing across specified number of maximum available on system.");
+                case "cpucount":
+                    logger.Info("\nCPUCOUNT");
+                    logger.Info("The cpucount specifies the number of CPUs utilized to process a single simulation.");
                     logger.Info("EXAMPLE:");
-                    logger.Info("\tnumcpus=4");
+                    logger.Info("\tcpucount=4");
                     break;
                 case "paramsweep":
                     logger.Info("\nPARAMSWEEP");

@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using NUnit.Framework;
@@ -392,6 +393,45 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
             Program.Main(arguments);
             Assert.IsTrue(Directory.Exists("fluorescence_emission_AOfXAndYAndZ_source_infinite_cylinder"));
             Assert.IsTrue(File.Exists("fluorescence_emission_AOfXAndYAndZ_source_infinite_cylinder/ROfXAndY"));
+        }
+
+        /// <summary>
+        /// test to verify output folder created when parallel processing invoked
+        /// </summary>
+        [Test]
+        public void validate_output_folder_created_when_parallel_processing_invoked()
+        {
+            string[] arguments = new string[] // use infile that hasn't created folder in these tests
+            {
+                "infile=infile_two_layer_ROfRho.txt", "cpucount=4",
+            };
+            Program.Main(arguments);
+            Assert.IsTrue(Directory.Exists("two_layer_ROfRho"));
+            // verify infile gets written to output folder
+            Assert.IsTrue(File.Exists("two_layer_ROfRho/two_layer_ROfRho.txt"));
+        }
+
+        /// <summary>
+        /// test to verify timing
+        /// </summary>
+        [Test]
+        public void validate_timing_parallel_versus_single_CPU()
+        {
+            string[] arguments = new string[] // use infile that hasn't created folder in these tests
+            {
+                "infile=infile_Flat_2D_source_one_layer_ROfRho.txt", "cpucount=1",
+            };
+            Stopwatch stopwatchSingleCPU = Stopwatch.StartNew();
+            Program.Main(arguments);
+            stopwatchSingleCPU.Stop();
+            arguments = new string[] // use infile that hasn't created folder in these tests
+            {
+                "infile=infile_Flat_2D_source_one_layer_ROfRho.txt", "cpucount=4",
+            };
+            Stopwatch stopwatchMultiCPU = Stopwatch.StartNew();
+            Program.Main(arguments);
+            stopwatchMultiCPU.Stop();
+            Assert.IsTrue(stopwatchMultiCPU.ElapsedMilliseconds < stopwatchSingleCPU.ElapsedMilliseconds);
         }
         // removed because not a good way to text whether MCCL is taking longer to execute.
         ///// <summary>
