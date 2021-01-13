@@ -49,6 +49,7 @@ namespace Vts.MonteCarlo
                 // FIX back to factory once know correct call
                 var parallelRng = //RandomNumberGeneratorFactory.GetRandomNumberGenerator(
                     new DynamicCreatorMersenneTwister(32, 521, cpuIndex, 4172, (uint)_input.Options.Seed);
+                _input.Options.SimulationIndex = cpuIndex;
                 var mc = new MonteCarloSimulation(_input, parallelRng);
                 mc.Run();
                 simulationOutputs.Add(mc.Results);
