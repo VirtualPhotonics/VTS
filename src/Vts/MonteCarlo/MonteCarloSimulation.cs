@@ -33,7 +33,7 @@ namespace Vts.MonteCarlo
         private VirtualBoundaryController _virtualBoundaryController;
         //private IList<IDetectorController> _detectorControllers; // total list indep. of VBs
         private long _numberOfPhotons;
-        private SimulationStatistics _simulationStatistics;
+        //private SimulationStatistics _simulationStatistics;
         private DatabaseWriterController _databaseWriterController = null;
         private pMCDatabaseWriterController _pMCDatabaseWriterController = null;
         private bool _doPMC = false;
@@ -69,7 +69,7 @@ namespace Vts.MonteCarlo
             TrackStatistics = input.Options.TrackStatistics;
             if (TrackStatistics)
             {
-                _simulationStatistics = new SimulationStatistics();
+                Statistics = new SimulationStatistics();
             }
 
             // validate input
@@ -171,6 +171,10 @@ namespace Vts.MonteCarlo
         /// specified in infile
         /// </summary>
         private bool TrackStatistics { get; set; }
+        /// <summary>
+        /// simulation statistics
+        /// </summary>
+        public SimulationStatistics Statistics { get; set; }
         /// <summary>
         /// Results of the simulation 
         /// </summary>
@@ -344,7 +348,7 @@ namespace Vts.MonteCarlo
 
                     if (TrackStatistics)
                     {
-                        _simulationStatistics.TrackDeathStatistics(photon.DP);
+                        Statistics.TrackDeathStatistics(photon.DP);
                     }
 
                 } /* end of for n loop */
@@ -369,12 +373,12 @@ namespace Vts.MonteCarlo
             {
                 if (_input.OutputName == "")
                 {
-                    _simulationStatistics.ToFile("statistics.txt");
+                    Statistics.ToFile("statistics.txt");
                 }
                 else
                 {
                     FileIO.CreateDirectory(_input.OutputName);
-                    _simulationStatistics.ToFile(_input.OutputName + "/statistics.txt");
+                    Statistics.ToFile(_input.OutputName + "/statistics.txt");
                 }
             }
             stopwatch.Stop();

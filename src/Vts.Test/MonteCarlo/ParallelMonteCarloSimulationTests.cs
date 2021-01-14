@@ -14,14 +14,16 @@ namespace Vts.Test.MonteCarlo
     [TestFixture]
     public class ParallelMonteCarloSimulationTests
     {
-        private SimulationOutput _outputSingleCPU;
-        private SimulationOutput _outputMultiCPU;
+        private SimulationOutput _outputSingleCPU, _outputMultiCPU;
+        private SimulationStatistics _statisticsSingleCPU, _statisticsMultiCPU;
+
         /// <summary>
         /// list of temporary files created by these unit tests
         /// </summary>
         List<string> listOfTestGeneratedFiles = new List<string>()
         {
             "file.txt", // file that capture screen output of MC simulation
+            "statistics.txt"
         };
         /// <summary>
         /// clear all generated folders and files
@@ -44,6 +46,7 @@ namespace Vts.Test.MonteCarlo
             var si = new SimulationInput { N = 100 };
             si.Options.SimulationIndex = 0;  // 0 -> 1 CPUS
             si.Options.Seed = 0;
+            si.Options.TrackStatistics = true;
             si.DetectorInputs = new List<IDetectorInput> // choose one of each type of dimension
             {
                 // double, double[], double[,], double[,,], double[,,,], double[,,,,]
@@ -92,10 +95,14 @@ namespace Vts.Test.MonteCarlo
             };
             var mc = new MonteCarloSimulation(si);
             _outputSingleCPU = mc.Run();
+            // read statistics.txt from file
+            _statisticsSingleCPU = SimulationStatistics.FromFile("statistics.txt");
 
             // then run same simulation with 2 CPUs
             var parallelMC = new ParallelMonteCarloSimulation(si, 2);
             _outputMultiCPU = parallelMC.RunSingleInParallel();
+            // read statistics.txt from file
+            _statisticsMultiCPU = SimulationStatistics.FromFile("statistics.txt");
         }
         // The tests are designed to a) verify the 2 CPU results and b) verify the 2 CPU
         // results are within certain limits of the single CPU results
@@ -242,6 +249,20 @@ namespace Vts.Test.MonteCarlo
             Assert.IsTrue(Math.Abs(_outputSingleCPU.Flu_xyzw[0, 0, 0, 1].Real - _outputMultiCPU.Flu_xyzw[0, 0, 0, 1].Real) < 0.05);
             Assert.IsTrue(Math.Abs(_outputSingleCPU.Flu_xyzw[0, 0, 0, 1].Imaginary - _outputMultiCPU.Flu_xyzw[0, 0, 0, 1].Imaginary) < 0.05);
             Assert.IsTrue(Math.Abs(_outputSingleCPU.Flu_xyzw_TallyCount - _outputMultiCPU.Flu_xyzw_TallyCount) < 45000);
+        }
+        /// <summary>
+        /// test to verify statistics are averaged correctly
+        /// </summary>
+        [Test]
+        public void validate_statistics_are_processed_correctly()
+        {
+            Assert.AreEqual(_statisticsSingleCPU.NumberOfPhotonsOutTopOfTissue, 93);
+            Assert.AreEqual(_statisticsSingleCPU.NumberOfPhotonsOutBottomOfTissue, 2);
+            Assert.AreEqual(_statisticsSingleCPU.NumberOfPhotonsAbsorbed, 3);
+            Assert.AreEqual(_statisticsSingleCPU.NumberOfPhotonsSpecularReflected, 2);
+            Assert.AreEqual(_statisticsSingleCPU.NumberOfPhotonsKilledOverMaximumPathLength, 0);
+            Assert.AreEqual(_statisticsSingleCPU.NumberOfPhotonsKilledOverMaximumCollisions, 0);
+            Assert.AreEqual(_statisticsSingleCPU.NumberOfPhotonsKilledOverMaximumCollisions, 0);
         }
     }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Vts.Common.Logging;
 using Vts.MonteCarlo.Rng;
+using System.Reflection;
 
 namespace Vts.MonteCarlo
 {
@@ -44,7 +45,7 @@ namespace Vts.MonteCarlo
             int photonsPerCPU = (int)(_input.N / _numberOfCPUs);
             _input.N = photonsPerCPU;
             var simulationOutputs = new List<SimulationOutput>();
-
+            var simulationStatistics = new List<SimulationStatistics>();
             var stopwatch = System.Diagnostics.Stopwatch.StartNew();
             Parallel.For(0, parallelOptions.MaxDegreeOfParallelism, parallelOptions, cpuIndex =>
             {
@@ -55,6 +56,10 @@ namespace Vts.MonteCarlo
                 var mc = new MonteCarloSimulation(_input, parallelRng);
                 mc.Run();
                 simulationOutputs.Add(mc.Results);
+                if (_input.Options.TrackStatistics)
+                {
+                    simulationStatistics.Add(mc.Statistics);
+                }
             });
             stopwatch.Stop();
             _logger.Info(() => "Monte Carlo simulation complete (N = " + _input.N + 
@@ -63,14 +68,37 @@ namespace Vts.MonteCarlo
 
             return SumResultsTogether(simulationOutputs);
         }
-        
-        public SimulationOutput SumResultsTogether(IList<SimulationOutput> results)
-        {
-            // need to try higher dimension Means
-            // what to do about statistics?      
 
+        public SimulationStatistics SumStatisticsTogether(IList<SimulationStatistics> stats)
+        {
+            SimulationStatistics statistics = new SimulationStatistics();
+            // check if statistics specified using input.Options.TrackStatistics = true
+            if (stats != null)
+            {
+                PropertyInfo[] properties = typeof(SimulationStatistics).GetProperties();
+                foreach (var prop in properties)
+                {
+                    var typeProp = prop.GetType();
+                    if (typeProp.Equals(typeof(long))) // currently all statistics are long
+                    {
+                        var temp = prop.Name;
+                        statistics.NumberOfPhotonsOutTopOfTissue = stats.Select(s => s.NumberOfPhotonsOutTopOfTissue).Sum() / _numberOfCPUs;
+                        statistics.NumberOfPhotonsOutBottomOfTissue = stats.Select(s => s.NumberOfPhotonsOutBottomOfTissue).Sum() / _numberOfCPUs;
+                        statistics.NumberOfPhotonsAbsorbed = stats.Select(s => s.NumberOfPhotonsAbsorbed).Sum() / _numberOfCPUs;
+                        statistics.NumberOfPhotonsSpecularReflected = stats.Select(s => s.NumberOfPhotonsSpecularReflected).Sum() / _numberOfCPUs;
+                        statistics.NumberOfPhotonsKilledOverMaximumPathLength = stats.Select(s => s.NumberOfPhotonsKilledOverMaximumPathLength).Sum() / _numberOfCPUs;
+                        statistics.NumberOfPhotonsKilledOverMaximumCollisions = stats.Select(s => s.NumberOfPhotonsKilledOverMaximumCollisions).Sum() / _numberOfCPUs;
+                        statistics.NumberOfPhotonsKilledByRussianRoulette = stats.Select(s => s.NumberOfPhotonsKilledByRussianRoulette).Sum() / _numberOfCPUs;
+                    }
+                }
+            }
+            return statistics;
+        }
+        public SimulationOutput SumResultsTogether(IList<SimulationOutput> results)
+        {    
             var simulationOutputKeys = results[0].ResultsDictionary.Keys;
             var simulationInput = results[0].Input;
+
             var detectorList = results.Select(o => o.GetDetectors(simulationOutputKeys)).FirstOrDefault()?.ToList();
             SimulationOutput summedSimulationOutput = new SimulationOutput(simulationInput, detectorList);
 
