@@ -96,13 +96,13 @@ namespace Vts.Test.MonteCarlo
             var mc = new MonteCarloSimulation(si);
             _outputSingleCPU = mc.Run();
             // read statistics.txt from file
-            _statisticsSingleCPU = SimulationStatistics.FromFile("statistics.txt");
+            _statisticsSingleCPU = mc.Statistics;
 
             // then run same simulation with 2 CPUs
             var parallelMC = new ParallelMonteCarloSimulation(si, 2);
             _outputMultiCPU = parallelMC.RunSingleInParallel();
             // read statistics.txt from file
-            _statisticsMultiCPU = SimulationStatistics.FromFile("statistics.txt");
+            _statisticsMultiCPU = parallelMC.SummedStatistics;
         }
         // The tests are designed to a) verify the 2 CPU results and b) verify the 2 CPU
         // results are within certain limits of the single CPU results
@@ -256,13 +256,21 @@ namespace Vts.Test.MonteCarlo
         [Test]
         public void validate_statistics_are_processed_correctly()
         {
-            Assert.AreEqual(_statisticsSingleCPU.NumberOfPhotonsOutTopOfTissue, 93);
-            Assert.AreEqual(_statisticsSingleCPU.NumberOfPhotonsOutBottomOfTissue, 2);
-            Assert.AreEqual(_statisticsSingleCPU.NumberOfPhotonsAbsorbed, 3);
-            Assert.AreEqual(_statisticsSingleCPU.NumberOfPhotonsSpecularReflected, 2);
+            Assert.AreEqual(_statisticsSingleCPU.NumberOfPhotonsOutTopOfTissue, 95);
+            Assert.AreEqual(_statisticsSingleCPU.NumberOfPhotonsOutBottomOfTissue, 4);
+            Assert.AreEqual(_statisticsSingleCPU.NumberOfPhotonsAbsorbed, 0);
+            Assert.AreEqual(_statisticsSingleCPU.NumberOfPhotonsSpecularReflected, 1);
             Assert.AreEqual(_statisticsSingleCPU.NumberOfPhotonsKilledOverMaximumPathLength, 0);
             Assert.AreEqual(_statisticsSingleCPU.NumberOfPhotonsKilledOverMaximumCollisions, 0);
             Assert.AreEqual(_statisticsSingleCPU.NumberOfPhotonsKilledOverMaximumCollisions, 0);
+            // test multi-CPU stats
+            Assert.AreEqual(_statisticsMultiCPU.NumberOfPhotonsOutTopOfTissue, 94);
+            Assert.AreEqual(_statisticsMultiCPU.NumberOfPhotonsOutBottomOfTissue, 4);
+            Assert.AreEqual(_statisticsMultiCPU.NumberOfPhotonsAbsorbed, 0);
+            Assert.AreEqual(_statisticsMultiCPU.NumberOfPhotonsSpecularReflected, 2);
+            Assert.AreEqual(_statisticsMultiCPU.NumberOfPhotonsKilledOverMaximumPathLength, 0);
+            Assert.AreEqual(_statisticsMultiCPU.NumberOfPhotonsKilledOverMaximumCollisions, 0);
+            Assert.AreEqual(_statisticsMultiCPU.NumberOfPhotonsKilledOverMaximumCollisions, 0);
         }
     }
 }

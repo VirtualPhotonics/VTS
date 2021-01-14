@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Vts.Common.Logging;
 using Vts.MonteCarlo.Rng;
 using System.Reflection;
+using Vts.IO;
 
 namespace Vts.MonteCarlo
 {
@@ -22,6 +23,10 @@ namespace Vts.MonteCarlo
         /// local variable: 
         /// </summary>
         private int _numberOfCPUs;
+        /// <summary>
+        /// simulation statistics
+        /// </summary>
+        public SimulationStatistics SummedStatistics { get; set; }
 
         /// <summary>
         /// Class that takes in SimulationInput and methods to initialize and execute Monte Carlo simulation
@@ -61,12 +66,27 @@ namespace Vts.MonteCarlo
                     simulationStatistics.Add(mc.Statistics);
                 }
             });
+            var summedResults = SumResultsTogether(simulationOutputs);
+            SummedStatistics = SumStatisticsTogether(simulationStatistics);
+            // overwrite statistics.txt file (each MC sim will write its own version)
+            if (_input.Options.TrackStatistics)
+            {
+                if (_input.OutputName == "")
+                {
+                    SummedStatistics.ToFile("statistics.txt");
+                }
+                else
+                {
+                    FileIO.CreateDirectory(_input.OutputName);
+                    SummedStatistics.ToFile(_input.OutputName + "/statistics.txt"); 
+                }
+            }
             stopwatch.Stop();
             _logger.Info(() => "Monte Carlo simulation complete (N = " + _input.N + 
               " photons run on " + _numberOfCPUs + "CPUs; simulation time = "
                 + stopwatch.ElapsedMilliseconds / 1000f + " seconds).\r");
 
-            return SumResultsTogether(simulationOutputs);
+            return summedResults;
         }
 
         public SimulationStatistics SumStatisticsTogether(IList<SimulationStatistics> stats)
@@ -76,21 +96,17 @@ namespace Vts.MonteCarlo
             if (stats != null)
             {
                 PropertyInfo[] properties = typeof(SimulationStatistics).GetProperties();
-                foreach (var prop in properties)
-                {
-                    var typeProp = prop.GetType();
-                    if (typeProp.Equals(typeof(long))) // currently all statistics are long
-                    {
-                        var temp = prop.Name;
-                        statistics.NumberOfPhotonsOutTopOfTissue = stats.Select(s => s.NumberOfPhotonsOutTopOfTissue).Sum() / _numberOfCPUs;
-                        statistics.NumberOfPhotonsOutBottomOfTissue = stats.Select(s => s.NumberOfPhotonsOutBottomOfTissue).Sum() / _numberOfCPUs;
-                        statistics.NumberOfPhotonsAbsorbed = stats.Select(s => s.NumberOfPhotonsAbsorbed).Sum() / _numberOfCPUs;
-                        statistics.NumberOfPhotonsSpecularReflected = stats.Select(s => s.NumberOfPhotonsSpecularReflected).Sum() / _numberOfCPUs;
-                        statistics.NumberOfPhotonsKilledOverMaximumPathLength = stats.Select(s => s.NumberOfPhotonsKilledOverMaximumPathLength).Sum() / _numberOfCPUs;
-                        statistics.NumberOfPhotonsKilledOverMaximumCollisions = stats.Select(s => s.NumberOfPhotonsKilledOverMaximumCollisions).Sum() / _numberOfCPUs;
-                        statistics.NumberOfPhotonsKilledByRussianRoulette = stats.Select(s => s.NumberOfPhotonsKilledByRussianRoulette).Sum() / _numberOfCPUs;
-                    }
-                }
+                //foreach (var prop in properties) // I would like to use this somehow to not have to spell out each Property
+                //{
+                    //var temp = prop.Name;
+                    statistics.NumberOfPhotonsOutTopOfTissue = stats.Select(s => s.NumberOfPhotonsOutTopOfTissue).Sum();
+                    statistics.NumberOfPhotonsOutBottomOfTissue = stats.Select(s => s.NumberOfPhotonsOutBottomOfTissue).Sum();
+                    statistics.NumberOfPhotonsAbsorbed = stats.Select(s => s.NumberOfPhotonsAbsorbed).Sum();
+                    statistics.NumberOfPhotonsSpecularReflected = stats.Select(s => s.NumberOfPhotonsSpecularReflected).Sum();
+                    statistics.NumberOfPhotonsKilledOverMaximumPathLength = stats.Select(s => s.NumberOfPhotonsKilledOverMaximumPathLength).Sum();
+                    statistics.NumberOfPhotonsKilledOverMaximumCollisions = stats.Select(s => s.NumberOfPhotonsKilledOverMaximumCollisions).Sum();
+                    statistics.NumberOfPhotonsKilledByRussianRoulette = stats.Select(s => s.NumberOfPhotonsKilledByRussianRoulette).Sum();                    
+                //}
             }
             return statistics;
         }
