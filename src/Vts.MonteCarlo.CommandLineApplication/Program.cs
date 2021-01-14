@@ -158,19 +158,18 @@ namespace Vts.MonteCarlo.CommandLineApplication
                     }
                     else
                     {
-                        int CPUCountInt;
-                        if (Int32.TryParse(CPUCount, out CPUCountInt))
+                        if (!int.TryParse(CPUCount, out var CPUCountInt))
                         {
-                            logger.Info(() => "number of CPUs specified as " + CPUCount);
-                            if (CPUCountInt > Environment.ProcessorCount)
-                            {
-                                CPUCount = Environment.ProcessorCount.ToString();
-                                logger.Info(() => "changed to maximum CPUs on system " + CPUCount);
-                            }
+                            logger.Info(() => "unknown cpucount option " + CPUCount);
                         }
                         else
                         {
-                            logger.Info(() => "unknown cpucount option " + CPUCount);
+                            logger.Info(() => "number of CPUs specified as " + CPUCount);
+                            if (CPUCountInt <= Environment.ProcessorCount) return;
+
+                            CPUCount = Environment.ProcessorCount.ToString();
+                            logger.Info(() => "changed to maximum CPUs on system " + CPUCount);
+                            
                         }
                     }
                 }),

@@ -44,6 +44,8 @@ namespace Vts.MonteCarlo
             int photonsPerCPU = (int)(_input.N / _numberOfCPUs);
             _input.N = photonsPerCPU;
             var simulationOutputs = new List<SimulationOutput>();
+
+            var stopwatch = System.Diagnostics.Stopwatch.StartNew();
             Parallel.For(0, parallelOptions.MaxDegreeOfParallelism, parallelOptions, cpuIndex =>
             {
                 // FIX back to factory once know correct call
@@ -54,6 +56,11 @@ namespace Vts.MonteCarlo
                 mc.Run();
                 simulationOutputs.Add(mc.Results);
             });
+            stopwatch.Stop();
+            _logger.Info(() => "Monte Carlo simulation complete (N = " + _input.N + 
+              " photons run on " + _numberOfCPUs + "CPUs; simulation time = "
+                + stopwatch.ElapsedMilliseconds / 1000f + " seconds).\r");
+
             return SumResultsTogether(simulationOutputs);
         }
         
@@ -118,6 +125,99 @@ namespace Vts.MonteCarlo
                             if (listOfSMs.FirstOrDefault() != null)
                             {
                                 secondMoments[i,j] = listOfSMs.Select(d => d[i,j]).Sum() / _numberOfCPUs;
+                            }
+                        }
+                    }
+                    ((dynamic)summedSimulationOutput.ResultsDictionary[detectorName]).Mean = means;
+                    ((dynamic)summedSimulationOutput.ResultsDictionary[detectorName]).SecondMoment = secondMoments;
+                }
+                if (type.Equals(typeof(double[,,])))
+                {
+                    var listOfMeans = detectors.Select(d => (double[,,])((dynamic)d).Mean).ToList();
+                    var listOfSMs = detectors.Select(d => (double[,,])((dynamic)d).SecondMoment).ToList();
+                    int dim1 = listOfMeans.FirstOrDefault().GetLength(0);
+                    int dim2 = listOfMeans.FirstOrDefault().GetLength(1);
+                    int dim3 = listOfMeans.FirstOrDefault().GetLength(2);
+                    var means = new double[dim1, dim2, dim3];
+                    var secondMoments = new double[dim1, dim2, dim3];
+
+                    for (int i = 0; i < dim1; i++)
+                    {
+                        for (int j = 0; j < dim2; j++)
+                        {
+                            for (int k = 0; k < dim3; k++)
+                            {
+                                means[i, j, k] = listOfMeans.Select(d => d[i, j, k]).Sum() / _numberOfCPUs;
+                                if (listOfSMs.FirstOrDefault() != null)
+                                {
+                                    secondMoments[i, j, k] = listOfSMs.Select(d => d[i, j, k]).Sum() / _numberOfCPUs;
+                                }
+                           }
+                        }
+                    }
+                    ((dynamic)summedSimulationOutput.ResultsDictionary[detectorName]).Mean = means;
+                    ((dynamic)summedSimulationOutput.ResultsDictionary[detectorName]).SecondMoment = secondMoments;
+                }
+                if (type.Equals(typeof(double[,,,])))
+                {
+                    var listOfMeans = detectors.Select(d => (double[,,,])((dynamic)d).Mean).ToList();
+                    var listOfSMs = detectors.Select(d => (double[,,,])((dynamic)d).SecondMoment).ToList();
+                    int dim1 = listOfMeans.FirstOrDefault().GetLength(0);
+                    int dim2 = listOfMeans.FirstOrDefault().GetLength(1);
+                    int dim3 = listOfMeans.FirstOrDefault().GetLength(2);
+                    int dim4 = listOfMeans.FirstOrDefault().GetLength(3);
+                    var means = new double[dim1, dim2, dim3, dim4];
+                    var secondMoments = new double[dim1, dim2, dim3, dim4];
+
+                    for (int i = 0; i < dim1; i++)
+                    {
+                        for (int j = 0; j < dim2; j++)
+                        {
+                            for (int k = 0; k < dim3; k++)
+                            {
+                                for (int m = 0; m < dim4; m++)
+                                {
+                                    means[i, j, k, m] = listOfMeans.Select(d => d[i, j, k, m]).Sum() / _numberOfCPUs;
+                                    if (listOfSMs.FirstOrDefault() != null)
+                                    {
+                                        secondMoments[i, j, k, m] = listOfSMs.Select(d => d[i, j, k, m]).Sum() / _numberOfCPUs;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    ((dynamic)summedSimulationOutput.ResultsDictionary[detectorName]).Mean = means;
+                    ((dynamic)summedSimulationOutput.ResultsDictionary[detectorName]).SecondMoment = secondMoments;
+                }
+                if (type.Equals(typeof(double[,,,,])))
+                {
+                    var listOfMeans = detectors.Select(d => (double[,,,,])((dynamic)d).Mean).ToList();
+                    var listOfSMs = detectors.Select(d => (double[,,,,])((dynamic)d).SecondMoment).ToList();
+                    int dim1 = listOfMeans.FirstOrDefault().GetLength(0);
+                    int dim2 = listOfMeans.FirstOrDefault().GetLength(1);
+                    int dim3 = listOfMeans.FirstOrDefault().GetLength(2);
+                    int dim4 = listOfMeans.FirstOrDefault().GetLength(3);
+                    int dim5 = listOfMeans.FirstOrDefault().GetLength(4);
+                    var means = new double[dim1, dim2, dim3, dim4, dim5];
+                    var secondMoments = new double[dim1, dim2, dim3, dim4, dim5];
+
+                    for (int i = 0; i < dim1; i++)
+                    {
+                        for (int j = 0; j < dim2; j++)
+                        {
+                            for (int k = 0; k < dim3; k++)
+                            {
+                                for (int m = 0; m < dim4; m++)
+                                {
+                                    for (int n = 0; n < dim5; n++)
+                                    {
+                                        means[i, j, k, m, n] = listOfMeans.Select(d => d[i, j, k, m, n]).Sum() / _numberOfCPUs;
+                                        if (listOfSMs.FirstOrDefault() != null)
+                                        {
+                                            secondMoments[i, j, k, m, n] = listOfSMs.Select(d => d[i, j, k, m, n]).Sum() / _numberOfCPUs;
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
