@@ -1,4 +1,4 @@
-using System;
+using System.Numerics;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -215,6 +215,152 @@ namespace Vts.MonteCarlo
                                         if (listOfSMs.FirstOrDefault() != null)
                                         {
                                             secondMoments[i, j, k, m, n] = listOfSMs.Select(d => d[i, j, k, m, n]).Sum() / _numberOfCPUs;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    ((dynamic)summedSimulationOutput.ResultsDictionary[detectorName]).Mean = means;
+                    ((dynamic)summedSimulationOutput.ResultsDictionary[detectorName]).SecondMoment = secondMoments;
+                }
+                // Complex types
+                if (type.Equals(typeof(Complex[])))
+                {
+                    var listOfMeans = detectors.Select(d => (Complex[])((dynamic)d).Mean).ToList();
+                    var listOfSMs = detectors.Select(d => (Complex[])((dynamic)d).SecondMoment).ToList();
+                    int dim = listOfMeans.FirstOrDefault().Length;
+                    var means = new Complex[dim];
+                    var secondMoments = new Complex[dim];
+
+                    for (int i = 0; i < dim; i++)
+                    {
+                        means[i] = listOfMeans.Select(d => d[i].Real).Sum() / _numberOfCPUs +
+                            Complex.ImaginaryOne * listOfMeans.Select(d => d[i].Imaginary).Sum() / _numberOfCPUs;
+                        if (listOfSMs.FirstOrDefault() != null)
+                        {
+                            secondMoments[i] = listOfSMs.Select(d => d[i].Real).Sum() / _numberOfCPUs +
+                               Complex.ImaginaryOne * listOfSMs.Select(d => d[i].Imaginary).Sum() / _numberOfCPUs;
+                        }
+                    }
+                   ((dynamic)summedSimulationOutput.ResultsDictionary[detectorName]).Mean = means;
+                    ((dynamic)summedSimulationOutput.ResultsDictionary[detectorName]).SecondMoment = secondMoments;
+                }
+                if (type.Equals(typeof(Complex[,])))
+                {
+                    var listOfMeans = detectors.Select(d => (Complex[,])((dynamic)d).Mean).ToList();
+                    var listOfSMs = detectors.Select(d => (Complex[,])((dynamic)d).SecondMoment).ToList();
+                    int dim1 = listOfMeans.FirstOrDefault().GetLength(0);
+                    int dim2 = listOfMeans.FirstOrDefault().GetLength(1);
+                    var means = new Complex[dim1, dim2];
+                    var secondMoments = new Complex[dim1, dim2];
+
+                    for (int i = 0; i < dim1; i++)
+                    {
+                        for (int j = 0; j < dim2; j++)
+                        {
+                            means[i, j] = listOfMeans.Select(d => d[i, j].Real).Sum() / _numberOfCPUs +
+                                Complex.ImaginaryOne * listOfMeans.Select(d => d[i, j].Imaginary).Sum() / _numberOfCPUs;
+                            if (listOfSMs.FirstOrDefault() != null)
+                            {
+                                secondMoments[i, j] = listOfSMs.Select(d => d[i, j].Real).Sum() / _numberOfCPUs +
+                                    Complex.ImaginaryOne * listOfSMs.Select(d => d[i, j].Imaginary).Sum() / _numberOfCPUs;
+                            }
+                        }
+                    }
+                    ((dynamic)summedSimulationOutput.ResultsDictionary[detectorName]).Mean = means;
+                    ((dynamic)summedSimulationOutput.ResultsDictionary[detectorName]).SecondMoment = secondMoments;
+                }
+                if (type.Equals(typeof(Complex[,,])))
+                {
+                    var listOfMeans = detectors.Select(d => (Complex[,,])((dynamic)d).Mean).ToList();
+                    var listOfSMs = detectors.Select(d => (Complex[,,])((dynamic)d).SecondMoment).ToList();
+                    int dim1 = listOfMeans.FirstOrDefault().GetLength(0);
+                    int dim2 = listOfMeans.FirstOrDefault().GetLength(1);
+                    int dim3 = listOfMeans.FirstOrDefault().GetLength(2);
+                    var means = new Complex[dim1, dim2, dim3];
+                    var secondMoments = new Complex[dim1, dim2, dim3];
+
+                    for (int i = 0; i < dim1; i++)
+                    {
+                        for (int j = 0; j < dim2; j++)
+                        {
+                            for (int k = 0; k < dim3; k++)
+                            {
+                                means[i, j, k] = listOfMeans.Select(d => d[i, j, k].Real).Sum() / _numberOfCPUs +
+                                    Complex.ImaginaryOne * listOfMeans.Select(d => d[i, j, k].Imaginary).Sum() / _numberOfCPUs;
+                                if (listOfSMs.FirstOrDefault() != null)
+                                {
+                                    secondMoments[i, j, k] = listOfSMs.Select(d => d[i, j, k].Real).Sum() / _numberOfCPUs +
+                                        Complex.ImaginaryOne * listOfSMs.Select(d => d[i, j, k].Imaginary).Sum() / _numberOfCPUs;
+                                }
+                            }
+                        }
+                    }
+                    ((dynamic)summedSimulationOutput.ResultsDictionary[detectorName]).Mean = means;
+                    ((dynamic)summedSimulationOutput.ResultsDictionary[detectorName]).SecondMoment = secondMoments;
+                }
+                if (type.Equals(typeof(Complex[,,,])))
+                {
+                    var listOfMeans = detectors.Select(d => (Complex[,,,])((dynamic)d).Mean).ToList();
+                    var listOfSMs = detectors.Select(d => (Complex[,,,])((dynamic)d).SecondMoment).ToList();
+                    int dim1 = listOfMeans.FirstOrDefault().GetLength(0);
+                    int dim2 = listOfMeans.FirstOrDefault().GetLength(1);
+                    int dim3 = listOfMeans.FirstOrDefault().GetLength(2);
+                    int dim4 = listOfMeans.FirstOrDefault().GetLength(3);
+                    var means = new Complex[dim1, dim2, dim3, dim4];
+                    var secondMoments = new Complex[dim1, dim2, dim3, dim4];
+
+                    for (int i = 0; i < dim1; i++)
+                    {
+                        for (int j = 0; j < dim2; j++)
+                        {
+                            for (int k = 0; k < dim3; k++)
+                            {
+                                for (int m = 0; m < dim4; m++)
+                                {
+                                    means[i, j, k, m] = listOfMeans.Select(d => d[i, j, k, m].Real).Sum() / _numberOfCPUs +
+                                        Complex.ImaginaryOne * listOfMeans.Select(d => d[i, j, k, m].Imaginary).Sum() / _numberOfCPUs;
+                                    if (listOfSMs.FirstOrDefault() != null)
+                                    {
+                                        secondMoments[i, j, k, m] = listOfSMs.Select(d => d[i, j, k, m].Real).Sum() / _numberOfCPUs +
+                                            Complex.ImaginaryOne * listOfSMs.Select(d => d[i, j, k, m].Imaginary).Sum() / _numberOfCPUs;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    ((dynamic)summedSimulationOutput.ResultsDictionary[detectorName]).Mean = means;
+                    ((dynamic)summedSimulationOutput.ResultsDictionary[detectorName]).SecondMoment = secondMoments;
+                }
+                if (type.Equals(typeof(Complex[,,,,])))
+                {
+                    var listOfMeans = detectors.Select(d => (Complex[,,,,])((dynamic)d).Mean).ToList();
+                    var listOfSMs = detectors.Select(d => (Complex[,,,,])((dynamic)d).SecondMoment).ToList();
+                    int dim1 = listOfMeans.FirstOrDefault().GetLength(0);
+                    int dim2 = listOfMeans.FirstOrDefault().GetLength(1);
+                    int dim3 = listOfMeans.FirstOrDefault().GetLength(2);
+                    int dim4 = listOfMeans.FirstOrDefault().GetLength(3);
+                    int dim5 = listOfMeans.FirstOrDefault().GetLength(4);
+                    var means = new Complex[dim1, dim2, dim3, dim4, dim5];
+                    var secondMoments = new Complex[dim1, dim2, dim3, dim4, dim5];
+
+                    for (int i = 0; i < dim1; i++)
+                    {
+                        for (int j = 0; j < dim2; j++)
+                        {
+                            for (int k = 0; k < dim3; k++)
+                            {
+                                for (int m = 0; m < dim4; m++)
+                                {
+                                    for (int n = 0; n < dim5; n++)
+                                    {
+                                        means[i, j, k, m, n] = listOfMeans.Select(d => d[i, j, k, m, n].Real).Sum() / _numberOfCPUs +
+                                            Complex.ImaginaryOne * listOfMeans.Select(d => d[i, j, k, m, n].Imaginary).Sum() / _numberOfCPUs;
+                                        if (listOfSMs.FirstOrDefault() != null)
+                                        {
+                                            secondMoments[i, j, k, m, n] = listOfSMs.Select(d => d[i, j, k, m, n].Real).Sum() / _numberOfCPUs +
+                                                Complex.ImaginaryOne * listOfSMs.Select(d => d[i, j, k, m, n].Imaginary).Sum() / _numberOfCPUs;
                                         }
                                     }
                                 }
