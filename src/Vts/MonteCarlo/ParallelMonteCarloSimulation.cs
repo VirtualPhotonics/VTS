@@ -66,6 +66,8 @@ namespace Vts.MonteCarlo
                     simulationStatistics.Add(mc.Statistics);
                 }
             });
+            // reset N back to original so that infile written to results has correct value
+            _input.N = _numberOfCPUs * photonsPerCPU;
             var summedResults = SumResultsTogether(simulationOutputs);
             SummedStatistics = SumStatisticsTogether(simulationStatistics);
             // overwrite statistics.txt file (each MC sim will write its own version)

@@ -131,9 +131,11 @@ namespace Vts.Test.MonteCarlo
         public void validate_1D_double_detectors_are_processed_correctly()
         {
             Assert.IsTrue(Math.Abs(_outputMultiCPU.R_r[0] - 0.039375) < 0.000001);
+            Assert.IsTrue(Math.Abs(_outputMultiCPU.R_r2[0] - 0.011950) < 0.000001);
             Assert.AreEqual(_outputMultiCPU.R_r_TallyCount, 94);
 
-            Assert.IsTrue(Math.Abs(_outputMultiCPU.R_r[0] - _outputMultiCPU.R_r[0]) < 0.1);
+            Assert.IsTrue(Math.Abs(_outputSingleCPU.R_r[0] - _outputMultiCPU.R_r[0]) < 0.05);
+            Assert.IsTrue(Math.Abs(_outputSingleCPU.R_r2[0] - _outputMultiCPU.R_r2[0]) < 0.01);
             Assert.IsTrue(Math.Abs(_outputSingleCPU.R_r_TallyCount - _outputMultiCPU.R_r_TallyCount) < 2);
         }
         /// <summary>
