@@ -14,6 +14,7 @@ namespace Vts.Test.MonteCarlo
     [TestFixture]
     public class ParallelMonteCarloSimulationTests
     {
+        private SimulationInput _simulationInput;
         private SimulationOutput _outputSingleCPU, _outputMultiCPU;
         private SimulationStatistics _statisticsSingleCPU, _statisticsMultiCPU;
 
@@ -43,11 +44,11 @@ namespace Vts.Test.MonteCarlo
             clear_folders_and_files();
 
             // first run with single processor
-            var si = new SimulationInput { N = 100 };
-            si.Options.SimulationIndex = 0;  // 0 -> 1 CPUS
-            si.Options.Seed = 0;
-            si.Options.TrackStatistics = true;
-            si.DetectorInputs = new List<IDetectorInput> // choose one of each type of dimension
+            _simulationInput = new SimulationInput { N = 100 };
+            _simulationInput.Options.SimulationIndex = 0;  // 0 -> 1 CPUS
+            _simulationInput.Options.Seed = 0;
+            _simulationInput.Options.TrackStatistics = true;
+            _simulationInput.DetectorInputs = new List<IDetectorInput> // choose one of each type of dimension
             {
                 // double, double[], double[,], double[,,], double[,,,], double[,,,,]
                 new ATotalDetectorInput() { TallySecondMoment = true },
@@ -93,13 +94,13 @@ namespace Vts.Test.MonteCarlo
                     Omega = new DoubleRange(0, 1, 7),
                 }
             };
-            var mc = new MonteCarloSimulation(si);
+            var mc = new MonteCarloSimulation(_simulationInput);
             _outputSingleCPU = mc.Run();
             // read statistics.txt from file
             _statisticsSingleCPU = mc.Statistics;
 
             // then run same simulation with 2 CPUs
-            var parallelMC = new ParallelMonteCarloSimulation(si, 2);
+            var parallelMC = new ParallelMonteCarloSimulation(_simulationInput, 2);
             _outputMultiCPU = parallelMC.RunSingleInParallel();
             // read statistics.txt from file
             _statisticsMultiCPU = parallelMC.SummedStatistics;
@@ -273,6 +274,18 @@ namespace Vts.Test.MonteCarlo
             Assert.AreEqual(_statisticsMultiCPU.NumberOfPhotonsKilledOverMaximumPathLength, 0);
             Assert.AreEqual(_statisticsMultiCPU.NumberOfPhotonsKilledOverMaximumCollisions, 0);
             Assert.AreEqual(_statisticsMultiCPU.NumberOfPhotonsKilledOverMaximumCollisions, 0);
+        }
+        /// <summary>
+        /// test to check that if number of CPUs specified in cpucount does not divide into N
+        /// evenly, that resulting number of photons launched is correct
+        /// </summary>
+        [Test]
+        public void check_for_N_not_divisible_by_cpucount()
+        {
+            // N=100 in one time setup
+            var parallelMC = new ParallelMonteCarloSimulation(_simulationInput, 3);
+            var output3CPU = parallelMC.RunSingleInParallel();
+            Assert.AreEqual(output3CPU.Input.N, 99);
         }
     }
 }

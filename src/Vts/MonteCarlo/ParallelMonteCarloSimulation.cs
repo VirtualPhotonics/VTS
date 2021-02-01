@@ -48,6 +48,11 @@ namespace Vts.MonteCarlo
             var parallelOptions = new ParallelOptions();
             parallelOptions.MaxDegreeOfParallelism = _numberOfCPUs;
             int photonsPerCPU = (int)(_input.N / _numberOfCPUs);
+            if (photonsPerCPU * _numberOfCPUs != _input.N)
+            {
+                _logger.Info(() => "Note: number of photons run on each CPU = " + photonsPerCPU + 
+                   " for a total of N = " + photonsPerCPU * _numberOfCPUs); 
+            }
             _input.N = photonsPerCPU;
             var simulationOutputs = new List<SimulationOutput>();
             var simulationStatistics = new List<SimulationStatistics>();
