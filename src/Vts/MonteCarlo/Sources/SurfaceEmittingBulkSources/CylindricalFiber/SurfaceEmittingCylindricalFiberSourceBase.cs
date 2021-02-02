@@ -85,71 +85,42 @@ namespace Vts.MonteCarlo.Sources
             double curved = 2 * Math.PI * _fiberRadius * _fiberHeightZ * _curvedSurfaceEfficiency;
             double bottom = Math.PI * _fiberRadius * _fiberRadius * _bottomSurfaceEfficiency;
 
-            Direction finalDirection;
-            Position finalPosition;
+            Direction finalDirection = SourceToolbox.GetDirectionForGivenPolarAzimuthalAngleRangeRandom(
+                        SourceDefaults.DefaultHalfPolarAngleRange.Clone(),
+                        SourceDefaults.DefaultAzimuthalAngleRange.Clone(),
+                        Rng);
+            Position finalPosition = SourceDefaults.DefaultPosition.Clone();
 
             if (_fiberRadius > 0.0)
-            {              
-                if (Rng.NextDouble() > bottom / (curved + bottom))
-                {
-                    //sample angular distribution
-                    finalDirection = SourceToolbox.GetDirectionForGivenPolarAzimuthalAngleRangeRandom(
-                        SourceDefaults.DefaultHalfPolarAngleRange.Clone(),
-                        SourceDefaults.DefaultAzimuthalAngleRange.Clone(),
+            {   
+                if (Rng.NextDouble() > bottom / (curved + bottom))   //Consider 
+                {   /* Curved surface */
+                    // To utilize the final direction given above, we can assume a tube 
+                    // parallel to the y-axis. We can rotate it about the x-axis by pi/2 
+                    // to compute the new direction.
+                    SourceToolbox.UpdateDirectionAfterRotatingAroundXAxis(-0.5 * Math.PI, finalDirection);
+
+                    //Sample tube perimeter first to compute x and y coordinates
+                    finalPosition = SourceToolbox.GetPositionAtCirclePerimeter(finalPosition,
+                        _fiberRadius, 
                         Rng);
 
-                    //Translate the photon to _tubeRadius length below the origin. Ring lies on yz plane.
-                    finalPosition = new Position(0.0, 0.0, _fiberRadius);
-
-                    //Sample a ring that emits photons outside.
-                    SourceToolbox.UpdateDirectionPositionAfterRotatingAroundXAxis(
-                        2.0 * Math.PI * Rng.NextDouble(),
-                        ref finalDirection,
-                        ref finalPosition);
-
-                    //Ring lies on xy plane. z= 0;
-                    SourceToolbox.UpdateDirectionPositionAfterRotatingAroundYAxis(
-                        0.5 * Math.PI,
-                        ref finalDirection,
-                        ref finalPosition);
-
-                    //Sample tube height
-                    finalPosition.Z = _fiberHeightZ * (2.0 * Rng.NextDouble() - 1.0);
+                    //Sample tube height to compute z coordinate
+                    finalPosition.Z = _fiberHeightZ * (Rng.NextDouble() - 0.5);
                 }
                 else
-                {
-                    finalPosition = SourceToolbox.GetPositionInACircleRandomFlat(
-                        SourceDefaults.DefaultPosition.Clone(),
+                {   /* Bottom Surface */
+                    //Shift finalPosition by _fiberHeightZ / 2
+                    finalPosition = new Position(0.0, 0.0, _fiberHeightZ * 0.5);
+
+                    //Sample the bottom face to find  x, y coordinates of the emission
+                    finalPosition = SourceToolbox.GetPositionInACircleRandomFlat(finalPosition,
                         0.0,
                         _fiberRadius,
-                        Rng);
-
-                    finalDirection = SourceToolbox.GetDirectionForGivenPolarAzimuthalAngleRangeRandom(
-                        SourceDefaults.DefaultHalfPolarAngleRange.Clone(),
-                        SourceDefaults.DefaultAzimuthalAngleRange.Clone(),
-                        Rng);
+                        Rng);                    
                 }
             }
-            else                 
-            {
-                finalPosition = SourceToolbox.GetPositionInALineRandomFlat(
-                        SourceDefaults.DefaultPosition.Clone(),
-                        _fiberHeightZ,
-                        Rng);
-
-                finalDirection = SourceToolbox.GetDirectionForGivenPolarAzimuthalAngleRangeRandom(
-                        SourceDefaults.DefaultFullPolarAngleRange.Clone(),
-                        SourceDefaults.DefaultAzimuthalAngleRange.Clone(),
-                        Rng);
-
-                //Rotate 90degrees around y axis
-                SourceToolbox.UpdateDirectionPositionAfterRotatingAroundYAxis(
-                        0.5 * Math.PI,
-                        ref finalDirection,
-                        ref finalPosition);
-            }
-
-
+ 
             //Find the relevent polar and azimuthal pair for the direction
             PolarAzimuthalAngles _rotationalAnglesOfPrincipalSourceAxis = SourceToolbox.GetPolarAzimuthalPairFromDirection(_newDirectionOfPrincipalSourceAxis);
             
