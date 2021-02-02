@@ -194,16 +194,29 @@ namespace Vts.MonteCarlo.CommandLineApplication
             }
         }
 
+        ///// <summary>
+        ///// Runs multiple Monte Carlo simulations in parallel using all available CPU cores
+        ///// </summary>
+        //public static void RunSimulations(IEnumerable<SimulationInput> inputs, string outputFolderPath)
+        //{
+        //    var options = new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount};
+        //    Parallel.ForEach(inputs, options, (input, state, index) =>
+        //    {
+        //        input.Options.SimulationIndex = (int)index;
+        //        RunSimulation(input, outputFolderPath, 1);
+        //    });
+        //}
+
         /// <summary>
         /// Runs multiple Monte Carlo simulations in parallel using all available CPU cores
         /// </summary>
-        public static void RunSimulations(IEnumerable<SimulationInput> inputs, string outputFolderPath)
+        public static void RunSimulations(IEnumerable<SimulationInput> inputs, string outputFolderPath, int numberOfCPUs)
         {
-            var options = new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount};
+            var options = new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount };
             Parallel.ForEach(inputs, options, (input, state, index) =>
             {
                 input.Options.SimulationIndex = (int)index;
-                RunSimulation(input, outputFolderPath, 1);
+                RunSimulation(input, outputFolderPath, numberOfCPUs);
             });
         }
     }

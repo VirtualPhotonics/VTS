@@ -148,8 +148,8 @@ namespace Vts.MonteCarlo.CommandLineApplication
                    logger.Info(() => "output path specified as " + outPath);
                    //MonteCarloSetup.OutputFolder = val.First();
                }),
-                new CommandLine.Switch("cpucount", val =>
-                {
+               new CommandLine.Switch("cpucount", val =>
+               {
                     CPUCount = val.First();
                     if (CPUCount == "all")
                     {
@@ -172,7 +172,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
                             
                         }
                     }
-                }),
+               }),
                new CommandLine.Switch("paramsweep", val =>
                {
                    var sweepString = val.ToArray();
@@ -255,7 +255,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
                         
                     }
 
-                    MonteCarloSetup.RunSimulations(inputs, outPath);
+                    MonteCarloSetup.RunSimulations(inputs, outPath, Int32.Parse(CPUCount));
                     logger.Info("\nSimulations complete.");
                     return 0;
                 }
