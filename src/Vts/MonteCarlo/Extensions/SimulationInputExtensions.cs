@@ -118,11 +118,11 @@ namespace Vts.MonteCarlo.Extensions
                         case "CustomRectangular":
                         case "LambertianSurfaceEmittingSpherical":
                         case "CustomSurfaceEmittingSpherical":
-                        case "LambertianSurfaceEmittingCubiodal":
+                        case "LambertianSurfaceEmittingCuboidal":
                         case "LambertianSurfaceEmittingTubular":
                         case "LambertianSurfaceEmittingCylindricalFiber":
                         case "IsotropicVolumetricCuboidal":
-                        case "CustomVolumetricCubiodal":
+                        case "CustomVolumetricCuboidal":
                         case "IsotropicVolumetricEllipsoidal":
                         case "CustomVolumetricEllipsoidal":
                         default:

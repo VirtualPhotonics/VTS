@@ -203,14 +203,33 @@ namespace Vts.MonteCarlo.Helpers
             {
                 return (center);
             }
-            double T1 = 2 * Math.PI * rng.NextDouble();
-            double T2 = Math.Sqrt(innerRadius * innerRadius + (outerRadius * outerRadius - innerRadius * innerRadius) * rng.NextDouble());
+            double angle = 2 * Math.PI * rng.NextDouble();
+            double radius = Math.Sqrt(innerRadius * innerRadius + (outerRadius * outerRadius - innerRadius * innerRadius) * rng.NextDouble());
             return (new Position(
-                center.X + T2 * Math.Cos(T1),
-                center.Y + T2 * Math.Sin(T1),
+                center.X + radius * Math.Cos(angle),
+                center.Y + radius * Math.Sin(angle),
                 center.Z));
         }
-        
+
+        /// <summary>
+        /// Provides a random position at circle perimeter
+        /// </summary>
+        /// <param name="center">The center coordiantes of the circle</param>
+        /// <param name="radius">The radius of the circle</param>
+        /// <param name="rng">The random number generator</param>
+        /// <returns>position</returns>
+        public static Position GetPositionAtCirclePerimeter(
+            Position center,
+            double radius,
+            Random rng)
+        {            
+            double angle = 2 * Math.PI * rng.NextDouble();            
+            return (new Position(
+                center.X + radius * Math.Cos(angle),
+                center.Y + radius * Math.Sin(angle),
+                center.Z));
+        }
+
         /// <summary>
         /// Provides a random position in a circle (Gaussisan distribution)
         /// </summary>

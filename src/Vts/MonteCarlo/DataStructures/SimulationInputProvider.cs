@@ -20,6 +20,7 @@ namespace Vts.MonteCarlo
         /// <returns>a list of the SimulationInputs generated</returns>
         public static IList<SimulationInput> GenerateAllSimulationInputs()
         {
+            // additions to this list need to be added to MCCL Program tests for clean up
             return new List<SimulationInput>()
             {
                 PointSourceOneLayerTissueAllDetectors(),
@@ -30,7 +31,7 @@ namespace Vts.MonteCarlo
                 PointSourceSingleEllipsoidTissueFluenceOfRhoAndZDetector(),
                 PointSourceSingleInfiniteCylinderTissueAOfXAndYAndZDetector(),
                 PointSourceMultiInfiniteCylinderTissueAOfXAndYAndZDetector(),
-                pMCPointSourceOneLayerTissueROfRhoDAW(),
+                pMCPointSourceOneLayerTissueROfRhoDAW(), // don't change this it is part of documentation
                 Gaussian2DSourceOneLayerTissueROfRhoDetector(),
                 Flat2DSourceOneLayerTissueROfRhoDetector(),
                 Flat2DSourceTwoLayerBoundedTissueAOfRhoAndZDetector(),
@@ -114,9 +115,18 @@ namespace Vts.MonteCarlo
                     new ROfRhoAndOmegaDetectorInput() {Rho=new DoubleRange(0.0, 10, 101),Omega=new DoubleRange(0.0, 1, 21)}, // GHz
                     new ROfRhoAndTimeDetectorInput() {Rho= new DoubleRange(0.0, 10, 101),Time=new DoubleRange(0.0, 10, 11)},
                     new ROfRhoAndMaxDepthDetectorInput() {Rho= new DoubleRange(0.0, 10, 101),MaxDepth=new DoubleRange(0.0, 10, 11)},
+                    new ROfRhoAndMaxDepthRecessedDetectorInput() {Rho= new DoubleRange(0.0, 10, 101),MaxDepth=new DoubleRange(0.0, 10, 11),ZPlane=-1.0},
                     new ROfRhoDetectorInput() {Rho =new DoubleRange(0.0, 10, 101)},
+                    new ROfRhoRecessedDetectorInput() {Rho =new DoubleRange(0.0, 10, 101),ZPlane=-1.0},
                     new ROfXAndYDetectorInput() {X=new DoubleRange(-100.0, 100.0, 21), Y= new DoubleRange(-100.0, 100.0, 21)},
                     new ROfXAndYAndTimeDetectorInput() {X=new DoubleRange(-100.0, 100.0, 21), Y= new DoubleRange(-100.0, 100.0, 21),Time=new DoubleRange(0.0, 1, 11)},
+                    new ROfXAndYAndThetaAndPhiDetectorInput()
+                    {
+                        X = new DoubleRange(-10.0, 10.0, 101),
+                        Y = new DoubleRange(-10.0, 10.0, 101),
+                        Theta = new DoubleRange(Math.PI / 2, Math.PI, 3),
+                        Phi = new DoubleRange(-Math.PI, Math.PI, 5)
+                    },
                     new ROfXAndYAndMaxDepthDetectorInput() {X=new DoubleRange(-100.0, 100.0, 21), Y= new DoubleRange(-100.0, 100.0, 21),MaxDepth=new DoubleRange(0.0, 10, 11)},
                     new RSpecularDetectorInput(),
                     new TDiffuseDetectorInput(),
@@ -489,7 +499,7 @@ new ITissueRegion[]
         }
         #endregion
 
-        #region pMC point source one layer tissue R(rho) DAW
+        #region pMC point source one layer tissue R(rho) DAW part of website documentation so don't modify
         /// <summary>
         /// Perturbation MC point source, single tissue layer definition, R(rho) included
         /// </summary>

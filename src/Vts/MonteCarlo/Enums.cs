@@ -201,7 +201,7 @@ namespace Vts.MonteCarlo
                 // 1D Line sources: custom
                 "CustomLine",
                 // 1D Line sources: adjoint line
-                "AdjointLine",
+                "LineAngledFromLine",
 
 
                 // SURFACE EMITTING FLAT SOURCES (2D SURFACE SOURCES)
@@ -211,8 +211,10 @@ namespace Vts.MonteCarlo
                 "DirectionalCircular",
                 // 2D Circular surface sources: custom
                 "CustomCircular",
-                // 2D Circular source angle determined by point
+                // 2D Circular source angle determined by point in air
                 "CircularAngledFromPoint",
+                // 2D Circular source angle determined by circle in air
+                "CircularAngledFromCircle",
 
                 // Elliptical Surface Sources
                 // 2D Elliptical surface sources: directional 
@@ -235,9 +237,9 @@ namespace Vts.MonteCarlo
                 // Spherical surface sources: custom
                 "CustomSurfaceEmittingSpherical",
 
-                // Cubiodal Surface Sources
-                // Cubiodal surface sources: Lambertian surface emitting cubiodal
-                "LambertianSurfaceEmittingCubiodal",
+                // Cuboidal Surface Sources
+                // Cuboidal surface sources: Lambertian surface emitting cubiodal
+                "LambertianSurfaceEmittingCuboidal",
 
                 // Tubular Sources
                 // Tubular sources: Lambertian
@@ -250,11 +252,11 @@ namespace Vts.MonteCarlo
 
                 // VOLUMETRIC SOURCES (3D)
 
-                // Cubiodal Volume Sources
-                // 3D Cubiodal volume sources: isotropic
+                // Cuboidal Volume Sources
+                // 3D Cuboidal volume sources: isotropic
                 "IsotropicVolumetricCuboidal",
-                // 3D Cubiodal volume sources: custom
-                "CustomVolumetricCubiodal",
+                // 3D Cuboidal volume sources: custom
+                "CustomVolumetricCuboidal",
 
                 // Ellipsoidal Volume Sources
                 // 3D Ellipsoidal volume sources: isotropic
@@ -397,6 +399,8 @@ namespace Vts.MonteCarlo
             "ROfRhoAndAngle",
             // Reflectance as a function of source-detector separation (rho)
             "ROfRho",
+            // Reflectance as a function of source-detector separation (rho) recessed in air
+            "ROfRhoRecessed",
             // Reflectance as a function of angle
             "ROfAngle",
             // Reflectance as a function of source-detector separation (rho) and temporal-frequency (omega)
@@ -405,10 +409,14 @@ namespace Vts.MonteCarlo
             "ROfRhoAndTime",
             // Reflectance as a function of source-detector separation (rho) and maximum depth
             "ROfRhoAndMaxDepth",
+            // Reflectance as a function of source-detector separation (rho) and maximum depth recessed in air
+            "ROfRhoAndMaxDepthRecessed",
             // Reflectance as a function of Cartesian position on the surface of the tissue
             "ROfXAndY",
             // Reflectance as a function of Cartesian position and time on the surface of the tissue
             "ROfXAndYAndTime",
+            // Reflectance as a function of x, y, theta, phi
+            "ROfXAndYAndThetaAndPhi",
             // Reflectance as a function of Cartesian position and MaxDepth on the surface of the tissue
             "ROfXAndYAndMaxDepth",
             // Total diffuse reflectance
@@ -491,10 +499,14 @@ namespace Vts.MonteCarlo
             "RadianceOfFxAndZAndAngle",
             // Volume randiance as a function of x, y, z, theta and phi
             "RadianceOfXAndYAndZAndThetaAndPhi",
-            // perturbation Monte Carlo (pMC) reflectance as a function of source-detector sep. (rho) and time
-            "pMCROfRhoAndTime", 
-            // perturbation Monte Carlo (pMC) reflectance as a function of source-detector separation (rho)
+             // perturbation Monte Carlo (pMC) reflectance as a function of source-detector separation (rho) 
             "pMCROfRho",
+            // perturbation Monte Carlo (pMC) reflectance as a function of source-detector separation (rho) recessed in air
+            "pMCROfRhoRecessed",
+             // perturbation Monte Carlo (pMC) reflectance as a function of source-detector sep. (rho) and time
+            "pMCROfRhoAndTime", 
+             // perturbation Monte Carlo (pMC) reflectance as a function of source-detector sep. (rho) and time recessed in air
+            "pMCROfRhoAndTimeRecessed", 
             // perturbation Monte Carlo (pMC) reflectance as a function of Cartesian coordinates (x,y)
             "pMCROfXAndY",
             // perturbation Monte Carlo (pMC) reflectance as a function of spatial frequency (fx)
@@ -523,6 +535,10 @@ namespace Vts.MonteCarlo
         /// </summary>
         public static string ROfRho { get { return "ROfRho"; } }
         /// <summary>
+        /// Reflectance as a function of source-detector separation (rho) recessed in air
+        /// </summary>
+        public static string ROfRhoRecessed { get { return "ROfRhoRecessed"; } }
+        /// <summary>
         /// Reflectance as a function of angle
         /// </summary>
         public static string ROfAngle { get { return "ROfAngle"; } }
@@ -538,6 +554,10 @@ namespace Vts.MonteCarlo
         /// Reflectance as a function of source-detector separation (rho) and maximum depth attained
         /// </summary>
         public static string ROfRhoAndMaxDepth { get { return "ROfRhoAndMaxDepth"; } }
+        /// <summary>
+        /// Reflectance as a function of source-detector separation (rho) and maximum depth attained recessed in air
+        /// </summary>
+        public static string ROfRhoAndMaxDepthRecessed { get { return "ROfRhoAndMaxDepthRecessed"; } }
         /// <summary>
         /// Reflectance as a function of source-detector separation (rho) and temporal-frequency (omega)
         /// </summary>
@@ -674,13 +694,21 @@ namespace Vts.MonteCarlo
         /// </summary>
         public static string RadianceOfXAndYAndZAndThetaAndPhi { get { return "RadianceOfXAndYAndZAndThetaAndPhi"; } }
         /// <summary>
+        /// perturbation Monte Carlo (pMC) reflectance as a function of source-detector separation (rho)
+        /// </summary>
+        public static string pMCROfRho { get { return "pMCROfRho"; } }
+        /// <summary>
+        /// perturbation Monte Carlo (pMC) reflectance as a function of source-detector separation (rho) recessed in air
+        /// </summary>
+        public static string pMCROfRhoRecessed { get { return "pMCROfRhoRecessed"; } }
+        /// <summary>
         /// perturbation Monte Carlo (pMC) reflectance as a function of source-detector sep. (rho) and time
         /// </summary>
         public static string pMCROfRhoAndTime { get { return "pMCROfRhoAndTime"; } } // maybe these should be in separate enum?
         /// <summary>
-        /// perturbation Monte Carlo (pMC) reflectance as a function of source-detector separation (rho)
+        /// perturbation Monte Carlo (pMC) reflectance as a function of source-detector sep. (rho) and time recessed in air
         /// </summary>
-        public static string pMCROfRho { get { return "pMCROfRho"; } }
+        public static string pMCROfRhoAndTimeRecessed { get { return "pMCROfRhoAndTimeRecessed"; } } 
         /// <summary>
         /// perturbation Monte Carlo (pMC) reflectance as a function of Cartesian coordinates (x,y)
         /// </summary>

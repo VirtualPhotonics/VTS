@@ -11,7 +11,7 @@ using Vts.MonteCarlo.PhotonData;
 namespace Vts.MonteCarlo.Detectors
 {
     /// <summary>
-    /// Tally for pMC estimation of reflectance as a function of Rho.
+    /// Tally for pMC estimation of reflectance as a function of Rho and Time.
     /// </summary>
     public class pMCROfRhoAndTimeDetectorInput : DetectorInput, IDetectorInput
     {

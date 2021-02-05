@@ -89,7 +89,7 @@ namespace Vts.Test.MonteCarlo.Detectors
             // one tissue layer
             var inputOneLayerTissue = new SimulationInput(
                  100,
-                 "Output",
+                 "",
                  simulationOptions,
                  source,
                  new MultiLayerTissueInput(

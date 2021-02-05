@@ -316,6 +316,9 @@
     <Compile Include="..\Vts.Test\MonteCarlo\Factories\DetectorFactoryTests.cs">
       <Link>MonteCarlo\Factories\DetectorFactoryTests.cs</Link>
     </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Helpers\LayerTissueRegionToolboxTests.cs">
+      <Link>MonteCarlo\Helpers\LayerTissueRegionToolboxTests.cs</Link>
+    </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\Helpers\SourceToolboxTests.cs">
       <Link>MonteCarlo\Helpers\SourceToolboxTests.cs</Link>
     </Compile>
@@ -345,9 +348,6 @@
     </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\Rng\SerializableMersenneTwisterTests.cs">
       <Link>MonteCarlo\Rng\SerializableMersenneTwisterTests.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts.Test\MonteCarlo\Sources\AdjointLineSourcesTests.cs">
-      <Link>MonteCarlo\Sources\AdjointLineSourcesTests.cs</Link>
     </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\Sources\FluorescenceEmissionSourcesTests.cs">
       <Link>MonteCarlo\Sources\FluorescenceEmissionSourcesTests.cs</Link>
