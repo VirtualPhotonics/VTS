@@ -1117,13 +1117,13 @@
     <Compile Include="..\Vts\MonteCarlo\Sources\VolumetricSources\FluorescenceEmission\FluorescenceEmissionSourceBase.cs">
       <Link>MonteCarlo\Sources\VolumetricSources\FluorescenceEmission\FluorescenceEmissionSourceBase.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Sources\VolumetricSources\VolumtricCuboidal\CustomVolumetricCuboidalSource.cs">
+    <Compile Include="..\Vts\MonteCarlo\Sources\VolumetricSources\VolumetricCuboidal\CustomVolumetricCuboidalSource.cs">
       <Link>MonteCarlo\Sources\VolumetricSources\VolumetricCuboidal\CustomVolumetricCuboidalSource.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Sources\VolumetricSources\VolumtricCuboidal\IsotropicVolumetricCuboidalSource.cs">
+    <Compile Include="..\Vts\MonteCarlo\Sources\VolumetricSources\VolumetricCuboidal\IsotropicVolumetricCuboidalSource.cs">
       <Link>MonteCarlo\Sources\VolumetricSources\VolumetricCuboidal\IsotropicVolumetricCuboidalSource.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Sources\VolumetricSources\VolumtricCuboidal\VolumetricCuboidalSourceBase.cs">
+    <Compile Include="..\Vts\MonteCarlo\Sources\VolumetricSources\VolumetricCuboidal\VolumetricCuboidalSourceBase.cs">
       <Link>MonteCarlo\Sources\VolumetricSources\VolumetricCuboidal\VolumetricCuboidalSourceBase.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Tissues\BoundedTissue.cs">
