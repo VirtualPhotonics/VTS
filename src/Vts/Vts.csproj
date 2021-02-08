@@ -1,5 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
-
+<Project Sdk="Microsoft.NET.Sdk" ToolsVersion="Current">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <Description>The VTS (Virtual Tissue Simulator) is an open source library for .NET that was designed as a modular and scalable platform to provide an integrated suite of computational tools to define, solve, visualize, and analyze relevant forward and inverse radiative transport problems in Biomedical Optics.</Description>
@@ -18,13 +17,14 @@
     <PackageReleaseNotes>Updated NuGet package</PackageReleaseNotes>
     <AssemblyVersion>4.10.0.0</AssemblyVersion>
     <FileVersion>4.10.0.0</FileVersion>
+    <FileUpgradeFlags>40</FileUpgradeFlags>
+    <UpgradeBackupLocation>C:\Users\hayakawa\Documents\Visual Studio 2019\Projects\vts_210207\src\Backup\Vts\</UpgradeBackupLocation>
+    <OldToolsVersion>2.0</OldToolsVersion>
   </PropertyGroup>
-
   <ItemGroup>
     <Compile Remove="Common\Helpers\FuncOfT.cs" />
     <Compile Remove="Common\Helpers\Tuple.cs" />
   </ItemGroup>
-
   <ItemGroup>
     <None Remove="Modeling\Resources\HankelData\basepoints.dat" />
     <None Remove="Modeling\Resources\HankelData\hankelweights.dat" />
@@ -60,7 +60,6 @@
     <None Remove="Modeling\Spectroscopy\Resources\SpectralDictionary.txt" />
     <None Remove="Modeling\Spectroscopy\Resources\SpectralDictionary.xml" />
   </ItemGroup>
-
   <ItemGroup>
     <EmbeddedResource Include="Modeling\Resources\HankelData\basepoints.dat" />
     <EmbeddedResource Include="Modeling\Resources\HankelData\hankelweights.dat" />
@@ -96,7 +95,6 @@
     <EmbeddedResource Include="Modeling\Spectroscopy\Resources\SpectralDictionary.txt" />
     <EmbeddedResource Include="Modeling\Spectroscopy\Resources\SpectralDictionary.xml" />
   </ItemGroup>
-
   <ItemGroup>
     <PackageReference Include="csmpfit" Version="1.1.1" />
     <PackageReference Include="MathNet.Numerics" Version="4.11.0" />
@@ -108,5 +106,4 @@
     <PackageReference Include="System.Reflection" Version="4.3.0" />
     <PackageReference Include="Unity" Version="5.11.7" />
   </ItemGroup>
-
 </Project>
