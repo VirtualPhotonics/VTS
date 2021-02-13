@@ -49,6 +49,14 @@ namespace Vts.MonteCarlo.Tissues
        //     return false;
        // }  
 
+        /// <summary>
+        /// This extends photon ray from position and angle of exit from tissue into air
+        /// up to plane specified by zPlane
+        /// </summary>
+        /// <param name="p">position of photon exit</param>
+        /// <param name="d">direction of photon exit</param>
+        /// <param name="zPlane">z-plane above tissue in air, must be negative value</param>
+        /// <returns></returns>
         public static Position RayExtendToInfinitePlane(Position p, Direction d, double zPlane)
         {
             var denom = -d.Uz; // direction dot normal (0, 0, -1)

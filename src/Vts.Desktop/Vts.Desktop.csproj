@@ -769,6 +769,9 @@
     <Compile Include="..\Vts\MonteCarlo\Detectors\ROfXAndYAndMaxDepthDetector.cs">
       <Link>MonteCarlo\Detectors\ROfXAndYAndMaxDepthDetector.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\ROfXAndYAndMaxDepthRecessedDetector.cs">
+      <Link>MonteCarlo\Detectors\ROfXAndYAndMaxDepthRecessedDetector.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\ROfXAndYAndThetaAndPhiDetector.cs">
       <Link>MonteCarlo\Detectors\ROfXAndYAndThetaAndPhiDetector.cs</Link>
     </Compile>
@@ -777,6 +780,9 @@
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\ROfXAndYDetector.cs">
       <Link>MonteCarlo\Detectors\ROfXAndYDetector.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\ROfXAndYRecessedDetector.cs">
+      <Link>MonteCarlo\Detectors\ROfXAndYRecessedDetector.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\RSpecularDetector.cs">
       <Link>MonteCarlo\Detectors\RSpecularDetector.cs</Link>
