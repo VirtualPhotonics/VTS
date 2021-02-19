@@ -237,9 +237,9 @@ namespace Vts.MonteCarlo
                 // Spherical surface sources: custom
                 "CustomSurfaceEmittingSpherical",
 
-                // Cuboidal Surface Sources
-                // Cuboidal surface sources: Lambertian surface emitting cubiodal
-                "LambertianSurfaceEmittingCuboidal",
+                // Cubiodal Surface Sources
+                // Cubiodal surface sources: Lambertian surface emitting cubiodal
+                "LambertianSurfaceEmittingCubiodal",
 
                 // Tubular Sources
                 // Tubular sources: Lambertian
@@ -252,11 +252,11 @@ namespace Vts.MonteCarlo
 
                 // VOLUMETRIC SOURCES (3D)
 
-                // Cuboidal Volume Sources
-                // 3D Cuboidal volume sources: isotropic
+                // Cubiodal Volume Sources
+                // 3D Cubiodal volume sources: isotropic
                 "IsotropicVolumetricCuboidal",
-                // 3D Cuboidal volume sources: custom
-                "CustomVolumetricCuboidal",
+                // 3D Cubiodal volume sources: custom
+                "CustomVolumetricCubiodal",
 
                 // Ellipsoidal Volume Sources
                 // 3D Ellipsoidal volume sources: isotropic
@@ -570,6 +570,18 @@ namespace Vts.MonteCarlo
         /// Reflectance as a function of Cartesian position on the surface of the tissue
         /// </summary>
         public static string ROfXAndY { get { return "ROfXAndY"; } }
+        /// <summary>
+        /// Reflectance as a function of Cartesian position on the surface of the tissue recessed in air
+        /// </summary>
+        public static string ROfXAndYRecessed { get { return "ROfXAndYRecessed"; } }
+        /// <summary>
+        /// Reflectance as a function of Cartesian position on the surface of the tissue and max depth
+        /// </summary>
+        public static string ROfXAndYAndMaxDepth { get { return "ROfXAndYAndMaxDepth"; } }
+        /// <summary>
+        /// Reflectance as a function of Cartesian position on the surface of the tissue and max depth recessed in air
+        /// </summary>
+        public static string ROfXAndYAndMaxDepthRecessed { get { return "ROfXAndYAndMaxDepthRecessed"; } }
         /// <summary>
         /// Reflectance as a function of spatial frequency along the x-axis
         /// </summary>
