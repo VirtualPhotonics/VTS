@@ -778,6 +778,9 @@
     <Compile Include="..\Vts\MonteCarlo\Detectors\ROfXAndYAndTimeDetector.cs">
       <Link>MonteCarlo\Detectors\ROfXAndYAndTimeDetector.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\ROfXAndYAndTimeRecessedDetector.cs">
+      <Link>MonteCarlo\Detectors\ROfXAndYAndTimeRecessedDetector.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\ROfXAndYDetector.cs">
       <Link>MonteCarlo\Detectors\ROfXAndYDetector.cs</Link>
     </Compile>

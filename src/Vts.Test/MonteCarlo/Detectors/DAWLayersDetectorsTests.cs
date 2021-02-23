@@ -93,6 +93,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                     new ROfXAndYDetectorInput() { X = new DoubleRange(-10.0, 10.0, 101), Y = new DoubleRange(-10.0, 10.0, 101) },
                     new ROfXAndYRecessedDetectorInput() { X = new DoubleRange(-10.0, 10.0, 101), Y = new DoubleRange(-10.0, 10.0, 101), ZPlane=-1.0 },
                     new ROfXAndYAndTimeDetectorInput() { X = new DoubleRange(-10.0, 10.0, 101), Y = new DoubleRange(-10.0, 10.0, 101), Time = new DoubleRange(0.0, 1.0, 11) },
+                    new ROfXAndYAndTimeRecessedDetectorInput() { X = new DoubleRange(-10.0, 10.0, 101), Y = new DoubleRange(-10.0, 10.0, 101), Time = new DoubleRange(0.0, 1.0, 11),ZPlane=-1.0 },
                     new ROfXAndYAndThetaAndPhiDetectorInput()
                     {
                         X = new DoubleRange(-10.0, 10.0, 101),
@@ -393,6 +394,15 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.Less(Math.Abs(_outputTwoLayerTissue.R_xyt[0, 0, 9] - 0.188035), 0.000001);
             Assert.AreEqual(_outputOneLayerTissue.R_xyt_TallyCount, 89);
             Assert.AreEqual(_outputTwoLayerTissue.R_xyt_TallyCount, 89);
+        }
+        // Reflectance R(x,y,time) recessed in air validated with prior test
+        [Test]
+        public void validate_DAW_ROfXAndYAndTimeRecessed()
+        {
+            Assert.Less(Math.Abs(_outputOneLayerTissue.R_xytr[0, 12, 1] - 1.75180), 0.00001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.R_xytr[0, 12, 1] - 1.75180), 0.00001);
+            Assert.AreEqual(_outputOneLayerTissue.R_xytr_TallyCount, 89);
+            Assert.AreEqual(_outputTwoLayerTissue.R_xytr_TallyCount, 89);
         }
         // Reflectance R(x,y,theta,phi) validated with prior test
         [Test]

@@ -27,6 +27,7 @@ show.ROfRhoAndOmega =           1;
 show.ROfXAndY =                 1;
 show.ROfXAndYRecessed =         1;
 show.ROfXAndYAndTime =          1;
+show.ROfXAndYAndTimeRecessed =  1;
 show.ROfXAndYAndThetaAndPhi =   1;
 show.ROfXAndYAndMaxDepth =      1;
 show.ROfXAndYAndMaxDepthRecessed=1;
@@ -211,6 +212,19 @@ for mci = 1:length(datanames)
         timedelta = results{di}.ROfXAndYAndTime.Time(2)-results{di}.ROfXAndYAndTime.Time(1);
         xynorm = xdelta * ydelta;
         disp(['Total reflectance captured by ROfXAndYAndTime detector: ' num2str(sum(sum(sum(timedelta*xynorm*results{di}.ROfXAndYAndTime.Mean))))]);
+    end
+    if isfield(results{di}, 'ROfXAndYAndTimeRecessed') && show.ROfXAndYAndTimeRecessed
+        numtimes = length(results{di}.ROfXAndYAndTimeRecessed.Time)-1;
+        for i=1:10:numtimes % do every 10 time bins
+            figname = sprintf('log10(%s) time=%5.3f ns',results{di}.ROfXAndYAndTimeRecessed.Name,results{di}.ROfXAndYAndTimeRecessed.Time_Midpoints(i)); 
+            figure; imagesc(results{di}.ROfXAndYAndTimeRecessed.X_Midpoints, results{di}.ROfXAndYAndTimeRecessed.Y_Midpoints, log10(squeeze(results{di}.ROfXAndYAndTimeRecessed.Mean(i,:,:)))); 
+            colormap(jet); colorbar; title(figname); set(gcf,'Name', figname);ylabel('y [mm]'); xlabel('x [mm]'); 
+        end
+        xdelta = results{di}.ROfXAndYAndTimeRecessed.X(2)-results{di}.ROfXAndYAndTimeRecessed.X(1);        
+        ydelta = results{di}.ROfXAndYAndTimeRecessed.Y(2)-results{di}.ROfXAndYAndTimeRecessed.Y(1);
+        timedelta = results{di}.ROfXAndYAndTimeRecessed.Time(2)-results{di}.ROfXAndYAndTimeRecessed.Time(1);
+        xynorm = xdelta * ydelta;
+        disp(['Total reflectance captured by ROfXAndYAndTimeRecessed detector: ' num2str(sum(sum(sum(timedelta*xynorm*results{di}.ROfXAndYAndTimeRecessed.Mean))))]);
     end
     if isfield(results{di}, 'ROfXAndYAndThetaAndPhi') && show.ROfXAndYAndThetaAndPhi
         yidx = floor(length(results{di}.ROfXAndYAndThetaAndPhi.Y_Midpoints) / 2);

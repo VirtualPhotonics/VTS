@@ -209,19 +209,31 @@ namespace Vts.MonteCarlo
         /// </summary>
         public double[,,] R_xyt2 { get { return ((double[,,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ROfXAndYAndTime").First().Name]).SecondMoment); } }
         /// <summary>
-        /// Reflectance as a function of x and y and teim Tally Count
+        /// Reflectance as a function of x and y and time Tally Count
         /// </summary>
         public long R_xyt_TallyCount { get { return ((long)((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ROfXAndYAndTime").First().Name]).TallyCount); } }
+        /// <summary>
+        /// Reflectance as a function of x and y and time recessed in air
+        /// </summary>
+        public double[,,] R_xytr { get { return ((double[,,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ROfXAndYAndTimeRecessed").First().Name]).Mean); } }
+        /// <summary>
+        /// Reflectance as a function of x and y and time recessed in air 2nd moment
+        /// </summary>
+        public double[,,] R_xytr2 { get { return ((double[,,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ROfXAndYAndTimeRecessed").First().Name]).SecondMoment); } }
+        /// <summary>
+        /// Reflectance as a function of x and y and time recessed in air Tally Count
+        /// </summary>
+        public long R_xytr_TallyCount { get { return ((long)((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ROfXAndYAndTimeRecessed").First().Name]).TallyCount); } }
         /// <summary>
         /// Reflectance as a function of x and y and theta and phi
         /// </summary>
         public double[,,,] R_xytp { get { return ((double[,,,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ROfXAndYAndThetaAndPhi").First().Name]).Mean); } }
         /// <summary>
-        /// Reflectance as a function of x and y and time 2nd moment
+        /// Reflectance as a function of x and y and theta and phi 2nd moment
         /// </summary>
         public double[,,,] R_xytp2 { get { return ((double[,,,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ROfXAndYAndThetaAndPhi").First().Name]).SecondMoment); } }
         /// <summary>
-        /// Reflectance as a function of x and y and teim Tally Count
+        /// Reflectance as a function of x and y and theta and phi Tally Count
         /// </summary>
         public long R_xytp_TallyCount { get { return ((long)((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ROfXAndYAndThetaAndPhi").First().Name]).TallyCount); } }
         /// <summary>
