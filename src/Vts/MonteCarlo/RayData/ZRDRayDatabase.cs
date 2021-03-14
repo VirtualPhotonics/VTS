@@ -3,15 +3,17 @@ using System.IO;
 using System.Runtime.InteropServices;
 using Vts.IO;
 using Vts.Common;
+using Vts.MonteCarlo.IO;
 
 namespace Vts.MonteCarlo.RayData
 {
     /// <summary>
-    /// Describes database for storing and returning source data points (position, direction, weight).
-    /// The base class, Database(OfT), exposes the IEnumerable(OfT) SourceDataPoints 
-    /// list of SourceDataPoint items
+    /// Describes database for storing and returning source Zemax ZRD ray data points 
+    /// (position, direction, weight).
+    /// The base class, Database(OfT), exposes the IEnumerable(OfT) DataPoints 
+    /// list of RayDataPoint items
     /// </summary>
-    public class ZRDRayDatabase // : Database<ZRDRayDataPoint>
+    public class ZRDRayDatabase  : Database<RayDataPoint> // CKH: do I need to inherit here?
     {
         /// <summary>
         /// Returns an instance of SourceDatabase
@@ -48,19 +50,29 @@ namespace Vts.MonteCarlo.RayData
                         double Uy = br.ReadDouble();
                         double Uz = br.ReadDouble();
                         skipData = br.ReadBytes(104); // skip to end of ZRDRayDataPoint
-                        skipData = br.ReadBytes((numSegments - 1) * count);                        
+                        // skip rest of rays in segment
+                        skipData = br.ReadBytes((numSegments - 1) * count);
                         //var rayData = br.ReadBytes(count);
                         //byte[] readBuffer = new byte[count];
                         //GCHandle handle = GCHandle.Alloc(readBuffer, GCHandleType.Pinned);
                         //var zrdRayData = (ZRDRayDataInUFD.ZRDRayDataPoint)
                         //    Marshal.PtrToStructure(handle.AddrOfPinnedObject(), 
                         //    typeof(ZRDRayDataInUFD.ZRDRayDataPoint));
-                            RayDataPoints.Add(new RayDataPoint(
-                                new Position(X, Y, Z), new Direction(Ux, Uy, Uz), 1));
+                        RayDataPoints.Add(new RayDataPoint(
+                            new Position(X, Y, Z), new Direction(Ux, Uy, Uz), 1));
                     }
                 }
             }
             return RayDataPoints;
+        }
+        /// <summary>
+        /// Static helper method to simplify writing to file
+        /// </summary>
+        /// <param name="fileName">The base filename for the database (no ".txt")</param>
+        /// <returns>A new instance of SourceDatabase</returns>
+        public static void ToFile(string fileName)
+        {
+            // to be coded
         }
     }
 }

@@ -1,21 +1,22 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using Vts.MonteCarlo.RayData;
 
 namespace Vts.MonteCarlo.Sources
 {
     /// <summary>
-    /// Implements ISourceInput. Defines input data for IGES FileSource implementation 
+    /// Implements ISourceInput. Defines input data for ZRD FileSource implementation 
     /// including emitting position, direction, weight and initial tissue region index.
     /// </summary>
-    public class IGESFileSourceInput  //:ISourceInput
+    public class ZRDFileSourceInput  //:ISourceInput
     {
         /// <summary>
         /// Initializes a new instance of ZemaxFileSourceInput class
         /// </summary>
         /// <param name="sourceFileName">Source file name</param>
         /// <param name="initialTissueRegionIndex">Initial tissue region index</param>
-        public IGESFileSourceInput(
+        public ZRDFileSourceInput(
             string sourceFileName,
             int initialTissueRegionIndex)
         {
@@ -27,7 +28,7 @@ namespace Vts.MonteCarlo.Sources
         /// <summary>
         /// Initializes the default constructor of ZemaxFileSourceInput class
         /// </summary>
-        public IGESFileSourceInput()
+        public ZRDFileSourceInput()
             : this("", 0)
         {
         }
@@ -41,10 +42,6 @@ namespace Vts.MonteCarlo.Sources
         /// </summary>
         public string SourceFileName { get; set; }
         /// <summary>
-        /// Database of SourceDataPoint
-        /// </summary>
-        public ZRDRayDatabase SourceDatabase { get; set; }
-        /// <summary>
         /// Initial tissue region index
         /// </summary>
         public int InitialTissueRegionIndex { get; set; }
@@ -54,39 +51,34 @@ namespace Vts.MonteCarlo.Sources
         /// </summary>
         /// <param name="rng"></param>
         /// <returns></returns>
-        //public ISource CreateSource(Random rng = null)
-        //{
-        //    return new ZRDFileSource(
-        //        this.SourceFileName,
-        //        this.InitialTissueRegionIndex) { Rng = rng };
-        //}
+        public ISource CreateSource(Random rng = null)
+        {
+            return new ZRDFileSource(
+                this.SourceFileName,
+                this.InitialTissueRegionIndex)
+            { Rng = rng };
+        }
     }
 
     /// <summary>
     /// Implements ZemaxFileSource with file name, initial 
     /// tissue region index.
     /// </summary>
-    //public class ZRDFileSource : FromFileSourceBase
-    //{
-    //    /// <summary>
-    //    /// Returns an instance of Zemax File Source at a given location
-    //    /// </summary>        
-    //    /// <param name="initialTissueRegionIndex">Initial tissue region index</param>
-    //    public ZRDFileSource(
-    //        string sourceFileName,
-    //        int initialTissueRegionIndex = 0)
-    //        : base(
-    //            sourceFileName,
-    //            initialTissueRegionIndex)
-    //    {
-    //    }
+    public class ZRDFileSource : FromFileSourceBase
+    {
+        /// <summary>
+        /// Returns an instance of Zemax File Source at a given location
+        /// </summary>        
+        /// <param name="initialTissueRegionIndex">Initial tissue region index</param>
+        public ZRDFileSource(
+            string sourceFileName,
+            int initialTissueRegionIndex = 0)
+            : base(
+                //sourceFileName,
+                initialTissueRegionIndex)
+        {
+            _sourceDatabase = ZRDRayDatabase.FromFile(sourceFileName);
+        }
 
-        //protected override List<ZRDRayDataInUFD.ZRDRayDataPoint> ReadFile(string fileName)
-        //{
-        //    //get the full path for the input file
-        //    var fullFilePath = Path.GetFullPath(fileName);
-        //    return ZRDRayDatabase.FromFile(fullFilePath);
-        //}
-    //}
-
+    }
 }
