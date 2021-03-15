@@ -1,10 +1,11 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-
+﻿<Project Sdk="Microsoft.NET.Sdk" ToolsVersion="Current">
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <IsPackable>false</IsPackable>
+    <FileUpgradeFlags>40</FileUpgradeFlags>
+    <UpgradeBackupLocation>C:\Users\hayakawa\Documents\Visual Studio 2019\Projects\vts_210207\src\Backup\Vts.Test\</UpgradeBackupLocation>
+    <OldToolsVersion>2.0</OldToolsVersion>
   </PropertyGroup>
-
   <ItemGroup>
     <None Remove="Resources\embeddedresourcefile.txt" />
     <None Remove="Resources\fileiotest\binarydbl" />
@@ -21,7 +22,6 @@
     <None Remove="Resources\sourcetest\inputAOfRhoAndZ.txt" />
     <None Remove="Resources\sourcetest\inputAOfXAndYAndZ.txt" />
   </ItemGroup>
-
   <ItemGroup>
     <EmbeddedResource Include="Resources\fileiotest\binarydbl" />
     <EmbeddedResource Include="Resources\fileiotest\embeddedresourcefile.txt" />
@@ -38,7 +38,6 @@
     <EmbeddedResource Include="Resources\sourcetest\AOfXAndYAndZ.txt" />
     <EmbeddedResource Include="Resources\sourcetest\inputAOfXAndYAndZ.txt" />
   </ItemGroup>
-
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.6.1" />
     <PackageReference Include="NUnit" Version="3.12.0" />
@@ -47,9 +46,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\Vts\Vts.csproj" />
   </ItemGroup>
-
 </Project>

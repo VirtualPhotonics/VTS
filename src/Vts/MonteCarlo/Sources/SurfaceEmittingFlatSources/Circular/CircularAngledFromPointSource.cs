@@ -18,7 +18,7 @@ namespace Vts.MonteCarlo.Sources
         /// </summary>
         /// <param name="radius">The radius of the circular source on tissue surface</param>
         /// <param name="sourceProfile">Source Profile {Flat / Gaussian}</param>
-        /// <param name="pointPosition">Location of originating point</param>
+        /// <param name="pointPosition">Location of originating point WITHOUT TRANSLATION</param>
         /// <param name="translationFromOrigin">Center of circle location</param>
         /// <param name="initialTissueRegionIndex">Initial tissue region index</param>
         public CircularAngledFromPointSourceInput(
