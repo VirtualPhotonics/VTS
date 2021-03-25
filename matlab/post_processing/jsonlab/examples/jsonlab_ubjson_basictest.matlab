@@ -11,7 +11,7 @@ For product information, visit www.mathworks.com.
 
 	Academic License
 
->> >> >> >> >> >> >> >> >> >> >> 
+>> >> >> >> >> >> >> >> >> 
 %=================================================
 >> %  a simple scalar value 
 >> %=================================================
@@ -24,8 +24,7 @@ data2json =
 >> 
 ans =
 
-[3.141592654]
-
+[D@	!ûTD-]
 
 >> 
 json2data =
@@ -45,13 +44,12 @@ data2json =
 >> 
 ans =
 
-[]
-
+{UemptyZ}
 
 >> 
 json2data = 
 
-   Empty cell array: 0-by-1
+    empty: []
 
 >> >> 
 %=================================================
@@ -67,10 +65,7 @@ data2json =
 >> 
 ans =
 
-{
-	"emptystr": ""
-}
-
+{UemptystrSU }
 
 >> 
 json2data = 
@@ -90,15 +85,14 @@ data2json =
 >> 
 ans =
 
-[1,2,3]
-
+[$U#U
 
 >> 
 json2data =
 
-     1     2     3
+    1    2    3
 
->> >> >> 
+>> >> 
 %=================================================
 >> %  a simple column vector 
 >> %=================================================
@@ -113,21 +107,16 @@ data2json =
 >> 
 ans =
 
-[
-	[1],
-	[2],
-	[3]
-]
-
+[$U#[$U#U
 
 >> 
 json2data =
 
-     1
-     2
-     3
+    1
+    2
+    3
 
->> >> >> 
+>> >> 
 %=================================================
 >> %  a string array 
 >> %=================================================
@@ -141,11 +130,7 @@ EG
 >> 
 ans =
 
-[
-	"AC",
-	"EG"
-]
-
+[SUACSUEG]
 
 >> 
 json2data = 
@@ -166,10 +151,8 @@ one"two
 >> 
 ans =
 
-{
-	"str": "AB\tCD\none\"two"
-}
-
+{UstrSUAB	CD
+one"two}
 
 >> 
 json2data = 
@@ -189,22 +172,14 @@ data2json =
 >> 
 ans =
 
-[
-	"a",
-	true,
-	[
-		[2],
-		[3]
-	]
-]
-
+[CaT[$U#[$U#U]
 
 >> 
 json2data = 
 
-    'a'    [1]    [2x1 double]
+    'a'    [1]    [2x1 uint8]
 
->> >> >> 
+>> >> 
 %=================================================
 >> %  a 3-D array in nested array form
 >> %=================================================
@@ -212,59 +187,46 @@ json2data =
 >> >> >> 
 ans =
 
-[
-	[
-		[1,9,17,25,33,41],
-		[3,11,19,27,35,43],
-		[5,13,21,29,37,45],
-		[7,15,23,31,39,47]
-	],
-	[
-		[2,10,18,26,34,42],
-		[4,12,20,28,36,44],
-		[6,14,22,30,38,46],
-		[8,16,24,32,40,48]
-	]
-]
-
+[[[UU	UUU!U)][UUUUU#U+][UUUUU%U-][UUUUU'U/]][[UU
+UUU"U*][UUUUU$U,][UUUUU&U.][UUUU U(U0]]]
 
 >> 
 json2data(:,:,1) =
 
-     1     3     5     7
-     2     4     6     8
+    1    3    5    7
+    2    4    6    8
 
 
 json2data(:,:,2) =
 
-     9    11    13    15
-    10    12    14    16
+    9   11   13   15
+   10   12   14   16
 
 
 json2data(:,:,3) =
 
-    17    19    21    23
-    18    20    22    24
+   17   19   21   23
+   18   20   22   24
 
 
 json2data(:,:,4) =
 
-    25    27    29    31
-    26    28    30    32
+   25   27   29   31
+   26   28   30   32
 
 
 json2data(:,:,5) =
 
-    33    35    37    39
-    34    36    38    40
+   33   35   37   39
+   34   36   38   40
 
 
 json2data(:,:,6) =
 
-    41    43    45    47
-    42    44    46    48
+   41   43   45   47
+   42   44   46   48
 
->> >> >> 
+>> >> >> >> >> 
 %=================================================
 >> %  a 3-D array in annotated array form
 >> %=================================================
@@ -272,12 +234,8 @@ json2data(:,:,6) =
 >> >> >> 
 ans =
 
-{
-	"_ArrayType_": "double",
-	"_ArraySize_": [2,4,6],
-	"_ArrayData_": [1,9,17,25,33,41,3,11,19,27,35,43,5,13,21,29,37,45,7,15,23,31,39,47,2,10,18,26,34,42,4,12,20,28,36,44,6,14,22,30,38,46,8,16,24,32,40,48]
-}
-
+{U_ArrayType_SUdoubleU_ArraySize_[$U#UU_ArrayData_[$U#U0	!)#+%-'/
+"*$,&. (0}
 
 >> 
 json2data(:,:,1) =
@@ -323,12 +281,8 @@ json2data(:,:,6) =
 >> >> >> 
 ans =
 
-{
-	"_ArrayType_": "double",
-	"_ArraySize_": [2,4,3,2],
-	"_ArrayData_": [1,25,9,33,17,41,3,27,11,35,19,43,5,29,13,37,21,45,7,31,15,39,23,47,2,26,10,34,18,42,4,28,12,36,20,44,6,30,14,38,22,46,8,32,16,40,24,48]
-}
-
+{U_ArrayType_SUdoubleU_ArraySize_[$U#UU_ArrayData_[$U#U0	!)#+%-'/
+"*$,&. (0}
 
 >> 
 json2data(:,:,1,1) =
@@ -374,83 +328,10 @@ json2data(:,:,3,2) =
 >> >> >> 
 ans =
 
-[
-	[
-		[1,2],
-		[3,4],
-		[5,6],
-		[7,8]
-	],
-	[
-		[9,10],
-		[11,12],
-		[13,14],
-		[15,16]
-	],
-	[
-		[17,18],
-		[19,20],
-		[21,22],
-		[23,24]
-	],
-	[
-		[25,26],
-		[27,28],
-		[29,30],
-		[31,32]
-	],
-	[
-		[33,34],
-		[35,36],
-		[37,38],
-		[39,40]
-	],
-	[
-		[41,42],
-		[43,44],
-		[45,46],
-		[47,48]
-	]
-]
+[[[UU][UU][UU][UU]][[U	U
+][UU][UU][UU]][[UU][UU][UU][UU]][[UU][UU][UU][UU ]][[U!U"][U#U$][U%U&][U'U(]][[U)U*][U+U,][U-U.][U/U0]]]
 
-
->> 
-json2data(:,:,1) =
-
-     1     3     5     7
-     2     4     6     8
-
-
-json2data(:,:,2) =
-
-     9    11    13    15
-    10    12    14    16
-
-
-json2data(:,:,3) =
-
-    17    19    21    23
-    18    20    22    24
-
-
-json2data(:,:,4) =
-
-    25    27    29    31
-    26    28    30    32
-
-
-json2data(:,:,5) =
-
-    33    35    37    39
-    34    36    38    40
-
-
-json2data(:,:,6) =
-
-    41    43    45    47
-    42    44    46    48
-
->> >> >> 
+>> >> 
 %=================================================
 >> %  a 3-D array in annotated array form (JSONLab 1.9 or earlier)
 >> %=================================================
@@ -458,50 +339,10 @@ json2data(:,:,6) =
 >> >> >> 
 ans =
 
-{
-	"_ArrayType_": "double",
-	"_ArraySize_": [2,4,6],
-	"_ArrayData_": [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48]
-}
+{U_ArrayType_SUdoubleU_ArraySize_[$U#UU_ArrayData_[$U#U0	
+ !"#$%&'()*+,-./0}
 
-
->> 
-json2data(:,:,1) =
-
-     1     3     5     7
-     2     4     6     8
-
-
-json2data(:,:,2) =
-
-     9    11    13    15
-    10    12    14    16
-
-
-json2data(:,:,3) =
-
-    17    19    21    23
-    18    20    22    24
-
-
-json2data(:,:,4) =
-
-    25    27    29    31
-    26    28    30    32
-
-
-json2data(:,:,5) =
-
-    33    35    37    39
-    34    36    38    40
-
-
-json2data(:,:,6) =
-
-    41    43    45    47
-    42    44    46    48
-
->> >> >> 
+>> >> 
 %=================================================
 >> %  a complex number
 >> %=================================================
@@ -514,23 +355,14 @@ data2json =
 >> 
 ans =
 
-{
-	"_ArrayType_": "double",
-	"_ArraySize_": [1,1],
-	"_ArrayIsComplex_": true,
-	"_ArrayData_": [
-		[1],
-		[2]
-	]
-}
-
+{U_ArrayType_SUdoubleU_ArraySize_[$U#UU_ArrayIsComplex_TU_ArrayData_[$U#[$U#U}
 
 >> 
 json2data =
 
    1.0000 + 2.0000i
 
->> >> >> 
+>> >> 
 %=================================================
 >> %  a complex matrix
 >> %=================================================
@@ -548,16 +380,8 @@ data2json =
 >> 
 ans =
 
-{
-	"_ArrayType_": "double",
-	"_ArraySize_": [6,3],
-	"_ArrayIsComplex_": true,
-	"_ArrayData_": [
-		[35,1,6,3,32,7,31,9,2,8,28,33,30,5,34,4,36,29],
-		[26,19,24,21,23,25,22,27,20,17,10,15,12,14,16,13,18,11]
-	]
-}
-
+{U_ArrayType_SUdoubleU_ArraySize_[$U#UU_ArrayIsComplex_TU_ArrayData_[$U#[$U#U# 	
+!"$}
 
 >> 
 json2data =
@@ -569,7 +393,7 @@ json2data =
   30.0000 +12.0000i   5.0000 +14.0000i  34.0000 +16.0000i
    4.0000 +13.0000i  36.0000 +18.0000i  29.0000 +11.0000i
 
->> >> >> 
+>> >> 
 %=================================================
 >> %  MATLAB special constants
 >> %=================================================
@@ -582,17 +406,14 @@ data2json =
 >> 
 ans =
 
-{
-	"specials": ["_NaN_","_Inf_","-_Inf_"]
-}
-
+{Uspecials[$D#Uÿø      ð      ÿð      }
 
 >> 
 json2data = 
 
     specials: [NaN Inf -Inf]
 
->> >> >> 
+>> >> 
 %=================================================
 >> %  a real sparse matrix
 >> %=================================================
@@ -613,69 +434,46 @@ data2json =
 >> 
 ans =
 
-{
-	"sparse": {
-		"_ArrayType_": "double",
-		"_ArraySize_": [10,10],
-		"_ArrayIsSparse_": true,
-		"_ArrayData_": [
-			[1,9,3,10,10,7,2,6,10],
-			[2,2,5,5,8,9,10,10,10],
-			[0.655740699156586837,0.757740130578333448,0.849129305868777107,0.743132468124916179,0.392227019534168164,0.678735154857773471,0.0357116785741895537,0.933993247757550549,0.655477890177556644]
-		]
-	}
-}
+{Usparse{U_ArrayType_SUdoubleU_ArraySize_[$U#U
 
+U_ArrayIsSparse_TU_ArrayData_[$D#[$U#U	?ð      @       ?äûÓë12@"      @       ?è?h:öl;@      @      ?ë,8Ù±@$      @      ?çÇ½½æ'#@$      @       ?Ù?[`o@      @"      ?å¸2ÉNé@       @$      ?¢HÍpà@      @$      ?íãEÎ¹¶P@$      @$      ?äù¬Ä²	¶}}
 
 >> 
 json2data = 
 
     sparse: [10x10 double]
 
->> >> >> 
+>> >> 
 %=================================================
 >> %  a complex sparse matrix
 >> %=================================================
 
->> >> >> 
+>> >> 
 data2json =
 
-   (2,1)      0.6551 - 0.6551i
-   (1,2)      0.7547 - 0.7547i
-   (1,4)      0.2760 - 0.2760i
-   (7,5)      0.4984 - 0.4984i
-   (8,5)      0.9597 - 0.9597i
-   (9,5)      0.3404 - 0.3404i
-   (4,7)      0.1190 - 0.1190i
-   (1,8)      0.6797 - 0.6797i
-   (3,8)      0.1626 - 0.1626i
-  (10,8)      0.5853 - 0.5853i
+   (1,2)      0.6557 - 0.6557i
+   (9,2)      0.7577 - 0.7577i
+   (3,5)      0.8491 - 0.8491i
+  (10,5)      0.7431 - 0.7431i
+  (10,8)      0.3922 - 0.3922i
+   (7,9)      0.6787 - 0.6787i
+   (2,10)     0.0357 - 0.0357i
+   (6,10)     0.9340 - 0.9340i
+  (10,10)     0.6555 - 0.6555i
 
 >> 
 ans =
 
-{
-	"complex_sparse": {
-		"_ArrayType_": "double",
-		"_ArraySize_": [10,10],
-		"_ArrayIsComplex_": true,
-		"_ArrayIsSparse_": true,
-		"_ArrayData_": [
-			[2,1,1,7,8,9,4,1,3,10],
-			[1,2,4,5,5,5,7,8,8,8],
-			[0.655098003973840659,0.754686681982360885,0.276025076998578367,0.498364051982142953,0.959743958516081075,0.340385726666133204,0.118997681558376645,0.679702676853674803,0.162611735194630569,0.585267750979777346],
-			[-0.655098003973840659,-0.754686681982360885,-0.276025076998578367,-0.498364051982142953,-0.959743958516081075,-0.340385726666133204,-0.118997681558376645,-0.679702676853674803,-0.162611735194630569,-0.585267750979777346]
-		]
-	}
-}
+{Ucomplex_sparse{U_ArrayType_SUdoubleU_ArraySize_[$U#U
 
+U_ArrayIsComplex_TU_ArrayIsSparse_TU_ArrayData_[$D#[$U#U	?ð      @       ?äûÓë12¿äûÓë12@"      @       ?è?h:öl;¿è?h:öl;@      @      ?ë,8Ù±¿ë,8Ù±@$      @      ?çÇ½½æ'#¿çÇ½½æ'#@$      @       ?Ù?[`o¿Ù?[`o@      @"      ?å¸2ÉNé¿å¸2ÉNé@       @$      ?¢HÍpà¿¢HÍpà@      @$      ?íãEÎ¹¶P¿íãEÎ¹¶P@$      @$      ?äù¬Ä²	¶¿äù¬Ä²	¶}}
 
 >> 
 json2data = 
 
     complex_sparse: [10x10 double]
 
->> >> >> 
+>> >> 
 %=================================================
 >> %  an all-zero sparse matrix
 >> %=================================================
@@ -683,22 +481,14 @@ json2data =
 >> >> >> 
 ans =
 
-{
-	"all_zero_sparse": {
-		"_ArrayType_": "double",
-		"_ArraySize_": [2,3],
-		"_ArrayIsSparse_": true,
-		"_ArrayData_": []
-	}
-}
-
+{Uall_zero_sparse{U_ArrayType_SUdoubleU_ArraySize_[$U#UU_ArrayIsSparse_TU_ArrayData_Z}}
 
 >> 
 json2data = 
 
     all_zero_sparse: [2x3 double]
 
->> >> >> 
+>> >> 
 %=================================================
 >> %  an empty sparse matrix
 >> %=================================================
@@ -706,22 +496,14 @@ json2data =
 >> >> >> 
 ans =
 
-{
-	"empty_sparse": {
-		"_ArrayType_": "double",
-		"_ArraySize_": [0,0],
-		"_ArrayIsSparse_": true,
-		"_ArrayData_": []
-	}
-}
-
+{Uempty_sparseZ}
 
 >> 
 json2data = 
 
     empty_sparse: []
 
->> >> >> 
+>> >> 
 %=================================================
 >> %  an empty 0-by-0 real matrix
 >> %=================================================
@@ -729,15 +511,12 @@ json2data =
 >> >> >> 
 ans =
 
-{
-	"empty_0by0_real": []
-}
-
+{Uempty_0by0_realZ}
 
 >> 
 json2data = 
 
-    empty_0by0_real: {0x1 cell}
+    empty_0by0_real: []
 
 >> >> 
 %=================================================
@@ -747,21 +526,14 @@ json2data =
 >> >> >> 
 ans =
 
-{
-	"empty_0by3_real": {
-		"_ArrayType_": "double",
-		"_ArraySize_": [0,3],
-		"_ArrayData_": []
-	}
-}
-
+{Uempty_0by3_realZ}
 
 >> 
 json2data = 
 
-    empty_0by3_real: [0x3 double]
+    empty_0by3_real: []
 
->> >> >> 
+>> >> 
 %=================================================
 >> %  a sparse real column vector
 >> %=================================================
@@ -769,18 +541,7 @@ json2data =
 >> >> >> 
 ans =
 
-{
-	"sparse_column_vector": {
-		"_ArrayType_": "double",
-		"_ArraySize_": [5,1],
-		"_ArrayIsSparse_": true,
-		"_ArrayData_": [
-			[2,4,5],
-			[3,1,4]
-		]
-	}
-}
-
+{Usparse_column_vector{U_ArrayType_SUdoubleU_ArraySize_[$U#UU_ArrayIsSparse_TU_ArrayData_[$U#[$U#U}}
 
 >> 
 json2data = 
@@ -795,20 +556,7 @@ json2data =
 >> >> >> 
 ans =
 
-{
-	"complex_sparse_column_vector": {
-		"_ArrayType_": "double",
-		"_ArraySize_": [5,1],
-		"_ArrayIsComplex_": true,
-		"_ArrayIsSparse_": true,
-		"_ArrayData_": [
-			[2,4,5],
-			[3,1,4],
-			[-3,-1,-4]
-		]
-	}
-}
-
+{Ucomplex_sparse_column_vector{U_ArrayType_SUdoubleU_ArraySize_[$U#UU_ArrayIsComplex_TU_ArrayIsSparse_TU_ArrayData_[$i#[$U#Uýÿü}}
 
 >> 
 json2data = 
@@ -823,18 +571,7 @@ json2data =
 >> >> >> 
 ans =
 
-{
-	"sparse_row_vector": {
-		"_ArrayType_": "double",
-		"_ArraySize_": [1,5],
-		"_ArrayIsSparse_": true,
-		"_ArrayData_": [
-			[2,4,5],
-			[3,1,4]
-		]
-	}
-}
-
+{Usparse_row_vector{U_ArrayType_SUdoubleU_ArraySize_[$U#UU_ArrayIsSparse_TU_ArrayData_[$U#[$U#U}}
 
 >> 
 json2data = 
@@ -849,20 +586,7 @@ json2data =
 >> >> >> 
 ans =
 
-{
-	"complex_sparse_row_vector": {
-		"_ArrayType_": "double",
-		"_ArraySize_": [1,5],
-		"_ArrayIsComplex_": true,
-		"_ArrayIsSparse_": true,
-		"_ArrayData_": [
-			[2,4,5],
-			[3,1,4],
-			[-3,-1,-4]
-		]
-	}
-}
-
+{Ucomplex_sparse_row_vector{U_ArrayType_SUdoubleU_ArraySize_[$U#UU_ArrayIsComplex_TU_ArrayIsSparse_TU_ArrayData_[$i#[$U#Uýÿü}}
 
 >> 
 json2data = 
@@ -886,23 +610,7 @@ data2json =
 >> 
 ans =
 
-{
-	"astruct": {
-		"name": "Think Different",
-		"year": 1997,
-		"magic": [
-			[8,1,6],
-			[3,5,7],
-			[4,9,2]
-		],
-		"misfits": ["_Inf_","_NaN_"],
-		"embedded": {
-			"left": true,
-			"right": false
-		}
-	}
-}
-
+{Uastruct{UnameSUThink DifferentUyearuÍUmagic[$U#[$U#U	Umisfits[$D#Uð      ÿø      Uembedded{UleftTUrightF}}}
 
 >> 
 json2data = 
@@ -922,23 +630,7 @@ logical
 >> >> >> >> >> 
 ans =
 
-{
-	"Supreme Commander": [
-		{
-			"name": "Nexus Prime",
-			"rank": 9
-		},
-		{
-			"name": "Sentinel Prime",
-			"rank": 9
-		},
-		{
-			"name": "Optimus Prime",
-			"rank": 9
-		}
-	]
-}
-
+{USupreme Commander[{UnameSUNexus PrimeUrankU	}{UnameSUSentinel PrimeUrankU	}{UnameSUOptimus PrimeUrankU	}]}
 
 >> 
 json2data = 
@@ -960,35 +652,7 @@ data2json =
 >> 
 ans =
 
-{
-	"debian": [
-		[
-			{
-				"buzz": 1.10,
-				"rex": 1.20,
-				"bo": 1.30,
-				"hamm": 2.00,
-				"slink": 2.10,
-				"potato": 2.20,
-				"woody": 3.00,
-				"sarge": 3.10,
-				"etch": 4.00,
-				"lenny": 5.00,
-				"squeeze": 6.00,
-				"wheezy": 7.00
-			},
-			{
-				"Ubuntu": [
-					"Kubuntu",
-					"Xubuntu",
-					"Lubuntu"
-				]
-			},
-			[10.04,10.10,11.04,11.10]
-		]
-	]
-}
-
+{Udebian[[{Ubuzz[D?ñ]Urex[D?ó333333]Ubo[D?ôÌÌÌÌÌÍ]UhammUUslink[D@ ÌÌÌÌÌÍ]Upotato[D@]UwoodyUUsarge[D@ÌÌÌÌÌÍ]UetchUUlennyUUsqueezeUUwheezyU}{UUbuntu[SUKubuntuSUXubuntuSULubuntu]}[$D#U@$záG®@$333333@&záG®@&333333]]}
 
 >> 
 json2data = 
@@ -1021,19 +685,7 @@ data2json =
 >> 
 ans =
 
-{
-	"handle": {
-		"function": "@(x)x+1",
-		"type": "anonymous",
-		"file": "",
-		"workspace": [
-			{
-			}
-		],
-		"within_file_path": "__base_function"
-	}
-}
-
+{Uhandle{UfunctionSU@(x)x+1UtypeSU	anonymousUfileSU U	workspace[{}]Uwithin_file_pathSU__base_function}}
 
 >> 
 json2data = 
@@ -1048,39 +700,8 @@ json2data =
 >> >> >> 
 ans =
 
-{
-	"data2json": [
-		[
-			[
-				1,
-				[
-					2,
-					3
-				]
-			],
-			[
-				4,
-				5
-			],
-			[
-				6
-			]
-		],
-		[
-			[
-				7
-			],
-			[
-				8,
-				9
-			],
-			[
-				10
-			]
-		]
-	]
-}
-
+{U	data2json[[[U[UU]][UU][U]][[U][UU	][U
+]]]}
 
 >> 
 json2data = 
@@ -1103,41 +724,7 @@ data2json =
 >> >> 
 ans =
 
-{
-	"data2json": [
-		[
-			{
-				"idx": 1,
-				"data": "structs"
-			},
-			{
-				"idx": 2,
-				"data": "structs"
-			}
-		],
-		[
-			{
-				"idx": 3,
-				"data": "structs"
-			},
-			{
-				"idx": 4,
-				"data": "structs"
-			}
-		],
-		[
-			{
-				"idx": 5,
-				"data": "structs"
-			},
-			{
-				"idx": 6,
-				"data": "structs"
-			}
-		]
-	]
-}
-
+{U	data2json[[{UidxUUdataSUstructs}{UidxUUdataSUstructs}][{UidxUUdataSUstructs}{UidxUUdataSUstructs}][{UidxUUdataSUstructs}{UidxUUdataSUstructs}]]}
 
 >> 
 json2data = 
@@ -1157,31 +744,7 @@ data2json =
 
 ans =
 
-[
-	{
-		"Format": "dd-MMM-uuuu",
-		"TimeZone": "",
-		"Year": 2015,
-		"Month": 4,
-		"Day": 8,
-		"Hour": 0,
-		"Minute": 0,
-		"Second": 0,
-		"SystemTimeZone": "America\/New_York"
-	},
-	{
-		"Format": "dd-MMM-uuuu",
-		"TimeZone": "",
-		"Year": 2015,
-		"Month": 5,
-		"Day": 9,
-		"Hour": 0,
-		"Minute": 0,
-		"Second": 0,
-		"SystemTimeZone": "America\/New_York"
-	}
-]
-
+[{UFormatSUdd-MMM-uuuuUTimeZoneSU UYearußUMonthUUDayUUHourU UMinuteU USecondU USystemTimeZoneSUAmerica/New_York}{UFormatSUdd-MMM-uuuuUTimeZoneSU UYearußUMonthUUDayU	UHourU UMinuteU USecondU USystemTimeZoneSUAmerica/New_York}]
 
 
 json2data = 
@@ -1205,12 +768,7 @@ data2json =
 
 ans =
 
-{
-	"Andy": 21,
-	"Om": 22,
-	"William": 21
-}
-
+{UAndyUUOmUUWilliamU}
 
 
 json2data = 
@@ -1237,30 +795,7 @@ data2json =
 
 ans =
 
-{
-	"table": {
-		"_TableCols_": [
-			"Names",
-			"Age"
-		],
-		"_TableRows_": [],
-		"_TableRecords_": [
-			[
-				"Andy",
-				21
-			],
-			[
-				"William",
-				21
-			],
-			[
-				"Om",
-				22
-			]
-		]
-	}
-}
-
+{Utable{U_TableCols_[SUNamesSUAge]U_TableRows_ZU_TableRecords_[[SUAndyU][SUWilliamU][SUOmU]]}}
 
 
 json2data = 
@@ -1284,18 +819,8 @@ data2json =
 
 ans =
 
-{
-	"_ArrayType_": "double",
-	"_ArraySize_": [5,8],
-	"_ArrayZipSize_": [6,5],
-	"_ArrayShape_": [
-		"band",
-		2,
-		3
-	],
-	"_ArrayData_": [11,17,23,29,35,6,12,18,24,30,1,7,13,19,25,0,2,8,14,20,0,0,3,9,15,0,0,0,4,10]
+{U_ArrayType_SUdoubleU_ArraySize_[$U#UU_ArrayZipSize_[$U#UU_ArrayShape_[SUbandUU]U_ArrayData_[$U#U#   	   
 }
-
 
 
 json2data =
@@ -1309,17 +834,8 @@ json2data =
 
 ans =
 
-{
-	"_ArrayType_": "double",
-	"_ArraySize_": [5,8],
-	"_ArrayZipSize_": [4,5],
-	"_ArrayShape_": [
-		"lowerband",
-		3
-	],
-	"_ArrayData_": [1,7,13,19,25,0,2,8,14,20,0,0,3,9,15,0,0,0,4,10]
+{U_ArrayType_SUdoubleU_ArraySize_[$U#UU_ArrayZipSize_[$U#UU_ArrayShape_[SU	lowerbandU]U_ArrayData_[$U#U   	   
 }
-
 
 
 json2data =
@@ -1333,18 +849,7 @@ json2data =
 
 ans =
 
-{
-	"_ArrayType_": "double",
-	"_ArraySize_": [5,8],
-	"_ArrayIsComplex_": true,
-	"_ArrayZipSize_": [2,3,5],
-	"_ArrayShape_": [
-		"upperband",
-		2
-	],
-	"_ArrayData_": [11,17,23,29,35,6,12,18,24,30,1,7,13,19,25,11,17,23,29,35,6,12,18,24,30,1,7,13,19,25]
-}
-
+{U_ArrayType_SUdoubleU_ArraySize_[$U#UU_ArrayIsComplex_TU_ArrayZipSize_[$U#UU_ArrayShape_[SU	upperbandU]U_ArrayData_[$U#U##}
 
 
 json2data =
@@ -1368,13 +873,7 @@ json2data =
 
 ans =
 
-{
-	"_ArrayType_": "int8",
-	"_ArraySize_": [5,8],
-	"_ArrayShape_": "diag",
-	"_ArrayData_": [1,7,13,19,25]
-}
-
+{U_ArrayType_SUint8U_ArraySize_[$U#UU_ArrayShape_SUdiagU_ArrayData_[$U#U}
 
 
 json2data =
@@ -1388,17 +887,8 @@ json2data =
 
 ans =
 
-{
-	"_ArrayType_": "double",
-	"_ArraySize_": [5,5],
-	"_ArrayZipSize_": [4,5],
-	"_ArrayShape_": [
-		"lowersymmband",
-		3
-	],
-	"_ArrayData_": [2,14,26,38,50,0,8,20,32,44,0,0,14,26,38,0,0,0,4,10]
+{U_ArrayType_SUdoubleU_ArraySize_[$U#UU_ArrayZipSize_[$U#UU_ArrayShape_[SUlowersymmbandU]U_ArrayData_[$U#U&2  ,  &   
 }
-
 
 
 json2data =
@@ -1417,15 +907,8 @@ json2data =
 
 ans =
 
-{
-	"_ArrayType_": "double",
-	"_ArraySize_": [20,10],
-	"_ArrayZipSize_": [1,200],
-	"_ArrayZipType_": "zlib",
-	"_ArrayZipData_": "eJxjYACBD/YMNAGj5o6aO2ruKBgFgwtQL10DAMHODQY=
-"
-}
-
+{U_ArrayType_SUdoubleU_ArraySize_[$U#U
+U_ArrayZipSize_[$U#UÈU_ArrayZipType_SUzlibU_ArrayZipData_[$U#U xc` ö4£æ;jî(P/] ÁÎ}
 
 
 json2data =
