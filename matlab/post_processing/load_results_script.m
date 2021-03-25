@@ -239,7 +239,7 @@ for mci = 1:length(datanames)
         thetadelta = results{di}.ROfXAndYAndThetaAndPhi.Theta(2)-results{di}.ROfXAndYAndThetaAndPhi.Theta(1);
         phidelta = results{di}.ROfXAndYAndThetaAndPhi.Phi(2)-results{di}.ROfXAndYAndThetaAndPhi.Phi(1);
         xyphinorm = xdelta * ydelta * phidelta;
-        partialsum = xyphinorm * sum(results{di}.ROfXAndYAndThetaAndPhi.Mean,[1,3,4]);
+        partialsum = xyphinorm * sum(sum(sum(results{di}.ROfXAndYAndThetaAndPhi.Mean,1),3),4);
         thetanorm = sin(results{di}.ROfXAndYAndThetaAndPhi.Theta_Midpoints) * thetadelta;  
         disp(['Total reflectance captured by ROfXAndYAndThetaAndPhi detector: ' num2str(sum(partialsum.*thetanorm))]);
       end
@@ -570,7 +570,7 @@ for mci = 1:length(datanames)
                          *(results{di}.RadianceOfXAndYAndZAndThetaAndPhi.Y(2)-results{di}.RadianceOfXAndYAndZAndThetaAndPhi.Y(1))...
                          *(results{di}.RadianceOfXAndYAndZAndThetaAndPhi.Z(2)-results{di}.RadianceOfXAndYAndZAndThetaAndPhi.Z(1))...
                          *(results{di}.RadianceOfXAndYAndZAndThetaAndPhi.Phi(2)-results{di}.RadianceOfXAndYAndZAndThetaAndPhi.Phi(1)); 
-        partialsum=xyzphinorm*sum(results{di}.RadianceOfXAndYAndZAndThetaAndPhi.Mean,[1,3,4,5]);
+        partialsum=xyzphinorm*sum(sum(sum(sum(results{di}.RadianceOfXAndYAndZAndThetaAndPhi.Mean,1),3),4),5);
         thetadelta = results{di}.RadianceOfXAndYAndZAndThetaAndPhi.Theta(2)-results{di}.RadianceOfXAndYAndZAndThetaAndPhi.Theta(1);
         thetanorm = sin(results{di}.RadianceOfXAndYAndZAndThetaAndPhi.Theta_Midpoints) * thetadelta;  
         disp(['Radiance captured by RadianceOfXAndYAndZAndThetaAndPhi detector: ' num2str(sum(partialsum.*thetanorm))]);
