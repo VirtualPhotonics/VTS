@@ -4,7 +4,7 @@ dbstop if error;
 slash = filesep;  % get correct path delimiter for platform
 
 % script to parse results from MC simulation
-% addpath([cd slash 'xml_toolbox']);
+addpath(pwd);
 addpath([cd slash 'jsonlab']);
 
 % names of individual MC simulations
