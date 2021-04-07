@@ -28,7 +28,7 @@ namespace Vts.Test.MonteCarlo.Detectors
     {
         private SimulationOutput _outputOneLayerTissue;
         private SimulationOutput _outputTwoLayerTissue;
-        private double _layerThickness = 2.0;
+        private double _layerThickness = 1.0; // keep this value to match linux results
         private double _factor;
         /// <summary>
         /// list of temporary files created by these unit tests
@@ -70,8 +70,7 @@ namespace Vts.Test.MonteCarlo.Detectors
             var detectors = 
                 new List<IDetectorInput>
                 {
-                    //new ATotalDetectorInput() ckh 11/6/11 comment out for now with new Abs.Wt.Method rule
-                    // CAW not coded for volume tallies yet
+                    new ATotalDetectorInput(),
                     new RDiffuseDetectorInput() {TallySecondMoment = true},                    
                     new ROfAngleDetectorInput() {Angle = new DoubleRange(Math.PI / 2 , Math.PI, 2)},
                     new ROfRhoAndAngleDetectorInput() {Rho = new DoubleRange(0.0, 10.0, 101), Angle = new DoubleRange(Math.PI / 2, Math.PI, 2)},
@@ -141,6 +140,7 @@ namespace Vts.Test.MonteCarlo.Detectors
         }
 
         // validation values obtained from linux run using above input and seeded the same
+
         // Diffuse Reflectance
         [Test]
         public void validate_CAW_RDiffuse()
@@ -201,12 +201,14 @@ namespace Vts.Test.MonteCarlo.Detectors
                     _outputTwoLayerTissue.R_rw[0, 0] * _factor - (0.9224103 - Complex.ImaginaryOne * 0.0008737114)), 0.000001);
         }
         // Total Absorption : wait on this test until CAW worked out for ATotal
-        //[Test]
-        //public void validate_CAW_ATotal()
-        //{
-        //    Assert.Less(Math.Abs(_outputOneLayerTissue.Atot * _factor - 0.37402175), 0.002);
-        //    Assert.Less(Math.Abs(_outputTwoLayerTissue.Atot * _factor - 0.37402175), 0.002);
-        //}
+        [Test]
+        public void validate_CAW_ATotal()
+        {
+            // the two validation numbers are different due to the way CAW tallies
+            // across layer interfaces
+            Assert.Less(Math.Abs(_outputOneLayerTissue.Atot * _factor - 0.374615), 0.00005);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.Atot * _factor - 0.353954), 0.02);
+        }
         // Absorption A(rho,z) not coded yet for CAW
 
         // Diffuse Transmittance
@@ -255,12 +257,12 @@ namespace Vts.Test.MonteCarlo.Detectors
         }
 
         // sanity checks
-        //[Test] // wait on this until CAW volume tallies worked out
-        //public void validate_CAW_RDiffuse_plus_ATotal_plus_TDiffuse_equals_one()
-        //{
-        //    // no specular because photons started inside tissue
-        //    Assert.Less(Math.Abs(_outputOneLayerTissue.Rd + _outputOneLayerTissue.Atot + _outputOneLayerTissue.Td - 1), 0.00000000001);
-        //}
+        [Test] 
+        public void validate_CAW_RDiffuse_plus_ATotal_plus_TDiffuse_equals_one()
+        {
+            // no specular because photons started inside tissue
+            Assert.Less(Math.Abs(_outputOneLayerTissue.Rd + _outputOneLayerTissue.Atot + _outputOneLayerTissue.Td - 1), 0.002);
+        }
 
         // ReflectedTimeOfRhoAndSubregionHist : this is validated using initial run results since no supporting linux code 
         [Test]

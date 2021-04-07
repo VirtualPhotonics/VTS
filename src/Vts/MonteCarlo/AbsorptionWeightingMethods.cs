@@ -19,7 +19,14 @@ namespace Vts.MonteCarlo
                 case AbsorptionWeightingType.Analog:
                     return (previousDP, dp, regionIndex) => VolumeAbsorptionWeightingAnalog(dp);
                 case AbsorptionWeightingType.Continuous:
-                    throw new NotImplementedException("CAW is not currently implemented for volume tallies.");
+                    if (detector.TallyType == TallyType.ATotal)
+                    {
+                        return (previousDP, dp, regionIndex) => VolumeAbsorptionWeightingContinuous(previousDP, dp, regionIndex, tissue);
+                    }
+                    else
+                    {
+                        throw new NotImplementedException("CAW is not currently implemented for most volume tallies.");
+                    }
                 case AbsorptionWeightingType.Discrete:
                     return (previousDP, dp, regionIndex) => VolumeAbsorptionWeightingDiscrete(previousDP, dp, regionIndex, tissue);
                 default:
@@ -69,6 +76,22 @@ namespace Vts.MonteCarlo
 
             return weight;
         }
+        private static double VolumeAbsorptionWeightingContinuous(PhotonDataPoint previousDP, PhotonDataPoint dp, int regionIndex, ITissue tissue)
+        {
+            var pathLength = Math.Sqrt(
+                (dp.Position.X - previousDP.Position.X) * (dp.Position.X - previousDP.Position.X) +
+                (dp.Position.Y - previousDP.Position.Y) * (dp.Position.Y - previousDP.Position.Y) +
+                (dp.Position.Z - previousDP.Position.Z) * (dp.Position.Z - previousDP.Position.Z));
+
+                var weight = VolumeAbsorbContinuous(
+                tissue.Regions[regionIndex].RegionOP.Mua,
+                pathLength,
+                previousDP.Weight,
+                dp.Weight,
+                dp.StateFlag);
+
+            return weight;
+        }
 
         private static double VolumeAbsorbAnalog(double weight, PhotonStateType photonStateType)
         {
@@ -96,9 +119,18 @@ namespace Vts.MonteCarlo
             return weight;
         }
 
-        private static double VolumeAbsorbContinuous(double mua, double mus, double previousWeight, double weight, PhotonStateType photonStateType, ITissue tissue, IDetector detector)
+        private static double VolumeAbsorbContinuous(double mua, double pathLength, double previousWeight, double weight, PhotonStateType photonStateType)
         {
-            throw new NotImplementedException();
+            if ((previousWeight == weight) || // pseudo collision, so no tally
+            ((int)photonStateType) >= 64) // 0x40 = 64
+            {
+                weight = 0.0;
+            }
+            else
+            {
+                weight = previousWeight * (1 - Math.Exp(-mua * (pathLength)));
+            }
+            return weight;
         }
         
         private static double pMCAbsorbContinuous(IList<long> numberOfCollisions, IList<double> pathLength, IList<OpticalProperties> perturbedOps, IList<OpticalProperties> referenceOps, IList<int> perturbedRegionsIndices)
