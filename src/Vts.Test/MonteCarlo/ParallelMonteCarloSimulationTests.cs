@@ -100,9 +100,12 @@ namespace Vts.Test.MonteCarlo
             // read statistics.txt from file
             _statisticsSingleCPU = mc.Statistics;
 
+            var testCode = new ParallelMonteCarloSimulation(2);
+            testCode.RunSingleInParallel();
+
             // then run same simulation with 2 CPUs
-            var parallelMC = new ParallelMonteCarloSimulation(_simulationInput, 2);
-            _outputMultiCPU = parallelMC.RunSingleInParallel();
+            var parallelMC = new ParallelMonteCarloSimulation(2);
+            _outputMultiCPU = parallelMC.RunSingleInParallel(_simulationInput);
             // read statistics.txt from file
             _statisticsMultiCPU = parallelMC.SummedStatistics;
         }
@@ -284,8 +287,8 @@ namespace Vts.Test.MonteCarlo
         public void check_for_N_not_divisible_by_cpucount()
         {
             // N=100 in one time setup
-            var parallelMC = new ParallelMonteCarloSimulation(_simulationInput, 3);
-            var output3CPU = parallelMC.RunSingleInParallel();
+            var parallelMC = new ParallelMonteCarloSimulation(3);
+            var output3CPU = parallelMC.RunSingleInParallel(_simulationInput);
             Assert.AreEqual(output3CPU.Input.N, 99);
         }
         /// <summary>
