@@ -266,6 +266,11 @@ namespace Vts.MonteCarlo
                     DP.StateFlag = DP.StateFlag.Add(PhotonStateType.PseudoSpecularTissueBoundary);
                 }
             }
+            // adjust CAW weight for portion of track to pseudo collision
+            if (Absorb == AbsorbContinuous)
+            {
+                AbsorbContinuous();
+            }
         }
 
         /// <summary>
@@ -368,15 +373,11 @@ namespace Vts.MonteCarlo
         {
             double mua = _tissue.Regions[CurrentRegionIndex].RegionOP.Mua;
             // the following deweights at pseudo (sleft>0) and real collisions (sleft=0) as it should
-            //double dw = DP.Weight * (1 - Math.Exp(-mua * S));
-            //DP.Weight -= dw;
-            // use path length info to determine surviving weight
-            var exponent = 0.0;
-            for (int i = 0; i < _tissue.Regions.Count - 1; i++)
-            {
-                exponent +=_tissue.Regions[i].RegionOP.Mua * History.SubRegionInfoList[i].PathLength;
-            };
-            DP.Weight = Math.Exp(-exponent);
+            // rather than use total path length in each layer to detemine weight,
+            // this method updates weight at pseudo collision and can be used for total absorption tallies
+            // note: added call to AbsorbContinuous in CrossOrReflect to accomplish this
+            double dw = DP.Weight * (1 - Math.Exp(-_tissue.Regions[CurrentRegionIndex].RegionOP.Mua * S));          
+            DP.Weight -= dw;
 
             // update weight for current DP in History 
             History.HistoryData[History.HistoryData.Count() - 1].Weight = DP.Weight;

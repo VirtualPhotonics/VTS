@@ -118,11 +118,11 @@ namespace Vts.MonteCarlo
             }
             return weight;
         }
-
+        
         private static double VolumeAbsorbContinuous(double mua, double pathLength, double previousWeight, double weight, PhotonStateType photonStateType)
         {
-            if ((previousWeight == weight) || // pseudo collision, so no tally
-            ((int)photonStateType) >= 64) // 0x40 = 64
+            // no pathlength means no absorption, so no tally
+            if (pathLength == 0)
             {
                 weight = 0.0;
             }

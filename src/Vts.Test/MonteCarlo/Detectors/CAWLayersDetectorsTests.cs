@@ -206,8 +206,8 @@ namespace Vts.Test.MonteCarlo.Detectors
         {
             // the two validation numbers are different due to the way CAW tallies
             // across layer interfaces
-            Assert.Less(Math.Abs(_outputOneLayerTissue.Atot * _factor - 0.374615), 0.00005);
-            Assert.Less(Math.Abs(_outputTwoLayerTissue.Atot * _factor - 0.353954), 0.02);
+            Assert.Less(Math.Abs(_outputOneLayerTissue.Atot * _factor - 0.376212), 0.003);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.Atot * _factor - 0.356569), 0.02);
         }
         // Absorption A(rho,z) not coded yet for CAW
 
@@ -261,7 +261,7 @@ namespace Vts.Test.MonteCarlo.Detectors
         public void validate_CAW_RDiffuse_plus_ATotal_plus_TDiffuse_equals_one()
         {
             // no specular because photons started inside tissue
-            Assert.Less(Math.Abs(_outputOneLayerTissue.Rd + _outputOneLayerTissue.Atot + _outputOneLayerTissue.Td - 1), 0.002);
+            Assert.Less(Math.Abs(_outputOneLayerTissue.Rd + _outputOneLayerTissue.Atot + _outputOneLayerTissue.Td - 1), 0.0003);
         }
 
         // ReflectedTimeOfRhoAndSubregionHist : this is validated using initial run results since no supporting linux code 
