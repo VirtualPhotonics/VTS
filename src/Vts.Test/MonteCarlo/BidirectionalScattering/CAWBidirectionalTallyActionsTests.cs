@@ -85,11 +85,11 @@ namespace Vts.Test.MonteCarlo.BidirectionalScattering
                         new LayerTissueRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
                             new OpticalProperties(0.0, 1e-10, 0.0, 1.0)),
-                        //new LayerTissueRegion(
-                        //    new DoubleRange(0.0, _topLayerThickness),
-                        //    new OpticalProperties(_mua, _musp, _g, 1.0)), // index matched slab                        
                         new LayerTissueRegion(
-                            new DoubleRange(0, _slabThickness),
+                            new DoubleRange(0.0, _topLayerThickness),
+                            new OpticalProperties(_mua, _musp, _g, 1.0)), // index matched slab                        
+                        new LayerTissueRegion(
+                            new DoubleRange(_topLayerThickness, _slabThickness),
                             new OpticalProperties(_mua, _musp, _g, 1.0)), // index matched slab
                         new LayerTissueRegion(
                             new DoubleRange(_slabThickness, double.PositiveInfinity),
@@ -106,8 +106,6 @@ namespace Vts.Test.MonteCarlo.BidirectionalScattering
             _output = new MonteCarloSimulation(_input).Run();
         }
 
-        // todo: add analytic variance and use this for error bounds
-
         // Diffuse Reflectance
         [Test]
         public void validate_bidirectional_CAW_RDiffuse()
@@ -119,30 +117,30 @@ namespace Vts.Test.MonteCarlo.BidirectionalScattering
                 0); // position at surface
             var sd = ErrorCalculation.StandardDeviation(_output.Input.N, _output.Rd, _output.Rd2);
             Assert.Less(Math.Abs(_output.Rd - analyticSolution), 3 * sd); 
-        } 
-        //// Total Absorption
-        //[Test]
-        //public void validate_bidirectional_CAW_ATotal()
-        //{
-        //    var analyticSolutionRight =
-        //        BidirectionalAnalyticSolutions.GetBidirectionalRadianceIntegratedOverInterval(
-        //        _slabThickness,
-        //        new OpticalProperties(_mua, _musp, _g, 1.0),
-        //        1,
-        //        0,
-        //        _slabThickness);
-        //    var analyticSolutionLeft = 
-        //        BidirectionalAnalyticSolutions.GetBidirectionalRadianceIntegratedOverInterval(
-        //        _slabThickness,
-        //        new OpticalProperties(_mua, _musp, _g, 1.0),
-        //        -1,
-        //        0,
-        //        _slabThickness);
-        //    // take sum because absorbed energy independent of direction
-        //    var analyticSolution = (analyticSolutionRight + analyticSolutionLeft);
-        //    var sd = ErrorCalculation.StandardDeviation(_output.Input.N, _output.Atot, _output.Atot2);
-        //    Assert.Less(Math.Abs(_output.Atot - _mua * analyticSolution), 3 * sd);
-        //}
+        }
+        // Total Absorption
+        [Test]
+        public void validate_bidirectional_CAW_ATotal()
+        {
+            var analyticSolutionRight =
+                BidirectionalAnalyticSolutions.GetBidirectionalRadianceIntegratedOverInterval(
+                _slabThickness,
+                new OpticalProperties(_mua, _musp, _g, 1.0),
+                1,
+                0,
+                _slabThickness);
+            var analyticSolutionLeft =
+                BidirectionalAnalyticSolutions.GetBidirectionalRadianceIntegratedOverInterval(
+                _slabThickness,
+                new OpticalProperties(_mua, _musp, _g, 1.0),
+                -1,
+                0,
+                _slabThickness);
+            // take sum because absorbed energy independent of direction
+            var analyticSolution = (analyticSolutionRight + analyticSolutionLeft);
+            // compare without SD because with N=1e4 not enough for valid SD
+            Assert.Less(Math.Abs(_output.Atot - _mua * analyticSolution), 0.0005);
+        }
         // Diffuse Transmittance
         [Test]
         public void validate_bidirectional_CAW_TDiffuse()

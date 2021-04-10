@@ -200,14 +200,14 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.Less(Complex.Abs(
                     _outputTwoLayerTissue.R_rw[0, 0] * _factor - (0.9224103 - Complex.ImaginaryOne * 0.0008737114)), 0.000001);
         }
-        // Total Absorption : wait on this test until CAW worked out for ATotal
+        // Total Absorption : used prior test to validate because not sure Linux code correct
         [Test]
         public void validate_CAW_ATotal()
         {
             // the two validation numbers are different due to the way CAW tallies
             // across layer interfaces
-            Assert.Less(Math.Abs(_outputOneLayerTissue.Atot * _factor - 0.376212), 0.0003);
-            Assert.Less(Math.Abs(_outputTwoLayerTissue.Atot * _factor - 0.356569), 0.02);
+            Assert.Less(Math.Abs(_outputOneLayerTissue.Atot - 0.386815), 0.000001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.Atot - 0.386867), 0.000001);
         }
         // Absorption A(rho,z) not coded yet for CAW
 

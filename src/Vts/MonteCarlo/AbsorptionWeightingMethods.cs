@@ -82,8 +82,10 @@ namespace Vts.MonteCarlo
                 (dp.Position.X - previousDP.Position.X) * (dp.Position.X - previousDP.Position.X) +
                 (dp.Position.Y - previousDP.Position.Y) * (dp.Position.Y - previousDP.Position.Y) +
                 (dp.Position.Z - previousDP.Position.Z) * (dp.Position.Z - previousDP.Position.Z));
+            // overwrite regionIndex because DAW based on dp and CAW based on previousDP
+            regionIndex = tissue.GetRegionIndex(previousDP.Position);
 
-                var weight = VolumeAbsorbContinuous(
+            var weight = VolumeAbsorbContinuous(
                 tissue.Regions[regionIndex].RegionOP.Mua,
                 pathLength,
                 previousDP.Weight,

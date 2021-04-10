@@ -242,7 +242,7 @@ namespace Vts.MonteCarlo
                     DP.StateFlag = DP.StateFlag.Add(_tissue.GetPhotonDataPointStateOnExit(DP.Position));
                 }
 
-                // adjust CAW weight for portion of track to pseudo collision
+                // adjust CAW weight for portion of track to pseudo collision before CurrentRegionIndex updated
                 if (Absorb == AbsorbContinuous)
                 {
                     AbsorbContinuous();
