@@ -12,7 +12,7 @@ using Vts.MonteCarlo.Tissues;
 namespace Vts.Test.MonteCarlo.BidirectionalScattering
 {
     /// <summary>
-    /// These tests execute an Analog MC bidirectional simulation with 1e6 photons and verify
+    /// These tests execute an Analog MC bidirectional simulation with 1e4 photons and verify
     /// that the tally results match the analytic solution within variance
     /// mersenne twister STANDARD_TEST.
     /// These solutions assume index matched slab.

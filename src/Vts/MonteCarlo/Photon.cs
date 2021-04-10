@@ -240,14 +240,13 @@ namespace Vts.MonteCarlo
                 if (_tissue.OnDomainBoundary(this.DP.Position) && !_firstTimeEnteringDomain)
                 {
                     DP.StateFlag = DP.StateFlag.Add(_tissue.GetPhotonDataPointStateOnExit(DP.Position));
-
-                    // adjust CAW weight for portion of track prior to exit
-                    if (Absorb == AbsorbContinuous)
-                    {
-                        AbsorbContinuous();
-                    }
                 }
 
+                // adjust CAW weight for portion of track to pseudo collision
+                if (Absorb == AbsorbContinuous)
+                {
+                    AbsorbContinuous();
+                }
                 CurrentRegionIndex = neighborIndex;
                 DP.Direction = _tissue.GetRefractedDirection(DP.Position, DP.Direction,
                     nCurrent, nNext, cosThetaSnell);
@@ -265,11 +264,12 @@ namespace Vts.MonteCarlo
                 {
                     DP.StateFlag = DP.StateFlag.Add(PhotonStateType.PseudoSpecularTissueBoundary);
                 }
-            }
-            // adjust CAW weight for portion of track to pseudo collision
-            if (Absorb == AbsorbContinuous)
-            {
-                AbsorbContinuous();
+
+                // adjust CAW weight for portion of track to pseudo collision
+                if (Absorb == AbsorbContinuous)
+                {
+                    AbsorbContinuous();
+                }
             }
         }
 

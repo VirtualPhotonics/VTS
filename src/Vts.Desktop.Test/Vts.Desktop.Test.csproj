@@ -205,6 +205,9 @@
     <Compile Include="..\Vts.Test\MonteCarlo\BidirectionalScattering\BidirectionalAnalyticSolutions.cs">
       <Link>MonteCarlo\BidirectionalScattering\BidirectionalAnalyticSolutions.cs</Link>
     </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\BidirectionalScattering\CAWBidirectionalTallyActionsTests.cs">
+      <Link>MonteCarlo\BidirectionalScattering\CAWBidirectionalTallyActionsTests.cs</Link>
+    </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\DataStructuresValidation\DetectorInputs\dMCdROfRhodMuaDetectorInputValidationTests.cs">
       <Link>MonteCarlo\DataStructuresValidation\DetectorInputs\dMCdROfRhodMuaDetectorInputValidationTests.cs</Link>
     </Compile>
