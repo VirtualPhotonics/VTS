@@ -63,7 +63,7 @@ namespace Vts.Test.MonteCarlo.BidirectionalScattering
             clear_folders_and_files();
 
             _input = new SimulationInput(
-                10000, // number needed to get enough photons to Td 
+                10000, // 1e4 needed to get enough photons to Td 
                 "results",
                 new SimulationOptions(
                     0, 
@@ -85,11 +85,11 @@ namespace Vts.Test.MonteCarlo.BidirectionalScattering
                         new LayerTissueRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
                             new OpticalProperties(0.0, 1e-10, 0.0, 1.0)),
+                        //new LayerTissueRegion( // debug layer
+                        //    new DoubleRange(0.0, _topLayerThickness),
+                        //    new OpticalProperties(_mua, _musp, _g, 1.0)), // index matched slab                        
                         new LayerTissueRegion(
-                            new DoubleRange(0.0, _topLayerThickness),
-                            new OpticalProperties(_mua, _musp, _g, 1.0)), // index matched slab                        
-                        new LayerTissueRegion(
-                            new DoubleRange(_topLayerThickness, _slabThickness),
+                            new DoubleRange(0, _slabThickness),
                             new OpticalProperties(_mua, _musp, _g, 1.0)), // index matched slab
                         new LayerTissueRegion(
                             new DoubleRange(_slabThickness, double.PositiveInfinity),
@@ -138,8 +138,8 @@ namespace Vts.Test.MonteCarlo.BidirectionalScattering
                 _slabThickness);
             // take sum because absorbed energy independent of direction
             var analyticSolution = (analyticSolutionRight + analyticSolutionLeft);
-            // compare without SD because with N=1e4 not enough for valid SD
-            Assert.Less(Math.Abs(_output.Atot - _mua * analyticSolution), 0.0005);
+            var sd = ErrorCalculation.StandardDeviation(_output.Input.N, _output.Atot, _output.Atot2);
+            Assert.Less(Math.Abs(_output.Atot - _mua * analyticSolution), 3 * sd);
         }
         // Diffuse Transmittance
         [Test]
@@ -153,11 +153,11 @@ namespace Vts.Test.MonteCarlo.BidirectionalScattering
             var sd = ErrorCalculation.StandardDeviation(_output.Input.N, _output.Td, _output.Td2);
             Assert.Less(Math.Abs(_output.Td - analyticSolution), 3 * sd);
         }
-        //// with no refractive index mismatch, Rd + Atot + Td should equal 1
-        //[Test]
-        //public void validate_bidirectional_CAW_detector_sum_equals_one()
-        //{
-        //    Assert.Less(Math.Abs(_output.Rd + _output.Atot + _output.Td - 1.0), 0.00000000001);
-        //}
+        // with no refractive index mismatch, Rd + Atot + Td should equal 1
+        [Test]
+        public void validate_bidirectional_CAW_detector_sum_equals_one()
+        {
+            Assert.Less(Math.Abs(_output.Rd + _output.Atot + _output.Td - 1.0), 0.00000000001);
+        }
     }
 }

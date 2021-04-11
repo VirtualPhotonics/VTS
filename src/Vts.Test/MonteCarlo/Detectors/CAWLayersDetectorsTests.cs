@@ -261,7 +261,7 @@ namespace Vts.Test.MonteCarlo.Detectors
         public void validate_CAW_RDiffuse_plus_ATotal_plus_TDiffuse_equals_one()
         {
             // no specular because photons started inside tissue
-            Assert.Less(Math.Abs(_outputOneLayerTissue.Rd + _outputOneLayerTissue.Atot + _outputOneLayerTissue.Td - 1), 0.0003);
+            Assert.Less(Math.Abs(_outputOneLayerTissue.Rd + _outputOneLayerTissue.Atot + _outputOneLayerTissue.Td - 1), 0.0002);
         }
 
         // ReflectedTimeOfRhoAndSubregionHist : this is validated using initial run results since no supporting linux code 
