@@ -78,19 +78,9 @@ namespace Vts.MonteCarlo
         }
         private static double VolumeAbsorptionWeightingContinuous(PhotonDataPoint previousDP, PhotonDataPoint dp, int regionIndex, ITissue tissue)
         {
-            var pathLength = Math.Sqrt(
-                (dp.Position.X - previousDP.Position.X) * (dp.Position.X - previousDP.Position.X) +
-                (dp.Position.Y - previousDP.Position.Y) * (dp.Position.Y - previousDP.Position.Y) +
-                (dp.Position.Z - previousDP.Position.Z) * (dp.Position.Z - previousDP.Position.Z));
-            // overwrite regionIndex because DAW based on dp and CAW based on previousDP
-            regionIndex = tissue.GetRegionIndex(previousDP.Position);
-
             var weight = VolumeAbsorbContinuous(
-                tissue.Regions[regionIndex].RegionOP.Mua,
-                pathLength,
                 previousDP.Weight,
-                dp.Weight,
-                dp.StateFlag);
+                dp.Weight);
 
             return weight;
         }
@@ -121,16 +111,16 @@ namespace Vts.MonteCarlo
             return weight;
         }
         
-        private static double VolumeAbsorbContinuous(double mua, double pathLength, double previousWeight, double weight, PhotonStateType photonStateType)
+        private static double VolumeAbsorbContinuous(double previousWeight, double weight)
         {
             // no pathlength means no absorption, so no tally
-            if (pathLength == 0)
+            if (previousWeight == weight)
             {
                 weight = 0.0;
             }
             else
             {
-                weight = previousWeight * (1 - Math.Exp(-mua * (pathLength)));
+                weight = previousWeight - weight;
             }
             return weight;
         }
