@@ -174,9 +174,9 @@ namespace Vts.MonteCarlo.CommandLineApplication
             SimulationOutput detectorResults;
             if (numberOfCPUs > 1)
             {
-                var mc = new ParallelMonteCarloSimulation(input, numberOfCPUs);
-                mc.SetOutputPathForDatabases(path);
-                detectorResults = mc.RunSingleInParallel();
+                var parallelMC = new ParallelMonteCarloSimulation(input, numberOfCPUs);
+                //parallelMC.SetOutputPathForDatabases(path); // no inheritance of MonteCarloSimulation class
+                detectorResults = parallelMC.RunSingleInParallel();
             }
             else
             {

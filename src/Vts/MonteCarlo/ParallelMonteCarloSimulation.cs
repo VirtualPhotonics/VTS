@@ -20,7 +20,7 @@ namespace Vts.MonteCarlo
         /// local variables: general
         /// </summary>
         private ILogger _logger = LoggerFactoryLocator.GetDefaultNLogFactory().Create(typeof(MonteCarloSimulation));
-
+        private SimulationInput _input;
         /// <summary>
         /// local variable: 
         /// </summary>
@@ -34,86 +34,102 @@ namespace Vts.MonteCarlo
         /// Class that defines methods to initialize and execute Monte Carlo simulation
         /// </summary>
         /// <param name="numberOfCPUs">number of parallel CPUs to be run</param>
-        public ParallelMonteCarloSimulation(int numberOfCPUs) 
+        public ParallelMonteCarloSimulation(SimulationInput input, int numberOfCPUs) 
         {
+            _input = input;
             // all field/property defaults should be set here
             _numberOfCPUs = numberOfCPUs;            
         }
 
-        public void RunSingleInParallel()
-        {
-            int[] nums = Enumerable.Range(0, 1000000).ToArray();
-            long total = 0;
+        //public void RunSingleInParallel()
+        //{
+        //    int[] nums = Enumerable.Range(0, 1000000).ToArray();
+        //    long total = 0;
 
-            // Use type parameter to make subtotal a long, not an int
-            Parallel.For<long>(0, nums.Length, () => 0, (j, loop, subtotal) =>
-            {
-                subtotal += nums[j];
-                return subtotal;
-            },
-                (x) => Interlocked.Add(ref total, x)
-            );
+        //    // Use type parameter to make subtotal a long, not an int
+        //    Parallel.For<long>(0, nums.Length, () => 0, (j, loop, subtotal) =>
+        //    {
+        //        subtotal += nums[j];
+        //        return subtotal;
+        //    },
+        //        (x) => Interlocked.Add(ref total, x)
+        //    );
 
-            Console.WriteLine("The total is {0:N0}", total);
-            Console.WriteLine("Press any key to exit");
-            Console.ReadKey();
-        }
+        //    Console.WriteLine("The total is {0:N0}", total);
+        //    Console.WriteLine("Press any key to exit");
+        //    Console.ReadKey();
+        //}
 
 
         /// <summary>
         /// Method to run single MC simulation in parallel
         /// </summary>
         /// <returns>array of SimulationOutput</returns>
-        public SimulationOutput RunSingleInParallel(SimulationInput input)
+        public SimulationOutput RunSingleInParallel()
         { 
             var parallelOptions = new ParallelOptions();
             parallelOptions.MaxDegreeOfParallelism = _numberOfCPUs;
-            int photonsPerCPU = (int)(input.N / _numberOfCPUs);
-            if (photonsPerCPU * _numberOfCPUs != input.N)
+            int photonsPerCPU = (int)(_input.N / _numberOfCPUs);
+            if (photonsPerCPU * _numberOfCPUs != _input.N)
             {
                 _logger.Info(() => "Note: number of photons run on each CPU = " + photonsPerCPU + 
                    " for a total of N = " + photonsPerCPU * _numberOfCPUs); 
             }
-            input.N = photonsPerCPU;
+            _input.N = photonsPerCPU;
             var simulationOutputs = new List<SimulationOutput>();
             var simulationStatistics = new List<SimulationStatistics>();
             var stopwatch = System.Diagnostics.Stopwatch.StartNew();
-            //Parallel.For<MonteCarloSimulation>(0, parallelOptions.MaxDegreeOfParallelism,
-            //    parallelOptions, (cpuIndex, loop, mc) =>
-            //{
-            //    // FIX back to factory once know correct call
-            //    var parallelRng = //RandomNumberGeneratorFactory.GetRandomNumberGenerator(
-            //        new DynamicCreatorMersenneTwister(32, 521, (int)cpuIndex, 4172, (uint)input.Options.Seed);
-            //    input.Options.SimulationIndex = (int)cpuIndex;
-            //    mc = new MonteCarloSimulation(input, parallelRng);
-            //    mc.Run();
-            //    return mc;
-            //},
-            //    (x) => Interlocked.Add(ref simulationOutputs, x.Results);
-            //    if (input.Options.TrackStatistics)
-            //    {
-            //        (x) => Interlocked.Add(ref simulationStatistics, x.Statistics);
-            //    };
-            //);
+            Parallel.For<MonteCarloSimulation>(0, parallelOptions.MaxDegreeOfParallelism,
+                parallelOptions, () => null, (cpuIndex, loop, mc) =>
+             {
+                 // FIX back to factory once know correct call
+                 var parallelRng = //RandomNumberGeneratorFactory.GetRandomNumberGenerator(
+                      new DynamicCreatorMersenneTwister(32, 521, (int)cpuIndex, 4172, (uint)_input.Options.Seed);
+                 //_input.Options.SimulationIndex = (int)cpuIndex;
+                 mc = new MonteCarloSimulation(_input, parallelRng);
+                 mc.Run();
+                 return mc;
+                 //simulationOutputs.Add(mc.Results);
+                 //if (_input.Options.TrackStatistics)
+                 //{
+                 //    simulationStatistics.Add(mc.Statistics);
+                 //}
+             },
+                (x) => {
+                    simulationOutputs.Add(x.Results);
+                    if (_input.Options.TrackStatistics)
+                    {
+                        simulationStatistics.Add(x.Statistics);
+                    }
+                    //simulationOutputs = (from results in x.Results select results).ToList()
+
+                    //(x) => Console.WriteLine($"Atot: {x.Results.Atot}")
+                    //(x) => Interlocked.Add(ref simulationOutputs, x.Results);
+                    //if (input.Options.TrackStatistics)
+                    //{
+                    //    (x) => Interlocked.Add(ref simulationStatistics, x.Statistics);
+                    //};
+                }
+            ) ;
             // reset N back to original so that infile written to results has correct value
-            input.N = _numberOfCPUs * photonsPerCPU;
+            _input.N = _numberOfCPUs * photonsPerCPU;
             var summedResults = SumResultsTogether(simulationOutputs);
             SummedStatistics = SumStatisticsTogether(simulationStatistics);
             // overwrite statistics.txt file (each MC sim will write its own version)
-            if (input.Options.TrackStatistics)
+            if (_input.Options.TrackStatistics)
             {
-                if (input.OutputName == "")
+                if (_input.OutputName == "")
                 {
                     SummedStatistics.ToFile("statistics.txt");
                 }
                 else
                 {
-                    FileIO.CreateDirectory(input.OutputName);
-                    SummedStatistics.ToFile(input.OutputName + "/statistics.txt"); 
+                    FileIO.CreateDirectory(_input.OutputName);
+                    SummedStatistics.ToFile(_input.OutputName + "/statistics.txt"); 
                 }
             }
             stopwatch.Stop();
-            _logger.Info(() => "Monte Carlo simulation complete (N = " + input.N + 
+            _logger.Info(() => "Monte Carlo simulation complete (N = " + _input.N + 
               " photons run on " + _numberOfCPUs + "CPUs; simulation time = "
                 + stopwatch.ElapsedMilliseconds / 1000f + " seconds).\r");
 
