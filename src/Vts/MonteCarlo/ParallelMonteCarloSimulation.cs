@@ -1,13 +1,11 @@
 using System.Numerics;
-using System.Collections.Generic;
+using System.Collections.Concurrent;
 using System.Linq;
 using System.Threading.Tasks;
 using Vts.Common.Logging;
 using Vts.MonteCarlo.Rng;
 using System.Reflection;
 using Vts.IO;
-using System.Threading;
-using System;
 
 namespace Vts.MonteCarlo
 {
@@ -76,8 +74,8 @@ namespace Vts.MonteCarlo
                    " for a total of N = " + photonsPerCPU * _numberOfCPUs); 
             }
             _input.N = photonsPerCPU;
-            var simulationOutputs = new List<SimulationOutput>();
-            var simulationStatistics = new List<SimulationStatistics>();
+            var simulationOutputs = new ConcurrentBag<SimulationOutput>();
+            var simulationStatistics = new ConcurrentBag<SimulationStatistics>();
             var stopwatch = System.Diagnostics.Stopwatch.StartNew();
             Parallel.For<MonteCarloSimulation>(0, parallelOptions.MaxDegreeOfParallelism,
                 parallelOptions, () => null, (cpuIndex, loop, mc) =>
@@ -136,7 +134,7 @@ namespace Vts.MonteCarlo
             return summedResults;
         }
 
-        public SimulationStatistics SumStatisticsTogether(IList<SimulationStatistics> stats)
+        public SimulationStatistics SumStatisticsTogether(ConcurrentBag<SimulationStatistics> stats)
         {
             SimulationStatistics statistics = new SimulationStatistics();
             // check if statistics specified using input.Options.TrackStatistics = true
@@ -157,10 +155,10 @@ namespace Vts.MonteCarlo
             }
             return statistics;
         }
-        public SimulationOutput SumResultsTogether(IList<SimulationOutput> results)
+        public SimulationOutput SumResultsTogether(ConcurrentBag<SimulationOutput> results)
         {    
-            var simulationOutputKeys = results[0].ResultsDictionary.Keys;
-            var simulationInput = results[0].Input;
+            var simulationOutputKeys = results.First().ResultsDictionary.Keys;
+            var simulationInput = results.First().Input;
 
             var detectorList = results.Select(o => o.GetDetectors(simulationOutputKeys)).FirstOrDefault()?.ToList();
             SimulationOutput summedSimulationOutput = new SimulationOutput(simulationInput, detectorList);
