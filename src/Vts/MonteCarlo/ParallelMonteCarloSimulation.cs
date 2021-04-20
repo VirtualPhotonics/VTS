@@ -7,23 +7,27 @@ using Vts.MonteCarlo.Rng;
 using System.Reflection;
 using Vts.IO;
 using System.Collections.Generic;
+using BenchmarkDotNet.Running;
+using BenchmarkDotNet.Attributes;
 
 namespace Vts.MonteCarlo
 {
     /// <summary>
     /// Provides main processing for a single Monte Carlo simulation in parallel. 
     /// </summary>
+    [InProcess]
     public class ParallelMonteCarloSimulation 
     {
         /// <summary>
         /// local variables: general
         /// </summary>
-        private ILogger _logger = LoggerFactoryLocator.GetDefaultNLogFactory().Create(typeof(MonteCarloSimulation));
-        private SimulationInput _input;
+        public ILogger _logger = LoggerFactoryLocator.GetDefaultNLogFactory().Create(typeof(MonteCarloSimulation));
+        
+        public SimulationInput _input;
         /// <summary>
         /// local variable: 
         /// </summary>
-        private int _numberOfCPUs;
+        public int _numberOfCPUs;
         /// <summary>
         /// simulation statistics
         /// </summary>
@@ -40,34 +44,23 @@ namespace Vts.MonteCarlo
             _numberOfCPUs = numberOfCPUs;            
         }
 
-        //public void RunSingleInParallel()
-        //{
-        //    int[] nums = Enumerable.Range(0, 1000000).ToArray();
-        //    long total = 0;
-
-        //    // Use type parameter to make subtotal a long, not an int
-        //    Parallel.For<long>(0, nums.Length, () => 0, (j, loop, subtotal) =>
-        //    {
-        //        subtotal += nums[j];
-        //        return subtotal;
-        //    },
-        //        (x) => Interlocked.Add(ref total, x)
-        //    );
-
-        //    Console.WriteLine("The total is {0:N0}", total);
-        //    Console.WriteLine("Press any key to exit");
-        //    Console.ReadKey();
-        //}
-
+        public ParallelMonteCarloSimulation()
+        {
+            _input = new SimulationInput() { N = 100 };
+            _numberOfCPUs = 2;
+        }
 
         /// <summary>
         /// Method to run single MC simulation in parallel
         /// </summary>
         /// <returns>array of SimulationOutput</returns>
+        [Benchmark]
         public SimulationOutput RunSingleInParallel()
         { 
             var parallelOptions = new ParallelOptions();
+            
             parallelOptions.MaxDegreeOfParallelism = _numberOfCPUs;
+            //_numberOfCPUs = 16;
             int photonsPerCPU = (int)(_input.N / _numberOfCPUs);
             if (photonsPerCPU * _numberOfCPUs != _input.N)
             {
@@ -95,28 +88,24 @@ namespace Vts.MonteCarlo
                  mc = new MonteCarloSimulation(inputs[cpuIndex], parallelRng);
                  mc.Run();
                  return mc;
-                 //simulationOutputs.Add(mc.Results);
-                 //if (_input.Options.TrackStatistics)
-                 //{
-                 //    simulationStatistics.Add(mc.Statistics);
-                 //}
              },
                 (x) => {
-                    simulationOutputs.Add(x.Results);
-                    if (_input.Options.TrackStatistics) // okay to use _input here?
+                    try
                     {
-                        simulationStatistics.Add(x.Statistics);
-                    }
-                    //simulationOutputs = (from results in x.Results select results).ToList()
+                        simulationOutputs.Add(x.Results);
+                        if (inputs[0].Options.TrackStatistics)
+                        {
+                            simulationStatistics.Add(x.Statistics);
+                        }
 
-                    //(x) => Console.WriteLine($"Atot: {x.Results.Atot}")
-                    //(x) => Interlocked.Add(ref simulationOutputs, x.Results);
-                    //if (input.Options.TrackStatistics)
-                    //{
-                    //    (x) => Interlocked.Add(ref simulationStatistics, x.Statistics);
-                    //};
+                    }
+                    catch (System.Exception e)
+                    {
+                        
+                    }
+
                 }
-            ) ;
+            );
             // reset N back to original so that infile written to results has correct value
             var summedResults = SumResultsTogether(
                 simulationOutputs.Select(o => { o.Input.N = _numberOfCPUs * photonsPerCPU; return o; }).ToList()
