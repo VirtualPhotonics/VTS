@@ -1,10 +1,7 @@
-using System;
 using System.Collections.Generic;
-using System.Runtime.Serialization;
 using Vts.Common;
 using Vts.IO;
 using Vts.MonteCarlo.Detectors;
-using Vts.MonteCarlo.Factories;
 using Vts.MonteCarlo.Sources;
 using Vts.MonteCarlo.Tissues;
 
@@ -113,6 +110,22 @@ namespace Vts.MonteCarlo
                 ) { }
 
         /// <summary>
+        /// Method to return clone of SimulationInput specified by parameter input
+        /// </summary>
+        /// <param name="input">infile to be cloned</param>
+        /// <returns></returns>
+        public SimulationInput Clone()
+        {
+            return new SimulationInput(
+                N, 
+                OutputName,
+                Options, // do I need new classes here?
+                SourceInput, 
+                TissueInput,
+                DetectorInputs);
+        }
+
+        /// <summary>
         /// Method to read SimulationInput from JSON file
         /// </summary>
         /// <param name="filename">string filename of file to be read</param>
@@ -145,5 +158,6 @@ namespace Vts.MonteCarlo
         {
             return FileIO.ReadFromJsonInResources<SimulationInput>(filename, project);
         }
+
     }
 }

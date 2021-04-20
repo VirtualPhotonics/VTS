@@ -286,8 +286,8 @@ namespace Vts.Test.MonteCarlo
         [Test]
         public void check_for_N_not_divisible_by_cpucount()
         {
-            // N=100 in one time setup
-            var parallelMC = new ParallelMonteCarloSimulation(_simulationInput, 3);
+            var simulationInput = new SimulationInput { N = 100 };
+            var parallelMC = new ParallelMonteCarloSimulation(simulationInput, 3);
             var output3CPU = parallelMC.RunSingleInParallel();
             Assert.AreEqual(output3CPU.Input.N, 99);
         }

@@ -6,6 +6,7 @@ using Vts.Common.Logging;
 using Vts.MonteCarlo.Rng;
 using System.Reflection;
 using Vts.IO;
+using System.Collections.Generic;
 
 namespace Vts.MonteCarlo
 {
@@ -73,18 +74,25 @@ namespace Vts.MonteCarlo
                 _logger.Info(() => "Note: number of photons run on each CPU = " + photonsPerCPU + 
                    " for a total of N = " + photonsPerCPU * _numberOfCPUs); 
             }
+            // create list of inputs that is _numberOfCPUs long
+            var inputs = new SimulationInput[_numberOfCPUs];
+            for (int i = 0; i < _numberOfCPUs; i++)
+            {
+                _input.N = photonsPerCPU;
+                inputs[i]=_input.Clone();
+            }
             _input.N = photonsPerCPU;
             var simulationOutputs = new ConcurrentBag<SimulationOutput>();
             var simulationStatistics = new ConcurrentBag<SimulationStatistics>();
             var stopwatch = System.Diagnostics.Stopwatch.StartNew();
-            Parallel.For<MonteCarloSimulation>(0, parallelOptions.MaxDegreeOfParallelism,
+            Parallel.For<MonteCarloSimulation>(0, _numberOfCPUs,
                 parallelOptions, () => null, (cpuIndex, loop, mc) =>
              {
                  // FIX back to factory once know correct call
                  var parallelRng = //RandomNumberGeneratorFactory.GetRandomNumberGenerator(
                       new DynamicCreatorMersenneTwister(32, 521, (int)cpuIndex, 4172, (uint)_input.Options.Seed);
-                 //_input.Options.SimulationIndex = (int)cpuIndex;
-                 mc = new MonteCarloSimulation(_input, parallelRng);
+                 inputs[cpuIndex].Options.SimulationIndex = (int)cpuIndex;
+                 mc = new MonteCarloSimulation(inputs[cpuIndex], parallelRng);
                  mc.Run();
                  return mc;
                  //simulationOutputs.Add(mc.Results);
@@ -95,7 +103,7 @@ namespace Vts.MonteCarlo
              },
                 (x) => {
                     simulationOutputs.Add(x.Results);
-                    if (_input.Options.TrackStatistics)
+                    if (_input.Options.TrackStatistics) // okay to use _input here?
                     {
                         simulationStatistics.Add(x.Statistics);
                     }
@@ -110,9 +118,10 @@ namespace Vts.MonteCarlo
                 }
             ) ;
             // reset N back to original so that infile written to results has correct value
-            _input.N = _numberOfCPUs * photonsPerCPU;
-            var summedResults = SumResultsTogether(simulationOutputs);
-            SummedStatistics = SumStatisticsTogether(simulationStatistics);
+            var summedResults = SumResultsTogether(
+                simulationOutputs.Select(o => { o.Input.N = _numberOfCPUs * photonsPerCPU; return o; }).ToList()
+            );
+            SummedStatistics = SumStatisticsTogether(simulationStatistics.ToList());
             // overwrite statistics.txt file (each MC sim will write its own version)
             if (_input.Options.TrackStatistics)
             {
@@ -134,7 +143,7 @@ namespace Vts.MonteCarlo
             return summedResults;
         }
 
-        public SimulationStatistics SumStatisticsTogether(ConcurrentBag<SimulationStatistics> stats)
+        public SimulationStatistics SumStatisticsTogether(List<SimulationStatistics> stats)
         {
             SimulationStatistics statistics = new SimulationStatistics();
             // check if statistics specified using input.Options.TrackStatistics = true
@@ -155,7 +164,7 @@ namespace Vts.MonteCarlo
             }
             return statistics;
         }
-        public SimulationOutput SumResultsTogether(ConcurrentBag<SimulationOutput> results)
+        public SimulationOutput SumResultsTogether(List<SimulationOutput> results)
         {    
             var simulationOutputKeys = results.First().ResultsDictionary.Keys;
             var simulationInput = results.First().Input;
