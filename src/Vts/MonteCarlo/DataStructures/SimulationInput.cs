@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Vts.Common;
 using Vts.IO;
@@ -12,7 +13,7 @@ namespace Vts.MonteCarlo
     /// file name, number of photons to execute (N), source, tissue and detector
     /// definitions.
     ///</summary>
-    public class SimulationInput
+    public class SimulationInput : ICloneable
     {
         /// <summary>
         /// string name of output file
@@ -110,19 +111,12 @@ namespace Vts.MonteCarlo
                 ) { }
 
         /// <summary>
-        /// Method to return clone of SimulationInput specified by parameter input
+        /// Method to return clone of SimulationInput 
         /// </summary>
-        /// <param name="input">infile to be cloned</param>
         /// <returns></returns>
-        public SimulationInput Clone()
+        object ICloneable.Clone()
         {
-            return new SimulationInput(
-                N, 
-                OutputName,
-                Options, // do I need new classes here?
-                SourceInput, 
-                TissueInput,
-                DetectorInputs);
+            return this.MemberwiseClone();
         }
 
         /// <summary>
