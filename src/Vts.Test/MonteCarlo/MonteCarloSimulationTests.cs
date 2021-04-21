@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using BenchmarkDotNet.Running;
 using NUnit.Framework;
 using Vts.IO;
 using Vts.MonteCarlo;
@@ -51,6 +52,16 @@ namespace Vts.Test.MonteCarlo
             Assert.NotNull(outputs[1]);
             Assert.True(outputs[0].Input.N == 30);
             Assert.True(outputs[1].Input.N == 20);
+        }
+        /// <summary>
+        /// This test relies on the attribute [Benchmark] applied to 
+        /// MonteCarloSimulation.Run()
+        /// </summary>
+        [Test]
+        public void run_Benchmark_for_timing()
+        {
+            var summary = BenchmarkRunner.Run<MonteCarloSimulation>();
+            Console.WriteLine(summary);
         }
     }
 }

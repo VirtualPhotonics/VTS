@@ -293,18 +293,16 @@ namespace Vts.Test.MonteCarlo
         }
         /// <summary>
         /// This test relies on the attribute [Benchmark] applied to 
-        /// ParallelMonteCarloSimulationRunSingleInParallel()
+        /// ParallelMonteCarloSimulation.RunSingleInParallel()
         /// Benchmark does not work with unit tests yet
         /// </summary>
         [Test]
         public void run_Benchmark_for_timing()
         {
-            var parallelMcCarloSimulation = new ParallelMonteCarloSimulation();
-            var simulationOutput = parallelMcCarloSimulation.RunSingleInParallel();
-            Assert.AreEqual(96, simulationOutput.Input.N);
+        //    var parallelMonteCarloSimulation = new ParallelMonteCarloSimulation();
+        //    var simulationOutput = parallelMonteCarloSimulation.RunSingleInParallel();
+        //    Assert.AreEqual(96, simulationOutput.Input.N);
 
-            var summary1 = BenchmarkRunner.Run<MonteCarloSimulation>();
-            Console.WriteLine(summary1);
             var summary = BenchmarkRunner.Run<ParallelMonteCarloSimulation>();
             Console.WriteLine(summary);
         }

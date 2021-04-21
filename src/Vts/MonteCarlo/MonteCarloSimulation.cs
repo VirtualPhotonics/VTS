@@ -28,7 +28,8 @@ namespace Vts.MonteCarlo
         /// <summary>
         /// local variable: input related
         /// </summary>
-        protected SimulationInput _input;
+        public SimulationInput _input { get; set; }
+        public Random _rng { get; set; }
         private ISource _source;
         private ITissue _tissue;
         private VirtualBoundaryController _virtualBoundaryController;
@@ -38,7 +39,6 @@ namespace Vts.MonteCarlo
         private DatabaseWriterController _databaseWriterController = null;
         private pMCDatabaseWriterController _pMCDatabaseWriterController = null;
         private bool _doPMC = false;
-        private Random _rng;
         private string _outputPath;
 
         /// <summary>
@@ -53,6 +53,7 @@ namespace Vts.MonteCarlo
         /// Class that takes in SimulationInput and methods to initialize and execute Monte Carlo simulation
         /// </summary>
         /// <param name="input">SimulationInput</param>
+        /// <param name="rng">random number generator already initialized</param>
         public MonteCarloSimulation(SimulationInput input, Random rng)
         {
             // all field/property defaults should be set here

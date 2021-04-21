@@ -90,3 +90,5 @@ src/Vts.MonteCarlo.CommandLineApplication.Test/Vts.MonteCarlo.Application.Test.c
 src/.gitignore
 src/license.md
 src/README.md
+.vs/
+src/Vts.MonteCarlo.CommandLineApplication/Properties/launchSettings.json
