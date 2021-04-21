@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using BenchmarkDotNet.Running;
 using NUnit.Framework;
 using Vts.IO;
 using Vts.Common;
 using Vts.MonteCarlo;
 using Vts.MonteCarlo.Detectors;
-using BenchmarkDotNet.Running;
-//using BenchmarkDotNet.Running;
 
 namespace Vts.Test.MonteCarlo
 {
@@ -300,8 +299,14 @@ namespace Vts.Test.MonteCarlo
         [Test]
         public void run_Benchmark_for_timing()
         {
+            var parallelMcCarloSimulation = new ParallelMonteCarloSimulation();
+            var simulationOutput = parallelMcCarloSimulation.RunSingleInParallel();
+            Assert.AreEqual(96, simulationOutput.Input.N);
+
+            var summary1 = BenchmarkRunner.Run<MonteCarloSimulation>();
+            Console.WriteLine(summary1);
             var summary = BenchmarkRunner.Run<ParallelMonteCarloSimulation>();
-            FileIO.WriteToTextFile(summary.ToString(),"benchmark.txt");
+            Console.WriteLine(summary);
         }
     }
 }

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BenchmarkDotNet.Attributes;
 using Vts.Common.Logging;
 using Vts.IO;
 using Vts.MonteCarlo.Controllers;
@@ -217,6 +218,7 @@ namespace Vts.MonteCarlo
         /// Run the simulation
         /// </summary>
         /// <returns>SimulationOutput</returns>
+        [Benchmark]
         public virtual SimulationOutput Run()
         {
             _isCancelled = false;
