@@ -142,9 +142,6 @@
     <Compile Include="..\Vts.Test\Common\PositionTests.cs">
       <Link>Common\PositionTests.cs</Link>
     </Compile>
-    <Compile Include="..\Vts.Test\Common\StopwatchTests.cs">
-      <Link>Common\StopwatchTests.cs</Link>
-    </Compile>
     <Compile Include="..\Vts.Test\Factories\ComputationFactoryTests.cs">
       <Link>Factories\ComputationFactoryTests.cs</Link>
     </Compile>
