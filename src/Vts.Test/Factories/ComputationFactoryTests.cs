@@ -218,7 +218,7 @@ namespace Vts.Test.Factories
             Assert.IsTrue(Math.Abs(rVsWavelength[15] + 0.000929) < 0.000001);
         }
         [Test]
-        public void validate_ROfFtAndTime_With_Wavelength()
+        public void validate_ROfFxAndTime_With_Wavelength()
         {
             // used values for tissue=liver
             var scatterer = new PowerLawScatterer(0.84, 0.55);
