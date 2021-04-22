@@ -69,10 +69,9 @@ namespace Vts.MonteCarlo
             // create list of inputs that is _numberOfCPUs long
             var inputs = new SimulationInput[NumberOfCPUs];
             var parallelRng = new DynamicCreatorMersenneTwister[NumberOfCPUs];
+            Input.N = photonsPerCPU;
             for (int i = 0; i < NumberOfCPUs; i++)
             {
-                Input.N = photonsPerCPU;
-                Input.Options.TrackStatistics = true;
                 inputs[i]=Input.Clone(); 
                 // FIX back to factory once know correct call
                 parallelRng[i] = //RandomNumberGeneratorFactory.GetRandomNumberGenerator(
@@ -85,9 +84,7 @@ namespace Vts.MonteCarlo
             Parallel.For<MonteCarloSimulation>(0, NumberOfCPUs,
                 parallelOptions, () => new MonteCarloSimulation(), (index, loop, mc) =>
              {
-                 //mc = new MonteCarloSimulation(inputs[index], parallelRng[index]);
-                 mc._input = inputs[index];
-                 mc._rng = parallelRng[index];
+                 mc.Initialize(inputs[index], parallelRng[index]);
                  mc.Run();
                  return mc;
              },
@@ -95,10 +92,8 @@ namespace Vts.MonteCarlo
                     try
                     {
                         simulationOutputs.Add(x.Results);
-                        if (Input.Options.TrackStatistics) 
-                        {
-                            //simulationStatistics.Add(x.Statistics);
-                        }
+                        if (x.Statistics == null) return;
+                        simulationStatistics.Add(x.Statistics);
                     }
                     catch (Exception e)
                     {

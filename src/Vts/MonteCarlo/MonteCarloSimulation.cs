@@ -28,8 +28,9 @@ namespace Vts.MonteCarlo
         /// <summary>
         /// local variable: input related
         /// </summary>
-        public SimulationInput _input { get; set; }
-        public Random _rng { get; set; }
+        private SimulationInput _input;
+
+        private Random _rng;
         private ISource _source;
         private ITissue _tissue;
         private VirtualBoundaryController _virtualBoundaryController;
@@ -42,6 +43,11 @@ namespace Vts.MonteCarlo
         private string _outputPath;
 
         /// <summary>
+        /// Default constructor to allow quick-and-easy simulation
+        /// </summary>
+        public MonteCarloSimulation() : this(new SimulationInput()) { }
+
+        /// <summary>
         /// Constructor that only takes in input
         /// </summary>
         /// <param name="input"></param>
@@ -49,12 +55,23 @@ namespace Vts.MonteCarlo
             :this(input, RandomNumberGeneratorFactory.GetRandomNumberGenerator(
                input.Options.RandomNumberGeneratorType, input.Options.Seed))
         { }
+
         /// <summary>
         /// Class that takes in SimulationInput and methods to initialize and execute Monte Carlo simulation
         /// </summary>
         /// <param name="input">SimulationInput</param>
         /// <param name="rng">random number generator already initialized</param>
         public MonteCarloSimulation(SimulationInput input, Random rng)
+        {
+            Initialize(input, rng);
+        }
+
+        /// <summary>
+        /// Initialization of the MonteCarloSimulation
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="rng"></param>
+        public void Initialize(SimulationInput input, Random rng)
         {
             // all field/property defaults should be set here
             _rng = rng;
@@ -139,12 +156,8 @@ namespace Vts.MonteCarlo
             _isCancelled = false;
             _isRunning = false;
             _resultsAvailable = false;
-        }
 
-        /// <summary>
-        /// Default constructor to allow quick-and-easy simulation
-        /// </summary>
-        public MonteCarloSimulation() : this(new SimulationInput()) { }
+        }
 
         /// <summary>
         /// Phase function enum type as specified in SimulationOptions
