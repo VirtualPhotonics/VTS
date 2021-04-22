@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.SymbolStore;
 using System.Runtime.Serialization;
 using System.Linq;
 using Vts.Common;
 using Vts.IO;
+using Vts.MonteCarlo.Extensions;
 using Vts.MonteCarlo.Helpers;
 using Vts.MonteCarlo.PhotonData;
 
@@ -25,6 +25,8 @@ namespace Vts.MonteCarlo.Detectors
             Name = "ReflectedMTOfRhoAndSubregionHist";
             Rho = new DoubleRange(0.0, 10, 101);
             MTBins = new DoubleRange(0.0, 500.0, 51);
+            NA = double.PositiveInfinity; // set default NA completely open regardless of detector region refractive index
+            FinalTissueRegionIndex = 0; // assume detector is in air
 
             // modify base class TallyDetails to take advantage of built-in validation capabilities (error-checking)
             TallyDetails.IsReflectanceTally = true;
@@ -48,6 +50,14 @@ namespace Vts.MonteCarlo.Detectors
         /// fractional momentum transfer binning
         /// </summary>
         public DoubleRange FractionalMTBins { get; set; }
+        /// <summary>
+        /// Detector region index
+        /// </summary>
+        public int FinalTissueRegionIndex { get; set; }
+        /// <summary>
+        /// detector numerical aperture
+        /// </summary>
+        public double NA { get; set; }
         
         public IDetector CreateDetector()
         {
@@ -63,7 +73,9 @@ namespace Vts.MonteCarlo.Detectors
                 Rho = this.Rho,
                 //NumSubregions = this.NumSubregions,
                 MTBins = this.MTBins,
-                FractionalMTBins = this.FractionalMTBins
+                FractionalMTBins = this.FractionalMTBins,
+                NA = this.NA,
+                FinalTissueRegionIndex = this.FinalTissueRegionIndex
             };
         }
     }
@@ -91,6 +103,14 @@ namespace Vts.MonteCarlo.Detectors
         /// fractional momentum transfer binning
         /// </summary>
         public DoubleRange FractionalMTBins { get; set; }
+        /// <summary>
+        /// Detector region index
+        /// </summary>
+        public int FinalTissueRegionIndex { get; set; }
+        /// <summary>
+        /// detector numerical aperture
+        /// </summary>
+        public double NA { get; set; }
 
         /* ==== Place user-defined output arrays here. They should be prepended with "[IgnoreDataMember]" attribute ==== */
         /* ==== Then, GetBinaryArrays() should be implemented to save them separately in binary format ==== */
@@ -145,6 +165,9 @@ namespace Vts.MonteCarlo.Detectors
         /// <param name="photon">photon data needed to tally</param>
         public void Tally(Photon photon)
         {
+            if (!IsWithinDetectorAperture(photon))
+                return;
+
             // calculate the radial bin to attribute the deposition
             var irho = DetectorBinning.WhichBin(DetectorBinning.GetRho(photon.DP.Position.X, photon.DP.Position.Y), Rho.Count - 1, Rho.Delta, Rho.Start);
             var subregionMT = new double[NumSubregions];
@@ -316,13 +339,22 @@ namespace Vts.MonteCarlo.Detectors
             };
         }
         /// <summary>
-        /// Method to determine if photon is within detector
+        /// Method to determine if photon is within detector NA
         /// </summary>
-        /// <param name="dp">photon data point</param>
-        /// <returns>method always returns true</returns>
-        public bool ContainsPoint(PhotonDataPoint dp)
+        /// <param name="photon">photon</param>
+        public bool IsWithinDetectorAperture(Photon photon)
         {
-            return true; // or, possibly test for NA or confined position, etc
+            if (photon.CurrentRegionIndex == FinalTissueRegionIndex)
+            {
+                var detectorRegionN = _tissue.Regions[photon.CurrentRegionIndex].RegionOP.N;
+                return photon.DP.IsWithinNA(NA, Direction.AlongNegativeZAxis, detectorRegionN);
+            }
+            else // determine n of prior tissue region
+            {
+                var detectorRegionN = _tissue.Regions[FinalTissueRegionIndex].RegionOP.N;
+                return photon.History.PreviousDP.IsWithinNA(NA, Direction.AlongNegativeZAxis, detectorRegionN);
+            }
+            //return true; // or, possibly test for NA or confined position, etc
             //return (dp.StateFlag.Has(PhotonStateType.PseudoTransmissionDomainTopBoundary));
         }
 

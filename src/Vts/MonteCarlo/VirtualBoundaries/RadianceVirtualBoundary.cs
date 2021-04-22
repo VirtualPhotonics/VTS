@@ -36,7 +36,7 @@ namespace Vts.MonteCarlo.VirtualBoundaries
                                   dp.Direction.Uz > 0 &&
                                   Math.Abs(dp.Position.Z - _zPlanePosition) < 10E-16;
 
-                VirtualBoundaryType = VirtualBoundaryType.SurfaceRadiance;
+                VirtualBoundaryType = VirtualBoundaryType.Dosimetry;
                 PhotonStateType = PhotonStateType.PseudoSurfaceRadianceVirtualBoundary;
 
                 Name = name;
@@ -87,7 +87,7 @@ namespace Vts.MonteCarlo.VirtualBoundaries
             // since no tissue boundary here, need other checks for whether VB is applied
             if ((dp.Direction.Uz <= 0.0) || (dp.Position.Z >= _zPlanePosition)) // >= is key here
             {
-                return distanceToBoundary;
+                return distanceToBoundary; // return infinity
             }
             // VB applies
             distanceToBoundary = (_zPlanePosition - dp.Position.Z) / dp.Direction.Uz;

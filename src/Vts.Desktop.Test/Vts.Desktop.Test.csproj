@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\NUnit3TestAdapter.3.17.0\build\net35\NUnit3TestAdapter.props" Condition="Exists('..\packages\NUnit3TestAdapter.3.17.0\build\net35\NUnit3TestAdapter.props')" />
   <Import Project="..\packages\Microsoft.NET.Test.Sdk.16.6.1\build\net40\Microsoft.NET.Test.Sdk.props" Condition="Exists('..\packages\Microsoft.NET.Test.Sdk.16.6.1\build\net40\Microsoft.NET.Test.Sdk.props')" />
   <Import Project="..\packages\Microsoft.CodeCoverage.16.6.1\build\netstandard1.0\Microsoft.CodeCoverage.props" Condition="Exists('..\packages\Microsoft.CodeCoverage.16.6.1\build\netstandard1.0\Microsoft.CodeCoverage.props')" />
-  <Import Project="..\packages\NUnit3TestAdapter.3.16.1\build\net35\NUnit3TestAdapter.props" Condition="Exists('..\packages\NUnit3TestAdapter.3.16.1\build\net35\NUnit3TestAdapter.props')" />
   <Import Project="..\packages\NUnit.3.12.0\build\NUnit.props" Condition="Exists('..\packages\NUnit.3.12.0\build\NUnit.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -65,8 +65,8 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MathNet.Numerics, Version=4.9.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MathNet.Numerics.4.9.0\lib\net461\MathNet.Numerics.dll</HintPath>
+    <Reference Include="MathNet.Numerics, Version=4.11.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MathNet.Numerics.4.11.0\lib\net461\MathNet.Numerics.dll</HintPath>
     </Reference>
     <Reference Include="Meta.Numerics, Version=4.0.7.0, Culture=neutral, PublicKeyToken=67d25c65a6631347, processorArchitecture=MSIL">
       <HintPath>..\packages\Meta.Numerics.4.0.7\lib\netstandard1.1\Meta.Numerics.dll</HintPath>
@@ -142,9 +142,6 @@
     <Compile Include="..\Vts.Test\Common\PositionTests.cs">
       <Link>Common\PositionTests.cs</Link>
     </Compile>
-    <Compile Include="..\Vts.Test\Common\StopwatchTests.cs">
-      <Link>Common\StopwatchTests.cs</Link>
-    </Compile>
     <Compile Include="..\Vts.Test\Factories\ComputationFactoryTests.cs">
       <Link>Factories\ComputationFactoryTests.cs</Link>
     </Compile>
@@ -208,11 +205,20 @@
     <Compile Include="..\Vts.Test\MonteCarlo\BidirectionalScattering\BidirectionalAnalyticSolutions.cs">
       <Link>MonteCarlo\BidirectionalScattering\BidirectionalAnalyticSolutions.cs</Link>
     </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\BidirectionalScattering\CAWBidirectionalTallyActionsTests.cs">
+      <Link>MonteCarlo\BidirectionalScattering\CAWBidirectionalTallyActionsTests.cs</Link>
+    </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\DataStructuresValidation\DetectorInputs\dMCdROfRhodMuaDetectorInputValidationTests.cs">
       <Link>MonteCarlo\DataStructuresValidation\DetectorInputs\dMCdROfRhodMuaDetectorInputValidationTests.cs</Link>
     </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\DataStructuresValidation\DetectorInputs\dMCdROfRhodMusDetectorInputValidationTests.cs">
       <Link>MonteCarlo\DataStructuresValidation\DetectorInputs\dMCdROfRhodMusDetectorInputValidationTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\DataStructuresValidation\DetectorInputs\SurfaceFiberDetectorInputValidationTests.cs">
+      <Link>MonteCarlo\DataStructuresValidation\DetectorInputs\SurfaceFiberDetectorInputValidationTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\DataStructuresValidation\PostProcessorInputs\PostProcessorInputValidationTests.cs">
+      <Link>MonteCarlo\DataStructuresValidation\PostProcessorInputs\PostProcessorInputValidationTests.cs</Link>
     </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\DataStructuresValidation\SimulationInputValidationTests.cs">
       <Link>MonteCarlo\DataStructuresValidation\SimulationInputValidationTests.cs</Link>
@@ -289,6 +295,15 @@
     <Compile Include="..\Vts.Test\MonteCarlo\Detectors\DAWVoxelDetectorsTests.cs">
       <Link>MonteCarlo\Detectors\DAWVoxelDetectorsTests.cs</Link>
     </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Detectors\DetectorFiberTests.cs">
+      <Link>MonteCarlo\Detectors\DetectorFiberTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Detectors\DetectorNADynamicTests.cs">
+      <Link>MonteCarlo\Detectors\DetectorNADynamicTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Detectors\DetectorNATests.cs">
+      <Link>MonteCarlo\Detectors\DetectorNATests.cs</Link>
+    </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\Detectors\pMCCAWLayersDetectorsTests.cs">
       <Link>MonteCarlo\Detectors\pMCCAWLayersDetectorsTests.cs</Link>
     </Compile>
@@ -304,8 +319,14 @@
     <Compile Include="..\Vts.Test\MonteCarlo\Detectors\SpecularLayerDetectorTests.cs">
       <Link>MonteCarlo\Detectors\SpecularLayerDetectorTests.cs</Link>
     </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Extensions\PhotonDataExtensionMethodsTests.cs">
+      <Link>MonteCarlo\Extensions\PhotonDataExtensionMethodsTests.cs</Link>
+    </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\Factories\DetectorFactoryTests.cs">
       <Link>MonteCarlo\Factories\DetectorFactoryTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Helpers\LayerTissueRegionToolboxTests.cs">
+      <Link>MonteCarlo\Helpers\LayerTissueRegionToolboxTests.cs</Link>
     </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\Helpers\SourceToolboxTests.cs">
       <Link>MonteCarlo\Helpers\SourceToolboxTests.cs</Link>
@@ -315,6 +336,24 @@
     </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\MonteCarloSimulationTests.cs">
       <Link>MonteCarlo\MonteCarloSimulationTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\PhaseFunctions\AxiallySymmetricScattererMuellerMatrixTests.cs">
+      <Link>MonteCarlo\PhaseFunctions\AxiallySymmetricScattererMuellerMatrixTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\PhaseFunctions\LookupTablePhaseFunctionTests.cs">
+      <Link>MonteCarlo\PhaseFunctions\LookupTablePhaseFunctionTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\PhaseFunctions\MieScattererMuellerMatrixTests.cs">
+      <Link>MonteCarlo\PhaseFunctions\MieScattererMuellerMatrixTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\PhaseFunctions\MuellerMatrixTests.cs">
+      <Link>MonteCarlo\PhaseFunctions\MuellerMatrixTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\PhaseFunctions\RejectionSampledLookupTablePhaseFunctionTests.cs">
+      <Link>MonteCarlo\PhaseFunctions\RejectionSampledLookupTablePhaseFunctionTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\PhaseFunctions\StokesVectorTests.cs">
+      <Link>MonteCarlo\PhaseFunctions\StokesVectorTests.cs</Link>
     </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\PhotonData\CollisionInfoDatabaseTests.cs">
       <Link>MonteCarlo\PhotonData\CollisionInfoDatabaseTests.cs</Link>
@@ -355,6 +394,9 @@
     <Compile Include="..\Vts.Test\MonteCarlo\Tissues\InfiniteCylinderTissueRegionTests.cs">
       <Link>MonteCarlo\Tissues\InfiniteCylinderTissueRegionTests.cs</Link>
     </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Tissues\MultiLayerWithSurfaceFiberTissueTests.cs">
+      <Link>MonteCarlo\Tissues\MultiLayerWithSurfaceFiberTissueTests.cs</Link>
+    </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\Tissues\LayerTissueRegionTests.cs">
       <Link>MonteCarlo\Tissues\LayerTissueRegionTests.cs</Link>
     </Compile>
@@ -363,6 +405,9 @@
     </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\Tissues\SingleInclusionTissueTests.cs">
       <Link>MonteCarlo\Tissues\SingleInclusionTissueTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Tissues\SurfaceFiberTissueRegionTests.cs">
+      <Link>MonteCarlo\Tissues\SurfaceFiberTissueRegionTests.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -452,11 +497,11 @@
     </PropertyGroup>
     <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
     <Error Condition="!Exists('..\packages\NUnit.3.12.0\build\NUnit.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\NUnit.3.12.0\build\NUnit.props'))" />
-    <Error Condition="!Exists('..\packages\NUnit3TestAdapter.3.16.1\build\net35\NUnit3TestAdapter.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\NUnit3TestAdapter.3.16.1\build\net35\NUnit3TestAdapter.props'))" />
     <Error Condition="!Exists('..\packages\Microsoft.CodeCoverage.16.6.1\build\netstandard1.0\Microsoft.CodeCoverage.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeCoverage.16.6.1\build\netstandard1.0\Microsoft.CodeCoverage.props'))" />
     <Error Condition="!Exists('..\packages\Microsoft.CodeCoverage.16.6.1\build\netstandard1.0\Microsoft.CodeCoverage.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeCoverage.16.6.1\build\netstandard1.0\Microsoft.CodeCoverage.targets'))" />
     <Error Condition="!Exists('..\packages\Microsoft.NET.Test.Sdk.16.6.1\build\net40\Microsoft.NET.Test.Sdk.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.NET.Test.Sdk.16.6.1\build\net40\Microsoft.NET.Test.Sdk.props'))" />
     <Error Condition="!Exists('..\packages\Microsoft.NET.Test.Sdk.16.6.1\build\net40\Microsoft.NET.Test.Sdk.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.NET.Test.Sdk.16.6.1\build\net40\Microsoft.NET.Test.Sdk.targets'))" />
+    <Error Condition="!Exists('..\packages\NUnit3TestAdapter.3.17.0\build\net35\NUnit3TestAdapter.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\NUnit3TestAdapter.3.17.0\build\net35\NUnit3TestAdapter.props'))" />
   </Target>
   <Import Project="..\packages\Microsoft.CodeCoverage.16.6.1\build\netstandard1.0\Microsoft.CodeCoverage.targets" Condition="Exists('..\packages\Microsoft.CodeCoverage.16.6.1\build\netstandard1.0\Microsoft.CodeCoverage.targets')" />
   <Import Project="..\packages\Microsoft.NET.Test.Sdk.16.6.1\build\net40\Microsoft.NET.Test.Sdk.targets" Condition="Exists('..\packages\Microsoft.NET.Test.Sdk.16.6.1\build\net40\Microsoft.NET.Test.Sdk.targets')" />

@@ -31,7 +31,7 @@ namespace Vts.MonteCarlo.Sources
             Position translationFromOrigin,
             int initialTissueRegionIndex)
         {
-            SourceType = "LambertianSurfaceEmittingCubiodal";
+            SourceType = "LambertianSurfaceEmittingCuboidal";
             CubeLengthX = cubeLengthX;
             CubeWidthY = cubeWidthY;
             CubeHeightZ = cubeHeightZ;

@@ -32,6 +32,10 @@ namespace Vts.Test.MonteCarlo.Detectors
         /// <summary>
         /// list of temporary files created by these unit tests
         /// </summary>
+        List<string> listOfTestGeneratedFolders = new List<string>()
+        {
+            "Output",
+        };
         List<string> listOfTestGeneratedFiles = new List<string>()
         {
             "statistics.txt",
@@ -44,6 +48,10 @@ namespace Vts.Test.MonteCarlo.Detectors
             foreach (var file in listOfTestGeneratedFiles)
             {
                 FileIO.FileDelete(file);
+            }
+            foreach (var folder in listOfTestGeneratedFolders)
+            {
+                FileIO.DeleteDirectory(folder);
             }
         }
         /// <summary>

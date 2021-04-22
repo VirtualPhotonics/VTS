@@ -22,6 +22,7 @@ namespace Vts.MonteCarlo.Detectors
             TallyType = "ROfFxAndAngle";
             Name = "ROfFxAndAngle";
             Fx = new DoubleRange(0.0, 0.5, 51);
+            Angle = new DoubleRange(Math.PI / 2, Math.PI, 2);
 
             // modify base class TallyDetails to take advantage of built-in validation capabilities (error-checking)
             TallyDetails.IsReflectanceTally = true;
@@ -146,7 +147,7 @@ namespace Vts.MonteCarlo.Detectors
             {
                 for (int ia = 0; ia < Angle.Count - 1; ia++)
                 {
-                    var areaNorm = Math.Sin((ia + 0.5) * Angle.Delta) * normalizationFactor;
+                    var areaNorm = Math.Sin(Angle.Start + (ia + 0.5) * Angle.Delta) * normalizationFactor;
                     Mean[ifx, ia] /= areaNorm * numPhotons;
                     if (TallySecondMoment)
                     {

@@ -21,6 +21,7 @@ namespace Vts.MonteCarlo
         /// <returns>a list of the SimulationInputs generated</returns>
         public static IList<SimulationInput> GenerateAllSimulationInputs()
         {
+            // additions to this list need to be added to MCCL Program tests for clean up
             return new List<SimulationInput>()
             {
                 PointSourceOneLayerTissueAllDetectors(),
@@ -32,7 +33,7 @@ namespace Vts.MonteCarlo
                 PointSourceOneLayerTissueLUTPhaseFunctionROfRhoDetector(),
                 PointSourceSingleInfiniteCylinderTissueAOfXAndYAndZDetector(),
                 PointSourceMultiInfiniteCylinderTissueAOfXAndYAndZDetector(),
-                pMCPointSourceOneLayerTissueROfRhoDAW(),
+                pMCPointSourceOneLayerTissueROfRhoDAW(), // don't change this it is part of documentation
                 Gaussian2DSourceOneLayerTissueROfRhoDetector(),
                 Flat2DSourceOneLayerTissueROfRhoDetector(),
                 Flat2DSourceTwoLayerBoundedTissueAOfRhoAndZDetector(),
@@ -41,6 +42,7 @@ namespace Vts.MonteCarlo
                 PointSourceSingleVoxelTissueROfXAndYAndFluenceOfXAndYAndZDetector(),
                 PointSourceThreeLayerReflectedTimeOfRhoAndSubregionHistDetector(),
                 EmbeddedDirectionalCircularSourceEllipTissueFluenceOfXAndYAndZ(),
+                PointSourceSurfaceFiberTissueAndDetector(),
                 FluorescenceEmissionAOfXAndYAndZSourceInfiniteCylinder()
             };
         }
@@ -98,6 +100,9 @@ namespace Vts.MonteCarlo
                     new FluenceOfXAndYAndZDetectorInput(){X=new DoubleRange(-10, 10, 201),Y=new DoubleRange(-10, 10, 2),Z=new DoubleRange(0, 10, 101)},
                     new FluenceOfXAndYAndZAndOmegaDetectorInput(){X=new DoubleRange(-10, 10, 201),Y=new DoubleRange(-10, 10, 2),Z=new DoubleRange(0, 10, 101),Omega=new DoubleRange(0.0, 1, 21)},
                     new FluenceOfXAndYAndZAndTimeDetectorInput(){X=new DoubleRange(-10, 10, 201),Y=new DoubleRange(-10, 10, 2),Z=new DoubleRange(0, 10, 101),Time=new DoubleRange(0.0, 1, 21)},
+                    new FluenceOfXAndYAndZAndStartingXAndYDetectorInput(){
+                        X =new DoubleRange(-10, 10, 5),Y=new DoubleRange(-10, 10, 2),Z=new DoubleRange(0, 10, 11),
+                        StartingX=new DoubleRange(-1, 1, 2),StartingY=new DoubleRange(-10,10,2)},
                     new FluenceOfRhoAndZAndOmegaDetectorInput(){Rho=new DoubleRange(0, 10, 101),Z=new DoubleRange(0, 10, 101),Omega=new DoubleRange(0.0, 1, 21)},
                     new FluenceOfFxAndZDetectorInput(){Fx=new DoubleRange(0, 0.5, 51),Z=new DoubleRange(0, 10, 101)},
                     new RadianceOfRhoAndZAndAngleDetectorInput(){Rho=new DoubleRange(0.0, 10, 101),Z=new DoubleRange(0.0, 10, 101),Angle=new DoubleRange(0, Math.PI, 5)},
@@ -118,8 +123,22 @@ namespace Vts.MonteCarlo
                     new ROfRhoAndOmegaDetectorInput() {Rho=new DoubleRange(0.0, 10, 101),Omega=new DoubleRange(0.0, 1, 21)}, // GHz
                     new ROfRhoAndTimeDetectorInput() {Rho= new DoubleRange(0.0, 10, 101),Time=new DoubleRange(0.0, 10, 11)},
                     new ROfRhoAndMaxDepthDetectorInput() {Rho= new DoubleRange(0.0, 10, 101),MaxDepth=new DoubleRange(0.0, 10, 11)},
+                    new ROfRhoAndMaxDepthRecessedDetectorInput() {Rho= new DoubleRange(0.0, 10, 101),MaxDepth=new DoubleRange(0.0, 10, 11),ZPlane=-1.0},
                     new ROfRhoDetectorInput() {Rho =new DoubleRange(0.0, 10, 101)},
-                    new ROfXAndYDetectorInput() {X=new DoubleRange(-100.0, 100.0, 21), Y= new DoubleRange(-100.0, 100.0, 21)}, 
+                    new ROfRhoRecessedDetectorInput() {Rho =new DoubleRange(0.0, 10, 101),ZPlane=-1.0},
+                    new ROfXAndYDetectorInput() {X=new DoubleRange(-100.0, 100.0, 21), Y= new DoubleRange(-100.0, 100.0, 21)},
+                    new ROfXAndYRecessedDetectorInput() {X=new DoubleRange(-100.0, 100.0, 21), Y= new DoubleRange(-100.0, 100.0, 21),ZPlane=-1.0},
+                    new ROfXAndYAndTimeDetectorInput() {X=new DoubleRange(-100.0, 100.0, 21), Y= new DoubleRange(-100.0, 100.0, 21),Time=new DoubleRange(0.0, 1, 11)},
+                    new ROfXAndYAndTimeRecessedDetectorInput() {X=new DoubleRange(-100.0, 100.0, 21), Y= new DoubleRange(-100.0, 100.0, 21),Time=new DoubleRange(0.0, 1, 11),ZPlane=-1.0},
+                    new ROfXAndYAndThetaAndPhiDetectorInput()
+                    {
+                        X = new DoubleRange(-10.0, 10.0, 101),
+                        Y = new DoubleRange(-10.0, 10.0, 101),
+                        Theta = new DoubleRange(Math.PI / 2, Math.PI, 3),
+                        Phi = new DoubleRange(-Math.PI, Math.PI, 5)
+                    },
+                    new ROfXAndYAndMaxDepthDetectorInput() {X=new DoubleRange(-100.0, 100.0, 21), Y= new DoubleRange(-100.0, 100.0, 21),MaxDepth=new DoubleRange(0.0, 10, 11)},
+                    new ROfXAndYAndMaxDepthRecessedDetectorInput() {X=new DoubleRange(-100.0, 100.0, 21), Y= new DoubleRange(-100.0, 100.0, 21),MaxDepth=new DoubleRange(0.0, 10, 11),ZPlane=-1.0},
                     new RSpecularDetectorInput(),
                     new TDiffuseDetectorInput(),
                     new TOfAngleDetectorInput() {Angle=new DoubleRange(0.0, Math.PI / 2, 5)},
@@ -176,7 +195,7 @@ namespace Vts.MonteCarlo
                 ti,
                 new List<IDetectorInput>()
                 {
-                    new ROfRhoDetectorInput() { Rho =new DoubleRange(0.0, 10, 101)},
+                    new ROfRhoDetectorInput() { Rho =new DoubleRange(0.0, 10, 101), FinalTissueRegionIndex=0, NA=1.0},
                     new FluenceOfRhoAndZDetectorInput() {Rho=new DoubleRange(0.0, 10, 101),Z=new DoubleRange(0.0, 10, 101)}
                 }
              );
@@ -605,7 +624,7 @@ namespace Vts.MonteCarlo
         }
         #endregion
 
-        #region pMC point source one layer tissue R(rho) DAW
+        #region pMC point source one layer tissue R(rho) DAW part of website documentation so don't modify
         /// <summary>
         /// Perturbation MC point source, single tissue layer definition, R(rho) included
         /// </summary>
@@ -1224,6 +1243,95 @@ namespace Vts.MonteCarlo
             );
         }
         #endregion
+        
+        #region point source one layer Surface Fiber Detector 
+
+        /// <summary>
+        /// </summary>
+        public static SimulationInput PointSourceSurfaceFiberTissueAndDetector()
+        {
+            var tissue = new MultiLayerWithSurfaceFiberTissueInput(
+                new SurfaceFiberTissueRegion(
+                     new Position(0, 0, 0),
+                     0.3, // needs to match SurfaceFiberDetectorInput
+                     new OpticalProperties(0.01, 1.0, 0.8, 1.4),
+                     "HenyeyGreensteinKey4"
+                 ),
+                 new ITissueRegion[]
+                 {
+                    new LayerTissueRegion(
+                        new DoubleRange(double.NegativeInfinity, 0.0),
+                        new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
+                        "HenyeyGreensteinKey1"),
+                    new LayerTissueRegion(
+                        new DoubleRange(0.0, 100.0),
+                        new OpticalProperties(0.01, 1.0, 0.8, 1.4),
+                        "HenyeyGreensteinKey2"),
+                    new LayerTissueRegion(
+                        new DoubleRange(100.0, double.PositiveInfinity),
+                        new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
+                        "HenyeyGreensteinKey3")
+                 }
+            );
+            tissue.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey1", new HenyeyGreensteinPhaseFunctionInput());
+            tissue.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey2", new HenyeyGreensteinPhaseFunctionInput());
+            tissue.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey3", new HenyeyGreensteinPhaseFunctionInput());
+            tissue.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey4", new HenyeyGreensteinPhaseFunctionInput());
+
+            return new SimulationInput(
+                100,
+                "surface_fiber_detector",
+                new SimulationOptions(
+                    0, // random number generator seed, -1=random seed, 0=fixed seed
+                    RandomNumberGeneratorType.MersenneTwister,
+                    AbsorptionWeightingType.Discrete,
+                    new List<DatabaseType>() { }, // databases to be written
+                    true, // track statistics
+                    0.0, // RR threshold -> no RR performed
+                    0),
+                new DirectionalPointSourceInput(
+                    new Position(0.0, 0.0, 0.0),
+                    new Direction(0.0, 0.0, 1.0),
+                    1), // 0=start in air, 1=start in tissue
+                tissue,
+
+            new List<IDetectorInput>()
+                {
+                    new SurfaceFiberDetectorInput()
+                    {
+                        Center = new Position(0, 0, 0),
+                        Radius = 0.3,
+                        N = 1.4,
+                        NA = double.PositiveInfinity,
+                        Name = "SurfaceFiber_Open",
+                        FinalTissueRegionIndex = 3,
+                        TallySecondMoment = true
+                    },
+                    new SurfaceFiberDetectorInput()
+                    {
+                        Center = new Position(0, 0, 0),
+                        Radius = 0.3,
+                        N = 1.4,
+                        NA = 0.22,
+                        Name = "SurfaceFiber_NA0p22",
+                        FinalTissueRegionIndex = 3,
+                        TallySecondMoment = true
+                    },
+                    new SurfaceFiberDetectorInput()
+                    {
+                        Center = new Position(0, 0, 0),
+                        Radius = 0.3,
+                        N = 1.4,
+                        NA = 0.39,
+                        Name = "SurfaceFiber_NA0p39",
+                        FinalTissueRegionIndex = 3,
+                        TallySecondMoment = true
+                    }
+                }
+            );
+  
+        }
+        #endregion
 
         #region fluorescence emission source based on AOfXAndYAndZ of prior simulation this pairs 
         /// <summary>
@@ -1266,7 +1374,7 @@ namespace Vts.MonteCarlo
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Discrete,
                     new List<DatabaseType>() { }, // databases to be written
-                    false, // track statistics
+                    true, // track statistics
                     0.0, // RR threshold -> no RR performed
                     0),
                 // pairs w above infinite_cylinder_ROfRho_FluenceOfRhoAndZ
@@ -1276,13 +1384,13 @@ namespace Vts.MonteCarlo
                     3,
                     SourcePositionSamplingType.CDF
                     ),
-                tissue,
-                new List<IDetectorInput>()
-                {
-                    new ROfXAndYDetectorInput() {X=new DoubleRange(-10, 10, 101),
-                        Y = new DoubleRange(-100.0, 100.0, 2)},
-                }
-            );
+                    tissue,
+                    new List<IDetectorInput>()
+                    {
+                        new ROfXAndYDetectorInput() {X=new DoubleRange(-10, 10, 101),
+                            Y = new DoubleRange(-100.0, 100.0, 2)},
+                    }
+                );
         }
         #endregion
     }

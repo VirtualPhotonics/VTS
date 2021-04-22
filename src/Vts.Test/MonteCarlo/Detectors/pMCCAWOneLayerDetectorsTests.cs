@@ -1,5 +1,4 @@
 using System;
-using System.IO;
 using System.Collections.Generic;
 using NUnit.Framework;
 using Vts.Common;
@@ -214,7 +213,7 @@ namespace Vts.Test.MonteCarlo.Detectors
         /// Test to validate that calling dMC results in not a NaN
         /// </summary>
         [Test]
-        public void validate_dMC_CAW_dROfRhodMua_produces_not_NaN_results()
+        public void validate_dMC_CAW_dROfRhodMua_dROfRhodMus_produces_not_NaN_results()
         {
             var postProcessor = new PhotonDatabasePostProcessor(
                 VirtualBoundaryType.pMCDiffuseReflectance,
@@ -222,7 +221,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                 {
                     new dMCdROfRhodMuaDetectorInput()
                     {
-                        Rho = new DoubleRange(0.0, 10, 101),
+                        Rho = new DoubleRange(0.0, 10, 11),
                         // set perturbed ops to reference ops
                         PerturbedOps = new List<OpticalProperties>()
                         {
@@ -238,7 +237,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                     },
                     new dMCdROfRhodMusDetectorInput()
                     {
-                        Rho = new DoubleRange(0.0, 10, 101),
+                        Rho = new DoubleRange(0.0, 10, 11),
                         // set perturbed ops to reference ops
                         PerturbedOps = new List<OpticalProperties>()
                         {

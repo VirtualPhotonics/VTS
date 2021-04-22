@@ -53,6 +53,7 @@ namespace Vts.MonteCarlo
         /// <summary>
         /// This verifies that the layers do not overlap.  It assumes that the layers are
         /// adjacent and defined in order. Public because SimulationInputValidation calls it.
+        /// This also checks that ZRange.Count = 2
         /// </summary>
         /// <param name="layers">list of LayerTissueRegion</param>
         /// <returns></returns>
@@ -75,6 +76,13 @@ namespace Vts.MonteCarlo
                         false,
                         "MultiLayerTissueInput: a layer with 0 thickness has been defined",
                         "Check that the ZRange.Start does not equal ZRange.Stop for all layers");
+                }
+                if (thisLayer.ZRange.Count != 2)
+                {
+                    return new ValidationResult(
+                        false,
+                        "MultiLayerTissueInput: a layer Count not equal to 2 has been defined",
+                        "Check that the ZRange.Count equals 2 for all layers");
                 }
             }
 

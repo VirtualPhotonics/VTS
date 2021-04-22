@@ -38,22 +38,22 @@ dotnet publish $mcclcsproj -c Release -r osx-x64 -o $PWD\publish\osx-x64 --self-
 dotnet publish $mcclcsproj -c Release -o $PWD\publish\local --self-contained false
 
 dotnet publish $mcppcsproj -c Release -r linux-x64 -o $PWD\publish\linux-x64 --self-contained false
-dotnet publish $mcclcsproj -c Release -r win-x64 -o $PWD\publish\win-x64 --self-contained false 
-dotnet publish $mcclcsproj -c Release -r osx-x64 -o $PWD\publish\osx-x64 --self-contained false 
+dotnet publish $mcppcsproj -c Release -r win-x64 -o $PWD\publish\win-x64 --self-contained false 
+dotnet publish $mcppcsproj -c Release -r osx-x64 -o $PWD\publish\osx-x64 --self-contained false 
+
+# Create MCCL zip files for different OS
+$releasedir = ".\release"
+New-Item -Path $PWD -Name $releasedir -ItemType "directory"
 
 # Create win-x64 zip
-$releasedir = ".\release\win-x64"
-New-Item -Path $PWD -Name $releasedir -ItemType "directory"
-$archive = $releasedir + "\MC_v" + $version + "Beta.zip"
+$archive = $releasedir + "\MC_v" + $version + "_Win_x64.zip"
 $source = "publish\win-x64\*"
 Compress-Archive -Path $source -DestinationPath $archive 
 $matlabfiles = "$PWD\matlab\post_processing\*"
 Compress-Archive -Path $matlabfiles -Update -DestinationPath $archive
 
 # Create linux-x64 zip
-$releasedir = ".\release\linux-x64"
-New-Item -Path $PWD -Name $releasedir -ItemType "directory"
-$archive = $releasedir + "\MC_v" + $version + "Beta.zip"
+$archive = $releasedir + "\MC_v" + $version + "_Linux_x64.zip"
 $source = "publish\linux-x64\*"
 Compress-Archive -Path $source -DestinationPath $archive 
 $matlabfiles = "$PWD\matlab\post_processing\*"
@@ -62,9 +62,7 @@ $mcinversefiles = "$PWD\matlab\monte_carlo_inverse\*"
 Compress-Archive -Path $mcinversefiles -Update -DestinationPath $archive
 
 # Create osx-x64 zip
-$releasedir = ".\release\osx-x64"
-New-Item -Path $PWD -Name $releasedir -ItemType "directory"
-$archive = $releasedir + "\MC_v" + $version + "Beta.zip"
+$archive = $releasedir + "\MC_v" + $version + "_Mac_x64.zip"
 $source = "publish\osx-x64\*"
 Compress-Archive -Path $source -DestinationPath $archive 
 $matlabfiles = "$PWD\matlab\post_processing\*"

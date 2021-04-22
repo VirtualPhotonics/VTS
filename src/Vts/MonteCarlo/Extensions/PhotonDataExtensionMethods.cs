@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using Vts.Common;
 using Vts.MonteCarlo.PhotonData;
 
 namespace Vts.MonteCarlo.Extensions
@@ -57,7 +59,20 @@ namespace Vts.MonteCarlo.Extensions
             }
             return false;
         }
-        
+        /// <summary>
+        /// method to determine whether photon direction is within NA of detector
+        /// </summary>
+        /// <param name="dp">photon data point</param>
+        /// <param name="detectorNA">numerical aperture of detector</param>
+        /// <param name="n">refractive index of region where the detector resides</param>
+        /// <returns>boolean</returns>
+        public static bool IsWithinNA(this PhotonDataPoint dp, double detectorNA, Direction detectorNormal, double n)
+        {
+            var photonDirection = dp.Direction;
+            // determine if sin(theta)<=NA/n where theta is angle between photon direction and detector normal
+            var cosTheta = Direction.GetDotProduct(photonDirection, detectorNormal);
+            return (detectorNA/n) >= Math.Sqrt(1 - cosTheta * cosTheta);
+        }
 
 
     }

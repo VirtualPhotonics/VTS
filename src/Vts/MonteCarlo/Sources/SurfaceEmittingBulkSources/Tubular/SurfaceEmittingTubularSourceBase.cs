@@ -73,24 +73,23 @@ namespace Vts.MonteCarlo.Sources
                 SourceDefaults.DefaultHalfPolarAngleRange.Clone(), 
                 SourceDefaults.DefaultAzimuthalAngleRange.Clone(),
                 Rng);
+            Position finalPosition = SourceDefaults.DefaultPosition.Clone();
 
-            //Translate the photon to _tubeRadius length below the origin. Ring lies on yz plane.
-            Position finalPosition = new Position(0.0, 0.0, _tubeRadius);
+            if (_tubeRadius > 0.0)
+            {
+                // To utilize the final direction given above, we can assume a tube 
+                // parallel to the y-axis. We can rotate it about the x-axis by pi/2 
+                // to compute the new direction.
+                SourceToolbox.UpdateDirectionAfterRotatingAroundXAxis(0.5 * Math.PI, finalDirection);
 
-            //Sample a ring that emits photons outside.
-            SourceToolbox.UpdateDirectionPositionAfterRotatingAroundXAxis(
-                2.0 * Math.PI * Rng.NextDouble(),
-                ref finalDirection,
-                ref finalPosition);
+                //Sample tube perimeter first to compute x and y coordinates
+                finalPosition = SourceToolbox.GetPositionAtCirclePerimeter(finalPosition,
+                    _tubeRadius,
+                    Rng);
 
-            //Ring lies on xy plane. z= 0;
-            SourceToolbox.UpdateDirectionPositionAfterRotatingAroundYAxis(
-                0.5 * Math.PI,
-                ref finalDirection,
-                ref finalPosition);
-
-            //Sample tube height
-            finalPosition.Z = _tubeHeightZ * (2.0 * Rng.NextDouble() -1.0);
+                //Sample tube height to compute z coordinate
+                finalPosition.Z = _tubeHeightZ * (Rng.NextDouble() - 0.5);
+            }
 
             //Find the relevent polar and azimuthal pair for the direction
             PolarAzimuthalAngles _rotationalAnglesOfPrincipalSourceAxis = SourceToolbox.GetPolarAzimuthalPairFromDirection(_newDirectionOfPrincipalSourceAxis);

@@ -422,7 +422,6 @@ namespace Vts.Test.MonteCarlo.Sources
             ITissue tissue = new MultiLayerTissue();
             var profile = new GaussianSourceProfile(_bdFWHM);
 
-
             var ps = new DirectionalRectangularSource(_polarAngle, _lengthX, _widthY, profile, _direction, _translation, _angPair)
             {
                 Rng = rng
@@ -437,6 +436,68 @@ namespace Vts.Test.MonteCarlo.Sources
             Assert.Less(Math.Abs(photon.DP.Position.X - _tp[94]), ACCEPTABLE_PRECISION);
             Assert.Less(Math.Abs(photon.DP.Position.Y - _tp[95]), ACCEPTABLE_PRECISION);
             Assert.Less(Math.Abs(photon.DP.Position.Z - _tp[96]), ACCEPTABLE_PRECISION);
+        }
+
+        /// <summary>
+        /// This test different from others in that it is validated by geometrically
+        /// determined results
+        /// </summary>
+        [Test]
+        public void validate_CircularAngledFromPoint_source()
+        {
+            Random rng = new MathNet.Numerics.Random.MersenneTwister(0); // not really necessary here, as this is now the default
+            ITissue tissue = new MultiLayerTissue();
+            var profile = new FlatSourceProfile();
+            var _radius = 1.0;
+            var _pointLocation = new Position(0, 0, -1); // put directly above
+            var _translationFromOrigin = new Position(0, 0, 0);  
+
+            var ps = new CircularAngledFromPointSource(_radius, profile, _pointLocation, _translationFromOrigin)
+            {
+                Rng = rng
+            };
+            var photon = ps.GetNextPhoton(tissue);
+            // make sure initial position is at tissue surface
+            Assert.AreEqual(photon.DP.Position.Z, 0.0);
+            // make sure initial position is inside radius
+            Assert.IsTrue(Math.Sqrt(
+                (photon.DP.Position.X - _translationFromOrigin.X) *
+                (photon.DP.Position.X - _translationFromOrigin.X) +
+                (photon.DP.Position.Y - _translationFromOrigin.Y) *
+                (photon.DP.Position.Y - _translationFromOrigin.Y)) <= _radius);
+            // make sure angle is less than 45 degrees
+            Assert.IsTrue(photon.DP.Direction.Uz >= 1 / Math.Sqrt(2));
+        }
+        /// <summary>
+        /// This test different from others in that it is validated by geometrically
+        /// determined results
+        /// </summary>
+        [Test]
+        public void validate_CircularAngledFromCircle_source()
+        {
+            Random rng = new MathNet.Numerics.Random.MersenneTwister(0); // not really necessary here, as this is now the default
+            ITissue tissue = new MultiLayerTissue();
+            var _profile = new FlatSourceProfile();
+            var _radiusOnTissue = 10.0;
+            var _radiusInAir = 0.0;
+            var _circleInAirTranslationFromOrigin = new Position(0, 0, -10);
+
+            var ps = new CircularAngledFromCircleSource(
+                _radiusOnTissue, 
+                _profile,
+                _radiusInAir, 
+                _circleInAirTranslationFromOrigin)
+            {
+                Rng = rng
+            };
+            var photon = ps.GetNextPhoton(tissue);
+            // make sure initial position is at tissue surface
+            Assert.AreEqual(photon.DP.Position.Z, 0.0);
+            // make sure initial position is inside radius
+            Assert.IsTrue(Math.Sqrt(photon.DP.Position.X * photon.DP.Position.X +
+                                    photon.DP.Position.Y * photon.DP.Position.Y) <= _radiusOnTissue);
+            // make sure angle is less than 45 degrees
+            Assert.IsTrue(photon.DP.Direction.Uz >= 1 / Math.Sqrt(2));
         }
     }
 }

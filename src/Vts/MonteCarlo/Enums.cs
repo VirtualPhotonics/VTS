@@ -82,7 +82,7 @@ namespace Vts.MonteCarlo
         /// </summary>
         PseudoGenericVolumeVirtualBoundary = 0x80000,
         /// <summary>
-        /// photon pseudo-collision at SurfaceRadiance Virtual Boundary (VB)
+        /// photon pseudo-collision at Dosimetry Virtual Boundary (VB)
         /// </summary>
         PseudoSurfaceRadianceVirtualBoundary = 0x100000,
         /// <summary>
@@ -115,9 +115,9 @@ namespace Vts.MonteCarlo
         /// </summary>
         GenericVolumeBoundary,
         /// <summary>
-        /// Internal surface detectors attach to this virtual boundary type
+        /// Internal dosimetry detectors attach to this virtual boundary type
         /// </summary>
-        SurfaceRadiance,
+        Dosimetry,
         /// <summary>
         /// Virtual boundary used for pMC diffuse reflectance detectors
         /// </summary>
@@ -200,6 +200,8 @@ namespace Vts.MonteCarlo
                 "DirectionalLine",
                 // 1D Line sources: custom
                 "CustomLine",
+                // 1D Line sources: adjoint line
+                "LineAngledFromLine",
 
 
                 // SURFACE EMITTING FLAT SOURCES (2D SURFACE SOURCES)
@@ -209,6 +211,10 @@ namespace Vts.MonteCarlo
                 "DirectionalCircular",
                 // 2D Circular surface sources: custom
                 "CustomCircular",
+                // 2D Circular source angle determined by point in air
+                "CircularAngledFromPoint",
+                // 2D Circular source angle determined by circle in air
+                "CircularAngledFromCircle",
 
                 // Elliptical Surface Sources
                 // 2D Elliptical surface sources: directional 
@@ -350,12 +356,16 @@ namespace Vts.MonteCarlo
             "MultiLayer",
             // Tissue slab with embedded ellipsoid
             "SingleEllipsoid",
+            // Tissue slab with embedded cylinder
+            "SingleCylinder",
             // Tissue slab with multiple embedded ellipsoids
-            "MultiEllipsoid",    
+            "MultiEllipsoid", 
             // Tissue slab with embedded voxel
             "SingleVoxel",
             // Tissue slab with embedded infinite cylinder
             "SingleInfiniteCylinder",
+            // MultiLayer tissue with a surface fiber circle with different OPs
+            "MultiLayerWithSurfaceFiber",
             // Multiple (2 right now) concentric infinite cylinder
             "MultiConcentricInfiniteCylinder",
             // Multilayer tissue bounded by vertical cylinder laterally
@@ -374,7 +384,8 @@ namespace Vts.MonteCarlo
             "Ellipsoid",
             "Cylinder",
             "CaplessCylinder",
-            "InfiniteCylinder"
+            "InfiniteCylinder",
+            "SurfaceFiber"
         };
     }
 
@@ -431,10 +442,14 @@ namespace Vts.MonteCarlo
     {
         public static readonly string[] BuiltInTypes =
         {
+            // Reflectance Surface fiber 
+            "SurfaceFiber",
             // Reflectance as a function of source-detector separation (rho) and angle
             "ROfRhoAndAngle",
             // Reflectance as a function of source-detector separation (rho)
             "ROfRho",
+            // Reflectance as a function of source-detector separation (rho) recessed in air
+            "ROfRhoRecessed",
             // Reflectance as a function of angle
             "ROfAngle",
             // Reflectance as a function of source-detector separation (rho) and temporal-frequency (omega)
@@ -443,8 +458,22 @@ namespace Vts.MonteCarlo
             "ROfRhoAndTime",
             // Reflectance as a function of source-detector separation (rho) and maximum depth
             "ROfRhoAndMaxDepth",
+            // Reflectance as a function of source-detector separation (rho) and maximum depth recessed in air
+            "ROfRhoAndMaxDepthRecessed",
             // Reflectance as a function of Cartesian position on the surface of the tissue
             "ROfXAndY",
+             // Reflectance as a function of Cartesian position recessed at specified z-plane
+            "ROfXAndYRecessed",
+            // Reflectance as a function of Cartesian position and time on the surface of the tissue
+            "ROfXAndYAndTime",
+            // Reflectance as a function of Cartesian position and time on the surface of the tissue recessed in air
+            "ROfXAndYAndTimeRecessed",
+            // Reflectance as a function of x, y, theta, phi
+            "ROfXAndYAndThetaAndPhi",
+            // Reflectance as a function of Cartesian position and MaxDepth on the surface of the tissue
+            "ROfXAndYAndMaxDepth",
+            // Reflectance as a function of Cartesian position and MaxDepth recessed at z-plane
+            "ROfXAndYAndMaxDepthRecessed",
             // Total diffuse reflectance
             "RDiffuse",
             // Total specular reflectance
@@ -479,6 +508,8 @@ namespace Vts.MonteCarlo
             "FluenceOfXAndYAndZAndTime",
             // Fluence as a function of x, y, z and omega
             "FluenceOfXAndYAndZAndOmega",
+            // Fluence as a function of x, y, z, and starting x, y
+            "FluenceOfXAndYAndZAndStartingXAndY",
             // Fluence as a function of fx and z
             "FluenceOfFxAndZ",
             // Absorbed energy as a function of source-detector separation (rho) and tissue depth (Z)
@@ -523,10 +554,14 @@ namespace Vts.MonteCarlo
             "RadianceOfFxAndZAndAngle",
             // Volume randiance as a function of x, y, z, theta and phi
             "RadianceOfXAndYAndZAndThetaAndPhi",
-            // perturbation Monte Carlo (pMC) reflectance as a function of source-detector sep. (rho) and time
-            "pMCROfRhoAndTime", 
-            // perturbation Monte Carlo (pMC) reflectance as a function of source-detector separation (rho)
+             // perturbation Monte Carlo (pMC) reflectance as a function of source-detector separation (rho) 
             "pMCROfRho",
+            // perturbation Monte Carlo (pMC) reflectance as a function of source-detector separation (rho) recessed in air
+            "pMCROfRhoRecessed",
+             // perturbation Monte Carlo (pMC) reflectance as a function of source-detector sep. (rho) and time
+            "pMCROfRhoAndTime", 
+             // perturbation Monte Carlo (pMC) reflectance as a function of source-detector sep. (rho) and time recessed in air
+            "pMCROfRhoAndTimeRecessed", 
             // perturbation Monte Carlo (pMC) reflectance as a function of Cartesian coordinates (x,y)
             "pMCROfXAndY",
             // perturbation Monte Carlo (pMC) reflectance as a function of spatial frequency (fx)
@@ -539,6 +574,10 @@ namespace Vts.MonteCarlo
             "dMCdROfRhodMus",
         };
         /// <summary>
+        /// cylindrical fiber detector
+        /// </summary>
+        public static string SurfaceFiber { get { return "SurfaceFiber"; } }
+        /// <summary>
         /// Total diffuse reflectance
         /// </summary>
         public static string RDiffuse { get { return "RDiffuse"; } }
@@ -550,6 +589,10 @@ namespace Vts.MonteCarlo
         /// Reflectance as a function of source-detector separation (rho)
         /// </summary>
         public static string ROfRho { get { return "ROfRho"; } }
+        /// <summary>
+        /// Reflectance as a function of source-detector separation (rho) recessed in air
+        /// </summary>
+        public static string ROfRhoRecessed { get { return "ROfRhoRecessed"; } }
         /// <summary>
         /// Reflectance as a function of angle
         /// </summary>
@@ -567,6 +610,10 @@ namespace Vts.MonteCarlo
         /// </summary>
         public static string ROfRhoAndMaxDepth { get { return "ROfRhoAndMaxDepth"; } }
         /// <summary>
+        /// Reflectance as a function of source-detector separation (rho) and maximum depth attained recessed in air
+        /// </summary>
+        public static string ROfRhoAndMaxDepthRecessed { get { return "ROfRhoAndMaxDepthRecessed"; } }
+        /// <summary>
         /// Reflectance as a function of source-detector separation (rho) and temporal-frequency (omega)
         /// </summary>
         public static string ROfRhoAndOmega { get { return "ROfRhoAndOmega"; } }
@@ -574,6 +621,26 @@ namespace Vts.MonteCarlo
         /// Reflectance as a function of Cartesian position on the surface of the tissue
         /// </summary>
         public static string ROfXAndY { get { return "ROfXAndY"; } }
+        /// <summary>
+        /// Reflectance as a function of Cartesian position on the surface of the tissue recessed in air
+        /// </summary>
+        public static string ROfXAndYRecessed { get { return "ROfXAndYRecessed"; } }
+        /// <summary>
+        /// Reflectance as a function of Cartesian position on the surface of the tissue and time
+        /// </summary>
+        public static string ROfXAndYAndTime { get { return "ROfXAndYAndTime"; } }
+        /// <summary>
+        /// Reflectance as a function of Cartesian position on the surface of the tissue and time recessed in air
+        /// </summary>
+        public static string ROfXAndYAndTimeRecessed { get { return "ROfXAndYAndTimeRecessed"; } }
+        /// <summary>
+        /// Reflectance as a function of Cartesian position on the surface of the tissue and max depth
+        /// </summary>
+        public static string ROfXAndYAndMaxDepth { get { return "ROfXAndYAndMaxDepth"; } }
+        /// <summary>
+        /// Reflectance as a function of Cartesian position on the surface of the tissue and max depth recessed in air
+        /// </summary>
+        public static string ROfXAndYAndMaxDepthRecessed { get { return "ROfXAndYAndMaxDepthRecessed"; } }
         /// <summary>
         /// Reflectance as a function of spatial frequency along the x-axis
         /// </summary>
@@ -702,13 +769,21 @@ namespace Vts.MonteCarlo
         /// </summary>
         public static string RadianceOfXAndYAndZAndThetaAndPhi { get { return "RadianceOfXAndYAndZAndThetaAndPhi"; } }
         /// <summary>
+        /// perturbation Monte Carlo (pMC) reflectance as a function of source-detector separation (rho)
+        /// </summary>
+        public static string pMCROfRho { get { return "pMCROfRho"; } }
+        /// <summary>
+        /// perturbation Monte Carlo (pMC) reflectance as a function of source-detector separation (rho) recessed in air
+        /// </summary>
+        public static string pMCROfRhoRecessed { get { return "pMCROfRhoRecessed"; } }
+        /// <summary>
         /// perturbation Monte Carlo (pMC) reflectance as a function of source-detector sep. (rho) and time
         /// </summary>
         public static string pMCROfRhoAndTime { get { return "pMCROfRhoAndTime"; } } // maybe these should be in separate enum?
         /// <summary>
-        /// perturbation Monte Carlo (pMC) reflectance as a function of source-detector separation (rho)
+        /// perturbation Monte Carlo (pMC) reflectance as a function of source-detector sep. (rho) and time recessed in air
         /// </summary>
-        public static string pMCROfRho { get { return "pMCROfRho"; } }
+        public static string pMCROfRhoAndTimeRecessed { get { return "pMCROfRhoAndTimeRecessed"; } } 
         /// <summary>
         /// perturbation Monte Carlo (pMC) reflectance as a function of Cartesian coordinates (x,y)
         /// </summary>

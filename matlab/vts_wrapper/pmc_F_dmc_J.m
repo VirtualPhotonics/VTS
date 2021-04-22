@@ -46,4 +46,5 @@ F = do1.Mean';
 % option: normalize forward model by measured data
 %F = F./measData;
 J = [ do2.Mean do3.Mean ];
+J(isnan(J))=0; % set any NaN to 0 so lsqcurvefit doesn't crash
 end

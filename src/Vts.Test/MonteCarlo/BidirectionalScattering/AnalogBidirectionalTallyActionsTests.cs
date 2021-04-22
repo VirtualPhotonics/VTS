@@ -12,7 +12,7 @@ using Vts.MonteCarlo.Tissues;
 namespace Vts.Test.MonteCarlo.BidirectionalScattering
 {
     /// <summary>
-    /// These tests execute an Analog MC bidirectional simulation with 1e6 photons and verify
+    /// These tests execute an Analog MC bidirectional simulation with 1e4 photons and verify
     /// that the tally results match the analytic solution within variance
     /// mersenne twister STANDARD_TEST.
     /// These solutions assume index matched slab.
@@ -67,17 +67,14 @@ namespace Vts.Test.MonteCarlo.BidirectionalScattering
                         new LayerTissueRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
                             new OpticalProperties(0.0, 1e-10, 0.0, 1.0),
-                        //new BidirectionalPhaseFunctionInput()),
                         "BidirectionalPhaseFunctionKey1"),
                         new LayerTissueRegion(
                             new DoubleRange(0.0, _slabThickness),
-                            new OpticalProperties(_mua, _musp, _g, 1.0),
-                        //new BidirectionalPhaseFunctionInput()), // index matched slab
+                            new OpticalProperties(_mua, _musp, _g, 1.0), // index matched slab
                         "BidirectionalPhaseFunctionKey2"),
                         new LayerTissueRegion(
                             new DoubleRange(_slabThickness, double.PositiveInfinity),
                             new OpticalProperties(0.0, 1e-10, 0.0, 1.0),
-                        //new BidirectionalPhaseFunctionInput())
                         "BidirectionalPhaseFunctionKey3")
                     }
                 );
@@ -92,7 +89,6 @@ namespace Vts.Test.MonteCarlo.BidirectionalScattering
                     0,
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Analog,
-                //PhaseFunctionType.Bidirectional,
                     new List<DatabaseType>() { }, // databases to be written
                     true, // track statistics
                     0.0, // RR threshold -> 0 = no RR performed

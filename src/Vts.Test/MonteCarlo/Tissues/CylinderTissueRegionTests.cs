@@ -35,8 +35,24 @@ namespace Vts.Test.MonteCarlo.Tissues
             Assert.AreEqual(_cylinderTissueRegion.Center.Z, 2.0);
             Assert.AreEqual(_cylinderTissueRegion.Radius, 1.0);
             Assert.AreEqual(_cylinderTissueRegion.Height, 2.0);
+            Assert.AreEqual(_cylinderTissueRegion.RegionOP.Mua, 0.01);
+            Assert.AreEqual(_cylinderTissueRegion.RegionOP.Musp, 1.0);
+            Assert.AreEqual(_cylinderTissueRegion.RegionOP.G, 0.8);
+            Assert.AreEqual(_cylinderTissueRegion.RegionOP.N, 1.4);
         }
-        /// <summary>
+        ///// <summary>
+        ///// Validate method OnBoundary return correct boolean THIS METHOD MAY BE OBSOLETE
+        ///// </summary>
+        //[Test]
+        //public void verify_OnBoundary_method_returns_correct_result()
+        //{
+        //    bool result = _infiniteCylinderTissueRegion.OnBoundary(new Position(0, 0, 2.0));
+        //    Assert.IsTrue(result);
+        //    result = _infiniteCylinderTissueRegion.OnBoundary(new Position(0, 0, 1.0));
+        //    Assert.IsFalse(result);
+        //}
+
+       /// <summary>
         /// Validate method OnBoundary return correct boolean.
         /// Currently OnBoundary of an inclusion region isn't called by any code ckh 3/5/19.
         /// </summary>
@@ -72,9 +88,9 @@ namespace Vts.Test.MonteCarlo.Tissues
         //[Test]
         //public void verify_SurfaceNormal_method_returns_correct_result()
         //{
-        //    Direction result = _cylinderTissueRegion.SurfaceNormal(new Position(0, 0, 1.0));
+        //    Direction result = _infiniteCylinderTissueRegion.SurfaceNormal(new Position(0, 0, 1.0));
         //    Assert.AreEqual(new Direction(0, 0, -1), result);
-        //    result = _cylinderTissueRegion.SurfaceNormal(new Position(0, 0, 5.0));
+        //    result = _infiniteCylinderTissueRegion.SurfaceNormal(new Position(0, 0, 5.0));
         //    Assert.AreEqual(new Direction(0, 0, 1), result);
         //}
         /// <summary>
@@ -83,16 +99,16 @@ namespace Vts.Test.MonteCarlo.Tissues
         [Test]
         public void verify_RayIntersectBoundary_method_returns_correct_result()
         {
-            Photon photon = new Photon(); 
-            // intersect side of cylinder tests
-            photon.DP.Position = new Position(-2, 0, 2); 
+            // test intersection with sides
+            Photon photon = new Photon();
+            photon.DP.Position = new Position(0, 0, 2);
             photon.DP.Direction = new Direction(1, 0, 0);
-            photon.S = 10.0; // make sure intersects
-            double distanceToBoundary;  
+            photon.S = 2.0; // definitely intersect sides
+            double distanceToBoundary;
             bool result = _cylinderTissueRegion.RayIntersectBoundary(photon, out distanceToBoundary);
             Assert.AreEqual(true, result);
             Assert.AreEqual(1.0, distanceToBoundary);
-            photon.S = 0.5; // definitely don't intersect
+            photon.S = 0.5; // definitely don't intersect sides
             result = _cylinderTissueRegion.RayIntersectBoundary(photon, out distanceToBoundary);
             Assert.AreEqual(false, result);
             Assert.AreEqual(Double.PositiveInfinity, distanceToBoundary);

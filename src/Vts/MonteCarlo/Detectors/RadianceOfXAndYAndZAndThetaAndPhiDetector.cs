@@ -200,9 +200,9 @@ namespace Vts.MonteCarlo.Detectors
                     {
                         for (int iz = 0; iz < Z.Count - 1; iz++)
                         {
-                            for (int it = 0; it < Theta.Count; it++)
+                            for (int it = 0; it < Theta.Count - 1; it++)
                             {
-                                for (int ip = 0; ip < Phi.Count; ip++)
+                                for (int ip = 0; ip < Phi.Count - 1; ip++)
                                 {
                                     SecondMoment[ix, iy, iz, it, ip] += _tallyForOnePhoton[ix, iy, iz, it, ip] * _tallyForOnePhoton[ix, iy, iz, it, ip];
                                 }
@@ -325,9 +325,8 @@ namespace Vts.MonteCarlo.Detectors
         /// <summary>
         /// method to determine if photon within detector, i.e. in NA, etc.
         /// </summary>
-        /// <param name="dp">photon data point</param>
-        /// <returns>method always returns true</returns>
-        public bool ContainsPoint(PhotonDataPoint dp)
+        /// <param name="photon">photon</param>
+        public bool IsWithinDetectorAperture(Photon photon)
         {
             return true;
         }
