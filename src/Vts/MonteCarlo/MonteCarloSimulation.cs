@@ -28,7 +28,7 @@ namespace Vts.MonteCarlo
         /// <summary>
         /// local variable: input related
         /// </summary>
-        private SimulationInput _input;
+        public SimulationInput _input { get; set; }
 
         private Random _rng;
         private ISource _source;

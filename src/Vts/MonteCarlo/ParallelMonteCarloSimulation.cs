@@ -66,25 +66,18 @@ namespace Vts.MonteCarlo
                 _logger.Info(() => "Note: number of photons run on each CPU = " + photonsPerCPU + 
                    " for a total of N = " + photonsPerCPU * NumberOfCPUs); 
             }
-            // create list of inputs that is _numberOfCPUs long
-            var inputs = new SimulationInput[NumberOfCPUs];
-            var parallelRng = new DynamicCreatorMersenneTwister[NumberOfCPUs];
             Input.N = photonsPerCPU;
-            for (int i = 0; i < NumberOfCPUs; i++)
-            {
-                inputs[i]=Input.Clone(); 
-                // FIX back to factory once know correct call
-                parallelRng[i] = //RandomNumberGeneratorFactory.GetRandomNumberGenerator(
-                     new DynamicCreatorMersenneTwister(32, 521, i, 4172, (uint)Input.Options.Seed);
-                inputs[i].Options.SimulationIndex = i;
-            }
             var simulationOutputs = new ConcurrentBag<SimulationOutput>();
             var simulationStatistics = new ConcurrentBag<SimulationStatistics>();
             var stopwatch = System.Diagnostics.Stopwatch.StartNew();
             Parallel.For<MonteCarloSimulation>(0, NumberOfCPUs,
-                parallelOptions, () => new MonteCarloSimulation(), (index, loop, mc) =>
+                parallelOptions, () => new MonteCarloSimulation(Input), (index, loop, mc) =>
              {
-                 mc.Initialize(inputs[index], parallelRng[index]);
+                 // FIX back to factory once know correct call
+                 var parallelRng = //RandomNumberGeneratorFactory.GetRandomNumberGenerator(
+                     new DynamicCreatorMersenneTwister(32, 521, index, 4172, (uint)Input.Options.Seed);
+                 mc._input.Options.SimulationIndex = index;
+                 mc.Initialize(mc._input, parallelRng);
                  mc.Run();
                  return mc;
              },
