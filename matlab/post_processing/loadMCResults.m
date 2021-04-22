@@ -1495,6 +1495,5 @@ for di = 1:numDetectors
 end
 
 function json_parsed = readAndParseJson(filename)
-json_strings = textread(filename, '%s',  'whitespace', '', 'bufsize', 65536);
-json_parsed = loadjson(json_strings{1});
+json_parsed = loadjson(filename);
 
