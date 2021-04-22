@@ -1009,6 +1009,15 @@
     <Compile Include="..\Vts\MonteCarlo\PostProcessing\PhotonDatabasePostProcessor.cs">
       <Link>MonteCarlo\PostProcessing\PhotonDatabasePostProcessor.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\RayData\RayDataPoint.cs">
+      <Link>MonteCarlo\RayData\RayDataPoint.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\RayData\ZRDRayDatabase.cs">
+      <Link>MonteCarlo\RayData\ZRDRayDatabase.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\RayData\ZRDRayDataPoint.cs">
+      <Link>MonteCarlo\RayData\ZRDRayDataPoint.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Rng\MersenneTwisterSerializationInfo.cs">
       <Link>MonteCarlo\Rng\MersenneTwisterSerializationInfo.cs</Link>
     </Compile>
