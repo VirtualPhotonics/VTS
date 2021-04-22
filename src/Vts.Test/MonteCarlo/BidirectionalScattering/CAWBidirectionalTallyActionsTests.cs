@@ -62,6 +62,30 @@ namespace Vts.Test.MonteCarlo.BidirectionalScattering
             // delete any previously generated files and folders 
             clear_folders_and_files();
 
+            var tissue = new MultiLayerTissueInput(
+                new ITissueRegion[]
+                {
+                        new LayerTissueRegion(
+                            new DoubleRange(double.NegativeInfinity, 0.0),
+                            new OpticalProperties(0.0, 1e-10, 0.0, 1.0),
+                            "BidirectionalKey1"),
+                        //new LayerTissueRegion( // debug layer
+                        //    new DoubleRange(0.0, _topLayerThickness),
+                        //    new OpticalProperties(_mua, _musp, _g, 1.0)), // index matched slab                        
+                        new LayerTissueRegion(
+                            new DoubleRange(0, _slabThickness),
+                            new OpticalProperties(_mua, _musp, _g, 1.0),
+                            "BidirectionalKey2"), // index matched slab
+                        new LayerTissueRegion(
+                            new DoubleRange(_slabThickness, double.PositiveInfinity),
+                            new OpticalProperties(0.0, 1e-10, 0.0, 1.0),
+                            "BidirectionalKey3")
+                }
+            );                            
+            tissue.RegionPhaseFunctionInputs.Add("BidirectionalKey1", new BidirectionalPhaseFunctionInput());
+            tissue.RegionPhaseFunctionInputs.Add("BidirectionalKey2", new BidirectionalPhaseFunctionInput());
+            tissue.RegionPhaseFunctionInputs.Add("BidirectionalKey3", new BidirectionalPhaseFunctionInput());
+
             _input = new SimulationInput(
                 10000, // 1e4 needed to get enough photons to Td 
                 "results",
@@ -78,23 +102,7 @@ namespace Vts.Test.MonteCarlo.BidirectionalScattering
                     new Direction(0.0, 0.0, 1.0),
                     0                   
                 ),
-                new MultiLayerTissueInput(
-                    new ITissueRegion[]
-                    { 
-                        new LayerTissueRegion(
-                            new DoubleRange(double.NegativeInfinity, 0.0),
-                            new OpticalProperties(0.0, 1e-10, 0.0, 1.0)),
-                        //new LayerTissueRegion( // debug layer
-                        //    new DoubleRange(0.0, _topLayerThickness),
-                        //    new OpticalProperties(_mua, _musp, _g, 1.0)), // index matched slab                        
-                        new LayerTissueRegion(
-                            new DoubleRange(0, _slabThickness),
-                            new OpticalProperties(_mua, _musp, _g, 1.0)), // index matched slab
-                        new LayerTissueRegion(
-                            new DoubleRange(_slabThickness, double.PositiveInfinity),
-                            new OpticalProperties(0.0, 1e-10, 0.0, 1.0))
-                    }
-                ),
+                tissue,
                 new List<IDetectorInput>() 
                 { 
                     new RDiffuseDetectorInput() { TallySecondMoment = true },
