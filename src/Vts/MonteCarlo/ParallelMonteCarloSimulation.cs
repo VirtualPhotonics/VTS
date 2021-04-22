@@ -69,9 +69,12 @@ namespace Vts.MonteCarlo
             Input.N = photonsPerCPU;
             var simulationOutputs = new ConcurrentBag<SimulationOutput>();
             var simulationStatistics = new ConcurrentBag<SimulationStatistics>();
+            var simulationInputs = new ConcurrentQueue<SimulationInput>();
+            simulationInputs.Enqueue(Input);
+
             var stopwatch = System.Diagnostics.Stopwatch.StartNew();
             Parallel.For<MonteCarloSimulation>(0, NumberOfCPUs,
-                parallelOptions, () => new MonteCarloSimulation(Input), (index, loop, mc) =>
+                parallelOptions, () => simulationInputs.TryPeek(out var input) ? new MonteCarloSimulation(input) : new MonteCarloSimulation(), (index, loop, mc) =>
              {
                  // FIX back to factory once know correct call
                  var parallelRng = //RandomNumberGeneratorFactory.GetRandomNumberGenerator(
