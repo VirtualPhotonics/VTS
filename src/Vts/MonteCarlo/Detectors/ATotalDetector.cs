@@ -46,6 +46,7 @@ namespace Vts.MonteCarlo.Detectors
     /// </summary>
     public class ATotalDetector : Detector, IHistoryDetector
     {
+        private double _tallyForOnePhoton;
         /* ==== Place optional/user-defined input properties here. They will be saved in text (JSON) format ==== */
         /* ==== Note: make sure to copy over all optional/user-defined inputs from corresponding input class ==== */
 
@@ -94,12 +95,12 @@ namespace Vts.MonteCarlo.Detectors
         {
             var weight = _absorptionWeightingMethod(previousDP, dp, currentRegionIndex);
 
-            if (weight != 0.0)
+            if (weight > 0.0)
             {
                 Mean += weight;
                 if (TallySecondMoment)
                 {
-                    SecondMoment += weight*weight;
+                    _tallyForOnePhoton += weight;
                 }
                 TallyCount++;
             }
@@ -110,12 +111,19 @@ namespace Vts.MonteCarlo.Detectors
         /// </summary>
         /// <param name="photon">photon data needed to tally</param>
         public void Tally(Photon photon)
-        {
+        {            
+            // second moment is calculated AFTER the entire photon biography has been processed
+            _tallyForOnePhoton = 0.0;
+           
             PhotonDataPoint previousDP = photon.History.HistoryData.First();
             foreach (PhotonDataPoint dp in photon.History.HistoryData.Skip(1))
             {
                 TallySingle(previousDP, dp, _tissue.GetRegionIndex(dp.Position)); // unoptimized version, but HistoryDataController calls this once
                 previousDP = dp;
+            }            
+            if (TallySecondMoment)
+            {
+                SecondMoment += _tallyForOnePhoton * _tallyForOnePhoton;
             }
         }
 

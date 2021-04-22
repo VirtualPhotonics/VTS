@@ -1,16 +1,18 @@
-The author of "jsonlab" toolbox is Qianqian Fang. Qianqian
-is currently an Assistant Professor at Massachusetts General Hospital, 
-Harvard Medical School.
+The author of "jsonlab" toolbox is Qianqian Fang. Qianqian is
+currently an Associate Professor in the Department of Bioengineering,
+Northeastern University, USA.
 
-Address: Martinos Center for Biomedical Imaging, 
-         Massachusetts General Hospital, 
-         Harvard Medical School
-         Bldg 149, 13th St, Charlestown, MA 02129, USA
-URL: http://nmr.mgh.harvard.edu/~fangq/
-Email: <fangq at nmr.mgh.harvard.edu> or <fangqq at gmail.com>
+Address: Qianqian Fang
+         Department of Bioengineering
+         Northeastern University
+         ISEC 206
+         360 Huntington Ave, Boston, MA 02115, USA
+         Phone[O]: 617-373-3829
+URL: http://fanglab.org
+Email: <q.fang at neu.edu> and <fangqq at gmail.com>
 
 
-The script loadjson.m was built upon previous works by
+The script loadjson.m was built upon previous works (BSD 3-clause license) by
 
 - Nedialko Krouchev: http://www.mathworks.com/matlabcentral/fileexchange/25713
        date: 2009/11/02
@@ -18,6 +20,18 @@ The script loadjson.m was built upon previous works by
        date: 2009/03/22
 - Joel Feenstra: http://www.mathworks.com/matlabcentral/fileexchange/20565
        date: 2008/07/03
+
+The data compression/decompression utilities ({zlib,gzip,base64}{encode,decode}.m)
+were copied from (BSD 2-clause license) 
+
+- "Byte encoding utilities" by Kota Yamaguchi
+       https://www.mathworks.com/matlabcentral/fileexchange/39526-byte-encoding-utilities
+       date: 2013/01/04
+
+The loadmsgpack.m script was modified from 
+
+- parsemsgpack.m by Bastian Bechtold (BSD 3-clause license)
+  URL: https://github.com/bastibe/matlab-msgpack/blob/master/parsemsgpack.m
 
 
 This toolbox contains patches submitted by the following contributors:
@@ -39,3 +53,27 @@ This toolbox contains patches submitted by the following contributors:
   patches for svn revision 415.
   - savejson saves an empty cell array as [] instead of null
   - loadjson differentiates an empty struct from an empty array
+
+- Mykhailo Bratukha <bratukha.m at gmail.com>
+  (PR#14) Bug fix: File path is wrongly inerpreted as JSON string
+
+- Insik Kim <insik92 at gmail.com>
+  (PR#12) Bug fix: Resolving bug that cell type is converted to json with transposed data
+
+- Sertan Senturk <contact at sertansenturk.com>
+  (PR#10,#11) Feature: Added matlab object saving to savejson and saveubjson
+
+- Paul Koprowski <https://github.com/pjkoprowski>
+  (Issue#29) Feature: Added support to save MATLAB tables to json.
+
+- Viktor Richter <https://github.com/vrichter>
+  (PR#32) Feature: Use integer format in JSON output
+
+- Amirsina Torfi <https://github.com/astorfi>
+  (PR#40) Feature: Reformat README to README.rst
+
+- Anton <https://github.com/dasantonym>
+  (PR#41) Feature: Added package.json to be able to intall via npm package manager
+
+- Paul Koprowski <https://github.com/pjkoprowski>
+  (PR#55) Feature: Added Encoding option to loadjson and savejson.

@@ -547,8 +547,8 @@ namespace Vts.Test.MonteCarlo.Detectors
         {
             Assert.Less(Math.Abs(_outputOneLayerTissue.Atot * _factor - 0.384363881), 0.000000001);
             Assert.Less(Math.Abs(_outputTwoLayerTissue.Atot * _factor - 0.384363881), 0.000000001);
-            Assert.Less(Math.Abs(_outputOneLayerTissue.Atot2 - 0.00052388), 0.00000001);
-            Assert.Less(Math.Abs(_outputTwoLayerTissue.Atot2 - 0.00052388), 0.00000001);
+            Assert.Less(Math.Abs(_outputOneLayerTissue.Atot2 - 0.266285), 0.000001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.Atot2 - 0.266285), 0.000001);
             Assert.AreEqual(_outputOneLayerTissue.Atot_TallyCount, 42334);
             Assert.AreEqual(_outputTwoLayerTissue.Atot_TallyCount, 42334);
         }

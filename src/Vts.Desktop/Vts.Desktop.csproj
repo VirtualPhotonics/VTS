@@ -925,7 +925,7 @@
       <Link>MonteCarlo\Detectors\ROfRhoDetector.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\ROfRhoRecessedDetector.cs">
-      <Link>MonteCarlo\ROfRhoRecessedDetector.cs</Link>
+      <Link>MonteCarlo\Detectors\ROfRhoRecessedDetector.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\ROfXAndYAndMaxDepthDetector.cs">
       <Link>MonteCarlo\Detectors\ROfXAndYAndMaxDepthDetector.cs</Link>

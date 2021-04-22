@@ -313,9 +313,6 @@
     <Compile Include="..\Vts.Test\Common\PositionTests.cs">
       <Link>Common\PositionTests.cs</Link>
     </Compile>
-    <Compile Include="..\Vts.Test\Common\StopwatchTests.cs">
-      <Link>Common\StopwatchTests.cs</Link>
-    </Compile>
     <Compile Include="..\Vts.Test\Factories\ComputationFactoryTests.cs">
       <Link>Factories\ComputationFactoryTests.cs</Link>
     </Compile>
@@ -375,6 +372,9 @@
     </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\BidirectionalScattering\BidirectionalAnalyticSolutions.cs">
       <Link>MonteCarlo\BidirectionalScattering\BidirectionalAnalyticSolutions.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\BidirectionalScattering\CAWBidirectionalTallyActionsTests.cs">
+      <Link>MonteCarlo\BidirectionalScattering\CAWBidirectionalTallyActionsTests.cs</Link>
     </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\DataStructuresValidation\DetectorInputs\dMCdROfRhodMuaDetectorInputValidationTests.cs">
       <Link>MonteCarlo\DataStructuresValidation\DetectorInputs\dMCdROfRhodMuaDetectorInputValidationTests.cs</Link>
@@ -463,6 +463,9 @@
     <Compile Include="..\Vts.Test\MonteCarlo\Detectors\DAWVoxelDetectorsTests.cs">
       <Link>MonteCarlo\Detectors\DAWVoxelDetectorsTests.cs</Link>
     </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Detectors\DetectorFiberTests.cs">
+      <Link>MonteCarlo\Detectors\DetectorFiberTests.cs</Link>
+    </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\Detectors\DetectorNADynamicTests.cs">
       <Link>MonteCarlo\Detectors\DetectorNADynamicTests.cs</Link>
     </Compile>
@@ -483,6 +486,9 @@
     </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\Detectors\SpecularLayerDetectorTests.cs">
       <Link>MonteCarlo\Detectors\SpecularLayerDetectorTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Extensions\PhotonDataExtensionMethodsTests.cs">
+      <Link>MonteCarlo\Extensions\PhotonDataExtensionMethodsTests.cs</Link>
     </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\Factories\DetectorFactoryTests.cs">
       <Link>MonteCarlo\Factories\DetectorFactoryTests.cs</Link>
