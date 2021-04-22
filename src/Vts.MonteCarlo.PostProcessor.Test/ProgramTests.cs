@@ -17,6 +17,7 @@ namespace Vts.MonteCarlo.PostProcessor.Test
         {
             "PostProcessor_ROfRho", 
             "PostProcessor_pMC_ROfRhoROfRhoAndTime",
+            "PostProcessor_pMC_ROfRhoVariants",
             "PostProcessor_pMC_ROfFxROfFxAndTime",
         };
         List<string> listOfMCCLInfiles = new List<string>()
@@ -39,6 +40,7 @@ namespace Vts.MonteCarlo.PostProcessor.Test
             "two_layer_ROfRho",
             "two_layer_ROfRho_with_db",
             "voxel_ROfXAndY_FluenceOfXAndYAndZ",
+            "surface_fiber_detector"
         };
 
         /// <summary>

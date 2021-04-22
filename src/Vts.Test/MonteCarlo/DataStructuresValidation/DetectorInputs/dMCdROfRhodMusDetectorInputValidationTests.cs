@@ -12,7 +12,8 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation.DetectorInputs
     public class dMCdROfRhodMusDetectorInputValidationTests
     {
         /// <summary>
-        /// Test to check that layers that overlap.
+        /// Can only run dMC with one tissue region at the present.
+        /// Check that detector input does not specify more than 1 region
         /// </summary>
         [Test]
         public void validate_only_one_perturbed_region_index_specified()

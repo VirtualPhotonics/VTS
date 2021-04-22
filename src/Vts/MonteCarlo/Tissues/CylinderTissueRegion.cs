@@ -4,12 +4,13 @@ using Vts.Common;
 namespace Vts.MonteCarlo.Tissues
 {
     /// <summary>
-    /// Implements ITissueRegion.  Defines cylindrical region with dimensions
-    /// Center, Radius and Height.
+    /// Implements ITissueRegion.  Defines cylindrical region finite along z-axis with Center at (xc,yc,zc)
+    /// Radius and Height where cylinder caps on planes (zc-Height/2) and (zc+Height/2).
     /// </summary>
     public class CylinderTissueRegion : ITissueRegion
     {
         private bool _onBoundary = false;
+
         /// <summary>
         /// CylinderTissueRegion assumes cylinder axis is parallel with z-axis
         /// </summary>
@@ -17,7 +18,7 @@ namespace Vts.MonteCarlo.Tissues
         /// <param name="radius">radius in x-y plane</param>
         /// <param name="height">height along z axis</param>
         /// <param name="op">optical properties of cylinder</param>
-        public CylinderTissueRegion(Position center, double radius, double height, OpticalProperties op) 
+        public CylinderTissueRegion(Position center, double radius, double height, OpticalProperties op)
         {
             TissueRegionType = "Cylinder";
             Center = center;
@@ -37,7 +38,7 @@ namespace Vts.MonteCarlo.Tissues
         public string TissueRegionType { get; set; }
 
         /// <summary>
-        /// center of cyliner
+        /// center of cylinder
         /// </summary>
         public Position Center { get; set; }
         /// <summary>
@@ -54,7 +55,8 @@ namespace Vts.MonteCarlo.Tissues
         public OpticalProperties RegionOP { get; set; }
         
         /// <summary>
-        /// method to determine if photon position within or on cylinder
+        /// Method to determine if photon position within or on cylinder.  This works if height=0
+        /// as long as Center.Z=0;
         /// </summary>
         /// <param name="position">photon position</param>
         /// <returns>boolean</returns>
@@ -86,7 +88,16 @@ namespace Vts.MonteCarlo.Tissues
         }
 
         /// <summary>
-        /// method to determine if photon ray (or track) will intersect boundary of cylinder
+        /// Method to determine if photon ray (or track) will intersect boundary of cylinder
+        /// equations to determine intersection are derived by parameterizing ray from p1 to p2
+        /// as p2=p1+[dx dy dz]t t in [0,1] where dx=p2.x-p1.x dy=p2.y-p1.y dz=p2.z-p2.z
+        /// and substituting into ellipsoid equations and solving quadratic in t, i.e. t1, t2
+        /// t1,t2<0 or t1,t2>1 => no intersection
+        /// 0<t1<1 => one intersection
+        /// 0<t2<1 => one intersections, if above line true too => two intersections
+        /// Equations obtained from pdf at https://mrl.nyu.edu/~dzorin/rendering/lectures/lecture3/lecture3-6pp.pdf
+        /// and modified to assume cylinder finite along z-axis with caps in x-y planes.
+        /// Note: can't vouch for this code yet, especially if photon intersects sides AND cap
         /// </summary>
         /// <param name="photon">photon position, direction, etc.</param>
         /// <param name="distanceToBoundary">distance to boundary</param>
@@ -102,8 +113,8 @@ namespace Vts.MonteCarlo.Tissues
 
             // determine location of end of ray
             var p2 = new Position(p1.X + d1.Ux * photon.S,
-                p1.Y + d1.Uy * photon.S,
-                p1.Z + d1.Uz * photon.S);
+                                  p1.Y + d1.Uy * photon.S,
+                                  p1.Z + d1.Uz * photon.S);
 
             bool oneIn = this.ContainsPosition(p1);
             bool twoIn = this.ContainsPosition(p2);
@@ -130,7 +141,7 @@ namespace Vts.MonteCarlo.Tissues
             var enclosingLayer =
                 new LayerTissueRegion(
                     new DoubleRange(Center.Z - (Height / 2), Center.Z + (Height / 2)),
-                    new OpticalProperties()); 
+                    new OpticalProperties());
             var intersectCapLayer = enclosingLayer.RayIntersectBoundary(photon, out distanceToCapLayer);
             double distanceToBottomLayer = double.PositiveInfinity;
             var bottomLayer = new LayerTissueRegion(

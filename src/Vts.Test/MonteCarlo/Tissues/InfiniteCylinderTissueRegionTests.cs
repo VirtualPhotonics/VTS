@@ -31,10 +31,14 @@ namespace Vts.Test.MonteCarlo.Tissues
             Assert.AreEqual(_infiniteCylinderTissueRegion.Center.X, 0.0);
             Assert.AreEqual(_infiniteCylinderTissueRegion.Center.Y, 0.0);
             Assert.AreEqual(_infiniteCylinderTissueRegion.Center.Z, 3.0);
+            Assert.AreEqual(_infiniteCylinderTissueRegion.Radius, 1.0);
+            Assert.AreEqual(_infiniteCylinderTissueRegion.RegionOP.Mua, 0.01);
+            Assert.AreEqual(_infiniteCylinderTissueRegion.RegionOP.Musp, 1.0);
+            Assert.AreEqual(_infiniteCylinderTissueRegion.RegionOP.G, 0.8);
+            Assert.AreEqual(_infiniteCylinderTissueRegion.RegionOP.N, 1.4);
         }
         ///// <summary>
-        ///// Validate method OnBoundary return correct boolean.
-        ///// Currently OnBoundary of an inclusion region isn't called by any code ckh 3/5/19.
+        ///// Validate method OnBoundary return correct boolean THIS METHOD MAY BE OBSOLETE
         ///// </summary>
         //[Test]
         //public void verify_OnBoundary_method_returns_correct_result()
@@ -44,18 +48,17 @@ namespace Vts.Test.MonteCarlo.Tissues
         //    result = _infiniteCylinderTissueRegion.OnBoundary(new Position(0, 0, 1.0));
         //    Assert.IsFalse(result);
         //}
-        /// <summary>
-        /// Validate method ContainsPositions return correct boolean. ContainsPosition is true if inside
-        /// or *on* boundary.
-        /// </summary>
-        [Test]
-        public void verify_ContainsPosition_method_returns_correct_result()
-        {
-            bool result = _infiniteCylinderTissueRegion.ContainsPosition(new Position(0, 0, 3.0)); // inside
-            Assert.IsTrue(result);
-            result = _infiniteCylinderTissueRegion.ContainsPosition(new Position(0, 0, 2.0)); // on boundary
-            Assert.IsTrue(result);
-        }
+        ///// <summary>
+        ///// Validate method SurfaceNormal return correct normal vector
+        ///// </summary>
+        //[Test]
+        //public void verify_SurfaceNormal_method_returns_correct_result()
+        //{
+        //    Direction result = _infiniteCylinderTissueRegion.SurfaceNormal(new Position(0, 0, 1.0));
+        //    Assert.AreEqual(new Direction(0, 0, -1), result);
+        //    result = _infiniteCylinderTissueRegion.SurfaceNormal(new Position(0, 0, 5.0));
+        //    Assert.AreEqual(new Direction(0, 0, 1), result);
+        //}
         /// <summary>
         /// Validate method RayIntersectBoundary return correct result
         /// </summary>
@@ -63,9 +66,9 @@ namespace Vts.Test.MonteCarlo.Tissues
         public void verify_RayIntersectBoundary_method_returns_correct_result()
         {
             Photon photon = new Photon();
-            photon.DP.Position = new Position(-2, 0, 3);
+            photon.DP.Position = new Position(0, 0, 3);
             photon.DP.Direction = new Direction(1, 0, 0);
-            photon.S = 10.0; // definitely intersect
+            photon.S = 2.0; // definitely intersect
             double distanceToBoundary;
             bool result = _infiniteCylinderTissueRegion.RayIntersectBoundary(photon, out distanceToBoundary);
             Assert.AreEqual(true, result);
@@ -79,6 +82,7 @@ namespace Vts.Test.MonteCarlo.Tissues
             Assert.AreEqual(false, result);
             Assert.AreEqual(Double.PositiveInfinity, distanceToBoundary);
         }
+
         /// <summary>
         /// Validate method SurfaceNormal return correct normal vector.  Should be outward directed normal.
         /// </summary>

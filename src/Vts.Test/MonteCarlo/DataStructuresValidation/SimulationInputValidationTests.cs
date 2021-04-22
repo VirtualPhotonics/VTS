@@ -120,5 +120,28 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation
             var result = SimulationInputValidation.ValidateInput(input);
             Assert.IsFalse(result.IsValid);
         }
+        [Test]
+        public void validate_tissue_optical_properties_are_non_negative()
+        {
+            // generate input embedded ellipsoid tissue and cylindrical detector
+            var input = new SimulationInput()
+            {
+                TissueInput = new MultiLayerTissueInput(
+                    new ITissueRegion[]
+                {
+                    new LayerTissueRegion(
+                        new DoubleRange(double.NegativeInfinity, 0.0),
+                        new OpticalProperties( 0.0, 1e-10, 1.0, 1.0)),
+                    new LayerTissueRegion(
+                        new DoubleRange(0.0, 100.0),
+                        new OpticalProperties(-1.0, 1.0, 0.8, 1.4)), // make mua negative
+                    new LayerTissueRegion(
+                        new DoubleRange(100.0, double.PositiveInfinity),
+                        new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
+                })
+            };
+            var result = SimulationInputValidation.ValidateInput(input);
+            Assert.IsFalse(result.IsValid);
+        }
     }
 }

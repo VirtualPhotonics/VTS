@@ -29,7 +29,7 @@ namespace Vts.Test.MonteCarlo.Detectors
         private SimulationInput _inputOneLayerTissue;
         private SimulationInput _inputTwoLayerTissue;
         private double _layerThickness = 1.0; // tissue is homogeneous (both layer opt. props same)
-        private double _dosimetryDepth = 2.0;
+        private double _dosimetryDepth = 1.0;
         private double _factor;
 
         /// <summary>
@@ -80,15 +80,29 @@ namespace Vts.Test.MonteCarlo.Detectors
                      new Position(0.0, 0.0, 0.0),
                      new Direction(0.0, 0.0, 1.0),
                      1); // start inside tissue
-            var detectors =  new List<IDetectorInput>
+            var detectors = new List<IDetectorInput>
                 {
                     new RDiffuseDetectorInput(),
                     new ROfAngleDetectorInput() {Angle = new DoubleRange(Math.PI / 2 , Math.PI, 2)},
                     new ROfRhoDetectorInput() {Rho = new DoubleRange(0.0, 10.0, 101), TallySecondMoment = true},
+                    new ROfRhoRecessedDetectorInput() {Rho = new DoubleRange(0.0, 10.0, 101), ZPlane = -1.0},
                     new ROfRhoAndAngleDetectorInput() {Rho = new DoubleRange(0.0, 10.0, 101), Angle = new DoubleRange(Math.PI / 2, Math.PI, 2)},
                     new ROfRhoAndTimeDetectorInput() {Rho = new DoubleRange(0.0, 10.0, 101), Time = new DoubleRange(0.0, 1.0, 101), TallySecondMoment = true },
                     new ROfRhoAndMaxDepthDetectorInput() {Rho = new DoubleRange(0.0, 10.0, 101), MaxDepth = new DoubleRange(0.0, 1.0, 51)},
+                    new ROfRhoAndMaxDepthRecessedDetectorInput() {Rho = new DoubleRange(0.0, 10.0, 101), MaxDepth = new DoubleRange(0.0, 1.0, 51),ZPlane=-1.0},
                     new ROfXAndYDetectorInput() { X = new DoubleRange(-10.0, 10.0, 101), Y = new DoubleRange(-10.0, 10.0, 101) },
+                    new ROfXAndYRecessedDetectorInput() { X = new DoubleRange(-10.0, 10.0, 101), Y = new DoubleRange(-10.0, 10.0, 101), ZPlane=-1.0 },
+                    new ROfXAndYAndTimeDetectorInput() { X = new DoubleRange(-10.0, 10.0, 101), Y = new DoubleRange(-10.0, 10.0, 101), Time = new DoubleRange(0.0, 1.0, 11) },
+                    new ROfXAndYAndTimeRecessedDetectorInput() { X = new DoubleRange(-10.0, 10.0, 101), Y = new DoubleRange(-10.0, 10.0, 101), Time = new DoubleRange(0.0, 1.0, 11),ZPlane=-1.0 },
+                    new ROfXAndYAndThetaAndPhiDetectorInput()
+                    {
+                        X = new DoubleRange(-10.0, 10.0, 101),
+                        Y = new DoubleRange(-10.0, 10.0, 101),
+                        Theta = new DoubleRange(Math.PI / 2, Math.PI, 3), 
+                        Phi = new DoubleRange(-Math.PI, Math.PI, 5)
+                    },
+                    new ROfXAndYAndMaxDepthDetectorInput() { X = new DoubleRange(-10.0, 10.0, 101), Y = new DoubleRange(-10.0, 10.0, 101), MaxDepth = new DoubleRange(0.0, 1.0, 11)},
+                    new ROfXAndYAndMaxDepthRecessedDetectorInput() { X = new DoubleRange(-10.0, 10.0, 101), Y = new DoubleRange(-10.0, 10.0, 101), MaxDepth = new DoubleRange(0.0, 1.0, 11),ZPlane=-1.0},
                     new ROfRhoAndOmegaDetectorInput() { Rho = new DoubleRange(0.0, 10.0, 101), Omega = new DoubleRange(0.05, 1.0, 20)}, // DJC - edited to reflect frequency sampling points (not bins)
                     new ROfFxDetectorInput() {Fx = new DoubleRange(0.0, 0.5, 51)},
                     new ROfFxAndTimeDetectorInput() {Fx = new DoubleRange(0.0, 0.5, 51), Time = new DoubleRange(0.0, 1.0, 11)},
@@ -135,6 +149,15 @@ namespace Vts.Test.MonteCarlo.Detectors
                         Y = new DoubleRange(-10.0, 10.0, 11),
                         Z =  new DoubleRange(0.0, 10.0, 11),
                         Time = new DoubleRange(0.0, 1.0, 11),
+                        TallySecondMoment = true
+                    },
+                    new FluenceOfXAndYAndZAndStartingXAndYDetectorInput()
+                    {
+                        StartingX = new DoubleRange(-10.0, 10.0, 3),
+                        StartingY = new DoubleRange(-10.0, 10.0, 2),
+                        X = new DoubleRange(-10.0, 10.0, 3),
+                        Y = new DoubleRange(-10.0, 10.0, 3),
+                        Z =  new DoubleRange(0.0, 10.0, 3),
                         TallySecondMoment = true
                     },
                     new FluenceOfFxAndZDetectorInput()
@@ -259,6 +282,15 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.Less(Math.Abs(_outputOneLayerTissue.R_r2[0] * _factor * _factor - 18.92598), 0.00001);
             Assert.Less(Math.Abs(_outputTwoLayerTissue.R_r2[0] * _factor * _factor - 18.92598), 0.00001);
         }
+        // Reflection R(rho) recessed, validated with prior test
+        [Test]
+        public void validate_DAW_ROfRhoRecessed()
+        {
+            Assert.Less(Math.Abs(_outputOneLayerTissue.R_rr[2] - 0.116336), 0.000001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.R_rr[2] - 0.116336), 0.000001);
+            Assert.AreEqual(_outputOneLayerTissue.R_rr_TallyCount, 89);
+            Assert.AreEqual(_outputTwoLayerTissue.R_rr_TallyCount, 89);
+        }
         // Reflection R(angle)
         [Test]
         public void validate_DAW_ROfAngle()
@@ -308,8 +340,16 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.Less(Math.Abs(integralTwoLayer * _factor - 0.6152383), 0.0000001);
             Assert.Less(Math.Abs(_outputOneLayerTissue.R_rmd[0, 4] - 0.315776), 0.000001);
             Assert.Less(Math.Abs(_outputTwoLayerTissue.R_rmd[0, 4] - 0.315776), 0.000001);
-            Assert.Less(Math.Abs(_outputOneLayerTissue.R_rmd_dist[0, 4] - 0.318309), 0.000001);
-            Assert.Less(Math.Abs(_outputTwoLayerTissue.R_rmd_dist[0, 4] - 0.318309), 0.000001);
+            Assert.AreEqual(_outputOneLayerTissue.R_rmd_TallyCount, 89);
+            Assert.AreEqual(_outputTwoLayerTissue.R_rmd_TallyCount, 89);
+
+        }
+        // Reflection R(rho,maxdepth) recessed in air, validated with integrated R(rho) results and prior test
+        [Test]
+        public void validate_DAW_ROfRhoAndMaxDepthRecessed()
+        { 
+            Assert.Less(Math.Abs(_outputOneLayerTissue.R_rmdr[2, 11] - 0.062402), 0.000001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.R_rmdr[2, 11] - 0.062402), 0.000001);
             Assert.AreEqual(_outputOneLayerTissue.R_rmd_TallyCount, 89);
             Assert.AreEqual(_outputTwoLayerTissue.R_rmd_TallyCount, 89);
 
@@ -336,6 +376,60 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.Less(Math.Abs(_outputTwoLayerTissue.R_xy[0, 0] * _factor - 0.01828126), 0.00000001);
             Assert.AreEqual(_outputOneLayerTissue.R_xy_TallyCount, 89);
             Assert.AreEqual(_outputTwoLayerTissue.R_xy_TallyCount, 89);
+        }        
+        // Reflectance R(x,y) recessed in air validated with prior test
+        [Test]
+        public void validate_DAW_ROfXAndYRecessed()
+        {
+            Assert.Less(Math.Abs(_outputOneLayerTissue.R_xyr[0, 12] - 0.175180), 0.000001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.R_xyr[0, 12] - 0.175180), 0.000001);
+            Assert.AreEqual(_outputOneLayerTissue.R_xyr_TallyCount, 89);
+            Assert.AreEqual(_outputTwoLayerTissue.R_xyr_TallyCount, 89);
+        }
+        // Reflectance R(x,y,time) validated with prior test
+        [Test]
+        public void validate_DAW_ROfXAndYAndTime()
+        {
+            Assert.Less(Math.Abs(_outputOneLayerTissue.R_xyt[0, 0, 9] - 0.188035), 0.000001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.R_xyt[0, 0, 9] - 0.188035), 0.000001);
+            Assert.AreEqual(_outputOneLayerTissue.R_xyt_TallyCount, 89);
+            Assert.AreEqual(_outputTwoLayerTissue.R_xyt_TallyCount, 89);
+        }
+        // Reflectance R(x,y,time) recessed in air validated with prior test
+        [Test]
+        public void validate_DAW_ROfXAndYAndTimeRecessed()
+        {
+            Assert.Less(Math.Abs(_outputOneLayerTissue.R_xytr[0, 12, 1] - 1.75180), 0.00001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.R_xytr[0, 12, 1] - 1.75180), 0.00001);
+            Assert.AreEqual(_outputOneLayerTissue.R_xytr_TallyCount, 89);
+            Assert.AreEqual(_outputTwoLayerTissue.R_xytr_TallyCount, 89);
+        }
+        // Reflectance R(x,y,theta,phi) validated with prior test
+        [Test]
+        public void validate_DAW_ROfXAndYAndThetaAndPhi()
+        {
+            Assert.Less(Math.Abs(_outputOneLayerTissue.R_xytp[0, 0, 1, 2] - 0.039828), 0.000001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.R_xytp[0, 0, 1, 2] - 0.039828), 0.000001);
+            Assert.AreEqual(_outputOneLayerTissue.R_xytp_TallyCount, 89);
+            Assert.AreEqual(_outputTwoLayerTissue.R_xytp_TallyCount, 89);
+        }
+        // Reflectance R(x,y,maxdepth) validated with prior test
+        [Test]
+        public void validate_DAW_ROfXAndYAndMaxDepth()
+        {
+            Assert.Less(Math.Abs(_outputOneLayerTissue.R_xymd[0, 0, 9] - 0.018803), 0.000001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.R_xymd[0, 0, 9] - 0.018803), 0.000001);
+            Assert.AreEqual(_outputOneLayerTissue.R_xymd_TallyCount, 89);
+            Assert.AreEqual(_outputTwoLayerTissue.R_xymd_TallyCount, 89);
+        }
+        // Reflectance R(x,y,maxdepth) recessed in air validated with prior test
+        [Test]
+        public void validate_DAW_ROfXAndYAndMaxRecessedDepth()
+        { 
+            Assert.Less(Math.Abs(_outputOneLayerTissue.R_xymdr[0, 12, 9] - 0.175180), 0.000001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.R_xymdr[0, 12, 9] - 0.175180), 0.000001);
+            Assert.AreEqual(_outputOneLayerTissue.R_xymdr_TallyCount, 89);
+            Assert.AreEqual(_outputTwoLayerTissue.R_xymdr_TallyCount, 89);
         }
         // Reflection R(fx) validated with prior test
         [Test]
@@ -363,10 +457,10 @@ namespace Vts.Test.MonteCarlo.Detectors
         [Test]
         public void validate_DAW_ROfFxAndAngle()
         {
-            Assert.Less(Math.Abs(_outputOneLayerTissue.R_fxa[1,3].Real - 0.085767), 0.000001);
-            Assert.Less(Math.Abs(_outputOneLayerTissue.R_fxa[1,3].Imaginary - 0.003684), 0.000001);
-            Assert.Less(Math.Abs(_outputTwoLayerTissue.R_fxa[1,3].Real - 0.085767), 0.000001);
-            Assert.Less(Math.Abs(_outputTwoLayerTissue.R_fxa[1,3].Imaginary - 0.003684), 0.000001);
+            Assert.Less(Math.Abs(_outputOneLayerTissue.R_fxa[1,0].Real - 0.016654), 0.000001);
+            Assert.Less(Math.Abs(_outputOneLayerTissue.R_fxa[1,0].Imaginary - 0.003329), 0.000001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.R_fxa[1,0].Real - 0.016654), 0.000001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.R_fxa[1,0].Imaginary - 0.003329), 0.000001);
             Assert.AreEqual(_outputOneLayerTissue.R_fxa_TallyCount, 89);
             Assert.AreEqual(_outputTwoLayerTissue.R_fxa_TallyCount, 89);
         }
@@ -453,8 +547,8 @@ namespace Vts.Test.MonteCarlo.Detectors
         {
             Assert.Less(Math.Abs(_outputOneLayerTissue.Atot * _factor - 0.384363881), 0.000000001);
             Assert.Less(Math.Abs(_outputTwoLayerTissue.Atot * _factor - 0.384363881), 0.000000001);
-            Assert.Less(Math.Abs(_outputOneLayerTissue.Atot2 - 0.00052388), 0.00000001);
-            Assert.Less(Math.Abs(_outputTwoLayerTissue.Atot2 - 0.00052388), 0.00000001);
+            Assert.Less(Math.Abs(_outputOneLayerTissue.Atot2 - 0.266285), 0.000001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.Atot2 - 0.266285), 0.000001);
             Assert.AreEqual(_outputOneLayerTissue.Atot_TallyCount, 42334);
             Assert.AreEqual(_outputTwoLayerTissue.Atot_TallyCount, 42334);
         }
@@ -533,12 +627,14 @@ namespace Vts.Test.MonteCarlo.Detectors
         }
 
         // Fluence Flu(x,y,z,time), 1st moment validated with prior test
-        // Verify integral * mua over rho,z,omega equals ATotal
+        // Verify integral * mua over x,y,z,time equals ATotal
         [Test]
         public void validate_DAW_FluenceOfXAndYAndZAndTime()
         {
             Assert.Less(Math.Abs(_outputOneLayerTissue.Flu_xyzt[0, 0, 0, 4] - 0.012811), 0.000001);
-            Assert.Less(Math.Abs(_outputTwoLayerTissue.Flu_xyzt2[0, 0, 0, 4] - 0.016414), 0.000001); 
+            Assert.Less(Math.Abs(_outputOneLayerTissue.Flu_xyzt2[0, 0, 0, 4] - 0.016414), 0.000001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.Flu_xyzt[0, 0, 0, 4] - 0.012811), 0.000001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.Flu_xyzt2[0, 0, 0, 4] - 0.016414), 0.000001);
             // undo angle bin normalization
             var x = ((FluenceOfXAndYAndZAndTimeDetectorInput)_inputOneLayerTissue.DetectorInputs.
                 Where(d => d.TallyType == "FluenceOfXAndYAndZAndTime").First()).X;
@@ -560,6 +656,50 @@ namespace Vts.Test.MonteCarlo.Detectors
                         {
                             integral += _outputOneLayerTissue.Flu_xyzt[ix, iy, iz, it] * norm;
                         } 
+                    }
+                }
+            }
+            var mua = _inputOneLayerTissue.TissueInput.Regions[1].RegionOP.Mua;
+            Assert.Less(Math.Abs(integral * mua - _outputOneLayerTissue.Atot), 0.0006);
+            Assert.AreEqual(_outputOneLayerTissue.Flu_xyzw_TallyCount, 42334);
+            Assert.AreEqual(_outputTwoLayerTissue.Flu_xyzw_TallyCount, 42334);
+        }
+        // Fluence Flu(x,y,z) and starting (x,y), 1st moment validated with prior test
+        // Verify integral * mua over x,y,z starting (x,y) equals ATotal
+        [Test]
+        public void validate_DAW_FluenceOfXAndYAndZAndStartingXAndY()
+        {
+            Assert.Less(Math.Abs(_outputOneLayerTissue.Flu_xyzxy[1, 0, 0, 0, 0] - 0.011210), 0.000001);
+            Assert.Less(Math.Abs(_outputOneLayerTissue.Flu_xyzxy2[1, 0, 0, 0, 0] - 0.000363), 0.000001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.Flu_xyzxy[1, 0, 0, 0, 0] - 0.011210), 0.000001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.Flu_xyzxy2[1, 0, 0, 0, 0] - 0.000363), 0.000001);
+            Assert.AreEqual(_outputOneLayerTissue.Flu_xyzxy_xycount[1, 0], 100);
+            // undo angle bin normalization
+            var startingX = ((FluenceOfXAndYAndZAndStartingXAndYDetectorInput)_inputOneLayerTissue.DetectorInputs.
+                Where(d => d.TallyType == "FluenceOfXAndYAndZAndStartingXAndY").First()).StartingX;
+            var startingY = ((FluenceOfXAndYAndZAndStartingXAndYDetectorInput)_inputOneLayerTissue.DetectorInputs.
+                Where(d => d.TallyType == "FluenceOfXAndYAndZAndStartingXAndY").First()).StartingY;
+            var x = ((FluenceOfXAndYAndZAndStartingXAndYDetectorInput)_inputOneLayerTissue.DetectorInputs.
+                Where(d => d.TallyType == "FluenceOfXAndYAndZAndStartingXAndY").First()).X;
+            var y = ((FluenceOfXAndYAndZAndStartingXAndYDetectorInput)_inputOneLayerTissue.DetectorInputs.
+                Where(d => d.TallyType == "FluenceOfXAndYAndZAndStartingXAndY").First()).Y;
+            var z = ((FluenceOfXAndYAndZAndStartingXAndYDetectorInput)_inputOneLayerTissue.DetectorInputs.
+                Where(d => d.TallyType == "FluenceOfXAndYAndZAndStartingXAndY").First()).Z;
+            var norm = x.Delta * y.Delta * z.Delta;
+            var integral = 0.0;
+            for (int isx = 0; isx < startingX.Count - 1; isx++)
+            {
+                for (int isy = 0; isy < startingY.Count - 1; isy++)
+                {
+                    for (int ix = 0; ix < x.Count - 1; ix++)
+                    {
+                        for (int iy = 0; iy < y.Count - 1; iy++)
+                        {
+                            for (int iz = 0; iz < z.Count - 1; iz++)
+                            {
+                                integral += _outputOneLayerTissue.Flu_xyzxy[isx, isy, ix, iy, iz] * norm;
+                            }
+                        }
                     }
                 }
             }
@@ -668,10 +808,12 @@ namespace Vts.Test.MonteCarlo.Detectors
         [Test]
         public void validate_DAW_RadianceOfRhoAtZ()
         {
+            Assert.Less(Math.Abs(_outputOneLayerTissue.Rad_r[0] - 1.95161), 0.00001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.Rad_r[0] - 1.95161), 0.00001);
             //need radiance detector to compare results, for now make sure both simulations give same results
             Assert.Less(Math.Abs(_outputOneLayerTissue.Rad_r[1] - _outputTwoLayerTissue.Rad_r[1]), 0.0000001);
-            Assert.AreEqual(_outputOneLayerTissue.Rad_r_TallyCount, 244);
-            Assert.AreEqual(_outputTwoLayerTissue.Rad_r_TallyCount, 244);
+            Assert.AreEqual(_outputOneLayerTissue.Rad_r_TallyCount, 199);
+            Assert.AreEqual(_outputTwoLayerTissue.Rad_r_TallyCount, 199);
         }
         // sanity checks
         [Test]

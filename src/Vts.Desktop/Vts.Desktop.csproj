@@ -67,8 +67,8 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MathNet.Numerics, Version=4.9.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MathNet.Numerics.4.9.0\lib\net461\MathNet.Numerics.dll</HintPath>
+    <Reference Include="MathNet.Numerics, Version=4.11.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MathNet.Numerics.4.11.0\lib\net461\MathNet.Numerics.dll</HintPath>
     </Reference>
     <Reference Include="Meta.Numerics, Version=4.0.7.0, Culture=neutral, PublicKeyToken=67d25c65a6631347, processorArchitecture=MSIL">
       <HintPath>..\packages\Meta.Numerics.4.0.7\lib\netstandard1.1\Meta.Numerics.dll</HintPath>
@@ -81,7 +81,7 @@
       <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
-      <HintPath>..\packages\NLog.4.6.8\lib\net45\NLog.dll</HintPath>
+      <HintPath>..\packages\NLog.4.7.2\lib\net45\NLog.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
@@ -110,7 +110,7 @@
       <HintPath>..\packages\Rx-PlatformServices.2.2.4\lib\net45\System.Reactive.PlatformServices.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.6.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.7.0\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.7.1\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.Serialization">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
@@ -136,11 +136,11 @@
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="Unity.Abstractions, Version=5.11.4.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
-      <HintPath>..\packages\Unity.5.11.4\lib\net46\Unity.Abstractions.dll</HintPath>
+    <Reference Include="Unity.Abstractions, Version=5.11.6.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.5.11.7\lib\net46\Unity.Abstractions.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.Container, Version=5.11.5.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
-      <HintPath>..\packages\Unity.5.11.4\lib\net46\Unity.Container.dll</HintPath>
+    <Reference Include="Unity.Container, Version=5.11.8.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.5.11.7\lib\net46\Unity.Container.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
   </ItemGroup>
@@ -580,6 +580,9 @@
     <Compile Include="..\Vts\MonteCarlo\DataStructuresValidation\DetectorInputs\ReflectedDynamicMTOfXAndYAndSubregionHistDetectorInputValidation.cs">
       <Link>MonteCarlo\DataStructuresValidation\DetectorInputs\ReflectedDynamicMTOfXAndYAndSubregionHistDetectorInputValidation.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\DataStructuresValidation\DetectorInputs\SurfaceFiberDetectorInputValidation.cs">
+      <Link>MonteCarlo\DataStructuresValidation\DetectorInputs\SurfaceFiberDetectorInputValidation.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\DataStructuresValidation\DetectorInputs\TransmittedDynamicMTOfRhoAndSubregionHistDetectorInputValidation.cs">
       <Link>MonteCarlo\DataStructuresValidation\DetectorInputs\TransmittedDynamicMTOfRhoAndSubregionHistDetectorInputValidation.cs</Link>
     </Compile>
@@ -667,6 +670,9 @@
     <Compile Include="..\Vts\MonteCarlo\Detectors\FluenceOfXAndYAndZAndOmegaDetector.cs">
       <Link>MonteCarlo\Detectors\FluenceOfXAndYAndZAndOmegaDetector.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\FluenceOfXAndYAndZAndStartingXAndYDetector.cs">
+      <Link>MonteCarlo\Detectors\FluenceOfXAndYAndZAndStartingXAndYDetector.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\FluenceOfXAndYAndZAndTimeDetector.cs">
       <Link>MonteCarlo\Detectors\FluenceOfXAndYAndZAndTimeDetector.cs</Link>
     </Compile>
@@ -682,8 +688,14 @@
     <Compile Include="..\Vts\MonteCarlo\Detectors\pMCROfRhoAndTimeDetector.cs">
       <Link>MonteCarlo\Detectors\pMCROfRhoAndTimeDetector.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\pMCROfRhoAndTimeRecessedDetector.cs">
+      <Link>MonteCarlo\Detectors\pMCROfRhoAndTimeRecessedDetector.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\pMCROfRhoDetector.cs">
       <Link>MonteCarlo\Detectors\pMCROfRhoDetector.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\pMCROfRhoRecessedDetector.cs">
+      <Link>MonteCarlo\Detectors\pMCROfRhoRecessedDetector.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\pMCROfXAndYDetector.cs">
       <Link>MonteCarlo\Detectors\pMCROfXAndYDetector.cs</Link>
@@ -739,6 +751,9 @@
     <Compile Include="..\Vts\MonteCarlo\Detectors\ROfRhoAndMaxDepthDetector.cs">
       <Link>MonteCarlo\Detectors\ROfRhoAndMaxDepthDetector.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\ROfRhoAndMaxDepthRecessedDetector.cs">
+      <Link>MonteCarlo\Detectors\ROfRhoAndMaxDepthRecessedDetector.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\ROfRhoAndOmegaDetector.cs">
       <Link>MonteCarlo\Detectors\ROfRhoAndOmegaDetector.cs</Link>
     </Compile>
@@ -748,11 +763,35 @@
     <Compile Include="..\Vts\MonteCarlo\Detectors\ROfRhoDetector.cs">
       <Link>MonteCarlo\Detectors\ROfRhoDetector.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\ROfRhoRecessedDetector.cs">
+      <Link>MonteCarlo\Detectors\ROfRhoRecessedDetector.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\ROfXAndYAndMaxDepthDetector.cs">
+      <Link>MonteCarlo\Detectors\ROfXAndYAndMaxDepthDetector.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\ROfXAndYAndMaxDepthRecessedDetector.cs">
+      <Link>MonteCarlo\Detectors\ROfXAndYAndMaxDepthRecessedDetector.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\ROfXAndYAndThetaAndPhiDetector.cs">
+      <Link>MonteCarlo\Detectors\ROfXAndYAndThetaAndPhiDetector.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\ROfXAndYAndTimeDetector.cs">
+      <Link>MonteCarlo\Detectors\ROfXAndYAndTimeDetector.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\ROfXAndYAndTimeRecessedDetector.cs">
+      <Link>MonteCarlo\Detectors\ROfXAndYAndTimeRecessedDetector.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\ROfXAndYDetector.cs">
       <Link>MonteCarlo\Detectors\ROfXAndYDetector.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\ROfXAndYRecessedDetector.cs">
+      <Link>MonteCarlo\Detectors\ROfXAndYRecessedDetector.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\RSpecularDetector.cs">
       <Link>MonteCarlo\Detectors\RSpecularDetector.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Detectors\SurfaceFiberDetector.cs">
+      <Link>MonteCarlo\Detectors\SurfaceFiberDetector.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Detectors\TallyDetails.cs">
       <Link>MonteCarlo\Detectors\TallyDetails.cs</Link>
@@ -843,6 +882,9 @@
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Helpers\ErrorCalculation.cs">
       <Link>MonteCarlo\Helpers\ErrorCalculation.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Helpers\LayerTissueRegionToolbox.cs">
+      <Link>MonteCarlo\Helpers\LayerTissueRegionToolbox.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Helpers\Optics.cs">
       <Link>MonteCarlo\Helpers\Optics.cs</Link>
@@ -982,6 +1024,9 @@
     <Compile Include="..\Vts\MonteCarlo\Sources\PointAndLineSources\LineSources\IsotropicLineSource.cs">
       <Link>MonteCarlo\Sources\PointAndLineSources\LineSources\IsotropicLineSource.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Sources\PointAndLineSources\LineSources\LineAngledFromLine.cs">
+      <Link>MonteCarlo\Sources\PointAndLineSources\LineSources\LineAngledFromLine.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Sources\PointAndLineSources\LineSources\LineSourceBase.cs">
       <Link>MonteCarlo\Sources\PointAndLineSources\LineSources\LineSourceBase.cs</Link>
     </Compile>
@@ -1023,6 +1068,12 @@
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Sources\SurfaceEmittingBulkSources\Tubular\SurfaceEmittingTubularSourceBase.cs">
       <Link>MonteCarlo\Sources\SurfaceEmittingBulkSources\Tubular\SurfaceEmittingTubularSourceBase.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Sources\SurfaceEmittingFlatSources\Circular\CircularAngledFromCircleSource.cs">
+      <Link>MonteCarlo\Sources\SurfaceEmittingFlatSources\Circular\CircularAngledFromCircleSource.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Sources\SurfaceEmittingFlatSources\Circular\CircularAngledFromPointSource.cs">
+      <Link>MonteCarlo\Sources\SurfaceEmittingFlatSources\Circular\CircularAngledFromPointSource.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Sources\SurfaceEmittingFlatSources\Circular\CircularSourceBase.cs">
       <Link>MonteCarlo\Sources\SurfaceEmittingFlatSources\Circular\CircularSourceBase.cs</Link>
@@ -1075,13 +1126,13 @@
     <Compile Include="..\Vts\MonteCarlo\Sources\VolumetricSources\FluorescenceEmission\FluorescenceEmissionSourceBase.cs">
       <Link>MonteCarlo\Sources\VolumetricSources\FluorescenceEmission\FluorescenceEmissionSourceBase.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Sources\VolumetricSources\VolumtricCuboidal\CustomVolumetricCuboidalSource.cs">
+    <Compile Include="..\Vts\MonteCarlo\Sources\VolumetricSources\VolumetricCuboidal\CustomVolumetricCuboidalSource.cs">
       <Link>MonteCarlo\Sources\VolumetricSources\VolumetricCuboidal\CustomVolumetricCuboidalSource.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Sources\VolumetricSources\VolumtricCuboidal\IsotropicVolumetricCuboidalSource.cs">
+    <Compile Include="..\Vts\MonteCarlo\Sources\VolumetricSources\VolumetricCuboidal\IsotropicVolumetricCuboidalSource.cs">
       <Link>MonteCarlo\Sources\VolumetricSources\VolumetricCuboidal\IsotropicVolumetricCuboidalSource.cs</Link>
     </Compile>
-    <Compile Include="..\Vts\MonteCarlo\Sources\VolumetricSources\VolumtricCuboidal\VolumetricCuboidalSourceBase.cs">
+    <Compile Include="..\Vts\MonteCarlo\Sources\VolumetricSources\VolumetricCuboidal\VolumetricCuboidalSourceBase.cs">
       <Link>MonteCarlo\Sources\VolumetricSources\VolumetricCuboidal\VolumetricCuboidalSourceBase.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Tissues\BoundedTissue.cs">
@@ -1114,11 +1165,17 @@
     <Compile Include="..\Vts\MonteCarlo\Tissues\MultiLayerTissue.cs">
       <Link>MonteCarlo\Tissues\MultiLayerTissue.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Tissues\MultiLayerWithSurfaceFiberTissue.cs">
+      <Link>MonteCarlo\Tissues\MultiLayerWithSurfaceFiberTissue.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Tissues\SemiInfiniteTissue.cs">
       <Link>MonteCarlo\Tissues\SemiInfiniteTissue.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Tissues\SemiInfiniteTissueRegion.cs">
       <Link>MonteCarlo\Tissues\SemiInfiniteTissueRegion.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Tissues\SingleCylinderTissue.cs">
+      <Link>MonteCarlo\Tissues\SingleCylinderTissue.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Tissues\SingleEllipsoidTissue.cs">
       <Link>MonteCarlo\Tissues\SingleEllipsoidTissue.cs</Link>
@@ -1131,6 +1188,9 @@
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Tissues\SingleVoxelTissue.cs">
       <Link>MonteCarlo\Tissues\SingleVoxelTissue.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Tissues\SurfaceFiberTissueRegion.cs">
+      <Link>MonteCarlo\Tissues\SurfaceFiberTissueRegion.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Tissues\TissueBase.cs">
       <Link>MonteCarlo\Tissues\TissueBase.cs</Link>

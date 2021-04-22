@@ -2,7 +2,6 @@ using System;
 using System.Linq;
 using Vts.Common;
 using Vts.MonteCarlo.DataStructuresValidation;
-using Vts.MonteCarlo.Extensions;
 using Vts.MonteCarlo.Sources;
 using Vts.MonteCarlo.Tissues;
 
@@ -72,6 +71,16 @@ namespace Vts.MonteCarlo
 
         private static ValidationResult ValidateTissueInput(ITissueInput tissueInput)
         {
+            // for all types of tissues, check that OPs are non-negative (g could be neg)
+            if (tissueInput.Regions.Any(r => r.RegionOP.Mua < 0.0) ||
+                tissueInput.Regions.Any(r => r.RegionOP.Musp < 0.0) ||
+                tissueInput.Regions.Any(r => r.RegionOP.N < 0.0))
+            {
+                return new ValidationResult(
+                    false,
+                     "Tissue optical properties mua, mus', n need to be non-negative",
+                     "Please check optical properties");
+            }
             if (tissueInput is MultiLayerTissueInput)
             {
                 return MultiLayerTissueInputValidation.ValidateInput(tissueInput);
@@ -221,6 +230,19 @@ namespace Vts.MonteCarlo
                     }
                 }
             }
+            foreach (var detectorInput in input.DetectorInputs)
+            {
+                if (detectorInput.TallyDetails.IsTransmittanceTally && (input.TissueInput is MultiLayerTissueInput))
+                {
+                    if ((((dynamic)detectorInput).FinalTissueRegionIndex == 0))
+                    {
+                            return new ValidationResult(
+                                false,
+                                "Transmittance detectors with MultiLayerTissues cannot detect in tissue region 0",
+                                "Change FinalTissueRegionIndex to be index of air below tissue (index >= 2)");
+                    }
+                }
+            }
             return new ValidationResult(
                 true,
                 "Input options or tissue/detector combinations are valid",
@@ -242,7 +264,7 @@ namespace Vts.MonteCarlo
                     {
                         return new ValidationResult(
                             false,
-                            "The use of Continuous Absorption Weighting with cylindrical volume detectors not implemented yet",
+                            "The use of Continuous Absorption Weighting is not implemented for one of the infile detectors",
                             "Modify AbsorptionWeightingType to Discrete");
                     }
                 }
@@ -288,6 +310,10 @@ namespace Vts.MonteCarlo
                 if (detectorInput.TallyType.Contains("TransmittedDynamicMTOfXAndYAndSubregionHist"))
                 {
                     return TransmittedDynamicMTOfXAndYAndSubregionHistDetectorInputValidation.ValidateInput(detectorInput, input.TissueInput.Regions.Count());
+                }
+                if (detectorInput.TallyType.Contains("SurfaceFiber"))
+                {
+                    return SurfaceFiberDetectorInputValidation.ValidateInput(detectorInput);
                 }
             }         
             return new ValidationResult(

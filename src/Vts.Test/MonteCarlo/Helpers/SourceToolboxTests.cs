@@ -54,7 +54,7 @@ namespace Vts.Test.MonteCarlo.Sources
                                     -7.0710678119e-001,	3.0000000000e+000,	2.0000000000e+000,	-1.0000000000e+000,	0.0000000000e+000,	1.0000000000e+000,
                                     0.0000000000e+000,	-7.0710678119e-001,	2.1213203436e+000,	3.0000000000e+000,	-1.4644660941e-001,	8.5355339059e-001,
                                     -5.0000000000e-001,	5.8578643763e-001,	3.4142135624e+000,	1.4142135624e+000,	3.9269908170e-001,	2.0000000000e+000,
-                                    -5.0000000000e-001,	4.2000000000e+000};
+                                    -5.0000000000e-001,	4.2000000000e+000,  -9.0666756704e-001, 1.39616327638e+000,  3.0000000000e+000};
 
         /// <summary>
         /// Read text data file that has input and output data
@@ -622,6 +622,21 @@ namespace Vts.Test.MonteCarlo.Sources
             Assert.Less(Math.Abs(pos.X - _tp[137]), ACCEPTABLE_PRECISION);
             Assert.Less(Math.Abs(pos.Y - _tp[138]), ACCEPTABLE_PRECISION);
             Assert.Less(Math.Abs(pos.Z - _tp[139]), ACCEPTABLE_PRECISION);
+        }
+
+        /// <summary>
+        /// Validating "GetPositionInACircularPerimeter"
+        /// </summary>
+        [Test]
+        public void validate_static_method_getpositionatcircleperimeter()
+        {
+
+            Random rng = new MathNet.Numerics.Random.MersenneTwister(0);
+            var pos = SourceToolbox.GetPositionAtCirclePerimeter(_position, _outerRadius, rng);
+
+            Assert.Less(Math.Abs(pos.X - _tp[140]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(pos.Y - _tp[141]), ACCEPTABLE_PRECISION);
+            Assert.Less(Math.Abs(pos.Z - _tp[142]), ACCEPTABLE_PRECISION);
         }
     }
 }

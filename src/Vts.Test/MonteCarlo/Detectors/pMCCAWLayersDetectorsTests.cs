@@ -76,7 +76,8 @@ namespace Vts.Test.MonteCarlo.Detectors
             var detectorInputs = new List<IDetectorInput>()
             {
                 new ROfRhoDetectorInput() {Rho=new DoubleRange(0.0, 10.0, 101)},
-                new ROfRhoAndTimeDetectorInput() {Rho=new DoubleRange(0.0, 10.0, 101),Time=new DoubleRange(0.0, 1.0, 101)}                   
+                new ROfRhoAndTimeDetectorInput() {Rho=new DoubleRange(0.0, 10.0, 101),Time=new DoubleRange(0.0, 1.0, 101)},
+                new ROfRhoAndMaxDepthDetectorInput() {Rho=new DoubleRange(0.0, 10.0, 101),MaxDepth=new DoubleRange(0.0, 100.0, 11)}
             };
 
             _referenceInputTwoLayerTissue = new SimulationInput(

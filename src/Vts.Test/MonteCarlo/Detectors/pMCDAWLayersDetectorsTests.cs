@@ -20,6 +20,7 @@ namespace Vts.Test.MonteCarlo.Detectors
     /// The linux results assumes photon passes through specular and deweights photon by specular.  This 
     /// test starts photon  inside tissue and then multiplies result by specular deweighting to match 
     /// linux results. The linux results are generated using the post-processing code in the g_post subdirectory.
+    /// Some detector NA tests.
     /// </summary>
     [TestFixture]
     public class pMCDAWLayersDetectorsTests
@@ -73,9 +74,12 @@ namespace Vts.Test.MonteCarlo.Detectors
                     1);
             var detectorInputs = new List<IDetectorInput>()
             {
-                new ROfRhoDetectorInput() {Rho=new DoubleRange(0.0, 10.0, 101)},
+                new ROfRhoDetectorInput() {Rho=new DoubleRange(0.0, 10.0, 101),
+                    FinalTissueRegionIndex =0, NA=0.3},
                 new ROfRhoAndTimeDetectorInput() { Rho = new DoubleRange(0.0, 10.0, 101),
                     Time = new DoubleRange(0.0, 1.0, 101)},
+                new ROfRhoAndMaxDepthDetectorInput() {Rho=new DoubleRange(0.0, 10.0, 101),
+                    MaxDepth =new DoubleRange(0.0, 100.0, 11)},
                 new ROfXAndYDetectorInput()
                 {
                     X = new DoubleRange(-10.0, 10.0, 11),
@@ -125,6 +129,18 @@ namespace Vts.Test.MonteCarlo.Detectors
                 VirtualBoundaryType.pMCDiffuseReflectance,
                 new List<IDetectorInput>()
                 {
+                    new pMCROfRhoDetectorInput()
+                    {
+                        Rho=new DoubleRange(0.0, 10.0, 101),
+                        PerturbedOps=new List<OpticalProperties>() { // perturbed ops
+                            _referenceInputTwoLayerTissue.TissueInput.Regions[0].RegionOP,
+                            _referenceInputTwoLayerTissue.TissueInput.Regions[1].RegionOP,
+                            _referenceInputTwoLayerTissue.TissueInput.Regions[2].RegionOP,
+                            _referenceInputTwoLayerTissue.TissueInput.Regions[3].RegionOP},
+                        PerturbedRegionsIndices=new List<int>() { 1 },
+                        FinalTissueRegionIndex = 0,
+                        NA = 0.30
+                    },
                     new pMCROfRhoAndTimeDetectorInput()
                     {
                         Rho=new DoubleRange(0.0, 10.0, 101),
@@ -141,10 +157,14 @@ namespace Vts.Test.MonteCarlo.Detectors
                 _referenceInputTwoLayerTissue);
             var postProcessedOutput = postProcessor.Run();
             // validation value obtained from reference results
+            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_r[3] - _referenceOutputTwoLayerTissue.R_r[3]), 0.00000000001);
+            // validation value obtained from linux run using above input and seeded the same
+            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_r[3] - 0.044484), 0.000001);
             Assert.Less(Math.Abs(postProcessedOutput.pMC_R_rt[0, 0] - _referenceOutputTwoLayerTissue.R_rt[0, 0]), 0.00000000001);
             // validation value obtained from linux run using above input and seeded the same
             Assert.Less(Math.Abs(postProcessedOutput.pMC_R_rt[0, 0] * _factor - 61.5238307), 0.0000001);
         }
+
 
         /// <summary>
         /// Test to validate that setting mua and mus to the reference values

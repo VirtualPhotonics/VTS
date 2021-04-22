@@ -240,29 +240,21 @@ namespace Vts.MonteCarlo
                 if (_tissue.OnDomainBoundary(this.DP.Position) && !_firstTimeEnteringDomain)
                 {
                     DP.StateFlag = DP.StateFlag.Add(_tissue.GetPhotonDataPointStateOnExit(DP.Position));
-
-                    // adjust CAW weight for portion of track prior to exit
-                    if (Absorb == AbsorbContinuous)
-                    {
-                        AbsorbContinuous();
-                    }
-
-                    CurrentRegionIndex = neighborIndex;
-                    //don't need to update these unless photon not dead upon exiting tissue
-                    //DP.Direction.Ux *= nCurrent / nNext;
-                    //DP.Direction.Uy *= nCurrent / nNext;
-                    //DP.Direction.Uz = uZSnell;
                 }
-                else // not on domain boundary, at internal interface or first time enter tissue, pass to next
+
+                // adjust CAW weight for portion of track to pseudo collision before CurrentRegionIndex updated
+                if (Absorb == AbsorbContinuous)
                 {
-                    CurrentRegionIndex = neighborIndex;
-                    DP.Direction = _tissue.GetRefractedDirection(DP.Position, DP.Direction,
-                        nCurrent, nNext, cosThetaSnell);
-                    if (_firstTimeEnteringDomain)
-                    {
-                        _firstTimeEnteringDomain = false;
-                    }
+                    AbsorbContinuous();
                 }
+                CurrentRegionIndex = neighborIndex;
+                DP.Direction = _tissue.GetRefractedDirection(DP.Position, DP.Direction,
+                    nCurrent, nNext, cosThetaSnell);
+
+                if (_firstTimeEnteringDomain)
+                {
+                    _firstTimeEnteringDomain = false;
+                }                
             }
             else  // don't cross, reflect
             {
@@ -271,6 +263,12 @@ namespace Vts.MonteCarlo
                 if (_firstTimeEnteringDomain)
                 {
                     DP.StateFlag = DP.StateFlag.Add(PhotonStateType.PseudoSpecularTissueBoundary);
+                }
+
+                // adjust CAW weight for portion of track to pseudo collision
+                if (Absorb == AbsorbContinuous)
+                {
+                    AbsorbContinuous();
                 }
             }
         }
@@ -375,15 +373,11 @@ namespace Vts.MonteCarlo
         {
             double mua = _tissue.Regions[CurrentRegionIndex].RegionOP.Mua;
             // the following deweights at pseudo (sleft>0) and real collisions (sleft=0) as it should
-            //double dw = DP.Weight * (1 - Math.Exp(-mua * S));
-            //DP.Weight -= dw;
-            // use path length info to determine surviving weight
-            var exponent = 0.0;
-            for (int i = 0; i < _tissue.Regions.Count - 1; i++)
-            {
-                exponent +=_tissue.Regions[i].RegionOP.Mua * History.SubRegionInfoList[i].PathLength;
-            };
-            DP.Weight = Math.Exp(-exponent);
+            // rather than use total path length in each layer to detemine weight,
+            // this method updates weight at pseudo collision and can be used for total absorption tallies
+            // note: added call to AbsorbContinuous in CrossOrReflect to accomplish this
+            double dw = DP.Weight * (1 - Math.Exp(-_tissue.Regions[CurrentRegionIndex].RegionOP.Mua * S));          
+            DP.Weight -= dw;
 
             // update weight for current DP in History 
             History.HistoryData[History.HistoryData.Count() - 1].Weight = DP.Weight;

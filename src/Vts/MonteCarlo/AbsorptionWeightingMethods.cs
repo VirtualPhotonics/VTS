@@ -19,7 +19,14 @@ namespace Vts.MonteCarlo
                 case AbsorptionWeightingType.Analog:
                     return (previousDP, dp, regionIndex) => VolumeAbsorptionWeightingAnalog(dp);
                 case AbsorptionWeightingType.Continuous:
-                    throw new NotImplementedException("CAW is not currently implemented for volume tallies.");
+                    if (detector.TallyType == TallyType.ATotal)
+                    {
+                        return (previousDP, dp, regionIndex) => VolumeAbsorptionWeightingContinuous(previousDP, dp, regionIndex, tissue);
+                    }
+                    else
+                    {
+                        throw new NotImplementedException("CAW is not currently implemented for most volume tallies.");
+                    }
                 case AbsorptionWeightingType.Discrete:
                     return (previousDP, dp, regionIndex) => VolumeAbsorptionWeightingDiscrete(previousDP, dp, regionIndex, tissue);
                 default:
@@ -69,6 +76,14 @@ namespace Vts.MonteCarlo
 
             return weight;
         }
+        private static double VolumeAbsorptionWeightingContinuous(PhotonDataPoint previousDP, PhotonDataPoint dp, int regionIndex, ITissue tissue)
+        {
+            var weight = VolumeAbsorbContinuous(
+                previousDP.Weight,
+                dp.Weight);
+
+            return weight;
+        }
 
         private static double VolumeAbsorbAnalog(double weight, PhotonStateType photonStateType)
         {
@@ -95,10 +110,19 @@ namespace Vts.MonteCarlo
             }
             return weight;
         }
-
-        private static double VolumeAbsorbContinuous(double mua, double mus, double previousWeight, double weight, PhotonStateType photonStateType, ITissue tissue, IDetector detector)
+        
+        private static double VolumeAbsorbContinuous(double previousWeight, double weight)
         {
-            throw new NotImplementedException();
+            // no pathlength means no absorption, so no tally
+            if (previousWeight == weight)
+            {
+                weight = 0.0;
+            }
+            else
+            {
+                weight = previousWeight - weight;
+            }
+            return weight;
         }
         
         private static double pMCAbsorbContinuous(IList<long> numberOfCollisions, IList<double> pathLength, IList<OpticalProperties> perturbedOps, IList<OpticalProperties> referenceOps, IList<int> perturbedRegionsIndices)
