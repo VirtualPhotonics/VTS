@@ -120,11 +120,11 @@ namespace Vts.Test.MonteCarlo
         public void validate_single_value_double_detectors_are_processed_correctly()
         {
             Assert.IsTrue(Math.Abs(_outputMultiCPU.Atot - 0.341646) < 0.000001);
-            Assert.IsTrue(Math.Abs(_outputMultiCPU.Atot2 - 0.000429) < 0.000001);
+            Assert.IsTrue(Math.Abs(_outputMultiCPU.Atot2 - 0.253490) < 0.000001);
             Assert.AreEqual(_outputMultiCPU.Atot_TallyCount, 231243);
 
             Assert.IsTrue(Math.Abs(_outputSingleCPU.Atot - _outputMultiCPU.Atot) < 0.1);
-            Assert.IsTrue(Math.Abs(_outputSingleCPU.Atot2 - _outputMultiCPU.Atot2) < 0.001);
+            Assert.IsTrue(Math.Abs(_outputSingleCPU.Atot2 - _outputMultiCPU.Atot2) < 0.1);
             Assert.IsTrue(Math.Abs(_outputSingleCPU.Atot_TallyCount - _outputMultiCPU.Atot_TallyCount) < 45000);
 
         }
