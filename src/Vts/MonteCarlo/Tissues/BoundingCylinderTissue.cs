@@ -39,22 +39,22 @@ namespace Vts.MonteCarlo.Tissues
                     1.0,
                     100.0,
                     new OpticalProperties(0.05, 1.0, 0.8, 1.4),
-                    "HenyeyGreensteinKey1"
+                    "HenyeyGreensteinKey4"
                 ),
                 new ITissueRegion[] 
                 { 
                     new LayerTissueRegion(
                         new DoubleRange(double.NegativeInfinity, 0.0),
                         new OpticalProperties( 0.0, 1e-10, 1.0, 1.0),
-                    "HenyeyGreensteinKey2"),
+                    "HenyeyGreensteinKey1"),
                     new LayerTissueRegion(
                         new DoubleRange(0.0, 100.0),
                         new OpticalProperties(0.01, 1.0, 0.8, 1.4),
-                    "HenyeyGreensteinKey3"),
+                    "HenyeyGreensteinKey2"),
                     new LayerTissueRegion(
                         new DoubleRange(100.0, double.PositiveInfinity),
                         new OpticalProperties( 0.0, 1e-10, 1.0, 1.0),
-                    "HenyeyGreensteinKey4")
+                    "HenyeyGreensteinKey3")
                 })
         {
             RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey1", new HenyeyGreensteinPhaseFunctionInput());

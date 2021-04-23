@@ -72,6 +72,11 @@ namespace Vts.Test.MonteCarlo.Detectors
                             "HenyeyGreensteinKey3")
                     }
                 );
+            _tissue.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey1", new HenyeyGreensteinPhaseFunctionInput());
+            _tissue.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey2", new HenyeyGreensteinPhaseFunctionInput());
+            _tissue.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey3", new HenyeyGreensteinPhaseFunctionInput());
+            _tissue.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey4", new HenyeyGreensteinPhaseFunctionInput());
+
             // tissue specification to verify MultiLayerWithSurfaceFiberTissue 
             // increases reflectance.  If use this tissue need to change FinalTissueRegion 
             // for ALL detectors to 0

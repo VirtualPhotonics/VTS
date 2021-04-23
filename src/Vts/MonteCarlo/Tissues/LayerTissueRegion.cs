@@ -59,11 +59,6 @@ namespace Vts.MonteCarlo.Tissues
         /// </summary>
         public string PhaseFunctionKey { get; set; }
 
-        /*/// <summary>
-        /// Input data for phase function
-        /// </summary>
-        public IPhaseFunctionInput PhaseFunctionInput { get; set; }*/
-
         /// <summary>
         /// center of layer
         /// </summary>

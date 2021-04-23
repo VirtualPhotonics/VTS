@@ -68,11 +68,6 @@ namespace Vts.MonteCarlo.Tissues
         public string PhaseFunctionKey { get; set; }
 
         /// <summary>
-        /// Input data for phase function
-        /// </summary>
-        public IPhaseFunctionInput PhaseFunctionInput { get; set; }
-
-        /// <summary>
         /// center of ellipsoid
         /// </summary>
         public Position Center { get; set; }

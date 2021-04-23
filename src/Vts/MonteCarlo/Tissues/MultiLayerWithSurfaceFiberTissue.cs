@@ -30,6 +30,7 @@ namespace Vts.MonteCarlo.Tissues
             TissueType = "MultiLayerWithSurfaceFiber";
             _layerRegions = layerRegions;
             _surfaceFiberRegion = surfaceFiberRegion;
+            RegionPhaseFunctionInputs = new Dictionary<string, IPhaseFunctionInput>();
         }
 
         /// <summary>
@@ -59,6 +60,10 @@ namespace Vts.MonteCarlo.Tissues
                         "HenyeyGreensteinKey3")
                 })
         {
+            RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey1", new HenyeyGreensteinPhaseFunctionInput());
+            RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey2", new HenyeyGreensteinPhaseFunctionInput());
+            RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey3", new HenyeyGreensteinPhaseFunctionInput());
+            RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey4", new HenyeyGreensteinPhaseFunctionInput());
         }
 
 
@@ -76,7 +81,10 @@ namespace Vts.MonteCarlo.Tissues
         /// </summary>
         public ITissueRegion[] LayerRegions { get { return _layerRegions; } set { _layerRegions = value; } }
 
-        public IDictionary<string, IPhaseFunctionInput> RegionPhaseFunctionInputs { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        /// <summary>
+        /// dictionary of region phase function inputs
+        /// </summary>
+        public IDictionary<string, IPhaseFunctionInput> RegionPhaseFunctionInputs { get; set; }
 
         /// <summary>
         ///// Required factory method to create the corresponding 

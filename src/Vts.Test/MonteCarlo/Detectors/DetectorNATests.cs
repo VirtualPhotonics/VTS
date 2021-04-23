@@ -47,14 +47,21 @@ namespace Vts.Test.MonteCarlo.Detectors
                 {
                     new LayerTissueRegion(
                         new DoubleRange(double.NegativeInfinity, 0.0),
-                        new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
+                        new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
+                        "HenyeyGreensteinKey1"),
                     new LayerTissueRegion( 
                         new DoubleRange(0.0, 10.0), // make tissue layer thin so transmittance results improved
-                        new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
+                        new OpticalProperties(0.01, 1.0, 0.8, 1.4),
+                        "HenyeyGreensteinKey2"),
                     new LayerTissueRegion(
                         new DoubleRange(10.0, double.PositiveInfinity),
-                        new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
+                        new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
+                        "HenyeyGreensteinKey3")
                 });
+            tissue.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey1", new HenyeyGreensteinPhaseFunctionInput());
+            tissue.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey2", new HenyeyGreensteinPhaseFunctionInput());
+            tissue.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey3", new HenyeyGreensteinPhaseFunctionInput());
+
             var detectorsNA0 =  new List<IDetectorInput>
                 {
                     new RDiffuseDetectorInput() {FinalTissueRegionIndex=0, NA=0.0},         
