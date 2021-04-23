@@ -1,4 +1,3 @@
-using BenchmarkDotNet.Attributes;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -9,13 +8,15 @@ using System.Threading.Tasks;
 using Vts.Common.Logging;
 using Vts.IO;
 using Vts.MonteCarlo.Rng;
+#if !DESKTOP
+using BenchmarkDotNet.Attributes;
+#endif
 
 namespace Vts.MonteCarlo
 {
     /// <summary>
     /// Provides main processing for a single Monte Carlo simulation in parallel. 
     /// </summary>
-    [InProcess]
     public class ParallelMonteCarloSimulation 
     {
         /// <summary>
@@ -55,7 +56,9 @@ namespace Vts.MonteCarlo
         /// Method to run single MC simulation in parallel
         /// </summary>
         /// <returns>array of SimulationOutput</returns>
+#if !DESKTOP
         [Benchmark]
+#endif
         public SimulationOutput RunSingleInParallel()
         { 
             var parallelOptions = new ParallelOptions();

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using BenchmarkDotNet.Running;
 using NUnit.Framework;
 using Vts.IO;
 using Vts.Common;
@@ -290,21 +289,6 @@ namespace Vts.Test.MonteCarlo
             var parallelMC = new ParallelMonteCarloSimulation(simulationInput, 3);
             var output3CPU = parallelMC.RunSingleInParallel();
             Assert.AreEqual(output3CPU.Input.N, 99);
-        }
-        /// <summary>
-        /// This test relies on the attribute [Benchmark] applied to 
-        /// ParallelMonteCarloSimulation.RunSingleInParallel()
-        /// Benchmark does not work with unit tests yet
-        /// </summary>
-        [Test]
-        public void run_Benchmark_for_timing()
-        {
-        //    var parallelMonteCarloSimulation = new ParallelMonteCarloSimulation();
-        //    var simulationOutput = parallelMonteCarloSimulation.RunSingleInParallel();
-        //    Assert.AreEqual(96, simulationOutput.Input.N);
-
-            var summary = BenchmarkRunner.Run<ParallelMonteCarloSimulation>();
-            Console.WriteLine(summary);
         }
     }
 }

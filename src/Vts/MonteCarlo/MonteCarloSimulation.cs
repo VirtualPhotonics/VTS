@@ -2,13 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using BenchmarkDotNet.Attributes;
 using Vts.Common.Logging;
 using Vts.IO;
 using Vts.MonteCarlo.Controllers;
 using Vts.MonteCarlo.Extensions;
 using Vts.MonteCarlo.Factories;
-using Vts.MonteCarlo.Rng;
+#if !DESKTOP
+using BenchmarkDotNet.Attributes;
+#endif
 
 namespace Vts.MonteCarlo
 {
@@ -247,7 +248,9 @@ namespace Vts.MonteCarlo
         /// Run the simulation
         /// </summary>
         /// <returns>SimulationOutput</returns>
+#if !DESKTOP
         [Benchmark]
+#endif
         public virtual SimulationOutput Run()
         {
             _isCancelled = false;
