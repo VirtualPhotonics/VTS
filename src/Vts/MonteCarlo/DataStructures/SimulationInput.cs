@@ -13,7 +13,7 @@ namespace Vts.MonteCarlo
     /// file name, number of photons to execute (N), source, tissue and detector
     /// definitions.
     ///</summary>
-    public class SimulationInput : ICloneable
+    public class SimulationInput
     {
         /// <summary>
         /// string name of output file
@@ -109,15 +109,6 @@ namespace Vts.MonteCarlo
                     }, // rho: nr=200 dr=0.2mm used for workshop)
                 }
                 ) { }
-
-        /// <summary>
-        /// Method to return clone of SimulationInput 
-        /// </summary>
-        /// <returns></returns>
-        object ICloneable.Clone()
-        {
-            return this.MemberwiseClone();
-        }
 
         /// <summary>
         /// Method to read SimulationInput from JSON file

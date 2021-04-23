@@ -67,6 +67,21 @@ namespace Vts.MonteCarlo
         }
 
         /// <summary>
+        /// Constructor to delay the initialize if we are running parallel so we can pass in the random number
+        /// </summary>
+        /// <param name="input">Simulation input</param>
+        /// <param name="isParallel">A boolean for if parallel</param>
+        public MonteCarloSimulation(SimulationInput input, bool isParallel)
+        {
+            _input = input;
+            if (!isParallel)
+            {
+                Initialize(input, RandomNumberGeneratorFactory.GetRandomNumberGenerator(
+                    input.Options.RandomNumberGeneratorType, input.Options.Seed));
+            }
+        }
+
+        /// <summary>
         /// Initialization of the MonteCarloSimulation
         /// </summary>
         /// <param name="input"></param>

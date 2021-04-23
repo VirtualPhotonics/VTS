@@ -74,7 +74,7 @@ namespace Vts.MonteCarlo
 
             var stopwatch = System.Diagnostics.Stopwatch.StartNew();
             Parallel.For<MonteCarloSimulation>(0, NumberOfCPUs,
-                parallelOptions, () => simulationInputs.TryPeek(out var input) ? new MonteCarloSimulation(input) : new MonteCarloSimulation(), (index, loop, mc) =>
+                parallelOptions, () => simulationInputs.TryPeek(out var input) ? new MonteCarloSimulation(input, true) : new MonteCarloSimulation(), (index, loop, mc) =>
              {
                  // FIX back to factory once know correct call
                  var parallelRng = //RandomNumberGeneratorFactory.GetRandomNumberGenerator(
