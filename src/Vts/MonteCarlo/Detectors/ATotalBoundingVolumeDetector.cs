@@ -5,7 +5,9 @@ using Vts.MonteCarlo.PhotonData;
 namespace Vts.MonteCarlo.Detectors
 {
     /// <summary>
-    /// Tally for total absorption.
+    /// Tally for total absorption in bounding volume.  This works like a reflectance
+    /// tally rather than a IHistoryDetector because it tallies once the photon enters
+    /// the bounding volume.
     /// This implementation works for Analog, DAW and CAW.
     /// </summary>
     public class ATotalBoundingVolumeDetectorInput : DetectorInput, IDetectorInput
