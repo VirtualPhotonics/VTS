@@ -243,6 +243,9 @@ namespace Vts.MonteCarlo
                     AbsorbContinuous();
                 }
                 CurrentRegionIndex = neighborIndex;
+                // note! need to update CurrentRegionKey whenever CurrentRegionIndex changes
+                CurrentRegionKey = _tissue.Regions[CurrentRegionIndex].PhaseFunctionKey;
+
                 DP.Direction = _tissue.GetRefractedDirection(DP.Position, DP.Direction,
                     nCurrent, nNext, cosThetaSnell);
 
