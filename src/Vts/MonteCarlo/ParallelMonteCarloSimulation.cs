@@ -86,7 +86,7 @@ namespace Vts.MonteCarlo
                 },
                 (index, loop, mc) =>
                 {
-                    mc.SimulationInput.Options.SimulationIndex = index;
+                    mc.Input.Options.SimulationIndex = index;
                     // FIX back to factory once know correct call
                     //RandomNumberGeneratorFactory.GetRandomNumberGenerator(
                     mc.InitializeParallel(new DynamicCreatorMersenneTwister(32, 521, index, 4172, (uint)Input.Options.Seed));
