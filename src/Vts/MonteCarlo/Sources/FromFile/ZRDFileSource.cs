@@ -77,7 +77,7 @@ namespace Vts.MonteCarlo.Sources
                 //sourceFileName,
                 initialTissueRegionIndex)
         {
-            _sourceDatabase = ZRDRayDatabase.FromFile(sourceFileName);
+            _sourceDatabase = ZRDRayDatabase.FromFile(sourceFileName, 1);
         }
 
     }

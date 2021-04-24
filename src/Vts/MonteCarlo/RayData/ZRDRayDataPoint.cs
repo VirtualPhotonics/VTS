@@ -81,30 +81,5 @@ namespace Vts.MonteCarlo.RayData
             public double ezi;
         }
 
-            
-        //{
-        //    _Position = new Position(x, y, z);
-        //    _Direction = new Direction(l, m, n);
-        //    _Weight = 1.0;
-        //}
-        //public ZRDRayDataPoint(Position position, Direction direction, double weight)
-        //{
-        //    _Position = position;
-        //    _Direction = direction;
-        //    _Weight = weight;
-        //}
-        ///// <summary>
-        ///// position of photon ZRDRay data point
-        ///// </summary>
-        //public Position Position { get { return _Position; } set { _Position = value; } }
-        ///// <summary>
-        ///// direction of photon ZRDRay data point
-        ///// </summary>
-        //public Direction Direction { get { return _Direction; } set { _Direction = value; } }
-        ///// <summary>
-        ///// direction of photon ZRDRay data point
-        ///// </summary>
-        //public double Weight { get { return _Weight; } set { _Weight = value; } }
-
     }
 }
