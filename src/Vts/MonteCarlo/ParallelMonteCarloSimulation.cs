@@ -17,7 +17,7 @@ namespace Vts.MonteCarlo
     /// <summary>
     /// Provides main processing for a single Monte Carlo simulation in parallel. 
     /// </summary>
-    public class ParallelMonteCarloSimulation 
+    public class ParallelMonteCarloSimulation
     {
         /// <summary>
         /// local variables: general
@@ -40,11 +40,11 @@ namespace Vts.MonteCarlo
         /// Class that defines methods to initialize and execute Monte Carlo simulation
         /// </summary>
         /// <param name="numberOfCPUs">number of parallel CPUs to be run</param>
-        public ParallelMonteCarloSimulation(SimulationInput input, int numberOfCPUs) 
+        public ParallelMonteCarloSimulation(SimulationInput input, int numberOfCPUs)
         {
             Input = input;
             // all field/property defaults should be set here
-            NumberOfCPUs = numberOfCPUs;            
+            NumberOfCPUs = numberOfCPUs;
         }
 
         /// <summary>
@@ -60,14 +60,14 @@ namespace Vts.MonteCarlo
         [Benchmark]
 #endif
         public SimulationOutput RunSingleInParallel()
-        { 
+        {
             var parallelOptions = new ParallelOptions();
             parallelOptions.MaxDegreeOfParallelism = NumberOfCPUs;
-            int photonsPerCPU = (int)(Input.N / NumberOfCPUs);
+            var photonsPerCPU = (int)(Input.N / NumberOfCPUs);
             if (photonsPerCPU * NumberOfCPUs != Input.N)
             {
-                _logger.Info(() => "Note: number of photons run on each CPU = " + photonsPerCPU + 
-                   " for a total of N = " + photonsPerCPU * NumberOfCPUs); 
+                _logger.Info(() => "Note: number of photons run on each CPU = " + photonsPerCPU +
+                   " for a total of N = " + photonsPerCPU * NumberOfCPUs);
             }
             Input.N = photonsPerCPU;
             var simulationOutputs = new ConcurrentBag<SimulationOutput>();
@@ -76,18 +76,25 @@ namespace Vts.MonteCarlo
             simulationInputs.Enqueue(Input);
 
             var stopwatch = System.Diagnostics.Stopwatch.StartNew();
-            Parallel.For<MonteCarloSimulation>(0, NumberOfCPUs,
-                parallelOptions, () => simulationInputs.TryPeek(out var input) ? new MonteCarloSimulation(input, true) : new MonteCarloSimulation(), (index, loop, mc) =>
-             {
-                 // FIX back to factory once know correct call
-                 var parallelRng = //RandomNumberGeneratorFactory.GetRandomNumberGenerator(
-                     new DynamicCreatorMersenneTwister(32, 521, index, 4172, (uint)Input.Options.Seed);
-                 mc._input.Options.SimulationIndex = index;
-                 mc.Initialize(mc._input, parallelRng);
-                 mc.Run();
-                 return mc;
-             },
-                (x) => {
+            Parallel.For<MonteCarloSimulation>(0,
+                NumberOfCPUs, parallelOptions,
+                () =>
+                {
+                    return simulationInputs.TryPeek(out var input)
+                        ? new MonteCarloSimulation(input, true)
+                        : new MonteCarloSimulation();
+                },
+                (index, loop, mc) =>
+                {
+                    mc.SimulationInput.Options.SimulationIndex = index;
+                    // FIX back to factory once know correct call
+                    //RandomNumberGeneratorFactory.GetRandomNumberGenerator(
+                    mc.InitializeParallel(new DynamicCreatorMersenneTwister(32, 521, index, 4172, (uint)Input.Options.Seed));
+                    mc.Run();
+                    return mc;
+                },
+                (x) =>
+                {
                     try
                     {
                         simulationOutputs.Add(x.Results);
@@ -96,6 +103,7 @@ namespace Vts.MonteCarlo
                     }
                     catch (Exception e)
                     {
+                        _logger.Error($"An error occurred creating the simulation outputs: {e.Message}");
                     }
                 }
             );
@@ -114,11 +122,11 @@ namespace Vts.MonteCarlo
                 else
                 {
                     FileIO.CreateDirectory(Input.OutputName);
-                    SummedStatistics.ToFile(Input.OutputName + "/statistics.txt"); 
+                    SummedStatistics.ToFile(Input.OutputName + "/statistics.txt");
                 }
             }
             stopwatch.Stop();
-            _logger.Info(() => "Monte Carlo simulation complete (N = " + Input.N + 
+            _logger.Info(() => "Monte Carlo simulation complete (N = " + Input.N +
               " photons run on " + NumberOfCPUs + "CPUs; simulation time = "
                 + stopwatch.ElapsedMilliseconds / 1000f + " seconds).\r");
 
@@ -134,20 +142,20 @@ namespace Vts.MonteCarlo
                 PropertyInfo[] properties = typeof(SimulationStatistics).GetProperties();
                 //foreach (var prop in properties) // I would like to use this somehow to not have to spell out each Property
                 //{
-                    //var temp = prop.Name;
-                    statistics.NumberOfPhotonsOutTopOfTissue = stats.Select(s => s.NumberOfPhotonsOutTopOfTissue).Sum();
-                    statistics.NumberOfPhotonsOutBottomOfTissue = stats.Select(s => s.NumberOfPhotonsOutBottomOfTissue).Sum();
-                    statistics.NumberOfPhotonsAbsorbed = stats.Select(s => s.NumberOfPhotonsAbsorbed).Sum();
-                    statistics.NumberOfPhotonsSpecularReflected = stats.Select(s => s.NumberOfPhotonsSpecularReflected).Sum();
-                    statistics.NumberOfPhotonsKilledOverMaximumPathLength = stats.Select(s => s.NumberOfPhotonsKilledOverMaximumPathLength).Sum();
-                    statistics.NumberOfPhotonsKilledOverMaximumCollisions = stats.Select(s => s.NumberOfPhotonsKilledOverMaximumCollisions).Sum();
-                    statistics.NumberOfPhotonsKilledByRussianRoulette = stats.Select(s => s.NumberOfPhotonsKilledByRussianRoulette).Sum();                    
+                //var temp = prop.Name;
+                statistics.NumberOfPhotonsOutTopOfTissue = stats.Select(s => s.NumberOfPhotonsOutTopOfTissue).Sum();
+                statistics.NumberOfPhotonsOutBottomOfTissue = stats.Select(s => s.NumberOfPhotonsOutBottomOfTissue).Sum();
+                statistics.NumberOfPhotonsAbsorbed = stats.Select(s => s.NumberOfPhotonsAbsorbed).Sum();
+                statistics.NumberOfPhotonsSpecularReflected = stats.Select(s => s.NumberOfPhotonsSpecularReflected).Sum();
+                statistics.NumberOfPhotonsKilledOverMaximumPathLength = stats.Select(s => s.NumberOfPhotonsKilledOverMaximumPathLength).Sum();
+                statistics.NumberOfPhotonsKilledOverMaximumCollisions = stats.Select(s => s.NumberOfPhotonsKilledOverMaximumCollisions).Sum();
+                statistics.NumberOfPhotonsKilledByRussianRoulette = stats.Select(s => s.NumberOfPhotonsKilledByRussianRoulette).Sum();
                 //}
             }
             return statistics;
         }
         public SimulationOutput SumResultsTogether(List<SimulationOutput> results)
-        {    
+        {
             var simulationOutputKeys = results.First().ResultsDictionary.Keys;
             var simulationInput = results.First().Input;
 
@@ -194,17 +202,17 @@ namespace Vts.MonteCarlo
                     var listOfSMs = detectors.Select(d => (double[,])((dynamic)d).SecondMoment).ToList();
                     int dim1 = listOfMeans.FirstOrDefault().GetLength(0);
                     int dim2 = listOfMeans.FirstOrDefault().GetLength(1);
-                    var means = new double[dim1,dim2];
-                    var secondMoments = new double[dim1,dim2];
+                    var means = new double[dim1, dim2];
+                    var secondMoments = new double[dim1, dim2];
 
                     for (int i = 0; i < dim1; i++)
                     {
                         for (int j = 0; j < dim2; j++)
                         {
-                            means[i,j] = listOfMeans.Select(d => d[i,j]).Sum() / NumberOfCPUs;
+                            means[i, j] = listOfMeans.Select(d => d[i, j]).Sum() / NumberOfCPUs;
                             if (listOfSMs.FirstOrDefault() != null)
                             {
-                                secondMoments[i,j] = listOfSMs.Select(d => d[i,j]).Sum() / NumberOfCPUs;
+                                secondMoments[i, j] = listOfSMs.Select(d => d[i, j]).Sum() / NumberOfCPUs;
                             }
                         }
                     }
@@ -232,7 +240,7 @@ namespace Vts.MonteCarlo
                                 {
                                     secondMoments[i, j, k] = listOfSMs.Select(d => d[i, j, k]).Sum() / NumberOfCPUs;
                                 }
-                           }
+                            }
                         }
                     }
                     ((dynamic)summedSimulationOutput.ResultsDictionary[detectorName]).Mean = means;

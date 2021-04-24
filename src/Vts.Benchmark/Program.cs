@@ -8,7 +8,9 @@ namespace Vts.Benchmark
     {
         public static void Main(string[] args)
         {
-            var summary = BenchmarkRunner.Run<ParallelMonteCarloSimulation>();
+            var summary = BenchmarkRunner.Run<MonteCarloSimulation>();
+            Console.WriteLine(summary);
+            summary = BenchmarkRunner.Run<ParallelMonteCarloSimulation>();
             Console.WriteLine(summary);
         }
     }
