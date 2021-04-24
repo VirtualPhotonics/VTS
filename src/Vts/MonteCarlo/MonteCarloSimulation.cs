@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Vts.Common.Logging;
@@ -93,8 +94,11 @@ namespace Vts.MonteCarlo
         /// <param name="isParallel">A boolean for if parallel</param>
         public MonteCarloSimulation(SimulationInput input, bool isParallel)
         {
+            if (isParallel)
+            {
+                Input = input.Duplicate();
+            }
             Input = input;
-            if (isParallel) return;
             Rng = RandomNumberGeneratorFactory.GetRandomNumberGenerator(input.Options.RandomNumberGeneratorType, input.Options.Seed);
             InitializeInputs();
         }

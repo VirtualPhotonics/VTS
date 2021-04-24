@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Runtime.Serialization;
-using Vts.Extensions;
 using System.Runtime.Serialization.Formatters.Binary;
+using Vts.Extensions;
 
 
 namespace Vts.IO
@@ -16,6 +16,18 @@ namespace Vts.IO
     /// </summary>
     public static class FileIO
     {
+        /// <summary>
+        /// Serializes and deserializes an object to make a duplicate copy
+        /// </summary>
+        /// <typeparam name="T">Object Type</typeparam>
+        /// <param name="genericObject">The object to duplicate</param>
+        /// <returns>The duplicated object</returns>
+        public static T DuplicateObjectViaSerialization<T>(this T genericObject)
+        {
+            var serializedObject = genericObject.WriteToJson();
+            return serializedObject.ReadFromJson<T>();
+        }
+
         /// <summary>
         /// Static method to check if a file exists
         /// </summary>

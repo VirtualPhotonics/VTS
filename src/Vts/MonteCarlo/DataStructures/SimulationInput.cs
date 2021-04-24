@@ -133,6 +133,12 @@ namespace Vts.MonteCarlo
         {
             FileIO.WriteToJson(this, filename);
         }
+
+        public SimulationInput Duplicate()
+        {
+            return this.DuplicateObjectViaSerialization();
+        }
+
         /// <summary>
         /// Method to read SimulationInput json from file in resources
         /// </summary>
