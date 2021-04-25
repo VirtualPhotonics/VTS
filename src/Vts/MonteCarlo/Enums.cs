@@ -157,6 +157,10 @@ namespace Vts.MonteCarlo
         /// pMC diffuse reflectance
         /// </summary>
         pMCDiffuseReflectance,
+        /// <summary>
+        /// Zemax ZRD file capture of diffuse reflectance
+        /// </summary>
+        ZRDDiffuseReflectance,
     }
     /// <summary>
     /// Flag indicating whether the photon hit a actual tissue boundary or a virtual boundary

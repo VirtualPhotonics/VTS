@@ -53,6 +53,9 @@ namespace Vts.MonteCarlo.Factories
                 case DatabaseType.pMCDiffuseReflectance:
                     return new PhotonDatabaseWriter(VirtualBoundaryType.pMCDiffuseReflectance,
                         Path.Combine(filePath, outputName, "DiffuseReflectanceDatabase"));
+                case DatabaseType.ZRDDiffuseReflectance:
+                    return new PhotonDatabaseWriter(VirtualBoundaryType.DiffuseReflectance,
+                        Path.Combine(filePath, outputName, "DiffuseReflectanceDatabase"));
             }
         }
         /// <summary>

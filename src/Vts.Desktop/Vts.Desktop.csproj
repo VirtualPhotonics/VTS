@@ -1030,6 +1030,12 @@
     <Compile Include="..\Vts\MonteCarlo\Rng\SerializableMersenneTwister.cs">
       <Link>MonteCarlo\Rng\SerializableMersenneTwister.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Sources\FromFile\FromFileSourceBase.cs">
+      <Link>MonteCarlo\Sources\FromFile\FromFileSourceBase.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Sources\FromFile\ZRDFileSource.cs">
+      <Link>MonteCarlo\Sources\FromFile\ZRDFileSource.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Sources\PointAndLineSources\LineSources\CustomLineSource.cs">
       <Link>MonteCarlo\Sources\PointAndLineSources\LineSources\CustomLineSource.cs</Link>
     </Compile>
