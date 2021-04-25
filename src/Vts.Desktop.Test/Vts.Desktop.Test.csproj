@@ -241,6 +241,12 @@
     <Compile Include="..\Vts.Test\MonteCarlo\DataStructures\OutputTests.cs">
       <Link>MonteCarlo\DataStructures\OutputTests.cs</Link>
     </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\DataStructures\PhaseFunctionInputs\LookupTablePhaseFunctionInputTests.cs">
+      <Link>MonteCarlo\DataStructures\PhaseFunctionInputs\LookupTablePhaseFunctionInputTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\DataStructures\PhaseFunctionInputs\PolarLookupTablePhaseFunctionDataTest.cs">
+      <Link>MonteCarlo\DataStructures\PhaseFunctionInputs\PolarLookupTablePhaseFunctionDataTest.cs</Link>
+    </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\DataStructures\SimulationInputExtensionsTests.cs">
       <Link>MonteCarlo\DataStructures\SimulationInputExtensionsTests.cs</Link>
     </Compile>
