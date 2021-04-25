@@ -79,10 +79,10 @@ namespace Vts.MonteCarlo
                 () => new MonteCarloSimulation(Input, true),
                 (index, loop, mc) =>
                 {
-                    mc.Input.Options.SimulationIndex = index;
                     // FIX back to factory once know correct call
                     //RandomNumberGeneratorFactory.GetRandomNumberGenerator(
-                    mc.InitializeParallel(new DynamicCreatorMersenneTwister(32, 521, index, 4172, (uint)Input.Options.Seed));
+                    mc.InitializeParallel(new DynamicCreatorMersenneTwister(32, 521, index, 4172, (uint)mc.Input.Options.Seed));
+                    mc.Input.Options.SimulationIndex = index;
                     mc.Run();
                     return mc;
                 },
