@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using Vts.MonteCarlo.RayData;
+using Vts.MonteCarlo.IO;
+using Vts.MonteCarlo.PhotonData;
 
 namespace Vts.MonteCarlo.Sources
 {
@@ -8,11 +9,8 @@ namespace Vts.MonteCarlo.Sources
     /// Abstract class for FromFileSourceBase
     /// </summary>
     public abstract class FromFileSourceBase : ISource
-    {  
-        /// <summary>
-        /// Database of SourceDataPoint
-        /// </summary>
-        protected IList<RayDataPoint> _sourceDatabase;
+    {
+        protected IEnumerator<PhotonDataPoint> _enumerator;
         /// <summary>
         /// Initial tissue region index
         /// </summary>
@@ -23,9 +21,10 @@ namespace Vts.MonteCarlo.Sources
         /// Defines FromFileSourceBase class
         /// </summary>
         protected FromFileSourceBase(
-            //string sourceFileName,  // CKH:should base read in database or implementor
+            IEnumerator<PhotonDataPoint> enumerator,
             int initialTissueRegionIndex)
         {
+            _enumerator = enumerator;
             _initialTissueRegionIndex = initialTissueRegionIndex;
             index = 0;
         }
@@ -38,23 +37,22 @@ namespace Vts.MonteCarlo.Sources
         public Photon GetNextPhoton(ITissue tissue)
         {
             // read next source data point
-            var _sourceDataPoint = _sourceDatabase[index];
-            _sourceDataPoint.Weight = 1.0;
-            ++index;
+            _enumerator.MoveNext();
+            var dp = _enumerator.Current;
 
-            var photon = new Photon(_sourceDataPoint.Position, _sourceDataPoint.Direction,
-                _sourceDataPoint.Weight, tissue, _initialTissueRegionIndex, Rng);
+            var photon = new Photon(dp.Position, dp.Direction,
+            dp.Weight, tissue, _initialTissueRegionIndex, Rng); // Rng not used here
 
             return photon;
         }
 
-        #region Random number generator code (copy-paste into all sources)
-        /// <summary>
-        /// The random number generator used to create photons. If not assigned externally,
-        /// a Mersenne Twister (MathNet.Numerics.Random.MersenneTwister) will be created with
-        /// a seed of zero.
-        /// </summary>
-        public Random Rng
+    #region Random number generator code (copy-paste into all sources)
+    /// <summary>
+    /// The random number generator used to create photons. If not assigned externally,
+    /// a Mersenne Twister (MathNet.Numerics.Random.MersenneTwister) will be created with
+    /// a seed of zero.
+    /// </summary>
+    public Random Rng
         {
             get
             {

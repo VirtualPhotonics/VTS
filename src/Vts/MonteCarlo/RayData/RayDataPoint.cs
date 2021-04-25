@@ -4,8 +4,8 @@ using Vts.Common;
 namespace Vts.MonteCarlo.RayData
 {
     /// <summary>
-    /// Source Data to be read in from Ray-Tracing tool output
-    /// This is patterned after Zemax ZRD Uncompressed Full Data Format
+    /// RayDataPoint is the subset of the Ray-tracing tool ray data output that
+    /// is necessary to MCCL.
     /// </summary>
     public class RayDataPoint
     {
