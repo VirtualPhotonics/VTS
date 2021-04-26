@@ -568,6 +568,9 @@
     <Compile Include="..\Vts\MonteCarlo\Controllers\VirtualBoundaryController.cs">
       <Link>MonteCarlo\Controllers\VirtualBoundaryController.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Controllers\ZRDDatabaseWriterController.cs">
+      <Link>MonteCarlo\Controllers\ZRDDatabaseWriterController.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\DataStructuresValidation\DetectorInputs\dMCdROfRhodMuaDetectorInputValidation.cs">
       <Link>MonteCarlo\DataStructuresValidation\DetectorInputs\dMCdROfRhodMuaDetectorInputValidation.cs</Link>
     </Compile>

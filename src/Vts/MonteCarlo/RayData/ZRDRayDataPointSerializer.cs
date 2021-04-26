@@ -16,7 +16,9 @@ namespace Vts.MonteCarlo.RayData
         //            // read header information
         //            int version = br.ReadInt32();
         //            int maxSegments = br.ReadInt32();
-        int count = 208;
+        private int count = 208;
+        private static bool headerIsWritten = false;
+        private static bool headerIsRead = false;
         /// <summary>
         /// method to write ZRDDataPoint to binary HOW TO WRITE HEADER?
         /// </summary>
@@ -24,6 +26,14 @@ namespace Vts.MonteCarlo.RayData
         /// <param name="item">ZRDDataPoint</param>
         public void WriteToBinary(BinaryWriter bw, ZRDRayDataPoint item)
         {
+            if (!headerIsWritten)
+            {
+                int version = 2002;
+                bw.Write(version);
+                int maxNumberOfSegments = 500;
+                bw.Write(maxNumberOfSegments);
+                headerIsWritten = true;
+            }
             var rayDP = new ZRDRayDataPoint();
             int numSegments = 1;  // number of segments in ray_i
             bw.Write(numSegments);
@@ -93,6 +103,12 @@ namespace Vts.MonteCarlo.RayData
         /// <returns>RayDataPoint</returns>
         public ZRDRayDataPoint ReadFromBinary(BinaryReader br)
         {
+            if (!headerIsRead)
+            {
+                int version = br.ReadInt32();
+                int maxNumberOfSegments = br.ReadInt32();
+                headerIsRead = true;
+            }
             int numSegments = br.ReadInt32();  // number of segments in this ray
             var skipData = br.ReadBytes(56); // skip down to x,y,z,ux,uy,uz            
             double x = br.ReadDouble();

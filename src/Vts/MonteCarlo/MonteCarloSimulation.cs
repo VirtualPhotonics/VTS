@@ -24,7 +24,9 @@ namespace Vts.MonteCarlo
         private SimulationStatistics _simulationStatistics;
         private DatabaseWriterController _databaseWriterController = null;
         private pMCDatabaseWriterController _pMCDatabaseWriterController = null;
+        private ZRDDatabaseWriterController _ZRDDatabaseWriterController = null;
         private bool doPMC = false;
+        private bool doZRD = false;
 
         /// <summary>
         /// SimulationInput saved locally
@@ -128,7 +130,11 @@ namespace Vts.MonteCarlo
             {
                 doPMC = true;
             }
-
+            // set doZRD flag
+            if (input.Options.Databases.Any(d => d.IsZRDDatabase()))
+            {
+                doZRD = true;
+            }
             _isCancelled = false;
             _isRunning = false;
             _resultsAvailable = false;
@@ -246,9 +252,8 @@ namespace Vts.MonteCarlo
             {
                 if (_input.Options.Databases.Count() > 0)
                 {
-                    InitialDatabases(doPMC);
+                    InitialDatabases(doPMC, doZRD); 
                 }
-
                 var volumeVBs = _virtualBoundaryController.VirtualBoundaries.Where(
                     v => v.VirtualBoundaryType == VirtualBoundaryType.GenericVolumeBoundary).ToList();
 
@@ -310,7 +315,7 @@ namespace Vts.MonteCarlo
 
                     if (_input.Options.Databases.Count() > 0)
                     {
-                        WriteToDatabases(doPMC, photon);
+                        WriteToDatabases(doPMC, doZRD, photon);
                     }
 
                     // note History has possibly 2 more DPs than linux code due to 
@@ -332,7 +337,7 @@ namespace Vts.MonteCarlo
             {
                 if (_input.Options.Databases.Count() > 0)
                 {
-                    CloseDatabases(doPMC);
+                    CloseDatabases(doPMC, doZRD);
                 }
             }
 
@@ -364,41 +369,48 @@ namespace Vts.MonteCarlo
                 + stopwatch.ElapsedMilliseconds / 1000f + " seconds).\r");
         }
 
-        private void CloseDatabases(bool doPMC)
+        private void CloseDatabases(bool doPMC, bool doZRD)
         {
-            if (!doPMC)
-            {
-                _databaseWriterController.Dispose();
-            }
-            else
+            if (doPMC)
             {
                 _pMCDatabaseWriterController.Dispose();
             }
+            else
+            {
+                if (doZRD)
+                {
+                    _ZRDDatabaseWriterController.Dispose();
+                }
+                else
+                {
+                    _databaseWriterController.Dispose();
+                }
+            }
         }
 
-        private void WriteToDatabases(bool doPMC, Photon photon)
+        private void WriteToDatabases(bool doPMC, bool doZRD, Photon photon)
         {
-            if (!doPMC)
-            {
-                _databaseWriterController.WriteToSurfaceVirtualBoundaryDatabases(photon.DP);
-            }
-            else
+            if (doPMC)
             {
                 _pMCDatabaseWriterController.WriteToSurfaceVirtualBoundaryDatabases(photon.DP, photon.History.SubRegionInfoList);
             }
+            else
+            {
+                if (doZRD)
+                {
+                    _ZRDDatabaseWriterController.WriteToSurfaceVirtualBoundaryDatabases(photon.DP);
+
+                }
+                else
+                {
+                    _databaseWriterController.WriteToSurfaceVirtualBoundaryDatabases(photon.DP);
+                }
+            }
         }
 
-        private void InitialDatabases(bool doPMC)
+        private void InitialDatabases(bool doPMC, bool doZRD)
         {
-            if (!doPMC)
-            {
-                _databaseWriterController = new DatabaseWriterController(
-                    DatabaseWriterFactory.GetSurfaceVirtualBoundaryDatabaseWriters(
-                        _input.Options.Databases,
-                        _outputPath,
-                        _input.OutputName));
-            }
-            else
+            if (doPMC)
             {
                 _pMCDatabaseWriterController = new pMCDatabaseWriterController(
                     DatabaseWriterFactory.GetSurfaceVirtualBoundaryDatabaseWriters(
@@ -410,6 +422,27 @@ namespace Vts.MonteCarlo
                             _tissue,
                             _outputPath,
                             _input.OutputName));
+
+            }
+            else
+            {
+                if (doZRD)
+                {
+                    _ZRDDatabaseWriterController = new ZRDDatabaseWriterController(
+                       DatabaseWriterFactory.GetZRDSurfaceVirtualBoundaryDatabaseWriters(
+                           _input.Options.Databases,
+                           _outputPath,
+                           _input.OutputName));
+
+                }
+                else
+                {
+                    _databaseWriterController = new DatabaseWriterController(
+                       DatabaseWriterFactory.GetSurfaceVirtualBoundaryDatabaseWriters(
+                           _input.Options.Databases,
+                           _outputPath,
+                           _input.OutputName));
+                }
             }
         }
         /// <summary>

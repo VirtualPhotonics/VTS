@@ -24,6 +24,25 @@ namespace Vts.MonteCarlo.Extensions
             }
         }
         /// <summary>
+        /// Method to determine if perturbation Monte Carlo (pMC) database specified or not
+        /// </summary>
+        /// <param name="databaseType">database type</param>
+        /// <returns>true if pMC VB, false if not</returns>
+        public static bool IsZRDDatabase(this DatabaseType databaseType)
+        {
+            switch (databaseType)
+            {
+                case DatabaseType.ZRDDiffuseReflectance:
+                    return true;
+                default:
+                case DatabaseType.DiffuseReflectance:
+                case DatabaseType.DiffuseTransmittance:
+                case DatabaseType.SpecularReflectance:
+                case DatabaseType.pMCDiffuseReflectance:
+                    return false;
+            }
+        }
+        /// <summary>
         /// Method to provide VirtualBoundaryType corresponding to DatabaseType
         /// </summary>
         /// <param name="databaseType">database type</param>
