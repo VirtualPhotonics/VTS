@@ -270,8 +270,10 @@ namespace Vts.MonteCarlo
 
                 // Fluorescence Emission Volume Sources
                 "FluorescenceEmissionAOfXAndYAndZ",
-                "FluorescenceEmissionAOfRhoAndZ"
+                "FluorescenceEmissionAOfRhoAndZ",
 
+                // FROM FILE
+                "ZRDFile"
                 // ...others, based on Fluence or Radiance?                  
             };
     }

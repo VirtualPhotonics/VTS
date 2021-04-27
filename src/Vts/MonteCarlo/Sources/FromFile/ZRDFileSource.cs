@@ -21,7 +21,7 @@ namespace Vts.MonteCarlo.Sources
             string sourceFileName,
             int initialTissueRegionIndex)
         {
-            SourceType = "ZRDFileSource";
+            SourceType = "ZRDFile";
             SourceFileName = sourceFileName;
             InitialTissueRegionIndex = initialTissueRegionIndex;
         }
