@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using Vts.Common.Logging;
 using Vts.IO;
 using Vts.MonteCarlo.Rng;
-#if !DESKTOP
+#if BENCHMARK
 using BenchmarkDotNet.Attributes;
 #endif
 
@@ -56,40 +56,48 @@ namespace Vts.MonteCarlo
         /// Method to run single MC simulation in parallel
         /// </summary>
         /// <returns>array of SimulationOutput</returns>
-#if !DESKTOP
+#if BENCHMARK
         [Benchmark]
 #endif
         public SimulationOutput RunSingleInParallel()
         {
-            var parallelOptions = new ParallelOptions();
-            parallelOptions.MaxDegreeOfParallelism = NumberOfCPUs;
-            var photonsPerCPU = (int)(Input.N / NumberOfCPUs);
-            if (photonsPerCPU * NumberOfCPUs != Input.N)
+            var threads = Input.Options.SimulationIndex > NumberOfCPUs ? Input.Options.SimulationIndex : NumberOfCPUs;
+            var parallelOptions = new ParallelOptions
+            {
+                MaxDegreeOfParallelism = NumberOfCPUs
+            };
+            var photonsPerCPU = Input.N / (threads);
+            var totalPhotons = photonsPerCPU*threads;
+            if (photonsPerCPU * threads != Input.N)
             {
                 _logger.Info(() => "Note: number of photons run on each CPU = " + photonsPerCPU +
-                   " for a total of N = " + photonsPerCPU * NumberOfCPUs);
+                   " for a total of N = " + totalPhotons);
             }
             Input.N = photonsPerCPU;
             var simulationOutputs = new ConcurrentBag<SimulationOutput>();
             var simulationStatistics = new ConcurrentBag<SimulationStatistics>();
 
             var stopwatch = System.Diagnostics.Stopwatch.StartNew();
-            Parallel.For<MonteCarloSimulation>(0,
-                NumberOfCPUs, parallelOptions,
+
+            // Code for using partitions
+            var partition = Partitioner.Create(0, totalPhotons, photonsPerCPU);
+            Parallel.ForEach<Tuple<long, long>, MonteCarloSimulation>(partition, 
+                parallelOptions, 
                 () => new MonteCarloSimulation(Input, true),
-                (index, loop, mc) =>
+                (tSource, parallelLoopState, partitionIndex, monteCarloSimulation) =>
                 {
                     // FIX back to factory once know correct call
                     //RandomNumberGeneratorFactory.GetRandomNumberGenerator(
-                    mc.InitializeParallel(new DynamicCreatorMersenneTwister(32, 521, index, 4172, (uint)mc.Input.Options.Seed));
-                    mc.Input.Options.SimulationIndex = index;
-                    mc.Run();
-                    return mc;
+                    monteCarloSimulation.Input.Options.SimulationIndex = (int)partitionIndex;
+                    monteCarloSimulation.InitializeParallel(new DynamicCreatorMersenneTwister(32, 521, (int)partitionIndex, 4172, (uint)monteCarloSimulation.Input.Options.Seed));
+                    monteCarloSimulation.Run();
+                    return monteCarloSimulation;
                 },
                 (x) =>
                 {
                     try
                     {
+                        if (x.Results == null) return;
                         simulationOutputs.Add(x.Results);
                         if (x.Statistics == null) return;
                         simulationStatistics.Add(x.Statistics);
@@ -102,7 +110,7 @@ namespace Vts.MonteCarlo
             );
             // reset N back to original so that infile written to results has correct value
             var summedResults = SumResultsTogether(
-                simulationOutputs.Select(o => { o.Input.N = NumberOfCPUs * photonsPerCPU; return o; }).ToList()
+                simulationOutputs.Select(o => { o.Input.N = totalPhotons; return o; }).ToList()
             );
             SummedStatistics = SumStatisticsTogether(simulationStatistics.ToList());
             // overwrite statistics.txt file (each MC sim will write its own version)
@@ -119,8 +127,8 @@ namespace Vts.MonteCarlo
                 }
             }
             stopwatch.Stop();
-            _logger.Info(() => "Monte Carlo simulation complete (N = " + Input.N +
-              " photons run on " + NumberOfCPUs + "CPUs; simulation time = "
+            _logger.Info(() => "Monte Carlo simulation complete (N = " + totalPhotons +
+              " photons run on " + NumberOfCPUs + "CPUs with " + threads + " threads; simulation time = "
                 + stopwatch.ElapsedMilliseconds / 1000f + " seconds).\r");
 
             return summedResults;

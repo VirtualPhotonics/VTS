@@ -8,7 +8,7 @@ using Vts.IO;
 using Vts.MonteCarlo.Controllers;
 using Vts.MonteCarlo.Extensions;
 using Vts.MonteCarlo.Factories;
-#if !DESKTOP
+#if BENCHMARK
 using BenchmarkDotNet.Attributes;
 #endif
 
@@ -98,9 +98,12 @@ namespace Vts.MonteCarlo
             {
                 Input = input.Duplicate();
             }
-            Input = input;
-            Rng = RandomNumberGeneratorFactory.GetRandomNumberGenerator(input.Options.RandomNumberGeneratorType, input.Options.Seed);
-            InitializeInputs();
+            else
+            {
+                Input = input;
+                Rng = RandomNumberGeneratorFactory.GetRandomNumberGenerator(input.Options.RandomNumberGeneratorType, input.Options.Seed);
+                InitializeInputs();
+            }
         }
 
         /// <summary>
@@ -185,7 +188,7 @@ namespace Vts.MonteCarlo
         /// Run the simulation
         /// </summary>
         /// <returns>SimulationOutput</returns>
-#if !DESKTOP
+#if BENCHMARK
         [Benchmark]
 #endif
         public virtual SimulationOutput Run()

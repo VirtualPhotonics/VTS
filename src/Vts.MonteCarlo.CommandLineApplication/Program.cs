@@ -165,10 +165,10 @@ namespace Vts.MonteCarlo.CommandLineApplication
                         else
                         {
                             logger.Info(() => "number of CPUs specified as " + CPUCount);
-                            if (CPUCountInt <= Environment.ProcessorCount) return;
+                            //if (CPUCountInt <= Environment.ProcessorCount) return;
 
-                            CPUCount = Environment.ProcessorCount.ToString();
-                            logger.Info(() => "changed to maximum CPUs on system " + CPUCount);
+                            //CPUCount = Environment.ProcessorCount.ToString();
+                            //logger.Info(() => "changed to maximum CPUs on system " + CPUCount);
                             
                         }
                     }
