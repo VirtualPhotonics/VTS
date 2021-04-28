@@ -94,16 +94,10 @@ namespace Vts.MonteCarlo
         /// <param name="isParallel">A boolean for if parallel</param>
         public MonteCarloSimulation(SimulationInput input, bool isParallel)
         {
-            if (isParallel)
-            {
-                Input = input.Duplicate();
-            }
-            else
-            {
-                Input = input;
-                Rng = RandomNumberGeneratorFactory.GetRandomNumberGenerator(input.Options.RandomNumberGeneratorType, input.Options.Seed);
-                InitializeInputs();
-            }
+            Input = input;
+            if (isParallel) return;
+            Rng = RandomNumberGeneratorFactory.GetRandomNumberGenerator(input.Options.RandomNumberGeneratorType, input.Options.Seed);
+            InitializeInputs();
         }
 
         /// <summary>

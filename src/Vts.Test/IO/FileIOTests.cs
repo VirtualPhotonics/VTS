@@ -8,6 +8,7 @@ using System.Text;
 using NUnit.Framework;
 using Vts.Common;
 using Vts.IO;
+using Vts.MonteCarlo;
 
 namespace Vts.Test.IO
 {
@@ -601,6 +602,20 @@ namespace Vts.Test.IO
             Assert.IsTrue(FileIO.FileExists("bytearray.txt"));
             var data = (byte[])FileIO.ReadArrayFromBinary<byte>("bytearray", 5);
             Assert.AreEqual(data[1], 0);
+        }
+
+        /// <summary>
+        /// This unit test verifies that an object is duplicated successfully
+        /// using serialization 
+        /// </summary>
+        [Test]
+        public void Validate_duplicate_object_via_serialization()
+        {
+            var input = SimulationInputProvider.PointSourceOneLayerTissueROfRhoAndFluenceOfRhoAndZDetectors();
+            var inputCopy = input.Duplicate();
+            Assert.AreEqual(input.N, inputCopy.N);
+            input.N = 10000;
+            Assert.AreNotEqual(input.N, inputCopy.N);
         }
     }
 }

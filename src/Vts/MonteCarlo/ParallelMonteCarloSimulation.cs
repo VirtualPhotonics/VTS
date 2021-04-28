@@ -23,6 +23,7 @@ namespace Vts.MonteCarlo
         /// local variables: general
         /// </summary>
         private ILogger _logger = LoggerFactoryLocator.GetDefaultNLogFactory().Create(typeof(MonteCarloSimulation));
+
         /// <summary>
         /// SimulationInput class passed in 
         /// </summary>
@@ -30,6 +31,9 @@ namespace Vts.MonteCarlo
         /// <summary>
         /// number of CPUs
         /// </summary>
+#if BENCHMARK
+        [Params(1, 2, 4, 8)]
+#endif
         public int NumberOfCPUs { get; set; }
         /// <summary>
         /// simulation statistics
@@ -39,6 +43,7 @@ namespace Vts.MonteCarlo
         /// <summary>
         /// Class that defines methods to initialize and execute Monte Carlo simulation
         /// </summary>
+        /// <param name="input">Simulation Input</param>
         /// <param name="numberOfCPUs">number of parallel CPUs to be run</param>
         public ParallelMonteCarloSimulation(SimulationInput input, int numberOfCPUs)
         {
@@ -67,6 +72,11 @@ namespace Vts.MonteCarlo
                 MaxDegreeOfParallelism = NumberOfCPUs
             };
             var photonsPerCPU = Input.N / (threads);
+            if (photonsPerCPU < 10)
+            {
+                _logger.Error("The number of CPUs is too high for the number of photons");
+                return null;
+            }
             var totalPhotons = photonsPerCPU*threads;
             if (photonsPerCPU * threads != Input.N)
             {
@@ -83,7 +93,7 @@ namespace Vts.MonteCarlo
             var partition = Partitioner.Create(0, totalPhotons, photonsPerCPU);
             Parallel.ForEach<Tuple<long, long>, MonteCarloSimulation>(partition, 
                 parallelOptions, 
-                () => new MonteCarloSimulation(Input, true),
+                () => new MonteCarloSimulation(Input.Duplicate(), true),
                 (tSource, parallelLoopState, partitionIndex, monteCarloSimulation) =>
                 {
                     // FIX back to factory once know correct call
