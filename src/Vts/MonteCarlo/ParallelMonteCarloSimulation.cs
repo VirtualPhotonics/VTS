@@ -27,12 +27,20 @@ namespace Vts.MonteCarlo
         /// <summary>
         /// SimulationInput class passed in 
         /// </summary>
+#if BENCHMARK
+        [ParamsSource(nameof(SimulationInputs))]
+#endif
         public SimulationInput Input { get; set; }
         /// <summary>
         /// number of CPUs
         /// </summary>
 #if BENCHMARK
-        [Params(1, 2, 4, 8)]
+        public IEnumerable<object> SimulationInputs()
+        {
+            yield return new SimulationInput { N = 10000 };
+        }
+
+        [Params(2, 4, 8)]
 #endif
         public int NumberOfCPUs { get; set; }
         /// <summary>
@@ -47,9 +55,11 @@ namespace Vts.MonteCarlo
         /// <param name="numberOfCPUs">number of parallel CPUs to be run</param>
         public ParallelMonteCarloSimulation(SimulationInput input, int numberOfCPUs)
         {
+#if !BENCHMARK
             Input = input;
             // all field/property defaults should be set here
             NumberOfCPUs = numberOfCPUs;
+#endif
         }
 
         /// <summary>
