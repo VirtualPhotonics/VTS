@@ -18,27 +18,27 @@ namespace Vts.MonteCarlo
         /// <summary>
         /// string name of output file
         /// </summary>
-        public string OutputName;
+        public string OutputName { get; set; }
         /// <summary>
         /// number of photons launched from source
         /// </summary>
-        public long N;
+        public long N { get; set; }
         /// <summary>
         /// SimulationOptions specify, for example, absorption weighting type
         /// </summary>
-        public SimulationOptions Options;
+        public SimulationOptions Options { get; set; }
         /// <summary>
         /// source input (ISourceInput)
         /// </summary>
-        public ISourceInput SourceInput;
+        public ISourceInput SourceInput { get; set; }
         /// <summary>
         /// tissue input (ITissueInput)
         /// </summary>
-        public ITissueInput TissueInput;
+        public ITissueInput TissueInput { get; set; }
         /// <summary>
         /// detector input (IList of IDetectorInput)
         /// </summary>
-        public IList<IDetectorInput> DetectorInputs;
+        public IList<IDetectorInput> DetectorInputs { get; set; }
 
         /// <summary>
         /// Monte Carlo simulation input data
@@ -131,7 +131,7 @@ namespace Vts.MonteCarlo
         /// <param name="filename">string filename to write to</param>
         public void ToFile(string filename)
         {
-            FileIO.WriteToJson(this, filename);
+            this.WriteToJson(filename);
         }
 
         public SimulationInput Duplicate()

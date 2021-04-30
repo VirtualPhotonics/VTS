@@ -22,7 +22,7 @@ namespace Vts.MonteCarlo
         /// <summary>
         /// local variables: general
         /// </summary>
-        private ILogger _logger = LoggerFactoryLocator.GetDefaultNLogFactory().Create(typeof(MonteCarloSimulation));
+        private readonly ILogger _logger = LoggerFactoryLocator.GetDefaultNLogFactory().Create(typeof(MonteCarloSimulation));
 
         /// <summary>
         /// SimulationInput class passed in 
@@ -37,10 +37,10 @@ namespace Vts.MonteCarlo
 #if BENCHMARK
         public IEnumerable<object> SimulationInputs()
         {
-            yield return new SimulationInput { N = 10000 };
+            yield return new SimulationInput { N = 100 };
         }
 
-        [Params(2, 4, 8)]
+        [Params(4)]
 #endif
         public int NumberOfCPUs { get; set; }
         /// <summary>
@@ -57,7 +57,6 @@ namespace Vts.MonteCarlo
         {
 #if !BENCHMARK
             Input = input;
-            // all field/property defaults should be set here
             NumberOfCPUs = numberOfCPUs;
 #endif
         }
@@ -76,12 +75,12 @@ namespace Vts.MonteCarlo
 #endif
         public SimulationOutput RunSingleInParallel()
         {
-            var threads = Input.Options.SimulationIndex > NumberOfCPUs ? Input.Options.SimulationIndex : NumberOfCPUs;
+            var threads = NumberOfCPUs;
             var parallelOptions = new ParallelOptions
             {
                 MaxDegreeOfParallelism = NumberOfCPUs
             };
-            var photonsPerCPU = Input.N / (threads);
+            var photonsPerCPU = Input.N / threads;
             if (photonsPerCPU < 10)
             {
                 _logger.Error("The number of CPUs is too high for the number of photons");
@@ -154,6 +153,11 @@ namespace Vts.MonteCarlo
             return summedResults;
         }
 
+        /// <summary>
+        /// Sums the statistics from the list of SimulationStatistics
+        /// </summary>
+        /// <param name="stats">The list of SimulationStatistics</param>
+        /// <returns>One instance of SimulationStatistics</returns>
         public SimulationStatistics SumStatisticsTogether(List<SimulationStatistics> stats)
         {
             SimulationStatistics statistics = new SimulationStatistics();
@@ -175,6 +179,12 @@ namespace Vts.MonteCarlo
             }
             return statistics;
         }
+
+        /// <summary>
+        /// Sums the results from the list of SimulationOutputs
+        /// </summary>
+        /// <param name="results">List of SimulationOutputs</param>
+        /// <returns>One instance of SimulationOutput</returns>
         public SimulationOutput SumResultsTogether(List<SimulationOutput> results)
         {
             var simulationOutputKeys = results.First().ResultsDictionary.Keys;
