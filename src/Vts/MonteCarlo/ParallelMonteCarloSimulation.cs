@@ -102,7 +102,7 @@ namespace Vts.MonteCarlo
             var partition = Partitioner.Create(0, totalPhotons, photonsPerCPU);
             Parallel.ForEach<Tuple<long, long>, MonteCarloSimulation>(partition, 
                 parallelOptions, 
-                () => new MonteCarloSimulation(Input.Duplicate(), true),
+                () => new MonteCarloSimulation(Input.Clone(), true),
                 (tSource, parallelLoopState, partitionIndex, monteCarloSimulation) =>
                 {
                     // FIX back to factory once know correct call

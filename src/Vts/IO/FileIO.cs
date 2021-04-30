@@ -17,18 +17,6 @@ namespace Vts.IO
     public static class FileIO
     {
         /// <summary>
-        /// Serializes and deserializes an object to make a duplicate copy
-        /// </summary>
-        /// <typeparam name="T">Object Type</typeparam>
-        /// <param name="genericObject">The object to duplicate</param>
-        /// <returns>The duplicated object</returns>
-        public static T DuplicateObjectViaSerialization<T>(this T genericObject)
-        {
-            var serializedObject = genericObject.WriteToJson();
-            return serializedObject.ReadFromJson<T>();
-        }
-
-        /// <summary>
         /// Static method to check if a file exists
         /// </summary>
         /// <param name="fileName">Name of the file</param>
@@ -79,8 +67,8 @@ namespace Vts.IO
         /// <returns>A clone of the object</returns>
         public static T Clone<T>(this T myObject)
         {
-            var serialized = VtsJsonSerializer.WriteToJson(myObject);
-            return VtsJsonSerializer.ReadFromJson<T>(serialized);
+            var serialized = myObject.WriteToJson();
+            return serialized.ReadFromJson<T>();
         }
 
         /// <summary>

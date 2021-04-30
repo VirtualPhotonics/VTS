@@ -609,10 +609,10 @@ namespace Vts.Test.IO
         /// using serialization 
         /// </summary>
         [Test]
-        public void Validate_duplicate_object_via_serialization()
+        public void Validate__object_clone()
         {
             var input = SimulationInputProvider.PointSourceOneLayerTissueROfRhoAndFluenceOfRhoAndZDetectors();
-            var inputCopy = input.Duplicate();
+            var inputCopy = input.Clone();
             Assert.AreEqual(input.N, inputCopy.N);
             input.N = 10000;
             Assert.AreNotEqual(input.N, inputCopy.N);
