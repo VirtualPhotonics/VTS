@@ -39,7 +39,7 @@ namespace Vts.MonteCarlo.Factories
                 case RandomNumberGeneratorType.DynamicCreatorMersenneTwister:
                     // Word Length is either 31 or 32
                     // Period Exponent is set to 521 to be sufficiently large to cover the number of photons on each thread
-                    // Stream Seed 
+                    // Stream Seed is seed to obtain stream, this can be fixed if index is varying
                     return index != null ? new Rng.DynamicCreatorMersenneTwister(32, 521, (int) index, 4172, (uint) seed) : new Rng.DynamicCreatorMersenneTwister(seed);
                 default:
                     throw new ArgumentOutOfRangeException("type");
