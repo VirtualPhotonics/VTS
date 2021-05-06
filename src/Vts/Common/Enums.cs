@@ -635,6 +635,10 @@ namespace Vts
         /// (http://www.math.sci.hiroshima-u.ac.jp/~m-mat/MT/DC/dc.html)
         /// </summary>
         DynamicCreatorMersenneTwister,
+        /// <summary>
+        /// MathNet Numerics random nummber generator, inherited so it can be serialized
+        /// </summary>
+        SerializableMersenneTwister
     }
 
     #region Spectral Mapping Enums

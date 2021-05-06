@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MathNet.Numerics.Random;
+using System;
 using Vts.IO;
 
 namespace Vts.MonteCarlo.Rng
@@ -7,7 +8,7 @@ namespace Vts.MonteCarlo.Rng
     /// This class creates a serializable representation of the Mersenne Twister class.
     /// Code from MathNet Numerics.
     /// </summary>
-    public class SerializableMersenneTwister : MathNet.Numerics.Random.RandomSource
+    public class SerializableMersenneTwister : RandomSource
     {
         /// <summary>
         /// Mersenne twister constant.

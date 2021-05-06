@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Vts.Common.Logging;
 using Vts.IO;
+using Vts.MonteCarlo.Factories;
 using Vts.MonteCarlo.Rng;
 #if BENCHMARK
 using BenchmarkDotNet.Attributes;
@@ -105,10 +106,8 @@ namespace Vts.MonteCarlo
                 () => new MonteCarloSimulation(Input.Clone(), true),
                 (tSource, parallelLoopState, partitionIndex, monteCarloSimulation) =>
                 {
-                    // FIX back to factory once know correct call
-                    //RandomNumberGeneratorFactory.GetRandomNumberGenerator(
                     monteCarloSimulation.Input.Options.SimulationIndex = (int)partitionIndex;
-                    monteCarloSimulation.InitializeParallel(new DynamicCreatorMersenneTwister(32, 521, (int)partitionIndex, 4172, (uint)monteCarloSimulation.Input.Options.Seed));
+                    monteCarloSimulation.InitializeParallel(RandomNumberGeneratorFactory.GetRandomNumberGenerator(RandomNumberGeneratorType.DynamicCreatorMersenneTwister, monteCarloSimulation.Input.Options.Seed, (int)partitionIndex)); 
                     monteCarloSimulation.Run();
                     return monteCarloSimulation;
                 },
