@@ -42,9 +42,10 @@ namespace Vts.Test.MonteCarlo
                 Assert.IsTrue(Math.Abs(RN - cCodeResultsRNs[i]) < 0.000001);
             }
         }
+
         /// <summary>
         /// This tries to find three independent small Mersenne Twisters
-        ///   with period 2^521-1.
+        /// with period 2^521-1.  Some comments show the original C code lines.
         /// </summary>
         [Test]
         public void validate_results_agree_with_c_code_new_example2()
@@ -81,6 +82,7 @@ namespace Vts.Test.MonteCarlo
                 Assert.AreEqual(rng2.NextDouble() / reciprocal, cCodeResultsUints[2, i]);
             }
         }
+
         /// <summary>
         /// This tries to find three independent small Mersenne Twisters
         /// with period 2^521-1.  Cannot return multiple samples with the signature
@@ -111,13 +113,48 @@ namespace Vts.Test.MonteCarlo
                 rng.sgenrand_mt((uint)seed[i], ref mtss[i]);
             }
             // compare output of mts0, mts1, mts2, ten times */
-
             for (int i = 0; i < 10; i++)
             {
                 for (int j = 0; j < count; j++)
                 {
                     Assert.AreEqual(rng.genrand_mt(ref mtss[j]), cCodeResultsUints[j, i]);
                 }
+            }
+        }
+        /// <summary>
+        /// This verifies that the streamSeed and the seed are both needed
+        /// to reproduce results.
+        /// </summary>
+        [Test]
+        public void validate_reproducibility_of_results()
+        {
+            // use first row of validation data from example 2
+            uint[] cCodeResultsUints = new uint[10]
+             { 1383339478, 2005363733, 4036914666, 3582104924, 1005457172,
+                3153157470, 3681386243, 436138401,  3646769885, 389240451
+             };
+            uint seed = 1234;
+            uint streamSeed = 4172;
+            // instantiate class
+            var rng0 = new DynamicCreatorMersenneTwister(32, 521, 0, streamSeed, seed);
+            for (int i = 0; i < 10; i++)
+            {
+                Assert.AreEqual(rng0.NextDouble() / reciprocal, cCodeResultsUints[i]);
+            }
+            // change only seed and verify results no longer match
+            seed = 5678;
+            rng0 = new DynamicCreatorMersenneTwister(32, 521, 0, streamSeed, seed);
+            for (int i = 0; i < 10; i++)
+            {
+                Assert.AreNotEqual(rng0.NextDouble() / reciprocal, cCodeResultsUints[i]);
+            }
+            // change only streamSeed and verify results no longer match
+            seed = 1234;  // set back to original value
+            streamSeed = 2714;
+            rng0 = new DynamicCreatorMersenneTwister(32, 521, 0, streamSeed, seed);
+            for (int i = 0; i < 10; i++)
+            {
+                Assert.AreNotEqual(rng0.NextDouble() / reciprocal, cCodeResultsUints[i]);
             }
         }
     }
