@@ -13,14 +13,11 @@ namespace Vts.MonteCarlo.RayData
         ICustomBinaryReader<ZRDRayDataPoint>, 
         ICustomBinaryWriter<ZRDRayDataPoint>
     {
-        //            // read header information
-        //            int version = br.ReadInt32();
-        //            int maxSegments = br.ReadInt32();
         private int count = 208;
         private static bool headerIsWritten = false;
         private static bool headerIsRead = false;
         /// <summary>
-        /// method to write ZRDDataPoint to binary HOW TO WRITE HEADER?
+        /// Method to write ZRDDataPoint to binary. Header is written only first time through.
         /// </summary>
         /// <param name="bw">BinaryWriter</param>
         /// <param name="item">ZRDDataPoint</param>
@@ -34,70 +31,72 @@ namespace Vts.MonteCarlo.RayData
                 bw.Write(maxNumberOfSegments);
                 headerIsWritten = true;
             }
-            var rayDP = new ZRDRayDataPoint();
-            int numSegments = 1;  // number of segments in ray_i
+            int numSegments = 2;  // number of segments in ray_i
             bw.Write(numSegments);
-            // rest of these until x,y,z set to 0
-            rayDP.status = 0;
-            bw.Write(rayDP.status);
-            rayDP.level = 0;
-            bw.Write(rayDP.level);
-            rayDP.hitObject = 0;
-            bw.Write(rayDP.hitObject);
-            rayDP.hitFace = 0;
-            bw.Write(rayDP.hitFace);
-            rayDP.unused = 0;
-            bw.Write(rayDP.unused);
-            rayDP.inObject = 0;
-            bw.Write(rayDP.inObject);
-            rayDP.parent = 0;
-            bw.Write(rayDP.parent);
-            rayDP.storage = 0;
-            bw.Write(rayDP.storage);
-            rayDP.xyBin = 0;
-            bw.Write(rayDP.xyBin);
-            rayDP.lmBin = 0;
-            bw.Write(rayDP.lmBin);
-            rayDP.index = 0;
-            bw.Write(rayDP.index);
-            rayDP.startingPhase = 0;
-            bw.Write(rayDP.startingPhase);
-            // write data from rayDataPointsList
-            bw.Write(item.X);
-            bw.Write(item.Y);
-            bw.Write(item.Z);
-            bw.Write(item.Ux);
-            bw.Write(item.Uy);
-            bw.Write(item.Uz);
-            rayDP.nx = 0.0;
-            bw.Write(rayDP.nx);
-            rayDP.ny = 0.0;
-            bw.Write(rayDP.ny);
-            rayDP.nz = 0.0;
-            bw.Write(rayDP.nz);
-            rayDP.pathTo = 0.0;
-            bw.Write(rayDP.pathTo);
-            // write weight into intensity field
-            bw.Write(item.Weight);
-            rayDP.phaseOf = 0.0;
-            bw.Write(rayDP.phaseOf);
-            rayDP.phaseAt = 0.0;
-            bw.Write(rayDP.phaseAt);
-            rayDP.exr = 0.0;
-            bw.Write(rayDP.exr);
-            rayDP.exi = 0.0;
-            bw.Write(rayDP.exi);
-            rayDP.eyr = 0.0;
-            bw.Write(rayDP.eyr);
-            rayDP.eyi = 0.0;
-            bw.Write(rayDP.eyi);
-            rayDP.ezr = 0.0;
-            bw.Write(rayDP.ezr);
-            rayDP.ezi = 0.0;
-            bw.Write(rayDP.ezi);
+            for (int i = 0; i < numSegments; i++) // write same rayDP twice to make ray
+            {
+                var rayDP = new ZRDRayDataPoint();
+                // rest of these until x,y,z set to 0
+                rayDP.status = 0;
+                bw.Write(rayDP.status);
+                bw.Write(i); // level: should match segment#
+                rayDP.hitObject = 0;
+                bw.Write(rayDP.hitObject);
+                rayDP.hitFace = 0;
+                bw.Write(rayDP.hitFace);
+                rayDP.unused = 0;
+                bw.Write(rayDP.unused);
+                rayDP.inObject = 0;
+                bw.Write(rayDP.inObject);
+                rayDP.parent = 0;
+                bw.Write(rayDP.parent);
+                rayDP.storage = 0;
+                bw.Write(rayDP.storage);
+                rayDP.xyBin = 0;
+                bw.Write(rayDP.xyBin);
+                rayDP.lmBin = 0;
+                bw.Write(rayDP.lmBin);
+                rayDP.index = 0;
+                bw.Write(rayDP.index);
+                rayDP.startingPhase = 0;
+                bw.Write(rayDP.startingPhase);
+                // write data from rayDataPointsList
+                bw.Write(item.X);
+                bw.Write(item.Y);
+                bw.Write(item.Z);
+                bw.Write(item.Ux);
+                bw.Write(item.Uy);
+                bw.Write(item.Uz);
+                rayDP.nx = 0.0;
+                bw.Write(rayDP.nx);
+                rayDP.ny = 0.0;
+                bw.Write(rayDP.ny);
+                rayDP.nz = 0.0;
+                bw.Write(rayDP.nz);
+                rayDP.pathTo = 0.0;
+                bw.Write(rayDP.pathTo);
+                // write weight into intensity field
+                bw.Write(item.Weight);
+                rayDP.phaseOf = 0.0;
+                bw.Write(rayDP.phaseOf);
+                rayDP.phaseAt = 0.0;
+                bw.Write(rayDP.phaseAt);
+                rayDP.exr = 0.0;
+                bw.Write(rayDP.exr);
+                rayDP.exi = 0.0;
+                bw.Write(rayDP.exi);
+                rayDP.eyr = 0.0;
+                bw.Write(rayDP.eyr);
+                rayDP.eyi = 0.0;
+                bw.Write(rayDP.eyi);
+                rayDP.ezr = 0.0;
+                bw.Write(rayDP.ezr);
+                rayDP.ezi = 0.0;
+                bw.Write(rayDP.ezi);
+            }
         }
         /// <summary>
-        /// method to read PhotonDataPoint from binary.  HOW TO READ HEADER?
+        /// Method to read PhotonDataPoint from binary.  Header info is only read first time through.
         /// </summary>
         /// <param name="br">BinaryReader</param>
         /// <returns>RayDataPoint</returns>
@@ -110,7 +109,9 @@ namespace Vts.MonteCarlo.RayData
                 headerIsRead = true;
             }
             int numSegments = br.ReadInt32();  // number of segments in this ray
-            var skipData = br.ReadBytes(56); // skip down to x,y,z,ux,uy,uz            
+            // skip until last  segment
+            var skipData = br.ReadBytes((numSegments - 1) * count);
+            skipData = br.ReadBytes(56); // skip down to x,y,z,ux,uy,uz            
             double x = br.ReadDouble();
             double y = br.ReadDouble();
             double z = br.ReadDouble();
@@ -120,8 +121,6 @@ namespace Vts.MonteCarlo.RayData
             skipData = br.ReadBytes(32); // skip to intensity
             double weight = br.ReadDouble();
             skipData = br.ReadBytes(64); // skip to end of ZRDRayDataPoint
-                                         // skip rest of rays in segment
-            skipData = br.ReadBytes((numSegments - 1) * count);
             return new ZRDRayDataPoint()
             {
                 X = x,
