@@ -3,9 +3,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text.RegularExpressions;
 using NLog;
-using Vts.Common;
 using Vts.Common.Logging;
 
 namespace Vts.MonteCarlo.CommandLineApplication
@@ -78,7 +78,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
     /// </summary>
     public static class Program
     {
-        private static Vts.Common.Logging.ILogger logger = LoggerFactoryLocator.GetDefaultNLogFactory().Create(typeof(Program));
+        private static Common.Logging.ILogger logger = LoggerFactoryLocator.GetDefaultNLogFactory().Create(typeof(Program));
 
         /// <summary>
         /// main Monte Carlo CommandLine (MCCL) application
@@ -96,12 +96,13 @@ namespace Vts.MonteCarlo.CommandLineApplication
             List<string> inFiles = new List<string>();
             string outName = "";
             string outPath = "";
+            string CPUCount = "1"; // default is to use 1
             bool infoOnlyOption = false;
             IList<ParameterSweep> paramSweep = new List<ParameterSweep>();
 
             args.Process(() =>
                {
-                   logger.Info("\nVirtual Photonics MC 1.0\n");
+                   logger.Info($"\nVirtual Photonics MC {GetVersionNumber(3)}\n");
                    logger.Info("For more information type mc help");
                    logger.Info("For help on a specific topic type mc.exe help=<topicname>\n");
             },
@@ -147,6 +148,31 @@ namespace Vts.MonteCarlo.CommandLineApplication
                    outPath = val.First();
                    logger.Info(() => "output path specified as " + outPath);
                    //MonteCarloSetup.OutputFolder = val.First();
+               }),
+               new CommandLine.Switch("cpucount", val =>
+               {
+                    CPUCount = val.First();
+                    if (CPUCount == "all")
+                    {
+                        CPUCount = Environment.ProcessorCount.ToString();
+                        logger.Info(() => "changed to maximum CPUs on system " + CPUCount);
+                    }
+                    else
+                    {
+                        if (!int.TryParse(CPUCount, out var CPUCountInt))
+                        {
+                            logger.Info(() => "unknown cpucount option " + CPUCount);
+                        }
+                        else
+                        {
+                            logger.Info(() => "number of CPUs specified as " + CPUCount);
+                            //if (CPUCountInt <= Environment.ProcessorCount) return;
+
+                            //CPUCount = Environment.ProcessorCount.ToString();
+                            //logger.Info(() => "changed to maximum CPUs on system " + CPUCount);
+                            
+                        }
+                    }
                }),
                new CommandLine.Switch("paramsweep", val =>
                {
@@ -230,7 +256,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
                         
                     }
 
-                    MonteCarloSetup.RunSimulations(inputs, outPath);
+                    MonteCarloSetup.RunSimulations(inputs, outPath, int.Parse(CPUCount));
                     logger.Info("\nSimulations complete.");
                     return 0;
                 }
@@ -250,7 +276,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
                         input.OutputName = outName;
                     }
 
-                    MonteCarloSetup.RunSimulation(input, outPath);
+                    MonteCarloSetup.RunSimulation(input, outPath, int.Parse(CPUCount));
                     logger.Info("\nSimulation complete.");
                     return 0;
                 }
@@ -276,12 +302,13 @@ namespace Vts.MonteCarlo.CommandLineApplication
         /// </summary>
         private static void ShowHelp()
         {
-            logger.Info("Virtual Photonics MC 1.0");
-            logger.Info("\nFor more detailed help type mc.exe help=<topicname>");
+            logger.Info($"Virtual Photonics MC {GetVersionNumber(3)}");
+            logger.Info("\nFor more detailed help type dotnet mc.dll help=<topicname>");
             logger.Info("\nlist of arguments:");
             logger.Info("\ninfile\t\tthe input file, accepts relative and absolute paths");
             logger.Info("outpath\t\tthe output path, accepts relative and absolute paths");
             logger.Info("outname\t\toutput name, this value is appended for a parameter sweep");
+            logger.Info("cpucount\tnumber of CPUs, default is 1");
             logger.Info("paramsweep\ttakes the sweep parameter name and values in the format:");
             logger.Info("\t\tparamsweep=<SweepParameterType>,Start,Stop,Count");
             logger.Info("paramsweepdelta\ttakes the sweep parameter name and values in the format:");
@@ -303,8 +330,9 @@ namespace Vts.MonteCarlo.CommandLineApplication
             logger.Info("musi\t\tscattering coefficient for tissue layer i");
             logger.Info("ni\t\trefractive index for tissue layer i");
             logger.Info("gi\t\tanisotropy for tissue layer i");
+            logger.Info("\nnphot\t\tnumber of photons to launch from the source");
             logger.Info("\nsample usage:");
-            logger.Info("\nmc.exe infile=myinput outname=myoutput paramsweep=mua1,0.01,0.04,4 paramsweep=mus1,10,20,2");
+            logger.Info("dotnet mc.dll infile=myinput outname=myoutput paramsweep=mua1,0.01,0.04,4 paramsweep=mus1,10,20,2 paramsweep=nphot,1000000,2000000,2\n");
         }
 
         /// <summary>
@@ -341,6 +369,12 @@ namespace Vts.MonteCarlo.CommandLineApplication
                     logger.Info("EXAMPLE:");
                     logger.Info("\toutname=mcResults");
                     break;
+                case "cpucount":
+                    logger.Info("\nCPUCOUNT");
+                    logger.Info("The cpucount specifies the number of CPUs utilized to process a single simulation.");
+                    logger.Info("EXAMPLE:");
+                    logger.Info("\tcpucount=4");
+                    break;
                 case "paramsweep":
                     logger.Info("\nPARAMSWEEP");
                     logger.Info("Defines the parameter sweep and its values.");
@@ -371,6 +405,26 @@ namespace Vts.MonteCarlo.CommandLineApplication
                 default:
                     ShowHelp();
                     break;
+            }
+        }
+
+        private static string GetVersionNumber(uint limiter = 0)
+        {
+            switch (limiter)
+            {
+                case 1:
+                    return
+                        $"{Assembly.GetExecutingAssembly().GetName().Version.Major}";
+                case 2:
+                    return
+                        $"{Assembly.GetExecutingAssembly().GetName().Version.Major}.{Assembly.GetExecutingAssembly().GetName().Version.Minor}";
+                case 3:
+                    return
+                        $"{Assembly.GetExecutingAssembly().GetName().Version.Major}.{Assembly.GetExecutingAssembly().GetName().Version.Minor}.{Assembly.GetExecutingAssembly().GetName().Version.Build}";
+                default:
+                    return
+                        $"{Assembly.GetExecutingAssembly().GetName().Version}";
+
             }
         }
     }

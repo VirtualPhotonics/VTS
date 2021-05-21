@@ -337,6 +337,9 @@
     <Compile Include="..\Vts.Test\MonteCarlo\MonteCarloSimulationTests.cs">
       <Link>MonteCarlo\MonteCarloSimulationTests.cs</Link>
     </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\ParallelMonteCarloSimulationTests.cs">
+      <Link>MonteCarlo\ParallelMonteCarloSimulationTests.cs</Link>
+    </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\PhotonData\CollisionInfoDatabaseTests.cs">
       <Link>MonteCarlo\PhotonData\CollisionInfoDatabaseTests.cs</Link>
     </Compile>
@@ -348,6 +351,9 @@
     </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\PostProcessing\PhotonDatabasePostProcessorTests.cs">
       <Link>MonteCarlo\PostProcessing\PhotonDatabasePostProcessorTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Rng\DynamicCreatorMersenneTwisterTests.cs">
+      <Link>MonteCarlo\Rng\DynamicCreatorMersenneTwisterTests.cs</Link>
     </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\Rng\SerializableMersenneTwisterTests.cs">
       <Link>MonteCarlo\Rng\SerializableMersenneTwisterTests.cs</Link>

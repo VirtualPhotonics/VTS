@@ -3,7 +3,7 @@ using NUnit.Framework;
 using Vts.IO;
 using Vts.MonteCarlo.Rng;
 
-namespace Vts.Test.Common
+namespace Vts.Test.MonteCarlo
 {
     [TestFixture] 
     public class SerializableMersenneTwisterTests
