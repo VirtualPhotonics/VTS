@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Runtime.Serialization;
-using Vts.Extensions;
 using System.Runtime.Serialization.Formatters.Binary;
+using Vts.Extensions;
 
 
 namespace Vts.IO
@@ -67,8 +67,8 @@ namespace Vts.IO
         /// <returns>A clone of the object</returns>
         public static T Clone<T>(this T myObject)
         {
-            var serialized = VtsJsonSerializer.WriteToJson(myObject);
-            return VtsJsonSerializer.ReadFromJson<T>(serialized);
+            var serialized = myObject.WriteToJson();
+            return serialized.ReadFromJson<T>();
         }
 
         /// <summary>

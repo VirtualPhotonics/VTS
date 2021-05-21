@@ -970,6 +970,9 @@
     <Compile Include="..\Vts\MonteCarlo\MonteCarloSimulation.cs">
       <Link>MonteCarlo\MonteCarloSimulation.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\ParallelMonteCarloSimulation.cs">
+      <Link>MonteCarlo\ParallelMonteCarloSimulation.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Photon.cs">
       <Link>MonteCarlo\Photon.cs</Link>
     </Compile>
@@ -1026,6 +1029,9 @@
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\RayData\ZRDRayDataPointSerializer.cs">
       <Link>MonteCarlo\RayData\ZRDRayDataPointSerializer.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Rng\DynamicCreatorMersenneTwister.cs">
+      <Link>MonteCarlo\Rng\DynamicCreatorMersenneTwister.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Rng\MersenneTwisterSerializationInfo.cs">
       <Link>MonteCarlo\Rng\MersenneTwisterSerializationInfo.cs</Link>

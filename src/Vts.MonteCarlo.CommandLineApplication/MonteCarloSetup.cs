@@ -154,29 +154,36 @@ namespace Vts.MonteCarlo.CommandLineApplication
             return SimulationInputValidation.ValidateInput(input);
         }
 
-        public static void RunSimulation(SimulationInput input, string outputFolderPath)
+        public static void RunSimulation(SimulationInput input, string outputFolderPath, int numberOfCPUs)
         {
-            var mc = new MonteCarloSimulation(input);
-
             // locate root folder for output, creating it if necessary
-            var path = string.IsNullOrEmpty(outputFolderPath) 
-                ? Path.GetFullPath(Directory.GetCurrentDirectory()) 
+            var path = string.IsNullOrEmpty(outputFolderPath)
+                ? Path.GetFullPath(Directory.GetCurrentDirectory())
                 : Path.GetFullPath(outputFolderPath);
             if (!Directory.Exists(path))
             {
                 Directory.CreateDirectory(path);
             }
-            
+
             // locate destination folder for output, creating it if necessary
             var resultsFolder = Path.Combine(path, input.OutputName);
             if (!Directory.Exists(resultsFolder))
             {
                 Directory.CreateDirectory(resultsFolder);
             }
-
-            mc.SetOutputPathForDatabases(path);
-
-            SimulationOutput detectorResults = mc.Run();
+            SimulationOutput detectorResults;
+            if (numberOfCPUs > 1)
+            {
+                var parallelMC = new ParallelMonteCarloSimulation(input, numberOfCPUs);
+                //parallelMC.SetOutputPathForDatabases(path); // no inheritance of MonteCarloSimulation class
+                detectorResults = parallelMC.RunSingleInParallel();
+            }
+            else
+            {
+                var mc = new MonteCarloSimulation(input);
+                mc.SetOutputPathForDatabases(path);
+                detectorResults = mc.Run();
+            }
 
             input.ToFile(Path.Combine(resultsFolder, input.OutputName + ".txt"));
 
@@ -187,16 +194,29 @@ namespace Vts.MonteCarlo.CommandLineApplication
             }
         }
 
+        ///// <summary>
+        ///// Runs multiple Monte Carlo simulations in parallel using all available CPU cores
+        ///// </summary>
+        //public static void RunSimulations(IEnumerable<SimulationInput> inputs, string outputFolderPath)
+        //{
+        //    var options = new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount};
+        //    Parallel.ForEach(inputs, options, (input, state, index) =>
+        //    {
+        //        input.Options.SimulationIndex = (int)index;
+        //        RunSimulation(input, outputFolderPath, 1);
+        //    });
+        //}
+
         /// <summary>
         /// Runs multiple Monte Carlo simulations in parallel using all available CPU cores
         /// </summary>
-        public static void RunSimulations(IEnumerable<SimulationInput> inputs, string outputFolderPath)
+        public static void RunSimulations(IEnumerable<SimulationInput> inputs, string outputFolderPath, int numberOfCPUs)
         {
-            var options = new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount};
+            var options = new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount };
             Parallel.ForEach(inputs, options, (input, state, index) =>
             {
                 input.Options.SimulationIndex = (int)index;
-                RunSimulation(input, outputFolderPath);
+                RunSimulation(input, outputFolderPath, numberOfCPUs);
             });
         }
     }

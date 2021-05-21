@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+//using BenchmarkDotNet.Running;
 using NUnit.Framework;
 using Vts.IO;
 
@@ -393,20 +394,36 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
             Assert.IsTrue(Directory.Exists("fluorescence_emission_AOfXAndYAndZ_source_infinite_cylinder"));
             Assert.IsTrue(File.Exists("fluorescence_emission_AOfXAndYAndZ_source_infinite_cylinder/ROfXAndY"));
         }
-        // removed because not a good way to text whether MCCL is taking longer to execute.
-        ///// <summary>
-        ///// Test to keep an eye on if the MC execution time is growing.
-        ///// First test simple infile with 
-        ///// </summary>
-        //[Test]
-        //public void verify_timing_of_execution()
-        //{
-        //    string[] arguments = new string[] { "infile=infile_infinite_cylinder_ROfRho_FluenceOfRhoAndZ.txt" };
-        //    Stopwatch stopwatch = Stopwatch.StartNew();
-        //    Program.Main(arguments);
-        //    stopwatch.Stop();
-        //    // verify infile gets written to output folder
-        //    Assert.Less(stopwatch.ElapsedMilliseconds, 9000);
-        //}
+
+        /// <summary>
+        /// test to verify output folder created when parallel processing invoked
+        /// </summary>
+        [Test]
+        public void validate_output_folder_created_when_parallel_processing_invoked()
+        {
+            string[] arguments = new string[] // use infile that hasn't created folder in these tests
+            {
+                "infile=infile_two_layer_ROfRho.txt", "cpucount=4",
+            };
+            Program.Main(arguments);
+            Assert.IsTrue(Directory.Exists("two_layer_ROfRho"));
+            // verify infile gets written to output folder
+            Assert.IsTrue(File.Exists("two_layer_ROfRho/two_layer_ROfRho.txt"));
+        }
+        /// <summary>
+        /// This test relies on the attribute [Benchmark] applied to 
+        /// ParallelMonteCarloSimulationRunSingleInParallel()
+        /// Benchmark does not work with unit tests yet
+        /// </summary>
+        [Test]
+        public void run_Benchmark_for_timing()
+        {
+            string[] arguments = new string[] // use infile that hasn't created folder in these tests
+            {
+                "infile=infile_two_layer_ROfRho.txt", "cpucount=4",
+            };
+            //summary = BenchmarkRunner.Run<Program.Main(arguments)>();
+            //Console.WriteLine(summary);
+        }
     }
 }
