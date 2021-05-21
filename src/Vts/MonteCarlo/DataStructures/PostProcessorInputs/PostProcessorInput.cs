@@ -10,19 +10,20 @@ namespace Vts.MonteCarlo
         /// <summary>
         /// IList of IDetectorInput
         /// </summary>
-        public IList<IDetectorInput> DetectorInputs;
+        public IList<IDetectorInput> DetectorInputs { get; set; }
+
         /// <summary>
         /// string input folder
         /// </summary>
-        public string InputFolder;
+        public string InputFolder { get; set; }
         /// <summary>
         /// string identifying database SimulationInput filename
         /// </summary>
-        public string DatabaseSimulationInputFilename;
+        public string DatabaseSimulationInputFilename { get; set; }
         /// <summary>
         /// string identifying output filename
         /// </summary>
-        public string OutputName;
+        public string OutputName { get; set; }
 
         /// <summary>
         /// constructor for post-processor input

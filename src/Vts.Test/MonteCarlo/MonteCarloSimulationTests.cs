@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using NUnit.Framework;
 using Vts.IO;
 using Vts.MonteCarlo;
+using Vts.MonteCarlo.Detectors;
 
 namespace Vts.Test.MonteCarlo
 {

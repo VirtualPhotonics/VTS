@@ -1027,6 +1027,9 @@
     <Compile Include="..\Vts\MonteCarlo\PhaseFunctions\StokesVector.cs">
       <Link>MonteCarlo\PhaseFunctions\StokesVector.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\ParallelMonteCarloSimulation.cs">
+      <Link>MonteCarlo\ParallelMonteCarloSimulation.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Photon.cs">
       <Link>MonteCarlo\Photon.cs</Link>
     </Compile>
@@ -1068,6 +1071,9 @@
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\PostProcessing\PhotonDatabasePostProcessor.cs">
       <Link>MonteCarlo\PostProcessing\PhotonDatabasePostProcessor.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Rng\DynamicCreatorMersenneTwister.cs">
+      <Link>MonteCarlo\Rng\DynamicCreatorMersenneTwister.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\Rng\MersenneTwisterSerializationInfo.cs">
       <Link>MonteCarlo\Rng\MersenneTwisterSerializationInfo.cs</Link>

@@ -20,6 +20,10 @@
     <FileUpgradeFlags>40</FileUpgradeFlags>
     <UpgradeBackupLocation>C:\Users\hayakawa\Documents\Visual Studio 2019\Projects\vts_210207\src\Backup\Vts\</UpgradeBackupLocation>
     <OldToolsVersion>2.0</OldToolsVersion>
+    <Configurations>Debug;Release;Benchmark</Configurations>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Benchmark|AnyCPU'">
+    <Optimize>true</Optimize>
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="Common\Helpers\FuncOfT.cs" />
@@ -94,6 +98,9 @@
     <EmbeddedResource Include="Modeling\Spectroscopy\Resources\Spectra.txt" />
     <EmbeddedResource Include="Modeling\Spectroscopy\Resources\SpectralDictionary.txt" />
     <EmbeddedResource Include="Modeling\Spectroscopy\Resources\SpectralDictionary.xml" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Benchmark|AnyCPU'">
+	<PackageReference Include="BenchmarkDotNet" Version="0.12.1" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="csmpfit" Version="1.1.1" />
