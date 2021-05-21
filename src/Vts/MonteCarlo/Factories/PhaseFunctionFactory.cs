@@ -49,6 +49,11 @@ namespace Vts.MonteCarlo.Factories
                 phaseFunction = new BidirectionalPhaseFunction(tissueRegion.RegionOP.G, rng);
             }
 
+            if (input is ReynoldsMcCormickPhaseFunctionInput)
+            {
+                var rmPhaseFunctionInput = (ReynoldsMcCormickPhaseFunctionInput)input;
+                phaseFunction = new ReynoldsMcCormickPhaseFunction(tissueRegion.RegionOP.G, rmPhaseFunctionInput.Alpha, rng);
+            }
             return phaseFunction;
         }
     }

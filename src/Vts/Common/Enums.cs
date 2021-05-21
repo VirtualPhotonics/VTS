@@ -528,6 +528,10 @@ namespace Vts
         /// Options for discretized p(theta) scattering phase function
         /// </summary>
         LookupTable,
+        /// <summary>
+        /// Reynolds-McCormick scattering phase function
+        /// </summary>
+        ReynoldsMcCormick,
     }
 
     /// The following is in Vts.MonteCarlo.Enums

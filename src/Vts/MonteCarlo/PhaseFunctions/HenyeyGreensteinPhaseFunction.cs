@@ -5,7 +5,6 @@ namespace Vts.MonteCarlo.PhaseFunctions
 {
     public class HenyeyGreensteinPhaseFunction : IPhaseFunction
     {
-        //private ITissue _tissue;
         private double _g;
         private Random _rng;
 

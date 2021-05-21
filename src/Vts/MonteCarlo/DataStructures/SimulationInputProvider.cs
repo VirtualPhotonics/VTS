@@ -43,7 +43,8 @@ namespace Vts.MonteCarlo
                 PointSourceThreeLayerReflectedTimeOfRhoAndSubregionHistDetector(),
                 EmbeddedDirectionalCircularSourceEllipTissueFluenceOfXAndYAndZ(),
                 PointSourceSurfaceFiberTissueAndDetector(),
-                FluorescenceEmissionAOfXAndYAndZSourceInfiniteCylinder()
+                FluorescenceEmissionAOfXAndYAndZSourceInfiniteCylinder(),
+                PointSourceOneLayerReynoldsMcCormickScattering(),
             };
         }
 
@@ -1391,6 +1392,56 @@ namespace Vts.MonteCarlo
                             Y = new DoubleRange(-100.0, 100.0, 2)},
                     }
                 );
+        }
+        #endregion
+
+        #region point source one layer tissue Reynolds McCormick Scattering
+        /// <summary>
+        /// Point source, single tissue layer definition Reynolds McCormick scattering
+        /// </summary>
+        public static SimulationInput PointSourceOneLayerReynoldsMcCormickScattering()
+        {
+            MultiLayerTissueInput ti = new MultiLayerTissueInput(
+                    new ITissueRegion[]
+                    {
+                        new LayerTissueRegion(
+                            new DoubleRange(double.NegativeInfinity, 0.0),
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
+                        "HenyeyGreensteinKey1"),
+                        new LayerTissueRegion(
+                            new DoubleRange(0.0, 100.0),
+                            new OpticalProperties(0.01, 1.0, 0.8, 1.4),
+                        "ReynoldsMcCormickKey1"),
+                        new LayerTissueRegion(
+                            new DoubleRange(100.0, double.PositiveInfinity),
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
+                        "HenyeyGreensteinKey1")
+                    }
+                );
+            ti.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey1", new HenyeyGreensteinPhaseFunctionInput());
+            ti.RegionPhaseFunctionInputs.Add("ReynoldsMcCormickKey1", new ReynoldsMcCormickPhaseFunctionInput(-0.25));
+            ti.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey2", new HenyeyGreensteinPhaseFunctionInput());
+            return new SimulationInput(
+                100,
+                "one_layer_reynolds_mccormick",
+                new SimulationOptions(
+                    0, // random number generator seed, -1=random seed, 0=fixed seed
+                    RandomNumberGeneratorType.MersenneTwister,
+                    AbsorptionWeightingType.Discrete,
+                    new List<DatabaseType>() { }, // databases to be written
+                    false, // track statistics
+                    0.0, // RR threshold -> no RR performed
+                    0),
+                new DirectionalPointSourceInput(
+                    new Position(0.0, 0.0, 0.0),
+                    new Direction(0.0, 0.0, 1.0),
+                    0), // 0=start in air, 1=start in tissue
+                ti,
+                new List<IDetectorInput>()
+                {
+                    new ROfRhoDetectorInput() {Rho =new DoubleRange(0.0, 10, 101)},
+                }
+            );
         }
         #endregion
     }

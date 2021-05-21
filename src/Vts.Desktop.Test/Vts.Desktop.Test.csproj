@@ -358,6 +358,9 @@
     <Compile Include="..\Vts.Test\MonteCarlo\PhaseFunctions\RejectionSampledLookupTablePhaseFunctionTests.cs">
       <Link>MonteCarlo\PhaseFunctions\RejectionSampledLookupTablePhaseFunctionTests.cs</Link>
     </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\PhaseFunctions\ReynoldsMcCormickPhaseFunctionTests.cs">
+      <Link>MonteCarlo\PhaseFunctions\ReynoldsMcCormickPhaseFunctionTests.cs</Link>
+    </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\PhaseFunctions\StokesVectorTests.cs">
       <Link>MonteCarlo\PhaseFunctions\StokesVectorTests.cs</Link>
     </Compile>

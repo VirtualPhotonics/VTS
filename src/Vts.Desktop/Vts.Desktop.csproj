@@ -625,6 +625,9 @@
     <Compile Include="..\Vts\MonteCarlo\DataStructures\PhaseFunctionInputs\PolarLookupTablePhaseFunctionData.cs">
       <Link>MonteCarlo\DataStructures\PhaseFunctionInputs\PolarLookupTablePhaseFunctionData.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\DataStructures\PhaseFunctionInputs\ReynoldsMcCormickPhaseFunctionInput.cs">
+      <Link>MonteCarlo\DataStructures\PhaseFunctionInputs\ReynoldsMcCormickPhaseFunctionInput.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\DataStructures\PostProcessorInputs\PostProcessorInput.cs">
       <Link>MonteCarlo\DataStructures\PostProcessorInputs\PostProcessorInput.cs</Link>
     </Compile>
@@ -1017,6 +1020,9 @@
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\PhaseFunctions\RejectionSampledLookupTablePhaseFunction.cs">
       <Link>MonteCarlo\PhaseFunctions\RejectionSampledLookupTablePhaseFunction.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts\MonteCarlo\PhaseFunctions\ReynoldsMcCormickPhaseFunction.cs">
+      <Link>MonteCarlo\PhaseFunctions\ReynoldsMcCormickPhaseFunction.cs</Link>
     </Compile>
     <Compile Include="..\Vts\MonteCarlo\PhaseFunctions\StokesVector.cs">
       <Link>MonteCarlo\PhaseFunctions\StokesVector.cs</Link>
