@@ -259,8 +259,8 @@ f = figure; plot(wv,measData(1:length(wv)),'rx',wv,measData(length(wv)+1:end),'r
     wv,R_conv(1:length(wv)),'b-',wv,R_conv(length(wv)+1:end),'b--','LineWidth',2);
 xlabel('\lambda [nm]');
 ylabel('log10(R(\lambda))');
-legend('Meas rho=0.1429','Meas rho=1.0','IG rho=0.01429','IG rho=1.0',...
-    'Converged rho=0.01429','Converged rho=1.0','Location','Best');
+legend('Meas rho=0.1429','Meas rho=1.0','IG rho=0.1429','IG rho=1.0',...
+    'Converged rho=0.1429','Converged rho=1.0','Location','Best');
 title('Inverse solution using pMC/dMC'); 
 set(f, 'Name', 'Inverse solution using pMC/dMC');
 disp(sprintf('Meas =    [%5.3f %5.3f %5.3f %5.3f]',measParms(1),measParms(2),...
