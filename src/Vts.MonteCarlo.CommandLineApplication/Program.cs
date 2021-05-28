@@ -248,12 +248,20 @@ namespace Vts.MonteCarlo.CommandLineApplication
                             return 1;
                         }
                     }
-
+                    // validate input 
                     foreach (var simulationInput in inputs)
                     {
                         if (!checkValid(simulationInput))
-                            return 2;                    // override the output name with the user-specified name
-                        
+                            return 2;                  
+                    }
+                    // make sure input does not specify Database if CPUCount>1
+                    if (int.Parse(CPUCount) > 1)
+                    {
+                        if (inputs.First().Options.Databases != null)
+                        {
+                            CPUCount = 1.ToString();
+                            logger.Info(() => "parallel processing cannot be performed when a Database is specified, changed CPUCount to 1");
+                        }
                     }
 
                     MonteCarloSetup.RunSimulations(inputs, outPath, int.Parse(CPUCount));
@@ -275,7 +283,15 @@ namespace Vts.MonteCarlo.CommandLineApplication
                     {
                         input.OutputName = outName;
                     }
-
+                    // make sure input does not specify Database if CPUCount>1
+                    if (int.Parse(CPUCount) > 1)
+                    {
+                        if (input.Options.Databases != null)
+                        {
+                            CPUCount = 1.ToString();
+                            logger.Info(() => "parallel processing cannot be performed when a Database is specified, changed CPUCount to 1");
+                        }
+                    }
                     MonteCarloSetup.RunSimulation(input, outPath, int.Parse(CPUCount));
                     logger.Info("\nSimulation complete.");
                     return 0;
