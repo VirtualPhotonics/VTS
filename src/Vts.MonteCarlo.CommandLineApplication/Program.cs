@@ -104,7 +104,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
                {
                    logger.Info($"\nVirtual Photonics MC {GetVersionNumber(3)}\n");
                    logger.Info("For more information type mc help");
-                   logger.Info("For help on a specific topic type mc.exe help=<topicname>\n");
+                   logger.Info("For help on a specific topic type dotnet mc.dll help=<topicname>\n");
             },
                new CommandLine.Switch("help", val =>
                {
@@ -114,19 +114,16 @@ namespace Vts.MonteCarlo.CommandLineApplication
                    else
                        ShowHelp();
                    infoOnlyOption = true;
-                   return;
                }),
                new CommandLine.Switch("geninfiles", val =>
                {
                    GenerateDefaultInputFiles();
                    infoOnlyOption = true;
-                   return;
                }),
                new CommandLine.Switch("infile", val =>
                {
                    inFile = val.First();
                    logger.Info(() => "input file specified as " + inFile);
-                   // MonteCarloSetup.InputFile = val.First();
                }),
                new CommandLine.Switch("infiles", val =>
                {
@@ -135,19 +132,16 @@ namespace Vts.MonteCarlo.CommandLineApplication
                    {
                        logger.Info(() => "input file specified as " + file);
                    }
-                   // MonteCarloSetup.InputFile = val.First();
                }),
                new CommandLine.Switch("outname", val =>
                {
                    outName = val.First();
                    logger.Info(() => "output name overridden as " + outName);
-                   //MonteCarloSetup.OutputFolder = val.First();
                }),
                new CommandLine.Switch("outpath", val =>
                {
                    outPath = val.First();
                    logger.Info(() => "output path specified as " + outPath);
-                   //MonteCarloSetup.OutputFolder = val.First();
                }),
                new CommandLine.Switch("cpucount", val =>
                {
@@ -166,11 +160,6 @@ namespace Vts.MonteCarlo.CommandLineApplication
                         else
                         {
                             logger.Info(() => "number of CPUs specified as " + CPUCount);
-                            //if (CPUCountInt <= Environment.ProcessorCount) return;
-
-                            //CPUCount = Environment.ProcessorCount.ToString();
-                            //logger.Info(() => "changed to maximum CPUs on system " + CPUCount);
-                            
                         }
                     }
                }),
@@ -320,6 +309,14 @@ namespace Vts.MonteCarlo.CommandLineApplication
         {
             logger.Info($"Virtual Photonics MC {GetVersionNumber(3)}");
             logger.Info("\nFor more detailed help type dotnet mc.dll help=<topicname>");
+            logger.Info("\ntopics:");
+            logger.Info("\ninfile");
+            logger.Info("outpath");
+            logger.Info("outname");
+            logger.Info("cpucount");
+            logger.Info("paramsweep");
+            logger.Info("paramsweepdelta");
+            logger.Info("paramsweeplist");
             logger.Info("\nlist of arguments:");
             logger.Info("\ninfile\t\tthe input file, accepts relative and absolute paths");
             logger.Info("outpath\t\tthe output path, accepts relative and absolute paths");
@@ -333,7 +330,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
             logger.Info("\t\tparamsweeplist=<SweepParameterType>,NumVals,Val1,Val2,...");
             logger.Info("\ngeninfiles\tgenerates example infiles and names them infile_XXX.txt");
             logger.Info("\t\tinfile_XXX.txt where XXX describes the type of input specified");
-            logger.Info("\nlist of sweep parameters (paramsweep):");
+            logger.Info("\nlist of sweep parameters (SweepParameterType):");
             logger.Info("\nmua1\t\tabsorption coefficient for tissue layer 1");
             logger.Info("mus1\t\tscattering coefficient for tissue layer 1");
             logger.Info("n1\t\trefractive index for tissue layer 1");
@@ -357,7 +354,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
         /// <param name="helpTopic">Help topic</param>
         private static void ShowHelp(string helpTopic)
         {
-            switch (helpTopic)
+            switch (helpTopic.ToLower())
             {
                 case "infile":
                     logger.Info("\nINFILE");
@@ -388,6 +385,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
                 case "cpucount":
                     logger.Info("\nCPUCOUNT");
                     logger.Info("The cpucount specifies the number of CPUs utilized to process a single simulation.");
+                    logger.Info($"The number of CPUs on this computer: {Environment.ProcessorCount}");
                     logger.Info("EXAMPLE:");
                     logger.Info("\tcpucount=4");
                     break;
@@ -409,7 +407,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
                     logger.Info("\tparamsweepdelta=mua1,0.01,0.04,0.01");
                     logger.Info("\tparamsweepdelta=mus1,10,20,5");
                     break;
-                case "paramsweepList":
+                case "paramsweeplist":
                     logger.Info("\nPARAMSWEEPLIST");
                     logger.Info("Defines the parameter sweep and its values.");
                     logger.Info("FORMAT:");
