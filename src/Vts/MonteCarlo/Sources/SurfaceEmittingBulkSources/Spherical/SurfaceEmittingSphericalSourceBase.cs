@@ -55,6 +55,10 @@ namespace Vts.MonteCarlo.Sources
             Position translationFromOrigin,
             int initialTissueRegionIndex)
         {
+            _rotationAndTranslationFlags = new SourceFlags(
+                 newDirectionOfPrincipalSourceAxis != SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone(),
+                 translationFromOrigin != SourceDefaults.DefaultPosition.Clone(),
+                 false);
             _radius = radius;
             _polarAngleRangeToDefineSphericalSurface = polarAngleRangeToDefineSphericalSurface.Clone();
             _azimuthalAngleRangeToDefineSphericalSurface = azimuthalAngleRangeToDefineSphericalSurface.Clone();
