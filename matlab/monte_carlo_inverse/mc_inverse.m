@@ -1,6 +1,7 @@
 %% Monte Carlo Demo
 % This script includes an example that is the equivalent to 
 % 1) Example 7 in vts_mc_demo.m: use N=1000 in infile_pMC_db_gen_template.txt
+%   to reproduce results in vts_mc_demo.m
 % 2) Example Example ROfRho (inverse solution for chromophore concentrations 
 %   for multiple wavelengths, single rho) in vts_solver_demo.m: use 
 %   wv=500:100:1000 and rho=1, N=10000
@@ -69,15 +70,18 @@ else
 end
 [R,pmcR,dmcRmua,dmcRmus]=load_for_inv_results('PP_rho');
 R_conv=pmcR(1:end-1)';
-f = figure; semilogy(rhoMidpoints(1:end-1),measData,'r.',...
+f = figure; semilogy(rhoMidpoints(1:end-1),measData,'rx',...
     rhoMidpoints(1:end-1),R_ig,'g-',...
     rhoMidpoints(1:end-1),R_conv,'b:','LineWidth',2);
 xlabel('\rho [mm]');
-ylabel('log10(R(\rho))');
+ylabel('log10[R(\rho)]');
 legend('Meas','IG','Converged','Location','Best');
+legend boxoff;
+grid on;
+set(gca,'TickDir','out','FontSize',20);
 title('Inverse solution using pMC/dMC'); 
 set(f, 'Name', 'Inverse solution using pMC/dMC');
-disp(sprintf('IG   =    [%f %5.3f]',measParms(1),measParms(2)));
+disp(sprintf('Meas =    [%f %5.3f]',measParms(1),measParms(2)));
 disp(sprintf('IG   =    [%f %5.3f] Chi2=%5.3e',x0(1),x0(2),...
     (measData-R_ig)*(measData-R_ig)'));
 disp(sprintf('Conv =    [%f %5.3f] Chi2=%5.3e',recoveredOPs(1),recoveredOPs(2),...
@@ -167,8 +171,11 @@ f = figure; plot(wv,measData,'r.',...
     wv,R_ig,'g-',...
     wv,R_conv,'b:','LineWidth',2);
 xlabel('\lambda [nm]');
-ylabel('log10(R(\lambda))');
+ylabel('log10[(\lambda)]');
 legend('Meas','IG','Converged','Location','Best');
+legend boxoff;
+grid on;
+set(gca,'TickDir','out','FontSize',20);
 title('Inverse solution using pMC/dMC'); 
 set(f, 'Name', 'Inverse solution using pMC/dMC');
 disp(sprintf('Meas =    [%5.3f %5.3f %5.3f]',measParms(1),measParms(2),measParms(3)));
@@ -258,9 +265,12 @@ f = figure; plot(wv,measData(1:length(wv)),'rx',wv,measData(length(wv)+1:end),'r
     wv,R_ig(1:length(wv)),'g-',wv,R_ig(length(wv)+1:end),'g--',...
     wv,R_conv(1:length(wv)),'b-',wv,R_conv(length(wv)+1:end),'b--','LineWidth',2);
 xlabel('\lambda [nm]');
-ylabel('log10(R(\lambda))');
+ylabel('log10[R(\lambda)]');
 legend('Meas rho=0.1429','Meas rho=1.0','IG rho=0.1429','IG rho=1.0',...
     'Converged rho=0.1429','Converged rho=1.0','Location','Best');
+legend boxoff;
+grid on;
+set(gca,'TickDir','out','FontSize',20);
 title('Inverse solution using pMC/dMC'); 
 set(f, 'Name', 'Inverse solution using pMC/dMC');
 disp(sprintf('Meas =    [%5.3f %5.3f %5.3f %5.3f]',measParms(1),measParms(2),...
