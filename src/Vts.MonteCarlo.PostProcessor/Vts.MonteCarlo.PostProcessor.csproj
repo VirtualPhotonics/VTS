@@ -6,8 +6,8 @@
     <RootNamespace>Vts.MonteCarlo.PostProcessor</RootNamespace>
     <AssemblyName>mc_post</AssemblyName>
     <RuntimeIdentifiers>win-x64;linux-x64;osx-x64</RuntimeIdentifiers>
-    <AssemblyVersion>5.0.0.0</AssemblyVersion>
-    <FileVersion>5.0.0.0</FileVersion>
+    <AssemblyVersion>5.1.0.0</AssemblyVersion>
+    <FileVersion>5.1.0.0</FileVersion>
     <Authors>David Cuccia; Carole Hayakawa; Lisa Malenfant; Janaka Ranasinghesagara; Jennifer Nguyen; Adam Gardner; Michele Martinelli</Authors>
     <Company>Virtual Photonics Technology Initiative</Company>
     <Product>MCPP</Product>
@@ -20,7 +20,7 @@
     <RepositoryType>Git</RepositoryType>
     <PackageTags>C# Monte-Carlo</PackageTags>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-    <Version>5.0.0</Version>
+    <Version>5.1.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
