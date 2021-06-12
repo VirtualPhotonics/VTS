@@ -1,12 +1,15 @@
 %% Monte Carlo Demo
-% This script includes an example that is the equivalent to 
-% 1) Example 7 in vts_mc_demo.m: use N=1000 in infile_pMC_db_gen_template.txt
-%   to reproduce results in vts_mc_demo.m
-% 2) Example Example ROfRho (inverse solution for chromophore concentrations 
-%   for multiple wavelengths, single rho) in vts_solver_demo.m: use 
-%   wv=500:100:1000 and rho=1, N=10000
-%   in infile_pMC_db_gen_template.txt
-% but does not require MATLAB interop code to run
+% This script includes three examples:
+% 1) Example 1: equivalent to Example 7 in vts_mc_demo.m: use N=1000 in 
+%   infile_pMC_db_gen_template.txt to reproduce results in vts_mc_demo.m
+% 2) Example 2: inverse solution for chromophore concentrations 
+%   for multiple wavelengths, single rho: use 
+%   wv=500:100:1000 and rho=1, N=10000 in infile_pMC_db_gen_template.txt
+%   these selections different than those used in vts_solver_demo.m
+% 3) Example 3: inverse solution for chromophore concentrations
+%   for multiple wavelengths, two rho: use
+% 
+% but does not require *MATLAB interop* code to run
 %%
 clear all
 clc
@@ -65,8 +68,8 @@ if(exist('lsqcurvefit','file'))
     [recoveredOPs,resnorm] = lsqcurvefit('pmc_F_dmc_J_ex1',x0,rhoMidpoints,measData,lb,ub,...
         options,measData);
 else
-    %options = [];  % could try fminsearch but this code not tested
-    %recoveredOPs = fminsearch('pmc_F_dmc_J_ex',x0,options,rhoMidpoints,measData);
+    options = optimset('diagnostics','on','largescale','on');
+    recoveredOPs = fminsearch('pmc_Chi2_ex1',x0,options,rhoMidpoints,measData);
 end
 [R,pmcR,dmcRmua,dmcRmus]=load_for_inv_results('PP_rho');
 R_conv=pmcR(1:end-1)';
@@ -96,13 +99,14 @@ disp(sprintf('error=    [%f %5.3f]',abs(measParms(1)-recoveredOPs(1))/measParms(
 % Run a Monte Carlo simulation with pMC post-processing enabled
 % Use generated database to solve inverse problem with measured data
 % generated using Nurbs and selected concentrations
+% define 8 rho, however only 4th used in inverse problem
 rhostart=0;
 rhostop=2;
 rhocount=8;  
 rho=linspace(rhostart,rhostop,rhocount);
 rhoMidpoints=(rho(1:end-1) + rho(2:end))/2;
 gen_db=true;
-wv = 500:100:1000; % change from vts_solver_demo
+wvs = 500:100:1000; % change from vts_solver_demo
 
 % create a list of chromophore absorbers and their concentrations
 % these values are the initial guess 
@@ -117,12 +121,12 @@ g=0.8;
 n=1.4;
 
 % ops has dimensions [numwv 4]
-[ops,dmua,dmusp]=get_optical_properties(absorbers,scatterers,wv); 
+[ops,dmua,dmusp]=get_optical_properties(absorbers,scatterers,wvs); 
 
-R_ig=zeros(1,length(wv));
+R_ig=zeros(1,length(wvs));
 infile_pMC='infile_pMC_db_gen.txt';
 if (gen_db)
-  for iwv=1:length(wv)
+  for iwv=1:length(wvs)
     [status]=system(sprintf('cp infile_pMC_db_gen_template.txt %s',infile_pMC));
     [status]=system(sprintf('./sub_ops.sh var1 %s %s',sprintf('wv%d',iwv),infile_pMC));
     [status]=system(sprintf('./sub_ops.sh a1 %f %s',ops(iwv,1),infile_pMC));
@@ -135,7 +139,7 @@ if (gen_db)
     system('./mc infile=infile_pMC_db_gen.txt');
   end
 end
-for iwv=1:length(wv)
+for iwv=1:length(wvs)
   [R,pmcR,dmcRmua,dmcRmus]=load_for_inv_results(sprintf('pMC_db_wv%d',iwv));
   R_ig(iwv)=R(4);
 end
@@ -156,20 +160,20 @@ measData = [0.0082 0.0208 0.0342 0.0297 0.0246 0.0184];
 if(exist('lsqcurvefit','file'))
     options = optimoptions('lsqcurvefit','Algorithm','levenberg-marquardt',...
         'SpecifyObjectiveGradient',true,'Diagnostics','on');
-    [recoveredOPs,resnorm] = lsqcurvefit('pmc_F_dmc_J_ex2',igConc,wv,measData',lb,ub,...
+    [recoveredOPs,resnorm] = lsqcurvefit('pmc_F_dmc_J_ex2',igConc,wvs,measData',lb,ub,...
         options,rhoMidpoints,absorbers,scatterers,g,n);
-else
+else 
     options = optimset('diagnostics','on','largescale','on');
-    recoveredOPs = fminsearch('pmc_F_dmc_J_ex2',igConc,wv,options,rhoMidpoints,measData);
+    recoveredOPs = fminsearch('pmc_Chi2_ex2',igConc,options,wvs,rhoMidpoints,absorbers,scatterers,g,n,measData);
 end
-R_conv=zeros(1,length(wv));
-for iwv=1:length(wv)
+R_conv=zeros(1,length(wvs));
+for iwv=1:length(wvs)
   [R,pmcR,dmcRmua,dmcRmus]=load_for_inv_results(sprintf('PP_wv%d',iwv));
   R_conv(iwv)=pmcR(4);
 end
-f = figure; plot(wv,measData,'r.',...
-    wv,R_ig,'g-',...
-    wv,R_conv,'b:','LineWidth',2);
+f = figure; plot(wvs,measData,'r.',...
+    wvs,R_ig,'g-',...
+    wvs,R_conv,'b:','LineWidth',2);
 xlabel('\lambda [nm]');
 ylabel('log10[(\lambda)]');
 legend('Meas','IG','Converged','Location','Best');
@@ -186,8 +190,10 @@ disp(sprintf('Conv =    [%5.3f %5.3f %5.3f] Chi2=%5.3e',recoveredOPs(1),recovere
 disp(sprintf('error=    [%5.3f %5.3f %5.3f]',abs(measParms(1)-recoveredOPs(1))/measParms(1),...
     abs(measParms(2)-recoveredOPs(2))/measParms(2),abs(measParms(3)-recoveredOPs(3))/measParms(3)));
 %% ======================================================================= %
-% Example 3: Inverse solution for R(rho,wavelength) chromophore concentrations
-%   and scatterer coefficients
+% Example 3: Inverse solution for R(rho,wavelength) chromophore
+%  concentrations (Hb, HbO2) and scatterer coefficients (a,b) for 
+%  4 wavelengths and 2 rho
+% define 8 rho, however only 1st and 4th used in inverse problem
 rhostart=0;
 rhostop=2;
 rhocount=8;  
@@ -195,7 +201,7 @@ rho=linspace(rhostart,rhostop,rhocount);
 rhoMidpoints=(rho(1:end-1) + rho(2:end))/2;
 numrho=2;
 gen_db=true;
-wv = 600:100:900; % change from vts_solver_demo
+wvs = 600:100:900; % change from vts_solver_demo
 
 % create a list of chromophore absorbers and their concentrations
 % these values are the EXACT solution
@@ -211,11 +217,11 @@ n=1.4;
 igParms = [absorbers.Concentrations(1) absorbers.Concentrations(2) scatterers.Coefficients(1) scatterers.Coefficients(2)];
 
 % ops has dimensions [numwv 4]
-[ops,dmua,dmusp]=get_optical_properties(absorbers,scatterers,wv); 
+[ops,dmua,dmusp]=get_optical_properties(absorbers,scatterers,wvs); 
 
 infile_pMC='infile_pMC_db_gen.txt';
 if (gen_db)
-  for iwv=1:length(wv)
+  for iwv=1:length(wvs)
     [status]=system(sprintf('cp infile_pMC_db_gen_template.txt %s',infile_pMC));
     [status]=system(sprintf('./sub_ops.sh var1 %s %s',sprintf('wv%d',iwv),infile_pMC));
     [status]=system(sprintf('./sub_ops.sh a1 %f %s',ops(iwv,1),infile_pMC));
@@ -228,12 +234,12 @@ if (gen_db)
     system('./mc infile=infile_pMC_db_gen.txt');
   end
 end
-R_ig=zeros(1,length(wv)*numrho);
+R_ig=zeros(1,length(wvs)*numrho);
 
-for iwv=1:length(wv)
+for iwv=1:length(wvs)
   [R,pmcR,dmcRmua,dmcRmus]=load_for_inv_results(sprintf('pMC_db_wv%d',iwv));
   R_ig(iwv)=R(1);
-  R_ig(iwv+length(wv))=R(4);
+  R_ig(iwv+length(wvs))=R(4);
 end
 
 %% use unconstrained optimization lb=[-inf -inf]; ub=[inf inf];
@@ -249,21 +255,21 @@ measData = [0.2931 0.2548 0.2068 0.1711 0.0255 0.0355 0.0320 0.0277];
 if(exist('lsqcurvefit','file'))
     options = optimoptions('lsqcurvefit','Algorithm','levenberg-marquardt',...
         'SpecifyObjectiveGradient',true,'Diagnostics','on');
-    [recoveredOPs,resnorm] = lsqcurvefit('pmc_F_dmc_J_ex3',igParms,[wv wv],measData',lb,ub,...
+    [recoveredOPs,resnorm] = lsqcurvefit('pmc_F_dmc_J_ex3',igParms,[wvs wvs],measData',lb,ub,...
         options,rhoMidpoints,absorbers,scatterers,g,n);
 else
     options = optimset('diagnostics','on','largescale','on');
-    recoveredOPs = fminsearch('pmc_F_dmc_J_wv',igParms,wv,options,rhoMidpoints,measData);
+    recoveredOPs = fminsearch('pmc_Chi2_ex3',igParms,options,wvs,rhoMidpoints,absorbers,scatterers,g,n,measData);
 end
-R_conv=zeros(1,length(wv));
-for iwv=1:length(wv)
+R_conv=zeros(1,length(wvs));
+for iwv=1:length(wvs)
   [R,pmcR,dmcRmua,dmcRmus]=load_for_inv_results(sprintf('PP_wv%d',iwv));
   R_conv(iwv)=pmcR(1);
-  R_conv(iwv+length(wv))=pmcR(4);
+  R_conv(iwv+length(wvs))=pmcR(4);
 end
-f = figure; plot(wv,measData(1:length(wv)),'rx',wv,measData(length(wv)+1:end),'ro',...
-    wv,R_ig(1:length(wv)),'g-',wv,R_ig(length(wv)+1:end),'g--',...
-    wv,R_conv(1:length(wv)),'b-',wv,R_conv(length(wv)+1:end),'b--','LineWidth',2);
+f = figure; plot(wvs,measData(1:length(wvs)),'rx',wvs,measData(length(wvs)+1:end),'ro',...
+    wvs,R_ig(1:length(wvs)),'g-',wvs,R_ig(length(wvs)+1:end),'g--',...
+    wvs,R_conv(1:length(wvs)),'b-',wvs,R_conv(length(wvs)+1:end),'b--','LineWidth',2);
 xlabel('\lambda [nm]');
 ylabel('log10[R(\lambda)]');
 legend('Meas rho=0.1429','Meas rho=1.0','IG rho=0.1429','IG rho=1.0',...
