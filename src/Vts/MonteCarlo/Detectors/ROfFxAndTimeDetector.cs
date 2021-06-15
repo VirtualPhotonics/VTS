@@ -150,12 +150,11 @@ namespace Vts.MonteCarlo.Detectors
                     // convert to Hz-sec from GHz-ns 1e-9*1e9=1
                     var deltaWeight = dp.Weight*(cosNegativeTwoPiFX + Complex.ImaginaryOne*sinNegativeTwoPiFX);
 
-                    Mean[ifx, it] += deltaWeight;
-                    if (TallySecondMoment) // 2nd moment is E[xx*]=E[xreal^2]+E[ximag^2]
+                    Mean[ifx, it] += deltaWeight;                    
+                    // 2nd moment is E[xx*]=E[xreal^2]+E[ximag^2] and with cos^2+sin^2=1 => weight^2
+                    if (TallySecondMoment) 
                     {
-                        var deltaWeight2 = dp.Weight*dp.Weight*cosNegativeTwoPiFX*cosNegativeTwoPiFX +
-                                           dp.Weight*dp.Weight*sinNegativeTwoPiFX*sinNegativeTwoPiFX;
-                        SecondMoment[ifx, it] += deltaWeight2;
+                            SecondMoment[ifx, it] += dp.Weight * dp.Weight;
                     }
                 }
                 TallyCount++;
