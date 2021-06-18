@@ -153,6 +153,7 @@ namespace Vts.MonteCarlo.Detectors
                                       (cosNegativeTwoPiFX + Complex.ImaginaryOne*sinNegativeTwoPiFX);
 
                     Mean[ifx, iz, ia] += deltaWeight;
+                    // set tallyForOnePhoton to be mean tally, 2nd moment taken at photon end
                     if (TallySecondMoment)
                     {
                         _tallyForOnePhoton[ifx, iz, ia] += deltaWeight;

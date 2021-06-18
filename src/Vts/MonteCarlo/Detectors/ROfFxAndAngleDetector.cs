@@ -125,11 +125,10 @@ namespace Vts.MonteCarlo.Detectors
                     var deltaWeight = dp.Weight*(cosNegativeTwoPiFX + Complex.ImaginaryOne*sinNegativeTwoPiFX);
 
                     Mean[ifx, ia] += deltaWeight;
-                    if (TallySecondMoment) // 2nd moment is E[xx*]=E[xreal^2]+E[ximag^2]
+                    // 2nd moment is E[xx*]=E[xreal^2]+E[ximag^2] and with cos^2+sin^2=1 => weight^2
+                    if (TallySecondMoment) 
                     {
-                        var deltaWeight2 = dp.Weight*dp.Weight*cosNegativeTwoPiFX*cosNegativeTwoPiFX +
-                                           dp.Weight*dp.Weight*sinNegativeTwoPiFX*sinNegativeTwoPiFX;
-                        SecondMoment[ifx, ia] += deltaWeight2;
+                       SecondMoment[ifx, ia] += dp.Weight * dp.Weight;
                     }
                 }
                 TallyCount++;
