@@ -62,14 +62,19 @@ measData = [0.0331 0.0099 0.0042 0.0020 0.0010];
 % run lsqcurvefit if have Optimization Toolbox because it makes use of
 % dMC differential Monte Carlo predictions
 % if don't have Optimization Toolbox, run non-gradient, non-constrained
-% fminsearch
+% fminsearch (use more photons for improved results)
 if(exist('lsqcurvefit','file'))
     options = optimset('Jacobian','on','diagnostics','on','largescale','on');
     [recoveredOPs,resnorm] = lsqcurvefit('pmc_F_dmc_J_ex1',x0,rhoMidpoints,measData,lb,ub,...
         options,measData);
 else
-    options = optimset('diagnostics','on','largescale','on');
-    recoveredOPs = fminsearch('pmc_Chi2_ex1',x0,options,rhoMidpoints,measData);
+    if (exist ('OCTAVE_VERSION', 'builtin'))
+      options = optimset('display','on');
+      recoveredOPs = fminsearch(@(x0)pmc_Chi2_ex1(x0,rhoMidpoints,measData),x0,options);
+    else
+      options = optimset('diagnostics','on','largescale','on');
+      recoveredOPs = fminsearch('pmc_Chi2_ex1',x0,options,rhoMidpoints,measData);
+    end
 end
 [R,pmcR,dmcRmua,dmcRmus]=load_for_inv_results('PP_rho');
 R_conv=pmcR(1:end-1)';
@@ -120,7 +125,8 @@ scatterers.Coefficients = [1.2, 1.42];
 g=0.8;
 n=1.4;
 
-% ops has dimensions [numwv 4]
+% ops has dimensions [numwv 4] NOTE: if using Octave type "pkg load io" in Command Window
+% to load IO package and read SpectralDictionary.xlsx in next command
 [ops,dmua,dmusp]=get_optical_properties(absorbers,scatterers,wvs); 
 
 R_ig=zeros(1,length(wvs));
@@ -163,8 +169,13 @@ if(exist('lsqcurvefit','file'))
     [recoveredOPs,resnorm] = lsqcurvefit('pmc_F_dmc_J_ex2',igConc,wvs,measData',lb,ub,...
         options,rhoMidpoints,absorbers,scatterers,g,n);
 else 
-    options = optimset('diagnostics','on','largescale','on');
-    recoveredOPs = fminsearch('pmc_Chi2_ex2',igConc,options,wvs,rhoMidpoints,absorbers,scatterers,g,n,measData);
+    if (exist ('OCTAVE_VERSION', 'builtin')) % needs io package "pkg load io"
+      options = optimset('display','on');
+      recoveredOPs = fminsearch(@(igConc)pmc_Chi2_ex2(igConc,wvs,rhoMidpoints,absorbers,scatterers,g,n,measData),igConc,options);
+    else
+      options = optimset('diagnostics','on','largescale','on');
+      recoveredOPs = fminsearch('pmc_Chi2_ex2',igConc,options,wvs,rhoMidpoints,absorbers,scatterers,g,n,measData);
+    end
 end
 R_conv=zeros(1,length(wvs));
 for iwv=1:length(wvs)
@@ -216,7 +227,8 @@ g=0.8;
 n=1.4;
 igParms = [absorbers.Concentrations(1) absorbers.Concentrations(2) scatterers.Coefficients(1) scatterers.Coefficients(2)];
 
-% ops has dimensions [numwv 4]
+% ops has dimensions [numwv 4] NOTE: if using Octave type "pkg load io" in Command Window
+% to load IO package and read SpectralDictionary.xlsx in next command
 [ops,dmua,dmusp]=get_optical_properties(absorbers,scatterers,wvs); 
 
 infile_pMC='infile_pMC_db_gen.txt';
@@ -257,9 +269,14 @@ if(exist('lsqcurvefit','file'))
         'SpecifyObjectiveGradient',true,'Diagnostics','on');
     [recoveredOPs,resnorm] = lsqcurvefit('pmc_F_dmc_J_ex3',igParms,[wvs wvs],measData',lb,ub,...
         options,rhoMidpoints,absorbers,scatterers,g,n);
-else
-    options = optimset('diagnostics','on','largescale','on');
-    recoveredOPs = fminsearch('pmc_Chi2_ex3',igParms,options,wvs,rhoMidpoints,absorbers,scatterers,g,n,measData);
+else    
+    if (exist ('OCTAVE_VERSION', 'builtin')) % needs io package "pkg load io"
+      options = optimset('display','on');
+      recoveredOPs = fminsearch(@(igParms)pmc_Chi2_ex3(igParms,wvs,rhoMidpoints,absorbers,scatterers,g,n,measData),igParms,options);
+    else
+      options = optimset('diagnostics','on','largescale','on');
+      recoveredOPs = fminsearch('pmc_Chi2_ex3',igParms,options,wvs,rhoMidpoints,absorbers,scatterers,g,n,measData);
+    end
 end
 R_conv=zeros(1,length(wvs));
 for iwv=1:length(wvs)

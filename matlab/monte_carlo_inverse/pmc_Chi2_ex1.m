@@ -12,6 +12,9 @@ rho(2:end) = rhoMidpoints(1:end) + rhoMidpoints(1);
 gfix = 0.8;
 nfix = 1.4;
 mua = muamus(1);
+if (mua<0) % if mua<0 set to 0
+  mua=0.0;
+end
 mus=muamus(2);
 musp = mus*(1-gfix);
 % replace MCPP infile with updated OPs

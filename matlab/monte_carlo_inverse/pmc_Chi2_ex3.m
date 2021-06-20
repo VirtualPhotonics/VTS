@@ -27,6 +27,12 @@ F=zeros(1,length(wavelengths)*2); % times 2 because 2 rhos
 % replace MCPP infile with updated OPs
 infile_PP='infile_PP_pMC_est.txt';
 for iwv=1:length(wavelengths)
+  if (ops(iwv,1)<0) % is mua<0 set to 0
+    ops(iwv,1)=0;
+  end
+  if (ops(iwv,2)<0)
+    ops(iwv,2)=0;
+  end
   [status]=system(sprintf('cp infile_PP_pMC_est_template.txt %s',infile_PP));
   [status]=system(sprintf('./sub_ops.sh var1 %s %s',sprintf('wv%d',iwv),infile_PP));
   [status]=system(sprintf('./sub_ops.sh a1 %f %s',ops(iwv,1),infile_PP));
