@@ -102,8 +102,8 @@ namespace Vts.Test.MonteCarlo.Detectors
                     },
                     new ROfXAndYAndMaxDepthDetectorInput() { X = new DoubleRange(-10.0, 10.0, 101), Y = new DoubleRange(-10.0, 10.0, 101), MaxDepth = new DoubleRange(0.0, 1.0, 11)},
                     new ROfXAndYAndMaxDepthRecessedDetectorInput() { X = new DoubleRange(-10.0, 10.0, 101), Y = new DoubleRange(-10.0, 10.0, 101), MaxDepth = new DoubleRange(0.0, 1.0, 11),ZPlane=-1.0},
-                    new ROfRhoAndOmegaDetectorInput() { Rho = new DoubleRange(0.0, 10.0, 101), Omega = new DoubleRange(0.05, 1.0, 20)}, // DJC - edited to reflect frequency sampling points (not bins)
-                    new ROfFxDetectorInput() {Fx = new DoubleRange(0.0, 0.5, 51)},
+                    new ROfRhoAndOmegaDetectorInput() { Rho = new DoubleRange(0.0, 10.0, 101), Omega = new DoubleRange(0.05, 1.0, 20), TallySecondMoment = true}, // DJC - edited to reflect frequency sampling points (not bins)
+                    new ROfFxDetectorInput() {Fx = new DoubleRange(0.0, 0.5, 51), TallySecondMoment = true},
                     new ROfFxAndTimeDetectorInput() {Fx = new DoubleRange(0.0, 0.5, 51), Time = new DoubleRange(0.0, 1.0, 11)},
                     new ROfFxAndAngleDetectorInput() {Fx = new DoubleRange(0.0, 0.5, 51), Angle = new DoubleRange(Math.PI / 2, Math.PI, 5)},
                     new TDiffuseDetectorInput(),
@@ -375,11 +375,14 @@ namespace Vts.Test.MonteCarlo.Detectors
         {
             // todo: warning - this validation data from Linux is actually for Omega = 0.025GHz
             // (see here: http://virtualphotonics.codeplex.com/discussions/278250)
-
             Assert.Less(Complex.Abs(
                 _outputOneLayerTissue.R_rw[0, 0] * _factor - (0.6152383 - Complex.ImaginaryOne * 0.0002368336)), 0.000001);
             Assert.Less(Complex.Abs(
                 _outputTwoLayerTissue.R_rw[0, 0] * _factor - (0.6152383 - Complex.ImaginaryOne * 0.0002368336)), 0.000001);
+            Assert.Less(Complex.Abs(_outputOneLayerTissue.R_rw2[0, 0].Real - 20.022918), 0.000001);
+            Assert.Less(Complex.Abs(_outputOneLayerTissue.R_rw2[0, 0].Imaginary - 0.0), 0.000001);
+            Assert.Less(Complex.Abs(_outputTwoLayerTissue.R_rw2[0, 0].Real - 20.022918), 0.000001);
+            Assert.Less(Complex.Abs(_outputTwoLayerTissue.R_rw2[0, 0].Imaginary - 0.0), 0.000001);
             Assert.AreEqual(_outputOneLayerTissue.R_rw_TallyCount, 89);
             Assert.AreEqual(_outputTwoLayerTissue.R_rw_TallyCount, 89);
         }
@@ -454,7 +457,10 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.Less(Math.Abs(_outputOneLayerTissue.R_fx[1].Imaginary - 0.050931), 0.000001);
             Assert.Less(Math.Abs(_outputTwoLayerTissue.R_fx[1].Real - 0.557019), 0.000001);
             Assert.Less(Math.Abs(_outputTwoLayerTissue.R_fx[1].Imaginary - 0.050931), 0.000001);
-            Assert.AreEqual(_outputOneLayerTissue.R_fx_TallyCount, 89);
+            Assert.Less(Math.Abs(_outputOneLayerTissue.R_fx2[1].Real - 0.467357), 0.000001);
+            Assert.Less(Math.Abs(_outputOneLayerTissue.R_fx2[1].Imaginary - 0.0), 0.000001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.R_fx2[1].Real - 0.467357), 0.000001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.R_fx2[1].Imaginary - 0.0), 0.000001); Assert.AreEqual(_outputOneLayerTissue.R_fx_TallyCount, 89);
             Assert.AreEqual(_outputTwoLayerTissue.R_fx_TallyCount, 89);
         }
         // Reflection R(fx, time) validated with prior test

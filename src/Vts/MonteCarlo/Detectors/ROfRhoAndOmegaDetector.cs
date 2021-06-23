@@ -143,14 +143,10 @@ namespace Vts.MonteCarlo.Detectors
                 double freq = Omega.AsEnumerable().ToArray()[iw];
                 Mean[ir, iw] += photon.DP.Weight*(Math.Cos(-2*Math.PI*freq*totalTime) +
                                                   Complex.ImaginaryOne * Math.Sin(-2*Math.PI*freq*totalTime));
-
-                if (TallySecondMoment) // 2nd moment is E[xx*]=E[xreal^2]+E[ximag^2]
+                // 2nd moment is E[xx*]=E[xreal^2]+E[ximag^2] and with cos^2+sin^2=1 => weight^2
+                if (TallySecondMoment) 
                 {
-                    SecondMoment[ir, iw] +=
-                        photon.DP.Weight*(Math.Cos(-2*Math.PI*freq*totalTime))*
-                        photon.DP.Weight*(Math.Cos(-2*Math.PI*freq*totalTime)) +
-                        photon.DP.Weight*(Math.Sin(-2*Math.PI*freq*totalTime))*
-                        photon.DP.Weight*(Math.Sin(-2*Math.PI*freq*totalTime));
+                    SecondMoment[ir, iw] += photon.DP.Weight * photon.DP.Weight;
                 }
             }
             TallyCount++;

@@ -1,11 +1,15 @@
 %% Monte Carlo Demo
-% This script includes an example that is the equivalent to 
-% 1) Example 7 in vts_mc_demo.m: use N=1000 in infile_pMC_db_gen_template.txt
-% 2) Example Example ROfRho (inverse solution for chromophore concentrations 
-%   for multiple wavelengths, single rho) in vts_solver_demo.m: use 
-%   wv=500:100:1000 and rho=1, N=10000
-%   in infile_pMC_db_gen_template.txt
-% but does not require MATLAB interop code to run
+% This script includes three examples:
+% 1) Example 1: equivalent to Example 7 in vts_mc_demo.m: use N=1000 in 
+%   infile_pMC_db_gen_template.txt to reproduce results in vts_mc_demo.m
+% 2) Example 2: inverse solution for chromophore concentrations 
+%   for multiple wavelengths, single rho: use 
+%   wv=500:100:1000 and rho=1, N=10000 in infile_pMC_db_gen_template.txt
+%   these selections different than those used in vts_solver_demo.m
+% 3) Example 3: inverse solution for chromophore concentrations
+%   for multiple wavelengths, two rho: use
+% 
+% but does not require *MATLAB interop* code to run
 %%
 clear all
 clc
@@ -32,15 +36,15 @@ rho=linspace(rhostart,rhostop,rhocount);
 rhoMidpoints=(rho(1:end-1) + rho(2:end))/2;
 infile_pMC='infile_pMC_db_gen.txt';
 [status]=system(sprintf('copy infile_pMC_db_gen_template.txt %s',infile_pMC));
-[status]=system(sprintf('replace_string var1 %s %s','rho',infile_pMC));
-[status]=system(sprintf('replace_string a1 %f %s',x0(1),infile_pMC));
-[status]=system(sprintf('replace_string s1 %f %s',x0(2),infile_pMC));
-[status]=system(sprintf('replace_string sp1 %f %s',x0(2)*(1-g),infile_pMC));
-[status]=system(sprintf('replace_string rhostart %f %s',rhostart,infile_pMC));
-[status]=system(sprintf('replace_string rhostop %f %s',rhostop,infile_pMC));
-[status]=system(sprintf('replace_string rhocount %d %s',rhocount,infile_pMC));
+[status]=system(sprintf('powershell -inputformat none -file replace_string.ps1 %s %s %s',infile_pMC,'var1','rho'));
+[status]=system(sprintf('powershell -inputformat none -file replace_string.ps1 %s %s %f',infile_pMC,'a1',x0(1)));
+[status]=system(sprintf('powershell -inputformat none -file replace_string.ps1 %s %s %f',infile_pMC,'s1',x0(2)));
+[status]=system(sprintf('powershell -inputformat none -file replace_string.ps1 %s %s %f',infile_pMC,'sp1',x0(2)*(1-g)));
+[status]=system(sprintf('powershell -inputformat none -file replace_string.ps1 %s %s %f',infile_pMC,'rhostart',rhostart));
+[status]=system(sprintf('powershell -inputformat none -file replace_string.ps1 %s %s %f',infile_pMC,'rhostop',rhostop));
+[status]=system(sprintf('powershell -inputformat none -file replace_string.ps1 %s %s %d',infile_pMC,'rhocount',rhocount));
 % generate database
-system('./mc infile=infile_pMC_db_gen.txt');
+system('mc infile=infile_pMC_db_gen.txt');
 [R,pmcR,dmcRmua,dmcRmus]=load_for_inv_results('pMC_db_rho');
 R_ig=R(1:end-1)';
 %% use unconstrained optimization lb=[-inf -inf]; ub=[inf inf];
@@ -64,8 +68,8 @@ if(exist('lsqcurvefit','file'))
     [recoveredOPs,resnorm] = lsqcurvefit('pmc_F_dmc_J_ex1_Win',x0,rhoMidpoints,measData,lb,ub,...
         options,measData);
 else
-    %options = [];  % could try fminsearch but this code not tested
-    %recoveredOPs = fminsearch('pmc_F_dmc_J_ex',x0,options,rhoMidpoints,measData);
+    options = optimset('diagnostics','on','largescale','on');
+    recoveredOPs = fminsearch('pmc_Chi2_ex1_Win',x0,options,rhoMidpoints,measData);
 end
 [R,pmcR,dmcRmua,dmcRmus]=load_for_inv_results('PP_rho');
 R_conv=pmcR(1:end-1)';
@@ -120,15 +124,15 @@ infile_pMC='infile_pMC_db_gen.txt';
 if (gen_db)
   for iwv=1:length(wv)
     [status]=system(sprintf('copy infile_pMC_db_gen_template.txt %s',infile_pMC));
-    [status]=system(sprintf('replace_string var1 %s %s',sprintf('wv%d',iwv),infile_pMC));
-    [status]=system(sprintf('replace_string a1 %f %s',ops(iwv,1),infile_pMC));
-    [status]=system(sprintf('replace_string s1 %f %s',ops(iwv,2)/(1-g),infile_pMC));
-    [status]=system(sprintf('replace_string sp1 %f %s',ops(iwv,2),infile_pMC));  
-    [status]=system(sprintf('replace_string rhostart %f %s',rhostart,infile_pMC));
-    [status]=system(sprintf('replace_string rhostop %f %s',rhostop,infile_pMC));
-    [status]=system(sprintf('replace_string rhocount %d %s',rhocount,infile_pMC));
+    [status]=system(sprintf('powershell -inputformat none -file replace_string.ps1 %s %s %s',infile_pMC,'var1',sprintf('wv%d',iwv)));
+    [status]=system(sprintf('powershell -inputformat none -file replace_string.ps1 %s %s %f',infile_pMC,'a1',ops(iwv,1)));
+    [status]=system(sprintf('powershell -inputformat none -file replace_string.ps1 %s %s %f',infile_pMC,'s1',ops(iwv,2)));
+    [status]=system(sprintf('powershell -inputformat none -file replace_string.ps1 %s %s %f',infile_pMC,'sp1',ops(iwv,2)*(1-g)));
+    [status]=system(sprintf('powershell -inputformat none -file replace_string.ps1 %s %s %f',infile_pMC,'rhostart',rhostart));
+    [status]=system(sprintf('powershell -inputformat none -file replace_string.ps1 %s %s %f',infile_pMC,'rhostop',rhostop));
+    [status]=system(sprintf('powershell -inputformat none -file replace_string.ps1 %s %s %d',infile_pMC,'rhocount',rhocount));
     % generate databases for each wavelength
-    system('./mc infile=infile_pMC_db_gen.txt');
+    system('mc infile=infile_pMC_db_gen.txt');
   end
 end
 for iwv=1:length(wv)
@@ -154,9 +158,9 @@ if(exist('lsqcurvefit','file'))
         'SpecifyObjectiveGradient',true,'Diagnostics','on');
     [recoveredOPs,resnorm] = lsqcurvefit('pmc_F_dmc_J_ex2_Win',igConc,wv,measData',lb,ub,...
         options,rhoMidpoints,absorbers,scatterers,g,n);
-else
+else 
     options = optimset('diagnostics','on','largescale','on');
-    recoveredOPs = fminsearch('pmc_F_dmc_J_ex2_Win',igConc,wv,options,rhoMidpoints,measData);
+    recoveredOPs = fminsearch('pmc_Chi2_ex2_Win',igConc,options,wvs,rhoMidpoints,absorbers,scatterers,g,n,measData);
 end
 R_conv=zeros(1,length(wv));
 for iwv=1:length(wv)
@@ -188,7 +192,7 @@ rho=linspace(rhostart,rhostop,rhocount);
 rhoMidpoints=(rho(1:end-1) + rho(2:end))/2;
 numrho=2;
 gen_db=true;
-wv = 600:100:900; % change from vts_solver_demo
+wvs = 600:100:900; % change from vts_solver_demo
 
 % create a list of chromophore absorbers and their concentrations
 % these values are the EXACT solution
@@ -210,23 +214,23 @@ infile_pMC='infile_pMC_db_gen.txt';
 if (gen_db)
   for iwv=1:length(wv)
     [status]=system(sprintf('copy infile_pMC_db_gen_template.txt %s',infile_pMC));
-    [status]=system(sprintf('replace_string var1 %s %s',sprintf('wv%d',iwv),infile_pMC));
-    [status]=system(sprintf('replace_string a1 %f %s',ops(iwv,1),infile_pMC));
-    [status]=system(sprintf('replace_string s1 %f %s',ops(iwv,2)/(1-g),infile_pMC));
-    [status]=system(sprintf('replace_string sp1 %f %s',ops(iwv,2),infile_pMC));  
-    [status]=system(sprintf('replace_string rhostart %f %s',rhostart,infile_pMC));
-    [status]=system(sprintf('replace_string rhostop %f %s',rhostop,infile_pMC));
-    [status]=system(sprintf('replace_string rhocount %d %s',rhocount,infile_pMC));
+    [status]=system(sprintf('powershell -inputformat none -file replace_string.ps1 %s %s %s',infile_pMC,'var1',sprintf('wv%d',iwv)));
+    [status]=system(sprintf('powershell -inputformat none -file replace_string.ps1 %s %s %f',infile_pMC,'a1',ops(iwv,1)));
+    [status]=system(sprintf('powershell -inputformat none -file replace_string.ps1 %s %s %f',infile_pMC,'s1',ops(iwv,2)));
+    [status]=system(sprintf('powershell -inputformat none -file replace_string.ps1 %s %s %f',infile_pMC,'sp1',ops(iwv,2)*(1-g)));
+    [status]=system(sprintf('powershell -inputformat none -file replace_string.ps1 %s %s %f',infile_pMC,'rhostart',rhostart));
+    [status]=system(sprintf('powershell -inputformat none -file replace_string.ps1 %s %s %f',infile_pMC,'rhostop',rhostop));
+    [status]=system(sprintf('powershell -inputformat none -file replace_string.ps1 %s %s %d',infile_pMC,'rhocount',rhocount));
     % generate databases for each wavelength
     system('./mc infile=infile_pMC_db_gen.txt');
   end
 end
-R_ig=zeros(1,length(wv)*numrho);
+R_ig=zeros(1,length(wvs)*numrho);
 
-for iwv=1:length(wv)
+for iwv=1:length(wvs)
   [R,pmcR,dmcRmua,dmcRmus]=load_for_inv_results(sprintf('pMC_db_wv%d',iwv));
   R_ig(iwv)=R(1);
-  R_ig(iwv+length(wv))=R(4);
+  R_ig(iwv+length(wvs))=R(4);
 end
 
 %% use unconstrained optimization lb=[-inf -inf]; ub=[inf inf];
@@ -246,7 +250,7 @@ if(exist('lsqcurvefit','file'))
         options,rhoMidpoints,absorbers,scatterers,g,n);
 else
     options = optimset('diagnostics','on','largescale','on');
-    recoveredOPs = fminsearch('pmc_F_dmc_J_ex3_Win',igParms,wv,options,rhoMidpoints,measData);
+    recoveredOPs = fminsearch('pmc_Chi2_ex3_Win',igParms,options,wvs,rhoMidpoints,absorbers,scatterers,g,n,measData);
 end
 R_conv=zeros(1,length(wv));
 for iwv=1:length(wv)
