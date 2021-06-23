@@ -29,13 +29,13 @@ J=zeros(length(wavelengths),length(fitparms));
 infile_PP='infile_PP_pMC_est.txt';
 for iwv=1:length(wavelengths)
   [status]=system(sprintf('copy infile_PP_pMC_est_template.txt %s',infile_PP));
-  [status]=system(sprintf('replace_string var1 %s %s',sprintf('wv%d',iwv),infile_PP));
-  [status]=system(sprintf('replace_string a1 %f %s',ops(iwv,1),infile_PP));
-  [status]=system(sprintf('replace_string s1 %f %s',ops(iwv,2)/(1-g),infile_PP));
-  [status]=system(sprintf('replace_string sp1 %f %s',ops(iwv,2),infile_PP));
-  [status]=system(sprintf('replace_string rhostart %f %s',rho(1),infile_PP));
-  [status]=system(sprintf('replace_string rhostop %f %s',rho(end),infile_PP));
-  [status]=system(sprintf('replace_string rhocount %d %s',length(rho),infile_PP))
+  [status]=system(sprintf('powershell -inputformat none -file replace_string.ps1 %s %s %s',infile_PP,'var1',sprintf('wv%d',iwv)));
+  [status]=system(sprintf('powershell -inputformat none -file replace_string.ps1 %s %s %f',infile_PP,'a1',ops(iwv,1)));
+  [status]=system(sprintf('powershell -inputformat none -file replace_string.ps1 %s %s %f',infile_PP,'s1',ops(iwv,2)));
+  [status]=system(sprintf('powershell -inputformat none -file replace_string.ps1 %s %s %f',infile_PP,'sp1',ops(iwv,2)*(1-g)));
+  [status]=system(sprintf('powershell -inputformat none -file replace_string.ps1 %s %s %f',infile_PP,'rhostart',rho(1)));
+  [status]=system(sprintf('powershell -inputformat none -file replace_string.ps1 %s %s %f',infile_PP,'rhostop',rho(end)));
+  [status]=system(sprintf('powershell -inputformat none -file replace_string.ps1 %s %s %d',infile_PP,'rhocount',length(rho)));
   % run MCPP with updated infile
   [status]=system(sprintf('mc_post infile=%s',infile_PP));
   [R,pmcR,dmcRmua,dmcRmus]=load_for_inv_results(sprintf('PP_wv%d',iwv));

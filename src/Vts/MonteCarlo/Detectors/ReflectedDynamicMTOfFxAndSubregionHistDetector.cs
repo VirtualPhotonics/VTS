@@ -292,7 +292,8 @@ namespace Vts.MonteCarlo.Detectors
                     Mean[ifx, imt] += deltaWeight;
                     if (TallySecondMoment)
                     {
-                        SecondMoment[ifx, imt] += deltaWeight * deltaWeight;
+                        // 2nd moment is E[xx*]=E[xreal^2]+E[ximag^2] and with cos^2+sin^2=1 => weight^2
+                        SecondMoment[ifx, imt] += photon.DP.Weight * photon.DP.Weight;
                         for (int i = 0; i < Fx.Count - 1; i++)
                         {
                             for (int j = 0; j < Z.Count - 1; j++)

@@ -411,6 +411,19 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
             Assert.IsTrue(File.Exists("two_layer_ROfRho/two_layer_ROfRho.txt"));
         }
         /// <summary>
+        /// test to verify cpucount gets changed to 1 if infile specifies database
+        /// </summary>
+        [Test]
+        public void validate_cpucount_modified_to_1_if_infile_specifies_database()
+        {
+            string[] arguments = new string[] // use infile that specifies database
+            {
+                "infile=infile_pMC_one_layer_ROfRho_DAW.txt", "cpucount=4",
+            };
+            Program.Main(arguments);
+            Assert.IsTrue(Directory.Exists("pMC_one_layer_ROfRho_DAW"));
+        }
+        /// <summary>
         /// This test relies on the attribute [Benchmark] applied to 
         /// ParallelMonteCarloSimulationRunSingleInParallel()
         /// Benchmark does not work with unit tests yet

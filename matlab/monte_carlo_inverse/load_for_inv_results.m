@@ -4,7 +4,7 @@ function [R,pmcR,dmcRmua,dmcRmus]=load_for_inv_results(dataname)
 slash = filesep;  % get correct path delimiter for platform
 % script to parse results from MC simulation
 % addpath([cd slash 'xml_toolbox']);
-addpath([cd slash 'jsonlab']);
+addpath([pwd slash 'jsonlab']);
 
 % names of individual MC simulations
 datanames = { dataname };

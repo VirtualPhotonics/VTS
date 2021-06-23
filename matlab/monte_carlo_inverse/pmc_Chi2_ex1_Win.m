@@ -1,6 +1,6 @@
 % function to read in MCPP infile template, replace strings a1,s1,sp1
 % with inverse iterate values and generate pmc and dmc results
-function [F,J]=pmc_F_dmc_J_ex1(muamus,rhoMidpoints,measData)
+function Chi2=pmc_Chi2_ex1(muamus,rhoMidpoints,measData)
 % the following code assumes 1-layer tissue with varying mua and mus only
 % g and n are fixed and not optimized
 % determine rho bins from midpoints
@@ -28,8 +28,5 @@ infile_PP='infile_PP_pMC_est.txt';
 [status]=system(sprintf('mc_post infile=%s',infile_PP));
 [R,pmcR,dmcRmua,dmcRmus]=load_for_inv_results('PP_rho');
 F=pmcR(1:end-1)';
-% option: normalize forward model by measured data
-%F = F./measData;
-% set jacobian derivative information
-J = [ dmcRmua(1:end-1) dmcRmus(1:end-1) ];
+Chi2=(measData-F)*(measData-F)';
 end

@@ -5,7 +5,7 @@ slash = filesep;  % get correct path delimiter for platform
 
 % script to parse results from MC simulation
 addpath(pwd);
-addpath([cd slash 'jsonlab']);
+addpath([pwd slash 'jsonlab']);
 
 % names of individual MC simulations
 datanames = { 'one_layer_all_detectors' };

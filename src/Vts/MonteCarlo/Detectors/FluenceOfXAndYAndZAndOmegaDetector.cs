@@ -161,6 +161,7 @@ namespace Vts.MonteCarlo.Detectors
                          Complex.ImaginaryOne * Math.Sin(-2 * Math.PI * freq * totalTime));
                     if (TallySecondMoment)
                     {
+                        // set tallyForOnePhoton to be mean tally, 2nd moment taken at photon end
                         _tallyForOnePhoton[ix, iy, iz, iw] += (weight / _ops[regionIndex].Mua) *
                                                (Math.Cos(-2 * Math.PI * freq * totalTime) +
                          Complex.ImaginaryOne * Math.Sin(-2 * Math.PI * freq * totalTime));
