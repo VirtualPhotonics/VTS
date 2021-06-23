@@ -1,6 +1,6 @@
 % function to read in MCPP infile template, replace strings a1,s1,sp1
 % with inverse iterate values and generate pmc and dmc results
-function [F,J]=pmc_F_dmc_J_ex3(fitparms,wavelengths,rhoMidpoints,absorbers,scatterers,g,n)
+function Chi2=pmc_Chi2_ex2(fitparms,wavelengths,rhoMidpoints,absorbers,scatterers,g,n,measData)
 % the following code assumes 1-layer tissue with varying mua and mus only
 % g and n are fixed and not optimized
 % determine rho bins from midpoints
@@ -23,11 +23,10 @@ if (length(scatterers.Names)>0)
   end
 end
 [ops,dmua,dmusp] = get_optical_properties(absorbers, scatterers, wavelengths);
-F=zeros(length(wavelengths)/2,1); % 2=numrho
-J=zeros(length(wavelengths)/2,length(fitparms));
+F=zeros(1,length(wavelengths));
 % replace MCPP infile with updated OPs
 infile_PP='infile_PP_pMC_est.txt';
-for iwv=1:length(wavelengths)/2
+for iwv=1:length(wavelengths)
   [status]=system(sprintf('copy infile_PP_pMC_est_template.txt %s',infile_PP));
   [status]=system(sprintf('powershell -inputformat none -file replace_string.ps1 %s %s %s',infile_PP,'var1',sprintf('wv%d',iwv)));
   [status]=system(sprintf('powershell -inputformat none -file replace_string.ps1 %s %s %f',infile_PP,'a1',ops(iwv,1)));
@@ -39,18 +38,7 @@ for iwv=1:length(wavelengths)/2
   % run MCPP with updated infile
   [status]=system(sprintf('mc_post infile=%s',infile_PP));
   [R,pmcR,dmcRmua,dmcRmus]=load_for_inv_results(sprintf('PP_wv%d',iwv));
-  F(iwv)=pmcR(1)';
-  F(iwv+length(wavelengths)/2)=pmcR(4)';
-  % set jacobian derivative information 
-  if (length(fitparms)==length(absorbers.Names)) % => only chromophore fit
-    J(iwv,:) = [dmcRmua(1) * dmua(iwv,:)];
-    J(iwv+length(wavelengths)/2,:) = [dmcRmua(4) * dmua(iwv,:)];
-  elseif (length(fitparms)==length(scatterers.Names)) % => only scatterer fit
-    J(iwv,:) = [dmcRmus(1) * dmusp(iwv,:)];
-    J(iwv+length(wavelengths)/2,:) = [dmcRmus(4) * dmusp(iwv,:)];
-  else
-    J(iwv,:) = [dmcRmua(1) * dmua(iwv,:) dmcRmus(4) * dmusp(iwv,:)]; % => both
-    J(iwv+length(wavelengths)/2,:) = [dmcRmua(4) * dmua(iwv,:) dmcRmus(7) * dmusp(iwv,:)]; % => both
-  end
+  F(iwv)=pmcR(4)';
+  Chi2=(measData-F)*(measData-F)';
 end
 end

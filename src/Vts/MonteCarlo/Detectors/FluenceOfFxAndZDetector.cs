@@ -140,13 +140,9 @@ namespace Vts.MonteCarlo.Detectors
                     var deltaWeight = weight * (cosNegativeTwoPiFX + Complex.ImaginaryOne * sinNegativeTwoPiFX);
 
                     Mean[ifx, iz] += (deltaWeight / _ops[regionIndex].Mua);
-                    if (TallySecondMoment) // 2nd moment is E[xx*]=E[xreal^2]+E[ximag^2]
+                    if (TallySecondMoment) // set tallyForOnePhoton to be mean tally, 2nd moment taken at photon end
                     {
-                        _tallyForOnePhoton[ifx, iz] +=
-                            (deltaWeight / _ops[regionIndex].Mua) * (deltaWeight / _ops[regionIndex].Mua) *
-                            cosNegativeTwoPiFX * cosNegativeTwoPiFX +
-                            (deltaWeight / _ops[regionIndex].Mua) * (deltaWeight / _ops[regionIndex].Mua) *
-                            sinNegativeTwoPiFX * sinNegativeTwoPiFX;
+                        _tallyForOnePhoton[ifx, iz] += (deltaWeight / _ops[regionIndex].Mua);
                     }
                 }
                 TallyCount++;
