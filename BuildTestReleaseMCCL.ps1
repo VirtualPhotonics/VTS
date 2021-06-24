@@ -51,6 +51,10 @@ $source = "publish\win-x64\*"
 Compress-Archive -Path $source -DestinationPath $archive 
 $matlabfiles = "$PWD\matlab\post_processing\*"
 Compress-Archive -Path $matlabfiles -Update -DestinationPath $archive
+$mcinversegeneralfiles = "$PWD\matlab\monte_carlo_inverse\general\*"
+Compress-Archive -Path $mcinversegeneralfiles -Update -DestinationPath $archive
+$mcinversefiles = "$PWD\matlab\monte_carlo_inverse\windows\*"
+Compress-Archive -Path $mcinversefiles -Update -DestinationPath $archive
 
 # Create linux-x64 zip
 $archive = $releasedir + "\MC_v" + $version + "_Linux_x64.zip"
@@ -58,7 +62,9 @@ $source = "publish\linux-x64\*"
 Compress-Archive -Path $source -DestinationPath $archive 
 $matlabfiles = "$PWD\matlab\post_processing\*"
 Compress-Archive -Path $matlabfiles -Update -DestinationPath $archive
-$mcinversefiles = "$PWD\matlab\monte_carlo_inverse\*"
+$mcinversegeneralfiles = "$PWD\matlab\monte_carlo_inverse\general\*"
+Compress-Archive -Path $mcinversegeneralfiles -Update -DestinationPath $archive
+$mcinversefiles = "$PWD\matlab\monte_carlo_inverse\linux_and_mac\*"
 Compress-Archive -Path $mcinversefiles -Update -DestinationPath $archive
 
 # Create osx-x64 zip
@@ -67,6 +73,10 @@ $source = "publish\osx-x64\*"
 Compress-Archive -Path $source -DestinationPath $archive 
 $matlabfiles = "$PWD\matlab\post_processing\*"
 Compress-Archive -Path $matlabfiles -Update -DestinationPath $archive
+$mcinversegeneralfiles = "$PWD\matlab\monte_carlo_inverse\general\*"
+Compress-Archive -Path $mcinversegeneralfiles -Update -DestinationPath $archive
+$mcinversefiles = "$PWD\matlab\monte_carlo_inverse\linux_and_mac\*"
+Compress-Archive -Path $mcinversefiles -Update -DestinationPath $archive
 
 Write-Host "Run MCCL MATLAB post-processing tests" -ForegroundColor Green
 # Change current dir to publish\local to run tests with local executable
