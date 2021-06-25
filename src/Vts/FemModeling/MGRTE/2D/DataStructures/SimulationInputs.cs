@@ -9,26 +9,31 @@ namespace Vts.FemModeling.MGRTE._2D
     /// </summary>
     public class SimulationInput
     {
+        private SquareMeshDataInput _meshDataInput;
+        private MeshSimulationOptions _simulationOptionsInput;
+        private IExtFemSourceInput _extSourceInput;
+        private IIntFemSourceInput _intSourceInput;
+        private ITissueInput _tissueInput;
         /// <summary>
         /// Input data for spatial and angular mesh
         /// </summary>
-        public SquareMeshDataInput MeshDataInput;
+        public SquareMeshDataInput MeshDataInput { get { return _meshDataInput; } set { _meshDataInput = value; } }
         /// <summary>
         ///  Mesh simulation parameters
         /// </summary>
-        public MeshSimulationOptions SimulationOptionsInput;
+        public MeshSimulationOptions SimulationOptionsInput { get { return _simulationOptionsInput; } set { _simulationOptionsInput = value; } }
         /// <summary>
         /// Specifying external source
         /// </summary>
-        public IExtFemSourceInput ExtSourceInput;
+        public IExtFemSourceInput ExtSourceInput { get { return _extSourceInput; } set { _extSourceInput = value; } }
         /// <summary>
         /// Specifying internal source
         /// </summary>
-        public IIntFemSourceInput IntSourceInput;
+        public IIntFemSourceInput IntSourceInput { get { return _intSourceInput; } set { _intSourceInput = value; } }
         /// <summary>
         /// Specifying tissue definition
         /// </summary>
-        public ITissueInput TissueInput;
+        public ITissueInput TissueInput { get { return _tissueInput; } set { _tissueInput = value; } }
 
         /// <summary>
         /// General constructor for simulation inputs 

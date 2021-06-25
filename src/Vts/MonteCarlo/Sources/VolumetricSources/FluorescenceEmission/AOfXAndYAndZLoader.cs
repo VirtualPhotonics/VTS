@@ -47,7 +47,7 @@ namespace Vts.MonteCarlo.Sources
         /// <summary>
         /// tissue region of fluorescence
         /// </summary>
-        public ITissueRegion FluorescentTissueRegion;
+        public ITissueRegion FluorescentTissueRegion { get; set; }
         /// <summary>
         /// potential bounding of FluorescentTissueRegion
         /// </summary>
@@ -55,7 +55,7 @@ namespace Vts.MonteCarlo.Sources
         /// <summary>
         /// dictionary that maps key=count to triple of indices to go through AOfXAndYAndZ fluorescent region in order
         /// </summary>
-        public Dictionary<int, List<int>> FluorescentRegionIndicesInOrder;
+        public Dictionary<int, List<int>> FluorescentRegionIndicesInOrder { get; set; }
 
         /// <summary>
         /// constructor that load excitation simulation AOfXAndYAndZ
