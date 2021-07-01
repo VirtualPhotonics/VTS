@@ -5,20 +5,15 @@
     /// </summary>
     public struct Measurement
     {
-        private double[] _fluence;
-        private double[][] _radiance;
-        private double[] _inten;
-        private double[] _dx;
-        private double[] _dz;
         /// <summary>
         /// fluence at each node
         /// </summary>
-        public double[] Fluence { get { return _fluence; } set { _fluence = value; } }  
+        public double[] Fluence { get; set; }  
         
         /// <summary>
         /// radiance at each node
         /// </summary>
-        public double[][] Radiance { get { return _radiance; } set { _radiance = value; } }
+        public double[][] Radiance { get; set; }
         // the following 3 are not properties because they are passed by reference to
         // a method and properties cannot be passed by reference
         /// <summary>
@@ -39,17 +34,17 @@
         /// <summary>
         /// Intensity
         /// </summary>
-        public double[] Inten { get { return _inten; } set { _inten = value; } }     
+        public double[] Inten { get; set; }     
         
         /// <summary>
         /// dx spacing between each grid
         /// </summary>
-        public double[] Dx { get { return _dx; } set { _dx = value; } }
+        public double[] Dx { get; set; }
         
         /// <summary>
         /// dz spacing between each grid
         /// </summary>
-        public double[] Dz { get { return _dz; } set { _dz = value; } }        
+        public double[] Dz { get; set; }        
     }
 }
 

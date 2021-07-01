@@ -5,52 +5,44 @@
     /// </summary>
     public struct BoundaryCoupling
     {
-        private int[][][] _ri;
-        private int[][][] _ro;
-        private int[][][] _si;
-        private int[][][] _so;
-        private double[][][] _ri2;
-        private double[][][] _ro2;
-        private double[][][] _si2;
-        private double[][][] _so2;
         /// <summary>
         /// reflection contribution to incoming flux from outgoing flux:   Ri[ne][ns][2]  --- interpolated direction
         /// </summary>
-        public int[][][] Ri { get { return _ri; } set { _ri = value; } }
+        public int[][][] Ri { get; set; }
 
         /// <summary>
         /// reflection contribution to outgoing flux from boundary source: Ro[ne][ns][2]  --- interpolated weight
         /// </summary>
-        public int[][][] Ro { get { return _ro; } set { _ro = value; } }
+        public int[][][] Ro { get; set; }
 
         /// <summary>
         /// refraction contribution to incoming flux from boundary source: Si[ne][ns][2]  --- interpolated direction
         /// </summary>
-        public int[][][] Si {  get { return _si; } set { _si = value; } }
+        public int[][][] Si { get; set; }
 
         /// <summary>
         /// refraction contribution to outgoing flux from outgoing flux:   So[ne][ns][2]  --- interpolated weight
         /// </summary>
-        public int[][][] So { get { return _so; } set { _so = value; } }
+        public int[][][] So { get; set; }
 
         /// <summary>
         /// reflection contribution to incoming flux from outgoing flux:   Ri2[ne][ns][2] --- interpolated weight
         /// </summary>
-        public double[][][] Ri2 { get { return _ri2; } set { _ri2 = value; } }
+        public double[][][] Ri2 { get; set; }
 
         /// <summary>
         /// reflection contribution to outgoing flux from boundary source: Ro2[ne][ns][2] --- interpolated direction
         /// </summary>
-        public double[][][] Ro2 { get { return _ro2; } set { _ro2 = value; } }
+        public double[][][] Ro2 { get; set; }
 
         /// <summary>
         /// refraction contribution to incoming flux from boundary source: Si2[ne][ns][2] --- interpolated weight   
         /// </summary>
-        public double[][][] Si2 { get { return _si2; } set { _si2 = value; } }
+        public double[][][] Si2 { get; set; }
 
         /// <summary>
         /// refraction contribution to outgoing flux from outgoing flux:   So2[ne][ns][2] --- interpolated direction
         /// </summary>
-        public double[][][] So2 { get { return _so2; } set { _so2 = value; } }
+        public double[][][] So2 { get; set; }
     };
 }
