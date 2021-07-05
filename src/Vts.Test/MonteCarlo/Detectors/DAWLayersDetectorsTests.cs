@@ -20,7 +20,7 @@ namespace Vts.Test.MonteCarlo.Detectors
     /// through a homogeneous two layer tissue (both layers have the same optical properties)
     /// and verify that the detector tallies are the same.  This tests whether the pseudo-
     /// collision pausing at the layer interface does not change the results.
-    /// Second moment tests used linux when available, otherwise used prior test run.
+    /// Second moment tests used linux for validation when available, otherwise used prior test run.
     /// </summary>
     [TestFixture]
     public class DAWLayersDetectorsTests

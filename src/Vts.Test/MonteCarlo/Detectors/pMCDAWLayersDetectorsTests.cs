@@ -139,7 +139,8 @@ namespace Vts.Test.MonteCarlo.Detectors
                             _referenceInputTwoLayerTissue.TissueInput.Regions[3].RegionOP},
                         PerturbedRegionsIndices=new List<int>() { 1 },
                         FinalTissueRegionIndex = 0,
-                        NA = 0.30
+                        NA = 0.30,
+                        TallySecondMoment = true
                     },
                     new pMCROfRhoAndTimeDetectorInput()
                     {
@@ -150,7 +151,8 @@ namespace Vts.Test.MonteCarlo.Detectors
                             _referenceInputTwoLayerTissue.TissueInput.Regions[1].RegionOP,
                             _referenceInputTwoLayerTissue.TissueInput.Regions[2].RegionOP,
                             _referenceInputTwoLayerTissue.TissueInput.Regions[3].RegionOP},
-                        PerturbedRegionsIndices=new List<int>() { 1 } 
+                        PerturbedRegionsIndices=new List<int>() { 1 },
+                        TallySecondMoment = true
                     }    
                 },
                 _databaseTwoLayerTissue,
@@ -160,9 +162,13 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.Less(Math.Abs(postProcessedOutput.pMC_R_r[3] - _referenceOutputTwoLayerTissue.R_r[3]), 0.00000000001);
             // validation value obtained from linux run using above input and seeded the same
             Assert.Less(Math.Abs(postProcessedOutput.pMC_R_r[3] - 0.044484), 0.000001);
+            // second moment validation by prior test
+            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_r2[3] - 0.197885), 0.000001);
             Assert.Less(Math.Abs(postProcessedOutput.pMC_R_rt[0, 0] - _referenceOutputTwoLayerTissue.R_rt[0, 0]), 0.00000000001);
             // validation value obtained from linux run using above input and seeded the same
             Assert.Less(Math.Abs(postProcessedOutput.pMC_R_rt[0, 0] * _factor - 61.5238307), 0.0000001);
+            // second moment validation by prior test
+            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_rt2[0, 0] - 200229), 1);
         }
 
 
@@ -186,7 +192,8 @@ namespace Vts.Test.MonteCarlo.Detectors
                             _referenceInputTwoLayerTissue.TissueInput.Regions[1].RegionOP,
                             _referenceInputTwoLayerTissue.TissueInput.Regions[2].RegionOP,
                             _referenceInputTwoLayerTissue.TissueInput.Regions[3].RegionOP},
-                        PerturbedRegionsIndices=new List<int>() { 1 }
+                        PerturbedRegionsIndices=new List<int>() { 1 },
+                        TallySecondMoment = true
                     }
                 },
                 _databaseTwoLayerTissue,
@@ -197,6 +204,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                                  _referenceOutputTwoLayerTissue.R_xy[0, 0]), 0.00000000001);
             // validation value obtained from prior run
             Assert.Less(Math.Abs(postProcessedOutput.pMC_R_xy[0, 0] - 0.001097), 0.000001);
+            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_xy2[0, 0] - 8.62815e-5), 0.00001e-5);
         }
     }
 }
