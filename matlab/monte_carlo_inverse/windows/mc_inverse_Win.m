@@ -143,12 +143,12 @@ end
 %% use unconstrained optimization lb=[-inf -inf]; ub=[inf inf];
 lb=[]; ub=[];
 % input measData taken from vts_solver_demo using Nurbs rho=1mm and
-% concentrations { 70, 30, 0.8 }
+% concentrations 
+%measParms = [ 70, 30, 0.8 ];  % debug with same as measured
 %measData = [0.0089 0.0221 0.0346 0.0301 0.0251 0.0198]; 
-measParms = [ 72, 35, 1.2 ];
-measData = [0.0082 0.0208 0.0342 0.0297 0.0246 0.0184];
-% concentrations {80, 45, 3.5}
-%measData = [0.0066 0.0183 0.0331 0.0285 0.0226 0.0131];
+measParms = [ 72, 35, 0.6 ];
+measData = [0.0082 0.0208 0.0342 0.0299 0.0250 0.0205];
+
 % run lsqcurvefit if have Optimization Toolbox because it makes use of
 % dMC differential Monte Carlo predictions
 % if don't have Optimization Toolbox, run non-gradient, non-constrained
