@@ -237,9 +237,6 @@
     <Compile Include="..\Vts.Test\MonteCarlo\DataStructures\OutputTests.cs">
       <Link>MonteCarlo\DataStructures\OutputTests.cs</Link>
     </Compile>
-    <Compile Include="..\Vts.Test\MonteCarlo\DataStructures\SimulationInputExtensionsTests.cs">
-      <Link>MonteCarlo\DataStructures\SimulationInputExtensionsTests.cs</Link>
-    </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\DataStructures\SimulationInputTests.cs">
       <Link>MonteCarlo\DataStructures\SimulationInputTests.cs</Link>
     </Compile>
@@ -315,8 +312,23 @@
     <Compile Include="..\Vts.Test\MonteCarlo\Detectors\SpecularLayerDetectorTests.cs">
       <Link>MonteCarlo\Detectors\SpecularLayerDetectorTests.cs</Link>
     </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Extensions\DatabaseExtensionMethodsTests.cs">
+      <Link>MonteCarlo\Extensions\DatabaseExtensionMethodsTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Extensions\ITissueRegionExtensionMethodsTests.cs">
+      <Link>MonteCarlo\Extensions\ITissueRegionExtensionMethodsTests.cs</Link>
+    </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\Extensions\PhotonDataExtensionMethodsTests.cs">
       <Link>MonteCarlo\Extensions\PhotonDataExtensionMethodsTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Extensions\SimulationInputExtensionsTests.cs">
+      <Link>MonteCarlo\Extensions\SimulationInputExtensionsTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Extensions\StatisticsExtensionMethodsTests.cs">
+      <Link>MonteCarlo\Extensions\StatisticsExtensionMethodsTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Extensions\VirtualBoundaryExtensionMethodsTests.cs">
+      <Link>MonteCarlo\Extensions\VirtualBoundaryExtensionMethodsTests.cs</Link>
     </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\Factories\DetectorFactoryTests.cs">
       <Link>MonteCarlo\Factories\DetectorFactoryTests.cs</Link>
