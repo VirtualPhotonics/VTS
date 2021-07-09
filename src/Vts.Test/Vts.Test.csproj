@@ -49,4 +49,16 @@
   <ItemGroup>
     <ProjectReference Include="..\Vts\Vts.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="MonteCarlo\Sources\SurfaceEmittingBulkSources\CylindricalFiber\" />
+    <Folder Include="MonteCarlo\Sources\SurfaceEmittingBulkSources\Tubular\" />
+    <Folder Include="MonteCarlo\Sources\SurfaceEmittingBulkSources\SurfaceEmittingCuboidal\" />
+    <Folder Include="MonteCarlo\Sources\SurfaceEmittingBulkSources\Spherical\" />
+    <Folder Include="MonteCarlo\Sources\SurfaceEmittingFlatSources\ArbitrarySurfaceSource\" />
+    <Folder Include="MonteCarlo\Sources\SurfaceEmittingFlatSources\Circular\" />
+    <Folder Include="MonteCarlo\Sources\SurfaceEmittingFlatSources\Elliptical\" />
+    <Folder Include="MonteCarlo\Sources\SurfaceEmittingFlatSources\Rectangular\" />
+    <Folder Include="MonteCarlo\Sources\VolumetricSource\Ellipsoidal\" />
+    <Folder Include="MonteCarlo\Sources\VolumetricSource\VolumetricCuboidal\" />
+  </ItemGroup>
 </Project>

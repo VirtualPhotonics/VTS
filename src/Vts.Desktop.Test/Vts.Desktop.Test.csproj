@@ -378,17 +378,17 @@
     <Compile Include="..\Vts.Test\MonteCarlo\Rng\SerializableMersenneTwisterTests.cs">
       <Link>MonteCarlo\Rng\SerializableMersenneTwisterTests.cs</Link>
     </Compile>
-    <Compile Include="..\Vts.Test\MonteCarlo\Sources\FluorescenceEmissionSourcesTests.cs">
-      <Link>MonteCarlo\Sources\FluorescenceEmissionSourcesTests.cs</Link>
+    <Compile Include="..\Vts.Test\MonteCarlo\Sources\PointAndLineSources\LineSources\LineSourcesTests.cs">
+      <Link>MonteCarlo\Sources\PointAndLineSources\LineSources\LineSourcesTests.cs</Link>
     </Compile>
-    <Compile Include="..\Vts.Test\MonteCarlo\Sources\LineSourcesTests.cs">
-      <Link>MonteCarlo\Sources\LineSourcesTests.cs</Link>
+    <Compile Include="..\Vts.Test\MonteCarlo\Sources\PointAndLineSources\PointSources\PointSourcesTests.cs">
+      <Link>MonteCarlo\Sources\PointAndLineSources\PointSources\PointSourcesTests.cs</Link>
     </Compile>
-    <Compile Include="..\Vts.Test\MonteCarlo\Sources\PointSourcesTests.cs">
-      <Link>MonteCarlo\Sources\PointSourcesTests.cs</Link>
+    <Compile Include="..\Vts.Test\MonteCarlo\Sources\SurfaceEmittingFlatSources\SurfaceEmittingFlatSourcesTests.cs">
+      <Link>MonteCarlo\Sources\SurfaceEmittingFlatSources\SurfaceEmittingFlatSourcesTests.cs</Link>
     </Compile>
-    <Compile Include="..\Vts.Test\MonteCarlo\Sources\SurfaceEmittingFlatSourcesTests.cs">
-      <Link>MonteCarlo\Sources\SurfaceEmittingFlatSourcesTests.cs</Link>
+    <Compile Include="..\Vts.Test\MonteCarlo\Sources\VolumetricSource\FluorescenceEmission\FluorescenceEmissionSourcesTests.cs">
+      <Link>MonteCarlo\Sources\VolumetricSources\FluorescenceEmission\FluorescenceEmissionSourcesTests.cs</Link>
     </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\Tissues\BoundedTissueTests.cs">
       <Link>MonteCarlo\Tissues\BoundedTissueTests.cs</Link>
@@ -427,6 +427,16 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Modeling\Optimizers\" />
+    <Folder Include="MonteCarlo\Sources\SurfaceEmittingBulkSources\CylindricalFiber\" />
+    <Folder Include="MonteCarlo\Sources\SurfaceEmittingBulkSources\Spherical\" />
+    <Folder Include="MonteCarlo\Sources\SurfaceEmittingBulkSources\SurfaceEmittingCuboidal\" />
+    <Folder Include="MonteCarlo\Sources\SurfaceEmittingBulkSources\Tubular\" />
+    <Folder Include="MonteCarlo\Sources\SurfaceEmittingFlatSources\ArbitrarySurfaceSource\" />
+    <Folder Include="MonteCarlo\Sources\SurfaceEmittingFlatSources\Circular\" />
+    <Folder Include="MonteCarlo\Sources\SurfaceEmittingFlatSources\Elliptical\" />
+    <Folder Include="MonteCarlo\Sources\SurfaceEmittingFlatSources\Rectangular\" />
+    <Folder Include="MonteCarlo\Sources\VolumetricSources\Ellipsoidal\" />
+    <Folder Include="MonteCarlo\Sources\VolumetricSources\VolumetricCuboidal\" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
