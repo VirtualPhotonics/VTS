@@ -192,6 +192,12 @@
     <Compile Include="..\Vts.Test\Modeling\Spectroscopy\SpectralDatabaseTests.cs">
       <Link>Modeling\Spectroscopy\SpectralDatabaseTests.cs</Link>
     </Compile>
+    <Compile Include="..\Vts.Test\Modeling\Spectroscopy\TissueProviderTests.cs">
+      <Link>Modeling\Spectroscopy\TissueProviderTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\Modeling\Spectroscopy\TissueTests.cs">
+      <Link>Modeling\Spectroscopy\TissueTests.cs</Link>
+    </Compile>
     <Compile Include="..\Vts.Test\Modeling\ValidateInverseSolution.cs">
       <Link>Modeling\ValidateInverseSolution.cs</Link>
     </Compile>
