@@ -384,11 +384,44 @@
     <Compile Include="..\Vts.Test\MonteCarlo\Sources\PointAndLineSources\PointSources\PointSourcesTests.cs">
       <Link>MonteCarlo\Sources\PointAndLineSources\PointSources\PointSourcesTests.cs</Link>
     </Compile>
-    <Compile Include="..\Vts.Test\MonteCarlo\Sources\SurfaceEmittingFlatSources\SurfaceEmittingFlatSourcesTests.cs">
-      <Link>MonteCarlo\Sources\SurfaceEmittingFlatSources\SurfaceEmittingFlatSourcesTests.cs</Link>
+    <Compile Include="..\Vts.Test\MonteCarlo\Sources\SurfaceEmittingFlatSources\Circular\CircularAngledFromCircleSourceTests.cs">
+      <Link>MonteCarlo\Sources\SurfaceEmittingFlatSources\Circular\CircularAngledFromCircleSourceTests.cs</Link>
     </Compile>
-    <Compile Include="..\Vts.Test\MonteCarlo\Sources\VolumetricSource\FluorescenceEmission\FluorescenceEmissionSourcesTests.cs">
-      <Link>MonteCarlo\Sources\VolumetricSources\FluorescenceEmission\FluorescenceEmissionSourcesTests.cs</Link>
+    <Compile Include="..\Vts.Test\MonteCarlo\Sources\SurfaceEmittingFlatSources\Circular\CircularAngledFromPointSourceTests.cs">
+      <Link>MonteCarlo\Sources\SurfaceEmittingFlatSources\Circular\CircularAngledFromPointSourceTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Sources\SurfaceEmittingFlatSources\Circular\CustomCircularSourceTests.cs">
+      <Link>MonteCarlo\Sources\SurfaceEmittingFlatSources\Circular\CustomCircularSourceTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Sources\SurfaceEmittingFlatSources\Circular\DirectionalCircularSourceTests.cs">
+      <Link>MonteCarlo\Sources\SurfaceEmittingFlatSources\Circular\DirectionalCircularSourceTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Sources\SurfaceEmittingFlatSources\Elliptical\CustomEllipticalSourceTests.cs">
+      <Link>MonteCarlo\Sources\SurfaceEmittingFlatSources\Elliptical\CustomEllipticalSourceTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Sources\SurfaceEmittingFlatSources\Elliptical\DirectionalEllipticalSourceTests.cs">
+      <Link>MonteCarlo\Sources\SurfaceEmittingFlatSources\Elliptical\DirectionalEllipticalSourceTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Sources\SurfaceEmittingFlatSources\Rectangular\CustomRectangularSourceTests.cs">
+      <Link>MonteCarlo\Sources\SurfaceEmittingFlatSources\Rectangular\CustomRectangularSourceTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Sources\SurfaceEmittingFlatSources\Rectangular\DirectionalRectangularSourceTests.cs">
+      <Link>MonteCarlo\Sources\SurfaceEmittingFlatSources\Rectangular\DirectionalRectangularSourceTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Sources\SurfaceEmittingFlatSources\SourceValidationData.cs">
+      <Link>MonteCarlo\Sources\SurfaceEmittingFlatSources\SourceValidationData.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Sources\VolumetricSources\FluorescenceEmission\AOfRhoAndZLoaderTests.cs">
+      <Link>MonteCarlo\Sources\VolumetricSources\FluorescenceEmission\AOfRhoAndZLoaderTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Sources\VolumetricSources\FluorescenceEmission\AOfXAndYAndZLoaderTests.cs">
+      <Link>MonteCarlo\Sources\VolumetricSources\FluorescenceEmission\AOfXAndYAndZLoaderTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Sources\VolumetricSources\FluorescenceEmission\FluorescenceEmissionAOfRhoAndZSourceTests.cs">
+      <Link>MonteCarlo\Sources\VolumetricSources\FluorescenceEmission\FluorescenceEmissionAOfRhoAndZSourceTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Sources\VolumetricSources\FluorescenceEmission\FluorescenceEmissionAOfXAndYAndZSourceTests.cs">
+      <Link>MonteCarlo\Sources\VolumetricSources\FluorescenceEmission\FluorescenceEmissionAOfXAndYAndZSourceTests.cs</Link>
     </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\Tissues\BoundedTissueTests.cs">
       <Link>MonteCarlo\Tissues\BoundedTissueTests.cs</Link>
@@ -432,9 +465,6 @@
     <Folder Include="MonteCarlo\Sources\SurfaceEmittingBulkSources\SurfaceEmittingCuboidal\" />
     <Folder Include="MonteCarlo\Sources\SurfaceEmittingBulkSources\Tubular\" />
     <Folder Include="MonteCarlo\Sources\SurfaceEmittingFlatSources\ArbitrarySurfaceSource\" />
-    <Folder Include="MonteCarlo\Sources\SurfaceEmittingFlatSources\Circular\" />
-    <Folder Include="MonteCarlo\Sources\SurfaceEmittingFlatSources\Elliptical\" />
-    <Folder Include="MonteCarlo\Sources\SurfaceEmittingFlatSources\Rectangular\" />
     <Folder Include="MonteCarlo\Sources\VolumetricSources\Ellipsoidal\" />
     <Folder Include="MonteCarlo\Sources\VolumetricSources\VolumetricCuboidal\" />
   </ItemGroup>

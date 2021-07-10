@@ -55,10 +55,7 @@
     <Folder Include="MonteCarlo\Sources\SurfaceEmittingBulkSources\SurfaceEmittingCuboidal\" />
     <Folder Include="MonteCarlo\Sources\SurfaceEmittingBulkSources\Spherical\" />
     <Folder Include="MonteCarlo\Sources\SurfaceEmittingFlatSources\ArbitrarySurfaceSource\" />
-    <Folder Include="MonteCarlo\Sources\SurfaceEmittingFlatSources\Circular\" />
-    <Folder Include="MonteCarlo\Sources\SurfaceEmittingFlatSources\Elliptical\" />
-    <Folder Include="MonteCarlo\Sources\SurfaceEmittingFlatSources\Rectangular\" />
-    <Folder Include="MonteCarlo\Sources\VolumetricSource\Ellipsoidal\" />
-    <Folder Include="MonteCarlo\Sources\VolumetricSource\VolumetricCuboidal\" />
+    <Folder Include="MonteCarlo\Sources\VolumetricSources\Ellipsoidal\" />
+    <Folder Include="MonteCarlo\Sources\VolumetricSources\VolumetricCuboidal\" />
   </ItemGroup>
 </Project>
