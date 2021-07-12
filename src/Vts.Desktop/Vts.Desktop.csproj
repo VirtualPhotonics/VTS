@@ -1105,6 +1105,9 @@
     <Compile Include="..\Vts\MonteCarlo\Sources\SurfaceEmittingFlatSources\Rectangular\DirectionalRectangularSource.cs">
       <Link>MonteCarlo\Sources\SurfaceEmittingFlatSources\Rectangular\DirectionalRectangularSource.cs</Link>
     </Compile>
+    <Compile Include="..\Vts\MonteCarlo\Sources\SurfaceEmittingFlatSources\Rectangular\RectangularAngledFromCircleSource.cs">
+      <Link>MonteCarlo\Sources\SurfaceEmittingFlatSources\Rectangular\RectangularAngledFromCircleSource.cs</Link>
+    </Compile>
     <Compile Include="..\Vts\MonteCarlo\Sources\SurfaceEmittingFlatSources\Rectangular\RectangularSourceBase.cs">
       <Link>MonteCarlo\Sources\SurfaceEmittingFlatSources\Rectangular\RectangularSourceBase.cs</Link>
     </Compile>
