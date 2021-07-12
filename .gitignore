@@ -93,3 +93,4 @@ src/README.md
 .vs/
 src/Vts.MonteCarlo.CommandLineApplication/Properties/launchSettings.json
 .sonarqube/
+src/Vts/Vts.xml

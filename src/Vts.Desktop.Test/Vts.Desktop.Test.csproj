@@ -49,7 +49,8 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\Vts.Desktop.Test.xml</DocumentationFile>
+    <DocumentationFile>
+    </DocumentationFile>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
@@ -183,6 +184,9 @@
     <Compile Include="..\Vts.Test\Modeling\MetaNumericsZeroOrderBesselFunctionTests.cs">
       <Link>Modeling\MetaNumericsZeroOrderBesselFunctionTests.cs</Link>
     </Compile>
+    <Compile Include="..\Vts.Test\Modeling\Spectroscopy\ChromophoreAbsorberTests.cs">
+      <Link>Modeling\Spectroscopy\ChromophoreAbsorberTests.cs</Link>
+    </Compile>
     <Compile Include="..\Vts.Test\Modeling\Spectroscopy\ChromophoreSpectrumTests.cs">
       <Link>Modeling\Spectroscopy\ChromophoreSpectrumTests.cs</Link>
     </Compile>
@@ -191,6 +195,9 @@
     </Compile>
     <Compile Include="..\Vts.Test\Modeling\Spectroscopy\MieScattererTests.cs">
       <Link>Modeling\Spectroscopy\MieScattererTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\Modeling\Spectroscopy\PowerLawScattererTests.cs">
+      <Link>Modeling\Spectroscopy\PowerLawScattererTests.cs</Link>
     </Compile>
     <Compile Include="..\Vts.Test\Modeling\Spectroscopy\SpectralConverterTests.cs">
       <Link>Modeling\Spectroscopy\SpectralConverterTests.cs</Link>

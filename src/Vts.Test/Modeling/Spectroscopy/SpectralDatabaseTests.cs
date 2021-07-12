@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using NUnit.Framework;
 using Vts.IO;
 using Vts.SpectralMapping;
@@ -154,6 +155,46 @@ namespace Vts.Test.Modeling.Spectroscopy
         public void Test_get_spectra_from_file_null_stream()
         {
             Assert.IsNull(SpectralDatabase.GetSpectraFromFile(null, true));
+        }
+
+        [Test]
+        public void Test_get_spectra_from_file_column_error()
+        {
+            var byteArray = Encoding.UTF8.GetBytes("invalid");
+            var stream = new MemoryStream(byteArray);
+            Assert.Throws<Exception>(() => SpectralDatabase.GetSpectraFromFile(stream, false));
+        }
+
+        [Test]
+        public void Test_get_spectra_from_file_no_lambda_error()
+        {
+            var byteArray = Encoding.UTF8.GetBytes("%LABDA nm\tHbO2 1/(mm*uM)\tHb 1/(mm*uM)\n\n600\t0.737\t3.3802");
+            var stream = new MemoryStream(byteArray);
+            Assert.Throws<Exception>(() => SpectralDatabase.GetSpectraFromFile(stream, false));
+        }
+
+        [Test]
+        public void Test_get_spectra_from_file_invalid_header()
+        {
+            var byteArray = Encoding.UTF8.GetBytes("%LAMBDA nm\tHbO2\tHb 1/(mm*uM)\n\n600\t0.737\t3.3802");
+            var stream = new MemoryStream(byteArray);
+            Assert.Throws<Exception>(() => SpectralDatabase.GetSpectraFromFile(stream, false));
+        }
+
+        [Test]
+        public void Test_get_spectra_from_file_header_data_mismatch()
+        {
+            var byteArray = Encoding.UTF8.GetBytes("%LAMBDA nm\tHbO2 1/(mm*uM)\tHb 1/(mm*uM)\n\n600\t0.737");
+            var stream = new MemoryStream(byteArray);
+            Assert.Throws<Exception>(() => SpectralDatabase.GetSpectraFromFile(stream, false));
+        }
+
+        [Test]
+        public void Test_get_spectra_from_file_header_column_mismatch()
+        {
+            var byteArray = Encoding.UTF8.GetBytes("%LAMBDA nm\tHbO2 1/(mm*uM)\tHb 1/(mm*uM)\n600\t0.737\t3.3802\n602\t0.6135\t3.1372\n604\t0.4901");
+            var stream = new MemoryStream(byteArray);
+            Assert.Throws<Exception>(() => SpectralDatabase.GetSpectraFromFile(stream, false));
         }
 
         /// <summary>
