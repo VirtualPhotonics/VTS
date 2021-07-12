@@ -13,7 +13,7 @@ using Vts.MonteCarlo.Helpers;
 namespace Vts.Test.MonteCarlo.Sources
 {
     /// <summary>
-    /// Unit tests for Fluorescence Emission Sources: FluorescencesEmissionAOfXAndYAndZSource
+    /// Unit tests for Fluorescence Emission Sources: FluorescenceEmissionAOfXAndYAndZSource
     /// </summary>
     [TestFixture]
     public class FluorescenceEmissionAOfXAndYAndZSourceTests

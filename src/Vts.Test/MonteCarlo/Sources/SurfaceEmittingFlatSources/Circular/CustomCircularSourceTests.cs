@@ -37,7 +37,8 @@ namespace Vts.Test.MonteCarlo.Sources
 
             var ps = new CustomCircularSource(
                 _validationData.OutRad, 
-                _validationData.InRad, profile, 
+                _validationData.InRad, 
+                profile, 
                 _validationData.PolRange, 
                 _validationData.AziRange, 
                 _validationData.Direction, 
