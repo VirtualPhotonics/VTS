@@ -391,6 +391,18 @@
     <Compile Include="..\Vts.Test\MonteCarlo\Sources\PointAndLineSources\PointSources\PointSourcesTests.cs">
       <Link>MonteCarlo\Sources\PointAndLineSources\PointSources\PointSourcesTests.cs</Link>
     </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Sources\SurfaceEmittingBulkSources\CylindricalFiber\LambertianSurfaceEmittingCylindricalFiberSourceTests.cs">
+      <Link>MonteCarlo\Sources\SurfaceEmittingBulkSources\CylindricalFiber\LambertianSurfaceEmittingCylindricalFiberSourceTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Sources\SurfaceEmittingBulkSources\Spherical\LambertianSurfaceEmittingSphericalSourceTests.cs">
+      <Link>MonteCarlo\Sources\SurfaceEmittingBulkSources\Spherical\LambertianSurfaceEmittingSphericalSourceTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Sources\SurfaceEmittingBulkSources\SurfaceEmittingCuboidal\LambertianSurfaceEmittingCuboidalSourceTests.cs">
+      <Link>MonteCarlo\Sources\SurfaceEmittingBulkSources\SurfaceEmittingCuboidal\LambertianSurfaceEmittingCuboidalSourceTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Sources\SurfaceEmittingBulkSources\Tubular\LambertianSurfaceEmittingTubularSourceTests.cs">
+      <Link>MonteCarlo\Sources\SurfaceEmittingBulkSources\Tubular\LambertianSurfaceEmittingTubularSourceTests.cs</Link>
+    </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\Sources\SurfaceEmittingFlatSources\Circular\CircularAngledFromCircleSourceTests.cs">
       <Link>MonteCarlo\Sources\SurfaceEmittingFlatSources\Circular\CircularAngledFromCircleSourceTests.cs</Link>
     </Compile>
@@ -415,8 +427,8 @@
     <Compile Include="..\Vts.Test\MonteCarlo\Sources\SurfaceEmittingFlatSources\Rectangular\DirectionalRectangularSourceTests.cs">
       <Link>MonteCarlo\Sources\SurfaceEmittingFlatSources\Rectangular\DirectionalRectangularSourceTests.cs</Link>
     </Compile>
-    <Compile Include="..\Vts.Test\MonteCarlo\Sources\SurfaceEmittingFlatSources\SourceValidationData.cs">
-      <Link>MonteCarlo\Sources\SurfaceEmittingFlatSources\SourceValidationData.cs</Link>
+    <Compile Include="..\Vts.Test\MonteCarlo\Sources\SurfaceEmittingFlatSources\SurfaceEmitting2DSourcesValidationData.cs">
+      <Link>MonteCarlo\Sources\SurfaceEmittingFlatSources\SurfaceEmitting2DSourcesValidationData.cs</Link>
     </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\Sources\VolumetricSources\FluorescenceEmission\AOfRhoAndZLoaderTests.cs">
       <Link>MonteCarlo\Sources\VolumetricSources\FluorescenceEmission\AOfRhoAndZLoaderTests.cs</Link>
@@ -467,10 +479,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Modeling\Optimizers\" />
-    <Folder Include="MonteCarlo\Sources\SurfaceEmittingBulkSources\CylindricalFiber\" />
-    <Folder Include="MonteCarlo\Sources\SurfaceEmittingBulkSources\Spherical\" />
-    <Folder Include="MonteCarlo\Sources\SurfaceEmittingBulkSources\SurfaceEmittingCuboidal\" />
-    <Folder Include="MonteCarlo\Sources\SurfaceEmittingBulkSources\Tubular\" />
     <Folder Include="MonteCarlo\Sources\SurfaceEmittingFlatSources\ArbitrarySurfaceSource\" />
     <Folder Include="MonteCarlo\Sources\VolumetricSources\Ellipsoidal\" />
     <Folder Include="MonteCarlo\Sources\VolumetricSources\VolumetricCuboidal\" />

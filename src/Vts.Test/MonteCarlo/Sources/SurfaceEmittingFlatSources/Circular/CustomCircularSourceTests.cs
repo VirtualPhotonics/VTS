@@ -14,14 +14,14 @@ namespace Vts.Test.MonteCarlo.Sources
     [TestFixture]
     public class CustomCircularSourceTests
     {
-        private static SourceValidationData _validationData;
+        private static SurfaceEmitting2DSourcesValidationData _validationData;
 
         [OneTimeSetUp]
         public void setup_validation_data()
         {
             if (_validationData == null)
             {
-                _validationData = new SourceValidationData();
+                _validationData = new SurfaceEmitting2DSourcesValidationData();
                 _validationData.ReadData();
             }
         }

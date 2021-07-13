@@ -7,7 +7,7 @@ namespace Vts.Test.MonteCarlo.Sources
     /// <summary>
     /// Validation Data
     /// </summary>
-    public class SourceValidationData
+    public class SurfaceEmitting2DSourcesValidationData
     {
         /// <summary>
         /// acceptable precision when validating values
