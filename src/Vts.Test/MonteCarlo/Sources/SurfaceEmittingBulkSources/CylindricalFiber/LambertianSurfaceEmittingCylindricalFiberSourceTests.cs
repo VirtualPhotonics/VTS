@@ -36,7 +36,7 @@ namespace Vts.Test.MonteCarlo.Sources
                 bottomSurfaceEfficiency,
                 principalAxis,
                 translationFromOrigin,
-                0)
+                1)
             {
                 Rng = rng
             };

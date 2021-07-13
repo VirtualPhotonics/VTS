@@ -33,7 +33,7 @@ namespace Vts.Test.MonteCarlo.Sources
                 tubeHeightZ,
                 directionAxis,
                 translationFromOrigin,
-                0)
+                1)
             {
                 Rng = rng
             };

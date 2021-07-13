@@ -28,7 +28,7 @@ namespace Vts.Test.MonteCarlo.Sources
             var ps = new LambertianSurfaceEmittingSphericalSource(
                 radius,
                 translationFromOrigin,
-                0)
+                1)
             {
                 Rng = rng
             };

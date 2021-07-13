@@ -37,7 +37,7 @@ namespace Vts.Test.MonteCarlo.Sources
                 profile,
                 directionAxis,
                 translationFromOrigin,
-                0)
+                1)
             {
                 Rng = rng
             };

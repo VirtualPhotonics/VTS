@@ -49,9 +49,4 @@
   <ItemGroup>
     <ProjectReference Include="..\Vts\Vts.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="MonteCarlo\Sources\SurfaceEmittingFlatSources\ArbitrarySurfaceSource\" />
-    <Folder Include="MonteCarlo\Sources\VolumetricSources\Ellipsoidal\" />
-    <Folder Include="MonteCarlo\Sources\VolumetricSources\VolumetricCuboidal\" />
-  </ItemGroup>
 </Project>
