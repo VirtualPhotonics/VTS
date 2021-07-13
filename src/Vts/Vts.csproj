@@ -25,6 +25,13 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Benchmark|AnyCPU'">
     <Optimize>true</Optimize>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>Vts.xml</DocumentationFile>
+    <OutputPath></OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>Vts.xml</DocumentationFile>
+  </PropertyGroup>
   <ItemGroup>
     <Compile Remove="Common\Helpers\FuncOfT.cs" />
     <Compile Remove="Common\Helpers\Tuple.cs" />

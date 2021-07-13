@@ -49,7 +49,8 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\Vts.Desktop.Test.xml</DocumentationFile>
+    <DocumentationFile>
+    </DocumentationFile>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
@@ -183,14 +184,32 @@
     <Compile Include="..\Vts.Test\Modeling\MetaNumericsZeroOrderBesselFunctionTests.cs">
       <Link>Modeling\MetaNumericsZeroOrderBesselFunctionTests.cs</Link>
     </Compile>
+    <Compile Include="..\Vts.Test\Modeling\Spectroscopy\ChromophoreAbsorberTests.cs">
+      <Link>Modeling\Spectroscopy\ChromophoreAbsorberTests.cs</Link>
+    </Compile>
     <Compile Include="..\Vts.Test\Modeling\Spectroscopy\ChromophoreSpectrumTests.cs">
       <Link>Modeling\Spectroscopy\ChromophoreSpectrumTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\Modeling\Spectroscopy\IntralipidScattererTests.cs">
+      <Link>Modeling\Spectroscopy\IntralipidScattererTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\Modeling\Spectroscopy\MieScattererTests.cs">
+      <Link>Modeling\Spectroscopy\MieScattererTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\Modeling\Spectroscopy\PowerLawScattererTests.cs">
+      <Link>Modeling\Spectroscopy\PowerLawScattererTests.cs</Link>
     </Compile>
     <Compile Include="..\Vts.Test\Modeling\Spectroscopy\SpectralConverterTests.cs">
       <Link>Modeling\Spectroscopy\SpectralConverterTests.cs</Link>
     </Compile>
     <Compile Include="..\Vts.Test\Modeling\Spectroscopy\SpectralDatabaseTests.cs">
       <Link>Modeling\Spectroscopy\SpectralDatabaseTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\Modeling\Spectroscopy\TissueProviderTests.cs">
+      <Link>Modeling\Spectroscopy\TissueProviderTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\Modeling\Spectroscopy\TissueTests.cs">
+      <Link>Modeling\Spectroscopy\TissueTests.cs</Link>
     </Compile>
     <Compile Include="..\Vts.Test\Modeling\ValidateInverseSolution.cs">
       <Link>Modeling\ValidateInverseSolution.cs</Link>
@@ -236,9 +255,6 @@
     </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\DataStructures\OutputTests.cs">
       <Link>MonteCarlo\DataStructures\OutputTests.cs</Link>
-    </Compile>
-    <Compile Include="..\Vts.Test\MonteCarlo\DataStructures\SimulationInputExtensionsTests.cs">
-      <Link>MonteCarlo\DataStructures\SimulationInputExtensionsTests.cs</Link>
     </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\DataStructures\SimulationInputTests.cs">
       <Link>MonteCarlo\DataStructures\SimulationInputTests.cs</Link>
@@ -315,8 +331,23 @@
     <Compile Include="..\Vts.Test\MonteCarlo\Detectors\SpecularLayerDetectorTests.cs">
       <Link>MonteCarlo\Detectors\SpecularLayerDetectorTests.cs</Link>
     </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Extensions\DatabaseExtensionMethodsTests.cs">
+      <Link>MonteCarlo\Extensions\DatabaseExtensionMethodsTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Extensions\ITissueRegionExtensionMethodsTests.cs">
+      <Link>MonteCarlo\Extensions\ITissueRegionExtensionMethodsTests.cs</Link>
+    </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\Extensions\PhotonDataExtensionMethodsTests.cs">
       <Link>MonteCarlo\Extensions\PhotonDataExtensionMethodsTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Extensions\SimulationInputExtensionsTests.cs">
+      <Link>MonteCarlo\Extensions\SimulationInputExtensionsTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Extensions\StatisticsExtensionMethodsTests.cs">
+      <Link>MonteCarlo\Extensions\StatisticsExtensionMethodsTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Extensions\VirtualBoundaryExtensionMethodsTests.cs">
+      <Link>MonteCarlo\Extensions\VirtualBoundaryExtensionMethodsTests.cs</Link>
     </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\Factories\DetectorFactoryTests.cs">
       <Link>MonteCarlo\Factories\DetectorFactoryTests.cs</Link>
@@ -354,17 +385,71 @@
     <Compile Include="..\Vts.Test\MonteCarlo\Rng\SerializableMersenneTwisterTests.cs">
       <Link>MonteCarlo\Rng\SerializableMersenneTwisterTests.cs</Link>
     </Compile>
-    <Compile Include="..\Vts.Test\MonteCarlo\Sources\FluorescenceEmissionSourcesTests.cs">
-      <Link>MonteCarlo\Sources\FluorescenceEmissionSourcesTests.cs</Link>
+    <Compile Include="..\Vts.Test\MonteCarlo\Sources\PointAndLineSources\LineSources\LineSourcesTests.cs">
+      <Link>MonteCarlo\Sources\PointAndLineSources\LineSources\LineSourcesTests.cs</Link>
     </Compile>
-    <Compile Include="..\Vts.Test\MonteCarlo\Sources\LineSourcesTests.cs">
-      <Link>MonteCarlo\Sources\LineSourcesTests.cs</Link>
+    <Compile Include="..\Vts.Test\MonteCarlo\Sources\PointAndLineSources\PointSources\PointSourcesTests.cs">
+      <Link>MonteCarlo\Sources\PointAndLineSources\PointSources\PointSourcesTests.cs</Link>
     </Compile>
-    <Compile Include="..\Vts.Test\MonteCarlo\Sources\PointSourcesTests.cs">
-      <Link>MonteCarlo\Sources\PointSourcesTests.cs</Link>
+    <Compile Include="..\Vts.Test\MonteCarlo\Sources\SurfaceEmittingBulkSources\CylindricalFiber\LambertianSurfaceEmittingCylindricalFiberSourceTests.cs">
+      <Link>MonteCarlo\Sources\SurfaceEmittingBulkSources\CylindricalFiber\LambertianSurfaceEmittingCylindricalFiberSourceTests.cs</Link>
     </Compile>
-    <Compile Include="..\Vts.Test\MonteCarlo\Sources\SurfaceEmittingFlatSourcesTests.cs">
-      <Link>MonteCarlo\Sources\SurfaceEmittingFlatSourcesTests.cs</Link>
+    <Compile Include="..\Vts.Test\MonteCarlo\Sources\SurfaceEmittingBulkSources\Spherical\LambertianSurfaceEmittingSphericalSourceTests.cs">
+      <Link>MonteCarlo\Sources\SurfaceEmittingBulkSources\Spherical\LambertianSurfaceEmittingSphericalSourceTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Sources\SurfaceEmittingBulkSources\SurfaceEmittingCuboidal\LambertianSurfaceEmittingCuboidalSourceTests.cs">
+      <Link>MonteCarlo\Sources\SurfaceEmittingBulkSources\SurfaceEmittingCuboidal\LambertianSurfaceEmittingCuboidalSourceTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Sources\SurfaceEmittingBulkSources\Tubular\LambertianSurfaceEmittingTubularSourceTests.cs">
+      <Link>MonteCarlo\Sources\SurfaceEmittingBulkSources\Tubular\LambertianSurfaceEmittingTubularSourceTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Sources\SurfaceEmittingFlatSources\ArbitrarySurfaceSource\DirectionalArbitrarySurfaceSourceTests.cs">
+      <Link>MonteCarlo\Sources\SurfaceEmittingFlatSources\ArbitrarySurfaceSource\DirectionalArbitrarySurfaceSourceTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Sources\SurfaceEmittingFlatSources\Circular\CircularAngledFromCircleSourceTests.cs">
+      <Link>MonteCarlo\Sources\SurfaceEmittingFlatSources\Circular\CircularAngledFromCircleSourceTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Sources\SurfaceEmittingFlatSources\Circular\CircularAngledFromPointSourceTests.cs">
+      <Link>MonteCarlo\Sources\SurfaceEmittingFlatSources\Circular\CircularAngledFromPointSourceTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Sources\SurfaceEmittingFlatSources\Circular\CustomCircularSourceTests.cs">
+      <Link>MonteCarlo\Sources\SurfaceEmittingFlatSources\Circular\CustomCircularSourceTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Sources\SurfaceEmittingFlatSources\Circular\DirectionalCircularSourceTests.cs">
+      <Link>MonteCarlo\Sources\SurfaceEmittingFlatSources\Circular\DirectionalCircularSourceTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Sources\SurfaceEmittingFlatSources\Elliptical\CustomEllipticalSourceTests.cs">
+      <Link>MonteCarlo\Sources\SurfaceEmittingFlatSources\Elliptical\CustomEllipticalSourceTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Sources\SurfaceEmittingFlatSources\Elliptical\DirectionalEllipticalSourceTests.cs">
+      <Link>MonteCarlo\Sources\SurfaceEmittingFlatSources\Elliptical\DirectionalEllipticalSourceTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Sources\SurfaceEmittingFlatSources\Rectangular\CustomRectangularSourceTests.cs">
+      <Link>MonteCarlo\Sources\SurfaceEmittingFlatSources\Rectangular\CustomRectangularSourceTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Sources\SurfaceEmittingFlatSources\Rectangular\DirectionalRectangularSourceTests.cs">
+      <Link>MonteCarlo\Sources\SurfaceEmittingFlatSources\Rectangular\DirectionalRectangularSourceTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Sources\SurfaceEmittingFlatSources\SurfaceEmitting2DSourcesValidationData.cs">
+      <Link>MonteCarlo\Sources\SurfaceEmittingFlatSources\SurfaceEmitting2DSourcesValidationData.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Sources\VolumetricSources\Ellipsoidal\CustomVolumetricEllipsoidalSourceTests.cs">
+      <Link>MonteCarlo\Sources\VolumetricSources\Ellipsoidal\CustomVolumetricEllipsoidalSourceTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Sources\VolumetricSources\FluorescenceEmission\AOfRhoAndZLoaderTests.cs">
+      <Link>MonteCarlo\Sources\VolumetricSources\FluorescenceEmission\AOfRhoAndZLoaderTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Sources\VolumetricSources\FluorescenceEmission\AOfXAndYAndZLoaderTests.cs">
+      <Link>MonteCarlo\Sources\VolumetricSources\FluorescenceEmission\AOfXAndYAndZLoaderTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Sources\VolumetricSources\FluorescenceEmission\FluorescenceEmissionAOfRhoAndZSourceTests.cs">
+      <Link>MonteCarlo\Sources\VolumetricSources\FluorescenceEmission\FluorescenceEmissionAOfRhoAndZSourceTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Sources\VolumetricSources\FluorescenceEmission\FluorescenceEmissionAOfXAndYAndZSourceTests.cs">
+      <Link>MonteCarlo\Sources\VolumetricSources\FluorescenceEmission\FluorescenceEmissionAOfXAndYAndZSourceTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Sources\VolumetricSources\VolumetricCuboidal\IsotropicVolumetricCuboidalSourceTests.cs">
+      <Link>MonteCarlo\Sources\VolumetricSources\VolumetricCuboidal\IsotropicVolumetricCuboidalSourceTests.cs</Link>
     </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\Tissues\BoundedTissueTests.cs">
       <Link>MonteCarlo\Tissues\BoundedTissueTests.cs</Link>
