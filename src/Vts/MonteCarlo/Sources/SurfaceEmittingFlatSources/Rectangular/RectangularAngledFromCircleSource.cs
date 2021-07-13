@@ -1,90 +1,80 @@
 ﻿using System;
 using Vts.Common;
+using Vts.MonteCarlo.Helpers;
 using Vts.MonteCarlo.Interfaces;
 using Vts.MonteCarlo.Sources.SourceProfiles;
-using Vts.MonteCarlo.Helpers;
 
 namespace Vts.MonteCarlo.Sources
 {
     /// <summary>
-    /// Implements ISourceInput. Defines input data for CircularAngledFromCircleSource implementation 
-    /// including radius, source profile, point position, and initial tissue region index.
-    /// The angle of the source is determined by the position on the tissue surface (dictated by the source
-    /// profile) and the point position.
+    /// Implements ISourceInput. Defines input data for RectangularAngledFromCircleSource
+    /// implementation including length, width, source profile,
+    /// and initial tissue region index.
+    /// The angle of the source is determined by the position on the tissue surface (dictated
+    /// by the source profile) and the *uniformly sampled* circle position in air.
     /// </summary>
-    public class CircularAngledFromCircleSourceInput : ISourceInput
+    public class RectangularAngledFromCircleSourceInput : ISourceInput
     {
         /// <summary>
-        /// Initializes a new instance of CircularAngledFromCircleSourceInput class
+        /// Initializes a new instance of RectangularAngledFromCircleSourceInput class
         /// </summary>
-        /// <param name="radiusOnTissue">The radius of the circular source on tissue surface</param>
-        /// <param name="sourceProfile">Source Profile {Flat / Gaussian}</param>
+        /// <param name="rectLengthX">The length of the Rectangular Source</param>
+        /// <param name="rectWidthY">The width of the Rectangular Source</param>
+        /// <param name="sourceProfile">Source Profile {Flat / Gaussian} of rectangle</param>
         /// <param name="radiusInAir">radius of originating circle</param>
         /// <param name="circleInAirTranslationFromOrigin">Center of circle location</param>
         /// <param name="initialTissueRegionIndex">Initial tissue region index</param>
-        public CircularAngledFromCircleSourceInput(
-            double radiusOnTissue,
+        public RectangularAngledFromCircleSourceInput(
+            double rectLengthX,
+            double rectWidthY,
             ISourceProfile sourceProfile,
             double radiusInAir,
             Position circleInAirTranslationFromOrigin,
             int initialTissueRegionIndex)
         {
-            SourceType = "CircularAngledFromCircle";
-            RadiusOnTissue = radiusOnTissue;
+            SourceType = "RectangularAngledFromCircle";
+            RectLengthX = rectLengthX;
+            RectWidthY = rectWidthY;
             SourceProfile = sourceProfile;
-            RadiusInAir = radiusInAir;
+            RadiusInAir = radiusInAir; 
             CircleInAirTranslationFromOrigin = circleInAirTranslationFromOrigin;
             InitialTissueRegionIndex = initialTissueRegionIndex;
         }
 
         /// <summary>
-        /// Initializes a new instance of CircularAngledFromCircleSourceInput class
+        /// Initializes the default constructor of RectangularAngledFromCircleSourceInput class
         /// </summary>
-        /// <param name="radiusOnTissue">Radius of the circular source on tissue surface</param>
-        /// <param name="sourceProfile">Source Profile {Flat / Gaussian}</param>
-        /// <param name="radiusInAir">Radius of circle in air</param>
-        /// <param name="circleInAirTranslationFromOrigin">Circle in air location</param>
-        public CircularAngledFromCircleSourceInput(
-            double radiusOnTissue,
-            ISourceProfile sourceProfile,
-            double radiusInAir,
-            Position circleInAirTranslationFromOrigin)
+        public RectangularAngledFromCircleSourceInput()
             : this(
-                radiusOnTissue,
-                sourceProfile,
-                radiusInAir,
-                circleInAirTranslationFromOrigin,
-                0) { }
-
-        /// <summary>
-        /// Initializes the default constructor of CircularAngledFromCircleSourceInput class
-        /// </summary>
-        public CircularAngledFromCircleSourceInput()
-            : this(
-                10.0,
-                new FlatSourceProfile(),
                 1.0,
+                2.0,
+                new FlatSourceProfile(),
+                0.1,
                 SourceDefaults.DefaultPosition.Clone(),
                 0) { }
 
         /// <summary>
-        /// Circular source type
+        /// Rectangular source type
         /// </summary>
         public string SourceType { get; set; }
         /// <summary>
-        /// The radius of the circular source on tissue surface
+        /// The length of the Rectangular Source
         /// </summary>
-        public double RadiusOnTissue { get; set; }
+        public double RectLengthX { get; set; }
+        /// <summary>
+        /// The width of the Rectangular Source
+        /// </summary>
+        public double RectWidthY { get; set; }
         /// <summary>
         /// Source profile type
         /// </summary>
         public ISourceProfile SourceProfile { get; set; }
         /// <summary>
-        /// The radius of the circular source in air
+        /// radius of circle in air
         /// </summary>
         public double RadiusInAir { get; set; }
         /// <summary>
-        /// New source location
+        /// New circular source location
         /// </summary>
         public Position CircleInAirTranslationFromOrigin { get; set; }
         /// <summary>
@@ -101,8 +91,9 @@ namespace Vts.MonteCarlo.Sources
         {
             rng = rng ?? new Random();
 
-            return new CircularAngledFromCircleSource(
-                this.RadiusOnTissue,
+            return new RectangularAngledFromCircleSource(
+                this.RectLengthX,
+                this.RectWidthY,
                 this.SourceProfile,
                 this.RadiusInAir,
                 this.CircleInAirTranslationFromOrigin,
@@ -111,43 +102,44 @@ namespace Vts.MonteCarlo.Sources
     }
 
     /// <summary>
-    /// Implements CircularAngledFromCircleSource with radius on tissue surface, source profile,  
-    /// point position, and initial tissue region index. 
+    /// Implements RectangularAngledFromCircleSource with length, width, source profile,  
+    /// circle in air translation from origin, and initial tissue
+    /// region index.
     /// </summary>
-    public class CircularAngledFromCircleSource : CircularSourceBase
+    public class RectangularAngledFromCircleSource : RectangularSourceBase
     {
         Position _circleInAirTranslationFromOrigin;
-        double _radiusOnTissue, _radiusInAir;
-
+        double _radiusInAir;
         /// <summary>
-        /// Returns an instance of  Circular Source Angled From Point with specified radius,
-        /// source profile (Flat/Gaussian), point position
+        /// Returns an instance of Custom Rectangular Source with specified length and width,
+        /// source profile (Flat/Gaussian),translation of circle in air
         /// </summary>
-        /// <param name="radiusOnTissue">The radius of the circular source on tissue surface</param>
-        /// <param name="sourceProfile">Source Profile {Flat / Gaussian}</param> 
-        /// <param name="radiusInAir">radius of circle in air</param>     
-        /// <param name="circleInAirTranslationFromOrigin">New source location</param>
+        /// <param name="rectLengthX">The length of the Rectangular Source</param>
+        /// <param name="rectWidthY">The width of the Rectangular Source</param>
+        /// <param name="sourceProfile">Source Profile {Flat / Gaussian}</param>  
+        /// <param name="radiusInAir">radius of circle in air</param>
+        /// <param name="circleInAirTranslationFromOrigin">New rectangular source location</param>    
         /// <param name="initialTissueRegionIndex">Initial tissue region index</param>
-        public CircularAngledFromCircleSource(            
-            double radiusOnTissue,
+        public RectangularAngledFromCircleSource(
+            double rectLengthX,
+            double rectWidthY,
             ISourceProfile sourceProfile,
             double radiusInAir,
             Position circleInAirTranslationFromOrigin,
             int initialTissueRegionIndex = 0)
-            : base(                
-                radiusOnTissue,
-                0.0,
+            : base(
+                rectLengthX,
+                rectWidthY,
                 sourceProfile,
                 SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone(), // newDirectionOfPrincipalSourceAxis
-                new Position(0,0,0), 
+                SourceDefaults.DefaultPosition.Clone(),
                 SourceDefaults.DefaultBeamRoationFromInwardNormal.Clone(), // beamRotationFromInwardNormal
                 initialTissueRegionIndex)
         {
-            _radiusOnTissue = radiusOnTissue;
             _radiusInAir = radiusInAir;
             _circleInAirTranslationFromOrigin = circleInAirTranslationFromOrigin;
         }
-        
+
         /// <summary>
         /// Returns direction for a given position
         /// </summary>
@@ -158,7 +150,7 @@ namespace Vts.MonteCarlo.Sources
             // randomly sample length of flat circle in air
             var positionInAir = SourceToolbox.GetPositionInACircleRandomFlat(
                 _circleInAirTranslationFromOrigin, 0.0, _radiusInAir, Rng);
-             // determine angle from positionInAir to PointLocation on tissue
+            // determine angle from positionInAir to PointLocation on tissue
             var dist = Math.Sqrt(
                 (positionInAir.X - position.X) * (positionInAir.X - position.X) +
                 (positionInAir.Y - position.Y) * (positionInAir.Y - position.Y) +
