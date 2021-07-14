@@ -36,10 +36,10 @@ namespace Vts.Test.MonteCarlo.Sources
         /// </summary>
         public void read_data()
         {
-            string testpara = "../../../../matlab/test/monte_carlo/source_test_data_generation/UnitTests_PointSources.txt";
-
-            if (File.Exists(testpara))
+            // if need to regenerate _tp, run matlab/test/ code 
+            if (_tp.Length == 0)
             {
+                string testpara = "../../../../../matlab/test/monte_carlo/source_test_data_generation/UnitTests_PointSources.txt";
                 using (TextReader reader = File.OpenText(testpara))
                 {
                     string text = reader.ReadToEnd();

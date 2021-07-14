@@ -93,23 +93,23 @@ AngRot3 = [AngRotX, AngRotY, AngRotZ];
 
 %Custom Line Source
 %Flat
-TestCustomLineSourcePos = SourceToolbox_GetPositionInALineRandomFlat([0,0,0], L, RN1);
-TestCustomLineSourceDir = SourceToolbox_GetDirectionForGivenPolaAzimuthalAngleRange(PolRange, AziRange, RN2, RN3);
+TestCustomLineSourcePos = Func_GetPositionInALineRandomFlat([0,0,0], L, RN1);
+TestCustomLineSourceDir = Func_GetDirectionForGivenPolaAzimuthalAngleRange(PolRange, AziRange, RN2, RN3);
 %Gaussian
-%TestCustomLineSourcePos = SourceToolbox_GetPositionInALineRandomGaussian([0,0,0], L, BDFWHM, RN1, RN2);
-%TestCustomLineSourceDir = SourceToolbox_GetDirectionForGivenPolaAzimuthalAngleRange(PolRange, AziRange, RN3, RN4);
-TestCustomLineSourcePolAzi = SourceToolbox_GetPolarAzimuthalPairFromDirection([1, 0, 0]);
+%TestCustomLineSourcePos = Func_GetPositionInALineRandomGaussian([0,0,0], L, BDFWHM, RN1, RN2);
+%TestCustomLineSourceDir = Func_GetDirectionForGivenPolaAzimuthalAngleRange(PolRange, AziRange, RN3, RN4);
+TestCustomLineSourcePolAzi = Func_GetPolarAzimuthalPairFromDirection([1, 0, 0]);
 Flags = [true, true, true];
-[TestCustomLineSource_U, TestCustomLineSource_V] = SourceToolbox_UpdateDirectionAndPositionAfterGivenFlags(TestCustomLineSourceDir, TestCustomLineSourcePos, TestCustomLineSourcePolAzi, [1,2,3], AngPair, Flags);
+[TestCustomLineSource_U, TestCustomLineSource_V] = Func_UpdateDirectionAndPositionAfterGivenFlags(TestCustomLineSourceDir, TestCustomLineSourcePos, TestCustomLineSourcePolAzi, [1,2,3], AngPair, Flags);
 
 %Isotropic Line Source
 %Flat
-% TestIsotropicLineSourcePos = SourceToolbox_GetPositionInALineRandomFlat([0,0,0], L, RN1);
-% TestIsotropicLineSourceDir = SourceToolbox_GetDirectionForIsotropicDistributionRandom(RN2, RN3);
+% TestIsotropicLineSourcePos = Func_GetPositionInALineRandomFlat([0,0,0], L, RN1);
+% TestIsotropicLineSourceDir = Func_GetDirectionForIsotropicDistributionRandom(RN2, RN3);
 %Gaussian
-TestIsotropicLineSourcePos = SourceToolbox_GetPositionInALineRandomGaussian([0,0,0], L, BDFWHM, RN1, RN2);
-TestIsotropicLineSourceDir = SourceToolbox_GetDirectionForIsotropicDistributionRandom(RN3, RN4);
-TestIsotropicLineSourcePolAzi = SourceToolbox_GetPolarAzimuthalPairFromDirection([1, 0, 0]);
+TestIsotropicLineSourcePos = Func_GetPositionInALineRandomGaussian([0,0,0], L, BDFWHM, RN1, RN2);
+TestIsotropicLineSourceDir = Func_GetDirectionForIsotropicDistributionRandom(RN3, RN4);
+TestIsotropicLineSourcePolAzi = Func_GetPolarAzimuthalPairFromDirection([1, 0, 0]);
 Flags = [true, true, true];
-[TestIsotropicLineSource_U, TestIsotropicLineSource_V] = SourceToolbox_UpdateDirectionAndPositionAfterGivenFlags(TestIsotropicLineSourceDir, TestIsotropicLineSourcePos, TestIsotropicLineSourcePolAzi, [1,2,3], AngPair, Flags);
+[TestIsotropicLineSource_U, TestIsotropicLineSource_V] = Func_UpdateDirectionAndPositionAfterGivenFlags(TestIsotropicLineSourceDir, TestIsotropicLineSourcePos, TestIsotropicLineSourcePolAzi, [1,2,3], AngPair, Flags);
 

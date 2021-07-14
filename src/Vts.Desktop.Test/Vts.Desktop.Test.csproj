@@ -430,6 +430,9 @@
     <Compile Include="..\Vts.Test\MonteCarlo\Sources\SurfaceEmittingFlatSources\Rectangular\DirectionalRectangularSourceTests.cs">
       <Link>MonteCarlo\Sources\SurfaceEmittingFlatSources\Rectangular\DirectionalRectangularSourceTests.cs</Link>
     </Compile>
+    <Compile Include="..\Vts.Test\MonteCarlo\Sources\SurfaceEmittingFlatSources\Rectangular\RectangularAngledFromCircleSourceTests.cs">
+      <Link>MonteCarlo\Sources\SurfaceEmittingFlatSources\Rectangular\RectangularAngledFromCircleSourceTests.cs</Link>
+    </Compile>
     <Compile Include="..\Vts.Test\MonteCarlo\Sources\SurfaceEmittingFlatSources\SurfaceEmitting2DSourcesValidationData.cs">
       <Link>MonteCarlo\Sources\SurfaceEmittingFlatSources\SurfaceEmitting2DSourcesValidationData.cs</Link>
     </Compile>
