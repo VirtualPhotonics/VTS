@@ -484,12 +484,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Vts.Desktop\Vts.Desktop.csproj">
-      <Project>{05B6020A-B646-4BBB-B9A0-B524F5F85023}</Project>
-      <Name>Vts.Desktop</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Folder Include="Modeling\Optimizers\" />
   </ItemGroup>
   <ItemGroup>

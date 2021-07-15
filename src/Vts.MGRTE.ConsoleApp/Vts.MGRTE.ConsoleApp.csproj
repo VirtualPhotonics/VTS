@@ -59,14 +59,14 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Vts.Desktop\Vts.Desktop.csproj">
-      <Project>{05B6020A-B646-4BBB-B9A0-B524F5F85023}</Project>
-      <Name>Vts.Desktop</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Vts\Vts.csproj">
+      <Project>{92381e9c-57f9-4391-a3c6-a5faa99e823b}</Project>
+      <Name>Vts</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
