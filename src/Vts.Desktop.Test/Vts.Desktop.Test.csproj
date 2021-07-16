@@ -127,6 +127,9 @@
     <Compile Include="..\Vts.Test\Common\Helpers\Range\UintRangeTests.cs">
       <Link>Common\Helpers\Range\UintRangeTests.cs</Link>
     </Compile>
+    <Compile Include="..\Vts.Test\Common\LayerOpticalPropertyRegionTests.cs">
+      <Link>Common\LayerOpticalPropertyRegionTests.cs</Link>
+    </Compile>
     <Compile Include="..\Vts.Test\Common\Math\ConvertTests.cs">
       <Link>Common\Math\ConvertTests.cs</Link>
     </Compile>
