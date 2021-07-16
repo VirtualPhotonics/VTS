@@ -1,9 +1,7 @@
-﻿using System.IO;
+﻿using NUnit.Framework;
 using System.Linq;
-using System.Runtime.Serialization;
-using System.Runtime.Serialization.Json;
-using NUnit.Framework;
 using Vts.Common;
+using Vts.IO;
 
 namespace Vts.Test.Common
 {
@@ -11,107 +9,103 @@ namespace Vts.Test.Common
     public class FloatRangeTests
     {
         [Test]
-        public void validate_FloatRange_constructor_assigns_correct_values()
+        public void Validate_FloatRange_constructor_assigns_correct_values()
         {
             var r = new FloatRange(0f, 9f, 10);
 
-            Assert.AreEqual(r.Start, 0f);
-            Assert.AreEqual(r.Stop, 9f);
-            Assert.AreEqual(r.Delta, 1f);
-            Assert.AreEqual(r.Count, 10);
+            Assert.AreEqual(0f, r.Start);
+            Assert.AreEqual(9f, r.Stop);
+            Assert.AreEqual(1f, r.Delta);
+            Assert.AreEqual(10, r.Count);
         }
 
         [Test]
-        public void validate_FloatRange_default_constructor_assigns_correct_values()
+        public void Validate_FloatRange_default_constructor_assigns_correct_values()
         {
             var r = new FloatRange();
 
-            Assert.AreEqual(r.Start, 0f);
-            Assert.AreEqual(r.Stop, 1f);
-            Assert.AreEqual(r.Delta, 1f);
-            Assert.AreEqual(r.Count, 2);
+            Assert.AreEqual(0f, r.Start);
+            Assert.AreEqual(1f, r.Stop);
+            Assert.AreEqual(1f, r.Delta);
+            Assert.AreEqual(2, r.Count);
         }
 
         [Test]
-        public void validate_class_is_serializable()
+        public void Validate_class_is_serializable()
         {
-            Assert.IsNotNull(Clone(new FloatRange()));
+            Assert.IsInstanceOf<FloatRange>(new FloatRange().Clone<FloatRange>());
         }
 
         [Test]
-        public void validate_deserialized_class_is_correct()
+        public void Validate_deserialized_class_is_correct()
         {
             var r = new FloatRange(0f, 9f, 10);
 
-            var deserializedR = Clone(r);
+            var deserializedR = r.Clone<FloatRange>();
 
             Assert.IsNotNull(deserializedR);
 
-            Assert.AreEqual(deserializedR.Start, 0f);
-            Assert.AreEqual(deserializedR.Stop, 9f);
-            Assert.AreEqual(deserializedR.Delta, 1f);
-            Assert.AreEqual(deserializedR.Count, 10);
+            Assert.AreEqual(0f, deserializedR.Start);
+            Assert.AreEqual(9f, deserializedR.Stop);
+            Assert.AreEqual(1f, deserializedR.Delta);
+            Assert.AreEqual(10, deserializedR.Count);
         }
 
         [Test]
-        public void validate_single_count_returns_correct_delta_for_matched_start_stop()
+        public void Validate_single_count_returns_correct_delta_for_matched_start_stop()
         {
             var r = new FloatRange(10f, 10f, 1);
 
             var delta = r.Delta;
             var count = r.Count;
 
-            Assert.AreEqual(delta, 0f);
-            Assert.AreEqual(count, 1);
+            Assert.AreEqual(0f, delta);
+            Assert.AreEqual(1, count);
         }
 
         [Test]
-        public void validate_single_count_returns_correct_delta_for_mismatched_start_stop()
+        public void Validate_single_count_returns_correct_delta_for_mismatched_start_stop()
         {
             var r = new FloatRange(10f, 20f, 1);
 
             var delta = r.Delta;
             var count = r.Count;
 
-            Assert.AreEqual(delta, 10f);
-            Assert.AreEqual(count, 1);
+            Assert.AreEqual(10f, delta);
+            Assert.AreEqual(1, count);
         }
 
         [Test]
-        public void validate_multi_count_returns_correct_delta_for_matched_start_stop()
+        public void Validate_multi_count_returns_correct_delta_for_matched_start_stop()
         {
             var r = new FloatRange(10f, 10f, 3);
 
             var count = r.Count;
             var delta = r.Delta;
 
-            Assert.AreEqual(count, 3);
-            Assert.AreEqual(delta, 0f);
+            Assert.AreEqual(3, count);
+            Assert.AreEqual(0f, delta);
         }
 
         [Test]
-        public void validate_multi_count_returns_multiple_values_for_matched_start_stop()
+        public void Validate_multi_count_returns_multiple_values_for_matched_start_stop()
         {
             var r = new FloatRange(10f, 10f, 3);
 
             var values = r.AsEnumerable().ToArray();
 
-            Assert.AreEqual(values.Length, 3);
-            for (int i = 0; i < values.Length; i++)
+            Assert.AreEqual(3, values.Length);
+            foreach (var value in values)
             {
-                Assert.AreEqual(values[i], 10f);
+                Assert.AreEqual(10f, value);
             }
         }
 
-        private static T Clone<T>(T myObject)
+        [Test]
+        public void Test_clone()
         {
-            using (MemoryStream ms = new MemoryStream(1024))
-            {
-                var dcs = new DataContractSerializer(typeof(T));
-                dcs.WriteObject(ms, myObject);
-                ms.Seek(0, SeekOrigin.Begin);
-                return (T)dcs.ReadObject(ms);
-            }
+            var floatRange = new FloatRange(0f, 10f);
+            Assert.IsInstanceOf<FloatRange>(floatRange.Clone());
         }
     }
 }
