@@ -8,41 +8,41 @@
         /// <summary>
         /// reflection contribution to incoming flux from outgoing flux:   Ri[ne][ns][2]  --- interpolated direction
         /// </summary>
-        public int[][][] Ri { get; set; }
+        public int[][][] Ri;
 
         /// <summary>
         /// reflection contribution to outgoing flux from boundary source: Ro[ne][ns][2]  --- interpolated weight
         /// </summary>
-        public int[][][] Ro { get; set; }
+        public int[][][] Ro;
 
         /// <summary>
         /// refraction contribution to incoming flux from boundary source: Si[ne][ns][2]  --- interpolated direction
         /// </summary>
-        public int[][][] Si { get; set; }
+        public int[][][] Si;
 
         /// <summary>
         /// refraction contribution to outgoing flux from outgoing flux:   So[ne][ns][2]  --- interpolated weight
         /// </summary>
-        public int[][][] So { get; set; }
+        public int[][][] So;
 
         /// <summary>
         /// reflection contribution to incoming flux from outgoing flux:   Ri2[ne][ns][2] --- interpolated weight
         /// </summary>
-        public double[][][] Ri2 { get; set; }
+        public double[][][] Ri2;
 
         /// <summary>
         /// reflection contribution to outgoing flux from boundary source: Ro2[ne][ns][2] --- interpolated direction
         /// </summary>
-        public double[][][] Ro2 { get; set; }
+        public double[][][] Ro2;
 
         /// <summary>
         /// refraction contribution to incoming flux from boundary source: Si2[ne][ns][2] --- interpolated weight   
         /// </summary>
-        public double[][][] Si2 { get; set; }
+        public double[][][] Si2;
 
         /// <summary>
         /// refraction contribution to outgoing flux from outgoing flux:   So2[ne][ns][2] --- interpolated direction
         /// </summary>
-        public double[][][] So2 { get; set; }
+        public double[][][] So2;
     };
 }

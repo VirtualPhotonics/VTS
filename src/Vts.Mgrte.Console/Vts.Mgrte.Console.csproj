@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="VirtualPhotonics.Vts" Version="5.0.0" />
+    <ProjectReference Include="..\Vts\Vts.csproj" />
   </ItemGroup>
 
   <ItemGroup>
