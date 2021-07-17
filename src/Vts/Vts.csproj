@@ -34,6 +34,11 @@
     <DocumentationFile>Vts.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="MonteCarlo\Unmanaged\**" />
+    <EmbeddedResource Remove="MonteCarlo\Unmanaged\**" />
+    <None Remove="MonteCarlo\Unmanaged\**" />
+  </ItemGroup>
+  <ItemGroup>
     <Compile Remove="Common\Helpers\FuncOfT.cs" />
     <Compile Remove="Common\Helpers\Tuple.cs" />
   </ItemGroup>
@@ -108,11 +113,11 @@
     <EmbeddedResource Include="Modeling\Spectroscopy\Resources\SpectralDictionary.xml" />
   </ItemGroup>
   <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Benchmark|AnyCPU'">
-	<PackageReference Include="BenchmarkDotNet" Version="0.12.1" />
+	<PackageReference Include="BenchmarkDotNet" Version="0.13.0" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="csmpfit" Version="1.1.1" />
-    <PackageReference Include="MathNet.Numerics" Version="4.15.0" />
+    <PackageReference Include="MathNet.Numerics" Version="4.11.0" />
     <PackageReference Include="Meta.Numerics" Version="4.1.4" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
