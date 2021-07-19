@@ -5,9 +5,7 @@ if (!$args) {
 }
 
 $vtslevel = $PWD
-Write-Host "Build Vts library Debug & Release" -ForegroundColor Green
-dotnet build $PWD\src\Vts\Vts.csproj -c Debug
-dotnet build $PWD\src\Vts\Vts.csproj -c Release
+.\BuildTestCore.ps1 
 
 Write-Host "Build MCCL Debug, Release" -ForegroundColor Green
 $mcclcsproj = "$PWD\src\Vts.MonteCarlo.CommandLineApplication\Vts.MonteCarlo.CommandLineApplication.csproj"
@@ -18,13 +16,6 @@ Write-Host "Build MCPP Debug, Release" -ForegroundColor Green
 $mcppcsproj = "$PWD\src\Vts.MonteCarlo.PostProcessor\Vts.MonteCarlo.PostProcessor.csproj"
 dotnet build $mcppcsproj -c Debug
 dotnet build $mcppcsproj -c Release
-
-Write-Host "Build Vts.Test Debug & Release" -ForegroundColor Green
-dotnet build $PWD\src\Vts.Test\Vts.Test.csproj -c Debug
-dotnet build $PWD\src\Vts.Test\Vts.Test.csproj -c Release
-Write-Host "Run Vts.Test Debug and Release" -ForegroundColor Green
-dotnet test $PWD\src\Vts.Test\Vts.Test.csproj -c Debug
-dotnet test $PWD\src\Vts.Test\Vts.Test.csproj -c Release
 
 Write-Host "Release Packages: version = $version" -ForegroundColor Green
 

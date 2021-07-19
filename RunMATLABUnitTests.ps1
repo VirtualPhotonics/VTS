@@ -9,7 +9,7 @@ Remove-Item $matlablibdir -Recurse -ErrorAction Ignore
 New-Item $matlablibdir -ItemType "directory"
 
 # put supporting libraries into vts_libraries folder
-$vtsdesktop = "$vtslevel\src\Vts.Desktop\bin\Release"
+$vtsdesktop = "$vtslevel\src\Vts\bin\Release\net48"
 Copy-Item -Path "$vtsdesktop\*" -Destination "$matlablibdir"
 
 # UNCOMMENT NEXT LINE WHEN FILES IN vts_libraries

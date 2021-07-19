@@ -8,43 +8,42 @@
         /// <summary>
         /// fluence at each node
         /// </summary>
-        public double[] Fluence { get; set; }  
+        public double[] fluence;  
         
         /// <summary>
         /// radiance at each node
         /// </summary>
-        public double[][] Radiance { get; set; }
-        // the following 3 are not properties because they are passed by reference to
-        // a method and properties cannot be passed by reference
+        public double[][] radiance; 
+        
         /// <summary>
         /// rectangular grid array
         /// </summary>
-        public double[][] uxy;
-
+        public double[][] uxy;   
+        
         /// <summary>
         /// x coordinates
         /// </summary>
-        public double[] xloc;
-
+        public double[] xloc;     
+        
         /// <summary>
         /// z coordinates
         /// </summary>
-        public double[] zloc;
+        public double[] zloc;     
         
         /// <summary>
         /// Intensity
         /// </summary>
-        public double[] Inten { get; set; }     
+        public double[] inten;     
         
         /// <summary>
         /// dx spacing between each grid
         /// </summary>
-        public double[] Dx { get; set; }
+        public double[] dx;
         
         /// <summary>
         /// dz spacing between each grid
         /// </summary>
-        public double[] Dz { get; set; }        
+        public double[] dz;        
     }
 }
 
