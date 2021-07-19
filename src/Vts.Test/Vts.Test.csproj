@@ -1,6 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk" ToolsVersion="Current">
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+	<TargetFramework Condition=" '$(OS)' != 'Windows_NT' ">netcoreapp3.1</TargetFramework>
+	<TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">netcoreapp3.1;net48</TargetFrameworks>
     <IsPackable>false</IsPackable>
     <FileUpgradeFlags>40</FileUpgradeFlags>
     <UpgradeBackupLocation>C:\Users\hayakawa\Documents\Visual Studio 2019\Projects\vts_210207\src\Backup\Vts.Test\</UpgradeBackupLocation>
