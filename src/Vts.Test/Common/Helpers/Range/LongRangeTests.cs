@@ -1,8 +1,7 @@
-﻿using System.IO;
+﻿using NUnit.Framework;
 using System.Linq;
-using System.Runtime.Serialization.Json;
-using NUnit.Framework;
 using Vts.Common;
+using Vts.IO;
 
 namespace Vts.Test.Common
 {
@@ -11,107 +10,104 @@ namespace Vts.Test.Common
     {
 
         [Test]
-        public void validate_LongRange_constructor_assigns_correct_values()
+        public void Validate_LongRange_constructor_assigns_correct_values()
         {
             var r = new LongRange(0, 9, 10);
 
-            Assert.AreEqual(r.Start, 0L);
-            Assert.AreEqual(r.Stop, 9L);
-            Assert.AreEqual(r.Delta, 1L);
-            Assert.AreEqual(r.Count, 10);
+            Assert.AreEqual(0L, r.Start);
+            Assert.AreEqual(9L, r.Stop);
+            Assert.AreEqual(1L,r.Delta);
+            Assert.AreEqual(10, r.Count);
         }
 
         [Test]
-        public void validate_LongRange_default_constructor_assigns_correct_values()
+        public void Validate_LongRange_default_constructor_assigns_correct_values()
         {
             var r = new LongRange();
 
-            Assert.AreEqual(r.Start, 0L);
-            Assert.AreEqual(r.Stop, 1L);
-            Assert.AreEqual(r.Delta, 1L);
-            Assert.AreEqual(r.Count, 2);
+            Assert.AreEqual(0L, r.Start);
+            Assert.AreEqual(1L, r.Stop);
+            Assert.AreEqual(1L, r.Delta);
+            Assert.AreEqual(2, r.Count);
         }
 
         [Test]
-        public void validate_class_is_serializable()
+        public void Validate_class_is_serializable()
         {
-            Assert.IsNotNull(Clone(new LongRange()));
+            Assert.IsInstanceOf<LongRange>(new LongRange().Clone<LongRange>());
         }
 
         [Test]
-        public void validate_deserialized_class_is_correct()
+        public void Validate_deserialized_class_is_correct()
         {
             var r = new LongRange(0L, 9L, 10);
 
-            var deserializedR = Clone(r);
+            var deserializedR = r.Clone<LongRange>();
 
             Assert.IsNotNull(deserializedR);
 
-            Assert.AreEqual(deserializedR.Start, 0L);
-            Assert.AreEqual(deserializedR.Stop, 9L);
-            Assert.AreEqual(deserializedR.Delta, 1L);
-            Assert.AreEqual(deserializedR.Count, 10);
+            Assert.AreEqual(0L, deserializedR.Start);
+            Assert.AreEqual(9L, deserializedR.Stop);
+            Assert.AreEqual(1L, deserializedR.Delta);
+            Assert.AreEqual(10, deserializedR.Count);
         }
 
         [Test]
-        public void validate_single_count_returns_correct_delta_for_matched_start_stop()
+        public void Validate_single_count_returns_correct_delta_for_matched_start_stop()
         {
             var r = new LongRange(10L, 10L, 1);
 
             var delta = r.Delta;
             var count = r.Count;
 
-            Assert.AreEqual(delta, 0L);
-            Assert.AreEqual(count, 1);
+            Assert.AreEqual(0L, delta);
+            Assert.AreEqual(1, count);
         }
 
         [Test]
-        public void validate_single_count_returns_correct_delta_for_mismatched_start_stop()
+        public void Validate_single_count_returns_correct_delta_for_mismatched_start_stop()
         {
             var r = new LongRange(10L, 20L, 1);
 
             var delta = r.Delta;
             var count = r.Count;
 
-            Assert.AreEqual(delta, 10L);
-            Assert.AreEqual(count, 1);
+            Assert.AreEqual(10L, delta);
+            Assert.AreEqual(1, count);
         }
 
         [Test]
-        public void validate_multi_count_returns_correct_delta_for_matched_start_stop()
+        public void Validate_multi_count_returns_correct_delta_for_matched_start_stop()
         {
             var r = new LongRange(10L, 10L, 3);
 
             var count = r.Count;
             var delta = r.Delta;
 
-            Assert.AreEqual(count, 3);
-            Assert.AreEqual(delta, 0L);
+            Assert.AreEqual(3, count);
+            Assert.AreEqual(0L, delta);
         }
 
         [Test]
-        public void validate_multi_count_returns_multiple_values_for_matched_start_stop()
+        public void Validate_multi_count_returns_multiple_values_for_matched_start_stop()
         {
             var r = new LongRange(10L, 10L, 3);
 
             var values = r.AsEnumerable().ToArray();
 
-            Assert.AreEqual(values.Length, 3);
-            for (int i = 0; i < values.Length; i++)
+            Assert.AreEqual(3, values.Length);
+            foreach (var value in values)
             {
-                Assert.AreEqual(values[i], 10L);
+                Assert.AreEqual(10L, value);
             }
         }
 
-        private static T Clone<T>(T myObject)
+        [Ignore("There is a bug in the constructor, it takes int not long")]
+        [Test]
+        public void Test_clone()
         {
-            using (MemoryStream ms = new MemoryStream(1024))
-            {
-                var dcs = new DataContractJsonSerializer(typeof(T));
-                dcs.WriteObject(ms, myObject);
-                ms.Seek(0, SeekOrigin.Begin);
-                return (T)dcs.ReadObject(ms);
-            }
+            var longRange = new LongRange(0, 10); // this should be 0L, 10L
+            Assert.IsInstanceOf<LongRange>(longRange.Clone());
         }
     }
 }
