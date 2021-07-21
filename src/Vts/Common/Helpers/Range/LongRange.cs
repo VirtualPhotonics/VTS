@@ -23,8 +23,8 @@ namespace Vts.Common
         /// </summary>
         /// <param name="start">The start of the range</param>
         /// <param name="stop">The end of the range</param>
-        public LongRange(int start, int stop)
-            : this(start, stop, (stop - start) + 1)
+        public LongRange(long start, long stop)
+            : this(start, stop, 2)
         {
         }
 

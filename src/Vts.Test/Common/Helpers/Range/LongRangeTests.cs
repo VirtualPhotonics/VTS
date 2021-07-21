@@ -102,11 +102,10 @@ namespace Vts.Test.Common
             }
         }
 
-        [Ignore("There is a bug in the constructor, it takes int not long")]
         [Test]
         public void Test_clone()
         {
-            var longRange = new LongRange(0, 10); // this should be 0L, 10L
+            var longRange = new LongRange(0L, 10L);
             Assert.IsInstanceOf<LongRange>(longRange.Clone());
         }
     }
