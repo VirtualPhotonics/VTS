@@ -23,6 +23,7 @@ namespace Vts.MonteCarlo.Factories
                 case VirtualBoundaryType.SpecularReflectance:
                 case VirtualBoundaryType.Dosimetry:
                 case VirtualBoundaryType.pMCDiffuseReflectance:
+                case VirtualBoundaryType.pMCDiffuseTransmittance:
                 case VirtualBoundaryType.BoundingCylinderVolume:
                     return new DetectorController(detectors);
                 case VirtualBoundaryType.GenericVolumeBoundary:

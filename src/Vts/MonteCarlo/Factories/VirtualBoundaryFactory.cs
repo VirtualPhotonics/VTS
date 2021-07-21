@@ -132,6 +132,10 @@ namespace Vts.MonteCarlo.Factories
                     vb = new pMCDiffuseReflectanceVirtualBoundary(
                         tissue, detectorController, VirtualBoundaryType.DiffuseReflectance.ToString());
                     break;
+                case VirtualBoundaryType.pMCDiffuseTransmittance:
+                    vb = new pMCDiffuseTransmittanceVirtualBoundary(
+                        tissue, detectorController, VirtualBoundaryType.DiffuseTransmittance.ToString());
+                    break;
                 case VirtualBoundaryType.BoundingCylinderVolume:
                     vb = new BoundingCylinderVirtualBoundary(
                         tissue, detectorController, VirtualBoundaryType.BoundingCylinderVolume.ToString());

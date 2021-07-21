@@ -32,6 +32,9 @@ namespace Vts.MonteCarlo.Factories
                 case VirtualBoundaryType.pMCDiffuseReflectance: //pMC uses same exit db as regular post-processing
                     dbFilename = Path.Combine(filePath, "DiffuseReflectanceDatabase");
                     break;
+                case VirtualBoundaryType.pMCDiffuseTransmittance: //pMC uses same exit db as regular post-processing
+                    dbFilename = Path.Combine(filePath, "DiffuseTransmittanceDatabase");
+                    break;
                 default:
                     return null;
             }
@@ -54,6 +57,9 @@ namespace Vts.MonteCarlo.Factories
             {
                 case VirtualBoundaryType.pMCDiffuseReflectance:
                     return pMCDatabase.FromFile(Path.Combine(filePath, "DiffuseReflectanceDatabase"),
+                        Path.Combine(filePath, "CollisionInfoDatabase"));
+                case VirtualBoundaryType.pMCDiffuseTransmittance:
+                    return pMCDatabase.FromFile(Path.Combine(filePath, "DiffuseTransmittanceDatabase"),
                         Path.Combine(filePath, "CollisionInfoDatabase"));
                 default:
                     return null;

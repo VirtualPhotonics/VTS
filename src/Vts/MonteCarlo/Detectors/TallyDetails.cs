@@ -7,6 +7,7 @@
         public bool IsSpecularReflectanceTally { get; set; }
         public bool IsInternalSurfaceTally { get; set; }
         public bool IspMCReflectanceTally { get; set; }
+        public bool IspMCTransmittanceTally { get; set; }
         public bool IsBoundingVolumeTally { get; set; }
         public bool IsVolumeTally { get; set; }
         public bool IsCylindricalTally { get; set; }
