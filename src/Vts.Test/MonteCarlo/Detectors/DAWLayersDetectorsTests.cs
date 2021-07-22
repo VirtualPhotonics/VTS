@@ -20,6 +20,7 @@ namespace Vts.Test.MonteCarlo.Detectors
     /// through a homogeneous two layer tissue (both layers have the same optical properties)
     /// and verify that the detector tallies are the same.  This tests whether the pseudo-
     /// collision pausing at the layer interface does not change the results.
+    /// Second moment tests used linux for validation when available, otherwise used prior test run.
     /// </summary>
     [TestFixture]
     public class DAWLayersDetectorsTests
@@ -82,38 +83,156 @@ namespace Vts.Test.MonteCarlo.Detectors
                      1); // start inside tissue
             var detectors = new List<IDetectorInput>
                 {
-                    new RDiffuseDetectorInput(),
-                    new ROfAngleDetectorInput() {Angle = new DoubleRange(Math.PI / 2 , Math.PI, 2)},
-                    new ROfRhoDetectorInput() {Rho = new DoubleRange(0.0, 10.0, 101), TallySecondMoment = true},
-                    new ROfRhoRecessedDetectorInput() {Rho = new DoubleRange(0.0, 10.0, 101), ZPlane = -1.0},
-                    new ROfRhoAndAngleDetectorInput() {Rho = new DoubleRange(0.0, 10.0, 101), Angle = new DoubleRange(Math.PI / 2, Math.PI, 2)},
-                    new ROfRhoAndTimeDetectorInput() {Rho = new DoubleRange(0.0, 10.0, 101), Time = new DoubleRange(0.0, 1.0, 101), TallySecondMoment = true },
-                    new ROfRhoAndMaxDepthDetectorInput() {Rho = new DoubleRange(0.0, 10.0, 101), MaxDepth = new DoubleRange(0.0, 1.0, 51)},
-                    new ROfRhoAndMaxDepthRecessedDetectorInput() {Rho = new DoubleRange(0.0, 10.0, 101), MaxDepth = new DoubleRange(0.0, 1.0, 51),ZPlane=-1.0},
-                    new ROfXAndYDetectorInput() { X = new DoubleRange(-10.0, 10.0, 101), Y = new DoubleRange(-10.0, 10.0, 101) },
-                    new ROfXAndYRecessedDetectorInput() { X = new DoubleRange(-10.0, 10.0, 101), Y = new DoubleRange(-10.0, 10.0, 101), ZPlane=-1.0 },
-                    new ROfXAndYAndTimeDetectorInput() { X = new DoubleRange(-10.0, 10.0, 101), Y = new DoubleRange(-10.0, 10.0, 101), Time = new DoubleRange(0.0, 1.0, 11) },
-                    new ROfXAndYAndTimeRecessedDetectorInput() { X = new DoubleRange(-10.0, 10.0, 101), Y = new DoubleRange(-10.0, 10.0, 101), Time = new DoubleRange(0.0, 1.0, 11),ZPlane=-1.0 },
+                    new RDiffuseDetectorInput() { TallySecondMoment = true },
+                    new ROfAngleDetectorInput()
+                    {
+                        Angle = new DoubleRange(Math.PI / 2 , Math.PI, 2),
+                        TallySecondMoment = true
+                    },
+                    new ROfRhoDetectorInput()
+                    {
+                        Rho = new DoubleRange(0.0, 10.0, 101),
+                        TallySecondMoment = true
+                    },
+                    new ROfRhoRecessedDetectorInput()
+                    {
+                        Rho = new DoubleRange(0.0, 10.0, 101),
+                        ZPlane = -1.0,
+                        TallySecondMoment = true
+                    },
+                    new ROfRhoAndAngleDetectorInput()
+                    {
+                        Rho = new DoubleRange(0.0, 10.0, 101),
+                        Angle = new DoubleRange(Math.PI / 2, Math.PI, 2),
+                        TallySecondMoment = true
+                    },
+                    new ROfRhoAndTimeDetectorInput()
+                    {
+                        Rho = new DoubleRange(0.0, 10.0, 101),
+                        Time = new DoubleRange(0.0, 1.0, 101),
+                        TallySecondMoment = true
+                    },
+                    new ROfRhoAndMaxDepthDetectorInput()
+                    {
+                        Rho = new DoubleRange(0.0, 10.0, 101),
+                        MaxDepth = new DoubleRange(0.0, 1.0, 51),
+                        TallySecondMoment = true
+                    },
+                    new ROfRhoAndMaxDepthRecessedDetectorInput()
+                    {
+                        Rho = new DoubleRange(0.0, 10.0, 101),
+                        MaxDepth = new DoubleRange(0.0, 1.0, 51),
+                        ZPlane = -1.0,
+                        TallySecondMoment = true
+                    },
+                    new ROfXAndYDetectorInput()
+                    {
+                        X = new DoubleRange(-10.0, 10.0, 101),
+                        Y = new DoubleRange(-10.0, 10.0, 101),
+                        TallySecondMoment = true
+                    },
+                    new ROfXAndYRecessedDetectorInput()
+                    {
+                        X = new DoubleRange(-10.0, 10.0, 101),
+                        Y = new DoubleRange(-10.0, 10.0, 101),
+                        ZPlane = -1.0,
+                        TallySecondMoment = true
+                    },
+                    new ROfXAndYAndTimeDetectorInput()
+                    {
+                        X = new DoubleRange(-10.0, 10.0, 101),
+                        Y = new DoubleRange(-10.0, 10.0, 101),
+                        Time = new DoubleRange(0.0, 1.0, 11),
+                        TallySecondMoment = true
+                    },
+                    new ROfXAndYAndTimeRecessedDetectorInput()
+                    {
+                        X = new DoubleRange(-10.0, 10.0, 101),
+                        Y = new DoubleRange(-10.0, 10.0, 101),
+                        Time = new DoubleRange(0.0, 1.0, 11),
+                        ZPlane = -1.0,
+                        TallySecondMoment = true
+                    },
                     new ROfXAndYAndThetaAndPhiDetectorInput()
                     {
                         X = new DoubleRange(-10.0, 10.0, 101),
                         Y = new DoubleRange(-10.0, 10.0, 101),
-                        Theta = new DoubleRange(Math.PI / 2, Math.PI, 3), 
-                        Phi = new DoubleRange(-Math.PI, Math.PI, 5)
+                        Theta = new DoubleRange(Math.PI / 2, Math.PI, 3),
+                        Phi = new DoubleRange(-Math.PI, Math.PI, 5),
+                        TallySecondMoment = true
                     },
-                    new ROfXAndYAndMaxDepthDetectorInput() { X = new DoubleRange(-10.0, 10.0, 101), Y = new DoubleRange(-10.0, 10.0, 101), MaxDepth = new DoubleRange(0.0, 1.0, 11)},
-                    new ROfXAndYAndMaxDepthRecessedDetectorInput() { X = new DoubleRange(-10.0, 10.0, 101), Y = new DoubleRange(-10.0, 10.0, 101), MaxDepth = new DoubleRange(0.0, 1.0, 11),ZPlane=-1.0},
-                    new ROfRhoAndOmegaDetectorInput() { Rho = new DoubleRange(0.0, 10.0, 101), Omega = new DoubleRange(0.05, 1.0, 20), TallySecondMoment = true}, // DJC - edited to reflect frequency sampling points (not bins)
-                    new ROfFxDetectorInput() {Fx = new DoubleRange(0.0, 0.5, 51), TallySecondMoment = true},
-                    new ROfFxAndTimeDetectorInput() {Fx = new DoubleRange(0.0, 0.5, 51), Time = new DoubleRange(0.0, 1.0, 11)},
-                    new ROfFxAndAngleDetectorInput() {Fx = new DoubleRange(0.0, 0.5, 51), Angle = new DoubleRange(Math.PI / 2, Math.PI, 5)},
-                    new TDiffuseDetectorInput(),
-                    new TOfAngleDetectorInput() {Angle=new DoubleRange(0.0, Math.PI / 2, 2)},
-                    new TOfRhoDetectorInput() {Rho=new DoubleRange(0.0, 10.0, 101)},
-                    new TOfRhoAndAngleDetectorInput(){Rho=new DoubleRange(0.0, 10.0, 101), Angle=new DoubleRange(0.0, Math.PI / 2, 2)},
-                    new TOfXAndYDetectorInput() { X = new DoubleRange(-10.0, 10.0, 101), Y = new DoubleRange(-10.0, 10.0, 101) },
-                    new TOfFxDetectorInput() {Fx = new DoubleRange(0.0, 0.5, 51)},
-                    new AOfRhoAndZDetectorInput() {Rho=new DoubleRange(0.0, 10.0, 101),Z=new DoubleRange(0.0, 10.0, 101)},
+                    new ROfXAndYAndMaxDepthDetectorInput()
+                    {
+                        X = new DoubleRange(-10.0, 10.0, 101),
+                        Y = new DoubleRange(-10.0, 10.0, 101),
+                        MaxDepth = new DoubleRange(0.0, 1.0, 11),
+                        TallySecondMoment = true
+                    },
+                    new ROfXAndYAndMaxDepthRecessedDetectorInput()
+                    {
+                        X = new DoubleRange(-10.0, 10.0, 101), 
+                        Y = new DoubleRange(-10.0, 10.0, 101), 
+                        MaxDepth = new DoubleRange(0.0, 1.0, 11),
+                        ZPlane = -1.0,
+                        TallySecondMoment = true
+                    },
+                    new ROfRhoAndOmegaDetectorInput()
+                    {
+                        Rho = new DoubleRange(0.0, 10.0, 101), 
+                        Omega = new DoubleRange(0.05, 1.0, 20), 
+                        TallySecondMoment = true
+                    }, // DJC - edited to reflect frequency sampling points (not bins)
+                    new ROfFxDetectorInput()
+                    {
+                        Fx = new DoubleRange(0.0, 0.5, 51), 
+                        TallySecondMoment = true
+                    },
+                    new ROfFxAndTimeDetectorInput()
+                    {
+                        Fx = new DoubleRange(0.0, 0.5, 51), 
+                        Time = new DoubleRange(0.0, 1.0, 11), 
+                        TallySecondMoment = true
+                    },
+                    new ROfFxAndAngleDetectorInput()
+                    {
+                        Fx = new DoubleRange(0.0, 0.5, 51), 
+                        Angle = new DoubleRange(Math.PI / 2, Math.PI, 5),
+                        TallySecondMoment = true
+                    },
+                    new TDiffuseDetectorInput() { TallySecondMoment = true },
+                    new TOfAngleDetectorInput()
+                    {
+                        Angle=new DoubleRange(0.0, Math.PI / 2, 2),
+                        TallySecondMoment = true
+                    },
+                    new TOfRhoDetectorInput()
+                    {
+                        Rho=new DoubleRange(0.0, 10.0, 101),
+                        TallySecondMoment = true
+                    },
+                    new TOfRhoAndAngleDetectorInput()
+                    {
+                        Rho=new DoubleRange(0.0, 10.0, 101),
+                        Angle=new DoubleRange(0.0, Math.PI / 2, 2),
+                        TallySecondMoment = true
+                    },
+                    new TOfXAndYDetectorInput()
+                    {
+                        X = new DoubleRange(-10.0, 10.0, 101), 
+                        Y = new DoubleRange(-10.0, 10.0, 101),
+                        TallySecondMoment = true
+                    },
+                    new TOfFxDetectorInput()
+                    {
+                        Fx = new DoubleRange(0.0, 0.5, 51),
+                        TallySecondMoment = true
+                    },
+                    new AOfRhoAndZDetectorInput()
+                    {
+                        Rho=new DoubleRange(0.0, 10.0, 101),
+                        Z=new DoubleRange(0.0, 10.0, 101),
+                        TallySecondMoment = true
+                    },
                     new AOfXAndYAndZDetectorInput()
                     {
                         X = new DoubleRange(-10.0, 10.0, 101), 
@@ -122,12 +241,18 @@ namespace Vts.Test.MonteCarlo.Detectors
                         TallySecondMoment = true
                     },
                     new ATotalDetectorInput() { TallySecondMoment = true },
-                    new FluenceOfRhoAndZDetectorInput() {Rho=new DoubleRange(0.0, 10.0, 101),Z=new DoubleRange(0.0, 10.0, 101)},
+                    new FluenceOfRhoAndZDetectorInput()
+                    {
+                        Rho = new DoubleRange(0.0, 10.0, 101),
+                        Z = new DoubleRange(0.0, 10.0, 101),
+                        TallySecondMoment = true
+                    },
                     new FluenceOfRhoAndZAndOmegaDetectorInput()
                     {
                         Rho = new DoubleRange(0.0, 10.0, 11),
                         Z =  new DoubleRange(0.0, 10.0, 11),
-                        Omega = new DoubleRange(0.05, 1.0, 20)
+                        Omega = new DoubleRange(0.05, 1.0, 20),
+                        TallySecondMoment = true
                     },
                     new FluenceOfXAndYAndZDetectorInput()
                     {
@@ -141,7 +266,8 @@ namespace Vts.Test.MonteCarlo.Detectors
                         X = new DoubleRange(-10.0, 10.0, 11), 
                         Y = new DoubleRange(-10.0, 10.0, 11),
                         Z =  new DoubleRange(0.0, 10.0, 11),
-                        Omega = new DoubleRange(0.05, 1.0, 20)
+                        Omega = new DoubleRange(0.05, 1.0, 20),
+                        TallySecondMoment = true
                     },
                     new FluenceOfXAndYAndZAndTimeDetectorInput()
                     {
@@ -164,10 +290,28 @@ namespace Vts.Test.MonteCarlo.Detectors
                     {
                         Fx = new DoubleRange(0.0, 0.5, 51),
                         Z =  new DoubleRange(0.0, 10.0, 11),
+                        TallySecondMoment = true
                     },
-                    new RadianceOfRhoAtZDetectorInput() {ZDepth=_dosimetryDepth, Rho= new DoubleRange(0.0, 10.0, 101)},
-                    new RadianceOfRhoAndZAndAngleDetectorInput(){Rho= new DoubleRange(0.0, 10.0, 101),Z=new DoubleRange(0.0, 10.0, 101),Angle=new DoubleRange(0, Math.PI, 5)},
-                    new RadianceOfFxAndZAndAngleDetectorInput(){Fx=new DoubleRange(0.0, 0.5, 51),Z=new DoubleRange(0.0, 10, 101),Angle=new DoubleRange(0, Math.PI, 5)},
+                    new RadianceOfRhoAtZDetectorInput()
+                    {
+                        ZDepth = _dosimetryDepth, 
+                        Rho= new DoubleRange(0.0, 10.0, 101),
+                        TallySecondMoment = true
+                    },
+                    new RadianceOfRhoAndZAndAngleDetectorInput()
+                    {
+                        Rho = new DoubleRange(0.0, 10.0, 101),
+                        Z = new DoubleRange(0.0, 10.0, 101),
+                        Angle = new DoubleRange(0, Math.PI, 5),
+                        TallySecondMoment = true
+                    },
+                    new RadianceOfFxAndZAndAngleDetectorInput()
+                    {
+                        Fx = new DoubleRange(0.0, 0.5, 51),
+                        Z = new DoubleRange(0.0, 10, 101),
+                        Angle = new DoubleRange(0, Math.PI, 5),
+                        TallySecondMoment = true
+                    },
                     new RadianceOfXAndYAndZAndThetaAndPhiDetectorInput()
                     {
                         X=new DoubleRange(-10.0, 10.0, 11), 
@@ -175,18 +319,21 @@ namespace Vts.Test.MonteCarlo.Detectors
                         Z=new DoubleRange(0.0, 10.0, 11),
                         Theta=new DoubleRange(0.0, Math.PI, 5), // theta (polar angle)
                         Phi=new DoubleRange(-Math.PI, Math.PI, 5), // phi (azimuthal angle)
+                        TallySecondMoment = true
                     },
                     new ReflectedMTOfRhoAndSubregionHistDetectorInput() 
                     {
                         Rho=new DoubleRange(0.0, 10.0, 101), // rho bins MAKE SURE AGREES with ROfRho rho specification for unit test below
                         MTBins=new DoubleRange(0.0, 500.0, 51), // MT bins
-                        FractionalMTBins = new DoubleRange(0.0, 1.0, 11)   
+                        FractionalMTBins = new DoubleRange(0.0, 1.0, 11),
+                        TallySecondMoment = true
                     },
                     new TransmittedMTOfRhoAndSubregionHistDetectorInput() 
                     {
                         Rho=new DoubleRange(0.0, 10.0, 101), // rho bins MAKE SURE AGREES with TOfRho rho specification for unit test below
                         MTBins=new DoubleRange(0.0, 500.0, 51), // MT bins
-                        FractionalMTBins = new DoubleRange(0.0, 1.0, 11)   
+                        FractionalMTBins = new DoubleRange(0.0, 1.0, 11),
+                        TallySecondMoment = true
                     },
                     new ReflectedMTOfXAndYAndSubregionHistDetectorInput() 
                     {
@@ -201,7 +348,8 @@ namespace Vts.Test.MonteCarlo.Detectors
                         X = new DoubleRange(-10.0, 10.0, 101), 
                         Y = new DoubleRange(-10.0, 10.0, 101),
                         MTBins=new DoubleRange(0.0, 500.0, 51), // MT bins
-                        FractionalMTBins = new DoubleRange(0.0, 1.0, 11)   
+                        FractionalMTBins = new DoubleRange(0.0, 1.0, 11),
+                        TallySecondMoment = true
                     }
                 };
             _inputOneLayerTissue = new SimulationInput(
@@ -263,6 +411,8 @@ namespace Vts.Test.MonteCarlo.Detectors
         {
             Assert.Less(Math.Abs(_outputOneLayerTissue.Rd * _factor - 0.565017749), 0.000000001);
             Assert.Less(Math.Abs(_outputTwoLayerTissue.Rd * _factor - 0.565017749), 0.000000001);
+            Assert.Less(Math.Abs(_outputOneLayerTissue.Rd2 - 0.467357), 0.000001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.Rd2 - 0.467357), 0.000001);
             Assert.AreEqual(_outputOneLayerTissue.Rd_TallyCount, 89);
             Assert.AreEqual(_outputTwoLayerTissue.Rd_TallyCount, 89);
         }
@@ -288,6 +438,8 @@ namespace Vts.Test.MonteCarlo.Detectors
         {
             Assert.Less(Math.Abs(_outputOneLayerTissue.R_rr[2] - 0.116336), 0.000001);
             Assert.Less(Math.Abs(_outputTwoLayerTissue.R_rr[2] - 0.116336), 0.000001);
+            Assert.Less(Math.Abs(_outputOneLayerTissue.R_rr2[2] - 0.680291), 0.000001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.R_rr2[2] - 0.680291), 0.000001);
             Assert.AreEqual(_outputOneLayerTissue.R_rr_TallyCount, 89);
             Assert.AreEqual(_outputTwoLayerTissue.R_rr_TallyCount, 89);
         }
@@ -297,6 +449,8 @@ namespace Vts.Test.MonteCarlo.Detectors
         {
             Assert.Less(Math.Abs(_outputOneLayerTissue.R_a[0] * _factor - 0.0809612757), 0.0000000001);
             Assert.Less(Math.Abs(_outputTwoLayerTissue.R_a[0] * _factor - 0.0809612757), 0.0000000001);
+            Assert.Less(Math.Abs(_outputOneLayerTissue.R_a2[0] - 0.009595), 0.000001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.R_a2[0] - 0.009595), 0.000001);
             Assert.AreEqual(_outputOneLayerTissue.R_a_TallyCount, 89);
             Assert.AreEqual(_outputTwoLayerTissue.R_a_TallyCount, 89);
         }
@@ -306,6 +460,8 @@ namespace Vts.Test.MonteCarlo.Detectors
         {
             Assert.Less(Math.Abs(_outputOneLayerTissue.R_ra[0, 0] * _factor - 0.0881573691), 0.0000000001);
             Assert.Less(Math.Abs(_outputTwoLayerTissue.R_ra[0, 0] * _factor - 0.0881573691), 0.0000000001);
+            Assert.Less(Math.Abs(_outputOneLayerTissue.R_ra2[0, 0] - 0.411109), 0.000001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.R_ra2[0, 0] - 0.411109), 0.000001);
             Assert.AreEqual(_outputOneLayerTissue.R_ra_TallyCount, 89);
             Assert.AreEqual(_outputTwoLayerTissue.R_ra_TallyCount, 89);
         }
@@ -340,6 +496,8 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.Less(Math.Abs(integralTwoLayer * _factor - 0.6152383), 0.0000001);
             Assert.Less(Math.Abs(_outputOneLayerTissue.R_rmd[0, 4] - 0.315776), 0.000001);
             Assert.Less(Math.Abs(_outputTwoLayerTissue.R_rmd[0, 4] - 0.315776), 0.000001);
+            Assert.Less(Math.Abs(_outputOneLayerTissue.R_rmd2[0, 4] - 9.97145), 0.00001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.R_rmd2[0, 4] - 9.97145), 0.00001);
             Assert.AreEqual(_outputOneLayerTissue.R_rmd_TallyCount, 89);
             Assert.AreEqual(_outputTwoLayerTissue.R_rmd_TallyCount, 89);
 
@@ -350,6 +508,8 @@ namespace Vts.Test.MonteCarlo.Detectors
         { 
             Assert.Less(Math.Abs(_outputOneLayerTissue.R_rmdr[2, 11] - 0.062402), 0.000001);
             Assert.Less(Math.Abs(_outputTwoLayerTissue.R_rmdr[2, 11] - 0.062402), 0.000001);
+            Assert.Less(Math.Abs(_outputOneLayerTissue.R_rmdr2[2, 11] - 0.389408), 0.000001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.R_rmdr2[2, 11] - 0.389408), 0.000001);
             Assert.AreEqual(_outputOneLayerTissue.R_rmd_TallyCount, 89);
             Assert.AreEqual(_outputTwoLayerTissue.R_rmd_TallyCount, 89);
 
@@ -377,6 +537,8 @@ namespace Vts.Test.MonteCarlo.Detectors
         {
             Assert.Less(Math.Abs(_outputOneLayerTissue.R_xy[0, 0] * _factor - 0.01828126), 0.00000001);
             Assert.Less(Math.Abs(_outputTwoLayerTissue.R_xy[0, 0] * _factor - 0.01828126), 0.00000001);
+            Assert.Less(Math.Abs(_outputOneLayerTissue.R_xy2[0, 0] - 0.035357), 0.000001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.R_xy2[0, 0] - 0.035357), 0.000001);
             Assert.AreEqual(_outputOneLayerTissue.R_xy_TallyCount, 89);
             Assert.AreEqual(_outputTwoLayerTissue.R_xy_TallyCount, 89);
         }        
@@ -386,6 +548,8 @@ namespace Vts.Test.MonteCarlo.Detectors
         {
             Assert.Less(Math.Abs(_outputOneLayerTissue.R_xyr[0, 12] - 0.175180), 0.000001);
             Assert.Less(Math.Abs(_outputTwoLayerTissue.R_xyr[0, 12] - 0.175180), 0.000001);
+            Assert.Less(Math.Abs(_outputOneLayerTissue.R_xyr2[0, 12] - 3.06881), 0.00001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.R_xyr2[0, 12] - 3.06881), 0.00001);
             Assert.AreEqual(_outputOneLayerTissue.R_xyr_TallyCount, 89);
             Assert.AreEqual(_outputTwoLayerTissue.R_xyr_TallyCount, 89);
         }
@@ -395,6 +559,8 @@ namespace Vts.Test.MonteCarlo.Detectors
         {
             Assert.Less(Math.Abs(_outputOneLayerTissue.R_xyt[0, 0, 9] - 0.188035), 0.000001);
             Assert.Less(Math.Abs(_outputTwoLayerTissue.R_xyt[0, 0, 9] - 0.188035), 0.000001);
+            Assert.Less(Math.Abs(_outputOneLayerTissue.R_xyt2[0, 0, 9] - 3.53574), 0.00001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.R_xyt2[0, 0, 9] - 3.53574), 0.00001);
             Assert.AreEqual(_outputOneLayerTissue.R_xyt_TallyCount, 89);
             Assert.AreEqual(_outputTwoLayerTissue.R_xyt_TallyCount, 89);
         }
@@ -404,6 +570,8 @@ namespace Vts.Test.MonteCarlo.Detectors
         {
             Assert.Less(Math.Abs(_outputOneLayerTissue.R_xytr[0, 12, 1] - 1.75180), 0.00001);
             Assert.Less(Math.Abs(_outputTwoLayerTissue.R_xytr[0, 12, 1] - 1.75180), 0.00001);
+            Assert.Less(Math.Abs(_outputOneLayerTissue.R_xytr2[0, 12, 1] - 306.881), 0.001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.R_xytr2[0, 12, 1] - 306.881), 0.001);
             Assert.AreEqual(_outputOneLayerTissue.R_xytr_TallyCount, 89);
             Assert.AreEqual(_outputTwoLayerTissue.R_xytr_TallyCount, 89);
         }
@@ -413,6 +581,8 @@ namespace Vts.Test.MonteCarlo.Detectors
         {
             Assert.Less(Math.Abs(_outputOneLayerTissue.R_xytp[0, 0, 1, 2] - 0.039828), 0.000001);
             Assert.Less(Math.Abs(_outputTwoLayerTissue.R_xytp[0, 0, 1, 2] - 0.039828), 0.000001);
+            Assert.Less(Math.Abs(_outputOneLayerTissue.R_xytp2[0, 0, 1, 2] - 0.158628), 0.000001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.R_xytp2[0, 0, 1, 2] - 0.158628), 0.000001);
             Assert.AreEqual(_outputOneLayerTissue.R_xytp_TallyCount, 89);
             Assert.AreEqual(_outputTwoLayerTissue.R_xytp_TallyCount, 89);
         }
@@ -422,6 +592,8 @@ namespace Vts.Test.MonteCarlo.Detectors
         {
             Assert.Less(Math.Abs(_outputOneLayerTissue.R_xymd[0, 0, 9] - 0.018803), 0.000001);
             Assert.Less(Math.Abs(_outputTwoLayerTissue.R_xymd[0, 0, 9] - 0.018803), 0.000001);
+            Assert.Less(Math.Abs(_outputOneLayerTissue.R_xymd2[0, 0, 9] - 0.035357), 0.000001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.R_xymd2[0, 0, 9] - 0.035357), 0.000001);
             Assert.AreEqual(_outputOneLayerTissue.R_xymd_TallyCount, 89);
             Assert.AreEqual(_outputTwoLayerTissue.R_xymd_TallyCount, 89);
         }
@@ -431,6 +603,8 @@ namespace Vts.Test.MonteCarlo.Detectors
         { 
             Assert.Less(Math.Abs(_outputOneLayerTissue.R_xymdr[0, 12, 9] - 0.175180), 0.000001);
             Assert.Less(Math.Abs(_outputTwoLayerTissue.R_xymdr[0, 12, 9] - 0.175180), 0.000001);
+            Assert.Less(Math.Abs(_outputOneLayerTissue.R_xymdr2[0, 12, 9] - 3.06881), 0.00001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.R_xymdr2[0, 12, 9] - 3.06881), 0.00001);
             Assert.AreEqual(_outputOneLayerTissue.R_xymdr_TallyCount, 89);
             Assert.AreEqual(_outputTwoLayerTissue.R_xymdr_TallyCount, 89);
         }
@@ -456,6 +630,10 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.Less(Math.Abs(_outputOneLayerTissue.R_fxt[1,0].Imaginary - 0.209453), 0.000001);
             Assert.Less(Math.Abs(_outputTwoLayerTissue.R_fxt[1,0].Real - 3.66252), 0.00001);
             Assert.Less(Math.Abs(_outputTwoLayerTissue.R_fxt[1,0].Imaginary - 0.209453), 0.000001);
+            Assert.Less(Math.Abs(_outputOneLayerTissue.R_fxt2[1, 0].Real - 34.4183), 0.0001);
+            Assert.Less(Math.Abs(_outputOneLayerTissue.R_fxt2[1, 0].Imaginary - 0.0), 0.000001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.R_fxt2[1, 0].Real - 34.4183), 0.0001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.R_fxt2[1, 0].Imaginary - 0.0), 0.000001);
             Assert.AreEqual(_outputOneLayerTissue.R_fxt_TallyCount, 89);
             Assert.AreEqual(_outputTwoLayerTissue.R_fxt_TallyCount, 89);
         }
@@ -467,6 +645,10 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.Less(Math.Abs(_outputOneLayerTissue.R_fxa[1,0].Imaginary - 0.003329), 0.000001);
             Assert.Less(Math.Abs(_outputTwoLayerTissue.R_fxa[1,0].Real - 0.016654), 0.000001);
             Assert.Less(Math.Abs(_outputTwoLayerTissue.R_fxa[1,0].Imaginary - 0.003329), 0.000001);
+            Assert.Less(Math.Abs(_outputOneLayerTissue.R_fxa2[1, 0].Real - 0.005055), 0.000001);
+            Assert.Less(Math.Abs(_outputOneLayerTissue.R_fxa2[1, 0].Imaginary - 0.0), 0.000001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.R_fxa2[1, 0].Real - 0.005055), 0.000001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.R_fxa2[1, 0].Imaginary - 0.0), 0.000001);
             Assert.AreEqual(_outputOneLayerTissue.R_fxa_TallyCount, 89);
             Assert.AreEqual(_outputTwoLayerTissue.R_fxa_TallyCount, 89);
         }
@@ -476,6 +658,8 @@ namespace Vts.Test.MonteCarlo.Detectors
         {
             Assert.Less(Math.Abs(_outputOneLayerTissue.Td * _factor - 0.0228405921), 0.000000001);
             Assert.Less(Math.Abs(_outputTwoLayerTissue.Td * _factor - 0.0228405921), 0.000000001);
+            Assert.Less(Math.Abs(_outputOneLayerTissue.Td2 - 0.008236), 0.000001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.Td2 - 0.008236), 0.000001);
             Assert.AreEqual(_outputOneLayerTissue.Td_TallyCount, 11);
             Assert.AreEqual(_outputTwoLayerTissue.Td_TallyCount, 11);
         }
@@ -485,6 +669,8 @@ namespace Vts.Test.MonteCarlo.Detectors
         {
             Assert.Less(Math.Abs(_outputOneLayerTissue.T_r[54] * _factor - 0.00169219067), 0.00000000001);
             Assert.Less(Math.Abs(_outputTwoLayerTissue.T_r[54] * _factor - 0.00169219067), 0.00000000001);
+            Assert.Less(Math.Abs(_outputOneLayerTissue.T_r2[54] - 0.000302), 0.000001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.T_r2[54] - 0.000302), 0.000001);
             Assert.AreEqual(_outputOneLayerTissue.T_r_TallyCount, 11);
             Assert.AreEqual(_outputTwoLayerTissue.T_r_TallyCount, 11);
         }
@@ -494,6 +680,8 @@ namespace Vts.Test.MonteCarlo.Detectors
         {
             Assert.Less(Math.Abs(_outputOneLayerTissue.T_a[0] * _factor - 0.00327282369), 0.00000000001);
             Assert.Less(Math.Abs(_outputTwoLayerTissue.T_a[0] * _factor - 0.00327282369), 0.00000000001);
+            Assert.Less(Math.Abs(_outputOneLayerTissue.T_a2[0] - 0.000169), 0.000001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.T_a2[0] - 0.000169), 0.000001);
             Assert.AreEqual(_outputOneLayerTissue.T_a_TallyCount, 11);
             Assert.AreEqual(_outputTwoLayerTissue.T_a_TallyCount, 11);
         }
@@ -503,6 +691,8 @@ namespace Vts.Test.MonteCarlo.Detectors
         {
             Assert.Less(Math.Abs(_outputOneLayerTissue.T_ra[54, 0] * _factor - 0.000242473649), 0.000000000001);
             Assert.Less(Math.Abs(_outputTwoLayerTissue.T_ra[54, 0] * _factor - 0.000242473649), 0.000000000001);
+            Assert.Less(Math.Abs(_outputOneLayerTissue.T_ra2[54, 0] - 6.22010e-6), 0.00001e-6);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.T_ra2[54, 0] - 6.22010e-6), 0.00001e-6);
             Assert.AreEqual(_outputOneLayerTissue.T_ra_TallyCount, 11);
             Assert.AreEqual(_outputTwoLayerTissue.T_ra_TallyCount, 11);
         }
@@ -512,6 +702,8 @@ namespace Vts.Test.MonteCarlo.Detectors
         {
             Assert.Less(Math.Abs(_outputOneLayerTissue.T_xy[0, 0] - 0.0067603), 0.0000001);
             Assert.Less(Math.Abs(_outputTwoLayerTissue.T_xy[0, 0] - 0.0067603), 0.0000001);
+            Assert.Less(Math.Abs(_outputOneLayerTissue.T_xy2[0, 0] - 0.004570), 0.000001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.T_xy2[0, 0] - 0.004570), 0.000001);
             Assert.AreEqual(_outputOneLayerTissue.T_xy_TallyCount, 11);
             Assert.AreEqual(_outputTwoLayerTissue.T_xy_TallyCount, 11);
         }
@@ -543,6 +735,10 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.Less(Math.Abs(_outputOneLayerTissue.T_fx[1].Imaginary + 4.799287e-5), 0.000001e-5);
             Assert.Less(Math.Abs(_outputTwoLayerTissue.T_fx[1].Real - 0.019814), 0.000001);
             Assert.Less(Math.Abs(_outputTwoLayerTissue.T_fx[1].Imaginary + 4.799287e-5), 0.000001e-5);
+            Assert.Less(Math.Abs(_outputOneLayerTissue.T_fx2[1].Real - 0.008236), 0.000001);
+            Assert.Less(Math.Abs(_outputOneLayerTissue.T_fx2[1].Imaginary + 0.0), 0.000001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.T_fx2[1].Real - 0.008236), 0.000001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.T_fx2[1].Imaginary + 0.0), 0.000001);
             Assert.AreEqual(_outputOneLayerTissue.T_fx_TallyCount, 11);
             Assert.AreEqual(_outputTwoLayerTissue.T_fx_TallyCount, 11);
         }
@@ -564,6 +760,8 @@ namespace Vts.Test.MonteCarlo.Detectors
         {
             Assert.Less(Math.Abs(_outputOneLayerTissue.A_rz[0, 0] * _factor - 0.39494647), 0.00000001);
             Assert.Less(Math.Abs(_outputTwoLayerTissue.A_rz[0, 0] * _factor - 0.39494647), 0.00000001);
+            Assert.Less(Math.Abs(_outputOneLayerTissue.A_rz2[0, 0] - 0.498845), 0.000001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.A_rz2[0, 0] - 0.498845), 0.000001);
             Assert.AreEqual(_outputOneLayerTissue.A_rz_TallyCount, 42334);
             Assert.AreEqual(_outputTwoLayerTissue.A_rz_TallyCount, 42334);
         }
@@ -584,6 +782,8 @@ namespace Vts.Test.MonteCarlo.Detectors
         {
             Assert.Less(Math.Abs(_outputOneLayerTissue.Flu_rz[0, 0] * _factor - 39.4946472), 0.0000001);
             Assert.Less(Math.Abs(_outputTwoLayerTissue.Flu_rz[0, 0] * _factor - 39.4946472), 0.0000001);
+            Assert.Less(Math.Abs(_outputOneLayerTissue.Flu_rz2[0, 0] - 4988.45), 0.01);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.Flu_rz2[0, 0] - 4988.45), 0.01);
             Assert.AreEqual(_outputOneLayerTissue.Flu_rz_TallyCount, 42334);
             Assert.AreEqual(_outputTwoLayerTissue.Flu_rz_TallyCount, 42334);
         }
@@ -607,6 +807,10 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.Less(Math.Abs(_outputOneLayerTissue.Flu_xyzw[0, 0, 0, 10].Imaginary + 0.0009234), 0.0000001);
             Assert.Less(Math.Abs(_outputTwoLayerTissue.Flu_xyzw[0, 0, 0, 10].Real + 0.0002956), 0.0000001);
             Assert.Less(Math.Abs(_outputTwoLayerTissue.Flu_xyzw[0, 0, 0, 10].Imaginary + 0.0009234), 0.0000001);
+            Assert.Less(Math.Abs(_outputOneLayerTissue.Flu_xyzw2[0, 0, 0, 10].Real - 0.000181), 0.000001);
+            Assert.Less(Math.Abs(_outputOneLayerTissue.Flu_xyzw2[0, 0, 0, 10].Imaginary - 0.0), 0.000001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.Flu_xyzw2[0, 0, 0, 10].Real - 0.000181), 0.000001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.Flu_xyzw2[0, 0, 0, 10].Imaginary - 0.0), 0.000001);
             // undo angle bin normalization
             var x = ((FluenceOfXAndYAndZAndOmegaDetectorInput)_inputOneLayerTissue.DetectorInputs.
                 Where(d => d.TallyType == "FluenceOfXAndYAndZAndOmega").First()).X;
@@ -723,6 +927,10 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.Less(Math.Abs(_outputOneLayerTissue.Flu_rzw[0, 0, 0].Imaginary + 0.001667), 0.000001);
             Assert.Less(Math.Abs(_outputTwoLayerTissue.Flu_rzw[0, 0, 0].Real - 0.553938), 0.000001);
             Assert.Less(Math.Abs(_outputTwoLayerTissue.Flu_rzw[0, 0, 0].Imaginary + 0.001667), 0.000001);
+            Assert.Less(Math.Abs(_outputOneLayerTissue.Flu_rzw2[0, 0, 0].Real - 0.428065), 0.000001);
+            Assert.Less(Math.Abs(_outputOneLayerTissue.Flu_rzw2[0, 0, 0].Imaginary + 0.0), 0.000001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.Flu_rzw2[0, 0, 0].Real - 0.428065), 0.000001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.Flu_rzw2[0, 0, 0].Imaginary + 0.0), 0.000001);
             // undo angle bin normalization
             var rho = ((FluenceOfRhoAndZAndOmegaDetectorInput) _inputOneLayerTissue.DetectorInputs
                 .Where(d => d.TallyType == "FluenceOfRhoAndZAndOmega").First()).Rho;
@@ -753,6 +961,10 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.Less(Math.Abs(_outputOneLayerTissue.Flu_fxz[0, 0].Imaginary + 0.0), 0.000001);
             Assert.Less(Math.Abs(_outputTwoLayerTissue.Flu_fxz[0, 0].Real - 5.768415), 0.000001);
             Assert.Less(Math.Abs(_outputTwoLayerTissue.Flu_fxz[0, 0].Imaginary + 0.0), 0.000001);
+            Assert.Less(Math.Abs(_outputOneLayerTissue.Flu_fxz2[0, 0].Real - 56.9632), 0.0001);
+            Assert.Less(Math.Abs(_outputOneLayerTissue.Flu_fxz2[0, 0].Imaginary + 0.0), 0.000001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.Flu_fxz2[0, 0].Real - 56.9632), 0.0001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.Flu_fxz2[0, 0].Imaginary + 0.0), 0.000001);
             // undo angle bin normalization
             var fx = ((FluenceOfFxAndZDetectorInput)_inputOneLayerTissue.DetectorInputs.
                 Where(d => d.TallyType == "FluenceOfFxAndZ").First()).Fx;
@@ -816,6 +1028,8 @@ namespace Vts.Test.MonteCarlo.Detectors
         {
             Assert.Less(Math.Abs(_outputOneLayerTissue.Rad_r[0] - 1.95161), 0.00001);
             Assert.Less(Math.Abs(_outputTwoLayerTissue.Rad_r[0] - 1.95161), 0.00001);
+            Assert.Less(Math.Abs(_outputOneLayerTissue.Rad_r2[0] - 63.5278), 0.0001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.Rad_r2[0] - 63.5278), 0.0001);
             //need radiance detector to compare results, for now make sure both simulations give same results
             Assert.Less(Math.Abs(_outputOneLayerTissue.Rad_r[1] - _outputTwoLayerTissue.Rad_r[1]), 0.0000001);
             Assert.AreEqual(_outputOneLayerTissue.Rad_r_TallyCount, 199);
@@ -834,6 +1048,7 @@ namespace Vts.Test.MonteCarlo.Detectors
         {
             // use initial results to verify any new changes to the code
             Assert.Less(Math.Abs(_outputOneLayerTissue.RefMT_rmt[0, 0] - 0.632816), 0.000001);
+            Assert.Less(Math.Abs(_outputOneLayerTissue.RefMT_rmt2[0, 0] - 20.0229), 0.0001);
             // make sure mean integral over MT equals R(rho) results
             var mtbins = ((ReflectedMTOfRhoAndSubregionHistDetectorInput)_inputOneLayerTissue.DetectorInputs.
                 Where(d => d.TallyType == "ReflectedMTOfRhoAndSubregionHist").First()).MTBins;
@@ -884,6 +1099,7 @@ namespace Vts.Test.MonteCarlo.Detectors
         {
             // use initial results to verify any new changes to the code
             Assert.Less(Math.Abs(_outputOneLayerTissue.TransMT_rmt[54, 5] - 0.0017405), 0.0000001);
+            Assert.Less(Math.Abs(_outputOneLayerTissue.TransMT_rmt2[54, 5] - 0.000302), 0.000001);
             // make sure mean integral over MT equals T(rho) results
             var mtbins = ((TransmittedMTOfRhoAndSubregionHistDetectorInput)_inputOneLayerTissue.DetectorInputs.
                 Where(d => d.TallyType == "TransmittedMTOfRhoAndSubregionHist").First()).MTBins;
@@ -957,6 +1173,7 @@ namespace Vts.Test.MonteCarlo.Detectors
         {
             // use initial results to verify any new changes to the code
             Assert.Less(Math.Abs(_outputOneLayerTissue.TransMT_xymt[0, 0, 33] - 0.006760), 0.000001);
+            Assert.Less(Math.Abs(_outputOneLayerTissue.TransMT_xymt2[0, 0, 33] - 0.004570), 0.000001);
             // make sure mean integral over MT equals T(rho) results
             var mtbins = ((TransmittedMTOfXAndYAndSubregionHistDetectorInput)_inputOneLayerTissue.DetectorInputs.
                 Where(d => d.TallyType == "TransmittedMTOfXAndYAndSubregionHist").First()).MTBins;

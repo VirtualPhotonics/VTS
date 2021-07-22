@@ -811,7 +811,18 @@ namespace Vts.MonteCarlo.Helpers
             SourceFlags flags)
         {
             if (flags.BeamRotationFromInwardNormalFlag)
-                dir = UpdateDirectionAfterRotatingByGivenAnglePair(beamRotation, dir);
+            {
+                PolarAzimuthalAngles thetaOnly = new PolarAzimuthalAngles(beamRotation.Theta, 0);
+                PolarAzimuthalAngles phiOnly = new PolarAzimuthalAngles(0, beamRotation.Phi);
+                // X should have theta angles but phi = 0
+                dir = UpdateDirectionAfterRotatingByGivenAnglePair(thetaOnly, dir); 
+                if (beamRotation.Phi != 0.0)
+                {
+                    // Y should have only phi angles theta = 0
+                    UpdateDirectionPositionAfterRotatingByGivenAnglePair(
+                        phiOnly, ref dir, ref pos); 
+                }
+            }
             if (flags.RotationOfPrincipalSourceAxisFlag)
                 UpdateDirectionPositionAfterRotatingByGivenAnglePair(sourceAxisRotation, ref dir, ref pos);
             if (flags.TranslationFromOriginFlag)

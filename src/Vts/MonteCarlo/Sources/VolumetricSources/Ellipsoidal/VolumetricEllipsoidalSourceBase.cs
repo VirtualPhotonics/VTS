@@ -119,11 +119,11 @@ namespace Vts.MonteCarlo.Sources
             {
                 case SourceProfileType.Flat:
                     // var flatProfile = sourceProfile as FlatSourceProfile;
-                    SourceToolbox.GetPositionInAnEllipsoidRandomFlat(
+                    finalPosition = SourceToolbox.GetPositionInAnEllipsoidRandomFlat(
                         SourceDefaults.DefaultPosition.Clone(),
-                        2 * aParameter,
-                        2 * bParameter,
-                        2 * cParameter,
+                        aParameter,
+                        bParameter,
+                        cParameter,
                         rng);
                     break;
                 case SourceProfileType.Gaussian:

@@ -1,3 +1,0 @@
-#!/bin/sh
-SolutionDir=$PWD
-exec mono --runtime=v4.0 --gc=sgen "$SolutionDir/src/.nuget/NuGet.exe" "$@"

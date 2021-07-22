@@ -43,17 +43,17 @@ namespace Vts.MonteCarlo.Sources
         /// <param name="radiusOnTissue">Radius of the circular source on tissue surface</param>
         /// <param name="sourceProfile">Source Profile {Flat / Gaussian}</param>
         /// <param name="radiusInAir">Radius of circle in air</param>
-        /// <param name="pointLocation">Origin point location</param>
+        /// <param name="circleInAirTranslationFromOrigin">Circle in air location</param>
         public CircularAngledFromCircleSourceInput(
             double radiusOnTissue,
             ISourceProfile sourceProfile,
             double radiusInAir,
-            Position pointLocation)
+            Position circleInAirTranslationFromOrigin)
             : this(
                 radiusOnTissue,
                 sourceProfile,
                 radiusInAir,
-                SourceDefaults.DefaultPosition.Clone(),
+                circleInAirTranslationFromOrigin,
                 0) { }
 
         /// <summary>
@@ -83,10 +83,6 @@ namespace Vts.MonteCarlo.Sources
         /// The radius of the circular source in air
         /// </summary>
         public double RadiusInAir { get; set; }
-        /// <summary>
-        /// Origin point location
-        /// </summary>
-        public Position PointLocation { get; set; }
         /// <summary>
         /// New source location
         /// </summary>
