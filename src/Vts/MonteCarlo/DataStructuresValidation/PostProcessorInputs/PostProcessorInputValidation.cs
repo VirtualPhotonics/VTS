@@ -61,11 +61,15 @@ namespace Vts.MonteCarlo
         private static ValidationResult ValidatePhotonDatabaseExistence(
             IList<IDetectorInput> detectorInputs, string inputFolder)
         {
+            var temp = detectorInputs[0].TallyDetails.IsReflectanceTally;
+            var temp2 = detectorInputs[1].TallyDetails.IsReflectanceTally;
+            var dum = temp;
+            var dum2 = temp2;
             if (detectorInputs.Select(di => di.TallyDetails.IsReflectanceTally).Any())
             {
                 return new ValidationResult(
                     File.Exists(Path.Combine(inputFolder, "DiffuseReflectanceDatabase")),
-                    "PostProcessorInput:  file DiffuseReflanceDatabase does not exist",
+                    "PostProcessorInput:  file DiffuseReflectanceDatabase does not exist",
                     "check that VirtualBoundaryType and database type agree");
             }
             if (detectorInputs.Select(di => di.TallyDetails.IsTransmittanceTally).Any())

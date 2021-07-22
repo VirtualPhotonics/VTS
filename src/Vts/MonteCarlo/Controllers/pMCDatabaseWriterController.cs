@@ -69,8 +69,10 @@ namespace Vts.MonteCarlo.Controllers
         public bool DPBelongsToSurfaceVirtualBoundary(PhotonDataPoint dp,
             PhotonDatabaseWriter photonDatabaseWriter)
         {
-            if ((dp.StateFlag.HasFlag(PhotonStateType.PseudoDiffuseReflectanceVirtualBoundary) && // pMC uses regular PST
-                 photonDatabaseWriter.VirtualBoundaryType == VirtualBoundaryType.pMCDiffuseReflectance))
+            if (((dp.StateFlag.HasFlag(PhotonStateType.PseudoDiffuseReflectanceVirtualBoundary) && // pMC uses regular PST
+                 photonDatabaseWriter.VirtualBoundaryType == VirtualBoundaryType.pMCDiffuseReflectance)) ||
+                ((dp.StateFlag.HasFlag(PhotonStateType.PseudoDiffuseTransmittanceVirtualBoundary) && // 
+                  photonDatabaseWriter.VirtualBoundaryType == VirtualBoundaryType.pMCDiffuseTransmittance)))
             {
                 return true;
             }
