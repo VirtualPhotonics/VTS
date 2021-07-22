@@ -1,0 +1,154 @@
+{
+  "DetectorInputs": [
+    {
+      "Rho": {
+        "Start": rhostart,
+        "Stop": rhostop,
+        "Count": rhocount
+      },
+      "PerturbedOps": [
+        {
+          "Mua": 0.0,
+          "Mus": 1E-10,
+          "G": 1.0,
+          "N": 1.0,
+          "Musp": 1E-10
+        },
+        {
+          "Mua": a1,
+          "Mus": s1,
+          "G": 0.8,
+          "N": 1.4,
+          "Musp": sp1
+        },
+        {
+          "Mua": 0.0,
+          "Mus": 1E-10,
+          "G": 1.0,
+          "N": 1.0,
+          "Musp": 1E-10
+        }
+      ],
+      "PerturbedRegionsIndices": [
+        1
+      ],
+      "TallyType": "pMCROfRho",
+      "Name": "pMCROfRho",
+      "TallySecondMoment": true,
+      "TallyDetails": {
+        "IsReflectanceTally": false,
+        "IsTransmittanceTally": false,
+        "IsSpecularReflectanceTally": false,
+        "IsInternalSurfaceTally": false,
+        "IspMCReflectanceTally": true,
+        "IsBoundingVolumeTally": false,
+        "IsVolumeTally": false,
+        "IsCylindricalTally": true,
+        "IsNotImplementedForDAW": false,
+        "IsNotImplementedForCAW": false,
+        "IsNotImplementedYet": false
+      }
+    },
+    {
+      "Rho": {
+        "Start": rhostart,
+        "Stop": rhostop,
+        "Count": rhocount
+      },
+      "PerturbedOps": [
+        {
+          "Mua": 0.0,
+          "Mus": 1E-10,
+          "G": 1.0,
+          "N": 1.0,
+          "Musp": 1E-10
+        },
+        {
+          "Mua": a1,
+          "Mus": s1,
+          "G": 0.8,
+          "N": 1.4,
+          "Musp": sp1
+        },
+        {
+          "Mua": 0.0,
+          "Mus": 1E-10,
+          "G": 1.0,
+          "N": 1.0,
+          "Musp": 1E-10
+        }
+      ],
+      "PerturbedRegionsIndices": [
+        1
+      ],
+      "TallyType": "dMCdROfRhodMua",
+      "Name": "dMCROfRhoROfRhodMua",
+      "TallySecondMoment": true,
+      "TallyDetails": {
+        "IsReflectanceTally": false,
+        "IsTransmittanceTally": false,
+        "IsSpecularReflectanceTally": false,
+        "IsInternalSurfaceTally": false,
+        "IspMCReflectanceTally": true,
+        "IsBoundingVolumeTally": false,
+        "IsVolumeTally": false,
+        "IsCylindricalTally": true,
+        "IsNotImplementedForDAW": false,
+        "IsNotImplementedForCAW": false,
+        "IsNotImplementedYet": false
+      }
+    },
+    {
+      "Rho": {
+        "Start": rhostart,
+        "Stop": rhostop,
+        "Count": rhocount
+      },
+      "PerturbedOps": [
+        {
+          "Mua": 0.0,
+          "Mus": 1E-10,
+          "G": 1.0,
+          "N": 1.0,
+          "Musp": 1E-10
+        },
+        {
+          "Mua": a1,
+          "Mus": s1,
+          "G": 0.8,
+          "N": 1.4,
+          "Musp": sp1
+        },
+        {
+          "Mua": 0.0,
+          "Mus": 1E-10,
+          "G": 1.0,
+          "N": 1.0,
+          "Musp": 1E-10
+        }
+      ],
+      "PerturbedRegionsIndices": [
+        1
+      ],
+      "TallyType": "dMCdROfRhodMus",
+      "Name": "dMCdROfRhodMus",
+      "TallySecondMoment": true,
+      "TallyDetails": {
+        "IsReflectanceTally": false,
+        "IsTransmittanceTally": false,
+        "IsSpecularReflectanceTally": false,
+        "IsInternalSurfaceTally": false,
+        "IspMCReflectanceTally": true,
+        "IsBoundingVolumeTally": false,
+        "IsVolumeTally": false,
+        "IsCylindricalTally": true,
+        "IsNotImplementedForDAW": false,
+        "IsNotImplementedForCAW": false,
+        "IsNotImplementedYet": false
+      }
+    }
+  ],
+  "InputFolder": "pMC_db_var1",
+  "DatabaseSimulationInputFilename": "pMC_db_var1",
+  "OutputName": "PP_var1"
+}

@@ -16,7 +16,7 @@ namespace Vts.SpectralMapping
         /// <param name="volumeFraction">Volume fraction</param>
         public IntralipidScatterer(double volumeFraction)
         {
-            _volumeFraction = volumeFraction;
+            VolumeFraction = volumeFraction;
         }
 
         /// <summary>

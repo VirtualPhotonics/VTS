@@ -104,8 +104,8 @@ namespace Vts.MonteCarlo.Sources
                 SourceDefaults.DefaultAzimuthalAngleRange.Clone(),
                 Rng);
 
-            Position tempPosition = null;               
-            Position finalPosition = null;               
+            Position tempPosition = new Position();
+            Position finalPosition = new Position();               
              
             switch (cSide)
             {
@@ -177,7 +177,7 @@ namespace Vts.MonteCarlo.Sources
             {
                 case SourceProfileType.Flat:
                     // var flatProfile = sourceProfile as FlatSourceProfile;
-                    SourceToolbox.GetPositionInARectangleRandomFlat(
+                    finalPosition = SourceToolbox.GetPositionInARectangleRandomFlat(
                         SourceDefaults.DefaultPosition.Clone(),
                         rectLengthX,
                         rectWidthY,
