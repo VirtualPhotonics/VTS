@@ -23,7 +23,7 @@ namespace Vts.MonteCarlo.Detectors
             Name = "pMCTOfRho";
             Rho = new DoubleRange(0.0, 10, 101);
             NA = double.PositiveInfinity; // set default NA completely open regardless of detector region refractive index
-            FinalTissueRegionIndex = 0; // assume detector is in air
+            FinalTissueRegionIndex = 2; // assume detector is in air below tissue
 
             // modify base class TallyDetails to take advantage of built-in validation capabilities (error-checking)
             TallyDetails.IsCylindricalTally = true;
@@ -147,8 +147,8 @@ namespace Vts.MonteCarlo.Detectors
             if (!IsWithinDetectorAperture(photon))
                 return;
             
-        // WhichBin to match TOfRhoDetector
-        var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(photon.DP.Position.X, photon.DP.Position.Y), Rho.Count - 1, Rho.Delta, Rho.Start);
+            // WhichBin to match TOfRhoDetector
+            var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(photon.DP.Position.X, photon.DP.Position.Y), Rho.Count - 1, Rho.Delta, Rho.Start);
 
             double weightFactor = _absorbAction(
                 photon.History.SubRegionInfoList.Select(c => c.NumberOfCollisions).ToList(),
