@@ -375,7 +375,7 @@ for di = 1:numDetectors
             tempAngle = detector.Angle;
             TOfAngle.Angle = linspace((tempAngle.Start), (tempAngle.Stop), (tempAngle.Count));
             TOfAngle.Angle_Midpoints = (TOfAngle.Angle(1:end-1) + TOfAngle.Angle(2:end))/2;
-            TOfAngle.Mean = readBinaryData([datadir slash detector.Name],length(ROfAngle.Angle)-1);              
+            TOfAngle.Mean = readBinaryData([datadir slash detector.Name],length(TOfAngle.Angle)-1);              
             if(detector.TallySecondMoment && exist([datadir slash detector.Name '_2'],'file'))
                 TOfAngle.SecondMoment = readBinaryData([datadir slash detector.Name '_2'],length(TOfAngle.Angle)-1);
                 TOfAngle.Stdev = sqrt((TOfAngle.SecondMoment - (TOfAngle.Mean .* TOfAngle.Mean)) / json.N);
@@ -646,7 +646,7 @@ for di = 1:numDetectors
                 [length(FluenceOfXAndYAndZAndStartingXAndY.Z)-1,length(FluenceOfXAndYAndZAndStartingXAndY.Y)-1,length(FluenceOfXAndYAndZAndStartingXAndY.X)-1,...
                  length(FluenceOfXAndYAndZAndStartingXAndY.StartingY)-1,length(FluenceOfXAndYAndZAndStartingXAndY.StartingX)-1]);
             FluenceOfXAndYAndZAndStartingXAndY.StartingXYCount = readBinaryData([datadir slash detector.Name '_StartingXYCount'],...
-                [length(FluenceOfXAndYAndZAndStartingXAndY.StartingX)-1,length(FluenceOfXAndYAndZAndStartingXAndY.StartingY)-1]); % read column major json binary                      
+                [length(FluenceOfXAndYAndZAndStartingXAndY.StartingY)-1,length(FluenceOfXAndYAndZAndStartingXAndY.StartingX)-1]); % read column major json binary                      
             if(detector.TallySecondMoment && exist([datadir slash detector.Name '_2'],'file'))
                 tempData = readBinaryData([datadir slash detector.Name '_2'], ...
                    [(length(FluenceOfXAndYAndZAndStartingXAndY.StartingX)-1)*(length(FluenceOfXAndYAndZAndStartingXAndY.StartingY)-1)*...

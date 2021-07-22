@@ -86,7 +86,8 @@ namespace Vts.Test.MonteCarlo.Detectors
                         Z = new DoubleRange(0.0, 10.0, 21),
                         MTBins=new DoubleRange(0.0, 500.0, 51), // MT bins
                         FractionalMTBins = new DoubleRange(0.0, 1.0, 11),
-                        BloodVolumeFraction = new List<double>() { 0, 0.5, 0}
+                        BloodVolumeFraction = new List<double>() { 0, 0.5, 0}, 
+                        TallySecondMoment = true
                     },
                     new TransmittedDynamicMTOfFxAndSubregionHistDetectorInput() 
                     {
@@ -94,7 +95,8 @@ namespace Vts.Test.MonteCarlo.Detectors
                         Z = new DoubleRange(0.0, 10.0, 21),
                         MTBins=new DoubleRange(0.0, 500.0, 51), // MT bins
                         FractionalMTBins = new DoubleRange(0.0, 1.0, 11),
-                        BloodVolumeFraction = new List<double>() { 0, 0.5, 0 }
+                        BloodVolumeFraction = new List<double>() { 0, 0.5, 0 },
+                        TallySecondMoment = true
                     },
                 };
             var oneLayerTissue = new MultiLayerTissueInput(
@@ -189,6 +191,8 @@ namespace Vts.Test.MonteCarlo.Detectors
             // use initial results to verify any new changes to the code
             Assert.Less(Math.Abs(_outputOneLayerTissue.RefDynMT_fxmt[0, 0].Magnitude - 0.239141), 0.000001);
             Assert.Less(Math.Abs(_outputOneLayerTissue.RefDynMT_fxmt[0, 1].Magnitude - 0.101220), 0.000001);
+            Assert.Less(Math.Abs(_outputOneLayerTissue.RefDynMT_fxmt2[0, 0].Magnitude - 0.228981), 0.000001);
+            Assert.Less(Math.Abs(_outputOneLayerTissue.RefDynMT_fxmt2[0, 1].Magnitude - 0.085544), 0.000001);
             // verify mean integral over MT equals R(Fx) results
             var mtbins = ((ReflectedDynamicMTOfFxAndSubregionHistDetectorInput) _inputOneLayerTissue.DetectorInputs.
                 Where(d => d.TallyType == "ReflectedDynamicMTOfFxAndSubregionHist").First()).MTBins;
@@ -255,6 +259,7 @@ namespace Vts.Test.MonteCarlo.Detectors
         {
             // use initial results to verify any new changes to the code
             Assert.Less(Math.Abs(_outputOneLayerTissue.TransDynMT_fxmt[0, 9].Magnitude - 0.003957), 0.000001);
+            Assert.Less(Math.Abs(_outputOneLayerTissue.TransDynMT_fxmt2[0, 9].Magnitude - 0.001565), 0.000001);
             // make sure mean integral over MT equals T(Fx) results
             var mtbins = ((TransmittedDynamicMTOfFxAndSubregionHistDetectorInput)_inputOneLayerTissue.DetectorInputs.
                 Where(d => d.TallyType == "TransmittedDynamicMTOfFxAndSubregionHist").First()).MTBins;

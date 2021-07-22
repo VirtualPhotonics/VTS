@@ -119,7 +119,7 @@ namespace Vts.MonteCarlo.Sources
             {
                 case SourceProfileType.Flat:
                     // var flatProfile = sourceProfile as FlatSourceProfile;
-                    SourceToolbox.GetPositionInACuboidRandomFlat(
+                    finalPosition = SourceToolbox.GetPositionInACuboidRandomFlat(
                         SourceDefaults.DefaultPosition.Clone(),
                         cubeLengthX,
                         cubeWidthY,

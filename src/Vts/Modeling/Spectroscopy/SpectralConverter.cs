@@ -93,7 +93,7 @@ namespace Vts.SpectralMapping
         public static WavelengthUnit getWavelengthUnit(string wavelengthUnit)
         {
             //pull out the unit values
-            Match match = Regex.Match(wavelengthUnit, @"([a-zA-Z]+)");
+            var match = Regex.Match(wavelengthUnit, @"([a-zA-Z/1]+)");
             if (match.Success)
             {
                 switch (match.Groups[1].Value.ToLower())
@@ -201,7 +201,7 @@ namespace Vts.SpectralMapping
                     switch (unit[1])
                     {
                         default:
-                            return MolarUnit.None;
+                             return MolarUnit.None;
                         case "M":
                             return MolarUnit.Molar;
                         case "mM":

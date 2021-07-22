@@ -227,6 +227,8 @@ namespace Vts.MonteCarlo
                 "DirectionalRectangular",
                 // 2D Rectangular surface sources: custom
                 "CustomRectangular",
+                // 2D Rectangular surface source angle determined by circle in air
+                "RectangularAngledFromCircle",
 
 
                 // SURFACE EMITTING BULK SOURCES (3D SURFACE SOURCES)
@@ -370,8 +372,9 @@ namespace Vts.MonteCarlo
             "MultiConcentricInfiniteCylinder",
             // Multilayer tissue bounded by vertical cylinder laterally
             "BoundingCylinder"
-        };
+            };
     }
+
     /// <summary>
     /// Tissue region type, sub-regions of layers
     /// </summary>

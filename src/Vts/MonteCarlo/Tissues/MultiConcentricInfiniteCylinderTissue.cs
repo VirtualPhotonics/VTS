@@ -79,7 +79,7 @@ namespace Vts.MonteCarlo.Tissues
         /// list of tissue regions comprising tissue
         /// </summary>
         [IgnoreDataMember]
-        public ITissueRegion[] Regions { get { return _layerRegions.Concat(_infiniteCylinderRegions).ToArray(); } }
+        public ITissueRegion[] Regions { get { return _layerRegions.Concat(_infiniteCylinderRegions).ToArray(); } set { _regions = value; } }
         /// <summary>
         /// tissue outer infinite cylinder region
         /// </summary>

@@ -9,7 +9,7 @@ namespace Vts.MonteCarlo.Sources
     /// Implements ISourceInput. Defines input data for CircularAngledFromPointSource implementation 
     /// including radius, source profile, point position, and initial tissue region index.
     /// The angle of the source is determined by the position on the tissue surface (dictated by the source
-    /// profile) and the point position.
+    /// profile) and the point position in the air.
     /// </summary>
     public class CircularAngledFromPointSourceInput : ISourceInput
     {
@@ -18,7 +18,7 @@ namespace Vts.MonteCarlo.Sources
         /// </summary>
         /// <param name="radius">The radius of the circular source on tissue surface</param>
         /// <param name="sourceProfile">Source Profile {Flat / Gaussian}</param>
-        /// <param name="pointPosition">Location of originating point WITHOUT TRANSLATION</param>
+        /// <param name="pointLocation">Location of originating point WITHOUT TRANSLATION</param>
         /// <param name="translationFromOrigin">Center of circle location</param>
         /// <param name="initialTissueRegionIndex">Initial tissue region index</param>
         public CircularAngledFromPointSourceInput(
