@@ -1491,6 +1491,17 @@ for di = 1:numDetectors
                     imag(pMCROfFx.Mean) .* imag(pMCROfFx.Mean)) / databaseInputJson.N);
             end
             results{di}.pMCROfFx = pMCROfFx;
+        case 'pMCTOfRho'
+            pMCTOfRho.Name = detector.Name;
+            tempRho = detector.Rho;
+            pMCTOfRho.Rho = linspace((tempRho.Start), (tempRho.Stop), (tempRho.Count));
+            pMCTOfRho.Rho_Midpoints = (pMCTOfRho.Rho(1:end-1) + pMCTOfRho.Rho(2:end))/2;
+            pMCTOfRho.Mean = readBinaryData([datadir slash detector.Name],length(pMCTOfRho.Rho)-1);              
+            if(detector.TallySecondMoment && exist([datadir slash detector.Name '_2'],'file'))
+                pMCTOfRho.SecondMoment = readBinaryData([datadir slash detector.Name '_2'],length(pMCTOfRho.Rho)-1);
+                pMCTOfRho.Stdev = sqrt((pMCTOfRho.SecondMoment - (pMCTOfRho.Mean .* pMCTOfRho.Mean)) / (databaseInputJson.N));
+            end
+            results{di}.pMCTOfRho = pMCTOfRho;
     end %detector.Name switch
 end
 

@@ -123,6 +123,20 @@ namespace Vts.MonteCarlo.PostProcessor
                     );
                     postProcessedOutput = postProcessor.Run();
                 }
+                else if (input.DetectorInputs.Where(di => di.TallyDetails.IspMCTransmittanceTally).Any())
+                {
+                    IList<IDetectorInput> pMCDetectorInputs;
+                    pMCDetectorInputs = input.DetectorInputs;
+                    var postProcessor = new PhotonDatabasePostProcessor(
+                        VirtualBoundaryType.pMCDiffuseTransmittance,
+                        pMCDetectorInputs,
+                        PhotonDatabaseFactory.GetpMCDatabase( //database filenames are assumed to be convention
+                            VirtualBoundaryType.pMCDiffuseTransmittance,
+                            inputFolder),
+                        databaseGenerationInputFile
+                    );
+                    postProcessedOutput = postProcessor.Run();
+                }
                 else if (input.DetectorInputs.Where(di => di.TallyDetails.IsTransmittanceTally).Any())
                 {
                     var postProcessor = new PhotonDatabasePostProcessor(
