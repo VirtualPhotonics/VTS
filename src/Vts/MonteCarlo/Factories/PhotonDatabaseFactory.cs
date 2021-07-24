@@ -60,7 +60,7 @@ namespace Vts.MonteCarlo.Factories
                         Path.Combine(filePath, "CollisionInfoDatabase"));
                 case VirtualBoundaryType.pMCDiffuseTransmittance:
                     return pMCDatabase.FromFile(Path.Combine(filePath, "DiffuseTransmittanceDatabase"),
-                        Path.Combine(filePath, "CollisionInfoDatabase"));
+                        Path.Combine(filePath, "CollisionInfoTransmittanceDatabase"));
                 default:
                     return null;
             }

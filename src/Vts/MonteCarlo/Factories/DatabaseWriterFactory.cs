@@ -96,7 +96,7 @@ namespace Vts.MonteCarlo.Factories
                         tissue.Regions.Count());
                 case DatabaseType.pMCDiffuseTransmittance:
                     return new CollisionInfoDatabaseWriter(VirtualBoundaryType.pMCDiffuseTransmittance,
-                        Path.Combine(filePath, outputName, "CollisionInfoDatabase"),
+                        Path.Combine(filePath, outputName, "CollisionInfoTransmittanceDatabase"),
                         tissue.Regions.Count());
             }
         }
