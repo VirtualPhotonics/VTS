@@ -37,7 +37,9 @@ namespace Vts.Test.MonteCarlo.Helpers
             Assert.IsTrue(Math.Abs(reflectionProbability - 0.036578) < 0.000001);
             Assert.IsTrue(Math.Abs(uzSnell - 0.863074) < 0.000001);
         }
-
+        /// <summary>
+        /// Test to validate fraction of specular reflection given n1 and n2
+        /// </summary>
         [Test]
         public void validate_Specular_results()
         {
