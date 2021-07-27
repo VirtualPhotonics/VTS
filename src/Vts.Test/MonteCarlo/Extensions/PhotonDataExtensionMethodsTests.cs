@@ -13,23 +13,40 @@ namespace Vts.Test.MonteCarlo.Extensions
     [TestFixture]
     public class PhotonDataExtensionMethodsTests
     {
-        [OneTimeTearDown]
-        public void remove_files_created()
+        /// <summary>
+        /// list of temporary files created by these unit tests
+        /// </summary>
+        List<string> listOfTestGeneratedFiles = new List<string>()
         {
-            FileIO.FileDelete("collisionInfoReflectance");
-            FileIO.FileDelete("collisionInfoTransmittance");
-            FileIO.FileDelete("collisionInfoPmcReflectance");
+            "collisionInfoReflectance",
+            "collisionInfoTransmittance",
+            "collisionInfoPmcReflectance"
+        };
+
+        [OneTimeTearDown]
+        public void remove_files()
+        {
+            foreach (var file in listOfTestGeneratedFiles)
+            {
+                FileIO.FileDelete(file);
+            }
         }
         /// <summary>
-        /// Validate method WriteToPMCSurfaceVirtualBoundaryDatabases.  This in turnb
-        /// validates WriteToPMCSurfaceVirtualBoundaryDatabase
+        /// Validate method WriteToPMCSurfaceVirtualBoundaryDatabases.  This in turn
+        /// validates WriteToPMCSurfaceVirtualBoundaryDatabase.
         /// </summary>
         [Test]
         public void validate_WriteToPMCSurfaceVirtualBoundaryDatabases()
         {
             // OneTimeTearDown might not run before this test so clear our files
-            FileIO.FileDelete("collisionInfoReflectance");
-            FileIO.FileDelete("collisionInfoPmcReflectance");
+            if (FileIO.FileExists("collisionInfoReflectance"))
+            {
+                FileIO.FileDelete("collisionInfoReflectance");
+            }
+            if (FileIO.FileExists("collisionInfoPmcReflectance"))
+            {
+                FileIO.FileDelete("collisionInfoPmcReflectance");
+            }
             var numberOfSubRegions = 3;
             var listOfCollisionInfoDatabaseWriters = new List<CollisionInfoDatabaseWriter>();
             listOfCollisionInfoDatabaseWriters.Add(new CollisionInfoDatabaseWriter(
