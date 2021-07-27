@@ -31,46 +31,46 @@ namespace Vts.Test.MonteCarlo.Extensions
                 FileIO.FileDelete(file);
             }
         }
-        /// <summary>
-        /// Validate method WriteToPMCSurfaceVirtualBoundaryDatabases.  This in turn
-        /// validates WriteToPMCSurfaceVirtualBoundaryDatabase.
-        /// </summary>
-        [Test]
-        public void validate_WriteToPMCSurfaceVirtualBoundaryDatabases()
-        {
-            // OneTimeTearDown might not run before this test so clear our files
-            if (FileIO.FileExists("collisionInfoReflectance"))
-            {
-                FileIO.FileDelete("collisionInfoReflectance");
-            }
-            if (FileIO.FileExists("collisionInfoPmcReflectance"))
-            {
-                FileIO.FileDelete("collisionInfoPmcReflectance");
-            }
-            var numberOfSubRegions = 3;
-            var listOfCollisionInfoDatabaseWriters = new List<CollisionInfoDatabaseWriter>();
-            listOfCollisionInfoDatabaseWriters.Add(new CollisionInfoDatabaseWriter(
-                VirtualBoundaryType.DiffuseReflectance, 
-                "collisionInfoReflectance",
-                numberOfSubRegions));
-            listOfCollisionInfoDatabaseWriters.Add(new CollisionInfoDatabaseWriter(
-                VirtualBoundaryType.pMCDiffuseReflectance,
-                "collisionInfoPmcReflectance",
-                numberOfSubRegions));
-            var dp = new PhotonDataPoint(
-                new Position(0, 0, 0),
-                new Direction(0, 0, 1),
-                1.0, // weight
-                1.0, // total time,
-                PhotonStateType.PseudoDiffuseReflectanceVirtualBoundary);
-            var collisionInfo = new CollisionInfo(
-                numberOfSubRegions);
-            listOfCollisionInfoDatabaseWriters.WriteToPMCSurfaceVirtualBoundaryDatabases(
-                dp,
-                collisionInfo);
-            Assert.IsTrue(FileIO.FileExists("collisionInfoReflectance"));
-            Assert.IsTrue(FileIO.FileExists("collisionInfoPmcReflectance"));
-        }
+        ///// <summary>
+        ///// Validate method WriteToPMCSurfaceVirtualBoundaryDatabases.  This in turn
+        ///// validates WriteToPMCSurfaceVirtualBoundaryDatabase.
+        ///// </summary>
+        //[Test]
+        //public void validate_WriteToPMCSurfaceVirtualBoundaryDatabases()
+        //{
+        //    // OneTimeTearDown might not run before this test so clear our files
+        //    if (FileIO.FileExists("collisionInfoReflectance"))
+        //    {
+        //        FileIO.FileDelete("collisionInfoReflectance");
+        //    }
+        //    if (FileIO.FileExists("collisionInfoPmcReflectance"))
+        //    {
+        //        FileIO.FileDelete("collisionInfoPmcReflectance");
+        //    }
+        //    var numberOfSubRegions = 3;
+        //    var listOfCollisionInfoDatabaseWriters = new List<CollisionInfoDatabaseWriter>();
+        //    listOfCollisionInfoDatabaseWriters.Add(new CollisionInfoDatabaseWriter(
+        //        VirtualBoundaryType.DiffuseReflectance, 
+        //        "collisionInfoReflectance",
+        //        numberOfSubRegions));
+        //    listOfCollisionInfoDatabaseWriters.Add(new CollisionInfoDatabaseWriter(
+        //        VirtualBoundaryType.pMCDiffuseReflectance,
+        //        "collisionInfoPmcReflectance",
+        //        numberOfSubRegions));
+        //    var dp = new PhotonDataPoint(
+        //        new Position(0, 0, 0),
+        //        new Direction(0, 0, 1),
+        //        1.0, // weight
+        //        1.0, // total time,
+        //        PhotonStateType.PseudoDiffuseReflectanceVirtualBoundary);
+        //    var collisionInfo = new CollisionInfo(
+        //        numberOfSubRegions);
+        //    listOfCollisionInfoDatabaseWriters.WriteToPMCSurfaceVirtualBoundaryDatabases(
+        //        dp,
+        //        collisionInfo);
+        //    Assert.IsTrue(FileIO.FileExists("collisionInfoReflectance"));
+        //    Assert.IsTrue(FileIO.FileExists("collisionInfoPmcReflectance"));
+        //}
         /// <summary>
         /// Validate method BelongsToSurfaceVirtualBoundary
         /// </summary>
