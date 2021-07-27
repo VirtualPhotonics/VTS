@@ -13,7 +13,7 @@ namespace Vts.Test.MonteCarlo.Helpers
         /// bin is first or last respectively
         /// </summary>
         [Test]
-        public void validate_WhichBin_results()
+        public void Validate_WhichBin_results()
         {
             var range = new DoubleRange(0, 10, 11);
             // test overload WhichBin(double value, int numberOfBins, double binSize, double binStart)
@@ -43,7 +43,7 @@ namespace Vts.Test.MonteCarlo.Helpers
         /// of Stop, no bin is selected.
         /// </summary>
         [Test]
-        public void validate_WhichBinExclusive_results()
+        public void Validate_WhichBinExclusive_results()
         {
             var range = new DoubleRange(0, 10, 11);
             var bin = DetectorBinning.WhichBinExclusive(5.5, range.Count - 1, range.Delta, range.Start);
@@ -57,7 +57,7 @@ namespace Vts.Test.MonteCarlo.Helpers
         /// Validate GetTimeDelay results.
         /// </summary>
         [Test]
-        public void validate_GetTimeDelay_results()
+        public void Validate_GetTimeDelay_results()
         {
             var pathLength = 10; // mm
             var n = 1.4; // refractive index mismatch
@@ -68,7 +68,7 @@ namespace Vts.Test.MonteCarlo.Helpers
         /// Validate GetRho results.
         /// </summary>
         [Test]
-        public void validate_GetRho_results()
+        public void Validate_GetRho_results()
         {
             var x = 5;
             var y = 5;

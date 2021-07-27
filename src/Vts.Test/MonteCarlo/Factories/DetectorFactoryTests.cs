@@ -54,7 +54,7 @@ namespace Vts.Test.MonteCarlo.Factories
         /// Simulate basic usage of DetectorFactory
         /// </summary>
         [Test]
-        public void demonstrate_basic_mc_creation()
+        public void Demonstrate_basic_mc_creation()
         {
             var detectorInput = new ROfRhoDetectorInput
                 {
@@ -81,7 +81,7 @@ namespace Vts.Test.MonteCarlo.Factories
         /// Simulate fluent usage of DetectorFactory
         /// </summary>
         [Test]
-        public void demonstrate_fluent_mc_creation()
+        public void Demonstrate_fluent_mc_creation()
         {
             var rOfRhoDetector = new SimulationInput
                 {
@@ -107,7 +107,7 @@ namespace Vts.Test.MonteCarlo.Factories
         /// Simulate usage of user-defined types with DetectorFactory.RegisterDetector method
         /// </summary>
         [Test]
-        public void demonstrate_user_defined_detector_usage()
+        public void Demonstrate_user_defined_detector_usage()
         {
             DetectorFactory.RegisterDetector(typeof (ROfXDetectorInput), typeof (ROfXDetector));
 

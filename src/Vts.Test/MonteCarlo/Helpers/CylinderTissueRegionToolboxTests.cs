@@ -12,7 +12,7 @@ namespace Vts.Test.MonteCarlo.Tissues
         /// Validate RayIntersectInfiniteCylinder provides correct results
         /// </summary>
         [Test]
-        public void validate_RayIntersectInfiniteCylinder_results()
+        public void Validate_RayIntersectInfiniteCylinder_results()
         {
             var position1 = new Position(0, 0, 0);
             var position2 = new Position(0, 0, 1);

@@ -12,7 +12,7 @@ namespace Vts.Test.MonteCarlo.Tissues
         /// Validate RayExtendToInfinitePlane provides correct results
         /// </summary>
         [Test]
-        public void validate_RayExtendToInfinitePlane_results()
+        public void Validate_RayExtendToInfinitePlane_results()
         {
             var zPlane = -1;
             var pos = new Position(0, 0, 0);

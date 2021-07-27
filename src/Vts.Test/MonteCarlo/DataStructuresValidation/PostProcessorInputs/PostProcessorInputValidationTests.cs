@@ -73,7 +73,7 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation.PostProcessorInputs
         /// Test to check that post-processor perturbed OPs are not negative
         /// </summary>
         [Test]
-        public void validate_tissue_optical_properties_are_non_negative()
+        public void Validate_tissue_optical_properties_are_non_negative()
         {
             // set pMC mua value to be negative
             ((pMCROfRhoDetectorInput) input.DetectorInputs[0]).PerturbedOps[1].Mua = -0.01;
@@ -86,7 +86,7 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation.PostProcessorInputs
         /// Test to check input folder exists
         /// </summary>
         [Test]
-        public void validate_input_folder_existence()
+        public void Validate_input_folder_existence()
         {
             var result = PostProcessorInputValidation.ValidateInput(input, "");
             Assert.IsTrue(result.ValidationRule.Equals(
@@ -102,7 +102,7 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation.PostProcessorInputs
         /// back a unique ValidationRule that can verify which "if" was used.
         /// </summary>
         [Test]
-        public void verify_database_aligns_with_TallyDetails_of_detector()
+        public void Verify_database_aligns_with_TallyDetails_of_detector()
         {
             string folderName = "DiffuseReflectance";
             // create folder

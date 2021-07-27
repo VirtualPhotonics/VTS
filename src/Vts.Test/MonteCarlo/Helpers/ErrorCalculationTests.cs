@@ -12,7 +12,7 @@ namespace Vts.Test.MonteCarlo.Helpers
         /// Validate StandardDeviation provides correct results
         /// </summary>
         [Test]
-        public void validate_StandardDeviation_results()
+        public void Validate_StandardDeviation_results()
         {
             var numberOfPhotons = 100;
             var mean = 0.5;

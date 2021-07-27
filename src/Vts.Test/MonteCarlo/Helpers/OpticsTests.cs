@@ -12,7 +12,7 @@ namespace Vts.Test.MonteCarlo.Helpers
         /// Validate Fresnel results.
         /// </summary>
         [Test]
-        public void validate_Fresnel_results()
+        public void Validate_Fresnel_results()
         {
             // test n1 = n2
             var n1 = 1.0;  // refractive index entering ray medium
@@ -41,7 +41,7 @@ namespace Vts.Test.MonteCarlo.Helpers
         /// Test to validate fraction of specular reflection given n1 and n2
         /// </summary>
         [Test]
-        public void validate_Specular_results()
+        public void Validate_Specular_results()
         {
             var n1 = 1.0;
             var n2 = 1.4;

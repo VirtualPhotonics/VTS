@@ -11,7 +11,7 @@ namespace Vts.Test.MonteCarlo.Extensions
         /// Validate method IsSurfaceBoundary
         /// </summary>
         [Test]
-        public void validate_IsSurfaceBoundary_returns_correct_value()
+        public void Validate_IsSurfaceBoundary_returns_correct_value()
         {
             // validate those that are true
             var virtualBoundaryType = VirtualBoundaryType.DiffuseReflectance;
@@ -34,7 +34,7 @@ namespace Vts.Test.MonteCarlo.Extensions
         /// Validate method IsVolumeBoundary
         /// </summary>
         [Test]
-        public void validate_IsVolumeBoundary_returns_correct_value()
+        public void Validate_IsVolumeBoundary_returns_correct_value()
         {
             // validate those that are true
             var virtualBoundaryType = VirtualBoundaryType.GenericVolumeBoundary;
@@ -58,7 +58,7 @@ namespace Vts.Test.MonteCarlo.Extensions
         /// Validate method IsReflectanceSurfaceVirtualBoundary
         /// </summary>
         [Test]
-        public void validate_IsReflectanceSurfaceVirtualBoundary_returns_correct_value()
+        public void Validate_IsReflectanceSurfaceVirtualBoundary_returns_correct_value()
         {
             // validate those that are true
             var virtualBoundarType = VirtualBoundaryType.DiffuseReflectance;
@@ -73,7 +73,7 @@ namespace Vts.Test.MonteCarlo.Extensions
         /// Validate method IsTransmittanceSurfaceVirtualBoundary
         /// </summary>
         [Test]
-        public void validate_IsTransmittanceSurfaceVirtualBoundary_returns_correct_value()
+        public void Validate_IsTransmittanceSurfaceVirtualBoundary_returns_correct_value()
         {
             // validate those that are true
             var virtualBoundaryType = VirtualBoundaryType.DiffuseTransmittance;
@@ -86,7 +86,7 @@ namespace Vts.Test.MonteCarlo.Extensions
         /// Validate method IsSpecularSurfaceVirtualBoundary
         /// </summary>
         [Test]
-        public void validate_IsSpecularSurfaceVirtualBoundary_returns_correct_value()
+        public void Validate_IsSpecularSurfaceVirtualBoundary_returns_correct_value()
         {
             // validate those that are true
             var virtualBoundaryType = VirtualBoundaryType.SpecularReflectance;
@@ -99,7 +99,7 @@ namespace Vts.Test.MonteCarlo.Extensions
         /// Validate method IsDosimetryVirtualBoundary
         /// </summary>
         [Test]
-        public void validate_IsDosimetryVirtualBoundary_returns_correct_value()
+        public void Validate_IsDosimetryVirtualBoundary_returns_correct_value()
         {
             // validate those that are true
             var virtualBoundaryType = VirtualBoundaryType.Dosimetry;
@@ -112,7 +112,7 @@ namespace Vts.Test.MonteCarlo.Extensions
         /// Validate method IsGenericVolumeVirtualBoundary
         /// </summary>
         [Test]
-        public void validate_IsGenericVolumeVirtualBoundary_returns_correct_value()
+        public void Validate_IsGenericVolumeVirtualBoundary_returns_correct_value()
         {
             // validate those that are true
             var virtualBoundaryType = VirtualBoundaryType.GenericVolumeBoundary;
@@ -125,7 +125,7 @@ namespace Vts.Test.MonteCarlo.Extensions
         /// Validate method IspMCVirtualBoundary
         /// </summary>
         [Test]
-        public void validate_IspMCVirtualBoundary_returns_correct_value()
+        public void Validate_IspMCVirtualBoundary_returns_correct_value()
         {
             // validate those that are true
             var virtualBoundaryType = VirtualBoundaryType.pMCDiffuseReflectance;

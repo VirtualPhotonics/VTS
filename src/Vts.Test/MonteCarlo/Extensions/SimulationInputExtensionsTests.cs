@@ -46,61 +46,61 @@ namespace Vts.Test.MonteCarlo.Extensions
             );
         }
         [Test]
-        public void verify_WithValue_method_modifies_nphot_correctly()
+        public void Verify_WithValue_method_modifies_nphot_correctly()
         {
             var inputWithChange = _input.WithValue("nphot", 10000);
             Assert.AreEqual(inputWithChange.N, 10000);
         }
         [Test]
-        public void verify_WithValue_method_modifies_mua1_correctly()
+        public void Verify_WithValue_method_modifies_mua1_correctly()
         {      
             var inputWithChange = _input.WithValue(InputParameterType.Mua1.ToString(), 99.0);
             Assert.AreEqual(inputWithChange.TissueInput.Regions[1].RegionOP.Mua, 99.0);
         }
         [Test]
-        public void verify_WithValue_method_modifies_mus1_correctly()
+        public void Verify_WithValue_method_modifies_mus1_correctly()
         {
             var inputWithChange = _input.WithValue(InputParameterType.Mus1.ToString(), 99.0);
             Assert.AreEqual(inputWithChange.TissueInput.Regions[1].RegionOP.Mus, 99.0);
         }
         [Test]
-        public void verify_WithValue_method_modifies_n1_correctly()
+        public void Verify_WithValue_method_modifies_n1_correctly()
         {
             var inputWithChange = _input.WithValue(InputParameterType.N1.ToString(), 99.0);
             Assert.AreEqual(inputWithChange.TissueInput.Regions[1].RegionOP.N, 99.0);
         }
         [Test]
-        public void verify_WithValue_method_modifies_g1_correctly()
+        public void Verify_WithValue_method_modifies_g1_correctly()
         {
             var inputWithChange = _input.WithValue(InputParameterType.G1.ToString(), 99.0);
             Assert.AreEqual(inputWithChange.TissueInput.Regions[1].RegionOP.G, 99.0);
         }
         [Test]
-        public void verify_WithValue_method_modifies_mua2_correctly()
+        public void Verify_WithValue_method_modifies_mua2_correctly()
         {
             var inputWithChange = _input.WithValue(InputParameterType.Mua2.ToString(), 99.0);
             Assert.AreEqual(inputWithChange.TissueInput.Regions[2].RegionOP.Mua, 99.0);
         }
         [Test]
-        public void verify_WithValue_method_modifies_mus2_correctly()
+        public void Verify_WithValue_method_modifies_mus2_correctly()
         {
             var inputWithChange = _input.WithValue(InputParameterType.Mus2.ToString(), 99.0);
             Assert.AreEqual(inputWithChange.TissueInput.Regions[2].RegionOP.Mus, 99.0);
         }
         [Test]
-        public void verify_WithValue_method_modifies_n2_correctly()
+        public void Verify_WithValue_method_modifies_n2_correctly()
         {
             var inputWithChange = _input.WithValue(InputParameterType.N2.ToString(), 99.0);
             Assert.AreEqual(inputWithChange.TissueInput.Regions[2].RegionOP.N, 99.0);
         }
         [Test]
-        public void verify_WithValue_method_modifies_g2_correctly()
+        public void Verify_WithValue_method_modifies_g2_correctly()
         {
             var inputWithChange = _input.WithValue(InputParameterType.G2.ToString(), 99.0);
             Assert.AreEqual(inputWithChange.TissueInput.Regions[2].RegionOP.G, 99.0);
         }
         [Test]
-        public void verify_WithValue_method_modifies_d1_correctly()
+        public void Verify_WithValue_method_modifies_d1_correctly()
         {
             // if change top layer to 99, second layer should be same thickness but start at 99
             var originalRegions = _input.TissueInput.Regions;
