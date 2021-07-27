@@ -53,6 +53,94 @@ namespace Vts.Test.MonteCarlo.Extensions
             virtualBoundaryType = VirtualBoundaryType.Dosimetry;
             Assert.IsFalse(virtualBoundaryType.IsVolumeVirtualBoundary());
         }
+
+        /// <summary>
+        /// Validate method IsReflectanceSurfaceVirtualBoundary
+        /// </summary>
+        [Test]
+        public void validate_IsReflectanceSurfaceVirtualBoundary_returns_correct_value()
+        {
+            // validate those that are true
+            var virtualBoundarType = VirtualBoundaryType.DiffuseReflectance;
+            Assert.IsTrue(virtualBoundarType.IsReflectanceSurfaceVirtualBoundary());
+            virtualBoundarType = VirtualBoundaryType.pMCDiffuseReflectance;
+            Assert.IsTrue(virtualBoundarType.IsReflectanceSurfaceVirtualBoundary());
+            // validate one that is false
+            virtualBoundarType = VirtualBoundaryType.DiffuseTransmittance;
+            Assert.IsFalse(virtualBoundarType.IsReflectanceSurfaceVirtualBoundary());
+        }
+        /// <summary>
+        /// Validate method IsTransmittanceSurfaceVirtualBoundary
+        /// </summary>
+        [Test]
+        public void validate_IsTransmittanceSurfaceVirtualBoundary_returns_correct_value()
+        {
+            // validate those that are true
+            var virtualBoundaryType = VirtualBoundaryType.DiffuseTransmittance;
+            Assert.IsTrue(virtualBoundaryType.IsTransmittanceSurfaceVirtualBoundary());
+            // validate one that is false
+            virtualBoundaryType = VirtualBoundaryType.pMCDiffuseReflectance;
+            Assert.IsFalse(virtualBoundaryType.IsTransmittanceSurfaceVirtualBoundary());
+        }
+        /// <summary>
+        /// Validate method IsSpecularSurfaceVirtualBoundary
+        /// </summary>
+        [Test]
+        public void validate_IsSpecularSurfaceVirtualBoundary_returns_correct_value()
+        {
+            // validate those that are true
+            var virtualBoundaryType = VirtualBoundaryType.SpecularReflectance;
+            Assert.IsTrue(virtualBoundaryType.IsSpecularSurfaceVirtualBoundary());
+            // validate one that is false
+            virtualBoundaryType = VirtualBoundaryType.pMCDiffuseReflectance;
+            Assert.IsFalse(virtualBoundaryType.IsSpecularSurfaceVirtualBoundary());
+        }
+        /// <summary>
+        /// Validate method IsDosimetryVirtualBoundary
+        /// </summary>
+        [Test]
+        public void validate_IsDosimetryVirtualBoundary_returns_correct_value()
+        {
+            // validate those that are true
+            var virtualBoundaryType = VirtualBoundaryType.Dosimetry;
+            Assert.IsTrue(virtualBoundaryType.IsDosimetryVirtualBoundary());
+            // validate one that is false
+            virtualBoundaryType = VirtualBoundaryType.pMCDiffuseReflectance;
+            Assert.IsFalse(virtualBoundaryType.IsDosimetryVirtualBoundary());
+        }
+        /// <summary>
+        /// Validate method IsGenericVolumeVirtualBoundary
+        /// </summary>
+        [Test]
+        public void validate_IsGenericVolumeVirtualBoundary_returns_correct_value()
+        {
+            // validate those that are true
+            var virtualBoundaryType = VirtualBoundaryType.GenericVolumeBoundary;
+            Assert.IsTrue(virtualBoundaryType.IsGenericVolumeVirtualBoundary());
+            // validate one that is false
+            virtualBoundaryType = VirtualBoundaryType.pMCDiffuseReflectance;
+            Assert.IsFalse(virtualBoundaryType.IsGenericVolumeVirtualBoundary());
+        }
+        /// <summary>
+        /// Validate method IspMCVirtualBoundary
+        /// </summary>
+        [Test]
+        public void validate_IspMCVirtualBoundary_returns_correct_value()
+        {
+            // validate those that are true
+            var virtualBoundaryType = VirtualBoundaryType.pMCDiffuseReflectance;
+            Assert.IsTrue(virtualBoundaryType.IspMCVirtualBoundary()); 
+            // validate one that is false
+            virtualBoundaryType = VirtualBoundaryType.DiffuseReflectance;
+            Assert.IsFalse(virtualBoundaryType.IspMCVirtualBoundary());
+            virtualBoundaryType = VirtualBoundaryType.DiffuseTransmittance;
+            Assert.IsFalse(virtualBoundaryType.IspMCVirtualBoundary());
+            virtualBoundaryType = VirtualBoundaryType.SpecularReflectance;
+            Assert.IsFalse(virtualBoundaryType.IspMCVirtualBoundary());
+            virtualBoundaryType = VirtualBoundaryType.Dosimetry;
+            Assert.IsFalse(virtualBoundaryType.IspMCVirtualBoundary());
+        }
     }
 }
+
 

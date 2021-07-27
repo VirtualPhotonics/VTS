@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using NUnit.Framework;
 using Vts.Common;
+using Vts.IO;
 using Vts.MonteCarlo;
 using Vts.MonteCarlo.Extensions;
 using Vts.MonteCarlo.Factories;
@@ -10,7 +12,89 @@ namespace Vts.Test.MonteCarlo.Extensions
 {
     [TestFixture]
     public class PhotonDataExtensionMethodsTests
-    {       
+    {
+        [OneTimeTearDown]
+        public void remove_files_created()
+        {
+            FileIO.FileDelete("collisionInfoReflectance");
+            FileIO.FileDelete("collisionInfoTransmittance");
+            FileIO.FileDelete("collisionInfoPmcReflectance");
+        }
+        /// <summary>
+        /// Validate method WriteToPMCSurfaceVirtualBoundaryDatabases.  This in turnb
+        /// validates WriteToPMCSurfaceVirtualBoundaryDatabase
+        /// </summary>
+        [Test]
+        public void validate_WriteToPMCSurfaceVirtualBoundaryDatabases()
+        {
+            // OneTimeTearDown might not run before this test so clear our files
+            FileIO.FileDelete("collisionInfoReflectance");
+            FileIO.FileDelete("collisionInfoPmcReflectance");
+            var numberOfSubRegions = 3;
+            var listOfCollisionInfoDatabaseWriters = new List<CollisionInfoDatabaseWriter>();
+            listOfCollisionInfoDatabaseWriters.Add(new CollisionInfoDatabaseWriter(
+                VirtualBoundaryType.DiffuseReflectance, 
+                "collisionInfoReflectance",
+                numberOfSubRegions));
+            listOfCollisionInfoDatabaseWriters.Add(new CollisionInfoDatabaseWriter(
+                VirtualBoundaryType.pMCDiffuseReflectance,
+                "collisionInfoPmcReflectance",
+                numberOfSubRegions));
+            var dp = new PhotonDataPoint(
+                new Position(0, 0, 0),
+                new Direction(0, 0, 1),
+                1.0, // weight
+                1.0, // total time,
+                PhotonStateType.PseudoDiffuseReflectanceVirtualBoundary);
+            var collisionInfo = new CollisionInfo(
+                numberOfSubRegions);
+            listOfCollisionInfoDatabaseWriters.WriteToPMCSurfaceVirtualBoundaryDatabases(
+                dp,
+                collisionInfo);
+            Assert.IsTrue(FileIO.FileExists("collisionInfoReflectance"));
+            Assert.IsTrue(FileIO.FileExists("collisionInfoPmcReflectance"));
+        }
+        /// <summary>
+        /// Validate method BelongsToSurfaceVirtualBoundary
+        /// </summary>
+        [Test]
+        public void validate_BelongsToSurfaceVirtualBoundary_returns_correct_value()
+        {
+            // set up photon data points with various PhotonStateTypes
+            var dpReflectance = new PhotonDataPoint(
+                new Position(0, 0, 0),
+                new Direction(0, 0, 1),
+                1.0, // weight
+                1.0, // total time,
+                PhotonStateType.PseudoDiffuseReflectanceVirtualBoundary);
+            var dpTransmittance = new PhotonDataPoint(
+                new Position(0, 0, 0),
+                new Direction(0, 0, 1),
+                1.0, // weight
+                1.0, // total time,
+                PhotonStateType.PseudoDiffuseTransmittanceVirtualBoundary);
+            var numberOfSubRegions = 3;
+            // set up collision info database writers with various VB types
+            var collisionInfoDatabaseWriterReflectance = new CollisionInfoDatabaseWriter(
+                VirtualBoundaryType.DiffuseReflectance, "collisionInfoReflectance", numberOfSubRegions);
+            var collisionInfoDatabaseWriterTransmittance = new CollisionInfoDatabaseWriter(
+                VirtualBoundaryType.DiffuseTransmittance, "collisionInfoTransmittance", numberOfSubRegions);
+            var collisionInfoDatabaseWriterPmcReflectance = new CollisionInfoDatabaseWriter(
+                VirtualBoundaryType.pMCDiffuseReflectance, "collisionInfoPmcReflectance", numberOfSubRegions);
+            // test various combinations
+            // test for tru
+            var result = dpReflectance.BelongsToSurfaceVirtualBoundary(collisionInfoDatabaseWriterReflectance);
+            Assert.IsTrue(result);
+            result = dpTransmittance.BelongsToSurfaceVirtualBoundary(collisionInfoDatabaseWriterTransmittance);
+            Assert.IsTrue(result);
+            result = dpReflectance.BelongsToSurfaceVirtualBoundary(collisionInfoDatabaseWriterPmcReflectance);
+            Assert.IsTrue(result);
+            // test for false
+            result = dpReflectance.BelongsToSurfaceVirtualBoundary(collisionInfoDatabaseWriterTransmittance);
+            Assert.IsFalse(result);
+            result = dpTransmittance.BelongsToSurfaceVirtualBoundary(collisionInfoDatabaseWriterPmcReflectance);
+            Assert.IsFalse(result);
+        }
         /// <summary>
         /// Validate method IsWithinNA for fully open NA
         /// </summary>
