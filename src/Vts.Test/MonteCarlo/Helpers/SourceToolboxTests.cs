@@ -106,7 +106,7 @@ namespace Vts.Test.MonteCarlo.Sources
         /// Validating "GetDirectionForGiven2DPositionAndGivenPolarAngle"     
         /// </summary>
         [Test]
-        public void validate_static_method_getdirectionforgiven2dpositionandgivenpolarangle()
+        public void Validate_static_method_getdirectionforgiven2dpositionandgivenpolarangle()
         {
             read_data();
             var pos = _position.Clone();
@@ -121,7 +121,7 @@ namespace Vts.Test.MonteCarlo.Sources
         /// Validating "GetDirectionForGivenPolarAzimuthalAngleRangeRandom"
         /// </summary>
         [Test]
-        public void validate_static_method_getdirectionforgivenpolarazimuthalanglerangerandom()
+        public void Validate_static_method_getdirectionforgivenpolarazimuthalanglerangerandom()
         {
             Random rng = new MathNet.Numerics.Random.MersenneTwister(0);
             var dir = SourceToolbox.GetDirectionForGivenPolarAzimuthalAngleRangeRandom(_polRange, _aziRange, rng);
@@ -135,7 +135,7 @@ namespace Vts.Test.MonteCarlo.Sources
         /// Validating "GetDirectionForIsotropicDistributionRandom"
         /// </summary>
         [Test]
-        public void validate_static_method_getdirectionforisotropicdistributionrandom()
+        public void Validate_static_method_getdirectionforisotropicdistributionrandom()
         {
             Random rng = new MathNet.Numerics.Random.MersenneTwister(0);
             var dir = SourceToolbox.GetDirectionForIsotropicDistributionRandom(rng);
@@ -149,7 +149,7 @@ namespace Vts.Test.MonteCarlo.Sources
         /// Validating "GetDoubleNormallyDistributedRandomNumbers"
         /// </summary>
         [Test]
-        public void validate_static_method_getdoublenormallydistributedrandomnumbers()
+        public void Validate_static_method_getdoublenormallydistributedrandomnumbers()
         {
             Random rng = new MathNet.Numerics.Random.MersenneTwister(0);
             double nrng1 = 0.0;
@@ -165,7 +165,7 @@ namespace Vts.Test.MonteCarlo.Sources
         /// Validating "GetLowerLimit"
         /// </summary>
         [Test]
-        public void validate_static_method_getlowerlimit()
+        public void Validate_static_method_getlowerlimit()
         {
             var limit = SourceToolbox.GetLimit(_factor);
 
@@ -176,7 +176,7 @@ namespace Vts.Test.MonteCarlo.Sources
         /// Validating "GetPolarAzimuthalPairForGivenAngleRangeRandom"
         /// </summary>        
         [Test]
-        public void validate_static_method_getpolarazimuthalpairforgivenanglerangerandom()
+        public void Validate_static_method_getpolarazimuthalpairforgivenanglerangerandom()
         {
             Random rng = new MathNet.Numerics.Random.MersenneTwister(0);
             var angPair = SourceToolbox.GetPolarAzimuthalPairForGivenAngleRangeRandom(_polRange, _aziRange,rng);
@@ -205,7 +205,7 @@ namespace Vts.Test.MonteCarlo.Sources
         /// Validating "GetPositionInACircleRandomFlat"
         /// </summary>
         [Test]
-        public void validate_static_method_getpositioninacirclerandomflat()
+        public void Validate_static_method_getpositioninacirclerandomflat()
         {         
 
             Random rng = new MathNet.Numerics.Random.MersenneTwister(0);
@@ -220,7 +220,7 @@ namespace Vts.Test.MonteCarlo.Sources
         /// Validating "GetPositionInACircleRandomGaussian"
         /// </summary>
         [Test]
-        public void validate_static_method_getpositioninacirclerandomgaussian()
+        public void Validate_static_method_getpositioninacirclerandomgaussian()
         {
 
             Random rng = new MathNet.Numerics.Random.MersenneTwister(0);
@@ -235,7 +235,7 @@ namespace Vts.Test.MonteCarlo.Sources
         /// Validating "GetPositionInACuboidRandomFlat"
         /// </summary>
         [Test]
-        public void validate_static_method_getpositioninacuboidrandomflat()
+        public void Validate_static_method_getpositioninacuboidrandomflat()
         {
 
             Random rng = new MathNet.Numerics.Random.MersenneTwister(0);
@@ -250,7 +250,7 @@ namespace Vts.Test.MonteCarlo.Sources
         /// Validating "GetPositionInACuboidRandomGaussian"
         /// </summary>
         [Test]
-        public void validate_static_method_getpositioninacuboidrandomgaussian()
+        public void Validate_static_method_getpositioninacuboidrandomgaussian()
         {
 
             Random rng = new MathNet.Numerics.Random.MersenneTwister(0);
@@ -265,7 +265,7 @@ namespace Vts.Test.MonteCarlo.Sources
         /// Validating "GetPositionInALineRandomFlat"
         /// </summary>
         [Test]
-        public void validate_static_method_getpositioninalinerandomflat()
+        public void Validate_static_method_getpositioninalinerandomflat()
         {
 
             Random rng = new MathNet.Numerics.Random.MersenneTwister(0);
@@ -280,7 +280,7 @@ namespace Vts.Test.MonteCarlo.Sources
         /// Validating "GetPositionInALineRandomGaussian"
         /// </summary>
         [Test]
-        public void validate_static_method_getpositioninalinerandomgaussian()
+        public void Validate_static_method_getpositioninalinerandomgaussian()
         {
 
             Random rng = new MathNet.Numerics.Random.MersenneTwister(0);
@@ -295,7 +295,7 @@ namespace Vts.Test.MonteCarlo.Sources
         /// Validating "GetPositionInAnEllipseRandomFlat"
         /// </summary>
         [Test]
-        public void validate_static_method_getpositioninanellipserandomflat()
+        public void Validate_static_method_getpositioninanellipserandomflat()
         {
 
             Random rng = new MathNet.Numerics.Random.MersenneTwister(0);
@@ -310,7 +310,7 @@ namespace Vts.Test.MonteCarlo.Sources
         /// Validating "GetPositionInAnEllipseRandomGaussian"
         /// </summary>
         [Test]
-        public void validate_static_method_getpositioninanellipserandomgaussian()
+        public void Validate_static_method_getpositioninanellipserandomgaussian()
         {
 
             Random rng = new MathNet.Numerics.Random.MersenneTwister(0);
@@ -325,7 +325,7 @@ namespace Vts.Test.MonteCarlo.Sources
         /// Validating "GetPositionInAnEllipsoidRandomFlat"
         /// </summary>
         [Test]
-        public void validate_static_method_getpositioninanellipsoidrandomflat()
+        public void Validate_static_method_getpositioninanellipsoidrandomflat()
         {
 
             Random rng = new MathNet.Numerics.Random.MersenneTwister(0);
@@ -341,7 +341,7 @@ namespace Vts.Test.MonteCarlo.Sources
         /// Validating "GetPositionInAnEllipsoidRandomGaussian"
         /// </summary>
         [Test]
-        public void validate_static_method_getpositioninanellipsoidrandomgaussian()
+        public void Validate_static_method_getpositioninanellipsoidrandomgaussian()
         {
 
             Random rng = new MathNet.Numerics.Random.MersenneTwister(0);
@@ -356,7 +356,7 @@ namespace Vts.Test.MonteCarlo.Sources
         /// Validating "GetPositionInARectangleRandomFlat"
         /// </summary>
         [Test]
-        public void validate_static_method_getpositioninarectanglerandomflat()
+        public void Validate_static_method_getpositioninarectanglerandomflat()
         {
 
             Random rng = new MathNet.Numerics.Random.MersenneTwister(0);
@@ -386,7 +386,7 @@ namespace Vts.Test.MonteCarlo.Sources
         /// Validating "GetPositionOfASymmetricalLineRandomFlat"
         /// </summary>
         [Test]
-        public void validate_static_method_getpositionofasymmetricallinerandomflat()
+        public void Validate_static_method_getpositionofasymmetricallinerandomflat()
         {
             
             Random rng = new MathNet.Numerics.Random.MersenneTwister(0);
@@ -399,7 +399,7 @@ namespace Vts.Test.MonteCarlo.Sources
         /// Validating "GetSingleNormallyDistributedRandomNumber"
         /// </summary>
         [Test]
-        public void validate_static_method_getsinglenormallydistributedrandomnumber()
+        public void Validate_static_method_getsinglenormallydistributedrandomnumber()
         {
 
             Random rng = new MathNet.Numerics.Random.MersenneTwister(0);
@@ -413,7 +413,7 @@ namespace Vts.Test.MonteCarlo.Sources
         /// </summary>
   
         [Test]
-        public void validate_static_method_updatedirectionafterrotatingaroundthreeaxis()
+        public void Validate_static_method_updatedirectionafterrotatingaroundthreeaxis()
         {
             var dir = _direction.Clone();
             SourceToolbox.UpdateDirectionAfterRotatingAroundThreeAxis(_angRot, dir);
@@ -428,7 +428,7 @@ namespace Vts.Test.MonteCarlo.Sources
         /// </summary>
    
         [Test]
-        public void validate_static_method_updatedirectionafterrotatingaroundxaxis()
+        public void Validate_static_method_updatedirectionafterrotatingaroundxaxis()
         {
             var dir = _direction.Clone();
             SourceToolbox.UpdateDirectionAfterRotatingAroundXAxis(_angRot.XRotation, dir);
@@ -443,7 +443,7 @@ namespace Vts.Test.MonteCarlo.Sources
         /// </summary>
    
         [Test]
-        public void validate_static_method_updatedirectionafterrotatingaroundyaxis()
+        public void Validate_static_method_updatedirectionafterrotatingaroundyaxis()
         {
             var dir = _direction.Clone();
             SourceToolbox.UpdateDirectionAfterRotatingAroundYAxis(_angRot.YRotation, dir);
@@ -457,7 +457,7 @@ namespace Vts.Test.MonteCarlo.Sources
         /// Validating "UpdateDirectionAfterRotatingAroundZAxis"     
         /// </summary>
         [Test]
-        public void validate_static_method_updatedirectionafterrotatingaroundzaxis()
+        public void Validate_static_method_updatedirectionafterrotatingaroundzaxis()
         {
             var dir = _direction.Clone();
             SourceToolbox.UpdateDirectionAfterRotatingAroundZAxis(_angRot.ZRotation, dir);
@@ -472,7 +472,7 @@ namespace Vts.Test.MonteCarlo.Sources
         /// </summary>
   
         [Test]
-        public void validate_static_method_updatedirectionafterrotatingbygivenanglepair()
+        public void Validate_static_method_updatedirectionafterrotatingbygivenanglepair()
         {
             var dir = _direction.Clone();
             SourceToolbox.UpdateDirectionAfterRotatingByGivenAnglePair(_angPair, dir);
@@ -486,7 +486,7 @@ namespace Vts.Test.MonteCarlo.Sources
         /// //Validating "UpdateDirectionPositionAfterGivenFlags"  
         /// </summary>   
         [Test]
-        public void validate_static_method_updatedirectionpositionaftergivenflags1()
+        public void Validate_static_method_updatedirectionpositionaftergivenflags1()
         {
             var dir = _direction.Clone();
             var pos = _position.Clone();
@@ -505,7 +505,7 @@ namespace Vts.Test.MonteCarlo.Sources
         /// Validating "UpdateDirectionPositionAfterGivenFlags"   
         /// </summary>  
         [Test]
-        public void validate_static_method_updatedirectionpositionaftergivenflags2()
+        public void Validate_static_method_updatedirectionpositionaftergivenflags2()
         {
             var dir = _direction.Clone();
             var pos = _position.Clone();
@@ -524,7 +524,7 @@ namespace Vts.Test.MonteCarlo.Sources
         /// Validating "UpdateDirectionPositionAfterGivenFlags"   
         /// </summary>
         [Test]
-        public void validate_static_method_updatedirectionpositionafterrotatingaroundxaxis()
+        public void Validate_static_method_updatedirectionpositionafterrotatingaroundxaxis()
         {
             var dir = _direction.Clone();
             var pos = _position.Clone();
@@ -543,7 +543,7 @@ namespace Vts.Test.MonteCarlo.Sources
         /// Validating "UpdateDirectionPositionAfterRotatingAroundYAxis"  
         /// </summary>   
         [Test]
-        public void validate_static_method_updatedirectionpositionafterrotatingaroundyaxis()
+        public void Validate_static_method_updatedirectionpositionafterrotatingaroundyaxis()
         {
             var dir = _direction.Clone();
             var pos = _position.Clone();
@@ -562,7 +562,7 @@ namespace Vts.Test.MonteCarlo.Sources
         /// Validating "UpdateDirectionPositionAfterRotatingAroundZAxis"     
         /// </summary>
         [Test]
-        public void validate_static_method_updatedirectionpositionafterrotatingaroundzaxis()
+        public void Validate_static_method_updatedirectionpositionafterrotatingaroundzaxis()
         {
             var dir = _direction.Clone();
             var pos = _position.Clone();
@@ -581,7 +581,7 @@ namespace Vts.Test.MonteCarlo.Sources
         /// //Validating "UpdateDirectionPositionAfterRotatingByGivenAnglePair"
         /// </summary>     
         [Test]
-        public void validate_static_method_updatedirectionpositionafterrotatingbygivenanglepair()
+        public void Validate_static_method_updatedirectionpositionafterrotatingbygivenanglepair()
         {
             var dir = _direction.Clone();
             var pos = _position.Clone();
@@ -600,7 +600,7 @@ namespace Vts.Test.MonteCarlo.Sources
         /// Validating "UpdatePolarAngleForDirectionalSources"     
         /// </summary>
         [Test]
-        public void validate_static_method_updatepolarangleFordirectionalsources()
+        public void Validate_static_method_updatepolarangleFordirectionalsources()
         {
 
             var polAngle = SourceToolbox.UpdatePolarAngleForDirectionalSources(
@@ -615,7 +615,7 @@ namespace Vts.Test.MonteCarlo.Sources
         /// Validating "UpdatePositionAfterTranslation"     
         /// </summary>
         [Test]
-        public void validate_static_method_updatepositionaftertranslation()
+        public void Validate_static_method_updatepositionaftertranslation()
         {
 
             var pos = _position.Clone();
@@ -630,7 +630,7 @@ namespace Vts.Test.MonteCarlo.Sources
         /// Validating "GetPositionInACircularPerimeter"
         /// </summary>
         [Test]
-        public void validate_static_method_getpositionatcircleperimeter()
+        public void Validate_static_method_getpositionatcircleperimeter()
         {
 
             Random rng = new MathNet.Numerics.Random.MersenneTwister(0);

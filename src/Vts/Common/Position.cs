@@ -150,16 +150,10 @@ namespace Vts.Common
             if (obj is Position)
             {
                 var p = obj as Position;
-                if (p == null)
-                    return
-                        X == 0.0 &&
-                        Y == 0.0 &&
-                        Z == 0.0;
-                else
-                    return
-                        X == p.X &&
-                        Y == p.Y &&
-                        Z == p.Z;
+                return
+                    X == p.X &&
+                    Y == p.Y &&
+                    Z == p.Z;
             }
             return false;
         }

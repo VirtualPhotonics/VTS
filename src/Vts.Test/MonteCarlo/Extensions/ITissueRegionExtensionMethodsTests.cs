@@ -12,7 +12,7 @@ namespace Vts.Test.MonteCarlo.Extensions
         /// Validate method IsAir
         /// </summary>
         [Test]
-        public void validate_IsAir_returns_correct_values()
+        public void Validate_IsAir_returns_correct_values()
         {
             // IsAir is true if mua=0 and mus<=1e-10 so make musp=1e-12 with g=0.9
             var layer = new LayerTissueRegion(
