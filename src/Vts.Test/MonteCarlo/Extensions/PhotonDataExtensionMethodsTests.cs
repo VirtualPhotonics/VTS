@@ -4,6 +4,7 @@ using NUnit.Framework;
 using Vts.Common;
 using Vts.IO;
 using Vts.MonteCarlo;
+using Vts.MonteCarlo.Controllers;
 using Vts.MonteCarlo.Extensions;
 using Vts.MonteCarlo.Factories;
 using Vts.MonteCarlo.PhotonData;
@@ -19,8 +20,6 @@ namespace Vts.Test.MonteCarlo.Extensions
         List<string> listOfTestGeneratedFiles = new List<string>()
         {
             "collisionInfoReflectance",
-            "collisionInfoTransmittance",
-            "collisionInfoPmcReflectance"
         };
         [OneTimeSetUp]
         [OneTimeTearDown]
@@ -39,29 +38,28 @@ namespace Vts.Test.MonteCarlo.Extensions
         public void Validate_WriteToPMCSurfaceVirtualBoundaryDatabases()
         {
             // TearDown should clear files created prior to this test
-            var numberOfSubRegions = 3;
-            var listOfCollisionInfoDatabaseWriters = new List<CollisionInfoDatabaseWriter>();
-            listOfCollisionInfoDatabaseWriters.Add(new CollisionInfoDatabaseWriter(
-                VirtualBoundaryType.DiffuseReflectance,
-                "collisionInfoReflectance",
-                numberOfSubRegions));
-            listOfCollisionInfoDatabaseWriters.Add(new CollisionInfoDatabaseWriter(
-                VirtualBoundaryType.pMCDiffuseReflectance,
-                "collisionInfoPmcReflectance",
-                numberOfSubRegions));
+            var numberSubRegions = 3;
+            var databases = new List<DatabaseType>() { DatabaseType.pMCDiffuseReflectance };
+            var collisionInfoDatabases = new List<CollisionInfoDatabaseWriter>();
+            collisionInfoDatabases.Add(
+                new CollisionInfoDatabaseWriter(
+                    VirtualBoundaryType.pMCDiffuseReflectance,
+                    "collisionInfoReflectance",
+                    numberSubRegions));
             var dp = new PhotonDataPoint(
                 new Position(0, 0, 0),
                 new Direction(0, 0, 1),
                 1.0, // weight
                 1.0, // total time,
                 PhotonStateType.PseudoDiffuseReflectanceVirtualBoundary);
-            var collisionInfo = new CollisionInfo(
-                numberOfSubRegions);
-            listOfCollisionInfoDatabaseWriters.WriteToPMCSurfaceVirtualBoundaryDatabases(
-                dp,
-                collisionInfo);
+            var collisionInfo = new CollisionInfo(numberSubRegions);
+            var dbController = new pMCDatabaseWriterController(
+                DatabaseWriterFactory.GetSurfaceVirtualBoundaryDatabaseWriters(
+                    databases, "", ""),
+                collisionInfoDatabases);
+            dbController.WriteToSurfaceVirtualBoundaryDatabases(dp, collisionInfo);
             Assert.IsTrue(FileIO.FileExists("collisionInfoReflectance"));
-            Assert.IsTrue(FileIO.FileExists("collisionInfoPmcReflectance"));
+            dbController.Dispose();
         }
         /// <summary>
         /// Validate method BelongsToSurfaceVirtualBoundary
