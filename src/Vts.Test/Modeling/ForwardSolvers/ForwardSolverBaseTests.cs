@@ -199,7 +199,7 @@ namespace Vts.Test.Modeling.ForwardSolvers
         public void Test_ROfRho_with_IEnumerable_of_optical_properties_and_rhos()
         {
             var doubleList =
-                _forwardSolverBaseMock.Object.ROfRho(_opticalPropertiesEnumerable, _doubles);
+                _forwardSolverBaseMockWithSetup.Object.ROfRho(_opticalPropertiesEnumerable, _doubles);
             Assert.IsInstanceOf<IEnumerable<double>>(doubleList);
         }
 
@@ -207,7 +207,7 @@ namespace Vts.Test.Modeling.ForwardSolvers
         public void Test_ROfRho_with_IEnumerable_of_arrays_of_optical_property_regions_and_rhos()
         {
             var doubleList =
-                _forwardSolverBaseMock.Object.ROfRho(_opticalPropertyRegionsEnumerable, _doubles);
+                _forwardSolverBaseMockWithSetup.Object.ROfRho(_opticalPropertyRegionsEnumerable, _doubles);
             Assert.IsInstanceOf<IEnumerable<double>>(doubleList);
         }
 
@@ -215,7 +215,7 @@ namespace Vts.Test.Modeling.ForwardSolvers
         public void Test_ROfTheta_with_IEnumerable_of_optical_properties_and_thetas()
         {
             var doubleList =
-                _forwardSolverBaseMock.Object.ROfTheta(_opticalPropertiesEnumerable, _doubles);
+                _forwardSolverBaseMockWithSetup.Object.ROfTheta(_opticalPropertiesEnumerable, _doubles);
             Assert.IsInstanceOf<IEnumerable<double>>(doubleList);
         }
 
@@ -223,7 +223,7 @@ namespace Vts.Test.Modeling.ForwardSolvers
         public void Test_ROfRhoAndTime_with_IEnumerable_of_optical_properties_and_rhos_and_times()
         {
             var doubleList =
-                _forwardSolverBaseMock.Object.ROfRhoAndTime(_opticalPropertiesEnumerable, _doubles, _doubles);
+                _forwardSolverBaseMockWithSetup.Object.ROfRhoAndTime(_opticalPropertiesEnumerable, _doubles, _doubles);
             Assert.IsInstanceOf<IEnumerable<double>>(doubleList);
         }
 
@@ -231,26 +231,24 @@ namespace Vts.Test.Modeling.ForwardSolvers
         public void Test_ROfRhoAndTime_with_IEnumerable_of_arrays_of_optical_property_regions_and_rhos_and_times()
         {
             var doubleList =
-                _forwardSolverBaseMock.Object.ROfRhoAndTime(_opticalPropertyRegionsEnumerable, _doubles, _doubles);
+                _forwardSolverBaseMockWithSetup.Object.ROfRhoAndTime(_opticalPropertyRegionsEnumerable, _doubles, _doubles);
             Assert.IsInstanceOf<IEnumerable<double>>(doubleList);
         }
 
-        [Ignore("Need Carole's help to resolve")]
         [Test]
         public void Test_ROfRhoAndFt_with_IEnumerable_of_optical_properties_and_rhos_and_fts()
         {
-            var doubleList =
-                _forwardSolverBaseMock.Object.ROfRhoAndFt(_opticalPropertiesEnumerable, _doubles, _doubles);
-            Assert.IsInstanceOf<IEnumerable<Complex>>(doubleList);
+            var complexList =
+                _forwardSolverBaseMockWithSetup.Object.ROfRhoAndFt(_opticalPropertiesEnumerable, _doubles, _doubles);
+            Assert.IsInstanceOf<IEnumerable<Complex>>(complexList);
         }
 
-        [Ignore("Need Carole's help to resolve")]
         [Test]
         public void Test_ROfRhoAndFt_with_IEnumerable_of_arrays_of_optical_property_regions_and_rhos_and_fts()
         {
-            var doubleList =
-                _forwardSolverBaseMock.Object.ROfRhoAndFt(_opticalPropertyRegionsEnumerable, _doubles, _doubles);
-            Assert.IsInstanceOf<IEnumerable<Complex>>(doubleList);
+            var complexList =
+                _forwardSolverBaseMockWithSetup.Object.ROfRhoAndFt(_opticalPropertyRegionsEnumerable, _doubles, _doubles);
+            Assert.IsInstanceOf<IEnumerable<Complex>>(complexList);
         }
 
         [Test]
@@ -285,22 +283,20 @@ namespace Vts.Test.Modeling.ForwardSolvers
             Assert.IsInstanceOf<IEnumerable<double>>(doubleList);
         }
 
-        [Ignore("Need Carole's help to resolve")]
         [Test]
         public void Test_ROfFxAndFt_with_IEnumerable_of_optical_properties_and_fxs_and_fts()
         {
-            var doubleList =
-                _forwardSolverBaseMock.Object.ROfFxAndFt(_opticalPropertiesEnumerable, _doubles, _doubles);
-            Assert.IsInstanceOf<IEnumerable<Complex>>(doubleList);
+            var complexList =
+                _forwardSolverBaseMockWithSetup.Object.ROfFxAndFt(_opticalPropertiesEnumerable, _doubles, _doubles);
+            Assert.IsInstanceOf<IEnumerable<Complex>>(complexList);
         }
 
-        [Ignore("Need Carole's help to resolve")]
         [Test]
         public void Test_ROfFxAndFt_with_IEnumerable_of_arrays_of_optical_property_regions_and_fxs_and_fts()
         {
-            var doubleList =
-                _forwardSolverBaseMock.Object.ROfFxAndFt(_opticalPropertyRegionsEnumerable, _doubles, _doubles);
-            Assert.IsInstanceOf<IEnumerable<Complex>>(doubleList);
+            var complexList =
+                _forwardSolverBaseMockWithSetup.Object.ROfFxAndFt(_opticalPropertyRegionsEnumerable, _doubles, _doubles);
+            Assert.IsInstanceOf<IEnumerable<Complex>>(complexList);
         }
 
         [Test]
@@ -524,7 +520,6 @@ namespace Vts.Test.Modeling.ForwardSolvers
             Assert.AreEqual(1.0, complexes[1].Real, 0.00001);
         }
 
-        [Ignore("Check with Carole for possible bug")]
         [Test]
         public void Test_FluenceOfRhoAndZAndFt_optical_property_region_reflectance_array_overloads()
         {
