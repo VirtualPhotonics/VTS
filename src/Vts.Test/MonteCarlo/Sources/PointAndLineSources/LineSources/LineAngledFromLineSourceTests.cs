@@ -1,10 +1,7 @@
 ﻿using System;
-using System.IO;
 using MathNet.Numerics.Random;
 using NUnit.Framework;
 using Vts.Common;
-using Vts.MonteCarlo;
-using Vts.MonteCarlo.Helpers;
 using Vts.MonteCarlo.Sources;
 using Vts.MonteCarlo.Sources.SourceProfiles;
 using Vts.MonteCarlo.Tissues;
@@ -17,6 +14,28 @@ namespace Vts.Test.MonteCarlo.Sources
     [TestFixture]
     public class LineAngledFromLineSourceTests
     {
+        /// <summary>
+        /// test source input
+        /// </summary>
+        [Test]
+        public void validate_source_input_with_flat_profile_type()
+        {
+            // check default constructor
+            var si = new LineAngledFromLineSourceInput();
+            Assert.IsNotNull(si);
+            // check full definition
+            si = new LineAngledFromLineSourceInput(
+                    10.0,
+                    new FlatSourceProfile(),
+                    1.0,
+                    SourceDefaults.DefaultPosition.Clone(),
+                    0
+            );
+            Assert.IsNotNull(si);
+            // validate CreateSource
+            var source = si.CreateSource(new MersenneTwister(0));
+            Assert.IsNotNull(source);
+        }
         /// <summary>
         /// Validate general constructor and implicitly validate GetFinalPosition
         /// and GetFinalDirection

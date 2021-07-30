@@ -1,8 +1,10 @@
 ﻿using System;
+using MathNet.Numerics.Random;
 using NUnit.Framework;
 using Vts.Common;
 using Vts.MonteCarlo;
 using Vts.MonteCarlo.Sources;
+using Vts.MonteCarlo.Sources.SourceProfiles;
 using Vts.MonteCarlo.Tissues;
 
 namespace Vts.Test.MonteCarlo.Sources
@@ -13,6 +15,26 @@ namespace Vts.Test.MonteCarlo.Sources
     [TestFixture]
     public class LambertianSurfaceEmittingSphericalSourceTests
     {
+        /// <summary>
+        /// test source input
+        /// </summary>
+        [Test]
+        public void validate_source_input_with_flat_profile_type()
+        {
+            // check default constructor
+            var si = new LambertianSurfaceEmittingSphericalSourceInput();
+            Assert.IsNotNull(si);
+            // check full definition
+            si = new LambertianSurfaceEmittingSphericalSourceInput(
+                    1.0,
+                    SourceDefaults.DefaultPosition.Clone(),
+                    0
+            );
+            Assert.IsNotNull(si);
+            // validate CreateSource
+            var source = si.CreateSource(new MersenneTwister(0));
+            Assert.IsNotNull(source);
+        }
         /// <summary>
         /// This test validated using geometry assumptions
         /// </summary>

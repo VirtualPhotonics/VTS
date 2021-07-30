@@ -1,7 +1,10 @@
 ﻿using System;
+using MathNet.Numerics.Random;
 using NUnit.Framework;
+using Vts.Common;
 using Vts.MonteCarlo;
 using Vts.MonteCarlo.Sources;
+using Vts.MonteCarlo.Sources.SourceProfiles;
 using Vts.MonteCarlo.Tissues;
 
 namespace Vts.Test.MonteCarlo.Sources
@@ -23,7 +26,29 @@ namespace Vts.Test.MonteCarlo.Sources
                 _validationData.ReadData();
             }
         }
+        /// <summary>
+        /// test source input
+        /// </summary>
+        [Test]
+        public void validate_source_input_with_flat_profile_type()
+        {
+            // check default constructor
+            var si = new CustomPointSourceInput();
+            Assert.IsNotNull(si);
+            // check full definition
+            si = new CustomPointSourceInput(
 
+                    new DoubleRange(0.0, 0.0),
+                    new DoubleRange(0.0, 0.0),
+                    SourceDefaults.DefaultPosition.Clone(),
+                    SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone(),
+                    0
+            );
+            Assert.IsNotNull(si);
+            // validate CreateSource
+            var source = si.CreateSource(new MersenneTwister(0));
+            Assert.IsNotNull(source);
+        }
         /// <summary>
         /// Validate General Constructor of Custom Point Source
         /// </summary>
