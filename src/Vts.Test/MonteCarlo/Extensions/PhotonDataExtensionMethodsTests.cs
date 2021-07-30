@@ -20,6 +20,9 @@ namespace Vts.Test.MonteCarlo.Extensions
         List<string> listOfTestGeneratedFiles = new List<string>()
         {
             "collisionInfoReflectance",
+            "collisionInfoPmcReflectance",
+            "collisionInfoTransmittance",
+            "collisionInfoReflectance.txt"
         };
         [OneTimeSetUp]
         [OneTimeTearDown]
