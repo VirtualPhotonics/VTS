@@ -1,4 +1,5 @@
 ﻿using System;
+using MathNet.Numerics.Random;
 using NUnit.Framework;
 using Vts.Common;
 using Vts.MonteCarlo;
@@ -26,7 +27,31 @@ namespace Vts.Test.MonteCarlo.Sources
                 _validationData.ReadData();
             }
         }
-        
+        /// <summary>
+        /// test source input
+        /// </summary>
+        [Test]
+        public void validate_source_input_with_flat_profile_type()
+        {
+            // check default constructor
+            var si = new DirectionalCircularSourceInput();
+            Assert.IsNotNull(si);
+            // check full definition
+            si = new DirectionalCircularSourceInput(
+                    0.0,
+                    1.0,
+                    0.0,
+                    new FlatSourceProfile(),
+                    SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone(),
+                    SourceDefaults.DefaultPosition.Clone(),
+                    SourceDefaults.DefaultBeamRoationFromInwardNormal.Clone(),
+                    0
+            );
+            Assert.IsNotNull(si);
+            // validate CreateSource
+            var source = si.CreateSource(new MersenneTwister(0));
+            Assert.IsNotNull(source);
+        }
         /// <summary>
         /// Validate General Constructor of Directional Flat Circular Source
         /// </summary>

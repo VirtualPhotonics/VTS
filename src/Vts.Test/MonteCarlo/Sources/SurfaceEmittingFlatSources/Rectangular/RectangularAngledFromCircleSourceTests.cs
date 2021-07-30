@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using MathNet.Numerics.Random;
 using NUnit.Framework;
 using Vts.Common;
 using Vts.MonteCarlo;
@@ -23,10 +24,10 @@ namespace Vts.Test.MonteCarlo.Sources
         public void validate_source_input_with_flat_profile_type()
         {
             // check default constructor
-            var ps = new RectangularAngledFromCircleSourceInput();
-            Assert.IsNotNull(ps);
+            var si = new RectangularAngledFromCircleSourceInput();
+            Assert.IsNotNull(si);
             // check full definition
-            ps = new RectangularAngledFromCircleSourceInput(
+            si = new RectangularAngledFromCircleSourceInput(
                     1.0,
                     2.0,
                     new FlatSourceProfile(),
@@ -34,7 +35,10 @@ namespace Vts.Test.MonteCarlo.Sources
                     SourceDefaults.DefaultPosition.Clone(),
                     0
             );
-            Assert.IsNotNull(ps);
+            Assert.IsNotNull(si);
+            // validate CreateSource
+            var source = si.CreateSource(new MersenneTwister(0));
+            Assert.IsNotNull(source);
         }
 
         /// <summary>

@@ -1,4 +1,5 @@
 ﻿using System;
+using MathNet.Numerics.Random;
 using NUnit.Framework;
 using Vts.Common;
 using Vts.MonteCarlo;
@@ -32,10 +33,10 @@ namespace Vts.Test.MonteCarlo.Sources
         public void validate_source_input_with_flat_profile_type()
         {
             // check default constructor
-            var ps = new DirectionalRectangularSourceInput();
-            Assert.IsNotNull(ps);
+            var si = new DirectionalRectangularSourceInput();
+            Assert.IsNotNull(si);
             // check full definition
-            ps = new DirectionalRectangularSourceInput(
+            si = new DirectionalRectangularSourceInput(
                 0.0,
                 1.0,
                 2.0,
@@ -45,7 +46,10 @@ namespace Vts.Test.MonteCarlo.Sources
                 SourceDefaults.DefaultBeamRoationFromInwardNormal.Clone(),
                 0
             );
-            Assert.IsNotNull(ps);
+            Assert.IsNotNull(si);
+            // validate CreateSource
+            var source = si.CreateSource(new MersenneTwister(0));
+            Assert.IsNotNull(source);
         }
         /// <summary>
         /// Validate General Constructor of Directional Flat Rectangular Source
