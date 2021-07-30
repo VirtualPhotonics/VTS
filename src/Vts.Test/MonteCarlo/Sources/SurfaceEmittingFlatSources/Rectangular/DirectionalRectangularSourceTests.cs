@@ -25,7 +25,28 @@ namespace Vts.Test.MonteCarlo.Sources
                 _validationData.ReadData();
             }
         }
-
+        /// <summary>
+        /// test source input
+        /// </summary>
+        [Test]
+        public void validate_source_input_with_flat_profile_type()
+        {
+            // check default constructor
+            var ps = new DirectionalRectangularSourceInput();
+            Assert.IsNotNull(ps);
+            // check full definition
+            ps = new DirectionalRectangularSourceInput(
+                0.0,
+                1.0,
+                2.0,
+                new FlatSourceProfile(),
+                SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone(),
+                SourceDefaults.DefaultPosition.Clone(),
+                SourceDefaults.DefaultBeamRoationFromInwardNormal.Clone(),
+                0
+            );
+            Assert.IsNotNull(ps);
+        }
         /// <summary>
         /// Validate General Constructor of Directional Flat Rectangular Source
         /// </summary>

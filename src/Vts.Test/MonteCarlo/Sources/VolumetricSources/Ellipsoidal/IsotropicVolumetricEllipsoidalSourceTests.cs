@@ -9,14 +9,14 @@ using Vts.MonteCarlo.Tissues;
 namespace Vts.Test.MonteCarlo.Sources
 {
     /// <summary>
-    /// Unit tests for Surface Emitting Sources: CustomVolumetricEllipsoidalSources
+    /// Unit tests for Surface Emitting Sources: IsotropicVolumetricEllipsoidalSources
     /// </summary>
     [TestFixture]
-    public class CustomVolumetricEllipsoidalSourceTests
+    public class IsotropicVolumetricEllipsoidalSourceTests
     {
 
         /// <summary>
-        /// Validate General Constructor of Custom Flat VolumetricEllipsoidal Source
+        /// Validate General Constructor of Isotropic Flat VolumetricEllipsoidal Source
         /// </summary>
         [Test]
         public void Validate_general_constructor_with_flat_profiletype_for_custom_VolumetricEllipsoidal_source_test()
@@ -27,18 +27,14 @@ namespace Vts.Test.MonteCarlo.Sources
             var aParameter = 2.0;
             var bParameter = 2.0;
             var cParameter = 3.0;
-            var polarRange = new DoubleRange(0, Math.PI, 2);
-            var azimuthalRange = new DoubleRange(0, 2 * Math.PI, 2);
             var axisDirection = new Direction(0, 0, 1);
             var center = new Position(0, 0, 4);
 
-            var ps = new CustomVolumetricEllipsoidalSource(
+            var ps = new IsotropicVolumetricEllipsoidalSource(
                 aParameter, 
                 bParameter,
                 cParameter,
                 profile,
-                polarRange,
-                azimuthalRange,
                 axisDirection, 
                 center, 
                 1)
@@ -53,14 +49,13 @@ namespace Vts.Test.MonteCarlo.Sources
                     (photon.DP.Position.X - center.X) * (photon.DP.Position.X - center.X) / (aParameter * aParameter) +
                     (photon.DP.Position.Y - center.Y) * (photon.DP.Position.Y - center.Y) / (bParameter * bParameter) +
                     (photon.DP.Position.Z - center.Z) * (photon.DP.Position.Z - center.Z) / (cParameter * cParameter);
-                // check position is inside volume
                 Assert.IsTrue(inside <= 1.0);
             }
 
         }
 
         /// <summary>
-        /// Validate General Constructor of Custom Gaussian VolumetricEllipsoidal Source
+        /// Validate General Constructor of Isotropic Gaussian VolumetricEllipsoidal Source
         /// </summary>
         [Test]
         public void validate_general_constructor_with_gaussian_profiletype_for_custom_VolumetricEllipsoidal_source_test()
@@ -71,18 +66,14 @@ namespace Vts.Test.MonteCarlo.Sources
             var aParameter = 2.0;
             var bParameter = 2.0;
             var cParameter = 3.0;
-            var polarRange = new DoubleRange(0, Math.PI, 2);
-            var azimuthalRange = new DoubleRange(0, 2 * Math.PI, 2);
             var axisDirection = new Direction(0, 0, 1);
             var center = new Position(0, 0, 4);
 
-            var ps = new CustomVolumetricEllipsoidalSource(
+            var ps = new IsotropicVolumetricEllipsoidalSource(
                 aParameter,
                 bParameter,
                 cParameter,
                 profile,
-                polarRange,
-                azimuthalRange,
                 axisDirection,
                 center,
                 1)
@@ -97,7 +88,6 @@ namespace Vts.Test.MonteCarlo.Sources
                     (photon.DP.Position.X - center.X) / aParameter + (photon.DP.Position.X - center.X) / aParameter +
                     (photon.DP.Position.Y - center.Y) / bParameter + (photon.DP.Position.Y - center.Y) / bParameter +
                     (photon.DP.Position.Z - center.Z) / cParameter + (photon.DP.Position.Z - center.Z) / cParameter;
-                // check position is inside volume
                 Assert.IsTrue(inside <= 1.0);
             }
         }

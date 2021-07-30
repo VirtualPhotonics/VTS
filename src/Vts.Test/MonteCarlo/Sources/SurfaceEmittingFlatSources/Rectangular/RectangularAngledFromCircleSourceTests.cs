@@ -17,6 +17,27 @@ namespace Vts.Test.MonteCarlo.Sources
     public class RectangularAngledFromCircleSourceTests
     {
         /// <summary>
+        /// test source input
+        /// </summary>
+        [Test]
+        public void validate_source_input_with_flat_profile_type()
+        {
+            // check default constructor
+            var ps = new RectangularAngledFromCircleSourceInput();
+            Assert.IsNotNull(ps);
+            // check full definition
+            ps = new RectangularAngledFromCircleSourceInput(
+                    1.0,
+                    2.0,
+                    new FlatSourceProfile(),
+                    0.1,
+                    SourceDefaults.DefaultPosition.Clone(),
+                    0
+            );
+            Assert.IsNotNull(ps);
+        }
+
+        /// <summary>
         /// This test is validated by geometrically determined results
         /// </summary>
         [Test]
