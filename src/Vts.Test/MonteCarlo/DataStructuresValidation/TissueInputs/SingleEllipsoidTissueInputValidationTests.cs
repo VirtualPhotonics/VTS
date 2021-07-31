@@ -8,7 +8,7 @@ using Vts.MonteCarlo.Tissues;
 namespace Vts.Test.MonteCarlo.DataStructuresValidation.TissueInputs
 {
     [TestFixture]
-    public class SingleEllipsoieTissueInputValidationTests
+    public class SingleEllipsoidTissueInputValidationTests
     {
         /// <summary>
         /// Test to check that ellipsoid has non-zero axis definitions.
