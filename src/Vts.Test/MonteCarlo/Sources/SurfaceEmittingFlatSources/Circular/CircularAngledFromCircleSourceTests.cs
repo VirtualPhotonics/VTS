@@ -23,7 +23,7 @@ namespace Vts.Test.MonteCarlo.Sources
         {
             // check default constructor
             var si = new CircularAngledFromCircleSourceInput();
-            Assert.IsNotNull(si);
+            Assert.IsInstanceOf<CircularAngledFromCircleSourceInput>(si);
             // check full definition
             si = new CircularAngledFromCircleSourceInput(
                     10.0,
@@ -32,10 +32,10 @@ namespace Vts.Test.MonteCarlo.Sources
                     SourceDefaults.DefaultPosition.Clone(),
                     0
             );
-            Assert.IsNotNull(si);
+            Assert.IsInstanceOf<CircularAngledFromCircleSourceInput>(si);
             // validate CreateSource
             var source = si.CreateSource(new MersenneTwister(0));
-            Assert.IsNotNull(source);
+            Assert.IsInstanceOf<CircularAngledFromCircleSource>(source);
         }
         /// <summary>
         /// This test different from others in that it is validated by geometrically

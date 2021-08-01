@@ -34,7 +34,7 @@ namespace Vts.Test.MonteCarlo.Sources
         {
             // check default constructor
             var si = new CustomRectangularSourceInput();
-            Assert.IsNotNull(si);
+            Assert.IsInstanceOf<CustomRectangularSourceInput>(si);
             // check full definition
             si = new CustomRectangularSourceInput(
                 1.0,
@@ -47,10 +47,10 @@ namespace Vts.Test.MonteCarlo.Sources
                 SourceDefaults.DefaultBeamRoationFromInwardNormal.Clone(),
                 0
             );
-            Assert.IsNotNull(si);
+            Assert.IsInstanceOf<CustomRectangularSourceInput>(si);
             // validate CreateSource
             var source = si.CreateSource(new MersenneTwister(0));
-            Assert.IsNotNull(source);
+            Assert.IsInstanceOf<CustomRectangularSource>(source);
         }
 
         /// <summary>

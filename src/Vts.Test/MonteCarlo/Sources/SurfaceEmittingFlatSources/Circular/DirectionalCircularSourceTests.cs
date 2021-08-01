@@ -35,7 +35,7 @@ namespace Vts.Test.MonteCarlo.Sources
         {
             // check default constructor
             var si = new DirectionalCircularSourceInput();
-            Assert.IsNotNull(si);
+            Assert.IsInstanceOf<DirectionalCircularSourceInput>(si);
             // check full definition
             si = new DirectionalCircularSourceInput(
                     0.0,
@@ -47,10 +47,10 @@ namespace Vts.Test.MonteCarlo.Sources
                     SourceDefaults.DefaultBeamRoationFromInwardNormal.Clone(),
                     0
             );
-            Assert.IsNotNull(si);
+            Assert.IsInstanceOf<DirectionalCircularSourceInput>(si);
             // validate CreateSource
             var source = si.CreateSource(new MersenneTwister(0));
-            Assert.IsNotNull(source);
+            Assert.IsInstanceOf<DirectionalCircularSource>(source);
         }
         /// <summary>
         /// Validate General Constructor of Directional Flat Circular Source

@@ -23,7 +23,7 @@ namespace Vts.Test.MonteCarlo.Sources
         {
             // check default constructor
             var si = new CustomVolumetricEllipsoidalSourceInput();
-            Assert.IsNotNull(si);
+            Assert.IsInstanceOf<CustomVolumetricEllipsoidalSourceInput>(si);
             // check full definition
             si = new CustomVolumetricEllipsoidalSourceInput(
                     1.0,
@@ -36,10 +36,10 @@ namespace Vts.Test.MonteCarlo.Sources
                     SourceDefaults.DefaultPosition.Clone(),
                     0
             );
-            Assert.IsNotNull(si);
+            Assert.IsInstanceOf<CustomVolumetricEllipsoidalSourceInput>(si);
             // validate CreateSource
             var source = si.CreateSource(new MersenneTwister(0));
-            Assert.IsNotNull(source);
+            Assert.IsInstanceOf<CustomVolumetricEllipsoidalSource>(source);
         }
         /// <summary>
         /// Validate General Constructor of Custom Flat VolumetricEllipsoidal Source

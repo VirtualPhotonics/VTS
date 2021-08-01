@@ -33,7 +33,7 @@ namespace Vts.Test.MonteCarlo.Sources
         {
             // check default constructor
             var si = new DirectionalLineSourceInput();
-            Assert.IsNotNull(si);
+            Assert.IsInstanceOf<DirectionalLineSourceInput>(si);
             // check full definition
             si = new DirectionalLineSourceInput(
                     0.0,
@@ -44,10 +44,10 @@ namespace Vts.Test.MonteCarlo.Sources
                     SourceDefaults.DefaultBeamRoationFromInwardNormal.Clone(),
                     0
             );
-            Assert.IsNotNull(si);
+            Assert.IsInstanceOf<DirectionalLineSourceInput>(si);
             // validate CreateSource
             var source = si.CreateSource(new MersenneTwister(0));
-            Assert.IsNotNull(source);
+            Assert.IsInstanceOf<DirectionalLineSource>(source);
         }
 
         /// <summary>

@@ -23,7 +23,7 @@ namespace Vts.Test.MonteCarlo.Sources
         {
             // check default constructor
             var si = new CustomVolumetricCuboidalSourceInput();
-            Assert.IsNotNull(si);
+            Assert.IsInstanceOf<CustomVolumetricCuboidalSourceInput>(si);
             // check full definition
             si = new CustomVolumetricCuboidalSourceInput(
                 1.0,
@@ -36,10 +36,10 @@ namespace Vts.Test.MonteCarlo.Sources
                 SourceDefaults.DefaultPosition.Clone(),
                 0
             );
-            Assert.IsNotNull(si);
+            Assert.IsInstanceOf<CustomVolumetricCuboidalSourceInput>(si);
             // validate CreateSource
             var source = si.CreateSource(new MersenneTwister(0));
-            Assert.IsNotNull(source);
+            Assert.IsInstanceOf<CustomVolumetricCuboidalSource>(source);
         }
         /// <summary>
         /// This test validated using geometry assumptions

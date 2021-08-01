@@ -57,8 +57,8 @@ namespace Vts.Test.MonteCarlo.Tissues
         [Test]
         public void validate_default_constructor()
         {
-            var boundedTissue = new BoundaryHitType();
-            Assert.IsNotNull(boundedTissue);
+            var boundedTissue = new BoundedTissue();
+            Assert.IsInstanceOf<BoundedTissue>(boundedTissue);
         }
         /// <summary>
         /// Validate method GetRegionIndex return correct boolean

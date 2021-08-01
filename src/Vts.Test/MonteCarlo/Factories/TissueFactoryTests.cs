@@ -1,5 +1,6 @@
 ﻿using System;
 using NUnit.Framework;
+using NUnit.Framework.Internal;
 using Vts.MonteCarlo;
 using Vts.MonteCarlo.Tissues;
 using Vts.MonteCarlo.Factories;
@@ -17,7 +18,7 @@ namespace Vts.Test.MonteCarlo.Factories
         /// Simulate basic usage of TissueFactory
         /// </summary>
         [Test]
-        public void Demonstrate_GetTissue()
+        public void Demonstrate_GetTissue_successful_return()
         {
             ITissueInput tissueInput = new MultiLayerTissueInput
                 {
@@ -34,23 +35,21 @@ namespace Vts.Test.MonteCarlo.Factories
         /// <summary>
         /// Simulate erroneous invocation
         /// </summary>
-        [Ignore("need to ask Lisa for help")]
         [Test]
         public void Demonstrate_GetTissue_returns_null_on_faulty_tissue_input()
         {
-            var tissueInputMock = new Mock<MultiLayerTissueInput>();
+            var tissueInputMock = new Mock<ITissueInput>();
             tissueInputMock.Setup(x => x.CreateTissue(
-                AbsorptionWeightingType.Analog,
-                PhaseFunctionType.Bidirectional,
-                0.0)).Returns((ITissue)null);
+                It.IsAny<AbsorptionWeightingType>(),
+                It.IsAny<PhaseFunctionType>(),
+                It.IsAny<double>())).Returns((ITissue)null);
 
-            var tissue = TissueFactory.GetTissue(
-                tissueInputMock.Object,
-            AbsorptionWeightingType.Analog,
-            PhaseFunctionType.Bidirectional,
-            0.0);
-
-            Assert.IsNull(tissue);
+            Assert.Throws<ArgumentException>(() =>
+                TissueFactory.GetTissue(
+                    tissueInputMock.Object,
+                    AbsorptionWeightingType.Analog,
+                    PhaseFunctionType.Bidirectional,
+                    0.0));
         }
     }
 }

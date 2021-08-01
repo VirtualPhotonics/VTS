@@ -22,7 +22,7 @@ namespace Vts.Test.MonteCarlo.Sources
         {
             // check default constructor
             var si = new CustomSurfaceEmittingSphericalSourceInput();
-            Assert.IsNotNull(si);
+            Assert.IsInstanceOf<CustomSurfaceEmittingSphericalSourceInput>(si);
             // check full definition
             si = new CustomSurfaceEmittingSphericalSourceInput(
                     1.0,
@@ -32,10 +32,10 @@ namespace Vts.Test.MonteCarlo.Sources
                     SourceDefaults.DefaultPosition.Clone(),
                     0
             );
-            Assert.IsNotNull(si);
+            Assert.IsInstanceOf<CustomSurfaceEmittingSphericalSourceInput>(si);
             // validate CreateSource
             var source = si.CreateSource(new MersenneTwister(0));
-            Assert.IsNotNull(source);
+            Assert.IsInstanceOf<CustomSurfaceEmittingSphericalSource>(source);
         }
         /// <summary>
         /// This test validated using geometry assumptions
