@@ -139,8 +139,9 @@ namespace Vts.Test.MonteCarlo.Factories
         [Test]
         public void Demonstrate_GetPhotonDatabase_returns_null_on_faulty_input()
         {
+            // provide non-existing database
             Assert.Throws<FileNotFoundException>(() => PhotonDatabaseFactory.GetPhotonDatabase(
-                VirtualBoundaryType.DiffuseReflectance,""));
+                VirtualBoundaryType.DiffuseReflectance,"SpecularTransmittance"));
         }
     }
 }
