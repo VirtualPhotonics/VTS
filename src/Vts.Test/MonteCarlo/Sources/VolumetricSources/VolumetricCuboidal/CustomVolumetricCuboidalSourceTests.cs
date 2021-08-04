@@ -10,10 +10,10 @@ using Vts.MonteCarlo.Tissues;
 namespace Vts.Test.MonteCarlo.Sources
 {
     /// <summary>
-    /// Unit tests for IsotropicVolumetricCuboidalSource
+    /// Unit tests for CustomVolumetricCuboidalSource
     /// </summary>
     [TestFixture]
-    public class IsotropicVolumetricCuboidalSourceTests
+    public class CustomVolumetricCuboidalSourceTests
     {
         /// <summary>
         /// test source input
@@ -22,22 +22,24 @@ namespace Vts.Test.MonteCarlo.Sources
         public void validate_source_input_with_flat_profile_type()
         {
             // check default constructor
-            var si = new IsotropicVolumetricCuboidalSourceInput();
-            Assert.IsNotNull(si);
+            var si = new CustomVolumetricCuboidalSourceInput();
+            Assert.IsInstanceOf<CustomVolumetricCuboidalSourceInput>(si);
             // check full definition
-            si = new IsotropicVolumetricCuboidalSourceInput(
-                    1.0,
-                    1.0,
-                    1.0,
-                    new FlatSourceProfile(),
-                    SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone(),
-                    SourceDefaults.DefaultPosition.Clone(),
-                    0
+            si = new CustomVolumetricCuboidalSourceInput(
+                1.0,
+                1.0,
+                2.0,
+                new FlatSourceProfile(),
+                SourceDefaults.DefaultFullPolarAngleRange.Clone(),
+                SourceDefaults.DefaultAzimuthalAngleRange.Clone(),
+                SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone(),
+                SourceDefaults.DefaultPosition.Clone(),
+                0
             );
-            Assert.IsNotNull(si);
+            Assert.IsInstanceOf<CustomVolumetricCuboidalSourceInput>(si);
             // validate CreateSource
             var source = si.CreateSource(new MersenneTwister(0));
-            Assert.IsNotNull(source);
+            Assert.IsInstanceOf<CustomVolumetricCuboidalSource>(source);
         }
         /// <summary>
         /// This test validated using geometry assumptions
@@ -52,14 +54,18 @@ namespace Vts.Test.MonteCarlo.Sources
             var cubeWidthY = 2.0;
             var cubeHeightZ = 2.0;
             var profile = new FlatSourceProfile();
+            var polarRange = new DoubleRange(0, Math.PI / 2, 2);
+            var azimuthalRange = new DoubleRange(0, 2 * Math.PI, 2);
             var directionAxis = new Direction(0, 0, 1);
             var translationFromOrigin = new Position(0, 0, 4);
 
-            var ps = new IsotropicVolumetricCuboidalSource(
+            var ps = new CustomVolumetricCuboidalSource(
                 cubeLengthX,
                 cubeWidthY,
                 cubeHeightZ,
                 profile,
+                polarRange,
+                azimuthalRange,
                 directionAxis,
                 translationFromOrigin,
                 1)
@@ -70,6 +76,7 @@ namespace Vts.Test.MonteCarlo.Sources
             for (int i = 0; i < 10; i++)
             {
                 var photon = ps.GetNextPhoton(tissue);
+                // make sure photons start inside cuboidal
                 Assert.IsTrue((photon.DP.Position.X < cubeLengthX / 2 + translationFromOrigin.X) &&
                               (photon.DP.Position.X > -cubeLengthX / 2 + translationFromOrigin.X));
                 Assert.IsTrue((photon.DP.Position.Y < cubeWidthY / 2 + translationFromOrigin.Y) &&

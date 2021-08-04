@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
+using MathNet.Numerics.Random;
 using NUnit.Framework;
 using Vts.IO;
 using Vts.MonteCarlo;
@@ -9,6 +10,7 @@ using Vts.MonteCarlo.IO;
 using Vts.MonteCarlo.Sources;
 using Vts.MonteCarlo.Tissues;
 using Vts.MonteCarlo.Helpers;
+using Vts.MonteCarlo.Sources.SourceProfiles;
 
 namespace Vts.Test.MonteCarlo.Sources
 {
@@ -106,7 +108,27 @@ namespace Vts.Test.MonteCarlo.Sources
 
             _rhozLoaderCDF.InitializeFluorescentRegionArrays();
         }
-
+        /// <summary>
+        /// test source input
+        /// </summary>
+        [Test]
+        public void validate_source_input()
+        {
+            // check default constructor
+            var si = new FluorescenceEmissionAOfRhoAndZSourceInput();
+            Assert.IsNotNull(si);
+            // check full definition
+            si = new FluorescenceEmissionAOfRhoAndZSourceInput(
+                        "sourcetest", 
+                        "inputAOfRhoAndZ.txt", 
+                        0, 
+                        SourcePositionSamplingType.CDF
+            );
+            Assert.IsNotNull(si);
+            // validate CreateSource
+            var source = si.CreateSource(new MersenneTwister(0));
+            Assert.IsNotNull(source);
+        }
         /// <summary>
         /// Test to make sure GetFinalPosition produces correct distribution of sources and weights
         /// for CDF sampling
