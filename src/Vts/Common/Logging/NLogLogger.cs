@@ -13,7 +13,10 @@
 // limitations under the License.
 
 using System;
+using System.Runtime.CompilerServices;
 using NLog;
+
+[assembly: InternalsVisibleTo("Vts.Test")]
 
 namespace Vts.Common.Logging.NLogIntegration
 {

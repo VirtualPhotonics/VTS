@@ -1,4 +1,5 @@
 ﻿using System;
+using MathNet.Numerics.Random;
 using NUnit.Framework;
 using Vts.Common;
 using Vts.MonteCarlo;
@@ -14,6 +15,28 @@ namespace Vts.Test.MonteCarlo.Sources
     [TestFixture]
     public class CircularAngledFromCircleSourceTests
     {
+        /// <summary>
+        /// test source input
+        /// </summary>
+        [Test]
+        public void validate_source_input_with_flat_profile_type()
+        {
+            // check default constructor
+            var si = new CircularAngledFromCircleSourceInput();
+            Assert.IsInstanceOf<CircularAngledFromCircleSourceInput>(si);
+            // check full definition
+            si = new CircularAngledFromCircleSourceInput(
+                    10.0,
+                    new FlatSourceProfile(),
+                    1.0,
+                    SourceDefaults.DefaultPosition.Clone(),
+                    0
+            );
+            Assert.IsInstanceOf<CircularAngledFromCircleSourceInput>(si);
+            // validate CreateSource
+            var source = si.CreateSource(new MersenneTwister(0));
+            Assert.IsInstanceOf<CircularAngledFromCircleSource>(source);
+        }
         /// <summary>
         /// This test different from others in that it is validated by geometrically
         /// determined results

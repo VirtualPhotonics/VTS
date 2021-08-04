@@ -13,7 +13,7 @@ namespace Vts.Test.MonteCarlo.Extensions
         /// Validate method TrackDeathStatistics 
         /// </summary>
         [Test]
-        public void validate_TrackDeathStatistics_returns_correct_values()
+        public void Validate_TrackDeathStatistics_returns_correct_values()
         {
             var statistics = new SimulationStatistics();
             // set up PhotonDataPoint with appropriate StateFlag and verify
