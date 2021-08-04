@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Vts\Vts.csproj" />
+    <ProjectReference Include="..\Vts.FemModeling\Vts.FemModeling.csproj" />
   </ItemGroup>
 
   <ItemGroup>
