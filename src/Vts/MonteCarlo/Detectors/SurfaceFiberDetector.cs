@@ -53,7 +53,7 @@ namespace Vts.MonteCarlo.Detectors
 
         public IDetector CreateDetector()
         {
-            return new SurfaceFiberDetectorDetector
+            return new SurfaceFiberDetector
             {
                 // required properties (part of DetectorInput/Detector base classes)
                 TallyType = this.TallyType,
@@ -75,7 +75,7 @@ namespace Vts.MonteCarlo.Detectors
     /// Implements IDetector.  Tally for fiber detection.
     /// This implementation works for Analog, DAW and CAW processing.
     /// </summary>
-    public class SurfaceFiberDetectorDetector : Detector, IDetector
+    public class SurfaceFiberDetector : Detector, IDetector
     {
         private ITissue _tissue;
 

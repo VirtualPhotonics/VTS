@@ -56,7 +56,7 @@ namespace Vts.Test.MonteCarlo.Detectors
             // use factory to instantiate detector with CreateDetector and call Initialize
             var tissue = new MultiLayerTissue();
             var rng = new MersenneTwister(0); 
-            foreach (var detectorInput in _detectorInputs.Take(_detectorInputs.Count() - 1)) // FIX! Fix SurfaceFiber
+            foreach (var detectorInput in _detectorInputs)
             {
                 // factory generates IDetector using CreateDetector,
                 // then calls detector.Initialize method 
