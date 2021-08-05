@@ -1099,7 +1099,7 @@ new ITissueRegion[]
                         Radius = 0.3,
                         N = 1.4,
                         NA = double.PositiveInfinity,
-                        Name = "SurfaceFiber",
+                        Name = "SurfaceFiber_Open",
                         FinalTissueRegionIndex = 3,
                         TallySecondMoment = false
                     },

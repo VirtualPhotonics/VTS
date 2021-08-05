@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.IO;
 using MathNet.Numerics.Random;
 using NUnit.Framework;
-using Vts.IO;
 using Vts.MonteCarlo;
 using Vts.MonteCarlo.Factories;
 using Vts.MonteCarlo.IO;
@@ -13,11 +12,11 @@ using Vts.MonteCarlo.Tissues;
 namespace Vts.Test.MonteCarlo.Detectors
 {
     /// <summary>
-    /// These tests set up all detectors using SimulationInputProvider infiles and test
+    /// These tests set up all detectors using PostProcessorInputProvider infiles and test
     /// DetectorInput, CreateDetector, Detector, Binary Write and Read
     /// </summary>
     [TestFixture]
-    public class AllDetectorTests
+    public class AllPmcDetectorTests
     {
         private IEnumerable<IDetectorInput> _detectorInputs;
         private List<string> _detectorFiles;
@@ -28,7 +27,7 @@ namespace Vts.Test.MonteCarlo.Detectors
         [OneTimeSetUp]
         public void Generate_list_of_detectors()
         {
-            var inputFiles = SimulationInputProvider.GenerateAllSimulationInputs();
+            var inputFiles = PostProcessorInputProvider.GenerateAllPostProcessorInputs();
             // generate list of unique detectors from all sample input files
             var detectorInputGrouping = inputFiles.SelectMany(
                 si => si.DetectorInputs).GroupBy(d => d.TallyType).ToList();
@@ -59,10 +58,14 @@ namespace Vts.Test.MonteCarlo.Detectors
         /// and read detector back to verify that processing.
         /// </summary>
         [Test]
-        public void Verify_detector_classes()
+        public void Verify_pMc_detector_classes()
         {
             // use factory to instantiate detector with CreateDetector and call Initialize
-            var tissue = new MultiLayerTissue();
+
+            var tissue = new MultiLayerTissueInput().CreateTissue(
+                AbsorptionWeightingType.Continuous,
+                PhaseFunctionType.HenyeyGreenstein,
+                0.0);
             var rng = new MersenneTwister(0); 
             foreach (var detectorInput in _detectorInputs)
             {
