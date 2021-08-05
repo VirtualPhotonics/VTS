@@ -26,6 +26,8 @@ namespace Vts.MonteCarlo
                 GaussianEllipticalSource(),
                 GaussianRectangularSource(),
                 LambertianSphericalSource(),
+                LambertianCuboidalSource(),
+                LambertianTubularSource()
             };
         }
 
