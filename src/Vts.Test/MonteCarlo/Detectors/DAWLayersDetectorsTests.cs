@@ -247,6 +247,13 @@ namespace Vts.Test.MonteCarlo.Detectors
                         Z = new DoubleRange(0.0, 10.0, 101),
                         TallySecondMoment = true
                     },
+                    new FluenceOfRhoAndZAndTimeDetectorInput()
+                    {
+                        Rho = new DoubleRange(0.0, 10.0, 11),
+                        Z =  new DoubleRange(0.0, 10.0, 11),
+                        Time = new DoubleRange(0.0, 1.0, 11),
+                        TallySecondMoment = true
+                    },
                     new FluenceOfRhoAndZAndOmegaDetectorInput()
                     {
                         Rho = new DoubleRange(0.0, 10.0, 11),
@@ -786,6 +793,17 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.Less(Math.Abs(_outputTwoLayerTissue.Flu_rz2[0, 0] - 4988.45), 0.01);
             Assert.AreEqual(_outputOneLayerTissue.Flu_rz_TallyCount, 42334);
             Assert.AreEqual(_outputTwoLayerTissue.Flu_rz_TallyCount, 42334);
+        }
+        // Fluence Flu(rho,z,t), 1st and 2nd moment validated with prior test
+        [Test]
+        public void validate_DAW_FluenceOfRhoAndZAndTime()
+        {
+            Assert.Less(Math.Abs(_outputOneLayerTissue.Flu_rzt[0, 0, 0] - 5.52986), 0.00001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.Flu_rzt[0, 0, 0] - 5.52986), 0.00001);
+            Assert.Less(Math.Abs(_outputOneLayerTissue.Flu_rzt2[0, 0, 0] - 42.7474), 0.0001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.Flu_rzt2[0, 0, 0] - 42.7474), 0.0001);
+            Assert.AreEqual(_outputOneLayerTissue.Flu_rzt_TallyCount, 42334);
+            Assert.AreEqual(_outputTwoLayerTissue.Flu_rzt_TallyCount, 42334);
         }
         // Fluence Flu(x,y,z), 1st and 2nd moment validated with prior test
         [Test]

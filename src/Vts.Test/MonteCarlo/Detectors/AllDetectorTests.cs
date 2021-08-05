@@ -13,7 +13,7 @@ using Vts.MonteCarlo.Tissues;
 namespace Vts.Test.MonteCarlo.Detectors
 {
     /// <summary>
-    /// These tests set up all detectors using enums and test
+    /// These tests set up all detectors using SimulationInputProvider infiles and test
     /// DetectorInput, CreateDetector, Detector, Binary Write and Read
     /// </summary>
     [TestFixture]
