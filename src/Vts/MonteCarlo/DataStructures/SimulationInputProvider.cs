@@ -1099,9 +1099,9 @@ new ITissueRegion[]
                         Radius = 0.3,
                         N = 1.4,
                         NA = double.PositiveInfinity,
-                        Name = "SurfaceFiber_Open",
+                        Name = "SurfaceFiber",
                         FinalTissueRegionIndex = 3,
-                        TallySecondMoment = true
+                        TallySecondMoment = false
                     },
                     new SurfaceFiberDetectorInput()
                     {

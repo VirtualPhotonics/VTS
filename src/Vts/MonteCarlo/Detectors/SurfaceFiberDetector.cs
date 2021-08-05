@@ -20,7 +20,7 @@ namespace Vts.MonteCarlo.Detectors
             Center = new Position(0, 0, 0);
             Radius = 0.6;
             N = 1.4;
-            Name = "SurfaceFiberDetector";
+            Name = "SurfaceFiber";
             NA = double.PositiveInfinity; // set default NA completely open regardless of detector region refractive index
             FinalTissueRegionIndex = 1; // assume detector is in surface fiber region
 
