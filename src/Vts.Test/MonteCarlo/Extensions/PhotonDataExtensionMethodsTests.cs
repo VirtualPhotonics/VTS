@@ -30,6 +30,7 @@ namespace Vts.Test.MonteCarlo.Extensions
         {
             foreach (var file in listOfTestGeneratedFiles)
             {
+                GC.Collect();
                 FileIO.FileDelete(file);
             }
         }
