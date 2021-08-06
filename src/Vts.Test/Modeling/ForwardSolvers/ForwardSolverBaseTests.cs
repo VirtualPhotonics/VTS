@@ -417,6 +417,149 @@ namespace Vts.Test.Modeling.ForwardSolvers
         }
 
         [Test]
+        public void Test_ROfRho_overload_optical_properties_and_array_of_rhos()
+        {
+            var doubles = _forwardSolverBaseMockWithSetup.Object.ROfRho(_opticalProperties, _doubles.ToArray());
+            Assert.AreEqual(0.1, doubles[0]);
+            Assert.AreEqual(0.1, doubles[1]);
+            Assert.AreEqual(0.1, doubles[2]);
+        }
+
+        [Test]
+        public void Test_ROfRho_overload_optical_property_region_array_and_array_of_rhos()
+        {
+            var doubles = _forwardSolverBaseMockWithSetup.Object.ROfRho(_opticalPropertyRegions, _doubles.ToArray());
+            Assert.AreEqual(0.2, doubles[0]);
+            Assert.AreEqual(0.2, doubles[1]);
+            Assert.AreEqual(0.2, doubles[2]);
+        }
+
+        [Test]
+        public void Test_ROfRho_overload_optical_property_array_and_one_rho()
+        {
+            var doubles = _forwardSolverBaseMockWithSetup.Object.ROfRho(_opticalPropertiesEnumerable.ToArray(), 0.5);
+            Assert.AreEqual(0.1, doubles[0]);
+            Assert.AreEqual(0.1, doubles[1]);
+        }
+
+        [Test]
+        public void Test_ROfRho_overload_array_of_optical_property_region_array_and_one_rho()
+        {
+            var doubles = _forwardSolverBaseMockWithSetup.Object.ROfRho(_opticalPropertyRegionsEnumerable.ToArray(), 0.5);
+            Assert.AreEqual(0.2, doubles[0]);
+            Assert.AreEqual(0.2, doubles[1]);
+        }
+
+        //ROfTheta
+        [Test]
+        public void Test_ROfTheta_overload_optical_properties_and_array_of_rhos()
+        {
+            var doubles = _forwardSolverBaseMockWithSetup.Object.ROfTheta(_opticalProperties, _doubles.ToArray());
+            Assert.AreEqual(0.3, doubles[0]);
+            Assert.AreEqual(0.3, doubles[1]);
+            Assert.AreEqual(0.3, doubles[2]);
+        }
+
+        [Test]
+        public void Test_ROfTheta_overload_optical_property_array_and_one_rho()
+        {
+            var doubles = _forwardSolverBaseMockWithSetup.Object.ROfTheta(_opticalPropertiesEnumerable.ToArray(), 0.5);
+            Assert.AreEqual(0.3, doubles[0]);
+            Assert.AreEqual(0.3, doubles[1]);
+        }
+
+        [Test]
+        public void Test_ROfRhoAndTime_overload_optical_properties_and_double_arrays()
+        {
+            var doubles = _forwardSolverBaseMockWithSetup.Object.ROfRhoAndTime(_opticalProperties, _doubles.ToArray(), _doubles.ToArray());
+            Assert.AreEqual(9, doubles.Length);
+        }
+
+        [Test]
+        public void Test_ROfRhoAndTime_overload_optical_property_region_array_and_double_arrays()
+        {
+            var doubles = _forwardSolverBaseMockWithSetup.Object.ROfRhoAndTime(_opticalPropertyRegionsEnumerable.ToArray(), _doubles.ToArray(), _doubles.ToArray());
+            Assert.AreEqual(18, doubles.Length);
+        }
+
+        [Test]
+        public void Test_ROfRhoAndTime_overload_optical_properties_array_one_rho_time_array()
+        {
+            var doubles = _forwardSolverBaseMockWithSetup.Object.ROfRhoAndTime(_opticalPropertiesEnumerable.ToArray(), 0.5, _doubles.ToArray());
+            Assert.AreEqual(6, doubles.Length);
+        }
+
+        [Test]
+        public void Test_ROfRhoAndTime_overload_array_optical_property_region_array_one_rho_time_array()
+        {
+            var doubles = _forwardSolverBaseMockWithSetup.Object.ROfRhoAndTime(_opticalPropertyRegionsEnumerable.ToArray(), 0.5, _doubles.ToArray());
+            Assert.AreEqual(6, doubles.Length);
+        }
+
+        [Test]
+        public void Test_ROfRhoAndTime_overload_optical_properties_array_rho_array_one_time()
+        {
+            var doubles = _forwardSolverBaseMockWithSetup.Object.ROfRhoAndTime(_opticalPropertiesEnumerable.ToArray(), _doubles.ToArray(), 0.1);
+            Assert.AreEqual(6, doubles.Length);
+        }
+
+        [Test]
+        public void Test_ROfRhoAndTime_overload_array_optical_property_region_array_rho_array_one_time()
+        {
+            var doubles = _forwardSolverBaseMockWithSetup.Object.ROfRhoAndTime(_opticalPropertyRegionsEnumerable.ToArray(), _doubles.ToArray(), 0.1);
+            Assert.AreEqual(6, doubles.Length);
+        }
+
+        [Test]
+        public void Test_ROfRhoAndTime_overload_optical_property_region_array_one_rho_time_array()
+        {
+            var doubles = _forwardSolverBaseMockWithSetup.Object.ROfRhoAndTime(_opticalPropertyRegions, 0.5, _doubles.ToArray());
+            Assert.AreEqual(3, doubles.Length);
+        }
+
+        [Test]
+        public void Test_ROfRhoAndTime_overload_optical_property_region_array_rho_array_one_time()
+        {
+            var doubles = _forwardSolverBaseMockWithSetup.Object.ROfRhoAndTime(_opticalPropertyRegions, _doubles.ToArray(), 0.1);
+            Assert.AreEqual(3, doubles.Length);
+        }
+
+        [Test]
+        public void Test_ROfRhoAndTime_overload_optical_property_region_array_one_rho_one_time()
+        {
+            var doubles = _forwardSolverBaseMockWithSetup.Object.ROfRhoAndTime(_opticalPropertyRegionsEnumerable.ToArray(), 0.5, 0.1);
+            Assert.AreEqual(2, doubles.Length);
+        }
+
+        [Test]
+        public void Test_ROfRhoAndTime_overload_optical_property_region_array_rho_array_time_array()
+        {
+            var doubles = _forwardSolverBaseMockWithSetup.Object.ROfRhoAndTime(_opticalPropertyRegions, _doubles.ToArray(), _doubles.ToArray());
+            Assert.AreEqual(9, doubles.Length);
+        }
+
+        [Test]
+        public void Test_ROfRhoAndTime_overload_optical_properties_one_rho_time_array()
+        {
+            var doubles = _forwardSolverBaseMockWithSetup.Object.ROfRhoAndTime(_opticalProperties, 0.5, _doubles.ToArray());
+            Assert.AreEqual(3, doubles.Length);
+        }
+
+        [Test]
+        public void Test_ROfRhoAndTime_overload_optical_properties_rho_array_one_time()
+        {
+            var doubles = _forwardSolverBaseMockWithSetup.Object.ROfRhoAndTime(_opticalProperties, _doubles.ToArray(), 0.1);
+            Assert.AreEqual(3, doubles.Length);
+        }
+
+        [Test]
+        public void Test_ROfRhoAndTime_overload_optical_properties_array_one_rho_one_time()
+        {
+            var doubles = _forwardSolverBaseMockWithSetup.Object.ROfRhoAndTime(_opticalPropertiesEnumerable.ToArray(), 0.5, 0.1);
+            Assert.AreEqual(2, doubles.Length);
+        }
+
+        [Test]
         public void Test_FluenceOfRhoAndZ_throws_not_implemented_exception()
         {
             Assert.Throws<NotImplementedException>(() => _forwardSolverBaseMock.Object.FluenceOfRhoAndZ(_opticalPropertiesEnumerable, _doubles, _doubles));
