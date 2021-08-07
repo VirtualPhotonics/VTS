@@ -121,6 +121,7 @@ namespace Vts.Test.MonteCarlo.Sources
             var source = new LineAngledFromLineSource(
                 10.0, // tissue line length
                 new FlatSourceProfile(),
+                new Position(0,0,0),
                 1.0, // line in air length
                 new Position(0, 0, -10), // center of line in air
                 0);

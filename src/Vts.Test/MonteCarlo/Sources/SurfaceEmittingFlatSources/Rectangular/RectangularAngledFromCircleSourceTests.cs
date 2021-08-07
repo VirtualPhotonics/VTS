@@ -31,14 +31,15 @@ namespace Vts.Test.MonteCarlo.Sources
                     1.0,
                     2.0,
                     new FlatSourceProfile(),
+                    SourceDefaults.DefaultPosition.Clone(),
                     0.1,
                     SourceDefaults.DefaultPosition.Clone(),
                     0
             );
-            Assert.IsNotNull(si);
+            Assert.IsInstanceOf<RectangularAngledFromCircleSourceInput>(si);
             // validate CreateSource
             var source = si.CreateSource(new MersenneTwister(0));
-            Assert.IsNotNull(source);
+            Assert.IsInstanceOf<RectangularAngledFromCircleSource>(source);
         }
 
         /// <summary>
@@ -52,6 +53,7 @@ namespace Vts.Test.MonteCarlo.Sources
             var profile = new FlatSourceProfile();
             var rectLengthX = 10.0;
             var rectWidthY = 5.0;
+            var translationFromOrigin = new Position(0, 0, 0);
             var radiusInAir = 0.1;
             var circleInAirTranslationFromOrigin = new Position(0, 0, -10);
 
@@ -59,6 +61,7 @@ namespace Vts.Test.MonteCarlo.Sources
                 rectLengthX, 
                 rectWidthY,
                 profile,
+                translationFromOrigin,
                 radiusInAir, 
                 circleInAirTranslationFromOrigin,
                 0)
