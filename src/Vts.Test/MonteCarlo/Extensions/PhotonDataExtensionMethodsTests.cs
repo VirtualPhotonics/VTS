@@ -20,6 +20,8 @@ namespace Vts.Test.MonteCarlo.Extensions
         List<string> listOfTestGeneratedFiles = new List<string>()
         {
             "collisionInfoReflectance",
+            "collisionInfoReflectance2",
+            "collisionInfoReflectance2.txt",
             "collisionInfoPmcReflectance",
             "collisionInfoTransmittance",
             "collisionInfoReflectance.txt"
@@ -47,7 +49,7 @@ namespace Vts.Test.MonteCarlo.Extensions
             collisionInfoDatabases.Add(
                 new CollisionInfoDatabaseWriter(
                     VirtualBoundaryType.pMCDiffuseReflectance,
-                    "collisionInfoReflectance",
+                    "collisionInfoReflectance2",
                     numberSubRegions));
             var dp = new PhotonDataPoint(
                 new Position(0, 0, 0),
@@ -61,7 +63,7 @@ namespace Vts.Test.MonteCarlo.Extensions
                     databases, "", ""),
                 collisionInfoDatabases);
             dbController.WriteToSurfaceVirtualBoundaryDatabases(dp, collisionInfo);
-            Assert.IsTrue(FileIO.FileExists("collisionInfoReflectance"));
+            Assert.IsTrue(FileIO.FileExists("collisionInfoReflectance2"));
             dbController.Dispose();
         }
         /// <summary>
@@ -104,6 +106,9 @@ namespace Vts.Test.MonteCarlo.Extensions
             Assert.IsFalse(result);
             result = dpTransmittance.BelongsToSurfaceVirtualBoundary(collisionInfoDatabaseWriterPmcReflectance);
             Assert.IsFalse(result);
+            collisionInfoDatabaseWriterPmcReflectance.Close();
+            collisionInfoDatabaseWriterReflectance.Close();
+            collisionInfoDatabaseWriterTransmittance.Close();
         }
         /// <summary>
         /// Validate method IsWithinNA for fully open NA

@@ -1,6 +1,4 @@
-﻿using System;
-using System.IO;
-using NUnit.Framework;
+﻿using System.IO;
 using Vts.Common;
 using Vts.MonteCarlo.Helpers;
 
@@ -9,7 +7,6 @@ namespace Vts.Test.MonteCarlo.Sources
     /// <summary>
     /// Point sources validation data
     /// </summary>
-    [TestFixture]
     public class PointSourcesValidationData
     {
         /// <summary>

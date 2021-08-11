@@ -198,17 +198,6 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
                 var result = Program.Main(arguments);
                 Assert.IsTrue(result == 0);
             }
-            // verify detector files generated for infile_one_layer_all_detectors.txt
-            var folderPath = "one_layer_all_detectors";
-            var input = SimulationInput.FromFile("one_layer_all_detectors/one_layer_all_detectors.txt");
-            var detectors = input.DetectorInputs.ToList();
-            foreach (var detector in detectors)
-            {
-                // check that can read detector in
-                var readDetector = DetectorIO.ReadDetectorFromFile(
-                    detector.Name, folderPath);
-                Assert.IsInstanceOf<IDetector>(readDetector);
-            }
         }
 
         /// <summary>
