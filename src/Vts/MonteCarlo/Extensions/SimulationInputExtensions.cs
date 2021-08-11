@@ -57,43 +57,48 @@ namespace Vts.MonteCarlo.Extensions
                     if (regionIndex >= 0 && result.TissueInput.Regions.Count() > regionIndex)
                         result.TissueInput.Regions[regionIndex].RegionOP.N = value;
                     break;
-                case "d":
-                    var multiLayerTissueInput = result.TissueInput as MultiLayerTissueInput;
-                    if (multiLayerTissueInput != null && regionIndex >= 0 && multiLayerTissueInput.Regions.Count() > regionIndex)
+                case "d":  // the following code accommodates MultiLayerTissue and InclusionTissue
+                    List<ITissueRegion> layerTissueInput = result.TissueInput.Regions.ToList();
+                    if (result.TissueInput is MultiLayerTissueInput)
                     {
-                        var layerRegion = (LayerTissueRegion)multiLayerTissueInput.Regions.Skip(regionIndex).First();
+                        layerTissueInput = result.TissueInput.Regions.ToList();
+                    }
+                    if (result.TissueInput is SingleEllipsoidTissueInput)
+                    {
+                        layerTissueInput = ((SingleEllipsoidTissueInput) result.TissueInput).LayerRegions.ToList();
+                    }
 
-                        // keep a separate copy of the range before we modify it
-                        var previousRange = layerRegion.ZRange.Clone();
+                    var layerRegion = (LayerTissueRegion)layerTissueInput.Skip(regionIndex).First();
 
-                        // modify the target layer thickness by specifying Stop (which internally updtes Delta as well)
-                        layerRegion.ZRange.Stop = layerRegion.ZRange.Start + value;
+                    // keep a separate copy of the range before we modify it
+                    var previousRange = layerRegion.ZRange.Clone();
 
-                        // then, update the rest of the following layers with an adjusted thickness
-                        var changeInThickness = layerRegion.ZRange.Delta - previousRange.Delta;
-                        foreach (var region in multiLayerTissueInput.Regions.Skip(regionIndex + 1).Select(r => (LayerTissueRegion)r))
-                        {
+                    // modify the target layer thickness by specifying Stop (which internally updtes Delta as well)
+                    layerRegion.ZRange.Stop = layerRegion.ZRange.Start + value;
 
-                            region.ZRange = new DoubleRange(
-                                region.ZRange.Start + changeInThickness,
-                                region.ZRange.Stop + changeInThickness,
-                                region.ZRange.Count);
-                        }
+                    // then, update the rest of the following layers with an adjusted thickness
+                    var changeInThickness = layerRegion.ZRange.Delta - previousRange.Delta;
+                    foreach (var region in layerTissueInput.Skip(regionIndex + 1).Select(r => (LayerTissueRegion)r))
+                    {
+                        region.ZRange = new DoubleRange(
+                            region.ZRange.Start + changeInThickness,
+                            region.ZRange.Stop + changeInThickness,
+                            region.ZRange.Count);
                     }
                     break;
-                case "source_x":
-                case "source_y":
-                case "source_z":
+                case "xsourceposition":
+                case "ysourceposition":
+                case "zsourceposition":
                     Action<Position> sourcePositionModifier = null;
                     switch (parameterString)
                     {
-                        case "source_x":
+                        case "xsourceposition":
                             sourcePositionModifier = p => p.X = value;
                             break;
-                        case "source_y":
+                        case "ysourceposition":
                             sourcePositionModifier = p => p.Y = value;
                             break;
-                        case "source_z":
+                        case "zsourceposition":
                             sourcePositionModifier = p => p.Z = value;
                             break;
                     }
@@ -132,19 +137,19 @@ namespace Vts.MonteCarlo.Extensions
                     sourcePositionModifier(sourcePosition);
                     break;
 
-                case "inclusion_position_x":
-                case "inclusion_position_y":
-                case "inclusion_position_z":
+                case "xinclusionposition":
+                case "yinclusionposition":
+                case "zinclusionposition":
                     Action<Position> inclusionPositionModifier = null;
                     switch (parameterString)
                     {
-                        case "inclusion_position_x":
+                        case "xinclusionposition":
                             inclusionPositionModifier = p => p.X = value;
                             break;
-                        case "inclusion_position_y":
+                        case "yinclusionposition":
                             inclusionPositionModifier = p => p.Y = value;
                             break;
-                        case "inclusion_position_z":
+                        case "zinclusionposition":
                             inclusionPositionModifier = p => p.Z = value;
                             break;
                     }
@@ -161,22 +166,22 @@ namespace Vts.MonteCarlo.Extensions
                     }
                     inclusionPositionModifier(inclusionRegion.Center); // dynamic binding...works?
                     break;
-                case "inclusion_radius_x":
-                case "inclusion_radius_y":
-                case "inclusion_radius_z":
+                case "xinclusionradius":
+                case "yinclusionradius":
+                case "zinclusionradius":
                     dynamic tissueInputWithRadius = result.TissueInput;
                     switch (result.TissueInput.TissueType)
                     {
                         case "SingleEllipsoid":
                             switch (parameterString)
                             {
-                                case "inclusion_radius_x":
+                                case "xinclusionradius":
                                     ((EllipsoidTissueRegion)tissueInputWithRadius.EllipsoidRegion).Dx = value;
                                     break;
-                                case "inclusion_radius_y":
+                                case "yinclusionradius":
                                     ((EllipsoidTissueRegion)tissueInputWithRadius.EllipsoidRegion).Dy = value;
                                     break;
-                                case "inclusion_radius_z":
+                                case "zinclusionradius":
                                     ((EllipsoidTissueRegion)tissueInputWithRadius.EllipsoidRegion).Dz = value;
                                     break;
                             }
@@ -193,24 +198,6 @@ namespace Vts.MonteCarlo.Extensions
                 // be careful about rectangle distribution of source
                 //case InputParameterType.YSourcePosition:
                 //    result.source.beam_center_y = value;
-                //    break;
-                //case InputParameterType.XEllipsePosition:
-                //    result.tissptr.ellip_x = value;
-                //    break;
-                //case InputParameterType.YEllipsePosition:
-                //    result.tissptr.ellip_y = value;
-                //    break;
-                //case InputParameterType.ZEllipsePosition:
-                //    result.tissptr.ellip_z = value;
-                //    break;
-                //case InputParameterType.XEllipseRadius:
-                //    result.tissptr.ellip_rad_x = value;
-                //    break;
-                //case InputParameterType.YEllipseRadius:
-                //    result.tissptr.ellip_rad_y = value;
-                //    break;
-                //case InputParameterType.ZEllipseRadius:
-                //    result.tissptr.ellip_rad_z = value;
                 //    break;
 
             }

@@ -1,4 +1,5 @@
 ﻿using System;
+using MathNet.Numerics.Random;
 using NUnit.Framework;
 using Vts.Common;
 using Vts.MonteCarlo;
@@ -15,6 +16,29 @@ namespace Vts.Test.MonteCarlo.Sources
     public class CircularAngledFromCircleSourceTests
     {
         /// <summary>
+        /// test source input
+        /// </summary>
+        [Test]
+        public void validate_source_input_with_flat_profile_type()
+        {
+            // check default constructor
+            var si = new CircularAngledFromCircleSourceInput();
+            Assert.IsInstanceOf<CircularAngledFromCircleSourceInput>(si);
+            // check full definition
+            si = new CircularAngledFromCircleSourceInput(
+                    10.0,
+                    new FlatSourceProfile(),
+                    SourceDefaults.DefaultPosition.Clone(),
+                    1.0,
+                    SourceDefaults.DefaultPosition.Clone(),
+                    0
+            );
+            Assert.IsInstanceOf<CircularAngledFromCircleSourceInput>(si);
+            // validate CreateSource
+            var source = si.CreateSource(new MersenneTwister(0));
+            Assert.IsInstanceOf<CircularAngledFromCircleSource>(source);
+        }
+        /// <summary>
         /// This test different from others in that it is validated by geometrically
         /// determined results
         /// </summary>
@@ -25,12 +49,14 @@ namespace Vts.Test.MonteCarlo.Sources
             ITissue tissue = new MultiLayerTissue();
             var _profile = new FlatSourceProfile();
             var _radiusOnTissue = 10.0;
+            var _translationFromOrigin = new Position(0, 0, 0);
             var _radiusInAir = 0.0;
             var _circleInAirTranslationFromOrigin = new Position(0, 0, -10);
 
             var ps = new CircularAngledFromCircleSource(
                 _radiusOnTissue, 
                 _profile,
+                _translationFromOrigin,
                 _radiusInAir, 
                 _circleInAirTranslationFromOrigin)
             {

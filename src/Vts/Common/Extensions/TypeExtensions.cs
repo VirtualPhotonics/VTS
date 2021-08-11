@@ -4,12 +4,20 @@ namespace Vts.Extensions
 {
     public static class TypeExtensions
     {
-        public static bool Implements<I>(this Type type, I @interface) where I : class
+        /// <summary>
+        /// Checks to see if a type implements a specified interface
+        /// </summary>
+        /// <typeparam name="T">The interface type</typeparam>
+        /// <param name="type">The type to verify</param>
+        /// <param name="interface">The interface implementation</param>
+        /// <returns>True or false</returns>
+        public static bool Implements<T>(this Type type, T @interface) where T : class
         {
-            if (((@interface as Type) == null) || !(@interface as Type).IsInterface)
-                throw new ArgumentException("Only interfaces can be 'implemented'.");
-
-            return (@interface as Type).IsAssignableFrom(type);
+            if (typeof(T).IsInterface && @interface != null)
+            {
+                return typeof(T).IsAssignableFrom(type);
+            }
+            throw new ArgumentException("Only interfaces can be 'implemented'.");
         }
     }
 }

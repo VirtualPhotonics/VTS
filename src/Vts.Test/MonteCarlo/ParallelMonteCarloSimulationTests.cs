@@ -38,7 +38,7 @@ namespace Vts.Test.MonteCarlo
             }
         }
         [OneTimeSetUp]
-        public void execute_Monte_Carlo()
+        public void Execute_Monte_Carlo()
         {
             // delete previously generated files
             clear_folders_and_files();
@@ -116,7 +116,7 @@ namespace Vts.Test.MonteCarlo
         /// return correct results
         /// </summary>
         [Test]
-        public void validate_single_value_double_detectors_are_processed_correctly()
+        public void Validate_single_value_double_detectors_are_processed_correctly()
         {
             Assert.IsTrue(Math.Abs(_outputMultiCPU.Atot - 0.341646) < 0.000001);
             Assert.IsTrue(Math.Abs(_outputMultiCPU.Atot2 - 0.253490) < 0.000001);
@@ -132,7 +132,7 @@ namespace Vts.Test.MonteCarlo
         /// return correct results
         /// </summary>
         [Test]
-        public void validate_1D_double_detectors_are_processed_correctly()
+        public void Validate_1D_double_detectors_are_processed_correctly()
         {
             Assert.IsTrue(Math.Abs(_outputMultiCPU.R_r[0] - 0.039375) < 0.000001);
             Assert.IsTrue(Math.Abs(_outputMultiCPU.R_r2[0] - 0.011950) < 0.000001);
@@ -147,7 +147,7 @@ namespace Vts.Test.MonteCarlo
         /// return correct results
         /// </summary>
         [Test]
-        public void validate_2D_double_detectors_are_processed_correctly()
+        public void Validate_2D_double_detectors_are_processed_correctly()
         {
             Assert.IsTrue(Math.Abs(_outputMultiCPU.R_rt[0, 0] - 0.157502) < 0.000001);
             Assert.AreEqual(_outputMultiCPU.R_r_TallyCount, 94);
@@ -173,7 +173,7 @@ namespace Vts.Test.MonteCarlo
         /// return correct results
         /// </summary>
         [Test]
-        public void validate_4D_double_detectors_are_processed_correctly()
+        public void Validate_4D_double_detectors_are_processed_correctly()
         {
             Assert.IsTrue(Math.Abs(_outputMultiCPU.Flu_xyzt[0, 0, 0, 9] - 0.039355) < 0.000001);
             Assert.AreEqual(_outputMultiCPU.Flu_xyzt_TallyCount, 231243);
@@ -186,7 +186,7 @@ namespace Vts.Test.MonteCarlo
         /// return correct results
         /// </summary>
         [Test]
-        public void validate_5D_double_detectors_are_processed_correctly()
+        public void Validate_5D_double_detectors_are_processed_correctly()
         {
             Assert.IsTrue(Math.Abs(_outputMultiCPU.Rad_xyztp[0, 0, 0, 0, 0] - 0.000415) < 0.000001);
             Assert.AreEqual(_outputMultiCPU.Rad_xyztp_TallyCount, 231243);
@@ -201,7 +201,7 @@ namespace Vts.Test.MonteCarlo
         /// return correct results
         /// </summary>
         [Test]
-        public void validate_1D_Complex_detectors_are_processed_correctly()
+        public void Validate_1D_Complex_detectors_are_processed_correctly()
         {
             Assert.IsTrue(Math.Abs(_outputMultiCPU.R_fx[1].Real - 0.085204) < 0.000001);
             Assert.IsTrue(Math.Abs(_outputMultiCPU.R_fx[1].Imaginary + 0.059597) < 0.000001);
@@ -216,7 +216,7 @@ namespace Vts.Test.MonteCarlo
         /// return correct results
         /// </summary>
         [Test]
-        public void validate_2D_Complex_detectors_are_processed_correctly()
+        public void Validate_2D_Complex_detectors_are_processed_correctly()
         {
             Assert.IsTrue(Math.Abs(_outputMultiCPU.R_fxt[1, 0].Real - 0.788927) < 0.000001);
             Assert.IsTrue(Math.Abs(_outputMultiCPU.R_fxt[1, 0].Imaginary + 0.321802) < 0.000001);
@@ -231,7 +231,7 @@ namespace Vts.Test.MonteCarlo
         /// return correct results
         /// </summary>
         [Test]
-        public void validate_3D_Complex_detectors_are_processed_correctly()
+        public void Validate_3D_Complex_detectors_are_processed_correctly()
         {
             Assert.IsTrue(Math.Abs(_outputMultiCPU.Flu_rzw[0, 0, 1].Real - 0.569267) < 0.000001);
             Assert.IsTrue(Math.Abs(_outputMultiCPU.Flu_rzw[0, 0, 1].Imaginary + 0.004910) < 0.000001);
@@ -246,7 +246,7 @@ namespace Vts.Test.MonteCarlo
         /// return correct results
         /// </summary>
         [Test]
-        public void validate_4D_Complex_detectors_are_processed_correctly()
+        public void Validate_4D_Complex_detectors_are_processed_correctly()
         {
             Assert.IsTrue(Math.Abs(_outputMultiCPU.Flu_xyzw[0, 0, 0, 1].Real + 0.001569) < 0.000001);
             Assert.IsTrue(Math.Abs(_outputMultiCPU.Flu_xyzw[0, 0, 0, 1].Imaginary + 0.003586) < 0.000001);
@@ -260,7 +260,7 @@ namespace Vts.Test.MonteCarlo
         /// test to verify statistics are averaged correctly
         /// </summary>
         [Test]
-        public void validate_statistics_are_processed_correctly()
+        public void Validate_statistics_are_processed_correctly()
         {
             Assert.AreEqual(_statisticsSingleCPU.NumberOfPhotonsOutTopOfTissue, 95);
             Assert.AreEqual(_statisticsSingleCPU.NumberOfPhotonsOutBottomOfTissue, 4);
@@ -283,12 +283,21 @@ namespace Vts.Test.MonteCarlo
         /// evenly, that resulting number of photons launched is correct
         /// </summary>
         [Test]
-        public void check_for_N_not_divisible_by_cpucount()
+        public void Check_for_N_not_divisible_by_cpucount()
         {
             var simulationInput = new SimulationInput { N = 100 };
             var parallelMC = new ParallelMonteCarloSimulation(simulationInput, 3);
             var output3CPU = parallelMC.RunSingleInParallel();
             Assert.AreEqual(output3CPU.Input.N, 99);
+        }
+        /// <summary>
+        /// test default constructor
+        /// </summary>
+        [Test]
+        public void Check_default_constructor()
+        {
+            var parallelMC = new ParallelMonteCarloSimulation();
+            Assert.IsInstanceOf<ParallelMonteCarloSimulation>(parallelMC);
         }
     }
 }
