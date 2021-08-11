@@ -75,24 +75,27 @@ namespace Vts.MonteCarlo.Sources
         public Photon GetNextPhoton(ITissue tissue)
         {
             // sample angular distribution
-            Direction finalDirection = SourceToolbox.GetDirectionForGivenPolarAzimuthalAngleRangeRandom(_polarAngleRangeToDefineSphericalSurface, _azimuthalAngleRangeToDefineSphericalSurface, Rng);
+            Direction finalDirection = SourceToolbox.GetDirectionForGivenPolarAzimuthalAngleRangeRandom(
+                _polarAngleRangeToDefineSphericalSurface, 
+                _azimuthalAngleRangeToDefineSphericalSurface, 
+                Rng);
                         
             //Source starts from anywhere in the sphere
             Position finalPosition = GetFinalPositionFromProfileType(finalDirection, _radius, Rng);
 
             //Lambertian distribution (uniform hemispherical distribution)
             PolarAzimuthalAngles polarAzimuthalPair = SourceToolbox.GetPolarAzimuthalPairForGivenAngleRangeRandom(
-                SourceDefaults.DefaultHalfPolarAngleRange.Clone(),
+                SourceDefaults.DefaultHalfPolarAngleRange.Clone(), 
                 SourceDefaults.DefaultAzimuthalAngleRange.Clone(),
                 Rng);
 
             //Avoid updating the finalDirection during following rotation
-            Position dummyPosition = finalPosition;
+            var dummyPosition = new Position(finalPosition.X, finalPosition.Y, finalPosition.Z);
 
-            //Rotate polar azimutahl angle by polarAzimuthalPair vector
+            //Rotate polar azimuthal angle by polarAzimuthalPair vector
             SourceToolbox.UpdateDirectionPositionAfterRotatingByGivenAnglePair(polarAzimuthalPair, ref finalDirection, ref dummyPosition);
 
-            //Find the relevent polar and azimuthal pair for the direction
+            //Find the relevant polar and azimuthal pair for the direction
             PolarAzimuthalAngles _rotationalAnglesOfPrincipalSourceAxis = SourceToolbox.GetPolarAzimuthalPairFromDirection(_newDirectionOfPrincipalSourceAxis);
 
             //Translation and source rotation

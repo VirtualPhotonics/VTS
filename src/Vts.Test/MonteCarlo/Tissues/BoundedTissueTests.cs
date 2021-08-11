@@ -19,7 +19,7 @@ namespace Vts.Test.MonteCarlo.Tissues
         [OneTimeSetUp]
         public void create_instance_of_class()
         {
-            _oneLayerTissue = new BoundedTissue(new CylinderTissueRegion(
+            _oneLayerTissue = new BoundedTissue(new CaplessCylinderTissueRegion(
                 new Position(0, 0, 50), 1.0, 100.0, new OpticalProperties()),
                 new ITissueRegion[]
                 {
@@ -33,7 +33,7 @@ namespace Vts.Test.MonteCarlo.Tissues
                         new DoubleRange(100.0, double.PositiveInfinity),
                         new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
                 });
-            _twoLayerTissue = new BoundedTissue(new CylinderTissueRegion(
+            _twoLayerTissue = new BoundedTissue(new CaplessCylinderTissueRegion(
                     new Position(0, 0, 50), 1.0, 100.0, new OpticalProperties()),
                 new ITissueRegion[]
                 {
@@ -51,7 +51,15 @@ namespace Vts.Test.MonteCarlo.Tissues
                         new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
                 });
         }
-
+        /// <summary>
+        /// Test default constructor
+        /// </summary>
+        [Test]
+        public void validate_default_constructor()
+        {
+            var boundedTissue = new BoundedTissue();
+            Assert.IsInstanceOf<BoundedTissue>(boundedTissue);
+        }
         /// <summary>
         /// Validate method GetRegionIndex return correct boolean
         /// </summary>

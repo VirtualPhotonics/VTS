@@ -8,8 +8,45 @@ using Vts.MonteCarlo.Tissues;
 namespace Vts.Test.MonteCarlo.DataStructuresValidation.TissueInputs
 {
     [TestFixture]
-    public class SingleEllipsoieTissueInputValidationTests
-    {
+    public class SingleEllipsoidTissueInputValidationTests
+    {        
+        /// <summary>
+        /// Test to check that underlying MultiLayerTissue is good
+        /// </summary>
+        [Test]
+        public void validate_underlying_multilayer_tissue_definition()
+        {
+            var input = new SimulationInput(
+                10,
+                "",
+                new SimulationOptions(),
+                new DirectionalPointSourceInput(),
+                new SingleEllipsoidTissueInput(
+                    new EllipsoidTissueRegion(
+                        new Position(0, 0, 1), 
+                        0.0, 
+                        1.0, 
+                        1.0, 
+                        new OpticalProperties()),
+                    // define layer tissues that are incorrect
+                    new ITissueRegion[]
+                    {
+                        new LayerTissueRegion(
+                            new DoubleRange(double.NegativeInfinity, 0.0),
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
+                        new LayerTissueRegion(
+                            new DoubleRange(0.0, 20.0),
+                            new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
+                        new LayerTissueRegion(
+                            new DoubleRange(100.0, double.PositiveInfinity),
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
+                    }
+                ),
+                new List<IDetectorInput>() { }
+            );
+            var result = SimulationInputValidation.ValidateInput(input);
+            Assert.IsFalse(result.IsValid);
+        }
         /// <summary>
         /// Test to check that ellipsoid has non-zero axis definitions.
         /// </summary>

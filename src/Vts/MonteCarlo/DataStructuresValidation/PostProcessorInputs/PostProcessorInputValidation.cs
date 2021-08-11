@@ -61,28 +61,28 @@ namespace Vts.MonteCarlo
         private static ValidationResult ValidatePhotonDatabaseExistence(
             IList<IDetectorInput> detectorInputs, string inputFolder)
         {
-            if (detectorInputs.Select(di => di.TallyDetails.IsReflectanceTally).Any())
+            if (detectorInputs.Any(di => di.TallyDetails.IsReflectanceTally))
             {
                 return new ValidationResult(
                     File.Exists(Path.Combine(inputFolder, "DiffuseReflectanceDatabase")),
-                    "PostProcessorInput:  file DiffuseReflanceDatabase does not exist",
+                    "PostProcessorInput:  file DiffuseReflectanceDatabase does not exist",
                     "check that VirtualBoundaryType and database type agree");
             }
-            if (detectorInputs.Select(di => di.TallyDetails.IsTransmittanceTally).Any())
+            if (detectorInputs.Any(di => di.TallyDetails.IsTransmittanceTally))
             {
                 return new ValidationResult(
                     File.Exists(Path.Combine(inputFolder, "DiffuseTransmittanceDatabase")),
                     "PostProcessorInput:  file DiffuseTransmittanceDatabase does not exist",
                     "check that VirtualBoundaryType and database type agree");
             }
-            if (detectorInputs.Select(di => di.TallyDetails.IsSpecularReflectanceTally).Any())
+            if (detectorInputs.Any(di => di.TallyDetails.IsSpecularReflectanceTally))
             {
                 return new ValidationResult(
                     File.Exists(Path.Combine(inputFolder, "SpecularReflectanceDatabase")),
                     "PostProcessorInput:  file SpecularReflectanceDatabase does not exist",
                     "check that VirtualBoundaryType and database type agree");
             }
-            if (detectorInputs.Select(di => di.TallyDetails.IspMCReflectanceTally).Any()) //pMC uses same exit db as regular post-processing
+            if (detectorInputs.Any(di => di.TallyDetails.IspMCReflectanceTally)) //pMC uses same exit db as regular post-processing
             {
                 return new ValidationResult(
                       File.Exists(Path.Combine(inputFolder, "DiffuseReflectanceDatabase")) &&

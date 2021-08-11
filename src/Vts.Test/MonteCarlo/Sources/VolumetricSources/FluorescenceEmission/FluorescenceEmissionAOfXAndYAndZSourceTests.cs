@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
+using MathNet.Numerics.Random;
 using NUnit.Framework;
 using Vts.IO;
 using Vts.MonteCarlo;
@@ -108,7 +109,27 @@ namespace Vts.Test.MonteCarlo.Sources
             _xyzLoaderUnif = _fluorEmissionAOfXAndYAndZSourceCDF.Loader;
             _xyzLoaderUnif.InitializeFluorescentRegionArrays();
         }
-
+        /// <summary>
+        /// test source input
+        /// </summary>
+        [Test]
+        public void validate_source_input()
+        {
+            // check default constructor
+            var si = new FluorescenceEmissionAOfXAndYAndZSourceInput();
+            Assert.IsNotNull(si);
+            // check full definition
+            si = new FluorescenceEmissionAOfXAndYAndZSourceInput(
+                "sourcetest",
+                "inputAOfXAndYAndZ.txt",
+                0,
+                SourcePositionSamplingType.CDF
+            );
+            Assert.IsNotNull(si);
+            // validate CreateSource
+            var source = si.CreateSource(new MersenneTwister(0));
+            Assert.IsNotNull(source);
+        }
         /// <summary>
         /// Test to make sure GetFinalPosition produces correct distribution of sources and weights
         /// for CDF sampling
