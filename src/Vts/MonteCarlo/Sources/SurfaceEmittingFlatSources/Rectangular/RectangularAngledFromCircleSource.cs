@@ -12,6 +12,8 @@ namespace Vts.MonteCarlo.Sources
     /// and initial tissue region index.
     /// The angle of the source is determined by the position on the tissue surface (dictated
     /// by the source profile) and the *uniformly sampled* circle position in air.
+    /// All of the "AngledFrom" series of sources translate the source on tissue
+    /// and the source in air separately.
     /// </summary>
     public class RectangularAngledFromCircleSourceInput : ISourceInput
     {
@@ -21,13 +23,15 @@ namespace Vts.MonteCarlo.Sources
         /// <param name="rectLengthX">The length of the Rectangular Source</param>
         /// <param name="rectWidthY">The width of the Rectangular Source</param>
         /// <param name="sourceProfile">Source Profile {Flat / Gaussian} of rectangle</param>
+        /// <param name="translationFromOrigin">rectangle on tissue surface translation</param>
         /// <param name="radiusInAir">radius of originating circle</param>
-        /// <param name="circleInAirTranslationFromOrigin">Center of circle location</param>
+        /// <param name="circleInAirTranslationFromOrigin">Center of circle in air location</param>
         /// <param name="initialTissueRegionIndex">Initial tissue region index</param>
         public RectangularAngledFromCircleSourceInput(
             double rectLengthX,
             double rectWidthY,
             ISourceProfile sourceProfile,
+            Position translationFromOrigin,
             double radiusInAir,
             Position circleInAirTranslationFromOrigin,
             int initialTissueRegionIndex)
@@ -36,6 +40,7 @@ namespace Vts.MonteCarlo.Sources
             RectLengthX = rectLengthX;
             RectWidthY = rectWidthY;
             SourceProfile = sourceProfile;
+            TranslationFromOrigin = translationFromOrigin;
             RadiusInAir = radiusInAir; 
             CircleInAirTranslationFromOrigin = circleInAirTranslationFromOrigin;
             InitialTissueRegionIndex = initialTissueRegionIndex;
@@ -49,6 +54,7 @@ namespace Vts.MonteCarlo.Sources
                 1.0,
                 2.0,
                 new FlatSourceProfile(),
+                SourceDefaults.DefaultPosition.Clone(),
                 0.1,
                 SourceDefaults.DefaultPosition.Clone(),
                 0) { }
@@ -70,11 +76,15 @@ namespace Vts.MonteCarlo.Sources
         /// </summary>
         public ISourceProfile SourceProfile { get; set; }
         /// <summary>
+        /// Rectangle on tissue surface translation
+        /// </summary>
+        public Position TranslationFromOrigin { get; set; }
+        /// <summary>
         /// radius of circle in air
         /// </summary>
         public double RadiusInAir { get; set; }
         /// <summary>
-        /// New circular source location
+        /// Circle in air translation
         /// </summary>
         public Position CircleInAirTranslationFromOrigin { get; set; }
         /// <summary>
@@ -95,6 +105,7 @@ namespace Vts.MonteCarlo.Sources
                 this.RectLengthX,
                 this.RectWidthY,
                 this.SourceProfile,
+                this.TranslationFromOrigin,
                 this.RadiusInAir,
                 this.CircleInAirTranslationFromOrigin,
                 this.InitialTissueRegionIndex) { Rng = rng };
@@ -117,13 +128,15 @@ namespace Vts.MonteCarlo.Sources
         /// <param name="rectLengthX">The length of the Rectangular Source</param>
         /// <param name="rectWidthY">The width of the Rectangular Source</param>
         /// <param name="sourceProfile">Source Profile {Flat / Gaussian}</param>  
+        /// <param name="translationFromOrigin">New rectangular source location</param>    
         /// <param name="radiusInAir">radius of circle in air</param>
-        /// <param name="circleInAirTranslationFromOrigin">New rectangular source location</param>    
+        /// <param name="circleInAirTranslationFromOrigin">New circle in air location</param>    
         /// <param name="initialTissueRegionIndex">Initial tissue region index</param>
         public RectangularAngledFromCircleSource(
             double rectLengthX,
             double rectWidthY,
             ISourceProfile sourceProfile,
+            Position translationFromOrigin,
             double radiusInAir,
             Position circleInAirTranslationFromOrigin,
             int initialTissueRegionIndex = 0)
@@ -132,7 +145,7 @@ namespace Vts.MonteCarlo.Sources
                 rectWidthY,
                 sourceProfile,
                 SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone(), // newDirectionOfPrincipalSourceAxis
-                SourceDefaults.DefaultPosition.Clone(),
+                translationFromOrigin,
                 SourceDefaults.DefaultBeamRoationFromInwardNormal.Clone(), // beamRotationFromInwardNormal
                 initialTissueRegionIndex)
         {

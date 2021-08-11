@@ -36,6 +36,9 @@ namespace Vts.Test.MonteCarlo.Helpers
             // test value beyond Stop -> this overload does not put in last bin
             bin = DetectorBinning.WhichBin(10.5, binStops);
             Assert.IsTrue(bin == -1);
+            // test value before binStops[0]
+            bin = DetectorBinning.WhichBin(0.5, binStops);
+            Assert.IsTrue(bin == 0);
         }
 
         /// <summary>
@@ -50,6 +53,9 @@ namespace Vts.Test.MonteCarlo.Helpers
             Assert.IsTrue(bin == 5);
             // test value beyond Stop
             bin = DetectorBinning.WhichBinExclusive(10.5, range.Count - 1, range.Delta, range.Start);
+            Assert.IsTrue(bin == -1);
+            // test value before Stop
+            bin = DetectorBinning.WhichBinExclusive(-1.0, range.Count - 1, range.Delta, range.Start);
             Assert.IsTrue(bin == -1);
         }
 

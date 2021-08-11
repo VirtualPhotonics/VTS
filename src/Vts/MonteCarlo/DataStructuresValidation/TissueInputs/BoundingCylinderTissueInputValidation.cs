@@ -51,6 +51,17 @@ namespace Vts.MonteCarlo
 
             // test for air layers and eliminate from list
             var tissueLayers = layers.Where(layer => !layer.IsAir());
+            
+            // check that there is at least one layer of tissue 
+            if (!tissueLayers.Any())
+            {
+                tempResult = new ValidationResult(
+                    false,
+                    "BoundingCylinderTissueInput: tissue layer is assumed to be at least a single layer with air layer above and below",
+                    "BoundingCylinderTissueInput: redefine tissue definition to contain at least a single layer of tissue");
+            }
+
+            if (!tempResult.IsValid) { return tempResult; }
 
             var layersHeight = tissueLayers.Sum(layer => layer.ZRange.Delta);
 
@@ -60,17 +71,6 @@ namespace Vts.MonteCarlo
                     false,
                     "BoundingCylinderTissueInput: bounding cylinder must have same height as tissue",
                     "BoundingCylinderTissueInput: make sure cylinder Height = depth of tissue");
-            }
-
-            if (!tempResult.IsValid) { return tempResult; }
-
-            // check that there is at least one layer of tissue 
-            if (!tissueLayers.Any())
-            {
-                tempResult = new ValidationResult(
-                    false,
-                    "BoundingCylinderTissueInput: tissue layer is assumed to be at least a single layer with air layer above and below",
-                    "BoundingCylinderTissueInput: redefine tissue definition to contain at least a single layer of tissue");
             }
 
             if (!tempResult.IsValid) { return tempResult; }
@@ -91,7 +91,7 @@ namespace Vts.MonteCarlo
             IList<LayerTissueRegion> layers, CaplessCylinderTissueRegion boundingCylinder)
         {
             // for all tissue layers
-            for (int i = 1; i < layers.Count - 2; i++)
+            for (int i = 1; i <= layers.Count - 2; i++)
             {
                 if (layers[i].RegionOP.N != boundingCylinder.RegionOP.N)
                 {

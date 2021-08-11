@@ -30,7 +30,7 @@ namespace Vts.MonteCarlo.PhotonData
         public CollisionInfo Clone()
         {
             var collisionInfo = new CollisionInfo(this.Capacity);
-            foreach (var subRegion in collisionInfo)
+            foreach (var subRegion in this)
             {
                 collisionInfo.Add(subRegion.Clone());
             }

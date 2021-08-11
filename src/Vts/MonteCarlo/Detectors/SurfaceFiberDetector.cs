@@ -20,7 +20,7 @@ namespace Vts.MonteCarlo.Detectors
             Center = new Position(0, 0, 0);
             Radius = 0.6;
             N = 1.4;
-            Name = "SurfaceFiberDetector";
+            Name = "SurfaceFiber";
             NA = double.PositiveInfinity; // set default NA completely open regardless of detector region refractive index
             FinalTissueRegionIndex = 1; // assume detector is in surface fiber region
 
@@ -53,7 +53,7 @@ namespace Vts.MonteCarlo.Detectors
 
         public IDetector CreateDetector()
         {
-            return new SurfaceFiberDetectorDetector
+            return new SurfaceFiberDetector
             {
                 // required properties (part of DetectorInput/Detector base classes)
                 TallyType = this.TallyType,
@@ -75,7 +75,7 @@ namespace Vts.MonteCarlo.Detectors
     /// Implements IDetector.  Tally for fiber detection.
     /// This implementation works for Analog, DAW and CAW processing.
     /// </summary>
-    public class SurfaceFiberDetectorDetector : Detector, IDetector
+    public class SurfaceFiberDetector : Detector, IDetector
     {
         private ITissue _tissue;
 
