@@ -9,6 +9,8 @@ namespace Vts.MonteCarlo.Sources
     /// Implements ISourceInput. Defines input data for a line source
     /// of width tissueLineLength ray traced back to line in air (pupil in 2D).
     /// This is different than sampling theta,phi angles performed in LineSources
+    /// All of the "AngledFrom" series of sources translate the source on tissue
+    /// and the source in air separately.
     /// </summary>
     public class LineAngledFromLineSourceInput : ISourceInput
     {
@@ -17,18 +19,22 @@ namespace Vts.MonteCarlo.Sources
         /// </summary>
         /// <param name="tissueLineLength">The length of line source on tissue</param>
         /// <param name="sourceProfile">Profile of line on tissue surface</param>
+        /// <param name="translationFromOrigin">center position of line source on tissue</param>
         /// <param name="lineInAirLength">The length of the line source in air</param>
         /// <param name="lineInAirTranslationFromOrigin">center position of line source in air (Z assumed to be negative)</param>
         /// <param name="initialTissueRegionIndex">Initial tissue region index</param>
         public LineAngledFromLineSourceInput(
             double tissueLineLength,
             ISourceProfile sourceProfile,
+            Position translationFromOrigin,
             double lineInAirLength,
             Position lineInAirTranslationFromOrigin,
             int initialTissueRegionIndex)
         {
             SourceType = "LineAngledFromLine";
             TissueLineLength = tissueLineLength;
+            SourceProfile = sourceProfile;
+            TranslationFromOrigin = translationFromOrigin;
             LineInAirLength = lineInAirLength;
             LineInAirTranslationFromOrigin = lineInAirTranslationFromOrigin;
             InitialTissueRegionIndex = initialTissueRegionIndex;
@@ -41,6 +47,7 @@ namespace Vts.MonteCarlo.Sources
             : this(
                 10.0,
                 new FlatSourceProfile(),
+                SourceDefaults.DefaultPosition.Clone(),
                 1.0,
                 SourceDefaults.DefaultPosition.Clone(),
                 0) { }
@@ -56,13 +63,17 @@ namespace Vts.MonteCarlo.Sources
         /// <summary>
         /// Source profile type
         /// </summary>
-        public ISourceProfile SourceProfile { get; set; }
+        public ISourceProfile SourceProfile { get; set; }        
+        /// <summary>
+        /// Line in tissue surface translation
+        /// </summary>
+        public Position TranslationFromOrigin { get; set; }
         /// <summary>
         /// The length of the line source in air
         /// </summary>
         public double LineInAirLength { get; set; }
         /// <summary>
-        /// New source location
+        /// Line in air translation
         /// </summary>
         public Position LineInAirTranslationFromOrigin { get; set; }
         /// <summary>
@@ -80,6 +91,7 @@ namespace Vts.MonteCarlo.Sources
             return new LineAngledFromLineSource(
                         TissueLineLength,
                         SourceProfile,
+                        TranslationFromOrigin,
                         LineInAirLength,
                         LineInAirTranslationFromOrigin,
                         InitialTissueRegionIndex) {};
@@ -101,12 +113,14 @@ namespace Vts.MonteCarlo.Sources
         /// </summary>
         /// <param name="tissueLineLength">The length of line source on tissue</param>
         /// <param name="sourceProfile">Profile of line on tissue</param>
+        /// <param name="translationFromOrigin">line on tissue surface translation</param>
         /// <param name="lineInAirLength">The length of the line source in air</param>
-        /// <param name="lineInAirTranslationFromOrigin">New source location</param>
+        /// <param name="lineInAirTranslationFromOrigin">line in air translation</param>
         /// <param name="initialTissueRegionIndex">Initial tissue region index</param>
         public LineAngledFromLineSource(
             double tissueLineLength,
             ISourceProfile sourceProfile,
+            Position translationFromOrigin,
             double lineInAirLength,
             Position lineInAirTranslationFromOrigin = null,
             int initialTissueRegionIndex = 0)
@@ -114,7 +128,7 @@ namespace Vts.MonteCarlo.Sources
                   tissueLineLength,
                   sourceProfile,
                   SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone(), // newDirectionOfPrincipalSourceAxis
-                  new Position(0,0,0),
+                  translationFromOrigin,
                   SourceDefaults.DefaultBeamRoationFromInwardNormal.Clone(), // beamRotationFromInwardNormal
                   initialTissueRegionIndex)
         {

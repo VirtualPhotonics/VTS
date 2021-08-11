@@ -584,27 +584,27 @@ namespace Vts
         /// <summary>
         /// x center position of the embedded ellipse
         /// </summary>
-        XEllipsePosition,
+        XInclusionPosition,
         /// <summary>
         /// y center position of the embedded ellipse
         /// </summary>
-        YEllipsePosition,
+        YInclusionPosition,
         /// <summary>
         /// z center position of the embedded ellipse
         /// </summary>
-        ZEllipsePosition,
+        ZInclusionPosition,
         /// <summary>
         /// x-axis radius of embedded ellipse
         /// </summary>
-        XEllipseRadius,
+        XInclusionRadius,
         /// <summary>
         /// y-axis radius of embedded ellipse
         /// </summary>
-        YEllipseRadius,
+        YInclusionRadius,
         /// <summary>
         /// z-axis radius of embedded ellipse
         /// </summary>
-        ZEllipseRadius,
+        ZInclusionRadius,
         /// <summary>
         /// absorption coefficient of top layer of tissue
         /// </summary>

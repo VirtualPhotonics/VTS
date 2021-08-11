@@ -11,7 +11,7 @@ namespace Vts.Test.MonteCarlo.Extensions
         /// Validate method IspMCDatabase
         /// </summary>
         [Test]
-        public void validate_IspMCDatabase_returns_correct_values()
+        public void Validate_IspMCDatabase_returns_correct_values()
         {
             // validate those that are true
             var databaseType = DatabaseType.pMCDiffuseReflectance;
@@ -29,7 +29,7 @@ namespace Vts.Test.MonteCarlo.Extensions
         /// Validate method GetCorrespondingVirtualBoundary
         /// </summary>
         [Test]
-        public void validate_GetCorrespondingVirtualBoundary_returns_correct_values()
+        public void Validate_GetCorrespondingVirtualBoundary_returns_correct_values()
         {
             var databaseType = DatabaseType.DiffuseReflectance;
             var virtualBoundary = databaseType.GetCorrespondingVirtualBoundaryType();

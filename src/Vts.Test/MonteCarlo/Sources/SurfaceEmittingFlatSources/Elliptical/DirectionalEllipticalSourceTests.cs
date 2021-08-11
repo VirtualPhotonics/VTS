@@ -1,4 +1,5 @@
 ﻿using System;
+using MathNet.Numerics.Random;
 using NUnit.Framework;
 using Vts.Common;
 using Vts.MonteCarlo;
@@ -24,6 +25,31 @@ namespace Vts.Test.MonteCarlo.Sources
                 _validationData = new SurfaceEmitting2DSourcesValidationData();
                 _validationData.ReadData();
             }
+        }
+        /// <summary>
+        /// test source input
+        /// </summary>
+        [Test]
+        public void validate_source_input_with_flat_profile_type()
+        {
+            // check default constructor
+            var si = new DirectionalEllipticalSourceInput();
+            Assert.IsInstanceOf<DirectionalEllipticalSourceInput>(si);
+            // check full definition
+            si = new DirectionalEllipticalSourceInput(
+                    0.0,
+                    1.0,
+                    2.0,
+                    new FlatSourceProfile(),
+                    SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone(),
+                    SourceDefaults.DefaultPosition.Clone(),
+                    SourceDefaults.DefaultBeamRoationFromInwardNormal.Clone(),
+                    0
+            );
+            Assert.IsInstanceOf<DirectionalEllipticalSourceInput>(si);
+            // validate CreateSource
+            var source = si.CreateSource(new MersenneTwister(0));
+            Assert.IsInstanceOf<DirectionalEllipticalSource>(source);
         }
 
         /// <summary>

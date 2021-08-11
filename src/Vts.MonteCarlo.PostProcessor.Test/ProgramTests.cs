@@ -2,6 +2,7 @@
 using System.IO;
 using System.Threading.Tasks;
 using NUnit.Framework;
+using Vts.MonteCarlo.IO;
 
 namespace Vts.MonteCarlo.PostProcessor.Test
 {
@@ -136,6 +137,13 @@ namespace Vts.MonteCarlo.PostProcessor.Test
             Assert.IsTrue(File.Exists("PostProcessor_pMC_ROfRhoROfRhoAndTime/pMCROfRhoAndTime_mus1p5.txt"));
             Assert.IsTrue(File.Exists("PostProcessor_pMC_ROfRhoROfRhoAndTime/pMCROfRhoAndTime_mus1p5"));
             Assert.IsFalse(File.Exists("PostProcessor_pMC_ROfRhoROfRhoAndTime/pMCROfRhoAndTime_mus1p5_2"));
+            // check that can read detectors in
+            var readDetector = DetectorIO.ReadDetectorFromFile(
+                "pMCROfRhoReference", "PostProcessor_pMC_ROfRhoROfRhoAndTime");
+            Assert.IsInstanceOf<IDetector>(readDetector);
+            readDetector = DetectorIO.ReadDetectorFromFile(
+                "pMCROfRhoAndTime_mus1p5", "PostProcessor_pMC_ROfRhoROfRhoAndTime");
+            Assert.IsInstanceOf<IDetector>(readDetector);
         }
 
         /// <summary>

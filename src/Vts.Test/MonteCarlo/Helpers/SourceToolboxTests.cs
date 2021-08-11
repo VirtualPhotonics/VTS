@@ -1,6 +1,6 @@
-﻿using System;
+﻿using NUnit.Framework;
+using System;
 using System.IO;
-using NUnit.Framework;
 using Vts.Common;
 using Vts.MonteCarlo.Helpers;
 
@@ -10,63 +10,91 @@ namespace Vts.Test.MonteCarlo.Sources
     public class SourceToolboxTests
     {
         private const double AcceptablePrecision = 0.00000001;
-        Position _position;
-        Direction _direction;
-        Position _translation;
-        PolarAzimuthalAngles _angPair;
-        DoubleRange _polRange;
-        DoubleRange _aziRange;
-        ThreeAxisRotation _angRot;
-        SourceFlags _flags;
-        double _aParameter;
-        double _bParameter;
-        double _cParameter;
-        double _lengthX ;
-        double _widthY;
-        double _heightZ;
-        double _innerRadius;
-        double _outerRadius;
-        double _bdFWHM;
-        double _limitL;
-        double _limitU;
-        double _factor;
-        double _polarAngle;
-        
-        double[] _tp = {
-            1.0000000000e+00, 2.0000000000e+00, 3.0000000000e+00, 7.0710678119e-01, 7.0710678119e-01, 0.0000000000e+00, 
-            1.0000000000e+00, -2.5000000000e+00, 1.2000000000e+00, 7.8539816340e-01, 7.8539816340e-01, 0.0000000000e+00, 
-            1.5707963268e+00, 0.0000000000e+00, 3.1415926536e+00, 1.5707963268e+00, 1.5707963268e+00, 7.8539816340e-01, 
-            2.0000000000e+00, 2.5000000000e+00, 3.0000000000e+00, 1.0000000000e+00, 2.0000000000e+00, 3.0000000000e+00, 
-            1.0000000000e+00, 2.0000000000e+00, 8.0000000000e-01, 2.5000000000e+00, 5.0000000000e-01, 5.0000000000e-01, 
-            7.8539816340e-01, 3.1622776602e-01, 6.3245553203e-01, 7.0710678119e-01, -2.4038566061e-01, 8.0063629303e-01, 
-            5.4881350243e-01, -8.3062970822e-01, -5.4820001436e-01, 9.7627004864e-02, -0.0000000000e+00, -0.0000000000e+00, 
-            8.8249690258e-01, 9.8985210047e-01, 1.8624762920e+00, 1.5707963268e+00, 7.8539816340e-01, -5.8910586113e-01, 
-            1.4967342534e+00, 3.0000000000e+00, -3.0673325845e-02, 1.3197749533e+00, 3.0000000000e+00, 1.0488135024e+00, 
-            2.1856892331e+00, 3.6455680954e+00, 7.3017984105e-01, 2.2450786356e+00, 3.4045250143e+00, 1.0488135024e+00, 
-            2.0000000000e+00, 3.0000000000e+00, 7.3017984105e-01, 2.0000000000e+00, 3.0000000000e+00, 1.1952540097e+00, 
-            2.4642230826e+00, 3.0000000000e+00, 3.8437662825e-01, 2.3103671369e+00, 3.0000000000e+00, 1.1952540097e+00, 
-            2.4642230826e+00, 4.2911361908e+00, 3.8437662825e-01, 2.3103671369e+00, 3.4289404236e+00, 1.0488135024e+00, 
-            2.1856892331e+00, 3.0000000000e+00, 7.3017984105e-01, 2.2450786356e+00, 3.0000000000e+00, 4.8813502432e-02, 
-            -0.0000000000e+00, 5.0000000000e-01, 5.0000000000e-01, 7.0710678119e-01, 7.0710678119e-01, 4.3297802812e-17, 
-            7.0710678119e-01, 4.3297802812e-17, 7.0710678119e-01, -7.0710678119e-01, 0.0000000000e+00, 1.0000000000e+00, 
-            0.0000000000e+00, -1.4644660941e-01, 8.5355339059e-01, -5.0000000000e-01, -1.4644660941e-01, 8.5355339059e-01, 
-            -5.0000000000e-01, 1.5857864376e+00, 9.1421356237e-01, 2.6142135624e+00, -9.2677669530e-01, 2.8033008589e-01, 
-            -2.5000000000e-01, 6.4644660941e-01, 1.4644660941e-01, 3.8213203436e+00, 7.0710678119e-01, 4.3297802812e-17, 
-            7.0710678119e-01, 1.0000000000e+00, -3.0000000000e+00, 2.0000000000e+00, 4.3297802812e-17, 7.0710678119e-01, 
-            -7.0710678119e-01, 3.0000000000e+00, 2.0000000000e+00, -1.0000000000e+00, 0.0000000000e+00, 1.0000000000e+00, 
-            0.0000000000e+00, -7.0710678119e-01, 2.1213203436e+00, 3.0000000000e+00, -1.4644660941e-01, 8.5355339059e-01, 
-            -5.0000000000e-01, 5.8578643763e-01, 3.4142135624e+00, 1.4142135624e+00, 3.9269908170e-01, 2.0000000000e+00, 
-            -5.0000000000e-01, 4.2000000000e+00, -9.0666756704e-01, 1.3961632764e+00, 3.0000000000e+00 };
+        private Position _position;
+        private Direction _direction;
+        private Position _translation;
+        private PolarAzimuthalAngles _angPair;
+        private DoubleRange _polRange;
+        private DoubleRange _aziRange;
+        private ThreeAxisRotation _angRot;
+        private SourceFlags _flags;
+        private double _aParameter;
+        private double _bParameter;
+        private double _cParameter;
+        private double _lengthX;
+        private double _widthY;
+        private double _heightZ;
+        private double _innerRadius;
+        private double _outerRadius;
+        private double _bdFWHM;
+        private double _limitL;
+        private double _limitU;
+        private double _factor;
+        private double _polarAngle;
+        private double[] _tp;
 
         /// <summary>
-        /// Read text data file that has input and output data
+        /// read validation data in
         /// </summary>
-        public void read_data()
+        [OneTimeSetUp]
+        public void Setup_validation_data()
         {
+            _tp = new double[]
+            {
+                1.0000000000e+00, 2.0000000000e+00, 3.0000000000e+00, 7.0710678119e-01, 7.0710678119e-01,
+                0.0000000000e+00,
+                1.0000000000e+00, -2.5000000000e+00, 1.2000000000e+00, 7.8539816340e-01, 7.8539816340e-01,
+                0.0000000000e+00,
+                1.5707963268e+00, 0.0000000000e+00, 3.1415926536e+00, 1.5707963268e+00, 1.5707963268e+00,
+                7.8539816340e-01,
+                2.0000000000e+00, 2.5000000000e+00, 3.0000000000e+00, 1.0000000000e+00, 2.0000000000e+00,
+                3.0000000000e+00,
+                1.0000000000e+00, 2.0000000000e+00, 8.0000000000e-01, 2.5000000000e+00, 5.0000000000e-01,
+                5.0000000000e-01,
+                7.8539816340e-01, 3.1622776602e-01, 6.3245553203e-01, 7.0710678119e-01, -2.4038566061e-01,
+                8.0063629303e-01,
+                5.4881350243e-01, -8.3062970822e-01, -5.4820001436e-01, 9.7627004864e-02, -0.0000000000e+00,
+                -0.0000000000e+00,
+                8.8249690258e-01, 9.8985210047e-01, 1.8624762920e+00, 1.5707963268e+00, 7.8539816340e-01,
+                -5.8910586113e-01,
+                1.4967342534e+00, 3.0000000000e+00, -3.0673325845e-02, 1.3197749533e+00, 3.0000000000e+00,
+                1.0488135024e+00,
+                2.1856892331e+00, 3.6455680954e+00, 7.3017984105e-01, 2.2450786356e+00, 3.4045250143e+00,
+                1.0488135024e+00,
+                2.0000000000e+00, 3.0000000000e+00, 7.3017984105e-01, 2.0000000000e+00, 3.0000000000e+00,
+                1.1952540097e+00,
+                2.4642230826e+00, 3.0000000000e+00, 3.8437662825e-01, 2.3103671369e+00, 3.0000000000e+00,
+                1.1952540097e+00,
+                2.4642230826e+00, 4.2911361908e+00, 3.8437662825e-01, 2.3103671369e+00, 3.4289404236e+00,
+                1.0488135024e+00,
+                2.1856892331e+00, 3.0000000000e+00, 7.3017984105e-01, 2.2450786356e+00, 3.0000000000e+00,
+                4.8813502432e-02,
+                -0.0000000000e+00, 5.0000000000e-01, 5.0000000000e-01, 7.0710678119e-01, 7.0710678119e-01,
+                4.3297802812e-17,
+                7.0710678119e-01, 4.3297802812e-17, 7.0710678119e-01, -7.0710678119e-01, 0.0000000000e+00,
+                1.0000000000e+00,
+                0.0000000000e+00, -1.4644660941e-01, 8.5355339059e-01, -5.0000000000e-01, -1.4644660941e-01,
+                8.5355339059e-01,
+                -5.0000000000e-01, 1.5857864376e+00, 9.1421356237e-01, 2.6142135624e+00, -9.2677669530e-01,
+                2.8033008589e-01,
+                -2.5000000000e-01, 6.4644660941e-01, 1.4644660941e-01, 3.8213203436e+00, 7.0710678119e-01,
+                4.3297802812e-17,
+                7.0710678119e-01, 1.0000000000e+00, -3.0000000000e+00, 2.0000000000e+00, 4.3297802812e-17,
+                7.0710678119e-01,
+                -7.0710678119e-01, 3.0000000000e+00, 2.0000000000e+00, -1.0000000000e+00, 0.0000000000e+00,
+                1.0000000000e+00,
+                0.0000000000e+00, -7.0710678119e-01, 2.1213203436e+00, 3.0000000000e+00, -1.4644660941e-01,
+                8.5355339059e-01,
+                -5.0000000000e-01, 5.8578643763e-01, 3.4142135624e+00, 1.4142135624e+00, 3.9269908170e-01,
+                2.0000000000e+00,
+                -5.0000000000e-01, 4.2000000000e+00, -9.0666756704e-01, 1.3961632764e+00, 3.0000000000e+00
+            };
+
             // if need to regenerate _tp, run matlab/test/ code 
             if (_tp.Length == 0)
             {
-                string testpara = "../../../../../matlab/test/monte_carlo/source_test_data_generation/UnitTests_SourceToolbox.txt";
+                string testpara =
+                    "../../../../../matlab/test/monte_carlo/source_test_data_generation/UnitTests_SourceToolbox.txt";
 
                 using (TextReader reader = File.OpenText(testpara))
                 {
@@ -76,7 +104,7 @@ namespace Vts.Test.MonteCarlo.Sources
                         _tp[i] = double.Parse(bits[i]);
                     reader.Close();
                 }
-            }            
+            }
 
             _position = new Position(_tp[0], _tp[1], _tp[2]);
             _direction = new Direction(_tp[3], _tp[4], _tp[5]);
@@ -101,14 +129,12 @@ namespace Vts.Test.MonteCarlo.Sources
             _polarAngle = _tp[30];
         }
 
-       
         /// <summary>
         /// Validating "GetDirectionForGiven2DPositionAndGivenPolarAngle"     
         /// </summary>
         [Test]
-        public void validate_static_method_getdirectionforgiven2dpositionandgivenpolarangle()
+        public void Validate_static_method_getdirectionforgiven2dpositionandgivenpolarangle()
         {
-            read_data();
             var pos = _position.Clone();
             var dir = SourceToolbox.GetDirectionForGiven2DPositionAndGivenPolarAngle(_polarAngle, pos);
 
@@ -121,7 +147,7 @@ namespace Vts.Test.MonteCarlo.Sources
         /// Validating "GetDirectionForGivenPolarAzimuthalAngleRangeRandom"
         /// </summary>
         [Test]
-        public void validate_static_method_getdirectionforgivenpolarazimuthalanglerangerandom()
+        public void Validate_static_method_getdirectionforgivenpolarazimuthalanglerangerandom()
         {
             Random rng = new MathNet.Numerics.Random.MersenneTwister(0);
             var dir = SourceToolbox.GetDirectionForGivenPolarAzimuthalAngleRangeRandom(_polRange, _aziRange, rng);
@@ -135,7 +161,7 @@ namespace Vts.Test.MonteCarlo.Sources
         /// Validating "GetDirectionForIsotropicDistributionRandom"
         /// </summary>
         [Test]
-        public void validate_static_method_getdirectionforisotropicdistributionrandom()
+        public void Validate_static_method_getdirectionforisotropicdistributionrandom()
         {
             Random rng = new MathNet.Numerics.Random.MersenneTwister(0);
             var dir = SourceToolbox.GetDirectionForIsotropicDistributionRandom(rng);
@@ -149,7 +175,7 @@ namespace Vts.Test.MonteCarlo.Sources
         /// Validating "GetDoubleNormallyDistributedRandomNumbers"
         /// </summary>
         [Test]
-        public void validate_static_method_getdoublenormallydistributedrandomnumbers()
+        public void Validate_static_method_getdoublenormallydistributedrandomnumbers()
         {
             Random rng = new MathNet.Numerics.Random.MersenneTwister(0);
             double nrng1 = 0.0;
@@ -165,7 +191,7 @@ namespace Vts.Test.MonteCarlo.Sources
         /// Validating "GetLowerLimit"
         /// </summary>
         [Test]
-        public void validate_static_method_getlowerlimit()
+        public void Validate_static_method_getlowerlimit()
         {
             var limit = SourceToolbox.GetLimit(_factor);
 
@@ -176,7 +202,7 @@ namespace Vts.Test.MonteCarlo.Sources
         /// Validating "GetPolarAzimuthalPairForGivenAngleRangeRandom"
         /// </summary>        
         [Test]
-        public void validate_static_method_getpolarazimuthalpairforgivenanglerangerandom()
+        public void Validate_static_method_getpolarazimuthalpairforgivenanglerangerandom()
         {
             Random rng = new MathNet.Numerics.Random.MersenneTwister(0);
             var angPair = SourceToolbox.GetPolarAzimuthalPairForGivenAngleRangeRandom(_polRange, _aziRange,rng);
@@ -184,7 +210,6 @@ namespace Vts.Test.MonteCarlo.Sources
             Assert.Less(Math.Abs(angPair.Theta - _tp[43]), AcceptablePrecision);
             Assert.Less(Math.Abs(angPair.Phi - _tp[44]), AcceptablePrecision);
         }
-
 
         /// <summary>
         /// Validating "GetPolarAzimuthalPairFromDirection"
@@ -205,135 +230,190 @@ namespace Vts.Test.MonteCarlo.Sources
         /// Validating "GetPositionInACircleRandomFlat"
         /// </summary>
         [Test]
-        public void validate_static_method_getpositioninacirclerandomflat()
-        {         
-
+        public void Validate_static_method_getpositioninacirclerandomflat()
+        {
             Random rng = new MathNet.Numerics.Random.MersenneTwister(0);
             var pos = SourceToolbox.GetPositionInACircleRandomFlat(_position, _innerRadius, _outerRadius, rng);
-
             Assert.Less(Math.Abs(pos.X - _tp[47]), AcceptablePrecision);
             Assert.Less(Math.Abs(pos.Y - _tp[48]), AcceptablePrecision);
             Assert.Less(Math.Abs(pos.Z - _tp[49]), AcceptablePrecision);
+            // test for radius = 0
+            pos = SourceToolbox.GetPositionInACircleRandomFlat(_position, 0.0, 0.0, rng);
+            Assert.Less(Math.Abs(pos.X - _position.X), AcceptablePrecision);
+            Assert.Less(Math.Abs(pos.Y - _position.Y), AcceptablePrecision);
+            Assert.Less(Math.Abs(pos.Z - _position.Z), AcceptablePrecision);
         }
-        
+
         /// <summary>
         /// Validating "GetPositionInACircleRandomGaussian"
         /// </summary>
         [Test]
-        public void validate_static_method_getpositioninacirclerandomgaussian()
+        public void Validate_static_method_getpositioninacirclerandomgaussian()
         {
-
             Random rng = new MathNet.Numerics.Random.MersenneTwister(0);
             var pos = SourceToolbox.GetPositionInACircleRandomGaussian(_position, _outerRadius, _innerRadius, _bdFWHM, rng);
 
             Assert.Less(Math.Abs(pos.X - _tp[50]), AcceptablePrecision);
             Assert.Less(Math.Abs(pos.Y - _tp[51]), AcceptablePrecision);
             Assert.Less(Math.Abs(pos.Z - _tp[52]), AcceptablePrecision);
+            // test for radius = 0
+            pos = SourceToolbox.GetPositionInACircleRandomGaussian(_position, 0.0, 0.0, _bdFWHM, rng);
+            Assert.Less(Math.Abs(pos.X - _position.X), AcceptablePrecision);
+            Assert.Less(Math.Abs(pos.Y - _position.Y), AcceptablePrecision);
+            Assert.Less(Math.Abs(pos.Z - _position.Z), AcceptablePrecision);
+            // test for FWHM = 0 but with finite radius
+            pos = SourceToolbox.GetPositionInACircleRandomGaussian(_position, _outerRadius, _innerRadius, 0.0, rng);
+            Assert.Less(Math.Abs(pos.X - double.PositiveInfinity), AcceptablePrecision);
+            Assert.Less(Math.Abs(pos.Y - double.NegativeInfinity), AcceptablePrecision);
+            Assert.Less(Math.Abs(pos.Z - _position.Z), AcceptablePrecision);
         }
 
         /// <summary>
         /// Validating "GetPositionInACuboidRandomFlat"
         /// </summary>
         [Test]
-        public void validate_static_method_getpositioninacuboidrandomflat()
+        public void Validate_static_method_getpositioninacuboidrandomflat()
         {
-
             Random rng = new MathNet.Numerics.Random.MersenneTwister(0);
             var pos = SourceToolbox.GetPositionInACuboidRandomFlat(_position, _lengthX, _widthY, _heightZ, rng);
 
             Assert.Less(Math.Abs(pos.X - _tp[53]), AcceptablePrecision);
             Assert.Less(Math.Abs(pos.Y - _tp[54]), AcceptablePrecision);
             Assert.Less(Math.Abs(pos.Z - _tp[55]), AcceptablePrecision);
+            // test for length = 0
+            pos = SourceToolbox.GetPositionInACuboidRandomGaussian(_position, 0.0, 0.0, 0.0,  _bdFWHM, rng);
+            Assert.Less(Math.Abs(pos.X - _position.X), AcceptablePrecision);
+            Assert.Less(Math.Abs(pos.Y - _position.Y), AcceptablePrecision);
+            Assert.Less(Math.Abs(pos.Z - _position.Z), AcceptablePrecision);
         }
 
         /// <summary>
         /// Validating "GetPositionInACuboidRandomGaussian"
         /// </summary>
         [Test]
-        public void validate_static_method_getpositioninacuboidrandomgaussian()
+        public void Validate_static_method_getpositioninacuboidrandomgaussian()
         {
-
             Random rng = new MathNet.Numerics.Random.MersenneTwister(0);
             var pos = SourceToolbox.GetPositionInACuboidRandomGaussian(_position, 0.5*_lengthX, 0.5*_widthY, 0.5*_heightZ, _bdFWHM, rng);
 
             Assert.Less(Math.Abs(pos.X - _tp[56]), AcceptablePrecision);
             Assert.Less(Math.Abs(pos.Y - _tp[57]), AcceptablePrecision);
             Assert.Less(Math.Abs(pos.Z - _tp[58]), AcceptablePrecision);
+            // test for length = 0
+            pos = SourceToolbox.GetPositionInACuboidRandomGaussian(_position, 0.0,  0.0, 0.0, _bdFWHM, rng);
+            Assert.Less(Math.Abs(pos.X - _position.X), AcceptablePrecision);
+            Assert.Less(Math.Abs(pos.Y - _position.Y), AcceptablePrecision);
+            Assert.Less(Math.Abs(pos.Z - _position.Z), AcceptablePrecision);
+            // test for FWHM = 0 but with finite length
+            pos = SourceToolbox.GetPositionInACuboidRandomGaussian(_position, _lengthX, _widthY, _heightZ, 0.0, rng);
+            Assert.Less(Math.Abs(pos.X - _position.X), AcceptablePrecision);
+            Assert.Less(Math.Abs(pos.Y - _position.Y), AcceptablePrecision);
+            Assert.Less(Math.Abs(pos.Z - _position.Z), AcceptablePrecision);
         }
 
         /// <summary>
         /// Validating "GetPositionInALineRandomFlat"
         /// </summary>
         [Test]
-        public void validate_static_method_getpositioninalinerandomflat()
+        public void Validate_static_method_getpositioninalinerandomflat()
         {
-
             Random rng = new MathNet.Numerics.Random.MersenneTwister(0);
             var pos = SourceToolbox.GetPositionInALineRandomFlat(_position, _lengthX, rng);
 
             Assert.Less(Math.Abs(pos.X - _tp[59]), AcceptablePrecision);
             Assert.Less(Math.Abs(pos.Y - _tp[60]), AcceptablePrecision);
             Assert.Less(Math.Abs(pos.Z - _tp[61]), AcceptablePrecision);
+            // test for length = 0
+            pos = SourceToolbox.GetPositionInALineRandomFlat(_position, 0.0, rng);
+            Assert.Less(Math.Abs(pos.X - _position.X), AcceptablePrecision);
+            Assert.Less(Math.Abs(pos.Y - _position.Y), AcceptablePrecision);
+            Assert.Less(Math.Abs(pos.Z - _position.Z), AcceptablePrecision);
         }
 
         /// <summary>
         /// Validating "GetPositionInALineRandomGaussian"
         /// </summary>
         [Test]
-        public void validate_static_method_getpositioninalinerandomgaussian()
+        public void Validate_static_method_getpositioninalinerandomgaussian()
         {
-
             Random rng = new MathNet.Numerics.Random.MersenneTwister(0);
             var pos = SourceToolbox.GetPositionInALineRandomGaussian(_position, 0.5*_lengthX, _bdFWHM, rng);
 
             Assert.Less(Math.Abs(pos.X - _tp[62]), AcceptablePrecision);
             Assert.Less(Math.Abs(pos.Y - _tp[63]), AcceptablePrecision);
             Assert.Less(Math.Abs(pos.Z - _tp[64]), AcceptablePrecision);
+            // test for length = 0
+            pos = SourceToolbox.GetPositionInALineRandomGaussian(_position, 0.0, _bdFWHM, rng);
+            Assert.Less(Math.Abs(pos.X - _position.X), AcceptablePrecision);
+            Assert.Less(Math.Abs(pos.Y - _position.Y), AcceptablePrecision);
+            Assert.Less(Math.Abs(pos.Z - _position.Z), AcceptablePrecision);
+            // test for FWHM = 0 but with finite length
+            pos = SourceToolbox.GetPositionInALineRandomGaussian(_position, _lengthX,  0.0, rng);
+            Assert.Less(Math.Abs(pos.X - _position.X), AcceptablePrecision);
+            Assert.Less(Math.Abs(pos.Y - _position.Y), AcceptablePrecision);
+            Assert.Less(Math.Abs(pos.Z - _position.Z), AcceptablePrecision);
         }
 
         /// <summary>
         /// Validating "GetPositionInAnEllipseRandomFlat"
         /// </summary>
         [Test]
-        public void validate_static_method_getpositioninanellipserandomflat()
+        public void Validate_static_method_getpositioninanellipserandomflat()
         {
-
             Random rng = new MathNet.Numerics.Random.MersenneTwister(0);
             var pos = SourceToolbox.GetPositionInAnEllipseRandomFlat(_position, _aParameter, _bParameter, rng);
 
             Assert.Less(Math.Abs(pos.X - _tp[65]), AcceptablePrecision);
             Assert.Less(Math.Abs(pos.Y - _tp[66]), AcceptablePrecision);
             Assert.Less(Math.Abs(pos.Z - _tp[67]), AcceptablePrecision);
+            // test for a,b = 0
+            pos = SourceToolbox.GetPositionInAnEllipseRandomFlat(_position, 0.0, 0.0, rng);
+            Assert.Less(Math.Abs(pos.X - _position.X), AcceptablePrecision);
+            Assert.Less(Math.Abs(pos.Y - _position.Y), AcceptablePrecision);
+            Assert.Less(Math.Abs(pos.Z - _position.Z), AcceptablePrecision);
         }
         
         /// <summary>
         /// Validating "GetPositionInAnEllipseRandomGaussian"
         /// </summary>
         [Test]
-        public void validate_static_method_getpositioninanellipserandomgaussian()
+        public void Validate_static_method_getpositioninanellipserandomgaussian()
         {
-
             Random rng = new MathNet.Numerics.Random.MersenneTwister(0);
             var pos = SourceToolbox.GetPositionInAnEllipseRandomGaussian(_position, _aParameter, _bParameter, _bdFWHM, rng);
 
             Assert.Less(Math.Abs(pos.X - _tp[68]), AcceptablePrecision);
             Assert.Less(Math.Abs(pos.Y - _tp[69]), AcceptablePrecision);
             Assert.Less(Math.Abs(pos.Z - _tp[70]), AcceptablePrecision);
+            // test for a,b = 0
+            pos = SourceToolbox.GetPositionInAnEllipseRandomGaussian(_position, 0.0, 0.0, _bdFWHM, rng);
+            Assert.Less(Math.Abs(pos.X - _position.X), AcceptablePrecision);
+            Assert.Less(Math.Abs(pos.Y - _position.Y), AcceptablePrecision);
+            Assert.Less(Math.Abs(pos.Z - _position.Z), AcceptablePrecision);
+            // test for FWHM = 0 but with finite a,b
+            pos = SourceToolbox.GetPositionInAnEllipseRandomGaussian(_position, _aParameter, _bParameter, 0.0, rng);
+            Assert.Less(Math.Abs(pos.X - _position.X), AcceptablePrecision);
+            Assert.Less(Math.Abs(pos.Y - _position.Y), AcceptablePrecision);
+            Assert.Less(Math.Abs(pos.Z - _position.Z), AcceptablePrecision);
         }
 
         /// <summary>
         /// Validating "GetPositionInAnEllipsoidRandomFlat"
         /// </summary>
         [Test]
-        public void validate_static_method_getpositioninanellipsoidrandomflat()
+        public void Validate_static_method_getpositioninanellipsoidrandomflat()
         {
-
             Random rng = new MathNet.Numerics.Random.MersenneTwister(0);
             var pos = SourceToolbox.GetPositionInAnEllipsoidRandomFlat(_position, _aParameter, _bParameter, _cParameter, rng);
 
             Assert.Less(Math.Abs(pos.X - _tp[71]), AcceptablePrecision);
             Assert.Less(Math.Abs(pos.Y - _tp[72]), AcceptablePrecision);
             Assert.Less(Math.Abs(pos.Z - _tp[73]), AcceptablePrecision);
+            // test for a,b,c = 0
+            pos = SourceToolbox.GetPositionInAnEllipsoidRandomFlat(_position, 0.0, 0.0, 0.0, rng);
+            Assert.Less(Math.Abs(pos.X - _position.X), AcceptablePrecision);
+            Assert.Less(Math.Abs(pos.Y - _position.Y), AcceptablePrecision);
+            Assert.Less(Math.Abs(pos.Z - _position.Z), AcceptablePrecision);
         }
 
 
@@ -341,30 +421,43 @@ namespace Vts.Test.MonteCarlo.Sources
         /// Validating "GetPositionInAnEllipsoidRandomGaussian"
         /// </summary>
         [Test]
-        public void validate_static_method_getpositioninanellipsoidrandomgaussian()
+        public void Validate_static_method_getpositioninanellipsoidrandomgaussian()
         {
-
             Random rng = new MathNet.Numerics.Random.MersenneTwister(0);
             var pos = SourceToolbox.GetPositionInAnEllipsoidRandomGaussian(_position, _aParameter, _bParameter, _cParameter, _bdFWHM, rng);
 
             Assert.Less(Math.Abs(pos.X - _tp[74]), AcceptablePrecision);
             Assert.Less(Math.Abs(pos.Y - _tp[75]), AcceptablePrecision);
             Assert.Less(Math.Abs(pos.Z - _tp[76]), AcceptablePrecision);
+            // test for a,b = 0
+            pos = SourceToolbox.GetPositionInAnEllipsoidRandomGaussian(_position, 0.0, 0.0, 0.0, _bdFWHM, rng);
+            Assert.Less(Math.Abs(pos.X - _position.X), AcceptablePrecision);
+            Assert.Less(Math.Abs(pos.Y - _position.Y), AcceptablePrecision);
+            Assert.Less(Math.Abs(pos.Z - _position.Z), AcceptablePrecision);
+            // test for FWHM = 0 but with finite a,b
+            pos = SourceToolbox.GetPositionInAnEllipsoidRandomGaussian(_position, _aParameter, _bParameter, _cParameter, 0.0, rng);
+            Assert.Less(Math.Abs(pos.X - _position.X), AcceptablePrecision);
+            Assert.Less(Math.Abs(pos.Y - _position.Y), AcceptablePrecision);
+            Assert.Less(Math.Abs(pos.Z - _position.Z), AcceptablePrecision);
         }
 
         /// <summary>
         /// Validating "GetPositionInARectangleRandomFlat"
         /// </summary>
         [Test]
-        public void validate_static_method_getpositioninarectanglerandomflat()
+        public void Validate_static_method_getpositioninarectanglerandomflat()
         {
-
             Random rng = new MathNet.Numerics.Random.MersenneTwister(0);
             var pos = SourceToolbox.GetPositionInARectangleRandomFlat(_position, _lengthX, _widthY, rng);
 
             Assert.Less(Math.Abs(pos.X - _tp[77]), AcceptablePrecision);
             Assert.Less(Math.Abs(pos.Y - _tp[78]), AcceptablePrecision);
             Assert.Less(Math.Abs(pos.Z - _tp[79]), AcceptablePrecision);
+            // test for length, width = 0
+            pos = SourceToolbox.GetPositionInARectangleRandomFlat(_position, 0.0, 0.0, rng);
+            Assert.Less(Math.Abs(pos.X - _position.X), AcceptablePrecision);
+            Assert.Less(Math.Abs(pos.Y - _position.Y), AcceptablePrecision);
+            Assert.Less(Math.Abs(pos.Z - _position.Z), AcceptablePrecision);
         }
 
         /// <summary>
@@ -380,15 +473,24 @@ namespace Vts.Test.MonteCarlo.Sources
             Assert.Less(Math.Abs(pos.X - _tp[80]), AcceptablePrecision);
             Assert.Less(Math.Abs(pos.Y - _tp[81]), AcceptablePrecision);
             Assert.Less(Math.Abs(pos.Z - _tp[82]), AcceptablePrecision);
+            // test for length, width = 0
+            pos = SourceToolbox.GetPositionInARectangleRandomGaussian(_position, 0.0, 0.0, _bdFWHM, rng);
+            Assert.Less(Math.Abs(pos.X - _position.X), AcceptablePrecision);
+            Assert.Less(Math.Abs(pos.Y - _position.Y), AcceptablePrecision);
+            Assert.Less(Math.Abs(pos.Z - _position.Z), AcceptablePrecision);
+            // test for FWHM = 0 but with finite length, width
+            pos = SourceToolbox.GetPositionInARectangleRandomGaussian(_position, _lengthX, _widthY, 0.0, rng);
+            Assert.Less(Math.Abs(pos.X - 1.00000536), AcceptablePrecision);
+            Assert.Less(Math.Abs(pos.Y - 2.00000536), AcceptablePrecision);
+            Assert.Less(Math.Abs(pos.Z - _position.Z), AcceptablePrecision);
         }
 
         /// <summary>
         /// Validating "GetPositionOfASymmetricalLineRandomFlat"
         /// </summary>
         [Test]
-        public void validate_static_method_getpositionofasymmetricallinerandomflat()
+        public void Validate_static_method_getpositionofasymmetricallinerandomflat()
         {
-            
             Random rng = new MathNet.Numerics.Random.MersenneTwister(0);
             var loc = SourceToolbox.GetPositionOfASymmetricalLineRandomFlat(_lengthX, rng);
 
@@ -399,7 +501,7 @@ namespace Vts.Test.MonteCarlo.Sources
         /// Validating "GetSingleNormallyDistributedRandomNumber"
         /// </summary>
         [Test]
-        public void validate_static_method_getsinglenormallydistributedrandomnumber()
+        public void Validate_static_method_getsinglenormallydistributedrandomnumber()
         {
 
             Random rng = new MathNet.Numerics.Random.MersenneTwister(0);
@@ -413,7 +515,7 @@ namespace Vts.Test.MonteCarlo.Sources
         /// </summary>
   
         [Test]
-        public void validate_static_method_updatedirectionafterrotatingaroundthreeaxis()
+        public void Validate_static_method_updatedirectionafterrotatingaroundthreeaxis()
         {
             var dir = _direction.Clone();
             SourceToolbox.UpdateDirectionAfterRotatingAroundThreeAxis(_angRot, dir);
@@ -428,7 +530,7 @@ namespace Vts.Test.MonteCarlo.Sources
         /// </summary>
    
         [Test]
-        public void validate_static_method_updatedirectionafterrotatingaroundxaxis()
+        public void Validate_static_method_updatedirectionafterrotatingaroundxaxis()
         {
             var dir = _direction.Clone();
             SourceToolbox.UpdateDirectionAfterRotatingAroundXAxis(_angRot.XRotation, dir);
@@ -443,7 +545,7 @@ namespace Vts.Test.MonteCarlo.Sources
         /// </summary>
    
         [Test]
-        public void validate_static_method_updatedirectionafterrotatingaroundyaxis()
+        public void Validate_static_method_updatedirectionafterrotatingaroundyaxis()
         {
             var dir = _direction.Clone();
             SourceToolbox.UpdateDirectionAfterRotatingAroundYAxis(_angRot.YRotation, dir);
@@ -457,7 +559,7 @@ namespace Vts.Test.MonteCarlo.Sources
         /// Validating "UpdateDirectionAfterRotatingAroundZAxis"     
         /// </summary>
         [Test]
-        public void validate_static_method_updatedirectionafterrotatingaroundzaxis()
+        public void Validate_static_method_updatedirectionafterrotatingaroundzaxis()
         {
             var dir = _direction.Clone();
             SourceToolbox.UpdateDirectionAfterRotatingAroundZAxis(_angRot.ZRotation, dir);
@@ -472,7 +574,7 @@ namespace Vts.Test.MonteCarlo.Sources
         /// </summary>
   
         [Test]
-        public void validate_static_method_updatedirectionafterrotatingbygivenanglepair()
+        public void Validate_static_method_updatedirectionafterrotatingbygivenanglepair()
         {
             var dir = _direction.Clone();
             SourceToolbox.UpdateDirectionAfterRotatingByGivenAnglePair(_angPair, dir);
@@ -486,7 +588,7 @@ namespace Vts.Test.MonteCarlo.Sources
         /// //Validating "UpdateDirectionPositionAfterGivenFlags"  
         /// </summary>   
         [Test]
-        public void validate_static_method_updatedirectionpositionaftergivenflags1()
+        public void Validate_static_method_updatedirectionpositionaftergivenflags1()
         {
             var dir = _direction.Clone();
             var pos = _position.Clone();
@@ -505,7 +607,7 @@ namespace Vts.Test.MonteCarlo.Sources
         /// Validating "UpdateDirectionPositionAfterGivenFlags"   
         /// </summary>  
         [Test]
-        public void validate_static_method_updatedirectionpositionaftergivenflags2()
+        public void Validate_static_method_updatedirectionpositionaftergivenflags2()
         {
             var dir = _direction.Clone();
             var pos = _position.Clone();
@@ -524,7 +626,7 @@ namespace Vts.Test.MonteCarlo.Sources
         /// Validating "UpdateDirectionPositionAfterGivenFlags"   
         /// </summary>
         [Test]
-        public void validate_static_method_updatedirectionpositionafterrotatingaroundxaxis()
+        public void Validate_static_method_updatedirectionpositionafterrotatingaroundxaxis()
         {
             var dir = _direction.Clone();
             var pos = _position.Clone();
@@ -543,7 +645,7 @@ namespace Vts.Test.MonteCarlo.Sources
         /// Validating "UpdateDirectionPositionAfterRotatingAroundYAxis"  
         /// </summary>   
         [Test]
-        public void validate_static_method_updatedirectionpositionafterrotatingaroundyaxis()
+        public void Validate_static_method_updatedirectionpositionafterrotatingaroundyaxis()
         {
             var dir = _direction.Clone();
             var pos = _position.Clone();
@@ -562,7 +664,7 @@ namespace Vts.Test.MonteCarlo.Sources
         /// Validating "UpdateDirectionPositionAfterRotatingAroundZAxis"     
         /// </summary>
         [Test]
-        public void validate_static_method_updatedirectionpositionafterrotatingaroundzaxis()
+        public void Validate_static_method_updatedirectionpositionafterrotatingaroundzaxis()
         {
             var dir = _direction.Clone();
             var pos = _position.Clone();
@@ -581,7 +683,7 @@ namespace Vts.Test.MonteCarlo.Sources
         /// //Validating "UpdateDirectionPositionAfterRotatingByGivenAnglePair"
         /// </summary>     
         [Test]
-        public void validate_static_method_updatedirectionpositionafterrotatingbygivenanglepair()
+        public void Validate_static_method_updatedirectionpositionafterrotatingbygivenanglepair()
         {
             var dir = _direction.Clone();
             var pos = _position.Clone();
@@ -600,7 +702,7 @@ namespace Vts.Test.MonteCarlo.Sources
         /// Validating "UpdatePolarAngleForDirectionalSources"     
         /// </summary>
         [Test]
-        public void validate_static_method_updatepolarangleFordirectionalsources()
+        public void Validate_static_method_updatepolarangleFordirectionalsources()
         {
 
             var polAngle = SourceToolbox.UpdatePolarAngleForDirectionalSources(
@@ -615,7 +717,7 @@ namespace Vts.Test.MonteCarlo.Sources
         /// Validating "UpdatePositionAfterTranslation"     
         /// </summary>
         [Test]
-        public void validate_static_method_updatepositionaftertranslation()
+        public void Validate_static_method_updatepositionaftertranslation()
         {
 
             var pos = _position.Clone();
@@ -630,7 +732,7 @@ namespace Vts.Test.MonteCarlo.Sources
         /// Validating "GetPositionInACircularPerimeter"
         /// </summary>
         [Test]
-        public void validate_static_method_getpositionatcircleperimeter()
+        public void Validate_static_method_getpositionatcircleperimeter()
         {
 
             Random rng = new MathNet.Numerics.Random.MersenneTwister(0);

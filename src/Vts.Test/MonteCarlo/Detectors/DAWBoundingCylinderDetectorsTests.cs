@@ -122,7 +122,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                     new AOfRhoAndZDetectorInput() {Rho=new DoubleRange(0.0, cylinderRadius, 11),
                         Z=new DoubleRange(0, tissueThickness, 11)},
                     new ATotalDetectorInput(),
-                    new ATotalBoundingVolumeDetectorInput()
+                    new ATotalBoundingVolumeDetectorInput() { TallySecondMoment = true }
                 };
 
             _inputBoundedTissue = new SimulationInput(
@@ -170,6 +170,7 @@ namespace Vts.Test.MonteCarlo.Detectors
         public void validate_DAW_boundingcylinder_ATotalBoundingCylinder()
         {
             Assert.Less(Math.Abs(_outputBoundedTissue.AtotBV - 0.427099), 0.000001);
+            Assert.Less(Math.Abs(_outputBoundedTissue.AtotBV2 - 0.405981), 0.000001);
         }
         // Absorption(x,y,z)
         [Test]

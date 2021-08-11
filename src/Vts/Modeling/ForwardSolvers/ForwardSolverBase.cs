@@ -1398,7 +1398,7 @@ namespace Vts.Modeling.ForwardSolvers
         public Complex[] FluenceOfRhoAndZAndFt(IOpticalPropertyRegion[][] regions, double[] rhos, double[] zs, double[] fts)
         {
             var output = new Complex[regions.Length * rhos.Length * zs.Length * fts.Length];
-            var query = FluenceOfRhoAndZAndFt((IEnumerable<ILayerOpticalPropertyRegion[]>)regions, (IEnumerable<double>)rhos, (IEnumerable<double>)zs, (IEnumerable<double>)fts);
+            var query = FluenceOfRhoAndZAndFt((IEnumerable<IOpticalPropertyRegion[]>)regions, (IEnumerable<double>)rhos, (IEnumerable<double>)zs, (IEnumerable<double>)fts);
             Vts.Extensions.IEnumerableArrayExtensions.PopulateFromEnumerable(output, query);
             return output;
         }

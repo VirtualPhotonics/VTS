@@ -18,7 +18,7 @@ namespace Vts.Test.MonteCarlo.Detectors
     public class DetectorNATests
     {
         private SimulationInput _inputForPMC;
-        private SimulationOutput _outputNA0, _outputNA0p3, _outputNoNASpecified;
+        private SimulationOutput _outputNA0, _outputNA0p3, _outputNoNANoFinalTissueRegionSpecified, _outputNa0p3FinalTissueRegion1;
         private double _dosimetryDepth = 1.0;
         private pMCDatabase _pMCDatabase;
 
@@ -74,7 +74,8 @@ namespace Vts.Test.MonteCarlo.Detectors
                     new ROfXAndYAndTimeDetectorInput() { X = new DoubleRange(-10.0, 10.0, 11), Y = new DoubleRange(-10.0, 10.0, 11),Time=new DoubleRange(0, 1, 11), FinalTissueRegionIndex= 0, NA = 0.0 },
                     new ROfXAndYAndMaxDepthDetectorInput() { X = new DoubleRange(-10.0, 10.0, 11), Y = new DoubleRange(-10.0, 10.0, 11),MaxDepth=new DoubleRange(0,10.0,11),FinalTissueRegionIndex= 0, NA = 0.0 },
                     new ROfFxDetectorInput() {Fx = new DoubleRange(0.0, 0.5, 51), FinalTissueRegionIndex = 0, NA = 0.0 },
-                    new ROfFxAndTimeDetectorInput() {Fx = new DoubleRange(0.0, 0.5, 51), Time = new DoubleRange(0.0, 1.0, 11), FinalTissueRegionIndex = 0,NA=0.0},        
+                    new ROfFxAndTimeDetectorInput() {Fx = new DoubleRange(0.0, 0.5, 51), Time = new DoubleRange(0.0, 1.0, 11), FinalTissueRegionIndex = 0,NA=0.0},
+                    new ROfFxAndAngleDetectorInput() {Fx = new DoubleRange(0.0, 0.5, 51), Angle = new DoubleRange(Math.PI / 2, Math.PI, 2), FinalTissueRegionIndex = 0,NA=0.0},
                     new RSpecularDetectorInput() {FinalTissueRegionIndex=0,NA=0.0},
                     new TDiffuseDetectorInput() {FinalTissueRegionIndex=2, NA=0.0},         
                     new TOfAngleDetectorInput() {Angle=new DoubleRange(0.0, Math.PI / 2, 2),FinalTissueRegionIndex= 2, NA = 0.0},
@@ -82,7 +83,14 @@ namespace Vts.Test.MonteCarlo.Detectors
                     new TOfRhoDetectorInput() {Rho=new DoubleRange(0.0, 10.0, 11),FinalTissueRegionIndex= 2, NA = 0.0},
                     new TOfXAndYDetectorInput() { X = new DoubleRange(-10.0, 10.0, 11), Y = new DoubleRange(-10.0, 10.0, 11), FinalTissueRegionIndex = 2, NA=0.0},
                     new RadianceOfRhoAtZDetectorInput() {ZDepth=_dosimetryDepth, Rho= new DoubleRange(0.0, 10.0, 11),FinalTissueRegionIndex=1, NA=0.0},
-
+                    new ROfXAndYAndThetaAndPhiDetectorInput()
+                    {
+                        X = new DoubleRange(-10.0, 10.0, 11),
+                        Y = new DoubleRange(-10.0, 10.0, 11),
+                        Theta=new DoubleRange(Math.PI / 2, Math.PI, 2),
+                        Phi = new DoubleRange(0, 2* Math.PI, 2),
+                        FinalTissueRegionIndex= 0, NA=0.0
+                    },
                     new ReflectedMTOfRhoAndSubregionHistDetectorInput() 
                     {
                             Rho=new DoubleRange(0.0, 10.0, 11), 
@@ -118,18 +126,14 @@ namespace Vts.Test.MonteCarlo.Detectors
                             NA = 0.0
                     },
                 };
-            var input = new SimulationInput(
+            var inputNA0 = new SimulationInput(
                 100,
                 "",
-                simulationOptions,
+                new SimulationOptions() { Seed = 0 }, // no database gen 
                 source,
                 tissue,
                 detectorsNA0);             
-            _outputNA0 = new MonteCarloSimulation(input).Run();
-
-            _inputForPMC = input;  // set pMC input to one that specified database generation
-            _pMCDatabase = pMCDatabase.FromFile("DiffuseReflectanceDatabase", "CollisionInfoDatabase"); // grab database 
-
+            _outputNA0 = new MonteCarloSimulation(inputNA0).Run();
 
             var detectorsNA0p3 = new List<IDetectorInput>
                 {
@@ -143,7 +147,8 @@ namespace Vts.Test.MonteCarlo.Detectors
                     new ROfXAndYAndTimeDetectorInput() { X = new DoubleRange(-10.0, 10.0, 11), Y = new DoubleRange(-10.0, 10.0, 11),Time=new DoubleRange(0, 1, 11), FinalTissueRegionIndex= 0, NA = 0.3 },
                     new ROfXAndYAndMaxDepthDetectorInput() { X = new DoubleRange(-10.0, 10.0, 11), Y = new DoubleRange(-10.0, 10.0, 11),MaxDepth=new DoubleRange(0,10.0,11),FinalTissueRegionIndex= 0, NA = 0.3 },
                     new ROfFxDetectorInput() {Fx = new DoubleRange(0.0, 0.5, 51), FinalTissueRegionIndex = 0, NA=0.3 },
-                    new ROfFxAndTimeDetectorInput() {Fx = new DoubleRange(0.0, 0.5, 5), Time = new DoubleRange(0.0, 1.0, 11), FinalTissueRegionIndex = 0,NA=0.3},        
+                    new ROfFxAndTimeDetectorInput() {Fx = new DoubleRange(0.0, 0.5, 5), Time = new DoubleRange(0.0, 1.0, 11), FinalTissueRegionIndex = 0,NA=0.3},
+                    new ROfFxAndAngleDetectorInput() {Fx = new DoubleRange(0.0, 0.5, 5), Angle = new DoubleRange(Math.PI / 2, Math.PI, 2), FinalTissueRegionIndex = 0,NA=0.3},
                     new RSpecularDetectorInput() {FinalTissueRegionIndex=0,NA=0.3},
                     new TDiffuseDetectorInput() {FinalTissueRegionIndex=2, NA=0.3},         
                     new TOfAngleDetectorInput() {Angle=new DoubleRange(0.0, Math.PI / 2, 2),FinalTissueRegionIndex= 2, NA=0.3},
@@ -152,7 +157,15 @@ namespace Vts.Test.MonteCarlo.Detectors
                     new TOfXAndYDetectorInput() { X = new DoubleRange(-10.0, 10.0, 11), Y = new DoubleRange(-10.0, 10.0, 11), FinalTissueRegionIndex = 2, NA=0.3},
                   
                     new RadianceOfRhoAtZDetectorInput() {ZDepth=_dosimetryDepth, Rho= new DoubleRange(0.0, 10.0, 11),FinalTissueRegionIndex=1,NA=0.3},
-
+                    new ROfXAndYAndThetaAndPhiDetectorInput()
+                    {
+                        X = new DoubleRange(-10.0, 10.0, 11),
+                        Y = new DoubleRange(-10.0, 10.0, 11),
+                        Theta=new DoubleRange(Math.PI / 2, Math.PI, 2),
+                        Phi = new DoubleRange(0, 2* Math.PI, 2),
+                        FinalTissueRegionIndex= 0,
+                        NA=0.3
+                    },
                     new ReflectedMTOfRhoAndSubregionHistDetectorInput() 
                     {
                             Rho=new DoubleRange(0.0, 10.0, 11), 
@@ -188,16 +201,16 @@ namespace Vts.Test.MonteCarlo.Detectors
                             NA=0.3
                     },
                 };
-            input = new SimulationInput(
+            var inputNA0p3 = new SimulationInput(
                 100,
                 "",
-                simulationOptions,
+                new SimulationOptions() { Seed = 0 }, // don't turn on database gen
                 source,
                 tissue,
                 detectorsNA0p3);
-            _outputNA0p3 = new MonteCarloSimulation(input).Run();
+            _outputNA0p3 = new MonteCarloSimulation(inputNA0p3).Run();
 
-            var detectorsNoNASpecified = new List<IDetectorInput>
+            var detectorsNoNANoFinalTissueRegionSpecified = new List<IDetectorInput>
                 {
                     new RDiffuseDetectorInput() {},         
                     new ROfAngleDetectorInput() {Angle = new DoubleRange(Math.PI / 2 , Math.PI, 2)},
@@ -206,17 +219,26 @@ namespace Vts.Test.MonteCarlo.Detectors
                     new ROfRhoAndTimeDetectorInput() {Rho = new DoubleRange(0.0, 10.0, 11), Time = new DoubleRange(0.0, 1.0, 11)},
                     new ROfRhoAndOmegaDetectorInput() { Rho = new DoubleRange(0.0, 10.0, 11), Omega = new DoubleRange(0.05, 1.0, 20)},
                     new ROfXAndYDetectorInput() { X = new DoubleRange(-10.0, 10.0, 11), Y = new DoubleRange(-10.0, 10.0, 11) },
-                    new ROfXAndYAndTimeDetectorInput() { X = new DoubleRange(-10.0, 10.0, 11), Y = new DoubleRange(-10.0, 10.0, 11),Time=new DoubleRange(0, 1, 11), FinalTissueRegionIndex= 0, NA = 0.3 },
-                    new ROfXAndYAndMaxDepthDetectorInput() { X = new DoubleRange(-10.0, 10.0, 11), Y = new DoubleRange(-10.0, 10.0, 11),MaxDepth=new DoubleRange(0,10.0,11),FinalTissueRegionIndex= 0, NA = 0.3 },
+                    new ROfXAndYAndTimeDetectorInput() { X = new DoubleRange(-10.0, 10.0, 11), Y = new DoubleRange(-10.0, 10.0, 11),Time=new DoubleRange(0, 1, 11), FinalTissueRegionIndex= 0 },
+                    new ROfXAndYAndMaxDepthDetectorInput() { X = new DoubleRange(-10.0, 10.0, 11), Y = new DoubleRange(-10.0, 10.0, 11),MaxDepth=new DoubleRange(0,10.0,11),FinalTissueRegionIndex= 0 },
                     new ROfFxDetectorInput() {Fx = new DoubleRange(0.0, 0.5, 51) },
-                    new ROfFxAndTimeDetectorInput() {Fx = new DoubleRange(0.0, 0.5, 5), Time = new DoubleRange(0.0, 1.0, 11)},        
+                    new ROfFxAndTimeDetectorInput() {Fx = new DoubleRange(0.0, 0.5, 5), Time = new DoubleRange(0.0, 1.0, 11)},
+                    new ROfFxAndAngleDetectorInput() {Fx = new DoubleRange(0.0, 0.5, 5), Angle = new DoubleRange(Math.PI / 2, Math.PI, 2), FinalTissueRegionIndex = 0},
                     new RSpecularDetectorInput() {},
                     new TDiffuseDetectorInput() {},         
                     new TOfAngleDetectorInput() {Angle=new DoubleRange(0.0, Math.PI / 2, 2)},
                     new TOfRhoAndAngleDetectorInput(){Rho=new DoubleRange(0.0, 10.0, 11), Angle=new DoubleRange(0.0, Math.PI / 2, 2)},
                     new TOfRhoDetectorInput() {Rho=new DoubleRange(0.0, 10.0, 11)},
                     new TOfXAndYDetectorInput() { X = new DoubleRange(-10.0, 10.0, 11), Y = new DoubleRange(-10.0, 10.0, 11)},
-                  
+                    new ROfXAndYAndThetaAndPhiDetectorInput()
+                    {
+                        X = new DoubleRange(-10.0, 10.0, 11), 
+                        Y = new DoubleRange(-10.0, 10.0, 11),
+                        Theta=new DoubleRange(Math.PI / 2, Math.PI, 2),
+                        Phi = new DoubleRange(0, 2* Math.PI, 2),
+                        FinalTissueRegionIndex= 0
+                    },
+
                     new RadianceOfRhoAtZDetectorInput() {ZDepth=_dosimetryDepth, Rho= new DoubleRange(0.0, 10.0, 11)},
 
                     new ReflectedMTOfRhoAndSubregionHistDetectorInput() 
@@ -246,14 +268,88 @@ namespace Vts.Test.MonteCarlo.Detectors
                             FractionalMTBins = new DoubleRange(0.0, 1.0, 11),
                     },
                 };
-            input = new SimulationInput(
+            var inputNoNANoFinalTissueRegionSpecified = new SimulationInput(
                 100,
                 "",
-                simulationOptions,
+                simulationOptions, // turn on database gen when NA fully open
                 source,
                 tissue,
-                detectorsNoNASpecified);
-            _outputNoNASpecified = new MonteCarloSimulation(input).Run();
+                detectorsNoNANoFinalTissueRegionSpecified);
+            _outputNoNANoFinalTissueRegionSpecified = new MonteCarloSimulation(inputNoNANoFinalTissueRegionSpecified).Run();
+
+            _inputForPMC = inputNoNANoFinalTissueRegionSpecified;  // set pMC input to one that specified database generation
+            _pMCDatabase = pMCDatabase.FromFile("DiffuseReflectanceDatabase", "CollisionInfoDatabase"); // grab database 
+
+            var detectorsNa0p3FinalTissueRegion1 = new List<IDetectorInput>
+                {
+                    new RDiffuseDetectorInput() { NA=0.3,FinalTissueRegionIndex = 1},
+                    new ROfAngleDetectorInput() {Angle = new DoubleRange(Math.PI / 2 , Math.PI, 2),NA=0.3, FinalTissueRegionIndex = 1},
+                    new ROfRhoDetectorInput() {Rho = new DoubleRange(0.0, 10.0, 11),NA=0.3, FinalTissueRegionIndex = 1},
+                    new ROfRhoAndAngleDetectorInput() {Rho = new DoubleRange(0.0, 10.0, 11), Angle = new DoubleRange(Math.PI / 2, Math.PI, 2),NA=0.3, FinalTissueRegionIndex = 1},
+                    new ROfRhoAndTimeDetectorInput() {Rho = new DoubleRange(0.0, 10.0, 11), Time = new DoubleRange(0.0, 1.0, 11),NA=0.3, FinalTissueRegionIndex = 1},
+                    new ROfRhoAndOmegaDetectorInput() { Rho = new DoubleRange(0.0, 10.0, 11), Omega = new DoubleRange(0.05, 1.0, 20),NA=0.3, FinalTissueRegionIndex = 1},
+                    new ROfXAndYDetectorInput() { X = new DoubleRange(-10.0, 10.0, 11), Y = new DoubleRange(-10.0, 10.0, 11),NA=0.3, FinalTissueRegionIndex = 1 },
+                    new ROfXAndYAndTimeDetectorInput() { X = new DoubleRange(-10.0, 10.0, 11), Y = new DoubleRange(-10.0, 10.0, 11),Time=new DoubleRange(0, 1, 11),NA=0.3, FinalTissueRegionIndex= 1 },
+                    new ROfXAndYAndMaxDepthDetectorInput() { X = new DoubleRange(-10.0, 10.0, 11), Y = new DoubleRange(-10.0, 10.0, 11),MaxDepth=new DoubleRange(0,10.0,11),NA=0.3,FinalTissueRegionIndex= 1 },
+                    new ROfFxDetectorInput() {Fx = new DoubleRange(0.0, 0.5, 51),NA=0.3, FinalTissueRegionIndex = 1},
+                    new ROfFxAndTimeDetectorInput() {Fx = new DoubleRange(0.0, 0.5, 5), Time = new DoubleRange(0.0, 1.0, 11),NA=0.3, FinalTissueRegionIndex=1},
+                    new ROfFxAndAngleDetectorInput() {Fx = new DoubleRange(0.0, 0.5, 5), Angle = new DoubleRange(Math.PI / 2, Math.PI, 2),NA=0.3, FinalTissueRegionIndex = 1}, new TDiffuseDetectorInput() {NA=0.3, FinalTissueRegionIndex=1},
+                    new TDiffuseDetectorInput() { NA=0.3, FinalTissueRegionIndex=1},
+                    new TOfAngleDetectorInput() {Angle=new DoubleRange(0.0, Math.PI / 2, 2),NA=0.3,FinalTissueRegionIndex=1},
+                    new TOfRhoAndAngleDetectorInput(){Rho=new DoubleRange(0.0, 10.0, 11), Angle=new DoubleRange(0.0, Math.PI / 2, 2),NA=0.3,FinalTissueRegionIndex=1},
+                    new TOfRhoDetectorInput() {Rho=new DoubleRange(0.0, 10.0, 11),NA=0.3,FinalTissueRegionIndex=1},
+                    new TOfXAndYDetectorInput() { X = new DoubleRange(-10.0, 10.0, 11), Y = new DoubleRange(-10.0, 10.0, 11),NA=0.3,FinalTissueRegionIndex=1},
+                    new ROfXAndYAndThetaAndPhiDetectorInput()
+                    {
+                        X = new DoubleRange(-10.0, 10.0, 11),
+                        Y = new DoubleRange(-10.0, 10.0, 11),
+                        Theta=new DoubleRange(Math.PI / 2, Math.PI, 2),
+                        Phi = new DoubleRange(0, 2* Math.PI, 2),
+                        NA=0.3,FinalTissueRegionIndex= 1
+                    },
+
+                    new RadianceOfRhoAtZDetectorInput() {ZDepth=_dosimetryDepth, Rho= new DoubleRange(0.0, 10.0, 11),NA=0.3,FinalTissueRegionIndex=1},
+
+                    new ReflectedMTOfRhoAndSubregionHistDetectorInput()
+                    {
+                            Rho=new DoubleRange(0.0, 10.0, 11),
+                            MTBins=new DoubleRange(0.0, 500.0, 5),
+                            FractionalMTBins = new DoubleRange(0.0, 1.0, 11),
+                            NA=0.3,FinalTissueRegionIndex=1
+                    },
+                    new ReflectedMTOfXAndYAndSubregionHistDetectorInput()
+                    {
+                            X=new DoubleRange(-10.0, 10.0, 11),
+                            Y=new DoubleRange(-10.0, 10.0, 11),
+                            MTBins=new DoubleRange(0.0, 500.0, 5),
+                            FractionalMTBins = new DoubleRange(0.0, 1.0, 11),
+                            NA=0.3,FinalTissueRegionIndex=1
+                    },
+                    new TransmittedMTOfRhoAndSubregionHistDetectorInput()
+                    {
+                            Rho=new DoubleRange(0.0, 10.0, 11),
+                            MTBins=new DoubleRange(0.0, 500.0, 5),
+                            FractionalMTBins = new DoubleRange(0.0, 1.0, 11),
+                            NA=0.3,FinalTissueRegionIndex=1
+                    },
+                    new TransmittedMTOfXAndYAndSubregionHistDetectorInput()
+                    {
+                            X=new DoubleRange(-10.0, 10.0, 11),
+                            Y=new DoubleRange(-10.0, 10.0, 11),
+                            MTBins=new DoubleRange(0.0, 500.0, 5),
+                            FractionalMTBins = new DoubleRange(0.0, 1.0, 11),
+                            NA=0.3,FinalTissueRegionIndex=1
+                    },
+                };
+            var inputNa0p3FinalTissueRegion1 = new SimulationInput(
+            100,
+            "",
+            new SimulationOptions() { Seed = 0 }, // don't turn on database gen
+            source,
+            tissue,
+            detectorsNa0p3FinalTissueRegion1);
+            _outputNa0p3FinalTissueRegion1 = new MonteCarloSimulation(inputNa0p3FinalTissueRegion1).Run();
+
         }
 
         /// <summary>
@@ -276,6 +372,9 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.AreEqual(_outputNA0.R_fx[0].Imaginary, 0.0);
             Assert.AreEqual(_outputNA0.R_fxt[0, 0].Real, 0.0);
             Assert.AreEqual(_outputNA0.R_fxt[0, 0].Imaginary, 0.0);
+            Assert.AreEqual(_outputNA0.R_fxa[0, 0].Real, 0.0);
+            Assert.AreEqual(_outputNA0.R_fxa[0, 0].Imaginary, 0.0);
+            Assert.AreEqual(_outputNA0.R_xytp[0, 0, 0, 0], 0.0);
             Assert.AreEqual(_outputNA0.Rspec, 0.01); // specular reflection of collimated beam is [0,0,-1] so passes NA
             Assert.AreEqual(_outputNA0.Td, 0.0);
             Assert.AreEqual(_outputNA0.T_r[0], 0.0);
@@ -308,6 +407,9 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.Less(Math.Abs(_outputNA0p3.R_fx[1].Imaginary - 0.000765), 0.000001);
             Assert.Less(Math.Abs(_outputNA0p3.R_fxt[1, 0].Real - 0.252024), 0.000001);
             Assert.Less(Math.Abs(_outputNA0p3.R_fxt[1, 0].Imaginary - 0.089027), 0.000001);
+            Assert.Less(Math.Abs(_outputNA0p3.R_fxa[1, 0].Real - 0.002755), 0.000001);
+            Assert.Less(Math.Abs(_outputNA0p3.R_fxa[1, 0].Imaginary - 0.001786), 0.000001);
+            Assert.Less(Math.Abs(_outputNA0p3.R_xytp[3, 6, 0, 0] - 0.000193), 0.000001);
             Assert.AreEqual(_outputNA0p3.Rspec, 0.01);
             Assert.Less(Math.Abs(_outputNA0p3.Td - 0.023415), 0.000001);
             Assert.Less(Math.Abs(_outputNA0p3.T_r[1] - 0.001520), 0.000001);
@@ -329,33 +431,74 @@ namespace Vts.Test.MonteCarlo.Detectors
         [Test]
         public void validate_detector_tallies_are_not_zero_when_NA_is_not_specified()
         {
-            Assert.AreNotEqual(_outputNoNASpecified.Rd, 0.0);
-            Assert.AreNotEqual(_outputNoNASpecified.R_r[1], 0.0);
-            Assert.AreNotEqual(_outputNoNASpecified.R_a[0], 0.0);
-            Assert.AreNotEqual(_outputNoNASpecified.R_ra[1, 0], 0.0);
-            Assert.AreNotEqual(_outputNoNASpecified.R_rt[1, 0], 0.0);
-            Assert.AreNotEqual(_outputNoNASpecified.R_rw[1, 0].Real, 0.0);
-            Assert.AreNotEqual(_outputNoNASpecified.R_rw[1, 0].Imaginary, 0.0);
-            Assert.AreNotEqual(_outputNoNASpecified.R_xy[0, 1], 0.0);
-            Assert.AreNotEqual(_outputNoNASpecified.R_xyt[3, 6, 3], 0.0);
-            Assert.AreNotEqual(_outputNoNASpecified.R_xymd[3, 6, 5], 0.0);
-            Assert.AreNotEqual(_outputNoNASpecified.R_fx[1].Real, 0.0);
-            Assert.AreNotEqual(_outputNoNASpecified.R_fx[1].Imaginary, 0.0);
-            Assert.AreNotEqual(_outputNoNASpecified.R_fxt[1, 0].Real, 0.0);
-            Assert.AreNotEqual(_outputNoNASpecified.R_fxt[1, 0].Imaginary, 0.0);
-            Assert.AreNotEqual(_outputNoNASpecified.Rspec, 0.0);
-            Assert.AreNotEqual(_outputNoNASpecified.Td, 0.0);
-            Assert.AreNotEqual(_outputNoNASpecified.T_r[1], 0.0);
-            Assert.AreNotEqual(_outputNoNASpecified.T_a[0], 0.0);
-            Assert.AreNotEqual(_outputNoNASpecified.T_ra[1, 0], 0.0);
-            Assert.AreNotEqual(_outputNoNASpecified.T_xy[0, 2], 0.0);
-            Assert.AreNotEqual(_outputNoNASpecified.Rad_r[0], 0.0);
-            Assert.AreNotEqual(_outputNoNASpecified.RefMT_rmt[1, 0], 0.0);
-            Assert.AreNotEqual(_outputNoNASpecified.RefMT_xymt[0, 1, 0], 0.0);
-            Assert.AreNotEqual(_outputNoNASpecified.TransMT_rmt[1, 0], 0.0);
-            Assert.AreNotEqual(_outputNoNASpecified.TransMT_xymt[0, 2, 0], 0.0);
+            Assert.AreNotEqual(_outputNoNANoFinalTissueRegionSpecified.Rd, 0.0);
+            Assert.AreNotEqual(_outputNoNANoFinalTissueRegionSpecified.R_r[1], 0.0);
+            Assert.AreNotEqual(_outputNoNANoFinalTissueRegionSpecified.R_a[0], 0.0);
+            Assert.AreNotEqual(_outputNoNANoFinalTissueRegionSpecified.R_ra[1, 0], 0.0);
+            Assert.AreNotEqual(_outputNoNANoFinalTissueRegionSpecified.R_rt[1, 0], 0.0);
+            Assert.AreNotEqual(_outputNoNANoFinalTissueRegionSpecified.R_rw[1, 0].Real, 0.0);
+            Assert.AreNotEqual(_outputNoNANoFinalTissueRegionSpecified.R_rw[1, 0].Imaginary, 0.0);
+            Assert.AreNotEqual(_outputNoNANoFinalTissueRegionSpecified.R_xy[0, 1], 0.0);
+            Assert.AreNotEqual(_outputNoNANoFinalTissueRegionSpecified.R_xyt[0, 1, 3], 0.0);
+            Assert.AreNotEqual(_outputNoNANoFinalTissueRegionSpecified.R_xymd[0, 1, 7], 0.0);
+            Assert.AreNotEqual(_outputNoNANoFinalTissueRegionSpecified.R_fx[1].Real, 0.0);
+            Assert.AreNotEqual(_outputNoNANoFinalTissueRegionSpecified.R_fx[1].Imaginary, 0.0);
+            Assert.AreNotEqual(_outputNoNANoFinalTissueRegionSpecified.R_fxt[1, 0].Real, 0.0);
+            Assert.AreNotEqual(_outputNoNANoFinalTissueRegionSpecified.R_fxt[1, 0].Imaginary, 0.0);
+            Assert.AreNotEqual(_outputNoNANoFinalTissueRegionSpecified.R_fxa[1, 0].Real, 0.0);
+            Assert.AreNotEqual(_outputNoNANoFinalTissueRegionSpecified.R_fxa[1, 0].Imaginary, 0.0);
+            Assert.AreNotEqual(_outputNoNANoFinalTissueRegionSpecified.R_xytp[0, 1, 0, 0], 0.0);
+            Assert.AreNotEqual(_outputNoNANoFinalTissueRegionSpecified.Rspec, 0.0);
+            Assert.AreNotEqual(_outputNoNANoFinalTissueRegionSpecified.Td, 0.0);
+            Assert.AreNotEqual(_outputNoNANoFinalTissueRegionSpecified.T_r[1], 0.0);
+            Assert.AreNotEqual(_outputNoNANoFinalTissueRegionSpecified.T_a[0], 0.0);
+            Assert.AreNotEqual(_outputNoNANoFinalTissueRegionSpecified.T_ra[1, 0], 0.0);
+            Assert.AreNotEqual(_outputNoNANoFinalTissueRegionSpecified.T_xy[0, 2], 0.0);
+            Assert.AreNotEqual(_outputNoNANoFinalTissueRegionSpecified.Rad_r[0], 0.0);
+            Assert.AreNotEqual(_outputNoNANoFinalTissueRegionSpecified.RefMT_rmt[1, 0], 0.0);
+            Assert.AreNotEqual(_outputNoNANoFinalTissueRegionSpecified.RefMT_xymt[0, 1, 0], 0.0);
+            Assert.AreNotEqual(_outputNoNANoFinalTissueRegionSpecified.TransMT_rmt[1, 0], 0.0);
+            Assert.AreNotEqual(_outputNoNANoFinalTissueRegionSpecified.TransMT_xymt[0, 2, 0], 0.0);
         }
 
+
+
+        /// <summary>
+        /// comparison test for NA=0.3 that specifying FinalTissueRegion=0 or 1
+        /// need to pick array indices with non-zero tallies, however comparison could be
+        /// equal if photons are within NA in both cases and AreEqual is used
+        /// /// </summary>
+        [Test]
+        public void validate_detector_tallies_for_final_tissue_region_0_or_1_comparison()
+        {
+            Assert.AreNotEqual(_outputNA0p3.Rd, _outputNa0p3FinalTissueRegion1.Rd);
+            Assert.AreNotEqual(_outputNA0p3.R_r[0], _outputNa0p3FinalTissueRegion1.R_r[0]);
+            Assert.AreNotEqual(_outputNA0p3.R_a[0], _outputNa0p3FinalTissueRegion1.R_a[0]);
+            Assert.AreNotEqual(_outputNA0p3.R_ra[0, 0], _outputNa0p3FinalTissueRegion1.R_ra[0, 0]);
+            Assert.AreNotEqual(_outputNA0p3.R_rt[0, 0], _outputNa0p3FinalTissueRegion1.R_rt[0, 0]);
+            Assert.AreNotEqual(_outputNA0p3.R_rw[0, 0].Real, _outputNa0p3FinalTissueRegion1.R_rw[0, 0].Real);
+            Assert.AreNotEqual(_outputNA0p3.R_rw[0, 0].Imaginary, _outputNa0p3FinalTissueRegion1.R_rw[0, 0].Imaginary);
+            Assert.AreEqual(_outputNA0p3.R_xy[3, 6], _outputNa0p3FinalTissueRegion1.R_xy[3, 6]);
+            Assert.AreEqual(_outputNA0p3.R_xyt[3, 6, 3], _outputNa0p3FinalTissueRegion1.R_xyt[3, 6, 3]);
+            Assert.AreEqual(_outputNA0p3.R_xymd[3, 6, 5], _outputNa0p3FinalTissueRegion1.R_xymd[3, 6, 5]);
+            Assert.AreNotEqual(_outputNA0p3.R_fx[1].Real, _outputNa0p3FinalTissueRegion1.R_fx[1].Real);
+            Assert.AreNotEqual(_outputNA0p3.R_fx[1].Imaginary, _outputNa0p3FinalTissueRegion1.R_fx[1].Imaginary);
+            Assert.AreNotEqual(_outputNA0p3.R_fxt[1, 0].Real, _outputNa0p3FinalTissueRegion1.R_fxt[1, 0].Real);
+            Assert.AreNotEqual(_outputNA0p3.R_fxt[1, 0].Imaginary, _outputNa0p3FinalTissueRegion1.R_fxt[1, 0].Imaginary);
+            Assert.AreNotEqual(_outputNA0p3.R_fxa[1, 0].Real, _outputNa0p3FinalTissueRegion1.R_fxa[1, 0].Real);
+            Assert.AreNotEqual(_outputNA0p3.R_fxa[1, 0].Imaginary, _outputNa0p3FinalTissueRegion1.R_fxa[1, 0].Imaginary);
+            Assert.AreEqual(_outputNA0p3.R_xytp[3, 6, 0, 0], _outputNa0p3FinalTissueRegion1.R_xytp[3, 6, 0, 0]);
+            Assert.AreEqual(_outputNA0p3.Td, _outputNa0p3FinalTissueRegion1.Td);
+            Assert.AreEqual(_outputNA0p3.T_r[1], _outputNa0p3FinalTissueRegion1.T_r[1]);
+            Assert.AreEqual(_outputNA0p3.T_a[0], _outputNa0p3FinalTissueRegion1.T_a[0]);
+            Assert.AreEqual(_outputNA0p3.T_ra[1, 0], _outputNa0p3FinalTissueRegion1.T_ra[1, 0]);
+            Assert.AreEqual(_outputNA0p3.T_xy[4, 7], _outputNa0p3FinalTissueRegion1.T_xy[4, 7]);
+            Assert.AreNotEqual(_outputNA0p3.Rad_r[0], _outputNa0p3FinalTissueRegion1.Rad_r[0]);
+            Assert.AreNotEqual(_outputNA0p3.RefMT_rmt[2, 0], _outputNa0p3FinalTissueRegion1.RefMT_rmt[2, 0]);
+            Assert.AreEqual(_outputNA0p3.RefMT_xymt[3, 6, 0], _outputNa0p3FinalTissueRegion1.RefMT_xymt[3, 6, 0]);
+            Assert.AreEqual(_outputNA0p3.TransMT_rmt[1, 0], _outputNa0p3FinalTissueRegion1.TransMT_rmt[1, 0]);
+            Assert.AreEqual(_outputNA0p3.TransMT_xymt[4, 7, 0], _outputNa0p3FinalTissueRegion1.TransMT_xymt[4, 7, 0]);
+        }
         /// <summary>
         /// Test to validate that pMC/dMC detectors tallies are 0 when NA=0
         /// </summary>

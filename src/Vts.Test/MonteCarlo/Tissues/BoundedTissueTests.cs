@@ -61,7 +61,15 @@ namespace Vts.Test.MonteCarlo.Tissues
                         "HenyeyGreensteinKey4")
                 });
         }
-
+        /// <summary>
+        /// Test default constructor
+        /// </summary>
+        [Test]
+        public void validate_default_constructor()
+        {
+            var boundedTissue = new BoundedTissue();
+            Assert.IsInstanceOf<BoundedTissue>(boundedTissue);
+        }
         /// <summary>
         /// Validate method GetRegionIndex return correct boolean
         /// </summary>

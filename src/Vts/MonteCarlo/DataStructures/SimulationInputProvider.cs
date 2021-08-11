@@ -1306,7 +1306,7 @@ namespace Vts.MonteCarlo
                         NA = double.PositiveInfinity,
                         Name = "SurfaceFiber_Open",
                         FinalTissueRegionIndex = 3,
-                        TallySecondMoment = true
+                        TallySecondMoment = false
                     },
                     new SurfaceFiberDetectorInput()
                     {

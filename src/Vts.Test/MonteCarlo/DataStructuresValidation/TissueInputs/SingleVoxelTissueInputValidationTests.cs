@@ -11,6 +11,45 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation.TissueInputs
     public class SingleVoxelTissueInputValidationTests
     {
         /// <summary>
+        /// Test to check that underlying MultiLayerTissue is good
+        /// </summary>
+        [Test]
+        public void validate_underlying_multilayer_tissue_definition()
+        {
+            var input = new SimulationInput(
+                10,
+                "",
+                new SimulationOptions(),
+                new DirectionalPointSourceInput(),
+                new SingleVoxelTissueInput(
+                    new VoxelTissueRegion(new DoubleRange(-10, 10),
+                        new DoubleRange(-10, 10),
+                        new DoubleRange(1, 5),
+                        new OpticalProperties(),
+                        "HenyeyGreensteinKey4"),
+                    // define layer tissues that are incorrect
+                    new ITissueRegion[]
+                    {
+                        new LayerTissueRegion(
+                            new DoubleRange(double.NegativeInfinity, 0.0),
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
+                            "HenyeyGreensteinKey1"),
+                        new LayerTissueRegion(
+                            new DoubleRange(0.0, 20.0),
+                            new OpticalProperties(0.01, 1.0, 0.8, 1.4),
+                            "HenyeyGreensteinKey2"),
+                        new LayerTissueRegion(
+                            new DoubleRange(100.0, double.PositiveInfinity),
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
+                            "HenyeyGreensteinKey3")
+                    }
+                ),
+                new List<IDetectorInput>() { }
+            );
+            var result = SimulationInputValidation.ValidateInput(input);
+            Assert.IsFalse(result.IsValid);
+        }
+        /// <summary>
         /// Test to check that voxel has non-zero axis definitions.
         /// </summary>
         [Test]
@@ -22,23 +61,26 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation.TissueInputs
                 new SimulationOptions(),
                 new DirectionalPointSourceInput(),
                 new SingleVoxelTissueInput(
-                    // set ellipsoid axis to 0.0
+                    // set x range to be 0
                     new VoxelTissueRegion(new DoubleRange(0, 0),
                         new DoubleRange(-10, 10), 
                         new DoubleRange(1, 5),
                         new OpticalProperties(),
-                        "HenyeyGreensteinKey1"), 
+                        "HenyeyGreensteinKey4"), 
                     new ITissueRegion[]
                     { 
                         new LayerTissueRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
-                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
+                        "HenyeyGreensteinKey1"),
                         new LayerTissueRegion(
                             new DoubleRange(0.0, 20.0),
-                            new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
+                            new OpticalProperties(0.01, 1.0, 0.8, 1.4),
+                            "HenyeyGreensteinKey2"),
                         new LayerTissueRegion(
                             new DoubleRange(20.0, double.PositiveInfinity),
-                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
+                            "HenyeyGreensteinKey3")
                     }
                 ),
                 new List<IDetectorInput>(){ }
@@ -63,10 +105,12 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation.TissueInputs
                     { 
                         new LayerTissueRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
-                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
+                            "HenyeyGreensteinKey1"),
                         new LayerTissueRegion(
                             new DoubleRange(0.0, double.PositiveInfinity),
-                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
+                            "HenyeyGreensteinKey2")
                     }
                 ), 
                 new List<IDetectorInput>(){ }
@@ -90,18 +134,21 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation.TissueInputs
                         new DoubleRange(-5, 5),
                         new DoubleRange(0, 10), // eheck that voxel not at surface
                         new OpticalProperties(),
-                        "HenyeyGreensteinKey1"), 
+                        "HenyeyGreensteinKey4"), 
                     new ITissueRegion[]
                     { 
                         new LayerTissueRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
-                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
+                            "HenyeyGreensteinKey1"),
                         new LayerTissueRegion(
                             new DoubleRange(0.0, 20.0),
-                            new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
+                            new OpticalProperties(0.01, 1.0, 0.8, 1.4),
+                            "HenyeyGreensteinKey2"),
                         new LayerTissueRegion(
                             new DoubleRange(20.0, double.PositiveInfinity),
-                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
+                            "HenyeyGreensteinKey3")
                     }
                 ), 
                 new List<IDetectorInput>() { }
@@ -125,18 +172,21 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation.TissueInputs
                         new DoubleRange(-5, 5),
                         new DoubleRange(1, 2),
                         new OpticalProperties(0.01, 1.0, 0.9, 1.3),
-                        "HenyeyGreensteinKey1"),
+                        "HenyeyGreensteinKey4"),
                     new ITissueRegion[]
                     { 
                         new LayerTissueRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
-                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
+                            "HenyeyGreensteinKey1"),
                         new LayerTissueRegion(
                             new DoubleRange(0.0, 20.0),
-                            new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
+                            new OpticalProperties(0.01, 1.0, 0.8, 1.4),
+                            "HenyeyGreensteinKey2"),
                         new LayerTissueRegion(
                             new DoubleRange(20.0, double.PositiveInfinity),
-                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
+                            "HenyeyGreensteinKey3")
                     }
                 ),
                 new List<IDetectorInput>() { }

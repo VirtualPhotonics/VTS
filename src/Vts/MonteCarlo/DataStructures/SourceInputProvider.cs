@@ -21,12 +21,17 @@ namespace Vts.MonteCarlo
             return new List<ISourceInput>()
             {
                 PointSource(),
-                LineSource(),
-                GaussianSource()
+                FlatLineSource(),
+                GaussianCircularSource(),
+                GaussianEllipticalSource(),
+                GaussianRectangularSource(),
+                LambertianSphericalSource(),
+                LambertianCuboidalSource(),
+                LambertianTubularSource()
             };
         }
 
-        #region Point source
+        #region PointAndLine: Point source
         /// <summary>
         /// Point source normally oriented
         /// </summary>
@@ -40,11 +45,11 @@ namespace Vts.MonteCarlo
         }
         #endregion
 
-        #region Line source
+        #region PointAndLine: Flat Line source
         /// <summary>
-        /// Line source normally oriented
+        /// Line source normally oriented and flat
         /// </summary>
-        public static ISourceInput LineSource()
+        public static ISourceInput FlatLineSource()
         {
             return new CustomLineSourceInput(
                     10.0, // line length
@@ -58,11 +63,11 @@ namespace Vts.MonteCarlo
         }
         #endregion
 
-        #region Gaussian source 
+        #region SurfaceEmittingFlat: Gaussian circular source 
         /// <summary>
         /// Gaussian normal source with fwhm=1 and outer radius=3mm
         /// </summary>
-        public static ISourceInput GaussianSource()
+        public static ISourceInput GaussianCircularSource()
         {
             return new CustomCircularSourceInput(
                     3.0, // outer radius
@@ -74,6 +79,89 @@ namespace Vts.MonteCarlo
                     new Position(0, 0, 0), // center of beam on surface
                     new PolarAzimuthalAngles(0, 0), // no beam rotation         
                     0); // 0=start in air, 1=start in tissue
+        }
+        #endregion
+
+        #region SurfaceEmittingFlat: Gaussian elliptical source 
+        /// <summary>
+        /// Gaussian normal source with fwhm=1 and ellipse parameters a and b
+        /// </summary>
+        public static ISourceInput GaussianEllipticalSource()
+        {
+            return new CustomEllipticalSourceInput(
+                3.0, // a parameter
+                2.0, // b parameter
+                new GaussianSourceProfile(1.0), // fwhm
+                new DoubleRange(0.0, 0.0), // polar angle emission range
+                new DoubleRange(0.0, 0.0), // azimuthal angle emmision range
+                new Direction(0, 0, 1), // normal to tissue
+                new Position(0, 0, 0), // center of beam on surface
+                new PolarAzimuthalAngles(0, 0), // no beam rotation         
+                0); // 0=start in air, 1=start in tissue
+        }
+        #endregion
+
+        #region SurfaceEmittingFlat: Gaussian rectangular source 
+        /// <summary>
+        /// Gaussian normal source with fwhm=1 and rectangular length and width
+        /// </summary>
+        public static ISourceInput GaussianRectangularSource()
+        {
+            return new CustomRectangularSourceInput(
+                3.0, // a parameter
+                2.0, // b parameter
+                new GaussianSourceProfile(1.0), // fwhm
+                new DoubleRange(0.0, 0.0), // polar angle emission range
+                new DoubleRange(0.0, 0.0), // azimuthal angle emmision range
+                new Direction(0, 0, 1), // normal to tissue
+                new Position(0, 0, 0), // center of beam on surface
+                new PolarAzimuthalAngles(0, 0), // no beam rotation         
+                0); // 0=start in air, 1=start in tissue
+        }
+        #endregion
+
+        #region SurfaceEmittingBulk: Lambertian spherical
+        /// <summary>
+        /// Lambertian spherical source
+        /// </summary>
+        public static ISourceInput LambertianSphericalSource()
+        {
+            return new LambertianSurfaceEmittingSphericalSourceInput(
+                3.0, // radius
+                new Position(0, 0, 0), // center of beam on surface
+                0); // 0=start in air, 1=start in tissue
+        }
+        #endregion
+
+        #region SurfaceEmittingBulk: Lambertian cuboidal
+        /// <summary>
+        /// Lambertian cuboidal source
+        /// </summary>
+        public static ISourceInput LambertianCuboidalSource()
+        {
+            return new LambertianSurfaceEmittingCuboidalSourceInput(
+                3.0, // lengthX
+                2.0, // widthY
+                1.0, // heightZ
+                new FlatSourceProfile(),
+                SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone(),
+                SourceDefaults.DefaultPosition.Clone(),
+                0);
+        }
+        #endregion
+
+        #region SurfaceEmittingBulk: Lambertian tubular
+        /// <summary>
+        /// Lambertian tubular source
+        /// </summary>
+        public static ISourceInput LambertianTubularSource()
+        {
+            return new LambertianSurfaceEmittingTubularSourceInput(
+                1.0, // tubeRadius
+                1.0, // tubeHeight
+                SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone(),
+                SourceDefaults.DefaultPosition.Clone(),
+                0);
         }
         #endregion
 
