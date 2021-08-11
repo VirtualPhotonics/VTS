@@ -160,12 +160,14 @@ namespace Vts.Test.MonteCarlo.Sources
             ITissue tissue = new MultiLayerTissue();
             var _profile = new FlatSourceProfile();
             var _radiusOnTissue = 10.0;
+            var _translationFromOrigin = new Position(0, 0, 0);
             var _radiusInAir = 0.0;
             var _circleInAirTranslationFromOrigin = new Position(0, 0, -10);
 
             var ps = new CircularAngledFromCircleSource(
                 _radiusOnTissue, 
                 _profile,
+                _translationFromOrigin,
                 _radiusInAir, 
                 _circleInAirTranslationFromOrigin)
             {
