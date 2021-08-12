@@ -973,7 +973,7 @@ for mci = 1:length(datanames)
         disp(['Total reflectance captured by ROfFx detector: ' num2str(sum(results{di}.pMCROfFx.Mean.*Fxnorm'))]);
     end     
     if isfield(results{di}, 'pMCTOfRho') && show.pMCTOfRho
-        figname = sprintf('log10(%s)',results{di}.pMCTOfRho.Name); figure; plot(results{di}.pMCTOfRho.Rho_Midpoints, log10(results{di}.pMCTOfRho.Mean)); title(figname); set(gcf,'Name', figname); xlabel('\rho [mm]'); ylabel('pMC R(\rho) [mm^-^2]');
+        figname = sprintf('log10(%s)',results{di}.pMCTOfRho.Name); figure; plot(results{di}.pMCTOfRho.Rho_Midpoints, log10(results{di}.pMCTOfRho.Mean)); title(figname); set(gcf,'Name', figname); xlabel('\rho [mm]'); ylabel('pMC T(\rho) [mm^-^2]');
         disp(['Total reflectance captured by pMCTOfRho detector: ' num2str(sum(results{di}.pMCTOfRho.Mean(:)))]);
     end
   end
