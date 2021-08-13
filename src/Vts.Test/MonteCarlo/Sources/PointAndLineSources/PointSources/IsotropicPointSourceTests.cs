@@ -39,10 +39,10 @@ namespace Vts.Test.MonteCarlo.Sources
                     new Position(0, 0, 0),
                     0
             );
-            Assert.IsNotNull(si);
+            Assert.IsInstanceOf<IsotropicPointSourceInput>(si);
             // validate CreateSource
             var source = si.CreateSource(new MersenneTwister(0));
-            Assert.IsNotNull(source);
+            Assert.IsInstanceOf<IsotropicPointSource>(source);
         }
         /// <summary>
         /// Validate General Constructor of Isotropic Point Source
@@ -67,6 +67,41 @@ namespace Vts.Test.MonteCarlo.Sources
             Assert.Less(Math.Abs(photon.DP.Position.X - _validationData.Tp[31]), _validationData.AcceptablePrecision);
             Assert.Less(Math.Abs(photon.DP.Position.Y - _validationData.Tp[32]), _validationData.AcceptablePrecision);
             Assert.Less(Math.Abs(photon.DP.Position.Z - _validationData.Tp[33]), _validationData.AcceptablePrecision);
+        }
+        /// <summary>
+        /// Test general constructor and verify that position is correct
+        /// </summary>
+        [Test]
+        public void validate_general_constructor_with_position()
+        {
+
+            var position = new Position(1.0, 2.0, 3.0);
+
+            var ps = new IsotropicPointSourceInput(position, 0)
+            {
+            };
+
+            Assert.IsTrue(
+                ps.PointLocation.X == 1.0 &&
+                ps.PointLocation.Y == 2.0 &&
+                ps.PointLocation.Z == 3.0
+            );
+        }
+        /// <summary>
+        /// test default constructor and verify position is correct
+        /// </summary>
+        [Test]
+        public void validate_default_constructor_with_position()
+        {
+            var ps = new IsotropicPointSourceInput()
+            {
+            };
+
+            Assert.IsTrue(
+                ps.PointLocation.X == 0.0 &&
+                ps.PointLocation.Y == 0.0 &&
+                ps.PointLocation.Z == 0.0
+            );
         }
     }
 }
