@@ -44,6 +44,42 @@ namespace Vts.Test.Factories
                 new double[] { 0 }
             );
         }
+
+        #region Boolean tests
+
+        [Test]
+        public void IsSolverWithConstantValues_returns_true()
+        {
+            Assert.IsTrue(ComputationFactory.IsSolverWithConstantValues(SolutionDomainType.ROfFxAndFt));
+            Assert.IsTrue(ComputationFactory.IsSolverWithConstantValues(FluenceSolutionDomainType.FluenceOfFxAndZAndTime));
+        }
+
+        [Test]
+        public void IsSolverWithConstantValues_returns_false()
+        {
+            Assert.IsFalse(ComputationFactory.IsSolverWithConstantValues(SolutionDomainType.ROfRho));
+            Assert.IsFalse(ComputationFactory.IsSolverWithConstantValues(SolutionDomainType.ROfFx));
+            Assert.IsFalse(ComputationFactory.IsSolverWithConstantValues(FluenceSolutionDomainType.FluenceOfRhoAndZ));
+            Assert.IsFalse(ComputationFactory.IsSolverWithConstantValues(FluenceSolutionDomainType.FluenceOfFxAndZ));
+        }
+
+        [Test]
+        public void IsComplexSolver_returns_true()
+        {
+            Assert.IsTrue(ComputationFactory.IsComplexSolver(SolutionDomainType.ROfFxAndFt));
+            Assert.IsTrue(ComputationFactory.IsComplexSolver(SolutionDomainType.ROfRhoAndFt));
+            Assert.IsTrue(ComputationFactory.IsComplexSolver(FluenceSolutionDomainType.FluenceOfFxAndZAndFt));
+            Assert.IsTrue(ComputationFactory.IsComplexSolver(FluenceSolutionDomainType.FluenceOfRhoAndZAndFt));
+        }
+
+        [Test]
+        public void IsComplexSolver_returns_false()
+        {
+            Assert.IsFalse(ComputationFactory.IsComplexSolver(SolutionDomainType.ROfRhoAndTime));
+            Assert.IsFalse(ComputationFactory.IsComplexSolver(FluenceSolutionDomainType.FluenceOfFxAndZAndTime));
+        }
+        #endregion
+
         #region ComputeReflectance tests
         /// <summary>
         /// Test against the ComputationFactory class ComputeReflectance routine using enum
@@ -767,10 +803,5 @@ namespace Vts.Test.Factories
             Assert.IsTrue(Math.Abs(absorbedEnergy.First() - 0.018829) < 0.000001);
         }
         #endregion
-
-        [TearDown]
-        public void TearDown()
-        {
-        }
     }
 }

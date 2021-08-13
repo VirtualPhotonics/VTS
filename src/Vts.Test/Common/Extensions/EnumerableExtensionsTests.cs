@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Moq;
 using NUnit.Framework;
+using Vts.Extensions;
 using Vts.Modeling.ForwardSolvers;
 
 namespace Vts.Test.Common
@@ -67,6 +68,22 @@ namespace Vts.Test.Common
                 var arrayList = doubleList.ToArray();
                 Assert.IsNull(arrayList);
             });
+        }
+
+        [Test]
+        public void ToDictionary_returns_dictionary_from_key_value_pairs()
+        {
+            var keyValuePairList = new List<KeyValuePair<string, string>>
+            {
+                new KeyValuePair<string, string>("one", "first"),
+                new KeyValuePair<string, string>("two", "second"),
+                new KeyValuePair<string, string>("three", "third")
+            };
+            var dictionary = keyValuePairList.ToDictionary();
+            Assert.IsInstanceOf<Dictionary<string, string>>(dictionary);
+            Assert.AreEqual("first", dictionary["one"]);
+            Assert.AreEqual("second", dictionary["two"]);
+            Assert.AreEqual("third", dictionary["three"]);
         }
     }
 }
