@@ -43,38 +43,28 @@ namespace Vts.Test.MonteCarlo.Factories
         [Test]
         public void Demonstrate_GetSurfaceVirtualBoundaryDatabaseWriter_successful_return()
         {
-            // need to separate this one out because same file is written to
-            // by DatabaseType.pMCDiffuseReflectance so need to close before that test
-            var diffuseReflectanceDb =
+             var diffuseReflectanceDb =
                 DatabaseWriterFactory.GetSurfaceVirtualBoundaryDatabaseWriter(
                     DatabaseType.DiffuseReflectance,
                     Directory.GetCurrentDirectory(), "");
             Assert.IsInstanceOf<PhotonDatabaseWriter>(diffuseReflectanceDb);
-            Assert.IsInstanceOf<PhotonDatabaseWriter>(
-                DatabaseWriterFactory.GetSurfaceVirtualBoundaryDatabaseWriter(
-                    DatabaseType.DiffuseTransmittance, 
-                    Directory.GetCurrentDirectory(), ""));
-            Assert.IsInstanceOf<PhotonDatabaseWriter>(
-                DatabaseWriterFactory.GetSurfaceVirtualBoundaryDatabaseWriter(
-                    DatabaseType.SpecularReflectance, 
-                    Directory.GetCurrentDirectory(), ""));
             diffuseReflectanceDb.Close();
-            Assert.IsInstanceOf<PhotonDatabaseWriter>(
+            var diffuseTransmittanceDb =
                 DatabaseWriterFactory.GetSurfaceVirtualBoundaryDatabaseWriter(
-                    DatabaseType.pMCDiffuseReflectance, 
-                    Directory.GetCurrentDirectory(), ""));
-        }
-        /// <summary>
-        /// Simulate erroneous invocation
-        /// </summary>
-        [Test]
-        [Ignore("this enum trick worked in other Factories tests, not sure why not here")]
-        public void Demonstrate_GetSurfaceVirtualBoundaryDatabaseWriter_throws_exception_on_faulty_input()
-        {
-            Assert.Throws<ArgumentOutOfRangeException>(() => 
-                DatabaseWriterFactory.GetSurfaceVirtualBoundaryDatabaseWriter(
-                     (DatabaseType)(-1), 
-                     Directory.GetCurrentDirectory(), ""));
+                    DatabaseType.DiffuseTransmittance,
+                    Directory.GetCurrentDirectory(), "");
+            Assert.IsInstanceOf<PhotonDatabaseWriter>(diffuseTransmittanceDb);
+            diffuseTransmittanceDb.Close();
+            var specularDb = DatabaseWriterFactory.GetSurfaceVirtualBoundaryDatabaseWriter(
+                DatabaseType.SpecularReflectance,
+                Directory.GetCurrentDirectory(), "");
+            Assert.IsInstanceOf<PhotonDatabaseWriter>(specularDb);
+            specularDb.Close();
+            var pMcDiffuseReflectanceDb = DatabaseWriterFactory.GetSurfaceVirtualBoundaryDatabaseWriter(
+                DatabaseType.pMCDiffuseReflectance,
+                Directory.GetCurrentDirectory(), "");
+            Assert.IsInstanceOf<PhotonDatabaseWriter>(pMcDiffuseReflectanceDb);
+            pMcDiffuseReflectanceDb.Close();
         }
     }
 }
