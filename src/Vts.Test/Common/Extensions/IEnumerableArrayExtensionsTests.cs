@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Numerics;
-using Castle.DynamicProxy.Internal;
 using Vts.Extensions;
 
 namespace Vts.Test.Common.Extensions
@@ -45,7 +44,7 @@ namespace Vts.Test.Common.Extensions
         [Test]
         public void ToEnumerable_multi_array_4_returns_enumerable()
         {
-            var array = new ushort[3, 2, 2, 2]
+            var uShortArray = new ushort[3, 2, 2, 2]
             {
                 {
                     {
@@ -73,36 +72,9 @@ namespace Vts.Test.Common.Extensions
                 }
             };
 
-            var result = CallToEnumerable(array);
-            Assert.IsInstanceOf<IEnumerable<ushort>>(result);
-        }
-
-        public static object CallToEnumerable(Array input) 
-        {
-            var valueType = input.GetType();
-            if (valueType.IsNullableType()) return null;
-            var expectedType = typeof(double);
-            if (expectedType.IsAssignableFrom(valueType.GetElementType()))
-            {
-                return input.ToEnumerable<double>();
-            }
-            expectedType = typeof(float);
-            if (expectedType.IsAssignableFrom(valueType.GetElementType()))
-            {
-                return input.ToEnumerable<float>();
-            }
-            expectedType = typeof(ushort);
-            if (expectedType.IsAssignableFrom(valueType.GetElementType()))
-            {
-                return input.ToEnumerable<ushort>();
-            }
-            expectedType = typeof(byte);
-            if (expectedType.IsAssignableFrom(valueType.GetElementType()))
-            {
-                return input.ToEnumerable<byte>();
-            }
-            expectedType = typeof(Complex);
-            return expectedType.IsAssignableFrom(valueType.GetElementType()) ? input.ToEnumerable<Complex>() : null;
+            var uShortEnumerable = uShortArray.ToEnumerable<ushort>();
+            Assert.IsInstanceOf<IEnumerable<ushort>>(uShortEnumerable);
+            uShortEnumerable.ForEach(x => Assert.IsInstanceOf<ushort>(x));
         }
     }
 }
