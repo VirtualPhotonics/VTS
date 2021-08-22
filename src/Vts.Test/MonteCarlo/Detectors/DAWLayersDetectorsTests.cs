@@ -153,6 +153,21 @@ namespace Vts.Test.MonteCarlo.Detectors
                         ZPlane = -1.0,
                         TallySecondMoment = true
                     },
+                    new ROfXAndYAndTimeAndSubregionDetectorInput()
+                    {
+                        X = new DoubleRange(-10.0, 10.0, 101),
+                        Y = new DoubleRange(-10.0, 10.0, 101),
+                        Time = new DoubleRange(0.0, 1.0, 11),
+                        TallySecondMoment = true
+                    },
+                    new ROfXAndYAndTimeAndSubregionRecessedDetectorInput()
+                    {
+                        X = new DoubleRange(-10.0, 10.0, 101),
+                        Y = new DoubleRange(-10.0, 10.0, 101),
+                        Time = new DoubleRange(0.0, 1.0, 11),
+                        ZPlane = -1.0,
+                        TallySecondMoment = true
+                    },
                     new ROfXAndYAndThetaAndPhiDetectorInput()
                     {
                         X = new DoubleRange(-10.0, 10.0, 101),
@@ -581,6 +596,62 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.Less(Math.Abs(_outputTwoLayerTissue.R_xytr2[0, 12, 1] - 306.881), 0.001);
             Assert.AreEqual(_outputOneLayerTissue.R_xytr_TallyCount, 89);
             Assert.AreEqual(_outputTwoLayerTissue.R_xytr_TallyCount, 89);
+        }
+        // Reflectance R(x,y,time,subregion) validated with prior test
+        [Test]
+        public void validate_DAW_ROfXAndYAndTimeAndSubregion()
+        {
+            Assert.Less(Math.Abs(_outputOneLayerTissue.R_xyts[0, 0, 9, 1] - 0.188035), 0.000001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.R_xyts[0, 0, 9, 1] - 0.004214), 0.000001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.R_xyts[0, 0, 9, 2] - 0.183821), 0.000001);
+            Assert.Less(Math.Abs(_outputOneLayerTissue.R_xyts2[0, 0, 9, 1] - 3.53574), 0.00001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.R_xyts2[0, 0, 9, 1] - 0.00177), 0.00001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.R_xyts2[0, 0, 9, 2] - 3.37903), 0.00001);
+            Assert.AreEqual(_outputOneLayerTissue.R_xyt_TallyCount, 89);
+            Assert.AreEqual(_outputTwoLayerTissue.R_xyt_TallyCount, 89);
+            // check that sum over regions gives back single region result
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.R_xyts[0, 0, 9, 1] +
+                                 _outputTwoLayerTissue.R_xyts[0, 0, 9, 2] -
+                                 _outputOneLayerTissue.R_xyts[0, 0, 9, 1]), 0.00001);
+            // check that sum over time gives back R(x,y) use R[0,0] results above test
+            double total = 0.0;
+            double deltaTime = 0.1; // by input specification
+            for (int i = 0; i < _outputTwoLayerTissue.R_xyts.GetLength(2); i++)
+            {
+                for (int j = 0; j < _outputTwoLayerTissue.R_xyts.GetLength(3); j++)
+                {
+                    total += _outputTwoLayerTissue.R_xyts[0, 0, i, j] * deltaTime;
+                }
+            }
+            Assert.Less(Math.Abs(total - _outputOneLayerTissue.R_xy[0,0]), 0.00000001);
+        }
+        // Reflectance R(x,y,time,subregion) recessed in air validated with prior test
+        [Test]
+        public void validate_DAW_ROfXAndYAndTimeAndSubregionRecessed()
+        {
+            Assert.Less(Math.Abs(_outputOneLayerTissue.R_xytsr[0, 12, 1, 1] - 1.75180), 0.00001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.R_xytsr[0, 12, 1, 1] - 0.35063), 0.00001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.R_xytsr[0, 12, 1, 2] - 1.40117), 0.00001);
+            Assert.Less(Math.Abs(_outputOneLayerTissue.R_xytsr2[0, 12, 1, 1] - 306.881), 0.001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.R_xytsr2[0, 12, 1, 1] -  12.294), 0.001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.R_xytsr2[0, 12, 1, 2] - 196.328), 0.001);
+            Assert.AreEqual(_outputOneLayerTissue.R_xytsr_TallyCount, 89);
+            Assert.AreEqual(_outputTwoLayerTissue.R_xytsr_TallyCount, 89);
+            // check that sum over regions gives back single region result
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.R_xytsr[0, 12, 1, 1] +
+                                 _outputTwoLayerTissue.R_xytsr[0, 12, 1, 2] -
+                                 _outputOneLayerTissue.R_xytsr[0, 12, 1, 1]), 0.00001);
+            // check that sum over time gives back R(x,y) recessed use R[0,12] results above test
+            double total = 0.0;
+            double deltaTime = 0.1; // by input specification
+            for (int i = 0; i < _outputTwoLayerTissue.R_xytsr.GetLength(2); i++)
+            {
+                for (int j = 0; j < _outputTwoLayerTissue.R_xytsr.GetLength(3); j++)
+                {
+                    total += _outputTwoLayerTissue.R_xytsr[0, 12, i, j] * deltaTime;
+                }
+            }
+            Assert.Less(Math.Abs(total - _outputOneLayerTissue.R_xyr[0, 12]), 0.000001);
         }
         // Reflectance R(x,y,theta,phi) validated with prior test
         [Test]

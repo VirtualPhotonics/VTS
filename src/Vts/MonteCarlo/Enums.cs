@@ -421,6 +421,10 @@ namespace Vts.MonteCarlo
             "ROfXAndYAndTime",
             // Reflectance as a function of Cartesian position and time on the surface of the tissue recessed in air
             "ROfXAndYAndTimeRecessed",
+            // Reflectance as a function of Cartesian position and time and tissue subregion on the surface of the tissue
+            "ROfXAndYAndTimeAndSubregion",
+            // Reflectance as a function of Cartesian position and time and tissue subregion on the surface of the tissue recessed in air
+            "ROfXAndYAndTimeAndSubregionRecessed",
             // Reflectance as a function of x, y, theta, phi
             "ROfXAndYAndThetaAndPhi",
             // Reflectance as a function of Cartesian position and MaxDepth on the surface of the tissue

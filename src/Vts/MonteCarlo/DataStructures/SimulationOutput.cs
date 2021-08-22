@@ -225,6 +225,30 @@ namespace Vts.MonteCarlo
         /// </summary>
         public long R_xytr_TallyCount { get { return ((long)((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ROfXAndYAndTimeRecessed").First().Name]).TallyCount); } }
         /// <summary>
+        /// Reflectance as a function of x and y and time and subregion
+        /// </summary>
+        public double[,,,] R_xyts { get { return ((double[,,,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ROfXAndYAndTimeAndSubregion").First().Name]).Mean); } }
+        /// <summary>
+        /// Reflectance as a function of x and y 2nd moment
+        /// </summary>
+        public double[,,,] R_xyts2 { get { return ((double[,,,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ROfXAndYAndTimeAndSubregion").First().Name]).SecondMoment); } }
+        /// <summary>
+        /// Reflectance as a function of x and y and subregion Tally Count
+        /// </summary>
+        public long R_xyts_TallyCount { get { return ((long)((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ROfXAndYAndTimeAndSubregion").First().Name]).TallyCount); } }
+        /// <summary>
+        /// Reflectance as a function of x and y and time and subregion recessed in air
+        /// </summary>
+        public double[,,,] R_xytsr { get { return ((double[,,,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ROfXAndYAndTimeAndSubregionRecessed").First().Name]).Mean); } }
+        /// <summary>
+        /// Reflectance as a function of x and y and time and subregion recessed in air 2nd moment
+        /// </summary>
+        public double[,,,] R_xytsr2 { get { return ((double[,,,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ROfXAndYAndTimeAndSubregionRecessed").First().Name]).SecondMoment); } }
+        /// <summary>
+        /// Reflectance as a function of x and y and time and subregion recessed in air Tally Count
+        /// </summary>
+        public long R_xytsr_TallyCount { get { return ((long)((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ROfXAndYAndTimeAndSubregionRecessed").First().Name]).TallyCount); } }
+        /// <summary>
         /// Reflectance as a function of x and y and theta and phi
         /// </summary>
         public double[,,,] R_xytp { get { return ((double[,,,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ROfXAndYAndThetaAndPhi").First().Name]).Mean); } }
