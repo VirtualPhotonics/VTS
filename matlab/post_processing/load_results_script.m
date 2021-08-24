@@ -60,7 +60,9 @@ show.pMCROfRho =                1;
 show.pMCROfRhoRecessed =        1;
 show.pMCROfRhoAndTime =         1;
 show.pMCROfRhoAndTimeRecessed = 1;
-show.pMCROfXAndY =              1; 
+show.pMCROfXAndY =              1;
+show.pMCROfXAndYAndTimeAndSubregion = 1;
+show.pMCROfXAndYAndTimeAndSubregionRecessed = 1;
 show.pMCROfFx =                 1;
 show.ReflectedMTOfRhoAndSubregionHist = 1;
 show.ReflectedMTOfXAndYAndSubregionHist = 1;
@@ -941,7 +943,7 @@ for mci = 1:length(datanames)
                colorbar; caxis([-15 0]);title(figname); set(gcf,'Name', figname); ylabel('time [ns]'); xlabel('\rho [mm]');
         end
         figname = sprintf('%s Fractional Time',results{di}.ReflectedTimeOfRhoAndSubregionHist.Name); 
-        figure; imagesc(results{di}.ReflectedTimeOfRhoAndSubregionHist.Rho_Midpoints, results{di}.ReflectedTimeOfRhoAndSubregionHist.SubregionIndices-1, results{di}.ReflectedTimeOfRhoAndSubregionHist.FractionalTime');       
+        figure; imagesc(results{di}.ReflectedTimeOfRhoAndSubregionHist.Rho_Midpoints, results{di}.ReflectedTimeOfRhoAndSubregionHist.Time_Midpoints, results{di}.ReflectedTimeOfRhoAndSubregionHist.FractionalTime');       
                colorbar; title(figname); set(gcf,'Name', figname); ylabel('subregion index'); xlabel('\rho [mm]')
         disp(['Time in Subregion captured by ReflectedTimeOfRhoAndSubregionHist detector: ' num2str(sum(results{di}.ReflectedTimeOfRhoAndSubregionHist.Mean(:)))]);
     end
@@ -964,6 +966,26 @@ for mci = 1:length(datanames)
     if isfield(results{di}, 'pMCROfXAndY') && show.pMCROfXAndY
         figname = sprintf('log10(%s)',results{di}.pMCROfXAndY.Name); figure; imagesc(results{di}.pMCROfXAndY.X_Midpoints, results{di}.pMCROfXAndY.Y_Midpoints,log10(results{di}.pMCROfXAndY.Mean)); colorbar; title(figname); set(gcf,'Name', figname);ylabel('y [mm]'); xlabel('x [mm]');
         disp(['Total reflectance captured by pMCROfXAndY detector: ' num2str(sum(results{di}.pMCROfXAndY.Mean(:)))]);
+    end
+    if isfield(results{di}, 'pMCROfXAndYAndTimeAndSubregion') && show.pMCROfXAndYAndTimeAndSubregion
+        y0idx = floor(length(results{di}.pMCROfXAndYAndTimeAndSubregion.Y_Midpoints)/2);
+        for i=2:results{di}.pMCROfXAndYAndTimeAndSubregion.NumberOfRegions-1 % exclude air above and below          
+          figname = sprintf('log10(%s) region idx=%i',results{di}.pMCROfXAndYAndTimeAndSubregion.Name,i-1); figure; 
+          imagesc(results{di}.pMCROfXAndYAndTimeAndSubregion.X_Midpoints, results{di}.pMCROfXAndYAndTimeAndSubregion.Time_Midpoints,...
+            log10(squeeze(results{di}.pMCROfXAndYAndTimeAndSubregion.Mean(i,:,y0idx,:)))); 
+          colorbar; title(figname); set(gcf,'Name', figname);ylabel('time [ns]'); xlabel('x [mm]');
+        end
+        disp(['Total reflectance captured by pMCROfXAndYAndTimeAndSubregion detector: ' num2str(sum(results{di}.pMCROfXAndYAndTimeAndSubregion.Mean(:)))]);
+    end
+    if isfield(results{di}, 'pMCROfXAndYAndTimeAndSubregionRecessed') && show.pMCROfXAndYAndTimeAndSubregionRecessed
+        y0idx = floor(length(results{di}.pMCROfXAndYAndTimeAndSubregionRecessed.Y_Midpoints)/2);
+        for i=2:results{di}.pMCROfXAndYAndTimeAndSubregionRecessed.NumberOfRegions-1 % exclude air above and below          
+          figname = sprintf('log10(%s) region idx=%i',results{di}.pMCROfXAndYAndTimeAndSubregionRecessed.Name,i-1); figure; 
+          imagesc(results{di}.pMCROfXAndYAndTimeAndSubregionRecessed.X_Midpoints, results{di}.pMCROfXAndYAndTimeAndSubregionRecessed.Time_Midpoints,...
+            log10(squeeze(results{di}.pMCROfXAndYAndTimeAndSubregionRecessed.Mean(i,:,y0idx,:)))); 
+          colorbar; title(figname); set(gcf,'Name', figname);ylabel('time [ns]'); xlabel('x [mm]');
+        end
+        disp(['Total reflectance captured by pMCROfXAndYAndTimeAndSubregionRecessed detector: ' num2str(sum(results{di}.pMCROfXAndYAndTimeAndSubregionRecessed.Mean(:)))]);
     end
     if isfield(results{di}, 'pMCROfFx') && show.pMCROfFx
         figname = sprintf('%s - Amplitude',results{di}.pMCROfFx.Name);figure;plot(results{di}.pMCROfFx.Fx_Midpoints, abs(results{di}.pMCROfFx.Mean));title(figname);set(gcf,'Name', figname);xlabel('f_x [/mm]');ylabel('R(f_x) [unitless]');

@@ -521,6 +521,10 @@ namespace Vts.MonteCarlo
             "pMCROfRhoAndTimeRecessed", 
             // perturbation Monte Carlo (pMC) reflectance as a function of Cartesian coordinates (x,y)
             "pMCROfXAndY",
+            // perturbation Monte Carlo (pMC) reflectance as a function of (x,y), time and subregion
+            "pMCROfXAndYAndTimeAndSubregion", 
+            // perturbation Monte Carlo (pMC) reflectance as a function of (x,y), time and subregion recessed in air
+            "pMCROfXAndYAndTimeAndSubregionRecessed", 
             // perturbation Monte Carlo (pMC) reflectance as a function of spatial frequency (fx)
             "pMCROfFx",
             // perturbation Monte Carlo (pMC) reflectance as a function of spatial frequency (fx) and time

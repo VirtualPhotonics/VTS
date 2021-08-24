@@ -77,7 +77,13 @@ namespace Vts.Test.MonteCarlo.Detectors
             {
                 new ROfRhoDetectorInput() {Rho=new DoubleRange(0.0, 10.0, 101)},
                 new ROfRhoAndTimeDetectorInput() {Rho=new DoubleRange(0.0, 10.0, 101),Time=new DoubleRange(0.0, 1.0, 101)},
-                new ROfRhoAndMaxDepthDetectorInput() {Rho=new DoubleRange(0.0, 10.0, 101),MaxDepth=new DoubleRange(0.0, 100.0, 11)}
+                new ROfRhoAndMaxDepthDetectorInput() {Rho=new DoubleRange(0.0, 10.0, 101),MaxDepth=new DoubleRange(0.0, 100.0, 11)},
+                new ROfXAndYAndTimeAndSubregionDetectorInput() {
+                    X=new DoubleRange(-5.0, 5.0, 11),Y=new DoubleRange(-3.0, 3.0, 7),
+                    Time=new DoubleRange(0, 0.05, 11) },
+                new ROfXAndYAndTimeAndSubregionRecessedDetectorInput() {
+                X=new DoubleRange(-5.0, 5.0, 11),Y=new DoubleRange(-3.0, 3.0, 7),
+                Time=new DoubleRange(0, 0.05, 11),ZPlane = -1.0 }
             };
 
             _referenceInputTwoLayerTissue = new SimulationInput(
@@ -142,7 +148,87 @@ namespace Vts.Test.MonteCarlo.Detectors
             // validation value obtained from linux run using above input and seeded the same
             Assert.Less(Math.Abs(postProcessedOutput.pMC_R_rt[0, 0] * _factor - 92.2411018), 0.0000001);
         }
-
+        /// <summary>
+        /// Test to validate that setting mua and mus to the reference values
+        /// determines results equal to reference
+        /// </summary>
+        [Test]
+        public void validate_pMC_CAW_ROfXAndYAndTimeAndSubregion_zero_perturbation_both_layers()
+        {
+            var postProcessor = new PhotonDatabasePostProcessor(
+                VirtualBoundaryType.pMCDiffuseReflectance,
+                new List<IDetectorInput>()
+                {
+                    new pMCROfXAndYAndTimeAndSubregionDetectorInput()
+                    {
+                        X=new DoubleRange(-5.0, 5.0, 11),
+                        Y=new DoubleRange(-3.0, 3.0, 7),
+                        Time=new DoubleRange(0.0, 0.05, 11),
+                        PerturbedOps=new List<OpticalProperties>() { // perturbed ops
+                            _referenceInputTwoLayerTissue.TissueInput.Regions[0].RegionOP,
+                            _referenceInputTwoLayerTissue.TissueInput.Regions[1].RegionOP,
+                            _referenceInputTwoLayerTissue.TissueInput.Regions[2].RegionOP,
+                            _referenceInputTwoLayerTissue.TissueInput.Regions[3].RegionOP},
+                        PerturbedRegionsIndices=new List<int>() { 1, 2 }
+                    },
+                    new pMCROfXAndYAndTimeAndSubregionRecessedDetectorInput()
+                    {
+                        X=new DoubleRange(-5.0, 5.0, 11),
+                        Y=new DoubleRange(-3.0, 3.0, 7),
+                        Time=new DoubleRange(0.0, 0.05, 11),
+                        ZPlane=-1.0,
+                        PerturbedOps=new List<OpticalProperties>() { // perturbed ops
+                            _referenceInputTwoLayerTissue.TissueInput.Regions[0].RegionOP,
+                            _referenceInputTwoLayerTissue.TissueInput.Regions[1].RegionOP,
+                            _referenceInputTwoLayerTissue.TissueInput.Regions[2].RegionOP,
+                            _referenceInputTwoLayerTissue.TissueInput.Regions[3].RegionOP},
+                        PerturbedRegionsIndices=new List<int>() { 1, 2 }
+                    }
+                },
+                _databaseTwoLayerTissue,
+                _referenceInputTwoLayerTissue);
+            var postProcessedOutput = postProcessor.Run();
+            // validation value obtained from reference results
+            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_xyts[0, 0, 0, 1] - 
+                                 _referenceOutputTwoLayerTissue.R_xyts[0, 0, 0, 1]), 0.00000000001);
+            // recessed detector
+            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_xytsr[0, 0, 0, 1] -
+                                 _referenceOutputTwoLayerTissue.R_xytsr[0, 0, 0, 1]), 0.00000000001);
+        }
+        /// <summary>
+        /// Test to validate mua non-zero perturbation and time in layer results
+        /// </summary>
+        [Test]
+        public void validate_pMC_CAW_ROfXAndYAndTimeAndSubregion_time_in_layer_results()
+        {
+            var postProcessor = new PhotonDatabasePostProcessor(
+                VirtualBoundaryType.pMCDiffuseReflectance,
+                new List<IDetectorInput>()
+                {
+                    new pMCROfXAndYAndTimeAndSubregionDetectorInput()
+                    {
+                        X=new DoubleRange(-5.0, 5.0, 11),
+                        Y=new DoubleRange(-3.0, 3.0, 7),
+                        Time=new DoubleRange(0.0, 0.05, 11),
+                        PerturbedOps=new List<OpticalProperties>() { // perturbed ops
+                            _referenceInputTwoLayerTissue.TissueInput.Regions[0].RegionOP,
+                            new OpticalProperties(0.05, 1.0, 0.8, 1.4),
+                            new OpticalProperties(0.1, 1.0, 0.8, 1.4),
+                            _referenceInputTwoLayerTissue.TissueInput.Regions[3].RegionOP},
+                        PerturbedRegionsIndices=new List<int>() { 1, 2 }
+                    }
+                },
+                _databaseTwoLayerTissue,
+                _referenceInputTwoLayerTissue);
+            var postProcessedOutput = postProcessor.Run();
+            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_xyts[0, 0, 9, 1] - 0.134017), 0.000001);
+            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_xyts[0, 0, 9, 2] - 0.270657), 0.000001);
+            // show that unperturbed results are not same
+            Assert.IsTrue(Math.Abs(postProcessedOutput.pMC_R_xyts[0, 0, 9, 1] -
+                                   _referenceOutputTwoLayerTissue.R_xyts[0, 0, 9, 1]) > 0.000001);
+            Assert.IsTrue(Math.Abs(postProcessedOutput.pMC_R_xyts[0, 0, 9, 2] -
+                                   _referenceOutputTwoLayerTissue.R_xyts[0, 0, 9, 2]) > 0.000001);
+        }
     }
 }
 
