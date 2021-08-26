@@ -9,14 +9,14 @@ namespace Vts.Test.Common
         [Test]
         public void Test_VerifyProperty_throws_exception()
         {
-            var myTestClass = new MyTestClass { First = 0 };
+            var myTestClass = new BindableTestClass { First = 0 };
             Assert.Throws<Exception>(() => myTestClass.OnPropertyChanged("NotAProperty"));
         }
 
         [Test]
         public void Test_GetPropertyChangedEventArgs_throws_exception()
         {
-            var myTestClass = new MyTestClass { First = 0 };
+            var myTestClass = new BindableTestClass { First = 0 };
             Assert.Throws<ArgumentException>(() => BindableObject.GetPropertyChangedEventArgs(""));
         }
     }

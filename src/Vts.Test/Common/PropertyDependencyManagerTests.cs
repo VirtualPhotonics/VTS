@@ -8,7 +8,7 @@ namespace Vts.Test.Common
         [Test]
         public void Test_Register()
         {
-            var myTestClass = new MyTestClass();
+            var myTestClass = new BindableTestClass();
             PropertyDependencyManager.Register(myTestClass);
             Assert.IsInstanceOf<BindableObjectWithChangeTracking>(myTestClass);
         }
@@ -16,10 +16,10 @@ namespace Vts.Test.Common
         [Test]
         public void Test_PropertyChanged()
         {
-            var myTestClass = new MyTestClass();
+            var myTestClass = new BindableTestClass();
             PropertyDependencyManager.Register(myTestClass);
             myTestClass.Third = 8;
-            Assert.IsTrue(myTestClass.PropertyWasChanged);
+            Assert.AreEqual(2, myTestClass.PropertyChangedCount);
         }
     }
 }
