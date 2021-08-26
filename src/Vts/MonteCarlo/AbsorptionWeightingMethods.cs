@@ -7,7 +7,7 @@ namespace Vts.MonteCarlo
     public static class AbsorptionWeightingMethods
     {
         /// <summary>
-        /// Method that returns a function providing the correct absorption weighting for analog and DAW
+        /// Method that returns a function providing the correct absorption weighting for analog, DAW and CAW ATotal
         /// </summary>
         /// <param name="tissue">tissue specification</param>
         /// <param name="detector">detector specification</param>
@@ -33,7 +33,34 @@ namespace Vts.MonteCarlo
                     throw new ArgumentException("AbsorptionWeightingType did not match the available types.");
             }
         }
-
+        /// <summary>
+        /// Method that returns a function providing the correct absorption weighting for analog and DAW
+        /// </summary>
+        /// <param name="tissue">tissue specification</param>
+        /// <param name="detector">detector specification</param>
+        /// <returns>func providing correct absorption weighting for analog and DAW</returns>
+        public static Func<IList<long>, IList<double>, IList<OpticalProperties>, IList<OpticalProperties>, IList<int>, double> GetpMCVolumeAbsorptionWeightingMethod(ITissue tissue, IDetector detector)
+        {
+            switch (tissue.AbsorptionWeightingType)
+            {
+                case AbsorptionWeightingType.Analog:
+                    throw new NotImplementedException("Analog cannot be used for pMC estimates.");
+                case AbsorptionWeightingType.Continuous:
+                    if (detector.TallyType == TallyType.pMCATotal)
+                    {
+                        return (numberOfCollisions, pathLengths, perturbedOps, referenceOps,perturbedRegionIndices) => 
+                            pMCVolumeAbsorptionWeightingContinuous(numberOfCollisions,pathLengths,perturbedOps,referenceOps,perturbedRegionIndices);
+                    }
+                    else
+                    {
+                        throw new NotImplementedException("CAW is not currently implemented for most volume tallies.");
+                    }
+                case AbsorptionWeightingType.Discrete:
+                    throw new NotImplementedException("DAW not implemented yet.");
+                default:
+                    throw new ArgumentException("AbsorptionWeightingType did not match the available types.");
+            }
+        }
         /// <summary>
         /// Method that returns a function providing the correct absorption weighting for analog and DAW
         /// </summary>
@@ -177,6 +204,12 @@ namespace Vts.MonteCarlo
         private static double pMCAbsorbAnalog(long[] numberOfCollisions, double[] pathLength, OpticalProperties[] perturbedOps, OpticalProperties[] referenceOps, int[] perturbedRegionsIndices)
         {
             throw new NotImplementedException();
+        }
+        private static double pMCVolumeAbsorptionWeightingContinuous(IList<long> numberOfCollisions, IList<double> pathLengths, IList<OpticalProperties> perturbedOps, IList<OpticalProperties> referenceOps, IList<int> perturbedRegionsIndices)
+        {
+            // final pMC absorbed energy will use this perturbed factor 
+            return pMCAbsorbContinuous(numberOfCollisions, pathLengths, perturbedOps, referenceOps,
+                perturbedRegionsIndices);
         }
     }
 }

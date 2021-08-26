@@ -8,7 +8,7 @@ addpath(pwd);
 addpath([pwd slash 'jsonlab']);
 
 % names of individual MC simulations
-datanames = { 'one_layer_all_detectors' };
+datanames = { 'PostProcessor_pMC_ROfXAndYAndTimeAndSubregion' };
 % datanames = { 'results_mua0.1musp1.0' 'results_mua0.1musp1.1' }; %...etc
 
 % outdir = 'C:\Projects\vts\src\Vts.MonteCarlo.CommandLineApplication\bin\Release';
@@ -56,6 +56,7 @@ show.FluenceOfFxAndZ =          1;
 show.RadianceOfRhoAndZAndAngle = 1;
 show.RadianceOfFxAndZAndAngle = 1;
 show.RadianceOfXAndYAndZAndThetaAndPhi = 1;
+show.pMCATotal =                1;
 show.pMCROfRho =                1;
 show.pMCROfRhoRecessed =        1;
 show.pMCROfRhoAndTime =         1;
@@ -946,6 +947,9 @@ for mci = 1:length(datanames)
         figure; imagesc(results{di}.ReflectedTimeOfRhoAndSubregionHist.Rho_Midpoints, results{di}.ReflectedTimeOfRhoAndSubregionHist.Time_Midpoints, results{di}.ReflectedTimeOfRhoAndSubregionHist.FractionalTime');       
                colorbar; title(figname); set(gcf,'Name', figname); ylabel('subregion index'); xlabel('\rho [mm]')
         disp(['Time in Subregion captured by ReflectedTimeOfRhoAndSubregionHist detector: ' num2str(sum(results{di}.ReflectedTimeOfRhoAndSubregionHist.Mean(:)))]);
+    end
+    if isfield(results{di}, 'pMCATotal') && show.pMCATotal
+       disp(['Total absorption captured by pMCATotal detector: ' num2str(results{di}.pMCATotal.Mean)]);
     end
     if isfield(results{di}, 'pMCROfRho') && show.pMCROfRho
         figname = sprintf('log10(%s)',results{di}.pMCROfRho.Name); figure; plot(results{di}.pMCROfRho.Rho_Midpoints, log10(results{di}.pMCROfRho.Mean)); title(figname); set(gcf,'Name', figname); xlabel('\rho [mm]'); ylabel('pMC R(\rho) [mm^-^2]');

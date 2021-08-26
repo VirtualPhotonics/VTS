@@ -511,6 +511,8 @@ namespace Vts.MonteCarlo
             "RadianceOfFxAndZAndAngle",
             // Volume randiance as a function of x, y, z, theta and phi
             "RadianceOfXAndYAndZAndThetaAndPhi",
+            // perturbation Monte Carlo (pMC) total absorbance
+            "pMCATotal",
              // perturbation Monte Carlo (pMC) reflectance as a function of source-detector separation (rho) 
             "pMCROfRho",
             // perturbation Monte Carlo (pMC) reflectance as a function of source-detector separation (rho) recessed in air
@@ -729,6 +731,10 @@ namespace Vts.MonteCarlo
         /// Volume randiance as a function of x, y, z, theta and phi
         /// </summary>
         public static string RadianceOfXAndYAndZAndThetaAndPhi { get { return "RadianceOfXAndYAndZAndThetaAndPhi"; } }
+        /// <summary>
+        /// Total absorbed energy
+        /// </summary>
+        public static string pMCATotal { get { return "pMCATotal"; } }
         /// <summary>
         /// perturbation Monte Carlo (pMC) reflectance as a function of source-detector separation (rho)
         /// </summary>

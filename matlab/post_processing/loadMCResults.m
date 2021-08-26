@@ -1391,7 +1391,14 @@ for di = 1:numDetectors
                 ReflectedTimeOfRhoAndSubregionHist.Stdev = sqrt((ReflectedTimeOfRhoAndSubregionHist.SecondMoment - (ReflectedTimeOfRhoAndSubregionHist.Mean .* ReflectedTimeOfRhoAndSubregionHist.Mean)) / (N));               
             end
             results{di}.ReflectedTimeOfRhoAndSubregionHist = ReflectedTimeOfRhoAndSubregionHist;
-      case 'pMCROfRho'
+      case 'pMCATotal'
+            pMCAtotal.Name = detector.Name;           
+            pMCATotal_txt = readAndParseJson([datadir slash detector.Name '.txt']);
+            pMCATotal.Mean = pMCATotal_txt.Mean;              
+            pMCATotal.SecondMoment = pMCATotal_txt.SecondMoment; 
+            pMCATotal.Stdev = sqrt((pMCATotal.SecondMoment - (pMCATotal.Mean .* pMCATotal.Mean)) / (databaseInputJson.N));
+            results{di}.pMCATotal = pMCATotal;           
+        case 'pMCROfRho'
             pMCROfRho.Name = detector.Name;
             tempRho = detector.Rho;
             pMCROfRho.Rho = linspace((tempRho.Start), (tempRho.Stop), (tempRho.Count));

@@ -203,6 +203,16 @@ namespace Vts.MonteCarlo
                          PerturbedRegionsIndices = new List<int>() { 1 },
                          Name="pMCROfXAndYAndTimeAndSubregionRecessed_mus1p5"
                      },
+                     new pMCATotalDetectorInput()
+                     {
+                         PerturbedOps =
+                             new List<OpticalProperties>() {
+                                 new OpticalProperties(0.0, 1e-10, 0.0, 1.0),
+                                 new OpticalProperties(0.01, 1.5, 0.8, 1.4),
+                                 new OpticalProperties(0.0, 1e-10, 0.0, 1.0)},
+                         PerturbedRegionsIndices = new List<int>() { 1 },
+                         Name="pMCATotal_mus1p5"
+                     },
                 },
                 "pMC_one_layer_ROfRhoROfXAndY_DAW",
                 "pMC_one_layer_ROfRhoROfXAndY_DAW",

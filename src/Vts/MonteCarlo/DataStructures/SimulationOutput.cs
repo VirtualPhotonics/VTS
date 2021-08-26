@@ -836,6 +836,18 @@ namespace Vts.MonteCarlo
         /// Reflected Time of Rho and Tissue SubRegion with a histogram of Time Tally Count
         /// </summary>
         public long RefTime_rs_hist_TallyCount { get { return ((long)((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ReflectedTimeOfRhoAndSubregionHist").First().Name]).TallyCount); } }
+        /// <summary>
+        /// pMC Total Absorbed Energy
+        /// </summary>
+        public double pMC_Atot { get { return ((double)((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "pMCATotal").First().Name]).Mean); } }
+        /// <summary>
+        /// Total Absorbed Energy 2nd moment
+        /// </summary>
+        public double pMC_Atot2 { get { return ((double)((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "pMCATotal").First().Name]).SecondMoment); } }
+        /// <summary>
+        /// Total Absorbed Energy Tally Count
+        /// </summary>
+        public long pMC_Atot_TallyCount { get { return ((long)((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "pMCATotal").First().Name]).TallyCount); } }
 
         /// <summary>
         /// perturbation MC Reflectance as a function of rho 

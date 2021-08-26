@@ -75,6 +75,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                     1);
             var detectorInputs = new List<IDetectorInput>()
             {
+                new ATotalDetectorInput() {TallySecondMoment = true},
                 new ROfRhoDetectorInput() {Rho=new DoubleRange(0.0, 10.0, 101)},
                 new ROfRhoAndTimeDetectorInput() {Rho=new DoubleRange(0.0, 10.0, 101),Time=new DoubleRange(0.0, 1.0, 101)},
                 new ROfRhoAndMaxDepthDetectorInput() {Rho=new DoubleRange(0.0, 10.0, 101),MaxDepth=new DoubleRange(0.0, 100.0, 11)},
@@ -215,7 +216,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                             new OpticalProperties(0.05, 1.0, 0.8, 1.4),
                             new OpticalProperties(0.1, 1.0, 0.8, 1.4),
                             _referenceInputTwoLayerTissue.TissueInput.Regions[3].RegionOP},
-                        PerturbedRegionsIndices=new List<int>() { 1, 2 }
+                        PerturbedRegionsIndices=new List<int>() { 1, 2 },
                     }
                 },
                 _databaseTwoLayerTissue,
@@ -228,6 +229,41 @@ namespace Vts.Test.MonteCarlo.Detectors
                                    _referenceOutputTwoLayerTissue.R_xyts[0, 0, 9, 1]) > 0.000001);
             Assert.IsTrue(Math.Abs(postProcessedOutput.pMC_R_xyts[0, 0, 9, 2] -
                                    _referenceOutputTwoLayerTissue.R_xyts[0, 0, 9, 2]) > 0.000001);
+        }
+        /// <summary>
+        /// Test to validate mua non-zero perturbation and time in layer results
+        /// </summary>
+        [Test]
+        public void validate_pMC_CAW_ATotal_zero_perturbation_in_both_layer_results()
+        {
+            var postProcessor = new PhotonDatabasePostProcessor(
+                VirtualBoundaryType.pMCDiffuseReflectance,
+                new List<IDetectorInput>()
+                {
+                    new pMCATotalDetectorInput()
+                    {
+                        PerturbedOps=new List<OpticalProperties>() { // perturbed ops
+                            _referenceInputTwoLayerTissue.TissueInput.Regions[0].RegionOP,
+                            _referenceInputTwoLayerTissue.TissueInput.Regions[1].RegionOP,
+                            _referenceInputTwoLayerTissue.TissueInput.Regions[2].RegionOP,
+                            _referenceInputTwoLayerTissue.TissueInput.Regions[3].RegionOP},
+                        PerturbedRegionsIndices=new List<int>() { 1, 2 },
+                        TallySecondMoment = true
+                    }
+                },
+                _databaseTwoLayerTissue,
+                _referenceInputTwoLayerTissue);
+            var postProcessedOutput = postProcessor.Run();
+            // the following two values do not agree with those values in CAWLayersDetectorTests
+            // because the slab thickness=20mm and the on-the-fly results tally to absorbed
+            // energy when the photon tranmits out the bottom of the slab
+            Assert.Less(Math.Abs(postProcessedOutput.pMC_Atot - 0.290926), 0.000001);
+            Assert.Less(Math.Abs(postProcessedOutput.pMC_Atot2 - 0.185483), 0.000001);
+            // show that unperturbed results are not same for reason in above comment
+            Assert.IsTrue(Math.Abs(postProcessedOutput.pMC_Atot -
+                                   _referenceOutputTwoLayerTissue.Atot)> 0.000001);
+            Assert.IsTrue(Math.Abs(postProcessedOutput.pMC_Atot2 -
+                                   _referenceOutputTwoLayerTissue.Atot2)> 0.000001);
         }
     }
 }
