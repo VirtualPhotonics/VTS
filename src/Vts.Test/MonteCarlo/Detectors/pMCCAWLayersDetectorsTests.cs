@@ -78,13 +78,15 @@ namespace Vts.Test.MonteCarlo.Detectors
                 new ATotalDetectorInput() {TallySecondMoment = true},
                 new ROfRhoDetectorInput() {Rho=new DoubleRange(0.0, 10.0, 101)},
                 new ROfRhoAndTimeDetectorInput() {Rho=new DoubleRange(0.0, 10.0, 101),Time=new DoubleRange(0.0, 1.0, 101)},
-                new ROfRhoAndMaxDepthDetectorInput() {Rho=new DoubleRange(0.0, 10.0, 101),MaxDepth=new DoubleRange(0.0, 100.0, 11)},
                 new ROfXAndYAndTimeAndSubregionDetectorInput() {
-                    X=new DoubleRange(-5.0, 5.0, 11),Y=new DoubleRange(-3.0, 3.0, 7),
+                    X=new DoubleRange(-5.0, 5.0, 11),
+                    Y=new DoubleRange(-3.0, 3.0, 7),
                     Time=new DoubleRange(0, 0.05, 11) },
                 new ROfXAndYAndTimeAndSubregionRecessedDetectorInput() {
-                X=new DoubleRange(-5.0, 5.0, 11),Y=new DoubleRange(-3.0, 3.0, 7),
-                Time=new DoubleRange(0, 0.05, 11),ZPlane = -1.0 }
+                    X=new DoubleRange(-5.0, 5.0, 11),
+                    Y=new DoubleRange(-3.0, 3.0, 7),
+                    Time=new DoubleRange(0, 0.05, 11),
+                    ZPlane = -1.0 }
             };
 
             _referenceInputTwoLayerTissue = new SimulationInput(

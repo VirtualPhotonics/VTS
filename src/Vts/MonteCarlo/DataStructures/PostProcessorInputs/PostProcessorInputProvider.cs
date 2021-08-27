@@ -55,9 +55,19 @@ namespace Vts.MonteCarlo
         public static PostProcessorInput pMCROfRhoAndROfRhoAndTime()
         {
             return new PostProcessorInput(
-                //VirtualBoundaryType.pMCDiffuseReflectance,
                 new List<IDetectorInput>()
                 {
+                    // add in regular ROfRho and ROfRhoAndTime detectors for comparison
+                    new ROfRhoDetectorInput()
+                    {
+                        Rho=new DoubleRange(0.0, 10, 101),
+                        TallySecondMoment = true,
+                    },
+                    new ROfRhoAndTimeDetectorInput()
+                    {
+                        Rho=new DoubleRange(0.0, 10, 101),
+                        Time=new DoubleRange(0.0, 10, 101),
+                    },
                     new pMCROfRhoDetectorInput()
                     {
                         Rho=new DoubleRange(0.0, 10, 101),

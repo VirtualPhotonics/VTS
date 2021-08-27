@@ -56,7 +56,15 @@ namespace Vts.MonteCarlo
                         throw new NotImplementedException("CAW is not currently implemented for most volume tallies.");
                     }
                 case AbsorptionWeightingType.Discrete:
-                    throw new NotImplementedException("DAW not implemented yet.");
+                    if (detector.TallyType == TallyType.pMCATotal)
+                    {
+                        return (numberOfCollisions, pathLengths, perturbedOps, referenceOps, perturbedRegionIndices) =>
+                            pMCVolumeAbsorptionWeightingDiscrete(numberOfCollisions, pathLengths, perturbedOps, referenceOps, perturbedRegionIndices);
+                    }
+                    else
+                    {
+                        throw new NotImplementedException("DAW is not currently implemented for most volume tallies.");
+                    }
                 default:
                     throw new ArgumentException("AbsorptionWeightingType did not match the available types.");
             }
@@ -204,6 +212,12 @@ namespace Vts.MonteCarlo
         private static double pMCAbsorbAnalog(long[] numberOfCollisions, double[] pathLength, OpticalProperties[] perturbedOps, OpticalProperties[] referenceOps, int[] perturbedRegionsIndices)
         {
             throw new NotImplementedException();
+        }
+        private static double pMCVolumeAbsorptionWeightingDiscrete(IList<long> numberOfCollisions, IList<double> pathLengths, IList<OpticalProperties> perturbedOps, IList<OpticalProperties> referenceOps, IList<int> perturbedRegionsIndices)
+        {
+            // final pMC absorbed energy will use this perturbed factor 
+            return pMCAbsorbDiscrete(numberOfCollisions, pathLengths, perturbedOps, referenceOps,
+                perturbedRegionsIndices);
         }
         private static double pMCVolumeAbsorptionWeightingContinuous(IList<long> numberOfCollisions, IList<double> pathLengths, IList<OpticalProperties> perturbedOps, IList<OpticalProperties> referenceOps, IList<int> perturbedRegionsIndices)
         {
