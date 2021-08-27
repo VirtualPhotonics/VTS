@@ -9,6 +9,7 @@ postProcessorResults = false;
 if (exist([datadir slash dataname '_database_infile.txt'],'file'))
     postProcessorResults = true;
     databaseInputJson = readAndParseJson([datadir slash dataname '_database_infile.txt']);
+    json.N = databaseInputJson.N;  % set this in case MCPP has mix of MC and pMC detectors
 end
 numDetectors = length(json.DetectorInputs);
 for di = 1:numDetectors
