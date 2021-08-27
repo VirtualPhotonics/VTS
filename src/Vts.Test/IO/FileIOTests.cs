@@ -1,11 +1,11 @@
-﻿using System;
+﻿using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Numerics;
 using System.Reflection;
 using System.Text;
-using NUnit.Framework;
 using Vts.Common;
 using Vts.IO;
 using Vts.MonteCarlo;
@@ -25,6 +25,7 @@ namespace Vts.Test.IO
             "folder2",
             "folder3",
             "folder4",
+            Path.Combine("sourcetest", "subfolder"),
             "sourcetest"
         };
         List<string> listOfTestGeneratedFiles = new List<string>()
@@ -206,7 +207,6 @@ namespace Vts.Test.IO
             Assert.IsTrue(Math.Abs(arrayRead.Skip(2).Take(1).First() - 0.052445) < 0.000001);
         }
 
-
         [Test] 
         public void validate_read_from_binary_custom()
         {
@@ -345,6 +345,18 @@ namespace Vts.Test.IO
         }
 
         [Test]
+        public void Validate_write_to_binary_stream_throws_exception()
+        {
+            Assert.Throws<ArgumentNullException>(() =>
+            {
+                using (Stream stream = new MemoryStream(8))
+                {
+                    FileIO.WriteToBinaryStream<double[]>(null, stream);
+                }
+            });
+        }
+
+        [Test]
         public void validate_write_2D_array_to_binary_and_read_from_binary()
         {
             var array = new double[,]
@@ -471,6 +483,18 @@ namespace Vts.Test.IO
         }
 
         [Test]
+        public void validate_copy_folder_and_sub_folder_from_embedded_resources()
+        {
+            var folder = "sourcetest";
+            FileIO.CopyFolderFromEmbeddedResources(folder, "", Assembly.GetExecutingAssembly().FullName, true);
+            Assert.IsTrue(FileIO.FileExists(Path.Combine(folder, "subfolder", "noextension")));
+            Assert.IsTrue(FileIO.FileExists(Path.Combine(folder, "subfolder", "textfile.txt")));
+            Assert.IsTrue(FileIO.FileExists(Path.Combine(folder, "AOfXAndYAndZ")));
+            Assert.IsTrue(FileIO.FileExists(Path.Combine(folder, "AOfXAndYAndZ.txt")));
+            Assert.IsTrue(FileIO.FileExists(Path.Combine(folder, "inputAOfXAndYAndZ.txt")));
+        }
+
+        [Test]
         public void validate_file_exists()
         {
             const string file = "file1.txt";
@@ -529,15 +553,15 @@ namespace Vts.Test.IO
         /// reads back array with ReadArrayFromBinary and checks values
         /// </summary>
         [Test]
-        public void validate_write_double_array_to_binary_and_read_array_from_binary()
+        public void Validate_write_double_array_to_binary_and_read_array_from_binary()
         {
             var array = new double[3] { 1.0, 2.0, 3.0 };
-            FileIO.WriteArrayToBinary(array, "array1", true);
+            FileIO.WriteArrayToBinary(array, "array1");
             Assert.IsTrue(FileIO.FileExists("array1"));
             Assert.IsTrue(new FileInfo("array1").Length != 0);
             Assert.IsTrue(FileIO.FileExists("array1.txt"));
-            var data = (double[])FileIO.ReadArrayFromBinary<double>("array1", 3);
-            Assert.AreEqual(data[0], 1.0);
+            var data = (double[])FileIO.ReadArrayFromBinary<double>("array1");
+            Assert.AreEqual(1.0, data[0]);
         }
 
         /// <summary>

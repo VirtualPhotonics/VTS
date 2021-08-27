@@ -439,33 +439,6 @@ namespace Vts.IO
             }
         }
 
-        // todo: delete if the one below it works ok
-        /// <summary>
-        /// Writes an array to a binary file and optionally accompanying .txt (JSON) file 
-        /// (to store array dimensions) if includeMetaData = true
-        /// </summary>
-        /// <typeparam name="T">Type of the array to be written</typeparam>
-        /// <param name="dataIN">Array to be written</param>
-        /// <param name="filename">Name of the file where the data is written</param>
-        /// <param name="includeMetaData">Boolean to determine whether to include meta data, if set to true, an accompanying JSON file will be created with the same name</param>
-        public static void WriteArrayToBinary<T>(Array dataIN, string filename, bool includeMetaData) where T : struct
-        {
-            // Write JSON file to describe the contents of the binary file
-            if (includeMetaData)
-            {
-                new MetaData(dataIN).WriteToJson(filename + ".txt");
-            }
-            // Create a file to write binary data 
-            using (Stream s = StreamFinder.GetFileStream(filename, FileMode.OpenOrCreate))
-            {
-                using (BinaryWriter bw = new BinaryWriter(s))
-                {
-                    new ArrayCustomBinaryWriter().WriteToBinary(bw, dataIN);
-                    //WriteArrayToBinaryInternal(bw, dataIN.ToEnumerable<T>());
-                }
-            }
-        }
-
         /// <summary>
         /// Writes an array to a binary file and optionally accompanying .xml file 
         /// (to store array dimensions) if includeMetaData = true
@@ -494,12 +467,11 @@ namespace Vts.IO
         /// <summary>
         /// Writes an array to a binary file, as well as an accompanying .txt (JSON) file to store array dimensions
         /// </summary>
-        /// <typeparam name="T">Type of the array to be written</typeparam>
         /// <param name="dataIN">Array to be written</param>
         /// <param name="filename">Name of the file to which the array is written</param>
-        public static void WriteArrayToBinary<T>(Array dataIN, string filename) where T : struct
+        public static void WriteArrayToBinary(Array dataIN, string filename)
         {
-            WriteArrayToBinary<T>(dataIN, filename, true);
+            WriteArrayToBinary(dataIN, filename, true);
         }
 
         /// <summary>
