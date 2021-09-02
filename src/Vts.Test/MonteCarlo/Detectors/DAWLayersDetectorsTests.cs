@@ -83,6 +83,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                      1); // start inside tissue
             var detectors = new List<IDetectorInput>
                 {
+                    new RSpecularDetectorInput() { TallySecondMoment = true },  // this will be 0 since src inside
                     new RDiffuseDetectorInput() { TallySecondMoment = true },
                     new ROfAngleDetectorInput()
                     {
@@ -410,7 +411,15 @@ namespace Vts.Test.MonteCarlo.Detectors
                             _inputOneLayerTissue.TissueInput.Regions[0].RegionOP.N,
                             _inputOneLayerTissue.TissueInput.Regions[1].RegionOP.N);
         }
-
+        // this tally was not in the linux code.  Specular will be 0 since source started inside tissue
+        [Test]
+        public void validate_DAW_RSpecular()
+        {
+            Assert.AreEqual(0.0, _outputOneLayerTissue.Rspec);
+            Assert.AreEqual(0.0, _outputTwoLayerTissue.Rspec);
+            Assert.AreEqual(0.0, _outputOneLayerTissue.Rspec2);
+            Assert.AreEqual(0.0, _outputTwoLayerTissue.Rspec2);
+        }
         // validation values obtained from linux run using above input and seeded the same for:
         // Diffuse Reflectance
         [Test]
