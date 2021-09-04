@@ -287,7 +287,9 @@ namespace Vts.Test.MonteCarlo.Detectors
                 _databaseTwoLayerTissue,
                 _referenceInputTwoLayerTissue);
             var postProcessedOutput = postProcessor.Run();
-            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_xyts[0, 0, 9, 1] - 0.095528), 0.000001);
+            // the following could be in different time bins because binned based on time in region
+            // not total time
+            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_xyts[0, 0, 9, 1] - 0.080779), 0.000001);
             Assert.Less(Math.Abs(postProcessedOutput.pMC_R_xyts[0, 0, 9, 2] - 0.191335), 0.000001);
             // show that unperturbed results are not same
             Assert.IsTrue(Math.Abs(postProcessedOutput.pMC_R_xyts[0, 0, 9, 1] -

@@ -28,6 +28,8 @@ show.ROfXAndY =                 1;
 show.ROfXAndYRecessed =         1;
 show.ROfXAndYAndTime =          1;
 show.ROfXAndYAndTimeRecessed =  1;
+show.ROfXAndYAndTimeAndSubregion =          1;
+show.ROfXAndYAndTimeAndSubregionRecessed =  1;
 show.ROfXAndYAndThetaAndPhi =   1;
 show.ROfXAndYAndMaxDepth =      1;
 show.ROfXAndYAndMaxDepthRecessed=1;
@@ -228,6 +230,32 @@ for mci = 1:length(datanames)
         timedelta = results{di}.ROfXAndYAndTimeRecessed.Time(2)-results{di}.ROfXAndYAndTimeRecessed.Time(1);
         xynorm = xdelta * ydelta;
         disp(['Total reflectance captured by ROfXAndYAndTimeRecessed detector: ' num2str(sum(sum(sum(timedelta*xynorm*results{di}.ROfXAndYAndTimeRecessed.Mean))))]);
+    end
+    if isfield(results{di}, 'ROfXAndYAndTimeAndSubregion') && show.ROfXAndYAndTimeAndSubregion
+        y0idx = floor(length(results{di}.ROfXAndYAndTimeAndSubregion.Y_Midpoints)/2);
+        for i=2:results{di}.ROfXAndYAndTimeAndSubregion.NumberOfRegions-1 % exclude air above and below          
+          figname = sprintf('log10(%s) region idx=%i',results{di}.ROfXAndYAndTimeAndSubregion.Name,i-1); figure; 
+          imagesc(results{di}.ROfXAndYAndTimeAndSubregion.X_Midpoints, results{di}.ROfXAndYAndTimeAndSubregion.Time_Midpoints,...
+            log10(squeeze(results{di}.ROfXAndYAndTimeAndSubregion.Mean(i,:,y0idx,:)))); 
+          colorbar; title(figname); set(gcf,'Name', figname);ylabel('time [ns]'); xlabel('x [mm]');
+        end
+        xdelta = results{di}.ROfXAndYAndTimeAndSubregion.X(2)-results{di}.ROfXAndYAndTimeAndSubregion.X(1);        
+        ydelta = results{di}.ROfXAndYAndTimeAndSubregion.Y(2)-results{di}.ROfXAndYAndTimeAndSubregion.Y(1);
+        timedelta = results{di}.ROfXAndYAndTimeAndSubregion.Time(2)-results{di}.ROfXAndYAndTimeAndSubregion.Time(1);
+        disp(['Total reflectance captured by ROfXAndYAndTimeAndSubregion detector: ' num2str(sum(xdelta*ydelta*timedelta*results{di}.ROfXAndYAndTimeAndSubregion.Mean(:)))]);
+    end
+    if isfield(results{di}, 'ROfXAndYAndTimeAndSubregionRecessed') && show.ROfXAndYAndTimeAndSubregionRecessed
+        y0idx = floor(length(results{di}.ROfXAndYAndTimeAndSubregionRecessed.Y_Midpoints)/2);
+        for i=2:results{di}.ROfXAndYAndTimeAndSubregionRecessed.NumberOfRegions-1 % exclude air above and below          
+          figname = sprintf('log10(%s) region idx=%i',results{di}.ROfXAndYAndTimeAndSubregionRecessed.Name,i-1); figure; 
+          imagesc(results{di}.ROfXAndYAndTimeAndSubregionRecessed.X_Midpoints, results{di}.ROfXAndYAndTimeAndSubregionRecessed.Time_Midpoints,...
+            log10(squeeze(results{di}.ROfXAndYAndTimeAndSubregionRecessed.Mean(i,:,y0idx,:)))); 
+          colorbar; title(figname); set(gcf,'Name', figname);ylabel('time [ns]'); xlabel('x [mm]');
+        end
+        xdelta = results{di}.ROfXAndYAndTimeAndSubregionRecessed.X(2)-results{di}.ROfXAndYAndTimeAndSubregionRecessed.X(1);        
+        ydelta = results{di}.ROfXAndYAndTimeAndSubregionRecessed.Y(2)-results{di}.ROfXAndYAndTimeAndSubregionRecessed.Y(1);
+        timedelta = results{di}.ROfXAndYAndTimeAndSubregionRecessed.Time(2)-results{di}.ROfXAndYAndTimeAndSubregionRecessed.Time(1);
+        disp(['Total reflectance captured by ROfXAndYAndTimeAndSubregionRecessed detector: ' num2str(sum(xdelta*ydelta*timedelta*results{di}.ROfXAndYAndTimeAndSubregionRecessed.Mean(:)))]);
     end
     if isfield(results{di}, 'ROfXAndYAndThetaAndPhi') && show.ROfXAndYAndThetaAndPhi
         yidx = floor(length(results{di}.ROfXAndYAndThetaAndPhi.Y_Midpoints) / 2);
@@ -983,7 +1011,7 @@ for mci = 1:length(datanames)
         figname = sprintf('log10(%s)',results{di}.pMCROfXAndY.Name); figure; imagesc(results{di}.pMCROfXAndY.X_Midpoints, results{di}.pMCROfXAndY.Y_Midpoints,log10(results{di}.pMCROfXAndY.Mean)); colorbar; title(figname); set(gcf,'Name', figname);ylabel('y [mm]'); xlabel('x [mm]');
         xdelta = results{di}.ROfXAndYAndTime.X(2)-results{di}.ROfXAndYAndTime.X(1);        
         ydelta = results{di}.ROfXAndYAndTime.Y(2)-results{di}.ROfXAndYAndTime.Y(1);
-   disp(['Total reflectance captured by pMCROfXAndY detector: ' num2str(sum(xdelta*ydelta*results{di}.pMCROfXAndY.Mean(:)))]);
+        disp(['Total reflectance captured by pMCROfXAndY detector: ' num2str(sum(xdelta*ydelta*results{di}.pMCROfXAndY.Mean(:)))]);
     end
     if isfield(results{di}, 'pMCROfXAndYAndTimeAndSubregion') && show.pMCROfXAndYAndTimeAndSubregion
         y0idx = floor(length(results{di}.pMCROfXAndYAndTimeAndSubregion.Y_Midpoints)/2);

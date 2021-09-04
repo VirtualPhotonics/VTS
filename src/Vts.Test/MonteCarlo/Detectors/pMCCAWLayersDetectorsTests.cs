@@ -153,7 +153,8 @@ namespace Vts.Test.MonteCarlo.Detectors
         }
         /// <summary>
         /// Test to validate that setting mua and mus to the reference values
-        /// determines results equal to reference
+        /// determines results equal to reference for (pMC)ROfXAndYAndTimeAndSubregion and
+        /// (pMC)ROfXAndYAndTimeAndSubregionRecessed
         /// </summary>
         [Test]
         public void validate_pMC_CAW_ROfXAndYAndTimeAndSubregion_zero_perturbation_both_layers()
@@ -192,12 +193,13 @@ namespace Vts.Test.MonteCarlo.Detectors
                 _referenceInputTwoLayerTissue);
             var postProcessedOutput = postProcessor.Run();
             // validation value obtained from reference results
-            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_xyts[0, 0, 0, 1] - 
-                                 _referenceOutputTwoLayerTissue.R_xyts[0, 0, 0, 1]), 0.00000000001);
+            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_xyts[0, 0, 9, 1] - 
+                                 _referenceOutputTwoLayerTissue.R_xyts[0, 0, 9, 1]), 0.00000000001);
             // recessed detector
-            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_xytsr[0, 0, 0, 1] -
-                                 _referenceOutputTwoLayerTissue.R_xytsr[0, 0, 0, 1]), 0.00000000001);
+            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_xytsr[0, 0, 9, 1] -
+                                 _referenceOutputTwoLayerTissue.R_xytsr[0, 0, 9, 1]), 0.00000000001);
         }
+
         /// <summary>
         /// Test to validate mua non-zero perturbation and time in layer results
         /// </summary>
@@ -224,7 +226,9 @@ namespace Vts.Test.MonteCarlo.Detectors
                 _databaseTwoLayerTissue,
                 _referenceInputTwoLayerTissue);
             var postProcessedOutput = postProcessor.Run();
-            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_xyts[0, 0, 9, 1] - 0.134017), 0.000001);
+            // the following could be in different time bins because binned based on time in region
+            // not total time
+            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_xyts[0, 0, 9, 1] - 0.078657), 0.000001);
             Assert.Less(Math.Abs(postProcessedOutput.pMC_R_xyts[0, 0, 9, 2] - 0.270657), 0.000001);
             // show that unperturbed results are not same
             Assert.IsTrue(Math.Abs(postProcessedOutput.pMC_R_xyts[0, 0, 9, 1] -

@@ -154,13 +154,14 @@ namespace Vts.MonteCarlo.Detectors
 
             var ix = DetectorBinning.WhichBin(photon.DP.Position.X, X.Count - 1, X.Delta, X.Start);
             var iy = DetectorBinning.WhichBin(photon.DP.Position.Y, Y.Count - 1, Y.Delta, Y.Start);
-            var it = DetectorBinning.WhichBin(photon.DP.TotalTime, Time.Count - 1, Time.Delta, Time.Start);
+            //var it = DetectorBinning.WhichBin(photon.DP.TotalTime, Time.Count - 1, Time.Delta, Time.Start);
             // determine total time in each tissue region
             var pathLengthInRegion = photon.History.SubRegionInfoList.Select(p => p.PathLength).ToArray();
 
             for (int ir = 0; ir < NumberOfRegions; ir++)
             {
                 var timeInRegion = pathLengthInRegion[ir] / (GlobalConstants.C / _tissue.Regions[ir].RegionOP.N);
+                var it = DetectorBinning.WhichBin(timeInRegion, Time.Count - 1, Time.Delta, Time.Start);
                 if (timeInRegion > 0.0) // only tally if path length in region
                 {
                     Mean[ix, iy, it, ir] += photon.DP.Weight * (timeInRegion / photon.DP.TotalTime);

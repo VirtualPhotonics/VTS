@@ -602,15 +602,17 @@ namespace Vts.Test.MonteCarlo.Detectors
         public void validate_DAW_ROfXAndYAndTimeAndSubregion()
         {
             Assert.Less(Math.Abs(_outputOneLayerTissue.R_xyts[0, 0, 9, 1] - 0.188035), 0.000001);
-            Assert.Less(Math.Abs(_outputTwoLayerTissue.R_xyts[0, 0, 9, 1] - 0.004214), 0.000001);
+            // the following are in different time bins because binned based on time in region
+            // not total time
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.R_xyts[0, 0, 0, 1] - 0.004214), 0.000001);
             Assert.Less(Math.Abs(_outputTwoLayerTissue.R_xyts[0, 0, 9, 2] - 0.183821), 0.000001);
             Assert.Less(Math.Abs(_outputOneLayerTissue.R_xyts2[0, 0, 9, 1] - 3.53574), 0.00001);
-            Assert.Less(Math.Abs(_outputTwoLayerTissue.R_xyts2[0, 0, 9, 1] - 0.00177), 0.00001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.R_xyts2[0, 0, 0, 1] - 0.00177), 0.00001);
             Assert.Less(Math.Abs(_outputTwoLayerTissue.R_xyts2[0, 0, 9, 2] - 3.37903), 0.00001);
             Assert.AreEqual(_outputOneLayerTissue.R_xyt_TallyCount, 89);
             Assert.AreEqual(_outputTwoLayerTissue.R_xyt_TallyCount, 89);
             // check that sum over regions gives back single region result
-            Assert.Less(Math.Abs(_outputTwoLayerTissue.R_xyts[0, 0, 9, 1] +
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.R_xyts[0, 0, 0, 1] +
                                  _outputTwoLayerTissue.R_xyts[0, 0, 9, 2] -
                                  _outputOneLayerTissue.R_xyts[0, 0, 9, 1]), 0.00001);
             // check that sum over time gives back R(x,y) use R[0,0] results above test
@@ -630,15 +632,17 @@ namespace Vts.Test.MonteCarlo.Detectors
         public void validate_DAW_ROfXAndYAndTimeAndSubregionRecessed()
         {
             Assert.Less(Math.Abs(_outputOneLayerTissue.R_xytsr[0, 12, 1, 1] - 1.75180), 0.00001);
-            Assert.Less(Math.Abs(_outputTwoLayerTissue.R_xytsr[0, 12, 1, 1] - 0.35063), 0.00001);
+            // the following are in different time bins because binned based on time in region
+            // not total time
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.R_xytsr[0, 12, 0, 1] - 0.35063), 0.00001);
             Assert.Less(Math.Abs(_outputTwoLayerTissue.R_xytsr[0, 12, 1, 2] - 1.40117), 0.00001);
             Assert.Less(Math.Abs(_outputOneLayerTissue.R_xytsr2[0, 12, 1, 1] - 306.881), 0.001);
-            Assert.Less(Math.Abs(_outputTwoLayerTissue.R_xytsr2[0, 12, 1, 1] -  12.294), 0.001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.R_xytsr2[0, 12, 0, 1] -  12.294), 0.001);
             Assert.Less(Math.Abs(_outputTwoLayerTissue.R_xytsr2[0, 12, 1, 2] - 196.328), 0.001);
             Assert.AreEqual(_outputOneLayerTissue.R_xytsr_TallyCount, 89);
             Assert.AreEqual(_outputTwoLayerTissue.R_xytsr_TallyCount, 89);
             // check that sum over regions gives back single region result
-            Assert.Less(Math.Abs(_outputTwoLayerTissue.R_xytsr[0, 12, 1, 1] +
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.R_xytsr[0, 12, 0, 1] +
                                  _outputTwoLayerTissue.R_xytsr[0, 12, 1, 2] -
                                  _outputOneLayerTissue.R_xytsr[0, 12, 1, 1]), 0.00001);
             // check that sum over time gives back R(x,y) recessed use R[0,12] results above test
