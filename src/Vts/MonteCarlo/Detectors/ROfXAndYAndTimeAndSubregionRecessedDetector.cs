@@ -13,7 +13,7 @@ namespace Vts.MonteCarlo.Detectors
     /// Tally for reflectance as a function of X and Y and Time and Subregion recessed in air.
     /// This works for Analog, DAW and CAW processing.
     /// Similar to Sum_{over time} R(x,y,time) = R(x,y)
-    /// Here: Sum_{over subregion} R(x,y,time,subregion) = R(x,y,time)
+    /// Here: Sum_{over subregion} Sum_{over time} R(x,y,time,subregion) = R(x,y)
     /// </summary>
     public class ROfXAndYAndTimeAndSubregionRecessedDetectorInput : DetectorInput, IDetectorInput
     {
