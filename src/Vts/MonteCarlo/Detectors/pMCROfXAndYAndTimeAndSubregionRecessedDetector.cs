@@ -13,6 +13,9 @@ namespace Vts.MonteCarlo.Detectors
     /// <summary>
     /// Tally for pMC estimation of reflectance as a function of X, Y, Time and Subregion
     /// recessed in air.
+    /// Method tallies photon weight to time bin associated with pathlength in each region.
+    /// Integrated R(x,y,t,subregion) will not integrate to R(x,y), independent array
+    /// ROfXAndY used to determine this. Reference: Hiraoka93, Phys.Med.Biol.38
     /// </summary>
     public class pMCROfXAndYAndTimeAndSubregionRecessedDetectorInput : DetectorInput, IDetectorInput
     {
@@ -122,6 +125,10 @@ namespace Vts.MonteCarlo.Detectors
         /// </summary>
         public double ZPlane { get; set; }
         /// <summary>
+        /// total reflectance, needed to normalize partial differential path length
+        /// </summary>
+        public double[,] ROfXAndY { get; set; }
+        /// <summary>
         /// Number of tissue regions for serial/deserialization
         /// </summary>
         public int NumberOfRegions { get; set; }
@@ -174,6 +181,7 @@ namespace Vts.MonteCarlo.Detectors
             // if the data arrays are null, create them (only create second moment if TallySecondMoment is true)
             Mean = Mean ?? new double[X.Count - 1, Y.Count - 1,Time.Count - 1,NumberOfRegions];
             SecondMoment = SecondMoment ?? (TallySecondMoment ? new double[X.Count - 1, Y.Count - 1,Time.Count - 1,NumberOfRegions] : null);
+            ROfXAndY = ROfXAndY ?? new double[X.Count - 1, Y.Count - 1];
 
             // initialize any other necessary class fields here
             _perturbedOps = PerturbedOps;
@@ -199,8 +207,8 @@ namespace Vts.MonteCarlo.Detectors
             // WhichBin to match ROfXAndYAndTimeDetector
             var ix = DetectorBinning.WhichBin(positionAtZPlane.X, X.Count - 1, X.Delta, X.Start);
             var iy = DetectorBinning.WhichBin(positionAtZPlane.Y, Y.Count - 1, Y.Delta, Y.Start);
-            //var it = DetectorBinning.WhichBin(photon.DP.TotalTime, Time.Count - 1, Time.Delta, Time.Start);
-            // determine total time in each tissue region
+            
+            // determine path length in each tissue region
             var pathLengthInRegion = photon.History.SubRegionInfoList.Select(p => p.PathLength).ToArray();
 
             if ((ix != -1) && (iy != -1))
@@ -210,18 +218,20 @@ namespace Vts.MonteCarlo.Detectors
                     photon.History.SubRegionInfoList.Select(p => p.PathLength).ToList(),
                     _perturbedOps, _referenceOps, _perturbedRegionsIndices);
 
+                ROfXAndY[ix, iy] += photon.DP.Weight * weightFactor;
 
                 for (int ir = 0; ir < NumberOfRegions; ir++)
                 {
                     var timeInRegion = pathLengthInRegion[ir] / (GlobalConstants.C / _tissue.Regions[ir].RegionOP.N);
+                    // determine time bin based on individual region
                     var it = DetectorBinning.WhichBin(timeInRegion, Time.Count - 1, Time.Delta, Time.Start);
                     if (timeInRegion > 0.0) // only tally if path length in region
                     {
-                        Mean[ix, iy, it, ir] += photon.DP.Weight * weightFactor * (timeInRegion / photon.DP.TotalTime);
+                        Mean[ix, iy, it, ir] += photon.DP.Weight * weightFactor;
                         if (TallySecondMoment)
                         {
-                            SecondMoment[ix, iy, it, ir] += photon.DP.Weight * weightFactor * (timeInRegion / photon.DP.TotalTime) *
-                                                            photon.DP.Weight * weightFactor * (timeInRegion / photon.DP.TotalTime);
+                            SecondMoment[ix, iy, it, ir] += photon.DP.Weight * weightFactor *
+                                                            photon.DP.Weight * weightFactor;
                         }
                     }
                 }
@@ -241,12 +251,14 @@ namespace Vts.MonteCarlo.Detectors
             {
                 for (int iy = 0; iy < Y.Count - 1; iy++)
                 {
+                    ROfXAndY[ix, iy] /= X.Delta * Y.Delta * numPhotons;
                     for (int it = 0; it < Time.Count - 1; it++)
                     {
                         for (int ir = 0; ir < NumberOfRegions; ir++)
                         {
                             var areaNorm = normalizationFactor;
                             Mean[ix, iy, it, ir] /= areaNorm * numPhotons;
+
                             if (TallySecondMoment)
                             {
                                 SecondMoment[ix, iy, it, ir] /= areaNorm * areaNorm * numPhotons;
@@ -287,6 +299,26 @@ namespace Vts.MonteCarlo.Detectors
                                         Mean[i, j, k, l] = binaryReader.ReadDouble();
                                     }
                                 }
+                            }
+                        }
+                    }
+                },
+                new BinaryArraySerializer {
+                    DataArray = ROfXAndY,
+                    Name = "ROfXAndY",
+                    FileTag = "_ROfXAndY",
+                    WriteData = binaryWriter => {
+                        for (int i = 0; i < X.Count - 1; i++) {
+                            for (int j = 0; j < Y.Count - 1; j++) {
+                                binaryWriter.Write(ROfXAndY[i, j]);
+                            }
+                        }
+                    },
+                    ReadData = binaryReader => {
+                        ROfXAndY = ROfXAndY ?? new double[ X.Count - 1, Y.Count];
+                        for (int i = 0; i <  X.Count - 1; i++) {
+                            for (int j = 0; j < Y.Count - 1; j++) {
+                                ROfXAndY[i, j] = binaryReader.ReadDouble();
                             }
                         }
                     }

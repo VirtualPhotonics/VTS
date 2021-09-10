@@ -229,6 +229,10 @@ namespace Vts.MonteCarlo
         /// </summary>
         public double[,,,] R_xyts { get { return ((double[,,,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ROfXAndYAndTimeAndSubregion").First().Name]).Mean); } }
         /// <summary>
+        /// Reflectance as a function of x and y and time and subregion ROfXAndY
+        /// </summary>
+        public double[,] R_xyts_xy { get { return ((double[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ROfXAndYAndTimeAndSubregion").First().Name]).ROfXAndY); } }
+        /// <summary>
         /// Reflectance as a function of x and y 2nd moment
         /// </summary>
         public double[,,,] R_xyts2 { get { return ((double[,,,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ROfXAndYAndTimeAndSubregion").First().Name]).SecondMoment); } }
@@ -240,6 +244,10 @@ namespace Vts.MonteCarlo
         /// Reflectance as a function of x and y and time and subregion recessed in air
         /// </summary>
         public double[,,,] R_xytsr { get { return ((double[,,,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ROfXAndYAndTimeAndSubregionRecessed").First().Name]).Mean); } }
+        /// <summary>
+        /// Reflectance as a function of x and y and time and subregion recessed ROfXAndY
+        /// </summary>
+        public double[,] R_xytsr_xy { get { return ((double[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "ROfXAndYAndTimeAndSubregionRecessed").First().Name]).ROfXAndY); } }
         /// <summary>
         /// Reflectance as a function of x and y and time and subregion recessed in air 2nd moment
         /// </summary>
@@ -914,6 +922,11 @@ namespace Vts.MonteCarlo
         /// </summary>
         public double[,,,] pMC_R_xyts { get { return ((double[,,,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "pMCROfXAndYAndTimeAndSubregion").First().Name]).Mean); } }
         /// <summary>
+        /// perturbation MC Reflectance as a function of x and y and time and subregion ROfXAndY
+        /// </summary>
+        public double[,] pMC_R_xyts_xy { get { return ((double[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "pMCROfXAndYAndTimeAndSubregion").First().Name]).ROfXAndY); } }
+
+        /// <summary>
         /// perturbation MC Reflectance as a function of x, y, time and tissue subregion 2nd moment
         /// </summary>
         public double[,,,] pMC_R_xyts2 { get { return ((double[,,,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "pMCROfXAndYAndTimeAndSubregion").First().Name]).SecondMoment); } }
@@ -925,6 +938,11 @@ namespace Vts.MonteCarlo
         /// perturbation MC Reflectance as a function of x, y, time and tissue subregion recessed in air
         /// </summary>
         public double[,,,] pMC_R_xytsr { get { return ((double[,,,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "pMCROfXAndYAndTimeAndSubregionRecessed").First().Name]).Mean); } }
+        /// <summary>
+        /// perturbation MC Reflectance as a function of x and y and time and subregion recessed ROfXAndY
+        /// </summary>
+        public double[,] pMC_R_xytsr_xy { get { return ((double[,])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "pMCROfXAndYAndTimeAndSubregionRecessed").First().Name]).ROfXAndY); } }
+
         /// <summary>
         /// perturbation MC Reflectance as a function of x, y, time and tissue subregion recessed in air 2nd moment
         /// </summary>

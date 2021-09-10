@@ -228,13 +228,13 @@ namespace Vts.Test.MonteCarlo.Detectors
             var postProcessedOutput = postProcessor.Run();
             // the following could be in different time bins because binned based on time in region
             // not total time
-            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_xyts[0, 0, 9, 1] - 0.078657), 0.000001);
-            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_xyts[0, 0, 9, 2] - 0.270657), 0.000001);
+            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_xyts[0, 1, 5, 1] - 0.012422), 0.000001);
+            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_xyts[0, 1, 9, 2] - 0.012422), 0.000001);
             // show that unperturbed results are not same
-            Assert.IsTrue(Math.Abs(postProcessedOutput.pMC_R_xyts[0, 0, 9, 1] -
-                                   _referenceOutputTwoLayerTissue.R_xyts[0, 0, 9, 1]) > 0.000001);
-            Assert.IsTrue(Math.Abs(postProcessedOutput.pMC_R_xyts[0, 0, 9, 2] -
-                                   _referenceOutputTwoLayerTissue.R_xyts[0, 0, 9, 2]) > 0.000001);
+            Assert.IsTrue(Math.Abs(postProcessedOutput.pMC_R_xyts[0, 1, 5, 1] -
+                                   _referenceOutputTwoLayerTissue.R_xyts[0, 1, 5, 1]) > 0.000001);
+            Assert.IsTrue(Math.Abs(postProcessedOutput.pMC_R_xyts[0, 1, 9, 2] -
+                                   _referenceOutputTwoLayerTissue.R_xyts[0, 1, 9, 2]) > 0.000001);
         }
         /// <summary>
         /// Test to validate mua non-zero perturbation and time in layer results

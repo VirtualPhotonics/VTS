@@ -11,8 +11,9 @@ namespace Vts.MonteCarlo.Detectors
     /// <summary>
     /// Tally for reflectance as a function of X and Y and Time and Subregion.
     /// This works for Analog, DAW and CAW processing.
-    /// Similar to Sum_{over time} R(x,y,time) = R(x,y)
-    /// Here: Sum_{over subregion} Sum_{over time} R(x,y,time,subregion) = R(x,y)
+    /// Method tallies photon weight to time bin associated with pathlength in each region.
+    /// Integrated R(x,y,t,subregion) will not integrate to R(x,y), independent array
+    /// ROfXAndY used to determine this. Reference: Hiraoka93, Phys.Med.Biol.38
     /// </summary>
     public class ROfXAndYAndTimeAndSubregionDetectorInput : DetectorInput, IDetectorInput
     {
@@ -101,6 +102,10 @@ namespace Vts.MonteCarlo.Detectors
         /// </summary>
         public int NumberOfRegions { get; set; }
         /// <summary>
+        /// total reflectance, needed to normalize partial differential path length
+        /// </summary>
+        public double[,] ROfXAndY { get; set; }
+        /// <summary>
         /// Detector region index
         /// </summary>
         public int FinalTissueRegionIndex { get; set; }
@@ -138,6 +143,7 @@ namespace Vts.MonteCarlo.Detectors
             Mean = Mean ?? new double[X.Count - 1, Y.Count - 1,Time.Count - 1,NumberOfRegions];
             SecondMoment = SecondMoment ?? (
                 TallySecondMoment ? new double[X.Count - 1, Y.Count - 1, Time.Count - 1, tissue.Regions.Count] : null);
+            ROfXAndY = ROfXAndY ?? new double[X.Count - 1, Y.Count - 1];
 
             // initialize any other necessary class fields here
             _tissue = tissue;
@@ -154,21 +160,22 @@ namespace Vts.MonteCarlo.Detectors
 
             var ix = DetectorBinning.WhichBin(photon.DP.Position.X, X.Count - 1, X.Delta, X.Start);
             var iy = DetectorBinning.WhichBin(photon.DP.Position.Y, Y.Count - 1, Y.Delta, Y.Start);
-            //var it = DetectorBinning.WhichBin(photon.DP.TotalTime, Time.Count - 1, Time.Delta, Time.Start);
-            // determine total time in each tissue region
+            ROfXAndY[ix, iy] += photon.DP.Weight;
+            
+            // determine path length in each tissue region
             var pathLengthInRegion = photon.History.SubRegionInfoList.Select(p => p.PathLength).ToArray();
 
             for (int ir = 0; ir < NumberOfRegions; ir++)
             {
                 var timeInRegion = pathLengthInRegion[ir] / (GlobalConstants.C / _tissue.Regions[ir].RegionOP.N);
+                // determine time bin based on individual region
                 var it = DetectorBinning.WhichBin(timeInRegion, Time.Count - 1, Time.Delta, Time.Start);
                 if (timeInRegion > 0.0) // only tally if path length in region
                 {
-                    Mean[ix, iy, it, ir] += photon.DP.Weight * (timeInRegion / photon.DP.TotalTime);
+                    Mean[ix, iy, it, ir] += photon.DP.Weight;
                     if (TallySecondMoment)
                     {
-                        SecondMoment[ix, iy, it, ir] += photon.DP.Weight * (timeInRegion / photon.DP.TotalTime) *
-                                                        photon.DP.Weight * (timeInRegion / photon.DP.TotalTime);
+                        SecondMoment[ix, iy, it, ir] += photon.DP.Weight * photon.DP.Weight;
                     }
                 }
             }
@@ -186,6 +193,7 @@ namespace Vts.MonteCarlo.Detectors
             {
                 for (int iy = 0; iy < Y.Count - 1; iy++)
                 {
+                    ROfXAndY[ix, iy] /= X.Delta * Y.Delta * numPhotons;
                     for (int it = 0; it < Time.Count - 1; it++)
                     {
                         for (int ir = 0; ir < NumberOfRegions; ir++)
@@ -233,6 +241,26 @@ namespace Vts.MonteCarlo.Detectors
                                         Mean[i, j, k, l] = binaryReader.ReadDouble();
                                     }
                                 }
+                            }
+                        }
+                    }
+                },
+                new BinaryArraySerializer {
+                    DataArray = ROfXAndY,
+                    Name = "ROfXAndY",
+                    FileTag = "_ROfXAndY",
+                    WriteData = binaryWriter => {
+                        for (int i = 0; i < X.Count - 1; i++) {
+                            for (int j = 0; j < Y.Count - 1; j++) {
+                                binaryWriter.Write(ROfXAndY[i, j]);
+                            }
+                        }
+                    },
+                    ReadData = binaryReader => {
+                        ROfXAndY = ROfXAndY ?? new double[ X.Count - 1, Y.Count];
+                        for (int i = 0; i <  X.Count - 1; i++) {
+                            for (int j = 0; j < Y.Count - 1; j++) {
+                                ROfXAndY[i, j] = binaryReader.ReadDouble();
                             }
                         }
                     }

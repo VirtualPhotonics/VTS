@@ -242,7 +242,9 @@ for mci = 1:length(datanames)
         xdelta = results{di}.ROfXAndYAndTimeAndSubregion.X(2)-results{di}.ROfXAndYAndTimeAndSubregion.X(1);        
         ydelta = results{di}.ROfXAndYAndTimeAndSubregion.Y(2)-results{di}.ROfXAndYAndTimeAndSubregion.Y(1);
         timedelta = results{di}.ROfXAndYAndTimeAndSubregion.Time(2)-results{di}.ROfXAndYAndTimeAndSubregion.Time(1);
+        % the following does not integrate to diffuse R
         disp(['Total reflectance captured by ROfXAndYAndTimeAndSubregion detector: ' num2str(sum(xdelta*ydelta*timedelta*results{di}.ROfXAndYAndTimeAndSubregion.Mean(:)))]);
+        disp(['Total reflectance captured by ROfXAndYAndTimeAndSubregion detector - ROfXAndY: ' num2str(sum(xdelta*ydelta*results{di}.ROfXAndYAndTimeAndSubregion.ROfXAndY(:)))]);
     end
     if isfield(results{di}, 'ROfXAndYAndTimeAndSubregionRecessed') && show.ROfXAndYAndTimeAndSubregionRecessed
         y0idx = floor(length(results{di}.ROfXAndYAndTimeAndSubregionRecessed.Y_Midpoints)/2);
@@ -255,7 +257,9 @@ for mci = 1:length(datanames)
         xdelta = results{di}.ROfXAndYAndTimeAndSubregionRecessed.X(2)-results{di}.ROfXAndYAndTimeAndSubregionRecessed.X(1);        
         ydelta = results{di}.ROfXAndYAndTimeAndSubregionRecessed.Y(2)-results{di}.ROfXAndYAndTimeAndSubregionRecessed.Y(1);
         timedelta = results{di}.ROfXAndYAndTimeAndSubregionRecessed.Time(2)-results{di}.ROfXAndYAndTimeAndSubregionRecessed.Time(1);
+        % the following does not integrate to diffuse R
         disp(['Total reflectance captured by ROfXAndYAndTimeAndSubregionRecessed detector: ' num2str(sum(xdelta*ydelta*timedelta*results{di}.ROfXAndYAndTimeAndSubregionRecessed.Mean(:)))]);
+        disp(['Total reflectance captured by ROfXAndYAndTimeAndSubregionRecessed detector - ROfXAndY: ' num2str(sum(xdelta*ydelta*results{di}.ROfXAndYAndTimeAndSubregionRecessed.ROfXAndY(:)))]);
     end
     if isfield(results{di}, 'ROfXAndYAndThetaAndPhi') && show.ROfXAndYAndThetaAndPhi
         yidx = floor(length(results{di}.ROfXAndYAndThetaAndPhi.Y_Midpoints) / 2);
@@ -1024,7 +1028,9 @@ for mci = 1:length(datanames)
         xdelta = results{di}.pMCROfXAndYAndTimeAndSubregion.X(2)-results{di}.pMCROfXAndYAndTimeAndSubregion.X(1);        
         ydelta = results{di}.pMCROfXAndYAndTimeAndSubregion.Y(2)-results{di}.pMCROfXAndYAndTimeAndSubregion.Y(1);
         timedelta = results{di}.pMCROfXAndYAndTimeAndSubregion.Time(2)-results{di}.pMCROfXAndYAndTimeAndSubregion.Time(1);
+        % the following does not integrate to diffuse R
         disp(['Total reflectance captured by pMCROfXAndYAndTimeAndSubregion detector: ' num2str(sum(xdelta*ydelta*timedelta*results{di}.pMCROfXAndYAndTimeAndSubregion.Mean(:)))]);
+        disp(['Total reflectance captured by pMCROfXAndYAndTimeAndSubregion detector - ROfXAndY: ' num2str(sum(xdelta*ydelta*results{di}.pMCROfXAndYAndTimeAndSubregion.ROfXAndY(:)))]);
     end
     if isfield(results{di}, 'pMCROfXAndYAndTimeAndSubregionRecessed') && show.pMCROfXAndYAndTimeAndSubregionRecessed
         y0idx = floor(length(results{di}.pMCROfXAndYAndTimeAndSubregionRecessed.Y_Midpoints)/2);
@@ -1037,7 +1043,10 @@ for mci = 1:length(datanames)
         xdelta = results{di}.pMCROfXAndYAndTimeAndSubregionRecessed.X(2)-results{di}.pMCROfXAndYAndTimeAndSubregionRecessed.X(1);        
         ydelta = results{di}.pMCROfXAndYAndTimeAndSubregionRecessed.Y(2)-results{di}.pMCROfXAndYAndTimeAndSubregionRecessed.Y(1);
         timedelta = results{di}.pMCROfXAndYAndTimeAndSubregionRecessed.Time(2)-results{di}.pMCROfXAndYAndTimeAndSubregionRecessed.Time(1);
+        % the following does not integrate to diffuse R
         disp(['Total reflectance captured by pMCROfXAndYAndTimeAndSubregionRecessed detector: ' num2str(sum(xdelta*ydelta*timedelta*results{di}.pMCROfXAndYAndTimeAndSubregionRecessed.Mean(:)))]);
+        disp(['Total reflectance captured by pMCROfXAndYAndTimeAndSubregion detector - ROfXAndY: ' num2str(sum(xdelta*ydelta*results{di}.pMCROfXAndYAndTimeAndSubregionRecessed.ROfXAndY(:)))]);
+
     end
     if isfield(results{di}, 'pMCROfFx') && show.pMCROfFx
         figname = sprintf('%s - Amplitude',results{di}.pMCROfFx.Name);figure;plot(results{di}.pMCROfFx.Fx_Midpoints, abs(results{di}.pMCROfFx.Mean));title(figname);set(gcf,'Name', figname);xlabel('f_x [/mm]');ylabel('R(f_x) [unitless]');
