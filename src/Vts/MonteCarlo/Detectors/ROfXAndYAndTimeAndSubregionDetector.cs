@@ -106,6 +106,10 @@ namespace Vts.MonteCarlo.Detectors
         /// </summary>
         public double[,] ROfXAndY { get; set; }
         /// <summary>
+        /// total reflectance 2nd moment, needed to normalize partial differential path length
+        /// </summary>
+        public double[,] ROfXAndYSecondMoment { get; set; }
+        /// <summary>
         /// Detector region index
         /// </summary>
         public int FinalTissueRegionIndex { get; set; }
@@ -144,6 +148,7 @@ namespace Vts.MonteCarlo.Detectors
             SecondMoment = SecondMoment ?? (
                 TallySecondMoment ? new double[X.Count - 1, Y.Count - 1, Time.Count - 1, tissue.Regions.Count] : null);
             ROfXAndY = ROfXAndY ?? new double[X.Count - 1, Y.Count - 1];
+            ROfXAndYSecondMoment = ROfXAndYSecondMoment ?? new double[X.Count - 1, Y.Count - 1];
 
             // initialize any other necessary class fields here
             _tissue = tissue;
@@ -161,7 +166,8 @@ namespace Vts.MonteCarlo.Detectors
             var ix = DetectorBinning.WhichBin(photon.DP.Position.X, X.Count - 1, X.Delta, X.Start);
             var iy = DetectorBinning.WhichBin(photon.DP.Position.Y, Y.Count - 1, Y.Delta, Y.Start);
             ROfXAndY[ix, iy] += photon.DP.Weight;
-            
+            ROfXAndYSecondMoment[ix, iy] += photon.DP.Weight * photon.DP.Weight;
+
             // determine path length in each tissue region
             var pathLengthInRegion = photon.History.SubRegionInfoList.Select(p => p.PathLength).ToArray();
 
@@ -194,6 +200,7 @@ namespace Vts.MonteCarlo.Detectors
                 for (int iy = 0; iy < Y.Count - 1; iy++)
                 {
                     ROfXAndY[ix, iy] /= X.Delta * Y.Delta * numPhotons;
+                    ROfXAndYSecondMoment[ix, iy] /= X.Delta * Y.Delta * X.Delta * Y.Delta * numPhotons;
                     for (int it = 0; it < Time.Count - 1; it++)
                     {
                         for (int ir = 0; ir < NumberOfRegions; ir++)
@@ -299,6 +306,26 @@ namespace Vts.MonteCarlo.Detectors
                             }
 			            }
                     },
+                },
+                !TallySecondMoment ? null : new BinaryArraySerializer {
+                    DataArray = ROfXAndYSecondMoment,
+                    Name = "ROfXAndYSecondMoment",
+                    FileTag = "_ROfXAndY_2",
+                    WriteData = binaryWriter => {
+                        for (int i = 0; i < X.Count - 1; i++) {
+                            for (int j = 0; j < Y.Count - 1; j++) {
+                                binaryWriter.Write(ROfXAndYSecondMoment[i, j]);
+                            }
+                        }
+                    },
+                    ReadData = binaryReader => {
+                        ROfXAndYSecondMoment = ROfXAndYSecondMoment ?? new double[ X.Count - 1, Y.Count];
+                        for (int i = 0; i <  X.Count - 1; i++) {
+                            for (int j = 0; j < Y.Count - 1; j++) {
+                                ROfXAndYSecondMoment[i, j] = binaryReader.ReadDouble();
+                            }
+                        }
+                    }
                 },
             };
         }

@@ -193,11 +193,19 @@ namespace Vts.Test.MonteCarlo.Detectors
                 _referenceInputTwoLayerTissue);
             var postProcessedOutput = postProcessor.Run();
             // validation value obtained from reference results
-            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_xyts[0, 0, 9, 1] - 
+            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_xyts[0, 0, 9, 1] -
                                  _referenceOutputTwoLayerTissue.R_xyts[0, 0, 9, 1]), 0.00000000001);
+            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_xyts_xy[0, 0] -
+                                 _referenceOutputTwoLayerTissue.R_xyts_xy[0, 0]), 0.00000000001);
+            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_xyts_xy2[0, 0] -
+                                 _referenceOutputTwoLayerTissue.R_xyts_xy2[0, 0]), 0.00000000001);
             // recessed detector
             Assert.Less(Math.Abs(postProcessedOutput.pMC_R_xytsr[0, 0, 9, 1] -
                                  _referenceOutputTwoLayerTissue.R_xytsr[0, 0, 9, 1]), 0.00000000001);
+            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_xytsr_xy[0, 0] -
+                                 _referenceOutputTwoLayerTissue.R_xytsr_xy[0, 0]), 0.00000000001);
+            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_xytsr_xy2[0, 0] -
+                                 _referenceOutputTwoLayerTissue.R_xytsr_xy2[0, 0]), 0.00000000001);
         }
 
         /// <summary>
@@ -235,6 +243,10 @@ namespace Vts.Test.MonteCarlo.Detectors
                                    _referenceOutputTwoLayerTissue.R_xyts[0, 1, 5, 1]) > 0.000001);
             Assert.IsTrue(Math.Abs(postProcessedOutput.pMC_R_xyts[0, 1, 9, 2] -
                                    _referenceOutputTwoLayerTissue.R_xyts[0, 1, 9, 2]) > 0.000001);
+            Assert.IsTrue(Math.Abs(postProcessedOutput.pMC_R_xyts_xy[0, 1] -
+                                   _referenceOutputTwoLayerTissue.R_xyts_xy[0, 1]) > 0.000001);
+            Assert.IsTrue(Math.Abs(postProcessedOutput.pMC_R_xyts_xy[0, 1] -
+                                   _referenceOutputTwoLayerTissue.R_xyts_xy[0, 1]) > 0.000001);
         }
         /// <summary>
         /// Test to validate mua non-zero perturbation and time in layer results

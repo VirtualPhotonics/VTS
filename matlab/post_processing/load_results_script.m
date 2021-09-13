@@ -244,6 +244,7 @@ for mci = 1:length(datanames)
         timedelta = results{di}.ROfXAndYAndTimeAndSubregion.Time(2)-results{di}.ROfXAndYAndTimeAndSubregion.Time(1);
         % the following does not integrate to diffuse R
         disp(['Total reflectance captured by ROfXAndYAndTimeAndSubregion detector: ' num2str(sum(xdelta*ydelta*timedelta*results{di}.ROfXAndYAndTimeAndSubregion.Mean(:)))]);
+        % but this does
         disp(['Total reflectance captured by ROfXAndYAndTimeAndSubregion detector - ROfXAndY: ' num2str(sum(xdelta*ydelta*results{di}.ROfXAndYAndTimeAndSubregion.ROfXAndY(:)))]);
     end
     if isfield(results{di}, 'ROfXAndYAndTimeAndSubregionRecessed') && show.ROfXAndYAndTimeAndSubregionRecessed
@@ -259,6 +260,7 @@ for mci = 1:length(datanames)
         timedelta = results{di}.ROfXAndYAndTimeAndSubregionRecessed.Time(2)-results{di}.ROfXAndYAndTimeAndSubregionRecessed.Time(1);
         % the following does not integrate to diffuse R
         disp(['Total reflectance captured by ROfXAndYAndTimeAndSubregionRecessed detector: ' num2str(sum(xdelta*ydelta*timedelta*results{di}.ROfXAndYAndTimeAndSubregionRecessed.Mean(:)))]);
+        % but this does
         disp(['Total reflectance captured by ROfXAndYAndTimeAndSubregionRecessed detector - ROfXAndY: ' num2str(sum(xdelta*ydelta*results{di}.ROfXAndYAndTimeAndSubregionRecessed.ROfXAndY(:)))]);
     end
     if isfield(results{di}, 'ROfXAndYAndThetaAndPhi') && show.ROfXAndYAndThetaAndPhi
@@ -1030,6 +1032,7 @@ for mci = 1:length(datanames)
         timedelta = results{di}.pMCROfXAndYAndTimeAndSubregion.Time(2)-results{di}.pMCROfXAndYAndTimeAndSubregion.Time(1);
         % the following does not integrate to diffuse R
         disp(['Total reflectance captured by pMCROfXAndYAndTimeAndSubregion detector: ' num2str(sum(xdelta*ydelta*timedelta*results{di}.pMCROfXAndYAndTimeAndSubregion.Mean(:)))]);
+        % but this does
         disp(['Total reflectance captured by pMCROfXAndYAndTimeAndSubregion detector - ROfXAndY: ' num2str(sum(xdelta*ydelta*results{di}.pMCROfXAndYAndTimeAndSubregion.ROfXAndY(:)))]);
     end
     if isfield(results{di}, 'pMCROfXAndYAndTimeAndSubregionRecessed') && show.pMCROfXAndYAndTimeAndSubregionRecessed
@@ -1045,6 +1048,7 @@ for mci = 1:length(datanames)
         timedelta = results{di}.pMCROfXAndYAndTimeAndSubregionRecessed.Time(2)-results{di}.pMCROfXAndYAndTimeAndSubregionRecessed.Time(1);
         % the following does not integrate to diffuse R
         disp(['Total reflectance captured by pMCROfXAndYAndTimeAndSubregionRecessed detector: ' num2str(sum(xdelta*ydelta*timedelta*results{di}.pMCROfXAndYAndTimeAndSubregionRecessed.Mean(:)))]);
+        % but this does
         disp(['Total reflectance captured by pMCROfXAndYAndTimeAndSubregion detector - ROfXAndY: ' num2str(sum(xdelta*ydelta*results{di}.pMCROfXAndYAndTimeAndSubregionRecessed.ROfXAndY(:)))]);
 
     end

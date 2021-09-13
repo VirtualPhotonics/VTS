@@ -243,7 +243,9 @@ for di = 1:numDetectors
                   [tempNumberOfRegions*(length(ROfXAndYAndTimeAndSubregion.Time)-1)*(length(ROfXAndYAndTimeAndSubregion.Y)-1)*(length(ROfXAndYAndTimeAndSubregion.X)-1)]);
                 ROfXAndYAndTimeAndSubregion.SecondMoment = reshape(ROfXAndYAndTimeAndSubregion.SecondMoment,...
                   [tempNumberOfRegions,length(ROfXAndYAndTimeAndSubregion.Time)-1,length(ROfXAndYAndTimeAndSubregion.Y)-1,length(ROfXAndYAndTimeAndSubregion.X)-1]); % read column major json binary            
-                ROfXAndYAndTimeAndSubregion.Stdev = sqrt((ROfXAndYAndTimeAndSubregion.SecondMoment - (ROfXAndYAndTimeAndSubregion.Mean .* ROfXAndYAndTimeAndSubregion.Mean)) / (databaseInputJson.N));
+                ROfXAndYAndTimeAndSubregion.Stdev = sqrt((ROfXAndYAndTimeAndSubregion.SecondMoment - (ROfXAndYAndTimeAndSubregion.Mean .* ROfXAndYAndTimeAndSubregion.Mean)) / (json.N));
+                ROfXAndYAndTimeAndSubregion.ROfXAndYSecondMoment = readBinaryData([datadir slash detector.Name '_ROfXAndY_2'],[length(ROfXAndYAndTimeAndSubregion.Y)-1,length(ROfXAndYAndTimeAndSubregion.X)-1]);  % read column major json binary          
+                ROfXAndYAndTimeAndSubregion.ROfXAndYStdev = sqrt((ROfXAndYAndTimeAndSubregion.ROfXAndYSecondMoment - (ROfXAndYAndTimeAndSubregion.ROfXAndY .* ROfXAndYAndTimeAndSubregion.ROfXAndY)) / (json.N));
             end
             results{di}.ROfXAndYAndTimeAndSubregion = ROfXAndYAndTimeAndSubregion;
         case 'ROfXAndYAndTimeAndSubregionRecessed'
@@ -269,7 +271,9 @@ for di = 1:numDetectors
                   [tempNumberOfRegions*(length(ROfXAndYAndTimeAndSubregionRecessed.Time)-1)*(length(ROfXAndYAndTimeAndSubregionRecessed.Y)-1)*(length(ROfXAndYAndTimeAndSubregionRecessed.X)-1)]);
                 ROfXAndYAndTimeAndSubregionRecessed.SecondMoment = reshape(ROfXAndYAndTimeAndSubregionRecessed.SecondMoment,...
                   [tempNumberOfRegions,length(ROfXAndYAndTimeAndSubregionRecessed.Time)-1,length(ROfXAndYAndTimeAndSubregionRecessed.Y)-1,length(ROfXAndYAndTimeAndSubregionRecessed.X)-1]); % read column major json binary            
-                ROfXAndYAndTimeAndSubregionRecessed.Stdev = sqrt((ROfXAndYAndTimeAndSubregionRecessed.SecondMoment - (ROfXAndYAndTimeAndSubregionRecessed.Mean .* ROfXAndYAndTimeAndSubregionRecessed.Mean)) / (databaseInputJson.N));
+                ROfXAndYAndTimeAndSubregionRecessed.Stdev = sqrt((ROfXAndYAndTimeAndSubregionRecessed.SecondMoment - (ROfXAndYAndTimeAndSubregionRecessed.Mean .* ROfXAndYAndTimeAndSubregionRecessed.Mean)) / (json.N));
+                ROfXAndYAndTimeAndSubregionRecessed.ROfXAndYSecondMoment = readBinaryData([datadir slash detector.Name '_ROfXAndY_2'],[length(ROfXAndYAndTimeAndSubregionRecessed.Y)-1,length(ROfXAndYAndTimeAndSubregionRecessed.X)-1]);  % read column major json binary          
+                ROfXAndYAndTimeAndSubregionRecessed.ROfXAndYStdev = sqrt((ROfXAndYAndTimeAndSubregionRecessed.ROfXAndYSecondMoment - (ROfXAndYAndTimeAndSubregionRecessed.ROfXAndY .* ROfXAndYAndTimeAndSubregionRecessed.ROfXAndY)) / (json.N));
             end
             results{di}.ROfXAndYAndTimeAndSubregionRecessed = ROfXAndYAndTimeAndSubregionRecessed;
         case 'ROfXAndYAndThetaAndPhi'
@@ -1561,6 +1565,8 @@ for di = 1:numDetectors
                 pMCROfXAndYAndTimeAndSubregion.SecondMoment = reshape(pMCROfXAndYAndTimeAndSubregion.SecondMoment,...
                   [tempNumberOfRegions,length(pMCROfXAndYAndTimeAndSubregion.Time)-1,length(pMCROfXAndYAndTimeAndSubregion.Y)-1,length(pMCROfXAndYAndTimeAndSubregion.X)-1]); % read column major json binary            
                 pMCROfXAndYAndTimeAndSubregion.Stdev = sqrt((pMCROfXAndYAndTimeAndSubregion.SecondMoment - (pMCROfXAndYAndTimeAndSubregion.Mean .* pMCROfXAndYAndTimeAndSubregion.Mean)) / (databaseInputJson.N));
+                pMCROfXAndYAndTimeAndSubregion.ROfXAndYSecondMoment = readBinaryData([datadir slash detector.Name '_ROfXAndY_2'],[length(pMCROfXAndYAndTimeAndSubregion.Y)-1,length(pMCROfXAndYAndTimeAndSubregion.X)-1]);  % read column major json binary          
+                pMCROfXAndYAndTimeAndSubregion.ROfXAndYStdev = sqrt((pMCROfXAndYAndTimeAndSubregion.ROfXAndYSecondMoment - (pMCROfXAndYAndTimeAndSubregion.ROfXAndY .* pMCROfXAndYAndTimeAndSubregion.ROfXAndY)) / (databaseInputJson.N));
             end
             results{di}.pMCROfXAndYAndTimeAndSubregion = pMCROfXAndYAndTimeAndSubregion;
         case 'pMCROfXAndYAndTimeAndSubregionRecessed'
@@ -1587,7 +1593,9 @@ for di = 1:numDetectors
                 pMCROfXAndYAndTimeAndSubregionRecessed.SecondMoment = reshape(pMCROfXAndYAndTimeAndSubregionRecessed.SecondMoment,...
                   [tempNumberOfRegions,length(pMCROfXAndYAndTimeAndSubregionRecessed.Time)-1,length(pMCROfXAndYAndTimeAndSubregionRecessed.Y)-1,length(pMCROfXAndYAndTimeAndSubregionRecessed.X)-1]); % read column major json binary            
                 pMCROfXAndYAndTimeAndSubregionRecessed.Stdev = sqrt((pMCROfXAndYAndTimeAndSubregionRecessed.SecondMoment - (pMCROfXAndYAndTimeAndSubregionRecessed.Mean .* pMCROfXAndYAndTimeAndSubregionRecessed.Mean)) / (databaseInputJson.N));
-            end
+                pMCROfXAndYAndTimeAndSubregionRecessed.ROfXAndYSecondMoment = readBinaryData([datadir slash detector.Name '_ROfXAndY_2'],[length(pMCROfXAndYAndTimeAndSubregionRecessed.Y)-1,length(pMCROfXAndYAndTimeAndSubregionRecessed.X)-1]);  % read column major json binary          
+                pMCROfXAndYAndTimeAndSubregionRecessed.ROfXAndYStdev = sqrt((pMCROfXAndYAndTimeAndSubregionRecessed.ROfXAndYSecondMoment - (pMCROfXAndYAndTimeAndSubregionRecessed.ROfXAndY .* pMCROfXAndYAndTimeAndSubregionRecessed.ROfXAndY)) / (databaseInputJson.N));
+           end
             results{di}.pMCROfXAndYAndTimeAndSubregionRecessed = pMCROfXAndYAndTimeAndSubregionRecessed;
         case 'pMCROfFx'
             pMCROfFx.Name = detector.Name;

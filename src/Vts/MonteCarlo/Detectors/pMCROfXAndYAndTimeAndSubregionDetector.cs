@@ -115,7 +115,11 @@ namespace Vts.MonteCarlo.Detectors
         /// <summary>
         /// total reflectance, needed to normalize partial differential path length
         /// </summary>
-        public double[,] ROfXAndY { get; set; }
+        public double[,] ROfXAndY { get; set; }        
+        /// <summary>
+        /// total reflectance 2nd moment, needed to normalize partial differential path length
+        /// </summary>
+        public double[,] ROfXAndYSecondMoment { get; set; }
         /// <summary>
         /// Number of tissue regions for serial/deserialization
         /// </summary>
@@ -170,6 +174,7 @@ namespace Vts.MonteCarlo.Detectors
             Mean = Mean ?? new double[X.Count - 1, Y.Count - 1,Time.Count - 1,NumberOfRegions];
             SecondMoment = SecondMoment ?? (TallySecondMoment ? new double[X.Count - 1, Y.Count - 1,Time.Count - 1,NumberOfRegions] : null);
             ROfXAndY = ROfXAndY ?? new double[X.Count - 1, Y.Count - 1];
+            ROfXAndYSecondMoment = ROfXAndYSecondMoment ?? new double[X.Count - 1, Y.Count - 1];
 
             // initialize any other necessary class fields here
             _perturbedOps = PerturbedOps;
@@ -203,6 +208,8 @@ namespace Vts.MonteCarlo.Detectors
                     _perturbedOps, _referenceOps, _perturbedRegionsIndices);
 
                 ROfXAndY[ix, iy] += photon.DP.Weight * weightFactor;
+                ROfXAndYSecondMoment[ix, iy] += photon.DP.Weight * weightFactor * 
+                                                photon.DP.Weight * weightFactor;
 
                 for (int ir = 0; ir < NumberOfRegions; ir++)
                 {
@@ -236,6 +243,7 @@ namespace Vts.MonteCarlo.Detectors
                 for (int iy = 0; iy < Y.Count - 1; iy++)
                 {
                     ROfXAndY[ix, iy] /= X.Delta * Y.Delta * numPhotons;
+                    ROfXAndYSecondMoment[ix, iy] /= X.Delta * Y.Delta * X.Delta * Y.Delta * numPhotons;
                     for (int it = 0; it < Time.Count - 1; it++)
                     {
                         for (int ir = 0; ir < NumberOfRegions; ir++)
@@ -338,6 +346,26 @@ namespace Vts.MonteCarlo.Detectors
                             }                       
 			            }
                     },
+                },
+                !TallySecondMoment ? null : new BinaryArraySerializer {
+                    DataArray = ROfXAndYSecondMoment,
+                    Name = "ROfXAndYSecondMoment",
+                    FileTag = "_ROfXAndY_2",
+                    WriteData = binaryWriter => {
+                        for (int i = 0; i < X.Count - 1; i++) {
+                            for (int j = 0; j < Y.Count - 1; j++) {
+                                binaryWriter.Write(ROfXAndYSecondMoment[i, j]);
+                            }
+                        }
+                    },
+                    ReadData = binaryReader => {
+                        ROfXAndYSecondMoment = ROfXAndYSecondMoment ?? new double[ X.Count - 1, Y.Count];
+                        for (int i = 0; i <  X.Count - 1; i++) {
+                            for (int j = 0; j < Y.Count - 1; j++) {
+                                ROfXAndYSecondMoment[i, j] = binaryReader.ReadDouble();
+                            }
+                        }
+                    }
                 },
             };
         }

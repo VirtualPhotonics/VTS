@@ -612,7 +612,8 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.AreEqual(_outputOneLayerTissue.R_xyt_TallyCount, 89);
             Assert.AreEqual(_outputTwoLayerTissue.R_xyt_TallyCount, 89);
             // check that ROfXAndY array equals independent tally use R[0,0] results above test
-            Assert.Less(Math.Abs(_outputTwoLayerTissue.R_xyts_xy[0,0] - _outputOneLayerTissue.R_xy[0,0]), 0.000001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.R_xyts_xy[0, 0] - _outputOneLayerTissue.R_xy[0, 0]), 0.000001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.R_xyts_xy2[0, 0] - _outputOneLayerTissue.R_xy2[0, 0]), 0.000001);
         }
         // Reflectance R(x,y,time,subregion) recessed in air validated with prior test
         [Test]
@@ -627,8 +628,9 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.Less(Math.Abs(_outputTwoLayerTissue.R_xytsr2[0, 12, 0, 1] - 306.881), 0.001);
             Assert.Less(Math.Abs(_outputTwoLayerTissue.R_xytsr2[0, 12, 1, 2] - 306.881), 0.001);
             Assert.AreEqual(_outputOneLayerTissue.R_xytsr_TallyCount, 89);
-            // check that ROfXAndY array equals independent tally use R[0,0] results above test
-            Assert.Less(Math.Abs(_outputTwoLayerTissue.R_xytsr_xy[0, 0] - _outputOneLayerTissue.R_xyr[0, 0]), 0.000001);
+            // check that ROfXAndY array equals independent tally use R[0,12] results above test
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.R_xytsr_xy[0, 12] - _outputOneLayerTissue.R_xyr[0, 12]), 0.000001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.R_xytsr_xy2[0, 12] - _outputOneLayerTissue.R_xyr2[0, 12]), 0.000001);
         }
         // Reflectance R(x,y,theta,phi) validated with prior test
         [Test]
