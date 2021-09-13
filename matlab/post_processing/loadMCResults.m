@@ -1586,7 +1586,7 @@ for di = 1:numDetectors
                 [tempNumberOfRegions*(length(pMCROfXAndYAndTimeAndSubregionRecessed.Time)-1)*(length(pMCROfXAndYAndTimeAndSubregionRecessed.Y)-1)*(length(pMCROfXAndYAndTimeAndSubregionRecessed.X)-1)]); % read column major json binary            
             pMCROfXAndYAndTimeAndSubregionRecessed.Mean = reshape(pMCROfXAndYAndTimeAndSubregionRecessed.Mean,...
                 [tempNumberOfRegions,length(pMCROfXAndYAndTimeAndSubregionRecessed.Time)-1,length(pMCROfXAndYAndTimeAndSubregionRecessed.Y)-1,length(pMCROfXAndYAndTimeAndSubregionRecessed.X)-1]); % read column major json binary            
-            pMCROfXAndYAndTimeAndSubregion.ROfXAndY = readBinaryData([datadir slash detector.Name '_ROfXAndY'],[length(pMCROfXAndYAndTimeAndSubregion.Y)-1,length(pMCROfXAndYAndTimeAndSubregion.X)-1]);  % read column major json binary          
+            pMCROfXAndYAndTimeAndSubregionRecessed.ROfXAndY = readBinaryData([datadir slash detector.Name '_ROfXAndY'],[length(pMCROfXAndYAndTimeAndSubregionRecessed.Y)-1,length(pMCROfXAndYAndTimeAndSubregionRecessed.X)-1]);  % read column major json binary          
             if(detector.TallySecondMoment && exist([datadir slash detector.Name '_2'],'file'))
                 pMCROfXAndYAndTimeAndSubregionRecessed.SecondMoment = readBinaryData([datadir slash detector.Name '_2'],...
                   [tempNumberOfRegions*(length(pMCROfXAndYAndTimeAndSubregionRecessed.Time)-1)*(length(pMCROfXAndYAndTimeAndSubregionRecessed.Y)-1)*(length(pMCROfXAndYAndTimeAndSubregionRecessed.X)-1)]);
