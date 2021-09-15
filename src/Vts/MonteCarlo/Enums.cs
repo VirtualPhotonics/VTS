@@ -451,6 +451,8 @@ namespace Vts.MonteCarlo
             "TOfRhoAndAngle",
             // Transmittance as a function of x and y
             "TOfXAndY",
+            // Reflectance as a function of Cartesian position and time and tissue subregion on the surface of the tissue
+            "TOfXAndYAndTimeAndSubregion",
             // Transmittance as a function of spatial frequency (fx)
             "TOfFx", 
             // Fluence as a function of source-detector separation (rho) and tissue depth (Z)

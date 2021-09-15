@@ -42,6 +42,7 @@ show.TOfRho =                   1;
 show.TOfRhoAndAngle =           1;
 show.TOfAngle =                 1;
 show.TOfXAndY =                 1;
+show.TOfXAndYAndTimeAndSubregion =          1;
 show.TOfFx =					1;
 show.ATotal =                   1;
 show.AOfRhoAndZ =               1;
@@ -360,6 +361,22 @@ for mci = 1:length(datanames)
         % determine range of x, y midpoints that have non-zero data
         [r,c]=find(results{di}.TOfXAndY.Mean);
         disp(sprintf('TOfXAndY: x non-zero span [%d %d]',min(r),max(r))); disp(sprintf('TOfXAndY: y non-zero span [%d %d]',min(c),max(c)));
+    end
+    if isfield(results{di}, 'TOfXAndYAndTimeAndSubregion') && show.TOfXAndYAndTimeAndSubregion
+        y0idx = floor(length(results{di}.TOfXAndYAndTimeAndSubregion.Y_Midpoints)/2);
+        for i=2:results{di}.TOfXAndYAndTimeAndSubregion.NumberOfRegions-1 % exclude air above and below          
+          figname = sprintf('log10(%s) region idx=%i',results{di}.TOfXAndYAndTimeAndSubregion.Name,i-1); figure; 
+          imagesc(results{di}.TOfXAndYAndTimeAndSubregion.X_Midpoints, results{di}.TOfXAndYAndTimeAndSubregion.Time_Midpoints,...
+            log10(squeeze(results{di}.TOfXAndYAndTimeAndSubregion.Mean(i,:,y0idx,:)))); 
+          colorbar; title(figname); set(gcf,'Name', figname);ylabel('time [ns]'); xlabel('x [mm]');
+        end
+        xdelta = results{di}.TOfXAndYAndTimeAndSubregion.X(2)-results{di}.TOfXAndYAndTimeAndSubregion.X(1);        
+        ydelta = results{di}.TOfXAndYAndTimeAndSubregion.Y(2)-results{di}.TOfXAndYAndTimeAndSubregion.Y(1);
+        timedelta = results{di}.TOfXAndYAndTimeAndSubregion.Time(2)-results{di}.TOfXAndYAndTimeAndSubregion.Time(1);
+        % the following does not integrate to diffuse T
+        disp(['Total transmittance captured by TOfXAndYAndTimeAndSubregion detector: ' num2str(sum(xdelta*ydelta*timedelta*results{di}.TOfXAndYAndTimeAndSubregion.Mean(:)))]);
+        % but this does
+        disp(['Total transmittance captured by TOfXAndYAndTimeAndSubregion detector - TOfXAndY: ' num2str(sum(xdelta*ydelta*results{di}.TOfXAndYAndTimeAndSubregion.TOfXAndY(:)))]);
     end
     if isfield(results{di}, 'TOfFx') && show.TOfFx
         figname = sprintf('log10(%s)',results{di}.TOfFx.Name); figure; plot(results{di}.TOfFx.Fx_Midpoints, abs(results{di}.TOfFx.Mean)); title(figname); set(gcf,'Name', figname); 

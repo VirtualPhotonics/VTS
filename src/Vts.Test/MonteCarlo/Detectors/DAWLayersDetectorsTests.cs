@@ -218,28 +218,41 @@ namespace Vts.Test.MonteCarlo.Detectors
                     new TOfAngleDetectorInput()
                     {
                         Angle=new DoubleRange(0.0, Math.PI / 2, 2),
+                        FinalTissueRegionIndex = 2,
                         TallySecondMoment = true
                     },
                     new TOfRhoDetectorInput()
                     {
                         Rho=new DoubleRange(0.0, 10.0, 101),
+                        FinalTissueRegionIndex = 2,
                         TallySecondMoment = true
                     },
                     new TOfRhoAndAngleDetectorInput()
                     {
                         Rho=new DoubleRange(0.0, 10.0, 101),
                         Angle=new DoubleRange(0.0, Math.PI / 2, 2),
+                        FinalTissueRegionIndex = 2,
                         TallySecondMoment = true
                     },
                     new TOfXAndYDetectorInput()
                     {
                         X = new DoubleRange(-10.0, 10.0, 101), 
                         Y = new DoubleRange(-10.0, 10.0, 101),
+                        FinalTissueRegionIndex = 2,
+                        TallySecondMoment = true
+                    },
+                    new TOfXAndYAndTimeAndSubregionDetectorInput()
+                    {
+                        X = new DoubleRange(-10.0, 10.0, 101),
+                        Y = new DoubleRange(-10.0, 10.0, 101),
+                        Time = new DoubleRange(0.0, 1.0, 11),
+                        FinalTissueRegionIndex = 2,
                         TallySecondMoment = true
                     },
                     new TOfFxDetectorInput()
                     {
                         Fx = new DoubleRange(0.0, 0.5, 51),
+                        FinalTissueRegionIndex = 2,
                         TallySecondMoment = true
                     },
                     new AOfRhoAndZDetectorInput()
@@ -355,6 +368,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                         Rho=new DoubleRange(0.0, 10.0, 101), // rho bins MAKE SURE AGREES with TOfRho rho specification for unit test below
                         MTBins=new DoubleRange(0.0, 500.0, 51), // MT bins
                         FractionalMTBins = new DoubleRange(0.0, 1.0, 11),
+                        FinalTissueRegionIndex = 2,
                         TallySecondMoment = true
                     },
                     new ReflectedMTOfXAndYAndSubregionHistDetectorInput() 
@@ -371,6 +385,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                         Y = new DoubleRange(-10.0, 10.0, 101),
                         MTBins=new DoubleRange(0.0, 500.0, 51), // MT bins
                         FractionalMTBins = new DoubleRange(0.0, 1.0, 11),
+                        FinalTissueRegionIndex = 2,
                         TallySecondMoment = true
                     }
                 };
@@ -395,6 +410,15 @@ namespace Vts.Test.MonteCarlo.Detectors
                 ),
                 detectors);             
             _outputOneLayerTissue = new MonteCarloSimulation(_inputOneLayerTissue).Run();
+
+            // modify transmittance detectors to have FinalTissueRegionIndex=3 for 2-layer tissue
+            foreach (var detector in detectors)
+            {
+                if (detector.TallyDetails.IsTransmittanceTally)
+                {
+                    ((dynamic) detector).FinalTissueRegionIndex = 3;
+                }
+            }
 
             _inputTwoLayerTissue = new SimulationInput(
                 100,
@@ -753,17 +777,7 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.AreEqual(_outputOneLayerTissue.T_ra_TallyCount, 11);
             Assert.AreEqual(_outputTwoLayerTissue.T_ra_TallyCount, 11);
         }
-        // Transmittance T(x,y): validation is not with linux code, but with prior execution of test so no "factor"
-        [Test]
-        public void validate_DAW_TOfXAndY()
-        {
-            Assert.Less(Math.Abs(_outputOneLayerTissue.T_xy[0, 0] - 0.0067603), 0.0000001);
-            Assert.Less(Math.Abs(_outputTwoLayerTissue.T_xy[0, 0] - 0.0067603), 0.0000001);
-            Assert.Less(Math.Abs(_outputOneLayerTissue.T_xy2[0, 0] - 0.004570), 0.000001);
-            Assert.Less(Math.Abs(_outputTwoLayerTissue.T_xy2[0, 0] - 0.004570), 0.000001);
-            Assert.AreEqual(_outputOneLayerTissue.T_xy_TallyCount, 11);
-            Assert.AreEqual(_outputTwoLayerTissue.T_xy_TallyCount, 11);
-        }
+
         //// Verify integral over rho,angle of T(rho,angle) equals TDiffuse
         [Test]
         public void validate_DAW_integral_of_TOfRhoAndAngle_equals_TDiffuse()
@@ -783,6 +797,35 @@ namespace Vts.Test.MonteCarlo.Detectors
                 }
             }
             Assert.Less(Math.Abs(integral * norm - _outputOneLayerTissue.Td), 0.000000000001);
+        }
+        // Transmittance T(x,y): validation is not with linux code, but with prior execution of test so no "factor"
+        [Test]
+        public void validate_DAW_TOfXAndY()
+        {
+            Assert.Less(Math.Abs(_outputOneLayerTissue.T_xy[0, 0] - 0.0067603), 0.0000001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.T_xy[0, 0] - 0.0067603), 0.0000001);
+            Assert.Less(Math.Abs(_outputOneLayerTissue.T_xy2[0, 0] - 0.004570), 0.000001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.T_xy2[0, 0] - 0.004570), 0.000001);
+            Assert.AreEqual(_outputOneLayerTissue.T_xy_TallyCount, 11);
+            Assert.AreEqual(_outputTwoLayerTissue.T_xy_TallyCount, 11);
+        }
+        // Transmittance T(x,y,time,subregion) validated with prior test
+        [Test]
+        public void validate_DAW_TOfXAndYAndTimeAndSubregion()
+        {
+            Assert.Less(Math.Abs(_outputOneLayerTissue.T_xyts[0, 0, 9, 1] - 0.067603), 0.000001);
+            // the following are in different time bins because binned based on time in region
+            // not total time
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.T_xyts[0, 0, 0, 1] - 0.067603), 0.000001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.T_xyts[0, 0, 9, 2] - 0.067603), 0.000001);
+            Assert.Less(Math.Abs(_outputOneLayerTissue.T_xyts2[0, 0, 9, 1] - 0.457019), 0.000001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.T_xyts2[0, 0, 0, 1] - 0.457019), 0.000001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.T_xyts2[0, 0, 9, 2] - 0.457019), 0.0001);
+            Assert.AreEqual(_outputOneLayerTissue.T_xyts_TallyCount, 11);
+            Assert.AreEqual(_outputTwoLayerTissue.T_xyts_TallyCount, 11);
+            // check that ROfXAndY array equals independent tally use R[0,0] results above test
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.T_xyts_xy[0, 0] - _outputOneLayerTissue.T_xy[0, 0]), 0.000001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.T_xyts_xy2[0, 0] - _outputOneLayerTissue.T_xy2[0, 0]), 0.000001);
         }
         // Transmission T(fx) validated with prior test
         [Test]

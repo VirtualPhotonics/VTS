@@ -138,7 +138,8 @@ namespace Vts.MonteCarlo
                     new TOfAngleDetectorInput() {Angle=new DoubleRange(0.0, Math.PI / 2, 5)},
                     new TOfRhoAndAngleDetectorInput() {Rho=new DoubleRange(0.0, 10, 101),Angle=new DoubleRange(0.0, Math.PI / 2, 5)},
                     new TOfRhoDetectorInput() {Rho=new DoubleRange(0.0, 10, 101)},
-                    new TOfXAndYDetectorInput() {X=new DoubleRange(-100.0, 100.0, 21), Y= new DoubleRange(-100.0, 100.0, 21)}, 
+                    new TOfXAndYDetectorInput() {X=new DoubleRange(-100.0, 100.0, 21), Y= new DoubleRange(-100.0, 100.0, 21)},
+                    new TOfXAndYAndTimeAndSubregionDetectorInput() {X=new DoubleRange(-100.0, 100.0, 21), Y= new DoubleRange(-100.0, 100.0, 21),Time=new DoubleRange(0.0, 1, 11)},
                     new TOfFxDetectorInput() {Fx = new DoubleRange(0.0, 0.5, 51)},
                 }
             );
