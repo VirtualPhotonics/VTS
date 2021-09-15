@@ -421,6 +421,10 @@ namespace Vts.MonteCarlo
             "ROfXAndYAndTime",
             // Reflectance as a function of Cartesian position and time on the surface of the tissue recessed in air
             "ROfXAndYAndTimeRecessed",
+            // Reflectance as a function of Cartesian position and time and tissue subregion on the surface of the tissue
+            "ROfXAndYAndTimeAndSubregion",
+            // Reflectance as a function of Cartesian position and time and tissue subregion on the surface of the tissue recessed in air
+            "ROfXAndYAndTimeAndSubregionRecessed",
             // Reflectance as a function of x, y, theta, phi
             "ROfXAndYAndThetaAndPhi",
             // Reflectance as a function of Cartesian position and MaxDepth on the surface of the tissue
@@ -447,6 +451,8 @@ namespace Vts.MonteCarlo
             "TOfRhoAndAngle",
             // Transmittance as a function of x and y
             "TOfXAndY",
+            // Reflectance as a function of Cartesian position and time and tissue subregion on the surface of the tissue
+            "TOfXAndYAndTimeAndSubregion",
             // Transmittance as a function of spatial frequency (fx)
             "TOfFx", 
             // Fluence as a function of source-detector separation (rho) and tissue depth (Z)
@@ -507,6 +513,8 @@ namespace Vts.MonteCarlo
             "RadianceOfFxAndZAndAngle",
             // Volume randiance as a function of x, y, z, theta and phi
             "RadianceOfXAndYAndZAndThetaAndPhi",
+            // perturbation Monte Carlo (pMC) total absorbance
+            "pMCATotal",
              // perturbation Monte Carlo (pMC) reflectance as a function of source-detector separation (rho) 
             "pMCROfRho",
             // perturbation Monte Carlo (pMC) reflectance as a function of source-detector separation (rho) recessed in air
@@ -517,6 +525,10 @@ namespace Vts.MonteCarlo
             "pMCROfRhoAndTimeRecessed", 
             // perturbation Monte Carlo (pMC) reflectance as a function of Cartesian coordinates (x,y)
             "pMCROfXAndY",
+            // perturbation Monte Carlo (pMC) reflectance as a function of (x,y), time and subregion
+            "pMCROfXAndYAndTimeAndSubregion", 
+            // perturbation Monte Carlo (pMC) reflectance as a function of (x,y), time and subregion recessed in air
+            "pMCROfXAndYAndTimeAndSubregionRecessed", 
             // perturbation Monte Carlo (pMC) reflectance as a function of spatial frequency (fx)
             "pMCROfFx",
             // perturbation Monte Carlo (pMC) reflectance as a function of spatial frequency (fx) and time
@@ -721,6 +733,10 @@ namespace Vts.MonteCarlo
         /// Volume randiance as a function of x, y, z, theta and phi
         /// </summary>
         public static string RadianceOfXAndYAndZAndThetaAndPhi { get { return "RadianceOfXAndYAndZAndThetaAndPhi"; } }
+        /// <summary>
+        /// Total absorbed energy
+        /// </summary>
+        public static string pMCATotal { get { return "pMCATotal"; } }
         /// <summary>
         /// perturbation Monte Carlo (pMC) reflectance as a function of source-detector separation (rho)
         /// </summary>
