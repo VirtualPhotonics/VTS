@@ -7,14 +7,6 @@ namespace Vts.Test.Factories
     public class SolverFactoryTests
     {
         /// <summary>
-        /// Setup for the SolverFactory tests.
-        /// </summary>
-        [SetUp]
-        public void Setup()
-        {
-        }
-
-        /// <summary>
         /// Test against the SolverFactory class GetForwardSolver routine
         /// </summary>
         [Test]
@@ -28,7 +20,17 @@ namespace Vts.Test.Factories
         }
 
         /// <summary>
-        /// Test against the SolverFactory class GetForwardSolver routine
+        /// Test against the SolverFactory class GetForwardSolver
+        /// </summary>
+        [Test]
+        public void GetForwardSolver_returns_null()
+        {
+            var fs = SolverFactory.GetForwardSolver("NotAForwardSolver");
+            Assert.IsNull(fs);
+        }
+
+        /// <summary>
+        /// Test against the SolverFactory class GetOptimizer
         /// </summary>
         [Test]
         public void GetOptimizer_ReturnsNonNull()
@@ -41,7 +43,17 @@ namespace Vts.Test.Factories
         }
 
         /// <summary>
-        /// Test against the SolverFactory class GetForwardSolver routine
+        /// Test against the SolverFactory class GetOptimizer
+        /// </summary>
+        [Test]
+        public void GetOptimizer_returns_null()
+        {
+            var o = SolverFactory.GetOptimizer("NotAnOptimizer");
+            Assert.IsNull(o);
+        }
+
+        /// <summary>
+        /// Test against the SolverFactory class GetScattererType
         /// </summary>
         [Test]
         public void GetScattererType_ReturnsNonNull()
@@ -54,11 +66,13 @@ namespace Vts.Test.Factories
         }
 
         /// <summary>
-        /// Tear down for the NurbsGenerator tests.
+        /// Test against the SolverFactory class GetScattererType
         /// </summary>
-        [TearDown]
-        public void TearDown()
+        [Test]
+        public void GetScattererType_returns_null()
         {
+            var s = SolverFactory.GetScattererType("NotAScatterer");
+            Assert.IsNull(s);
         }
     }
 }

@@ -4,6 +4,7 @@ using Vts.Common;
 using Vts.IO;
 using Vts.MonteCarlo;
 using Vts.MonteCarlo.Detectors;
+using Vts.MonteCarlo.PhotonData;
 using Vts.MonteCarlo.Tissues;
 
 namespace Vts.Test.MonteCarlo.DataStructuresValidation.PostProcessorInputs
@@ -11,13 +12,17 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation.PostProcessorInputs
     [TestFixture]
     public class PostProcessorInputValidationTests
     {
+        /// <summary>
+        /// Note: PostProcessor infile does not expect ".txt" appended to
+        /// simulationInput filename.  
+        /// </summary>
         PostProcessorInput input;
         /// <summary>
         /// list of temporary files created by these unit tests
         /// </summary>
         List<string> listOfFolders = new List<string>()
         {
-            "DiffuseReflectance", 
+            "results", 
         };
         /// <summary>
         /// clear all previously generated files.
@@ -63,7 +68,7 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation.PostProcessorInputs
                             },
                             PerturbedRegionsIndices = new List<int>() {1}
                         }
-                    },
+                    }, // don't define folder or files, let individual tests do that
                     "", "", ""
                 );
             }
@@ -93,6 +98,44 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation.PostProcessorInputs
                 "PostProcessorInput: the input folder does not exist"));
         }
         /// <summary>
+        /// Test to check for simulation input
+        /// </summary>
+        [Test]
+        public void Validate_simulation_input_existence()
+        {
+            // no ".txt" extension here
+            input.DatabaseSimulationInputFilename = "simulationInput";
+            input.InputFolder = "results";
+            // create test folder, database file and simulation input file
+            var folderName = "results";
+
+            // remove directory if already there
+            FileIO.DeleteDirectory(folderName);
+
+            // recreate it
+            FileIO.CreateDirectory(folderName);
+
+            // put database files in it
+            var diffuseReflectanceDatabase = new PhotonDatabase();
+            diffuseReflectanceDatabase.WriteToJsonFile(folderName + "/DiffuseReflectanceDatabase");
+            var collisionInfoDatabase = new CollisionInfoDatabase();
+            collisionInfoDatabase.WriteToJsonFile(folderName + "/CollisionInfoDatabase");
+            
+            // first check for no existence of simulation input file
+            var result = PostProcessorInputValidation.ValidateInput(input, "");
+            Assert.IsFalse(result.IsValid);
+            // now put file in place and test
+            var simulationInput = new SimulationInput();
+            simulationInput.ToFile(folderName + "/simulationInput.txt");
+            result = PostProcessorInputValidation.ValidateInput(input, "");
+            Assert.IsTrue(result.IsValid);
+            // remove directory so other tests don't have it
+            FileIO.DeleteDirectory(folderName);
+            // set back input
+            input.DatabaseSimulationInputFilename = "";
+            input.InputFolder = "";
+        }
+        /// <summary>
         /// test that ValidatePhotonDatabaseExistence method returns correct ValidationRule
         /// for different settings of TallyDetails.  To get to this method, validation
         /// that the input folder exists must pass first so create folder.
@@ -104,7 +147,7 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation.PostProcessorInputs
         [Test]
         public void Verify_database_aligns_with_TallyDetails_of_detector()
         {
-            string folderName = "DiffuseReflectance";
+            string folderName = "results";
             // create folder
             FileIO.CreateDirectory(folderName);
             // test detector that is defined in the OneTimeSetup input = pMC reflectance tally

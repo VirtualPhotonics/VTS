@@ -22,6 +22,8 @@
     <None Remove="Resources\sourcetest\AOfXAndYAndZ.txt" />
     <None Remove="Resources\sourcetest\inputAOfRhoAndZ.txt" />
     <None Remove="Resources\sourcetest\inputAOfXAndYAndZ.txt" />
+    <None Remove="Resources\sourcetest\subfolder\noextension" />
+    <None Remove="Resources\sourcetest\subfolder\textfile.txt" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\fileiotest\binarydbl" />
@@ -34,6 +36,8 @@
     <EmbeddedResource Include="Resources\sourcetest\AOfRhoAndZ" />
     <EmbeddedResource Include="Resources\sourcetest\AOfRhoAndZ.txt" />
     <EmbeddedResource Include="Resources\sourcetest\inputAOfRhoAndZ.txt" />
+    <EmbeddedResource Include="Resources\sourcetest\subfolder\noextension" />
+    <EmbeddedResource Include="Resources\sourcetest\subfolder\textfile.txt" />
     <EmbeddedResource Include="Resources\streamfindertest\resourcefile.txt" />
     <EmbeddedResource Include="Resources\sourcetest\AOfXAndYAndZ" />
     <EmbeddedResource Include="Resources\sourcetest\AOfXAndYAndZ.txt" />

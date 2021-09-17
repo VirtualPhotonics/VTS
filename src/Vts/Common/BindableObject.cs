@@ -8,7 +8,7 @@ using System.Runtime.Serialization;
 namespace Vts
 {
     /// <summary>
-    /// Implements the INotifyPropertyChanged interface and 
+    /// Implements the INotifyPropertyChangedPlus interface and 
     /// exposes a RaisePropertyChanged method for derived 
     /// classes to raise the PropertyChange event.  The event 
     /// arguments created by this class are cached to prevent 
@@ -18,11 +18,11 @@ namespace Vts
     /// http://joshsmithonwpf.wordpress.com/2007/08/29/a-base-class-which-implements-inotifypropertychanged/
     /// 
     /// Added SetProperty method to simplify set operations.
-    /// Changed "RaisePropertyChanged" to "OnPropertyChanged" so as to work with INotifyPropertyChangedPlus,
-    /// enabling compatibility with the DependsOn attribute and PropertyDependencyManager classes
+    /// Modified "RaisePropertyChanged" to "OnPropertyChanged"
+    /// to work with INotifyPropertyChangedPlus, enabling
+    /// compatibility with the DependsOn attribute and
+    /// PropertyDependencyManager class.
     /// </summary>
-    //[Serializiable]
-    // svn test
     [DataContract]
     public abstract class BindableObject : INotifyPropertyChangedPlus
     {
@@ -113,9 +113,7 @@ namespace Vts
         /// invokes the virtual AfterPropertyChanged method, 
         /// regardless of whether the event was raised or not.
         /// </summary>
-        /// <param name="propertyName">
-        /// The property which was changed.
-        /// </param>
+        /// <param name="propertyName">The property which was changed</param>
         public void OnPropertyChanged(string propertyName)
         {
             this.VerifyProperty(propertyName);

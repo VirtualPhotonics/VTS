@@ -25,12 +25,11 @@ namespace Vts.Test.MonteCarlo.PhotonData
         /// </summary>
         [OneTimeSetUp]
         [OneTimeTearDown]
-        public void clear_folders_and_files()
+        public void Clear_folders_and_files()
         {
             // delete any previously generated files
             foreach (var file in listOfTestGeneratedFiles)
             {
-                GC.Collect();
                 FileIO.FileDelete(file);
             }
         }
@@ -39,12 +38,12 @@ namespace Vts.Test.MonteCarlo.PhotonData
         /// are working correctly.
         /// </summary>
         [Test]
-        public void validate_PhotonDatabase_deserialized_class_is_correct_when_using_WriteToFile()
+        public void Validate_PhotonDatabase_deserialized_class_is_correct_when_using_WriteToFile()
         {
             // test serialization
             new SimulationInput().ToFile("SimulationInputTest.txt");
 
-            string databaseFilename = "testphotondatabase";
+            var databaseFilename = "testphotondatabase";
 
             using(var dbWriter = new PhotonDatabaseWriter(
                 VirtualBoundaryType.DiffuseReflectance, databaseFilename))
@@ -62,6 +61,7 @@ namespace Vts.Test.MonteCarlo.PhotonData
                                    0.50,
                                    100,
                                    PhotonStateType.None));
+                dbWriter.Close();
             }
 
             // read the database from file, and verify the correct number of photons were written
@@ -91,6 +91,8 @@ namespace Vts.Test.MonteCarlo.PhotonData
             Assert.AreEqual(dp2.Weight, 0.5);
             Assert.AreEqual(dp2.TotalTime, 100);
             Assert.IsTrue(dp2.StateFlag.HasFlag(PhotonStateType.None));
+
+            enumerator.Dispose();
         }
     }
 }
