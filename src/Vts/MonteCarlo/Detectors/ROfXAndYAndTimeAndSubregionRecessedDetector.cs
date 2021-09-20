@@ -181,7 +181,10 @@ namespace Vts.MonteCarlo.Detectors
             var ix = DetectorBinning.WhichBin(positionAtZPlane.X, X.Count - 1, X.Delta, X.Start);
             var iy = DetectorBinning.WhichBin(positionAtZPlane.Y, Y.Count - 1, Y.Delta, Y.Start);
             ROfXAndY[ix, iy] += photon.DP.Weight;
-            ROfXAndYSecondMoment[ix, iy] += photon.DP.Weight * photon.DP.Weight;
+            if (TallySecondMoment)
+            {
+                ROfXAndYSecondMoment[ix, iy] += photon.DP.Weight * photon.DP.Weight;
+            }
 
             // determine path length in each tissue region
             var pathLengthInRegion = photon.History.SubRegionInfoList.Select(p => p.PathLength).ToArray();

@@ -208,8 +208,11 @@ namespace Vts.MonteCarlo.Detectors
                     _perturbedOps, _referenceOps, _perturbedRegionsIndices);
 
                 ROfXAndY[ix, iy] += photon.DP.Weight * weightFactor;
-                ROfXAndYSecondMoment[ix, iy] += photon.DP.Weight * weightFactor * 
-                                                photon.DP.Weight * weightFactor;
+                if (TallySecondMoment)
+                {
+                    ROfXAndYSecondMoment[ix, iy] += photon.DP.Weight * weightFactor *
+                                                    photon.DP.Weight * weightFactor;
+                }
 
                 for (int ir = 0; ir < NumberOfRegions; ir++)
                 {
