@@ -209,10 +209,6 @@ namespace Vts.MonteCarlo
             return weightFactor;
         }
 
-        private static double pMCAbsorbAnalog(long[] numberOfCollisions, double[] pathLength, OpticalProperties[] perturbedOps, OpticalProperties[] referenceOps, int[] perturbedRegionsIndices)
-        {
-            throw new NotImplementedException();
-        }
         private static double pMCVolumeAbsorptionWeightingDiscrete(IList<long> numberOfCollisions, IList<double> pathLengths, IList<OpticalProperties> perturbedOps, IList<OpticalProperties> referenceOps, IList<int> perturbedRegionsIndices)
         {
             // final pMC absorbed energy will use this perturbed factor 

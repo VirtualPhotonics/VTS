@@ -76,14 +76,7 @@
             if (obj is PolarAzimuthalAngles)
             {
                 var pa = obj as PolarAzimuthalAngles;
-                if (pa == null)
-                    return
-                        Theta == 0.0 &&
-                        Phi == 0.0;
-                else
-                    return
-                        Theta == pa.Theta &&
-                        Phi == pa.Phi;
+                return  Theta == pa.Theta && Phi == pa.Phi;
             }
             return false;
         }
