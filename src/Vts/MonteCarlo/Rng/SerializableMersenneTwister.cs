@@ -108,6 +108,11 @@ namespace Vts.MonteCarlo.Rng
         /// </summary>
         public int MTI { get { return mti; } set { mti = value; } }
 
+        /// <summary>
+        /// Method to create class using saved sequence info
+        /// </summary>
+        /// <param name="info"></param>
+        /// <returns></returns>
         public static SerializableMersenneTwister Create(MersenneTwisterSerializationInfo info)
         {
             return new SerializableMersenneTwister
@@ -158,7 +163,6 @@ namespace Vts.MonteCarlo.Rng
         /// <summary>
         /// generates a random number on[0, 0xffffffff]-interval
         /// </summary>
-
         private uint genrand_int32()
         {
             uint y;
@@ -223,6 +227,11 @@ namespace Vts.MonteCarlo.Rng
             return SerializableMersenneTwister.Create(info);
         }
 
+        /// <summary>
+        /// Method to write pertinent RNG info to file so can restart in sequence
+        /// </summary>
+        /// <param name="smt">class identifier</param>
+        /// <param name="filename">file name to write sequence info</param>
         public void ToFile(SerializableMersenneTwister smt, string filename)
         {
             var info = new MersenneTwisterSerializationInfo

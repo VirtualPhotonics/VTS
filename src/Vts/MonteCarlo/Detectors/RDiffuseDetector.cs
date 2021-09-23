@@ -143,7 +143,10 @@ namespace Vts.MonteCarlo.Detectors
             }
         }
 
-        // this scalar tally is saved to json
+        /// <summary>
+        /// this scalar tally is saved to json
+        /// </summary>
+        /// <returns></returns>
         public BinaryArraySerializer[] GetBinarySerializers()
         {
             return null;

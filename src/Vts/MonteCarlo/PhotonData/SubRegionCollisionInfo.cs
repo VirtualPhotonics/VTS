@@ -20,7 +20,13 @@ namespace Vts.MonteCarlo.PhotonData
             _NumberOfCollisions = numberOfCollisions;
         }
 
+        /// <summary>
+        /// path length of photon in sub-region
+        /// </summary>
         public double PathLength { get { return _PathLength; } set { _PathLength = value; } }
+        /// <summary>
+        /// number of collisions made by photon in sub-region
+        /// </summary>
         public long NumberOfCollisions { get { return _NumberOfCollisions; } set { _NumberOfCollisions = value; } }
 
         /// <summary>

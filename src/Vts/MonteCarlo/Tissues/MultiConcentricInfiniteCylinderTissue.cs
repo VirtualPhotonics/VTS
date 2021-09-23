@@ -110,7 +110,8 @@ namespace Vts.MonteCarlo.Tissues
         /// <summary>
         /// Creates an instance of a MultiConcentricInfiniteCylinderTissue
         /// </summary>
-        /// <param name="regions">list of tissue regions comprising tissue</param>
+        /// <param name="infiniteCylinderRegions">list of cylinder regions</param>
+        /// <param name="layerRegions">list of layer regions</param>
         /// <remarks>air above and below tissue needs to be specified for a slab geometry</remarks>
         public MultiConcentricInfiniteCylinderTissue(
             IList<ITissueRegion> infiniteCylinderRegions,

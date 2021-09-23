@@ -190,13 +190,74 @@ namespace Vts.MonteCarlo.Rng
             public uint lower_mask;
             public uint word_mask;
         }
+
+        /// <summary>
+        /// Mersenne Twister structure 
+        /// </summary>
         public struct mt_struct {
+            /// <summary>
+            /// unsigned 32 bit integer used in algorithm
+            /// </summary>
             public uint aaa { get; set; }
-            public int mm; public int nn; public int rr; public int ww;
-            public uint wmask; public uint umask; public uint lmask;
-            public int shift0; public int shift1; public int shiftB; public int shiftC;
-            public uint maskB; public uint maskC;
+            /// <summary>
+            /// integer parameter used in init_tempering algorithm
+            /// </summary>
+            public int mm;
+            /// <summary>
+            /// integer parameter used in init_tempering algorithm
+            /// </summary>
+            public int nn;
+            /// <summary>
+            /// integer parameter used in init_tempering algorithm
+            /// </summary>
+            public int rr;
+            /// <summary>
+            /// integer parameter used in init_tempering algorithm
+            /// </summary>
+            public int ww;
+            /// <summary>
+            /// unsigned int mask used in sgenrand_mt
+            /// </summary>
+            public uint wmask; 
+            /// <summary>
+            /// unsigned int mask used in genrand_mt
+            /// </summary>
+            public uint umask; 
+            /// <summary>
+            /// unsigned int mask used in genrand_mt
+            /// </summary>
+            public uint lmask;
+            /// <summary>
+            /// int using in genrand_mt
+            /// </summary>
+            public int shift0;
+            /// <summary>
+            /// int using in genrand_mt
+            /// </summary> 
+            public int shift1;
+            /// <summary>
+            /// int using in genrand_mt
+            /// </summary>
+            public int shiftB;
+            /// <summary>
+            /// int using in genrand_mt
+            /// </summary>
+            public int shiftC;
+            /// <summary>
+            /// int using in genrand_mt
+            /// </summary>
+            public uint maskB;
+            /// <summary>
+            /// int using in genrand_mt
+            /// </summary>
+            public uint maskC;
+            /// <summary>
+            /// int using in genrand_mt
+            /// </summary>
             public int i;
+            /// <summary>
+            /// unsigned array used in sgenrand_mt
+            /// </summary>
             public uint[] state; // if null then struct is mull
         } 
         struct polynomial

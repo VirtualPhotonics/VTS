@@ -12,10 +12,16 @@ namespace Vts.MonteCarlo.IO
     public class DatabaseWriter<TDatabase, TElement> : CustomBinaryStreamWriter<TElement>
         where TDatabase : Database<TElement>, new()
     {
+        /// <summary>
+        /// writes database to file
+        /// </summary>
+        /// <param name="filename">name of file to write to</param>
+        /// <param name="database">database to be written</param>
+        /// <param name="binaryWriter">ICustomBinaryWriter</param>
         public DatabaseWriter(string filename, TDatabase database, ICustomBinaryWriter<TElement> binaryWriter)
             : base(filename, binaryWriter)
         {
-            //Database = new TDatabase();
+            // set property
             Database = database;
 
             // this specifies any action to take at the end of the file writing
@@ -27,16 +33,6 @@ namespace Vts.MonteCarlo.IO
                 Database.WriteToJson(filename + ".txt");
             };
         }
-
-        ///// <summary>
-        ///// Creates an instance of DatabaseWriter, where the database instantiation is handled internally
-        ///// </summary>
-        ///// <param name="filename"></param>
-        ///// <param name="binaryWriter"></param>
-        //public DatabaseWriter(string filename, ICustomBinaryWriter<TElement> binaryWriter)
-        //    : this(filename, new TDatabase(), binaryWriter)
-        //{
-        //}
 
         /// <summary>
         /// Publicly exposed database for assigning custom parameters (todo: evaluate utility)

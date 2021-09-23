@@ -163,10 +163,13 @@ namespace Vts.MonteCarlo.Tissues
             //throw new NotImplementedException(); // hopefully, this won't happen when the tissue inclusion is index-matched
         }
         /// <summary>
-        /// method that provides refracted direction when phton refracts off boundary
+        /// method that provides refracted direction when photon refracts off boundary
         /// </summary>
         /// <param name="currentPosition">Position</param>
         /// <param name="currentDirection">Direction</param>
+        /// <param name="nCurrent">refractive index N of current tissue region</param>
+        /// <param name="nNext">refractive index N of next tissue region</param>
+        /// <param name="cosThetaSnell">cosine of theta from Snell's law</param>
         /// <returns>new Direction</returns>
         public override Direction GetRefractedDirection(
             Position currentPosition,

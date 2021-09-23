@@ -190,8 +190,11 @@ namespace Vts.MonteCarlo.Detectors
             }
         }
 
-        // this is to allow saving of large arrays separately as a binary file
-        public BinaryArraySerializer[] GetBinarySerializers() // NEED TO ASK DC: about complex array implementation
+        /// <summary>
+        /// this is to allow saving of large arrays separately as a binary file
+        /// </summary>
+        /// <returns>BinaryArraySerializer[]</returns>
+        public BinaryArraySerializer[] GetBinarySerializers() 
         {
             return new[] {
                 new BinaryArraySerializer {

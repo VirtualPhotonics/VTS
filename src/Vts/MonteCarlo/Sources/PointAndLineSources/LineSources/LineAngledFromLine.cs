@@ -140,7 +140,7 @@ namespace Vts.MonteCarlo.Sources
         /// <summary>
         /// Returns direction for a given position
         /// </summary>
-        /// <param name="position">position</param>
+        /// <param name="tissuePosition">position on tissue</param>
         /// <returns>new direction</returns>  
         protected override Direction GetFinalDirection(Position tissuePosition)
         {

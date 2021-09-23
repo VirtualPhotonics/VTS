@@ -97,6 +97,12 @@ namespace Vts.MonteCarlo.Tissues
             return !ContainsPosition(position) && _onBoundary; // match with EllipsoidTissueRegion
         }
 
+        /// <summary>
+        /// method to determine if photon track intersects boundary
+        /// </summary>
+        /// <param name="photptr">photon</param>
+        /// <param name="distanceToBoundary">if intersection, distance to intersection</param>
+        /// <returns>boolean true=intersection, false=no intersection</returns>
         public bool RayIntersectBoundary(Photon photptr, out double distanceToBoundary)
         {
             throw new NotImplementedException();
@@ -105,7 +111,7 @@ namespace Vts.MonteCarlo.Tissues
         /// <summary>
         /// method to determine normal to surface at given position
         /// </summary>
-        /// <param name="position"></param>
+        /// <param name="position">position to calculate normal</param>
         /// <returns>Direction</returns>
         public Direction SurfaceNormal(Position position)
         {

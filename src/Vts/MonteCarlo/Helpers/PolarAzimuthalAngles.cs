@@ -80,7 +80,10 @@
             }
             return false;
         }
-
+        /// <summary>
+        /// method to clone class
+        /// </summary>
+        /// <returns></returns>
         public PolarAzimuthalAngles Clone()
         {
             return new PolarAzimuthalAngles(this.Theta, this.Phi);
