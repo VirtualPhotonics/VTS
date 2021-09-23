@@ -65,7 +65,11 @@ namespace Vts.MonteCarlo.Detectors
         /// detector numerical aperture
         /// </summary>
         public double NA { get; set; }
-        
+
+        /// <summary>
+        /// Method to create detector from detector input
+        /// </summary>
+        /// <returns>created IDetector</returns>
         public IDetector CreateDetector()
         {
             return new ReflectedDynamicMTOfRhoAndSubregionHistDetector
@@ -184,9 +188,14 @@ namespace Vts.MonteCarlo.Detectors
         public int NumSubregions { get; set; } 
         public int[] TotalCollisions { get; set; } // debug
 
+        /// <summary>
+        /// Method to initialize detector
+        /// </summary>
+        /// <param name="tissue">tissue definition</param>
+        /// <param name="rng">random number generator</param>
         public void Initialize(ITissue tissue, Random rng)
         {
-            // intialize any necessary class fields here
+            // initialize any necessary class fields here
             _tissue = tissue;
             _rng = rng;
 

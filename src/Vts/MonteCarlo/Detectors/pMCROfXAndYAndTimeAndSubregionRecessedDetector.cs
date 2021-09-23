@@ -68,10 +68,11 @@ namespace Vts.MonteCarlo.Detectors
         /// numerical aperture
         /// </summary>
         public double NA { get; set; }
+
         /// <summary>
-        /// method to create detector from input
+        /// Method to create detector from detector input
         /// </summary>
-        /// <returns>IDetector</returns>
+        /// <returns>created IDetector</returns>
         public IDetector CreateDetector()
         {
             return new pMCROfXAndYAndTimeAndSubregionRecessedDetector
@@ -171,11 +172,12 @@ namespace Vts.MonteCarlo.Detectors
         /// number of times detector gets tallied to
         /// </summary>
         public long TallyCount { get; set; }
+
         /// <summary>
-        /// initialize the detector given the inputs and tissue definitions
+        /// Method to initialize detector
         /// </summary>
-        /// <param name="tissue"></param>
-        /// <param name="rng"></param>
+        /// <param name="tissue">tissue definition</param>
+        /// <param name="rng">random number generator</param>
         public void Initialize(ITissue tissue, Random rng)
         {
             // assign any user-defined outputs (except arrays...we'll make those on-demand)

@@ -24,6 +24,10 @@ namespace Vts.MonteCarlo.Detectors
             TallyDetails.IsBoundingVolumeTally = true;
         }
 
+        /// <summary>
+        /// Method to create detector from detector input
+        /// </summary>
+        /// <returns>created IDetector</returns>
         public IDetector CreateDetector()
         {
             return new ATotalBoundingVolumeDetector
@@ -69,6 +73,11 @@ namespace Vts.MonteCarlo.Detectors
         private ITissue _tissue;
         private OpticalProperties _boundingVolumeOPs;
 
+        /// <summary>
+        /// Method to initialize detector
+        /// </summary>
+        /// <param name="tissue">tissue definition</param>
+        /// <param name="rng">random number generator</param>
         public void Initialize(ITissue tissue, Random rng)
         {
             // assign any user-defined outputs (except arrays...we'll make those on-demand)
@@ -83,7 +92,7 @@ namespace Vts.MonteCarlo.Detectors
                 SecondMoment = new double();
             }
 
-            // intialize any other necessary class fields here
+            // initialize any other necessary class fields here
             _absorptionWeightingMethod = AbsorptionWeightingMethods.GetVolumeAbsorptionWeightingMethod(tissue, this);
             _tissue = tissue;
             _boundingVolumeOPs = _tissue.Regions[_tissue.Regions.Count - 1].RegionOP;

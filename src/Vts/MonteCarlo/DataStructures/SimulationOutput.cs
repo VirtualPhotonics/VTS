@@ -1011,7 +1011,7 @@ namespace Vts.MonteCarlo
         /// differential MC Reflectance as a function of rho wrt to mus Tally Count
         /// </summary>
         public long dMCdMus_R_r_TallyCount { get { return ((long)((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "dMCdROfRhodMus").First().Name]).TallyCount); } }
-        /// <summary
+        /// <summary>
         /// perturbation MC Reflectance as a function of fx
         /// </summary>
         public Complex[] pMC_R_fx { get { return ((Complex[])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "pMCROfFx").First().Name]).Mean); } }

@@ -48,11 +48,11 @@ namespace Vts.MonteCarlo.Detectors
         /// numerical aperture
         /// </summary>
         public double NA { get; set; }
-        ///// <summary>
-        ///// subregion index binning, needed by DetectorIO
-        ///// </summary>
-        //public int NumSubregions { get; set; }
 
+        /// <summary>
+        /// Method to create detector from detector input
+        /// </summary>
+        /// <returns>created IDetector</returns>
         public IDetector CreateDetector()
         {
             return new ReflectedTimeOfRhoAndSubregionHistDetector
@@ -134,6 +134,11 @@ namespace Vts.MonteCarlo.Detectors
         /// </summary>
         public int NumSubregions { get; set; }
 
+        /// <summary>
+        /// Method to initialize detector
+        /// </summary>
+        /// <param name="tissue">tissue definition</param>
+        /// <param name="rng">random number generator</param>
         public void Initialize(ITissue tissue, Random rng)
         {
             _tissue = tissue;

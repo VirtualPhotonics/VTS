@@ -59,6 +59,10 @@ namespace Vts.MonteCarlo.Detectors
         /// </summary>
         public double NA { get; set; }
 
+        /// <summary>
+        /// Method to create detector from detector input
+        /// </summary>
+        /// <returns>created IDetector</returns>
         public IDetector CreateDetector()
         {
             return new ROfXAndYAndMaxDepthRecessedDetector
@@ -133,6 +137,11 @@ namespace Vts.MonteCarlo.Detectors
         /// </summary>
         public long TallyCount { get; set; }
 
+        /// <summary>
+        /// Method to initialize detector
+        /// </summary>
+        /// <param name="tissue">tissue definition</param>
+        /// <param name="rng">random number generator</param>
         public void Initialize(ITissue tissue, Random rng)
         {
             // assign any user-defined outputs (except arrays...we'll make those on-demand)
@@ -142,7 +151,7 @@ namespace Vts.MonteCarlo.Detectors
             Mean = Mean ?? new double[X.Count - 1, Y.Count - 1,MaxDepth.Count - 1];
             SecondMoment = SecondMoment ?? (TallySecondMoment ? new double[X.Count - 1, Y.Count - 1, MaxDepth.Count - 1] : null);
 
-            // intialize any other necessary class fields here
+            // initialize any other necessary class fields here
             _tissue = tissue;
         }
 

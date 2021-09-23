@@ -125,7 +125,6 @@ namespace Vts.MonteCarlo.Tissues
         {
             distanceToBoundary = double.PositiveInfinity;
             _onBoundary = false; // reset _onBoundary
-            double root = 0;
             var dp = photon.DP;
             var p1 = dp.Position;
             var d1 = dp.Direction;

@@ -87,9 +87,9 @@ namespace Vts.MonteCarlo.Rng
         private uint[] _mt = new uint[_n];
 
         /// <summary>
-        /// Mersenne twister constant.
+        /// Mersenne twister constant (was in original code): private int mti = _n + 1
         /// </summary>
-        private int mti = _n + 1;
+
 
         // prescr defines
         private const int _limit_irred_deg = 31;
@@ -740,6 +740,7 @@ namespace Vts.MonteCarlo.Rng
         /// <summary>
         /// method creates a new polynomial of degree deg
         /// polynomial members are int[] x and int deg
+        /// </summary>
         /// <param name="degree">degree of polynomial created</param>
         /// <returns></returns>
         private polynomial new_poly(int degree)
@@ -1202,7 +1203,8 @@ namespace Vts.MonteCarlo.Rng
         /// get_mt_parameter_id_st(wordSize,periodExponent,id,originalMTSeed) 
         /// </summary>
         /// <param name="wordSize">word size: only w=32 or 31 allowed</param>
-        /// <param name="periodExponent">Mersenne exponent: p>=521 and p<=44497</param>
+        /// <param name="periodExponent">Mersenne exponent: p greater than or equal to 521
+        /// and p less than or equal to 44497</param>
         public mt_struct get_mt_parameter(int wordSize, int periodExponent)
         {
             mt_struct mts;
@@ -1221,7 +1223,8 @@ namespace Vts.MonteCarlo.Rng
         /// There are variants of this method:  Methods in seive.c
         /// </summary>
         /// <param name="wordSize">word size: only w=32 or 31 allowed</param>
-        /// <param name="periodExponent">Mersenne exponent that defines period of substream: 521<=p<=44497</param>
+        /// <param name="periodExponent">Mersenne exponent that defines period of substream:
+        /// 521 greater than or equal to p and p less than or equal to 44497</param>
         /// <param name="originalMTSeed">seed of original mt19937 to generate parameter</param>
         /// <returns></returns>
         public mt_struct get_mt_parameter_st(int wordSize, int periodExponent, uint originalMTSeed)
@@ -1247,7 +1250,8 @@ namespace Vts.MonteCarlo.Rng
         /// get_mt_parameters_st(w,p,start_id,max_id,seed,count)
         /// </summary>
         /// <param name="wordSize">word size: only w=32 or 31 allowed</param>
-        /// <param name="periodExponent">Mersenne exponent: p>=521 and p<=44497</param>
+        /// <param name="periodExponent">Mersenne exponent: p greater than or equal to 521
+        /// and p less than or equal to 44497</param>
         /// <param name="startId">starting Id of substreams</param>
         /// <param name="maxId">ending Id of substreams</param>
         /// <param name="originalMTSeed">seed of original mt19937 to generate parameter</param>
@@ -1301,7 +1305,8 @@ namespace Vts.MonteCarlo.Rng
         /// There are variants of this method:  Methods in seive.c
         /// </summary>
         /// <param name="wordSize">word size: only w=32 or 31 allowed</param>
-        /// <param name="periodExponent">Mersenne exponent: p>=521 and p<=44497</param>
+        /// <param name="periodExponent">Mersenne exponent: p greater than or equal to 521
+        /// and p less than or equal to 44497</param>
         /// <param name="id">id of substream: id must be less than 65536 and positive</param>
         /// <param name="originalMTSeed">seed of original mt19937 to generate parameter</param>
         /// <returns></returns>
@@ -1340,7 +1345,7 @@ namespace Vts.MonteCarlo.Rng
         /// Obtains irreducible parameter
         /// </summary>
         /// <param name="ck">check32_t struct</param>
-        /// <param name="pre"prescr_t struct></param>
+        /// <param name="pre">prescr_t struct></param>
         /// <param name="org">org_state struct</param>
         /// <param name="mts">mt_struct</param>
         /// <param name="id"></param>

@@ -73,8 +73,8 @@ namespace Vts.MonteCarlo.Tissues
         public ITissueRegion[] LayerRegions { get { return _layerRegions; } set { _layerRegions = value; } }
 
         /// <summary>
-        ///// Required factory method to create the corresponding 
-        ///// ITissue based on the ITissueInput data
+        /// Required factory method to create the corresponding 
+        /// ITissue based on the ITissueInput data
         /// </summary>
         /// <param name="awt">Absorption Weighting Type</param>
         /// <param name="pft">Phase Function Type</param>
@@ -100,6 +100,7 @@ namespace Vts.MonteCarlo.Tissues
         private IList<LayerTissueRegion> _layerRegions;
         private ITissueRegion _surfaceFiberRegion;
 
+        /// <summary>
         /// Creates an instance of a MultiLayerSurfaceFiberTissue
         /// </summary>
         /// <param name="surfaceFiberRegion">circular surface fiber region and characteristics</param>

@@ -83,7 +83,7 @@ namespace Vts.MonteCarlo.Tissues
         /// </summary>
         /// <param name="position">photon position</param>
         /// <returns></returns>
-        public virtual bool OnDomainBoundary(Position position)
+        public override bool OnDomainBoundary(Position position)
         {
             // this code assumes that the first and last layer is air
             return _boundingRegion.OnBoundary(position) ||
