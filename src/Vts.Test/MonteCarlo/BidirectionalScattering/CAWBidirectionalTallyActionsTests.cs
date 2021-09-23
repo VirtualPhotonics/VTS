@@ -27,7 +27,6 @@ namespace Vts.Test.MonteCarlo.BidirectionalScattering
         double _mua = 0.01;
         double _musp = 0.198;  // mus = 0.99
         double _g = 0.8;
-        private SimulationStatistics _simulationStatistics;
 
         /// <summary>
         /// list of temporary files created by these unit tests

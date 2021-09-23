@@ -17,10 +17,8 @@ namespace Vts.Test.MonteCarlo.Detectors
     [TestFixture]
     public class DetectorNADynamicTests
     {
-        private SimulationInput _inputForPMC;
         private SimulationOutput _outputNA0, _outputNA0p3, _outputNoNASpecified;
         private double _dosimetryDepth = 1.0;
-        private pMCDatabase _pMCDatabase;
 
         /// <summary>
         /// Setup input to the MC for a homogeneous one layer tissue and specify reflectance

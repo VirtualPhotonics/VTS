@@ -12,7 +12,7 @@ namespace Vts.Test.MonteCarlo.Tissues
     [TestFixture]
     public class SingleInclusionTissueTests
     {
-        private SingleInclusionTissue _tissueWithEllipsoid, _tissueWithCylinder, _tissueWithThinCylinder;
+        private SingleInclusionTissue _tissueWithEllipsoid, _tissueWithThinCylinder;
         /// <summary>
         /// Validate general constructor of Tissue
         /// </summary>
