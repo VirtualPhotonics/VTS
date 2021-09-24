@@ -604,7 +604,9 @@ namespace Vts
         /// </summary>
         D2,
     }
-
+    /// <summary>
+    /// Monte Carlo command line parameter sweep types
+    /// </summary>
     public enum ParameterSweepType
     {
         /// <summary>

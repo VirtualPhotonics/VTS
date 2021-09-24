@@ -4,6 +4,9 @@ using Vts.MonteCarlo.PhotonData;
 
 namespace Vts.MonteCarlo
 {
+    /// <summary>
+    /// methods used to determine photon weight based on absorption weighting method
+    /// </summary>
     public static class AbsorptionWeightingMethods
     {
         /// <summary>

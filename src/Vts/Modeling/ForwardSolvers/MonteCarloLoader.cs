@@ -2,9 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Vts.Common;
-using Vts.IO;
-using Vts.MonteCarlo;
-using Vts.MonteCarlo.Detectors;
 using Vts.MonteCarlo.IO;
 
 //using MathNet.Numerics.Interpolation;
@@ -121,7 +118,6 @@ namespace Vts.Modeling.ForwardSolvers
             RReferenceOfFxAndTime = new double[nfxReference, ntReference];
             for (int ifx = 0; ifx < nfxReference; ifx++)
             {
-                double sum = 0.0;
                 for (int it = 0; it < ntReference; it++) // this only goes to 800 not 801 because ntReference determined from ROfRhoAndTime.txt
                 {
                     RReferenceOfFxAndTime[ifx, it] = rOfFxAndTime.Mean[ifx, it].Real;
@@ -152,19 +148,40 @@ namespace Vts.Modeling.ForwardSolvers
             //    FileIO.WriteArrayToBinary<double>(RReferenceOfFxAndTime, @"/R_fxt");
             //}
         }
-
+        /// <summary>
+        /// method to get all scaled rho values
+        /// </summary>
+        /// <param name="op">optical properties</param>
+        /// <returns>scaled rho values</returns>
         public IEnumerable<double> GetAllScaledRhos(OpticalProperties op)
         {
             return RhoReference.Select(rho => rho * muspReference / op.Musp).ToArray();
         }
+        /// <summary>
+        /// method to get all scaled time values
+        /// </summary>
+        /// <param name="op">optical properties</param>
+        /// <returns>scaled time values</returns>
         public IEnumerable<double> GetAllScaledTimes(OpticalProperties op)
         {
             return TimeReference.Select(time => time * muspReference / op.Musp).ToArray();
         }
+        /// <summary>
+        /// method to get all scaled spatial-frequencies
+        /// </summary>
+        /// <param name="op">optical properties</param>
+        /// <returns>scaled fx values</returns>
         public IEnumerable<double> GetAllScaledFxs(OpticalProperties op)
         {
             return FxReference.Select(fx => fx * op.Musp / muspReference).ToArray();
         }
+        /// <summary>
+        /// method to get Fresnel value 
+        /// </summary>
+        /// <param name="nIn">refractive index of incoming ray</param>
+        /// <param name="nOut">refractive index of outgoing ray</param>
+        /// <param name="theta">angle of inception</param>
+        /// <returns>Fresnel value</returns>
         public double GetFresnel(double nIn, double nOut, double theta)
         {
             double thetaPrime = (nIn / nOut) * Math.Sin(theta);

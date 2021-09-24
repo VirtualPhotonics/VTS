@@ -11,9 +11,17 @@ namespace Vts.Modeling.ForwardSolvers
     /// </summary>
     public class DistributedGaussianSourceSDAForwardSolver : DiffusionForwardSolverBase // : SDAForwardSolver
     {
+        /// <summary>
+        /// distributed line Gaussian Source Standard Diffusion approximation default constructor
+        /// </summary>
         public DistributedGaussianSourceSDAForwardSolver()
             : base(SourceConfiguration.Gaussian, 1.0) { }
 
+        /// <summary>
+        /// distributed line Gaussian Source Standard Diffusion approximation default constructor
+        /// with parameter for beam diameter
+        /// </summary>
+        /// <param name="diameter">beam diameter</param>
         public DistributedGaussianSourceSDAForwardSolver(double diameter)
             : base(SourceConfiguration.Gaussian, diameter) { }
 
@@ -50,7 +58,13 @@ namespace Vts.Modeling.ForwardSolvers
             //return normFactor * surfaceFluence;
             return normFactor * SteadyStateGaussianBeamSurfaceFluence(dp, BeamDiameter, rho);
         }
-
+        /// <summary>
+        /// time-independent fluence 
+        /// </summary>
+        /// <param name="dp">diffusion parameters</param>
+        /// <param name="diam">diameter of Gaussian beam</param>
+        /// <param name="rho">s-d separation</param>
+        /// <returns></returns>
         public static double SteadyStateGaussianBeamSurfaceFluence(DiffusionParameters dp,
                    double diam, double rho)
         {
@@ -78,7 +92,13 @@ namespace Vts.Modeling.ForwardSolvers
             }
             return fluence / rho; // scale back...
         }
-
+        /// <summary>
+        /// time-independent fluence
+        /// </summary>
+        /// <param name="rho">s-d separation</param>
+        /// <param name="z">depth</param>
+        /// <param name="dp">diffusion parameters</param>
+        /// <returns>fluence(rho,z)</returns>
         public override double StationaryFluence(double rho, double z, DiffusionParameters dp)
         {
             var sqDiamOver8 = BeamDiameter * BeamDiameter / 8;
@@ -193,22 +213,52 @@ namespace Vts.Modeling.ForwardSolvers
         //            (Math.PI * BeamDiameter * BeamDiameter);
         //}
 
-
+        /// <summary>
+        /// reflectance as a function of time
+        /// </summary>
+        /// <param name="dp">diffusion parameters</param>
+        /// <param name="rho">s-d separation</param>
+        /// <param name="t">time</param>
+        /// <param name="fr1"></param>
+        /// <param name="fr2"></param>
+        /// <returns></returns>
         public override double TemporalReflectance(DiffusionParameters dp, double rho, double t, double fr1, double fr2)
         {
             throw new NotImplementedException();
         }
-
+        /// <summary>
+        /// temporal-frequency reflectance
+        /// </summary>
+        /// <param name="dp"></param>
+        /// <param name="rho">s-d separation</param>
+        /// <param name="k">temporal-frequency</param>
+        /// <param name="fr1"></param>
+        /// <param name="fr2"></param>
+        /// <returns></returns>
         public override Complex TemporalFrequencyReflectance(DiffusionParameters dp, double rho, Complex k, double fr1, double fr2)
         {
             throw new NotImplementedException();
         }
-
+        /// <summary>
+        /// time-dependent fluence
+        /// </summary>
+        /// <param name="dp">diffusion parameters</param>
+        /// <param name="rho">s-d separation</param>
+        /// <param name="z">depth</param>
+        /// <param name="t">time</param>
+        /// <returns>fluence(rho,z,time)</returns>
         public override double TemporalFluence(DiffusionParameters dp, double rho, double z, double t)
         {
             throw new NotImplementedException();
         }
-
+        /// <summary>
+        /// fluence as a function of s-d separation, depth and temporal-frequency
+        /// </summary>
+        /// <param name="dp">diffusion parameters</param>
+        /// <param name="rho">s-d separation</param>
+        /// <param name="z">depth</param>
+        /// <param name="k">temporal-frequency</param>
+        /// <returns>fluence(rho,z,ft)</returns>
         public override Complex TemporalFrequencyFluence(DiffusionParameters dp, double rho, double z, Complex k)
         {
             throw new NotImplementedException();

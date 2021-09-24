@@ -9,6 +9,9 @@ using Vts.SpectralMapping;
 
 namespace Vts.Factories
 {
+    /// <summary>
+    /// factory methods for solvers
+    /// </summary>
     public class SolverFactory
     {
         private static readonly UnityContainer _container;
@@ -82,12 +85,20 @@ namespace Vts.Factories
                 }
             }
         }
-
+        /// <summary>
+        /// method to get forward solver from enum type
+        /// </summary>
+        /// <param name="forwardSolverType">ForwardSolverType enum</param>
+        /// <returns>IForwardSolver</returns>
         public static IForwardSolver GetForwardSolver(ForwardSolverType forwardSolverType)
         {
             return GetForwardSolver(forwardSolverType.ToString());
         }
-
+        /// <summary>
+        /// method to get forward solver from string name
+        /// </summary>
+        /// <param name="forwardSolverType">string name</param>
+        /// <returns>IForwardSolver</returns>
         public static IForwardSolver GetForwardSolver(string forwardSolverType)
         {
             try
@@ -99,12 +110,20 @@ namespace Vts.Factories
                 return null;
             }
         }
-
+        /// <summary>
+        /// method to get Scatter from enum
+        /// </summary>
+        /// <param name="scatteringType">ScatteringType enum</param>
+        /// <returns>IScatter</returns>
         public static IScatterer GetScattererType(ScatteringType scatteringType)
         {
             return GetScattererType(scatteringType.ToString());
         }
-
+        /// <summary>
+        /// method to get Scatter from scattering name string
+        /// </summary>
+        /// <param name="scatteringType">scattering string name</param>
+        /// <returns>IScatter</returns>
         public static IScatterer GetScattererType(string scatteringType)
         {
             try
@@ -119,12 +138,20 @@ namespace Vts.Factories
                 return null;
             }
         }
-
+        /// <summary>
+        /// method to get optimizer from enum
+        /// </summary>
+        /// <param name="type">OptimizerType enum</param>
+        /// <returns>IOptimizer</returns>
         public static IOptimizer GetOptimizer(OptimizerType type)
         {
             return GetOptimizer(type.ToString());
         }
-
+        /// <summary>
+        /// method to get optimizer from name string
+        /// </summary>
+        /// <param name="type">optimizer name string</param>
+        /// <returns>IOptimizer</returns>
         public static IOptimizer GetOptimizer(string type)
         {
             try

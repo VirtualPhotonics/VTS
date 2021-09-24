@@ -17,9 +17,17 @@ using System.IO;
 
 namespace Vts.Common.Logging
 {
+    /// <summary>
+    /// factory methods for logger
+    /// </summary>
     [Serializable]
     public abstract class AbstractLoggerFactory : MarshalByRefObject, ILoggerFactory
     {
+        /// <summary>
+        /// method to create logger given type
+        /// </summary>
+        /// <param name="type">type</param>
+        /// <returns></returns>
         public virtual ILogger Create(Type type)
         {
             if (type == null)
@@ -29,7 +37,12 @@ namespace Vts.Common.Logging
 
             return Create(type.FullName);
         }
-
+        /// <summary>
+        /// method to create logger given type and logger level
+        /// </summary>
+        /// <param name="type">type</param>
+        /// <param name="level">logger level</param>
+        /// <returns></returns>
         public virtual ILogger Create(Type type, LoggerLevel level)
         {
             if (type == null)
@@ -39,8 +52,18 @@ namespace Vts.Common.Logging
 
             return Create(type.FullName, level);
         }
-
+        /// <summary>
+        /// method to create logger given name
+        /// </summary>
+        /// <param name="name">name string</param>
+        /// <returns></returns>
         public abstract ILogger Create(String name);
+        /// <summary>
+        /// method to create logger given name and logger level
+        /// </summary>
+        /// <param name="name">name string</param>
+        /// <param name="level">LoggerLevel</param>
+        /// <returns></returns>
 
         public abstract ILogger Create(String name, LoggerLevel level);
 

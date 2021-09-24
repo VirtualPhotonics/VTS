@@ -18,6 +18,9 @@ namespace Vts.Modeling.Optimizers
         /// delegate function that evaluates the objective function given a parameter optimization array and (optional) constant variables
         /// </summary>
         public Func<double[], object[], double[]> ForwardFunc { get; set; }
+        /// <summary>
+        /// forward variables
+        /// </summary>
         public object[] ForwardVariables { get; set; }
         /// <summary>
         /// measured data

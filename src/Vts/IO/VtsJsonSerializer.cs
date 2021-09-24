@@ -19,11 +19,23 @@ using Vts.MonteCarlo.Tissues;
 
 namespace Vts.IO
 {
+    /// <summary>
+    /// json serializer methods for the VTS
+    /// </summary>
     public static class VtsJsonSerializer
     {
 #if DEBUG
+        /// <summary>
+        /// memory trace writer
+        /// </summary>
         public static MemoryTraceWriter TraceWriter = new MemoryTraceWriter();
 #endif
+        /// <summary>
+        /// method to write to json
+        /// </summary>
+        /// <typeparam name="T">generic type</typeparam>
+        /// <param name="myObject">object to write</param>
+        /// <returns>written json</returns>
         public static string WriteToJson<T>(this T myObject)
         {
             var settings = new JsonSerializerSettings
@@ -45,7 +57,12 @@ namespace Vts.IO
 #endif
             return json;
         }
-
+        /// <summary>
+        /// method to write json to file
+        /// </summary>
+        /// <typeparam name="T">generic type</typeparam>
+        /// <param name="myObject">object to write</param>
+        /// <param name="filename">json file written to</param>
         public static void WriteToJsonFile<T>(this T myObject, string filename)
         {
             var settingsJson = WriteToJson(myObject);
@@ -56,7 +73,9 @@ namespace Vts.IO
                 sw.Write(settingsJson);
             }
         }
-
+        /// <summary>
+        /// list of known converters - one of each type of Monte Carlo class that is written to json
+        /// </summary>
         public static List<JsonConverter> KnownConverters = new List<JsonConverter>
         {
             new ConventionBasedConverter<ISourceInput>(typeof(IsotropicPointSourceInput), "SourceType",  Vts.MonteCarlo.SourceType.BuiltInTypes),
@@ -67,7 +86,12 @@ namespace Vts.IO
             ConventionBasedConverter<ISourceProfile>.CreateFromEnum<Vts.MonteCarlo.SourceProfileType>(typeof(FlatSourceProfile)),
             new OpticalPropertiesConverter(),
         };
-
+        /// <summary>
+        /// method to read form json
+        /// </summary>
+        /// <typeparam name="T">generic type</typeparam>
+        /// <param name="myString">string identifying json</param>
+        /// <returns>deserialized object</returns>
         public static T ReadFromJson<T>(this string myString)
         {
             JsonSerializer serializer = new JsonSerializer();
@@ -95,7 +119,12 @@ namespace Vts.IO
 #endif
             return deserializedProduct;
         }
-
+        /// <summary>
+        /// method to read json from file
+        /// </summary>
+        /// <typeparam name="T">generic type</typeparam>
+        /// <param name="filename">name of file to be read</param>
+        /// <returns>json</returns>
         public static T ReadFromJsonFile<T>(string filename)
         {
             using (var stream = StreamFinder.GetFileStream(filename, FileMode.Open))
@@ -109,6 +138,10 @@ namespace Vts.IO
     }
 
     // from http://stackoverflow.com/questions/8030538/how-to-implement-custom-jsonconverter-in-json-net-to-deserialize-a-list-of-base
+    /// <summary>
+    /// class to deserialize json
+    /// </summary>
+    /// <typeparam name="TInterface"></typeparam>
     public class ConventionBasedConverter<TInterface> : JsonCreationConverter<TInterface> 
     {
         private static readonly UnityContainer _container;
@@ -141,8 +174,10 @@ namespace Vts.IO
         /// <summary>
         /// Returns an instance of ConventionBasedConverter
         /// </summary>
-        /// <param name="exampleType"></param>
-        /// <param name="classBasename"></param>
+        /// <param name="exampleType">Type</param>
+        /// <param name="typeCategoryString">string describing category</param>
+        /// <param name="classPrefixStrings">IEnumerable of string</param>
+        /// <param name="classBasename">name of base class</param>
         public ConventionBasedConverter(Type exampleType, string typeCategoryString, IEnumerable<string> classPrefixStrings,  string classBasename = null)
         {
             _namespace = exampleType.Namespace;
@@ -152,7 +187,7 @@ namespace Vts.IO
             _classBasename = classBasename ?? _interfaceType.Name.Substring(1);
             _typeCategoryString = typeCategoryString;
 
-            var useSingleton = false;
+            // the code: var useSingleton = false used to be here
             var useDefaultConstructor = true;
             
             var classList =
@@ -180,7 +215,13 @@ namespace Vts.IO
 
             _classInfoDictionary = classList.ToDictionary(item => item.ClassPrefixString);
         }
-        
+        /// <summary>
+        /// method to create ConventionBasedConverter from enum
+        /// </summary>
+        /// <typeparam name="TEnum">enum</typeparam>
+        /// <param name="exampleType">Type</param>
+        /// <param name="classBasename">name of base class</param>
+        /// <returns>ConventionBasedConverter</returns>
         public static ConventionBasedConverter<TInterface> CreateFromEnum<TEnum>(Type exampleType, string classBasename = null)
         {
             return new ConventionBasedConverter<TInterface>(
@@ -191,6 +232,12 @@ namespace Vts.IO
                 classBasename);
         }
 
+        /// <summary>
+        /// method to create TInterface given Type and JObject
+        /// </summary>
+        /// <param name="objectType">Type</param>
+        /// <param name="jObject">JObject</param>
+        /// <returns>TInterface</returns>
         protected override TInterface Create(Type objectType, JObject jObject)
         {
             if (!FieldExists(_typeCategoryString, jObject))
@@ -218,13 +265,21 @@ namespace Vts.IO
 
             return classInstance;
         }
-
+        /// <summary>
+        /// method to determine if field exists
+        /// </summary>
+        /// <param name="fieldName">name of field string</param>
+        /// <param name="jObject">JObject object to check</param>
+        /// <returns>boolean indicating if field exists</returns>
         private bool FieldExists(string fieldName, JObject jObject)
         {
             return jObject[fieldName] != null;
         }
     }
-
+    /// <summary>
+    /// class JsonCreationConverter
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public abstract class JsonCreationConverter<T> : JsonConverter
     {
         /// <summary>
@@ -234,12 +289,23 @@ namespace Vts.IO
         /// <param name="jObject">contents of JSON object that will be deserialized</param>
         /// <returns></returns>
         protected abstract T Create(Type objectType, JObject jObject);
-
+        /// <summary>
+        /// method to identify whether object can be converted
+        /// </summary>
+        /// <param name="objectType">object to be converted</param>
+        /// <returns>boolean indicating whether object can be converted</returns>
         public override bool CanConvert(Type objectType)
         {
             return typeof(T).IsAssignableFrom(objectType);
         }
-
+        /// <summary>
+        /// method to read json
+        /// </summary>
+        /// <param name="reader">JsonReader</param>
+        /// <param name="objectType">Type</param>
+        /// <param name="existingValue">object: current type</param>
+        /// <param name="serializer">JsonSerializer</param>
+        /// <returns>object read</returns>
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
             // Load JObject from stream
@@ -253,7 +319,12 @@ namespace Vts.IO
 
             return target;
         }
-
+        /// <summary>
+        /// method to write json
+        /// </summary>
+        /// <param name="writer">JsonWriter</param>
+        /// <param name="value">object to be written</param>
+        /// <param name="serializer">JsonSerializer</param>
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
             throw new NotImplementedException();

@@ -98,7 +98,10 @@ namespace Vts.MonteCarlo.Sources
         /// Returns an instance of  Fluorescence Emission AOfXAndYAndZ Source with
         /// a Lambertian angular distribution.
         /// </summary>
+        /// <param name="inputFolder">folder where A(x,y,z) resides</param>
+        /// <param name="infile">infile that generated A(x,y,z)</param>
         /// <param name="initialTissueRegionIndex">Initial tissue region index</param>
+        /// <param name="samplingMethod">SourcePositionSamplingtype(CDF,Uniform)</param>
         public FluorescenceEmissionAOfXAndYAndZSource(
             string inputFolder,
             string infile,
@@ -112,7 +115,12 @@ namespace Vts.MonteCarlo.Sources
             SamplingMethod = samplingMethod;
             Loader = new AOfXAndYAndZLoader(inputFolder, infile, initialTissueRegionIndex);
         }
-
+        /// <summary>
+        /// Method to determine source photon position and weight
+        /// </summary>
+        /// <param name="rng">random number generator</param>
+        /// <param name="weight">return photon weight</param>
+        /// <returns>photon position</returns>
         protected override Position GetFinalPositionAndWeight(Random rng, out double weight)
         {
             Position finalPosition = null;

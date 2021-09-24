@@ -12,6 +12,7 @@ namespace Vts.MonteCarlo
         /// Method to validate blood volume fraction input agrees with number of tissue subregions
         /// </summary>
         /// <param name="input">detector input in SimulationInput</param>
+        /// <param name="tissueRegionCount">number of tissue regions</param>
         /// <returns></returns>
         public static ValidationResult ValidateInput(IDetectorInput input, int tissueRegionCount)
         {

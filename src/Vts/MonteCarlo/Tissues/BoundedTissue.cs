@@ -119,8 +119,8 @@ namespace Vts.MonteCarlo.Tissues
         /// method to determine photon state type of photon exiting tissue boundary
         /// </summary>
         /// <param name="position"></param>
-        /// <returns></returns>
-        public PhotonStateType GetPhotonDataPointStateOnExit(Position position)
+        /// <returns>PhotonStateType</returns>
+        public new PhotonStateType GetPhotonDataPointStateOnExit(Position position)
         {
             if (position.Z < 1e-10)
             {

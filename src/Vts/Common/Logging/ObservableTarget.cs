@@ -60,7 +60,11 @@ namespace Vts.Common.Logging
 
             this.Logs.Add(msg);
         }
-
+        /// <summary>
+        /// method to subscribe to IObserver
+        /// </summary>
+        /// <param name="observer">IObersver</param>
+        /// <returns>IDisposable</returns>
         public IDisposable Subscribe(IObserver<string> observer)
         {
             return _subject.Subscribe(observer);

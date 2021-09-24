@@ -3,8 +3,16 @@ using System.Runtime.Serialization;
 
 namespace Vts.SpectralMapping
 {
+    /// <summary>
+    /// chromophore spectrum extension methods
+    /// </summary>
     public static class ChromophoreSpectrumExtensions
     {
+        /// <summary>
+        /// method to put spectrum to dictionary
+        /// </summary>
+        /// <param name="spectra">spectra to put into dictionary</param>
+        /// <returns>dictionary of chromophore spetrum</returns>
         public static ChromophoreSpectrumDictionary ToDictionary(this IEnumerable<ChromophoreSpectrum> spectra)
         {
             var dictionary = new ChromophoreSpectrumDictionary();

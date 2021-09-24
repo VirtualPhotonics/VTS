@@ -6,8 +6,16 @@ using Vts.Extensions;
 
 namespace Vts.Modeling.ForwardSolvers.DiscreteOrdinates
 {
+    /// <summary>
+    /// discrete ordinates methods class
+    /// </summary>
     public static class DOMethods
     {
+        /// <summary>
+        /// method to determine Gauss Legendre coefficients
+        /// </summary>
+        /// <param name="N">order</param>
+        /// <returns>GaussLegendreCoefficients</returns>
         public static GaussLegendreCoefficients GaussLegendre(int N)
         {
             var beta = from i in 1.To(N - 1)
@@ -32,7 +40,14 @@ namespace Vts.Modeling.ForwardSolvers.DiscreteOrdinates
                 wt = indices.Select(i => 2 * e.Eigenpairs[i].Eigenvector[0].Pow(2)).ToArray()
             };
         }
-
+        /// <summary>
+        /// method to generate FokkerPlanckEddington matrix
+        /// </summary>
+        /// <param name="f"></param>
+        /// <param name="mu">cosine theta?</param>
+        /// <param name="wt">Gauss Legendre weights</param>
+        /// <param name="N">order</param>
+        /// <returns></returns>
         public static SquareMatrix GenFokkerPlanckEddington(double[] f, double[] mu, double[] wt, int N)
         {
             var ones = Ones(N);
@@ -99,7 +114,13 @@ namespace Vts.Modeling.ForwardSolvers.DiscreteOrdinates
         {
             return new SquareMatrix(N);
         }
-
+        /// <summary>
+        /// method to determine Laplace-Beltrami matrix
+        /// </summary>
+        /// <param name="mu">cosine theta?</param>
+        /// <param name="wt">expansion weights</param>
+        /// <param name="N">order</param>
+        /// <returns>matrix</returns>
         public static SquareMatrix LaplaceBelTrami(double[] mu, double[] wt, int N)
         {
             // compute alpha
@@ -141,7 +162,16 @@ namespace Vts.Modeling.ForwardSolvers.DiscreteOrdinates
 
             return LB;
         }
-
+        /// <summary>
+        /// method to determine the PW half space
+        /// </summary>
+        /// <param name="mu_a">absorption coefficient [/mm]</param>
+        /// <param name="mu_s">scattering coefficient [/mm]</param>
+        /// <param name="mu"></param>
+        /// <param name="wt"></param>
+        /// <param name="L"></param>
+        /// <param name="N">order</param>
+        /// <returns>double array</returns>
         public static double[] PWHalfSpace(double mu_a, double mu_s, double[] mu, double[] wt, SquareMatrix L, int N)
         {
             var zeros = Zeros(N);

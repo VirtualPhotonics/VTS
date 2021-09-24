@@ -188,6 +188,9 @@ namespace Vts.MonteCarlo.Detectors
         /// number of tissue subregions
         /// </summary>
         public int NumSubregions { get; set; } 
+        /// <summary>
+        /// number of total collisions
+        /// </summary>
         public int[] TotalCollisions { get; set; } // debug
 
         /// <summary>

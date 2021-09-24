@@ -15,6 +15,7 @@ namespace Vts.SpectralMapping
         /// <param name="absorbers">List of chromophore absorbers</param>
         /// <param name="scatterer">scatterer</param>
         /// <param name="name">Name of the tissue</param>
+        /// <param name="n">refractive index</param>
         public Tissue(IList<IChromophoreAbsorber> absorbers, IScatterer scatterer, string name, double? n =  1.4)
         {
             Absorbers = absorbers;
@@ -160,7 +161,9 @@ namespace Vts.SpectralMapping
             return opArray;
         }
     }
-
+    /// <summary>
+    /// tissue provider class
+    /// </summary>
     public static class TissueProvider
     {
         /// <summary>

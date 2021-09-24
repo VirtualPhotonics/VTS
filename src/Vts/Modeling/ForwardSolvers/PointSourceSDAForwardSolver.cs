@@ -2,8 +2,14 @@ using System.Numerics;
 
 namespace Vts.Modeling.ForwardSolvers
 {
+    /// <summary>
+    /// Point source standard diffusion approximation forward solver
+    /// </summary>
     public class PointSourceSDAForwardSolver : DiffusionForwardSolverBase
     {
+        /// <summary>
+        /// default constructor
+        /// </summary>
         public PointSourceSDAForwardSolver()
             : base(SourceConfiguration.Point, 0.0) { }
 
@@ -111,7 +117,15 @@ namespace Vts.Modeling.ForwardSolvers
                 t);
         }
 
-
+        /// <summary>
+        /// temporal-frequency reflectance
+        /// </summary>
+        /// <param name="dp">diffusion parameters</param>
+        /// <param name="rho">s-d separation</param>
+        /// <param name="k">temporal-frequency</param>
+        /// <param name="fr1"></param>
+        /// <param name="fr2"></param>
+        /// <returns></returns>
         public override Complex TemporalFrequencyReflectance(
             DiffusionParameters dp, double rho, Complex k, double fr1, double fr2)
         {
@@ -121,7 +135,14 @@ namespace Vts.Modeling.ForwardSolvers
                 fr1, fr2);
 
         }
-
+        /// <summary>
+        /// temporal-frequency fluence
+        /// </summary>
+        /// <param name="dp">diffusion parameters</param>
+        /// <param name="rho">s-d separation</param>
+        /// <param name="z">depth</param>
+        /// <param name="k">temporal-frequency</param>
+        /// <returns></returns>
         public override Complex TemporalFrequencyFluence(DiffusionParameters dp, double rho,
             double z, Complex k)
         {
@@ -130,7 +151,14 @@ namespace Vts.Modeling.ForwardSolvers
                 CalculatorToolbox.GetRadius(rho, z + dp.zp + 2 * dp.zb),
                 k);
         }
-
+        /// <summary>
+        /// temporal-frequency zflux calculation
+        /// </summary>
+        /// <param name="dp">diffusion parameters</param>
+        /// <param name="rho">s-d separation</param>
+        /// <param name="z">depth</param>
+        /// <param name="k">temporal-frequency</param>
+        /// <returns></returns>
         public Complex TemporalFrequencyZFlux(
             DiffusionParameters dp, double rho, double z, Complex k)
         {

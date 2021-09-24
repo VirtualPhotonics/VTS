@@ -107,7 +107,9 @@ namespace Vts.MonteCarlo.Sources
                 throw new ArgumentException("infile string is empty");
             }
         }
-
+        /// <summary>
+        /// method to initialize the fluorescent region arrays that are used to sample fluorescent source
+        /// </summary>
         public void InitializeFluorescentRegionArrays()
         {     
             MapOfXAndYAndZ = new int[X.Count - 1, Y.Count - 1, Z.Count - 1];

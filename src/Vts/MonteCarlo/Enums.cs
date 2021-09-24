@@ -416,7 +416,9 @@ namespace Vts.MonteCarlo
             "SurfaceFiber"
         };
     }
-
+    /// <summary>
+    /// detector tally types
+    /// </summary>
     public static class TallyType
     {
         /// <summary>

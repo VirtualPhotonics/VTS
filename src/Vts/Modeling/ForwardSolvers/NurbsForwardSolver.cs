@@ -23,6 +23,9 @@ namespace Vts.Modeling.ForwardSolvers
         private INurbs _rdGenerator;
         private INurbs _sfdGenerator;
 
+        /// <summary>
+        /// speed of light
+        /// </summary>
         public static readonly double v =  GlobalConstants.C / 1.4;
         private static readonly OpticalProperties _opReference =
                                                  new OpticalProperties(0.0, 1, 0.8, 1.4);

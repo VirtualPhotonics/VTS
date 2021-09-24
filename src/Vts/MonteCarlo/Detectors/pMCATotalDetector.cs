@@ -64,9 +64,11 @@ namespace Vts.MonteCarlo.Detectors
         private Func<IList<long>, IList<double>, IList<OpticalProperties>, IList<OpticalProperties>, IList<int>, double> _absorbAction;
            
         /* ==== Place optional/user-defined input properties here. They will be saved in text (JSON) format ==== */
-        /* ==== Note: make sure to copy over all optional/user-defined inputs from corresponding input class ==== */ /// <summary>
-                                                                                                                     /// list of perturbed OPs listed in order of tissue regions
-                                                                                                                     /// </summary>
+        /* ==== Note: make sure to copy over all optional/user-defined inputs from corresponding input class ==== */ 
+                                                                                                                      
+        /// <summary>
+        /// list of perturbed OPs listed in order of tissue regions
+        /// </summary>
         public IList<OpticalProperties> PerturbedOps { get; set; }
         /// <summary>
         /// list of perturbed regions indices
@@ -115,6 +117,10 @@ namespace Vts.MonteCarlo.Detectors
             _tissue = tissue;
             _absorbAction = AbsorptionWeightingMethods.GetpMCVolumeAbsorptionWeightingMethod(tissue, this);
          }
+        /// <summary>
+        /// method to tally to detector 
+        /// </summary>
+        /// <param name="photon"></param>
         public void Tally(Photon photon)
         {
             // first determine perturbed *reflected* weight

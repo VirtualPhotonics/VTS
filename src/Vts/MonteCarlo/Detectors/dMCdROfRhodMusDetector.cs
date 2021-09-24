@@ -51,6 +51,10 @@ namespace Vts.MonteCarlo.Detectors
         /// </summary>
         public double NA { get; set; }
 
+        /// <summary>
+        /// Method to create detector from detector input
+        /// </summary>
+        /// <returns>created IDetector</returns>
         public IDetector CreateDetector()
         {
             return new dMCdROfRhodMusDetector

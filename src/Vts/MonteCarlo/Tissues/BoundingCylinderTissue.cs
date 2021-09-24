@@ -17,7 +17,7 @@ namespace Vts.MonteCarlo.Tissues
         /// <summary>
         /// allows definition of tissue bounded by capless cylinder height of tissue
         /// </summary>
-        /// <param name="cylinderRegion">bounding vertical cylinder region specification</param>
+        /// <param name="caplessCylinderRegion">bounding vertical cylinder region specification</param>
         /// <param name="layerRegions">tissue layer specification</param>
         public BoundingCylinderTissueInput(ITissueRegion caplessCylinderRegion, ITissueRegion[] layerRegions)
         {

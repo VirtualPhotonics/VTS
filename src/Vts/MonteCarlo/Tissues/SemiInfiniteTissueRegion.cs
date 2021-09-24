@@ -36,7 +36,9 @@ namespace Vts.MonteCarlo.Tissues
         /// optical properties of layer
         /// </summary>
         public OpticalProperties RegionOP { get; set; }
-
+        /// <summary>
+        /// Center of tissue region (semi-infinite has no center)
+        /// </summary>
         public Position Center
         {
             get { throw new NotImplementedException(); }

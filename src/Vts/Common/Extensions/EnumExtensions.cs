@@ -5,6 +5,9 @@ using Vts.Common.Resources;
 
 namespace Vts
 {
+    /// <summary>
+    /// methods to ease access to enums
+    /// </summary>
     public static class EnumExtensions
     {
         /// <summary>

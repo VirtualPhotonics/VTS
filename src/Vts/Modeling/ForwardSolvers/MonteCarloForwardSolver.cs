@@ -142,6 +142,13 @@ namespace Vts.Modeling.ForwardSolvers
         {
             return ROfRhoAndFt(op.AsEnumerable(), rho.AsEnumerable(), ft.AsEnumerable()).First();
         }
+        /// <summary>
+        /// reflectance as a function of s-d separations and temporal-frequencies
+        /// </summary>
+        /// <param name="ops">optical properties</param>
+        /// <param name="rhos">s-d separations</param>
+        /// <param name="fts">temporal-frequencies</param>
+        /// <returns>R(rhos,fts)</returns>
         public override IEnumerable<Complex> ROfRhoAndFt(IEnumerable<OpticalProperties> ops, IEnumerable<double> rhos, IEnumerable<double> fts)
         {
             double[] time = new double[_monteCarloLoader.ntReference];
@@ -176,6 +183,12 @@ namespace Vts.Modeling.ForwardSolvers
         {
             return ROfFx(op.AsEnumerable(), fx.AsEnumerable()).First();
         }
+        /// <summary>
+        /// reflectance as a function of spatial-frequencies
+        /// </summary>
+        /// <param name="ops">optical properties</param>
+        /// <param name="fxs">spatial frequencies</param>
+        /// <returns>R(fxs)</returns>
         public override IEnumerable<double> ROfFx(IEnumerable<OpticalProperties> ops, IEnumerable<double> fxs)
         {
             double[] RatFxMC = new double[_monteCarloLoader.nfxReference];
@@ -214,6 +227,13 @@ namespace Vts.Modeling.ForwardSolvers
         {
             return ROfFxAndTime(op.AsEnumerable(), fx.AsEnumerable(), fx.AsEnumerable()).First();
         }
+        /// <summary>
+        /// reflectance as a function of spatial-frequencies and times
+        /// </summary>
+        /// <param name="ops">optical properties</param>
+        /// <param name="fxs">spatial-frequencies</param>
+        /// <param name="times">times</param>
+        /// <returns>R(fxs,times)</returns>
         public override IEnumerable<double> ROfFxAndTime(IEnumerable<OpticalProperties> ops,
             IEnumerable<double> fxs, IEnumerable<double> times)
         {
@@ -314,22 +334,49 @@ namespace Vts.Modeling.ForwardSolvers
         {
             throw new NotImplementedException();
         }
-
+        /// <summary>
+        /// fluence as a function of s-d separations, depths and temporal-frequencies
+        /// </summary>
+        /// <param name="ops">optical properties</param>
+        /// <param name="rhos">s-d separations</param>
+        /// <param name="zs">depths</param>
+        /// <param name="fts">temporal-frequencies</param>
+        /// <returns>fluence(rhos,zs,fts)</returns>
         public override IEnumerable<Complex> FluenceOfRhoAndZAndFt(IEnumerable<OpticalProperties> ops, IEnumerable<double> rhos, IEnumerable<double> zs, IEnumerable<double> fts)
         {
             throw new NotImplementedException();
         }
-
+        /// <summary>
+        /// fluence as a function of spatial-frequencies and depths
+        /// </summary>
+        /// <param name="ops">optical properties</param>
+        /// <param name="fxs">spatial frequencies</param>
+        /// <param name="zs">depths</param>
+        /// <returns>fluence(fxs,zs)</returns>
         public override IEnumerable<double> FluenceOfFxAndZ(IEnumerable<OpticalProperties> ops, IEnumerable<double> fxs, IEnumerable<double> zs)
         {
             throw new NotImplementedException();
         }
-
+        /// <summary>
+        /// fluence as a function of spatial-frequencies, depths and times
+        /// </summary>
+        /// <param name="ops">optical properties</param>
+        /// <param name="fxs">spatial frequencies</param>
+        /// <param name="zs">depths</param>
+        /// <param name="ts">times</param>
+        /// <returns>fluence(fxs,zs,times)</returns>
         public override IEnumerable<double> FluenceOfFxAndZAndTime(IEnumerable<OpticalProperties> ops, IEnumerable<double> fxs, IEnumerable<double> zs, IEnumerable<double> ts)
         {
             throw new NotImplementedException();
         }
-
+        /// <summary>
+        /// fluence as a function of spatial-frequencies, depths and temporal-frequencies
+        /// </summary>
+        /// <param name="ops">optical properties</param>
+        /// <param name="fxs">spatial-frequencies</param>
+        /// <param name="zs">depths</param>
+        /// <param name="fts">temporal-frequencies</param>
+        /// <returns>fluence(fxs,zs,fts)</returns>
         public override IEnumerable<Complex> FluenceOfFxAndZAndFt(IEnumerable<OpticalProperties> ops, IEnumerable<double> fxs, IEnumerable<double> zs, IEnumerable<double> fts)
         {
             throw new NotImplementedException();

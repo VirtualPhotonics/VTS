@@ -3,8 +3,17 @@ using System.Collections.Generic;
 
 namespace Vts.Extensions
 {
+    /// <summary>
+    /// methods enable access to IEnumerableArrays
+    /// </summary>
     public static class IEnumerableArrayExtensions
     {
+        /// <summary>
+        /// method to convert Array to IEnumerable<typeparamref name="T"/>
+        /// </summary>
+        /// <typeparam name="T">generic type</typeparam>
+        /// <param name="myArray">this array to convert</param>
+        /// <returns>IEnumerable<typeparamref name="T"/></returns>
         public static IEnumerable<T> ToEnumerable<T>(this Array myArray) where T : struct
         {
             if (myArray is Array[][])
@@ -179,7 +188,13 @@ namespace Vts.Extensions
                 }
             }
         }
-
+        /// <summary>
+        /// method to populate Array from Enumerable
+        /// </summary>
+        /// <typeparam name="T">generic type</typeparam>
+        /// <param name="myArray">this array to convert</param>
+        /// <param name="enumerable">enumerable to convert</param>
+        /// <returns>Array</returns>
         public static Array PopulateFromEnumerable<T>(this Array myArray, IEnumerable<T> enumerable) where T : struct
         {
             var enumerator = enumerable.GetEnumerator();
@@ -187,7 +202,12 @@ namespace Vts.Extensions
             return myArray;
         }
 
-
+        /// <summary>
+        /// method to populate this array from enumerator
+        /// </summary>
+        /// <typeparam name="T">generic type</typeparam>
+        /// <param name="myArray">this array</param>
+        /// <param name="enumerator">enumerator to convert from</param>
         private static void PopulateFromEnumerator<T>(this Array myArray, IEnumerator<T> enumerator) where T : struct
         {
             if (myArray is Array[][])
@@ -363,7 +383,14 @@ namespace Vts.Extensions
                 }
             }
         }
-
+        /// <summary>
+        /// method to populate array from IEnumerable
+        /// </summary>
+        /// <typeparam name="T">generic type</typeparam>
+        /// <typeparam name="TArray">generic array</typeparam>
+        /// <param name="myArray">this class array</param>
+        /// <param name="enumerable">IEnumerable of T</param>
+        /// <returns>TArray</returns>
         public static TArray PopulateFromEnumerable2<T, TArray>(this TArray myArray, IEnumerable<T> enumerable) where T : struct
         {
             if(!(myArray is Array))
@@ -461,7 +488,13 @@ namespace Vts.Extensions
                 }
             }
         }
-
+        /// <summary>
+        /// method to populate this array with value
+        /// </summary>
+        /// <typeparam name="T">generic type</typeparam>
+        /// <param name="myArray">this array class</param>
+        /// <param name="value">value to populate</param>
+        /// <returns>generic array T[]</returns>
 
         public static T[] PopulateWithValue<T>(this T[] myArray, T value) where T : struct
         {

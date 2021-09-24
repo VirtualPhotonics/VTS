@@ -193,6 +193,9 @@ namespace Vts.IO
         // does not get called.
         // It gives your base class the opportunity to finalize.
         // Do not provide destructors in types derived from this class.
+        /// <summary>
+        /// Custom binary stream writer
+        /// </summary>
         ~CustomBinaryStreamWriter()
         {
             // Do not re-create Dispose clean-up code here.

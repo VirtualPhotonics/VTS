@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Serialization;
 using Vts.IO;
 using Vts.MonteCarlo.PhotonData;
 
@@ -99,7 +98,12 @@ namespace Vts.MonteCarlo.Detectors
             _tissue = tissue;
             _ops = _tissue.Regions.Select(r => r.RegionOP).ToArray();
         }
-
+        /// <summary>
+        /// method to tally a single photon collision
+        /// </summary>
+        /// <param name="previousDP">previous data point</param>
+        /// <param name="dp">current data point</param>
+        /// <param name="currentRegionIndex">current tissue region index</param>
         public void TallySingle(PhotonDataPoint previousDP, PhotonDataPoint dp, int currentRegionIndex)
         {
             var weight = _absorptionWeightingMethod(previousDP, dp, currentRegionIndex);

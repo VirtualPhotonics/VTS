@@ -1045,6 +1045,11 @@ namespace Vts.MonteCarlo
         /// </summary>
         public IDictionary<String, IDetector> ResultsDictionary { get; private set; }
 
+        /// <summary>
+        /// method that calls GetDetector to get detectors from a list of detector names
+        /// </summary>
+        /// <param name="detectorNames">list of detector names strings</param>
+        /// <returns>list of IDetector</returns>
         public IEnumerable<IDetector> GetDetectors(IEnumerable<string> detectorNames)
         {
             foreach (var detectorName in detectorNames)
@@ -1057,7 +1062,11 @@ namespace Vts.MonteCarlo
                 }
             }
         }
-
+        /// <summary>
+        /// method to get detector from detector name
+        /// </summary>
+        /// <param name="detectorName">detector name string</param>
+        /// <returns>IDetector</returns>
         public IDetector GetDetector(string detectorName)
         {
             IDetector detector;

@@ -39,7 +39,9 @@ namespace Vts
         {
             eventArgCache = new Dictionary<string, PropertyChangedEventArgs>();
         }
-
+        /// <summary>
+        /// default constructor, protected version
+        /// </summary>
         protected BindableObject()
         {
         }

@@ -232,7 +232,12 @@ namespace Vts.Modeling.ForwardSolvers
         {
             return ((Func<IOpticalPropertyRegion[], double, double>)ROfRho).LoopOverVariables(regions, rhos);
         }
-
+        /// <summary>
+        /// reflectance as function of theta
+        /// </summary>
+        /// <param name="ops">optical properties</param>
+        /// <param name="thetas">thetas</param>
+        /// <returns>R(thetas)</returns>
         public virtual IEnumerable<double> ROfTheta(
             IEnumerable<OpticalProperties> ops,
             IEnumerable<double> thetas)
@@ -463,6 +468,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// </summary>
         /// <param name="regions">sets of medium optical and geometrical properties of each sub-region</param>
         /// <param name="rhos">source-detector separations (mm)</param>
+        /// <param name="fts">temporal-frequencies</param>
         /// <returns>Reflectance at given optical properties and rhos</returns>
         public Complex[] ROfRhoAndFt(IOpticalPropertyRegion[][] regions, double[] rhos, double[] fts)
         {
@@ -997,7 +1003,13 @@ namespace Vts.Modeling.ForwardSolvers
         {
             return ROfFxAndTime(new[] { op }, new[] { fx }, ts);
         }
-
+        /// <summary>
+        /// reflectance as a function of spatial-frequency and time
+        /// </summary>
+        /// <param name="regions">tissue region's optical properties</param>
+        /// <param name="fx">spatial-frequency</param>
+        /// <param name="ts">times</param>
+        /// <returns>R(fx,times)</returns>
         public double[] ROfFxAndTime(IOpticalPropertyRegion[] regions, double fx, double[] ts)
         {
             return ROfFxAndTime(regions, new[] { fx }, ts);

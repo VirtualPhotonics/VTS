@@ -389,6 +389,10 @@ namespace Vts.MonteCarlo.Rng
                 sgenrand_mt((uint)seeds[i], ref MTSs[i]);
             }
         }
+        /// <summary>
+        /// method to initialize regular MT
+        /// </summary>
+        /// <param name="seed">unsigned integer seed</param>
         public void init_dc(uint seed)
         {
             org_state global_mt19937 = new org_state();
@@ -844,7 +848,7 @@ namespace Vts.MonteCarlo.Rng
         public void get_tempering_parameter_hard_dc(ref mt_struct mts)
         {
             int i;
-            _mask_node mn0, next;
+            _mask_node mn0;
             LinkedList<_mask_node> listOfMaskNodes = new LinkedList<_mask_node>();
             eqdeg_t eq = new eqdeg_t();
             eq.aaa = new uint[2];

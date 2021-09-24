@@ -21,13 +21,22 @@ namespace Vts.Factories
         // if we did our job of abstracting the computation, external users wouldn't have to worry about this
 
         // the following methods are necessary to the GUI
+        /// <summary>
+        /// method to determine if forward solver is solver with constant values
+        /// </summary>
+        /// <param name="solutionDomainType">SolutionDomainType</param>
+        /// <returns>boolean indicating if solver with constant values</returns>
         public static bool IsSolverWithConstantValues(SolutionDomainType solutionDomainType)
         {
             return
                 !(solutionDomainType == SolutionDomainType.ROfRho) &&
                 !(solutionDomainType == SolutionDomainType.ROfFx);
         }
-
+        /// <summary>
+        /// method to determine if forward solver is solver with constant values
+        /// </summary>
+        /// <param name="solutionDomainType">FluenceSolutionDomainType</param>
+        /// <returns>boolean indicating if solver with constant values</returns>
         public static bool IsSolverWithConstantValues(FluenceSolutionDomainType solutionDomainType)
         {
             return
@@ -42,21 +51,33 @@ namespace Vts.Factories
         //{
         //    return (independentVariableAxis == IndependentVariableAxis.Ft);
         //}
-
+        /// <summary>
+        /// method to indicate whether forward solver is a complex solver
+        /// </summary>
+        /// <param name="solutionDomainType">SolutionDomainType</param>
+        /// <returns>boolean indicating whether forward solver is complex or not</returns>
         public static bool IsComplexSolver(SolutionDomainType solutionDomainType)
         {
             return
                 (solutionDomainType == SolutionDomainType.ROfRhoAndFt) ||
                 (solutionDomainType == SolutionDomainType.ROfFxAndFt);
         }
-
+        /// <summary>
+        /// method to indicate whether forward solver is a complex solver
+        /// </summary>
+        /// <param name="solutionDomainType">FluenceSolutionDomainType</param>
+        /// <returns>boolean indicating whether forward solver is complex or not</returns>
         public static bool IsComplexSolver(FluenceSolutionDomainType solutionDomainType)
         {
             return
                 (solutionDomainType == FluenceSolutionDomainType.FluenceOfRhoAndZAndFt) ||
                 (solutionDomainType == FluenceSolutionDomainType.FluenceOfFxAndZAndFt);
         }
-
+        /// <summary>
+        /// method to flatten the real and imaginary parts of an array of complex values
+        /// </summary>
+        /// <param name="values">complex values to flatten</param>
+        /// <returns>1D array of real (1st half) and imaginary (2nd half) </returns>
         private static double[] FlattenRealAndImaginary(this Complex[] values)
         {
             var flattened = new double[values.Length * 2];
@@ -892,7 +913,11 @@ namespace Vts.Factories
                 return forwardReflectanceFunc(forwardData);
             };
         }
-
+        /// <summary>
+        /// method to rehydrate OpticalProperties class from array of doubles
+        /// </summary>
+        /// <param name="ops">array of doubles to unflatten</param>
+        /// <returns>array of OpticalProperties</returns>
         public static OpticalProperties[] UnFlattenOpticalProperties(double[] ops)
         {
             var nOp = ops.Length / 4;

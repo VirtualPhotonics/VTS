@@ -37,6 +37,7 @@ namespace Vts.SpectralMapping
         /// <param name="particleRadius">Particle radius</param>
         /// <param name="particleRefractiveIndex">Particle refractive index</param>
         /// <param name="mediumRefractiveIndex">Medium refractive index</param>
+        /// <param name="volumeFraction">volume fraction of scatterers</param>
         public MieScatterer(
             double particleRadius,
             double particleRefractiveIndex,
