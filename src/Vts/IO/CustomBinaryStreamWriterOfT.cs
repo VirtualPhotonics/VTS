@@ -82,7 +82,7 @@ namespace Vts.IO
                     PreWriteAction();
                 }
             }
-            catch (IOException e)
+            catch (IOException)
             {
                 Close();
             }

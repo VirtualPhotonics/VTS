@@ -93,6 +93,15 @@ namespace Vts.Test.MonteCarlo.Helpers
             Assert.IsTrue(Math.Abs(polarAzimuthalAnglesClone.Phi - 2.0) < 1e-6);
         }
 
+        [Test]
+        public void Test_get_hash_code()
+        {
+            var polarAzimuthalAngles = new PolarAzimuthalAngles();
+            var hashCode = polarAzimuthalAngles.GetHashCode();
+            Assert.AreEqual(hashCode, polarAzimuthalAngles.GetHashCode());
+            var direction2 = new PolarAzimuthalAngles();
+            Assert.AreEqual(hashCode, direction2.GetHashCode());
+        }
     }
 }
 

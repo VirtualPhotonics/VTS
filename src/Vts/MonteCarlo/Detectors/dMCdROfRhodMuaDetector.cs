@@ -83,7 +83,7 @@ namespace Vts.MonteCarlo.Detectors
         private IList<OpticalProperties> _referenceOps;
         private IList<OpticalProperties> _perturbedOps;
         private IList<int> _perturbedRegionsIndices;
-        private double _rhoDelta; // need to kep this because DoubleRange adjust deltas automatically
+        private double _rhoDelta; // need to keep this because DoubleRange adjust deltas automatically
         private Func<IList<long>, IList<double>, IList<OpticalProperties>, double> _absorbAction;
         private ITissue _tissue;
 
