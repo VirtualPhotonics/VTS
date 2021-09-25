@@ -4,7 +4,9 @@
     /// Methods to help with the determination of polar azimuthal angles.
     /// </summary>
     public class PolarAzimuthalAngles
-    {      
+    {
+        private readonly int _hashCode;
+
         /// <summary>
         /// Returns polar azimuthal angle angle in spherical coordinate system
         /// </summary>
@@ -14,6 +16,7 @@
         {
             Theta = theta;
             Phi = phi;
+            _hashCode = new {theta, phi}.GetHashCode();
         }
         /// <summary>
         /// Theta (polar) and Phi (azimuthal) angles default constructor
@@ -82,6 +85,7 @@
             }
             return false;
         }
+
         /// <summary>
         /// method to clone class
         /// </summary>
@@ -90,5 +94,15 @@
         {
             return new PolarAzimuthalAngles(this.Theta, this.Phi);
         }
+        
+        /// <summary>
+        /// Override of GetHashCode to allow the type to work correctly in a hash table
+        /// </summary>
+        /// <returns>The hashcode as an integer</returns>
+        public override int GetHashCode()
+        {
+            return _hashCode;
+        }
+
     }
 }

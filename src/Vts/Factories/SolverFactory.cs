@@ -105,7 +105,7 @@ namespace Vts.Factories
             {
                 return _container.Resolve<IForwardSolver>(forwardSolverType);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return null;
             }

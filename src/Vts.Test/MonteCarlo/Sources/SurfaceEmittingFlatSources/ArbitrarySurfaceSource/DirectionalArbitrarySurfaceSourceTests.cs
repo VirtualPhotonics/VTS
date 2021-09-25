@@ -36,9 +36,7 @@ namespace Vts.Test.MonteCarlo.Sources
             Random rng = new MathNet.Numerics.Random.MersenneTwister(0); // not really necessary here, as this is now the default
             ITissue tissue = new MultiLayerTissue();
             var profile = new ArbitrarySourceProfile();
-            var sourceLengthX = 1.0;
-            var sourceWidthY = 2.0;
-            
+
             // DirectionalArbitrarySurfaceSource is protected so create 
 
             //var ps = new DirectionalArbitrarySurfaceSource(

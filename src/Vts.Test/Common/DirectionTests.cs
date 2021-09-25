@@ -213,11 +213,11 @@ namespace Vts.Test.Common
         [Test]
         public void Test_get_hash_code()
         {
-            var position = new Position();
-            var hashCode = position.GetHashCode();
-            Assert.AreEqual(hashCode, position.GetHashCode());
-            var position2 = new Position();
-            Assert.AreNotEqual(hashCode, position2.GetHashCode());
+            var direction = new Direction();
+            var hashCode = direction.GetHashCode();
+            Assert.AreEqual(hashCode, direction.GetHashCode());
+            var direction2 = new Direction();
+            Assert.AreEqual(hashCode, direction2.GetHashCode());
         }
     }
 }

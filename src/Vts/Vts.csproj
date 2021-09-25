@@ -9,9 +9,7 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>David Cuccia; Carole Hayakawa; Lisa Malenfant; Janaka Ranasinghesagara; Jennifer Nguyen; Adam Gardner; Michele Martinelli</Authors>
     <PackageId>VirtualPhotonics.Vts</PackageId>
-    <PackageLicenseUrl>https://github.com/VirtualPhotonics/VTS/blob/master/license.md</PackageLicenseUrl>
     <PackageTags>C# Monte-Carlo NURBS SDA Spectral-Data Reflectance Fluence Forward-Solutions Inverse-Solutions</PackageTags>
-    <PackageIconUrl>http://virtualphotonics.org/Themes/VP/Content/Images/logo.png</PackageIconUrl>
     <PackageProjectUrl>https://github.com/VirtualPhotonics/VTS/wiki</PackageProjectUrl>
     <RepositoryUrl>https://github.com/VirtualPhotonics/VTS</RepositoryUrl>
     <RepositoryType>Git</RepositoryType>
@@ -22,6 +20,8 @@
     <UpgradeBackupLocation>C:\Users\hayakawa\Documents\Visual Studio 2019\Projects\vts_210207\src\Backup\Vts\</UpgradeBackupLocation>
     <OldToolsVersion>2.0</OldToolsVersion>
     <Configurations>Debug;Release;Benchmark</Configurations>
+    <PackageLicenseFile>license.md</PackageLicenseFile>
+    <PackageIcon>logo.png</PackageIcon>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Benchmark|AnyCPU'">
     <Optimize>true</Optimize>
@@ -37,6 +37,14 @@
     <Compile Remove="MonteCarlo\Unmanaged\**" />
     <EmbeddedResource Remove="MonteCarlo\Unmanaged\**" />
     <None Remove="MonteCarlo\Unmanaged\**" />
+    <None Include="..\..\license.md">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+    <None Include="..\..\logo.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Common\Helpers\FuncOfT.cs" />
