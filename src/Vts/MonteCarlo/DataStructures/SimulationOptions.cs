@@ -41,10 +41,7 @@ namespace Vts.MonteCarlo
                 Databases = new List<DatabaseType>() { };
             }
             Seed = seed;
-            //if (Seed == -1) // handling of random seed moved to RNGFactory 10/01/11
-            //{
-            //    Seed = GetRandomSeed();
-            //}
+            // handling of random seed moved to RNGFactory 10/01/11
             SimulationIndex = simulationIndex;
             TrackStatistics = trackStatistics;
             RussianRouletteWeightThreshold = russianRouletteWeightThreshold;

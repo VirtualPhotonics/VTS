@@ -8,7 +8,6 @@ namespace Vts.MonteCarlo.Controllers
     /// </summary>
     public class VirtualBoundaryController
     {
-        private IList<IVirtualBoundary> _virtualBoundaries;
         /// <summary>
         /// virtual boundary controller
         /// </summary>
@@ -16,12 +15,12 @@ namespace Vts.MonteCarlo.Controllers
         public VirtualBoundaryController(
             IList<IVirtualBoundary> virtualBoundaries)
         {
-            _virtualBoundaries = virtualBoundaries;
+            VirtualBoundaries = virtualBoundaries;
         }
         /// <summary>
         /// List of IVirtualBoundary.  All VBs handled by this controller.
         /// </summary>
-        public IList<IVirtualBoundary> VirtualBoundaries { get { return _virtualBoundaries; } set { _virtualBoundaries = value; } }
+        public IList<IVirtualBoundary> VirtualBoundaries { get; set; }
 
         /// <summary>
         /// Method to determine the distance to the closest VB in VirtualBoundaries list.
@@ -33,9 +32,9 @@ namespace Vts.MonteCarlo.Controllers
         {
             IVirtualBoundary vb = null;
             distance = double.PositiveInfinity;
-            if (_virtualBoundaries != null && _virtualBoundaries.Count > 0)
+            if (VirtualBoundaries != null && VirtualBoundaries.Count > 0)
             {
-                foreach (var virtualBoundary in _virtualBoundaries)
+                foreach (var virtualBoundary in VirtualBoundaries)
                 {
                     // each VB takes direction of VB into consideration when determining distance
                     var distanceToVB = virtualBoundary.GetDistanceToVirtualBoundary(dp);
