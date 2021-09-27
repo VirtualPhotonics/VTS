@@ -303,10 +303,10 @@ namespace Vts.MonteCarlo.Rng
             public int count;
             public uint next;
         }
-        struct _mask_node
+        struct _mask_node // int v used to be part of this struct but is not used in code
         {
             public uint b, c;
-            public int v, leng; // can't have pointer to itself so created LinkedList
+            public int leng; // can't have pointer to itself so created LinkedList
         }
         /// struc in mt19937.h
         struct org_state

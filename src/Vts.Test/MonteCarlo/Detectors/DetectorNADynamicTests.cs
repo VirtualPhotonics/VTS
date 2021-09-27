@@ -6,7 +6,6 @@ using Vts.MonteCarlo;
 using Vts.MonteCarlo.Detectors;
 using Vts.MonteCarlo.Sources;
 using Vts.MonteCarlo.Tissues;
-using Vts.MonteCarlo.PhotonData;
 
 namespace Vts.Test.MonteCarlo.Detectors
 {
@@ -18,7 +17,6 @@ namespace Vts.Test.MonteCarlo.Detectors
     public class DetectorNADynamicTests
     {
         private SimulationOutput _outputNA0, _outputNA0p3, _outputNoNASpecified;
-        private double _dosimetryDepth = 1.0;
 
         /// <summary>
         /// Setup input to the MC for a homogeneous one layer tissue and specify reflectance

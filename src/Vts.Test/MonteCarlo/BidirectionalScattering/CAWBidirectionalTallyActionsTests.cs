@@ -22,7 +22,6 @@ namespace Vts.Test.MonteCarlo.BidirectionalScattering
     {
         SimulationOutput _output;
         SimulationInput _input;
-        double _topLayerThickness = 2;
         double _slabThickness = 10;
         double _mua = 0.01;
         double _musp = 0.198;  // mus = 0.99
@@ -83,10 +82,7 @@ namespace Vts.Test.MonteCarlo.BidirectionalScattering
                     { 
                         new LayerTissueRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
-                            new OpticalProperties(0.0, 1e-10, 0.0, 1.0)),
-                        //new LayerTissueRegion( // debug layer
-                        //    new DoubleRange(0.0, _topLayerThickness),
-                        //    new OpticalProperties(_mua, _musp, _g, 1.0)), // index matched slab                        
+                            new OpticalProperties(0.0, 1e-10, 0.0, 1.0)),                       
                         new LayerTissueRegion(
                             new DoubleRange(0, _slabThickness),
                             new OpticalProperties(_mua, _musp, _g, 1.0)), // index matched slab
