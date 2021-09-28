@@ -176,7 +176,6 @@ namespace Vts.MonteCarlo.Detectors
                     }
                 }
             }
-            var dum = sum;
         }
         /// <summary>
         /// this is to allow saving of large arrays separately as a binary file
@@ -252,8 +251,6 @@ namespace Vts.MonteCarlo.Detectors
                 var detectorRegionN = _tissue.Regions[FinalTissueRegionIndex].RegionOP.N;
                 return photon.History.PreviousDP.IsWithinNA(NA, Direction.AlongNegativeZAxis, detectorRegionN);
             }
-            //return true; // or, possibly test for NA or confined position, etc
-            //return (dp.StateFlag.Has(PhotonStateType.PseudoTransmissionDomainTopBoundary));
         }
     }
 }

@@ -196,10 +196,10 @@ namespace Vts.MonteCarlo.Detectors
         /// <param name="photon">photon</param>
         public bool IsWithinDetectorAperture(Photon photon)
         {
-            //var detectorRegionN = _tissue.Regions[FinalTissueRegionIndex].RegionOP.N;
-            return photon.DP.IsWithinNA(NA, Direction.AlongNegativeZAxis, N);            
-
-            //return (dp.StateFlag.Has(PhotonStateType.PseudoTransmissionDomainTopBoundary));
+            // the following assumes fiber adjacent to tissue
+            // if want tissue-air-fiber then use following prior to last line
+            // var detectorRegionN = _tissue.Regions[FinalTissueRegionIndex].RegionOP.N
+            return photon.DP.IsWithinNA(NA, Direction.AlongNegativeZAxis, N);
         }
     }
 }

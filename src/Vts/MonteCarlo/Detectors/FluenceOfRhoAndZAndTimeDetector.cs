@@ -289,7 +289,6 @@ namespace Vts.MonteCarlo.Detectors
         public bool IsWithinDetectorAperture(Photon photon)
         {
             return true; // or, possibly test for NA or confined position, etc
-            //return (dp.StateFlag.Has(PhotonStateType.PseudoTransmissionDomainTopBoundary));
         }
 
     }
