@@ -17,7 +17,7 @@ namespace Vts.Factories
     /// </summary>
     public static class ComputationFactory
     {
-        // todo: the following two methods are a result of a leaky abstraction 
+        // the following two methods are a result of a leaky abstraction?
         // if we did our job of abstracting the computation, external users wouldn't have to worry about this
 
         // the following methods are necessary to the GUI
@@ -228,7 +228,7 @@ namespace Vts.Factories
                 constantValues);
         }
 
-        // overload for ITissueRegion forward solvers todo: merge with above?
+        // overload for ITissueRegion forward solvers: merge with above?
         /// <summary>
         /// ComputeFluence overload determines fluence given the input parameters.  
         /// </summary>
@@ -272,7 +272,7 @@ namespace Vts.Factories
                 return regionParameters;
             }).ToArray();
 
-            // todo: current assumption below is that the second axis is z. need to generalize
+            // current assumption below is that the second axis is z. need to generalize
             var func = GetForwardFluenceFunc(forwardSolver, solutionDomainType, independentAxesTypes[0]);
 
             // create a list of inputs (besides optical properties) that corresponds to the behavior of the function above
@@ -299,7 +299,7 @@ namespace Vts.Factories
             OpticalProperties[] opticalProperties,
             params double[] constantValues)
         {
-            // todo: current assumption below is that the second axes is z. need to generalize
+            // current assumption below is that the second axes is z. need to generalize?
             var func = GetForwardFluenceFunc(forwardSolver, solutionDomainType, independentAxesTypes[0]);
 
             // create a list of inputs (besides optical properties) that corresponds to the behavior of the function above
@@ -316,7 +316,7 @@ namespace Vts.Factories
             var numOp = opticalProperties.Length;
             var numIv = independentValues.Length;
             var fluence = new double[numOp * numIv];
-            for (int opi = 0; opi < numOp; opi++) // todo: parallelize
+            for (int opi = 0; opi < numOp; opi++) // parallelize?
             {
                 var op = opticalProperties[opi];
                 var parameters = new[] { op.Mua, op.Musp, op.G, op.N };
@@ -443,7 +443,7 @@ namespace Vts.Factories
                                      opticalProperties.N
                                  };
 
-            // todo: current assumption below is that the second axes is z. need to generalize
+            // current assumption below is that the second axes is z. need to generalize?
             var func = GetForwardFluenceFuncComplex(forwardSolver, solutionDomainType, independentAxesTypes[0]);
 
             // create a list of inputs (besides optical properties) that corresponds to the behavior of the function above
@@ -497,7 +497,7 @@ namespace Vts.Factories
                 return regionParameters;
             }).ToArray();
 
-            // todo: current assumption below is that the second axes is z. need to generalize
+            // current assumption below is that the second axes is z. need to generalize?
             var func = GetForwardFluenceFuncComplex(forwardSolver, solutionDomainType, independentAxesTypes[0]);
 
             // create a list of inputs (besides optical properties) that corresponds to the behavior of the function above
@@ -617,7 +617,7 @@ namespace Vts.Factories
         /// <returns>absorbed energy in a 1D IEnumerable of double</returns>
         public static IEnumerable<Complex> GetAbsorbedEnergy(IEnumerable<Complex> fluence, double mua)
         {
-            return fluence.Select(flu => flu * mua); // todo: is this correct?? DC 12/08/12
+            return fluence.Select(flu => flu * mua); 
         }
 
         /// <summary>
@@ -689,8 +689,6 @@ namespace Vts.Factories
             InverseFitType inverseFitType,
             object[] independentValues)
         {
-            //var opticalPropertyGuess = ((OpticalProperties[]) (independentValues[0])).First();
-            //var fitParameters = new double[4] { opticalPropertyGuess.Mua, opticalPropertyGuess.Musp, opticalPropertyGuess.G, opticalPropertyGuess.N };
             var parametersToFit = GetParametersToFit(inverseFitType);
             
             var opticalPropertyGuess = (OpticalProperties[])(independentValues[0]);
@@ -792,7 +790,7 @@ namespace Vts.Factories
             switch (type)
             {
                 case SolutionDomainType.ROfRho:
-                    if (fs is TwoLayerSDAForwardSolver) // todo: future generalization to IMultiRegionForwardSolver?
+                    if (fs is TwoLayerSDAForwardSolver) // future generalization to IMultiRegionForwardSolver?
                     {
                         return forwardData => fs.ROfRho((IOpticalPropertyRegion[][])forwardData[0], (double[])forwardData[1]);
                     }
@@ -882,7 +880,7 @@ namespace Vts.Factories
             return opArray;
         }
 
-        // todo: array overloads for fluence forward solvers too
+        // should we array overloads for fluence forward solvers too?
         private static Func<double[], object[], double[]> GetForwardFluenceFunc(
            IForwardSolver fs, FluenceSolutionDomainType type, IndependentVariableAxis axis)
         {
@@ -951,7 +949,7 @@ namespace Vts.Factories
                     switch (axis)
                     {
                         case IndependentVariableAxis.Rho:
-                            if (fs is TwoLayerSDAForwardSolver) // todo: future generalization to IMultiRegionForwardSolver?
+                            if (fs is TwoLayerSDAForwardSolver) // future generalization to IMultiRegionForwardSolver?
                             {
                                 return (fitData, otherData) => fs.FluenceOfRhoAndZAndFt(new[] { getLayerTissueRegionArray(fitData) }, (double[])otherData[0], (double[])otherData[1], new[] { (double)otherData[2] });
                             }

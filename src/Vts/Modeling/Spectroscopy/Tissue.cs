@@ -171,7 +171,7 @@ namespace Vts.SpectralMapping
         /// <param name="tissueType">Tissue type</param>
         public static IChromophoreAbsorber[] CreateAbsorbers(TissueType tissueType)
         {
-            // todo: this should come from a file...
+            // should this come from a file?
             var defaultAbsorberDictionary = new Dictionary<TissueType, Dictionary<ChromophoreType, double>>
                 {
                     //ref: Meglinski, Matcher, Computer Methods and Programs in Biomedicine 70, 2003, 179-186.

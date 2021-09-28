@@ -491,19 +491,6 @@ namespace Vts.Modeling.ForwardSolvers
             IEnumerable<double> fts)
         {
             throw new NotImplementedException();
-            //foreach (var op in ops)
-            //{
-            //    foreach (var fx in fxs)
-            //    {
-            //        foreach (var z in zs)
-            //        {
-            //            foreach (var ft in fts)
-            //            {
-            //                yield return 
-            //            }
-            //        }
-            //    }
-            //}
         }
 
         #endregion Fluence Solutions

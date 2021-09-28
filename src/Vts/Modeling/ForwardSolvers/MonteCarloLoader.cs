@@ -61,7 +61,6 @@ namespace Vts.Modeling.ForwardSolvers
         /// </summary>
         public double[,] RReferenceOfFxAndTime { get; set; }
 
-        /// CKH TODO: automate pointer to reference data 
         /// can't point to N1e7 until writing to isolated storage working for R_fxt code below
         private string folder = "ReferenceData/N1e8mua0musp1g0p8dr0p2dt0p005/";
 

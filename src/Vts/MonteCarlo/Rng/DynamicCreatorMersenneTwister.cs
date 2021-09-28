@@ -554,8 +554,8 @@ namespace Vts.MonteCarlo.Rng
             }
             n = p / w + 1; // since p is Mersenne exponent, w never divides p
             mts.state = new uint[n];
-            //was in original code: mts = alloc_mt_struc(n) // no allocation needed since "new" above
-            //was in original code: if (mts.state == null) return mts -> this check is on malloc
+            //was in original code: mts = alloc_mt_struc(n) no allocation needed since "new" above
+            //was in original code: if mts.state eq null then return mts -> this check is on malloc
 
             m = n / 2;
             if (m < 2) m = n - 1;
@@ -606,7 +606,7 @@ namespace Vts.MonteCarlo.Rng
                 next_irred_poly(ref pl, i);
                 make_modlist(ref pre, pl, i);
             }
-            //was in original code: for (int i = 0; i < pre.sizeOfA; i++) { free poly } -> don't need this
+            //was in original code: for loop (i eq 0 until i lt pre.sizeOfA) then free poly -> don't need this
         }
         private void next_irred_poly(ref polynomial pl, int nth)
         {
@@ -849,7 +849,7 @@ namespace Vts.MonteCarlo.Rng
             for (i = 0; i < _limit_v_best_opt; i++)
             {
                 optimize_v_hard(ref eq, i, ref curList);
-                //was in original code: if (i > 0){curList.RemoveFirst()}
+                //was in original code: if (i gt 0) then curList.RemoveFirst()
             }
             optimize_v(ref eq, eq.gmax_b, eq.gmax_c, i);
             mts.shift0 = eq.shift_0;
@@ -883,7 +883,7 @@ namespace Vts.MonteCarlo.Rng
             {
                 eq.bitmask[i] = (uint)0x80000000 >> i;
             }
-            for (i = 0; i < eq.rrr; i++) // orig code for (i=0,eq.glower_mask=0; i<eq.rrr; i++)
+            for (i = 0; i < eq.rrr; i++) // orig code for i eq 0,eq.glower_mask eq 0, i lt eq.rrr
             {
                 eq.glower_mask = (eq.glower_mask << 1) | 0x1;
             }

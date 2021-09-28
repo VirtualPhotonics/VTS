@@ -14,7 +14,7 @@ namespace Vts.SpectralMapping
         const int angles = 361;
         const int nAngles = 2 * angles - 1;
         const double dTheta = (Math.PI / 2) / (angles - 1); /* dtheta: .25 deg. (in radian) */
-        //private double _Wavelength;
+
         private double _ParticleRadius;
         private double _ParticleRefractiveIndexMismatch;
         private double _MediumRefractiveIndexMismatch;
@@ -166,9 +166,9 @@ namespace Vts.SpectralMapping
             BohrenHuffmanMie(wavelength);
             double qSca = MieScattParams.Q[0];
 
-            //Let a = particle radius;
-            //fv = particle volume fraction;
-            //rho_s = fv/((4/3)*Pi/a^3) = particle number density;
+            //Let a = particle radius
+            //fv = particle volume fraction
+            //rho_s = fv/((4/3)*Pi/a^3) = particle number density
             //sigma_s = Qsca*A = cross-section
             //A = Pi*a^2 = area
             // Then mus = rho_s*sigma_s, which, upon simplifying, produces:
@@ -273,8 +273,6 @@ namespace Vts.SpectralMapping
                 chi0 = chi1;
                 chi1 = chi;
 
-                //xi1.Re = psi1; CKH mod 5/11/17
-                //xi1.Im = -chi1;
                 xi1 = new Complex(psi1, -chi1);
                 rn += 1;
                 for (int j = 0; j < angles; j++)

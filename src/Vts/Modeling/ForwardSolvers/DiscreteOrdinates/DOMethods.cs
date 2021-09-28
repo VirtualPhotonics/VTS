@@ -125,7 +125,7 @@ namespace Vts.Modeling.ForwardSolvers.DiscreteOrdinates
         {
             // compute alpha
 
-            var alpha = new ColumnVector(N + 1); //zeros( N + 1, 1 );
+            var alpha = new ColumnVector(N + 1); //zeros( N + 1, 1 )
 
             for (int im = 1; im < N + 1; im++)
             {
@@ -192,16 +192,14 @@ namespace Vts.Modeling.ForwardSolvers.DiscreteOrdinates
             // solve the eigenvalue problems
             var e = A.Eigendecomposition();
 
-            //0.To(N - 1).ForEach(i => PrintVector(e.Eigenvector(i).ToArray()));
-
             // sort the eigenvalues
             var indices = from i in 0.To(N - 1)
                 orderby e.Eigenpairs[i].Eigenvalue.Re
                 select i;
             // compute the expansion coefficients for the solution
 
-            // eval           = eval(N/2+1:N);
-            // evec           = V(:,indx(N/2+1:N));
+            // eval           = eval(N/2+1:N)
+            // evec           = V(:,indx(N/2+1:N))
             var eval = indices.Select(i => e.Eigenpairs[i].Eigenvalue.Re).Skip(N / 2);
             var evec = indices.Select(i => e.Eigenpairs[i].Eigenvector).Skip(N / 2);
 
@@ -232,7 +230,6 @@ namespace Vts.Modeling.ForwardSolvers.DiscreteOrdinates
             PrintMatrix(mInverse);
 
             var c = mInverse.Transpose * new ColumnVector(vectorValues); // why Transpose?
-            //var c = mInverse * new ColumnVector(vectorValues);
 
             // compute the reflectance
 
@@ -251,7 +248,6 @@ namespace Vts.Modeling.ForwardSolvers.DiscreteOrdinates
             Console.WriteLine("R:\n");
             PrintMatrix(R);
 
-            //return R.ToArray();
             return R.Reverse().ToArray(); // why backwards?
         }
 

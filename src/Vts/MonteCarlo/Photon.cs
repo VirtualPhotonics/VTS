@@ -55,7 +55,6 @@ namespace Vts.MonteCarlo
             CurrentRegionIndex = currentTissueRegionIndex;
             // flag to determin whether passing through specular or not
             // the following assumes tissues considered are slabs, only ones we have coded to date
-            // todo: make more general to handle other types of tissues
             _firstTimeEnteringDomain = true;
             if (CurrentRegionIndex >= 1) // photon does not go through specular
             {

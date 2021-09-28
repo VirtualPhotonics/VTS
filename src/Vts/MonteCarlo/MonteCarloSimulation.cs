@@ -248,7 +248,7 @@ namespace Vts.MonteCarlo
                         return;
                     }
 
-                    // todo: bug - num photons is assumed to be over 10 :)
+                    // num photons is assumed to be over 10 
                     if (n % (_numberOfPhotons / 10) == 0)
                     {
                         DisplayStatus(n, _numberOfPhotons);
@@ -264,7 +264,7 @@ namespace Vts.MonteCarlo
 
                         BoundaryHitType hitType = MoveToBoundaryCheck(photon, out closestVirtualBoundary);
 
-                        // todo: consider moving actual calls to Tally after do-while
+                        // consider moving actual calls to Tally after do-while
                         // for each "hit" virtual boundary, tally respective detectors if exist
                         if ((hitType == BoundaryHitType.Virtual) &&
                             (closestVirtualBoundary.DetectorController != null))

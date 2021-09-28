@@ -50,7 +50,7 @@ namespace Vts.Factories
             bool useSingleton,
             bool useDefaultConstructor)
         {
-            // todo: is this what AutoMapper is for?
+            // is this what AutoMapper is for?
             var enumValues = EnumHelper.GetValues<TEnum>();
             foreach (var enumValue in enumValues)
             {
@@ -81,7 +81,7 @@ namespace Vts.Factories
                     // classType,
                     // enumValue.ToString(), // use the enum string to register each class
                     // useSingleton ? new ContainerControlledLifetimeManager() : null,
-                    // useDefaultConstructor ? new InjectionMember[] { new InjectionConstructor() } : null);
+                    // useDefaultConstructor ? new InjectionMember[] { new InjectionConstructor() } : null)
                 }
             }
         }
@@ -128,7 +128,7 @@ namespace Vts.Factories
         {
             try
             {
-                // todo: add overload of GetScattererType that takes in a tissue type 
+                // add overload of GetScattererType that takes in a tissue type 
                 // for choosing good defaults. Need to understand how to configure Unity
                 // to allow for both types of resolution (right now, calls default constructor)
                 return _container.Resolve<IScatterer>(scatteringType);

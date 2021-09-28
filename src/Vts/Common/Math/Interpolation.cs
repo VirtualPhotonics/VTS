@@ -140,7 +140,7 @@ namespace Vts.Common.Math
 
         #region Multi-value interpolation
 
-        // todo: "flip" vectorized and scalar implementations to remove inefficiency 
+        // would "flip" vectorized and scalar implementations to remove inefficiency?
 
         /// <summary>
         /// Interpolation in one dimension (assumes x are monotonically increasing)
@@ -149,7 +149,7 @@ namespace Vts.Common.Math
         /// <param name="y">The known dependent values</param>
         /// <param name="xs">Value to at which to interpolate</param>
         /// <returns>If xs outside range of x, returns NaN,
-        ///     otherwide, returns linearly interpolated result</returns>
+        ///     otherwise, returns linearly interpolated result</returns>
         public static IEnumerable<double> interp1(IList<double> x, IList<double> y, IEnumerable<double> xs)
         {
             foreach (var xi in xs)

@@ -959,8 +959,7 @@ namespace Vts
         /// <param name="fts">modulation frequencies (GHz)</param>
         /// <returns></returns>
         Complex[] FluenceOfFxAndZAndFt(OpticalProperties[] ops, double[] fx, double[] zs, double[] fts);
-        //double[] FluenceOfFxAndZAndFt(OpticalProperties[] ops, double[] fx, double[] zs, double[] fts);
-
+       
         #endregion
     }
 }

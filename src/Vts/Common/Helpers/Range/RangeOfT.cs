@@ -37,7 +37,6 @@ namespace Vts
         /// <summary>
         /// The only reason this is here is to satisfy the DataContractSerializer
         /// </summary>
-        /// todo: Figure out how to remove
         public Range()
             : this(default(T), default(T), 1)
         {
@@ -127,7 +126,7 @@ namespace Vts
                  ", Delta: " + Delta.ToString();
         }
 
-        // todo: dc - revisit Ayende's INotifyPropertyChanged generics implementation
+        // revisit Ayende's INotifyPropertyChanged generics implementation
         /// <summary>
         /// Returns an IEnumerable of type Time that represents the range
         /// </summary>
