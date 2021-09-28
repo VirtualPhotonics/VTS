@@ -25,10 +25,7 @@ namespace Vts.MonteCarlo.Sources.SourceProfiles
             Image = image;
             PixelWidth = pixelWidth;
             PixelHeight = pixelHeight;
-            //IsBinary = true; // not implemented for arbitrary structure // only binary currently implemented
-            //if (IsBinary)
-            //{
-                var binaryPixelMap = new List<int>(image.Length);
+            var binaryPixelMap = new List<int>(image.Length);
                 for (int i = 0; i < image.Length; i++)
                 {
                     var pixelValue = image[i];
@@ -39,7 +36,6 @@ namespace Vts.MonteCarlo.Sources.SourceProfiles
                 }
                 _nonZeroPixelMap = binaryPixelMap.ToArray();
                 _numNonZeroPixels = _nonZeroPixelMap.Length;
-            //}
         }
 
         /// <summary>

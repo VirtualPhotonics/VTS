@@ -246,18 +246,7 @@ namespace Vts.IO
             }
 
             var classPrefixString = jObject[_typeCategoryString].ToString();
-            
-            //TEnum enumValue = default(TEnum);
-            //string enumValueName = null;
-            //if (Enum.TryParse(enumString, out enumValue)) // if it's an integer, representing an Enum class
-            //{
-            //    enumValueName = enumValue.ToString();
-            //}
-            //else
-            //{
-            //    enumValueName = enumString; // if it's a string, representing the actual name
-            //}
-            
+
             // get name of Enum from interface (e.g. if it's "IThingy", get "ThingyType" Enum and generate names for all source classes, and then use the corresponding factory, possibly also using convention "ThingyFactory")
             var classInfo = _classInfoDictionary[classPrefixString];
 

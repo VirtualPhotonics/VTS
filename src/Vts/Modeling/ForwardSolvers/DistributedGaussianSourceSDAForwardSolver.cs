@@ -54,8 +54,7 @@ namespace Vts.Modeling.ForwardSolvers
             double fr1, double fr2)
         {
             var normFactor = 8 / (Math.PI * BeamDiameter * BeamDiameter) / (2 * dp.A);
-            //var surfaceFluence = 
-            //return normFactor * surfaceFluence;
+
             return normFactor * SteadyStateGaussianBeamSurfaceFluence(dp, BeamDiameter, rho);
         }
         /// <summary>
@@ -131,8 +130,6 @@ namespace Vts.Modeling.ForwardSolvers
         }
 
         #endregion old implementation
-
-
 
         #region new implementation
         //public override double StationaryReflectance(DiffusionParameters dp, double rho, double fr1, double fr2)

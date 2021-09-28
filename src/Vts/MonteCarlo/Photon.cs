@@ -390,7 +390,6 @@ namespace Vts.MonteCarlo
                 DP.StateFlag.HasFlag(PhotonStateType.PseudoSpecularReflectanceVirtualBoundary) ||
                 DP.StateFlag.HasFlag(PhotonStateType.PseudoBoundingCylinderVolumeVirtualBoundary))
             {
-                //todo: revisit performance of the bitwise operations
                 DP.StateFlag = DP.StateFlag.Remove(PhotonStateType.Alive);
                 History.AddDPToHistory(DP);
             }

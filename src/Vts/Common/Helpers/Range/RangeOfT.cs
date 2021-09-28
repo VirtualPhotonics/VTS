@@ -85,9 +85,7 @@ namespace Vts
             set
             {
                 _Delta = value;
-                //_Count = GetNewCount();
                 OnPropertyChanged("Delta");
-                //OnPropertyChanged("Count");
             }
         }
         /// <summary>

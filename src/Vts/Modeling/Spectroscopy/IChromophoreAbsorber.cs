@@ -19,9 +19,5 @@ namespace Vts.SpectralMapping
         /// The chromophore coefficient type
         /// </summary>
         ChromophoreCoefficientType ChromophoreCoefficientType { get; set; }
-        //ChromophoreType ChromophoreType { get; set; }
-        //AbsorptionCoefficientUnits AbsorptionCoefficientUnits { get; set; }
-        //ChromDataDistanceUnits DistanceUnits { get; set; }
-        //ChromDataConcentrationUnits ConcentrationUnits { get; set; }
     }
 }

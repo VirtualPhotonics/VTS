@@ -142,8 +142,6 @@ namespace Vts.Modeling
             return
                 (Math.Pow(Math.Sin(thetaIncident - thetaTrans) / Math.Sin(thetaIncident + thetaTrans), 2) +
                 Math.Pow(Math.Tan(thetaIncident - thetaTrans) / Math.Tan(thetaIncident + thetaTrans), 2)) / 2;
-            //(((ncosAmb - ncosTis) / (ncosAmb + ncosTis)) * ((ncosAmb - ncosTis) / (ncosAmb + ncosTis)) +
-            //((ncosTis - ncosAmb) / (ncosTis + ncosAmb)) * ((ncosTis - ncosAmb) / (ncosTis + ncosAmb))) / 2;
         }
 
         /// <summary>
@@ -165,7 +163,6 @@ namespace Vts.Modeling
                 FunctionMath.Integrate(
                     integrand,
                     Meta.Numerics.Interval.FromEndpoints(0.0, Double.PositiveInfinity));
-                //* muDecay;
         }
 
     }

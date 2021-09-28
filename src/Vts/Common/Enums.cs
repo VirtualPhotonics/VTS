@@ -660,20 +660,7 @@ namespace Vts
         /// </summary>
         MolarAbsorptionCoefficient,
     }
-    ///// <summary>
-    ///// absorption coefficient unit types
-    ///// </summary>
-    //public enum AbsorptionCoefficientUnits
-    //{
-    //    /// <summary>
-    //    /// units [1/(mm * uM)]
-    //    /// </summary>
-    //    PerMillimeterPerMicroMolar,
-    //    /// <summary>
-    //    /// units [1/mm]
-    //    /// </summary>
-    //    PerMillimeter,
-    //}
+
     /// <summary>
     /// concentration units
     /// </summary>
@@ -787,56 +774,6 @@ namespace Vts
         Custom
     }
 
-    ///// <summary>
-    // /// Chromophore data distance units. For future GUI spectral upload tool...
-    ///// </summary>
-    // public enum ChromDataDistanceUnits 
-    // {
-    //     /// <summary>
-    //     /// [1/mm]
-    //     /// </summary>
-    //     PerMillimeter,
-    //     /// <summary>
-    //     /// [1/cm]
-    //     /// </summary>
-    //     PerCentimeter,
-    //     /// <summary>
-    //     /// [1/m]
-    //     /// </summary>
-    //     PerMeter,
-    // }
-    // /// <summary>
-    // /// chromophore data concentration units. For future GUI spectral upload tool...
-    // /// </summary>
-    // public enum ChromDataConcentrationUnits  
-    // {
-    //     /// <summary>
-    //     /// [1/uM]
-    //     /// </summary>
-    //     PerMicroMolar,
-    //     /// <summary>
-    //     /// [1/mM]
-    //     /// </summary>
-    //     PerMilliMolar,
-    //     /// <summary>
-    //     /// [1/M]
-    //     /// </summary>
-    //     PerMolar,
-    // }
-
-    //public enum ChromDataUnit
-    //{
-    //    perMillimeter, //units allowed for absorptionCoeff
-    //    perCentimeter,
-
-    //    perMolarPerMillimeter, //units allowed for extinctionCoeff
-    //    perMilliMolarPerMillimeter,
-    //    perMicroMolarPerMillimeter,
-    //    perMolarPerCentimeter,
-    //    perMilliMolarPerCentimeter,
-    //    perMicroMolarPerCentimeter,
-
-    //}
     /// <summary>
     /// solver type. Added to determine which panel is in context LMM 
     /// </summary>

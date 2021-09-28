@@ -44,13 +44,6 @@ namespace Vts.Factories
                 !(solutionDomainType == FluenceSolutionDomainType.FluenceOfFxAndZ);
         }
 
-        // CH proposed new extension method prior version is not refined enough, need to 
-        // know independent axis variable to know whether solver is complex, e.g. ROfRhoAndFt
-        // with independent axis varaible = rho is not complex
-        //public static bool IsComplexSolver(IndependentVariableAxis independentVariableAxis)
-        //{
-        //    return (independentVariableAxis == IndependentVariableAxis.Ft);
-        //}
         /// <summary>
         /// method to indicate whether forward solver is a complex solver
         /// </summary>
@@ -270,10 +263,6 @@ namespace Vts.Factories
                             layerRegion.ZRange.Delta
                         };
                 }
-                //else if(region is EllipsoidTissueRegion)
-                //{
-                //  
-                //}
                 else
                 {
                     throw new Exception("Forward model " +
@@ -559,8 +548,6 @@ namespace Vts.Factories
 
             return phd;
 
-            // replaced with pre-initialized array + "PopulateFromEnumerable" call instead of growing array dynamically 
-            //System.Linq.Enumerable.Zip(fluence, greensFunction, (flu, green) => flu * green).ToArray();
         }
 
         /// <summary>
@@ -609,37 +596,7 @@ namespace Vts.Factories
 
             return phd;
 
-            // replaced with pre-initialized array + "PopulateFromEnumerable" call instead of growing array dynamically 
-            //System.Linq.Enumerable.Zip(fluence, greensFunction, (flu, green) => flu * green).ToArray();
         }
-
-        ///// <summary>
-        ///// Method to generate PHD 
-        ///// </summary>
-        ///// <param name="forwardSolver">forward solver class</param>
-        ///// <param name="fluence">linearized fluence used to generate PHD, column major</param>
-        ///// <param name="sdSeparation">source detector separation (in mm)</param>
-        ///// <param name="ops">optical properties</param>
-        ///// <param name="rhos">detector locations (in mm)</param>
-        ///// <param name="zs">z values (in mm)</param>
-        ///// <returns></returns>
-        //public static Complex[] GetPHD(IForwardSolver forwardSolver, Complex[] fluence, double sdSeparation, double timeModulationFrequency, OpticalProperties[] ops, double[] rhos, double[] zs)
-        //{
-        //    var rhoPrimes =
-        //        from r in rhos
-        //        select r - sdSeparation;
-
-        //    var greensFunction = forwardSolver.TimeFrequencyDomainFluence2SurfacePointPHD(timeModulationFrequency, ops, rhoPrimes, zs);
-
-        //    var phd = new Complex[fluence.Length];
-
-        //    phd.PopulateFromEnumerable(Enumerable.Zip(fluence, greensFunction, (flu, green) => flu * green));
-
-        //    return phd;
-
-        //    // replaced with pre-initialized array + "PopulateFromEnumerable" call instead of growing array dynamically 
-        //    //System.Linq.Enumerable.Zip(fluence, greensFunction, (flu, green) => flu * green).ToArray();
-        //}
 
         /// <summary>
         /// Method to generate absorbed energy given fluence and mua.  Note only works for homogeneous tissue.
@@ -742,8 +699,6 @@ namespace Vts.Factories
 
             Func<double[], object[], double[]> func = GetForwardReflectanceFuncForOptimization(forwardSolver, solutionDomainType);
 
-            //var fit = optimizer.Solve(fitParameters, parametersToFit, dependentValues.ToArray(),
-            //                          standardDeviationValues.ToArray(), func, independentValues.ToArray());
             var fit = optimizer.Solve(fitParametersArray, parametersToFitArray, dependentValues.ToArray(),
                                       standardDeviationValues.ToArray(), func, independentValues.ToArray());
 
@@ -815,8 +770,6 @@ namespace Vts.Factories
             double[] lowerBounds,
             double[] upperBounds)
         {
-            //var opticalPropertyGuess = ((OpticalProperties[]) (independentValues[0])).First();
-            //var fitParameters = new double[4] { opticalPropertyGuess.Mua, opticalPropertyGuess.Musp, opticalPropertyGuess.G, opticalPropertyGuess.N };
             var parametersToFit = GetParametersToFit(inverseFitType);
 
             var opticalPropertyGuess = (OpticalProperties[])(independentValues[0]);

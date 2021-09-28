@@ -930,8 +930,7 @@ namespace Vts
         /// <param name="fts">modulation frequencies (GHz)</param>
         /// <returns></returns>
         Complex[] FluenceOfRhoAndZAndFt(OpticalProperties[] ops, double[] rhos, double[] zs, double[] fts);
-        //double[] FluenceOfRhoAndZAndFt(OpticalProperties[] ops, double[] rhos, double[] zs, double[] fts);
-
+       
         /// <summary>
         /// Overload of scalar FluenceOfRhoAndZAndTime function. Determines reflectances at optical properties 'ops', spatial frequencies 'fxs' and z values 'zs'
         /// </summary>

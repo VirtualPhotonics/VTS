@@ -258,7 +258,6 @@ namespace Vts.Modeling.ForwardSolvers
                 }
                 else
                 {
-                    //var time = _rdGenerator.NativeTimes;
                     var time = _rdGenerator.NativeTimes.ToArray();
                     for (int i = 0; i < time.Length; i++)
                     {
@@ -339,30 +338,11 @@ namespace Vts.Modeling.ForwardSolvers
                 }
             }
 
-            //foreach (var op in ops)
-            //{
-            //    double[] time = _sfdGenerator.NativeTimes;
-            //    for (int i = 0; i < time.Length; i++)
-            //    {
-            //        time[i] = time[i] * _opReference.Musp / op.Musp;
-            //    }
-            //    var deltaT = GetDeltaT(time);
-            //    foreach (var fx in fxs)
-            //    {
-            //        double integralValue = 0.0;
-            //        var ROfT = ROfFxAndTime(op.AsEnumerable(), fx.AsEnumerable(), time).ToArray();
-            //        for (int i = 0; i < ROfT.Length; i++)
-            //        {
-            //            integralValue += ROfT[i] * deltaT[i];
-            //        }
-            //        yield return integralValue;
-            //    }             
-            //}
         }
 
         /// <summary>
         /// Calls its vectorized version to evaluate the time and space resolved reflectance
-        /// for a spatial frequancy, fx, and at time, t, for the specified optical properties.
+        /// for a spatial frequency, fx, and at time, t, for the specified optical properties.
         /// </summary>
         /// <param name="op">optical properties</param>
         /// <param name="fx">spatial frequency</param>

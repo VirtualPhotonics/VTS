@@ -23,9 +23,7 @@ namespace Vts.MonteCarlo.VirtualBoundaries
         {
             _detectorController = detectorController;
 
-            // not sure following is best design
-            // todo: revisit design (dc 6/10/12)
-            IDetector dosimetryDetector = DetectorController.Detectors.Where(d => d.TallyDetails.IsInternalSurfaceTally).FirstOrDefault();
+            IDetector dosimetryDetector = DetectorController.Detectors.FirstOrDefault(d => d.TallyDetails.IsInternalSurfaceTally);
 
             if (dosimetryDetector != null)
             {

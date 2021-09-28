@@ -189,11 +189,8 @@ namespace Vts.MonteCarlo.Extensions
                     }
                     break;
 
-                // todo: add Y source position to infiles/siRegionOP.Mulation capabilities.
+                // consider add Y source position to infiles/simulation capabilities.
                 // be careful about rectangle distribution of source
-                //case InputParameterType.YSourcePosition:
-                //    result.source.beam_center_y = value;
-                //    break;
 
             }
             return result;

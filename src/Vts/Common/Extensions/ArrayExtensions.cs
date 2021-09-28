@@ -79,28 +79,5 @@ namespace Vts.Extensions
             }
         }
 
-        //public static IEnumerable<double> Average(this double[,] myArray, int axis)
-        //{
-        //    switch (axis)
-        //    {
-        //        default:
-        //        case 0:
-        //            return myArray.Columns().Select(column => column.Average());
-        //        case 1:
-        //            return myArray.Rows().Select(row => row.Average());
-        //    }
-        //}
-
-        //public static IEnumerable<double> Sum(this double[,] myArray, int axis)
-        //{
-        //    switch (axis)
-        //    {
-        //        default:
-        //        case 0:
-        //            return myArray.Columns().Select(column => column.Sum());
-        //        case 1:
-        //            return myArray.Rows().Select(row => row.Sum());
-        //    }
-        //}
     }
 }

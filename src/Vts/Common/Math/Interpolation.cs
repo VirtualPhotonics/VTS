@@ -235,7 +235,6 @@ namespace Vts.Common.Math
             int currentXIndex = 1;
             int currentYIndex = 1;
 
-            //if ((xi < x[0]) || (yi < y[0]) || (xi > x[x.Count - 1]) || (yi > y[y.Count - 1])) return double.NaN;
             // changed this to clip to bounds (DC - 7/26/09)
             if ((xi <= x[0]) && (yi <= y[0])) return f[currentXIndex, currentYIndex];
             else if ((xi >= x[x.Count - 1]) && (yi >= y[y.Count - 1])) return f[x.Count - 1, y.Count - 1];

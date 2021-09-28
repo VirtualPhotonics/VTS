@@ -19,8 +19,6 @@ namespace Vts.MonteCarlo.Factories
             VirtualBoundaryType vbType, ITissue tissue, IDetectorController detectorController)
         {
             IVirtualBoundary vb = null;
-
-            // todo: predicate defines 
             switch (vbType)
             {
                 case VirtualBoundaryType.DiffuseReflectance:

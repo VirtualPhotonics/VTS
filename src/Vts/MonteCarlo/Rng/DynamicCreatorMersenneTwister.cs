@@ -509,25 +509,11 @@ namespace Vts.MonteCarlo.Rng
             x ^= x >> mts.shift1;
             return x;
         }
-        ///// <summary>
-        ///// initializing the array with a seed.  This code was in C code but
-        ///// not used here
-        ///// </summary>
-        ///// <param name="s"></param>
-        //private void init_genrand_dc(uint s)
-        //{
-        //    _mt[0] = s & 0xffffffff;
-        //    for (mti = 1; mti < _n; mti++)
-        //    {
-        //        _mt[mti] = (1812433253 * (_mt[mti - 1] ^ (_mt[mti - 1] >> 30)) + (uint)mti);
-        //        /* See Knuth TAOCP Vol2. 3rd Ed. P.106 for multiplier. */
-        //        /* In the previous versions, MSBs of the seed affect   */
-        //        /* only MSBs of the array _mt[].                        */
-        //        /* 2002/01/09 modified by Makoto Matsumoto             */
-        //        _mt[mti] &= 0xffffffff;
-        //        /* for >32 bit machines */
-        //    }
-        //}
+        /// <summary>
+        /// init_genrand_dc(uint s): initializing the array with a seed was in C code but
+        /// not used here
+        /// </summary>
+
         /// <summary>
         /// Used by get_mt_parameter_st to initialize MT search. Method in seive.c
         /// </summary>
@@ -863,10 +849,7 @@ namespace Vts.MonteCarlo.Rng
             for (i = 0; i < _limit_v_best_opt; i++)
             {
                 optimize_v_hard(ref eq, i, ref curList);
-                //if (i > 0)
-                //{
-                //    curList.RemoveFirst();
-                //}
+                //was in original code: if (i > 0){curList.RemoveFirst()}
             }
             optimize_v(ref eq, eq.gmax_b, eq.gmax_c, i);
             mts.shift0 = eq.shift_0;

@@ -35,7 +35,7 @@ namespace Vts.MonteCarlo.IO
         }
 
         /// <summary>
-        /// Publicly exposed database for assigning custom parameters (todo: evaluate utility)
+        /// Publicly exposed database for assigning custom parameters 
         /// </summary>
         public TDatabase Database { get; private set; }
     }

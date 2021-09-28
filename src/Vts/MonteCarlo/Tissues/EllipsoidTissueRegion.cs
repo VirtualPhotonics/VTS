@@ -108,7 +108,6 @@ namespace Vts.MonteCarlo.Tissues
                 2 * (position.X - Center.X) / (Dx * Dx),
                 2 * (position.Y - Center.Y) / (Dy * Dy),
                 2 * (position.Z - Center.Z) / (Dz * Dz));
-            //throw new NotImplementedException();
         }
         /// <summary>
         /// method to determine if photon track or ray intersects boundary of ellipsoid
@@ -203,7 +202,6 @@ namespace Vts.MonteCarlo.Tissues
                     case 0: /* roots real but no intersection */
                         return false;
                     case 1:
-                        //if ((one_in == 3) && (Math.Abs(root) < 1e-7)) //CKH FIX 11/11
                         if ((!one_in) && (Math.Abs(root) < 1e-7))
                         {
                             return false;
@@ -228,7 +226,6 @@ namespace Vts.MonteCarlo.Tissues
                         return true;
                     case 2:  /* went through ellipsoid: must stop at nearest intersection */
                         /*which is nearest?*/
-                        //if (one_in == 3)
                         if (one_in)
                         {
                             if (root1 > root2) //CKH FIX 11/11

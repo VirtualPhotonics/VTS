@@ -91,7 +91,6 @@ namespace Vts.Common.Math
                         speckleContrast[wR * width + i - wR] =
                             (float)(els * System.Math.Sqrt(iDoF * (els * rollColumnSquared[w - 1] - (rollColumn[w - 1] * rollColumn[w - 1]))) / rollColumn[w - 1]);
 
-                        //speckleFlowIndex[wR * width + i - wR] = (1f / (2f * speckleContrast[wR * width + iwR] * speckleContrast[wR * width + i - wR] * t));
                         speckleFlowIndex[wR * width + i - wR] = (1f / (2f * speckleContrast[wR * width + i - wR] * speckleContrast[wR * width + i - wR] * t));
                     }
                 }
@@ -131,7 +130,6 @@ namespace Vts.Common.Math
                             speckleContrast[(j - wR) * width + i - wR] =
                                 (float)(els * System.Math.Sqrt(iDoF * (els * rollColumnSquared[w - 1] - (rollColumn[w - 1] * rollColumn[w - 1])))) / rollColumn[w - 1];
 
-                            //speckleFlowIndex[(j - wR) * width + i - wR] = 1f / (2f * speckleContrast[(jwR) * width + i - wR] * speckleContrast[(j - wR) * width + i - wR] * t);
                             speckleFlowIndex[(j - wR) * width + i - wR] = 1f / (2f * speckleContrast[(j - wR) * width + i - wR] * speckleContrast[(j - wR) * width + i - wR] * t);
                         }
                     }

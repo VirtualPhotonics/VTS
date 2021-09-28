@@ -206,8 +206,7 @@ namespace Vts.Modeling.ForwardSolvers
                         RatFxMC[i] += (_monteCarloLoader.RReferenceOfFxAndTime[i, j] / (1 - fresnel)) *
                             Math.Exp(-op.Mua * v * _monteCarloLoader.TimeReference[j] * _monteCarloLoader.muspReference / op.Musp) *
                             (_monteCarloLoader.dtReference * _monteCarloLoader.muspReference / op.Musp) *
-                            (op.Musp / _monteCarloLoader.muspReference); // * (op.Musp / _monteCarloLoader.muspReference) * 
-                            //(op.Musp / _monteCarloLoader.muspReference);
+                            (op.Musp / _monteCarloLoader.muspReference); 
                     }
                 }
                 foreach (var fx in fxs)

@@ -4,8 +4,6 @@ using System.Linq;
 using Vts.Common;
 using Vts.MonteCarlo.IO;
 
-//using MathNet.Numerics.Interpolation;
-
 namespace Vts.Modeling.ForwardSolvers
 {
     /// <summary>
@@ -72,8 +70,6 @@ namespace Vts.Modeling.ForwardSolvers
         /// </summary>
         public MonteCarloLoader()
         {
-            //nfxReference = 100;
-            //dfxReference = 1.0 / nfxReference; 
             InitializeVectorsAndInterpolators();
         }
 
@@ -123,30 +119,7 @@ namespace Vts.Modeling.ForwardSolvers
                     RReferenceOfFxAndTime[ifx, it] = rOfFxAndTime.Mean[ifx, it].Real;
                 }
             }
-            ////if (File.Exists("Resources/" + folder + @"R_fxt"))
-            //if (true)
-            //{
-            //    RReferenceOfFxAndTime = (double[,])FileIO.ReadArrayFromBinaryInResources<double>("Modeling/Resources/" +
-            //        folder + @"R_fxt", "Vts");
-            //}
-            //else
-            //{
-            //    double[] RReferenceOfRhoAndTj = new double[nrReference];
-            //    double[] RReferenceOfFxAndTj = new double[nfxReference];
-            //    for (int j = 0; j < ntReference; j++)
-            //    {
-            //        for (int k = 0; k < nrReference; k++)
-            //        {
-            //            RReferenceOfRhoAndTj[k] = RReferenceOfRhoAndTime[k, j]; // get ROfRho at a particular Time Tj 
-            //        }
-            //        for (int i = 0; i < nfxReference; i++)
-            //        {
-            //            RReferenceOfFxAndTime[i, j] = LinearDiscreteHankelTransform.GetHankelTransform(RhoReference,
-            //                RReferenceOfRhoAndTj, drReference, dfxReference * i);
-            //        }
-            //    }
-            //    FileIO.WriteArrayToBinary<double>(RReferenceOfFxAndTime, @"/R_fxt");
-            //}
+
         }
         /// <summary>
         /// method to get all scaled rho values

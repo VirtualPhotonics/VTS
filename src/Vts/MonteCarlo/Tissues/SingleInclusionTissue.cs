@@ -53,7 +53,7 @@ namespace Vts.MonteCarlo.Tissues
             return _inclusionRegion.ContainsPosition(position) ? _inclusionRegionIndex : base.GetRegionIndex(position);
         }
 
-        // todo: DC - worried that this is "uncombined" with GetDistanceToBoundary() from an efficiency standpoint
+        // DC - worried that this is "uncombined" with GetDistanceToBoundary() from an efficiency standpoint
         // note, however that there are two overloads currently for RayIntersectBoundary, one that does extra work to calc distances
         /// <summary>
         /// method to get index of neighbor tissue region when photon on boundary of two regions

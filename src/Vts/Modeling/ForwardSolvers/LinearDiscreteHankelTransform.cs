@@ -42,7 +42,6 @@ namespace Vts.Modeling
         {
             if (rho.Length != ROfRho.Length)
             {
-                //throw new ArgumentOutOfRangeException();
                 throw new Meta.Numerics.DimensionMismatchException();
             }
             double sum = 0.0;
