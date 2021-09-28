@@ -10,8 +10,6 @@ namespace Vts.MonteCarlo.Tissues
     /// </summary>
     public class MultiEllipsoidTissueInput : TissueInput, ITissueInput
     {
-        private ITissueRegion[] _ellipsoidRegions;
-        private ITissueRegion[] _layerRegions;
 
         /// <summary>
         /// allows definition of single ellipsoid tissue
@@ -21,8 +19,8 @@ namespace Vts.MonteCarlo.Tissues
         public MultiEllipsoidTissueInput(ITissueRegion[] ellipsoidRegions, ITissueRegion[] layerRegions)
         {
             TissueType = "MultiEllipsoid";
-            _ellipsoidRegions = ellipsoidRegions;
-            _layerRegions = layerRegions;
+            EllipsoidRegions = ellipsoidRegions;
+            LayerRegions = layerRegions;
         }
 
         /// <summary>
@@ -65,16 +63,16 @@ namespace Vts.MonteCarlo.Tissues
         /// regions of tissue (layers and ellipsoid)
         /// </summary>
         [IgnoreDataMember]
-        public ITissueRegion[] Regions { get { return _layerRegions.Concat(_ellipsoidRegions).ToArray(); } }
+        public ITissueRegion[] Regions { get { return LayerRegions.Concat(EllipsoidRegions).ToArray(); } }
         /// <summary>
         /// tissue ellipsoid region
         /// </summary>
-        public ITissueRegion[] EllipsoidRegions { get { return _ellipsoidRegions; } set { _ellipsoidRegions = value; } }
+        public ITissueRegion[] EllipsoidRegions { get; set; }
         /// <summary>
         /// tissue layer regions
         /// </summary>
-        public ITissueRegion[] LayerRegions { get { return _layerRegions; } set { _layerRegions = value; } }
-        
+        public ITissueRegion[] LayerRegions { get; set; }
+
         /// <summary>
         /// Required factory method to create the corresponding 
         /// ITissue based on the ITissueInput data

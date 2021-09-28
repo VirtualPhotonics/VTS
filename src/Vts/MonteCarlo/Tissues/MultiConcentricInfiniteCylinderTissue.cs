@@ -13,8 +13,6 @@ namespace Vts.MonteCarlo.Tissues
     public class MultiConcentricInfiniteCylinderTissueInput : TissueInput, ITissueInput
     {
         private ITissueRegion[] _regions;
-        private ITissueRegion[] _layerRegions;
-        private ITissueRegion[] _infiniteCylinderRegions;
 
         /// <summary>
         /// constructor for Multi-ConcentricInfiniteCylinder tissue input
@@ -26,8 +24,8 @@ namespace Vts.MonteCarlo.Tissues
             ITissueRegion[] layerRegions)
         {
             TissueType = "MultiConcentricInfiniteCylinder";
-            _layerRegions = layerRegions;
-            _infiniteCylinderRegions = infiniteCylinderRegions;
+            LayerRegions = layerRegions;
+            InfiniteCylinderRegions = infiniteCylinderRegions;
         }
 
         /// <summary>
@@ -67,15 +65,15 @@ namespace Vts.MonteCarlo.Tissues
         /// list of tissue regions comprising tissue
         /// </summary>
         [IgnoreDataMember]
-        public ITissueRegion[] Regions { get { return _layerRegions.Concat(_infiniteCylinderRegions).ToArray(); } set { _regions = value; } }
+        public ITissueRegion[] Regions { get { return LayerRegions.Concat(InfiniteCylinderRegions).ToArray(); } set { _regions = value; } }
         /// <summary>
         /// tissue outer infinite cylinder region
         /// </summary>
-        public ITissueRegion[] InfiniteCylinderRegions { get { return _infiniteCylinderRegions; } set { _infiniteCylinderRegions = value; } }
-         /// <summary>
+        public ITissueRegion[] InfiniteCylinderRegions { get; set; }
+        /// <summary>
         /// tissue layer regions
         /// </summary>
-        public ITissueRegion[] LayerRegions { get { return _layerRegions; } set { _layerRegions = value; } }
+        public ITissueRegion[] LayerRegions { get; set; }
 
         /// <summary>
         /// Required factory method to create the corresponding 

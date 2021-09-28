@@ -10,7 +10,6 @@ namespace Vts.MonteCarlo.Tissues
     /// </summary>
     public class MultiLayerTissueInput : TissueInput, ITissueInput
     {
-        private ITissueRegion[] _regions;
 
         /// <summary>
         /// constructor for Multi-layer tissue input
@@ -19,7 +18,7 @@ namespace Vts.MonteCarlo.Tissues
         public MultiLayerTissueInput(ITissueRegion[] regions)
         {
             TissueType = "MultiLayer";
-            _regions = regions;
+            Regions = regions;
         }
 
         /// <summary>
@@ -45,7 +44,7 @@ namespace Vts.MonteCarlo.Tissues
         /// <summary>
         /// list of tissue regions comprising tissue
         /// </summary>
-        public ITissueRegion[] Regions { get { return _regions; } set { _regions = value; } }
+        public ITissueRegion[] Regions { get; set; }
 
         /// <summary>
         /// Required factory method to create the corresponding 
