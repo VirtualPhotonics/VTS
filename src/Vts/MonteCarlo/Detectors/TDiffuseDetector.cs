@@ -99,9 +99,6 @@ namespace Vts.MonteCarlo.Detectors
             // assign any user-defined outputs (except arrays...we'll make those on-demand)
             TallyCount = 0;
 
-            // if the data arrays are null, create them (only create second moment if TallySecondMoment is true)
-            //Mean = Mean ?? new double();
-            //SecondMoment = SecondMoment ?? (TallySecondMoment ? new double() : null);
             Mean = new double();
             if (TallySecondMoment)
             {

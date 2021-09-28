@@ -24,15 +24,7 @@ namespace Vts.MonteCarlo.VirtualBoundaries
             _detectorController = detectorController;
 
             Name = name;
-        }      
-
-        ///// <summary>
-        ///// Creates a default instance of a GenericVolumeVB 
-        ///// </summary>
-        //public GenericVolumeVirtualBoundary() 
-        //    : this(null, null, null)
-        //{
-        //}
+        }
 
         /// <summary>
         /// VB type identifier

@@ -158,8 +158,6 @@ namespace Vts.MonteCarlo.Extensions
                     {
                         case "SingleEllipsoid":
                             inclusionRegion = ((SingleEllipsoidTissueInput)result.TissueInput).EllipsoidRegion;
-                            //var singleEllipsoidTissueInput = (SingleEllipsoidTissueInput) result.TissueInput;
-                            //inclusionPosition = ((EllipsoidTissueRegion)singleEllipsoidTissueInput.EllipsoidTissueRegion).Center;
                             break;
                         default:
                             throw new ArgumentOutOfRangeException();
@@ -191,9 +189,6 @@ namespace Vts.MonteCarlo.Extensions
                     }
                     break;
 
-                //case InputParameterType.XSourcePosition:
-                //    result.source.beam_center_x = value;
-                //    break;
                 // todo: add Y source position to infiles/siRegionOP.Mulation capabilities.
                 // be careful about rectangle distribution of source
                 //case InputParameterType.YSourcePosition:

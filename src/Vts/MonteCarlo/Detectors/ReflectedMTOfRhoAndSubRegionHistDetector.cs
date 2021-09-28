@@ -37,10 +37,6 @@ namespace Vts.MonteCarlo.Detectors
         /// rho binning
         /// </summary>
         public DoubleRange Rho { get; set; }
-        ///// <summary>
-        ///// subregion index binning, needed by DetectorIO
-        ///// </summary>
-        //public int NumSubregions { get; set; }
         /// <summary>
         /// momentum transfer binning
         /// </summary>

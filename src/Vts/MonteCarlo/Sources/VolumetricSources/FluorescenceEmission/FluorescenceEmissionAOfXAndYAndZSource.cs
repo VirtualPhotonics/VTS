@@ -144,10 +144,6 @@ namespace Vts.MonteCarlo.Sources
                                         xMidpoint = Loader.X.Start + i * Loader.X.Delta + Loader.X.Delta / 2;
                                         yMidpoint = Loader.Y.Start + j * Loader.Y.Delta + Loader.Y.Delta / 2;
                                         zMidpoint = Loader.Z.Start + k * Loader.Z.Delta + Loader.Z.Delta / 2;
-                                        // the following outputs initial positions so that a plot can show distribution
-                                        //Console.WriteLine(xMidpoint.ToString("") + " " +
-                                        //                  yMidpoint.ToString("") + " " +
-                                        //                  zMidpoint.ToString(""));
                                         weight = 1.0;
                                         return new Position(xMidpoint, yMidpoint, zMidpoint);
                                     }
@@ -162,8 +158,6 @@ namespace Vts.MonteCarlo.Sources
                     if (IndexCount > Loader.FluorescentRegionIndicesInOrder.Count - 1)
                     {
                         IndexCount = 0;
-                        // the following output is to verify after each cycle through voxels total AE correct
-                        //Console.WriteLine("totalWeight = " + _totalWeight.ToString(""));
                     }
                     var indices = Loader.FluorescentRegionIndicesInOrder[IndexCount].ToArray();
                     var ix = indices[0];

@@ -34,18 +34,9 @@ namespace Vts.MonteCarlo.VirtualBoundaries
             _detectorController = detectorController;
 
             Name = name;
-        }       
+        }
 
-        ///// <summary>
-        ///// Creates a default instance of a PlanarTransmissionVB based on a plane at z=0, 
-        ///// exiting tissue (in direction of z decreasing)
-        ///// </summary>
-        //public DiffuseTransmittanceVirtualBoundary() 
-        //    : this(null, null, null)
-        //{
-        //}
-
-          /// <summary>
+        /// <summary>
         /// VirtualBoundaryType enum indicating type of VB
         /// </summary>
         public VirtualBoundaryType VirtualBoundaryType { get; private set; }

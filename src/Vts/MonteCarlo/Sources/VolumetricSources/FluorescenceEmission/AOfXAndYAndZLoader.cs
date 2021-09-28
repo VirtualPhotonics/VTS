@@ -128,9 +128,6 @@ namespace Vts.MonteCarlo.Sources
                     for (int k = 0; k < Z.Count - 1; k++)
                     {
                         var zMidpoint = Z.Start + k * Z.Delta + Z.Delta / 2;
-                        //xMidpoint = -1.85; // debug code
-                        //yMidpoint = 4.65;
-                        //zMidpoint = 0.85;
                         // first check if in tissue region
                         bool inFluorescentTissue = FluorescentTissueRegion.ContainsPosition(
                             new Position(xMidpoint, yMidpoint, zMidpoint));

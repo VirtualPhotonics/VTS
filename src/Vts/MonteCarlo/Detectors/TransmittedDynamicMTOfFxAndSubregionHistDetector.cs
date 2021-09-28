@@ -109,7 +109,6 @@ namespace Vts.MonteCarlo.Detectors
     {
         private ITissue _tissue;
 
-        //private IList<OpticalProperties> _ops;
         private IList<double> _bloodVolumeFraction;
         private Random _rng;
 
@@ -673,7 +672,6 @@ namespace Vts.MonteCarlo.Detectors
         public bool ContainsPoint(PhotonDataPoint dp)
         {
             return true; // or, possibly test for NA or confined position, etc
-            //return (dp.StateFlag.Has(PhotonStateType.PseudoTransmissionDomainTopBoundary));
         }
 
         /// <summary>

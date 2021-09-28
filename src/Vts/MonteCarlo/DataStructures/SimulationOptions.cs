@@ -126,11 +126,5 @@ namespace Vts.MonteCarlo
         /// </summary>
         public int SimulationIndex { get; set; }
 
-
-
-        //private static int GetRandomSeed()  // ckh 10/01/11 moved to RandomNumberGeneratorFactory
-        //{
-        //    return (int)DateTime.Now.Ticks % (1 << 15);
-        //}
     }
 }

@@ -65,19 +65,6 @@ namespace Vts.MonteCarlo.Tissues
             // first, check what region the photon is in
             int regionIndex = photon.CurrentRegionIndex;
 
-            // if we're outside the layer containing the inclusion, then just call the base method
-            //if ((regionIndex != _inclusionRegionIndex) && (regionIndex != _layerRegionIndexOfInclusion))
-            //{
-            //    return base.GetNeighborRegionIndex(photon);
-            //}
-
-            // check if on boundary of inclusion before checking if on boundary of layer
-            // note: added this if to handle infinitely thin fiber at surface ckh 4/23/19
-            //if ((regionIndex == _layerRegionIndexOfInclusion) && _inclusionRegion.ContainsPosition(photon.DP.Position))
-            //{
-            //    return _inclusionRegionIndex;
-            //}
-
             // if we're in the layer region of the inclusion, could be on boundary of layer
             if ((regionIndex == _layerRegionIndexOfInclusion) && !Regions[_layerRegionIndexOfInclusion].OnBoundary(photon.DP.Position) )
             {
@@ -88,21 +75,6 @@ namespace Vts.MonteCarlo.Tissues
             {
                 return _layerRegionIndexOfInclusion;
             }
-
-            //// if we're actually inside the inclusion
-            //if (_inclusionRegion.ContainsPosition(photon.DP.Position))
-            //{
-            //    // then the neighbor region is the layer containing the current photon position
-            //    return layerRegionIndex;
-            //}
-
-            //// otherwise, it depends on which direction the photon's pointing from within the layer
-
-            //// if the ray intersects the inclusion, the neighbor is the inclusion
-            //if( _inclusionRegion.RayIntersectBoundary(photon) )
-            //{
-            //    return _inclusionRegionIndex;
-            //}
 
             // otherwise we can do this with the base class method
             return base.GetNeighborRegionIndex(photon);

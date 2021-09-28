@@ -352,11 +352,6 @@ namespace Vts.MonteCarlo.Detectors
                     }
                 }
             }
-            //for (int i = 1; i < NumSubregions-1; i++) //debug
-            //{ //debug
-            //    SubregionCollisions[i, 0] /= TotalCollisions[i]; //debug
-            //    SubregionCollisions[i, 1] /= TotalCollisions[i]; //debug
-            //} //debug
         }
         /// <summary>
         /// this is to allow saving of large arrays separately as a binary file
@@ -585,8 +580,7 @@ namespace Vts.MonteCarlo.Detectors
         /// <returns>method always returns true</returns>
         public bool ContainsPoint(PhotonDataPoint dp)
         {
-            return true; // or, possibly test for NA or confined position, etc
-            //return (dp.StateFlag.Has(PhotonStateType.PseudoTransmissionDomainTopBoundary));
+            return true; // or, possibly test for NA or confined position, etc.
         }
 
         /// <summary>

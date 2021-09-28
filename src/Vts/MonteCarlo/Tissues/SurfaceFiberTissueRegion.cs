@@ -61,20 +61,17 @@ namespace Vts.MonteCarlo.Tissues
                 double inside = ((position.X - Center.X) * (position.X - Center.X) + 
                                  (position.Y - Center.Y) * (position.Y - Center.Y)) / (Radius * Radius);
 
-                //if (inside < 0.9999999)
-                if (inside < 0.9999999999)
+                if (inside < 0.9999999999) // prior check 0.9999999
                 {
                     return true;
                 }
-                //else if (inside > 1.0000001)
-                else if (inside > 1.00000000001 )
+                else if (inside > 1.00000000001) // prior check  1.0000001
                 {
                     return false;
                 }
                 else  // on boundary means SurfaceFiber contains position
                 {
                     _onBoundary = true;
-                    //return false; // ckh try 8/21/11 
                     return true;  // ckh 2/28/19 this has to return true 
                 }
             }
@@ -92,8 +89,9 @@ namespace Vts.MonteCarlo.Tissues
         /// <returns>boolean</returns>
         public bool OnBoundary(Position position)
         {
+            //an option to the following would be to:
             //return ((position.Z == Center.Z + Height) || (position.Z == Center.Z - Height)) &&
-            //    Math.Sqrt(position.X * position.X + position.Y * position.Y) == Radius;
+            //    Math.Sqrt(position.X * position.X + position.Y * position.Y) == Radius
             return !ContainsPosition(position) && _onBoundary; // match with EllipsoidTissueRegion
         }
 

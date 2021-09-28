@@ -146,7 +146,7 @@ namespace Vts.MonteCarlo.Sources
     /// </summary>
     public class DirectionalRectangularSource : RectangularSourceBase
     {
-      private double _thetaConvOrDiv;  //convergence:positive, divergence:negative, collimated:zero;
+      private double _thetaConvOrDiv;  //convergence:positive, divergence:negative, collimated:zero
 
         /// <summary>
         /// Returns an instance of directional (diverging/converging/collimated) Rectangular Source with specified length and width, 

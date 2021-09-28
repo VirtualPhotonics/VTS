@@ -568,8 +568,8 @@ namespace Vts.MonteCarlo.Rng
             }
             n = p / w + 1; // since p is Mersenne exponent, w never divides p
             mts.state = new uint[n];
-            //mts = alloc_mt_struc(n); // no allocation needed since "new" above
-            //if (mts.state == null) return mts;  // this check is on malloc
+            //was in original code: mts = alloc_mt_struc(n) // no allocation needed since "new" above
+            //was in original code: if (mts.state == null) return mts -> this check is on malloc
 
             m = n / 2;
             if (m < 2) m = n - 1;
@@ -620,10 +620,7 @@ namespace Vts.MonteCarlo.Rng
                 next_irred_poly(ref pl, i);
                 make_modlist(ref pre, pl, i);
             }
-            //for (int i = 0; i < pre.sizeOfA; i++) // don't need this
-            //{
-            //    free_poly 
-            //}
+            //was in original code: for (int i = 0; i < pre.sizeOfA; i++) { free poly } -> don't need this
         }
         private void next_irred_poly(ref polynomial pl, int nth)
         {
@@ -742,22 +739,22 @@ namespace Vts.MonteCarlo.Rng
                 pre.preModPolys[j++] = polynomial_dup(t0);
                 t1 = t0;    // not used
                 t0 = polynomial_mult(t0, t);
-                //free_poly(t1);
+                // was in original code: free_poly(t1)
             }
             pre.preModPolys[j++] = polynomial_dup(t0);
             s0 = polynomial_mult(t0, s);
-            //free_poly(t0);
-            //free_poly(t);
+            //was in original code: free_poly(t0)
+            //was in original code: free_poly(t)
             for (i = (rr-2); i >= 0; i--)
             {
                 pre.preModPolys[j++] = polynomial_dup(s0);
                 s1 = s0;  // not used
                 s0 = polynomial_mult(s0, s);
-                //free_poly(s1);
+                // was in original code: free_poly(s1)
             }
             pre.preModPolys[j++] = polynomial_dup(s0);
-            //free_poly(s0);
-            //free_poly(s);
+            //was in original code: free_poly(s0)
+            //was in original code: free_poly(s)
         }
         /// <summary>
         /// method duplicate polynomial 
@@ -980,11 +977,11 @@ namespace Vts.MonteCarlo.Rng
                         eq.gcur_maxlengs[v] = t;
                         eq.gmax_b = eq.mask_b;
                         eq.gmax_c = eq.mask_c;
-                        //cur_masks = cons_mask_node(cur_masks, eq.mask_b, eq.mask_c, t);
+                        //was in original code: cur_masks = cons_mask_node(cur_masks, eq.mask_b, eq.mask_c, t)
                         cur_masks.AddFirst(new _mask_node() { b = eq.mask_b, c = eq.mask_c, leng = t });
                     }
                 }
-                //prev_masks = prev_masks.Next;
+                //was in original code: prev_masks = prev_masks.Next
                 ++cnt;
             }
             delete_lower_mask_nodes(ref cur_masks, eq.gcur_maxlengs[v]);
@@ -1306,7 +1303,7 @@ namespace Vts.MonteCarlo.Rng
                 return mts;
             }
             get_tempering_parameter_hard_dc(ref mts);
-            //end_mt_search(pre);
+            //was in original code: end_mt_search(pre)
             return mts;
         }
 
@@ -1398,12 +1395,12 @@ namespace Vts.MonteCarlo.Rng
             }
             if (get_irred_param(ck, pre, ref org, ref mts, id, _default_id_size) == _not_found)
             {
-                //free_mt_struct(mts); // don't need just frees mts.state
+                //free_mt_struct(mts) -> don't need just frees mts.state
                 mts.state = null;  // substitute
                 return mts;
             }
             get_tempering_parameter_hard_dc(ref mts);
-            //end_mt_search(pre);
+            // don't need: end_mt_search(pre)
             return mts;
         }
         /// <summary>

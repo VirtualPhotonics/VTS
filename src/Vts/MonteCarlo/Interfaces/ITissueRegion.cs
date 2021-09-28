@@ -61,6 +61,5 @@ namespace Vts.MonteCarlo
         /// <param name="position"></param>
         /// <returns></returns>
         Direction SurfaceNormal(Position position);
-        // RegionIntersectionType ContainsPoint(Position position, Direction direction);
     }
 }

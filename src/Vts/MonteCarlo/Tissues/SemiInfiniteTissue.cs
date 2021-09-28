@@ -43,12 +43,6 @@ namespace Vts.MonteCarlo.Tissues
         public ITissue CreateTissue(AbsorptionWeightingType awt, PhaseFunctionType pft, double russianRouletteWeightThreshold)
         {
             throw new NotImplementedException();
-
-            //var t = new SemiInfiniteTissue(Regions); //  todo: add implementation
-
-            //t.Initialize(awt, pft, russianRouletteWeightThreshold);
-
-            //return t;
         }
     }
 }

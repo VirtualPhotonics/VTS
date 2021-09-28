@@ -129,27 +129,5 @@ namespace Vts.MonteCarlo.Tissues
             return true;
         }
 
-        //public bool RayExitBoundary(Photon photptr, ref double distanceToBoundary)
-        //{
-        //    distanceToBoundary = 0.0;  /* distance to boundary */
-
-        //    if (photptr.DP.Direction.Uz < 0.0)
-        //        distanceToBoundary = ( Z.Start - photptr.DP.Position.Z) /
-        //            photptr.DP.Direction.Uz;
-        //    else if (photptr.DP.Direction.Uz > 0.0)
-        //        distanceToBoundary = ( Z.Stop - photptr.DP.Position.Z) /
-        //            photptr.DP.Direction.Uz;
-
-        //    if ((photptr.DP.Direction.Uz != 0.0) && (photptr.S > distanceToBoundary))
-        //    {
-        //        //photptr.HitBoundary = true;
-        //        ////photptr.SLeft = (photptr.S - distanceToBoundary) * (mua + mus);  // DAW
-        //        //photptr.SLeft = (photptr.S - distanceToBoundary) * photptr._tissue.Regions[photptr.CurrentRegionIndex].ScatterLength;
-        //        //photptr.S = distanceToBoundary;
-        //        return true;
-        //    }
-        //    else
-        //        return false;
-        //}
     }
 }

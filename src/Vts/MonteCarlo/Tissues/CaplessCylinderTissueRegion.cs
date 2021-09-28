@@ -131,14 +131,8 @@ namespace Vts.MonteCarlo.Tissues
                 return true;
             }
 
-            //distanceToBottomLayer = double.PositiveInfinity;
             return false;
         }
-
-        //public bool RayIntersectBoundary(Photon photptr)
-        //{
-        //    throw new NotImplementedException();
-        //}
 
         /// <summary>
         /// method to determine normal to surface at given position

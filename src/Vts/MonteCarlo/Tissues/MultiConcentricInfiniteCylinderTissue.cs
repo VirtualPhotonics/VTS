@@ -245,11 +245,9 @@ namespace Vts.MonteCarlo.Tissues
                 return _layerRegions.Count; // inner inf cylinder is inside outer so always neighbor
             }
             // if coming from outer infinite cylinder => layer of inclusion or inner cylinder
-            //double distanceToBoundary = double.PositiveInfinity;
             if (photon.CurrentRegionIndex == _layerRegions.Count)
             {
                 if (_infiniteCylinderRegions[1].ContainsPosition(photon.DP.Position)) // must be entering inner
-                //if (double.IsPositiveInfinity(distanceToBoundary))
                 {
                     return _layerRegions.Count + 1;
                 }

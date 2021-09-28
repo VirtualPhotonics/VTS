@@ -373,12 +373,7 @@ namespace Vts.MonteCarlo.Detectors
                         DynamicMTOfZSecondMoment[ifx, iz] /= numPhotons;              
                     }
                 }
-            }
-            //for (int i = 1; i < NumSubregions-1; i++) //debug
-            //{ //debug
-            //    SubregionCollisions[i, 0] /= TotalCollisions[i]; //debug
-            //    SubregionCollisions[i, 1] /= TotalCollisions[i]; //debug
-            //} //debug
+            } 
         }
         /// <summary>
         /// this is to allow saving of large arrays separately as a binary file

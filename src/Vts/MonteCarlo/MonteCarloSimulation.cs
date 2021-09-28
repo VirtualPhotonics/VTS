@@ -50,9 +50,7 @@ namespace Vts.MonteCarlo
         private ISource _source;
         private ITissue _tissue;
         private VirtualBoundaryController _virtualBoundaryController;
-        //private IList<IDetectorController> _detectorControllers; // total list indep. of VBs
         private long _numberOfPhotons;
-        //private SimulationStatistics _simulationStatistics;
         private DatabaseWriterController _databaseWriterController = null;
         private pMCDatabaseWriterController _pMCDatabaseWriterController = null;
         private bool _doPMC = false;
@@ -243,9 +241,6 @@ namespace Vts.MonteCarlo
                 var parallelOptions = new ParallelOptions();
                 parallelOptions.MaxDegreeOfParallelism = Environment.ProcessorCount;
 
-                //private readonly object globalLock = new object();
-                //Parallel.For(1, _numberOfPhotons + 1, parallelOptions, n =>
-
                 for (long n = 1; n <= _numberOfPhotons; n++)
                 {
                     if (_isCancelled)
@@ -299,8 +294,6 @@ namespace Vts.MonteCarlo
                         }
 
                     } while (photon.DP.StateFlag.HasFlag(PhotonStateType.Alive)); // end do while
-
-                    //_detectorController.TerminationTally(photon.DP);
 
                     if (Input.Options.Databases.Count() > 0)
                     {
@@ -383,9 +376,6 @@ namespace Vts.MonteCarlo
                 throw new ArgumentException(result.ValidationRule + (!string.IsNullOrEmpty(result.Remarks) ? "; " + result.Remarks : ""));
             }
 
-            // needed?
-            //_detectorControllers = _virtualBoundaryController.VirtualBoundaries.Select(vb=>vb.DetectorController).ToList();
-
             _source = SourceFactory.GetSource(Input.SourceInput, Rng);
             // instantiate Virtual Boundaries (and associated detectors) for each VB group
             _virtualBoundaryController = new VirtualBoundaryController(new List<IVirtualBoundary>());
@@ -428,7 +418,7 @@ namespace Vts.MonteCarlo
                 {
                     var detectors = DetectorFactory.GetDetectors(detectorInputs, _tissue, Rng);
                     var detectorController = DetectorControllerFactory.GetDetectorController(vbType, detectors, _tissue);
-                    // var detectorController = new DetectorController(detectors);
+
                     var virtualBoundary = VirtualBoundaryFactory.GetVirtualBoundary(vbType, _tissue, detectorController);
                     _virtualBoundaryController.VirtualBoundaries.Add(virtualBoundary);
                 }

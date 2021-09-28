@@ -22,7 +22,6 @@ namespace Vts.SpectralMapping
             Scatterer = scatterer;
             Name = name;
             N = n ?? 1.4;
-            //N = n != null ? n.Value : 1.4;
         }
 
         /// <summary>

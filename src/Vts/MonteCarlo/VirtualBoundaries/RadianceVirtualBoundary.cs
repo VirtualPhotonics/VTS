@@ -43,14 +43,6 @@ namespace Vts.MonteCarlo.VirtualBoundaries
             }
         }       
 
-        ///// <summary>
-        ///// Creates a default instance of a RadianceVB based on a plane at z=0, 
-        ///// exiting tissue (in direction of z decreasing)
-        ///// </summary>
-        //public RadianceVirtualBoundary() 
-        //    : this(null, null, null)
-        //{
-        //}
         /// <summary>
         /// VirtualBoundaryType
         /// </summary>

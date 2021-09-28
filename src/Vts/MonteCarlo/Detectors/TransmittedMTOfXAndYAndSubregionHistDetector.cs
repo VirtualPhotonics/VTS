@@ -41,10 +41,6 @@ namespace Vts.MonteCarlo.Detectors
         /// y binning
         /// </summary>
         public DoubleRange Y { get; set; }
-        ///// <summary>
-        ///// subregion index binning, needed by DetectorIO
-        ///// </summary>
-        //public int NumSubregions { get; set; }
         /// <summary>
         /// momentum transfer binning
         /// </summary>

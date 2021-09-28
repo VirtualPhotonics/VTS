@@ -111,7 +111,6 @@ namespace Vts.MonteCarlo.Detectors
     public class TransmittedDynamicMTOfXAndYAndSubregionHistDetector : Detector, IDetector
     {
         private ITissue _tissue;
-        //private IList<OpticalProperties> _ops;
         private IList<double> _bloodVolumeFraction;
         private Random _rng;
 
@@ -213,7 +212,6 @@ namespace Vts.MonteCarlo.Detectors
             // initialize any necessary class fields here
             _tissue = tissue;
             _rng = rng;
-            //_ops = _tissue.Regions.Select(r => r.RegionOP).ToArray();
 
             // assign any user-defined outputs (except arrays...we'll make those on-demand)
             TallyCount = 0;
