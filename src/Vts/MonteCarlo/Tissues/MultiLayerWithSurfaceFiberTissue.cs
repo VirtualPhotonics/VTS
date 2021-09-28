@@ -17,8 +17,6 @@ namespace Vts.MonteCarlo.Tissues
     /// </summary>
     public class MultiLayerWithSurfaceFiberTissueInput : TissueInput, ITissueInput
     {
-        private ITissueRegion[] _layerRegions;
-        private ITissueRegion _surfaceFiberRegion;
 
         /// <summary>
         /// constructor for Multi-layer tissue with surface fiber circle input
@@ -28,8 +26,8 @@ namespace Vts.MonteCarlo.Tissues
         public MultiLayerWithSurfaceFiberTissueInput(ITissueRegion surfaceFiberRegion, ITissueRegion[] layerRegions)
         {
             TissueType = "MultiLayerWithSurfaceFiber";
-            _layerRegions = layerRegions;
-            _surfaceFiberRegion = surfaceFiberRegion;
+            LayerRegions = layerRegions;
+            SurfaceFiberRegion = surfaceFiberRegion;
         }
 
         /// <summary>
@@ -62,15 +60,15 @@ namespace Vts.MonteCarlo.Tissues
         /// regions of tissue (layers and surface fiber circle)
         /// </summary>
         [IgnoreDataMember]
-        public ITissueRegion[] Regions { get { return _layerRegions.Concat(_surfaceFiberRegion).ToArray(); } }
+        public ITissueRegion[] Regions { get { return LayerRegions.Concat(SurfaceFiberRegion).ToArray(); } }
         /// <summary>
         /// surface fiber region
         /// </summary>
-        public ITissueRegion SurfaceFiberRegion { get { return _surfaceFiberRegion; } set { _surfaceFiberRegion = value; } }
+        public ITissueRegion SurfaceFiberRegion { get; set; }
         /// <summary>
         /// tissue layer regions
         /// </summary>
-        public ITissueRegion[] LayerRegions { get { return _layerRegions; } set { _layerRegions = value; } }
+        public ITissueRegion[] LayerRegions { get; set; }
 
         /// <summary>
         /// Required factory method to create the corresponding 
