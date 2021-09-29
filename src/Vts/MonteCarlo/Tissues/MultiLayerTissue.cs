@@ -158,7 +158,7 @@ namespace Vts.MonteCarlo.Tissues
         {
             if (photon.DP.Direction.Uz == 0.0)
             {
-                throw new Exception("GetNeighborRegionIndex called and Photon not on boundary");
+                throw new ArgumentException("GetNeighborRegionIndex called and Photon not on boundary");
             }
 
             if (photon.DP.Direction.Uz > 0.0)

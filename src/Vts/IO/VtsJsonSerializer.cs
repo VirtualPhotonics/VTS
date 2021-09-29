@@ -242,7 +242,7 @@ namespace Vts.IO
         {
             if (!FieldExists(_typeCategoryString, jObject))
             {
-                throw new Exception(String.Format("The given object type {0} is not supported!", objectType));
+                throw new ArgumentException(String.Format("The given object type {0} is not supported!", objectType));
             }
 
             var classPrefixString = jObject[_typeCategoryString].ToString();

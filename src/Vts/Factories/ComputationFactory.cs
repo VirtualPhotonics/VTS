@@ -265,7 +265,7 @@ namespace Vts.Factories
                 }
                 else
                 {
-                    throw new Exception("Forward model " +
+                    throw new ArgumentException("Forward model " +
                                         forwardSolver.ToString() +
                                         " is not supported.");
                 }
@@ -490,7 +490,7 @@ namespace Vts.Factories
                 }
                 else
                 {
-                    throw new Exception("Forward model " +
+                    throw new ArgumentException("Forward model " +
                                         forwardSolver.ToString() +
                                         " is not supported.");
                 }

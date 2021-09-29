@@ -126,23 +126,21 @@ namespace Vts
         [Conditional("DEBUG")]
         private void VerifyProperty(string propertyName)
         {
-            Type type = this.GetType();
+            var type = this.GetType();
 
             // Look for a public property with the specified name.
-            PropertyInfo propInfo = type.GetProperty(propertyName);
+            var propInfo = type.GetProperty(propertyName);
 
-            if (propInfo == null)
-            {
-                // The property could not be found,
-                // so alert the developer of the problem.
+            if (propInfo != null) return;
+            // The property could not be found,
+            // so alert the developer of the problem.
 
-                string msg = string.Format(
-                    ERROR_MSG,
-                    propertyName,
-                    type.FullName);
+            var msg = string.Format(
+                ERROR_MSG,
+                propertyName,
+                type.FullName);
 
-                throw new Exception(msg);
-            }
+            throw new ArgumentNullException(msg);
         }
 
         #endregion // Private Helpers

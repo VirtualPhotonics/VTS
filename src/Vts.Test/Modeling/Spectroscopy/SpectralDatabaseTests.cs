@@ -162,7 +162,7 @@ namespace Vts.Test.Modeling.Spectroscopy
         {
             var byteArray = Encoding.UTF8.GetBytes("invalid");
             var stream = new MemoryStream(byteArray);
-            Assert.Throws<Exception>(() => SpectralDatabase.GetSpectraFromFile(stream, false));
+            Assert.Throws<ArgumentException>(() => SpectralDatabase.GetSpectraFromFile(stream, false));
         }
 
         [Test]
@@ -170,7 +170,7 @@ namespace Vts.Test.Modeling.Spectroscopy
         {
             var byteArray = Encoding.UTF8.GetBytes("%LABDA nm\tHbO2 1/(mm*uM)\tHb 1/(mm*uM)\n\n600\t0.737\t3.3802");
             var stream = new MemoryStream(byteArray);
-            Assert.Throws<Exception>(() => SpectralDatabase.GetSpectraFromFile(stream, false));
+            Assert.Throws<ArgumentException>(() => SpectralDatabase.GetSpectraFromFile(stream, false));
         }
 
         [Test]
@@ -178,7 +178,7 @@ namespace Vts.Test.Modeling.Spectroscopy
         {
             var byteArray = Encoding.UTF8.GetBytes("%LAMBDA nm\tHbO2\tHb 1/(mm*uM)\n\n600\t0.737\t3.3802");
             var stream = new MemoryStream(byteArray);
-            Assert.Throws<Exception>(() => SpectralDatabase.GetSpectraFromFile(stream, false));
+            Assert.Throws<ArgumentException>(() => SpectralDatabase.GetSpectraFromFile(stream, false));
         }
 
         [Test]
@@ -186,7 +186,7 @@ namespace Vts.Test.Modeling.Spectroscopy
         {
             var byteArray = Encoding.UTF8.GetBytes("%LAMBDA nm\tHbO2 1/(mm*uM)\tHb 1/(mm*uM)\n\n600\t0.737");
             var stream = new MemoryStream(byteArray);
-            Assert.Throws<Exception>(() => SpectralDatabase.GetSpectraFromFile(stream, false));
+            Assert.Throws<ArgumentException>(() => SpectralDatabase.GetSpectraFromFile(stream, false));
         }
 
         [Test]
@@ -194,7 +194,7 @@ namespace Vts.Test.Modeling.Spectroscopy
         {
             var byteArray = Encoding.UTF8.GetBytes("%LAMBDA nm\tHbO2 1/(mm*uM)\tHb 1/(mm*uM)\n600\t0.737\t3.3802\n602\t0.6135\t3.1372\n604\t0.4901");
             var stream = new MemoryStream(byteArray);
-            Assert.Throws<Exception>(() => SpectralDatabase.GetSpectraFromFile(stream, false));
+            Assert.Throws<ArgumentException>(() => SpectralDatabase.GetSpectraFromFile(stream, false));
         }
 
         /// <summary>
