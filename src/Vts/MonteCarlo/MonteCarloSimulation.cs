@@ -230,7 +230,7 @@ namespace Vts.MonteCarlo
 
             try
             {
-                if (Input.Options.Databases.Count() > 0)
+                if (Input.Options.Databases.Any())
                 {
                     InitialDatabases(_doPMC);
                 }
@@ -295,7 +295,7 @@ namespace Vts.MonteCarlo
 
                     } while (photon.DP.StateFlag.HasFlag(PhotonStateType.Alive)); // end do while
 
-                    if (Input.Options.Databases.Count() > 0)
+                    if (Input.Options.Databases.Any())
                     {
                         WriteToDatabases(_doPMC, photon);
                     }
@@ -317,7 +317,7 @@ namespace Vts.MonteCarlo
             }
             finally
             {
-                if (Input.Options.Databases.Count() > 0)
+                if (Input.Options.Databases.Any())
                 {
                     CloseDatabases(_doPMC);
                 }
@@ -411,7 +411,7 @@ namespace Vts.MonteCarlo
 
                 // make sure VB Controller has at least diffuse reflectance and diffuse transmittance
                 // may change this in future if tissue OnDomainBoundary changes
-                if ((detectorInputs.Count() > 0) ||
+                if ((detectorInputs.Any()) ||
                     (vbType == VirtualBoundaryType.DiffuseReflectance) ||
                     (vbType == VirtualBoundaryType.DiffuseTransmittance) ||
                     (dbVirtualBoundaries.Any(vb => vb == vbType)))

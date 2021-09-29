@@ -105,7 +105,7 @@ namespace Vts.MonteCarlo
         }
         private static ValidationResult ValidateDetectorInput(SimulationInput si)
         {
-            if (((si.Options.Databases == null) || (si.Options.Databases.Count() < 1)) && (si.DetectorInputs.Count() < 1))
+            if (si.Options.Databases == null || (!si.Options.Databases.Any()) && (!si.DetectorInputs.Any()))
             {
                 return new ValidationResult(
                     false,

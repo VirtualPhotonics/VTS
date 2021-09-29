@@ -146,8 +146,6 @@ namespace Vts.MonteCarlo.Detectors
             var weight = _absorptionWeightingMethod(previousDP, dp, currentRegionIndex);
             // Note: GetVolumeAbsorptionWeightingMethod in Initialize method determines the *absorbed* weight
 
-            var regionIndex = currentRegionIndex;
-
             if (weight != 0.0)
             {
                 Mean[ix, iy, iz] += weight;
