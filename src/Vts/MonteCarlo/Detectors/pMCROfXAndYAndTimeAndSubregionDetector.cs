@@ -13,7 +13,9 @@ namespace Vts.MonteCarlo.Detectors
     /// Tally for pMC estimation of reflectance as a function of X, Y, Time and Subregion.
     /// Method tallies photon weight to time bin associated with pathlength in each region.
     /// Integrated R(x,y,t,subregion) will not integrate to R(x,y), independent array
-    /// ROfXAndY used to determine this. Reference: Hiraoka93, Phys.Med.Biol.38
+    /// ROfXAndY used to determine this. Reference: Hiraoka93, Phys.Med.Biol.38 and
+    /// Okada96, Appl. Opt. 35(19) -> the sum of the partial path lengths over all the
+    /// medium is equivalent to the mean total path length (CH found this to be true)
     /// </summary>
     public class pMCROfXAndYAndTimeAndSubregionDetectorInput : DetectorInput, IDetectorInput
     {
