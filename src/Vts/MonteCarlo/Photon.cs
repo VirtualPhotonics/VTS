@@ -405,15 +405,19 @@ namespace Vts.MonteCarlo
                     DP.StateFlag = DP.StateFlag.Add(PhotonStateType.KilledRussianRoulette);
                     DP.StateFlag = DP.StateFlag.Remove(PhotonStateType.Alive);
                 }
-                else if (_rng.NextDouble() < CHANCE)
-                {
-                    DP.Weight = DP.Weight / CHANCE;
-                }
                 else
                 {
-                    DP.StateFlag = DP.StateFlag.Add(PhotonStateType.KilledRussianRoulette);
-                    DP.StateFlag = DP.StateFlag.Remove(PhotonStateType.Alive);
+                    if (_rng.NextDouble() < CHANCE)
+                    {
+                        DP.Weight = DP.Weight / CHANCE;
+                    }
+                    else
+                    {
+                        DP.StateFlag = DP.StateFlag.Add(PhotonStateType.KilledRussianRoulette);
+                        DP.StateFlag = DP.StateFlag.Remove(PhotonStateType.Alive);
+                    }
                 }
+
                 if (DP.StateFlag.HasFlag(PhotonStateType.KilledRussianRoulette))
                 {
                     History.AddDPToHistory(DP);

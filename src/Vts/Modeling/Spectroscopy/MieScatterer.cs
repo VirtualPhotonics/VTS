@@ -207,7 +207,7 @@ namespace Vts.SpectralMapping
             Complex[] s2 = new Complex[nAngles];
 
             double sizeParameter = GetSizeParameter(wavelength);
-            double nStop = (int)(sizeParameter + 4.0 * Math.Pow(sizeParameter, 1 / 3) + 2.0);//number of terms in the series
+            double nStop = (int)(sizeParameter + 4.0 * Math.Pow(sizeParameter, 1.0 / 3.0) + 2.0);//number of terms in the series
             double kMedium = 0.0;
             double kSphere = 0.0;
             double nSphere = ParticleRefractiveIndexMismatch;

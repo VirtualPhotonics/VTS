@@ -558,7 +558,7 @@ namespace Vts.MonteCarlo
         {
             var header = Input.OutputName + " (" + SimulationIndex + "): ";
             // fraction of photons completed
-            double frac = 100 * n / num_phot;
+            double frac = 100.0 * n / num_phot;
 
             _logger.Info(() => header + frac + " percent complete\n");
         }

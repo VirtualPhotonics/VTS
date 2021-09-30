@@ -159,8 +159,6 @@ namespace Vts.Test.MonteCarlo.Factories
             // the following does not check exception it is aimed at
             var detectorInputMock = new Mock<IDetectorInput>();
             var detectorInputMockType = detectorInputMock.GetType();
-            //detectorInputMock.Setup(x => x.GetType().GetConstructors()).
-            //    Returns((ConstructorInfo[])null);
             Assert.Throws<ArgumentException>(() => DetectorFactory.RegisterDetector(
                 detectorInputMockType, typeof(IDetector)));
         }

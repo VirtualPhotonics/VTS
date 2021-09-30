@@ -29,8 +29,8 @@ namespace Vts.Factories
         public static bool IsSolverWithConstantValues(SolutionDomainType solutionDomainType)
         {
             return
-                !(solutionDomainType == SolutionDomainType.ROfRho) &&
-                !(solutionDomainType == SolutionDomainType.ROfFx);
+                (solutionDomainType != SolutionDomainType.ROfRho) &&
+                (solutionDomainType != SolutionDomainType.ROfFx);
         }
         /// <summary>
         /// method to determine if forward solver is solver with constant values
@@ -40,8 +40,8 @@ namespace Vts.Factories
         public static bool IsSolverWithConstantValues(FluenceSolutionDomainType solutionDomainType)
         {
             return
-                !(solutionDomainType == FluenceSolutionDomainType.FluenceOfRhoAndZ) &&
-                !(solutionDomainType == FluenceSolutionDomainType.FluenceOfFxAndZ);
+                (solutionDomainType != FluenceSolutionDomainType.FluenceOfRhoAndZ) &&
+                (solutionDomainType != FluenceSolutionDomainType.FluenceOfFxAndZ);
         }
 
         /// <summary>
