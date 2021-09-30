@@ -76,10 +76,10 @@ namespace Vts.MonteCarlo.Sources
                 var aOfXAndYAndZDetector = (AOfXAndYAndZDetector) DetectorIO.ReadDetectorFromFile(
                     "AOfXAndYAndZ", inputFolder);
                 // use DoubleRange X,Y,Z to match detector dimensions
-                X = ((AOfXAndYAndZDetector) aOfXAndYAndZDetector).X;
-                Y = ((AOfXAndYAndZDetector) aOfXAndYAndZDetector).Y;
-                Z = ((AOfXAndYAndZDetector) aOfXAndYAndZDetector).Z;
-                AOfXAndYAndZ = ((AOfXAndYAndZDetector) aOfXAndYAndZDetector).Mean;
+                X = aOfXAndYAndZDetector.X;
+                Y = aOfXAndYAndZDetector.Y;
+                Z = aOfXAndYAndZDetector.Z;
+                AOfXAndYAndZ = aOfXAndYAndZDetector.Mean;
 
                 var exciteInfile = SimulationInput.FromFile(inputPath);
 

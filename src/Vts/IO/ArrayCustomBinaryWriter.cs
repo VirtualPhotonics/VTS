@@ -24,36 +24,35 @@ namespace Vts.IO
             if (expectedType.IsAssignableFrom(valueType.GetElementType()))
             {
                 var array = input.ToEnumerable<double>();
-                (array as IEnumerable<double>).ForEach(bw.Write);
+                array.ForEach(bw.Write);
                 return;
             }
             expectedType = typeof(float);
             if (expectedType.IsAssignableFrom(valueType.GetElementType()))
             {
                 var array = input.ToEnumerable<float>();
-                (array as IEnumerable<float>).ForEach(bw.Write);
+                array.ForEach(bw.Write);
                 return;
             }
             expectedType = typeof(ushort);
             if (expectedType.IsAssignableFrom(valueType.GetElementType()))
             {
                 var array = input.ToEnumerable<ushort>();
-                (array as IEnumerable<ushort>).ForEach(bw.Write);
+                array.ForEach(bw.Write);
                 return;
             }
             expectedType = typeof(byte);
             if (expectedType.IsAssignableFrom(valueType.GetElementType()))
             {
                 var array = input.ToEnumerable<byte>();
-                (array as IEnumerable<byte>).ForEach(bw.Write);
+                array.ForEach(bw.Write);
                 return;
             }
             expectedType = typeof(Complex);
             if (expectedType.IsAssignableFrom(valueType.GetElementType()))
             {
                 var array = input.ToEnumerable<Complex>();
-                (array as IEnumerable<Complex>).ForEach(c => { bw.Write(c.Real); bw.Write(c.Imaginary); });
-                return;
+                array.ForEach(c => { bw.Write(c.Real); bw.Write(c.Imaginary); });
             }
         }
     }

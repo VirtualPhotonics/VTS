@@ -158,21 +158,21 @@ namespace Vts.MonteCarlo.Tissues
         /// </summary>
         /// <param name="currentPosition">Position</param>
         /// <param name="currentDirection">Direction</param>
-        /// <param name="nCurrent">refractive index N of current tissue region</param>
-        /// <param name="nNext">refractive index N of next tissue region</param>
+        /// <param name="currentN">refractive index N of current tissue region</param>
+        /// <param name="nextN">refractive index N of next tissue region</param>
         /// <param name="cosThetaSnell">cosine of theta per Snell's</param>
         /// <returns>new Direction</returns>
         public override Direction GetRefractedDirection(
             Position currentPosition,
             Direction currentDirection,
-            double nCurrent,
-            double nNext,
+            double currentN,
+            double nextN,
             double cosThetaSnell)
         {
             // needs to call MultiLayerTissue when crossing top and bottom layer
             if (base.OnDomainBoundary(currentPosition))
             {
-                return base.GetRefractedDirection(currentPosition, currentDirection, nCurrent, nNext, cosThetaSnell);
+                return base.GetRefractedDirection(currentPosition, currentDirection, currentN, nextN, cosThetaSnell);
             }
             else // currently reflection/refraction not performed on bounding region
             {

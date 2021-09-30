@@ -53,7 +53,7 @@ namespace Vts.Extensions
                 double gaussDeviate = Math.Sqrt(-2 * Math.Log(uniformDeviate1)) *
                     Math.Cos(2 * Math.PI * uniformDeviate2);
                 
-                yield return (double) (d * (1 + noiseFraction * gaussDeviate));
+                yield return  (d * (1 + noiseFraction * gaussDeviate));
             }
 
         }

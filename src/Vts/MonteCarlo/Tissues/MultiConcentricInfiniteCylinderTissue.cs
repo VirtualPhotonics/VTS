@@ -124,7 +124,7 @@ namespace Vts.MonteCarlo.Tissues
             _inclusionRegionIndex = _layerRegions.Count; // index is, by convention, after the layer region indices
             // also by convention larger radius infinite cylinder is first
             _layerRegionIndexOfInclusion = Enumerable.Range(0, _layerRegions.Count)
-                .FirstOrDefault(i => ((LayerTissueRegion)_layerRegions[i])
+                .FirstOrDefault(i => _layerRegions[i]
                     .ContainsPosition(_infiniteCylinderRegions[0].Center)); // if outer cyl in layer, inner is
         }
 
@@ -281,48 +281,48 @@ namespace Vts.MonteCarlo.Tissues
         /// <summary>
         /// method to determine direction of reflected photon
         /// </summary>
-        /// <param name="positionCurrent"></param>
-        /// <param name="directionCurrent"></param>
+        /// <param name="currentPosition"></param>
+        /// <param name="currentDirection"></param>
         /// <returns></returns>
         public override Direction GetReflectedDirection(
-            Position positionCurrent, 
-            Direction directionCurrent)
+            Position currentPosition, 
+            Direction currentDirection)
         {
             // check if crossing top and bottom layer
-            if (positionCurrent.Z < 1e-10 ||
-                (Math.Abs(positionCurrent.Z - (_layerRegions.Last()).ZRange.Start) < 1e-10))
+            if (currentPosition.Z < 1e-10 ||
+                (Math.Abs(currentPosition.Z - (_layerRegions.Last()).ZRange.Start) < 1e-10))
             {
-                return base.GetReflectedDirection(positionCurrent, directionCurrent);
+                return base.GetReflectedDirection(currentPosition, currentDirection);
             }
             // must be on cylinders for now no reflection NOTE: when refractive index mismatch branch merged
             // change code to call infiniteCylinderTissueRegion.GetReflectedDirection
-            return directionCurrent;
+            return currentDirection;
         }
         /// <summary>
         /// method to determine refracted direction of photon
         /// </summary>
-        /// <param name="positionCurrent">current photon position</param>
-        /// <param name="directionCurrent">current photon direction</param>
-        /// <param name="nCurrent">refractive index of current region</param>
-        /// <param name="nNext">refractive index of next region</param>
+        /// <param name="currentPosition">current photon position</param>
+        /// <param name="currentDirection">current photon direction</param>
+        /// <param name="currentN">refractive index of current region</param>
+        /// <param name="nextN">refractive index of next region</param>
         /// <param name="cosThetaSnell">cos(theta) resulting from Snell's law</param>
         /// <returns>direction</returns>
         public override Direction GetRefractedDirection(
-            Position positionCurrent, 
-            Direction directionCurrent, 
-            double nCurrent, 
-            double nNext, 
+            Position currentPosition, 
+            Direction currentDirection, 
+            double currentN, 
+            double nextN, 
             double cosThetaSnell)
         {            
             // check if crossing top and bottom layer
-            if (positionCurrent.Z < 1e-10 ||
-                (Math.Abs(positionCurrent.Z - (_layerRegions.Last()).ZRange.Start) < 1e-10))
+            if (currentPosition.Z < 1e-10 ||
+                (Math.Abs(currentPosition.Z - (_layerRegions.Last()).ZRange.Start) < 1e-10))
             {
-                return base.GetRefractedDirection(positionCurrent, directionCurrent, nCurrent, nNext, cosThetaSnell);
+                return base.GetRefractedDirection(currentPosition, currentDirection, currentN, nextN, cosThetaSnell);
             }
             // must be on cylinders for now no reflection NOTE: when refractive index mismatch branch merged
             // change code to call infiniteCylinderTissueRegion.GetRefractedDirection
-            return directionCurrent;
+            return currentDirection;
         }
         /// <summary>
         /// method to get cosine of the angle between photons current direction and boundary normal

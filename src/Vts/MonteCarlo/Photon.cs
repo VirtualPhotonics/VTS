@@ -366,7 +366,6 @@ namespace Vts.MonteCarlo
         /// </summary>
         public void AbsorbContinuous()
         {
-            double mua = _tissue.Regions[CurrentRegionIndex].RegionOP.Mua;
             // the following deweights at pseudo (sleft>0) and real collisions (sleft=0) as it should
             // rather than use total path length in each layer to detemine weight,
             // this method updates weight at pseudo collision and can be used for total absorption tallies

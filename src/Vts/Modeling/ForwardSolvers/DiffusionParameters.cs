@@ -9,18 +9,6 @@ namespace Vts.Modeling.ForwardSolvers
     /// </summary>
     public class DiffusionParameters
     {
-        private double _A;
-        private double _mueff;
-        private double _zb;
-        private double _zp;
-        private double _mutTilde;
-        private double _mutr;
-        private double _musTilde;
-        private double _gTilde;
-        private double _D;
-        private double _cn;
-        private double _mua;
-
         private DiffusionParameters(double A, double mueff, double zb, double zp, double mutTilde,
             double musTilde, double mutr, double gTilde, double D, double cn, double mua)
         {
@@ -88,93 +76,49 @@ namespace Vts.Modeling.ForwardSolvers
         /// <summary>
         /// Diffusion boundary parameter A = (1 + R2)/(1 - R1)
         /// </summary>
-        public double A
-        {
-            get { return _A; }
-            set { _A = value; }
-        }
+        public double A { get; set; }
         /// <summary>
         /// effective attenuation coefficient = sqrt(mua / D)
         /// </summary>
-        public double mueff
-        {
-            get { return _mueff; }
-            set { _mueff = value; }
-        }
+        public double mueff { get; set; }
         /// <summary>
         /// extrapolated boundary distance
         /// </summary>
-        public double zb
-        {
-            get { return _zb; }
-            set { _zb = value; }
-        }
+        public double zb { get; set; }
         /// <summary>
         /// ??? z0, better explain
         /// </summary>
-        public double zp
-        {
-            get { return _zp; }
-            set { _zp = value; }
-        }
+        public double zp { get; set; }
         /// <summary>
         /// mean reduced tranport length as a function of the phase function, if Eddington: = mutr, 
         /// if delta-Eddington = mutStar
         /// </summary>
-        public double mutTilde
-        {
-            get { return _mutTilde; }
-            set { _mutTilde = value; }
-        }
+        public double mutTilde { get; set; }
         /// <summary>
         /// mean reduced transport length
         /// </summary>
-        public double mutr
-        {
-            get { return _mutr; }
-            set { _mutr = value; }
-        }
+        public double mutr { get; set; }
         /// <summary>
         /// reduced scattering length as a function of the phase function, if Eddington: = musPrime, 
         /// if delta-Eddington = musStar
         /// </summary>
-        public double musTilde
-        {
-            get { return _musTilde; }
-            set { _musTilde = value; }
-        }
+        public double musTilde { get; set; }
         /// <summary>
         /// 1st moment of the scattering phase function, if Eddington = g, if delta-Eddington = g/(g+1)
         /// </summary>
-        public double gTilde
-        {
-            get { return _gTilde; }
-            set { _gTilde = value; }
-        }
+        public double gTilde { get; set; }
         /// <summary>
         /// diffusion coefficient = 1/3/mutr
         /// </summary>
-        public double D
-        {
-            get { return _D; }
-            set { _D = value; }
-        }
+        public double D { get; set; }
         /// <summary>
         /// speed of light adjusted according to the refractive index of the media cn = c / n, where
         /// n is the media refractive index
         /// </summary>
-        public double cn
-        {
-            get { return _cn; }
-            set { _cn = value; }
-        }
+        public double cn { get; set; }
         /// <summary>
         /// absorption coefficient
         /// </summary>
-        public double mua
-        {
-            get { return _mua; }
-            set { _mua = value; }
-        }
+        public double mua { get; set; }
     }
 }

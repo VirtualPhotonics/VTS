@@ -386,7 +386,7 @@ namespace Vts.MonteCarlo.Rng
             // sgenrand_mt constructs mts struct using 1st parameter seed=newGeneratorSeed
             for (int i = 0; i < count; i++)
             {
-                sgenrand_mt((uint)seeds[i], ref MTSs[i]);
+                sgenrand_mt(seeds[i], ref MTSs[i]);
             }
         }
         /// <summary>
@@ -734,7 +734,7 @@ namespace Vts.MonteCarlo.Rng
             for (i = (rr-2); i >= 0; i--)
             {
                 pre.preModPolys[j++] = polynomial_dup(s0);
-                s1 = s0;  // not used
+                // was in original code s1 = s0 -> not used
                 s0 = polynomial_mult(s0, s);
                 // was in original code: free_poly(s1)
             }
@@ -881,7 +881,7 @@ namespace Vts.MonteCarlo.Rng
             eq.aaa[1] = (mts.aaa) << eq.ggap;
             for (i = 0; i < _wordlen; i++)
             {
-                eq.bitmask[i] = (uint)0x80000000 >> i;
+                eq.bitmask[i] = 0x80000000 >> i;
             }
             for (i = 0; i < eq.rrr; i++) // orig code for i eq 0,eq.glower_mask eq 0, i lt eq.rrr
             {
@@ -926,7 +926,6 @@ namespace Vts.MonteCarlo.Rng
             {
                 eq.mask_b = bbb[max_i];
                 eq.mask_c = ccc[max_i];
-                return;
             }
             else
             {

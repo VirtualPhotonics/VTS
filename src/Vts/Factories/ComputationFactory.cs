@@ -808,13 +808,13 @@ namespace Vts.Factories
                     {
                         return forwardData => fs.ROfRhoAndTime((IOpticalPropertyRegion[][])forwardData[0], (double[])forwardData[1], (double[])forwardData[2]);
                     }
-                    return forwardData => fs.ROfRhoAndTime(ops: (OpticalProperties[])forwardData[0], rhos: (double[])forwardData[1], ts: (double[])forwardData[2]);
+                    return forwardData => fs.ROfRhoAndTime(ops: (OpticalProperties[])forwardData[0], rhos: (double[])forwardData[1], times: (double[])forwardData[2]);
                 case SolutionDomainType.ROfFxAndTime:
                     if (fs is TwoLayerSDAForwardSolver)
                     {
                         return forwardData => fs.ROfFxAndTime((IOpticalPropertyRegion[][])forwardData[0], (double[])forwardData[1], (double[])forwardData[2]);
                     }
-                    return forwardData => fs.ROfFxAndTime(ops: (OpticalProperties[])forwardData[0], fxs: (double[])forwardData[1], ts: (double[])forwardData[2]);
+                    return forwardData => fs.ROfFxAndTime(ops: (OpticalProperties[])forwardData[0], fxs: (double[])forwardData[1], times: (double[])forwardData[2]);
                 case SolutionDomainType.ROfRhoAndFt:
                     if (fs is TwoLayerSDAForwardSolver)
                     {

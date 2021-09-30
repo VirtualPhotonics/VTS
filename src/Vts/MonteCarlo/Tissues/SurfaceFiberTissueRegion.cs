@@ -98,10 +98,10 @@ namespace Vts.MonteCarlo.Tissues
         /// <summary>
         /// method to determine if photon track intersects boundary
         /// </summary>
-        /// <param name="photptr">photon</param>
+        /// <param name="photon">photon</param>
         /// <param name="distanceToBoundary">if intersection, distance to intersection</param>
         /// <returns>boolean true=intersection, false=no intersection</returns>
-        public bool RayIntersectBoundary(Photon photptr, out double distanceToBoundary)
+        public bool RayIntersectBoundary(Photon photon, out double distanceToBoundary)
         {
             throw new NotImplementedException();
         }

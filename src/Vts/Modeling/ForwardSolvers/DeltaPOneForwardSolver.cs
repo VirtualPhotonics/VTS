@@ -102,9 +102,9 @@ namespace Vts.Modeling.ForwardSolvers
         /// </summary>
         /// <param name="op">optical properties</param>
         /// <param name="fx">spatial frequency</param>
-        /// <param name="t">time</param>
+        /// <param name="time">time</param>
         /// <returns>R(fx,t)</returns>
-        public override double ROfFxAndTime(OpticalProperties op, double fx, double t)
+        public override double ROfFxAndTime(OpticalProperties op, double fx, double time)
         {
             throw new NotImplementedException();
         }

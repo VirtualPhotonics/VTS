@@ -72,9 +72,9 @@ namespace Vts.MonteCarlo.Sources
                 var aOfRhoAndZDetector = (AOfRhoAndZDetector) DetectorIO.ReadDetectorFromFile(
                     "AOfRhoAndZ", inputFolder);
                 // use DoubleRange X,Y,Z to match detector dimensions
-                Rho = ((AOfRhoAndZDetector) aOfRhoAndZDetector).Rho;
-                Z = ((AOfRhoAndZDetector) aOfRhoAndZDetector).Z;
-                AOfRhoAndZ = ((AOfRhoAndZDetector) aOfRhoAndZDetector).Mean;
+                Rho = aOfRhoAndZDetector.Rho;
+                Z = aOfRhoAndZDetector.Z;
+                AOfRhoAndZ = aOfRhoAndZDetector.Mean;
 
                 var exciteInfile = SimulationInput.FromFile(inputPath);
                 FluorescentTissueRegion = exciteInfile.TissueInput.Regions[fluorescentTissueRegionIndex];

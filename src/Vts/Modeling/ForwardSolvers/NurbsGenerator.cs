@@ -94,8 +94,8 @@ namespace Vts.Modeling.ForwardSolvers
         {
             GeneratorType = generatorType;
             // Load binary files based on generator type
-            TimeValues = (NurbsValues)FileIO.ReadFromJsonInResources<NurbsValues>(_folderPath + generatorType.ToString() + _folder + @"/timeNurbsValues.txt", "Vts");
-            SpaceValues = (NurbsValues)FileIO.ReadFromJsonInResources<NurbsValues>(_folderPath + generatorType.ToString() + _folder + @"/spaceNurbsValues.txt", "Vts");
+            TimeValues = FileIO.ReadFromJsonInResources<NurbsValues>(_folderPath + generatorType.ToString() + _folder + @"/timeNurbsValues.txt", "Vts");
+            SpaceValues = FileIO.ReadFromJsonInResources<NurbsValues>(_folderPath + generatorType.ToString() + _folder + @"/spaceNurbsValues.txt", "Vts");
             // Get the dimensions of the control point matrix
             int[] dims = { SpaceValues.KnotVector.Length - SpaceValues.Degree - 1, TimeValues.KnotVector.Length - TimeValues.Degree - 1 };
             // Load control points

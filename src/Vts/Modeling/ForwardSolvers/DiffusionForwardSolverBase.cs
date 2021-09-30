@@ -95,24 +95,24 @@ namespace Vts.Modeling.ForwardSolvers
         /// </summary>
         /// <param name="op">optical properties</param>
         /// <param name="rho">s-d separation</param>
-        /// <param name="t">time [ns]</param>
+        /// <param name="time">time [ns]</param>
         /// <returns>R(rho,time)</returns>
         public override double ROfRhoAndTime(
-            OpticalProperties op, double rho, double t)
+            OpticalProperties op, double rho, double time)
         {
-            return ROfRhoAndTime(op.AsEnumerable(), rho.AsEnumerable(), t.AsEnumerable()).First();
+            return ROfRhoAndTime(op.AsEnumerable(), rho.AsEnumerable(), time.AsEnumerable()).First();
         }
         /// <summary>
         /// reflectance as a function of rhos and times
         /// </summary>
         /// <param name="ops">IEnumerable of optical properties</param>
         /// <param name="rhos">s-d separations</param>
-        /// <param name="ts">times</param>
+        /// <param name="times">times</param>
         /// <returns>R(rhos,times)</returns>
         public override IEnumerable<double> ROfRhoAndTime(
             IEnumerable<OpticalProperties> ops,
             IEnumerable<double> rhos,
-            IEnumerable<double> ts)
+            IEnumerable<double> times)
         {
             foreach (var op in ops)
             {
@@ -121,7 +121,7 @@ namespace Vts.Modeling.ForwardSolvers
                 var fr2 = CalculatorToolbox.GetCubicFresnelReflectionMomentOfOrder2(op.N);
                 foreach (var rho in rhos)
                 {
-                    foreach (var t in ts)
+                    foreach (var t in times)
                     {
                         yield return TemporalReflectance(dp, rho, t, fr1, fr2);
                     }
@@ -203,27 +203,27 @@ namespace Vts.Modeling.ForwardSolvers
         /// </summary>
         /// <param name="op">optical properties</param>
         /// <param name="fx">spatial-frequency</param>
-        /// <param name="t">time [ns]</param>
+        /// <param name="time">time [ns]</param>
         /// <returns>R(fx,time)</returns>
-        public override double ROfFxAndTime(OpticalProperties op, double fx, double t)
+        public override double ROfFxAndTime(OpticalProperties op, double fx, double time)
         {
-            return ROfFxAndTime(op.AsEnumerable(), fx.AsEnumerable(), t.AsEnumerable()).First();
+            return ROfFxAndTime(op.AsEnumerable(), fx.AsEnumerable(), time.AsEnumerable()).First();
         }
         /// <summary>
         /// reflectance as a function of spatial-frequencies and times
         /// </summary>
         /// <param name="ops">IEnumerable of optical properties</param>
         /// <param name="fxs">spatial-frequencies</param>
-        /// <param name="ts">times</param>
+        /// <param name="times">times</param>
         /// <returns>R(fxs,times)</returns>
         public override IEnumerable<double> ROfFxAndTime(
-            IEnumerable<OpticalProperties> ops, IEnumerable<double> fxs, IEnumerable<double> ts)
+            IEnumerable<OpticalProperties> ops, IEnumerable<double> fxs, IEnumerable<double> times)
         {
             foreach (var op in ops)
             {
                 foreach (var fx in fxs)
                 {
-                    foreach (var t in ts)
+                    foreach (var t in times)
                     {
                         yield return
                             2 * Math.PI *
@@ -366,13 +366,13 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="ops">optical properties</param>
         /// <param name="rhos">s-d separations</param>
         /// <param name="zs">depths</param>
-        /// <param name="ts">times</param>
+        /// <param name="times">times</param>
         /// <returns>fluence(rhos,zs,times)</returns>
         public override IEnumerable<double> FluenceOfRhoAndZAndTime(
             IEnumerable<OpticalProperties> ops,
             IEnumerable<double> rhos,
             IEnumerable<double> zs,
-            IEnumerable<double> ts)
+            IEnumerable<double> times)
         {
             foreach (var op in ops)
             {
@@ -381,7 +381,7 @@ namespace Vts.Modeling.ForwardSolvers
                 {
                     foreach (var z in zs)
                     {
-                        foreach (var t in ts)
+                        foreach (var t in times)
                         {
                             yield return TemporalFluence(dp, rho, z, t);
                         }
@@ -451,13 +451,13 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="ops">optical properties</param>
         /// <param name="fxs">spatial-frequencies</param>
         /// <param name="zs">depths</param>
-        /// <param name="ts">times</param>
+        /// <param name="times">times</param>
         /// <returns>fluence(fxs,zs,times)</returns>
         public override IEnumerable<double> FluenceOfFxAndZAndTime(
             IEnumerable<OpticalProperties> ops,
             IEnumerable<double> fxs,
             IEnumerable<double> zs,
-            IEnumerable<double> ts)
+            IEnumerable<double> times)
         {
             foreach (var op in ops)
             {
@@ -466,7 +466,7 @@ namespace Vts.Modeling.ForwardSolvers
                 {
                     foreach (var z in zs)
                     {
-                        foreach (var t in ts)
+                        foreach (var t in times)
                         {
                             yield return
                                 HankelTransform.DigitalFilterOfOrderZero(
