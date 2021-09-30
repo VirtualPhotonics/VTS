@@ -330,7 +330,6 @@ namespace Vts.Test.MonteCarlo.Factories
             public bool ContainsPoint(PhotonDataPoint dp)
             {
                 return true; // or, possibly test for NA or confined position, etc
-                //return (dp.StateFlag.Has(PhotonStateType.PseudoTransmissionDomainTopBoundary));
             }
 
         }

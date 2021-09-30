@@ -29,7 +29,6 @@ namespace Vts.Test.MonteCarlo.PhotonData
             // delete any previously generated files
             foreach (var file in listOfTestGeneratedFiles)
             {
-                GC.Collect();
                 FileIO.FileDelete(file);
             }
         }
@@ -45,7 +44,7 @@ namespace Vts.Test.MonteCarlo.PhotonData
             string databaseFilename = "testcollisioninfodatabase";
             
             #region Notes on implementation...
-            // todo: which do we like? (#1 requires writing a separate class, #2 requires a little more comfort
+            // which do we like? (#1 requires writing a separate class, #2 requires a little more comfort
             // with using generics day-to-day
             // 1) using (var dbWriter = new CollisionInfoDatabaseWriter("testcollisioninfodatabase", numberOfSubregions))
             // 2) (below)

@@ -102,7 +102,7 @@ namespace Vts.Test.MonteCarlo
                     new MultiLayerTissueInput(),
                     new List<IDetectorInput>
                     {
-                        (ROfRhoDetectorInput) detectorInput
+                         detectorInput
                     }
                     ).WriteToJson("test.txt");
             }

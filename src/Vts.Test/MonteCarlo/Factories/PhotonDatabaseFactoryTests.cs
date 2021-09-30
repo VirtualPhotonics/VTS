@@ -38,7 +38,6 @@ namespace Vts.Test.MonteCarlo.Factories
             // delete any previously generated files
             foreach (var file in listOfTestGeneratedFiles)
             {
-                GC.Collect();
                 FileIO.FileDelete(file);
             }
         }

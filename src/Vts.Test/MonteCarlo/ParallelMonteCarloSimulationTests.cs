@@ -99,9 +99,6 @@ namespace Vts.Test.MonteCarlo
             // read statistics.txt from file
             _statisticsSingleCPU = mc.Statistics;
 
-            //var testCode = new ParallelMonteCarloSimulation(2);
-            //testCode.RunSingleInParallel();
-
             // then run same simulation with 2 CPUs
             var parallelMC = new ParallelMonteCarloSimulation(_simulationInput, 2);
             _outputMultiCPU = parallelMC.RunSingleInParallel();

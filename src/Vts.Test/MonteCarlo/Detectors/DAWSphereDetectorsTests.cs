@@ -272,8 +272,8 @@ namespace Vts.Test.MonteCarlo.Detectors
         public void validate_DAW_sphere_RadianceOfRhoAndZAndAngle()
         {
             // undo angle bin normalization
-            var angle = ((RadianceOfRhoAndZAndAngleDetectorInput)_inputOneRegionTissue.DetectorInputs.
-                Where(d => d.TallyType == "RadianceOfRhoAndZAndAngle").First()).Angle;
+            var angle = ((RadianceOfRhoAndZAndAngleDetectorInput)_inputOneRegionTissue.DetectorInputs.First(
+                d => d.TallyType == "RadianceOfRhoAndZAndAngle")).Angle;
             var norm = 2 * Math.PI * angle.Delta;
             var integral = 0.0;
             for (int ia = 0; ia < angle.Count - 1; ia++)

@@ -9,13 +9,6 @@ namespace Vts.Test.Modeling.ForwardSolvers
     [TestFixture]
     public class MonteCarloForwardSolverTests
     {
-        /// <summary>
-        /// Setup for the SolverFactory tests.
-        /// </summary>
-        [SetUp]
-        public void Setup()
-        {
-        }
 
         /// <summary>
         /// Test solver construction 
@@ -148,12 +141,5 @@ namespace Vts.Test.Modeling.ForwardSolvers
             Assert.IsTrue(rOfRhoAndTArray[2] > rOfRhoAndTArray[3]); // decreasing with time again
         }
 
-        /// <summary>
-        /// Tear down for the NurbsGenerator tests.
-        /// </summary>
-        [TearDown]
-        public void TearDown()
-        {
-        }
     }
 }

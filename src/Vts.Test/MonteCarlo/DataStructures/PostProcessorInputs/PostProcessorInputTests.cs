@@ -81,7 +81,7 @@ namespace Vts.Test.MonteCarlo
                 new PostProcessorInput(
                     new List<IDetectorInput>
                     {
-                        (ROfRhoDetectorInput) detectorInput
+                         detectorInput
                     },
                     "",
                     "",

@@ -57,7 +57,7 @@ namespace Vts.Test.MonteCarlo.Sources
         {
             Random rng =
                 new MathNet.Numerics.Random.MersenneTwister(0); // not really necessary here, as this is now the default
-            ITissue tissue = new MultiLayerTissue(); // todo: remove
+            ITissue tissue = new MultiLayerTissue(); 
 
             var ps = new CustomPointSource(_validationData.PolRange, 
                 _validationData.AziRange, 

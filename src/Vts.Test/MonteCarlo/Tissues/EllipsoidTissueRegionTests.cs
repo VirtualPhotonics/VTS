@@ -64,17 +64,17 @@ namespace Vts.Test.MonteCarlo.Tissues
             result = _ellipsoidTissueRegion.ContainsPosition(new Position(0, 0, 2.0)); // on boundary
             Assert.IsTrue(result);
         }
-        ///// <summary>
-        ///// Validate method SurfaceNormal return correct normal vector
-        ///// </summary>
-        //[Test]
-        //public void verify_SurfaceNormal_method_returns_correct_result()
-        //{
-        //    Direction result = _ellipsoidTissueRegion.SurfaceNormal(new Position(0, 0, 1.0));
-        //    Assert.AreEqual(new Direction(0, 0, -1), result);
-        //    result = _ellipsoidTissueRegion.SurfaceNormal(new Position(0, 0, 5.0));
-        //    Assert.AreEqual(new Direction(0, 0, 1), result);
-        //}
+        /// <summary>
+        /// Validate method SurfaceNormal return correct normal vector
+        /// </summary>
+        [Test]
+        public void verify_SurfaceNormal_method_returns_correct_result()
+        {
+            Direction result = _ellipsoidTissueRegion.SurfaceNormal(new Position(0, 0, 1.0));
+            Assert.AreEqual(new Direction(0, 0, -1), result);
+            result = _ellipsoidTissueRegion.SurfaceNormal(new Position(0, 0, 5.0));
+            Assert.AreEqual(new Direction(0, 0, 1), result);
+        }
         /// <summary>
         /// Validate method RayIntersectBoundary return correct result
         /// </summary>

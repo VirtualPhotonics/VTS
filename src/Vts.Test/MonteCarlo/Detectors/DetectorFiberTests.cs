@@ -74,7 +74,7 @@ namespace Vts.Test.MonteCarlo.Detectors
             // for ALL detectors to 0
             //new MultiLayerTissueInput(
             //    new ITissueRegion[]
-            //    {
+            //    
             //        new LayerTissueRegion(
             //            new DoubleRange(double.NegativeInfinity, 0.0),
             //            new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
@@ -84,8 +84,8 @@ namespace Vts.Test.MonteCarlo.Detectors
             //        new LayerTissueRegion(
             //            new DoubleRange(100.0, double.PositiveInfinity),
             //            new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
-            //    }
-            //);
+            //    
+            //)
 
             _detectorOpen = new List<IDetectorInput>
             {

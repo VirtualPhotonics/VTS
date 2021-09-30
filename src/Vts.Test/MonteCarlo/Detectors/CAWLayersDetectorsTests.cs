@@ -193,7 +193,7 @@ namespace Vts.Test.MonteCarlo.Detectors
         [Test]
         public void validate_CAW_ROfRhoAndOmega()
         {
-            // todo: warning - this validation data from Linux is actually for Omega = 0.025GHz
+            // warning - this validation data from Linux is actually for Omega = 0.025GHz
             // (see here: http://virtualphotonics.codeplex.com/discussions/278250)
             Assert.Less(Complex.Abs(
                  _outputOneLayerTissue.R_rw[0, 0] * _factor - (0.9224103 - Complex.ImaginaryOne * 0.0008737114)), 0.000001);

@@ -104,8 +104,6 @@ namespace Vts.Test.MonteCarlo.BidirectionalScattering
             _simulationStatistics = SimulationStatistics.FromFile(_input.OutputName + "/statistics.txt");
         }
 
-        // todo: add analytic variance and use this for error bounds
-
         // Diffuse Reflectance
         [Test]
         public void validate_bidirectional_analog_RDiffuse()

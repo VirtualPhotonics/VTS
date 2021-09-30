@@ -144,21 +144,22 @@ namespace Vts.Test.MonteCarlo.Tissues
             Assert.AreEqual(index, 4);
         }
 
-        ///// <summary>
-        ///// Validate method GetAngleRelativeToBoundaryNormal return correct boolean
-        ///// </summary>
-        //[Test]
-        //public void verify_GetAngleRelativeToBoundaryNormal_method_returns_correct_result()
-        //{
-        //    Photon photon = new Photon( // on top of ellipsoid pointed into it
-        //        new Position(0, 0, 1.0),
-        //        new Direction(0.0, 0, 1.0),
-        //        _tissue,
-        //        1,
-        //        new Random());
-        //    double cosTheta = _tissue.GetAngleRelativeToBoundaryNormal(photon);
-        //    Assert.AreEqual(cosTheta, 1);
-        //}
+        /// <summary>
+        /// Validate method GetAngleRelativeToBoundaryNormal return correct boolean
+        /// </summary>
+        [Test]
+        public void verify_GetAngleRelativeToBoundaryNormal_method_returns_correct_result()
+        {
+            Photon photon = new Photon( // on top of ellipsoid pointed into it
+                new Position(0, 0, 1.0),
+                new Direction(0.0, 0, 1.0),
+                1,
+                _twoLayerTissue,
+                1,
+                new Random());
+            double cosTheta = _twoLayerTissue.GetAngleRelativeToBoundaryNormal(photon);
+            Assert.AreEqual(1,cosTheta);
+        }
 
     }
 }

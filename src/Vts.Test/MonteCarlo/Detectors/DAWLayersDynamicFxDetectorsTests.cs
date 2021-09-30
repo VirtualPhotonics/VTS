@@ -178,8 +178,8 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.Less(Math.Abs(_outputOneLayerTissue.RefDynMT_fxmt2[0, 0].Magnitude - 0.228981), 0.000001);
             Assert.Less(Math.Abs(_outputOneLayerTissue.RefDynMT_fxmt2[0, 1].Magnitude - 0.085544), 0.000001);
             // verify mean integral over MT equals R(Fx) results
-            var mtbins = ((ReflectedDynamicMTOfFxAndSubregionHistDetectorInput) _inputOneLayerTissue.DetectorInputs.
-                Where(d => d.TallyType == "ReflectedDynamicMTOfFxAndSubregionHist").First()).MTBins;
+            var mtbins = ((ReflectedDynamicMTOfFxAndSubregionHistDetectorInput) _inputOneLayerTissue.DetectorInputs.First(
+                d => d.TallyType == "ReflectedDynamicMTOfFxAndSubregionHist")).MTBins;
             Complex integral = 0.0;
             for (int i = 0; i < mtbins.Count - 1; i++)
             {
@@ -189,11 +189,11 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.Less(Math.Abs(_outputOneLayerTissue.R_fx[0].Magnitude - integral.Magnitude), 0.000001);
             // verify that sum of FractionalMT for a particular region and dynamic or static summed over
             // other indices equals Mean(fx,mt)
-            var fxs = ((ReflectedDynamicMTOfFxAndSubregionHistDetectorInput) _inputOneLayerTissue.DetectorInputs.
-                Where(d => d.TallyType == "ReflectedDynamicMTOfFxAndSubregionHist").First()).Fx;
+            var fxs = ((ReflectedDynamicMTOfFxAndSubregionHistDetectorInput) _inputOneLayerTissue.DetectorInputs.First(
+                d => d.TallyType == "ReflectedDynamicMTOfFxAndSubregionHist")).Fx;
             var fracMTbins =
-                ((ReflectedDynamicMTOfFxAndSubregionHistDetectorInput) _inputOneLayerTissue.DetectorInputs.
-                    Where(d => d.TallyType == "ReflectedDynamicMTOfFxAndSubregionHist").First()).FractionalMTBins;
+                ((ReflectedDynamicMTOfFxAndSubregionHistDetectorInput) _inputOneLayerTissue.DetectorInputs.First(
+                    d => d.TallyType == "ReflectedDynamicMTOfFxAndSubregionHist")).FractionalMTBins;
             for (int i = 0; i < fxs.Count; i++)
             {
                 for (int j = 0; j < mtbins.Count - 1; j++)
@@ -245,8 +245,8 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.Less(Math.Abs(_outputOneLayerTissue.TransDynMT_fxmt[0, 9].Magnitude - 0.003957), 0.000001);
             Assert.Less(Math.Abs(_outputOneLayerTissue.TransDynMT_fxmt2[0, 9].Magnitude - 0.001565), 0.000001);
             // make sure mean integral over MT equals T(Fx) results
-            var mtbins = ((TransmittedDynamicMTOfFxAndSubregionHistDetectorInput)_inputOneLayerTissue.DetectorInputs.
-                Where(d => d.TallyType == "TransmittedDynamicMTOfFxAndSubregionHist").First()).MTBins;
+            var mtbins = ((TransmittedDynamicMTOfFxAndSubregionHistDetectorInput)_inputOneLayerTissue.DetectorInputs.First(
+                d => d.TallyType == "TransmittedDynamicMTOfFxAndSubregionHist")).MTBins;
             var integral = 0.0;
             for (int i = 0; i < mtbins.Count - 1; i++)
             {
