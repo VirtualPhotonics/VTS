@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using NUnit.Framework;
 using Vts.Common;
 using Vts.IO;
@@ -36,7 +37,7 @@ namespace Vts.Test.MonteCarlo.Tissues
         [Test]
         public void Validate_deserialized_class_is_correct()
         {
-            var i = new MultiLayerTissueInput(new ITissueRegion[]
+            var tissueInput = new MultiLayerTissueInput(new ITissueRegion[]
                     { 
                         new LayerTissueRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
@@ -50,9 +51,9 @@ namespace Vts.Test.MonteCarlo.Tissues
                     }
                 );
 
-            var iCloned = i.Clone();
+            var iCloned = tissueInput.Clone();
 
-            Assert.AreEqual(iCloned.Regions[1].RegionOP.Mus, i.Regions[1].RegionOP.Mus);
+            Assert.AreEqual(tissueInput.Regions[1].RegionOP.Mus, iCloned.Regions[1].RegionOP.Mus);
         }
         /// <summary>
         /// verify MultiLayerTissueInput deserializes correctly when using FileIO
@@ -60,7 +61,7 @@ namespace Vts.Test.MonteCarlo.Tissues
         [Test]
         public void Validate_deserialized_class_is_correct_when_using_FileIO()
         {
-            var i = new MultiLayerTissueInput(new ITissueRegion[]
+            var tissueInput = new MultiLayerTissueInput(new ITissueRegion[]
                     { 
                         new LayerTissueRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
@@ -73,10 +74,27 @@ namespace Vts.Test.MonteCarlo.Tissues
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
                     }
                 );
-            i.WriteToJson("MultiLayerTissue.txt");
+            tissueInput.WriteToJson("MultiLayerTissue.txt");
             var iCloned = FileIO.ReadFromJson<MultiLayerTissueInput>("MultiLayerTissue.txt");
 
-            Assert.AreEqual(iCloned.Regions[1].RegionOP.Mus, i.Regions[1].RegionOP.Mus);
+            Assert.AreEqual(tissueInput.Regions[1].RegionOP.Mus, iCloned.Regions[1].RegionOP.Mus);
+        }
+        /// <summary>
+        /// verify exception thrown when GetNeighborIndex is called and the photon
+        /// Direction Uz=0 (parallel with any layer)
+        /// </summary>
+        [Test]
+        public void Verify_exception_when_calling_GetNeighborIndex_with_Uz_equal_0()
+        {
+            var tissue = new MultiLayerTissue();
+            var photon = new Photon(
+                new Position(0, 0, 0),
+                new Direction(0, 0, 0), // specify Uz=0.0
+                1,
+                tissue,
+                1,
+                null);
+            Assert.Throws<ArgumentException>(() => tissue.GetNeighborRegionIndex(photon));
         }
     }
 }

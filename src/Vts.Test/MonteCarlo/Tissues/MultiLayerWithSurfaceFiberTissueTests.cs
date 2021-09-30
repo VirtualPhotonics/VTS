@@ -63,7 +63,7 @@ namespace Vts.Test.MonteCarlo.Tissues
                 1,
                 new Random());
             var index = _tissue.GetNeighborRegionIndex(photon);
-            Assert.AreEqual(index, 3);
+            Assert.AreEqual(3, index);
         }
 
         /// <summary>
@@ -81,7 +81,7 @@ namespace Vts.Test.MonteCarlo.Tissues
                 1,
                 new Random());
             var index = _tissue.GetNeighborRegionIndex(photon);
-            Assert.AreEqual(index, 2);
+            Assert.AreEqual(2, index);
         }
 
 
@@ -100,6 +100,22 @@ namespace Vts.Test.MonteCarlo.Tissues
                 new Random());
             double cosTheta = _tissue.GetAngleRelativeToBoundaryNormal(photon);
             Assert.AreEqual(1,cosTheta);
+        }
+        /// <summary>
+        /// verify exception thrown when GetNeighborIndex is called and the photon
+        /// Direction Uz=0 (parallel with any layer)
+        /// </summary>
+        [Test]
+        public void Verify_exception_when_calling_GetNeighborIndex_with_Uz_equal_0()
+        {
+            var photon = new Photon(
+                new Position(0, 0, 0),
+                new Direction(0, 0, 0), // specify Uz=0.0
+                1,
+                _tissue,
+                1,
+                null);
+            Assert.Throws<ArgumentException>(() => _tissue.GetNeighborRegionIndex(photon));
         }
 
     }
