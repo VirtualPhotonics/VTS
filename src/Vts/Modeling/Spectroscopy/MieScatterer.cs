@@ -285,7 +285,7 @@ namespace Vts.SpectralMapping
             //return the whole class
             //remove definitions from the constructor
             MieScattParams.Q = new double[3];
-            MieScattParams.Q[0] = qSca*2.0 / (sizeParameter * sizeParameter);;
+            MieScattParams.Q[0] = qSca*2.0 / (sizeParameter * sizeParameter);
             MieScattParams.Q[1] = (4.0 * s1[0].Re) / (sizeParameter * sizeParameter);
             MieScattParams.Q[2] = 4.0 / (sizeParameter * sizeParameter) * Math.Pow(ComplexAbs(s1[nAngles - 1]), 2);
 

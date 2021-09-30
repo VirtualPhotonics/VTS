@@ -103,7 +103,7 @@ namespace Vts.Test.MonteCarlo
             var i = new pMCROfRhoDetectorInput() { Rho = new DoubleRange(10, 20, 51) };
             var iCloned = i.Clone();
 
-            Assert.AreEqual(iCloned.Rho.Start, 10);
+            Assert.AreEqual(10, iCloned.Rho.Start);
         }
         /// <summary>
         /// check that deserialized pMC detector input is correct when using FileIO
@@ -114,7 +114,7 @@ namespace Vts.Test.MonteCarlo
             new pMCROfRhoDetectorInput() { Rho = new DoubleRange(10, 20, 51) }.WriteToJson("test");
             var iCloned = FileIO.ReadFromJson<pMCROfRhoDetectorInput>("test");
 
-            Assert.AreEqual(iCloned.Rho.Start, 10);
+            Assert.AreEqual(10, iCloned.Rho.Start);
         }
     }
 }

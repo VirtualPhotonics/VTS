@@ -12,8 +12,7 @@ namespace Vts.Test.Modeling.ForwardSolvers
     [TestFixture]
     public class ValidateDiffusionReflectanceModelsTests
     {
-        //const double thresholdValue = 1e-5;
-        const double thresholdValue = 1e-2;
+        const double thresholdValue = 1e-2; // prior value 1e-5
         const double mua = 0.01;
         const double musp = 1;
         const double n = 1.4;
@@ -91,19 +90,6 @@ namespace Vts.Test.Modeling.ForwardSolvers
                     "mm, with relative difference " + relDiff);
             }
         }
-        //[Test]
-        //public void SteadyStateGaussianBeamSourceTest()
-        //{
-        //    var _gaussianSourceForwardSolver = new DistributedGaussianSourceSDAForwardSolver(1.0);
-        //    double[] ROfRhos = new double[] { 0.0275484377948659, 0.0056759402180221, 0.000216099942550358 };
-        //    for (int irho = 0; irho < rhos.Length; irho++)
-        //    {
-        //        var relDiff = Math.Abs(_gaussianSourceForwardSolver.StationaryReflectance(dp, rhos[irho], f1, f2) -
-        //            ROfRhos[irho]) / ROfRhos[irho];
-        //        Assert.IsTrue(relDiff < thresholdValue, "Test not passed for rho =" + rhos[irho] +
-        //            "mm, with relative difference " + relDiff);
-        //    }
-        //}
 
         #endregion SteadyState Reflectance
 
@@ -226,21 +212,7 @@ namespace Vts.Test.Modeling.ForwardSolvers
         #endregion Temporal Frequency Reflectance
 
         #region Stationary Spatial Frequency Reflectance
-        //[Test]
-        //public void stationary_spatialFrequencyReflectance_test()
-        //{
-        //    var _sdaForwardSolver = new SDAForwardSolver();
-        //    double[] fxs = new double[] { 0.02, 0.3 };
-        //    double[] ROfFxs = new double[] { 0.5018404077939, 0.0527595185230724 };
 
-        //    for (int ifx = 0; ifx < fxs.Length; ifx++)
-        //    {
-        //        var relDiff = _sdaForwardSolver.ROfFx(ops, fxs[ifx])
-        //            - ROfFxs[ifx]) / ROfFxs[ifx];
-        //        Assert.IsTrue(relDiff < thresholdValue, "Test failed for fx =" + fxs[ifx] +
-        //            "1/mm, with relative difference " + relDiff);
-        //    }
-        //}
         // generated two layers with identical properties and use Nurbs results for validation
         [Test]
         public void SpatialFrequencyTwoLayerSDATest()
@@ -338,7 +310,7 @@ namespace Vts.Test.Modeling.ForwardSolvers
             var reflectanceVsWavelength = fs.ROfRho(ops, rho);
 
             Assert.NotNull(reflectanceVsWavelength);
-            Assert.AreEqual(reflectanceVsWavelength.Length, 3);
+            Assert.AreEqual(3, reflectanceVsWavelength.Length);
 
             // check that change in scattering changes the reflectance
             Assert.IsTrue(reflectanceVsWavelength[0] != reflectanceVsWavelength[1]);
@@ -439,7 +411,7 @@ namespace Vts.Test.Modeling.ForwardSolvers
             var fs = new PointSourceSDAForwardSolver();
 
             var rVsWavelength = fs.ROfRhoAndTime(ops, rhos, times);
-            // return from ROfRhoAndTime is new double[ops.Length * rhos.Length * ts.Length];
+            // return from ROfRhoAndTime is new double[ops.Length * rhos.Length * ts.Length]
             // order is: (ops0,rhos0,ts0), (ops0,rhos0,ts1)...(ops0,rhos0,tsnt-1)
             //           (ops0,rhos1,ts0), (ops0,rhos1,ts1)...(ops0,rhos1,tsnt-1)
             //           ...
@@ -490,7 +462,7 @@ namespace Vts.Test.Modeling.ForwardSolvers
             var fs = new PointSourceSDAForwardSolver();
 
             var rVsWavelength = fs.ROfRhoAndFt(ops, rhos, fts);
-            // return from ROfRhoAndFt is new double[ops.Length * rhos.Length * fts.Length];
+            // return from ROfRhoAndFt is new double[ops.Length * rhos.Length * fts.Length]
             // order is: (ops0,rhos0,fts0), (ops0,rhos0,fts1)...(ops0,rhos0,ftsnt-1)
             //           (ops0,rhos1,fts0), (ops0,rhos1,fts1)...(ops0,rhos1,ftsnt-1)
             //           ...
@@ -548,7 +520,7 @@ namespace Vts.Test.Modeling.ForwardSolvers
             var fs = new DistributedPointSourceSDAForwardSolver();
 
             var rVsWavelength = fs.ROfFxAndTime(ops, fxs, times);
-            // return from ROfFxAndTime is new double[ops.Length * fxs.Length * ts.Length];
+            // return from ROfFxAndTime is new double[ops.Length * fxs.Length * ts.Length]
             // order is: (ops0,fxs0,ts0), (ops0,fxs0,ts1)...(ops0,fxs0,tsnt-1)
             //           (ops0,fxs1,ts0), (ops0,fxs1,ts1)...(ops0,fxs1,tsnt-1)
             //           ...
@@ -598,7 +570,7 @@ namespace Vts.Test.Modeling.ForwardSolvers
             var fs = new DistributedPointSourceSDAForwardSolver();
 
             var rVsWavelength = fs.ROfFxAndFt(ops, fxs, fts);
-            // return from ROfFxAndFt is new double[ops.Length * fxs.Length * fts.Length];
+            // return from ROfFxAndFt is new double[ops.Length * fxs.Length * fts.Length]
             // order is: (ops0,fxs0,fts0), (ops0,fxs0,ts1)...(ops0,fxs0,ftsnt-1)
             //           (ops0,fxs1,fts0), (ops0,fxs1,ts1)...(ops0,fxs1,ftsnt-1)
             //           ...

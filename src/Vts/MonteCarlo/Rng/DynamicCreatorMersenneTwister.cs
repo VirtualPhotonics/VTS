@@ -546,8 +546,9 @@ namespace Vts.MonteCarlo.Rng
                     mts.state = null;
                     return mts;
                 }
-                Console.WriteLine("p is not a Mersenne exponent.");
+                else 
                 {
+                    Console.WriteLine("p is not a Mersenne exponent.");
                     mts.state = null;
                     return mts;
                 }

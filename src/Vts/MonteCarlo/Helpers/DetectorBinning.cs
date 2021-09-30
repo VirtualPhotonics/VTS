@@ -80,12 +80,20 @@ namespace Vts.MonteCarlo.Helpers
         {
             int bin = (int)Math.Floor((value - binStart) / binSize);
             if (bin > numberOfBins - 1)
+            {
                 return -1;
+            }
             else
-            if (bin < 0)
-                return -1;
-            else
-                return bin;
+            {
+                if (bin < 0)
+                {
+                    return -1;
+                }
+                else
+                {
+                    return bin;
+                }
+            }
         }
 
         /// <summary>

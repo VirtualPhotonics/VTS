@@ -39,31 +39,6 @@ namespace Vts.Test.MonteCarlo.Tissues
             Assert.AreEqual(_SurfaceFiberTissueRegion.RegionOP.G, 0.8);
             Assert.AreEqual(_SurfaceFiberTissueRegion.RegionOP.N, 1.4);
         }
-        ///// <summary>
-        ///// Validate method OnBoundary return correct boolean THIS METHOD MAY BE OBSOLETE
-        ///// </summary>
-        //[Test]
-        //public void verify_OnBoundary_method_returns_correct_result()
-        //{
-        //    bool result = _infiniteSurfaceFiberTissueRegion.OnBoundary(new Position(0, 0, 2.0));
-        //    Assert.IsTrue(result);
-        //    result = _infiniteSurfaceFiberTissueRegion.OnBoundary(new Position(0, 0, 1.0));
-        //    Assert.IsFalse(result);
-        //}
-        ///// <summary>
-        ///// Validate method SurfaceNormal return correct normal vector
-        ///// </summary>
-        //[Test]
-        //public void verify_SurfaceNormal_method_returns_correct_result()
-        //{
-        //    Direction result = _infiniteSurfaceFiberTissueRegion.SurfaceNormal(new Position(0, 0, 1.0));
-        //    Assert.AreEqual(new Direction(0, 0, -1), result);
-        //    result = _infiniteSurfaceFiberTissueRegion.SurfaceNormal(new Position(0, 0, 5.0));
-        //    Assert.AreEqual(new Direction(0, 0, 1), result);
-        //}
-        /// <summary>
-        /// RayIntersectBoundary is not implemented in this class 
-        /// </summary>
 
     }
 }

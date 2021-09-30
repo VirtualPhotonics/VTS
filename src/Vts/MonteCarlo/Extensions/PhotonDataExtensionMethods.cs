@@ -23,7 +23,7 @@ namespace Vts.MonteCarlo.Extensions
             foreach (var writer in collisionInfoDatabaseWriters)
             {
                 WriteToPMCSurfaceVirtualBoundaryDatabase(writer, dp, collisionInfo);
-            };
+            }
         }
         /// <summary>
         /// Method to write to pMC surface VB database

@@ -59,17 +59,6 @@ namespace Vts.Test.MonteCarlo.Tissues
             result = _layerTissueRegion.ContainsPosition(new Position(0, 0, 10.0)); // on boundary
             Assert.IsFalse(result);
         }
-        ///// <summary>
-        ///// Validate method SurfaceNormal return correct normal vector
-        ///// </summary>
-        //[Test]
-        //public void verify_SurfaceNormal_method_returns_correct_result()
-        //{
-        //    Direction result = _layerTissueRegion.SurfaceNormal(new Position(0, 0, 1.0));
-        //    Assert.AreEqual(new Direction(0, 0, -1), result);
-        //    result = _layerTissueRegion.SurfaceNormal(new Position(0, 0, 5.0));
-        //    Assert.AreEqual(new Direction(0, 0, 1), result);
-        //}
 
         /// <summary>
         /// Validate method RayIntersectBoundary return correct result

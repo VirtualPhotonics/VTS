@@ -157,21 +157,21 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation.PostProcessorInputs
             // clear out detector list
             input.DetectorInputs.Clear();
             // add reflectance tally detector
-            input.DetectorInputs.Add(new ROfRhoDetectorInput()); // this has IsReflectanceTally=true;
+            input.DetectorInputs.Add(new ROfRhoDetectorInput()); // this has IsReflectanceTally=true
             result = PostProcessorInputValidation.ValidateInput(input, folderName);
             Assert.IsTrue(result.ValidationRule.Equals(
                 "PostProcessorInput:  file DiffuseReflectanceDatabase does not exist")); 
             // clear out detector list
             input.DetectorInputs.Clear();
             // add transmittance tally detector
-            input.DetectorInputs.Add(new TOfRhoDetectorInput()); // this has IsTransmittanceTally=true;
+            input.DetectorInputs.Add(new TOfRhoDetectorInput()); // this has IsTransmittanceTally=true
             result = PostProcessorInputValidation.ValidateInput(input, folderName);
             Assert.IsTrue(result.ValidationRule.Equals(
                 "PostProcessorInput:  file DiffuseTransmittanceDatabase does not exist"));
             // clear out detector list
             input.DetectorInputs.Clear();
             // add specular reflectance tally detector
-            input.DetectorInputs.Add(new RSpecularDetectorInput()); // this has IsSpecularReflectanceTally=true;
+            input.DetectorInputs.Add(new RSpecularDetectorInput()); // this has IsSpecularReflectanceTally=true
             result = PostProcessorInputValidation.ValidateInput(input, folderName);
             Assert.IsTrue(result.ValidationRule.Equals(
                 "PostProcessorInput:  file SpecularReflectanceDatabase does not exist"));
