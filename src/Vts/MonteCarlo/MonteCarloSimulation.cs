@@ -504,10 +504,10 @@ namespace Vts.MonteCarlo
             var tissueDistance = _tissue.GetDistanceToBoundary(photon);
 
             // get distance to any VB
-            double vbDistance = double.PositiveInfinity;
 
             // find closest VB (will return null if no closest VB exists)
-            closestVirtualBoundary = _virtualBoundaryController.GetClosestVirtualBoundary(photon.DP, out vbDistance);
+            // vbDistance is initialized to double.PositiveInfinity at start of GetClosestVB
+            closestVirtualBoundary = _virtualBoundaryController.GetClosestVirtualBoundary(photon.DP, out var vbDistance);
 
             if (tissueDistance < vbDistance) // photon won't hit VB, but might not hit tissue boundary either
             {
@@ -519,7 +519,7 @@ namespace Vts.MonteCarlo
             // otherwise, move to the closest virtual boundary
 
             // if both tissueDistance and vbDistance are both infinity, then photon dead
-            if (vbDistance == double.PositiveInfinity)
+            if (double.IsPositiveInfinity(vbDistance))
             {
                 photon.DP.StateFlag = photon.DP.StateFlag.Remove(PhotonStateType.Alive);
                 return BoundaryHitType.None;

@@ -338,7 +338,7 @@ namespace Vts.IO
                     if (ext.Length > 4) // extensions are usually dot + 3 chars 
                     {
                         // if the extension is longer assume it's a filename not an extension
-                        destinationFileName = ext.Substring(1); // get the name after the dot
+                        //destinationFileName = ext.Substring(1) // get the name after the dot -> not used
                         ext = "";
                         folderToLastDot = possibleFileName;
                     }

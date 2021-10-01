@@ -105,7 +105,6 @@ namespace Vts.MonteCarlo.Sources
         {
             if (translationFromOrigin == null)
             {
-                translationFromOrigin = SourceDefaults.DefaultPosition.Clone();
             }
         }        
     }

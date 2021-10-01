@@ -132,8 +132,8 @@ namespace Vts.MonteCarlo.Tissues
             {
                 currentRegion = _layerRegions[currentRegionIndex];
             }
-            double distanceToBoundary;
-            var intersect = currentRegion.RayIntersectBoundary(photon, out distanceToBoundary);
+
+            var intersect = currentRegion.RayIntersectBoundary(photon, out var distanceToBoundary);
 
             return distanceToBoundary;
         }

@@ -179,12 +179,6 @@ namespace Vts.MonteCarlo.Sources
                 initialTissueRegionIndex)
         {
             _thetaConvOrDiv = thetaConvOrDiv;
-            if (newDirectionOfPrincipalSourceAxis == null)
-                newDirectionOfPrincipalSourceAxis = SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone();
-            if (translationFromOrigin == null)
-                translationFromOrigin = SourceDefaults.DefaultPosition.Clone();
-            if (beamRotationFromInwardNormal == null)
-                beamRotationFromInwardNormal = SourceDefaults.DefaultBeamRoationFromInwardNormal.Clone();
         }
 
         /// <summary>

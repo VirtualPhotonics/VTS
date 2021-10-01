@@ -615,11 +615,7 @@ namespace Vts.Modeling.ForwardSolvers
             int maxDegree = polynomialCoefficients.Length - 1;
             for (int coefficientDegree = 0; coefficientDegree <= maxDegree; coefficientDegree++)
             {
-                double value = IntegrateExponentialMultipliedByMomomial(coefficientDegree,
-                                                                          exponentialTerm,
-                                                                          polynomialCoefficients[coefficientDegree],
-                                                                          lowerLimit, upperLimit);
-                value = 0;
+                double value = 0;
                 integralValue += IntegrateExponentialMultipliedByMomomial(coefficientDegree,
                                                                           exponentialTerm,
                                                                           polynomialCoefficients[coefficientDegree],

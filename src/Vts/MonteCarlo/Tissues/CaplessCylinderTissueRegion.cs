@@ -120,10 +120,10 @@ namespace Vts.MonteCarlo.Tissues
             }
             _onBoundary = false; // reset flag
 
-            double distanceToSides = double.PositiveInfinity;
+            // distanceToSides is initialized to double.PositiveInfinity at start of RayIntersect
             // first check if intersect with infinite cylinder
             var intersectSides = (CylinderTissueRegionToolbox.RayIntersectInfiniteCylinder(
-                p1, p2, oneIn, CylinderTissueRegionAxisType.Z, Center, Radius, out distanceToSides));
+                p1, p2, oneIn, CylinderTissueRegionAxisType.Z, Center, Radius, out var distanceToSides));
 
             if (intersectSides)
             {

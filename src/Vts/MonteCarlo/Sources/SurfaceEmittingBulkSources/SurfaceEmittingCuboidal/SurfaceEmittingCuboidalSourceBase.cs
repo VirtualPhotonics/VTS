@@ -104,7 +104,7 @@ namespace Vts.MonteCarlo.Sources
                 SourceDefaults.DefaultAzimuthalAngleRange.Clone(),
                 Rng);
 
-            Position tempPosition = new Position();
+            Position tempPosition;
             Position finalPosition = new Position();               
              
             switch (cSide)

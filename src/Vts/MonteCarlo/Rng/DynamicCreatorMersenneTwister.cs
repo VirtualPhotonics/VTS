@@ -709,7 +709,7 @@ namespace Vts.MonteCarlo.Rng
         /// <param name="ww"></param>
         private void make_pre_mod_polys(ref prescr_t pre, int mm, int nn, int rr, int ww)
         {
-            polynomial t, t0, t1, s, s0, s1;
+            polynomial t, t0, s, s0;  // orig code had t1 and s1 in this list
             int i;
             int j = 0;
             t = new_poly(0);
@@ -724,7 +724,7 @@ namespace Vts.MonteCarlo.Rng
             for (i = 1; i < (ww - rr); i++)
             {
                 pre.preModPolys[j++] = polynomial_dup(t0);
-                t1 = t0;    // not used
+                // t1 = t0 -> not used
                 t0 = polynomial_mult(t0, t);
                 // was in original code: free_poly(t1)
             }
@@ -846,7 +846,7 @@ namespace Vts.MonteCarlo.Rng
             mn0 = new _mask_node() { leng = 0, c = 0, b = 0 };
             listOfMaskNodes.AddLast(mn0);
             var curList = listOfMaskNodes;
-            var cur = mn0;
+            // var cur = mn0
             for (i = 0; i < _limit_v_best_opt; i++)
             {
                 optimize_v_hard(ref eq, i, ref curList);

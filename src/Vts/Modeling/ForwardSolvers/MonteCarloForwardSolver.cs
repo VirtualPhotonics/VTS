@@ -52,14 +52,13 @@ namespace Vts.Modeling.ForwardSolvers
             IEnumerable<double> rhos)
         { 
             double[] RatRhoMC = new double[_monteCarloLoader.nrReference];
-            double[] rhoScaled = new double[_monteCarloLoader.nrReference];
             foreach (var op in ops)
             {
                 // RatRhoMC has to be cleared inside the OPs loop because a cumulative sum is performed below
                 Array.Clear(RatRhoMC, 0, _monteCarloLoader.nrReference);
                 double v = GlobalConstants.C / op.N; // speed of light [mm/ns]
                 double fresnel = _monteCarloLoader.GetFresnel(1.0, op.N, 0.0);
-                rhoScaled = _monteCarloLoader.GetAllScaledRhos(op).ToArray();
+                var rhoScaled = _monteCarloLoader.GetAllScaledRhos(op).ToArray();
                 for (int i = 0; i < _monteCarloLoader.nrReference; i++)
                 {
                     for (int j = 0; j < _monteCarloLoader.ntReference; j++)
@@ -101,15 +100,13 @@ namespace Vts.Modeling.ForwardSolvers
             IEnumerable<double> rhos, IEnumerable<double> times)
         {
             double v;
-            double[] rhoScaled = new double[_monteCarloLoader.nrReference];
-            double[] timeScaled = new double[_monteCarloLoader.ntReference];
             double[,] RScaled = new double[_monteCarloLoader.nrReference, _monteCarloLoader.ntReference];
             foreach (var op in ops)
             {
                 v = GlobalConstants.C / op.N;// speed of light [mm/ns]
                 double fresnel = _monteCarloLoader.GetFresnel(1.0, op.N, 0.0);
-                rhoScaled = _monteCarloLoader.GetAllScaledRhos(op).ToArray();
-                timeScaled = _monteCarloLoader.GetAllScaledTimes(op).ToArray();
+                var rhoScaled = _monteCarloLoader.GetAllScaledRhos(op).ToArray();
+                var timeScaled = _monteCarloLoader.GetAllScaledTimes(op).ToArray();
                 // scale first then interpolate `
                 for (int i = 0; i < _monteCarloLoader.nrReference; i++)
                 {
@@ -151,10 +148,9 @@ namespace Vts.Modeling.ForwardSolvers
         /// <returns>R(rhos,fts)</returns>
         public override IEnumerable<Complex> ROfRhoAndFt(IEnumerable<OpticalProperties> ops, IEnumerable<double> rhos, IEnumerable<double> fts)
         {
-            double[] time = new double[_monteCarloLoader.ntReference];
             foreach (var op in ops)
             {
-                time = _monteCarloLoader.GetAllScaledTimes(op).ToArray();
+                var time = _monteCarloLoader.GetAllScaledTimes(op).ToArray();
                 var dTime = time[1] - time[0];
                 double[] rOfRhoAndT = ROfRhoAndTime(op.AsEnumerable(), rhos, time).ToArray();
                 int rhoIndex = 0;
@@ -192,12 +188,11 @@ namespace Vts.Modeling.ForwardSolvers
         public override IEnumerable<double> ROfFx(IEnumerable<OpticalProperties> ops, IEnumerable<double> fxs)
         {
             double[] RatFxMC = new double[_monteCarloLoader.nfxReference];
-            double[] fxScaled = new double[_monteCarloLoader.nfxReference];
             foreach (var op in ops)
             {
                 Array.Clear(RatFxMC, 0, _monteCarloLoader.nfxReference); // clear so different OPs don't get summed below
                 double v = GlobalConstants.C / op.N; // speed of light [mm/ns]
-                fxScaled = _monteCarloLoader.GetAllScaledFxs(op).ToArray();
+                var fxScaled = _monteCarloLoader.GetAllScaledFxs(op).ToArray();
                 double fresnel = _monteCarloLoader.GetFresnel(1.0, op.N, 0.0);
                 for (int i = 0; i < _monteCarloLoader.nfxReference; i++)
                 {
@@ -237,15 +232,13 @@ namespace Vts.Modeling.ForwardSolvers
             IEnumerable<double> fxs, IEnumerable<double> times)
         {
             double v;
-            double[] fxScaled = new double[_monteCarloLoader.nfxReference];
-            double[] timeScaled = new double[_monteCarloLoader.ntReference];
             double[,] RScaled = new double[_monteCarloLoader.nfxReference, _monteCarloLoader.ntReference];
             foreach (var op in ops)
             {
                 v = GlobalConstants.C / op.N; // speed of light [mm/ns]
                 double fresnel = _monteCarloLoader.GetFresnel(1.0, op.N, 0.0);
-                fxScaled = _monteCarloLoader.GetAllScaledFxs(op).ToArray();
-                timeScaled = _monteCarloLoader.GetAllScaledTimes(op).ToArray();
+                var fxScaled = _monteCarloLoader.GetAllScaledFxs(op).ToArray();
+                var timeScaled = _monteCarloLoader.GetAllScaledTimes(op).ToArray();
                 // scale first then interpolate `
                 for (int i = 0; i < _monteCarloLoader.nfxReference; i++)
                 {
@@ -286,10 +279,9 @@ namespace Vts.Modeling.ForwardSolvers
         /// <returns>reflectance at specified optical properties, spatial frequencies and modulation frequencies</returns>
         public override IEnumerable<Complex> ROfFxAndFt(IEnumerable<OpticalProperties> ops, IEnumerable<double> fxs, IEnumerable<double> fts)
         {
-            double[] time = new double[_monteCarloLoader.ntReference];
             foreach (var op in ops)
             {
-                time = _monteCarloLoader.GetAllScaledTimes(op).ToArray();
+                var time = _monteCarloLoader.GetAllScaledTimes(op).ToArray();
                 var dTime = time[1] - time[0];
                 double[] rOfFxAndT = ROfFxAndTime(op.AsEnumerable(), fxs, time).ToArray();
                 int fxIndex = 0;

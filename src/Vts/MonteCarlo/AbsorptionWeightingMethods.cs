@@ -24,7 +24,7 @@ namespace Vts.MonteCarlo
                 case AbsorptionWeightingType.Continuous:
                     if (detector.TallyType == TallyType.ATotal)
                     {
-                        return (previousDP, dp, regionIndex) => VolumeAbsorptionWeightingContinuous(previousDP, dp, regionIndex, tissue);
+                        return (previousDP, dp, regionIndex) => VolumeAbsorptionWeightingContinuous(previousDP, dp);
                     }
                     else
                     {
@@ -98,7 +98,6 @@ namespace Vts.MonteCarlo
         private static double VolumeAbsorptionWeightingAnalog(PhotonDataPoint dp)
         {
             var weight = VolumeAbsorbAnalog(
-                dp.Weight,
                 dp.StateFlag);
 
             return weight;
@@ -114,7 +113,8 @@ namespace Vts.MonteCarlo
 
             return weight;
         }
-        private static double VolumeAbsorptionWeightingContinuous(PhotonDataPoint previousDP, PhotonDataPoint dp, int regionIndex, ITissue tissue)
+        private static double VolumeAbsorptionWeightingContinuous(
+            PhotonDataPoint previousDP, PhotonDataPoint dp)
         {
             var weight = VolumeAbsorbContinuous(
                 previousDP.Weight,
@@ -123,15 +123,12 @@ namespace Vts.MonteCarlo
             return weight;
         }
 
-        private static double VolumeAbsorbAnalog(double weight, PhotonStateType photonStateType)
+        private static double VolumeAbsorbAnalog(PhotonStateType photonStateType)
         {
+            var weight = 0.0;
             if (photonStateType.HasFlag(PhotonStateType.Absorbed))
             {
                 weight = 1.0;
-            }
-            else
-            {
-                weight = 0.0;
             }
             return weight;
         }

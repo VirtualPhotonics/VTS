@@ -125,28 +125,28 @@ namespace Vts.MonteCarlo.Tissues
             }
             _onBoundary = false; // reset flag
 
-            double distanceToSides = double.PositiveInfinity;
+            // distanceToSides is initialized to double.PositiveInfinity at start of RayIntersect
             // first check if intersect with infinite cylinder
             var intersectSides = (CylinderTissueRegionToolbox.RayIntersectInfiniteCylinder(p1, p2, oneIn,
                 CylinderTissueRegionAxisType.Z, Center, Radius,
-                out distanceToSides));
+                out var distanceToSides));
             // then check if intersect caps, create three tissue layers 1) above cylinder, 2) cylinder, 3) below
-            double distanceToTopLayer = double.PositiveInfinity;
+
             var topLayer = new LayerTissueRegion(
                 new DoubleRange(0, Center.Z - (Height / 2)),
                 new OpticalProperties()); // doesn't matter what OPs are
-            var intersectTopLayer = topLayer.RayIntersectBoundary(photon, out distanceToTopLayer);
-            double distanceToCapLayer = double.PositiveInfinity;
+            var intersectTopLayer = topLayer.RayIntersectBoundary(photon, out var distanceToTopLayer);
+
             var enclosingLayer =
                 new LayerTissueRegion(
                     new DoubleRange(Center.Z - (Height / 2), Center.Z + (Height / 2)),
                     new OpticalProperties());
-            var intersectCapLayer = enclosingLayer.RayIntersectBoundary(photon, out distanceToCapLayer);
-            double distanceToBottomLayer = double.PositiveInfinity;
+            var intersectCapLayer = enclosingLayer.RayIntersectBoundary(photon, out var distanceToCapLayer);
+
             var bottomLayer = new LayerTissueRegion(
                 new DoubleRange(Center.Z + (Height / 2), double.PositiveInfinity),
                 new OpticalProperties()); // doesn't matter what OPs are
-            var intersectBottomLayer = bottomLayer.RayIntersectBoundary(photon, out distanceToBottomLayer);
+            var intersectBottomLayer = bottomLayer.RayIntersectBoundary(photon, out var distanceToBottomLayer);
             var hitCaps = false;
             double distanceToCap = double.PositiveInfinity;
             if (intersectTopLayer || intersectCapLayer || intersectBottomLayer)
@@ -174,7 +174,6 @@ namespace Vts.MonteCarlo.Tissues
                 return true;
             }
 
-            distanceToBottomLayer = double.PositiveInfinity;
             return false;
         }
 

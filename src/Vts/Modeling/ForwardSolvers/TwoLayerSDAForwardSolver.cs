@@ -89,14 +89,13 @@ namespace Vts.Modeling.ForwardSolvers
         public override IEnumerable<double> ROfRhoAndTime(IEnumerable<IOpticalPropertyRegion[]> setsOfRegions,
             IEnumerable<double> rhos, IEnumerable<double> times)
         {
-            double[] rOfTime = new double[times.Count()];
             double[] FFTtimeSequence;
             foreach (var regions in setsOfRegions)
             {
                 foreach (var rho in rhos)
                 {
                     // for fixed time and looping over rhos, this still is slow
-                    rOfTime = DetermineROfTimeFromROfFtForFixedRho(rho, regions, out FFTtimeSequence);
+                    var rOfTime = DetermineROfTimeFromROfFtForFixedRho(rho, regions, out FFTtimeSequence);
                     foreach (var time in times)
                     {
                         yield return Vts.Common.Math.Interpolation.interp1(FFTtimeSequence,
@@ -156,9 +155,8 @@ namespace Vts.Modeling.ForwardSolvers
             // FFT R(ft) to R(t)
             //var dft = new MathNet.Numerics.IntegralTransforms.Algorithms.DiscreteFourierTransform()           
             //dft.Inverse(rOfFt, FourierOptions.NoScaling) // convert to R(t)
-            Fourier.Inverse(rOfFt, FourierOptions.NoScaling); 
-            var rOfTime = new double[FFTTimeSequence.Length];
-            rOfTime = rOfFt.Select(r => r.Real / (numFreq / 2)).ToArray();
+            Fourier.Inverse(rOfFt, FourierOptions.NoScaling);
+            var rOfTime = rOfFt.Select(r => r.Real / (numFreq / 2)).ToArray();
             return rOfTime;
         }
 
@@ -194,8 +192,7 @@ namespace Vts.Modeling.ForwardSolvers
             //var dft = new MathNet.Numerics.IntegralTransforms.Algorithms.DiscreteFourierTransform()
             //dft.Radix2Inverse(rOfFt, FourierOptions.NoScaling) // convert to R(t)
             Fourier.Inverse(rOfFt, FourierOptions.NoScaling);
-            var rOfTime = new double[FFTTimeSequence.Length];
-            rOfTime = rOfFt.Select(r => r.Real / (numFreq / 2)).ToArray();
+            var rOfTime = rOfFt.Select(r => r.Real / (numFreq / 2)).ToArray();
             return rOfTime;
         }
         /// <summary>
@@ -275,13 +272,12 @@ namespace Vts.Modeling.ForwardSolvers
         public override IEnumerable<double> ROfFxAndTime(IEnumerable<IOpticalPropertyRegion[]> setsOfRegions,
             IEnumerable<double> fxs, IEnumerable<double> times)
         {
-            double[] rOfTime = new double[times.Count()];
-            double[] FFTTimeSequence;
             foreach (var regions in setsOfRegions)
             {
                 foreach (var fx in fxs)
                 {
-                    rOfTime = DetermineROfTimeFromROfFtForFixedFx(fx, regions, out FFTTimeSequence);
+                    double[] FFTTimeSequence;
+                    var rOfTime = DetermineROfTimeFromROfFtForFixedFx(fx, regions, out FFTTimeSequence);
                     foreach (var time in times)
                     {
                         yield return Vts.Common.Math.Interpolation.interp1(FFTTimeSequence, rOfTime.ToList(), time);
