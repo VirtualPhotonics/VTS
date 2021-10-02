@@ -160,7 +160,7 @@ namespace Vts.MonteCarlo.Extensions
                             inclusionRegion = ((SingleEllipsoidTissueInput)result.TissueInput).EllipsoidRegion;
                             break;
                         default:
-                            throw new ArgumentOutOfRangeException();
+                            throw new ArgumentOutOfRangeException(parameterString);
                     }
                     inclusionPositionModifier(inclusionRegion.Center); // dynamic binding...works?
                     break;
@@ -185,7 +185,7 @@ namespace Vts.MonteCarlo.Extensions
                             }
                             break;
                         default:
-                            throw new ArgumentOutOfRangeException();
+                            throw new ArgumentOutOfRangeException(parameterString);
                     }
                     break;
 

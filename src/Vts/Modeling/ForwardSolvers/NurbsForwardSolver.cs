@@ -631,7 +631,7 @@ namespace Vts.Modeling.ForwardSolvers
         {
             double area;
             double deltaT = 0.01;//ns
-            double scalingFactor = GetScalingFactor(op, 3);
+            GetScalingFactor(op, 3);
             double lR2 = Math.Log10(generator.ComputeSurfacePoint(generator.TimeValues.MaxValue, space_ref));
             double lR1 = Math.Log10(generator.ComputeSurfacePoint(generator.TimeValues.MaxValue - deltaT, space_ref));
             double slope = (lR2 - lR1) / (deltaT);

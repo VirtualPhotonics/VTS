@@ -891,7 +891,7 @@ namespace Vts.Factories
             switch (type)
             {
                 case FluenceSolutionDomainType.FluenceOfRhoAndZ:
-                    if (fs is TwoLayerSDAForwardSolver) // todo: future generalization to IMultiRegionForwardSolver?
+                    if (fs is TwoLayerSDAForwardSolver) // future generalization to IMultiRegionForwardSolver?
                     {
                         return (fitData, otherData) => fs.FluenceOfRhoAndZ(new[] { getLayerTissueRegionArray(fitData) }, (double[])otherData[0], (double[])otherData[1]);
                     }

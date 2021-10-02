@@ -174,7 +174,7 @@ namespace Vts.Modeling.ForwardSolvers.DiscreteOrdinates
         /// <returns>double array</returns>
         public static double[] PWHalfSpace(double mu_a, double mu_s, double[] mu, double[] wt, SquareMatrix L, int N)
         {
-            var zeros = Zeros(N);
+            Zeros(N);
             var eye = Eye(N);
 
             // construct the eigenvalue problem

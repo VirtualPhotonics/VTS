@@ -254,7 +254,7 @@ namespace Vts
     /// </summary>
     public enum IndependentVariableAxis
     {
-        // todo: add combinations (e.g. RhoAndFt, etc) and update ComputationFactory
+        // add combinations (e.g. RhoAndFt, etc) and update ComputationFactory?
         /// <summary>
         /// source-detector separation (rho)
         /// </summary>

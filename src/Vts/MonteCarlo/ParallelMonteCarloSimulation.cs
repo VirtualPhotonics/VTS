@@ -163,7 +163,6 @@ namespace Vts.MonteCarlo
             // check if statistics specified using input.Options.TrackStatistics = true
             if (stats != null)
             {
-                PropertyInfo[] properties = typeof(SimulationStatistics).GetProperties();
                 statistics.NumberOfPhotonsOutTopOfTissue = stats.Select(s => s.NumberOfPhotonsOutTopOfTissue).Sum();
                 statistics.NumberOfPhotonsOutBottomOfTissue = stats.Select(s => s.NumberOfPhotonsOutBottomOfTissue).Sum();
                 statistics.NumberOfPhotonsAbsorbed = stats.Select(s => s.NumberOfPhotonsAbsorbed).Sum();

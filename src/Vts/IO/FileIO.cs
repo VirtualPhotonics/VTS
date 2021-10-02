@@ -546,7 +546,7 @@ namespace Vts.IO
         /// <param name="writerMap"></param>
         public static void WriteToBinaryCustom<T>(this IEnumerable<T> data, string fileName, Action<BinaryWriter, T> writerMap)
         {
-            // todo: convert to "push" method with System.Observable in Rx Extensions (write upon appearance of new datum)
+            // convert to "push" method with System.Observable in Rx Extensions (write upon appearance of new datum)?
             using (Stream s = StreamFinder.GetFileStream(fileName, FileMode.Create))
             {
                 using (BinaryWriter bw = new BinaryWriter(s))

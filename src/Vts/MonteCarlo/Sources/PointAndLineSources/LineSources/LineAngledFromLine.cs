@@ -140,22 +140,22 @@ namespace Vts.MonteCarlo.Sources
         /// <summary>
         /// Returns direction for a given position
         /// </summary>
-        /// <param name="tissuePosition">position on tissue</param>
+        /// <param name="position">position on *tissue*</param>
         /// <returns>new direction</returns>  
-        protected override Direction GetFinalDirection(Position tissuePosition)
+        protected override Direction GetFinalDirection(Position position)
         {
             // randomly sample length of line in air
             var xLocation = Rng.NextDouble() * _lineInAirLength + _lineInAirCenterPosition.X - _lineInAirLength / 2;
             var pointInLine = new Position(xLocation, 0, _lineInAirCenterPosition.Z);
             // this code assumes translationFromOrigin has Z<0
-            // determine distance from tissuePosition to translationFromOrigin
+            // determine distance from position=tissuePosition to translationFromOrigin
             var distance = Math.Sqrt(
-                (tissuePosition.X - pointInLine.X) * (tissuePosition.X - pointInLine.X) +
-                (tissuePosition.Y - pointInLine.Y) * (tissuePosition.Y - pointInLine.Y) +
-                (tissuePosition.Z - pointInLine.Z) * (tissuePosition.Z - pointInLine.Z));
-            return new Direction((tissuePosition.X - pointInLine.X) / distance,
-                                 (tissuePosition.Y - pointInLine.Y) / distance,
-                                 (tissuePosition.Z - pointInLine.Z) / distance);
+                (position.X - pointInLine.X) * (position.X - pointInLine.X) +
+                (position.Y - pointInLine.Y) * (position.Y - pointInLine.Y) +
+                (position.Z - pointInLine.Z) * (position.Z - pointInLine.Z));
+            return new Direction((position.X - pointInLine.X) / distance,
+                                 (position.Y - pointInLine.Y) / distance,
+                                 (position.Z - pointInLine.Z) / distance);
         }
     }
 

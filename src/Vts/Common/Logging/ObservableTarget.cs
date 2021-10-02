@@ -10,7 +10,7 @@ namespace Vts.Common.Logging
     /// Writes log messages to an ArrayList in memory for programmatic retrieval.
     /// </summary>
     /// <seealso href="http://nlog-project.org/wiki/Memory_target">Documentation on NLog Wiki</seealso>
-    //Todo: This Documentation breaks the sandcastle compiler because the files do not exist - if we can find the files we can add this back
+    //This Documentation breaks the sandcastle compiler because the files do not exist - if we can find the files we can add this back
     ///// <example>
     ///// <p>
     ///// To set up the target in the <a href="config.html">configuration file</a>, 
