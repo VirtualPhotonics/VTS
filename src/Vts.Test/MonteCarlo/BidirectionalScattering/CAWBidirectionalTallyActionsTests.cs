@@ -30,11 +30,12 @@ namespace Vts.Test.MonteCarlo.BidirectionalScattering
         /// <summary>
         /// list of temporary files created by these unit tests
         /// </summary>
-        List<string> listOfTestGeneratedFolders = new List<string>()
+        readonly List<string> listOfTestGeneratedFolders = new List<string>()
         {
             "results"
         };
-        List<string> listOfTestGeneratedFiles = new List<string>()
+
+        readonly List<string> listOfTestGeneratedFiles = new List<string>()
         {
             "file.txt"  // file that captures the screen output of MC simulation
         };

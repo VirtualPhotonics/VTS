@@ -42,11 +42,11 @@ namespace Vts.Test.MonteCarlo.Tissues
         public void verify_GetRegionIndex_method_returns_correct_result()
         {
             int index = _tissue.GetRegionIndex(new Position(2, 0, 0)); // outside surface fiber
-            Assert.AreEqual(index, 1);
+            Assert.AreEqual(1, index);
             index = _tissue.GetRegionIndex(new Position(0.5, 0, 0)); // inside surface fiber
-            Assert.AreEqual(index, 3);
+            Assert.AreEqual(3, index);
             index = _tissue.GetRegionIndex(new Position(0, 0, 1.0)); // below surface fiber
-            Assert.AreEqual(index, 1);
+            Assert.AreEqual(1, index);
         }
 
         /// <summary>

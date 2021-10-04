@@ -139,7 +139,7 @@ namespace Vts.Test.MonteCarlo.Sources
             };
             var photon = ps.GetNextPhoton(tissue);
             // make sure initial position is at tissue surface
-            Assert.AreEqual(photon.DP.Position.Z, 0.0);
+            Assert.AreEqual(0.0, photon.DP.Position.Z);
             // make sure initial position is inside radius
             Assert.IsTrue(Math.Sqrt(
                 (photon.DP.Position.X - _translationFromOrigin.X) *
@@ -175,7 +175,7 @@ namespace Vts.Test.MonteCarlo.Sources
             };
             var photon = ps.GetNextPhoton(tissue);
             // make sure initial position is at tissue surface
-            Assert.AreEqual(photon.DP.Position.Z, 0.0);
+            Assert.AreEqual(0.0, photon.DP.Position.Z);
             // make sure initial position is inside radius
             Assert.IsTrue(Math.Sqrt(photon.DP.Position.X * photon.DP.Position.X +
                                     photon.DP.Position.Y * photon.DP.Position.Y) <= _radiusOnTissue);

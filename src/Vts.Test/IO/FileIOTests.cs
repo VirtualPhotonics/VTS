@@ -18,7 +18,7 @@ namespace Vts.Test.IO
         /// <summary>
         /// list of temporary files created by these unit tests
         /// </summary>
-        List<string> listOfTestGeneratedFolders = new List<string>()
+        readonly List<string> listOfTestGeneratedFolders = new List<string>()
         {
             "fileiotest.folder",
             "folder1",
@@ -28,7 +28,8 @@ namespace Vts.Test.IO
             Path.Combine("sourcetest", "subfolder"),
             "sourcetest"
         };
-        List<string> listOfTestGeneratedFiles = new List<string>()
+
+        readonly List<string> listOfTestGeneratedFiles = new List<string>()
         {
             "file1.txt",
             "file2.txt",
@@ -226,12 +227,12 @@ namespace Vts.Test.IO
             var name = Assembly.GetExecutingAssembly().FullName;
             var assemblyName = new AssemblyName(name).Name;
             int size = 100;
-            var arrayWritten = new double[size];
+            double[] arrayWritten;
             // read file from resources and write it so that can be read in
             arrayWritten = (double[])FileIO.ReadArrayFromBinaryInResources<double>
                 ("Resources/fileiotest/ROfRho", assemblyName, size);
             FileIO.WriteToBinary<double[]>(arrayWritten, "array5");
-            double[] arrayRead = new double[100];
+            double[] arrayRead;
             using (Stream stream = StreamFinder.GetFileStream("array5", FileMode.Open))
             {
                 arrayRead = FileIO.ReadFromBinaryStream<double[]>(stream);

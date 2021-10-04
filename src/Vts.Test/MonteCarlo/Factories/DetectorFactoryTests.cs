@@ -29,11 +29,11 @@ namespace Vts.Test.MonteCarlo.Factories
         /// <summary>
         /// list of temporary files created by these unit tests
         /// </summary>
-        private List<string> listOfTestGeneratedFolders = new List<string>()
+        private readonly List<string> listOfTestGeneratedFolders = new List<string>()
         {
             "user_defined_detector",
         };
-        private List<string> listOfTestGeneratedFiles = new List<string>()
+        private readonly List<string> listOfTestGeneratedFiles = new List<string>()
         {
             "file.txt" // file that captures screen output of MC simulation
         };

@@ -31,15 +31,15 @@ namespace Vts.Test.MonteCarlo.Tissues
         [Test]
         public void validate_cylinder_properties()
         {
-            Assert.AreEqual(_cylinderTissueRegion.Center.X, 0.0);
-            Assert.AreEqual(_cylinderTissueRegion.Center.Y, 0.0);
-            Assert.AreEqual(_cylinderTissueRegion.Center.Z, 2.0);
-            Assert.AreEqual(_cylinderTissueRegion.Radius, 1.0);
-            Assert.AreEqual(_cylinderTissueRegion.Height, 2.0);
-            Assert.AreEqual(_cylinderTissueRegion.RegionOP.Mua, 0.01);
-            Assert.AreEqual(_cylinderTissueRegion.RegionOP.Musp, 1.0);
-            Assert.AreEqual(_cylinderTissueRegion.RegionOP.G, 0.8);
-            Assert.AreEqual(_cylinderTissueRegion.RegionOP.N, 1.4);
+            Assert.AreEqual(0.0, _cylinderTissueRegion.Center.X);
+            Assert.AreEqual(0.0, _cylinderTissueRegion.Center.Y);
+            Assert.AreEqual(2.0, _cylinderTissueRegion.Center.Z);
+            Assert.AreEqual(1.0, _cylinderTissueRegion.Radius);
+            Assert.AreEqual(2.0, _cylinderTissueRegion.Height);
+            Assert.AreEqual(0.01, _cylinderTissueRegion.RegionOP.Mua);
+            Assert.AreEqual(1.0, _cylinderTissueRegion.RegionOP.Musp);
+            Assert.AreEqual(0.8, _cylinderTissueRegion.RegionOP.G);
+            Assert.AreEqual(1.4, _cylinderTissueRegion.RegionOP.N);
         }
 
         /// <summary>

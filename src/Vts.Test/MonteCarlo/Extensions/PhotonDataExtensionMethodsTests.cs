@@ -17,7 +17,7 @@ namespace Vts.Test.MonteCarlo.Extensions
         /// <summary>
         /// list of temporary files created by these unit tests
         /// </summary>
-        List<string> listOfTestGeneratedFiles = new List<string>()
+        readonly List<string> listOfTestGeneratedFiles = new List<string>()
         {
             "collisionInfoReflectance",
             "collisionInfoReflectance.txt",

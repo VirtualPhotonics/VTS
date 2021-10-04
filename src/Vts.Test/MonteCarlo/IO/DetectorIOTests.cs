@@ -17,7 +17,7 @@ namespace Vts.Test.MonteCarlo
         /// <summary>
         /// list of temporary files created by these unit tests
         /// </summary>
-        List<string> listOfTestDetectors = new List<string>()
+        readonly List<string> listOfTestDetectors = new List<string>()
         {
             // 0D detectors
             "testrdiffuse",

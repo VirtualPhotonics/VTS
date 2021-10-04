@@ -28,9 +28,9 @@ namespace Vts.Test.MonteCarlo.Tissues
         [Test]
         public void validate_layer_properties()
         {
-            Assert.AreEqual(_layerTissueRegion.ZRange.Start, 0.0);
-            Assert.AreEqual(_layerTissueRegion.ZRange.Stop, 10.0);
-            Assert.AreEqual(_layerTissueRegion.Center.Z, 5.0);
+            Assert.AreEqual(0.0, _layerTissueRegion.ZRange.Start);
+            Assert.AreEqual(10.0, _layerTissueRegion.ZRange.Stop);
+            Assert.AreEqual(5.0, _layerTissueRegion.Center.Z);
         }
         /// <summary>
         /// Validate method OnBoundary return correct boolean.
