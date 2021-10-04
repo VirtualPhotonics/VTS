@@ -222,7 +222,7 @@ namespace Vts.Test.MonteCarlo.PostProcessing
                  _tissueInput,
                  new List<IDetectorInput>(){} // specify NO DETECTORS
             );
-            var output =  new MonteCarloSimulation(input).Run();
+            new MonteCarloSimulation(input).Run();
             Assert.IsTrue(FileIO.FileExists("DiffuseReflectanceDatabase"));
             Assert.IsFalse(FileIO.FileExists("DiffuseTransmittanceDatabase"));
         }

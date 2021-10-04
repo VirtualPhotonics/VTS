@@ -63,9 +63,11 @@ namespace Vts.MonteCarlo.Extensions
                     {
                         layerTissueInput = result.TissueInput.Regions.ToList();
                     }
-                    if (result.TissueInput is SingleEllipsoidTissueInput)
+
+                    var singleEllipsoidTissue = result.TissueInput as SingleEllipsoidTissueInput;
+                    if (singleEllipsoidTissue != null)
                     {
-                        layerTissueInput = ((SingleEllipsoidTissueInput) result.TissueInput).LayerRegions.ToList();
+                        layerTissueInput = singleEllipsoidTissue.LayerRegions.ToList();
                     }
 
                     var layerRegion = (LayerTissueRegion)layerTissueInput.Skip(regionIndex).First();

@@ -394,8 +394,8 @@ namespace Vts.Test.Factories
         [Test]
         public void validate_ComputeFluence_can_be_called_using_enum_forward_solver_and_optical_property_array()
         {
-            double[] xAxis = new double[] {1, 2, 3};
-            double[] zAxis = new double[] {1, 2, 3, 4};
+            xAxis = new double[] {1, 2, 3};
+            zAxis = new double[] {1, 2, 3, 4};
             double[][] independentValues = new double[][] {xAxis, zAxis};
             var fluence = ComputationFactory.ComputeFluence(
                 ForwardSolverType.PointSourceSDA,
@@ -417,8 +417,8 @@ namespace Vts.Test.Factories
         [Test]
         public void validate_ComputeFluence_can_be_called_using_enum_forward_solver_and_single_optical_properties()
         {
-            double[] xAxis = new double[] { 1, 2, 3 };
-            double[] zAxis = new double[] { 1, 2, 3, 4 };
+            xAxis = new double[] { 1, 2, 3 };
+            zAxis = new double[] { 1, 2, 3, 4 };
             double[][] independentValues = new double[][] { xAxis, zAxis };
             var fluence = ComputationFactory.ComputeFluence(
                 ForwardSolverType.PointSourceSDA,
@@ -438,8 +438,8 @@ namespace Vts.Test.Factories
         [Test]
         public void validate_ComputeFluence_can_be_called_using_IForwardSolver_and_optical_property_array()
         {
-            double[] xAxis = new double[] { 1, 2, 3 };
-            double[] zAxis = new double[] { 1, 2, 3, 4 };
+            xAxis = new double[] { 1, 2, 3 };
+            zAxis = new double[] { 1, 2, 3, 4 };
             double[][] independentValues = new double[][] { xAxis, zAxis };
             var fluence = ComputationFactory.ComputeFluence(
                 new PointSourceSDAForwardSolver(),
@@ -461,8 +461,8 @@ namespace Vts.Test.Factories
         [Test]
         public void validate_ComputeFluence_can_be_called_using_IForwardSolver_and_single_optical_properties()
         {
-            double[] xAxis = new double[] { 1, 2, 3 };
-            double[] zAxis = new double[] { 1, 2, 3, 4 };
+            xAxis = new double[] { 1, 2, 3 };
+            zAxis = new double[] { 1, 2, 3, 4 };
             double[][] independentValues = new double[][] { xAxis, zAxis };
             var fluence = ComputationFactory.ComputeFluence(
                 new PointSourceSDAForwardSolver(),
@@ -482,8 +482,8 @@ namespace Vts.Test.Factories
         [Test]
         public void validate_ComputeFluenceComplex_can_be_called_using_enum_forward_solver_and_IOpticalPropertyRegion_array()
         {
-            double[] xAxis = new double[] { 1, 2, 3 };
-            double[] zAxis = new double[] { 1, 2, 3, 4 };
+            xAxis = new double[] { 1, 2, 3 };
+            zAxis = new double[] { 1, 2, 3, 4 };
             double[][] independentValues = new double[][] { xAxis, zAxis };
             Complex[] fluence = ComputationFactory.ComputeFluenceComplex(
                 ForwardSolverType.PointSourceSDA,
@@ -509,8 +509,8 @@ namespace Vts.Test.Factories
         [Test]
         public void validate_ComputeFluenceComplex_can_be_called_using_enum_forward_solver_and_single_optical_properties()
         {
-            double[] xAxis = new double[] { 1, 2, 3 };
-            double[] zAxis = new double[] { 1, 2, 3, 4 };
+            xAxis = new double[] { 1, 2, 3 };
+            zAxis = new double[] { 1, 2, 3, 4 };
             double[][] independentValues = new double[][] { xAxis, zAxis };
             var fluence = ComputationFactory.ComputeFluenceComplex(
                 ForwardSolverType.PointSourceSDA,
@@ -530,8 +530,8 @@ namespace Vts.Test.Factories
         [Test]
         public void validate_ComputeFluenceComplex_can_be_called_using_IForwardSolver_and_IOpticalPropertyRegion_array()
         {
-            double[] xAxis = new double[] { 1, 2, 3 };
-            double[] zAxis = new double[] { 1, 2, 3, 4 };
+            xAxis = new double[] { 1, 2, 3 };
+            zAxis = new double[] { 1, 2, 3, 4 };
             double[][] independentValues = new double[][] { xAxis, zAxis };
             var fluence = ComputationFactory.ComputeFluenceComplex(
                 new PointSourceSDAForwardSolver(),
@@ -557,8 +557,8 @@ namespace Vts.Test.Factories
         [Test]
         public void validate_ComputeFluenceComplex_can_be_called_using_IForwardSolver_and_single_optical_properties()
         {
-            double[] xAxis = new double[] { 1, 2, 3 };
-            double[] zAxis = new double[] { 1, 2, 3, 4 };
+            xAxis = new double[] { 1, 2, 3 };
+            zAxis = new double[] { 1, 2, 3, 4 };
             double[][] independentValues = new double[][] { xAxis, zAxis };
             var fluence = ComputationFactory.ComputeFluenceComplex(
                 new PointSourceSDAForwardSolver(),

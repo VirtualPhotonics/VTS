@@ -980,8 +980,8 @@ namespace Vts.MonteCarlo.Rng
         /// <returns>void</returns>
         private void delete_lower_mask_nodes(ref LinkedList<_mask_node> head, int l)
         {
-            int lengthOfList = head.Count();
-            int numberToRemove = Math.Min(l, lengthOfList);
+            //int lengthOfList = head.Count()
+            //int numberToRemove = Math.Min(l, lengthOfList)
             while (true)
             {
                 if (!head.Any()) // check is list is empty

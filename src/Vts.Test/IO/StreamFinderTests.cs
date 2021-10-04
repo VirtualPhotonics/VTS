@@ -31,7 +31,6 @@ namespace Vts.Test.IO
         {
             foreach (var file in listOfTestGeneratedFiles)
             {
-                GC.Collect();
                 FileIO.FileDelete(file);
             }
         }

@@ -186,12 +186,12 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.Less(Math.Abs(_outputOpen.SurFib - 0.079266), 0.000001);
             Assert.Less(Math.Abs(_outputOpen.SurFib - _outputOpen.R_r[0]), 0.000001);
             Assert.Less(Math.Abs(_outputOpen.SurFib2 - 0.024315), 0.000001);
-            Assert.AreEqual(_outputOpen.SurFib_TallyCount, 26);
+            Assert.AreEqual(26, _outputOpen.SurFib_TallyCount);
             // output for Bargo comparison
-            var sd = Math.Sqrt((_outputOpen.SurFib2 -
-                _outputOpen.SurFib * _outputOpen.SurFib) / 100);
-            var threeSigmaPos = _outputOpen.SurFib + 3 * sd;
-            var threeSigmaNeg = _outputOpen.SurFib - 3 * sd;
+            //var sd = Math.Sqrt((_outputOpen.SurFib2 -
+            //    _outputOpen.SurFib * _outputOpen.SurFib) / 100)
+            //var threeSigmaPos = _outputOpen.SurFib + 3 * sd
+            //var threeSigmaNeg = _outputOpen.SurFib - 3 * sd
         }
         /// <summary>
         /// Test to validate fiber at tissue surface fully open. Validation values based on prior test.
@@ -207,12 +207,12 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.Less(Math.Abs(_outputNA.SurFib - 0.003034), 0.000001);
             Assert.Less(Math.Abs(_outputNA.SurFib - _outputNA.R_r[0]), 0.000001);
             Assert.Less(Math.Abs(_outputNA.SurFib2 - 0.000920), 0.000001);
-            Assert.AreEqual(_outputNA.SurFib_TallyCount, 1);
+            Assert.AreEqual(1, _outputNA.SurFib_TallyCount);
             // output for Bargo comparison
-            var sd = Math.Sqrt((_outputNA.SurFib2 -
-                    _outputNA.SurFib * _outputNA.SurFib) / 100);
-            var threeSigmaPos = _outputNA.SurFib + 3 * sd;
-            var threeSigmaNeg = _outputNA.SurFib - 3 * sd;
+            //var sd = Math.Sqrt((_outputNA.SurFib2 -
+            //        _outputNA.SurFib * _outputNA.SurFib) / 100)
+            //var threeSigmaPos = _outputNA.SurFib + 3 * sd
+            //var threeSigmaNeg = _outputNA.SurFib - 3 * sd
         }
         /// <summary>
         /// Test to verify that the results using a fiber and R(rho) produce

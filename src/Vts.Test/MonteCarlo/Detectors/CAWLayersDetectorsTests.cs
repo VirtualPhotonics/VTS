@@ -147,8 +147,8 @@ namespace Vts.Test.MonteCarlo.Detectors
         {
             var sdOneLayerTissue = ErrorCalculation.StandardDeviation(
                 _outputOneLayerTissue.Input.N, _outputOneLayerTissue.Rd, _outputOneLayerTissue.Rd2);
-            var sdTwoLayerTissue = ErrorCalculation.StandardDeviation(
-                _outputTwoLayerTissue.Input.N, _outputTwoLayerTissue.Rd, _outputTwoLayerTissue.Rd2);
+            //var sdTwoLayerTissue = ErrorCalculation.StandardDeviation(
+            //    _outputTwoLayerTissue.Input.N, _outputTwoLayerTissue.Rd, _outputTwoLayerTissue.Rd2)
             Assert.Less(Math.Abs(_outputOneLayerTissue.Rd * _factor - 0.572710099), 0.000000001);
             // figure out best check of two below 
             Assert.Less(Math.Abs(_outputTwoLayerTissue.Rd * _factor - 0.572710099), 1 * sdOneLayerTissue);

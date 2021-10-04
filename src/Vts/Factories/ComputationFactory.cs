@@ -251,9 +251,9 @@ namespace Vts.Factories
             var parameters = tissueRegions.SelectMany(region =>
             {
                 double[] regionParameters = null;
-                if (region is ILayerOpticalPropertyRegion)
+                var layerRegion = region as ILayerOpticalPropertyRegion;
+                if (layerRegion != null)
                 {
-                    var layerRegion = (ILayerOpticalPropertyRegion)region;
                     regionParameters = new[]
                         {
                             layerRegion.RegionOP.Mua,
@@ -476,9 +476,9 @@ namespace Vts.Factories
             var parameters = tissueRegions.SelectMany(region =>
             {
                 double[] regionParameters = null;
-                if (region is ILayerOpticalPropertyRegion)
+                var layerRegion = region as ILayerOpticalPropertyRegion;
+                if (layerRegion != null)
                 {
-                    var layerRegion = (ILayerOpticalPropertyRegion)region;
                     regionParameters = new[]
                         {
                             layerRegion.RegionOP.Mua,

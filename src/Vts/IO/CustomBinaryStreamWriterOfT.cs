@@ -183,11 +183,6 @@ namespace Vts.IO
 
         }
 
-        // Use interop to call the method necessary
-        // to clean up the unmanaged resource.
-        //[System.Runtime.InteropServices.DllImport("Kernel32")]
-        //private extern static Boolean CloseHandle(IntPtr handle);
-
         // Use C# destructor syntax for finalization code.
         // This destructor will run only if the Dispose method
         // does not get called.

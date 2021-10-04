@@ -26,7 +26,7 @@ namespace Vts.Test.IO
                         var dims = new int[2] { 3, 2 };
                         var doubleArray = (double[,])new ArrayCustomBinaryReader<double>(dims).ReadFromBinary(br);
                         Assert.AreEqual(array[0,1], doubleArray[0,1]);
-                        Assert.AreEqual(doubleArray[0, 1], 6.2);
+                        Assert.AreEqual(6.2, doubleArray[0, 1]);
                     }
                 }
             }
@@ -51,7 +51,7 @@ namespace Vts.Test.IO
                         var dims = new int[3] { 3, 2, 2 };
                         var ushortArray = (ushort[,,])new ArrayCustomBinaryReader<ushort>(dims).ReadFromBinary(br);
                         Assert.AreEqual(array[0, 1, 0], ushortArray[0, 1, 0]);
-                        Assert.AreEqual(ushortArray[2, 1, 0], 11);
+                        Assert.AreEqual(11, ushortArray[2, 1, 0]);
                     }
                 }
             }
@@ -76,7 +76,7 @@ namespace Vts.Test.IO
                         var dims = new int[2] { 2, 2 };
                         var byteArray = (byte[,])new ArrayCustomBinaryReader<byte>(dims).ReadFromBinary(br);
                         Assert.AreEqual(array[1,0], byteArray[1,0]);
-                        Assert.AreEqual(byteArray[1,1], 1);
+                        Assert.AreEqual(1, byteArray[1,1]);
                     }
                 }
             }
@@ -126,7 +126,7 @@ namespace Vts.Test.IO
                         var dims = new int[2] { 2, 3 };
                         var floatArray = (float[,])new ArrayCustomBinaryReader<float>(dims).ReadFromBinary(br);
                         Assert.AreEqual(array[0, 2], floatArray[0, 2]);
-                        Assert.AreEqual(floatArray[1, 1], 0.85F);
+                        Assert.AreEqual(0.85F, floatArray[1, 1]);
                     }
                 }
             }

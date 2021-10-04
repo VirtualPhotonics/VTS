@@ -142,7 +142,7 @@ namespace Vts.Test.MonteCarlo.Factories
             var firstValue = ((ROfXDetector)detector).Mean.FirstOrDefault();
             Assert.IsTrue(firstValue != 0);
             DetectorIO.WriteDetectorToFile(detector, "user_defined_detector");
-            var deserializedDetector = DetectorIO.ReadDetectorFromFile("user_defined_detector", "");
+            DetectorIO.ReadDetectorFromFile("user_defined_detector", "");
         }
         /// <summary>
         /// tests to verify exception returns from RegisterDetector
