@@ -14,7 +14,7 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
         // Note: needs to be kept current with SimulationInputProvider.  If an infile is added there,
         // it should be added here.  Also! make sure ProgramTests.cs for MCPP listOfInfiles agrees so
         // that unit tests clean up after themselves.
-        List<string> listOfInfiles = new List<string>()
+        readonly List<string> listOfInfiles = new List<string>()
         {
             "ellip_FluenceOfRhoAndZ",
             "infinite_cylinder_AOfXAndYAndZ",
@@ -36,12 +36,12 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
             "voxel_ROfXAndY_FluenceOfXAndYAndZ",
             "surface_fiber_detector"
         };
-        private List<string> listOfInfilesThatRequireExistingResultsToRun = new List<string>()
+        private readonly List<string> listOfInfilesThatRequireExistingResultsToRun = new List<string>()
         {
             "fluorescenceEmissionAOfXAndYAndZSourceInfiniteCylinder",
         };
 
-        private List<string> listOfInfilesInResources = new List<string>()
+        private readonly List<string> listOfInfilesInResources = new List<string>()
         {
             "unit_test_one_layer_ROfRho_Mus_only",
             "unit_test_one_layer_ROfRho_Musp_only",

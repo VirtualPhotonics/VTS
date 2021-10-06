@@ -30,12 +30,12 @@ namespace Vts.Test.MonteCarlo.Detectors
         private SimulationOutput _outputTwoLayerTissue;
         private SimulationInput _inputOneLayerTissue;
         private SimulationInput _inputTwoLayerTissue;
-        private double _layerThickness = 0.1; // tissue is homogeneous (both layer opt. props same)
+        private readonly double _layerThickness = 0.1; // tissue is homogeneous (both layer opt. props same)
 
         /// <summary>
         /// list of temporary files created by these unit tests
         /// </summary>
-        List<string> listOfTesGeneratedtFiles = new List<string>()
+        readonly List<string> listOfTesGeneratedtFiles = new List<string>()
         {
             "file.txt", // file that captures screen output of MC simulation
         };

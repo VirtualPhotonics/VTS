@@ -19,7 +19,7 @@ namespace Vts.Test.MonteCarlo.Detectors
     {
         private SimulationInput _inputForPMC;
         private SimulationOutput _outputNA0, _outputNA0p3, _outputNoNANoFinalTissueRegionSpecified, _outputNa0p3FinalTissueRegion1;
-        private double _dosimetryDepth = 1.0;
+        private readonly double _dosimetryDepth = 1.0;
         private pMCDatabase _pMCDatabase;
 
         /// <summary>

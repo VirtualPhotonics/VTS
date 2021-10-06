@@ -21,7 +21,7 @@ namespace Vts.Test.Modeling.ForwardSolvers
         static double F1 = CalculatorToolbox.GetFresnelReflectionMomentOfOrderM(1, n, 1.0);
         static double f2 = CalculatorToolbox.GetCubicFresnelReflectionMomentOfOrder2(n);
         const double t = 0.05; //ns
-        double ft = 0.5; //GHz
+        const double ft = 0.5; //GHz
 
         private static OpticalProperties ops = new OpticalProperties(mua, musp, g, n);
         private static DiffusionParameters dp = DiffusionParameters.Create(ops, ForwardModel.SDA);
@@ -121,8 +121,8 @@ namespace Vts.Test.Modeling.ForwardSolvers
             var twoLayerSdaForwardSolver = new TwoLayerSDAForwardSolver();
             var oneLayerForwardSolver = new PointSourceSDAForwardSolver();
             double _thresholdValue = 0.03;
-            double[] rhos = {1, 3, 6, 10};
-            double[] times = {0.0038, 0.014, 0.058, 0.14}; // ns, these times where chosen for each rho
+            double[] tempRhos = {1, 3, 6, 10};
+            double[] tempTimes = {0.0038, 0.014, 0.058, 0.14}; // ns, these times where chosen for each rho
 
             // make sure layer thickness is greater than l*=1/(mua+musp)=1mm
             var twoLayerTissue =
@@ -131,12 +131,12 @@ namespace Vts.Test.Modeling.ForwardSolvers
                         new LayerTissueRegion(new DoubleRange(0, 3), new OpticalProperties(ops)),
                         new LayerTissueRegion(new DoubleRange(3,100), new OpticalProperties(ops)), 
                     };
-            for (int i = 0; i < rhos.Length; i++)
+            for (int i = 0; i < tempRhos.Length; i++)
             {
-                var oneLayerResult = oneLayerForwardSolver.ROfRhoAndTime(ops, rhos[i], times[i]);
-                var twoLayerResult = twoLayerSdaForwardSolver.ROfRhoAndTime(twoLayerTissue, rhos[i], times[i]);
+                var oneLayerResult = oneLayerForwardSolver.ROfRhoAndTime(ops, tempRhos[i], tempTimes[i]);
+                var twoLayerResult = twoLayerSdaForwardSolver.ROfRhoAndTime(twoLayerTissue, tempRhos[i], tempTimes[i]);
                 var relDiff = Math.Abs(twoLayerResult - oneLayerResult) / oneLayerResult;
-                Assert.IsTrue(relDiff < _thresholdValue, "Test failed for rho =" + rhos[i] +
+                Assert.IsTrue(relDiff < _thresholdValue, "Test failed for rho =" + tempRhos[i] +
                     "mm, with relative difference " + relDiff);
             }
         }
@@ -178,7 +178,7 @@ namespace Vts.Test.Modeling.ForwardSolvers
         [Test]
         public void TemporalFrequencyTwoLayerSDATest()
         {
-            var thresholdValue = 1e-8;
+            var tighterThresholdValue = 1e-8;
             var twoLayerSdaForwardSolver = new TwoLayerSDAForwardSolver();
             var oneLayerPointSourceSdaForwardSolver = new PointSourceSDAForwardSolver();
 
@@ -195,9 +195,9 @@ namespace Vts.Test.Modeling.ForwardSolvers
                 var twoLayerResult = twoLayerSdaForwardSolver.ROfRhoAndFt(twoLayerTissue, rhos[irho], ft);
                 var relDiffRe = Math.Abs(twoLayerResult.Real - oneLayerResult.Real) / oneLayerResult.Real;
                 var relDiffIm = Math.Abs((twoLayerResult.Imaginary - oneLayerResult.Imaginary) / oneLayerResult.Imaginary);
-                Assert.IsTrue(relDiffRe < thresholdValue, "Test failed for rho =" + rhos[irho] +
+                Assert.IsTrue(relDiffRe < tighterThresholdValue, "Test failed for rho =" + rhos[irho] +
                     "mm, with Real relative difference " + relDiffRe);
-                Assert.IsTrue(relDiffIm < thresholdValue, "Test failed for rho =" + rhos[irho] +
+                Assert.IsTrue(relDiffIm < tighterThresholdValue, "Test failed for rho =" + rhos[irho] +
                     "mm, with Imaginary relative difference " + relDiffIm);
             }
         }
@@ -292,12 +292,12 @@ namespace Vts.Test.Modeling.ForwardSolvers
             var muas = new double[] {0.02, 0.02, 0.3};
             var musps = new double[] {1.5, 1.25, 1.25};
             var rho = 10;
-            var g = 0.9;
+            var tempG = 0.9;
 
             var fs = new PointSourceSDAForwardSolver();
-            var ops = Enumerable.Zip(muas, musps, (mua, musp) => new OpticalProperties(mua, musp, g, n)).ToArray();
+            var tempOps = Enumerable.Zip(muas, musps, (mua, musp) => new OpticalProperties(mua, musp, tempG, n)).ToArray();
 
-            var reflectanceVsWavelength = fs.ROfRho(ops, rho);
+            var reflectanceVsWavelength = fs.ROfRho(tempOps, rho);
 
             Assert.NotNull(reflectanceVsWavelength);
             Assert.AreEqual(3, reflectanceVsWavelength.Length);
@@ -317,17 +317,17 @@ namespace Vts.Test.Modeling.ForwardSolvers
             var wvs = new DoubleRange(650, 1000, 36).AsEnumerable().ToArray();
             var rho = 10;
 
-            var ops = wvs.Select(wv =>
+            var tempOps = wvs.Select(wv =>
                 {
-                    var mua = fatAbsorber.GetMua(wv) + waterAbsorber.GetMua(wv);
-                    var musp = scatterer.GetMusp(wv);
-                    var g = scatterer.GetG(wv);
-                    return new OpticalProperties(mua, musp, g, n);
+                    var tempMua = fatAbsorber.GetMua(wv) + waterAbsorber.GetMua(wv);
+                    var tempMusp = scatterer.GetMusp(wv);
+                    var tempG = scatterer.GetG(wv);
+                    return new OpticalProperties(tempMua, tempMusp, tempG, n);
                 }).ToArray();
 
             var fs = new PointSourceSDAForwardSolver();
 
-            var reflectanceVsWavelength = fs.ROfRho(ops, rho);
+            var reflectanceVsWavelength = fs.ROfRho(tempOps, rho);
 
             Assert.NotNull(reflectanceVsWavelength);
             Assert.AreEqual(reflectanceVsWavelength.Length, wvs.Length);
@@ -354,11 +354,11 @@ namespace Vts.Test.Modeling.ForwardSolvers
                 "test_tissue",
                 n);
 
-            var ops = wvs.Select(wv => tissue.GetOpticalProperties(wv)).ToArray();
+            var tempOps = wvs.Select(wv => tissue.GetOpticalProperties(wv)).ToArray();
 
             var fs = new PointSourceSDAForwardSolver();
 
-            var reflectanceVsWavelength = fs.ROfRho(ops, rho);
+            var reflectanceVsWavelength = fs.ROfRho(tempOps, rho);
 
             Assert.NotNull(reflectanceVsWavelength);
             Assert.AreEqual(reflectanceVsWavelength.Length, wvs.Length);
@@ -391,11 +391,11 @@ namespace Vts.Test.Modeling.ForwardSolvers
                 "test_tissue",
                 n);
 
-            var ops = wvs.Select(wv => tissue.GetOpticalProperties(wv)).ToArray();
+            var tempOps = wvs.Select(wv => tissue.GetOpticalProperties(wv)).ToArray();
 
             var fs = new PointSourceSDAForwardSolver();
 
-            var rVsWavelength = fs.ROfRhoAndTime(ops, rhos, times);
+            var rVsWavelength = fs.ROfRhoAndTime(tempOps, rhos, times);
             // return from ROfRhoAndTime is new double[ops.Length * rhos.Length * ts.Length]
             // order is: (ops0,rhos0,ts0), (ops0,rhos0,ts1)...(ops0,rhos0,tsnt-1)
             //           (ops0,rhos1,ts0), (ops0,rhos1,ts1)...(ops0,rhos1,tsnt-1)
@@ -441,11 +441,11 @@ namespace Vts.Test.Modeling.ForwardSolvers
                 "test_tissue",
                 n);
 
-            var ops = wvs.Select(wv => tissue.GetOpticalProperties(wv)).ToArray();
+            var tempOps = wvs.Select(wv => tissue.GetOpticalProperties(wv)).ToArray();
 
             var fs = new PointSourceSDAForwardSolver();
 
-            var rVsWavelength = fs.ROfRhoAndFt(ops, rhos, fts);
+            var rVsWavelength = fs.ROfRhoAndFt(tempOps, rhos, fts);
             // return from ROfRhoAndFt is new double[ops.Length * rhos.Length * fts.Length]
             // order is: (ops0,rhos0,fts0), (ops0,rhos0,fts1)...(ops0,rhos0,ftsnt-1)
             //           (ops0,rhos1,fts0), (ops0,rhos1,fts1)...(ops0,rhos1,ftsnt-1)
@@ -498,11 +498,11 @@ namespace Vts.Test.Modeling.ForwardSolvers
                 "test_tissue",
                 n);
 
-            var ops = wvs.Select(wv => tissue.GetOpticalProperties(wv)).ToArray();
+            var tempOps = wvs.Select(wv => tissue.GetOpticalProperties(wv)).ToArray();
 
             var fs = new DistributedPointSourceSDAForwardSolver();
 
-            var rVsWavelength = fs.ROfFxAndTime(ops, fxs, times);
+            var rVsWavelength = fs.ROfFxAndTime(tempOps, fxs, times);
             // return from ROfFxAndTime is new double[ops.Length * fxs.Length * ts.Length]
             // order is: (ops0,fxs0,ts0), (ops0,fxs0,ts1)...(ops0,fxs0,tsnt-1)
             //           (ops0,fxs1,ts0), (ops0,fxs1,ts1)...(ops0,fxs1,tsnt-1)
@@ -547,11 +547,11 @@ namespace Vts.Test.Modeling.ForwardSolvers
                 "test_tissue",
                 n);
 
-            var ops = wvs.Select(wv => tissue.GetOpticalProperties(wv)).ToArray();
+            var tempOps = wvs.Select(wv => tissue.GetOpticalProperties(wv)).ToArray();
 
             var fs = new DistributedPointSourceSDAForwardSolver();
 
-            var rVsWavelength = fs.ROfFxAndFt(ops, fxs, fts);
+            var rVsWavelength = fs.ROfFxAndFt(tempOps, fxs, fts);
             // return from ROfFxAndFt is new double[ops.Length * fxs.Length * fts.Length]
             // order is: (ops0,fxs0,fts0), (ops0,fxs0,ts1)...(ops0,fxs0,ftsnt-1)
             //           (ops0,fxs1,fts0), (ops0,fxs1,ts1)...(ops0,fxs1,ftsnt-1)

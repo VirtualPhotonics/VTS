@@ -20,7 +20,7 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation.PostProcessorInputs
         /// <summary>
         /// list of temporary files created by these unit tests
         /// </summary>
-        List<string> listOfFolders = new List<string>()
+        readonly List<string> listOfFolders = new List<string>()
         {
             "results", 
         };

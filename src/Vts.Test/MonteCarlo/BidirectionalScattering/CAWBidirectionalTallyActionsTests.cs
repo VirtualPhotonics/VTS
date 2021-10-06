@@ -22,10 +22,10 @@ namespace Vts.Test.MonteCarlo.BidirectionalScattering
     {
         SimulationOutput _output;
         SimulationInput _input;
-        double _slabThickness = 10;
-        double _mua = 0.01;
-        double _musp = 0.198;  // mus = 0.99
-        double _g = 0.8;
+        readonly double _slabThickness = 10;
+        readonly double _mua = 0.01;
+        readonly double _musp = 0.198;  // mus = 0.99
+        readonly double _g = 0.8;
 
         /// <summary>
         /// list of temporary files created by these unit tests

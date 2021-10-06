@@ -14,14 +14,15 @@ namespace Vts.MonteCarlo.PostProcessor.Test
         /// </summary>
         
         // Note: needs to be kept current with PostProcessorInputProvider.  If an infile is added there, it should be added here.
-        List<string> listOfMCPPInfiles = new List<string>()
+        readonly List<string> listOfMCPPInfiles = new List<string>()
         {
             "PostProcessor_ROfRho", 
             "PostProcessor_pMC_ROfRhoROfRhoAndTime",
             "PostProcessor_pMC_ROfRhoROfXAndYVariants",
             "PostProcessor_pMC_ROfFxROfFxAndTime",
         };
-        List<string> listOfMCCLInfiles = new List<string>()
+
+        readonly List<string> listOfMCCLInfiles = new List<string>()
         {
             "ellip_FluenceOfRhoAndZ",
             "infinite_cylinder_AOfXAndYAndZ",

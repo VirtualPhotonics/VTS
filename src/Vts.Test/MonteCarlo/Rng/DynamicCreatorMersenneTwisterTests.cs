@@ -7,7 +7,7 @@ namespace Vts.Test.MonteCarlo
     [TestFixture]
     public class DynamicCreatorMersenneTwisterTests
     {
-        double reciprocal = 1.0 / 4294967296.0; // max uint
+        readonly double reciprocal = 1.0 / 4294967296.0; // max uint
 
         /// <summary>
         /// new_example1 tries to find a small MT with period 2^521-1 = 6.86x10^{156}

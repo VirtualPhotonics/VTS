@@ -48,7 +48,7 @@ namespace Vts.Test.IO
         /// <summary>
         /// list of temporary files created by these unit tests
         /// </summary>
-        private List<string> listOfTestGeneratedFiles = new List<string>()
+        private readonly List<string> listOfTestGeneratedFiles = new List<string>()
         {
             "VtsJsonSerializerTests_file1.txt", 
             "VtsJsonSerializerTests_file2.txt", 

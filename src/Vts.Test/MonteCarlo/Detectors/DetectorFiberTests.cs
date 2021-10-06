@@ -23,7 +23,7 @@ namespace Vts.Test.MonteCarlo.Detectors
         private ISourceInput _source;
         private ITissueInput _tissue;
         private IList<IDetectorInput> _detectorOpen, _detectorNA, _detectorNAOffCenter;
-        private double _detectorRadius = 1; // debug set to 10
+        private readonly double _detectorRadius = 1; // debug set to 10
 
         /// <summary>
         /// Setup input to the MC for a homogeneous one layer tissue with 

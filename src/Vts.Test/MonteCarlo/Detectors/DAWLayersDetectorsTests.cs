@@ -29,8 +29,8 @@ namespace Vts.Test.MonteCarlo.Detectors
         private SimulationOutput _outputTwoLayerTissue;
         private SimulationInput _inputOneLayerTissue;
         private SimulationInput _inputTwoLayerTissue;
-        private double _layerThickness = 1.0; // tissue is homogeneous (both layer opt. props same)
-        private double _dosimetryDepth = 1.0;
+        private readonly double _layerThickness = 1.0; // tissue is homogeneous (both layer opt. props same)
+        private readonly double _dosimetryDepth = 1.0;
         private double _factor;
 
         /// <summary>

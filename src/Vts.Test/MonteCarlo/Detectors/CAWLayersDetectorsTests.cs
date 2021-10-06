@@ -28,7 +28,7 @@ namespace Vts.Test.MonteCarlo.Detectors
     {
         private SimulationOutput _outputOneLayerTissue;
         private SimulationOutput _outputTwoLayerTissue;
-        private double _layerThickness = 1.0; // keep this value to match linux results
+        private readonly double _layerThickness = 1.0; // keep this value to match linux results
         private double _factor;
         /// <summary>
         /// list of temporary files created by these unit tests
