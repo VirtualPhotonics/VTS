@@ -34,31 +34,31 @@ namespace Vts.Modeling.ForwardSolvers
         /// <returns>new DiffusionParameters object</returns>
         public static DiffusionParameters Create(OpticalProperties op, ForwardModel fm)
         {
-            var mua = op.Mua;
-            var mutr = op.Mua + op.Musp;
-            var cn = GlobalConstants.C / op.N;
-            var D = 1 / (3 * mutr);
-            var A = CalculatorToolbox.GetCubicAParameter(op.N);
-            var mueff = Math.Sqrt(3 * op.Mua * mutr);
-            var zb = 2 / (3 * mutr) * A;
-            double musTilde;
-            double gTilde;
+            var tempMua = op.Mua;
+            var tempMutr = op.Mua + op.Musp;
+            var tempCn = GlobalConstants.C / op.N;
+            var tempD = 1 / (3 * tempMutr);
+            var tempA = CalculatorToolbox.GetCubicAParameter(op.N);
+            var tempMueff = Math.Sqrt(3 * op.Mua * tempMutr);
+            var tempZb = 2 / (3 * tempMutr) * tempA;
+            double tempMusTilde;
+            double tempGTilde;
             switch (fm)
             {
                 case ForwardModel.SDA:
                 default:
-                    musTilde = op.Musp;
-                    gTilde = op.G;
+                    tempMusTilde = op.Musp;
+                    tempGTilde = op.G;
                     break;
                 case ForwardModel.DeltaPOne:
-                    musTilde = op.Musp * (1 - op.G * op.G) / (1 - op.G);
-                    gTilde = op.G / (op.G + 1);
+                    tempMusTilde = op.Musp * (1 - op.G * op.G) / (1 - op.G);
+                    tempGTilde = op.G / (op.G + 1);
                     break;
             }
-            var mutTilde = op.Mua + musTilde;
-            var zp = 1 / mutTilde;
+            var tempMutTilde = op.Mua + tempMusTilde;
+            var tempZp = 1 / tempMutTilde;
 
-            return new DiffusionParameters(A, mueff, zb, zp, mutTilde, musTilde, mutr, gTilde, D, cn, mua);
+            return new DiffusionParameters(tempA, tempMueff, tempZb, tempZp, tempMutTilde, tempMusTilde, tempMutr, tempGTilde, tempD, tempCn, tempMua);
         }
 
         /// <summary>

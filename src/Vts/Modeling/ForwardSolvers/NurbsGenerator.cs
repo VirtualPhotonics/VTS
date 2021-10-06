@@ -214,63 +214,63 @@ namespace Vts.Modeling.ForwardSolvers
             switch (degree)
             {
                 case 0:
-                    return nthOrderIntegralFunc = (t, m, f) =>
+                    return (t, m, f) =>
                     {
                         double P = 2.0 * Math.PI * f;
                         double D = (P * P + m * m);
                         return commonFunc(t, m) / D
-                            * (P * Math.Sin(P * t)
-                            - m * Math.Cos(P * t));
+                               * (P * Math.Sin(P * t)
+                                  - m * Math.Cos(P * t));
                     };
                 case 1:
-                    return nthOrderIntegralFunc = (t, m, f) =>
+                    return (t, m, f) =>
                     {
                         double P = 2.0 * Math.PI * f;
                         double D = (P * P + m * m);
                         double tm = t * m;
                         return commonFunc(t, m)/ (D * D)
-                            * (P * Math.Sin(P * t)
-                            * (P * P * t + m * (2.0 + tm))
-                            - Math.Cos(P * t) * (P * P
-                            * (tm - 1.0) + m * m * (1.0 + tm)));
+                               * (P * Math.Sin(P * t)
+                                    * (P * P * t + m * (2.0 + tm))
+                                  - Math.Cos(P * t) * (P * P
+                                                         * (tm - 1.0) + m * m * (1.0 + tm)));
                     };
                 case 2:
-                    return nthOrderIntegralFunc = (t, m, f) =>
+                    return (t, m, f) =>
                     {
                         double P = 2.0 * Math.PI * f;
                         double P2 = P * P;
                         double tm = t * m;
                         double D = (P * P + m * m);
                         return commonFunc(t, m) / (D * D * D)
-                            * (-(P2 * P2 * t * (tm - 2.0)
-                            + 2.0 * P2 * m * (tm * tm - 3.0)
-                            + m * m * m * (2.0 + tm * (2.0 + tm))) * Math.Cos(P * t)
-                            + P * (P2 * P2 * t * t
-                            + 2.0 * P2
-                            * (-1.0 + tm * (2.0 + tm)) + m * m * (6.0 + tm
-                            * (4.0 + tm))) * Math.Sin(P * t));
+                               * (-(P2 * P2 * t * (tm - 2.0)
+                                    + 2.0 * P2 * m * (tm * tm - 3.0)
+                                    + m * m * m * (2.0 + tm * (2.0 + tm))) * Math.Cos(P * t)
+                                  + P * (P2 * P2 * t * t
+                                         + 2.0 * P2
+                                               * (-1.0 + tm * (2.0 + tm)) + m * m * (6.0 + tm
+                                             * (4.0 + tm))) * Math.Sin(P * t));
                     };
                 case 3:
-                    return nthOrderIntegralFunc = (t, m, f) =>
+                    return (t, m, f) =>
                     {
                         double P = 2.0 * Math.PI * f;
                         double P2 = P * P;
                         double tm = t * m;
                         double D = (P * P + m * m);
                         return commonFunc(t, m)/ (D * D * D * D)
-                            * (-(P2 * P2 * P2 * t * t
-                            * (tm - 3.0) + 3.0 * P2 * P2
-                            * (2.0 + tm * (tm - 3.0) * (2.0 + tm))
-                            + 3.0 * P2 * m * m * (-12.0 + tm
-                            * (-4.0 + tm * (1.0 + tm))) + m * m * m * m
-                            * (6.0 + tm * (6.0 + tm * (3.0 + tm))))
-                            * Math.Cos(P * t) + P
-                            * (P2 * P2 * P2 * t * t * t
-                            + 3.0 * P2 * P2 * t
-                            * (-2.0 + tm * (2.0 + tm)) + 3.0 * P2 * m
-                            * (-8.0 + tm * (2.0 + tm) * (2.0 + tm))
-                            + m * m * m * (24.0 + tm * (18.0 + tm * (6.0 + tm))))
-                            * Math.Sin(P * t));
+                               * (-(P2 * P2 * P2 * t * t
+                                       * (tm - 3.0) + 3.0 * P2 * P2
+                                                    * (2.0 + tm * (tm - 3.0) * (2.0 + tm))
+                                                    + 3.0 * P2 * m * m * (-12.0 + tm
+                                                        * (-4.0 + tm * (1.0 + tm))) + m * m * m * m
+                                                    * (6.0 + tm * (6.0 + tm * (3.0 + tm))))
+                                   * Math.Cos(P * t) + P
+                                   * (P2 * P2 * P2 * t * t * t
+                                      + 3.0 * P2 * P2 * t
+                                      * (-2.0 + tm * (2.0 + tm)) + 3.0 * P2 * m
+                                      * (-8.0 + tm * (2.0 + tm) * (2.0 + tm))
+                                      + m * m * m * (24.0 + tm * (18.0 + tm * (6.0 + tm))))
+                                   * Math.Sin(P * t));
                     };
                 default:
                     throw new ArgumentException("Degree is too high.");

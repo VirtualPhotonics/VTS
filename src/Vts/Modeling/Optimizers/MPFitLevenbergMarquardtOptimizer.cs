@@ -63,7 +63,7 @@ namespace Vts.Modeling.Optimizers
 
             mp_result result = new mp_result(a.Length);
 
-            int status = MPFit.Solve(MPFitFunc, data.Y.Length, pars.Length, a, pars, null, data, ref result);
+            MPFit.Solve(MPFitFunc, data.Y.Length, pars.Length, a, pars, null, data, ref result);
 
             return a;
         }
@@ -100,7 +100,7 @@ namespace Vts.Modeling.Optimizers
 
             mp_result result = new mp_result(a.Length);
 
-            int status = MPFit.Solve(MPFitFunc, data.Y.Length, pars.Length, a, pars, null, data, ref result);
+            MPFit.Solve(MPFitFunc, data.Y.Length, pars.Length, a, pars, null, data, ref result);
 
             return a;
         }

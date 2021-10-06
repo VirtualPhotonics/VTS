@@ -76,7 +76,7 @@ namespace Vts.IO
         /// <summary>
         /// list of known converters - one of each type of Monte Carlo class that is written to json
         /// </summary>
-        public static List<JsonConverter> KnownConverters = new List<JsonConverter>
+        public static readonly List<JsonConverter> KnownConverters = new List<JsonConverter>
         {
             new ConventionBasedConverter<ISourceInput>(typeof(IsotropicPointSourceInput), "SourceType",  Vts.MonteCarlo.SourceType.BuiltInTypes),
             new ConventionBasedConverter<ITissueInput>(typeof(MultiLayerTissueInput), "TissueType", Vts.MonteCarlo.TissueType.BuiltInTypes),
