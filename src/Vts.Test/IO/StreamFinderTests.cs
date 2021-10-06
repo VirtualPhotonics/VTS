@@ -19,7 +19,7 @@ namespace Vts.Test.IO
         /// </summary>
         readonly List<string> listOfTestGeneratedFiles = new List<string>()
         {
-            "file4.txt",
+            "StreamFinderTests_file.txt",
             "resourcefile.txt"
         };
         /// <summary>
@@ -41,10 +41,9 @@ namespace Vts.Test.IO
         [Test]
         public void validate_get_file_stream()
         {
-            var myString = new StringBuilder();
-            myString.AppendLine("This is a test string");
-            var stream = StreamFinder.GetFileStream("file4.txt", FileMode.Create);
+            var stream = StreamFinder.GetFileStream("StreamFinderTests_file.txt", FileMode.Create);
             Assert.IsNotNull(stream);
+            stream.Close();
         }
 
         [Test]
