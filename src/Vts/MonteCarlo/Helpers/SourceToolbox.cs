@@ -92,6 +92,29 @@ namespace Vts.MonteCarlo.Helpers
         }
 
         /// <summary>
+        /// Provides a direction after Lambertian emission of given polar angle range and azimuthal angle range 
+        /// </summary>
+        /// <param name="rng">The random number generator</param>
+        /// <returns>direction</returns>
+        public static Direction GetDirectionForGivenPolarAzimuthalAngleRangeLambertianRandom(Random rng)
+        {
+            double cost, sint, phi, cosp, sinp;
+            //sampling sint           
+            sint = 2 * rng.NextDouble() - 1;
+            cost = Math.Sqrt(1.0 - sint * sint);
+
+            //sampling phi
+            phi = rng.NextDouble(0, 2 * Math.PI);
+            cosp = Math.Cos(phi);
+            sinp = Math.Sin(phi);
+
+            return (new Direction(
+                sint * cosp,
+                sint * sinp,
+                cost));
+        }       
+
+        /// <summary>
         /// Generate two normally (Gaussian) distributed random numbers by using Box Muller Algorithm (with sine/cosine)
         /// </summary>
         /// <param name="nrng1">normally distributed random number 1</param>
@@ -147,6 +170,18 @@ namespace Vts.MonteCarlo.Helpers
         }
 
         /// <summary>
+        /// Provides polar azimuthal angle pair for Lambertian Emission
+        /// </summary>
+        /// <param name="rng">The random number generato</param>
+        /// <returns>polar azimuthal angle pair</returns>
+        public static PolarAzimuthalAngles GetPolarAzimuthalPairForLambertianRandom(Random rng)
+        {
+            return (new PolarAzimuthalAngles(
+                Math.Asin(rng.NextDouble(0.0, 1.0)),
+                rng.NextDouble(0, 2 * Math.PI)));
+        }
+
+        /// <summary>
         /// Provide corresponding Polar Azimuthal Angle pair for a given direction
         /// </summary>
         /// <param name="direction">Current direction</param>
@@ -159,22 +194,15 @@ namespace Vts.MonteCarlo.Helpers
                 return new PolarAzimuthalAngles(0.0, 0.0);
             }
 
-            double x, y, z, r, theta, phi;
-            x = direction.Ux;
-            y = direction.Uy;
-            z = direction.Uz;
+            double ux, uy, uz, r, theta, phi;
+            ux = direction.Ux;
+            uy = direction.Uy;
+            uz = direction.Uz;
 
-            theta = Math.Acos(z);
+            theta = Math.Acos(uz);
 
-            if ((x != 0.0) || (y != 0.0))
-            {
-                r = Math.Sqrt(x * x + y * y);
-
-                if (y >= 0.0)
-                    phi = Math.Acos(x / r);
-                else
-                    phi = 2 * Math.PI - Math.Acos(x / r);
-            }
+            if ((ux != 0.0) || (uy != 0.0))            
+                phi = Math.Atan2(uy, ux);
             else
                 phi = 0;
 
