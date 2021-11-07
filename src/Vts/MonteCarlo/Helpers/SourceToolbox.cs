@@ -176,9 +176,9 @@ namespace Vts.MonteCarlo.Helpers
         /// <returns>polar azimuthal angle pair</returns>
         public static PolarAzimuthalAngles GetPolarAzimuthalPairForLambertianRandom(Random rng)
         {
-            return (new PolarAzimuthalAngles(
-                Math.Asin(rng.NextDouble(0.0, 1.0)),
-                rng.NextDouble(0, 2 * Math.PI)));
+            return new PolarAzimuthalAngles(
+                Math.Acos(Math.Sqrt(rng.NextDouble(0.0, 1.0))),
+                rng.NextDouble(0, 2 * Math.PI));
         }
 
         /// <summary>
