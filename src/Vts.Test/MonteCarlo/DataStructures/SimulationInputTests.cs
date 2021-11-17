@@ -18,11 +18,12 @@ namespace Vts.Test.MonteCarlo
         /// <summary>
         /// list of temporary files created by these unit tests
         /// </summary>
-        List<string> listOfTestGeneratedFolders = new List<string>()
+        readonly List<string> listOfTestGeneratedFolders = new List<string>()
         {
             "results"
         };
-        List<string> listOfTestGeneratedFiles = new List<string>()
+
+        readonly List<string> listOfTestGeneratedFiles = new List<string>()
         {
             "test",
             "test.txt"
@@ -54,7 +55,7 @@ namespace Vts.Test.MonteCarlo
 
             var iCloned = i.Clone();
 
-            Assert.AreEqual(iCloned.N, 10);
+            Assert.AreEqual(10, iCloned.N);
         }
         /// <summary>
         ///  validate deserialization of SimulationInput when using FileIO
@@ -65,7 +66,7 @@ namespace Vts.Test.MonteCarlo
             new SimulationInput { N = 10 }.ToFile("test.txt");
             var iCloned = SimulationInput.FromFile("test.txt");
 
-            Assert.AreEqual(iCloned.N, 10);
+            Assert.AreEqual(10, iCloned.N);
         }
         /// <summary>
         /// check that null detector input in SimulationInput gets converted
@@ -102,7 +103,7 @@ namespace Vts.Test.MonteCarlo
                     new MultiLayerTissueInput(),
                     new List<IDetectorInput>
                     {
-                        (ROfRhoDetectorInput) detectorInput
+                         detectorInput
                     }
                     ).WriteToJson("test.txt");
             }
@@ -120,7 +121,7 @@ namespace Vts.Test.MonteCarlo
             var i = new ROfRhoDetectorInput() { Rho = new DoubleRange(10, 20, 51) };
             var iCloned = i.Clone();
 
-            Assert.AreEqual(iCloned.Rho.Start, 10);
+            Assert.AreEqual(10, iCloned.Rho.Start);
         }
         /// <summary>
         /// check that deserialized detector input is correct
@@ -131,7 +132,7 @@ namespace Vts.Test.MonteCarlo
             new ROfRhoDetectorInput() { Rho = new DoubleRange(10, 20, 51) }.WriteToJson("test");
             var iCloned = FileIO.ReadFromJson<ROfRhoDetectorInput>("test");
 
-            Assert.AreEqual(iCloned.Rho.Start, 10);
+            Assert.AreEqual(10, iCloned.Rho.Start);
         }
 
     }

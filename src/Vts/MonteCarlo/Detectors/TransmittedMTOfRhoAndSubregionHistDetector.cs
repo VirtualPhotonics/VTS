@@ -37,10 +37,6 @@ namespace Vts.MonteCarlo.Detectors
         /// rho binning
         /// </summary>
         public DoubleRange Rho { get; set; }
-        ///// <summary>
-        ///// subregion index binning, needed by DetectorIO
-        ///// </summary>
-        //public int NumSubregions { get; set; }
         /// <summary>
         /// momentum transfer binning
         /// </summary>
@@ -57,7 +53,11 @@ namespace Vts.MonteCarlo.Detectors
         /// numerical aperture
         /// </summary>
         public double NA { get; set; }
-        
+
+        /// <summary>
+        /// Method to create detector from detector input
+        /// </summary>
+        /// <returns>created IDetector</returns>
         public IDetector CreateDetector()
         {
             return new TransmittedMTOfRhoAndSubregionHistDetector
@@ -141,9 +141,14 @@ namespace Vts.MonteCarlo.Detectors
         /// </summary>
         public int NumSubregions { get; set; }
 
+        /// <summary>
+        /// Method to initialize detector
+        /// </summary>
+        /// <param name="tissue">tissue definition</param>
+        /// <param name="rng">random number generator</param>
         public void Initialize(ITissue tissue, Random rng)
         {
-            // intialize any necessary class fields here
+            // initialize any necessary class fields here
             _tissue = tissue;
             _ops = _tissue.Regions.Select(r => r.RegionOP).ToArray();
 
@@ -254,7 +259,10 @@ namespace Vts.MonteCarlo.Detectors
                 }
             }
         }
-        // this is to allow saving of large arrays separately as a binary file
+        /// <summary>
+        /// this is to allow saving of large arrays separately as a binary file
+        /// </summary>
+        /// <returns>BinaryArraySerializer[]</returns>
         public BinaryArraySerializer[] GetBinarySerializers()
         {
             return new[] {
@@ -353,8 +361,6 @@ namespace Vts.MonteCarlo.Detectors
                 var detectorRegionN = _tissue.Regions[FinalTissueRegionIndex].RegionOP.N;
                 return photon.History.PreviousDP.IsWithinNA(NA, Direction.AlongPositiveZAxis, detectorRegionN);
             }
-            //return true; // or, possibly test for NA or confined position, etc
-            //return (dp.StateFlag.Has(PhotonStateType.PseudoTransmissionDomainTopBoundary));
         }
 
     }

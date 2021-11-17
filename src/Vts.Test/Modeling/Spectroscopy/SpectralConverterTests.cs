@@ -45,13 +45,13 @@ namespace Vts.Test.Modeling.Spectroscopy
         [Test]
         public void Test_get_wavelength_unit_invalid()
         {
-            Assert.Throws<Exception>(() => SpectralConverter.getWavelengthUnit("yu"));
+            Assert.Throws<ArgumentException>(() => SpectralConverter.getWavelengthUnit("yu"));
         }
 
         [Test]
         public void Test_get_wavelength_unit_undefined()
         {
-            Assert.Throws<Exception>(() => SpectralConverter.getWavelengthUnit(""));
+            Assert.Throws<ArgumentException>(() => SpectralConverter.getWavelengthUnit(""));
         }
         [Test]
         public void Test_get_wavelength_unit_nanometers()
@@ -91,7 +91,7 @@ namespace Vts.Test.Modeling.Spectroscopy
         [Test]
         public void Test_get_wavelength_unit_invalid_enum()
         {
-            Assert.Throws<Exception>(() => SpectralConverter.getWavelengthUnit((WavelengthUnit)100));
+            Assert.Throws<ArgumentException>(() => SpectralConverter.getWavelengthUnit((WavelengthUnit)100));
         }
 
         [Test]
@@ -282,13 +282,13 @@ namespace Vts.Test.Modeling.Spectroscopy
         [Test]
         public void Test_get_absorption_coefficient_unit_undefined()
         {
-            Assert.Throws<Exception>(() => SpectralConverter.getAbsorptionCoefficientUnit(""));
+            Assert.Throws<ArgumentException>(() => SpectralConverter.getAbsorptionCoefficientUnit(""));
         }
 
         [Test]
         public void Test_get_absorption_coefficient_unit_invalid()
         {
-            Assert.Throws<Exception>(() => SpectralConverter.getAbsorptionCoefficientUnit("1/xx"));
+            Assert.Throws<ArgumentException>(() => SpectralConverter.getAbsorptionCoefficientUnit("1/xx"));
 
         }
 
@@ -337,7 +337,7 @@ namespace Vts.Test.Modeling.Spectroscopy
         [Test]
         public void Test_get_molar_unit_invalid()
         {
-            Assert.Throws<Exception>(() => SpectralConverter.getMolarUnit("4"));
+            Assert.Throws<ArgumentException>(() => SpectralConverter.getMolarUnit("4"));
         }
 
         [Test]
@@ -378,13 +378,13 @@ namespace Vts.Test.Modeling.Spectroscopy
         [Test]
         public void Test_get_spectral_unit_unknown_absorption_coefficient()
         {
-            Assert.Throws<Exception>(() => SpectralConverter.getSpectralUnit(MolarUnit.NanoMolar, (AbsorptionCoefficientUnit)100));
+            Assert.Throws<ArgumentException>(() => SpectralConverter.getSpectralUnit(MolarUnit.NanoMolar, (AbsorptionCoefficientUnit)100));
         }
 
         [Test]
         public void Test_get_spectral_unit_unknown_molar_unit()
         {
-            Assert.Throws<Exception>(() => SpectralConverter.getSpectralUnit((MolarUnit)100, AbsorptionCoefficientUnit.InverseMicrometers));
+            Assert.Throws<ArgumentException>(() => SpectralConverter.getSpectralUnit((MolarUnit)100, AbsorptionCoefficientUnit.InverseMicrometers));
         }
     }
 }

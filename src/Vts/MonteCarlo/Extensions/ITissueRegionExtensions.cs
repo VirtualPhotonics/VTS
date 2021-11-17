@@ -1,5 +1,8 @@
 ﻿namespace Vts.MonteCarlo.Extensions
 {
+    /// <summary>
+    /// extension methods for ITissueRegion classes
+    /// </summary>
     public static class ITissueRegionExtensions
     {
         /// <summary>

@@ -20,7 +20,7 @@ namespace Vts.MonteCarlo.IO
             try
             {
                 // allow null folderPath in case writing to isolated storage
-                string filePath = folderPath;
+                string filePath;
                 if (folderPath == "")
                 {
                     filePath = detector.Name;

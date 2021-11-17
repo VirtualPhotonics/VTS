@@ -5,7 +5,7 @@ using System.Linq;
 namespace Vts.Extensions
 {
     /// <summary>
-    /// Helper group of extension methods for adding LINQ funcitonality
+    /// Helper group of extension methods for adding LINQ functionality
     /// </summary>
     public static class EnumerableExtensions
     {
@@ -124,70 +124,18 @@ namespace Vts.Extensions
             return outputArray;
         }
 
-        ///// <summary>
-        ///// (Deprecated) 
-        ///// </summary>
-        ///// <param name="from"></param>
-        ///// <param name="to"></param>
-        ///// <param name="every"></param>
-        ///// <returns></returns>
-        //public static IEnumerable<double> To(this double from, double to, double every)
-        //{
-        //    if (to >= from && every >= 0 || from >= to && every <= 0)
-        //    {
-        //        long numElements = (long)(Math.Floor(Math.Abs((double)(to - from) / every) + 10e-10D) + 1);
-        //        var value = from;
-        //        for (long i = 0; i < numElements; i++, value += every)
-        //        {
-        //            yield return value;
-        //        }
-        //    }
-        //}
-
-        //public static IEnumerable<float> To(this float from, float to, float every)
-        //{
-        //    if (to >= from && every >= 0 || from >= to && every <= 0)
-        //    {
-        //        long numElements = (long)(Math.Floor(Math.Abs((double)(to - from) / every) + 10e-10D) + 1);
-        //        var value = from;
-        //        for (long i = 0; i < numElements; i++, value += every)
-        //        {
-        //            yield return value;
-        //        }
-        //    }
-        //}
-
-        //public static IEnumerable<long> To(this long from, long to, long every)
-        //{
-        //    if (to >= from && every >= 0 || from >= to && every <= 0)
-        //    {
-        //        long numElements = (long)(Math.Floor(Math.Abs((double)(to - from) / every) + 10e-10D) + 1);
-        //        var value = from;
-        //        for (long i = 0; i < numElements; i++, value += every)
-        //        {
-        //            yield return value;
-        //        }
-        //    }
-        //}
-
-        //public static IEnumerable<int> To(this int from, int to, int every)
-        //{
-        //    if (to >= from && every >= 0 || from >= to && every <= 0)
-        //    {
-        //        long numElements = (long)(Math.Floor(Math.Abs((double)(to - from) / every) + 10e-10D) + 1);
-        //        var value = from;
-        //        for (long i = 0; i < numElements; i++, value += every)
-        //        {
-        //            yield return value;
-        //        }
-        //    }
-        //}
-
-        //public static IEnumerable<int> To(this int from, int to) { return To(from, to, from <=to ? 1 : -1); }
-        //public static IEnumerable<long> To(this long from, long to) { return To(from, to, from <= to ? 1L : -1L); }
-        //public static IEnumerable<float> To(this float from, float to) { return To(from, to, from <= to ? 1F : -1F); }
-        //public static IEnumerable<double> To(this double from, double to) { return To(from, to, from <= to ? 1D : -1D); }
-
+        /// <summary>
+        /// method to zip together values using supplied function
+        /// </summary>
+        /// <typeparam name="TFirst">type of 1st list</typeparam>
+        /// <typeparam name="TSecond">type of 2nd list</typeparam>
+        /// <typeparam name="TThird">type of 3rd list</typeparam>
+        /// <typeparam name="TResult">resulting list</typeparam>
+        /// <param name="first">IEnumerable of 1st values</param>
+        /// <param name="second">IEnumerable of 1st values</param>
+        /// <param name="third">IEnumerable of 1st values</param>
+        /// <param name="func">IEnumerable of 1st values</param>
+        /// <returns></returns>
         public static IEnumerable<TResult> Zip<TFirst, TSecond, TThird, TResult>(this IEnumerable<TFirst> first, IEnumerable<TSecond> second, IEnumerable<TThird> third, Func<TFirst, TSecond, TThird, TResult> func)
         {
             if (first == null)
@@ -211,7 +159,20 @@ namespace Vts.Extensions
             while (ie1.MoveNext() && ie2.MoveNext() && ie3.MoveNext())
                 yield return func(ie1.Current, ie2.Current, ie3.Current);
         }
-
+        /// <summary>
+        /// method to zip together values using supplied function
+        /// </summary>
+        /// <typeparam name="TFirst">type of 1st list</typeparam>
+        /// <typeparam name="TSecond">type of 2nd list</typeparam>
+        /// <typeparam name="TThird">type of 3rd list</typeparam>
+        /// <typeparam name="TFourth">type of 4th list</typeparam>
+        /// <typeparam name="TResult">resulting list</typeparam>
+        /// <param name="first">IEnumerable of 1st values</param>
+        /// <param name="second">IEnumerable of 1st values</param>
+        /// <param name="third">IEnumerable of 1st values</param>
+        /// <param name="fourth">IEnumerable of 1st values</param>
+        /// <param name="func">IEnumerable of 1st values</param>
+        /// <returns></returns>
         public static IEnumerable<TResult> Zip<TFirst, TSecond, TThird, TFourth, TResult>(this IEnumerable<TFirst> first, IEnumerable<TSecond> second, IEnumerable<TThird> third, IEnumerable<TFourth> fourth, Func<TFirst, TSecond, TThird, TFourth, TResult> func)
         {
             if (first == null)
@@ -240,7 +201,22 @@ namespace Vts.Extensions
             while (ie1.MoveNext() && ie2.MoveNext() && ie3.MoveNext() && ie4.MoveNext())
                 yield return func(ie1.Current, ie2.Current, ie3.Current, ie4.Current);
         }
-
+        /// <summary>
+        /// method to zip together values using supplied function
+        /// </summary>
+        /// <typeparam name="TFirst">type of 1st list</typeparam>
+        /// <typeparam name="TSecond">type of 2nd list</typeparam>
+        /// <typeparam name="TThird">type of 3rd list</typeparam>
+        /// <typeparam name="TFourth">type of 4th list</typeparam>
+        /// <typeparam name="TFifth">type of 5th list</typeparam>
+        /// <typeparam name="TResult">resulting list</typeparam>
+        /// <param name="first">IEnumerable of 1st values</param>
+        /// <param name="second">IEnumerable of 1st values</param>
+        /// <param name="third">IEnumerable of 1st values</param>
+        /// <param name="fourth">IEnumerable of 1st values</param>
+        /// <param name="fifth">IEnumerable of 1st values</param>
+        /// <param name="func">IEnumerable of 1st values</param>
+        /// <returns></returns>
         public static IEnumerable<TResult> Zip<TFirst, TSecond, TThird, TFourth, TFifth, TResult>(this IEnumerable<TFirst> first, IEnumerable<TSecond> second, IEnumerable<TThird> third, IEnumerable<TFourth> fourth, IEnumerable<TFifth> fifth, Func<TFirst, TSecond, TThird, TFourth, TFifth, TResult> func)
         {
             if (first == null)
@@ -272,7 +248,18 @@ namespace Vts.Extensions
             while (ie1.MoveNext() && ie2.MoveNext() && ie3.MoveNext() && ie4.MoveNext() && ie5.MoveNext())
                 yield return func(ie1.Current, ie2.Current, ie3.Current, ie4.Current, ie5.Current);
         }
-
+        /// <summary>
+        /// extension method to loop over 3D set of values and apply a function
+        /// </summary>
+        /// <typeparam name="T1">type of first dimension</typeparam>
+        /// <typeparam name="T2">type of second dimension</typeparam>
+        /// <typeparam name="T3">type of third dimension</typeparam>
+        /// <typeparam name="TReturn"></typeparam>
+        /// <param name="myFunc">function to be evaluated</param>
+        /// <param name="firstValues">first dimension values</param>
+        /// <param name="secondValues">second dimension values</param>
+        /// <param name="thirdValues">third dimension values</param>
+        /// <returns></returns>
         public static IEnumerable<TReturn> LoopOverVariables<T1, T2, T3, TReturn>(
             this Func<T1, T2, T3, TReturn> myFunc,
             IEnumerable<T1> firstValues,
@@ -290,7 +277,16 @@ namespace Vts.Extensions
                 }
             }
         }
-
+        /// <summary>
+        /// extension method to loop over 2D set of values and apply a function
+        /// </summary>
+        /// <typeparam name="T1">type of first dimension</typeparam>
+        /// <typeparam name="T2">type of second dimension</typeparam>
+        /// <typeparam name="TReturn"></typeparam>
+        /// <param name="myFunc">function to be evaluated</param>
+        /// <param name="firstValues">first dimension values</param>
+        /// <param name="secondValues">second dimension values</param>
+        /// <returns></returns>
         public static IEnumerable<TReturn> LoopOverVariables<T1, T2, TReturn>(
             this Func<T1, T2, TReturn> myFunc,
             IEnumerable<T1> firstValues,

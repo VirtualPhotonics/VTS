@@ -34,7 +34,7 @@ namespace Vts.Test.MonteCarlo.Detectors
         /// <summary>
         /// list of temporary files created by these unit tests
         /// </summary>
-        List<string> listOfTestGeneratedFiles = new List<string>()
+        readonly List<string> listOfTestGeneratedFiles = new List<string>()
         {
             "file.txt", // file that captures screen output of MC simulation
         };
@@ -272,8 +272,8 @@ namespace Vts.Test.MonteCarlo.Detectors
         public void validate_DAW_sphere_RadianceOfRhoAndZAndAngle()
         {
             // undo angle bin normalization
-            var angle = ((RadianceOfRhoAndZAndAngleDetectorInput)_inputOneRegionTissue.DetectorInputs.
-                Where(d => d.TallyType == "RadianceOfRhoAndZAndAngle").First()).Angle;
+            var angle = ((RadianceOfRhoAndZAndAngleDetectorInput)_inputOneRegionTissue.DetectorInputs.First(
+                d => d.TallyType == "RadianceOfRhoAndZAndAngle")).Angle;
             var norm = 2 * Math.PI * angle.Delta;
             var integral = 0.0;
             for (int ia = 0; ia < angle.Count - 1; ia++)
@@ -282,13 +282,7 @@ namespace Vts.Test.MonteCarlo.Detectors
             }
             Assert.Less(Math.Abs(integral * norm - _outputOneRegionTissue.Flu_rz[0, 6]), 0.000000000001);
         }
-        // Radiance(rho) - not sure this detector is defined correctly yet
-        //[Test]
-        //public void validate_DAW_sphere_RadianceOfRho()
-        //{
-        //    //need radiance detector to compare results, for now make sure both simulations give same results
-        //    Assert.Less(Math.Abs(_outputOneRegionTissue.Rad_r[0] - _outputTwoRegionTissue.Rad_r[0]), 0.0000001);
-        //}
+
         // sanity checks
         [Test]
         public void validate_DAW_sphere_RDiffuse_plus_ATotal_plus_TDiffuse_equals_one()

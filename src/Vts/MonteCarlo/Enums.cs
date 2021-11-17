@@ -181,6 +181,9 @@ namespace Vts.MonteCarlo
     /// </summary>
     public static class SourceType
     {
+        /// <summary>
+        /// built in types for sources
+        /// </summary>
         public static readonly string[] BuiltInTypes = new []
             {
                 //POINT AND LINE SOURCES
@@ -323,7 +326,9 @@ namespace Vts.MonteCarlo
         /// </summary>
         Normal,
     }
-
+    /// <summary>
+    /// fluorescent source sampling types: using a CDF generated from a PDF or Uniform
+    /// </summary>
     public enum SourcePositionSamplingType
     {
         /// <summary>
@@ -335,14 +340,22 @@ namespace Vts.MonteCarlo
         /// </summary>
         Uniform
     }
-
+    /// <summary>
+    /// axis identifier of cylinder tissue region
+    /// </summary>
     public enum CylinderTissueRegionAxisType
     {
         /// <summary>
-        /// axis of cylinder
+        /// cylinder center axis along x-axis
         /// </summary>
         X,
+        /// <summary>
+        /// cylinder center axis along y-axis
+        /// </summary>
         Y,
+        /// <summary>
+        /// cylinder center axis along z-axis
+        /// </summary>
         Z
     }
     /// <summary>
@@ -350,6 +363,9 @@ namespace Vts.MonteCarlo
     /// </summary>
     public static class TissueType
     {
+        /// <summary>
+        /// built in type for tissue
+        /// </summary>
         public static readonly string[] BuiltInTypes = new []
         {
             // SemiInfinite tissue type.  Includes homogeneous tissues.
@@ -379,20 +395,35 @@ namespace Vts.MonteCarlo
     /// </summary>
     public static class TissueRegionType
     {
+        /// <summary>
+        /// built in types for tissue regions
+        /// </summary>
         public static readonly string[] BuiltInTypes = new []
         {
+            // voxel tissue region
             "Voxel",
+            // layer tissue region
             "Layer",
+            // ellipsoid tissue region
             "Ellipsoid",
+            // cylinder tissue region
             "Cylinder",
+            // capless cylinder tissue region
             "CaplessCylinder",
+            // infinite cylinder tissue region
             "InfiniteCylinder",
+            // surface fiber tissue region 
             "SurfaceFiber"
         };
     }
-
+    /// <summary>
+    /// detector tally types
+    /// </summary>
     public static class TallyType
     {
+        /// <summary>
+        /// built in types for detector tallies
+        /// </summary>
         public static readonly string[] BuiltInTypes =
         {
             // Reflectance Surface fiber 

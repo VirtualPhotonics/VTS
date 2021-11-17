@@ -18,7 +18,7 @@ namespace Vts.Test.Modeling.ForwardSolvers
         private static OpticalProperties ops = new OpticalProperties(mua, musp, g, n);
         private static DiffusionParameters dp = DiffusionParameters.Create(ops, ForwardModel.SDA);
 
-        private double[] rTestValues = new double[] { 1, 3, 10 };
+        private readonly double[] rTestValues = new double[] { 1, 3, 10 };
         private const double time = 0.05; //ns
         private const double ft = 0.5; //GHz
         private Complex k = ((mua * dp.cn + Complex.ImaginaryOne * ft * 2 * Math.PI) /

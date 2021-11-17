@@ -120,7 +120,6 @@ namespace Vts.MonteCarlo.Sources
             switch (sourceProfile.SourceProfileType)
             {
                 case SourceProfileType.Flat:
-                    // var flatProfile = sourceProfile as FlatSourceProfile;
                     finalPosition = SourceToolbox.GetPositionInALineRandomFlat(
                         finalPosition,
                         lineLength,

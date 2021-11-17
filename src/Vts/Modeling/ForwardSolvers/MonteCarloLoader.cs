@@ -2,12 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Vts.Common;
-using Vts.IO;
-using Vts.MonteCarlo;
-using Vts.MonteCarlo.Detectors;
 using Vts.MonteCarlo.IO;
-
-//using MathNet.Numerics.Interpolation;
 
 namespace Vts.Modeling.ForwardSolvers
 {
@@ -66,7 +61,6 @@ namespace Vts.Modeling.ForwardSolvers
         /// </summary>
         public double[,] RReferenceOfFxAndTime { get; set; }
 
-        /// CKH TODO: automate pointer to reference data 
         /// can't point to N1e7 until writing to isolated storage working for R_fxt code below
         private string folder = "ReferenceData/N1e8mua0musp1g0p8dr0p2dt0p005/";
 
@@ -75,8 +69,6 @@ namespace Vts.Modeling.ForwardSolvers
         /// </summary>
         public MonteCarloLoader()
         {
-            //nfxReference = 100;
-            //dfxReference = 1.0 / nfxReference; 
             InitializeVectorsAndInterpolators();
         }
 
@@ -121,50 +113,47 @@ namespace Vts.Modeling.ForwardSolvers
             RReferenceOfFxAndTime = new double[nfxReference, ntReference];
             for (int ifx = 0; ifx < nfxReference; ifx++)
             {
-                double sum = 0.0;
                 for (int it = 0; it < ntReference; it++) // this only goes to 800 not 801 because ntReference determined from ROfRhoAndTime.txt
                 {
                     RReferenceOfFxAndTime[ifx, it] = rOfFxAndTime.Mean[ifx, it].Real;
                 }
             }
-            ////if (File.Exists("Resources/" + folder + @"R_fxt"))
-            //if (true)
-            //{
-            //    RReferenceOfFxAndTime = (double[,])FileIO.ReadArrayFromBinaryInResources<double>("Modeling/Resources/" +
-            //        folder + @"R_fxt", "Vts");
-            //}
-            //else
-            //{
-            //    double[] RReferenceOfRhoAndTj = new double[nrReference];
-            //    double[] RReferenceOfFxAndTj = new double[nfxReference];
-            //    for (int j = 0; j < ntReference; j++)
-            //    {
-            //        for (int k = 0; k < nrReference; k++)
-            //        {
-            //            RReferenceOfRhoAndTj[k] = RReferenceOfRhoAndTime[k, j]; // get ROfRho at a particular Time Tj 
-            //        }
-            //        for (int i = 0; i < nfxReference; i++)
-            //        {
-            //            RReferenceOfFxAndTime[i, j] = LinearDiscreteHankelTransform.GetHankelTransform(RhoReference,
-            //                RReferenceOfRhoAndTj, drReference, dfxReference * i);
-            //        }
-            //    }
-            //    FileIO.WriteArrayToBinary<double>(RReferenceOfFxAndTime, @"/R_fxt");
-            //}
-        }
 
+        }
+        /// <summary>
+        /// method to get all scaled rho values
+        /// </summary>
+        /// <param name="op">optical properties</param>
+        /// <returns>scaled rho values</returns>
         public IEnumerable<double> GetAllScaledRhos(OpticalProperties op)
         {
             return RhoReference.Select(rho => rho * muspReference / op.Musp).ToArray();
         }
+        /// <summary>
+        /// method to get all scaled time values
+        /// </summary>
+        /// <param name="op">optical properties</param>
+        /// <returns>scaled time values</returns>
         public IEnumerable<double> GetAllScaledTimes(OpticalProperties op)
         {
             return TimeReference.Select(time => time * muspReference / op.Musp).ToArray();
         }
+        /// <summary>
+        /// method to get all scaled spatial-frequencies
+        /// </summary>
+        /// <param name="op">optical properties</param>
+        /// <returns>scaled fx values</returns>
         public IEnumerable<double> GetAllScaledFxs(OpticalProperties op)
         {
             return FxReference.Select(fx => fx * op.Musp / muspReference).ToArray();
         }
+        /// <summary>
+        /// method to get Fresnel value 
+        /// </summary>
+        /// <param name="nIn">refractive index of incoming ray</param>
+        /// <param name="nOut">refractive index of outgoing ray</param>
+        /// <param name="theta">angle of inception</param>
+        /// <returns>Fresnel value</returns>
         public double GetFresnel(double nIn, double nOut, double theta)
         {
             double thetaPrime = (nIn / nOut) * Math.Sin(theta);

@@ -10,12 +10,18 @@ namespace Vts.MonteCarlo.Tissues
     /// </summary>
     public abstract class TissueInput
     {
+        /// <summary>
+        /// default constructor
+        /// </summary>
         public TissueInput()
         {
             TissueType = "";
         }
 
         // mandatory user inputs (required for ITissueInput contract)
+        /// <summary>
+        /// tissue type
+        /// </summary>
         public string TissueType { get; set; }
     }
 

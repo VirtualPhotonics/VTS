@@ -35,6 +35,12 @@ namespace Vts.Modeling.ForwardSolvers
 
         // this assumes: first region in ITissueRegion[] is top layer of tissue because need to know what OPs 
         // to use for FresnelReflection and so I can define layer thicknesses
+        /// <summary>
+        /// reflectance as a function of s-d separation
+        /// </summary>
+        /// <param name="regions">optical properties</param>
+        /// <param name="rho">s-d separation</param>
+        /// <returns></returns>
         public override double ROfRho(IOpticalPropertyRegion[] regions, double rho)
         {
             // get ops of top tissue region
@@ -53,6 +59,13 @@ namespace Vts.Modeling.ForwardSolvers
 
             return StationaryReflectance(rho, diffusionParameters, layerThicknesses, fr1, fr2);
         }
+        /// <summary>
+        /// reflectance as a function of s-d separation and time
+        /// </summary>
+        /// <param name="regions">optical properties</param>
+        /// <param name="rho">s-d separation</param>
+        /// <param name="time">time</param>
+        /// <returns></returns>
         public override double ROfRhoAndTime(IOpticalPropertyRegion[] regions, double rho, double time)
         {
             var diffusionParameters = GetDiffusionParameters(regions);
@@ -76,14 +89,13 @@ namespace Vts.Modeling.ForwardSolvers
         public override IEnumerable<double> ROfRhoAndTime(IEnumerable<IOpticalPropertyRegion[]> setsOfRegions,
             IEnumerable<double> rhos, IEnumerable<double> times)
         {
-            double[] rOfTime = new double[times.Count()];
             double[] FFTtimeSequence;
             foreach (var regions in setsOfRegions)
             {
                 foreach (var rho in rhos)
                 {
                     // for fixed time and looping over rhos, this still is slow
-                    rOfTime = DetermineROfTimeFromROfFtForFixedRho(rho, regions, out FFTtimeSequence);
+                    var rOfTime = DetermineROfTimeFromROfFtForFixedRho(rho, regions, out FFTtimeSequence);
                     foreach (var time in times)
                     {
                         yield return Vts.Common.Math.Interpolation.interp1(FFTtimeSequence,
@@ -129,23 +141,22 @@ namespace Vts.Modeling.ForwardSolvers
                 // rOfTime[i] = homoSDA.ROfRhoAndTime(regions[1].RegionOP, rho, t[i]); // debug array
             }
             // to debug, use R(t) and FFT to see if result R(ft) is close to rOfFt
-            //var dft2 = new MathNet.Numerics.IntegralTransforms.Algorithms.DiscreteFourierTransform();
+            //var dft2 = new MathNet.Numerics.IntegralTransforms.Algorithms.DiscreteFourierTransform()
             //dft2.Radix2Forward(rOfTime, FourierOptions.NoScaling);  // convert to R(ft) to compare with rOfFt
-            //var relDiffReal = Enumerable.Zip(rOfTime, rOfFt, (x, y) => Math.Abs((y.Real - x.Real) / x.Real));
-            //var relDiffImag = Enumerable.Zip(rOfTime, rOfFt, (x, y) => Math.Abs((y.Imaginary - x.Imaginary) / x.Imaginary));
-            //var maxReal = relDiffReal.Max();
-            //var maxImag = relDiffImag.Max();
-            //var dum1 = maxReal;
-            //var dum2 = maxImag;
+            //var relDiffReal = Enumerable.Zip(rOfTime, rOfFt, (x, y) => Math.Abs((y.Real - x.Real) / x.Real))
+            //var relDiffImag = Enumerable.Zip(rOfTime, rOfFt, (x, y) => Math.Abs((y.Imaginary - x.Imaginary) / x.Imaginary))
+            //var maxReal = relDiffReal.Max()
+            //var maxImag = relDiffImag.Max()
+            //var dum1 = maxReal
+            //var dum2 = maxImag
             //dft2.Inverse(rOfTime, FourierOptions.NoScaling); // debug convert to R(t)
             // end debug code
 
             // FFT R(ft) to R(t)
-            //var dft = new MathNet.Numerics.IntegralTransforms.Algorithms.DiscreteFourierTransform();            
-            //dft.Inverse(rOfFt, FourierOptions.NoScaling); // convert to R(t)
-            Fourier.Inverse(rOfFt, FourierOptions.NoScaling); 
-            var rOfTime = new double[FFTTimeSequence.Length];
-            rOfTime = rOfFt.Select(r => r.Real / (numFreq / 2)).ToArray();
+            //var dft = new MathNet.Numerics.IntegralTransforms.Algorithms.DiscreteFourierTransform()           
+            //dft.Inverse(rOfFt, FourierOptions.NoScaling) // convert to R(t)
+            Fourier.Inverse(rOfFt, FourierOptions.NoScaling);
+            var rOfTime = rOfFt.Select(r => r.Real / (numFreq / 2)).ToArray();
             return rOfTime;
         }
 
@@ -178,11 +189,10 @@ namespace Vts.Modeling.ForwardSolvers
             }
 
             // FFT R(ft) to R(t)
-            //var dft = new MathNet.Numerics.IntegralTransforms.Algorithms.DiscreteFourierTransform();
-            //dft.Radix2Inverse(rOfFt, FourierOptions.NoScaling); // convert to R(t)
+            //var dft = new MathNet.Numerics.IntegralTransforms.Algorithms.DiscreteFourierTransform()
+            //dft.Radix2Inverse(rOfFt, FourierOptions.NoScaling) // convert to R(t)
             Fourier.Inverse(rOfFt, FourierOptions.NoScaling);
-            var rOfTime = new double[FFTTimeSequence.Length];
-            rOfTime = rOfFt.Select(r => r.Real / (numFreq / 2)).ToArray();
+            var rOfTime = rOfFt.Select(r => r.Real / (numFreq / 2)).ToArray();
             return rOfTime;
         }
         /// <summary>
@@ -262,13 +272,12 @@ namespace Vts.Modeling.ForwardSolvers
         public override IEnumerable<double> ROfFxAndTime(IEnumerable<IOpticalPropertyRegion[]> setsOfRegions,
             IEnumerable<double> fxs, IEnumerable<double> times)
         {
-            double[] rOfTime = new double[times.Count()];
-            double[] FFTTimeSequence;
             foreach (var regions in setsOfRegions)
             {
                 foreach (var fx in fxs)
                 {
-                    rOfTime = DetermineROfTimeFromROfFtForFixedFx(fx, regions, out FFTTimeSequence);
+                    double[] FFTTimeSequence;
+                    var rOfTime = DetermineROfTimeFromROfFtForFixedFx(fx, regions, out FFTTimeSequence);
                     foreach (var time in times)
                     {
                         yield return Vts.Common.Math.Interpolation.interp1(FFTTimeSequence, rOfTime.ToList(), time);
@@ -357,8 +366,9 @@ namespace Vts.Modeling.ForwardSolvers
         /// <summary>
         /// Evaluate the stationary radially resolved reflectance with the point source-image configuration
         /// </summary>
-        /// <param name="dp">DiffusionParameters object for each tissue region</param>
         /// <param name="rho">radial location</param>
+        /// <param name="dp">DiffusionParameters object for each tissue region</param>
+        /// <param name="layerThicknesses">layer thickness</param>
         /// <param name="fr1">Fresnel moment 1, R1</param>
         /// <param name="fr2">Fresnel moment 2, R2</param>
         /// <returns>reflectance</returns>
@@ -369,18 +379,47 @@ namespace Vts.Modeling.ForwardSolvers
             return (1 - fr1) / 4 * StationaryFluence(rho, 0.0, dp, layerThicknesses) -
                 (fr2 - 1) / 2 * dp[0].D * StationaryFlux(rho, 0.0, dp, layerThicknesses);
         }
+        /// <summary>
+        /// reflectance as a function of s-d separation 
+        /// </summary>
+        /// <param name="s">s-d separation</param>
+        /// <param name="dp">diffusion parameters</param>
+        /// <param name="layerThicknesses">layer thickness</param>
+        /// <param name="fr1"></param>
+        /// <param name="fr2"></param>
+        /// <returns></returns>
         public static double SpatialFrequencyReflectance(double s, DiffusionParameters[] dp, double[] layerThicknesses,
                                     double fr1, double fr2)
         {
             return (1 - fr1) / 4 * Phi1(s, 0.0, dp, layerThicknesses) -
                 (fr2 - 1) / 2 * dp[0].D * dPhi1(s, 0.0, dp, layerThicknesses);
         }
+        /// <summary>
+        /// temporal-frequency reflectance
+        /// </summary>
+        /// <param name="rho">s-d separation</param>
+        /// <param name="temporalFrequency">temporal frequency</param>
+        /// <param name="dp">diffusion parameters</param>
+        /// <param name="layerThicknesses">layer thicknesses</param>
+        /// <param name="fr1"></param>
+        /// <param name="fr2"></param>
+        /// <returns></returns>
         public static Complex TemporalFrequencyReflectance(double rho, double temporalFrequency, 
             DiffusionParameters[] dp, double[] layerThicknesses, double fr1, double fr2)
         {
             return (1 - fr1) / 4 * TemporalFrequencyFluence(rho, 0.0, temporalFrequency, dp, layerThicknesses) -
                 (fr2 - 1) / 2 * dp[0].D * TemporalFrequencyZFlux(rho, 0.0, temporalFrequency, dp, layerThicknesses);
         }
+        /// <summary>
+        /// reflectance as a function of s-d separation and temporal-frequency
+        /// </summary>
+        /// <param name="s">s-d separation</param>
+        /// <param name="temporalFrequency">temporal frequency</param>
+        /// <param name="dp">diffusion parameters</param>
+        /// <param name="layerThicknesses">layer thickness</param>
+        /// <param name="fr1"></param>
+        /// <param name="fr2"></param>
+        /// <returns></returns>
         public static Complex SpatialAndTemporalFrequencyReflectance(double s, double temporalFrequency,
             DiffusionParameters[] dp, double[] layerThicknesses, double fr1, double fr2)
         {
@@ -435,7 +474,15 @@ namespace Vts.Modeling.ForwardSolvers
             }
             return flux/(2*Math.PI); 
         }
-
+        /// <summary>
+        /// temporal-frequency fluence
+        /// </summary>
+        /// <param name="rho">s-d separation</param>
+        /// <param name="z">depth</param>
+        /// <param name="temporalFrequency">temporal frequency</param>
+        /// <param name="dp">diffusion parameters</param>
+        /// <param name="layerThicknesses">layer thickness</param>
+        /// <returns></returns>
         public static Complex TemporalFrequencyFluence(double rho,
             double z, double temporalFrequency, DiffusionParameters[] dp, double[] layerThicknesses)
         {
@@ -460,7 +507,14 @@ namespace Vts.Modeling.ForwardSolvers
             return fluence / (2 * Math.PI);
         }
 
-
+        /// <summary>
+        /// fluence as function of s-d separation, depth and temporal-frequency
+        /// </summary>
+        /// <param name="regions">optical properties</param>
+        /// <param name="rhos">s-d separations</param>
+        /// <param name="zs">depths</param>
+        /// <param name="fts">temporal-frequencies</param>
+        /// <returns></returns>
         public override IEnumerable<Complex> FluenceOfRhoAndZAndFt(
             IEnumerable<IOpticalPropertyRegion[]> regions, 
             IEnumerable<double> rhos,

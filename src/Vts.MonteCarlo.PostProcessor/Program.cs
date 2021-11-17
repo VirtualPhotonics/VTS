@@ -98,19 +98,16 @@ namespace Vts.MonteCarlo.PostProcessor
                 {
                     infoOnlyOption = true;
                     ShowHelp();
-                    return;
                 }),
                 new CommandLine.Switch("geninfiles", val =>
                 {
                     GenerateDefaultInputFiles();
                     infoOnlyOption = true;
-                    return;
                 }),
                 new CommandLine.Switch("infile", val =>
                 {
                     inFile = val.First();
                     Console.WriteLine("input file specified as {0}", inFile);
-                    //PostProcessorSetup.InputFilename = val.First();
                 }),
                 new CommandLine.Switch("inpath", val =>
                 {
@@ -121,7 +118,6 @@ namespace Vts.MonteCarlo.PostProcessor
                 {
                     outName = val.First();
                     Console.WriteLine("output file specified as {0}", outName);
-                    //PostProcessorSetup.OutputFolder = val.First();
                 }),
                 new CommandLine.Switch("outpath", val =>
                 {

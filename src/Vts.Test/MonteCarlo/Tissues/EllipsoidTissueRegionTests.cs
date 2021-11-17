@@ -28,12 +28,12 @@ namespace Vts.Test.MonteCarlo.Tissues
         [Test]
         public void validate_ellipsoid_properties()
         {
-            Assert.AreEqual(_ellipsoidTissueRegion.Center.X, 0.0);
-            Assert.AreEqual(_ellipsoidTissueRegion.Center.Y, 0.0);
-            Assert.AreEqual(_ellipsoidTissueRegion.Center.Z, 3.0);
-            Assert.AreEqual(_ellipsoidTissueRegion.Dx, 1.0);
-            Assert.AreEqual(_ellipsoidTissueRegion.Dy, 1.0);
-            Assert.AreEqual(_ellipsoidTissueRegion.Dz, 2.0);
+            Assert.AreEqual(0.0, _ellipsoidTissueRegion.Center.X);
+            Assert.AreEqual(0.0, _ellipsoidTissueRegion.Center.Y);
+            Assert.AreEqual(3.0,_ellipsoidTissueRegion.Center.Z );
+            Assert.AreEqual(1.0, _ellipsoidTissueRegion.Dx);
+            Assert.AreEqual(1.0, _ellipsoidTissueRegion.Dy);
+            Assert.AreEqual(2.0, _ellipsoidTissueRegion.Dz);
         }
         /// <summary>
         /// Validate method OnBoundary return correct boolean.
@@ -64,17 +64,17 @@ namespace Vts.Test.MonteCarlo.Tissues
             result = _ellipsoidTissueRegion.ContainsPosition(new Position(0, 0, 2.0)); // on boundary
             Assert.IsTrue(result);
         }
-        ///// <summary>
-        ///// Validate method SurfaceNormal return correct normal vector
-        ///// </summary>
-        //[Test]
-        //public void verify_SurfaceNormal_method_returns_correct_result()
-        //{
-        //    Direction result = _ellipsoidTissueRegion.SurfaceNormal(new Position(0, 0, 1.0));
-        //    Assert.AreEqual(new Direction(0, 0, -1), result);
-        //    result = _ellipsoidTissueRegion.SurfaceNormal(new Position(0, 0, 5.0));
-        //    Assert.AreEqual(new Direction(0, 0, 1), result);
-        //}
+        /// <summary>
+        /// Validate method SurfaceNormal return correct normal vector
+        /// </summary>
+        [Test]
+        public void verify_SurfaceNormal_method_returns_correct_result()
+        {
+            Direction result = _ellipsoidTissueRegion.SurfaceNormal(new Position(0, 0, 1.0));
+            Assert.AreEqual(new Direction(0, 0, -1), result);
+            result = _ellipsoidTissueRegion.SurfaceNormal(new Position(0, 0, 5.0));
+            Assert.AreEqual(new Direction(0, 0, 1), result);
+        }
         /// <summary>
         /// Validate method RayIntersectBoundary return correct result
         /// </summary>

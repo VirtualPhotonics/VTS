@@ -35,7 +35,7 @@ namespace Vts.MonteCarlo
         IList<double> RegionScatterLengths { get; }
 
         /// <summary>
-        /// Required method to initialiize the corresponding ITissue
+        /// Required method to initialize the corresponding ITissue
         /// </summary>
         /// <param name="awt">absorption weighting type</param>
         /// <param name="pft">phase function type</param>

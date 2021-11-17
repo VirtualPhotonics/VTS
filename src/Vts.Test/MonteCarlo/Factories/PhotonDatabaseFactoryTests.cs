@@ -19,7 +19,7 @@ namespace Vts.Test.MonteCarlo.Factories
         /// <summary>
         /// list of temporary files created by these unit tests
         /// </summary>
-        List<string> listOfTestGeneratedFiles = new List<string>()
+        readonly List<string> listOfTestGeneratedFiles = new List<string>()
         {
             "DiffuseReflectanceDatabase",
             "DiffuseReflectanceDatabase.txt",
@@ -38,7 +38,6 @@ namespace Vts.Test.MonteCarlo.Factories
             // delete any previously generated files
             foreach (var file in listOfTestGeneratedFiles)
             {
-                GC.Collect();
                 FileIO.FileDelete(file);
             }
         }

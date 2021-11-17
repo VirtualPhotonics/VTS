@@ -5,8 +5,6 @@ namespace Vts.MonteCarlo.PhotonData
     /// </summary>
     public class SubRegionCollisionInfo
     {
-        private double _PathLength;
-        private long _NumberOfCollisions;
 
         /// <summary>
         /// SubRegionCollisionInfo collects the number of collision and total path length
@@ -16,12 +14,18 @@ namespace Vts.MonteCarlo.PhotonData
         /// <param name="numberOfCollisions">total number of collisions in subregion</param>
         public SubRegionCollisionInfo(double pathLength, long numberOfCollisions)
         {
-            _PathLength = pathLength;
-            _NumberOfCollisions = numberOfCollisions;
+            PathLength = pathLength;
+            NumberOfCollisions = numberOfCollisions;
         }
 
-        public double PathLength { get { return _PathLength; } set { _PathLength = value; } }
-        public long NumberOfCollisions { get { return _NumberOfCollisions; } set { _NumberOfCollisions = value; } }
+        /// <summary>
+        /// path length of photon in sub-region
+        /// </summary>
+        public double PathLength { get; set; }
+        /// <summary>
+        /// number of collisions made by photon in sub-region
+        /// </summary>
+        public long NumberOfCollisions { get; set; }
 
         /// <summary>
         /// Method to clone class
@@ -29,7 +33,7 @@ namespace Vts.MonteCarlo.PhotonData
         /// <returns>instantiated clone of class</returns>
         public SubRegionCollisionInfo Clone()
         {
-            return new SubRegionCollisionInfo(_PathLength, _NumberOfCollisions);
+            return new SubRegionCollisionInfo(PathLength, NumberOfCollisions);
         }
     }
 }

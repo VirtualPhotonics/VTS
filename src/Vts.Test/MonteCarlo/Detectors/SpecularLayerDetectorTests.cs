@@ -25,11 +25,12 @@ namespace Vts.Test.MonteCarlo.Detectors
         /// <summary>
         /// list of temporary files created by these unit tests
         /// </summary>
-        List<string> listOfTestGeneratedFolders = new List<string>()
+        readonly List<string> listOfTestGeneratedFolders = new List<string>()
         {
             "Output",
         };
-        List<string> listOfTestGeneratedFiles = new List<string>()
+
+        readonly List<string> listOfTestGeneratedFiles = new List<string>()
         {
             "file.txt",
         };
@@ -107,7 +108,7 @@ namespace Vts.Test.MonteCarlo.Detectors
         {
             Assert.Less(Math.Abs(_output.Rspec - _specularReflectance), 0.003);
             Assert.Less(Math.Abs(_output.Rspec2 - 0.03), 0.01);
-            Assert.AreEqual(_output.Rspec_TallyCount, 3);
+            Assert.AreEqual(3, _output.Rspec_TallyCount);
         }
     }
 }

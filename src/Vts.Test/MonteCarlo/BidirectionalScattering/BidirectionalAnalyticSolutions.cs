@@ -29,9 +29,9 @@ namespace Vts.Test.MonteCarlo.BidirectionalScattering
             if (direction == 1) // downward moving radiance
             {
                 // answer=d1*exp(delta*x)+d2*exp(-delta*x)
+                // where  d1 = (delta - a) * Math.Exp(-2 * delta * slabThickness) / denom
+                // and  dd2 = (delta + a) / denom
                 // below is the more numerically stable equivalent
-                var d1 = (delta - a) * Math.Exp(-2 * delta * slabThickness) / denom;
-                var d2 = (delta + a) / denom;
                 return ((delta - a) * Math.Exp(-2 * delta * slabThickness + delta * position) +
                         (delta + a) * Math.Exp(-delta * position)) / denom;
 
@@ -39,9 +39,9 @@ namespace Vts.Test.MonteCarlo.BidirectionalScattering
             else // upward moving radiance
             {
                 // answer=d1*exp(delta*x)+d2*exp(-delta*x)
-                // below is the more nuerically stable equivalent
-                var d1 = -b * Math.Exp(-2 * delta * slabThickness) / denom;
-                var d2 = b / denom;
+                // where d1 = -b * Math.Exp(-2 * delta * slabThickness) / denom
+                // and d2 = b / denom
+                // below is the more numerically stable equivalent
                 return (-b * Math.Exp(-2 * delta * slabThickness + delta * position) +
                          b * Math.Exp(-delta * position)) / denom;
             }
@@ -56,9 +56,9 @@ namespace Vts.Test.MonteCarlo.BidirectionalScattering
             double denom = (delta + a) + (delta - a) * Math.Exp(-2 * delta * slabThickness);
             if (direction == 1) // downward moving radiance
             {  
-                //d1=-b*Q0*exp(-2*delta*Time)/denom;
-                //d2=b*Q0/denom;
-                // answer=(1/delta)*(d1*exp(delta*x)-d2*exp(-delta*x)); 
+                //d1=-b*Q0*exp(-2*delta*Time)/denom
+                //d2=b*Q0/denom
+                // answer=(1/delta)*(d1*exp(delta*x)-d2*exp(-delta*x))
                 var d1 = (1.0 / delta) * ((delta - a) * Math.Exp(-2 * delta * slabThickness + delta * position2) -
                                           (delta + a) * Math.Exp(-delta * position2)) / denom;
                 var d2 = (1.0 / delta) * ((delta - a) * Math.Exp(-2 * delta * slabThickness + delta * position1) -
@@ -67,9 +67,9 @@ namespace Vts.Test.MonteCarlo.BidirectionalScattering
             }
             else
             { // upward moving radiance
-                //d1=Q0*(delta-a)*exp(-2*delta*Time)/denom;
-                //d2=Q0*(delta+a)/denom;
-                // answer=(1/delta)*(d1*exp(delta*x)-d2*exp(-delta*x));  
+                //d1=Q0*(delta-a)*exp(-2*delta*Time)/denom
+                //d2=Q0*(delta+a)/denom
+                // answer=(1/delta)*(d1*exp(delta*x)-d2*exp(-delta*x)) 
                 var d1 = (1.0 / delta) * (-b * Math.Exp(-2 * delta * slabThickness + delta * position2) -
                                            b * Math.Exp(-delta * position2)) / denom;
                 var d2 = (1.0 / delta) * (-b * Math.Exp(-2 * delta * slabThickness + delta * position1) -

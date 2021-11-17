@@ -129,10 +129,6 @@ namespace Vts.MonteCarlo.Sources
             translationFromOrigin,
             initialTissueRegionIndex)
         {
-            if (newDirectionOfPrincipalSourceAxis == null)
-                newDirectionOfPrincipalSourceAxis = SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone();
-            if (translationFromOrigin == null)
-                translationFromOrigin = SourceDefaults.DefaultPosition.Clone();
         }
     }
 }

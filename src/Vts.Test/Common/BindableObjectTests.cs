@@ -11,7 +11,7 @@ namespace Vts.Test.Common
         {
             var myTestClass = new BindableTestClass { First = 0 };
 #if DEBUG
-            Assert.Throws<Exception>(() => myTestClass.OnPropertyChanged("NotAProperty"));
+            Assert.Throws<ArgumentNullException>(() => myTestClass.OnPropertyChanged("NotAProperty"));
 #else
             Assert.DoesNotThrow(() => myTestClass.OnPropertyChanged("NotAProperty"));
 #endif

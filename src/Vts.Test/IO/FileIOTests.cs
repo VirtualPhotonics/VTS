@@ -18,7 +18,7 @@ namespace Vts.Test.IO
         /// <summary>
         /// list of temporary files created by these unit tests
         /// </summary>
-        List<string> listOfTestGeneratedFolders = new List<string>()
+        readonly List<string> listOfTestGeneratedFolders = new List<string>()
         {
             "fileiotest.folder",
             "folder1",
@@ -28,7 +28,8 @@ namespace Vts.Test.IO
             Path.Combine("sourcetest", "subfolder"),
             "sourcetest"
         };
-        List<string> listOfTestGeneratedFiles = new List<string>()
+
+        readonly List<string> listOfTestGeneratedFiles = new List<string>()
         {
             "file1.txt",
             "file2.txt",
@@ -190,9 +191,9 @@ namespace Vts.Test.IO
             var name = Assembly.GetExecutingAssembly().FullName;
             var assemblyName = new AssemblyName(name).Name;
             double data;
-            data = (double)FileIO.ReadFromBinaryInResources<double>(
+            data = FileIO.ReadFromBinaryInResources<double>(
                 "Resources/fileiotest/binarydbl", assemblyName);
-            Assert.AreEqual(data, 10);
+            Assert.AreEqual(10, data);
         }
 
         [Test] 
@@ -217,7 +218,7 @@ namespace Vts.Test.IO
             // the following method has a "yield return" so won't load until accessed
             var listRead = FileIO.ReadFromBinaryCustom<double>("array6", ReadMap);
             var arrayRead = listRead.Take(3).ToArray();
-            Assert.AreEqual(arrayRead[1], 16);
+            Assert.AreEqual(16, arrayRead[1]);
         }
 
         [Test]
@@ -226,12 +227,12 @@ namespace Vts.Test.IO
             var name = Assembly.GetExecutingAssembly().FullName;
             var assemblyName = new AssemblyName(name).Name;
             int size = 100;
-            var arrayWritten = new double[size];
+            double[] arrayWritten;
             // read file from resources and write it so that can be read in
             arrayWritten = (double[])FileIO.ReadArrayFromBinaryInResources<double>
                 ("Resources/fileiotest/ROfRho", assemblyName, size);
             FileIO.WriteToBinary<double[]>(arrayWritten, "array5");
-            double[] arrayRead = new double[100];
+            double[] arrayRead;
             using (Stream stream = StreamFinder.GetFileStream("array5", FileMode.Open))
             {
                 arrayRead = FileIO.ReadFromBinaryStream<double[]>(stream);
@@ -246,9 +247,9 @@ namespace Vts.Test.IO
             var assemblyName = new AssemblyName(name).Name;
             FileIO.CopyFileFromResources("Resources/fileiotest/position.txt", "position.txt", assemblyName);
             var pos = FileIO.ReadFromJson<Position>("position.txt");
-            Assert.AreEqual(pos.X, 5);
-            Assert.AreEqual(pos.Y, 10);
-            Assert.AreEqual(pos.Z, 15);
+            Assert.AreEqual(5,pos.X);
+            Assert.AreEqual(10, pos.Y);
+            Assert.AreEqual(15, pos.Z);
         }
 
         [Test]
@@ -257,9 +258,9 @@ namespace Vts.Test.IO
             var name = Assembly.GetExecutingAssembly().FullName;
             var assemblyName = new AssemblyName(name).Name;
             var pos = FileIO.ReadFromJsonInResources<Position>("Resources/fileiotest/position.txt", assemblyName);
-            Assert.AreEqual(pos.X, 5);
-            Assert.AreEqual(pos.Y, 10);
-            Assert.AreEqual(pos.Z, 15);
+            Assert.AreEqual(5, pos.X);
+            Assert.AreEqual(10, pos.Y);
+            Assert.AreEqual(15, pos.Z);
         }
 
         [Test]
@@ -270,9 +271,9 @@ namespace Vts.Test.IO
             // create a JSON stream
             var stream = StreamFinder.GetFileStreamFromResources("Resources/fileiotest/position.txt", assemblyName);
             var pos = FileIO.ReadFromJsonStream<Position>(stream);
-            Assert.AreEqual(pos.X, 5);
-            Assert.AreEqual(pos.Y, 10);
-            Assert.AreEqual(pos.Z, 15);
+            Assert.AreEqual(5, pos.X);
+            Assert.AreEqual(10, pos.Y);
+            Assert.AreEqual(15,pos.Z);
             stream.Close();
         }
 
@@ -289,9 +290,9 @@ namespace Vts.Test.IO
             {
                 pos = FileIO.ReadFromStream<Position>(stream);
             }
-            Assert.AreEqual(pos.X, 2);
-            Assert.AreEqual(pos.Y, 4);
-            Assert.AreEqual(pos.Z, 6);
+            Assert.AreEqual(2, pos.X);
+            Assert.AreEqual(4, pos.Y);
+            Assert.AreEqual(6, pos.Z);
         }
 
         [Test]
@@ -300,9 +301,9 @@ namespace Vts.Test.IO
             var name = Assembly.GetExecutingAssembly().FullName;
             var assemblyName = new AssemblyName(name).Name;
             var pos = FileIO.ReadFromXMLInResources<Position>("Resources/fileiotest/file7.xml", assemblyName);
-            Assert.AreEqual(pos.X, 2);
-            Assert.AreEqual(pos.Y, 4);
-            Assert.AreEqual(pos.Z, 6);
+            Assert.AreEqual(2, pos.X);
+            Assert.AreEqual(4, pos.Y);
+            Assert.AreEqual(6, pos.Z);
         }
 
 
@@ -313,9 +314,9 @@ namespace Vts.Test.IO
             Stream stream = StreamFinder.GetFileStream("file6.txt", FileMode.Create);
             FileIO.WriteJsonToStream(pos, stream);
             var pos2 = FileIO.ReadFromJson<Position>("file6.txt");
-            Assert.AreEqual(pos2.X, 2.0);
-            Assert.AreEqual(pos2.Y, 4.0);
-            Assert.AreEqual(pos2.Z, 6.0);
+            Assert.AreEqual(2, pos2.X);
+            Assert.AreEqual(4, pos2.Y);
+            Assert.AreEqual(6, pos2.Z);
         }
 
         [Test]
@@ -330,7 +331,7 @@ namespace Vts.Test.IO
             // then read what what written using func ReadMap and validate value
             int ReadMap(BinaryReader b) => b.Read();
             var data = FileIO.ReadScalarValueFromBinary<int>("scalar", ReadMap);
-            Assert.AreEqual(data, 11);
+            Assert.AreEqual(11, data);
         }
 
         [Test]
@@ -341,7 +342,7 @@ namespace Vts.Test.IO
             Assert.IsTrue(FileIO.FileExists("array2"));
             Assert.IsTrue(new FileInfo("array2").Length != 0);
             var data = FileIO.ReadFromBinary<double[]>("array2");
-            Assert.AreEqual(data[0], 4.0);
+            Assert.AreEqual(4.0, data[0]);
         }
 
         [Test]
@@ -368,7 +369,7 @@ namespace Vts.Test.IO
             Assert.IsTrue(FileIO.FileExists("2darray"));
             Assert.IsTrue(new FileInfo("2darray").Length != 0);
             var data = FileIO.ReadFromBinary<double[,]>("2darray");
-            Assert.AreEqual(data[0, 1], 2D);
+            Assert.AreEqual(2D, data[0, 1]);
         }
 
         [Test]
@@ -395,7 +396,7 @@ namespace Vts.Test.IO
             // then open stream, read array, validate values and close stream
             Stream streamRead = StreamFinder.GetFileStream("array4", FileMode.Open);
             var data = FileIO.ReadFromBinaryStream<double[]>(streamRead);
-            Assert.AreEqual(data[0], 10);
+            Assert.AreEqual(10, data[0]);
             streamRead.Close();
         }
 
@@ -405,9 +406,9 @@ namespace Vts.Test.IO
             var pos = new Position(2, 4, 6);
             FileIO.WriteToJson(pos, "file7.txt");
             var pos2 = FileIO.ReadFromJson<Position>("file7.txt");
-            Assert.AreEqual(pos2.X, 2.0);
-            Assert.AreEqual(pos2.Y, 4.0);
-            Assert.AreEqual(pos2.Z, 6.0);
+            Assert.AreEqual(2, pos2.X);
+            Assert.AreEqual(4, pos2.Y);
+            Assert.AreEqual(6, pos2.Z);
         }
 
         [Test]
@@ -418,9 +419,9 @@ namespace Vts.Test.IO
             Assert.IsTrue(FileIO.FileExists("file7.xml"));
             Assert.IsTrue(new FileInfo("file7.xml").Length != 0);
             var pos2 = FileIO.ReadFromXML<Position>("file7.xml");
-            Assert.AreEqual(pos2.X, 2.0);
-            Assert.AreEqual(pos2.Y, 4.0);
-            Assert.AreEqual(pos2.Z, 6.0);
+            Assert.AreEqual(2, pos2.X);
+            Assert.AreEqual(4, pos2.Y);
+            Assert.AreEqual(6, pos2.Z);
         }
 
         [Test]
@@ -577,7 +578,7 @@ namespace Vts.Test.IO
             Assert.IsTrue(new FileInfo("floatarray").Length != 0);
             Assert.IsTrue(FileIO.FileExists("floatarray.txt"));
             var data = (float[])FileIO.ReadArrayFromBinary<float>("floatarray", 3);
-            Assert.AreEqual(data[0], 1.0F);
+            Assert.AreEqual(1.0F, data[0]);
         }
 
         /// <summary>
@@ -609,7 +610,7 @@ namespace Vts.Test.IO
             Assert.IsTrue(new FileInfo("ushortarray").Length != 0);
             Assert.IsTrue(FileIO.FileExists("ushortarray.txt"));
             var data = (ushort[])FileIO.ReadArrayFromBinary<ushort>("ushortarray", 2);
-            Assert.AreEqual(data[1], 7);
+            Assert.AreEqual(7, data[1]);
         }
 
         /// <summary>
@@ -625,7 +626,7 @@ namespace Vts.Test.IO
             Assert.IsTrue(new FileInfo("bytearray").Length != 0);
             Assert.IsTrue(FileIO.FileExists("bytearray.txt"));
             var data = (byte[])FileIO.ReadArrayFromBinary<byte>("bytearray", 5);
-            Assert.AreEqual(data[1], 0);
+            Assert.AreEqual(0, data[1]);
         }
 
         /// <summary>

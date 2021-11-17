@@ -6,7 +6,7 @@ namespace Vts.IO
     /// General interface to write a specified type to binary
     /// </summary>
     /// <typeparam name="T">Type to write</typeparam>
-    public interface ICustomBinaryWriter<T>
+    public interface ICustomBinaryWriter<in T>
     {
         /// <summary>
         /// Writes the specified type

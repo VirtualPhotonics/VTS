@@ -18,6 +18,9 @@ namespace Vts.Modeling.Optimizers
         /// delegate function that evaluates the objective function given a parameter optimization array and (optional) constant variables
         /// </summary>
         public Func<double[], object[], double[]> ForwardFunc { get; set; }
+        /// <summary>
+        /// forward variables
+        /// </summary>
         public object[] ForwardVariables { get; set; }
         /// <summary>
         /// measured data
@@ -60,7 +63,7 @@ namespace Vts.Modeling.Optimizers
 
             mp_result result = new mp_result(a.Length);
 
-            int status = MPFit.Solve(MPFitFunc, data.Y.Length, pars.Length, a, pars, null, data, ref result);
+            MPFit.Solve(MPFitFunc, data.Y.Length, pars.Length, a, pars, null, data, ref result);
 
             return a;
         }
@@ -97,7 +100,7 @@ namespace Vts.Modeling.Optimizers
 
             mp_result result = new mp_result(a.Length);
 
-            int status = MPFit.Solve(MPFitFunc, data.Y.Length, pars.Length, a, pars, null, data, ref result);
+            MPFit.Solve(MPFitFunc, data.Y.Length, pars.Length, a, pars, null, data, ref result);
 
             return a;
         }
@@ -127,53 +130,5 @@ namespace Vts.Modeling.Optimizers
             return MPFit.MP_ERR_PARAM;
         }
 
-        //{
-
-        ///// <summary>
-        ///// User-function delegate structure required by MPFit.Solve
-        ///// </summary>
-        ///// <param name="m">Number of functions (elemens of fvec)</param>
-        ///// <param name="npar">Number of variables (elements of x)</param>
-        ///// <param name="x">I - Parameters</param>
-        ///// <param name="fvec">O - function values</param>
-        ///// <param name="dvec">
-        ///// O - function derivatives (optional)
-        ///// "Array of ILists" to accomodate DelimitedArray IList implementation
-        ///// </param>
-        ///// <param name="prv">I/O - function private data (cast to object type in user function)</param>
-        ///// <returns></returns>
-        //public delegate int mp_func(int m, int npar, double[] x, double[] fvec, IList<double>[] dvec, object prv);
-
-        /* 
-         * linear fit function
-         *
-         * m - number of data points
-         * n - number of parameters (2)
-         * p - array of fit parameters 
-         * dy - array of residuals to be returned
-         * CustomUserVariable - private data (struct vars_struct *)
-         *
-         * RETURNS: error code (0 = success)
-         */
-        //public static int LinFunc(int m, int n, double[] p, double[] dy, IList<double>[] dvec, object vars)
-        //{
-        //    int i;
-        //    double[] x, y, ey;
-        //    double f;
-
-        //    CustomUserVariable v = (CustomUserVariable)vars;
-
-        //    x = v.X;
-        //    y = v.Y;
-        //    ey = v.Ey;
-
-        //    for (i = 0; i < m; i++)
-        //    {
-        //        f = p[0] - p[1] * x[i];     /* Linear fit function */
-        //        dy[i] = (y[i] - f) / ey[i];
-        //    }
-
-        //    return 0;
-        //}
     }
 }

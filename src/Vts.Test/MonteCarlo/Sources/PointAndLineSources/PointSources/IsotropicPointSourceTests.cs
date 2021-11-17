@@ -51,7 +51,7 @@ namespace Vts.Test.MonteCarlo.Sources
         public void validate_general_constructor_with_flat_profiletype_for_isotropic_point_source_test()
         {
             Random rng = new MathNet.Numerics.Random.MersenneTwister(0); // not really necessary here, as this is now the default
-            ITissue tissue = new MultiLayerTissue(); // todo: remove           
+            ITissue tissue = new MultiLayerTissue();         
 
             var ps = new IsotropicPointSource(_validationData.Translation)
             {

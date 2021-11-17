@@ -380,7 +380,7 @@ namespace Vts.Test.Common.Extensions
             _complexEnumerable.ForEach((x, index) =>
             {
                 Assert.IsInstanceOf<Complex>(x);
-                var complexArray = _complexArray as Complex[];
+                var complexArray = _complexArray;
                 Assert.IsNotNull(complexArray);
                 Assert.AreEqual(x.Real, complexArray[index].Real);
                 Assert.AreEqual(x.Imaginary, complexArray[index].Imaginary);
