@@ -12,8 +12,6 @@ namespace Vts.MonteCarlo.Tissues
     /// </summary>
     public class MultiConcentricInfiniteCylinderTissueInput : TissueInput, ITissueInput
     {
-        private ITissueRegion[] _regions;
-
         /// <summary>
         /// constructor for Multi-ConcentricInfiniteCylinder tissue input
         /// </summary>
@@ -65,7 +63,7 @@ namespace Vts.MonteCarlo.Tissues
         /// list of tissue regions comprising tissue
         /// </summary>
         [IgnoreDataMember]
-        public ITissueRegion[] Regions { get { return LayerRegions.Concat(InfiniteCylinderRegions).ToArray(); } set { _regions = value; } }
+        public ITissueRegion[] Regions { get { return LayerRegions.Concat(InfiniteCylinderRegions).ToArray(); } }
         /// <summary>
         /// tissue outer infinite cylinder region
         /// </summary>
