@@ -502,10 +502,14 @@ namespace Vts.Extensions
             return myArray;
         }
 
-        private static IEnumerable<T> ConstantToEnumerable<T>(T item)
+        private static IEnumerable<T> ConstantToEnumerable<T>(T item, int max = (int)1E+9)
         {
+            // item is an enumerator so yield return of item will move to the next value
+            var i = 0;
             while (true)
             {
+                // add a max parameter as a fail safe
+                if (++i > max) throw new InvalidOperationException("Limit our enumerable to 1,000,000,000");
                 yield return item;
             }
         }
