@@ -9,6 +9,7 @@ namespace Vts.IO
 {
     /// <summary>
     /// class to deserialize json
+    /// from http://stackoverflow.com/questions/8030538/how-to-implement-custom-jsonconverter-in-json-net-to-deserialize-a-list-of-base
     /// </summary>
     /// <typeparam name="TInterface"></typeparam>
     public class ConventionBasedConverter<TInterface> : JsonCreationConverter<TInterface> 
@@ -57,7 +58,7 @@ namespace Vts.IO
             _typeCategoryString = typeCategoryString;
 
             // the code: var useSingleton = false used to be here
-            var useDefaultConstructor = true;
+            // the code: var useDefaultConstructor = true was here to determine the injectionMembers
             
             var classList =
                 from classPrefixString in classPrefixStrings
@@ -70,7 +71,8 @@ namespace Vts.IO
                     ClassPrefixString = classPrefixString,
                 };
 
-            foreach (var item in classList)
+            var vtsClassInfos = classList as VtsClassInfo[] ?? classList.ToArray();
+            foreach (var item in vtsClassInfos)
             {
                 if (!object.Equals(item.ClassType, null))
                 {
@@ -78,11 +80,11 @@ namespace Vts.IO
                         _interfaceType,
                         item.ClassType,
                         item.ClassPrefixString,
-                        useDefaultConstructor ? new InjectionMember[] { new InjectionConstructor() } : null);
+                        new InjectionMember[] { new InjectionConstructor() });
                 }
             }
 
-            _classInfoDictionary = classList.ToDictionary(item => item.ClassPrefixString);
+            _classInfoDictionary = vtsClassInfos.ToDictionary(item => item.ClassPrefixString);
         }
         /// <summary>
         /// method to create ConventionBasedConverter from enum
