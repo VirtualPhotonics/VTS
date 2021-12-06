@@ -1,12 +1,11 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using NUnit.Framework;
 using Vts.MonteCarlo;
 
 namespace Vts.Test.MonteCarlo
 {
     [TestFixture]
-    public class EnumsTests
+    public class TallyTypeTests
     {
         /// <summary>
         /// Validate detector string properties.
