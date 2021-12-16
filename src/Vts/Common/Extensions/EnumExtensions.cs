@@ -5,6 +5,9 @@ using Vts.Common.Resources;
 
 namespace Vts
 {
+    /// <summary>
+    /// methods to ease access to enums
+    /// </summary>
     public static class EnumExtensions
     {
         /// <summary>
@@ -59,8 +62,7 @@ namespace Vts
         {
             try
             {
-                //return (Time)(object)(((int)(object)type | (int)(object)value));
-                return (T)(object)(((int)(object)type | (int)(object)value));
+                return (T)(object)((int)(object)type | (int)(object)value);
             }
             catch (Exception ex)
             {
@@ -85,7 +87,7 @@ namespace Vts
             {
                 if (type.HasFlag((Enum)(object)value))
                 {
-                    return (T)(object)(((int)(object)type ^ (int)(object)value));
+                    return (T)(object)((int)(object)type ^ (int)(object)value);
                 }
                 return (T) (object) type;
             }

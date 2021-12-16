@@ -14,7 +14,7 @@ namespace Vts.Test.MonteCarlo.PhotonData
         /// <summary>
         /// list of temporary files created by these unit tests
         /// </summary>
-        List<string> listOfTestGeneratedFiles = new List<string>()
+        readonly List<string> listOfTestGeneratedFiles = new List<string>()
         {
             "testphotondatabase",
             "testphotondatabase.txt"
@@ -25,12 +25,11 @@ namespace Vts.Test.MonteCarlo.PhotonData
         /// </summary>
         [OneTimeSetUp]
         [OneTimeTearDown]
-        public void clear_folders_and_files()
+        public void Clear_folders_and_files()
         {
             // delete any previously generated files
             foreach (var file in listOfTestGeneratedFiles)
             {
-                GC.Collect();
                 FileIO.FileDelete(file);
             }
         }
@@ -39,12 +38,12 @@ namespace Vts.Test.MonteCarlo.PhotonData
         /// are working correctly.
         /// </summary>
         [Test]
-        public void validate_PhotonDatabase_deserialized_class_is_correct_when_using_WriteToFile()
+        public void Validate_PhotonDatabase_deserialized_class_is_correct_when_using_WriteToFile()
         {
             // test serialization
             new SimulationInput().ToFile("SimulationInputTest.txt");
 
-            string databaseFilename = "testphotondatabase";
+            var databaseFilename = "testphotondatabase";
 
             using(var dbWriter = new PhotonDatabaseWriter(
                 VirtualBoundaryType.DiffuseReflectance, databaseFilename))
@@ -62,12 +61,13 @@ namespace Vts.Test.MonteCarlo.PhotonData
                                    0.50,
                                    100,
                                    PhotonStateType.None));
+                dbWriter.Close();
             }
 
             // read the database from file, and verify the correct number of photons were written
             var dbCloned = PhotonDatabase.FromFile(databaseFilename);
 
-            Assert.AreEqual(dbCloned.NumberOfElements, 2);
+            Assert.AreEqual(2, dbCloned.NumberOfElements);
 
             // manually enumerate through the first two elements (same as foreach)
             // PhotonDatabase is designed so you don't have to have the whole thing
@@ -77,20 +77,22 @@ namespace Vts.Test.MonteCarlo.PhotonData
             // advance to the first point and test that the point is valid
             enumerator.MoveNext();
             var dp1 = enumerator.Current;
-            Assert.AreEqual(dp1.Position, new Position(1, 2, 3));
-            Assert.AreEqual(dp1.Direction, new Direction(0, 0, 1));
-            Assert.AreEqual(dp1.Weight, 1.0);
-            Assert.AreEqual(dp1.TotalTime, 10);
+            Assert.AreEqual(new Position(1, 2, 3),dp1.Position);
+            Assert.AreEqual(new Direction(0, 0, 1),dp1.Direction);
+            Assert.AreEqual(1.0, dp1.Weight);
+            Assert.AreEqual(10, dp1.TotalTime);
             Assert.IsTrue(dp1.StateFlag.HasFlag(PhotonStateType.None));
 
             // advance to the second point and test that the point is valid
             enumerator.MoveNext();
             var dp2 = enumerator.Current;
-            Assert.AreEqual(dp2.Position, new Position(4, 5, 6));
-            Assert.AreEqual(dp2.Direction, new Direction(1, 0, 0));
-            Assert.AreEqual(dp2.Weight, 0.5);
-            Assert.AreEqual(dp2.TotalTime, 100);
+            Assert.AreEqual(new Position(4, 5, 6),dp2.Position);
+            Assert.AreEqual(new Direction(1, 0, 0),dp2.Direction);
+            Assert.AreEqual(0.5,dp2.Weight);
+            Assert.AreEqual(100,dp2.TotalTime);
             Assert.IsTrue(dp2.StateFlag.HasFlag(PhotonStateType.None));
+
+            enumerator.Dispose();
         }
     }
 }

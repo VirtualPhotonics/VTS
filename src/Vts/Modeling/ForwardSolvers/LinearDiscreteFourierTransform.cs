@@ -9,6 +9,13 @@ namespace Vts.Modeling
     /// </summary>
     public class LinearDiscreteFourierTransform 
     {
+        /// <summary>
+        /// method to get times
+        /// </summary>
+        /// <param name="mua">absorption coefficient</param>
+        /// <param name="musp">reduced scattering coefficient</param>
+        /// <param name="dt">delta time</param>
+        /// <returns></returns>
         public static double[] GetTime(double mua, double musp, out double dt)
         {
             double  tMaxFactor = 30;

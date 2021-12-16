@@ -11,7 +11,7 @@ namespace Vts.Test.MonteCarlo
         /// <summary>
         /// list of temporary files created by these unit tests
         /// </summary>
-        List<string> listOfTestGeneratedFiles = new List<string>()
+        readonly List<string> listOfTestGeneratedFiles = new List<string>()
         {
             "savedRNG.txt"
         };
@@ -34,9 +34,9 @@ namespace Vts.Test.MonteCarlo
             int seed = 0;
             // normal processing
             var rng = new SerializableMersenneTwister(seed);
-            var rng2 = rng.NextDouble();
-            var rng3 = rng.NextDouble();
-            var rng4 = rng.NextDouble();
+            rng.NextDouble();
+            rng.NextDouble();
+            rng.NextDouble();
             // saved processing
             rng.ToFile(rng, "savedRNG.txt");
             var savedRNG = SerializableMersenneTwister.FromFile("savedRNG.txt");

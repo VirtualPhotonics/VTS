@@ -22,21 +22,20 @@ namespace Vts.Test.MonteCarlo.BidirectionalScattering
     {
         SimulationOutput _output;
         SimulationInput _input;
-        double _topLayerThickness = 2;
-        double _slabThickness = 10;
-        double _mua = 0.01;
-        double _musp = 0.198;  // mus = 0.99
-        double _g = 0.8;
-        private SimulationStatistics _simulationStatistics;
+        readonly double _slabThickness = 10;
+        readonly double _mua = 0.01;
+        readonly double _musp = 0.198;  // mus = 0.99
+        readonly double _g = 0.8;
 
         /// <summary>
         /// list of temporary files created by these unit tests
         /// </summary>
-        List<string> listOfTestGeneratedFolders = new List<string>()
+        readonly List<string> listOfTestGeneratedFolders = new List<string>()
         {
             "results"
         };
-        List<string> listOfTestGeneratedFiles = new List<string>()
+
+        readonly List<string> listOfTestGeneratedFiles = new List<string>()
         {
             "file.txt"  // file that captures the screen output of MC simulation
         };
@@ -84,10 +83,7 @@ namespace Vts.Test.MonteCarlo.BidirectionalScattering
                     { 
                         new LayerTissueRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
-                            new OpticalProperties(0.0, 1e-10, 0.0, 1.0)),
-                        //new LayerTissueRegion( // debug layer
-                        //    new DoubleRange(0.0, _topLayerThickness),
-                        //    new OpticalProperties(_mua, _musp, _g, 1.0)), // index matched slab                        
+                            new OpticalProperties(0.0, 1e-10, 0.0, 1.0)),                       
                         new LayerTissueRegion(
                             new DoubleRange(0, _slabThickness),
                             new OpticalProperties(_mua, _musp, _g, 1.0)), // index matched slab

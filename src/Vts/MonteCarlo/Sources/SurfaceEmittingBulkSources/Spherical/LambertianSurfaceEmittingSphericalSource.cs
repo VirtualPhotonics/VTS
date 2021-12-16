@@ -104,7 +104,8 @@ namespace Vts.MonteCarlo.Sources
                 initialTissueRegionIndex)
         {
             if (translationFromOrigin == null)
-                translationFromOrigin = SourceDefaults.DefaultPosition.Clone();
+            {
+            }
         }        
     }
 }

@@ -5,10 +5,7 @@
     /// </summary>
     public class SourceFlags
     {
-        private bool _translationFromOriginFlag;
-        private bool _beamRotationFromInwardNormalFlag;
-        private bool _rotationOfPrincipalSourceAxisFlag;
-       
+
         /// <summary>
         /// Provide on/off flags for translation, rotation from inward normal and rotation of Principal source axis
         /// </summary>
@@ -17,9 +14,9 @@
         /// <param name="rotationOfPrincipalSourceAxisFlag">The source axis rotation</param>
         public SourceFlags(bool rotationOfPrincipalSourceAxisFlag, bool translationFromOriginFlag, bool beamRotationFromInwardNormalFlag)
         {
-            _rotationOfPrincipalSourceAxisFlag = rotationOfPrincipalSourceAxisFlag; 
-            _translationFromOriginFlag = translationFromOriginFlag; 
-            _beamRotationFromInwardNormalFlag = beamRotationFromInwardNormalFlag;
+            RotationOfPrincipalSourceAxisFlag = rotationOfPrincipalSourceAxisFlag; 
+            TranslationFromOriginFlag = translationFromOriginFlag; 
+            BeamRotationFromInwardNormalFlag = beamRotationFromInwardNormalFlag;
         }
 
         /// <summary>
@@ -32,16 +29,16 @@
         /// <summary>
         /// boolean flag indicating whether translation from origin required
         /// </summary>
-        public bool TranslationFromOriginFlag { get { return _translationFromOriginFlag; } set { _translationFromOriginFlag = value; } }
+        public bool TranslationFromOriginFlag { get; set; }
         /// <summary>
         /// boolean flag indicating whether beam rotation from inward normal required
         /// </summary>
-        public bool BeamRotationFromInwardNormalFlag { get { return _beamRotationFromInwardNormalFlag; } set { _beamRotationFromInwardNormalFlag = value; } }
+        public bool BeamRotationFromInwardNormalFlag { get; set; }
         /// <summary>
         /// boolean flag indicating whether rotation of principal source axis required
         /// </summary>
-        public bool RotationOfPrincipalSourceAxisFlag { get { return _rotationOfPrincipalSourceAxisFlag; } set { _rotationOfPrincipalSourceAxisFlag = value; } }
-        
+        public bool RotationOfPrincipalSourceAxisFlag { get; set; }
+
         /// <summary>
         /// method to clone class
         /// </summary>

@@ -5,6 +5,9 @@ using Vts.MonteCarlo.Controllers;
 
 namespace Vts.MonteCarlo.Factories
 {
+    /// <summary>
+    /// factory to handle instantiation of detector controllers
+    /// </summary>
     public static class DetectorControllerFactory
     {
         /// <summary>

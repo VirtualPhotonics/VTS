@@ -63,9 +63,11 @@ namespace Vts.MonteCarlo.Extensions
                     {
                         layerTissueInput = result.TissueInput.Regions.ToList();
                     }
-                    if (result.TissueInput is SingleEllipsoidTissueInput)
+
+                    var singleEllipsoidTissue = result.TissueInput as SingleEllipsoidTissueInput;
+                    if (singleEllipsoidTissue != null)
                     {
-                        layerTissueInput = ((SingleEllipsoidTissueInput) result.TissueInput).LayerRegions.ToList();
+                        layerTissueInput = singleEllipsoidTissue.LayerRegions.ToList();
                     }
 
                     var layerRegion = (LayerTissueRegion)layerTissueInput.Skip(regionIndex).First();
@@ -158,11 +160,9 @@ namespace Vts.MonteCarlo.Extensions
                     {
                         case "SingleEllipsoid":
                             inclusionRegion = ((SingleEllipsoidTissueInput)result.TissueInput).EllipsoidRegion;
-                            //var singleEllipsoidTissueInput = (SingleEllipsoidTissueInput) result.TissueInput;
-                            //inclusionPosition = ((EllipsoidTissueRegion)singleEllipsoidTissueInput.EllipsoidTissueRegion).Center;
                             break;
                         default:
-                            throw new ArgumentOutOfRangeException();
+                            throw new ArgumentOutOfRangeException(parameterString);
                     }
                     inclusionPositionModifier(inclusionRegion.Center); // dynamic binding...works?
                     break;
@@ -187,18 +187,12 @@ namespace Vts.MonteCarlo.Extensions
                             }
                             break;
                         default:
-                            throw new ArgumentOutOfRangeException();
+                            throw new ArgumentOutOfRangeException(parameterString);
                     }
                     break;
 
-                //case InputParameterType.XSourcePosition:
-                //    result.source.beam_center_x = value;
-                //    break;
-                // todo: add Y source position to infiles/siRegionOP.Mulation capabilities.
+                // consider add Y source position to infiles/simulation capabilities.
                 // be careful about rectangle distribution of source
-                //case InputParameterType.YSourcePosition:
-                //    result.source.beam_center_y = value;
-                //    break;
 
             }
             return result;

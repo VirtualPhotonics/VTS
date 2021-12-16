@@ -218,8 +218,6 @@ namespace Vts.Test.MonteCarlo.Sources
         public void validate_static_method_getpolarazimuthalpairfromdirection()
         {
             Direction dir = _direction;
-
-            Random rng = new MathNet.Numerics.Random.MersenneTwister(0);
             var angPair = SourceToolbox.GetPolarAzimuthalPairFromDirection(dir);
 
             Assert.Less(Math.Abs(angPair.Theta - _tp[45]), AcceptablePrecision);

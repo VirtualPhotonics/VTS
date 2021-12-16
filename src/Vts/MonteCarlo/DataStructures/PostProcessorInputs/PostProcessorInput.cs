@@ -5,6 +5,10 @@ using Vts.MonteCarlo.Detectors;
 
 namespace Vts.MonteCarlo
 {
+    ///<summary>
+    /// Defines input to the Monte Carlo Post-Processor.  This includes the input folder
+    /// and database names, detector definitions, and output folder name.
+    ///</summary>
     public class PostProcessorInput
     {
         /// <summary>
@@ -21,7 +25,7 @@ namespace Vts.MonteCarlo
         /// </summary>
         public string DatabaseSimulationInputFilename { get; set; }
         /// <summary>
-        /// string identifying output filename
+        /// string identifying output folder name
         /// </summary>
         public string OutputName { get; set; }
 
@@ -31,7 +35,7 @@ namespace Vts.MonteCarlo
         /// <param name="detectorInputs">list of detector inputs</param>
         /// <param name="inputFolder">input folder name, where database file(s), etc. reside</param>
         /// <param name="databaseSimulationInputFilename">filename of simulation input file that generated database to be post-processed</param>
-        /// <param name="outputName"></param>
+        /// <param name="outputName">output folder name</param>
         public PostProcessorInput(
             IList<IDetectorInput> detectorInputs,
             string inputFolder,

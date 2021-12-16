@@ -49,6 +49,10 @@ namespace Vts.MonteCarlo.Detectors
         /// </summary>
         public DoubleRange Omega { get; set; }
 
+        /// <summary>
+        /// Method to create detector from detector input
+        /// </summary>
+        /// <returns>created IDetector</returns>
         public IDetector CreateDetector()
         {
             return new FluenceOfXAndYAndZAndOmegaDetector
@@ -115,6 +119,11 @@ namespace Vts.MonteCarlo.Detectors
         private IList<OpticalProperties> _ops;
         private Complex[,,,] _tallyForOnePhoton;
 
+        /// <summary>
+        /// Method to initialize detector
+        /// </summary>
+        /// <param name="tissue">tissue definition</param>
+        /// <param name="rng">random number generator</param>
         public void Initialize(ITissue tissue, Random rng)
         {
             // assign any user-defined outputs (except arrays...we'll make those on-demand)
@@ -124,7 +133,7 @@ namespace Vts.MonteCarlo.Detectors
             Mean = Mean ?? new Complex[X.Count - 1, Y.Count - 1, Z.Count - 1, Omega.Count];
             SecondMoment = SecondMoment ?? (TallySecondMoment ? new Complex[X.Count - 1, Y.Count - 1, Z.Count - 1, Omega.Count] : null);
 
-            // intialize any other necessary class fields here
+            // initialize any other necessary class fields here
             _absorptionWeightingMethod = AbsorptionWeightingMethods.GetVolumeAbsorptionWeightingMethod(tissue, this);
             _tissue = tissue;
             _ops = _tissue.Regions.Select(r => r.RegionOP).ToArray();
@@ -233,7 +242,10 @@ namespace Vts.MonteCarlo.Detectors
             }
         }
 
-        // this is to allow saving of large arrays separately as a binary file
+        /// <summary>
+        /// this is to allow saving of large arrays separately as a binary file
+        /// </summary>
+        /// <returns>BinaryArraySerializer[]</returns>
         public BinaryArraySerializer[] GetBinarySerializers()
         {
             return new[] {

@@ -25,11 +25,13 @@ namespace Vts.MonteCarlo.Sources
         /// Photon weight as determined by GetNextPositionAndWeight
         /// </summary>
         protected double _weight;
-        
+
         /// <summary>
         /// Defines FluorescenceEmissionSourceBase class
         /// </summary>
-        /// <param name="initialTissueRegionIndex">fluorescence tissue region index</param>
+        /// <param name="inputFolder">folder where absorbed energy result resides</param>
+        /// <param name="infile">infile that was used to generate absorbed energy result</param>
+        /// <param name="fluorescenceTissueRegionIndex">tissue region index of fluorescent region</param>
         protected FluorescenceEmissionSourceBase(string inputFolder, string infile,
             int fluorescenceTissueRegionIndex)
         {
@@ -58,7 +60,8 @@ namespace Vts.MonteCarlo.Sources
         /// <summary>
         /// Returns Lambertian direction - all fluorescence emission is Lambertian
         /// </summary>
-        /// <returns>new direction</returns>
+        /// <param name="rng">random number generator</param>
+        /// <returns>photon Direction</returns>
         private static Direction GetFinalDirection(Random rng)
         {
             //Lambertian distribution 
@@ -67,10 +70,13 @@ namespace Vts.MonteCarlo.Sources
                     SourceDefaults.DefaultAzimuthalAngleRange.Clone(),
                     rng);
         }
+
         /// <summary>
         /// each inheritor generates own GetFinalPositionAndWeight
         /// </summary>
-        /// <returns></returns>
+        /// <param name="rng">random number generator</param>
+        /// <param name="weight">out: photon weight</param>
+        /// <returns>photon Position</returns>
         protected abstract Position GetFinalPositionAndWeight(Random rng, out double weight);
 
         #region Random number generator code (copy-paste into all sources)

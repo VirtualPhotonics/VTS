@@ -34,7 +34,12 @@ namespace Vts.Modeling
             hankelWeights = (double[])FileIO.ReadArrayFromBinaryInResources<double>
                 (dataLocation + @"hankelweights.dat", projectName, dataLength);
         }
-
+        /// <summary>
+        /// digital filter of order 0
+        /// </summary>
+        /// <param name="varInt"></param>
+        /// <param name="func"></param>
+        /// <returns></returns>
         public static double DigitalFilterOfOrderZero(double varInt, Func<double, double> func)
         {
             if (varInt == 0)

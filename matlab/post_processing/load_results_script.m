@@ -28,6 +28,8 @@ show.ROfXAndY =                 1;
 show.ROfXAndYRecessed =         1;
 show.ROfXAndYAndTime =          1;
 show.ROfXAndYAndTimeRecessed =  1;
+show.ROfXAndYAndTimeAndSubregion =          1;
+show.ROfXAndYAndTimeAndSubregionRecessed =  1;
 show.ROfXAndYAndThetaAndPhi =   1;
 show.ROfXAndYAndMaxDepth =      1;
 show.ROfXAndYAndMaxDepthRecessed=1;
@@ -40,6 +42,7 @@ show.TOfRho =                   1;
 show.TOfRhoAndAngle =           1;
 show.TOfAngle =                 1;
 show.TOfXAndY =                 1;
+show.TOfXAndYAndTimeAndSubregion =          1;
 show.TOfFx =					1;
 show.ATotal =                   1;
 show.AOfRhoAndZ =               1;
@@ -56,11 +59,14 @@ show.FluenceOfFxAndZ =          1;
 show.RadianceOfRhoAndZAndAngle = 1;
 show.RadianceOfFxAndZAndAngle = 1;
 show.RadianceOfXAndYAndZAndThetaAndPhi = 1;
+show.pMCATotal =                1;
 show.pMCROfRho =                1;
 show.pMCROfRhoRecessed =        1;
 show.pMCROfRhoAndTime =         1;
 show.pMCROfRhoAndTimeRecessed = 1;
-show.pMCROfXAndY =              1; 
+show.pMCROfXAndY =              1;
+show.pMCROfXAndYAndTimeAndSubregion = 1;
+show.pMCROfXAndYAndTimeAndSubregionRecessed = 1;
 show.pMCROfFx =                 1;
 show.pMCTOfRho =                1;
 show.ReflectedMTOfRhoAndSubregionHist = 1;
@@ -227,6 +233,38 @@ for mci = 1:length(datanames)
         xynorm = xdelta * ydelta;
         disp(['Total reflectance captured by ROfXAndYAndTimeRecessed detector: ' num2str(sum(sum(sum(timedelta*xynorm*results{di}.ROfXAndYAndTimeRecessed.Mean))))]);
     end
+    if isfield(results{di}, 'ROfXAndYAndTimeAndSubregion') && show.ROfXAndYAndTimeAndSubregion
+        y0idx = floor(length(results{di}.ROfXAndYAndTimeAndSubregion.Y_Midpoints)/2);
+        for i=2:results{di}.ROfXAndYAndTimeAndSubregion.NumberOfRegions-1 % exclude air above and below          
+          figname = sprintf('log10(%s) region idx=%i',results{di}.ROfXAndYAndTimeAndSubregion.Name,i-1); figure; 
+          imagesc(results{di}.ROfXAndYAndTimeAndSubregion.X_Midpoints, results{di}.ROfXAndYAndTimeAndSubregion.Time_Midpoints,...
+            log10(squeeze(results{di}.ROfXAndYAndTimeAndSubregion.Mean(i,:,y0idx,:)))); 
+          colorbar; title(figname); set(gcf,'Name', figname);ylabel('time [ns]'); xlabel('x [mm]');
+        end
+        xdelta = results{di}.ROfXAndYAndTimeAndSubregion.X(2)-results{di}.ROfXAndYAndTimeAndSubregion.X(1);        
+        ydelta = results{di}.ROfXAndYAndTimeAndSubregion.Y(2)-results{di}.ROfXAndYAndTimeAndSubregion.Y(1);
+        timedelta = results{di}.ROfXAndYAndTimeAndSubregion.Time(2)-results{di}.ROfXAndYAndTimeAndSubregion.Time(1);
+        % the following does not integrate to diffuse R
+        disp(['Total reflectance captured by ROfXAndYAndTimeAndSubregion detector: ' num2str(sum(xdelta*ydelta*timedelta*results{di}.ROfXAndYAndTimeAndSubregion.Mean(:)))]);
+        % but this does
+        disp(['Total reflectance captured by ROfXAndYAndTimeAndSubregion detector - ROfXAndY: ' num2str(sum(xdelta*ydelta*results{di}.ROfXAndYAndTimeAndSubregion.ROfXAndY(:)))]);
+    end
+    if isfield(results{di}, 'ROfXAndYAndTimeAndSubregionRecessed') && show.ROfXAndYAndTimeAndSubregionRecessed
+        y0idx = floor(length(results{di}.ROfXAndYAndTimeAndSubregionRecessed.Y_Midpoints)/2);
+        for i=2:results{di}.ROfXAndYAndTimeAndSubregionRecessed.NumberOfRegions-1 % exclude air above and below          
+          figname = sprintf('log10(%s) region idx=%i',results{di}.ROfXAndYAndTimeAndSubregionRecessed.Name,i-1); figure; 
+          imagesc(results{di}.ROfXAndYAndTimeAndSubregionRecessed.X_Midpoints, results{di}.ROfXAndYAndTimeAndSubregionRecessed.Time_Midpoints,...
+            log10(squeeze(results{di}.ROfXAndYAndTimeAndSubregionRecessed.Mean(i,:,y0idx,:)))); 
+          colorbar; title(figname); set(gcf,'Name', figname);ylabel('time [ns]'); xlabel('x [mm]');
+        end
+        xdelta = results{di}.ROfXAndYAndTimeAndSubregionRecessed.X(2)-results{di}.ROfXAndYAndTimeAndSubregionRecessed.X(1);        
+        ydelta = results{di}.ROfXAndYAndTimeAndSubregionRecessed.Y(2)-results{di}.ROfXAndYAndTimeAndSubregionRecessed.Y(1);
+        timedelta = results{di}.ROfXAndYAndTimeAndSubregionRecessed.Time(2)-results{di}.ROfXAndYAndTimeAndSubregionRecessed.Time(1);
+        % the following does not integrate to diffuse R
+        disp(['Total reflectance captured by ROfXAndYAndTimeAndSubregionRecessed detector: ' num2str(sum(xdelta*ydelta*timedelta*results{di}.ROfXAndYAndTimeAndSubregionRecessed.Mean(:)))]);
+        % but this does
+        disp(['Total reflectance captured by ROfXAndYAndTimeAndSubregionRecessed detector - ROfXAndY: ' num2str(sum(xdelta*ydelta*results{di}.ROfXAndYAndTimeAndSubregionRecessed.ROfXAndY(:)))]);
+    end
     if isfield(results{di}, 'ROfXAndYAndThetaAndPhi') && show.ROfXAndYAndThetaAndPhi
         yidx = floor(length(results{di}.ROfXAndYAndThetaAndPhi.Y_Midpoints) / 2);
         xidx = floor(length(results{di}.ROfXAndYAndThetaAndPhi.X_Midpoints) / 2);
@@ -324,6 +362,22 @@ for mci = 1:length(datanames)
         % determine range of x, y midpoints that have non-zero data
         [r,c]=find(results{di}.TOfXAndY.Mean);
         disp(sprintf('TOfXAndY: x non-zero span [%d %d]',min(r),max(r))); disp(sprintf('TOfXAndY: y non-zero span [%d %d]',min(c),max(c)));
+    end
+    if isfield(results{di}, 'TOfXAndYAndTimeAndSubregion') && show.TOfXAndYAndTimeAndSubregion
+        y0idx = floor(length(results{di}.TOfXAndYAndTimeAndSubregion.Y_Midpoints)/2);
+        for i=2:results{di}.TOfXAndYAndTimeAndSubregion.NumberOfRegions-1 % exclude air above and below          
+          figname = sprintf('log10(%s) region idx=%i',results{di}.TOfXAndYAndTimeAndSubregion.Name,i-1); figure; 
+          imagesc(results{di}.TOfXAndYAndTimeAndSubregion.X_Midpoints, results{di}.TOfXAndYAndTimeAndSubregion.Time_Midpoints,...
+            log10(squeeze(results{di}.TOfXAndYAndTimeAndSubregion.Mean(i,:,y0idx,:)))); 
+          colorbar; title(figname); set(gcf,'Name', figname);ylabel('time [ns]'); xlabel('x [mm]');
+        end
+        xdelta = results{di}.TOfXAndYAndTimeAndSubregion.X(2)-results{di}.TOfXAndYAndTimeAndSubregion.X(1);        
+        ydelta = results{di}.TOfXAndYAndTimeAndSubregion.Y(2)-results{di}.TOfXAndYAndTimeAndSubregion.Y(1);
+        timedelta = results{di}.TOfXAndYAndTimeAndSubregion.Time(2)-results{di}.TOfXAndYAndTimeAndSubregion.Time(1);
+        % the following does not integrate to diffuse T
+        disp(['Total transmittance captured by TOfXAndYAndTimeAndSubregion detector: ' num2str(sum(xdelta*ydelta*timedelta*results{di}.TOfXAndYAndTimeAndSubregion.Mean(:)))]);
+        % but this does
+        disp(['Total transmittance captured by TOfXAndYAndTimeAndSubregion detector - TOfXAndY: ' num2str(sum(xdelta*ydelta*results{di}.TOfXAndYAndTimeAndSubregion.TOfXAndY(:)))]);
     end
     if isfield(results{di}, 'TOfFx') && show.TOfFx
         figname = sprintf('log10(%s)',results{di}.TOfFx.Name); figure; plot(results{di}.TOfFx.Fx_Midpoints, abs(results{di}.TOfFx.Mean)); title(figname); set(gcf,'Name', figname); 
@@ -942,29 +996,79 @@ for mci = 1:length(datanames)
                colorbar; caxis([-15 0]);title(figname); set(gcf,'Name', figname); ylabel('time [ns]'); xlabel('\rho [mm]');
         end
         figname = sprintf('%s Fractional Time',results{di}.ReflectedTimeOfRhoAndSubregionHist.Name); 
-        figure; imagesc(results{di}.ReflectedTimeOfRhoAndSubregionHist.Rho_Midpoints, results{di}.ReflectedTimeOfRhoAndSubregionHist.SubregionIndices-1, results{di}.ReflectedTimeOfRhoAndSubregionHist.FractionalTime');       
+        figure; imagesc(results{di}.ReflectedTimeOfRhoAndSubregionHist.Rho_Midpoints, results{di}.ReflectedTimeOfRhoAndSubregionHist.Time_Midpoints, results{di}.ReflectedTimeOfRhoAndSubregionHist.FractionalTime');       
                colorbar; title(figname); set(gcf,'Name', figname); ylabel('subregion index'); xlabel('\rho [mm]')
         disp(['Time in Subregion captured by ReflectedTimeOfRhoAndSubregionHist detector: ' num2str(sum(results{di}.ReflectedTimeOfRhoAndSubregionHist.Mean(:)))]);
     end
+    if isfield(results{di}, 'pMCATotal') && show.pMCATotal
+       disp(['Total absorption captured by pMCATotal detector: ' num2str(results{di}.pMCATotal.Mean)]);
+    end
     if isfield(results{di}, 'pMCROfRho') && show.pMCROfRho
         figname = sprintf('log10(%s)',results{di}.pMCROfRho.Name); figure; plot(results{di}.pMCROfRho.Rho_Midpoints, log10(results{di}.pMCROfRho.Mean)); title(figname); set(gcf,'Name', figname); xlabel('\rho [mm]'); ylabel('pMC R(\rho) [mm^-^2]');
-        disp(['Total reflectance captured by pMCROfRho detector: ' num2str(sum(results{di}.pMCROfRho.Mean(:)))]);
-    end
+        rhodelta = results{di}.pMCROfRho.Rho(2)-results{di}.pMCROfRho.Rho(1);
+        rhonorm = 2 * pi * results{di}.pMCROfRho.Rho_Midpoints * rhodelta;
+        disp(['Total reflectance captured by pMCROfRho detector: ' num2str(sum(results{di}.pMCROfRho.Mean.*rhonorm'))]);
+     end
     if isfield(results{di}, 'pMCROfRhoRecessed') && show.pMCROfRhoRecessed
         figname = sprintf('log10(%s)',results{di}.pMCROfRhoRecessed.Name); figure; plot(results{di}.pMCROfRhoRecessed.Rho_Midpoints, log10(results{di}.pMCROfRhoRecessed.Mean)); title(figname); set(gcf,'Name', figname); xlabel('\rho [mm]'); ylabel('pMC R(\rho) [mm^-^2]');
-        disp(['Total reflectance captured by pMCROfRhoRecessed detector: ' num2str(sum(results{di}.pMCROfRhoRecessed.Mean(:)))]);
-    end
+        rhodelta = results{di}.pMCROfRhoRecessed.Rho(2)-results{di}.pMCROfRhoRecessed.Rho(1);
+        rhonorm = 2 * pi * results{di}.pMCROfRho.Rho_Midpoints * rhodelta;
+        disp(['Total reflectance captured by pMCROfRhoRecessed detector: ' num2str(sum(results{di}.pMCROfRhoRecessed.Mean.*rhonorm'))]);
+     end
     if isfield(results{di}, 'pMCROfRhoAndTime') && show.pMCROfRhoAndTime
         figname = sprintf('log10(%s)',results{di}.pMCROfRhoAndTime.Name); figure; imagesc(results{di}.pMCROfRhoAndTime.Rho_Midpoints, results{di}.pMCROfRhoAndTime.Time_Midpoints,log10(results{di}.pMCROfRhoAndTime.Mean)); colorbar; title(figname); set(gcf,'Name', figname);ylabel('time [ns]'); xlabel('\rho [mm]');
-        disp(['Total reflectance captured by pMCROfRhoAndTime detector: ' num2str(sum(results{di}.pMCROfRhoAndTime.Mean(:)))]);
-    end   
+        numtimes = length(results{di}.pMCROfRhoAndTime.Time)-1;   
+        timedelta = results{di}.pMCROfRhoAndTime.Time(2)-results{di}.pMCROfRhoAndTime.Time(1);
+        rhodelta = results{di}.pMCROfRhoAndTime.Rho(2)-results{di}.pMCROfRhoAndTime.Rho(1);
+        rhonorm = 2 * pi * results{di}.pMCROfRhoAndTime.Rho_Midpoints * rhodelta;
+        disp(['Total reflectance captured by pMCROfRhoAndTime detector: ' num2str(sum(sum(timedelta*results{di}.pMCROfRhoAndTime.Mean.*repmat(rhonorm,[numtimes,1]))))]);
+     end   
     if isfield(results{di}, 'pMCROfRhoAndTimeRecessed') && show.pMCROfRhoAndTimeRecessed
         figname = sprintf('log10(%s)',results{di}.pMCROfRhoAndTimeRecessed.Name); figure; imagesc(results{di}.pMCROfRhoAndTimeRecessed.Rho_Midpoints, results{di}.pMCROfRhoAndTimeRecessed.Time_Midpoints,log10(results{di}.pMCROfRhoAndTimeRecessed.Mean)); colorbar; title(figname); set(gcf,'Name', figname);ylabel('time [ns]'); xlabel('\rho [mm]');
-        disp(['Total reflectance captured by pMCROfRhoAndTimeRecessed detector: ' num2str(sum(results{di}.pMCROfRhoAndTimeRecessed.Mean(:)))]);
+        numtimes = length(results{di}.pMCROfRhoAndTimeRecessed.Time)-1;   
+        timedelta = results{di}.pMCROfRhoAndTimeRecessed.Time(2)-results{di}.pMCROfRhoAndTimeRecessed.Time(1);
+        rhodelta = results{di}.pMCROfRhoAndTimeRecessed.Rho(2)-results{di}.pMCROfRhoAndTimeRecessed.Rho(1);
+        rhonorm = 2 * pi * results{di}.pMCROfRhoAndTimeRecessed.Rho_Midpoints * rhodelta;
+        disp(['Total reflectance captured by ROfRhoAndTimeRecessed detector: ' num2str(sum(sum(timedelta*results{di}.pMCROfRhoAndTimeRecessed.Mean.*repmat(rhonorm,[numtimes,1]))))]);
     end 
     if isfield(results{di}, 'pMCROfXAndY') && show.pMCROfXAndY
         figname = sprintf('log10(%s)',results{di}.pMCROfXAndY.Name); figure; imagesc(results{di}.pMCROfXAndY.X_Midpoints, results{di}.pMCROfXAndY.Y_Midpoints,log10(results{di}.pMCROfXAndY.Mean)); colorbar; title(figname); set(gcf,'Name', figname);ylabel('y [mm]'); xlabel('x [mm]');
-        disp(['Total reflectance captured by pMCROfXAndY detector: ' num2str(sum(results{di}.pMCROfXAndY.Mean(:)))]);
+        xdelta = results{di}.ROfXAndYAndTime.X(2)-results{di}.ROfXAndYAndTime.X(1);        
+        ydelta = results{di}.ROfXAndYAndTime.Y(2)-results{di}.ROfXAndYAndTime.Y(1);
+        disp(['Total reflectance captured by pMCROfXAndY detector: ' num2str(sum(xdelta*ydelta*results{di}.pMCROfXAndY.Mean(:)))]);
+    end
+    if isfield(results{di}, 'pMCROfXAndYAndTimeAndSubregion') && show.pMCROfXAndYAndTimeAndSubregion
+        y0idx = floor(length(results{di}.pMCROfXAndYAndTimeAndSubregion.Y_Midpoints)/2);
+        for i=2:results{di}.pMCROfXAndYAndTimeAndSubregion.NumberOfRegions-1 % exclude air above and below          
+          figname = sprintf('log10(%s) region idx=%i',results{di}.pMCROfXAndYAndTimeAndSubregion.Name,i-1); figure; 
+          imagesc(results{di}.pMCROfXAndYAndTimeAndSubregion.X_Midpoints, results{di}.pMCROfXAndYAndTimeAndSubregion.Time_Midpoints,...
+            log10(squeeze(results{di}.pMCROfXAndYAndTimeAndSubregion.Mean(i,:,y0idx,:)))); 
+          colorbar; title(figname); set(gcf,'Name', figname);ylabel('time [ns]'); xlabel('x [mm]');
+        end
+        xdelta = results{di}.pMCROfXAndYAndTimeAndSubregion.X(2)-results{di}.pMCROfXAndYAndTimeAndSubregion.X(1);        
+        ydelta = results{di}.pMCROfXAndYAndTimeAndSubregion.Y(2)-results{di}.pMCROfXAndYAndTimeAndSubregion.Y(1);
+        timedelta = results{di}.pMCROfXAndYAndTimeAndSubregion.Time(2)-results{di}.pMCROfXAndYAndTimeAndSubregion.Time(1);
+        % the following does not integrate to diffuse R
+        disp(['Total reflectance captured by pMCROfXAndYAndTimeAndSubregion detector: ' num2str(sum(xdelta*ydelta*timedelta*results{di}.pMCROfXAndYAndTimeAndSubregion.Mean(:)))]);
+        % but this does
+        disp(['Total reflectance captured by pMCROfXAndYAndTimeAndSubregion detector - ROfXAndY: ' num2str(sum(xdelta*ydelta*results{di}.pMCROfXAndYAndTimeAndSubregion.ROfXAndY(:)))]);
+    end
+    if isfield(results{di}, 'pMCROfXAndYAndTimeAndSubregionRecessed') && show.pMCROfXAndYAndTimeAndSubregionRecessed
+        y0idx = floor(length(results{di}.pMCROfXAndYAndTimeAndSubregionRecessed.Y_Midpoints)/2);
+        for i=2:results{di}.pMCROfXAndYAndTimeAndSubregionRecessed.NumberOfRegions-1 % exclude air above and below          
+          figname = sprintf('log10(%s) region idx=%i',results{di}.pMCROfXAndYAndTimeAndSubregionRecessed.Name,i-1); figure; 
+          imagesc(results{di}.pMCROfXAndYAndTimeAndSubregionRecessed.X_Midpoints, results{di}.pMCROfXAndYAndTimeAndSubregionRecessed.Time_Midpoints,...
+            log10(squeeze(results{di}.pMCROfXAndYAndTimeAndSubregionRecessed.Mean(i,:,y0idx,:)))); 
+          colorbar; title(figname); set(gcf,'Name', figname);ylabel('time [ns]'); xlabel('x [mm]');
+        end
+        xdelta = results{di}.pMCROfXAndYAndTimeAndSubregionRecessed.X(2)-results{di}.pMCROfXAndYAndTimeAndSubregionRecessed.X(1);        
+        ydelta = results{di}.pMCROfXAndYAndTimeAndSubregionRecessed.Y(2)-results{di}.pMCROfXAndYAndTimeAndSubregionRecessed.Y(1);
+        timedelta = results{di}.pMCROfXAndYAndTimeAndSubregionRecessed.Time(2)-results{di}.pMCROfXAndYAndTimeAndSubregionRecessed.Time(1);
+        % the following does not integrate to diffuse R
+        disp(['Total reflectance captured by pMCROfXAndYAndTimeAndSubregionRecessed detector: ' num2str(sum(xdelta*ydelta*timedelta*results{di}.pMCROfXAndYAndTimeAndSubregionRecessed.Mean(:)))]);
+        % but this does
+        disp(['Total reflectance captured by pMCROfXAndYAndTimeAndSubregion detector - ROfXAndY: ' num2str(sum(xdelta*ydelta*results{di}.pMCROfXAndYAndTimeAndSubregionRecessed.ROfXAndY(:)))]);
+
     end
     if isfield(results{di}, 'pMCROfFx') && show.pMCROfFx
         figname = sprintf('%s - Amplitude',results{di}.pMCROfFx.Name);figure;plot(results{di}.pMCROfFx.Fx_Midpoints, abs(results{di}.pMCROfFx.Mean));title(figname);set(gcf,'Name', figname);xlabel('f_x [/mm]');ylabel('R(f_x) [unitless]');

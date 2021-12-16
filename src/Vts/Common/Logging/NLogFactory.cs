@@ -66,14 +66,6 @@ namespace Vts.Common.Logging.NLogIntegration
             }
         }
 
-        ///// <summary>
-        ///// Destructor - added to try and fix an issue when using the logger in mono
-        ///// </summary>
-        //~ NLogFactory()
-        //{
-        //    LogManager.Configuration = null;
-        //}
-
         private static LoggingConfiguration GetDefaultLoggingConfiguration()
         {
             var config = new LoggingConfiguration();
@@ -114,16 +106,8 @@ namespace Vts.Common.Logging.NLogIntegration
         /// <returns></returns>
         public override ILogger Create(String name)
         {
-            //if (File.Exists(name))
-            //{
-                var nLogLogger = LogManager.GetLogger(name);
-                return new NLogLogger(nLogLogger, this);
-            //}
-            //else
-            //{
-            //    var nullLogger = LogManager.CreateNullLogger();
-            //    return new NLogLogger(nullLogger, this);
-            //}
+            var nLogLogger = LogManager.GetLogger(name);
+            return new NLogLogger(nLogLogger, this);
         }
 
         /// <summary>

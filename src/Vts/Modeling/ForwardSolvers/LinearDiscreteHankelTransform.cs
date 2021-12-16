@@ -9,6 +9,13 @@ namespace Vts.Modeling
     /// </summary>
     public class LinearDiscreteHankelTransform 
     {
+        /// <summary>
+        /// method to get rho values
+        /// </summary>
+        /// <param name="mua">absorption coefficient</param>
+        /// <param name="musp">reduced scattering coefficient</param>
+        /// <param name="drho">delta rho</param>
+        /// <returns></returns>
         public static double[] GetRho(double mua, double musp, out double drho)
         {
             double  rMaxFactor = 25;
@@ -35,7 +42,6 @@ namespace Vts.Modeling
         {
             if (rho.Length != ROfRho.Length)
             {
-                //throw new ArgumentOutOfRangeException();
                 throw new Meta.Numerics.DimensionMismatchException();
             }
             double sum = 0.0;

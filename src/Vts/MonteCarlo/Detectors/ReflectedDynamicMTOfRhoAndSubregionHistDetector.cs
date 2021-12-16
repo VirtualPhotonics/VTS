@@ -65,7 +65,11 @@ namespace Vts.MonteCarlo.Detectors
         /// detector numerical aperture
         /// </summary>
         public double NA { get; set; }
-        
+
+        /// <summary>
+        /// Method to create detector from detector input
+        /// </summary>
+        /// <returns>created IDetector</returns>
         public IDetector CreateDetector()
         {
             return new ReflectedDynamicMTOfRhoAndSubregionHistDetector
@@ -182,11 +186,19 @@ namespace Vts.MonteCarlo.Detectors
         /// number of tissue subregions
         /// </summary>
         public int NumSubregions { get; set; } 
+        /// <summary>
+        /// total number of collisions
+        /// </summary>
         public int[] TotalCollisions { get; set; } // debug
 
+        /// <summary>
+        /// Method to initialize detector
+        /// </summary>
+        /// <param name="tissue">tissue definition</param>
+        /// <param name="rng">random number generator</param>
         public void Initialize(ITissue tissue, Random rng)
         {
-            // intialize any necessary class fields here
+            // initialize any necessary class fields here
             _tissue = tissue;
             _rng = rng;
 
@@ -340,13 +352,11 @@ namespace Vts.MonteCarlo.Detectors
                     }
                 }
             }
-            //for (int i = 1; i < NumSubregions-1; i++) //debug
-            //{ //debug
-            //    SubregionCollisions[i, 0] /= TotalCollisions[i]; //debug
-            //    SubregionCollisions[i, 1] /= TotalCollisions[i]; //debug
-            //} //debug
         }
-        // this is to allow saving of large arrays separately as a binary file
+        /// <summary>
+        /// this is to allow saving of large arrays separately as a binary file
+        /// </summary>
+        /// <returns>BinaryArraySerializer[]</returns>
         public BinaryArraySerializer[] GetBinarySerializers()
         {
             return new[] {
@@ -570,8 +580,7 @@ namespace Vts.MonteCarlo.Detectors
         /// <returns>method always returns true</returns>
         public bool ContainsPoint(PhotonDataPoint dp)
         {
-            return true; // or, possibly test for NA or confined position, etc
-            //return (dp.StateFlag.Has(PhotonStateType.PseudoTransmissionDomainTopBoundary));
+            return true; // or, possibly test for NA or confined position, etc.
         }
 
         /// <summary>
@@ -590,8 +599,6 @@ namespace Vts.MonteCarlo.Detectors
                 var detectorRegionN = _tissue.Regions[FinalTissueRegionIndex].RegionOP.N;
                 return photon.History.PreviousDP.IsWithinNA(NA, Direction.AlongNegativeZAxis, detectorRegionN);
             }
-            //return true; // or, possibly test for NA or confined position, etc
-            //return (dp.StateFlag.Has(PhotonStateType.PseudoTransmissionDomainTopBoundary));
         }
 
     }

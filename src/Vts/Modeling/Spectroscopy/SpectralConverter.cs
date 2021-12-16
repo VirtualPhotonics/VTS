@@ -109,12 +109,12 @@ namespace Vts.SpectralMapping
                     case "1/cm":
                         return WavelengthUnit.InverseCentimeters;
                     default:
-                        throw new Exception("Not a valid wavelength unit");
+                        throw new ArgumentException("Not a valid wavelength unit");
                 }
             }
             else
             {
-                throw new Exception("Not a valid wavelength unit");
+                throw new ArgumentException("Not a valid wavelength unit");
             }
         }
 
@@ -138,7 +138,7 @@ namespace Vts.SpectralMapping
                 case WavelengthUnit.InverseMeters:
                     return "1/m";
                 default:
-                    throw new Exception("Unknown wavelength unit");
+                    throw new ArgumentException("Unknown wavelength unit");
             }
         }
 
@@ -170,12 +170,12 @@ namespace Vts.SpectralMapping
                     case "um":
                         return AbsorptionCoefficientUnit.InverseMicrometers;
                     default:
-                        throw new Exception("Not a valid absorption coefficient unit");
+                        throw new ArgumentException("Not a valid absorption coefficient unit");
                 }
             }
             else
             {
-                throw new Exception("Not a valid absorption coefficient unit");
+                throw new ArgumentException("Not a valid absorption coefficient unit");
             }
         }
 
@@ -219,7 +219,7 @@ namespace Vts.SpectralMapping
             }
             else
             {
-                throw new Exception("Not a valid molar unit");
+                throw new ArgumentException("Not a valid molar unit");
             }
         }
 
@@ -253,7 +253,7 @@ namespace Vts.SpectralMapping
                     mU = "nM";
                     break;
                 default:
-                    throw new Exception("Unknown molar unit");
+                    throw new ArgumentException("Unknown molar unit");
             }
 
             switch (absorptionCoefficientUnit)
@@ -271,7 +271,7 @@ namespace Vts.SpectralMapping
                     aCU = "mm";
                     break;
                 default:
-                    throw new Exception("Unknown absorption coefficient unit");
+                    throw new ArgumentException("Unknown absorption coefficient unit");
             }
             if (molarUnit == MolarUnit.None)
             {

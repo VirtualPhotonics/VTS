@@ -4,10 +4,13 @@ using Vts.MonteCarlo.PhotonData;
 
 namespace Vts.MonteCarlo
 {
+    /// <summary>
+    /// methods used to determine photon weight based on absorption weighting method
+    /// </summary>
     public static class AbsorptionWeightingMethods
     {
         /// <summary>
-        /// Method that returns a function providing the correct absorption weighting for analog and DAW
+        /// Method that returns a function providing the correct absorption weighting for analog, DAW and CAW ATotal
         /// </summary>
         /// <param name="tissue">tissue specification</param>
         /// <param name="detector">detector specification</param>
@@ -21,7 +24,7 @@ namespace Vts.MonteCarlo
                 case AbsorptionWeightingType.Continuous:
                     if (detector.TallyType == TallyType.ATotal)
                     {
-                        return (previousDP, dp, regionIndex) => VolumeAbsorptionWeightingContinuous(previousDP, dp, regionIndex, tissue);
+                        return (previousDP, dp, regionIndex) => VolumeAbsorptionWeightingContinuous(previousDP, dp);
                     }
                     else
                     {
@@ -33,7 +36,42 @@ namespace Vts.MonteCarlo
                     throw new ArgumentException("AbsorptionWeightingType did not match the available types.");
             }
         }
-
+        /// <summary>
+        /// Method that returns a function providing the correct absorption weighting for analog and DAW
+        /// </summary>
+        /// <param name="tissue">tissue specification</param>
+        /// <param name="detector">detector specification</param>
+        /// <returns>func providing correct absorption weighting for analog and DAW</returns>
+        public static Func<IList<long>, IList<double>, IList<OpticalProperties>, IList<OpticalProperties>, IList<int>, double> GetpMCVolumeAbsorptionWeightingMethod(ITissue tissue, IDetector detector)
+        {
+            switch (tissue.AbsorptionWeightingType)
+            {
+                case AbsorptionWeightingType.Analog:
+                    throw new NotImplementedException("Analog cannot be used for pMC estimates.");
+                case AbsorptionWeightingType.Continuous:
+                    if (detector.TallyType == TallyType.pMCATotal)
+                    {
+                        return (numberOfCollisions, pathLengths, perturbedOps, referenceOps,perturbedRegionIndices) => 
+                            pMCVolumeAbsorptionWeightingContinuous(numberOfCollisions,pathLengths,perturbedOps,referenceOps,perturbedRegionIndices);
+                    }
+                    else
+                    {
+                        throw new NotImplementedException("CAW is not currently implemented for most volume tallies.");
+                    }
+                case AbsorptionWeightingType.Discrete:
+                    if (detector.TallyType == TallyType.pMCATotal)
+                    {
+                        return (numberOfCollisions, pathLengths, perturbedOps, referenceOps, perturbedRegionIndices) =>
+                            pMCVolumeAbsorptionWeightingDiscrete(numberOfCollisions, pathLengths, perturbedOps, referenceOps, perturbedRegionIndices);
+                    }
+                    else
+                    {
+                        throw new NotImplementedException("DAW is not currently implemented for most volume tallies.");
+                    }
+                default:
+                    throw new ArgumentException("AbsorptionWeightingType did not match the available types.");
+            }
+        }
         /// <summary>
         /// Method that returns a function providing the correct absorption weighting for analog and DAW
         /// </summary>
@@ -60,7 +98,6 @@ namespace Vts.MonteCarlo
         private static double VolumeAbsorptionWeightingAnalog(PhotonDataPoint dp)
         {
             var weight = VolumeAbsorbAnalog(
-                dp.Weight,
                 dp.StateFlag);
 
             return weight;
@@ -76,7 +113,8 @@ namespace Vts.MonteCarlo
 
             return weight;
         }
-        private static double VolumeAbsorptionWeightingContinuous(PhotonDataPoint previousDP, PhotonDataPoint dp, int regionIndex, ITissue tissue)
+        private static double VolumeAbsorptionWeightingContinuous(
+            PhotonDataPoint previousDP, PhotonDataPoint dp)
         {
             var weight = VolumeAbsorbContinuous(
                 previousDP.Weight,
@@ -85,15 +123,12 @@ namespace Vts.MonteCarlo
             return weight;
         }
 
-        private static double VolumeAbsorbAnalog(double weight, PhotonStateType photonStateType)
+        private static double VolumeAbsorbAnalog(PhotonStateType photonStateType)
         {
+            var weight = 0.0;
             if (photonStateType.HasFlag(PhotonStateType.Absorbed))
             {
                 weight = 1.0;
-            }
-            else
-            {
-                weight = 0.0;
             }
             return weight;
         }
@@ -174,9 +209,17 @@ namespace Vts.MonteCarlo
             return weightFactor;
         }
 
-        private static double pMCAbsorbAnalog(long[] numberOfCollisions, double[] pathLength, OpticalProperties[] perturbedOps, OpticalProperties[] referenceOps, int[] perturbedRegionsIndices)
+        private static double pMCVolumeAbsorptionWeightingDiscrete(IList<long> numberOfCollisions, IList<double> pathLengths, IList<OpticalProperties> perturbedOps, IList<OpticalProperties> referenceOps, IList<int> perturbedRegionsIndices)
         {
-            throw new NotImplementedException();
+            // final pMC absorbed energy will use this perturbed factor 
+            return pMCAbsorbDiscrete(numberOfCollisions, pathLengths, perturbedOps, referenceOps,
+                perturbedRegionsIndices);
+        }
+        private static double pMCVolumeAbsorptionWeightingContinuous(IList<long> numberOfCollisions, IList<double> pathLengths, IList<OpticalProperties> perturbedOps, IList<OpticalProperties> referenceOps, IList<int> perturbedRegionsIndices)
+        {
+            // final pMC absorbed energy will use this perturbed factor 
+            return pMCAbsorbContinuous(numberOfCollisions, pathLengths, perturbedOps, referenceOps,
+                perturbedRegionsIndices);
         }
     }
 }

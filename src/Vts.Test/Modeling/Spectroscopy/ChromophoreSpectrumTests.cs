@@ -14,18 +14,11 @@ namespace Vts.Test.Modeling.Spectroscopy
         /// <summary>
         /// list of temporary files created by these unit tests
         /// </summary>
-        List<string> listOfTestGeneratedFiles = new List<string>()
+        readonly List<string> listOfTestGeneratedFiles = new List<string>()
         {
             "ChromophoreSpectrum.txt",
         };
 
-        /// <summary>
-        /// Runs before every unit test after the OneTimeSetUp
-        /// </summary>
-        [SetUp]
-        public void setup()
-        {
-        }
 
         /// <summary>
         /// clear all generated folders and files

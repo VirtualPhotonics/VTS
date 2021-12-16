@@ -7,11 +7,7 @@ namespace Vts.MonteCarlo.PhotonData
     /// </summary>
     public class PhotonDataPoint
     {
-        private Position _Position;
-        private Direction _Direction;
-        private double _Weight;
-        private double _TotalTime;
-        private PhotonStateType _StateFlag;
+
         /// <summary>
         /// Photon information updated during its trajectory through tissue
         /// </summary>
@@ -27,33 +23,33 @@ namespace Vts.MonteCarlo.PhotonData
             double totalTime,
             PhotonStateType stateFlag)
         {
-            _Position = position;
-            _Direction = direction;
-            _Weight = weight;
-            _TotalTime = totalTime;
-            _StateFlag = stateFlag;
+            Position = position;
+            Direction = direction;
+            Weight = weight;
+            TotalTime = totalTime;
+            StateFlag = stateFlag;
         }
 
         /// <summary>
         /// position of photon data point
         /// </summary>
-        public Position Position { get { return _Position; } set { _Position = value; } }
+        public Position Position { get; set; }
         /// <summary>
         /// direction of photon data point
         /// </summary>
-        public Direction Direction { get { return _Direction; } set { _Direction = value; } }
+        public Direction Direction { get; set; }
         /// <summary>
         /// weight of photon
         /// </summary>
-        public double Weight { get { return _Weight; } set { _Weight = value; } }
+        public double Weight { get; set; }
         /// <summary>
         /// total time to date that photon has lived
         /// </summary>
-        public double TotalTime { get { return _TotalTime; } set { _TotalTime = value; } }
+        public double TotalTime { get; set; }
         /// <summary>
         /// state flag indicating state of photon
         /// </summary>
-        public PhotonStateType StateFlag { get { return _StateFlag; } set { _StateFlag = value; } }
+        public PhotonStateType StateFlag { get; set; }
 
         /// <summary>
         /// method to clone photon data point

@@ -7,8 +7,17 @@ using Vts.Modeling.ForwardSolvers.DiscreteOrdinates;
 
 namespace Vts.Modeling.ForwardSolvers
 {
+    /// <summary>
+    /// discrete ordinates forward solver
+    /// </summary>
     public class DiscreteOrdinatesForwardSolver : ForwardSolverBase
     {
+        /// <summary>
+        /// reflectance as a function of theta
+        /// </summary>
+        /// <param name="ops">optical properties</param>
+        /// <param name="thetas">thetas</param>
+        /// <returns>R(thetas)</returns>
         public override IEnumerable<double> ROfTheta(IEnumerable<OpticalProperties> ops, IEnumerable<double> thetas)
         {
             // this method solves for R(μ) in an index-matched 1-dimensional half-space, where mu is cos(theta) 
@@ -39,7 +48,12 @@ namespace Vts.Modeling.ForwardSolvers
                 }
             }
         }
-
+        /// <summary>
+        /// reflectance as a function of theta
+        /// </summary>
+        /// <param name="op">optical properties</param>
+        /// <param name="theta">theta angle</param>
+        /// <returns>R(theta)</returns>
         public override double ROfTheta(OpticalProperties op, double theta)
         {
             return ROfTheta(op.AsEnumerable(), theta.AsEnumerable()).FirstOrDefault();

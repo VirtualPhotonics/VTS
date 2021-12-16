@@ -49,6 +49,10 @@ namespace Vts.MonteCarlo.Detectors
         /// </summary>
         public double NA { get; set; }
 
+        /// <summary>
+        /// Method to create detector from detector input
+        /// </summary>
+        /// <returns>created IDetector</returns>
         public IDetector CreateDetector()
         {
             return new ROfRhoRecessedDetector
@@ -112,6 +116,11 @@ namespace Vts.MonteCarlo.Detectors
         /// </summary>
         public long TallyCount { get; set; }
 
+        /// <summary>
+        /// Method to initialize detector
+        /// </summary>
+        /// <param name="tissue">tissue definition</param>
+        /// <param name="rng">random number generator</param>
         public void Initialize(ITissue tissue, Random rng)
         {
             // assign any user-defined outputs (except arrays...we'll make those on-demand)
@@ -121,7 +130,7 @@ namespace Vts.MonteCarlo.Detectors
             Mean = Mean ?? new double[Rho.Count - 1];
             SecondMoment = SecondMoment ?? (TallySecondMoment ? new double[Rho.Count - 1] : null);
 
-            // intialize any other necessary class fields here
+            // initialize any other necessary class fields here
             _tissue = tissue;
         }
 
@@ -171,7 +180,10 @@ namespace Vts.MonteCarlo.Detectors
             }
         }
 
-        // this is to allow saving of large arrays separately as a binary file
+        /// <summary>
+        /// this is to allow saving of large arrays separately as a binary file
+        /// </summary>
+        /// <returns>BinaryArraySerializer[]</returns>
         public BinaryArraySerializer[] GetBinarySerializers()
         {
             return new[] {
@@ -229,8 +241,6 @@ namespace Vts.MonteCarlo.Detectors
                 var detectorRegionN = _tissue.Regions[FinalTissueRegionIndex].RegionOP.N;
                 return photon.History.PreviousDP.IsWithinNA(NA, Direction.AlongNegativeZAxis, detectorRegionN);
             }
-            //return true; // or, possibly test for NA or confined position, etc
-            //return (dp.StateFlag.Has(PhotonStateType.PseudoTransmissionDomainTopBoundary));
         }
     }
 }

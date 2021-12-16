@@ -65,13 +65,8 @@ namespace Vts
             get { return _Mua; }
             set
             {
-                // DC: This was creating problems with the optimization library
-                // constraints like this should be done at the optimizer/GUI level 
-                //if (value >= 0) 
-                //{
-                    _Mua = value;
-                    this.OnPropertyChanged("Mua");
-                //}
+                _Mua = value;
+                this.OnPropertyChanged("Mua");
             }
         }
 

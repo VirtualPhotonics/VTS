@@ -35,13 +35,6 @@ namespace Vts.MonteCarlo.VirtualBoundaries
             Name = name;
         }       
 
-        ///// <summary>
-        ///// Creates a default instance of a SpecularVB 
-        ///// </summary>
-        //public SpecularReflectanceVirtualBoundary() 
-        //    : this(null, null, null)
-        //{
-        //}
 
         /// <summary>
         /// virtual boundary type identifier

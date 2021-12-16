@@ -14,7 +14,7 @@ namespace Vts.SpectralMapping
         const int angles = 361;
         const int nAngles = 2 * angles - 1;
         const double dTheta = (Math.PI / 2) / (angles - 1); /* dtheta: .25 deg. (in radian) */
-        //private double _Wavelength;
+
         private double _ParticleRadius;
         private double _ParticleRefractiveIndexMismatch;
         private double _MediumRefractiveIndexMismatch;
@@ -37,6 +37,7 @@ namespace Vts.SpectralMapping
         /// <param name="particleRadius">Particle radius</param>
         /// <param name="particleRefractiveIndex">Particle refractive index</param>
         /// <param name="mediumRefractiveIndex">Medium refractive index</param>
+        /// <param name="volumeFraction">volume fraction of scatterers</param>
         public MieScatterer(
             double particleRadius,
             double particleRefractiveIndex,
@@ -165,9 +166,9 @@ namespace Vts.SpectralMapping
             BohrenHuffmanMie(wavelength);
             double qSca = MieScattParams.Q[0];
 
-            //Let a = particle radius;
-            //fv = particle volume fraction;
-            //rho_s = fv/((4/3)*Pi/a^3) = particle number density;
+            //Let a = particle radius
+            //fv = particle volume fraction
+            //rho_s = fv/((4/3)*Pi/a^3) = particle number density
             //sigma_s = Qsca*A = cross-section
             //A = Pi*a^2 = area
             // Then mus = rho_s*sigma_s, which, upon simplifying, produces:
@@ -206,7 +207,7 @@ namespace Vts.SpectralMapping
             Complex[] s2 = new Complex[nAngles];
 
             double sizeParameter = GetSizeParameter(wavelength);
-            double nStop = (int)(sizeParameter + 4.0 * Math.Pow(sizeParameter, 1 / 3) + 2.0);//number of terms in the series
+            double nStop = (int)(sizeParameter + 4.0 * Math.Pow(sizeParameter, 1.0 / 3.0) + 2.0);//number of terms in the series
             double kMedium = 0.0;
             double kSphere = 0.0;
             double nSphere = ParticleRefractiveIndexMismatch;
@@ -272,8 +273,6 @@ namespace Vts.SpectralMapping
                 chi0 = chi1;
                 chi1 = chi;
 
-                //xi1.Re = psi1; CKH mod 5/11/17
-                //xi1.Im = -chi1;
                 xi1 = new Complex(psi1, -chi1);
                 rn += 1;
                 for (int j = 0; j < angles; j++)
@@ -286,7 +285,7 @@ namespace Vts.SpectralMapping
             //return the whole class
             //remove definitions from the constructor
             MieScattParams.Q = new double[3];
-            MieScattParams.Q[0] = qSca*2.0 / (sizeParameter * sizeParameter);;
+            MieScattParams.Q[0] = qSca*2.0 / (sizeParameter * sizeParameter);
             MieScattParams.Q[1] = (4.0 * s1[0].Re) / (sizeParameter * sizeParameter);
             MieScattParams.Q[2] = 4.0 / (sizeParameter * sizeParameter) * Math.Pow(ComplexAbs(s1[nAngles - 1]), 2);
 

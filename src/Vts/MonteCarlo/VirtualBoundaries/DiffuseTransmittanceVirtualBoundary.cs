@@ -21,7 +21,7 @@ namespace Vts.MonteCarlo.VirtualBoundaries
         /// <param name="name">string name</param>
         public DiffuseTransmittanceVirtualBoundary(ITissue tissue, IDetectorController detectorController, string name)
         {
-            _zPlanePosition = ((LayerTissueRegion)tissue.Regions.Where(r => r is LayerTissueRegion).Last()).ZRange.Start;
+            _zPlanePosition = ((LayerTissueRegion)tissue.Regions.Last(r => r is LayerTissueRegion)).ZRange.Start;
 
             WillHitBoundary = dp =>
                         dp.StateFlag.HasFlag(PhotonStateType.PseudoTransmittedTissueBoundary) &&
@@ -34,18 +34,9 @@ namespace Vts.MonteCarlo.VirtualBoundaries
             _detectorController = detectorController;
 
             Name = name;
-        }       
+        }
 
-        ///// <summary>
-        ///// Creates a default instance of a PlanarTransmissionVB based on a plane at z=0, 
-        ///// exiting tissue (in direction of z decreasing)
-        ///// </summary>
-        //public DiffuseTransmittanceVirtualBoundary() 
-        //    : this(null, null, null)
-        //{
-        //}
-
-          /// <summary>
+        /// <summary>
         /// VirtualBoundaryType enum indicating type of VB
         /// </summary>
         public VirtualBoundaryType VirtualBoundaryType { get; private set; }

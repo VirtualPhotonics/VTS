@@ -474,14 +474,6 @@ namespace Vts.Test.Modeling.ForwardSolvers
         }
 
         [Test]
-        public void Test_ROfRhoAndTime_overload_optical_property_region_array_and_double_arrays()
-        {
-            var doubles = _forwardSolverBaseMockWithSetup.Object.ROfRhoAndTime(_opticalPropertyRegionsEnumerable.ToArray(), _doubles.ToArray(), _doubles.ToArray());
-            Assert.AreEqual(18, doubles.Length);
-            Assert.AreEqual(0.7, doubles[0]);
-        }
-
-        [Test]
         public void Test_ROfRhoAndTime_overload_optical_properties_array_one_rho_time_array()
         {
             var doubles = _forwardSolverBaseMockWithSetup.Object.ROfRhoAndTime(_opticalPropertiesEnumerable.ToArray(), 0.5, _doubles.ToArray());

@@ -32,13 +32,10 @@ namespace Vts.Test.MonteCarlo.Sources
         /// </summary>
         [Test]
         public void Validate_general_constructor_with_flat_profiletype_for_directional_arbitrary_surface_source_test()
-        {
-            Random rng = new MathNet.Numerics.Random.MersenneTwister(0); // not really necessary here, as this is now the default
+        { 
             ITissue tissue = new MultiLayerTissue();
             var profile = new ArbitrarySourceProfile();
-            var sourceLengthX = 1.0;
-            var sourceWidthY = 2.0;
-            
+
             // DirectionalArbitrarySurfaceSource is protected so create 
 
             //var ps = new DirectionalArbitrarySurfaceSource(
