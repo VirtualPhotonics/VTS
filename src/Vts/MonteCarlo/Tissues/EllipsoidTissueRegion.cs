@@ -73,20 +73,17 @@ namespace Vts.MonteCarlo.Tissues
                     (position.Z - Center.Z) * (position.Z - Center.Z) /
                           (Dz * Dz);
 
-                //if (inside < 0.9999999)
-                if (inside < 0.9999999999)
+                if (inside < 0.9999999999) // previous check  0.9999999
                 {
                     return true;
                 }
-                //else if (inside > 1.0000001)
-                else if (inside > 1.00000000001)
+                else if (inside > 1.00000000001) // previous check 1.0000001
                 {
                     return false;
                 }
                 else  // on boundary means ellipsoid contains position
                 {
                     _onBoundary = true;
-                    //return false; // ckh try 8/21/11 
                     return true;  // ckh 2/28/19 this has to return true or unit tests fail => contains if on ellipsoid
                 }
         }
@@ -206,7 +203,6 @@ namespace Vts.MonteCarlo.Tissues
                     case 0: /* roots real but no intersection */
                         return false;
                     case 1:
-                        //if ((one_in == 3) && (Math.Abs(root) < 1e-7)) //CKH FIX 11/11
                         if ((!one_in) && (Math.Abs(root) < 1e-7))
                         {
                             return false;
@@ -231,7 +227,6 @@ namespace Vts.MonteCarlo.Tissues
                         return true;
                     case 2:  /* went through ellipsoid: must stop at nearest intersection */
                         /*which is nearest?*/
-                        //if (one_in == 3)
                         if (one_in)
                         {
                             if (root1 > root2) //CKH FIX 11/11
@@ -263,100 +258,5 @@ namespace Vts.MonteCarlo.Tissues
             return false;
         }
 
-        //public bool RayIntersectBoundary(Photon photon)
-        //{
-        //    double root1, root2;
-        //    double root = 0;
-        //    var dp = photon.DP;
-        //    var p1 = dp.Position;
-        //    var d1 = dp.Direction;
-
-        //    // DC - CKH: correct??
-        //    var p2 = new Position(p1.X + d1.Ux * photon.S, p1.Y + d1.Uy * photon.S, p1.Z + d1.Uz * photon.S);
-
-        //    //bool one_in = this.ContainsPosition(p1);
-
-        //    double area_x = Dx * Dx;
-        //    double area_y = Dy * Dy;
-        //    double area_z = Dz * Dz;
-
-        //    double dx = (p2.X - p1.X);
-        //    double dy = (p2.Y - p1.Y);
-        //    double dz = (p2.Z - p1.Z);
-
-        //    double dxSquared = dx * dx;
-        //    double dySquared = dy * dy;
-        //    double dzSquared = dz * dz;
-
-        //    double xOffset = p1.X - Center.X;
-        //    double yOffset = p1.Y - Center.Y;
-        //    double zOffset = p1.Z - Center.Z;
-
-        //    double A =
-        //        dxSquared / area_x +
-        //        dySquared / area_y +
-        //        dzSquared / area_z;
-
-        //    double B =
-        //        2 * dx * xOffset / area_x +
-        //        2 * dy * yOffset / area_y +
-        //        2 * dz * zOffset / area_z;
-
-        //    double C =
-        //        xOffset * xOffset / area_x +
-        //        yOffset * yOffset / area_y +
-        //        zOffset * zOffset / area_z - 1.0;
-
-        //    double rootTerm = B * B - 4 * A * C;
-
-        //    if (rootTerm > 0)  // roots are real 
-        //    {
-        //        double rootTermSqrt = Math.Sqrt(rootTerm);
-        //        root1 = (-B - rootTermSqrt) / (2 * A);
-        //        root2 = (-B + rootTermSqrt) / (2 * A);
-
-        //        int numint = 0; //number of intersections
-
-        //        if ((root1 < 1) && (root1 > 0))
-        //        {
-        //            numint += 1;
-        //            root = root1;
-        //        }
-
-        //        if ((root2 < 1) && (root2 > 0))
-        //        {
-        //            numint += 1;
-        //            root = root2;
-        //        }
-
-        //        switch (numint)
-        //        {
-        //            case 0: /* roots real but no intersection */
-        //                return false;
-        //            case 2:  /* went through ellipsoid: must stop at nearest intersection */
-        //                return true;
-        //            case 1:
-        //                //if ((one_in == 3) && (Math.Abs(root) < 1e-7)) //CKH FIX 11/11
-        //                if ((!this.ContainsPosition(p1)) && (Math.Abs(root) < 1e-7))
-        //                {
-        //                    return false;
-        //                }
-        //                return true;
-        //        } /* end switch */
-        //    } /* BB-4AC>0 */
-
-        //    /* roots imaginary -> no intersection */
-        //    return false;
-        //}
-
-        //void CrossEllip(Photon photptr)   //---new
-        //*based on CrossRegion, but without Fresnel (n doesn't change)=>no reflections at the boundary.*/
-        //{
-        //    int CurrentRegionIndex = photptr.CurrentRegionIndex;
-        //    if (CurrentRegionIndex == 2)
-        //        photptr.CurrentRegionIndex--;
-        //    else
-        //        photptr.CurrentRegionIndex++;
-        //}
     }
 }

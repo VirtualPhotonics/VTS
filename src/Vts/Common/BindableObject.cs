@@ -8,7 +8,7 @@ using System.Runtime.Serialization;
 namespace Vts
 {
     /// <summary>
-    /// Implements the INotifyPropertyChanged interface and 
+    /// Implements the INotifyPropertyChangedPlus interface and 
     /// exposes a RaisePropertyChanged method for derived 
     /// classes to raise the PropertyChange event.  The event 
     /// arguments created by this class are cached to prevent 
@@ -18,11 +18,11 @@ namespace Vts
     /// http://joshsmithonwpf.wordpress.com/2007/08/29/a-base-class-which-implements-inotifypropertychanged/
     /// 
     /// Added SetProperty method to simplify set operations.
-    /// Changed "RaisePropertyChanged" to "OnPropertyChanged" so as to work with INotifyPropertyChangedPlus,
-    /// enabling compatibility with the DependsOn attribute and PropertyDependencyManager classes
+    /// Modified "RaisePropertyChanged" to "OnPropertyChanged"
+    /// to work with INotifyPropertyChangedPlus, enabling
+    /// compatibility with the DependsOn attribute and
+    /// PropertyDependencyManager class.
     /// </summary>
-    //[Serializiable]
-    // svn test
     [DataContract]
     public abstract class BindableObject : INotifyPropertyChangedPlus
     {
@@ -39,7 +39,9 @@ namespace Vts
         {
             eventArgCache = new Dictionary<string, PropertyChangedEventArgs>();
         }
-
+        /// <summary>
+        /// default constructor, protected version
+        /// </summary>
         protected BindableObject()
         {
         }
@@ -81,21 +83,6 @@ namespace Vts
 
         #region Protected Members
 
-        ///// <summary>
-        ///// Helper class to consolidate set operations
-        ///// </summary>
-        ///// <typeparam name="Time"></typeparam>
-        ///// <param name="parameter"></param>
-        ///// <param name="value"></param>
-        //protected void SetProperty<Time>(string propertyName, ref Time parameter, ref Time value)
-        //{
-        //    if (!EqualityComparer<Time>.Default.Equals(parameter, value))
-        //    {
-        //        parameter = value;
-        //        OnPropertyChanged(propertyName);
-        //    }
-        //}
-
         /// <summary>
         /// Derived classes can override this method to
         /// execute logic after a property is set. The 
@@ -113,9 +100,7 @@ namespace Vts
         /// invokes the virtual AfterPropertyChanged method, 
         /// regardless of whether the event was raised or not.
         /// </summary>
-        /// <param name="propertyName">
-        /// The property which was changed.
-        /// </param>
+        /// <param name="propertyName">The property which was changed</param>
         public void OnPropertyChanged(string propertyName)
         {
             this.VerifyProperty(propertyName);
@@ -141,23 +126,21 @@ namespace Vts
         [Conditional("DEBUG")]
         private void VerifyProperty(string propertyName)
         {
-            Type type = this.GetType();
+            var type = this.GetType();
 
             // Look for a public property with the specified name.
-            PropertyInfo propInfo = type.GetProperty(propertyName);
+            var propInfo = type.GetProperty(propertyName);
 
-            if (propInfo == null)
-            {
-                // The property could not be found,
-                // so alert the developer of the problem.
+            if (propInfo != null) return;
+            // The property could not be found,
+            // so alert the developer of the problem.
 
-                string msg = string.Format(
-                    ERROR_MSG,
-                    propertyName,
-                    type.FullName);
+            var msg = string.Format(
+                ERROR_MSG,
+                propertyName,
+                type.FullName);
 
-                throw new Exception(msg);
-            }
+            throw new ArgumentNullException(msg);
         }
 
         #endregion // Private Helpers

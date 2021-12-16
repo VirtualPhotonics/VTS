@@ -163,10 +163,6 @@ namespace Vts.MonteCarlo
             // check if statistics specified using input.Options.TrackStatistics = true
             if (stats != null)
             {
-                PropertyInfo[] properties = typeof(SimulationStatistics).GetProperties();
-                //foreach (var prop in properties) // I would like to use this somehow to not have to spell out each Property
-                //{
-                //var temp = prop.Name;
                 statistics.NumberOfPhotonsOutTopOfTissue = stats.Select(s => s.NumberOfPhotonsOutTopOfTissue).Sum();
                 statistics.NumberOfPhotonsOutBottomOfTissue = stats.Select(s => s.NumberOfPhotonsOutBottomOfTissue).Sum();
                 statistics.NumberOfPhotonsAbsorbed = stats.Select(s => s.NumberOfPhotonsAbsorbed).Sum();
@@ -174,7 +170,7 @@ namespace Vts.MonteCarlo
                 statistics.NumberOfPhotonsKilledOverMaximumPathLength = stats.Select(s => s.NumberOfPhotonsKilledOverMaximumPathLength).Sum();
                 statistics.NumberOfPhotonsKilledOverMaximumCollisions = stats.Select(s => s.NumberOfPhotonsKilledOverMaximumCollisions).Sum();
                 statistics.NumberOfPhotonsKilledByRussianRoulette = stats.Select(s => s.NumberOfPhotonsKilledByRussianRoulette).Sum();
-                //}
+                
             }
             return statistics;
         }

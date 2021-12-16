@@ -8,9 +8,6 @@ namespace Vts.MonteCarlo
     /// </summary>
     public class PhotonHistory
     {
-       
-        //private IList<SubRegionCollisionInfo> _SubRegionInfoList;
-        private CollisionInfo _SubRegionInfoList;
 
         /// <summary>
         /// constructor for photon history class
@@ -20,15 +17,12 @@ namespace Vts.MonteCarlo
         {
             HistoryData = new List<PhotonDataPoint>();
 
-            //_SubRegionInfoList = Enumerable.Range(0, numSubRegions)
-            //    .Select(i => new SubRegionCollisionInfo(0.0, 0));
-
-            _SubRegionInfoList = new CollisionInfo(numSubRegions);
+            SubRegionInfoList = new CollisionInfo(numSubRegions);
 
             // dc: why doesn't CollisionInfo do following in its constructor?
             for (int i = 0; i < numSubRegions; i++)
             {
-                _SubRegionInfoList.Add(new SubRegionCollisionInfo(0.0, 0)); 
+                SubRegionInfoList.Add(new SubRegionCollisionInfo(0.0, 0)); 
             }
         }
         /// <summary>
@@ -40,11 +34,7 @@ namespace Vts.MonteCarlo
         /// SubRegionInfoList keeps track of number of collisions and pathlength in each tissue
         /// region
         /// </summary>
-        public CollisionInfo SubRegionInfoList
-        {
-            get { return _SubRegionInfoList; } 
-            set { _SubRegionInfoList = value; }
-        }
+        public CollisionInfo SubRegionInfoList { get; set; }
         /// <summary>
         /// Identifies current PhotonDataPoint
         /// </summary>

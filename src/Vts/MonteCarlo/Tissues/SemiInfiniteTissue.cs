@@ -8,7 +8,6 @@ namespace Vts.MonteCarlo.Tissues
     /// </summary>
     public class SemiInfiniteTissueInput : TissueInput, ITissueInput
     {
-        private ITissueRegion[] _regions;
 
         /// <summary>
         /// constructor for Semi-infinite tissue input
@@ -17,7 +16,7 @@ namespace Vts.MonteCarlo.Tissues
         public SemiInfiniteTissueInput(ITissueRegion region)
         {
             TissueType = "SemiInfinite";
-            _regions = new[] { region };
+            Regions = new[] { region };
         }
 
         /// <summary>
@@ -31,7 +30,7 @@ namespace Vts.MonteCarlo.Tissues
         /// <summary>
         /// list of tissue regions comprising tissue
         /// </summary>
-        public ITissueRegion[] Regions { get { return _regions; } set { _regions = value; } }
+        public ITissueRegion[] Regions { get; set; }
 
         /// <summary>
         /// Required factory method to create the corresponding 
@@ -44,12 +43,6 @@ namespace Vts.MonteCarlo.Tissues
         public ITissue CreateTissue(AbsorptionWeightingType awt, PhaseFunctionType pft, double russianRouletteWeightThreshold)
         {
             throw new NotImplementedException();
-
-            //var t = new SemiInfiniteTissue(Regions); //  todo: add implementation
-
-            //t.Initialize(awt, pft, russianRouletteWeightThreshold);
-
-            //return t;
         }
     }
 }

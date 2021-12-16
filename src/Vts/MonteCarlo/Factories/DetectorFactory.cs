@@ -53,7 +53,11 @@ namespace Vts.MonteCarlo.Factories
 
             return detector;
         }
-
+        /// <summary>
+        /// method to register detector: currently not used
+        /// </summary>
+        /// <param name="detectorInputType">type of detector input</param>
+        /// <param name="detectorType">type of detector</param>
         public static void RegisterDetector(Type detectorInputType, Type detectorType)
         {
             // check that the detector input implements the IDetectorInput interface

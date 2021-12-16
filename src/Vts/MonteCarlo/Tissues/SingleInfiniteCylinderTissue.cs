@@ -10,8 +10,6 @@ namespace Vts.MonteCarlo.Tissues
     /// </summary>
     public class SingleInfiniteCylinderTissueInput : TissueInput, ITissueInput
     {
-        private ITissueRegion _infiniteCylinderRegion;
-        private ITissueRegion[] _layerRegions;
 
         /// <summary>
         /// allows definition of single infinite cylinder tissue
@@ -21,8 +19,8 @@ namespace Vts.MonteCarlo.Tissues
         public SingleInfiniteCylinderTissueInput(ITissueRegion infiniteCylinderRegion, ITissueRegion[] layerRegions)
         {
             TissueType = "SingleInfiniteCylinder";
-            _infiniteCylinderRegion = infiniteCylinderRegion;
-            _layerRegions = layerRegions;
+            InfiniteCylinderRegion = infiniteCylinderRegion;
+            LayerRegions = layerRegions;
         }
 
         /// <summary>
@@ -55,15 +53,15 @@ namespace Vts.MonteCarlo.Tissues
         /// regions of tissue (layers and infinite cylinder)
         /// </summary>
         [IgnoreDataMember]
-        public ITissueRegion[] Regions { get { return _layerRegions.Concat(_infiniteCylinderRegion).ToArray(); } }
+        public ITissueRegion[] Regions { get { return LayerRegions.Concat(InfiniteCylinderRegion).ToArray(); } }
         /// <summary>
         /// tissue infinite cylinder region
         /// </summary>
-        public ITissueRegion InfiniteCylinderRegion { get { return _infiniteCylinderRegion; } set { _infiniteCylinderRegion = value; } }
+        public ITissueRegion InfiniteCylinderRegion { get; set; }
         /// <summary>
         /// tissue layer regions
         /// </summary>
-        public ITissueRegion[] LayerRegions { get { return _layerRegions; } set { _layerRegions = value; } }
+        public ITissueRegion[] LayerRegions { get; set; }
 
         /// <summary>
         /// Required factory method to create the corresponding 

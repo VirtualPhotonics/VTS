@@ -281,8 +281,6 @@ namespace Vts.MonteCarlo.CommandLineApplication
             {
                 input.ToFile("infile_" + input.OutputName + ".txt"); // write json to .txt files
             }
-            //var sources = SourceInputProvider.GenerateAllSourceInputs();
-            //sources.WriteToJson("infile_source_options_test.txt");
         }
 
         /// <summary>

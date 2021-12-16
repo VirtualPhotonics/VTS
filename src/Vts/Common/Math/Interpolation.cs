@@ -140,7 +140,7 @@ namespace Vts.Common.Math
 
         #region Multi-value interpolation
 
-        // todo: "flip" vectorized and scalar implementations to remove inefficiency 
+        // would "flip" vectorized and scalar implementations to remove inefficiency?
 
         /// <summary>
         /// Interpolation in one dimension (assumes x are monotonically increasing)
@@ -149,7 +149,7 @@ namespace Vts.Common.Math
         /// <param name="y">The known dependent values</param>
         /// <param name="xs">Value to at which to interpolate</param>
         /// <returns>If xs outside range of x, returns NaN,
-        ///     otherwide, returns linearly interpolated result</returns>
+        ///     otherwise, returns linearly interpolated result</returns>
         public static IEnumerable<double> interp1(IList<double> x, IList<double> y, IEnumerable<double> xs)
         {
             foreach (var xi in xs)
@@ -235,7 +235,6 @@ namespace Vts.Common.Math
             int currentXIndex = 1;
             int currentYIndex = 1;
 
-            //if ((xi < x[0]) || (yi < y[0]) || (xi > x[x.Count - 1]) || (yi > y[y.Count - 1])) return double.NaN;
             // changed this to clip to bounds (DC - 7/26/09)
             if ((xi <= x[0]) && (yi <= y[0])) return f[currentXIndex, currentYIndex];
             else if ((xi >= x[x.Count - 1]) && (yi >= y[y.Count - 1])) return f[x.Count - 1, y.Count - 1];

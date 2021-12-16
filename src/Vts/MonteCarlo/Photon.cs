@@ -17,11 +17,9 @@ namespace Vts.MonteCarlo
         // should we dynamically set MAX_HISTORY_PTS and MAX_PHOTON_TIME?  derive one from other?
         private const int MAX_HISTORY_PTS = 300000; // 300000 * [1/(5/mm)] = 60000 mm
         private const double CHANCE = 0.1;
-        //private const double MAX_PHOTON_PATHLENGTH = 2000; // mm  
         private const double MAX_PHOTON_TIME = 280; // ns = 60000 mm (pathlength) / (300 / 1.4)
-        //private const double WEIGHT_LIMIT = 0.0001; // Russian Roulette weight limit, now part of Options ckh 1/9/12
-
-        // could add layer of indirection to not expose Absorb;
+    
+        // could add layer of indirection to not expose Absorb
         private ITissue _tissue;
         private Random _rng;
         private bool _firstTimeEnteringDomain;
@@ -49,7 +47,6 @@ namespace Vts.MonteCarlo
                     weight, // weight
                     0.0, // total time
                     PhotonStateType.Alive);
-            //PreviousDP = null;
 
             History = new PhotonHistory(tissue.Regions.Count);
             History.AddDPToHistory(DP);  // add initial datapoint
@@ -58,7 +55,6 @@ namespace Vts.MonteCarlo
             CurrentRegionIndex = currentTissueRegionIndex;
             // flag to determin whether passing through specular or not
             // the following assumes tissues considered are slabs, only ones we have coded to date
-            // todo: make more general to handle other types of tissues
             _firstTimeEnteringDomain = true;
             if (CurrentRegionIndex >= 1) // photon does not go through specular
             {
@@ -227,10 +223,10 @@ namespace Vts.MonteCarlo
             double cosThetaSnell;
             // call Fresnel be default to have uZSnell set, used to be within else
             probOfReflecting = Optics.Fresnel(nCurrent, nNext, cosTheta, out cosThetaSnell);
-            if (cosTheta <= coscrit) // this check assumes cosTheta is positive - not sure this is correct ckh 3/11/19
+            if (cosTheta <= coscrit)
+            {
                 probOfReflecting = 1.0;
-            //else
-            //    probOfReflecting = Optics.Fresnel(nCurrent, nNext, cosTheta, out cosThetaSnell);
+            }
 
             /* Decide whether or not photon goes to next region */
             // perform first check so that rng not called on pseudo-collisions
@@ -282,7 +278,6 @@ namespace Vts.MonteCarlo
             double ux = DP.Direction.Ux;
             double uy = DP.Direction.Uy;
             double uz = DP.Direction.Uz;
-            //Direction dir = DP.Direction;
 
             double g = _tissue.Regions[CurrentRegionIndex].RegionOP.G;
             double cost, sint;    /* cosine and sine of theta */
@@ -371,7 +366,6 @@ namespace Vts.MonteCarlo
         /// </summary>
         public void AbsorbContinuous()
         {
-            double mua = _tissue.Regions[CurrentRegionIndex].RegionOP.Mua;
             // the following deweights at pseudo (sleft>0) and real collisions (sleft=0) as it should
             // rather than use total path length in each layer to detemine weight,
             // this method updates weight at pseudo collision and can be used for total absorption tallies
@@ -394,7 +388,6 @@ namespace Vts.MonteCarlo
                 DP.StateFlag.HasFlag(PhotonStateType.PseudoSpecularReflectanceVirtualBoundary) ||
                 DP.StateFlag.HasFlag(PhotonStateType.PseudoBoundingCylinderVolumeVirtualBoundary))
             {
-                //todo: revisit performance of the bitwise operations
                 DP.StateFlag = DP.StateFlag.Remove(PhotonStateType.Alive);
                 History.AddDPToHistory(DP);
             }
@@ -412,15 +405,19 @@ namespace Vts.MonteCarlo
                     DP.StateFlag = DP.StateFlag.Add(PhotonStateType.KilledRussianRoulette);
                     DP.StateFlag = DP.StateFlag.Remove(PhotonStateType.Alive);
                 }
-                else if (_rng.NextDouble() < CHANCE)
-                {
-                    DP.Weight = DP.Weight / CHANCE;
-                }
                 else
                 {
-                    DP.StateFlag = DP.StateFlag.Add(PhotonStateType.KilledRussianRoulette);
-                    DP.StateFlag = DP.StateFlag.Remove(PhotonStateType.Alive);
+                    if (_rng.NextDouble() < CHANCE)
+                    {
+                        DP.Weight = DP.Weight / CHANCE;
+                    }
+                    else
+                    {
+                        DP.StateFlag = DP.StateFlag.Add(PhotonStateType.KilledRussianRoulette);
+                        DP.StateFlag = DP.StateFlag.Remove(PhotonStateType.Alive);
+                    }
                 }
+
                 if (DP.StateFlag.HasFlag(PhotonStateType.KilledRussianRoulette))
                 {
                     History.AddDPToHistory(DP);

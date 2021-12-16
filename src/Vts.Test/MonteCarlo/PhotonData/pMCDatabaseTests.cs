@@ -15,7 +15,7 @@ namespace Vts.Test.MonteCarlo.PhotonData
         /// <summary>
         /// list of temporary files created by these unit tests
         /// </summary>
-        List<string> listOfTestGeneratedFiles = new List<string>()
+        readonly List<string> listOfTestGeneratedFiles = new List<string>()
         {
             "testpmcdatabase",
             "testpmcdatabase.txt",
@@ -90,7 +90,7 @@ namespace Vts.Test.MonteCarlo.PhotonData
             // read the database from file, and verify the correct number of photons were written
             var dbCloned = pMCDatabase.FromFile(photonDbFilename, collisionDbFilename);
 
-            Assert.AreEqual(dbCloned.DataPoints.Count(), 2);
+            Assert.AreEqual(2, dbCloned.DataPoints.Count());
 
             // manually enumerate through the first two elements (same as foreach)
             // PhotonDatabase is designed so you don't have to have the whole thing
@@ -101,35 +101,35 @@ namespace Vts.Test.MonteCarlo.PhotonData
             enumerator.MoveNext();
             var dp1 = enumerator.Current;
             // verify photon database entries for first photon
-            Assert.AreEqual(dp1.PhotonDataPoint.Position, new Position(1, 2, 3));
-            Assert.AreEqual(dp1.PhotonDataPoint.Direction, new Direction(0, 0, 1));
-            Assert.AreEqual(dp1.PhotonDataPoint.Weight, 1.0);
-            Assert.AreEqual(dp1.PhotonDataPoint.TotalTime, 10);
+            Assert.AreEqual(new Position(1, 2, 3),dp1.PhotonDataPoint.Position);
+            Assert.AreEqual(new Direction(0, 0, 1),dp1.PhotonDataPoint.Direction);
+            Assert.AreEqual(1.0,dp1.PhotonDataPoint.Weight);
+            Assert.AreEqual(10,dp1.PhotonDataPoint.TotalTime);
             Assert.IsTrue(dp1.PhotonDataPoint.StateFlag.HasFlag(PhotonStateType.None));
             // verify collision info for first photon
-            Assert.AreEqual(dp1.CollisionInfo[0].PathLength, 10.0);
-            Assert.AreEqual(dp1.CollisionInfo[0].NumberOfCollisions, 1000);
-            Assert.AreEqual(dp1.CollisionInfo[1].PathLength, 20.0);
-            Assert.AreEqual(dp1.CollisionInfo[1].NumberOfCollisions, 2000);
-            Assert.AreEqual(dp1.CollisionInfo[2].PathLength, 30.0);
-            Assert.AreEqual(dp1.CollisionInfo[2].NumberOfCollisions, 3000);
+            Assert.AreEqual(10.0,dp1.CollisionInfo[0].PathLength);
+            Assert.AreEqual(1000,dp1.CollisionInfo[0].NumberOfCollisions);
+            Assert.AreEqual(20.0,dp1.CollisionInfo[1].PathLength);
+            Assert.AreEqual(2000,dp1.CollisionInfo[1].NumberOfCollisions);
+            Assert.AreEqual(30.0,dp1.CollisionInfo[2].PathLength);
+            Assert.AreEqual(3000,dp1.CollisionInfo[2].NumberOfCollisions);
 
             // advance to the second point and test that the point is valid
             enumerator.MoveNext();
             // verify photon database entries for second photon
             var dp2 = enumerator.Current;
-            Assert.AreEqual(dp2.PhotonDataPoint.Position, new Position(4, 5, 6));
-            Assert.AreEqual(dp2.PhotonDataPoint.Direction, new Direction(1, 0, 0));
-            Assert.AreEqual(dp2.PhotonDataPoint.Weight, 0.5);
-            Assert.AreEqual(dp2.PhotonDataPoint.TotalTime, 100);
+            Assert.AreEqual(new Position(4, 5, 6),dp2.PhotonDataPoint.Position);
+            Assert.AreEqual(new Direction(1, 0, 0),dp2.PhotonDataPoint.Direction);
+            Assert.AreEqual(0.5,dp2.PhotonDataPoint.Weight);
+            Assert.AreEqual(100,dp2.PhotonDataPoint.TotalTime);
             Assert.IsTrue(dp2.PhotonDataPoint.StateFlag.HasFlag(PhotonStateType.None));
             // verify collision info for second photon
-            Assert.AreEqual(dp2.CollisionInfo[0].PathLength, 40.0);
-            Assert.AreEqual(dp2.CollisionInfo[0].NumberOfCollisions, 4000);
-            Assert.AreEqual(dp2.CollisionInfo[1].PathLength, 50.0);
-            Assert.AreEqual(dp2.CollisionInfo[1].NumberOfCollisions, 5000);
-            Assert.AreEqual(dp2.CollisionInfo[2].PathLength, 60.0);
-            Assert.AreEqual(dp2.CollisionInfo[2].NumberOfCollisions, 6000);
+            Assert.AreEqual(40.0,dp2.CollisionInfo[0].PathLength);
+            Assert.AreEqual(4000,dp2.CollisionInfo[0].NumberOfCollisions);
+            Assert.AreEqual(50.0,dp2.CollisionInfo[1].PathLength);
+            Assert.AreEqual(5000,dp2.CollisionInfo[1].NumberOfCollisions);
+            Assert.AreEqual(60.0,dp2.CollisionInfo[2].PathLength);
+            Assert.AreEqual(6000,dp2.CollisionInfo[2].NumberOfCollisions);
         }
     }
 }

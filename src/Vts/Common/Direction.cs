@@ -7,9 +7,7 @@ namespace Vts.Common
     /// </summary>
     public class Direction
     {
-        private double _Ux;
-        private double _Uy;
-        private double _Uz;
+        private readonly int _hashCode;
 
         /// <summary>
         /// constructor for direction, passes x, y and z values
@@ -19,9 +17,10 @@ namespace Vts.Common
         /// <param name="uz">z direction</param>
         public Direction(double ux, double uy, double uz)
         {
-            _Ux = ux;
-            _Uy = uy;
-            _Uz = uz;
+            Ux = ux;
+            Uy = uy;
+            Uz = uz;
+            _hashCode = new {ux, uy, uz}.GetHashCode();
         }
 
         /// <summary>
@@ -35,15 +34,17 @@ namespace Vts.Common
         /// <summary>
         /// x direction
         /// </summary>
-        public double Ux { get { return _Ux; } set { _Ux = value; } }
+        public double Ux { get; set; }
+
         /// <summary>
         /// y direction
         /// </summary>
-        public double Uy { get { return _Uy; } set { _Uy = value; } }
+        public double Uy { get; set; }
+
         /// <summary>
         /// z direction
         /// </summary>
-        public double Uz { get { return _Uz; } set { _Uz = value; } }
+        public double Uz { get; set; }
 
         /// <summary>
         /// Equality overload for two 3D direction cosines
@@ -131,52 +132,50 @@ namespace Vts.Common
         /// <summary>
         /// Method that returns unit directional along positive x-axis
         /// </summary>
-        public static Direction AlongPositiveXAxis
-        {
-            get { return new Direction(1.0, 0.0, 0.0); }
-        }
+        public static Direction AlongPositiveXAxis => new Direction(1.0, 0.0, 0.0);
+
         /// <summary>
         /// Method that returns unit directional along positive y-axis
         /// </summary>
-        public static Direction AlongPositiveYAxis
-        {
-            get { return new Direction(0.0, 1.0, 0.0); }
-        }
+        public static Direction AlongPositiveYAxis => new Direction(0.0, 1.0, 0.0);
+
         /// <summary>
         /// Method that returns unit directional along positive z-axis
         /// </summary>
-        public static Direction AlongPositiveZAxis
-        {
-            get { return new Direction(0.0, 0.0, 1.0); }
-        }
+        public static Direction AlongPositiveZAxis => new Direction(0.0, 0.0, 1.0);
+
         /// <summary>
         /// Method that returns unit directional along positive x-axis
         /// </summary>
-        public static Direction AlongNegativeXAxis
-        {
-            get { return new Direction(-1.0, 0.0, 0.0); }
-        }
+        public static Direction AlongNegativeXAxis => new Direction(-1.0, 0.0, 0.0);
+
         /// <summary>
         /// Method that returns unit directional along positive y-axis
         /// </summary>
-        public static Direction AlongNegativeYAxis
-        {
-            get { return new Direction(0.0, -1.0, 0.0); }
-        }
+        public static Direction AlongNegativeYAxis => new Direction(0.0, -1.0, 0.0);
+
         /// <summary>
         /// Method that returns unit directional along positive z-axis
         /// </summary>
-        public static Direction AlongNegativeZAxis
-        {
-            get { return new Direction(0.0, 0.0, -1.0); }
-        }
+        public static Direction AlongNegativeZAxis => new Direction(0.0, 0.0, -1.0);
+
         /// <summary>
         /// Method to clone unit directional
         /// </summary>
         /// <returns>a direction</returns>
         public Direction Clone()
         {
-            return new Direction(this.Ux, this.Uy, this.Uz);
+            return new Direction(Ux, Uy, Uz);
         }
+
+        /// <summary>
+        /// Override of GetHashCode to allow the type to work correctly in a hash table
+        /// </summary>
+        /// <returns>The hashcode as an integer</returns>
+        public override int GetHashCode()
+        {
+            return _hashCode;
+        }
+
     }
 }

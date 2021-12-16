@@ -2,6 +2,9 @@ using System.Collections.Generic;
 
 namespace Vts
 {
+    /// <summary>
+    /// Adds change tracking to a bindable object class
+    /// </summary>
     public class BindableObjectWithChangeTracking : BindableObject, IChangeTracking
     {
         /// <summary>
@@ -19,7 +22,7 @@ namespace Vts
         /// </summary>
         public void Reset()
         {
-            // todo: assign new dictionary with current values as "original" 
+            // assign new dictionary with current values as "original"?
             originalValues.Clear();
             SettingsChanged = false;
         }
@@ -27,9 +30,10 @@ namespace Vts
         /// <summary>
         /// Helper method to consolidate set operations
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="parameter"></param>
-        /// <param name="value"></param>
+        /// <typeparam name="T">The type of the property</typeparam>
+        /// <param name="propertyName">The property name</param>
+        /// <param name="parameter">the parameter value</param>
+        /// <param name="value">The new value</param>
         protected void SetProperty<T>(string propertyName, ref T parameter, ref T value)
         {
             if (parameter != null && value != null && !EqualityComparer<T>.Default.Equals(parameter, value))
@@ -42,10 +46,10 @@ namespace Vts
         /// <summary>
         /// Method to handle change tracking
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="propertyName"></param>
-        /// <param name="parameter"></param>
-        /// <param name="value"></param>
+        /// <typeparam name="T">The type of the property</typeparam>
+        /// <param name="propertyName">The property name</param>
+        /// <param name="parameter">not used - need to remove</param>
+        /// <param name="value">The property value</param>
         protected void HandleChangeTracking<T>(string propertyName, ref T parameter, ref T value) where T : struct
         {
             object originalValue;

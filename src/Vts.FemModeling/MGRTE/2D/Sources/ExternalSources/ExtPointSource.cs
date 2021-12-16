@@ -51,7 +51,7 @@ namespace Vts.FemModeling.MGRTE._2D.DataStructures
         public void AssignMeshForExtSource(AngularMesh[] aMesh, int aMeshLevel, SpatialMesh[] sMesh, int sMeshLevel, int level, double[][][][] q)
         {
             double[] distance = new double[sMesh[sMeshLevel].Nt];
-            int i,j,k;
+            int i, k;
             double x,x1,x2,z,z1,z2;
             int ns_start, ns_stop;
             

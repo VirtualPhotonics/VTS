@@ -39,7 +39,6 @@ namespace Vts.Test.Modeling.ForwardSolvers
         //[ExpectedException(typeof(ArgumentException), ExpectedMessage = "Negative parametric point not acceptable as input.")]
         public void FindSpan_ParametricPointSmallerThenZero_ThowsException()
         {
-            //Assert.Throws<ArgumentException>(delegate { nurbsGenerator.FindSpan(nurbsValues, -1.0); }, "Negative parametric point not acceptable as input.");
             try
             {
                 NurbsValues nurbsValues = new NurbsValues(1.0);
@@ -47,7 +46,7 @@ namespace Vts.Test.Modeling.ForwardSolvers
             }
             catch (ArgumentException e)
             {
-                Assert.AreEqual(e.Message, "Negative parametric point not acceptable as input.");
+                Assert.AreEqual("Negative parametric point not acceptable as input.", e.Message);
             }
             catch (Exception)
             {
@@ -216,14 +215,13 @@ namespace Vts.Test.Modeling.ForwardSolvers
         //[ExpectedException(typeof(ArgumentException), ExpectedMessage = "Degree is too high.")]
         public void GetIntegralFunction_DegreeHigherThenMaxDegreeExpNotNull_ThrowsException()
         {
-            // Assert.Throws<ArgumentException>(delegate { nurbsGenerator.GetIntegralFunction(4, 1.0); }, "Degree is too high.");
             try
             {
                 nurbsGenerator.GetIntegralFunction(4, 1.0);
             }
             catch (ArgumentException e)
             {
-                Assert.AreEqual(e.Message, "Degree is too high.");
+                Assert.AreEqual("Degree is too high.", e.Message);
             }
             catch (Exception)
             {

@@ -39,6 +39,10 @@ namespace Vts.MonteCarlo.Detectors
         /// </summary>
         public DoubleRange Z { get; set; }
 
+        /// <summary>
+        /// Method to create detector from detector input
+        /// </summary>
+        /// <returns>created IDetector</returns>
         public IDetector CreateDetector()
         {
             return new FluenceOfFxAndZDetector
@@ -98,6 +102,11 @@ namespace Vts.MonteCarlo.Detectors
         private IList<OpticalProperties> _ops;
         private Complex[,] _tallyForOnePhoton;
 
+        /// <summary>
+        /// Method to initialize detector
+        /// </summary>
+        /// <param name="tissue">tissue definition</param>
+        /// <param name="rng">random number generator</param>
         public void Initialize(ITissue tissue, Random rng)
         {
             // assign any user-defined outputs (except arrays...we'll make those on-demand)
@@ -198,7 +207,10 @@ namespace Vts.MonteCarlo.Detectors
             }
         }
 
-        // this is to allow saving of large arrays separately as a binary file
+        /// <summary>
+        /// this is to allow saving of large arrays separately as a binary file
+        /// </summary>
+        /// <returns>BinaryArraySerializer[]</returns>
         public BinaryArraySerializer[] GetBinarySerializers() 
         {
             return new[] {
@@ -266,7 +278,6 @@ namespace Vts.MonteCarlo.Detectors
         public bool ContainsPoint(PhotonDataPoint dp)
         {
             return true; // or, possibly test for NA or confined position, etc
-            //return (dp.StateFlag.Has(PhotonStateType.PseudoTransmissionDomainTopBoundary));
         }
 
     }

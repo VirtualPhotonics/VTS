@@ -56,7 +56,7 @@ namespace Vts.MonteCarlo.Tissues
             return _inclusionRegion.ContainsPosition(position) ? _inclusionRegionIndex : base.GetRegionIndex(position);
         }
 
-        // todo: DC - worried that this is "uncombined" with GetDistanceToBoundary() from an efficiency standpoint
+        // DC - worried that this is "uncombined" with GetDistanceToBoundary() from an efficiency standpoint
         // note, however that there are two overloads currently for RayIntersectBoundary, one that does extra work to calc distances
         /// <summary>
         /// method to get index of neighbor tissue region when photon on boundary of two regions
@@ -68,19 +68,6 @@ namespace Vts.MonteCarlo.Tissues
             // first, check what region the photon is in
             int regionIndex = photon.CurrentRegionIndex;
 
-            // if we're outside the layer containing the inclusion, then just call the base method
-            //if ((regionIndex != _inclusionRegionIndex) && (regionIndex != _layerRegionIndexOfInclusion))
-            //{
-            //    return base.GetNeighborRegionIndex(photon);
-            //}
-
-            // check if on boundary of inclusion before checking if on boundary of layer
-            // note: added this if to handle infinitely thin fiber at surface ckh 4/23/19
-            //if ((regionIndex == _layerRegionIndexOfInclusion) && _inclusionRegion.ContainsPosition(photon.DP.Position))
-            //{
-            //    return _inclusionRegionIndex;
-            //}
-
             // if we're in the layer region of the inclusion, could be on boundary of layer
             if ((regionIndex == _layerRegionIndexOfInclusion) && !Regions[_layerRegionIndexOfInclusion].OnBoundary(photon.DP.Position) )
             {
@@ -91,21 +78,6 @@ namespace Vts.MonteCarlo.Tissues
             {
                 return _layerRegionIndexOfInclusion;
             }
-
-            //// if we're actually inside the inclusion
-            //if (_inclusionRegion.ContainsPosition(photon.DP.Position))
-            //{
-            //    // then the neighbor region is the layer containing the current photon position
-            //    return layerRegionIndex;
-            //}
-
-            //// otherwise, it depends on which direction the photon's pointing from within the layer
-
-            //// if the ray intersects the inclusion, the neighbor is the inclusion
-            //if( _inclusionRegion.RayIntersectBoundary(photon) )
-            //{
-            //    return _inclusionRegionIndex;
-            //}
 
             // otherwise we can do this with the base class method
             return base.GetNeighborRegionIndex(photon);
@@ -191,18 +163,18 @@ namespace Vts.MonteCarlo.Tissues
         public override Direction GetRefractedDirection(
             Position currentPosition,
             Direction currentDirection,
-            double nCurrent,
-            double nNext,
+            double currentN,
+            double nextN,
             double cosThetaSnell)
         {
             // needs to call MultiLayerTissue when crossing top and bottom layer
             if (base.OnDomainBoundary(currentPosition))
             {
-                return base.GetRefractedDirection(currentPosition, currentDirection, nCurrent, nNext, cosThetaSnell);
+                return base.GetRefractedDirection(currentPosition, currentDirection, currentN, nextN, cosThetaSnell);
             }
             else
             {
-                if (nCurrent == nNext)
+                if (currentN == nextN)
                 {
                     return currentDirection;  // no refractive index mismatch
                 }
@@ -212,7 +184,7 @@ namespace Vts.MonteCarlo.Tissues
                     // where theta1 and theta2 are angles relative to normal
                     Direction normal = _inclusionRegion.SurfaceNormal(currentPosition);
                     var cosTheta1 = Direction.GetDotProduct(currentDirection, normal);
-                    var nRatio = nCurrent / nNext;
+                    var nRatio = currentN / nextN;
                     var sinTheta2Squared = nRatio * nRatio * (1 - cosTheta1 * cosTheta1);
                     var factor = nRatio * cosTheta1 - Math.Sqrt(1 - sinTheta2Squared);
                     var newX = nRatio * currentDirection.Ux + factor * normal.Ux;

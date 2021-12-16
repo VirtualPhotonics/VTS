@@ -15,19 +15,6 @@ namespace Vts.MonteCarlo.PhotonData
         {
         }
 
-        ///// <summary>
-        ///// Do not use this overload, it is only for serialization purposes
-        ///// </summary>
-        //public PhotonDatabase()
-        //    : this(new SimulationInput())
-        //{
-        //}
-
-        ///// <summary>
-        ///// The details of the simulation that generated this result
-        ///// </summary>
-        //public SimulationInput SimulationInput { get; set; }
-
         /// <summary>
         /// Static helper method to simplify reading from file
         /// </summary>

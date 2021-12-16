@@ -9,6 +9,9 @@ using Vts.SpectralMapping;
 
 namespace Vts.Factories
 {
+    /// <summary>
+    /// factory methods for solvers
+    /// </summary>
     public class SolverFactory
     {
         private static readonly UnityContainer _container;
@@ -47,7 +50,7 @@ namespace Vts.Factories
             bool useSingleton,
             bool useDefaultConstructor)
         {
-            // todo: is this what AutoMapper is for?
+            // is this what AutoMapper is for?
             var enumValues = EnumHelper.GetValues<TEnum>();
             foreach (var enumValue in enumValues)
             {
@@ -78,38 +81,54 @@ namespace Vts.Factories
                     // classType,
                     // enumValue.ToString(), // use the enum string to register each class
                     // useSingleton ? new ContainerControlledLifetimeManager() : null,
-                    // useDefaultConstructor ? new InjectionMember[] { new InjectionConstructor() } : null);
+                    // useDefaultConstructor ? new InjectionMember[] { new InjectionConstructor() } : null)
                 }
             }
         }
-
+        /// <summary>
+        /// method to get forward solver from enum type
+        /// </summary>
+        /// <param name="forwardSolverType">ForwardSolverType enum</param>
+        /// <returns>IForwardSolver</returns>
         public static IForwardSolver GetForwardSolver(ForwardSolverType forwardSolverType)
         {
             return GetForwardSolver(forwardSolverType.ToString());
         }
-
+        /// <summary>
+        /// method to get forward solver from string name
+        /// </summary>
+        /// <param name="forwardSolverType">string name</param>
+        /// <returns>IForwardSolver</returns>
         public static IForwardSolver GetForwardSolver(string forwardSolverType)
         {
             try
             {
                 return _container.Resolve<IForwardSolver>(forwardSolverType);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return null;
             }
         }
-
+        /// <summary>
+        /// method to get Scatter from enum
+        /// </summary>
+        /// <param name="scatteringType">ScatteringType enum</param>
+        /// <returns>IScatter</returns>
         public static IScatterer GetScattererType(ScatteringType scatteringType)
         {
             return GetScattererType(scatteringType.ToString());
         }
-
+        /// <summary>
+        /// method to get Scatter from scattering name string
+        /// </summary>
+        /// <param name="scatteringType">scattering string name</param>
+        /// <returns>IScatter</returns>
         public static IScatterer GetScattererType(string scatteringType)
         {
             try
             {
-                // todo: add overload of GetScattererType that takes in a tissue type 
+                // add overload of GetScattererType that takes in a tissue type 
                 // for choosing good defaults. Need to understand how to configure Unity
                 // to allow for both types of resolution (right now, calls default constructor)
                 return _container.Resolve<IScatterer>(scatteringType);
@@ -119,12 +138,20 @@ namespace Vts.Factories
                 return null;
             }
         }
-
+        /// <summary>
+        /// method to get optimizer from enum
+        /// </summary>
+        /// <param name="type">OptimizerType enum</param>
+        /// <returns>IOptimizer</returns>
         public static IOptimizer GetOptimizer(OptimizerType type)
         {
             return GetOptimizer(type.ToString());
         }
-
+        /// <summary>
+        /// method to get optimizer from name string
+        /// </summary>
+        /// <param name="type">optimizer name string</param>
+        /// <returns>IOptimizer</returns>
         public static IOptimizer GetOptimizer(string type)
         {
             try

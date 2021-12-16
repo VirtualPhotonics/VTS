@@ -44,16 +44,6 @@ namespace Vts.MonteCarlo.Rng
         /// </summary>
         private static readonly uint[] _mag01 = { 0x0U, _matrix_a };
 
-        /// <summary>
-        /// Mersenne twister constant (should not be modified, except for serialization purposes)
-        /// </summary>
-        private uint[] _mt = new uint[_n];
-
-        /// <summary>
-        /// Mersenne twister constant.
-        /// </summary>
-        private int mti = _n + 1;
-
 
         /// <summary>
         /// Initializes a new instance of the MersenneTwister class.
@@ -102,12 +92,17 @@ namespace Vts.MonteCarlo.Rng
         /// <summary>
         /// variable within algorithm needed to resume series if interrupts
         /// </summary>
-        public uint[] MT { get { return _mt; } set { _mt = value; } }
+        public uint[] MT { get; set; } = new uint[_n];
         /// <summary>
         /// variable within algorithm needed to resume series if interrupts
         /// </summary>
-        public int MTI { get { return mti; } set { mti = value; } }
+        public int MTI { get; set; } = _n + 1;
 
+        /// <summary>
+        /// Method to create class using saved sequence info
+        /// </summary>
+        /// <param name="info"></param>
+        /// <returns></returns>
         public static SerializableMersenneTwister Create(MersenneTwisterSerializationInfo info)
         {
             return new SerializableMersenneTwister
@@ -142,15 +137,15 @@ namespace Vts.MonteCarlo.Rng
         /// <param name="s">seed is any 32-bit integer</param>
         private void init_genrand(uint s)
         {
-            _mt[0] = s & 0xffffffff;
-            for (mti = 1; mti < _n; mti++)
+            MT[0] = s & 0xffffffff;
+            for (MTI = 1; MTI < _n; MTI++)
             {
-                _mt[mti] = (1812433253 * (_mt[mti - 1] ^ (_mt[mti - 1] >> 30)) + (uint)mti);
+                MT[MTI] = (1812433253 * (MT[MTI - 1] ^ (MT[MTI - 1] >> 30)) + (uint)MTI);
                 /* See Knuth TAOCP Vol2. 3rd Ed. P.106 for multiplier. */
                 /* In the previous versions, MSBs of the seed affect   */
                 /* only MSBs of the array _mt[].                        */
                 /* 2002/01/09 modified by Makoto Matsumoto             */
-                _mt[mti] &= 0xffffffff;
+                MT[MTI] &= 0xffffffff;
                 /* for >32 bit machines */
             }
         }
@@ -158,38 +153,37 @@ namespace Vts.MonteCarlo.Rng
         /// <summary>
         /// generates a random number on[0, 0xffffffff]-interval
         /// </summary>
-
         private uint genrand_int32()
         {
             uint y;
 
             /* mag01[x] = x * MATRIX_A  for x=0,1 */
 
-            if (mti >= _n)
+            if (MTI >= _n)
             {
                 /* generate _n words at one time */
                 int kk;
 
-                if (mti == _n + 1) /* if init_genrand() has not been called, */
+                if (MTI == _n + 1) /* if init_genrand() has not been called, */
                     init_genrand(5489); /* a default initial seed is used */
 
                 for (kk = 0; kk < _n - _m; kk++)
                 {
-                    y = (_mt[kk] & _upper_mask) | (_mt[kk + 1] & _lower_mask);
-                    _mt[kk] = _mt[kk + _m] ^ (y >> 1) ^ _mag01[y & 0x1];
+                    y = (MT[kk] & _upper_mask) | (MT[kk + 1] & _lower_mask);
+                    MT[kk] = MT[kk + _m] ^ (y >> 1) ^ _mag01[y & 0x1];
                 }
                 for (; kk < _n - 1; kk++)
                 {
-                    y = (_mt[kk] & _upper_mask) | (_mt[kk + 1] & _lower_mask);
-                    _mt[kk] = _mt[kk + (_m - _n)] ^ (y >> 1) ^ _mag01[y & 0x1];
+                    y = (MT[kk] & _upper_mask) | (MT[kk + 1] & _lower_mask);
+                    MT[kk] = MT[kk + (_m - _n)] ^ (y >> 1) ^ _mag01[y & 0x1];
                 }
-                y = (_mt[_n - 1] & _upper_mask) | (_mt[0] & _lower_mask);
-                _mt[_n - 1] = _mt[_m - 1] ^ (y >> 1) ^ _mag01[y & 0x1];
+                y = (MT[_n - 1] & _upper_mask) | (MT[0] & _lower_mask);
+                MT[_n - 1] = MT[_m - 1] ^ (y >> 1) ^ _mag01[y & 0x1];
 
-                mti = 0;
+                MTI = 0;
             }
 
-            y = _mt[mti++];
+            y = MT[MTI++];
 
             /* Tempering */
             y ^= (y >> 11);
@@ -223,6 +217,11 @@ namespace Vts.MonteCarlo.Rng
             return SerializableMersenneTwister.Create(info);
         }
 
+        /// <summary>
+        /// Method to write pertinent RNG info to file so can restart in sequence
+        /// </summary>
+        /// <param name="smt">class identifier</param>
+        /// <param name="filename">file name to write sequence info</param>
         public void ToFile(SerializableMersenneTwister smt, string filename)
         {
             var info = new MersenneTwisterSerializationInfo

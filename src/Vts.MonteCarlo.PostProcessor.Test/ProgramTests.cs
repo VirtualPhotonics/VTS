@@ -14,14 +14,15 @@ namespace Vts.MonteCarlo.PostProcessor.Test
         /// </summary>
         
         // Note: needs to be kept current with PostProcessorInputProvider.  If an infile is added there, it should be added here.
-        List<string> listOfMCPPInfiles = new List<string>()
+        readonly List<string> listOfMCPPInfiles = new List<string>()
         {
             "PostProcessor_ROfRho", 
             "PostProcessor_pMC_ROfRhoROfRhoAndTime",
-            "PostProcessor_pMC_ROfRhoVariants",
+            "PostProcessor_pMC_ROfRhoROfXAndYVariants",
             "PostProcessor_pMC_ROfFxROfFxAndTime",
         };
-        List<string> listOfMCCLInfiles = new List<string>()
+
+        readonly List<string> listOfMCCLInfiles = new List<string>()
         {
             "ellip_FluenceOfRhoAndZ",
             "infinite_cylinder_AOfXAndYAndZ",
@@ -137,12 +138,23 @@ namespace Vts.MonteCarlo.PostProcessor.Test
             Assert.IsTrue(File.Exists("PostProcessor_pMC_ROfRhoROfRhoAndTime/pMCROfRhoAndTime_mus1p5.txt"));
             Assert.IsTrue(File.Exists("PostProcessor_pMC_ROfRhoROfRhoAndTime/pMCROfRhoAndTime_mus1p5"));
             Assert.IsFalse(File.Exists("PostProcessor_pMC_ROfRhoROfRhoAndTime/pMCROfRhoAndTime_mus1p5_2"));
+            // added regular detectors into this infile in PPInputProvider -> verify they are there
+            Assert.IsTrue(File.Exists("PostProcessor_pMC_ROfRhoROfRhoAndTime/ROfRho.txt"));
+            Assert.IsTrue(File.Exists("PostProcessor_pMC_ROfRhoROfRhoAndTime/ROfRho"));
+            Assert.IsTrue(File.Exists("PostProcessor_pMC_ROfRhoROfRhoAndTime/ROfRhoAndTime.txt"));
+            Assert.IsTrue(File.Exists("PostProcessor_pMC_ROfRhoROfRhoAndTime/ROfRhoAndTime"));
             // check that can read detectors in
             var readDetector = DetectorIO.ReadDetectorFromFile(
                 "pMCROfRhoReference", "PostProcessor_pMC_ROfRhoROfRhoAndTime");
             Assert.IsInstanceOf<IDetector>(readDetector);
             readDetector = DetectorIO.ReadDetectorFromFile(
                 "pMCROfRhoAndTime_mus1p5", "PostProcessor_pMC_ROfRhoROfRhoAndTime");
+            Assert.IsInstanceOf<IDetector>(readDetector);
+            readDetector = DetectorIO.ReadDetectorFromFile(
+                "ROfRho", "PostProcessor_pMC_ROfRhoROfRhoAndTime");
+            Assert.IsInstanceOf<IDetector>(readDetector);
+            readDetector = DetectorIO.ReadDetectorFromFile(
+                "ROfRhoAndTime", "PostProcessor_pMC_ROfRhoROfRhoAndTime");
             Assert.IsInstanceOf<IDetector>(readDetector);
         }
 

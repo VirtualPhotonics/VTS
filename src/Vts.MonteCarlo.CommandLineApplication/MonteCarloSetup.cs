@@ -31,7 +31,6 @@ namespace Vts.MonteCarlo.CommandLineApplication
 
                 //get the full path for the input file
                 var fullFilePath = Path.GetFullPath(inputFile);
-                string extension = Path.GetExtension(inputFile);
 
                 if (File.Exists(fullFilePath))
                 {
@@ -49,33 +48,32 @@ namespace Vts.MonteCarlo.CommandLineApplication
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
-                //Console.WriteLine(VtsJsonSerializer.TraceWriter.GetTraceMessages());
                 return null;
             }
         }
 
-        public static ParameterSweep CreateParameterSweep(string[] parameterSweepString, ParameterSweepType type) // todo: check for null returns
+        public static ParameterSweep CreateParameterSweep(string[] parameterSweepString, ParameterSweepType type) // check for null returns?
         {
             if ((type == ParameterSweepType.Count || type == ParameterSweepType.Delta))
             {
                 if (parameterSweepString.Length != 4)
                 {
+                    
+                    string message =
+                        " *** Invalid sweep parameter ***" +
+                        "\n\t\tsweep parameters should have 4 values in the format:";
+                    if (type == ParameterSweepType.Delta)
                     {
-                        string message =
-                            " *** Invalid sweep parameter ***" +
-                            "\n\t\tsweep parameters should have 4 values in the format:";
-                        if (type == ParameterSweepType.Delta)
-                        {
-                            message += "\n\t\tparamsweepdelta=<Parameter>,Start,Stop,Delta";
-                        }
-                        else
-                        {
-                            message += "\n\t\tparamsweep=<Parameter>,Start,Stop,Count";
-                        }
-                        message += "\n\t\tIgnoring this sweep parameter\n";
-                        logger.Warn(() => message);
-                        return null;
+                        message += "\n\t\tparamsweepdelta=<Parameter>,Start,Stop,Delta";
                     }
+                    else
+                    {
+                        message += "\n\t\tparamsweep=<Parameter>,Start,Stop,Count";
+                    }
+                    message += "\n\t\tIgnoring this sweep parameter\n";
+                    logger.Warn(() => message);
+                    return null;
+                    
                 }
             }
             else // type==ParameterSweepType.List
@@ -193,19 +191,6 @@ namespace Vts.MonteCarlo.CommandLineApplication
                 DetectorIO.WriteDetectorToFile(result, resultsFolder);
             }
         }
-
-        ///// <summary>
-        ///// Runs multiple Monte Carlo simulations in parallel using all available CPU cores
-        ///// </summary>
-        //public static void RunSimulations(IEnumerable<SimulationInput> inputs, string outputFolderPath)
-        //{
-        //    var options = new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount};
-        //    Parallel.ForEach(inputs, options, (input, state, index) =>
-        //    {
-        //        input.Options.SimulationIndex = (int)index;
-        //        RunSimulation(input, outputFolderPath, 1);
-        //    });
-        //}
 
         /// <summary>
         /// Runs multiple Monte Carlo simulations in parallel using all available CPU cores

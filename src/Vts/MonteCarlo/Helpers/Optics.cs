@@ -50,7 +50,6 @@ namespace Vts.MonteCarlo.Helpers
                 ss = si * ct + ci * st;
                 cd = ci * ct + si * st;
                 cs = ci * ct - si * st;
-                /* printf("cd= %12.4e    ss = %12.4e\n"); */
                 return 0.5 * (sd * sd / (ss * ss) + sd * sd * cs * cs / (cd * cd * ss * ss));
             }
         }
