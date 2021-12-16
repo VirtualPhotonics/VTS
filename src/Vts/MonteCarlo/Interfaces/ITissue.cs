@@ -41,11 +41,12 @@ namespace Vts.MonteCarlo
         /// </summary>
         //IList<IPhaseFunction> RegionPhaseFunctions { get; }
         IDictionary<string, IPhaseFunction> RegionPhaseFunctions { get; set; }
+
         /// <summary>
         /// Required method to initialiize the corresponding ITissue
         /// </summary>
         /// <param name="awt">absorption weighting type</param>
-        /// <param name="pft">phase function type</param>
+        /// <param name="regionPhaseFunctions">dictionary of phase functions</param>
         /// <param name="russianRouletteWeightThreshold">Russian Roulette threshold</param>
         void Initialize(
             AbsorptionWeightingType awt = AbsorptionWeightingType.Discrete,

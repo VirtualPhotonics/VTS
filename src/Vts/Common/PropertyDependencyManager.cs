@@ -5,8 +5,14 @@ using System.ComponentModel;
 namespace Vts
 {
     /// <summary>
-    /// Class to manage dependencies of INotifyPropertyChanged objects, as suggested by Tomas Elison here: http://neilmosafi.blogspot.com/2008/07/is-inotifypropertychanged-anti-pattern.html
-    /// This class builds a dependency graph the "right" way. It knows for example that if Quantity is changed, TotalPrice has asked to be informed about this. The PropertyDependencyManager listens to the PropertyChanged event for any class that is registered with it and uses the dependency graph to propagate the events the right way.
+    /// Class to manage dependencies of INotifyPropertyChanged objects,
+    /// as suggested by Tomas Elison here:
+    /// http://neilmosafi.blogspot.com/2008/07/is-inotifypropertychanged-anti-pattern.html
+    /// This class builds a dependency graph the "right" way. It knows for example
+    /// that if Quantity is changed, TotalPrice has asked to be informed about this.
+    /// The PropertyDependencyManager listens to the PropertyChanged event for any
+    /// class that is registered with it and uses the dependency graph to propagate
+    /// the events the right way.
     /// </summary>
     public class PropertyDependencyManager
     {
@@ -23,6 +29,10 @@ namespace Vts
             CreateDependencyGraph();
         }
 
+        /// <summary>
+        /// Registers the class to notify changes to properties and their dependencies
+        /// </summary>
+        /// <param name="target">The target class that implements INotifyPropertyChangedPlus</param>
         public static void Register(INotifyPropertyChangedPlus target)
         {
             registeredInstances.Add(new PropertyDependencyManager(target));

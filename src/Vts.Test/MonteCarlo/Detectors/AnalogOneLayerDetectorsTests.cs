@@ -32,11 +32,12 @@ namespace Vts.Test.MonteCarlo.Detectors
         /// <summary>
         /// list of temporary files created by these unit tests
         /// </summary>
-        List<string> listOfTestGeneratedFolders = new List<string>()
+        readonly List<string> listOfTestGeneratedFolders = new List<string>()
         {
             "Output",
         };
-        List<string> listOfTestGeneratedFiles = new List<string>()
+
+        readonly List<string> listOfTestGeneratedFiles = new List<string>()
         {
             "statistics.txt",
             "file.txt", // file that captures screen output of MC simulation
@@ -147,7 +148,6 @@ namespace Vts.Test.MonteCarlo.Detectors
         public void validate_Analog_RDiffuse()
         {
             Assert.Less(Math.Abs(_output.Rd * _factor - 0.670833333), 0.000000001);
-            //var sd = ErrorCalculation.StandardDeviation(_output.Input.N, _output.Rd, _output.Rd2);
             // for analog 1st and 2nd moment should be equal (since weight tallied is 1)
             Assert.AreEqual(_output.Rd, _output.Rd2);
         }
@@ -185,7 +185,7 @@ namespace Vts.Test.MonteCarlo.Detectors
         [Test]
         public void validate_Analog_ROfRhoAndOmega()
         {
-            // todo: warning - this validation data from Linux is actually for Omega = 0.025GHz
+            // warning - this validation data from Linux is actually for Omega = 0.025GHz
             // (see here: http://virtualphotonics.codeplex.com/discussions/278250)
             Assert.Less(Complex.Abs(
                 _output.R_rw[0, 0] * _factor - (0.9284030 - Complex.ImaginaryOne * 0.0007940711)), 0.000001);
@@ -238,8 +238,8 @@ namespace Vts.Test.MonteCarlo.Detectors
         public void validate_Analog_RadianceOfRhoAndZAndAngle()
         {
             // undo angle bin normalization
-            var angle = ((RadianceOfRhoAndZAndAngleDetectorInput)_input.DetectorInputs.
-                Where(d => d.TallyType == "RadianceOfRhoAndZAndAngle").First()).Angle;
+            var angle = ((RadianceOfRhoAndZAndAngleDetectorInput)_input.DetectorInputs.First(
+                d => d.TallyType == "RadianceOfRhoAndZAndAngle")).Angle;
             var norm = 2 * Math.PI * angle.Delta;
             var integral = 0.0;
             for (int ia = 0; ia < angle.Count - 1; ia++)

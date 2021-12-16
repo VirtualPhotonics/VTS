@@ -17,8 +17,6 @@ namespace Vts.MonteCarlo.Tissues
     /// </summary>
     public class MultiLayerWithSurfaceFiberTissueInput : TissueInput, ITissueInput
     {
-        private ITissueRegion[] _layerRegions;
-        private ITissueRegion _surfaceFiberRegion;
 
         /// <summary>
         /// constructor for Multi-layer tissue with surface fiber circle input
@@ -28,8 +26,8 @@ namespace Vts.MonteCarlo.Tissues
         public MultiLayerWithSurfaceFiberTissueInput(ITissueRegion surfaceFiberRegion, ITissueRegion[] layerRegions)
         {
             TissueType = "MultiLayerWithSurfaceFiber";
-            _layerRegions = layerRegions;
-            _surfaceFiberRegion = surfaceFiberRegion;
+            LayerRegions = layerRegions;
+            SurfaceFiberRegion = surfaceFiberRegion;
             RegionPhaseFunctionInputs = new Dictionary<string, IPhaseFunctionInput>();
         }
 
@@ -71,24 +69,23 @@ namespace Vts.MonteCarlo.Tissues
         /// regions of tissue (layers and surface fiber circle)
         /// </summary>
         [IgnoreDataMember]
-        public ITissueRegion[] Regions { get { return _layerRegions.Concat(_surfaceFiberRegion).ToArray(); } }
+        public ITissueRegion[] Regions { get { return LayerRegions.Concat(SurfaceFiberRegion).ToArray(); } }
         /// <summary>
         /// surface fiber region
         /// </summary>
-        public ITissueRegion SurfaceFiberRegion { get { return _surfaceFiberRegion; } set { _surfaceFiberRegion = value; } }
+        public ITissueRegion SurfaceFiberRegion { get; set; }
         /// <summary>
         /// tissue layer regions
         /// </summary>
-        public ITissueRegion[] LayerRegions { get { return _layerRegions; } set { _layerRegions = value; } }
-
+        public ITissueRegion[] LayerRegions { get; set; }
         /// <summary>
         /// dictionary of region phase function inputs
         /// </summary>
         public IDictionary<string, IPhaseFunctionInput> RegionPhaseFunctionInputs { get; set; }
 
         /// <summary>
-        ///// Required factory method to create the corresponding 
-        ///// ITissue based on the ITissueInput data
+        /// Required factory method to create the corresponding 
+        /// ITissue based on the ITissueInput data
         /// </summary>
         /// <param name="awt">Absorption Weighting Type</param>
         /// <param name="regionPhaseFunctions">Phase Functions for each tissue region</param>
@@ -115,6 +112,7 @@ namespace Vts.MonteCarlo.Tissues
         private IList<LayerTissueRegion> _layerRegions;
         private ITissueRegion _surfaceFiberRegion;
 
+        /// <summary>
         /// Creates an instance of a MultiLayerSurfaceFiberTissue
         /// </summary>
         /// <param name="surfaceFiberRegion">circular surface fiber region and characteristics</param>
@@ -210,7 +208,7 @@ namespace Vts.MonteCarlo.Tissues
         {
             if (photon.DP.Direction.Uz == 0.0)
             {
-                throw new Exception("GetNeighborRegionIndex called and Photon not on boundary");
+                throw new ArgumentException("GetNeighborRegionIndex called and Photon not on boundary");
             }
 
             if (photon.DP.Direction.Uz > 0.0) // move to layer below if pointed down
@@ -255,43 +253,43 @@ namespace Vts.MonteCarlo.Tissues
         /// <summary>
         /// method to determine direction of reflected photon
         /// </summary>
-        /// <param name="positionCurrent"></param>
-        /// <param name="directionCurrent"></param>
+        /// <param name="currentPosition"></param>
+        /// <param name="currentDirection"></param>
         /// <returns></returns>
         public Direction GetReflectedDirection(
-            Position positionCurrent, 
-            Direction directionCurrent)
+            Position currentPosition, 
+            Direction currentDirection)
         {
             return new Direction(
-                directionCurrent.Ux,
-                directionCurrent.Uy,
-                -directionCurrent.Uz);
+                currentDirection.Ux,
+                currentDirection.Uy,
+                -currentDirection.Uz);
         }
         /// <summary>
         /// method to determine refracted direction of photon
         /// </summary>
-        /// <param name="positionCurrent">current photon position</param>
-        /// <param name="directionCurrent">current photon direction</param>
-        /// <param name="nCurrent">refractive index of current region</param>
-        /// <param name="nNext">refractive index of next region</param>
+        /// <param name="currentPosition">current photon position</param>
+        /// <param name="currentDirection">current photon direction</param>
+        /// <param name="currentN">refractive index of current region</param>
+        /// <param name="nextN">refractive index of next region</param>
         /// <param name="cosThetaSnell">cos(theta) resulting from Snell's law</param>
         /// <returns>direction</returns>
         public Direction GetRefractedDirection(
-            Position positionCurrent, 
-            Direction directionCurrent, 
-            double nCurrent, 
-            double nNext, 
+            Position currentPosition, 
+            Direction currentDirection, 
+            double currentN, 
+            double nextN, 
             double cosThetaSnell)
         {
-            if (directionCurrent.Uz > 0)
+            if (currentDirection.Uz > 0)
                 return new Direction(
-                    directionCurrent.Ux * nCurrent / nNext,
-                    directionCurrent.Uy * nCurrent / nNext,
+                    currentDirection.Ux * currentN / nextN,
+                    currentDirection.Uy * currentN / nextN,
                     cosThetaSnell);
             else
                 return new Direction(
-                    directionCurrent.Ux * nCurrent / nNext,
-                    directionCurrent.Uy * nCurrent / nNext,
+                    currentDirection.Ux * currentN / nextN,
+                    currentDirection.Uy * currentN / nextN,
                     -cosThetaSnell);
         }
         /// <summary>

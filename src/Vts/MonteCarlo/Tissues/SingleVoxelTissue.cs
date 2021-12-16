@@ -11,8 +11,6 @@ namespace Vts.MonteCarlo.Tissues
     /// </summary>
     public class SingleVoxelTissueInput : TissueInput, ITissueInput
     {
-        private ITissueRegion _voxelRegion;
-        private ITissueRegion[] _layerRegions;
 
         /// <summary>
         /// allows definition of single voxel tissue
@@ -22,8 +20,8 @@ namespace Vts.MonteCarlo.Tissues
         public SingleVoxelTissueInput(ITissueRegion voxelRegion, ITissueRegion[] layerRegions)
         {
             TissueType = "SingleVoxel";
-            _voxelRegion = voxelRegion;
-            _layerRegions = layerRegions;
+            VoxelRegion = voxelRegion;
+            LayerRegions = layerRegions;
             RegionPhaseFunctionInputs = new Dictionary<string, IPhaseFunctionInput>();
         }
 
@@ -66,15 +64,15 @@ namespace Vts.MonteCarlo.Tissues
         /// regions of tissue (layers and ellipsoid)
         /// </summary>
         [IgnoreDataMember]
-        public ITissueRegion[] Regions { get { return _layerRegions.Concat(_voxelRegion).ToArray(); } }
+        public ITissueRegion[] Regions { get { return LayerRegions.Concat(VoxelRegion).ToArray(); } }
         /// <summary>
         /// tissue voxel region
         /// </summary>
-        public ITissueRegion VoxelRegion { get { return _voxelRegion; } set { _voxelRegion = value; } }
+        public ITissueRegion VoxelRegion { get; set; }
         /// <summary>
         /// tissue layer regions
         /// </summary>
-        public ITissueRegion[] LayerRegions { get { return _layerRegions; } set { _layerRegions = value; } }
+        public ITissueRegion[] LayerRegions { get; set; }
         /// <summary>
         /// dictionary of region phase function inputs
         /// </summary>

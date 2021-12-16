@@ -140,8 +140,6 @@ namespace Vts.MonteCarlo.Sources
                 initialTissueRegionIndex)
         {
             _pointLocation = pointLocation;
-            if (translationFromOrigin == null)
-                translationFromOrigin = SourceDefaults.DefaultPosition.Clone();
         }
         
         /// <summary>

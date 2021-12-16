@@ -11,8 +11,6 @@ namespace Vts.MonteCarlo.Tissues
     /// </summary>
     public class SingleCylinderTissueInput : TissueInput, ITissueInput
     {
-        private ITissueRegion _cylinderRegion;
-        private ITissueRegion[] _layerRegions;
 
         /// <summary>
         /// allows definition of single cylinder tissue
@@ -22,8 +20,9 @@ namespace Vts.MonteCarlo.Tissues
         public SingleCylinderTissueInput(ITissueRegion cylinderRegion, ITissueRegion[] layerRegions)
         {
             TissueType = "SingleCylinder";
-            _cylinderRegion = cylinderRegion;
-            _layerRegions = layerRegions;
+            CylinderRegion = cylinderRegion;
+            LayerRegions = layerRegions;
+            RegionPhaseFunctionInputs = new Dictionary<string, IPhaseFunctionInput>();
         }
 
         /// <summary>
@@ -55,27 +54,33 @@ namespace Vts.MonteCarlo.Tissues
                         "HenyeyGreensteinKey3")
                 })
         {
+            RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey1", new HenyeyGreensteinPhaseFunctionInput());
+            RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey2", new HenyeyGreensteinPhaseFunctionInput());
+            RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey3", new HenyeyGreensteinPhaseFunctionInput());
+            RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey4", new HenyeyGreensteinPhaseFunctionInput());
         }
 
         /// <summary>
         /// regions of tissue (layers and Cylinder)
         /// </summary>
         [IgnoreDataMember]
-        public ITissueRegion[] Regions { get { return _layerRegions.Concat(_cylinderRegion).ToArray(); } }
+        public ITissueRegion[] Regions { get { return LayerRegions.Concat(CylinderRegion).ToArray(); } }
         /// <summary>
         /// tissue Cylinder region
         /// </summary>
-        public ITissueRegion CylinderRegion { get { return _cylinderRegion; } set { _cylinderRegion = value; } }
+        public ITissueRegion CylinderRegion { get; set; }
         /// <summary>
         /// tissue layer regions
         /// </summary>
-        public ITissueRegion[] LayerRegions { get { return _layerRegions; } set { _layerRegions = value; } }
-
-        public IDictionary<string, IPhaseFunctionInput> RegionPhaseFunctionInputs { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+        public ITissueRegion[] LayerRegions { get; set; }
+        /// <summary>
+        /// dictionary of region phase function inputs
+        /// </summary>
+        public IDictionary<string, IPhaseFunctionInput> RegionPhaseFunctionInputs { get; set; }
 
         /// <summary>
-        ///// Required factory method to create the corresponding 
-        ///// ITissue based on the ITissueInput data
+        /// Required factory method to create the corresponding 
+        /// ITissue based on the ITissueInput data
         /// </summary>
         /// <param name="awt">Absorption Weighting Type</param>
         /// <param name="regionPhaseFunctions">Phase Function for each tissue type</param>

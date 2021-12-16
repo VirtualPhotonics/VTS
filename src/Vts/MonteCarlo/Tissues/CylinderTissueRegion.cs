@@ -105,21 +105,20 @@ namespace Vts.MonteCarlo.Tissues
         /// equations to determine intersection are derived by parameterizing ray from p1 to p2
         /// as p2=p1+[dx dy dz]t t in [0,1] where dx=p2.x-p1.x dy=p2.y-p1.y dz=p2.z-p2.z
         /// and substituting into ellipsoid equations and solving quadratic in t, i.e. t1, t2
-        /// t1,t2<0 or t1,t2>1 => no intersection
-        /// 0<t1<1 => one intersection
-        /// 0<t2<1 => one intersections, if above line true too => two intersections
+        /// t1,t2 less than 0 or t1,t2 greater than 1 => no intersection
+        /// 0 less than t1 less than 1 => one intersection
+        /// 0 less than t2 less than 1 => one intersections, if above line true too => two intersections
         /// Equations obtained from pdf at https://mrl.nyu.edu/~dzorin/rendering/lectures/lecture3/lecture3-6pp.pdf
         /// and modified to assume cylinder finite along z-axis with caps in x-y planes.
         /// Note: can't vouch for this code yet, especially if photon intersects sides AND cap
         /// </summary>
         /// <param name="photon">photon position, direction, etc.</param>
         /// <param name="distanceToBoundary">distance to boundary</param>
-        /// <returns>boolean</returns>
+        /// <returns>boolean indicating intersection or not</returns>
         public bool RayIntersectBoundary(Photon photon, out double distanceToBoundary)
         {
             distanceToBoundary = double.PositiveInfinity;
             _onBoundary = false; // reset _onBoundary
-            double root = 0;
             var dp = photon.DP;
             var p1 = dp.Position;
             var d1 = dp.Direction;
@@ -139,28 +138,28 @@ namespace Vts.MonteCarlo.Tissues
             }
             _onBoundary = false; // reset flag
 
-            double distanceToSides = double.PositiveInfinity;
+            // distanceToSides is initialized to double.PositiveInfinity at start of RayIntersect
             // first check if intersect with infinite cylinder
             var intersectSides = (CylinderTissueRegionToolbox.RayIntersectInfiniteCylinder(p1, p2, oneIn,
                 CylinderTissueRegionAxisType.Z, Center, Radius,
-                out distanceToSides));
+                out var distanceToSides));
             // then check if intersect caps, create three tissue layers 1) above cylinder, 2) cylinder, 3) below
-            double distanceToTopLayer = double.PositiveInfinity;
+
             var topLayer = new LayerTissueRegion(
                 new DoubleRange(0, Center.Z - (Height / 2)),
                 new OpticalProperties()); // doesn't matter what OPs are
-            var intersectTopLayer = topLayer.RayIntersectBoundary(photon, out distanceToTopLayer);
-            double distanceToCapLayer = double.PositiveInfinity;
+            var intersectTopLayer = topLayer.RayIntersectBoundary(photon, out var distanceToTopLayer);
+
             var enclosingLayer =
                 new LayerTissueRegion(
                     new DoubleRange(Center.Z - (Height / 2), Center.Z + (Height / 2)),
                     new OpticalProperties());
-            var intersectCapLayer = enclosingLayer.RayIntersectBoundary(photon, out distanceToCapLayer);
-            double distanceToBottomLayer = double.PositiveInfinity;
+            var intersectCapLayer = enclosingLayer.RayIntersectBoundary(photon, out var distanceToCapLayer);
+
             var bottomLayer = new LayerTissueRegion(
                 new DoubleRange(Center.Z + (Height / 2), double.PositiveInfinity),
                 new OpticalProperties()); // doesn't matter what OPs are
-            var intersectBottomLayer = bottomLayer.RayIntersectBoundary(photon, out distanceToBottomLayer);
+            var intersectBottomLayer = bottomLayer.RayIntersectBoundary(photon, out var distanceToBottomLayer);
             var hitCaps = false;
             double distanceToCap = double.PositiveInfinity;
             if (intersectTopLayer || intersectCapLayer || intersectBottomLayer)
@@ -188,14 +187,8 @@ namespace Vts.MonteCarlo.Tissues
                 return true;
             }
 
-            distanceToBottomLayer = double.PositiveInfinity;
             return false;
         }
-
-        //public bool RayIntersectBoundary(Photon photptr)
-        //{
-        //    throw new NotImplementedException();
-        //}
 
         /// <summary>
         /// method to determine normal to surface at given position

@@ -30,29 +30,18 @@ namespace Vts.Test.MonteCarlo.Tissues
         [Test]
         public void validate_cylinder_properties()
         {
-            Assert.AreEqual(_cylinderTissueRegion.Center.X, 0.0);
-            Assert.AreEqual(_cylinderTissueRegion.Center.Y, 0.0);
-            Assert.AreEqual(_cylinderTissueRegion.Center.Z, 2.0);
-            Assert.AreEqual(_cylinderTissueRegion.Radius, 1.0);
-            Assert.AreEqual(_cylinderTissueRegion.Height, 2.0);
-            Assert.AreEqual(_cylinderTissueRegion.RegionOP.Mua, 0.01);
-            Assert.AreEqual(_cylinderTissueRegion.RegionOP.Musp, 1.0);
-            Assert.AreEqual(_cylinderTissueRegion.RegionOP.G, 0.8);
-            Assert.AreEqual(_cylinderTissueRegion.RegionOP.N, 1.4);
+            Assert.AreEqual(0.0, _cylinderTissueRegion.Center.X);
+            Assert.AreEqual(0.0, _cylinderTissueRegion.Center.Y);
+            Assert.AreEqual(2.0, _cylinderTissueRegion.Center.Z);
+            Assert.AreEqual(1.0, _cylinderTissueRegion.Radius);
+            Assert.AreEqual(2.0, _cylinderTissueRegion.Height);
+            Assert.AreEqual(0.01, _cylinderTissueRegion.RegionOP.Mua);
+            Assert.AreEqual(1.0, _cylinderTissueRegion.RegionOP.Musp);
+            Assert.AreEqual(0.8, _cylinderTissueRegion.RegionOP.G);
+            Assert.AreEqual(1.4, _cylinderTissueRegion.RegionOP.N);
         }
-        ///// <summary>
-        ///// Validate method OnBoundary return correct boolean THIS METHOD MAY BE OBSOLETE
-        ///// </summary>
-        //[Test]
-        //public void verify_OnBoundary_method_returns_correct_result()
-        //{
-        //    bool result = _infiniteCylinderTissueRegion.OnBoundary(new Position(0, 0, 2.0));
-        //    Assert.IsTrue(result);
-        //    result = _infiniteCylinderTissueRegion.OnBoundary(new Position(0, 0, 1.0));
-        //    Assert.IsFalse(result);
-        //}
 
-       /// <summary>
+        /// <summary>
         /// Validate method OnBoundary return correct boolean.
         /// Currently OnBoundary of an inclusion region isn't called by any code ckh 3/5/19.
         /// </summary>
@@ -82,17 +71,7 @@ namespace Vts.Test.MonteCarlo.Tissues
             result = _cylinderTissueRegion.ContainsPosition(new Position(0, 0, 3.0)); // on boundary
             Assert.IsTrue(result);
         }
-        ///// <summary>
-        ///// Validate method SurfaceNormal return correct normal vector
-        ///// </summary>
-        //[Test]
-        //public void verify_SurfaceNormal_method_returns_correct_result()
-        //{
-        //    Direction result = _infiniteCylinderTissueRegion.SurfaceNormal(new Position(0, 0, 1.0));
-        //    Assert.AreEqual(new Direction(0, 0, -1), result);
-        //    result = _infiniteCylinderTissueRegion.SurfaceNormal(new Position(0, 0, 5.0));
-        //    Assert.AreEqual(new Direction(0, 0, 1), result);
-        //}
+
         /// <summary>
         /// Validate method RayIntersectBoundary return correct result
         /// </summary>

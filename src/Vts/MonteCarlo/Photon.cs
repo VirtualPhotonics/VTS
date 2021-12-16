@@ -19,10 +19,8 @@ namespace Vts.MonteCarlo
         // should we dynamically set MAX_HISTORY_PTS and MAX_PHOTON_TIME?  derive one from other?
         private const int MAX_HISTORY_PTS = 300000; // 300000 * [1/(5/mm)] = 60000 mm
         private const double CHANCE = 0.1;
-        //private const double MAX_PHOTON_PATHLENGTH = 2000; // mm  
         private const double MAX_PHOTON_TIME = 280; // ns = 60000 mm (pathlength) / (300 / 1.4)
-        //private const double WEIGHT_LIMIT = 0.0001; // Russian Roulette weight limit, now part of Options ckh 1/9/12
-
+      
         // could add layer of indirection to not expose Absorb;
         private ITissue _tissue;
         private Random _rng;
@@ -51,7 +49,6 @@ namespace Vts.MonteCarlo
                     weight, // weight
                     0.0, // total time
                     PhotonStateType.Alive);
-            //PreviousDP = null;
 
             History = new PhotonHistory(tissue.Regions.Count);
             History.AddDPToHistory(DP);  // add initial datapoint
@@ -71,7 +68,6 @@ namespace Vts.MonteCarlo
             CurrentTrackIndex = 0;
             _tissue = tissue;
             SetAbsorbAction(_tissue.AbsorptionWeightingType);
-
             _rng = generator;
             _russianRouletteWeightThreshold = _tissue.RussianRouletteWeightThreshold;
             
@@ -223,9 +219,9 @@ namespace Vts.MonteCarlo
             // call Fresnel be default to have uZSnell set, used to be within else
             probOfReflecting = Optics.Fresnel(nCurrent, nNext, cosTheta, out cosThetaSnell);
             if (cosTheta <= coscrit)
+            {
                 probOfReflecting = 1.0;
-            //else
-            //    probOfReflecting = Optics.Fresnel(nCurrent, nNext, cosTheta, out cosThetaSnell);
+            }
 
             /* Decide whether or not photon goes to next region */
             // perform first check so that rng not called on pseudo-collisions

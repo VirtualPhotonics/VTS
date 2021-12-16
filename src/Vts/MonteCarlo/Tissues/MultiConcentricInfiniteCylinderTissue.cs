@@ -12,10 +12,6 @@ namespace Vts.MonteCarlo.Tissues
     /// </summary>
     public class MultiConcentricInfiniteCylinderTissueInput : TissueInput, ITissueInput
     {
-        private ITissueRegion[] _regions;
-        private ITissueRegion[] _layerRegions;
-        private ITissueRegion[] _infiniteCylinderRegions;
-
         /// <summary>
         /// constructor for Multi-ConcentricInfiniteCylinder tissue input
         /// </summary>
@@ -26,8 +22,8 @@ namespace Vts.MonteCarlo.Tissues
             ITissueRegion[] layerRegions)
         {
             TissueType = "MultiConcentricInfiniteCylinder";
-            _layerRegions = layerRegions;
-            _infiniteCylinderRegions = infiniteCylinderRegions;
+            LayerRegions = layerRegions;
+            InfiniteCylinderRegions = infiniteCylinderRegions;
             RegionPhaseFunctionInputs = new Dictionary<string, IPhaseFunctionInput>();
         }
 
@@ -79,15 +75,15 @@ namespace Vts.MonteCarlo.Tissues
         /// list of tissue regions comprising tissue
         /// </summary>
         [IgnoreDataMember]
-        public ITissueRegion[] Regions { get { return _layerRegions.Concat(_infiniteCylinderRegions).ToArray(); } set { _regions = value; } }
+        public ITissueRegion[] Regions { get { return LayerRegions.Concat(InfiniteCylinderRegions).ToArray(); } }
         /// <summary>
         /// tissue outer infinite cylinder region
         /// </summary>
-        public ITissueRegion[] InfiniteCylinderRegions { get { return _infiniteCylinderRegions; } set { _infiniteCylinderRegions = value; } }
-         /// <summary>
+        public ITissueRegion[] InfiniteCylinderRegions { get; set; }
+        /// <summary>
         /// tissue layer regions
         /// </summary>
-        public ITissueRegion[] LayerRegions { get { return _layerRegions; } set { _layerRegions = value; } }
+        public ITissueRegion[] LayerRegions { get; set; }
         /// <summary>
         /// dictionary of region phase function inputs
         /// </summary>
@@ -126,7 +122,8 @@ namespace Vts.MonteCarlo.Tissues
         /// <summary>
         /// Creates an instance of a MultiConcentricInfiniteCylinderTissue
         /// </summary>
-        /// <param name="regions">list of tissue regions comprising tissue</param>
+        /// <param name="infiniteCylinderRegions">list of cylinder regions</param>
+        /// <param name="layerRegions">list of layer regions</param>
         /// <remarks>air above and below tissue needs to be specified for a slab geometry</remarks>
         public MultiConcentricInfiniteCylinderTissue(
             IList<ITissueRegion> infiniteCylinderRegions,
@@ -141,7 +138,7 @@ namespace Vts.MonteCarlo.Tissues
             _inclusionRegionIndex = _layerRegions.Count; // index is, by convention, after the layer region indices
             // also by convention larger radius infinite cylinder is first
             _layerRegionIndexOfInclusion = Enumerable.Range(0, _layerRegions.Count)
-                .FirstOrDefault(i => ((LayerTissueRegion)_layerRegions[i])
+                .FirstOrDefault(i => _layerRegions[i]
                     .ContainsPosition(_infiniteCylinderRegions[0].Center)); // if outer cyl in layer, inner is
         }
 
@@ -165,7 +162,7 @@ namespace Vts.MonteCarlo.Tissues
         /// </summary>
         /// <param name="position"></param>
         /// <returns></returns>
-        public virtual int GetRegionIndex(Position position)
+        public override int GetRegionIndex(Position position)
         {
             int index = -1;
             // use LayerTissueRegion to determine which region photon resides
@@ -192,7 +189,7 @@ namespace Vts.MonteCarlo.Tissues
         /// Finds the distance to the next boundary and independent of hitting it
         /// </summary>
         /// <param name="photon"></param>
-        public virtual double GetDistanceToBoundary(Photon photon)
+        public override double GetDistanceToBoundary(Photon photon)
         {
             // first check if closest boundary is layer
 
@@ -240,7 +237,7 @@ namespace Vts.MonteCarlo.Tissues
         /// </summary>
         /// <param name="position">photon position</param>
         /// <returns></returns>
-        public virtual bool OnDomainBoundary(Position position)
+        public override bool OnDomainBoundary(Position position)
         {
             // Domain boundary: so check layer boundary
             // this code assumes that the first and last layer is air
@@ -254,7 +251,7 @@ namespace Vts.MonteCarlo.Tissues
         /// </summary>
         /// <param name="photon">photon info including position and direction</param>
         /// <returns>region index</returns>
-        public virtual int GetNeighborRegionIndex(Photon photon)
+        public override int GetNeighborRegionIndex(Photon photon)
         {
             // check if coming from inner infinite cylinder
             if (photon.CurrentRegionIndex == _layerRegions.Count + 1)
@@ -262,11 +259,9 @@ namespace Vts.MonteCarlo.Tissues
                 return _layerRegions.Count; // inner inf cylinder is inside outer so always neighbor
             }
             // if coming from outer infinite cylinder => layer of inclusion or inner cylinder
-            //double distanceToBoundary = double.PositiveInfinity;
             if (photon.CurrentRegionIndex == _layerRegions.Count)
             {
                 if (_infiniteCylinderRegions[1].ContainsPosition(photon.DP.Position)) // must be entering inner
-                //if (double.IsPositiveInfinity(distanceToBoundary))
                 {
                     return _layerRegions.Count + 1;
                 }
@@ -288,7 +283,7 @@ namespace Vts.MonteCarlo.Tissues
         /// </summary>
         /// <param name="position"></param>
         /// <returns></returns>
-        public PhotonStateType GetPhotonDataPointStateOnExit(Position position)
+        public new PhotonStateType GetPhotonDataPointStateOnExit(Position position)
         {
             if (position.Z < 1e-10)
             {
@@ -300,55 +295,55 @@ namespace Vts.MonteCarlo.Tissues
         /// <summary>
         /// method to determine direction of reflected photon
         /// </summary>
-        /// <param name="positionCurrent"></param>
-        /// <param name="directionCurrent"></param>
+        /// <param name="currentPosition"></param>
+        /// <param name="currentDirection"></param>
         /// <returns></returns>
-        public virtual Direction GetReflectedDirection(
-            Position positionCurrent, 
-            Direction directionCurrent)
+        public override Direction GetReflectedDirection(
+            Position currentPosition, 
+            Direction currentDirection)
         {
             // check if crossing top and bottom layer
-            if (positionCurrent.Z < 1e-10 ||
-                (Math.Abs(positionCurrent.Z - (_layerRegions.Last()).ZRange.Start) < 1e-10))
+            if (currentPosition.Z < 1e-10 ||
+                (Math.Abs(currentPosition.Z - (_layerRegions.Last()).ZRange.Start) < 1e-10))
             {
-                return base.GetReflectedDirection(positionCurrent, directionCurrent);
+                return base.GetReflectedDirection(currentPosition, currentDirection);
             }
             // must be on cylinders for now no reflection NOTE: when refractive index mismatch branch merged
             // change code to call infiniteCylinderTissueRegion.GetReflectedDirection
-            return directionCurrent;
+            return currentDirection;
         }
         /// <summary>
         /// method to determine refracted direction of photon
         /// </summary>
-        /// <param name="positionCurrent">current photon position</param>
-        /// <param name="directionCurrent">current photon direction</param>
-        /// <param name="nCurrent">refractive index of current region</param>
-        /// <param name="nNext">refractive index of next region</param>
+        /// <param name="currentPosition">current photon position</param>
+        /// <param name="currentDirection">current photon direction</param>
+        /// <param name="currentN">refractive index of current region</param>
+        /// <param name="nextN">refractive index of next region</param>
         /// <param name="cosThetaSnell">cos(theta) resulting from Snell's law</param>
         /// <returns>direction</returns>
-        public virtual Direction GetRefractedDirection(
-            Position positionCurrent, 
-            Direction directionCurrent, 
-            double nCurrent, 
-            double nNext, 
+        public override Direction GetRefractedDirection(
+            Position currentPosition, 
+            Direction currentDirection, 
+            double currentN, 
+            double nextN, 
             double cosThetaSnell)
         {            
             // check if crossing top and bottom layer
-            if (positionCurrent.Z < 1e-10 ||
-                (Math.Abs(positionCurrent.Z - (_layerRegions.Last()).ZRange.Start) < 1e-10))
+            if (currentPosition.Z < 1e-10 ||
+                (Math.Abs(currentPosition.Z - (_layerRegions.Last()).ZRange.Start) < 1e-10))
             {
-                return base.GetRefractedDirection(positionCurrent, directionCurrent, nCurrent, nNext, cosThetaSnell);
+                return base.GetRefractedDirection(currentPosition, currentDirection, currentN, nextN, cosThetaSnell);
             }
             // must be on cylinders for now no reflection NOTE: when refractive index mismatch branch merged
             // change code to call infiniteCylinderTissueRegion.GetRefractedDirection
-            return directionCurrent;
+            return currentDirection;
         }
         /// <summary>
         /// method to get cosine of the angle between photons current direction and boundary normal
         /// </summary>
         /// <param name="photon"></param>
         /// <returns>Uz=cos(theta)</returns>
-        public double GetAngleRelativeToBoundaryNormal(Photon photon)
+        public new double GetAngleRelativeToBoundaryNormal(Photon photon)
         {
             return Math.Abs(photon.DP.Direction.Uz); // abs will work for upward normal and downward normal
         }

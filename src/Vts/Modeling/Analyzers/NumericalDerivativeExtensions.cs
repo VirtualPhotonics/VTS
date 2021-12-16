@@ -7,15 +7,27 @@ using Vts.IO;
 
 namespace Vts.Modeling
 {
+    /// <summary>
+    /// extension methods to determine derivatives of forward solvers
+    /// </summary>
     public static class NumericalDerivativeExtensions
     {
         private static double _delta = 0.01;
 
+        /// <summary>
+        /// method to set the delta value used in the finite difference determination of the derivative
+        /// </summary>
+        /// <param name="delta"></param>
         public static void SetDelta(double delta)
         {
             _delta = delta;
         }
-        
+        /// <summary>
+        /// method to get derivative function
+        /// </summary>
+        /// <param name="myFunc">function for derivative</param>
+        /// <param name="analysisType">ForwardAnalysisType enum</param>
+        /// <returns>derivative function</returns>
         public static Func<object[], double[]> GetDerivativeFunc(
            this Func<object[], double[]> myFunc, ForwardAnalysisType analysisType)
         {

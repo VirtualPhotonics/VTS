@@ -28,11 +28,12 @@ namespace Vts.Test.MonteCarlo.Sources
         /// <summary>
         /// list of temporary files created by these unit tests
         /// </summary>
-        List<string> listOfTestGeneratedFolders = new List<string>()
+        readonly List<string> listOfTestGeneratedFolders = new List<string>()
         {
             "sourcetest",
         };
-        List<string> listOfTestGeneratedFiles = new List<string>()
+
+        readonly List<string> _listOfTestGeneratedFiles = new List<string>()
         {
             "inputAOfXAndYAndZ.txt",
             "AOfRhoAndZ",
@@ -45,7 +46,7 @@ namespace Vts.Test.MonteCarlo.Sources
         [OneTimeTearDown]
         public void clear_folders_and_files()
         {
-            foreach (var file in listOfTestGeneratedFiles)
+            foreach (var file in _listOfTestGeneratedFiles)
             {
                 FileIO.FileDelete(file);
             }
@@ -162,14 +163,14 @@ namespace Vts.Test.MonteCarlo.Sources
                 countArray[irho, iz] += 1;
             }
             // check that countArray is > 1 in region of AOfRhoAndZ
-            Assert.AreEqual(countArray[0, 0], 2);
-            Assert.AreEqual(countArray[0, 1], 4);
-            Assert.AreEqual(countArray[1, 0], 11);
-            Assert.AreEqual(countArray[1, 1], 7);
-            Assert.AreEqual(countArray[2, 0], 12);
-            Assert.AreEqual(countArray[2, 1], 19);
-            Assert.AreEqual(countArray[3, 0], 22);
-            Assert.AreEqual(countArray[3, 1], 23);
+            Assert.AreEqual(2, countArray[0, 0]);
+            Assert.AreEqual(4, countArray[0, 1]);
+            Assert.AreEqual(11, countArray[1, 0]);
+            Assert.AreEqual(7, countArray[1, 1]);
+            Assert.AreEqual(12, countArray[2, 0]);
+            Assert.AreEqual(19, countArray[2, 1]);
+            Assert.AreEqual(22, countArray[3, 0]);
+            Assert.AreEqual(23, countArray[3, 1]);
         }
     }
 }

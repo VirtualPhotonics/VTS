@@ -84,8 +84,6 @@ namespace Vts.MonteCarlo.Sources
                 pointLocation,
                 initialTissueRegionIndex)
         {
-            if (pointLocation == null)
-                pointLocation = SourceDefaults.DefaultPosition.Clone();
         }    
     }
 }

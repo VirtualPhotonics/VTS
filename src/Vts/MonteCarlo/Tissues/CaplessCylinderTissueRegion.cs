@@ -106,7 +106,6 @@ namespace Vts.MonteCarlo.Tissues
         {
             distanceToBoundary = double.PositiveInfinity;
             _onBoundary = false; // reset _onBoundary
-            double root = 0;
             var dp = photon.DP;
             var p1 = dp.Position;
             var d1 = dp.Direction;
@@ -126,10 +125,10 @@ namespace Vts.MonteCarlo.Tissues
             }
             _onBoundary = false; // reset flag
 
-            double distanceToSides = double.PositiveInfinity;
+            // distanceToSides is initialized to double.PositiveInfinity at start of RayIntersect
             // first check if intersect with infinite cylinder
             var intersectSides = (CylinderTissueRegionToolbox.RayIntersectInfiniteCylinder(
-                p1, p2, oneIn, CylinderTissueRegionAxisType.Z, Center, Radius, out distanceToSides));
+                p1, p2, oneIn, CylinderTissueRegionAxisType.Z, Center, Radius, out var distanceToSides));
 
             if (intersectSides)
             {
@@ -137,14 +136,8 @@ namespace Vts.MonteCarlo.Tissues
                 return true;
             }
 
-            //distanceToBottomLayer = double.PositiveInfinity;
             return false;
         }
-
-        //public bool RayIntersectBoundary(Photon photptr)
-        //{
-        //    throw new NotImplementedException();
-        //}
 
         /// <summary>
         /// method to determine normal to surface at given position

@@ -12,19 +12,16 @@ namespace Vts.MonteCarlo.Tissues
     /// </summary>
     public class BoundingCylinderTissueInput : TissueInput, ITissueInput
     {
-        private ITissueRegion _caplessCylinderRegion;
-        private ITissueRegion[] _layerRegions;
-
         /// <summary>
         /// allows definition of tissue bounded by capless cylinder height of tissue
         /// </summary>
-        /// <param name="cylinderRegion">bounding vertical cylinder region specification</param>
+        /// <param name="caplessCylinderRegion">bounding vertical cylinder region specification</param>
         /// <param name="layerRegions">tissue layer specification</param>
         public BoundingCylinderTissueInput(ITissueRegion caplessCylinderRegion, ITissueRegion[] layerRegions)
         {
             TissueType = "BoundingCylinder";
-            _caplessCylinderRegion = (CaplessCylinderTissueRegion)caplessCylinderRegion;
-            _layerRegions = layerRegions;
+            CylinderRegion = (CaplessCylinderTissueRegion)caplessCylinderRegion;
+            LayerRegions = layerRegions;
             RegionPhaseFunctionInputs = new Dictionary<string, IPhaseFunctionInput>();
         }
 
@@ -67,15 +64,15 @@ namespace Vts.MonteCarlo.Tissues
         /// regions of tissue (layers and ellipsoid)
         /// </summary>
         [IgnoreDataMember]
-        public ITissueRegion[] Regions { get { return _layerRegions.Concat(_caplessCylinderRegion).ToArray(); } }
+        public ITissueRegion[] Regions { get { return LayerRegions.Concat(CylinderRegion).ToArray(); } }
         /// <summary>
-        /// tissue ellipsoid region
+        /// tissue capless cylinder region
         /// </summary>
-        public ITissueRegion CylinderRegion { get { return _caplessCylinderRegion; } set { _caplessCylinderRegion = value; } }
+        public ITissueRegion CylinderRegion { get; set; }
         /// <summary>
         /// tissue layer regions
         /// </summary>
-        public ITissueRegion[] LayerRegions { get { return _layerRegions; } set { _layerRegions = value; } }
+        public ITissueRegion[] LayerRegions { get; set; }
         /// <summary>
         /// dictionary of region phase function inputs
         /// </summary>
@@ -86,7 +83,7 @@ namespace Vts.MonteCarlo.Tissues
         /// ITissue based on the ITissueInput data
         /// </summary>
         /// <param name="awt">Absorption Weighting Type</param>
-        /// <param name="pft">Phase Function Type</param>
+        /// <param name="regionPhaseFunctions">Phase Function Dictionary</param>
         /// <param name="russianRouletteWeightThreshold">Russian Roulette Weight Threshold</param>
         /// <returns></returns>
         public ITissue CreateTissue(AbsorptionWeightingType awt, IDictionary<string, IPhaseFunction> regionPhaseFunctions, 

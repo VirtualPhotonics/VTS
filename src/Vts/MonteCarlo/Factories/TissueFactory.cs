@@ -8,7 +8,6 @@ namespace Vts.MonteCarlo.Factories
     /// </summary>
     public static class TissueFactory
     {
-        // todo: revisit to make signatures here and in Tissue/TissueInput class signatures strongly typed
         /// <summary>
         /// Method to return ITissue given inputs
         /// </summary>

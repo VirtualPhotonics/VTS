@@ -76,10 +76,10 @@ namespace Vts.MonteCarlo.Sources
                 var aOfXAndYAndZDetector = (AOfXAndYAndZDetector) DetectorIO.ReadDetectorFromFile(
                     "AOfXAndYAndZ", inputFolder);
                 // use DoubleRange X,Y,Z to match detector dimensions
-                X = ((AOfXAndYAndZDetector) aOfXAndYAndZDetector).X;
-                Y = ((AOfXAndYAndZDetector) aOfXAndYAndZDetector).Y;
-                Z = ((AOfXAndYAndZDetector) aOfXAndYAndZDetector).Z;
-                AOfXAndYAndZ = ((AOfXAndYAndZDetector) aOfXAndYAndZDetector).Mean;
+                X = aOfXAndYAndZDetector.X;
+                Y = aOfXAndYAndZDetector.Y;
+                Z = aOfXAndYAndZDetector.Z;
+                AOfXAndYAndZ = aOfXAndYAndZDetector.Mean;
 
                 var exciteInfile = SimulationInput.FromFile(inputPath);
 
@@ -108,7 +108,9 @@ namespace Vts.MonteCarlo.Sources
                 throw new ArgumentException("infile string is empty");
             }
         }
-
+        /// <summary>
+        /// method to initialize the fluorescent region arrays that are used to sample fluorescent source
+        /// </summary>
         public void InitializeFluorescentRegionArrays()
         {     
             MapOfXAndYAndZ = new int[X.Count - 1, Y.Count - 1, Z.Count - 1];
@@ -127,9 +129,6 @@ namespace Vts.MonteCarlo.Sources
                     for (int k = 0; k < Z.Count - 1; k++)
                     {
                         var zMidpoint = Z.Start + k * Z.Delta + Z.Delta / 2;
-                        //xMidpoint = -1.85; // debug code
-                        //yMidpoint = 4.65;
-                        //zMidpoint = 0.85;
                         // first check if in tissue region
                         bool inFluorescentTissue = FluorescentTissueRegion.ContainsPosition(
                             new Position(xMidpoint, yMidpoint, zMidpoint));

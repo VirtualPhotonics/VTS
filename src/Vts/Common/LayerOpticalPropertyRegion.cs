@@ -1,5 +1,8 @@
 ﻿namespace Vts.Common
 {
+    /// <summary>
+    /// class for layer region optical properties
+    /// </summary>
     public class LayerOpticalPropertyRegion : ILayerOpticalPropertyRegion
     {
         /// <summary>

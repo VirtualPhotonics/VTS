@@ -13,7 +13,7 @@ namespace Vts.Test.MonteCarlo.PhotonData
         /// <summary>
         /// list of temporary files created by these unit tests
         /// </summary>
-        List<string> listOfTestGeneratedFiles = new List<string>()
+        readonly List<string> listOfTestGeneratedFiles = new List<string>()
         {
             "testcollisioninfodatabase",
             "testcollisioninfodatabase.txt"
@@ -45,7 +45,7 @@ namespace Vts.Test.MonteCarlo.PhotonData
             string databaseFilename = "testcollisioninfodatabase";
             
             #region Notes on implementation...
-            // todo: which do we like? (#1 requires writing a separate class, #2 requires a little more comfort
+            // which do we like? (#1 requires writing a separate class, #2 requires a little more comfort
             // with using generics day-to-day
             // 1) using (var dbWriter = new CollisionInfoDatabaseWriter("testcollisioninfodatabase", numberOfSubregions))
             // 2) (below)
@@ -78,8 +78,8 @@ namespace Vts.Test.MonteCarlo.PhotonData
 
             var dbcloned = CollisionInfoDatabase.FromFile(databaseFilename);
 
-            Assert.AreEqual(dbcloned.NumberOfSubRegions, 3);
-            Assert.AreEqual(dbcloned.NumberOfElements, 2);
+            Assert.AreEqual(3, dbcloned.NumberOfSubRegions);
+            Assert.AreEqual(2, dbcloned.NumberOfElements);
 
             // manually enumerate through the first two elements (same as foreach)
             // PhotonDatabase is designed so you don't have to have the whole thing
@@ -89,22 +89,22 @@ namespace Vts.Test.MonteCarlo.PhotonData
             // advance to the first point and test that the point is valid
             enumerator.MoveNext();
             var dp1 = enumerator.Current;
-            Assert.AreEqual(dp1[0].PathLength, 10.0);
-            Assert.AreEqual(dp1[0].NumberOfCollisions, 1000);
-            Assert.AreEqual(dp1[1].PathLength, 20.0);
-            Assert.AreEqual(dp1[1].NumberOfCollisions, 2000);
-            Assert.AreEqual(dp1[2].PathLength, 30.0);
-            Assert.AreEqual(dp1[2].NumberOfCollisions, 3000);
+            Assert.AreEqual(10.0,dp1[0].PathLength);
+            Assert.AreEqual(1000,dp1[0].NumberOfCollisions);
+            Assert.AreEqual(20.0,dp1[1].PathLength);
+            Assert.AreEqual(2000,dp1[1].NumberOfCollisions);
+            Assert.AreEqual(30.0,dp1[2].PathLength);
+            Assert.AreEqual(3000,dp1[2].NumberOfCollisions);
 
             // advance to the second point and test that the point is valid
             enumerator.MoveNext();
             var dp2 = enumerator.Current;
-            Assert.AreEqual(dp2[0].PathLength, 40.0);
-            Assert.AreEqual(dp2[0].NumberOfCollisions, 4000);
-            Assert.AreEqual(dp2[1].PathLength, 50.0);
-            Assert.AreEqual(dp2[1].NumberOfCollisions, 5000);
-            Assert.AreEqual(dp2[2].PathLength, 60.0);
-            Assert.AreEqual(dp2[2].NumberOfCollisions, 6000);
+            Assert.AreEqual(40.0,dp2[0].PathLength);
+            Assert.AreEqual(4000,dp2[0].NumberOfCollisions);
+            Assert.AreEqual(50.0,dp2[1].PathLength);
+            Assert.AreEqual(5000,dp2[1].NumberOfCollisions);
+            Assert.AreEqual(60.0, dp2[2].PathLength);
+            Assert.AreEqual(6000,dp2[2].NumberOfCollisions);
         }
     }
 }

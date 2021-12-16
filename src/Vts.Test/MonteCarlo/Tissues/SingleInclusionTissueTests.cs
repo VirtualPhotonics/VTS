@@ -12,7 +12,7 @@ namespace Vts.Test.MonteCarlo.Tissues
     [TestFixture]
     public class SingleInclusionTissueTests
     {
-        private SingleInclusionTissue _tissueWithEllipsoid, _tissueWithCylinder, _tissueWithThinCylinder;
+        private SingleInclusionTissue _tissueWithEllipsoid, _tissueWithThinCylinder;
         /// <summary>
         /// Validate general constructor of Tissue
         /// </summary>
@@ -62,11 +62,11 @@ namespace Vts.Test.MonteCarlo.Tissues
         public void verify_GetRegionIndex_method_returns_correct_result()
         {
             int index = _tissueWithEllipsoid.GetRegionIndex(new Position(0, 0, 0.5)); // outside ellipsoid
-            Assert.AreEqual(index, 1);
+            Assert.AreEqual(1, index);
             index = _tissueWithEllipsoid.GetRegionIndex(new Position(0, 0, 2.5)); // inside ellipsoid
-            Assert.AreEqual(index, 3);
+            Assert.AreEqual( 3,index);
             index = _tissueWithEllipsoid.GetRegionIndex(new Position(0, 0, 1.0)); // on ellipsoid is considered in
-            Assert.AreEqual(index, 3);
+            Assert.AreEqual(3, index);
         }
 
         /// <summary>
@@ -84,7 +84,7 @@ namespace Vts.Test.MonteCarlo.Tissues
                 1,
                 new Random());
             var index = _tissueWithEllipsoid.GetNeighborRegionIndex(photon);
-            Assert.AreEqual(index, 3);
+            Assert.AreEqual(3, index);
         }
 
         /// <summary>
@@ -102,25 +102,26 @@ namespace Vts.Test.MonteCarlo.Tissues
                 1,
                 new Random());
             var index = _tissueWithEllipsoid.GetNeighborRegionIndex(photon);
-            Assert.AreEqual(index, 2);
+            Assert.AreEqual(2, index);
         }
 
 
-        ///// <summary>
-        ///// Validate method GetAngleRelativeToBoundaryNormal return correct boolean
-        ///// </summary>
-        //[Test]
-        //public void verify_GetAngleRelativeToBoundaryNormal_method_returns_correct_result()
-        //{
-        //    Photon photon = new Photon( // on top of ellipsoid pointed into it
-        //        new Position(0, 0, 1.0),
-        //        new Direction(0.0, 0, 1.0),
-        //        _tissue,
-        //        1,
-        //        new Random());
-        //    double cosTheta = _tissue.GetAngleRelativeToBoundaryNormal(photon);
-        //    Assert.AreEqual(cosTheta, 1);
-        //}
+        /// <summary>
+        /// Validate method GetAngleRelativeToBoundaryNormal return correct boolean
+        /// </summary>
+        [Test]
+        public void verify_GetAngleRelativeToBoundaryNormal_method_returns_correct_result()
+        {
+            Photon photon = new Photon( // on top of ellipsoid pointed into it
+                new Position(0, 0, 1.0),
+                new Direction(0.0, 0, 1.0),
+                1,
+                _tissueWithEllipsoid,
+                1,
+                new Random());
+            double cosTheta = _tissueWithEllipsoid.GetAngleRelativeToBoundaryNormal(photon);
+            Assert.AreEqual(1,cosTheta);
+        }
 
     }
 }

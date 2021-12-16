@@ -118,7 +118,9 @@ namespace Vts.Modeling.ForwardSolvers
         {
             throw new NotImplementedException();
         }
-
+        /// <summary>
+        /// native times
+        /// </summary>
         public double[] NativeTimes
         {
             get { throw new NotImplementedException(); }

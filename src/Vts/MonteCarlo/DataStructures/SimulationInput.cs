@@ -124,7 +124,10 @@ namespace Vts.MonteCarlo
         {
             return FileIO.ReadFromJson<SimulationInput>(filename);
         }
-
+        /// <summary>
+        /// Method to create simulation
+        /// </summary>
+        /// <returns></returns>
         public MonteCarloSimulation CreateSimulation()
         {
             return new MonteCarloSimulation(this);

@@ -30,37 +30,15 @@ namespace Vts.Test.MonteCarlo.Tissues
         [Test]
         public void validate_infiniteCylinder_properties()
         {
-            Assert.AreEqual(_infiniteCylinderTissueRegion.Center.X, 0.0);
-            Assert.AreEqual(_infiniteCylinderTissueRegion.Center.Y, 0.0);
-            Assert.AreEqual(_infiniteCylinderTissueRegion.Center.Z, 3.0);
-            Assert.AreEqual(_infiniteCylinderTissueRegion.Radius, 1.0);
-            Assert.AreEqual(_infiniteCylinderTissueRegion.RegionOP.Mua, 0.01);
-            Assert.AreEqual(_infiniteCylinderTissueRegion.RegionOP.Musp, 1.0);
-            Assert.AreEqual(_infiniteCylinderTissueRegion.RegionOP.G, 0.8);
-            Assert.AreEqual(_infiniteCylinderTissueRegion.RegionOP.N, 1.4);
+            Assert.AreEqual(0.0, _infiniteCylinderTissueRegion.Center.X);
+            Assert.AreEqual(0.0, _infiniteCylinderTissueRegion.Center.Y);
+            Assert.AreEqual(3.0, _infiniteCylinderTissueRegion.Center.Z);
+            Assert.AreEqual(1.0, _infiniteCylinderTissueRegion.Radius);
+            Assert.AreEqual(0.01, _infiniteCylinderTissueRegion.RegionOP.Mua);
+            Assert.AreEqual(1.0,_infiniteCylinderTissueRegion.RegionOP.Musp);
+            Assert.AreEqual(0.8, _infiniteCylinderTissueRegion.RegionOP.G);
+            Assert.AreEqual(1.4, _infiniteCylinderTissueRegion.RegionOP.N);
         }
-        ///// <summary>
-        ///// Validate method OnBoundary return correct boolean THIS METHOD MAY BE OBSOLETE
-        ///// </summary>
-        //[Test]
-        //public void verify_OnBoundary_method_returns_correct_result()
-        //{
-        //    bool result = _infiniteCylinderTissueRegion.OnBoundary(new Position(0, 0, 2.0));
-        //    Assert.IsTrue(result);
-        //    result = _infiniteCylinderTissueRegion.OnBoundary(new Position(0, 0, 1.0));
-        //    Assert.IsFalse(result);
-        //}
-        ///// <summary>
-        ///// Validate method SurfaceNormal return correct normal vector
-        ///// </summary>
-        //[Test]
-        //public void verify_SurfaceNormal_method_returns_correct_result()
-        //{
-        //    Direction result = _infiniteCylinderTissueRegion.SurfaceNormal(new Position(0, 0, 1.0));
-        //    Assert.AreEqual(new Direction(0, 0, -1), result);
-        //    result = _infiniteCylinderTissueRegion.SurfaceNormal(new Position(0, 0, 5.0));
-        //    Assert.AreEqual(new Direction(0, 0, 1), result);
-        //}
         /// <summary>
         /// Validate method RayIntersectBoundary return correct result
         /// </summary>

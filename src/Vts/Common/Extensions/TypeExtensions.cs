@@ -2,6 +2,9 @@
 
 namespace Vts.Extensions
 {
+    /// <summary>
+    /// extension methods for type
+    /// </summary>
     public static class TypeExtensions
     {
         /// <summary>

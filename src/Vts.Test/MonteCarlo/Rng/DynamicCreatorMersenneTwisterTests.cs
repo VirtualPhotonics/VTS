@@ -7,7 +7,7 @@ namespace Vts.Test.MonteCarlo
     [TestFixture]
     public class DynamicCreatorMersenneTwisterTests
     {
-        double reciprocal = 1.0 / 4294967296.0; // max uint
+        readonly double reciprocal = 1.0 / 4294967296.0; // max uint
 
         /// <summary>
         /// new_example1 tries to find a small MT with period 2^521-1 = 6.86x10^{156}
@@ -25,18 +25,17 @@ namespace Vts.Test.MonteCarlo
             uint[] cCodeResultsUints = new uint[]
                 { 3488090578, 3259890980, 1010406819, 834862677, 3986802806,
                   3121760294,  162998133, 2167868955, 1643052073, 3009922635 };
-            //uint genrand_mt_return;
             double RN;
             // instantiate class with word length=32, MT exponent=521, original MT19937 seed=4172
             // and sequence seed of 3241
             var rng = new DynamicCreatorMersenneTwister(32, 521, 4172, 3241);
             // this tries to find a small MT with period 2^521-1
-            //DynamicCreatorMersenneTwister.mt_struct mts = rng.get_mt_parameter_st(32, 521, 4172);
+            //DynamicCreatorMersenneTwister.mt_struct mts = rng.get_mt_parameter_st(32, 521, 4172)
             // sgenrand_mt constructs mts struct using 1st parameter seed=3241
-            //rng.sgenrand_mt(3241, ref mts);
+            //rng.sgenrand_mt(3241, ref mts)
             for (int i = 0; i < 10; i++)
             {
-                //genrand_mt_return = rng.genrand_mt(ref mts);
+                //genrand_mt_return = rng.genrand_mt(ref mts)
                 RN = rng.NextDouble();
                 Assert.AreEqual(RN / reciprocal, cCodeResultsUints[i]);
                 Assert.IsTrue(Math.Abs(RN - cCodeResultsRNs[i]) < 0.000001);
@@ -62,18 +61,18 @@ namespace Vts.Test.MonteCarlo
             // instantiate class
             var rng0 = new DynamicCreatorMersenneTwister(32, 521, 0, 4172, 1234);
             // get first MT id = 0
-            //DynamicCreatorMersenneTwister.mt_struct mts0 = rng0.get_mt_parameter_id_st(32, 521, 0, 4172);
+            //DynamicCreatorMersenneTwister.mt_struct mts0 = rng0.get_mt_parameter_id_st(32, 521, 0, 4172)
             // get second MT id = 1
             // instantiate class
             var rng1 = new DynamicCreatorMersenneTwister(32, 521, 1, 4172, 4567);
-            //DynamicCreatorMersenneTwister.mt_struct mts1 = rng1.get_mt_parameter_id_st(32, 521, 1, 4172);
+            //DynamicCreatorMersenneTwister.mt_struct mts1 = rng1.get_mt_parameter_id_st(32, 521, 1, 4172)
             // get third MT id = 999
             var rng2 = new DynamicCreatorMersenneTwister(32, 521, 999, 4172, 8901);
-            //DynamicCreatorMersenneTwister.mt_struct mts2 = rng2.get_mt_parameter_id_st(32, 521, 999, 4172);
+            //DynamicCreatorMersenneTwister.mt_struct mts2 = rng2.get_mt_parameter_id_st(32, 521, 999, 4172)
             /* id may be any=16bit integers, e.g. id=999 */
-            //rng0.sgenrand_mt(1234, ref mts0); /* initialize mts0 with seed 1234 */
-            //rng1.sgenrand_mt(4567, ref mts1);
-            //rng2.sgenrand_mt(8901, ref mts2);
+            //rng0.sgenrand_mt(1234, ref mts0) /* initialize mts0 with seed 1234 */
+            //rng1.sgenrand_mt(4567, ref mts1)
+            //rng2.sgenrand_mt(8901, ref mts2)
             // compare output of mts0, mts1, mts2, ten times */
 
             for (int i = 0; i < 10; i++) {               

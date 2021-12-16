@@ -88,22 +88,22 @@ namespace Vts.MonteCarlo.Tissues
         /// This checks which region photon is currently in.  
         /// inclusion defined in half-open interval [start,stop) so that continuum of layers do not overlap.
         /// </summary>
-        /// <param name="p">Position being checked</param>
+        /// <param name="position">Position being checked</param>
         /// <returns>True if photon in region, false if not</returns>
-        public bool ContainsPosition(Position p)
+        public bool ContainsPosition(Position position)
         {
-            return p.Z >= ZRange.Start && p.Z < ZRange.Stop;
+            return position.Z >= ZRange.Start && position.Z < ZRange.Stop;
         }
         /// <summary>
         /// Method to determine if photon on layer boundary.  Needed to determine which boundary photon is
         /// on when layer region contains inclusion.  Errors in Position accommodated for in test.
         /// </summary>
-        /// <param name="p">Position being checked</param>
+        /// <param name="position">Position being checked</param>
         /// <returns>True if photon on boundary, false if not</returns>
-        public bool OnBoundary(Position p)
+        public bool OnBoundary(Position position)
         {
             var onBoundary = false;
-            if (Math.Abs(p.Z - ZRange.Start) < 1e-10 || Math.Abs(p.Z - ZRange.Stop) < 1e-10)
+            if (Math.Abs(position.Z - ZRange.Start) < 1e-10 || Math.Abs(position.Z - ZRange.Stop) < 1e-10)
             {
                 onBoundary = true;
             }
@@ -145,27 +145,5 @@ namespace Vts.MonteCarlo.Tissues
             return true;
         }
 
-        //public bool RayExitBoundary(Photon photptr, ref double distanceToBoundary)
-        //{
-        //    distanceToBoundary = 0.0;  /* distance to boundary */
-
-        //    if (photptr.DP.Direction.Uz < 0.0)
-        //        distanceToBoundary = ( Z.Start - photptr.DP.Position.Z) /
-        //            photptr.DP.Direction.Uz;
-        //    else if (photptr.DP.Direction.Uz > 0.0)
-        //        distanceToBoundary = ( Z.Stop - photptr.DP.Position.Z) /
-        //            photptr.DP.Direction.Uz;
-
-        //    if ((photptr.DP.Direction.Uz != 0.0) && (photptr.S > distanceToBoundary))
-        //    {
-        //        //photptr.HitBoundary = true;
-        //        ////photptr.SLeft = (photptr.S - distanceToBoundary) * (mua + mus);  // DAW
-        //        //photptr.SLeft = (photptr.S - distanceToBoundary) * photptr._tissue.Regions[photptr.CurrentRegionIndex].ScatterLength;
-        //        //photptr.S = distanceToBoundary;
-        //        return true;
-        //    }
-        //    else
-        //        return false;
-        //}
     }
 }

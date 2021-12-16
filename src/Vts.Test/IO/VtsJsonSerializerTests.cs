@@ -48,7 +48,7 @@ namespace Vts.Test.IO
         /// <summary>
         /// list of temporary files created by these unit tests
         /// </summary>
-        private List<string> listOfTestGeneratedFiles = new List<string>()
+        private readonly List<string> listOfTestGeneratedFiles = new List<string>()
         {
             "VtsJsonSerializerTests_file1.txt", 
             "VtsJsonSerializerTests_file2.txt", 
@@ -82,8 +82,8 @@ namespace Vts.Test.IO
             var objectDeserialized = VtsJsonSerializer.ReadFromJson<string[]>(jsonSerialized);
             Assert.IsTrue(objectDeserialized != null);
             Assert.IsTrue(objectDeserialized.Length > 0);
-            Assert.AreEqual(objectDeserialized[0], "Hello");
-            Assert.AreEqual(objectDeserialized[1], "Dolly");
+            Assert.AreEqual("Hello",objectDeserialized[0]);
+            Assert.AreEqual("Dolly", objectDeserialized[1]);
         }
 
         [Test]
@@ -93,8 +93,8 @@ namespace Vts.Test.IO
             var objectDeserialized = VtsJsonSerializer.ReadFromJsonFile<string[]>("VtsJsonSerializerTests_file2.txt");
             Assert.IsTrue(objectDeserialized != null);
             Assert.IsTrue(objectDeserialized.Length > 0);
-            Assert.AreEqual(objectDeserialized[0], "Hello");
-            Assert.AreEqual(objectDeserialized[1], "Sailor");
+            Assert.AreEqual("Hello", objectDeserialized[0]);
+            Assert.AreEqual("Sailor",objectDeserialized[1]);
         }
 
         [Test]
@@ -161,10 +161,10 @@ namespace Vts.Test.IO
             var jsonSerialized = VtsJsonSerializer.WriteToJson(range);
             var intRangeDeserialized = VtsJsonSerializer.ReadFromJson<IntRange>(jsonSerialized);
             Assert.IsTrue(intRangeDeserialized != null);
-            Assert.AreEqual(intRangeDeserialized.Start, 10);
-            Assert.AreEqual(intRangeDeserialized.Stop, 20);
-            Assert.AreEqual(intRangeDeserialized.Count, 11);
-            Assert.AreEqual(intRangeDeserialized.Delta, 1);
+            Assert.AreEqual(10, intRangeDeserialized.Start);
+            Assert.AreEqual(20, intRangeDeserialized.Stop);
+            Assert.AreEqual(11, intRangeDeserialized.Count);
+            Assert.AreEqual(1, intRangeDeserialized.Delta);
         }
 
         [Test]

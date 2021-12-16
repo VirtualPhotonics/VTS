@@ -16,24 +16,12 @@ namespace Vts.Modeling.ForwardSolvers
     {
         #region fields and properties
 
-        private double[,] _coefficients;
-        
         /// <summary>
         /// Gets or sets the coefficients of the non vanishing B-splines
         /// coefficients over a single knot span.
         /// </summary>
-        public double[,] Coefficients
-        {
-            get 
-            {
-                return _coefficients;
-            }
-            set
-            {
-                _coefficients = value;
-            }
-        }
-        
+        public double[,] Coefficients { get; set; }
+
         /// <summary>
         /// Gets or sets the lower limit of the knot span,mapped to the non parametric space. 
         /// </summary>

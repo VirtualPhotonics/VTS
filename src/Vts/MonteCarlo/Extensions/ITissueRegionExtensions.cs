@@ -1,9 +1,12 @@
 ﻿namespace Vts.MonteCarlo.Extensions
 {
+    /// <summary>
+    /// extension methods for ITissueRegion classes
+    /// </summary>
     public static class ITissueRegionExtensions
     {
         /// <summary>
-        /// Method to determine if tissue region is air or not
+        /// Method to determine if tissue region is air or not.
         /// </summary>
         /// <param name="region">tissue region</param>
         /// <returns>boolean</returns>

@@ -28,11 +28,12 @@ namespace Vts.Test.MonteCarlo.Sources
         /// <summary>
         /// list of temporary files created by these unit tests
         /// </summary>
-        List<string> listOfTestGeneratedFolders = new List<string>()
+        readonly List<string> listOfTestGeneratedFolders = new List<string>()
         {
             "sourcetest",
         };
-        List<string> listOfTestGeneratedFiles = new List<string>()
+
+        readonly List<string> listOfTestGeneratedFiles = new List<string>()
         {
             "inputAOfXAndYAndZ.txt",
             "AOfXAndYAndZ",
@@ -155,7 +156,7 @@ namespace Vts.Test.MonteCarlo.Sources
                 var photon = _fluorEmissionAOfXAndYAndZSourceCDF.GetNextPhoton(tissue);
                 // verify that photons start within range of midpoints of voxels in infinite cylinder
                 Assert.IsTrue((photon.DP.Position.X >= -0.5) && (photon.DP.Position.X <= 0.5));
-                Assert.AreEqual(photon.DP.Position.Y, 0);
+                Assert.AreEqual(0, photon.DP.Position.Y);
                 Assert.IsTrue((photon.DP.Position.Z >= 0.5) && (photon.DP.Position.Z <= 1.5));
                 Assert.IsTrue(Math.Abs(photon.DP.Weight - 1.0) < 1e-6);
                 int ix = (int)(photon.DP.Position.X + 0.5) + 1;
@@ -163,18 +164,18 @@ namespace Vts.Test.MonteCarlo.Sources
                 countArray[ix, 0, iz] += 1;
             }
             // check that countArray is only 1 in region of infinite cylinder
-            Assert.AreEqual(countArray[0, 0, 0], 0);
-            Assert.AreEqual(countArray[1, 0, 0], 17);
-            Assert.AreEqual(countArray[2, 0, 0], 31);
-            Assert.AreEqual(countArray[3, 0, 0], 0);
-            Assert.AreEqual(countArray[0, 0, 1], 0);
-            Assert.AreEqual(countArray[1, 0, 1], 16);
-            Assert.AreEqual(countArray[2, 0, 1], 36);
-            Assert.AreEqual(countArray[3, 0, 1], 0);
-            Assert.AreEqual(countArray[0, 0, 2], 0);
-            Assert.AreEqual(countArray[1, 0, 2], 0);
-            Assert.AreEqual(countArray[2, 0, 2], 0);
-            Assert.AreEqual(countArray[3, 0, 2], 0);
+            Assert.AreEqual(0,countArray[0, 0, 0]);
+            Assert.AreEqual(17,countArray[1, 0, 0]);
+            Assert.AreEqual(31,countArray[2, 0, 0]);
+            Assert.AreEqual(0,countArray[3, 0, 0]);
+            Assert.AreEqual(0,countArray[0, 0, 1]);
+            Assert.AreEqual(16,countArray[1, 0, 1]);
+            Assert.AreEqual(36,countArray[2, 0, 1]);
+            Assert.AreEqual(0,countArray[3, 0, 1]);
+            Assert.AreEqual(0,countArray[0, 0, 2]);
+            Assert.AreEqual(0,countArray[1, 0, 2]);
+            Assert.AreEqual(0,countArray[2, 0, 2]);
+            Assert.AreEqual(0,countArray[3, 0, 2]);
             // Note: with the unit test AOfXAndYAndZ defined array the PDF is:
             // PDF[1,0,0]=16.6
             // PDF[2,0,0]=29.2
@@ -205,7 +206,7 @@ namespace Vts.Test.MonteCarlo.Sources
                 var photon = _fluorEmissionAOfXAndYAndZSourceUnif.GetNextPhoton(tissue);
                 // verify that photons start within range of midpoints of voxels in infinite cylinder
                 Assert.IsTrue((photon.DP.Position.X >= -0.5) && (photon.DP.Position.X <= 0.5));
-                Assert.AreEqual(photon.DP.Position.Y, 0);
+                Assert.AreEqual(0, photon.DP.Position.Y);
                 Assert.IsTrue((photon.DP.Position.Z >= 0.5) && (photon.DP.Position.Z <= 1.5));
                 // verify sampling is proceeding in coded sequence
                 // detector x=[-2 2] 4 bins, y=[-10 10] 1 bin, z=[0 3] 3 bins

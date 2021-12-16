@@ -50,9 +50,7 @@ namespace Vts.MonteCarlo
         private ISource _source;
         private ITissue _tissue;
         private VirtualBoundaryController _virtualBoundaryController;
-        //private IList<IDetectorController> _detectorControllers; // total list indep. of VBs
         private long _numberOfPhotons;
-        //private SimulationStatistics _simulationStatistics;
         private DatabaseWriterController _databaseWriterController = null;
         private pMCDatabaseWriterController _pMCDatabaseWriterController = null;
         private bool _doPMC = false;
@@ -232,7 +230,7 @@ namespace Vts.MonteCarlo
 
             try
             {
-                if (Input.Options.Databases.Count() > 0)
+                if (Input.Options.Databases.Any())
                 {
                     InitialDatabases(_doPMC);
                 }
@@ -243,9 +241,6 @@ namespace Vts.MonteCarlo
                 var parallelOptions = new ParallelOptions();
                 parallelOptions.MaxDegreeOfParallelism = Environment.ProcessorCount;
 
-                //private readonly object globalLock = new object();
-                //Parallel.For(1, _numberOfPhotons + 1, parallelOptions, n =>
-
                 for (long n = 1; n <= _numberOfPhotons; n++)
                 {
                     if (_isCancelled)
@@ -253,7 +248,7 @@ namespace Vts.MonteCarlo
                         return;
                     }
 
-                    // todo: bug - num photons is assumed to be over 10 :)
+                    // num photons is assumed to be over 10 
                     if (n % (_numberOfPhotons / 10) == 0)
                     {
                         DisplayStatus(n, _numberOfPhotons);
@@ -269,7 +264,7 @@ namespace Vts.MonteCarlo
 
                         BoundaryHitType hitType = MoveToBoundaryCheck(photon, out closestVirtualBoundary);
 
-                        // todo: consider moving actual calls to Tally after do-while
+                        // consider moving actual calls to Tally after do-while
                         // for each "hit" virtual boundary, tally respective detectors if exist
                         if ((hitType == BoundaryHitType.Virtual) &&
                             (closestVirtualBoundary.DetectorController != null))
@@ -300,9 +295,7 @@ namespace Vts.MonteCarlo
 
                     } while (photon.DP.StateFlag.HasFlag(PhotonStateType.Alive)); // end do while
 
-                    //_detectorController.TerminationTally(photon.DP);
-
-                    if (Input.Options.Databases.Count() > 0)
+                    if (Input.Options.Databases.Any())
                     {
                         WriteToDatabases(_doPMC, photon);
                     }
@@ -324,7 +317,7 @@ namespace Vts.MonteCarlo
             }
             finally
             {
-                if (Input.Options.Databases.Count() > 0)
+                if (Input.Options.Databases.Any())
                 {
                     CloseDatabases(_doPMC);
                 }
@@ -392,9 +385,6 @@ namespace Vts.MonteCarlo
                 throw new ArgumentException(result.ValidationRule + (!string.IsNullOrEmpty(result.Remarks) ? "; " + result.Remarks : ""));
             }
 
-            // needed?
-            //_detectorControllers = _virtualBoundaryController.VirtualBoundaries.Select(vb=>vb.DetectorController).ToList();
-
             _source = SourceFactory.GetSource(Input.SourceInput, Rng);
             // instantiate Virtual Boundaries (and associated detectors) for each VB group
             _virtualBoundaryController = new VirtualBoundaryController(new List<IVirtualBoundary>());
@@ -430,14 +420,14 @@ namespace Vts.MonteCarlo
 
                 // make sure VB Controller has at least diffuse reflectance and diffuse transmittance
                 // may change this in future if tissue OnDomainBoundary changes
-                if ((detectorInputs.Count() > 0) ||
+                if ((detectorInputs.Any()) ||
                     (vbType == VirtualBoundaryType.DiffuseReflectance) ||
                     (vbType == VirtualBoundaryType.DiffuseTransmittance) ||
                     (dbVirtualBoundaries.Any(vb => vb == vbType)))
                 {
                     var detectors = DetectorFactory.GetDetectors(detectorInputs, _tissue, Rng);
                     var detectorController = DetectorControllerFactory.GetDetectorController(vbType, detectors, _tissue);
-                    // var detectorController = new DetectorController(detectors);
+
                     var virtualBoundary = VirtualBoundaryFactory.GetVirtualBoundary(vbType, _tissue, detectorController);
                     _virtualBoundaryController.VirtualBoundaries.Add(virtualBoundary);
                 }
@@ -523,10 +513,10 @@ namespace Vts.MonteCarlo
             var tissueDistance = _tissue.GetDistanceToBoundary(photon);
 
             // get distance to any VB
-            double vbDistance = double.PositiveInfinity;
 
             // find closest VB (will return null if no closest VB exists)
-            closestVirtualBoundary = _virtualBoundaryController.GetClosestVirtualBoundary(photon.DP, out vbDistance);
+            // vbDistance is initialized to double.PositiveInfinity at start of GetClosestVB
+            closestVirtualBoundary = _virtualBoundaryController.GetClosestVirtualBoundary(photon.DP, out var vbDistance);
 
             if (tissueDistance < vbDistance) // photon won't hit VB, but might not hit tissue boundary either
             {
@@ -538,7 +528,7 @@ namespace Vts.MonteCarlo
             // otherwise, move to the closest virtual boundary
 
             // if both tissueDistance and vbDistance are both infinity, then photon dead
-            if (vbDistance == double.PositiveInfinity)
+            if (double.IsPositiveInfinity(vbDistance))
             {
                 photon.DP.StateFlag = photon.DP.StateFlag.Remove(PhotonStateType.Alive);
                 return BoundaryHitType.None;
@@ -577,7 +567,7 @@ namespace Vts.MonteCarlo
         {
             var header = Input.OutputName + " (" + SimulationIndex + "): ";
             // fraction of photons completed
-            double frac = 100 * n / num_phot;
+            double frac = 100.0 * n / num_phot;
 
             _logger.Info(() => header + frac + " percent complete\n");
         }

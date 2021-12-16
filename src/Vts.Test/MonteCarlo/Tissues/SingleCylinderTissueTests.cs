@@ -1,0 +1,150 @@
+﻿using System.Collections.Generic;
+using NUnit.Framework;
+using Vts.Common;
+using Vts.IO;
+using Vts.MonteCarlo;
+using Vts.MonteCarlo.Tissues;
+
+namespace Vts.Test.MonteCarlo.Tissues
+{
+    [TestFixture]
+    public class SingleCylinderTissueTests
+    {
+        /// <summary>
+        /// list of temporary files created by these unit tests
+        /// </summary>
+        readonly List<string> listOfTestGeneratedFiles = new List<string>()
+        {
+            "SingleCylinderTissue.txt"
+        };
+
+        /// <summary>
+        /// clear all generated folders and files
+        /// </summary>
+        [OneTimeSetUp]
+        [OneTimeTearDown]
+        public void Clear_folders_and_files()
+        {
+            foreach (var file in listOfTestGeneratedFiles)
+            {
+                FileIO.FileDelete(file);
+            }
+        }
+        /// <summary>
+        /// test default constructor
+        /// </summary>
+        [Test]
+        public void Validate_default_constructor()
+        {
+            var i = new SingleCylinderTissueInput();
+            var cylinder = i.CylinderRegion;
+            var layers = i.LayerRegions;
+            Assert.AreEqual(0.0, cylinder.Center.X);
+            Assert.AreEqual(0.0, cylinder.Center.Y);
+            Assert.AreEqual(3.0, cylinder.Center.Z);
+            Assert.AreEqual(50.0, layers[1].Center.Z);
+        }
+        /// <summary>
+        /// verify SingleCylinderTissueInput deserializes correctly
+        /// </summary>
+        [Test]
+        public void Validate_deserialized_class_is_correct()
+        {
+            var i = new SingleCylinderTissueInput(
+                new CylinderTissueRegion(
+                    new Position(0, 0, 1),
+                    0.5,
+                    0.5,
+                    new OpticalProperties(0.05, 1.0, 0.8, 1.4),
+                    "HenyeyGreensteinKey4"),
+                new ITissueRegion[]
+                {
+                    new LayerTissueRegion(
+                        new DoubleRange(double.NegativeInfinity, 0.0),
+                        new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
+                        "HenyeyGreensteinKey1"),
+                    new LayerTissueRegion(
+                        new DoubleRange(0.0, 100.0),
+                        new OpticalProperties(0.01, 1.0, 0.8, 1.4),
+                        "HenyeyGreensteinKey2"),
+                    new LayerTissueRegion(
+                        new DoubleRange(100.0, double.PositiveInfinity),
+                        new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
+                        "HenyeyGreensteinKey3")
+                });
+          
+            var iCloned = i.Clone();
+
+            Assert.AreEqual(iCloned.Regions[1].RegionOP.Mua, i.Regions[1].RegionOP.Mua);
+        }
+        /// <summary>
+        /// verify SingleCylinderTissueInput deserializes correctly when using FileIO
+        /// </summary>
+        [Test]
+        public void Validate_deserialized_class_is_correct_when_using_FileIO()
+        {
+            var i = new SingleCylinderTissueInput(
+                new CylinderTissueRegion(
+                    new Position(0, 0, 1), 
+                    0.5, 
+                    0.5, 
+                new OpticalProperties(0.05, 1.0, 0.8, 1.4),
+                    "HenyeyGreensteinKey4"), 
+                new ITissueRegion[]
+                    { 
+                        new LayerTissueRegion(
+                            new DoubleRange(double.NegativeInfinity, 0.0),
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
+                            "HenyeyGreensteinKey1"),
+                        new LayerTissueRegion(
+                            new DoubleRange(0.0, 100.0),
+                            new OpticalProperties(0.01, 1.0, 0.8, 1.4),
+                            "HenyeyGreensteinKey2"),
+                        new LayerTissueRegion(
+                            new DoubleRange(100.0, double.PositiveInfinity),
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
+                            "HenyeyGreensteinKey3")
+                    }
+                );
+            i.WriteToJson("SingleCylinderTissue.txt");
+            var iCloned = FileIO.ReadFromJson<SingleCylinderTissueInput>("SingleCylinderTissue.txt");
+
+            Assert.AreEqual(iCloned.Regions[1].RegionOP.Mua, i.Regions[1].RegionOP.Mua);
+        }
+        /// <summary>
+        /// verify CreateTissue generates ITissue
+        /// </summary>
+        [Test]
+        public void Validate_CreateTissue_creates_class()
+        {
+            var i = new SingleCylinderTissueInput(
+                new CylinderTissueRegion(
+                    new Position(0, 0, 1),
+                    0.5,
+                    0.5,
+                    new OpticalProperties(0.05, 1.0, 0.8, 1.4),
+                    "HenyeyGreensteinKey4"),
+                new ITissueRegion[]
+                {
+                    new LayerTissueRegion(
+                        new DoubleRange(double.NegativeInfinity, 0.0),
+                        new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
+                        "HenyeyGreensteinKey1"),
+                    new LayerTissueRegion(
+                        new DoubleRange(0.0, 100.0),
+                        new OpticalProperties(0.01, 1.0, 0.8, 1.4),
+                        "HenyeyGreensteinKey2"),
+                    new LayerTissueRegion(
+                        new DoubleRange(100.0, double.PositiveInfinity),
+                        new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
+                        "HenyeyGreensteinKey4")
+                }
+            );
+
+            Assert.IsInstanceOf<ITissue>(i.CreateTissue(
+                AbsorptionWeightingType.Continuous,
+                new Dictionary<string, IPhaseFunction>(),
+                0.0));
+        }
+    }
+}

@@ -17,14 +17,16 @@ namespace Vts.Test.MonteCarlo.Extensions
         /// <summary>
         /// list of temporary files created by these unit tests
         /// </summary>
-        List<string> listOfTestGeneratedFiles = new List<string>()
+        readonly List<string> listOfTestGeneratedFiles = new List<string>()
         {
             "collisionInfoReflectance",
+            "collisionInfoReflectance.txt",
             "collisionInfoReflectance2",
             "collisionInfoReflectance2.txt",
             "collisionInfoPmcReflectance",
+            "collisionInfoPmcReflectance.txt",
             "collisionInfoTransmittance",
-            "collisionInfoReflectance.txt"
+            "collisionInfoTransmittance.txt"
         };
         [OneTimeSetUp]
         [OneTimeTearDown]
@@ -126,7 +128,7 @@ namespace Vts.Test.MonteCarlo.Extensions
                 1.0, // photon time of flight: note used
                 PhotonStateType.Alive);
             bool result = DP.IsWithinNA(NA, Direction.AlongNegativeZAxis, detectorRegionN);
-            Assert.AreEqual(result, true);
+            Assert.AreEqual(true, result);
         }
         /// <summary>
         /// Validate IsWithinNA for partially open NA
@@ -144,7 +146,7 @@ namespace Vts.Test.MonteCarlo.Extensions
                 1.0, // photon time of flight: note used
                 PhotonStateType.Alive);
             bool result = DP.IsWithinNA(NA, Direction.AlongNegativeZAxis, detectorRegionN);
-            Assert.AreEqual(result, true);
+            Assert.AreEqual(true, result);
             // now select direction right on NA
             var theta = Math.Asin(NA / detectorRegionN);
             direction = new Direction(Math.Sin(theta), 0, -Math.Cos(theta)); // right on NA
@@ -155,7 +157,7 @@ namespace Vts.Test.MonteCarlo.Extensions
                 1.0, // photon time of flight: note used
                 PhotonStateType.Alive);
             result = DP.IsWithinNA(NA, Direction.AlongNegativeZAxis, detectorRegionN);
-            Assert.AreEqual(result, true);
+            Assert.AreEqual(true, result);
             // now select direction outside of NA
             theta = Math.Asin( (NA * (1.1)) / detectorRegionN);
             direction = new Direction(Math.Sin(theta), 0, -Math.Cos(theta)); 
@@ -166,7 +168,7 @@ namespace Vts.Test.MonteCarlo.Extensions
                 1.0, // photon time of flight: note used
                 PhotonStateType.Alive);
             result = DP.IsWithinNA(NA, Direction.AlongNegativeZAxis, detectorRegionN);
-            Assert.AreEqual(result, false);
+            Assert.AreEqual(false, result);
         }
         /// <summary>
         /// Validate method agrees with Bargo theory [Bargo et al., AO 42(16) 2003]

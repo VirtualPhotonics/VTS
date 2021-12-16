@@ -55,22 +55,5 @@ namespace Vts.Test.Modeling.ForwardSolvers
         }
 
     }
-    //public static class ArrayExtension
-    //{
-    //    public static double Sum2DArray(this double[,] my2DArray)
-    //    {
-    //        int numRows = my2DArray.GetLength(0);
-    //        int numColumns = my2DArray.GetLength(1);
-    //        double sum = 0.0;
-    //        for (int row = 0; row < numRows; row++)
-    //        {
-    //            for (int column = 0; column < numColumns; column++)
-    //            {
-    //                sum += my2DArray[row, column];
-    //            }
-    //        }
-    //        return sum;
-    //    }
 
-    //}
 }

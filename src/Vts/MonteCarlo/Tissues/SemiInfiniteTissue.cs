@@ -8,7 +8,6 @@ namespace Vts.MonteCarlo.Tissues
     /// </summary>
     public class SemiInfiniteTissueInput : TissueInput, ITissueInput
     {
-        private ITissueRegion[] _regions;
 
         /// <summary>
         /// constructor for Semi-infinite tissue input
@@ -17,7 +16,7 @@ namespace Vts.MonteCarlo.Tissues
         public SemiInfiniteTissueInput(ITissueRegion region)
         {
             TissueType = "SemiInfinite";
-            _regions = new[] { region };
+            Regions = new[] { region };
             RegionPhaseFunctionInputs = new Dictionary<string, IPhaseFunctionInput>();
         }
 
@@ -32,9 +31,9 @@ namespace Vts.MonteCarlo.Tissues
         /// <summary>
         /// list of tissue regions comprising tissue
         /// </summary>
-        public ITissueRegion[] Regions { get { return _regions; } set { _regions = value; } }
+        public ITissueRegion[] Regions { get; set; }
         /// <summary>
-        /// dictionary of region phase functions
+        /// dictionary of region phase function inputs
         /// </summary>
         public IDictionary<string, IPhaseFunctionInput> RegionPhaseFunctionInputs { get; set; }
 
@@ -43,18 +42,12 @@ namespace Vts.MonteCarlo.Tissues
         /// ITissue based on the ITissueInput data
         /// </summary>
         /// <param name="awt">Absorption Weighting Type</param>
-        /// <param name="pft">Phase Function Type</param>
+        /// <param name="regionPhaseFunctions">Phase function dictionary</param>
         /// <param name="russianRouletteWeightThreshold">Russian Roulette Weight Threshold</param>
         /// <returns></returns>
         public ITissue CreateTissue(AbsorptionWeightingType awt, IDictionary<string, IPhaseFunction> regionPhaseFunctions, double russianRouletteWeightThreshold)
         {
             throw new NotImplementedException();
-
-            //var t = new SemiInfiniteTissue(Regions); //  todo: add implementation
-
-            //t.Initialize(awt, pft, russianRouletteWeightThreshold);
-
-            //return t;
         }
     }
 }

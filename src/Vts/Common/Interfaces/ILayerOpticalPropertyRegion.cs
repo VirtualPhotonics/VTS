@@ -2,6 +2,9 @@
 
 namespace Vts
 {
+    /// <summary>
+    /// layer optical property region
+    /// </summary>
     public interface ILayerOpticalPropertyRegion : IOpticalPropertyRegion
     {
         /// <summary>

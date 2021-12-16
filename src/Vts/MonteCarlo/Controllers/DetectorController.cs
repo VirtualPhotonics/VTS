@@ -8,7 +8,6 @@ namespace Vts.MonteCarlo.Controllers
     /// </summary>
     public class DetectorController : IDetectorController
     {
-        private IList<IDetector> _detectors;
         /// <summary>
         /// controller for detectors
         /// </summary>
@@ -16,19 +15,20 @@ namespace Vts.MonteCarlo.Controllers
         public DetectorController(
             IEnumerable<IDetector> detectors)
         {
-            _detectors = detectors.Select(d => (IDetector)d).ToList();
+            Detectors = detectors.Select(d => d).ToList();
         }
         /// <summary>
         /// IList of IDetector
         /// </summary>
-        public IList<IDetector> Detectors { get { return _detectors; } }
+        public IList<IDetector> Detectors { get; }
+
         /// <summary>
         /// method that tallies all detectors given Photon
         /// </summary>
         /// <param name="photon">Photon</param>
         public void Tally(Photon photon)
         {
-            foreach (var detector in _detectors)
+            foreach (var detector in Detectors)
             {
                 detector.Tally(photon);
             }
@@ -39,7 +39,7 @@ namespace Vts.MonteCarlo.Controllers
         /// <param name="N">number of photons launched from source</param>
         public virtual void NormalizeDetectors(long N)
         {
-            foreach (var detector in _detectors)
+            foreach (var detector in Detectors)
             {
                 detector.Normalize(N);
             }

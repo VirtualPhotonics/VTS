@@ -52,14 +52,13 @@ namespace Vts.Modeling.ForwardSolvers
             IEnumerable<double> rhos)
         { 
             double[] RatRhoMC = new double[_monteCarloLoader.nrReference];
-            double[] rhoScaled = new double[_monteCarloLoader.nrReference];
             foreach (var op in ops)
             {
                 // RatRhoMC has to be cleared inside the OPs loop because a cumulative sum is performed below
                 Array.Clear(RatRhoMC, 0, _monteCarloLoader.nrReference);
                 double v = GlobalConstants.C / op.N; // speed of light [mm/ns]
                 double fresnel = _monteCarloLoader.GetFresnel(1.0, op.N, 0.0);
-                rhoScaled = _monteCarloLoader.GetAllScaledRhos(op).ToArray();
+                var rhoScaled = _monteCarloLoader.GetAllScaledRhos(op).ToArray();
                 for (int i = 0; i < _monteCarloLoader.nrReference; i++)
                 {
                     for (int j = 0; j < _monteCarloLoader.ntReference; j++)
@@ -84,11 +83,11 @@ namespace Vts.Modeling.ForwardSolvers
         /// </summary>
         /// <param name="op">optical properties</param>
         /// <param name="rho">source-detector separation</param>
-        /// <param name="t">time</param>
+        /// <param name="time">time</param>
         /// <returns>reflectance at specified optical properties, rho and time </returns>
-        public override double ROfRhoAndTime(OpticalProperties op, double rho, double t)
+        public override double ROfRhoAndTime(OpticalProperties op, double rho, double time)
         {
-            return ROfRhoAndTime(op.AsEnumerable(), rho.AsEnumerable(), t.AsEnumerable()).First();
+            return ROfRhoAndTime(op.AsEnumerable(), rho.AsEnumerable(), time.AsEnumerable()).First();
         }
         /// <summary>
         /// Evaluates spatially- and temporally- resolved reflectance at specified optical properties, rhos and times
@@ -101,15 +100,13 @@ namespace Vts.Modeling.ForwardSolvers
             IEnumerable<double> rhos, IEnumerable<double> times)
         {
             double v;
-            double[] rhoScaled = new double[_monteCarloLoader.nrReference];
-            double[] timeScaled = new double[_monteCarloLoader.ntReference];
             double[,] RScaled = new double[_monteCarloLoader.nrReference, _monteCarloLoader.ntReference];
             foreach (var op in ops)
             {
                 v = GlobalConstants.C / op.N;// speed of light [mm/ns]
                 double fresnel = _monteCarloLoader.GetFresnel(1.0, op.N, 0.0);
-                rhoScaled = _monteCarloLoader.GetAllScaledRhos(op).ToArray();
-                timeScaled = _monteCarloLoader.GetAllScaledTimes(op).ToArray();
+                var rhoScaled = _monteCarloLoader.GetAllScaledRhos(op).ToArray();
+                var timeScaled = _monteCarloLoader.GetAllScaledTimes(op).ToArray();
                 // scale first then interpolate `
                 for (int i = 0; i < _monteCarloLoader.nrReference; i++)
                 {
@@ -142,12 +139,18 @@ namespace Vts.Modeling.ForwardSolvers
         {
             return ROfRhoAndFt(op.AsEnumerable(), rho.AsEnumerable(), ft.AsEnumerable()).First();
         }
+        /// <summary>
+        /// reflectance as a function of s-d separations and temporal-frequencies
+        /// </summary>
+        /// <param name="ops">optical properties</param>
+        /// <param name="rhos">s-d separations</param>
+        /// <param name="fts">temporal-frequencies</param>
+        /// <returns>R(rhos,fts)</returns>
         public override IEnumerable<Complex> ROfRhoAndFt(IEnumerable<OpticalProperties> ops, IEnumerable<double> rhos, IEnumerable<double> fts)
         {
-            double[] time = new double[_monteCarloLoader.ntReference];
             foreach (var op in ops)
             {
-                time = _monteCarloLoader.GetAllScaledTimes(op).ToArray();
+                var time = _monteCarloLoader.GetAllScaledTimes(op).ToArray();
                 var dTime = time[1] - time[0];
                 double[] rOfRhoAndT = ROfRhoAndTime(op.AsEnumerable(), rhos, time).ToArray();
                 int rhoIndex = 0;
@@ -176,15 +179,20 @@ namespace Vts.Modeling.ForwardSolvers
         {
             return ROfFx(op.AsEnumerable(), fx.AsEnumerable()).First();
         }
+        /// <summary>
+        /// reflectance as a function of spatial-frequencies
+        /// </summary>
+        /// <param name="ops">optical properties</param>
+        /// <param name="fxs">spatial frequencies</param>
+        /// <returns>R(fxs)</returns>
         public override IEnumerable<double> ROfFx(IEnumerable<OpticalProperties> ops, IEnumerable<double> fxs)
         {
             double[] RatFxMC = new double[_monteCarloLoader.nfxReference];
-            double[] fxScaled = new double[_monteCarloLoader.nfxReference];
             foreach (var op in ops)
             {
                 Array.Clear(RatFxMC, 0, _monteCarloLoader.nfxReference); // clear so different OPs don't get summed below
                 double v = GlobalConstants.C / op.N; // speed of light [mm/ns]
-                fxScaled = _monteCarloLoader.GetAllScaledFxs(op).ToArray();
+                var fxScaled = _monteCarloLoader.GetAllScaledFxs(op).ToArray();
                 double fresnel = _monteCarloLoader.GetFresnel(1.0, op.N, 0.0);
                 for (int i = 0; i < _monteCarloLoader.nfxReference; i++)
                 {
@@ -193,8 +201,7 @@ namespace Vts.Modeling.ForwardSolvers
                         RatFxMC[i] += (_monteCarloLoader.RReferenceOfFxAndTime[i, j] / (1 - fresnel)) *
                             Math.Exp(-op.Mua * v * _monteCarloLoader.TimeReference[j] * _monteCarloLoader.muspReference / op.Musp) *
                             (_monteCarloLoader.dtReference * _monteCarloLoader.muspReference / op.Musp) *
-                            (op.Musp / _monteCarloLoader.muspReference); // * (op.Musp / _monteCarloLoader.muspReference) * 
-                            //(op.Musp / _monteCarloLoader.muspReference);
+                            (op.Musp / _monteCarloLoader.muspReference); 
                     }
                 }
                 foreach (var fx in fxs)
@@ -208,25 +215,30 @@ namespace Vts.Modeling.ForwardSolvers
         /// </summary>
         /// <param name="op">optical properties</param>
         /// <param name="fx">spatial frequency</param>
-        /// <param name="t">time</param>
+        /// <param name="time">time</param>
         /// <returns>reflectance at specified optical properties, spatial frequency and time</returns>
-        public override double ROfFxAndTime(OpticalProperties op, double fx, double t)
+        public override double ROfFxAndTime(OpticalProperties op, double fx, double time)
         {
-            return ROfFxAndTime(op.AsEnumerable(), fx.AsEnumerable(), fx.AsEnumerable()).First();
+            return ROfFxAndTime(op.AsEnumerable(), fx.AsEnumerable(), time.AsEnumerable()).First();
         }
+        /// <summary>
+        /// reflectance as a function of spatial-frequencies and times
+        /// </summary>
+        /// <param name="ops">optical properties</param>
+        /// <param name="fxs">spatial-frequencies</param>
+        /// <param name="times">times</param>
+        /// <returns>R(fxs,times)</returns>
         public override IEnumerable<double> ROfFxAndTime(IEnumerable<OpticalProperties> ops,
             IEnumerable<double> fxs, IEnumerable<double> times)
         {
             double v;
-            double[] fxScaled = new double[_monteCarloLoader.nfxReference];
-            double[] timeScaled = new double[_monteCarloLoader.ntReference];
             double[,] RScaled = new double[_monteCarloLoader.nfxReference, _monteCarloLoader.ntReference];
             foreach (var op in ops)
             {
                 v = GlobalConstants.C / op.N; // speed of light [mm/ns]
                 double fresnel = _monteCarloLoader.GetFresnel(1.0, op.N, 0.0);
-                fxScaled = _monteCarloLoader.GetAllScaledFxs(op).ToArray();
-                timeScaled = _monteCarloLoader.GetAllScaledTimes(op).ToArray();
+                var fxScaled = _monteCarloLoader.GetAllScaledFxs(op).ToArray();
+                var timeScaled = _monteCarloLoader.GetAllScaledTimes(op).ToArray();
                 // scale first then interpolate `
                 for (int i = 0; i < _monteCarloLoader.nfxReference; i++)
                 {
@@ -267,10 +279,9 @@ namespace Vts.Modeling.ForwardSolvers
         /// <returns>reflectance at specified optical properties, spatial frequencies and modulation frequencies</returns>
         public override IEnumerable<Complex> ROfFxAndFt(IEnumerable<OpticalProperties> ops, IEnumerable<double> fxs, IEnumerable<double> fts)
         {
-            double[] time = new double[_monteCarloLoader.ntReference];
             foreach (var op in ops)
             {
-                time = _monteCarloLoader.GetAllScaledTimes(op).ToArray();
+                var time = _monteCarloLoader.GetAllScaledTimes(op).ToArray();
                 var dTime = time[1] - time[0];
                 double[] rOfFxAndT = ROfFxAndTime(op.AsEnumerable(), fxs, time).ToArray();
                 int fxIndex = 0;
@@ -308,28 +319,55 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="ops">optical properties</param>
         /// <param name="rhos">source-detector separations</param>
         /// <param name="zs">z values (depths)</param>
-        /// <param name="ts">times (ns)</param>
+        /// <param name="times">times (ns)</param>
         /// <returns>reflectance at specified optical properties, rhos and depths</returns>
-        public override IEnumerable<double> FluenceOfRhoAndZAndTime(IEnumerable<OpticalProperties> ops, IEnumerable<double> rhos, IEnumerable<double> zs, IEnumerable<double> ts)
+        public override IEnumerable<double> FluenceOfRhoAndZAndTime(IEnumerable<OpticalProperties> ops, IEnumerable<double> rhos, IEnumerable<double> zs, IEnumerable<double> times)
         {
             throw new NotImplementedException();
         }
-
+        /// <summary>
+        /// fluence as a function of s-d separations, depths and temporal-frequencies
+        /// </summary>
+        /// <param name="ops">optical properties</param>
+        /// <param name="rhos">s-d separations</param>
+        /// <param name="zs">depths</param>
+        /// <param name="fts">temporal-frequencies</param>
+        /// <returns>fluence(rhos,zs,fts)</returns>
         public override IEnumerable<Complex> FluenceOfRhoAndZAndFt(IEnumerable<OpticalProperties> ops, IEnumerable<double> rhos, IEnumerable<double> zs, IEnumerable<double> fts)
         {
             throw new NotImplementedException();
         }
-
+        /// <summary>
+        /// fluence as a function of spatial-frequencies and depths
+        /// </summary>
+        /// <param name="ops">optical properties</param>
+        /// <param name="fxs">spatial frequencies</param>
+        /// <param name="zs">depths</param>
+        /// <returns>fluence(fxs,zs)</returns>
         public override IEnumerable<double> FluenceOfFxAndZ(IEnumerable<OpticalProperties> ops, IEnumerable<double> fxs, IEnumerable<double> zs)
         {
             throw new NotImplementedException();
         }
-
-        public override IEnumerable<double> FluenceOfFxAndZAndTime(IEnumerable<OpticalProperties> ops, IEnumerable<double> fxs, IEnumerable<double> zs, IEnumerable<double> ts)
+        /// <summary>
+        /// fluence as a function of spatial-frequencies, depths and times
+        /// </summary>
+        /// <param name="ops">optical properties</param>
+        /// <param name="fxs">spatial frequencies</param>
+        /// <param name="zs">depths</param>
+        /// <param name="times">times</param>
+        /// <returns>fluence(fxs,zs,times)</returns>
+        public override IEnumerable<double> FluenceOfFxAndZAndTime(IEnumerable<OpticalProperties> ops, IEnumerable<double> fxs, IEnumerable<double> zs, IEnumerable<double> times)
         {
             throw new NotImplementedException();
         }
-
+        /// <summary>
+        /// fluence as a function of spatial-frequencies, depths and temporal-frequencies
+        /// </summary>
+        /// <param name="ops">optical properties</param>
+        /// <param name="fxs">spatial-frequencies</param>
+        /// <param name="zs">depths</param>
+        /// <param name="fts">temporal-frequencies</param>
+        /// <returns>fluence(fxs,zs,fts)</returns>
         public override IEnumerable<Complex> FluenceOfFxAndZAndFt(IEnumerable<OpticalProperties> ops, IEnumerable<double> fxs, IEnumerable<double> zs, IEnumerable<double> fts)
         {
             throw new NotImplementedException();

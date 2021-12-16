@@ -94,8 +94,8 @@ namespace Vts.Modeling.ForwardSolvers
         {
             GeneratorType = generatorType;
             // Load binary files based on generator type
-            TimeValues = (NurbsValues)FileIO.ReadFromJsonInResources<NurbsValues>(_folderPath + generatorType.ToString() + _folder + @"/timeNurbsValues.txt", "Vts");
-            SpaceValues = (NurbsValues)FileIO.ReadFromJsonInResources<NurbsValues>(_folderPath + generatorType.ToString() + _folder + @"/spaceNurbsValues.txt", "Vts");
+            TimeValues = FileIO.ReadFromJsonInResources<NurbsValues>(_folderPath + generatorType.ToString() + _folder + @"/timeNurbsValues.txt", "Vts");
+            SpaceValues = FileIO.ReadFromJsonInResources<NurbsValues>(_folderPath + generatorType.ToString() + _folder + @"/spaceNurbsValues.txt", "Vts");
             // Get the dimensions of the control point matrix
             int[] dims = { SpaceValues.KnotVector.Length - SpaceValues.Degree - 1, TimeValues.KnotVector.Length - TimeValues.Degree - 1 };
             // Load control points
@@ -205,7 +205,6 @@ namespace Vts.Modeling.ForwardSolvers
 
         private Func<double, double, double, double> GetRealFunction(int degree, double coef)
         {
-            Func<double, double, double, double> nthOrderIntegralFunc;
             Func<double, double, double> commonFunc = (t, m) =>
             {
                 return coef * Math.Exp(-t * m);
@@ -214,63 +213,63 @@ namespace Vts.Modeling.ForwardSolvers
             switch (degree)
             {
                 case 0:
-                    return nthOrderIntegralFunc = (t, m, f) =>
+                    return (t, m, f) =>
                     {
                         double P = 2.0 * Math.PI * f;
                         double D = (P * P + m * m);
                         return commonFunc(t, m) / D
-                            * (P * Math.Sin(P * t)
-                            - m * Math.Cos(P * t));
+                               * (P * Math.Sin(P * t)
+                                  - m * Math.Cos(P * t));
                     };
                 case 1:
-                    return nthOrderIntegralFunc = (t, m, f) =>
+                    return (t, m, f) =>
                     {
                         double P = 2.0 * Math.PI * f;
                         double D = (P * P + m * m);
                         double tm = t * m;
                         return commonFunc(t, m)/ (D * D)
-                            * (P * Math.Sin(P * t)
-                            * (P * P * t + m * (2.0 + tm))
-                            - Math.Cos(P * t) * (P * P
-                            * (tm - 1.0) + m * m * (1.0 + tm)));
+                               * (P * Math.Sin(P * t)
+                                    * (P * P * t + m * (2.0 + tm))
+                                  - Math.Cos(P * t) * (P * P
+                                                         * (tm - 1.0) + m * m * (1.0 + tm)));
                     };
                 case 2:
-                    return nthOrderIntegralFunc = (t, m, f) =>
+                    return (t, m, f) =>
                     {
                         double P = 2.0 * Math.PI * f;
                         double P2 = P * P;
                         double tm = t * m;
                         double D = (P * P + m * m);
                         return commonFunc(t, m) / (D * D * D)
-                            * (-(P2 * P2 * t * (tm - 2.0)
-                            + 2.0 * P2 * m * (tm * tm - 3.0)
-                            + m * m * m * (2.0 + tm * (2.0 + tm))) * Math.Cos(P * t)
-                            + P * (P2 * P2 * t * t
-                            + 2.0 * P2
-                            * (-1.0 + tm * (2.0 + tm)) + m * m * (6.0 + tm
-                            * (4.0 + tm))) * Math.Sin(P * t));
+                               * (-(P2 * P2 * t * (tm - 2.0)
+                                    + 2.0 * P2 * m * (tm * tm - 3.0)
+                                    + m * m * m * (2.0 + tm * (2.0 + tm))) * Math.Cos(P * t)
+                                  + P * (P2 * P2 * t * t
+                                         + 2.0 * P2
+                                               * (-1.0 + tm * (2.0 + tm)) + m * m * (6.0 + tm
+                                             * (4.0 + tm))) * Math.Sin(P * t));
                     };
                 case 3:
-                    return nthOrderIntegralFunc = (t, m, f) =>
+                    return (t, m, f) =>
                     {
                         double P = 2.0 * Math.PI * f;
                         double P2 = P * P;
                         double tm = t * m;
                         double D = (P * P + m * m);
                         return commonFunc(t, m)/ (D * D * D * D)
-                            * (-(P2 * P2 * P2 * t * t
-                            * (tm - 3.0) + 3.0 * P2 * P2
-                            * (2.0 + tm * (tm - 3.0) * (2.0 + tm))
-                            + 3.0 * P2 * m * m * (-12.0 + tm
-                            * (-4.0 + tm * (1.0 + tm))) + m * m * m * m
-                            * (6.0 + tm * (6.0 + tm * (3.0 + tm))))
-                            * Math.Cos(P * t) + P
-                            * (P2 * P2 * P2 * t * t * t
-                            + 3.0 * P2 * P2 * t
-                            * (-2.0 + tm * (2.0 + tm)) + 3.0 * P2 * m
-                            * (-8.0 + tm * (2.0 + tm) * (2.0 + tm))
-                            + m * m * m * (24.0 + tm * (18.0 + tm * (6.0 + tm))))
-                            * Math.Sin(P * t));
+                               * (-(P2 * P2 * P2 * t * t
+                                       * (tm - 3.0) + 3.0 * P2 * P2
+                                                    * (2.0 + tm * (tm - 3.0) * (2.0 + tm))
+                                                    + 3.0 * P2 * m * m * (-12.0 + tm
+                                                        * (-4.0 + tm * (1.0 + tm))) + m * m * m * m
+                                                    * (6.0 + tm * (6.0 + tm * (3.0 + tm))))
+                                   * Math.Cos(P * t) + P
+                                   * (P2 * P2 * P2 * t * t * t
+                                      + 3.0 * P2 * P2 * t
+                                      * (-2.0 + tm * (2.0 + tm)) + 3.0 * P2 * m
+                                      * (-8.0 + tm * (2.0 + tm) * (2.0 + tm))
+                                      + m * m * m * (24.0 + tm * (18.0 + tm * (6.0 + tm))))
+                                   * Math.Sin(P * t));
                     };
                 default:
                     throw new ArgumentException("Degree is too high.");
@@ -279,7 +278,6 @@ namespace Vts.Modeling.ForwardSolvers
 
         private Func<double, double, double, double> GetImaginaryFunction(int degree, double coef)
         {
-            Func<double, double, double, double> nthOrderIntegralFunc;
             Func<double, double, double> commonFunc = (t, m) =>
             {
                 return coef * Math.Exp(-t * m);
@@ -288,17 +286,17 @@ namespace Vts.Modeling.ForwardSolvers
             switch (degree)
             {
                 case 0:
-                    return nthOrderIntegralFunc = (t, m, f) =>
+                    return (t, m, f) =>
                     {
                         double P = 2.0 * Math.PI * f;
                         double D = (P * P + m * m);
 
                         return commonFunc(t, m) / D
-                            * (P * Math.Cos(P * t) +
-                             m * Math.Sin(P * t));
+                               * (P * Math.Cos(P * t) +
+                                  m * Math.Sin(P * t));
                     };
                 case 1:
-                    return nthOrderIntegralFunc = (t, m, f) =>
+                    return (t, m, f) =>
                     {
                         double P = 2.0 * Math.PI * f;
                         double P2 = P * P;
@@ -306,13 +304,13 @@ namespace Vts.Modeling.ForwardSolvers
                         double D = (P * P + m * m);
 
                         return commonFunc(t, m) / (D * D)
-                            * (P * Math.Cos(P * t)
-                            * (P2 * t + m * (2.0 + tm))
-                            + Math.Sin(P * t)
-                            * (P2 * (tm - 1.0) + m * m * (1.0 + tm)));
+                               * (P * Math.Cos(P * t)
+                                    * (P2 * t + m * (2.0 + tm))
+                                  + Math.Sin(P * t)
+                                  * (P2 * (tm - 1.0) + m * m * (1.0 + tm)));
                     };
                 case 2:
-                    return nthOrderIntegralFunc = (t, m, f) =>
+                    return (t, m, f) =>
                     {
                         double P = 2.0 * Math.PI * f;
                         double P2 = P * P;
@@ -320,16 +318,16 @@ namespace Vts.Modeling.ForwardSolvers
                         double D = (P * P + m * m);
 
                         return commonFunc(t, m) / (D * D * D)
-                            * (P * (P2 * P2 * t * t
-                            + 2.0 * P2 * (-1.0 + tm * (2.0 + tm))
-                            + m * m * (6.0 + tm * (4.0 + tm))) * Math.Cos(P * t)
-                            + (P2 * P2 * t * (tm - 2.0)
-                            + 2.0 * P2 * m * (tm * tm - 3.0)
-                            + m * m * m * (2.0 + tm * (2.0 + tm)))
-                            * Math.Sin(P * t));
+                               * (P * (P2 * P2 * t * t
+                                       + 2.0 * P2 * (-1.0 + tm * (2.0 + tm))
+                                       + m * m * (6.0 + tm * (4.0 + tm))) * Math.Cos(P * t)
+                                  + (P2 * P2 * t * (tm - 2.0)
+                                     + 2.0 * P2 * m * (tm * tm - 3.0)
+                                     + m * m * m * (2.0 + tm * (2.0 + tm)))
+                                  * Math.Sin(P * t));
                     };
                 case 3:
-                    return nthOrderIntegralFunc = (t, m, f) =>
+                    return (t, m, f) =>
                     {
                         double P = 2.0 * Math.PI * f;
                         double P2 = P * P;
@@ -337,19 +335,19 @@ namespace Vts.Modeling.ForwardSolvers
                         double D = (P * P + m * m);
 
                         return commonFunc(t, m) / (D * D * D * D)
-                            * (P * (P2 * P2 * P2 * t * t * t
-                                + 3.0 * P2 * P2 * t
-                                * (-2.0 + tm * (2.0 + tm)) + 3.0 * P2 * m
-                                * (-8.0 + tm * (2.0 + tm) * (2.0 + tm))
-                                + m * m * m * (24.0 + tm * (18.0 + tm * (6.0 + tm))))
-                                * Math.Cos(P * t)
-                                + (P2 * P2 * P2 * t * t
-                                * (tm - 3.0) + 3.0 * P2 * P2
-                                * (2.0 + tm * (tm - 3.0) * (2.0 + tm))
-                                + 3.0 * P2 * m * m * (-12.0 + tm
-                                * (-4.0 + tm * (1.0 + tm))) + m * m * m * m
-                                * (6.0 + tm * (6.0 + tm * (3.0 + tm))))
-                                * Math.Sin(P * t));
+                               * (P * (P2 * P2 * P2 * t * t * t
+                                       + 3.0 * P2 * P2 * t
+                                       * (-2.0 + tm * (2.0 + tm)) + 3.0 * P2 * m
+                                       * (-8.0 + tm * (2.0 + tm) * (2.0 + tm))
+                                       + m * m * m * (24.0 + tm * (18.0 + tm * (6.0 + tm))))
+                                    * Math.Cos(P * t)
+                                  + (P2 * P2 * P2 * t * t
+                                      * (tm - 3.0) + 3.0 * P2 * P2
+                                                   * (2.0 + tm * (tm - 3.0) * (2.0 + tm))
+                                                   + 3.0 * P2 * m * m * (-12.0 + tm
+                                                       * (-4.0 + tm * (1.0 + tm))) + m * m * m * m
+                                                   * (6.0 + tm * (6.0 + tm * (3.0 + tm))))
+                                  * Math.Sin(P * t));
                     };
                 default:
                     throw new ArgumentException("Degree is too high.");
@@ -615,11 +613,7 @@ namespace Vts.Modeling.ForwardSolvers
             int maxDegree = polynomialCoefficients.Length - 1;
             for (int coefficientDegree = 0; coefficientDegree <= maxDegree; coefficientDegree++)
             {
-                double value = IntegrateExponentialMultipliedByMomomial(coefficientDegree,
-                                                                          exponentialTerm,
-                                                                          polynomialCoefficients[coefficientDegree],
-                                                                          lowerLimit, upperLimit);
-                value = 0;
+                double value = 0;
                 integralValue += IntegrateExponentialMultipliedByMomomial(coefficientDegree,
                                                                           exponentialTerm,
                                                                           polynomialCoefficients[coefficientDegree],
@@ -661,11 +655,10 @@ namespace Vts.Modeling.ForwardSolvers
         /// <exception cref="System.ArgumentException">Thrown if the degree of the function is too high.</exception> 
         public Func<double, double, double, double> GetIntegralFunction(int degree, double exponentialTerm)
         {
-            Func<double, double, double, double> nthOrderIntegralFunc;
 
             if (exponentialTerm == 0.0)
             {
-                return nthOrderIntegralFunc = (a, b, x) =>
+                return (a, b, x) =>
                 {
                     return b * Math.Pow(x, (Double)degree + 1.0) / ((Double)degree + 1.0);
                 };
@@ -675,22 +668,22 @@ namespace Vts.Modeling.ForwardSolvers
                 switch (degree)
                 {
                     case 0:
-                        return nthOrderIntegralFunc = (a, b, x) =>
+                        return (a, b, x) =>
                         {
                             return -b * Math.Exp(-a * x) / (a);
                         };
                     case 1:
-                        return nthOrderIntegralFunc = (a, b, x) =>
+                        return (a, b, x) =>
                         {
                             return -b * Math.Exp(-a * x) * (a * x + 1.0) / (a * a);
                         };
                     case 2:
-                        return nthOrderIntegralFunc = (a, b, x) =>
+                        return (a, b, x) =>
                         {
                             return -b * Math.Exp(-a * x) * (a * x * (a * x + 2.0) + 2.0) / (a * a * a);
                         };
                     case 3:
-                        return nthOrderIntegralFunc = (a, b, x) =>
+                        return (a, b, x) =>
                         {
                             return - b * Math.Exp(-a * x) * (a * x * (a * x * (a * x + 3.0) + 6.0) + 6.0) / (a * a * a * a);
                         };

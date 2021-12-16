@@ -96,7 +96,7 @@ namespace Vts.MonteCarlo.PostProcessor
                 // check for pMC tallies first because could have ReflectanceTallies mixed in and want to load CollisionInfo
 
                 // Why not mirror the "on-the-fly" code, and allow for all kinds of detector inputs simultaneously? (dc 12/21/2011)
-                if (input.DetectorInputs.Where(di => di.TallyDetails.IspMCReflectanceTally).Any())
+                if (input.DetectorInputs.Any(di => di.TallyDetails.IspMCReflectanceTally))
                 {
                     IList<IDetectorInput> pMCDetectorInputs;
                     pMCDetectorInputs = input.DetectorInputs;
@@ -110,7 +110,7 @@ namespace Vts.MonteCarlo.PostProcessor
                     );
                     postProcessedOutput = postProcessor.Run();
                 }
-                else if (input.DetectorInputs.Where(di => di.TallyDetails.IsReflectanceTally).Any())
+                else if (input.DetectorInputs.Any(di => di.TallyDetails.IsReflectanceTally))
                 {
 
                     var postProcessor = new PhotonDatabasePostProcessor(
@@ -123,7 +123,7 @@ namespace Vts.MonteCarlo.PostProcessor
                     );
                     postProcessedOutput = postProcessor.Run();
                 }
-                else if (input.DetectorInputs.Where(di => di.TallyDetails.IsTransmittanceTally).Any())
+                else if (input.DetectorInputs.Any(di => di.TallyDetails.IsTransmittanceTally))
                 {
                     var postProcessor = new PhotonDatabasePostProcessor(
                         VirtualBoundaryType.DiffuseTransmittance,
@@ -135,7 +135,7 @@ namespace Vts.MonteCarlo.PostProcessor
                     );
                     postProcessedOutput = postProcessor.Run();
                 }
-                else if (input.DetectorInputs.Where(di => di.TallyDetails.IsSpecularReflectanceTally).Any())
+                else if (input.DetectorInputs.Any(di => di.TallyDetails.IsSpecularReflectanceTally))
                 {
                     var postProcessor = new PhotonDatabasePostProcessor(
                         VirtualBoundaryType.SpecularReflectance,

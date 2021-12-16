@@ -39,7 +39,9 @@ namespace Vts.MonteCarlo.Tissues
         /// optical properties of layer
         /// </summary>
         public OpticalProperties RegionOP { get; set; }
-
+        /// <summary>
+        /// Center of tissue region (semi-infinite has no center)
+        /// </summary>
         public Position Center
         {
             get { throw new NotImplementedException(); }
@@ -49,23 +51,23 @@ namespace Vts.MonteCarlo.Tissues
         /// This checks which region photon is currently in.  
         /// inclusion defined in half-open interval [start,stop) so that continuum of layers do not overlap.
         /// </summary>
-        /// <param name="p">Position being checked</param>
+        /// <param name="position">Position being checked</param>
         /// <returns>True if photon in region, false if not</returns>
-        public bool ContainsPosition(Position p)
+        public bool ContainsPosition(Position position)
         {
-            return p.Z >= 0;
+            return position.Z >= 0;
         }
 
         /// <summary>
         /// Method to determine if photon on layer boundary.  Needed to determine which boundary photon is
         /// on when layer region contains inclusion.  Errors in Position accommodated for in test.
         /// </summary>
-        /// <param name="p">Position being checked</param>
+        /// <param name="position">Position being checked</param>
         /// <returns>True if photon on boundary, false if not</returns>
-        public bool OnBoundary(Position p)
+        public bool OnBoundary(Position position)
         {
             var onBoundary = false;
-            if (Math.Abs(p.Z) < 1e-10)
+            if (Math.Abs(position.Z) < 1e-10)
             {
                 onBoundary = true;
             }
@@ -83,10 +85,10 @@ namespace Vts.MonteCarlo.Tissues
         /// <summary>
         /// method to determine if photon track or ray intersects layer boundary
         /// </summary>
-        /// <param name="p">Photon</param>
+        /// <param name="photon">Photon</param>
         /// <param name="distanceToBoundary">return distance to boundary</param>
         /// <returns>true if intersection, false otherwise</returns>
-        public bool RayIntersectBoundary(Photon p, out double distanceToBoundary)
+        public bool RayIntersectBoundary(Photon photon, out double distanceToBoundary)
         {
             throw new System.NotImplementedException(); // currently, implemented by MultiLayerTissue...should revisit so this can be independent
         }

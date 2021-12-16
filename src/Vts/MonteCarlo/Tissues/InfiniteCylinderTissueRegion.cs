@@ -60,8 +60,9 @@ namespace Vts.MonteCarlo.Tissues
         /// <returns>boolean</returns>
         public bool ContainsPosition(Position position)
         {
-            //return (Math.Sqrt((position.X - Center.X) * (position.X - Center.X) +
-            //                  (position.Z - Center.Z) * (position.Z - Center.Z)) < Radius);
+            // an option to the following would be:
+            // return (Math.Sqrt((position.X - Center.X) * (position.X - Center.X) +
+            //                  (position.Z - Center.Z) * (position.Z - Center.Z)) < Radius)
             // wrote following to match EllipsoidTissueRegion because it seems to work better than above
             double inside = Math.Sqrt((position.X - Center.X) * (position.X - Center.X) +
                                       (position.Z - Center.Z) * (position.Z - Center.Z));
@@ -91,11 +92,6 @@ namespace Vts.MonteCarlo.Tissues
         /// <returns>boolean</returns>
         public bool OnBoundary(Position position)
         {
-            //_onBoundary = false;
-            //var surfaceEqn = Math.Sqrt((position.X - Center.X) * (position.X - Center.X) +
-            //                           (position.Z - Center.Z) * (position.Z - Center.Z));
-            //_onBoundary = (Math.Abs(surfaceEqn - Radius) < 1e-7); // 
-            //return _onBoundary ;
             return !ContainsPosition(position) && _onBoundary; // match with EllipsoidTissueRegion
         }
         /// <summary>
@@ -111,7 +107,6 @@ namespace Vts.MonteCarlo.Tissues
                 2 * (position.X - Center.X) / norm,
                 0,
                 2 * (position.Z - Center.Z) / norm);
-            //throw new NotImplementedException();
         }
         /// <summary>
         /// Method to determine if photon ray (or track) will intersect boundary of cylinder
@@ -131,7 +126,6 @@ namespace Vts.MonteCarlo.Tissues
         {
             distanceToBoundary = double.PositiveInfinity;
             _onBoundary = false; // reset _onBoundary
-            double root = 0;
             var dp = photon.DP;
             var p1 = dp.Position;
             var d1 = dp.Direction;
@@ -143,11 +137,6 @@ namespace Vts.MonteCarlo.Tissues
 
             bool oneIn = this.ContainsPosition(p1);
             bool twoIn = this.ContainsPosition(p2);
-            //if ((Math.Abs(p1.X)<2)&& one_in)
-            //{
-            //    Console.WriteLine(String.Format("p1.x,y,z={0:F}, {1:F}, {2:F}, in={3}",p1.X,p1.Y,p1.Z,one_in));
-            //    Console.WriteLine("****");
-            //}
 
             // check if ray within cylinder
             if ((oneIn || _onBoundary) && twoIn)
