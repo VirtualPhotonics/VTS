@@ -87,9 +87,9 @@ namespace Vts.MonteCarlo.Rng
         private uint[] _mt = new uint[_n];
 
         /// <summary>
-        /// Mersenne twister constant.
+        /// Mersenne twister constant (was in original code): private int mti = _n + 1
         /// </summary>
-        private int mti = _n + 1;
+
 
         // prescr defines
         private const int _limit_irred_deg = 31;
@@ -190,13 +190,74 @@ namespace Vts.MonteCarlo.Rng
             public uint lower_mask;
             public uint word_mask;
         }
+
+        /// <summary>
+        /// Mersenne Twister structure 
+        /// </summary>
         public struct mt_struct {
+            /// <summary>
+            /// unsigned 32 bit integer used in algorithm
+            /// </summary>
             public uint aaa { get; set; }
-            public int mm; public int nn; public int rr; public int ww;
-            public uint wmask; public uint umask; public uint lmask;
-            public int shift0; public int shift1; public int shiftB; public int shiftC;
-            public uint maskB; public uint maskC;
+            /// <summary>
+            /// integer parameter used in init_tempering algorithm
+            /// </summary>
+            public int mm;
+            /// <summary>
+            /// integer parameter used in init_tempering algorithm
+            /// </summary>
+            public int nn;
+            /// <summary>
+            /// integer parameter used in init_tempering algorithm
+            /// </summary>
+            public int rr;
+            /// <summary>
+            /// integer parameter used in init_tempering algorithm
+            /// </summary>
+            public int ww;
+            /// <summary>
+            /// unsigned int mask used in sgenrand_mt
+            /// </summary>
+            public uint wmask; 
+            /// <summary>
+            /// unsigned int mask used in genrand_mt
+            /// </summary>
+            public uint umask; 
+            /// <summary>
+            /// unsigned int mask used in genrand_mt
+            /// </summary>
+            public uint lmask;
+            /// <summary>
+            /// int using in genrand_mt
+            /// </summary>
+            public int shift0;
+            /// <summary>
+            /// int using in genrand_mt
+            /// </summary> 
+            public int shift1;
+            /// <summary>
+            /// int using in genrand_mt
+            /// </summary>
+            public int shiftB;
+            /// <summary>
+            /// int using in genrand_mt
+            /// </summary>
+            public int shiftC;
+            /// <summary>
+            /// int using in genrand_mt
+            /// </summary>
+            public uint maskB;
+            /// <summary>
+            /// int using in genrand_mt
+            /// </summary>
+            public uint maskC;
+            /// <summary>
+            /// int using in genrand_mt
+            /// </summary>
             public int i;
+            /// <summary>
+            /// unsigned array used in sgenrand_mt
+            /// </summary>
             public uint[] state; // if null then struct is mull
         } 
         struct polynomial
@@ -242,10 +303,10 @@ namespace Vts.MonteCarlo.Rng
             public int count;
             public uint next;
         }
-        struct _mask_node
+        struct _mask_node // int v used to be part of this struct but is not used in code
         {
             public uint b, c;
-            public int v, leng; // can't have pointer to itself so created LinkedList
+            public int leng; // can't have pointer to itself so created LinkedList
         }
         /// struc in mt19937.h
         struct org_state
@@ -325,9 +386,13 @@ namespace Vts.MonteCarlo.Rng
             // sgenrand_mt constructs mts struct using 1st parameter seed=newGeneratorSeed
             for (int i = 0; i < count; i++)
             {
-                sgenrand_mt((uint)seeds[i], ref MTSs[i]);
+                sgenrand_mt(seeds[i], ref MTSs[i]);
             }
         }
+        /// <summary>
+        /// method to initialize regular MT
+        /// </summary>
+        /// <param name="seed">unsigned integer seed</param>
         public void init_dc(uint seed)
         {
             org_state global_mt19937 = new org_state();
@@ -444,25 +509,11 @@ namespace Vts.MonteCarlo.Rng
             x ^= x >> mts.shift1;
             return x;
         }
-        ///// <summary>
-        ///// initializing the array with a seed.  This code was in C code but
-        ///// not used here
-        ///// </summary>
-        ///// <param name="s"></param>
-        //private void init_genrand_dc(uint s)
-        //{
-        //    _mt[0] = s & 0xffffffff;
-        //    for (mti = 1; mti < _n; mti++)
-        //    {
-        //        _mt[mti] = (1812433253 * (_mt[mti - 1] ^ (_mt[mti - 1] >> 30)) + (uint)mti);
-        //        /* See Knuth TAOCP Vol2. 3rd Ed. P.106 for multiplier. */
-        //        /* In the previous versions, MSBs of the seed affect   */
-        //        /* only MSBs of the array _mt[].                        */
-        //        /* 2002/01/09 modified by Makoto Matsumoto             */
-        //        _mt[mti] &= 0xffffffff;
-        //        /* for >32 bit machines */
-        //    }
-        //}
+        /// <summary>
+        /// init_genrand_dc(uint s): initializing the array with a seed was in C code but
+        /// not used here
+        /// </summary>
+
         /// <summary>
         /// Used by get_mt_parameter_st to initialize MT search. Method in seive.c
         /// </summary>
@@ -495,16 +546,17 @@ namespace Vts.MonteCarlo.Rng
                     mts.state = null;
                     return mts;
                 }
-                Console.WriteLine("p is not a Mersenne exponent.");
+                else 
                 {
+                    Console.WriteLine("p is not a Mersenne exponent.");
                     mts.state = null;
                     return mts;
                 }
             }
             n = p / w + 1; // since p is Mersenne exponent, w never divides p
             mts.state = new uint[n];
-            //mts = alloc_mt_struc(n); // no allocation needed since "new" above
-            //if (mts.state == null) return mts;  // this check is on malloc
+            //was in original code: mts = alloc_mt_struc(n) no allocation needed since "new" above
+            //was in original code: if mts.state eq null then return mts -> this check is on malloc
 
             m = n / 2;
             if (m < 2) m = n - 1;
@@ -555,10 +607,7 @@ namespace Vts.MonteCarlo.Rng
                 next_irred_poly(ref pl, i);
                 make_modlist(ref pre, pl, i);
             }
-            //for (int i = 0; i < pre.sizeOfA; i++) // don't need this
-            //{
-            //    free_poly 
-            //}
+            //was in original code: for loop (i eq 0 until i lt pre.sizeOfA) then free poly -> don't need this
         }
         private void next_irred_poly(ref polynomial pl, int nth)
         {
@@ -660,7 +709,7 @@ namespace Vts.MonteCarlo.Rng
         /// <param name="ww"></param>
         private void make_pre_mod_polys(ref prescr_t pre, int mm, int nn, int rr, int ww)
         {
-            polynomial t, t0, t1, s, s0, s1;
+            polynomial t, t0, s, s0;  // orig code had t1 and s1 in this list
             int i;
             int j = 0;
             t = new_poly(0);
@@ -675,24 +724,24 @@ namespace Vts.MonteCarlo.Rng
             for (i = 1; i < (ww - rr); i++)
             {
                 pre.preModPolys[j++] = polynomial_dup(t0);
-                t1 = t0;    // not used
+                // t1 = t0 -> not used
                 t0 = polynomial_mult(t0, t);
-                //free_poly(t1);
+                // was in original code: free_poly(t1)
             }
             pre.preModPolys[j++] = polynomial_dup(t0);
             s0 = polynomial_mult(t0, s);
-            //free_poly(t0);
-            //free_poly(t);
+            //was in original code: free_poly(t0)
+            //was in original code: free_poly(t)
             for (i = (rr-2); i >= 0; i--)
             {
                 pre.preModPolys[j++] = polynomial_dup(s0);
-                s1 = s0;  // not used
+                // was in original code s1 = s0 -> not used
                 s0 = polynomial_mult(s0, s);
-                //free_poly(s1);
+                // was in original code: free_poly(s1)
             }
             pre.preModPolys[j++] = polynomial_dup(s0);
-            //free_poly(s0);
-            //free_poly(s);
+            //was in original code: free_poly(s0)
+            //was in original code: free_poly(s)
         }
         /// <summary>
         /// method duplicate polynomial 
@@ -740,6 +789,7 @@ namespace Vts.MonteCarlo.Rng
         /// <summary>
         /// method creates a new polynomial of degree deg
         /// polynomial members are int[] x and int deg
+        /// </summary>
         /// <param name="degree">degree of polynomial created</param>
         /// <returns></returns>
         private polynomial new_poly(int degree)
@@ -782,7 +832,7 @@ namespace Vts.MonteCarlo.Rng
         public void get_tempering_parameter_hard_dc(ref mt_struct mts)
         {
             int i;
-            _mask_node mn0, next;
+            _mask_node mn0;
             LinkedList<_mask_node> listOfMaskNodes = new LinkedList<_mask_node>();
             eqdeg_t eq = new eqdeg_t();
             eq.aaa = new uint[2];
@@ -796,14 +846,11 @@ namespace Vts.MonteCarlo.Rng
             mn0 = new _mask_node() { leng = 0, c = 0, b = 0 };
             listOfMaskNodes.AddLast(mn0);
             var curList = listOfMaskNodes;
-            var cur = mn0;
+            // var cur = mn0
             for (i = 0; i < _limit_v_best_opt; i++)
             {
                 optimize_v_hard(ref eq, i, ref curList);
-                //if (i > 0)
-                //{
-                //    curList.RemoveFirst();
-                //}
+                //was in original code: if (i gt 0) then curList.RemoveFirst()
             }
             optimize_v(ref eq, eq.gmax_b, eq.gmax_c, i);
             mts.shift0 = eq.shift_0;
@@ -835,9 +882,9 @@ namespace Vts.MonteCarlo.Rng
             eq.aaa[1] = (mts.aaa) << eq.ggap;
             for (i = 0; i < _wordlen; i++)
             {
-                eq.bitmask[i] = (uint)0x80000000 >> i;
+                eq.bitmask[i] = 0x80000000 >> i;
             }
-            for (i = 0; i < eq.rrr; i++) // orig code for (i=0,eq.glower_mask=0; i<eq.rrr; i++)
+            for (i = 0; i < eq.rrr; i++) // orig code for i eq 0,eq.glower_mask eq 0, i lt eq.rrr
             {
                 eq.glower_mask = (eq.glower_mask << 1) | 0x1;
             }
@@ -880,7 +927,6 @@ namespace Vts.MonteCarlo.Rng
             {
                 eq.mask_b = bbb[max_i];
                 eq.mask_c = ccc[max_i];
-                return;
             }
             else
             {
@@ -914,11 +960,11 @@ namespace Vts.MonteCarlo.Rng
                         eq.gcur_maxlengs[v] = t;
                         eq.gmax_b = eq.mask_b;
                         eq.gmax_c = eq.mask_c;
-                        //cur_masks = cons_mask_node(cur_masks, eq.mask_b, eq.mask_c, t);
+                        //was in original code: cur_masks = cons_mask_node(cur_masks, eq.mask_b, eq.mask_c, t)
                         cur_masks.AddFirst(new _mask_node() { b = eq.mask_b, c = eq.mask_c, leng = t });
                     }
                 }
-                //prev_masks = prev_masks.Next;
+                //was in original code: prev_masks = prev_masks.Next
                 ++cnt;
             }
             delete_lower_mask_nodes(ref cur_masks, eq.gcur_maxlengs[v]);
@@ -934,8 +980,8 @@ namespace Vts.MonteCarlo.Rng
         /// <returns>void</returns>
         private void delete_lower_mask_nodes(ref LinkedList<_mask_node> head, int l)
         {
-            int lengthOfList = head.Count();
-            int numberToRemove = Math.Min(l, lengthOfList);
+            //int lengthOfList = head.Count()
+            //int numberToRemove = Math.Min(l, lengthOfList)
             while (true)
             {
                 if (!head.Any()) // check is list is empty
@@ -1202,7 +1248,8 @@ namespace Vts.MonteCarlo.Rng
         /// get_mt_parameter_id_st(wordSize,periodExponent,id,originalMTSeed) 
         /// </summary>
         /// <param name="wordSize">word size: only w=32 or 31 allowed</param>
-        /// <param name="periodExponent">Mersenne exponent: p>=521 and p<=44497</param>
+        /// <param name="periodExponent">Mersenne exponent: p greater than or equal to 521
+        /// and p less than or equal to 44497</param>
         public mt_struct get_mt_parameter(int wordSize, int periodExponent)
         {
             mt_struct mts;
@@ -1221,7 +1268,8 @@ namespace Vts.MonteCarlo.Rng
         /// There are variants of this method:  Methods in seive.c
         /// </summary>
         /// <param name="wordSize">word size: only w=32 or 31 allowed</param>
-        /// <param name="periodExponent">Mersenne exponent that defines period of substream: 521<=p<=44497</param>
+        /// <param name="periodExponent">Mersenne exponent that defines period of substream:
+        /// 521 greater than or equal to p and p less than or equal to 44497</param>
         /// <param name="originalMTSeed">seed of original mt19937 to generate parameter</param>
         /// <returns></returns>
         public mt_struct get_mt_parameter_st(int wordSize, int periodExponent, uint originalMTSeed)
@@ -1238,7 +1286,7 @@ namespace Vts.MonteCarlo.Rng
                 return mts;
             }
             get_tempering_parameter_hard_dc(ref mts);
-            //end_mt_search(pre);
+            //was in original code: end_mt_search(pre)
             return mts;
         }
 
@@ -1247,7 +1295,8 @@ namespace Vts.MonteCarlo.Rng
         /// get_mt_parameters_st(w,p,start_id,max_id,seed,count)
         /// </summary>
         /// <param name="wordSize">word size: only w=32 or 31 allowed</param>
-        /// <param name="periodExponent">Mersenne exponent: p>=521 and p<=44497</param>
+        /// <param name="periodExponent">Mersenne exponent: p greater than or equal to 521
+        /// and p less than or equal to 44497</param>
         /// <param name="startId">starting Id of substreams</param>
         /// <param name="maxId">ending Id of substreams</param>
         /// <param name="originalMTSeed">seed of original mt19937 to generate parameter</param>
@@ -1301,7 +1350,8 @@ namespace Vts.MonteCarlo.Rng
         /// There are variants of this method:  Methods in seive.c
         /// </summary>
         /// <param name="wordSize">word size: only w=32 or 31 allowed</param>
-        /// <param name="periodExponent">Mersenne exponent: p>=521 and p<=44497</param>
+        /// <param name="periodExponent">Mersenne exponent: p greater than or equal to 521
+        /// and p less than or equal to 44497</param>
         /// <param name="id">id of substream: id must be less than 65536 and positive</param>
         /// <param name="originalMTSeed">seed of original mt19937 to generate parameter</param>
         /// <returns></returns>
@@ -1328,19 +1378,19 @@ namespace Vts.MonteCarlo.Rng
             }
             if (get_irred_param(ck, pre, ref org, ref mts, id, _default_id_size) == _not_found)
             {
-                //free_mt_struct(mts); // don't need just frees mts.state
+                //free_mt_struct(mts) -> don't need just frees mts.state
                 mts.state = null;  // substitute
                 return mts;
             }
             get_tempering_parameter_hard_dc(ref mts);
-            //end_mt_search(pre);
+            // don't need: end_mt_search(pre)
             return mts;
         }
         /// <summary>
         /// Obtains irreducible parameter
         /// </summary>
         /// <param name="ck">check32_t struct</param>
-        /// <param name="pre"prescr_t struct></param>
+        /// <param name="pre">prescr_t struct></param>
         /// <param name="org">org_state struct</param>
         /// <param name="mts">mt_struct</param>
         /// <param name="id"></param>

@@ -10,8 +10,6 @@ namespace Vts.MonteCarlo.Controllers
     /// </summary>
     public class pMCDatabaseWriterController
     {
-        private IList<PhotonDatabaseWriter> _photonDatabaseWriters;
-        private IList<CollisionInfoDatabaseWriter> _collisionInfoDatabaseWriters;
 
         /// <summary>
         /// constructor for pMC database writer controller
@@ -22,17 +20,17 @@ namespace Vts.MonteCarlo.Controllers
             IList<PhotonDatabaseWriter> photonDatabaseWriters,
             IList<CollisionInfoDatabaseWriter> collisionInfoDatabaseWriters)
         {
-            _photonDatabaseWriters = photonDatabaseWriters;
-            _collisionInfoDatabaseWriters = collisionInfoDatabaseWriters;
+            PhotonDatabaseWriters = photonDatabaseWriters;
+            CollisionInfoDatabaseWriters = collisionInfoDatabaseWriters;
         }
         /// <summary>
         /// list of photon database writers
         /// </summary>
-        public IList<PhotonDatabaseWriter> PhotonDatabaseWriters { get { return _photonDatabaseWriters; } set { _photonDatabaseWriters = value; } }
+        public IList<PhotonDatabaseWriter> PhotonDatabaseWriters { get; set; }
         /// <summary>
         /// list of collision info database writers
         /// </summary>
-        public IList<CollisionInfoDatabaseWriter> CollisionInfoDatabaseWriters { get { return _collisionInfoDatabaseWriters; } set { _collisionInfoDatabaseWriters = value; } }
+        public IList<CollisionInfoDatabaseWriter> CollisionInfoDatabaseWriters { get; set; }
 
         /// <summary>
         /// Method to write to all surface VB databases
@@ -42,26 +40,26 @@ namespace Vts.MonteCarlo.Controllers
         public void WriteToSurfaceVirtualBoundaryDatabases(PhotonDataPoint dp, CollisionInfo collisionInfo)
         {
             var writeData = false;
-            foreach (var writer in _photonDatabaseWriters)
+            foreach (var writer in PhotonDatabaseWriters)
             {
                 if (DPBelongsToSurfaceVirtualBoundary(dp, writer))
                 {
                     writer.Write(dp);
                     writeData = true;
                 }
-            }; 
+            }
             // not best design but may work for now
-            foreach (var writer in _collisionInfoDatabaseWriters)
+            foreach (var writer in CollisionInfoDatabaseWriters)
             {
                 if (writeData)
                 {
                     writer.Write(collisionInfo);
                 }
-            };
+            }
         }
 
         /// <summary>
-        /// Method to determine if photon datapoint should be tallied or not
+        /// Method to determine if photon data point should be tallied or not
         /// </summary>
         /// <param name="dp"></param>
         /// <param name="photonDatabaseWriter"></param>
@@ -81,11 +79,11 @@ namespace Vts.MonteCarlo.Controllers
         /// </summary>
         public void Dispose()
         {
-            foreach (var writer in _photonDatabaseWriters)
+            foreach (var writer in PhotonDatabaseWriters)
             {
                 writer.Dispose();
             }
-            foreach (var writer in _collisionInfoDatabaseWriters)
+            foreach (var writer in CollisionInfoDatabaseWriters)
             {
                 writer.Dispose();
             }

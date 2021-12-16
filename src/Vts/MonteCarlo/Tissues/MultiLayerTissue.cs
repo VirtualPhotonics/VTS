@@ -10,7 +10,6 @@ namespace Vts.MonteCarlo.Tissues
     /// </summary>
     public class MultiLayerTissueInput : TissueInput, ITissueInput
     {
-        private ITissueRegion[] _regions;
 
         /// <summary>
         /// constructor for Multi-layer tissue input
@@ -19,7 +18,7 @@ namespace Vts.MonteCarlo.Tissues
         public MultiLayerTissueInput(ITissueRegion[] regions)
         {
             TissueType = "MultiLayer";
-            _regions = regions;
+            Regions = regions;
         }
 
         /// <summary>
@@ -45,7 +44,7 @@ namespace Vts.MonteCarlo.Tissues
         /// <summary>
         /// list of tissue regions comprising tissue
         /// </summary>
-        public ITissueRegion[] Regions { get { return _regions; } set { _regions = value; } }
+        public ITissueRegion[] Regions { get; set; }
 
         /// <summary>
         /// Required factory method to create the corresponding 
@@ -133,8 +132,8 @@ namespace Vts.MonteCarlo.Tissues
             {
                 currentRegion = _layerRegions[currentRegionIndex];
             }
-            double distanceToBoundary;
-            var intersect = currentRegion.RayIntersectBoundary(photon, out distanceToBoundary);
+
+            currentRegion.RayIntersectBoundary(photon, out var distanceToBoundary);
 
             return distanceToBoundary;
         }
@@ -159,7 +158,7 @@ namespace Vts.MonteCarlo.Tissues
         {
             if (photon.DP.Direction.Uz == 0.0)
             {
-                throw new Exception("GetNeighborRegionIndex called and Photon not on boundary");
+                throw new ArgumentException("GetNeighborRegionIndex called and Photon not on boundary");
             }
 
             if (photon.DP.Direction.Uz > 0.0)
@@ -186,43 +185,43 @@ namespace Vts.MonteCarlo.Tissues
         /// <summary>
         /// method to determine direction of reflected photon
         /// </summary>
-        /// <param name="positionCurrent"></param>
-        /// <param name="directionCurrent"></param>
+        /// <param name="currentPosition"></param>
+        /// <param name="currentDirection"></param>
         /// <returns></returns>
         public virtual Direction GetReflectedDirection(
-            Position positionCurrent, 
-            Direction directionCurrent)
+            Position currentPosition, 
+            Direction currentDirection)
         {
             return new Direction(
-                directionCurrent.Ux,
-                directionCurrent.Uy,
-                -directionCurrent.Uz);
+                currentDirection.Ux,
+                currentDirection.Uy,
+                -currentDirection.Uz);
         }
         /// <summary>
         /// method to determine refracted direction of photon
         /// </summary>
-        /// <param name="positionCurrent">current photon position</param>
-        /// <param name="directionCurrent">current photon direction</param>
-        /// <param name="nCurrent">refractive index of current region</param>
-        /// <param name="nNext">refractive index of next region</param>
+        /// <param name="currentPosition">current photon position</param>
+        /// <param name="currentDirection">current photon direction</param>
+        /// <param name="currentN">refractive index of current region</param>
+        /// <param name="nextN">refractive index of next region</param>
         /// <param name="cosThetaSnell">cos(theta) resulting from Snell's law</param>
         /// <returns>direction</returns>
         public virtual Direction GetRefractedDirection(
-            Position positionCurrent, 
-            Direction directionCurrent, 
-            double nCurrent, 
-            double nNext, 
+            Position currentPosition, 
+            Direction currentDirection, 
+            double currentN, 
+            double nextN, 
             double cosThetaSnell)
         {
-            if (directionCurrent.Uz > 0)
+            if (currentDirection.Uz > 0)
                 return new Direction(
-                    directionCurrent.Ux * nCurrent / nNext,
-                    directionCurrent.Uy * nCurrent / nNext,
+                    currentDirection.Ux * currentN / nextN,
+                    currentDirection.Uy * currentN / nextN,
                     cosThetaSnell);
             else
                 return new Direction(
-                    directionCurrent.Ux * nCurrent / nNext,
-                    directionCurrent.Uy * nCurrent / nNext,
+                    currentDirection.Ux * currentN / nextN,
+                    currentDirection.Uy * currentN / nextN,
                     -cosThetaSnell);
         }
         /// <summary>

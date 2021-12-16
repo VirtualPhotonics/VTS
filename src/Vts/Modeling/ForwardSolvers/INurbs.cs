@@ -80,7 +80,9 @@ namespace Vts.Modeling.ForwardSolvers
         /// Gets or sets the coefficients of the non vanishing B-splines over each knot span.
         /// </summary>
         List<BSplinesCoefficients> TimeKnotSpanPolynomialCoefficients { get; set; }
-
+        /// <summary>
+        /// native times
+        /// </summary>
         double[] NativeTimes { get; }
     }
 }

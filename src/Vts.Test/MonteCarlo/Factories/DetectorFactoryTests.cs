@@ -29,11 +29,11 @@ namespace Vts.Test.MonteCarlo.Factories
         /// <summary>
         /// list of temporary files created by these unit tests
         /// </summary>
-        private List<string> listOfTestGeneratedFolders = new List<string>()
+        private readonly List<string> listOfTestGeneratedFolders = new List<string>()
         {
             "user_defined_detector",
         };
-        private List<string> listOfTestGeneratedFiles = new List<string>()
+        private readonly List<string> listOfTestGeneratedFiles = new List<string>()
         {
             "file.txt" // file that captures screen output of MC simulation
         };
@@ -142,7 +142,7 @@ namespace Vts.Test.MonteCarlo.Factories
             var firstValue = ((ROfXDetector)detector).Mean.FirstOrDefault();
             Assert.IsTrue(firstValue != 0);
             DetectorIO.WriteDetectorToFile(detector, "user_defined_detector");
-            var deserializedDetector = DetectorIO.ReadDetectorFromFile("user_defined_detector", "");
+            DetectorIO.ReadDetectorFromFile("user_defined_detector", "");
         }
         /// <summary>
         /// tests to verify exception returns from RegisterDetector
@@ -159,8 +159,6 @@ namespace Vts.Test.MonteCarlo.Factories
             // the following does not check exception it is aimed at
             var detectorInputMock = new Mock<IDetectorInput>();
             var detectorInputMockType = detectorInputMock.GetType();
-            //detectorInputMock.Setup(x => x.GetType().GetConstructors()).
-            //    Returns((ConstructorInfo[])null);
             Assert.Throws<ArgumentException>(() => DetectorFactory.RegisterDetector(
                 detectorInputMockType, typeof(IDetector)));
         }
@@ -332,7 +330,6 @@ namespace Vts.Test.MonteCarlo.Factories
             public bool ContainsPoint(PhotonDataPoint dp)
             {
                 return true; // or, possibly test for NA or confined position, etc
-                //return (dp.StateFlag.Has(PhotonStateType.PseudoTransmissionDomainTopBoundary));
             }
 
         }

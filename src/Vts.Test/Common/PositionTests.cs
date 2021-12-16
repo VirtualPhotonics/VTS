@@ -172,11 +172,11 @@ namespace Vts.Test.Common
         [Test]
         public void Test_get_hash_code()
         {
-            var position = new Position();
+            var position = new Position(1,2,3);
             var hashCode = position.GetHashCode();
             Assert.AreEqual(hashCode, position.GetHashCode());
-            var position2 = new Position();
-            Assert.AreNotEqual(hashCode, position2.GetHashCode());
+            var position2 = new Position(1,2,3);
+            Assert.AreEqual(hashCode, position2.GetHashCode());
         }
     }
 }

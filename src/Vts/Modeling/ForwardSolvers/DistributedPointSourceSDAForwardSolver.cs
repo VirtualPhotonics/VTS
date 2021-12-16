@@ -11,7 +11,9 @@ namespace Vts.Modeling.ForwardSolvers
     public class DistributedPointSourceSDAForwardSolver : DiffusionForwardSolverBase // : SDAForwardSolver
     {
         private PointSourceSDAForwardSolver _pointSourceForwardSolver;
-
+        /// <summary>
+        /// default constructor
+        /// </summary>
         public DistributedPointSourceSDAForwardSolver()
             : base(SourceConfiguration.Distributed, 0.0)
         {

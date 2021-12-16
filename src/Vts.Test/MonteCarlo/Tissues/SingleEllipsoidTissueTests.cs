@@ -13,7 +13,7 @@ namespace Vts.Test.MonteCarlo.Tissues
         /// <summary>
         /// list of temporary files created by these unit tests
         /// </summary>
-        List<string> listOfTestGeneratedFiles = new List<string>()
+        readonly List<string> listOfTestGeneratedFiles = new List<string>()
         {
             "SingleEllipsoidTissue.txt"
         };

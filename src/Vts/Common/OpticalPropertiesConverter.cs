@@ -13,11 +13,23 @@ namespace Vts
     [DataContract]
     public class OpticalPropertiesConverter : JsonConverter
     {
+        /// <summary>
+        /// method to determine if can convert object
+        /// </summary>
+        /// <param name="objectType">type of object</param>
+        /// <returns>boolean indicating whether can convert</returns>
         public override bool CanConvert(Type objectType)
         {
             return (objectType == typeof(OpticalProperties));
         }
-
+        /// <summary>
+        /// method to read json
+        /// </summary>
+        /// <param name="reader">JsonReader</param>
+        /// <param name="objectType">object type</param>
+        /// <param name="existingValue">object</param>
+        /// <param name="serializer">JsonSerializer</param>
+        /// <returns></returns>
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue,
             JsonSerializer serializer)
         {
@@ -55,12 +67,19 @@ namespace Vts
             return opticalProperties;
         }
 
-
+        /// <summary>
+        /// method to determine if can write
+        /// </summary>
         public override bool CanWrite
         {
             get { return false; }
         }
-
+        /// <summary>
+        /// method to write to json
+        /// </summary>
+        /// <param name="writer">JsonWriter</param>
+        /// <param name="value">object to be written</param>
+        /// <param name="serializer">JsonSerializer</param>
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
             throw new NotImplementedException();

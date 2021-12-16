@@ -2,6 +2,9 @@ using System;
 
 namespace Vts.Common.Math
 {
+    /// <summary>
+    /// numerical methods to integrate a function
+    /// </summary>
     public static class Integration
     {
         /// <summary>
@@ -17,6 +20,13 @@ namespace Vts.Common.Math
             //calculates integral of f from a to b with max error of epsilon
             return AdaptiveRecursiveSimpson(f, a, b, epsilon, IntegrateSimpsonRule(f, a, b));
         }
+        /// <summary>
+        /// method to integrate function using Simpson's Rule
+        /// </summary>
+        /// <param name="f">function to integrate</param>
+        /// <param name="a">Lower limit of integration</param>
+        /// <param name="b">Upper limit of integration</param>
+        /// <returns></returns>
         public static double IntegrateSimpsonRule(Func<double, double> f, double a, double b)
         {
             double c = (a + b) / 2.0;
@@ -24,6 +34,15 @@ namespace Vts.Common.Math
             double S = h3 * (f(a) + 4.0 * f(c) + f(b));
             return S;
         }
+        /// <summary>
+        /// adaptive recursive Simpson's rule
+        /// </summary>
+        /// <param name="f">function to integrate</param>
+        /// <param name="a">lower bound of integration interval</param>
+        /// <param name="b">upper bound of integration interval</param>
+        /// <param name="epsilon">precision</param>
+        /// <param name="sum"></param>
+        /// <returns></returns>
         public static double AdaptiveRecursiveSimpson(Func<double, double> f, double a, double b, double epsilon, double sum)
         {
             double c = (a + b) / 2.0;

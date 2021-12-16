@@ -135,7 +135,7 @@ namespace Vts.SpectralMapping
                     if (headerrow.Length < 2)
                     {
                         //error, there must be at least 2 columns (4 values in the header)
-                        throw new Exception("There are not enough columns in the header, header is wavelength wavelength_units chromophore_absorber_name units");
+                        throw new ArgumentException("There are not enough columns in the header, header is wavelength wavelength_units chromophore_absorber_name units");
                     }
                     //get the number of columns in the first line of data
                     int hcolumns = headerrow.Length;
@@ -157,7 +157,7 @@ namespace Vts.SpectralMapping
                         if (!headerrow[0].StartsWith("LAMBDA", StringComparison.CurrentCultureIgnoreCase))
                         {
                             //error, the first column is lambda
-                            throw new Exception("First column must be lambda");
+                            throw new ArgumentException("First column must be lambda");
                         }
                         //split the units from the name
                         var header = headerrow[0].Split(' ');
@@ -171,7 +171,7 @@ namespace Vts.SpectralMapping
                             if (header.Length != 2)
                             {
                                 //error, there must be a name and unit value in the  header
-                                throw new Exception("The header columns must be name<space>units");
+                                throw new ArgumentException("The header columns must be name<space>units");
                             }
                             var name = header[0]; //get the name of the chromophore absorber
                             var chromophoreType = (ChromophoreType)Enum.Parse(typeof(ChromophoreType), name, true);
@@ -202,7 +202,7 @@ namespace Vts.SpectralMapping
 
                                 if (row.Length != columns)
                                 {
-                                    throw new Exception("Invalid data at line: " + (wavelengths.Count + 2));
+                                    throw new ArgumentException("Invalid data at line: " + (wavelengths.Count + 2));
                                 }
                                 //write the wavelength value once
                                 var wlEntry = convert ? Convert.ToDouble(row[0]).ConvertWavelength(wavelengthUnit) : Convert.ToDouble(row[0]);
@@ -246,14 +246,14 @@ namespace Vts.SpectralMapping
                     else
                     {
                         //error, the data and values do not match
-                        throw new Exception("The chromophore data header columns and data columns do not match");
+                        throw new ArgumentException("The chromophore data header columns and data columns do not match");
                     }
                 }
             }
             catch (Exception e)
             {
                 //catch the error
-                throw new Exception(e.Message);
+                throw new ArgumentException(e.Message);
             }
 
             return chromophoreList;

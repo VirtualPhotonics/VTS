@@ -3,6 +3,9 @@ using MathNet.Numerics.Interpolation;
 
 namespace Vts.Modeling
 {
+    /// <summary>
+    /// reff calculator
+    /// </summary>
     public class ReffCalculator
     {
         private static readonly double[] nValues = 
@@ -19,6 +22,11 @@ namespace Vts.Modeling
         private static IInterpolation interpolator = 
             Interpolate.Linear(nValues,reffValues);
 
+        /// <summary>
+        /// method to get reff
+        /// </summary>
+        /// <param name="n">refractive index</param>
+        /// <returns></returns>
         public static double GetReff(double n)
         {
             return interpolator.Interpolate(n);

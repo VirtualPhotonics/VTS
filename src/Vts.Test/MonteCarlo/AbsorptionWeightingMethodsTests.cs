@@ -126,7 +126,6 @@ namespace Vts.Test.MonteCarlo
                 AbsorptionWeightingType.Analog,
                 PhaseFunctionType.HenyeyGreenstein,
                 0.0);
-            var rng = new MersenneTwister(0);
             var numberOfCollisions = new List<long>() {0, 10, 0};
             var pathLengths = new List<double>() {0, 100, 0};
             var referenceOps = new List<OpticalProperties>()

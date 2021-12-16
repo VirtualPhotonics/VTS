@@ -146,7 +146,7 @@ namespace Vts.MonteCarlo.Sources
     /// </summary>
     public class DirectionalEllipticalSource : EllipticalSourceBase
     {
-        private double _thetaConvOrDiv;   //convergence:positive, divergence:negative, collimated:zero;     
+        private double _thetaConvOrDiv;   //convergence:positive, divergence:negative, collimated:zero 
 
         /// <summary>
         /// Returns an instance of directional (diverging/converging/collimated) Elliptical Source with specified length and width, 
@@ -179,12 +179,6 @@ namespace Vts.MonteCarlo.Sources
                 initialTissueRegionIndex)
         {
             _thetaConvOrDiv = thetaConvOrDiv;
-            if (newDirectionOfPrincipalSourceAxis == null)
-                newDirectionOfPrincipalSourceAxis = SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone();
-            if (translationFromOrigin == null)
-                translationFromOrigin = SourceDefaults.DefaultPosition.Clone();
-            if (beamRotationFromInwardNormal == null)
-                beamRotationFromInwardNormal = SourceDefaults.DefaultBeamRoationFromInwardNormal.Clone();
         }
 
 

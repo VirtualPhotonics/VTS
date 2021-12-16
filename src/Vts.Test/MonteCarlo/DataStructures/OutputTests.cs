@@ -30,9 +30,9 @@ namespace Vts.Test.MonteCarlo
 
             var detector = (ROfAngleDetector)output.ResultsDictionary["testName"];
             var angle = detector.Angle;
-            Assert.AreEqual(angle.Start, 0d);
-            Assert.AreEqual(angle.Stop, Math.PI);
-            Assert.AreEqual(angle.Count, 10);
+            Assert.AreEqual(0d, angle.Start);
+            Assert.AreEqual(Math.PI, angle.Stop);
+            Assert.AreEqual(10, angle.Count);
         }
         /// <summary>
         /// Test to check that addition of "1" to detector name is successful when
@@ -50,25 +50,15 @@ namespace Vts.Test.MonteCarlo
             SimulationOutput output = new SimulationOutput(new SimulationInput(), detectorList);
             var detector = (ROfRhoDetector)output.ResultsDictionary["testName"];
             var rho = detector.Rho;
-            Assert.AreEqual(rho.Start, 0d);
-            Assert.AreEqual(rho.Stop, 10);
-            Assert.AreEqual(rho.Count, 10);
+            Assert.AreEqual(0d, rho.Start);
+            Assert.AreEqual(10, rho.Stop);
+            Assert.AreEqual(10, rho.Count);
             var detector1 = (ROfRhoDetector)output.ResultsDictionary["testName1"];
             var rho1 = detector1.Rho;
-            Assert.AreEqual(rho1.Start, 0d);
-            Assert.AreEqual(rho1.Stop, 20);
-            Assert.AreEqual(rho1.Count, 20);
+            Assert.AreEqual(0d, rho1.Start);
+            Assert.AreEqual(20, rho1.Stop);
+            Assert.AreEqual(20, rho1.Count);
         }
 
-        //private static Time Clone<Time>(Time myObject)
-        //{
-        //    using (MemoryStream ms = new MemoryStream(1024))
-        //    {
-        //        var dcs = new DataContractSerializer(typeof(Time));
-        //        dcs.WriteObject(ms, myObject);
-        //        ms.Seek(0, SeekOrigin.Begin);
-        //        return (Time)dcs.ReadObject(ms);
-        //    }
-        //}
     }
 }

@@ -4,6 +4,9 @@ using Vts.MonteCarlo.PhotonData;
 
 namespace Vts.MonteCarlo
 {
+    /// <summary>
+    /// methods used to determine photon weight based on absorption weighting method
+    /// </summary>
     public static class AbsorptionWeightingMethods
     {
         /// <summary>
@@ -21,7 +24,7 @@ namespace Vts.MonteCarlo
                 case AbsorptionWeightingType.Continuous:
                     if (detector.TallyType == TallyType.ATotal)
                     {
-                        return (previousDP, dp, regionIndex) => VolumeAbsorptionWeightingContinuous(previousDP, dp, regionIndex, tissue);
+                        return (previousDP, dp, regionIndex) => VolumeAbsorptionWeightingContinuous(previousDP, dp);
                     }
                     else
                     {
@@ -95,7 +98,6 @@ namespace Vts.MonteCarlo
         private static double VolumeAbsorptionWeightingAnalog(PhotonDataPoint dp)
         {
             var weight = VolumeAbsorbAnalog(
-                dp.Weight,
                 dp.StateFlag);
 
             return weight;
@@ -111,7 +113,8 @@ namespace Vts.MonteCarlo
 
             return weight;
         }
-        private static double VolumeAbsorptionWeightingContinuous(PhotonDataPoint previousDP, PhotonDataPoint dp, int regionIndex, ITissue tissue)
+        private static double VolumeAbsorptionWeightingContinuous(
+            PhotonDataPoint previousDP, PhotonDataPoint dp)
         {
             var weight = VolumeAbsorbContinuous(
                 previousDP.Weight,
@@ -120,15 +123,12 @@ namespace Vts.MonteCarlo
             return weight;
         }
 
-        private static double VolumeAbsorbAnalog(double weight, PhotonStateType photonStateType)
+        private static double VolumeAbsorbAnalog(PhotonStateType photonStateType)
         {
+            var weight = 0.0;
             if (photonStateType.HasFlag(PhotonStateType.Absorbed))
             {
                 weight = 1.0;
-            }
-            else
-            {
-                weight = 0.0;
             }
             return weight;
         }
@@ -209,10 +209,6 @@ namespace Vts.MonteCarlo
             return weightFactor;
         }
 
-        private static double pMCAbsorbAnalog(long[] numberOfCollisions, double[] pathLength, OpticalProperties[] perturbedOps, OpticalProperties[] referenceOps, int[] perturbedRegionsIndices)
-        {
-            throw new NotImplementedException();
-        }
         private static double pMCVolumeAbsorptionWeightingDiscrete(IList<long> numberOfCollisions, IList<double> pathLengths, IList<OpticalProperties> perturbedOps, IList<OpticalProperties> referenceOps, IList<int> perturbedRegionsIndices)
         {
             // final pMC absorbed energy will use this perturbed factor 

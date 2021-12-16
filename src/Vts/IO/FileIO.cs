@@ -213,7 +213,6 @@ namespace Vts.IO
         {
             using (Stream stream = StreamFinder.GetFileStream(filename, FileMode.Create))
             {
-                //new DataContractSerializer(typeof(T)).WriteObject(stream, myObject);
                 myObject.WriteToXMLStream(stream);
             }
         }
@@ -228,7 +227,6 @@ namespace Vts.IO
         {
             using (Stream stream = StreamFinder.GetFileStream(filename, FileMode.Create))
             {
-                //new DataContractSerializer(typeof(T)).WriteObject(stream, myObject);
                 myObject.WriteJsonToStream(stream);
             }
         }
@@ -244,7 +242,6 @@ namespace Vts.IO
             using (Stream stream = StreamFinder.GetFileStream(filename, FileMode.Open))
             {
                 return ReadFromStream<T>(stream);
-                //return (T)new DataContractSerializer(typeof(T)).ReadObject(stream);
             }
         }
 
@@ -341,7 +338,7 @@ namespace Vts.IO
                     if (ext.Length > 4) // extensions are usually dot + 3 chars 
                     {
                         // if the extension is longer assume it's a filename not an extension
-                        destinationFileName = ext.Substring(1); // get the name after the dot
+                        //destinationFileName = ext.Substring(1) // get the name after the dot -> not used
                         ext = "";
                         folderToLastDot = possibleFileName;
                     }
@@ -459,7 +456,6 @@ namespace Vts.IO
                 using (BinaryWriter bw = new BinaryWriter(s))
                 {
                     new ArrayCustomBinaryWriter().WriteToBinary(bw, dataIN);
-                    //WriteArrayToBinaryInternal(bw, dataIN.ToEnumerable<T>());
                 }
             }
         }
@@ -535,91 +531,11 @@ namespace Vts.IO
             {
                 using (BinaryReader br = new BinaryReader(stream))
                 {
-                    // Initialize the array
-                    //Array dataOut = Array.CreateInstance(typeof(T), dims);
-                    // Fill with data
-                    //ReadArrayFromBinaryInternal<T>(br, ref dataOut);
-
                     return new ArrayCustomBinaryReader<T>(dims).ReadFromBinary(br);
                 }
             }
         }
 
-        //#region Write/ReadArrayToBinary Helpers
-
-        //private static void WriteArrayToBinaryInternal<T>(BinaryWriter bw, IEnumerable<T> array) where T : struct
-        //{
-        //    if (array is IEnumerable<float>)
-        //    {
-        //        (array as IEnumerable<float>).ForEach(bw.Write);
-        //    }
-        //    else if (array is IEnumerable<double>)
-        //    {
-        //        (array as IEnumerable<double>).ForEach(bw.Write);
-        //    }
-        //    else if (array is IEnumerable<ushort>)
-        //    {
-        //        (array as IEnumerable<ushort>).ForEach(bw.Write);
-        //    }
-        //    else if (array is IEnumerable<byte>)
-        //    {
-        //        (array as IEnumerable<byte>).ForEach(bw.Write);
-        //    }
-        //}
-
-        //private static void ReadArrayFromBinaryInternal<T>(BinaryReader br, ref Array myArray) where T : struct
-        //{
-        //    var dataType = typeof (T);
-
-        //    if (dataType == typeof(double))
-        //    {
-        //        myArray.PopulateFromEnumerable(ReadDoubles(br, myArray.Length));
-        //    }
-        //    else if (dataType == typeof(float))
-        //    {
-        //        myArray.PopulateFromEnumerable(ReadFloats(br, myArray.Length));
-        //    }
-        //    else if (dataType == typeof(ushort))
-        //    {
-        //        myArray.PopulateFromEnumerable(ReadUShorts(br, myArray.Length));
-        //    }
-        //    else if (dataType == typeof(byte))
-        //    {
-        //        myArray.PopulateFromEnumerable(ReadBytes(br, myArray.Length));
-        //    }
-        //}
-
-        //private static IEnumerable<double> ReadDoubles(BinaryReader br, int numberOfElements)
-        //{
-        //    for (int i = 0; i < numberOfElements; i++)
-        //    {
-        //        yield return br.ReadDouble();
-        //    }
-        //}
-        //private static IEnumerable<float> ReadFloats(BinaryReader br, int numberOfElements)
-        //{
-        //    for (int i = 0; i < numberOfElements; i++)
-        //    {
-        //        yield return br.ReadSingle();
-        //    }
-        //}
-        //private static IEnumerable<ushort> ReadUShorts(BinaryReader br, int numberOfElements)
-        //{
-        //    for (int i = 0; i < numberOfElements; i++)
-        //    {
-        //        yield return br.ReadUInt16();
-        //    }
-        //}
-        //private static IEnumerable<byte> ReadBytes(BinaryReader br, int numberOfElements)
-        //{
-        //    return br.ReadBytes(numberOfElements);
-        //    //for (int i = 0; i < numberOfElements; i++)
-        //    //{
-        //    //    yield return br.re.ReadByte();
-        //    //}
-        //}
-
-        //#endregion
 
         /// <summary>
         /// 
@@ -630,7 +546,7 @@ namespace Vts.IO
         /// <param name="writerMap"></param>
         public static void WriteToBinaryCustom<T>(this IEnumerable<T> data, string fileName, Action<BinaryWriter, T> writerMap)
         {
-            // todo: convert to "push" method with System.Observable in Rx Extensions (write upon appearance of new datum)
+            // convert to "push" method with System.Observable in Rx Extensions (write upon appearance of new datum)?
             using (Stream s = StreamFinder.GetFileStream(fileName, FileMode.Create))
             {
                 using (BinaryWriter bw = new BinaryWriter(s))

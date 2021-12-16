@@ -83,7 +83,7 @@ namespace Vts.MonteCarlo.Tissues
         /// </summary>
         /// <param name="position">photon position</param>
         /// <returns></returns>
-        public virtual bool OnDomainBoundary(Position position)
+        public override bool OnDomainBoundary(Position position)
         {
             // this code assumes that the first and last layer is air
             return _boundingRegion.OnBoundary(position) ||
@@ -119,8 +119,8 @@ namespace Vts.MonteCarlo.Tissues
         /// method to determine photon state type of photon exiting tissue boundary
         /// </summary>
         /// <param name="position"></param>
-        /// <returns></returns>
-        public PhotonStateType GetPhotonDataPointStateOnExit(Position position)
+        /// <returns>PhotonStateType</returns>
+        public new PhotonStateType GetPhotonDataPointStateOnExit(Position position)
         {
             if (position.Z < 1e-10)
             {
@@ -154,22 +154,25 @@ namespace Vts.MonteCarlo.Tissues
             //throw new NotImplementedException(); // hopefully, this won't happen when the tissue inclusion is index-matched
         }
         /// <summary>
-        /// method that provides refracted direction when phton refracts off boundary
+        /// method that provides refracted direction when photon refracts off boundary
         /// </summary>
         /// <param name="currentPosition">Position</param>
         /// <param name="currentDirection">Direction</param>
+        /// <param name="currentN">refractive index N of current tissue region</param>
+        /// <param name="nextN">refractive index N of next tissue region</param>
+        /// <param name="cosThetaSnell">cosine of theta per Snell's</param>
         /// <returns>new Direction</returns>
         public override Direction GetRefractedDirection(
             Position currentPosition,
             Direction currentDirection,
-            double nCurrent,
-            double nNext,
+            double currentN,
+            double nextN,
             double cosThetaSnell)
         {
             // needs to call MultiLayerTissue when crossing top and bottom layer
             if (base.OnDomainBoundary(currentPosition))
             {
-                return base.GetRefractedDirection(currentPosition, currentDirection, nCurrent, nNext, cosThetaSnell);
+                return base.GetRefractedDirection(currentPosition, currentDirection, currentN, nextN, cosThetaSnell);
             }
             else // currently reflection/refraction not performed on bounding region
             {

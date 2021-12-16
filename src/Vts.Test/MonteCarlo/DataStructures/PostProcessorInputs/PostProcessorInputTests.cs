@@ -18,11 +18,11 @@ namespace Vts.Test.MonteCarlo
         /// <summary>
         /// list of temporary files created by these unit tests
         /// </summary>
-        List<string> listOfTestGeneratedFolders = new List<string>()
+        readonly List<string> listOfTestGeneratedFolders = new List<string>()
         {
             "results"
         };
-        List<string> listOfTestGeneratedFiles = new List<string>()
+        readonly List<string> listOfTestGeneratedFiles = new List<string>()
         {
             "test",
             "test.txt"
@@ -81,7 +81,7 @@ namespace Vts.Test.MonteCarlo
                 new PostProcessorInput(
                     new List<IDetectorInput>
                     {
-                        (ROfRhoDetectorInput) detectorInput
+                         detectorInput
                     },
                     "",
                     "",
@@ -103,7 +103,7 @@ namespace Vts.Test.MonteCarlo
             var i = new pMCROfRhoDetectorInput() { Rho = new DoubleRange(10, 20, 51) };
             var iCloned = i.Clone();
 
-            Assert.AreEqual(iCloned.Rho.Start, 10);
+            Assert.AreEqual(10, iCloned.Rho.Start);
         }
         /// <summary>
         /// check that deserialized pMC detector input is correct when using FileIO
@@ -114,7 +114,7 @@ namespace Vts.Test.MonteCarlo
             new pMCROfRhoDetectorInput() { Rho = new DoubleRange(10, 20, 51) }.WriteToJson("test");
             var iCloned = FileIO.ReadFromJson<pMCROfRhoDetectorInput>("test");
 
-            Assert.AreEqual(iCloned.Rho.Start, 10);
+            Assert.AreEqual(10, iCloned.Rho.Start);
         }
     }
 }

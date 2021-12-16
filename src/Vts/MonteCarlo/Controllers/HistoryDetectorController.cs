@@ -9,8 +9,8 @@ namespace Vts.MonteCarlo.Controllers
     /// </summary>
     public class HistoryDetectorController : IDetectorController
     {
-        private IList<IHistoryDetector> _detectors;
-        private ITissue _tissue;
+        private readonly IList<IHistoryDetector> _detectors;
+        private readonly ITissue _tissue;
         /// <summary>
         /// controller for history type detectors
         /// </summary>
@@ -18,9 +18,6 @@ namespace Vts.MonteCarlo.Controllers
         /// <param name="tissue">ITissue</param>
         public HistoryDetectorController(IEnumerable<IHistoryDetector> detectors, ITissue tissue)
         {
-            //_detectors = (from d in detectors
-            //              where d is IHistoryDetector
-            //              select d).ToList();
             _detectors = detectors.ToList();
             _tissue = tissue;
         }
@@ -34,22 +31,11 @@ namespace Vts.MonteCarlo.Controllers
         /// <param name="photon">Photon</param>
         public void Tally(Photon photon)
         {
-            //PhotonDataPoint previousDP = photon.History.HistoryData.First();
-            //foreach (PhotonDataPoint dp in photon.History.HistoryData.Skip(1))
-            //{
-            //    var currentRegionIndex = _tissue.GetRegionIndex(dp.Position);
-            //    foreach (var detector in _detectors)
-            //    {
-            //        ((IHistoryDetector)detector).TallySingle(previousDP, dp, currentRegionIndex);
-            //        //previousDP = dp;
-            //    }
-            //    previousDP = dp;
-            //}
             // CKH mod 4-1-15: need to call Tally rather than call TallySingle
             // because Tally contains 2nd moment processing
             foreach (var detector in _detectors)
             {
-                ((IHistoryDetector)detector).Tally(photon);
+                detector.Tally(photon);
             }
         }
         /// <summary>

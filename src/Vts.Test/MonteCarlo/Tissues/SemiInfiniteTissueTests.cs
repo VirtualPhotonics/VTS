@@ -17,7 +17,7 @@ namespace Vts.Test.MonteCarlo.Tissues
         /// <summary>
         /// list of temporary files created by these unit tests
         /// </summary>
-        private List<string> listOftestGeneratedFiles = new List<string>()
+        private readonly List<string> listOftestGeneratedFiles = new List<string>()
         {
             "SemiInfiniteTissue.txt"
         };

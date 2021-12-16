@@ -15,13 +15,13 @@ namespace Vts.SpectralMapping
         /// <param name="absorbers">List of chromophore absorbers</param>
         /// <param name="scatterer">scatterer</param>
         /// <param name="name">Name of the tissue</param>
+        /// <param name="n">refractive index</param>
         public Tissue(IList<IChromophoreAbsorber> absorbers, IScatterer scatterer, string name, double? n =  1.4)
         {
             Absorbers = absorbers;
             Scatterer = scatterer;
             Name = name;
             N = n ?? 1.4;
-            //N = n != null ? n.Value : 1.4;
         }
 
         /// <summary>
@@ -160,7 +160,9 @@ namespace Vts.SpectralMapping
             return opArray;
         }
     }
-
+    /// <summary>
+    /// tissue provider class
+    /// </summary>
     public static class TissueProvider
     {
         /// <summary>
@@ -169,7 +171,7 @@ namespace Vts.SpectralMapping
         /// <param name="tissueType">Tissue type</param>
         public static IChromophoreAbsorber[] CreateAbsorbers(TissueType tissueType)
         {
-            // todo: this should come from a file...
+            // should this come from a file?
             var defaultAbsorberDictionary = new Dictionary<TissueType, Dictionary<ChromophoreType, double>>
                 {
                     //ref: Meglinski, Matcher, Computer Methods and Programs in Biomedicine 70, 2003, 179-186.

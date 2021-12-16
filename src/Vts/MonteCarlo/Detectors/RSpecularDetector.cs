@@ -35,6 +35,10 @@ namespace Vts.MonteCarlo.Detectors
         /// </summary>
         public double NA { get; set; }
 
+        /// <summary>
+        /// Method to create detector from detector input
+        /// </summary>
+        /// <returns>created IDetector</returns>
         public IDetector CreateDetector()
         {
             return new RSpecularDetector
@@ -89,21 +93,23 @@ namespace Vts.MonteCarlo.Detectors
         /// </summary>
         public double NA { get; set; }
 
+        /// <summary>
+        /// Method to initialize detector
+        /// </summary>
+        /// <param name="tissue">tissue definition</param>
+        /// <param name="rng">random number generator</param>
         public void Initialize(ITissue tissue, Random rng)
         {
             // assign any user-defined outputs (except arrays...we'll make those on-demand)
             TallyCount = 0;
 
-            // if the data arrays are null, create them (only create second moment if TallySecondMoment is true)
-            //Mean = Mean ?? new double();
-            //SecondMoment = SecondMoment ?? (TallySecondMoment ? new double() : null);
             Mean = new double();
             if (TallySecondMoment)
             {
                 SecondMoment = new double();
             }
 
-            // intialize any other necessary class fields here
+            // initialize any other necessary class fields here
             _tissue = tissue;
         }
 
@@ -137,7 +143,10 @@ namespace Vts.MonteCarlo.Detectors
             }
         }
 
-        // this scalar tally is saved to json
+        /// <summary>
+        /// this scalar tally is saved to json
+        /// </summary>
+        /// <returns>null</returns>
         public BinaryArraySerializer[] GetBinarySerializers()
         {
             return null;
@@ -158,8 +167,6 @@ namespace Vts.MonteCarlo.Detectors
                 var detectorRegionN = _tissue.Regions[FinalTissueRegionIndex].RegionOP.N;
                 return photon.History.PreviousDP.IsWithinNA(NA, Direction.AlongNegativeZAxis, detectorRegionN);
             }
-            //return true; // or, possibly test for NA or confined position, etc
-            //return (dp.StateFlag.Has(PhotonStateType.PseudoTransmissionDomainTopBoundary));
         }
     }
 }

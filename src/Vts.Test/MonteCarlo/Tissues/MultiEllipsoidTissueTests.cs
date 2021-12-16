@@ -14,7 +14,7 @@ namespace Vts.Test.MonteCarlo.Tissues
         /// <summary>
         /// list of temporary files created by these unit tests
         /// </summary>
-        List<string> listOftestGeneratedFiles = new List<string>()
+        readonly List<string> listOftestGeneratedFiles = new List<string>()
         {
             "MultiLayerTissue.txt"
         };

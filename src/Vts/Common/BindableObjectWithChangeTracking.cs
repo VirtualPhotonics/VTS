@@ -22,7 +22,7 @@ namespace Vts
         /// </summary>
         public void Reset()
         {
-            // todo: assign new dictionary with current values as "original" 
+            // assign new dictionary with current values as "original"?
             originalValues.Clear();
             SettingsChanged = false;
         }
