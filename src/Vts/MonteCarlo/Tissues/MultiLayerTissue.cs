@@ -229,7 +229,7 @@ namespace Vts.MonteCarlo.Tissues
         /// </summary>
         /// <param name="photon"></param>
         /// <returns>Uz=cos(theta)</returns>
-        public double GetAngleRelativeToBoundaryNormal(Photon photon)
+        public virtual double GetAngleRelativeToBoundaryNormal(Photon photon)
         {
             return Math.Abs(photon.DP.Direction.Uz); // abs will work for upward normal and downward normal
         }

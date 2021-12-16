@@ -156,8 +156,8 @@ namespace Vts.MonteCarlo.Tissues
         /// </summary>
         /// <param name="currentPosition">Position</param>
         /// <param name="currentDirection">Direction</param>
-        /// <param name="nCurrent">N of tissue photon is exiting</param>
-        /// <param name="nNext">N of tissue photon is entering</param>
+        /// <param name="currentN">N of tissue photon is exiting</param>
+        /// <param name="nextN">N of tissue photon is entering</param>
         /// <param name="cosThetaSnell">cosine theta=normal dot exiting direction due to Snell's law</param>
         /// <returns>new Direction</returns>
         public override Direction GetRefractedDirection(
@@ -202,7 +202,7 @@ namespace Vts.MonteCarlo.Tissues
         /// </summary>
         /// <param name="photon"></param>
         /// <returns>Uz=cos(theta)</returns>
-        public double GetAngleRelativeToBoundaryNormal(Photon photon)
+        public override double GetAngleRelativeToBoundaryNormal(Photon photon)
         {
             // needs to call MultiLayerTissue when crossing top and bottom layer
             if (base.OnDomainBoundary(photon.DP.Position))
