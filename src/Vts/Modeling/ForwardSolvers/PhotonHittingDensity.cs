@@ -7,6 +7,9 @@ using Meta.Numerics.Functions;
 
 namespace Vts.Modeling.ForwardSolvers.Extensions
 {
+    /// <summary>
+    /// extension methods for photon hitting density map generation
+    /// </summary>
     public static class PhotonHittingDensityExtensions
     {
         // Steady-State Domain...
@@ -43,7 +46,15 @@ namespace Vts.Modeling.ForwardSolvers.Extensions
         //    }
         //}
 
-
+        /// <summary>
+        /// temporal-frequency photon hitting density
+        /// </summary>
+        /// <param name="myForwardSolver">forward solver</param>
+        /// <param name="timeModulationFrequency">temporal-frequency</param>
+        /// <param name="ops">optical properties</param>
+        /// <param name="rhoPrimes">s-d separations</param>
+        /// <param name="zs">depths</param>
+        /// <returns></returns>
         public static IEnumerable<Complex> TimeFrequencyDomainFluence2SurfacePointPHD(
             this IForwardSolver myForwardSolver,
             double timeModulationFrequency,
@@ -71,7 +82,14 @@ namespace Vts.Modeling.ForwardSolvers.Extensions
             }
         }
 
-
+        /// <summary>
+        /// time-independent fluence for photon hitting density
+        /// </summary>
+        /// <param name="myForwardSolver">forward solver</param>
+        /// <param name="ops">optical properties</param>
+        /// <param name="rhoPrimes">s-d separations</param>
+        /// <param name="zs">depths</param>
+        /// <returns></returns>
         public static IEnumerable<double> SteadyStateFluence2SurfacePointPHD(
             this IForwardSolver myForwardSolver,
             IEnumerable<OpticalProperties> ops,
@@ -92,7 +110,16 @@ namespace Vts.Modeling.ForwardSolvers.Extensions
                 }
             }
         }
-
+        /// <summary>
+        /// time-dependent photon hitting density from point source
+        /// </summary>
+        /// <param name="myForwardSolver">forward solver</param>
+        /// <param name="ops">optical properties</param>
+        /// <param name="rProbes"></param>
+        /// <param name="rhos">s-d separations</param>
+        /// <param name="zs">depths</param>
+        /// <param name="ts">times</param>
+        /// <returns></returns>
         public static IEnumerable<double> TemporalPointSourceCenterlinePHD(
             this IForwardSolver myForwardSolver,
             IEnumerable<OpticalProperties> ops, IEnumerable<double> rProbes,
@@ -132,29 +159,16 @@ namespace Vts.Modeling.ForwardSolvers.Extensions
             }
         }
 
-        ///// <summary>
-        ///// Modified from a code of Fred's written in Matlab
-        ///// </summary>
-        ///// <param name="dp">diffusion parameters object</param>
-        ///// <param name="k">complex diffusion constant, ((mua*cn +i*(ft*2*pi))/(D*cn)).^0.5</param>
-        ///// <param name="rho">source-detector separation</param>
-        ///// <param name="rProbe">radius from source</param>
-        ///// <param name="y">omitted</param>
-        ///// <param name="z">depth</param>
-        ///// <param name="ft">temporal frequency</param>
-        ///// <returns></returns>
-        //public static double DepthProbFrequencyDomainPhotonMigration(DiffusionParameters dp, Complex k,
-        //    double rho, double rProbe, double z, double ft)
-        //{
-        //    var r11 = DiffusionBase.Radius1(rho, z, dp.zp);
-        //    var r12 = DiffusionBase.Radius2(rho, z, dp.zp, dp.zb);
-        //    var r21 = DiffusionBase.Radius1(rProbe - rho, z, 0.0);
-        //    var r22 = DiffusionBase.Radius2(rProbe - rho, z, 0.0, dp.zb);
-        //    var phi1 = SDAForwardSolver.TemporalFrequencyFluence(dp, k, r11, r12);
-        //    var phi2 = SDAForwardSolver.TemporalFrequencyFluence(dp, k, r21, r22);
-        //    return (phi1 * phi2).Modulus; // see Kienle and Patterson, JOSA A 14(1), 246-254,1997
-        //}
-
+        /// <summary>
+        /// temporal frequency photon hitting density from point source
+        /// </summary>
+        /// <param name="myForwardSolver">forward solver</param>
+        /// <param name="ops">optical properties</param>
+        /// <param name="rProbes"></param>
+        /// <param name="rhos">s-d separations</param>
+        /// <param name="zs">depths</param>
+        /// <param name="fts">temporal-frequencies</param>
+        /// <returns></returns>
         public static IEnumerable<double> TemporalFrequencyPointSourceCenterlinePHD(
             this IForwardSolver myForwardSolver, IEnumerable<OpticalProperties> ops, 
             IEnumerable<double> rProbes, IEnumerable<double> rhos, 

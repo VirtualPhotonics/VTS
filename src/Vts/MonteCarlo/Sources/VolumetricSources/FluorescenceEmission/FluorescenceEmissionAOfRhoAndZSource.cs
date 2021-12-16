@@ -97,7 +97,10 @@ namespace Vts.MonteCarlo.Sources
         /// Returns an instance of  Fluorescence Emission AOfRhoAndZ Source with
         /// a Lambertian angular distribution.
         /// </summary>
+        /// <param name="inputFolder">folder where A(rho,z) resides</param>
+        /// <param name="infile">infile that generated A(rho,z)</param>
         /// <param name="initialTissueRegionIndex">Initial tissue region index</param>
+        /// <param name="samplingMethod">SourcePositionSamplingType(CDF,Uniform)</param>
         public FluorescenceEmissionAOfRhoAndZSource(
             string inputFolder,
             string infile,
@@ -112,6 +115,12 @@ namespace Vts.MonteCarlo.Sources
             Loader = new AOfRhoAndZLoader(inputFolder, infile, initialTissueRegionIndex);
         }
 
+        /// <summary>
+        /// method to determine final fluorescent source photon position and weight
+        /// </summary>
+        /// <param name="rng">random number generator</param>
+        /// <param name="weight">return weight</param>
+        /// <returns>photon position</returns>
         protected override Position GetFinalPositionAndWeight(Random rng, out double weight)
         {
             Position finalPosition = null;
@@ -134,10 +143,7 @@ namespace Vts.MonteCarlo.Sources
                                     xMidpoint = Loader.Rho.Start + i * Loader.Rho.Delta + Loader.Rho.Delta / 2;
                                     yMidpoint = 0.0;
                                     zMidpoint = Loader.Z.Start + k * Loader.Z.Delta + Loader.Z.Delta / 2;
-                                    // the following outputs initial positions so that a plot can show distribution
-                                    //Console.WriteLine(xMidpoint.ToString("") + " " +
-                                    //                  yMidpoint.ToString("") + " " +
-                                    //                  zMidpoint.ToString(""));
+
                                     weight = 1.0;
                                     return new Position(xMidpoint, yMidpoint, zMidpoint);
                                 }
@@ -152,8 +158,6 @@ namespace Vts.MonteCarlo.Sources
                     if (IndexCount > Loader.FluorescentRegionIndicesInOrder.Count - 1)
                     {
                         IndexCount = 0;
-                        // the following output is to verify after each cycle through voxels total AE correct
-                        //Console.WriteLine("totalWeight = " + _totalWeight.ToString(""));
                     }
                     var indices = Loader.FluorescentRegionIndicesInOrder[IndexCount].ToArray();
                     var irho = indices[0];

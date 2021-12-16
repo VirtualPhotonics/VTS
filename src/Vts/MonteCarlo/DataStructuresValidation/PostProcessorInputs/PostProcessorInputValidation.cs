@@ -39,7 +39,7 @@ namespace Vts.MonteCarlo
                 return tempResult;
             }
 
-            tempResult = ValidateSimulationInputExistence(input.DatabaseSimulationInputFilename, 
+            tempResult = ValidateSimulationInputExistence(input.DatabaseSimulationInputFilename + ".txt", 
                 Path.Combine(inpath, input.InputFolder));
             if (!tempResult.IsValid)
             {
@@ -98,7 +98,7 @@ namespace Vts.MonteCarlo
             string simulationInputFilename, string inputFolder)
         {
             return new ValidationResult(
-                !File.Exists(Path.Combine(inputFolder, simulationInputFilename)),
+                File.Exists(Path.Combine(inputFolder, simulationInputFilename)),
                 "PostProcessorInput:  SimulationInput filename does not exist",
                 "check that a SimulationInput file exists in inputFolder");
         }

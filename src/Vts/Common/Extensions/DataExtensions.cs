@@ -17,7 +17,7 @@ namespace Vts.Extensions
         /// <returns></returns>
         public static double[] AddNoise(this double[] myDoubleArray, double percentNoise)
         {
-            // todo: make this functional/side-effect-free (return a new array with noise)
+            // make this functional/side-effect-free (return a new array with noise)?
             double noiseFraction = percentNoise / 100.0;
             Random RandomNumber = new Random();
 
@@ -41,7 +41,7 @@ namespace Vts.Extensions
         /// <returns></returns>
         public static IEnumerable<double> AddNoise(this IEnumerable<double> myValues, double percentNoise)
         {
-            // todo: make this functional/side-effect-free (return a new array with noise)
+            // make this functional/side-effect-free (return a new array with noise)?
             double noiseFraction = percentNoise / 100.0;
             Random RandomNumber = new Random();
 
@@ -53,7 +53,7 @@ namespace Vts.Extensions
                 double gaussDeviate = Math.Sqrt(-2 * Math.Log(uniformDeviate1)) *
                     Math.Cos(2 * Math.PI * uniformDeviate2);
                 
-                yield return (double) (d * (1 + noiseFraction * gaussDeviate));
+                yield return  (d * (1 + noiseFraction * gaussDeviate));
             }
 
         }

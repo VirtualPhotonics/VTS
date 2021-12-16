@@ -6,7 +6,7 @@ namespace Vts.IO
     /// General interface to read a specified type from binary
     /// </summary>
     /// <typeparam name="T">Type to read</typeparam>
-    public interface ICustomBinaryReader<T>
+    public interface ICustomBinaryReader<out T>
     {
         /// <summary>
         /// Reads the specified type

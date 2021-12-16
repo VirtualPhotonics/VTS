@@ -198,10 +198,6 @@ namespace Vts.MonteCarlo.Sources
             _polarAngleEmissionRange = polarAngleEmissionRange.Clone();
             _azimuthalAngleEmissionRange = azimuthalAngleEmissionRange.Clone();
 
-            if (newDirectionOfPrincipalSourceAxis == null)
-                newDirectionOfPrincipalSourceAxis = SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone();
-            if (translationFromOrigin == null)
-                translationFromOrigin = SourceDefaults.DefaultPosition.Clone();
         }
 
         /// <summary>

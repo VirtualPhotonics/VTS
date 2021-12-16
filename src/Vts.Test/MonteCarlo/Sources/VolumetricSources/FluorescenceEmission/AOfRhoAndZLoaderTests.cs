@@ -26,11 +26,12 @@ namespace Vts.Test.MonteCarlo.Sources
         /// <summary>
         /// list of temporary files created by these unit tests
         /// </summary>
-        List<string> listOfTestGeneratedFolders = new List<string>()
+        readonly List<string> listOfTestGeneratedFolders = new List<string>()
         {
             "sourcetest",
         };
-        List<string> listOfTestGeneratedFiles = new List<string>()
+
+        readonly List<string> listOfTestGeneratedFiles = new List<string>()
         {
             "inputAOfXAndYAndZ.txt",
             "AOfRhoAndZ",
@@ -124,14 +125,14 @@ namespace Vts.Test.MonteCarlo.Sources
             Assert.AreEqual(loader.CDFOfRhoAndZ.GetLength(0), loader.Rho.Count - 1);
             Assert.AreEqual(loader.CDFOfRhoAndZ.GetLength(1), loader.Z.Count - 1);
             // check that Map is 1 in region of AOfRhoAndZ
-            Assert.AreEqual(loader.MapOfRhoAndZ[0, 0], 1);
-            Assert.AreEqual(loader.MapOfRhoAndZ[1, 0], 1);
-            Assert.AreEqual(loader.MapOfRhoAndZ[2, 0], 1);
-            Assert.AreEqual(loader.MapOfRhoAndZ[3, 0], 1);
-            Assert.AreEqual(loader.MapOfRhoAndZ[0, 1], 1);
-            Assert.AreEqual(loader.MapOfRhoAndZ[1, 1], 1);
-            Assert.AreEqual(loader.MapOfRhoAndZ[2, 1], 1);
-            Assert.AreEqual(loader.MapOfRhoAndZ[3, 1], 1);
+            Assert.AreEqual(1,loader.MapOfRhoAndZ[0, 0]);
+            Assert.AreEqual(1,loader.MapOfRhoAndZ[1, 0]);
+            Assert.AreEqual(1,loader.MapOfRhoAndZ[2, 0]);
+            Assert.AreEqual(1,loader.MapOfRhoAndZ[3, 0]);
+            Assert.AreEqual(1,loader.MapOfRhoAndZ[0, 1]);
+            Assert.AreEqual(1,loader.MapOfRhoAndZ[1, 1]);
+            Assert.AreEqual(1,loader.MapOfRhoAndZ[2, 1]);
+            Assert.AreEqual(1,loader.MapOfRhoAndZ[3, 1]);
             // check that PDF is correct
             Assert.IsTrue(Math.Abs(loader.PDFOfRhoAndZ[0, 0] - 0.027777) < 1e-6);
             Assert.IsTrue(Math.Abs(loader.PDFOfRhoAndZ[0, 1] - 0.055555) < 1e-6);
@@ -149,7 +150,7 @@ namespace Vts.Test.MonteCarlo.Sources
             Assert.IsTrue(Math.Abs(loader.CDFOfRhoAndZ[2, 0] - 0.416666) < 1e-6);
             Assert.IsTrue(Math.Abs(loader.CDFOfRhoAndZ[2, 1] - 0.583333) < 1e-6);
             Assert.IsTrue(Math.Abs(loader.CDFOfRhoAndZ[3, 0] - 0.777777) < 1e-6);
-            Assert.AreEqual(loader.CDFOfRhoAndZ[3, 1], 1);
+            Assert.AreEqual(1, loader.CDFOfRhoAndZ[3, 1]);
         }
 
     }

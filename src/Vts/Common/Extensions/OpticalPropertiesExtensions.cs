@@ -1,5 +1,8 @@
 ﻿namespace Vts.Extensions
 {
+    /// <summary>
+    /// extension methods for optical properties class
+    /// </summary>
     public static class OpticalPropertiesExtensions
     {
         /// <summary>

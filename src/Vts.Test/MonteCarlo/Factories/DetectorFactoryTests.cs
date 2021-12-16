@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using NUnit.Framework;
 using Vts.Common;
 using Vts.MonteCarlo;
@@ -9,10 +10,13 @@ using Vts.MonteCarlo.Factories;
 
 // using the following for user-defined ROfXDetector implementation
 using System.Runtime.Serialization;
+using MathNet.Numerics.Random;
+using Moq;
 using Vts.IO;
 using Vts.MonteCarlo.Helpers;
 using Vts.MonteCarlo.IO;
 using Vts.MonteCarlo.PhotonData;
+using Vts.MonteCarlo.Tissues;
 
 namespace Vts.Test.MonteCarlo.Factories
 {
@@ -25,11 +29,11 @@ namespace Vts.Test.MonteCarlo.Factories
         /// <summary>
         /// list of temporary files created by these unit tests
         /// </summary>
-        private List<string> listOfTestGeneratedFolders = new List<string>()
+        private readonly List<string> listOfTestGeneratedFolders = new List<string>()
         {
             "user_defined_detector",
         };
-        private List<string> listOfTestGeneratedFiles = new List<string>()
+        private readonly List<string> listOfTestGeneratedFiles = new List<string>()
         {
             "file.txt" // file that captures screen output of MC simulation
         };
@@ -38,7 +42,7 @@ namespace Vts.Test.MonteCarlo.Factories
         /// </summary>
         [OneTimeSetUp]
         [OneTimeTearDown]
-        public void clear_folders_and_files()
+        public void Clear_folders_and_files()
         {
             foreach (var folder in listOfTestGeneratedFolders)
             {
@@ -48,6 +52,19 @@ namespace Vts.Test.MonteCarlo.Factories
             {
                 FileIO.FileDelete(file);
             }
+        }
+        /// <summary>
+        /// Simulate null return of GetDetector(s)
+        /// </summary>
+        [Test]
+        public void Demonstate_GetDetectors_null_return_on_empty_list()
+        {
+            IEnumerable<IDetectorInput> emptyDetectorList = null;
+            Assert.IsNull(DetectorFactory.GetDetectors(
+                emptyDetectorList, new MultiLayerTissue(), new MersenneTwister(0)));
+            IDetectorInput nullDetector = null;
+            Assert.IsNull(DetectorFactory.GetDetector(
+                nullDetector, new MultiLayerTissue(), new MersenneTwister(0)));
         }
 
         /// <summary>
@@ -63,17 +80,11 @@ namespace Vts.Test.MonteCarlo.Factories
                     TallySecondMoment = false,
                     Rho = new DoubleRange(0, 1, 5),
                 };
-
             var simInput = new SimulationInput { DetectorInputs = new[] { detectorInput } };
-
             var sim = simInput.CreateSimulation();
-
             var results = sim.Run();
-
-            IDetector detector;
-
-            var rOfRhoDetector = results.ResultsDictionary.TryGetValue(detectorInput.Name, out detector);
-
+            var rOfRhoDetector = results.ResultsDictionary.TryGetValue(
+                detectorInput.Name, out IDetector detector);
             Assert.NotNull(rOfRhoDetector);
         }
 
@@ -109,8 +120,8 @@ namespace Vts.Test.MonteCarlo.Factories
         [Test]
         public void Demonstrate_user_defined_detector_usage()
         {
-            DetectorFactory.RegisterDetector(typeof (ROfXDetectorInput), typeof (ROfXDetector));
-
+            DetectorFactory.RegisterDetector(
+                typeof (ROfXDetectorInput), typeof (ROfXDetector));
             var detectorInput = new ROfXDetectorInput
             {
                 TallyType = "ROfX",
@@ -118,30 +129,38 @@ namespace Vts.Test.MonteCarlo.Factories
                 TallySecondMoment = true,
                 X = new DoubleRange(0, 10, 101),
             };
-
             var simInput = new SimulationInput
                 {
                     DetectorInputs = new[] { detectorInput },
                     N = 100,
                 };
-
             var sim = simInput.CreateSimulation();
-
             var results = sim.Run();
-
-            IDetector detector;
-
-            var detectorExists = results.ResultsDictionary.TryGetValue(detectorInput.Name, out detector);
-            
+            var detectorExists = results.ResultsDictionary.TryGetValue(
+                detectorInput.Name, out IDetector detector);
             Assert.IsTrue(detectorExists);
-
             var firstValue = ((ROfXDetector)detector).Mean.FirstOrDefault();
-
             Assert.IsTrue(firstValue != 0);
-
             DetectorIO.WriteDetectorToFile(detector, "user_defined_detector");
-
-            var deserializedDetector = DetectorIO.ReadDetectorFromFile("user_defined_detector", "");
+            DetectorIO.ReadDetectorFromFile("user_defined_detector", "");
+        }
+        /// <summary>
+        /// tests to verify exception returns from RegisterDetector
+        /// </summary>
+        [Test]
+        public void Demonstrate_RegisterDetector_exception_returns()
+        {
+            var detectorInputBadType = typeof(ISourceInput);
+            Assert.Throws<ArgumentException>(() => DetectorFactory.RegisterDetector(
+                detectorInputBadType, typeof(RDiffuseDetector)));
+            var detectorBadType = typeof(ISource);
+            Assert.Throws<ArgumentException>(() => DetectorFactory.RegisterDetector(
+                typeof(RDiffuseDetectorInput), detectorBadType));
+            // the following does not check exception it is aimed at
+            var detectorInputMock = new Mock<IDetectorInput>();
+            var detectorInputMockType = detectorInputMock.GetType();
+            Assert.Throws<ArgumentException>(() => DetectorFactory.RegisterDetector(
+                detectorInputMockType, typeof(IDetector)));
         }
 
         #region User-defined ROfXDetector
@@ -167,7 +186,6 @@ namespace Vts.Test.MonteCarlo.Factories
             /// detector x binning
             /// </summary>
             public DoubleRange X { get; set; }
-
             public IDetector CreateDetector()
             {
                 return new ROfXDetector
@@ -225,7 +243,7 @@ namespace Vts.Test.MonteCarlo.Factories
                 Mean = Mean ?? new double[X.Count - 1];
                 SecondMoment = SecondMoment ?? (TallySecondMoment ? new double[X.Count - 1] : null);
 
-                // intialize any other necessary class fields here
+                // initialize any other necessary class fields here
             }
 
             /// <summary>
@@ -312,7 +330,6 @@ namespace Vts.Test.MonteCarlo.Factories
             public bool ContainsPoint(PhotonDataPoint dp)
             {
                 return true; // or, possibly test for NA or confined position, etc
-                //return (dp.StateFlag.Has(PhotonStateType.PseudoTransmissionDomainTopBoundary));
             }
 
         }

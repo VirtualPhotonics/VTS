@@ -185,7 +185,7 @@ f = figure; plot(wvs,measData,'rx',...
     wvs,R_ig,'g-',...
     wvs,R_conv,'b:','LineWidth',2);
 xlabel('\lambda [nm]');
-ylabel('log10[(\lambda)]');
+ylabel('log10[R(\lambda)]');
 legend('Meas','IG','Converged','Location','Best');
 legend boxoff;
 grid on;

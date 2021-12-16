@@ -5,15 +5,24 @@ using Vts.Extensions;
 
 namespace Vts.Modeling.ForwardSolvers
 {
+    /// <summary>
+    /// vectorized forward solver functions
+    /// </summary>
     public class VectorizedForwardSolverFuncs
     {
         private IForwardSolver _fs;
 
+        /// <summary>
+        /// constructor
+        /// </summary>
+        /// <param name="fs"></param>
         public VectorizedForwardSolverFuncs(IForwardSolver fs)
         {
             _fs = fs;
         }
-
+        /// <summary>
+        /// reflectance as a function of s-d separation
+        /// </summary>
         public Func<OpticalProperties, double, double> ROfRho
         {
             get
@@ -22,7 +31,9 @@ namespace Vts.Modeling.ForwardSolvers
                     _fs.ROfRho(op.AsEnumerable(), rho.AsEnumerable()).FirstOrDefault();
             }
         }
-
+        /// <summary>
+        /// reflectance as a function of s-d separation and time
+        /// </summary>
         public Func<OpticalProperties, double, double, double> ROfRhoAndT
         {
             get
@@ -35,7 +46,9 @@ namespace Vts.Modeling.ForwardSolvers
                             t.AsEnumerable()).FirstOrDefault();
             }
         }
-
+        /// <summary>
+        /// reflectance as a function of s-d separation and temporal-frequency
+        /// </summary>
         public Func<OpticalProperties, double, double, Complex> ROfRhoAndFt
         {
             get
@@ -48,7 +61,9 @@ namespace Vts.Modeling.ForwardSolvers
                             ft.AsEnumerable()).FirstOrDefault();
             }
         }
-
+        /// <summary>
+        /// reflectance as a function of spatial-frequency
+        /// </summary>
         public Func<OpticalProperties, double, double> ROfFx
         {
             get
@@ -60,7 +75,9 @@ namespace Vts.Modeling.ForwardSolvers
                             fx.AsEnumerable()).FirstOrDefault();
             }
         }
-
+        /// <summary>
+        /// reflectance as a function of spatial-frequency and time
+        /// </summary>
         public Func<OpticalProperties, double, double, double> ROfFxAndT
         {
             get
@@ -73,7 +90,9 @@ namespace Vts.Modeling.ForwardSolvers
                             t.AsEnumerable()).FirstOrDefault();
             }
         }
-
+        /// <summary>
+        /// reflectance as a function of spatial-frequency and temporal-frequency
+        /// </summary>
         public Func<OpticalProperties, double, double, Complex> ROfFxAndFt
         {
             get

@@ -2,10 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reflection;
-using Vts.MonteCarlo.IO;
-//using BenchmarkDotNet.Running;
 using NUnit.Framework;
 using Vts.IO;
 
@@ -17,7 +14,7 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
         // Note: needs to be kept current with SimulationInputProvider.  If an infile is added there,
         // it should be added here.  Also! make sure ProgramTests.cs for MCPP listOfInfiles agrees so
         // that unit tests clean up after themselves.
-        List<string> listOfInfiles = new List<string>()
+        readonly List<string> listOfInfiles = new List<string>()
         {
             "ellip_FluenceOfRhoAndZ",
             "infinite_cylinder_AOfXAndYAndZ",
@@ -39,12 +36,12 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
             "voxel_ROfXAndY_FluenceOfXAndYAndZ",
             "surface_fiber_detector"
         };
-        private List<string> listOfInfilesThatRequireExistingResultsToRun = new List<string>()
+        private readonly List<string> listOfInfilesThatRequireExistingResultsToRun = new List<string>()
         {
             "fluorescenceEmissionAOfXAndYAndZSourceInfiniteCylinder",
         };
 
-        private List<string> listOfInfilesInResources = new List<string>()
+        private readonly List<string> listOfInfilesInResources = new List<string>()
         {
             "unit_test_one_layer_ROfRho_Mus_only",
             "unit_test_one_layer_ROfRho_Musp_only",
@@ -221,12 +218,12 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
         {
             // the following string does not work because it sweeps 0.01, 0.03 due to round
             // off error in MonteCarloSetup
-            //string[] arguments = new string[] { "paramsweepdelta=mua1,0.01,0.03,0.01" };
+            //string[] arguments = new string[] { "paramsweepdelta=mua1,0.01,0.03,0.01" }
             string[] arguments = new string[]
                 {"infile=infile_one_layer_ROfRho_FluenceOfRhoAndZ.txt", "paramsweep=mua1,0.01,0.03,3"};
             // use the following string to check smaller parameter values
             //string[] arguments = new string[]
-            //    {"infile=infile_one_layer_ROfRho_FluenceOfRhoAndZ.txt", "paramsweep=mus1,0.0001,0.0003,3"};
+            //    {"infile=infile_one_layer_ROfRho_FluenceOfRhoAndZ.txt", "paramsweep=mus1,0.0001,0.0003,3"}
             Program.Main(arguments);
             // the default infile.txt that is used has OutputName="results"
             Assert.IsTrue(Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_mua1_0.01"));
@@ -242,7 +239,7 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
         {
             // the following string does not work because it sweeps 0.01, 0.03 due to round
             // off error in MonteCarloSetup
-            //string[] arguments = new string[] { "paramsweepdelta=mua1,0.01,0.03,0.01" };
+            //string[] arguments = new string[] { "paramsweepdelta=mua1,0.01,0.03,0.01" }
             string[] arguments = new string[]
                 {"infile=infile_one_layer_ROfRho_FluenceOfRhoAndZ.txt", "paramsweeplist=mua1,3,0.01,0.02,0.03"};
             Program.Main(arguments);
@@ -437,8 +434,6 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
             {
                 "infile=infile_two_layer_ROfRho.txt", "cpucount=4",
             };
-            //summary = BenchmarkRunner.Run<Program.Main(arguments)>();
-            //Console.WriteLine(summary);
         }
     }
 }

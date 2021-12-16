@@ -28,12 +28,12 @@ namespace Vts.Test.MonteCarlo.Detectors
     {
         private SimulationOutput _outputOneLayerTissue;
         private SimulationOutput _outputTwoLayerTissue;
-        private double _layerThickness = 1.0; // keep this value to match linux results
+        private readonly double _layerThickness = 1.0; // keep this value to match linux results
         private double _factor;
         /// <summary>
         /// list of temporary files created by these unit tests
         /// </summary>
-        List<string> listOfTestGeneratedFiles = new List<string>()
+        readonly List<string> listOfTestGeneratedFiles = new List<string>()
         {
             "file.txt", // file that captures screen output of MC simulation
         };
@@ -147,8 +147,8 @@ namespace Vts.Test.MonteCarlo.Detectors
         {
             var sdOneLayerTissue = ErrorCalculation.StandardDeviation(
                 _outputOneLayerTissue.Input.N, _outputOneLayerTissue.Rd, _outputOneLayerTissue.Rd2);
-            var sdTwoLayerTissue = ErrorCalculation.StandardDeviation(
-                _outputTwoLayerTissue.Input.N, _outputTwoLayerTissue.Rd, _outputTwoLayerTissue.Rd2);
+            //var sdTwoLayerTissue = ErrorCalculation.StandardDeviation(
+            //    _outputTwoLayerTissue.Input.N, _outputTwoLayerTissue.Rd, _outputTwoLayerTissue.Rd2)
             Assert.Less(Math.Abs(_outputOneLayerTissue.Rd * _factor - 0.572710099), 0.000000001);
             // figure out best check of two below 
             Assert.Less(Math.Abs(_outputTwoLayerTissue.Rd * _factor - 0.572710099), 1 * sdOneLayerTissue);
@@ -193,7 +193,7 @@ namespace Vts.Test.MonteCarlo.Detectors
         [Test]
         public void validate_CAW_ROfRhoAndOmega()
         {
-            // todo: warning - this validation data from Linux is actually for Omega = 0.025GHz
+            // warning - this validation data from Linux is actually for Omega = 0.025GHz
             // (see here: http://virtualphotonics.codeplex.com/discussions/278250)
             Assert.Less(Complex.Abs(
                  _outputOneLayerTissue.R_rw[0, 0] * _factor - (0.9224103 - Complex.ImaginaryOne * 0.0008737114)), 0.000001);

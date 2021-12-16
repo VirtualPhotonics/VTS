@@ -7,6 +7,8 @@ namespace Vts.Common
     /// </summary>
     public class Position
     {
+        private readonly int _hashCode;
+
         /// <summary>
         /// Returns a 3-dimensional cartesian point in space, based on an x, y, and z position
         /// </summary>
@@ -18,6 +20,7 @@ namespace Vts.Common
             X = x;
             Y = y;
             Z = z;
+            _hashCode = new { x, y, z }.GetHashCode();
         }
 
         /// <summary>
@@ -164,7 +167,16 @@ namespace Vts.Common
         /// <returns>a position</returns>
         public Position Clone()
         {
-            return new Position(this.X, this.Y, this.Z);
+            return new Position(X, Y, Z);
+        }
+
+        /// <summary>
+        /// Override of GetHashCode to allow the type to work correctly in a hash table
+        /// </summary>
+        /// <returns>The hashcode as an integer</returns>
+        public override int GetHashCode()
+        {
+            return _hashCode;
         }
     }
 }

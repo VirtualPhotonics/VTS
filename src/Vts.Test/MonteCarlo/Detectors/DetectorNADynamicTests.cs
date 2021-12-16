@@ -6,7 +6,6 @@ using Vts.MonteCarlo;
 using Vts.MonteCarlo.Detectors;
 using Vts.MonteCarlo.Sources;
 using Vts.MonteCarlo.Tissues;
-using Vts.MonteCarlo.PhotonData;
 
 namespace Vts.Test.MonteCarlo.Detectors
 {
@@ -17,10 +16,7 @@ namespace Vts.Test.MonteCarlo.Detectors
     [TestFixture]
     public class DetectorNADynamicTests
     {
-        private SimulationInput _inputForPMC;
         private SimulationOutput _outputNA0, _outputNA0p3, _outputNoNASpecified;
-        private double _dosimetryDepth = 1.0;
-        private pMCDatabase _pMCDatabase;
 
         /// <summary>
         /// Setup input to the MC for a homogeneous one layer tissue and specify reflectance
@@ -237,12 +233,12 @@ namespace Vts.Test.MonteCarlo.Detectors
         [Test]
         public void validate_dynamic_detector_tallies_are_zero_when_NA_is_zero()
         {
-            Assert.AreEqual(_outputNA0.RefDynMT_fxmt[0, 0].Magnitude, 0.0);
-            Assert.AreEqual(_outputNA0.RefDynMT_rmt[0, 0], 0.0);
-            Assert.AreEqual(_outputNA0.RefDynMT_xymt[0, 0, 0], 0.0);
-            Assert.AreEqual(_outputNA0.TransDynMT_fxmt[0, 0].Magnitude, 0.0);
-            Assert.AreEqual(_outputNA0.TransDynMT_rmt[0, 0], 0.0);
-            Assert.AreEqual(_outputNA0.TransDynMT_xymt[0, 0, 0], 0.0);
+            Assert.AreEqual(0.0, _outputNA0.RefDynMT_fxmt[0, 0].Magnitude);
+            Assert.AreEqual(0.0, _outputNA0.RefDynMT_rmt[0, 0]);
+            Assert.AreEqual(0.0, _outputNA0.RefDynMT_xymt[0, 0, 0]);
+            Assert.AreEqual(0.0, _outputNA0.TransDynMT_fxmt[0, 0].Magnitude);
+            Assert.AreEqual(0.0, _outputNA0.TransDynMT_rmt[0, 0]);
+            Assert.AreEqual(0.0, _outputNA0.TransDynMT_xymt[0, 0, 0]);
         }
         /// <summary>
         /// test to validate partially open NA validation values taken from prior test run

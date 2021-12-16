@@ -82,7 +82,7 @@ namespace Vts.IO
                     PreWriteAction();
                 }
             }
-            catch (IOException e)
+            catch (IOException)
             {
                 Close();
             }
@@ -183,16 +183,14 @@ namespace Vts.IO
 
         }
 
-        // Use interop to call the method necessary
-        // to clean up the unmanaged resource.
-        //[System.Runtime.InteropServices.DllImport("Kernel32")]
-        //private extern static Boolean CloseHandle(IntPtr handle);
-
         // Use C# destructor syntax for finalization code.
         // This destructor will run only if the Dispose method
         // does not get called.
         // It gives your base class the opportunity to finalize.
         // Do not provide destructors in types derived from this class.
+        /// <summary>
+        /// Custom binary stream writer
+        /// </summary>
         ~CustomBinaryStreamWriter()
         {
             // Do not re-create Dispose clean-up code here.

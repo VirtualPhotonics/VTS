@@ -105,7 +105,7 @@ namespace Vts.MonteCarlo
         }
         private static ValidationResult ValidateDetectorInput(SimulationInput si)
         {
-            if (((si.Options.Databases == null) || (si.Options.Databases.Count() < 1)) && (si.DetectorInputs.Count() < 1))
+            if (si.Options.Databases == null || (!si.Options.Databases.Any()) && (!si.DetectorInputs.Any()))
             {
                 return new ValidationResult(
                     false,
@@ -148,13 +148,13 @@ namespace Vts.MonteCarlo
             }
             // check that if single ellipsoid tissue specified and (r,z) detector specified,
             // that (1) ellipsoid is centered at x=0, y=0, (2) ellipsoid is cylindrically symmetric (dx=dy)
-            if (input.TissueInput is SingleEllipsoidTissueInput)
+            var tissueWithEllipsoid = input.TissueInput as SingleEllipsoidTissueInput;
+            if (tissueWithEllipsoid != null)
             {
+                var ellipsoid = (EllipsoidTissueRegion)(tissueWithEllipsoid).EllipsoidRegion;
                 foreach (var detectorInput in input.DetectorInputs)
                 {
-                    var ellipsoid = (EllipsoidTissueRegion)((SingleEllipsoidTissueInput)input.TissueInput).
-                        EllipsoidRegion;
-                    if (detectorInput.TallyDetails.IsCylindricalTally&&
+                    if (detectorInput.TallyDetails.IsCylindricalTally &&
                         (ellipsoid.Center.X != 0.0) && (ellipsoid.Center.Y != 0.0))
                     {
                         return new ValidationResult(
@@ -176,7 +176,7 @@ namespace Vts.MonteCarlo
                             "R(fx) tallies assume a homogeneous or layered tissue geometry",
                             "Change tissue type to be homogeneous or layered"); 
                     }
-                 }
+                }
             }
             // check that if single voxel or single infinite cylinder tissue specified,
             // cannot specify (r,z) detector 
@@ -213,9 +213,10 @@ namespace Vts.MonteCarlo
                         "Add ATotalBoundingVolumeDetectorInput to detector inputs");
                 }
             }
-            if (input.SourceInput is DirectionalPointSourceInput)
+
+            var source = input.SourceInput as DirectionalPointSourceInput;
+            if (source != null)
             {
-                var source = (DirectionalPointSourceInput) input.SourceInput;
                 if (source.Direction != new Direction(0,0,1))
                 {
                     foreach (var detectorInput in input.DetectorInputs)
@@ -314,6 +315,12 @@ namespace Vts.MonteCarlo
                 if (detectorInput.TallyType.Contains("SurfaceFiber"))
                 {
                     return SurfaceFiberDetectorInputValidation.ValidateInput(detectorInput);
+                }
+                // check any ..RecessedDetectorInput 
+                // this breaks form with prior checks that were on a detector basis
+                if (detectorInput.TallyType.Contains("Recessed"))
+                {
+                    return RecessedDetectorInputValidation.ValidateInput(detectorInput);
                 }
             }         
             return new ValidationResult(

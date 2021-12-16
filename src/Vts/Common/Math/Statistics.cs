@@ -24,13 +24,11 @@ namespace Vts.Common.Math
         {
             if (array.Length != x.Length * y.Length)
                 throw new ArgumentException("Dimensions of array must be dimension of x * dimension of y");
-
-            //double[] pdf = Enumerable.Range(0, x2.Length).Select(i => array.Skip(i * x1.Length).Take(x1.Length).Sum() / x1.Length).ToArray();
+            
             double[] pdf = new double[y.Length];
             double ySum = 0D;
             for (int yi = 0; yi < y.Length; yi++)
             {
-                //pdf[i] = array.Skip(i * x1.Length).Take(x1.Length).Sum();
                 for (int xi = 0; xi < x.Length; xi++)
                 {
                     pdf[yi] += array[xi + yi * x.Length] * dx[xi];

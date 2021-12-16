@@ -23,6 +23,9 @@ namespace Vts.Modeling.ForwardSolvers
         private INurbs _rdGenerator;
         private INurbs _sfdGenerator;
 
+        /// <summary>
+        /// speed of light
+        /// </summary>
         public static readonly double v =  GlobalConstants.C / 1.4;
         private static readonly OpticalProperties _opReference =
                                                  new OpticalProperties(0.0, 1, 0.8, 1.4);
@@ -133,11 +136,11 @@ namespace Vts.Modeling.ForwardSolvers
         /// </summary>
         /// <param name="op">optical properties</param>
         /// <param name="rho">source detector separation</param>
-        /// <param name="t">time</param>
+        /// <param name="time">time</param>
         /// <returns>spatial and temporal resolved reflectance</returns>
-        public override double ROfRhoAndTime(OpticalProperties op, double rho, double t)
+        public override double ROfRhoAndTime(OpticalProperties op, double rho, double time)
         {   
-            return ROfRhoAndTime(op.AsEnumerable(), rho.AsEnumerable(), t.AsEnumerable()).FirstOrDefault();
+            return ROfRhoAndTime(op.AsEnumerable(), rho.AsEnumerable(), time.AsEnumerable()).FirstOrDefault();
         }
         /// <summary>
         /// Returns the reflectance at radial distance rho and time t scaling the
@@ -155,9 +158,9 @@ namespace Vts.Modeling.ForwardSolvers
         /// </summary>
         /// <param name="ops">optical properties</param>
         /// <param name="rhos">source detector separation</param>
-        /// <param name="ts">time</param>
+        /// <param name="times">time</param>
         /// <returns>space and time resolved reflectance at rho and t</returns>
-        public override IEnumerable<double> ROfRhoAndTime(IEnumerable<OpticalProperties> ops, IEnumerable<double> rhos, IEnumerable<double> ts)
+        public override IEnumerable<double> ROfRhoAndTime(IEnumerable<OpticalProperties> ops, IEnumerable<double> rhos, IEnumerable<double> times)
         {
             double scalingFactor;
             double rho_ref;
@@ -172,7 +175,7 @@ namespace Vts.Modeling.ForwardSolvers
                 {
                     rho_ref = rho * op.Musp / _opReference.Musp;
                     
-                    foreach (var t in ts)
+                    foreach (var t in times)
                     {
                         t_ref = t * op.Musp / _opReference.Musp;
                         if (t_ref < _rdGenerator.GetMinimumValidTime(rho_ref))
@@ -255,7 +258,6 @@ namespace Vts.Modeling.ForwardSolvers
                 }
                 else
                 {
-                    //var time = _rdGenerator.NativeTimes;
                     var time = _rdGenerator.NativeTimes.ToArray();
                     for (int i = 0; i < time.Length; i++)
                     {
@@ -336,38 +338,19 @@ namespace Vts.Modeling.ForwardSolvers
                 }
             }
 
-            //foreach (var op in ops)
-            //{
-            //    double[] time = _sfdGenerator.NativeTimes;
-            //    for (int i = 0; i < time.Length; i++)
-            //    {
-            //        time[i] = time[i] * _opReference.Musp / op.Musp;
-            //    }
-            //    var deltaT = GetDeltaT(time);
-            //    foreach (var fx in fxs)
-            //    {
-            //        double integralValue = 0.0;
-            //        var ROfT = ROfFxAndTime(op.AsEnumerable(), fx.AsEnumerable(), time).ToArray();
-            //        for (int i = 0; i < ROfT.Length; i++)
-            //        {
-            //            integralValue += ROfT[i] * deltaT[i];
-            //        }
-            //        yield return integralValue;
-            //    }             
-            //}
         }
 
         /// <summary>
         /// Calls its vectorized version to evaluate the time and space resolved reflectance
-        /// for a spatial frequancy, fx, and at time, t, for the specified optical properties.
+        /// for a spatial frequency, fx, and at time, t, for the specified optical properties.
         /// </summary>
         /// <param name="op">optical properties</param>
         /// <param name="fx">spatial frequency</param>
-        /// <param name="t">time</param>
+        /// <param name="time">time</param>
         /// <returns>spatial frequency and time resolved reflectance</returns>
-        public override double ROfFxAndTime(OpticalProperties op, double fx, double t)
+        public override double ROfFxAndTime(OpticalProperties op, double fx, double time)
         {
-            return ROfFxAndTime(op.AsEnumerable(), fx.AsEnumerable(), t.AsEnumerable()).FirstOrDefault();
+            return ROfFxAndTime(op.AsEnumerable(), fx.AsEnumerable(), time.AsEnumerable()).FirstOrDefault();
         }
         /// <summary>
         /// Returns the reflectance at spatial frequency, fx, and time, t, scaling the 
@@ -380,9 +363,9 @@ namespace Vts.Modeling.ForwardSolvers
         /// </summary>
         /// <param name="ops">optical properties</param>
         /// <param name="fxs">spatial frequency</param>
-        /// <param name="ts">time</param>
+        /// <param name="times">time</param>
         /// <returns>spatial frequency and time resolved reflectance</returns>
-        public override IEnumerable<double> ROfFxAndTime(IEnumerable<OpticalProperties> ops, IEnumerable<double> fxs, IEnumerable<double> ts)
+        public override IEnumerable<double> ROfFxAndTime(IEnumerable<OpticalProperties> ops, IEnumerable<double> fxs, IEnumerable<double> times)
         {
             double scalingFactor;
             double fx_ref;
@@ -397,7 +380,7 @@ namespace Vts.Modeling.ForwardSolvers
                 {
                     fx_ref = fx * _opReference.Musp / op.Musp;
                     
-                    foreach (var t in ts)
+                    foreach (var t in times)
                     {
                         t_ref = t * op.Musp / _opReference.Musp;
                         if (fx_ref > _sfdGenerator.SpaceValues.MaxValue || t_ref > _sfdGenerator.TimeValues.MaxValue)
@@ -523,9 +506,9 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="ops">set of optical properties for the medium</param>
         /// <param name="rhos">source-detector separations (mm)</param>
         /// <param name="zs">z values (mm)</param>
-        /// <param name="ts">times (ns)</param>
+        /// <param name="times">times (ns)</param>
         /// <returns></returns>
-        public override IEnumerable<double> FluenceOfRhoAndZAndTime(IEnumerable<OpticalProperties> ops, IEnumerable<double> rhos, IEnumerable<double> zs, IEnumerable<double> ts)
+        public override IEnumerable<double> FluenceOfRhoAndZAndTime(IEnumerable<OpticalProperties> ops, IEnumerable<double> rhos, IEnumerable<double> zs, IEnumerable<double> times)
         {
             throw new NotImplementedException();
         }
@@ -564,9 +547,9 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="ops">set of optical properties for the medium</param>
         /// <param name="fxs">spatial frequencies (1/mm)</param>
         /// <param name="zs">z values (mm)</param>
-        /// <param name="ts">times (ns)</param>
+        /// <param name="times">times (ns)</param>
         /// <returns></returns>
-        public override IEnumerable<double> FluenceOfFxAndZAndTime(IEnumerable<OpticalProperties> ops, IEnumerable<double> fxs, IEnumerable<double> zs, IEnumerable<double> ts)
+        public override IEnumerable<double> FluenceOfFxAndZAndTime(IEnumerable<OpticalProperties> ops, IEnumerable<double> fxs, IEnumerable<double> zs, IEnumerable<double> times)
         {
             throw new NotImplementedException();
         }
@@ -648,7 +631,7 @@ namespace Vts.Modeling.ForwardSolvers
         {
             double area;
             double deltaT = 0.01;//ns
-            double scalingFactor = GetScalingFactor(op, 3);
+            GetScalingFactor(op, 3);
             double lR2 = Math.Log10(generator.ComputeSurfacePoint(generator.TimeValues.MaxValue, space_ref));
             double lR1 = Math.Log10(generator.ComputeSurfacePoint(generator.TimeValues.MaxValue - deltaT, space_ref));
             double slope = (lR2 - lR1) / (deltaT);

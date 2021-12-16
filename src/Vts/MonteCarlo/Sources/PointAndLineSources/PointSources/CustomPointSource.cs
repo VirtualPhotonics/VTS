@@ -3,8 +3,6 @@ using Vts.Common;
 
 namespace Vts.MonteCarlo.Sources
 {
-    // todo: re-do this file for new sources
-
     /// <summary>
     /// Implements ISourceInput. Defines input data for CustomLineSource implementation 
     /// including polar angle range, azimuthal angle range, emitting point location,

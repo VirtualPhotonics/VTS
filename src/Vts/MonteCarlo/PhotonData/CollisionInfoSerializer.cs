@@ -45,7 +45,7 @@ namespace Vts.MonteCarlo.PhotonData
             {
                 collisionInfo.Add(new SubRegionCollisionInfo(
                     br.ReadDouble(), // pathLength
-                    br.ReadInt64()));  // numberOfCollisions); 
+                    br.ReadInt64()));  // numberOfCollisions
             }
 
             return collisionInfo;

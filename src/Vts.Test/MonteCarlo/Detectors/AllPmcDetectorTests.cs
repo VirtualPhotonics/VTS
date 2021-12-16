@@ -69,6 +69,9 @@ namespace Vts.Test.MonteCarlo.Detectors
             var rng = new MersenneTwister(0); 
             foreach (var detectorInput in _detectorInputs)
             {
+                // turn on TallySecondMoment so can flow through that code
+                ((dynamic)detectorInput).TallySecondMoment = true;
+
                 // factory generates IDetector using CreateDetector,
                 // then calls detector.Initialize method 
                 var detector = DetectorFactory.GetDetector(detectorInput, tissue, rng);

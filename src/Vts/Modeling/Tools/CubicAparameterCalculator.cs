@@ -3,6 +3,9 @@ using System.Net;
 
 namespace Vts.Modeling
 {
+    /// <summary>
+    /// cubic polynomial calculator
+    /// </summary>
     public class CubicAparameterCalculator
     {
         /// <summary>
