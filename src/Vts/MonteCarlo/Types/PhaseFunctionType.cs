@@ -5,19 +5,16 @@ namespace Vts.MonteCarlo
     /// </summary>
     public static class PhaseFunctionType
     {
+        /// <summary>
+        /// Phase function types
+        /// </summary>
         public static readonly string[] BuiltInTypes =
         {
-            /// <summary>
-            /// Henyey-Greenstein scattering phase functiion
-            /// </summary>
+            // Henyey-Greenstein scattering phase function
             "HenyeyGreenstein",
-            /// <summary>
-            /// bidirectional scattering phase function
-            /// </summary>
+            // bidirectional scattering phase function
             "Bidirectional",
-            /// <summary>
-            /// Options for discretized p(theta) scattering phase function
-            /// </summary>
+            // Options for discretized p(theta) scattering phase function
             "LookupTable",
         };
     }

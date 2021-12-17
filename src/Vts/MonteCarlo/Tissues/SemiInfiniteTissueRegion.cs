@@ -11,11 +11,11 @@ namespace Vts.MonteCarlo.Tissues
     /// </summary>
     public class SemiInfiniteTissueRegion : ITissueRegion
     {
-        public string PhaseFunctionKey { get; set; }
         /// <summary>
         /// constructor for SemiInfiniteTissueRegion
         /// </summary>
         /// <param name="op">optical properties of layer</param>
+        /// <param name="phaseFunctionKey">phase function dictionary key</param>
         public SemiInfiniteTissueRegion(OpticalProperties op, string phaseFunctionKey)
         {
             RegionOP = op;
@@ -46,6 +46,10 @@ namespace Vts.MonteCarlo.Tissues
         {
             get { throw new NotImplementedException(); }
         }
+        /// <summary>
+        /// phase function dictionary key
+        /// </summary>
+        public string PhaseFunctionKey { get; set; }
 
         /// <summary>
         /// This checks which region photon is currently in.  

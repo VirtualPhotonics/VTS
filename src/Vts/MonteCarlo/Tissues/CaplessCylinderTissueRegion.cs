@@ -18,6 +18,7 @@ namespace Vts.MonteCarlo.Tissues
         /// <param name="radius">radius in x-y plane</param>
         /// <param name="height">height along z axis</param>
         /// <param name="op">optical properties of cylinder</param>
+        /// <param name="phaseFunctionKey">phase function key in phase function dictionary</param>
         public CaplessCylinderTissueRegion(Position center, double radius, double height, 
             OpticalProperties op, string phaseFunctionKey) 
         {
@@ -40,7 +41,7 @@ namespace Vts.MonteCarlo.Tissues
         public string TissueRegionType { get; set; }
 
         /// <summary>
-        /// center of cyliner
+        /// center of cylinder
         /// </summary>
         public Position Center { get; set; }
         /// <summary>
@@ -56,7 +57,7 @@ namespace Vts.MonteCarlo.Tissues
         /// </summary>
         public OpticalProperties RegionOP { get; set; }
         /// <summary>
-        /// key for the <string, IPhaseFunctionInput> dictionary in a class that implements ITissueInput
+        /// key for the phase function dictionary in a class that implements ITissueInput
         /// </summary>
         public string PhaseFunctionKey { get; set; }
         /// <summary>

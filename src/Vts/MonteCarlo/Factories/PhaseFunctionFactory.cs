@@ -1,11 +1,20 @@
 ﻿using System;
-using Vts.MonteCarlo.LookupTablePhaseFunctionData;
 using Vts.MonteCarlo.PhaseFunctions;
 
 namespace Vts.MonteCarlo.Factories
 {
+    /// <summary>
+    /// Factory to determine phase function
+    /// </summary>
     public static class PhaseFunctionFactory
     {
+        /// <summary>
+        /// Method to determine phase function
+        /// </summary>
+        /// <param name="tissueRegion">tissue region in question</param>
+        /// <param name="ti">tissue input</param>
+        /// <param name="rng">random number generator</param>
+        /// <returns></returns>
         public static IPhaseFunction GetPhaseFunction(ITissueRegion tissueRegion, ITissueInput ti, Random rng)
         {
             IPhaseFunction phaseFunction = null;

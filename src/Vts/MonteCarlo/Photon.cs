@@ -109,6 +109,9 @@ namespace Vts.MonteCarlo
         /// index of current track of photon
         /// </summary>
         public string CurrentRegionKey { get; set; }
+        /// <summary>
+        /// index of current track of photon
+        /// </summary>
         public int CurrentTrackIndex { get; private set; }
         /// <summary>
         /// absorb action: analog, discrete, continuous
@@ -266,7 +269,9 @@ namespace Vts.MonteCarlo
                 }
             }
         }
-
+        /// <summary>
+        /// replaces prior ScatterHenyeyGreenstein and Scatter1D
+        /// </summary>
         public void Scatter()
         {
             _tissue.RegionPhaseFunctions[CurrentRegionKey].ScatterToNewDirection(DP.Direction);

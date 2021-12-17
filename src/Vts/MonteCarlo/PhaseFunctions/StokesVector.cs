@@ -10,11 +10,6 @@ namespace Vts.MonteCarlo.PhaseFunctions
     /// </summary>
     public class StokesVector
     {
-        public double S0 { get; set; }
-        public double S1 { get; set; }
-        public double S2 { get; set; }
-        public double S3 { get; set; }
-
         /// <summary>
         /// Constructor that initializes S0, S1, S2, S3 elements.
         /// </summary>
@@ -40,6 +35,22 @@ namespace Vts.MonteCarlo.PhaseFunctions
             S2 = 0;
             S3 = 0;
         }
+        /// <summary>
+        /// 1st component of Stokes Vector
+        /// </summary>
+        public double S0 { get; set; }
+        /// <summary>
+        /// 2nd component of Stokes Vector
+        /// </summary>
+        public double S1 { get; set; }
+        /// <summary>
+        /// 3rd component of Stokes Vector
+        /// </summary>
+        public double S2 { get; set; }
+        /// <summary>
+        /// 4th component of Stokes Vector
+        /// </summary>
+        public double S3 { get; set; }
 
         /// <summary>
         /// Using Mueller Matrix m, rotate this Stokes vector by polar angle theta and azimuthal angle phi.  
@@ -48,7 +59,7 @@ namespace Vts.MonteCarlo.PhaseFunctions
         /// <param name="theta">polar angle.</param>
         /// <param name="phi">azimuthal angle.</param>
         /// <param name="m">mueller matrix of the current region.</param>
-        public void rotate(double theta, double phi, MuellerMatrix m)
+        public void Rotate(double theta, double phi, MuellerMatrix m)
         {
             double cos2Psi, sin2Psi;
 

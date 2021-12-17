@@ -2,10 +2,18 @@
 using System.Runtime.Serialization;
 using Vts.MonteCarlo.Interfaces;
 
-namespace Vts.MonteCarlo.LookupTablePhaseFunctionData
+namespace Vts.MonteCarlo
 {
+    /// <summary>
+    /// Lookup table that contains just polar scattering angles
+    /// </summary>
     public class PolarLookupTablePhaseFunctionData : ILookupTablePhaseFunctionData
     {
+        /// <summary>
+        /// Data for the polar only lookup table phase function
+        /// </summary>
+        /// <param name="lutAngles">lookup table polar angles</param>
+        /// <param name="lutPdf">lookup table probability density function (PDF)</param>
         public PolarLookupTablePhaseFunctionData(double [] lutAngles, double[] lutPdf)
         {
             LookupTablePhaseFunctionDataType = "Polar";
@@ -21,7 +29,6 @@ namespace Vts.MonteCarlo.LookupTablePhaseFunctionData
         public PolarLookupTablePhaseFunctionData() : this(
             new double[] {0, Math.PI/6, Math.PI/3, Math.PI/2, 2*Math.PI/3, Math.PI*5/6, Math.PI},
             new double[] {0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5}
-           // new double[] {0, 0.5*(1 - Math.Sqrt(3)/2), 0.25, 0.5, 0.75, 0.5*(1 + Math.Sqrt(3)/2), 1}
             )
         {}
 

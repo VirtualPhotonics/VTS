@@ -28,7 +28,7 @@ namespace Vts.MonteCarlo.Tissues
         /// <summary>
         /// BoundingCylinderTissueInput default constructor provides homogeneous tissue with bounding cylinder
         /// with radius 0.5mm and center (0,0,1)
-        /// </summary> RegionPhaseFunctionInputs = new Dictionary<string, IPhaseFunctionInput>();
+        /// </summary> 
         public BoundingCylinderTissueInput()
             : this(
                 new CaplessCylinderTissueRegion(

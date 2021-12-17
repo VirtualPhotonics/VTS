@@ -2,8 +2,14 @@
 
 namespace Vts.MonteCarlo
 {
+    /// <summary>
+    /// Bidirectional scattering function input
+    /// </summary>
     public class BidirectionalPhaseFunctionInput : IPhaseFunctionInput
     {
+        /// <summary>
+        /// Bidirectional scattering function default constructor
+        /// </summary>
         public BidirectionalPhaseFunctionInput()
         {
             PhaseFunctionType = "Bidirectional";

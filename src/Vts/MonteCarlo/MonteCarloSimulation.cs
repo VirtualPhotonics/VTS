@@ -109,11 +109,6 @@ namespace Vts.MonteCarlo
         public Random Rng { get; private set; }
 
         /// <summary>
-        /// Phase function enum type as specified in SimulationOptions
-        /// </summary>
-        /// 
-        //public PhaseFunctionType PhaseFunctionType { get; set; }  use of this member now deprecated.
-        /// <summary>
         /// Boolean indicating whether simulation is running or not
         /// </summary>
         public bool IsRunning { get { return _isRunning; } }

@@ -2,8 +2,14 @@
 
 namespace Vts.MonteCarlo
 {
+    /// <summary>
+    /// Henyey-Greenstein phase function input
+    /// </summary>
     public class HenyeyGreensteinPhaseFunctionInput : IPhaseFunctionInput
     {
+        /// <summary>
+        /// Henyey-Greenstein phase function
+        /// </summary>
         public HenyeyGreensteinPhaseFunctionInput()
         {
             PhaseFunctionType = "HenyeyGreenstein";

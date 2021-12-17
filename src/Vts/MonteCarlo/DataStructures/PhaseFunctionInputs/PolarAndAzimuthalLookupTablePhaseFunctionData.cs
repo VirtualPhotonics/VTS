@@ -1,8 +1,11 @@
 ﻿using System;
 using Vts.MonteCarlo.Interfaces;
 
-namespace Vts.MonteCarlo.LookupTablePhaseFunctionData
+namespace Vts.MonteCarlo
 {
+    /// <summary>
+    /// Lookup table that contains both polar and azimuthal scattering angles
+    /// </summary>
     public class PolarAndAzimuthalLookupTablePhaseFunctionData : ILookupTablePhaseFunctionData
     {
         /// <summary>

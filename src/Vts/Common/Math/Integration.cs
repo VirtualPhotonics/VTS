@@ -56,6 +56,14 @@ namespace Vts.Common.Math
                 R = AdaptiveRecursiveSimpson(f, a, c, epsilon / 2.0, left) + AdaptiveRecursiveSimpson(f, c, b, epsilon / 2.0, right);
             return R;
         }
+        /// <summary>
+        /// method to integrate function using Trapezoid Rule
+        /// </summary>
+        /// <param name="x">independent values</param>
+        /// <param name="y">dependent values</param>
+        /// <param name="a">lower bound of integral</param>
+        /// <param name="b">upper bound of integral</param>
+        /// <returns></returns>
         public static double IntegrateTrapezoidRuleForTwoLists(List<double> x, List<double> y, double a, double b)
         {
             int indexA = x.BinarySearch(a);

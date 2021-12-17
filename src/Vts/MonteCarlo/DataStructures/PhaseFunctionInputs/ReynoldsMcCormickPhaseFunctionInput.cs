@@ -2,8 +2,15 @@
 
 namespace Vts.MonteCarlo
 {
+    /// <summary>
+    /// Reynolds-McCormick scattering phase function
+    /// </summary>
     public class ReynoldsMcCormickPhaseFunctionInput : IPhaseFunctionInput
     {
+        /// <summary>
+        /// Reynolds-McCormick scattering phase function input
+        /// </summary>
+        /// <param name="alpha">R-M alpha parameter</param>
         public ReynoldsMcCormickPhaseFunctionInput(double alpha)
         {
             PhaseFunctionType = "ReynoldsMcCormick";

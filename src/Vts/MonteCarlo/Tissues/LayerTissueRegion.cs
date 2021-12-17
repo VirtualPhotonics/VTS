@@ -15,6 +15,7 @@ namespace Vts.MonteCarlo.Tissues
         /// </summary>
         /// <param name="zRange">specifies extent of layer</param>
         /// <param name="op">optical properties of layer</param>
+        /// <param name="phaseFunctionKey">key in phase function dictionary</param>
         public LayerTissueRegion(DoubleRange zRange, OpticalProperties op, string phaseFunctionKey)
         {
             TissueRegionType = "Layer";
@@ -55,7 +56,7 @@ namespace Vts.MonteCarlo.Tissues
         /// </summary>
         public OpticalProperties RegionOP { get; set; }
         /// <summary>
-        /// key for the <string, IPhaseFunctionInput> dictionary in a class that implements ITissueInput
+        /// key for the phase function dictionary in a class that implements ITissueInput
         /// </summary>
         public string PhaseFunctionKey { get; set; }
 

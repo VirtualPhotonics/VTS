@@ -3,11 +3,19 @@ using Vts.Common;
 
 namespace Vts.MonteCarlo.PhaseFunctions
 {
+    /// <summary>
+    /// bidirectional phase function
+    /// </summary>
     public class BidirectionalPhaseFunction : IPhaseFunction
     {
         private double _g;
         private Random _rng;
 
+        /// <summary>
+        /// Bidirectional phase function
+        /// </summary>
+        /// <param name="g">anisotropy coefficient</param>
+        /// <param name="rng">random number generator</param>
         public BidirectionalPhaseFunction(double g, Random rng)
         {
             _g = g;

@@ -3,12 +3,21 @@ using Vts.Common;
 
 namespace Vts.MonteCarlo.PhaseFunctions
 {
+    /// <summary>
+    /// Reynolds-McCormick phase function
+    /// </summary>
     public class ReynoldsMcCormickPhaseFunction : IPhaseFunction
     {
-        private double _g;
-        private double _alpha;
-        private Random _rng;
+        private readonly double _g;
+        private readonly double _alpha;
+        private readonly Random _rng;
 
+        /// <summary>
+        /// Reynolds-McCormick phase function constructor
+        /// </summary>
+        /// <param name="g">anisotropy coefficient</param>
+        /// <param name="alpha">Reynolds-McCormick parameter</param>
+        /// <param name="rng">random number generator</param>
         public ReynoldsMcCormickPhaseFunction(double g, double alpha, Random rng)
         {
             _g = g;
@@ -17,7 +26,7 @@ namespace Vts.MonteCarlo.PhaseFunctions
         }
 
         /// <summary>
-        /// Method to scatter photon based on the Henyey Greenstein phase-function
+        /// Method to scatter photon based on the Reynolds-McCormick phase-function
         /// </summary>
         /// <param name="incomingDirectionToModify">The input direction</param>
         public void ScatterToNewDirection(Direction incomingDirectionToModify)

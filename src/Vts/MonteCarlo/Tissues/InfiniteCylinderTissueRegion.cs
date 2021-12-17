@@ -48,7 +48,7 @@ namespace Vts.MonteCarlo.Tissues
         /// </summary>
         public OpticalProperties RegionOP { get; set; }
         /// <summary>
-        /// key for the <string, IPhaseFunctionInput> dictionary in a class that implements ITissueInput
+        /// key for the phase function dictionary in a class that implements ITissueInput
         /// </summary>
         public string PhaseFunctionKey { get; set; }
 

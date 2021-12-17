@@ -1,9 +1,12 @@
 ﻿using System;
 using Vts.MonteCarlo.Interfaces;
-using Vts.MonteCarlo.LookupTablePhaseFunctionData;
+using Vts.MonteCarlo.PhaseFunctions;
 
 namespace Vts.MonteCarlo
 {
+    /// <summary>
+    /// Lookup table phase function input
+    /// </summary>
     public class LookupTablePhaseFunctionInput : IPhaseFunctionInput
     {
         /// <summary>
@@ -20,12 +23,7 @@ namespace Vts.MonteCarlo
         /// Default constructor for serialization purposes only
         /// </summary>
         public LookupTablePhaseFunctionInput() : this(
-            new PolarLookupTablePhaseFunctionData()
-                //{
-                //    LutAngles = new[] { 0, Math.PI/6, Math.PI/3, Math.PI/2, 2*Math.PI/3, Math.PI*5/6, Math.PI },
-                //    LutPdf = new[] { 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5 },
-                //    LutCdf = new[] { 0, 0.5 * (1 - Math.Sqrt(3) / 2), 0.25 , 0.5, 0.75 , 0.5 * (1 + Math.Sqrt(3) / 2), 1},
-                //}           
+            new PolarLookupTablePhaseFunctionData()           
             )
         {}
 

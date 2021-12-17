@@ -11,8 +11,15 @@ namespace Vts.MonteCarlo.PhaseFunctions
     public class MieScattererMuellerMatrix:MuellerMatrix
     {
         /// <summary>
-        /// Default constructor intializes Theta, St11, S12, S22, S33, and S34 and also sets the type as a MuellerMatrix for Mie Scatterers.
+        /// Default constructor initializes Theta, St11, S12, S22, S33, and S34
+        /// and also sets the type as a MuellerMatrix for Mie Scatterers
         /// </summary>
+        /// <param name="theta">angle to lookup in table</param>
+        /// <param name="st11">1st row and 1st column of Mueller matrix</param>
+        /// <param name="s12">1st row and 2nd column of Mueller matrix</param>
+        /// <param name="s22">2nd row and 2nd of Mueller matrix</param>
+        /// <param name="s33">3rd row and 3rd of Mueller matrix</param>
+        /// <param name="s34">3rd row and 4th column of Mueller matrix</param>
         public MieScattererMuellerMatrix(List <double> theta, double [] st11, double [] s12, double [] s22, double [] s33, double [] s34)
         {
             Theta = theta;

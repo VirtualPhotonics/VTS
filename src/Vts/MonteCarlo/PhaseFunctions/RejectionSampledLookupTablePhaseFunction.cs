@@ -16,10 +16,12 @@ namespace Vts.MonteCarlo.PhaseFunctions
         private ILookupTablePhaseFunctionData _lutData;
         private MuellerMatrix _m;
 
-
         /// <summary>
         /// Constructor that initializes private member variables.
         /// </summary>
+        /// <param name="rng">random number generator</param>
+        /// <param name="lutData">Lookup table data</param>
+        /// <param name="m">Mueller Matrix</param>
         public RejectionSampledLookupTablePhaseFunction(Random rng, ILookupTablePhaseFunctionData lutData, MuellerMatrix m)
         {
             _rng = rng;
@@ -31,6 +33,7 @@ namespace Vts.MonteCarlo.PhaseFunctions
         /// Method to scatter based on a discretized lookup table.  Rotates the Stokes vector, s, appropriately as well.
         /// </summary>
         /// <param name="incomingDirectionToModify">The input direction</param>
+        /// <param name="s">Stokes Vector</param>
         public void ScatterToNewDirection(Direction incomingDirectionToModify, StokesVector s)
         {
             double phi = 0;
@@ -48,13 +51,13 @@ namespace Vts.MonteCarlo.PhaseFunctions
 		        theta_index = (int)Math.Ceiling(theta*180.0/Math.PI*4.0);
         		//Normalization = 1.3*pmax;
                 temp = (_m.St11[theta_index] * Math.Sin(theta) * s.S0 + _m.S12[theta_index] * Math.Sin(theta) * (s.S1 * Math.Cos(2 * phi) + s.S2 * Math.Sin(2 * phi)));
-                    ///Normalization;
+                //Normalization;
 		        if (rand3 > temp)
 		            phi = -1.0;
 		        if (phi > -1.0) 
                     break;
 	        }
-            s.rotate(theta, phi, _m);
+            s.Rotate(theta, phi, _m);
             Scatter(incomingDirectionToModify, theta, phi);
         }
     }

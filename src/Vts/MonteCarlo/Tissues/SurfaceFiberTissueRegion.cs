@@ -16,6 +16,7 @@ namespace Vts.MonteCarlo.Tissues
         /// <param name="center">center position</param>
         /// <param name="radius">radius in x-y plane</param>
         /// <param name="op">optical properties of SurfaceFiber</param>
+        /// <param name="phaseFunctionKey">phase function dictionary key</param>
         public SurfaceFiberTissueRegion(Position center, double radius, OpticalProperties op, string phaseFunctionKey) 
         {
             TissueRegionType = "SurfaceFiber";

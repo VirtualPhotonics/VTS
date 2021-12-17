@@ -2,6 +2,9 @@
 
 namespace Vts.MonteCarlo
 {
+    /// <summary>
+    /// interface for phase functions
+    /// </summary>
     public interface IPhaseFunction
     {
         /// <summary>

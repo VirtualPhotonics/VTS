@@ -34,7 +34,7 @@ namespace Vts.Test.MonteCarlo
         {
             StokesVector v = new StokesVector(1, 0, 1, 0);
             MuellerMatrix m = new MuellerMatrix();
-            v.rotate(Math.PI / 4, Math.PI / 6, m);
+            v.Rotate(Math.PI / 4, Math.PI / 6, m);
             Assert.AreEqual(v.S0, 1);
             Assert.AreEqual(v.S1, -1);
             Assert.AreEqual(v.S2, 0);

@@ -12,13 +12,13 @@ namespace Vts.MonteCarlo.Tissues
         /// <summary>
         /// constructor for voxel region
         /// </summary>
-        public VoxelTissueRegion(DoubleRange x, DoubleRange y, DoubleRange z, OpticalProperties op,
-            string phaseFunctionKey)
         /// <param name="x">x range of voxel</param>
         /// <param name="y">y range of voxel</param>
         /// <param name="z">z range of voxel</param>
         /// <param name="op">optical properties of voxel</param>
         /// <param name="phaseFunctionKey">phase function string for voxel</param>
+        public VoxelTissueRegion(DoubleRange x, DoubleRange y, DoubleRange z, OpticalProperties op,
+            string phaseFunctionKey)
         {
             TissueRegionType = "Voxel";
             X = x;
@@ -65,7 +65,7 @@ namespace Vts.MonteCarlo.Tissues
         /// </summary>
         public OpticalProperties RegionOP { get; set; }
         /// <summary>
-        /// key for the <string, IPhaseFunctionInput> dictionary in a class that implements ITissueInput
+        /// key for the phase function dictionary in a class that implements ITissueInput
         /// </summary>
         public string PhaseFunctionKey { get; set; }
 

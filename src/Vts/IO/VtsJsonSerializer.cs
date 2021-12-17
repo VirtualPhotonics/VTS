@@ -7,7 +7,6 @@ using System.IO;
 using Vts.MonteCarlo;
 using Vts.MonteCarlo.Detectors;
 using Vts.MonteCarlo.Interfaces;
-using Vts.MonteCarlo.LookupTablePhaseFunctionData;
 using Vts.MonteCarlo.PhaseFunctions;
 using Vts.MonteCarlo.Sources;
 using Vts.MonteCarlo.Sources.SourceProfiles;

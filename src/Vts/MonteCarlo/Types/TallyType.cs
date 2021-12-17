@@ -2,8 +2,14 @@ using System;
 
 namespace Vts.MonteCarlo
 {
+    /// <summary>
+    /// Tally Type Built in types (strings)
+    /// </summary>
     public static class TallyType
     {
+        /// <summary>
+        /// Detector types
+        /// </summary>
         public static readonly string[] BuiltInTypes =
         {
             // Reflectance Surface fiber 

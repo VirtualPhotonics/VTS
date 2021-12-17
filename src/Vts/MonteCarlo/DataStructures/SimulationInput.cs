@@ -15,6 +15,9 @@ namespace Vts.MonteCarlo
 
     public class SimulationInput
     {
+        /// <summary>
+        /// string name of output file
+        /// </summary>
         public string OutputName { get; set; }
         /// <summary>
         /// number of photons launched from source

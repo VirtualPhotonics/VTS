@@ -5,15 +5,14 @@ namespace Vts.MonteCarlo
     /// </summary>
     public static class LookupTablePhaseFunctionDataType
     {
+        /// <summary>
+        /// Types for lookup table phase function
+        /// </summary>
         public static readonly string[] BuiltInTypes =
         {
-            /// <summary>
-            /// Polar only
-            /// </summary>
+            // Polar only
             "Polar",
-            /// <summary>
-            /// PolarAndAzimuthal
-            /// </summary>
+            // Polar And Azimuthal
             "PolarAndAzimuthal",
         };
     }

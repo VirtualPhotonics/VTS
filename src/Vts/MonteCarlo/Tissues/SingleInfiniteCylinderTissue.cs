@@ -82,7 +82,7 @@ namespace Vts.MonteCarlo.Tissues
         /// ITissue based on the ITissueInput data
         /// </summary>
         /// <param name="awt">Absorption Weighting Type</param>
-        /// <param name="pft">Phase Function Type</param>
+        /// <param name="regionPhaseFunctions">dictionary of region phase functions</param>
         /// <param name="russianRouletteWeightThreshold">Russian Roulette Weight Threshold</param>
         /// <returns></returns>
         public ITissue CreateTissue(AbsorptionWeightingType awt, 

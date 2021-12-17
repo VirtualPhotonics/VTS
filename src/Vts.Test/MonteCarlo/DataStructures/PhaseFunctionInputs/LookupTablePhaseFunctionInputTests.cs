@@ -1,7 +1,6 @@
 ﻿using NUnit.Framework;
 using System;
-using Vts.MonteCarlo.LookupTablePhaseFunctionData;
-using Vts.MonteCarlo.PhaseFunctions;
+using Vts.MonteCarlo;
 
 namespace Vts.MonteCarlo.PhaseFunctionInputs
 {

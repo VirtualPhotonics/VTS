@@ -39,9 +39,6 @@ namespace Vts.MonteCarlo.Tissues
         {
             Regions = regions;
 
-            // obsolete: phase function now region-specific
-            // PhaseFunctionType = phaseFunctionType;
-
         }
         /// <summary>
         /// list of tissue regions
@@ -57,9 +54,9 @@ namespace Vts.MonteCarlo.Tissues
         /// </summary>
         public AbsorptionWeightingType AbsorptionWeightingType { get; protected set; }
 
-        ///// <summary>
-        ///// Phase function used within each region
-        ///// </summary>
+        /// <summary>
+        /// Phase function used within each region
+        /// </summary>
         public IDictionary<string, IPhaseFunction> RegionPhaseFunctions { get; set; }
         /// <summary>
         /// photon weight threshold, below which turns on Russian Roulette
@@ -69,10 +66,11 @@ namespace Vts.MonteCarlo.Tissues
         /// <summary>
         /// Required method to initialize the corresponding ITissue
         /// </summary>
+        /// <param name="awt">absorption weighting type</param>
         /// <param name="regionPhaseFunctions">dictionary of region phase functions</param>
         /// <param name="russianRouletteWeightThreshold">threshold for Russian Roulette</param>
-        /// Note: phase function inputs go through the factory to convert to phase functions in MonteCarloSimulation
-
+        /// Note: phase function inputs go through the factory to convert to phase functions
+        /// in MonteCarloSimulation
         public void Initialize(
             AbsorptionWeightingType awt = AbsorptionWeightingType.Discrete,
             IDictionary<string,IPhaseFunction> regionPhaseFunctions = null,

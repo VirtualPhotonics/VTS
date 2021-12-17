@@ -3,11 +3,19 @@ using Vts.Common;
 
 namespace Vts.MonteCarlo.PhaseFunctions
 {
+    /// <summary>
+    /// Henyey-Greenstein phase function
+    /// </summary>
     public class HenyeyGreensteinPhaseFunction : IPhaseFunction
     {
         private double _g;
         private Random _rng;
 
+        /// <summary>
+        /// H-G constructor
+        /// </summary>
+        /// <param name="g">anisotropy coefficient</param>
+        /// <param name="rng">random number generator</param>
         public HenyeyGreensteinPhaseFunction(double g, Random rng)
         {
             _g = g;
@@ -18,8 +26,7 @@ namespace Vts.MonteCarlo.PhaseFunctions
         /// Method to scatter photon based on the Henyey Greenstein phase-function
         /// </summary>
         /// <param name="incomingDirectionToModify">The input direction</param>
-        /// <param name="currentRegionIndex">The tissue index of the current tissue region</param>
-        public void ScatterToNewDirection(Direction incomingDirectionToModify)
+         public void ScatterToNewDirection(Direction incomingDirectionToModify)
         {
             // readability eased with local copies of following
             double ux = incomingDirectionToModify.Ux;

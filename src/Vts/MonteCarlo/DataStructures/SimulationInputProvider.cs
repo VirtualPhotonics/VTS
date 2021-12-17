@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Vts.Common;
 using Vts.MonteCarlo.Detectors;
 using Vts.MonteCarlo.Helpers;
-using Vts.MonteCarlo.LookupTablePhaseFunctionData;
 using Vts.MonteCarlo.Sources;
 using Vts.MonteCarlo.Sources.SourceProfiles;
 using Vts.MonteCarlo.Tissues;

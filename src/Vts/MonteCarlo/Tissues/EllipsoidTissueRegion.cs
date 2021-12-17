@@ -20,6 +20,7 @@ namespace Vts.MonteCarlo.Tissues
         /// <param name="radiusY">semi-axis along y-axis</param>
         /// <param name="radiusZ">semi-axis along z-axis</param>
         /// <param name="op">OpticalProperties of ellipsoid</param>
+        /// <param name="phaseFunctionKey">key in phase function dictionary</param>
         public EllipsoidTissueRegion(Position center, double radiusX, double radiusY, double radiusZ,
             OpticalProperties op, string phaseFunctionKey)
         {
@@ -31,20 +32,6 @@ namespace Vts.MonteCarlo.Tissues
             Dz = radiusZ;
             PhaseFunctionKey = phaseFunctionKey;
         }
-
-        ///// <summary>
-        ///// class specifies ellipsoid tissue region (x-xc)^2/a^2 + (y-yc)^2/b^2 + (z-zc)^2/c^2 = 1
-        ///// where center is (xc,yc,zc) and semi-axis along x-, y-, z- axes are a, b, c, respectively.
-        ///// </summary>
-        ///// <param name="center">Position (x,y,z) of the center of the ellipsoid</param>
-        ///// <param name="radiusX">semi-axis along x-axis</param>
-        ///// <param name="radiusY">semi-axis along y-axis</param>
-        ///// <param name="radiusZ">semi-axis along z-axis</param>
-        ///// <param name="op">OpticalProperties of ellipsoid</param>
-        //public EllipsoidRegion(Position center, double radiusX, double radiusY, double radiusZ, OpticalProperties op)
-        //    : this(center, radiusX,radiusY, radiusZ, op, new HenyeyGreensteinPhaseFunctionInput())
-        //{
-        //}
 
         /// <summary>
         /// default constructor defines sphere with radius 0.5mm and center (0,0,1)
@@ -63,7 +50,7 @@ namespace Vts.MonteCarlo.Tissues
         /// </summary>
         public OpticalProperties RegionOP { get; set; }
         /// <summary>
-        /// key for the <string, IPhaseFunctionInput> dictionary in a class that implements ITissueInput
+        /// key for the phase function dictionary in a class that implements ITissueInput
         /// </summary>
         public string PhaseFunctionKey { get; set; }
 

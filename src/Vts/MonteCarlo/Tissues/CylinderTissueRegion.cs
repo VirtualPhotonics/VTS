@@ -12,11 +12,13 @@ namespace Vts.MonteCarlo.Tissues
         private bool _onBoundary = false;
 
         /// <summary>
+        /// CylinderTissueRegion assumes cylinder axis is paralle with z-axis
         /// </summary>
         /// <param name="center">center position</param>
         /// <param name="radius">radius in x-y plane</param>
         /// <param name="height">height along z axis</param>
         /// <param name="op">optical properties of cylinder</param>
+        /// <param name="phaseFunctionKey">key in phase function dictionary</param>
         public CylinderTissueRegion(Position center, double radius, double height, OpticalProperties op, string phaseFunctionKey) 
         {
             TissueRegionType = "Cylinder";
@@ -59,14 +61,9 @@ namespace Vts.MonteCarlo.Tissues
         /// </summary>
         public OpticalProperties RegionOP { get; set; }
         /// <summary>
-        /// key for the <string, IPhaseFunctionInput> dictionary in a class that implements ITissueInput
+        /// key for the phase function dictionary in a class that implements ITissueInput
         /// </summary>
         public string PhaseFunctionKey { get; set; }
-        /*/// <summary>
-        /// Input data for phase function
-        /// </summary>
-        public IPhaseFunctionInput PhaseFunctionInput { get; set; }*/
-
         /// <summary>
         /// Method to determine if photon position within or on cylinder.  This works if height=0
         /// as long as Center.Z=0;
