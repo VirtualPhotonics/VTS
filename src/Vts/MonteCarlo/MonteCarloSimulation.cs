@@ -482,7 +482,8 @@ namespace Vts.MonteCarlo
         /// Initializes databases for diffuse reflectance (1 database) or perturbation
         /// MC (2 databases)
         /// </summary>
-        /// <param name="_doPMC"></param>
+        /// <param name="doPMC">flag to initialize perturbation Monte Carlo databaes</param>
+        /// <param name="doZRD">flag to initialize ZRD database</param>
         private void InitialDatabases(bool doPMC, bool doZRD)
         {
             if (doPMC)
@@ -528,8 +529,8 @@ namespace Vts.MonteCarlo
         /// appropriate photon state flag, e.g. PhotonStateType.PseudoBoundingVolumeTissueBoundary
         /// c) finally sets BoundaryHitType.Virtual and tallies in main MC loop
         /// </summary>
-        /// <param name="photon"></param>
-        /// <param name="closestVirtualBoundary"></param>
+        /// <param name="photon">photon</param>
+        /// <param name="closestVirtualBoundary">Virtual boundary closest to photon</param>
         /// <returns></returns>
         private BoundaryHitType MoveToBoundaryCheck(Photon photon, out IVirtualBoundary closestVirtualBoundary)
         {
@@ -585,8 +586,8 @@ namespace Vts.MonteCarlo
         /// <summary>
         /// Method that displays simulation percentage done
         /// </summary>
-        /// <param name="n"></param>
-        /// <param name="num_phot"></param>
+        /// <param name="n">number of photons executed to date</param>
+        /// <param name="num_phot">total number of photons specified</param>
         private void DisplayStatus(long n, long num_phot)
         {
             var header = Input.OutputName + " (" + SimulationIndex + "): ";

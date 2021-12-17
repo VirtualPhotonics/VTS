@@ -9,32 +9,33 @@ namespace Vts.MonteCarlo.RayData
     /// </summary>
     public class RayDataPoint
     {
-        private Position _Position;
-        private Direction _Direction;
-        private double _Weight;
+        private Position _position;
+        private Direction _direction;
+        private double _weight;
         
         /// <summary>
         /// Defines Ray Data class
+        /// </summary>
         public RayDataPoint( 
             Position position,
             Direction direction,
             double weight)
         {
-            _Position = position;
-            _Direction = direction;
-            _Weight = weight;
+            _position = position;
+            _direction = direction;
+            _weight = weight;
         }
         /// <summary>
         /// position of photon source data point
         /// </summary>
-        public Position Position { get { return _Position; } set { _Position = value; } }
+        public Position Position { get { return _position; } set { _position = value; } }
         /// <summary>
         /// direction of photon source data point
         /// </summary>
-        public Direction Direction { get { return _Direction; } set { _Direction = value; } }
+        public Direction Direction { get { return _direction; } set { _direction = value; } }
         /// <summary>
         /// photon initial weight
         /// </summary>
-        public double Weight { get { return _Weight; } set { _Weight = value; } }
+        public double Weight { get { return _weight; } set { _weight = value; } }
     }
 }

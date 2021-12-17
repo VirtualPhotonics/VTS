@@ -17,6 +17,11 @@ namespace Vts.MonteCarlo.RayData
         {
         }
 
+        /// <summary>
+        /// method to read ZRDRayDatabase from file
+        /// </summary>
+        /// <param name="fileName">filename of ZRDRayDatabase</param>
+        /// <returns></returns>
         public static ZRDRayDatabase FromFile(string fileName)
         {
             var dbReader = new DatabaseReader<ZRDRayDatabase, ZRDRayDataPoint>(

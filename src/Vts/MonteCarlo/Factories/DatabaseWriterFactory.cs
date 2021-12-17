@@ -110,6 +110,7 @@ namespace Vts.MonteCarlo.Factories
                 filePath, outputName)).ToList();
 
         }
+        /// <summary>
         /// Static method to instantiate correct ZRDRayDatabaseWriter given a 
         /// virtual boundary DatabaseType, path to where to output database and database filename.
         /// </summary>

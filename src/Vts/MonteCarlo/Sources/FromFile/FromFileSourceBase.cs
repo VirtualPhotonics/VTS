@@ -10,12 +10,14 @@ namespace Vts.MonteCarlo.Sources
     /// </summary>
     public abstract class FromFileSourceBase : ISource
     {
+        /// <summary>
+        /// enumerator through database
+        /// </summary>
         protected IEnumerator<PhotonDataPoint> _enumerator;
         /// <summary>
         /// Initial tissue region index
         /// </summary>
         protected int _initialTissueRegionIndex;
-        private static int index;
 
         /// <summary>
         /// Defines FromFileSourceBase class
@@ -26,7 +28,6 @@ namespace Vts.MonteCarlo.Sources
         {
             _enumerator = enumerator;
             _initialTissueRegionIndex = initialTissueRegionIndex;
-            index = 0;
         }
 
         /// <summary>

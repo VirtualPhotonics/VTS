@@ -50,7 +50,7 @@ namespace Vts.MonteCarlo.Sources
         /// <summary>
         /// Required code to create a source based on the input values
         /// </summary>
-        /// <param name="rng"></param>
+        /// <param name="rng">random number generator</param>
         /// <returns></returns>
         public ISource CreateSource(Random rng = null)
         {
@@ -69,11 +69,18 @@ namespace Vts.MonteCarlo.Sources
     /// </summary>
     public class ZRDFileSource : ISource //: FromFileSourceBase
     {
+        /// <summary>
+        /// enumerator that iterates through database
+        /// </summary>
         public IEnumerator<ZRDRayDataPoint> _databaseEnumerator;
+        /// <summary>
+        /// initial tissue region index
+        /// </summary>
         public int _initialTissueRegionIndex;
         /// <summary>
         /// Returns an instance of Zemax File Source at a given location
-        /// </summary>        
+        /// </summary>
+        /// <param name="sourceFileName">filename of ZRD file source</param> 
         /// <param name="initialTissueRegionIndex">Initial tissue region index</param>
         public ZRDFileSource(
             string sourceFileName,
@@ -87,6 +94,11 @@ namespace Vts.MonteCarlo.Sources
             _initialTissueRegionIndex = initialTissueRegionIndex;
         }
 
+        /// <summary>
+        /// method to iterate through database and get next photon
+        /// </summary>
+        /// <param name="tissue">tissue definition</param>
+        /// <returns></returns>
         public Photon GetNextPhoton(ITissue tissue)
         {
             // read next source data point
