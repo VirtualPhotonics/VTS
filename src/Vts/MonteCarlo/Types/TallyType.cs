@@ -1,5 +1,8 @@
 namespace Vts.MonteCarlo
 {
+    /// <summary>
+    /// detector tally types
+    /// </summary>
     public static class TallyType
     {
         /// <summary>

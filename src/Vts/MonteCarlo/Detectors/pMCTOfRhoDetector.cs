@@ -49,7 +49,10 @@ namespace Vts.MonteCarlo.Detectors
         /// numerical aperture
         /// </summary>
         public double NA { get; set; }
-
+        /// <summary>
+        /// method to create detector
+        /// </summary>
+        /// <returns></returns>
         public IDetector CreateDetector()
         {
             return new pMCTOfRhoDetector
@@ -120,7 +123,11 @@ namespace Vts.MonteCarlo.Detectors
         /// number of times detector gets tallied to
         /// </summary>
         public long TallyCount { get; set; }
-
+        /// <summary>
+        /// method to initialize detector 
+        /// </summary>
+        /// <param name="tissue">tissue definition</param>
+        /// <param name="rng">random number generator</param>
         public void Initialize(ITissue tissue, Random rng)
         {
             // assign any user-defined outputs (except arrays...we'll make those on-demand)
@@ -183,7 +190,10 @@ namespace Vts.MonteCarlo.Detectors
             }
         }
 
-        // this is to allow saving of large arrays separately as a binary file
+        /// <summary>
+        /// this is to allow saving of large arrays separately as a binary file
+        /// </summary>
+        /// <returns></returns>
         public BinaryArraySerializer[] GetBinarySerializers()
         {
             return new[] {

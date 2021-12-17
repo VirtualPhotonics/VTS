@@ -39,7 +39,6 @@ namespace Vts.MonteCarlo.Controllers
         /// <param name="collisionInfo">collision information</param>
         public void WriteToSurfaceVirtualBoundaryDatabases(PhotonDataPoint dp, CollisionInfo collisionInfo)
         {
-            var writeData = false;
             foreach (var writer in PhotonDatabaseWriters)
             {
                 if (DPBelongsToSurfaceVirtualBoundary(dp, writer))
@@ -60,8 +59,8 @@ namespace Vts.MonteCarlo.Controllers
         /// <summary>
         /// Method to determine if photon data point should be tallied or not
         /// </summary>
-        /// <param name="dp"></param>
-        /// <param name="photonDatabaseWriter"></param>
+        /// <param name="dp">photon data point</param>
+        /// <param name="photonDatabaseWriter">photon database writer</param>
         /// <returns></returns>
         public bool DPBelongsToSurfaceVirtualBoundary(PhotonDataPoint dp,
             PhotonDatabaseWriter photonDatabaseWriter)
@@ -79,8 +78,8 @@ namespace Vts.MonteCarlo.Controllers
         /// Method to determine if photon datapoint should be tallied or not to
         /// the collision info database
         /// </summary>
-        /// <param name="dp"></param>
-        /// <param name="collisionInfoDatabaseWriter"></param>
+        /// <param name="dp">photon data point</param>
+        /// <param name="collisionInfoDatabaseWriter">photon database writer</param>
         /// <returns></returns>
         public bool DPBelongsToSurfaceVirtualBoundary(PhotonDataPoint dp,
             CollisionInfoDatabaseWriter collisionInfoDatabaseWriter)
