@@ -71,7 +71,7 @@ namespace Vts.MonteCarlo.Helpers
         /// <summary>
         /// Provides a random direction for a isotropic point source
         /// </summary>
-        /// <param name="rng">The random number generato</param>
+        /// <param name="rng">The random number generator</param>
         /// <returns>direction</returns>
         public static Direction GetDirectionForIsotropicDistributionRandom(Random rng)
         {
@@ -194,7 +194,7 @@ namespace Vts.MonteCarlo.Helpers
                 return new PolarAzimuthalAngles(0.0, 0.0);
             }
 
-            double ux, uy, uz, r, theta, phi;
+            double ux, uy, uz, theta, phi;
             ux = direction.Ux;
             uy = direction.Uy;
             uz = direction.Uz;
