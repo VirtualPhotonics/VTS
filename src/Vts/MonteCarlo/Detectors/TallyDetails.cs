@@ -26,6 +26,10 @@
         /// </summary>
         public bool IspMCReflectanceTally { get; set; }
         /// <summary>
+        /// boolean identifying all perturbation MC transmittance tallies
+        /// </summary>
+        public bool IspMCTransmittanceTally { get; set; }
+        /// <summary>
         /// boolean identifying all bounding volume tallies
         /// </summary>
         public bool IsBoundingVolumeTally { get; set; }

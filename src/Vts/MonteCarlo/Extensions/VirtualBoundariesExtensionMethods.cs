@@ -18,6 +18,7 @@ namespace Vts.MonteCarlo.Extensions
                 case VirtualBoundaryType.DiffuseTransmittance:
                 case VirtualBoundaryType.SpecularReflectance:
                 case VirtualBoundaryType.pMCDiffuseReflectance:
+                case VirtualBoundaryType.pMCDiffuseTransmittance:
                 case VirtualBoundaryType.Dosimetry:
                     return true;
                 default:
@@ -67,6 +68,7 @@ namespace Vts.MonteCarlo.Extensions
             switch (virtualBoundaryType)
             {
                 case VirtualBoundaryType.DiffuseTransmittance:
+                case VirtualBoundaryType.pMCDiffuseTransmittance:
                     return true;
                 default:
                     return false;
@@ -128,6 +130,7 @@ namespace Vts.MonteCarlo.Extensions
             switch (virtualBoundaryType)
             {
                 case VirtualBoundaryType.pMCDiffuseReflectance:
+                case VirtualBoundaryType.pMCDiffuseTransmittance:
                     return true;
                 default:
                 case VirtualBoundaryType.DiffuseReflectance:

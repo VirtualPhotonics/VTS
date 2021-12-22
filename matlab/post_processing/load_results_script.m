@@ -68,6 +68,7 @@ show.pMCROfXAndY =              1;
 show.pMCROfXAndYAndTimeAndSubregion = 1;
 show.pMCROfXAndYAndTimeAndSubregionRecessed = 1;
 show.pMCROfFx =                 1;
+show.pMCTOfRho =                1;
 show.ReflectedMTOfRhoAndSubregionHist = 1;
 show.ReflectedMTOfXAndYAndSubregionHist = 1;
 show.TransmittedMTOfRhoAndSubregionHist = 1;
@@ -1074,6 +1075,10 @@ for mci = 1:length(datanames)
         Fxdelta = results{di}.pMCROfFx.Fx(2)-results{di}.pMCROfFx.Fx(1);
         Fxnorm = 2 * pi * (results{di}.pMCROfFx.Fx_Midpoints * Fxdelta);
         disp(['Total reflectance captured by ROfFx detector: ' num2str(sum(results{di}.pMCROfFx.Mean.*Fxnorm'))]);
-     end
+    end     
+    if isfield(results{di}, 'pMCTOfRho') && show.pMCTOfRho
+        figname = sprintf('log10(%s)',results{di}.pMCTOfRho.Name); figure; plot(results{di}.pMCTOfRho.Rho_Midpoints, log10(results{di}.pMCTOfRho.Mean)); title(figname); set(gcf,'Name', figname); xlabel('\rho [mm]'); ylabel('pMC T(\rho) [mm^-^2]');
+        disp(['Total reflectance captured by pMCTOfRho detector: ' num2str(sum(results{di}.pMCTOfRho.Mean(:)))]);
+    end
   end
 end

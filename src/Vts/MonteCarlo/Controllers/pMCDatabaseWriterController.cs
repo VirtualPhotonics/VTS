@@ -39,19 +39,17 @@ namespace Vts.MonteCarlo.Controllers
         /// <param name="collisionInfo">collision information</param>
         public void WriteToSurfaceVirtualBoundaryDatabases(PhotonDataPoint dp, CollisionInfo collisionInfo)
         {
-            var writeData = false;
             foreach (var writer in PhotonDatabaseWriters)
             {
                 if (DPBelongsToSurfaceVirtualBoundary(dp, writer))
                 {
                     writer.Write(dp);
-                    writeData = true;
                 }
-            }
+            }; 
             // not best design but may work for now
             foreach (var writer in CollisionInfoDatabaseWriters)
             {
-                if (writeData)
+                if (DPBelongsToSurfaceVirtualBoundary(dp, writer))
                 {
                     writer.Write(collisionInfo);
                 }
@@ -61,14 +59,35 @@ namespace Vts.MonteCarlo.Controllers
         /// <summary>
         /// Method to determine if photon data point should be tallied or not
         /// </summary>
-        /// <param name="dp"></param>
-        /// <param name="photonDatabaseWriter"></param>
+        /// <param name="dp">photon data point</param>
+        /// <param name="photonDatabaseWriter">photon database writer</param>
         /// <returns></returns>
         public bool DPBelongsToSurfaceVirtualBoundary(PhotonDataPoint dp,
             PhotonDatabaseWriter photonDatabaseWriter)
         {
-            if ((dp.StateFlag.HasFlag(PhotonStateType.PseudoDiffuseReflectanceVirtualBoundary) && // pMC uses regular PST
-                 photonDatabaseWriter.VirtualBoundaryType == VirtualBoundaryType.pMCDiffuseReflectance))
+            if (((dp.StateFlag.HasFlag(PhotonStateType.PseudoDiffuseReflectanceVirtualBoundary) && // pMC uses regular PST
+                 photonDatabaseWriter.VirtualBoundaryType == VirtualBoundaryType.pMCDiffuseReflectance)) ||
+                ((dp.StateFlag.HasFlag(PhotonStateType.PseudoDiffuseTransmittanceVirtualBoundary) && // 
+                  photonDatabaseWriter.VirtualBoundaryType == VirtualBoundaryType.pMCDiffuseTransmittance)))
+            {
+                return true;
+            }
+            return false;
+        }        
+        /// <summary>
+        /// Method to determine if photon datapoint should be tallied or not to
+        /// the collision info database
+        /// </summary>
+        /// <param name="dp">photon data point</param>
+        /// <param name="collisionInfoDatabaseWriter">photon database writer</param>
+        /// <returns></returns>
+        public bool DPBelongsToSurfaceVirtualBoundary(PhotonDataPoint dp,
+            CollisionInfoDatabaseWriter collisionInfoDatabaseWriter)
+        {
+            if (((dp.StateFlag.HasFlag(PhotonStateType.PseudoDiffuseReflectanceVirtualBoundary) && // pMC uses regular PST
+                  collisionInfoDatabaseWriter.VirtualBoundaryType == VirtualBoundaryType.pMCDiffuseReflectance)) ||
+                ((dp.StateFlag.HasFlag(PhotonStateType.PseudoDiffuseTransmittanceVirtualBoundary) && // 
+                  collisionInfoDatabaseWriter.VirtualBoundaryType == VirtualBoundaryType.pMCDiffuseTransmittance)))
             {
                 return true;
             }
