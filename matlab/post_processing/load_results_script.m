@@ -191,7 +191,11 @@ for mci = 1:length(datanames)
     end    
     
     if isfield(results{di}, 'ROfXAndY') && show.ROfXAndY
-        figname = sprintf('log10(%s)',results{di}.ROfXAndY.Name); figure; imagesc(results{di}.ROfXAndY.Y_Midpoints, results{di}.ROfXAndY.X_Midpoints, log10(results{di}.ROfXAndY.Mean)); colorbar; title(figname); set(gcf,'Name', figname); ylabel('Y [mm]'); xlabel('X [mm]');
+        if (length(results{di}.ROfXAndY.Y_Midpoints)>1)
+          figname = sprintf('log10(%s)',results{di}.ROfXAndY.Name); figure; imagesc(results{di}.ROfXAndY.Y_Midpoints, results{di}.ROfXAndY.X_Midpoints, log10(results{di}.ROfXAndY.Mean)); colorbar; title(figname); set(gcf,'Name', figname); ylabel('Y [mm]'); xlabel('X [mm]');
+        else
+          figname = 'log10(R(x,y=0)';figure;plot(results{di}.ROfXAndY.X_Midpoints,results{di}.ROfXAndY.Mean(1,:));title(figname);xlabel('X [mm]');ylabel('R(x) [mm^-^2]');
+        end
         xynorm = (results{di}.ROfXAndY.X(2)-results{di}.ROfXAndY.X(1))*(results{di}.ROfXAndY.Y(2)-results{di}.ROfXAndY.Y(1));
         disp(['Total reflectance captured by ROfXAndY detector: ' num2str(sum(results{di}.ROfXAndY.Mean(:)*xynorm))]);
         % determine range of x, y midpoints that have non-zero data
