@@ -10,7 +10,7 @@ namespace Vts.MonteCarlo.Sources
     /// Defines input data for CircularAngledFromCircleSource implementation 
     /// including radius, source profile, point position, and initial tissue region index.
     /// The angle of the source is determined by the position on the tissue surface (dictated by the source
-    /// profile) and the point position.
+    /// profile) and the *uniformly sampled* circle position in air.
     /// All of the "AngledFrom" series of sources translate the source on tissue
     /// and the source in air separately.
     /// </summary>
@@ -20,8 +20,8 @@ namespace Vts.MonteCarlo.Sources
         /// Initializes a new instance of CircularAngledFromCircleSourceInput class
         /// </summary>
         /// <param name="radiusOnTissue">The radius of the circular source on tissue surface</param>
-        /// <param name="sourceProfile">Source Profile {Flat / Gaussian}</param>
-        /// <param name="translationFromOrigin">Center of circle location</param>
+        /// <param name="sourceProfile">source profile (Flat/Gaussian) of circle on tissue</param>
+        /// <param name="translationFromOrigin">center of circle location</param>
         /// <param name="radiusInAir">radius of originating circle</param>
         /// <param name="circleInAirTranslationFromOrigin">Center of circle in air location</param>
         /// <param name="initialTissueRegionIndex">Initial tissue region index</param>
@@ -46,7 +46,7 @@ namespace Vts.MonteCarlo.Sources
         /// Initializes a new instance of CircularAngledFromCircleSourceInput class
         /// </summary>
         /// <param name="radiusOnTissue">Radius of the circular source on tissue surface</param>
-        /// <param name="sourceProfile">Source Profile {Flat / Gaussian}</param>
+        /// <param name="sourceProfile">source profile (Flat/Gaussian) of circle on tissue</param>
         /// <param name="translationFromOrigin">Circle on tissue translation</param>
         /// <param name="radiusInAir">Radius of circle in air</param>
         /// <param name="circleInAirTranslationFromOrigin">Circle in air location</param>
