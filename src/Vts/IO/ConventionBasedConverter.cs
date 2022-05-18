@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json.Linq;
-using Unity;
-using Unity.Injection;
 
 namespace Vts.IO
 {
@@ -14,19 +13,14 @@ namespace Vts.IO
     /// <typeparam name="TInterface"></typeparam>
     public class ConventionBasedConverter<TInterface> : JsonCreationConverter<TInterface> 
     {
-        private static readonly UnityContainer _container;
-
-        private readonly string _namespace;
-        private readonly string _assemblyName;
-        private readonly Type _interfaceType;
-        private readonly string _classBasename;
         private readonly string _typeCategoryString;
         private readonly IDictionary<string, VtsClassInfo> _classInfoDictionary;
+        private readonly ServiceProvider _serviceProvider;
         
         /// <summary>
         /// Internal class for holding on to necessary class info for future instantiation
         /// </summary>
-        class VtsClassInfo
+        private class VtsClassInfo
         {
             public Type ClassType { get; set; }
             public string ClassName { get; set; }
@@ -38,7 +32,6 @@ namespace Vts.IO
         /// </summary>
         static ConventionBasedConverter()
         {
-            _container = new UnityContainer();
         }
 
         /// <summary>
@@ -50,11 +43,12 @@ namespace Vts.IO
         /// <param name="classBasename">name of base class</param>
         public ConventionBasedConverter(Type exampleType, string typeCategoryString, IEnumerable<string> classPrefixStrings,  string classBasename = null)
         {
-            _namespace = exampleType.Namespace;
-            _assemblyName = exampleType.Assembly.FullName;
+            var services = new ServiceCollection();
+            var typeNamespace = exampleType.Namespace;
+            var assemblyName = exampleType.Assembly.FullName;
 
-            _interfaceType = typeof(TInterface);
-            _classBasename = classBasename ?? _interfaceType.Name.Substring(1);
+            var interfaceType = typeof(TInterface);
+            var baseClassName = classBasename ?? interfaceType.Name.Substring(1);
             _typeCategoryString = typeCategoryString;
 
             // the code: var useSingleton = false used to be here
@@ -62,8 +56,8 @@ namespace Vts.IO
             
             var classList =
                 from classPrefixString in classPrefixStrings
-                let className = _namespace + @"." + classPrefixString + _classBasename
-                let classType = Type.GetType(className + "," +  _assemblyName, false, true)
+                let className = typeNamespace + @"." + classPrefixString + baseClassName
+                let classType = Type.GetType(className + "," +  assemblyName, false, true)
                 select new VtsClassInfo
                 {
                     ClassType = classType,
@@ -76,16 +70,14 @@ namespace Vts.IO
             {
                 if (!object.Equals(item.ClassType, null))
                 {
-                    _container.RegisterType(
-                        _interfaceType,
-                        item.ClassType,
-                        item.ClassPrefixString,
-                        new InjectionMember[] { new InjectionConstructor() });
+                    services.AddTransient(item.ClassType);
                 }
             }
 
+            _serviceProvider = services.BuildServiceProvider();
             _classInfoDictionary = vtsClassInfos.ToDictionary(item => item.ClassPrefixString);
         }
+
         /// <summary>
         /// method to create ConventionBasedConverter from enum
         /// </summary>
@@ -121,17 +113,18 @@ namespace Vts.IO
             // get name of Enum from interface (e.g. if it's "IThingy", get "ThingyType" Enum and generate names for all source classes, and then use the corresponding factory, possibly also using convention "ThingyFactory")
             var classInfo = _classInfoDictionary[classPrefixString];
 
-            var classInstance = _container.Resolve<TInterface>(classInfo.ClassPrefixString);
+            var classInstance = (TInterface)_serviceProvider.GetService(classInfo.ClassType);
 
             return classInstance;
         }
+
         /// <summary>
         /// method to determine if field exists
         /// </summary>
         /// <param name="fieldName">name of field string</param>
         /// <param name="jObject">JObject object to check</param>
         /// <returns>boolean indicating if field exists</returns>
-        private bool FieldExists(string fieldName, JObject jObject)
+        private static bool FieldExists(string fieldName, JObject jObject)
         {
             return jObject[fieldName] != null;
         }
