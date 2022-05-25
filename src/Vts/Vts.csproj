@@ -4,18 +4,18 @@
 	<TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">netstandard2.1;net48</TargetFrameworks>
     <Description>The VTS (Virtual Tissue Simulator) is an open source library for .NET that was designed as a modular and scalable platform to provide an integrated suite of computational tools to define, solve, visualize, and analyze relevant forward and inverse radiative transport problems in Biomedical Optics.</Description>
     <Company>Virtual Photonics Technology Initiative</Company>
-    <Copyright>Copyright © 2021 Laser Microbeam and Medical Program</Copyright>
-    <Version>6.0.0</Version>
+    <Copyright>Copyright © 2022 Laser Microbeam and Medical Program</Copyright>
+    <Version>7.0.0</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>David Cuccia; Carole Hayakawa; Lisa Malenfant; Janaka Ranasinghesagara; Jennifer Nguyen; Adam Gardner; Michele Martinelli</Authors>
     <PackageId>VirtualPhotonics.Vts</PackageId>
-    <PackageTags>C# Monte-Carlo NURBS SDA Spectral-Data Reflectance Fluence Forward-Solutions Inverse-Solutions</PackageTags>
+    <PackageTags>C#;Monte-Carlo;NURBS;SDA;Spectral-Data;Reflectance;Fluence;Forward-Solutions;Inverse-Solutions</PackageTags>
     <PackageProjectUrl>https://github.com/VirtualPhotonics/VTS/wiki</PackageProjectUrl>
     <RepositoryUrl>https://github.com/VirtualPhotonics/VTS</RepositoryUrl>
     <RepositoryType>Git</RepositoryType>
-    <PackageReleaseNotes>Updated NuGet package</PackageReleaseNotes>
-    <AssemblyVersion>6.0.0.0</AssemblyVersion>
-    <FileVersion>6.0.0.0</FileVersion>
+    <PackageReleaseNotes>Updated NuGet packages</PackageReleaseNotes>
+    <AssemblyVersion>7.0.0.0</AssemblyVersion>
+    <FileVersion>7.0.0.0</FileVersion>
     <FileUpgradeFlags>40</FileUpgradeFlags>
     <UpgradeBackupLocation>C:\Users\hayakawa\Documents\Visual Studio 2019\Projects\vts_210207\src\Backup\Vts\</UpgradeBackupLocation>
     <OldToolsVersion>2.0</OldToolsVersion>
