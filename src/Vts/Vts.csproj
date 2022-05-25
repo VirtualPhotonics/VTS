@@ -22,6 +22,7 @@
     <Configurations>Debug;Release;Benchmark</Configurations>
     <PackageLicenseFile>license.md</PackageLicenseFile>
     <PackageIcon>logo.png</PackageIcon>
+    <PackageReadmeFile>readme.md</PackageReadmeFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Benchmark|AnyCPU'">
     <Optimize>true</Optimize>
@@ -44,6 +45,10 @@
     <None Include="..\..\logo.png">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
+    </None>
+    <None Include="..\..\readme.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
     </None>
   </ItemGroup>
   <ItemGroup>
