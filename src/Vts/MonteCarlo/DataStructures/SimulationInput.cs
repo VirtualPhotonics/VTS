@@ -16,31 +16,6 @@ namespace Vts.MonteCarlo
     public class SimulationInput
     {
         /// <summary>
-        /// string name of output file
-        /// </summary>
-        public string OutputName { get; set; }
-        /// <summary>
-        /// number of photons launched from source
-        /// </summary>
-        public long N { get; set; }
-        /// <summary>
-        /// SimulationOptions specify, for example, absorption weighting type
-        /// </summary>
-        public SimulationOptions Options { get; set; }
-        /// <summary>
-        /// source input (ISourceInput)
-        /// </summary>
-        public ISourceInput SourceInput { get; set; }
-        /// <summary>
-        /// tissue input (ITissueInput)
-        /// </summary>
-        public ITissueInput TissueInput { get; set; }
-        /// <summary>
-        /// detector input (IList of IDetectorInput)
-        /// </summary>
-        public IList<IDetectorInput> DetectorInputs { get; set; }
-
-        /// <summary>
         /// Monte Carlo simulation input data
         /// </summary>
         /// <param name="numberOfPhotons">long number indicating number of photons launched from source</param>
@@ -118,6 +93,31 @@ namespace Vts.MonteCarlo
                 TissueInput.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey3", new HenyeyGreensteinPhaseFunctionInput());
             }
     
+        /// <summary>
+        /// string name of output file
+        /// </summary>
+        public string OutputName { get; set; }
+        /// <summary>
+        /// number of photons launched from source
+        /// </summary>
+        public long N { get; set; }
+        /// <summary>
+        /// SimulationOptions specify, for example, absorption weighting type
+        /// </summary>
+        public SimulationOptions Options { get; set; }
+        /// <summary>
+        /// source input (ISourceInput)
+        /// </summary>
+        public ISourceInput SourceInput { get; set; }
+        /// <summary>
+        /// tissue input (ITissueInput)
+        /// </summary>
+        public ITissueInput TissueInput { get; set; }
+        /// <summary>
+        /// detector input (IList of IDetectorInput)
+        /// </summary>
+        public IList<IDetectorInput> DetectorInputs { get; set; }
+
         /// <summary>
         /// Method to read SimulationInput from JSON file
         /// </summary>

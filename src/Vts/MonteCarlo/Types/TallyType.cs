@@ -1,14 +1,12 @@
-using System;
-
 namespace Vts.MonteCarlo
 {
     /// <summary>
-    /// Tally Type Built in types (strings)
+    /// detector tally types
     /// </summary>
     public static class TallyType
     {
         /// <summary>
-        /// Detector types
+        /// built in types for detector tallies
         /// </summary>
         public static readonly string[] BuiltInTypes =
         {
@@ -67,7 +65,7 @@ namespace Vts.MonteCarlo
             // Transmittance as a function of source-detector separation (rho) and angle
             "TOfRhoAndAngle",
             // Transmittance as a function of x and y
-            "TOfXAndY",            
+            "TOfXAndY",
             // Transmittance as a function of Cartesian position and time and tissue subregion on the surface of the tissue
             "TOfXAndYAndTimeAndSubregion",
             // Transmittance as a function of spatial frequency (fx)
@@ -130,26 +128,28 @@ namespace Vts.MonteCarlo
             "RadianceOfFxAndZAndAngle",
             // Volume randiance as a function of x, y, z, theta and phi
             "RadianceOfXAndYAndZAndThetaAndPhi",
-            // perturbation Monte Carlo (pMC) total Absorbance
+            // perturbation Monte Carlo (pMC) total absorbance
             "pMCATotal",
-             // perturbation Monte Carlo (pMC) reflectance as a function of source-detector separation (rho) 
+            // perturbation Monte Carlo (pMC) reflectance as a function of source-detector separation (rho) 
             "pMCROfRho",
             // perturbation Monte Carlo (pMC) reflectance as a function of source-detector separation (rho) recessed in air
             "pMCROfRhoRecessed",
-             // perturbation Monte Carlo (pMC) reflectance as a function of source-detector sep. (rho) and time
+            // perturbation Monte Carlo (pMC) reflectance as a function of source-detector sep. (rho) and time
             "pMCROfRhoAndTime", 
-             // perturbation Monte Carlo (pMC) reflectance as a function of source-detector sep. (rho) and time recessed in air
+            // perturbation Monte Carlo (pMC) reflectance as a function of source-detector sep. (rho) and time recessed in air
             "pMCROfRhoAndTimeRecessed", 
             // perturbation Monte Carlo (pMC) reflectance as a function of Cartesian coordinates (x,y)
             "pMCROfXAndY",
-            // perturbation Monte Carlo (pMC) reflectance as a function  of (x,y), time and subregion
-            "pMCROfXAndYAndTimeAndSubregion",
-            // perturbation Monte Carlo (pMC) reflectance as a function  of (x,y), time and subregion recessed in air
-            "pMCROfXAndYAndTimeAndSubregionRecessed",
+            // perturbation Monte Carlo (pMC) reflectance as a function of (x,y), time and subregion
+            "pMCROfXAndYAndTimeAndSubregion", 
+            // perturbation Monte Carlo (pMC) reflectance as a function of (x,y), time and subregion recessed in air
+            "pMCROfXAndYAndTimeAndSubregionRecessed", 
             // perturbation Monte Carlo (pMC) reflectance as a function of spatial frequency (fx)
             "pMCROfFx",
             // perturbation Monte Carlo (pMC) reflectance as a function of spatial frequency (fx) and time
-            "pMCROfFxAndTime",
+            "pMCROfFxAndTime",     
+            // perturbation Monte Carlo (pMC) transmittance as a function of source-detector separation (rho) 
+            "pMCTOfRho",
             // differential Monte Carlo (dMC) d(reflectance)/dMua as a function of source-detector separation (rho)
             "dMCdROfRhodMua",
             // differential Monte Carlo (dMC) d(reflectance)/dMus as a function of source-detector separation (rho) 
@@ -351,7 +351,7 @@ namespace Vts.MonteCarlo
         /// </summary>
         public static string RadianceOfXAndYAndZAndThetaAndPhi { get { return "RadianceOfXAndYAndZAndThetaAndPhi"; } }
         /// <summary>
-        /// perturbation Monte Carlo total absorbed energy
+        /// Total absorbed energy
         /// </summary>
         public static string pMCATotal { get { return "pMCATotal"; } }
         /// <summary>

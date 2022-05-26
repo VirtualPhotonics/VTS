@@ -121,8 +121,6 @@ namespace Vts.MonteCarlo.PostProcessing
         /// <returns></returns>
         public SimulationOutput Run()
         {
-            var stopwatch = System.Diagnostics.Stopwatch.StartNew();
-
             if (_virtualBoundaryType.IsSurfaceVirtualBoundary())
             {
                 var photon = new Photon();
@@ -148,11 +146,6 @@ namespace Vts.MonteCarlo.PostProcessing
             _detectorController.NormalizeDetectors(_databaseInput.N);
 
             var postProcessedOutput = new SimulationOutput(_databaseInput, _detectors);
-
-            stopwatch.Stop();
-
-            Console.WriteLine("Monte Carlo Post Processor complete (time =" 
-                              + stopwatch.ElapsedMilliseconds / 1000f + " seconds).\r");
 
             return postProcessedOutput;
         }
