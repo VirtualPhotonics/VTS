@@ -155,7 +155,7 @@ namespace Vts.MonteCarlo.Helpers
         /// </summary>
         /// <param name="polarAngleEmissionRange">The polar angle range</param>
         /// <param name="azimuthalAngleEmissionRange">The azimuthal angle range</param>
-        /// <param name="rng">The random number generato</param>
+        /// <param name="rng">The random number generator</param>
         /// <returns>polar azimuthal angle pair</returns>
         public static PolarAzimuthalAngles GetPolarAzimuthalPairForGivenAngleRangeRandom(
             DoubleRange polarAngleEmissionRange,
@@ -216,7 +216,7 @@ namespace Vts.MonteCarlo.Helpers
         /// <summary>
         /// Provides a random position in a circle (Flat distribution)
         /// </summary>
-        /// <param name="center">The center coordiantes of the circle</param>
+        /// <param name="center">The center coordinates of the circle</param>
         /// <param name="innerRadius">The inner radius of the circle</param>
         /// <param name="outerRadius">The outer radius of the circle</param>
         /// <param name="rng">The random number generator</param>
@@ -242,7 +242,7 @@ namespace Vts.MonteCarlo.Helpers
         /// <summary>
         /// Provides a random position at circle perimeter
         /// </summary>
-        /// <param name="center">The center coordiantes of the circle</param>
+        /// <param name="center">The center coordinates of the circle</param>
         /// <param name="radius">The radius of the circle</param>
         /// <param name="rng">The random number generator</param>
         /// <returns>position</returns>
@@ -261,7 +261,7 @@ namespace Vts.MonteCarlo.Helpers
         /// <summary>
         /// Provides a random position in a circle (Gaussisan distribution)
         /// </summary>
-        /// <param name="center">The center coordiantes of the circle</param>
+        /// <param name="center">The center coordinates of the circle</param>
         /// <param name="outerRadius">The outer radius of the circle</param>
         /// <param name="innerRadius">The inner radius of the circle</param>
         /// <param name="beamDiaFWHM">Beam diameter at FWHM</param>
@@ -304,7 +304,7 @@ namespace Vts.MonteCarlo.Helpers
         /// <summary>
         /// Returns a random position in a cuboid volume (Flat distribution)
         /// </summary>
-        /// <param name="center">The center coordiantes of the cuboid</param>
+        /// <param name="center">The center coordinates of the cuboid</param>
         /// <param name="lengthX">The x-length of the cuboid</param>
         /// <param name="lengthY">The y-length of the cuboid</param>
         /// <param name="lengthZ">The z-length of the cuboid</param>
@@ -333,7 +333,7 @@ namespace Vts.MonteCarlo.Helpers
         /// <summary>
         /// Returns a random position in a cuboid volume (Gaussian distribution)
         /// </summary>
-        /// <param name="center">The center coordiantes of the cuboid</param>
+        /// <param name="center">The center coordinates of the cuboid</param>
         /// <param name="lengthX">The x-coordinate of the length</param>
         /// <param name="lengthY">The y-coordinate of the width</param>
         /// <param name="lengthZ">The z-coordinate of the height</param>
@@ -401,7 +401,7 @@ namespace Vts.MonteCarlo.Helpers
         /// <summary>
         /// Returns a random position in a line (Flat distribution)        
         /// </summary>
-        /// <param name="center">The center coordiantes of the line</param>
+        /// <param name="center">The center coordinates of the line</param>
         /// <param name="lengthX">The x-coordinate of the length</param>   
         /// <param name="beamDiaFWHM">Beam diameter at FWHM</param>
         /// <param name="rng">The random number generator</param>

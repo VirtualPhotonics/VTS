@@ -68,6 +68,7 @@ show.pMCROfXAndY =              1;
 show.pMCROfXAndYAndTimeAndSubregion = 1;
 show.pMCROfXAndYAndTimeAndSubregionRecessed = 1;
 show.pMCROfFx =                 1;
+show.pMCTOfRho =                1;
 show.ReflectedMTOfRhoAndSubregionHist = 1;
 show.ReflectedMTOfXAndYAndSubregionHist = 1;
 show.TransmittedMTOfRhoAndSubregionHist = 1;
@@ -190,7 +191,11 @@ for mci = 1:length(datanames)
     end    
     
     if isfield(results{di}, 'ROfXAndY') && show.ROfXAndY
-        figname = sprintf('log10(%s)',results{di}.ROfXAndY.Name); figure; imagesc(results{di}.ROfXAndY.Y_Midpoints, results{di}.ROfXAndY.X_Midpoints, log10(results{di}.ROfXAndY.Mean)); colorbar; title(figname); set(gcf,'Name', figname); ylabel('Y [mm]'); xlabel('X [mm]');
+        if (length(results{di}.ROfXAndY.Y_Midpoints)>1)
+          figname = sprintf('log10(%s)',results{di}.ROfXAndY.Name); figure; imagesc(results{di}.ROfXAndY.Y_Midpoints, results{di}.ROfXAndY.X_Midpoints, log10(results{di}.ROfXAndY.Mean)); colorbar; title(figname); set(gcf,'Name', figname); ylabel('Y [mm]'); xlabel('X [mm]');
+        else
+          figname = 'log10(R(x,y=0)';figure;plot(results{di}.ROfXAndY.X_Midpoints,results{di}.ROfXAndY.Mean(1,:));title(figname);xlabel('X [mm]');ylabel('R(x) [mm^-^2]');
+        end
         xynorm = (results{di}.ROfXAndY.X(2)-results{di}.ROfXAndY.X(1))*(results{di}.ROfXAndY.Y(2)-results{di}.ROfXAndY.Y(1));
         disp(['Total reflectance captured by ROfXAndY detector: ' num2str(sum(results{di}.ROfXAndY.Mean(:)*xynorm))]);
         % determine range of x, y midpoints that have non-zero data
@@ -1074,6 +1079,10 @@ for mci = 1:length(datanames)
         Fxdelta = results{di}.pMCROfFx.Fx(2)-results{di}.pMCROfFx.Fx(1);
         Fxnorm = 2 * pi * (results{di}.pMCROfFx.Fx_Midpoints * Fxdelta);
         disp(['Total reflectance captured by ROfFx detector: ' num2str(sum(results{di}.pMCROfFx.Mean.*Fxnorm'))]);
-     end
+    end     
+    if isfield(results{di}, 'pMCTOfRho') && show.pMCTOfRho
+        figname = sprintf('log10(%s)',results{di}.pMCTOfRho.Name); figure; plot(results{di}.pMCTOfRho.Rho_Midpoints, log10(results{di}.pMCTOfRho.Mean)); title(figname); set(gcf,'Name', figname); xlabel('\rho [mm]'); ylabel('pMC T(\rho) [mm^-^2]');
+        disp(['Total reflectance captured by pMCTOfRho detector: ' num2str(sum(results{di}.pMCTOfRho.Mean(:)))]);
+    end
   end
 end

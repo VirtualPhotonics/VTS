@@ -15,6 +15,7 @@ namespace Vts.MonteCarlo.Extensions
             switch (databaseType)
             {
                 case DatabaseType.pMCDiffuseReflectance:
+                case DatabaseType.pMCDiffuseTransmittance:
                     return true;
                 default:
                 case DatabaseType.DiffuseReflectance:
@@ -41,6 +42,8 @@ namespace Vts.MonteCarlo.Extensions
                     return VirtualBoundaryType.SpecularReflectance;
                 case DatabaseType.pMCDiffuseReflectance:
                     return VirtualBoundaryType.pMCDiffuseReflectance;
+                case DatabaseType.pMCDiffuseTransmittance:
+                    return VirtualBoundaryType.pMCDiffuseTransmittance;
 
             }
         }
