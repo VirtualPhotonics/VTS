@@ -987,6 +987,18 @@ namespace Vts.MonteCarlo
         /// </summary>
         public long pMC_R_xytsr_TallyCount { get { return ((long)((dynamic)ResultsDictionary[_detectorResults.First(d => d.TallyType == "pMCROfXAndYAndTimeAndSubregionRecessed").Name]).TallyCount); } }
         /// <summary>
+        /// perturbation MC Transmittance as a function of rho 
+        /// </summary>
+        public double[] pMC_T_r { get { return ((double[])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "pMCTOfRho").First().Name]).Mean); } }
+        /// <summary>
+        /// perturbation MC Transmittance as a function of rho 2nd moment
+        /// </summary>
+        public double[] pMC_T_r2 { get { return ((double[])((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "pMCTOfRho").First().Name]).SecondMoment); } }
+        /// <summary>
+        /// perturbation MC Transmittance as a function of rho Tally Count
+        /// </summary>
+        public long pMC_T_r_TallyCount { get { return ((long)((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "pMCTOfRho").First().Name]).TallyCount); } }
+        /// <summary>
         /// differential MC Reflectance as a function of rho wrt to mua
         /// </summary>
         public double[] dMCdMua_R_r { get { return ((double[])((dynamic)ResultsDictionary[_detectorResults.First(d => d.TallyType == "dMCdROfRhodMua").Name]).Mean); } }

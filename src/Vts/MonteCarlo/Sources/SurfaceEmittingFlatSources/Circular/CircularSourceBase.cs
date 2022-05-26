@@ -90,7 +90,7 @@ namespace Vts.MonteCarlo.Sources
             // sample angular distribution
             Direction finalDirection = GetFinalDirection(finalPosition);
 
-            //Find the relevent polar and azimuthal pair for the direction
+            //Find the relevant polar and azimuthal pair for the direction
             PolarAzimuthalAngles _rotationalAnglesOfPrincipalSourceAxis = SourceToolbox.GetPolarAzimuthalPairFromDirection(_newDirectionOfPrincipalSourceAxis);
 
             //Rotation and translation

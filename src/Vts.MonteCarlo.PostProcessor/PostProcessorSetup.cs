@@ -96,56 +96,122 @@ namespace Vts.MonteCarlo.PostProcessor
                 // check for pMC tallies first because could have ReflectanceTallies mixed in and want to load CollisionInfo
 
                 // Why not mirror the "on-the-fly" code, and allow for all kinds of detector inputs simultaneously? (dc 12/21/2011)
+                // I hear you.  First step is to get code to handle two different types (remove elseif) and
+                // then optimize for multiple types if possible
+
+                // put stop watch start here because several ifs below could get processed
+                var stopwatch = System.Diagnostics.Stopwatch.StartNew();
+
+                IList<IDetectorInput> detectorInputs;
                 if (input.DetectorInputs.Any(di => di.TallyDetails.IspMCReflectanceTally))
                 {
-                    IList<IDetectorInput> pMCDetectorInputs;
-                    pMCDetectorInputs = input.DetectorInputs;
+                    detectorInputs = input.DetectorInputs.Where(
+                            di => di.TallyDetails.IspMCReflectanceTally).ToList();
                     var postProcessor = new PhotonDatabasePostProcessor(
                         VirtualBoundaryType.pMCDiffuseReflectance,
-                        pMCDetectorInputs,
+                        detectorInputs,
                         PhotonDatabaseFactory.GetpMCDatabase( // database filenames are assumed to be convention
                             VirtualBoundaryType.pMCDiffuseReflectance,
                             inputFolder),
                         databaseGenerationInputFile
                     );
                     postProcessedOutput = postProcessor.Run();
+                    if (postProcessedOutput != null)
+                    {
+                        foreach (var result in postProcessedOutput.ResultsDictionary.Values)
+                        {
+                            // save all detector data to the specified folder
+                            DetectorIO.WriteDetectorToFile(result, resultsFolder);
+                        }
+                    }
                 }
-                else if (input.DetectorInputs.Any(di => di.TallyDetails.IsReflectanceTally))
+                if (input.DetectorInputs.Any(di => di.TallyDetails.IsReflectanceTally))
                 {
-
+                    detectorInputs = input.DetectorInputs.Where(
+                        di => di.TallyDetails.IsReflectanceTally).ToList();
                     var postProcessor = new PhotonDatabasePostProcessor(
                         VirtualBoundaryType.DiffuseReflectance,
-                        input.DetectorInputs,
+                        detectorInputs,
                         PhotonDatabaseFactory.GetPhotonDatabase( //database filenames are assumed to be convention
                             VirtualBoundaryType.DiffuseReflectance,
                             inputFolder),
                         databaseGenerationInputFile
                     );
                     postProcessedOutput = postProcessor.Run();
+                    if (postProcessedOutput != null)
+                    {
+                        foreach (var result in postProcessedOutput.ResultsDictionary.Values)
+                        {
+                            // save all detector data to the specified folder
+                            DetectorIO.WriteDetectorToFile(result, resultsFolder);
+                        }
+                    }
                 }
-                else if (input.DetectorInputs.Any(di => di.TallyDetails.IsTransmittanceTally))
+                if (input.DetectorInputs.Any(di => di.TallyDetails.IspMCTransmittanceTally))
                 {
+                    detectorInputs = input.DetectorInputs.Where(
+                        di => di.TallyDetails.IspMCTransmittanceTally).ToList();
+                    var postProcessor = new PhotonDatabasePostProcessor(
+                        VirtualBoundaryType.pMCDiffuseTransmittance,
+                        detectorInputs,
+                        PhotonDatabaseFactory.GetpMCDatabase( //database filenames are assumed to be convention
+                            VirtualBoundaryType.pMCDiffuseTransmittance,
+                            inputFolder),
+                        databaseGenerationInputFile
+                    );
+                    postProcessedOutput = postProcessor.Run();
+                    if (postProcessedOutput != null)
+                    {
+                        foreach (var result in postProcessedOutput.ResultsDictionary.Values)
+                        {
+                            // save all detector data to the specified folder
+                            DetectorIO.WriteDetectorToFile(result, resultsFolder);
+                        }
+                    }
+                }
+                if (input.DetectorInputs.Any(di => di.TallyDetails.IsTransmittanceTally))
+                {
+                    detectorInputs = input.DetectorInputs.Where(
+                        di => di.TallyDetails.IsTransmittanceTally).ToList();
                     var postProcessor = new PhotonDatabasePostProcessor(
                         VirtualBoundaryType.DiffuseTransmittance,
-                        input.DetectorInputs,
+                        detectorInputs,
                         PhotonDatabaseFactory.GetPhotonDatabase( //database filenames are assumed to be convention
                             VirtualBoundaryType.DiffuseTransmittance,
                             inputFolder),
                         databaseGenerationInputFile
                     );
                     postProcessedOutput = postProcessor.Run();
+                    if (postProcessedOutput != null)
+                    {
+                        foreach (var result in postProcessedOutput.ResultsDictionary.Values)
+                        {
+                            // save all detector data to the specified folder
+                            DetectorIO.WriteDetectorToFile(result, resultsFolder);
+                        }
+                    }
                 }
-                else if (input.DetectorInputs.Any(di => di.TallyDetails.IsSpecularReflectanceTally))
-                {
+                if (input.DetectorInputs.Any(di => di.TallyDetails.IsSpecularReflectanceTally))
+                { 
+                    detectorInputs = input.DetectorInputs.Where(
+                        di => di.TallyDetails.IsSpecularReflectanceTally).ToList();
                     var postProcessor = new PhotonDatabasePostProcessor(
                         VirtualBoundaryType.SpecularReflectance,
-                        input.DetectorInputs,
+                        detectorInputs,
                         PhotonDatabaseFactory.GetPhotonDatabase( //database filenames are assumed to be convention
                             VirtualBoundaryType.SpecularReflectance,
                             inputFolder),
                         databaseGenerationInputFile
                     );
                     postProcessedOutput = postProcessor.Run();
+                    if (postProcessedOutput != null)
+                    {
+                        foreach (var result in postProcessedOutput.ResultsDictionary.Values)
+                        {
+                            // save all detector data to the specified folder
+                            DetectorIO.WriteDetectorToFile(result, resultsFolder);
+                        }
+                    }
                 }
 
                 // save input file to output folder with results
@@ -155,14 +221,10 @@ namespace Vts.MonteCarlo.PostProcessor
                 databaseGenerationInputFile.ToFile(Path.Combine(resultsFolder,
                     input.OutputName + "_database_infile.txt"));
 
-                if (postProcessedOutput != null)
-                {
-                    foreach (var result in postProcessedOutput.ResultsDictionary.Values)
-                    {
-                        // save all detector data to the specified folder
-                        DetectorIO.WriteDetectorToFile(result, resultsFolder);
-                    }
-                }
+                stopwatch.Stop();
+
+                Console.WriteLine("Monte Carlo Post Processor complete (time ="
+                                  + stopwatch.ElapsedMilliseconds / 1000f + " seconds).\r");
             }
             else
             {

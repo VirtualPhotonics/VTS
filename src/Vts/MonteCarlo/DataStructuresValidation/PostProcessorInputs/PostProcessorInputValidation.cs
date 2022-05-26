@@ -90,6 +90,14 @@ namespace Vts.MonteCarlo
                       "PostProcessorInput:  files DiffuseReflectanceDatabase or CollisionInfoDatabase do not exist",
                       "check that VirtualBoundaryType and database type agree");
             }
+            if (detectorInputs.Select(di => di.TallyDetails.IspMCTransmittanceTally).Any()) //pMC uses same exit db as regular post-processing
+            {
+                return new ValidationResult(
+                    File.Exists(Path.Combine(inputFolder, "DiffuseTransmittanceDatabase")) &&
+                    File.Exists(Path.Combine(inputFolder, "CollisionInfoDatabase")),
+                    "PostProcessorInput:  files DiffuseTransmittanceDatabase or CollisionInfoDatabase do not exist",
+                    "check that VirtualBoundaryType and database type agree");
+            }
             return new ValidationResult(
                 true,
                 "PostProcessor database exists");

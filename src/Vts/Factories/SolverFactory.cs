@@ -1,11 +1,8 @@
 using System;
-using Unity;
-using Unity.Injection;
-using Unity.Lifetime;
-using Unity.Registration;
 using Vts.Modeling.ForwardSolvers;
 using Vts.Modeling.Optimizers;
 using Vts.SpectralMapping;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Vts.Factories
 {
@@ -14,25 +11,27 @@ namespace Vts.Factories
     /// </summary>
     public class SolverFactory
     {
-        private static readonly UnityContainer _container;
+        private static readonly ServiceCollection Services;
+        private static readonly ServiceProvider ServiceProvider;
 
         /// <summary>
         /// constructor for solver factory
         /// </summary>
         static SolverFactory()
         {
-            _container = new UnityContainer();
+            Services = new ServiceCollection();
 
             // use convention to map fs names (w/o "ForwardSolver") to enum types
             // e.g. ForwardSolverType.Nurbs will register to NurbsForwardSolver 
             RegisterClassesToEnumTypesByConvention<ForwardSolverType, IForwardSolver>(
-                typeof(ForwardSolverBase).Namespace, true, true);
+                typeof(ForwardSolverBase).Namespace);
 
             RegisterClassesToEnumTypesByConvention<OptimizerType, IOptimizer>(
-                typeof(MPFitLevenbergMarquardtOptimizer).Namespace, true, true);
+                typeof(MPFitLevenbergMarquardtOptimizer).Namespace);
 
             RegisterClassesToEnumTypesByConvention<ScatteringType, IScatterer>(
-                typeof(IntralipidScatterer).Namespace, false, true);
+                typeof(IntralipidScatterer).Namespace);
+            ServiceProvider = Services.BuildServiceProvider();
         }
 
         /// <summary>
@@ -43,14 +42,8 @@ namespace Vts.Factories
         /// <typeparam name="TEnum"></typeparam>
         /// <typeparam name="TInterface"></typeparam>
         /// <param name="namespaceString"></param>
-        /// <param name="useSingleton"></param>
-        /// <param name="useDefaultConstructor"></param>
-        private static void RegisterClassesToEnumTypesByConvention<TEnum, TInterface>(
-            string namespaceString,
-            bool useSingleton,
-            bool useDefaultConstructor)
+        private static void RegisterClassesToEnumTypesByConvention<TEnum, TInterface>(string namespaceString)
         {
-            // is this what AutoMapper is for?
             var enumValues = EnumHelper.GetValues<TEnum>();
             foreach (var enumValue in enumValues)
             {
@@ -59,32 +52,11 @@ namespace Vts.Factories
                 var classType = Type.GetType(namespaceString + @"." + enumValue + interfaceBasename, false, true);
                 if (!object.Equals(classType, null))
                 {
-                    if (useSingleton)
-                    {
-                        _container.RegisterSingleton(
-                            interfaceType,
-                            classType,
-                            enumValue.ToString(),
-                            useDefaultConstructor ? new InjectionMember[] { new InjectionConstructor() } : null);
-                    }
-                    else
-                    {
-                        _container.RegisterType(
-                            interfaceType,
-                            classType,
-                            enumValue.ToString(),
-                            useDefaultConstructor ? new InjectionMember[] { new InjectionConstructor() } : null);
-                    }
-
-                    //_container.RegisterType(
-                    // interfaceType,
-                    // classType,
-                    // enumValue.ToString(), // use the enum string to register each class
-                    // useSingleton ? new ContainerControlledLifetimeManager() : null,
-                    // useDefaultConstructor ? new InjectionMember[] { new InjectionConstructor() } : null)
+                    Services.AddSingleton(classType);
                 }
             }
         }
+
         /// <summary>
         /// method to get forward solver from enum type
         /// </summary>
@@ -94,6 +66,7 @@ namespace Vts.Factories
         {
             return GetForwardSolver(forwardSolverType.ToString());
         }
+
         /// <summary>
         /// method to get forward solver from string name
         /// </summary>
@@ -103,13 +76,16 @@ namespace Vts.Factories
         {
             try
             {
-                return _container.Resolve<IForwardSolver>(forwardSolverType);
+                var classNameString = $"{typeof(ForwardSolverBase).Namespace}.{forwardSolverType}ForwardSolver";
+                var classType = Type.GetType(classNameString);
+                return (IForwardSolver)ServiceProvider.GetService(classType);
             }
             catch (Exception)
             {
                 return null;
             }
         }
+
         /// <summary>
         /// method to get Scatter from enum
         /// </summary>
@@ -119,6 +95,7 @@ namespace Vts.Factories
         {
             return GetScattererType(scatteringType.ToString());
         }
+
         /// <summary>
         /// method to get Scatter from scattering name string
         /// </summary>
@@ -131,13 +108,16 @@ namespace Vts.Factories
                 // add overload of GetScattererType that takes in a tissue type 
                 // for choosing good defaults. Need to understand how to configure Unity
                 // to allow for both types of resolution (right now, calls default constructor)
-                return _container.Resolve<IScatterer>(scatteringType);
+                var classNameString = $"{typeof(IntralipidScatterer).Namespace}.{scatteringType}Scatterer";
+                var classType = Type.GetType(classNameString);
+                return (IScatterer)ServiceProvider.GetService(classType);
             }
             catch (Exception)
             {
                 return null;
             }
         }
+
         /// <summary>
         /// method to get optimizer from enum
         /// </summary>
@@ -147,16 +127,19 @@ namespace Vts.Factories
         {
             return GetOptimizer(type.ToString());
         }
+
         /// <summary>
         /// method to get optimizer from name string
         /// </summary>
-        /// <param name="type">optimizer name string</param>
+        /// <param name="optimizerType">optimizer name string</param>
         /// <returns>IOptimizer</returns>
-        public static IOptimizer GetOptimizer(string type)
+        public static IOptimizer GetOptimizer(string optimizerType)
         {
             try
             {
-                return _container.Resolve<IOptimizer>(type);
+                var classNameString = $"{typeof(MPFitLevenbergMarquardtOptimizer).Namespace}.{optimizerType}Optimizer";
+                var classType = Type.GetType(classNameString);
+                return (IOptimizer)ServiceProvider.GetService(classType);
             }
             catch (Exception)
             {

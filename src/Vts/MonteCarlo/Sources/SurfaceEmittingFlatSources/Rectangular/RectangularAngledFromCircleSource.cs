@@ -22,7 +22,7 @@ namespace Vts.MonteCarlo.Sources
         /// </summary>
         /// <param name="rectLengthX">The length of the Rectangular Source</param>
         /// <param name="rectWidthY">The width of the Rectangular Source</param>
-        /// <param name="sourceProfile">Source Profile {Flat / Gaussian} of rectangle</param>
+        /// <param name="sourceProfile">source profile (Flat/Gaussian) of rectangle on tissue</param>
         /// <param name="translationFromOrigin">rectangle on tissue surface translation</param>
         /// <param name="radiusInAir">radius of originating circle</param>
         /// <param name="circleInAirTranslationFromOrigin">Center of circle in air location</param>
@@ -127,7 +127,7 @@ namespace Vts.MonteCarlo.Sources
         /// </summary>
         /// <param name="rectLengthX">The length of the Rectangular Source</param>
         /// <param name="rectWidthY">The width of the Rectangular Source</param>
-        /// <param name="sourceProfile">Source Profile {Flat / Gaussian}</param>  
+        /// <param name="sourceProfile">Source profile (Flat/Gaussian) of rectangle on tissue surface</param>  
         /// <param name="translationFromOrigin">New rectangular source location</param>    
         /// <param name="radiusInAir">radius of circle in air</param>
         /// <param name="circleInAirTranslationFromOrigin">New circle in air location</param>    
