@@ -147,7 +147,9 @@ namespace Vts.MonteCarlo
             // perturbation Monte Carlo (pMC) reflectance as a function of spatial frequency (fx)
             "pMCROfFx",
             // perturbation Monte Carlo (pMC) reflectance as a function of spatial frequency (fx) and time
-            "pMCROfFxAndTime",
+            "pMCROfFxAndTime",     
+            // perturbation Monte Carlo (pMC) transmittance as a function of source-detector separation (rho) 
+            "pMCTOfRho",
             // differential Monte Carlo (dMC) d(reflectance)/dMua as a function of source-detector separation (rho)
             "dMCdROfRhodMua",
             // differential Monte Carlo (dMC) d(reflectance)/dMus as a function of source-detector separation (rho) 

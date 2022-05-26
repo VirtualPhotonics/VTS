@@ -54,6 +54,9 @@ namespace Vts.MonteCarlo.Factories
                 case DatabaseType.pMCDiffuseReflectance:
                     return new PhotonDatabaseWriter(VirtualBoundaryType.pMCDiffuseReflectance,
                         Path.Combine(filePath, outputName, "DiffuseReflectanceDatabase"));
+                case DatabaseType.pMCDiffuseTransmittance:
+                    return new PhotonDatabaseWriter(VirtualBoundaryType.pMCDiffuseTransmittance,
+                        Path.Combine(filePath, outputName, "DiffuseTransmittanceDatabase"));
             }
         }
         /// <summary>
@@ -91,6 +94,10 @@ namespace Vts.MonteCarlo.Factories
                 case DatabaseType.pMCDiffuseReflectance:
                     return new CollisionInfoDatabaseWriter(VirtualBoundaryType.pMCDiffuseReflectance,
                         Path.Combine(filePath, outputName, "CollisionInfoDatabase"), 
+                        tissue.Regions.Count());
+                case DatabaseType.pMCDiffuseTransmittance:
+                    return new CollisionInfoDatabaseWriter(VirtualBoundaryType.pMCDiffuseTransmittance,
+                        Path.Combine(filePath, outputName, "CollisionInfoTransmittanceDatabase"),
                         tissue.Regions.Count());
             }
         }

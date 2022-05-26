@@ -276,7 +276,7 @@ namespace Vts.MonteCarlo.Detectors
                         }
                     },
                     ReadData = binaryReader => {
-                        TOfXAndY = TOfXAndY ?? new double[ X.Count - 1, Y.Count];
+                        TOfXAndY = TOfXAndY ?? new double[ X.Count - 1, Y.Count - 1];
                         for (int i = 0; i <  X.Count - 1; i++) {
                             for (int j = 0; j < Y.Count - 1; j++) {
                                 TOfXAndY[i, j] = binaryReader.ReadDouble();
@@ -331,7 +331,7 @@ namespace Vts.MonteCarlo.Detectors
                         }
                     },
                     ReadData = binaryReader => {
-                        TOfXAndYSecondMoment = TOfXAndYSecondMoment ?? new double[ X.Count - 1, Y.Count];
+                        TOfXAndYSecondMoment = TOfXAndYSecondMoment ?? new double[ X.Count - 1, Y.Count - 1];
                         for (int i = 0; i <  X.Count - 1; i++) {
                             for (int j = 0; j < Y.Count - 1; j++) {
                                 TOfXAndYSecondMoment[i, j] = binaryReader.ReadDouble();

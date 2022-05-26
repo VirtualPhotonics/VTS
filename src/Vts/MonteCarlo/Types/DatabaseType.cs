@@ -31,8 +31,13 @@ namespace Vts.MonteCarlo
         /// </summary>
         pMCDiffuseReflectance,
         /// <summary>
+        /// pMC diffuse transmittance
+        /// </summary>
+        pMCDiffuseTransmittance,
+        /// <summary>
         /// Zemax uncompressed database format
         /// </summary>
         ZRDDiffuseReflectance,
+
     }
 }

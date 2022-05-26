@@ -130,10 +130,10 @@ namespace Vts.Test.MonteCarlo.Sources
             ITissue tissue = new MultiLayerTissue();
             var profile = new FlatSourceProfile();
             var _radius = 1.0;
-            var _pointLocation = new Position(0, 0, -1); // put directly above
-            var _translationFromOrigin = new Position(0, 0, 0);  
+            var pointLocation = new Position(0, 0, -1); // put directly above
+            var translationFromOrigin = new Position(0, 0, 0);  
 
-            var ps = new CircularAngledFromPointSource(_radius, profile, _pointLocation, _translationFromOrigin)
+            var ps = new CircularAngledFromPointSource(_radius, profile, pointLocation, translationFromOrigin)
             {
                 Rng = rng
             };
@@ -142,10 +142,10 @@ namespace Vts.Test.MonteCarlo.Sources
             Assert.AreEqual(0.0, photon.DP.Position.Z);
             // make sure initial position is inside radius
             Assert.IsTrue(Math.Sqrt(
-                (photon.DP.Position.X - _translationFromOrigin.X) *
-                (photon.DP.Position.X - _translationFromOrigin.X) +
-                (photon.DP.Position.Y - _translationFromOrigin.Y) *
-                (photon.DP.Position.Y - _translationFromOrigin.Y)) <= _radius);
+                (photon.DP.Position.X - translationFromOrigin.X) *
+                (photon.DP.Position.X - translationFromOrigin.X) +
+                (photon.DP.Position.Y - translationFromOrigin.Y) *
+                (photon.DP.Position.Y - translationFromOrigin.Y)) <= _radius);
             // make sure angle is less than 45 degrees
             Assert.IsTrue(photon.DP.Direction.Uz >= 1 / Math.Sqrt(2));
         }
@@ -158,18 +158,20 @@ namespace Vts.Test.MonteCarlo.Sources
         {
             Random rng = new MathNet.Numerics.Random.MersenneTwister(0); // not really necessary here, as this is now the default
             ITissue tissue = new MultiLayerTissue();
-            var _profile = new FlatSourceProfile();
-            var _radiusOnTissue = 10.0;
-            var _translationFromOrigin = new Position(0, 0, 0);
-            var _radiusInAir = 0.0;
-            var _circleInAirTranslationFromOrigin = new Position(0, 0, -10);
+            var profile = new FlatSourceProfile();
+            var radiusOnTissue = 10.0;
+            var translationFromOrigin = new Position(0, 0, 0);
+            var radiusInAir = 0.0;
+            var circleInAirTranslationFromOrigin = new Position(0, 0, -10);
+            var circleInAirRotation = new Direction(0, 0, 1); // make perpendicular
 
             var ps = new CircularAngledFromCircleSource(
-                _radiusOnTissue, 
-                _profile,
-                _translationFromOrigin,
-                _radiusInAir, 
-                _circleInAirTranslationFromOrigin)
+                radiusOnTissue, 
+                profile,
+                translationFromOrigin,
+                radiusInAir, 
+                circleInAirTranslationFromOrigin,
+                circleInAirRotation)
             {
                 Rng = rng
             };
@@ -178,7 +180,7 @@ namespace Vts.Test.MonteCarlo.Sources
             Assert.AreEqual(0.0, photon.DP.Position.Z);
             // make sure initial position is inside radius
             Assert.IsTrue(Math.Sqrt(photon.DP.Position.X * photon.DP.Position.X +
-                                    photon.DP.Position.Y * photon.DP.Position.Y) <= _radiusOnTissue);
+                                    photon.DP.Position.Y * photon.DP.Position.Y) <= radiusOnTissue);
             // make sure angle is less than 45 degrees
             Assert.IsTrue(photon.DP.Direction.Uz >= 1 / Math.Sqrt(2));
         }
