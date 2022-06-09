@@ -231,7 +231,7 @@ namespace Vts.MonteCarlo.Helpers
         }
 
         /// <summary>
-        /// Provides a random position in a circle (Gaussisan distribution)
+        /// Provides a random position in a circle (Gaussian distribution)
         /// </summary>
         /// <param name="center">The center coordinates of the circle</param>
         /// <param name="outerRadius">The outer radius of the circle</param>
@@ -254,7 +254,7 @@ namespace Vts.MonteCarlo.Helpers
             if (beamDiaFWHM <= 0.0)
                 beamDiaFWHM = 1e-20;
 
-            //http://www.zemax.com/kb/articles/177/1/How-To-Convert-FWHM-Measurements-to-1e-Squared-Halfwidths/Page1.html
+            //https://support.zemax.com/hc/en-us/articles/1500005488161-How-to-convert-FWHM-measurements-to-1-e-2-halfwidths
             double x = 0.0;
             double y = 0.0;
             double factorL = outerRadius / (0.8493218 * beamDiaFWHM);
