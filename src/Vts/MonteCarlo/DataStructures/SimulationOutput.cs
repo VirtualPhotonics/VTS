@@ -18,27 +18,13 @@ namespace Vts.MonteCarlo
         /// <param name="detectorResults">list of IDetector</param>
         public SimulationOutput(SimulationInput si, IList<IDetector> detectorResults)
         {
-            int count = 1;
             Input = si;
             ResultsDictionary = new Dictionary<String, IDetector>();
             foreach (var detector in detectorResults)
             {
-                try
-                {
-                    ResultsDictionary.Add(detector.Name, detector);
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine("Problem adding detector results to dictionary.\n\nDetails:\n\n" + e + "\n");
-                    if (e is ArgumentException)
-                    {
-                        Console.WriteLine("detector with that name already exists in dictionary\n");
-                        Console.WriteLine("Adding detector with name = " + detector.Name + count + " instead.\n");
-                        string newName = detector.Name + count;
-                        ResultsDictionary.Add(newName, detector);
-                        ++count;
-                    }
-                }
+                // verification that all detectors have unique names performed in
+                // SimulationInputValidation
+                ResultsDictionary.Add(detector.Name, detector);
             }
             _detectorResults = detectorResults;
         }

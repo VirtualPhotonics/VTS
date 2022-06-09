@@ -123,6 +123,15 @@ namespace Vts.MonteCarlo
                         "Please omit " + detectorInput.ToString() + " from DetectorInput list");
                 }
             }
+            // make sure all detectors have unique Names
+            var allDetectorInputNames = si.DetectorInputs.Select(d => d.Name).ToList();
+            if (allDetectorInputNames.Count != allDetectorInputNames.Distinct().Count())
+            {
+                return new ValidationResult(
+                        false,
+                        "Duplicate Name used for detector",
+                        "Please check for duplicate names and make sure all Names are unique");
+            }
             return new ValidationResult(
                 true,
                 "DetectorInput must be valid",
