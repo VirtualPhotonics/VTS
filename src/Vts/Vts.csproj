@@ -52,10 +52,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Compile Remove="Common\Helpers\FuncOfT.cs" />
-    <Compile Remove="Common\Helpers\Tuple.cs" />
-  </ItemGroup>
-  <ItemGroup>
     <None Remove="Modeling\Resources\HankelData\basepoints.dat" />
     <None Remove="Modeling\Resources\HankelData\hankelweights.dat" />
     <None Remove="Modeling\Resources\ReferenceData\N1e8mua0musp1g0p8dr0p2dt0p005\ROfFxAndTime" />
