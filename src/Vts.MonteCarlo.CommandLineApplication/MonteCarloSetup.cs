@@ -101,7 +101,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
                 {
                     // batch parameter values should come in fours for Delta and Count
                     case ParameterSweepType.Delta:
-                        // eg. paramsweepdelta=mua1,-4.0,4.0,0.05 paramsweepdelta=mus1,0.5,1.5,0.1 paramsweepdelta=mus2,0.5,1.5,0.1 ...
+                        // eg. paramsweepdelta=mua1,0.0,4.0,0.05 paramsweepdelta=mus1,0.5,1.5,0.1 paramsweepdelta=mus2,0.5,1.5,0.1 ...
                         start = double.Parse(parameterSweepString[1]);
                         stop = double.Parse(parameterSweepString[2]);
                         delta = double.Parse(parameterSweepString[3]);
@@ -109,13 +109,14 @@ namespace Vts.MonteCarlo.CommandLineApplication
                         sweepRange = new DoubleRange(start, stop, (int)(Math.Round((stop - start) / delta)) + 1);
                         return new ParameterSweep(inputParameterType, sweepRange);
                     case ParameterSweepType.Count: 
-                        // eg. paramsweep=mua1,-4.0,4.0,101 paramsweep=mus1,0.5,1.5,3 paramsweep=mus2,0.5,1.5,3 ...
+                        // eg. paramsweep=mua1,0.01,4.0,101 paramsweep=mus1,0.5,1.5,3 paramsweep=mus2,0.5,1.5,3 ...
                         start = double.Parse(parameterSweepString[1]);
                         stop = double.Parse(parameterSweepString[2]);
                         count = int.Parse(parameterSweepString[3]);
                         sweepRange = new DoubleRange(start, stop, count);
                         return new ParameterSweep(inputParameterType, sweepRange);
                     case ParameterSweepType.List:
+                        // eg. paramsweeplist=mua1,2,0.01,0.02
                         var number = int.Parse(parameterSweepString[1]);
                         var sweepList = new double[number];
                         for (int i = 0; i < number; i++)

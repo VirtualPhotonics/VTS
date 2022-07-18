@@ -284,6 +284,21 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
         }
 
         /// <summary>
+        /// test to verify Seed sweep using paramsweeplist
+        /// </summary>
+        [Test]
+        public void validate_parameter_sweep_folder_names_for_parameter_sweep_of_Seed()
+        {
+            string[] arguments = new string[]
+            {
+                "infile=infile_one_layer_ROfRho_FluenceOfRhoAndZ.txt", "paramsweeplist=seed,2,-1,0"
+            };
+            Program.Main(arguments);
+            Assert.IsTrue(Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_seed_-1"));
+            Assert.IsTrue(Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ_seed_0"));
+        }
+
+        /// <summary>
         /// test to verify correct parameter sweep folder names created for output
         /// </summary>
         [Test]
