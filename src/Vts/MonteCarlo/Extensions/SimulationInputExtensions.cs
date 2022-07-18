@@ -41,6 +41,9 @@ namespace Vts.MonteCarlo.Extensions
                 case "nphot":
                     result.N = (long)value;
                     break;
+                case "seed":
+                    result.Options.Seed = (int)value;
+                    break;
                 case "mua":
                     if (regionIndex >= 0 && result.TissueInput.Regions.Count() > regionIndex)
                         result.TissueInput.Regions[regionIndex].RegionOP.Mua = value;

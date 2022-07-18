@@ -325,6 +325,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
             logger.Info("ni\t\trefractive index for tissue layer i");
             logger.Info("gi\t\tanisotropy for tissue layer i");
             logger.Info("\nnphot\t\tnumber of photons to launch from the source");
+            logger.Info("\nseed\t\tseed of random number generator");
             logger.Info("\nsample usage:");
             logger.Info("dotnet mc.dll infile=myinput outname=myoutput paramsweep=mua1,0.01,0.04,4 paramsweep=mus1,10,20,2 paramsweep=nphot,1000000,2000000,2\n");
         }

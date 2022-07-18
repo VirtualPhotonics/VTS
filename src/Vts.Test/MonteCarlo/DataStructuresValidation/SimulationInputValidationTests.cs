@@ -48,6 +48,20 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation
             Assert.IsFalse(result.IsValid);
         }
         [Test]
+        public void validate_duplicate_detector_name_is_invalid()
+        {
+            // generate input with detector input with duplicate names
+            var input = new SimulationInput()
+            {
+                 DetectorInputs = new List<IDetectorInput> { 
+                     new ROfRhoDetectorInput() {Name = "ROfRho1"},
+                     new ROfRhoDetectorInput() {Name = "ROfRho1"}
+                 }
+            };
+            var result = SimulationInputValidation.ValidateInput(input);
+            Assert.IsFalse(result.IsValid);
+        }
+        [Test]
         public void validate_ellipsoid_tissue_with_off_zaxis_center_and_cylindrical_detectors_are_not_defined_together()
         {
             // generate input embedded ellipsoid tissue and cylindrical detector
