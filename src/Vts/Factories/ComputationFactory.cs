@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using System.Runtime.CompilerServices;
 using Vts.Common;
 using Vts.Extensions;
 using Vts.Modeling;
@@ -12,6 +13,15 @@ using Vts.Modeling.ForwardSolvers.Extensions;
 
 namespace Vts.Factories
 {
+    /// <summary>
+    /// The <see cref="Factories"/> namespace contains the factory classes for the Virtual Tissue Simulator
+    /// </summary>
+
+    [CompilerGenerated]
+    internal class NamespaceDoc
+    {
+    }
+
     /// <summary>
     /// Class that composes forward and optimization calculations based on high-level inputs
     /// </summary>

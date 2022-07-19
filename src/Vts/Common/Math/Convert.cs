@@ -3,6 +3,15 @@ using System;
 namespace Vts.Common.Math
 {
     /// <summary>
+    /// The <see cref="Math"/> namespace contains the math classes for the Virtual Tissue Simulator
+    /// </summary>
+
+    [System.Runtime.CompilerServices.CompilerGenerated]
+    internal class NamespaceDoc
+    {
+    }
+
+    /// <summary>
     /// Conversion utilities
     /// </summary>
     public static class Convert

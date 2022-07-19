@@ -1,7 +1,17 @@
 ﻿using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 namespace Vts.Extensions
 {
+    /// <summary>
+    /// The <see cref="Extensions"/> namespace contains the classes with the extension methods for the Virtual Tissue Simulator
+    /// </summary>
+
+    [CompilerGenerated]
+    internal class NamespaceDoc
+    {
+    }
+
     /// <summary>
     /// Helper group of extension methods for array-based operations
     /// </summary>

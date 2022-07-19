@@ -1,12 +1,21 @@
+using MathNet.Numerics;
+using Meta.Numerics.Analysis;
 using System;
 using System.Collections.Generic;
 using System.Numerics;
-using MathNet.Numerics;
-using Meta.Numerics.Analysis;
-using Meta.Numerics.Functions;
+using System.Runtime.CompilerServices;
 
 namespace Vts.Modeling.ForwardSolvers.Extensions
 {
+    /// <summary>
+    /// The <see cref="Extensions"/> namespace contains the extension methods for photon hitting density map generation in the Virtual Tissue Simulator
+    /// </summary>
+
+    [CompilerGenerated]
+    internal class NamespaceDoc
+    {
+    }
+
     /// <summary>
     /// extension methods for photon hitting density map generation
     /// </summary>

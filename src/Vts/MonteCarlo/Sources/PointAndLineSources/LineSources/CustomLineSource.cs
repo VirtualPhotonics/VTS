@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using Vts.Common;
 using Vts.MonteCarlo.Helpers;
 using Vts.MonteCarlo.Interfaces;
@@ -6,6 +7,15 @@ using Vts.MonteCarlo.Sources.SourceProfiles;
 
 namespace Vts.MonteCarlo.Sources
 {
+    /// <summary>
+    /// The <see cref="Sources"/> namespace contains the Monte Carlo source classes for the Virtual Tissue Simulator
+    /// </summary>
+
+    [CompilerGenerated]
+    internal class NamespaceDoc
+    {
+    }
+
     /// <summary>
     /// Implements ISourceInput. Defines input data for CustomLineSource implementation 
     /// including line length, source profile, polar angle range, azimuthal angle range, 

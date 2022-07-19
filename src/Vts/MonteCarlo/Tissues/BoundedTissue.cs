@@ -1,11 +1,21 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Vts.Common;
 using Vts.Extensions;
 
 namespace Vts.MonteCarlo.Tissues
-{   
+{
+    /// <summary>
+    /// The <see cref="Tissues"/> namespace contains the Monte Carlo tissue classes for the Virtual Tissue Simulator
+    /// </summary>
+
+    [CompilerGenerated]
+    internal class NamespaceDoc
+    {
+    }
+
     /// <summary>
     /// Implements ITissue.  Defines a tissue geometry comprised of a layered slab bounded laterally by a TissueRegion.
     /// </summary>

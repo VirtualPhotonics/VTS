@@ -1,11 +1,21 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using MPFitLib;
 using Vts.Extensions;
 
 namespace Vts.Modeling.Optimizers
 {
+    /// <summary>
+    /// The <see cref="Optimizers"/> namespace contains the optimizer classes for the Virtual Tissue Simulator
+    /// </summary>
+
+    [CompilerGenerated]
+    internal class NamespaceDoc
+    {
+    }
+
     /// <summary>
     /// Data input to the optimization method Solve.
     /// ForwardFunc:delegate function that evaluates the objective function given a parameter optimization array and (optional) constant variables

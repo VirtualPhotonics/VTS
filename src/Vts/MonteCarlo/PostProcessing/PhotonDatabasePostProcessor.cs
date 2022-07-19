@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Vts.MonteCarlo.Controllers;
 using Vts.MonteCarlo.Extensions;
@@ -8,6 +9,15 @@ using Vts.MonteCarlo.PhotonData;
 
 namespace Vts.MonteCarlo.PostProcessing
 {
+    /// <summary>
+    /// The <see cref="PostProcessing"/> namespace contains the Monte Carlo post processing classes for the Virtual Tissue Simulator
+    /// </summary>
+
+    [CompilerGenerated]
+    internal class NamespaceDoc
+    {
+    }
+
     /// <summary>
     /// Sets up and postprocesses Monte Carlo termination data that has been 
     /// saved in a database.

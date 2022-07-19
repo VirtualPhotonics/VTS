@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Vts.Common;
 using Vts.IO;
 using Vts.MonteCarlo.Helpers;
@@ -9,6 +10,15 @@ using Vts.MonteCarlo.PhotonData;
 
 namespace Vts.MonteCarlo.Detectors
 {
+    /// <summary>
+    /// The <see cref="Detectors"/> namespace contains the Monte Carlo detector classes for the Virtual Tissue Simulator
+    /// </summary>
+
+    [CompilerGenerated]
+    internal class NamespaceDoc
+    {
+    }
+
     /// <summary>
     /// Tally for absorbed energy as a function of Rho and Z.
     /// This works for Analog and DAW processing.

@@ -13,9 +13,19 @@
 // limitations under the License.
 
 using System;
+using System.Runtime.CompilerServices;
 
 namespace Vts.Common.Logging
 {
+    /// <summary>
+    /// The <see cref="Logging"/> namespace contains the logging classes for the Virtual Tissue Simulator
+    /// </summary>
+
+    [CompilerGenerated]
+    internal class NamespaceDoc
+    {
+    }
+
     /// <summary>
     ///   Manages logging.
     /// </summary>

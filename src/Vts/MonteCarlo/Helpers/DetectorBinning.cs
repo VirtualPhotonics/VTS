@@ -1,8 +1,18 @@
 using System;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace Vts.MonteCarlo.Helpers
 {
+    /// <summary>
+    /// The <see cref="Helpers"/> namespace contains the Monte Carlo helper classes for the Virtual Tissue Simulator
+    /// </summary>
+
+    [CompilerGenerated]
+    internal class NamespaceDoc
+    {
+    }
+
     /// <summary> 
     /// Methods that aid in determining which detector bin to tally.
     /// </summary>

@@ -1,10 +1,20 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using Vts.Common;
 using Vts.MonteCarlo.PhotonData;
 using Vts.MonteCarlo.Tissues;
 
 namespace Vts.MonteCarlo.VirtualBoundaries
 {
+    /// <summary>
+    /// The <see cref="VirtualBoundaries"/> namespace contains the Monte Carlo virtual boundary classes for the Virtual Tissue Simulator
+    /// </summary>
+
+    [CompilerGenerated]
+    internal class NamespaceDoc
+    {
+    }
+
     /// <summary>
     /// Implements IVirtualBoundary.  Used to capture all photons absorbed by bounding cylinder
     /// </summary>

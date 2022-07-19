@@ -1,9 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace Vts.MonteCarlo.Rng
 {
+    /// <summary>
+    /// The <see cref="Rng"/> namespace contains the Monte Carlo random number classes for the Virtual Tissue Simulator
+    /// </summary>
+
+    [CompilerGenerated]
+    internal class NamespaceDoc
+    {
+    }
+
     /// <summary>
     /// This class creates a parallelizable representation of the Mersenne Twister class.
     /// Code from Dynamic Creator (dc) Home Page

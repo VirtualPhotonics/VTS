@@ -1,10 +1,20 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Vts.MonteCarlo.PhotonData;
 
 namespace Vts.MonteCarlo.Factories
 {
+    /// <summary>
+    /// The <see cref="Factories"/> namespace contains the Monte Carlo factory classes for the Virtual Tissue Simulator
+    /// </summary>
+
+    [CompilerGenerated]
+    internal class NamespaceDoc
+    {
+    }
+
     /// <summary>
     /// Factory methods to provide the PhotonDatabaseWriter (or list of PhotonDatabaseWriters)
     /// or CollisionInfoDatabaseWriter (or list).

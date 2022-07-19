@@ -21,6 +21,15 @@ using NLog;
 namespace Vts.Common.Logging.NLogIntegration
 {
     /// <summary>
+    /// The <see cref="NLogIntegration"/> namespace contains the NLog specific classes for the Virtual Tissue Simulator
+    /// </summary>
+
+    [CompilerGenerated]
+    internal class NamespaceDoc
+    {
+    }
+
+    /// <summary>
     ///   Implementation of <see cref = "ILogger" /> for NLog.
     /// </summary>
     public class NLogLogger : ILogger

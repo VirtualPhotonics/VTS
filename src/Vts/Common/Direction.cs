@@ -1,7 +1,17 @@
 using System.IO;
+using System.Runtime.CompilerServices;
 
 namespace Vts.Common
 {
+    /// <summary>
+    /// The <see cref="Common"/> namespace contains the common classes for the Virtual Tissue Simulator
+    /// </summary>
+
+    [CompilerGenerated]
+    internal class NamespaceDoc
+    {
+    }
+
     /// <summary>
     /// Class describes unit directional vector.
     /// </summary>

@@ -1,11 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Meta.Numerics.Matrices;
 using Vts.Extensions;
 
 namespace Vts.Modeling.ForwardSolvers.DiscreteOrdinates
 {
+    /// <summary>
+    /// The <see cref="Common"/> namespace contains the discrete ordinate classes for the Virtual Tissue Simulator
+    /// </summary>
+
+    [CompilerGenerated]
+    internal class NamespaceDoc
+    {
+    }
+
     /// <summary>
     /// discrete ordinates methods class
     /// </summary>

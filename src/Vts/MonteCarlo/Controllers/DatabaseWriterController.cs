@@ -1,9 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using Vts.MonteCarlo.PhotonData;
 
 namespace Vts.MonteCarlo.Controllers
 {
+    /// <summary>
+    /// The <see cref="Controllers"/> namespace contains the Monte Carlo controller classes for the Virtual Tissue Simulator
+    /// </summary>
+
+    [CompilerGenerated]
+    internal class NamespaceDoc
+    {
+    }
+
     /// <summary>
     /// A controller of DatabaseWriter(s).  It handles determining whether data should be written,
     /// and if so, writing the data, and finally disposing of the database.

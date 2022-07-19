@@ -1,9 +1,18 @@
-using System;
 using Meta.Numerics.Analysis;
-using Meta.Numerics.Functions;
+using System;
+using System.Runtime.CompilerServices;
 
 namespace Vts.Modeling
 {
+    /// <summary>
+    /// The <see cref="Modeling"/> namespace contains the modeling tools for the Virtual Tissue Simulator
+    /// </summary>
+
+    [CompilerGenerated]
+    internal class NamespaceDoc
+    {
+    }
+
     /// <summary>
     /// Toolbox containing general method for the forward models. Most of these are for diffusion based 
     /// calculations.

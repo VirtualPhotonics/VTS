@@ -1,10 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.Serialization;
+using System.Runtime.CompilerServices;
 using Vts.MonteCarlo.Interfaces;
 
 namespace Vts.MonteCarlo.Sources.SourceProfiles
 {
+    /// <summary>
+    /// The <see cref="SourceProfiles"/> namespace contains the Monte Carlo source profile classes for the Virtual Tissue Simulator
+    /// </summary>
+
+    [CompilerGenerated]
+    internal class NamespaceDoc
+    {
+    }
+
     /// <summary>
     /// Defines Arbitrary Source Profile
     /// </summary>

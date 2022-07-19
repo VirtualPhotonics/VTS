@@ -1,5 +1,16 @@
+using System.Runtime.CompilerServices;
+
 namespace Vts.MonteCarlo.Extensions
 {
+    /// <summary>
+    /// The <see cref="Extensions"/> namespace contains the Monte Carlo extension classes for the Virtual Tissue Simulator
+    /// </summary>
+
+    [CompilerGenerated]
+    internal class NamespaceDoc
+    {
+    }
+
     /// <summary>
     /// Methods used to determine type of virtual boundary.
     /// </summary>

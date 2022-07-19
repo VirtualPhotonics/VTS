@@ -1,9 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using Vts.MonteCarlo.PhotonData;
 
 namespace Vts.MonteCarlo
 {
+    /// <summary>
+    /// The <see cref="MonteCarlo"/> namespace contains the Monte Carlo classes for the Virtual Tissue Simulator
+    /// </summary>
+
+    [CompilerGenerated]
+    internal class NamespaceDoc
+    {
+    }
+
     /// <summary>
     /// methods used to determine photon weight based on absorption weighting method
     /// </summary>
