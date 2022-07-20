@@ -11,7 +11,7 @@ using Vts.MonteCarlo.PhotonData;
 namespace Vts.MonteCarlo.Detectors
 {
     /// <summary>
-    /// The <see cref="Detectors"/> namespace contains the Monte Carlo detector classes for the Virtual Tissue Simulator
+    /// The <see cref="Detectors"/> namespace contains the Monte Carlo detector classes 
     /// </summary>
 
     [CompilerGenerated]

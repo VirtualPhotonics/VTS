@@ -6,7 +6,7 @@ using Vts.MonteCarlo.PhotonData;
 namespace Vts.MonteCarlo.Controllers
 {
     /// <summary>
-    /// The <see cref="Controllers"/> namespace contains the Monte Carlo controller classes for the Virtual Tissue Simulator
+    /// The <see cref="Controllers"/> namespace contains the Monte Carlo controller classes for writing to a database
     /// </summary>
 
     [CompilerGenerated]

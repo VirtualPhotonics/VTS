@@ -10,7 +10,7 @@ using Vts.MonteCarlo.PhotonData;
 namespace Vts.MonteCarlo.PostProcessing
 {
     /// <summary>
-    /// The <see cref="PostProcessing"/> namespace contains the Monte Carlo post processing classes for the Virtual Tissue Simulator
+    /// The <see cref="PostProcessing"/> namespace contains the Monte Carlo Post Processor classes for processing photon databases
     /// </summary>
 
     [CompilerGenerated]

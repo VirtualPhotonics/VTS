@@ -3,7 +3,7 @@
 namespace Vts.MonteCarlo.DataStructuresValidation
 {
     /// <summary>
-    /// The <see cref="DataStructuresValidation"/> namespace contains the Monte Carlo validation classes for the Virtual Tissue Simulator
+    /// The <see cref="DataStructuresValidation"/> namespace contains the Monte Carlo validation classes for the Monte Carlo inputs
     /// </summary>
 
     [CompilerGenerated]

@@ -6,7 +6,7 @@ using Vts.MonteCarlo.Interfaces;
 namespace Vts.MonteCarlo.Sources.SourceProfiles
 {
     /// <summary>
-    /// The <see cref="SourceProfiles"/> namespace contains the Monte Carlo source profile classes for the Virtual Tissue Simulator
+    /// The <see cref="SourceProfiles"/> namespace contains the Monte Carlo input source profiles
     /// </summary>
 
     [CompilerGenerated]

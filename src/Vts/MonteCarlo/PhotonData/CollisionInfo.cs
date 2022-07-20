@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 namespace Vts.MonteCarlo.PhotonData
 {
     /// <summary>
-    /// The <see cref="PhotonData"/> namespace contains the Monte Carlo photon data classes for the Virtual Tissue Simulator
+    /// The <see cref="PhotonData"/> namespace contains the Monte Carlo photon data classes for database use
     /// </summary>
 
     [CompilerGenerated]

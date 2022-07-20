@@ -8,7 +8,7 @@ using Vts.Extensions;
 namespace Vts.MonteCarlo.Tissues
 {
     /// <summary>
-    /// The <see cref="Tissues"/> namespace contains the Monte Carlo tissue classes for the Virtual Tissue Simulator
+    /// The <see cref="Tissues"/> namespace contains the Monte Carlo tissue classes
     /// </summary>
 
     [CompilerGenerated]

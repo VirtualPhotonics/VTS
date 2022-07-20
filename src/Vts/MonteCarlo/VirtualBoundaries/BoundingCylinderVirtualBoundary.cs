@@ -7,7 +7,7 @@ using Vts.MonteCarlo.Tissues;
 namespace Vts.MonteCarlo.VirtualBoundaries
 {
     /// <summary>
-    /// The <see cref="VirtualBoundaries"/> namespace contains the Monte Carlo virtual boundary classes for the Virtual Tissue Simulator
+    /// The <see cref="VirtualBoundaries"/> namespace contains the Monte Carlo virtual boundary classes 
     /// </summary>
 
     [CompilerGenerated]

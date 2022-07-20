@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 namespace Vts.MonteCarlo.Rng
 {
     /// <summary>
-    /// The <see cref="Rng"/> namespace contains the Monte Carlo random number classes for the Virtual Tissue Simulator
+    /// The <see cref="Rng"/> namespace contains the Monte Carlo random number generator classes 
     /// </summary>
 
     [CompilerGenerated]

@@ -8,7 +8,7 @@ using Vts.Extensions;
 namespace Vts.Modeling.ForwardSolvers.DiscreteOrdinates
 {
     /// <summary>
-    /// The <see cref="Common"/> namespace contains the discrete ordinate classes for the Virtual Tissue Simulator
+    /// The <see cref="DiscreteOrdinates"/> namespace contains the discrete ordinate classes for the Virtual Tissue Simulator
     /// </summary>
 
     [CompilerGenerated]

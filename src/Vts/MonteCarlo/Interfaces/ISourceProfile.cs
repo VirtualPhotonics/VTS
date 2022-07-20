@@ -3,7 +3,7 @@
 namespace Vts.MonteCarlo.Interfaces
 {
     /// <summary>
-    /// The <see cref="Interfaces"/> namespace contains the ISourceProfile interface for the Virtual Tissue Simulator
+    /// The <see cref="Interfaces"/> namespace contains the ISourceProfile interface for the Monte Carlo input
     /// </summary>
 
     [CompilerGenerated]

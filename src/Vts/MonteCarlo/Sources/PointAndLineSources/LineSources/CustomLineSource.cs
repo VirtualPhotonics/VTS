@@ -8,7 +8,7 @@ using Vts.MonteCarlo.Sources.SourceProfiles;
 namespace Vts.MonteCarlo.Sources
 {
     /// <summary>
-    /// The <see cref="Sources"/> namespace contains the Monte Carlo source classes for the Virtual Tissue Simulator
+    /// The <see cref="Sources"/> namespace contains the Monte Carlo source classes
     /// </summary>
 
     [CompilerGenerated]

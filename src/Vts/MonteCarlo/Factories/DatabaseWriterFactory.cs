@@ -7,7 +7,7 @@ using Vts.MonteCarlo.PhotonData;
 namespace Vts.MonteCarlo.Factories
 {
     /// <summary>
-    /// The <see cref="Factories"/> namespace contains the Monte Carlo factory classes for the Virtual Tissue Simulator
+    /// The <see cref="Factories"/> namespace contains the Monte Carlo factory classes
     /// </summary>
 
     [CompilerGenerated]

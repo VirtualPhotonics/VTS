@@ -6,7 +6,7 @@ using Vts.MonteCarlo.PhotonData;
 namespace Vts.MonteCarlo
 {
     /// <summary>
-    /// The <see cref="MonteCarlo"/> namespace contains the Monte Carlo classes for the Virtual Tissue Simulator
+    /// The <see cref="MonteCarlo"/> namespace contains the Monte Carlo classes for the transport of photons
     /// </summary>
 
     [CompilerGenerated]

@@ -6,7 +6,7 @@ using System.Runtime.Serialization;
 namespace Vts.MonteCarlo.IO
 {
     /// <summary>
-    /// The <see cref="IO"/> namespace contains the Monte Carlo input/output classes for the Virtual Tissue Simulator
+    /// The <see cref="IO"/> namespace contains the Monte Carlo input/output classes for databases
     /// </summary>
 
     [CompilerGenerated]
