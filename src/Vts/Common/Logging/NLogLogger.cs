@@ -120,7 +120,7 @@ namespace Vts.Common.Logging.NLogIntegration
         /// <summary>
         ///   Creates a child logger with the specied <paramref name = "loggerName" />.
         /// </summary>
-        /// <param name = "loggerName">The name.</param>
+        /// <param name = "loggerName">logger name</param>
         /// <returns>ILogger</returns>
         public virtual ILogger CreateChildLogger(String loggerName)
         {

@@ -98,7 +98,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// </summary>
         /// <param name="ops">optical properties</param>
         /// <param name="rhos">source detector separation</param>
-        /// <returns>space resolved reflectance</returns>
+        /// <returns>spatially resolved reflectance</returns>
         public override IEnumerable<double> ROfRho(IEnumerable<OpticalProperties> ops, IEnumerable<double> rhos)
         {
             
@@ -493,7 +493,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="ops">optical properties of the medium</param>
         /// <param name="rhos">source-detector separation (mm)</param>
         /// <param name="zs">z values (mm)</param>
-        /// <returns></returns>
+        /// <returns>fluence(rho,z)</returns>
         public override IEnumerable<double> FluenceOfRhoAndZ(IEnumerable<OpticalProperties> ops, IEnumerable<double> rhos, IEnumerable<double> zs)
         {
             throw new NotImplementedException();
@@ -507,7 +507,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="rhos">source-detector separations (mm)</param>
         /// <param name="zs">z values (mm)</param>
         /// <param name="times">times (ns)</param>
-        /// <returns></returns>
+        /// <returns>fluence(rho,z,t)</returns>
         public override IEnumerable<double> FluenceOfRhoAndZAndTime(IEnumerable<OpticalProperties> ops, IEnumerable<double> rhos, IEnumerable<double> zs, IEnumerable<double> times)
         {
             throw new NotImplementedException();
@@ -521,7 +521,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="rhos">source-detector separations (mm)</param>
         /// <param name="zs">z values (mm)</param>
         /// <param name="fts">temporal frequency (GHz)</param>
-        /// <returns></returns>
+        /// <returns>fluence(rho,z,ft)</returns>
         public override IEnumerable<Complex> FluenceOfRhoAndZAndFt(IEnumerable<OpticalProperties> ops, IEnumerable<double> rhos, IEnumerable<double> zs, IEnumerable<double> fts)
         {
             throw new NotImplementedException();
@@ -534,7 +534,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="ops">optical properties</param>
         /// <param name="fxs">spatial frequencies (1/mm)</param>
         /// <param name="zs">z values (mm)</param>
-        /// <returns></returns>
+        /// <returns>fluence(fx,z)</returns>
         public override IEnumerable<double> FluenceOfFxAndZ(IEnumerable<OpticalProperties> ops, IEnumerable<double> fxs, IEnumerable<double> zs)
         {
             throw new NotImplementedException();

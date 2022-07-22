@@ -25,7 +25,7 @@ namespace Vts.MonteCarlo
         /// Required factory method to create the corresponding 
         /// IDetector based on the IDetectorInput data
         /// </summary>
-        /// <returns></returns>
+        /// <returns>class that implements IDetector</returns>
        IDetector CreateDetector();
     }
 }

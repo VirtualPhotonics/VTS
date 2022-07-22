@@ -10,7 +10,6 @@ namespace Vts.MonteCarlo.Controllers
     /// </summary>
     public class pMCDatabaseWriterController
     {
-
         /// <summary>
         /// constructor for pMC database writer controller
         /// </summary>
@@ -61,7 +60,7 @@ namespace Vts.MonteCarlo.Controllers
         /// </summary>
         /// <param name="dp">photon data point</param>
         /// <param name="photonDatabaseWriter">photon database writer</param>
-        /// <returns></returns>
+        /// <returns>boolean indicating whether photon data point belongs to virtual boundary</returns>
         public bool DPBelongsToSurfaceVirtualBoundary(PhotonDataPoint dp,
             PhotonDatabaseWriter photonDatabaseWriter)
         {

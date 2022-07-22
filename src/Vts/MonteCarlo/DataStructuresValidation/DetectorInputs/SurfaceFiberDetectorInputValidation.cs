@@ -11,7 +11,7 @@ namespace Vts.MonteCarlo
         /// Method to validate detector fiber is defined to be on surface of tissue
         /// </summary>
         /// <param name="input">detector input in SimulationInput</param>
-        /// <returns></returns>
+        /// <returns>ValidationResult class</returns>
         public static ValidationResult ValidateInput(IDetectorInput input)
         {
             // test if detector center is not on surface of tissue

@@ -17,7 +17,7 @@ namespace Vts.Modeling
         /// <summary>
         /// method to set the delta value used in the finite difference determination of the derivative
         /// </summary>
-        /// <param name="delta"></param>
+        /// <param name="delta">delta value to be set</param>
         public static void SetDelta(double delta)
         {
             _delta = delta;

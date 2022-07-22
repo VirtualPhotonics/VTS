@@ -15,7 +15,7 @@ namespace Vts.MonteCarlo
         /// Method to validate that the tissue layers are contiguous and don't overlap
         /// </summary>
         /// <param name="input">tissue input in SimulationInput</param>
-        /// <returns></returns>
+        /// <returns>ValidationResult class</returns>
         public static ValidationResult ValidateInput(ITissueInput input)
         {
             var layers = input.Regions.Select(region => (LayerTissueRegion)region).ToArray();
@@ -34,7 +34,7 @@ namespace Vts.MonteCarlo
         /// after crossing into these layers and is no longer propagated.
         /// </summary>
         /// <param name="layers">list of LayerTissueRegion</param>
-        /// <returns></returns>
+        /// <returns>ValidationResult class</returns>
         public static ValidationResult ValidateTopAndBottomLayersAreAir(IList<LayerTissueRegion> layers)
         {
             // test if first and last layer are not air layers 
@@ -56,7 +56,7 @@ namespace Vts.MonteCarlo
         /// This also checks that ZRange.Count = 2
         /// </summary>
         /// <param name="layers">list of LayerTissueRegion</param>
-        /// <returns></returns>
+        /// <returns>ValidationResult class</returns>
         public static ValidationResult ValidateLayers(IList<LayerTissueRegion> layers )
         {
             for (int i = 0; i < layers.Count - 1; i++)

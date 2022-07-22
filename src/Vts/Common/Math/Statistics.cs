@@ -24,8 +24,8 @@ namespace Vts.Common.Math
         /// used to determine mean sampling depth
         /// </sumary>
         /// <param name="array">2D array that has been flattened to a double array of values</param>
-        /// <param name="x">2D x values</param>
-        /// <param name="y">2D y values</param>
+        /// <param name="x">2D array x values along 1 dimension</param>
+        /// <param name="y">2D array y values along other dimension</param>
         /// <param name="dx">delta x values</param>
         /// <param name="dy">delta y values</param>
         /// <returns>double representing mean sampling depth</returns>

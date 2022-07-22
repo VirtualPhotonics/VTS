@@ -38,7 +38,7 @@ namespace Vts.Extensions
         /// <typeparam name="TKey">key of dictionary</typeparam>
         /// <typeparam name="TValue">value of dictionary</typeparam>
         /// <param name="keyValuePairs">key-value pairs used to create dictionary</param>
-        /// <returns>IDictionary</returns>
+        /// <returns>IDictionary with key-value pairs</returns>
         public static IDictionary<TKey, TValue> ToDictionary<TKey, TValue>(this IEnumerable<KeyValuePair<TKey, TValue>> keyValuePairs)
         {
             return keyValuePairs.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
@@ -172,7 +172,7 @@ namespace Vts.Extensions
         /// <param name="third">IEnumerable of 1st values</param>
         /// <param name="fourth">IEnumerable of 1st values</param>
         /// <param name="func">IEnumerable of 1st values</param>
-        /// <returns></returns>
+        /// <returns>IEnumerable to zipped result</returns>
         public static IEnumerable<TResult> Zip<TFirst, TSecond, TThird, TFourth, TResult>(this IEnumerable<TFirst> first, IEnumerable<TSecond> second, IEnumerable<TThird> third, IEnumerable<TFourth> fourth, Func<TFirst, TSecond, TThird, TFourth, TResult> func)
         {
             if (first == null)

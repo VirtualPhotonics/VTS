@@ -59,7 +59,7 @@ namespace Vts.MonteCarlo
         /// Determines surface normal at position
         /// </summary>
         /// <param name="position"></param>
-        /// <returns></returns>
+        /// <returns>direction of surface normal at position</returns>
         Direction SurfaceNormal(Position position);
     }
 }

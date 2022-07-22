@@ -53,7 +53,7 @@ namespace Vts.MonteCarlo.Controllers
         /// </summary>
         /// <param name="dp">PhotonDataPoint</param>
         /// <param name="photonDatabaseWriter">single PhotonDatabaseWriter</param>
-        /// <returns></returns>
+        /// <returns>boolean indicating whether photon data point belongs to virtual boundary</returns>
         public bool DPBelongsToSurfaceVirtualBoundary(PhotonDataPoint dp,
             PhotonDatabaseWriter photonDatabaseWriter)
         {

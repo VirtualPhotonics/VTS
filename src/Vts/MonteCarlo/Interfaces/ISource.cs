@@ -10,7 +10,7 @@ namespace Vts.MonteCarlo
         /// <summary>
         /// Method to initiate new photon.
         /// </summary>
-        /// <param name="tissue"></param>
+        /// <param name="tissue">ti</param>
         /// <returns></returns>
         Photon GetNextPhoton(ITissue tissue);
         /// <summary>
