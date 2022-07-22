@@ -698,7 +698,8 @@ namespace Vts.MonteCarlo.Helpers
         /// Update the direction after rotating around the x-axis
         /// </summary>
         /// <param name="xRotation">rotation angle around the x-axis</param>
-        /// <param name="currentDirection">The direction to be updated</param>       
+        /// <param name="currentDirection">The direction to be updated</param> 
+        /// <returns>Direction class</returns>
         public static Direction UpdateDirectionAfterRotatingAroundXAxis(
             double xRotation,
             Direction currentDirection)
@@ -721,7 +722,8 @@ namespace Vts.MonteCarlo.Helpers
         /// Update the direction after rotating around the y-axis
         /// </summary>
         /// <param name="yRotation">rotation angle around the y-axis</param>
-        /// <param name="currentDirection">The direction to be updated</param>
+        /// <param name="currentDirection">The direction to be updated</param> 
+        /// <returns>Direction class</returns>
         public static Direction UpdateDirectionAfterRotatingAroundYAxis(
             double yRotation,
             Direction currentDirection)

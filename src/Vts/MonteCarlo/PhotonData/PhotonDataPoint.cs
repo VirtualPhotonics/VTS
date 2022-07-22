@@ -54,7 +54,7 @@ namespace Vts.MonteCarlo.PhotonData
         /// <summary>
         /// method to clone photon data point
         /// </summary>
-        /// <returns></returns>
+        /// <returns>PhotonDataPoint class clone</returns>
         public PhotonDataPoint Clone()
         {
             return new PhotonDataPoint(

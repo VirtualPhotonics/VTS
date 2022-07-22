@@ -102,7 +102,7 @@ namespace Vts.MonteCarlo.Rng
         /// Method to create class using saved sequence info
         /// </summary>
         /// <param name="info"></param>
-        /// <returns></returns>
+        /// <returns>instance of class</returns>
         public static SerializableMersenneTwister Create(MersenneTwisterSerializationInfo info)
         {
             return new SerializableMersenneTwister
@@ -153,6 +153,7 @@ namespace Vts.MonteCarlo.Rng
         /// <summary>
         /// generates a random number on[0, 0xffffffff]-interval
         /// </summary>
+        /// <returns>unsigned integer random number</returns>
         private uint genrand_int32()
         {
             uint y;

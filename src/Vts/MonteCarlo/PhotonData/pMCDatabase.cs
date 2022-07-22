@@ -12,6 +12,8 @@ namespace Vts.MonteCarlo.PhotonData
         /// <summary>
         /// Returns an instance of PhotonDatabase
         /// </summary>
+        /// <param name="photonDatabase">photon database</param>
+        /// <param name="collisionInfoDatabase">collision info database</param>
         public pMCDatabase(PhotonDatabase photonDatabase, CollisionInfoDatabase collisionInfoDatabase)
         {
             PhotonDatabase = photonDatabase;

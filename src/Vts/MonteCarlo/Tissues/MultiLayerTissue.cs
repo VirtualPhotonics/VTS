@@ -98,7 +98,7 @@ namespace Vts.MonteCarlo.Tissues
         /// method to determine region index of region photon is currently in
         /// </summary>
         /// <param name="position">photon position</param>
-        /// <returns></returns>
+        /// <returns>integer index of tissue region position is in</returns>
         public virtual int GetRegionIndex(Position position)
         {
             // use ITissueRegion interface method ContainsPosition for LayerTissueRegion to determine
@@ -119,6 +119,7 @@ namespace Vts.MonteCarlo.Tissues
         /// Finds the distance to the next boundary and independent of hitting it
         /// </summary>
         /// <param name="photon">photon</param>
+        /// <returns>distance to boundary</returns>
         public virtual double GetDistanceToBoundary(Photon photon)
         {
             // moved code that used to be here to LayerTissueRegion.RayIntersectBoundary
@@ -172,7 +173,7 @@ namespace Vts.MonteCarlo.Tissues
         /// method to determine photon state type of photon exiting tissue boundary
         /// </summary>
         /// <param name="position"></param>
-        /// <returns></returns>
+        /// <returns>PhotonStateType</returns>
         public PhotonStateType GetPhotonDataPointStateOnExit(Position position)
         {
             if (position.Z < 1e-10)

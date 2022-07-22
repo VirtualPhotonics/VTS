@@ -36,7 +36,7 @@ namespace Vts.MonteCarlo.PhotonData
         /// <summary>
         /// method to cline the CollisionInfo class
         /// </summary>
-        /// <returns></returns>
+        /// <returns>CollisionInfo class clone</returns>
         public CollisionInfo Clone()
         {
             var collisionInfo = new CollisionInfo(this.Capacity);

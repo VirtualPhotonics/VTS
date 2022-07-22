@@ -105,7 +105,7 @@ namespace Vts.MonteCarlo.PostProcessing
         /// Helper static method to run a group of post-processors in parallel
         /// </summary>
         /// <param name="postProcessors"></param>
-        /// <returns></returns>
+        /// <returns>array of SimulationOutput</returns>
         public static SimulationOutput[] RunAll(PhotonDatabasePostProcessor[] postProcessors)
         {
             var outputs = new SimulationOutput[postProcessors.Length];
@@ -128,7 +128,7 @@ namespace Vts.MonteCarlo.PostProcessing
         /// <summary>
         /// Executes the post-processor
         /// </summary>
-        /// <returns></returns>
+        /// <returns>SimulationOutput class</returns>
         public SimulationOutput Run()
         {
             if (_virtualBoundaryType.IsSurfaceVirtualBoundary())
