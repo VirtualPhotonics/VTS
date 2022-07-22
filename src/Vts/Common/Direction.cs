@@ -61,7 +61,7 @@ namespace Vts.Common
         /// </summary>
         /// <param name="d1">first direction cosine</param>
         /// <param name="d2">second direction cosine</param>
-        /// <returns></returns>
+        /// <returns>boolean indicating whether d1 equals d2</returns>
         public static bool operator ==(Direction d1, Direction d2)
         {
             if (object.ReferenceEquals(d1, d2))
@@ -82,7 +82,7 @@ namespace Vts.Common
         /// </summary>
         /// <param name="d1">first direction cosine</param>
         /// <param name="d2">second direction cosine</param>
-        /// <returns></returns>
+        /// <returns>boolean indicating whether d1 does not equal d2</returns>
         public static bool operator !=(Direction d1, Direction d2)
         {
             return !(d1 == d2);
@@ -92,7 +92,7 @@ namespace Vts.Common
         /// Instance member for equality comparison
         /// </summary>
         /// <param name="obj">object of comparision</param>
-        /// <returns></returns>
+        /// <returns>boolean indicating if object is equal to direction</returns>
         public override bool Equals(object obj)
         {
             if (obj is Direction)
@@ -120,7 +120,7 @@ namespace Vts.Common
         /// <summary>
         /// Method to write binary version of unit directional
         /// </summary>
-        /// <param name="bw"></param>
+        /// <param name="bw">BinaryWriter</param>
         public void WriteBinary(BinaryWriter bw)
         {
             bw.Write(Ux);

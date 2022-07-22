@@ -19,6 +19,9 @@ namespace Vts.Common.Math
         /// <summary>
         /// method determines the phase given real and imag values
         /// </summary>
+        /// <param name="real">real component</param>
+        /// <param name="imag">imaginery component</param>
+        /// <returns>phase double</returns>
         public static double ToPhase(double real, double imag)
         {
             // convert to degrees
@@ -28,6 +31,9 @@ namespace Vts.Common.Math
         /// <summary>
         /// method determines the phase given real and imag arrays
         /// </summary>
+        /// <param name="real">real component array</param>
+        /// <param name="imag">imaginary component array</param>
+        /// <returns>phase double array</returns>
         public static double[] ToPhase(double[] real, double[] imag)
         {
             if (real.Length != imag.Length)
@@ -44,6 +50,9 @@ namespace Vts.Common.Math
         /// <summary>
         /// method determines the amplitude given real and imag values
         /// </summary>
+        /// <param name="real">real component</param>
+        /// <param name="imag">imaginery component</param>
+        /// <returns>amplitude double</returns>
         public static double ToAmplitude(double real, double imag)
         {
             return System.Math.Sqrt(real*real+imag*imag);
@@ -52,6 +61,9 @@ namespace Vts.Common.Math
         /// <summary>
         /// method determines the amplitude given real and imag arrays
         /// </summary>
+        /// <param name="real">real component array</param>
+        /// <param name="imag">imaginary component array</param>
+        /// <returns>amplitude double array</returns>
         public static double[] ToAmplitude(double[] real, double[] imag)
         {
             if (real.Length != imag.Length)

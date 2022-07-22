@@ -46,9 +46,9 @@ namespace Vts.Common
         /// <summary>
         /// Static helper method for calculating the distance between two 3-dimensional points
         /// </summary>
-        /// <param name="p1"></param>
-        /// <param name="p2"></param>
-        /// <returns></returns>
+        /// <param name="p1">position p1</param>
+        /// <param name="p2">position p2</param>
+        /// <returns>double that is distance from position p1 to p2</returns>
         public static double GetDistance(Position p1, Position p2)
         {
             return System.Math.Sqrt(
@@ -90,9 +90,9 @@ namespace Vts.Common
         /// <summary>
         /// Equality overload for two 3D cartesian coordinates
         /// </summary>
-        /// <param name="p1"></param>
-        /// <param name="p2"></param>
-        /// <returns></returns>
+        /// <param name="p1">position p1</param>
+        /// <param name="p2">position p2</param>
+        /// <returns>boolean indicating wheter p1 is equal to p2</returns>
         public static bool operator ==(Position p1, Position p2)
         {
             if (object.ReferenceEquals(p1, p2))
@@ -112,9 +112,9 @@ namespace Vts.Common
         /// <summary>
         /// Inequality overload for two 3D cartesian coordinates
         /// </summary>
-        /// <param name="p1"></param>
-        /// <param name="p2"></param>
-        /// <returns></returns>
+        /// <param name="p1">position p1</param>
+        /// <param name="p2">position p2</param>
+        /// <returns>boolean indicating whether p1 is not equal to p2</returns>
         public static bool operator !=(Position p1, Position p2)
         {
             return !(p1 == p2);
@@ -123,6 +123,7 @@ namespace Vts.Common
         /// <summary>
         /// Method to write binary version of position
         /// </summary>
+        /// <param name="bw">BinaryWriter</param>
         public void WriteBinary(BinaryWriter bw)
         {
             bw.Write(X);
@@ -146,8 +147,8 @@ namespace Vts.Common
         /// <summary>
         /// Instance member for equality comparison
         /// </summary>
-        /// <param name="obj"></param>
-        /// <returns></returns>
+        /// <param name="obj">object of comparision</param>
+        /// <returns>boolean indicating if object is equal to position</returns>
         public override bool Equals(object obj)
         {
             if (obj is Position)

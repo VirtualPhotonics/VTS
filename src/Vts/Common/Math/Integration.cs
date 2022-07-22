@@ -8,13 +8,13 @@ namespace Vts.Common.Math
     public static class Integration
     {
         /// <summary>
-        /// Integration in one dimension
+        /// Integration in one dimension using adaptive Simpson's rule
         /// </summary>
         /// <param name="f">Function to integrate</param>
         /// <param name="a">Lower limit of integration</param>
         /// <param name="b">Upper limit of integration</param>
         /// <param name="epsilon">Accuracy required)</param>
-        /// 
+        /// <returns>integrated value</returns>
         public static double IntegrateAdaptiveSimpsonRule(Func<double, double> f, double a, double b, double epsilon)
         {
             //calculates integral of f from a to b with max error of epsilon
@@ -26,7 +26,7 @@ namespace Vts.Common.Math
         /// <param name="f">function to integrate</param>
         /// <param name="a">Lower limit of integration</param>
         /// <param name="b">Upper limit of integration</param>
-        /// <returns></returns>
+        /// <returns>integrated value</returns>
         public static double IntegrateSimpsonRule(Func<double, double> f, double a, double b)
         {
             double c = (a + b) / 2.0;
@@ -35,14 +35,14 @@ namespace Vts.Common.Math
             return S;
         }
         /// <summary>
-        /// adaptive recursive Simpson's rule
+        /// method to integrate function using adaptive recursive Simpson's rule
         /// </summary>
         /// <param name="f">function to integrate</param>
         /// <param name="a">lower bound of integration interval</param>
         /// <param name="b">upper bound of integration interval</param>
         /// <param name="epsilon">precision</param>
         /// <param name="sum"></param>
-        /// <returns></returns>
+        /// <returns>integrated value</returns>
         public static double AdaptiveRecursiveSimpson(Func<double, double> f, double a, double b, double epsilon, double sum)
         {
             double c = (a + b) / 2.0;

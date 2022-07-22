@@ -15,7 +15,7 @@ namespace Vts.Modeling
         /// <param name="mua">absorption coefficient</param>
         /// <param name="musp">reduced scattering coefficient</param>
         /// <param name="dt">delta time</param>
-        /// <returns></returns>
+        /// <returns>double array of times</returns>
         public static double[] GetTime(double mua, double musp, out double dt)
         {
             double  tMaxFactor = 30;

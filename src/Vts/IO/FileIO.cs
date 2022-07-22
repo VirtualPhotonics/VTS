@@ -20,6 +20,7 @@ namespace Vts.IO
         /// Static method to check if a file exists
         /// </summary>
         /// <param name="fileName">Name of the file</param>
+        /// <returns>boolean indicating whether file exists or not</returns>
         public static bool FileExists(string fileName)
         {
             return File.Exists(fileName);
@@ -29,6 +30,7 @@ namespace Vts.IO
         /// Static method to check if a directory exists
         /// </summary>
         /// <param name="folder">Name of the directory</param>
+        /// <returns>boolean indicating whether directory exists or not</returns>
         public static bool DirectoryExists(string folder)
         {
             return Directory.Exists(folder);
@@ -74,8 +76,8 @@ namespace Vts.IO
         /// <summary>
         /// Copies one stream to the other
         /// </summary>
-        /// <param name="input"></param>
-        /// <param name="output"></param>
+        /// <param name="input">input stream to copy</param>
+        /// <param name="output">output copied stream</param>
         /// <remarks>See http://stackoverflow.com/questions/230128/best-way-to-copy-between-two-stream-instances-c </remarks>
         public static void CopyStream(Stream input, Stream output)
         {
@@ -538,12 +540,12 @@ namespace Vts.IO
 
 
         /// <summary>
-        /// 
+        /// Write to binary file using a Action
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="data"></param>
+        /// <typeparam name="T">generic type</typeparam>
+        /// <param name="data">data to be written</param>
         /// <param name="fileName">Name of the binary file to write</param>
-        /// <param name="writerMap"></param>
+        /// <param name="writerMap">Action of BinaryWriter and T</param>
         public static void WriteToBinaryCustom<T>(this IEnumerable<T> data, string fileName, Action<BinaryWriter, T> writerMap)
         {
             // convert to "push" method with System.Observable in Rx Extensions (write upon appearance of new datum)?
@@ -557,12 +559,12 @@ namespace Vts.IO
         }
 
         /// <summary>
-        /// 
+        /// Read from binary file using reader map
         /// </summary>
-        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="T">generic type</typeparam>
         /// <param name="fileName">Name of the binary file to read</param>
-        /// <param name="readerMap"></param>
-        /// <returns></returns>
+        /// <param name="readerMap">function of BinaryReader and generic type</param>
+        /// <returns>IEnumerable of generic type T</returns>
         public static IEnumerable<T> ReadFromBinaryCustom<T>(string fileName, Func<BinaryReader, T> readerMap)
         {
             using (Stream s = StreamFinder.GetFileStream(fileName, FileMode.Open))
@@ -575,13 +577,13 @@ namespace Vts.IO
         }
 
         /// <summary>
-        /// 
+        /// Read from binary file in Resources 
         /// </summary>
-        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="T">generic type</typeparam>
         /// <param name="fileName">Name of the binary file to read</param>
         /// <param name="projectName">Project name where resources is located</param>
-        /// <param name="readerMap"></param>
-        /// <returns></returns>
+        /// <param name="readerMap">function of BinaryReader and T</param>
+        /// <returns>IEnumerable of generic type T</returns>
         public static IEnumerable<T> ReadFromBinaryInResourcesCustom<T>(string fileName, string projectName, Func<BinaryReader, T> readerMap)
         {
             using (Stream s = StreamFinder.GetFileStreamFromResources(fileName, projectName))
@@ -595,12 +597,12 @@ namespace Vts.IO
 
         // both versions of ReadArrayFromBinary<T> call this method to actually read the data - is this still true?
         /// <summary>
-        /// 
+        /// Read of binary file using reader map
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="s"></param>
-        /// <param name="readerMap"></param>
-        /// <returns></returns>
+        /// <typeparam name="T">generic type</typeparam>
+        /// <param name="s">Stream</param>
+        /// <param name="readerMap">function of BinaryReader and T</param>
+        /// <returns>IEnumerable of T</returns>
         private static IEnumerable<T> ReadStreamFromBinaryCustom<T>(Stream s, Func<BinaryReader, T> readerMap)
         {
             using (BinaryReader br = new BinaryReader(s))
@@ -617,9 +619,9 @@ namespace Vts.IO
         /// <summary>
         /// Read from a binary stream
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="filename"></param>
-        /// <returns></returns>
+        /// <typeparam name="T">generic type</typeparam>
+        /// <param name="filename">file to be read</param>
+        /// <returns>generic type T</returns>
         public static T ReadFromBinary<T>(string filename)
         {
             using (Stream stream = StreamFinder.GetFileStream(filename, FileMode.Open))

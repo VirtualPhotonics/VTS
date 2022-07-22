@@ -15,7 +15,7 @@ namespace Vts.IO
         /// </summary>
         /// <param name="objectType">type of object expected</param>
         /// <param name="jObject">contents of JSON object that will be deserialized</param>
-        /// <returns></returns>
+        /// <returns>generic type T</returns>
         protected abstract T Create(Type objectType, JObject jObject);
         /// <summary>
         /// method to identify whether object can be converted

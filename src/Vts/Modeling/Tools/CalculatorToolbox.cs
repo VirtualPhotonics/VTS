@@ -158,7 +158,7 @@ namespace Vts.Modeling
         /// </summary>
         /// <param name="func">function to be distributed, input is directional variable</param>
         /// <param name="muDecay">decay constant</param>
-        /// <returns></returns>
+        /// <returns>double value representing integral of exponential line source</returns>
         public static double EvaluateDistributedExponentialLineSourceIntegral
             (Func<double, double> func, double muDecay)
         {

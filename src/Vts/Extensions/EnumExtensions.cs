@@ -57,7 +57,7 @@ namespace Vts
         /// <typeparam name="T">generic type</typeparam>
         /// <param name="type">Enum type</param>
         /// <param name="value">value to add</param>
-        /// <returns></returns>
+        /// <returns>enum type with "value" bit turned on</returns>
         public static T Add<T>(this System.Enum type, T value)
         {
             try
@@ -80,7 +80,7 @@ namespace Vts
         /// <typeparam name="T"></typeparam>
         /// <param name="type">Enum type</param>
         /// <param name="value">value to remove</param>
-        /// <returns></returns>
+        /// <returns>enum with "value" bit turned off (nothing if value not present)</returns>
         public static T Remove<T>(this System.Enum type, T value)
         {
             try

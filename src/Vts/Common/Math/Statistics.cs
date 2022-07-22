@@ -11,6 +11,9 @@ namespace Vts.Common.Math
         /// <summary>
         /// method determines the discrete expected value given x and a probability density function, p(x)
         /// </summary>
+        /// <param name="x">double array of values</param>
+        /// <param name="pOfX">probability density function of x</param>
+        /// <returns>expected value or mean</returns>
         public static double ExpectedValue(double[] x, double[] pOfX)
         {
             return Enumerable.Zip(x, pOfX, (left, right) => (left * right)).Sum();
@@ -20,6 +23,12 @@ namespace Vts.Common.Math
         /// method determines expected value of a 2D array given in 1D (row dominant) over the 2nd dimension 
         /// used to determine mean sampling depth
         /// </sumary>
+        /// <param name="array">2D array that has been flattened to a double array of values</param>
+        /// <param name="x">2D x values</param>
+        /// <param name="y">2D y values</param>
+        /// <param name="dx">delta x values</param>
+        /// <param name="dy">delta y values</param>
+        /// <returns>double representing mean sampling depth</returns>
         public static double MeanSamplingDepth(double[] array, double[] x, double[] y, double[] dx, double[] dy)
         {
             if (array.Length != x.Length * y.Length)

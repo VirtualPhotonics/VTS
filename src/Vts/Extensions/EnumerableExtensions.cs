@@ -12,9 +12,9 @@ namespace Vts.Extensions
         /// <summary>
         /// Extension method to turn any single item into an IEnumerable (i.e. "yield-returns" the item)
         /// </summary>
-        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="T">generic type</typeparam>
         /// <param name="singleItem"></param>
-        /// <returns></returns>
+        /// <returns>IEnumerable of generic type</returns>
         public static IEnumerable<T> AsEnumerable<T>(this T singleItem)
         {
             yield return singleItem;
@@ -23,10 +23,10 @@ namespace Vts.Extensions
         /// <summary>
         /// Extension method to append a single item to an IEnumerable
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="items"></param>
-        /// <param name="newItem"></param>
-        /// <returns></returns>
+        /// <typeparam name="T">generic type</typeparam>
+        /// <param name="items">list of existing items</param>
+        /// <param name="newItem">item to be added</param>
+        /// <returns>IEnumerable of generic type with concated list</returns>
         public static IEnumerable<T> Concat<T>(this IEnumerable<T> items, T newItem )
         {
             return Enumerable.Concat(items, newItem.AsEnumerable());
@@ -35,10 +35,10 @@ namespace Vts.Extensions
         /// <summary>
         /// Extension method to create a dictionary from key-value pairs
         /// </summary>
-        /// <typeparam name="TKey"></typeparam>
-        /// <typeparam name="TValue"></typeparam>
-        /// <param name="keyValuePairs"></param>
-        /// <returns></returns>
+        /// <typeparam name="TKey">key of dictionary</typeparam>
+        /// <typeparam name="TValue">value of dictionary</typeparam>
+        /// <param name="keyValuePairs">key-value pairs used to create dictionary</param>
+        /// <returns>IDictionary</returns>
         public static IDictionary<TKey, TValue> ToDictionary<TKey, TValue>(this IEnumerable<KeyValuePair<TKey, TValue>> keyValuePairs)
         {
             return keyValuePairs.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
@@ -47,11 +47,11 @@ namespace Vts.Extensions
         /// <summary>
         /// 2D array overload of the LINQ Select operator with x and y indexers
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <typeparam name="TResult"></typeparam>
-        /// <param name="my2DArray"></param>
-        /// <param name="myFunc"></param>
-        /// <returns></returns>
+        /// <typeparam name="T">generic type</typeparam>
+        /// <typeparam name="TResult">type of result</typeparam>
+        /// <param name="my2DArray">2D array of type T</param>
+        /// <param name="myFunc">linq select function</param>
+        /// <returns>IEnumerable of TResult</returns>
         public static IEnumerable<TResult> Select<T, TResult>(
             this T[,] my2DArray,
             Func<T, int, int, TResult> myFunc)
@@ -71,9 +71,9 @@ namespace Vts.Extensions
         /// This overload takes in an Action with an additional int parameter that 
         /// provides the index of the sequence.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="items"></param>
-        /// <param name="action"></param>
+        /// <typeparam name="T">generic type</typeparam>
+        /// <param name="items">list of items</param>
+        /// <param name="action">action to apply to list</param>
         public static void ForEach<T>(this IEnumerable<T> items, Action<T> action)
         {
             foreach (var item in items)
@@ -88,9 +88,9 @@ namespace Vts.Extensions
         /// This overload takes in an Action with an additional int parameter that 
         /// provides the index of the sequence.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="items"></param>
-        /// <param name="action"></param>
+        /// <typeparam name="T">generic type</typeparam>
+        /// <param name="items">list of items</param>
+        /// <param name="action">action to apply to list</param>
         public static void ForEach<T>(this IEnumerable<T> items, Action<T, int> action)
         {
             int i = 0;
@@ -104,11 +104,11 @@ namespace Vts.Extensions
         /// <summary>
         /// Converts an IEnumerable into a 2D array given a specified width and height
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="myArray"></param>
-        /// <param name="width"></param>
-        /// <param name="height"></param>
-        /// <returns></returns>
+        /// <typeparam name="T">generic type</typeparam>
+        /// <param name="myArray">IEnumerable of generic type</param>
+        /// <param name="width">integer representing width of array</param>
+        /// <param name="height">integer representing height of array</param>
+        /// <returns>2D array of generic type</returns>
         public static T[,] To2DArray<T>(this IEnumerable<T> myArray, int width, int height)
         {
             T[,] outputArray = new T[width, height];
@@ -135,7 +135,7 @@ namespace Vts.Extensions
         /// <param name="second">IEnumerable of 1st values</param>
         /// <param name="third">IEnumerable of 1st values</param>
         /// <param name="func">IEnumerable of 1st values</param>
-        /// <returns></returns>
+        /// <returns>IEnumerable of TResult</returns>
         public static IEnumerable<TResult> Zip<TFirst, TSecond, TThird, TResult>(this IEnumerable<TFirst> first, IEnumerable<TSecond> second, IEnumerable<TThird> third, Func<TFirst, TSecond, TThird, TResult> func)
         {
             if (first == null)
@@ -216,7 +216,7 @@ namespace Vts.Extensions
         /// <param name="fourth">IEnumerable of 1st values</param>
         /// <param name="fifth">IEnumerable of 1st values</param>
         /// <param name="func">IEnumerable of 1st values</param>
-        /// <returns></returns>
+        /// <returns>IEnumerable of TResult</returns>
         public static IEnumerable<TResult> Zip<TFirst, TSecond, TThird, TFourth, TFifth, TResult>(this IEnumerable<TFirst> first, IEnumerable<TSecond> second, IEnumerable<TThird> third, IEnumerable<TFourth> fourth, IEnumerable<TFifth> fifth, Func<TFirst, TSecond, TThird, TFourth, TFifth, TResult> func)
         {
             if (first == null)
@@ -259,7 +259,7 @@ namespace Vts.Extensions
         /// <param name="firstValues">first dimension values</param>
         /// <param name="secondValues">second dimension values</param>
         /// <param name="thirdValues">third dimension values</param>
-        /// <returns></returns>
+        /// <returns>IEnumerable of TResult</returns>
         public static IEnumerable<TReturn> LoopOverVariables<T1, T2, T3, TReturn>(
             this Func<T1, T2, T3, TReturn> myFunc,
             IEnumerable<T1> firstValues,
@@ -286,7 +286,7 @@ namespace Vts.Extensions
         /// <param name="myFunc">function to be evaluated</param>
         /// <param name="firstValues">first dimension values</param>
         /// <param name="secondValues">second dimension values</param>
-        /// <returns></returns>
+        /// <returns>IEnumerable of TReturn</returns>
         public static IEnumerable<TReturn> LoopOverVariables<T1, T2, TReturn>(
             this Func<T1, T2, TReturn> myFunc,
             IEnumerable<T1> firstValues,
