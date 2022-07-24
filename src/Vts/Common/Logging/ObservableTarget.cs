@@ -63,7 +63,7 @@ namespace Vts.Common.Logging
         /// <summary>
         /// method to subscribe to IObserver
         /// </summary>
-        /// <param name="observer">IObersver</param>
+        /// <param name="observer">IObserver</param>
         /// <returns>IDisposable</returns>
         public IDisposable Subscribe(IObserver<string> observer)
         {

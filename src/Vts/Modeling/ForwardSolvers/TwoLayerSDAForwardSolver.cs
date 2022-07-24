@@ -385,8 +385,8 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="s">s-d separation</param>
         /// <param name="dp">diffusion parameters</param>
         /// <param name="layerThicknesses">layer thickness</param>
-        /// <param name="fr1"></param>
-        /// <param name="fr2"></param>
+        /// <param name="fr1">First Fresnel Reflection Moment</param>
+        /// <param name="fr2">Second Fresnel Reflection Moment</param>
         /// <returns>reflectance</returns>
         public static double SpatialFrequencyReflectance(double s, DiffusionParameters[] dp, double[] layerThicknesses,
                                     double fr1, double fr2)
@@ -545,11 +545,11 @@ namespace Vts.Modeling.ForwardSolvers
         /// <summary>
         /// used to determine temporal frequency reflectance
         /// </summary>
-        /// <param name="rho"></param>
-        /// <param name="z"></param>
-        /// <param name="temporalFrequency"></param>
-        /// <param name="dp"></param>
-        /// <param name="layerThicknesses"></param>
+        /// <param name="rho">source-detector separation</param>
+        /// <param name="z">depth</param>
+        /// <param name="temporalFrequency">temporal-frequency ft</param>
+        /// <param name="dp">diffusion parameters</param>
+        /// <param name="layerThicknesses">layer thickness</param>
         /// <returns>temporal-frequency zflux</returns>
         public static Complex TemporalFrequencyZFlux(double rho, double z, double temporalFrequency,
             DiffusionParameters[] dp, double[] layerThicknesses )

@@ -58,7 +58,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="t">time</param>
         /// <param name="fr1">First Fresnel Reflection Moment</param>
         /// <param name="fr2">Second Fresnel Reflection Moment</param>
-        /// <returns></returns>
+        /// <returns>reflectance as function of rho and time</returns>
         public override double TemporalReflectance(DiffusionParameters dp, double rho, double t, double fr1, double fr2)
         {
             return 0;
@@ -152,7 +152,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="rho">s-d separation</param>
         /// <param name="z">depth</param>
         /// <param name="k">square root of (mua c+i omega)/(Dc)</param>
-        /// <returns></returns>
+        /// <returns>fluence as a function of rho,z and ft</returns>
         public override Complex TemporalFrequencyFluence(DiffusionParameters dp, double rho, double z, Complex k)
         {
             throw new NotImplementedException();

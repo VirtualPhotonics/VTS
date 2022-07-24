@@ -226,7 +226,7 @@ namespace Vts.MonteCarlo.Tissues
         /// <summary>
         /// method to determine photon state type of photon exiting tissue boundary
         /// </summary>
-        /// <param name="position"></param>
+        /// <param name="position">photon position</param>
         /// <returns>PhotonStateType</returns>
         public PhotonStateType GetPhotonDataPointStateOnExit(Position position)
         {
@@ -240,8 +240,8 @@ namespace Vts.MonteCarlo.Tissues
         /// <summary>
         /// method to determine direction of reflected photon
         /// </summary>
-        /// <param name="currentPosition"></param>
-        /// <param name="currentDirection"></param>
+        /// <param name="currentPosition">current photon position</param>
+        /// <param name="currentDirection">current photon direction</param>
         /// <returns>direction of reflected input direction</returns>
         public Direction GetReflectedDirection(
             Position currentPosition, 
@@ -260,7 +260,7 @@ namespace Vts.MonteCarlo.Tissues
         /// <param name="currentN">refractive index of current region</param>
         /// <param name="nextN">refractive index of next region</param>
         /// <param name="cosThetaSnell">cos(theta) resulting from Snell's law</param>
-        /// <returns>direction</returns>
+        /// <returns>direction of refracted photon</returns>
         public Direction GetRefractedDirection(
             Position currentPosition, 
             Direction currentDirection, 

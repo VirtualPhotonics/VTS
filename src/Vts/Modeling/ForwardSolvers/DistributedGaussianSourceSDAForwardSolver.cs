@@ -216,9 +216,9 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="dp">diffusion parameters</param>
         /// <param name="rho">s-d separation</param>
         /// <param name="t">time</param>
-        /// <param name="fr1"></param>
-        /// <param name="fr2"></param>
-        /// <returns></returns>
+        /// <param name="fr1">First Fresnel Reflection Moment</param>
+        /// <param name="fr2">Second Fresnel Reflection Moment</param>
+        /// <returns>reflectance as a function of time</returns>
         public override double TemporalReflectance(DiffusionParameters dp, double rho, double t, double fr1, double fr2)
         {
             throw new NotImplementedException();
@@ -226,7 +226,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <summary>
         /// temporal-frequency reflectance
         /// </summary>
-        /// <param name="dp"></param>
+        /// <param name="dp">diffusion parameters</param>
         /// <param name="rho">s-d separation</param>
         /// <param name="k">temporal-frequency</param>
         /// <param name="fr1">First Fresnel Reflection Moment</param>

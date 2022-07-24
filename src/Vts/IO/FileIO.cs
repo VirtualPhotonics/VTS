@@ -406,7 +406,7 @@ namespace Vts.IO
         /// <typeparam name="T">Type of the data to be written</typeparam>
         /// <param name="dataIN">Data to be written</param>
         /// <param name="filename">Name of the binary file to write</param>
-        /// <param name="writeMap"></param>
+        /// <param name="writeMap">Action used to write binary</param>
         public static void WriteScalarValueToBinary<T>(T dataIN, string filename, Action<BinaryWriter, T> writeMap)
         {
             // Create a file to write binary data 
@@ -424,8 +424,8 @@ namespace Vts.IO
         /// </summary>
         /// <typeparam name="T">Type of data to be read</typeparam>
         /// <param name="filename">Name of the binary file</param>
-        /// <param name="readMap"></param>
-        /// <returns></returns>
+        /// <param name="readMap">function used to read binary</param>
+        /// <returns>generic type T</returns>
         public static T ReadScalarValueFromBinary<T>(string filename, Func<BinaryReader, T> readMap)
         {
             // Create a file to write binary data 

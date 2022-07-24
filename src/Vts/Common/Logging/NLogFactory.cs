@@ -13,12 +13,10 @@
 // limitations under the License.
 
 using System;
-using System.Diagnostics;
 using System.IO;
 using NLog;
 using NLog.Config;
 using NLog.Targets;
-using NLog.Targets.Wrappers;
 
 namespace Vts.Common.Logging.NLogIntegration
 {
@@ -115,7 +113,7 @@ namespace Vts.Common.Logging.NLogIntegration
         /// </summary>
         /// <param name = "name">logger sting name</param>
         /// <param name = "level">LoggerLevel level</param>
-        /// <returns></returns>
+        /// <returns>ILogger</returns>
         /// <exception cref = "NotImplementedException" />
         public override ILogger Create(String name, LoggerLevel level)
         {

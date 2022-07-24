@@ -303,7 +303,9 @@ namespace Vts.Modeling.ForwardSolvers
                 Complex.ImaginaryOne * GetBackwardHemisphereIntegralDiffuseReflectance(
                 surfaceFluence.Imaginary, surfaceFlux.Imaginary, mediaRefractiveIndex);
         }
-
+        /// <summary>
+        /// get backward hemisphere integral for diffuse reflectance
+        /// </summary>
         /// <param name="fluence">Fluence</param>
         /// <param name="flux">Flux</param>
         /// <param name="fr1">1st moment of Fresnel Reflection</param>

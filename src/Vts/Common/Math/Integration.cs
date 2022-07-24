@@ -35,13 +35,18 @@ namespace Vts.Common.Math
             return S;
         }
         /// <summary>
-        /// method to integrate function using adaptive recursive Simpson's rule
+        /// method to integrate function using adaptive recursive Simpson's rule.
+        /// Adaptive Simpson's method uses and estimate of the error obtained by
+        /// calculating the definite integral using Simpson's rule.  If the error
+        /// exceeds a tolerance (15*epsilon) the algorithm subdivides the interval
+        /// of integration in two and applies adaptive Simpson's rule to each
+        /// subinterval in a recursive manner.
         /// </summary>
         /// <param name="f">function to integrate</param>
         /// <param name="a">lower bound of integration interval</param>
         /// <param name="b">upper bound of integration interval</param>
         /// <param name="epsilon">precision</param>
-        /// <param name="sum"></param>
+        /// <param name="sum">Simpson rule estimate on interval [a,b]</param>
         /// <returns>integrated value</returns>
         public static double AdaptiveRecursiveSimpson(Func<double, double> f, double a, double b, double epsilon, double sum)
         {

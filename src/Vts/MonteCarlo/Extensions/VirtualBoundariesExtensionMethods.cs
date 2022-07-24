@@ -78,7 +78,7 @@ namespace Vts.MonteCarlo.Extensions
         /// Method to determine if specular surface VB or not
         /// </summary>
         /// <param name="virtualBoundaryType">VB type</param>
-        /// <returns>true if transmittance surface VB, false if notreturns>
+        /// <returns>true if transmittance surface VB, false if not</returns>
         public static bool IsSpecularSurfaceVirtualBoundary(this VirtualBoundaryType virtualBoundaryType)
         {
             switch (virtualBoundaryType)

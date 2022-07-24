@@ -16,7 +16,7 @@ namespace Vts.Common.Logging
         /// <summary>
         /// Returns a singleton instance of an NLogFactcory
         /// </summary>
-        /// <param name="loggerName"></param>
+        /// <param name="loggerName">logger name</param>
         /// <returns>ILoggerFactory</returns>
         public static ILoggerFactory GetNLogFactory(string loggerName)
         {

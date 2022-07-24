@@ -87,7 +87,7 @@ namespace Vts.MonteCarlo
         /// Method to return updated PhotonStateType enum indicating type of photon exit
         /// from domain (e.g. reflectance boundary, transmittance boundary)
         /// </summary>
-        /// <param name="position"></param>
+        /// <param name="position">position of photon</param>
         /// <returns>PhotonStateType describing state of photon on exit</returns>
         PhotonStateType GetPhotonDataPointStateOnExit(Position position);
 
@@ -96,7 +96,7 @@ namespace Vts.MonteCarlo
         /// </summary>
         /// <param name="currentPosition">current position of photon</param>
         /// <param name="currentDirection">current direction of photon</param>
-        /// <returns></returns>
+        /// <returns>direction of reflected photon</returns>
         Direction GetReflectedDirection(Position currentPosition, Direction currentDirection);
 
         /// <summary>

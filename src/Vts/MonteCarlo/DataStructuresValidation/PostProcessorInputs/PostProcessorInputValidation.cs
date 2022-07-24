@@ -16,7 +16,7 @@ namespace Vts.MonteCarlo
         /// </summary>
         /// <param name="input">PostProcessorInput file</param>
         /// <param name="inpath">command line option inpath</param>
-        /// <returns></returns>
+        /// <returns>ValidationResult class</returns>
         public static ValidationResult ValidateInput(PostProcessorInput input, string inpath)
         {
             ValidationResult tempResult;

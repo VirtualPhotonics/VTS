@@ -74,8 +74,8 @@
         /// <summary>
         /// Instance member for equality comparison
         /// </summary>
-        /// <param name="obj"></param>
-        /// <returns>boolean</returns>
+        /// <param name="obj">object to check</param>
+        /// <returns>boolean indicating true of equal to this, false otherwise</returns>
         public override bool Equals(object obj)
         {
             if (obj is PolarAzimuthalAngles)

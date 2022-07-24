@@ -142,7 +142,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="rho">s-d separation</param>
         /// <param name="z">depth</param>
         /// <param name="k">temporal-frequency</param>
-        /// <returns></returns>
+        /// <returns>fluence as a function of rho, z and ft</returns>
         public override Complex TemporalFrequencyFluence(DiffusionParameters dp, double rho,
             double z, Complex k)
         {

@@ -88,9 +88,9 @@ namespace Vts.Modeling.ForwardSolvers
         /// <summary>
         /// Not implemented fo stub class.
         /// </summary>
-        /// <param name="time"></param>
-        /// <param name="space"></param>
-        /// <param name="edgeValue"></param>
+        /// <param name="time">time coordinate</param>
+        /// <param name="space">space coordinate</param>
+        /// <param name="edgeValue">edge value</param>
         /// <returns>point out of surface</returns>
         public double ComputePointOutOfSurface(double time, double space, double edgeValue)
         {
@@ -100,8 +100,8 @@ namespace Vts.Modeling.ForwardSolvers
         /// <summary>
         /// Not implemented for stub class.
         /// </summary>
-        /// <param name="space"></param>
-        /// <param name="exponentialTerm"></param>
+        /// <param name="space">space coordinate</param>
+        /// <param name="exponentialTerm">exponential term</param>
         /// <returns>NURBS curve integral</returns>
         public double EvaluateNurbsCurveIntegral(double space, double exponentialTerm)
         {
@@ -110,9 +110,9 @@ namespace Vts.Modeling.ForwardSolvers
         /// <summary>
         /// Not implemented for stub class.
         /// </summary>
-        /// <param name="space"></param>
-        /// <param name="expTerm"></param>
-        /// <param name="ft"></param>
+        /// <param name="space">space coordinate</param>
+        /// <param name="expTerm">exponential term</param>
+        /// <param name="ft">temporal-frequency</param>
         /// <returns>NURBS curve Fourier transform</returns>
         public Complex EvaluateNurbsCurveFourierTransform(double space, double expTerm, double ft)
         {

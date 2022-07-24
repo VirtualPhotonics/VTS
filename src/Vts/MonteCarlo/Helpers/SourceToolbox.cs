@@ -653,6 +653,7 @@ namespace Vts.MonteCarlo.Helpers
         /// </summary>
         /// <param name="lowerLimit">lower limit of the uniform random number</param>
         /// <param name="rng">The random number generator</param>
+        /// <returns>normally distributed random number</returns>
         public static double GetSingleNormallyDistributedRandomNumber(
             double lowerLimit,
             Random rng)

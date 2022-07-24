@@ -678,7 +678,7 @@ namespace Vts.Factories
                 independentValues);
         }
         /// <summary>
-        /// 
+        /// Method to provide the inverse solution.
         /// </summary>
         /// <param name="forwardSolver">forward solver class</param>
         /// <param name="optimizer">optimizer class</param>
@@ -713,7 +713,7 @@ namespace Vts.Factories
             return fit;
         }
         /// <summary>
-        /// 
+        /// Method to provide the inverse solution.
         /// </summary>
         /// <param name="forwardSolverType">ForwardSolverType enum (e.g. PointSourceSDA, DistributedPointSourceSDA, etc.)</param>
         /// <param name="optimizerType">OptimizerType enum (e.g. MPFitLevenbergMarguardt</param>
@@ -764,8 +764,8 @@ namespace Vts.Factories
         /// <param name="independentValues">an array of objects: first element = OpticalProperties,
         /// second element = double[] of xaxis values, for example:
         /// new object[]{ new[]{ new OpticalProperties(0.01, 1, 0.8, 1.4) }, new double[] { 1, 2, 3 } })</param>
-        /// <param name="lowerBounds"></param>
-        /// <param name="upperBounds"></param>
+        /// <param name="lowerBounds">constrained fit with lower bounds for OPs, size = 4 for all OPs</param>
+        /// <param name="upperBounds">constrained fit with upper bounds for OPs, size = 4 for all OPs</param>
         /// <returns>double array of optical property inverse solution</returns>
         public static double[] SolveInverse(
             IForwardSolver forwardSolver,

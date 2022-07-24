@@ -144,7 +144,7 @@ namespace Vts.MonteCarlo.Tissues
         /// <summary>
         /// method to determine region index of region photon is currently in
         /// </summary>
-        /// <param name="position"></param>
+        /// <param name="position">photon position</param>
         /// <returns>integer index of region position is in</returns>
         public override int GetRegionIndex(Position position)
         {
@@ -266,7 +266,7 @@ namespace Vts.MonteCarlo.Tissues
         /// <summary>
         /// method to determine photon state type of photon exiting tissue boundary
         /// </summary>
-        /// <param name="position"></param>
+        /// <param name="position">photon position</param>
         /// <returns>PhotonStateType class</returns>
         public new PhotonStateType GetPhotonDataPointStateOnExit(Position position)
         {
@@ -280,8 +280,8 @@ namespace Vts.MonteCarlo.Tissues
         /// <summary>
         /// method to determine direction of reflected photon
         /// </summary>
-        /// <param name="currentPosition"></param>
-        /// <param name="currentDirection"></param>
+        /// <param name="currentPosition">current position of photon</param>
+        /// <param name="currentDirection">current direction of photon</param>
         /// <returns>direction of reflected input direction</returns>
         public override Direction GetReflectedDirection(
             Position currentPosition, 
@@ -326,7 +326,7 @@ namespace Vts.MonteCarlo.Tissues
         /// <summary>
         /// method to get cosine of the angle between photons current direction and boundary normal
         /// </summary>
-        /// <param name="photon"></param>
+        /// <param name="photon">photon</param>
         /// <returns>Uz=cos(theta)</returns>
         public new double GetAngleRelativeToBoundaryNormal(Photon photon)
         {

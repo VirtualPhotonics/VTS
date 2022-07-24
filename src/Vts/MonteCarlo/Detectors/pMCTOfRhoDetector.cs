@@ -52,7 +52,7 @@ namespace Vts.MonteCarlo.Detectors
         /// <summary>
         /// method to create detector
         /// </summary>
-        /// <returns></returns>
+        /// <returns>instantiation of detector</returns>
         public IDetector CreateDetector()
         {
             return new pMCTOfRhoDetector
@@ -193,7 +193,7 @@ namespace Vts.MonteCarlo.Detectors
         /// <summary>
         /// this is to allow saving of large arrays separately as a binary file
         /// </summary>
-        /// <returns></returns>
+        /// <returns>array of BinaryArraySerializer</returns>
         public BinaryArraySerializer[] GetBinarySerializers()
         {
             return new[] {

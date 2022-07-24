@@ -7,7 +7,7 @@ namespace Vts.IO
     /// <summary>
     /// class JsonCreationConverter
     /// </summary>
-    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="T">generic type T</typeparam>
     public abstract class JsonCreationConverter<T> : JsonConverter
     {
         /// <summary>

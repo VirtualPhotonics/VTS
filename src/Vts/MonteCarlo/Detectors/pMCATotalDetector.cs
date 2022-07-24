@@ -120,7 +120,7 @@ namespace Vts.MonteCarlo.Detectors
         /// <summary>
         /// method to tally to detector 
         /// </summary>
-        /// <param name="photon"></param>
+        /// <param name="photon">photon to be tallied</param>
         public void Tally(Photon photon)
         {
             // first determine perturbed *reflected* weight
@@ -154,7 +154,7 @@ namespace Vts.MonteCarlo.Detectors
         /// <summary>
         /// this scalar tally is saved to json
         /// </summary>
-        /// <returns></returns>
+        /// <returns>null</returns>
         public BinaryArraySerializer[] GetBinarySerializers()
         {
             return null;

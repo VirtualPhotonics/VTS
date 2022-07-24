@@ -254,7 +254,7 @@ namespace Vts.Extensions
         /// <typeparam name="T1">type of first dimension</typeparam>
         /// <typeparam name="T2">type of second dimension</typeparam>
         /// <typeparam name="T3">type of third dimension</typeparam>
-        /// <typeparam name="TReturn"></typeparam>
+        /// <typeparam name="TReturn">resulting list</typeparam>
         /// <param name="myFunc">function to be evaluated</param>
         /// <param name="firstValues">first dimension values</param>
         /// <param name="secondValues">second dimension values</param>
@@ -282,7 +282,7 @@ namespace Vts.Extensions
         /// </summary>
         /// <typeparam name="T1">type of first dimension</typeparam>
         /// <typeparam name="T2">type of second dimension</typeparam>
-        /// <typeparam name="TReturn"></typeparam>
+        /// <typeparam name="TReturn">resulting list</typeparam>
         /// <param name="myFunc">function to be evaluated</param>
         /// <param name="firstValues">first dimension values</param>
         /// <param name="secondValues">second dimension values</param>

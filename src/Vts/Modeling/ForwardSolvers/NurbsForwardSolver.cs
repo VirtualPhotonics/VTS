@@ -548,7 +548,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="fxs">spatial frequencies (1/mm)</param>
         /// <param name="zs">z values (mm)</param>
         /// <param name="times">times (ns)</param>
-        /// <returns></returns>
+        /// <returns>fluence as a function of fxs, zs, and times</returns>
         public override IEnumerable<double> FluenceOfFxAndZAndTime(IEnumerable<OpticalProperties> ops, IEnumerable<double> fxs, IEnumerable<double> zs, IEnumerable<double> times)
         {
             throw new NotImplementedException();
@@ -562,7 +562,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="fxs">spatial frequencies (1/mm)</param>
         /// <param name="zs">z values (mm)</param>
         /// <param name="fts">temporal frequencies (GHz)</param>
-        /// <returns></returns>
+        /// <returns>fluence as a function of fxs, zs and fts</returns>
         public override IEnumerable<Complex> FluenceOfFxAndZAndFt(IEnumerable<OpticalProperties> ops, IEnumerable<double> fxs, IEnumerable<double> zs, IEnumerable<double> fts)
         {
             throw new NotImplementedException();

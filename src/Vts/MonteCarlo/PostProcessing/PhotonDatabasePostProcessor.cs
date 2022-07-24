@@ -104,7 +104,7 @@ namespace Vts.MonteCarlo.PostProcessing
         /// <summary>
         /// Helper static method to run a group of post-processors in parallel
         /// </summary>
-        /// <param name="postProcessors"></param>
+        /// <param name="postProcessors">array of PhotonDatabaseProcessor classes to be run</param>
         /// <returns>array of SimulationOutput</returns>
         public static SimulationOutput[] RunAll(PhotonDatabasePostProcessor[] postProcessors)
         {

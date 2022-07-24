@@ -1260,6 +1260,7 @@ namespace Vts.MonteCarlo.Rng
         /// <param name="wordSize">word size: only w=32 or 31 allowed</param>
         /// <param name="periodExponent">Mersenne exponent: p greater than or equal to 521
         /// and p less than or equal to 44497</param>
+        /// <returns>mt_struct</returns>
         public mt_struct get_mt_parameter(int wordSize, int periodExponent)
         {
             mt_struct mts;

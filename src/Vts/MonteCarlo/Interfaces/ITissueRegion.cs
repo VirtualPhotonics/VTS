@@ -58,7 +58,7 @@ namespace Vts.MonteCarlo
         /// <summary>
         /// Determines surface normal at position
         /// </summary>
-        /// <param name="position"></param>
+        /// <param name="position">photon position</param>
         /// <returns>direction of surface normal at position</returns>
         Direction SurfaceNormal(Position position);
     }

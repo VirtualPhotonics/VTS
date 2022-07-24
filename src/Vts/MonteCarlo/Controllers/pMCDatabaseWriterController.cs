@@ -72,14 +72,14 @@ namespace Vts.MonteCarlo.Controllers
                 return true;
             }
             return false;
-        }        
+        }
         /// <summary>
         /// Method to determine if photon datapoint should be tallied or not to
         /// the collision info database
         /// </summary>
         /// <param name="dp">photon data point</param>
         /// <param name="collisionInfoDatabaseWriter">photon database writer</param>
-        /// <returns></returns>
+        /// <returns>boolean indicating whether photon data point belongs to virtual boundary</returns>
         public bool DPBelongsToSurfaceVirtualBoundary(PhotonDataPoint dp,
             CollisionInfoDatabaseWriter collisionInfoDatabaseWriter)
         {

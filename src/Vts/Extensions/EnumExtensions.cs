@@ -77,7 +77,7 @@ namespace Vts
         /// <summary>
         /// Method 'Remove' turns off this bit (does nothing if flag not present)
         /// </summary>
-        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="T">generic type</typeparam>
         /// <param name="type">Enum type</param>
         /// <param name="value">value to remove</param>
         /// <returns>enum with "value" bit turned off (nothing if value not present)</returns>
