@@ -172,7 +172,7 @@ namespace Vts.MonteCarlo.Tissues
         /// <summary>
         /// Finds the distance to the next boundary and independent of hitting it
         /// </summary>
-        /// <param name="photon"></param>
+        /// <param name="photon">photon</param>
         /// <returns>double distance to boundary</returns>
         public override double GetDistanceToBoundary(Photon photon)
         {

@@ -58,7 +58,8 @@ namespace Vts.Modeling.Optimizers
         /// <param name="y">"measured" values</param>
         /// <param name="ey">standard deviation values of <paramref name="y"/></param>
         /// <param name="forwardFunc">delegate function that evaluates the objective function given a parameter optimization array and (optional) constant variables</param>
-        /// <param name="forwardVariables"></param>
+        /// <param name="forwardVariables">additional variables needed to solve forward function</param>
+        /// <returns>inverse solution array</returns>
         public double[] Solve(double[] a, bool[] ia, double[] y, double[] ey, Func<double[], object[], double[]> forwardFunc, params object[] forwardVariables)
         {
             var data = new OptimizationData
@@ -88,7 +89,7 @@ namespace Vts.Modeling.Optimizers
         /// <param name="y">"measured" values</param>
         /// <param name="ey">standard deviation values of <paramref name="y"/></param>
         /// <param name="forwardFunc">delegate function that evaluates the objective function given a parameter optimization array and (optional) constant variables</param>
-        /// <param name="forwardVariables"></param>
+        /// <param name="forwardVariables">additional variables needed to solve forward function</param>
         /// <returns>inverse solution array</returns>
         public double[] SolveWithConstraints(double[] a, bool[] ia, double[] lowerBounds, double[] upperBounds, double[] y, double[] ey, Func<double[], object[], double[]> forwardFunc, params object[] forwardVariables)
         {

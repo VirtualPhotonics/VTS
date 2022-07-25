@@ -753,7 +753,7 @@ namespace Vts.Factories
                 upperBounds);
         }
         /// <summary>
-        /// 
+        /// Method to provide the inverse solution.
         /// </summary>
         /// <param name="forwardSolver">forward solver class</param>
         /// <param name="optimizer">optimizer class</param>

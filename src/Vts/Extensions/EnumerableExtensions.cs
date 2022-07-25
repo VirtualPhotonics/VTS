@@ -13,7 +13,7 @@ namespace Vts.Extensions
         /// Extension method to turn any single item into an IEnumerable (i.e. "yield-returns" the item)
         /// </summary>
         /// <typeparam name="T">generic type</typeparam>
-        /// <param name="singleItem"></param>
+        /// <param name="singleItem">single item to turn into IEnumerable</param>
         /// <returns>IEnumerable of generic type</returns>
         public static IEnumerable<T> AsEnumerable<T>(this T singleItem)
         {

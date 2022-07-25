@@ -366,7 +366,7 @@ namespace Vts
         /// <param name="rhos">source-detector separations</param>
         /// <param name="zs">depth bins</param>
         /// <param name="fts">temporal frequencies</param>
-        /// <returns></returns>
+        /// <returns>fluence as a function of rhos, zs and fts</returns>
         IEnumerable<Complex> FluenceOfRhoAndZAndFt(IEnumerable<IOpticalPropertyRegion[]> regions, IEnumerable<double> rhos, IEnumerable<double> zs, IEnumerable<double> fts);
         #endregion
 
@@ -683,7 +683,7 @@ namespace Vts
         /// </summary>
         /// <param name="ops">sets of medium optical properties</param>
         /// <param name="fxs">spatial frequencies (1/mm)</param>
-        /// <param name="times"></param>
+        /// <param name="times">times (ns)</param>
         /// <returns>reflectance as a function of fxs and times</returns>
         double[] ROfFxAndTime(OpticalProperties[] ops, double[] fxs, double[] times);
 

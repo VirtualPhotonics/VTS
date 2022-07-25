@@ -124,7 +124,7 @@ namespace Vts.Modeling.ForwardSolvers.Extensions
         /// </summary>
         /// <param name="myForwardSolver">forward solver</param>
         /// <param name="ops">optical properties</param>
-        /// <param name="rProbes"></param>
+        /// <param name="rProbes">Radial distances from source to "iterogation" location</param>
         /// <param name="rhos">s-d separations</param>
         /// <param name="zs">depths</param>
         /// <param name="ts">times</param>
@@ -173,7 +173,7 @@ namespace Vts.Modeling.ForwardSolvers.Extensions
         /// </summary>
         /// <param name="myForwardSolver">forward solver</param>
         /// <param name="ops">optical properties</param>
-        /// <param name="rProbes"></param>
+        /// <param name="rProbes">Radial distances from source to "iterogation" location</param>
         /// <param name="rhos">s-d separations</param>
         /// <param name="zs">depths</param>
         /// <param name="fts">temporal-frequencies</param>

@@ -19,15 +19,15 @@ namespace Vts.Common.Math
             return Enumerable.Zip(x, pOfX, (left, right) => (left * right)).Sum();
         }
 
-        /// <sumary>
+        /// <summary>
         /// method determines expected value of a 2D array given in 1D (row dominant) over the 2nd dimension 
         /// used to determine mean sampling depth
-        /// </sumary>
+        /// </summary>
         /// <param name="array">2D array that has been flattened to a double array of values</param>
-        /// <param name="x">2D array x values along 1 dimension</param>
-        /// <param name="y">2D array y values along other dimension</param>
-        /// <param name="dx">delta x values</param>
-        /// <param name="dy">delta y values</param>
+        /// <param name="x">array of x values along 1 dimension</param>
+        /// <param name="y">array of y values along other dimension</param>
+        /// <param name="dx">array of delta x values</param>
+        /// <param name="dy">array delta y values</param>
         /// <returns>double representing mean sampling depth</returns>
         public static double MeanSamplingDepth(double[] array, double[] x, double[] y, double[] dx, double[] dy)
         {

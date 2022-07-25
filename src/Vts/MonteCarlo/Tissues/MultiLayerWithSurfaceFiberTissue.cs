@@ -124,7 +124,7 @@ namespace Vts.MonteCarlo.Tissues
         /// <summary>
         /// method to determine region index of region photon is currently in
         /// </summary>
-        /// <param name="position"></param>
+        /// <param name="position">photon position</param>
         /// <returns>integer index of tissue region position is in</returns>
         public int GetRegionIndex(Position position)
         {
@@ -144,7 +144,7 @@ namespace Vts.MonteCarlo.Tissues
         /// <summary>
         /// Finds the distance to the next boundary and independent of hitting it
         /// </summary>
-        /// <param name="photon"></param>
+        /// <param name="photon">photon</param>
         /// <returns>distance to boundary</returns>
         public double GetDistanceToBoundary(Photon photon)
         {
@@ -282,7 +282,7 @@ namespace Vts.MonteCarlo.Tissues
         /// <summary>
         /// method to get cosine of the angle between photons current direction and boundary normal
         /// </summary>
-        /// <param name="photon"></param>
+        /// <param name="photon">photon</param>
         /// <returns>Uz=cos(theta)</returns>
         public double GetAngleRelativeToBoundaryNormal(Photon photon)
         {
