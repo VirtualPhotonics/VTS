@@ -10,7 +10,7 @@ namespace Vts.IO
     /// class to deserialize json
     /// from http://stackoverflow.com/questions/8030538/how-to-implement-custom-jsonconverter-in-json-net-to-deserialize-a-list-of-base
     /// </summary>
-    /// <typeparam name="TInterface">generic type interface</typeparam>
+    /// <typeparam name="TInterface">The interface type for the converter</typeparam>
     public class ConventionBasedConverter<TInterface> : JsonCreationConverter<TInterface> 
     {
         private readonly string _typeCategoryString;

@@ -71,7 +71,7 @@ namespace Vts
         /// <param name="propertyName">
         /// The name of the property to create event args for.
         /// </param>		
-        /// <returns>PropertyChangedEventArgs</returns>
+        /// <returns>An instance of PropertyChangedEventArgs for the specified property.</returns>
         public static PropertyChangedEventArgs
             GetPropertyChangedEventArgs(string propertyName)
         {

@@ -540,9 +540,9 @@ namespace Vts.IO
 
 
         /// <summary>
-        /// Write to binary file using a Action
+        /// Write to binary file using an Action
         /// </summary>
-        /// <typeparam name="T">generic type</typeparam>
+        /// <typeparam name="T">The type to be written as binary</typeparam>
         /// <param name="data">data to be written</param>
         /// <param name="fileName">Name of the binary file to write</param>
         /// <param name="writerMap">Action of BinaryWriter and T</param>
@@ -561,7 +561,7 @@ namespace Vts.IO
         /// <summary>
         /// Read from binary file using reader map
         /// </summary>
-        /// <typeparam name="T">generic type</typeparam>
+        /// <typeparam name="T">Type to be read from binary</typeparam>
         /// <param name="fileName">Name of the binary file to read</param>
         /// <param name="readerMap">function of BinaryReader and generic type</param>
         /// <returns>IEnumerable of generic type T</returns>
@@ -579,7 +579,7 @@ namespace Vts.IO
         /// <summary>
         /// Read from binary file in Resources 
         /// </summary>
-        /// <typeparam name="T">generic type</typeparam>
+        /// <typeparam name="T">Type to be read from binary in resources</typeparam>
         /// <param name="fileName">Name of the binary file to read</param>
         /// <param name="projectName">Project name where resources is located</param>
         /// <param name="readerMap">function of BinaryReader and T</param>
@@ -599,8 +599,8 @@ namespace Vts.IO
         /// <summary>
         /// Read of binary file using reader map
         /// </summary>
-        /// <typeparam name="T">generic type</typeparam>
-        /// <param name="s">Stream</param>
+        /// <typeparam name="T">Type to be read from binary</typeparam>
+        /// <param name="s">The binary stream</param>
         /// <param name="readerMap">function of BinaryReader and T</param>
         /// <returns>IEnumerable of T</returns>
         private static IEnumerable<T> ReadStreamFromBinaryCustom<T>(Stream s, Func<BinaryReader, T> readerMap)
@@ -619,9 +619,9 @@ namespace Vts.IO
         /// <summary>
         /// Read from a binary stream
         /// </summary>
-        /// <typeparam name="T">generic type</typeparam>
+        /// <typeparam name="T">The Type to read from binary</typeparam>
         /// <param name="filename">file to be read</param>
-        /// <returns>generic type T</returns>
+        /// <returns>The object of type T</returns>
         public static T ReadFromBinary<T>(string filename)
         {
             using (Stream stream = StreamFinder.GetFileStream(filename, FileMode.Open))
