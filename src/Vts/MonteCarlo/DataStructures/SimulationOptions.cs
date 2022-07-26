@@ -50,9 +50,9 @@ namespace Vts.MonteCarlo
         /// constructor that uses Henyey-Greenstein phase function, does not save photon data to database,
         /// tallies 2nd moment information, does not track statistics and designates simulation index to 0
         /// </summary>
-        /// <param name="seed"></param>
-        /// <param name="rngType"></param>
-        /// <param name="absWeightingType"></param>
+        /// <param name="seed">seed of random number generator</param>
+        /// <param name="rngType">random number generator type</param>
+        /// <param name="absWeightingType">absorption weighting type</param>
         public SimulationOptions(
             int seed, 
             RandomNumberGeneratorType rngType, 
@@ -69,7 +69,7 @@ namespace Vts.MonteCarlo
         /// <summary>
         /// constructor that takes in seed but uses default values for all other parameters
         /// </summary>
-        /// <param name="seed"></param>
+        /// <param name="seed">integer seed of random number generator</param>
         public SimulationOptions(int seed)
             : this(seed, 
                 RandomNumberGeneratorType.MersenneTwister,  

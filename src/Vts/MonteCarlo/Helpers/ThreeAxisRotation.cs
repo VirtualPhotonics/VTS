@@ -43,7 +43,7 @@
         /// <summary>
         /// method to clone ThreeAxisRotation
         /// </summary>
-        /// <returns></returns>
+        /// <returns>ThreeAxisRotation clone</returns>
         public ThreeAxisRotation Clone()
         {
             return new ThreeAxisRotation(XRotation, YRotation, ZRotation);

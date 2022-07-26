@@ -14,7 +14,7 @@ namespace Vts
         /// method to get values from generic type
         /// </summary>
         /// <typeparam name="T">generic type</typeparam>
-        /// <returns></returns>
+        /// <returns>array of generic type</returns>
         public static T[] GetValues<T>()
         {
             Type enumType = typeof(T);
@@ -60,7 +60,7 @@ namespace Vts
         /// method to get values of enum
         /// </summary>
         /// <param name="enumType">enum</param>
-        /// <returns></returns>
+        /// <returns>array of object</returns>
         public static object[] GetValues(Type enumType)
         {
             if (!enumType.IsEnum)

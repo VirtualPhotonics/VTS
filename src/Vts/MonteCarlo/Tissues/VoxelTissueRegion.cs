@@ -184,7 +184,7 @@ namespace Vts.MonteCarlo.Tissues
         /// method to determine if photon at designated position resides within or on voxel
         /// </summary>
         /// <param name="position">position of photon</param>
-        /// <returns>boolean</returns>
+        /// <returns>boolean indicating whether region contains position or not</returns>
         public bool ContainsPosition(Position position)
         {
             //// inclusion defined in half-open interval [start,stop) so that continuum of voxels do not overlap
@@ -198,7 +198,7 @@ namespace Vts.MonteCarlo.Tissues
         /// Currently OnBoundary of an inclusion region isn't called by any code ckh 3/5/19.
         /// </summary>
         /// <param name="position">photon position</param>
-        /// <returns>boolean</returns>
+        /// <returns>boolean indicating whether on boundary or not</returns>
         public bool OnBoundary(Position position)
         {
             return (((position.X == X.Start) || (position.X == X.Stop)) &&
@@ -214,8 +214,8 @@ namespace Vts.MonteCarlo.Tissues
         /// <summary>
         /// method to determine normal to surface at given position
         /// </summary>
-        /// <param name="position"></param>
-        /// <returns>Direction</returns>
+        /// <param name="position">position</param>
+        /// <returns>Direction normal to surface at position</returns>
         public Direction SurfaceNormal(Position position)
         {
             throw new NotImplementedException();

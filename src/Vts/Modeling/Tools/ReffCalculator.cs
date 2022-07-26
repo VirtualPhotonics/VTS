@@ -26,7 +26,7 @@ namespace Vts.Modeling
         /// method to get reff
         /// </summary>
         /// <param name="n">refractive index</param>
-        /// <returns></returns>
+        /// <returns>reff value</returns>
         public static double GetReff(double n)
         {
             return interpolator.Interpolate(n);

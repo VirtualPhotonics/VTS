@@ -134,9 +134,9 @@ namespace Vts.MonteCarlo
         public SimulationOutput Results { get; private set; }
 
         /// <summary>
-        /// 
+        /// Initializes for parallel processing
         /// </summary>
-        /// <param name="rng"></param>
+        /// <param name="rng">random number generator Random class</param>
         public void InitializeParallel(Random rng)
         {
             Rng = rng;

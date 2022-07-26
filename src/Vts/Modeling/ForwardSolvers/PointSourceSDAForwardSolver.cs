@@ -50,7 +50,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="rho">radial location</param>
         /// <param name="z">depth location</param>
         /// <param name="dp">DiffusionParamters object</param>
-        /// <returns></returns>
+        /// <returns>stationary zflux</returns>
         public double StationaryFlux(double rho, double z, DiffusionParameters dp)
         {
             var zSource = z - dp.zp;
@@ -104,7 +104,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="rho">radial location</param>
         /// <param name="z">depth location</param>
         /// <param name="t">time</param>
-        /// <returns></returns>
+        /// <returns>temporal flux</returns>
         public double TemporalFlux(
             DiffusionParameters dp, double rho, double z, double t)
         {
@@ -123,9 +123,9 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="dp">diffusion parameters</param>
         /// <param name="rho">s-d separation</param>
         /// <param name="k">temporal-frequency</param>
-        /// <param name="fr1"></param>
-        /// <param name="fr2"></param>
-        /// <returns></returns>
+        /// <param name="fr1">First Fresnel Reflection Moment</param>
+        /// <param name="fr2">Second Fresnel Reflection Moment</param>
+        /// <returns>reflectance(rho,ft)</returns>
         public override Complex TemporalFrequencyReflectance(
             DiffusionParameters dp, double rho, Complex k, double fr1, double fr2)
         {
@@ -142,7 +142,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="rho">s-d separation</param>
         /// <param name="z">depth</param>
         /// <param name="k">temporal-frequency</param>
-        /// <returns></returns>
+        /// <returns>fluence as a function of rho, z and ft</returns>
         public override Complex TemporalFrequencyFluence(DiffusionParameters dp, double rho,
             double z, Complex k)
         {
@@ -158,7 +158,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="rho">s-d separation</param>
         /// <param name="z">depth</param>
         /// <param name="k">temporal-frequency</param>
-        /// <returns></returns>
+        /// <returns>temporal frequeny zflux</returns>
         public Complex TemporalFrequencyZFlux(
             DiffusionParameters dp, double rho, double z, Complex k)
         {

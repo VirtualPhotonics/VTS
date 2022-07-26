@@ -13,7 +13,7 @@ namespace Vts.MonteCarlo
         /// </summary>
         /// <param name="input">detector input in SimulationInput</param>
         /// <param name="tissueRegionCount">number of tissue regions</param>
-        /// <returns></returns>
+        /// <returns>ValidationResult class</returns>
         public static ValidationResult ValidateInput(IDetectorInput input, int tissueRegionCount)
         {
             // test if blood volume fraction list length agrees with number of tissue regions

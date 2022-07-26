@@ -1,12 +1,20 @@
 using System;
 using System.Collections.Generic;
 using System.Numerics;
-using MathNet.Numerics;
+using System.Runtime.CompilerServices;
 using Vts.Extensions;
-using Vts.MonteCarlo;
 
 namespace Vts.Modeling.ForwardSolvers
 {
+    /// <summary>
+    /// The <see cref="ForwardSolvers"/> namespace contains the forward solver classes for the Virtual Tissue Simulator
+    /// </summary>
+
+    [CompilerGenerated]
+    internal class NamespaceDoc
+    {
+    }
+
     /// <summary>
     /// This is a base class for all forward solvers. It contains default (virtual) vectorization methods such that only the scalar solver methods 
     /// must be implemented to create a new IForwardSolver-implementing class. Override these virtual methods to impose optimizations possible through vectorization.

@@ -49,7 +49,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="rho">radial location</param>
         /// <param name="fr1">First Fresnel Reflection Moment, not applied here</param>
         /// <param name="fr2">Second Fresnel Reflection Moment, not applied here</param>
-        /// <returns></returns>
+        /// <returns>reflectnace</returns>
         public override double StationaryReflectance(DiffusionParameters dp, double rho,
             double fr1, double fr2)
         {
@@ -63,7 +63,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="dp">diffusion parameters</param>
         /// <param name="diam">diameter of Gaussian beam</param>
         /// <param name="rho">s-d separation</param>
-        /// <returns></returns>
+        /// <returns>fluence</returns>
         public static double SteadyStateGaussianBeamSurfaceFluence(DiffusionParameters dp,
                    double diam, double rho)
         {
@@ -216,9 +216,9 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="dp">diffusion parameters</param>
         /// <param name="rho">s-d separation</param>
         /// <param name="t">time</param>
-        /// <param name="fr1"></param>
-        /// <param name="fr2"></param>
-        /// <returns></returns>
+        /// <param name="fr1">First Fresnel Reflection Moment</param>
+        /// <param name="fr2">Second Fresnel Reflection Moment</param>
+        /// <returns>reflectance as a function of time</returns>
         public override double TemporalReflectance(DiffusionParameters dp, double rho, double t, double fr1, double fr2)
         {
             throw new NotImplementedException();
@@ -226,12 +226,12 @@ namespace Vts.Modeling.ForwardSolvers
         /// <summary>
         /// temporal-frequency reflectance
         /// </summary>
-        /// <param name="dp"></param>
+        /// <param name="dp">diffusion parameters</param>
         /// <param name="rho">s-d separation</param>
         /// <param name="k">temporal-frequency</param>
-        /// <param name="fr1"></param>
-        /// <param name="fr2"></param>
-        /// <returns></returns>
+        /// <param name="fr1">First Fresnel Reflection Moment</param>
+        /// <param name="fr2">Second Fresnel Reflection Moment</param>
+        /// <returns>reflectance</returns>
         public override Complex TemporalFrequencyReflectance(DiffusionParameters dp, double rho, Complex k, double fr1, double fr2)
         {
             throw new NotImplementedException();

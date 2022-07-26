@@ -1,8 +1,18 @@
 using System;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace Vts.MonteCarlo.Helpers
 {
+    /// <summary>
+    /// The <see cref="Helpers"/> namespace contains the Monte Carlo helper classes
+    /// </summary>
+
+    [CompilerGenerated]
+    internal class NamespaceDoc
+    {
+    }
+
     /// <summary> 
     /// Methods that aid in determining which detector bin to tally.
     /// </summary>
@@ -18,6 +28,7 @@ namespace Vts.MonteCarlo.Helpers
         /// <param name="binSize">bin size</param>
         /// <param name="numberOfBins">size of array</param>
         /// <param name="binStart">starting location of binning</param>
+        /// <returns>integer index of bin value is in</returns>
         public static int WhichBin(double value, int numberOfBins, double binSize, double binStart)
         {
             int bin = (int)Math.Floor((value - binStart) / binSize);
@@ -38,6 +49,7 @@ namespace Vts.MonteCarlo.Helpers
         /// <param name="value">value to be binned</param>
         /// <param name="binSize">bin size</param>
         /// <param name="binCenters">list of bin centers</param>
+        /// <returns>integer index of bin value is in</returns>
         public static int WhichBin(double value, double binSize, double[] binCenters)
         {
             for (int i = 0; i < binCenters.Count(); i++)
@@ -54,6 +66,7 @@ namespace Vts.MonteCarlo.Helpers
         /// </summary>
         /// <param name="value">value to be binned</param>
         /// <param name="binStops">list of bin stops</param>
+        /// <returns>integer index of bin value is in</returns>
         public static int WhichBin(double value, double[] binStops)
         {
             if ((value >= 0.0) && (value < binStops[0]))
@@ -76,6 +89,7 @@ namespace Vts.MonteCarlo.Helpers
         /// <param name="binSize">bin size</param>
         /// <param name="numberOfBins">size of array</param>
         /// <param name="binStart">starting location of binning</param>
+        /// <returns>integer index of bin value is in</returns>
         public static int WhichBinExclusive(double value, int numberOfBins, double binSize, double binStart)
         {
             int bin = (int)Math.Floor((value - binStart) / binSize);
@@ -102,7 +116,7 @@ namespace Vts.MonteCarlo.Helpers
         /// </summary>
         /// <param name="pathlength">distance photon has traveled</param>
         /// <param name="n">refractive index of medium where pathlength is determined</param>
-        /// <returns></returns>
+        /// <returns>time delay according to path length and tissue n</returns>
         public static double GetTimeDelay(double pathlength, double n)
         {
             return pathlength / (GlobalConstants.C / n);

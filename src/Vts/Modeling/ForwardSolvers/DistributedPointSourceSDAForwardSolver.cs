@@ -149,7 +149,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="k">wavevector</param>
         /// <param name="fr1">Fresnel Moment 1</param>
         /// <param name="fr2">Fresnel Moment 2</param>
-        /// <returns></returns>
+        /// <returns>reflectance</returns>
         public override Complex TemporalFrequencyReflectance(DiffusionParameters dp,
             double rho, Complex k, double fr1, double fr2)
         {

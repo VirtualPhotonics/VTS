@@ -2,11 +2,20 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Numerics;
-using MathNet.Numerics;
+using System.Runtime.CompilerServices;
 using Vts.Extensions;
 
 namespace Vts.IO
 {
+    /// <summary>
+    /// The <see cref="IO"/> namespace contains the input/output classes for the Virtual Tissue Simulator
+    /// </summary>
+
+    [CompilerGenerated]
+    internal class NamespaceDoc
+    {
+    }
+
     /// <summary>
     /// Class that implements the interface ICustomBinaryReader to read different types of Array from a binary stream
     /// </summary>

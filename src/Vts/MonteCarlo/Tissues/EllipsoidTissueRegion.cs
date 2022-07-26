@@ -100,8 +100,8 @@ namespace Vts.MonteCarlo.Tissues
         /// <summary>
         /// method to determine normal to surface at given position. Note this returns outward facing normal.
         /// </summary>
-        /// <param name="position">position of surface normal</param>
-        /// <returns>direction of normal</returns>
+        /// <param name="position">position</param>
+        /// <returns>Direction normal to surface at position</returns>
         public Direction SurfaceNormal(Position position)
         {
             return new Direction(

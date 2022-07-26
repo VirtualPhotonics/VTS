@@ -14,7 +14,7 @@ namespace Vts.Extensions
         /// <param name="myDoubleArray">values to which noise will be added</param>
         /// <param name="percentNoise">double indicating percent noise to be added
         /// percentNoise=10 means 10% noise will be added</param>
-        /// <returns></returns>
+        /// <returns>double array of values with noise added</returns>
         public static double[] AddNoise(this double[] myDoubleArray, double percentNoise)
         {
             // make this functional/side-effect-free (return a new array with noise)?
@@ -38,7 +38,7 @@ namespace Vts.Extensions
         /// <param name="myValues">IEnumerable list of values</param>
         /// <param name="percentNoise">double designating percent, percentNoise=10 means 10 percent
         /// noise added</param>
-        /// <returns></returns>
+        /// <returns>IEnumerable of double with values with noise added</returns>
         public static IEnumerable<double> AddNoise(this IEnumerable<double> myValues, double percentNoise)
         {
             // make this functional/side-effect-free (return a new array with noise)?

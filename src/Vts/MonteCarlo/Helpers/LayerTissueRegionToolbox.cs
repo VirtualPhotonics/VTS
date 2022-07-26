@@ -1,4 +1,3 @@
-using System;
 using Vts.Common;
 
 namespace Vts.MonteCarlo.Tissues
@@ -56,7 +55,7 @@ namespace Vts.MonteCarlo.Tissues
         /// <param name="p">position of photon exit</param>
         /// <param name="d">direction of photon exit</param>
         /// <param name="zPlane">z-plane above tissue in air, must be negative value</param>
-        /// <returns></returns>
+        /// <returns>position on plane extended to</returns>
         public static Position RayExtendToInfinitePlane(Position p, Direction d, double zPlane)
         {
             var denom = -d.Uz; // direction dot normal (0, 0, -1)

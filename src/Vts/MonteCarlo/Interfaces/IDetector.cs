@@ -52,7 +52,7 @@ namespace Vts.MonteCarlo
         /// <summary>
         /// Method that returns info for each large binary data array
         /// </summary>
-        /// <returns></returns>
+        /// <returns>BinaryArraySerializer array</returns>
         BinaryArraySerializer[] GetBinarySerializers();
     }
 }

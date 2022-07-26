@@ -1,5 +1,16 @@
-﻿namespace Vts.MonteCarlo.DataStructuresValidation
+﻿using System.Runtime.CompilerServices;
+
+namespace Vts.MonteCarlo.DataStructuresValidation
 {
+    /// <summary>
+    /// The <see cref="DataStructuresValidation"/> namespace contains the Monte Carlo validation classes for the Monte Carlo inputs
+    /// </summary>
+
+    [CompilerGenerated]
+    internal class NamespaceDoc
+    {
+    }
+
     /// <summary>
     /// Class that holds the result of validating the Monte Carlo inputs.
     /// </summary>

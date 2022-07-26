@@ -42,7 +42,7 @@
         /// <summary>
         /// method to clone class
         /// </summary>
-        /// <returns></returns>
+        /// <returns>SourceFlags clone</returns>
         public SourceFlags Clone()
         {
             return new SourceFlags(RotationOfPrincipalSourceAxisFlag, TranslationFromOriginFlag, BeamRotationFromInwardNormalFlag);

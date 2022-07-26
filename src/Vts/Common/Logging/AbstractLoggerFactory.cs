@@ -27,7 +27,7 @@ namespace Vts.Common.Logging
         /// method to create logger given type
         /// </summary>
         /// <param name="type">type</param>
-        /// <returns></returns>
+        /// <returns>ILogger</returns>
         public virtual ILogger Create(Type type)
         {
             if (type == null)
@@ -42,7 +42,7 @@ namespace Vts.Common.Logging
         /// </summary>
         /// <param name="type">type</param>
         /// <param name="level">logger level</param>
-        /// <returns></returns>
+        /// <returns>ILogger</returns>
         public virtual ILogger Create(Type type, LoggerLevel level)
         {
             if (type == null)
@@ -56,22 +56,22 @@ namespace Vts.Common.Logging
         /// method to create logger given name
         /// </summary>
         /// <param name="name">name string</param>
-        /// <returns></returns>
+        /// <returns>ILogger</returns>
         public abstract ILogger Create(String name);
         /// <summary>
         /// method to create logger given name and logger level
         /// </summary>
         /// <param name="name">name string</param>
         /// <param name="level">LoggerLevel</param>
-        /// <returns></returns>
+        /// <returns>ILogger</returns>
 
         public abstract ILogger Create(String name, LoggerLevel level);
 
         /// <summary>
         ///   Gets the configuration file.
         /// </summary>
-        /// <param name = "fileName">i.e. log4net.config</param>
-        /// <returns></returns>
+        /// <param name="fileName">i.e. log4net.config</param>
+        /// <returns>FileInfo</returns>
         protected static FileInfo GetConfigFile(string fileName)
         {
             FileInfo result;

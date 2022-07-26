@@ -17,7 +17,7 @@ namespace Vts
         /// <summary>
         /// Takes a string of properties that the property depends upon
         /// </summary>
-        /// <param name="properties"></param>
+        /// <param name="properties">string of properties</param>
         public DependsOnAttribute(params string[] properties)
         {
             Properties = properties;

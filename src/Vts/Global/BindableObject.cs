@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 
 namespace Vts
@@ -10,7 +11,7 @@ namespace Vts
     /// The <see cref="Vts"/> namespace contains classes for the Virtual Tissue Simulator
     /// </summary>
 
-    [System.Runtime.CompilerServices.CompilerGenerated]
+    [CompilerGenerated]
     internal class NamespaceDoc
     {
     }
@@ -70,6 +71,7 @@ namespace Vts
         /// <param name="propertyName">
         /// The name of the property to create event args for.
         /// </param>		
+        /// <returns>An instance of PropertyChangedEventArgs for the specified property.</returns>
         public static PropertyChangedEventArgs
             GetPropertyChangedEventArgs(string propertyName)
         {

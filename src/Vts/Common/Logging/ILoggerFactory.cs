@@ -24,21 +24,31 @@ namespace Vts.Common.Logging
         /// <summary>
         ///   Creates a new logger, getting the logger name from the specified type.
         /// </summary>
+        ///<param name="type">type of logger</param>
+        ///<returns>ILogger</returns>
         ILogger Create(Type type);
 
         /// <summary>
         ///   Creates a new logger.
         /// </summary>
+        /// <param name="name">logger string name to be created</param>
+        /// <returns>ILogger</returns>
         ILogger Create(String name);
 
         /// <summary>
         ///   Creates a new logger, getting the logger name from the specified type.
         /// </summary>
+        /// <param name="type">type of logger</param>
+        /// <param name="level">LoggerLevel</param>
+        /// <returns>ILogger</returns>
         ILogger Create(Type type, LoggerLevel level);
 
         /// <summary>
         ///   Creates a new logger.
         /// </summary>
+        /// <param name="name">name string of logger</param>
+        /// <param name="level">LoggerLevel</param>
+        /// <returns>ILogger</returns>
         ILogger Create(String name, LoggerLevel level);
     }
 }

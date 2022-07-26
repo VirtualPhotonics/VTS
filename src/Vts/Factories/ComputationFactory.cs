@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using System.Runtime.CompilerServices;
 using Vts.Common;
 using Vts.Extensions;
 using Vts.Modeling;
@@ -12,6 +13,15 @@ using Vts.Modeling.ForwardSolvers.Extensions;
 
 namespace Vts.Factories
 {
+    /// <summary>
+    /// The <see cref="Factories"/> namespace contains the factory classes for the Virtual Tissue Simulator
+    /// </summary>
+
+    [CompilerGenerated]
+    internal class NamespaceDoc
+    {
+    }
+
     /// <summary>
     /// Class that composes forward and optimization calculations based on high-level inputs
     /// </summary>
@@ -203,8 +213,8 @@ namespace Vts.Factories
         /// <param name="forwardSolverType">ForwardSolverType enum (e.g. PointSourceSDA, DistributedPointSourceSDA, etc.)</param>
         /// <param name="solutionDomainType">FluenceSolutionDomainType enum (e.g. FluenceOfRhoAndZ, FluenceOfFxAndZ etc.)</param>
         /// <param name="independentAxesTypes">array of IndependentVariableAxis enum (Rho, Time, Fx, Ft, Z)</param>
-        /// <param name="independentValues"></param>
-        /// <param name="tissueRegions"></param>
+        /// <param name="independentValues">jagged array of independent values</param>
+        /// <param name="tissueRegions">array of optical property regions</param>
         /// <param name="constantValues">double array of variable length with the constant values</param>
         /// <returns>double[] of resulting linearized fluence values</returns>
         public static double[] ComputeFluence(
@@ -560,7 +570,7 @@ namespace Vts.Factories
         /// <param name="ops">optical properties</param>
         /// <param name="rhos">detector locations (in mm)</param>
         /// <param name="zs">z values (in mm)</param>
-        /// <returns></returns>
+        /// <returns>double array o photon hitting density map</returns>
         public static double[] GetPHD(ForwardSolverType forwardSolverType, Complex[] fluence, double sdSeparation,
                                       double timeModulationFrequency, OpticalProperties[] ops, double[] rhos,
                                       double[] zs)
@@ -645,7 +655,7 @@ namespace Vts.Factories
         /// <param name="independentValues">an array of objects: first element = OpticalProperties,
         /// second element = double[] of x axis values, for example:
         /// new object[]{ new[]{ new OpticalProperties(0.01, 1, 0.8, 1.4) }, new double[] { 1, 2, 3 } })</param>
-        /// <returns></returns>
+        /// <returns>double array of optical property inverse solution</returns>
         public static double[] SolveInverse(
             ForwardSolverType forwardSolverType,
             OptimizerType optimizerType,
@@ -668,7 +678,7 @@ namespace Vts.Factories
                 independentValues);
         }
         /// <summary>
-        /// 
+        /// Method to provide the inverse solution.
         /// </summary>
         /// <param name="forwardSolver">forward solver class</param>
         /// <param name="optimizer">optimizer class</param>
@@ -679,7 +689,7 @@ namespace Vts.Factories
         /// <param name="independentValues">an array of objects: first element = OpticalProperties,
         /// second element = double[] of x axis values, for example:
         /// new object[]{ new[]{ new OpticalProperties(0.01, 1, 0.8, 1.4) }, new double[] { 1, 2, 3 } })</param>
-        /// <returns></returns>
+        /// <returns>double array of optical property inverse solution</returns>
         public static double[] SolveInverse(
             IForwardSolver forwardSolver,
             IOptimizer optimizer,
@@ -703,7 +713,7 @@ namespace Vts.Factories
             return fit;
         }
         /// <summary>
-        /// 
+        /// Method to provide the inverse solution.
         /// </summary>
         /// <param name="forwardSolverType">ForwardSolverType enum (e.g. PointSourceSDA, DistributedPointSourceSDA, etc.)</param>
         /// <param name="optimizerType">OptimizerType enum (e.g. MPFitLevenbergMarguardt</param>
@@ -716,7 +726,7 @@ namespace Vts.Factories
         /// new object[]{ new[]{ new OpticalProperties(0.01, 1, 0.8, 1.4) }, new double[] { 1, 2, 3 } })</param>
         /// <param name="lowerBounds">constrained fit with lower bounds for OPs, size = 4 for all OPs</param>
         /// <param name="upperBounds">constrained fit with upper bounds for OPs, size = 4 for all OPs</param>
-        /// <returns></returns>
+        /// <returns>double array of optical property inverse solution</returns>
         public static double[] SolveInverse(
         ForwardSolverType forwardSolverType,
         OptimizerType optimizerType,
@@ -743,7 +753,7 @@ namespace Vts.Factories
                 upperBounds);
         }
         /// <summary>
-        /// 
+        /// Method to provide the inverse solution.
         /// </summary>
         /// <param name="forwardSolver">forward solver class</param>
         /// <param name="optimizer">optimizer class</param>
@@ -754,9 +764,9 @@ namespace Vts.Factories
         /// <param name="independentValues">an array of objects: first element = OpticalProperties,
         /// second element = double[] of xaxis values, for example:
         /// new object[]{ new[]{ new OpticalProperties(0.01, 1, 0.8, 1.4) }, new double[] { 1, 2, 3 } })</param>
-        /// <param name="lowerBounds"></param>
-        /// <param name="upperBounds"></param>
-        /// <returns></returns>
+        /// <param name="lowerBounds">constrained fit with lower bounds for OPs, size = 4 for all OPs</param>
+        /// <param name="upperBounds">constrained fit with upper bounds for OPs, size = 4 for all OPs</param>
+        /// <returns>double array of optical property inverse solution</returns>
         public static double[] SolveInverse(
             IForwardSolver forwardSolver,
             IOptimizer optimizer,

@@ -232,6 +232,7 @@ namespace Vts.MonteCarlo.Detectors
         /// Method to determine if photon is within detector NA
         /// </summary>
         /// <param name="photon">photon</param>
+        /// <returns>boolean indicating whether photon is within detector</returns>
         public bool IsWithinDetectorAperture(Photon photon)
         {
             if (photon.CurrentRegionIndex == FinalTissueRegionIndex)

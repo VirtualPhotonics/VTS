@@ -1,12 +1,21 @@
+using MathNet.Numerics;
+using Meta.Numerics.Analysis;
 using System;
 using System.Collections.Generic;
 using System.Numerics;
-using MathNet.Numerics;
-using Meta.Numerics.Analysis;
-using Meta.Numerics.Functions;
+using System.Runtime.CompilerServices;
 
 namespace Vts.Modeling.ForwardSolvers.Extensions
 {
+    /// <summary>
+    /// The <see cref="Extensions"/> namespace contains the extension methods for photon hitting density map generation in the Virtual Tissue Simulator
+    /// </summary>
+
+    [CompilerGenerated]
+    internal class NamespaceDoc
+    {
+    }
+
     /// <summary>
     /// extension methods for photon hitting density map generation
     /// </summary>
@@ -54,7 +63,7 @@ namespace Vts.Modeling.ForwardSolvers.Extensions
         /// <param name="ops">optical properties</param>
         /// <param name="rhoPrimes">s-d separations</param>
         /// <param name="zs">depths</param>
-        /// <returns></returns>
+        /// <returns>photon hitting density as a function of rhos, zs and ft</returns>
         public static IEnumerable<Complex> TimeFrequencyDomainFluence2SurfacePointPHD(
             this IForwardSolver myForwardSolver,
             double timeModulationFrequency,
@@ -89,7 +98,7 @@ namespace Vts.Modeling.ForwardSolvers.Extensions
         /// <param name="ops">optical properties</param>
         /// <param name="rhoPrimes">s-d separations</param>
         /// <param name="zs">depths</param>
-        /// <returns></returns>
+        /// <returns>photon hitting density as a function of rhos and zs</returns>
         public static IEnumerable<double> SteadyStateFluence2SurfacePointPHD(
             this IForwardSolver myForwardSolver,
             IEnumerable<OpticalProperties> ops,
@@ -115,11 +124,11 @@ namespace Vts.Modeling.ForwardSolvers.Extensions
         /// </summary>
         /// <param name="myForwardSolver">forward solver</param>
         /// <param name="ops">optical properties</param>
-        /// <param name="rProbes"></param>
+        /// <param name="rProbes">Radial distances from source to "iterogation" location</param>
         /// <param name="rhos">s-d separations</param>
         /// <param name="zs">depths</param>
         /// <param name="ts">times</param>
-        /// <returns></returns>
+        /// <returns>photon hitting density as a function of rhos, zs and times</returns>
         public static IEnumerable<double> TemporalPointSourceCenterlinePHD(
             this IForwardSolver myForwardSolver,
             IEnumerable<OpticalProperties> ops, IEnumerable<double> rProbes,
@@ -164,11 +173,11 @@ namespace Vts.Modeling.ForwardSolvers.Extensions
         /// </summary>
         /// <param name="myForwardSolver">forward solver</param>
         /// <param name="ops">optical properties</param>
-        /// <param name="rProbes"></param>
+        /// <param name="rProbes">Radial distances from source to "iterogation" location</param>
         /// <param name="rhos">s-d separations</param>
         /// <param name="zs">depths</param>
         /// <param name="fts">temporal-frequencies</param>
-        /// <returns></returns>
+        /// <returns>photon hitting density as a function of rhos, zs and fts</returns>
         public static IEnumerable<double> TemporalFrequencyPointSourceCenterlinePHD(
             this IForwardSolver myForwardSolver, IEnumerable<OpticalProperties> ops, 
             IEnumerable<double> rProbes, IEnumerable<double> rhos, 

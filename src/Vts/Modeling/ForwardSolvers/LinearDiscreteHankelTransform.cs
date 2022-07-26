@@ -15,7 +15,7 @@ namespace Vts.Modeling
         /// <param name="mua">absorption coefficient</param>
         /// <param name="musp">reduced scattering coefficient</param>
         /// <param name="drho">delta rho</param>
-        /// <returns></returns>
+        /// <returns>array of rho values</returns>
         public static double[] GetRho(double mua, double musp, out double drho)
         {
             double  rMaxFactor = 25;
@@ -37,7 +37,7 @@ namespace Vts.Modeling
         /// <param name="ROfRho">vector of discrete R(rho) values</param>
         /// <param name="drho">delta rho</param>
         /// <param name="fx">the spatial frequency at which to evaluate</param>
-        /// <returns></returns>
+        /// <returns>Hankel Transform result</returns>
         public static double GetHankelTransform(double[] rho, double[] ROfRho, double drho, double fx)
         {
             if (rho.Length != ROfRho.Length)

@@ -1,11 +1,21 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Vts.Common;
 using Vts.Extensions;
 
 namespace Vts.MonteCarlo.Tissues
-{   
+{
+    /// <summary>
+    /// The <see cref="Tissues"/> namespace contains the Monte Carlo tissue classes
+    /// </summary>
+
+    [CompilerGenerated]
+    internal class NamespaceDoc
+    {
+    }
+
     /// <summary>
     /// Implements ITissue.  Defines a tissue geometry comprised of a layered slab bounded laterally by a TissueRegion.
     /// </summary>
@@ -82,7 +92,7 @@ namespace Vts.MonteCarlo.Tissues
         /// method to determine if on boundary of tissue, i.e. at tissue/air interface
         /// </summary>
         /// <param name="position">photon position</param>
-        /// <returns></returns>
+        /// <returns>boolean indicating whether on boundary or not</returns>
         public override bool OnDomainBoundary(Position position)
         {
             // this code assumes that the first and last layer is air
@@ -118,7 +128,7 @@ namespace Vts.MonteCarlo.Tissues
         /// <summary>
         /// method to determine photon state type of photon exiting tissue boundary
         /// </summary>
-        /// <param name="position"></param>
+        /// <param name="position">photon position</param>
         /// <returns>PhotonStateType</returns>
         public new PhotonStateType GetPhotonDataPointStateOnExit(Position position)
         {

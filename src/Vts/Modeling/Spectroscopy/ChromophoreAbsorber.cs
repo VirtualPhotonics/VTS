@@ -1,7 +1,17 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 
 namespace Vts.SpectralMapping
 {
+    /// <summary>
+    /// The <see cref="SpectralMapping"/> namespace contains the spectral mapping classes for the Virtual Tissue Simulator
+    /// </summary>
+
+    [CompilerGenerated]
+    internal class NamespaceDoc
+    {
+    }
+
     /// <summary>
     /// Class to represent a chromophore absorber
     /// </summary>

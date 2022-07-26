@@ -17,7 +17,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// Returns minimum physical time of flight based on speed of light for n = 1,4.
         /// </summary>
         /// <param name="rho">source detector separation</param>
-        /// <returns>t</returns>
+        /// <returns>time of flight</returns>
         public double GetMinimumValidTime(double rho)
         {
             return rho / 214.0;
@@ -88,10 +88,10 @@ namespace Vts.Modeling.ForwardSolvers
         /// <summary>
         /// Not implemented fo stub class.
         /// </summary>
-        /// <param name="time"></param>
-        /// <param name="space"></param>
-        /// <param name="edgeValue"></param>
-        /// <returns></returns>
+        /// <param name="time">time coordinate</param>
+        /// <param name="space">space coordinate</param>
+        /// <param name="edgeValue">edge value</param>
+        /// <returns>point out of surface</returns>
         public double ComputePointOutOfSurface(double time, double space, double edgeValue)
         {
             throw new NotImplementedException();
@@ -100,9 +100,9 @@ namespace Vts.Modeling.ForwardSolvers
         /// <summary>
         /// Not implemented for stub class.
         /// </summary>
-        /// <param name="space"></param>
-        /// <param name="exponentialTerm"></param>
-        /// <returns></returns>
+        /// <param name="space">space coordinate</param>
+        /// <param name="exponentialTerm">exponential term</param>
+        /// <returns>NURBS curve integral</returns>
         public double EvaluateNurbsCurveIntegral(double space, double exponentialTerm)
         {
             throw new NotImplementedException();
@@ -110,10 +110,10 @@ namespace Vts.Modeling.ForwardSolvers
         /// <summary>
         /// Not implemented for stub class.
         /// </summary>
-        /// <param name="space"></param>
-        /// <param name="expTerm"></param>
-        /// <param name="ft"></param>
-        /// <returns></returns>
+        /// <param name="space">space coordinate</param>
+        /// <param name="expTerm">exponential term</param>
+        /// <param name="ft">temporal-frequency</param>
+        /// <returns>NURBS curve Fourier transform</returns>
         public Complex EvaluateNurbsCurveFourierTransform(double space, double expTerm, double ft)
         {
             throw new NotImplementedException();

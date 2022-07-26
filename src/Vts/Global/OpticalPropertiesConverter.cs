@@ -29,7 +29,7 @@ namespace Vts
         /// <param name="objectType">object type</param>
         /// <param name="existingValue">object</param>
         /// <param name="serializer">JsonSerializer</param>
-        /// <returns></returns>
+        /// <returns>read object</returns>
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue,
             JsonSerializer serializer)
         {
@@ -70,6 +70,7 @@ namespace Vts
         /// <summary>
         /// method to determine if can write
         /// </summary>
+        /// <returns>boolean indicating whether can write</returns>
         public override bool CanWrite
         {
             get { return false; }
