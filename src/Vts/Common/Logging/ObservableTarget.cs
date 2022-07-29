@@ -51,7 +51,7 @@ namespace Vts.Common.Logging
         /// <summary>
         /// Renders the logging event message and adds it to the internal ArrayList of log messages.
         /// </summary>
-        /// <param name="logEvent">The logging event.</param>
+        /// <param name="logEvent">The logging event</param>
         protected override void Write(LogEventInfo logEvent)
         {
             string msg = this.Layout.Render(logEvent);
@@ -63,8 +63,8 @@ namespace Vts.Common.Logging
         /// <summary>
         /// method to subscribe to IObserver
         /// </summary>
-        /// <param name="observer">IObserver</param>
-        /// <returns>IDisposable</returns>
+        /// <param name="observer">The object that is to receive notifications.</param>
+        /// <returns>A reference to an interface that allows observers to stop receiving notifications before the provider has finished sending them.</returns>
         public IDisposable Subscribe(IObserver<string> observer)
         {
             return _subject.Subscribe(observer);

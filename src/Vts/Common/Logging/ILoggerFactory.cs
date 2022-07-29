@@ -25,14 +25,14 @@ namespace Vts.Common.Logging
         ///   Creates a new logger, getting the logger name from the specified type.
         /// </summary>
         ///<param name="type">type of logger</param>
-        ///<returns>ILogger</returns>
+        ///<returns>The ILogger that was created</returns>
         ILogger Create(Type type);
 
         /// <summary>
         ///   Creates a new logger.
         /// </summary>
         /// <param name="name">logger string name to be created</param>
-        /// <returns>ILogger</returns>
+        /// <returns>The ILogger that was created</returns>
         ILogger Create(String name);
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace Vts.Common.Logging
         /// </summary>
         /// <param name="type">type of logger</param>
         /// <param name="level">LoggerLevel</param>
-        /// <returns>ILogger</returns>
+        /// <returns>The ILogger that was created</returns>
         ILogger Create(Type type, LoggerLevel level);
 
         /// <summary>
@@ -48,7 +48,7 @@ namespace Vts.Common.Logging
         /// </summary>
         /// <param name="name">name string of logger</param>
         /// <param name="level">LoggerLevel</param>
-        /// <returns>ILogger</returns>
+        /// <returns>The ILogger that was created</returns>
         ILogger Create(String name, LoggerLevel level);
     }
 }
