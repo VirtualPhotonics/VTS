@@ -1,6 +1,6 @@
 using Vts.MonteCarlo.IO;
 
-namespace Vts.MonteCarlo.RayData
+namespace Vts.MonteCarlo.Zemax
 {
     /// <summary>
     /// Implements CustomBinaryStreamWriter(Of ZRDRayDataPoint). Handles writing ray

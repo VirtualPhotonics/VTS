@@ -1,6 +1,6 @@
 using Vts.MonteCarlo.IO;
 
-namespace Vts.MonteCarlo.RayData
+namespace Vts.MonteCarlo.Zemax
 {
     /// <summary>
     /// Describes database for storing and returning source Zemax ZRD ray data points 

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Vts.MonteCarlo.IO;
 using Vts.MonteCarlo.PhotonData;
 
 namespace Vts.MonteCarlo.Sources

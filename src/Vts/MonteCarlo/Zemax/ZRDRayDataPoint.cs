@@ -1,8 +1,7 @@
-﻿using System;
-using System.Runtime.InteropServices;
-using Vts.Common;
+﻿using Vts.Common;
+using Vts.MonteCarlo.RayData;
 
-namespace Vts.MonteCarlo.RayData
+namespace Vts.MonteCarlo.Zemax
 {
     /// <summary>
     /// ZRDRay Data to be read in from Zemax ZRD file in uncompressed

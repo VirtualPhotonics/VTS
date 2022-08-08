@@ -37,6 +37,10 @@ namespace Vts.MonteCarlo
         /// </summary>
         pMCDiffuseTransmittance,
         /// <summary>
+        /// Virtual Boundary used for ray diffuse reflectance detectors
+        /// </summary>
+        RayDiffuseReflectance,
+        /// <summary>
         /// Virtual boundary used to capture photons if leave this lateral boundary
         /// </summary>
         BoundingCylinderVolume,

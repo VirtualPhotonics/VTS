@@ -52,9 +52,9 @@ namespace Vts.MonteCarlo
         private long _numberOfPhotons;
         private DatabaseWriterController _databaseWriterController = null;
         private pMCDatabaseWriterController _pMCDatabaseWriterController = null;
-        private ZRDDatabaseWriterController _ZRDDatabaseWriterController = null;
+        private RayDatabaseWriterController _rayDatabaseWriterController = null;
         private bool _doPMC = false;
-        private bool _doZRD = false;
+        private bool _doRayDB = false;
         private string _outputPath;
 
         /// <summary>
@@ -233,7 +233,7 @@ namespace Vts.MonteCarlo
             {
                 if (Input.Options.Databases.Any())
                 {
-                    InitialDatabases(_doPMC, _doZRD); 
+                    InitialDatabases(_doPMC, _doRayDB); 
                 }
                 var volumeVBs = _virtualBoundaryController.VirtualBoundaries.Where(
                     v => v.VirtualBoundaryType == VirtualBoundaryType.GenericVolumeBoundary).ToList();
@@ -297,7 +297,7 @@ namespace Vts.MonteCarlo
 
                     if (Input.Options.Databases.Any())
                     {
-                        WriteToDatabases(_doPMC, _doZRD, photon);
+                        WriteToDatabases(_doPMC, _doRayDB, photon);
                     }
 
                     // note History has possibly 2 more DPs than linux code due to 
@@ -319,7 +319,7 @@ namespace Vts.MonteCarlo
             {
                 if (Input.Options.Databases.Any())
                 {
-                    CloseDatabases(_doPMC, _doZRD);
+                    CloseDatabases(_doPMC, _doRayDB);
                 }
             }
 
@@ -432,17 +432,17 @@ namespace Vts.MonteCarlo
             {
                 _doPMC = true;
             }
-            // set doZRD flag
-            if (Input.Options.Databases.Any(d => d.IsZRDDatabase()))
+            // set do ray database flag
+            if (Input.Options.Databases.Any(d => d.IsRayDatabase()))
             {
-                _doZRD = true;
+                _doRayDB = true;
             }
             _isCancelled = false;
             _isRunning = false;
             _resultsAvailable = false;
         }
 
-        private void CloseDatabases(bool doPMC, bool doZRD)
+        private void CloseDatabases(bool doPMC, bool doRayDB)
         {
             if (doPMC)
             {
@@ -450,9 +450,9 @@ namespace Vts.MonteCarlo
             }
             else
             {
-                if (doZRD)
+                if (doRayDB)
                 {
-                    _ZRDDatabaseWriterController.Dispose();
+                    _rayDatabaseWriterController.Dispose();
                 }
                 else
                 {
@@ -461,7 +461,7 @@ namespace Vts.MonteCarlo
             }
         }
 
-        private void WriteToDatabases(bool doPMC, bool doZRD, Photon photon)
+        private void WriteToDatabases(bool doPMC, bool doRayDB, Photon photon)
         {
             if (doPMC)
             {
@@ -469,9 +469,9 @@ namespace Vts.MonteCarlo
             }
             else
             {
-                if (doZRD)
+                if (doRayDB)
                 {
-                    _ZRDDatabaseWriterController.WriteToSurfaceVirtualBoundaryDatabases(photon.DP);
+                    _rayDatabaseWriterController.WriteToSurfaceVirtualBoundaryDatabases(photon.DP);
 
                 }
                 else
@@ -486,8 +486,8 @@ namespace Vts.MonteCarlo
         /// MC (2 databases)
         /// </summary>
         /// <param name="doPMC">flag to initialize perturbation Monte Carlo databaes</param>
-        /// <param name="doZRD">flag to initialize ZRD database</param>
-        private void InitialDatabases(bool doPMC, bool doZRD)
+        /// <param name="doRayDB">flag to initialize ray database</param>
+        private void InitialDatabases(bool doPMC, bool doRayDB)
         {
             if (doPMC)
             {
@@ -505,10 +505,10 @@ namespace Vts.MonteCarlo
             }
             else
             {
-                if (doZRD)
+                if (doRayDB)
                 {
-                    _ZRDDatabaseWriterController = new ZRDDatabaseWriterController(
-                       DatabaseWriterFactory.GetZRDSurfaceVirtualBoundaryDatabaseWriters(
+                    _rayDatabaseWriterController = new RayDatabaseWriterController(
+                       DatabaseWriterFactory.GetRaySurfaceVirtualBoundaryDatabaseWriters(
                            Input.Options.Databases,
                            _outputPath,
                            Input.OutputName));

@@ -25,15 +25,15 @@ namespace Vts.MonteCarlo.Extensions
             }
         }
         /// <summary>
-        /// Method to determine if perturbation Monte Carlo (pMC) database specified or not
+        /// Method to determine if ray database specified or not
         /// </summary>
         /// <param name="databaseType">database type</param>
-        /// <returns>true if pMC VB, false if not</returns>
-        public static bool IsZRDDatabase(this DatabaseType databaseType)
+        /// <returns>true if ray VB, false if not</returns>
+        public static bool IsRayDatabase(this DatabaseType databaseType)
         {
             switch (databaseType)
             {
-                case DatabaseType.ZRDDiffuseReflectance:
+                case DatabaseType.RayDiffuseReflectance:
                     return true;
                 default:
                 case DatabaseType.DiffuseReflectance:

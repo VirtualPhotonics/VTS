@@ -56,8 +56,11 @@ namespace Vts.MonteCarlo.Factories
                         Path.Combine(filePath, outputName, "DiffuseReflectanceDatabase"));
                 case DatabaseType.pMCDiffuseTransmittance:
                     return new PhotonDatabaseWriter(VirtualBoundaryType.pMCDiffuseTransmittance,
-                        Path.Combine(filePath, outputName, "DiffuseTransmittanceDatabase"));
-            }
+                    Path.Combine(filePath, outputName, "DiffuseTransmittanceDatabase"));
+                case DatabaseType.RayDiffuseReflectance:
+                    return new PhotonDatabaseWriter(VirtualBoundaryType.RayDiffuseReflectance,
+                        Path.Combine(filePath, outputName, "DiffuseReflectanceDatabase"));
+              }
         }
         /// <summary>
         /// Static method to provide list of CollisionInfoDatabaseWriters.  It calls the method
@@ -102,7 +105,7 @@ namespace Vts.MonteCarlo.Factories
             }
         }
         /// <summary>
-        /// Static method to provide list of CollisionInfoDatabaseWriters.  It calls the method
+        /// Static method to provide list of RayDatabaseWriters.  It calls the method
         /// to instantiate one CollisionInfoDatabaseWriter, GetCollisionInfoDatabaseWriter,
         /// for all elements in the list of virtual boundary DatabaseType. 
         /// </summary>
@@ -110,30 +113,30 @@ namespace Vts.MonteCarlo.Factories
         /// <param name="filePath">path string of database output</param>
         /// <param name="outputName">filename string of output file</param>
         /// <returns>a list of CollisionInfoDatabaseWriter</returns>
-        public static IList<ZRDRayDatabaseWriter> GetZRDSurfaceVirtualBoundaryDatabaseWriters(
+        public static IList<RayDatabaseWriter> GetRaySurfaceVirtualBoundaryDatabaseWriters(
             IList<DatabaseType> databaseTypes, string filePath, string outputName)
         {
-            return databaseTypes.Select(v => GetZRDSurfaceVirtualBoundaryDatabaseWriter(v,
+            return databaseTypes.Select(v => GetRaySurfaceVirtualBoundaryDatabaseWriter(v,
                 filePath, outputName)).ToList();
 
         }
         /// <summary>
-        /// Static method to instantiate correct ZRDRayDatabaseWriter given a 
+        /// Static method to instantiate correct RayDatabaseWriter given a 
         /// virtual boundary DatabaseType, path to where to output database and database filename.
         /// </summary>
         /// <param name="databaseType">database type enum</param>
         /// <param name="filePath">path string of database output</param>
         /// <param name="outputName">filename string of database file</param>
-        /// <returns>a ZRDRayDatabaseWriter</returns>
-        public static ZRDRayDatabaseWriter GetZRDSurfaceVirtualBoundaryDatabaseWriter(
+        /// <returns>a RayDatabaseWriter</returns>
+        public static RayDatabaseWriter GetRaySurfaceVirtualBoundaryDatabaseWriter(
             DatabaseType databaseType, string filePath, string outputName)
         {
             switch (databaseType)
             {
                 default:
-                case DatabaseType.ZRDDiffuseReflectance:
-                    return new ZRDRayDatabaseWriter(VirtualBoundaryType.DiffuseReflectance,
-                        Path.Combine(filePath, outputName, "ZRDDiffuseReflectanceDatabase"));
+                case DatabaseType.RayDiffuseReflectance:
+                    return new RayDatabaseWriter(VirtualBoundaryType.DiffuseReflectance,
+                        Path.Combine(filePath, outputName, "RayDiffuseReflectanceDatabase"));
             }
         }
 

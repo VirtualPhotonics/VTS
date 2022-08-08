@@ -1,27 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
 using Vts.Common;
-using Vts.MonteCarlo.PhotonData;
 using Vts.MonteCarlo.RayData;
 
 namespace Vts.MonteCarlo.Sources
 {
     /// <summary>
-    /// Implements ISourceInput. Defines input data for ZRD FileSource implementation 
+    /// Implements ISourceInput. Defines input data for Ray FileSource implementation 
     /// including emitting position, direction, weight and initial tissue region index.
     /// </summary>
-    public class ZRDFileSourceInput :ISourceInput
+    public class RayFileSourceInput :ISourceInput
     {
         /// <summary>
         /// Initializes a new instance of ZemaxFileSourceInput class
         /// </summary>
         /// <param name="sourceFileName">Source file name</param>
         /// <param name="initialTissueRegionIndex">Initial tissue region index</param>
-        public ZRDFileSourceInput(
+        public RayFileSourceInput(
             string sourceFileName,
             int initialTissueRegionIndex)
         {
-            SourceType = "ZRDFile";
+            SourceType = "RayFile";
             SourceFileName = sourceFileName;
             InitialTissueRegionIndex = initialTissueRegionIndex;
         }
@@ -29,7 +28,7 @@ namespace Vts.MonteCarlo.Sources
         /// <summary>
         /// Initializes the default constructor of ZemaxFileSourceInput class
         /// </summary>
-        public ZRDFileSourceInput()
+        public RayFileSourceInput()
             : this("", 0)
         {
         }
@@ -56,7 +55,7 @@ namespace Vts.MonteCarlo.Sources
         {
             rng = rng ?? new Random();
 
-            return new ZRDFileSource(
+            return new RayFileSource(
                 this.SourceFileName,
                 this.InitialTissueRegionIndex)
             { Rng = rng };
@@ -64,15 +63,15 @@ namespace Vts.MonteCarlo.Sources
     }
 
     /// <summary>
-    /// Implements ZemaxFileSource with file name, initial 
+    /// Implements FileSource with file name, initial 
     /// tissue region index.
     /// </summary>
-    public class ZRDFileSource : ISource //: FromFileSourceBase
+    public class RayFileSource : ISource //: FromFileSourceBase
     {
         /// <summary>
         /// enumerator that iterates through database
         /// </summary>
-        public IEnumerator<ZRDRayDataPoint> _databaseEnumerator;
+        public IEnumerator<RayDataPoint> _databaseEnumerator;
         /// <summary>
         /// initial tissue region index
         /// </summary>
@@ -80,16 +79,13 @@ namespace Vts.MonteCarlo.Sources
         /// <summary>
         /// Returns an instance of Zemax File Source at a given location
         /// </summary>
-        /// <param name="sourceFileName">filename of ZRD file source</param> 
+        /// <param name="sourceFileName">filename of MCCL source DB file</param> 
         /// <param name="initialTissueRegionIndex">Initial tissue region index</param>
-        public ZRDFileSource(
+        public RayFileSource(
             string sourceFileName,
             int initialTissueRegionIndex = 0)
-            //: base(
-            //      ZRDRayDatabase.FromFile(sourceFileName).DataPoints.GetEnumerator(),
-            //      initialTissueRegionIndex)
         {
-            var sourceDatabase = ZRDRayDatabase.FromFile(sourceFileName);
+            var sourceDatabase = RayDatabase.FromFile(sourceFileName);
             _databaseEnumerator = sourceDatabase.DataPoints.GetEnumerator();
             _initialTissueRegionIndex = initialTissueRegionIndex;
         }
@@ -105,8 +101,14 @@ namespace Vts.MonteCarlo.Sources
             _databaseEnumerator.MoveNext();
             var dp = _databaseEnumerator.Current;
 
-            var photon = new Photon(new Position(dp.X, dp.Y, dp.Z),
-                new Direction(dp.Ux, dp.Uy, dp.Uz),
+            var photon = new Photon(new Position(
+                dp.Position.X, 
+                dp.Position.Y, 
+                dp.Position.Z),
+                new Direction(
+                    dp.Direction.Ux, 
+                    dp.Direction.Uy, 
+                    dp.Direction.Uz),
                 dp.Weight, tissue, _initialTissueRegionIndex, Rng); 
 
             return photon;

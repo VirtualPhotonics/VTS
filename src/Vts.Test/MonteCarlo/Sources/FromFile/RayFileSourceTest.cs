@@ -4,25 +4,24 @@ using NUnit.Framework;
 using Vts.IO;
 using Vts.MonteCarlo;
 using Vts.MonteCarlo.Tissues;
-using Vts.MonteCarlo.Helpers;
 using Vts.MonteCarlo.RayData;
-using Vts.Common;
 using Vts.MonteCarlo.Sources;
+using Vts.Common;
 
 namespace Vts.Test.MonteCarlo.Sources
 {
     /// <summary>
-    /// Unit tests for From File Sources
+    /// Unit tests for From File Source
     /// </summary>
     [TestFixture]
-    public class FromFileSourcesTests
+    public class FromFileSourceTests
     {
         /// <summary>
         /// list of temporary files created by these unit tests
         /// </summary>
         List<string> listOfTestGeneratedFolders = new List<string>()
         {
-            "testzrdraydatabase",
+            "testraydatabase",
         };
         List<string> listOfTestGeneratedFiles = new List<string>()
         {
@@ -50,16 +49,16 @@ namespace Vts.Test.MonteCarlo.Sources
         [OneTimeSetUp]
         public void setup()
         {
-            string databaseFileName = "testzrdraydatabase";
-            var firstRayDP = new ZRDRayDataPoint(new RayDataPoint(
+            string databaseFileName = "testraydatabase";
+            var firstRayDP = new RayDataPoint(
                     new Position(1, 1, 0),
                     new Direction(0, 1 / Math.Sqrt(2), -1 / Math.Sqrt(2)),
-                    1.0));
-            var secondRayDP = new ZRDRayDataPoint(new RayDataPoint(
+                    1.0);
+            var secondRayDP = new RayDataPoint(
                     new Position(2, 2, 0),
                     new Direction(1 / Math.Sqrt(2), 0, -1 / Math.Sqrt(2)),
-                    2.0));
-            using (var dbWriter = new ZRDRayDatabaseWriter(
+                    2.0);
+            using (var dbWriter = new RayDatabaseWriter(
                 VirtualBoundaryType.DiffuseReflectance, databaseFileName))
             {
                 dbWriter.Write(firstRayDP);
@@ -73,7 +72,7 @@ namespace Vts.Test.MonteCarlo.Sources
         [Test]
         public void validate_ZRDFileSource_reads_database_correctly()
         {
-            var source = new ZRDFileSource("testzrdraydatabase", 0);
+            var source = new RayFileSource("testraydatabase", 0);
             var tissue = new MultiLayerTissue();
             Photon dp = source.GetNextPhoton(tissue);
             Assert.IsTrue(dp.DP.Position.X == 1.0);

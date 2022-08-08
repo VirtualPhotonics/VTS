@@ -1,9 +1,7 @@
 using System.IO;
-using System.Runtime.InteropServices;
-using Vts.Common;
 using Vts.IO;
 
-namespace Vts.MonteCarlo.RayData
+namespace Vts.MonteCarlo.Zemax
 {
     /// <summary>
     /// Implements ICustomBinaryReader&lt;RayDataPoint&gt; and 

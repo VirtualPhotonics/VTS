@@ -5,24 +5,24 @@ using Vts.MonteCarlo.RayData;
 namespace Vts.MonteCarlo.Controllers
 {
     /// <summary>
-    /// A controller of ZRDDatabaseWriter(s).  It handles determining whether data should be written,
+    /// A controller of RayDatabaseWriter(s).  It handles determining whether data should be written,
     /// and if so, writing the data, and finally disposing of the database.
     /// </summary>
-    public class ZRDDatabaseWriterController
+    public class RayDatabaseWriterController
     {
-        IList<ZRDRayDatabaseWriter> _rayDatabaseWriters;
+        IList<RayDatabaseWriter> _rayDatabaseWriters;
         /// <summary>
         /// class that controls DatabaseWriter(s).
         /// </summary>
         /// <param name="rayDatabaseWriters">IList of PhotonDatabaseWriter</param>
-        public ZRDDatabaseWriterController(IList<ZRDRayDatabaseWriter> rayDatabaseWriters)
+        public RayDatabaseWriterController(IList<RayDatabaseWriter> rayDatabaseWriters)
         {
             _rayDatabaseWriters = rayDatabaseWriters;
         }
         /// <summary>
         /// list of PhotonDatabaseWriter
         /// </summary>
-        public IList<ZRDRayDatabaseWriter> ZRDRayDatabaseWriters { get { return _rayDatabaseWriters; } set { _rayDatabaseWriters = value; } }
+        public IList<RayDatabaseWriter> RayDatabaseWriters { get { return _rayDatabaseWriters; } set { _rayDatabaseWriters = value; } }
 
         /// <summary>
         /// Method to write to all surface VB databases
@@ -34,11 +34,10 @@ namespace Vts.MonteCarlo.Controllers
             {
                 if (DPBelongsToSurfaceVirtualBoundary(dp, writer))
                 {
-                    var ray = new ZRDRayDataPoint(
-                       new RayDataPoint(
+                    var ray = new RayDataPoint(
                            dp.Position,
                            dp.Direction,
-                           dp.Weight));
+                           dp.Weight);
                     writer.Write(ray);
                 }
             };
@@ -51,7 +50,7 @@ namespace Vts.MonteCarlo.Controllers
         /// <param name="rayDatabaseWriter">single ZRDRayDatabaseWriter</param>
         /// <returns></returns>
         public bool DPBelongsToSurfaceVirtualBoundary(PhotonDataPoint dp,
-            ZRDRayDatabaseWriter rayDatabaseWriter)
+            RayDatabaseWriter rayDatabaseWriter)
         {
             if ((dp.StateFlag.HasFlag(PhotonStateType.PseudoDiffuseReflectanceVirtualBoundary) &&
                  rayDatabaseWriter.VirtualBoundaryType == VirtualBoundaryType.DiffuseReflectance) ||
