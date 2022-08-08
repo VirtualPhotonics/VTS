@@ -12,9 +12,9 @@ namespace Vts.Extensions
         /// <summary>
         /// Extension method to turn any single item into an IEnumerable (i.e. "yield-returns" the item)
         /// </summary>
-        /// <typeparam name="T">generic type</typeparam>
-        /// <param name="singleItem">single item to turn into IEnumerable</param>
-        /// <returns>IEnumerable of generic type</returns>
+        /// <typeparam name="T">The generic type</typeparam>
+        /// <param name="singleItem">The single item to turn into IEnumerable</param>
+        /// <returns>An IEnumerable of type T</returns>
         public static IEnumerable<T> AsEnumerable<T>(this T singleItem)
         {
             yield return singleItem;
@@ -23,10 +23,10 @@ namespace Vts.Extensions
         /// <summary>
         /// Extension method to append a single item to an IEnumerable
         /// </summary>
-        /// <typeparam name="T">generic type</typeparam>
-        /// <param name="items">list of existing items</param>
-        /// <param name="newItem">item to be added</param>
-        /// <returns>IEnumerable of generic type with concated list</returns>
+        /// <typeparam name="T">The generic type</typeparam>
+        /// <param name="items">The list of existing items</param>
+        /// <param name="newItem">The item to be added</param>
+        /// <returns>An IEnumerable of type T with concatenated list</returns>
         public static IEnumerable<T> Concat<T>(this IEnumerable<T> items, T newItem )
         {
             return Enumerable.Concat(items, newItem.AsEnumerable());
@@ -35,10 +35,10 @@ namespace Vts.Extensions
         /// <summary>
         /// Extension method to create a dictionary from key-value pairs
         /// </summary>
-        /// <typeparam name="TKey">key of dictionary</typeparam>
-        /// <typeparam name="TValue">value of dictionary</typeparam>
-        /// <param name="keyValuePairs">key-value pairs used to create dictionary</param>
-        /// <returns>IDictionary with key-value pairs</returns>
+        /// <typeparam name="TKey">The dictionary key</typeparam>
+        /// <typeparam name="TValue">The dictionary value</typeparam>
+        /// <param name="keyValuePairs">The key-value pairs used to create the dictionary</param>
+        /// <returns>An IDictionary with key-value pairs</returns>
         public static IDictionary<TKey, TValue> ToDictionary<TKey, TValue>(this IEnumerable<KeyValuePair<TKey, TValue>> keyValuePairs)
         {
             return keyValuePairs.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
@@ -47,11 +47,11 @@ namespace Vts.Extensions
         /// <summary>
         /// 2D array overload of the LINQ Select operator with x and y indexers
         /// </summary>
-        /// <typeparam name="T">generic type</typeparam>
-        /// <typeparam name="TResult">type of result</typeparam>
-        /// <param name="my2DArray">2D array of type T</param>
-        /// <param name="myFunc">linq select function</param>
-        /// <returns>IEnumerable of TResult</returns>
+        /// <typeparam name="T">The generic type</typeparam>
+        /// <typeparam name="TResult">The type of result</typeparam>
+        /// <param name="my2DArray">The 2D array of type T</param>
+        /// <param name="myFunc">The linq select function</param>
+        /// <returns>An IEnumerable of type TResult</returns>
         public static IEnumerable<TResult> Select<T, TResult>(
             this T[,] my2DArray,
             Func<T, int, int, TResult> myFunc)
@@ -71,9 +71,9 @@ namespace Vts.Extensions
         /// This overload takes in an Action with an additional int parameter that 
         /// provides the index of the sequence.
         /// </summary>
-        /// <typeparam name="T">generic type</typeparam>
-        /// <param name="items">list of items</param>
-        /// <param name="action">action to apply to list</param>
+        /// <typeparam name="T">The generic type</typeparam>
+        /// <param name="items">The list of items</param>
+        /// <param name="action">The action to apply to list</param>
         public static void ForEach<T>(this IEnumerable<T> items, Action<T> action)
         {
             foreach (var item in items)
@@ -88,9 +88,9 @@ namespace Vts.Extensions
         /// This overload takes in an Action with an additional int parameter that 
         /// provides the index of the sequence.
         /// </summary>
-        /// <typeparam name="T">generic type</typeparam>
-        /// <param name="items">list of items</param>
-        /// <param name="action">action to apply to list</param>
+        /// <typeparam name="T">The generic type</typeparam>
+        /// <param name="items">The list of items</param>
+        /// <param name="action">The action to apply to list</param>
         public static void ForEach<T>(this IEnumerable<T> items, Action<T, int> action)
         {
             int i = 0;
@@ -104,11 +104,11 @@ namespace Vts.Extensions
         /// <summary>
         /// Converts an IEnumerable into a 2D array given a specified width and height
         /// </summary>
-        /// <typeparam name="T">generic type</typeparam>
-        /// <param name="myArray">IEnumerable of generic type</param>
-        /// <param name="width">integer representing width of array</param>
-        /// <param name="height">integer representing height of array</param>
-        /// <returns>2D array of generic type</returns>
+        /// <typeparam name="T">The generic type</typeparam>
+        /// <param name="myArray">The IEnumerable type T</param>
+        /// <param name="width">The integer representing the width of the array</param>
+        /// <param name="height">The integer representing the height of the array</param>
+        /// <returns>A 2D array of type T</returns>
         public static T[,] To2DArray<T>(this IEnumerable<T> myArray, int width, int height)
         {
             T[,] outputArray = new T[width, height];
@@ -125,17 +125,17 @@ namespace Vts.Extensions
         }
 
         /// <summary>
-        /// method to zip together values using supplied function
+        /// Method to zip together values using supplied function
         /// </summary>
-        /// <typeparam name="TFirst">type of 1st list</typeparam>
-        /// <typeparam name="TSecond">type of 2nd list</typeparam>
-        /// <typeparam name="TThird">type of 3rd list</typeparam>
-        /// <typeparam name="TResult">resulting list</typeparam>
-        /// <param name="first">IEnumerable of 1st values</param>
-        /// <param name="second">IEnumerable of 1st values</param>
-        /// <param name="third">IEnumerable of 1st values</param>
-        /// <param name="func">IEnumerable of 1st values</param>
-        /// <returns>IEnumerable of TResult</returns>
+        /// <typeparam name="TFirst">The type of 1st list</typeparam>
+        /// <typeparam name="TSecond">The type of 2nd list</typeparam>
+        /// <typeparam name="TThird">The type of 3rd list</typeparam>
+        /// <typeparam name="TResult">The type of the resulting list</typeparam>
+        /// <param name="first">The IEnumerable of 1st values</param>
+        /// <param name="second">The IEnumerable of 2nd values</param>
+        /// <param name="third">IEnumerable of 3rd values</param>
+        /// <param name="func">The function to zip together the values</param>
+        /// <returns>An IEnumerable of type TResult of the zipped values</returns>
         public static IEnumerable<TResult> Zip<TFirst, TSecond, TThird, TResult>(this IEnumerable<TFirst> first, IEnumerable<TSecond> second, IEnumerable<TThird> third, Func<TFirst, TSecond, TThird, TResult> func)
         {
             if (first == null)
@@ -160,19 +160,19 @@ namespace Vts.Extensions
                 yield return func(ie1.Current, ie2.Current, ie3.Current);
         }
         /// <summary>
-        /// method to zip together values using supplied function
+        /// Method to zip together values using supplied function
         /// </summary>
-        /// <typeparam name="TFirst">type of 1st list</typeparam>
-        /// <typeparam name="TSecond">type of 2nd list</typeparam>
-        /// <typeparam name="TThird">type of 3rd list</typeparam>
-        /// <typeparam name="TFourth">type of 4th list</typeparam>
-        /// <typeparam name="TResult">resulting list</typeparam>
-        /// <param name="first">IEnumerable of 1st values</param>
-        /// <param name="second">IEnumerable of 1st values</param>
-        /// <param name="third">IEnumerable of 1st values</param>
-        /// <param name="fourth">IEnumerable of 1st values</param>
-        /// <param name="func">IEnumerable of 1st values</param>
-        /// <returns>IEnumerable to zipped result</returns>
+        /// <typeparam name="TFirst">The type of 1st list</typeparam>
+        /// <typeparam name="TSecond">The type of 2nd list</typeparam>
+        /// <typeparam name="TThird">The type of 3rd list</typeparam>
+        /// <typeparam name="TFourth">The type of 4th list</typeparam>
+        /// <typeparam name="TResult">The resulting list type</typeparam>
+        /// <param name="first">The IEnumerable of 1st values</param>
+        /// <param name="second">The IEnumerable of 2nd values</param>
+        /// <param name="third">The IEnumerable of 3rd values</param>
+        /// <param name="fourth">The IEnumerable of 4th values</param>
+        /// <param name="func">The function to zip together the values</param>
+        /// <returns>An IEnumerable of type TResult of the zipped values</returns>
         public static IEnumerable<TResult> Zip<TFirst, TSecond, TThird, TFourth, TResult>(this IEnumerable<TFirst> first, IEnumerable<TSecond> second, IEnumerable<TThird> third, IEnumerable<TFourth> fourth, Func<TFirst, TSecond, TThird, TFourth, TResult> func)
         {
             if (first == null)
@@ -202,21 +202,21 @@ namespace Vts.Extensions
                 yield return func(ie1.Current, ie2.Current, ie3.Current, ie4.Current);
         }
         /// <summary>
-        /// method to zip together values using supplied function
+        /// Method to zip together values using supplied function
         /// </summary>
-        /// <typeparam name="TFirst">type of 1st list</typeparam>
-        /// <typeparam name="TSecond">type of 2nd list</typeparam>
-        /// <typeparam name="TThird">type of 3rd list</typeparam>
-        /// <typeparam name="TFourth">type of 4th list</typeparam>
-        /// <typeparam name="TFifth">type of 5th list</typeparam>
-        /// <typeparam name="TResult">resulting list</typeparam>
-        /// <param name="first">IEnumerable of 1st values</param>
-        /// <param name="second">IEnumerable of 1st values</param>
-        /// <param name="third">IEnumerable of 1st values</param>
-        /// <param name="fourth">IEnumerable of 1st values</param>
-        /// <param name="fifth">IEnumerable of 1st values</param>
-        /// <param name="func">IEnumerable of 1st values</param>
-        /// <returns>IEnumerable of TResult</returns>
+        /// <typeparam name="TFirst">The type of 1st list</typeparam>
+        /// <typeparam name="TSecond">The type of 2nd list</typeparam>
+        /// <typeparam name="TThird">The type of 3rd list</typeparam>
+        /// <typeparam name="TFourth">The type of 4th list</typeparam>
+        /// <typeparam name="TFifth">The type of 5th list</typeparam>
+        /// <typeparam name="TResult">The resulting list type</typeparam>
+        /// <param name="first">The IEnumerable of 1st values</param>
+        /// <param name="second">The IEnumerable of 2nd values</param>
+        /// <param name="third">The IEnumerable of 3rd values</param>
+        /// <param name="fourth">The IEnumerable of 4th values</param>
+        /// <param name="fifth">The IEnumerable of 5th values</param>
+        /// <param name="func">The function to zip together the values</param>
+        /// <returns>An IEnumerable of type TResult of the zipped values</returns>
         public static IEnumerable<TResult> Zip<TFirst, TSecond, TThird, TFourth, TFifth, TResult>(this IEnumerable<TFirst> first, IEnumerable<TSecond> second, IEnumerable<TThird> third, IEnumerable<TFourth> fourth, IEnumerable<TFifth> fifth, Func<TFirst, TSecond, TThird, TFourth, TFifth, TResult> func)
         {
             if (first == null)
@@ -249,17 +249,17 @@ namespace Vts.Extensions
                 yield return func(ie1.Current, ie2.Current, ie3.Current, ie4.Current, ie5.Current);
         }
         /// <summary>
-        /// extension method to loop over 3D set of values and apply a function
+        /// Extension method to loop over 3D set of values and apply a function
         /// </summary>
-        /// <typeparam name="T1">type of first dimension</typeparam>
-        /// <typeparam name="T2">type of second dimension</typeparam>
-        /// <typeparam name="T3">type of third dimension</typeparam>
-        /// <typeparam name="TReturn">resulting list</typeparam>
-        /// <param name="myFunc">function to be evaluated</param>
-        /// <param name="firstValues">first dimension values</param>
-        /// <param name="secondValues">second dimension values</param>
-        /// <param name="thirdValues">third dimension values</param>
-        /// <returns>IEnumerable of TResult</returns>
+        /// <typeparam name="T1">The type of first dimension</typeparam>
+        /// <typeparam name="T2">The type of second dimension</typeparam>
+        /// <typeparam name="T3">The type of third dimension</typeparam>
+        /// <typeparam name="TReturn">The resulting list type</typeparam>
+        /// <param name="myFunc">The function to be evaluated</param>
+        /// <param name="firstValues">The first dimension values</param>
+        /// <param name="secondValues">The second dimension values</param>
+        /// <param name="thirdValues">The third dimension values</param>
+        /// <returns>An IEnumerable of type TResult</returns>
         public static IEnumerable<TReturn> LoopOverVariables<T1, T2, T3, TReturn>(
             this Func<T1, T2, T3, TReturn> myFunc,
             IEnumerable<T1> firstValues,
@@ -278,15 +278,15 @@ namespace Vts.Extensions
             }
         }
         /// <summary>
-        /// extension method to loop over 2D set of values and apply a function
+        /// Extension method to loop over 2D set of values and apply a function
         /// </summary>
-        /// <typeparam name="T1">type of first dimension</typeparam>
-        /// <typeparam name="T2">type of second dimension</typeparam>
-        /// <typeparam name="TReturn">resulting list</typeparam>
-        /// <param name="myFunc">function to be evaluated</param>
-        /// <param name="firstValues">first dimension values</param>
-        /// <param name="secondValues">second dimension values</param>
-        /// <returns>IEnumerable of TReturn</returns>
+        /// <typeparam name="T1">The type of first dimension</typeparam>
+        /// <typeparam name="T2">The type of second dimension</typeparam>
+        /// <typeparam name="TReturn">The resulting list type</typeparam>
+        /// <param name="myFunc">The function to be evaluated</param>
+        /// <param name="firstValues">The first dimension values</param>
+        /// <param name="secondValues">The second dimension values</param>
+        /// <returns>An IEnumerable of type TReturn</returns>
         public static IEnumerable<TReturn> LoopOverVariables<T1, T2, TReturn>(
             this Func<T1, T2, TReturn> myFunc,
             IEnumerable<T1> firstValues,
