@@ -30,6 +30,10 @@
         /// </summary>
         public bool IspMCTransmittanceTally { get; set; }
         /// <summary>
+        /// boolean identifying all ray reflectance tallies
+        /// </summary>
+        public bool IsRayReflectanceTally { get; set; }
+        /// <summary>
         /// boolean identifying all bounding volume tallies
         /// </summary>
         public bool IsBoundingVolumeTally { get; set; }
