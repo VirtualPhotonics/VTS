@@ -52,7 +52,7 @@ namespace Vts.MonteCarlo.Detectors
         /// <summary>
         /// method to create detector
         /// </summary>
-        /// <returns>instantiation of detector</returns>
+        /// <returns>created IDetector</returns>
         public IDetector CreateDetector()
         {
             return new pMCTOfRhoDetector

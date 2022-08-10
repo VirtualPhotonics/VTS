@@ -35,11 +35,11 @@ namespace Vts.Modeling
                 (dataLocation + @"hankelweights.dat", projectName, dataLength);
         }
         /// <summary>
-        /// digital filter of order 0 using Hankel points and weights
+        /// Digital filter of order 0 using Hankel points and weights
         /// </summary>
         /// <param name="varInt">double used to scale Hankel points</param>
         /// <param name="func">function to use to integrate</param>
-        /// <returns>double</returns>
+        /// <returns>A double</returns>
         public static double DigitalFilterOfOrderZero(double varInt, Func<double, double> func)
         {
             if (varInt == 0)

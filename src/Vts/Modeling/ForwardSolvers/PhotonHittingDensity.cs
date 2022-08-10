@@ -27,7 +27,7 @@ namespace Vts.Modeling.ForwardSolvers.Extensions
         ///// </summary>
         ///// <param name="ops">optical properties object</param>
         ///// <param name="rhos">Source Detector separation</param>
-        ///// <param name="rProbe">Radial distance from source to "iterogation" location</param>
+        ///// <param name="rProbe">Radial distance from source to "interrogation" location</param>
         ///// <param name="z">Depth being probed</param>
         ///// <returns>The Photon Hitting Density at specified location</returns>
         //public IEnumerable<double> SteadyStatePointSourceCenterlinePHD(IEnumerable<OpticalProperties> ops, IEnumerable<double> rProbes,
@@ -124,7 +124,7 @@ namespace Vts.Modeling.ForwardSolvers.Extensions
         /// </summary>
         /// <param name="myForwardSolver">forward solver</param>
         /// <param name="ops">optical properties</param>
-        /// <param name="rProbes">Radial distances from source to "iterogation" location</param>
+        /// <param name="rProbes">Radial distances from source to "interrogation" location</param>
         /// <param name="rhos">s-d separations</param>
         /// <param name="zs">depths</param>
         /// <param name="ts">times</param>
@@ -173,7 +173,7 @@ namespace Vts.Modeling.ForwardSolvers.Extensions
         /// </summary>
         /// <param name="myForwardSolver">forward solver</param>
         /// <param name="ops">optical properties</param>
-        /// <param name="rProbes">Radial distances from source to "iterogation" location</param>
+        /// <param name="rProbes">Radial distances from source to "interrogation" location</param>
         /// <param name="rhos">s-d separations</param>
         /// <param name="zs">depths</param>
         /// <param name="fts">temporal-frequencies</param>

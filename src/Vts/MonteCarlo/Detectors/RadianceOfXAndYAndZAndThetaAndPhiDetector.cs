@@ -338,7 +338,7 @@ namespace Vts.MonteCarlo.Detectors
         /// method to determine if photon within detector, i.e. in NA, etc.
         /// </summary>
         /// <param name="photon">photon</param>
-        /// <returns>boolean indicating whether photon is within detector</returns>
+        /// <returns>method always returns true</returns>
         public bool IsWithinDetectorAperture(Photon photon)
         {
             return true;

@@ -89,7 +89,7 @@
         /// <summary>
         /// method to clone class
         /// </summary>
-        /// <returns>PolarAzimuthalAngles class</returns>
+        /// <returns>An instance of the PolarAzimuthalAngles class</returns>
         public PolarAzimuthalAngles Clone()
         {
             return new PolarAzimuthalAngles(this.Theta, this.Phi);

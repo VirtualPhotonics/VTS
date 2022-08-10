@@ -17,7 +17,7 @@ namespace Vts.MonteCarlo
         /// Main validation method for SingleVoxelTissueInput.
         /// </summary>
         /// <param name="input">tissue input defined in SimulationInput</param>
-        /// <returns>ValidationResult</returns>
+        /// <returns>An instance of the ValidationResult class</returns>
         public static ValidationResult ValidateInput(ITissueInput input)
         {
             var layers = ((SingleVoxelTissueInput)input).LayerRegions.Select(region => (LayerTissueRegion)region).ToArray();
@@ -41,7 +41,7 @@ namespace Vts.MonteCarlo
         /// </summary>
         /// <param name="layers">list of LayerTissueRegion</param>
         /// <param name="Voxel">VoxelTissueRegion</param>
-        /// <returns>ValidationResult</returns>
+        /// <returns>An instance of the ValidationResult class</returns>
         private static ValidationResult ValidateGeometry(IList<LayerTissueRegion> layers, VoxelTissueRegion Voxel)
         {            
             // check that layer definition is valid
@@ -101,7 +101,7 @@ namespace Vts.MonteCarlo
         /// </summary>
         /// <param name="layers">list of LayerTissueRegion</param>
         /// <param name="Voxel">VoxelTissueRegion></param>
-        /// <returns>ValidationResult</returns>
+        /// <returns>An instance of the ValidationResult class</returns>
         private static ValidationResult ValidateRefractiveIndexMatch(
             IList<LayerTissueRegion> layers, VoxelTissueRegion Voxel)
         {
