@@ -6,15 +6,15 @@ using System.Reflection;
 namespace Vts
 {
     /// <summary>
-    /// helper functions for enums
+    /// Helper methods for Enums
     /// </summary>
     public class EnumHelper
     {
         /// <summary>
-        /// method to get values from generic type
+        /// Method to get values from generic type
         /// </summary>
-        /// <typeparam name="T">generic type</typeparam>
-        /// <returns>array of generic type</returns>
+        /// <typeparam name="T">The generic type</typeparam>
+        /// <returns>An array of generic type</returns>
         public static T[] GetValues<T>()
         {
             Type enumType = typeof(T);
@@ -39,10 +39,10 @@ namespace Vts
             return values.ToArray();
         }
         /// <summary>
-        /// method to get names from generic type
+        /// Method to get names from generic type
         /// </summary>
-        /// <typeparam name="T">generic type</typeparam>
-        /// <returns>array of name strings</returns>
+        /// <typeparam name="T">The generic type</typeparam>
+        /// <returns>An array of name strings</returns>
         public static string[] GetNames<T>()
         {
             Type enumType = typeof(T);
@@ -57,10 +57,10 @@ namespace Vts
                          select field.Name).ToArray();
         }
         /// <summary>
-        /// method to get values of enum
+        /// Method to get values of Enum
         /// </summary>
-        /// <param name="enumType">enum</param>
-        /// <returns>array of object</returns>
+        /// <param name="enumType">The Enum type</param>
+        /// <returns>An array of object</returns>
         public static object[] GetValues(Type enumType)
         {
             if (!enumType.IsEnum)

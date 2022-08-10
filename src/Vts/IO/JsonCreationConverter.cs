@@ -13,27 +13,28 @@ namespace Vts.IO
         /// <summary>
         /// Create an instance of objectType, based properties in the JSON object
         /// </summary>
-        /// <param name="objectType">type of object expected</param>
-        /// <param name="jObject">contents of JSON object that will be deserialized</param>
-        /// <returns>generic type T</returns>
+        /// <param name="objectType">The type of object expected</param>
+        /// <param name="jObject">The contents of JSON object that will be deserialized</param>
+        /// <returns>A generic type T</returns>
         protected abstract T Create(Type objectType, JObject jObject);
         /// <summary>
-        /// method to identify whether object can be converted
+        /// Method to identify whether object can be converted
         /// </summary>
-        /// <param name="objectType">object to be converted</param>
-        /// <returns>boolean indicating whether object can be converted</returns>
+        /// <param name="objectType">The object to be converted</param>
+        /// <returns>A boolean indicating whether object can be converted</returns>
         public override bool CanConvert(Type objectType)
         {
             return typeof(T).IsAssignableFrom(objectType);
         }
+
         /// <summary>
-        /// method to read json
+        /// Method to populate JSON values into the target object
         /// </summary>
-        /// <param name="reader">JsonReader</param>
-        /// <param name="objectType">Type</param>
-        /// <param name="existingValue">object: current type</param>
-        /// <param name="serializer">JsonSerializer</param>
-        /// <returns>object read</returns>
+        /// <param name="reader">The JsonReader with the values</param>
+        /// <param name="objectType">The target object type</param>
+        /// <param name="existingValue">This value is not used</param>
+        /// <param name="serializer">The JsonSerializer</param>
+        /// <returns>An object of the target type</returns>
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
             // Load JObject from stream
@@ -47,8 +48,9 @@ namespace Vts.IO
 
             return target;
         }
+
         /// <summary>
-        /// method to write json
+        /// method to write JSON - Not implemented
         /// </summary>
         /// <param name="writer">JsonWriter</param>
         /// <param name="value">object to be written</param>

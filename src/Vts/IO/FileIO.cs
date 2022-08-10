@@ -20,7 +20,7 @@ namespace Vts.IO
         /// Static method to check if a file exists
         /// </summary>
         /// <param name="fileName">Name of the file</param>
-        /// <returns>boolean indicating whether file exists or not</returns>
+        /// <returns>A boolean indicating whether file exists or not</returns>
         public static bool FileExists(string fileName)
         {
             return File.Exists(fileName);
@@ -30,7 +30,7 @@ namespace Vts.IO
         /// Static method to check if a directory exists
         /// </summary>
         /// <param name="folder">Name of the directory</param>
-        /// <returns>boolean indicating whether directory exists or not</returns>
+        /// <returns>A boolean indicating whether directory exists or not</returns>
         public static bool DirectoryExists(string folder)
         {
             return Directory.Exists(folder);
@@ -76,8 +76,8 @@ namespace Vts.IO
         /// <summary>
         /// Copies one stream to the other
         /// </summary>
-        /// <param name="input">input stream to copy</param>
-        /// <param name="output">output copied stream</param>
+        /// <param name="input">Input stream to copy</param>
+        /// <param name="output">Output copied stream</param>
         /// <remarks>See http://stackoverflow.com/questions/230128/best-way-to-copy-between-two-stream-instances-c </remarks>
         public static void CopyStream(Stream input, Stream output)
         {
@@ -425,7 +425,7 @@ namespace Vts.IO
         /// <typeparam name="T">Type of data to be read</typeparam>
         /// <param name="filename">Name of the binary file</param>
         /// <param name="readMap">function used to read binary</param>
-        /// <returns>generic type T</returns>
+        /// <returns>Generic type T</returns>
         public static T ReadScalarValueFromBinary<T>(string filename, Func<BinaryReader, T> readMap)
         {
             // Create a file to write binary data 
@@ -543,7 +543,7 @@ namespace Vts.IO
         /// Write to binary file using an Action
         /// </summary>
         /// <typeparam name="T">The type to be written as binary</typeparam>
-        /// <param name="data">data to be written</param>
+        /// <param name="data">Data to be written</param>
         /// <param name="fileName">Name of the binary file to write</param>
         /// <param name="writerMap">Action of BinaryWriter and T</param>
         public static void WriteToBinaryCustom<T>(this IEnumerable<T> data, string fileName, Action<BinaryWriter, T> writerMap)
@@ -563,7 +563,7 @@ namespace Vts.IO
         /// </summary>
         /// <typeparam name="T">Type to be read from binary</typeparam>
         /// <param name="fileName">Name of the binary file to read</param>
-        /// <param name="readerMap">function of BinaryReader and generic type</param>
+        /// <param name="readerMap">Function of BinaryReader and generic type</param>
         /// <returns>IEnumerable of generic type T</returns>
         public static IEnumerable<T> ReadFromBinaryCustom<T>(string fileName, Func<BinaryReader, T> readerMap)
         {
@@ -582,7 +582,7 @@ namespace Vts.IO
         /// <typeparam name="T">Type to be read from binary in resources</typeparam>
         /// <param name="fileName">Name of the binary file to read</param>
         /// <param name="projectName">Project name where resources is located</param>
-        /// <param name="readerMap">function of BinaryReader and T</param>
+        /// <param name="readerMap">Function of BinaryReader and T</param>
         /// <returns>IEnumerable of generic type T</returns>
         public static IEnumerable<T> ReadFromBinaryInResourcesCustom<T>(string fileName, string projectName, Func<BinaryReader, T> readerMap)
         {
@@ -601,7 +601,7 @@ namespace Vts.IO
         /// </summary>
         /// <typeparam name="T">Type to be read from binary</typeparam>
         /// <param name="s">The binary stream</param>
-        /// <param name="readerMap">function of BinaryReader and T</param>
+        /// <param name="readerMap">Function of BinaryReader and T</param>
         /// <returns>IEnumerable of T</returns>
         private static IEnumerable<T> ReadStreamFromBinaryCustom<T>(Stream s, Func<BinaryReader, T> readerMap)
         {
@@ -620,7 +620,7 @@ namespace Vts.IO
         /// Read from a binary stream
         /// </summary>
         /// <typeparam name="T">The Type to read from binary</typeparam>
-        /// <param name="filename">file to be read</param>
+        /// <param name="filename">File to be read</param>
         /// <returns>The object of type T</returns>
         public static T ReadFromBinary<T>(string filename)
         {
@@ -649,7 +649,7 @@ namespace Vts.IO
         /// Write an object of type T to a binary file
         /// </summary>
         /// <typeparam name="T">Type of the object</typeparam>
-        /// <param name="myObject">Object</param>
+        /// <param name="myObject">The object to write</param>
         /// <param name="filename">Name of the binary file</param>
         public static void WriteToBinary<T>(this T myObject, string filename)
         {
@@ -683,7 +683,7 @@ namespace Vts.IO
         /// Serializes an object of type T to the given stream
         /// </summary>
         /// <typeparam name="T">Type of the object</typeparam>
-        /// <param name="myObject">Object</param>
+        /// <param name="myObject">The object to write</param>
         /// <param name="s">Stream to which to write the object</param>
         public static void WriteToBinaryStream<T>(T myObject, Stream s)
         {
