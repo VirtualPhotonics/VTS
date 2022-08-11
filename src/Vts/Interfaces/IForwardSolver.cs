@@ -19,7 +19,7 @@ namespace Vts
         /// </summary>
         /// <param name="regions">optical and geometrical properties of the medium for each sub-region</param>
         /// <param name="rho">source-detector separation (mm)</param>
-        /// <returns>reflectance at source-detector separation rho</returns>
+        /// <returns>Reflectance at source-detector separation rho</returns>
         double ROfRho(IOpticalPropertyRegion[] regions, double rho);
 
         /// <summary>
@@ -27,7 +27,7 @@ namespace Vts
         /// </summary>
         /// <param name="regions">sets of medium optical and geometrical properties for each sub-region</param>
         /// <param name="rhos">source-detector separations (mm)</param>
-        /// <returns>reflectance as a function of rhos</returns>
+        /// <returns>Reflectance as a function of rhos</returns>
         IEnumerable<double> ROfRho(IEnumerable<IOpticalPropertyRegion[]> regions, IEnumerable<double> rhos);
 
         /// <summary>
@@ -35,7 +35,7 @@ namespace Vts
         /// </summary>
         /// <param name="regions">sets of medium optical and geometrical properties for each sub-region</param>
         /// <param name="rhos">source-detector separations (mm)</param>
-        /// <returns>reflectance as a function of rhos</returns>
+        /// <returns>Reflectance as a function of rhos</returns>
         double[] ROfRho(IOpticalPropertyRegion[] regions, double[] rhos);
 
         /// <summary>
@@ -43,7 +43,7 @@ namespace Vts
         /// </summary>
         /// <param name="regions">sets of medium optical and geometrical properties for each sub-region</param>
         /// <param name="rhos">source-detector separations (mm)</param>
-        /// <returns>reflectance as a function of rhos</returns>
+        /// <returns>Reflectance as a function of rhos</returns>
         double[] ROfRho(IOpticalPropertyRegion[][] regions, double[] rhos);
         #endregion
 
@@ -54,7 +54,7 @@ namespace Vts
         /// <param name="regions">optical and geometrical properties of the medium for each sub-region</param>
         /// <param name="rho">source-detector separation (mm)</param>
         /// <param name="time">time (ns)</param>
-        /// <returns>reflectance at source-detector separation rho</returns>
+        /// <returns>Reflectance at source-detector separation rho</returns>
         double ROfRhoAndTime(IOpticalPropertyRegion[] regions, double rho, double time);
 
         /// <summary>
@@ -64,7 +64,7 @@ namespace Vts
         /// <param name="regions">sets of medium optical and geometrical properties for each sub-region</param>
         /// <param name="rhos">source-detector separations (mm)</param>
         /// <param name="times">times (ns)</param>
-        /// <returns>reflectance as a funciton of rhos and times</returns>
+        /// <returns>Reflectance as a funciton of rhos and times</returns>
         IEnumerable<double> ROfRhoAndTime(IEnumerable<IOpticalPropertyRegion[]> regions, IEnumerable<double> rhos, 
             IEnumerable<double> times);
 
@@ -75,7 +75,7 @@ namespace Vts
         /// <param name="regions">sets of medium optical and geometrical properties for each sub-region</param>
         /// <param name="rhos">source-detector separations (mm)</param>
         /// <param name="times">times (ns)</param>
-        /// <returns>reflectance as function of rhos and times</returns>
+        /// <returns>Reflectance as function of rhos and times</returns>
         double[] ROfRhoAndTime(IOpticalPropertyRegion[] regions, double[] rhos, double[] times);
 
         /// <summary>
@@ -85,7 +85,7 @@ namespace Vts
         /// <param name="regions">sets of medium optical and geometrical properties for each sub-region</param>
         /// <param name="rhos">source-detector separations (mm)</param>
         /// <param name="time">time (ns)</param>
-        /// <returns>reflectance as a function of rhos and time</returns>
+        /// <returns>Reflectance as a function of rhos and time</returns>
         double[] ROfRhoAndTime(IOpticalPropertyRegion[] regions, double[] rhos, double time);
 
         /// <summary>
@@ -95,7 +95,7 @@ namespace Vts
         /// <param name="regions">sets of medium optical and geometrical properties for each sub-region</param>
         /// <param name="rho">source-detector separations (mm)</param>
         /// <param name="times">times (ns)</param>
-        /// <returns>reflectance as a function of rho and times</returns>
+        /// <returns>Reflectance as a function of rho and times</returns>
         double[] ROfRhoAndTime(IOpticalPropertyRegion[] regions, double rho, double[] times);
 
         /// <summary>
@@ -105,7 +105,7 @@ namespace Vts
         /// <param name="regions">sets of medium optical and geometrical properties for each sub-region</param>
         /// <param name="rhos">source-detector separations (mm)</param>
         /// <param name="times">times (ns)</param>
-        /// <returns>reflectance as a function of rhos and times</returns>
+        /// <returns>Reflectance as a function of rhos and times</returns>
         double[] ROfRhoAndTime(IOpticalPropertyRegion[][] regions, double[] rhos, double[] times);
         #endregion
 
@@ -116,7 +116,7 @@ namespace Vts
         /// <param name="regions">optical and geometrical properties of the medium for each sub-region</param>
         /// <param name="rho">source-detector separation (mm)</param>
         /// <param name="ft">temporal frequency</param>
-        /// <returns>reflectance at source-detector separation rho</returns>
+        /// <returns>Reflectance at source-detector separation rho</returns>
         Complex ROfRhoAndFt(IOpticalPropertyRegion[] regions, double rho, double ft);
 
         /// <summary>
@@ -126,7 +126,7 @@ namespace Vts
         /// <param name="regions">sets of medium optical and geometrical properties for each sub-region</param>
         /// <param name="rhos">source-detector separations (mm)</param>
         /// <param name="fts">temporal frequencies</param>
-        /// <returns>reflectance as a function of rhos and fts</returns>
+        /// <returns>Reflectance as a function of rhos and fts</returns>
         IEnumerable<Complex> ROfRhoAndFt(IEnumerable<IOpticalPropertyRegion[]> regions, IEnumerable<double> rhos, IEnumerable<double> fts);
 
         /// <summary>
@@ -136,7 +136,7 @@ namespace Vts
         /// <param name="regions">sets of medium optical and geometrical properties for each sub-region</param>
         /// <param name="rho">source-detector separation (mm)</param>
         /// <param name="fts">temporal frequencies</param>
-        /// <returns>reflectance as a funciton of rho and fts</returns>
+        /// <returns>Reflectance as a funciton of rho and fts</returns>
         Complex[] ROfRhoAndFt(IOpticalPropertyRegion[] regions, double rho, double[] fts);
 
         /// <summary>
@@ -146,7 +146,7 @@ namespace Vts
         /// <param name="regions">sets of medium optical and geometrical properties for each sub-region</param>
         /// <param name="rhos">source-detector separation (mm)</param>
         /// <param name="ft">temporal frequencies</param>
-        /// <returns>reflectance as a function of rhos and ft</returns>
+        /// <returns>Reflectance as a function of rhos and ft</returns>
         Complex[] ROfRhoAndFt(IOpticalPropertyRegion[] regions, double[] rhos, double ft);
 
         /// <summary>
@@ -156,7 +156,7 @@ namespace Vts
         /// <param name="regions">sets of medium optical and geometrical properties for each sub-region</param>
         /// <param name="rhos">source-detector separations (mm)</param>
         /// <param name="fts">temporal frequencies</param>
-        /// <returns>reflectance as a function of rhos and fts</returns>
+        /// <returns>Reflectance as a function of rhos and fts</returns>
         Complex[] ROfRhoAndFt(IOpticalPropertyRegion[] regions, double[] rhos, double[] fts);
 
         /// <summary>
@@ -166,7 +166,7 @@ namespace Vts
         /// <param name="regions">sets of medium optical and geometrical properties for each sub-region</param>
         /// <param name="rhos">source-detector separations (mm)</param>
         /// <param name="fts">temporal frequencies</param>
-        /// <returns>reflectance as a function of rhos and fts</returns>
+        /// <returns>Reflectance as a function of rhos and fts</returns>
         Complex[] ROfRhoAndFt(IOpticalPropertyRegion[][] regions, double[] rhos, double[] fts);
         #endregion
 
@@ -176,7 +176,7 @@ namespace Vts
         /// </summary>
         /// <param name="regions">optical and geometrical properties of the medium for each sub-region</param>
         /// <param name="fx">spatial frequency</param>
-        /// <returns>reflectance at spatial frequency fx</returns>
+        /// <returns>Reflectance at spatial frequency fx</returns>
         double ROfFx(IOpticalPropertyRegion[] regions, double fx);
 
         /// <summary>
@@ -184,7 +184,7 @@ namespace Vts
         /// </summary>
         /// <param name="regions">sets of medium optical and geometrical properties for each sub-region</param>
         /// <param name="fxs">spatial frequencies</param>
-        /// <returns>reflectance as a function of fxs</returns>
+        /// <returns>Reflectance as a function of fxs</returns>
         IEnumerable<double> ROfFx(IEnumerable<IOpticalPropertyRegion[]> regions, IEnumerable<double> fxs);
 
         /// <summary>
@@ -192,7 +192,7 @@ namespace Vts
         /// </summary>
         /// <param name="regions">medium optical and geometrical properties for each sub-region</param>
         /// <param name="fxs">spatial frequencies</param>
-        /// <returns>reflectance at sptail frequency</returns>
+        /// <returns>Reflectance at sptail frequency</returns>
         double[] ROfFx(IOpticalPropertyRegion[] regions, double[] fxs);
 
         /// <summary>
@@ -200,7 +200,7 @@ namespace Vts
         /// </summary>
         /// <param name="regions">sets of medium optical and geometrical properties for each sub-region</param>
         /// <param name="fxs">spatial frequencies</param>
-        /// <returns>reflectance at sptail frequency</returns>
+        /// <returns>Reflectance at sptail frequency</returns>
         double[] ROfFx(IOpticalPropertyRegion[][] regions, double[] fxs);
         #endregion
 
@@ -211,7 +211,7 @@ namespace Vts
         /// <param name="regions">optical and geometrical properties of the medium for each sub-region</param>
         /// <param name="fx">spatial frequency</param>
         /// <param name="time">time (ns)</param>
-        /// <returns>reflectance at spatial frequency fx</returns>
+        /// <returns>Reflectance at spatial frequency fx</returns>
         double ROfFxAndTime(IOpticalPropertyRegion[] regions, double fx, double time);
 
         /// <summary>
@@ -221,7 +221,7 @@ namespace Vts
         /// <param name="regions">sets of medium optical and geometrical properties for each sub-region</param>
         /// <param name="fxs">spatial frequencies</param>
         /// <param name="times">times (ns)</param>
-        /// <returns>reflectance at spatial freq and time</returns>
+        /// <returns>Reflectance at spatial freq and time</returns>
         IEnumerable<double> ROfFxAndTime(IEnumerable<IOpticalPropertyRegion[]> regions, IEnumerable<double> fxs,
             IEnumerable<double> times);
 
@@ -232,7 +232,7 @@ namespace Vts
         /// <param name="regions">medium optical and geometrical properties for each sub-region</param>
         /// <param name="fxs">spatial frequencies</param>
         /// <param name="times">times (ns)</param>
-        /// <returns>reflectance at spatial freq. and time</returns>
+        /// <returns>Reflectance at spatial freq. and time</returns>
         double[] ROfFxAndTime(IOpticalPropertyRegion[] regions, double[] fxs, double[] times);
 
         /// <summary>
@@ -242,7 +242,7 @@ namespace Vts
         /// <param name="regions">medium optical and geometrical properties for each sub-region</param>
         /// <param name="fx">spatial frequency</param>
         /// <param name="times">times (ns)</param>
-        /// <returns>reflectance as a function of fx and times</returns>
+        /// <returns>Reflectance as a function of fx and times</returns>
         double[] ROfFxAndTime(IOpticalPropertyRegion[] regions, double fx, double[] times);
 
         /// <summary>
@@ -252,7 +252,7 @@ namespace Vts
         /// <param name="regions">medium optical and geometrical properties for each sub-reion</param>
         /// <param name="fxs">spatial frequencies</param>
         /// <param name="time">time (ns)</param>
-        /// <returns>reflectance as a function of fxs and time</returns>
+        /// <returns>Reflectance as a function of fxs and time</returns>
         double[] ROfFxAndTime(IOpticalPropertyRegion[] regions, double[] fxs, double time);
 
         /// <summary>
@@ -262,7 +262,7 @@ namespace Vts
         /// <param name="regions">medium optical and geometrical properties for each sub-region</param>
         /// <param name="fxs">spatial frequencies</param>
         /// <param name="times">times (ns)</param>
-        /// <returns>reflectance at spatial freq. and time</returns>
+        /// <returns>Reflectance at spatial freq. and time</returns>
         double[] ROfFxAndTime(IOpticalPropertyRegion[][] regions, double[] fxs, double[] times);
         #endregion
 
@@ -273,7 +273,7 @@ namespace Vts
         /// <param name="regions">optical and geometrical properties of the medium for each sub-region</param>
         /// <param name="fx">spatial frequency</param>
         /// <param name="ft">temporal frequency</param>
-        /// <returns>reflectance at spatial freq. and temporal freq.</returns>
+        /// <returns>Reflectance at spatial freq. and temporal freq.</returns>
         Complex ROfFxAndFt(IOpticalPropertyRegion[] regions, double fx, double ft);
 
         /// <summary>
@@ -283,7 +283,7 @@ namespace Vts
         /// <param name="regions">sets of medium optical and geometrical properties for each sub-region</param>
         /// <param name="fxs">spatial frequencies</param>
         /// <param name="fts">temporal frequencies</param>
-        /// <returns>reflectance as a function of fxs and fts</returns>
+        /// <returns>Reflectance as a function of fxs and fts</returns>
         IEnumerable<Complex> ROfFxAndFt(IEnumerable<IOpticalPropertyRegion[]> regions, IEnumerable<double> fxs, IEnumerable<double> fts);
 
         /// <summary>
@@ -293,7 +293,7 @@ namespace Vts
         /// <param name="regions">medium optical and geometrical properties for each sub-region</param>
         /// <param name="fx">spatial-frequency</param>
         /// <param name="fts">temporal frequencies</param>
-        /// <returns>reflectance as a function of fx and fts</returns>
+        /// <returns>Reflectance as a function of fx and fts</returns>
         Complex[] ROfFxAndFt(IOpticalPropertyRegion[] regions, double fx, double[] fts);
 
         /// <summary>
@@ -303,7 +303,7 @@ namespace Vts
         /// <param name="regions">medium optical and geometrical properties for each sub-region</param>
         /// <param name="fxs">spatial freqs</param>
         /// <param name="ft">temporal frequencies</param>
-        /// <returns>reflectance as a function of fxs and ft</returns>
+        /// <returns>Reflectance as a function of fxs and ft</returns>
         Complex[] ROfFxAndFt(IOpticalPropertyRegion[] regions, double[] fxs, double ft);
 
         /// <summary>
@@ -313,7 +313,7 @@ namespace Vts
         /// <param name="regions">medium optical and geometrical properties for each sub-region</param>
         /// <param name="fxs">spatial frequencies</param>
         /// <param name="fts">temporal frequencies</param>
-        /// <returns>reflectance at spatial freq. and temporal freq.</returns>
+        /// <returns>Reflectance at spatial freq. and temporal freq.</returns>
         Complex[] ROfFxAndFt(IOpticalPropertyRegion[] regions, double[] fxs, double[] fts);
 
         /// <summary>
@@ -323,7 +323,7 @@ namespace Vts
         /// <param name="regions">sets of medium optical and geometrical properties for each sub-region</param>
         /// <param name="fxs">spatial frequencies</param>
         /// <param name="fts">temporal frequencies</param>
-        /// <returns>reflectance at spatial freq. and temporal freq.</returns>
+        /// <returns>Reflectance at spatial freq. and temporal freq.</returns>
         Complex[] ROfFxAndFt(IOpticalPropertyRegion[][] regions, double[] fxs, double[] fts);
         #endregion
 
@@ -334,7 +334,7 @@ namespace Vts
         /// <param name="regions">tissue regions</param>
         /// <param name="rhos">source-detector separations</param>
         /// <param name="zs">depth bins</param>
-        /// <returns>fluence as a function of rhos and zs</returns>
+        /// <returns>Fluence as a function of rhos and zs</returns>
         double[] FluenceOfRhoAndZ(IOpticalPropertyRegion[][] regions, double[] rhos, double[] zs);
 
         /// <summary>
@@ -343,7 +343,7 @@ namespace Vts
         /// <param name="regions">tissue regions</param>
         /// <param name="rhos">source-detector separations</param>
         /// <param name="zs">depth bins</param>
-        /// <returns>fluence as a function of rhos and zs</returns>
+        /// <returns>Fluence as a function of rhos and zs</returns>
         IEnumerable<double> FluenceOfRhoAndZ(IEnumerable<IOpticalPropertyRegion[]> regions, IEnumerable<double> rhos, IEnumerable<double> zs);
         #endregion
         #region Complex[] FluenceOfRhoAndZAndFt(IOpticalPropertyRegion[][] regions, double[] rhos, double[] zs, double[] fts);
@@ -355,7 +355,7 @@ namespace Vts
         /// <param name="rhos">source-detector separations</param>
         /// <param name="zs">depth bins</param>
         /// <param name="fts">temporal frequencies</param>
-        /// <returns>fluence as a funciton of rhos, zs and fts</returns>
+        /// <returns>Fluence as a funciton of rhos, zs and fts</returns>
         Complex[] FluenceOfRhoAndZAndFt(IOpticalPropertyRegion[][] regions, double[] rhos, double[] zs, double[] fts);
 
         /// <summary>
@@ -366,7 +366,7 @@ namespace Vts
         /// <param name="rhos">source-detector separations</param>
         /// <param name="zs">depth bins</param>
         /// <param name="fts">temporal frequencies</param>
-        /// <returns>fluence as a function of rhos, zs and fts</returns>
+        /// <returns>Fluence as a function of rhos, zs and fts</returns>
         IEnumerable<Complex> FluenceOfRhoAndZAndFt(IEnumerable<IOpticalPropertyRegion[]> regions, IEnumerable<double> rhos, IEnumerable<double> zs, IEnumerable<double> fts);
         #endregion
 
@@ -378,7 +378,7 @@ namespace Vts
         /// </summary>
         /// <param name="op">optical properties of the medium</param>
         /// <param name="rho">source-detector separation (mm)</param>
-        /// <returns>reflectance at source-detector separation rho</returns>
+        /// <returns>Reflectance at source-detector separation rho</returns>
         double ROfRho(OpticalProperties op, double rho);
         #endregion
 
@@ -389,7 +389,7 @@ namespace Vts
         /// <param name="op">optical properties of the medium</param>
         /// <param name="rho">source-detector separation (mm)</param>
         /// <param name="time">time (ns)</param>
-        /// <returns>reflectance at source-detector separation rho and time</returns>
+        /// <returns>Reflectance at source-detector separation rho and time</returns>
         double ROfRhoAndTime(OpticalProperties op, double rho, double time);
         #endregion
 
@@ -401,7 +401,7 @@ namespace Vts
         /// <param name="op">optical properties of the medium</param>
         /// <param name="rho">source-detector separation (mm)</param>
         /// <param name="ft">modulation frequency (GHz)</param>
-        /// <returns>reflectance at source-detector separation rho and modulation frequency ft</returns>
+        /// <returns>Reflectance at source-detector separation rho and modulation frequency ft</returns>
         Complex ROfRhoAndFt(OpticalProperties op, double rho, double ft);
         #endregion
 
@@ -411,7 +411,7 @@ namespace Vts
         /// </summary>
         /// <param name="op">optical properties of the medium</param>
         /// <param name="fx">spatial frequency (1/mm)</param>
-        /// <returns>reflectance at spatial frequency fx</returns>
+        /// <returns>Reflectance at spatial frequency fx</returns>
         double ROfFx(OpticalProperties op, double fx);
         #endregion
 
@@ -422,7 +422,7 @@ namespace Vts
         /// <param name="op">optical properties of the medium</param>
         /// <param name="fx">spatial frequency (1/mm)</param>
         /// <param name="time">time (ns)</param>
-        /// <returns>reflectance at spatial frequency fx and time</returns>
+        /// <returns>Reflectance at spatial frequency fx and time</returns>
         double ROfFxAndTime(OpticalProperties op, double fx, double time);
         #endregion
 
@@ -434,7 +434,7 @@ namespace Vts
         /// <param name="op">optical properties of the medium</param>
         /// <param name="fx">spatial frequency (1/mm)</param>
         /// <param name="ft">modulation frequency (GHz)</param>
-        /// <returns>reflectance at spatial frequency fx and modulation frequency ft</returns>
+        /// <returns>Reflectance at spatial frequency fx and modulation frequency ft</returns>
         Complex ROfFxAndFt(OpticalProperties op, double fx, double ft);
         #endregion
 
@@ -449,7 +449,7 @@ namespace Vts
         /// <param name="ops">sets of medium optical properties</param>
         /// <param name="rhos">source-detector separations (mm)</param>
         /// <param name="zs">z values (mm)</param>
-        /// <returns>fluence as a function of rhos and zs</returns>
+        /// <returns>Fluence as a function of rhos and zs</returns>
         IEnumerable<double> FluenceOfRhoAndZ(IEnumerable<OpticalProperties> ops, IEnumerable<double> rhos, IEnumerable<double> zs);
         #endregion
 
@@ -461,7 +461,7 @@ namespace Vts
         /// <param name="rhos">source-detector separations (mm)</param>
         /// <param name="zs">z values (mm)</param>
         /// <param name="times">times (ns)</param>
-        /// <returns>fluence as a function of rhos, zs and times</returns>
+        /// <returns>Fluence as a function of rhos, zs and times</returns>
         /// <remarks>IEnumerables can be one or more values - use the .AsEnumerable() extension method (in Vts.Extensions) on single items</remarks>
         IEnumerable<double> FluenceOfRhoAndZAndTime(IEnumerable<OpticalProperties> ops, IEnumerable<double> rhos, IEnumerable<double> zs, IEnumerable<double> times);
         #endregion
@@ -474,7 +474,7 @@ namespace Vts
         /// <param name="rhos">source-detector separations (mm)</param>
         /// <param name="zs">z values (mm)</param>
         /// <param name="fts">modulation frequencies (GHz)</param>
-        /// <returns>fluence as a function of rhos, zs and fts</returns>
+        /// <returns>Fluence as a function of rhos, zs and fts</returns>
         /// <remarks>IEnumerables can be one or more values - use the .AsEnumerable() extension method (in Vts.Extensions) on single items</remarks>
         IEnumerable<Complex> FluenceOfRhoAndZAndFt(IEnumerable<OpticalProperties> ops, IEnumerable<double> rhos, IEnumerable<double> zs, IEnumerable<double> fts);
         #endregion
@@ -486,7 +486,7 @@ namespace Vts
         /// <param name="ops">sets of medium optical properties</param>
         /// <param name="fxs">spatial frequencies (1/mm)</param>
         /// <param name="zs">z values (mm)</param>
-        /// <returns>fluence as a function of fxs and zs</returns>
+        /// <returns>Fluence as a function of fxs and zs</returns>
         IEnumerable<double> FluenceOfFxAndZ(IEnumerable<OpticalProperties> ops, IEnumerable<double> fxs, IEnumerable<double> zs);
         #endregion
 
@@ -498,7 +498,7 @@ namespace Vts
         /// <param name="fxs">spatial frequencies (1/mm)</param>
         /// <param name="zs">z values (mm)</param>
         /// <param name="times">times (ns)</param>
-        /// <returns>fluence as a function of fxs, zs and times</returns>
+        /// <returns>Fluence as a function of fxs, zs and times</returns>
         IEnumerable<double> FluenceOfFxAndZAndTime(IEnumerable<OpticalProperties> ops, IEnumerable<double> fxs, IEnumerable<double> zs, IEnumerable<double> times);
         #endregion
 
@@ -510,7 +510,7 @@ namespace Vts
         /// <param name="fxs">spatial frequencies (1/mm)</param>
         /// <param name="zs">z values (mm)</param>
         /// <param name="fts">modulation frequencies (GHz)</param>
-        /// <returns>fluence as a function of fxs, zs and fts</returns>
+        /// <returns>Fluence as a function of fxs, zs and fts</returns>
         IEnumerable<Complex> FluenceOfFxAndZAndFt(IEnumerable<OpticalProperties> ops, IEnumerable<double> fxs, IEnumerable<double> zs, IEnumerable<double> fts);
         #endregion
 
@@ -520,7 +520,7 @@ namespace Vts
         /// </summary>
         /// <param name="ops">sets of medium optical properties</param>
         /// <param name="rhos">source-detector separations (mm)</param>
-        /// <returns>reflectance as a function of rhos</returns>
+        /// <returns>Reflectance as a function of rhos</returns>
         IEnumerable<double> ROfRho(IEnumerable<OpticalProperties> ops, IEnumerable<double> rhos);
 
         #endregion
@@ -532,7 +532,7 @@ namespace Vts
         /// <param name="ops">sets of medium optical properties </param>
         /// <param name="rhos">source-detector separations (mm)</param>
         /// <param name="times">times (ns)</param>
-        /// <returns>reflectance as a function of rhos and times</returns>
+        /// <returns>Reflectance as a function of rhos and times</returns>
         /// <remarks>IEnumerables can be one or more values - use the .AsEnumerable() extension method (in Vts.Extensions) on single items</remarks>
         IEnumerable<double> ROfRhoAndTime(IEnumerable<OpticalProperties> ops, IEnumerable<double> rhos, IEnumerable<double> times);
 
@@ -547,7 +547,7 @@ namespace Vts
         /// <param name="ops">sets of medium optical properties</param>
         /// <param name="rhos">source-detector separations (mm)</param>
         /// <param name="fts">modulation frequencies (GHz)</param>
-        /// <returns>reflectance as a function of rhos and fts</returns>
+        /// <returns>Reflectance as a function of rhos and fts</returns>
         /// <remarks>IEnumerables can be one or more values - use the .AsEnumerable() extension method (in Vts.Extensions) on single items</remarks>
         IEnumerable<Complex> ROfRhoAndFt(IEnumerable<OpticalProperties> ops, IEnumerable<double> rhos, IEnumerable<double> fts);
 
@@ -559,7 +559,7 @@ namespace Vts
         /// </summary>
         /// <param name="ops">sets of medium optical properties</param>
         /// <param name="fxs">spatial frequencies (1/mm)</param>
-        /// <returns>reflectance as a function of fxs</returns>
+        /// <returns>Reflectance as a function of fxs</returns>
         IEnumerable<double> ROfFx(IEnumerable<OpticalProperties> ops, IEnumerable<double> fxs);
 
 
@@ -570,7 +570,7 @@ namespace Vts
         /// <param name="ops">sets of medium optical properties</param>
         /// <param name="fxs">spatial frequencies (1/mm)</param>
         /// <param name="times">times (ns)</param>
-        /// <returns>reflectance as a function of fx and time</returns>
+        /// <returns>Reflectance as a function of fx and time</returns>
         IEnumerable<double> ROfFxAndTime(IEnumerable<OpticalProperties> ops, IEnumerable<double> fxs, IEnumerable<double> times);
 
         #endregion
@@ -583,7 +583,7 @@ namespace Vts
         /// <param name="ops">sets of medium optical properties</param>
         /// <param name="fxs">spatial frequencies (1/mm)</param>
         /// <param name="fts">modulation frequencies (GHz)</param>
-        /// <returns>reflectance as a function of fxs and fts</returns>
+        /// <returns>Reflectance as a function of fxs and fts</returns>
         IEnumerable<Complex> ROfFxAndFt(IEnumerable<OpticalProperties> ops, IEnumerable<double> fxs, IEnumerable<double> fts);
 
         #endregion
@@ -602,7 +602,7 @@ namespace Vts
         /// </summary>
         /// <param name="op">medium optical properties</param>
         /// <param name="rhos">source-detector separations (mm)</param>
-        /// <returns>reflectance as a function of rhos</returns>
+        /// <returns>Reflectance as a function of rhos</returns>
         double[] ROfRho(OpticalProperties op, double[] rhos);
 
         /// <summary>
@@ -610,7 +610,7 @@ namespace Vts
         /// </summary>
         /// <param name="ops">sets of medium optical properties</param>
         /// <param name="rhos">source-detector separations (mm)</param>
-        /// <returns>reflectance as a function of rhos</returns>
+        /// <returns>Reflectance as a function of rhos</returns>
         double[] ROfRho(OpticalProperties[] ops, double[] rhos);
 
         /// <summary>
@@ -619,7 +619,7 @@ namespace Vts
         /// <param name="op">medium optical properties</param>
         /// <param name="rhos">source-detector separations (mm)</param>
         /// <param name="times">times (ns)</param>
-        /// <returns>reflectance as a function of rhos and times</returns>
+        /// <returns>Reflectance as a function of rhos and times</returns>
         /// <remarks>IEnumerables can be one or more values - use the .AsEnumerable() extension method (in Vts.Extensions) on single items</remarks>
         double[] ROfRhoAndTime(OpticalProperties op, double[] rhos, double[] times);
 
@@ -629,7 +629,7 @@ namespace Vts
         /// <param name="ops">sets of medium optical properties</param>
         /// <param name="rhos">source-detector separations (mm)</param>
         /// <param name="times">times (ns)</param>
-        /// <returns>reflectance as a function of rho and time</returns>
+        /// <returns>Reflectance as a function of rho and time</returns>
         /// <remarks>IEnumerables can be one or more values - use the .AsEnumerable() extension method (in Vts.Extensions) on single items</remarks>
         double[] ROfRhoAndTime(OpticalProperties[] ops, double[] rhos, double[] times);
 
@@ -639,7 +639,7 @@ namespace Vts
         /// <param name="op">optical properties</param>
         /// <param name="rhos">source-detector separations (mm)</param>
         /// <param name="fts">modulation frequencies (GHz)</param>
-        /// <returns>reflectance as a function of rhos and fts</returns>
+        /// <returns>Reflectance as a function of rhos and fts</returns>
         /// <remarks>IEnumerables can be one or more values - use the .AsEnumerable() extension method (in Vts.Extensions) on single items</remarks>
         Complex[] ROfRhoAndFt(OpticalProperties op, double[] rhos, double[] fts);
 
@@ -649,7 +649,7 @@ namespace Vts
         /// <param name="ops">sets of medium optical properties</param>
         /// <param name="rhos">source-detector separations (mm)</param>
         /// <param name="fts">modulation frequencies (GHz)</param>
-        /// <returns>reflectance as a function of rhos and fts</returns>
+        /// <returns>Reflectance as a function of rhos and fts</returns>
         /// <remarks>IEnumerables can be one or more values - use the .AsEnumerable() extension method (in Vts.Extensions) on single items</remarks>
         Complex[] ROfRhoAndFt(OpticalProperties[] ops, double[] rhos, double[] fts);
 
@@ -658,7 +658,7 @@ namespace Vts
         /// </summary>
         /// <param name="op">medium optical properties</param>
         /// <param name="fxs">spatial frequencies (1/mm)</param>
-        /// <returns>reflectance as a function of fxs</returns>
+        /// <returns>Reflectance as a function of fxs</returns>
         double[] ROfFx(OpticalProperties op, double[] fxs);
 
         /// <summary>
@@ -666,7 +666,7 @@ namespace Vts
         /// </summary>
         /// <param name="ops">sets of medium optical properties</param>
         /// <param name="fxs">spatial frequencies (1/mm)</param>
-        /// <returns>reflectance as a function of fxs</returns>
+        /// <returns>Reflectance as a function of fxs</returns>
         double[] ROfFx(OpticalProperties[] ops, double[] fxs);
 
         /// <summary>
@@ -675,7 +675,7 @@ namespace Vts
         /// <param name="op">medium optical properties</param>
         /// <param name="fxs">spatial frequencies (1/mm)</param>
         /// <param name="times">times (ns)</param>
-        /// <returns>reflectance as a function of fxs and times</returns>
+        /// <returns>Reflectance as a function of fxs and times</returns>
         double[] ROfFxAndTime(OpticalProperties op, double[] fxs, double[] times);
 
         /// <summary>
@@ -684,7 +684,7 @@ namespace Vts
         /// <param name="ops">sets of medium optical properties</param>
         /// <param name="fxs">spatial frequencies (1/mm)</param>
         /// <param name="times">times (ns)</param>
-        /// <returns>reflectance as a function of fxs and times</returns>
+        /// <returns>Reflectance as a function of fxs and times</returns>
         double[] ROfFxAndTime(OpticalProperties[] ops, double[] fxs, double[] times);
 
         /// <summary>
@@ -693,7 +693,7 @@ namespace Vts
         /// <param name="op">medium optical properties</param>
         /// <param name="fxs">spatial frequencies (1/mm)</param>
         /// <param name="fts">modulation frequencies (GHz)</param>
-        /// <returns>reflectance as a function of fxs and fts</returns>
+        /// <returns>Reflectance as a function of fxs and fts</returns>
         Complex[] ROfFxAndFt(OpticalProperties op, double[] fxs, double[] fts);
 
         /// <summary>
@@ -702,7 +702,7 @@ namespace Vts
         /// <param name="ops">sets of medium optical properties</param>
         /// <param name="fxs">spatial frequencies (1/mm)</param>
         /// <param name="fts">modulation frequencies (GHz)</param>
-        /// <returns>reflectance as a function of fxs and fts</returns>
+        /// <returns>Reflectance as a function of fxs and fts</returns>
         Complex[] ROfFxAndFt(OpticalProperties[] ops, double[] fxs, double[] fts);
 
         // others...need comments...again, these could be extensions
@@ -711,7 +711,7 @@ namespace Vts
         /// </summary>
         /// <param name="ops">sets of medium optical properties</param>
         /// <param name="rho">source-detector separation (mm)</param>
-        /// <returns>reflectance as a function of rho</returns>
+        /// <returns>Reflectance as a function of rho</returns>
         double[] ROfRho(OpticalProperties[] ops, double rho);
 
         /// <summary>
@@ -720,7 +720,7 @@ namespace Vts
         /// <param name="ops">sets of medium optical properties</param>
         /// <param name="rho">source-detector separation (mm)</param>
         /// <param name="times">times (ns)</param>
-        /// <returns>reflectance as a function of rho and time</returns>
+        /// <returns>Reflectance as a function of rho and time</returns>
         double[] ROfRhoAndTime(OpticalProperties[] ops, double rho, double[] times);
 
         /// <summary>
@@ -729,7 +729,7 @@ namespace Vts
         /// <param name="ops">sets of medium optical properties</param>
         /// <param name="rhos">source-detector separations (mm)</param>
         /// <param name="time">time (ns)</param>
-        /// <returns>reflectance as function of rhos and times</returns>
+        /// <returns>Reflectance as function of rhos and times</returns>
         double[] ROfRhoAndTime(OpticalProperties[] ops, double[] rhos, double time);
 
         /// <summary>
@@ -738,7 +738,7 @@ namespace Vts
         /// <param name="op">medium optical properties</param>
         /// <param name="rho">source-detector separation (mm)</param>
         /// <param name="times">times (ns)</param>
-        /// <returns>reflectance as a function of rho and times</returns>
+        /// <returns>Reflectance as a function of rho and times</returns>
         double[] ROfRhoAndTime(OpticalProperties op, double rho, double[] times);
 
         /// <summary>
@@ -747,7 +747,7 @@ namespace Vts
         /// <param name="op">medium optical properties</param>
         /// <param name="rhos">source-detector separation (mm)</param>
         /// <param name="time">time (ns)</param>
-        /// <returns>reflectance as a function of rhos and time</returns>
+        /// <returns>Reflectance as a function of rhos and time</returns>
         double[] ROfRhoAndTime(OpticalProperties op, double[] rhos, double time);
 
         /// <summary>
@@ -756,7 +756,7 @@ namespace Vts
         /// <param name="ops">sets of medium optical properties</param>
         /// <param name="rho">source-detector separation (mm)</param>
         /// <param name="time">time (ns)</param>
-        /// <returns>reflectance as a function of rho and time</returns>
+        /// <returns>Reflectance as a function of rho and time</returns>
         double[] ROfRhoAndTime(OpticalProperties[] ops, double rho, double time);
 
         /// <summary>
@@ -765,7 +765,7 @@ namespace Vts
         /// <param name="ops">sets of medium optical properties</param>
         /// <param name="rho">source-detector separation (mm)</param>
         /// <param name="fts">modulation frequencies (GHz)</param>
-        /// <returns>reflectance as a function of rho and fts</returns>
+        /// <returns>Reflectance as a function of rho and fts</returns>
         Complex[] ROfRhoAndFt(OpticalProperties[] ops, double rho, double[] fts);
 
         /// <summary>
@@ -774,7 +774,7 @@ namespace Vts
         /// <param name="ops">sets of medium optical properties</param>
         /// <param name="rhos">source-detector separations (mm)</param>
         /// <param name="ft">modulation frequency (GHz)</param>
-        /// <returns>reflectance as a function of rhos and ft</returns>
+        /// <returns>Reflectance as a function of rhos and ft</returns>
         Complex[] ROfRhoAndFt(OpticalProperties[] ops, double[] rhos, double ft);
 
         /// <summary>
@@ -783,7 +783,7 @@ namespace Vts
         /// <param name="op">medium optical properties</param>
         /// <param name="rho">source-detector separation (mm)</param>
         /// <param name="fts">modulation frequencies (GHz)</param>
-        /// <returns>reflectance as a function of rho and fts</returns>
+        /// <returns>Reflectance as a function of rho and fts</returns>
         Complex[] ROfRhoAndFt(OpticalProperties op, double rho, double[] fts);
 
         /// <summary>
@@ -792,7 +792,7 @@ namespace Vts
         /// <param name="op">medium optical properties</param>
         /// <param name="rhos">source-detector separations (mm)</param>
         /// <param name="ft">modulation frequency (GHz)</param>
-        /// <returns>reflectance as a function of rhos and ft</returns>
+        /// <returns>Reflectance as a function of rhos and ft</returns>
         Complex[] ROfRhoAndFt(OpticalProperties op, double[] rhos, double ft);
 
         /// <summary>
@@ -801,7 +801,7 @@ namespace Vts
         /// <param name="ops">sets of medium optical properties</param>
         /// <param name="rho">source-detector separation (mm)</param>
         /// <param name="ft">modulation frequency (GHz)</param>
-        /// <returns>reflectance as a function of rho and ft</returns>
+        /// <returns>Reflectance as a function of rho and ft</returns>
         Complex[] ROfRhoAndFt(OpticalProperties[] ops, double rho, double ft);
 
         /// <summary>
@@ -809,7 +809,7 @@ namespace Vts
         /// </summary>
         /// <param name="ops">sets of medium optical properties</param>
         /// <param name="fx">spatial frequency (1/mm)</param>
-        /// <returns>reflectance as a function of fx</returns>
+        /// <returns>Reflectance as a function of fx</returns>
         double[] ROfFx(OpticalProperties[] ops, double fx);
 
         /// <summary>
@@ -818,7 +818,7 @@ namespace Vts
         /// <param name="ops">sets of medium optical properties</param>
         /// <param name="fx">spatial frequency (1/mm)</param>
         /// <param name="times">times (ns)</param>
-        /// <returns>reflectance as a function of fx and times</returns>
+        /// <returns>Reflectance as a function of fx and times</returns>
         double[] ROfFxAndTime(OpticalProperties[] ops, double fx, double[] times);
 
         /// <summary>
@@ -827,7 +827,7 @@ namespace Vts
         /// <param name="ops">sets of medium optical properties</param>
         /// <param name="fxs">spatial frequencies (1/mm)</param>
         /// <param name="time">time (ns)</param>
-        /// <returns>reflectance as a function of fxs and time</returns>
+        /// <returns>Reflectance as a function of fxs and time</returns>
         double[] ROfFxAndTime(OpticalProperties[] ops, double[] fxs, double time);
 
         /// <summary>
@@ -836,7 +836,7 @@ namespace Vts
         /// <param name="op">medium optical properties</param>
         /// <param name="fx">spatial frequency (1/mm)</param>
         /// <param name="times">times (ns)</param>
-        /// <returns>reflectance as a funciton of fx and times</returns>
+        /// <returns>Reflectance as a funciton of fx and times</returns>
         double[] ROfFxAndTime(OpticalProperties op, double fx, double[] times);
 
         /// <summary>
@@ -845,7 +845,7 @@ namespace Vts
         /// <param name="op">medium optical properties</param>
         /// <param name="fxs">spatial frequency (1/mm)</param>
         /// <param name="time">times (ns)</param>
-        /// <returns>reflectance as a function of fxs and time</returns>
+        /// <returns>Reflectance as a function of fxs and time</returns>
         double[] ROfFxAndTime(OpticalProperties op, double[] fxs, double time);
 
         /// <summary>
@@ -854,7 +854,7 @@ namespace Vts
         /// <param name="ops">sets of medium optical properties</param>
         /// <param name="fx">spatial frequency (1/mm)</param>
         /// <param name="time">time (ns)</param>
-        /// <returns>reflectance as a function of fx and time</returns>
+        /// <returns>Reflectance as a function of fx and time</returns>
         double[] ROfFxAndTime(OpticalProperties[] ops, double fx, double time);
 
         /// <summary>
@@ -863,7 +863,7 @@ namespace Vts
         /// <param name="ops">sets of medium optical properties</param>
         /// <param name="fx">spatial frequency (1/mm)</param>
         /// <param name="fts">modulation frequencies (GHz)</param>
-        /// <returns>reflectance as a function of fx and fts</returns>
+        /// <returns>Reflectance as a function of fx and fts</returns>
         Complex[] ROfFxAndFt(OpticalProperties[] ops, double fx, double[] fts);
 
         /// <summary>
@@ -872,7 +872,7 @@ namespace Vts
         /// <param name="ops">sets of medium optical properties</param>
         /// <param name="fxs">spatial frequencies (1/mm)</param>
         /// <param name="ft">modulation frequency (GHz)</param>
-        /// <returns>reflectance as a function of fxs and ft</returns>
+        /// <returns>Reflectance as a function of fxs and ft</returns>
         Complex[] ROfFxAndFt(OpticalProperties[] ops, double[] fxs, double ft);
 
         /// <summary>
@@ -881,7 +881,7 @@ namespace Vts
         /// <param name="op">medium optical properties</param>
         /// <param name="fx">spatial frequency (1/mm)</param>
         /// <param name="fts">modulation frequencies (GHz)</param>
-        /// <returns>reflectance as a function of fx and fts</returns>
+        /// <returns>Reflectance as a function of fx and fts</returns>
         Complex[] ROfFxAndFt(OpticalProperties op, double fx, double[] fts);
 
         /// <summary>
@@ -890,7 +890,7 @@ namespace Vts
         /// <param name="op">medium optical properties</param>
         /// <param name="fxs">spatial frequencies (1/mm)</param>
         /// <param name="ft">modulation frequency (GHz)</param>
-        /// <returns>reflectance as a function of fxs and ft</returns>
+        /// <returns>Reflectance as a function of fxs and ft</returns>
         Complex[] ROfFxAndFt(OpticalProperties op, double[] fxs, double ft);
 
         /// <summary>
@@ -899,7 +899,7 @@ namespace Vts
         /// <param name="ops">sets of medium optical properties</param>
         /// <param name="fx">spatial frequency (1/mm)</param>
         /// <param name="ft">modulation frequency (GHz)</param>
-        /// <returns>reflectance as a function of fx and ft</returns>
+        /// <returns>Reflectance as a function of fx and ft</returns>
         Complex[] ROfFxAndFt(OpticalProperties[] ops, double fx, double ft);
 
         /// <summary>
@@ -908,7 +908,7 @@ namespace Vts
         /// <param name="ops">sets of medium optical properties </param>
         /// <param name="rhos">source-detector separations (mm)</param>
         /// <param name="zs">z values (mm)</param>
-        /// <returns>reflectance as a function of rhos and zs</returns>
+        /// <returns>Reflectance as a function of rhos and zs</returns>
         double[] FluenceOfRhoAndZ(OpticalProperties[] ops, double[] rhos, double[] zs);
 
         /// <summary>
@@ -918,7 +918,7 @@ namespace Vts
         /// <param name="rhos">source-detector separations (mm)</param>
         /// <param name="zs">z values (mm)</param>
         /// <param name="times">times (ns)</param>
-        /// <returns>reflectance as a function of rhos and zs</returns>
+        /// <returns>Reflectance as a function of rhos and zs</returns>
         double[] FluenceOfRhoAndZAndTime(OpticalProperties[] ops, double[] rhos, double[] zs, double[] times);
 
         /// <summary>
@@ -928,7 +928,7 @@ namespace Vts
         /// <param name="rhos">source-detector separations (mm)</param>
         /// <param name="zs">z values (mm)</param>
         /// <param name="fts">modulation frequencies (GHz)</param>
-        /// <returns>reflectance as a function of rhos, zs and fts</returns>
+        /// <returns>Reflectance as a function of rhos, zs and fts</returns>
         Complex[] FluenceOfRhoAndZAndFt(OpticalProperties[] ops, double[] rhos, double[] zs, double[] fts);
 
         /// <summary>
@@ -937,7 +937,7 @@ namespace Vts
         /// <param name="ops">sets of medium optical properties</param>
         /// <param name="fxs">spatial frequencies (1/mm)</param>
         /// <param name="zs">z values (mm)</param>
-        /// <returns>reflectance as a function of fxs and zs</returns>
+        /// <returns>Reflectance as a function of fxs and zs</returns>
         double[] FluenceOfFxAndZ(OpticalProperties[] ops, double[] fxs, double[] zs);
 
         /// <summary>
@@ -947,7 +947,7 @@ namespace Vts
         /// <param name="fxs">spatial frequencies (1/mm)</param>
         /// <param name="zs">z values (mm)</param>
         /// <param name="times">times (ns)</param>
-        /// <returns>reflectance as a function of fxs, zs and times</returns>
+        /// <returns>Reflectance as a function of fxs, zs and times</returns>
         double[] FluenceOfFxAndZAndTime(OpticalProperties[] ops, double[] fxs, double[] zs, double[] times);
 
         /// <summary>
@@ -957,7 +957,7 @@ namespace Vts
         /// <param name="fx">spatial frequencies (1/mm)</param>
         /// <param name="zs">z values (mm)</param>
         /// <param name="fts">modulation frequencies (GHz)</param>
-        /// <returns>reflectance as a function of fx, zs and fts</returns>
+        /// <returns>Reflectance as a function of fx, zs and fts</returns>
         Complex[] FluenceOfFxAndZAndFt(OpticalProperties[] ops, double[] fx, double[] zs, double[] fts);
        
         #endregion

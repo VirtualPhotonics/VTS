@@ -10,10 +10,10 @@ namespace Vts.Extensions
         /// <summary>
         /// Extension method to generate a random number within a specified range
         /// </summary>
-        /// <param name="rng">Random random number generator</param>
-        /// <param name="minValue">minimum value of range</param>
-        /// <param name="maxValue">maximum value of range</param>
-        /// <returns>double representing next random number in RNG sequence</returns>
+        /// <param name="rng">The random number generator</param>
+        /// <param name="minValue">The minimum value of range</param>
+        /// <param name="maxValue">The maximum value of range</param>
+        /// <returns>A double representing next random number in RNG sequence</returns>
         public static double NextDouble(this Random rng, double minValue, double maxValue)
         {
             double span = maxValue - minValue;

@@ -14,22 +14,22 @@ namespace Vts
     public class OpticalPropertiesConverter : JsonConverter
     {
         /// <summary>
-        /// method to determine if can convert object
+        /// Method to determine if can convert object
         /// </summary>
-        /// <param name="objectType">type of object</param>
-        /// <returns>boolean indicating whether can convert</returns>
+        /// <param name="objectType">The object type</param>
+        /// <returns>A boolean indicating whether can convert</returns>
         public override bool CanConvert(Type objectType)
         {
             return (objectType == typeof(OpticalProperties));
         }
         /// <summary>
-        /// method to read json
+        /// Method to read json and output an OpticalProperties object
         /// </summary>
-        /// <param name="reader">JsonReader</param>
-        /// <param name="objectType">object type</param>
-        /// <param name="existingValue">object</param>
-        /// <param name="serializer">JsonSerializer</param>
-        /// <returns>read object</returns>
+        /// <param name="reader">The JsonReader</param>
+        /// <param name="objectType">This value is not used</param>
+        /// <param name="existingValue">This value is not used</param>
+        /// <param name="serializer">This value is not used</param>
+        /// <returns>An instance of OpticalProperties</returns>
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue,
             JsonSerializer serializer)
         {
@@ -68,15 +68,16 @@ namespace Vts
         }
 
         /// <summary>
-        /// method to determine if can write
+        /// Method to determine if can write
         /// </summary>
-        /// <returns>boolean indicating whether can write</returns>
+        /// <returns>A boolean indicating whether can write</returns>
         public override bool CanWrite
         {
             get { return false; }
         }
+
         /// <summary>
-        /// method to write to json
+        /// Method to write to json - Not Implemented
         /// </summary>
         /// <param name="writer">JsonWriter</param>
         /// <param name="value">object to be written</param>

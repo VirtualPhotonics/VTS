@@ -60,18 +60,15 @@ namespace Vts
         #region Public Members
 
         /// <summary>
-        /// Raised when a public property of this object is set.
+        /// Raised when a public property of this object is set
         /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
-        /// Returns an instance of PropertyChangedEventArgs for 
-        /// the specified property name.
+        /// Returns an instance of PropertyChangedEventArgs for the specified property name
         /// </summary>
-        /// <param name="propertyName">
-        /// The name of the property to create event args for.
-        /// </param>		
-        /// <returns>An instance of PropertyChangedEventArgs for the specified property.</returns>
+        /// <param name="propertyName">The name of the property for which to create event args</param>		
+        /// <returns>An instance of PropertyChangedEventArgs for the specified property</returns>
         public static PropertyChangedEventArgs
             GetPropertyChangedEventArgs(string propertyName)
         {

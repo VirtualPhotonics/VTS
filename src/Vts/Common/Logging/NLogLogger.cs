@@ -37,8 +37,8 @@ namespace Vts.Common.Logging.NLogIntegration
         /// <summary>
         ///   Initializes a new instance of the <see cref = "NLogLogger" /> class.
         /// </summary>
-        /// <param name = "logger">The logger.</param>
-        /// <param name = "factory">The factory.</param>
+        /// <param name = "logger">The logger</param>
+        /// <param name = "factory">The factory</param>
         public NLogLogger(Logger logger, NLogFactory factory)
         {
             Logger = logger;
@@ -52,7 +52,7 @@ namespace Vts.Common.Logging.NLogIntegration
         /// <summary>
         ///   Determines if messages of priority "debug" will be logged.
         /// </summary>
-        /// <returns>True if "debug" messages will be logged.</returns>
+        /// <value>True if "debug" messages will be logged.</value>
         public bool IsDebugEnabled
         {
             get { return Logger.IsDebugEnabled; }
@@ -61,7 +61,7 @@ namespace Vts.Common.Logging.NLogIntegration
         /// <summary>
         ///   Determines if messages of priority "error" will be logged.
         /// </summary>
-        /// <returns><c>true</c> if "error" messages will be logged, <c>false</c> otherwise</returns>
+        /// <value><c>true</c> if "error" messages will be logged, <c>false</c> otherwise</value>
         public bool IsErrorEnabled
         {
             get { return Logger.IsErrorEnabled; }
@@ -70,7 +70,7 @@ namespace Vts.Common.Logging.NLogIntegration
         /// <summary>
         ///   Determines if messages of priority "fatal" will be logged.
         /// </summary>
-        /// <returns><c>true</c> if "fatal" messages will be logged, <c>false</c> otherwise</returns>
+        /// <value><c>true</c> if "fatal" messages will be logged, <c>false</c> otherwise</value>
         public bool IsFatalEnabled
         {
             get { return Logger.IsFatalEnabled; }
@@ -79,7 +79,7 @@ namespace Vts.Common.Logging.NLogIntegration
         /// <summary>
         ///   Determines if messages of priority "info" will be logged.
         /// </summary>
-        /// <returns><c>true</c> if "info" messages will be logged, <c>false</c> otherwise</returns>
+        /// <value><c>true</c> if "info" messages will be logged, <c>false</c> otherwise</value>
         public bool IsInfoEnabled
         {
             get { return Logger.IsInfoEnabled; }
@@ -88,7 +88,7 @@ namespace Vts.Common.Logging.NLogIntegration
         /// <summary>
         ///   Determines if messages of priority "warn" will be logged.
         /// </summary>
-        /// <returns><c>true</c> if "warn" messages will be logged, <c>false</c> otherwise</returns>
+        /// <value><c>true</c> if "warn" messages will be logged, <c>false</c> otherwise</value>
         public bool IsWarnEnabled
         {
             get { return Logger.IsWarnEnabled; }
@@ -97,13 +97,13 @@ namespace Vts.Common.Logging.NLogIntegration
         /// <summary>
         ///   Gets or sets the factory.
         /// </summary>
-        /// <returns>The factory.</returns>
+        /// <value>The factory</value>
         protected internal NLogFactory Factory { get; set; }
 
         /// <summary>
         ///   Gets or sets the logger.
         /// </summary>
-        /// <returns>The logger.</returns>
+        /// <value>The logger</value>
         protected internal Logger Logger { get; set; }
 
         /// <summary>
@@ -118,10 +118,10 @@ namespace Vts.Common.Logging.NLogIntegration
         }
 
         /// <summary>
-        ///   Creates a child logger with the specied <paramref name = "loggerName" />.
+        ///   Creates a child logger with the specified <paramref name = "loggerName" />.
         /// </summary>
         /// <param name = "loggerName">logger name</param>
-        /// <returns>ILogger</returns>
+        /// <returns>The child logger that was created</returns>
         public virtual ILogger CreateChildLogger(String loggerName)
         {
             return Factory.Create(Logger.Name + "." + loggerName);

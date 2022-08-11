@@ -17,7 +17,7 @@ namespace Vts.MonteCarlo.DataStructuresValidation
     public class ValidationResult
     {
         /// <summary>
-        /// class to capture results of validating the MC Simulation inputs
+        /// Class constructor to capture results of validating the MC Simulation inputs
         /// </summary>
         /// <param name="isValid">boolean indicating whether input is valid</param>
         /// <param name="validationRule">rule governing whether valid or not</param>
@@ -29,16 +29,16 @@ namespace Vts.MonteCarlo.DataStructuresValidation
             Remarks = remarks;
         }
         /// <summary>
-        /// overload omitting remarks
+        /// Overload of constructor omitting remarks
         /// </summary>
         /// <param name="isValid">boolean indicating whether input is valid</param>
-        /// <param name="validationRule">fule governing whether valid or not</param>
+        /// <param name="validationRule">Rule governing whether valid or not</param>
         public ValidationResult(bool isValid, string validationRule) 
             : this(isValid, validationRule, "")
         {
         }
         /// <summary>
-        /// default constructor
+        /// Default constructor
         /// </summary>
         public ValidationResult() 
             : this(false, "", "")

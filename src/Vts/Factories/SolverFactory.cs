@@ -7,7 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 namespace Vts.Factories
 {
     /// <summary>
-    /// factory methods for solvers
+    /// Factory methods for solvers
     /// </summary>
     public class SolverFactory
     {
@@ -15,7 +15,7 @@ namespace Vts.Factories
         private static readonly ServiceProvider ServiceProvider;
 
         /// <summary>
-        /// constructor for solver factory
+        /// Constructor for solver factory
         /// </summary>
         static SolverFactory()
         {
@@ -35,13 +35,13 @@ namespace Vts.Factories
         }
 
         /// <summary>
-        /// Uses convention to map classes implementing TInterface to enum types
+        /// Uses convention to map classes implementing TInterface to Enum types
         /// e.g. ForwardSolverType.Nurbs will register to NurbsForwardSolver 
-        /// This is done for each enum type that correctly matches the interface name
+        /// This is done for each Enum type that correctly matches the interface name
         /// </summary>
-        /// <typeparam name="TEnum"></typeparam>
-        /// <typeparam name="TInterface"></typeparam>
-        /// <param name="namespaceString"></param>
+        /// <typeparam name="TEnum">The Enum type</typeparam>
+        /// <typeparam name="TInterface">The interface type</typeparam>
+        /// <param name="namespaceString">The namespace</param>
         private static void RegisterClassesToEnumTypesByConvention<TEnum, TInterface>(string namespaceString)
         {
             var enumValues = EnumHelper.GetValues<TEnum>();
@@ -58,10 +58,10 @@ namespace Vts.Factories
         }
 
         /// <summary>
-        /// method to get forward solver from enum type
+        /// Method to get forward solver from Enum type
         /// </summary>
-        /// <param name="forwardSolverType">ForwardSolverType enum</param>
-        /// <returns>IForwardSolver</returns>
+        /// <param name="forwardSolverType">The ForwardSolverType Enum</param>
+        /// <returns>An IForwardSolver for the specified Enum or null if it does not exist</returns>
         public static IForwardSolver GetForwardSolver(ForwardSolverType forwardSolverType)
         {
             return GetForwardSolver(forwardSolverType.ToString());
@@ -70,8 +70,8 @@ namespace Vts.Factories
         /// <summary>
         /// method to get forward solver from string name
         /// </summary>
-        /// <param name="forwardSolverType">string name</param>
-        /// <returns>IForwardSolver</returns>
+        /// <param name="forwardSolverType">The forward solver name</param>
+        /// <returns>An IForwardSolver for the specified name or null if it does not exist</returns>
         public static IForwardSolver GetForwardSolver(string forwardSolverType)
         {
             try
@@ -87,10 +87,10 @@ namespace Vts.Factories
         }
 
         /// <summary>
-        /// method to get Scatter from enum
+        /// method to get Scatter from Enum
         /// </summary>
-        /// <param name="scatteringType">ScatteringType enum</param>
-        /// <returns>IScatter</returns>
+        /// <param name="scatteringType">The ScatteringType Enum</param>
+        /// <returns>An IScatter for the specified Enum or null if it does not exist</returns>
         public static IScatterer GetScattererType(ScatteringType scatteringType)
         {
             return GetScattererType(scatteringType.ToString());
@@ -99,8 +99,8 @@ namespace Vts.Factories
         /// <summary>
         /// method to get Scatter from scattering name string
         /// </summary>
-        /// <param name="scatteringType">scattering string name</param>
-        /// <returns>IScatter</returns>
+        /// <param name="scatteringType">The scattering type string name</param>
+        /// <returns>An IScatter for the specified name or null if it does not exist</returns>
         public static IScatterer GetScattererType(string scatteringType)
         {
             try
@@ -119,10 +119,10 @@ namespace Vts.Factories
         }
 
         /// <summary>
-        /// method to get optimizer from enum
+        /// method to get optimizer from Enum
         /// </summary>
-        /// <param name="type">OptimizerType enum</param>
-        /// <returns>IOptimizer</returns>
+        /// <param name="type">The OptimizerType Enum</param>
+        /// <returns>An IOptimizer for the specified Enum or null if it does not exist</returns>
         public static IOptimizer GetOptimizer(OptimizerType type)
         {
             return GetOptimizer(type.ToString());
@@ -131,8 +131,8 @@ namespace Vts.Factories
         /// <summary>
         /// method to get optimizer from name string
         /// </summary>
-        /// <param name="optimizerType">optimizer name string</param>
-        /// <returns>IOptimizer</returns>
+        /// <param name="optimizerType">The optimizer name string</param>
+        /// <returns>An IOptimizer for the specified name or null if it does not exist</returns>
         public static IOptimizer GetOptimizer(string optimizerType)
         {
             try

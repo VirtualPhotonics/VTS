@@ -101,7 +101,7 @@ namespace Vts.Common.Logging.NLogIntegration
         ///   Creates a logger with specified <paramref name = "name" />.
         /// </summary>
         /// <param name = "name">logger string name</param>
-        /// <returns>ILogger</returns>
+        /// <returns>The ILogger that was created</returns>
         public override ILogger Create(String name)
         {
             var nLogLogger = LogManager.GetLogger(name);
@@ -112,8 +112,8 @@ namespace Vts.Common.Logging.NLogIntegration
         ///   Not implemented, NLog logger levels cannot be set at runtime.
         /// </summary>
         /// <param name = "name">logger sting name</param>
-        /// <param name = "level">LoggerLevel level</param>
-        /// <returns>ILogger</returns>
+        /// <param name = "level">The logger level</param>
+        /// <returns>The ILogger that was created</returns>
         /// <exception cref = "NotImplementedException" />
         public override ILogger Create(String name, LoggerLevel level)
         {

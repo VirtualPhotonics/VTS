@@ -40,7 +40,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// </summary>
         /// <param name="regions">optical properties</param>
         /// <param name="rho">s-d separation</param>
-        /// <returns>reflectance as a function of rho</returns>
+        /// <returns>Reflectance as a function of rho</returns>
         public override double ROfRho(IOpticalPropertyRegion[] regions, double rho)
         {
             // get ops of top tissue region
@@ -65,7 +65,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="regions">optical properties</param>
         /// <param name="rho">s-d separation</param>
         /// <param name="time">time</param>
-        /// <returns>reflectance as a function of rho and time</returns>
+        /// <returns>Reflectance as a function of rho and time</returns>
         public override double ROfRhoAndTime(IOpticalPropertyRegion[] regions, double rho, double time)
         {
             var diffusionParameters = GetDiffusionParameters(regions);
@@ -85,7 +85,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="setsOfRegions">multiple sets of tissue regions</param>
         /// <param name="rhos">rhos</param>
         /// <param name="times">times</param>
-        /// <returns>reflectance at specified optical properties, rhos and times</returns>
+        /// <returns>Reflectance at specified optical properties, rhos and times</returns>
         public override IEnumerable<double> ROfRhoAndTime(IEnumerable<IOpticalPropertyRegion[]> setsOfRegions,
             IEnumerable<double> rhos, IEnumerable<double> times)
         {
@@ -201,7 +201,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="regions">optical properties of two layers</param>
         /// <param name="rho">source-detector separation</param>
         /// <param name="ft">temporal-frequency of interest</param>
-        /// <returns>reflectance as a function of rho and ft</returns>
+        /// <returns>Reflectance as a function of rho and ft</returns>
         public override Complex ROfRhoAndFt(IOpticalPropertyRegion[] regions, double rho, double ft)
         {
             // get ops of top tissue region
@@ -225,7 +225,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// </summary>
         /// <param name="regions">optical properties of two layers</param>
         /// <param name="fx">spatial frequency of interest</param>
-        /// <returns>reflectance as a function of fx</returns>
+        /// <returns>Reflectance as a function of fx</returns>
         public override double ROfFx(IOpticalPropertyRegion[] regions, double fx)
         {
             // get ops of top tissue region
@@ -249,7 +249,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="regions">optical properties of two layers</param>
         /// <param name="fx">spatial-frequency of interest</param>
         /// <param name="time">time point of interest</param>
-        /// <returns>reflectance as a function of fx and time</returns>
+        /// <returns>Reflectance as a function of fx and time</returns>
         public override double ROfFxAndTime(IOpticalPropertyRegion[] regions, double fx, double time)
         {
             var diffusionParameters = GetDiffusionParameters(regions);
@@ -268,7 +268,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="setsOfRegions">multiple sets of tissue regions</param>
         /// <param name="fxs">spatial frequencies</param>
         /// <param name="times">times</param>
-        /// <returns>reflectance at specified optical properties, rhos and times</returns>
+        /// <returns>Reflectance at specified optical properties, rhos and times</returns>
         public override IEnumerable<double> ROfFxAndTime(IEnumerable<IOpticalPropertyRegion[]> setsOfRegions,
             IEnumerable<double> fxs, IEnumerable<double> times)
         {
@@ -291,7 +291,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="regions">optical properties of two layers</param>
         /// <param name="fx">spatial-frequency of interest</param>
         /// <param name="ft">temporal-frequency of interest</param>
-        /// <returns>reflectance as a function of fx and ft</returns>
+        /// <returns>Reflectance as a function of fx and ft</returns>
         public override Complex ROfFxAndFt(IOpticalPropertyRegion[] regions, double fx, double ft)
         {
             // get ops of top tissue region
@@ -316,7 +316,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="regions">optical properties of two layers</param>
         /// <param name="rhos">source-detector separations of interest</param>
         /// <param name="zs">depths of interest</param>
-        /// <returns>fluence as a function of rho and z</returns>
+        /// <returns>Fluence as a function of rho and z</returns>
         public override IEnumerable<double> FluenceOfRhoAndZ(
             IEnumerable<IOpticalPropertyRegion[]> regions,
             IEnumerable<double> rhos,
@@ -371,7 +371,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="layerThicknesses">layer thickness</param>
         /// <param name="fr1">Fresnel moment 1, R1</param>
         /// <param name="fr2">Fresnel moment 2, R2</param>
-        /// <returns>reflectance</returns>
+        /// <returns>Reflectance</returns>
         public static double StationaryReflectance(double rho, DiffusionParameters[] dp, double[] layerThicknesses,
                                             double fr1, double fr2)
         {
@@ -387,7 +387,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="layerThicknesses">layer thickness</param>
         /// <param name="fr1">First Fresnel Reflection Moment</param>
         /// <param name="fr2">Second Fresnel Reflection Moment</param>
-        /// <returns>reflectance</returns>
+        /// <returns>Reflectance</returns>
         public static double SpatialFrequencyReflectance(double s, DiffusionParameters[] dp, double[] layerThicknesses,
                                     double fr1, double fr2)
         {
@@ -403,7 +403,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="layerThicknesses">layer thicknesses</param>
         /// <param name="fr1">First Fresnel Reflection Moment</param>
         /// <param name="fr2">Second Fresnel Reflection Moment</param>
-        /// <returns>reflectance as a function of (rho,ft)</returns>
+        /// <returns>Reflectance as a function of (rho,ft)</returns>
         public static Complex TemporalFrequencyReflectance(double rho, double temporalFrequency, 
             DiffusionParameters[] dp, double[] layerThicknesses, double fr1, double fr2)
         {
@@ -419,7 +419,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="layerThicknesses">layer thickness</param>
         /// <param name="fr1">First Fresnel Reflection Moment</param>
         /// <param name="fr2">Second Fresnel Reflection Moment</param>
-        /// <returns>reflectance as a function of (rho,ft)</returns>
+        /// <returns>Reflectance as a function of (rho,ft)</returns>
         public static Complex SpatialAndTemporalFrequencyReflectance(double s, double temporalFrequency,
             DiffusionParameters[] dp, double[] layerThicknesses, double fr1, double fr2)
         {
@@ -434,7 +434,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="z">depth location</param>
         /// <param name="dp">DiffusionParameters for layer 1 and 2</param>
         /// <param name="layerThicknesses">in this class, layer thickness</param>
-        /// <returns>fluence</returns>
+        /// <returns>Fluence</returns>
         private static double StationaryFluence(double rho, double z, DiffusionParameters[] dp, 
             double[] layerThicknesses)
         {
@@ -459,7 +459,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="z">depth location</param>
         /// <param name="dp">DiffusionParameters for layer 1 and 2</param>
         /// <param name="layerThicknesses">thickness of top layer, array but only need first element</param>
-        /// <returns>stationary zflux</returns>
+        /// <returns>Stationary zflux</returns>
         private static double StationaryFlux(double rho, double z, DiffusionParameters[] dp, double[] layerThicknesses)
         {
             var layerThickness = layerThicknesses[0];
@@ -482,7 +482,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="temporalFrequency">temporal frequency</param>
         /// <param name="dp">diffusion parameters</param>
         /// <param name="layerThicknesses">layer thickness</param>
-        /// <returns>temporal-frequency fluence</returns>
+        /// <returns>Temporal-frequency fluence</returns>
         public static Complex TemporalFrequencyFluence(double rho,
             double z, double temporalFrequency, DiffusionParameters[] dp, double[] layerThicknesses)
         {
@@ -514,7 +514,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="rhos">s-d separations</param>
         /// <param name="zs">depths</param>
         /// <param name="fts">temporal-frequencies</param>
-        /// <returns>fluence as function of rho, z and ft</returns>
+        /// <returns>Fluence as function of rho, z and ft</returns>
         public override IEnumerable<Complex> FluenceOfRhoAndZAndFt(
             IEnumerable<IOpticalPropertyRegion[]> regions, 
             IEnumerable<double> rhos,
@@ -550,7 +550,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="temporalFrequency">temporal-frequency ft</param>
         /// <param name="dp">diffusion parameters</param>
         /// <param name="layerThicknesses">layer thickness</param>
-        /// <returns>temporal-frequency zflux</returns>
+        /// <returns>Temporal-frequency zflux</returns>
         public static Complex TemporalFrequencyZFlux(double rho, double z, double temporalFrequency,
             DiffusionParameters[] dp, double[] layerThicknesses )
         {

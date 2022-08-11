@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Numerics;
-using MathNet.Numerics;
 
 namespace Vts.Modeling.ForwardSolvers
 {
@@ -34,7 +33,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="rho">s-d separation</param>
         /// <param name="fr1">First Fresnel Reflection Moment</param>
         /// <param name="fr2">Second Fresnel Reflection Moment</param>
-        /// <returns>reflectance at rho</returns>
+        /// <returns>Reflectance at rho</returns>
         public override double StationaryReflectance(DiffusionParameters dp, double rho, double fr1, double fr2)
         {
             return 0;
@@ -45,7 +44,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="rho">s-d separation</param>
         /// <param name="z">depth</param>
         /// <param name="dp">diffusion parameters</param>
-        /// <returns>fluence value at (rho,z)</returns>
+        /// <returns>Fluence value at (rho,z)</returns>
         public override double StationaryFluence(double rho, double z, DiffusionParameters dp)
         {
             return 0;
@@ -58,7 +57,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="t">time</param>
         /// <param name="fr1">First Fresnel Reflection Moment</param>
         /// <param name="fr2">Second Fresnel Reflection Moment</param>
-        /// <returns>reflectance as function of rho and time</returns>
+        /// <returns>Reflectance as function of rho and time</returns>
         public override double TemporalReflectance(DiffusionParameters dp, double rho, double t, double fr1, double fr2)
         {
             return 0;
@@ -70,7 +69,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="rho">s-d separation</param>
         /// <param name="z">depth</param>
         /// <param name="t">time</param>
-        /// <returns>fluence at (rho,z,t)</returns>
+        /// <returns>Fluence at (rho,z,t)</returns>
         public override double TemporalFluence(DiffusionParameters dp, double rho, double z, double t)
         {
             return 0;

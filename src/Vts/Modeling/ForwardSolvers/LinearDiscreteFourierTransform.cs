@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Numerics;
-using MathNet.Numerics;
 
 namespace Vts.Modeling
 {
@@ -10,12 +9,12 @@ namespace Vts.Modeling
     public class LinearDiscreteFourierTransform 
     {
         /// <summary>
-        /// method to get times
+        /// Method to get times
         /// </summary>
         /// <param name="mua">absorption coefficient</param>
         /// <param name="musp">reduced scattering coefficient</param>
         /// <param name="dt">delta time</param>
-        /// <returns>double array of times</returns>
+        /// <returns>A double array of times</returns>
         public static double[] GetTime(double mua, double musp, out double dt)
         {
             double  tMaxFactor = 30;

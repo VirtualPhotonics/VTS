@@ -32,8 +32,8 @@ namespace Vts
         /// <summary>
         /// Factory method to return ChromophoreCoefficientType given a ChromophoreType
         /// </summary>
-        /// <param name="chromophoreType">e.g. HbO2,Hb,Melanin,H2O,Fat</param>
-        /// <returns>The ChromophoreCoefficientType associated with the input</returns>
+        /// <param name="chromophoreType">The chromophore type e.g. HbO2,Hb,Melanin,H2O,Fat</param>
+        /// <returns>A ChromophoreCoefficientType associated with the input</returns>
         public static ChromophoreCoefficientType GetCoefficientType(this ChromophoreType chromophoreType)
         {
             switch (chromophoreType)
@@ -54,10 +54,10 @@ namespace Vts
         /// <summary>
         /// Method 'Add' turns on this bit
         /// </summary>
-        /// <typeparam name="T">generic type</typeparam>
-        /// <param name="type">Enum type</param>
-        /// <param name="value">value to add</param>
-        /// <returns>enum type with "value" bit turned on</returns>
+        /// <typeparam name="T">The generic type</typeparam>
+        /// <param name="type">The Enum type</param>
+        /// <param name="value">The value to add</param>
+        /// <returns>An Enum type with "value" bit turned on</returns>
         public static T Add<T>(this System.Enum type, T value)
         {
             try
@@ -77,10 +77,10 @@ namespace Vts
         /// <summary>
         /// Method 'Remove' turns off this bit (does nothing if flag not present)
         /// </summary>
-        /// <typeparam name="T">generic type</typeparam>
-        /// <param name="type">Enum type</param>
-        /// <param name="value">value to remove</param>
-        /// <returns>enum with "value" bit turned off (nothing if value not present)</returns>
+        /// <typeparam name="T">The generic type</typeparam>
+        /// <param name="type">The Enum type</param>
+        /// <param name="value">The value to remove</param>
+        /// <returns>An Enum with "value" bit turned off (nothing if value not present)</returns>
         public static T Remove<T>(this System.Enum type, T value)
         {
             try

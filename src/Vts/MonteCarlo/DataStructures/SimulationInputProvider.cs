@@ -49,7 +49,7 @@ namespace Vts.MonteCarlo
         /// <summary>
         /// Point source, single tissue layer definition, all detectors included
         /// </summary>
-        /// <returns>SimulationInput class</returns>
+        /// <returns>An instance of the SimulationInput class</returns>
         public static SimulationInput PointSourceOneLayerTissueAllDetectors()
         {
             return new SimulationInput(
@@ -151,7 +151,7 @@ namespace Vts.MonteCarlo
         /// <summary>
         /// Point source, single tissue layer definition, only ROfRho detector included
         /// </summary>
-        /// <returns>SimulationInput class</returns>
+        /// <returns>An instance of the SimulationInput class</returns>
         public static SimulationInput PointSourceOneLayerTissueROfRhoAndFluenceOfRhoAndZDetectors()
         {
             return new SimulationInput(
@@ -198,7 +198,7 @@ namespace Vts.MonteCarlo
         /// <summary>
         /// Point source, single tissue layer definition, Radiance included
         /// </summary>
-        /// <returns>SimulationInput class</returns>
+        /// <returns>An instance of the SimulationInput class</returns>
         public static SimulationInput PointSourceOneLayerTissueRadianceOfRhoAndZAndAngleDetector()
         {
             return new SimulationInput(
@@ -249,7 +249,7 @@ namespace Vts.MonteCarlo
         /// <summary>
         /// Point source, two-layer tissue definition, only ROfRho detector included
         /// </summary>
-        /// <returns>SimulationInput class</returns>
+        /// <returns>An instance of the SimulationInput class</returns>
         public static SimulationInput PointSourceTwoLayerTissueROfRhoDetector()
         {
             return new SimulationInput(
@@ -300,7 +300,7 @@ namespace Vts.MonteCarlo
         /// <summary>
         /// Point source, two-layer tissue definition, only ROfRho detector included
         /// </summary>
-        /// <returns>SimulationInput class</returns>
+        /// <returns>An instance of the SimulationInput class</returns>
         public static SimulationInput PointSourceTwoLayerTissueROfRhoDetectorWithPhotonDatabase()
         {
             return new SimulationInput(
@@ -351,7 +351,7 @@ namespace Vts.MonteCarlo
         /// <summary>
         /// Point source, single ellipsoid tissue definition, only FluenceOfRhoAndZ detector included
         /// </summary>
-        /// <returns>SimulationInput class</returns>
+        /// <returns>An instance of the SimulationInput class</returns>
         public static SimulationInput PointSourceSingleEllipsoidTissueFluenceOfRhoAndZDetector()
         {
             return new SimulationInput(
@@ -403,7 +403,7 @@ namespace Vts.MonteCarlo
         /// <summary>
         /// Point source, single infinite cylinder tissue definition, only AOfXAndYAndZ detector included
         /// </summary>
-        /// <returns>SimulationInput class</returns>
+        /// <returns>An instance of the SimulationInput class</returns>
         public static SimulationInput PointSourceSingleInfiniteCylinderTissueAOfXAndYAndZDetector()
         {
             return new SimulationInput(
@@ -456,7 +456,7 @@ namespace Vts.MonteCarlo
         /// <summary>
         /// Point source, multi infinite cylinder tissue definition, only AOfXAndYAndZ detector included
         /// </summary>
-        /// <returns>SimulationInput class</returns>
+        /// <returns>An instance of the SimulationInput class</returns>
         public static SimulationInput PointSourceMultiInfiniteCylinderTissueAOfXAndYAndZDetector()
         {
             return new SimulationInput(
@@ -517,7 +517,7 @@ new ITissueRegion[]
         /// <summary>
         /// Perturbation MC point source, single tissue layer definition, R(rho) included
         /// </summary>
-        /// <returns>SimulationInput class</returns>
+        /// <returns>An instance of the SimulationInput class</returns>
         public static SimulationInput pMCPointSourceOneLayerTissueROfRhoDAW()
         {
             return new SimulationInput(
@@ -565,7 +565,7 @@ new ITissueRegion[]
         /// <summary>
         /// Gaussian 2D source, single tissue layer definition, only ROfRho detector included
         /// </summary>
-        /// <returns>SimulationInput class</returns>
+        /// <returns>An instance of the SimulationInput class</returns>
         public static SimulationInput Gaussian2DSourceOneLayerTissueROfRhoDetector()
         {
             return new SimulationInput(
@@ -619,7 +619,7 @@ new ITissueRegion[]
         /// <summary>
         /// Flat 2D source, two layer, bounded tissue, AOfRhoAndZ detector included
         /// </summary>
-        /// <returns>SimulationInput class</returns>
+        /// <returns>An instance of the SimulationInput class</returns>
         public static SimulationInput Flat2DSourceTwoLayerBoundedTissueAOfRhoAndZDetector()
         {
             return new SimulationInput(
@@ -681,7 +681,7 @@ new ITissueRegion[]
         /// <summary>
         /// Flat 2D source, single tissue layer definition, only ROfRho detector included
         /// </summary>
-        /// <returns>SimulationInput class</returns>
+        /// <returns>An instance of the SimulationInput class</returns>
         public static SimulationInput Flat2DSourceOneLayerTissueROfRhoDetector()
         {
             return new SimulationInput(
@@ -735,7 +735,7 @@ new ITissueRegion[]
         /// <summary>
         /// Gaussian line source, single tissue layer definition, only ROfRho detector included
         /// </summary>
-        /// <returns>SimulationInput class</returns>
+        /// <returns>An instance of the SimulationInput class</returns>
         public static SimulationInput GaussianLineSourceOneLayerTissueROfRhoDetector()
         {
             return new SimulationInput(
@@ -788,7 +788,7 @@ new ITissueRegion[]
         /// <summary>
         /// Point source, multi-layer tissue definition, all momentum detectors detectors included
         /// </summary>
-        /// <returns>SimulationInput class</returns>
+        /// <returns>An instance of the SimulationInput class</returns>
         public static SimulationInput PointSourceMultiLayerMomentumTransferDetectors()
         {
             return new SimulationInput(
@@ -907,7 +907,7 @@ new ITissueRegion[]
         /// <summary>
         /// Point source, single voxel tissue definition, only FluenceOfXAndYAndZ detector included
         /// </summary>
-        /// <returns>SimulationInput class</returns>
+        /// <returns>An instance of the SimulationInput class</returns>
         public static SimulationInput PointSourceSingleVoxelTissueROfXAndYAndFluenceOfXAndYAndZDetector()
         {
             return new SimulationInput(
@@ -961,7 +961,7 @@ new ITissueRegion[]
         /// Point source, three-layer tissue definition, with R(rho,time) and
         /// ReflectedTimeOfRhoAndSubregionHistDetector detector included
         /// </summary>
-        /// <returns>SimulationInput class</returns>
+        /// <returns>An instance of the SimulationInput class</returns>
         public static SimulationInput PointSourceThreeLayerReflectedTimeOfRhoAndSubregionHistDetector()
         {
             return new SimulationInput(
@@ -1017,7 +1017,7 @@ new ITissueRegion[]
         /// <summary>
         /// Directional circular source, converging on tissue with embedded ellipse
         /// </summary>
-        /// <returns>SimulationInput class</returns>
+        /// <returns>An instance of the SimulationInput class</returns>
         public static SimulationInput EmbeddedDirectionalCircularSourceEllipTissueFluenceOfXAndYAndZ()
         {
             return new SimulationInput(
@@ -1077,7 +1077,7 @@ new ITissueRegion[]
         /// Point source on multilayer with surface fiber tissue and surface
         /// fiber detector
         /// </summary>
-        /// <returns>SimulationInput class</returns>
+        /// <returns>An instance of the SimulationInput class</returns>
         public static SimulationInput PointSourceSurfaceFiberTissueAndDetector()
         {
             return new SimulationInput(
@@ -1156,7 +1156,7 @@ new ITissueRegion[]
         /// <summary>
         /// Fluorescence emission source using A(x,y,z) from prior simulation
         /// </summary>
-        /// <returns>SimulationInput class</returns>
+        /// <returns>An instance of the SimulationInput class</returns>
         public static SimulationInput FluorescenceEmissionAOfXAndYAndZSourceInfiniteCylinder()
         {
             return new SimulationInput(

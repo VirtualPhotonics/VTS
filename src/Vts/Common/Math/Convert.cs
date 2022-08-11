@@ -17,11 +17,11 @@ namespace Vts.Common.Math
     public static class Convert
     {
         /// <summary>
-        /// method determines the phase given real and imag values
+        /// The method determines the phase given real and imaginary values
         /// </summary>
-        /// <param name="real">real component</param>
-        /// <param name="imag">imaginery component</param>
-        /// <returns>phase double</returns>
+        /// <param name="real">The real component</param>
+        /// <param name="imag">The imaginary component</param>
+        /// <returns>A phase double</returns>
         public static double ToPhase(double real, double imag)
         {
             // convert to degrees
@@ -29,11 +29,11 @@ namespace Vts.Common.Math
         }
 
         /// <summary>
-        /// method determines the phase given real and imag arrays
+        /// The method determines the phase given real and imaginary arrays
         /// </summary>
-        /// <param name="real">real component array</param>
-        /// <param name="imag">imaginary component array</param>
-        /// <returns>phase double array</returns>
+        /// <param name="real">The real component array</param>
+        /// <param name="imag">The imaginary component array</param>
+        /// <returns>A phase double array</returns>
         public static double[] ToPhase(double[] real, double[] imag)
         {
             if (real.Length != imag.Length)
@@ -48,22 +48,22 @@ namespace Vts.Common.Math
             return phase;
         }
         /// <summary>
-        /// method determines the amplitude given real and imag values
+        /// The method determines the amplitude given real and imaginary values
         /// </summary>
-        /// <param name="real">real component</param>
-        /// <param name="imag">imaginery component</param>
-        /// <returns>amplitude double</returns>
+        /// <param name="real">The real component</param>
+        /// <param name="imag">The imaginary component</param>
+        /// <returns>An amplitude double</returns>
         public static double ToAmplitude(double real, double imag)
         {
             return System.Math.Sqrt(real*real+imag*imag);
         }
 
         /// <summary>
-        /// method determines the amplitude given real and imag arrays
+        /// The method determines the amplitude given real and imaginary arrays
         /// </summary>
-        /// <param name="real">real component array</param>
-        /// <param name="imag">imaginary component array</param>
-        /// <returns>amplitude double array</returns>
+        /// <param name="real">The real component array</param>
+        /// <param name="imag">The imaginary component array</param>
+        /// <returns>An amplitude double array</returns>
         public static double[] ToAmplitude(double[] real, double[] imag)
         {
             if (real.Length != imag.Length)

@@ -58,7 +58,7 @@ namespace Vts.Common
         /// <summary>
         /// Returns the increment
         /// </summary>
-        /// <returns>a uint incremented by this.Delta</returns>
+        /// <returns>An uint incremented by this.Delta</returns>
         protected override Func<uint, uint> GetIncrement()
         {
             return d => (d + Delta);
