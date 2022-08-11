@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30907.101
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32421.90
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "core", "core", "{E87433B1-D691-4D36-BB6B-3B766192CC8E}"
 EndProject
@@ -20,15 +20,14 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vts.MonteCarlo.CommandLineApplication.Test", "Vts.MonteCarlo.CommandLineApplication.Test\Vts.MonteCarlo.CommandLineApplication.Test.csproj", "{36DE9584-F033-4EC0-A18F-1AE60EE55754}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vts.MonteCarlo.PostProcessor.Test", "Vts.MonteCarlo.PostProcessor.Test\Vts.MonteCarlo.PostProcessor.Test.csproj", "{8A1194A0-C773-483B-BD78-9D013105CEA1}"
-<<<<<<< HEAD
-=======
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vts.Benchmark", "Vts.Benchmark\Vts.Benchmark.csproj", "{3B0676C4-5CF1-4A0B-97E4-0CDF2B035702}"
->>>>>>> master
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vts.Mgrte.Console", "Vts.Mgrte.Console\Vts.Mgrte.Console.csproj", "{197229DB-8CEC-48DD-A953-FBC58D1A3EBC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vts.FemModeling", "Vts.FemModeling\Vts.FemModeling.csproj", "{6BA37669-7BA8-4FF2-911A-0E70EECD450B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vts.FemModeling", "Vts.FemModeling\Vts.FemModeling.csproj", "{6BA37669-7BA8-4FF2-911A-0E70EECD450B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vts.ZemaxDatabaseConverter", "..\..\..\..\..\Desktop\Vts.ZemaxDatabaseConverter\Vts.ZemaxDatabaseConverter.csproj", "{C17021F9-AE97-4960-9549-111AE01441E9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -288,12 +287,43 @@ Global
 		{6BA37669-7BA8-4FF2-911A-0E70EECD450B}.ReleaseWhiteList|Win32.Build.0 = Release|Any CPU
 		{6BA37669-7BA8-4FF2-911A-0E70EECD450B}.ReleaseWhiteList|x86.ActiveCfg = Release|Any CPU
 		{6BA37669-7BA8-4FF2-911A-0E70EECD450B}.ReleaseWhiteList|x86.Build.0 = Release|Any CPU
+		{C17021F9-AE97-4960-9549-111AE01441E9}.Benchmark|Any CPU.ActiveCfg = Debug|Any CPU
+		{C17021F9-AE97-4960-9549-111AE01441E9}.Benchmark|Any CPU.Build.0 = Debug|Any CPU
+		{C17021F9-AE97-4960-9549-111AE01441E9}.Benchmark|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{C17021F9-AE97-4960-9549-111AE01441E9}.Benchmark|Mixed Platforms.Build.0 = Debug|Any CPU
+		{C17021F9-AE97-4960-9549-111AE01441E9}.Benchmark|Win32.ActiveCfg = Debug|Any CPU
+		{C17021F9-AE97-4960-9549-111AE01441E9}.Benchmark|Win32.Build.0 = Debug|Any CPU
+		{C17021F9-AE97-4960-9549-111AE01441E9}.Benchmark|x86.ActiveCfg = Debug|Any CPU
+		{C17021F9-AE97-4960-9549-111AE01441E9}.Benchmark|x86.Build.0 = Debug|Any CPU
+		{C17021F9-AE97-4960-9549-111AE01441E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C17021F9-AE97-4960-9549-111AE01441E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C17021F9-AE97-4960-9549-111AE01441E9}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{C17021F9-AE97-4960-9549-111AE01441E9}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{C17021F9-AE97-4960-9549-111AE01441E9}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{C17021F9-AE97-4960-9549-111AE01441E9}.Debug|Win32.Build.0 = Debug|Any CPU
+		{C17021F9-AE97-4960-9549-111AE01441E9}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C17021F9-AE97-4960-9549-111AE01441E9}.Debug|x86.Build.0 = Debug|Any CPU
+		{C17021F9-AE97-4960-9549-111AE01441E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C17021F9-AE97-4960-9549-111AE01441E9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C17021F9-AE97-4960-9549-111AE01441E9}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{C17021F9-AE97-4960-9549-111AE01441E9}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{C17021F9-AE97-4960-9549-111AE01441E9}.Release|Win32.ActiveCfg = Release|Any CPU
+		{C17021F9-AE97-4960-9549-111AE01441E9}.Release|Win32.Build.0 = Release|Any CPU
+		{C17021F9-AE97-4960-9549-111AE01441E9}.Release|x86.ActiveCfg = Release|Any CPU
+		{C17021F9-AE97-4960-9549-111AE01441E9}.Release|x86.Build.0 = Release|Any CPU
+		{C17021F9-AE97-4960-9549-111AE01441E9}.ReleaseWhiteList|Any CPU.ActiveCfg = Release|Any CPU
+		{C17021F9-AE97-4960-9549-111AE01441E9}.ReleaseWhiteList|Any CPU.Build.0 = Release|Any CPU
+		{C17021F9-AE97-4960-9549-111AE01441E9}.ReleaseWhiteList|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{C17021F9-AE97-4960-9549-111AE01441E9}.ReleaseWhiteList|Mixed Platforms.Build.0 = Release|Any CPU
+		{C17021F9-AE97-4960-9549-111AE01441E9}.ReleaseWhiteList|Win32.ActiveCfg = Release|Any CPU
+		{C17021F9-AE97-4960-9549-111AE01441E9}.ReleaseWhiteList|Win32.Build.0 = Release|Any CPU
+		{C17021F9-AE97-4960-9549-111AE01441E9}.ReleaseWhiteList|x86.ActiveCfg = Release|Any CPU
+		{C17021F9-AE97-4960-9549-111AE01441E9}.ReleaseWhiteList|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{29A8C805-7367-4C69-8F62-60FC753AFD12} = {E87433B1-D691-4D36-BB6B-3B766192CC8E}
 		{8E45BF42-5B0B-4AEF-9E63-B2966622FC23} = {D6A3DE7A-7E93-4932-AA8F-C612FD97830E}
 		{DBF062BD-84EE-4ADF-ADB7-A27B10EAB13F} = {E87433B1-D691-4D36-BB6B-3B766192CC8E}
 		{2C5074CA-FBA8-46F1-A430-5437D67B63E5} = {920000AB-D955-4399-AD00-78523C740E2A}
@@ -303,9 +333,10 @@ Global
 		{3B0676C4-5CF1-4A0B-97E4-0CDF2B035702} = {D6A3DE7A-7E93-4932-AA8F-C612FD97830E}
 		{197229DB-8CEC-48DD-A953-FBC58D1A3EBC} = {D6A3DE7A-7E93-4932-AA8F-C612FD97830E}
 		{6BA37669-7BA8-4FF2-911A-0E70EECD450B} = {E87433B1-D691-4D36-BB6B-3B766192CC8E}
+		{C17021F9-AE97-4960-9549-111AE01441E9} = {D6A3DE7A-7E93-4932-AA8F-C612FD97830E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.2\lib\NET35
 		SolutionGuid = {BB1B236A-1BE9-476A-A4B3-8C0F51F1FDA7}
+		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.2\lib\NET35
 	EndGlobalSection
 EndGlobal
