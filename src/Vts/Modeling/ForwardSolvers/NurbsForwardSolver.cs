@@ -591,11 +591,11 @@ namespace Vts.Modeling.ForwardSolvers
         }
 
         /// <summary>
-        /// Returns zero if the input value is smaller then zero of if it is NaN.
+        /// Returns zero if the input value is smaller then zero or if it is NaN.
         /// Negative value are not possible for the measured reflectance.
         /// The values calculated with the NURBS could be negative when the time
         /// point is very close to the 'physical' beginning of the curve R(t) due
-        /// to obscilatoions of the interpolations used to capture the ascent of the curve.
+        /// to oscillations of the interpolations used to capture the ascent of the curve.
         /// </summary>
         /// <param name="value">double precision number</param>
         /// <returns>zero or the input value</returns>

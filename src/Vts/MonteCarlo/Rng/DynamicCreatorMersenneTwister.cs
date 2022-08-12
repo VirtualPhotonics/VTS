@@ -318,7 +318,7 @@ namespace Vts.MonteCarlo.Rng
             public uint b, c;
             public int leng; // can't have pointer to itself so created LinkedList
         }
-        /// struc in mt19937.h
+        // struct in mt19937.h
         struct org_state
         {
             public uint[] mt;
