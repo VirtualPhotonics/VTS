@@ -110,8 +110,8 @@ namespace Vts.Modeling.ForwardSolvers
         }
 
         /// <summary>
-        /// If the input value is <see cref="Double.NaN"/>, <see cref="Double.PositiveInfinity"/>
-        /// or <see cref="Double.NegativeInfinity"/>, it changes it to zero, as defined in the
+        /// If the input value is <see cref="double.NaN"/>, <see cref="double.PositiveInfinity"/>
+        /// or <see cref="double.NegativeInfinity"/>, it changes it to zero, as defined in the
         /// recursive formula used to evaluate the B-splines coefficients. 'The NURBS Book' page 51.
         /// </summary>
         /// <param name="num">multiplying values of the recursive formula</param>
