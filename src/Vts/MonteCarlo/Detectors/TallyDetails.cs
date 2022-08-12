@@ -6,51 +6,51 @@
     public class TallyDetails
     {
         /// <summary>
-        /// boolean identifying all reflectance tallies
+        /// Boolean identifying all reflectance tallies
         /// </summary>
         public bool IsReflectanceTally { get; set; }
         /// <summary>
-        /// boolean identifying all transmittance tallies
+        /// Boolean identifying all transmittance tallies
         /// </summary>
         public bool IsTransmittanceTally { get; set; }
         /// <summary>
-        /// boolean identifying all specular reflectance tallies
+        /// Boolean identifying all specular reflectance tallies
         /// </summary>
         public bool IsSpecularReflectanceTally { get; set; }
         /// <summary>
-        /// boolean identifying all internal surface tallies
+        /// Boolean identifying all internal surface tallies
         /// </summary>
         public bool IsInternalSurfaceTally { get; set; }
         /// <summary>
-        /// boolean identifying all perturbation MC reflectance tallies
+        /// Boolean identifying all perturbation MC reflectance tallies
         /// </summary>
         public bool IspMCReflectanceTally { get; set; }
         /// <summary>
-        /// boolean identifying all perturbation MC transmittance tallies
+        /// Boolean identifying all perturbation MC transmittance tallies
         /// </summary>
         public bool IspMCTransmittanceTally { get; set; }
         /// <summary>
-        /// boolean identifying all bounding volume tallies
+        /// Boolean identifying all bounding volume tallies
         /// </summary>
         public bool IsBoundingVolumeTally { get; set; }
         /// <summary>
-        /// boolean identifying all volume tallies
+        /// Boolean identifying all volume tallies
         /// </summary>
         public bool IsVolumeTally { get; set; }
         /// <summary>
-        /// boolean identifying whether detector is in cylindrical coordinates
+        /// Boolean identifying whether detector is in cylindrical coordinates
         /// </summary>
         public bool IsCylindricalTally { get; set; }
         /// <summary>
-        /// boolean identifying whether detector is not implemented yet for DAW
+        /// Boolean identifying whether detector is not implemented yet for DAW
         /// </summary>
         public bool IsNotImplementedForDAW { get; set; }
         /// <summary>
-        /// boolean identifying whether detector is not implemented yet for CAW
+        /// Boolean identifying whether detector is not implemented yet for CAW
         /// </summary>
         public bool IsNotImplementedForCAW { get; set; }
         /// <summary>
-        /// boolean identifying whether detector is not implemented yet
+        /// Boolean identifying whether detector is not implemented yet
         /// </summary>
         public bool IsNotImplementedYet { get; set; }
     }

@@ -4,7 +4,7 @@ namespace Vts.Modeling.ForwardSolvers
 {
     /// <summary>
     /// This class allows creation and copying of a diffusion parameters object, which contains fields
-    /// necessary for solution of diffusion models. The creation is made by passing a opticalproperties
+    /// necessary for solution of diffusion models. The creation is made by passing an OpticalProperties
     /// object.
     /// </summary>
     public class DiffusionParameters
@@ -90,7 +90,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// </summary>
         public double zp { get; set; }
         /// <summary>
-        /// mean reduced tranport length as a function of the phase function, if Eddington: = mutr, 
+        /// mean reduced transport length as a function of the phase function, if Eddington: = mutr, 
         /// if delta-Eddington = mutStar
         /// </summary>
         public double mutTilde { get; set; }

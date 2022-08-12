@@ -398,7 +398,7 @@ namespace Vts.MonteCarlo
         /// </summary>
         public double[,] T_xyts_xy2 { get { return ((double[,])((dynamic)ResultsDictionary[_detectorResults.First(d => d.TallyType == "TOfXAndYAndTimeAndSubregion").Name]).TOfXAndYSecondMoment); } }
         /// <summary>
-        /// Transnmittance as a function of x and y and subregion Tally Count
+        /// Transmittance as a function of x and y and subregion Tally Count
         /// </summary>
         public long T_xyts_TallyCount { get { return ((long)((dynamic)ResultsDictionary[_detectorResults.First(d => d.TallyType == "TOfXAndYAndTimeAndSubregion").Name]).TallyCount); } }
         /// <summary>
@@ -406,11 +406,11 @@ namespace Vts.MonteCarlo
         /// </summary>
         public Complex[] T_fx { get { return ((Complex[])((dynamic)ResultsDictionary[_detectorResults.First(d => d.TallyType == "TOfFx").Name]).Mean); } }
         /// <summary>
-        /// Transmitance as a function of spatial frequency 2nd moment
+        /// Transmittance as a function of spatial frequency 2nd moment
         /// </summary>
         public Complex[] T_fx2 { get { return ((Complex[])((dynamic)ResultsDictionary[_detectorResults.First(d => d.TallyType == "TOfFx").Name]).SecondMoment); } }
         /// <summary>
-        /// Transmitance as a function of spatial frequency Tally Count
+        /// Transmittance as a function of spatial frequency Tally Count
         /// </summary>
         public long T_fx_TallyCount { get { return ((long)((dynamic)ResultsDictionary[_detectorResults.First(d => d.TallyType == "TOfFx").Name]).TallyCount); } }
         /// <summary>

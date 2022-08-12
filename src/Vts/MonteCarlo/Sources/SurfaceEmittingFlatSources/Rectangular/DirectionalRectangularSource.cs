@@ -16,7 +16,7 @@ namespace Vts.MonteCarlo.Sources
         /// <summary>
         /// Initializes a new instance of the DirectionalRectangularSourceInput class
         /// </summary>
-        /// <param name="thetaConvOrDiv">Covergence or Divergance Angle {= 0, for a collimated beam}</param>
+        /// <param name="thetaConvOrDiv">Convergence or Divergence Angle {= 0, for a collimated beam}</param>
         /// <param name="rectLengthX">The length of the Rectangular Source</param>
         /// <param name="rectWidthY">The width of the Rectangular Source</param>
         /// <param name="sourceProfile">Source Profile {Flat / Gaussian}</param>
@@ -48,7 +48,7 @@ namespace Vts.MonteCarlo.Sources
         /// <summary>
         /// Initializes a new instance of the DirectionalRectangularSourceInput class
         /// </summary>
-        /// <param name="thetaConvOrDiv">Covergence or Divergance Angle {= 0, for a collimated beam}</param>
+        /// <param name="thetaConvOrDiv">Convergence or Divergence Angle {= 0, for a collimated beam}</param>
         /// <param name="rectLengthX">The length of the Rectangular Source</param>
         /// <param name="rectWidthY">The width of the Rectangular Source</param>
         /// <param name="sourceProfile">Source Profile {Flat / Gaussian}</param>
@@ -82,7 +82,7 @@ namespace Vts.MonteCarlo.Sources
                 0) { }
 
         /// <summary>
-        /// Covergence or Divergance Angle {= 0, for a collimated beam}
+        /// Convergence or Divergence Angle {= 0, for a collimated beam}
         /// </summary>
         public double ThetaConvOrDiv { get; set; }
         /// <summary>
@@ -152,7 +152,7 @@ namespace Vts.MonteCarlo.Sources
         /// Returns an instance of directional (diverging/converging/collimated) Rectangular Source with specified length and width, 
         /// source profile (Flat/Gaussian), polar and azimuthal angle range, new source axis direction, translation, and  inward normal ray rotation
         /// </summary>
-        /// <param name="thetaConvOrDiv">Covergence or Divergance Angle {= 0, for a collimated beam}</param>
+        /// <param name="thetaConvOrDiv">Convergence or Divergence Angle {= 0, for a collimated beam}</param>
         /// <param name="rectLengthX">The length of the Rectangular Source</param>
         /// <param name="rectWidthY">The width of the Rectangular Source</param>
         /// <param name="sourceProfile">Source Profile {Flat / Gaussian}</param>

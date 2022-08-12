@@ -21,7 +21,7 @@ namespace Vts.IO
         /// Method to identify whether object can be converted
         /// </summary>
         /// <param name="objectType">The object to be converted</param>
-        /// <returns>A boolean indicating whether object can be converted</returns>
+        /// <returns>A Boolean indicating whether object can be converted</returns>
         public override bool CanConvert(Type objectType)
         {
             return typeof(T).IsAssignableFrom(objectType);

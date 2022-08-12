@@ -10,7 +10,7 @@ namespace Vts
         /// </summary>
         Real,
         /// <summary>
-        /// spatial-frequncy domain type
+        /// spatial-frequency domain type
         /// </summary>
         SpatialFrequency,
     }

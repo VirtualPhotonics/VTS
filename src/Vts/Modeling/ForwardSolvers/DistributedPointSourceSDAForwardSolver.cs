@@ -78,10 +78,10 @@ namespace Vts.Modeling.ForwardSolvers
 
         #region Temporal Solutions
         /// <summary>
-        /// Evaulation of the temporally resolved radial reflectance using the distribution of
+        /// Evaluation of the temporally resolved radial reflectance using the distribution of
         /// source-image point sources.
         /// </summary>
-        /// <param name="dp">DiffusionParamters object</param>
+        /// <param name="dp">DiffusionParameters object</param>
         /// <param name="rho">radial location</param>
         /// <param name="t">time</param>
         /// <param name="fr1">Fresnel Moment 1</param>

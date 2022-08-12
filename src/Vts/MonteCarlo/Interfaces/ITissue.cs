@@ -19,7 +19,7 @@ namespace Vts.MonteCarlo
         double RussianRouletteWeightThreshold { get; }
 
         /// <summary>
-        /// PhaseFunctionType enum specifier indicating Henyey-Greenstein, Birdirectional, etc.
+        /// PhaseFunctionType enum specifier indicating Henyey-Greenstein, Bidirectional, etc.
         /// </summary>
         PhaseFunctionType PhaseFunctionType { get; }
 
@@ -80,7 +80,7 @@ namespace Vts.MonteCarlo
         /// determine when photon leaves the phase space and enters the air for example.
         /// </summary>
         /// <param name="position">Photon position</param>
-        /// <returns>boolean indicating whether on boundary or not</returns>
+        /// <returns>Boolean indicating whether on boundary or not</returns>
         bool OnDomainBoundary(Position position); 
 
         /// <summary>

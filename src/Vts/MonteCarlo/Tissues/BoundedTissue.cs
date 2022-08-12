@@ -92,7 +92,7 @@ namespace Vts.MonteCarlo.Tissues
         /// method to determine if on boundary of tissue, i.e. at tissue/air interface
         /// </summary>
         /// <param name="position">photon position</param>
-        /// <returns>boolean indicating whether on boundary or not</returns>
+        /// <returns>Boolean indicating whether on boundary or not</returns>
         public override bool OnDomainBoundary(Position position)
         {
             // this code assumes that the first and last layer is air
@@ -143,7 +143,7 @@ namespace Vts.MonteCarlo.Tissues
             return PhotonStateType.PseudoBoundingVolumeTissueBoundary;
         }
         /// <summary>
-        /// method that provides reflected direction when phton reflects off boundary
+        /// method that provides reflected direction when photon reflects off boundary
         /// </summary>
         /// <param name="currentPosition">Position</param>
         /// <param name="currentDirection">Direction</param>

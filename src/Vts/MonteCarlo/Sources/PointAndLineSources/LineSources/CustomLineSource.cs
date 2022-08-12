@@ -150,7 +150,7 @@ namespace Vts.MonteCarlo.Sources
     }
 
     /// <summary>
-    /// Implements CustomLineSource with ine length, source profile, polar angle range, azimuthal 
+    /// Implements CustomLineSource with line length, source profile, polar angle range, azimuthal 
     /// angle range, direction, position, inward normal beam rotation and initial tissue region index.
     /// </summary>
     public class CustomLineSource : LineSourceBase

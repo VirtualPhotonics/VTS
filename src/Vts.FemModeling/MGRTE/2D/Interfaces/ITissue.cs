@@ -20,7 +20,7 @@ namespace Vts.FemModeling.MGRTE._2D
         double RussianRouletteWeightThreshold { get; }
 
         /// <summary>
-        /// PhaseFunctionType enum specifier indicating Henyey-Greenstein, Birdirectional, etc.
+        /// PhaseFunctionType enum specifier indicating Henyey-Greenstein, Bidirectional, etc.
         /// </summary>
         PhaseFunctionType PhaseFunctionType { get; }
 

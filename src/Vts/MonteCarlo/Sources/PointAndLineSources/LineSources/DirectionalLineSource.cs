@@ -17,7 +17,7 @@ namespace Vts.MonteCarlo.Sources
         /// <summary>
         /// Initializes a new instance of the DirectionalLineSourceInput class
         /// </summary>
-        /// <param name="thetaConvOrDiv">Covergence or Divergance Angle {= 0, for a collimated beam} {= 0, for a collimated beam}</param>
+        /// <param name="thetaConvOrDiv">Convergence or Divergence Angle {= 0, for a collimated beam} {= 0, for a collimated beam}</param>
         /// <param name="lineLength">The length of the line source</param>
         /// <param name="sourceProfile">Source Profile {Flat / Gaussian}</param>
         /// <param name="newDirectionOfPrincipalSourceAxis">New source axis direction</param>
@@ -46,7 +46,7 @@ namespace Vts.MonteCarlo.Sources
         /// <summary>
         /// Initializes a new instance of the DirectionalLineSourceInput class
         /// </summary>
-        /// <param name="thetaConvOrDiv">Covergence or Divergance Angle {= 0, for a collimated beam}</param>
+        /// <param name="thetaConvOrDiv">Convergence or Divergence Angle {= 0, for a collimated beam}</param>
         /// <param name="lineLength">The length of the line source</param>
         /// <param name="sourceProfile">Source Profile {Flat / Gaussian}</param>
         public DirectionalLineSourceInput(
@@ -76,7 +76,7 @@ namespace Vts.MonteCarlo.Sources
                 0) { }
 
         /// <summary>
-        /// Covergence or Divergance Angle {= 0, for a collimated beam}
+        /// Convergence or Divergence Angle {= 0, for a collimated beam}
         /// </summary>
         public double ThetaConvOrDiv { get; set; }
         /// <summary>
@@ -140,7 +140,7 @@ namespace Vts.MonteCarlo.Sources
         /// <summary>
         /// Initializes a new instance of the DirectionalLineSource class
         /// </summary>
-        /// <param name="thetaConvOrDiv">Covergence or Divergance Angle {= 0, for a collimated beam}</param>
+        /// <param name="thetaConvOrDiv">Convergence or Divergence Angle {= 0, for a collimated beam}</param>
         /// <param name="lineLength">The length of the line source</param>
         /// <param name="sourceProfile">Source Profile {Flat / Gaussian}</param>
         /// <param name="newDirectionOfPrincipalSourceAxis">New source axis direction</param>

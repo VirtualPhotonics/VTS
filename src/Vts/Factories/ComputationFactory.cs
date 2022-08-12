@@ -35,7 +35,7 @@ namespace Vts.Factories
         /// Method to determine if forward solver is solver with constant values
         /// </summary>
         /// <param name="solutionDomainType">The SolutionDomainType Enum</param>
-        /// <returns>A boolean indicating if solver with constant values</returns>
+        /// <returns>A Boolean indicating if solver with constant values</returns>
         public static bool IsSolverWithConstantValues(SolutionDomainType solutionDomainType)
         {
             return
@@ -47,7 +47,7 @@ namespace Vts.Factories
         /// Method to determine if forward solver is solver with constant values
         /// </summary>
         /// <param name="solutionDomainType">The FluenceSolutionDomainType Enum</param>
-        /// <returns>A boolean indicating if solver with constant values</returns>
+        /// <returns>A Boolean indicating if solver with constant values</returns>
         public static bool IsSolverWithConstantValues(FluenceSolutionDomainType solutionDomainType)
         {
             return
@@ -59,7 +59,7 @@ namespace Vts.Factories
         /// Method to indicate whether forward solver is a complex solver
         /// </summary>
         /// <param name="solutionDomainType">The SolutionDomainType Enum</param>
-        /// <returns>A boolean indicating whether forward solver is complex or not</returns>
+        /// <returns>A Boolean indicating whether forward solver is complex or not</returns>
         public static bool IsComplexSolver(SolutionDomainType solutionDomainType)
         {
             return
@@ -71,7 +71,7 @@ namespace Vts.Factories
         /// Method to indicate whether forward solver is a complex solver
         /// </summary>
         /// <param name="solutionDomainType">The FluenceSolutionDomainType Enum</param>
-        /// <returns>A boolean indicating whether forward solver is complex or not</returns>
+        /// <returns>A Boolean indicating whether forward solver is complex or not</returns>
         public static bool IsComplexSolver(FluenceSolutionDomainType solutionDomainType)
         {
             return

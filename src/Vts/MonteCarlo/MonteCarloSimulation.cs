@@ -89,7 +89,7 @@ namespace Vts.MonteCarlo
         /// so we can pass in the random number separately in InitializeParallel
         /// </summary>
         /// <param name="input">Simulation input</param>
-        /// <param name="isParallel">A boolean for if parallel</param>
+        /// <param name="isParallel">A Boolean for if parallel</param>
         public MonteCarloSimulation(SimulationInput input, bool isParallel)
         {
             Input = input;
@@ -213,7 +213,7 @@ namespace Vts.MonteCarlo
         }
 
         /// <summary>
-        /// Method to cancel the simulation, for example, from the gui
+        /// Method to cancel the simulation, for example, from the GUI
         /// </summary>
         public void Cancel()
         {

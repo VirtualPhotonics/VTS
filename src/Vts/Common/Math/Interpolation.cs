@@ -15,8 +15,7 @@ namespace Vts.Common.Math
         /// <param name="x">The known dependent values</param>
         /// <param name="y">The known independent values</param>
         /// <param name="xi">Value to at which to interpolate</param>
-        /// <returns>If xi outside range of x, returns NaN,
-        ///     otherwide, returns linearly interpolated result</returns>
+        /// <returns>If xi outside range of x, returns NaN, otherwise, returns linearly interpolated result</returns>
         public static double interp1(IList<double> x, IList<double> y, double xi)
         {
             if (x.Count != y.Count)
@@ -48,8 +47,7 @@ namespace Vts.Common.Math
         /// <param name="x">The known dependent values</param>
         /// <param name="y">The known independent values</param>
         /// <param name="xi">Value to at which to interpolate</param>
-        /// <returns>If xi outside range of x, returns NaN,
-        ///     otherwide, returns linearly interpolated result</returns>
+        /// <returns>If xi outside range of x, returns NaN, otherwise, returns linearly interpolated result</returns>
         public static float interp1(IList<float> x, IList<float> y, float xi)
         {
             int currentIndex = 1;
@@ -148,8 +146,7 @@ namespace Vts.Common.Math
         /// <param name="x">The known independent values</param>
         /// <param name="y">The known dependent values</param>
         /// <param name="xs">Value to at which to interpolate</param>
-        /// <returns>If xs outside range of x, returns NaN,
-        ///     otherwise, returns linearly interpolated result</returns>
+        /// <returns>If xs outside range of x, returns NaN, otherwise, returns linearly interpolated result</returns>
         public static IEnumerable<double> interp1(IList<double> x, IList<double> y, IEnumerable<double> xs)
         {
             foreach (var xi in xs)
@@ -163,8 +160,7 @@ namespace Vts.Common.Math
         /// <param name="x">The known independent values</param>
         /// <param name="y">The known dependent values</param>
         /// <param name="xs">Value to at which to interpolate</param>
-        /// <returns>If xs outside range of x, returns NaN,
-        ///     otherwide, returns linearly interpolated result as an IEnumerable of type float</returns>
+        /// <returns>If xs outside range of x, returns NaN, otherwise, returns linearly interpolated result as an IEnumerable of type float</returns>
         public static IEnumerable<float> interp1(IList<float> x, IList<float> y, IEnumerable<float> xs)
         {
             foreach (var xi in xs)
@@ -181,8 +177,7 @@ namespace Vts.Common.Math
         /// <param name="xs">Value to at which to interpolate</param>
         /// <param name="fixedDimension">The dimension of y in which to interpolate</param>
         /// <param name="fixedIndex">The index within the dimension of y in which to interpolate</param>
-        /// <returns>If xs outside range of x, returns NaN,
-        ///     otherwide, returns linearly interpolated result as an IEnumerable of type double</returns>
+        /// <returns>If xs outside range of x, returns NaN, otherwise, returns linearly interpolated result as an IEnumerable of type double</returns>
         public static IEnumerable<double> interp1(IList<double> x, double[,] y, IEnumerable<double> xs, int fixedDimension, int fixedIndex)
         {
             foreach (var xi in xs)
@@ -199,8 +194,7 @@ namespace Vts.Common.Math
         /// <param name="xs">Value to at which to interpolate</param>
         /// <param name="fixedDimension">The dimension of y in which to interpolate</param>
         /// <param name="fixedIndex">The index within the dimension of y in which to interpolate</param>
-        /// <returns>If xs outside range of x, returns NaN,
-        ///     otherwide, returns linearly interpolated result as an IEnumerable of type float</returns>
+        /// <returns>If xs outside range of x, returns NaN, otherwise, returns linearly interpolated result as an IEnumerable of type float</returns>
         public static IEnumerable<float> interp1(IList<float> x, float[,] y, IEnumerable<float> xs, int fixedDimension, int fixedIndex)
         {
             foreach (var xi in xs)

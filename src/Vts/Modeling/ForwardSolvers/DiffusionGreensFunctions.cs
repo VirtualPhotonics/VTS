@@ -39,7 +39,7 @@ namespace Vts.Modeling.ForwardSolvers
                 Math.Exp(-r * r / tempVar);
         }
         /// <summary>
-        /// Infinte media diffusion Green's function for space and temporal frequency
+        /// Infinite media diffusion Green's function for space and temporal frequency
         /// </summary>
         /// <param name="dp">diffusion parameters object</param>
         /// <param name="r">radial location</param>

@@ -12,7 +12,7 @@ namespace Vts.SpectralMapping
         /// method to put spectrum to dictionary
         /// </summary>
         /// <param name="spectra">spectra to put into dictionary</param>
-        /// <returns>dictionary of chromophore spetrum</returns>
+        /// <returns>dictionary of chromophore spectrum</returns>
         public static ChromophoreSpectrumDictionary ToDictionary(this IEnumerable<ChromophoreSpectrum> spectra)
         {
             var dictionary = new ChromophoreSpectrumDictionary();

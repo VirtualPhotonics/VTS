@@ -160,7 +160,7 @@ namespace Vts.MonteCarlo
         /// method to move the photon to its next location
         /// </summary>
         /// <param name="distance">distance to move photon</param>
-        /// <returns>boolean indicating whether photon will hit boundary or not</returns>
+        /// <returns>Boolean indicating whether photon will hit boundary or not</returns>
          public bool Move(double distance)
          {
             bool willHitBoundary = S >= distance;

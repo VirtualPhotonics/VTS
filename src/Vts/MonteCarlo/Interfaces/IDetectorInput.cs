@@ -17,7 +17,7 @@ namespace Vts.MonteCarlo
        string Name { get; set; }
        
        /// <summary>
-       /// Details of the tally - booleans that specify when they should be tallied
+       /// Details of the tally - Booleans that specify when they should be tallied
        /// </summary>
        TallyDetails TallyDetails { get; set; }
 

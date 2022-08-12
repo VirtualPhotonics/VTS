@@ -118,13 +118,13 @@ namespace Vts.Modeling.Optimizers
         }
 
         /// <summary>
-        /// Standard function prototype that MPFit knows how to call. Use <paramref name="vars"/> to store information reqired to evaluate any objective function
+        /// Standard function prototype that MPFit knows how to call. Use <paramref name="vars"/> to store information required to evaluate any objective function
         /// </summary>
         /// <param name="parameters">array of fit parameters</param>
         /// <param name="dy">array of residuals to be returned</param>
         /// <param name="dvec">not used</param>
         /// <param name="vars">private data</param>
-        /// <returns>status return 0=successs, otherwise error</returns>
+        /// <returns>status return 0=success, otherwise error</returns>
         private static int MPFitFunc(double[] parameters, double[] dy, IList<double>[] dvec, object vars)
         {
             OptimizationData oData = vars as OptimizationData;

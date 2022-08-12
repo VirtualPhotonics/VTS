@@ -57,7 +57,7 @@ namespace Vts.Modeling.ForwardSolvers.DiscreteOrdinates
         /// <param name="mu">cosine theta</param>
         /// <param name="wt">Gauss Legendre weights</param>
         /// <param name="N">order</param>
-        /// <returns>Fokker Planck Eddition matrix</returns>
+        /// <returns>Fokker Planck Eddington matrix</returns>
         public static SquareMatrix GenFokkerPlanckEddington(double[] f, double[] mu, double[] wt, int N)
         {
             var ones = Ones(N);

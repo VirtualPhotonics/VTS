@@ -6,7 +6,7 @@ using System.Reflection;
 namespace Vts
 {
     /// <summary>
-    /// Helper methods for Enums
+    /// Helper methods for enums
     /// </summary>
     public class EnumHelper
     {
@@ -57,9 +57,9 @@ namespace Vts
                          select field.Name).ToArray();
         }
         /// <summary>
-        /// Method to get values of Enum
+        /// Method to get values of enum
         /// </summary>
-        /// <param name="enumType">The Enum type</param>
+        /// <param name="enumType">The enum type</param>
         /// <returns>An array of object</returns>
         public static object[] GetValues(Type enumType)
         {

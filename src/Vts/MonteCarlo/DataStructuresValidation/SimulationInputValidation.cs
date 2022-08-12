@@ -260,7 +260,7 @@ namespace Vts.MonteCarlo
 
         }
         /// <summary>
-        /// Method checks SimulationInput against current incapabilities of the code.
+        /// Method checks SimulationInput against current in-capabilities of the code.
         /// </summary>
         /// <param name="input">SimulationInput</param>
         /// <returns>An instance of the ValidationResult class</returns>

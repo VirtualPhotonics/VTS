@@ -910,7 +910,7 @@ namespace Vts.MonteCarlo.Rng
         /// <param name="eq">eqdeg_t struct</param>
         /// <param name="b"></param>
         /// <param name="c"></param>
-        /// <param name="v">number of nodes in linkedlist</param>
+        /// <param name="v">number of nodes in linked list</param>
         private void optimize_v(ref eqdeg_t eq, uint b, uint c, int v)
         {
             int i;
@@ -982,10 +982,10 @@ namespace Vts.MonteCarlo.Rng
             prev_masks = cur_masks;
         }
         /// <summary>
-        /// delete "l" _mask_nodes in linkedlist from head.  This does not match
+        /// delete "l" _mask_nodes in linked list from head.  This does not match
         /// C code because C# has LinkedList.  Parameter "head" gets updated here.
         /// </summary>
-        /// <param name="head">head of linkedlist to delete from</param>
+        /// <param name="head">head of linked list to delete from</param>
         /// <param name="l">number of nodes to delete</param>
         /// <returns>void</returns>
         private void delete_lower_mask_nodes(ref LinkedList<_mask_node> head, int l)
