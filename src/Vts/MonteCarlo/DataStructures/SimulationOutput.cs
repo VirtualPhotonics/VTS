@@ -322,6 +322,18 @@ namespace Vts.MonteCarlo
         /// </summary>
         public long R_fxa_TallyCount { get { return ((long)((dynamic)ResultsDictionary[_detectorResults.First(d => d.TallyType == "ROfFxAndAngle").Name]).TallyCount); } }
         /// <summary>
+        /// Reflectance as a function of spatial frequency and maximum depth
+        /// </summary>
+        public Complex[,] R_fxmd { get { return ((Complex[,])((dynamic)ResultsDictionary[_detectorResults.First(d => d.TallyType == "ROfFxAndMaxDepth").Name]).Mean); } }
+        /// <summary>
+        /// Reflectance as a function of spatial frequency and maximum depth 2nd moment
+        /// </summary>
+        public Complex[,] R_fxmd2 { get { return ((Complex[,])((dynamic)ResultsDictionary[_detectorResults.First(d => d.TallyType == "ROfFxAndMaxDepth").Name]).SecondMoment); } }
+        /// <summary>
+        /// Reflectance as a function of spatial frequency and maximum depth Tally Count
+        /// </summary>
+        public long R_fxmd_TallyCount { get { return ((long)((dynamic)ResultsDictionary[_detectorResults.First(d => d.TallyType == "ROfFxAndMaxDepth").Name]).TallyCount); } }
+        /// <summary>
         /// Diffuse Transmittance
         /// </summary>
         public double Td { get { return ((double)((dynamic)ResultsDictionary[_detectorResults.First(d => d.TallyType == "TDiffuse").Name]).Mean); } }
