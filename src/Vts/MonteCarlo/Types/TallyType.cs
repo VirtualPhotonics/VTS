@@ -122,21 +122,21 @@ namespace Vts.MonteCarlo
             "ReflectedTimeOfRhoAndSubregionHist",
             // Surface radiance as a function of source-detector separation (rho)
             "RadianceOfRhoAtZ",
-            // Volume randiance as a function of source-detector separation (rho), tissue depth (Z) and angle
+            // Volume radiance as a function of source-detector separation (rho), tissue depth (Z) and angle
             "RadianceOfRhoAndZAndAngle",
-            // Volume randiance as a function of spatial-frequency (fx), tissue depth (Z) and angle
+            // Volume radiance as a function of spatial-frequency (fx), tissue depth (Z) and angle
             "RadianceOfFxAndZAndAngle",
-            // Volume randiance as a function of x, y, z, theta and phi
+            // Volume radiance as a function of x, y, z, theta and phi
             "RadianceOfXAndYAndZAndThetaAndPhi",
-            // perturbation Monte Carlo (pMC) total absorbance
+            // perturbation Monte Carlo (pMC) total absorption
             "pMCATotal",
             // perturbation Monte Carlo (pMC) reflectance as a function of source-detector separation (rho) 
             "pMCROfRho",
             // perturbation Monte Carlo (pMC) reflectance as a function of source-detector separation (rho) recessed in air
             "pMCROfRhoRecessed",
-            // perturbation Monte Carlo (pMC) reflectance as a function of source-detector sep. (rho) and time
+            // perturbation Monte Carlo (pMC) reflectance as a function of source-detector separation (rho) and time
             "pMCROfRhoAndTime", 
-            // perturbation Monte Carlo (pMC) reflectance as a function of source-detector sep. (rho) and time recessed in air
+            // perturbation Monte Carlo (pMC) reflectance as a function of source-detector separation (rho) and time recessed in air
             "pMCROfRhoAndTimeRecessed", 
             // perturbation Monte Carlo (pMC) reflectance as a function of Cartesian coordinates (x,y)
             "pMCROfXAndY",
@@ -339,15 +339,15 @@ namespace Vts.MonteCarlo
         /// </summary>
         public static string RadianceOfRho { get { return "RadianceOfRho"; } }
         /// <summary>
-        /// Volume randiance as a function of source-detector separation (rho), tissue depth (Z) and angle
+        /// Volume radiance as a function of source-detector separation (rho), tissue depth (Z) and angle
         /// </summary>
         public static string RadianceOfRhoAndZAndAngle { get { return "RadianceOfRhoAndZAndAngle"; } }
         /// <summary>
-        /// Volume randiance as a function of spatial frequency (fx), tissue depth (Z) and angle
+        /// Volume radiance as a function of spatial frequency (fx), tissue depth (Z) and angle
         /// </summary>
         public static string RadianceOfFxAndZAndAngle { get { return "RadianceOfFxAndZAndAngle"; } }
         /// <summary>
-        /// Volume randiance as a function of x, y, z, theta and phi
+        /// Volume radiance as a function of x, y, z, theta and phi
         /// </summary>
         public static string RadianceOfXAndYAndZAndThetaAndPhi { get { return "RadianceOfXAndYAndZAndThetaAndPhi"; } }
         /// <summary>
@@ -363,11 +363,11 @@ namespace Vts.MonteCarlo
         /// </summary>
         public static string pMCROfRhoRecessed { get { return "pMCROfRhoRecessed"; } }
         /// <summary>
-        /// perturbation Monte Carlo (pMC) reflectance as a function of source-detector sep. (rho) and time
+        /// perturbation Monte Carlo (pMC) reflectance as a function of source-detector separation (rho) and time
         /// </summary>
         public static string pMCROfRhoAndTime { get { return "pMCROfRhoAndTime"; } } // maybe these should be in separate enum?
         /// <summary>
-        /// perturbation Monte Carlo (pMC) reflectance as a function of source-detector sep. (rho) and time recessed in air
+        /// perturbation Monte Carlo (pMC) reflectance as a function of source-detector separation (rho) and time recessed in air
         /// </summary>
         public static string pMCROfRhoAndTimeRecessed { get { return "pMCROfRhoAndTimeRecessed"; } } 
         /// <summary>

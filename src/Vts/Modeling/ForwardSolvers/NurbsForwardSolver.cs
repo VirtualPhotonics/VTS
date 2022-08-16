@@ -10,7 +10,7 @@ namespace Vts.Modeling.ForwardSolvers
     /// <summary>
     /// Forward solver based on the Scaled Monte Carlo approach, proposed by Kienle and Patterson,
     /// used to evaluate the reflectance of a semi-infinite homogenous medium with g = 0.8 and n = 1.4.
-    /// The reference time and space resolved reflectance, and the reference spatial frequancy and
+    /// The reference time and space resolved reflectance, and the reference spatial frequency and
     /// time resolved reflectance are held in a NurbsGenerator class which computes the interpolation
     /// necessary to evaluate the reflectance in the specific domain.
     /// The interpolation is based on NURBS surfaces theory. The main reference used to implement
@@ -35,11 +35,11 @@ namespace Vts.Modeling.ForwardSolvers
         #region constructor
 
         /// <summary>
-        /// Constructor which creates an istance of NurbsForwardSolver setting
+        /// Constructor which creates an instance of NurbsForwardSolver setting
         /// the NurbsGenerators to the values passed as Input.
         /// </summary>
         /// <param name="rdGenerator">real domain NurbsGenerator</param>
-        /// <param name="sfdGenerator">spatial frequancy domain generator</param>
+        /// <param name="sfdGenerator">spatial frequency domain generator</param>
         public NurbsForwardSolver(INurbs rdGenerator, INurbs sfdGenerator)                                                               
         {
             _rdGenerator = rdGenerator;
@@ -57,7 +57,7 @@ namespace Vts.Modeling.ForwardSolvers
         }
         
         /// <summary>
-        /// Constructor used to create an istance of NurbsForwardSolver
+        /// Constructor used to create an instance of NurbsForwardSolver
         /// with the same stub NurbsGenerator for all the NurbsGenerators.
         /// Used for Unit Tests of the class.
         /// </summary>
@@ -90,8 +90,8 @@ namespace Vts.Modeling.ForwardSolvers
         /// at source detector separations rhos.
         /// The radial distance rho is scaled to the reference space to evaluate rho_ref. 
         /// If rho_ref is on the reference surface the reference rho-time resolved 
-        /// reflectance is scaled and the isoprametric Nurbs curve is integrated
-        /// analitically  over time. To evaluate the integral of the reflectance out of 
+        /// reflectance is scaled and the isoparametric Nurbs curve is integrated
+        /// analytically  over time. To evaluate the integral of the reflectance out of 
         /// the time range it evaluates the linear approximation of the logarithm of
         /// the tail of the curve and integrates it from tMax to infinity.
         /// If rho_ref is out of range the method returns 0.
@@ -151,7 +151,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// surface is required, the value is extrapolated using the linear 
         /// approximation of the logarithm of R for two points placed at the end of
         /// the time range [Tmax - 0.1ns, Tmax].
-        /// If the required point is outside the radial range a linear extarpolation 
+        /// If the required point is outside the radial range a linear extrapolation 
         /// is used, based on the value of R at [0.95*RhoMax, RhoMax].
         /// If the required point is outside both ranges a linear combination of the
         /// two extrapolations is adopted.
@@ -221,7 +221,7 @@ namespace Vts.Modeling.ForwardSolvers
         ///  detector separation rho for a modulation frequency ft,for the specified 
         ///  optical properties. It calculates the Fourier transform of the NURBS
         ///  curve R(t) at the required source detector separation.
-        ///  The used FT is analitycal or discrete according to the boolean value 'analyticIntegration'.
+        ///  The used FT is analytical or discrete according to the Boolean value 'analyticIntegration'.
         /// </summary>
         /// <param name="ops">optical properties</param>
         /// <param name="rhos">source detector separation</param>
@@ -294,7 +294,7 @@ namespace Vts.Modeling.ForwardSolvers
 
         /// <summary>
         /// Calls its vectorized version to evaluate the spatial frequency
-        /// resolved reflectance for the spatial frequancy fx, for the 
+        /// resolved reflectance for the spatial frequency fx, for the 
         /// specified optical properties. 
         /// </summary>
         /// <param name="op">optical properties</param>
@@ -305,9 +305,9 @@ namespace Vts.Modeling.ForwardSolvers
             return ROfFx(op.AsEnumerable(), fx.AsEnumerable()).FirstOrDefault();
         }
         /// <summary>
-        /// Returns the spatial frequancy resolved reflectance at fx applying the scaling on
+        /// Returns the spatial frequency resolved reflectance at fx applying the scaling on
         /// the reference fx-time resolved reflectance.
-        /// Than integrates analitically the isoprametric NURBS curve over time if fx is on the
+        /// Than integrates analytically the isoparametric NURBS curve over time if fx is on the
         /// surface.
         /// If fx is out of range it returns 0.
         /// </summary>
@@ -355,7 +355,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <summary>
         /// Returns the reflectance at spatial frequency, fx, and time, t, scaling the 
         /// reference fx-time resolved reflectance.
-        /// If a point of the reference reflectance outside the time/spatial frequancy range 
+        /// If a point of the reference reflectance outside the time/spatial frequency range 
         /// of the surface is required, the value is extrapolated using the first derivative
         /// along the time/spatial frequency dimension.
         /// If the required point is outside both ranges a linear combination of the
@@ -406,8 +406,8 @@ namespace Vts.Modeling.ForwardSolvers
         /// </summary>
         /// <param name="op">optical properties</param>
         /// <param name="fx">spatial frequency</param>
-        /// <param name="ft">temporal frequancy</param>
-        /// <returns>spatial frequency and temporal frequancy resolved reflectance</returns>
+        /// <param name="ft">temporal frequency</param>
+        /// <returns>spatial frequency and temporal frequency resolved reflectance</returns>
         public override Complex ROfFxAndFt(OpticalProperties op, double fx, double ft)
         {
             return ROfFxAndFt(op.AsEnumerable(), fx.AsEnumerable(), ft.AsEnumerable()).First();
@@ -416,12 +416,12 @@ namespace Vts.Modeling.ForwardSolvers
         /// Evaluates the spatial frequency and temporal frequency resolved reflectance
         /// calculating the Fourier transform of the NURBS curve R(t) at the
         /// required spatial frequency for the specified optical properties. 
-        /// The computed FT is analitycal or discrete according to the boolean value 'analyticIntegration'.
+        /// The computed FT is analytical or discrete according to the Boolean value 'analyticIntegration'.
         /// </summary>
         /// <param name="ops">optical properties</param>
         /// <param name="fxs">spatial frequency</param>
-        /// <param name="fts">temporal frequancy</param>
-        /// <returns>spatial frequency and temporal frequancy resolved reflectance</returns>
+        /// <param name="fts">temporal frequency</param>
+        /// <returns>spatial frequency and temporal frequency resolved reflectance</returns>
         public override IEnumerable<Complex> ROfFxAndFt(IEnumerable<OpticalProperties> ops, IEnumerable<double> fxs, IEnumerable<double> fts)
         {
             bool analyticIntegration = false;
@@ -528,7 +528,7 @@ namespace Vts.Modeling.ForwardSolvers
         }
 
         /// <summary>
-        /// Evaluates the spatial frequancy resolved fluence.
+        /// Evaluates the spatial frequency resolved fluence.
         /// </summary>
         /// <remarks>Not implemented.</remarks>
         /// <param name="ops">optical properties</param>
@@ -541,7 +541,7 @@ namespace Vts.Modeling.ForwardSolvers
         }
         
         /// <summary>
-        /// Evaluates the spatial frequancy and time resolved fluence.
+        /// Evaluates the spatial frequency and time resolved fluence.
         /// </summary>
         /// <remarks>Not implemented.</remarks>
         /// <param name="ops">set of optical properties for the medium</param>
@@ -555,7 +555,7 @@ namespace Vts.Modeling.ForwardSolvers
         }
 
         /// <summary>
-        /// Evaluates the spatial frequancy and temporal frequency resolved fluence.
+        /// Evaluates the spatial frequency and temporal frequency resolved fluence.
         /// </summary>
         /// <remarks>Not implemented.</remarks>
         /// <param name="ops">set of optical properties for the medium</param>
@@ -591,11 +591,11 @@ namespace Vts.Modeling.ForwardSolvers
         }
 
         /// <summary>
-        /// Returns zero if the input value is smaller then zero of if it is NaN.
+        /// Returns zero if the input value is smaller then zero or if it is <see cref="double.NaN"/>.
         /// Negative value are not possible for the measured reflectance.
         /// The values calculated with the NURBS could be negative when the time
         /// point is very close to the 'physical' beginning of the curve R(t) due
-        /// to obscilatoions of the interpolations used to capture the ascent of the curve.
+        /// to oscillations of the interpolations used to capture the ascent of the curve.
         /// </summary>
         /// <param name="value">double precision number</param>
         /// <returns>zero or the input value</returns>
@@ -621,10 +621,10 @@ namespace Vts.Modeling.ForwardSolvers
 
         /// <summary>
         /// Extrapolates the linear decay of the log of the tail of the curve and integrates
-        /// analitically from tMax to infinity to evaluate the steady state signal
+        /// analytically from tMax to infinity to evaluate the steady state signal
         /// </summary>
         /// <param name="generator">NurbsGenerator</param>
-        /// <param name="space_ref">spatial coordiante</param>
+        /// <param name="space_ref">spatial coordinate</param>
         /// <param name="op">optical Properties</param>
         /// <returns>Integral value of the curve extrapolated outside the time range</returns>
         private double ExtrapolateIntegralValueOutOfRange(INurbs generator, double space_ref, OpticalProperties op)

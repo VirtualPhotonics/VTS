@@ -115,7 +115,7 @@ namespace Vts.SpectralMapping
         /// Returns the anisotropy coefficient for a given wavelength
         /// </summary>
         /// <param name="wavelength">Wavelength</param>
-        /// <returns>The anisotropy coeffient g</returns>
+        /// <returns>The anisotropy coefficient g</returns>
         public double GetG(double wavelength)
         {
             return Scatterer != null ? Scatterer.GetG(wavelength) : 0;

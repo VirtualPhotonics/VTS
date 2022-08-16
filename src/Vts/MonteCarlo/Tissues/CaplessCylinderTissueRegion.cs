@@ -38,7 +38,7 @@ namespace Vts.MonteCarlo.Tissues
         public string TissueRegionType { get; set; }
 
         /// <summary>
-        /// center of cyliner
+        /// center of cylinder
         /// </summary>
         public Position Center { get; set; }
         /// <summary>
@@ -58,7 +58,7 @@ namespace Vts.MonteCarlo.Tissues
         /// method to determine if photon position within or on cylinder
         /// </summary>
         /// <param name="position">photon position</param>
-        /// <returns>boolean</returns>
+        /// <returns>Boolean</returns>
         public bool ContainsPosition(Position position)
         {
             double inside = Math.Sqrt(position.X * position.X + position.Y * position.Y);
@@ -81,7 +81,7 @@ namespace Vts.MonteCarlo.Tissues
         /// Method to determine if photon on boundary of cylinder.
         /// </summary>
         /// <param name="position">photon position</param>
-        /// <returns>boolean</returns>
+        /// <returns>Boolean</returns>
         public bool OnBoundary(Position position)
         {
             // need to call ContainsPosition because it sets _onBoundary
@@ -96,7 +96,7 @@ namespace Vts.MonteCarlo.Tissues
         /// </summary>
         /// <param name="photon">photon position, direction, etc.</param>
         /// <param name="distanceToBoundary">distance to boundary</param>
-        /// <returns>boolean</returns>
+        /// <returns>Boolean</returns>
         public bool RayIntersectBoundary(Photon photon, out double distanceToBoundary)
         {
             distanceToBoundary = double.PositiveInfinity;

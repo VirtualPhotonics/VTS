@@ -58,10 +58,10 @@ namespace Vts.Factories
         }
 
         /// <summary>
-        /// Method to get forward solver from Enum type
+        /// Method to get forward solver from enum type
         /// </summary>
-        /// <param name="forwardSolverType">The ForwardSolverType Enum</param>
-        /// <returns>An IForwardSolver for the specified Enum or null if it does not exist</returns>
+        /// <param name="forwardSolverType">The ForwardSolverType enum</param>
+        /// <returns>An IForwardSolver for the specified enum or null if it does not exist</returns>
         public static IForwardSolver GetForwardSolver(ForwardSolverType forwardSolverType)
         {
             return GetForwardSolver(forwardSolverType.ToString());
@@ -87,10 +87,10 @@ namespace Vts.Factories
         }
 
         /// <summary>
-        /// method to get Scatter from Enum
+        /// method to get Scatter from enum
         /// </summary>
-        /// <param name="scatteringType">The ScatteringType Enum</param>
-        /// <returns>An IScatter for the specified Enum or null if it does not exist</returns>
+        /// <param name="scatteringType">The ScatteringType enum</param>
+        /// <returns>An IScatter for the specified enum or null if it does not exist</returns>
         public static IScatterer GetScattererType(ScatteringType scatteringType)
         {
             return GetScattererType(scatteringType.ToString());
@@ -119,10 +119,10 @@ namespace Vts.Factories
         }
 
         /// <summary>
-        /// method to get optimizer from Enum
+        /// method to get optimizer from enum
         /// </summary>
-        /// <param name="type">The OptimizerType Enum</param>
-        /// <returns>An IOptimizer for the specified Enum or null if it does not exist</returns>
+        /// <param name="type">The OptimizerType enum</param>
+        /// <returns>An IOptimizer for the specified enum or null if it does not exist</returns>
         public static IOptimizer GetOptimizer(OptimizerType type)
         {
             return GetOptimizer(type.ToString());

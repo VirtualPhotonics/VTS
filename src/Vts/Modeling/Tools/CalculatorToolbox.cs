@@ -56,7 +56,7 @@ namespace Vts.Modeling
         /// <summary>
         /// Fresnel first reflection moment, via S. Prahl thesis 1988
         /// Polynomial expression, stated accurate for R1 and R2 better than 0.005.
-        /// These polynomials should probably be replaced by the integral expresion! TO be DONE
+        /// These polynomials should probably be replaced by the integral expression! TO be DONE
         /// </summary>
         /// <param name="n">Refractive index</param>
         /// <returns>1st moment of the Fresnel reflectance</returns>
@@ -75,7 +75,7 @@ namespace Vts.Modeling
         }
 
         /// <summary>
-        /// Fresnel Reflection moment of abritrary integer order M via Gauss-Kronrod 
+        /// Fresnel Reflection moment of arbitrary integer order M via Gauss-Kronrod 
         /// numerical integration.
         /// </summary>
         /// <param name="M">Moment Order</param>

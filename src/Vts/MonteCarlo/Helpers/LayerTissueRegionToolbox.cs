@@ -15,7 +15,7 @@ namespace Vts.MonteCarlo.Tissues
        // /// <param name="p2">ray ending position</param>
        // /// <param name="zPlane">plane definition z=zLocation</param>
        // /// <param name="distanceToBoundary">return: distance to boundary, infinity if no intersection</param>
-       // /// <returns>boolean: true if intersection, false if on boundary of cylinder</returns>
+       // /// <returns>Boolean: true if intersection, false if on boundary of cylinder</returns>
        // public static bool RayIntersectInfinitePlane(Position p1, Position p2, double zPlane, 
        //     out double distanceToBoundary)
        // {

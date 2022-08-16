@@ -61,7 +61,7 @@ namespace Vts.Common
         /// </summary>
         /// <param name="d1">The first direction cosine</param>
         /// <param name="d2">The second direction cosine</param>
-        /// <returns>A boolean indicating whether d1 equals d2</returns>
+        /// <returns>A Boolean indicating whether d1 equals d2</returns>
         public static bool operator ==(Direction d1, Direction d2)
         {
             if (object.ReferenceEquals(d1, d2))
@@ -82,7 +82,7 @@ namespace Vts.Common
         /// </summary>
         /// <param name="d1">The first direction cosine</param>
         /// <param name="d2">The second direction cosine</param>
-        /// <returns>A boolean indicating whether d1 does not equal d2</returns>
+        /// <returns>A Boolean indicating whether d1 does not equal d2</returns>
         public static bool operator !=(Direction d1, Direction d2)
         {
             return !(d1 == d2);
@@ -91,8 +91,8 @@ namespace Vts.Common
         /// <summary>
         /// Instance member for equality comparison
         /// </summary>
-        /// <param name="obj">The object of comparision</param>
-        /// <returns>A boolean indicating if object is equal to direction</returns>
+        /// <param name="obj">The object of comparison</param>
+        /// <returns>A Boolean indicating if object is equal to direction</returns>
         public override bool Equals(object obj)
         {
             if (obj is Direction)

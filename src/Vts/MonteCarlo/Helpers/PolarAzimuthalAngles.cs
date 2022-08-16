@@ -38,7 +38,7 @@
         /// </summary>
         /// <param name="pa1">polar angle 1</param>
         /// <param name="pa2">polar angle 2</param>
-        /// <returns>boolean</returns>
+        /// <returns>Boolean</returns>
         public static bool operator ==(PolarAzimuthalAngles pa1, PolarAzimuthalAngles pa2)
         {
             if (object.ReferenceEquals(pa1, pa2))
@@ -65,7 +65,7 @@
         /// </summary>
         /// <param name="pa1">polar angle 1</param>
         /// <param name="pa2">polar angle 2</param>
-        /// <returns>boolean</returns>
+        /// <returns>Boolean</returns>
         public static bool operator !=(PolarAzimuthalAngles pa1, PolarAzimuthalAngles pa2)
         {
             return !(pa1 == pa2);
@@ -75,7 +75,7 @@
         /// Instance member for equality comparison
         /// </summary>
         /// <param name="obj">object to check</param>
-        /// <returns>boolean indicating true of equal to this, false otherwise</returns>
+        /// <returns>Boolean indicating true of equal to this, false otherwise</returns>
         public override bool Equals(object obj)
         {
             if (obj is PolarAzimuthalAngles)

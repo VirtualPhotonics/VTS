@@ -17,7 +17,7 @@ namespace Vts
         /// Method to determine if can convert object
         /// </summary>
         /// <param name="objectType">The object type</param>
-        /// <returns>A boolean indicating whether can convert</returns>
+        /// <returns>A Boolean indicating whether can convert</returns>
         public override bool CanConvert(Type objectType)
         {
             return (objectType == typeof(OpticalProperties));
@@ -70,7 +70,7 @@ namespace Vts
         /// <summary>
         /// Method to determine if can write
         /// </summary>
-        /// <returns>A boolean indicating whether can write</returns>
+        /// <returns>A Boolean indicating whether can write</returns>
         public override bool CanWrite
         {
             get { return false; }

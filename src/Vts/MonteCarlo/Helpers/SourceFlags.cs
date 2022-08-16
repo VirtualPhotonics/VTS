@@ -27,15 +27,15 @@
         {
         }
         /// <summary>
-        /// boolean flag indicating whether translation from origin required
+        /// Boolean flag indicating whether translation from origin required
         /// </summary>
         public bool TranslationFromOriginFlag { get; set; }
         /// <summary>
-        /// boolean flag indicating whether beam rotation from inward normal required
+        /// Boolean flag indicating whether beam rotation from inward normal required
         /// </summary>
         public bool BeamRotationFromInwardNormalFlag { get; set; }
         /// <summary>
-        /// boolean flag indicating whether rotation of principal source axis required
+        /// Boolean flag indicating whether rotation of principal source axis required
         /// </summary>
         public bool RotationOfPrincipalSourceAxisFlag { get; set; }
 

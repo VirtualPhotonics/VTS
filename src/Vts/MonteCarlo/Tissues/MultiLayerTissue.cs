@@ -142,7 +142,7 @@ namespace Vts.MonteCarlo.Tissues
         /// method to determine if on boundary of tissue, i.e. at tissue/air interface
         /// </summary>
         /// <param name="position">photon position</param>
-        /// <returns>boolean indicating whether on boundary or not</returns>
+        /// <returns>Boolean indicating whether on boundary or not</returns>
         public virtual bool OnDomainBoundary(Position position)
         {
             // this code assumes that the first and last layer is air

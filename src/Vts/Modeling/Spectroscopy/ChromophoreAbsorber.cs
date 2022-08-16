@@ -26,7 +26,7 @@ namespace Vts.SpectralMapping
         /// </summary>
         /// <param name="name">Name of the chromophore</param>
         /// <param name="concentration">Concentration</param>
-        /// <param name="chromophoreCoefficientType">Chromophore coefficient type defined by the Enum <see cref="Vts.ChromophoreCoefficientType">ChromophoreCoefficientType</see></param>
+        /// <param name="chromophoreCoefficientType">Chromophore coefficient type defined by the enum <see cref="Vts.ChromophoreCoefficientType">ChromophoreCoefficientType</see></param>
         public ChromophoreAbsorber(string name, double concentration, ChromophoreCoefficientType chromophoreCoefficientType)
         {
             Name = name;
@@ -37,7 +37,7 @@ namespace Vts.SpectralMapping
         /// <summary>
         /// Overload for creating chromophore with simple table lookup. Only works for "built-in" chromophore types
         /// </summary>
-        /// <param name="chromophoreType">Chromophore type as defined by the Enum <see cref="Vts.ChromophoreType">ChromophoreType</see></param>
+        /// <param name="chromophoreType">Chromophore type as defined by the enum <see cref="Vts.ChromophoreType">ChromophoreType</see></param>
         /// <param name="concentration">Concentration</param>
         public ChromophoreAbsorber(ChromophoreType chromophoreType, double concentration)
             : this(
@@ -46,7 +46,7 @@ namespace Vts.SpectralMapping
                 chromophoreType.GetCoefficientType()) { }
 
         /// <summary>
-        /// Chromophore coefficient type defined by the Enum <see cref="Vts.ChromophoreCoefficientType">ChromophoreCoefficientType</see>
+        /// Chromophore coefficient type defined by the enum <see cref="Vts.ChromophoreCoefficientType">ChromophoreCoefficientType</see>
         /// </summary>
         public ChromophoreCoefficientType ChromophoreCoefficientType
         {

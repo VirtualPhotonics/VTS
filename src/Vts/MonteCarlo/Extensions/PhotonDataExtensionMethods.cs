@@ -44,7 +44,7 @@ namespace Vts.MonteCarlo.Extensions
         /// </summary>
         /// <param name="dp">photon data point</param>
         /// <param name="collisionInfoDatabaseWriter">collision info database writer</param>
-        /// <returns>boolean</returns>
+        /// <returns>Boolean</returns>
         public static bool BelongsToSurfaceVirtualBoundary(this PhotonDataPoint dp,
             CollisionInfoDatabaseWriter collisionInfoDatabaseWriter)
         {
@@ -66,7 +66,7 @@ namespace Vts.MonteCarlo.Extensions
         /// <param name="detectorNA">numerical aperture of detector</param>
         /// <param name="detectorNormal">normal Direction of detector</param>
         /// <param name="n">refractive index of region where the detector resides</param>
-        /// <returns>boolean</returns>
+        /// <returns>Boolean</returns>
         public static bool IsWithinNA(this PhotonDataPoint dp, double detectorNA, Direction detectorNormal, double n)
         {
             var photonDirection = dp.Direction;

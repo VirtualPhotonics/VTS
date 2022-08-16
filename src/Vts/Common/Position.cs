@@ -92,7 +92,7 @@ namespace Vts.Common
         /// </summary>
         /// <param name="p1">The position p1</param>
         /// <param name="p2">The position p2</param>
-        /// <returns>A boolean indicating whether p1 is equal to p2</returns>
+        /// <returns>A Boolean indicating whether p1 is equal to p2</returns>
         public static bool operator ==(Position p1, Position p2)
         {
             if (object.ReferenceEquals(p1, p2))
@@ -114,7 +114,7 @@ namespace Vts.Common
         /// </summary>
         /// <param name="p1">The position p1</param>
         /// <param name="p2">The position p2</param>
-        /// <returns>A boolean indicating whether p1 is not equal to p2</returns>
+        /// <returns>A Boolean indicating whether p1 is not equal to p2</returns>
         public static bool operator !=(Position p1, Position p2)
         {
             return !(p1 == p2);
@@ -147,8 +147,8 @@ namespace Vts.Common
         /// <summary>
         /// Instance member for equality comparison
         /// </summary>
-        /// <param name="obj">The object of comparision</param>
-        /// <returns>A boolean indicating if object is equal to position</returns>
+        /// <param name="obj">The object of comparison</param>
+        /// <returns>A Boolean indicating if object is equal to position</returns>
         public override bool Equals(object obj)
         {
             if (obj is Position)

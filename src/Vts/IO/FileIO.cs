@@ -20,7 +20,7 @@ namespace Vts.IO
         /// Static method to check if a file exists
         /// </summary>
         /// <param name="fileName">Name of the file</param>
-        /// <returns>A boolean indicating whether file exists or not</returns>
+        /// <returns>A Boolean indicating whether file exists or not</returns>
         public static bool FileExists(string fileName)
         {
             return File.Exists(fileName);
@@ -30,7 +30,7 @@ namespace Vts.IO
         /// Static method to check if a directory exists
         /// </summary>
         /// <param name="folder">Name of the directory</param>
-        /// <returns>A boolean indicating whether directory exists or not</returns>
+        /// <returns>A Boolean indicating whether directory exists or not</returns>
         public static bool DirectoryExists(string folder)
         {
             return Directory.Exists(folder);
@@ -303,7 +303,7 @@ namespace Vts.IO
 
         /// <summary>
         /// Copy a folder and its contents to an external location.
-        /// Due to the file and folder delimeters being a dot, there are 
+        /// Due to the file and folder delimiters being a dot, there are 
         /// some assumptions with this method. The file extension must be 
         /// only 3 characters and a file without an extension must have a 
         /// name with more than 3 characters.

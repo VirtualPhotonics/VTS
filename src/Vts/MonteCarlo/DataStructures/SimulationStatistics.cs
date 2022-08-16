@@ -15,7 +15,7 @@ namespace Vts.MonteCarlo
         /// <param name="numberOfPhotonsAbsorbed"># photons absorbed</param>
         /// <param name="numberOfPhotonsSpecularReflected"># photons specular reflected</param>
         /// <param name="numberOfPhotonsKilledOverMaximumPathLength"># photons killed due to maximum path length</param>
-        /// <param name="numberOfPhotonsKilledOverMaximumCollisions"># photons killed due to maxiumu collisions</param>
+        /// <param name="numberOfPhotonsKilledOverMaximumCollisions"># photons killed due to maximum collisions</param>
         /// <param name="numberOfPhotonsKilledByRussianRoulette"># photons killed by Russian Roulette
         /// 
         /// </param>

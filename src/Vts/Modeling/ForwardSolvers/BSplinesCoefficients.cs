@@ -3,11 +3,11 @@ using System;
 namespace Vts.Modeling.ForwardSolvers
 {
     /// <summary>
-    /// This class holds the coefficients of the non vanishing B-slines
+    /// This class holds the coefficients of the non vanishing B-splines
     /// over a single knot span and the upper and lower limit of the knot span
     /// mapped to the non parametric space.
-    /// This values are used to evaluate analitically the steady state reflectance
-    /// for the real domain and for the spatial frequancy domain through the integration of 
+    /// These values are used to evaluate analytically the steady state reflectance
+    /// for the real domain and for the spatial frequency domain through the integration of 
     /// the time resolved curves at the required locations.
     /// The effect of the linear mapping from the original space to the parametric space
     /// is embedded within this coefficients.
@@ -49,7 +49,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// B-splines over the knot span, and to evaluate the limits of the knot span,
         /// mapped to the non parametric space.
         /// </summary>
-        /// <param name="nurbsValues">NurbsValues class with the NURBS charachteristic values</param>
+        /// <param name="nurbsValues">NurbsValues class with the NURBS characteristic values</param>
         /// <param name="knotIndex">Index of the lower limit knot</param>
         public BSplinesCoefficients(NurbsValues nurbsValues, int knotIndex)
         {
@@ -110,10 +110,11 @@ namespace Vts.Modeling.ForwardSolvers
         }
 
         /// <summary>
-        /// If the input value is NaN or Inf it changes it to zero,as defined in the recursive
-        /// formula used to evaluate the B-splines coefficients.'The NURBS Book' page 51.
+        /// If the input value is <see cref="double.NaN"/>, <see cref="double.PositiveInfinity"/>
+        /// or <see cref="double.NegativeInfinity"/>, it changes it to zero, as defined in the
+        /// recursive formula used to evaluate the B-splines coefficients. 'The NURBS Book' page 51.
         /// </summary>
-        /// <param name="num">multypling values of the recursive formula</param>
+        /// <param name="num">multiplying values of the recursive formula</param>
         /// <returns>0 or the input value</returns>
         public double ModifyIfNotValid(double num)
         {
@@ -132,7 +133,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// </summary>
         /// <param name="coefficients">B-spline coefficients</param>
         /// <param name="max">max value of the original space</param>
-        /// <returns>B-splines coefficients devided by the maximal value of the original space elevated to the same power of the coefficients</returns>
+        /// <returns>B-splines coefficients divided by the maximal value of the original space elevated to the same power of the coefficients</returns>
         private double[,] Normalize(double[,] coefficients, double max)
         {
             int numRows = coefficients.GetLength(0);
