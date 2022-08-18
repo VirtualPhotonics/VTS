@@ -10,7 +10,7 @@ namespace Vts.Modeling.ForwardSolvers
     /// for the real domain and for the spatial frequency domain through the integration of 
     /// the time resolved curves at the required locations.
     /// The effect of the linear mapping from the original space to the parametric space
-    /// is embedded within this coefficients.
+    /// is embedded within these coefficients.
     /// </summary>
     public class BSplinesCoefficients
     {
@@ -119,7 +119,7 @@ namespace Vts.Modeling.ForwardSolvers
         public double ModifyIfNotValid(double num)
         {
 
-            if (Double.IsNaN(num) || Double.IsInfinity(num))
+            if (double.IsNaN(num) || double.IsInfinity(num))
             {
                 num = 0.0;
             }

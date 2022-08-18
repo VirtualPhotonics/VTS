@@ -601,7 +601,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <returns>zero or the input value</returns>
         public double CheckIfValidOutput(double value)
         {
-            if (value < 0.0 || Double.IsNaN(value))
+            if (value < 0.0 || double.IsNaN(value))
             {
                 value = 0.0;
             }

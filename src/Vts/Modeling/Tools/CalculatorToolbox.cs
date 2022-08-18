@@ -171,7 +171,7 @@ namespace Vts.Modeling
             return
                 FunctionMath.Integrate(
                     integrand,
-                    Meta.Numerics.Interval.FromEndpoints(0.0, Double.PositiveInfinity));
+                    Meta.Numerics.Interval.FromEndpoints(0.0, double.PositiveInfinity));
         }
 
     }
