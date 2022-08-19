@@ -2,11 +2,10 @@
 using System.IO;
 using Vts.Common;
 using Vts.Common.Logging;
-using Vts.MonteCarlo;
 using Vts.MonteCarlo.RayData;
 using Vts.MonteCarlo.Zemax;
 
-namespace Vts.ZemaxDatabaseConverter
+namespace Vts.MonteCarlo.ZemaxDatabaseConverter
 {
     public class DatabaseConverter
     {

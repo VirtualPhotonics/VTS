@@ -4,6 +4,7 @@ using Vts.IO;
 namespace Vts.MonteCarlo.Zemax
 {
     /// <summary>
+    /// This is code that would be executed to convert ZRD DB to/from MCCL compatible DB
     /// Implements ICustomBinaryReader&lt;RayDataPoint&gt; and 
     /// ICustomBinaryWriter&lt;ZRDDataPoint&gt;.
     /// </summary>

@@ -3,6 +3,7 @@ using Vts.MonteCarlo.IO;
 namespace Vts.MonteCarlo.Zemax
 {
     /// <summary>
+    /// This is code that would be executed to convert ZRD DB to/from MCCL compatible DB
     /// Implements CustomBinaryStreamWriter(Of ZRDRayDataPoint). Handles writing ray
     /// data to database.
     /// </summary>

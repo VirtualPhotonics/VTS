@@ -5,6 +5,7 @@ using Vts.MonteCarlo.RayData;
 namespace Vts.MonteCarlo.Zemax
 {
     /// <summary>
+    /// This is code that would be executed to convert ZRD DB to/from MCCL compatible DB
     /// A controller of ZRDDatabaseWriter(s).  It handles determining whether data should be written,
     /// and if so, writing the data, and finally disposing of the database.
     /// </summary>

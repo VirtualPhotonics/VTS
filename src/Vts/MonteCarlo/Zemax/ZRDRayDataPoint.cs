@@ -4,6 +4,7 @@ using Vts.MonteCarlo.RayData;
 namespace Vts.MonteCarlo.Zemax
 {
     /// <summary>
+    /// This is code that would be executed to convert ZRD DB to/from MCCL compatible DB
     /// ZRDRay Data to be read in from Zemax ZRD file in uncompressed
     /// full Data format (UFD)
     /// </summary>

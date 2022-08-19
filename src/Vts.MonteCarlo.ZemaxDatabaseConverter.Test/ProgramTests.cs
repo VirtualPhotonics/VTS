@@ -1,26 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
 using NUnit.Framework;
-using Vts.Common;
+using System.Collections.Generic;
+using System;
 using Vts.IO;
-using Vts.MonteCarlo;
-using Vts.MonteCarlo.Detectors;
-using Vts.MonteCarlo.RayData;
+using Vts.Common;
 using Vts.MonteCarlo.Sources;
 using Vts.MonteCarlo.Tissues;
+using Vts.MonteCarlo.Detectors;
 using Vts.MonteCarlo.Zemax;
+using Vts.MonteCarlo.RayData;
 
-namespace Vts.Test.MonteCarlo.Zemax
+namespace Vts.MonteCarlo.ZemaxDatabaseConverter.Test
 {
     [TestFixture]
-    public class ZRDRayDatabaseTests
+    public class ProgramTests
     {
+        /// This tests code that would be executed to convert ZRD DB to/from MCCL compatible DB
         private static SimulationInput _input;
         private static SimulationOutput _output;
         /// <summary>
         /// list of temporary files created by these unit tests
         /// </summary>
-        List<string> listOfTestGeneratedFiles = new List<string>()
+        readonly List<string> listOfTestGeneratedFiles = new List<string>()
         {
             "testzrdraydatabase",
             "testzrdraydatabase.txt",
@@ -74,7 +74,7 @@ namespace Vts.Test.MonteCarlo.Zemax
                         Rho = new DoubleRange(0.0, 10.0, 101),
                         Time = new DoubleRange(0.0, 1, 101)
                     }
-                }              
+                }
             );
             _output = new MonteCarloSimulation(_input).Run();
         }
@@ -88,7 +88,6 @@ namespace Vts.Test.MonteCarlo.Zemax
             // delete any previously generated files
             foreach (var file in listOfTestGeneratedFiles)
             {
-                GC.Collect();
                 FileIO.FileDelete(file);
             }
         }
@@ -127,7 +126,7 @@ namespace Vts.Test.MonteCarlo.Zemax
                     2.0));
             using (var dbWriter = new ZRDRayDatabaseWriter(
                 VirtualBoundaryType.DiffuseReflectance, databaseFileName))
-            {       
+            {
                 dbWriter.Write(firstRayDP);
                 dbWriter.Write(secondRayDP);
             }

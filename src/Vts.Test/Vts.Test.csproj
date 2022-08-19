@@ -60,4 +60,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="MonteCarlo\Zemax\" />
+  </ItemGroup>
 </Project>

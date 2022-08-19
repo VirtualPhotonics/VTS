@@ -5,6 +5,7 @@ using System.Linq;
 namespace Vts.MonteCarlo.Zemax
 {
     /// <summary>
+    /// This is code that would be executed to convert ZRD DB to/from MCCL compatible DB
     /// Factory methods to provide the PhotonDatabaseWriter (or list of PhotonDatabaseWriters)
     /// or CollisionInfoDatabaseWriter (or list).
     /// </summary>

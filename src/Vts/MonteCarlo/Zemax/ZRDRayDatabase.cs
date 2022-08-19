@@ -3,6 +3,7 @@ using Vts.MonteCarlo.IO;
 namespace Vts.MonteCarlo.Zemax
 {
     /// <summary>
+    /// This is code that would be executed to convert ZRD DB to/from MCCL compatible DB
     /// Describes database for storing and returning source Zemax ZRD ray data points 
     /// (position, direction, weight).
     /// The base class, Database(OfT), exposes the IEnumerable(OfT) DataPoints 
