@@ -68,62 +68,67 @@ namespace Vts.MonteCarlo.ZemaxDatabaseConverter
         }
     }
     #endregion
-    internal class Program
+    public static class Program
     {
-        private static ILogger logger = LoggerFactoryLocator.GetDefaultNLogFactory().Create(typeof(Program));
-        static void Main(string[] args)
-        {
+         public static int Main(string[] args)
+         {
             string databaseToConvertName = "";
             var convertedDatabaseName = "";
-            var zemaxToMC = false;
-            var outPath = "";
+            var outPath = ""; // may need later 
             var infoOnlyOption = false;
 
             args.Process(() =>
             {
-                logger.Info("For more information type zdc help");
+                Console.WriteLine("Virtual Photonics Zemax-MCCL Database converter");
+                Console.WriteLine();
+                Console.WriteLine("For more information type mc_zemax help");
+                Console.WriteLine();
             },
                new CommandLine.Switch("help", val =>
                {
-                   var helpTopic = val.First();
-                   if (helpTopic != "")
-                       ShowHelp(helpTopic);
-                   else
-                       ShowHelp();
+                   ShowHelp();
                    infoOnlyOption = true;
                }),
                new CommandLine.Switch("infile", val =>
                {
                    databaseToConvertName = val.First();
-                   logger.Info(() => "input file specified as " + databaseToConvertName);
+                   Console.WriteLine("input file specified as {0}", databaseToConvertName);
                }),
                new CommandLine.Switch("outfile", val =>
                {
                    convertedDatabaseName = val.First();
-                   logger.Info(() => "output file specified as " + convertedDatabaseName);
+                   Console.WriteLine("output file specified as {1}" + convertedDatabaseName);
                })
                );
 
             if (!infoOnlyOption)
-            {          
-                // validate infile extension to determine direction of conversion
-                if ((Path.GetExtension(databaseToConvertName) == ".zrd")||
-                    (Path.GetExtension(databaseToConvertName) == ".ZRD"))
+            {
+                // check infiles exist
+                if (DatabaseConverter.VerifyInputs(databaseToConvertName, convertedDatabaseName))
                 {
-                    // conversion of Zemax to MCCL database process
-                    zemaxToMC = true;
-                    RayDatabase convertedDatabase = DatabaseConverter.ConvertZemaxDatabaseToMCCLSourceDatabase(
-                        databaseToConvertName, convertedDatabaseName);
+                    // if MC->Zemax databaseToConvert has no extension
+                    // if Zemax->MC databaseToConvert has .ZRD extension
+                    if ((Path.GetExtension(databaseToConvertName) == ".zrd") ||
+                        (Path.GetExtension(databaseToConvertName) == ".ZRD"))
+                    {
+                        // conversion of Zemax output to MCCL source database process
+                        DatabaseConverter.ConvertZemaxDatabaseToMCCLSourceDatabase(
+                            databaseToConvertName, convertedDatabaseName);
+                    }
+                    else
+                    {
+                        // conversion of MCCL reflectance to Zemax input
+                        DatabaseConverter.ConvertMCCLDatabaseToZemaxSourceDatabase(
+                            databaseToConvertName, convertedDatabaseName);
+                    }
+                    return 1;
                 }
-                if ((Path.GetExtension(databaseToConvertName) == ".mcs") ||
-                (Path.GetExtension(databaseToConvertName) == ".mcs"))
+                else
                 {
-                    // conversion of MCCL database to Zemax process
-                    zemaxToMC = false;
-                }
-                               
+                    return 0;
+                }            
             }
-                
+            return 1;               
         }
 
         /// <summary>
@@ -131,43 +136,20 @@ namespace Vts.MonteCarlo.ZemaxDatabaseConverter
         /// </summary>
         private static void ShowHelp()
         {
-            logger.Info($"Virtual Zemax Database Converter (zdc)");
-            logger.Info("\ntopics:");
-            logger.Info("\ninfile");
-            logger.Info("\noutfile");
-            logger.Info("\nsample usage:");
-            logger.Info("dotnet zdc.dll infile=myinput outfile=myoutput\n");
+            Console.WriteLine("Virtual Photonics Zemax-MCCL Database Converter");
+            Console.WriteLine();
+            Console.WriteLine("list of arguments:");
+            Console.WriteLine();
+            Console.WriteLine("infile\t\tthe input file, accepts relative and absolute paths");
+            Console.WriteLine("inpath\t\tthe input path, accepts relative and absolute paths");
+            Console.WriteLine("outpath\t\tthe output path, accepts relative and absolute paths");
+            Console.WriteLine("outname\t\toutput name, this overwrites output name in input file");
+            Console.WriteLine();
+            Console.WriteLine("sample usage:");
+            Console.WriteLine();
+            Console.WriteLine("mc_zemax databasetoconvert converteddatabase");
+
         }
 
-        /// <summary>
-        /// Displays the help text for the topic passed as a parameter
-        /// </summary>
-        /// <param name="helpTopic">Help topic</param>
-        private static void ShowHelp(string helpTopic)
-        {
-            switch (helpTopic.ToLower())
-            {
-                case "infile":
-                    logger.Info("\nINFILE");
-                    logger.Info("This is the name of the input database file, it can be a relative or absolute path.");
-                    logger.Info("If the path name has any spaces enclose it in double quotes.");
-                    logger.Info("For relative paths, omit the leading slash.");
-                    logger.Info("EXAMPLES for .txt (json) files:");
-                    logger.Info("\tinfile=C:\\MonteCarlo\\InputFiles\\myinfile.txt");
-                    logger.Info("\tinfile=\"C:\\Monte Carlo\\InputFiles\\myinfile.txt\"");
-                    logger.Info("\tinfile=InputFiles\\myinfile.txt");
-                    logger.Info("\tinfile=myinfile.txt");
-                    break;
-                case "outpath":
-                    logger.Info("\nOUTFILE");
-                    logger.Info("This is the name of the output database file, it can be a relative or absolute path.");
-                    logger.Info("If the path name has any spaces enclose it in double quotes.");
-                    logger.Info("For relative paths, omit the leading slash.");
-                    logger.Info("EXAMPLES:");
-                    logger.Info("\toutfile=C:\\MonteCarlo\\OutputFiles");
-                    logger.Info("\toutfile=OutputFiles");
-                    break;
-            }
-        }
     }
 }

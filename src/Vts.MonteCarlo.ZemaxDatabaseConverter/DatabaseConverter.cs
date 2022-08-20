@@ -7,28 +7,46 @@ using Vts.MonteCarlo.Zemax;
 
 namespace Vts.MonteCarlo.ZemaxDatabaseConverter
 {
-    public class DatabaseConverter
+    public static class DatabaseConverter
     {
-        private static ILogger logger = LoggerFactoryLocator.GetDefaultNLogFactory().Create(typeof(DatabaseConverter));
-
         /// <summary>
-        /// method to convert zemax ray database to MCCL source database
+        /// method to verify input arguments
         /// </summary>
-        public static RayDatabase ConvertZemaxDatabaseToMCCLSourceDatabase(string inputFile, string outputFile)
+        /// <param name="inputFile">Database to be converted</param>
+        /// <param name="outputFile">Converted database</param>
+        /// <returns>Boolean indicating inputs are valid</returns>
+        public static bool VerifyInputs(string inputFile, string outputFile)
         {
             try
             {
                 if (string.IsNullOrEmpty(inputFile))
                 {
-                    logger.Info(" *** No input file specified ***\n\nDefine an input file e.g. database.zrd");
-                    return null;
+                    Console.WriteLine("\nNo input file specified");
+                    return false;
                 }
                 if (string.IsNullOrEmpty(outputFile))
                 {
-                    logger.Info(" *** No output file specified ***\n\nDefine an output file e.g. database.mcs");
-                    return null;
+                    Console.WriteLine("\nNo output file specified");
+                    return false;
                 }
+                return true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return false;
+            }
+        }
 
+        /// <summary>
+        /// method to convert zemax ray database to MCCL source database
+        /// </summary>
+        /// <param name="inputFile">Database to be converted</param>
+        /// <param name="outputFile">Converted database</param>
+        public static void ConvertZemaxDatabaseToMCCLSourceDatabase(string inputFile, string outputFile)
+        {
+            try
+            {
                 //get the full path for the input file
                 var fullFilePath = Path.GetFullPath(inputFile);
 
@@ -54,16 +72,53 @@ namespace Vts.MonteCarlo.ZemaxDatabaseConverter
                         }
                     }
                 }
-
-                //throw a file not found exception
-                throw new FileNotFoundException("\nThe following input file could not be found: " + fullFilePath + " - type mc help=infile for correct syntax");
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
-                return null;
             }
         }
+        /// <summary>
+        /// method to convert zemax ray database to MCCL source database
+        /// </summary>
+        /// <param name="inputFile">Database to be converted</param>
+        /// <param name="outputFile">Converted database</param>
+        public static void ConvertMCCLDatabaseToZemaxSourceDatabase(string inputFile, string outputFile)
+        {
+            try
+            {
+                //get the full path for the input file
+                var fullFilePath = Path.GetFullPath(inputFile);
 
+                var fileToConvert = RayDatabase.FromFile(fullFilePath);
+
+                using (var dbWriter = new ZRDRayDatabaseWriter(
+                    VirtualBoundaryType.DiffuseReflectance, outputFile))
+                {
+                    // enumerate through the elements 
+                    var enumerator = fileToConvert.DataPoints.GetEnumerator();
+                    for (int i = 0; i < fileToConvert.NumberOfElements; i++)
+                    {
+                        // advance to the next ray data
+                        enumerator.MoveNext();
+                        var dp = enumerator.Current;
+                        var zrdRayDataPoint = new ZRDRayDataPoint();
+                        // set Position,Direction,Weight in Zemax struct
+                        zrdRayDataPoint.X = dp.Position.X;
+                        zrdRayDataPoint.Y = dp.Position.Y;
+                        zrdRayDataPoint.Z = dp.Position.Z;
+                        zrdRayDataPoint.Ux = dp.Direction.Ux;
+                        zrdRayDataPoint.Uy = dp.Direction.Uy;
+                        zrdRayDataPoint.Uz = dp.Direction.Uz;
+                        zrdRayDataPoint.Weight = dp.Weight;
+                        dbWriter.Write(zrdRayDataPoint);
+                    }
+                }                
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+        }
     }
 }

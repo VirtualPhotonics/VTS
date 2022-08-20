@@ -14,7 +14,7 @@ namespace Vts.Test.MonteCarlo.Sources
     /// Unit tests for From File Source
     /// </summary>
     [TestFixture]
-    public class FromFileSourceTests
+    public class RayFileSourceTests
     {
         /// <summary>
         /// list of temporary files created by these unit tests
@@ -44,7 +44,7 @@ namespace Vts.Test.MonteCarlo.Sources
             }
         }
         /// <summary>
-        /// set up ZRDRayDatabase
+        /// set up MCCL RayDatabase
         /// </summary>
         [OneTimeSetUp]
         public void setup()
@@ -67,10 +67,10 @@ namespace Vts.Test.MonteCarlo.Sources
         }
 
         /// <summary>
-        /// Validate ZRDFileSource reads data from file correctly
+        /// Validate RayFileSource reads data from file correctly
         /// </summary>
         [Test]
-        public void validate_ZRDFileSource_reads_database_correctly()
+        public void validate_RayFileSource_reads_database_correctly()
         {
             var source = new RayFileSource("testraydatabase", 0);
             var tissue = new MultiLayerTissue();
