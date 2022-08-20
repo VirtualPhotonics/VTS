@@ -120,7 +120,7 @@ namespace Vts.MonteCarlo.ZemaxDatabaseConverter.Test
         {
             // run database converter on MCCL Ray Database generated in OneTimeSetup
             var arguments = new string[] { "infile=RayDiffuseReflectanceDatabase", "outfile=ZRDDiffuseReflectanceDatabase" };
-            var status = Program.Main(arguments);
+            Program.Main(arguments);
             // read file written
             var rayDatabase = ZRDRayDatabase.FromFile("ZRDDiffuseReflectanceDatabase");
             Assert.AreEqual(88, rayDatabase.NumberOfElements);
@@ -140,9 +140,16 @@ namespace Vts.MonteCarlo.ZemaxDatabaseConverter.Test
             // advance to the second point and test that the point is valid
             enumerator.MoveNext();
             var dp2 = enumerator.Current;
+            Assert.IsTrue(Math.Abs(dp2.X - 0.382333) < 1e-6);
+            Assert.IsTrue(Math.Abs(dp2.Y + 2.13952) < 1e-5);
+            Assert.IsTrue(Math.Abs(dp2.Z - 0.0) < 1e-6);
+            Assert.IsTrue(Math.Abs(dp2.Ux + 0.711575) < 1e-6);
+            Assert.IsTrue(Math.Abs(dp2.Uy + 0.493464) < 1e-6);
+            Assert.IsTrue(Math.Abs(dp2.Uz + 0.500153) < 1e-6);
+            Assert.IsTrue(Math.Abs(dp2.Weight - 0.911520) < 1e-6);
         }
         ///// <summary>
-        ///// test to verify reading actual Zemax ZRD file
+        ///// test to verify reading actual Zemax ZRD file, files are about 389KB LM: can I put in resources?
         ///// </summary>
         //[Test]
         //public void validate_ZRDRayDatabase_deserialized_class_is_correct_when_using_FromFile()
@@ -159,71 +166,6 @@ namespace Vts.MonteCarlo.ZemaxDatabaseConverter.Test
         //    }
         //}
 
-        ///// <summary>
-        ///// test to verify RayDatabase.ToFile is working correctly.
-        ///// </summary>
-        //[Test]
-        //public void validate_ZRDRayDatabase_deserialized_class_is_correct_when_using_WriteToFile()
-        //{
-        //    string databaseFileName = "testzrdraydatabase";
-        //    var firstRayDP = new ZRDRayDataPoint(new RayDataPoint(
-        //            new Position(1, 1, 0),
-        //            new Direction(0, 1 / Math.Sqrt(2), -1 / Math.Sqrt(2)),
-        //            1.0));
-        //    var secondRayDP = new ZRDRayDataPoint(new RayDataPoint(
-        //            new Position(2, 2, 0),
-        //            new Direction(1 / Math.Sqrt(2), 0, -1 / Math.Sqrt(2)),
-        //            2.0));
-        //    using (var dbWriter = new ZRDRayDatabaseWriter(
-        //        VirtualBoundaryType.DiffuseReflectance, databaseFileName))
-        //    {
-        //        dbWriter.Write(firstRayDP);
-        //        dbWriter.Write(secondRayDP);
-        //    }
-        //    // read back file written
-        //    var rayDatabase = ZRDRayDatabase.FromFile(databaseFileName);
-        //    Assert.AreEqual(rayDatabase.NumberOfElements, 2);
 
-        //    // manually enumerate through the first two elements (same as foreach)
-        //    // PhotonDatabase is designed so you don't have to have the whole thing
-        //    // in memory, so .ToArray() loses the benefits of the lazy-load data points
-        //    var enumerator = rayDatabase.DataPoints.GetEnumerator();
-        //    // advance to the first point and test that the point is valid
-        //    enumerator.MoveNext();
-        //    var dp1 = enumerator.Current;
-        //    Assert.IsTrue(dp1.X == firstRayDP.X);
-        //    Assert.IsTrue(dp1.Y == firstRayDP.Y);
-        //    Assert.IsTrue(dp1.Z == firstRayDP.Z);
-        //    Assert.IsTrue(dp1.Ux == firstRayDP.Ux);
-        //    Assert.IsTrue(dp1.Uy == firstRayDP.Uy);
-        //    Assert.IsTrue(dp1.Uz == firstRayDP.Uz);
-        //    Assert.IsTrue(dp1.Weight == firstRayDP.Weight);
-        //    // advance to the second point and test that the point is valid
-        //    enumerator.MoveNext();
-        //    var dp2 = enumerator.Current;
-        //    Assert.IsTrue(dp2.X == secondRayDP.X);
-        //    Assert.IsTrue(dp2.Y == secondRayDP.Y);
-        //    Assert.IsTrue(dp2.Z == secondRayDP.Z);
-        //    Assert.IsTrue(dp2.Ux == secondRayDP.Ux);
-        //    Assert.IsTrue(dp2.Uy == secondRayDP.Uy);
-        //    Assert.IsTrue(dp2.Uz == secondRayDP.Uz);
-        //    Assert.IsTrue(dp2.Weight == secondRayDP.Weight);
-        //}
-
-        //[Test]
-        //public void validate_ZRDDatabase_file_gets_written_and_is_correct()
-        //{
-        //    Assert.IsTrue(FileIO.FileExists("ZRDDiffuseReflectanceDatabase"));
-        //    // read the database from file, and verify the correct number of photons were written
-        //    var rayDatabase = ZRDRayDatabase.FromFile("ZRDDiffuseReflectanceDatabase");
-
-        //    Assert.AreEqual(88, rayDatabase.NumberOfElements);
-        //    var enumerator = rayDatabase.DataPoints.GetEnumerator();
-        //    // advance to the first point and test that the point is valid
-        //    enumerator.MoveNext();
-        //    var dp1 = enumerator.Current;
-        //    Assert.AreEqual(0.0, dp1.Z);
-        //    Assert.IsTrue(Math.Abs(dp1.Weight - 0.021116) < 0.000001);
-        //}
     }
 }

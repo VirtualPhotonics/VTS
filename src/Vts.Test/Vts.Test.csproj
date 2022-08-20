@@ -8,11 +8,6 @@
     <OldToolsVersion>2.0</OldToolsVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Remove="MonteCarlo\Zemax\**" />
-    <EmbeddedResource Remove="MonteCarlo\Zemax\**" />
-    <None Remove="MonteCarlo\Zemax\**" />
-  </ItemGroup>
-  <ItemGroup>
     <None Remove="Resources\embeddedresourcefile.txt" />
     <None Remove="Resources\fileiotest\binarydbl" />
     <None Remove="Resources\fileiotest\file7.xml" />
