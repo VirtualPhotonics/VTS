@@ -7,9 +7,6 @@ using Vts.MonteCarlo.Sources;
 using Vts.MonteCarlo.Tissues;
 using Vts.MonteCarlo.Detectors;
 using Vts.MonteCarlo.Zemax;
-using Vts.MonteCarlo.RayData;
-using Vts.MonteCarlo.ZemaxDatabaseConverter;
-using System.Threading.Tasks;
 
 namespace Vts.MonteCarlo.ZemaxDatabaseConverter.Test
 {
@@ -116,7 +113,7 @@ namespace Vts.MonteCarlo.ZemaxDatabaseConverter.Test
         /// Validation values used from prior test
         /// </summary>
         [Test]
-        public void Validate_conversion_from_MCCL_RayDatabase_To_Zemax_ZRDDatabase_successful()
+        public void Validate_conversion_from_MCCL_RayDatabase_to_Zemax_ZRDDatabase_successful()
         {
             // run database converter on MCCL Ray Database generated in OneTimeSetup
             var arguments = new string[] { "infile=RayDiffuseReflectanceDatabase", "outfile=ZRDDiffuseReflectanceDatabase" };
@@ -148,23 +145,24 @@ namespace Vts.MonteCarlo.ZemaxDatabaseConverter.Test
             Assert.IsTrue(Math.Abs(dp2.Uz + 0.500153) < 1e-6);
             Assert.IsTrue(Math.Abs(dp2.Weight - 0.911520) < 1e-6);
         }
-        ///// <summary>
-        ///// test to verify reading actual Zemax ZRD file, files are about 389KB LM: can I put in resources?
-        ///// </summary>
-        //[Test]
-        //public void validate_ZRDRayDatabase_deserialized_class_is_correct_when_using_FromFile()
-        //{
-        //    var databaseFilename = @"C:\Users\hayakawa\Desktop\RP\Zemax\MyOutput\ZRDDiffuseReflectanceDatabase";
-        //    // read the database from file, and verify the correct number of photons were written
-        //    var rayDatabase = ZRDRayDatabase.FromFile(databaseFilename);
-        //    var enumerator = rayDatabase.DataPoints.GetEnumerator();
-        //    // advance to the first point and test that the point is valid
-        //    for (int i = 0; i < 1000; i++)
-        //    {
-        //        enumerator.MoveNext();
-        //        var dp1 = enumerator.Current;
-        //    }
-        //}
+        /// <summary>
+        /// test to verify reading actual Zemax ZRD file, files are about 389KB LM: can I put in resources?
+        /// </summary>
+        [Test]
+        public void Validate_conversion_from_Zemax_ZRDDatabase_to_MCCL_RayDatabase_successful()
+        {
+            //var databaseFilename = @"C:\Users\hayakawa\Desktop\RP\Zemax\MyOutput\ZRDDiffuseReflectanceDatabase";
+            var arguments = new string[] { "infile=ZRDTest.ZRD", "outfile=test" };
+            Program.Main(arguments);// read the database from file, and verify the correct number of photons were written
+            var rayDatabase = ZRDRayDatabase.FromFile("test");
+            var enumerator = rayDatabase.DataPoints.GetEnumerator();
+            // advance to the first point and test that the point is valid
+            for (int i = 0; i < 1000; i++)
+            {
+                enumerator.MoveNext();
+                var dp1 = enumerator.Current;
+            }
+        }
 
 
     }

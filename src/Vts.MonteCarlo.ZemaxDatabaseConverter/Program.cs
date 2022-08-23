@@ -97,7 +97,7 @@ namespace Vts.MonteCarlo.ZemaxDatabaseConverter
                new CommandLine.Switch("outfile", val =>
                {
                    convertedDatabaseName = val.First();
-                   Console.WriteLine("output file specified as {1}" + convertedDatabaseName);
+                   Console.WriteLine("output file specified as {0}", convertedDatabaseName);
                })
                );
 

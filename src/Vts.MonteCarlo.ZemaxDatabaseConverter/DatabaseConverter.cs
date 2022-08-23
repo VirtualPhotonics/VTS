@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using Vts.Common;
-using Vts.Common.Logging;
 using Vts.MonteCarlo.RayData;
 using Vts.MonteCarlo.Zemax;
 
@@ -50,9 +49,11 @@ namespace Vts.MonteCarlo.ZemaxDatabaseConverter
                 //get the full path for the input file
                 var fullFilePath = Path.GetFullPath(inputFile);
 
-                if (File.Exists(fullFilePath + ".zrd")) // binary ZRD source file
+                if (Path.GetExtension(fullFilePath) == ".ZRD" || Path.GetExtension(fullFilePath) == ".zrd") // binary ZRD source file
                 {
-                    var fileToConvert =  ZRDRayDatabase.FromFile(fullFilePath);
+                    // take off .ZRD because subsequent code looking for filename.txt
+                    var fileToConvert = ZRDRayDatabase.FromFile(
+                        fullFilePath.Substring(0, fullFilePath.Length - 4));
 
                     using (var dbWriter = new RayDatabaseWriter(
                         VirtualBoundaryType.DiffuseReflectance, outputFile))

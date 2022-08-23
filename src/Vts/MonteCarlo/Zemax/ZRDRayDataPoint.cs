@@ -38,36 +38,37 @@ namespace Vts.MonteCarlo.Zemax
         /// </summary>
         public ZRDRayDataPoint() : this(new RayDataPoint(
                 new Position(0, 0, 0),
-                new Direction(0, 0, 1), 1.0))
+                new Direction(0, 0, 1), 
+                1.0))
         { }
 
         //[StructLayout(LayoutKind.Explicit)]
         //public struct ZRDRayDataPoint
         //{
-            /// <summary>
-            /// [FieldOffset(0)] status : bitwise flags indicating status of the ray
-            /// </summary>
-            public uint status;
-            /// <summary>
-            /// [FieldOffset(4)] level : number of ray segments bw ray segment and original source
-            /// </summary>
-            public int level;
-            /// <summary>
-            /// [FieldOffset(8)] hitObject: the object number the ray intercepted (0=hit nothing)
-            /// </summary>
-            public int hitObject;
-            /// <summary>
-            /// [FieldOffset(12)] hitFace: the face number the ray intercepted (valid if hitObject!=0)
-            /// </summary>
-            public int hitFace;
-            /// <summary>
-            /// [FieldOffset(16)] unused
-            /// </summary>
-            public int unused;
-            /// <summary>
-            /// [FieldOffset(20)] inObject: object number of ray is propating inside of
-            /// </summary>
-            public int inObject;
+        /// <summary>
+        /// [FieldOffset(0)] status : bitwise flags indicating status of the ray
+        /// </summary>
+        public uint status;
+        /// <summary>
+        /// [FieldOffset(4)] level : number of ray segments bw ray segment and original source
+        /// </summary>
+        public int level;
+        /// <summary>
+        /// [FieldOffset(8)] hitObject: the object number the ray intercepted (0=hit nothing)
+        /// </summary>
+        public int hitObject;
+        /// <summary>
+        /// [FieldOffset(12)] hitFace: the face number the ray intercepted (valid if hitObject!=0)
+        /// </summary>
+        public int hitFace;
+        /// <summary>
+        /// [FieldOffset(16)] unused
+        /// </summary>
+        public int unused;
+        /// <summary>
+        /// [FieldOffset(20)] inObject: object number of ray is propating inside of
+        /// </summary>
+        public int inObject;
         /// <summary>
         /// [FieldOffset(24)] parent: the prior ray segment from which the ray originated
         /// </summary>
@@ -110,8 +111,7 @@ namespace Vts.MonteCarlo.Zemax
         public double Ux { get; set; } // this is "l" in Zemax
         /// <summary>
         /// [FieldOffset(88)]direction Uy
-        /// </summary>
-        
+        /// </summary>        
         public double Uy { get; set; } // this is "m" in Zemax
         /// <summary>
         /// [FieldOffset(96)]direction Uz
