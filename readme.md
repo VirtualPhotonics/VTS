@@ -32,9 +32,11 @@ For detailed instructions on how to launch the VTS GUI, click [here](https://git
 ## Acknowledgement
 Use the following citation or acknowledgement in publications or applications that make use of this open source software or underlying technology and research:
 
-__Carole K. Hayakawa, Lisa Malenfant, Janaka C. Ranasinghesagara, David J. Cuccia, Jerome Spanier, Vasan Venugopalan, "MCCL: an open-source software application for Monte Carlo simulations of radiative transport," J. Biomed. Opt. 27(8) 083005 (12 April 2022) https://doi.org/10.1117/1.JBO.27.8.083005__
+"__We acknowledge open-source software resources offered by the Virtual Photonics Technology Initiative ([https://virtualphotonics.org](https://virtualphotonics.org)), at the Beckman Laser Institute, University of California, Irvine.__"
 
-"__We acknowledge open-source software resources offered by the Virtual Photonics Technology Initiative, at the Beckman Laser Institute, University of California, Irvine.__"
+In addition, for any work that utilizes the Virtual Photonics Monte Carlo software, cite the following publication:
+
+__Carole K. Hayakawa, Lisa Malenfant, Janaka C. Ranasinghesagara, David J. Cuccia, Jerome Spanier, Vasan Venugopalan, "MCCL: an open-source software application for Monte Carlo simulations of radiative transport," J. Biomed. Opt. 27(8) 083005 (12 April 2022) https://doi.org/10.1117/1.JBO.27.8.083005__
 
 ## Software
 
