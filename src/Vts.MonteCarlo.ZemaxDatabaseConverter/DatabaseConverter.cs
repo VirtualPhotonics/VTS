@@ -49,30 +49,26 @@ namespace Vts.MonteCarlo.ZemaxDatabaseConverter
                 //get the full path for the input file
                 var fullFilePath = Path.GetFullPath(inputFile);
 
-                if (Path.GetExtension(fullFilePath) == ".ZRD" || Path.GetExtension(fullFilePath) == ".zrd") // binary ZRD source file
-                {
-                    // take off .ZRD because subsequent code looking for filename.txt
-                    var fileToConvert = ZRDRayDatabase.FromFile(
-                        fullFilePath.Substring(0, fullFilePath.Length - 4));
+                var fileToConvert = ZRDRayDatabase.FromFile(fullFilePath);
 
-                    using (var dbWriter = new RayDatabaseWriter(
-                        VirtualBoundaryType.DiffuseReflectance, outputFile))
+                using (var dbWriter = new RayDatabaseWriter(
+                    VirtualBoundaryType.DiffuseReflectance, outputFile))
+                {
+                    // enumerate through the elements 
+                    var enumerator = fileToConvert.DataPoints.GetEnumerator();
+                    for (int i = 0; i < fileToConvert.NumberOfElements; i++)
                     {
-                        for (int i = 0; i < fileToConvert.NumberOfElements; i++)
-                        {
-                            // enumerate through the elements 
-                            var enumerator = fileToConvert.DataPoints.GetEnumerator();
-                            // advance to the next ray data
-                            enumerator.MoveNext();
-                            var dp = enumerator.Current;
-                            // excise Position,Direction,Weight from Zemax struct
-                            dbWriter.Write(new RayDataPoint(
-                                new Position(dp.X, dp.Y, dp.Z),
-                                new Direction(dp.Ux, dp.Uy, dp.Uz),
-                                dp.Weight));
-                        }
+                        // advance to the next ray data
+                        enumerator.MoveNext();
+                        var dp = enumerator.Current;
+                        // excise Position,Direction,Weight from Zemax struct
+                        dbWriter.Write(new RayDataPoint(
+                            new Position(dp.X, dp.Y, dp.Z),
+                            new Direction(dp.Ux, dp.Uy, dp.Uz),
+                            dp.Weight));
                     }
                 }
+                
             }
             catch (Exception e)
             {

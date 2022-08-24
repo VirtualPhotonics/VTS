@@ -7,6 +7,7 @@ using Vts.MonteCarlo.Sources;
 using Vts.MonteCarlo.Tissues;
 using Vts.MonteCarlo.Detectors;
 using Vts.MonteCarlo.Zemax;
+using Vts.MonteCarlo.RayData;
 
 namespace Vts.MonteCarlo.ZemaxDatabaseConverter.Test
 {
@@ -152,16 +153,21 @@ namespace Vts.MonteCarlo.ZemaxDatabaseConverter.Test
         public void Validate_conversion_from_Zemax_ZRDDatabase_to_MCCL_RayDatabase_successful()
         {
             //var databaseFilename = @"C:\Users\hayakawa\Desktop\RP\Zemax\MyOutput\ZRDDiffuseReflectanceDatabase";
-            var arguments = new string[] { "infile=ZRDTest.ZRD", "outfile=test" };
+            var arguments = new string[] { "infile=ZRDTest", "infiletype=zrd","outfile=test" };
             Program.Main(arguments);// read the database from file, and verify the correct number of photons were written
-            var rayDatabase = ZRDRayDatabase.FromFile("test");
+            var rayDatabase = RayDatabase.FromFile("test");
+            Assert.AreEqual(948, rayDatabase.NumberOfElements);
             var enumerator = rayDatabase.DataPoints.GetEnumerator();
             // advance to the first point and test that the point is valid
-            for (int i = 0; i < 1000; i++)
-            {
-                enumerator.MoveNext();
-                var dp1 = enumerator.Current;
-            }
+            enumerator.MoveNext();
+            var dp1 = enumerator.Current;
+            Assert.IsTrue(Math.Abs(dp1.Position.X - 2.04889) < 1e-5);
+            Assert.IsTrue(Math.Abs(dp1.Position.Y - 3.35319) < 1e5);
+            Assert.IsTrue(Math.Abs(dp1.Position.Z - 0.0) < 1e-6);
+            Assert.IsTrue(Math.Abs(dp1.Direction.Ux + 0.627379) < 1e-6);
+            Assert.IsTrue(Math.Abs(dp1.Direction.Uy - 0.177843) < 1e-6);
+            Assert.IsTrue(Math.Abs(dp1.Direction.Uz + 0.758133) < 1e-6); // why is this neg?
+            Assert.IsTrue(Math.Abs(dp1.Weight - 0.768176) < 1e-6);
         }
 
 

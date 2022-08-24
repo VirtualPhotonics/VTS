@@ -3,8 +3,6 @@ using System.IO;
 using System.Linq;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using Vts.Common.Logging;
-using Vts.MonteCarlo.RayData;
 
 namespace Vts.MonteCarlo.ZemaxDatabaseConverter
 {
@@ -73,7 +71,9 @@ namespace Vts.MonteCarlo.ZemaxDatabaseConverter
          public static int Main(string[] args)
          {
             string databaseToConvertName = "";
-            var convertedDatabaseName = "";
+            string convertedDatabaseName = "";
+            string infileType = "";
+            bool zemaxToMCCL = false;
             var outPath = ""; // may need later 
             var infoOnlyOption = false;
 
@@ -98,6 +98,28 @@ namespace Vts.MonteCarlo.ZemaxDatabaseConverter
                {
                    convertedDatabaseName = val.First();
                    Console.WriteLine("output file specified as {0}", convertedDatabaseName);
+               }),
+               new CommandLine.Switch("infiletype", val =>
+               {
+                   infileType = val.First();
+                   if (infileType == "zrd")
+                   {
+                       zemaxToMCCL = true;
+                       Console.WriteLine("converting Zemax database to MCCL database");
+                   }
+                   else
+                   {
+                       if (infileType == "mccl")
+                       {
+                           zemaxToMCCL = false;
+                           Console.WriteLine("converting MCCL database to Zemax database");
+                       }
+                       else
+                       {
+                           infoOnlyOption = true;
+                           Console.WriteLine("infiletype either needs to be set to 'zrd' or 'mccl'");
+                       }
+                   }
                })
                );
 
@@ -106,10 +128,7 @@ namespace Vts.MonteCarlo.ZemaxDatabaseConverter
                 // check infiles exist
                 if (DatabaseConverter.VerifyInputs(databaseToConvertName, convertedDatabaseName))
                 {
-                    // if MC->Zemax databaseToConvert has no extension
-                    // if Zemax->MC databaseToConvert has .ZRD extension
-                    if ((Path.GetExtension(databaseToConvertName) == ".zrd") ||
-                        (Path.GetExtension(databaseToConvertName) == ".ZRD"))
+                    if (zemaxToMCCL)
                     {
                         // conversion of Zemax output to MCCL source database process
                         DatabaseConverter.ConvertZemaxDatabaseToMCCLSourceDatabase(
@@ -140,14 +159,14 @@ namespace Vts.MonteCarlo.ZemaxDatabaseConverter
             Console.WriteLine();
             Console.WriteLine("list of arguments:");
             Console.WriteLine();
-            Console.WriteLine("infile\t\tthe input file, accepts relative and absolute paths");
-            Console.WriteLine("inpath\t\tthe input path, accepts relative and absolute paths");
-            Console.WriteLine("outpath\t\tthe output path, accepts relative and absolute paths");
-            Console.WriteLine("outname\t\toutput name, this overwrites output name in input file");
+            Console.WriteLine("infile\t\tthe input file of database to be converted");
+            Console.WriteLine("outname\t\toutput name of converted database file");
+            Console.WriteLine("infiletype\t\ttype of infile, either 'zrd' or 'mccl'");
             Console.WriteLine();
             Console.WriteLine("sample usage:");
             Console.WriteLine();
-            Console.WriteLine("mc_zemax databasetoconvert converteddatabase");
+            Console.WriteLine("mc_zemax infile=databasetoconvert infiletype=zrd outfile=converteddatabase");
+            Console.WriteLine("mc_zemax infile=databasetoconvert infiletype=mccl outfile=converteddatabase");
 
         }
 

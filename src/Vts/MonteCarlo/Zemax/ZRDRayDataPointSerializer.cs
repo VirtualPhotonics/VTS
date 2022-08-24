@@ -98,7 +98,7 @@ namespace Vts.MonteCarlo.Zemax
         /// Method to read PhotonDataPoint from binary.  Header info is only read first time through.
         /// </summary>
         /// <param name="br">BinaryReader</param>
-        /// <returns>ZRDRayDataPoint</returns>
+        /// <returns>ZRDRayDataPoint, data comsistent with zrd file ray</returns>
         public ZRDRayDataPoint ReadFromBinary(BinaryReader br)
         {
             if (!headerIsRead)

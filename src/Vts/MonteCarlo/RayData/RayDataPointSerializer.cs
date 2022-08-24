@@ -33,7 +33,7 @@ namespace Vts.MonteCarlo.RayData
         /// Method to read PhotonDataPoint from binary.  Header info is only read first time through.
         /// </summary>
         /// <param name="br">BinaryReader</param>
-        /// <returns>RayDataPoint</returns>
+        /// <returns>RayDataPoint is pertinent data from ray data that MCCL uses</returns>
         public RayDataPoint ReadFromBinary(BinaryReader br)
         {
             var rayDataPoint = new RayDataPoint(
