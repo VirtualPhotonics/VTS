@@ -43,7 +43,7 @@ namespace Vts.SpectralMapping
         /// <summary>
         /// Creates a power law scatterer using the specified tissue type
         /// </summary>
-        /// <param name="tissueType">The tissue type as defined by the Enum <see cref="Vts.TissueType">TissueType</see></param>
+        /// <param name="tissueType">The tissue type as defined by the enum <see cref="Vts.TissueType">TissueType</see></param>
         public PowerLawScatterer(TissueType tissueType)
         {
             SetTissueType(tissueType);

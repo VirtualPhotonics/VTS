@@ -61,6 +61,7 @@ namespace Vts.MonteCarlo.VirtualBoundaries
         /// Finds the distance to the virtual boundary given direction of VB and photon
         /// </summary>
         /// <param name="dp">photon data point</param>
+        /// <returns>distance to virtual boundary</returns>
         public double GetDistanceToVirtualBoundary(PhotonDataPoint dp)
         {
             double distanceToBoundary = double.PositiveInfinity;

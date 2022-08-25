@@ -25,7 +25,7 @@
         /// </summary>
         public string Name { get; set; }
         /// <summary>
-        /// boolean indicating whether to tally 2nd moment
+        /// Boolean indicating whether to tally 2nd moment
         /// </summary>
         public bool TallySecondMoment { get; set; }
         /// <summary>
@@ -60,7 +60,7 @@
         /// </summary>
         public string Name { get; set; }
         /// <summary>
-        /// boolean indicating whether to tally 2nd moment
+        /// Boolean indicating whether to tally 2nd moment
         /// </summary>
         public bool TallySecondMoment { get; set; }
         /// <summary>

@@ -19,7 +19,7 @@ namespace Vts.IO
         }
 
         /// <summary>
-        /// Static method to check that an assemly is loaded
+        /// Static method to check that an assembly is loaded
         /// </summary>
         /// <param name="assemblyName">Name of the assembly</param>
         public static void EnsureDllIsLoaded(string assemblyName)

@@ -37,13 +37,13 @@ namespace Vts.Modeling.ForwardSolvers
         /// </summary>
         /// <param name="op">optical properties</param>
         /// <param name="rho">source detector separation</param>
-        /// <returns>spatailly resolved reflectance</returns>
+        /// <returns>spatially resolved reflectance</returns>
         public override double ROfRho(OpticalProperties op, double rho)
         {
             return ROfRho(op.AsEnumerable(), rho.AsEnumerable()).First();
         }
         /// <summary>
-        /// Evaluates the steady state reflectance at multipl sets of optical properties and source-detector separations.
+        /// Evaluates the steady state reflectance at multiple sets of optical properties and source-detector separations.
         /// </summary>
         /// <param name="ops">optical properties</param>
         /// <param name="rhos">source detector separations</param>

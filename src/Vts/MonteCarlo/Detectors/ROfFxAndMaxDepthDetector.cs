@@ -1,44 +1,52 @@
 using System;
 using System.Linq;
-using System.Numerics;
 using System.Runtime.Serialization;
 using Vts.Common;
 using Vts.IO;
+using Vts.MonteCarlo.Helpers;
 using Vts.MonteCarlo.Extensions;
-using Vts.MonteCarlo.PhotonData;
+using System.Numerics;
 
 namespace Vts.MonteCarlo.Detectors
 {
     /// <summary>
-    /// DetectorInput for transmittance as a function of spatial frequency fx
+    /// Tally for reflectance as a function of Fx and MaxDepth.
+    /// This works for Analog, DAW and CAW processing.
     /// </summary>
-    public class TOfFxDetectorInput : DetectorInput, IDetectorInput
+    public class ROfFxAndMaxDepthDetectorInput : DetectorInput, IDetectorInput
     {
         /// <summary>
-        /// constructor for transmittance as a function of Fx detector input
+        /// constructor for reflectance as a function of Fx and MaxDepth detector input
         /// </summary>
-        public TOfFxDetectorInput()
+        public ROfFxAndMaxDepthDetectorInput()
         {
-            TallyType = "TOfFx";
-            Name = "TOfFx";
-            Fx = new DoubleRange(0.0, 0.5, 51); 
+            TallyType = "ROfFxAndMaxDepth";
+            Name = "ROfFxAndMaxDepth";
+            Fx = new DoubleRange(0.0, 0.5, 51);
+            MaxDepth = new DoubleRange(0.0, 1.0, 101);
             NA = double.PositiveInfinity; // set default NA completely open regardless of detector region refractive index
-            FinalTissueRegionIndex = 2; // assume detector is in air below tissue
+            FinalTissueRegionIndex = 0; // assume detector is in air
 
             // modify base class TallyDetails to take advantage of built-in validation capabilities (error-checking)
-            TallyDetails.IsTransmittanceTally = true;
+            TallyDetails.IsReflectanceTally = true;
+            TallyDetails.IsCylindricalTally = true;
         }
 
         /// <summary>
-        /// detector Fx binning
+        /// Fx binning
         /// </summary>
         public DoubleRange Fx { get; set; }
+        /// <summary>
+        /// MaxDepth binning
+        /// </summary>
+        public DoubleRange MaxDepth { get; set; }
+
         /// <summary>
         /// Detector region index
         /// </summary>
         public int FinalTissueRegionIndex { get; set; }
         /// <summary>
-        /// numerical aperture
+        /// detector numerical aperture
         /// </summary>
         public double NA { get; set; }
 
@@ -48,7 +56,7 @@ namespace Vts.MonteCarlo.Detectors
         /// <returns>created IDetector</returns>
         public IDetector CreateDetector()
         {
-            return new TOfFxDetector
+            return new ROfFxAndMaxDepthDetector
             {
                 // required properties (part of DetectorInput/Detector base classes)
                 TallyType = this.TallyType,
@@ -58,17 +66,17 @@ namespace Vts.MonteCarlo.Detectors
 
                 // optional/custom detector-specific properties
                 Fx = this.Fx,
+                MaxDepth = this.MaxDepth,
                 NA = this.NA,
                 FinalTissueRegionIndex = this.FinalTissueRegionIndex
             };
         }
     }
-
     /// <summary>
-    /// Implements IDetector.  Tally for transmittance as a function  of Fx.
+    /// Implements IDetector.  Tally for reflectance as a function  of Fx and MaxDepth.
     /// This implementation works for Analog, DAW and CAW processing.
     /// </summary>
-    public class TOfFxDetector : Detector, IDetector
+    public class ROfFxAndMaxDepthDetector : Detector, IDetector
     {
         private ITissue _tissue;
 
@@ -78,6 +86,10 @@ namespace Vts.MonteCarlo.Detectors
         /// Fx binning
         /// </summary>
         public DoubleRange Fx { get; set; }
+        /// <summary>
+        /// MaxDepth binning
+        /// </summary>
+        public DoubleRange MaxDepth { get; set; }
         /// <summary>
         /// Detector region index
         /// </summary>
@@ -93,12 +105,12 @@ namespace Vts.MonteCarlo.Detectors
         /// detector mean
         /// </summary>
         [IgnoreDataMember]
-        public Complex[] Mean { get; set; }
+        public Complex[,] Mean { get; set; }
         /// <summary>
         /// detector second moment
         /// </summary>
         [IgnoreDataMember]
-        public Complex[] SecondMoment { get; set; }
+        public Complex[,] SecondMoment { get; set; }
 
         /* ==== Place optional/user-defined output properties here. They will be saved in text (JSON) format ==== */
         /// <summary>
@@ -117,10 +129,10 @@ namespace Vts.MonteCarlo.Detectors
             TallyCount = 0;
 
             // if the data arrays are null, create them (only create second moment if TallySecondMoment is true)
-            Mean = Mean ?? new Complex[Fx.Count];
-            SecondMoment = SecondMoment ?? (TallySecondMoment ? new Complex[Fx.Count] : null);
+            Mean = Mean ?? new Complex[Fx.Count, MaxDepth.Count - 1];
+            SecondMoment = SecondMoment ?? (TallySecondMoment ? new Complex[Fx.Count, MaxDepth.Count - 1] : null);
 
-            // initialize any other necessary class fields here
+           // initialize any other necessary class fields here
             _tissue = tissue;
         }
 
@@ -132,70 +144,80 @@ namespace Vts.MonteCarlo.Detectors
         {
             if (!IsWithinDetectorAperture(photon))
                 return;
-            
+
+            double maxDepth = photon.History.HistoryData.Max(d => d.Position.Z);
+            var id = DetectorBinning.WhichBin(maxDepth, MaxDepth.Count - 1, MaxDepth.Delta, MaxDepth.Start);
+
             var dp = photon.DP;
             var x = dp.Position.X;
             var fxArray = Fx.AsEnumerable().ToArray();
-            for (int i = 0; i < fxArray.Length; i++)
+            for (int ifx = 0; ifx < fxArray.Length; ifx++)
             {
-                double freq = fxArray[i];
-                var sinNegativeTwoPiFX = Math.Sin(-2*Math.PI*freq*x);
-                var cosNegativeTwoPiFX = Math.Cos(-2*Math.PI*freq*x);
+                double freq = fxArray[ifx];
+                var sinNegativeTwoPiFX = Math.Sin(-2 * Math.PI * freq * x);
+                var cosNegativeTwoPiFX = Math.Cos(-2 * Math.PI * freq * x);
                 // convert to Hz-sec from GHz-ns 1e-9*1e9=1
-                var deltaWeight = dp.Weight*(cosNegativeTwoPiFX + Complex.ImaginaryOne*sinNegativeTwoPiFX);
+                var deltaWeight = dp.Weight * (cosNegativeTwoPiFX + Complex.ImaginaryOne * sinNegativeTwoPiFX);
 
-                Mean[i] += deltaWeight;
-                if (TallySecondMoment)  // 2nd moment is E[xx*]=E[xreal^2]+E[ximag^2]
+                Mean[ifx, id] += deltaWeight;
+                // 2nd moment is E[xx*]=E[xreal^2]+E[ximag^2] and with cos^2+sin^2=1 => weight^2
+                if (TallySecondMoment)
                 {
-                    var deltaWeight2 = dp.Weight*dp.Weight*cosNegativeTwoPiFX*cosNegativeTwoPiFX +
-                                       dp.Weight*dp.Weight*sinNegativeTwoPiFX*sinNegativeTwoPiFX;
-                    SecondMoment[i] += deltaWeight2;
+                    SecondMoment[ifx, id] += dp.Weight * dp.Weight;
                 }
             }
             TallyCount++;
         }
-
         /// <summary>
-        /// method to normalize detector tally results
+        /// method to normalize detector results after all photons launched
         /// </summary>
         /// <param name="numPhotons">number of photons launched</param>
         public void Normalize(long numPhotons)
         {
-            for (int i = 0; i < Fx.Count; i++)
+            var normalizationFactor = 2.0 * Math.PI * Fx.Delta;
+            var sum = 0.0;
+            for (int ifx = 0; ifx < Fx.Count; ifx++)
             {
-                Mean[i] /= numPhotons;
-                if (TallySecondMoment)
+                for (int id = 0; id < MaxDepth.Count - 1; id++)
                 {
-                    SecondMoment[i] /= numPhotons;
+                    Mean[ifx, id] /= numPhotons;
+                    if (TallySecondMoment)
+                    {
+                        SecondMoment[ifx, id] /= numPhotons;
+                    }
                 }
             }
         }
-
         /// <summary>
         /// this is to allow saving of large arrays separately as a binary file
         /// </summary>
         /// <returns>BinaryArraySerializer[]</returns>
-        public BinaryArraySerializer[] GetBinarySerializers() 
+        public BinaryArraySerializer[] GetBinarySerializers()
         {
-            return new[] {
+            return new []
+            {
                 new BinaryArraySerializer {
                     DataArray = Mean,
                     Name = "Mean",
                     FileTag = "",
                     WriteData = binaryWriter => {
-                        for (int i = 0; i < Fx.Count; i++) 
-                        {
-                            binaryWriter.Write(Mean[i].Real);
-                            binaryWriter.Write(Mean[i].Imaginary);
+                        for (int i = 0; i < Fx.Count; i++) {
+                            for (int j = 0; j < MaxDepth.Count - 1; j++)
+                            {
+                                binaryWriter.Write(Mean[i, j].Real);
+                                binaryWriter.Write(Mean[i, j].Imaginary);
+                            }
                         }
                     },
                     ReadData = binaryReader => {
-                        Mean = Mean ?? new Complex[ Fx.Count ];
-                        for (int i = 0; i <  Fx.Count; i++) 
-                        {
-                            var real = binaryReader.ReadDouble();
-                            var imag = binaryReader.ReadDouble();
-                            Mean[i] = new Complex(real, imag);
+                        Mean = Mean ?? new Complex[ Fx.Count, MaxDepth.Count - 1];
+                        for (int i = 0; i <  Fx.Count; i++) {
+                            for (int j = 0; j < MaxDepth.Count - 1; j++)
+                            {                            
+                                var real = binaryReader.ReadDouble();
+                                var imag = binaryReader.ReadDouble();
+                                Mean[i, j] = new Complex(real, imag);
+                            }
                         }
                     }
                 },
@@ -206,21 +228,25 @@ namespace Vts.MonteCarlo.Detectors
                     FileTag = "_2",
                     WriteData = binaryWriter => {
                         if (!TallySecondMoment || SecondMoment == null) return;
-                    for (int i = 0; i < Fx.Count; i++)
-                        {
-                            binaryWriter.Write(SecondMoment[i].Real);
-                            binaryWriter.Write(SecondMoment[i].Imaginary);
-                        }          
+                        for (int i = 0; i < Fx.Count; i++) {
+                            for (int j = 0; j < MaxDepth.Count - 1; j++)
+                            {
+                                binaryWriter.Write(SecondMoment[i, j].Real);
+                                binaryWriter.Write(SecondMoment[i, j].Imaginary);
+                            }                            
+                        }
                     },
                     ReadData = binaryReader => {
                         if (!TallySecondMoment || SecondMoment == null) return;
-                        SecondMoment = new Complex[ Fx.Count ];
-                        for (int i = 0; i < Fx.Count; i++) 
-                        {
-                            var real = binaryReader.ReadDouble();
-                            var imag = binaryReader.ReadDouble();
-                            SecondMoment[i] = new Complex(real, imag);
-                        }   
+                        SecondMoment = new Complex[ Fx.Count, MaxDepth.Count - 1];
+                        for (int i = 0; i < Fx.Count - 1; i++) {
+                            for (int j = 0; j < MaxDepth.Count - 1; j++)
+                            {                                
+                                var real = binaryReader.ReadDouble();
+                                var imag = binaryReader.ReadDouble();
+                                SecondMoment[i, j] = new Complex(real, imag);
+                            }                       
+			            }
                     },
                 },
             };
@@ -230,20 +256,19 @@ namespace Vts.MonteCarlo.Detectors
         /// Method to determine if photon is within detector NA
         /// </summary>
         /// <param name="photon">photon</param>
-        /// <returns>Boolean indicating whether photon is within detector</returns>
+        /// <returns>boolean indicating whether photon is within detector</returns>
         public bool IsWithinDetectorAperture(Photon photon)
         {
             if (photon.CurrentRegionIndex == FinalTissueRegionIndex)
             {
                 var detectorRegionN = _tissue.Regions[photon.CurrentRegionIndex].RegionOP.N;
-                return photon.DP.IsWithinNA(NA, Direction.AlongPositiveZAxis, detectorRegionN);
+                return photon.DP.IsWithinNA(NA, Direction.AlongNegativeZAxis, detectorRegionN);
             }
             else // determine n of prior tissue region
             {
                 var detectorRegionN = _tissue.Regions[FinalTissueRegionIndex].RegionOP.N;
-                return photon.History.PreviousDP.IsWithinNA(NA, Direction.AlongPositiveZAxis, detectorRegionN);
+                return photon.History.PreviousDP.IsWithinNA(NA, Direction.AlongNegativeZAxis, detectorRegionN);
             }
         }
-
     }
 }

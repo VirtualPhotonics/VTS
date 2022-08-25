@@ -143,7 +143,7 @@ namespace Vts.MonteCarlo.Detectors
         /// <summary>
         /// this scalar tally is saved to json
         /// </summary>
-        /// <returns></returns>
+        /// <returns>null</returns>
         public BinaryArraySerializer[] GetBinarySerializers()
         {
             return null;
@@ -153,6 +153,7 @@ namespace Vts.MonteCarlo.Detectors
         /// Method to determine if photon is within detector NA
         /// </summary>
         /// <param name="photon">photon</param>
+        /// <returns>Boolean indicating whether photon is within detector</returns>
         public bool IsWithinDetectorAperture(Photon photon)
         {
             if (photon.CurrentRegionIndex == FinalTissueRegionIndex)

@@ -122,7 +122,7 @@ namespace Vts.MonteCarlo
         /// Method to read SimulationInput from JSON file
         /// </summary>
         /// <param name="filename">string filename of file to be read</param>
-        /// <returns>SimulationInput</returns>
+        /// <returns>An instance of the SimulationInput class</returns>
         public static SimulationInput FromFile(string filename)
         {
             return FileIO.ReadFromJson<SimulationInput>(filename);
@@ -130,7 +130,7 @@ namespace Vts.MonteCarlo
         /// <summary>
         /// Method to create simulation
         /// </summary>
-        /// <returns></returns>
+        /// <returns>An instance of the MonteCarloSimulation class</returns>
         public MonteCarloSimulation CreateSimulation()
         {
             return new MonteCarloSimulation(this);
@@ -150,7 +150,7 @@ namespace Vts.MonteCarlo
         /// </summary>
         /// <param name="filename">string filename</param>
         /// <param name="project">string project name</param>
-        /// <returns>SimulationInput</returns>
+        /// <returns>An instance of the SimulationInput class</returns>
         public static SimulationInput FromFileInResources(string filename, string project)
         {
             return FileIO.ReadFromJsonInResources<SimulationInput>(filename, project);

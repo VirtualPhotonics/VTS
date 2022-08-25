@@ -14,7 +14,7 @@ namespace Vts
         /// </summary>
         PerMMSquaredPerNS,
         /// <summary>
-        /// per millimiter squared per giga-Hertz [1/(mm * mm * GHz)]
+        /// per millimeter squared per giga-Hertz [1/(mm * mm * GHz)]
         /// </summary>
         PerMMSquaredPerGHz,
         /// <summary>

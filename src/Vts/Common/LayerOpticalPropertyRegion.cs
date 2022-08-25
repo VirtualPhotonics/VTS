@@ -8,8 +8,8 @@
         /// <summary>
         /// Create an instance of LayerOpticalPropertyRegion
         /// </summary>
-        /// <param name="regionOP"></param>
-        /// <param name="zRange"></param>
+        /// <param name="regionOP">optical properties of the layer region</param>
+        /// <param name="zRange">z range of the layer region</param>
         public LayerOpticalPropertyRegion(DoubleRange zRange, OpticalProperties regionOP)
         {
             ZRange = zRange;

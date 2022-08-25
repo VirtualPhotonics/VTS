@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Vts.MonteCarlo.Controllers;
 using Vts.MonteCarlo.Extensions;
@@ -8,6 +9,15 @@ using Vts.MonteCarlo.PhotonData;
 
 namespace Vts.MonteCarlo.PostProcessing
 {
+    /// <summary>
+    /// The <see cref="PostProcessing"/> namespace contains the Monte Carlo Post Processor classes for processing photon databases
+    /// </summary>
+
+    [CompilerGenerated]
+    internal class NamespaceDoc
+    {
+    }
+
     /// <summary>
     /// Sets up and postprocesses Monte Carlo termination data that has been 
     /// saved in a database.
@@ -94,8 +104,8 @@ namespace Vts.MonteCarlo.PostProcessing
         /// <summary>
         /// Helper static method to run a group of post-processors in parallel
         /// </summary>
-        /// <param name="postProcessors"></param>
-        /// <returns></returns>
+        /// <param name="postProcessors">array of PhotonDatabaseProcessor classes to be run</param>
+        /// <returns>array of SimulationOutput</returns>
         public static SimulationOutput[] RunAll(PhotonDatabasePostProcessor[] postProcessors)
         {
             var outputs = new SimulationOutput[postProcessors.Length];
@@ -118,7 +128,7 @@ namespace Vts.MonteCarlo.PostProcessing
         /// <summary>
         /// Executes the post-processor
         /// </summary>
-        /// <returns></returns>
+        /// <returns>SimulationOutput class</returns>
         public SimulationOutput Run()
         {
             if (_virtualBoundaryType.IsSurfaceVirtualBoundary())

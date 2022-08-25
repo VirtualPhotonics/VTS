@@ -8,7 +8,7 @@ namespace Vts.Modeling.ForwardSolvers
     public class PointSourceSDAForwardSolver : DiffusionForwardSolverBase
     {
         /// <summary>
-        /// default constructor
+        /// Default constructor
         /// </summary>
         public PointSourceSDAForwardSolver()
             : base(SourceConfiguration.Point, 0.0) { }
@@ -20,7 +20,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="rho">radial location</param>
         /// <param name="fr1">Fresnel moment 1, R1</param>
         /// <param name="fr2">Fresnel moment 2, R2</param>
-        /// <returns>reflectance</returns>
+        /// <returns>Reflectance</returns>
         public override double StationaryReflectance(DiffusionParameters dp, double rho, double fr1, double fr2)
         {
             return GetBackwardHemisphereIntegralDiffuseReflectance(StationaryFluence(rho, 0.0, dp),
@@ -35,7 +35,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="rho">radial location</param>
         /// <param name="z">depth location</param>
         /// <param name="dp">DiffusionParameters object</param>
-        /// <returns>fluence</returns>
+        /// <returns>Fluence</returns>
         public override double StationaryFluence(double rho, double z, DiffusionParameters dp)
         {
             return DiffusionGreensFunctions.StationaryPointSourceImageGreensFunction(dp,
@@ -50,7 +50,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="rho">radial location</param>
         /// <param name="z">depth location</param>
         /// <param name="dp">DiffusionParamters object</param>
-        /// <returns></returns>
+        /// <returns>Stationary zflux</returns>
         public double StationaryFlux(double rho, double z, DiffusionParameters dp)
         {
             var zSource = z - dp.zp;
@@ -70,7 +70,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="t">time</param>
         /// <param name="fr1">Fresnel Moment 1</param>
         /// <param name="fr2">Fresnel Moment 2</param>
-        /// <returns>reflectance</returns>
+        /// <returns>Reflectance</returns>
         public override double TemporalReflectance(
             DiffusionParameters dp, double rho, double t, double fr1, double fr2)
         {
@@ -87,7 +87,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="rho">radial location</param>
         /// <param name="z">depth location</param>
         /// <param name="t">time</param>
-        /// <returns>fluence</returns>
+        /// <returns>Fluence</returns>
         public override double TemporalFluence(
             DiffusionParameters dp, double rho, double z, double t)
         {
@@ -104,7 +104,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="rho">radial location</param>
         /// <param name="z">depth location</param>
         /// <param name="t">time</param>
-        /// <returns></returns>
+        /// <returns>Temporal flux</returns>
         public double TemporalFlux(
             DiffusionParameters dp, double rho, double z, double t)
         {
@@ -123,9 +123,9 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="dp">diffusion parameters</param>
         /// <param name="rho">s-d separation</param>
         /// <param name="k">temporal-frequency</param>
-        /// <param name="fr1"></param>
-        /// <param name="fr2"></param>
-        /// <returns></returns>
+        /// <param name="fr1">First Fresnel Reflection Moment</param>
+        /// <param name="fr2">Second Fresnel Reflection Moment</param>
+        /// <returns>Reflectance(rho,ft)</returns>
         public override Complex TemporalFrequencyReflectance(
             DiffusionParameters dp, double rho, Complex k, double fr1, double fr2)
         {
@@ -142,7 +142,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="rho">s-d separation</param>
         /// <param name="z">depth</param>
         /// <param name="k">temporal-frequency</param>
-        /// <returns></returns>
+        /// <returns>Fluence as a function of rho, z and ft</returns>
         public override Complex TemporalFrequencyFluence(DiffusionParameters dp, double rho,
             double z, Complex k)
         {
@@ -158,7 +158,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="rho">s-d separation</param>
         /// <param name="z">depth</param>
         /// <param name="k">temporal-frequency</param>
-        /// <returns></returns>
+        /// <returns>Temporal frequency zflux</returns>
         public Complex TemporalFrequencyZFlux(
             DiffusionParameters dp, double rho, double z, Complex k)
         {

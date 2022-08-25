@@ -69,7 +69,7 @@ namespace Vts.MonteCarlo.Tissues
         /// as long as Center.Z=0;
         /// </summary>
         /// <param name="position">photon position</param>
-        /// <returns>boolean</returns>
+        /// <returns>Boolean</returns>
         public bool ContainsPosition(Position position)
         {
             double radialPosition = Math.Sqrt(position.X * position.X + position.Y * position.Y);
@@ -86,7 +86,7 @@ namespace Vts.MonteCarlo.Tissues
         /// Currently OnBoundary of an inclusion region isn't called by any code ckh 3/5/19.
         /// </summary>
         /// <param name="position">photon position</param>
-        /// <returns>boolean</returns>
+        /// <returns>Boolean</returns>
         public bool OnBoundary(Position position)
         {
             bool onCylinder = Math.Abs(
@@ -111,7 +111,7 @@ namespace Vts.MonteCarlo.Tissues
         /// </summary>
         /// <param name="photon">photon position, direction, etc.</param>
         /// <param name="distanceToBoundary">distance to boundary</param>
-        /// <returns>boolean indicating intersection or not</returns>
+        /// <returns>Boolean indicating intersection or not</returns>
         public bool RayIntersectBoundary(Photon photon, out double distanceToBoundary)
         {
             distanceToBoundary = double.PositiveInfinity;
@@ -190,8 +190,8 @@ namespace Vts.MonteCarlo.Tissues
         /// <summary>
         /// method to determine normal to surface at given position
         /// </summary>
-        /// <param name="position"></param>
-        /// <returns>Direction</returns>
+        /// <param name="position">position</param>
+        /// <returns>Direction normal to surface at position</returns>
         public Direction SurfaceNormal(Position position)
         {
             throw new NotImplementedException();

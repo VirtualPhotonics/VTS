@@ -58,7 +58,7 @@ namespace Vts.MonteCarlo.Tissues
         /// as long as Center.Z=0;
         /// </summary>
         /// <param name="position">photon position</param>
-        /// <returns>boolean</returns>
+        /// <returns>Boolean</returns>
         public bool ContainsPosition(Position position)
         {
             // check axial extent first
@@ -92,7 +92,7 @@ namespace Vts.MonteCarlo.Tissues
         /// Currently OnBoundary of an inclusion region isn't called by any code ckh 3/5/19.
         /// </summary>
         /// <param name="position">photon position</param>
-        /// <returns>boolean</returns>
+        /// <returns>Boolean</returns>
         public bool OnBoundary(Position position)
         {
             //an option to the following would be to:
@@ -106,7 +106,7 @@ namespace Vts.MonteCarlo.Tissues
         /// </summary>
         /// <param name="photon">photon</param>
         /// <param name="distanceToBoundary">if intersection, distance to intersection</param>
-        /// <returns>boolean true=intersection, false=no intersection</returns>
+        /// <returns>Boolean true=intersection, false=no intersection</returns>
         public bool RayIntersectBoundary(Photon photon, out double distanceToBoundary)
         {
             throw new NotImplementedException();

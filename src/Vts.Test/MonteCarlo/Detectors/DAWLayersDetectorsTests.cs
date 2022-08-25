@@ -214,6 +214,12 @@ namespace Vts.Test.MonteCarlo.Detectors
                         Angle = new DoubleRange(Math.PI / 2, Math.PI, 5),
                         TallySecondMoment = true
                     },
+                    new ROfFxAndMaxDepthDetectorInput()
+                    {
+                        Fx = new DoubleRange(0.0, 0.5, 51),
+                        MaxDepth = new DoubleRange(0.0, 10.0, 11),
+                        TallySecondMoment = true
+                    },
                     new TDiffuseDetectorInput() { TallySecondMoment = true },
                     new TOfAngleDetectorInput()
                     {
@@ -755,6 +761,21 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.Less(Math.Abs(_outputTwoLayerTissue.R_fxa2[1, 0].Imaginary - 0.0), 0.000001);
             Assert.AreEqual(89, _outputOneLayerTissue.R_fxa_TallyCount);
             Assert.AreEqual(89, _outputTwoLayerTissue.R_fxa_TallyCount);
+        }
+        // Reflection R(fx, max depth) validated with prior test
+        [Test]
+        public void validate_DAW_ROfFxAndMaxDepth()
+        {
+            Assert.Less(Math.Abs(_outputOneLayerTissue.R_fxmd[1, 0].Real - 0.115924), 0.000001);
+            Assert.Less(Math.Abs(_outputOneLayerTissue.R_fxmd[1, 0].Imaginary - 0.002295), 0.000001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.R_fxmd[1, 0].Real - 0.115924), 0.000001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.R_fxmd[1, 0].Imaginary - 0.002295), 0.000001);
+            Assert.Less(Math.Abs(_outputOneLayerTissue.R_fxmd2[1, 0].Real - 0.112728), 0.000001);
+            Assert.Less(Math.Abs(_outputOneLayerTissue.R_fxmd2[1, 0].Imaginary - 0.0), 0.000001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.R_fxmd2[1, 0].Real - 0.112728), 0.000001);
+            Assert.Less(Math.Abs(_outputTwoLayerTissue.R_fxmd2[1, 0].Imaginary - 0.0), 0.000001);
+            Assert.AreEqual(89, _outputOneLayerTissue.R_fxmd_TallyCount);
+            Assert.AreEqual(89, _outputTwoLayerTissue.R_fxmd_TallyCount);
         }
         // Diffuse Transmittance
         [Test]

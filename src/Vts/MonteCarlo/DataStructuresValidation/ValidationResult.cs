@@ -1,14 +1,25 @@
-﻿namespace Vts.MonteCarlo.DataStructuresValidation
+﻿using System.Runtime.CompilerServices;
+
+namespace Vts.MonteCarlo.DataStructuresValidation
 {
+    /// <summary>
+    /// The <see cref="DataStructuresValidation"/> namespace contains the Monte Carlo validation classes for the Monte Carlo inputs
+    /// </summary>
+
+    [CompilerGenerated]
+    internal class NamespaceDoc
+    {
+    }
+
     /// <summary>
     /// Class that holds the result of validating the Monte Carlo inputs.
     /// </summary>
     public class ValidationResult
     {
         /// <summary>
-        /// class to capture results of validating the MC Simulation inputs
+        /// Class constructor to capture results of validating the MC Simulation inputs
         /// </summary>
-        /// <param name="isValid">boolean indicating whether input is valid</param>
+        /// <param name="isValid">Boolean indicating whether input is valid</param>
         /// <param name="validationRule">rule governing whether valid or not</param>
         /// <param name="remarks">possible way to correct input to become valid</param>
         public ValidationResult(bool isValid, string validationRule, string remarks)
@@ -18,16 +29,16 @@
             Remarks = remarks;
         }
         /// <summary>
-        /// overload omitting remarks
+        /// Overload of constructor omitting remarks
         /// </summary>
-        /// <param name="isValid">boolean indicating whether input is valid</param>
-        /// <param name="validationRule">fule governing whether valid or not</param>
+        /// <param name="isValid">Boolean indicating whether input is valid</param>
+        /// <param name="validationRule">Rule governing whether valid or not</param>
         public ValidationResult(bool isValid, string validationRule) 
             : this(isValid, validationRule, "")
         {
         }
         /// <summary>
-        /// default constructor
+        /// Default constructor
         /// </summary>
         public ValidationResult() 
             : this(false, "", "")

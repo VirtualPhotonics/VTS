@@ -173,7 +173,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// </summary>
         /// <param name="op">optical properties</param>
         /// <param name="fx">spatial frequency (1/mm)</param>
-        /// <returns></returns>
+        /// <returns>R(fx)</returns>
         public override double ROfFx(OpticalProperties op, double fx)
         {
             return ROfFx(op.AsEnumerable(), fx.AsEnumerable()).First();
@@ -184,7 +184,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// </summary>
         /// <param name="ops">set of optical properties of the medium</param>
         /// <param name="fxs">spatial frequencies (1/mm)</param>
-        /// <returns></returns>
+        /// <returns>IEnumerable R(fxs)</returns>
         public override IEnumerable<double> ROfFx(
             IEnumerable<OpticalProperties> ops, IEnumerable<double> fxs)
         {
@@ -241,7 +241,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="op">optical properties of the medium</param>
         /// <param name="fx">spatial frequency</param>
         /// <param name="ft">modulation frequency (GHz)</param>
-        /// <returns></returns>
+        /// <returns>R(fx,ft)</returns>
         public override Complex ROfFxAndFt(OpticalProperties op, double fx, double ft)
         {
             double A = CalculatorToolbox.GetCubicAParameter(op.N);
@@ -275,7 +275,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="surfaceFluence">diffuse fluence at the surface</param>
         /// <param name="surfaceFlux">diffuse flux at the surface</param>
         /// <param name="mediaRefractiveIndex">refractive index of the medium</param>
-        /// <returns></returns>
+        /// <returns>Reflectance</returns>
         protected static double GetBackwardHemisphereIntegralDiffuseReflectance(
             double surfaceFluence, double surfaceFlux, double mediaRefractiveIndex)
         {
@@ -294,7 +294,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="surfaceFluence">complex diffuse fluence at the surface</param>
         /// <param name="surfaceFlux">complex diffuse flux at the surface</param>
         /// <param name="mediaRefractiveIndex">refractive index of the medium</param>
-        /// <returns></returns>
+        /// <returns>Reflectance</returns>
         protected static Complex GetBackwardHemisphereIntegralDiffuseReflectance(
             Complex surfaceFluence, Complex surfaceFlux, double mediaRefractiveIndex)
         {
@@ -303,12 +303,14 @@ namespace Vts.Modeling.ForwardSolvers
                 Complex.ImaginaryOne * GetBackwardHemisphereIntegralDiffuseReflectance(
                 surfaceFluence.Imaginary, surfaceFlux.Imaginary, mediaRefractiveIndex);
         }
-
+        /// <summary>
+        /// get backward hemisphere integral for diffuse reflectance
+        /// </summary>
         /// <param name="fluence">Fluence</param>
         /// <param name="flux">Flux</param>
         /// <param name="fr1">1st moment of Fresnel Reflection</param>
         /// <param name="fr2">2nd moment of Fresnel Reflection</param>
-        /// <returns></returns>
+        /// <returns>Reflectance</returns>
         protected static double GetBackwardHemisphereIntegralDiffuseReflectance(
             double fluence, double flux, double fr1, double fr2)
         {
@@ -321,9 +323,9 @@ namespace Vts.Modeling.ForwardSolvers
         /// </summary>
         /// <param name="fluence">fluence term</param>
         /// <param name="flux">flux term</param>
-        /// <param name="fr1"></param>
-        /// <param name="fr2"></param>
-        /// <returns></returns>
+        /// <param name="fr1">First Fresnel Reflection Moment</param>
+        /// <param name="fr2">Second Fresnel Reflection Moment</param>
+        /// <returns>Reflectance</returns>
         protected static Complex GetBackwardHemisphereIntegralDiffuseReflectance(
             Complex fluence, Complex flux, double fr1, double fr2)
         {
@@ -342,7 +344,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="ops">optical properties</param>
         /// <param name="rhos">s-d separations</param>
         /// <param name="zs">depths</param>
-        /// <returns>fluence(rhos,zs)</returns>
+        /// <returns>Fluence(rhos,zs)</returns>
         public override IEnumerable<double> FluenceOfRhoAndZ(
             IEnumerable<OpticalProperties> ops,
             IEnumerable<double> rhos,
@@ -367,7 +369,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="rhos">s-d separations</param>
         /// <param name="zs">depths</param>
         /// <param name="times">times</param>
-        /// <returns>fluence(rhos,zs,times)</returns>
+        /// <returns>Fluence(rhos,zs,times)</returns>
         public override IEnumerable<double> FluenceOfRhoAndZAndTime(
             IEnumerable<OpticalProperties> ops,
             IEnumerable<double> rhos,
@@ -397,7 +399,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="rhos">s-d separations</param>
         /// <param name="zs">depths</param>
         /// <param name="fts">temporal-frequencies</param>
-        /// <returns>fluence(rhos,zs,fts)</returns>
+        /// <returns>Fluence(rhos,zs,fts)</returns>
         public override IEnumerable<Complex> FluenceOfRhoAndZAndFt(
             IEnumerable<OpticalProperties> ops, IEnumerable<double> rhos,
             IEnumerable<double> zs, IEnumerable<double> fts)
@@ -426,7 +428,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="ops">optical properties</param>
         /// <param name="fxs">spatial-frequencies</param>
         /// <param name="zs">depths</param>
-        /// <returns>fluence(fxs,zs)</returns>
+        /// <returns>Fluence(fxs,zs)</returns>
         public override IEnumerable<double> FluenceOfFxAndZ(
             IEnumerable<OpticalProperties> ops,
             IEnumerable<double> fxs,
@@ -452,7 +454,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="fxs">spatial-frequencies</param>
         /// <param name="zs">depths</param>
         /// <param name="times">times</param>
-        /// <returns>fluence(fxs,zs,times)</returns>
+        /// <returns>Fluence(fxs,zs,times)</returns>
         public override IEnumerable<double> FluenceOfFxAndZAndTime(
             IEnumerable<OpticalProperties> ops,
             IEnumerable<double> fxs,
@@ -483,7 +485,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="fxs">spatial frequencies</param>
         /// <param name="zs">depths</param>
         /// <param name="fts">temporal-frequencies</param>
-        /// <returns>fluence(fxs,z,fts)</returns>
+        /// <returns>Fluence(fxs,z,fts)</returns>
         public override IEnumerable<Complex> FluenceOfFxAndZAndFt(
             IEnumerable<OpticalProperties> ops,
             IEnumerable<double> fxs,
@@ -503,8 +505,8 @@ namespace Vts.Modeling.ForwardSolvers
         /// </summary>
         /// <param name="dp">diffusion parameters</param>
         /// <param name="rho">s-d separation</param>
-        /// <param name="fr1"></param>
-        /// <param name="fr2"></param>
+        /// <param name="fr1">First Fresnel Reflection Moment</param>
+        /// <param name="fr2">Second Fresnel Reflection Moment</param>
         /// <returns>R(rho)</returns>
         public abstract double StationaryReflectance(
             DiffusionParameters dp, double rho, double fr1, double fr2);
@@ -514,8 +516,8 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="dp">diffusion parameters</param>
         /// <param name="rho">s-d separation</param>
         /// <param name="t">time [ns]</param>
-        /// <param name="fr1"></param>
-        /// <param name="fr2"></param>
+        /// <param name="fr1">First Fresnel Reflection Moment</param>
+        /// <param name="fr2">Second Fresnel Reflection Moment</param>
         /// <returns>R(rho,time)</returns>
         public abstract double TemporalReflectance(
             DiffusionParameters dp, double rho, double t, double fr1, double fr2);
@@ -525,9 +527,9 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="dp">diffusion parameters</param>
         /// <param name="rho">s-d separation</param>
         /// <param name="k">temporal-frequency</param>
-        /// <param name="fr1"></param>
-        /// <param name="fr2"></param>
-        /// <returns></returns>
+        /// <param name="fr1">First Fresnel Reflection Moment</param>
+        /// <param name="fr2">Second Fresnel Reflection Moment</param>
+        /// <returns>Reflectance(rho,ft)</returns>
         public abstract Complex TemporalFrequencyReflectance(
             DiffusionParameters dp, double rho, Complex k, double fr1, double fr2);
 
@@ -538,7 +540,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="rho">s-d separation</param>
         /// <param name="z">depth</param>
         /// <param name="dp">diffusion parameters</param>
-        /// <returns>fluence(rho,z)</returns>
+        /// <returns>Fluence(rho,z)</returns>
         public abstract double StationaryFluence(
             double rho, double z, DiffusionParameters dp);
         /// <summary>
@@ -548,7 +550,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="rho">s-d separation</param>
         /// <param name="z">depth</param>
         /// <param name="t">time</param>
-        /// <returns>fluence(rho,z,time)</returns>
+        /// <returns>Fluence(rho,z,time)</returns>
         public abstract double TemporalFluence(
             DiffusionParameters dp, double rho, double z, double t);
         /// <summary>
@@ -558,7 +560,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="rho">s-d separation</param>
         /// <param name="z">depth</param>
         /// <param name="k">temporal frequency</param>
-        /// <returns></returns>
+        /// <returns>Fluence(rho,z,ft)</returns>
         public abstract Complex TemporalFrequencyFluence(
             DiffusionParameters dp, double rho, double z, Complex k);
 

@@ -344,6 +344,7 @@ namespace Vts.MonteCarlo.Detectors
         /// n1 sin(theta1) = n2 sin(theta2) 
         /// </summary>
         /// <param name="photon">photon</param>
+        /// <returns>Boolean indicating whether photon is within detector</returns>
         public bool IsWithinDetectorAperture(Photon photon)
         {
             var detectorRegionN = _tissue.Regions[photon.CurrentRegionIndex].RegionOP.N;

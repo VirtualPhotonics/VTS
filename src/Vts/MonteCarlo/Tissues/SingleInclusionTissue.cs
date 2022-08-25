@@ -117,7 +117,7 @@ namespace Vts.MonteCarlo.Tissues
             return base.GetDistanceToBoundary(photon);
         }
         /// <summary>
-        /// method that provides reflected direction when phton reflects off boundary
+        /// method that provides reflected direction when photon reflects off boundary
         /// </summary>
         /// <param name="currentPosition">Position</param>
         /// <param name="currentDirection">Direction</param>

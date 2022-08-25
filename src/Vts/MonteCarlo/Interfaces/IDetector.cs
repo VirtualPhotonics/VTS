@@ -26,7 +26,7 @@ namespace Vts.MonteCarlo
         bool TallySecondMoment { get; }
 
         /// <summary>
-        /// Details of the tally - booleans that specify when they should be tallied
+        /// Details of the tally - Booleans that specify when they should be tallied
         /// </summary>
         TallyDetails TallyDetails { get; set; }
 
@@ -52,7 +52,7 @@ namespace Vts.MonteCarlo
         /// <summary>
         /// Method that returns info for each large binary data array
         /// </summary>
-        /// <returns></returns>
+        /// <returns>An array of BinaryArraySerializer</returns>
         BinaryArraySerializer[] GetBinarySerializers();
     }
 }

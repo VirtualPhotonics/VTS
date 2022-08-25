@@ -90,7 +90,7 @@ namespace Vts.MonteCarlo.Tissues
         /// <param name="awt">Absorption Weighting Type</param>
         /// <param name="regionPhaseFunctions">Phase Functions for each tissue region</param>
         /// <param name="russianRouletteWeightThreshold">Russian Roulette Weight Threshold</param>
-        /// <returns></returns>
+        /// <returns>instantiated tissue</returns>
         public ITissue CreateTissue(AbsorptionWeightingType awt, IDictionary<string, IPhaseFunction> regionPhaseFunctions, double russianRouletteWeightThreshold)
         {
             var t = new MultiLayerWithSurfaceFiberTissue(SurfaceFiberRegion, LayerRegions);
@@ -138,8 +138,8 @@ namespace Vts.MonteCarlo.Tissues
         /// <summary>
         /// method to determine region index of region photon is currently in
         /// </summary>
-        /// <param name="position"></param>
-        /// <returns></returns>
+        /// <param name="position">photon position</param>
+        /// <returns>integer index of tissue region position is in</returns>
         public int GetRegionIndex(Position position)
         {
             // use ITissueRegion interface method ContainsPosition for TissueRegions to determine
@@ -158,7 +158,8 @@ namespace Vts.MonteCarlo.Tissues
         /// <summary>
         /// Finds the distance to the next boundary and independent of hitting it
         /// </summary>
-        /// <param name="photon"></param>
+        /// <param name="photon">photon</param>
+        /// <returns>distance to boundary</returns>
         public double GetDistanceToBoundary(Photon photon)
         {
             if (photon.DP.Direction.Uz == 0.0)
@@ -191,7 +192,7 @@ namespace Vts.MonteCarlo.Tissues
         /// method to determine if on boundary of tissue, i.e. at tissue/air interface
         /// </summary>
         /// <param name="position">photon position</param>
-        /// <returns></returns>
+        /// <returns>Boolean indicating whether position on domain boundary or not</returns>
         public bool OnDomainBoundary(Position position)
         {
             // this code assumes that the first and last layer is air
@@ -239,8 +240,8 @@ namespace Vts.MonteCarlo.Tissues
         /// <summary>
         /// method to determine photon state type of photon exiting tissue boundary
         /// </summary>
-        /// <param name="position"></param>
-        /// <returns></returns>
+        /// <param name="position">photon position</param>
+        /// <returns>PhotonStateType</returns>
         public PhotonStateType GetPhotonDataPointStateOnExit(Position position)
         {
             if (position.Z < 1e-10)
@@ -253,9 +254,9 @@ namespace Vts.MonteCarlo.Tissues
         /// <summary>
         /// method to determine direction of reflected photon
         /// </summary>
-        /// <param name="currentPosition"></param>
-        /// <param name="currentDirection"></param>
-        /// <returns></returns>
+        /// <param name="currentPosition">current photon position</param>
+        /// <param name="currentDirection">current photon direction</param>
+        /// <returns>direction of reflected input direction</returns>
         public Direction GetReflectedDirection(
             Position currentPosition, 
             Direction currentDirection)
@@ -273,7 +274,7 @@ namespace Vts.MonteCarlo.Tissues
         /// <param name="currentN">refractive index of current region</param>
         /// <param name="nextN">refractive index of next region</param>
         /// <param name="cosThetaSnell">cos(theta) resulting from Snell's law</param>
-        /// <returns>direction</returns>
+        /// <returns>direction of refracted photon</returns>
         public Direction GetRefractedDirection(
             Position currentPosition, 
             Direction currentDirection, 
@@ -295,7 +296,7 @@ namespace Vts.MonteCarlo.Tissues
         /// <summary>
         /// method to get cosine of the angle between photons current direction and boundary normal
         /// </summary>
-        /// <param name="photon"></param>
+        /// <param name="photon">photon</param>
         /// <returns>Uz=cos(theta)</returns>
         public double GetAngleRelativeToBoundaryNormal(Photon photon)
         {

@@ -56,6 +56,10 @@ namespace Vts.MonteCarlo.Sources
         /// <summary>
         /// constructor that load excitation simulation AOfRhoAndZ
         /// </summary>
+        /// <param name="inputFolder">input folder where excitation results reside</param>
+        /// <param name="infile">simulation infile of excitation simulation</param>
+        /// <param name="fluorescentTissueRegionIndex">integer index of tissue region where fluorescence is</param>
+        /// <exception cref="ArgumentException">throws ArgumentException if infile is not there</exception>
         public AOfRhoAndZLoader(string inputFolder, string infile, int fluorescentTissueRegionIndex)
         {
             if (infile != "")
