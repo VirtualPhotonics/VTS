@@ -38,10 +38,6 @@ namespace Vts.MonteCarlo
         /// MCCL Ray diffuse reflectance
         /// </summary>
         RayDiffuseReflectance,
-        /// <summary>
-        /// Zemax uncompressed database format
-        /// </summary>
-        ZRDDiffuseReflectance,
 
     }
 }

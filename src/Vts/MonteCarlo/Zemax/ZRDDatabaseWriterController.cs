@@ -6,24 +6,24 @@ namespace Vts.MonteCarlo.Zemax
 {
     /// <summary>
     /// This is code that would be executed to convert ZRD DB to/from MCCL compatible DB
-    /// A controller of ZRDDatabaseWriter(s).  It handles determining whether data should be written,
+    /// A controller of ZrdDatabaseWriter(s).  It handles determining whether data should be written,
     /// and if so, writing the data, and finally disposing of the database.
     /// </summary>
-    public class ZRDDatabaseWriterController
+    public class ZrdDatabaseWriterController
     {
-        IList<ZRDRayDatabaseWriter> _rayDatabaseWriters;
+        IList<ZrdRayDatabaseWriter> _rayDatabaseWriters;
         /// <summary>
         /// class that controls DatabaseWriter(s).
         /// </summary>
         /// <param name="rayDatabaseWriters">IList of PhotonDatabaseWriter</param>
-        public ZRDDatabaseWriterController(IList<ZRDRayDatabaseWriter> rayDatabaseWriters)
+        public ZrdDatabaseWriterController(IList<ZrdRayDatabaseWriter> rayDatabaseWriters)
         {
             _rayDatabaseWriters = rayDatabaseWriters;
         }
         /// <summary>
         /// list of PhotonDatabaseWriter
         /// </summary>
-        public IList<ZRDRayDatabaseWriter> ZRDRayDatabaseWriters { get { return _rayDatabaseWriters; } set { _rayDatabaseWriters = value; } }
+        public IList<ZrdRayDatabaseWriter> ZrdRayDatabaseWriters { get { return _rayDatabaseWriters; } set { _rayDatabaseWriters = value; } }
 
         /// <summary>
         /// Method to write to all surface VB databases
@@ -35,7 +35,7 @@ namespace Vts.MonteCarlo.Zemax
             {
                 if (DPBelongsToSurfaceVirtualBoundary(dp, writer))
                 {
-                    var ray = new ZRDRayDataPoint(
+                    var ray = new ZrdRayDataPoint(
                        new RayDataPoint(
                            dp.Position,
                            dp.Direction,
@@ -49,10 +49,10 @@ namespace Vts.MonteCarlo.Zemax
         /// Method to determine if photon datapoint should be tallied or not
         /// </summary>
         /// <param name="dp">PhotonDataPoint</param>
-        /// <param name="rayDatabaseWriter">single ZRDRayDatabaseWriter</param>
+        /// <param name="rayDatabaseWriter">single ZrdRayDatabaseWriter</param>
         /// <returns></returns>
         public bool DPBelongsToSurfaceVirtualBoundary(PhotonDataPoint dp,
-            ZRDRayDatabaseWriter rayDatabaseWriter)
+            ZrdRayDatabaseWriter rayDatabaseWriter)
         {
             if ((dp.StateFlag.HasFlag(PhotonStateType.PseudoDiffuseReflectanceVirtualBoundary) &&
                  rayDatabaseWriter.VirtualBoundaryType == VirtualBoundaryType.DiffuseReflectance) ||

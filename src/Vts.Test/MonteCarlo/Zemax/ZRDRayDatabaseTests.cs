@@ -37,26 +37,26 @@ namespace Vts.Test.MonteCarlo.Zemax
         public void Validate_ZRDRayDatabase_writing_and_reading_is_correct()
         {
             string databaseFileName = "testzrdraydatabase";
-            var firstRayDP = new ZRDRayDataPoint()
+            var firstRayDP = new ZrdRayDataPoint()
             {
                 X = 1, Y = 2, Z = 3,
                 Ux = 0, Uy = 1/ Math.Sqrt(2), Uz = 1/Math.Sqrt(2),
                 Weight = 1
             };
-            var secondRayDP = new ZRDRayDataPoint()
+            var secondRayDP = new ZrdRayDataPoint()
             {
                 X = 4, Y = 5, Z = 6,
                 Ux = 0, Uy = 0, Uz = 1,
                 Weight = 0.555
             };
-            using (var dbWriter = new ZRDRayDatabaseWriter(
+            using (var dbWriter = new ZrdRayDatabaseWriter(
                 VirtualBoundaryType.DiffuseReflectance, databaseFileName))
             {
                 dbWriter.Write(firstRayDP);
                 dbWriter.Write(secondRayDP);
             }
             // read back file written
-            var rayDatabase = ZRDRayDatabase.FromFile(databaseFileName);
+            var rayDatabase = ZrdRayDatabase.FromFile(databaseFileName);
             Assert.AreEqual(2, rayDatabase.NumberOfElements);
 
             // manually enumerate through the first two elements 

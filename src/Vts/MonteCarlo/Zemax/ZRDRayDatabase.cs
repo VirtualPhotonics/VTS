@@ -9,24 +9,24 @@ namespace Vts.MonteCarlo.Zemax
     /// The base class, Database(OfT), exposes the IEnumerable(OfT) DataPoints 
     /// list of RayDataPoint items
     /// </summary>
-    public class ZRDRayDatabase  : Database<ZRDRayDataPoint> 
+    public class ZrdRayDatabase  : Database<ZrdRayDataPoint> 
     {
         /// <summary>
         /// Returns an instance of SourceDatabase
         /// </summary>
-        public ZRDRayDatabase()
+        public ZrdRayDatabase()
         {
         }
 
         /// <summary>
-        /// method to read ZRDRayDatabase from file
+        /// method to read ZrdRayDatabase from file
         /// </summary>
-        /// <param name="fileName">filename of ZRDRayDatabase</param>
+        /// <param name="fileName">filename of ZrdRayDatabase</param>
         /// <returns>database of zemax rays</returns>
-        public static ZRDRayDatabase FromFile(string fileName)
+        public static ZrdRayDatabase FromFile(string fileName)
         {
-            var dbReader = new DatabaseReader<ZRDRayDatabase, ZRDRayDataPoint>(
-                db => new ZRDRayDataPointSerializer());
+            var dbReader = new DatabaseReader<ZrdRayDatabase, ZrdRayDataPoint>(
+                db => new ZrdRayDataPointSerializer());
 
             return dbReader.FromFile(fileName);
         }

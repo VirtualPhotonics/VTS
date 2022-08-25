@@ -4,23 +4,23 @@ using Vts.IO;
 namespace Vts.MonteCarlo.Zemax
 {
     /// <summary>
-    /// This is code that would be executed to convert ZRD DB to/from MCCL compatible DB
+    /// This is code that would be executed to convert Zrd DB to/from MCCL compatible DB
     /// Implements ICustomBinaryReader&lt;RayDataPoint&gt; and 
-    /// ICustomBinaryWriter&lt;ZRDDataPoint&gt;.
+    /// ICustomBinaryWriter&lt;ZrdDataPoint&gt;.
     /// </summary>
-    public class ZRDRayDataPointSerializer : 
-        ICustomBinaryReader<ZRDRayDataPoint>, 
-        ICustomBinaryWriter<ZRDRayDataPoint>
+    public class ZrdRayDataPointSerializer : 
+        ICustomBinaryReader<ZrdRayDataPoint>, 
+        ICustomBinaryWriter<ZrdRayDataPoint>
     {
         private int count = 208;
         private static bool headerIsWritten = false;
         private static bool headerIsRead = false;
         /// <summary>
-        /// Method to write ZRDDataPoint to binary. Header is written only first time through.
+        /// Method to write ZrdDataPoint to binary. Header is written only first time through.
         /// </summary>
         /// <param name="bw">BinaryWriter</param>
-        /// <param name="item">ZRDDataPoint</param>
-        public void WriteToBinary(BinaryWriter bw, ZRDRayDataPoint item)
+        /// <param name="item">ZrdDataPoint</param>
+        public void WriteToBinary(BinaryWriter bw, ZrdRayDataPoint item)
         {
             if (!headerIsWritten)
             {
@@ -34,7 +34,7 @@ namespace Vts.MonteCarlo.Zemax
             bw.Write(numSegments);
             for (int i = 0; i < numSegments; i++) // write same rayDP twice to make ray
             {
-                var rayDP = new ZRDRayDataPoint();
+                var rayDP = new ZrdRayDataPoint();
                 // rest of these until x,y,z set to 0
                 rayDP.status = 0;
                 bw.Write(rayDP.status);
@@ -98,8 +98,8 @@ namespace Vts.MonteCarlo.Zemax
         /// Method to read PhotonDataPoint from binary.  Header info is only read first time through.
         /// </summary>
         /// <param name="br">BinaryReader</param>
-        /// <returns>ZRDRayDataPoint, data comsistent with zrd file ray</returns>
-        public ZRDRayDataPoint ReadFromBinary(BinaryReader br)
+        /// <returns>ZrdRayDataPoint, data comsistent with zrd file ray</returns>
+        public ZrdRayDataPoint ReadFromBinary(BinaryReader br)
         {
             if (!headerIsRead)
             {
@@ -119,8 +119,8 @@ namespace Vts.MonteCarlo.Zemax
             double uz = br.ReadDouble();
             skipData = br.ReadBytes(32); // skip to intensity
             double weight = br.ReadDouble();
-            skipData = br.ReadBytes(64); // skip to end of ZRDRayDataPoint
-            return new ZRDRayDataPoint()
+            skipData = br.ReadBytes(64); // skip to end of ZrdRayDataPoint
+            return new ZrdRayDataPoint()
             {
                 X = x,
                 Y = y,

@@ -49,7 +49,7 @@ namespace Vts.MonteCarlo.ZemaxDatabaseConverter
                 //get the full path for the input file
                 var fullFilePath = Path.GetFullPath(inputFile);
 
-                var fileToConvert = ZRDRayDatabase.FromFile(fullFilePath);
+                var fileToConvert = ZrdRayDatabase.FromFile(fullFilePath);
 
                 using (var dbWriter = new RayDatabaseWriter(
                     VirtualBoundaryType.DiffuseReflectance, outputFile))
@@ -89,7 +89,7 @@ namespace Vts.MonteCarlo.ZemaxDatabaseConverter
 
                 var fileToConvert = RayDatabase.FromFile(fullFilePath);
 
-                using (var dbWriter = new ZRDRayDatabaseWriter(
+                using (var dbWriter = new ZrdRayDatabaseWriter(
                     VirtualBoundaryType.DiffuseReflectance, outputFile))
                 {
                     // enumerate through the elements 
@@ -99,7 +99,7 @@ namespace Vts.MonteCarlo.ZemaxDatabaseConverter
                         // advance to the next ray data
                         enumerator.MoveNext();
                         var dp = enumerator.Current;
-                        var zrdRayDataPoint = new ZRDRayDataPoint();
+                        var zrdRayDataPoint = new ZrdRayDataPoint();
                         // set Position,Direction,Weight in Zemax struct
                         zrdRayDataPoint.X = dp.Position.X;
                         zrdRayDataPoint.Y = dp.Position.Y;

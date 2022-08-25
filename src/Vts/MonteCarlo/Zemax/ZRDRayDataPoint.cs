@@ -8,22 +8,22 @@ namespace Vts.MonteCarlo.Zemax
     /// ZRDRay Data to be read in from Zemax ZRD file in uncompressed
     /// full Data format (UFD)
     /// </summary>
-    public class ZRDRayDataPoint
+    public class ZrdRayDataPoint
     {
         /// <summary>
-        /// total number of bytes in a ZRD Ray data point
+        /// total number of bytes in a Zrd Ray data point
         /// </summary>
         public int count = 208;
 
         /// <summary>
-        /// Defines ZRDRay Data class.
+        /// Defines ZrdRay Data class.
         /// This Zemax structure size is 208 bytes for each ray segment
         /// This constructor allows for easy instantiation from MCCL local
-        /// class RayDataPoint.  RayDataPoint contains the data from ZRDRayDataPoint
+        /// class RayDataPoint.  RayDataPoint contains the data from ZrdRayDataPoint
         /// that is necessary to MCCL.
         /// </summary>
         /// <param name="rayDataPoint">ray data point</param>
-        public ZRDRayDataPoint(RayDataPoint rayDataPoint)
+        public ZrdRayDataPoint(RayDataPoint rayDataPoint)
         {
             X = rayDataPoint.Position.X;
             Y = rayDataPoint.Position.Y;
@@ -36,14 +36,14 @@ namespace Vts.MonteCarlo.Zemax
         /// <summary>
         /// default constructor
         /// </summary>
-        public ZRDRayDataPoint() : this(new RayDataPoint(
+        public ZrdRayDataPoint() : this(new RayDataPoint(
                 new Position(0, 0, 0),
                 new Direction(0, 0, 1), 
                 1.0))
         { }
 
         //[StructLayout(LayoutKind.Explicit)]
-        //public struct ZRDRayDataPoint
+        //public struct ZrdRayDataPoint
         //{
         /// <summary>
         /// [FieldOffset(0)] status : bitwise flags indicating status of the ray
