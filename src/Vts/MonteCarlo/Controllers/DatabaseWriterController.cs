@@ -1,9 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using Vts.MonteCarlo.PhotonData;
 
 namespace Vts.MonteCarlo.Controllers
 {
+    /// <summary>
+    /// The <see cref="Controllers"/> namespace contains the Monte Carlo controller classes for writing to a database
+    /// </summary>
+
+    [CompilerGenerated]
+    internal class NamespaceDoc
+    {
+    }
+
     /// <summary>
     /// A controller of DatabaseWriter(s).  It handles determining whether data should be written,
     /// and if so, writing the data, and finally disposing of the database.
@@ -43,7 +53,7 @@ namespace Vts.MonteCarlo.Controllers
         /// </summary>
         /// <param name="dp">PhotonDataPoint</param>
         /// <param name="photonDatabaseWriter">single PhotonDatabaseWriter</param>
-        /// <returns></returns>
+        /// <returns>Boolean indicating whether photon data point belongs to virtual boundary</returns>
         public bool DPBelongsToSurfaceVirtualBoundary(PhotonDataPoint dp,
             PhotonDatabaseWriter photonDatabaseWriter)
         {

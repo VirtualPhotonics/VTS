@@ -203,7 +203,8 @@ namespace Vts.MonteCarlo.Sources
         /// <param name="lengthX">The length of the cube (along x axis)</param>
         /// <param name="widthY">The width of the cube (along y axis)</param>
         /// <param name="heightZ">The height of the cube (along z axis)</param>
-        /// <param name="rng"></param>
+        /// <param name="rng">random number generator</param>
+        /// <returns>string indicating emitting surface</returns>
         public static String SelectEmittingSurface(            
             double lengthX,
             double widthY,

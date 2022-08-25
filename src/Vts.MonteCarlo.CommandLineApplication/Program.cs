@@ -276,10 +276,17 @@ namespace Vts.MonteCarlo.CommandLineApplication
         
         private static void GenerateDefaultInputFiles()
         {
-            var inputFiles = SimulationInputProvider.GenerateAllSimulationInputs();
-            foreach (var input in inputFiles)
+            try
             {
-                input.ToFile("infile_" + input.OutputName + ".txt"); // write json to .txt files
+                var inputFiles = SimulationInputProvider.GenerateAllSimulationInputs();
+                foreach (var input in inputFiles)
+                {
+                    input.ToFile("infile_" + input.OutputName + ".txt"); // write json to .txt files 
+                }
+            }
+            catch (Exception e)
+            {
+                logger.Error($"There was an error generating infiles, check your permissions - {e.Message}");
             }
         }
 

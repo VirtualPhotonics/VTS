@@ -32,7 +32,7 @@ namespace Vts
         /// </summary>
         /// <typeparam name="T">The type of the property</typeparam>
         /// <param name="propertyName">The property name</param>
-        /// <param name="parameter">the parameter value</param>
+        /// <param name="parameter">The parameter value</param>
         /// <param name="value">The new value</param>
         protected void SetProperty<T>(string propertyName, ref T parameter, ref T value)
         {

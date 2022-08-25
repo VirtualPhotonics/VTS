@@ -10,7 +10,6 @@ namespace Vts.MonteCarlo.Controllers
     /// </summary>
     public class pMCDatabaseWriterController
     {
-
         /// <summary>
         /// constructor for pMC database writer controller
         /// </summary>
@@ -61,7 +60,7 @@ namespace Vts.MonteCarlo.Controllers
         /// </summary>
         /// <param name="dp">photon data point</param>
         /// <param name="photonDatabaseWriter">photon database writer</param>
-        /// <returns></returns>
+        /// <returns>Boolean indicating whether photon data point belongs to virtual boundary</returns>
         public bool DPBelongsToSurfaceVirtualBoundary(PhotonDataPoint dp,
             PhotonDatabaseWriter photonDatabaseWriter)
         {
@@ -73,14 +72,14 @@ namespace Vts.MonteCarlo.Controllers
                 return true;
             }
             return false;
-        }        
+        }
         /// <summary>
         /// Method to determine if photon datapoint should be tallied or not to
         /// the collision info database
         /// </summary>
         /// <param name="dp">photon data point</param>
         /// <param name="collisionInfoDatabaseWriter">photon database writer</param>
-        /// <returns></returns>
+        /// <returns>Boolean indicating whether photon data point belongs to virtual boundary</returns>
         public bool DPBelongsToSurfaceVirtualBoundary(PhotonDataPoint dp,
             CollisionInfoDatabaseWriter collisionInfoDatabaseWriter)
         {

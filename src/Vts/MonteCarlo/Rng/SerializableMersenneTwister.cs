@@ -101,8 +101,8 @@ namespace Vts.MonteCarlo.Rng
         /// <summary>
         /// Method to create class using saved sequence info
         /// </summary>
-        /// <param name="info"></param>
-        /// <returns></returns>
+        /// <param name="info">Mersenne Twister serialization info</param>
+        /// <returns>instance of class</returns>
         public static SerializableMersenneTwister Create(MersenneTwisterSerializationInfo info)
         {
             return new SerializableMersenneTwister
@@ -153,6 +153,7 @@ namespace Vts.MonteCarlo.Rng
         /// <summary>
         /// generates a random number on[0, 0xffffffff]-interval
         /// </summary>
+        /// <returns>unsigned integer random number</returns>
         private uint genrand_int32()
         {
             uint y;
@@ -208,8 +209,8 @@ namespace Vts.MonteCarlo.Rng
         /// <summary>
         /// methods to save current state of random number generator
         /// </summary>
-        /// <param name="filename"></param>
-        /// <returns></returns>
+        /// <param name="filename">file name to be read</param>
+        /// <returns>SerializableMersenneTwister class</returns>
         public static SerializableMersenneTwister FromFile(string filename)
         {
             var info = FileIO.ReadFromJson<MersenneTwisterSerializationInfo>(filename);

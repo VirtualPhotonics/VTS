@@ -1,7 +1,7 @@
 namespace Vts
 {
     /// <summary>
-    /// independent variable axis tyeps
+    /// independent variable axis types
     /// </summary>
     public enum IndependentVariableAxis
     {

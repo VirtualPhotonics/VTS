@@ -52,7 +52,7 @@ namespace Vts.MonteCarlo.Detectors
         /// <summary>
         /// method to create detector
         /// </summary>
-        /// <returns></returns>
+        /// <returns>created IDetector</returns>
         public IDetector CreateDetector()
         {
             return new pMCTOfRhoDetector
@@ -193,7 +193,7 @@ namespace Vts.MonteCarlo.Detectors
         /// <summary>
         /// this is to allow saving of large arrays separately as a binary file
         /// </summary>
-        /// <returns></returns>
+        /// <returns>array of BinaryArraySerializer</returns>
         public BinaryArraySerializer[] GetBinarySerializers()
         {
             return new[] {
@@ -241,6 +241,7 @@ namespace Vts.MonteCarlo.Detectors
         /// n1 sin(theta1) = n2 sin(theta2) 
         /// </summary>
         /// <param name="photon">photon</param>
+        /// <returns>Boolean indicating whether photon is within detector</returns>
         public bool IsWithinDetectorAperture(Photon photon)
         {
             var detectorRegionN = _tissue.Regions[photon.CurrentRegionIndex].RegionOP.N;

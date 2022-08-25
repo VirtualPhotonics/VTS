@@ -409,7 +409,27 @@ for di = 1:numDetectors
                                                        - imag(ROfFxAndAngle.Mean) .* imag(ROfFxAndAngle.Mean)) / json.N);
             end
             results{di}.ROfFxAndAngle = ROfFxAndAngle;
-        case 'TDiffuse'
+        case 'ROfFxAndMaxDepth'
+            ROfFxAndMaxDepth.Name = detector.Name;
+            tempFx = detector.Fx;
+            tempMaxDepth = detector.MaxDepth;
+            ROfFxAndMaxDepth.Fx = linspace((tempFx.Start), (tempFx.Stop), (tempFx.Count));
+            ROfFxAndMaxDepth.MaxDepth = linspace((tempMaxDepth.Start), (tempMaxDepth.Stop), (tempMaxDepth.Count));
+            ROfFxAndMaxDepth.Fx_Midpoints = ROfFxAndMaxDepth.Fx;
+            ROfFxAndMaxDepth.MaxDepth_Midpoints = (ROfFxAndMaxDepth.MaxDepth(1:end-1) + ROfFxAndMaxDepth.MaxDepth(2:end))/2;
+            tempData = readBinaryData([datadir slash detector.Name],[2*(length(ROfFxAndMaxDepth.MaxDepth)-1), length(ROfFxAndMaxDepth.Fx)]); % column major but complex
+            ROfFxAndMaxDepth.Mean = tempData(1:2:end,:) + 1i*tempData(2:2:end,:);  
+            ROfFxAndMaxDepth.Amplitude = abs(ROfFxAndMaxDepth.Mean);
+            ROfFxAndMaxDepth.Phase = -angle(ROfFxAndMaxDepth.Mean);
+            if(detector.TallySecondMoment && exist([datadir slash detector.Name '_2'],'file'))
+                tempData = readBinaryData([datadir slash detector.Name '_2'],[2*(length(ROfFxAndMaxDepth.MaxDepth)-1), length(ROfFxAndMaxDepth.Fx)]);
+                ROfFxAndMaxDepth.SecondMoment = tempData(1:2:end,:) + tempData(2:2:end,:); % SecondMoment=E[re^2]+E[im^2] is real
+                % SD=sqrt( SecondMoment - E[re]^2 - E[im]^2 )
+                ROfFxAndMaxDepth.Stdev = sqrt((ROfFxAndMaxDepth.SecondMoment - real(ROfFxAndMaxDepth.Mean) .* real(ROfFxAndMaxDepth.Mean) ...
+                                                       - imag(ROfFxAndMaxDepth.Mean) .* imag(ROfFxAndMaxDepth.Mean)) / json.N);
+            end
+            results{di}.ROfFxAndMaxDepth = ROfFxAndMaxDepth;
+       case 'TDiffuse'
             TDiffuse.Name = detector.Name;
             TDiffuse_txt = readAndParseJson([datadir slash detector.Name '.txt']);
             TDiffuse.Mean = TDiffuse_txt.Mean;              

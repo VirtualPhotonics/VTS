@@ -1,9 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace Vts.MonteCarlo.Rng
 {
+    /// <summary>
+    /// The <see cref="Rng"/> namespace contains the Monte Carlo random number generator classes 
+    /// </summary>
+
+    [CompilerGenerated]
+    internal class NamespaceDoc
+    {
+    }
+
     /// <summary>
     /// This class creates a parallelizable representation of the Mersenne Twister class.
     /// Code from Dynamic Creator (dc) Home Page
@@ -308,7 +318,7 @@ namespace Vts.MonteCarlo.Rng
             public uint b, c;
             public int leng; // can't have pointer to itself so created LinkedList
         }
-        /// struc in mt19937.h
+        // struct in mt19937.h
         struct org_state
         {
             public uint[] mt;
@@ -323,7 +333,7 @@ namespace Vts.MonteCarlo.Rng
         /// <summary>
         /// Initializes a new instance of the MersenneTwister class.  
         /// </summary>
-        /// <param name="seed"></param>
+        /// <param name="seed">random number generator seed</param>
         public DynamicCreatorMersenneTwister(int seed)
             : this(32, 521, 4172, (uint)seed)
         {
@@ -332,8 +342,8 @@ namespace Vts.MonteCarlo.Rng
         /// <summary>
         /// Initializes a new instance of the MersenneTwister class.  
         /// </summary>
-        /// <param name="streamSeed"></param>
-        /// <param name="seed"></param>
+        /// <param name="streamSeed">seed to obtain stream</param>
+        /// <param name="seed">seed within stream to start</param>
         public DynamicCreatorMersenneTwister(int streamSeed, int seed)
             : this(32, 521, (uint)streamSeed, (uint)seed)
         {
@@ -418,7 +428,7 @@ namespace Vts.MonteCarlo.Rng
         /// Generates _n words at one time _n=624. Method in mt19937.c
         /// </summary>
         /// <param name="st">org_state</param>
-        /// <returns></returns>
+        /// <returns>unsigned integer</returns>
         private uint genrand_dc(ref org_state st)
         {
             uint y;
@@ -521,7 +531,7 @@ namespace Vts.MonteCarlo.Rng
         /// <param name="pre">prescr_t struct</param>
         /// <param name="w">destination wordsize: needs to be 31 or 32</param>
         /// <param name="p">exponent of MT period: needs to be [521-44497]</param>
-        /// <returns></returns>
+        /// <returns>mt_struct</returns>
         private mt_struct init_mt_search(ref check32_t ck, ref prescr_t pre, int w, int p)
         {
             int n, m, r;
@@ -577,7 +587,7 @@ namespace Vts.MonteCarlo.Rng
         /// </summary>
         /// <param name="pre">prescr_t struct</param>
         /// <param name="aaa"></param>
-        /// <returns></returns>
+        /// <returns>int indicating rejection or not</returns>
         private int prescreening_dc(prescr_t pre, uint aaa)
         {
             for (int i = 0; i < _nirredpoly; i++)
@@ -681,7 +691,7 @@ namespace Vts.MonteCarlo.Rng
         /// <param name="pre">prescr_t struct</param>
         /// <param name="aaa">uint</param>
         /// <param name="polylist">polynomial list</param>
-        /// <returns></returns>
+        /// <returns>int indicating if reducible or not</returns>
         private int is_reducible(prescr_t pre, uint aaa, uint[] polylist)
         {
             uint x = polylist[pre.sizeOfA];
@@ -747,7 +757,7 @@ namespace Vts.MonteCarlo.Rng
         /// method duplicate polynomial 
         /// </summary>
         /// <param name="pl">polynomial to be duplicated</param>
-        /// <returns></returns>
+        /// <returns>polynomial class</returns>
         private polynomial polynomial_dup(polynomial pl)
         {
             polynomial pt = new_poly(pl.deg);
@@ -791,7 +801,7 @@ namespace Vts.MonteCarlo.Rng
         /// polynomial members are int[] x and int deg
         /// </summary>
         /// <param name="degree">degree of polynomial created</param>
-        /// <returns></returns>
+        /// <returns>polynomial class</returns>
         private polynomial new_poly(int degree)
         {
             polynomial p = new polynomial();
@@ -900,7 +910,7 @@ namespace Vts.MonteCarlo.Rng
         /// <param name="eq">eqdeg_t struct</param>
         /// <param name="b"></param>
         /// <param name="c"></param>
-        /// <param name="v">number of nodes in linkedlist</param>
+        /// <param name="v">number of nodes in linked list</param>
         private void optimize_v(ref eqdeg_t eq, uint b, uint c, int v)
         {
             int i;
@@ -972,10 +982,10 @@ namespace Vts.MonteCarlo.Rng
             prev_masks = cur_masks;
         }
         /// <summary>
-        /// delete "l" _mask_nodes in linkedlist from head.  This does not match
+        /// delete "l" _mask_nodes in linked list from head.  This does not match
         /// C code because C# has LinkedList.  Parameter "head" gets updated here.
         /// </summary>
-        /// <param name="head">head of linkedlist to delete from</param>
+        /// <param name="head">head of linked list to delete from</param>
         /// <param name="l">number of nodes to delete</param>
         /// <returns>void</returns>
         private void delete_lower_mask_nodes(ref LinkedList<_mask_node> head, int l)
@@ -1250,6 +1260,7 @@ namespace Vts.MonteCarlo.Rng
         /// <param name="wordSize">word size: only w=32 or 31 allowed</param>
         /// <param name="periodExponent">Mersenne exponent: p greater than or equal to 521
         /// and p less than or equal to 44497</param>
+        /// <returns>mt_struct</returns>
         public mt_struct get_mt_parameter(int wordSize, int periodExponent)
         {
             mt_struct mts;
@@ -1271,7 +1282,7 @@ namespace Vts.MonteCarlo.Rng
         /// <param name="periodExponent">Mersenne exponent that defines period of substream:
         /// 521 greater than or equal to p and p less than or equal to 44497</param>
         /// <param name="originalMTSeed">seed of original mt19937 to generate parameter</param>
-        /// <returns></returns>
+        /// <returns>mt_struct</returns>
         public mt_struct get_mt_parameter_st(int wordSize, int periodExponent, uint originalMTSeed)
         {
             mt_struct mts;
@@ -1301,7 +1312,7 @@ namespace Vts.MonteCarlo.Rng
         /// <param name="maxId">ending Id of substreams</param>
         /// <param name="originalMTSeed">seed of original mt19937 to generate parameter</param>
         /// <param name="count">number of streams initiated</param>
-        /// <returns></returns>
+        /// <returns>array of mt_struct</returns>
         public mt_struct[] get_mt_parameters_st(int wordSize, int periodExponent, int startId, int maxId, 
             uint originalMTSeed, ref int count)
         {
@@ -1354,7 +1365,7 @@ namespace Vts.MonteCarlo.Rng
         /// and p less than or equal to 44497</param>
         /// <param name="id">id of substream: id must be less than 65536 and positive</param>
         /// <param name="originalMTSeed">seed of original mt19937 to generate parameter</param>
-        /// <returns></returns>
+        /// <returns>mt_struct</returns>
         public mt_struct get_mt_parameter_id_st(int wordSize, int periodExponent, int id, 
             uint originalMTSeed)
         {
@@ -1395,7 +1406,7 @@ namespace Vts.MonteCarlo.Rng
         /// <param name="mts">mt_struct</param>
         /// <param name="id"></param>
         /// <param name="idw"></param>
-        /// <returns></returns>
+        /// <returns>int indicating whether found or not</returns>
         private int get_irred_param(check32_t ck, prescr_t pre, ref org_state org,
             ref mt_struct mts, int id, int idw)
         {

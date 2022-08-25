@@ -17,7 +17,7 @@ namespace Vts.MonteCarlo
         /// tissue and detector definitions.
         /// </summary>
         /// <param name="input">SimulationInput to be validated</param>
-        /// <returns>ValidationResult with IsValid bool set and message about error if false</returns>
+        /// <returns>An instance of ValidationResult with IsValid bool set and message about error if false</returns>
         public static ValidationResult ValidateInput(SimulationInput input)
         {
             var validations = new Func<SimulationInput, ValidationResult>[]
@@ -143,7 +143,7 @@ namespace Vts.MonteCarlo
         /// and source, tissue, detector definitions.   
         /// </summary>
         /// <param name="input">input to be validated</param>
-        /// <returns>ValidationResult with IsValid set and error message if false</returns>
+        /// <returns>An instance of ValidationResult with IsValid set and error message if false</returns>
         private static ValidationResult ValidateCombinedInputParameters(SimulationInput input)
         {
             // check that absorption weighting type set to analog and RR weight threshold != 0.0
@@ -260,10 +260,10 @@ namespace Vts.MonteCarlo
 
         }
         /// <summary>
-        /// Method checks SimulationInput against current incapabilities of the code.
+        /// Method checks SimulationInput against current in-capabilities of the code.
         /// </summary>
         /// <param name="input">SimulationInput</param>
-        /// <returns>ValidationResult</returns>
+        /// <returns>An instance of the ValidationResult class</returns>
         private static ValidationResult ValidateCurrentIncapabilities(SimulationInput input)
         {
             if (input.Options.AbsorptionWeightingType == AbsorptionWeightingType.Continuous)

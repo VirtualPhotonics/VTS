@@ -30,11 +30,11 @@ namespace Vts.MonteCarlo.Sources
         /// </summary>
         protected double _fiberHeightZ;
         /// <summary>
-        /// Efficciency of the curved surface (0-1)
+        /// Efficiency of the curved surface (0-1)
         /// </summary>
         protected double _curvedSurfaceEfficiency;
         /// <summary>
-        /// Efficciency of the bottom surface (0-1)
+        /// Efficiency of the bottom surface (0-1)
         /// </summary>
         protected double _bottomSurfaceEfficiency;
         /// <summary>
@@ -47,8 +47,8 @@ namespace Vts.MonteCarlo.Sources
         /// </summary>
         /// <param name="fiberRadius">Fiber radius</param>
         /// <param name="fiberHeightZ">Fiber height</param>
-        /// <param name="curvedSurfaceEfficiency">Efficciency of the curved surface (0-1)</param>
-        /// <param name="bottomSurfaceEfficiency">Efficciency of the bottom surface (0-1)</param>
+        /// <param name="curvedSurfaceEfficiency">Efficiency of the curved surface (0-1)</param>
+        /// <param name="bottomSurfaceEfficiency">Efficiency of the bottom surface (0-1)</param>
         /// <param name="newDirectionOfPrincipalSourceAxis">New source axis direction</param>
         /// <param name="translationFromOrigin">New source location</param>
         /// <param name="initialTissueRegionIndex">Initial tissue region index</param>

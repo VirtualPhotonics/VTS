@@ -30,6 +30,7 @@ namespace Vts.MonteCarlo
         /// <summary>
         /// Perturbation MC R(rho) 
         /// </summary>
+        /// <returns>An instance of the PostProcessorInput class</returns>
         public static PostProcessorInput PostProcessorROfRho()
         {
             return new PostProcessorInput(
@@ -52,6 +53,7 @@ namespace Vts.MonteCarlo
         /// Perturbation MC R(rho), R(rho) recessed, R(rho,time).  
         /// This assumes database being post-processed is for tissue system with one layer.
         /// </summary>
+        /// <returns>An instance of the PostProcessorInput class</returns>
         public static PostProcessorInput pMCROfRhoAndROfRhoAndTime()
         {
             return new PostProcessorInput(
@@ -154,6 +156,7 @@ namespace Vts.MonteCarlo
         /// Perturbation MC R(rho) recessed, R(rho,time) recessed, R(rho,maxdepth) recessed
         /// This assumes database being post-processed is for tissue system with one layer.
         /// </summary>
+        /// <returns>An instance of the PostProcessorInput class</returns>
         public static PostProcessorInput pMCROfRhoROfXAndYVariants()
         {
             return new PostProcessorInput(
@@ -233,9 +236,10 @@ namespace Vts.MonteCarlo
 
         #region pMC R(fx) and R(fx,time)
         /// <summary>
-        /// Perturbation MC R(fx) and R(fx,time).  This assumes database being post-processed is for
+        /// Perturbation MC R(fx) and R(fx,time). This assumes database being post-processed is for
         /// tissue system with one layer.
         /// </summary>
+        /// <returns>An instance of the PostProcessorInput class</returns>
         public static PostProcessorInput pMCROfFxROfFxAndTime()
         {
             return new PostProcessorInput(

@@ -3,7 +3,7 @@
 namespace Vts.Extensions
 {
     /// <summary>
-    /// extension methods for type
+    /// Extension methods for type
     /// </summary>
     public static class TypeExtensions
     {

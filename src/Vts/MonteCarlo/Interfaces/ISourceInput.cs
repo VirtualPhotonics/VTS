@@ -21,8 +21,8 @@ namespace Vts.MonteCarlo
         /// <summary>
         /// Required code to create a source based on the input values
         /// </summary>
-        /// <param name="rng"></param>
-        /// <returns></returns>
+        /// <param name="rng">random number generator Random</param>
+        /// <returns>source class that implements ISource</returns>
         ISource CreateSource(Random rng = null);
     }
 }

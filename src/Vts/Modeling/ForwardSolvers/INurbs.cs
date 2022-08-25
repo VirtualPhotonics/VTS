@@ -9,7 +9,7 @@ namespace Vts.Modeling.ForwardSolvers
     public interface INurbs
     {
         /// <summary>
-        /// Defines signature for a method used to consider cousality of the photon migration.
+        /// Defines signature for a method used to consider causality of the photon migration.
         /// </summary>
         /// <param name="rho">source detector separation</param>
         /// <returns>minimal valid time</returns>
@@ -42,7 +42,7 @@ namespace Vts.Modeling.ForwardSolvers
 
         /// <summary>
         /// Defines the signature of the method used to calculate the integral value of an
-        /// isoparametric NURBS curve multiplied by an exponential function analitically.
+        /// isoparametric NURBS curve multiplied by an exponential function analytically.
         /// </summary>
         /// <param name="space">radial position or spatial frequency mapped to the reference spatial value</param>
         /// <param name="exponentialTerm">exponential decay due to absorption</param>
@@ -62,7 +62,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// Defines the signature of the method used to evaluate the tensor product control points
         /// necessary to evaluate the integral of an isoparametric curve.
         /// </summary>
-        /// <param name="space_ref">spatial coordinate mapped to teh reference space</param>
+        /// <param name="space_ref">spatial coordinate mapped to the reference space</param>
         /// <returns>Tensor product control points for an isoparametric curve on a surface</returns>
         List<double[]> EvaluateTensorProductControlPoints(double space_ref);
 

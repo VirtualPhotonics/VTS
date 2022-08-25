@@ -38,7 +38,7 @@
         /// </summary>
         /// <param name="pa1">polar angle 1</param>
         /// <param name="pa2">polar angle 2</param>
-        /// <returns>boolean</returns>
+        /// <returns>Boolean</returns>
         public static bool operator ==(PolarAzimuthalAngles pa1, PolarAzimuthalAngles pa2)
         {
             if (object.ReferenceEquals(pa1, pa2))
@@ -65,7 +65,7 @@
         /// </summary>
         /// <param name="pa1">polar angle 1</param>
         /// <param name="pa2">polar angle 2</param>
-        /// <returns>boolean</returns>
+        /// <returns>Boolean</returns>
         public static bool operator !=(PolarAzimuthalAngles pa1, PolarAzimuthalAngles pa2)
         {
             return !(pa1 == pa2);
@@ -74,8 +74,8 @@
         /// <summary>
         /// Instance member for equality comparison
         /// </summary>
-        /// <param name="obj"></param>
-        /// <returns>boolean</returns>
+        /// <param name="obj">object to check</param>
+        /// <returns>Boolean indicating true of equal to this, false otherwise</returns>
         public override bool Equals(object obj)
         {
             if (obj is PolarAzimuthalAngles)
@@ -89,7 +89,7 @@
         /// <summary>
         /// method to clone class
         /// </summary>
-        /// <returns></returns>
+        /// <returns>An instance of the PolarAzimuthalAngles class</returns>
         public PolarAzimuthalAngles Clone()
         {
             return new PolarAzimuthalAngles(this.Theta, this.Phi);

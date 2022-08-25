@@ -36,7 +36,7 @@ namespace Vts.Test.MonteCarlo.Tissues
             Assert.AreEqual(2.0, _ellipsoidTissueRegion.Dz);
         }
         /// <summary>
-        /// Validate method OnBoundary return correct boolean.
+        /// Validate method OnBoundary return correct Boolean.
         /// Currently OnBoundary of an inclusion region isn't called by any code ckh 3/5/19.
         /// </summary>
         [Test]
@@ -53,7 +53,7 @@ namespace Vts.Test.MonteCarlo.Tissues
             Assert.IsFalse(result);
         }
         /// <summary>
-        /// Validate method ContainsPositions return correct boolean. ContainsPosition is true if inside
+        /// Validate method ContainsPositions return correct Boolean. ContainsPosition is true if inside
         /// or *on* boundary.
         /// </summary>
         [Test]

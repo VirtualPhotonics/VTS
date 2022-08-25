@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Vts.Common;
 using Vts.IO;
 using Vts.MonteCarlo.Helpers;
@@ -9,6 +10,15 @@ using Vts.MonteCarlo.PhotonData;
 
 namespace Vts.MonteCarlo.Detectors
 {
+    /// <summary>
+    /// The <see cref="Detectors"/> namespace contains the Monte Carlo detector classes 
+    /// </summary>
+
+    [CompilerGenerated]
+    internal class NamespaceDoc
+    {
+    }
+
     /// <summary>
     /// Tally for absorbed energy as a function of Rho and Z.
     /// This works for Analog and DAW processing.
@@ -255,6 +265,7 @@ namespace Vts.MonteCarlo.Detectors
         /// Method to determine if photon is within detector
         /// </summary>
         /// <param name="photon">photon</param>
+        /// <returns>Boolean indicating whether photon is within detector</returns>
         public bool IsWithinDetectorAperture(Photon photon)
         {
             return true; // or, possibly test for NA or confined position, etc

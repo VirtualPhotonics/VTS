@@ -50,7 +50,7 @@ namespace Vts.Test.MonteCarlo.Tissues
         }
 
         /// <summary>
-        /// Validate method GetRegionIndex return correct boolean
+        /// Validate method GetRegionIndex return correct Boolean
         /// </summary>
         [Test]
         public void verify_GetRegionIndex_method_returns_correct_result()
@@ -64,7 +64,7 @@ namespace Vts.Test.MonteCarlo.Tissues
         }
 
         /// <summary>
-        /// Validate method GetNeighborRegionIndex for tissueWithEllipsoid return correct boolean
+        /// Validate method GetNeighborRegionIndex for tissueWithEllipsoid return correct Boolean
         /// </summary>
         [Test]
         public void verify_tissueWithEllipsoid_GetNeighborRegionIndex_method_correct_when_photon_on_ellipsoid()
@@ -82,7 +82,7 @@ namespace Vts.Test.MonteCarlo.Tissues
         }
 
         /// <summary>
-        /// Validate method GetNeighborRegionIndex for tissueWithEllipsoid return correct boolean
+        /// Validate method GetNeighborRegionIndex for tissueWithEllipsoid return correct Boolean
         /// </summary>
         [Test]
         public void verify_tissueWithEllipsoid_GetNeighborRegionIndex_method_correct_when_photon_bottom_slab()

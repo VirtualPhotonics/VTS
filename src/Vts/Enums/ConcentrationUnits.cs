@@ -6,7 +6,7 @@ namespace Vts
     public enum ConcentrationUnits
     {
         /// <summary>
-        /// [uM] concentraction units
+        /// [uM] concentration units
         /// </summary>
         microMolar,
         /// <summary>

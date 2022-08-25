@@ -153,7 +153,7 @@ namespace Vts.MonteCarlo.Detectors
         /// <summary>
         /// this scalar tally is saved to json
         /// </summary>
-        /// <returns></returns>
+        /// <returns>array of BinaryArraySerializer</returns>
         public BinaryArraySerializer[] GetBinarySerializers()
         {
             return null;
@@ -162,6 +162,8 @@ namespace Vts.MonteCarlo.Detectors
         /// Method to determine if photon is within detector
         /// </summary>
         /// <param name="photon">photon</param>
+        /// <returns>Boolean indicating whether photon is within detector</returns>
+
         public bool IsWithinDetectorAperture(Photon photon)
         {
             return true; // or, possibly test for NA or confined position, etc

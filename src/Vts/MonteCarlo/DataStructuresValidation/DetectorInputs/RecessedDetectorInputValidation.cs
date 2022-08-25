@@ -11,7 +11,7 @@ namespace Vts.MonteCarlo
         /// Method to validate recessed ZPlane specification is negative
         /// </summary>
         /// <param name="input">detector input in SimulationInput</param>
-        /// <returns></returns>
+        /// <returns>An instance of the ValidationResult class</returns>
         public static ValidationResult ValidateInput(IDetectorInput input)
         {
             // test if ZPlane is negative or zero

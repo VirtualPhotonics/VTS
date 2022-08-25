@@ -15,7 +15,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <summary>
         /// constructor
         /// </summary>
-        /// <param name="fs"></param>
+        /// <param name="fs">forward solver</param>
         public VectorizedForwardSolverFuncs(IForwardSolver fs)
         {
             _fs = fs;

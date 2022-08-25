@@ -11,7 +11,7 @@ namespace Vts.MonteCarlo
         /// Method to validate that only one perturbed region specified
         /// </summary>
         /// <param name="input">detector input in SimulationInput</param>
-        /// <returns></returns>
+        /// <returns>An instance of the ValidationResult class</returns>
         public static ValidationResult ValidateInput(IDetectorInput input)
         {
             // test if perturbed region indices has only one index
