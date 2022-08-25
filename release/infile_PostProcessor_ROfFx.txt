@@ -1,0 +1,30 @@
+{
+  "DetectorInputs": [
+    {
+      "Fx": {
+        "Start": 0.0,
+        "Stop": 1.0,
+        "Count": 51
+      },
+      "TallyType": "ROfFx",
+      "Name": "ROfFx",
+      "TallySecondMoment": true,
+      "TallyDetails": {
+        "IsReflectanceTally": true,
+        "IsTransmittanceTally": false,
+        "IsSpecularReflectanceTally": false,
+        "IsInternalSurfaceTally": false,
+        "IspMCReflectanceTally": false,
+        "IsBoundingVolumeTally": false,
+        "IsVolumeTally": false,
+        "IsCylindricalTally": true,
+        "IsNotImplementedForDAW": false,
+        "IsNotImplementedForCAW": false,
+        "IsNotImplementedYet": false
+      }
+    }
+  ],
+  "InputFolder": "genDB",
+  "DatabaseSimulationInputFilename": "genDB",
+  "OutputName": "genDB_PP_ROfFx"
+}

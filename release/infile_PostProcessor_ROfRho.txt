@@ -1,0 +1,30 @@
+{
+  "DetectorInputs": [
+    {
+      "Rho": {
+        "Start": 0.0,
+        "Stop": 10.0,
+        "Count": 101
+      },
+      "TallyType": "ROfRho",
+      "Name": "ROfRho",
+      "TallySecondMoment": false,
+      "TallyDetails": {
+        "IsReflectanceTally": true,
+        "IsTransmittanceTally": false,
+        "IsSpecularReflectanceTally": false,
+        "IsInternalSurfaceTally": false,
+        "IspMCReflectanceTally": false,
+        "IsBoundingVolumeTally": false,
+        "IsVolumeTally": false,
+        "IsCylindricalTally": true,
+        "IsNotImplementedForDAW": false,
+        "IsNotImplementedForCAW": false,
+        "IsNotImplementedYet": false
+      }
+    }
+  ],
+  "InputFolder": "two_layer_ROfRho_1e2photons",
+  "DatabaseSimulationInputFilename": "two_layer_ROfRho_1e2photons",
+  "OutputName": "PostProcessor_two_layer_ROfRho_1e2photons"
+}
