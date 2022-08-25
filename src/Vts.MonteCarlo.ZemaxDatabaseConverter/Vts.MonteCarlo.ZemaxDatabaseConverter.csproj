@@ -24,7 +24,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\Zemax\Vts.Zemax.csproj" />
+	  <ProjectReference Include="..\Vts.Zemax\Vts.Zemax.csproj" />
 	</ItemGroup>
 
 </Project>
