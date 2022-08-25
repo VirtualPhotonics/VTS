@@ -1,7 +1,7 @@
 using System.IO;
 using Vts.IO;
 
-namespace Vts.MonteCarlo.Zemax
+namespace Vts.Zemax
 {
     /// <summary>
     /// This is code that would be executed to convert Zrd DB to/from MCCL compatible DB

@@ -1,4 +1,4 @@
-namespace Vts.MonteCarlo.Zemax
+namespace Vts.Zemax
 {
     /// <summary>
     /// This should match VirtualBoundaryType one for one.  Commented out ones have not made

@@ -2,7 +2,7 @@
 using System.IO;
 using Vts.Common;
 using Vts.MonteCarlo.RayData;
-using Vts.MonteCarlo.Zemax;
+using Vts.Zemax;
 
 namespace Vts.MonteCarlo.ZemaxDatabaseConverter
 {

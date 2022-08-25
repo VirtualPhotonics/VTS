@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk" ToolsVersion="Current">
+  <PropertyGroup>
+	  <TargetFramework Condition=" '$(OS)' == 'Windows_NT' ">netcoreapp3.1</TargetFramework>
+	  <IsPackable>false</IsPackable>
+	  <FileUpgradeFlags>40</FileUpgradeFlags>
+	  <UpgradeBackupLocation>C:\Users\hayakawa\Documents\Visual Studio 2022\Projects\vts_220810\src\Backup\Vts.Zemax.Test\</UpgradeBackupLocation>
+	  <OldToolsVersion>2.0</OldToolsVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="ZrdRayDatabaseTest.cs" />
+  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.2.0" />
+		<PackageReference Include="Moq" Version="4.18.1" />
+		<PackageReference Include="NUnit" Version="3.13.3" />
+		<PackageReference Include="NUnit3TestAdapter" Version="4.2.1">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Vts\Vts.csproj" />
+    <ProjectReference Include="..\Zemax\Vts.Zemax.csproj" />
+  </ItemGroup>
+	<ItemGroup>
+		<None Update="NLogUnitTest.config">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
+</Project>

@@ -1,7 +1,7 @@
 ﻿using Vts.Common;
 using Vts.MonteCarlo.RayData;
 
-namespace Vts.MonteCarlo.Zemax
+namespace Vts.Zemax
 {
     /// <summary>
     /// This is code that would be executed to convert ZRD DB to/from MCCL compatible DB

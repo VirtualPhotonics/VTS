@@ -1,14 +1,13 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using NUnit.Framework;
 using Vts.IO;
 using Vts.MonteCarlo;
-using Vts.MonteCarlo.Zemax;
 
-namespace Vts.Test.MonteCarlo.Zemax
+namespace Vts.Zemax.Test
 {
     [TestFixture]
-    public class ZRDRayDatabaseTests
+    public class ZrdRayDatabaseTests
     {
         /// <summary>
         /// list of temporary files created by these unit tests
@@ -34,19 +33,27 @@ namespace Vts.Test.MonteCarlo.Zemax
         /// test to verify ZRDRayDatabaseWriter and  ZRDRayDatabase.FromFile are working correctly
         /// </summary>
         [Test]
-        public void Validate_ZRDRayDatabase_writing_and_reading_is_correct()
+        public void Validate_ZrdRayDatabase_writing_and_reading_is_correct()
         {
             string databaseFileName = "testzrdraydatabase";
             var firstRayDP = new ZrdRayDataPoint()
             {
-                X = 1, Y = 2, Z = 3,
-                Ux = 0, Uy = 1/ Math.Sqrt(2), Uz = 1/Math.Sqrt(2),
+                X = 1,
+                Y = 2,
+                Z = 3,
+                Ux = 0,
+                Uy = 1 / Math.Sqrt(2),
+                Uz = 1 / Math.Sqrt(2),
                 Weight = 1
             };
             var secondRayDP = new ZrdRayDataPoint()
             {
-                X = 4, Y = 5, Z = 6,
-                Ux = 0, Uy = 0, Uz = 1,
+                X = 4,
+                Y = 5,
+                Z = 6,
+                Ux = 0,
+                Uy = 0,
+                Uz = 1,
                 Weight = 0.555
             };
             using (var dbWriter = new ZrdRayDatabaseWriter(

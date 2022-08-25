@@ -6,8 +6,8 @@ using Vts.Common;
 using Vts.MonteCarlo.Sources;
 using Vts.MonteCarlo.Tissues;
 using Vts.MonteCarlo.Detectors;
-using Vts.MonteCarlo.Zemax;
 using Vts.MonteCarlo.RayData;
+using Vts.Zemax;
 
 namespace Vts.MonteCarlo.ZemaxDatabaseConverter.Test
 {
