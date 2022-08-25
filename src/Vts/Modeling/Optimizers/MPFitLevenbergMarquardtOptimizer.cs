@@ -1,11 +1,21 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using MPFitLib;
 using Vts.Extensions;
 
 namespace Vts.Modeling.Optimizers
 {
+    /// <summary>
+    /// The <see cref="Optimizers"/> namespace contains the optimizer classes for the Virtual Tissue Simulator
+    /// </summary>
+
+    [CompilerGenerated]
+    internal class NamespaceDoc
+    {
+    }
+
     /// <summary>
     /// Data input to the optimization method Solve.
     /// ForwardFunc:delegate function that evaluates the objective function given a parameter optimization array and (optional) constant variables
@@ -48,7 +58,8 @@ namespace Vts.Modeling.Optimizers
         /// <param name="y">"measured" values</param>
         /// <param name="ey">standard deviation values of <paramref name="y"/></param>
         /// <param name="forwardFunc">delegate function that evaluates the objective function given a parameter optimization array and (optional) constant variables</param>
-        /// <param name="forwardVariables"></param>
+        /// <param name="forwardVariables">additional variables needed to solve forward function</param>
+        /// <returns>inverse solution array</returns>
         public double[] Solve(double[] a, bool[] ia, double[] y, double[] ey, Func<double[], object[], double[]> forwardFunc, params object[] forwardVariables)
         {
             var data = new OptimizationData
@@ -78,7 +89,8 @@ namespace Vts.Modeling.Optimizers
         /// <param name="y">"measured" values</param>
         /// <param name="ey">standard deviation values of <paramref name="y"/></param>
         /// <param name="forwardFunc">delegate function that evaluates the objective function given a parameter optimization array and (optional) constant variables</param>
-        /// <param name="forwardVariables"></param>
+        /// <param name="forwardVariables">additional variables needed to solve forward function</param>
+        /// <returns>inverse solution array</returns>
         public double[] SolveWithConstraints(double[] a, bool[] ia, double[] lowerBounds, double[] upperBounds, double[] y, double[] ey, Func<double[], object[], double[]> forwardFunc, params object[] forwardVariables)
         {
             var data = new OptimizationData
@@ -106,13 +118,13 @@ namespace Vts.Modeling.Optimizers
         }
 
         /// <summary>
-        /// Standard function prototype that MPFit knows how to call. Use <paramref name="vars"/> to store information reqired to evaluate any objective function
+        /// Standard function prototype that MPFit knows how to call. Use <paramref name="vars"/> to store information required to evaluate any objective function
         /// </summary>
         /// <param name="parameters">array of fit parameters</param>
         /// <param name="dy">array of residuals to be returned</param>
         /// <param name="dvec">not used</param>
         /// <param name="vars">private data</param>
-        /// <returns></returns>
+        /// <returns>status return 0=success, otherwise error</returns>
         private static int MPFitFunc(double[] parameters, double[] dy, IList<double>[] dvec, object vars)
         {
             OptimizationData oData = vars as OptimizationData;

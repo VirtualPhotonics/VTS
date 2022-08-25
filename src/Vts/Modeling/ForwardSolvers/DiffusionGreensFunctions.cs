@@ -39,12 +39,12 @@ namespace Vts.Modeling.ForwardSolvers
                 Math.Exp(-r * r / tempVar);
         }
         /// <summary>
-        /// Infinte media diffusion Green's function for space and temporal frequency
+        /// Infinite media diffusion Green's function for space and temporal frequency
         /// </summary>
         /// <param name="dp">diffusion parameters object</param>
         /// <param name="r">radial location</param>
-        /// <param name="k"></param>
-        /// <returns></returns>
+        /// <param name="k">temporal frequency</param>
+        /// <returns>Green's function value</returns>
         public static Complex TemporalFrequencyPointSourceGreensFunction(
             DiffusionParameters dp, double r, Complex k)
         {
@@ -63,9 +63,9 @@ namespace Vts.Modeling.ForwardSolvers
         /// time-independent Green's function zflux from point source
         /// </summary>
         /// <param name="dp">diffusion parameters</param>
-        /// <param name="r"></param>
-        /// <param name="zr"></param>
-        /// <returns></returns>
+        /// <param name="r">source location (rho)</param>
+        /// <param name="zr">source location (z)</param>
+        /// <returns>Green's function zflux</returns>
         public static double StationaryPointSourceGreensFunctionZFlux(
             DiffusionParameters dp, double r, double zr)
         {
@@ -76,10 +76,10 @@ namespace Vts.Modeling.ForwardSolvers
         /// time-dependent Green's function solution for point source
         /// </summary>
         /// <param name="dp">diffusion parameters</param>
-        /// <param name="r"></param>
-        /// <param name="zr"></param>
+        /// <param name="r">source location (rho)</param>
+        /// <param name="zr">source location (z)</param>
         /// <param name="t">time</param>
-        /// <returns></returns>
+        /// <returns>Green's function zflux</returns>
         public static double TemporalPointSourceGreensFunctionZFlux(
             DiffusionParameters dp, double r, double zr, double t)
         {
@@ -89,11 +89,12 @@ namespace Vts.Modeling.ForwardSolvers
         }
         /// <summary>
         /// temporal-frequency Green's function for point source
+        /// </summary>
         /// <param name="dp">diffusion parameters</param>
         /// <param name="r">source location (rho)</param>
         /// <param name="zr">source location (z)</param>
         /// <param name="k">complex value</param>
-        /// </summary>
+        /// <returns>Green's function value</returns>
         public static Complex TemporalFrequencyPointSourceGreensFunctionZFlux(
             DiffusionParameters dp, double r, double zr, Complex k)
         {
@@ -111,7 +112,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="dp">diffusion parameters</param>
         /// <param name="rSource">source location</param>
         /// <param name="rImage">source image location</param>
-        /// <returns></returns>
+        /// <returns>Green's function value</returns>
         public static double StationaryPointSourceImageGreensFunction(
            DiffusionParameters dp, double rSource, double rImage)
         {
@@ -125,7 +126,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="rSource">source location</param>
         /// <param name="rImage">image source location</param>
         /// <param name="t">time</param>
-        /// <returns></returns>
+        /// <returns>Green's function value</returns>
         public static double TemporalPointSourceImageGreensFunction(
            DiffusionParameters dp, double rSource, double rImage, double t)
         {
@@ -139,7 +140,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="rSource">source location</param>
         /// <param name="rImage">source image location</param>
         /// <param name="k">complex value</param>
-        /// <returns></returns>
+        /// <returns>Green's function value</returns>
         public static Complex TemporalFrequencyPointSourceImageGreensFunction(
             DiffusionParameters dp, double rSource, double rImage, Complex k)
         {
@@ -161,7 +162,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="zSource">source location (z)</param>
         /// <param name="rImage">source image location (rho)</param>
         /// <param name="zImage">source image location (z)</param>
-        /// <returns></returns>
+        /// <returns>Green's function zflux</returns>
         public static double StationaryPointSourceImageGreensFunctionZFlux(
             DiffusionParameters dp, double rSource, double zSource, double rImage, double zImage)
         {
@@ -179,7 +180,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="rImage">source image location (rho)</param>
         /// <param name="zImage">source image location (z)</param>
         /// <param name="t">time</param>
-        /// <returns></returns>
+        /// <returns>Green's function zflux</returns>
         public static double TemporalPointSourceImageGreensFunctionZFlux(
             DiffusionParameters dp, double rSource, double zSource, double rImage, double zImage, double t)
         { 
@@ -195,7 +196,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="rImage">source image location (rho)</param>
         /// <param name="zImage">source image location (z)</param>
         /// <param name="k">complex value</param>
-        /// <returns></returns>
+        /// <returns>Green's function zflux</returns>
         public static Complex TemporalFrequencyPointSourceImageGreensFunctionZFlux(
           DiffusionParameters dp, double rSource, double zSource, double rImage, double zImage, Complex k)
         {

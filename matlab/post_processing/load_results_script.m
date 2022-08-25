@@ -36,6 +36,7 @@ show.ROfXAndYAndMaxDepthRecessed=1;
 show.ROfFx =                    1;
 show.ROfFxAndTime =             1;
 show.ROfFxAndAngle =            1;
+show.ROfFxAndMaxDepth =         1;
 show.RSpecular =                1;
 show.TDiffuse =                 1;
 show.TOfRho =                   1;
@@ -334,6 +335,14 @@ for mci = 1:length(datanames)
         angledelta = results{di}.ROfFxAndAngle.Angle(2)-results{di}.ROfFxAndAngle.Angle(1);
         anglenorm = 2 * pi * sin(results{di}.ROfFxAndAngle.Angle_Midpoints) * angledelta;
         disp(['Total reflectance captured by ROfFxAndAngle detector: ' num2str(sum(anglenorm*results{di}.ROfFxAndAngle.Amplitude(:,1)))]);
+    end
+    
+    if isfield(results{di}, 'ROfFxAndMaxDepth') && show.ROfFxAndMaxDepth
+        figname = sprintf('%s - log10(Amplitude)',results{di}.ROfFxAndMaxDepth.Name); 
+        figure; imagesc(results{di}.ROfFxAndMaxDepth.MaxDepth_Midpoints, results{di}.ROfFxAndMaxDepth.Fx_Midpoints, log10(results{di}.ROfFxAndMaxDepth.Amplitude')); 
+        title(figname); set(gcf,'Name', figname);colorbar; xlabel('depth [mm]'); ylabel('f_x [/mm]');
+        angledelta = results{di}.ROfFxAndMaxDepth.MaxDepth(2)-results{di}.ROfFxAndMaxDepth.MaxDepth(1);
+        disp(['Total reflectance captured by ROfFxAndMaxDepth detector: ' num2str(sum(results{di}.ROfFxAndMaxDepth.Amplitude(:,1)))]);
     end
         
     if isfield(results{di}, 'TDiffuse') && show.TDiffuse

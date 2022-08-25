@@ -4,7 +4,7 @@ using Vts.Common;
 namespace Vts.MonteCarlo.Tissues
 {
     /// <summary>
-    /// Implements ITissueRegion.  Defines ellipsiod given Center, and Axis
+    /// Implements ITissueRegion.  Defines ellipsoid given Center, and Axis
     /// radii along x,y,z axis.
     /// </summary>
     public class EllipsoidTissueRegion : ITissueRegion
@@ -63,7 +63,7 @@ namespace Vts.MonteCarlo.Tissues
         /// method to determine if given Position lies within ellipsoid allows for floating point imprecision
         /// </summary>
         /// <param name="position">Position</param>
-        /// <returns>boolean, true if within or on, false otherwise</returns>
+        /// <returns>Boolean, true if within or on, false otherwise</returns>
         public bool ContainsPosition(Position position)
         {
                 double inside = (position.X - Center.X) * (position.X - Center.X) /
@@ -100,8 +100,8 @@ namespace Vts.MonteCarlo.Tissues
         /// <summary>
         /// method to determine normal to surface at given position. Note this returns outward facing normal.
         /// </summary>
-        /// <param name="position">position of surface normal</param>
-        /// <returns>direction of normal</returns>
+        /// <param name="position">position</param>
+        /// <returns>Direction normal to surface at position</returns>
         public Direction SurfaceNormal(Position position)
         {
             return new Direction(
@@ -120,7 +120,7 @@ namespace Vts.MonteCarlo.Tissues
         /// </summary>
         /// <param name="photon">Photon</param>
         /// <param name="distanceToBoundary">return: distance to boundary, infinity if no intersection</param>
-        /// <returns>boolean true if intersection, false otherwise</returns>
+        /// <returns>Boolean true if intersection, false otherwise</returns>
         public bool RayIntersectBoundary(Photon photon, out double distanceToBoundary)
         {
             distanceToBoundary = double.PositiveInfinity;

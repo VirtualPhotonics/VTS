@@ -230,7 +230,7 @@ namespace Vts.MonteCarlo.Detectors
 
         /// <summary>
         /// method to normalize detector results after numPhotons launched
-        /// for this detector normlization is based on number launched in starting
+        /// for this detector normalization is based on number launched in starting
         /// x,y bin
         /// </summary>
         /// <param name="numPhotons">number of photons launched</param>

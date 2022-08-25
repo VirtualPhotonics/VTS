@@ -20,7 +20,7 @@ namespace Vts.IO
         /// Constructor
         /// </summary>
         /// <param name="fileName">Name of the binary file to write</param>
-        /// <param name="binaryWriter"></param>
+        /// <param name="binaryWriter">ICustomBinaryWriter of generic type T</param>
         public CustomBinaryStreamWriter(
             string fileName,
             ICustomBinaryWriter<T> binaryWriter)
@@ -29,10 +29,10 @@ namespace Vts.IO
         }
 
         /// <summary>
-        /// 
+        /// Custom binary stream writer
         /// </summary>
         /// <param name="fileName">Name of the binary file</param>
-        /// <param name="writeMap"></param>
+        /// <param name="writeMap">Action on BinaryWriter and generic type T</param>
         public CustomBinaryStreamWriter(
             string fileName,
             Action<BinaryWriter, T> writeMap)

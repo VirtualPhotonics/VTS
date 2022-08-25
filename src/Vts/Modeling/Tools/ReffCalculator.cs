@@ -4,7 +4,7 @@ using MathNet.Numerics.Interpolation;
 namespace Vts.Modeling
 {
     /// <summary>
-    /// reff calculator
+    /// Reff calculator
     /// </summary>
     public class ReffCalculator
     {
@@ -23,10 +23,10 @@ namespace Vts.Modeling
             Interpolate.Linear(nValues,reffValues);
 
         /// <summary>
-        /// method to get reff
+        /// Method to get reff
         /// </summary>
-        /// <param name="n">refractive index</param>
-        /// <returns></returns>
+        /// <param name="n">The refractive index</param>
+        /// <returns>Reff value</returns>
         public static double GetReff(double n)
         {
             return interpolator.Interpolate(n);

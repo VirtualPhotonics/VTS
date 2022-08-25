@@ -10,7 +10,7 @@ namespace Vts.IO
     /// class to deserialize json
     /// from http://stackoverflow.com/questions/8030538/how-to-implement-custom-jsonconverter-in-json-net-to-deserialize-a-list-of-base
     /// </summary>
-    /// <typeparam name="TInterface"></typeparam>
+    /// <typeparam name="TInterface">The interface type for the converter</typeparam>
     public class ConventionBasedConverter<TInterface> : JsonCreationConverter<TInterface> 
     {
         private readonly string _typeCategoryString;
@@ -110,7 +110,7 @@ namespace Vts.IO
 
             var classPrefixString = jObject[_typeCategoryString].ToString();
 
-            // get name of Enum from interface (e.g. if it's "IThingy", get "ThingyType" Enum and generate names for all source classes, and then use the corresponding factory, possibly also using convention "ThingyFactory")
+            // get name of enum from interface (e.g. if it's "IThingy", get "ThingyType" enum and generate names for all source classes, and then use the corresponding factory, possibly also using convention "ThingyFactory")
             var classInfo = _classInfoDictionary[classPrefixString];
 
             var classInstance = (TInterface)_serviceProvider.GetService(classInfo.ClassType);
@@ -123,7 +123,7 @@ namespace Vts.IO
         /// </summary>
         /// <param name="fieldName">name of field string</param>
         /// <param name="jObject">JObject object to check</param>
-        /// <returns>boolean indicating if field exists</returns>
+        /// <returns>Boolean indicating if field exists</returns>
         private static bool FieldExists(string fieldName, JObject jObject)
         {
             return jObject[fieldName] != null;

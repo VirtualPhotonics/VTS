@@ -1,5 +1,16 @@
-﻿namespace Vts.MonteCarlo.Interfaces
+﻿using System.Runtime.CompilerServices;
+
+namespace Vts.MonteCarlo.Interfaces
 {
+    /// <summary>
+    /// The <see cref="Interfaces"/> namespace contains the ISourceProfile interface for the Monte Carlo input
+    /// </summary>
+
+    [CompilerGenerated]
+    internal class NamespaceDoc
+    {
+    }
+
     /// <summary>
     /// Defines contract for source profile.
     /// </summary>

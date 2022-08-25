@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using Vts.Common;
 using Vts.MonteCarlo.Helpers;
 using Vts.MonteCarlo.Interfaces;
@@ -6,6 +7,15 @@ using Vts.MonteCarlo.Sources.SourceProfiles;
 
 namespace Vts.MonteCarlo.Sources
 {
+    /// <summary>
+    /// The <see cref="Sources"/> namespace contains the Monte Carlo source classes
+    /// </summary>
+
+    [CompilerGenerated]
+    internal class NamespaceDoc
+    {
+    }
+
     /// <summary>
     /// Implements ISourceInput. Defines input data for CustomLineSource implementation 
     /// including line length, source profile, polar angle range, azimuthal angle range, 
@@ -121,8 +131,8 @@ namespace Vts.MonteCarlo.Sources
         /// <summary>
         /// Required code to create a source based on the input values
         /// </summary>
-        /// <param name="rng"></param>
-        /// <returns></returns>
+        /// <param name="rng">random number generator</param>
+        /// <returns>instantiated source</returns>
         public ISource CreateSource(Random rng = null)
         {
             rng = rng ?? new Random();
@@ -140,7 +150,7 @@ namespace Vts.MonteCarlo.Sources
     }
 
     /// <summary>
-    /// Implements CustomLineSource with ine length, source profile, polar angle range, azimuthal 
+    /// Implements CustomLineSource with line length, source profile, polar angle range, azimuthal 
     /// angle range, direction, position, inward normal beam rotation and initial tissue region index.
     /// </summary>
     public class CustomLineSource : LineSourceBase

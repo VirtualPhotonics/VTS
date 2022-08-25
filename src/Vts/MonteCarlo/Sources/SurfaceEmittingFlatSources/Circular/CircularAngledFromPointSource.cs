@@ -92,8 +92,8 @@ namespace Vts.MonteCarlo.Sources
         /// <summary>
         /// Required code to create a source based on the input values
         /// </summary>
-        /// <param name="rng"></param>
-        /// <returns></returns>
+        /// <param name="rng">random number generator</param>
+        /// <returns>source class that implements ISource</returns>
         public ISource CreateSource(Random rng = null)
         {
             rng = rng ?? new Random();

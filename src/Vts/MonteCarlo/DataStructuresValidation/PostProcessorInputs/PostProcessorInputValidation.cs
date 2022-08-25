@@ -12,11 +12,11 @@ namespace Vts.MonteCarlo
     public class PostProcessorInputValidation
     {
         /// <summary>
-        /// validate infile as well as overriding command line input
+        /// Method to validate infile as well as overriding command line input
         /// </summary>
         /// <param name="input">PostProcessorInput file</param>
         /// <param name="inpath">command line option inpath</param>
-        /// <returns></returns>
+        /// <returns>An instance of the ValidationResult class</returns>
         public static ValidationResult ValidateInput(PostProcessorInput input, string inpath)
         {
             ValidationResult tempResult;

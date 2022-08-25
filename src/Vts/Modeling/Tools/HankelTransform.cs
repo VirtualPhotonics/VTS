@@ -4,19 +4,19 @@ using Vts.IO;
 namespace Vts.Modeling
 {
     /// <summary>
-    /// Evaluate the Hankel transform using a digital fitler method for the quadrature points.
+    /// Evaluate the Hankel transform using a digital filter method for the quadrature points.
     /// Necessary to have a continuous function for transformation.
     /// </summary>
     public class HankelTransform
     {
 
         /// <summary>
-        /// Zero order Hankel Transform of Anayltic expression by digital filtering. 
+        /// Zero order Hankel Transform of Analytic expression by digital filtering. 
         /// Based on a Matlab code by Prof. Brian Borcher which is based on a Fortran program by Walt Anderson 
         /// which was published as
         /// Anderson, W.L., 1979, Computer Program Numerical Integration of Related Hankel
         /// Transforms of Orders 0 and 1 by Adaptive Digital Filtering.
-        /// Geophysic, 44(7):1287-1305.
+        /// Geophysics, 44(7):1287-1305.
         /// Actual weights used in this code are from a later updated version of the code
         /// </summary>
         /// <returns>IEnumerable corresponding to points being transformed</returns>
@@ -35,11 +35,11 @@ namespace Vts.Modeling
                 (dataLocation + @"hankelweights.dat", projectName, dataLength);
         }
         /// <summary>
-        /// digital filter of order 0
+        /// Digital filter of order 0 using Hankel points and weights
         /// </summary>
-        /// <param name="varInt"></param>
-        /// <param name="func"></param>
-        /// <returns></returns>
+        /// <param name="varInt">double used to scale Hankel points</param>
+        /// <param name="func">function to use to integrate</param>
+        /// <returns>A double</returns>
         public static double DigitalFilterOfOrderZero(double varInt, Func<double, double> func)
         {
             if (varInt == 0)

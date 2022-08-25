@@ -14,10 +14,10 @@ namespace Vts.Common.Logging
         private static IDictionary<string, ILoggerFactory> _loggerFactories = new Dictionary<string, ILoggerFactory>(1);
 
         /// <summary>
-        /// Returns a singleton instance of an NLogFactcory
+        /// Returns a singleton instance of an NLogFactory
         /// </summary>
-        /// <param name="loggerName"></param>
-        /// <returns></returns>
+        /// <param name="loggerName">logger name</param>
+        /// <returns>A singleton instance of NLogFactory</returns>
         public static ILoggerFactory GetNLogFactory(string loggerName)
         {
             ILoggerFactory factory;
@@ -31,9 +31,9 @@ namespace Vts.Common.Logging
 
 
         /// <summary>
-        /// Returns a default singleton instance of an NLogFactcory
+        /// Returns a default singleton instance of an NLogFactory
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A default instance of NLogFactory</returns>
         public static ILoggerFactory GetDefaultNLogFactory()
         {
             return GetNLogFactory("NLog");

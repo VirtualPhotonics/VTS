@@ -17,7 +17,7 @@ namespace Vts.MonteCarlo
        string Name { get; set; }
        
        /// <summary>
-       /// Details of the tally - booleans that specify when they should be tallied
+       /// Details of the tally - Booleans that specify when they should be tallied
        /// </summary>
        TallyDetails TallyDetails { get; set; }
 
@@ -25,7 +25,7 @@ namespace Vts.MonteCarlo
         /// Required factory method to create the corresponding 
         /// IDetector based on the IDetectorInput data
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Class that implements IDetector</returns>
        IDetector CreateDetector();
     }
 }

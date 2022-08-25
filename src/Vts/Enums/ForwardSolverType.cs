@@ -1,7 +1,7 @@
 namespace Vts
 {
     /// <summary>
-    /// Types of Forward solvers in our gui
+    /// Types of Forward solvers in our GUI
     /// </summary>
     public enum ForwardSolverType
     {

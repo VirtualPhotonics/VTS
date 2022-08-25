@@ -11,7 +11,7 @@ using Vts.MonteCarlo.PhotonData;
 namespace Vts.MonteCarlo.Detectors
 {
     /// <summary>
-    /// Tally for Transmited dynamic MT as a function of X and Y using blood volume fraction in each tissue region.
+    /// Tally for Transmitted dynamic MT as a function of X and Y using blood volume fraction in each tissue region.
     /// This detector also tallies the total and dynamic MT as a function of Z.   If a random number is less
     /// than blood volume fraction for the tissue region in which the collision occurred, then hit blood and considered
     /// "dynamic" event.  Otherwise, it is a "static" event.
@@ -664,6 +664,7 @@ namespace Vts.MonteCarlo.Detectors
         /// Method to determine if photon is within detector NA
         /// </summary>
         /// <param name="photon">photon</param>
+        /// <returns>Boolean indicating whether photon is within detector</returns>
         public bool IsWithinDetectorAperture(Photon photon)
         {
             if (photon.CurrentRegionIndex == FinalTissueRegionIndex)
