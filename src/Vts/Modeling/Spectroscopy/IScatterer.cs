@@ -6,7 +6,7 @@ namespace Vts.SpectralMapping
     public interface IScatterer
     {
         /// <summary>
-        /// The scatterer type as defined by the Enum <see cref="Vts.ScatteringType">ScatteringType</see>
+        /// The scatterer type as defined by the enum <see cref="Vts.ScatteringType">ScatteringType</see>
         /// </summary>
         ScatteringType ScattererType { get; }
 
@@ -14,7 +14,7 @@ namespace Vts.SpectralMapping
         /// Returns the anisotropy coefficient for a given wavelength
         /// </summary>
         /// <param name="wavelength">Wavelength</param>
-        /// <returns>The anisotropy coeffient g</returns>
+        /// <returns>The anisotropy coefficient g</returns>
         double GetG(double wavelength);
         
         /// <summary>

@@ -115,7 +115,7 @@ namespace Vts.SpectralMapping
         /// Returns the anisotropy coefficient for a given wavelength
         /// </summary>
         /// <param name="wavelength">Wavelength</param>
-        /// <returns>The anisotropy coeffient g</returns>
+        /// <returns>The anisotropy coefficient g</returns>
         public double GetG(double wavelength)
         {
             return Scatterer != null ? Scatterer.GetG(wavelength) : 0;
@@ -169,6 +169,7 @@ namespace Vts.SpectralMapping
         /// Creates standard templates lists of absorbers for the specified tissue type
         /// </summary>
         /// <param name="tissueType">Tissue type</param>
+        /// <returns>array of absorber classes implementing IChromophoreAbsorber</returns>
         public static IChromophoreAbsorber[] CreateAbsorbers(TissueType tissueType)
         {
             // should this come from a file?
@@ -274,6 +275,7 @@ namespace Vts.SpectralMapping
         /// Sets the scatterer type for the specified tissue type
         /// </summary>
         /// <param name="tissueType">Tissue type</param>
+        /// <returns>scatterer class implementing IScatterer</returns>
         public static IScatterer CreateScatterer(TissueType tissueType)
         {
             switch (tissueType)

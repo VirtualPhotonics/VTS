@@ -17,7 +17,7 @@ namespace Vts.MonteCarlo
         /// Main validation method for SingleEllipsoidTissueInput.
         /// </summary>
         /// <param name="input">tissue input defined in SimulationInput</param>
-        /// <returns>ValidationResult</returns>
+        /// <returns>An instance of the ValidationResult class</returns>
         public static ValidationResult ValidateInput(ITissueInput input)
         {
             var layers = ((SingleEllipsoidTissueInput)input).LayerRegions.Select(region => (LayerTissueRegion)region).ToArray();
@@ -41,7 +41,7 @@ namespace Vts.MonteCarlo
         /// </summary>
         /// <param name="layers">list of LayerTissueRegion</param>
         /// <param name="ellipsoid">EllipsoidTissueRegion</param>
-        /// <returns>ValidationResult</returns>
+        /// <returns>An instance of the ValidationResult class</returns>
         private static ValidationResult ValidateGeometry(IList<LayerTissueRegion> layers, EllipsoidTissueRegion ellipsoid)
         {            
             // check that layer definition is valid
@@ -102,7 +102,7 @@ namespace Vts.MonteCarlo
         /// </summary>
         /// <param name="layers">list of LayerTissueRegion</param>
         /// <param name="ellipsoid">EllipsoidTissueRegion></param>
-        /// <returns>ValidationResult</returns>
+        /// <returns>An instance of the ValidationResult class</returns>
         private static ValidationResult ValidateRefractiveIndexMatch(
             IList<LayerTissueRegion> layers, EllipsoidTissueRegion ellipsoid)
         {

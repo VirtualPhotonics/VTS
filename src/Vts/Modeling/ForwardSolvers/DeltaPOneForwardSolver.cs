@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Numerics;
-using MathNet.Numerics;
 
 namespace Vts.Modeling.ForwardSolvers
 {
@@ -32,9 +31,9 @@ namespace Vts.Modeling.ForwardSolvers
         /// </summary>
         /// <param name="dp">diffusion parameters</param>
         /// <param name="rho">s-d separation</param>
-        /// <param name="fr1"></param>
-        /// <param name="fr2"></param>
-        /// <returns>reflectance at rho</returns>
+        /// <param name="fr1">First Fresnel Reflection Moment</param>
+        /// <param name="fr2">Second Fresnel Reflection Moment</param>
+        /// <returns>Reflectance at rho</returns>
         public override double StationaryReflectance(DiffusionParameters dp, double rho, double fr1, double fr2)
         {
             return 0;
@@ -45,7 +44,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="rho">s-d separation</param>
         /// <param name="z">depth</param>
         /// <param name="dp">diffusion parameters</param>
-        /// <returns>fluence value at (rho,z)</returns>
+        /// <returns>Fluence value at (rho,z)</returns>
         public override double StationaryFluence(double rho, double z, DiffusionParameters dp)
         {
             return 0;
@@ -56,9 +55,9 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="dp">diffusion parameters</param>
         /// <param name="rho">s-d separation</param>
         /// <param name="t">time</param>
-        /// <param name="fr1"></param>
-        /// <param name="fr2"></param>
-        /// <returns></returns>
+        /// <param name="fr1">First Fresnel Reflection Moment</param>
+        /// <param name="fr2">Second Fresnel Reflection Moment</param>
+        /// <returns>Reflectance as function of rho and time</returns>
         public override double TemporalReflectance(DiffusionParameters dp, double rho, double t, double fr1, double fr2)
         {
             return 0;
@@ -70,7 +69,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="rho">s-d separation</param>
         /// <param name="z">depth</param>
         /// <param name="t">time</param>
-        /// <returns>fluence at (rho,z,t)</returns>
+        /// <returns>Fluence at (rho,z,t)</returns>
         public override double TemporalFluence(DiffusionParameters dp, double rho, double z, double t)
         {
             return 0;
@@ -137,10 +136,10 @@ namespace Vts.Modeling.ForwardSolvers
         /// </summary>
         /// <param name="dp">diffusion parameters</param>
         /// <param name="rho">s-d separation</param>
-        /// <param name="k"></param>
-        /// <param name="fr1"></param>
-        /// <param name="fr2"></param>
-        /// <returns></returns>
+        /// <param name="k">square root of (mua c+i omega)/(Dc)</param>
+        /// <param name="fr1">First Fresnel Reflection Moment</param>
+        /// <param name="fr2">Second Fresnel Reflection Moment</param>
+        /// <returns>Fluence as a function of rho,z and ft</returns>
         public override Complex TemporalFrequencyReflectance(DiffusionParameters dp, double rho, Complex k, double fr1, double fr2)
         {
             throw new NotImplementedException();
@@ -151,8 +150,8 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="dp">diffuse parameters</param>
         /// <param name="rho">s-d separation</param>
         /// <param name="z">depth</param>
-        /// <param name="k"></param>
-        /// <returns></returns>
+        /// <param name="k">square root of (mua c+i omega)/(Dc)</param>
+        /// <returns>fluence as a function of rho,z and ft</returns>
         public override Complex TemporalFrequencyFluence(DiffusionParameters dp, double rho, double z, Complex k)
         {
             throw new NotImplementedException();

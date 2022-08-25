@@ -15,7 +15,7 @@ namespace Vts
         /// </summary>
         DynamicCreatorMersenneTwister,
         /// <summary>
-        /// MathNet Numerics random nummber generator, inherited so it can be serialized
+        /// MathNet Numerics random number generator, inherited so it can be serialized
         /// </summary>
         SerializableMersenneTwister
     }

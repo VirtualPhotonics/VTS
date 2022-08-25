@@ -82,7 +82,7 @@ namespace Vts.SpectralMapping
         public ScatteringType ScattererType { get { return ScatteringType.Mie; } }
 
         /// <summary>
-        /// Partice radius
+        /// Particle radius
         /// </summary>
         public double ParticleRadius
         {
@@ -147,7 +147,7 @@ namespace Vts.SpectralMapping
         /// Returns the anisotropy coefficient for a given wavelength
         /// </summary>
         /// <param name="wavelength">Wavelength</param>
-        /// <returns>The anisotropy coeffient g</returns>
+        /// <returns>The anisotropy coefficient g</returns>
         public double GetG(double wavelength)
         {
             MieScattParams = new MieScatteringParameters();

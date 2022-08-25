@@ -10,7 +10,7 @@ namespace Vts
         /// </summary>
         PolystyreneSphereSuspension,
         /// <summary>
-        /// Non-polysytrene sphere suspension Mie scatterer
+        /// Non-polystyrene sphere suspension Mie scatterer
         /// </summary>
         Other,
     }

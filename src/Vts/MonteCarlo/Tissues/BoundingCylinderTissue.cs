@@ -72,7 +72,7 @@ namespace Vts.MonteCarlo.Tissues
         /// <param name="awt">Absorption Weighting Type</param>
         /// <param name="pft">Phase Function Type</param>
         /// <param name="russianRouletteWeightThreshold">Russian Roulette Weight Threshold</param>
-        /// <returns></returns>
+        /// <returns>instantiated tissue class</returns>
         public ITissue CreateTissue(AbsorptionWeightingType awt, PhaseFunctionType pft, double russianRouletteWeightThreshold)
         {
             var t = new BoundedTissue(CylinderRegion, LayerRegions);

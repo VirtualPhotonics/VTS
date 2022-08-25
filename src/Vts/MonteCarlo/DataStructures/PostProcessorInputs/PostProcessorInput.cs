@@ -70,7 +70,7 @@ namespace Vts.MonteCarlo
         /// Method to read this class from JSON file.
         /// </summary>
         /// <param name="filename">string file name</param>
-        /// <returns>PostProcessorInput</returns>
+        /// <returns>An instance of the PostProcessorInput class</returns>
         public static PostProcessorInput FromFile(string filename)
         {
             return FileIO.ReadFromJson<PostProcessorInput>(filename);
@@ -88,7 +88,7 @@ namespace Vts.MonteCarlo
         /// </summary>
         /// <param name="filename">filename to be read</param>
         /// <param name="project">project where file resides</param>
-        /// <returns>PostProcessorInput</returns>
+        /// <returns>An instance of the PostProcessorInput class</returns>
         public static PostProcessorInput FromFileInResources(string filename, string project)
         {
             return FileIO.ReadFromJsonInResources<PostProcessorInput>(filename, project);

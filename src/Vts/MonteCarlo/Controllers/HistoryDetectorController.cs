@@ -22,7 +22,7 @@ namespace Vts.MonteCarlo.Controllers
             _tissue = tissue;
         }
         /// <summary>
-        /// Ilist of IDetector
+        /// IList of IDetector
         /// </summary>
         public IList<IDetector> Detectors { get { return _detectors.Select(d => (IDetector)d).ToList(); } }
         /// <summary>

@@ -106,12 +106,12 @@ namespace Vts
         /// <summary>
         /// An abstract method to get the increment value. To be defined by the subclass
         /// </summary>
-        /// <returns></returns>
+        /// <returns>the increment function</returns>
         protected abstract Func<T, T> GetIncrement();
         /// <summary>
         /// An abstract method to get the delta value. To be defined by the subclass
         /// </summary>
-        /// <returns>A value of type Time</returns>
+        /// <returns>the Delta value of class</returns>
         protected abstract T GetDelta();
 
         /// <summary>

@@ -38,7 +38,7 @@ namespace Vts.Modeling.ForwardSolvers
         # region properties
 
         /// <summary>
-        /// Gets or sets the physical domain rapresented by the NURBS surface.
+        /// Gets or sets the physical domain represented by the NURBS surface.
         /// </summary>
         public NurbsGeneratorType GeneratorType { get; set; }
 
@@ -511,8 +511,8 @@ namespace Vts.Modeling.ForwardSolvers
         /// Multiplies each polynomial coefficient with its corresponding control point.
         /// 'The NURBS Book' page 81.
         /// </summary>
-        /// <param name="polynomialCoefs">polynmial coefficients</param>
-        /// <param name="controlPoints">control point of the isoparamentric Nurbs curve</param>
+        /// <param name="polynomialCoefs">polynomial coefficients</param>
+        /// <param name="controlPoints">control point of the isoparametric Nurbs curve</param>
         /// <returns>polynomial coefficients multiplied by the respective control point</returns>
         public double[] MultiplyControlPointsAndPolynomialCoefficients(double[,] polynomialCoefs,
                                                                          double[] controlPoints)
@@ -543,7 +543,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="controlPoints">tensor product control points of the isoparametric curve</param>
         /// <param name="lowerLimit">knot span lower limit mapped to the physical value of the parametrized variable</param>
         /// <param name="upperLimit">knot span upper limit mapped to the physical value of the parametrized variable</param>
-        /// <param name="space">spatial coordiante mapped to the refernce space</param>
+        /// <param name="space">spatial coordinate mapped to the reference space</param>
         /// <returns>integral value of a NURBS curve over a single knotspan</returns>
         public double EvaluateKnotSpanIntegralValue(double exponentialTerm,
                                                     double[,] polynomialCoefs,
@@ -629,10 +629,10 @@ namespace Vts.Modeling.ForwardSolvers
         /// function within the lower and upper limit.
         /// </summary>
         /// <param name="degree">degree of the monomial term</param>
-        /// <param name="exponentialTerm">exonential term</param>
+        /// <param name="exponentialTerm">exponential term</param>
         /// <param name="monomialCoefficient">monomial coefficient</param>
         /// <param name="lowerLimit">lower limit of integration</param>
-        /// <param name="upperLimit">upper limit of ntegration</param>
+        /// <param name="upperLimit">upper limit of integration</param>
         /// <returns>integral value over the range</returns>
         public double IntegrateExponentialMultipliedByMomomial(int degree,
                                                                double exponentialTerm,
@@ -736,7 +736,7 @@ namespace Vts.Modeling.ForwardSolvers
 
         /// <summary>
         /// Evaluates the value of a point out of the reference nurbs surface using the 
-        /// derivative of the surfece using the derivative generators for the specific domain.
+        /// derivative of the surface using the derivative generators for the specific domain.
         /// </summary>
         /// <param name="time">time value mapped to the reference time</param>
         /// <param name="space">spatial value (rho or fx) mapped to the reference spatial value</param>
@@ -798,7 +798,7 @@ namespace Vts.Modeling.ForwardSolvers
         }
 
         /// <summary>
-        /// Evaluates the Fourier transform of an isoparametric Nurbs curve analitically.
+        /// Evaluates the Fourier transform of an isoparametric Nurbs curve analytically.
         /// </summary>
         /// <param name="space">spatial coordinate</param>
         /// <param name="expTerm">exponential coefficients</param>

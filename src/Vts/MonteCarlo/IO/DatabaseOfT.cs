@@ -1,9 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 
 namespace Vts.MonteCarlo.IO
 {
+    /// <summary>
+    /// The <see cref="IO"/> namespace contains the Monte Carlo input/output classes for databases
+    /// </summary>
+
+    [CompilerGenerated]
+    internal class NamespaceDoc
+    {
+    }
+
     /// <summary>
     /// Describes database of generic type allowing for various classes to be written to database.
     /// </summary>

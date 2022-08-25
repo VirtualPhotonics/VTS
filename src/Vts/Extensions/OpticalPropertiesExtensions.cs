@@ -1,16 +1,16 @@
 ﻿namespace Vts.Extensions
 {
     /// <summary>
-    /// extension methods for optical properties class
+    /// Extension methods for optical properties class
     /// </summary>
     public static class OpticalPropertiesExtensions
     {
         /// <summary>
-        /// Method to determine scattering length given the absorption weighting type 
+        /// Extension method to determine scattering length given the absorption weighting type 
         /// </summary>
-        /// <param name="op">optical properties</param>
-        /// <param name="awt">absorption weighting type</param>
-        /// <returns>scatter length</returns>
+        /// <param name="op">The optical properties</param>
+        /// <param name="awt">The absorption weighting type</param>
+        /// <returns>A scatter length</returns>
         public static double GetScatterLength(this OpticalProperties op, AbsorptionWeightingType awt)
         {
             switch (awt)

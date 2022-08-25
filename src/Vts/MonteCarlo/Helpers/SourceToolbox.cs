@@ -350,7 +350,7 @@ namespace Vts.MonteCarlo.Helpers
         /// <summary>
         /// Returns a random position in a line (Flat distribution)        
         /// </summary>
-        /// <param name="center">The center coordiantes of the line</param>
+        /// <param name="center">The center coordinates of the line</param>
         /// <param name="lengthX">The x-length of the line</param>        
         /// <param name="rng">The random number generator</param>
         /// <returns>position</returns>
@@ -407,7 +407,7 @@ namespace Vts.MonteCarlo.Helpers
         /// <summary>
         /// Provides a random position in an ellipse (Flat distribution)
         /// </summary>
-        /// <param name="center">The center coordiantes of the ellipse</param>
+        /// <param name="center">The center coordinates of the ellipse</param>
         /// <param name="a">'a' parameter of the ellipse</param>
         /// <param name="b">'b' parameter of the ellipse</param>
         /// <param name="rng">The random number generator</param>
@@ -440,7 +440,7 @@ namespace Vts.MonteCarlo.Helpers
         /// <summary>
         /// Provides a random position in an ellipse (Gaussian distribution)
         /// </summary>
-        /// <param name="center">The center coordiantes of the ellipse</param>
+        /// <param name="center">The center coordinates of the ellipse</param>
         /// <param name="a">'a' parameter of the ellipse</param>
         /// <param name="b">'b' parameter of the ellipse</param>
         /// <param name="beamDiaFWHM">Beam diameter at FWHM</param>
@@ -486,7 +486,7 @@ namespace Vts.MonteCarlo.Helpers
         /// <summary>
         /// Returns a random position in an ellipsoid volume (Flat distribution)
         /// </summary>
-        /// <param name="center">The center coordiantes of the ellipse</param>
+        /// <param name="center">The center coordinates of the ellipse</param>
         /// <param name="a">'a' parameter of the ellipsoid</param>
         /// <param name="b">'b' parameter of the ellipsoid</param>
         /// <param name="c">'c' parameter of the ellipsoid</param>
@@ -523,7 +523,7 @@ namespace Vts.MonteCarlo.Helpers
         /// <summary>
         /// Returns a random position in an ellipsoid volume (Gaussian distribution)
         /// </summary>
-        /// <param name="center">The center coordiantes of the ellipsoid</param>
+        /// <param name="center">The center coordinates of the ellipsoid</param>
         /// <param name="a">'a' parameter of the ellipsoid</param>
         /// <param name="b">'b' parameter of the ellipsoid</param>
         /// <param name="c">'c' parameter of the ellipsoid</param>
@@ -576,7 +576,7 @@ namespace Vts.MonteCarlo.Helpers
         /// <summary>
         /// Returns a random position in a rectangular surface (Flat distribution)
         /// </summary>
-        /// <param name="center">The center coordiantes of the rectangle</param>
+        /// <param name="center">The center coordinates of the rectangle</param>
         /// <param name="lengthX">The x-length of the rectangle</param>
         /// <param name="lengthY">The y-length of the rectangle</param>
         /// <param name="rng">The random number generator</param>
@@ -601,7 +601,7 @@ namespace Vts.MonteCarlo.Helpers
         /// <summary>
         /// Returns a random position in a rectangular surface (Gaussian distribution)
         /// </summary>
-        /// <param name="center">The center coordiantes of the rectangle</param>
+        /// <param name="center">The center coordinates of the rectangle</param>
         /// <param name="lengthX">The x-coordinate of the lengthX</param>
         /// <param name="lengthY">The y-coordinate of the widthY</param>
         /// <param name="beamDiaFWHM">Beam diameter at FWHM</param>
@@ -653,6 +653,7 @@ namespace Vts.MonteCarlo.Helpers
         /// </summary>
         /// <param name="lowerLimit">lower limit of the uniform random number</param>
         /// <param name="rng">The random number generator</param>
+        /// <returns>normally distributed random number</returns>
         public static double GetSingleNormallyDistributedRandomNumber(
             double lowerLimit,
             Random rng)
@@ -698,7 +699,8 @@ namespace Vts.MonteCarlo.Helpers
         /// Update the direction after rotating around the x-axis
         /// </summary>
         /// <param name="xRotation">rotation angle around the x-axis</param>
-        /// <param name="currentDirection">The direction to be updated</param>       
+        /// <param name="currentDirection">The direction to be updated</param> 
+        /// <returns>Direction class</returns>
         public static Direction UpdateDirectionAfterRotatingAroundXAxis(
             double xRotation,
             Direction currentDirection)
@@ -721,7 +723,8 @@ namespace Vts.MonteCarlo.Helpers
         /// Update the direction after rotating around the y-axis
         /// </summary>
         /// <param name="yRotation">rotation angle around the y-axis</param>
-        /// <param name="currentDirection">The direction to be updated</param>
+        /// <param name="currentDirection">The direction to be updated</param> 
+        /// <returns>Direction class</returns>
         public static Direction UpdateDirectionAfterRotatingAroundYAxis(
             double yRotation,
             Direction currentDirection)
@@ -973,11 +976,11 @@ namespace Vts.MonteCarlo.Helpers
         }
 
         /// <summary>
-        /// Update the polar angle based on incidnet location
+        /// Update the polar angle based on incident location
         /// </summary>
         /// <param name="fullLength">Maximum length</param>
         /// <param name="curLength">Current Length</param>
-        /// <param name="thetaConvOrDiv">Convergence or Diveregence Angle</param>
+        /// <param name="thetaConvOrDiv">Convergence or Divergence Angle</param>
         /// <returns>polar angle</returns>
         public static double UpdatePolarAngleForDirectionalSources(
             double fullLength,
@@ -997,7 +1000,7 @@ namespace Vts.MonteCarlo.Helpers
         /// Update the position after translation
         /// </summary>
         /// <param name="currentPosition">The old location</param>
-        /// <param name="translation">Translation coordinats relative to the origin</param>
+        /// <param name="translation">Translation coordinates relative to the origin</param>
         /// <returns>position</returns>
         public static Position UpdatePositionAfterTranslation(
             Position currentPosition,

@@ -1,11 +1,21 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Vts.MonteCarlo.PhotonData;
 using Vts.MonteCarlo.RayData;
 
 namespace Vts.MonteCarlo.Factories
 {
+    /// <summary>
+    /// The <see cref="Factories"/> namespace contains the Monte Carlo factory classes
+    /// </summary>
+
+    [CompilerGenerated]
+    internal class NamespaceDoc
+    {
+    }
+
     /// <summary>
     /// Factory methods to provide the PhotonDatabaseWriter (or list of PhotonDatabaseWriters)
     /// or CollisionInfoDatabaseWriter (or list).

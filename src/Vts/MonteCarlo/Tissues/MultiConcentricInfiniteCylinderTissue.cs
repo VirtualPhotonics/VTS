@@ -80,7 +80,7 @@ namespace Vts.MonteCarlo.Tissues
         /// <param name="awt">Absorption Weighting Type</param>
         /// <param name="pft">Phase Function Type</param>
         /// <param name="russianRouletteWeightThreshold">Russian Roulette Weight Threshold</param>
-        /// <returns></returns>
+        /// <returns>instantiated tissue</returns>
         public ITissue CreateTissue(AbsorptionWeightingType awt, PhaseFunctionType pft, double russianRouletteWeightThreshold)
         {
             var t = new MultiConcentricInfiniteCylinderTissue(InfiniteCylinderRegions, LayerRegions);
@@ -144,8 +144,8 @@ namespace Vts.MonteCarlo.Tissues
         /// <summary>
         /// method to determine region index of region photon is currently in
         /// </summary>
-        /// <param name="position"></param>
-        /// <returns></returns>
+        /// <param name="position">photon position</param>
+        /// <returns>integer index of region position is in</returns>
         public override int GetRegionIndex(Position position)
         {
             int index = -1;
@@ -172,7 +172,8 @@ namespace Vts.MonteCarlo.Tissues
         /// <summary>
         /// Finds the distance to the next boundary and independent of hitting it
         /// </summary>
-        /// <param name="photon"></param>
+        /// <param name="photon">photon</param>
+        /// <returns>double distance to boundary</returns>
         public override double GetDistanceToBoundary(Photon photon)
         {
             // first check if closest boundary is layer
@@ -220,7 +221,7 @@ namespace Vts.MonteCarlo.Tissues
         /// method to determine if on boundary of tissue, i.e. at tissue/air interface
         /// </summary>
         /// <param name="position">photon position</param>
-        /// <returns></returns>
+        /// <returns>Boolean indicating whether on boundary of domain or not</returns>
         public override bool OnDomainBoundary(Position position)
         {
             // Domain boundary: so check layer boundary
@@ -265,8 +266,8 @@ namespace Vts.MonteCarlo.Tissues
         /// <summary>
         /// method to determine photon state type of photon exiting tissue boundary
         /// </summary>
-        /// <param name="position"></param>
-        /// <returns></returns>
+        /// <param name="position">photon position</param>
+        /// <returns>PhotonStateType class</returns>
         public new PhotonStateType GetPhotonDataPointStateOnExit(Position position)
         {
             if (position.Z < 1e-10)
@@ -279,9 +280,9 @@ namespace Vts.MonteCarlo.Tissues
         /// <summary>
         /// method to determine direction of reflected photon
         /// </summary>
-        /// <param name="currentPosition"></param>
-        /// <param name="currentDirection"></param>
-        /// <returns></returns>
+        /// <param name="currentPosition">current position of photon</param>
+        /// <param name="currentDirection">current direction of photon</param>
+        /// <returns>direction of reflected input direction</returns>
         public override Direction GetReflectedDirection(
             Position currentPosition, 
             Direction currentDirection)
@@ -325,7 +326,7 @@ namespace Vts.MonteCarlo.Tissues
         /// <summary>
         /// method to get cosine of the angle between photons current direction and boundary normal
         /// </summary>
-        /// <param name="photon"></param>
+        /// <param name="photon">photon</param>
         /// <returns>Uz=cos(theta)</returns>
         public new double GetAngleRelativeToBoundaryNormal(Photon photon)
         {

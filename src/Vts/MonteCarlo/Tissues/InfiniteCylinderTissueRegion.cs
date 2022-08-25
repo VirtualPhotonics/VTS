@@ -51,7 +51,7 @@ namespace Vts.MonteCarlo.Tissues
         /// point operations necessitates the checks of if "inside" is close but not exact
         /// </summary>
         /// <param name="position">photon position</param>
-        /// <returns>boolean</returns>
+        /// <returns>Boolean</returns>
         public bool ContainsPosition(Position position)
         {
             // an option to the following would be:
@@ -83,7 +83,7 @@ namespace Vts.MonteCarlo.Tissues
         /// Currently OnBoundary of an inclusion region isn't called by any code ckh 3/5/19.
         /// </summary>
         /// <param name="position">photon position</param>
-        /// <returns>boolean</returns>
+        /// <returns>Boolean</returns>
         public bool OnBoundary(Position position)
         {
             return !ContainsPosition(position) && _onBoundary; // match with EllipsoidTissueRegion
@@ -91,8 +91,8 @@ namespace Vts.MonteCarlo.Tissues
         /// <summary>
         /// method to determine normal to surface at given position. Note this returns outward facing normal.
         /// </summary>
-        /// <param name="position"></param>
-        /// <returns>Direction</returns>
+        /// <param name="position">position</param>
+        /// <returns>Direction normal to surface at position</returns>
         public Direction SurfaceNormal(Position position)
         {
             var norm = Math.Sqrt(4 * (position.X - Center.X) * (position.X - Center.X) +
@@ -115,7 +115,7 @@ namespace Vts.MonteCarlo.Tissues
         /// </summary>
         /// <param name="photon">photon position, direction, etc.</param>
         /// <param name="distanceToBoundary">return: distance to boundary</param>
-        /// <returns>boolean</returns>
+        /// <returns>Boolean</returns>
         public bool RayIntersectBoundary(Photon photon, out double distanceToBoundary)
         {
             distanceToBoundary = double.PositiveInfinity;

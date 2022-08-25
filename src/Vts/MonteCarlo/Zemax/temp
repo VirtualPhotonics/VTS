@@ -1,6 +1,0 @@
-mv ZRDDatabaseWriterController.cs ZrdDatabaseWriterController.cs
-mv ZRDDatabaseWriterFactory.cs ZrdDatabaseWriterFactory.cs
-mv ZRDRayDatabase.cs ZrdRayDatabase.cs
-mv ZRDRayDatabaseWriter.cs ZrdRayDatabaseWriter.cs
-mv ZRDRayDataPoint.cs ZrdRayDataPoint.cs
-mv ZRDRayDataPointSerializer.cs ZrdRayDataPointSerializer.cs

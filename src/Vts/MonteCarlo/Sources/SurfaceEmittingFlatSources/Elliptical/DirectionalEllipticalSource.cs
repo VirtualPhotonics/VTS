@@ -7,7 +7,7 @@ using Vts.MonteCarlo.Sources.SourceProfiles;
 namespace Vts.MonteCarlo.Sources
 {
     /// <summary>
-    /// Implements ISourceInput. Defines input data for DirectionalellipticalSource implementation 
+    /// Implements ISourceInput. Defines input data for DirectionalEllipticalSource implementation 
     /// including converging/diverging angle, a and b parameters, source profile, direction, 
     /// position, inward normal beam rotation and initial tissue region index.
     /// </summary>
@@ -16,7 +16,7 @@ namespace Vts.MonteCarlo.Sources
         /// <summary>
         /// Initializes a new instance of DirectionalEllipticalSourceInput class
         /// </summary>
-        /// <param name="thetaConvOrDiv">Covergence or Divergance Angle {= 0, for a collimated beam}</param>
+        /// <param name="thetaConvOrDiv">Convergence or Divergence Angle {= 0, for a collimated beam}</param>
         /// <param name="aParameter">"a" parameter of the ellipse source</param>
         /// <param name="bParameter">"b" parameter of the ellipse source</param>
         /// <param name="sourceProfile">Source Profile {Flat / Gaussian}</param>
@@ -48,7 +48,7 @@ namespace Vts.MonteCarlo.Sources
         /// <summary>
         /// Initializes a new instance of DirectionalEllipticalSourceInput class
         /// </summary>
-        /// <param name="thetaConvOrDiv">Covergence or Divergance Angle {= 0, for a collimated beam}</param>
+        /// <param name="thetaConvOrDiv">Convergence or Divergence Angle {= 0, for a collimated beam}</param>
         /// <param name="aParameter">"a" parameter of the ellipse source</param>
         /// <param name="bParameter">"b" parameter of the ellipse source</param>
         /// <param name="sourceProfile">Source Profile {Flat / Gaussian}</param>
@@ -82,7 +82,7 @@ namespace Vts.MonteCarlo.Sources
                 0) { }
 
         /// <summary>
-        /// Covergence or Divergance Angle {= 0, for a collimated beam}
+        /// Convergence or Divergence Angle {= 0, for a collimated beam}
         /// </summary>
         public double ThetaConvOrDiv { get; set; }
         /// <summary>
@@ -121,8 +121,8 @@ namespace Vts.MonteCarlo.Sources
         /// <summary>
         /// Required code to create a source based on the input values
         /// </summary>
-        /// <param name="rng"></param>
-        /// <returns></returns>
+        /// <param name="rng">random number generator</param>
+        /// <returns>instantiated source</returns>
         public ISource CreateSource(Random rng = null)
         {
             rng = rng ?? new Random();
@@ -152,7 +152,7 @@ namespace Vts.MonteCarlo.Sources
         /// Returns an instance of directional (diverging/converging/collimated) Elliptical Source with specified length and width, 
         /// source profile (Flat/Gaussian), polar and azimuthal angle range, new source axis direction, translation, and  inward normal ray rotation
         /// </summary>
-        /// <param name="thetaConvOrDiv">Covergence or Divergance Angle {= 0, for a collimated beam}</param>
+        /// <param name="thetaConvOrDiv">Convergence or Divergence Angle {= 0, for a collimated beam}</param>
         /// <param name="aParameter">"a" parameter of the ellipse source</param>
         /// <param name="bParameter">"b" parameter of the ellipse source</param>
         /// <param name="sourceProfile">Source Profile {Flat / Gaussian}</param>

@@ -1,11 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Meta.Numerics.Matrices;
 using Vts.Extensions;
 
 namespace Vts.Modeling.ForwardSolvers.DiscreteOrdinates
 {
+    /// <summary>
+    /// The <see cref="DiscreteOrdinates"/> namespace contains the discrete ordinate classes for the Virtual Tissue Simulator
+    /// </summary>
+
+    [CompilerGenerated]
+    internal class NamespaceDoc
+    {
+    }
+
     /// <summary>
     /// discrete ordinates methods class
     /// </summary>
@@ -43,11 +53,11 @@ namespace Vts.Modeling.ForwardSolvers.DiscreteOrdinates
         /// <summary>
         /// method to generate FokkerPlanckEddington matrix
         /// </summary>
-        /// <param name="f"></param>
-        /// <param name="mu">cosine theta?</param>
+        /// <param name="f">coefficients</param>
+        /// <param name="mu">cosine theta</param>
         /// <param name="wt">Gauss Legendre weights</param>
         /// <param name="N">order</param>
-        /// <returns></returns>
+        /// <returns>Fokker Planck Eddington matrix</returns>
         public static SquareMatrix GenFokkerPlanckEddington(double[] f, double[] mu, double[] wt, int N)
         {
             var ones = Ones(N);
@@ -117,7 +127,7 @@ namespace Vts.Modeling.ForwardSolvers.DiscreteOrdinates
         /// <summary>
         /// method to determine Laplace-Beltrami matrix
         /// </summary>
-        /// <param name="mu">cosine theta?</param>
+        /// <param name="mu">cosine theta</param>
         /// <param name="wt">expansion weights</param>
         /// <param name="N">order</param>
         /// <returns>matrix</returns>
@@ -167,9 +177,9 @@ namespace Vts.Modeling.ForwardSolvers.DiscreteOrdinates
         /// </summary>
         /// <param name="mu_a">absorption coefficient [/mm]</param>
         /// <param name="mu_s">scattering coefficient [/mm]</param>
-        /// <param name="mu"></param>
-        /// <param name="wt"></param>
-        /// <param name="L"></param>
+        /// <param name="mu">cosine theta</param>
+        /// <param name="wt">weights</param>
+        /// <param name="L">SquareMatrix</param>
         /// <param name="N">order</param>
         /// <returns>double array</returns>
         public static double[] PWHalfSpace(double mu_a, double mu_s, double[] mu, double[] wt, SquareMatrix L, int N)

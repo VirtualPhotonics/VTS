@@ -1,6 +1,5 @@
 using System;
 using System.Numerics;
-using MathNet.Numerics;
 
 namespace Vts.Modeling.ForwardSolvers
 {
@@ -29,7 +28,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="rho">radial position</param>
         /// <param name="fr1">Fresnel Reflection Moment 1</param>
         /// <param name="fr2">Fresnel Reflection Moment 2</param>
-        /// <returns>reflectance</returns>
+        /// <returns>Reflectance</returns>
         public override double StationaryReflectance(
             DiffusionParameters dp, double rho, double fr1, double fr2)
         {
@@ -46,7 +45,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="rho">radial position</param>
         /// <param name="z">depth position</param>
         /// <param name="dp">DiffusionParameters object</param>
-        /// <returns>fluence</returns>
+        /// <returns>Fluence</returns>
         public override double StationaryFluence(double rho, double z, DiffusionParameters dp)
         {
             var dpLocal = DiffusionParameters.Copy(dp);
@@ -79,15 +78,15 @@ namespace Vts.Modeling.ForwardSolvers
 
         #region Temporal Solutions
         /// <summary>
-        /// Evaulation of the temporally resolved radial reflectance using the distribution of
+        /// Evaluation of the temporally resolved radial reflectance using the distribution of
         /// source-image point sources.
         /// </summary>
-        /// <param name="dp">DiffusionParamters object</param>
+        /// <param name="dp">DiffusionParameters object</param>
         /// <param name="rho">radial location</param>
         /// <param name="t">time</param>
         /// <param name="fr1">Fresnel Moment 1</param>
         /// <param name="fr2">Fresnel Moment 2</param>
-        /// <returns>reflectance</returns>
+        /// <returns>Reflectance</returns>
         public override double TemporalReflectance(DiffusionParameters dp, double rho, double t, double fr1, double fr2)
         {
             return GetBackwardHemisphereIntegralDiffuseReflectance(
@@ -104,7 +103,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="rho">radial location</param>
         /// <param name="z">depth location</param>
         /// <param name="t">time</param>
-        /// <returns>fluence rate</returns>
+        /// <returns>Fluence rate</returns>
         public override double TemporalFluence(
             DiffusionParameters dp, double rho, double z, double t)
         {
@@ -149,7 +148,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="k">wavevector</param>
         /// <param name="fr1">Fresnel Moment 1</param>
         /// <param name="fr2">Fresnel Moment 2</param>
-        /// <returns></returns>
+        /// <returns>Reflectance</returns>
         public override Complex TemporalFrequencyReflectance(DiffusionParameters dp,
             double rho, Complex k, double fr1, double fr2)
         {
@@ -186,7 +185,7 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="rho">radial location</param>
         /// <param name="z">depth location</param>
         /// <param name="k">wavevector</param>
-        /// <returns>fluence rate</returns>
+        /// <returns>Fluence rate</returns>
         public override Complex TemporalFrequencyFluence(DiffusionParameters dp, double rho, double z, Complex k)
         {
             var dpLocalReal = DiffusionParameters.Copy(dp);

@@ -21,6 +21,15 @@ using NLog;
 namespace Vts.Common.Logging.NLogIntegration
 {
     /// <summary>
+    /// The <see cref="NLogIntegration"/> namespace contains the NLog specific classes for the Virtual Tissue Simulator
+    /// </summary>
+
+    [CompilerGenerated]
+    internal class NamespaceDoc
+    {
+    }
+
+    /// <summary>
     ///   Implementation of <see cref = "ILogger" /> for NLog.
     /// </summary>
     public class NLogLogger : ILogger
@@ -28,8 +37,8 @@ namespace Vts.Common.Logging.NLogIntegration
         /// <summary>
         ///   Initializes a new instance of the <see cref = "NLogLogger" /> class.
         /// </summary>
-        /// <param name = "logger">The logger.</param>
-        /// <param name = "factory">The factory.</param>
+        /// <param name = "logger">The logger</param>
+        /// <param name = "factory">The factory</param>
         public NLogLogger(Logger logger, NLogFactory factory)
         {
             Logger = logger;
@@ -88,13 +97,13 @@ namespace Vts.Common.Logging.NLogIntegration
         /// <summary>
         ///   Gets or sets the factory.
         /// </summary>
-        /// <value>The factory.</value>
+        /// <value>The factory</value>
         protected internal NLogFactory Factory { get; set; }
 
         /// <summary>
         ///   Gets or sets the logger.
         /// </summary>
-        /// <value>The logger.</value>
+        /// <value>The logger</value>
         protected internal Logger Logger { get; set; }
 
         /// <summary>
@@ -109,10 +118,10 @@ namespace Vts.Common.Logging.NLogIntegration
         }
 
         /// <summary>
-        ///   Creates a child logger with the specied <paramref name = "loggerName" />.
+        ///   Creates a child logger with the specified <paramref name = "loggerName" />.
         /// </summary>
-        /// <param name = "loggerName">The name.</param>
-        /// <returns></returns>
+        /// <param name = "loggerName">logger name</param>
+        /// <returns>The child logger that was created</returns>
         public virtual ILogger CreateChildLogger(String loggerName)
         {
             return Factory.Create(Logger.Name + "." + loggerName);

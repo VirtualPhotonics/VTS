@@ -55,6 +55,7 @@ namespace Vts.SpectralMapping
         /// <summary>
         /// Returns a dictionary of Chromophore spectra from the specified file
         /// </summary>
+        /// <param name="fileName">file name of file to read</param>
         /// <returns>Dictionary of Chromophore spectra</returns>
         public static ChromophoreSpectrumDictionary GetDatabaseFromFile(string fileName)
         {

@@ -1,7 +1,17 @@
 ﻿using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 namespace Vts.MonteCarlo.PhotonData
 {
+    /// <summary>
+    /// The <see cref="PhotonData"/> namespace contains the Monte Carlo photon data classes for database use
+    /// </summary>
+
+    [CompilerGenerated]
+    internal class NamespaceDoc
+    {
+    }
+
     /// <summary>
     /// Describes a model object designed to hold extra information related to collisions and
     /// pathlength in each region. Inherits from List(OfSubRegionCollisionInfo) as a simple way 
@@ -26,7 +36,7 @@ namespace Vts.MonteCarlo.PhotonData
         /// <summary>
         /// method to cline the CollisionInfo class
         /// </summary>
-        /// <returns></returns>
+        /// <returns>CollisionInfo class clone</returns>
         public CollisionInfo Clone()
         {
             var collisionInfo = new CollisionInfo(this.Capacity);

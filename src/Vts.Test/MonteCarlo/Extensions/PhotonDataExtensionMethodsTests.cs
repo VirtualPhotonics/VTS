@@ -182,7 +182,7 @@ namespace Vts.Test.MonteCarlo.Extensions
                 RandomNumberGeneratorType.MersenneTwister, 0);
             double NA0p22 = 0.22;
             double NA0p39 = 0.39;
-            double NAOpen = Double.PositiveInfinity;
+            double NAOpen = double.PositiveInfinity;
             double NA0p22_count = 0;
             double NA0p39_count = 0;
             double NAOpen_count = 0;

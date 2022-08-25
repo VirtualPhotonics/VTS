@@ -21,12 +21,12 @@ namespace Vts.MonteCarlo.Tissues
         /// </summary>
         /// <param name="p1">ray starting position</param>
         /// <param name="p2">ray ending position</param>
-        /// <param name="oneIn">boolean indicating whether p1 is inside infinite cylinder</param>
+        /// <param name="oneIn">Boolean indicating whether p1 is inside infinite cylinder</param>
         /// <param name="axis">axis of cylinder: CylinderTissueRegionAxisType.X, Y or Z</param>
         /// <param name="center">position of center of cylinder</param>
         /// <param name="radius">radius of cylinder</param>
         /// <param name="distanceToBoundary">return: distance to boundary, infinity if no intersection</param>
-        /// <returns>boolean: true if intersection, false if on boundary of cylinder</returns>
+        /// <returns>Boolean: true if intersection, false if on boundary of cylinder</returns>
         public static bool RayIntersectInfiniteCylinder(Position p1, Position p2, bool oneIn, CylinderTissueRegionAxisType axis, Position center, double radius, 
             out double distanceToBoundary)
         {

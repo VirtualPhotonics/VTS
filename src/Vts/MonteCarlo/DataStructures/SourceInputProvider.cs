@@ -35,7 +35,7 @@ namespace Vts.MonteCarlo
         /// <summary>
         /// Point source normally oriented
         /// </summary>
-        /// <returns></returns>
+        /// <returns>source input class that implements ISourceInput</returns>
         public static ISourceInput PointSource()
         {
             return new DirectionalPointSourceInput(
@@ -49,6 +49,7 @@ namespace Vts.MonteCarlo
         /// <summary>
         /// Line source normally oriented and flat
         /// </summary>
+        /// <returns>source input class that implements ISourceInput</returns>
         public static ISourceInput FlatLineSource()
         {
             return new CustomLineSourceInput(
@@ -67,6 +68,7 @@ namespace Vts.MonteCarlo
         /// <summary>
         /// Gaussian normal source with fwhm=1 and outer radius=3mm
         /// </summary>
+        /// <returns>source input class that implements ISourceInput</returns>
         public static ISourceInput GaussianCircularSource()
         {
             return new CustomCircularSourceInput(
@@ -86,6 +88,7 @@ namespace Vts.MonteCarlo
         /// <summary>
         /// Gaussian normal source with fwhm=1 and ellipse parameters a and b
         /// </summary>
+        /// <returns>source input class that implements ISourceInput</returns>
         public static ISourceInput GaussianEllipticalSource()
         {
             return new CustomEllipticalSourceInput(
@@ -105,6 +108,7 @@ namespace Vts.MonteCarlo
         /// <summary>
         /// Gaussian normal source with fwhm=1 and rectangular length and width
         /// </summary>
+        /// <returns>source input class that implements ISourceInput</returns>
         public static ISourceInput GaussianRectangularSource()
         {
             return new CustomRectangularSourceInput(
@@ -124,6 +128,7 @@ namespace Vts.MonteCarlo
         /// <summary>
         /// Lambertian spherical source
         /// </summary>
+        /// <returns>source input class that implements ISourceInput</returns>
         public static ISourceInput LambertianSphericalSource()
         {
             return new LambertianSurfaceEmittingSphericalSourceInput(
@@ -137,6 +142,7 @@ namespace Vts.MonteCarlo
         /// <summary>
         /// Lambertian cuboidal source
         /// </summary>
+        /// <returns>source input class that implements ISourceInput</returns>
         public static ISourceInput LambertianCuboidalSource()
         {
             return new LambertianSurfaceEmittingCuboidalSourceInput(
@@ -154,6 +160,7 @@ namespace Vts.MonteCarlo
         /// <summary>
         /// Lambertian tubular source
         /// </summary>
+        /// <returns>source input class that implements ISourceInput</returns>
         public static ISourceInput LambertianTubularSource()
         {
             return new LambertianSurfaceEmittingTubularSourceInput(

@@ -5,7 +5,7 @@ using Vts.Common;
 namespace Vts.Test.Extensions
 {
     /// <summary>
-    /// test check that bitmap definitions in Enums are setup correctly
+    /// test check that bitmap definitions in enums are setup correctly
     /// ref: http://msdn.microsoft.com/en-us/library/cc138362.aspx
     /// </summary>
     [TestFixture]

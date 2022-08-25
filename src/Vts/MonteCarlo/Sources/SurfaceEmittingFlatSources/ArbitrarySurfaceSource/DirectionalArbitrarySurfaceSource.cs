@@ -14,10 +14,10 @@ namespace Vts.MonteCarlo.Sources
         /// <summary>
         /// Defines DirectionalArbitrarySurfaceSource
         /// </summary>
-        /// <param name="thetaConvOrDiv"></param>
+        /// <param name="thetaConvOrDiv">Convergence(negative angle in radians) or Divergence (positive angle in radians) angle {= 0, for a collimated beam}</param>
         /// <param name="sourceLengthX">The length of the arbitrary (image-based) Source</param>
         /// <param name="sourceWidthY">The width of the arbitrary (image-based) Source</param>
-        /// <param name="image"></param>
+        /// <param name="image">image to be used as source</param>
         /// <param name="pixelLengthX">pixel length X</param>
         /// <param name="pixelWidthY">pixel length Y</param>
         /// <param name="newDirectionOfPrincipalSourceAxis">New source axis direction</param>
