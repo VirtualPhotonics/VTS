@@ -41,7 +41,8 @@ namespace Vts.MonteCarlo
                 PointSourceThreeLayerReflectedTimeOfRhoAndSubregionHistDetector(),
                 EmbeddedDirectionalCircularSourceEllipTissueFluenceOfXAndYAndZ(),
                 PointSourceSurfaceFiberTissueAndDetector(),
-                FluorescenceEmissionAOfXAndYAndZSourceInfiniteCylinder()
+                FluorescenceEmissionAOfXAndYAndZSourceInfiniteCylinder(),
+                RayDatabaseGenerator()
             };
         }
 
@@ -1201,6 +1202,48 @@ new ITissueRegion[]
                 new List<IDetectorInput>()
                 {
                     new ROfXAndYDetectorInput() {X=new DoubleRange(-10, 10, 101),
+                        Y = new DoubleRange(-100.0, 100.0, 2)},
+                }
+            );
+        }
+        #endregion
+
+        #region Ray Database creation
+        /// <summary>
+        /// This infile creates a RayDiffuseReflectanceDatabase after running
+        /// </summary>
+        /// <returns>An instance of the SimulationInput class</returns>
+        public static SimulationInput RayDatabaseGenerator()
+        {
+            return new SimulationInput(
+                100,
+                "ray_database_generator",
+                new SimulationOptions(
+                    0, // random number generator seed, -1=random seed, 0=fixed seed
+                    RandomNumberGeneratorType.MersenneTwister,
+                    AbsorptionWeightingType.Discrete,
+                    PhaseFunctionType.HenyeyGreenstein,
+                    new List<DatabaseType>() { DatabaseType.RayDiffuseReflectance }, // databases to be written
+                    true, // track statistics
+                    0.0, // RR threshold -> no RR performed
+                    0),
+                new DirectionalPointSourceInput(),
+                new MultiLayerTissueInput(
+                    new ITissueRegion[]
+                    {
+                        new LayerTissueRegion(
+                            new DoubleRange(double.NegativeInfinity, 0.0),
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
+                        new LayerTissueRegion(
+                            new DoubleRange(0.0, 100.0),
+                            new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
+                        new LayerTissueRegion(
+                            new DoubleRange(100.0, double.PositiveInfinity),
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
+                    }),
+                new List<IDetectorInput>()
+                {
+                    new ROfXAndYDetectorInput() {X=new DoubleRange(-10, 10, 11),
                         Y = new DoubleRange(-100.0, 100.0, 2)},
                 }
             );

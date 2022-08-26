@@ -34,7 +34,8 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
             "two_layer_ROfRho",
             "two_layer_ROfRho_with_db",
             "voxel_ROfXAndY_FluenceOfXAndYAndZ",
-            "surface_fiber_detector"
+            "surface_fiber_detector",
+            "ray_database_generator"
         };
         private readonly List<string> listOfInfilesThatRequireExistingResultsToRun = new List<string>()
         {

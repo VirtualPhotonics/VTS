@@ -16,7 +16,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Vts.MonteCarlo.CommandLineApplication\Vts.MonteCarlo.CommandLineApplication.csproj" />
     <ProjectReference Include="..\Vts.MonteCarlo.ZemaxDatabaseConverter\Vts.MonteCarlo.ZemaxDatabaseConverter.csproj" />
+    <ProjectReference Include="..\Vts\Vts.csproj" />
   </ItemGroup>
 
 </Project>
