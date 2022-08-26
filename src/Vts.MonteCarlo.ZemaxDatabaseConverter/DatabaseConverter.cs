@@ -67,8 +67,8 @@ namespace Vts.MonteCarlo.ZemaxDatabaseConverter
                             new Direction(dp.Ux, dp.Uy, dp.Uz),
                             dp.Weight));
                     }
-                }
-                
+                    dbWriter.Close();
+                }                
             }
             catch (Exception e)
             {
@@ -110,6 +110,7 @@ namespace Vts.MonteCarlo.ZemaxDatabaseConverter
                         zrdRayDataPoint.Weight = dp.Weight;
                         dbWriter.Write(zrdRayDataPoint);
                     }
+                    dbWriter.Close();
                 }                
             }
             catch (Exception e)
