@@ -16,7 +16,6 @@ namespace Vts.MonteCarlo.ZemaxDatabaseConverter.Test
         // to add to resources.  Instead this program is used to convert a MCCL DB to Zemax DB
         // and that is used to test
         
-        private static SimulationInput _input;
         /// <summary>
         /// list of temporary files created by these unit tests
         /// </summary>
@@ -24,8 +23,6 @@ namespace Vts.MonteCarlo.ZemaxDatabaseConverter.Test
         {
             "testzrdraydatabase",
             "testzrdraydatabase.txt",
-            "testoutput",
-            "testoutput.txt",
             "testmcclraydatabase",
             "testmcclraydatabase.txt",
          };
@@ -118,12 +115,7 @@ namespace Vts.MonteCarlo.ZemaxDatabaseConverter.Test
             string[] arguments = new string[] { "infile=databaseToConvert" };
             var status = await Task.Run(() => Program.Main(arguments));
             Assert.IsTrue(status == 0);
-            // the following will be successful because 1st argument is file that gets
-            // generated in OneTimeSetup
-            arguments = new string[] 
-                { "infile=ray_database_generator/RayDiffuseReflectanceDatabase","infiletype=mccl","outfile=testoutput" };
-            status = await Task.Run(() => Program.Main(arguments));
-            Assert.IsTrue(status == 1);
+            // no successful mccl-to-zrd test is tested here because tested in other tests
         }
         /// <summary>
         /// Test that uses app to convert RayDatabase written in OneTimeSetup to a Zemax ZRD ray database
