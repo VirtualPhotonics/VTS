@@ -17,6 +17,7 @@ using Vts.MonteCarlo.Helpers;
 using Vts.MonteCarlo.IO;
 using Vts.MonteCarlo.PhotonData;
 using Vts.MonteCarlo.Tissues;
+using System.IO;
 
 namespace Vts.Test.MonteCarlo.Factories
 {
@@ -46,16 +47,21 @@ namespace Vts.Test.MonteCarlo.Factories
         {
             foreach (var folder in listOfTestGeneratedFolders)
             {
-                FileIO.DeleteDirectory(folder);
+                if (Directory.Exists(folder))
+                {
+                    FileIO.DeleteDirectory(folder);
+                }
             }
             foreach (var file in listOfTestGeneratedFiles)
             {
-                FileIO.FileDelete(file);
+                if (File.Exists(file))
+                {
+                    FileIO.FileDelete(file);
+                }
             }
-        }
-        /// <summary>
-        /// Simulate null return of GetDetector(s)
-        /// </summary>
+        }        /// <summary>
+                 /// Simulate null return of GetDetector(s)
+                 /// </summary>
         [Test]
         public void Demonstate_GetDetectors_null_return_on_empty_list()
         {
