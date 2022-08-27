@@ -147,8 +147,11 @@ namespace Vts.Test.MonteCarlo.Factories
             Assert.IsTrue(detectorExists);
             var firstValue = ((ROfXDetector)detector).Mean.FirstOrDefault();
             Assert.IsTrue(firstValue != 0);
+
+            // write detector to folder "user_defined_detector"
             DetectorIO.WriteDetectorToFile(detector, "user_defined_detector");
-            DetectorIO.ReadDetectorFromFile("user_defined_detector", "");
+            // read detector filename="My First R(x) Detector" from folder "user_defined_detector"
+            DetectorIO.ReadDetectorFromFile(detectorInput.Name, "user_defined_detector");
         }
         /// <summary>
         /// tests to verify exception returns from RegisterDetector
