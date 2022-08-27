@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using NUnit.Framework;
 using Vts.Common;
 using Vts.MonteCarlo;
@@ -18,6 +17,7 @@ using Vts.MonteCarlo.IO;
 using Vts.MonteCarlo.PhotonData;
 using Vts.MonteCarlo.Tissues;
 using System.IO;
+using Newtonsoft.Json;
 
 namespace Vts.Test.MonteCarlo.Factories
 {
@@ -126,6 +126,7 @@ namespace Vts.Test.MonteCarlo.Factories
         [Test]
         public void Demonstrate_user_defined_detector_usage()
         {
+            // Add detector to ConventionBasedConverter _classInfoDictionary
             DetectorFactory.RegisterDetector(
                 typeof (ROfXDetectorInput), typeof (ROfXDetector));
             var detectorInput = new ROfXDetectorInput
@@ -150,6 +151,10 @@ namespace Vts.Test.MonteCarlo.Factories
 
             // write detector to folder "user_defined_detector"
             DetectorIO.WriteDetectorToFile(detector, "user_defined_detector");
+            // problem is ConventionBasedConverter._classInfoDictionary gets overwritten
+            // with non-mock detectors so DetectorIO.ReadDetectorFromFile cannot find
+            // key ROfX in dictionary
+             
             // read detector filename="My First R(x) Detector" from folder "user_defined_detector"
             DetectorIO.ReadDetectorFromFile(detectorInput.Name, "user_defined_detector");
         }
