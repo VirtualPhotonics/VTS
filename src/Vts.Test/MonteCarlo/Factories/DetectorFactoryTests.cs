@@ -1,23 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using MathNet.Numerics.Random;
+using Moq;
 using NUnit.Framework;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+// using the following for user-defined ROfXDetector implementation
+using System.Runtime.Serialization;
 using Vts.Common;
+using Vts.IO;
 using Vts.MonteCarlo;
 using Vts.MonteCarlo.Detectors;
 using Vts.MonteCarlo.Factories;
-
-// using the following for user-defined ROfXDetector implementation
-using System.Runtime.Serialization;
-using MathNet.Numerics.Random;
-using Moq;
-using Vts.IO;
 using Vts.MonteCarlo.Helpers;
 using Vts.MonteCarlo.IO;
 using Vts.MonteCarlo.PhotonData;
 using Vts.MonteCarlo.Tissues;
-using System.IO;
-using Newtonsoft.Json;
 
 namespace Vts.Test.MonteCarlo.Factories
 {
@@ -38,6 +36,7 @@ namespace Vts.Test.MonteCarlo.Factories
         {
             "file.txt" // file that captures screen output of MC simulation
         };
+
         /// <summary>
         /// clear all generated folders and files
         /// </summary>
@@ -59,11 +58,13 @@ namespace Vts.Test.MonteCarlo.Factories
                     FileIO.FileDelete(file);
                 }
             }
-        }        /// <summary>
-                 /// Simulate null return of GetDetector(s)
-                 /// </summary>
+        }
+        
+        /// <summary>
+        /// Simulate null return of GetDetector(s)
+        /// </summary>
         [Test]
-        public void Demonstate_GetDetectors_null_return_on_empty_list()
+        public void Demonstrate_GetDetectors_null_return_on_empty_list()
         {
             IEnumerable<IDetectorInput> emptyDetectorList = null;
             Assert.IsNull(DetectorFactory.GetDetectors(
@@ -151,14 +152,14 @@ namespace Vts.Test.MonteCarlo.Factories
 
             // write detector to folder "user_defined_detector"
             DetectorIO.WriteDetectorToFile(detector, "user_defined_detector");
-            // problem is ConventionBasedConverter._classInfoDictionary gets overwritten
-            // with non-mock detectors so DetectorIO.ReadDetectorFromFile cannot find
-            // key ROfX in dictionary
              
             // read detector filename="My First R(x) Detector" from folder "user_defined_detector"
             var detectorFromFile = DetectorIO.ReadDetectorFromFile(detectorInput.Name, "user_defined_detector");
             Assert.IsNotNull(detectorFromFile);
+            Assert.AreEqual(detector.Name, detectorFromFile.Name);
+            Assert.AreEqual(detector.TallyType, detectorFromFile.TallyType);
         }
+
         /// <summary>
         /// tests to verify exception returns from RegisterDetector
         /// </summary>
