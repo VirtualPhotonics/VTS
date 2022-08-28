@@ -156,7 +156,8 @@ namespace Vts.Test.MonteCarlo.Factories
             // key ROfX in dictionary
              
             // read detector filename="My First R(x) Detector" from folder "user_defined_detector"
-            DetectorIO.ReadDetectorFromFile(detectorInput.Name, "user_defined_detector");
+            var detectorFromFile = DetectorIO.ReadDetectorFromFile(detectorInput.Name, "user_defined_detector");
+            Assert.IsNotNull(detectorFromFile);
         }
         /// <summary>
         /// tests to verify exception returns from RegisterDetector
