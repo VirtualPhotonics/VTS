@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
-using Vts.MonteCarlo.PhaseFunctions;
 
 namespace Vts.MonteCarlo.PhaseFunctions
 {
@@ -51,10 +49,5 @@ namespace Vts.MonteCarlo.PhaseFunctions
             v.S3 = S3sn;
         }
 
-        /// <summary>
-        /// Mueller Matrix type
-        /// </summary>
-        [IgnoreDataMember]
-        public MuellerMatrixType MuellerMatrixType{ get; set; }
     }
 }
