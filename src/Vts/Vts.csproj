@@ -13,7 +13,9 @@
     <PackageProjectUrl>https://github.com/VirtualPhotonics/VTS/wiki</PackageProjectUrl>
     <RepositoryUrl>https://github.com/VirtualPhotonics/VTS</RepositoryUrl>
     <RepositoryType>Git</RepositoryType>
-    <PackageReleaseNotes>Updated NuGet packages</PackageReleaseNotes>
+    <PackageReleaseNotes>* Updated NuGet packages
+* Code cleanup including
+    *  Fixing issues found by SonarCloud</PackageReleaseNotes>
     <AssemblyVersion>8.0.0.0</AssemblyVersion>
     <FileVersion>8.0.0.0</FileVersion>
     <FileUpgradeFlags>40</FileUpgradeFlags>
