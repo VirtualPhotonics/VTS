@@ -53,6 +53,7 @@ namespace Vts.MonteCarlo.Factories
 
             return detector;
         }
+
         /// <summary>
         /// method to register detector: currently not used
         /// </summary>
@@ -83,11 +84,20 @@ namespace Vts.MonteCarlo.Factories
 
             var detectorInput = (IDetectorInput) Activator.CreateInstance(detectorInputType);
 
-            VtsJsonSerializer.KnownConverters.AddRange(new JsonConverter[]
+            if (detectorInput == null) return;
+
+            foreach (var knownConverter in VtsJsonSerializer.KnownConverters)
+            {
+                if (knownConverter.GetType() == typeof(ConventionBasedConverter<IDetectorInput>))
                 {
-                    new ConventionBasedConverter<IDetectorInput>(detectorInputType, "TallyType", new[] { detectorInput.TallyType }),
-                    new ConventionBasedConverter<IDetector>( detectorType, "TallyType", new[] { detectorInput.TallyType })
-                });
+                    var knownDetectorInput = (ConventionBasedConverter<IDetectorInput>)knownConverter;
+                    knownDetectorInput.AddUserDefinedServices(detectorInputType, "TallyType", detectorInput.TallyType);
+                }
+
+                if (knownConverter.GetType() != typeof(ConventionBasedConverter<IDetector>)) continue;
+                var knownDetector = (ConventionBasedConverter<IDetector>)knownConverter;
+                knownDetector.AddUserDefinedServices(detectorType, "TallyType", detectorInput.TallyType);
+            }
         }
     }
 }
