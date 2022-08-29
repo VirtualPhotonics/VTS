@@ -185,17 +185,6 @@ namespace Vts.Test.IO
             Assert.IsTrue(Math.Abs(data[2] - 0.052445) < 0.000001);
         }
 
-        [Test]
-        public void validate_read_from_binary_in_resources()
-        {
-            var name = Assembly.GetExecutingAssembly().FullName;
-            var assemblyName = new AssemblyName(name).Name;
-            double data;
-            data = FileIO.ReadFromBinaryInResources<double>(
-                "Resources/fileiotest/binarydbl", assemblyName);
-            Assert.AreEqual(10, data);
-        }
-
         [Test] 
         public void validate_read_from_binary_in_resources_custom()
         {
@@ -219,25 +208,6 @@ namespace Vts.Test.IO
             var listRead = FileIO.ReadFromBinaryCustom<double>("array6", ReadMap);
             var arrayRead = listRead.Take(3).ToArray();
             Assert.AreEqual(16, arrayRead[1]);
-        }
-
-        [Test]
-        public void validate_read_from_binary_stream()
-        {
-            var name = Assembly.GetExecutingAssembly().FullName;
-            var assemblyName = new AssemblyName(name).Name;
-            int size = 100;
-            double[] arrayWritten;
-            // read file from resources and write it so that can be read in
-            arrayWritten = (double[])FileIO.ReadArrayFromBinaryInResources<double>
-                ("Resources/fileiotest/ROfRho", assemblyName, size);
-            FileIO.WriteToBinary<double[]>(arrayWritten, "array5");
-            double[] arrayRead;
-            using (Stream stream = StreamFinder.GetFileStream("array5", FileMode.Open))
-            {
-                arrayRead = FileIO.ReadFromBinaryStream<double[]>(stream);
-            }
-            Assert.IsTrue(Math.Abs(arrayRead[2] - 0.052445) < 0.000001);
         }
 
         [Test]
@@ -335,44 +305,6 @@ namespace Vts.Test.IO
         }
 
         [Test]
-        public void validate_write_to_binary_and_read_from_binary()
-        {
-            double[] array = new double[3] { 4.0, 5.0, 6.0 };
-            FileIO.WriteToBinary(array, "array2");
-            Assert.IsTrue(FileIO.FileExists("array2"));
-            Assert.IsTrue(new FileInfo("array2").Length != 0);
-            var data = FileIO.ReadFromBinary<double[]>("array2");
-            Assert.AreEqual(4.0, data[0]);
-        }
-
-        [Test]
-        public void Validate_write_to_binary_stream_throws_exception()
-        {
-            Assert.Throws<ArgumentNullException>(() =>
-            {
-                using (Stream stream = new MemoryStream(8))
-                {
-                    FileIO.WriteToBinaryStream<double[]>(null, stream);
-                }
-            });
-        }
-
-        [Test]
-        public void validate_write_2D_array_to_binary_and_read_from_binary()
-        {
-            var array = new double[,]
-            {
-                {1D, 2D},
-                {3D, 4D}
-            };
-            FileIO.WriteToBinary(array, "2darray");
-            Assert.IsTrue(FileIO.FileExists("2darray"));
-            Assert.IsTrue(new FileInfo("2darray").Length != 0);
-            var data = FileIO.ReadFromBinary<double[,]>("2darray");
-            Assert.AreEqual(2D, data[0, 1]);
-        }
-
-        [Test]
         public void validate_write_to_binary_custom()
         {
             IEnumerable<double> arrayWritten = Enumerable.Range(7, 3).Select(x => (double) x);          
@@ -380,24 +312,6 @@ namespace Vts.Test.IO
             FileIO.WriteToBinaryCustom<double>(arrayWritten, "array3", WriteMap);
             Assert.IsTrue(FileIO.FileExists("array3"));
             Assert.IsTrue(new FileInfo("array3").Length != 0);
-        }
-
-        [Test]
-        public void validate_write_to_binary_stream_and_read_from_binary_stream()
-        {
-            // first create stream, write array, validate written and close stream
-            double[] array = new double[3] { 10, 11, 12 };
-            Stream streamWrite = StreamFinder.GetFileStream("array4", FileMode.Create);
-            FileIO.WriteToBinaryStream(array, streamWrite);
-            Assert.IsNotNull(streamWrite);
-            Assert.IsTrue(FileIO.FileExists("array4"));
-            Assert.IsTrue(new FileInfo("array4").Length != 0);
-            streamWrite.Close();
-            // then open stream, read array, validate values and close stream
-            Stream streamRead = StreamFinder.GetFileStream("array4", FileMode.Open);
-            var data = FileIO.ReadFromBinaryStream<double[]>(streamRead);
-            Assert.AreEqual(10, data[0]);
-            streamRead.Close();
         }
 
         [Test]

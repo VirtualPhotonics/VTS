@@ -174,8 +174,6 @@ namespace Vts.MonteCarlo.Detectors
         /// <param name="numPhotons">number of photons launched</param>
         public void Normalize(long numPhotons)
         {
-            var normalizationFactor = 2.0 * Math.PI * Fx.Delta;
-            var sum = 0.0;
             for (int ifx = 0; ifx < Fx.Count; ifx++)
             {
                 for (int id = 0; id < MaxDepth.Count - 1; id++)
