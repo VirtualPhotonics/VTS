@@ -229,14 +229,12 @@ namespace Vts.MonteCarlo.Tissues
                  (position.Y >= Y.Start) && (position.Y <= Y.Stop)))
             {
                 _onBoundary = true;
-                return true;
             }
             else
             {
                 _onBoundary = false;
-                return false;
             }
-            //return !ContainsPosition(position) && _onBoundary; // match with EllipsoidTissueRegion
+            return _onBoundary; 
         }
         /// <summary>
         /// method to determine normal to surface at given position
