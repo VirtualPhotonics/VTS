@@ -1,18 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
+﻿using MathNet.Numerics.Random;
+using Moq;
 using NUnit.Framework;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+// using the following for user-defined ROfXDetector implementation
+using System.Runtime.Serialization;
 using Vts.Common;
+using Vts.IO;
 using Vts.MonteCarlo;
 using Vts.MonteCarlo.Detectors;
 using Vts.MonteCarlo.Factories;
-
-// using the following for user-defined ROfXDetector implementation
-using System.Runtime.Serialization;
-using MathNet.Numerics.Random;
-using Moq;
-using Vts.IO;
 using Vts.MonteCarlo.Helpers;
 using Vts.MonteCarlo.IO;
 using Vts.MonteCarlo.PhotonData;
@@ -37,6 +36,7 @@ namespace Vts.Test.MonteCarlo.Factories
         {
             "file.txt" // file that captures screen output of MC simulation
         };
+
         /// <summary>
         /// clear all generated folders and files
         /// </summary>
@@ -46,18 +46,25 @@ namespace Vts.Test.MonteCarlo.Factories
         {
             foreach (var folder in listOfTestGeneratedFolders)
             {
-                FileIO.DeleteDirectory(folder);
+                if (Directory.Exists(folder))
+                {
+                    FileIO.DeleteDirectory(folder);
+                }
             }
             foreach (var file in listOfTestGeneratedFiles)
             {
-                FileIO.FileDelete(file);
+                if (File.Exists(file))
+                {
+                    FileIO.FileDelete(file);
+                }
             }
         }
+        
         /// <summary>
         /// Simulate null return of GetDetector(s)
         /// </summary>
         [Test]
-        public void Demonstate_GetDetectors_null_return_on_empty_list()
+        public void Demonstrate_GetDetectors_null_return_on_empty_list()
         {
             IEnumerable<IDetectorInput> emptyDetectorList = null;
             Assert.IsNull(DetectorFactory.GetDetectors(
@@ -120,6 +127,7 @@ namespace Vts.Test.MonteCarlo.Factories
         [Test]
         public void Demonstrate_user_defined_detector_usage()
         {
+            // Add detector to ConventionBasedConverter _classInfoDictionary
             DetectorFactory.RegisterDetector(
                 typeof (ROfXDetectorInput), typeof (ROfXDetector));
             var detectorInput = new ROfXDetectorInput
@@ -141,9 +149,17 @@ namespace Vts.Test.MonteCarlo.Factories
             Assert.IsTrue(detectorExists);
             var firstValue = ((ROfXDetector)detector).Mean.FirstOrDefault();
             Assert.IsTrue(firstValue != 0);
+
+            // write detector to folder "user_defined_detector"
             DetectorIO.WriteDetectorToFile(detector, "user_defined_detector");
-            DetectorIO.ReadDetectorFromFile("user_defined_detector", "");
+             
+            // read detector filename="My First R(x) Detector" from folder "user_defined_detector"
+            var detectorFromFile = DetectorIO.ReadDetectorFromFile(detectorInput.Name, "user_defined_detector");
+            Assert.IsNotNull(detectorFromFile);
+            Assert.AreEqual(detector.Name, detectorFromFile.Name);
+            Assert.AreEqual(detector.TallyType, detectorFromFile.TallyType);
         }
+
         /// <summary>
         /// tests to verify exception returns from RegisterDetector
         /// </summary>

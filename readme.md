@@ -15,11 +15,8 @@ The Virtual Photonics Technology Initiative was established by the Laser Microbe
 ## Virtual Tissue Simulator (VTS)
 The primary vehicle for the accomplishment of these goals is the ongoing development of the Virtual Tissue Simulator (VTS). The VTS is being designed as a modular and scalable platform to provide an integrated suite of computational tools to define, solve, visualize, and analyze relevant forward and inverse radiative transport problems in Biomedical Optics. We intend to develop specific Application ToolKits (ATKs) that will provide a user-interface customized for the simulation of issues specific to an application domain. Examples include Small Animal Imaging and Fiber Optic Probe development.
 
-## Downloads
-To download the latest version, click [here](https://github.com/VirtualPhotonics/VTS/wiki/Downloads)
-
-## Releases and Source Codes
-To access all releases and source code, click [here](https://github.com/VirtualPhotonics/VTS/releases). 
+## Downloads and Latest Releases
+To access the latest release, past releases and downloads, click [here](https://github.com/VirtualPhotonics/VTS/releases). 
 
 ## Getting Started and Documentation
 To access getting started instructions in Linux, Mac or Windows, click
