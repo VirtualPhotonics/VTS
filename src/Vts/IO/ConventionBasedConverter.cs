@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.Extensions.DependencyInjection;
-using Newtonsoft.Json.Linq;
 
 namespace Vts.IO
 {
@@ -16,6 +16,7 @@ namespace Vts.IO
         private readonly string _typeCategoryString;
         private readonly IDictionary<string, VtsClassInfo> _classInfoDictionary;
         private readonly ServiceProvider _serviceProvider;
+        private readonly List<ServiceProvider> _userDefinedServiceProviders = new List<ServiceProvider>();
         
         /// <summary>
         /// Internal class for holding on to necessary class info for future instantiation
@@ -114,8 +115,35 @@ namespace Vts.IO
             var classInfo = _classInfoDictionary[classPrefixString];
 
             var classInstance = (TInterface)_serviceProvider.GetService(classInfo.ClassType);
+            
+            if (classInstance != null) return classInstance;
+            foreach (var instance in _userDefinedServiceProviders.Select(provider => (TInterface)provider.GetService(classInfo.ClassType)).Where(instance => instance != null))
+            {
+                return instance;
+            }
 
             return classInstance;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="objectType"></param>
+        /// <param name="className"></param>
+        /// <param name="classPrefixString"></param>
+        public void AddUserDefinedServices(Type objectType, string className, string classPrefixString)
+        {
+            var classInfo = new VtsClassInfo
+            {
+                ClassName = className,
+                ClassPrefixString = classPrefixString,
+                ClassType = objectType
+            };
+            _classInfoDictionary.Add(classPrefixString, classInfo);
+            var services = new ServiceCollection();
+            services.AddTransient(classInfo.ClassType);
+            var serviceProvider = services.BuildServiceProvider();
+            _userDefinedServiceProviders.Add(serviceProvider);
         }
 
         /// <summary>
