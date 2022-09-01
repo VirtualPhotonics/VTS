@@ -23,8 +23,12 @@ namespace Vts.MonteCarlo.ZemaxDatabaseConverter.Test
         {
             "testzrdraydatabase",
             "testzrdraydatabase.txt",
+            "testzrdraydatabase2",
+            "testzrdraydatabase2.txt",
             "testmcclraydatabase",
             "testmcclraydatabase.txt",
+            "RayDiffuseReflectanceDatabase",
+            "RayDiffuseReflectanceDatabase.txt"
          };
         readonly List<string> listOfTestGeneratedFolders = new List<string>()
         {
@@ -81,7 +85,10 @@ namespace Vts.MonteCarlo.ZemaxDatabaseConverter.Test
             // delete any previously generated files
             foreach (var file in listOfTestGeneratedFiles)
             {
-                FileIO.FileDelete(file);
+                if (File.Exists(file))
+                {
+                    FileIO.FileDelete(file);
+                }
             }            
             // delete any previously generated folders
             foreach (var folder in listOfTestGeneratedFolders)
@@ -109,8 +116,6 @@ namespace Vts.MonteCarlo.ZemaxDatabaseConverter.Test
         [Test]
         public async Task Validate_VerifyInputs_method_returns_correct_values()
         {
-            Clear_folders_and_files();
-
             // the following will fail because only 1 argument and file does not exist
             string[] arguments = new string[] { "infile=databaseToConvert" };
             var status = await Task.Run(() => Program.Main(arguments));
@@ -125,7 +130,8 @@ namespace Vts.MonteCarlo.ZemaxDatabaseConverter.Test
         public async Task Validate_conversion_from_MCCL_RayDatabase_to_Zemax_ZrdDatabase_successful()
         {
             // run database converter on MCCL Ray Database generated in OneTimeSetup
-            var arguments = new string[] { "infile=ray_database_generator/RayDiffuseReflectanceDatabase","infiletype=mccl","outfile=testzrdraydatabase" };
+            var arguments = new string[] { 
+                "infile=ray_database_generator/RayDiffuseReflectanceDatabase","infiletype=mccl","outfile=testzrdraydatabase" };
             await Task.Run(() => Program.Main(arguments));
             // read file written
             var rayDatabase = Zemax.ZrdRayDatabase.FromFile("testzrdraydatabase");
@@ -165,11 +171,13 @@ namespace Vts.MonteCarlo.ZemaxDatabaseConverter.Test
         {
             //actual ZRD DB is in @"C:\Users\hayakawa\Desktop\RP\Zemax\MyOutput\ZRDDiffuseReflectanceDatabase"
             // run database converter on MCCL Ray Database generated in OneTimeSetup
-            var arguments = new string[] { "infile=ray_database_generator/RayDiffuseReflectanceDatabase", "infiletype=mccl", "outfile=testzrdraydatabase" };
+            var arguments = new string[] { 
+                "infile=ray_database_generator/RayDiffuseReflectanceDatabase", "infiletype=mccl", "outfile=testzrdraydatabase2" };
             await Task.Run(() => Program.Main(arguments));
             // convert back to zrd file
-            arguments = new string[] { "infile=testzrdraydatabase","infiletype=zrd","outfile=testmcclraydatabase" };
+            arguments = new string[] { "infile=testzrdraydatabase2","infiletype=zrd","outfile=testmcclraydatabase" };
             await Task.Run(() => Program.Main(arguments));
+            
             var rayDatabase = RayDatabase.FromFile("testmcclraydatabase");
             Assert.AreEqual(95, rayDatabase.NumberOfElements);
             var enumerator = rayDatabase.DataPoints.GetEnumerator();
