@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk" ToolsVersion="Current">
   <PropertyGroup>
-	  <TargetFramework Condition=" '$(OS)' == 'Windows_NT' ">netcoreapp3.1</TargetFramework>
+	  <TargetFramework>net6.0</TargetFramework>
 	  <IsPackable>false</IsPackable>
 	  <FileUpgradeFlags>40</FileUpgradeFlags>
 	  <UpgradeBackupLocation>C:\Users\hayakawa\Documents\Visual Studio 2022\Projects\vts_220810\src\Backup\Vts.Zemax.Test\</UpgradeBackupLocation>
@@ -16,7 +16,8 @@
 		</PackageReference>
 	</ItemGroup>
 	<ItemGroup>
-	  <ProjectReference Include="..\Vts.Zemax\Vts.Zemax.csproj" />
+		<ProjectReference Include="..\Vts\Vts.csproj" />
+		<ProjectReference Include="..\Vts.Zemax\Vts.Zemax.csproj" />
 	</ItemGroup>
 	<ItemGroup>
 		<None Update="NLogUnitTest.config">

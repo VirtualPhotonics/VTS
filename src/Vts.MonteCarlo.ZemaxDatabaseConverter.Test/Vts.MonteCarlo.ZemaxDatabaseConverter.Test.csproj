@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
 
     <IsPackable>false</IsPackable>
   </PropertyGroup>
@@ -19,6 +19,7 @@
     <ProjectReference Include="..\Vts.MonteCarlo.CommandLineApplication\Vts.MonteCarlo.CommandLineApplication.csproj" />
     <ProjectReference Include="..\Vts.MonteCarlo.ZemaxDatabaseConverter\Vts.MonteCarlo.ZemaxDatabaseConverter.csproj" />
     <ProjectReference Include="..\Vts\Vts.csproj" />
+	<ProjectReference Include="..\Vts.Zemax\Vts.Zemax.csproj" />
   </ItemGroup>
 
 </Project>
