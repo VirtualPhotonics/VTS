@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Runtime.CompilerServices;
 using Vts.Common;
 using Vts.MonteCarlo.PhotonData;
 using Vts.MonteCarlo.Tissues;
@@ -7,22 +6,13 @@ using Vts.MonteCarlo.Tissues;
 namespace Vts.MonteCarlo.VirtualBoundaries
 {
     /// <summary>
-    /// The <see cref="VirtualBoundaries"/> namespace contains the Monte Carlo virtual boundary classes 
-    /// </summary>
-
-    [CompilerGenerated]
-    internal class NamespaceDoc
-    {
-    }
-
-    /// <summary>
     /// Implements IVirtualBoundary.  Used to capture all photons absorbed by bounding cylinder
     /// </summary>
-    public class BoundingCylinderVirtualBoundary : IVirtualBoundary
+    public class BoundingVoxelVirtualBoundary : IVirtualBoundary
     {
         private IDetectorController _detectorController;
         private ITissueRegion _boundingTissueRegion;
-        private double _radius;
+        private DoubleRange _x, _y, _z;
         private Position _center;
 
         /// <summary>
@@ -31,11 +21,13 @@ namespace Vts.MonteCarlo.VirtualBoundaries
         /// <param name="tissue">ITissue</param>
         /// <param name="detectorController">IDetectorController</param>
         /// <param name="name">string name</param>
-        public BoundingCylinderVirtualBoundary(ITissue tissue, IDetectorController detectorController, string name)
+        public BoundingVoxelVirtualBoundary(ITissue tissue, IDetectorController detectorController, string name)
         {
             _boundingTissueRegion = tissue.Regions[tissue.Regions.Count - 1]; // bounding region always last by convention
             _center = _boundingTissueRegion.Center;
-            _radius = ((CaplessCylinderTissueRegion)_boundingTissueRegion).Radius;
+            _x = ((CaplessVoxelTissueRegion)_boundingTissueRegion).X;
+            _y = ((CaplessVoxelTissueRegion)_boundingTissueRegion).Y;
+            _z = ((CaplessVoxelTissueRegion)_boundingTissueRegion).Y;
 
             WillHitBoundary = dp =>
                 dp.StateFlag.HasFlag(PhotonStateType.PseudoBoundingVolumeTissueBoundary) &&

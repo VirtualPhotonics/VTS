@@ -27,7 +27,7 @@ namespace Vts.Test.MonteCarlo.Extensions
             // validate those that are false
             virtualBoundaryType = VirtualBoundaryType.GenericVolumeBoundary;
             Assert.IsFalse(virtualBoundaryType.IsSurfaceVirtualBoundary());
-            virtualBoundaryType = VirtualBoundaryType.BoundingCylinderVolume;
+            virtualBoundaryType = VirtualBoundaryType.BoundingVolume;
             Assert.IsFalse(virtualBoundaryType.IsSurfaceVirtualBoundary());
         }
         /// <summary>
@@ -39,7 +39,7 @@ namespace Vts.Test.MonteCarlo.Extensions
             // validate those that are true
             var virtualBoundaryType = VirtualBoundaryType.GenericVolumeBoundary;
             Assert.IsTrue(virtualBoundaryType.IsVolumeVirtualBoundary());
-            virtualBoundaryType = VirtualBoundaryType.BoundingCylinderVolume;
+            virtualBoundaryType = VirtualBoundaryType.BoundingVolume;
             Assert.IsTrue(virtualBoundaryType.IsVolumeVirtualBoundary());
             // validate those that are false
             virtualBoundaryType = VirtualBoundaryType.DiffuseReflectance;

@@ -47,8 +47,8 @@ namespace Vts.MonteCarlo.Sources
         /// <summary>
         /// Defines CircularSourceBase class
         /// </summary>
-        /// <param name="innerRadius">The inner radius of the circular source</param>
         /// <param name="outerRadius">The outer radius of the circular source</param>
+        /// <param name="innerRadius">The inner radius of the circular source</param>
         /// <param name="sourceProfile">Source Profile {Flat / Gaussian}</param>
         /// <param name="newDirectionOfPrincipalSourceAxis">New source axis direction</param> 
         /// <param name="translationFromOrigin">New source location</param>

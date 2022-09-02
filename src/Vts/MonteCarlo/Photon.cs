@@ -386,7 +386,7 @@ namespace Vts.MonteCarlo
             if (DP.StateFlag.HasFlag(PhotonStateType.PseudoDiffuseReflectanceVirtualBoundary)  ||
                 DP.StateFlag.HasFlag(PhotonStateType.PseudoDiffuseTransmittanceVirtualBoundary) ||
                 DP.StateFlag.HasFlag(PhotonStateType.PseudoSpecularReflectanceVirtualBoundary) ||
-                DP.StateFlag.HasFlag(PhotonStateType.PseudoBoundingCylinderVolumeVirtualBoundary))
+                DP.StateFlag.HasFlag(PhotonStateType.PseudoBoundingVolumeVirtualBoundary))
             {
                 DP.StateFlag = DP.StateFlag.Remove(PhotonStateType.Alive);
                 History.AddDPToHistory(DP);

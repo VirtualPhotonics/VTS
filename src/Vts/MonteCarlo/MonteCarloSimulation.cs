@@ -407,7 +407,7 @@ namespace Vts.MonteCarlo
                     case VirtualBoundaryType.pMCDiffuseTransmittance:
                         detectorInputs = Input.DetectorInputs.Where(d => d.TallyDetails.IspMCTransmittanceTally).ToList();
                         break;
-                    case VirtualBoundaryType.BoundingCylinderVolume:
+                    case VirtualBoundaryType.BoundingVolume:
                         detectorInputs = Input.DetectorInputs.Where(d => d.TallyDetails.IsBoundingVolumeTally).ToList();
                         break;
                 }

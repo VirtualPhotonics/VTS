@@ -45,7 +45,7 @@ namespace Vts.Test.MonteCarlo.Factories
                     detectorList, null));
             Assert.IsInstanceOf<IDetectorController>(
                 DetectorControllerFactory.GetDetectorController(
-                    VirtualBoundaryType.BoundingCylinderVolume,
+                    VirtualBoundaryType.BoundingVolume,
                     detectorList, null));
         }
         /// <summary>

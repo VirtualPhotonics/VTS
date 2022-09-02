@@ -88,6 +88,6 @@ namespace Vts.MonteCarlo
         /// <summary>
         /// photon pseudo-collision at BoundingVolume Virtual Boundary (VB)
         /// </summary>
-        PseudoBoundingCylinderVolumeVirtualBoundary = 0x110000,
+        PseudoBoundingVolumeVirtualBoundary = 0x110000,
     }
 }
