@@ -51,7 +51,7 @@ namespace Vts.MonteCarlo.Factories
                         tissue, detectorController, VirtualBoundaryType.DiffuseTransmittance.ToString());
                     break;
                 case VirtualBoundaryType.BoundingVolume:
-                    vb = new BoundingCylinderVirtualBoundary(
+                    vb = new BoundingVirtualBoundary(
                         tissue, detectorController, VirtualBoundaryType.BoundingVolume.ToString());
                     break;
 

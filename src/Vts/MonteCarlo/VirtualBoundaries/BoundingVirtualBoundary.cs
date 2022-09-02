@@ -6,14 +6,14 @@ using Vts.MonteCarlo.Tissues;
 namespace Vts.MonteCarlo.VirtualBoundaries
 {
     /// <summary>
-    /// Implements IVirtualBoundary.  Used to capture all photons absorbed by bounding cylinder
+    /// Implements IVirtualBoundary.  Used to capture all photons absorbed by bounding 
+    /// tissue region (whatever is dependency injected)
     /// </summary>
-    public class BoundingVoxelVirtualBoundary : IVirtualBoundary
+    public class BoundingVirtualBoundary : IVirtualBoundary
     {
         private IDetectorController _detectorController;
         private ITissueRegion _boundingTissueRegion;
-        private DoubleRange _x, _y, _z;
-        private Position _center;
+
 
         /// <summary>
         /// diffuse reflectance VB
@@ -21,13 +21,9 @@ namespace Vts.MonteCarlo.VirtualBoundaries
         /// <param name="tissue">ITissue</param>
         /// <param name="detectorController">IDetectorController</param>
         /// <param name="name">string name</param>
-        public BoundingVoxelVirtualBoundary(ITissue tissue, IDetectorController detectorController, string name)
+        public BoundingVirtualBoundary(ITissue tissue, IDetectorController detectorController, string name)
         {
             _boundingTissueRegion = tissue.Regions[tissue.Regions.Count - 1]; // bounding region always last by convention
-            _center = _boundingTissueRegion.Center;
-            _x = ((CaplessVoxelTissueRegion)_boundingTissueRegion).X;
-            _y = ((CaplessVoxelTissueRegion)_boundingTissueRegion).Y;
-            _z = ((CaplessVoxelTissueRegion)_boundingTissueRegion).Y;
 
             WillHitBoundary = dp =>
                 dp.StateFlag.HasFlag(PhotonStateType.PseudoBoundingVolumeTissueBoundary) &&

@@ -48,11 +48,12 @@ namespace Vts.Test.MonteCarlo.Tissues
                         new DoubleRange(10.0, double.PositiveInfinity),
                         new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
                 });
-            _twoLayerTissueBoundedByVoxel = new BoundedTissue(new VoxelTissueRegion(
-                new DoubleRange(-1, 1, 2), // x range
-                new DoubleRange(-1, 1, 2), // y range
-                new DoubleRange(1, 10, 2),  // z range
-                new OpticalProperties(0.01, 1.0, 0.8, 1.0)),
+            _twoLayerTissueBoundedByVoxel = new BoundedTissue(
+                new VoxelTissueRegion(
+                    new DoubleRange(-1, 1, 2), // x range
+                    new DoubleRange(-1, 1, 2), // y range
+                    new DoubleRange(1, 10, 2),  // z range
+                    new OpticalProperties(0.01, 1.0, 0.8, 1.0)),
                 new ITissueRegion[]
                 {
                     new LayerTissueRegion(

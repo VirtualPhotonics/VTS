@@ -41,7 +41,8 @@ namespace Vts.MonteCarlo
                 PointSourceThreeLayerReflectedTimeOfRhoAndSubregionHistDetector(),
                 EmbeddedDirectionalCircularSourceEllipTissueFluenceOfXAndYAndZ(),
                 PointSourceSurfaceFiberTissueAndDetector(),
-                FluorescenceEmissionAOfXAndYAndZSourceInfiniteCylinder()
+                FluorescenceEmissionAOfXAndYAndZSourceInfiniteCylinder(),
+                PointSourceBoundedTissue()
             };
         }
 
@@ -1173,7 +1174,7 @@ new ITissueRegion[]
                     0.0, // RR threshold -> no RR performed
                     0),
                 // pairs w above infinite_cylinder_ROfRho_FluenceOfRhoAndZ
-                new FluorescenceEmissionAOfXAndYAndZSourceInput( 
+                new FluorescenceEmissionAOfXAndYAndZSourceInput(
                     "infinite_cylinder_AOfXAndYAndZ",
                     "infinite_cylinder_AOfXAndYAndZ.txt",
                     3,
@@ -1192,7 +1193,7 @@ new ITissueRegion[]
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
                         new LayerTissueRegion(
                             new DoubleRange(0.0, 100.0),
-                            new OpticalProperties(0.01, 10, 0.8, 1.4)),  
+                            new OpticalProperties(0.01, 10, 0.8, 1.4)),
                         new LayerTissueRegion(
                             new DoubleRange(100.0, double.PositiveInfinity),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
@@ -1202,6 +1203,57 @@ new ITissueRegion[]
                 {
                     new ROfXAndYDetectorInput() {X=new DoubleRange(-10, 10, 101),
                         Y = new DoubleRange(-100.0, 100.0, 2)},
+                }
+            );
+        }
+        #endregion
+        
+        #region bounded region example 
+        /// <summary>
+        /// Bounded Cylinder Tissue
+        /// </summary>
+        /// <returns>An instance of the SimulationInput class</returns>
+        public static SimulationInput PointSourceBoundedTissue()
+        {
+            return new SimulationInput(
+                100,
+                "point_source_bounded_tissue",
+                new SimulationOptions(
+                    0, // random number generator seed, -1=random seed, 0=fixed seed
+                    RandomNumberGeneratorType.MersenneTwister,
+                    AbsorptionWeightingType.Discrete,
+                    PhaseFunctionType.HenyeyGreenstein,
+                    new List<DatabaseType>() { }, // databases to be written
+                    true, // track statistics
+                    0.0, // RR threshold -> no RR performed
+                    0),
+                new DirectionalPointSourceInput(
+                    new Position(0.0, 0.0, 0.0),
+                    new Direction(0.0, 0.0, 1.0),
+                    0), // 0=start in air, 1=start in tissue
+                new BoundingVoxelTissueInput(
+                    new CaplessVoxelTissueRegion(
+                        new DoubleRange(-1, 1, 2),
+                        new DoubleRange(-1, 1, 2),
+                        new DoubleRange(0, 100.0),
+                        new OpticalProperties(0.05, 1.0, 0.8, 1.4)
+                    ),
+                    new ITissueRegion[]
+                    {
+                        new LayerTissueRegion(
+                            new DoubleRange(double.NegativeInfinity, 0.0),
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
+                        new LayerTissueRegion(
+                            new DoubleRange(0.0, 100.0),
+                            new OpticalProperties(0.01, 10, 0.8, 1.4)),
+                        new LayerTissueRegion(
+                            new DoubleRange(100.0, double.PositiveInfinity),
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
+                    }
+                ),
+                new List<IDetectorInput>()
+                {
+                    new ATotalBoundingVolumeDetectorInput() 
                 }
             );
         }
