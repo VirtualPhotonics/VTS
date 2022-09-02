@@ -24,9 +24,10 @@ namespace Vts.MonteCarlo.Tissues
         private ITissueRegion _boundingRegion;
         private IList<ITissueRegion> _layers;
         private int _boundingRegionExteriorIndex;
+        private IList<int> _tissueLayersInsideBoundIndices;
 
         /// <summary>
-        /// Creates an instance of a SingleInclusionTissue
+        /// Creates an instance of a BoundedTissue
         /// </summary>
         /// <param name="boundingRegion">Tissue region defining later extent of tissue (must span top to bottom of tissue layers)</param>
         /// <param name="layerRegions">The tissue layers</param>
@@ -42,6 +43,12 @@ namespace Vts.MonteCarlo.Tissues
             Regions = layerRegions.Concat(boundingRegion).ToArray();
             _layers = layerRegions;
             _boundingRegion = boundingRegion;
+            // create list of tissue layers inside bounding region, assumes air-multilayer-air tissue
+            _tissueLayersInsideBoundIndices = new List<int>();
+            for (int i = 1; i < layerRegions.Count - 1; i++)
+            {
+                _tissueLayersInsideBoundIndices.Add(i);
+            }
         }
 
         /// <summary>
@@ -157,11 +164,27 @@ namespace Vts.MonteCarlo.Tissues
             {
                 return base.GetReflectedDirection(currentPosition, currentDirection);
             }
-            else // currently reflection/refraction not performed on bounding region
+            else // on tissue layer and bounding region border
             {
-                return currentDirection;
+                // determine which layer 
+                var layerIndex = base.GetRegionIndex(currentPosition);
+                // the following assumes air-multilayers-air tissue
+                if (_boundingRegion.RegionOP.N == Regions[layerIndex].RegionOP.N)
+                {
+                    return currentDirection;  // no refractive index mismatch
+                }
+                else
+                {
+                    // reflection equation reflected = incident - 2(incident dot surfaceNormal)surfaceNormal
+                    Direction surfaceNormal = _boundingRegion.SurfaceNormal(currentPosition);
+                    var currentDirDotNormal = Direction.GetDotProduct(currentDirection, surfaceNormal);
+                    var newX = currentDirection.Ux - 2 * currentDirDotNormal * surfaceNormal.Ux;
+                    var newY = currentDirection.Uy - 2 * currentDirDotNormal * surfaceNormal.Uy;
+                    var newZ = currentDirection.Uz - 2 * currentDirDotNormal * surfaceNormal.Uz;
+                    var norm = Math.Sqrt(newX * newX + newY * newY + newZ * newZ);
+                    return new Direction(newX / norm, newY / norm, newZ / norm);
+                }
             }
-            //throw new NotImplementedException(); // hopefully, this won't happen when the tissue inclusion is index-matched
         }
         /// <summary>
         /// method that provides refracted direction when photon refracts off boundary
@@ -184,11 +207,47 @@ namespace Vts.MonteCarlo.Tissues
             {
                 return base.GetRefractedDirection(currentPosition, currentDirection, currentN, nextN, cosThetaSnell);
             }
-            else // currently reflection/refraction not performed on bounding region
             {
-                return currentDirection;
+                if (currentN == nextN)
+                {
+                    return currentDirection;  // no refractive index mismatch
+                }
+                else
+                {
+                    // refraction equations in ref
+                    // where theta1 and theta2 are angles relative to normal
+                    Direction normal = _boundingRegion.SurfaceNormal(currentPosition);
+                    var cosTheta1 = Direction.GetDotProduct(currentDirection, normal);
+                    var nRatio = currentN / nextN;
+                    var sinTheta2Squared = nRatio * nRatio * (1 - cosTheta1 * cosTheta1);
+                    var factor = nRatio * cosTheta1 - Math.Sqrt(1 - sinTheta2Squared);
+                    var newX = nRatio * currentDirection.Ux + factor * normal.Ux;
+                    var newY = nRatio * currentDirection.Uy + factor * normal.Uy;
+                    var newZ = nRatio * currentDirection.Uz + factor * normal.Uz;
+                    var norm = Math.Sqrt(newX * newX + newY * newY + newZ * newZ);
+                    return new Direction(newX / norm, newY / norm, newZ / norm);
+                }
             }
-            //throw new NotImplementedException(); // hopefully, this won't happen when the tissue inclusion is index-matched
+        }
+        /// <summary>
+        /// Method to get cosine of the angle between photons current direction and boundary normal.
+        /// When this method is called photon is sitting on boundary of region and CurrentRegionIndex is Index
+        /// of region photon had been in.
+        /// </summary>
+        /// <param name="photon"></param>
+        /// <returns>Uz=cos(theta)</returns>
+        public override double GetAngleRelativeToBoundaryNormal(Photon photon)
+        {
+            // needs to call MultiLayerTissue when crossing top and bottom layer
+            if (base.OnDomainBoundary(photon.DP.Position))
+            {
+                return base.GetAngleRelativeToBoundaryNormal(photon);
+            }
+            else
+            {
+                return Math.Abs(Direction.GetDotProduct( // Abs consistent with SingleInclusionTissue
+                    photon.DP.Direction, _boundingRegion.SurfaceNormal(photon.DP.Position)));
+            }
         }
     }
 }

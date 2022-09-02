@@ -86,7 +86,7 @@ namespace Vts.Test.MonteCarlo.Tissues
                 _oneLayerTissue,
                 3,
                 new Random());
-            var index = _oneLayerTissue.GetNeighborRegionIndex(photon); 
+            var index = _oneLayerTissue.GetNeighborRegionIndex(photon);
             Assert.AreEqual(1, index);
             photon = new Photon( // on side of cylinder pointed out of it
                 new Position(-1, 0, 1),
@@ -99,7 +99,7 @@ namespace Vts.Test.MonteCarlo.Tissues
             Assert.AreEqual(3, index);
             // two layer results
             photon = new Photon( // on side of cylinder pointed into LAYER 1
-                new Position(-1, 0, 0.5),  
+                new Position(-1, 0, 0.5),
                 new Direction(1.0, 0, 0),
                 1.0,
                 _twoLayerTissue,
@@ -142,16 +142,22 @@ namespace Vts.Test.MonteCarlo.Tissues
         [Test]
         public void verify_GetAngleRelativeToBoundaryNormal_method_returns_correct_result()
         {
-            Photon photon = new Photon( // on top of cylinder pointed into it
-                new Position(0, 0, 1.0),
-                new Direction(0.0, 0, 1.0),
+            Photon photon = new Photon( // on top of tissue pointed into it
+                new Position(0.0, 0.0, 0.0),
+                new Direction(0.0, 0.0, 1.0),
                 1,
                 _twoLayerTissue,
                 1,
                 new Random());
             double cosTheta = _twoLayerTissue.GetAngleRelativeToBoundaryNormal(photon);
-            Assert.AreEqual(1,cosTheta);
+            Assert.AreEqual(1, cosTheta);
+            // put on side of cylinder pointing in
+            photon.DP.Position = new Position(1.0, 1.0, 5.0);
+            photon.DP.Direction = new Direction(1.0, 0.0, 0.0);
+            cosTheta = _twoLayerTissue.GetAngleRelativeToBoundaryNormal(photon);
+            Assert.IsTrue(Math.Abs(cosTheta - 1/Math.Sqrt(2)) < 1e-6);
         }
 
     }
 }
+

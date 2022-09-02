@@ -148,8 +148,8 @@ namespace Vts.Test.MonteCarlo.Tissues
         [Test]
         public void verify_GetAngleRelativeToBoundaryNormal_method_returns_correct_result()
         {
-            Photon photon = new Photon( // on top of voxel pointed into it
-                new Position(0, 0, 1.0),
+            Photon photon = new Photon( // on top of tissue pointed into it
+                new Position(0, 0, 0.0),
                 new Direction(0.0, 0, 1.0),
                 1,
                 _twoLayerTissue,
@@ -157,25 +157,13 @@ namespace Vts.Test.MonteCarlo.Tissues
                 new Random());
             double cosTheta = _twoLayerTissue.GetAngleRelativeToBoundaryNormal(photon);
             Assert.AreEqual(1,cosTheta);
+            // put on side of cylinder pointing in
+            photon.DP.Position = new Position(-1.0, 0.0, 5.0);
+            photon.DP.Direction = new Direction(1.0, 0.0, 0.0);
+            cosTheta = _twoLayerTissue.GetAngleRelativeToBoundaryNormal(photon);
+            Assert.AreEqual(1, cosTheta);
         }
 
-
-        ///// <summary>
-        ///// Validate method GetAngleRelativeToBoundaryNormal return correct Boolean
-        ///// </summary>
-        //[Test]
-        //public void verify_GetRefractedAngle_method_returns_correct_result()
-        //{
-        //    Photon photon = new Photon( // on top of voxel pointed into it
-        //        new Position(0, 0, 1.0),
-        //        new Direction(0.0, 0, 1.0),
-        //        1,
-        //        _twoLayerTissue,
-        //        1,
-        //        new Random());
-        //    double cosTheta = _twoLayerTissue.GetAngleRelativeToBoundaryNormal(photon);
-        //    Assert.AreEqual(1, cosTheta);
-        //}
 
     }
 }

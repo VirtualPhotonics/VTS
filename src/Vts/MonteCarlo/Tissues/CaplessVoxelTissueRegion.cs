@@ -138,8 +138,7 @@ namespace Vts.MonteCarlo.Tissues
             if (Math.Abs(p1.X - X.Stop) < 1e-11) p1.X = X.Stop; 
             if (Math.Abs(p1.Y - Y.Start) < 1e-11) p1.Y = Y.Start;
             if (Math.Abs(p1.Y - Y.Stop) < 1e-11) p1.Y = Y.Stop; 
-            //if (Math.Abs(p1.Z - Z.Start) < 1e-11) p1.Z = Z.Start;
-            //if (Math.Abs(p1.Z - Z.Stop) < 1e-11) p1.Z = Z.Stop;
+            // no check on Z since capless
             
             // following algorithm from tavianator.com/fast-branchless-raybounding-box-intersections
             // check interesctions of ray with planes that make up box
@@ -152,10 +151,7 @@ namespace Vts.MonteCarlo.Tissues
             dist2 = (Y.Stop - p1.Y)/d1.Uy;
             dmin = Math.Max(dmin, Math.Min(dist1, dist2));
             dmax = Math.Min(dmax, Math.Max(dist1, dist2));
-            //dist1 = (Z.Start - p1.Z)/d1.Uz;
-            //dist2 = (Z.Stop - p1.Z)/d1.Uz;
-            //dmin = Math.Max(dmin, Math.Min(dist1, dist2));
-            //dmax = Math.Min(dmax, Math.Max(dist1, dist2));
+            // no check on Z since capless
             if (dmax >= dmin) 
             {
                 if (dmin > 0)
@@ -226,9 +222,7 @@ namespace Vts.MonteCarlo.Tissues
                 (((Math.Abs(position.Y - Y.Start) < tol) || (Math.Abs(position.Y - Y.Stop) < tol)) &&
                   (position.X >= X.Start) && (position.X <= X.Stop) &&
                   (position.Z >= Z.Start) && (position.Z <= Z.Stop)))
-                //(((Math.Abs(position.Z - Z.Start) < tol) || (Math.Abs(position.Z - Z.Stop) < tol)) &&
-                // (position.X >= X.Start) && (position.X <= X.Stop) &&
-                // (position.Y >= Y.Start) && (position.Y <= Y.Stop)))
+                // no check on Z since capless
             {
                 _onBoundary = true;
             }
@@ -264,14 +258,7 @@ namespace Vts.MonteCarlo.Tissues
             {
                 return new Direction(0, 1, 0);
             }
-            //else if (Math.Abs(position.Z - Z.Start) < tol)
-            //{
-            //    return new Direction(0, 0, -1);
-            //}
-            //else if (Math.Abs(position.Z - Z.Stop) < tol)
-            //{
-            //    return new Direction(0, 0, 1);
-            //}
+            // no check on Z since capless
             return null;
         }
     }

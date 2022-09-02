@@ -8,7 +8,7 @@ namespace Vts.MonteCarlo.Tissues
 {
     /// <summary>
     /// Implements ITissueInput.  Defines input to MultiConcentricInfiniteCylinderTissue class.
-    /// This assumes infinite cylinders are concentric and lie entirely within a layer.
+    /// This assumes infinite cylinders are concentric and lie entirely within a single layer of tissue.
     /// </summary>
     public class MultiConcentricInfiniteCylinderTissueInput : TissueInput, ITissueInput
     {

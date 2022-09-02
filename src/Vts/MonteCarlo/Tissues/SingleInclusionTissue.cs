@@ -211,8 +211,8 @@ namespace Vts.MonteCarlo.Tissues
             }
             else
             {
-                return Math.Abs(
-                    Direction.GetDotProduct(photon.DP.Direction, _inclusionRegion.SurfaceNormal(photon.DP.Position)));
+                return Math.Abs(Direction.GetDotProduct( // need Abs here for unit tests but not sure correct
+                    photon.DP.Direction, _inclusionRegion.SurfaceNormal(photon.DP.Position)));
             }
         }
     }

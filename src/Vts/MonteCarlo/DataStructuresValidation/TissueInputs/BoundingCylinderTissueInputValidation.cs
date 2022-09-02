@@ -27,11 +27,12 @@ namespace Vts.MonteCarlo
             {
                 return tempResult;
             }
-            tempResult = ValidateRefractiveIndexMatch(layers, boundingCylinder);
-            if (!tempResult.IsValid)
-            {
-                return tempResult;
-            }
+            // commented out for this branch which is invoking this change
+            //tempResult = ValidateRefractiveIndexMatch(layers, boundingCylinder);
+            //if (!tempResult.IsValid)
+            //{
+            //    return tempResult;
+            //}
             return tempResult;
         }
         /// <summary>
