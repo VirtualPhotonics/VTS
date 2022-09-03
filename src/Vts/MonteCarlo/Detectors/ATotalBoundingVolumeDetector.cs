@@ -21,7 +21,7 @@ namespace Vts.MonteCarlo.Detectors
             Name = "ATotalBoundingVolume";
 
             // modify base class TallyDetails to take advantage of built-in validation capabilities (error-checking)
-            TallyDetails.IsBoundingVolumeTally = true;
+            TallyDetails.IsLateralBoundingVolumeTally = true;
         }
 
         /// <summary>

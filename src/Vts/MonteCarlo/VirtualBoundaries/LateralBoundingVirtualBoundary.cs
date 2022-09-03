@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Runtime.CompilerServices;
 using Vts.Common;
 using Vts.MonteCarlo.PhotonData;
 using Vts.MonteCarlo.Tissues;
@@ -7,23 +6,14 @@ using Vts.MonteCarlo.Tissues;
 namespace Vts.MonteCarlo.VirtualBoundaries
 {
     /// <summary>
-    /// The <see cref="VirtualBoundaries"/> namespace contains the Monte Carlo virtual boundary classes 
+    /// Implements IVirtualBoundary.  Used to capture all photons absorbed by bounding 
+    /// tissue region (whatever is dependency injected)
     /// </summary>
-
-    [CompilerGenerated]
-    internal class NamespaceDoc
-    {
-    }
-
-    /// <summary>
-    /// Implements IVirtualBoundary.  Used to capture all photons absorbed by bounding cylinder
-    /// </summary>
-    public class BoundingCylinderVirtualBoundary : IVirtualBoundary
+    public class LateralBoundingVirtualBoundary : IVirtualBoundary
     {
         private IDetectorController _detectorController;
         private ITissueRegion _boundingTissueRegion;
-        private double _radius;
-        private Position _center;
+
 
         /// <summary>
         /// diffuse reflectance VB
@@ -31,18 +21,16 @@ namespace Vts.MonteCarlo.VirtualBoundaries
         /// <param name="tissue">ITissue</param>
         /// <param name="detectorController">IDetectorController</param>
         /// <param name="name">string name</param>
-        public BoundingCylinderVirtualBoundary(ITissue tissue, IDetectorController detectorController, string name)
+        public LateralBoundingVirtualBoundary(ITissue tissue, IDetectorController detectorController, string name)
         {
             _boundingTissueRegion = tissue.Regions[tissue.Regions.Count - 1]; // bounding region always last by convention
-            _center = _boundingTissueRegion.Center;
-            _radius = ((CaplessCylinderTissueRegion)_boundingTissueRegion).Radius;
 
             WillHitBoundary = dp =>
                 dp.StateFlag.HasFlag(PhotonStateType.PseudoBoundingVolumeTissueBoundary) &&
                 _boundingTissueRegion.ContainsPosition(dp.Position);
 
             VirtualBoundaryType = VirtualBoundaryType.BoundingVolume;
-            PhotonStateType = PhotonStateType.PseudoBoundingVolumeVirtualBoundary;
+            PhotonStateType = PhotonStateType.PseudoLateralBoundingVirtualBoundary;
 
             _detectorController = detectorController;
 

@@ -86,8 +86,8 @@ namespace Vts.MonteCarlo
         /// </summary>
         PseudoSurfaceRadianceVirtualBoundary = 0x100000,
         /// <summary>
-        /// photon pseudo-collision at BoundingVolume Virtual Boundary (VB)
+        /// photon pseudo-collision at Lateral Bounding Virtual Boundary (VB)
         /// </summary>
-        PseudoBoundingVolumeVirtualBoundary = 0x110000,
+        PseudoLateralBoundingVirtualBoundary = 0x110000,
     }
 }
