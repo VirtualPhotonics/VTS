@@ -239,7 +239,8 @@ namespace Vts.MonteCarlo.Tissues
         /// <returns>Direction normal to surface at position</returns>
         public Direction SurfaceNormal(Position position)
         {
-            var tol = 1e-11; // use tolerance because position will have floating point errors
+            var tol = 1e-6; // use tolerance because position will have floating point errors
+            // larger tolerance works because voxel edges typically have 4-5 significant digits
 
             // the following code doesn't handle if on or edge corner, but may not be problem
             if (Math.Abs(position.X - X.Start) < tol)
