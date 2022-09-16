@@ -21,11 +21,12 @@ namespace Vts.Test.MonteCarlo.Sources
         /// </summary>
         List<string> listOfTestGeneratedFolders = new List<string>()
         {
-            "testraydatabase",
         };
         List<string> listOfTestGeneratedFiles = new List<string>()
         {
             "inputFromFile.txt",
+            "testraydatabase",
+            "testraydatabase.txt"
         };
         /// <summary>
         /// clear all generated folders and files

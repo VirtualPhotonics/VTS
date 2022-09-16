@@ -5,6 +5,7 @@ using Vts.IO;
 using Vts.MonteCarlo.RayData;
 using System.Threading.Tasks;
 using System.IO;
+using System.Reflection;
 
 namespace Vts.MonteCarlo.ZemaxDatabaseConverter.Test
 {
@@ -15,7 +16,7 @@ namespace Vts.MonteCarlo.ZemaxDatabaseConverter.Test
         // An actual Zemax output ZRD file was first used to verify tests, however file too large
         // to add to resources.  Instead this program is used to convert a MCCL DB to Zemax DB
         // and that is used to test
-        
+
         /// <summary>
         /// list of temporary files created by these unit tests
         /// </summary>
@@ -23,57 +24,24 @@ namespace Vts.MonteCarlo.ZemaxDatabaseConverter.Test
         {
             "testzrdraydatabase",
             "testzrdraydatabase.txt",
-            "testzrdraydatabase2",
-            "testzrdraydatabase2.txt",
             "testmcclraydatabase",
             "testmcclraydatabase.txt",
-            "RayDiffuseReflectanceDatabase",
-            "RayDiffuseReflectanceDatabase.txt"
          };
         readonly List<string> listOfTestGeneratedFolders = new List<string>()
         {
-            "ray_database_generator"
+            "mcclraydatabase",
+            "zrdraydatabase"
         };
-        readonly List<string> listOfMCCLInfiles = new List<string>()
-        {
-            "ellip_FluenceOfRhoAndZ",
-            "infinite_cylinder_AOfXAndYAndZ",
-            "multi_infinite_cylinder_AOfXAndYAndZ",
-            "fluorescence_emission_AOfXAndYAndZ_source_infinite_cylinder",
-            "embedded_directional_circular_source_ellip_tissue",
-            "Flat_2D_source_one_layer_ROfRho",
-            "Flat_2D_source_two_layer_bounded_AOfRhoAndZ",
-            "Gaussian_2D_source_one_layer_ROfRho",
-            "Gaussian_line_source_one_layer_ROfRho",
-            "one_layer_all_detectors",
-            "one_layer_FluenceOfRhoAndZ_RadianceOfRhoAndZAndAngle",
-            "one_layer_ROfRho_FluenceOfRhoAndZ",
-            "pMC_one_layer_ROfRho_DAW",
-            "three_layer_ReflectedTimeOfRhoAndSubregionHist",
-            "two_layer_momentum_transfer_detectors",
-            "two_layer_ROfRho",
-            "two_layer_ROfRho_with_db",
-            "voxel_ROfXAndY_FluenceOfXAndYAndZ",
-            "surface_fiber_detector",
-            "ray_database_generator"
-        };
+
 
         /// <summary>
         /// Set up simulation specifying RayDatabase to be written
         /// </summary>
         [OneTimeSetUp]
-        public async Task Setup_simulation_input_components()
+        public void Setup_simulation_input_components()
         {
             // delete previously generated files
             Clear_folders_and_files();
-
-            // generate infiles for MCCL
-            string[] arguments = new string[] { "geninfiles" };
-            CommandLineApplication.Program.Main(arguments);
-            // the following will generate a DB file by default named RayDiffuseReflectanceDatabase
-            // in folder ray_database_generator
-            arguments = new string[] { "infile=infile_ray_database_generator" };
-            await Task.Run(() => CommandLineApplication.Program.Main(arguments));
         }
 
         /// <summary>
@@ -89,7 +57,7 @@ namespace Vts.MonteCarlo.ZemaxDatabaseConverter.Test
                 {
                     FileIO.FileDelete(file);
                 }
-            }            
+            }
             // delete any previously generated folders
             foreach (var folder in listOfTestGeneratedFolders)
             {
@@ -98,17 +66,7 @@ namespace Vts.MonteCarlo.ZemaxDatabaseConverter.Test
                     FileIO.DeleteDirectory(folder);
                 }
             }
-            foreach (var infile in listOfMCCLInfiles)
-            {
-                if (File.Exists("infile_" + infile + ".txt"))
-                {
-                    File.Delete("infile_" + infile + ".txt");
-                }
-                if (Directory.Exists(infile))
-                {
-                    Directory.Delete(infile, true); // delete recursively
-                }
-            }
+
         }
         /// <summary>
         /// Test to verify sanity check on input works correctly
@@ -129,36 +87,42 @@ namespace Vts.MonteCarlo.ZemaxDatabaseConverter.Test
         [Test]
         public async Task Validate_conversion_from_MCCL_RayDatabase_to_Zemax_ZrdDatabase_successful()
         {
+            // copy MCCL RayDatabase from Resources
+            var folder = "mcclraydatabase";
+            FileIO.CopyFolderFromEmbeddedResources(folder, "",
+                    Assembly.GetExecutingAssembly().FullName, true);
             // run database converter on MCCL Ray Database generated in OneTimeSetup
-            var arguments = new string[] { 
-                "infile=ray_database_generator/RayDiffuseReflectanceDatabase","infiletype=mccl","outfile=testzrdraydatabase" };
+            var arguments = new string[] {
+                "infile=mcclraydatabase/RayDiffuseReflectanceDatabase",
+                "infiletype=mccl",
+                "outfile=testzrdraydatabase" };
             await Task.Run(() => Program.Main(arguments));
             // read file written
             var rayDatabase = Zemax.ZrdRayDatabase.FromFile("testzrdraydatabase");
-            Assert.AreEqual(95, rayDatabase.NumberOfElements);
+            Assert.AreEqual(88, rayDatabase.NumberOfElements);
 
             // manually enumerate through the first element
             var enumerator = rayDatabase.DataPoints.GetEnumerator();
             // advance to the first point and test that the point is valid
             enumerator.MoveNext();
             var dp1 = enumerator.Current;
-            Assert.IsTrue(Math.Abs(dp1.X - 2.04889) < 1e-5);
-            Assert.IsTrue(Math.Abs(dp1.Y - 3.3) < 53191e-5);
+            Assert.IsTrue(Math.Abs(dp1.X - 4.18911) < 1e-5);
+            Assert.IsTrue(Math.Abs(dp1.Y + 22.1217) < 1e-4);
             Assert.IsTrue(Math.Abs(dp1.Z - 0.0) < 1e-6);
-            Assert.IsTrue(Math.Abs(dp1.Ux + 0.627379) < 1e-6);
-            Assert.IsTrue(Math.Abs(dp1.Uy - 0.177843) < 1e-6);
-            Assert.IsTrue(Math.Abs(dp1.Uz + 0.758133) < 1e-6); // negative because exiting
-            Assert.IsTrue(Math.Abs(dp1.Weight - 0.768176) < 1e-6);
+            Assert.IsTrue(Math.Abs(dp1.Ux - 0.654227) < 1e-6);
+            Assert.IsTrue(Math.Abs(dp1.Uy - 0.223239) < 1e-6);
+            Assert.IsTrue(Math.Abs(dp1.Uz + 0.722600) < 1e-6); // negative because exiting
+            Assert.IsTrue(Math.Abs(dp1.Weight - 0.021116) < 1e-6);
             // advance to the second point and test that the point is valid
             enumerator.MoveNext();
             var dp2 = enumerator.Current;
-            Assert.IsTrue(Math.Abs(dp2.X - 3.33747) < 1e-5);
-            Assert.IsTrue(Math.Abs(dp2.Y + 15.8257) < 1e-4);
+            Assert.IsTrue(Math.Abs(dp2.X - 0.382333) < 1e-6);
+            Assert.IsTrue(Math.Abs(dp2.Y + 2.13952) < 1e-5);
             Assert.IsTrue(Math.Abs(dp2.Z - 0.0) < 1e-6);
-            Assert.IsTrue(Math.Abs(dp2.Ux - 0.384918) < 1e-6);
-            Assert.IsTrue(Math.Abs(dp2.Uy + 0.814311) < 1e-6);
-            Assert.IsTrue(Math.Abs(dp2.Uz + 0.434435) < 1e-6);
-            Assert.IsTrue(Math.Abs(dp2.Weight - 0.221243) < 1e-6);
+            Assert.IsTrue(Math.Abs(dp2.Ux + 0.711575) < 1e-6);
+            Assert.IsTrue(Math.Abs(dp2.Uy + 0.493464) < 1e-6);
+            Assert.IsTrue(Math.Abs(dp2.Uz + 0.500153) < 1e-6);
+            Assert.IsTrue(Math.Abs(dp2.Weight - 0.911520) < 1e-6);
             enumerator.Dispose();
         }
         /// <summary>
@@ -169,39 +133,30 @@ namespace Vts.MonteCarlo.ZemaxDatabaseConverter.Test
         [Test]
         public async Task Validate_conversion_from_Zemax_ZrdDatabase_to_MCCL_RayDatabase_successful()
         {
-            //actual ZRD DB is in @"C:\Users\hayakawa\Desktop\RP\Zemax\MyOutput\ZRDDiffuseReflectanceDatabase"
-            // run database converter on MCCL Ray Database generated in OneTimeSetup
-            var arguments = new string[] { 
-                "infile=ray_database_generator/RayDiffuseReflectanceDatabase", "infiletype=mccl", "outfile=testzrdraydatabase2" };
-            await Task.Run(() => Program.Main(arguments));
-            // convert back to zrd file
-            arguments = new string[] { "infile=testzrdraydatabase2","infiletype=zrd","outfile=testmcclraydatabase" };
-            await Task.Run(() => Program.Main(arguments));
-            
+            //actual ZRD DB is in @"C:\Users\hayakawa\Desktop\RP\Zemax\ZWOutput\lightfromsourcefile"
+            // copy ZRD RayDatabase from Resources
+            var folder = "zrdraydatabase";
+            FileIO.CopyFolderFromEmbeddedResources(folder, "",
+                    Assembly.GetExecutingAssembly().FullName, true);
+            // use actual zrd database and convert to mccl database
+            var arguments = new string[] {
+                "infile=zrdraydatabase/Lightfromsourcefile", 
+                "infiletype=zrd", 
+                "outfile=testmcclraydatabase" };
+            await Task.Run(() => Program.Main(arguments));           
             var rayDatabase = RayDatabase.FromFile("testmcclraydatabase");
-            Assert.AreEqual(95, rayDatabase.NumberOfElements);
+            Assert.AreEqual(10, rayDatabase.NumberOfElements);
             var enumerator = rayDatabase.DataPoints.GetEnumerator();
             // advance to the first point and test that the point is valid
             enumerator.MoveNext();
             var dp1 = enumerator.Current;
-            // validation data below is identical to test above
-            Assert.IsTrue(Math.Abs(dp1.Position.X - 2.04889) < 1e-5);
-            Assert.IsTrue(Math.Abs(dp1.Position.Y - 3.3) < 53191e-5);
-            Assert.IsTrue(Math.Abs(dp1.Position.Z - 0.0) < 1e-6);
-            Assert.IsTrue(Math.Abs(dp1.Direction.Ux + 0.627379) < 1e-6);
-            Assert.IsTrue(Math.Abs(dp1.Direction.Uy - 0.177843) < 1e-6);
-            Assert.IsTrue(Math.Abs(dp1.Direction.Uz + 0.758133) < 1e-6); // negative because exiting
-            Assert.IsTrue(Math.Abs(dp1.Weight - 0.768176) < 1e-6);
-            // advance to the second point and test that the point is valid
-            enumerator.MoveNext();
-            var dp2 = enumerator.Current;
-            Assert.IsTrue(Math.Abs(dp2.Position.X - 3.33747) < 1e-5);
-            Assert.IsTrue(Math.Abs(dp2.Position.Y + 15.8257) < 1e-4);
-            Assert.IsTrue(Math.Abs(dp2.Position.Z - 0.0) < 1e-6);
-            Assert.IsTrue(Math.Abs(dp2.Direction.Ux - 0.384918) < 1e-6);
-            Assert.IsTrue(Math.Abs(dp2.Direction.Uy + 0.814311) < 1e-6);
-            Assert.IsTrue(Math.Abs(dp2.Direction.Uz + 0.434435) < 1e-6);
-            Assert.IsTrue(Math.Abs(dp2.Weight - 0.221243) < 1e-6);
+            Assert.IsTrue(Math.Abs(dp1.Position.X - 0.003760) < 1e-6);
+            Assert.IsTrue(Math.Abs(dp1.Position.Y - 0.001500) < 1e-6);
+            Assert.IsTrue(Math.Abs(dp1.Position.Z - 0.490243) < 1e-6);
+            Assert.IsTrue(Math.Abs(dp1.Direction.Ux - 0.005315) < 1e-6);
+            Assert.IsTrue(Math.Abs(dp1.Direction.Uy - 0.992280) < 1e-6);
+            Assert.IsTrue(Math.Abs(dp1.Direction.Uz - 0.123897) < 1e-6); // why is this neg?
+            Assert.IsTrue(Math.Abs(dp1.Weight - 0.000730) < 1e-6);
             enumerator.Dispose();
         }
 
