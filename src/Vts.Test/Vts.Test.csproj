@@ -3,9 +3,6 @@
 	<TargetFramework Condition=" '$(OS)' != 'Windows_NT' ">net6.0</TargetFramework>
 	<TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">net6.0;net48</TargetFrameworks>
     <IsPackable>false</IsPackable>
-    <FileUpgradeFlags>40</FileUpgradeFlags>
-    <UpgradeBackupLocation>C:\Users\hayakawa\Documents\Visual Studio 2019\Projects\vts_210207\src\Backup\Vts.Test\</UpgradeBackupLocation>
-    <OldToolsVersion>2.0</OldToolsVersion>
   </PropertyGroup>
   <ItemGroup>
     <None Remove="Resources\embeddedresourcefile.txt" />

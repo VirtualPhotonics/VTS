@@ -1,7 +1,7 @@
 Virtual Tissue Simulator (VTS) Project
-Copyright (c) 2018 Laser Microbeam and Medical Program
+Copyright (c) 2022 Laser Microbeam and Medical Program
 
-The VTS was built using libraries and resources distributed under the licenses listed below. Where it is required, we have included the license file (license.txt) with the library or resource.
+The VTS was built using libraries and resources distributed under the licenses listed below. Where it is required, we have included the license file (license.md) with the library or resource.
 
 -=================<Libraries & Resources>====================-
 
@@ -22,7 +22,7 @@ License:	MIT/X11
 
 -==<MetaNumerics>==-
 
-Website:	http://metanumerics.codeplex.com/
+Website:	https://github.com/dcwuser/metanumerics/wiki
 License:	MSPL
 
 -==<NUnit>==-
@@ -46,12 +46,6 @@ Details:	Roll Algorithm, Custom Integration based off Tom, et al, curtesy of Owe
 License: 
 Credit:		Owen Yang, David Cuccia, Bernard Choi
 
--==<MVVM Light Framework>==-
-
-Website:	http://www.galasoft.ch/mvvm/getstarted/
-License:	MIT
-Credit:		Laurent Bugnion, GalaSoft
-
 -==<MPFit>==-
 
 Details:	Levenberg-Marquardt nonlinear optimization library 
@@ -61,12 +55,6 @@ Credit:		B. Garbow, K. Hillstrom, J. More' (Argonne National Laboratory, MINPACK
 		C. Markwardt (Enhancements and packaging)
 		S. Moshier (ported from Fortran to C)
 		David Cuccia (ported from C to C#)
-
--==<Unity dependency injection framework>==-
-
-Website:	http://unity.codeplex.com/
-License:	MS-PL
-Credit:		Microsoft Patterns and Practices group
 
 -==<FJCore JPEG codec library>==-
 
