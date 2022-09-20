@@ -1,12 +1,13 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using Vts.Common;
 using Vts.MonteCarlo.RayData;
 using Vts.Zemax;
 
 namespace Vts.MonteCarlo.ZemaxDatabaseConverter
 {
-    public static class DatabaseConverter
+    public class DatabaseConverter
     {
         /// <summary>
         /// method to verify input arguments
@@ -51,11 +52,12 @@ namespace Vts.MonteCarlo.ZemaxDatabaseConverter
 
                 var fileToConvert = ZrdRayDatabase.FromFile(fullFilePath);
 
+                // enumerate through the elements 
+                var enumerator = fileToConvert.DataPoints.GetEnumerator();
+
                 using (var dbWriter = new RayDatabaseWriter(
                     VirtualBoundaryType.DiffuseReflectance, outputFile))
                 {
-                    // enumerate through the elements 
-                    var enumerator = fileToConvert.DataPoints.GetEnumerator();
                     for (int i = 0; i < fileToConvert.NumberOfElements; i++)
                     {
                         // advance to the next ray data
@@ -68,7 +70,8 @@ namespace Vts.MonteCarlo.ZemaxDatabaseConverter
                             dp.Weight));
                     }
                     dbWriter.Close();
-                }                
+                }
+                enumerator.Dispose();
             }
             catch (Exception e)
             {
@@ -89,11 +92,12 @@ namespace Vts.MonteCarlo.ZemaxDatabaseConverter
 
                 var fileToConvert = RayDatabase.FromFile(fullFilePath);
 
+                // enumerate through the elements 
+                var enumerator = fileToConvert.DataPoints.GetEnumerator();
+
                 using (var dbWriter = new ZrdRayDatabaseWriter(
                     VirtualBoundaryType.DiffuseReflectance, outputFile))
                 {
-                    // enumerate through the elements 
-                    var enumerator = fileToConvert.DataPoints.GetEnumerator();
                     for (int i = 0; i < fileToConvert.NumberOfElements; i++)
                     {
                         // advance to the next ray data
@@ -111,7 +115,8 @@ namespace Vts.MonteCarlo.ZemaxDatabaseConverter
                         dbWriter.Write(zrdRayDataPoint);
                     }
                     dbWriter.Close();
-                }                
+                }
+                enumerator.Dispose();
             }
             catch (Exception e)
             {
