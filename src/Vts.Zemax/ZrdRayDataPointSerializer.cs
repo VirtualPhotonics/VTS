@@ -103,23 +103,23 @@ namespace Vts.Zemax
         {
             if (!headerIsRead)
             {
-                int version = br.ReadInt32();
-                int maxNumberOfSegments = br.ReadInt32();
+                br.ReadInt32();
+                br.ReadInt32();
                 headerIsRead = true;
             }
             int numSegments = br.ReadInt32();  // number of segments in this ray
             // skip until last  segment
-            var skipData = br.ReadBytes((numSegments - 1) * count);
-            skipData = br.ReadBytes(56); // skip down to x,y,z,ux,uy,uz            
+            br.ReadBytes((numSegments - 1) * count);
+            br.ReadBytes(56); // skip down to x,y,z,ux,uy,uz            
             double x = br.ReadDouble();
             double y = br.ReadDouble();
             double z = br.ReadDouble();
             double ux = br.ReadDouble();
             double uy = br.ReadDouble();
             double uz = br.ReadDouble();
-            skipData = br.ReadBytes(32); // skip to intensity
+            br.ReadBytes(32); // skip to intensity
             double weight = br.ReadDouble();
-            skipData = br.ReadBytes(64); // skip to end of ZrdRayDataPoint
+            br.ReadBytes(64); // skip to end of ZrdRayDataPoint
             return new ZrdRayDataPoint()
             {
                 X = x,

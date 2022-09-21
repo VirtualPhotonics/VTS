@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Vts.Common;
@@ -55,6 +56,31 @@ namespace Vts.MonteCarlo.ZemaxDatabaseConverter
                 // enumerate through the elements 
                 var enumerator = fileToConvert.DataPoints.GetEnumerator();
 
+                //// alternative method start
+                //var listOfDataPoints = new List<RayDataPoint>();
+
+                //for (int i = 0; i < fileToConvert.NumberOfElements; i++)
+                //{
+                //    enumerator.MoveNext();
+                //    var dp = enumerator.Current;
+                //    listOfDataPoints.Add(new RayDataPoint(
+                //        new Position(dp.X, dp.Y, dp.Z),
+                //        new Direction(dp.Ux, dp.Uy, dp.Uz),
+                //        dp.Weight
+                //    ));
+                //}
+                //enumerator.Dispose();
+                //using (var dbWriter = new RayDatabaseWriter(
+                //     VirtualBoundaryType.DiffuseReflectance, outputFile))
+                //{
+                //    foreach (var dataPoint in listOfDataPoints)
+                //    {
+                //        dbWriter.Write(dataPoint);
+                //    }
+                //    dbWriter.Close();
+                //}
+                //// alternative method end
+
                 using (var dbWriter = new RayDatabaseWriter(
                     VirtualBoundaryType.DiffuseReflectance, outputFile))
                 {
@@ -94,6 +120,37 @@ namespace Vts.MonteCarlo.ZemaxDatabaseConverter
 
                 // enumerate through the elements 
                 var enumerator = fileToConvert.DataPoints.GetEnumerator();
+
+                //// alternative method start
+                //var listOfZrdDataPoints = new List<ZrdRayDataPoint>();
+
+                //for (int i = 0; i < fileToConvert.NumberOfElements; i++)
+                //{
+                //    enumerator.MoveNext();
+                //    var dp = enumerator.Current;
+                //    listOfZrdDataPoints.Add(new ZrdRayDataPoint()
+                //    // set Position,Direction,Weight in Zemax struct
+                //    {
+                //        X = dp.Position.X,
+                //        Y = dp.Position.Y,
+                //        Z = dp.Position.Z,
+                //        Ux = dp.Direction.Ux,
+                //        Uy = dp.Direction.Uy,
+                //        Uz = dp.Direction.Uz,
+                //        Weight = dp.Weight
+                //    });
+                //}
+                //enumerator.Dispose();
+                //using (var dbWriter = new ZrdRayDatabaseWriter(
+                //    VirtualBoundaryType.DiffuseReflectance, outputFile))
+                //{
+                //    foreach (var dataPoint in listOfZrdDataPoints)
+                //    {
+                //        dbWriter.Write(dataPoint);
+                //    }
+                //    dbWriter.Close();
+                //}
+                //// alternative method end
 
                 using (var dbWriter = new ZrdRayDatabaseWriter(
                     VirtualBoundaryType.DiffuseReflectance, outputFile))
