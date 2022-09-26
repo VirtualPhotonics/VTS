@@ -14,8 +14,6 @@ namespace Vts.Test.MonteCarlo.RayData
     [TestFixture]
     public class RayDatabaseTests
     {
-        private static SimulationInput _input;
-        private static SimulationOutput _output;
         /// <summary>
         /// list of temporary files created by these unit tests
         /// </summary>
@@ -37,7 +35,7 @@ namespace Vts.Test.MonteCarlo.RayData
             // delete previously generated files
             clear_folders_and_files();
 
-            _input = new SimulationInput(
+            var _input = new SimulationInput(
                 100,
                 "",
                 new SimulationOptions(
@@ -75,7 +73,7 @@ namespace Vts.Test.MonteCarlo.RayData
                     }
                 }              
             );
-            _output = new MonteCarloSimulation(_input).Run();
+            new MonteCarloSimulation(_input).Run();
         }
 
         /// <summary>

@@ -12,9 +12,9 @@ namespace Vts.Zemax
         ICustomBinaryReader<ZrdRayDataPoint>, 
         ICustomBinaryWriter<ZrdRayDataPoint>
     {
-        private int count = 208;
-        private static bool headerIsWritten = false;
-        private static bool headerIsRead = false;
+        private readonly int count = 208;
+        private bool headerIsWritten = false;
+        private bool headerIsRead = false;
         /// <summary>
         /// Method to write ZrdDataPoint to binary. Header is written only first time through.
         /// </summary>

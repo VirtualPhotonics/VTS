@@ -19,10 +19,7 @@ namespace Vts.Test.MonteCarlo.Sources
         /// <summary>
         /// list of temporary files created by these unit tests
         /// </summary>
-        List<string> listOfTestGeneratedFolders = new List<string>()
-        {
-        };
-        List<string> listOfTestGeneratedFiles = new List<string>()
+        readonly List<string> listOfTestGeneratedFiles = new List<string>()
         {
             "inputFromFile.txt",
             "testraydatabase",
@@ -38,10 +35,6 @@ namespace Vts.Test.MonteCarlo.Sources
             foreach (var file in listOfTestGeneratedFiles)
             {
                 FileIO.FileDelete(file);
-            }
-            foreach (var folder in listOfTestGeneratedFolders)
-            {
-                FileIO.DeleteDirectory(folder);
             }
         }
         /// <summary>
