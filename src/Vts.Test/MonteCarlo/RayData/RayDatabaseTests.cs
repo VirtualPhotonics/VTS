@@ -109,6 +109,7 @@ namespace Vts.Test.MonteCarlo.RayData
             {       
                 dbWriter.Write(firstRayDP);
                 dbWriter.Write(secondRayDP);
+                dbWriter.Close();
             }
             // read back file written
             var rayDatabase = RayDatabase.FromFile(databaseFileName);
@@ -158,6 +159,7 @@ namespace Vts.Test.MonteCarlo.RayData
             var dp1 = enumerator.Current;
             Assert.AreEqual(0.0, dp1.Position.Z);
             Assert.IsTrue(Math.Abs(dp1.Weight - 0.021116) < 0.000001);
+            enumerator.Dispose();
         }
     }
 }

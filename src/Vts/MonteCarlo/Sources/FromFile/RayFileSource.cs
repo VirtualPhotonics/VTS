@@ -71,11 +71,11 @@ namespace Vts.MonteCarlo.Sources
         /// <summary>
         /// enumerator that iterates through database
         /// </summary>
-        public IEnumerator<RayDataPoint> _databaseEnumerator;
+        public IEnumerator<RayDataPoint> DatabaseEnumerator { get; set; }
         /// <summary>
         /// initial tissue region index
         /// </summary>
-        public int _initialTissueRegionIndex;
+        public int InitialTissueRegionIndex { get; set; }
         /// <summary>
         /// Returns an instance of Zemax File Source at a given location
         /// </summary>
@@ -86,8 +86,8 @@ namespace Vts.MonteCarlo.Sources
             int initialTissueRegionIndex = 0)
         {
             var sourceDatabase = RayDatabase.FromFile(sourceFileName);
-            _databaseEnumerator = sourceDatabase.DataPoints.GetEnumerator();
-            _initialTissueRegionIndex = initialTissueRegionIndex;
+            DatabaseEnumerator = sourceDatabase.DataPoints.GetEnumerator();
+            InitialTissueRegionIndex = initialTissueRegionIndex;
         }
 
         /// <summary>
@@ -98,8 +98,8 @@ namespace Vts.MonteCarlo.Sources
         public Photon GetNextPhoton(ITissue tissue)
         {
             // read next source data point
-            _databaseEnumerator.MoveNext();
-            var dp = _databaseEnumerator.Current;
+            DatabaseEnumerator.MoveNext();
+            var dp = DatabaseEnumerator.Current;
 
             var photon = new Photon(new Position(
                 dp.Position.X, 
@@ -109,7 +109,7 @@ namespace Vts.MonteCarlo.Sources
                     dp.Direction.Ux, 
                     dp.Direction.Uy, 
                     dp.Direction.Uz),
-                dp.Weight, tissue, _initialTissueRegionIndex, Rng); 
+                dp.Weight, tissue, InitialTissueRegionIndex, Rng); 
 
             return photon;
         }

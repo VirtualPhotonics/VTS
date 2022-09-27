@@ -57,6 +57,7 @@ namespace Vts.Test.MonteCarlo.Sources
             {
                 dbWriter.Write(firstRayDP);
                 dbWriter.Write(secondRayDP);
+                dbWriter.Close();
             }
         }
 
@@ -82,6 +83,7 @@ namespace Vts.Test.MonteCarlo.Sources
             Assert.IsTrue(dp.DP.Direction.Ux == 1.0 / Math.Sqrt(2));
             Assert.IsTrue(dp.DP.Direction.Uy == 0.0);
             Assert.IsTrue(dp.DP.Direction.Uz == -1.0 / Math.Sqrt(2));
+            source.DatabaseEnumerator.Dispose();
         }
        
     }
