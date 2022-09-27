@@ -139,6 +139,7 @@ namespace Vts.Test.MonteCarlo.RayData
             Assert.IsTrue(dp2.Direction.Uy == secondRayDP.Direction.Uy);
             Assert.IsTrue(dp2.Direction.Uz == secondRayDP.Direction.Uz);
             Assert.IsTrue(dp2.Weight == secondRayDP.Weight);
+            enumerator.Dispose();
         }
 
         /// <summary>
