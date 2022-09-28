@@ -628,8 +628,6 @@ classdef DetectorInput
                     % nothing to do here?
                 case 'TOfAngle'
                     input.Angle = linspace(inputNET.Angle.Start, inputNET.Angle.Stop, inputNET.Angle.Count);
-                case 'TOfRho'
-                    input.Rho = linspace(inputNET.Rho.Start, inputNET.Rho.Stop, inputNET.Rho.Count);
                 case 'TOfRhoAndAngle'
                     input.Rho = linspace(inputNET.Rho.Start, inputNET.Rho.Stop, inputNET.Rho.Count);
                     input.Angle = linspace(inputNET.Angle.Start, inputNET.Angle.Stop, inputNET.Angle.Count);
@@ -903,12 +901,6 @@ classdef DetectorInput
                 case 'TOfAngle'
                     inputNET = Vts.MonteCarlo.Detectors.TOfAngleDetectorInput;
                     inputNET.Angle = Vts.Common.DoubleRange(input.Angle(1), input.Angle(end), length(input.Angle));
-                    inputNET.Name = input.Name;
-                    inputNET.TallySecondMoment = input.TallySecondMoment;
-                    inputNET.TallyDetails = TallyDetails.ToDetailsNET(input.TallyDetails);
-                case 'TOfRho'
-                    inputNET = Vts.MonteCarlo.Detectors.TOfRhoDetectorInput;
-                    inputNET.Rho = Vts.Common.DoubleRange(input.Rho(1), input.Rho(end), length(input.Rho));
                     inputNET.Name = input.Name;
                     inputNET.TallySecondMoment = input.TallySecondMoment;
                     inputNET.TallyDetails = TallyDetails.ToDetailsNET(input.TallyDetails);
