@@ -21,7 +21,7 @@ namespace Vts.MonteCarlo.VirtualBoundaries
         /// <param name="name">string name</param>
         public pMCDiffuseTransmittanceVirtualBoundary(ITissue tissue, IDetectorController detectorController, string name)
         {
-            _zPlanePosition = ((LayerTissueRegion)tissue.Regions.Last()).ZRange.Start;
+            _zPlanePosition = ((LayerTissueRegion)tissue.Regions.Last(r => r is LayerTissueRegion)).ZRange.Start;
 
             WillHitBoundary = dp =>
                         dp.StateFlag.HasFlag(PhotonStateType.PseudoTransmittedTissueBoundary) &&
