@@ -10,7 +10,7 @@ namespace Vts.Zemax
     /// Factory methods to provide the PhotonDatabaseWriter (or list of PhotonDatabaseWriters)
     /// or CollisionInfoDatabaseWriter (or list).
     /// </summary>
-    public class ZrdDatabaseWriterFactory
+    public static class ZrdDatabaseWriterFactory
     {
         /// <summary>
         /// Static method to provide list of ZrdRayDatabaseWriters.  It calls the method

@@ -22,7 +22,7 @@ namespace Vts.Zemax
         /// method to read ZrdRayDatabase from file
         /// </summary>
         /// <param name="fileName">filename of ZrdRayDatabase</param>
-        /// <returns>database of zemax rays</returns>
+        /// <returns>database of Zemax rays</returns>
         public static ZrdRayDatabase FromFile(string fileName)
         {
             var dbReader = new DatabaseReader<ZrdRayDatabase, ZrdRayDataPoint>(

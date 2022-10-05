@@ -12,7 +12,7 @@ namespace Vts.Zemax
     /// </summary>
     public class ZrdDatabaseWriterController
     {
-        IList<ZrdRayDatabaseWriter> _rayDatabaseWriters;
+        readonly IList<ZrdRayDatabaseWriter> _rayDatabaseWriters;
         /// <summary>
         /// class that controls DatabaseWriter(s).
         /// </summary>
@@ -24,7 +24,7 @@ namespace Vts.Zemax
         /// <summary>
         /// list of PhotonDatabaseWriter
         /// </summary>
-        public IList<ZrdRayDatabaseWriter> ZrdRayDatabaseWriters { get { return _rayDatabaseWriters; } set { _rayDatabaseWriters = value; } }
+        public IList<ZrdRayDatabaseWriter> ZrdRayDatabaseWriters { get; set; }
 
         /// <summary>
         /// Method to write to all surface VB databases
@@ -34,25 +34,23 @@ namespace Vts.Zemax
         {
             foreach (var writer in _rayDatabaseWriters)
             {
-                if (DPBelongsToSurfaceVirtualBoundary(dp, writer))
-                {
-                    var ray = new ZrdRayDataPoint(
-                       new RayDataPoint(
-                           dp.Position,
-                           dp.Direction,
-                           dp.Weight));
-                    writer.Write(ray);
-                }
-            };
+                if (!DpBelongsToSurfaceVirtualBoundary(dp, writer)) continue;
+                var ray = new ZrdRayDataPoint(
+                    new RayDataPoint(
+                        dp.Position,
+                        dp.Direction,
+                        dp.Weight));
+                writer.Write(ray);
+            }
         }
 
         /// <summary>
-        /// Method to determine if photon datapoint should be tallied or not
+        /// Method to determine if photon data point should be tallied or not
         /// </summary>
         /// <param name="dp">PhotonDataPoint</param>
         /// <param name="rayDatabaseWriter">single ZrdRayDatabaseWriter</param>
         /// <returns></returns>
-        public bool DPBelongsToSurfaceVirtualBoundary(PhotonDataPoint dp,
+        public bool DpBelongsToSurfaceVirtualBoundary(PhotonDataPoint dp,
             ZrdRayDatabaseWriter rayDatabaseWriter)
         {
             if ((dp.StateFlag.HasFlag(PhotonStateType.PseudoDiffuseReflectanceVirtualBoundary) &&
@@ -65,7 +63,7 @@ namespace Vts.Zemax
             return false;
         }
         /// <summary>
-        /// Method to dispose of database writer(s)
+        /// Method to dispose of database writer(s).  Currently not used, may be needed in future.
         /// </summary>
         public void Dispose()
         {

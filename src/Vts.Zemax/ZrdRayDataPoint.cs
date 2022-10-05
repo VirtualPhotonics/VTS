@@ -11,11 +11,6 @@ namespace Vts.Zemax
     public class ZrdRayDataPoint
     {
         /// <summary>
-        /// total number of bytes in a Zrd Ray data point
-        /// </summary>
-        public int count = 208;
-
-        /// <summary>
         /// Defines ZrdRay Data class.
         /// This Zemax structure size is 208 bytes for each ray segment
         /// This constructor allows for easy instantiation from MCCL local
@@ -41,58 +36,60 @@ namespace Vts.Zemax
                 new Direction(0, 0, 1), 
                 1.0))
         { }
-
-        //[StructLayout(LayoutKind.Explicit)]
-        //public struct ZrdRayDataPoint
-        //{
+        
+        // Properties were defined for all field in structure, however only
+        // X, Y, Z, Ux, Uy, Uz and Weight currently used by code
+        // [StructLayout(LayoutKind.Explicit)]
+        // public struct ZrdRayDataPoint
+        // 
         /// <summary>
         /// [FieldOffset(0)] status : bitwise flags indicating status of the ray
         /// </summary>
-        public uint status;
+        public uint Status { get; set; }
         /// <summary>
         /// [FieldOffset(4)] level : number of ray segments bw ray segment and original source
         /// </summary>
-        public int level;
+        public int Level { get; set; }
         /// <summary>
         /// [FieldOffset(8)] hitObject: the object number the ray intercepted (0=hit nothing)
         /// </summary>
-        public int hitObject;
+        public int HitObject { get; set; }
         /// <summary>
         /// [FieldOffset(12)] hitFace: the face number the ray intercepted (valid if hitObject!=0)
         /// </summary>
-        public int hitFace;
+        public int HitFace { get; set; }
         /// <summary>
         /// [FieldOffset(16)] unused
         /// </summary>
-        public int unused;
+        public int Unused { get; set; }
         /// <summary>
-        /// [FieldOffset(20)] inObject: object number of ray is propating inside of
+        /// [FieldOffset(20)] inObject: object number of ray is propagating inside of
         /// </summary>
-        public int inObject;
+        public int InObject{ get; set; }
         /// <summary>
         /// [FieldOffset(24)] parent: the prior ray segment from which the ray originated
         /// </summary>
-        public int parent;
+        public int Parent { get; set; }
         /// <summary>
         /// [FieldOffset(28)] storage: temp buffer used by OpticStudio for buffering
         /// </summary>
-        public int storage;
+        public int Storage { get; set; }
         /// <summary>
         /// [FieldOffset(32)] xyBin: pixel number on a detector object which the ray struck *spatial*
         /// </summary>
-        public int xyBin;
+        public int XyBin { get; set; }
         /// <summary>
-        /// [FieldOffset(36)] lmBin: pizel number on a detector object which the ray struck *angular*
+        /// [FieldOffset(36)] lmBin: pixel number on a detector object which the ray struck *angular*
         /// </summary>
-        public int lmBin;
+        public int LmBin { get; set; }
         /// <summary>
         /// [FieldOffset(40)] index: index of refraction of the media
         /// </summary>
-        public double index;
+        public double Index { get; set; }
         /// <summary>
         /// [FieldOffset(48)] startingPhase: initial optical path length the ray starts with
         /// </summary>
-        public double startingPhase;
+        public double StartingPhase { get; set; }
         /// <summary>
         /// [FieldOffset(56)] x coordinate of ray position
         /// </summary>
@@ -121,55 +118,55 @@ namespace Vts.Zemax
         /// [FieldOffset(104)] nx: global normal vector of the object at the intercept point
         /// for segment 0 the nx values stores the wavelength of the ray being launched
         /// </summary>
-        public double nx;
+        public double Nx { get; set; }
         /// <summary>
         /// [FieldOffset(112)] ny: global normal vector of the object at the intercept point
         /// </summary>
-        public double ny;
+        public double Ny { get; set; }
         /// <summary>
         /// [FieldOffset(120)] nz: global normal vector of the object at the intercept point
         /// </summary>
-        public double nz;
+        public double Nz { get; set; }
         /// <summary>
         /// [FieldOffset(128)] pathTo: the physical (not optical) path length of the ray segment
         /// </summary>
-        public double pathTo;
+        public double PathTo { get; set; }
         /// <summary>
         /// [FieldOffset(136)] Weight: "intensity" in Zemax
         /// </summary>
         public double Weight { get; set; }
         /// <summary>
-        /// FieldOffset(144)] phaseOf: the pahse of the obect
+        /// FieldOffset(144)] phaseOf: the phase of the obect
         /// </summary>
-        public double phaseOf;
+        public double PhaseOf { get; set; }
         /// <summary>
         /// [FieldOffset(152)] phaseAt: the accumulated total phase of the ray (modulo 2pi)
         /// </summary>
-        public double phaseAt;
+        public double PhaseAt { get; set; }
         /// <summary>
         /// [FieldOffset(160)] exr: electric field in global x,y,z coordinates, real 
         /// </summary>
-        public double exr;
+        public double Exr { get; set; }
         /// <summary>
         /// [FieldOffset(168)] exi: electric field in global x,y,z coordinates, imaginary
         /// </summary>
-        public double exi;
+        public double Exi { get; set; }
         /// <summary>
         /// [FieldOffset(176)] eyr: electric field in global x,y,z coordinates, real 
         /// </summary>
-        public double eyr;
+        public double Eyr { get; set; }
         /// <summary>
         /// [FieldOffset(184)] eyi: electric field in global x,y,z coordinates, imaginary
         /// </summary>
-        public double eyi;
+        public double Eyi { get; set; }
         /// <summary>
         /// [FieldOffset(192)] ezr: electric field in global x,y,z coordinates, real 
         /// </summary>
-        public double ezr;
+        public double Ezr { get; set; }
         /// <summary>
         /// [FieldOffset(200)] ezi: electric field in global x,y,z coordinates, imaginary
         /// </summary>
-        public double ezi;    
+        public double Ezi { get; set; }
 
     }
 }
