@@ -10,7 +10,7 @@ namespace Vts.MonteCarlo.PostProcessor
     #region CommandLine Arguments Parser
 
     /* Simple commandline argument parser written by Ananth B. http://www.ananthonline.net */
-    static class CommandLine
+    internal static class CommandLine
     {
         public class Switch // Class that encapsulates switch data.
         {
@@ -82,11 +82,11 @@ namespace Vts.MonteCarlo.PostProcessor
 #if PROCESS_ATTACH_DEBUG
             Console.Read();
 #endif
-            string inFile = "infile.txt";
-            string inPath = "";
-            string outName = "";
-            string outPath = "";
-            bool infoOnlyOption = false;
+            var inFile = "infile.txt";
+            var inPath = "";
+            var outName = "";
+            var outPath = "";
+            var infoOnlyOption = false;
             args.Process(() =>
                 {
                     Console.WriteLine("Virtual Photonics MC Post-Processor 1.0");
@@ -126,41 +126,37 @@ namespace Vts.MonteCarlo.PostProcessor
                 })
             );
 
-            if (!infoOnlyOption)
+            if (infoOnlyOption) return 0;
+            var input = PostProcessorSetup.ReadPostProcessorInputFromFile(inFile);
+            if (input == null)
             {
-                var input = PostProcessorSetup.ReadPostProcessorInputFromFile(inFile);
-                if (input == null)
-                {
-                    return 1;
-                }
-
-                var validationResult = PostProcessorSetup.ValidatePostProcessorInput(input, inPath);
-                if (!validationResult.IsValid)
-                {
-                    Console.Write("\nPost-processor) completed with errors. Press enter key to exit.");
-                    Console.Read();
-                    return 2;
-                }
-                // override the output name with the user-specified name
-                if (!string.IsNullOrEmpty(outName))
-                {
-                    input.OutputName = outName;
-                }
-                PostProcessorSetup.RunPostProcessor(input, inPath, outPath);
-                Console.WriteLine("\nPost-processing complete.");
-                return 0;
+                return 1;
             }
+
+            var validationResult = PostProcessorSetup.ValidatePostProcessorInput(input, inPath);
+            if (!validationResult.IsValid)
+            {
+                Console.Write("\nPost-processor) completed with errors. Press enter key to exit.");
+                Console.Read();
+                return 2;
+            }
+            // override the output name with the user-specified name
+            if (!string.IsNullOrEmpty(outName))
+            {
+                input.OutputName = outName;
+            }
+            PostProcessorSetup.RunPostProcessor(input, inPath, outPath);
+            Console.WriteLine("\nPost-processing complete.");
             return 0;
         }
 
         private static void GenerateDefaultInputFiles()
         {
             var infiles = PostProcessorInputProvider.GenerateAllPostProcessorInputs();
-            for (int i = 0; i < infiles.Count; i++)
+            foreach (var file in infiles)
             {
-                infiles[i].ToFile("infile_" + infiles[i].OutputName + ".txt"); 
+                file.ToFile("infile_" + file.OutputName + ".txt");
             }
-
         }
 
         /// <summary>
