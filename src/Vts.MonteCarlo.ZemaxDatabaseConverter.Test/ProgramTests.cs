@@ -77,7 +77,7 @@ namespace Vts.MonteCarlo.ZemaxDatabaseConverter.Test
             // the following will fail because only 1 argument and file does not exist
             string[] arguments = new string[] { "infile=databaseToConvert" };
             var status = await Task.Run(() => Program.Main(arguments));
-            Assert.IsTrue(status == 0);
+            Assert.IsTrue(status == 1);
             // no successful mccl-to-zrd test is tested here because tested in other tests
         }
         /// <summary>

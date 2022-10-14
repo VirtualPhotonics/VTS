@@ -67,12 +67,18 @@ namespace Vts.MonteCarlo.ZemaxDatabaseConverter
     #endregion
     public static class Program
     {
-         public static int Main(string[] args)
+        /// <summary>
+        /// main Zemax-MCCL Database converter
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns>int=0 (successful completion)</returns>
+        /// <returns>int=1 (infile null or missing)</returns>
+        public static int Main(string[] args)
          {
-            string databaseToConvertName = "";
-            string convertedDatabaseName = "";
-            string infileType = "";
-            bool zemaxToMCCL = false;
+            var databaseToConvertName = "";
+            var convertedDatabaseName = "";
+            var infileType = "";
+            var zemaxToMCCL = false;
             var outPath = ""; // may need later 
             var infoOnlyOption = false;
 
@@ -101,53 +107,42 @@ namespace Vts.MonteCarlo.ZemaxDatabaseConverter
                new CommandLine.Switch("infiletype", val =>
                {
                    infileType = val.First();
-                   if (infileType == "zrd")
+                   switch (infileType)
                    {
-                       zemaxToMCCL = true;
-                       Console.WriteLine("converting Zemax database to MCCL database");
-                   }
-                   else
-                   {
-                       if (infileType == "mccl")
-                       {
+                       case "zrd":
+                           zemaxToMCCL = true;
+                           Console.WriteLine("converting Zemax database to MCCL database");
+                           break;
+                       case "mccl":
                            zemaxToMCCL = false;
                            Console.WriteLine("converting MCCL database to Zemax database");
-                       }
-                       else
-                       {
+                           break;
+                       default:
                            infoOnlyOption = true;
                            Console.WriteLine("infiletype either needs to be set to 'zrd' or 'mccl'");
-                       }
+                           break;
                    }
                })
                );
 
-            if (!infoOnlyOption)
+            if (infoOnlyOption) return 0;
+            // check infiles exist
+            if (!DatabaseConverter.VerifyInputs(databaseToConvertName, convertedDatabaseName))
+                return 1; // VerifyInputs returned a false
+            if (zemaxToMCCL)
             {
-                // check infiles exist
-                if (DatabaseConverter.VerifyInputs(databaseToConvertName, convertedDatabaseName))
-                {
-                    if (zemaxToMCCL)
-                    {
-                        // conversion of Zemax output to MCCL source database process
-                        DatabaseConverter.ConvertZemaxDatabaseToMCCLSourceDatabase(
-                            databaseToConvertName, convertedDatabaseName);
-                    }
-                    else
-                    {
-                        // conversion of MCCL reflectance to Zemax input
-                        DatabaseConverter.ConvertMCCLDatabaseToZemaxSourceDatabase(
-                            databaseToConvertName, convertedDatabaseName);
-                    }
-                    return 1;
-                }
-                else
-                {
-                    return 0;
-                }            
+                // conversion of Zemax output to MCCL source database process
+                DatabaseConverter.ConvertZemaxDatabaseToMCCLSourceDatabase(
+                    databaseToConvertName, convertedDatabaseName);
             }
-            return 1;               
-        }
+            else
+            {
+                // conversion of MCCL reflectance to Zemax input
+                DatabaseConverter.ConvertMCCLDatabaseToZemaxSourceDatabase(
+                    databaseToConvertName, convertedDatabaseName);
+            }
+            return 0;
+         }
 
         /// <summary>
         /// Displays the help text for detailed usage of the application

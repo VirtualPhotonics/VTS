@@ -20,15 +20,13 @@ namespace Vts.MonteCarlo.ZemaxDatabaseConverter
             {
                 if (string.IsNullOrEmpty(inputFile))
                 {
-                    Console.WriteLine("\nNo input file specified");
+                    Console.WriteLine("\nNo input database file specified");
                     return false;
                 }
-                if (string.IsNullOrEmpty(outputFile))
-                {
-                    Console.WriteLine("\nNo output file specified");
-                    return false;
-                }
-                return true;
+
+                if (!string.IsNullOrEmpty(outputFile)) return true;
+                Console.WriteLine("\nNo output database file specified");
+                return false;
             }
             catch (Exception e)
             {
@@ -38,7 +36,7 @@ namespace Vts.MonteCarlo.ZemaxDatabaseConverter
         }
 
         /// <summary>
-        /// method to convert zemax ray database to MCCL source database
+        /// method to convert Zemax ray database to MCCL source database
         /// </summary>
         /// <param name="inputFile">Database to be converted</param>
         /// <param name="outputFile">Converted database</param>
@@ -57,16 +55,19 @@ namespace Vts.MonteCarlo.ZemaxDatabaseConverter
                 using (var dbWriter = new RayDatabaseWriter(
                     VirtualBoundaryType.DiffuseReflectance, outputFile))
                 {
-                    for (int i = 0; i < fileToConvert.NumberOfElements; i++)
+                    for (var i = 0; i < fileToConvert.NumberOfElements; i++)
                     {
                         // advance to the next ray data
                         enumerator.MoveNext();
                         var dp = enumerator.Current;
                         // excise Position,Direction,Weight from Zemax struct
-                        dbWriter.Write(new RayDataPoint(
-                            new Position(dp.X, dp.Y, dp.Z),
-                            new Direction(dp.Ux, dp.Uy, dp.Uz),
-                            dp.Weight));
+                        if (dp != null)
+                        {
+                            dbWriter.Write(new RayDataPoint(
+                                new Position(dp.X, dp.Y, dp.Z),
+                                new Direction(dp.Ux, dp.Uy, dp.Uz),
+                                dp.Weight));
+                        }
                     }
                     dbWriter.Close();
                 }
@@ -97,21 +98,26 @@ namespace Vts.MonteCarlo.ZemaxDatabaseConverter
                 using (var dbWriter = new ZrdRayDatabaseWriter(
                     VirtualBoundaryType.DiffuseReflectance, outputFile))
                 {
-                    for (int i = 0; i < fileToConvert.NumberOfElements; i++)
+                    for (var i = 0; i < fileToConvert.NumberOfElements; i++)
                     {
                         // advance to the next ray data
                         enumerator.MoveNext();
                         var dp = enumerator.Current;
-                        var zrdRayDataPoint = new ZrdRayDataPoint();
-                        // set Position,Direction,Weight in Zemax struct
-                        zrdRayDataPoint.X = dp.Position.X;
-                        zrdRayDataPoint.Y = dp.Position.Y;
-                        zrdRayDataPoint.Z = dp.Position.Z;
-                        zrdRayDataPoint.Ux = dp.Direction.Ux;
-                        zrdRayDataPoint.Uy = dp.Direction.Uy;
-                        zrdRayDataPoint.Uz = dp.Direction.Uz;
-                        zrdRayDataPoint.Weight = dp.Weight;
-                        dbWriter.Write(zrdRayDataPoint);
+                        if (dp != null)
+                        {
+                            var zrdRayDataPoint = new ZrdRayDataPoint
+                            {
+                                // set Position,Direction,Weight in Zemax struct
+                                X = dp.Position.X,
+                                Y = dp.Position.Y,
+                                Z = dp.Position.Z,
+                                Ux = dp.Direction.Ux,
+                                Uy = dp.Direction.Uy,
+                                Uz = dp.Direction.Uz,
+                                Weight = dp.Weight
+                            };
+                            dbWriter.Write(zrdRayDataPoint);
+                        }
                     }
                     dbWriter.Close();
                 }

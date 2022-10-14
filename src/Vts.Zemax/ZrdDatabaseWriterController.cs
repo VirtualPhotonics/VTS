@@ -12,7 +12,7 @@ namespace Vts.Zemax
     /// </summary>
     public class ZrdDatabaseWriterController
     {
-        readonly IList<ZrdRayDatabaseWriter> _rayDatabaseWriters;
+        private readonly IList<ZrdRayDatabaseWriter> _rayDatabaseWriters;
         /// <summary>
         /// class that controls DatabaseWriter(s).
         /// </summary>
@@ -53,14 +53,11 @@ namespace Vts.Zemax
         public bool DpBelongsToSurfaceVirtualBoundary(PhotonDataPoint dp,
             ZrdRayDatabaseWriter rayDatabaseWriter)
         {
-            if ((dp.StateFlag.HasFlag(PhotonStateType.PseudoDiffuseReflectanceVirtualBoundary) &&
-                 rayDatabaseWriter.VirtualBoundaryType == VirtualBoundaryType.DiffuseReflectance) ||
-                (dp.StateFlag.HasFlag(PhotonStateType.PseudoDiffuseTransmittanceVirtualBoundary) &&
-                 rayDatabaseWriter.VirtualBoundaryType == VirtualBoundaryType.DiffuseTransmittance))
-            {
-                return true;
-            }
-            return false;
+            if ((!dp.StateFlag.HasFlag(PhotonStateType.PseudoDiffuseReflectanceVirtualBoundary) ||
+                 rayDatabaseWriter.VirtualBoundaryType != VirtualBoundaryType.DiffuseReflectance) &&
+                (!dp.StateFlag.HasFlag(PhotonStateType.PseudoDiffuseTransmittanceVirtualBoundary) ||
+                 rayDatabaseWriter.VirtualBoundaryType != VirtualBoundaryType.DiffuseTransmittance)) return false;
+            return true;
         }
         /// <summary>
         /// Method to dispose of database writer(s).  Currently not used, may be needed in future.

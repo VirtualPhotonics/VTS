@@ -24,9 +24,9 @@ namespace Vts.Zemax
         {
             if (!_headerIsWritten)
             {
-                int version = 2002;
+                const int version = 2002;
                 bw.Write(version);
-                int maxNumberOfSegments = 500;
+                const int maxNumberOfSegments = 500;
                 bw.Write(maxNumberOfSegments);
                 _headerIsWritten = true;
             }
@@ -34,9 +34,11 @@ namespace Vts.Zemax
             bw.Write(numSegments);
             for (var i = 0; i < numSegments; i++) // write same rayDP twice to make ray
             {
-                var rayDp = new ZrdRayDataPoint();
-                // rest of these until x,y,z set to 0
-                rayDp.Status = 0;
+                var rayDp = new ZrdRayDataPoint
+                {
+                    // rest of fields until x,y,z set to 0
+                    Status = 0
+                };
                 bw.Write(rayDp.Status);
                 bw.Write(i); // level: should match segment#
                 rayDp.HitObject = 0;
