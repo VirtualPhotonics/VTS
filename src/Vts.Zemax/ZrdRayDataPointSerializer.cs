@@ -30,7 +30,7 @@ namespace Vts.Zemax
                 bw.Write(maxNumberOfSegments);
                 _headerIsWritten = true;
             }
-            int numSegments = 2;  // number of segments in ray_i
+            var numSegments = 2;  // number of segments in ray_i
             bw.Write(numSegments);
             for (var i = 0; i < numSegments; i++) // write same rayDP twice to make ray
             {

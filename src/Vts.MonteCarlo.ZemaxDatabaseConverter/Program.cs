@@ -78,8 +78,7 @@ namespace Vts.MonteCarlo.ZemaxDatabaseConverter
             var databaseToConvertName = "";
             var convertedDatabaseName = "";
             var infileType = "";
-            var zemaxToMCCL = false;
-            var outPath = ""; // may need later 
+            var zemaxToMccl = false;
             var infoOnlyOption = false;
 
             args.Process(() =>
@@ -110,11 +109,11 @@ namespace Vts.MonteCarlo.ZemaxDatabaseConverter
                    switch (infileType)
                    {
                        case "zrd":
-                           zemaxToMCCL = true;
+                           zemaxToMccl = true;
                            Console.WriteLine("converting Zemax database to MCCL database");
                            break;
                        case "mccl":
-                           zemaxToMCCL = false;
+                           zemaxToMccl = false;
                            Console.WriteLine("converting MCCL database to Zemax database");
                            break;
                        default:
@@ -129,16 +128,16 @@ namespace Vts.MonteCarlo.ZemaxDatabaseConverter
             // check infiles exist
             if (!DatabaseConverter.VerifyInputs(databaseToConvertName, convertedDatabaseName))
                 return 1; // VerifyInputs returned a false
-            if (zemaxToMCCL)
+            if (zemaxToMccl)
             {
                 // conversion of Zemax output to MCCL source database process
-                DatabaseConverter.ConvertZemaxDatabaseToMCCLSourceDatabase(
+                DatabaseConverter.ConvertZemaxDatabaseToMcclSourceDatabase(
                     databaseToConvertName, convertedDatabaseName);
             }
             else
             {
                 // conversion of MCCL reflectance to Zemax input
-                DatabaseConverter.ConvertMCCLDatabaseToZemaxSourceDatabase(
+                DatabaseConverter.ConvertMcclDatabaseToZemaxSourceDatabase(
                     databaseToConvertName, convertedDatabaseName);
             }
             return 0;
