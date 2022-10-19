@@ -69,21 +69,18 @@ namespace Vts.MonteCarlo.Tissues
         [IgnoreDataMember]
         public Position Center
         {
-            get
-            {
-                return new Position(
+            get =>
+                new Position(
                     (X.Start + X.Stop)/2,
                     (Y.Start + Y.Stop)/2,
                     (Z.Start + Z.Stop)/2);
-            }
             set
             {
                 var oldCenter = Center;
-                var newCenter = value;
 
-                var dx = newCenter.X - oldCenter.X;
-                var dy = newCenter.Y - oldCenter.Y;
-                var dz = newCenter.Z - oldCenter.Z;
+                var dx = value.X - oldCenter.X;
+                var dy = value.Y - oldCenter.Y;
+                var dz = value.Z - oldCenter.Z;
 
                 X.Start += dx;
                 X.Stop += dx;
@@ -113,24 +110,22 @@ namespace Vts.MonteCarlo.Tissues
             // determine location of end of ray
             var p2 = new Position(p1.X + d1.Ux*photon.S, p1.Y + d1.Uy*photon.S, p1.Z + d1.Uz*photon.S);
 
-            bool one_in = this.ContainsPosition(p1);
-            bool two_in = this.ContainsPosition(p2);
+            bool oneIn = this.ContainsPosition(p1);
+            bool twoIn = this.ContainsPosition(p2);
 
             // check if ray within voxel 
-            if (one_in && two_in)
+            if (oneIn && twoIn)
             {
                 return false;
             }
             // check if ray outside voxel
-            if ((!one_in && !two_in) &&
+            if ((!oneIn && !twoIn) &&
                 ((p1.X < X.Start) && (p2.X < X.Start)) || ((p1.X > X.Stop) && (p2.X > X.Stop)) ||
                 ((p1.Y < Y.Start) && (p2.Y < Y.Start)) || ((p1.Y > Y.Stop) && (p2.Y > Y.Stop)) ||
                 ((p1.Z < Z.Start) && (p2.Z < Z.Start)) || ((p1.Z > Z.Stop) && (p2.Z > Z.Stop)))
             {
                 return false;
             }
-
-            double xint, yint, zint;
 
             // the following code makes sure that distanceToBoundary is calculated
             // correctly if photon just slightly off boundary
@@ -141,9 +136,9 @@ namespace Vts.MonteCarlo.Tissues
             // no check on Z since capless
             
             // following algorithm from tavianator.com/fast-branchless-raybounding-box-intersections
-            // check interesctions of ray with planes that make up box
-            double dist1, dist2, dmin = double.NegativeInfinity, dmax = double.PositiveInfinity;
-            dist1 = (X.Start - p1.X)/d1.Ux;
+            // check intersections of ray with planes that make up box
+            double dist2, dmin = double.NegativeInfinity, dmax = double.PositiveInfinity;
+            var dist1 = (X.Start - p1.X)/d1.Ux;
             dist2 = (X.Stop - p1.X)/d1.Ux;
             dmin = Math.Max(dmin, Math.Min(dist1, dist2));
             dmax = Math.Min(dmax, Math.Max(dist1, dist2));
@@ -154,6 +149,9 @@ namespace Vts.MonteCarlo.Tissues
             // no check on Z since capless
             if (dmax >= dmin) 
             {
+                double xint;
+                double yint;
+                double zint;
                 if (dmin > 0)
                 {
                     xint = p1.X + d1.Ux * dmin;
@@ -195,16 +193,9 @@ namespace Vts.MonteCarlo.Tissues
         public bool ContainsPosition(Position position)
         {
             //// inclusion defined in half-open interval [start,stop) so that continuum of voxels do not overlap
-            if ((position.X >= X.Start) && (position.X <= X.Stop) &&
-                (position.Y >= Y.Start) && (position.Y <= Y.Stop) &&
-                (position.Z >= Z.Start) && (position.Z <= Z.Stop))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return (position.X >= X.Start) && (position.X <= X.Stop) &&
+                   (position.Y >= Y.Start) && (position.Y <= Y.Stop) &&
+                   (position.Z >= Z.Start) && (position.Z <= Z.Stop);
         }
 
         /// <summary>
@@ -215,7 +206,7 @@ namespace Vts.MonteCarlo.Tissues
         /// <returns>Boolean indicating whether on boundary or not</returns>
         public bool OnBoundary(Position position)
         {
-            double tol = 1e-11;
+            var tol = 1e-11;
             if ((((Math.Abs(position.X - X.Start) < tol) || (Math.Abs(position.X - X.Stop) < tol)) &&
                   (position.Y >= Y.Start) && (position.Y <= Y.Stop) &&
                   (position.Z >= Z.Start) && (position.Z <= Z.Stop)) ||
@@ -239,7 +230,7 @@ namespace Vts.MonteCarlo.Tissues
         /// <returns>Direction normal to surface at position</returns>
         public Direction SurfaceNormal(Position position)
         {
-            var tol = 1e-6; // use tolerance because position will have floating point errors
+            const double tol = 1e-6; // use tolerance because position will have floating point errors
             // larger tolerance works because voxel edges typically have 4-5 significant digits
 
             // the following code doesn't handle if on or edge corner, but may not be problem
