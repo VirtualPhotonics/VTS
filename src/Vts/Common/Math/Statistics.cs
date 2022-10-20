@@ -16,7 +16,7 @@ namespace Vts.Common.Math
         /// <returns>An expected value or mean</returns>
         public static double ExpectedValue(double[] x, double[] pOfX)
         {
-            return Enumerable.Zip(x, pOfX, (left, right) => (left * right)).Sum();
+            return x.Zip(pOfX, (left, right) => (left * right)).Sum();
         }
 
         /// <summary>
@@ -34,11 +34,11 @@ namespace Vts.Common.Math
             if (array.Length != x.Length * y.Length)
                 throw new ArgumentException("Dimensions of array must be dimension of x * dimension of y");
             
-            double[] pdf = new double[y.Length];
-            double ySum = 0D;
-            for (int yi = 0; yi < y.Length; yi++)
+            var pdf = new double[y.Length];
+            var ySum = 0D;
+            for (var yi = 0; yi < y.Length; yi++)
             {
-                for (int xi = 0; xi < x.Length; xi++)
+                for (var xi = 0; xi < x.Length; xi++)
                 {
                     pdf[yi] += array[xi + yi * x.Length] * dx[xi];
                 }
@@ -47,7 +47,7 @@ namespace Vts.Common.Math
             }
 
             // normalize pdf
-            for (int yi = 0; yi < y.Length; yi++)
+            for (var yi = 0; yi < y.Length; yi++)
             {
                 pdf[yi] /= ySum;
             }
