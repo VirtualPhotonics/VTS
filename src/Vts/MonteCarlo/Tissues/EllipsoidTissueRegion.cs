@@ -9,7 +9,7 @@ namespace Vts.MonteCarlo.Tissues
     /// </summary>
     public class EllipsoidTissueRegion : ITissueRegion
     {
-        private bool _onBoundary = false;
+        private bool _onBoundary;
         /// <summary>
         /// class specifies ellipsoid tissue region (x-xc)^2/a^2 + (y-yc)^2/b^2 + (z-zc)^2/c^2 = 1
         /// where center is (xc,yc,zc) and semi-axis along x-, y-, z- axes are a, b, c, respectively.
@@ -66,26 +66,25 @@ namespace Vts.MonteCarlo.Tissues
         /// <returns>Boolean, true if within or on, false otherwise</returns>
         public bool ContainsPosition(Position position)
         {
-                double inside = (position.X - Center.X) * (position.X - Center.X) /
-                          (Dx * Dx) +
-                    (position.Y - Center.Y) * (position.Y - Center.Y) /
-                          (Dy * Dy) +
-                    (position.Z - Center.Z) * (position.Z - Center.Z) /
-                          (Dz * Dz);
+                var inside = (position.X - Center.X) * (position.X - Center.X) /
+                             (Dx * Dx) +
+                             (position.Y - Center.Y) * (position.Y - Center.Y) /
+                             (Dy * Dy) +
+                             (position.Z - Center.Z) * (position.Z - Center.Z) /
+                             (Dz * Dz);
 
                 if (inside < 0.9999999999) // previous check  0.9999999
                 {
                     return true;
                 }
-                else if (inside > 1.00000000001) // previous check 1.0000001
+                if (inside > 1.00000000001) // previous check 1.0000001
                 {
                     return false;
                 }
-                else  // on boundary means ellipsoid contains position
-                {
-                    _onBoundary = true;
-                    return true;  // ckh 2/28/19 this has to return true or unit tests fail => contains if on ellipsoid
-                }
+
+                // on boundary means ellipsoid contains position
+                _onBoundary = true;
+                return true;  // ckh 2/28/19 this has to return true or unit tests fail => contains if on ellipsoid
         }
         /// <summary>
         /// Method to determine if given Position lies on boundary of ellipsoid.
@@ -125,8 +124,7 @@ namespace Vts.MonteCarlo.Tissues
         {
             distanceToBoundary = double.PositiveInfinity;
             _onBoundary = false; // reset _onBoundary
-            double root1, root2, xto, yto, zto;
-            double root = 0;
+            var root = 0.0;
             var dp = photon.DP;
             var p1 = dp.Position;
             var d1 = dp.Direction;
@@ -134,125 +132,122 @@ namespace Vts.MonteCarlo.Tissues
             // determine location of end of ray
             var p2 = new Position(p1.X + d1.Ux*photon.S, p1.Y + d1.Uy*photon.S, p1.Z + d1.Uz*photon.S);
 
-            bool one_in = this.ContainsPosition(p1);
-            bool two_in = this.ContainsPosition(p2);
+            var oneIn = this.ContainsPosition(p1);
+            var twoIn = this.ContainsPosition(p2);
 
             // check if ray within ellipsoid 
-            if ( (one_in || _onBoundary) && two_in )
+            if ( (oneIn || _onBoundary) && twoIn )
             {
                 return false;
             }
             _onBoundary = false; // reset flag
             
-            double area_x = Dx * Dx;
-            double area_y = Dy * Dy;
-            double area_z = Dz * Dz;
+            var areaX = Dx * Dx;
+            var areaY = Dy * Dy;
+            var areaZ = Dz * Dz;
 
-            double dx = (p2.X - p1.X);
-            double dy = (p2.Y - p1.Y);
-            double dz = (p2.Z - p1.Z);
+            var dx = (p2.X - p1.X);
+            var dy = (p2.Y - p1.Y);
+            var dz = (p2.Z - p1.Z);
 
-            double dxSquared = dx * dx;
-            double dySquared = dy * dy;
-            double dzSquared = dz * dz;
+            var dxSquared = dx * dx;
+            var dySquared = dy * dy;
+            var dzSquared = dz * dz;
 
-            double xOffset = p1.X - Center.X;
-            double yOffset = p1.Y - Center.Y;
-            double zOffset = p1.Z - Center.Z;
+            var xOffset = p1.X - Center.X;
+            var yOffset = p1.Y - Center.Y;
+            var zOffset = p1.Z - Center.Z;
 
-            double A =
-                dxSquared / area_x +
-                dySquared / area_y +
-                dzSquared / area_z;
+            var a =
+                dxSquared / areaX +
+                dySquared / areaY +
+                dzSquared / areaZ;
 
-            double B =
-                2 * dx * xOffset / area_x +
-                2 * dy * yOffset / area_y +
-                2 * dz * zOffset / area_z;
+            var b =
+                2 * dx * xOffset / areaX +
+                2 * dy * yOffset / areaY +
+                2 * dz * zOffset / areaZ;
 
-            double C =
-                xOffset * xOffset / area_x +
-                yOffset * yOffset / area_y +
-                zOffset * zOffset / area_z - 1.0;
+            var c =
+                xOffset * xOffset / areaX +
+                yOffset * yOffset / areaY +
+                zOffset * zOffset / areaZ - 1.0;
 
-            double rootTerm = B * B - 4 * A * C;
+            var rootTerm = b * b - 4 * a * c;
 
-            if (rootTerm > 0)  // roots are real 
+            if (rootTerm <= 0) return false; // roots are real 
+            var rootTermSqrt = Math.Sqrt(rootTerm);
+            var root1 = (-b - rootTermSqrt) / (2 * a);
+            var root2 = (-b + rootTermSqrt) / (2 * a);
+
+            var numberOfIntersections = 0; //number of intersections
+
+            if (root1 < 1 && root1 > 0)
             {
-                double rootTermSqrt = Math.Sqrt(rootTerm);
-                root1 = (-B - rootTermSqrt) / (2 * A);
-                root2 = (-B + rootTermSqrt) / (2 * A);
+                numberOfIntersections += 1;
+                root = root1;
+            }
 
-                int numint = 0; //number of intersections
+            if (root2 < 1 && root2 > 0)
+            {
+                numberOfIntersections += 1;
+                root = root2;
+            }
 
-                if ((root1 < 1) && (root1 > 0))
-                {
-                    numint += 1;
-                    root = root1;
-                }
-
-                if ((root2 < 1) && (root2 > 0))
-                {
-                    numint += 1;
-                    root = root2;
-                }
-
-                switch (numint)
-                {
-                    case 0: /* roots real but no intersection */
+            double xto;
+            double yto;
+            double zto;
+            switch (numberOfIntersections)
+            {
+                case 0: /* roots real but no intersection */
+                    return false;
+                case 1:
+                    if (!oneIn && Math.Abs(root) < 1e-7)
+                    {
                         return false;
-                    case 1:
-                        if ((!one_in) && (Math.Abs(root) < 1e-7))
-                        {
-                            return false;
-                        }
+                    }
 
-                        /*entering or exiting ellipsoid. It's the same*/
-                        xto = p1.X + root * dx;
-                        yto = p1.Y + root * dy;
-                        zto = p1.Z + root * dz;
+                    /*entering or exiting ellipsoid. It's the same*/
+                    xto = p1.X + root * dx;
+                    yto = p1.Y + root * dy;
+                    zto = p1.Z + root * dz;
 
-                        /*distance to the boundary*/
-                        distanceToBoundary = Math.Sqrt((xto - p1.X) * (xto - p1.X) +
-                                (yto - p1.Y) * (yto - p1.Y) +
-                                (zto - p1.Z) * (zto - p1.Z));
+                    /*distance to the boundary*/
+                    distanceToBoundary = Math.Sqrt((xto - p1.X) * (xto - p1.X) +
+                                                   (yto - p1.Y) * (yto - p1.Y) +
+                                                   (zto - p1.Z) * (zto - p1.Z));
 
-                        // ckh fix 8/25/11: check if on boundary of ellipsoid
-                        if (distanceToBoundary < 1e-11)
-                        {
-                            return false;
-                        }
+                    // ckh fix 8/25/11: check if on boundary of ellipsoid
+                    if (distanceToBoundary < 1e-11)
+                    {
+                        return false;
+                    }
 
-                        return true;
-                    case 2:  /* went through ellipsoid: must stop at nearest intersection */
-                        /*which is nearest?*/
-                        if (one_in)
-                        {
-                            if (root1 > root2) //CKH FIX 11/11
-                                root = root1;
-                            else root = root2;
-                        }
-                        else
-                        {
-                            if (root1 < root2) //CKH FIX 11/11
-                                root = root1;
-                            else root = root2;
-                        }
-                        xto = p1.X + root * (p2.X - p1.X);
-                        yto = p1.Y + root * (p2.Y - p1.Y);
-                        zto = p1.Z + root * (p2.Z - p1.Z);
+                    return true;
+                case 2:  /* went through ellipsoid: must stop at nearest intersection */
+                    /*which is nearest?*/
+                    if (oneIn)
+                    {
+                        root = root1 > root2 ? root1 : root2; //CKH FIX 11/11
+                    }
+                    else
+                    {
+                        root = root1 < root2 ? root1 : root2; //CKH FIX 11/11
+                    }
+                    xto = p1.X + root * (p2.X - p1.X);
+                    yto = p1.Y + root * (p2.Y - p1.Y);
+                    zto = p1.Z + root * (p2.Z - p1.Z);
 
-                        /*distance to the nearest boundary*/
-                        distanceToBoundary = Math.Sqrt((xto - p1.X) * (xto - p1.X) +
-                                (yto - p1.Y) * (yto - p1.Y) +
-                                (zto - p1.Z) * (zto - p1.Z));
+                    /*distance to the nearest boundary*/
+                    distanceToBoundary = Math.Sqrt((xto - p1.X) * (xto - p1.X) +
+                                                   (yto - p1.Y) * (yto - p1.Y) +
+                                                   (zto - p1.Z) * (zto - p1.Z));
 
-                        return true;
+                    return true;
 
-                } /* end switch */
+            } /* end switch */
 
-            } /* BB-4AC>0 */
-            
+            /* bb-4ac>0 */
             /* roots imaginary -> no intersection */
             return false;
         }

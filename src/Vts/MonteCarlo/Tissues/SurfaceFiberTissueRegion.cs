@@ -65,15 +65,15 @@ namespace Vts.MonteCarlo.Tissues
                 {
                     return true;
                 }
-                else if (inside > 1.00000000001) // prior check  1.0000001
+
+                if (inside > 1.00000000001) // prior check  1.0000001
                 {
                     return false;
                 }
-                else  // on boundary means SurfaceFiber contains position
-                {
-                    _onBoundary = true;
-                    return true;  // ckh 2/28/19 this has to return true 
-                }
+
+                // on boundary means SurfaceFiber contains position
+                _onBoundary = true;
+                return true;  // ckh 2/28/19 this has to return true 
             }
             else
             {

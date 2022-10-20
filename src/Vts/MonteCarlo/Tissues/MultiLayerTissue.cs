@@ -71,7 +71,7 @@ namespace Vts.MonteCarlo.Tissues
     /// </summary>
     public class MultiLayerTissue : TissueBase, ITissue
     {
-        private IList<LayerTissueRegion> _layerRegions;
+        private readonly IList<LayerTissueRegion> _layerRegions;
 
         /// <summary>
         /// Creates an instance of a MultiLayerTissue
@@ -104,8 +104,8 @@ namespace Vts.MonteCarlo.Tissues
             // use ITissueRegion interface method ContainsPosition for LayerTissueRegion to determine
             // which region photon resides
 
-            int index = -1;
-            for (int i = 0; i < _layerRegions.Count(); i++)
+            var index = -1;
+            for (var i = 0; i < _layerRegions.Count; i++)
             {
                 if (_layerRegions[i].ContainsPosition(position))
                 {
@@ -126,9 +126,9 @@ namespace Vts.MonteCarlo.Tissues
             // where it should be
 
             // get current region index, could be index of inclusion
-            int currentRegionIndex = photon.CurrentRegionIndex;
+            var currentRegionIndex = photon.CurrentRegionIndex;
             // check if in embedded tissue region ckh fix 8/10/11
-            LayerTissueRegion currentRegion = _layerRegions[1];
+            var currentRegion = _layerRegions[1];
             if (currentRegionIndex < _layerRegions.Count)
             {
                 currentRegion = _layerRegions[currentRegionIndex];
@@ -157,17 +157,14 @@ namespace Vts.MonteCarlo.Tissues
         /// <returns>region index</returns>
         public virtual int GetNeighborRegionIndex(Photon photon)
         {
-            if (photon.DP.Direction.Uz == 0.0)
+            if (photon.DP.Direction.Uz != 0.0)
             {
-                throw new ArgumentException("GetNeighborRegionIndex called and Photon not on boundary");
+                return photon.DP.Direction.Uz > 0.0
+                    ? Math.Min(photon.CurrentRegionIndex + 1, Regions.Count - 1)
+                    : Math.Max(photon.CurrentRegionIndex - 1, 0);
             }
 
-            if (photon.DP.Direction.Uz > 0.0)
-            {
-                return Math.Min(photon.CurrentRegionIndex + 1, Regions.Count - 1);
-            }
-                
-            return Math.Max(photon.CurrentRegionIndex - 1, 0);
+            throw new ArgumentException("GetNeighborRegionIndex called and Photon not on boundary");
         }
         /// <summary>
         /// method to determine photon state type of photon exiting tissue boundary
@@ -176,12 +173,9 @@ namespace Vts.MonteCarlo.Tissues
         /// <returns>PhotonStateType</returns>
         public PhotonStateType GetPhotonDataPointStateOnExit(Position position)
         {
-            if (position.Z < 1e-10)
-            {
-                return PhotonStateType.PseudoReflectedTissueBoundary;
-            }
-            
-            return PhotonStateType.PseudoTransmittedTissueBoundary;
+            return position.Z < 1e-10
+                ? PhotonStateType.PseudoReflectedTissueBoundary
+                : PhotonStateType.PseudoTransmittedTissueBoundary;
         }
         /// <summary>
         /// method to determine direction of reflected photon
