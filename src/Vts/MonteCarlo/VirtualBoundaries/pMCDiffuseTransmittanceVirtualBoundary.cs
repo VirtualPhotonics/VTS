@@ -10,8 +10,7 @@ namespace Vts.MonteCarlo.VirtualBoundaries
     /// </summary>
     public class pMCDiffuseTransmittanceVirtualBoundary : IVirtualBoundary
     {
-        private IDetectorController _detectorController;
-        private double _zPlanePosition;
+        private readonly double _zPlanePosition;
 
         /// <summary>
         /// class for perturbation Monte Carlo (pMC) diffuse transmittance virtual boundary
@@ -31,39 +30,31 @@ namespace Vts.MonteCarlo.VirtualBoundaries
             VirtualBoundaryType = VirtualBoundaryType.pMCDiffuseTransmittance;
             PhotonStateType = PhotonStateType.PseudoDiffuseTransmittanceVirtualBoundary;
 
-            _detectorController = detectorController;
+            DetectorController = detectorController;
 
             Name = name;
         }       
 
-        ///// <summary>
-        ///// Creates a default instance of a PlanarTransmissionVB based on a plane at z=0, 
-        ///// exiting tissue (in direction of z decreasing)
-        ///// </summary>
-        //public DiffuseTransmittanceVirtualBoundary() 
-        //    : this(null, null, null)
-        //{
-        //}
         /// <summary>
         /// VirtualBoundaryType
         /// </summary>
-        public VirtualBoundaryType VirtualBoundaryType { get; private set; }
+        public VirtualBoundaryType VirtualBoundaryType { get; }
         /// <summary>
         /// PhotonStateType
         /// </summary>
-        public PhotonStateType PhotonStateType { get; private set; }
+        public PhotonStateType PhotonStateType { get; }
         /// <summary>
         /// string Name
         /// </summary>
-        public string Name { get; private set; }
+        public string Name { get; }
         /// <summary>
         /// Predicate of PhotonDataPoint
         /// </summary>
-        public Predicate<PhotonDataPoint> WillHitBoundary { get; private set; }
+        public Predicate<PhotonDataPoint> WillHitBoundary { get; }
         /// <summary>
         /// IDetectorController
         /// </summary>
-        public IDetectorController DetectorController { get { return _detectorController; } }
+        public IDetectorController DetectorController { get; }
 
         /// <summary>
         /// Finds the distance to the virtual boundary given direction of VB and photon
@@ -72,7 +63,7 @@ namespace Vts.MonteCarlo.VirtualBoundaries
         /// <returns>distance to virtual boundary</returns>
         public double GetDistanceToVirtualBoundary(PhotonDataPoint dp)
         {
-            double distanceToBoundary = double.PositiveInfinity;
+            var distanceToBoundary = double.PositiveInfinity;
             // check if VB not applied
             if (!dp.StateFlag.HasFlag(PhotonStateType.PseudoTransmittedTissueBoundary) ||
                 dp.Direction.Uz <= 0.0)
