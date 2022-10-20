@@ -160,8 +160,8 @@ namespace Vts.MonteCarlo.Sources
     /// </summary>
     public class CustomVolumetricEllipsoidalSource : VolumetricEllipsoidalSourceBase
     {
-        private DoubleRange _polarAngleEmissionRange;
-        private DoubleRange _azimuthalAngleEmissionRange;
+        private readonly DoubleRange _polarAngleEmissionRange;
+        private readonly DoubleRange _azimuthalAngleEmissionRange;
 
         /// <summary>
         /// Returns an instance of  Custom Ellipsoidal Source with a given source profile (Flat/Gaussian), 

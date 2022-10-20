@@ -85,13 +85,13 @@ namespace Vts.MonteCarlo.Sources
         public Photon GetNextPhoton(ITissue tissue)
         {
             //Source starts from anywhere in the cuboid
-            Position finalPosition = GetFinalPositionFromProfileType(_sourceProfile, _cubeLengthX, _cubeWidthY, _cubeHeightZ, Rng);
+            var finalPosition = GetFinalPositionFromProfileType(_sourceProfile, _cubeLengthX, _cubeWidthY, _cubeHeightZ, Rng);
 
             // sample angular distribution
-            Direction finalDirection = GetFinalDirection();
+            var finalDirection = GetFinalDirection();
 
             //Find the relevent polar and azimuthal pair for the direction
-            PolarAzimuthalAngles _rotationalAnglesOfPrincipalSourceAxis = SourceToolbox.GetPolarAzimuthalPairFromDirection(_newDirectionOfPrincipalSourceAxis);
+            var _rotationalAnglesOfPrincipalSourceAxis = SourceToolbox.GetPolarAzimuthalPairFromDirection(_newDirectionOfPrincipalSourceAxis);
 
             //Rotation and translation
             SourceToolbox.UpdateDirectionPositionAfterGivenFlags(
@@ -126,15 +126,19 @@ namespace Vts.MonteCarlo.Sources
                         rng);
                     break;
                 case SourceProfileType.Gaussian:
-                    var gaussianProfile = sourceProfile as GaussianSourceProfile;
-                    finalPosition = SourceToolbox.GetPositionInACuboidRandomGaussian(
-                        SourceDefaults.DefaultPosition.Clone(),
-                        0.5 * cubeLengthX,
-                        0.5 * cubeWidthY,
-                        0.5 * cubeHeightZ,
-                        gaussianProfile.BeamDiaFWHM,
-                        rng);
+                    if (sourceProfile is GaussianSourceProfile gaussianProfile)
+                        finalPosition = SourceToolbox.GetPositionInACuboidRandomGaussian(
+                            SourceDefaults.DefaultPosition.Clone(),
+                            0.5 * cubeLengthX,
+                            0.5 * cubeWidthY,
+                            0.5 * cubeHeightZ,
+                            gaussianProfile.BeamDiaFWHM,
+                            rng);
                     break;
+                case SourceProfileType.Arbitrary:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(sourceProfile.SourceProfileType.ToString());
             }
             return finalPosition;
         }

@@ -146,7 +146,7 @@ namespace Vts.MonteCarlo.Sources
     /// </summary>
     public class DirectionalEllipticalSource : EllipticalSourceBase
     {
-        private double _thetaConvOrDiv;   //convergence:positive, divergence:negative, collimated:zero 
+        private readonly double _thetaConvOrDiv;   //convergence:positive, divergence:negative, collimated:zero 
 
         /// <summary>
         /// Returns an instance of directional (diverging/converging/collimated) Elliptical Source with specified length and width, 
@@ -189,20 +189,17 @@ namespace Vts.MonteCarlo.Sources
         /// <returns>new direction</returns>  
         protected override Direction GetFinalDirection(Position position)
         {
-            if ((_aParameter == 0.0) && (_bParameter == 0.0))
+            if (_aParameter == 0.0 && _bParameter == 0.0)
                 return (SourceToolbox.GetDirectionForGivenPolarAzimuthalAngleRangeRandom(
                             new DoubleRange(0.0, Math.Abs(_thetaConvOrDiv)),
                             SourceDefaults.DefaultAzimuthalAngleRange.Clone(),
                             Rng));
-            else
-            {
-                // sign is negative for diverging and positive positive for converging 
-                var polarAngle = SourceToolbox.UpdatePolarAngleForDirectionalSources(
-                    _aParameter,
-                    Math.Sqrt(position.X * position.X + position.Y * position.Y),
-                    _thetaConvOrDiv);
-                return (SourceToolbox.GetDirectionForGiven2DPositionAndGivenPolarAngle(polarAngle, position));
-            }
+            // sign is negative for diverging and positive positive for converging 
+            var polarAngle = SourceToolbox.UpdatePolarAngleForDirectionalSources(
+                _aParameter,
+                Math.Sqrt(position.X * position.X + position.Y * position.Y),
+                _thetaConvOrDiv);
+            return (SourceToolbox.GetDirectionForGiven2DPositionAndGivenPolarAngle(polarAngle, position));
         }
     }
 }

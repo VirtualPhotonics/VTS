@@ -145,7 +145,7 @@ namespace Vts.MonteCarlo.Sources
     /// </summary>
     public class DirectionalCircularSource : CircularSourceBase
     {
-        private double _thetaConvOrDiv;   //Convergence(positive angle in radians) or Divergence (negative angle in radians) angle {= 0, for a collimated beam}
+        private readonly double _thetaConvOrDiv;   //Convergence(positive angle in radians) or Divergence (negative angle in radians) angle {= 0, for a collimated beam}
 
         /// <summary>
         /// Returns an instance of directional (diverging/converging/collimated) Circular Source with specified length and width, 
@@ -192,15 +192,12 @@ namespace Vts.MonteCarlo.Sources
                             new DoubleRange(0.0, Math.Abs(_thetaConvOrDiv)),
                             SourceDefaults.DefaultAzimuthalAngleRange.Clone(),
                             Rng));
-            else
-            {
-                // sign is negative for diverging and positive positive for converging 
-                var polarAngle = SourceToolbox.UpdatePolarAngleForDirectionalSources(
-                    _outerRadius,
-                    Math.Sqrt(position.X * position.X + position.Y * position.Y),
-                    _thetaConvOrDiv);                 
-                return (SourceToolbox.GetDirectionForGiven2DPositionAndGivenPolarAngle(polarAngle, position));
-            }
+            // sign is negative for diverging and positive positive for converging 
+            var polarAngle = SourceToolbox.UpdatePolarAngleForDirectionalSources(
+                _outerRadius,
+                Math.Sqrt(position.X * position.X + position.Y * position.Y),
+                _thetaConvOrDiv);                 
+            return (SourceToolbox.GetDirectionForGiven2DPositionAndGivenPolarAngle(polarAngle, position));
         }
     }
 }

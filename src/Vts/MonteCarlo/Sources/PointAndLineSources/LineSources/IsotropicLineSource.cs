@@ -158,7 +158,7 @@ namespace Vts.MonteCarlo.Sources
             var polarAngleEmissionRange = SourceDefaults.DefaultFullPolarAngleRange.Clone();
 
             //Sample angular distribution
-            Direction finalDirection = SourceToolbox.GetDirectionForGivenPolarAzimuthalAngleRangeRandom(polarAngleEmissionRange, azimuthalAngleEmissionRange, Rng);
+            var finalDirection = SourceToolbox.GetDirectionForGivenPolarAzimuthalAngleRangeRandom(polarAngleEmissionRange, azimuthalAngleEmissionRange, Rng);
 
             return finalDirection;
         }

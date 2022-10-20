@@ -119,8 +119,8 @@ namespace Vts.MonteCarlo.Sources
     /// </summary>
     public class RectangularAngledFromCircleSource : RectangularSourceBase
     {
-        Position _circleInAirTranslationFromOrigin;
-        double _radiusInAir;
+        private readonly Position _circleInAirTranslationFromOrigin;
+        private readonly double _radiusInAir;
         /// <summary>
         /// Returns an instance of Custom Rectangular Source with specified length and width,
         /// source profile (Flat/Gaussian),translation of circle in air
