@@ -2,9 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 
-//[assembly: InternalsVisibleTo("Vts.IO")]
-//[assembly: InternalsVisibleTo("Vts.Common.Test")] 
-
 namespace Vts
 {
     /// <summary>
@@ -15,10 +12,10 @@ namespace Vts
     [DataContract]
     public abstract class Range<T> : BindableObject where T : struct
     {
-        private T _Start;
-        private T _Stop;
-        private T _Delta;
-        private int _Count;
+        private T _start;
+        private T _stop;
+        private T _delta;
+        private int _count;
 
         /// <summary>
         /// Defines the range
@@ -26,19 +23,18 @@ namespace Vts
         /// <param name="start">The start of the range</param>
         /// <param name="stop">The end of the range</param>
         /// <param name="number">The number of values in the range, inclusive of the endpoints</param>
-        public Range(T start, T stop, int number)
+        protected Range(T start, T stop, int number)
         {
-            _Start = start;
-            _Stop = stop;
-            _Count = number;
-            _Delta = GetDelta();
+            Start = start;
+            Stop = stop;
+            Count = number;
         }
 
         /// <summary>
         /// The only reason this is here is to satisfy the DataContractSerializer
         /// </summary>
-        public Range()
-            : this(default(T), default(T), 1)
+        protected Range()
+            : this(default, default, 1)
         {
         }
 
@@ -48,13 +44,13 @@ namespace Vts
         [DataMember]
         public T Start
         {
-            get { return _Start; }
+            get => _start;
             set
             {
-                _Start = value;
-                _Delta = GetDelta();
-                OnPropertyChanged("Start");
-                OnPropertyChanged("Delta");
+                _start = value;
+                _delta = GetDelta();
+                OnPropertyChanged(nameof(Start));
+                OnPropertyChanged(nameof(Delta));
             }
         }
 
@@ -64,13 +60,13 @@ namespace Vts
         [DataMember]
         public T Stop
         {
-            get { return _Stop; }
+            get => _stop;
             set
             {
-                _Stop = value;
-                _Delta = GetDelta();
-                OnPropertyChanged("Stop");
-                OnPropertyChanged("Delta");
+                _stop = value;
+                _delta = GetDelta();
+                OnPropertyChanged(nameof(Stop));
+                OnPropertyChanged(nameof(Delta));
             }
         }
         
@@ -80,11 +76,11 @@ namespace Vts
         [IgnoreDataMember]
         public T Delta
         {
-            get { return _Delta; }
+            get => _delta;
             set
             {
-                _Delta = value;
-                OnPropertyChanged("Delta");
+                _delta = value;
+                OnPropertyChanged(nameof(Delta));
             }
         }
         /// <summary>
@@ -93,13 +89,13 @@ namespace Vts
         [DataMember]
         public int Count
         {
-            get { return _Count; }
+            get => _count;
             set
             {
-                _Count = value;
-                _Delta = GetDelta();
-                OnPropertyChanged("Count");
-                OnPropertyChanged("Delta");
+                _count = value;
+                _delta = GetDelta();
+                OnPropertyChanged(nameof(Count));
+                OnPropertyChanged(nameof(Delta));
             }
         }
 
@@ -135,8 +131,8 @@ namespace Vts
         {
             var increment = GetIncrement();
 
-            T currentValue = Start;
-            for (int i = 0; i < Count; i++, currentValue = increment(currentValue))
+            var currentValue = Start;
+            for (var i = 0; i < Count; i++, currentValue = increment(currentValue))
                 yield return currentValue;
         }
     }

@@ -42,17 +42,14 @@ namespace Vts.Common
         /// <returns>A long representing delta</returns>
         protected override long GetDelta()
         {
-            if (Count == 1)
+            if (Count != 1) return (Stop - Start) / (Count - 1);
+            if (Start != Stop)
             {
-                if (Start != Stop)
-                {
-                    return Stop - Start;
-                }
-
-                return 0L;
+                return Stop - Start;
             }
 
-            return (Stop - Start) / (Count - 1);
+            return 0L;
+
         }
 
         /// <summary>

@@ -42,17 +42,14 @@ namespace Vts.Common
         /// <returns>An unsigned integer representing delta</returns>
         protected override uint GetDelta()
         {
-            if (Count == 1)
+            if (Count != 1) return (uint)((Stop - Start) / (Count - 1));
+            if (Start != Stop)
             {
-                if (Start != Stop)
-                {
-                    return Stop - Start;
-                }
-
-                return 0U;
+                return Stop - Start;
             }
 
-            return (uint)((Stop - Start) / (Count - 1));
+            return 0U;
+
         }
 
         /// <summary>

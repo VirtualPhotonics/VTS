@@ -3,13 +3,13 @@
 namespace Vts.Common.Math
 {
     /// <summary>
-    /// Class containing the 'Roll' Algorithm, Custom Integration based off Tom, et al, curtesy of Owen Yang, David Cuccia, and Bernard Choi, 
+    /// Class containing the 'Roll' Algorithm, Custom Integration based off Tom, et al, courtesy of Owen Yang, David Cuccia, and Bernard Choi, 
     /// "Real-time blood flow imaging using the graphics processing unit," (paper in preparation)
     /// </summary>
     public class Convolution2D
     {
         ////////////////////////////////////////////////////////////////////////////////
-        // 'Roll' Algorithm, Custom Integration based off Tom, et al, curtesy of Owen Yang
+        // 'Roll' Algorithm, Custom Integration based off Tom, et al, courtesy of Owen Yang
         // Owen Yang, David Cuccia, and Bernard Choi, "Real-time blood flow imaging using the
         // graphics processing unit," (paper in preparation)
         ////////////////////////////////////////////////////////////////////////////////
@@ -23,7 +23,7 @@ namespace Vts.Common.Math
         // wR is the size of the sliding window radius
         // t is the exposure time of the camera used to obtain the raw speckle images
         /// <summary>
-        /// 'Roll' Algorithm, Custom Integration based off Tom, et al, curtesy of Owen Yang
+        /// 'Roll' Algorithm, Custom Integration based off Tom, et al, courtesy of Owen Yang
         /// Owen Yang, David Cuccia, and Bernard Choi, "Real-time blood flow imaging using the
         /// graphics processing unit," (paper in preparation)
         /// </summary>
@@ -52,19 +52,19 @@ namespace Vts.Common.Math
             float t)
         {
             // Full window size
-            int w = wR * 2 + 1;
+            var w = wR * 2 + 1;
 
             // Number of elements within sliding window
-            int els = w * w;
+            var els = w * w;
 
             // Inverse degrees of freedom
-            float iDoF = 1.0f / (els * (els - 1));
+            var iDoF = 1.0f / (els * (els - 1));
 
             // Step 1) Calculate first accumulated sum to start
             // Perform analysis on first accumulated row
-            for (int i = 0; i < width; i++)
+            for (var i = 0; i < width; i++)
             {
-                for (int j = 0; j < w; j++)
+                for (var j = 0; j < w; j++)
                 {
                     rollRow[i] += raw[j * width + i];
                     rollRowSquared[i] += (raw[j * width + i] * raw[j * width + i]);
@@ -86,25 +86,23 @@ namespace Vts.Common.Math
                     rollColumn[w - 1] += rollRow[i];
                     rollColumnSquared[w - 1] += rollRowSquared[i];
 
-                    if (i == (w - 1))
-                    {
-                        speckleContrast[wR * width + i - wR] =
-                            (float)(els * System.Math.Sqrt(iDoF * (els * rollColumnSquared[w - 1] - (rollColumn[w - 1] * rollColumn[w - 1]))) / rollColumn[w - 1]);
+                    if (i != (w - 1)) continue;
+                    speckleContrast[wR * width + i - wR] =
+                        (float)(els * System.Math.Sqrt(iDoF * (els * rollColumnSquared[w - 1] - (rollColumn[w - 1] * rollColumn[w - 1]))) / rollColumn[w - 1]);
 
-                        speckleFlowIndex[wR * width + i - wR] = (1f / (2f * speckleContrast[wR * width + i - wR] * speckleContrast[wR * width + i - wR] * t));
-                    }
+                    speckleFlowIndex[wR * width + i - wR] = (1f / (2f * speckleContrast[wR * width + i - wR] * speckleContrast[wR * width + i - wR] * t));
                 }
             }
 
             // Step 2) Perform optimized roll algorithm
             // Cumulate rows and columns simultaneously
             // Calculate SC and SFI immediately
-            for (int j = w; j < height; j++)
+            for (var j = w; j < height; j++)
             {
                 rollColumn[w - 1] = 0;
                 rollColumnSquared[w - 1] = 0;
 
-                for (int i = 0; i < width; i++)
+                for (var i = 0; i < width; i++)
                 {
                     rollRow[i] = rollRow[i] - raw[(j - w) * width + i] + raw[j * width + i];
                     rollRowSquared[i] = rollRowSquared[i] - (raw[(j - w) * width + i] * raw[(j - w) * width + i]) + (raw[j * width + i] * raw[j * width + i]);
@@ -125,20 +123,18 @@ namespace Vts.Common.Math
                         rollColumn[w - 1] += rollRow[i];
                         rollColumnSquared[w - 1] += rollRowSquared[i];
 
-                        if (i == (w - 1))
-                        {
-                            speckleContrast[(j - wR) * width + i - wR] =
-                                (float)(els * System.Math.Sqrt(iDoF * (els * rollColumnSquared[w - 1] - (rollColumn[w - 1] * rollColumn[w - 1])))) / rollColumn[w - 1];
+                        if (i != (w - 1)) continue;
+                        speckleContrast[(j - wR) * width + i - wR] =
+                            (float)(els * System.Math.Sqrt(iDoF * (els * rollColumnSquared[w - 1] - (rollColumn[w - 1] * rollColumn[w - 1])))) / rollColumn[w - 1];
 
-                            speckleFlowIndex[(j - wR) * width + i - wR] = 1f / (2f * speckleContrast[(j - wR) * width + i - wR] * speckleContrast[(j - wR) * width + i - wR] * t);
-                        }
+                        speckleFlowIndex[(j - wR) * width + i - wR] = 1f / (2f * speckleContrast[(j - wR) * width + i - wR] * speckleContrast[(j - wR) * width + i - wR] * t);
                     }
                 }
             }
         }
 
         /// <summary>
-        /// 'Roll' Algorithm, Custom Integration based off Tom, et al, curtesy of Owen Yang.
+        /// 'Roll' Algorithm, Custom Integration based off Tom, et al, courtesy of Owen Yang.
         /// Owen Yang, David Cuccia, and Bernard Choi, "Real-time blood flow imaging using the
         /// graphics processing unit," (paper in preparation)
         /// </summary>
@@ -162,15 +158,15 @@ namespace Vts.Common.Math
                 throw new ArgumentException("Parameters not the correct lengths.");
             }
 
-            int w = radius * 2 + 1; // full window size
-            int nElements = w * w; // number of elements within sliding window
-            float nElementsInverse = 1f / nElements; // inverse of nElements for faster computations 
+            var w = radius * 2 + 1; // full window size
+            var nElements = w * w; // number of elements within sliding window
+            var nElementsInverse = 1f / nElements; // inverse of nElements for faster computations 
 
             // Step 1) Calculate first accumulated sum to start
             // Perform analysis on first accumulated row
-            for (int i = 0; i < width; i++)
+            for (var i = 0; i < width; i++)
             {
-                for (int j = 0; j < w; j++)
+                for (var j = 0; j < w; j++)
                 {
                     rollRow[i] += raw[j * width + i];
                 }
@@ -192,10 +188,10 @@ namespace Vts.Common.Math
 
             // Step 2) Perform optimized roll algorithm
             // Cumulate rows and columns simultaneously
-            for (int j = w; j < height; j++)
+            for (var j = w; j < height; j++)
             {
                 rollColumn[w - 1] = 0;
-                for (int i = 0; i < width; i++)
+                for (var i = 0; i < width; i++)
                 {
                     rollRow[i] = rollRow[i] - raw[(j - w) * width + i] + raw[j * width + i];
                     if (i >= w)
@@ -216,7 +212,7 @@ namespace Vts.Common.Math
         }
 
         /// <summary>
-        /// 'Roll' Algorithm, Custom Integration based off Tom, et al, curtesy of Owen Yang.
+        /// 'Roll' Algorithm, Custom Integration based off Tom, et al, courtesy of Owen Yang.
         /// Owen Yang, David Cuccia, and Bernard Choi, "Real-time blood flow imaging using the
         /// graphics processing unit," (paper in preparation)
         /// </summary>
@@ -237,7 +233,7 @@ namespace Vts.Common.Math
         }
 
         /// <summary>
-        /// 'Roll' Algorithm, Custom Integration based off Tom, et al, curtesy of Owen Yang.
+        /// 'Roll' Algorithm, Custom Integration based off Tom, et al, courtesy of Owen Yang.
         /// Owen Yang, David Cuccia, and Bernard Choi, "Real-time blood flow imaging using the
         /// graphics processing unit," (paper in preparation)
         /// </summary>

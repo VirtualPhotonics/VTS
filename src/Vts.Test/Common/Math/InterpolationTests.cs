@@ -11,13 +11,12 @@ namespace Vts.Test.Common.Math
         {
             var x = new double[10] { -5, -4, -3, -2, -1, 1, 2, 3, 4, 5};
             var y = new double[10];
-            double result;
-            for (int i = 0; i < x.GetLength(0); i++)
+            for (var i = 0; i < x.GetLength(0); i++)
             {
                 y[i] = x[i] * x[i] - 2;
             }
             // check that xi below range of x returns y value at first x
-            result = Interpolation.interp1(x, y, -6);
+            var result = Interpolation.interp1(x, y, -6);
             Assert.AreEqual(result, y[0]);
             // check that xi beyond range of x returns y value at last x
             result = Interpolation.interp1(x, y, 6);
