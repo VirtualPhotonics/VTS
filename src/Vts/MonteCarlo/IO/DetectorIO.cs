@@ -132,16 +132,7 @@ namespace Vts.MonteCarlo.IO
             try
             {
                 string filePath = folderPath + fileName;
-                // allow null filePaths in case writing to isolated storage
-                //string filePath;
-                //if (folderPath == "")
-                //{
-                //    filePath = fileName;
-                //}
-                //else
-                //{
-                //    filePath = folderPath + @"/" + fileName;
-                //}
+
                 var detector = FileIO.ReadFromJsonInResources<IDetector>(filePath + ".txt", projectName);
 
                 var binaryArraySerializers = detector.GetBinarySerializers();

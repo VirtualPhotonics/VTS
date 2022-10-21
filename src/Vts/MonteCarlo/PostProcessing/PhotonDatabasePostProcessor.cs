@@ -19,21 +19,19 @@ namespace Vts.MonteCarlo.PostProcessing
     }
 
     /// <summary>
-    /// Sets up and postprocesses Monte Carlo termination data that has been 
+    /// Sets up and post-processes Monte Carlo termination data that has been 
     /// saved in a database.
     /// </summary>
     public class PhotonDatabasePostProcessor
     {
 
-        private VirtualBoundaryType _virtualBoundaryType;
-        private ITissue _tissue;
-        private IList<IDetector> _detectors;
-        private DetectorController _detectorController;
-        private pMCDatabase _pMCDatabase;
-        private PhotonDatabase _photonDatabase;
-        private SimulationInput _databaseInput;
-        private bool _ispMCPostProcessor;
-        private Random _rng;
+        private readonly VirtualBoundaryType _virtualBoundaryType;
+        private readonly IList<IDetector> _detectors;
+        private readonly DetectorController _detectorController;
+        private readonly pMCDatabase _pMCDatabase;
+        private readonly PhotonDatabase _photonDatabase;
+        private readonly SimulationInput _databaseInput;
+        private readonly bool _ispMcPostProcessor;
 
         /// <summary>
         /// Creates an instance of PhotonDatabasePostProcessor for pMC database processing
@@ -50,7 +48,7 @@ namespace Vts.MonteCarlo.PostProcessing
             : this(virtualBoundaryType, detectorInputs, databaseInput)
         {
             _pMCDatabase = database;
-            _ispMCPostProcessor = true;
+            _ispMcPostProcessor = true;
         }
 
         /// <summary>
@@ -68,7 +66,7 @@ namespace Vts.MonteCarlo.PostProcessing
             : this(virtualBoundaryType, detectorInputs, databaseInput)
         {
             _photonDatabase = photonDatabase;
-            _ispMCPostProcessor = false;
+            _ispMcPostProcessor = false;
         }
 
         /// <summary>
@@ -79,24 +77,23 @@ namespace Vts.MonteCarlo.PostProcessing
         /// <param name="databaseInput">Database information needed for post-processing</param>
         private PhotonDatabasePostProcessor(
             VirtualBoundaryType virtualBoundaryType,
-            IList<IDetectorInput> detectorInputs,
+            IEnumerable<IDetectorInput> detectorInputs,
             SimulationInput databaseInput)
         {
-
-            _rng = RandomNumberGeneratorFactory.GetRandomNumberGenerator(
+            var rng = RandomNumberGeneratorFactory.GetRandomNumberGenerator(
                 RandomNumberGeneratorType.MersenneTwister, -1); // -1 = random seed
 
             _virtualBoundaryType = virtualBoundaryType;
 
             _databaseInput = databaseInput;
 
-            _tissue = Factories.TissueFactory.GetTissue(
+            var tissue = Factories.TissueFactory.GetTissue(
                 databaseInput.TissueInput,
                 databaseInput.Options.AbsorptionWeightingType,
                 databaseInput.Options.PhaseFunctionType,
                 databaseInput.Options.RussianRouletteWeightThreshold);
 
-            _detectors = DetectorFactory.GetDetectors(detectorInputs, _tissue, _rng);
+            _detectors = DetectorFactory.GetDetectors(detectorInputs, tissue, rng);
 
             _detectorController = new DetectorController(_detectors);
         }
@@ -134,7 +131,7 @@ namespace Vts.MonteCarlo.PostProcessing
             if (_virtualBoundaryType.IsSurfaceVirtualBoundary())
             {
                 var photon = new Photon();
-                if (_ispMCPostProcessor)
+                if (_ispMcPostProcessor)
                 {
                     foreach (var dp in _pMCDatabase.DataPoints)
                     {
