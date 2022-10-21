@@ -17,18 +17,16 @@ namespace Vts
         /// <returns>A string representing the enum</returns>
         public static string GetInternationalizedString(this Enum enumType)
         {
-            string baseString = enumType.GetType().ToString();
-            string type = baseString.Substring(baseString.IndexOf('.') + 1);
-            string name = enumType.ToString();
+            var baseString = enumType.GetType().ToString();
+            var type = baseString.Substring(baseString.IndexOf('.') + 1);
+            var name = enumType.ToString();
 
-            ResourceManager rm = new ResourceManager("Vts.Common.Resources.Strings", typeof(Strings).Assembly);
+            var rm = new ResourceManager("Vts.Common.Resources.Strings", typeof(Strings).Assembly);
 
-            string s = rm.GetString(type + "_" + name, Thread.CurrentThread.CurrentCulture);
-            if (s != null)
-                return s;
-            else
-                return "";
+            var s = rm.GetString(type + "_" + name, Thread.CurrentThread.CurrentCulture);
+            return s != null ? s : "";
         }
+
         /// <summary>
         /// Factory method to return ChromophoreCoefficientType given a ChromophoreType
         /// </summary>
@@ -66,11 +64,7 @@ namespace Vts
             }
             catch (Exception ex)
             {
-                throw new ArgumentException(
-                    string.Format(
-                        "Could not append value from enumerated type '{0}'.",
-                        typeof(T).Name
-                        ), ex);
+                throw new ArgumentException($"Could not append value from enumerated type '{typeof(T).Name}'.", ex);
             }
         }
 
@@ -93,11 +87,7 @@ namespace Vts
             }
             catch (Exception ex)
             {
-                throw new ArgumentException(
-                    string.Format(
-                        "Could not remove value from enumerated type '{0}'.",
-                        typeof(T).Name
-                        ), ex);
+                throw new ArgumentException($"Could not remove value from enumerated type '{typeof(T).Name}'.", ex);
             }
         }
     }
