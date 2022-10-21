@@ -26,7 +26,7 @@ namespace Vts.Extensions
         /// <returns>A generic array T[]</returns>
         public static T[] InitializeTo<T>(this T[] myArray, T value) where T : struct
         {
-            for (int i = 0; i < myArray.Length; i++)
+            for (var i = 0; i < myArray.Length; i++)
                 myArray[i] = value;
             return myArray;
         }
@@ -41,7 +41,7 @@ namespace Vts.Extensions
         public static IEnumerable<T> Column<T>(this T[,] myArray, int column) where T : struct
         {
             var length = myArray.GetLength(0);
-            for (int i = 0; i < length; i++)
+            for (var i = 0; i < length; i++)
             {
                 yield return myArray[i, column];
             }
@@ -55,7 +55,7 @@ namespace Vts.Extensions
         public static IEnumerable<IEnumerable<T>> Columns<T>(this T[,] myArray) where T : struct
         {
             var length = myArray.GetLength(1);
-            for (int i = 0; i < length; i++)
+            for (var i = 0; i < length; i++)
             {
                 yield return myArray.Column(i);
             }
@@ -70,7 +70,7 @@ namespace Vts.Extensions
         public static IEnumerable<T> Row<T>(this T[,] myArray, int row) where T : struct
         {
             var length = myArray.GetLength(1);
-            for (int i = 0; i < length; i++)
+            for (var i = 0; i < length; i++)
             {
                 yield return myArray[row, i];
             }
@@ -84,7 +84,7 @@ namespace Vts.Extensions
         public static IEnumerable<IEnumerable<T>> Rows<T>(this T[,] myArray) where T : struct
         {
             var length = myArray.GetLength(0);
-            for (int i = 0; i < length; i++)
+            for (var i = 0; i < length; i++)
             {
                 yield return myArray.Row(i);
             }

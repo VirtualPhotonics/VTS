@@ -95,15 +95,12 @@ namespace Vts.Common
         /// <returns>A Boolean indicating if object is equal to direction</returns>
         public override bool Equals(object obj)
         {
-            if (obj is Direction)
-            {
-                var p = obj as Direction;
-                return
-                    Ux == p.Ux &&
-                    Uy == p.Uy &&
-                    Uz == p.Uz;
-            }
-            return false;
+            if (!(obj is Direction)) return false;
+            var p = obj as Direction;
+            return
+                Ux == p.Ux &&
+                Uy == p.Uy &&
+                Uz == p.Uz;
         }
         /// <summary>
         /// Method to determine dot product between two unit directionals.
