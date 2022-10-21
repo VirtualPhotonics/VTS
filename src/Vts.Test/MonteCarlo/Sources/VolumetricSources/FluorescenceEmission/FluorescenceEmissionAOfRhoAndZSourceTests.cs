@@ -22,7 +22,7 @@ namespace Vts.Test.MonteCarlo.Sources
     {
         private AOfRhoAndZDetector _aOfRhoAndZDetector;
         private FluorescenceEmissionAOfRhoAndZSource _fluorEmissionAOfRhoAndZSourceCDF,
-            _fluorEmissionAOfRhoAndZSourceUnif;
+            _fluorEmissionAOfRhoAndZSourceUnif, _fluorEmissionAOfRhoAndZSourceOther;
         private AOfRhoAndZLoader _rhozLoaderCDF, _rhozLoaderUnif;
 
         /// <summary>
@@ -108,6 +108,12 @@ namespace Vts.Test.MonteCarlo.Sources
             _rhozLoaderUnif = _fluorEmissionAOfRhoAndZSourceCDF.Loader;
 
             _rhozLoaderCDF.InitializeFluorescentRegionArrays();
+
+            // following setup is used to test FluorescenceEmissionSource other sampling method
+            // to test switch default exception by setting enum SourcePositionSamplingType outside range
+            _fluorEmissionAOfRhoAndZSourceOther = new FluorescenceEmissionAOfRhoAndZSource(
+                "sourcetest", "inputAOfRhoAndZ.txt", 3, (SourcePositionSamplingType)3);
+
         }
         /// <summary>
         /// test source input
@@ -165,6 +171,19 @@ namespace Vts.Test.MonteCarlo.Sources
             Assert.AreEqual(19, countArray[2, 1]);
             Assert.AreEqual(22, countArray[3, 0]);
             Assert.AreEqual(23, countArray[3, 1]);
+        }
+        /// <summary>
+        /// test switch statement in GetFinalPositionAndWeight method for setting other
+        /// than Uniform or CDF and verify exception is thrown
+        /// </summary>
+        [Test]
+        public void verify_that_samplingMethod_not_set_to_Uniform_or_CDF_throws_exception()
+        {
+            ITissueInput tissueInput = new SingleInfiniteCylinderTissueInput();
+            var tissue = tissueInput.CreateTissue(AbsorptionWeightingType.Discrete,
+                PhaseFunctionType.HenyeyGreenstein, 0);
+            Assert.Throws<ArgumentOutOfRangeException>(
+                () => _fluorEmissionAOfRhoAndZSourceOther.GetNextPhoton(tissue));
         }
     }
 }

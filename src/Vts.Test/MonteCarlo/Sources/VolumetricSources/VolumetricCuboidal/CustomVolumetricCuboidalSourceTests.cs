@@ -1,8 +1,10 @@
 ﻿using System;
 using MathNet.Numerics.Random;
+using Moq;
 using NUnit.Framework;
 using Vts.Common;
 using Vts.MonteCarlo;
+using Vts.MonteCarlo.Interfaces;
 using Vts.MonteCarlo.Sources;
 using Vts.MonteCarlo.Sources.SourceProfiles;
 using Vts.MonteCarlo.Tissues;
@@ -85,6 +87,41 @@ namespace Vts.Test.MonteCarlo.Sources
                               (photon.DP.Position.Z > -cubeHeightZ / 2 + translationFromOrigin.Z));
 
             }
+        }
+        /// <summary>
+        /// test switch statement in GetFinalPositionFromProfileType method for setting other
+        /// than Flat or Gaussian verify exception is thrown
+        /// </summary>
+        [Test]
+        public void verify_that_source_profile_not_set_to_flat_or_Gaussian_throws_exception()
+        {
+            var tissue = new MultiLayerTissue();
+            var source = new CustomVolumetricCuboidalSource(
+                1.0,
+                1.0,
+                1.0,
+                new MockSourceProfile(),
+                new DoubleRange(),
+                new DoubleRange(),
+                new Direction(),
+                new Position()
+                );
+            Assert.Throws<ArgumentOutOfRangeException>(
+                () => source.GetNextPhoton(tissue));
+        }
+        public class MockSourceProfile : ISourceProfile
+        {
+            /// <summary>
+            /// Initializes the default constructor of MockSourceProfile class
+            /// for testing purposes
+            /// </summary>
+            public MockSourceProfile()
+            { }
+
+            /// <summary>
+            /// Returns Mock profile type
+            /// </summary>
+            public SourceProfileType SourceProfileType => (SourceProfileType)3;
         }
     }
 }

@@ -1,7 +1,9 @@
 ﻿using System;
 using MathNet.Numerics.Random;
 using NUnit.Framework;
+using Vts.Common;
 using Vts.MonteCarlo;
+using Vts.MonteCarlo.Interfaces;
 using Vts.MonteCarlo.Sources;
 using Vts.MonteCarlo.Sources.SourceProfiles;
 using Vts.MonteCarlo.Tissues;
@@ -119,6 +121,43 @@ namespace Vts.Test.MonteCarlo.Sources
             Assert.Less(Math.Abs(photon.DP.Position.X - _validationData.Tp[82]),  _validationData.AcceptablePrecision);
             Assert.Less(Math.Abs(photon.DP.Position.Y - _validationData.Tp[83]),  _validationData.AcceptablePrecision);
             Assert.Less(Math.Abs(photon.DP.Position.Z - _validationData.Tp[84]),  _validationData.AcceptablePrecision);
+        }
+
+        /// <summary>
+        /// test switch statement in GetFinalPositionFromProfileType method for setting other
+        /// than Flat or Gaussian verify exception is thrown
+        /// </summary>
+        [Test]
+        public void verify_that_source_profile_not_set_to_flat_or_Gaussian_throws_exception()
+        {
+            var tissue = new MultiLayerTissue();
+            var source = new CustomRectangularSource(
+                1.0,
+                1.0,
+                new MockSourceProfile(),
+                new DoubleRange(),
+                new DoubleRange(),
+                new Direction(),
+                new Position(),
+                new Vts.MonteCarlo.Helpers.PolarAzimuthalAngles(),
+                1
+            );
+            Assert.Throws<ArgumentOutOfRangeException>(
+                () => source.GetNextPhoton(tissue));
+        }
+        public class MockSourceProfile : ISourceProfile
+        {
+            /// <summary>
+            /// Initializes the default constructor of MockSourceProfile class
+            /// for testing purposes
+            /// </summary>
+            public MockSourceProfile()
+            { }
+
+            /// <summary>
+            /// Returns Mock profile type
+            /// </summary>
+            public SourceProfileType SourceProfileType => (SourceProfileType)3;
         }
     }
 }

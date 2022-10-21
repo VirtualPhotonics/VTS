@@ -21,7 +21,7 @@ namespace Vts.Test.MonteCarlo.Sources
     {
         private AOfXAndYAndZDetector _aOfXAndYAndZDetector;
         private FluorescenceEmissionAOfXAndYAndZSource _fluorEmissionAOfXAndYAndZSourceCDF,
-            _fluorEmissionAOfXAndYAndZSourceUnif;
+            _fluorEmissionAOfXAndYAndZSourceUnif, _fluorEmissionAOfXAndYAndZSourceOther;
         private AOfXAndYAndZLoader _xyzLoaderCDF, _xyzLoaderUnif;
 
         /// <summary>
@@ -109,6 +109,12 @@ namespace Vts.Test.MonteCarlo.Sources
                 "sourcetest", "inputAOfXAndYAndZ.txt", 3);
             _xyzLoaderUnif = _fluorEmissionAOfXAndYAndZSourceCDF.Loader;
             _xyzLoaderUnif.InitializeFluorescentRegionArrays();
+
+            // following setup is used to test FluorescenceEmissionSource other sampling method
+            // to test switch default exception by setting enum SourcePositionSamplingType outside range
+            _fluorEmissionAOfXAndYAndZSourceOther = new FluorescenceEmissionAOfXAndYAndZSource(
+                "sourcetest", "inputAOfXAndYAndZ.txt", 3, (SourcePositionSamplingType)3);
+
         }
         /// <summary>
         /// test source input
@@ -205,6 +211,19 @@ namespace Vts.Test.MonteCarlo.Sources
                 Assert.IsTrue(Math.Abs(photon.DP.Weight - 
                                        _xyzLoaderUnif.AOfXAndYAndZ[ix, 0, iz] * xyzNorm) < 1e-6);
             }
+        }
+        /// <summary>
+        /// test switch statement in GetFinalPositionAndWeight method for setting other
+        /// than Uniform or CDF and verify exception is thrown
+        /// </summary>
+        [Test]
+        public void verify_that_samplingMethod_not_set_to_Uniform_or_CDF_throws_exception()
+        {
+            ITissueInput tissueInput = new SingleInfiniteCylinderTissueInput(); 
+            var tissue = tissueInput.CreateTissue(AbsorptionWeightingType.Discrete,
+                PhaseFunctionType.HenyeyGreenstein, 0);
+            Assert.Throws< ArgumentOutOfRangeException>(
+                () => _fluorEmissionAOfXAndYAndZSourceOther.GetNextPhoton(tissue));
         }
     }
 }
