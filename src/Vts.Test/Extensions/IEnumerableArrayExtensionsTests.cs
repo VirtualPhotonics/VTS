@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Numerics;
+using Newtonsoft.Json.Linq;
 using NUnit.Framework;
 using Vts.Extensions;
 
@@ -23,6 +25,7 @@ namespace Vts.Test.Extensions
         private IEnumerable<int> _intEnumerable;
         private IEnumerable<int> _intEnumerable6D;
         private IEnumerable<int> _intEnumerable7D;
+        private int _length;
 
         [OneTimeSetUp]
         public void One_time_setup()
@@ -354,13 +357,18 @@ namespace Vts.Test.Extensions
             };
         }
 
+        [SetUp]
+        public void Setup()
+        {
+            _length = 0;
+        }
+
         [Test]
         public void ToEnumerable_array_type_returns_enumerable()
         {
-            Array array = new Array[2];
+            Array array = new Array[2] { null, null };
             var result = array.ToEnumerable<int>();
             Assert.IsInstanceOf<IEnumerable<int>>(result);
-            result.ForEach(x => Assert.IsNull(x));
         }
 
         [Test]
@@ -369,7 +377,6 @@ namespace Vts.Test.Extensions
             var array = new[] { new Array[1] , new Array[1] };
             var result = array.ToEnumerable<int>();
             Assert.IsInstanceOf<IEnumerable<int>>(result);
-            result.ForEach(x => Assert.IsNull(x));
         }
 
         [Test]
@@ -384,7 +391,9 @@ namespace Vts.Test.Extensions
                 Assert.IsNotNull(complexArray);
                 Assert.AreEqual(x.Real, complexArray[index].Real);
                 Assert.AreEqual(x.Imaginary, complexArray[index].Imaginary);
+                _length++;
             });
+            Assert.AreEqual(_complexArray.Length, _length);
         }
 
         [Test]
@@ -392,7 +401,12 @@ namespace Vts.Test.Extensions
         {
             _doubleEnumerable = _doubleArray.ToEnumerable<double>();
             Assert.IsInstanceOf<IEnumerable<double>>(_doubleEnumerable);
-            _doubleEnumerable.ForEach(x => Assert.IsInstanceOf<double>(x));
+            _doubleEnumerable.ForEach(x =>
+            {
+                Assert.IsInstanceOf<double>(x);
+                _length++;
+            });
+            Assert.AreEqual(_doubleArray.Length, _length);
         }
 
         [Test]
@@ -400,7 +414,12 @@ namespace Vts.Test.Extensions
         {
             _uShortEnumerable = _uShortArray.ToEnumerable<ushort>();
             Assert.IsInstanceOf<IEnumerable<ushort>>(_uShortEnumerable);
-            _uShortEnumerable.ForEach(x => Assert.IsInstanceOf<ushort>(x));
+            _uShortEnumerable.ForEach(x =>
+            {
+                Assert.IsInstanceOf<ushort>(x);
+                _length++;
+            });
+            Assert.AreEqual(_uShortArray.Length, _length);
         }
 
         [Test]
@@ -408,7 +427,12 @@ namespace Vts.Test.Extensions
         {
             _uShortEnumerable4D = _uShortArray4D.ToEnumerable<ushort>();
             Assert.IsInstanceOf<IEnumerable<ushort>>(_uShortEnumerable4D);
-            _uShortEnumerable4D.ForEach(x => Assert.IsInstanceOf<ushort>(x));
+            _uShortEnumerable4D.ForEach(x =>
+            {
+                Assert.IsInstanceOf<ushort>(x);
+                _length++;
+            });
+            Assert.AreEqual(_uShortArray4D.Length, _length);
         }
 
         [Test]
@@ -416,7 +440,12 @@ namespace Vts.Test.Extensions
         {
             _intEnumerable = _intArray.ToEnumerable<int>();
             Assert.IsInstanceOf<IEnumerable<int>>(_intEnumerable);
-            _intEnumerable.ForEach(x => Assert.IsInstanceOf<int>(x));
+            _intEnumerable.ForEach(x =>
+            {
+                Assert.IsInstanceOf<int>(x);
+                _length++;
+            });
+            Assert.AreEqual(_intArray.Length, _length);
         }
 
         [Test]
@@ -424,7 +453,12 @@ namespace Vts.Test.Extensions
         {
             _intEnumerable6D = _intArray6D.ToEnumerable<int>();
             Assert.IsInstanceOf<IEnumerable<int>>(_intEnumerable6D);
-            _intEnumerable6D.ForEach(x => Assert.IsInstanceOf<int>(x));
+            _intEnumerable6D.ForEach(x =>
+            {
+                Assert.IsInstanceOf<int>(x);
+                _length++;
+            });
+            Assert.AreEqual(_intArray6D.Length, _length);
         }
 
         [Test]
@@ -432,7 +466,12 @@ namespace Vts.Test.Extensions
         {
             _intEnumerable7D = _intArray7D.ToEnumerable<int>();
             Assert.IsInstanceOf<IEnumerable<int>>(_intEnumerable7D);
-            _intEnumerable7D.ForEach(x => Assert.IsInstanceOf<int>(x));
+            _intEnumerable7D.ForEach(x =>
+            {
+                Assert.IsInstanceOf<int>(x);
+                _length++;
+            });
+            Assert.AreEqual(_intArray7D.Length, _length);
         }
 
         [Test]
