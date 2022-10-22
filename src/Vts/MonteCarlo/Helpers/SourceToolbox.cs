@@ -23,15 +23,14 @@ namespace Vts.MonteCarlo.Helpers
             double radius = Math.Sqrt(position.X * position.X + position.Y * position.Y);
 
             if (radius == 0.0)
-                return (new Direction(
+                return new Direction(
                     0.0,
                     0.0,
-                    Math.Cos(polarAngle)));
-            else
-                return (new Direction(
-                    Math.Sin(polarAngle) * position.X / radius,
-                    Math.Sin(polarAngle) * position.Y / radius,
-                    Math.Cos(polarAngle)));
+                    Math.Cos(polarAngle));
+            return new Direction(
+                Math.Sin(polarAngle) * position.X / radius,
+                Math.Sin(polarAngle) * position.Y / radius,
+                Math.Cos(polarAngle));
         }
         
         /// <summary>
@@ -46,26 +45,22 @@ namespace Vts.MonteCarlo.Helpers
             DoubleRange azimuthalAngleEmissionRange,
             Random rng)
         {
-            double cost, sint, phi, cosp, sinp;
-
-            if ((polarAngleEmissionRange.Start == polarAngleEmissionRange.Stop) && (azimuthalAngleEmissionRange.Start == azimuthalAngleEmissionRange.Stop))
+            if (polarAngleEmissionRange.Start == polarAngleEmissionRange.Stop && azimuthalAngleEmissionRange.Start == azimuthalAngleEmissionRange.Stop)
                 return (new Direction(0.0, 0.0, 1.0));
-            else
-            {
-                //sampling cost           
-                cost = rng.NextDouble(Math.Cos(polarAngleEmissionRange.Stop), Math.Cos(polarAngleEmissionRange.Start));
-                sint = Math.Sqrt(1.0 - cost * cost);
 
-                //sampling phi
-                phi = rng.NextDouble(azimuthalAngleEmissionRange.Start, azimuthalAngleEmissionRange.Stop);
-                cosp = Math.Cos(phi);
-                sinp = Math.Sin(phi);
+            //sampling cost           
+            var cost = rng.NextDouble(Math.Cos(polarAngleEmissionRange.Stop), Math.Cos(polarAngleEmissionRange.Start));
+            var sint = Math.Sqrt(1.0 - cost * cost);
 
-                return (new Direction(
-                    sint * cosp,
-                    sint * sinp,
-                    cost));
-            }
+            //sampling phi
+            var phi = rng.NextDouble(azimuthalAngleEmissionRange.Start, azimuthalAngleEmissionRange.Stop);
+            var cosp = Math.Cos(phi);
+            var sinp = Math.Sin(phi);
+
+            return new Direction(
+                sint * cosp,
+                sint * sinp,
+                cost);
         }
 
         /// <summary>
@@ -75,20 +70,19 @@ namespace Vts.MonteCarlo.Helpers
         /// <returns>direction</returns>
         public static Direction GetDirectionForIsotropicDistributionRandom(Random rng)
         {
-            double cost, sint, phi, cosp, sinp;     
             //sampling cost           
-            cost = 2 * rng.NextDouble() - 1;
-            sint = Math.Sqrt(1.0 - cost * cost);
+            var cost = 2 * rng.NextDouble() - 1;
+            var sint = Math.Sqrt(1.0 - cost * cost);
 
             //sampling phi
-            phi = rng.NextDouble(0, 2 * Math.PI);
-            cosp = Math.Cos(phi);
-            sinp = Math.Sin(phi);
+            var phi = rng.NextDouble(0, 2 * Math.PI);
+            var cosp = Math.Cos(phi);
+            var sinp = Math.Sin(phi);
 
-            return (new Direction(
+            return new Direction(
                 sint * cosp,
                 sint * sinp,
-                cost));
+                cost);
         }
 
         /// <summary>
@@ -106,13 +100,11 @@ namespace Vts.MonteCarlo.Helpers
             double upperLimit,
             Random rng)
         {
-            double RN1, RN2;
+            var rn1 = Math.Sqrt(-2 * Math.Log(rng.NextDouble(lowerLimit, upperLimit)));
+            var rn2 = 2 * Math.PI * rng.NextDouble();
 
-            RN1 = Math.Sqrt(-2 * Math.Log(rng.NextDouble(lowerLimit, upperLimit)));
-            RN2 = 2 * Math.PI * rng.NextDouble();
-
-            nrng1 = RN1 * Math.Cos(RN2);
-            nrng2 = RN1 * Math.Sin(RN2);
+            nrng1 = rn1 * Math.Cos(rn2);
+            nrng2 = rn1 * Math.Sin(rn2);
         }
                 
 
@@ -123,7 +115,7 @@ namespace Vts.MonteCarlo.Helpers
         /// <returns>lower limit</returns>
         public static double GetLimit(double factor)
         {
-            return (Math.Exp(-0.5 * factor * factor));
+            return Math.Exp(-0.5 * factor * factor);
         }
 
 
@@ -139,11 +131,11 @@ namespace Vts.MonteCarlo.Helpers
             DoubleRange azimuthalAngleEmissionRange,
             Random rng)
         {
-            var cosmax = Math.Cos(polarAngleEmissionRange.Start);
-            var cosmin = Math.Cos(polarAngleEmissionRange.Stop);
-            return (new PolarAzimuthalAngles(
-                Math.Acos(rng.NextDouble(cosmin, cosmax)),
-                rng.NextDouble(azimuthalAngleEmissionRange.Start, azimuthalAngleEmissionRange.Stop)));
+            var cosMax = Math.Cos(polarAngleEmissionRange.Start);
+            var cosMin = Math.Cos(polarAngleEmissionRange.Stop);
+            return new PolarAzimuthalAngles(
+                Math.Acos(rng.NextDouble(cosMin, cosMax)),
+                rng.NextDouble(azimuthalAngleEmissionRange.Start, azimuthalAngleEmissionRange.Stop));
         }
 
         /// <summary>
@@ -159,16 +151,16 @@ namespace Vts.MonteCarlo.Helpers
                 return new PolarAzimuthalAngles(0.0, 0.0);
             }
 
-            double x, y, z, r, theta, phi;
-            x = direction.Ux;
-            y = direction.Uy;
-            z = direction.Uz;
+            double phi;
+            var x = direction.Ux;
+            var y = direction.Uy;
+            var z = direction.Uz;
 
-            theta = Math.Acos(z);
+            var theta = Math.Acos(z);
 
-            if ((x != 0.0) || (y != 0.0))
+            if (x != 0.0 || y != 0.0)
             {
-                r = Math.Sqrt(x * x + y * y);
+                var r = Math.Sqrt(x * x + y * y);
 
                 if (y >= 0.0)
                     phi = Math.Acos(x / r);
@@ -178,7 +170,7 @@ namespace Vts.MonteCarlo.Helpers
             else
                 phi = 0;
 
-            PolarAzimuthalAngles polarAzimuthalAngles = new PolarAzimuthalAngles(
+            var polarAzimuthalAngles = new PolarAzimuthalAngles(
                 theta,
                 phi);
 
@@ -201,14 +193,14 @@ namespace Vts.MonteCarlo.Helpers
         {
             if (outerRadius == 0.0)
             {
-                return (center);
+                return center;
             }
-            double angle = 2 * Math.PI * rng.NextDouble();
-            double radius = Math.Sqrt(innerRadius * innerRadius + (outerRadius * outerRadius - innerRadius * innerRadius) * rng.NextDouble());
-            return (new Position(
+            var angle = 2 * Math.PI * rng.NextDouble();
+            var radius = Math.Sqrt(innerRadius * innerRadius + (outerRadius * outerRadius - innerRadius * innerRadius) * rng.NextDouble());
+            return new Position(
                 center.X + radius * Math.Cos(angle),
                 center.Y + radius * Math.Sin(angle),
-                center.Z));
+                center.Z);
         }
 
         /// <summary>
@@ -223,11 +215,11 @@ namespace Vts.MonteCarlo.Helpers
             double radius,
             Random rng)
         {            
-            double angle = 2 * Math.PI * rng.NextDouble();            
-            return (new Position(
+            var angle = 2 * Math.PI * rng.NextDouble();            
+            return new Position(
                 center.X + radius * Math.Cos(angle),
                 center.Y + radius * Math.Sin(angle),
-                center.Z));
+                center.Z);
         }
 
         /// <summary>
@@ -255,10 +247,10 @@ namespace Vts.MonteCarlo.Helpers
                 beamDiaFWHM = 1e-20;
 
             //https://support.zemax.com/hc/en-us/articles/1500005488161-How-to-convert-FWHM-measurements-to-1-e-2-halfwidths
-            double x = 0.0;
-            double y = 0.0;
-            double factorL = outerRadius / (0.8493218 * beamDiaFWHM);
-            double factorU = innerRadius / (0.8493218 * beamDiaFWHM);
+            var x = 0.0;
+            var y = 0.0;
+            var factorL = outerRadius / (0.8493218 * beamDiaFWHM);
+            var factorU = innerRadius / (0.8493218 * beamDiaFWHM);
 
             GetDoubleNormallyDistributedRandomNumbers(
                 ref x,
@@ -267,10 +259,10 @@ namespace Vts.MonteCarlo.Helpers
                 GetLimit(factorU),
                 rng);
 
-            return (new Position(
+            return new Position(
                 center.X + 0.8493218 * beamDiaFWHM * x,
                 center.Y + 0.8493218 * beamDiaFWHM * y,
-                center.Z));
+                center.Z);
         }
 
         /// <summary>
@@ -289,16 +281,18 @@ namespace Vts.MonteCarlo.Helpers
             double lengthZ,
             Random rng)
         {
-            if ((lengthX == 0.0) && (lengthY == 0.0) && (lengthZ == 0.0))
+            if (lengthX == 0.0 && lengthY == 0.0 && lengthZ == 0.0)
             {
-                return (center);
+                return center;
             }
 
-            var position = new Position { };
+            var position = new Position
+            {
+                X = center.X + GetPositionOfASymmetricalLineRandomFlat(lengthX, rng),
+                Y = center.Y + GetPositionOfASymmetricalLineRandomFlat(lengthY, rng),
+                Z = center.Z + GetPositionOfASymmetricalLineRandomFlat(lengthZ, rng)
+            };
 
-            position.X = center.X + GetPositionOfASymmetricalLineRandomFlat(lengthX, rng);
-            position.Y = center.Y + GetPositionOfASymmetricalLineRandomFlat(lengthY, rng);
-            position.Z = center.Z + GetPositionOfASymmetricalLineRandomFlat(lengthZ, rng);
             return position;
         }
 
@@ -320,17 +314,17 @@ namespace Vts.MonteCarlo.Helpers
             double beamDiaFWHM,
             Random rng)
         {
-            if ((lengthX == 0.0) && (lengthY == 0.0) && (lengthZ == 0.0))
+            if (lengthX == 0.0 && lengthY == 0.0 && lengthZ == 0.0)
             {
-                return (center);
+                return center;
             }
 
-            Position position = new Position(0, 0, 0);
+            var position = new Position(0, 0, 0);
 
             if (beamDiaFWHM <= 0.0)
                 beamDiaFWHM = 1e-20;
 
-            double factor = lengthX / (0.8493218 *beamDiaFWHM);
+            var factor = lengthX / (0.8493218 *beamDiaFWHM);
             position.X = center.X + 0.8493218 * beamDiaFWHM * GetSingleNormallyDistributedRandomNumber(
                 GetLimit(factor),
                 rng);
@@ -361,13 +355,13 @@ namespace Vts.MonteCarlo.Helpers
         {
             if (lengthX == 0.0)
             {
-                return (center);
+                return center;
             }
 
-            return (new Position(
-            center.X + GetPositionOfASymmetricalLineRandomFlat(lengthX, rng),
-            center.Y,
-            center.Z));
+            return new Position(
+                center.X + GetPositionOfASymmetricalLineRandomFlat(lengthX, rng),
+                center.Y,
+                center.Z);
         }
 
         /// <summary>
@@ -386,21 +380,19 @@ namespace Vts.MonteCarlo.Helpers
         {
             if (lengthX == 0.0)
             {
-                return (center);
+                return center;
             }
-            else
-            {
-                if (beamDiaFWHM <= 0.0)
-                    beamDiaFWHM = 1e-20;
 
-                double factor = lengthX / (0.8493218 * beamDiaFWHM);
-                return (
-                    new Position(center.X + 0.8493218 * beamDiaFWHM * GetSingleNormallyDistributedRandomNumber(
-                           GetLimit(factor),
-                           rng),
-                        center.Y,
-                        center.Z));
-            }
+            if (beamDiaFWHM <= 0.0)
+                beamDiaFWHM = 1e-20;
+
+            double factor = lengthX / (0.8493218 * beamDiaFWHM);
+            return new Position(
+                center.X + 0.8493218 * beamDiaFWHM * GetSingleNormallyDistributedRandomNumber(
+                    GetLimit(factor),
+                    rng),
+                center.Y,
+                center.Z);
 
         }
 
@@ -418,9 +410,9 @@ namespace Vts.MonteCarlo.Helpers
             double b,
             Random rng)
         {
-            if ((a == 0.0) && (b == 0.0))
+            if (a == 0.0 && b == 0.0)
             {
-                return (center);
+                return center;
             }
 
             double x, y;
@@ -430,11 +422,11 @@ namespace Vts.MonteCarlo.Helpers
                 x = a * (2.0 * rng.NextDouble() - 1);
                 y = b * (2.0 * rng.NextDouble() - 1);
             }
-            while ((x * x / (a * a)) + (y * y / (b * b)) >= 1.0);
-            return (new Position(
+            while (x * x / (a * a) + y * y / (b * b) >= 1.0);
+            return new Position(
                 center.X + x,
                 center.Y + y,
-                center.Z));
+                center.Z);
         }
 
         /// <summary>
@@ -453,34 +445,34 @@ namespace Vts.MonteCarlo.Helpers
             double beamDiaFWHM,
             Random rng)
         {
-            if ((a == 0.0) && (b == 0.0))
+            if (a == 0.0 && b == 0.0)
             {
-                return (center);
+                return center;
             }
 
             if (beamDiaFWHM <= 0.0)
                 beamDiaFWHM = 1e-20;
 
             double x, y;
-            double factora = a / (0.8493218 * beamDiaFWHM);
-            double factorb = b / (0.8493218 * beamDiaFWHM);
+            var factorA = a / (0.8493218 * beamDiaFWHM);
+            var factorB = b / (0.8493218 * beamDiaFWHM);
 
 
             /*eliminate points outside the ellipse */
             do
             {
                 x = 0.8493218 * beamDiaFWHM * GetSingleNormallyDistributedRandomNumber(
-                    GetLimit(factora),
+                    GetLimit(factorA),
                     rng);
                 y = 0.8493218 * beamDiaFWHM * GetSingleNormallyDistributedRandomNumber(
-                    GetLimit(factorb),
+                    GetLimit(factorB),
                     rng);
             }
             while ((x * x / (a * a)) + (y * y / (b * b)) >= 1.0);            
-            return (new Position(
+            return new Position(
                 center.X + x,
                 center.Y + y,
-                center.Z));
+                center.Z);
         }
 
         /// <summary>
@@ -499,9 +491,9 @@ namespace Vts.MonteCarlo.Helpers
             double c,
             Random rng)
         {
-            if ((a == 0.0) && (b == 0.0) && (c == 0.0))
+            if (a == 0.0 && b == 0.0 && c == 0.0)
             {
-                return (center);
+                return center;
             }
 
 
@@ -513,7 +505,7 @@ namespace Vts.MonteCarlo.Helpers
                 y = b * (2.0 * rng.NextDouble() - 1);
                 z = c * (2.0 * rng.NextDouble() - 1);
             }
-            while ((x * x / (a * a)) + (y * y / (b * b) + (z * z / (c * c))) >= 1.0);
+            while (x * x / (a * a) + (y * y / (b * b) + z * z / (c * c)) >= 1.0);
             return (new Position(
                 center.X + x,
                 center.Y + y,
@@ -538,39 +530,39 @@ namespace Vts.MonteCarlo.Helpers
             double beamDiaFWHM,
             Random rng)
         {
-            if ((a == 0.0) && (b == 0.0) && (c == 0.0))
+            if (a == 0.0 && b == 0.0 && c == 0.0)
             {
-                return (center);
+                return center;
             }
 
             if (beamDiaFWHM <= 0.0)
                 beamDiaFWHM = 1e-20;
 
             double x, y, z;
-            double factorx = a / (0.8493218 * beamDiaFWHM);
-            double factory = b / (0.8493218 * beamDiaFWHM);
-            double factorz = c / (0.8493218 * beamDiaFWHM);
+            var factorX = a / (0.8493218 * beamDiaFWHM);
+            var factorY = b / (0.8493218 * beamDiaFWHM);
+            var factorZ = c / (0.8493218 * beamDiaFWHM);
 
 
             /*eliminate points outside the ellipse */
             do
             {
                 x = 0.8493218 * beamDiaFWHM * GetSingleNormallyDistributedRandomNumber(
-                    GetLimit(factorx),
+                    GetLimit(factorX),
                     rng);
                 y = 0.8493218 * beamDiaFWHM *GetSingleNormallyDistributedRandomNumber(
-                    GetLimit(factory),
+                    GetLimit(factorY),
                     rng);
                 z = 0.8493218 * beamDiaFWHM *GetSingleNormallyDistributedRandomNumber(
-                    GetLimit(factorz),
+                    GetLimit(factorZ),
                     rng);
             }
-            while ((x * x / (a * a)) + (y * y / (b * b) + (z * z / (c * c))) >= 1.0);
+            while (x * x / (a * a) + (y * y / (b * b) + z * z / (c * c)) >= 1.0);
 
-            return (new Position(
+            return new Position(
                 center.X + x,
                 center.Y + y,
-                center.Z + z));
+                center.Z + z);
         }
 
         /// <summary>
@@ -587,14 +579,17 @@ namespace Vts.MonteCarlo.Helpers
             double lengthY,
             Random rng)
         {
-            if ((lengthX == 0.0) && (lengthY == 0.0))
+            if (lengthX == 0.0 && lengthY == 0.0)
             {
-                return (center);
+                return center;
             }
 
-            var position = new Position { Z = center.Z };
-            position.X = center.X + GetPositionOfASymmetricalLineRandomFlat(lengthX, rng);
-            position.Y = center.Y + GetPositionOfASymmetricalLineRandomFlat(lengthY, rng);
+            var position = new Position
+            {
+                Z = center.Z,
+                X = center.X + GetPositionOfASymmetricalLineRandomFlat(lengthX, rng),
+                Y = center.Y + GetPositionOfASymmetricalLineRandomFlat(lengthY, rng)
+            };
             return position;
         }
 
@@ -614,16 +609,16 @@ namespace Vts.MonteCarlo.Helpers
             double beamDiaFWHM,
             Random rng)
         {
-            if ((lengthX == 0.0) && (lengthY == 0.0))
+            if (lengthX == 0.0 && lengthY == 0.0)
             {
-                return (center);
+                return center;
             }
 
             var position = new Position { Z = center.Z };
 
             if (beamDiaFWHM <= 0.0)
                 beamDiaFWHM = 1e-5;
-            double factor = lengthX / (0.8493218 * beamDiaFWHM);             
+            var factor = lengthX / (0.8493218 * beamDiaFWHM);             
             position.X = center.X + 0.8493218 * beamDiaFWHM * GetSingleNormallyDistributedRandomNumber(
                 GetLimit(factor),
                 rng);
@@ -658,9 +653,8 @@ namespace Vts.MonteCarlo.Helpers
             double lowerLimit,
             Random rng)
         {
-            double a1, b1;
-            a1 = Math.Sqrt(-2 * Math.Log(rng.NextDouble(lowerLimit, 1.0)));
-            b1 = Math.Cos(2 * Math.PI * rng.NextDouble());
+            var a1 = Math.Sqrt(-2 * Math.Log(rng.NextDouble(lowerLimit, 1.0)));
+            var b1 = Math.Cos(2 * Math.PI * rng.NextDouble());
             return a1 * b1; 
         }            
 
@@ -675,18 +669,17 @@ namespace Vts.MonteCarlo.Helpers
             Direction currentDirection)
         {
             // readability eased with local copies of following
-            double ux = currentDirection.Ux;
-            double uy = currentDirection.Uy;
-            double uz = currentDirection.Uz;
+            var ux = currentDirection.Ux;
+            var uy = currentDirection.Uy;
+            var uz = currentDirection.Uz;
 
-            double cosx, sinx, cosy, siny, cosz, sinz;    /* cosine and sine of rotation angles */
-
-            cosx = Math.Cos(rotationAngles.XRotation);
-            cosy = Math.Cos(rotationAngles.YRotation);
-            cosz = Math.Cos(rotationAngles.ZRotation);
-            sinx = Math.Sin(rotationAngles.XRotation);
-            siny = Math.Sin(rotationAngles.YRotation);
-            sinz = Math.Sin(rotationAngles.ZRotation);
+            // cosine and sine of rotation angles
+            var cosx = Math.Cos(rotationAngles.XRotation);
+            var cosy = Math.Cos(rotationAngles.YRotation);
+            var cosz = Math.Cos(rotationAngles.ZRotation);
+            var sinx = Math.Sin(rotationAngles.XRotation);
+            var siny = Math.Sin(rotationAngles.YRotation);
+            var sinz = Math.Sin(rotationAngles.ZRotation);
 
             currentDirection.Ux = ux * cosy * cosz + uy * (-cosx * sinz + sinx * siny * cosz) + uz * (sinx * sinz + cosx * siny * cosz);
             currentDirection.Uy = ux * cosy * sinz + uy * (cosx * cosz + sinx * siny * sinz) + uz * (-sinx * cosz + cosx * siny * sinz);
@@ -709,10 +702,9 @@ namespace Vts.MonteCarlo.Helpers
             double uy = currentDirection.Uy;
             double uz = currentDirection.Uz;
 
-            double cost, sint;    /* cosine and sine of rotation angle */
-
-            cost = Math.Cos(xRotation);
-            sint = Math.Sin(xRotation);
+            // cosine and sine of rotation angle
+            var cost = Math.Cos(xRotation);
+            var sint = Math.Sin(xRotation);
 
             currentDirection.Uy = uy * cost - uz * sint;
             currentDirection.Uz = uy * sint + uz * cost;
@@ -730,13 +722,12 @@ namespace Vts.MonteCarlo.Helpers
             Direction currentDirection)
         {
             // readability eased with local copies of following
-            double ux = currentDirection.Ux;
-            double uz = currentDirection.Uz;
+            var ux = currentDirection.Ux;
+            var uz = currentDirection.Uz;
 
-            double cost, sint;    /* cosine and sine of rotation angle */
-
-            cost = Math.Cos(yRotation);
-            sint = Math.Sin(yRotation);
+            // cosine and sine of rotation angle
+            var cost = Math.Cos(yRotation);
+            var sint = Math.Sin(yRotation);
 
             currentDirection.Ux = ux * cost + uz * sint;
             currentDirection.Uz = -ux * sint + uz * cost;
@@ -754,13 +745,12 @@ namespace Vts.MonteCarlo.Helpers
             Direction currentDirection)
         {
             // readability eased with local copies of following
-            double ux = currentDirection.Ux;
-            double uy = currentDirection.Uy;
+            var ux = currentDirection.Ux;
+            var uy = currentDirection.Uy;
 
-            double cost, sint;    /* cosine and sine of rotation angle */
-
-            cost = Math.Cos(zRotation);
-            sint = Math.Sin(zRotation);
+            // cosine and sine of rotation angle
+            var cost = Math.Cos(zRotation);
+            var sint = Math.Sin(zRotation);
 
             currentDirection.Ux = ux * cost - uy * sint;
             currentDirection.Uy = ux * sint + uy * cost;
@@ -778,16 +768,15 @@ namespace Vts.MonteCarlo.Helpers
             Direction currentDirection)
         {
             // readability eased with local copies of following
-            double ux = currentDirection.Ux;
-            double uy = currentDirection.Uy;
-            double uz = currentDirection.Uz;
+            var ux = currentDirection.Ux;
+            var uy = currentDirection.Uy;
+            var uz = currentDirection.Uz;
 
-            double cost, sint, cosp, sinp;    /* cosine and sine of theta and phi */
-
-            cost = Math.Cos(rotationAnglePair.Theta);
-            sint = Math.Sin(rotationAnglePair.Theta);
-            cosp = Math.Cos(rotationAnglePair.Phi);            
-            sinp = Math.Sin(rotationAnglePair.Phi);
+            // cosine and sine of theta and phi
+            var cost = Math.Cos(rotationAnglePair.Theta);
+            var sint = Math.Sin(rotationAnglePair.Theta);
+            var cosp = Math.Cos(rotationAnglePair.Phi);            
+            var sinp = Math.Sin(rotationAnglePair.Phi);
 
             currentDirection.Ux = ux * cost * cosp - uy * sinp + uz * sint * cosp;
             currentDirection.Uy = ux * cost * sinp + uy * cosp + uz * sint * sinp;
@@ -815,8 +804,8 @@ namespace Vts.MonteCarlo.Helpers
         {
             if (flags.BeamRotationFromInwardNormalFlag)
             {
-                PolarAzimuthalAngles thetaOnly = new PolarAzimuthalAngles(beamRotation.Theta, 0);
-                PolarAzimuthalAngles phiOnly = new PolarAzimuthalAngles(0, beamRotation.Phi);
+                var thetaOnly = new PolarAzimuthalAngles(beamRotation.Theta, 0);
+                var phiOnly = new PolarAzimuthalAngles(0, beamRotation.Phi);
                 // X should have theta angles but phi = 0
                 dir = UpdateDirectionAfterRotatingByGivenAnglePair(thetaOnly, dir); 
                 if (beamRotation.Phi != 0.0)
@@ -865,15 +854,13 @@ namespace Vts.MonteCarlo.Helpers
             ref Position currentPosition)
         {
             // readability eased with local copies of following
-            double uy = currentDirection.Uy;
-            double uz = currentDirection.Uz;
-            double y = currentPosition.Y;
-            double z = currentPosition.Z;
+            var uy = currentDirection.Uy;
+            var uz = currentDirection.Uz;
+            var y = currentPosition.Y;
+            var z = currentPosition.Z;
 
-            double cost, sint;    /* cosine and sine of rotation angle */
-
-            cost = Math.Cos(xRotation);
-            sint = Math.Sin(xRotation);
+            var cost = Math.Cos(xRotation); // cosine of rotation angle
+            var sint = Math.Sin(xRotation); // sine of rotation angle
 
             currentDirection.Uy = uy * cost - uz * sint;
             currentDirection.Uz = uy * sint + uz * cost;
@@ -894,15 +881,13 @@ namespace Vts.MonteCarlo.Helpers
             ref Position currentPosition)
         {
             // readability eased with local copies of following
-            double ux = currentDirection.Ux;
-            double uz = currentDirection.Uz;
-            double x = currentPosition.X;
-            double z = currentPosition.Z;
+            var ux = currentDirection.Ux;
+            var uz = currentDirection.Uz;
+            var x = currentPosition.X;
+            var z = currentPosition.Z;
 
-            double cost, sint;    /* cosine and sine of rotation angle */
-
-            cost = Math.Cos(yRotation);
-            sint = Math.Sin(yRotation);
+            var cost = Math.Cos(yRotation); // cosine of rotation angle
+            var sint = Math.Sin(yRotation); // sine of rotation angle
 
             currentDirection.Ux = ux * cost + uz * sint;
             currentDirection.Uz = -ux * sint + uz * cost;
@@ -923,15 +908,13 @@ namespace Vts.MonteCarlo.Helpers
             ref Position currentPosition)
         {
             // readability eased with local copies of following
-            double ux = currentDirection.Ux;
-            double uy = currentDirection.Uy;
-            double x = currentPosition.X;
-            double y = currentPosition.Y;
+            var ux = currentDirection.Ux;
+            var uy = currentDirection.Uy;
+            var x = currentPosition.X;
+            var y = currentPosition.Y;
 
-            double cost, sint;    /* cosine and sine of rotation angle */
-
-            cost = Math.Cos(zRotation);
-            sint = Math.Sin(zRotation);
+            var cost = Math.Cos(zRotation);  // cosine of rotation angle
+            var sint = Math.Sin(zRotation);  // sine of rotation angle
 
             currentDirection.Ux = ux * cost - uy * sint;
             currentDirection.Uy = ux * sint + uy * cost;
@@ -959,12 +942,10 @@ namespace Vts.MonteCarlo.Helpers
             double y = currentPosition.Y;
             double z = currentPosition.Z;
 
-            double cost, sint, cosp, sinp;    /* cosine and sine of theta and phi */
-
-            cost = Math.Cos(rotationAnglePair.Theta);
-            sint = Math.Sqrt(1.0 - cost * cost);
-            cosp = Math.Cos(rotationAnglePair.Phi);            
-            sinp = Math.Sin(rotationAnglePair.Phi);
+            var cost = Math.Cos(rotationAnglePair.Theta); // cos(theta)
+            var sint = Math.Sqrt(1.0 - cost * cost); // sin(theta)
+            var cosp = Math.Cos(rotationAnglePair.Phi);  // cos(phi)     
+            var sinp = Math.Sin(rotationAnglePair.Phi); // sin(phi)
 
             currentDirection.Ux = ux * cost * cosp - uy * sinp + uz * sint * cosp;
             currentDirection.Uy = ux * cost * sinp + uy * cosp + uz * sint * sinp;
@@ -989,11 +970,8 @@ namespace Vts.MonteCarlo.Helpers
         {
             if (thetaConvOrDiv == 0.0)
                 return thetaConvOrDiv;
-            else
-            {
-                var height = fullLength / Math.Tan(thetaConvOrDiv);
-                return (Math.Atan(curLength) / height);
-            }
+            var height = fullLength / Math.Tan(thetaConvOrDiv);
+            return (Math.Atan(curLength) / height);
         }
 
         /// <summary>
