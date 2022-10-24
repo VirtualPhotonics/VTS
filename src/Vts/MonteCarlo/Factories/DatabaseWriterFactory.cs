@@ -50,7 +50,6 @@ namespace Vts.MonteCarlo.Factories
         {
             switch (databaseType)
             {
-                default:
                 case DatabaseType.DiffuseReflectance:
                     return new PhotonDatabaseWriter(VirtualBoundaryType.DiffuseReflectance,
                         Path.Combine(filePath, outputName, "DiffuseReflectanceDatabase"));
@@ -66,6 +65,8 @@ namespace Vts.MonteCarlo.Factories
                 case DatabaseType.pMCDiffuseTransmittance:
                     return new PhotonDatabaseWriter(VirtualBoundaryType.pMCDiffuseTransmittance,
                         Path.Combine(filePath, outputName, "DiffuseTransmittanceDatabase"));
+                default:
+                    return null;
             }
         }
         /// <summary>
@@ -99,15 +100,19 @@ namespace Vts.MonteCarlo.Factories
         {
             switch (databaseType)
             {
-                default:
                 case DatabaseType.pMCDiffuseReflectance:
                     return new CollisionInfoDatabaseWriter(VirtualBoundaryType.pMCDiffuseReflectance,
                         Path.Combine(filePath, outputName, "CollisionInfoDatabase"), 
-                        tissue.Regions.Count());
+                        tissue.Regions.Count);
                 case DatabaseType.pMCDiffuseTransmittance:
                     return new CollisionInfoDatabaseWriter(VirtualBoundaryType.pMCDiffuseTransmittance,
                         Path.Combine(filePath, outputName, "CollisionInfoTransmittanceDatabase"),
-                        tissue.Regions.Count());
+                        tissue.Regions.Count);
+                case DatabaseType.DiffuseReflectance:
+                case DatabaseType.DiffuseTransmittance:
+                case DatabaseType.SpecularReflectance:
+                default:
+                    return null;
             }
         }
 

@@ -35,6 +35,9 @@ namespace Vts.MonteCarlo.Factories
                 case VirtualBoundaryType.pMCDiffuseTransmittance: //pMC uses same exit db as regular post-processing
                     dbFilename = Path.Combine(filePath, "DiffuseTransmittanceDatabase");
                     break;
+                case VirtualBoundaryType.GenericVolumeBoundary:
+                case VirtualBoundaryType.Dosimetry:
+                case VirtualBoundaryType.BoundingCylinderVolume:
                 default:
                     return null;
             }

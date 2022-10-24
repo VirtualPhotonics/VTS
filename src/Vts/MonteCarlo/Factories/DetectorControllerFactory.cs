@@ -32,7 +32,7 @@ namespace Vts.MonteCarlo.Factories
                 case VirtualBoundaryType.GenericVolumeBoundary:
                     return new HistoryDetectorController((from d in detectors where d is IHistoryDetector select (IHistoryDetector)d).ToList(), tissue);
                 default:
-                    throw new ArgumentOutOfRangeException("virtualBoundaryType"); 
+                    throw new ArgumentOutOfRangeException(nameof(virtualBoundaryType)); 
             }
         }
     }

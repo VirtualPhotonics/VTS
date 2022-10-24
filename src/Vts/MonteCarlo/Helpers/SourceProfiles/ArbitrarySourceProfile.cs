@@ -19,9 +19,6 @@ namespace Vts.MonteCarlo.Sources.SourceProfiles
     /// </summary>
     public class ArbitrarySourceProfile : ISourceProfile
     {
-        private int _numNonZeroPixels;
-        private int[] _nonZeroPixelMap;
-
         /// <summary>
         /// Initializes a new instance of the ArbitrarySourceProfile class
         /// </summary>
@@ -35,16 +32,15 @@ namespace Vts.MonteCarlo.Sources.SourceProfiles
             PixelWidth = pixelWidth;
             PixelHeight = pixelHeight;
             var binaryPixelMap = new List<int>(image.Length);
-                for (int i = 0; i < image.Length; i++)
+            for (var i = 0; i < image.Length; i++)
+            {
+                var pixelValue = image[i];
+                if (Math.Abs(pixelValue) > 1e-10D)
                 {
-                    var pixelValue = image[i];
-                    if (Math.Abs(pixelValue) > 1e-10D)
-                    {
-                        binaryPixelMap.Add(i);
-                    }
+                    binaryPixelMap.Add(i);
                 }
-                _nonZeroPixelMap = binaryPixelMap.ToArray();
-                _numNonZeroPixels = _nonZeroPixelMap.Length;
+            }
+            binaryPixelMap.ToArray();
         }
 
         /// <summary>
@@ -59,7 +55,7 @@ namespace Vts.MonteCarlo.Sources.SourceProfiles
         /// Returns Arbitrary profile type
         /// </summary>
         //[IgnoreDataMember]
-        public SourceProfileType SourceProfileType { get { return SourceProfileType.Arbitrary; } }
+        public SourceProfileType SourceProfileType => SourceProfileType.Arbitrary;
 
         /// <summary>
         /// 1D array containing 2D image of values
