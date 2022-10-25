@@ -43,10 +43,7 @@ namespace Vts.Common
         protected override uint GetDelta()
         {
             if (Count != 1) return (uint)((Stop - Start) / (Count - 1));
-            if (Start != Stop)
-            {
-                return Stop - Start;
-            }
+            if (Start != Stop) return Stop - Start;
 
             return 0U;
 
