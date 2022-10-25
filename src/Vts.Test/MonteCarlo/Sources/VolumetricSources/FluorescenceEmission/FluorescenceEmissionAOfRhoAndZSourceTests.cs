@@ -9,8 +9,6 @@ using Vts.MonteCarlo.Detectors;
 using Vts.MonteCarlo.IO;
 using Vts.MonteCarlo.Sources;
 using Vts.MonteCarlo.Tissues;
-using Vts.MonteCarlo.Helpers;
-using Vts.MonteCarlo.Sources.SourceProfiles;
 
 namespace Vts.Test.MonteCarlo.Sources
 {
@@ -21,14 +19,14 @@ namespace Vts.Test.MonteCarlo.Sources
     public class FluorescenceEmissionAOfRhoAndZSourceTests
     {
         private AOfRhoAndZDetector _aOfRhoAndZDetector;
-        private FluorescenceEmissionAOfRhoAndZSource _fluorEmissionAOfRhoAndZSourceCDF,
+        private FluorescenceEmissionAOfRhoAndZSource _fluorEmissionAOfRhoAndZSourceCdf,
             _fluorEmissionAOfRhoAndZSourceUnif, _fluorEmissionAOfRhoAndZSourceOther;
-        private AOfRhoAndZLoader _rhozLoaderCDF, _rhozLoaderUnif;
+        private AOfRhoAndZLoader _rhozLoaderCdf, _rhozLoaderUnif;
 
         /// <summary>
         /// list of temporary files created by these unit tests
         /// </summary>
-        readonly List<string> listOfTestGeneratedFolders = new List<string>()
+        readonly List<string> _listOfTestGeneratedFolders = new List<string>()
         {
             "sourcetest",
         };
@@ -44,13 +42,13 @@ namespace Vts.Test.MonteCarlo.Sources
         /// </summary>
         [OneTimeSetUp]
         [OneTimeTearDown]
-        public void clear_folders_and_files()
+        public void Clear_folders_and_files()
         {
             foreach (var file in _listOfTestGeneratedFiles)
             {
                 FileIO.FileDelete(file);
             }
-            foreach (var folder in listOfTestGeneratedFolders)
+            foreach (var folder in _listOfTestGeneratedFolders)
             {
                 FileIO.DeleteDirectory(folder);
             }
@@ -65,7 +63,7 @@ namespace Vts.Test.MonteCarlo.Sources
         /// write them locally so that they could be read by this unit test.
         /// </summary>
         [OneTimeSetUp]
-        public void setup()
+        public void Setup()
         {
             var name = Assembly.GetExecutingAssembly().FullName;
             var assemblyName = new AssemblyName(name).Name;
@@ -76,10 +74,10 @@ namespace Vts.Test.MonteCarlo.Sources
             _aOfRhoAndZDetector = (dynamic)DetectorIO.ReadDetectorFromFileInResources(
                 "AOfRhoAndZ", "Resources/sourcetest/", assemblyName);
             // overwrite statistical data in Mean with deterministic values to test
-            int count = 1;
-            for (int i = 0; i < _aOfRhoAndZDetector.Rho.Count - 1; i++)
+            var count = 1;
+            for (var i = 0; i < _aOfRhoAndZDetector.Rho.Count - 1; i++)
             {
-                for (int k = 0; k < _aOfRhoAndZDetector.Z.Count - 1; k++)
+                for (var k = 0; k < _aOfRhoAndZDetector.Z.Count - 1; k++)
                 {
                     _aOfRhoAndZDetector.Mean[i, k] = count; // make all nonzero and unique
                     ++count;
@@ -91,13 +89,13 @@ namespace Vts.Test.MonteCarlo.Sources
                 "Resources/sourcetest/inputAOfRhoAndZ.txt", "sourcetest/inputAOfRhoAndZ.txt", assemblyName);
 
             // following setup is used to test FluorescenceEmissionSource CDF sampling method
-            _fluorEmissionAOfRhoAndZSourceCDF = new FluorescenceEmissionAOfRhoAndZSource(
+            _fluorEmissionAOfRhoAndZSourceCdf = new FluorescenceEmissionAOfRhoAndZSource(
                 "sourcetest", "inputAOfRhoAndZ.txt", 3, SourcePositionSamplingType.CDF);
             // empty infileFolder will initialize AOfRhoAndZLoader with no AOfRhoAndZ read
-            _fluorEmissionAOfRhoAndZSourceCDF.Loader = new AOfRhoAndZLoader(
+            _fluorEmissionAOfRhoAndZSourceCdf.Loader = new AOfRhoAndZLoader(
                 "sourcetest", "inputAOfRhoAndZ.txt", 3);
-            _rhozLoaderCDF = _fluorEmissionAOfRhoAndZSourceCDF.Loader;
-            _rhozLoaderCDF.InitializeFluorescentRegionArrays();
+            _rhozLoaderCdf = _fluorEmissionAOfRhoAndZSourceCdf.Loader;
+            _rhozLoaderCdf.InitializeFluorescentRegionArrays();
 
             // following setup is used to test FluorescenceEmissionSource Unif sampling method
             _fluorEmissionAOfRhoAndZSourceUnif = new FluorescenceEmissionAOfRhoAndZSource(
@@ -105,9 +103,9 @@ namespace Vts.Test.MonteCarlo.Sources
             // empty infileFolder will initialize AOfRhoAndZLoader with no AOfRhoAndZ read
             _fluorEmissionAOfRhoAndZSourceUnif.Loader = new AOfRhoAndZLoader(
                 "sourcetest", "inputAOfRhoAndZ.txt", 3);
-            _rhozLoaderUnif = _fluorEmissionAOfRhoAndZSourceCDF.Loader;
+            _rhozLoaderUnif = _fluorEmissionAOfRhoAndZSourceCdf.Loader;
 
-            _rhozLoaderCDF.InitializeFluorescentRegionArrays();
+            _rhozLoaderCdf.InitializeFluorescentRegionArrays();
 
             // following setup is used to test FluorescenceEmissionSource other sampling method
             // to test switch default exception by setting enum SourcePositionSamplingType outside range
@@ -119,7 +117,7 @@ namespace Vts.Test.MonteCarlo.Sources
         /// test source input
         /// </summary>
         [Test]
-        public void validate_source_input()
+        public void Validate_source_input()
         {
             // check default constructor
             var si = new FluorescenceEmissionAOfRhoAndZSourceInput();
@@ -146,20 +144,20 @@ namespace Vts.Test.MonteCarlo.Sources
             var countArray = new int[_aOfRhoAndZDetector.Rho.Count - 1,
                 _aOfRhoAndZDetector.Z.Count - 1];
             ITissueInput tissueInput = new SingleInfiniteCylinderTissueInput();
-            ITissue tissue = tissueInput.CreateTissue(AbsorptionWeightingType.Discrete,
+            var tissue = tissueInput.CreateTissue(AbsorptionWeightingType.Discrete,
                 PhaseFunctionType.HenyeyGreenstein, 0);
-            tissue.Regions[1] = _rhozLoaderCDF.FluorescentTissueRegion;
-            for (int i = 0; i < 100; i++)
+            tissue.Regions[1] = _rhozLoaderCdf.FluorescentTissueRegion;
+            for (var i = 0; i < 100; i++)
             {
-                var photon = _fluorEmissionAOfRhoAndZSourceCDF.GetNextPhoton(tissue);
+                var photon = _fluorEmissionAOfRhoAndZSourceCdf.GetNextPhoton(tissue);
                 // verify that photons start within range of midpoints of voxels in bounding cylinder
                 var rho = Math.Sqrt(photon.DP.Position.X * photon.DP.Position.X + 
                     photon.DP.Position.Y * photon.DP.Position.Y);
                 Assert.IsTrue(rho <= 3.5);
                 Assert.IsTrue((photon.DP.Position.Z >= 0.5) && (photon.DP.Position.Z <= 1.5));
                 Assert.IsTrue(Math.Abs(photon.DP.Weight - 1.0) < 1e-6);
-                int irho = (int)(Math.Floor(rho));
-                int iz = (int)(Math.Floor(photon.DP.Position.Z));
+                var irho = (int)(Math.Floor(rho));
+                var iz = (int)(Math.Floor(photon.DP.Position.Z));
                 countArray[irho, iz] += 1;
             }
             // check that countArray is > 1 in region of AOfRhoAndZ
@@ -177,7 +175,7 @@ namespace Vts.Test.MonteCarlo.Sources
         /// than Uniform or CDF and verify exception is thrown
         /// </summary>
         [Test]
-        public void verify_that_samplingMethod_not_set_to_Uniform_or_CDF_throws_exception()
+        public void Verify_that_samplingMethod_not_set_to_Uniform_or_CDF_throws_exception()
         {
             ITissueInput tissueInput = new SingleInfiniteCylinderTissueInput();
             var tissue = tissueInput.CreateTissue(AbsorptionWeightingType.Discrete,

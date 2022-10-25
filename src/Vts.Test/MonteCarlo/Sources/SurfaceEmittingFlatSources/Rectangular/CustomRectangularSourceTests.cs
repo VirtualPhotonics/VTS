@@ -21,18 +21,16 @@ namespace Vts.Test.MonteCarlo.Sources
         [OneTimeSetUp]
         public void setup_validation_data()
         {
-            if (_validationData == null)
-            {
-                _validationData = new SurfaceEmitting2DSourcesValidationData();
-                _validationData.ReadData();
-            }
+            if (_validationData != null) return;
+            _validationData = new SurfaceEmitting2DSourcesValidationData();
+            _validationData.ReadData();
         }
 
         /// <summary>
         /// test source input
         /// </summary>
         [Test]
-        public void validate_source_input_with_flat_profile_type()
+        public void Validate_source_input_with_flat_profile_type()
         {
             // check default constructor
             var si = new CustomRectangularSourceInput();
@@ -59,7 +57,7 @@ namespace Vts.Test.MonteCarlo.Sources
         /// Validate General Constructor of Custom Flat Rectangular Source
         /// </summary>
         [Test]
-        public void validate_general_constructor_with_flat_profiletype_for_custom_rectangular_source_test()
+        public void Validate_general_constructor_with_flat_profiletype_for_custom_rectangular_source_test()
         {
             Random rng = new MathNet.Numerics.Random.MersenneTwister(0); // not really necessary here, as this is now the default
             ITissue tissue = new MultiLayerTissue();
@@ -93,7 +91,7 @@ namespace Vts.Test.MonteCarlo.Sources
         /// Validate General Constructor of Custom Gaussian Rectangular Source
         /// </summary>
         [Test]
-        public void validate_general_constructor_with_gaussian_profiletype_for_custom_rectangular_source_test()
+        public void Validate_general_constructor_with_gaussian_profiletype_for_custom_rectangular_source_test()
         {
             Random rng = new MathNet.Numerics.Random.MersenneTwister(0); // not really necessary here, as this is now the default
             ITissue tissue = new MultiLayerTissue();
@@ -128,7 +126,7 @@ namespace Vts.Test.MonteCarlo.Sources
         /// than Flat or Gaussian verify exception is thrown
         /// </summary>
         [Test]
-        public void verify_that_source_profile_not_set_to_flat_or_Gaussian_throws_exception()
+        public void Verify_that_source_profile_not_set_to_flat_or_Gaussian_throws_exception()
         {
             var tissue = new MultiLayerTissue();
             var source = new CustomRectangularSource(
@@ -157,7 +155,9 @@ namespace Vts.Test.MonteCarlo.Sources
             /// <summary>
             /// Returns Mock profile type
             /// </summary>
-            public SourceProfileType SourceProfileType => (SourceProfileType)3;
+            public SourceProfileType SourceProfileType =>
+                (SourceProfileType)Enum.GetNames(typeof(SourceProfileType)).Length + 1;
+
         }
     }
 }

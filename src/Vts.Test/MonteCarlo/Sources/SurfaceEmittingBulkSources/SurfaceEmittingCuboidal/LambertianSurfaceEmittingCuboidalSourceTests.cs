@@ -3,7 +3,6 @@ using MathNet.Numerics.Random;
 using NUnit.Framework;
 using Vts.Common;
 using Vts.MonteCarlo;
-using Vts.MonteCarlo.Helpers;
 using Vts.MonteCarlo.Interfaces;
 using Vts.MonteCarlo.Sources;
 using Vts.MonteCarlo.Sources.SourceProfiles;
@@ -21,7 +20,7 @@ namespace Vts.Test.MonteCarlo.Sources
         /// test source input
         /// </summary>
         [Test]
-        public void validate_source_input_with_flat_profile_type()
+        public void Validate_source_input_with_flat_profile_type()
         {
             // check default constructor
             var si = new LambertianSurfaceEmittingCuboidalSourceInput();
@@ -69,35 +68,35 @@ namespace Vts.Test.MonteCarlo.Sources
                 Rng = rng
             };
             // check 10 photons
-            for (int i = 0; i < 10; i++)
+            for (var i = 0; i < 10; i++)
             {
                 var photon = ps.GetNextPhoton(tissue);
                 // if on x is on 1 of 2 constant faces, make sure y and z are within boundaries
-                if ((Math.Abs(photon.DP.Position.X + cubeLengthX / 2 + translationFromOrigin.X) < 1e-10) ||
-                    (Math.Abs(photon.DP.Position.X - cubeLengthX / 2 + translationFromOrigin.X) < 1e-10))
+                if (Math.Abs(photon.DP.Position.X + cubeLengthX / 2 + translationFromOrigin.X) < 1e-10 ||
+                    Math.Abs(photon.DP.Position.X - cubeLengthX / 2 + translationFromOrigin.X) < 1e-10)
                 {
-                    Assert.IsTrue((photon.DP.Position.Y < cubeWidthY / 2 + translationFromOrigin.Y) &&
-                                  (photon.DP.Position.Y > -cubeWidthY / 2 + translationFromOrigin.Y));
-                    Assert.IsTrue((photon.DP.Position.Z < cubeHeightZ / 2 + translationFromOrigin.Z) &&
-                                  (photon.DP.Position.Z > -cubeHeightZ / 2 + translationFromOrigin.Z));
+                    Assert.IsTrue(photon.DP.Position.Y < cubeWidthY / 2 + translationFromOrigin.Y &&
+                                  photon.DP.Position.Y > -cubeWidthY / 2 + translationFromOrigin.Y);
+                    Assert.IsTrue(photon.DP.Position.Z < cubeHeightZ / 2 + translationFromOrigin.Z &&
+                                  photon.DP.Position.Z > -cubeHeightZ / 2 + translationFromOrigin.Z);
                 }
                 // if on y is on 1 of 2 constant faces, make sure x and z are within boundaries
-                if ((Math.Abs(photon.DP.Position.Y + cubeWidthY / 2 + translationFromOrigin.Y) < 1e-10) ||
-                    (Math.Abs(photon.DP.Position.Y - cubeWidthY / 2 + translationFromOrigin.Y) < 1e-10))
+                if (Math.Abs(photon.DP.Position.Y + cubeWidthY / 2 + translationFromOrigin.Y) < 1e-10 ||
+                    Math.Abs(photon.DP.Position.Y - cubeWidthY / 2 + translationFromOrigin.Y) < 1e-10)
                 {
-                    Assert.IsTrue((photon.DP.Position.X < cubeLengthX / 2 + translationFromOrigin.X) &&
-                                  (photon.DP.Position.X > -cubeLengthX / 2 + translationFromOrigin.X));
-                    Assert.IsTrue((photon.DP.Position.Z < cubeHeightZ / 2 + translationFromOrigin.Z) &&
-                                  (photon.DP.Position.Z > -cubeHeightZ / 2 + translationFromOrigin.Z));
+                    Assert.IsTrue(photon.DP.Position.X < cubeLengthX / 2 + translationFromOrigin.X &&
+                                  photon.DP.Position.X > -cubeLengthX / 2 + translationFromOrigin.X);
+                    Assert.IsTrue(photon.DP.Position.Z < cubeHeightZ / 2 + translationFromOrigin.Z &&
+                                  photon.DP.Position.Z > -cubeHeightZ / 2 + translationFromOrigin.Z);
                 }
                 // if on z is on 1 of 2 constant faces, make sure x and y are within boundaries
-                if ((Math.Abs(photon.DP.Position.Z - cubeHeightZ / 2 - translationFromOrigin.Z) < 1e-10) ||
-                    (Math.Abs(photon.DP.Position.Z + cubeHeightZ / 2 - translationFromOrigin.Z) < 1e-10))
+                if (Math.Abs(photon.DP.Position.Z - cubeHeightZ / 2 - translationFromOrigin.Z) < 1e-10 ||
+                    Math.Abs(photon.DP.Position.Z + cubeHeightZ / 2 - translationFromOrigin.Z) < 1e-10)
                 {
-                    Assert.IsTrue((photon.DP.Position.X < cubeLengthX / 2 + translationFromOrigin.X) &&
-                                  (photon.DP.Position.X > -cubeLengthX / 2 + translationFromOrigin.X));
-                    Assert.IsTrue((photon.DP.Position.Y < cubeWidthY / 2 + translationFromOrigin.Y) &&
-                                  (photon.DP.Position.Y > -cubeWidthY / 2 + translationFromOrigin.Y));
+                    Assert.IsTrue(photon.DP.Position.X < cubeLengthX / 2 + translationFromOrigin.X &&
+                                  photon.DP.Position.X > -cubeLengthX / 2 + translationFromOrigin.X);
+                    Assert.IsTrue(photon.DP.Position.Y < cubeWidthY / 2 + translationFromOrigin.Y &&
+                                  photon.DP.Position.Y > -cubeWidthY / 2 + translationFromOrigin.Y);
                 }
             }
         }
@@ -106,7 +105,7 @@ namespace Vts.Test.MonteCarlo.Sources
         /// than Flat or Gaussian verify exception is thrown
         /// </summary>
         [Test]
-        public void verify_that_source_profile_not_set_to_flat_or_Gaussian_throws_exception()
+        public void Verify_that_source_profile_not_set_to_flat_or_Gaussian_throws_exception()
         {
             var tissue = new MultiLayerTissue();
             var source = new LambertianSurfaceEmittingCuboidalSource(
@@ -133,7 +132,9 @@ namespace Vts.Test.MonteCarlo.Sources
             /// <summary>
             /// Returns Mock profile type
             /// </summary>
-            public SourceProfileType SourceProfileType => (SourceProfileType)3;
+            public SourceProfileType SourceProfileType =>
+                (SourceProfileType)Enum.GetNames(typeof(SourceProfileType)).Length + 1;
+
         }
     }
 }

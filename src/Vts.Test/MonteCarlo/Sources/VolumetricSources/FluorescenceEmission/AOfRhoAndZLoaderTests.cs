@@ -19,19 +19,19 @@ namespace Vts.Test.MonteCarlo.Sources
     public class AOfRhoAndZLoaderTests
     {
         private AOfRhoAndZDetector _aOfRhoAndZDetector;
-        private FluorescenceEmissionAOfRhoAndZSource _fluorEmissionAOfRhoAndZSourceCDF,
+        private FluorescenceEmissionAOfRhoAndZSource _fluorEmissionAOfRhoAndZSourceCdf,
             _fluorEmissionAOfRhoAndZSourceUnif;
-        private AOfRhoAndZLoader _rhozLoaderCDF, _rhozLoaderUnif;
+        private AOfRhoAndZLoader _rhozLoaderCdf, _rhozLoaderUnif;
 
         /// <summary>
         /// list of temporary files created by these unit tests
         /// </summary>
-        readonly List<string> listOfTestGeneratedFolders = new List<string>()
+        readonly List<string> _listOfTestGeneratedFolders = new List<string>()
         {
             "sourcetest",
         };
 
-        readonly List<string> listOfTestGeneratedFiles = new List<string>()
+        readonly List<string> _listOfTestGeneratedFiles = new List<string>()
         {
             "inputAOfXAndYAndZ.txt",
             "AOfRhoAndZ",
@@ -42,13 +42,13 @@ namespace Vts.Test.MonteCarlo.Sources
         /// </summary>
         [OneTimeSetUp]
         [OneTimeTearDown]
-        public void clear_folders_and_files()
+        public void Clear_folders_and_files()
         {
-            foreach (var file in listOfTestGeneratedFiles)
+            foreach (var file in _listOfTestGeneratedFiles)
             {
                 FileIO.FileDelete(file);
             }
-            foreach (var folder in listOfTestGeneratedFolders)
+            foreach (var folder in _listOfTestGeneratedFolders)
             {
                 FileIO.DeleteDirectory(folder);
             }
@@ -63,7 +63,7 @@ namespace Vts.Test.MonteCarlo.Sources
         /// write them locally so that they could be read by this unit test.
         /// </summary>
         [OneTimeSetUp]
-        public void setup()
+        public void Setup()
         {
             var name = Assembly.GetExecutingAssembly().FullName;
             var assemblyName = new AssemblyName(name).Name;
@@ -74,10 +74,10 @@ namespace Vts.Test.MonteCarlo.Sources
             _aOfRhoAndZDetector = (dynamic)DetectorIO.ReadDetectorFromFileInResources(
                 "AOfRhoAndZ", "Resources/sourcetest/", assemblyName);
             // overwrite statistical data in Mean with deterministic values to test
-            int count = 1;
-            for (int i = 0; i < _aOfRhoAndZDetector.Rho.Count - 1; i++)
+            var count = 1;
+            for (var i = 0; i < _aOfRhoAndZDetector.Rho.Count - 1; i++)
             {
-                for (int k = 0; k < _aOfRhoAndZDetector.Z.Count - 1; k++)
+                for (var k = 0; k < _aOfRhoAndZDetector.Z.Count - 1; k++)
                 {
                     _aOfRhoAndZDetector.Mean[i, k] = count; // make all nonzero and unique
                     ++count;
@@ -89,13 +89,13 @@ namespace Vts.Test.MonteCarlo.Sources
                 "Resources/sourcetest/inputAOfRhoAndZ.txt", "sourcetest/inputAOfRhoAndZ.txt", assemblyName);
 
             // following setup is used to test FluorescenceEmissionSource CDF sampling method
-            _fluorEmissionAOfRhoAndZSourceCDF = new FluorescenceEmissionAOfRhoAndZSource(
+            _fluorEmissionAOfRhoAndZSourceCdf = new FluorescenceEmissionAOfRhoAndZSource(
                 "sourcetest", "inputAOfRhoAndZ.txt", 3, SourcePositionSamplingType.CDF);
             // empty infileFolder will initialize AOfRhoAndZLoader with no AOfRhoAndZ read
-            _fluorEmissionAOfRhoAndZSourceCDF.Loader = new AOfRhoAndZLoader(
+            _fluorEmissionAOfRhoAndZSourceCdf.Loader = new AOfRhoAndZLoader(
                 "sourcetest", "inputAOfRhoAndZ.txt", 3);
-            _rhozLoaderCDF = _fluorEmissionAOfRhoAndZSourceCDF.Loader;
-            _rhozLoaderCDF.InitializeFluorescentRegionArrays();
+            _rhozLoaderCdf = _fluorEmissionAOfRhoAndZSourceCdf.Loader;
+            _rhozLoaderCdf.InitializeFluorescentRegionArrays();
 
             // following setup is used to test FluorescenceEmissionSource Unif sampling method
             _fluorEmissionAOfRhoAndZSourceUnif = new FluorescenceEmissionAOfRhoAndZSource(
@@ -103,7 +103,7 @@ namespace Vts.Test.MonteCarlo.Sources
             // empty infileFolder will initialize AOfRhoAndZLoader with no AOfRhoAndZ read
             _fluorEmissionAOfRhoAndZSourceUnif.Loader = new AOfRhoAndZLoader(
                 "sourcetest", "inputAOfRhoAndZ.txt", 3);
-            _rhozLoaderUnif = _fluorEmissionAOfRhoAndZSourceCDF.Loader;
+            _rhozLoaderUnif = _fluorEmissionAOfRhoAndZSourceCdf.Loader;
             _rhozLoaderUnif.InitializeFluorescentRegionArrays();
         }
 
@@ -114,9 +114,9 @@ namespace Vts.Test.MonteCarlo.Sources
         /// CDPOfRhoAndZ = CDF of PDFOfRhoAndZ
         /// </summary>
         [Test]
-        public void validate_AOfRhoAndZLoader_method_InitializeFluorscentRegionArrays()
+        public void Validate_AOfRhoAndZLoader_method_InitializeFluorscentRegionArrays()
         {
-            var loader = _rhozLoaderCDF;
+            var loader = _rhozLoaderCdf;
             // check that arrays are of correct dimension
             Assert.AreEqual(loader.MapOfRhoAndZ.GetLength(0), loader.Rho.Count - 1);
             Assert.AreEqual(loader.MapOfRhoAndZ.GetLength(1), loader.Z.Count - 1);
