@@ -1,9 +1,7 @@
-﻿using System;
+﻿using NUnit.Framework;
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Numerics;
-using Newtonsoft.Json.Linq;
-using NUnit.Framework;
 using Vts.Extensions;
 
 namespace Vts.Test.Extensions
