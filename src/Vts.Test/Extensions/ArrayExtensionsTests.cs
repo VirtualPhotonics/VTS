@@ -48,6 +48,18 @@ namespace Vts.Test.Extensions
             Assert.IsTrue(IEnumerablesHaveEqualMembers(result.ToArray(), new double[] { 4, 5, 6 }));
         }
 
+        [Test]
+        public void Verify_CreateArray()
+        {
+            var originalArray = new int[3, 2, 2] { { { 1, 2 }, { 3, 4 } }, { { 5, 6 }, { 7, 8 } }, { { 9, 10 }, { 11, 12 } } };
+            var newArray = originalArray.CreateArray();
+            Assert.AreEqual(3, newArray.Rank);
+
+            var singleArray = new int[3] { 11, 12, 13 };
+            var newSingleArray = singleArray.CreateArray();
+            Assert.AreEqual(1, newSingleArray.Rank);
+        }
+
         private static bool IEnumerablesHaveEqualMembers<T>(IEnumerable<T> myList, IEnumerable<T> comparingList)
         {
             return !Enumerable.Zip(myList, comparingList, (left, right) => left.Equals(right)).Contains(false);

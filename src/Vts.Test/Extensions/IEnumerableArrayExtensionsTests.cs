@@ -475,6 +475,84 @@ namespace Vts.Test.Extensions
         }
 
         [Test]
+        public void ToEnumerable2_multi_array_2_returns_enumerable()
+        {
+            var doubleEnumerable2D = _doubleArray.ToEnumerable2<double>();
+            Assert.IsInstanceOf<IEnumerable<double>>(doubleEnumerable2D);
+            doubleEnumerable2D.ForEach(x =>
+            {
+                Assert.IsInstanceOf<double>(x);
+                _length++;
+            });
+            Assert.AreEqual(_doubleArray.Length, _length);
+        }
+
+        [Test]
+        public void ToEnumerable2_multi_array_3_returns_enumerable()
+        {
+            var intEnumerable3D = _uShortArray.ToEnumerable2<ushort>();
+            Assert.IsInstanceOf<IEnumerable<ushort>>(intEnumerable3D);
+            intEnumerable3D.ForEach(x =>
+            {
+                Assert.IsInstanceOf<ushort>(x);
+                _length++;
+            });
+            Assert.AreEqual(_uShortArray.Length, _length);
+        }
+
+        [Test]
+        public void ToEnumerable2_multi_array_4_returns_enumerable()
+        {
+            var intEnumerable4D = _uShortArray4D.ToEnumerable2<ushort>();
+            Assert.IsInstanceOf<IEnumerable<ushort>>(intEnumerable4D);
+            intEnumerable4D.ForEach(x =>
+            {
+                Assert.IsInstanceOf<ushort>(x);
+                _length++;
+            });
+            Assert.AreEqual(_uShortArray4D.Length, _length);
+        }
+
+        [Test]
+        public void ToEnumerable2_multi_array_5_returns_enumerable()
+        {
+            var intEnumerable5D = _intArray.ToEnumerable2<int>();
+            Assert.IsInstanceOf<IEnumerable<int>>(intEnumerable5D);
+            intEnumerable5D.ForEach(x =>
+            {
+                Assert.IsInstanceOf<int>(x);
+                _length++;
+            });
+            Assert.AreEqual(_intArray.Length, _length);
+        }
+
+        [Test]
+        public void ToEnumerable2_multi_array_6_returns_enumerable()
+        {
+            var intEnumerable6D = _intArray6D.ToEnumerable2<int>();
+            Assert.IsInstanceOf<IEnumerable<int>>(intEnumerable6D);
+            intEnumerable6D.ForEach(x =>
+            {
+                Assert.IsInstanceOf<int>(x);
+                _length++;
+            });
+            Assert.AreEqual(_intArray6D.Length, _length);
+        }
+
+        [Test]
+        public void ToEnumerable2_multi_array_7_returns_enumerable()
+        {
+            var intEnumerable7D = _intArray7D.ToEnumerable2<int>();
+            Assert.IsInstanceOf<IEnumerable<int>>(intEnumerable7D);
+            intEnumerable7D.ForEach(x =>
+            {
+                Assert.IsInstanceOf<int>(x);
+                _length++;
+            });
+            Assert.AreEqual(_intArray7D.Length, _length);
+        }
+
+        [Test]
         public void PopulateFromEnumerable_array_type_returns_enumerable()
         {
             Array genericArray = new Array[2];

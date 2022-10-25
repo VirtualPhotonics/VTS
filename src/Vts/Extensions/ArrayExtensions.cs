@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
 namespace Vts.Extensions
@@ -46,6 +47,7 @@ namespace Vts.Extensions
                 yield return myArray[i, column];
             }
         }
+
         /// <summary>
         /// Extension method to obtain columns from array
         /// </summary>
@@ -60,6 +62,7 @@ namespace Vts.Extensions
                 yield return myArray.Column(i);
             }
         }
+
         /// <summary>
         /// Extension method to obtain row from array
         /// </summary>
@@ -75,6 +78,7 @@ namespace Vts.Extensions
                 yield return myArray[row, i];
             }
         }
+
         /// <summary>
         /// Extension method to obtain rows from array
         /// </summary>
@@ -90,5 +94,24 @@ namespace Vts.Extensions
             }
         }
 
+        /// <summary>
+        /// Creates a new array with the same dimensions as the original array
+        /// </summary>
+        /// <param name="array">The multi-dimensional array</param>
+        /// <returns>A new array with the same dimensions as the original</returns>
+        internal static Array CreateArray(this Array array)
+        {
+            // Gets the lengths and lower bounds of the input array
+            var lowerBounds = new int[array.Rank];
+            var lengths = new int[array.Rank];
+            for (var i = 0; i < array.Rank; i++)
+            {
+                lowerBounds[i] = array.GetLowerBound(i);
+                lengths[i] = array.GetLength(i);
+            }
+
+            var elementType = array.GetType().GetElementType();  // Gets the type of the elements in the input array
+            return Array.CreateInstance(elementType, lengths, lowerBounds);    // Returns the new array
+        }
     }
 }
