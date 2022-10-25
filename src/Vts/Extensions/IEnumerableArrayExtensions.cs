@@ -127,7 +127,6 @@ namespace Vts.Extensions
                                         for (var x = 0; x < width; ++x)
                                         {
                                             yield return array[x, y, z, w, v];
-                                            Console.WriteLine($"{x} {y} {z} {w} {v}");
                                         }
                                     }
                                 }
@@ -190,7 +189,6 @@ namespace Vts.Extensions
                                                 for (var x = 0; x < width; ++x)
                                                 {
                                                     yield return array[x, y, z, w, v, u, t];
-                                                    Console.WriteLine($"{x} {y} {z} {w} {v} {u} {t}");
                                                 }
                                             }
                                         }
@@ -237,10 +235,7 @@ namespace Vts.Extensions
                     var position = positions.IndexOf(1);
                     results[results.Count - 1 - position] = i;
                     var indices = results.Select((_, j) => results[results.Count - 1 - j]).ToList();
-                    var arrayValue = (T)array.GetValue(indices.ToArray());
-                    yield return arrayValue;
-                    var message = indices.Aggregate("", (current, idx) => $"{current} {idx} ");
-                    Console.WriteLine($"{message} - {arrayValue}");
+                    yield return (T)array.GetValue(indices.ToArray());
                 }
             }
             else
