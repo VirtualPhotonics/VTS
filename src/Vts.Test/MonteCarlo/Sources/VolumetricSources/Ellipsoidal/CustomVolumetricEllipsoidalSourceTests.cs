@@ -141,7 +141,7 @@ namespace Vts.Test.MonteCarlo.Sources
                 1.0,
                 1.0,
                 1.0,
-                new MockSourceProfile(),
+                new FakeSourceProfile(),
                 new DoubleRange(),
                 new DoubleRange(),
                 new Direction(),
@@ -150,13 +150,13 @@ namespace Vts.Test.MonteCarlo.Sources
             Assert.Throws<ArgumentOutOfRangeException>(
                 () => source.GetNextPhoton(tissue));
         }
-        public class MockSourceProfile : ISourceProfile
+        public class FakeSourceProfile : ISourceProfile
         {
             /// <summary>
-            /// Initializes the default constructor of MockSourceProfile class
+            /// Initializes the default constructor of FakeSourceProfile class
             /// for testing purposes
             /// </summary>
-            public MockSourceProfile()
+            public FakeSourceProfile()
             { }
 
             /// <summary>

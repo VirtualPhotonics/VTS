@@ -61,7 +61,7 @@ namespace Vts.MonteCarlo.Extensions
                         result.TissueInput.Regions[regionIndex].RegionOP.N = value;
                     break;
                 case "d":  // the following code accommodates MultiLayerTissue and InclusionTissue
-                    List<ITissueRegion> layerTissueInput = result.TissueInput.Regions.ToList();
+                    var layerTissueInput = result.TissueInput.Regions.ToList();
                     if (result.TissueInput is MultiLayerTissueInput)
                     {
                         layerTissueInput = result.TissueInput.Regions.ToList();
@@ -139,7 +139,8 @@ namespace Vts.MonteCarlo.Extensions
                             sourcePosition = (Position)sourceInput.TranslationFromOrigin;
                             break;
                     }
-                    sourcePositionModifier(sourcePosition);
+
+                    if (sourcePositionModifier != null) sourcePositionModifier(sourcePosition);
                     break;
 
                 case "xinclusionposition":
@@ -158,7 +159,7 @@ namespace Vts.MonteCarlo.Extensions
                             inclusionPositionModifier = p => p.Z = value;
                             break;
                     }
-                    dynamic inclusionRegion = null;
+                    dynamic inclusionRegion;
                     switch (result.TissueInput.TissueType)
                     {
                         case "SingleEllipsoid":
@@ -167,7 +168,9 @@ namespace Vts.MonteCarlo.Extensions
                         default:
                             throw new ArgumentOutOfRangeException(parameterString);
                     }
-                    inclusionPositionModifier(inclusionRegion.Center); // dynamic binding...works?
+
+                    if (inclusionPositionModifier != null)
+                        inclusionPositionModifier(inclusionRegion.Center); // dynamic binding...works?
                     break;
                 case "xinclusionradius":
                 case "yinclusionradius":
