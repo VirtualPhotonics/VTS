@@ -27,6 +27,10 @@ namespace Vts.Test.MonteCarlo.Factories
             "DiffuseTransmittanceDatabase.txt",
             "SpecularReflectanceDatabase",
             "SpecularReflectanceDatabase.txt",
+            "CollisionInfoDatabase",
+            "CollisionInfoDatabase.txt",
+            "CollisionInfoTransmittanceDatabase",
+            "CollisionInfoTransmittanceDatabase.txt"
         };
         [OneTimeSetUp]
         [OneTimeTearDown]
