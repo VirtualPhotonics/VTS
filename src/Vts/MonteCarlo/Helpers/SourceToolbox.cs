@@ -191,10 +191,7 @@ namespace Vts.MonteCarlo.Helpers
             double outerRadius,
             Random rng)
         {
-            if (outerRadius == 0.0)
-            {
-                return center;
-            }
+            if (outerRadius == 0.0)  return center;
             var angle = 2 * Math.PI * rng.NextDouble();
             var radius = Math.Sqrt(innerRadius * innerRadius + (outerRadius * outerRadius - innerRadius * innerRadius) * rng.NextDouble());
             return new Position(
@@ -238,10 +235,7 @@ namespace Vts.MonteCarlo.Helpers
             double beamDiaFWHM,
             Random rng)
         {
-            if (outerRadius == 0.0)
-            {
-                return (center);
-            }
+            if (outerRadius == 0.0) return center;
 
             if (beamDiaFWHM <= 0.0)
                 beamDiaFWHM = 1e-20;
@@ -350,10 +344,7 @@ namespace Vts.MonteCarlo.Helpers
             double lengthX,
             Random rng)
         {
-            if (lengthX == 0.0)
-            {
-                return center;
-            }
+            if (lengthX == 0.0)  return center;
 
             return new Position(
                 center.X + GetPositionOfASymmetricalLineRandomFlat(lengthX, rng),
@@ -404,10 +395,7 @@ namespace Vts.MonteCarlo.Helpers
             double b,
             Random rng)
         {
-            if (a == 0.0 && b == 0.0)
-            {
-                return center;
-            }
+            if (a == 0.0 && b == 0.0) return center;
 
             double x, y;
             /*eliminate points outside the ellipse */
