@@ -63,14 +63,8 @@ namespace Vts.MonteCarlo.Tissues
         {
             var inside = Math.Sqrt(position.X * position.X + position.Y * position.Y);
             // check if within radius
-            if (inside < 0.9999999999 * Radius)
-            {
-                return true;
-            }
-            if (inside > 1.00000000001 * Radius)
-            {
-                return false;
-            } 
+            if (inside < 0.9999999999 * Radius)  return true;
+            if (inside > 1.00000000001 * Radius)  return false; 
             // on boundary means cylinder contains position
             _onBoundary = true; 
             return true;

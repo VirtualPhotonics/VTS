@@ -314,10 +314,7 @@ namespace Vts.MonteCarlo.Helpers
             double beamDiaFWHM,
             Random rng)
         {
-            if (lengthX == 0.0 && lengthY == 0.0 && lengthZ == 0.0)
-            {
-                return center;
-            }
+            if (lengthX == 0.0 && lengthY == 0.0 && lengthZ == 0.0) return center;
 
             var position = new Position(0, 0, 0);
 
@@ -378,15 +375,12 @@ namespace Vts.MonteCarlo.Helpers
             double beamDiaFWHM,
             Random rng)
         {
-            if (lengthX == 0.0)
-            {
-                return center;
-            }
+            if (lengthX == 0.0) return center;
 
             if (beamDiaFWHM <= 0.0)
                 beamDiaFWHM = 1e-20;
 
-            double factor = lengthX / (0.8493218 * beamDiaFWHM);
+            var factor = lengthX / (0.8493218 * beamDiaFWHM);
             return new Position(
                 center.X + 0.8493218 * beamDiaFWHM * GetSingleNormallyDistributedRandomNumber(
                     GetLimit(factor),
@@ -445,10 +439,7 @@ namespace Vts.MonteCarlo.Helpers
             double beamDiaFWHM,
             Random rng)
         {
-            if (a == 0.0 && b == 0.0)
-            {
-                return center;
-            }
+            if (a == 0.0 && b == 0.0)   return center;
 
             if (beamDiaFWHM <= 0.0)
                 beamDiaFWHM = 1e-20;
@@ -491,11 +482,7 @@ namespace Vts.MonteCarlo.Helpers
             double c,
             Random rng)
         {
-            if (a == 0.0 && b == 0.0 && c == 0.0)
-            {
-                return center;
-            }
-
+            if (a == 0.0 && b == 0.0 && c == 0.0) return center;
 
             double x, y, z;
             /*eliminate points outside the ellipse */
@@ -530,10 +517,7 @@ namespace Vts.MonteCarlo.Helpers
             double beamDiaFWHM,
             Random rng)
         {
-            if (a == 0.0 && b == 0.0 && c == 0.0)
-            {
-                return center;
-            }
+            if (a == 0.0 && b == 0.0 && c == 0.0) return center;
 
             if (beamDiaFWHM <= 0.0)
                 beamDiaFWHM = 1e-20;
@@ -579,10 +563,7 @@ namespace Vts.MonteCarlo.Helpers
             double lengthY,
             Random rng)
         {
-            if (lengthX == 0.0 && lengthY == 0.0)
-            {
-                return center;
-            }
+            if (lengthX == 0.0 && lengthY == 0.0) return center;
 
             var position = new Position
             {
@@ -609,10 +590,7 @@ namespace Vts.MonteCarlo.Helpers
             double beamDiaFWHM,
             Random rng)
         {
-            if (lengthX == 0.0 && lengthY == 0.0)
-            {
-                return center;
-            }
+            if (lengthX == 0.0 && lengthY == 0.0) return center;
 
             var position = new Position { Z = center.Z };
 
@@ -699,8 +677,8 @@ namespace Vts.MonteCarlo.Helpers
             Direction currentDirection)
         {
             // readability eased with local copies of following
-            double uy = currentDirection.Uy;
-            double uz = currentDirection.Uz;
+            var uy = currentDirection.Uy;
+            var uz = currentDirection.Uz;
 
             // cosine and sine of rotation angle
             var cost = Math.Cos(xRotation);

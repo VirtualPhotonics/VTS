@@ -20,7 +20,7 @@ namespace Vts.Test.MonteCarlo.Sources
         private static SurfaceEmitting2DSourcesValidationData _validationData;
 
         [OneTimeSetUp]
-        public void setup_validation_data()
+        public void Setup_validation_data()
         {
             if (_validationData != null) return;
             _validationData = new SurfaceEmitting2DSourcesValidationData();

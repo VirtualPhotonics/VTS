@@ -61,15 +61,9 @@ namespace Vts.MonteCarlo.Tissues
                 double inside = ((position.X - Center.X) * (position.X - Center.X) + 
                                  (position.Y - Center.Y) * (position.Y - Center.Y)) / (Radius * Radius);
 
-                if (inside < 0.9999999999) // prior check 0.9999999
-                {
-                    return true;
-                }
+                if (inside < 0.9999999999) return true; // prior check 0.9999999
 
-                if (inside > 1.00000000001) // prior check  1.0000001
-                {
-                    return false;
-                }
+                if (inside > 1.00000000001) return false; // prior check  1.0000001
 
                 // on boundary means SurfaceFiber contains position
                 _onBoundary = true;

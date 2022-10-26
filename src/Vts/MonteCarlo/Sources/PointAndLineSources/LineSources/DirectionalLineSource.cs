@@ -174,11 +174,13 @@ namespace Vts.MonteCarlo.Sources
         protected override Direction GetFinalDirection(Position position)
         {
             if (_lineLength == 0.0)
-                return (SourceToolbox.GetDirectionForGivenPolarAzimuthalAngleRangeRandom(
-                            new DoubleRange(0.0, Math.Abs(_thetaConvOrDiv)),
-                            SourceDefaults.DefaultAzimuthalAngleRange.Clone(),
-                            Rng));
-            
+            {
+                return SourceToolbox.GetDirectionForGivenPolarAzimuthalAngleRangeRandom(
+                    new DoubleRange(0.0, Math.Abs(_thetaConvOrDiv)),
+                    SourceDefaults.DefaultAzimuthalAngleRange.Clone(),
+                    Rng);
+            }
+
             // sign is negative for diverging and positive positive for converging 
             var polarAngle = SourceToolbox.UpdatePolarAngleForDirectionalSources(
                 0.5 * _lineLength,

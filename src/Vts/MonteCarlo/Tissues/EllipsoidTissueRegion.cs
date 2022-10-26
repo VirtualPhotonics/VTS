@@ -73,18 +73,13 @@ namespace Vts.MonteCarlo.Tissues
                              (position.Z - Center.Z) * (position.Z - Center.Z) /
                              (Dz * Dz);
 
-                if (inside < 0.9999999999) // previous check  0.9999999
-                {
-                    return true;
-                }
-                if (inside > 1.00000000001) // previous check 1.0000001
-                {
-                    return false;
-                }
+            if (inside < 0.9999999999) return true; // previous check  0.9999999
 
-                // on boundary means ellipsoid contains position
-                _onBoundary = true;
-                return true;  // ckh 2/28/19 this has to return true or unit tests fail => contains if on ellipsoid
+            if (inside > 1.00000000001) return false; // previous check 1.0000001
+
+            // on boundary means ellipsoid contains position
+            _onBoundary = true;
+            return true;  // ckh 2/28/19 this has to return true or unit tests fail => contains if on ellipsoid
         }
         /// <summary>
         /// Method to determine if given Position lies on boundary of ellipsoid.
@@ -136,10 +131,7 @@ namespace Vts.MonteCarlo.Tissues
             var twoIn = this.ContainsPosition(p2);
 
             // check if ray within ellipsoid 
-            if ( (oneIn || _onBoundary) && twoIn )
-            {
-                return false;
-            }
+            if ( (oneIn || _onBoundary) && twoIn ) return false;
             _onBoundary = false; // reset flag
             
             var areaX = Dx * Dx;
@@ -202,10 +194,7 @@ namespace Vts.MonteCarlo.Tissues
                 case 0: /* roots real but no intersection */
                     return false;
                 case 1:
-                    if (!oneIn && Math.Abs(root) < 1e-7)
-                    {
-                        return false;
-                    }
+                    if (!oneIn && Math.Abs(root) < 1e-7)  return false;
 
                     /*entering or exiting ellipsoid. It's the same*/
                     xto = p1.X + root * dx;
@@ -218,12 +207,8 @@ namespace Vts.MonteCarlo.Tissues
                                                    (zto - p1.Z) * (zto - p1.Z));
 
                     // ckh fix 8/25/11: check if on boundary of ellipsoid
-                    if (distanceToBoundary < 1e-11)
-                    {
-                        return false;
-                    }
+                    return distanceToBoundary >= 1e-11;
 
-                    return true;
                 case 2:  /* went through ellipsoid: must stop at nearest intersection */
                     /*which is nearest?*/
                     if (oneIn)

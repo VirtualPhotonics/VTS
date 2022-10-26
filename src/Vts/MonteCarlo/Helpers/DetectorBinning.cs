@@ -67,10 +67,9 @@ namespace Vts.MonteCarlo.Helpers
         {
             if (value >= 0.0 && value < binStops[0])
                 return 0;
-            for (var i = 1; i < binStops.Count(); i++)
+            for (var i = 1; i < binStops.Length; i++)
             {
-                if (value >= binStops[i-1] && value < binStops[i])
-                    return i;
+                if (value >= binStops[i-1] && value < binStops[i])  return i;
             }
             return -1; // for now
         }
@@ -89,15 +88,8 @@ namespace Vts.MonteCarlo.Helpers
         public static int WhichBinExclusive(double value, int numberOfBins, double binSize, double binStart)
         {
             var bin = (int)Math.Floor((value - binStart) / binSize);
-            if (bin > numberOfBins - 1)
-            {
-                return -1;
-            }
-
-            if (bin < 0)
-            {
-                return -1;
-            }
+            if (bin > numberOfBins - 1) return -1;
+            if (bin < 0) return -1;
 
             return bin;
         }

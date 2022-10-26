@@ -148,10 +148,7 @@ namespace Vts.MonteCarlo.Tissues
         /// <returns>distance to boundary</returns>
         public double GetDistanceToBoundary(Photon photon)
         {
-            if (photon.DP.Direction.Uz == 0.0)
-            {
-                return double.PositiveInfinity;
-            }
+            if (photon.DP.Direction.Uz == 0.0) return double.PositiveInfinity;
 
             // going "up" in negative z-direction
             var goingUp = photon.DP.Direction.Uz < 0.0;
@@ -182,9 +179,8 @@ namespace Vts.MonteCarlo.Tissues
         public bool OnDomainBoundary(Position position)
         {
             // this code assumes that the first and last layer is air
-            return 
-                position.Z < 1e-10 ||
-                (Math.Abs(position.Z - (_layerRegions.Last()).ZRange.Start) < 1e-10);
+            return position.Z < 1e-10 ||
+                Math.Abs(position.Z - (_layerRegions.Last()).ZRange.Start) < 1e-10;
         }
         /// <summary>
         /// method to determine index of region photon is about to enter
@@ -206,10 +202,7 @@ namespace Vts.MonteCarlo.Tissues
             // pointed up
             if (photon.CurrentRegionIndex != 1) // check if at surface
             {
-                if (photon.CurrentRegionIndex == 3) // in surfaceFiberRegion
-                {
-                    return 0;
-                }
+                if (photon.CurrentRegionIndex == 3) return 0; // in surfaceFiberRegion
             }
             else
             {

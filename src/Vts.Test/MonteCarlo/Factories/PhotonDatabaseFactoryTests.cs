@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using NUnit.Framework;
 using Vts.Common;
@@ -19,7 +18,7 @@ namespace Vts.Test.MonteCarlo.Factories
         /// <summary>
         /// list of temporary files created by these unit tests
         /// </summary>
-        readonly List<string> listOfTestGeneratedFiles = new List<string>()
+        readonly List<string> _listOfTestGeneratedFiles = new List<string>()
         {
             "DiffuseReflectanceDatabase",
             "DiffuseReflectanceDatabase.txt",
@@ -36,7 +35,7 @@ namespace Vts.Test.MonteCarlo.Factories
         public void clear_folders_and_files()
         {
             // delete any previously generated files
-            foreach (var file in listOfTestGeneratedFiles)
+            foreach (var file in _listOfTestGeneratedFiles)
             {
                 FileIO.FileDelete(file);
             }
@@ -48,7 +47,7 @@ namespace Vts.Test.MonteCarlo.Factories
         [Test]
         public void Demonstrate_GetPhotonDatabase_for_diffuse_reflectance_successful_return()
         {
-            string databaseFilename = "DiffuseReflectanceDatabase";
+            var databaseFilename = "DiffuseReflectanceDatabase";
 
             using (var dbWriter = new PhotonDatabaseWriter(
                 VirtualBoundaryType.DiffuseReflectance, databaseFilename))
@@ -78,7 +77,7 @@ namespace Vts.Test.MonteCarlo.Factories
         [Test]
         public void Demonstrate_GetPhotonDatabase_for_diffuse_transmittance_successful_return()
         {
-            string databaseFilename = "DiffuseTransmittanceDatabase";
+            var databaseFilename = "DiffuseTransmittanceDatabase";
 
             using (var dbWriter = new PhotonDatabaseWriter(
                 VirtualBoundaryType.DiffuseReflectance, databaseFilename))
@@ -138,7 +137,7 @@ namespace Vts.Test.MonteCarlo.Factories
         [Test]
         public void Demonstrate_GetPhotonDatabase_for_pmc_reflectance_successful_return()
         {
-            string databaseFilename = "DiffuseReflectanceDatabase";
+            var databaseFilename = "DiffuseReflectanceDatabase";
 
             using (var dbWriter = new PhotonDatabaseWriter(
                 VirtualBoundaryType.pMCDiffuseReflectance, databaseFilename))

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -66,7 +67,8 @@ namespace Vts.MonteCarlo.Factories
                     return new PhotonDatabaseWriter(VirtualBoundaryType.pMCDiffuseTransmittance,
                         Path.Combine(filePath, outputName, "DiffuseTransmittanceDatabase"));
                 default:
-                    return null;
+                    throw new ArgumentOutOfRangeException(
+                        "Database type not recognized: " + databaseType);
             }
         }
         /// <summary>
@@ -111,8 +113,10 @@ namespace Vts.MonteCarlo.Factories
                 case DatabaseType.DiffuseReflectance:
                 case DatabaseType.DiffuseTransmittance:
                 case DatabaseType.SpecularReflectance:
-                default:
                     return null;
+                default:
+                    throw new ArgumentOutOfRangeException(
+                        "Database type not recognized: " + databaseType);
             }
         }
 
