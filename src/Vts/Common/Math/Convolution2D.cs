@@ -13,10 +13,10 @@ namespace Vts.Common.Math
         // Owen Yang, David Cuccia, and Bernard Choi, "Real-time blood flow imaging using the
         // graphics processing unit," (paper in preparation)
         ////////////////////////////////////////////////////////////////////////////////
-        // width and height are the width and height of the raw image, respecively
+        // width and height are the width and height of the raw image, respectively
         // Raw is the raw speckle image
-        // SpeckleContrast and SpeckleFlowIndex are preallocated 1D matricies
-        // rollRow, rollColumn, rollRowSquares, rollColumnSquared are preallocated
+        // SpeckleContrast and SpeckleFlowIndex are pre-allocated 1D matrices
+        // rollRow, rollColumn, rollRowSquares, rollColumnSquared are pre-allocated
         // buffers for holding the strip sums in the row and column and strip sums
         // of squared values in the row and column, respectively
         // the size of these 4 buffers are width*1
@@ -28,13 +28,13 @@ namespace Vts.Common.Math
         /// graphics processing unit," (paper in preparation)
         /// </summary>
         /// <param name="raw">Raw speckle image</param>
-        /// <param name="speckleContrast">Speckle contrast, preallocated 1D matrix</param>
-        /// <param name="speckleFlowIndex">Speckle flow index, preallocated 1D matrix</param>
-        /// <param name="rollRow">Preallocated buffer for holding the strip sum in the row</param>
-        /// <param name="rollColumn">Preallocated buffer for holding the strip sum in the column</param>
-        /// <param name="rollRowSquared">Preallocated buffer for holding the strip sums of squared values in the row</param>
-        /// <param name="rollColumnSquared">Preallocated buffer for holding the strip sums of squared values in the row</param>
-        /// <param name="width">Width of the raw speckle image. Also used for calculating the size of the preallocated buffers, the 4 buffers are width*1</param>
+        /// <param name="speckleContrast">Speckle contrast, pre-allocated 1D matrix</param>
+        /// <param name="speckleFlowIndex">Speckle flow index, pre-allocated 1D matrix</param>
+        /// <param name="rollRow">Pre-allocated buffer for holding the strip sum in the row</param>
+        /// <param name="rollColumn">Pre-allocated buffer for holding the strip sum in the column</param>
+        /// <param name="rollRowSquared">Pre-allocated buffer for holding the strip sums of squared values in the row</param>
+        /// <param name="rollColumnSquared">Pre-allocated buffer for holding the strip sums of squared values in the row</param>
+        /// <param name="width">Width of the raw speckle image. Also used for calculating the size of the pre-allocated buffers, the 4 buffers are width*1</param>
         /// <param name="height">Height of the raw speckle image</param>
         /// <param name="wR">Size of the sliding window radius</param>
         /// <param name="t">Exposure time of the camera used to obtain the raw speckle images</param>
