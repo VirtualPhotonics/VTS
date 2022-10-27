@@ -154,27 +154,24 @@ namespace Vts.MonteCarlo.Tissues
             {
                 return base.GetReflectedDirection(currentPosition, currentDirection);
             }
-            else // on tissue layer and bounding region border
+
+            // on tissue layer and bounding region border
+            // determine which layer 
+            var layerIndex = base.GetRegionIndex(currentPosition);
+            // the following assumes air-multilayers-air tissue
+            if (_boundingRegion.RegionOP.N == Regions[layerIndex].RegionOP.N)
             {
-                // determine which layer 
-                var layerIndex = base.GetRegionIndex(currentPosition);
-                // the following assumes air-multilayers-air tissue
-                if (_boundingRegion.RegionOP.N == Regions[layerIndex].RegionOP.N)
-                {
-                    return currentDirection;  // no refractive index mismatch
-                }
-                else
-                {
-                    // reflection equation reflected = incident - 2(incident dot surfaceNormal)surfaceNormal
-                    Direction surfaceNormal = _boundingRegion.SurfaceNormal(currentPosition);
-                    var currentDirDotNormal = Direction.GetDotProduct(currentDirection, surfaceNormal);
-                    var newX = currentDirection.Ux - 2 * currentDirDotNormal * surfaceNormal.Ux;
-                    var newY = currentDirection.Uy - 2 * currentDirDotNormal * surfaceNormal.Uy;
-                    var newZ = currentDirection.Uz - 2 * currentDirDotNormal * surfaceNormal.Uz;
-                    var norm = Math.Sqrt(newX * newX + newY * newY + newZ * newZ);
-                    return new Direction(newX / norm, newY / norm, newZ / norm);
-                }
+                return currentDirection;  // no refractive index mismatch
             }
+
+            // reflection equation reflected = incident - 2(incident dot surfaceNormal)surfaceNormal
+            var surfaceNormal = _boundingRegion.SurfaceNormal(currentPosition);
+            var currentDirDotNormal = Direction.GetDotProduct(currentDirection, surfaceNormal);
+            var newX = currentDirection.Ux - 2 * currentDirDotNormal * surfaceNormal.Ux;
+            var newY = currentDirection.Uy - 2 * currentDirDotNormal * surfaceNormal.Uy;
+            var newZ = currentDirection.Uz - 2 * currentDirDotNormal * surfaceNormal.Uz;
+            var norm = Math.Sqrt(newX * newX + newY * newY + newZ * newZ);
+            return new Direction(newX / norm, newY / norm, newZ / norm);
         }
 
         /// <summary>

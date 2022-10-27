@@ -55,7 +55,8 @@ namespace Vts.MonteCarlo.Tissues
         /// regions of tissue (layers and ellipsoid)
         /// </summary>
         [IgnoreDataMember]
-        public ITissueRegion[] Regions { get { return LayerRegions.Concat(VoxelRegion).ToArray(); } }
+        public ITissueRegion[] Regions => LayerRegions.Concat(VoxelRegion).ToArray();
+
         /// <summary>
         /// tissue capless cylinder region
         /// </summary>

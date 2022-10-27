@@ -118,10 +118,10 @@ namespace Vts.MonteCarlo.Tissues
                 return false;
             }
             // check if ray outside voxel
-            if ((!oneIn && !twoIn) &&
-                ((p1.X < X.Start) && (p2.X < X.Start)) || ((p1.X > X.Stop) && (p2.X > X.Stop)) ||
-                ((p1.Y < Y.Start) && (p2.Y < Y.Start)) || ((p1.Y > Y.Stop) && (p2.Y > Y.Stop)) ||
-                ((p1.Z < Z.Start) && (p2.Z < Z.Start)) || ((p1.Z > Z.Stop) && (p2.Z > Z.Stop)))
+            if (!oneIn && !twoIn &&
+                p1.X < X.Start && p2.X < X.Start || (p1.X > X.Stop && p2.X > X.Stop) ||
+                (p1.Y < Y.Start && p2.Y < Y.Start) || (p1.Y > Y.Stop && p2.Y > Y.Stop) ||
+                (p1.Z < Z.Start && p2.Z < Z.Start) || (p1.Z > Z.Stop && p2.Z > Z.Stop))
             {
                 return false;
             }
