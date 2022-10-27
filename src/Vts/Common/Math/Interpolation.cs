@@ -23,22 +23,19 @@ namespace Vts.Common.Math
                 throw new ArgumentException("Error in interp1: arrays x and y are not the same size!");
             }
 
-            int currentIndex = 1;
+            var currentIndex = 1;
 
             // changed this to clip to bounds (DC - 7/26/09)
-            if ((xi < x[0]))
+            if (xi < x[0])
                 return y[0];
-            else if((xi > x[x.Count - 1]))
+            if(xi > x[x.Count - 1])
                 return y[y.Count - 1];
-            else
-            {
-                // increment the index until you pass the desired interpolation point
-                while (x[currentIndex] < xi) currentIndex++;
+            // increment the index until you pass the desired interpolation point
+            while (x[currentIndex] < xi) currentIndex++;
 
-                // then do the interp between x[currentIndex-1] and xi[currentIndex]
-                double t = (xi - x[currentIndex - 1]) / (x[currentIndex] - x[currentIndex - 1]);
-                return y[currentIndex - 1] + t * (y[currentIndex] - y[currentIndex - 1]);
-            }
+            // then do the interp between x[currentIndex-1] and xi[currentIndex]
+            var t = (xi - x[currentIndex - 1]) / (x[currentIndex] - x[currentIndex - 1]);
+            return y[currentIndex - 1] + t * (y[currentIndex] - y[currentIndex - 1]);
         }
 
         /// <summary>
@@ -50,18 +47,15 @@ namespace Vts.Common.Math
         /// <returns>If xi outside range of x, returns NaN, otherwise, returns linearly interpolated result</returns>
         public static float interp1(IList<float> x, IList<float> y, float xi)
         {
-            int currentIndex = 1;
+            var currentIndex = 1;
 
-            if ((xi < x[0]) || (xi > x[x.Count - 1])) return float.NaN;
-            else
-            {
-                // increment the index until you pass the desired interpolation point
-                while (x[currentIndex] < xi) currentIndex++;
+            if (xi < x[0] || xi > x[x.Count - 1]) return float.NaN;
+            // increment the index until you pass the desired interpolation point
+            while (x[currentIndex] < xi) currentIndex++;
 
-                // then do the interp between x[currentIndex-1] and xi[currentIndex]
-                float t = (xi - x[currentIndex - 1]) / (x[currentIndex] - x[currentIndex - 1]);
-                return y[currentIndex - 1] + t * (y[currentIndex] - y[currentIndex - 1]);
-            }
+            // then do the interp between x[currentIndex-1] and xi[currentIndex]
+            var t = (xi - x[currentIndex - 1]) / (x[currentIndex] - x[currentIndex - 1]);
+            return y[currentIndex - 1] + t * (y[currentIndex] - y[currentIndex - 1]);
         }
 
         /// <summary>
@@ -81,15 +75,14 @@ namespace Vts.Common.Math
             {
                 case 1:  // interpolate over 2nd dimension
                     temp = new double[y.GetLength(1)];
-                    for (int i = 0; i < y.GetLength(1); i++)
+                    for (var i = 0; i < y.GetLength(1); i++)
                     {
                         temp[i] = y[fixedIndex, i];
                     }
                     break;
                 default:
-                case 2:
                     temp = new double[y.GetLength(0)];
-                    for (int i = 0; i < y.GetLength(0); i++)
+                    for (var i = 0; i < y.GetLength(0); i++)
                     {
                         temp[i] = y[i, fixedIndex];
                     }
@@ -116,15 +109,14 @@ namespace Vts.Common.Math
             {
                 case 1:  // interpolate over 2nd dimension
                     temp = new float[y.GetLength(1)];
-                    for (int i = 0; i < y.GetLength(1); i++)
+                    for (var i = 0; i < y.GetLength(1); i++)
                     {
                         temp[i] = y[fixedIndex, i];
                     }
                     break;
                 default:
-                case 2:
                     temp = new float[y.GetLength(0)];
-                    for (int i = 0; i < y.GetLength(0); i++)
+                    for (var i = 0; i < y.GetLength(0); i++)
                     {
                         temp[i] = y[i, fixedIndex];
                     }
@@ -226,31 +218,28 @@ namespace Vts.Common.Math
             {
                 throw new ArgumentException("Error in interp2: arrays x, y and f dimensions do not agree!");
             }
-            int currentXIndex = 1;
-            int currentYIndex = 1;
+            var currentXIndex = 1;
+            var currentYIndex = 1;
 
             // changed this to clip to bounds (DC - 7/26/09)
-            if ((xi <= x[0]) && (yi <= y[0])) return f[currentXIndex, currentYIndex];
-            else if ((xi >= x[x.Count - 1]) && (yi >= y[y.Count - 1])) return f[x.Count - 1, y.Count - 1];
-            else if (xi <= x[0]) return interp1(y, f, yi, 1, 0);
-            else if (xi > x[x.Count - 1]) return interp1(y, f, yi, 1, x.Count - 1);
-            else if (yi <= y[0]) return interp1(x, f, xi, 2, 0);
-            else if (yi > y[y.Count - 1]) return interp1(x, f, xi, 2, y.Count - 1);
-            else
-            {
-                // increment the index until you pass the desired interpolation point
-                while (x[currentXIndex] < xi) currentXIndex++;
-                while (y[currentYIndex] < yi) currentYIndex++;
+            if (xi <= x[0] && yi <= y[0]) return f[currentXIndex, currentYIndex];
+            if (xi >= x[x.Count - 1] && yi >= y[y.Count - 1]) return f[x.Count - 1, y.Count - 1];
+            if (xi <= x[0]) return interp1(y, f, yi, 1, 0);
+            if (xi > x[x.Count - 1]) return interp1(y, f, yi, 1, x.Count - 1);
+            if (yi <= y[0]) return interp1(x, f, xi, 2, 0);
+            if (yi > y[y.Count - 1]) return interp1(x, f, xi, 2, y.Count - 1);
+            // increment the index until you pass the desired interpolation point
+            while (x[currentXIndex] < xi) currentXIndex++;
+            while (y[currentYIndex] < yi) currentYIndex++;
 
-                // then do the interp between x[currentXIndex-1] and xi[currentXIndex] and
-                //                            y[currentYIndex-1] and yi[currentYIndex]
-                double t = (xi - x[currentXIndex - 1]) / (x[currentXIndex] - x[currentXIndex - 1]);
-                double u = (yi - y[currentYIndex - 1]) / (y[currentYIndex] - y[currentYIndex - 1]);
-                return (1 - t) * (1 - u) * f[currentXIndex - 1, currentYIndex - 1] +
-                             t * (1 - u) * f[currentXIndex, currentYIndex - 1] +
-                                   t * u * f[currentXIndex, currentYIndex] +
-                             (1 - t) * u * f[currentXIndex - 1, currentYIndex];
-            }
+            // then do the interp between x[currentXIndex-1] and xi[currentXIndex] and
+            //                            y[currentYIndex-1] and yi[currentYIndex]
+            var t = (xi - x[currentXIndex - 1]) / (x[currentXIndex] - x[currentXIndex - 1]);
+            var u = (yi - y[currentYIndex - 1]) / (y[currentYIndex] - y[currentYIndex - 1]);
+            return (1 - t) * (1 - u) * f[currentXIndex - 1, currentYIndex - 1] +
+                   t * (1 - u) * f[currentXIndex, currentYIndex - 1] +
+                   t * u * f[currentXIndex, currentYIndex] +
+                   (1 - t) * u * f[currentXIndex - 1, currentYIndex];
         }
 
         #endregion

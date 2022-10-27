@@ -1,10 +1,7 @@
 ﻿using System;
-using System.IO;
 using MathNet.Numerics.Random;
 using NUnit.Framework;
-using Vts.Common;
 using Vts.MonteCarlo;
-using Vts.MonteCarlo.Helpers;
 using Vts.MonteCarlo.Sources;
 using Vts.MonteCarlo.Tissues;
 
@@ -19,7 +16,7 @@ namespace Vts.Test.MonteCarlo.Sources
         private static PointSourcesValidationData _validationData;
 
         [OneTimeSetUp]
-        public void setup_validation_data()
+        public void Setup_validation_data()
         {
             if (_validationData == null)
             {
@@ -31,7 +28,7 @@ namespace Vts.Test.MonteCarlo.Sources
         /// test source input
         /// </summary>
         [Test]
-        public void validate_source_input_with_flat_profile_type()
+        public void Validate_source_input_with_flat_profile_type()
         {
             // check default constructor
             var si = new DirectionalPointSourceInput();
@@ -51,7 +48,7 @@ namespace Vts.Test.MonteCarlo.Sources
         /// Validate General Constructor of Directional Point Source
         /// </summary>
         [Test]
-        public void validate_general_constructor_with_flat_profiletype_for_directional_point_source_test()
+        public void Validate_general_constructor_with_flat_profiletype_for_directional_point_source_test()
         {
             Random rng = new MathNet.Numerics.Random.MersenneTwister(0); // not really necessary here, as this is now the default
             ITissue tissue = new MultiLayerTissue();       

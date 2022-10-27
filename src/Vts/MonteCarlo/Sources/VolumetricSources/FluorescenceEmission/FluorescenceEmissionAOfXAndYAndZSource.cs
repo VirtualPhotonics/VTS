@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using Vts.Common;
+using Vts.MonteCarlo.Interfaces;
 
 namespace Vts.MonteCarlo.Sources
 {
@@ -79,7 +79,7 @@ namespace Vts.MonteCarlo.Sources
     /// </summary>
     public class FluorescenceEmissionAOfXAndYAndZSource : FluorescenceEmissionSourceBase
     {
-        double _totalWeight = 0.0;
+        private double _totalWeight;
         /// <summary>
         /// class that holds all Source arrays for proper initiation
         /// </summary>
@@ -92,7 +92,7 @@ namespace Vts.MonteCarlo.Sources
         /// <summary>
         /// key into dictionary of indices
         /// </summary>
-        public static int IndexCount = 0;
+        public static int IndexCount { get; set; }
 
         /// <summary>
         /// Returns an instance of  Fluorescence Emission AOfXAndYAndZ Source with
@@ -123,36 +123,31 @@ namespace Vts.MonteCarlo.Sources
         /// <returns>photon position</returns>
         protected override Position GetFinalPositionAndWeight(Random rng, out double weight)
         {
-            Position finalPosition = null;
             double xMidpoint, yMidpoint, zMidpoint;
             switch (SamplingMethod)
             {
                 case SourcePositionSamplingType.CDF:
                     // determine position from CDF determined in AOfXAndYAndZLoader
                     // due to ordering of indices CDF will be increasing with each increment
-                    double rho = rng.NextDouble();
-                    for (int i = 0; i < Loader.X.Count - 1; i++)
+                    var rho = rng.NextDouble();
+                    for (var i = 0; i < Loader.X.Count - 1; i++)
                     {
-                        for (int j = 0; j < Loader.Y.Count - 1; j++)
+                        for (var j = 0; j < Loader.Y.Count - 1; j++)
                         {
-                            for (int k = 0; k < Loader.Z.Count - 1; k++)
+                            for (var k = 0; k < Loader.Z.Count - 1; k++)
                             {
-                                if (Loader.MapOfXAndYAndZ[i, j, k] == 1)
-                                {
-                                    if (rho < Loader.CDFOfXAndYAndZ[i, j, k])
-                                    {
-                                        xMidpoint = Loader.X.Start + i * Loader.X.Delta + Loader.X.Delta / 2;
-                                        yMidpoint = Loader.Y.Start + j * Loader.Y.Delta + Loader.Y.Delta / 2;
-                                        zMidpoint = Loader.Z.Start + k * Loader.Z.Delta + Loader.Z.Delta / 2;
-                                        weight = 1.0;
-                                        return new Position(xMidpoint, yMidpoint, zMidpoint);
-                                    }
-                                }
+                                if (Loader.MapOfXAndYAndZ[i, j, k] != 1) continue;
+                                if (rho >= Loader.CDFOfXAndYAndZ[i, j, k]) continue;
+                                xMidpoint = Loader.X.Start + i * Loader.X.Delta + Loader.X.Delta / 2;
+                                yMidpoint = Loader.Y.Start + j * Loader.Y.Delta + Loader.Y.Delta / 2;
+                                zMidpoint = Loader.Z.Start + k * Loader.Z.Delta + Loader.Z.Delta / 2;
+                                weight = 1.0;
+                                return new Position(xMidpoint, yMidpoint, zMidpoint);
                             }
                         }
                     }
                     weight = 1.0;
-                    return finalPosition;
+                    return null;
                 case SourcePositionSamplingType.Uniform:
                     // rotate through indices by starting over if reached end
                     if (IndexCount > Loader.FluorescentRegionIndicesInOrder.Count - 1)
@@ -169,12 +164,12 @@ namespace Vts.MonteCarlo.Sources
                     // undo normalization performed when AOfXAndYAndZDetector saved
                     var xyzNorm = Loader.X.Delta * Loader.Y.Delta * Loader.Z.Delta;
                     weight = Loader.AOfXAndYAndZ[ix, iy, iz] * xyzNorm;
-                    _totalWeight = _totalWeight + weight;
-                    IndexCount = IndexCount + 1;
+                    _totalWeight += weight;
+                    IndexCount += 1;
                     return new Position(xMidpoint, yMidpoint, zMidpoint);
+                default:
+                    throw new ArgumentOutOfRangeException(SamplingMethod.ToString());
             }
-            weight = 1.0;
-            return finalPosition;
         }
 
 

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -51,7 +52,6 @@ namespace Vts.MonteCarlo.Factories
         {
             switch (databaseType)
             {
-                default:
                 case DatabaseType.DiffuseReflectance:
                     return new PhotonDatabaseWriter(VirtualBoundaryType.DiffuseReflectance,
                         Path.Combine(filePath, outputName, "DiffuseReflectanceDatabase"));
@@ -66,11 +66,14 @@ namespace Vts.MonteCarlo.Factories
                         Path.Combine(filePath, outputName, "DiffuseReflectanceDatabase"));
                 case DatabaseType.pMCDiffuseTransmittance:
                     return new PhotonDatabaseWriter(VirtualBoundaryType.pMCDiffuseTransmittance,
-                    Path.Combine(filePath, outputName, "DiffuseTransmittanceDatabase"));
+                        Path.Combine(filePath, outputName, "DiffuseTransmittanceDatabase"));
                 case DatabaseType.RayDiffuseReflectance:
                     return new PhotonDatabaseWriter(VirtualBoundaryType.RayDiffuseReflectance,
                         Path.Combine(filePath, outputName, "DiffuseReflectanceDatabase"));
-              }
+                default:
+                    throw new ArgumentOutOfRangeException(
+                        "Database type not recognized: " + databaseType);
+            }
         }
         /// <summary>
         /// Static method to provide list of CollisionInfoDatabaseWriters.  It calls the method
@@ -103,15 +106,22 @@ namespace Vts.MonteCarlo.Factories
         {
             switch (databaseType)
             {
-                default:
                 case DatabaseType.pMCDiffuseReflectance:
                     return new CollisionInfoDatabaseWriter(VirtualBoundaryType.pMCDiffuseReflectance,
                         Path.Combine(filePath, outputName, "CollisionInfoDatabase"), 
-                        tissue.Regions.Count());
+                        tissue.Regions.Count);
                 case DatabaseType.pMCDiffuseTransmittance:
                     return new CollisionInfoDatabaseWriter(VirtualBoundaryType.pMCDiffuseTransmittance,
                         Path.Combine(filePath, outputName, "CollisionInfoTransmittanceDatabase"),
-                        tissue.Regions.Count());
+                        tissue.Regions.Count);
+                case DatabaseType.DiffuseReflectance:
+                case DatabaseType.DiffuseTransmittance:
+                case DatabaseType.SpecularReflectance:
+                case DatabaseType.RayDiffuseReflectance:
+                    return null;
+                default:
+                    throw new ArgumentOutOfRangeException(
+                        "Database type not recognized: " + databaseType);
             }
         }
         /// <summary>
@@ -143,10 +153,18 @@ namespace Vts.MonteCarlo.Factories
         {
             switch (databaseType)
             {
-                default:
                 case DatabaseType.RayDiffuseReflectance:
                     return new RayDatabaseWriter(VirtualBoundaryType.DiffuseReflectance,
                         Path.Combine(filePath, outputName, "RayDiffuseReflectanceDatabase"));
+                case DatabaseType.DiffuseReflectance:
+                case DatabaseType.DiffuseTransmittance:
+                case DatabaseType.SpecularReflectance:
+                case DatabaseType.pMCDiffuseReflectance:
+                case DatabaseType.pMCDiffuseTransmittance:
+                    return null;
+                default:
+                    throw new ArgumentOutOfRangeException(
+                        "Database type not recognized: " + databaseType);
             }
         }
 

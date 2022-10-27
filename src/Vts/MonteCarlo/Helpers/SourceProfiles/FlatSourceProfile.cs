@@ -1,5 +1,4 @@
-﻿using System.Runtime.Serialization;
-using Vts.MonteCarlo.Interfaces;
+﻿using Vts.MonteCarlo.Interfaces;
 
 namespace Vts.MonteCarlo.Sources.SourceProfiles
 {
@@ -19,6 +18,6 @@ namespace Vts.MonteCarlo.Sources.SourceProfiles
         /// Returns flat profile type
         /// </summary>
         //[IgnoreDataMember]
-        public SourceProfileType SourceProfileType { get { return SourceProfileType.Flat; } }
+        public SourceProfileType SourceProfileType => SourceProfileType.Flat;
     }
 }

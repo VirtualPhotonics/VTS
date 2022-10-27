@@ -85,13 +85,13 @@ namespace Vts.MonteCarlo.Sources
         public Photon GetNextPhoton(ITissue tissue)
         {
             //Source starts from anywhere in the line
-            Position finalPosition = GetFinalPositionFromProfileType(_sourceProfile, _rectLengthX, _rectWidthY, Rng);
+            var finalPosition = GetFinalPositionFromProfileType(_sourceProfile, _rectLengthX, _rectWidthY, Rng);
 
             // sample angular distribution
-            Direction finalDirection = GetFinalDirection(finalPosition);
+            var finalDirection = GetFinalDirection(finalPosition);
 
             //Find the relevent polar and azimuthal pair for the direction
-            PolarAzimuthalAngles _rotationalAnglesOfPrincipalSourceAxis = SourceToolbox.GetPolarAzimuthalPairFromDirection(_newDirectionOfPrincipalSourceAxis);
+            var _rotationalAnglesOfPrincipalSourceAxis = SourceToolbox.GetPolarAzimuthalPairFromDirection(_newDirectionOfPrincipalSourceAxis);
             
             //Rotation and translation
             SourceToolbox.UpdateDirectionPositionAfterGivenFlags(
@@ -131,7 +131,7 @@ namespace Vts.MonteCarlo.Sources
         /// <returns>Position</returns>
         protected static Position GetFinalPositionFromProfileType(ISourceProfile sourceProfile, double rectLengthX, double rectWidthY, Random rng)
         {
-            Position finalPosition = SourceDefaults.DefaultPosition.Clone();
+            var finalPosition = SourceDefaults.DefaultPosition.Clone();
             switch (sourceProfile.SourceProfileType)
             {
                 case SourceProfileType.Flat:
@@ -142,14 +142,18 @@ namespace Vts.MonteCarlo.Sources
                         rng);
                     break;                                
                 case SourceProfileType.Gaussian:
-                    var gaussianProfile = sourceProfile as GaussianSourceProfile;
-                    finalPosition = SourceToolbox.GetPositionInARectangleRandomGaussian(
-                        SourceDefaults.DefaultPosition.Clone(),
-                        0.5*rectLengthX,
-                        0.5*rectWidthY,
-                        gaussianProfile.BeamDiaFWHM,
-                        rng);
+                    if (sourceProfile is GaussianSourceProfile gaussianProfile)
+                        finalPosition = SourceToolbox.GetPositionInARectangleRandomGaussian(
+                            SourceDefaults.DefaultPosition.Clone(),
+                            0.5 * rectLengthX,
+                            0.5 * rectWidthY,
+                            gaussianProfile.BeamDiaFWHM,
+                            rng);
                     break;
+                case SourceProfileType.Arbitrary:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(sourceProfile.SourceProfileType.ToString());
             }
             return finalPosition;
         }

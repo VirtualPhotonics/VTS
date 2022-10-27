@@ -1,3 +1,4 @@
+using System;
 using System.Runtime.CompilerServices;
 
 namespace Vts.MonteCarlo.Extensions
@@ -28,11 +29,15 @@ namespace Vts.MonteCarlo.Extensions
                 case DatabaseType.pMCDiffuseReflectance:
                 case DatabaseType.pMCDiffuseTransmittance:
                     return true;
-                default:
                 case DatabaseType.DiffuseReflectance:
                 case DatabaseType.DiffuseTransmittance:
                 case DatabaseType.SpecularReflectance:
+                case DatabaseType.RayDiffuseReflectance:
                     return false;
+                default:
+                    throw new ArgumentOutOfRangeException(
+                        "Database type not recognized: " + databaseType);
+
             }
         }
         /// <summary>
@@ -64,7 +69,6 @@ namespace Vts.MonteCarlo.Extensions
             switch (databaseType)
             {
                 case DatabaseType.DiffuseReflectance:
-                default:
                     return VirtualBoundaryType.DiffuseReflectance;
                 case DatabaseType.DiffuseTransmittance:
                     return VirtualBoundaryType.DiffuseTransmittance;
@@ -74,6 +78,11 @@ namespace Vts.MonteCarlo.Extensions
                     return VirtualBoundaryType.pMCDiffuseReflectance;
                 case DatabaseType.pMCDiffuseTransmittance:
                     return VirtualBoundaryType.pMCDiffuseTransmittance;
+                case DatabaseType.RayDiffuseReflectance:
+                    return VirtualBoundaryType.RayDiffuseReflectance;
+                default:
+                    throw new ArgumentOutOfRangeException(
+                        "Database type not recognized: " + databaseType);
 
             }
         }

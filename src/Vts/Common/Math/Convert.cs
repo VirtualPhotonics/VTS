@@ -20,30 +20,30 @@ namespace Vts.Common.Math
         /// The method determines the phase given real and imaginary values
         /// </summary>
         /// <param name="real">The real component</param>
-        /// <param name="imag">The imaginary component</param>
+        /// <param name="imaginary">The imaginary component</param>
         /// <returns>A phase double</returns>
-        public static double ToPhase(double real, double imag)
+        public static double ToPhase(double real, double imaginary)
         {
             // convert to degrees
-            return -System.Math.Atan2(imag, real) * (180 / System.Math.PI );
+            return -System.Math.Atan2(imaginary, real) * (180 / System.Math.PI );
         }
 
         /// <summary>
         /// The method determines the phase given real and imaginary arrays
         /// </summary>
         /// <param name="real">The real component array</param>
-        /// <param name="imag">The imaginary component array</param>
+        /// <param name="imaginary">The imaginary component array</param>
         /// <returns>A phase double array</returns>
-        public static double[] ToPhase(double[] real, double[] imag)
+        public static double[] ToPhase(double[] real, double[] imaginary)
         {
-            if (real.Length != imag.Length)
+            if (real.Length != imaginary.Length)
             {
-                throw new ArgumentException("Error in ToPhase: real and imag arrays are not the same size!");
+                throw new ArgumentException("Error in ToPhase: real and imaginary arrays are not the same size!");
             }
             var phase = new double[real.Length];
-            for (int i = 0; i < phase.Length; i++)
+            for (var i = 0; i < phase.Length; i++)
             {
-                phase[i] = Convert.ToPhase(real[i], imag[i]);
+                phase[i] = Convert.ToPhase(real[i], imaginary[i]);
             }
             return phase;
         }
@@ -51,29 +51,29 @@ namespace Vts.Common.Math
         /// The method determines the amplitude given real and imaginary values
         /// </summary>
         /// <param name="real">The real component</param>
-        /// <param name="imag">The imaginary component</param>
+        /// <param name="imaginary">The imaginary component</param>
         /// <returns>An amplitude double</returns>
-        public static double ToAmplitude(double real, double imag)
+        public static double ToAmplitude(double real, double imaginary)
         {
-            return System.Math.Sqrt(real*real+imag*imag);
+            return System.Math.Sqrt(real*real+imaginary*imaginary);
         }
 
         /// <summary>
         /// The method determines the amplitude given real and imaginary arrays
         /// </summary>
         /// <param name="real">The real component array</param>
-        /// <param name="imag">The imaginary component array</param>
+        /// <param name="imaginary">The imaginary component array</param>
         /// <returns>An amplitude double array</returns>
-        public static double[] ToAmplitude(double[] real, double[] imag)
+        public static double[] ToAmplitude(double[] real, double[] imaginary)
         {
-            if (real.Length != imag.Length)
+            if (real.Length != imaginary.Length)
             {
                 throw new ArgumentException("Error in ToAmplitude: real and imag arrays are not the same size!");       
             }
             var amplitude = new double[real.Length];
-            for (int i = 0; i < amplitude.Length; i++)
+            for (var i = 0; i < amplitude.Length; i++)
             {
-                amplitude[i] = Convert.ToAmplitude(real[i], imag[i]);
+                amplitude[i] = Convert.ToAmplitude(real[i], imaginary[i]);
             }
             return amplitude;
         }

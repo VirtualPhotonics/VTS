@@ -39,9 +39,6 @@ namespace Vts.MonteCarlo.IO
         /// DataPoints is an IEnumerable of Time
         /// </summary>
         [IgnoreDataMember]
-        public IEnumerable<T> DataPoints
-        {
-            get { return _dataPoints; }
-        }
+        public IEnumerable<T> DataPoints => _dataPoints;
     }
 }

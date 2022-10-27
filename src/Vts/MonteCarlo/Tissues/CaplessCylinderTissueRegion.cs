@@ -61,21 +61,13 @@ namespace Vts.MonteCarlo.Tissues
         /// <returns>Boolean</returns>
         public bool ContainsPosition(Position position)
         {
-            double inside = Math.Sqrt(position.X * position.X + position.Y * position.Y);
+            var inside = Math.Sqrt(position.X * position.X + position.Y * position.Y);
             // check if within radius
-            if (inside < 0.9999999999 * Radius)
-            {
-                return true;
-            }
-            else if (inside > 1.00000000001 * Radius)
-            {
-                return false;
-            }
-            else  // on boundary means cylinder contains position
-            {
-                _onBoundary = true; 
-                return true;
-            }
+            if (inside < 0.9999999999 * Radius)  return true;
+            if (inside > 1.00000000001 * Radius)  return false; 
+            // on boundary means cylinder contains position
+            _onBoundary = true; 
+            return true;
         }
         /// <summary>
         /// Method to determine if photon on boundary of cylinder.
@@ -110,8 +102,8 @@ namespace Vts.MonteCarlo.Tissues
                 p1.Y + d1.Uy * photon.S,
                 p1.Z + d1.Uz * photon.S);
 
-            bool oneIn = this.ContainsPosition(p1);
-            bool twoIn = this.ContainsPosition(p2);
+            var oneIn = this.ContainsPosition(p1);
+            var twoIn = this.ContainsPosition(p2);
 
             // check if ray within cylinder
             if ((oneIn || _onBoundary) && twoIn)
@@ -125,13 +117,11 @@ namespace Vts.MonteCarlo.Tissues
             var intersectSides = (CylinderTissueRegionToolbox.RayIntersectInfiniteCylinder(
                 p1, p2, oneIn, CylinderTissueRegionAxisType.Z, Center, Radius, out var distanceToSides));
 
-            if (intersectSides)
-            {
-                distanceToBoundary = distanceToSides;
-                return true;
-            }
+            if (!intersectSides) return false;
 
-            return false;
+            distanceToBoundary = distanceToSides;
+            return true;
+
         }
 
         /// <summary>

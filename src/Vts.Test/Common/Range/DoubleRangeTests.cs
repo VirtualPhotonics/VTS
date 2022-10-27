@@ -107,5 +107,12 @@ namespace Vts.Test.Common
             var doubleRange = new DoubleRange(0.1, 0.9);
             Assert.IsInstanceOf<DoubleRange>(doubleRange.Clone());
         }
+
+        [Test]
+        public void Test_ToString()
+        {
+            var doubleRange = new DoubleRange(0.1, 0.9, 9);
+            Assert.AreEqual("Start: 0.1, Stop: 0.9, Count: 9, Delta: 0.1", doubleRange.ToString());
+        }
     }
 }

@@ -17,7 +17,7 @@ namespace Vts.Test.MonteCarlo.RayData
         /// <summary>
         /// list of temporary files created by these unit tests
         /// </summary>
-        readonly List<string> listOfTestGeneratedFiles = new List<string>()
+        readonly List<string> _listOfTestGeneratedFiles = new List<string>()
         {
             "testraydatabase",
             "testraydatabase.txt",
@@ -30,12 +30,12 @@ namespace Vts.Test.MonteCarlo.RayData
         /// Set up simulation specifying RayDatabase to be written
         /// </summary>
         [OneTimeSetUp]
-        public void setup_simulation_input_components()
+        public void Setup_simulation_input_components()
         {
             // delete previously generated files
-            clear_folders_and_files();
+            Clear_folders_and_files();
 
-            var _input = new SimulationInput(
+            var input = new SimulationInput(
                 100,
                 "",
                 new SimulationOptions(
@@ -73,17 +73,17 @@ namespace Vts.Test.MonteCarlo.RayData
                     }
                 }              
             );
-            new MonteCarloSimulation(_input).Run();
+            new MonteCarloSimulation(input).Run();
         }
 
         /// <summary>
         /// clear all previously generated files.
         /// </summary>
         [OneTimeTearDown]
-        public void clear_folders_and_files()
+        public void Clear_folders_and_files()
         {
             // delete any previously generated files
-            foreach (var file in listOfTestGeneratedFiles)
+            foreach (var file in _listOfTestGeneratedFiles)
             {
                 FileIO.FileDelete(file);
             }
@@ -95,20 +95,20 @@ namespace Vts.Test.MonteCarlo.RayData
         [Test]
         public void Validate_RayDatabase_Writer_and_FromFile_are_correct_when_using_WriteToFile()
         {
-            string databaseFileName = "testraydatabase";
-            var firstRayDP = new RayDataPoint(
+            const string databaseFileName = "testraydatabase";
+            var firstRayDp = new RayDataPoint(
                     new Position(1, 1, 0),
                     new Direction(0, 1 / Math.Sqrt(2), -1 / Math.Sqrt(2)),
                     1.0);
-            var secondRayDP = new RayDataPoint(
+            var secondRayDp = new RayDataPoint(
                     new Position(2, 2, 0),
                     new Direction(1 / Math.Sqrt(2), 0, -1 / Math.Sqrt(2)),
                     2.0);
             using (var dbWriter = new RayDatabaseWriter(
                 VirtualBoundaryType.DiffuseReflectance, databaseFileName))
             {       
-                dbWriter.Write(firstRayDP);
-                dbWriter.Write(secondRayDP);
+                dbWriter.Write(firstRayDp);
+                dbWriter.Write(secondRayDp);
                 dbWriter.Close();
             }
             // read back file written
@@ -122,23 +122,23 @@ namespace Vts.Test.MonteCarlo.RayData
             // advance to the first point and test that the point is valid
             enumerator.MoveNext();
             var dp1 = enumerator.Current;
-            Assert.IsTrue(dp1.Position.X == firstRayDP.Position.X);
-            Assert.IsTrue(dp1.Position.Y == firstRayDP.Position.Y);
-            Assert.IsTrue(dp1.Position.Z == firstRayDP.Position.Z);
-            Assert.IsTrue(dp1.Direction.Ux == firstRayDP.Direction.Ux);
-            Assert.IsTrue(dp1.Direction.Uy == firstRayDP.Direction.Uy);
-            Assert.IsTrue(dp1.Direction.Uz == firstRayDP.Direction.Uz);
-            Assert.IsTrue(dp1.Weight == firstRayDP.Weight);
+            Assert.IsTrue(dp1.Position.X == firstRayDp.Position.X);
+            Assert.IsTrue(dp1.Position.Y == firstRayDp.Position.Y);
+            Assert.IsTrue(dp1.Position.Z == firstRayDp.Position.Z);
+            Assert.IsTrue(dp1.Direction.Ux == firstRayDp.Direction.Ux);
+            Assert.IsTrue(dp1.Direction.Uy == firstRayDp.Direction.Uy);
+            Assert.IsTrue(dp1.Direction.Uz == firstRayDp.Direction.Uz);
+            Assert.IsTrue(dp1.Weight == firstRayDp.Weight);
             // advance to the second point and test that the point is valid
             enumerator.MoveNext();
             var dp2 = enumerator.Current;
-            Assert.IsTrue(dp2.Position.X == secondRayDP.Position.X);
-            Assert.IsTrue(dp2.Position.Y == secondRayDP.Position.Y);
-            Assert.IsTrue(dp2.Position.Z == secondRayDP.Position.Z);
-            Assert.IsTrue(dp2.Direction.Ux == secondRayDP.Direction.Ux);
-            Assert.IsTrue(dp2.Direction.Uy == secondRayDP.Direction.Uy);
-            Assert.IsTrue(dp2.Direction.Uz == secondRayDP.Direction.Uz);
-            Assert.IsTrue(dp2.Weight == secondRayDP.Weight);
+            Assert.IsTrue(dp2.Position.X == secondRayDp.Position.X);
+            Assert.IsTrue(dp2.Position.Y == secondRayDp.Position.Y);
+            Assert.IsTrue(dp2.Position.Z == secondRayDp.Position.Z);
+            Assert.IsTrue(dp2.Direction.Ux == secondRayDp.Direction.Ux);
+            Assert.IsTrue(dp2.Direction.Uy == secondRayDp.Direction.Uy);
+            Assert.IsTrue(dp2.Direction.Uz == secondRayDp.Direction.Uz);
+            Assert.IsTrue(dp2.Weight == secondRayDp.Weight);
             enumerator.Dispose();
         }
 

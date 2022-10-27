@@ -12,9 +12,9 @@ using Vts.MonteCarlo.IO;
 
 namespace Vts.MonteCarlo.CommandLineApplication
 {
-    public class MonteCarloSetup
+    public static class MonteCarloSetup
     {
-        private static ILogger logger = LoggerFactoryLocator.GetDefaultNLogFactory().Create(typeof(MonteCarloSetup));
+        private static readonly ILogger Logger = LoggerFactoryLocator.GetDefaultNLogFactory().Create(typeof(MonteCarloSetup));
 
         /// <summary>
         /// method to read the simulation input from a specified or default file
@@ -25,7 +25,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
             {
                 if (string.IsNullOrEmpty(inputFile))
                 {
-                    logger.Info(" *** No input file specified ***\n\nDefine an input file using mc.exe infile=infile_name.txt");
+                    Logger.Info(" *** No input file specified ***\n\nDefine an input file using mc.exe infile=infile_name.txt");
                     return null;
                 }
 
@@ -59,7 +59,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
                 if (parameterSweepString.Length != 4)
                 {
                     
-                    string message =
+                    var message =
                         " *** Invalid sweep parameter ***" +
                         "\n\t\tsweep parameters should have 4 values in the format:";
                     if (type == ParameterSweepType.Delta)
@@ -71,7 +71,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
                         message += "\n\t\tparamsweep=<Parameter>,Start,Stop,Count";
                     }
                     message += "\n\t\tIgnoring this sweep parameter\n";
-                    logger.Warn(() => message);
+                    Logger.Warn(() => message);
                     return null;
                     
                 }
@@ -82,11 +82,11 @@ namespace Vts.MonteCarlo.CommandLineApplication
                 // check that number is an integer and that number of parameters is 2 more than number
                 if ((number == Math.Floor(number)) && (parameterSweepString.Length != number + 2))
                 {
-                    string message =
+                    var message =
                         " *** Invalid sweep parameter: either Number or number of Vals is in error ***" +
                         "\n\t\tsweep parameters should have format paramsweeplist=<Parameter>,NumVals,Val1,...,ValN";
                     message += "\n\t\tIgnoring this sweep parameter\n";
-                    logger.Warn(() => message);
+                    Logger.Warn(() => message);
                     return null;
                 }
             }
@@ -94,9 +94,8 @@ namespace Vts.MonteCarlo.CommandLineApplication
             try
             {
                 var inputParameterType = parameterSweepString[0];
-                double start, stop, delta;
-                int count;
-                DoubleRange sweepRange = null;
+                double start, stop;
+                DoubleRange sweepRange;
                 switch (type)
                 {
                     // batch parameter values should come in fours for Delta and Count
@@ -104,7 +103,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
                         // eg. paramsweepdelta=mua1,0.0,4.0,0.05 paramsweepdelta=mus1,0.5,1.5,0.1 paramsweepdelta=mus2,0.5,1.5,0.1 ...
                         start = double.Parse(parameterSweepString[1]);
                         stop = double.Parse(parameterSweepString[2]);
-                        delta = double.Parse(parameterSweepString[3]);
+                        var delta = double.Parse(parameterSweepString[3]);
                         // use Math.Round to make sure floating point precision doesn't reduce/increase count
                         sweepRange = new DoubleRange(start, stop, (int)(Math.Round((stop - start) / delta)) + 1);
                         return new ParameterSweep(inputParameterType, sweepRange);
@@ -112,14 +111,14 @@ namespace Vts.MonteCarlo.CommandLineApplication
                         // eg. paramsweep=mua1,0.01,4.0,101 paramsweep=mus1,0.5,1.5,3 paramsweep=mus2,0.5,1.5,3 ...
                         start = double.Parse(parameterSweepString[1]);
                         stop = double.Parse(parameterSweepString[2]);
-                        count = int.Parse(parameterSweepString[3]);
+                        var count = int.Parse(parameterSweepString[3]);
                         sweepRange = new DoubleRange(start, stop, count);
                         return new ParameterSweep(inputParameterType, sweepRange);
                     case ParameterSweepType.List:
                         // eg. paramsweeplist=mua1,2,0.01,0.02
                         var number = int.Parse(parameterSweepString[1]);
                         var sweepList = new double[number];
-                        for (int i = 0; i < number; i++)
+                        for (var i = 0; i < number; i++)
                         { 
                             sweepList[i]=double.Parse(parameterSweepString[i + 2]);
                         }
@@ -129,14 +128,14 @@ namespace Vts.MonteCarlo.CommandLineApplication
             }
             catch
             {
-                logger.Error(() => "Could not parse the input arguments.\n\tIgnoring the following input parameter sweep: " + parameterSweepString);
+                Logger.Error(() => "Could not parse the input arguments.\n\tIgnoring the following input parameter sweep: " + parameterSweepString);
                 return null;
             }
         }
 
         public static IEnumerable<SimulationInput> ApplyParameterSweeps(SimulationInput input, IEnumerable<ParameterSweep> parameterSweeps)
         {
-            IEnumerable<SimulationInput> batchInputs = input.AsEnumerable();
+            var batchInputs = input.AsEnumerable();
 
             foreach (var parameterSweep in parameterSweeps)
             {

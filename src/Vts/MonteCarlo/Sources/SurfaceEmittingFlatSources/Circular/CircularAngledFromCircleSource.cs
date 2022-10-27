@@ -142,9 +142,9 @@ namespace Vts.MonteCarlo.Sources
     /// </summary>
     public class CircularAngledFromCircleSource : CircularSourceBase
     {
-        readonly Position _circleInAirTranslationFromOrigin;
-        readonly Direction _circleInAirRotation;
-        readonly double _radiusInAir;
+        private readonly Position _circleInAirTranslationFromOrigin;
+        private readonly Direction _circleInAirRotation;
+        private readonly double _radiusInAir;
 
         /// <summary>
         /// Returns an instance of  Circular Source Angled From Point with specified radius,

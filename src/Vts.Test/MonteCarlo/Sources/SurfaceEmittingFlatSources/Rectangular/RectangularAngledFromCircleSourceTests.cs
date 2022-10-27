@@ -1,10 +1,8 @@
 ﻿using System;
-using System.IO;
 using MathNet.Numerics.Random;
 using NUnit.Framework;
 using Vts.Common;
 using Vts.MonteCarlo;
-using Vts.MonteCarlo.Helpers;
 using Vts.MonteCarlo.Sources;
 using Vts.MonteCarlo.Sources.SourceProfiles;
 using Vts.MonteCarlo.Tissues;
@@ -21,7 +19,7 @@ namespace Vts.Test.MonteCarlo.Sources
         /// test source input
         /// </summary>
         [Test]
-        public void validate_source_input_with_flat_profile_type()
+        public void Validate_source_input_with_flat_profile_type()
         {
             // check default constructor
             var si = new RectangularAngledFromCircleSourceInput();
@@ -46,7 +44,7 @@ namespace Vts.Test.MonteCarlo.Sources
         /// This test is validated by geometrically determined results
         /// </summary>
         [Test]
-        public void validate_RectangularAngledFromCircle_source()
+        public void Validate_RectangularAngledFromCircle_source()
         {
             Random rng =
                 new MathNet.Numerics.Random.MersenneTwister(0); // not really necessary here, as this is now the default
@@ -92,7 +90,7 @@ namespace Vts.Test.MonteCarlo.Sources
             {
                 Rng = rng
             };
-            for (int i = 0; i < 10; i++) // test 10 photons
+            for (var i = 0; i < 10; i++) // test 10 photons
             {
                 photon = ps.GetNextPhoton(tissue);
                 // make sure initial position is at tissue surface

@@ -1,5 +1,4 @@
 using System;
-using Vts.MonteCarlo.Tissues;
 
 namespace Vts.MonteCarlo.Tissues
 {

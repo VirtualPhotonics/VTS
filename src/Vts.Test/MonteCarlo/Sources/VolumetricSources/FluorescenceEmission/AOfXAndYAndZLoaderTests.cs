@@ -19,19 +19,19 @@ namespace Vts.Test.MonteCarlo.Sources
     public class AOfXAndYAndZLoaderTests
     {
         private AOfXAndYAndZDetector _aOfXAndYAndZDetector;
-        private FluorescenceEmissionAOfXAndYAndZSource _fluorEmissionAOfXAndYAndZSourceCDF,
+        private FluorescenceEmissionAOfXAndYAndZSource _fluorEmissionAOfXAndYAndZSourceCdf,
             _fluorEmissionAOfXAndYAndZSourceUnif;
-        private AOfXAndYAndZLoader _xyzLoaderCDF, _xyzLoaderUnif;
+        private AOfXAndYAndZLoader _xyzLoaderCdf, _xyzLoaderUnif;
 
         /// <summary>
         /// list of temporary files created by these unit tests
         /// </summary>
-        readonly List<string> listOfTestGeneratedFolders = new List<string>()
+        readonly List<string> _listOfTestGeneratedFolders = new List<string>()
         {
             "sourcetest",
         };
 
-        readonly List<string> listOfTestGeneratedFiles = new List<string>()
+        readonly List<string> _listOfTestGeneratedFiles = new List<string>()
         {
             "inputAOfXAndYAndZ.txt",
             "AOfXAndYAndZ",
@@ -42,13 +42,13 @@ namespace Vts.Test.MonteCarlo.Sources
         /// </summary>
         [OneTimeSetUp]
         [OneTimeTearDown]
-        public void clear_folders_and_files()
+        public void Clear_folders_and_files()
         {
-            foreach (var file in listOfTestGeneratedFiles)
+            foreach (var file in _listOfTestGeneratedFiles)
             {
                 FileIO.FileDelete(file);
             }
-            foreach (var folder in listOfTestGeneratedFolders)
+            foreach (var folder in _listOfTestGeneratedFolders)
             {
                 FileIO.DeleteDirectory(folder);
             }
@@ -63,7 +63,7 @@ namespace Vts.Test.MonteCarlo.Sources
         /// write them locally so that they could be read by this unit test.
         /// </summary>
         [OneTimeSetUp]
-        public void setup()
+        public void Setup()
         {
             var name = Assembly.GetExecutingAssembly().FullName;
             var assemblyName = new AssemblyName(name).Name;
@@ -74,12 +74,12 @@ namespace Vts.Test.MonteCarlo.Sources
             _aOfXAndYAndZDetector = (dynamic)DetectorIO.ReadDetectorFromFileInResources(
                 "AOfXAndYAndZ", "Resources/sourcetest/", assemblyName);
             // overwrite statistical data in Mean with deterministic values to test
-            int count = 1;
-            for (int i = 0; i < _aOfXAndYAndZDetector.X.Count - 1; i++)
+            var count = 1;
+            for (var i = 0; i < _aOfXAndYAndZDetector.X.Count - 1; i++)
             {
-                for (int j = 0; j < _aOfXAndYAndZDetector.Y.Count - 1; j++)
+                for (var j = 0; j < _aOfXAndYAndZDetector.Y.Count - 1; j++)
                 {
-                    for (int k = 0; k < _aOfXAndYAndZDetector.Z.Count - 1; k++)
+                    for (var k = 0; k < _aOfXAndYAndZDetector.Z.Count - 1; k++)
                     {
                         _aOfXAndYAndZDetector.Mean[i, j, k] = count; // make all nonzero and unique
                         ++count;
@@ -92,13 +92,13 @@ namespace Vts.Test.MonteCarlo.Sources
                 "Resources/sourcetest/inputAOfXAndYAndZ.txt", "sourcetest/inputAOfXAndYAndZ.txt", assemblyName);
             
             // following setup is used to test FluorescenceEmissionSource CDF sampling method
-            _fluorEmissionAOfXAndYAndZSourceCDF = new FluorescenceEmissionAOfXAndYAndZSource(
+            _fluorEmissionAOfXAndYAndZSourceCdf = new FluorescenceEmissionAOfXAndYAndZSource(
                 "sourcetest", "inputAOfXAndYAndZ.txt", 3, SourcePositionSamplingType.CDF);
             // empty infileFolder will initialize AOfXAndYAndZLoader with no AOfXAndYAndZ read
-            _fluorEmissionAOfXAndYAndZSourceCDF.Loader = new AOfXAndYAndZLoader(
+            _fluorEmissionAOfXAndYAndZSourceCdf.Loader = new AOfXAndYAndZLoader(
                 "sourcetest", "inputAOfXAndYAndZ.txt", 3);
-            _xyzLoaderCDF = _fluorEmissionAOfXAndYAndZSourceCDF.Loader;
-            _xyzLoaderCDF.InitializeFluorescentRegionArrays();
+            _xyzLoaderCdf = _fluorEmissionAOfXAndYAndZSourceCdf.Loader;
+            _xyzLoaderCdf.InitializeFluorescentRegionArrays();
             
             // following setup is used to test FluorescenceEmissionSource Unif sampling method
             _fluorEmissionAOfXAndYAndZSourceUnif = new FluorescenceEmissionAOfXAndYAndZSource(
@@ -106,20 +106,20 @@ namespace Vts.Test.MonteCarlo.Sources
             // empty infileFolder will initialize AOfXAndYAndZLoader with no AOfXAndYAndZ read
             _fluorEmissionAOfXAndYAndZSourceUnif.Loader = new AOfXAndYAndZLoader(
                 "sourcetest", "inputAOfXAndYAndZ.txt", 3);
-            _xyzLoaderUnif = _fluorEmissionAOfXAndYAndZSourceCDF.Loader;
-            _xyzLoaderCDF.InitializeFluorescentRegionArrays();
+            _xyzLoaderUnif = _fluorEmissionAOfXAndYAndZSourceCdf.Loader;
+            _xyzLoaderCdf.InitializeFluorescentRegionArrays();
         }
 
         /// <summary>
-        /// Validate AOfXandYAndZLoader method InitializeFluorscentRegionArrays creates arrays
+        /// Validate AOfXAndYAndZLoader method InitializeFluorescentRegionArrays creates arrays
         /// MapOfXAndYAndZ = has 1's in voxels of fluorescent tissue region
         /// PDFOfXAndYAndZ = AOfXAndYAndZ in locations where MapOfXAndYAndZ has 1, then normalized to PDF by total
         /// CDPOfXAndYAndZ = CDF of PDFOfXAndYAndZ
         /// </summary>
         [Test]
-        public void validate_AOfXAndYAndZLoader_method_InitializeFluorscentRegionArrays()
+        public void Validate_AOfXAndYAndZLoader_method_InitializeFluorescentRegionArrays()
         {
-            var loader = _xyzLoaderCDF;
+            var loader = _xyzLoaderCdf;
             // check that arrays are of correct dimension
             Assert.AreEqual(loader.MapOfXAndYAndZ.GetLength(0), loader.X.Count - 1);
             Assert.AreEqual(loader.MapOfXAndYAndZ.GetLength(1), loader.Y.Count - 1);

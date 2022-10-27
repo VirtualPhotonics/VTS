@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.CompilerServices;
 
 namespace Vts.MonteCarlo.PhotonData
@@ -14,17 +15,17 @@ namespace Vts.MonteCarlo.PhotonData
 
     /// <summary>
     /// Describes a model object designed to hold extra information related to collisions and
-    /// pathlength in each region. Inherits from List(OfSubRegionCollisionInfo) as a simple way 
+    /// path length in each region. Inherits from List(OfSubRegionCollisionInfo) as a simple way 
     /// of having Add() and indexing methods available
     /// </summary>
     public class CollisionInfo : List<SubRegionCollisionInfo>
     {
         /// <summary>
-        /// class that holds photon information related to collisions and pathlength in each region
+        /// class that holds photon information related to collisions and path length in each region
         /// </summary>
-        /// <param name="numberOfSubRegions">number of tissue subregions</param>
+        /// <param name="numberOfSubRegions">number of tissue sub-regions</param>
         public CollisionInfo(int numberOfSubRegions)
-            : base(numberOfSubRegions) // sets the initial size to the known number of subregions
+            : base(numberOfSubRegions) // sets the initial size to the known number of sub-regions
         {
         }
         /// <summary>
@@ -40,10 +41,7 @@ namespace Vts.MonteCarlo.PhotonData
         public CollisionInfo Clone()
         {
             var collisionInfo = new CollisionInfo(this.Capacity);
-            foreach (var subRegion in this)
-            {
-                collisionInfo.Add(subRegion.Clone());
-            }
+            collisionInfo.AddRange(this.Select(subRegion => subRegion.Clone()));
             return collisionInfo;
         }
     }
