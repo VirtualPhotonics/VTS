@@ -1,9 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Newtonsoft.Json;
 using Vts.IO;
-using Vts.MonteCarlo.Detectors;
 
 namespace Vts.MonteCarlo.Factories
 {
@@ -22,12 +20,8 @@ namespace Vts.MonteCarlo.Factories
         /// <returns>List of IDetector</returns>
         public static IList<IDetector> GetDetectors(IEnumerable<IDetectorInput> detectorInputs, ITissue tissue, Random rng)
         {
-            if (detectorInputs == null)
-            {
-                return null;
-            }
-
-            var detectors = detectorInputs.Select(detectorInput => GetDetector(detectorInput, tissue, rng)).ToList();
+            var detectors = detectorInputs?.Select(
+                detectorInput => GetDetector(detectorInput, tissue, rng)).ToList();
 
             return detectors;
         }
@@ -61,25 +55,24 @@ namespace Vts.MonteCarlo.Factories
         /// <param name="detectorType">type of detector</param>
         public static void RegisterDetector(Type detectorInputType, Type detectorType)
         {
+            if (detectorInputType == null) return;
+
             // check that the detector input implements the IDetectorInput interface
             if (!typeof (IDetectorInput).IsAssignableFrom(detectorInputType))
-            {
-                throw new ArgumentException("Cannot register detector input " + detectorInputType.AssemblyQualifiedName + 
-                    " because it does not implement the Vts.MonteCarlo.IDetectorInput interface.");
-            }
+                throw new ArgumentException("Cannot register detector input " +
+                                            detectorInputType.AssemblyQualifiedName +
+                                            " because it does not implement the Vts.MonteCarlo.IDetectorInput interface.");
 
             // check that the detector implements the IDetector interface
             if (!typeof(IDetector).IsAssignableFrom(detectorType))
-            {
                 throw new ArgumentException("Cannot register detector " + detectorType.AssemblyQualifiedName +
-                    " because it does not implement the Vts.MonteCarlo.IDetector interface.");
-            }
-            
-            // also check that the input has a parameterless constructor (assuming this in the following line)
-            if (!detectorInputType.GetConstructors().Any(c => !c.GetParameters().Any()))
+                                            " because it does not implement the Vts.MonteCarlo.IDetector interface.");
+
+            // also check that the input has a parameter-less constructor (assuming this in the following line)
+            if (detectorInputType.GetConstructors().All(c => c.GetParameters().Any()))
             {
                 throw new ArgumentException("Cannot register detector input " + detectorInputType.AssemblyQualifiedName +
-                    " because it does not have a parameterless (default) constructor.");
+                    " because it does not have a parameter-less (default) constructor.");
             }
 
             var detectorInput = (IDetectorInput) Activator.CreateInstance(detectorInputType);

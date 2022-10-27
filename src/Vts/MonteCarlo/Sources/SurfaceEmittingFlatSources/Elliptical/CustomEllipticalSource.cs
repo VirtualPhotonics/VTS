@@ -159,8 +159,8 @@ namespace Vts.MonteCarlo.Sources
     /// </summary>
     public class CustomEllipticalSource : EllipticalSourceBase
     {
-        private DoubleRange _polarAngleEmissionRange;
-        private DoubleRange _azimuthalAngleEmissionRange;
+        private readonly DoubleRange _polarAngleEmissionRange;
+        private readonly DoubleRange _azimuthalAngleEmissionRange;
 
         /// <summary>
         /// Returns an instance of  Custom Elliptical Source with specified length and width, source profile (Flat/Gaussian), 

@@ -31,14 +31,10 @@ namespace Vts.MonteCarlo.Helpers
         /// <returns>integer index of bin value is in</returns>
         public static int WhichBin(double value, int numberOfBins, double binSize, double binStart)
         {
-            int bin = (int)Math.Floor((value - binStart) / binSize);
+            var bin = (int)Math.Floor((value - binStart) / binSize);
             if (bin > numberOfBins - 1)
                 return numberOfBins - 1;
-            else
-                if (bin < 0)
-                    return 0;
-                else
-                    return bin;
+            return bin < 0 ? 0 : bin;
         }
 
         /// <summary>
@@ -52,9 +48,9 @@ namespace Vts.MonteCarlo.Helpers
         /// <returns>integer index of bin value is in</returns>
         public static int WhichBin(double value, double binSize, double[] binCenters)
         {
-            for (int i = 0; i < binCenters.Count(); i++)
+            for (var i = 0; i < binCenters.Count(); i++)
 			{
-                if ((value >= binCenters[i] - binSize / 2) && (value < binCenters[i] + binSize / 2))
+                if (value >= binCenters[i] - binSize / 2 && value < binCenters[i] + binSize / 2)
                     return i;
             }
             return -1; // for now
@@ -62,19 +58,18 @@ namespace Vts.MonteCarlo.Helpers
         /// <summary>
         /// WhichBin determines which bin "value" is in given a list of bin stops.
         /// If value not in any bin, -1 returned.
-        /// This allows for nonuniformly spaced bins within assumed contiguous span starting from 0.
+        /// This allows for non-uniformly spaced bins within assumed contiguous span starting from 0.
         /// </summary>
         /// <param name="value">value to be binned</param>
         /// <param name="binStops">list of bin stops</param>
         /// <returns>integer index of bin value is in</returns>
         public static int WhichBin(double value, double[] binStops)
         {
-            if ((value >= 0.0) && (value < binStops[0]))
+            if (value >= 0.0 && value < binStops[0])
                 return 0;
-            for (int i = 1; i < binStops.Count(); i++)
+            for (var i = 1; i < binStops.Length; i++)
             {
-                if ((value >= binStops[i-1]) && (value < binStops[i]))
-                    return i;
+                if (value >= binStops[i-1] && value < binStops[i])  return i;
             }
             return -1; // for now
         }
@@ -92,22 +87,11 @@ namespace Vts.MonteCarlo.Helpers
         /// <returns>integer index of bin value is in</returns>
         public static int WhichBinExclusive(double value, int numberOfBins, double binSize, double binStart)
         {
-            int bin = (int)Math.Floor((value - binStart) / binSize);
-            if (bin > numberOfBins - 1)
-            {
-                return -1;
-            }
-            else
-            {
-                if (bin < 0)
-                {
-                    return -1;
-                }
-                else
-                {
-                    return bin;
-                }
-            }
+            var bin = (int)Math.Floor((value - binStart) / binSize);
+            if (bin > numberOfBins - 1) return -1;
+            if (bin < 0) return -1;
+
+            return bin;
         }
 
         /// <summary>

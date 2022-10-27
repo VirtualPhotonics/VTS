@@ -1,5 +1,4 @@
-﻿using System.Runtime.Serialization;
-using Vts.MonteCarlo.Interfaces;
+﻿using Vts.MonteCarlo.Interfaces;
 
 namespace Vts.MonteCarlo.Sources.SourceProfiles
 {
@@ -12,8 +11,8 @@ namespace Vts.MonteCarlo.Sources.SourceProfiles
         /// Returns Gaussian profile type
         /// </summary>
         //[IgnoreDataMember]
-        public SourceProfileType SourceProfileType { get { return SourceProfileType.Gaussian; } }
-        
+        public SourceProfileType SourceProfileType => SourceProfileType.Gaussian;
+
         /// <summary>
         /// Full width half maximum beam diameter
         /// </summary>

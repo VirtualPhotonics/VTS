@@ -67,13 +67,11 @@ namespace Vts.MonteCarlo.Tissues
         [IgnoreDataMember]
         public Position Center
         {
-            get
-            {
-                return new Position(
+            get =>
+                new Position(
                     (X.Start + X.Stop)/2,
                     (Y.Start + Y.Stop)/2,
                     (Z.Start + Z.Stop)/2);
-            }
             set
             {
                 var oldCenter = Center;
@@ -110,16 +108,14 @@ namespace Vts.MonteCarlo.Tissues
             // determine location of end of ray
             var p2 = new Position(p1.X + d1.Ux*photon.S, p1.Y + d1.Uy*photon.S, p1.Z + d1.Uz*photon.S);
 
-            bool one_in = this.ContainsPosition(p1);
-            bool two_in = this.ContainsPosition(p2);
+            var oneIn = this.ContainsPosition(p1);
+            var twoIn = this.ContainsPosition(p2);
 
             // check if ray within voxel 
-            if (one_in && two_in)
+            if (oneIn && twoIn)
             {
                 return false;
             }
-
-            double xint, yint, zint;
 
             // the following code makes sure that distanceToBoundary is calculated
             // correctly if photon just slightly off boundary
@@ -132,52 +128,50 @@ namespace Vts.MonteCarlo.Tissues
             
             // following algorithm from tavianator.com/fast-branchless-raybounding-box-intersections
             // check interesctions of ray with planes that make up box
-            double dist1, dist2, dmin = double.NegativeInfinity, dmax = double.PositiveInfinity;
-            dist1 = (X.Start - p1.X)/d1.Ux;
-            dist2 = (X.Stop - p1.X)/d1.Ux;
-            dmin = Math.Max(dmin, Math.Min(dist1, dist2));
-            dmax = Math.Min(dmax, Math.Max(dist1, dist2));
+            var dMinimum = double.NegativeInfinity;
+            var dMaximum = double.PositiveInfinity;
+            var dist1 = (X.Start - p1.X)/d1.Ux;
+            var dist2 = (X.Stop - p1.X)/d1.Ux;
+            dMinimum = Math.Max(dMinimum, Math.Min(dist1, dist2));
+            dMaximum = Math.Min(dMaximum, Math.Max(dist1, dist2));
             dist1 = (Y.Start - p1.Y)/d1.Uy;
             dist2 = (Y.Stop - p1.Y)/d1.Uy;
-            dmin = Math.Max(dmin, Math.Min(dist1, dist2));
-            dmax = Math.Min(dmax, Math.Max(dist1, dist2));
+            dMinimum = Math.Max(dMinimum, Math.Min(dist1, dist2));
+            dMaximum = Math.Min(dMaximum, Math.Max(dist1, dist2));
             dist1 = (Z.Start - p1.Z)/d1.Uz;
             dist2 = (Z.Stop - p1.Z)/d1.Uz;
-            dmin = Math.Max(dmin, Math.Min(dist1, dist2));
-            dmax = Math.Min(dmax, Math.Max(dist1, dist2));
-            if (dmax >= dmin) 
+            dMinimum = Math.Max(dMinimum, Math.Min(dist1, dist2));
+            dMaximum = Math.Min(dMaximum, Math.Max(dist1, dist2));
+            if (dMaximum < dMinimum) return false;
+            double xIntersect;
+            double yIntersect;
+            double zIntersect;
+            if (dMinimum > 0)
             {
-                if (dmin > 0)
-                {
-                    xint = p1.X + d1.Ux * dmin;
-                    yint = p1.Y + d1.Uy * dmin;
-                    zint = p1.Z + d1.Uz * dmin;  
-                }
-                else if (dmax > 0)
-                {
-                    xint = p1.X + d1.Ux * dmax;
-                    yint = p1.Y + d1.Uy * dmax;
-                    zint = p1.Z + d1.Uz * dmax;
-                }
-                else
-                {
-                    return false;
-                }
-
-                /*distance to the boundary*/
-                distanceToBoundary = Math.Sqrt((xint - p1.X) * (xint - p1.X) +
-                                               (yint - p1.Y) * (yint - p1.Y) +
-                                               (zint - p1.Z) * (zint - p1.Z));
-
-                // ckh fix 9/23/15: check if on boundary of voxel
-                if (distanceToBoundary < 1e-11)
-                {
-                    return false;
-                }
-                return true;
+                xIntersect = p1.X + d1.Ux * dMinimum;
+                yIntersect = p1.Y + d1.Uy * dMinimum;
+                zIntersect = p1.Z + d1.Uz * dMinimum;  
             }
-            // dmax < dmin
+            else if (dMaximum > 0)
+            {
+                xIntersect = p1.X + d1.Ux * dMaximum;
+                yIntersect = p1.Y + d1.Uy * dMaximum;
+                zIntersect = p1.Z + d1.Uz * dMaximum;
+            }
+            else
+            {
+                return false;
+            }
+
+            /*distance to the boundary*/
+            distanceToBoundary = Math.Sqrt((xIntersect - p1.X) * (xIntersect - p1.X) +
+                                           (yIntersect - p1.Y) * (yIntersect - p1.Y) +
+                                           (zIntersect - p1.Z) * (zIntersect - p1.Z));
+
+            // ckh fix 9/23/15: check if on boundary of voxel
+            if (distanceToBoundary >= 1e-11) return true;
             return false;
+            // dMaximum is less than dMinimum
         }
 
         /// <summary>
@@ -188,9 +182,9 @@ namespace Vts.MonteCarlo.Tissues
         public bool ContainsPosition(Position position)
         {
             //// inclusion defined in half-open interval [start,stop) so that continuum of voxels do not overlap
-            return (position.X >= X.Start) && (position.X <= X.Stop) &&
-                   (position.Y >= Y.Start) && (position.Y <= Y.Stop) &&
-                   (position.Z >= Z.Start) && (position.Z <= Z.Stop);
+            return position.X >= X.Start && position.X <= X.Stop &&
+                   position.Y >= Y.Start && position.Y <= Y.Stop &&
+                   position.Z >= Z.Start && position.Z <= Z.Stop;
         }
 
         /// <summary>
@@ -201,15 +195,15 @@ namespace Vts.MonteCarlo.Tissues
         /// <returns>Boolean indicating whether on boundary or not</returns>
         public bool OnBoundary(Position position)
         {
-            return (((position.X == X.Start) || (position.X == X.Stop)) &&
-                            (position.Y >= Y.Start) && (position.Y <= Y.Stop) &&
-                            (position.Z >= Z.Start) && (position.Z <= Z.Stop)) ||
-                   (((position.Y == Y.Start) || (position.Y == Y.Stop)) &&
+            return ((position.X == X.Start || position.X == X.Stop) &&
+                            (position.Y >= Y.Start && position.Y <= Y.Stop) &&
+                            (position.Z >= Z.Start && position.Z <= Z.Stop)) ||
+                   ((position.Y == Y.Start || position.Y == Y.Stop) &&
                             (position.X >= X.Start) && (position.X <= X.Stop) &&
                             (position.Z >= Z.Start) && (position.Z <= Z.Stop)) ||
-                   (((position.Z == Z.Start) || (position.Z == Z.Stop)) &&
-                              (position.X >= X.Start) && (position.X <= X.Stop) &&
-                              (position.Y >= Y.Start) && (position.Y <= Y.Stop));
+                   ((position.Z == Z.Start) || (position.Z == Z.Stop) &&
+                            (position.X >= X.Start) && (position.X <= X.Stop) &&
+                            (position.Y >= Y.Start) && (position.Y <= Y.Stop));
         }
         /// <summary>
         /// method to determine normal to surface at given position

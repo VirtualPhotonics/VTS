@@ -14,7 +14,7 @@ namespace Vts.Test.MonteCarlo.Extensions
     {
         private SimulationInput _input;
         [OneTimeSetUp]
-        public void initialize_simulation_input()
+        public void Initialize_simulation_input()
         {
             // create input with two tissue layers
             _input = new SimulationInput(

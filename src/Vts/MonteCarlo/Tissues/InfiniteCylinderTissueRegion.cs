@@ -58,25 +58,17 @@ namespace Vts.MonteCarlo.Tissues
             // return (Math.Sqrt((position.X - Center.X) * (position.X - Center.X) +
             //                  (position.Z - Center.Z) * (position.Z - Center.Z)) < Radius)
             // wrote following to match EllipsoidTissueRegion because it seems to work better than above
-            double inside = Math.Sqrt((position.X - Center.X) * (position.X - Center.X) +
-                                      (position.Z - Center.Z) * (position.Z - Center.Z));
+            var inside = Math.Sqrt((position.X - Center.X) * (position.X - Center.X) +
+                                   (position.Z - Center.Z) * (position.Z - Center.Z));
 
             // the epsilon subtracted and added needs to match MultiConcentricInfiniteCylinder
             // GetDistanceToBoundary or code goes through cycles at cylinder boundary
-            if (inside < (1 - 1e-9) * Radius)
-            {
-                return true;
-            }
-            else if (inside > (1 + 1e-9) * Radius)
-            {
-                return false;
-            }
-            else  // on boundary means cylinder contains position
-            {
-                _onBoundary = true;
-                //return false; // ckh try 8/21/11 
-                return true;  // ckh 2/28/19 this has to return true or unit tests fail
-            }
+            if (inside < (1 - 1e-9) * Radius) return true;
+            if (inside > (1 + 1e-9) * Radius) return false;
+            // on boundary means cylinder contains position
+            _onBoundary = true;
+            return true;  // ckh 2/28/19 this has to return true or unit tests fail
+            
         }
         /// <summary>
         /// Method to determine if photon on boundary of infinite cylinder.
@@ -129,8 +121,8 @@ namespace Vts.MonteCarlo.Tissues
                                   p1.Y + d1.Uy * photon.S, 
                                   p1.Z + d1.Uz * photon.S);
 
-            bool oneIn = this.ContainsPosition(p1);
-            bool twoIn = this.ContainsPosition(p2);
+            var oneIn = this.ContainsPosition(p1);
+            var twoIn = this.ContainsPosition(p2);
 
             // check if ray within cylinder
             if ((oneIn || _onBoundary) && twoIn)

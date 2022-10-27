@@ -39,10 +39,7 @@ namespace Vts.MonteCarlo.Tissues
         /// <summary>
         /// Center of tissue region (semi-infinite has no center)
         /// </summary>
-        public Position Center
-        {
-            get { throw new NotImplementedException(); }
-        }
+        public Position Center => throw new NotImplementedException();
 
         /// <summary>
         /// This checks which region photon is currently in.  
@@ -63,11 +60,7 @@ namespace Vts.MonteCarlo.Tissues
         /// <returns>True if photon on boundary, false if not</returns>
         public bool OnBoundary(Position position)
         {
-            var onBoundary = false;
-            if (Math.Abs(position.Z) < 1e-10)
-            {
-                onBoundary = true;
-            }
+            var onBoundary = Math.Abs(position.Z) < 1e-10;
             return onBoundary;
         }
         /// <summary>

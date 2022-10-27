@@ -18,7 +18,7 @@ namespace Vts.Test.MonteCarlo.Sources
         /// test source input
         /// </summary>
         [Test]
-        public void validate_source_input_with_flat_profile_type()
+        public void Validate_source_input_with_flat_profile_type()
         {
             // check default constructor
             var si = new CustomSurfaceEmittingSphericalSourceInput();
@@ -63,7 +63,7 @@ namespace Vts.Test.MonteCarlo.Sources
                 Rng = rng
             };
             // check 10 photons
-            for (int i = 0; i < 10; i++)
+            for (var i = 0; i < 10; i++)
             {
                 var photon = ps.GetNextPhoton(tissue);
                 var centerX = translationFromOrigin.X;
@@ -104,7 +104,7 @@ namespace Vts.Test.MonteCarlo.Sources
                 Rng = rng
             };
             // check 10 photons
-            for (int i = 0; i < 10; i++)
+            for (var i = 0; i < 10; i++)
             {
                 var photon = ps.GetNextPhoton(tissue);
                 var centerX = translationFromOrigin.X;

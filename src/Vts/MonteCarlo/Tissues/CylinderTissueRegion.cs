@@ -62,14 +62,10 @@ namespace Vts.MonteCarlo.Tissues
         /// <returns>Boolean</returns>
         public bool ContainsPosition(Position position)
         {
-            double radialPosition = Math.Sqrt(position.X * position.X + position.Y * position.Y);
+            var radialPosition = Math.Sqrt(position.X * position.X + position.Y * position.Y);
             // check if within caps vertically and within radius
-            if ((position.Z <= Center.Z + Height / 2) && (position.Z >= Center.Z - Height / 2) &&
-                (radialPosition < Radius)) 
-            {
-                return true;
-            }
-            return false;
+            return (position.Z <= Center.Z + Height / 2) && (position.Z >= Center.Z - Height / 2) &&
+                (radialPosition < Radius);
         }
         /// <summary>
         /// Method to determine if photon on boundary of cylinder.
@@ -79,11 +75,11 @@ namespace Vts.MonteCarlo.Tissues
         /// <returns>Boolean</returns>
         public bool OnBoundary(Position position)
         {
-            bool onCylinder = Math.Abs(
+            var onCylinder = Math.Abs(
                                   Math.Sqrt(position.X * position.X + position.Y * position.Y) - Radius) < 1e-10;
-            bool inRadius = Math.Sqrt(position.X * position.X + position.Y * position.Y) < Radius;
-            bool onOneCap = (Math.Abs(position.Z - (Center.Z - Height / 2)) < 1e-10 || 
-                    Math.Abs(position.Z - (Center.Z + Height / 2)) < 1e-10) && inRadius;
+            var inRadius = Math.Sqrt(position.X * position.X + position.Y * position.Y) < Radius;
+            var onOneCap = (Math.Abs(position.Z - (Center.Z - Height / 2)) < 1e-10 || 
+                            Math.Abs(position.Z - (Center.Z + Height / 2)) < 1e-10) && inRadius;
             return onCylinder || onOneCap;
         }
 
@@ -115,8 +111,8 @@ namespace Vts.MonteCarlo.Tissues
                                   p1.Y + d1.Uy * photon.S,
                                   p1.Z + d1.Uz * photon.S);
 
-            bool oneIn = this.ContainsPosition(p1);
-            bool twoIn = this.ContainsPosition(p2);
+            var oneIn = this.ContainsPosition(p1);
+            var twoIn = this.ContainsPosition(p2);
 
             // check if ray within cylinder
             if ((oneIn || _onBoundary) && twoIn)
@@ -148,13 +144,13 @@ namespace Vts.MonteCarlo.Tissues
                 new OpticalProperties()); // doesn't matter what OPs are
             var intersectBottomLayer = bottomLayer.RayIntersectBoundary(photon, out var distanceToBottomLayer);
             var hitCaps = false;
-            double distanceToCap = double.PositiveInfinity;
+            var distanceToCap = double.PositiveInfinity;
             if (intersectTopLayer || intersectCapLayer || intersectBottomLayer)
             {
                 distanceToCap = Math.Min(distanceToTopLayer, Math.Min(distanceToCapLayer, distanceToBottomLayer));
-                double xto = p1.X + distanceToCap * d1.Ux;
-                double yto = p1.Y + distanceToCap * d1.Uy;
-                double zto = p1.Z + distanceToCap * d1.Uz;
+                var xto = p1.X + distanceToCap * d1.Ux;
+                var yto = p1.Y + distanceToCap * d1.Uy;
+                var zto = p1.Z + distanceToCap * d1.Uz;
                 if ((Math.Abs(zto - (Center.Z + (Height / 2))) < 1e-10 ||
                      Math.Abs(zto - (Center.Z - (Height / 2))) < 1e-10) &&
                     Math.Sqrt(xto * xto + yto * yto) < Radius)
@@ -168,13 +164,11 @@ namespace Vts.MonteCarlo.Tissues
                 return true;
             }
 
-            if (intersectSides && distanceToSides < distanceToCapLayer)
-            {
-                distanceToBoundary = distanceToSides;
-                return true;
-            }
+            if (!intersectSides || (distanceToSides >= distanceToCapLayer)) return false;
+            distanceToBoundary = distanceToSides;
 
-            return false;
+            return true;
+
         }
 
         /// <summary>
