@@ -107,5 +107,12 @@ namespace Vts.Test.Common
             var uIntRange = new UIntRange(0, 10);
             Assert.IsInstanceOf<UIntRange>(uIntRange.Clone());
         }
+
+        [Test]
+        public void Test_ToString()
+        {
+            var uIntRange = new UIntRange(0U, 9U, 10);
+            Assert.AreEqual("Start: 0, Stop: 9, Count: 10, Delta: 1", uIntRange.ToString());
+        }
     }
 }

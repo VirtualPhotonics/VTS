@@ -15,9 +15,9 @@ namespace Vts.MonteCarlo.Tissues
     /// </summary>
     public class SingleInclusionTissue : MultiLayerTissue, ITissue
     {
-        private ITissueRegion _inclusionRegion;
-        private int _inclusionRegionIndex;
-        private int _layerRegionIndexOfInclusion;
+        private readonly ITissueRegion _inclusionRegion;
+        private readonly int _inclusionRegionIndex;
+        private readonly int _layerRegionIndexOfInclusion;
 
         /// <summary>
         /// Creates an instance of a SingleInclusionTissue
@@ -66,21 +66,18 @@ namespace Vts.MonteCarlo.Tissues
         public override int GetNeighborRegionIndex(Photon photon)
         {
             // first, check what region the photon is in
-            int regionIndex = photon.CurrentRegionIndex;
+            var regionIndex = photon.CurrentRegionIndex;
 
             // if we're in the layer region of the inclusion, could be on boundary of layer
-            if ((regionIndex == _layerRegionIndexOfInclusion) && !Regions[_layerRegionIndexOfInclusion].OnBoundary(photon.DP.Position) )
+            if (regionIndex == _layerRegionIndexOfInclusion && 
+                !Regions[_layerRegionIndexOfInclusion].OnBoundary(photon.DP.Position) )
             {
                 return _inclusionRegionIndex;
             }
 
-            if (regionIndex == _inclusionRegionIndex)
-            {
-                return _layerRegionIndexOfInclusion;
-            }
-
-            // otherwise we can do this with the base class method
-            return base.GetNeighborRegionIndex(photon);
+            return regionIndex == _inclusionRegionIndex ? _layerRegionIndexOfInclusion :
+                // otherwise we can do this with the base class method
+                base.GetNeighborRegionIndex(photon);
         }
         /// <summary>
         /// method to get distance from current photon position and direction to boundary of region
@@ -90,31 +87,27 @@ namespace Vts.MonteCarlo.Tissues
         public override double GetDistanceToBoundary(Photon photon)
         {
             // first, check what region the photon is in
-            int regionIndex = photon.CurrentRegionIndex;
+            var regionIndex = photon.CurrentRegionIndex;
 
-            if ((regionIndex == _layerRegionIndexOfInclusion) || (regionIndex == _inclusionRegionIndex))
+            if ((regionIndex != _layerRegionIndexOfInclusion) && (regionIndex != _inclusionRegionIndex))
+                return base.GetDistanceToBoundary(photon);
+            // check if current track will hit the inclusion boundary, returning the correct distance
+            double distanceToBoundary;
+            if (_inclusionRegion.RayIntersectBoundary(photon, out distanceToBoundary))
             {
-                // check if current track will hit the inclusion boundary, returning the correct distance
-                double distanceToBoundary;
-                if (_inclusionRegion.RayIntersectBoundary(photon, out distanceToBoundary))
-                {
-                    return distanceToBoundary;
-                }
-                else // otherwise, check that a projected track will hit the inclusion boundary
-                {          
-                    var projectedPhoton = new Photon();
-                    projectedPhoton.DP = new PhotonDataPoint(photon.DP.Position, photon.DP.Direction, photon.DP.Weight, 
-                        photon.DP.TotalTime, photon.DP.StateFlag);
-                    projectedPhoton.S = 100;
-                    if (_inclusionRegion.RayIntersectBoundary(projectedPhoton, out distanceToBoundary))
-                    {
-                        return distanceToBoundary;
-                    }
-                }
+                return distanceToBoundary;
             }
 
-            // if not hitting the inclusion, call the base (layer) method
-            return base.GetDistanceToBoundary(photon);
+            // otherwise, check that a projected track will hit the inclusion boundary
+            var projectedPhoton = new Photon
+            {
+                DP = new PhotonDataPoint(photon.DP.Position, photon.DP.Direction, photon.DP.Weight,
+                    photon.DP.TotalTime, photon.DP.StateFlag),
+                S = 100
+            };
+            return _inclusionRegion.RayIntersectBoundary(projectedPhoton, out distanceToBoundary) ? distanceToBoundary :
+                // if not hitting the inclusion, call the base (layer) method
+                base.GetDistanceToBoundary(photon);
         }
         /// <summary>
         /// method that provides reflected direction when photon reflects off boundary

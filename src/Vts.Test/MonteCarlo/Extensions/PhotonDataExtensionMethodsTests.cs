@@ -17,7 +17,7 @@ namespace Vts.Test.MonteCarlo.Extensions
         /// <summary>
         /// list of temporary files created by these unit tests
         /// </summary>
-        readonly List<string> listOfTestGeneratedFiles = new List<string>()
+        readonly List<string> _listOfTestGeneratedFiles = new List<string>()
         {
             "collisionInfoReflectance",
             "collisionInfoReflectance.txt",
@@ -32,7 +32,7 @@ namespace Vts.Test.MonteCarlo.Extensions
         [OneTimeTearDown]
         public void remove_files()
         {
-            foreach (var file in listOfTestGeneratedFiles)
+            foreach (var file in _listOfTestGeneratedFiles)
             {
                 FileIO.FileDelete(file);
             }
@@ -45,14 +45,15 @@ namespace Vts.Test.MonteCarlo.Extensions
         public void Validate_WriteToPMCSurfaceVirtualBoundaryDatabases()
         {
             // TearDown should clear files created prior to this test
-            var numberSubRegions = 3;
+            const int numberSubRegions = 3;
             var databases = new List<DatabaseType>() { DatabaseType.pMCDiffuseReflectance };
-            var collisionInfoDatabases = new List<CollisionInfoDatabaseWriter>();
-            collisionInfoDatabases.Add(
+            var collisionInfoDatabases = new List<CollisionInfoDatabaseWriter>
+            {
                 new CollisionInfoDatabaseWriter(
                     VirtualBoundaryType.pMCDiffuseReflectance,
                     "collisionInfoReflectance2",
-                    numberSubRegions));
+                    numberSubRegions)
+            };
             var dp = new PhotonDataPoint(
                 new Position(0, 0, 0),
                 new Direction(0, 0, 1),
@@ -118,16 +119,16 @@ namespace Vts.Test.MonteCarlo.Extensions
         [Test]
         public void Validate_IsWithinNA_returns_correct_value_when_fully_open()
         {
-            var NA = 1.4;
-            var detectorRegionN = 1.4;
+            const double na = 1.4;
+            const double detectorRegionN = 1.4;
             var direction = new Direction(0, 0, -1); // straight up
-            var DP = new PhotonDataPoint(
+            var dp = new PhotonDataPoint(
                 new Position(0, 0, 0),
                 direction,
                 1.0, // weight: not used
                 1.0, // photon time of flight: note used
                 PhotonStateType.Alive);
-            bool result = DP.IsWithinNA(NA, Direction.AlongNegativeZAxis, detectorRegionN);
+            bool result = dp.IsWithinNA(na, Direction.AlongNegativeZAxis, detectorRegionN);
             Assert.AreEqual(true, result);
         }
         /// <summary>
@@ -136,38 +137,38 @@ namespace Vts.Test.MonteCarlo.Extensions
         [Test]
         public void Validate_IsWithinNA_returns_correct_value_when_partially_open()
         {
-            var NA = 0.22;
-            var detectorRegionN = 1.4;
+            const double na = 0.22;
+            const double detectorRegionN = 1.4;
             var direction = new Direction(0, 0, -1); // straight up
-            var DP = new PhotonDataPoint(
+            var dp = new PhotonDataPoint(
                 new Position(0, 0, 0),
                 direction,
                 1.0, // weight: not used
                 1.0, // photon time of flight: note used
                 PhotonStateType.Alive);
-            bool result = DP.IsWithinNA(NA, Direction.AlongNegativeZAxis, detectorRegionN);
+            var result = dp.IsWithinNA(na, Direction.AlongNegativeZAxis, detectorRegionN);
             Assert.AreEqual(true, result);
             // now select direction right on NA
-            var theta = Math.Asin(NA / detectorRegionN);
+            var theta = Math.Asin(na / detectorRegionN);
             direction = new Direction(Math.Sin(theta), 0, -Math.Cos(theta)); // right on NA
-            DP = new PhotonDataPoint(
+            dp = new PhotonDataPoint(
                 new Position(0, 0, 0),
                 direction,
                 1.0, // weight: not used
                 1.0, // photon time of flight: note used
                 PhotonStateType.Alive);
-            result = DP.IsWithinNA(NA, Direction.AlongNegativeZAxis, detectorRegionN);
+            result = dp.IsWithinNA(na, Direction.AlongNegativeZAxis, detectorRegionN);
             Assert.AreEqual(true, result);
             // now select direction outside of NA
-            theta = Math.Asin( (NA * (1.1)) / detectorRegionN);
+            theta = Math.Asin( (na * (1.1)) / detectorRegionN);
             direction = new Direction(Math.Sin(theta), 0, -Math.Cos(theta)); 
-            DP = new PhotonDataPoint(
+            dp = new PhotonDataPoint(
                 new Position(0, 0, 0),
                 direction,
                 1.0, // weight: not used
                 1.0, // photon time of flight: note used
                 PhotonStateType.Alive);
-            result = DP.IsWithinNA(NA, Direction.AlongNegativeZAxis, detectorRegionN);
+            result = dp.IsWithinNA(na, Direction.AlongNegativeZAxis, detectorRegionN);
             Assert.AreEqual(false, result);
         }
         /// <summary>
@@ -177,43 +178,42 @@ namespace Vts.Test.MonteCarlo.Extensions
         [Test]
         public void Validate_IsWithinNA_returns_correct_eta_c_value_per_Bargo()
         {
-            Random rng;
-            rng = RandomNumberGeneratorFactory.GetRandomNumberGenerator(
+            var rng = RandomNumberGeneratorFactory.GetRandomNumberGenerator(
                 RandomNumberGeneratorType.MersenneTwister, 0);
-            double NA0p22 = 0.22;
-            double NA0p39 = 0.39;
-            double NAOpen = double.PositiveInfinity;
-            double NA0p22_count = 0;
-            double NA0p39_count = 0;
-            double NAOpen_count = 0;
-            double detectorRegionN = 1.4;
-            for (int i = 0; i < 1000000; i++)
+            const double na0P22 = 0.22;
+            const double na0P39 = 0.39;
+            const double naOpen = double.PositiveInfinity;
+            double na0P22Count = 0;
+            double na0P39Count = 0;
+            double naOpenCount = 0;
+            var detectorRegionN = 1.4;
+            for (var i = 0; i < 1000000; i++)
             {
-                double randomUz = -rng.NextDouble();
+                var randomUz = -rng.NextDouble();
                 var direction = new Direction(0, 0, randomUz);
-                var DP = new PhotonDataPoint(
+                var dp = new PhotonDataPoint(
                     new Position(0, 0, 0),
                     direction,
                     1.0, // weight: not used
                     1.0, // photon time of flight: note used
                     PhotonStateType.Alive);
-                if (DP.IsWithinNA(NA0p22, Direction.AlongNegativeZAxis, detectorRegionN))
+                if (dp.IsWithinNA(na0P22, Direction.AlongNegativeZAxis, detectorRegionN))
                 {
-                    NA0p22_count = NA0p22_count + randomUz;
+                    na0P22Count += randomUz;
                 }
-                if (DP.IsWithinNA(NA0p39, Direction.AlongNegativeZAxis, detectorRegionN))
+                if (dp.IsWithinNA(na0P39, Direction.AlongNegativeZAxis, detectorRegionN))
                 {
-                    NA0p39_count = NA0p39_count + randomUz;
+                    na0P39Count += randomUz;
                 }
-                if (DP.IsWithinNA(NAOpen, Direction.AlongNegativeZAxis, detectorRegionN))
+                if (dp.IsWithinNA(naOpen, Direction.AlongNegativeZAxis, detectorRegionN))
                 {
-                    NAOpen_count = NAOpen_count + randomUz;
+                    naOpenCount += randomUz;
                 }
             }
-            double eta_c = NA0p22_count / NAOpen_count;
-            Assert.Less(Math.Abs(eta_c - (NA0p22/detectorRegionN)*(NA0p22/detectorRegionN)), 0.001);
-            eta_c = NA0p39_count / NAOpen_count;
-            Assert.Less(Math.Abs(eta_c - (NA0p39 / detectorRegionN) * (NA0p39 / detectorRegionN)), 0.001);
+            var etaC = na0P22Count / naOpenCount;
+            Assert.Less(Math.Abs(etaC - na0P22/detectorRegionN*(na0P22/detectorRegionN)), 0.001);
+            etaC = na0P39Count / naOpenCount;
+            Assert.Less(Math.Abs(etaC - na0P39 / detectorRegionN * (na0P39 / detectorRegionN)), 0.001);
         }
     }
 }

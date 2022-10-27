@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using Vts.MonteCarlo.PhotonData;
 
 namespace Vts.MonteCarlo.Factories
@@ -35,8 +36,13 @@ namespace Vts.MonteCarlo.Factories
                 case VirtualBoundaryType.pMCDiffuseTransmittance: //pMC uses same exit db as regular post-processing
                     dbFilename = Path.Combine(filePath, "DiffuseTransmittanceDatabase");
                     break;
-                default:
+                case VirtualBoundaryType.GenericVolumeBoundary:
+                case VirtualBoundaryType.Dosimetry:
+                case VirtualBoundaryType.BoundingVolume:
                     return null;
+                default:
+                    throw new ArgumentOutOfRangeException(
+                        "Virtual boundary type not recognized: " + virtualBoundaryType);
             }
             if (!File.Exists(dbFilename))
             {
@@ -61,8 +67,17 @@ namespace Vts.MonteCarlo.Factories
                 case VirtualBoundaryType.pMCDiffuseTransmittance:
                     return pMCDatabase.FromFile(Path.Combine(filePath, "DiffuseTransmittanceDatabase"),
                         Path.Combine(filePath, "CollisionInfoTransmittanceDatabase"));
-                default:
+                case VirtualBoundaryType.DiffuseReflectance:
+                case VirtualBoundaryType.DiffuseTransmittance:
+                case VirtualBoundaryType.SpecularReflectance:
+                case VirtualBoundaryType.GenericVolumeBoundary:
+                case VirtualBoundaryType.Dosimetry:
+                case VirtualBoundaryType.BoundingVolume:
                     return null;
+                default:
+                    throw new ArgumentOutOfRangeException(
+                        "Virtual boundary type not recognized: " + virtualBoundaryType);
+
             }
         }
 

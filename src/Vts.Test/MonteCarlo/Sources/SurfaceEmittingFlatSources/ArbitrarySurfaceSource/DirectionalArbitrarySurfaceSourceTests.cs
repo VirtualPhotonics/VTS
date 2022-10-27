@@ -1,9 +1,5 @@
-﻿using System;
-using NUnit.Framework;
-using Vts.Common;
+﻿using NUnit.Framework;
 using Vts.MonteCarlo;
-using Vts.MonteCarlo.Helpers;
-using Vts.MonteCarlo.Sources;
 using Vts.MonteCarlo.Sources.SourceProfiles;
 using Vts.MonteCarlo.Tissues;
 
@@ -18,7 +14,7 @@ namespace Vts.Test.MonteCarlo.Sources
         private static SurfaceEmitting2DSourcesValidationData _validationData;
 
         [OneTimeSetUp]
-        public void setup_validation_data()
+        public void Setup_validation_data()
         {
             if (_validationData == null)
             {

@@ -48,16 +48,12 @@ namespace Vts.MonteCarlo.Extensions
         public static bool BelongsToSurfaceVirtualBoundary(this PhotonDataPoint dp,
             CollisionInfoDatabaseWriter collisionInfoDatabaseWriter)
         {
-            if ((dp.StateFlag.HasFlag(PhotonStateType.PseudoDiffuseReflectanceVirtualBoundary) &&
-                 collisionInfoDatabaseWriter.VirtualBoundaryType == VirtualBoundaryType.DiffuseReflectance) ||
-                (dp.StateFlag.HasFlag(PhotonStateType.PseudoDiffuseTransmittanceVirtualBoundary) &&
-                 collisionInfoDatabaseWriter.VirtualBoundaryType == VirtualBoundaryType.DiffuseTransmittance) ||
-                (dp.StateFlag.HasFlag(PhotonStateType.PseudoDiffuseReflectanceVirtualBoundary) && // pMC uses regular PST
-                 collisionInfoDatabaseWriter.VirtualBoundaryType == VirtualBoundaryType.pMCDiffuseReflectance))
-            {
-                return true;
-            }
-            return false;
+            return (dp.StateFlag.HasFlag(PhotonStateType.PseudoDiffuseReflectanceVirtualBoundary) &&
+                    collisionInfoDatabaseWriter.VirtualBoundaryType == VirtualBoundaryType.DiffuseReflectance) ||
+                   (dp.StateFlag.HasFlag(PhotonStateType.PseudoDiffuseTransmittanceVirtualBoundary) &&
+                    collisionInfoDatabaseWriter.VirtualBoundaryType == VirtualBoundaryType.DiffuseTransmittance) ||
+                   (dp.StateFlag.HasFlag(PhotonStateType.PseudoDiffuseReflectanceVirtualBoundary) && // pMC uses regular PST
+                    collisionInfoDatabaseWriter.VirtualBoundaryType == VirtualBoundaryType.pMCDiffuseReflectance);
         }
         /// <summary>
         /// method to determine whether photon direction is within NA of detector
@@ -72,7 +68,7 @@ namespace Vts.MonteCarlo.Extensions
             var photonDirection = dp.Direction;
             // determine if sin(theta)<=NA/n where theta is angle between photon direction and detector normal
             var cosTheta = Direction.GetDotProduct(photonDirection, detectorNormal);
-            return (detectorNA/n) >= Math.Sqrt(1 - cosTheta * cosTheta);
+            return detectorNA/n >= Math.Sqrt(1 - cosTheta * cosTheta);
         }
 
 

@@ -18,7 +18,7 @@ namespace Vts.Test.MonteCarlo.Sources
         /// test source input
         /// </summary>
         [Test]
-        public void validate_source_input_with_flat_profile_type()
+        public void Validate_source_input_with_flat_profile_type()
         {
             // check default constructor
             var si = new LambertianSurfaceEmittingCylindricalFiberSourceInput();

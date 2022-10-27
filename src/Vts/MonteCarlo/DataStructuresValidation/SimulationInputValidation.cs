@@ -93,6 +93,10 @@ namespace Vts.MonteCarlo
             {
                 return SingleVoxelTissueInputValidation.ValidateInput(tissueInput);
             }
+            if (tissueInput is MultiConcentricInfiniteCylinderTissueInput)
+            {
+                return MultiConcentricInfiniteCylinderTissueInputValidation.ValidateInput(tissueInput);
+            }
             if (tissueInput is BoundingCylinderTissueInput)
             {
                 return BoundingCylinderTissueInputValidation.ValidateInput(tissueInput);

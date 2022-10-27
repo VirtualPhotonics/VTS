@@ -29,10 +29,10 @@ namespace Vts.Common.Math
         /// <returns>integrated value</returns>
         public static double IntegrateSimpsonRule(Func<double, double> f, double a, double b)
         {
-            double c = (a + b) / 2.0;
-            double h3 = System.Math.Abs(b - a) / 6.0;
-            double S = h3 * (f(a) + 4.0 * f(c) + f(b));
-            return S;
+            var c = (a + b) / 2.0;
+            var h3 = System.Math.Abs(b - a) / 6.0;
+            var s = h3 * (f(a) + 4.0 * f(c) + f(b));
+            return s;
         }
         /// <summary>
         /// method to integrate function using adaptive recursive Simpson's rule.
@@ -40,7 +40,7 @@ namespace Vts.Common.Math
         /// calculating the definite integral using Simpson's rule.  If the error
         /// exceeds a tolerance (15*epsilon) the algorithm subdivides the interval
         /// of integration in two and applies adaptive Simpson's rule to each
-        /// subinterval in a recursive manner.
+        /// sub-interval in a recursive manner.
         /// </summary>
         /// <param name="f">function to integrate</param>
         /// <param name="a">lower bound of integration interval</param>
@@ -50,15 +50,15 @@ namespace Vts.Common.Math
         /// <returns>integrated value</returns>
         public static double AdaptiveRecursiveSimpson(Func<double, double> f, double a, double b, double epsilon, double sum)
         {
-            double c = (a + b) / 2.0;
-            double left = IntegrateSimpsonRule(f, a, c);
-            double right = IntegrateSimpsonRule(f, c, b);
-            double R;
+            var c = (a + b) / 2.0;
+            var left = IntegrateSimpsonRule(f, a, c);
+            var right = IntegrateSimpsonRule(f, c, b);
+            double r;
             if (System.Math.Abs(left + right - sum) <= 15.0 * epsilon)
-                R = left + right + (left + right - sum) / 15.0;
+                r = left + right + (left + right - sum) / 15.0;
             else
-                R = AdaptiveRecursiveSimpson(f, a, c, epsilon / 2.0, left) + AdaptiveRecursiveSimpson(f, c, b, epsilon / 2.0, right);
-            return R;
+                r = AdaptiveRecursiveSimpson(f, a, c, epsilon / 2.0, left) + AdaptiveRecursiveSimpson(f, c, b, epsilon / 2.0, right);
+            return r;
         }
     }
 }

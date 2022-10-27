@@ -151,15 +151,12 @@ namespace Vts.Common
         /// <returns>A Boolean indicating if object is equal to position</returns>
         public override bool Equals(object obj)
         {
-            if (obj is Position)
-            {
-                var p = obj as Position;
-                return
-                    X == p.X &&
-                    Y == p.Y &&
-                    Z == p.Z;
-            }
-            return false;
+            if (!(obj is Position)) return false;
+            var p = obj as Position;
+            return
+                X == p.X &&
+                Y == p.Y &&
+                Z == p.Z;
         }
 
         /// <summary>

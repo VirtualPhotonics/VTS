@@ -68,13 +68,11 @@ namespace Vts.MonteCarlo.Tissues
         [IgnoreDataMember]
         public Position Center
         {
-            get
-            {
-                return new Position(
+            get =>
+                new Position(
                     (X.Start + X.Stop)/2,
                     (Y.Start + Y.Stop)/2,
                     (Z.Start + Z.Stop)/2);
-            }
             set
             {
                 var oldCenter = Center;
@@ -111,24 +109,22 @@ namespace Vts.MonteCarlo.Tissues
             // determine location of end of ray
             var p2 = new Position(p1.X + d1.Ux*photon.S, p1.Y + d1.Uy*photon.S, p1.Z + d1.Uz*photon.S);
 
-            bool one_in = this.ContainsPosition(p1);
-            bool two_in = this.ContainsPosition(p2);
+            var oneIn = this.ContainsPosition(p1);
+            var twoIn = this.ContainsPosition(p2);
 
             // check if ray within voxel 
-            if (one_in && two_in)
+            if (oneIn && twoIn)
             {
                 return false;
             }
             // check if ray outside voxel
-            if ((!one_in && !two_in) &&
+            if ((!oneIn && !twoIn) &&
                 ((p1.X < X.Start) && (p2.X < X.Start)) || ((p1.X > X.Stop) && (p2.X > X.Stop)) ||
                 ((p1.Y < Y.Start) && (p2.Y < Y.Start)) || ((p1.Y > Y.Stop) && (p2.Y > Y.Stop)) ||
                 ((p1.Z < Z.Start) && (p2.Z < Z.Start)) || ((p1.Z > Z.Stop) && (p2.Z > Z.Stop)))
             {
                 return false;
             }
-
-            double xint, yint, zint;
 
             // the following code makes sure that distanceToBoundary is calculated
             // correctly if photon just slightly off boundary
@@ -140,53 +136,50 @@ namespace Vts.MonteCarlo.Tissues
             if (Math.Abs(p1.Z - Z.Stop) < 1e-11) p1.Z = Z.Stop;
             
             // following algorithm from tavianator.com/fast-branchless-raybounding-box-intersections
-            // check interesctions of ray with planes that make up box
-            double dist1, dist2, dmin = double.NegativeInfinity, dmax = double.PositiveInfinity;
-            dist1 = (X.Start - p1.X)/d1.Ux;
-            dist2 = (X.Stop - p1.X)/d1.Ux;
-            dmin = Math.Max(dmin, Math.Min(dist1, dist2));
-            dmax = Math.Min(dmax, Math.Max(dist1, dist2));
+            // check intersections of ray with planes that make up box
+            var dMinimum = double.NegativeInfinity;
+            var dMaximum = double.PositiveInfinity;
+            var dist1 = (X.Start - p1.X)/d1.Ux;
+            var dist2 = (X.Stop - p1.X)/d1.Ux;
+            dMinimum = Math.Max(dMinimum, Math.Min(dist1, dist2));
+            dMaximum = Math.Min(dMaximum, Math.Max(dist1, dist2));
             dist1 = (Y.Start - p1.Y)/d1.Uy;
             dist2 = (Y.Stop - p1.Y)/d1.Uy;
-            dmin = Math.Max(dmin, Math.Min(dist1, dist2));
-            dmax = Math.Min(dmax, Math.Max(dist1, dist2));
+            dMinimum = Math.Max(dMinimum, Math.Min(dist1, dist2));
+            dMaximum = Math.Min(dMaximum, Math.Max(dist1, dist2));
             dist1 = (Z.Start - p1.Z)/d1.Uz;
             dist2 = (Z.Stop - p1.Z)/d1.Uz;
-            dmin = Math.Max(dmin, Math.Min(dist1, dist2));
-            dmax = Math.Min(dmax, Math.Max(dist1, dist2));
-            if (dmax >= dmin) 
+            dMinimum = Math.Max(dMinimum, Math.Min(dist1, dist2));
+            dMaximum = Math.Min(dMaximum, Math.Max(dist1, dist2));
+            if (dMaximum < dMinimum) return false;
+            double xIntersect;
+            double yIntersect;
+            double zIntersect;
+            if (dMinimum > 0)
             {
-                if (dmin > 0)
-                {
-                    xint = p1.X + d1.Ux * dmin;
-                    yint = p1.Y + d1.Uy * dmin;
-                    zint = p1.Z + d1.Uz * dmin;  
-                }
-                else if (dmax > 0)
-                {
-                    xint = p1.X + d1.Ux * dmax;
-                    yint = p1.Y + d1.Uy * dmax;
-                    zint = p1.Z + d1.Uz * dmax;
-                }
-                else
-                {
-                    return false;
-                }
-
-                /*distance to the boundary*/
-                distanceToBoundary = Math.Sqrt((xint - p1.X) * (xint - p1.X) +
-                                               (yint - p1.Y) * (yint - p1.Y) +
-                                               (zint - p1.Z) * (zint - p1.Z));
-
-                // ckh fix 9/23/15: check if on boundary of voxel
-                if (distanceToBoundary < 1e-11)
-                {
-                    return false;
-                }
-                return true;
+                xIntersect = p1.X + d1.Ux * dMinimum;
+                yIntersect = p1.Y + d1.Uy * dMinimum;
+                zIntersect = p1.Z + d1.Uz * dMinimum;  
             }
-            // dmax < dmin
-            return false;
+            else if (dMaximum > 0)
+            {
+                xIntersect = p1.X + d1.Ux * dMaximum;
+                yIntersect = p1.Y + d1.Uy * dMaximum;
+                zIntersect = p1.Z + d1.Uz * dMaximum;
+            }
+            else
+            {
+                return false;
+            }
+
+            /*distance to the boundary*/
+            distanceToBoundary = Math.Sqrt((xIntersect - p1.X) * (xIntersect - p1.X) +
+                                           (yIntersect - p1.Y) * (yIntersect - p1.Y) +
+                                           (zIntersect - p1.Z) * (zIntersect - p1.Z));
+
+            // ckh fix 9/23/15: check if on boundary of voxel
+            return distanceToBoundary >= 1e-11;
+            // dMaximum is less than dMinimum
         }
 
         /// <summary>
@@ -197,16 +190,9 @@ namespace Vts.MonteCarlo.Tissues
         public bool ContainsPosition(Position position)
         {
             //// inclusion defined in half-open interval [start,stop) so that continuum of voxels do not overlap
-            if ((position.X >= X.Start) && (position.X <= X.Stop) &&
-                (position.Y >= Y.Start) && (position.Y <= Y.Stop) &&
-                (position.Z >= Z.Start) && (position.Z <= Z.Stop))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return position.X >= X.Start && position.X <= X.Stop &&
+                   position.Y >= Y.Start && position.Y <= Y.Stop &&
+                   position.Z >= Z.Start && position.Z <= Z.Stop;
         }
 
         /// <summary>
@@ -217,16 +203,16 @@ namespace Vts.MonteCarlo.Tissues
         /// <returns>Boolean indicating whether on boundary or not</returns>
         public bool OnBoundary(Position position)
         {
-            double tol = 1e-11;
-            if ((((Math.Abs(position.X - X.Start) < tol) || (Math.Abs(position.X - X.Stop) < tol)) &&
-                 ((position.Y >= Y.Start) && (position.Y <= Y.Stop) &&
-                  (position.Z >= Z.Start) && (position.Z <= Z.Stop))) ||
-                (((Math.Abs(position.Y - Y.Start) < tol) || (Math.Abs(position.Y - Y.Stop) < tol)) &&
-                 ((position.X >= X.Start) && (position.X <= X.Stop) &&
-                  (position.Z >= Z.Start) && (position.Z <= Z.Stop))) ||
-                (((Math.Abs(position.Z - Z.Start) < tol) || (Math.Abs(position.Z - Z.Stop) < tol)) &&
-                 (position.X >= X.Start) && (position.X <= X.Stop) &&
-                 (position.Y >= Y.Start) && (position.Y <= Y.Stop)))
+            const double tol = 1e-11;
+            if (((Math.Abs(position.X - X.Start) < tol || Math.Abs(position.X - X.Stop) < tol) &&
+                 position.Y >= Y.Start && position.Y <= Y.Stop &&
+                 position.Z >= Z.Start && position.Z <= Z.Stop) ||
+                ((Math.Abs(position.Y - Y.Start) < tol || Math.Abs(position.Y - Y.Stop) < tol) &&
+                 position.X >= X.Start && position.X <= X.Stop &&
+                 position.Z >= Z.Start && position.Z <= Z.Stop) ||
+                ((Math.Abs(position.Z - Z.Start) < tol || Math.Abs(position.Z - Z.Stop) < tol) &&
+                 position.X >= X.Start && position.X <= X.Stop &&
+                 position.Y >= Y.Start && position.Y <= Y.Stop))
             {
                 _onBoundary = true;
             }
@@ -243,30 +229,35 @@ namespace Vts.MonteCarlo.Tissues
         /// <returns>Direction normal to surface at position</returns>
         public Direction SurfaceNormal(Position position)
         {
-            var tol = 1e-11; // use tolerance because position will have floating point errors
+            const double tol = 1e-11; // use tolerance because position will have floating point errors
 
             // the following code doesn't handle if on or edge corner, but may not be problem
             if (Math.Abs(position.X - X.Start) < tol)
             {
                 return new Direction(-1, 0, 0);
             }
-            else if (Math.Abs(position.X - X.Stop) < tol)
+
+            if (Math.Abs(position.X - X.Stop) < tol)
             {
                 return new Direction(1, 0, 0);
             }
-            else if (Math.Abs(position.Y - Y.Start) < tol)
+
+            if (Math.Abs(position.Y - Y.Start) < tol)
             {
                 return new Direction(0, -1, 0);
             }
-            else if (Math.Abs(position.Y - Y.Stop) < tol)
+
+            if (Math.Abs(position.Y - Y.Stop) < tol)
             {
                 return new Direction(0, 1, 0);
             }
-            else if (Math.Abs(position.Z - Z.Start) < tol)
+
+            if (Math.Abs(position.Z - Z.Start) < tol)
             {
                 return new Direction(0, 0, -1);
             }
-            else if (Math.Abs(position.Z - Z.Stop) < tol)
+
+            if (Math.Abs(position.Z - Z.Stop) < tol)
             {
                 return new Direction(0, 0, 1);
             }

@@ -123,10 +123,10 @@ namespace Vts.MonteCarlo.Sources
                 // therefore, if (rho,z) in region, (x=rho,0,z) is in region
                 var xMidpoint = Rho.Start + i * Rho.Delta + Rho.Delta / 2;
                 var yMidpoint = 0.0;
-                for (int k = 0; k < Z.Count - 1; k++)
+                for (var k = 0; k < Z.Count - 1; k++)
                 {
                     var zMidpoint = Z.Start + k * Z.Delta + Z.Delta / 2;
-                    bool inFluorescentTissue = FluorescentTissueRegion.ContainsPosition(
+                    var inFluorescentTissue = FluorescentTissueRegion.ContainsPosition(
                         new Position(xMidpoint, yMidpoint, zMidpoint));
                     // next check if not in bounding region if exists
                     if (BoundedTissueRegion != null)
@@ -135,19 +135,17 @@ namespace Vts.MonteCarlo.Sources
                             new Position(xMidpoint, yMidpoint, zMidpoint));
                     }
                     // default values of numeric array elements are set to 0 so no else needed
-                    if (inFluorescentTissue)
-                    {
-                        MapOfRhoAndZ[i, k] = 1;
-                        PDFOfRhoAndZ[i, k] = AOfRhoAndZ[i, k];
-                        TotalProb += AOfRhoAndZ[i, k];
-                        CDFOfRhoAndZ[i, k] += TotalProb;
-                    }
+                    if (!inFluorescentTissue) continue;
+                    MapOfRhoAndZ[i, k] = 1;
+                    PDFOfRhoAndZ[i, k] = AOfRhoAndZ[i, k];
+                    TotalProb += AOfRhoAndZ[i, k];
+                    CDFOfRhoAndZ[i, k] += TotalProb;
                 }
             }
             // create pdf and cdf
-            for (int i = 0; i < Rho.Count - 1; i++)
+            for (var i = 0; i < Rho.Count - 1; i++)
             {
-                for (int k = 0; k < Z.Count - 1; k++)
+                for (var k = 0; k < Z.Count - 1; k++)
                 {
                     if (MapOfRhoAndZ[i, k] == 1)
                     {
@@ -162,15 +160,15 @@ namespace Vts.MonteCarlo.Sources
         private void SetupRegionIndices()
         {
             FluorescentRegionIndicesInOrder = new Dictionary<int, List<int>>();
-            int count = 0;
-            for (int i = 0; i < Rho.Count - 1; i++)
+            var count = 0;
+            for (var i = 0; i < Rho.Count - 1; i++)
             {
-                for (int k = 0; k < Z.Count - 1; k++)
+                for (var k = 0; k < Z.Count - 1; k++)
                 {
                     if (MapOfRhoAndZ[i, k] == 1)
                     { 
                         FluorescentRegionIndicesInOrder.Add(count, new List<int>() { i, k });
-                        count = count + 1;
+                        count += 1;
                     }
                 }
             }

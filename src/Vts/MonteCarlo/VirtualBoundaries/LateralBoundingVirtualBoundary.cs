@@ -1,7 +1,5 @@
 ﻿using System;
-using Vts.Common;
 using Vts.MonteCarlo.PhotonData;
-using Vts.MonteCarlo.Tissues;
 
 namespace Vts.MonteCarlo.VirtualBoundaries
 {
@@ -11,10 +9,6 @@ namespace Vts.MonteCarlo.VirtualBoundaries
     /// </summary>
     public class LateralBoundingVirtualBoundary : IVirtualBoundary
     {
-        private IDetectorController _detectorController;
-        private ITissueRegion _boundingTissueRegion;
-
-
         /// <summary>
         /// diffuse reflectance VB
         /// </summary>
@@ -23,16 +17,16 @@ namespace Vts.MonteCarlo.VirtualBoundaries
         /// <param name="name">string name</param>
         public LateralBoundingVirtualBoundary(ITissue tissue, IDetectorController detectorController, string name)
         {
-            _boundingTissueRegion = tissue.Regions[tissue.Regions.Count - 1]; // bounding region always last by convention
+            var boundingTissueRegion = tissue.Regions[tissue.Regions.Count - 1]; // bounding region always last by convention
 
             WillHitBoundary = dp =>
                 dp.StateFlag.HasFlag(PhotonStateType.PseudoBoundingVolumeTissueBoundary) &&
-                _boundingTissueRegion.ContainsPosition(dp.Position);
+                boundingTissueRegion.ContainsPosition(dp.Position);
 
             VirtualBoundaryType = VirtualBoundaryType.BoundingVolume;
             PhotonStateType = PhotonStateType.PseudoLateralBoundingVirtualBoundary;
 
-            _detectorController = detectorController;
+            DetectorController = detectorController;
 
             Name = name;
         }
@@ -40,23 +34,23 @@ namespace Vts.MonteCarlo.VirtualBoundaries
         /// <summary>
         /// VirtualBoundaryType enum indicating type of VB
         /// </summary>
-        public VirtualBoundaryType VirtualBoundaryType { get; private set; }
+        public VirtualBoundaryType VirtualBoundaryType { get; }
         /// <summary>
         /// PhotonStateType enum indicating state of photon at this VB
         /// </summary>
-        public PhotonStateType PhotonStateType { get; private set; }
+        public PhotonStateType PhotonStateType { get; }
         /// <summary>
         /// Name string of VB
         /// </summary>
-        public string Name { get; private set; }
+        public string Name { get; }
         /// <summary>
         /// Predicate method to indicate if photon will hit VB boundary
         /// </summary>
-        public Predicate<PhotonDataPoint> WillHitBoundary { get; private set; }
+        public Predicate<PhotonDataPoint> WillHitBoundary { get; }
         /// <summary>
         /// IDetectorController specifying type of detector controller.
         /// </summary>
-        public IDetectorController DetectorController { get { return _detectorController; } }
+        public IDetectorController DetectorController { get; }
 
         /// <summary>
         /// finds distance to VB
@@ -65,7 +59,7 @@ namespace Vts.MonteCarlo.VirtualBoundaries
         /// <returns>distance to VB</returns>
         public double GetDistanceToVirtualBoundary(PhotonDataPoint dp)
         {
-            double distanceToBoundary = double.PositiveInfinity;
+            var distanceToBoundary = double.PositiveInfinity;
             // check if VB not applied
             if (!dp.StateFlag.HasFlag(PhotonStateType.PseudoBoundingVolumeTissueBoundary))
             {

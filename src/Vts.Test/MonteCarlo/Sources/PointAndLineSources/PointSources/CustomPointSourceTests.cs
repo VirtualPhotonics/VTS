@@ -4,7 +4,6 @@ using NUnit.Framework;
 using Vts.Common;
 using Vts.MonteCarlo;
 using Vts.MonteCarlo.Sources;
-using Vts.MonteCarlo.Sources.SourceProfiles;
 using Vts.MonteCarlo.Tissues;
 
 namespace Vts.Test.MonteCarlo.Sources
@@ -18,19 +17,17 @@ namespace Vts.Test.MonteCarlo.Sources
         private static PointSourcesValidationData _validationData;
 
         [OneTimeSetUp]
-        public void setup_validation_data()
+        public void Setup_validation_data()
         {
-            if (_validationData == null)
-            {
-                _validationData = new PointSourcesValidationData();
-                _validationData.ReadData();
-            }
+            if (_validationData != null) return;
+            _validationData = new PointSourcesValidationData();
+            _validationData.ReadData();
         }
         /// <summary>
         /// test source input
         /// </summary>
         [Test]
-        public void validate_source_input_with_flat_profile_type()
+        public void Validate_source_input_with_flat_profile_type()
         {
             // check default constructor
             var si = new CustomPointSourceInput();
@@ -53,7 +50,7 @@ namespace Vts.Test.MonteCarlo.Sources
         /// Validate General Constructor of Custom Point Source
         /// </summary>
         [Test]
-        public void validate_general_constructor_with_flat_profiletype_for_custom_point_source_test()
+        public void Validate_general_constructor_with_flat_profiletype_for_custom_point_source_test()
         {
             Random rng =
                 new MathNet.Numerics.Random.MersenneTwister(0); // not really necessary here, as this is now the default

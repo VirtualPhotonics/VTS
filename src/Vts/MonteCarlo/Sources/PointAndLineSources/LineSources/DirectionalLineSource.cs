@@ -135,7 +135,7 @@ namespace Vts.MonteCarlo.Sources
     /// </summary>
     public class DirectionalLineSource : LineSourceBase
     {
-        private double _thetaConvOrDiv;   //convergence:positive, divergence:negative  collimated:zero
+        private readonly double _thetaConvOrDiv;   //convergence:positive, divergence:negative  collimated:zero
                
         /// <summary>
         /// Initializes a new instance of the DirectionalLineSource class
@@ -174,19 +174,19 @@ namespace Vts.MonteCarlo.Sources
         protected override Direction GetFinalDirection(Position position)
         {
             if (_lineLength == 0.0)
-                return (SourceToolbox.GetDirectionForGivenPolarAzimuthalAngleRangeRandom(
-                            new DoubleRange(0.0, Math.Abs(_thetaConvOrDiv)),
-                            SourceDefaults.DefaultAzimuthalAngleRange.Clone(),
-                            Rng));
-            else
-            {   
-                // sign is negative for diverging and positive positive for converging 
-                var polarAngle = SourceToolbox.UpdatePolarAngleForDirectionalSources(
-                    0.5 * _lineLength,
-                    position.X,
-                    _thetaConvOrDiv);           
-                return (SourceToolbox.GetDirectionForGiven2DPositionAndGivenPolarAngle(polarAngle, position));
+            {
+                return SourceToolbox.GetDirectionForGivenPolarAzimuthalAngleRangeRandom(
+                    new DoubleRange(0.0, Math.Abs(_thetaConvOrDiv)),
+                    SourceDefaults.DefaultAzimuthalAngleRange.Clone(),
+                    Rng);
             }
+
+            // sign is negative for diverging and positive positive for converging 
+            var polarAngle = SourceToolbox.UpdatePolarAngleForDirectionalSources(
+                0.5 * _lineLength,
+                position.X,
+                _thetaConvOrDiv);           
+            return (SourceToolbox.GetDirectionForGiven2DPositionAndGivenPolarAngle(polarAngle, position));
         }
 
 
