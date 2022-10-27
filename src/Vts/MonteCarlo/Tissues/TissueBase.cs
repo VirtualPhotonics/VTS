@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Vts.Common;
 using Vts.Extensions;
 
 namespace Vts.MonteCarlo.Tissues
@@ -13,7 +12,7 @@ namespace Vts.MonteCarlo.Tissues
         /// <summary>
         /// default constructor
         /// </summary>
-        public TissueInput()
+        protected TissueInput()
         {
             TissueType = "";
         }
@@ -34,7 +33,7 @@ namespace Vts.MonteCarlo.Tissues
         /// constructor for tissue base
         /// </summary>
         /// <param name="regions">list of tissue regions</param>
-        public TissueBase(IList<ITissueRegion> regions)
+        protected TissueBase(IList<ITissueRegion> regions)
         {
             Regions = regions;
         }

@@ -19,7 +19,7 @@ namespace Vts.Test.MonteCarlo.Sources
         /// test source input
         /// </summary>
         [Test]
-        public void validate_source_input_with_flat_profile_type()
+        public void Validate_source_input_with_flat_profile_type()
         {
             // check default constructor
             var si = new IsotropicVolumetricEllipsoidalSourceInput();
@@ -66,7 +66,7 @@ namespace Vts.Test.MonteCarlo.Sources
                 Rng = rng
             };
             // check 10 photons
-            for (int i = 0; i < 10; i++)
+            for (var i = 0; i < 10; i++)
             {
                 var photon = ps.GetNextPhoton(tissue);
                 var inside =
@@ -82,7 +82,7 @@ namespace Vts.Test.MonteCarlo.Sources
         /// Validate General Constructor of Isotropic Gaussian VolumetricEllipsoidal Source
         /// </summary>
         [Test]
-        public void validate_general_constructor_with_gaussian_profiletype_for_custom_VolumetricEllipsoidal_source_test()
+        public void Validate_general_constructor_with_gaussian_profiletype_for_custom_VolumetricEllipsoidal_source_test()
         {
             Random rng = new MathNet.Numerics.Random.MersenneTwister(0); // not really necessary here, as this is now the default
             ITissue tissue = new MultiLayerTissue();
@@ -105,7 +105,7 @@ namespace Vts.Test.MonteCarlo.Sources
                 Rng = rng
             };
             // check 10 photons
-            for (int i = 0; i < 10; i++)
+            for (var i = 0; i < 10; i++)
             {
                 var photon = ps.GetNextPhoton(tissue);
                 var inside = 

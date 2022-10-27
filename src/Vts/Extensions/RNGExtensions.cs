@@ -16,7 +16,7 @@ namespace Vts.Extensions
         /// <returns>A double representing next random number in RNG sequence</returns>
         public static double NextDouble(this Random rng, double minValue, double maxValue)
         {
-            double span = maxValue - minValue;
+            var span = maxValue - minValue;
 
             return rng.NextDouble() * span + minValue;
         }

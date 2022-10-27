@@ -146,7 +146,7 @@ namespace Vts.MonteCarlo.Sources
     /// </summary>
     public class DirectionalRectangularSource : RectangularSourceBase
     {
-      private double _thetaConvOrDiv;  //convergence:positive, divergence:negative, collimated:zero
+      private readonly double _thetaConvOrDiv;  //convergence:positive, divergence:negative, collimated:zero
 
         /// <summary>
         /// Returns an instance of directional (diverging/converging/collimated) Rectangular Source with specified length and width, 
@@ -188,22 +188,20 @@ namespace Vts.MonteCarlo.Sources
         /// <returns>new direction</returns>  
         protected override Direction GetFinalDirection(Position position)
         {
-            
-
-            if ((_rectLengthX == 0.0) && (_rectWidthY == 0.0))
-                return (SourceToolbox.GetDirectionForGivenPolarAzimuthalAngleRangeRandom(
-                            new DoubleRange(0.0, Math.Abs(_thetaConvOrDiv)),
-                            SourceDefaults.DefaultAzimuthalAngleRange.Clone(),
-                            Rng));
-            else
+            if (_rectLengthX == 0.0 && _rectWidthY == 0.0)
             {
-                // sign is negative for diverging and positive positive for converging 
-                var polarAngle = SourceToolbox.UpdatePolarAngleForDirectionalSources(
-                    _rectLengthX,
-                    Math.Sqrt(position.X * position.X + position.Y * position.Y),
-                    _thetaConvOrDiv);              
-                return (SourceToolbox.GetDirectionForGiven2DPositionAndGivenPolarAngle(polarAngle, position));
+                return SourceToolbox.GetDirectionForGivenPolarAzimuthalAngleRangeRandom(
+                    new DoubleRange(0.0, Math.Abs(_thetaConvOrDiv)),
+                    SourceDefaults.DefaultAzimuthalAngleRange.Clone(),
+                    Rng);
             }
+
+            // sign is negative for diverging and positive positive for converging 
+            var polarAngle = SourceToolbox.UpdatePolarAngleForDirectionalSources(
+                _rectLengthX,
+                Math.Sqrt(position.X * position.X + position.Y * position.Y),
+                _thetaConvOrDiv);              
+            return (SourceToolbox.GetDirectionForGiven2DPositionAndGivenPolarAngle(polarAngle, position));
         }
     }
 }

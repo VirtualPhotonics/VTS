@@ -1,5 +1,4 @@
-﻿using System;
-using MathNet.Numerics.Random;
+﻿using MathNet.Numerics.Random;
 using NUnit.Framework;
 using Vts.Common;
 using Vts.MonteCarlo.Sources;
@@ -18,7 +17,7 @@ namespace Vts.Test.MonteCarlo.Sources
         /// test source input
         /// </summary>
         [Test]
-        public void validate_source_input_with_flat_profile_type()
+        public void Validate_source_input_with_flat_profile_type()
         {
             // check default constructor
             var si = new LineAngledFromLineSourceInput();
@@ -42,7 +41,7 @@ namespace Vts.Test.MonteCarlo.Sources
         /// and GetFinalDirection
         /// </summary>
         [Test]
-        public void validate_LineAngledFromLineSource_general_constructor()
+        public void Validate_LineAngledFromLineSource_general_constructor()
         {
             var tissue = new MultiLayerTissue();
             var source = new LineAngledFromLineSource(

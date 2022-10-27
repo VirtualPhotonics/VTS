@@ -78,7 +78,7 @@ namespace Vts.MonteCarlo.Sources
     /// </summary>
     public class FluorescenceEmissionAOfRhoAndZSource : FluorescenceEmissionSourceBase
     {
-        double _totalWeight = 0.0;
+        private double _totalWeight;
         /// <summary>
         /// class that holds all Source arrays for proper initiation
         /// </summary>
@@ -91,7 +91,7 @@ namespace Vts.MonteCarlo.Sources
         /// <summary>
         /// key into dictionary of indices
         /// </summary>
-        public static int IndexCount = 0;
+        public static int IndexCount { get; set; }
 
         /// <summary>
         /// Returns an instance of  Fluorescence Emission AOfRhoAndZ Source with
@@ -123,36 +123,31 @@ namespace Vts.MonteCarlo.Sources
         /// <returns>photon position</returns>
         protected override Position GetFinalPositionAndWeight(Random rng, out double weight)
         {
-            Position finalPosition = null;
             double xMidpoint, yMidpoint, zMidpoint;
             switch (SamplingMethod)
             {
                 case SourcePositionSamplingType.CDF:
                     // determine position from CDF determined in AOfRhoAndZLoader
                     // due to ordering of indices CDF will be increasing with each increment
-                    double rho = rng.NextDouble();
-                    for (int i = 0; i < Loader.Rho.Count - 1; i++)
+                    var rho = rng.NextDouble();
+                    for (var i = 0; i < Loader.Rho.Count - 1; i++)
                     {
-                        for (int k = 0; k < Loader.Z.Count - 1; k++)
+                        for (var k = 0; k < Loader.Z.Count - 1; k++)
                         {
-                            if (Loader.MapOfRhoAndZ[i, k] == 1)
-                            {
-                                if (rho < Loader.CDFOfRhoAndZ[i, k])
-                                {
-                                    // SHOULD I SAMPLE THIS W CYLINDRICAL (Y=0) OR CARTESIAN COORD?
-                                    xMidpoint = Loader.Rho.Start + i * Loader.Rho.Delta + Loader.Rho.Delta / 2;
-                                    yMidpoint = 0.0;
-                                    zMidpoint = Loader.Z.Start + k * Loader.Z.Delta + Loader.Z.Delta / 2;
+                            if (Loader.MapOfRhoAndZ[i, k] != 1) continue;
+                            if (rho >= Loader.CDFOfRhoAndZ[i, k]) continue;
+                            // SHOULD I SAMPLE THIS W CYLINDRICAL (Y=0) OR CARTESIAN COORD?
+                            xMidpoint = Loader.Rho.Start + i * Loader.Rho.Delta + Loader.Rho.Delta / 2;
+                            yMidpoint = 0.0;
+                            zMidpoint = Loader.Z.Start + k * Loader.Z.Delta + Loader.Z.Delta / 2;
 
-                                    weight = 1.0;
-                                    return new Position(xMidpoint, yMidpoint, zMidpoint);
-                                }
-                            }
+                            weight = 1.0;
+                            return new Position(xMidpoint, yMidpoint, zMidpoint);
                         }
                         
                     }
                     weight = 1.0;
-                    return finalPosition;
+                    return null;
                 case SourcePositionSamplingType.Uniform:
                     // rotate through indices by starting over if reached end
                     if (IndexCount > Loader.FluorescentRegionIndicesInOrder.Count - 1)
@@ -160,21 +155,21 @@ namespace Vts.MonteCarlo.Sources
                         IndexCount = 0;
                     }
                     var indices = Loader.FluorescentRegionIndicesInOrder[IndexCount].ToArray();
-                    var irho = indices[0];
-                    var iz = indices[1];
-                    xMidpoint = Loader.Rho.Start + irho * Loader.Rho.Delta + Loader.Rho.Delta / 2;
+                    var iRho = indices[0];
+                    var iZ = indices[1];
+                    xMidpoint = Loader.Rho.Start + iRho * Loader.Rho.Delta + Loader.Rho.Delta / 2;
                     yMidpoint = 0.0;
-                    zMidpoint = Loader.Z.Start + iz * Loader.Z.Delta + Loader.Z.Delta / 2;
+                    zMidpoint = Loader.Z.Start + iZ * Loader.Z.Delta + Loader.Z.Delta / 2;
                     // undo normalization performed when AOfRhoAndZDetector saved
                     var normalizationFactor = 2.0 * Math.PI * Loader.Rho.Delta * Loader.Z.Delta;
-                    var rhozNorm = (Loader.Rho.Start + (irho + 0.5) * Loader.Rho.Delta) * normalizationFactor;
-                    weight = Loader.AOfRhoAndZ[irho, iz] * rhozNorm;
-                    _totalWeight = _totalWeight + weight;
-                    IndexCount = IndexCount + 1;
+                    var rhoZNorm = (Loader.Rho.Start + (iRho + 0.5) * Loader.Rho.Delta) * normalizationFactor;
+                    weight = Loader.AOfRhoAndZ[iRho, iZ] * rhoZNorm;
+                    _totalWeight += weight;
+                    IndexCount += 1;
                     return new Position(xMidpoint, yMidpoint, zMidpoint);
+                default:
+                    throw new ArgumentOutOfRangeException(SamplingMethod.ToString());
             }
-            weight = 1.0;
-            return finalPosition;
         }
 
     }

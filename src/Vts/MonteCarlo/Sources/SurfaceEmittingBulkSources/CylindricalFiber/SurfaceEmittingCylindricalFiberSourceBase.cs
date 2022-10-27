@@ -82,14 +82,14 @@ namespace Vts.MonteCarlo.Sources
         /// <returns>photon</returns>
         public Photon GetNextPhoton(ITissue tissue)
         {
-            double curved = 2 * Math.PI * _fiberRadius * _fiberHeightZ * _curvedSurfaceEfficiency;
-            double bottom = Math.PI * _fiberRadius * _fiberRadius * _bottomSurfaceEfficiency;
+            var curved = 2 * Math.PI * _fiberRadius * _fiberHeightZ * _curvedSurfaceEfficiency;
+            var bottom = Math.PI * _fiberRadius * _fiberRadius * _bottomSurfaceEfficiency;
 
-            Direction finalDirection = SourceToolbox.GetDirectionForGivenPolarAzimuthalAngleRangeRandom(
+            var finalDirection = SourceToolbox.GetDirectionForGivenPolarAzimuthalAngleRangeRandom(
                         SourceDefaults.DefaultHalfPolarAngleRange.Clone(),
                         SourceDefaults.DefaultAzimuthalAngleRange.Clone(),
                         Rng);
-            Position finalPosition = SourceDefaults.DefaultPosition.Clone();
+            var finalPosition = SourceDefaults.DefaultPosition.Clone();
 
             if (_fiberRadius > 0.0)
             {   
@@ -122,7 +122,7 @@ namespace Vts.MonteCarlo.Sources
             }
  
             //Find the relevent polar and azimuthal pair for the direction
-            PolarAzimuthalAngles _rotationalAnglesOfPrincipalSourceAxis = SourceToolbox.GetPolarAzimuthalPairFromDirection(_newDirectionOfPrincipalSourceAxis);
+            var _rotationalAnglesOfPrincipalSourceAxis = SourceToolbox.GetPolarAzimuthalPairFromDirection(_newDirectionOfPrincipalSourceAxis);
             
             //Translation and source rotation
             SourceToolbox.UpdateDirectionPositionAfterGivenFlags(

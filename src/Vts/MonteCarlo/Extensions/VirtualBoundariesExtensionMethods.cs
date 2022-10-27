@@ -1,3 +1,5 @@
+using System;
+
 namespace Vts.MonteCarlo.Extensions
 {
     /// <summary>
@@ -21,8 +23,13 @@ namespace Vts.MonteCarlo.Extensions
                 case VirtualBoundaryType.pMCDiffuseTransmittance:
                 case VirtualBoundaryType.Dosimetry:
                     return true;
-                default:
+                case VirtualBoundaryType.GenericVolumeBoundary:
+                case VirtualBoundaryType.BoundingCylinderVolume:
                     return false;
+                default:
+                    throw new ArgumentOutOfRangeException(
+                        "Virtual Boundary type not recognized: " + virtualBoundaryType);
+
             }
         }
         /// <summary>
@@ -38,8 +45,17 @@ namespace Vts.MonteCarlo.Extensions
                     return true;
                 case VirtualBoundaryType.BoundingCylinderVolume:
                     return true;
-                default:
+                case VirtualBoundaryType.DiffuseReflectance:
+                case VirtualBoundaryType.DiffuseTransmittance:
+                case VirtualBoundaryType.SpecularReflectance:
+                case VirtualBoundaryType.Dosimetry:
+                case VirtualBoundaryType.pMCDiffuseReflectance:
+                case VirtualBoundaryType.pMCDiffuseTransmittance:
                     return false;
+                default:
+                    throw new ArgumentOutOfRangeException(
+                        "Virtual Boundary type not recognized: " + virtualBoundaryType);
+
             }
         }
         /// <summary>
@@ -54,8 +70,17 @@ namespace Vts.MonteCarlo.Extensions
                 case VirtualBoundaryType.DiffuseReflectance:
                 case VirtualBoundaryType.pMCDiffuseReflectance:
                     return true;
-                default:
+                case VirtualBoundaryType.DiffuseTransmittance:
+                case VirtualBoundaryType.SpecularReflectance:
+                case VirtualBoundaryType.GenericVolumeBoundary:
+                case VirtualBoundaryType.Dosimetry:
+                case VirtualBoundaryType.pMCDiffuseTransmittance:
+                case VirtualBoundaryType.BoundingCylinderVolume:
                     return false;
+                default:
+                    throw new ArgumentOutOfRangeException(
+                        "Virtual Boundary type not recognized: " + virtualBoundaryType);
+
             }
         }
         /// <summary>
@@ -70,8 +95,17 @@ namespace Vts.MonteCarlo.Extensions
                 case VirtualBoundaryType.DiffuseTransmittance:
                 case VirtualBoundaryType.pMCDiffuseTransmittance:
                     return true;
-                default:
+                case VirtualBoundaryType.DiffuseReflectance:
+                case VirtualBoundaryType.SpecularReflectance:
+                case VirtualBoundaryType.GenericVolumeBoundary:
+                case VirtualBoundaryType.Dosimetry:
+                case VirtualBoundaryType.pMCDiffuseReflectance:
+                case VirtualBoundaryType.BoundingCylinderVolume:
                     return false;
+                default:
+                    throw new ArgumentOutOfRangeException(
+                        "Virtual Boundary type not recognized: " + virtualBoundaryType);
+
             }
         }
         /// <summary>
@@ -85,8 +119,18 @@ namespace Vts.MonteCarlo.Extensions
             {
                 case VirtualBoundaryType.SpecularReflectance:
                     return true;
-                default:
+                case VirtualBoundaryType.DiffuseReflectance:
+                case VirtualBoundaryType.DiffuseTransmittance:
+                case VirtualBoundaryType.GenericVolumeBoundary:
+                case VirtualBoundaryType.Dosimetry:
+                case VirtualBoundaryType.pMCDiffuseReflectance:
+                case VirtualBoundaryType.pMCDiffuseTransmittance:
+                case VirtualBoundaryType.BoundingCylinderVolume:
                     return false;
+                default:
+                    throw new ArgumentOutOfRangeException(
+                        "Virtual Boundary type not recognized: " + virtualBoundaryType);
+
             }
         }
         /// <summary>
@@ -100,8 +144,18 @@ namespace Vts.MonteCarlo.Extensions
             {
                 case VirtualBoundaryType.Dosimetry:
                     return true;
-                default:
+                case VirtualBoundaryType.DiffuseReflectance:
+                case VirtualBoundaryType.DiffuseTransmittance:
+                case VirtualBoundaryType.SpecularReflectance:
+                case VirtualBoundaryType.GenericVolumeBoundary:
+                case VirtualBoundaryType.pMCDiffuseReflectance:
+                case VirtualBoundaryType.pMCDiffuseTransmittance:
+                case VirtualBoundaryType.BoundingCylinderVolume:
                     return false;
+                default:
+                    throw new ArgumentOutOfRangeException(
+                        "Virtual Boundary type not recognized: " + virtualBoundaryType);
+
             }
         }
 
@@ -116,8 +170,18 @@ namespace Vts.MonteCarlo.Extensions
             {
                 case VirtualBoundaryType.GenericVolumeBoundary:
                     return true;
-                default:
+                case VirtualBoundaryType.DiffuseReflectance:
+                case VirtualBoundaryType.DiffuseTransmittance:
+                case VirtualBoundaryType.SpecularReflectance:
+                case VirtualBoundaryType.Dosimetry:
+                case VirtualBoundaryType.pMCDiffuseReflectance:
+                case VirtualBoundaryType.pMCDiffuseTransmittance:
+                case VirtualBoundaryType.BoundingCylinderVolume:
                     return false;
+                default:
+                    throw new ArgumentOutOfRangeException(
+                        "Virtual Boundary type not recognized: " + virtualBoundaryType);
+
             }
         }
         /// <summary>
@@ -132,12 +196,16 @@ namespace Vts.MonteCarlo.Extensions
                 case VirtualBoundaryType.pMCDiffuseReflectance:
                 case VirtualBoundaryType.pMCDiffuseTransmittance:
                     return true;
-                default:
+                case VirtualBoundaryType.GenericVolumeBoundary:
+                case VirtualBoundaryType.BoundingCylinderVolume:
                 case VirtualBoundaryType.DiffuseReflectance:
                 case VirtualBoundaryType.DiffuseTransmittance:
                 case VirtualBoundaryType.SpecularReflectance:
                 case VirtualBoundaryType.Dosimetry:
                     return false;
+                default:
+                    throw new ArgumentOutOfRangeException(
+                        "Virtual Boundary type not recognized: " + virtualBoundaryType);
             }
         }
     }

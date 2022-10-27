@@ -1,8 +1,10 @@
 ﻿using System;
 using MathNet.Numerics.Random;
+using Moq;
 using NUnit.Framework;
 using Vts.Common;
 using Vts.MonteCarlo;
+using Vts.MonteCarlo.Interfaces;
 using Vts.MonteCarlo.Sources;
 using Vts.MonteCarlo.Sources.SourceProfiles;
 using Vts.MonteCarlo.Tissues;
@@ -19,7 +21,7 @@ namespace Vts.Test.MonteCarlo.Sources
         /// test source input
         /// </summary>
         [Test]
-        public void validate_source_input_with_flat_profile_type()
+        public void Validate_source_input_with_flat_profile_type()
         {
             // check default constructor
             var si = new CustomVolumetricCuboidalSourceInput();
@@ -73,7 +75,7 @@ namespace Vts.Test.MonteCarlo.Sources
                 Rng = rng
             };
             // check 10 photons
-            for (int i = 0; i < 10; i++)
+            for (var i = 0; i < 10; i++)
             {
                 var photon = ps.GetNextPhoton(tissue);
                 // make sure photons start inside cuboidal
@@ -85,6 +87,43 @@ namespace Vts.Test.MonteCarlo.Sources
                               (photon.DP.Position.Z > -cubeHeightZ / 2 + translationFromOrigin.Z));
 
             }
+        }
+        /// <summary>
+        /// test switch statement in GetFinalPositionFromProfileType method for setting other
+        /// than Flat or Gaussian verify exception is thrown
+        /// </summary>
+        [Test]
+        public void Verify_that_source_profile_not_set_to_flat_or_Gaussian_throws_exception()
+        {
+            var tissue = new MultiLayerTissue();
+            var source = new CustomVolumetricCuboidalSource(
+                1.0,
+                1.0,
+                1.0,
+                new FakeSourceProfile(),
+                new DoubleRange(),
+                new DoubleRange(),
+                new Direction(),
+                new Position()
+                );
+            Assert.Throws<ArgumentOutOfRangeException>(
+                () => source.GetNextPhoton(tissue));
+        }
+        public class FakeSourceProfile : ISourceProfile
+        {
+            /// <summary>
+            /// Initializes the default constructor of FakeSourceProfile class
+            /// for testing purposes
+            /// </summary>
+            public FakeSourceProfile()
+            { }
+
+            /// <summary>
+            /// Returns Mock profile type
+            /// </summary>
+            public SourceProfileType SourceProfileType =>
+                (SourceProfileType)Enum.GetNames(typeof(SourceProfileType)).Length + 1;
+
         }
     }
 }

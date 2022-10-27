@@ -1,17 +1,16 @@
 namespace Vts.MonteCarlo.PhotonData
 {
     /// <summary>
-    /// A struct to hold pathlength and collision count for each subregion of a PhotonDataPoint.
+    /// A struct to hold path length and collision count for each sub-region of a PhotonDataPoint.
     /// </summary>
     public class SubRegionCollisionInfo
     {
-
         /// <summary>
         /// SubRegionCollisionInfo collects the number of collision and total path length
         /// at the current PhotonDataPoint position.
         /// </summary>
-        /// <param name="pathLength">total path length in subregion</param>
-        /// <param name="numberOfCollisions">total number of collisions in subregion</param>
+        /// <param name="pathLength">total path length in sub-region</param>
+        /// <param name="numberOfCollisions">total number of collisions in sub-region</param>
         public SubRegionCollisionInfo(double pathLength, long numberOfCollisions)
         {
             PathLength = pathLength;

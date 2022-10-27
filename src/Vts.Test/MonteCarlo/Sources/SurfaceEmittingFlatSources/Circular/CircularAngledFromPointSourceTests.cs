@@ -19,7 +19,7 @@ namespace Vts.Test.MonteCarlo.Sources
         /// test source input
         /// </summary>
         [Test]
-        public void validate_source_input_with_flat_profile_type()
+        public void Validate_source_input_with_flat_profile_type()
         {
             // check default constructor
             var si = new CircularAngledFromPointSourceInput();
@@ -42,7 +42,7 @@ namespace Vts.Test.MonteCarlo.Sources
         /// determined results
         /// </summary>
         [Test]
-        public void validate_CircularAngledFromPoint_source()
+        public void Validate_CircularAngledFromPoint_source()
         {
             Random rng = new MathNet.Numerics.Random.MersenneTwister(0); // not really necessary here, as this is now the default
             ITissue tissue = new MultiLayerTissue();
