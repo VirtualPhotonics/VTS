@@ -128,8 +128,7 @@ namespace Vts.MonteCarlo.Detectors
         /// <param name="photon">photon data needed to tally</param>
         public void Tally(Photon photon)
         {
-            if (!IsWithinDetectorAperture(photon))
-                return;
+            if (!IsWithinDetectorAperture(photon)) return;
 
             var ia = DetectorBinning.WhichBin(Math.Acos(photon.DP.Direction.Uz), Angle.Count - 1, Angle.Delta, Angle.Start);
 
@@ -149,14 +148,13 @@ namespace Vts.MonteCarlo.Detectors
         {
             // normalization accounts for Angle.Start != 0
             var normalizationFactor = 2.0 * Math.PI * Angle.Delta;
-            for (int ir = 0; ir < Angle.Count - 1; ir++)
+            for (var ir = 0; ir < Angle.Count - 1; ir++)
             {
                 var areaNorm = Math.Sin((ir + 0.5) * Angle.Delta) * normalizationFactor;
                 Mean[ir] /= areaNorm * numPhotons;
-                if (TallySecondMoment)
-                {
-                    SecondMoment[ir] /= areaNorm * areaNorm * numPhotons;
-                }
+                if (!TallySecondMoment) continue;
+
+                SecondMoment[ir] /= areaNorm * areaNorm * numPhotons;
             }
         }
 

@@ -160,28 +160,23 @@ namespace Vts.MonteCarlo.Detectors
         /// <param name="photon">Photon (includes HistoryData)</param>
         public void Tally(Photon photon)
         {
-            if (!IsWithinDetectorAperture(photon))
-                return;
+            if (!IsWithinDetectorAperture(photon)) return;
             
             // calculate the radial and time bin of reflected photon
             var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(photon.DP.Position.X, photon.DP.Position.Y), Rho.Count - 1, Rho.Delta, Rho.Start);
 
-            for (int i = 0; i < NumSubregions; i++)
+            for (var i = 0; i < NumSubregions; i++)
             {
                 var timeInSubRegion = DetectorBinning.GetTimeDelay(photon.History.SubRegionInfoList[i].PathLength,
                                                                    _tissue.Regions[i].RegionOP.N);
                 // make sure floating point round in Photon's update to S and subsequently to PathLength in SRIL doesn't get tallied
-                if (timeInSubRegion > 1e-14)
-                {
-                    var it = DetectorBinning.WhichBin(timeInSubRegion, Time.Count - 1, Time.Delta, Time.Start);
-                    // tally Continuous Absorption Weighting (CAW) 
-                    var tally = Math.Exp(-_tissue.Regions[i].RegionOP.Mua * photon.History.SubRegionInfoList[i].PathLength);
-                    Mean[ir, i, it] += tally;
-                    if (TallySecondMoment)
-                    {
-                        SecondMoment[ir, i, it] += tally * tally;
-                    }
-                }
+                if (timeInSubRegion < 1e-14) continue;
+                var it = DetectorBinning.WhichBin(timeInSubRegion, Time.Count - 1, Time.Delta, Time.Start);
+                // tally Continuous Absorption Weighting (CAW) 
+                var tally = Math.Exp(-_tissue.Regions[i].RegionOP.Mua * photon.History.SubRegionInfoList[i].PathLength);
+                Mean[ir, i, it] += tally;
+                if (!TallySecondMoment) continue;
+                SecondMoment[ir, i, it] += tally * tally;
             }
             TallyCount++;
         }
@@ -194,26 +189,24 @@ namespace Vts.MonteCarlo.Detectors
         {
             var totalTimeForThisSubregion = new double[Rho.Count - 1, NumSubregions];
             var normalizationFactor = 2.0 * Math.PI * Rho.Delta;
-            for (int ir = 0; ir < Rho.Count - 1; ir++)
+            for (var ir = 0; ir < Rho.Count - 1; ir++)
             {
                 var totalTimeOverAllSubregions = 0.0;
-                for (int isr = 0; isr < NumSubregions; isr++)
+                for (var isr = 0; isr < NumSubregions; isr++)
                 {
                     totalTimeForThisSubregion[ir, isr] =
                         Enumerable.Range(0, Mean.GetLength(2)).Sum(i => Mean[ir, isr, i]);
-                    for (int it = 0; it < Time.Count - 1; it++)
+                    for (var it = 0; it < Time.Count - 1; it++)
                     {
                         totalTimeOverAllSubregions += Mean[ir, isr, it];
                         // normalize by area of surface area ring and N
                         var areaNorm = (Rho.Start + (ir + 0.5) * Rho.Delta) * normalizationFactor;
                         Mean[ir, isr, it] /= areaNorm * numPhotons;
-                        if (TallySecondMoment)
-                        {
-                            SecondMoment[ir, isr, it] /= areaNorm * areaNorm * numPhotons;
-                        }
+                        if (!TallySecondMoment) continue;
+                        SecondMoment[ir, isr, it] /= areaNorm * areaNorm * numPhotons;
                     }
                 }
-                for (int isr = 0; isr < NumSubregions; isr++)
+                for (var isr = 0; isr < NumSubregions; isr++)
                 {
                     FractionalTime[ir, isr] = totalTimeForThisSubregion[ir, isr] / totalTimeOverAllSubregions;
                 }
@@ -231,9 +224,9 @@ namespace Vts.MonteCarlo.Detectors
                     Name = "Mean",
                     FileTag = "",
                     WriteData = binaryWriter => {
-                        for (int i = 0; i < Rho.Count - 1; i++) {
-                            for (int j = 0; j < NumSubregions; j++) {
-                                for (int k = 0; k < Time.Count - 1; k++) {                                   
+                        for (var i = 0; i < Rho.Count - 1; i++) {
+                            for (var j = 0; j < NumSubregions; j++) {
+                                for (var k = 0; k < Time.Count - 1; k++) {                                   
                                     binaryWriter.Write(Mean[i, j, k]);
                                 }                              
                             }
@@ -241,9 +234,9 @@ namespace Vts.MonteCarlo.Detectors
                     },
                     ReadData = binaryReader => {
                         Mean = Mean ?? new double[ Rho.Count - 1, NumSubregions, Time.Count - 1];
-                        for (int i = 0; i <  Rho.Count - 1; i++) {
-                            for (int j = 0; j < NumSubregions; j++) {
-                                for (int k = 0; k < Time.Count - 1; k++)
+                        for (var i = 0; i <  Rho.Count - 1; i++) {
+                            for (var j = 0; j < NumSubregions; j++) {
+                                for (var k = 0; k < Time.Count - 1; k++)
                                 {
                                      Mean[i, j, k] = binaryReader.ReadDouble(); 
                                 }                           
@@ -256,16 +249,16 @@ namespace Vts.MonteCarlo.Detectors
                     Name = "FractionalTime",
                     FileTag = "",
                     WriteData = binaryWriter => {
-                        for (int i = 0; i < Rho.Count - 1; i++) {
-                            for (int k = 0; k < NumSubregions; k++) {
+                        for (var i = 0; i < Rho.Count - 1; i++) {
+                            for (var k = 0; k < NumSubregions; k++) {
                                     binaryWriter.Write(FractionalTime[i, k]);
                             } 
                         }
                     },
                     ReadData = binaryReader => {
                         FractionalTime = FractionalTime ?? new double[ Rho.Count - 1, NumSubregions];
-                        for (int i = 0; i <  Rho.Count - 1; i++) {
-                            for (int k = 0; k < NumSubregions; k++) {
+                        for (var i = 0; i <  Rho.Count - 1; i++) {
+                            for (var k = 0; k < NumSubregions; k++) {
                                     FractionalTime[i, k] = binaryReader.ReadDouble(); 
                             }
                         }   
@@ -278,9 +271,9 @@ namespace Vts.MonteCarlo.Detectors
                     FileTag = "_2",
                     WriteData = binaryWriter => {
                         if (!TallySecondMoment || SecondMoment == null) return;
-                        for (int i = 0; i < Rho.Count - 1; i++) {
-                            for (int j = 0; j < NumSubregions; j++) {
-                                for (int k = 0; k < Time.Count - 1; k++)
+                        for (var i = 0; i < Rho.Count - 1; i++) {
+                            for (var j = 0; j < NumSubregions; j++) {
+                                for (var k = 0; k < Time.Count - 1; k++)
                                 {
                                    binaryWriter.Write(SecondMoment[i, j, k]); 
                                 }
@@ -290,9 +283,9 @@ namespace Vts.MonteCarlo.Detectors
                     ReadData = binaryReader => {
                         if (!TallySecondMoment || SecondMoment == null) return;
                         SecondMoment = new double[ Rho.Count - 1, NumSubregions, Time.Count - 1];
-                        for (int i = 0; i < Rho.Count - 1; i++) {
-                            for (int j = 0; j < NumSubregions; j++) {
-                                for (int k = 0; k < Time.Count - 1; k++)
+                        for (var i = 0; i < Rho.Count - 1; i++) {
+                            for (var j = 0; j < NumSubregions; j++) {
+                                for (var k = 0; k < Time.Count - 1; k++)
                                 {
                                     SecondMoment[i, j, k] = binaryReader.ReadDouble();
                                 }
