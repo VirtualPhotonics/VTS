@@ -282,9 +282,7 @@ namespace Vts.Factories
                 }
                 else
                 {
-                    throw new ArgumentException("Forward model " +
-                                        forwardSolver.ToString() +
-                                        " is not supported.");
+                    throw new ArgumentException("The tissue region did not contain a valid layer region", nameof(tissueRegions));
                 }
                 return regionParameters;
             }).ToArray();
@@ -512,9 +510,7 @@ namespace Vts.Factories
                 }
                 else
                 {
-                    throw new ArgumentException("Forward model " +
-                                        forwardSolver.ToString() +
-                                        " is not supported.");
+                    throw new ArgumentException("The tissue region did not contain a valid layer region", nameof(tissueRegions));
                 }
                 return regionParameters;
             }).ToArray();
@@ -651,7 +647,7 @@ namespace Vts.Factories
         public static IEnumerable<double> GetAbsorbedEnergy(IEnumerable<double> fluence, IEnumerable<double> muas)
         {
             if (fluence.Count() != muas.Count())
-                throw new ArgumentException("fluence and muas must be same length");
+                throw new ArgumentException("The arguments fluence and muas must be same length");
             IEnumerable<double> result = Enumerable.Zip(fluence, muas, (flu, mua) => flu * mua);
             return result;
         }

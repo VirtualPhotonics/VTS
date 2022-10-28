@@ -15,34 +15,30 @@ namespace Vts.Test.Factories
     [TestFixture]
     public class ComputationFactoryTests
     {
-        double[] realFluence;
-        double[] xAxis, zAxis;
-        Complex[] complexFluence;
+        private double[] _realFluence;
+        private double[] _xAxis, _zAxis;
+        private Complex[] _complexFluence;
 
         [SetUp]
         public void Setup()
         {
             // need to generate fluence to send into GetPHD
-            xAxis = new double[] { 1, 2, 3 };
-            zAxis = new double[] { 1, 2, 3, 4 };
-            double[][] independentValues = new double[][] { xAxis, zAxis };
-            realFluence = ComputationFactory.ComputeFluence(
+            _xAxis = new double[] { 1, 2, 3 };
+            _zAxis = new double[] { 1, 2, 3, 4 };
+            var independentValues = new[] { _xAxis, _zAxis };
+            _realFluence = ComputationFactory.ComputeFluence(
                 ForwardSolverType.PointSourceSDA,
                 FluenceSolutionDomainType.FluenceOfRhoAndZ,
-                new IndependentVariableAxis[] { IndependentVariableAxis.Rho, IndependentVariableAxis.Z },
+                new[] { IndependentVariableAxis.Rho, IndependentVariableAxis.Z },
                 independentValues,
                 // could have array of OPs, one set for each tissue region
-                new OpticalProperties[] { new OpticalProperties(0.01, 1, 0.8, 1.4) },
-                new double[] { 0 }
-            );
-            complexFluence = ComputationFactory.ComputeFluenceComplex(
+                new[] { new OpticalProperties(0.01, 1, 0.8, 1.4) }, 0);
+            _complexFluence = ComputationFactory.ComputeFluenceComplex(
                 ForwardSolverType.PointSourceSDA,
                 FluenceSolutionDomainType.FluenceOfRhoAndZAndFt,
-                new IndependentVariableAxis[] { IndependentVariableAxis.Rho, IndependentVariableAxis.Z },
+                new[] { IndependentVariableAxis.Rho, IndependentVariableAxis.Z },
                 independentValues,
-                new OpticalProperties(0.01, 1, 0.8, 1.4), // single OPs
-                new double[] { 0 }
-            );
+                new OpticalProperties(0.01, 1, 0.8, 1.4), 0);
         }
 
         #region Boolean tests
@@ -86,7 +82,7 @@ namespace Vts.Test.Factories
         /// forward solver specification
         /// </summary>
         [Test]
-        public void validate_ComputeReflectance_can_be_called_using_enum_forward_solver()
+        public void Validate_ComputeReflectance_can_be_called_using_enum_forward_solver()
         {
             var reflectance = ComputationFactory.ComputeReflectance(
                 ForwardSolverType.MonteCarlo,
@@ -106,7 +102,7 @@ namespace Vts.Test.Factories
         /// IForwardSolver input
         /// </summary>
         [Test]
-        public void validate_ComputeReflectance_can_be_called_using_IForwardSolver()
+        public void Validate_ComputeReflectance_can_be_called_using_IForwardSolver()
         {
             var reflectance = ComputationFactory.ComputeReflectance(
                 new NurbsForwardSolver(),
@@ -123,7 +119,7 @@ namespace Vts.Test.Factories
         // Multi-Axis ComputeReflectance Tests: the following 4 test parallel tests in 
         // ValidateDiffusionReflectanceModelsTests in Multi-Axis region of code
         [Test]
-        public void validate_ROfRhoAndTime_With_Wavelength()
+        public void Validate_ROfRhoAndTime_With_Wavelength()
         {
             // used values for tissue=liver
             var scatterer = new PowerLawScatterer(0.84, 0.55);
@@ -132,16 +128,14 @@ namespace Vts.Test.Factories
             var fatAbsorber = new ChromophoreAbsorber(ChromophoreType.Fat, 0.02);
             var waterAbsorber = new ChromophoreAbsorber(ChromophoreType.H2O, 0.87);
 
-            var n = 1.4;
             var wvs = new double[] { 650, 700 };
-            var rhos = new double[] { 0.5, 1.625 };
-            var times = new double[] { 0.05, 0.10 };
+            var rhos = new[] { 0.5, 1.625 };
+            var times = new[] { 0.05, 0.10 };
 
             var tissue = new Tissue(
                 new IChromophoreAbsorber[] { hbAbsorber, hbo2Absorber, fatAbsorber, waterAbsorber },
                 scatterer,
-                "test_tissue",
-                n);
+                "test_tissue");
 
             var ops = wvs.Select(wv => tissue.GetOpticalProperties(wv)).ToArray();
 
@@ -181,7 +175,7 @@ namespace Vts.Test.Factories
         }
 
         [Test]
-        public void validate_ROfRhoAndFt_With_Wavelength()
+        public void Validate_ROfRhoAndFt_With_Wavelength()
         {
             // used values for tissue=liver
             var scatterer = new PowerLawScatterer(0.84, 0.55);
@@ -190,16 +184,14 @@ namespace Vts.Test.Factories
             var fatAbsorber = new ChromophoreAbsorber(ChromophoreType.Fat, 0.02);
             var waterAbsorber = new ChromophoreAbsorber(ChromophoreType.H2O, 0.87);
 
-            var n = 1.4;
             var wvs = new double[] { 650, 700 };
-            var rhos = new double[] { 0.5, 1.625 };
-            var fts = new double[] { 0.0, 0.50 };
+            var rhos = new[] { 0.5, 1.625 };
+            var fts = new[] { 0.0, 0.50 };
 
             var tissue = new Tissue(
                 new IChromophoreAbsorber[] { hbAbsorber, hbo2Absorber, fatAbsorber, waterAbsorber },
                 scatterer,
-                "test_tissue",
-                n);
+                "test_tissue");
 
             var ops = wvs.Select(wv => tissue.GetOpticalProperties(wv)).ToArray();
 
@@ -254,7 +246,7 @@ namespace Vts.Test.Factories
             Assert.IsTrue(Math.Abs(rVsWavelength[15] + 0.000929) < 0.000001);
         }
         [Test]
-        public void validate_ROfFxAndTime_With_Wavelength()
+        public void Validate_ROfFxAndTime_With_Wavelength()
         {
             // used values for tissue=liver
             var scatterer = new PowerLawScatterer(0.84, 0.55);
@@ -265,8 +257,8 @@ namespace Vts.Test.Factories
 
             var n = 1.4;
             var wvs = new double[] { 650, 700 };
-            var fxs = new double[] { 0.0, 0.5 };
-            var times = new double[] { 0.05, 0.10 };
+            var fxs = new[] { 0.0, 0.5 };
+            var times = new[] { 0.05, 0.10 };
 
             var tissue = new Tissue(
                 new IChromophoreAbsorber[] { hbAbsorber, hbo2Absorber, fatAbsorber, waterAbsorber },
@@ -311,7 +303,7 @@ namespace Vts.Test.Factories
             Assert.IsTrue(Math.Abs(rVsWavelength[7] - 2.052883e-13) < 0.000001e-13);
         }
         [Test]
-        public void validate_ROfFxAndFt_With_Wavelength()
+        public void Validate_ROfFxAndFt_With_Wavelength()
         {
             // used values for tissue=liver
             var scatterer = new PowerLawScatterer(0.84, 0.55);
@@ -320,16 +312,14 @@ namespace Vts.Test.Factories
             var fatAbsorber = new ChromophoreAbsorber(ChromophoreType.Fat, 0.02);
             var waterAbsorber = new ChromophoreAbsorber(ChromophoreType.H2O, 0.87);
 
-            var n = 1.4;
             var wvs = new double[] { 650, 700 };
-            var fxs = new double[] { 0.0, 0.5 };
-            var fts = new double[] { 0.0, 0.50 };
+            var fxs = new[] { 0.0, 0.5 };
+            var fts = new[] { 0.0, 0.50 };
 
             var tissue = new Tissue(
                 new IChromophoreAbsorber[] { hbAbsorber, hbo2Absorber, fatAbsorber, waterAbsorber },
                 scatterer,
-                "test_tissue",
-                n);
+                "test_tissue");
 
             var ops = wvs.Select(wv => tissue.GetOpticalProperties(wv)).ToArray();
 
@@ -392,20 +382,18 @@ namespace Vts.Test.Factories
         /// forward solver and array of optical properties
         /// </summary>
         [Test]
-        public void validate_ComputeFluence_can_be_called_using_enum_forward_solver_and_optical_property_array()
+        public void Validate_ComputeFluence_can_be_called_using_enum_forward_solver_and_optical_property_array()
         {
-            xAxis = new double[] {1, 2, 3};
-            zAxis = new double[] {1, 2, 3, 4};
-            double[][] independentValues = new double[][] {xAxis, zAxis};
+            _xAxis = new double[] {1, 2, 3};
+            _zAxis = new double[] {1, 2, 3, 4};
+            var independentValues = new[] {_xAxis, _zAxis};
             var fluence = ComputationFactory.ComputeFluence(
                 ForwardSolverType.PointSourceSDA,
                 FluenceSolutionDomainType.FluenceOfRhoAndZ,
-                new IndependentVariableAxis[] { IndependentVariableAxis.Rho, IndependentVariableAxis.Z },
+                new[] { IndependentVariableAxis.Rho, IndependentVariableAxis.Z },
                 independentValues, 
                 // could have array of OPs, one set for each tissue region
-                new OpticalProperties[] { new OpticalProperties(0.01, 1, 0.8, 1.4) },
-                new double[] { 0 }
-                );
+                new[] { new OpticalProperties(0.01, 1, 0.8, 1.4) }, 0);
             // fluence is linearized to be [0-3]=>(x=1,z=1,2,3,4), [4-7]=>(x=2,z=1,2,3,4), [8-11]=>(x=3,z=1,2,3,4)
             Assert.IsTrue(Math.Abs(fluence[0] - 0.188294) < 0.000001);
         }
@@ -415,41 +403,90 @@ namespace Vts.Test.Factories
         /// forward solver and single set of OPs
         /// </summary>
         [Test]
-        public void validate_ComputeFluence_can_be_called_using_enum_forward_solver_and_single_optical_properties()
+        public void Validate_ComputeFluence_can_be_called_using_enum_forward_solver_and_single_optical_properties()
         {
-            xAxis = new double[] { 1, 2, 3 };
-            zAxis = new double[] { 1, 2, 3, 4 };
-            double[][] independentValues = new double[][] { xAxis, zAxis };
+            _xAxis = new double[] { 1, 2, 3 };
+            _zAxis = new double[] { 1, 2, 3, 4 };
+            var independentValues = new[] { _xAxis, _zAxis };
+            var fluence = ComputationFactory.ComputeFluence(
+                ForwardSolverType.PointSourceSDA,
+                FluenceSolutionDomainType.FluenceOfRhoAndZ,
+                new[] { IndependentVariableAxis.Rho, IndependentVariableAxis.Z },
+                independentValues,
+                new OpticalProperties(0.01, 1, 0.8, 1.4), 0);
+            // fluence is linearized to be [0-3]=>(x=1,z=1,2,3,4), [4-7]=>(x=2,z=1,2,3,4), [8-11]=>(x=3,z=1,2,3,4)
+            Assert.IsTrue(Math.Abs(fluence[0] - 0.188294) < 0.000001);
+        }
+
+        /// <summary>
+        /// Test against the ComputationFactory class ComputeFluence 
+        /// </summary>
+        [Test]
+        public void Validate_ComputeFluence_can_be_called_using_overload()
+        {
+            _xAxis = new double[] { 1, 2, 3 };
+            _zAxis = new double[] { 1, 2, 3, 4 };
+            var independentValues = new[] { _xAxis, _zAxis };
             var fluence = ComputationFactory.ComputeFluence(
                 ForwardSolverType.PointSourceSDA,
                 FluenceSolutionDomainType.FluenceOfRhoAndZ,
                 new IndependentVariableAxis[] { IndependentVariableAxis.Rho, IndependentVariableAxis.Z },
                 independentValues,
-                new OpticalProperties(0.01, 1, 0.8, 1.4), // single OPs
-                new double[] { 0 }
-            );
-            // fluence is linearized to be [0-3]=>(x=1,z=1,2,3,4), [4-7]=>(x=2,z=1,2,3,4), [8-11]=>(x=3,z=1,2,3,4)
+                // Optical property region
+                new IOpticalPropertyRegion[] {
+                    new LayerTissueRegion(
+                        new DoubleRange(0, 10, 10),
+                        new OpticalProperties(0.01, 1.0, 0.8, 1.4)
+                    )
+                }, 0);
             Assert.IsTrue(Math.Abs(fluence[0] - 0.188294) < 0.000001);
         }
+
+        [Test]
+        public void Validate_ComputeFluence_throws_argument_exception()
+        {
+            _xAxis = new double[] { 1, 2, 3 };
+            _zAxis = new double[] { 1, 2, 3, 4 };
+            var independentValues = new[] { _xAxis, _zAxis };
+            Assert.Throws<ArgumentException>(() =>
+            {
+                try
+                {
+                    ComputationFactory.ComputeFluence(
+                        ForwardSolverType.PointSourceSDA,
+                        FluenceSolutionDomainType.FluenceOfRhoAndZ,
+                        new IndependentVariableAxis[] { IndependentVariableAxis.Rho, IndependentVariableAxis.Z },
+                        independentValues,
+                        // Optical property region
+                        new IOpticalPropertyRegion[] { null },
+                        0);
+                }
+                catch (Exception e)
+                {
+                    Assert.AreEqual("The tissue region did not contain a valid layer region (Parameter 'tissueRegions')", e.Message);
+                    throw;
+                } 
+            });
+        }
+
+
         /// <summary>
         /// Test against the ComputationFactory class ComputeFluence routine using IForwardSolver and
         /// array of OPs
         /// </summary>
         [Test]
-        public void validate_ComputeFluence_can_be_called_using_IForwardSolver_and_optical_property_array()
+        public void Validate_ComputeFluence_can_be_called_using_IForwardSolver_and_optical_property_array()
         {
-            xAxis = new double[] { 1, 2, 3 };
-            zAxis = new double[] { 1, 2, 3, 4 };
-            double[][] independentValues = new double[][] { xAxis, zAxis };
+            _xAxis = new double[] { 1, 2, 3 };
+            _zAxis = new double[] { 1, 2, 3, 4 };
+            var independentValues = new[] { _xAxis, _zAxis };
             var fluence = ComputationFactory.ComputeFluence(
                 new PointSourceSDAForwardSolver(),
                 FluenceSolutionDomainType.FluenceOfRhoAndZ,
-                new IndependentVariableAxis[] { IndependentVariableAxis.Rho, IndependentVariableAxis.Z },
+                new[] { IndependentVariableAxis.Rho, IndependentVariableAxis.Z },
                 independentValues,
                 // could have array of OPs, one set for each tissue region
-                new OpticalProperties[] { new OpticalProperties(0.01, 1, 0.8, 1.4) },
-                new double[] { 0 }
-                );
+                new[] { new OpticalProperties(0.01, 1, 0.8, 1.4) }, 0);
             // fluence is linearized to be [0-3]=>(x=1,z=1,2,3,4), [4-7]=>(x=2,z=1,2,3,4), [8-11]=>(x=3,z=1,2,3,4)
             Assert.IsTrue(Math.Abs(fluence[0] - 0.188294) < 0.000001);
         }
@@ -459,45 +496,42 @@ namespace Vts.Test.Factories
         /// single set of OPs
         /// </summary>
         [Test]
-        public void validate_ComputeFluence_can_be_called_using_IForwardSolver_and_single_optical_properties()
+        public void Validate_ComputeFluence_can_be_called_using_IForwardSolver_and_single_optical_properties()
         {
-            xAxis = new double[] { 1, 2, 3 };
-            zAxis = new double[] { 1, 2, 3, 4 };
-            double[][] independentValues = new double[][] { xAxis, zAxis };
+            _xAxis = new double[] { 1, 2, 3 };
+            _zAxis = new double[] { 1, 2, 3, 4 };
+            var independentValues = new[] { _xAxis, _zAxis };
             var fluence = ComputationFactory.ComputeFluence(
                 new PointSourceSDAForwardSolver(),
                 FluenceSolutionDomainType.FluenceOfRhoAndZ,
-                new IndependentVariableAxis[] { IndependentVariableAxis.Rho, IndependentVariableAxis.Z },
+                new[] { IndependentVariableAxis.Rho, IndependentVariableAxis.Z },
                 independentValues,
-                new OpticalProperties(0.01, 1, 0.8, 1.4), // single OPs
-                new double[] { 0 }
-            );
+                new OpticalProperties(0.01, 1, 0.8, 1.4), 0);
             // fluence is linearized to be [0-3]=>(x=1,z=1,2,3,4), [4-7]=>(x=2,z=1,2,3,4), [8-11]=>(x=3,z=1,2,3,4)
             Assert.IsTrue(Math.Abs(fluence[0] - 0.188294) < 0.000001);
         }
+
         /// <summary>
         /// Test against the ComputationFactory class ComputeFluenceComplex routine using enum
         /// forward solver and IOpticalProperty array
         /// </summary>
         [Test]
-        public void validate_ComputeFluenceComplex_can_be_called_using_enum_forward_solver_and_IOpticalPropertyRegion_array()
+        public void Validate_ComputeFluenceComplex_can_be_called_using_enum_forward_solver_and_IOpticalPropertyRegion_array()
         {
-            xAxis = new double[] { 1, 2, 3 };
-            zAxis = new double[] { 1, 2, 3, 4 };
-            double[][] independentValues = new double[][] { xAxis, zAxis };
-            Complex[] fluence = ComputationFactory.ComputeFluenceComplex(
+            _xAxis = new double[] { 1, 2, 3 };
+            _zAxis = new double[] { 1, 2, 3, 4 };
+            var independentValues = new[] { _xAxis, _zAxis };
+            var fluence = ComputationFactory.ComputeFluenceComplex(
                 ForwardSolverType.PointSourceSDA,
                 FluenceSolutionDomainType.FluenceOfRhoAndZAndFt,
-                new IndependentVariableAxis[] { IndependentVariableAxis.Rho, IndependentVariableAxis.Z },
+                new[] { IndependentVariableAxis.Rho, IndependentVariableAxis.Z },
                 independentValues,
                 new IOpticalPropertyRegion[] {
                     new LayerTissueRegion(
                         new DoubleRange(0, 10, 10),
                         new OpticalProperties(0.01, 1.0, 0.8, 1.4)
                         )
-                },
-                new double[] { 0 }
-                );
+                }, 0);
             // fluence is linearized to be [0-3]=>(x=1,z=1,2,3,4), [4-7]=>(x=2,z=1,2,3,4), [8-11]=>(x=3,z=1,2,3,4)
             Assert.IsTrue(Math.Abs(fluence[0].Real - 0.188294) < 0.000001);
         }
@@ -507,19 +541,17 @@ namespace Vts.Test.Factories
         /// forward solver and single set of OPs
         /// </summary>
         [Test]
-        public void validate_ComputeFluenceComplex_can_be_called_using_enum_forward_solver_and_single_optical_properties()
+        public void Validate_ComputeFluenceComplex_can_be_called_using_enum_forward_solver_and_single_optical_properties()
         {
-            xAxis = new double[] { 1, 2, 3 };
-            zAxis = new double[] { 1, 2, 3, 4 };
-            double[][] independentValues = new double[][] { xAxis, zAxis };
+            _xAxis = new double[] { 1, 2, 3 };
+            _zAxis = new double[] { 1, 2, 3, 4 };
+            var independentValues = new[] { _xAxis, _zAxis };
             var fluence = ComputationFactory.ComputeFluenceComplex(
                 ForwardSolverType.PointSourceSDA,
                 FluenceSolutionDomainType.FluenceOfRhoAndZAndFt,
-                new IndependentVariableAxis[] { IndependentVariableAxis.Rho, IndependentVariableAxis.Z },
+                new[] { IndependentVariableAxis.Rho, IndependentVariableAxis.Z },
                 independentValues,
-                new OpticalProperties(0.01, 1, 0.8, 1.4), // single OPs
-                new double[] { 0 }
-            );
+                new OpticalProperties(0.01, 1, 0.8, 1.4), 0);
             // fluence is linearized to be [0-3]=>(x=1,z=1,2,3,4), [4-7]=>(x=2,z=1,2,3,4), [8-11]=>(x=3,z=1,2,3,4)
             Assert.IsTrue(Math.Abs(fluence[0].Real - 0.188294) < 0.000001);
         }
@@ -528,24 +560,22 @@ namespace Vts.Test.Factories
         /// array Tissue Regions
         /// </summary>
         [Test]
-        public void validate_ComputeFluenceComplex_can_be_called_using_IForwardSolver_and_IOpticalPropertyRegion_array()
+        public void Validate_ComputeFluenceComplex_can_be_called_using_IForwardSolver_and_IOpticalPropertyRegion_array()
         {
-            xAxis = new double[] { 1, 2, 3 };
-            zAxis = new double[] { 1, 2, 3, 4 };
-            double[][] independentValues = new double[][] { xAxis, zAxis };
+            _xAxis = new double[] { 1, 2, 3 };
+            _zAxis = new double[] { 1, 2, 3, 4 };
+            var independentValues = new[] { _xAxis, _zAxis };
             var fluence = ComputationFactory.ComputeFluenceComplex(
                 new PointSourceSDAForwardSolver(),
                 FluenceSolutionDomainType.FluenceOfRhoAndZAndFt,
-                new IndependentVariableAxis[] { IndependentVariableAxis.Rho, IndependentVariableAxis.Z },
+                new[] { IndependentVariableAxis.Rho, IndependentVariableAxis.Z },
                 independentValues,
                 new IOpticalPropertyRegion[] {
                     new LayerTissueRegion(
                         new DoubleRange(0, 10, 10),
                         new OpticalProperties(0.01, 1.0, 0.8, 1.4)
                     )
-                },
-                new double[] { 0 }
-            );
+                }, 0);
             // fluence is linearized to be [0-3]=>(x=1,z=1,2,3,4), [4-7]=>(x=2,z=1,2,3,4), [8-11]=>(x=3,z=1,2,3,4)
             Assert.IsTrue(Math.Abs(fluence[0].Real - 0.188294) < 0.000001);
         }
@@ -555,21 +585,46 @@ namespace Vts.Test.Factories
         /// class and single set of OPs
         /// </summary>
         [Test]
-        public void validate_ComputeFluenceComplex_can_be_called_using_IForwardSolver_and_single_optical_properties()
+        public void Validate_ComputeFluenceComplex_can_be_called_using_IForwardSolver_and_single_optical_properties()
         {
-            xAxis = new double[] { 1, 2, 3 };
-            zAxis = new double[] { 1, 2, 3, 4 };
-            double[][] independentValues = new double[][] { xAxis, zAxis };
+            _xAxis = new double[] { 1, 2, 3 };
+            _zAxis = new double[] { 1, 2, 3, 4 };
+            var independentValues = new[] { _xAxis, _zAxis };
             var fluence = ComputationFactory.ComputeFluenceComplex(
                 new PointSourceSDAForwardSolver(),
                 FluenceSolutionDomainType.FluenceOfRhoAndZAndFt,
-                new IndependentVariableAxis[] { IndependentVariableAxis.Rho, IndependentVariableAxis.Z },
+                new[] { IndependentVariableAxis.Rho, IndependentVariableAxis.Z },
                 independentValues,
-                new OpticalProperties(0.01, 1, 0.8, 1.4), // single OPs
-                new double[] { 0 }
-            );
+                new OpticalProperties(0.01, 1, 0.8, 1.4), 0);
             // fluence is linearized to be [0-3]=>(x=1,z=1,2,3,4), [4-7]=>(x=2,z=1,2,3,4), [8-11]=>(x=3,z=1,2,3,4)
             Assert.IsTrue(Math.Abs(fluence[0].Real - 0.188294) < 0.000001);
+        }
+
+        [Test]
+        public void Validate_ComputeFluenceComplex_throws_argument_exception()
+        {
+            _xAxis = new double[] { 1, 2, 3 };
+            _zAxis = new double[] { 1, 2, 3, 4 };
+            var independentValues = new[] { _xAxis, _zAxis };
+            Assert.Throws<ArgumentException>(() =>
+            {
+                try
+                {
+                    ComputationFactory.ComputeFluenceComplex(
+                        new PointSourceSDAForwardSolver(),
+                        FluenceSolutionDomainType.FluenceOfRhoAndZAndFt,
+                        new[] { IndependentVariableAxis.Rho, IndependentVariableAxis.Z },
+                        independentValues,
+                        // Optical property region
+                        new IOpticalPropertyRegion[] { null },
+                        0);
+                }
+                catch (Exception e)
+                {
+                    Assert.AreEqual("The tissue region did not contain a valid layer region (Parameter 'tissueRegions')", e.Message);
+                    throw;
+                }
+            });
         }
         #endregion
 
@@ -579,14 +634,14 @@ namespace Vts.Test.Factories
         /// forward solver and optimizer type
         /// </summary>
         [Test]
-        public void validate_SolveInverse_can_be_called_using_enum_forward_solver()
+        public void Validate_SolveInverse_can_be_called_using_enum_forward_solver()
         {
-            object[] initialGuessOPsAndXAxis = new object[] {
+            var initialGuessOPsAndXAxis = new object[] {
                 new [] { new OpticalProperties(0.01, 1.0, 0.8, 1.4) },
                 new double[] {1, 2, 3 }
             };
-            double[] measuredData = new double[] { 4, 5, 6 };
-            double[] solution = ComputationFactory.SolveInverse(
+            var measuredData = new double[] { 4, 5, 6 };
+            var solution = ComputationFactory.SolveInverse(
                 ForwardSolverType.PointSourceSDA,
                 OptimizerType.MPFitLevenbergMarquardt,
                 SolutionDomainType.ROfRho,
@@ -604,14 +659,14 @@ namespace Vts.Test.Factories
         /// and IOptimizer classes 
         /// </summary>
         [Test]
-        public void validate_SolveInverse_can_be_called_using_IForwardSolver_and_IOptimizer()
+        public void Validate_SolveInverse_can_be_called_using_IForwardSolver_and_IOptimizer()
         {
-            object[] initialGuessOPsAndXAxis = new object[] {
+            var initialGuessOPsAndXAxis = new object[] {
                 new [] { new OpticalProperties(0.01, 1.0, 0.8, 1.4) },
                 new double[] { 1, 2, 3 }
                 };
-            double[] measuredData = new double[] { 4, 5, 6 };
-            double[] solution = ComputationFactory.SolveInverse(
+            var measuredData = new double[] { 4, 5, 6 };
+            var solution = ComputationFactory.SolveInverse(
                 new PointSourceSDAForwardSolver(),
                 new MPFitLevenbergMarquardtOptimizer(),
                 SolutionDomainType.ROfRho,
@@ -628,15 +683,15 @@ namespace Vts.Test.Factories
         /// array of OPs
         /// </summary>
         [Test]
-        public void validate_SolveInverse_can_be_called_using_enum_forward_solver_and_bounds()
+        public void Validate_SolveInverse_can_be_called_using_enum_forward_solver_and_bounds()
         {
-            object[] initialGuessOPsAndXAxis = new object[] {
+            var initialGuessOPsAndXAxis = new object[] {
                 new [] { new OpticalProperties(0.01, 1.0, 0.8, 1.4) },
                 new double[] { 1, 2, 3 }
             };
-            double[] measuredData = new double[] { 4, 5, 6 };
-            double[] lowerBounds = new double[] { 0, 0, 0, 0 }; // one for each OP even if not optimized
-            double[] upperBounds = new double[]
+            var measuredData = new double[] { 4, 5, 6 };
+            var lowerBounds = new double[] { 0, 0, 0, 0 }; // one for each OP even if not optimized
+            var upperBounds = new[]
             {
                 double.PositiveInfinity, double.PositiveInfinity, double.PositiveInfinity, double.PositiveInfinity
             };
@@ -659,15 +714,15 @@ namespace Vts.Test.Factories
         /// single set of OPs
         /// </summary>
         [Test]
-        public void validate_SolveInverse_can_be_called_using_IForwardSolver_IOptimizer_and_bounds()
+        public void Validate_SolveInverse_can_be_called_using_IForwardSolver_IOptimizer_and_bounds()
         {
-            object[] initialGuessOPsAndXAxis = new object[] {
+            var initialGuessOPsAndXAxis = new object[] {
                 new [] { new OpticalProperties(0.01, 1.0, 0.8, 1.4) },
                 new double[] { 1, 2, 3 }
             };
-            double[] measuredData = new double[] { 4, 5, 6 };
-            double[] lowerBounds = new double[] { 0, 0, 0, 0 }; // one for each OP even if not optimized
-            double[] upperBounds = new double[]
+            var measuredData = new double[] { 4, 5, 6 };
+            var lowerBounds = new double[] { 0, 0, 0, 0 }; // one for each OP even if not optimized
+            var upperBounds = new[]
             {
                 double.PositiveInfinity, double.PositiveInfinity, double.PositiveInfinity, double.PositiveInfinity
             };
@@ -692,16 +747,16 @@ namespace Vts.Test.Factories
         /// Test against the ComputationFactory class GetPHD routine using enum forward solver 
         /// </summary>
         [Test]
-        public void validate_GetPHD_can_be_called_using_enum_forward_solver()
+        public void Validate_GetPHD_can_be_called_using_enum_forward_solver()
         {
-            double sourceDetectorSeparation = 3;
-            double[] phd = ComputationFactory.GetPHD(
+            const double sourceDetectorSeparation = 3;
+            var phd = ComputationFactory.GetPHD(
                 ForwardSolverType.PointSourceSDA,
-                realFluence,
+                _realFluence,
                 sourceDetectorSeparation,
                 new[] {new OpticalProperties(0.01, 1.0, 0.8, 1.4)},
-                xAxis,
-                zAxis);
+                _xAxis,
+                _zAxis);
             // solution is linearized PHD, column major
             Assert.IsTrue(Math.Abs(phd[0] - 0.010336) < 0.000001);
         }
@@ -710,16 +765,16 @@ namespace Vts.Test.Factories
         /// Test against the ComputationFactory class GetPHD routine using IForwardSolver class
         /// </summary>
         [Test]
-        public void validate_GetPHD_can_be_called_using_IForwardSolver()
+        public void Validate_GetPHD_can_be_called_using_IForwardSolver()
         {
-            double sourceDetectorSeparation = 3;
-            double[] phd = ComputationFactory.GetPHD(
+            const double sourceDetectorSeparation = 3;
+            var phd = ComputationFactory.GetPHD(
                 new PointSourceSDAForwardSolver(),
-                realFluence,
+                _realFluence,
                 sourceDetectorSeparation,
                 new[] { new OpticalProperties(0.01, 1.0, 0.8, 1.4) },
-                xAxis,
-                zAxis
+                _xAxis,
+                _zAxis
             );
             // solution is linearized PHD, column major
             Assert.IsTrue(Math.Abs(phd[0] - 0.010336) < 0.000001);
@@ -729,18 +784,18 @@ namespace Vts.Test.Factories
         /// for the Temporal-Frequency domain (FluenceOfRhoAndZAndFt)
         /// </summary>
         [Test]
-        public void validate_GetPHD_can_be_called_using_enum_forward_solver_and_temporal_modulation_frequency()
+        public void Validate_GetPHD_can_be_called_using_enum_forward_solver_and_temporal_modulation_frequency()
         {
-            double sourceDetectorSeparation = 3;
-            double modulationFrequency = 0;
+            const double sourceDetectorSeparation = 3;
+            const double modulationFrequency = 0;
             var phd = ComputationFactory.GetPHD(
                 ForwardSolverType.PointSourceSDA,
-                complexFluence,
+                _complexFluence,
                 sourceDetectorSeparation,
                 modulationFrequency,
                 new [] { new OpticalProperties(0.01, 1.0, 0.8, 1.4) },
-                xAxis,
-                zAxis
+                _xAxis,
+                _zAxis
             );
             // solution is linearized PHD, column major
             Assert.IsTrue(Math.Abs(phd[0] - 0.010336) < 0.000001);
@@ -753,16 +808,16 @@ namespace Vts.Test.Factories
         [Test]
         public void validate_GetPHD_can_be_called_using_IForwardSolver_and_temporal_modulation_frequency()
         {
-            double sourceDetectorSeparation = 3;
-            double modulationFrequency = 0;
+            const double sourceDetectorSeparation = 3;
+            const double modulationFrequency = 0;
             var phd = ComputationFactory.GetPHD(
                 new PointSourceSDAForwardSolver(),
-                complexFluence,
+                _complexFluence,
                 sourceDetectorSeparation,
                 modulationFrequency,
                 new[] { new OpticalProperties(0.01, 1.0, 0.8, 1.4) },
-                xAxis,
-                zAxis
+                _xAxis,
+                _zAxis
             );
             // solution is linearized PHD, column major
             Assert.IsTrue(Math.Abs(phd[0] - 0.010336) < 0.000001);
@@ -774,32 +829,32 @@ namespace Vts.Test.Factories
         /// Test GetAbsorbedEnergy for real fluence solutions and homogeneous tissue (single mua value)
         /// </summary>
         [Test]
-        public void validate_GetAbsorbedEnergy_can_be_called_for_homogeneous_real_fluence_solutions()
+        public void Validate_GetAbsorbedEnergy_can_be_called_for_homogeneous_real_fluence_solutions()
         {
-            double mua = 0.1;
-            IEnumerable<double> absorbedEnergy = ComputationFactory.GetAbsorbedEnergy(realFluence, mua);
+            const double mua = 0.1;
+            var absorbedEnergy = ComputationFactory.GetAbsorbedEnergy(_realFluence, mua);
             Assert.IsTrue(Math.Abs(absorbedEnergy.First() - 0.018829) < 0.000001);
         }
         /// <summary>
         /// Test GetAbsorbedEnergy for Complex fluence solutions and homogeneous tissue (single mua value)
         /// </summary>
         [Test]
-        public void validate_GetAbsorbedEnergy_can_be_called_for_homogeneous_complex_fluence_solutions()
+        public void Validate_GetAbsorbedEnergy_can_be_called_for_homogeneous_complex_fluence_solutions()
         {
-            double mua = 0.1;
-            IEnumerable<Complex> absorbedEnergy = ComputationFactory.GetAbsorbedEnergy(complexFluence, mua);
+            const double mua = 0.1;
+            var absorbedEnergy = ComputationFactory.GetAbsorbedEnergy(_complexFluence, mua);
             Assert.IsTrue(Math.Abs(absorbedEnergy.First().Real - 0.018829) < 0.000001);
         }
         /// <summary>
         /// Test GetAbsorbedEnergy for Complex fluence solutions and heterogeneous tissue (multiple mua values)
         /// </summary>
         [Test]
-        public void validate_GetAbsorbedEnergy_can_be_called_for_heterogeneous_real_fluence_solutions()
+        public void Validate_GetAbsorbedEnergy_can_be_called_for_heterogeneous_real_fluence_solutions()
         {
             // use real Fluence as fluence for two layer tissue which is a 4x3 and 
             // define muas so that top 2 rows have one value, bottom have different value (matrix is column major)
-            double[] muas = new double[12] {0.1, 0.1, 0.2, 0.2, 0.1, 0.1, 0.2, 0.2, 0.1, 0.1, 0.2, 0.2};
-            IEnumerable<double> absorbedEnergy = ComputationFactory.GetAbsorbedEnergy(realFluence.AsEnumerable(), muas.AsEnumerable());
+            var muas = new double[] {0.1, 0.1, 0.2, 0.2, 0.1, 0.1, 0.2, 0.2, 0.1, 0.1, 0.2, 0.2};
+            var absorbedEnergy = ComputationFactory.GetAbsorbedEnergy(_realFluence.AsEnumerable(), muas.AsEnumerable());
             Assert.IsTrue(Math.Abs(absorbedEnergy.First() - 0.018829) < 0.000001);
         }
         #endregion
