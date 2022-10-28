@@ -29,7 +29,7 @@ namespace Vts.MonteCarlo.PhotonData
         /// method to read PhotonDataPoint from binary
         /// </summary>
         /// <param name="br">BinaryReader</param>
-        /// <returns>PHotonDataPoint</returns>
+        /// <returns>PhotonDataPoint</returns>
         public PhotonDataPoint ReadFromBinary(BinaryReader br)
         {
             var dataPoint = new PhotonDataPoint(

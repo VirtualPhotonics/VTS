@@ -18,7 +18,7 @@ namespace Vts.Test.MonteCarlo.Sources
         private static LineSourcesValidationData _validationData;
 
         [OneTimeSetUp]
-        public void setup_validation_data()
+        public void Setup_validation_data()
         {
             if (_validationData == null)
             {
@@ -30,7 +30,7 @@ namespace Vts.Test.MonteCarlo.Sources
         /// test source input
         /// </summary>
         [Test]
-        public void validate_source_input_with_flat_profile_type()
+        public void Validate_source_input_with_flat_profile_type()
         {
             // check default constructor
             var si = new IsotropicLineSourceInput();
@@ -53,7 +53,7 @@ namespace Vts.Test.MonteCarlo.Sources
         /// Validate General Constructor of Isotropic Flat Line Source
         /// </summary>
         [Test]
-        public void validate_general_constructor_with_flat_profiletype_for_isotropic_line_source_test()
+        public void Validate_general_constructor_with_flat_profiletype_for_isotropic_line_source_test()
         {
             Random rng = new MathNet.Numerics.Random.MersenneTwister(0); // not really necessary here, as this is now the default
             ITissue tissue = new MultiLayerTissue();
@@ -83,7 +83,7 @@ namespace Vts.Test.MonteCarlo.Sources
         /// Validate General Constructor of Isotropic Gaussian Line Source
         /// </summary>
         [Test]
-        public void validate_general_constructor_with_gaussian_profiletype_for_isotropic_line_source_test()
+        public void Validate_general_constructor_with_gaussian_profiletype_for_isotropic_line_source_test()
         {
 
             Random rng = new MathNet.Numerics.Random.MersenneTwister(0); // not really necessary here, as this is now the default
@@ -111,11 +111,11 @@ namespace Vts.Test.MonteCarlo.Sources
             Assert.Less(Math.Abs(photon.DP.Position.Z - _validationData.Tp[53]), _validationData.AcceptablePrecision);
         }
         /// <summary>
-        /// Validate general contructor and implicitly validate GetFinalPosition
+        /// Validate general constructor and implicitly validate GetFinalPosition
         /// and GetFinalDirection
         /// </summary>
         [Test]
-        public void validate_LineAngledFromLineSource_general_constructor()
+        public void Validate_LineAngledFromLineSource_general_constructor()
         {
             var tissue = new MultiLayerTissue();
             var source = new LineAngledFromLineSource(

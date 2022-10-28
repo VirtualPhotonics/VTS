@@ -10,7 +10,7 @@ namespace Vts.MonteCarlo.IO
     /// <typeparam name="TElement">Generic database element</typeparam>
     public class DatabaseReader<TDatabase, TElement> where TDatabase : Database<TElement>
     {
-        private Func<TDatabase, ICustomBinaryReader<TElement>> _binaryReaderCreator;
+        private readonly Func<TDatabase, ICustomBinaryReader<TElement>> _binaryReaderCreator;
 
         /// <summary>
         /// Creates an instance of DatabaseReader with a map to create a binary reader. Use this overload

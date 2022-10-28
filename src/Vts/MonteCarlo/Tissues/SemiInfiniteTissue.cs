@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Vts.MonteCarlo.Tissues;
 namespace Vts.MonteCarlo.Tissues
 {
     /// <summary>

@@ -1,6 +1,5 @@
 using Vts.Common;
 using System;
-using System.Runtime.Serialization;
 
 namespace Vts.MonteCarlo.Tissues
 {
@@ -42,10 +41,8 @@ namespace Vts.MonteCarlo.Tissues
         /// <summary>
         /// Center of tissue region (semi-infinite has no center)
         /// </summary>
-        public Position Center
-        {
-            get { throw new NotImplementedException(); }
-        }
+        public Position Center => throw new NotImplementedException();
+
         /// <summary>
         /// phase function dictionary key
         /// </summary>
@@ -70,11 +67,7 @@ namespace Vts.MonteCarlo.Tissues
         /// <returns>True if photon on boundary, false if not</returns>
         public bool OnBoundary(Position position)
         {
-            var onBoundary = false;
-            if (Math.Abs(position.Z) < 1e-10)
-            {
-                onBoundary = true;
-            }
+            var onBoundary = Math.Abs(position.Z) < 1e-10;
             return onBoundary;
         }
         /// <summary>
@@ -94,7 +87,7 @@ namespace Vts.MonteCarlo.Tissues
         /// <returns>true if intersection, false otherwise</returns>
         public bool RayIntersectBoundary(Photon photon, out double distanceToBoundary)
         {
-            throw new System.NotImplementedException(); // currently, implemented by MultiLayerTissue...should revisit so this can be independent
+            throw new NotImplementedException(); // currently, implemented by MultiLayerTissue...should revisit so this can be independent
         }
     }
 }

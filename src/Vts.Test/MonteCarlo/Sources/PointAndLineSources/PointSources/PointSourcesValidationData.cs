@@ -68,7 +68,7 @@ namespace Vts.Test.MonteCarlo.Sources
             // if need to regenerate _tp, run matlab/test/ code 
             if (Tp.Length == 0)
             {
-                string testpara = "../../../../../matlab/test/monte_carlo/source_test_data_generation/UnitTests_PointSources.txt";
+                const string testpara = "../../../../../matlab/test/monte_carlo/source_test_data_generation/UnitTests_PointSources.txt";
                 using (TextReader reader = File.OpenText(testpara))
                 {
                     string text = reader.ReadToEnd();

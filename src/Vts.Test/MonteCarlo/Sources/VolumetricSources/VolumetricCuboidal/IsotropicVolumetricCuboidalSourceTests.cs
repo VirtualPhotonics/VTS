@@ -67,7 +67,7 @@ namespace Vts.Test.MonteCarlo.Sources
                 Rng = rng
             };
             // check 10 photons
-            for (int i = 0; i < 10; i++)
+            for (var i = 0; i < 10; i++)
             {
                 var photon = ps.GetNextPhoton(tissue);
                 Assert.IsTrue((photon.DP.Position.X < cubeLengthX / 2 + translationFromOrigin.X) &&

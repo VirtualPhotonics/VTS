@@ -21,8 +21,8 @@ namespace Vts.MonteCarlo.Tissues
     /// </summary>
     public class BoundedTissue : MultiLayerTissue, ITissue
     {
-        private ITissueRegion _boundingRegion;
-        private IList<ITissueRegion> _layers;
+        private readonly ITissueRegion _boundingRegion;
+        private readonly IList<ITissueRegion> _layers;
         private int _boundingRegionExteriorIndex;
 
         /// <summary>
@@ -73,20 +73,15 @@ namespace Vts.MonteCarlo.Tissues
             // edge of layer
 
             // check if current track will hit the bounding boundary
-            double distanceToBoundingBoundary;
-            if (_boundingRegion.RayIntersectBoundary(photon, out distanceToBoundingBoundary))
-            {
-                // check if will hit layer boundary
-                double distanceToLayerBoundary = base.GetDistanceToBoundary(photon);
-                if (distanceToBoundingBoundary < distanceToLayerBoundary)
-                {
-                    return distanceToBoundingBoundary;
-                }
-                return distanceToLayerBoundary;
-            }
-            
+            if (!_boundingRegion.RayIntersectBoundary(photon, out var distanceToBoundingBoundary))
+                return base.GetDistanceToBoundary(photon);
+
+            // check if will hit layer boundary
+            var distanceToLayerBoundary = base.GetDistanceToBoundary(photon);
+            if (!(distanceToBoundingBoundary < distanceToLayerBoundary)) return distanceToLayerBoundary;
+            return distanceToBoundingBoundary;
+
             // if not hitting the inclusion, call the base (layer) method
-            return base.GetDistanceToBoundary(photon);
         }
         /// <summary>
         /// method to determine if on boundary of tissue, i.e. at tissue/air interface
@@ -108,22 +103,18 @@ namespace Vts.MonteCarlo.Tissues
         public override int GetNeighborRegionIndex(Photon photon)
         {
             // first, check what region the photon is in
-            int regionIndex = photon.CurrentRegionIndex;
+            var regionIndex = photon.CurrentRegionIndex;
 
             // if we're on the boundary of the bounding region
-            if (_boundingRegion.OnBoundary(photon.DP.Position))
-            {
-                //  and outside bounding region then neighbor is tissue layer
-                if (regionIndex == _boundingRegionExteriorIndex)
-                {
-                    return base.GetRegionIndex(photon.DP.Position);
-                }
+            if (!_boundingRegion.OnBoundary(photon.DP.Position)) return base.GetNeighborRegionIndex(photon);
 
-                // else inside bounding region so return outside bounding region index
-                return _boundingRegionExteriorIndex;
-            }
+            //  and outside bounding region then neighbor is tissue layer
+            return regionIndex != _boundingRegionExteriorIndex
+                ? _boundingRegionExteriorIndex
+                : base.GetRegionIndex(photon.DP.Position);
+
+            // else inside bounding region so return outside bounding region index
             // else on layer boundary so return layer neighbor
-            return base.GetNeighborRegionIndex(photon);
         }
         /// <summary>
         /// method to determine photon state type of photon exiting tissue boundary
@@ -136,11 +127,9 @@ namespace Vts.MonteCarlo.Tissues
             {
                 return PhotonStateType.PseudoReflectedTissueBoundary;
             }
-            if (Math.Abs(position.Z - ((LayerTissueRegion)_layers.Last()).ZRange.Start) < 1e-10)
-            {
-                return PhotonStateType.PseudoTransmittedTissueBoundary;
-            }
-            return PhotonStateType.PseudoBoundingVolumeTissueBoundary;
+            return Math.Abs(position.Z - ((LayerTissueRegion)_layers.Last()).ZRange.Start) < 1e-10
+                ? PhotonStateType.PseudoTransmittedTissueBoundary
+                : PhotonStateType.PseudoBoundingVolumeTissueBoundary;
         }
         /// <summary>
         /// method that provides reflected direction when photon reflects off boundary
@@ -153,16 +142,11 @@ namespace Vts.MonteCarlo.Tissues
             Direction currentDirection)
         {
             // needs to call MultiLayerTissue when crossing top and bottom layer
-            if (base.OnDomainBoundary(currentPosition))
-            {
-                return base.GetReflectedDirection(currentPosition, currentDirection);
-            }
-            else // currently reflection/refraction not performed on bounding region
-            {
-                return currentDirection;
-            }
-            //throw new NotImplementedException(); // hopefully, this won't happen when the tissue inclusion is index-matched
+            return base.OnDomainBoundary(currentPosition)
+                ? base.GetReflectedDirection(currentPosition, currentDirection)
+                : currentDirection; // currently reflection/refraction not performed on bounding region
         }
+
         /// <summary>
         /// method that provides refracted direction when photon refracts off boundary
         /// </summary>
@@ -180,14 +164,9 @@ namespace Vts.MonteCarlo.Tissues
             double cosThetaSnell)
         {
             // needs to call MultiLayerTissue when crossing top and bottom layer
-            if (base.OnDomainBoundary(currentPosition))
-            {
-                return base.GetRefractedDirection(currentPosition, currentDirection, currentN, nextN, cosThetaSnell);
-            }
-            else // currently reflection/refraction not performed on bounding region
-            {
-                return currentDirection;
-            }
+            return base.OnDomainBoundary(currentPosition)
+                ? base.GetRefractedDirection(currentPosition, currentDirection, currentN, nextN, cosThetaSnell)
+                : currentDirection; // currently reflection/refraction not performed on bounding region
             //throw new NotImplementedException(); // hopefully, this won't happen when the tissue inclusion is index-matched
         }
     }

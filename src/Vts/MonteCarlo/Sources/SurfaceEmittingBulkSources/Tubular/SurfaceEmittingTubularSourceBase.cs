@@ -69,11 +69,11 @@ namespace Vts.MonteCarlo.Sources
         public Photon GetNextPhoton(ITissue tissue)
         {
             //sample angular distribution
-            Direction finalDirection = SourceToolbox.GetDirectionForGivenPolarAzimuthalAngleRangeRandom(
+            var finalDirection = SourceToolbox.GetDirectionForGivenPolarAzimuthalAngleRangeRandom(
                 SourceDefaults.DefaultHalfPolarAngleRange.Clone(), 
                 SourceDefaults.DefaultAzimuthalAngleRange.Clone(),
                 Rng);
-            Position finalPosition = SourceDefaults.DefaultPosition.Clone();
+            var finalPosition = SourceDefaults.DefaultPosition.Clone();
 
             if (_tubeRadius > 0.0)
             {
@@ -91,8 +91,8 @@ namespace Vts.MonteCarlo.Sources
                 finalPosition.Z = _tubeHeightZ * (Rng.NextDouble() - 0.5);
             }
 
-            //Find the relevent polar and azimuthal pair for the direction
-            PolarAzimuthalAngles _rotationalAnglesOfPrincipalSourceAxis = SourceToolbox.GetPolarAzimuthalPairFromDirection(_newDirectionOfPrincipalSourceAxis);
+            //Find the relevant polar and azimuthal pair for the direction
+            var _rotationalAnglesOfPrincipalSourceAxis = SourceToolbox.GetPolarAzimuthalPairFromDirection(_newDirectionOfPrincipalSourceAxis);
             
             //Translation and source rotation
             SourceToolbox.UpdateDirectionPositionAfterGivenFlags(

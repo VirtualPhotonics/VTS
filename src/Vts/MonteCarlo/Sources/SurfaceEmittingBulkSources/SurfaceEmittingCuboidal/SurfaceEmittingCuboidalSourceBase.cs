@@ -92,20 +92,20 @@ namespace Vts.MonteCarlo.Sources
         public Photon GetNextPhoton(ITissue tissue)
         {
             //Sample emitting side
-            String cSide = SelectEmittingSurface(
+            var cSide = SelectEmittingSurface(
                 _cubeLengthX, 
                 _cubeWidthY, 
                 _cubeHeightZ, 
                 Rng);
 
             //sample angular distribution
-            Direction finalDirection = SourceToolbox.GetDirectionForGivenPolarAzimuthalAngleRangeRandom(
+            var finalDirection = SourceToolbox.GetDirectionForGivenPolarAzimuthalAngleRangeRandom(
                 _polarAngleEmissionRange, 
                 SourceDefaults.DefaultAzimuthalAngleRange.Clone(),
                 Rng);
 
             Position tempPosition;
-            Position finalPosition = new Position();               
+            var finalPosition = new Position();               
              
             switch (cSide)
             {
@@ -153,8 +153,8 @@ namespace Vts.MonteCarlo.Sources
                     break;
             }
 
-            //Find the relevent polar and azimuthal pair for the direction
-            PolarAzimuthalAngles _rotationalAnglesOfPrincipalSourceAxis = SourceToolbox.GetPolarAzimuthalPairFromDirection(_newDirectionOfPrincipalSourceAxis);
+            //Find the relevant polar and azimuthal pair for the direction
+            var _rotationalAnglesOfPrincipalSourceAxis = SourceToolbox.GetPolarAzimuthalPairFromDirection(_newDirectionOfPrincipalSourceAxis);
             
             //Translation and source rotation
             SourceToolbox.UpdateDirectionPositionAfterGivenFlags(
@@ -183,14 +183,18 @@ namespace Vts.MonteCarlo.Sources
                         rng);
                     break;
                 case SourceProfileType.Gaussian:
-                    var gaussianProfile = sourceProfile as GaussianSourceProfile;
-                    finalPosition = SourceToolbox.GetPositionInARectangleRandomGaussian(
-                        SourceDefaults.DefaultPosition.Clone(),
-                        0.5*rectLengthX,
-                        0.5*rectWidthY,
-                        gaussianProfile.BeamDiaFWHM,
-                        rng);
+                    if (sourceProfile is GaussianSourceProfile gaussianProfile)
+                        finalPosition = SourceToolbox.GetPositionInARectangleRandomGaussian(
+                            SourceDefaults.DefaultPosition.Clone(),
+                            0.5 * rectLengthX,
+                            0.5 * rectWidthY,
+                            gaussianProfile.BeamDiaFWHM,
+                            rng);
                     break;
+                case SourceProfileType.Arbitrary:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(sourceProfile.SourceProfileType.ToString());
             }
 
 
@@ -211,16 +215,16 @@ namespace Vts.MonteCarlo.Sources
             double heightZ,
             Random rng)
         {
-            double hw = widthY * heightZ;
-            double lh = lengthX * heightZ;
-            double lw = lengthX * widthY;
-            double temp1 = 2 * (hw + lh + lw) * rng.NextDouble();
+            var hw = widthY * heightZ;
+            var lh = lengthX * heightZ;
+            var lw = lengthX * widthY;
+            var temp1 = 2 * (hw + lh + lw) * rng.NextDouble();
 
             if (temp1 < hw) {return "xpos"; }
-            else if (temp1 < (2 * hw)) { return "xneg"; }
-            else if (temp1 < (2 * hw + lh)) { return "ypos"; }
-            else if (temp1 < (2 * (hw + lh))) { return "yneg"; }
-            else if (temp1 < (2 * (hw + lh) + lw)) { return "zpos"; }
+            else if (temp1 < 2 * hw) { return "xneg"; }
+            else if (temp1 < 2 * hw + lh) { return "ypos"; }
+            else if (temp1 < 2 * (hw + lh)) { return "yneg"; }
+            else if (temp1 < 2 * (hw + lh) + lw) { return "zpos"; }
             else { return "zneg"; }
         }
 

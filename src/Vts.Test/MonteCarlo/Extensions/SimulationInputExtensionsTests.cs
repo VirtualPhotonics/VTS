@@ -14,7 +14,7 @@ namespace Vts.Test.MonteCarlo
     {
         private SimulationInput _input;
         [OneTimeSetUp]
-        public void initialize_simulation_input()
+        public void Initialize_simulation_input()
         {
             var ti = new SingleEllipsoidTissueInput(
                 new EllipsoidTissueRegion(

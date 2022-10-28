@@ -66,13 +66,11 @@ namespace Vts.MonteCarlo.Tissues
         [IgnoreDataMember]
         public Position Center
         {
-            get
-            {
-                return new Position(
+            get =>
+                new Position(
                     0D,
                     0D,
                     (ZRange.Start + ZRange.Stop) / 2);
-            }
             set
             {
                 var oldCenter = Center;
@@ -103,11 +101,8 @@ namespace Vts.MonteCarlo.Tissues
         /// <returns>True if photon on boundary, false if not</returns>
         public bool OnBoundary(Position position)
         {
-            var onBoundary = false;
-            if (Math.Abs(position.Z - ZRange.Start) < 1e-10 || Math.Abs(position.Z - ZRange.Stop) < 1e-10)
-            {
-                onBoundary = true;
-            }
+            var onBoundary = Math.Abs(position.Z - ZRange.Start) < 1e-10 || 
+                             Math.Abs(position.Z - ZRange.Stop) < 1e-10;
             return onBoundary;
         }
         /// <summary>
@@ -138,7 +133,7 @@ namespace Vts.MonteCarlo.Tissues
                 return false;
             }
             // going "up" in negative z-direction
-            bool goingUp = photon.DP.Direction.Uz < 0.0;
+            var goingUp = photon.DP.Direction.Uz < 0.0;
             distanceToBoundary =
                 goingUp
                     ? (ZRange.Start - photon.DP.Position.Z) / photon.DP.Direction.Uz

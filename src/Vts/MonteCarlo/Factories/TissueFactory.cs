@@ -18,7 +18,7 @@ namespace Vts.MonteCarlo.Factories
         /// <returns>ITissue</returns>
         public static ITissue GetTissue(ITissueInput ti, AbsorptionWeightingType awt, IDictionary<string, IPhaseFunction> regionPhaseFunctions, double russianRouletteWeightThreshold)
         {
-            ITissue t = ti.CreateTissue(awt, regionPhaseFunctions, russianRouletteWeightThreshold);
+            var t = ti.CreateTissue(awt, regionPhaseFunctions, russianRouletteWeightThreshold);
 
             if (t == null)
                 throw new ArgumentException(

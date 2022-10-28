@@ -48,10 +48,10 @@ namespace Vts.MonteCarlo.Sources
         public Photon GetNextPhoton(ITissue tissue)
         {
             //Source starts from anywhere in the tissue region of fluorescence
-            Position finalPosition = GetFinalPositionAndWeight(Rng, out _weight);
+            var finalPosition = GetFinalPositionAndWeight(Rng, out _weight);
             //Starting weight based on sampling method
             //Lambertian direction
-            Direction finalDirection = GetFinalDirection(Rng);
+            var finalDirection = GetFinalDirection(Rng);
             
             var photon = new Photon(finalPosition, finalDirection, _weight, tissue, _initialTissueRegionIndex, Rng);
             return photon;

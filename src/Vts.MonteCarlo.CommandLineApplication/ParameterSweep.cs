@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Vts.Common;
+﻿using Vts.Common;
 
 namespace Vts.MonteCarlo.CommandLineApplication
 {
@@ -15,7 +14,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
             Name = name;
             Range = range;
             Values = new double[range.Count];
-            for (int i = 0; i < range.Count; i++)
+            for (var i = 0; i < range.Count; i++)
             {
                 Values[i] = range.Start + i * range.Delta;
             }

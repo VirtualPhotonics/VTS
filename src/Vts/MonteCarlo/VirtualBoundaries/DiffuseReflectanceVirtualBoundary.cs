@@ -9,8 +9,7 @@ namespace Vts.MonteCarlo.VirtualBoundaries
     /// </summary>
     public class DiffuseReflectanceVirtualBoundary : IVirtualBoundary
     {
-        private IDetectorController _detectorController;
-        private double _zPlanePosition;
+        private readonly double _zPlanePosition;
 
         /// <summary>
         /// diffuse reflectance VB
@@ -30,7 +29,7 @@ namespace Vts.MonteCarlo.VirtualBoundaries
             VirtualBoundaryType = VirtualBoundaryType.DiffuseReflectance;
             PhotonStateType = PhotonStateType.PseudoDiffuseReflectanceVirtualBoundary;
 
-            _detectorController = detectorController;
+            DetectorController = detectorController;
 
             Name = name;
         }
@@ -38,23 +37,23 @@ namespace Vts.MonteCarlo.VirtualBoundaries
         /// <summary>
         /// VirtualBoundaryType enum indicating type of VB
         /// </summary>
-        public VirtualBoundaryType VirtualBoundaryType { get; private set; }
+        public VirtualBoundaryType VirtualBoundaryType { get; }
         /// <summary>
         /// PhotonStateType enum indicating state of photon at this VB
         /// </summary>
-        public PhotonStateType PhotonStateType { get; private set; }
+        public PhotonStateType PhotonStateType { get; }
         /// <summary>
         /// Name string of VB
         /// </summary>
-        public string Name { get; private set; }
+        public string Name { get; }
         /// <summary>
         /// Predicate method to indicate if photon will hit VB boundary
         /// </summary>
-        public Predicate<PhotonDataPoint> WillHitBoundary { get; private set; }
+        public Predicate<PhotonDataPoint> WillHitBoundary { get; }
         /// <summary>
         /// IDetectorController specifying type of detector controller.
         /// </summary>
-        public IDetectorController DetectorController { get { return _detectorController; } }
+        public IDetectorController DetectorController { get; }
 
         /// <summary>
         /// finds distance to VB
@@ -63,7 +62,7 @@ namespace Vts.MonteCarlo.VirtualBoundaries
         /// <returns>distance to VB</returns>
         public double GetDistanceToVirtualBoundary(PhotonDataPoint dp)
         {
-            double distanceToBoundary = double.PositiveInfinity;
+            var distanceToBoundary = double.PositiveInfinity;
             // check if VB not applied
             if (!dp.StateFlag.HasFlag(PhotonStateType.PseudoReflectedTissueBoundary) ||
                 dp.Direction.Uz >= 0.0)

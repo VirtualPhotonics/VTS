@@ -107,5 +107,12 @@ namespace Vts.Test.Common
             var floatRange = new FloatRange(0f, 10f);
             Assert.IsInstanceOf<FloatRange>(floatRange.Clone());
         }
+
+        [Test]
+        public void Test_ToString()
+        {
+            var floatRange = new FloatRange(0f, 9f, 10);
+            Assert.AreEqual("Start: 0, Stop: 9, Count: 10, Delta: 1", floatRange.ToString());
+        }
     }
 }

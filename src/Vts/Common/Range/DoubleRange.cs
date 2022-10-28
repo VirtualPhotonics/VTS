@@ -42,17 +42,11 @@ namespace Vts.Common
         /// <returns>A double representing delta</returns>
         protected override double GetDelta()
         {
-            if (Count == 1)
-            {
-                if (Start != Stop)
-                {
-                    return Stop - Start;
-                }
+            if (Count != 1) return (Stop - Start) / (Count - 1);
+            if (Start != Stop) return Stop - Start;
 
-                return 0D;
-            }
+            return 0D;
 
-            return (Stop - Start) / (Count - 1);
         }
 
         /// <summary>

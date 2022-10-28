@@ -105,8 +105,8 @@ namespace Vts.MonteCarlo.Sources
     public class LineAngledFromLineSource : LineSourceBase
     {
         private double _tissueLineLength;
-        private double _lineInAirLength;
-        private Position _lineInAirCenterPosition;
+        private readonly double _lineInAirLength;
+        private readonly Position _lineInAirCenterPosition;
 
         /// <summary>
         /// Initializes a new instance of the LineAngledFromLineSource class

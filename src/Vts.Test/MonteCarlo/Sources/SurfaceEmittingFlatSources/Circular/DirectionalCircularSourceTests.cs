@@ -19,19 +19,17 @@ namespace Vts.Test.MonteCarlo.Sources
         private static SurfaceEmitting2DSourcesValidationData _validationData;
 
         [OneTimeSetUp]
-        public void setup_validation_data()
+        public void Setup_validation_data()
         {
-            if (_validationData == null)
-            {
-                _validationData = new SurfaceEmitting2DSourcesValidationData();
-                _validationData.ReadData();
-            }
+            if (_validationData != null) return;
+            _validationData = new SurfaceEmitting2DSourcesValidationData();
+            _validationData.ReadData();
         }
         /// <summary>
         /// test source input
         /// </summary>
         [Test]
-        public void validate_source_input_with_flat_profile_type()
+        public void Validate_source_input_with_flat_profile_type()
         {
             // check default constructor
             var si = new DirectionalCircularSourceInput();
@@ -56,7 +54,7 @@ namespace Vts.Test.MonteCarlo.Sources
         /// Validate General Constructor of Directional Flat Circular Source
         /// </summary>
         [Test]
-        public void validate_general_constructor_with_flat_profiletype_for_directional_circular_source_test()
+        public void Validate_general_constructor_with_flat_profiletype_for_directional_circular_source_test()
         {
             Random rng = new MathNet.Numerics.Random.MersenneTwister(0); // not really necessary here, as this is now the default
             ITissue tissue = new MultiLayerTissue();
@@ -90,7 +88,7 @@ namespace Vts.Test.MonteCarlo.Sources
         /// Validate General Constructor of directional Gaussian Circular Source
         /// </summary>
         [Test]
-        public void validate_general_constructor_with_gaussian_profiletype_for_directional_circular_source_test()
+        public void Validate_general_constructor_with_gaussian_profiletype_for_directional_circular_source_test()
         {
             Random rng = new MathNet.Numerics.Random.MersenneTwister(0); // not really necessary here, as this is now the default
             ITissue tissue = new MultiLayerTissue();
@@ -123,7 +121,7 @@ namespace Vts.Test.MonteCarlo.Sources
         /// test to verify code produces collimated beam when thetaConvOrDiv=0
         /// </summary>
         [Test]
-        public void validate_setting_thetaConvOrDiv_to_0_produces_collimated_beam()
+        public void Validate_setting_thetaConvOrDiv_to_0_produces_collimated_beam()
         {
             Random rng = new MathNet.Numerics.Random.MersenneTwister(0); // not really necessary here, as this is now the default
             ITissue tissue = new MultiLayerTissue();
