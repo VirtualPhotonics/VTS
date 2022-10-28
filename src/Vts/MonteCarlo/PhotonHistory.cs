@@ -12,7 +12,7 @@ namespace Vts.MonteCarlo
         /// <summary>
         /// constructor for photon history class
         /// </summary>
-        /// <param name="numSubRegions">number of subregions in tissue</param>
+        /// <param name="numSubRegions">number of sub-regions in tissue</param>
         public PhotonHistory(int numSubRegions)
         {
             HistoryData = new List<PhotonDataPoint>();
@@ -20,7 +20,7 @@ namespace Vts.MonteCarlo
             SubRegionInfoList = new CollisionInfo(numSubRegions);
 
             // dc: why doesn't CollisionInfo do following in its constructor?
-            for (int i = 0; i < numSubRegions; i++)
+            for (var i = 0; i < numSubRegions; i++)
             {
                 SubRegionInfoList.Add(new SubRegionCollisionInfo(0.0, 0)); 
             }
@@ -38,33 +38,18 @@ namespace Vts.MonteCarlo
         /// <summary>
         /// Identifies current PhotonDataPoint
         /// </summary>
-        public PhotonDataPoint CurrentDP
-        {
-            get
-            {
-                if (HistoryData.Count > 0)
-                {
-                    return HistoryData[HistoryData.Count - 1];
-                }
+        public PhotonDataPoint CurrentDP =>
+            HistoryData.Count > 0 
+                ? HistoryData[HistoryData.Count - 1] 
+                : null;
 
-                return null;
-            }
-        }
         /// <summary>
         /// Identifies previous PhotonDataPoint
         /// </summary>
-        public PhotonDataPoint PreviousDP
-        {
-            get
-            {
-                if (HistoryData.Count > 1)
-                {
-                    return HistoryData[HistoryData.Count - 2];
-                }
-
-                return null;
-            }
-        }
+        public PhotonDataPoint PreviousDP => 
+            HistoryData.Count > 1 
+                ? HistoryData[HistoryData.Count - 2] 
+                : null;
 
         /// <summary>
         /// Method to add PhotonDataPoint to History.  

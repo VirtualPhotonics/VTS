@@ -59,7 +59,7 @@ namespace Vts.MonteCarlo
         /// <returns>An instance of the ValidationResult class</returns>
         public static ValidationResult ValidateLayers(IList<LayerTissueRegion> layers )
         {
-            for (int i = 0; i < layers.Count - 1; i++)
+            for (var i = 0; i < layers.Count - 1; i++)
             {
                 var thisLayer = layers[i];
                 var nextLayer = layers[i + 1];
