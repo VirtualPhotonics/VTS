@@ -36,12 +36,12 @@ namespace Vts.MonteCarlo.Controllers
         /// <summary>
         /// method that normalizes the detector tallies
         /// </summary>
-        /// <param name="N">number of photons launched from source</param>
-        public virtual void NormalizeDetectors(long N)
+        /// <param name="n">number of photons launched from source</param>
+        public virtual void NormalizeDetectors(long n)
         {
             foreach (var detector in Detectors)
             {
-                detector.Normalize(N);
+                detector.Normalize(n);
             }
         }
     }

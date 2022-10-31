@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using Vts.MonteCarlo.PhotonData;
 
 namespace Vts.MonteCarlo.Controllers
 {
@@ -10,7 +9,7 @@ namespace Vts.MonteCarlo.Controllers
     public class HistoryDetectorController : IDetectorController
     {
         private readonly IList<IHistoryDetector> _detectors;
-        private readonly ITissue _tissue;
+
         /// <summary>
         /// controller for history type detectors
         /// </summary>
@@ -19,7 +18,6 @@ namespace Vts.MonteCarlo.Controllers
         public HistoryDetectorController(IEnumerable<IHistoryDetector> detectors, ITissue tissue)
         {
             _detectors = detectors.ToList();
-            _tissue = tissue;
         }
         /// <summary>
         /// IList of IDetector
@@ -41,12 +39,12 @@ namespace Vts.MonteCarlo.Controllers
         /// <summary>
         /// method to normalize detector tallies
         /// </summary>
-        /// <param name="N">number of photons launched from source</param>
-        public virtual void NormalizeDetectors(long N)
+        /// <param name="n">number of photons launched from source</param>
+        public virtual void NormalizeDetectors(long n)
         {
             foreach (var detector in _detectors)
             {
-                detector.Normalize(N);
+                detector.Normalize(n);
             }
         }
     }
