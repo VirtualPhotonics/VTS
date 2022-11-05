@@ -1,8 +1,9 @@
+using Moq;
+using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
-using NUnit.Framework;
 using Vts.Common;
 using Vts.Factories;
 using Vts.Modeling.ForwardSolvers;
@@ -18,6 +19,105 @@ namespace Vts.Test.Factories
         private double[] _realFluence;
         private double[] _xAxis, _zAxis;
         private Complex[] _complexFluence;
+        private Mock<TwoLayerSDAForwardSolver> _twoLayerSdaForwardSolverMock;
+        private Mock<MonteCarloForwardSolver> _monteCarloForwardSolverMock;
+
+        [OneTimeSetUp]
+        public void One_time_setup()
+        {
+            _twoLayerSdaForwardSolverMock = new Mock<TwoLayerSDAForwardSolver>()
+            {
+                CallBase = true
+            };
+            _monteCarloForwardSolverMock = new Mock<MonteCarloForwardSolver>()
+            {
+                CallBase = true
+            };
+            // Setup the mocks for forward solver methods
+            // ROfRho
+            _monteCarloForwardSolverMock.Setup(x => x.ROfRho(It.IsAny<OpticalProperties>(), It.IsAny<double>()))
+                .Returns(0.1);
+            _twoLayerSdaForwardSolverMock
+                .Setup(x => x.ROfRho(It.IsAny<IOpticalPropertyRegion[]>(), It.IsAny<double>())).Returns(0.2);
+            // ROFTheta
+            _monteCarloForwardSolverMock.Setup(x => x.ROfTheta(It.IsAny<OpticalProperties>(), It.IsAny<double>()))
+                .Returns(0.3);
+            // ROfFx
+            _monteCarloForwardSolverMock.Setup(x => x.ROfFx(It.IsAny<OpticalProperties>(), It.IsAny<double>()))
+                .Returns(0.4);
+            _twoLayerSdaForwardSolverMock
+                .Setup(x => x.ROfFx(It.IsAny<IOpticalPropertyRegion[]>(), It.IsAny<double>())).Returns(0.5);
+            // ROfRhoAndTime
+            _monteCarloForwardSolverMock.Setup(x =>
+                x.ROfRhoAndTime(It.IsAny<OpticalProperties>(), It.IsAny<double>(), It.IsAny<double>())).Returns(0.6);
+            _twoLayerSdaForwardSolverMock.Setup(x =>
+                    x.ROfRhoAndTime(It.IsAny<IOpticalPropertyRegion[]>(), It.IsAny<double>(), It.IsAny<double>()))
+                .Returns(0.7);
+            // ROfRhoAndFt
+            _monteCarloForwardSolverMock
+                .Setup(x => x.ROfRhoAndFt(It.IsAny<OpticalProperties>(), It.IsAny<double>(), It.IsAny<double>()))
+                .Returns(new Complex(0.8, 0));
+            _twoLayerSdaForwardSolverMock
+                .Setup(x => x.ROfRhoAndFt(It.IsAny<IOpticalPropertyRegion[]>(), It.IsAny<double>(), It.IsAny<double>()))
+                .Returns(new Complex(0.9, 0));
+            // ROfFxAndTime
+            _monteCarloForwardSolverMock.Setup(x =>
+                x.ROfFxAndTime(It.IsAny<OpticalProperties>(), It.IsAny<double>(), It.IsAny<double>())).Returns(1.0);
+            _twoLayerSdaForwardSolverMock.Setup(x =>
+                    x.ROfFxAndTime(It.IsAny<IOpticalPropertyRegion[]>(), It.IsAny<double>(), It.IsAny<double>()))
+                .Returns(1.1);
+            // ROfFxAndFt
+            _monteCarloForwardSolverMock
+                .Setup(x => x.ROfFxAndFt(It.IsAny<OpticalProperties>(), It.IsAny<double>(), It.IsAny<double>()))
+                .Returns(new Complex(1.2, 0));
+            _twoLayerSdaForwardSolverMock
+                .Setup(x => x.ROfFxAndFt(It.IsAny<IOpticalPropertyRegion[]>(), It.IsAny<double>(), It.IsAny<double>()))
+                .Returns(new Complex(1.3, 0));
+
+            // FluenceOfRhoAndZ
+            _monteCarloForwardSolverMock
+                .Setup(x => x.FluenceOfRhoAndZ(It.IsAny<IEnumerable<OpticalProperties>>(),
+                    It.IsAny<IEnumerable<double>>(), It.IsAny<IEnumerable<double>>()))
+                .Returns(new List<double> { 0.1, 0.2 });
+            _twoLayerSdaForwardSolverMock
+                .Setup(x => x.FluenceOfRhoAndZ(It.IsAny<IEnumerable<IOpticalPropertyRegion[]>>(),
+                    It.IsAny<IEnumerable<double>>(), It.IsAny<IEnumerable<double>>()))
+                .Returns(new List<double> { 0.3, 0.4 });
+            // FluenceOfRhoAndZAndTime
+            _monteCarloForwardSolverMock
+                .Setup(x => x.FluenceOfRhoAndZAndTime(It.IsAny<IEnumerable<OpticalProperties>>(),
+                    It.IsAny<IEnumerable<double>>(), It.IsAny<IEnumerable<double>>(), It.IsAny<IEnumerable<double>>()))
+                .Returns(new List<double> { 0.5, 0.6 });
+            _twoLayerSdaForwardSolverMock.Setup(x =>
+                    x.FluenceOfRhoAndZAndTime(It.IsAny<IEnumerable<IOpticalPropertyRegion[]>>(),
+                        It.IsAny<IEnumerable<double>>(), It.IsAny<IEnumerable<double>>(),
+                        It.IsAny<IEnumerable<double>>()))
+                .Returns(new List<double> { 0.7, 0.8 });
+            // FluenceOfRhoAndZAndFt
+            _monteCarloForwardSolverMock
+                .Setup(x => x.FluenceOfRhoAndZAndFt(It.IsAny<IEnumerable<OpticalProperties>>(),
+                    It.IsAny<IEnumerable<double>>(), It.IsAny<IEnumerable<double>>(), It.IsAny<IEnumerable<double>>()))
+                .Returns(new List<Complex> { new Complex(0.9, 0), new Complex(1.0, 0) });
+            _twoLayerSdaForwardSolverMock
+                .Setup(x => x.FluenceOfRhoAndZAndFt(It.IsAny<IEnumerable<IOpticalPropertyRegion[]>>(),
+                    It.IsAny<IEnumerable<double>>(), It.IsAny<IEnumerable<double>>(), It.IsAny<IEnumerable<double>>()))
+                .Returns(new List<Complex> { new Complex(1.1, 0), new Complex(1.2, 0) });
+            // FluenceOfFxAndZ
+            _monteCarloForwardSolverMock
+                .Setup(x => x.FluenceOfFxAndZ(It.IsAny<IEnumerable<OpticalProperties>>(),
+                    It.IsAny<IEnumerable<double>>(), It.IsAny<IEnumerable<double>>()))
+                .Returns(new List<double> { 1.3, 1.4 });
+            // FluenceOfFxAndZAndTime
+            _monteCarloForwardSolverMock
+                .Setup(x => x.FluenceOfFxAndZAndTime(It.IsAny<IEnumerable<OpticalProperties>>(),
+                    It.IsAny<IEnumerable<double>>(), It.IsAny<IEnumerable<double>>(), It.IsAny<IEnumerable<double>>()))
+                .Returns(new List<double> { 1.5, 1.6 });
+            // FluenceOfFxAndZAndFt
+            _monteCarloForwardSolverMock
+                .Setup(x => x.FluenceOfFxAndZAndFt(It.IsAny<IEnumerable<OpticalProperties>>(),
+                    It.IsAny<IEnumerable<double>>(), It.IsAny<IEnumerable<double>>(), It.IsAny<IEnumerable<double>>()))
+                .Returns(new List<Complex> { new Complex(1.7, 0), new Complex(1.8, 0) });
+        }
 
         [SetUp]
         public void Setup()
@@ -147,7 +247,7 @@ namespace Vts.Test.Factories
                 {
                     ops,
                     rhos,
-                    times 
+                    times
                 });
             // return from ROfRhoAndTime is new double[ops.Length * rhos.Length * ts.Length]
             // order is: (ops0,rhos0,ts0), (ops0,rhos0,ts1)...(ops0,rhos0,tsnt-1)
@@ -213,7 +313,7 @@ namespace Vts.Test.Factories
             //           ... repeat above with imag, then next ops1...
 
             // [0] -> ops0=650, rho0=0.5, fts0=0.0 real
-            Assert.IsTrue(Math.Abs(rVsWavelength[0] - 0.037575) < 0.000001);            
+            Assert.IsTrue(Math.Abs(rVsWavelength[0] - 0.037575) < 0.000001);
             // [1] -> ops0=650, rho0=0.5, fts1=0.5 real
             Assert.IsTrue(Math.Abs(rVsWavelength[1] - 0.037511) < 0.000001);
             // [2] -> ops0=650, rho1=1.635, fts0=0.0 real
@@ -384,14 +484,14 @@ namespace Vts.Test.Factories
         [Test]
         public void Validate_ComputeFluence_can_be_called_using_enum_forward_solver_and_optical_property_array()
         {
-            _xAxis = new double[] {1, 2, 3};
-            _zAxis = new double[] {1, 2, 3, 4};
-            var independentValues = new[] {_xAxis, _zAxis};
+            _xAxis = new double[] { 1, 2, 3 };
+            _zAxis = new double[] { 1, 2, 3, 4 };
+            var independentValues = new[] { _xAxis, _zAxis };
             var fluence = ComputationFactory.ComputeFluence(
                 ForwardSolverType.PointSourceSDA,
                 FluenceSolutionDomainType.FluenceOfRhoAndZ,
                 new[] { IndependentVariableAxis.Rho, IndependentVariableAxis.Z },
-                independentValues, 
+                independentValues,
                 // could have array of OPs, one set for each tissue region
                 new[] { new OpticalProperties(0.01, 1, 0.8, 1.4) }, 0);
             // fluence is linearized to be [0-3]=>(x=1,z=1,2,3,4), [4-7]=>(x=2,z=1,2,3,4), [8-11]=>(x=3,z=1,2,3,4)
@@ -430,7 +530,7 @@ namespace Vts.Test.Factories
             var fluence = ComputationFactory.ComputeFluence(
                 ForwardSolverType.PointSourceSDA,
                 FluenceSolutionDomainType.FluenceOfRhoAndZ,
-                new IndependentVariableAxis[] { IndependentVariableAxis.Rho, IndependentVariableAxis.Z },
+                new[] { IndependentVariableAxis.Rho, IndependentVariableAxis.Z },
                 independentValues,
                 // Optical property region
                 new IOpticalPropertyRegion[] {
@@ -455,7 +555,7 @@ namespace Vts.Test.Factories
                     ComputationFactory.ComputeFluence(
                         ForwardSolverType.PointSourceSDA,
                         FluenceSolutionDomainType.FluenceOfRhoAndZ,
-                        new IndependentVariableAxis[] { IndependentVariableAxis.Rho, IndependentVariableAxis.Z },
+                        new[] { IndependentVariableAxis.Rho, IndependentVariableAxis.Z },
                         independentValues,
                         // Optical property region
                         new IOpticalPropertyRegion[] { null },
@@ -463,12 +563,12 @@ namespace Vts.Test.Factories
                 }
                 catch (Exception e)
                 {
-                    Assert.AreEqual("The tissue region did not contain a valid layer region (Parameter 'tissueRegions')", e.Message);
+                    Assert.IsTrue(e.Message.StartsWith("The tissue region did not contain a valid layer region"));
+                    Assert.IsTrue(e.Message.Contains("tissueRegions"));
                     throw;
-                } 
+                }
             });
         }
-
 
         /// <summary>
         /// Test against the ComputationFactory class ComputeFluence routine using IForwardSolver and
@@ -487,6 +587,31 @@ namespace Vts.Test.Factories
                 independentValues,
                 // could have array of OPs, one set for each tissue region
                 new[] { new OpticalProperties(0.01, 1, 0.8, 1.4) }, 0);
+            // fluence is linearized to be [0-3]=>(x=1,z=1,2,3,4), [4-7]=>(x=2,z=1,2,3,4), [8-11]=>(x=3,z=1,2,3,4)
+            Assert.IsTrue(Math.Abs(fluence[0] - 0.188294) < 0.000001);
+        }
+
+        /// <summary>
+        /// Test against the ComputationFactory class ComputeFluence routine using IForwardSolver and
+        /// array of OPs
+        /// </summary>
+        [Test]
+        public void Validate_ComputeFluence_can_be_called_using_IForwardSolver_and_optical_property_array_with_multiple_values()
+        {
+            _xAxis = new double[] { 1, 2, 3 };
+            _zAxis = new double[] { 1, 2, 3, 4 };
+            var independentValues = new[] { _xAxis, _zAxis };
+            var fluence = ComputationFactory.ComputeFluence(
+                new PointSourceSDAForwardSolver(),
+                FluenceSolutionDomainType.FluenceOfRhoAndZ,
+                new[] { IndependentVariableAxis.Rho, IndependentVariableAxis.Z },
+                independentValues,
+                // could have array of OPs, one set for each tissue region
+                new[]
+                {
+                    new OpticalProperties(0.01, 1, 0.8, 1.4),
+                    new OpticalProperties(0.01, 1, 0.8, 1.4),
+                }, 0);
             // fluence is linearized to be [0-3]=>(x=1,z=1,2,3,4), [4-7]=>(x=2,z=1,2,3,4), [8-11]=>(x=3,z=1,2,3,4)
             Assert.IsTrue(Math.Abs(fluence[0] - 0.188294) < 0.000001);
         }
@@ -621,7 +746,8 @@ namespace Vts.Test.Factories
                 }
                 catch (Exception e)
                 {
-                    Assert.AreEqual("The tissue region did not contain a valid layer region (Parameter 'tissueRegions')", e.Message);
+                    Assert.IsTrue(e.Message.StartsWith("The tissue region did not contain a valid layer region"));
+                    Assert.IsTrue(e.Message.Contains("tissueRegions"));
                     throw;
                 }
             });
@@ -651,7 +777,7 @@ namespace Vts.Test.Factories
                 initialGuessOPsAndXAxis
                 );
             // solution is a double array with converged solution OPs
-             Assert.IsTrue(Math.Abs(solution[1] - 3.75515) < 0.00001);
+            Assert.IsTrue(Math.Abs(solution[1] - 3.75515) < 0.00001);
         }
 
         /// <summary>
@@ -702,7 +828,7 @@ namespace Vts.Test.Factories
                 measuredData,
                 measuredData,
                 InverseFitType.MuaMusp,
-                initialGuessOPsAndXAxis, 
+                initialGuessOPsAndXAxis,
                 lowerBounds,
                 upperBounds);
             // solution is a double array with converged solution OPs
@@ -754,7 +880,7 @@ namespace Vts.Test.Factories
                 ForwardSolverType.PointSourceSDA,
                 _realFluence,
                 sourceDetectorSeparation,
-                new[] {new OpticalProperties(0.01, 1.0, 0.8, 1.4)},
+                new[] { new OpticalProperties(0.01, 1.0, 0.8, 1.4) },
                 _xAxis,
                 _zAxis);
             // solution is linearized PHD, column major
@@ -793,7 +919,7 @@ namespace Vts.Test.Factories
                 _complexFluence,
                 sourceDetectorSeparation,
                 modulationFrequency,
-                new [] { new OpticalProperties(0.01, 1.0, 0.8, 1.4) },
+                new[] { new OpticalProperties(0.01, 1.0, 0.8, 1.4) },
                 _xAxis,
                 _zAxis
             );
@@ -835,6 +961,7 @@ namespace Vts.Test.Factories
             var absorbedEnergy = ComputationFactory.GetAbsorbedEnergy(_realFluence, mua);
             Assert.IsTrue(Math.Abs(absorbedEnergy.First() - 0.018829) < 0.000001);
         }
+
         /// <summary>
         /// Test GetAbsorbedEnergy for Complex fluence solutions and homogeneous tissue (single mua value)
         /// </summary>
@@ -845,6 +972,7 @@ namespace Vts.Test.Factories
             var absorbedEnergy = ComputationFactory.GetAbsorbedEnergy(_complexFluence, mua);
             Assert.IsTrue(Math.Abs(absorbedEnergy.First().Real - 0.018829) < 0.000001);
         }
+
         /// <summary>
         /// Test GetAbsorbedEnergy for Complex fluence solutions and heterogeneous tissue (multiple mua values)
         /// </summary>
@@ -853,10 +981,265 @@ namespace Vts.Test.Factories
         {
             // use real Fluence as fluence for two layer tissue which is a 4x3 and 
             // define muas so that top 2 rows have one value, bottom have different value (matrix is column major)
-            var muas = new double[] {0.1, 0.1, 0.2, 0.2, 0.1, 0.1, 0.2, 0.2, 0.1, 0.1, 0.2, 0.2};
+            var muas = new[] { 0.1, 0.1, 0.2, 0.2, 0.1, 0.1, 0.2, 0.2, 0.1, 0.1, 0.2, 0.2 };
             var absorbedEnergy = ComputationFactory.GetAbsorbedEnergy(_realFluence.AsEnumerable(), muas.AsEnumerable());
             Assert.IsTrue(Math.Abs(absorbedEnergy.First() - 0.018829) < 0.000001);
         }
+
+        [Test]
+        public void Validate_GetAbsorbedEnergy_throws_argument_exception()
+        {
+            // use real Fluence as fluence for two layer tissue which is a 4x3 and 
+            // define muas so that top 2 rows have one value, bottom have different value (matrix is column major)
+            var muas = new[] { 0.1, 0.1, 0.2, 0.2, 0.1, 0.1, 0.2, 0.2, 0.1, 0.1, 0.2 };
+            Assert.Throws<ArgumentException>(() =>
+            {
+                try
+                {
+                    ComputationFactory.GetAbsorbedEnergy(_realFluence.AsEnumerable(), muas.AsEnumerable());
+                }
+                catch (Exception e)
+                {
+                    Assert.AreEqual("The arguments fluence and muas must be same length", e.Message);
+                    throw;
+                }
+            });
+        }
         #endregion
+
+        [Test]
+        public void Validate_GetForwardReflectanceFunc_returns_data_for_ROfFx()
+        {
+            var reflectance = ComputationFactory.ComputeReflectance(
+                _monteCarloForwardSolverMock.Object,
+                SolutionDomainType.ROfFx,
+                ForwardAnalysisType.R,
+                new object[]
+                {
+                    // could have array of OPs, one set for each tissue region
+                    new[] { new OpticalProperties(0.01, 1, 0.8, 1.4) },
+                    new double[] { 1, 2, 3 }
+                });
+            Assert.IsTrue(Math.Abs(reflectance[0] - 0.016882) < 0.000001);
+        }
+
+        [Test]
+        public void Validate_GetForwardReflectanceFunc_returns_data_for_ROfRhoAndTime()
+        {
+            var reflectance = ComputationFactory.ComputeReflectance(
+                _monteCarloForwardSolverMock.Object,
+                SolutionDomainType.ROfRhoAndTime,
+                ForwardAnalysisType.R,
+                new object[]
+                {
+                    // could have array of OPs, one set for each tissue region
+                    new[] { new OpticalProperties(0.01, 1, 0.8, 1.4) },
+                    new double[] { 1, 2, 3 },
+                    new double[] { 1, 2, 3 }
+                });
+            Assert.IsTrue(Math.Abs(reflectance[0] - 0.000012) < 0.000001);
+        }
+
+        [Test]
+        public void Validate_GetForwardReflectanceFunc_returns_data_for_ROfFxAndTime()
+        {
+            var reflectance = ComputationFactory.ComputeReflectance(
+                _monteCarloForwardSolverMock.Object,
+                SolutionDomainType.ROfFxAndTime,
+                ForwardAnalysisType.R,
+                new object[]
+                {
+                    // could have array of OPs, one set for each tissue region
+                    new[] { new OpticalProperties(0.01, 1, 0.8, 1.4) },
+                    new double[] { 1, 2, 3 },
+                    new double[] { 1, 2, 3 }
+                });
+            Assert.IsTrue(Math.Abs(reflectance[0] - 0.000022) < 0.000001);
+        }
+
+        [Test]
+        public void Validate_GetForwardReflectanceFunc_returns_data_for_ROfRhoAndFt()
+        {
+            var reflectance = ComputationFactory.ComputeReflectance(
+                _monteCarloForwardSolverMock.Object,
+                SolutionDomainType.ROfRhoAndFt,
+                ForwardAnalysisType.R,
+                new object[]
+                {
+                    // could have array of OPs, one set for each tissue region
+                    new[] { new OpticalProperties(0.01, 1, 0.8, 1.4) },
+                    new double[] { 1, 2, 3 },
+                    new double[] { 1, 2, 3 }
+                });
+            Assert.IsTrue(Math.Abs(reflectance[0] - 0.02018) < 0.00001);
+        }
+
+        [Test]
+        public void Validate_GetForwardReflectanceFunc_returns_data_for_ROfFxAndFt()
+        {
+            var reflectance = ComputationFactory.ComputeReflectance(
+                _monteCarloForwardSolverMock.Object,
+                SolutionDomainType.ROfFxAndFt,
+                ForwardAnalysisType.R,
+                new object[]
+                {
+                    // could have array of OPs, one set for each tissue region
+                    new[] { new OpticalProperties(0.01, 1, 0.8, 1.4) },
+                    new double[] { 1, 2, 3 },
+                    new double[] { 1, 2, 3 }
+                });
+            Assert.IsTrue(Math.Abs(reflectance[0] - 0.01688) < 0.00001);
+        }
+
+        [Test]
+        public void Validate_GetForwardReflectanceFunc_throws_exception()
+        {
+            Assert.Throws<ArgumentOutOfRangeException>(() => ComputationFactory.ComputeReflectance(
+                ForwardSolverType.MonteCarlo,
+                (SolutionDomainType)Enum.GetValues(typeof(SolutionDomainType)).Length + 1,
+                ForwardAnalysisType.R,
+                new object[]
+                {
+                    new[] { new OpticalProperties(0.01, 1, 0.8, 1.4) },
+                    new double[] { 1, 2, 3 }
+                }));
+        }
+
+        [Test]
+        public void Validate_GetForwardReflectanceFunc_2_layer_returns_data_for_ROfRho()
+        {
+            var reflectance = ComputationFactory.ComputeReflectance(
+                _twoLayerSdaForwardSolverMock.Object,
+                SolutionDomainType.ROfRho,
+                ForwardAnalysisType.R,
+                new object[]
+                {
+                    new[] {
+                        new IOpticalPropertyRegion[] {
+                            new LayerTissueRegion(
+                                new DoubleRange(0, 10, 10),
+                                new OpticalProperties(0.01, 1.0, 0.8, 1.4))
+                        }
+                    },
+                    new double[] { 1, 2, 3 }
+                });
+            Assert.AreEqual(0.2, reflectance[0]);
+        }
+
+        [Test]
+        public void Validate_GetForwardReflectanceFunc_2_layer_returns_data_for_ROfFx()
+        {
+            var reflectance = ComputationFactory.ComputeReflectance(
+                _twoLayerSdaForwardSolverMock.Object,
+                SolutionDomainType.ROfFx,
+                ForwardAnalysisType.R,
+                new object[]
+                {
+                    new[] {
+                        new IOpticalPropertyRegion[] {
+                            new LayerTissueRegion(
+                                new DoubleRange(0, 10, 10),
+                                new OpticalProperties(0.01, 1.0, 0.8, 1.4))
+                            }
+                    },
+                    new double[] { 1, 2, 3 }
+                });
+            Assert.AreEqual(0.5, reflectance[0]);
+        }
+
+        [Test]
+        public void Validate_GetForwardReflectanceFunc_2_layer_returns_data_for_ROfRhoAndTime()
+        {
+            var reflectance = ComputationFactory.ComputeReflectance(
+                _twoLayerSdaForwardSolverMock.Object,
+                SolutionDomainType.ROfRhoAndTime,
+                ForwardAnalysisType.R,
+                new object[]
+                {
+                    new[] {
+                        new IOpticalPropertyRegion[] {
+                            new LayerTissueRegion(
+                                new DoubleRange(0, 10, 10),
+                                new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
+                            new LayerTissueRegion(
+                                new DoubleRange(0, 10, 10),
+                                new OpticalProperties(0.01, 1.0, 0.8, 1.4))
+                        }
+                    },
+                    new double[] { 1, 2, 3 },
+                    new double[] { 1, 2, 3 }
+                });
+            Assert.AreEqual(0.011430, reflectance[0], 0.000001);
+        }
+
+        [Test]
+        public void Validate_GetForwardReflectanceFunc_2_layer_returns_data_for_ROfFxAndTime()
+        {
+            var reflectance = ComputationFactory.ComputeReflectance(
+                _twoLayerSdaForwardSolverMock.Object,
+                SolutionDomainType.ROfFxAndTime,
+                ForwardAnalysisType.R,
+                new object[]
+                {
+                    new[] {
+                        new IOpticalPropertyRegion[] {
+                            new LayerTissueRegion(
+                                new DoubleRange(0, 10, 10),
+                                new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
+                            new LayerTissueRegion(
+                                new DoubleRange(0, 10, 10),
+                                new OpticalProperties(0.01, 1.0, 0.8, 1.4))
+                        }
+                    },
+                    new double[] { 1, 2, 3 },
+                    new double[] { 1, 2, 3 }
+                });
+            Assert.AreEqual(0.000207, reflectance[0], 0.000001);
+        }
+
+        [Test]
+        public void Validate_GetForwardReflectanceFunc_2_layer_returns_data_for_ROfRhoAndFt()
+        {
+            var reflectance = ComputationFactory.ComputeReflectance(
+                _twoLayerSdaForwardSolverMock.Object,
+                SolutionDomainType.ROfRhoAndFt,
+                ForwardAnalysisType.R,
+                new object[]
+                {
+                    new[] {
+                        new IOpticalPropertyRegion[] {
+                            new LayerTissueRegion(
+                                new DoubleRange(0, 10, 10),
+                                new OpticalProperties(0.01, 1.0, 0.8, 1.4))
+                        }
+                    },
+                    new double[] { 1, 2, 3 },
+                    new double[] { 1, 2, 3 }
+                });
+            Assert.AreEqual(0.9, reflectance[0], 0.001);
+        }
+
+        [Test]
+        public void Validate_GetForwardReflectanceFunc_2_layer_returns_data_for_ROfFxAndFt()
+        {
+            var reflectance = ComputationFactory.ComputeReflectance(
+                _twoLayerSdaForwardSolverMock.Object,
+                SolutionDomainType.ROfFxAndFt,
+                ForwardAnalysisType.R,
+                new object[]
+                {
+                    new[] {
+                        new IOpticalPropertyRegion[] {
+                            new LayerTissueRegion(
+                                new DoubleRange(0, 10, 10),
+                                new OpticalProperties(0.01, 1.0, 0.8, 1.4))
+                        }
+                    },
+                    new double[] { 1, 2, 3 },
+                    new double[] { 1, 2, 3 }
+                });
+            Assert.AreEqual(1.3, reflectance[0]);
+        }
+
     }
 }
