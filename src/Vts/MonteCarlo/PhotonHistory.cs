@@ -17,9 +17,11 @@ namespace Vts.MonteCarlo
         {
             HistoryData = new List<PhotonDataPoint>();
 
+            // this is performed here rather than in CollisionInfo constructor because
+            // PhotonHistory needs to know this information in order to perform CAW
+            // and other detector tallies that require path length and number of collisions
+            // in each tissue sub-region detectors.
             SubRegionInfoList = new CollisionInfo(numSubRegions);
-
-            // dc: why doesn't CollisionInfo do following in its constructor?
             for (var i = 0; i < numSubRegions; i++)
             {
                 SubRegionInfoList.Add(new SubRegionCollisionInfo(0.0, 0)); 

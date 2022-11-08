@@ -49,7 +49,7 @@ namespace Vts.MonteCarlo
                     PhotonStateType.Alive);
 
             History = new PhotonHistory(tissue.Regions.Count);
-            History.AddDPToHistory(DP);  // add initial datapoint
+            History.AddDPToHistory(DP);  // add initial data point
             S = 0.0;
             SLeft = 0.0;        
             CurrentRegionIndex = currentTissueRegionIndex;
@@ -213,14 +213,14 @@ namespace Vts.MonteCarlo
             var neighborIndex = _tissue.GetNeighborRegionIndex(this);
             var nNext = _tissue.Regions[neighborIndex].RegionOP.N;
 
-            var coscrit = nCurrent > nNext 
+            var cosCriticalAngle = nCurrent > nNext 
                 ? Math.Sqrt(1.0 - nNext / nCurrent * (nNext / nCurrent)) 
                 : 0.0;
 
             double cosThetaSnell;
             // call Fresnel be default to have uZSnell set, used to be within else
             var probOfReflecting = Optics.Fresnel(nCurrent, nNext, cosTheta, out cosThetaSnell);
-            if (cosTheta <= coscrit)
+            if (cosTheta <= cosCriticalAngle)
             {
                 probOfReflecting = 1.0;
             }
@@ -272,7 +272,6 @@ namespace Vts.MonteCarlo
             var g = _tissue.Regions[CurrentRegionIndex].RegionOP.G;
             double cost, sint;    // cosine and sine of theta 
             double cosp, sinp;    // cosine and sine of phi 
-            double psi;
 
             if (g == 0.0)
                 cost = 2 * _rng.NextDouble() - 1;
@@ -285,9 +284,9 @@ namespace Vts.MonteCarlo
             }
             sint = Math.Sqrt(1.0 - cost * cost);
 
-            psi = 2.0 * Math.PI * _rng.NextDouble();
-            cosp = Math.Cos(psi);
-            sinp = Math.Sin(psi);
+            var phi = 2.0 * Math.PI * _rng.NextDouble();
+            cosp = Math.Cos(phi);
+            sinp = Math.Sin(phi);
 
             if (Math.Abs(DP.Direction.Uz) > 1 - 1e-10)
             {   /* normal incident. */

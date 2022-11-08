@@ -304,13 +304,11 @@ namespace Vts.MonteCarlo
             }
 
             // normalize all detectors by the total number of photons (each tally records it's own "local" count as well)
-            if (_virtualBoundaryController != null && _virtualBoundaryController != null)
+            if (_virtualBoundaryController != null)
                 foreach (var vb in _virtualBoundaryController.VirtualBoundaries)
                 {
-                    if (vb.DetectorController != null) // check that VB has detectors
-                    {
-                        vb.DetectorController.NormalizeDetectors(_numberOfPhotons);
-                    }
+                    if (vb.DetectorController == null) continue; // check that VB has detectors
+                    vb.DetectorController.NormalizeDetectors(_numberOfPhotons);
                 }
 
             if (TrackStatistics)

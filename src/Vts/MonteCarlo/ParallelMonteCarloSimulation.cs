@@ -3,12 +3,10 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
-using System.Reflection;
 using System.Threading.Tasks;
 using Vts.Common.Logging;
 using Vts.IO;
 using Vts.MonteCarlo.Factories;
-using Vts.MonteCarlo.Rng;
 #if BENCHMARK
 using BenchmarkDotNet.Attributes;
 #endif
@@ -53,12 +51,12 @@ namespace Vts.MonteCarlo
         /// Class that defines methods to initialize and execute Monte Carlo simulation
         /// </summary>
         /// <param name="input">Simulation Input</param>
-        /// <param name="numberOfCPUs">number of parallel CPUs to be run</param>
-        public ParallelMonteCarloSimulation(SimulationInput input, int numberOfCPUs)
+        /// <param name="numberOfCpus">number of parallel CPUs to be run</param>
+        public ParallelMonteCarloSimulation(SimulationInput input, int numberOfCpus)
         {
 #if !BENCHMARK
             Input = input;
-            NumberOfCPUs = numberOfCPUs;
+            NumberOfCPUs = numberOfCpus;
 #endif
         }
 
