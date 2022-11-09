@@ -10,9 +10,9 @@ namespace Vts.MonteCarlo.Extensions
         /// <summary>
         /// Method to determine statistics about how the photon died.  These states
         /// are typically mutually exclusive, however there are occurrences of photons
-        /// that are killed by RR at start of track that crosses boundary
+        /// that are killed by Russian Roulette at start of track that crosses boundary
         /// and gets that state set as well but does not tally.
-        /// It is for this reason the check for RR is first.
+        /// It is for this reason the check for Russian Roulette is first.
         /// </summary>
         /// <param name="statistics">SimulationStatistics class where statistics are kept</param>
         /// <param name="dp">PhotonDataPoint</param>
