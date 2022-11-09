@@ -661,6 +661,90 @@ namespace Vts.Test.Factories
             Assert.IsTrue(Math.Abs(fluence[0].Real - 0.188294) < 0.000001);
         }
 
+        [Test]
+        public void Validate_ComputeFluenceComplex_can_be_called_using_enum_forward_solver_two_layer_independent_axis_rho()
+        {
+            _xAxis = new double[] { 1, 2, 3 };
+            _zAxis = new double[] { 1, 2, 3, 4 };
+            var independentValues = new[] { _xAxis, _zAxis };
+            var fluence = ComputationFactory.ComputeFluenceComplex(
+                _twoLayerSdaForwardSolverMock.Object,
+                FluenceSolutionDomainType.FluenceOfRhoAndZAndFt,
+                new[] { IndependentVariableAxis.Rho, IndependentVariableAxis.Z },
+                independentValues,
+                new IOpticalPropertyRegion[] {
+                    new LayerTissueRegion(
+                        new DoubleRange(0, 10, 10),
+                        new OpticalProperties(0.01, 1.0, 0.8, 1.4)
+                    )
+                }, 0);
+            // fluence is linearized to be [0-3]=>(x=1,z=1,2,3,4), [4-7]=>(x=2,z=1,2,3,4), [8-11]=>(x=3,z=1,2,3,4)
+            Assert.AreEqual(1.1, fluence[0].Real);
+        }
+
+        [Test]
+        public void Validate_ComputeFluenceComplex_can_be_called_using_enum_forward_point_source_sda_independent_axis_ft()
+        {
+            _xAxis = new double[] { 1, 2, 3 };
+            _zAxis = new double[] { 1, 2, 3, 4 };
+            var independentValues = new[] { _xAxis, _zAxis };
+            var fluence = ComputationFactory.ComputeFluenceComplex(
+                ForwardSolverType.PointSourceSDA,
+                FluenceSolutionDomainType.FluenceOfRhoAndZAndFt,
+                new[] { IndependentVariableAxis.Ft, IndependentVariableAxis.Z },
+                independentValues,
+                new IOpticalPropertyRegion[] {
+                    new LayerTissueRegion(
+                        new DoubleRange(0, 10, 10),
+                        new OpticalProperties(0.01, 1.0, 0.8, 1.4)
+                    )
+                }, 0);
+            // fluence is linearized to be [0-3]=>(x=1,z=1,2,3,4), [4-7]=>(x=2,z=1,2,3,4), [8-11]=>(x=3,z=1,2,3,4)
+            Assert.IsTrue(Math.Abs(fluence[0].Real - 24.288354) < 0.000001);
+        }
+
+        [Test]
+        public void Validate_ComputeFluenceComplex_can_be_called_using_enum_forward_solver_independent_axis_fx()
+        {
+            _xAxis = new double[] { 1, 2, 3 };
+            _zAxis = new double[] { 1, 2, 3, 4 };
+            var independentValues = new[] { _xAxis, _zAxis };
+            var fluence = ComputationFactory.ComputeFluenceComplex(
+                _monteCarloForwardSolverMock.Object,
+                FluenceSolutionDomainType.FluenceOfFxAndZAndFt,
+                new[] { IndependentVariableAxis.Fx, IndependentVariableAxis.Z },
+                independentValues,
+                new IOpticalPropertyRegion[] {
+                    new LayerTissueRegion(
+                        new DoubleRange(0, 10, 10),
+                        new OpticalProperties(0.01, 1.0, 0.8, 1.4)
+                    )
+                }, 0);
+            // fluence is linearized to be [0-3]=>(x=1,z=1,2,3,4), [4-7]=>(x=2,z=1,2,3,4), [8-11]=>(x=3,z=1,2,3,4)
+            Assert.AreEqual(1.7, fluence[0].Real);
+        }
+
+        [Test]
+        public void Validate_ComputeFluenceComplex_can_be_called_using_enum_forward_solver_independent_axis_ft()
+        {
+            _xAxis = new double[] { 1, 2, 3 };
+            _zAxis = new double[] { 1, 2, 3, 4 };
+            var independentValues = new[] { _xAxis, _zAxis };
+            var fluence = ComputationFactory.ComputeFluenceComplex(
+                _monteCarloForwardSolverMock.Object,
+                FluenceSolutionDomainType.FluenceOfFxAndZAndFt,
+                new[] { IndependentVariableAxis.Ft, IndependentVariableAxis.Z },
+                independentValues,
+                new IOpticalPropertyRegion[] {
+                    new LayerTissueRegion(
+                        new DoubleRange(0, 10, 10),
+                        new OpticalProperties(0.01, 1.0, 0.8, 1.4)
+                    )
+                }, 0);
+            // fluence is linearized to be [0-3]=>(x=1,z=1,2,3,4), [4-7]=>(x=2,z=1,2,3,4), [8-11]=>(x=3,z=1,2,3,4)
+            Assert.AreEqual(1.7, fluence[0].Real);
+        }
+
         /// <summary>
         /// Test against the ComputationFactory class ComputeFluenceComplex routine using enum
         /// forward solver and single set of OPs
