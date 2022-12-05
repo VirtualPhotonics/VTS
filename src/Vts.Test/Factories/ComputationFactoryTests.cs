@@ -636,6 +636,183 @@ namespace Vts.Test.Factories
             Assert.IsTrue(Math.Abs(fluence[0] - 0.188294) < 0.000001);
         }
 
+        [Test]
+        public void Validate_ComputeFluence_can_be_called_using_IForwardSolver_two_layer()
+        {
+            _xAxis = new double[] { 1, 2, 3 };
+            _zAxis = new double[] { 1, 2, 3, 4 };
+            var independentValues = new[] { _xAxis, _zAxis };
+            var fluence = ComputationFactory.ComputeFluence(
+                _twoLayerSdaForwardSolverMock.Object,
+                FluenceSolutionDomainType.FluenceOfRhoAndZ,
+                new[] { IndependentVariableAxis.Rho, IndependentVariableAxis.Z },
+                independentValues,
+                                // could have array of OPs, one set for each tissue region
+                new IOpticalPropertyRegion[] {
+                    new LayerTissueRegion(
+                        new DoubleRange(0, 10, 10),
+                        new OpticalProperties(0.01, 1.0, 0.8, 1.4)
+                    )
+                }, 0);
+            // fluence is linearized to be [0-3]=>(x=1,z=1,2,3,4), [4-7]=>(x=2,z=1,2,3,4), [8-11]=>(x=3,z=1,2,3,4)
+            Assert.AreEqual(0.3, fluence[0]);
+        }
+
+        [Test]
+        public void Validate_ComputeFluence_can_be_called_using_IForwardSolver_and_solution_domain_FluenceOfFxAndZ()
+        {
+            _xAxis = new double[] { 1, 2, 3 };
+            _zAxis = new double[] { 1, 2, 3, 4 };
+            var independentValues = new[] { _xAxis, _zAxis };
+            var fluence = ComputationFactory.ComputeFluence(
+                _monteCarloForwardSolverMock.Object,
+                FluenceSolutionDomainType.FluenceOfFxAndZ,
+                new[] { IndependentVariableAxis.Fx, IndependentVariableAxis.Z },
+                independentValues,
+                new OpticalProperties(0.01, 1, 0.8, 1.4), 0);
+            // fluence is linearized to be [0-3]=>(x=1,z=1,2,3,4), [4-7]=>(x=2,z=1,2,3,4), [8-11]=>(x=3,z=1,2,3,4)
+            Assert.AreEqual(1.3, fluence[0]);
+        }
+
+        [Test]
+        public void Validate_ComputeFluence_can_be_called_using_IForwardSolver_and_solution_domain_FluenceOfRhoAndZAndTime()
+        {
+            _xAxis = new double[] { 1, 2, 3 };
+            _zAxis = new double[] { 1, 2, 3, 4 };
+            var independentValues = new[] { _xAxis, _zAxis };
+            var fluence = ComputationFactory.ComputeFluence(
+                _monteCarloForwardSolverMock.Object,
+                FluenceSolutionDomainType.FluenceOfRhoAndZAndTime,
+                new[] { IndependentVariableAxis.Rho, IndependentVariableAxis.Z, IndependentVariableAxis.Time },
+                independentValues,
+                new OpticalProperties(0.01, 1, 0.8, 1.4), 0);
+            // fluence is linearized to be [0-3]=>(x=1,z=1,2,3,4), [4-7]=>(x=2,z=1,2,3,4), [8-11]=>(x=3,z=1,2,3,4)
+            Assert.AreEqual(0.5, fluence[0]);
+        }
+
+        [Test]
+        public void Validate_ComputeFluence_can_be_called_using_IForwardSolver_and_solution_domain_FluenceOfRhoAndZAndTime_Time()
+        {
+            _xAxis = new double[] { 1, 2, 3 };
+            _zAxis = new double[] { 1, 2, 3, 4 };
+            var independentValues = new[] { _xAxis, _zAxis };
+            var fluence = ComputationFactory.ComputeFluence(
+                _monteCarloForwardSolverMock.Object,
+                FluenceSolutionDomainType.FluenceOfRhoAndZAndTime,
+                new[] { IndependentVariableAxis.Time, IndependentVariableAxis.Rho, IndependentVariableAxis.Z },
+                independentValues,
+                new OpticalProperties(0.01, 1, 0.8, 1.4), 0);
+            // fluence is linearized to be [0-3]=>(x=1,z=1,2,3,4), [4-7]=>(x=2,z=1,2,3,4), [8-11]=>(x=3,z=1,2,3,4)
+            Assert.AreEqual(0.5, fluence[0]);
+        }
+
+        [Test]
+        public void Validate_ComputeFluence_can_be_called_using_IForwardSolver_and_solution_domain_FluenceOfFxAndZAndTime()
+        {
+            _xAxis = new double[] { 1, 2, 3 };
+            _zAxis = new double[] { 1, 2, 3, 4 };
+            var independentValues = new[] { _xAxis, _zAxis };
+            var fluence = ComputationFactory.ComputeFluence(
+                _monteCarloForwardSolverMock.Object,
+                FluenceSolutionDomainType.FluenceOfFxAndZAndTime,
+                new[] { IndependentVariableAxis.Fx, IndependentVariableAxis.Z, IndependentVariableAxis.Time },
+                independentValues,
+                new OpticalProperties(0.01, 1, 0.8, 1.4), 0);
+            // fluence is linearized to be [0-3]=>(x=1,z=1,2,3,4), [4-7]=>(x=2,z=1,2,3,4), [8-11]=>(x=3,z=1,2,3,4)
+            Assert.AreEqual(1.5, fluence[0]);
+        }
+
+        [Test]
+        public void Validate_ComputeFluence_can_be_called_using_IForwardSolver_and_solution_domain_FluenceOfFxAndZAndTime_Time()
+        {
+            _xAxis = new double[] { 1, 2, 3 };
+            _zAxis = new double[] { 1, 2, 3, 4 };
+            var independentValues = new[] { _xAxis, _zAxis };
+            var fluence = ComputationFactory.ComputeFluence(
+                _monteCarloForwardSolverMock.Object,
+                FluenceSolutionDomainType.FluenceOfFxAndZAndTime,
+                new[] { IndependentVariableAxis.Time, IndependentVariableAxis.Fx, IndependentVariableAxis.Z },
+                independentValues,
+                new OpticalProperties(0.01, 1, 0.8, 1.4), 0);
+            // fluence is linearized to be [0-3]=>(x=1,z=1,2,3,4), [4-7]=>(x=2,z=1,2,3,4), [8-11]=>(x=3,z=1,2,3,4)
+            Assert.AreEqual(1.5, fluence[0]);
+        }
+
+        [Test]
+        public void Validate_ComputeFluence_throws_exception()
+        {
+            _xAxis = new double[] { 1, 2, 3 };
+            _zAxis = new double[] { 1, 2, 3, 4 };
+            var independentValues = new[] { _xAxis, _zAxis };
+            Assert.Throws<ArgumentOutOfRangeException>(() =>
+            {
+                try
+                {
+                    ComputationFactory.ComputeFluence(
+                        _monteCarloForwardSolverMock.Object,
+                        (FluenceSolutionDomainType)Enum.GetValues(typeof(FluenceSolutionDomainType)).Length + 1,
+                        new[] { IndependentVariableAxis.Time, IndependentVariableAxis.Fx, IndependentVariableAxis.Z },
+                        independentValues,
+                        new OpticalProperties(0.01, 1, 0.8, 1.4), 0);
+                }
+                catch (ArgumentOutOfRangeException e)
+                {
+                    Assert.IsTrue(e.Message.StartsWith("Specified argument was out of the range of valid values."));
+                    throw;
+                }
+            });
+        }
+
+        [Test]
+        public void Validate_ComputeFluence_FluenceOfRhoAndZAndTime_throws_exception()
+        {
+            _xAxis = new double[] { 1, 2, 3 };
+            _zAxis = new double[] { 1, 2, 3, 4 };
+            var independentValues = new[] { _xAxis, _zAxis };
+            Assert.Throws<ArgumentOutOfRangeException>(() =>
+            {
+                try
+                {
+                    ComputationFactory.ComputeFluence(
+                        _monteCarloForwardSolverMock.Object,
+                        FluenceSolutionDomainType.FluenceOfRhoAndZAndTime,
+                        new[] { (IndependentVariableAxis)Enum.GetValues(typeof(IndependentVariableAxis)).Length + 1, IndependentVariableAxis.Fx, IndependentVariableAxis.Z },
+                        independentValues,
+                        new OpticalProperties(0.01, 1, 0.8, 1.4), 0);
+                }
+                catch (ArgumentOutOfRangeException e)
+                {
+                    Assert.IsTrue(e.Message.StartsWith("Specified argument was out of the range of valid values."));
+                    throw;
+                }
+            });
+        }
+
+        [Test]
+        public void Validate_ComputeFluence_FluenceOfFxAndZAndTime_throws_exception()
+        {
+            _xAxis = new double[] { 1, 2, 3 };
+            _zAxis = new double[] { 1, 2, 3, 4 };
+            var independentValues = new[] { _xAxis, _zAxis };
+            Assert.Throws<ArgumentOutOfRangeException>(() =>
+            {
+                try
+                {
+                    ComputationFactory.ComputeFluence(
+                        _monteCarloForwardSolverMock.Object,
+                        FluenceSolutionDomainType.FluenceOfFxAndZAndTime,
+                        new[] { (IndependentVariableAxis)Enum.GetValues(typeof(IndependentVariableAxis)).Length + 1, IndependentVariableAxis.Fx, IndependentVariableAxis.Z },
+                        independentValues,
+                        new OpticalProperties(0.01, 1, 0.8, 1.4), 0);
+                }
+                catch (ArgumentOutOfRangeException e)
+                {
+                    Assert.IsTrue(e.Message.StartsWith("Specified argument was out of the range of valid values."));
+                    throw;
+                }
+            });
+        }
+
         /// <summary>
         /// Test against the ComputationFactory class ComputeFluenceComplex routine using enum
         /// forward solver and IOpticalProperty array
