@@ -980,7 +980,7 @@ namespace Vts.Factories
                         case IndependentVariableAxis.Ft:
                             if (fs is TwoLayerSDAForwardSolver) 
                             {
-                                return (fitData, otherData) => fs.FluenceOfRhoAndZAndFt(new[] { getLayerTissueRegionArray(fitData) }, (double[])otherData[2], (double[])otherData[1], new[] { (double)otherData[0] });
+                                return (fitData, otherData) => fs.FluenceOfRhoAndZAndFt(new[] { getLayerTissueRegionArray(fitData) },  new [] { (double)otherData[2] }, (double[])otherData[1], (double[])otherData[0]);
                             }
                             return (fitData, otherData) => fs.FluenceOfRhoAndZAndFt(new[] { getOP(fitData) }, new[] { (double)otherData[2] }, (double[])otherData[1], (double[])otherData[0]);
                         default:

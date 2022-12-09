@@ -898,7 +898,6 @@ namespace Vts.Test.Factories
             Assert.IsTrue(Math.Abs(fluence[0].Real - 0.188294) < 0.000001);
         }
 
-        [Ignore("Carole will review")]
         [Test]
         public void Validate_ComputeFluenceComplex_FluenceOfRhoAndZAndFt_two_layer()
         {
