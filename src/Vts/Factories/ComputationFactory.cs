@@ -84,11 +84,11 @@ namespace Vts.Factories
         /// </summary>
         /// <param name="values">The complex values to flatten</param>
         /// <returns>A 1D array of real (1st half) and imaginary (2nd half) </returns>
-        private static double[] FlattenRealAndImaginary(this Complex[] values)
+        private static double[] FlattenRealAndImaginary(this IReadOnlyList<Complex> values)
         {
-            var flattened = new double[values.Length * 2];
-            var nValues = values.Length;
-            for (int i = 0; i < nValues; i++)
+            var flattened = new double[values.Count * 2];
+            var nValues = values.Count;
+            for (var i = 0; i < nValues; i++)
             {
                 flattened[i] = values[i].Real;
                 flattened[i + nValues] = values[i].Imaginary;
@@ -104,7 +104,7 @@ namespace Vts.Factories
         /// <param name="solutionDomainType">The SolutionDomainType enum (e.g. RofRho, RofRx, etc.)</param>
         /// <param name="forwardAnalysisType">The ForwardAnalysisType enum (e.g. R, dRdMua, dRdMusp, etc.)</param>
         /// <param name="independentValues">The array of objects: first element = OpticalProperties,
-        /// second element = double[] of xaxis values, for example:
+        /// second element = double[] of x-axis values, for example:
         /// new object[]{ new[]{ new OpticalProperties(0.01, 1, 0.8, 1.4) }, new double[] { 1, 2, 3 } })</param>
         /// <returns>A double[] of resulting reflectance values</returns>
         public static double[] ComputeReflectance(
@@ -132,7 +132,7 @@ namespace Vts.Factories
         /// <param name="solutionDomainType">The SolutionDomainType enum (e.g. RofRho, RofRx, etc.)</param>
         /// <param name="forwardAnalysisType">The ForwardAnalysisType enum (e.g. R, dRdMua, dRdMusp, etc.)</param>
         /// <param name="independentValues">The array of objects: first element = OpticalProperties,
-        /// second element = double[] of xaxis values, for example:
+        /// second element = double[] of x-axis values, for example:
         /// new object[]{ new[]{ new OpticalProperties(0.01, 1, 0.8, 1.4) }, new double[] { 1, 2, 3 } })</param>
         /// <returns>A double[] of resulting reflectance values</returns>
         public static double[] ComputeReflectance(
@@ -141,7 +141,7 @@ namespace Vts.Factories
             ForwardAnalysisType forwardAnalysisType,
             object[] independentValues)
         {
-            Func<object[], double[]> func = GetForwardReflectanceFunc(forwardSolver, solutionDomainType);
+            var func = GetForwardReflectanceFunc(forwardSolver, solutionDomainType);
             //Func<SolutionDomainType, ForwardAnalysisType, IndependentVariableAxis[], double[]> getOptimizationParameters = (_,_,_) => 
             //    new[] { op.Mua, op.Musp, op.G, op.N }
             //double[] optimizationParameters = GetOptimizationParameters(forwardSolver, solutionDomainType, independentAxisTypes); // will need this for inverse solver
@@ -291,7 +291,7 @@ namespace Vts.Factories
             var func = GetForwardFluenceFunc(forwardSolver, solutionDomainType, independentAxesTypes[0]);
 
             // create a list of inputs (besides optical properties) that corresponds to the behavior of the function above
-            List<object> inputValues = new List<object>(independentValues);
+            var inputValues = new List<object>(independentValues);
             constantValues.ForEach(cv => inputValues.Add(cv));
 
             return func(parameters, inputValues.ToArray());
@@ -319,7 +319,7 @@ namespace Vts.Factories
             var func = GetForwardFluenceFunc(forwardSolver, solutionDomainType, independentAxesTypes[0]);
 
             // create a list of inputs (besides optical properties) that corresponds to the behavior of the function above
-            List<object> inputValues = new List<object>(independentValues);
+            var inputValues = new List<object>(independentValues);
             constantValues.ForEach(cv => inputValues.Add(cv));
 
             if (opticalProperties.Length == 1) // optimization that skips duplicate arrays if we're not multiplexing over optical properties (e.g. wavelength)
@@ -332,13 +332,13 @@ namespace Vts.Factories
             var numOp = opticalProperties.Length;
             var numIv = independentValues.Length;
             var fluence = new double[numOp * numIv];
-            for (int opi = 0; opi < numOp; opi++) // parallelize?
+            for (var opi = 0; opi < numOp; opi++) // parallelize?
             {
                 var op = opticalProperties[opi];
                 var parameters = new[] { op.Mua, op.Musp, op.G, op.N };
                 var tempValues = func(parameters, inputValues.ToArray());
 
-                for (int ivi = 0; ivi < numIv; ivi++)
+                for (var ivi = 0; ivi < numIv; ivi++)
                 {
                     fluence[opi * numIv + ivi] = tempValues[ivi];
                 }
@@ -466,7 +466,7 @@ namespace Vts.Factories
             var func = GetForwardFluenceFuncComplex(forwardSolver, solutionDomainType, independentAxesTypes[0]);
 
             // create a list of inputs (besides optical properties) that corresponds to the behavior of the function above
-            List<object> inputValues = new List<object>(independentValues);
+            var inputValues = new List<object>(independentValues);
             constantValues.ForEach(cv => inputValues.Add(cv));
 
             return func(parameters, inputValues.ToArray());
@@ -519,7 +519,7 @@ namespace Vts.Factories
             var func = GetForwardFluenceFuncComplex(forwardSolver, solutionDomainType, independentAxesTypes[0]);
 
             // create a list of inputs (besides optical properties) that corresponds to the behavior of the function above
-            List<object> inputValues = new List<object>(independentValues);
+            var inputValues = new List<object>(independentValues);
             constantValues.ForEach(cv => inputValues.Add(cv));
 
             return func(parameters, inputValues.ToArray());
@@ -562,7 +562,7 @@ namespace Vts.Factories
 
             var phd = new double[fluence.Length];
 
-            phd.PopulateFromEnumerable(Enumerable.Zip(fluence, greensFunction, (flu, green) => flu * green));
+            phd.PopulateFromEnumerable(fluence.Zip(greensFunction, (flu, green) => flu * green));
 
             return phd;
 
@@ -610,7 +610,7 @@ namespace Vts.Factories
 
             var phd = new double[fluence.Length];
 
-            phd.PopulateFromEnumerable(Enumerable.Zip(fluence, greensFunction, (flu, green) => (flu * green).Magnitude));
+            phd.PopulateFromEnumerable(fluence.Zip(greensFunction, (flu, green) => (flu * green).Magnitude));
 
             return phd;
 
@@ -646,9 +646,10 @@ namespace Vts.Factories
         /// <returns>Absorbed energy in a 1D IEnumerable of double</returns>
         public static IEnumerable<double> GetAbsorbedEnergy(IEnumerable<double> fluence, IEnumerable<double> muas)
         {
-            if (fluence.Count() != muas.Count())
-                throw new ArgumentException("The arguments fluence and muas must be same length");
-            IEnumerable<double> result = Enumerable.Zip(fluence, muas, (flu, mua) => flu * mua);
+            var fluenceArray = fluence as double[] ?? fluence.ToArray();
+            var muaArray = muas as double[] ?? muas.ToArray();
+            if (fluenceArray.Length != muaArray.Length) throw new ArgumentException("The arguments fluence and muas must be same length");
+            var result = fluenceArray.Zip(muaArray, (flu, mua) => flu * mua);
             return result;
         }
 
@@ -715,7 +716,7 @@ namespace Vts.Factories
             var fitParametersArray = opticalPropertyGuess.SelectMany(opgi => new[] { opgi.Mua, opgi.Musp, opgi.G, opgi.N }).ToArray();
             var parametersToFitArray = Enumerable.Range(0, opticalPropertyGuess.Count()).SelectMany(_ => parametersToFit).ToArray();
 
-            Func<double[], object[], double[]> func = GetForwardReflectanceFuncForOptimization(forwardSolver, solutionDomainType);
+            var func = GetForwardReflectanceFuncForOptimization(forwardSolver, solutionDomainType);
 
             var fit = optimizer.Solve(fitParametersArray, parametersToFitArray, dependentValues.ToArray(),
                                       standardDeviationValues.ToArray(), func, independentValues.ToArray());
@@ -794,11 +795,11 @@ namespace Vts.Factories
 
             var opticalPropertyGuess = (OpticalProperties[])(independentValues[0]);
             var fitParametersArray = opticalPropertyGuess.SelectMany(opgi => new[] { opgi.Mua, opgi.Musp, opgi.G, opgi.N }).ToArray();
-            var parametersToFitArray = Enumerable.Range(0, opticalPropertyGuess.Count()).SelectMany(_ => parametersToFit).ToArray();
-            var lowerBoundsArray = Enumerable.Range(0, opticalPropertyGuess.Count()).SelectMany(_ => lowerBounds).ToArray();
-            var upperBoundsArray = Enumerable.Range(0, opticalPropertyGuess.Count()).SelectMany(_ => upperBounds).ToArray();
+            var parametersToFitArray = Enumerable.Range(0, opticalPropertyGuess.Length).SelectMany(_ => parametersToFit).ToArray();
+            var lowerBoundsArray = Enumerable.Range(0, opticalPropertyGuess.Length).SelectMany(_ => lowerBounds).ToArray();
+            var upperBoundsArray = Enumerable.Range(0, opticalPropertyGuess.Length).SelectMany(_ => upperBounds).ToArray();
 
-            Func<double[], object[], double[]> func = GetForwardReflectanceFuncForOptimization(forwardSolver, solutionDomainType);
+            var func = GetForwardReflectanceFuncForOptimization(forwardSolver, solutionDomainType);
 
             var fit = optimizer.SolveWithConstraints(fitParametersArray, parametersToFitArray, lowerBoundsArray, upperBoundsArray, dependentValues.ToArray(),
                                       standardDeviationValues.ToArray(), func, independentValues.ToArray());
@@ -851,19 +852,19 @@ namespace Vts.Factories
                     return forwardData => fs.ROfFxAndFt(ops: (OpticalProperties[])forwardData[0], fxs: (double[])forwardData[1], fts: (double[])forwardData[2]).FlattenRealAndImaginary();
 
                 default:
-                    throw new ArgumentOutOfRangeException("type");
+                    throw new ArgumentOutOfRangeException(nameof(type));
             }
         }
 
 
         private static Func<double[], ILayerOpticalPropertyRegion[]> getLayerTissueRegionArray = layerProps =>
         {
-            int numRegions = layerProps.Length / 5; // mua, musp, g, n, thickness (delta)
+            var numRegions = layerProps.Length / 5; // mua, musp, g, n, thickness (delta)
             var regionArray = new ILayerOpticalPropertyRegion[numRegions];
             regionArray[0] = new LayerOpticalPropertyRegion(
                 zRange: new DoubleRange(0, layerProps[4]),
                 regionOP: new OpticalProperties(layerProps[0], layerProps[1], layerProps[2], layerProps[3]));
-            for (int i = 1; i < numRegions; i++)
+            for (var i = 1; i < numRegions; i++)
             {
                 var currentLayerProps = layerProps.Skip(i * 5).Take(5).ToArray();
                 var previousStop = regionArray[i - 1].ZRange.Stop;
@@ -877,7 +878,7 @@ namespace Vts.Factories
         private static Func<double[], object[], double[]> GetForwardReflectanceFuncForOptimization(
            IForwardSolver fs, SolutionDomainType type)
         {
-            Func<object[], double[]> forwardReflectanceFunc = GetForwardReflectanceFunc(fs, type);
+            var forwardReflectanceFunc = GetForwardReflectanceFunc(fs, type);
 
             return (fitData, allParameters) =>
             {
@@ -896,7 +897,7 @@ namespace Vts.Factories
         {
             var nOp = ops.Length / 4;
             var opArray = new OpticalProperties[nOp];
-            for (int opi = 0; opi < nOp; opi++)
+            for (var opi = 0; opi < nOp; opi++)
             {
                 opArray[opi] = new OpticalProperties(ops[opi * 4], ops[opi * 4 + 1], ops[opi * 4 + 2], ops[opi * 4 + 3]);
             }
@@ -952,10 +953,12 @@ namespace Vts.Factories
                         case IndependentVariableAxis.Time:
                             return (fitData, otherData) => fs.FluenceOfFxAndZAndTime(new[] { getOP(fitData) }, new[] { (double)otherData[2] }, (double[])otherData[1], (double[])otherData[0]);
                         default:
-                            throw new ArgumentOutOfRangeException("axis");
+                            throw new ArgumentOutOfRangeException(nameof(axis));
                     }
+                case FluenceSolutionDomainType.FluenceOfRhoAndZAndFt:
+                case FluenceSolutionDomainType.FluenceOfFxAndZAndFt:
                 default:
-                    throw new ArgumentOutOfRangeException("type");
+                    throw new ArgumentOutOfRangeException(nameof(type));
             }
         }
 
@@ -983,8 +986,12 @@ namespace Vts.Factories
                                 return (fitData, otherData) => fs.FluenceOfRhoAndZAndFt(new[] { getLayerTissueRegionArray(fitData) },  new [] { (double)otherData[2] }, (double[])otherData[1], (double[])otherData[0]);
                             }
                             return (fitData, otherData) => fs.FluenceOfRhoAndZAndFt(new[] { getOP(fitData) }, new[] { (double)otherData[2] }, (double[])otherData[1], (double[])otherData[0]);
+                        case IndependentVariableAxis.Time:
+                        case IndependentVariableAxis.Fx:
+                        case IndependentVariableAxis.Z:
+                        case IndependentVariableAxis.Wavelength:
                         default:
-                            throw new ArgumentOutOfRangeException("axis");
+                            throw new ArgumentOutOfRangeException(nameof(axis));
                     }
                 case FluenceSolutionDomainType.FluenceOfFxAndZAndFt:
                     switch (axis)
@@ -994,10 +1001,14 @@ namespace Vts.Factories
                         case IndependentVariableAxis.Ft:
                             return (fitData, otherData) => fs.FluenceOfFxAndZAndFt(new[] { getOP(fitData) }, new[] { (double)otherData[2] }, (double[])otherData[1], (double[])otherData[0]);
                         default:
-                            throw new ArgumentOutOfRangeException("axis");
+                            throw new ArgumentOutOfRangeException(nameof(axis));
                     }
+                case FluenceSolutionDomainType.FluenceOfRhoAndZ:
+                case FluenceSolutionDomainType.FluenceOfFxAndZ:
+                case FluenceSolutionDomainType.FluenceOfRhoAndZAndTime:
+                case FluenceSolutionDomainType.FluenceOfFxAndZAndTime:
                 default:
-                    throw new ArgumentOutOfRangeException("type");
+                    throw new ArgumentOutOfRangeException(nameof(type));
             }
         }
 
@@ -1007,13 +1018,13 @@ namespace Vts.Factories
             {
                 case InverseFitType.MuaMusp:
                 default:
-                    return new bool[] { true, true, false, false };
+                    return new[] { true, true, false, false };
                 case InverseFitType.Mua:
-                    return new bool[] { true, false, false, false };
+                    return new[] { true, false, false, false };
                 case InverseFitType.Musp:
-                    return new bool[] { false, true, false, false };
+                    return new[] { false, true, false, false };
                 case InverseFitType.MuaMuspG:
-                    return new bool[] { true, true, true, false };
+                    return new[] { true, true, true, false };
             }
         }
     }
