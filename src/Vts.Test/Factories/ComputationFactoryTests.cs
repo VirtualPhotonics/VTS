@@ -1105,6 +1105,69 @@ namespace Vts.Test.Factories
             Assert.IsTrue(Math.Abs(solution[1] - 3.75515) < 0.00001);
         }
 
+        [Test]
+        public void Validate_SolveInverse_can_be_called_using_enum_forward_solver_fit_Mua()
+        {
+            var initialGuessOPsAndXAxis = new object[] {
+                new [] { new OpticalProperties(0.01, 1.0, 0.8, 1.4) },
+                new double[] {1, 2, 3 }
+            };
+            var measuredData = new double[] { 4, 5, 6 };
+            var solution = ComputationFactory.SolveInverse(
+                ForwardSolverType.PointSourceSDA,
+                OptimizerType.MPFitLevenbergMarquardt,
+                SolutionDomainType.ROfRho,
+                measuredData,
+                measuredData,
+                InverseFitType.Mua,
+                initialGuessOPsAndXAxis
+            );
+            // solution is a double array with converged solution OPs
+            Assert.IsTrue(Math.Abs(solution[0] - 0.000000028) < 0.000000001);
+        }
+
+        [Test]
+        public void Validate_SolveInverse_can_be_called_using_enum_forward_solver_fit_Musp()
+        {
+            var initialGuessOPsAndXAxis = new object[] {
+                new [] { new OpticalProperties(0.01, 1.0, 0.8, 1.4) },
+                new double[] {1, 2, 3 }
+            };
+            var measuredData = new double[] { 4, 5, 6 };
+            var solution = ComputationFactory.SolveInverse(
+                ForwardSolverType.PointSourceSDA,
+                OptimizerType.MPFitLevenbergMarquardt,
+                SolutionDomainType.ROfRho,
+                measuredData,
+                measuredData,
+                InverseFitType.Musp,
+                initialGuessOPsAndXAxis
+            );
+            // solution is a double array with converged solution OPs
+            Assert.IsTrue(Math.Abs(solution[1] - 3.61248) < 0.00001);
+        }
+
+        [Test]
+        public void Validate_SolveInverse_can_be_called_using_enum_forward_solver_fit_MuaMuspG()
+        {
+            var initialGuessOPsAndXAxis = new object[] {
+                new [] { new OpticalProperties(0.01, 1.0, 0.8, 1.4) },
+                new double[] {1, 2, 3 }
+            };
+            var measuredData = new double[] { 4, 5, 6 };
+            var solution = ComputationFactory.SolveInverse(
+                ForwardSolverType.PointSourceSDA,
+                OptimizerType.MPFitLevenbergMarquardt,
+                SolutionDomainType.ROfRho,
+                measuredData,
+                measuredData,
+                InverseFitType.MuaMuspG,
+                initialGuessOPsAndXAxis
+            );
+            // solution is a double array with converged solution OPs
+            Assert.IsTrue(Math.Abs(solution[1] - 3.75530) < 0.00001);
+        }
+
         /// <summary>
         /// Test against the ComputationFactory class SolveInverse routine using IForwardSolver
         /// and IOptimizer classes 
