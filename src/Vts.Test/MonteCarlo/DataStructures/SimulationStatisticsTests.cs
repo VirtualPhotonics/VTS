@@ -18,7 +18,7 @@ namespace Vts.Test.MonteCarlo
     public class SimulationStatisticsTests
     {
         private SimulationStatistics _simulationStatistics;
-        private const long N = 1000; // N=100 for typical unit testing, 1000 to debug
+        private const long N = 100; // N=100 for typical unit testing, 1000 to debug
 
         /// <summary>
         /// list of temporary files created by these unit tests
@@ -57,7 +57,6 @@ namespace Vts.Test.MonteCarlo
                 0,
                 RandomNumberGeneratorType.MersenneTwister,
                 AbsorptionWeightingType.Discrete,
-                PhaseFunctionType.HenyeyGreenstein,
                 new List<DatabaseType>(), // databases to be written
                 true, // track statistics
                 0.001, // turn on RR with 10x usual threshold
@@ -66,6 +65,28 @@ namespace Vts.Test.MonteCarlo
                 new Position(0.0, 0.0, 0.0),
                 new Direction(0.0, 0.0, 1.0),
                 0); // start outside tissue
+            var tissue = new MultiLayerTissueInput(
+                new ITissueRegion[]
+                {
+                    new LayerTissueRegion(
+                        new DoubleRange(double.NegativeInfinity, 0.0),
+                        new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
+                        "HenyeyGreensteinKey1"),
+                    new LayerTissueRegion(
+                        new DoubleRange(0.0, 5.0),
+                        new OpticalProperties(0.1, 1.0, 0.8, 1.4),
+                        "HenyeyGreensteinKey2"),
+                    new LayerTissueRegion(
+                        new DoubleRange(5.0, double.PositiveInfinity),
+                        new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
+                        "HenyeyGreensteinKey3")
+                }
+            );
+            tissue.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey1", new HenyeyGreensteinPhaseFunctionInput());
+            tissue.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey2", new HenyeyGreensteinPhaseFunctionInput());
+            tissue.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey3", new HenyeyGreensteinPhaseFunctionInput());
+
+
             var detectors = new List<IDetectorInput>
             {
                 new RSpecularDetectorInput(),
@@ -78,20 +99,7 @@ namespace Vts.Test.MonteCarlo
                 "Output",
                 simulationOptions,
                 source,
-                new MultiLayerTissueInput(
-                    new ITissueRegion[]
-                    {
-                        new LayerTissueRegion(
-                            new DoubleRange(double.NegativeInfinity, 0.0),
-                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
-                        new LayerTissueRegion(
-                            new DoubleRange(0.0, 5.0),
-                            new OpticalProperties(0.1, 1.0, 0.8, 1.4)),
-                        new LayerTissueRegion(
-                            new DoubleRange(5.0, double.PositiveInfinity),
-                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
-                    }
-                ),
+                tissue,
                 detectors);
             new MonteCarloSimulation(input).Run();
             _simulationStatistics = SimulationStatistics.FromFile(input.OutputName + "/statistics.txt");
