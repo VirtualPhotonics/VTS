@@ -30,18 +30,16 @@ namespace Vts.MonteCarlo
             switch (tissue.AbsorptionWeightingType)
             {
                 case AbsorptionWeightingType.Analog:
-                    return (previousDP, dp, regionIndex) => VolumeAbsorptionWeightingAnalog(dp);
+                    return (previousDp, dp, regionIndex) => VolumeAbsorptionWeightingAnalog(dp);
                 case AbsorptionWeightingType.Continuous:
                     if (detector.TallyType == TallyType.ATotal)
                     {
-                        return (previousDP, dp, regionIndex) => VolumeAbsorptionWeightingContinuous(previousDP, dp);
+                        return (previousDp, dp, regionIndex) => VolumeAbsorptionWeightingContinuous(previousDp, dp);
                     }
-                    else
-                    {
-                        throw new NotImplementedException("CAW is not currently implemented for most volume tallies.");
-                    }
+
+                    throw new NotImplementedException("CAW is not currently implemented for most volume tallies.");
                 case AbsorptionWeightingType.Discrete:
-                    return (previousDP, dp, regionIndex) => VolumeAbsorptionWeightingDiscrete(previousDP, dp, regionIndex, tissue);
+                    return (previousDp, dp, regionIndex) => VolumeAbsorptionWeightingDiscrete(previousDp, dp, regionIndex, tissue);
                 default:
                     throw new ArgumentException("AbsorptionWeightingType did not match the available types.");
             }
@@ -64,20 +62,16 @@ namespace Vts.MonteCarlo
                         return (numberOfCollisions, pathLengths, perturbedOps, referenceOps,perturbedRegionIndices) => 
                             pMCVolumeAbsorptionWeightingContinuous(numberOfCollisions,pathLengths,perturbedOps,referenceOps,perturbedRegionIndices);
                     }
-                    else
-                    {
-                        throw new NotImplementedException("CAW is not currently implemented for most volume tallies.");
-                    }
+
+                    throw new NotImplementedException("CAW is not currently implemented for most volume tallies.");
                 case AbsorptionWeightingType.Discrete:
                     if (detector.TallyType == TallyType.pMCATotal)
                     {
                         return (numberOfCollisions, pathLengths, perturbedOps, referenceOps, perturbedRegionIndices) =>
                             pMCVolumeAbsorptionWeightingDiscrete(numberOfCollisions, pathLengths, perturbedOps, referenceOps, perturbedRegionIndices);
                     }
-                    else
-                    {
-                        throw new NotImplementedException("DAW is not currently implemented for most volume tallies.");
-                    }
+
+                    throw new NotImplementedException("DAW is not currently implemented for most volume tallies.");
                 default:
                     throw new ArgumentException("AbsorptionWeightingType did not match the available types.");
             }
@@ -124,23 +118,24 @@ namespace Vts.MonteCarlo
             return weight;
         }
         private static double VolumeAbsorptionWeightingContinuous(
-            PhotonDataPoint previousDP, PhotonDataPoint dp)
+            PhotonDataPoint previousDp, PhotonDataPoint dp)
         {
             var weight = VolumeAbsorbContinuous(
-                previousDP.Weight,
+                previousDp.Weight,
                 dp.Weight);
 
             return weight;
         }
 
+        /// <summary>
+        /// This method returns the correct weight for absorption weighting in a volume
+        /// using an Analog random walk process.
+        /// </summary>
+        /// <param name="photonStateType">Photon state type</param>
+        /// <returns>Photon weight</returns>
         private static double VolumeAbsorbAnalog(PhotonStateType photonStateType)
         {
-            var weight = 0.0;
-            if (photonStateType.HasFlag(PhotonStateType.Absorbed))
-            {
-                weight = 1.0;
-            }
-            return weight;
+            return !photonStateType.HasFlag(PhotonStateType.Absorbed) ? 0.0 : 1.0;
         }
 
         private static double VolumeAbsorbDiscrete(double mua, double mus, double previousWeight, double weight)
@@ -158,7 +153,7 @@ namespace Vts.MonteCarlo
         
         private static double VolumeAbsorbContinuous(double previousWeight, double weight)
         {
-            // no pathlength means no absorption, so no tally
+            // no path length means no absorption, so no tally
             if (previousWeight == weight)
             {
                 weight = 0.0;
@@ -178,11 +173,11 @@ namespace Vts.MonteCarlo
             {
                 weightFactor *=
                     Math.Exp(-(perturbedOps[i].Mua - referenceOps[i].Mua) * pathLength[i]); // mua pert
-                if ((numberOfCollisions[i] > 0) && (referenceOps[i].Mus > 0.0)) // mus pert
+                if (numberOfCollisions[i] > 0 && referenceOps[i].Mus > 0.0) // mus pert
                 {
                     // the following is more numerically stable
                     weightFactor *= Math.Pow(
-                        (perturbedOps[i].Mus / referenceOps[i].Mus) * Math.Exp(-(perturbedOps[i].Mus - referenceOps[i].Mus) *
+                        perturbedOps[i].Mus / referenceOps[i].Mus * Math.Exp(-(perturbedOps[i].Mus - referenceOps[i].Mus) *
                             pathLength[i] / numberOfCollisions[i]),
                         numberOfCollisions[i]);
                 }
@@ -196,15 +191,15 @@ namespace Vts.MonteCarlo
 
         private static double pMCAbsorbDiscrete(IList<long> numberOfCollisions, IList<double> pathLength, IList<OpticalProperties> perturbedOps, IList<OpticalProperties> referenceOps, IList<int> perturbedRegionsIndices)
         {
-            double weightFactor = 1.0;
+            var weightFactor = 1.0;
 
             foreach (var i in perturbedRegionsIndices)
             {
-                if ((numberOfCollisions[i] > 0) && (referenceOps[i].Mus > 0.0))
+                if (numberOfCollisions[i] > 0 && referenceOps[i].Mus > 0.0)
                 {
                     weightFactor *=
                         Math.Pow(
-                          (perturbedOps[i].Mus / referenceOps[i].Mus) *
+                          perturbedOps[i].Mus / referenceOps[i].Mus *
                           Math.Exp(-(perturbedOps[i].Mus + perturbedOps[i].Mua - referenceOps[i].Mus - referenceOps[i].Mua) *
                           pathLength[i] / numberOfCollisions[i]),
                               numberOfCollisions[i]);
