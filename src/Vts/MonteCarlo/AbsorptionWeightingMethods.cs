@@ -127,12 +127,15 @@ namespace Vts.MonteCarlo
             return weight;
         }
 
+        /// <summary>
+        /// This method returns the correct weight for absorption weighting in a volume
+        /// using an Analog random walk process.
+        /// </summary>
+        /// <param name="photonStateType">Photon state type</param>
+        /// <returns>Photon weight</returns>
         private static double VolumeAbsorbAnalog(PhotonStateType photonStateType)
         {
-            var weight = 0.0;
-            if (!photonStateType.HasFlag(PhotonStateType.Absorbed)) return weight;
-            weight = 1.0;
-            return weight;
+            return !photonStateType.HasFlag(PhotonStateType.Absorbed) ? 0.0 : 1.0;
         }
 
         private static double VolumeAbsorbDiscrete(double mua, double mus, double previousWeight, double weight)

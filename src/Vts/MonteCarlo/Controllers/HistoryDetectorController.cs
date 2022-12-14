@@ -11,10 +11,10 @@ namespace Vts.MonteCarlo.Controllers
         private readonly IList<IHistoryDetector> _detectors;
 
         /// <summary>
-        /// controller for history type detectors
+        /// Controller for history type detectors
         /// </summary>
         /// <param name="detectors">IEnumerable of IHistoryDetector</param>
-        /// <param name="tissue">ITissue</param>
+        /// <param name="tissue">The Tissue (this is not used)</param>
         public HistoryDetectorController(IEnumerable<IHistoryDetector> detectors, ITissue tissue)
         {
             _detectors = detectors.ToList();
