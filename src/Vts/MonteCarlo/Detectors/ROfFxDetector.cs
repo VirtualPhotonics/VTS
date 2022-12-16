@@ -129,26 +129,23 @@ namespace Vts.MonteCarlo.Detectors
         /// <param name="photon">photon data needed to tally</param>
         public void Tally(Photon photon)
         {
-            if (!IsWithinDetectorAperture(photon))
-                return;
+            if (!IsWithinDetectorAperture(photon)) return;
             
             var dp = photon.DP;
             var x = dp.Position.X;
             var fxArray = Fx.AsEnumerable().ToArray();
-            for (int i = 0; i < fxArray.Length; i++)
+            for (var i = 0; i < fxArray.Length; i++)
             {
-                double freq = fxArray[i];
-                var sinNegativeTwoPiFX = Math.Sin(-2*Math.PI*freq*x);
-                var cosNegativeTwoPiFX = Math.Cos(-2*Math.PI*freq*x);
+                var freq = fxArray[i];
+                var sinNegativeTwoPiFx = Math.Sin(-2*Math.PI*freq*x);
+                var cosNegativeTwoPiFx = Math.Cos(-2*Math.PI*freq*x);
                 // convert to Hz-sec from GHz-ns 1e-9*1e9=1
-                var deltaWeight = dp.Weight*(cosNegativeTwoPiFX + Complex.ImaginaryOne*sinNegativeTwoPiFX);
+                var deltaWeight = dp.Weight*(cosNegativeTwoPiFx + Complex.ImaginaryOne*sinNegativeTwoPiFx);
 
                 Mean[i] += deltaWeight;
-                // 2nd moment is E[xx*]=E[xreal^2]+E[ximag^2] and with cos^2+sin^2=1 => weight^2
-                if (TallySecondMoment) 
-                {
-                    SecondMoment[i] += dp.Weight * dp.Weight;
-                }
+                // 2nd moment is E[xx*]=E[xReal^2]+E[xImag^2] and with cos^2+sin^2=1 => weight^2
+                if (!TallySecondMoment) continue;
+                SecondMoment[i] += dp.Weight * dp.Weight;
             }
             TallyCount++;
         }
@@ -159,13 +156,11 @@ namespace Vts.MonteCarlo.Detectors
         /// <param name="numPhotons">number of photons launched</param>
         public void Normalize(long numPhotons)
         {
-            for (int i = 0; i < Fx.Count; i++)
+            for (var i = 0; i < Fx.Count; i++)
             {
                 Mean[i] /= numPhotons;
-                if (TallySecondMoment)
-                {
-                    SecondMoment[i] /= numPhotons;
-                }
+                if (!TallySecondMoment) continue;
+                SecondMoment[i] /= numPhotons;
             }
         }
 
@@ -181,7 +176,7 @@ namespace Vts.MonteCarlo.Detectors
                     Name = "Mean",
                     FileTag = "",
                     WriteData = binaryWriter => {
-                        for (int i = 0; i < Fx.Count; i++) 
+                        for (var i = 0; i < Fx.Count; i++) 
                         {
                             binaryWriter.Write(Mean[i].Real);
                             binaryWriter.Write(Mean[i].Imaginary);
@@ -189,7 +184,7 @@ namespace Vts.MonteCarlo.Detectors
                     },
                     ReadData = binaryReader => {
                         Mean = Mean ?? new Complex[ Fx.Count ];
-                        for (int i = 0; i <  Fx.Count; i++) 
+                        for (var i = 0; i <  Fx.Count; i++) 
                         {
                             var real = binaryReader.ReadDouble();
                             var imag = binaryReader.ReadDouble();
@@ -204,7 +199,7 @@ namespace Vts.MonteCarlo.Detectors
                     FileTag = "_2",
                     WriteData = binaryWriter => {
                         if (!TallySecondMoment || SecondMoment == null) return;
-                    for (int i = 0; i < Fx.Count; i++)
+                    for (var i = 0; i < Fx.Count; i++)
                         {
                             binaryWriter.Write(SecondMoment[i].Real);
                             binaryWriter.Write(SecondMoment[i].Imaginary);
@@ -213,7 +208,7 @@ namespace Vts.MonteCarlo.Detectors
                     ReadData = binaryReader => {
                         if (!TallySecondMoment || SecondMoment == null) return;
                         SecondMoment = new Complex[ Fx.Count ];
-                        for (int i = 0; i < Fx.Count; i++) 
+                        for (var i = 0; i < Fx.Count; i++) 
                         {
                             var real = binaryReader.ReadDouble();
                             var imag = binaryReader.ReadDouble();
