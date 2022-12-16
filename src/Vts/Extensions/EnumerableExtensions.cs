@@ -29,7 +29,7 @@ namespace Vts.Extensions
         /// <returns>An IEnumerable of type T with concatenated list</returns>
         public static IEnumerable<T> Concat<T>(this IEnumerable<T> items, T newItem )
         {
-            return Enumerable.Concat(items, newItem.AsEnumerable());
+            return items.Concat(newItem.AsEnumerable());
         }
 
         /// <summary>
@@ -56,8 +56,8 @@ namespace Vts.Extensions
             this T[,] my2DArray,
             Func<T, int, int, TResult> myFunc)
         {
-            int width = my2DArray.GetLength(0);
-            int height = my2DArray.GetLength(1);
+            var width = my2DArray.GetLength(0);
+            var height = my2DArray.GetLength(1);
 
             return
                 from yi in Enumerable.Range(0, height)
@@ -93,7 +93,7 @@ namespace Vts.Extensions
         /// <param name="action">The action to apply to list</param>
         public static void ForEach<T>(this IEnumerable<T> items, Action<T, int> action)
         {
-            int i = 0;
+            var i = 0;
             foreach (var item in items)
             {
                 action(item, i);
@@ -111,11 +111,11 @@ namespace Vts.Extensions
         /// <returns>A 2D array of type T</returns>
         public static T[,] To2DArray<T>(this IEnumerable<T> myArray, int width, int height)
         {
-            T[,] outputArray = new T[width, height];
+            var outputArray = new T[width, height];
             var enumerable = myArray.GetEnumerator();
-            for (int yi = 0; yi < height; yi++)
+            for (var yi = 0; yi < height; yi++)
             {
-                for (int xi = 0; xi < width; xi++)
+                for (var xi = 0; xi < width; xi++)
                 {
                     enumerable.MoveNext();
                     outputArray[xi, yi] = enumerable.Current;
@@ -139,13 +139,13 @@ namespace Vts.Extensions
         public static IEnumerable<TResult> Zip<TFirst, TSecond, TThird, TResult>(this IEnumerable<TFirst> first, IEnumerable<TSecond> second, IEnumerable<TThird> third, Func<TFirst, TSecond, TThird, TResult> func)
         {
             if (first == null)
-                throw new ArgumentNullException("first");
+                throw new ArgumentNullException(nameof(first));
 
             if (second == null)
-                throw new ArgumentNullException("second");
+                throw new ArgumentNullException(nameof(second));
 
             if (third == null)
-                throw new ArgumentNullException("third");
+                throw new ArgumentNullException(nameof(third));
 
             return ZipInternal(first, second, third, func);
         }
@@ -159,6 +159,7 @@ namespace Vts.Extensions
             while (ie1.MoveNext() && ie2.MoveNext() && ie3.MoveNext())
                 yield return func(ie1.Current, ie2.Current, ie3.Current);
         }
+
         /// <summary>
         /// Method to zip together values using supplied function
         /// </summary>
@@ -176,16 +177,16 @@ namespace Vts.Extensions
         public static IEnumerable<TResult> Zip<TFirst, TSecond, TThird, TFourth, TResult>(this IEnumerable<TFirst> first, IEnumerable<TSecond> second, IEnumerable<TThird> third, IEnumerable<TFourth> fourth, Func<TFirst, TSecond, TThird, TFourth, TResult> func)
         {
             if (first == null)
-                throw new ArgumentNullException("first");
+                throw new ArgumentNullException(nameof(first));
 
             if (second == null)
-                throw new ArgumentNullException("second");
+                throw new ArgumentNullException(nameof(second));
 
             if (third == null)
-                throw new ArgumentNullException("third");
+                throw new ArgumentNullException(nameof(third));
 
             if (fourth == null)
-                throw new ArgumentNullException("fourth");
+                throw new ArgumentNullException(nameof(fourth));
 
 
             return ZipInternal(first, second, third, fourth, func);
@@ -201,6 +202,7 @@ namespace Vts.Extensions
             while (ie1.MoveNext() && ie2.MoveNext() && ie3.MoveNext() && ie4.MoveNext())
                 yield return func(ie1.Current, ie2.Current, ie3.Current, ie4.Current);
         }
+
         /// <summary>
         /// Method to zip together values using supplied function
         /// </summary>
@@ -220,19 +222,19 @@ namespace Vts.Extensions
         public static IEnumerable<TResult> Zip<TFirst, TSecond, TThird, TFourth, TFifth, TResult>(this IEnumerable<TFirst> first, IEnumerable<TSecond> second, IEnumerable<TThird> third, IEnumerable<TFourth> fourth, IEnumerable<TFifth> fifth, Func<TFirst, TSecond, TThird, TFourth, TFifth, TResult> func)
         {
             if (first == null)
-                throw new ArgumentNullException("first");
+                throw new ArgumentNullException(nameof(first));
 
             if (second == null)
-                throw new ArgumentNullException("second");
+                throw new ArgumentNullException(nameof(second));
 
             if (third == null)
-                throw new ArgumentNullException("third");
+                throw new ArgumentNullException(nameof(third));
 
             if (fourth == null)
-                throw new ArgumentNullException("fourth");
+                throw new ArgumentNullException(nameof(fourth));
 
             if (fifth == null)
-                throw new ArgumentNullException("fifth");
+                throw new ArgumentNullException(nameof(fifth));
 
             return ZipInternal(first, second, third, fourth, fifth, func);
         }
@@ -248,6 +250,7 @@ namespace Vts.Extensions
             while (ie1.MoveNext() && ie2.MoveNext() && ie3.MoveNext() && ie4.MoveNext() && ie5.MoveNext())
                 yield return func(ie1.Current, ie2.Current, ie3.Current, ie4.Current, ie5.Current);
         }
+
         /// <summary>
         /// Extension method to loop over 3D set of values and apply a function
         /// </summary>
@@ -277,6 +280,7 @@ namespace Vts.Extensions
                 }
             }
         }
+
         /// <summary>
         /// Extension method to loop over 2D set of values and apply a function
         /// </summary>

@@ -10,7 +10,7 @@ using Vts.MonteCarlo.PostProcessing;
 
 namespace Vts.MonteCarlo.PostProcessor
 {
-    public class PostProcessorSetup
+    public static class PostProcessorSetup
     {
         /// <summary>
         /// method to read the post processor input from a specified or default files

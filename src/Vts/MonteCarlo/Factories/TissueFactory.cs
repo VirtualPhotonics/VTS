@@ -1,5 +1,4 @@
 using System;
-using Vts.MonteCarlo.Tissues;
 
 namespace Vts.MonteCarlo.Factories
 {
@@ -18,7 +17,7 @@ namespace Vts.MonteCarlo.Factories
         /// <returns>ITissue</returns>
         public static ITissue GetTissue(ITissueInput ti, AbsorptionWeightingType awt, PhaseFunctionType pft, double russianRouletteWeightThreshold)
         {
-            ITissue t = ti.CreateTissue(awt, pft, russianRouletteWeightThreshold);
+            var t = ti.CreateTissue(awt, pft, russianRouletteWeightThreshold);
 
             if (t == null)
                 throw new ArgumentException(

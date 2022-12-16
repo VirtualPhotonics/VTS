@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System;
+using NUnit.Framework;
 using Vts.MonteCarlo;
 using Vts.MonteCarlo.Extensions;
 
@@ -15,7 +16,9 @@ namespace Vts.Test.MonteCarlo.Extensions
         {
             // validate those that are true
             var databaseType = DatabaseType.pMCDiffuseReflectance;
-            Assert.IsTrue(databaseType.IspMCDatabase());            
+            Assert.IsTrue(databaseType.IspMCDatabase());
+            databaseType = DatabaseType.pMCDiffuseTransmittance;
+            Assert.IsTrue(databaseType.IspMCDatabase());
             // validate those that are false
             databaseType = DatabaseType.DiffuseReflectance;
             Assert.IsFalse(databaseType.IspMCDatabase());
@@ -23,6 +26,10 @@ namespace Vts.Test.MonteCarlo.Extensions
             Assert.IsFalse(databaseType.IspMCDatabase());
             databaseType = DatabaseType.SpecularReflectance;
             Assert.IsFalse(databaseType.IspMCDatabase());
+            // check if enum set to something out of range
+            databaseType = (DatabaseType)Enum.GetNames(typeof(DatabaseType)).Length + 1;
+            Assert.Throws<ArgumentOutOfRangeException>(
+                () => databaseType.IspMCDatabase());
         }
 
         /// <summary>
@@ -43,6 +50,14 @@ namespace Vts.Test.MonteCarlo.Extensions
             databaseType = DatabaseType.pMCDiffuseReflectance;
             virtualBoundary = databaseType.GetCorrespondingVirtualBoundaryType();
             Assert.AreEqual(VirtualBoundaryType.pMCDiffuseReflectance, virtualBoundary);
+            databaseType = DatabaseType.pMCDiffuseTransmittance;
+            virtualBoundary = databaseType.GetCorrespondingVirtualBoundaryType();
+            Assert.AreEqual(VirtualBoundaryType.pMCDiffuseTransmittance, virtualBoundary);
+            // check if enum set to something out of range
+            databaseType = (DatabaseType)Enum.GetNames(typeof(DatabaseType)).Length + 1;
+            Assert.Throws<ArgumentOutOfRangeException>(
+                () => databaseType.GetCorrespondingVirtualBoundaryType());
+
         }
     }
 }

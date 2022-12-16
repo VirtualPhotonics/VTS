@@ -10,14 +10,14 @@ namespace Vts.MonteCarlo.PhotonData
         ICustomBinaryReader<CollisionInfo>,
         ICustomBinaryWriter<CollisionInfo>
     {
-        private int _numberofSubRegions;
+        private readonly int _numberOfSubRegions;
         /// <summary>
         /// class that takes care of serializing CollisionInfo
         /// </summary>
-        /// <param name="numberOfSubRegions">number of tissue subregions</param>
+        /// <param name="numberOfSubRegions">number of tissue sub-regions</param>
         public CollisionInfoSerializer(int numberOfSubRegions)
         {
-            _numberofSubRegions = numberOfSubRegions;
+            _numberOfSubRegions = numberOfSubRegions;
         }
         /// <summary>
         /// method to write CollisionInfo to binary file
@@ -26,22 +26,22 @@ namespace Vts.MonteCarlo.PhotonData
         /// <param name="item">CollisionInfo</param>
         public void WriteToBinary(BinaryWriter bw, CollisionInfo item)
         {
-            for (int i = 0; i < item.Count; i++)
+            foreach (var t in item)
             {
-                bw.Write(item[i].PathLength);
-                bw.Write(item[i].NumberOfCollisions);
+                bw.Write(t.PathLength);
+                bw.Write(t.NumberOfCollisions);
             }
         }
         /// <summary>
         /// method to read CollisionInfo binary
         /// </summary>
         /// <param name="br">BinaryReader</param>
-        /// <returns>SollisionInfo</returns>
+        /// <returns>CollisionInfo</returns>
         public CollisionInfo ReadFromBinary(BinaryReader br)
         {
-            var collisionInfo = new CollisionInfo(_numberofSubRegions);
+            var collisionInfo = new CollisionInfo(_numberOfSubRegions);
 
-            for (int i = 0; i < _numberofSubRegions; i++)
+            for (var i = 0; i < _numberOfSubRegions; i++)
             {
                 collisionInfo.Add(new SubRegionCollisionInfo(
                     br.ReadDouble(), // pathLength

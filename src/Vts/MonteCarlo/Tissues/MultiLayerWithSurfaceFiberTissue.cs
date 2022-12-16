@@ -95,8 +95,8 @@ namespace Vts.MonteCarlo.Tissues
     /// </summary>
     public class MultiLayerWithSurfaceFiberTissue : TissueBase, ITissue
     {
-        private IList<LayerTissueRegion> _layerRegions;
-        private ITissueRegion _surfaceFiberRegion;
+        private readonly IList<LayerTissueRegion> _layerRegions;
+        private readonly ITissueRegion _surfaceFiberRegion;
 
         /// <summary>
         /// Creates an instance of a MultiLayerSurfaceFiberTissue
@@ -130,8 +130,8 @@ namespace Vts.MonteCarlo.Tissues
         {
             // use ITissueRegion interface method ContainsPosition for TissueRegions to determine
             // which region photon resides
-            int index = -1;
-            for (int i = 0; i < Regions.Count; i++) // catch if in surface fiber AFTER layer 1
+            var index = -1;
+            for (var i = 0; i < Regions.Count; i++) // catch if in surface fiber AFTER layer 1
             {
                 if (Regions[i].ContainsPosition(position))
                 {
@@ -148,25 +148,22 @@ namespace Vts.MonteCarlo.Tissues
         /// <returns>distance to boundary</returns>
         public double GetDistanceToBoundary(Photon photon)
         {
-            if (photon.DP.Direction.Uz == 0.0)
-            {
-                return double.PositiveInfinity;
-            }
+            if (photon.DP.Direction.Uz == 0.0) return double.PositiveInfinity;
 
             // going "up" in negative z-direction
-            bool goingUp = photon.DP.Direction.Uz < 0.0;
+            var goingUp = photon.DP.Direction.Uz < 0.0;
 
             // get current and adjacent regions
-            int currentRegionIndex = photon.CurrentRegionIndex; 
+            var currentRegionIndex = photon.CurrentRegionIndex; 
             // check if in embedded tissue region ckh fix 8/10/11
-            LayerTissueRegion currentRegion = _layerRegions[1];
+            var currentRegion = _layerRegions[1];
             if (currentRegionIndex < _layerRegions.Count)
             {
                 currentRegion = _layerRegions[currentRegionIndex];
             }
 
             // calculate distance to boundary based on z-projection of photon trajectory
-            double distanceToBoundary =
+            var distanceToBoundary =
                 goingUp
                     ? (currentRegion.ZRange.Start - photon.DP.Position.Z) / photon.DP.Direction.Uz
                     : (currentRegion.ZRange.Stop - photon.DP.Position.Z) / photon.DP.Direction.Uz;
@@ -182,9 +179,8 @@ namespace Vts.MonteCarlo.Tissues
         public bool OnDomainBoundary(Position position)
         {
             // this code assumes that the first and last layer is air
-            return 
-                position.Z < 1e-10 ||
-                (Math.Abs(position.Z - (_layerRegions.Last()).ZRange.Start) < 1e-10);
+            return position.Z < 1e-10 ||
+                Math.Abs(position.Z - (_layerRegions.Last()).ZRange.Start) < 1e-10;
         }
         /// <summary>
         /// method to determine index of region photon is about to enter
@@ -202,26 +198,23 @@ namespace Vts.MonteCarlo.Tissues
             {
                 return Math.Min(photon.CurrentRegionIndex + 1, Regions.Count - 1);
             }
-            else // pointed up
-            {
-                if (photon.CurrentRegionIndex == 1) // check if at surface
-                {
-                    if (_surfaceFiberRegion.ContainsPosition(photon.DP.Position))
-                    {
-                        return Regions.Count - 1; // return index of surfaceFiberRegion
-                    }
 
-                    return 0; // return air
-                }
-                else
-                {
-                    if (photon.CurrentRegionIndex == 3) // in surfaceFiberRegion
-                    {
-                        return 0;
-                    }
-                }
-                return photon.CurrentRegionIndex - 1;  // must be layer above
+            // pointed up
+            if (photon.CurrentRegionIndex != 1) // check if at surface
+            {
+                if (photon.CurrentRegionIndex == 3) return 0; // in surfaceFiberRegion
             }
+            else
+            {
+                if (_surfaceFiberRegion.ContainsPosition(photon.DP.Position))
+                {
+                    return Regions.Count - 1; // return index of surfaceFiberRegion
+                }
+
+                return 0; // return air
+            }
+
+            return photon.CurrentRegionIndex - 1;  // must be layer above
         }
         /// <summary>
         /// method to determine photon state type of photon exiting tissue boundary
@@ -230,12 +223,9 @@ namespace Vts.MonteCarlo.Tissues
         /// <returns>PhotonStateType</returns>
         public PhotonStateType GetPhotonDataPointStateOnExit(Position position)
         {
-            if (position.Z < 1e-10)
-            {
-                return PhotonStateType.PseudoReflectedTissueBoundary;
-            }
-            
-            return PhotonStateType.PseudoTransmittedTissueBoundary;
+            return position.Z < 1e-10
+                ? PhotonStateType.PseudoReflectedTissueBoundary
+                : PhotonStateType.PseudoTransmittedTissueBoundary;
         }
         /// <summary>
         /// method to determine direction of reflected photon

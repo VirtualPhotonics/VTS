@@ -108,5 +108,12 @@ namespace Vts.Test.Common
             var longRange = new LongRange(0L, 10L);
             Assert.IsInstanceOf<LongRange>(longRange.Clone());
         }
+
+        [Test]
+        public void Test_ToString()
+        {
+            var longRange = new LongRange(0L, 9L, 10);
+            Assert.AreEqual("Start: 0, Stop: 9, Count: 10, Delta: 1", longRange.ToString());
+        }
     }
 }

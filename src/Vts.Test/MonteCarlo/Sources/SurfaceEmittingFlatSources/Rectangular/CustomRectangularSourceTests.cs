@@ -1,7 +1,9 @@
 ﻿using System;
 using MathNet.Numerics.Random;
 using NUnit.Framework;
+using Vts.Common;
 using Vts.MonteCarlo;
+using Vts.MonteCarlo.Interfaces;
 using Vts.MonteCarlo.Sources;
 using Vts.MonteCarlo.Sources.SourceProfiles;
 using Vts.MonteCarlo.Tissues;
@@ -17,20 +19,18 @@ namespace Vts.Test.MonteCarlo.Sources
         private static SurfaceEmitting2DSourcesValidationData _validationData;
 
         [OneTimeSetUp]
-        public void setup_validation_data()
+        public void Setup_validation_data()
         {
-            if (_validationData == null)
-            {
-                _validationData = new SurfaceEmitting2DSourcesValidationData();
-                _validationData.ReadData();
-            }
+            if (_validationData != null) return;
+            _validationData = new SurfaceEmitting2DSourcesValidationData();
+            _validationData.ReadData();
         }
 
         /// <summary>
         /// test source input
         /// </summary>
         [Test]
-        public void validate_source_input_with_flat_profile_type()
+        public void Validate_source_input_with_flat_profile_type()
         {
             // check default constructor
             var si = new CustomRectangularSourceInput();
@@ -57,7 +57,7 @@ namespace Vts.Test.MonteCarlo.Sources
         /// Validate General Constructor of Custom Flat Rectangular Source
         /// </summary>
         [Test]
-        public void validate_general_constructor_with_flat_profiletype_for_custom_rectangular_source_test()
+        public void Validate_general_constructor_with_flat_profiletype_for_custom_rectangular_source_test()
         {
             Random rng = new MathNet.Numerics.Random.MersenneTwister(0); // not really necessary here, as this is now the default
             ITissue tissue = new MultiLayerTissue();
@@ -91,7 +91,7 @@ namespace Vts.Test.MonteCarlo.Sources
         /// Validate General Constructor of Custom Gaussian Rectangular Source
         /// </summary>
         [Test]
-        public void validate_general_constructor_with_gaussian_profiletype_for_custom_rectangular_source_test()
+        public void Validate_general_constructor_with_gaussian_profiletype_for_custom_rectangular_source_test()
         {
             Random rng = new MathNet.Numerics.Random.MersenneTwister(0); // not really necessary here, as this is now the default
             ITissue tissue = new MultiLayerTissue();
@@ -119,6 +119,45 @@ namespace Vts.Test.MonteCarlo.Sources
             Assert.Less(Math.Abs(photon.DP.Position.X - _validationData.Tp[82]),  _validationData.AcceptablePrecision);
             Assert.Less(Math.Abs(photon.DP.Position.Y - _validationData.Tp[83]),  _validationData.AcceptablePrecision);
             Assert.Less(Math.Abs(photon.DP.Position.Z - _validationData.Tp[84]),  _validationData.AcceptablePrecision);
+        }
+
+        /// <summary>
+        /// test switch statement in GetFinalPositionFromProfileType method for setting other
+        /// than Flat or Gaussian verify exception is thrown
+        /// </summary>
+        [Test]
+        public void Verify_that_source_profile_not_set_to_flat_or_Gaussian_throws_exception()
+        {
+            var tissue = new MultiLayerTissue();
+            var source = new CustomRectangularSource(
+                1.0,
+                1.0,
+                new FakeSourceProfile(),
+                new DoubleRange(),
+                new DoubleRange(),
+                new Direction(),
+                new Position(),
+                new Vts.MonteCarlo.Helpers.PolarAzimuthalAngles(),
+                1
+            );
+            Assert.Throws<ArgumentOutOfRangeException>(
+                () => source.GetNextPhoton(tissue));
+        }
+        public class FakeSourceProfile : ISourceProfile
+        {
+            /// <summary>
+            /// Initializes the default constructor of FakeSourceProfile class
+            /// for testing purposes
+            /// </summary>
+            public FakeSourceProfile()
+            { }
+
+            /// <summary>
+            /// Returns Mock profile type
+            /// </summary>
+            public SourceProfileType SourceProfileType =>
+                (SourceProfileType)Enum.GetNames(typeof(SourceProfileType)).Length + 1;
+
         }
     }
 }
