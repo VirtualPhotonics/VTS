@@ -175,30 +175,25 @@ namespace Vts.MonteCarlo.Detectors
         /// <param name="photon">photon data needed to tally</param>
         public void Tally(Photon photon)
         {
-            if (!IsWithinDetectorAperture(photon))
-                return;
+            if (!IsWithinDetectorAperture(photon)) return;
             
             // WhichBin to match pMCROfRho which matches ROfRho
             var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(photon.DP.Position.X, photon.DP.Position.Y), Rho.Count - 1, Rho.Delta, Rho.Start);
-            if (ir != -1)
-            {
-                double weightFactor = _absorbAction(
-                    photon.History.SubRegionInfoList.Select(c => c.NumberOfCollisions).ToList(),
-                    photon.History.SubRegionInfoList.Select(p => p.PathLength).ToList(),
-                    _perturbedOps);
+            if (ir == -1) return;
+            var weightFactor = _absorbAction(
+                photon.History.SubRegionInfoList.Select(c => c.NumberOfCollisions).ToList(),
+                photon.History.SubRegionInfoList.Select(p => p.PathLength).ToList(),
+                _perturbedOps);
 
-                Mean[ir] += photon.DP.Weight * weightFactor;
-                if (TallySecondMoment)
-                {
-                    SecondMoment[ir] += photon.DP.Weight * weightFactor * photon.DP.Weight * weightFactor;
-                }
-                TallyCount++;
-            }
+            Mean[ir] += photon.DP.Weight * weightFactor;
+            TallyCount++;
+            if (!TallySecondMoment) return;
+            SecondMoment[ir] += photon.DP.Weight * weightFactor * photon.DP.Weight * weightFactor;
         }
 
         private double AbsorbContinuous(IList<long> numberOfCollisions, IList<double> pathLength, IList<OpticalProperties> perturbedOps)
         {
-            double weightFactor = 1.0;
+            var weightFactor = 1.0;
 
             // NOTE: following code only works for single perturbed region
             foreach (var i in _perturbedRegionsIndices)
@@ -210,7 +205,7 @@ namespace Vts.MonteCarlo.Detectors
                 {
                     // the following is more numerically stable
                     Math.Pow(
-                        (_perturbedOps[i].Mus / _referenceOps[i].Mus) * Math.Exp(-(_perturbedOps[i].Mus - _referenceOps[i].Mus) *
+                        _perturbedOps[i].Mus / _referenceOps[i].Mus * Math.Exp(-(_perturbedOps[i].Mus - _referenceOps[i].Mus) *
                             pathLength[i] / numberOfCollisions[i]),
                         numberOfCollisions[i]);
                 }
@@ -224,7 +219,7 @@ namespace Vts.MonteCarlo.Detectors
 
         private double AbsorbDiscrete(IList<long> numberOfCollisions, IList<double> pathLength, IList<OpticalProperties> perturbedOps)
         {
-            double weightFactor = 1.0;
+            var weightFactor = 1.0;
 
             // NOTE: following code only works for single perturbed region
             foreach (var i in _perturbedRegionsIndices)
@@ -234,7 +229,7 @@ namespace Vts.MonteCarlo.Detectors
                     weightFactor *=
                         -pathLength[i] * // dMua* factor
                         Math.Pow(
-                            (_perturbedOps[i].Mus / _referenceOps[i].Mus) *
+                            _perturbedOps[i].Mus / _referenceOps[i].Mus *
                                 Math.Exp(-(_perturbedOps[i].Mus + _perturbedOps[i].Mua - _referenceOps[i].Mus - _referenceOps[i].Mua) *
                                     pathLength[i] / numberOfCollisions[i]),
                             numberOfCollisions[i]);
@@ -257,15 +252,13 @@ namespace Vts.MonteCarlo.Detectors
         public void Normalize(long numPhotons)
         {
             var normalizationFactor = 2.0 * Math.PI * Rho.Delta;
-            for (int ir = 0; ir < Rho.Count - 1; ir++)
+            for (var ir = 0; ir < Rho.Count - 1; ir++)
             {
                 var areaNorm = (Rho.Start + (ir + 0.5) * Rho.Delta) * normalizationFactor;
                 Mean[ir] /= areaNorm * numPhotons;
                 // the above is pi(rmax*rmax-rmin*rmin) * rhoDelta * N
-                if (TallySecondMoment)
-                {
-                    SecondMoment[ir] /= areaNorm * areaNorm * numPhotons;
-                }
+                if (!TallySecondMoment) continue;
+                SecondMoment[ir] /= areaNorm * areaNorm * numPhotons;
             }
         }
 
@@ -281,13 +274,13 @@ namespace Vts.MonteCarlo.Detectors
                     Name = "Mean",
                     FileTag = "",
                     WriteData = binaryWriter => {
-                        for (int i = 0; i < Rho.Count - 1; i++) {
+                        for (var i = 0; i < Rho.Count - 1; i++) {
                             binaryWriter.Write(Mean[i]);
                         }
                     },
                     ReadData = binaryReader => {
                         Mean = Mean ?? new double[ Rho.Count - 1];
-                        for (int i = 0; i <  Rho.Count - 1; i++) {
+                        for (var i = 0; i <  Rho.Count - 1; i++) {
                             Mean[i] = binaryReader.ReadDouble();
                         }
                     }
@@ -299,14 +292,14 @@ namespace Vts.MonteCarlo.Detectors
                     FileTag = "_2",
                     WriteData = binaryWriter => {
                         if (!TallySecondMoment || SecondMoment == null) return;
-                        for (int i = 0; i < Rho.Count - 1; i++) {
+                        for (var i = 0; i < Rho.Count - 1; i++) {
                             binaryWriter.Write(SecondMoment[i]);
                         }
                     },
                     ReadData = binaryReader => {
                         if (!TallySecondMoment || SecondMoment == null) return;
                         SecondMoment = new double[ Rho.Count - 1];
-                        for (int i = 0; i < Rho.Count - 1; i++) {
+                        for (var i = 0; i < Rho.Count - 1; i++) {
                             SecondMoment[i] = binaryReader.ReadDouble();
 			            }
                     },

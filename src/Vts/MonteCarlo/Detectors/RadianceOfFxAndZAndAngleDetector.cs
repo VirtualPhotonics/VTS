@@ -147,28 +147,24 @@ namespace Vts.MonteCarlo.Detectors
             var ia = DetectorBinning.WhichBin(Math.Acos(dp.Direction.Uz), Angle.Count - 1, Angle.Delta, Angle.Start);
 
             var weight = _absorptionWeightingMethod(previousDP, dp, currentRegionIndex);
-            
-            if (weight != 0.0)
-            {
-                var x = dp.Position.X;
-                var fxArray = Fx.AsEnumerable().ToArray();
-                for (int ifx = 0; ifx < fxArray.Length; ifx++)
-                {
-                    double freq = fxArray[ifx];
-                    var sinNegativeTwoPiFX = Math.Sin(-2*Math.PI*freq*x);
-                    var cosNegativeTwoPiFX = Math.Cos(-2*Math.PI*freq*x);
-                    // convert to Hz-sec from GHz-ns 1e-9*1e9=1
-                    var deltaWeight = (weight/_ops[currentRegionIndex].Mua)*
-                                      (cosNegativeTwoPiFX + Complex.ImaginaryOne*sinNegativeTwoPiFX);
 
-                    Mean[ifx, iz, ia] += deltaWeight;
-                    // set tallyForOnePhoton to be mean tally, 2nd moment taken at photon end
-                    if (TallySecondMoment)
-                    {
-                        _tallyForOnePhoton[ifx, iz, ia] += deltaWeight;
-                    }
-                    TallyCount++;
-                }
+            if (weight == 0.0) return;
+            var x = dp.Position.X;
+            var fxArray = Fx.AsEnumerable().ToArray();
+            for (var ifx = 0; ifx < fxArray.Length; ifx++)
+            {
+                var freq = fxArray[ifx];
+                var sinNegativeTwoPiFx = Math.Sin(-2*Math.PI*freq*x);
+                var cosNegativeTwoPiFx = Math.Cos(-2*Math.PI*freq*x);
+                // convert to Hz-sec from GHz-ns 1e-9*1e9=1
+                var deltaWeight = (weight/_ops[currentRegionIndex].Mua)*
+                                  (cosNegativeTwoPiFx + Complex.ImaginaryOne*sinNegativeTwoPiFx);
+
+                Mean[ifx, iz, ia] += deltaWeight;
+                TallyCount++;
+                // set tallyForOnePhoton to be mean tally, 2nd moment taken at photon end
+                if (!TallySecondMoment) continue;
+                _tallyForOnePhoton[ifx, iz, ia] += deltaWeight;
             }
 
         }
@@ -183,24 +179,22 @@ namespace Vts.MonteCarlo.Detectors
             {
                 Array.Clear(_tallyForOnePhoton, 0, _tallyForOnePhoton.Length);
             }
-            PhotonDataPoint previousDP = photon.History.HistoryData.First();
-            foreach (PhotonDataPoint dp in photon.History.HistoryData.Skip(1))
+            var previousDp = photon.History.HistoryData.First();
+            foreach (var dp in photon.History.HistoryData.Skip(1))
             {
-                TallySingle(previousDP, dp, _tissue.GetRegionIndex(dp.Position)); // unoptimized version, but HistoryDataController calls this once
-                previousDP = dp;
+                TallySingle(previousDp, dp, _tissue.GetRegionIndex(dp.Position)); // unoptimized version, but HistoryDataController calls this once
+                previousDp = dp;
             }
             // second moment determined after all tallies to each detector bin for ONE photon has been complete
-            if (TallySecondMoment) // 2nd moment is E[xx*]=E[xreal^2]+E[ximag^2]
+            if (!TallySecondMoment) return; // 2nd moment is E[xx*]=E[xReal^2]+E[xImag^2]
+            for (var ifx = 0; ifx < Fx.Count; ifx++)
             {
-                for (int ifx = 0; ifx < Fx.Count; ifx++)
+                for (var iz = 0; iz < Z.Count - 1; iz++)
                 {
-                    for (int iz = 0; iz < Z.Count - 1; iz++)
+                    for (var ia = 0; ia < Angle.Count - 1; ia++)
                     {
-                        for (int ia = 0; ia < Angle.Count - 1; ia++)
-                        {
-                            SecondMoment[ifx, iz, ia] += _tallyForOnePhoton[ifx, iz, ia].Real * _tallyForOnePhoton[ifx, iz, ia].Real + 
-                                                         _tallyForOnePhoton[ifx, iz, ia].Imaginary * _tallyForOnePhoton[ifx,iz,ia].Imaginary;
-                        }
+                        SecondMoment[ifx, iz, ia] += _tallyForOnePhoton[ifx, iz, ia].Real * _tallyForOnePhoton[ifx, iz, ia].Real + 
+                                                     _tallyForOnePhoton[ifx, iz, ia].Imaginary * _tallyForOnePhoton[ifx,iz,ia].Imaginary;
                     }
                 }
             }
@@ -213,18 +207,16 @@ namespace Vts.MonteCarlo.Detectors
         public void Normalize(long numPhotons)
         {
             var normalizationFactor = Z.Delta * 2.0 * Math.PI * Angle.Delta;
-            for (int ifx = 0; ifx < Fx.Count; ifx++)
+            for (var ifx = 0; ifx < Fx.Count; ifx++)
             {
-                for (int iz = 0; iz < Z.Count - 1; iz++)
+                for (var iz = 0; iz < Z.Count - 1; iz++)
                 {
-                    for (int ia = 0; ia < Angle.Count - 1; ia++)
+                    for (var ia = 0; ia < Angle.Count - 1; ia++)
                     {
                         var areaNorm = Math.Sin((ia+0.5)*Angle.Delta) * normalizationFactor;
                         Mean[ifx, iz, ia] /= areaNorm * numPhotons;
-                        if (TallySecondMoment)
-                        {
-                            SecondMoment[ifx, iz, ia] /= areaNorm * areaNorm * numPhotons;
-                        }
+                        if (!TallySecondMoment) continue;
+                        SecondMoment[ifx, iz, ia] /= areaNorm * areaNorm * numPhotons;
                     }
                 }
             }
@@ -241,9 +233,9 @@ namespace Vts.MonteCarlo.Detectors
                     Name = "Mean",
                     FileTag = "",
                     WriteData = binaryWriter => {
-                        for (int i = 0; i < Fx.Count; i++) {
-                            for (int j = 0; j < Z.Count - 1; j++) {
-                                for (int k = 0; k < Angle.Count - 1; k++)
+                        for (var i = 0; i < Fx.Count; i++) {
+                            for (var j = 0; j < Z.Count - 1; j++) {
+                                for (var k = 0; k < Angle.Count - 1; k++)
                                 {
                                     binaryWriter.Write(Mean[i, j, k].Real);
                                     binaryWriter.Write(Mean[i, j, k].Imaginary);
@@ -253,9 +245,9 @@ namespace Vts.MonteCarlo.Detectors
                     },
                     ReadData = binaryReader => {
                         Mean = Mean ?? new Complex[ Fx.Count, Z.Count - 1, Angle.Count -1];
-                        for (int i = 0; i <  Fx.Count; i++) {
-                            for (int j = 0; j < Z.Count - 1; j++) {
-                                for (int k = 0; k < Angle.Count - 1; k++)
+                        for (var i = 0; i <  Fx.Count; i++) {
+                            for (var j = 0; j < Z.Count - 1; j++) {
+                                for (var k = 0; k < Angle.Count - 1; k++)
                                 {
                                     var real = binaryReader.ReadDouble();
                                     var imag = binaryReader.ReadDouble();
@@ -272,9 +264,9 @@ namespace Vts.MonteCarlo.Detectors
                     FileTag = "_2",
                     WriteData = binaryWriter => {
                         if (!TallySecondMoment || SecondMoment == null) return;
-                        for (int i = 0; i < Fx.Count; i++) {
-                            for (int j = 0; j < Z.Count - 1; j++) {
-                                for (int k = 0; k < Angle.Count - 1; k++)
+                        for (var i = 0; i < Fx.Count; i++) {
+                            for (var j = 0; j < Z.Count - 1; j++) {
+                                for (var k = 0; k < Angle.Count - 1; k++)
                                 {
                                     binaryWriter.Write(SecondMoment[i, j, k].Real);
                                     binaryWriter.Write(SecondMoment[i, j, k].Imaginary);
@@ -285,9 +277,9 @@ namespace Vts.MonteCarlo.Detectors
                     ReadData = binaryReader => {
                         if (!TallySecondMoment || SecondMoment == null) return;
                         SecondMoment = new Complex[ Fx.Count, Z.Count - 1, Angle.Count - 1];
-                        for (int i = 0; i < Fx.Count; i++) {
-                            for (int j = 0; j < Z.Count - 1; j++) {
-                                for (int k = 0; k < Angle.Count - 1; k++)
+                        for (var i = 0; i < Fx.Count; i++) {
+                            for (var j = 0; j < Z.Count - 1; j++) {
+                                for (var k = 0; k < Angle.Count - 1; k++)
                                 {
                                     var real = binaryReader.ReadDouble();
                                     var imag = binaryReader.ReadDouble();

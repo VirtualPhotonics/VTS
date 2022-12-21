@@ -150,22 +150,17 @@ namespace Vts.MonteCarlo.Detectors
         /// <param name="photon">photon data needed to tally</param>
         public void Tally(Photon photon)
         {
-            //// check that exit location is within fiber radius
+            //check that exit location is within fiber radius
             if (Math.Sqrt((photon.DP.Position.X - Center.X) *
-                          (photon.DP.Position.X - Center.X) +
-                          (photon.DP.Position.Y - Center.Y) *
-                          (photon.DP.Position.Y - Center.Y)) < Radius)
-            {
-                if (!IsWithinDetectorAperture(photon))
-                    return;
+                            (photon.DP.Position.X - Center.X) +
+                            (photon.DP.Position.Y - Center.Y) *
+                            (photon.DP.Position.Y - Center.Y)) >= Radius) return;
+            if (!IsWithinDetectorAperture(photon)) return;
 
-                Mean += photon.DP.Weight;
-                if (TallySecondMoment)
-                {
-                    SecondMoment += photon.DP.Weight * photon.DP.Weight;
-                }
-                TallyCount++;
-            }
+            Mean += photon.DP.Weight;
+            TallyCount++;
+            if (!TallySecondMoment) return;
+            SecondMoment += photon.DP.Weight * photon.DP.Weight;
         }
 
         /// <summary>
@@ -176,20 +171,16 @@ namespace Vts.MonteCarlo.Detectors
         {
             var areaNorm = Math.PI * Radius * Radius; // do we normalize fiber detector results by area of fiber end?
             Mean /= areaNorm * numPhotons;
-            if (TallySecondMoment)
-            {
-                SecondMoment /= areaNorm * areaNorm * numPhotons;
-            }           
+            if (!TallySecondMoment) return;
+            SecondMoment /= areaNorm * areaNorm * numPhotons;
         }
 
         /// <summary>
         /// this scalar tally is saved to json
         /// </summary>
         /// <returns>null</returns>
-        public BinaryArraySerializer[] GetBinarySerializers()
-        {
-            return null;
-        }
+        public BinaryArraySerializer[] GetBinarySerializers() => null;
+
         /// <summary>
         /// Method to determine if photon is within detector NA
         /// </summary>

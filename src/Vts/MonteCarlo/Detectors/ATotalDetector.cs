@@ -105,15 +105,11 @@ namespace Vts.MonteCarlo.Detectors
         {
             var weight = _absorptionWeightingMethod(previousDP, dp, currentRegionIndex);
 
-            if (weight > 0.0)
-            {
-                Mean += weight;
-                if (TallySecondMoment)
-                {
-                    _tallyForOnePhoton += weight;
-                }
-                TallyCount++;
-            }
+            if (weight <= 0.0) return;
+            Mean += weight;
+            TallyCount++;
+            if (!TallySecondMoment) return;
+            _tallyForOnePhoton += weight;
         }
 
         /// <summary>
@@ -125,16 +121,15 @@ namespace Vts.MonteCarlo.Detectors
             // second moment is calculated AFTER the entire photon biography has been processed
             _tallyForOnePhoton = 0.0;
            
-            PhotonDataPoint previousDP = photon.History.HistoryData.First();
-            foreach (PhotonDataPoint dp in photon.History.HistoryData.Skip(1))
+            var previousDp = photon.History.HistoryData.First();
+            foreach (var dp in photon.History.HistoryData.Skip(1))
             {
-                TallySingle(previousDP, dp, _tissue.GetRegionIndex(dp.Position)); // unoptimized version, but HistoryDataController calls this once
-                previousDP = dp;
-            }            
-            if (TallySecondMoment)
-            {
-                SecondMoment += _tallyForOnePhoton * _tallyForOnePhoton;
+                TallySingle(previousDp, dp, _tissue.GetRegionIndex(dp.Position)); // unoptimized version, but HistoryDataController calls this once
+                previousDp = dp;
             }
+
+            if (!TallySecondMoment) return;
+            SecondMoment += _tallyForOnePhoton * _tallyForOnePhoton;
         }
 
         /// <summary>
@@ -144,20 +139,16 @@ namespace Vts.MonteCarlo.Detectors
         public void Normalize(long numPhotons)
         {
             Mean /= numPhotons;
-            if (TallySecondMoment)
-            {
-                SecondMoment /= numPhotons;
-            }
+            if (!TallySecondMoment) return;
+            SecondMoment /= numPhotons;
         }
 
         /// <summary>
         /// this scalar tally is saved to json
         /// </summary>
         /// <returns>array of BinaryArraySerializer</returns>
-        public BinaryArraySerializer[] GetBinarySerializers()
-        {
-            return null;
-        }
+        public BinaryArraySerializer[] GetBinarySerializers() => null;
+
         /// <summary>
         /// Method to determine if photon is within detector
         /// </summary>

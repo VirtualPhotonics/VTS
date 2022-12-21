@@ -53,20 +53,18 @@ namespace Vts.MonteCarlo
 
         private static ValidationResult ValidateSourceInput(ISourceInput sourceInput, ITissueInput tissueInput)
         {
-            if ((sourceInput.InitialTissueRegionIndex < 0) ||
-                (sourceInput.InitialTissueRegionIndex > tissueInput.Regions.Length - 1))
+            if (sourceInput.InitialTissueRegionIndex < 0 ||
+                sourceInput.InitialTissueRegionIndex > tissueInput.Regions.Length - 1)
             {
                 return new ValidationResult(
                     false,
                     "Source input not valid given tissue definition",
                     "Alter sourceInput.InitialTissueRegionIndex to be consistent with tissue definition");
             }
-            else
-            {
-                return new ValidationResult(
-                    true,
-                    "Starting photons in region " + sourceInput.InitialTissueRegionIndex);
-            }
+
+            return new ValidationResult(
+                true,
+                "Starting photons in region " + sourceInput.InitialTissueRegionIndex);
         }
 
         private static ValidationResult ValidateTissueInput(ITissueInput tissueInput)
@@ -109,7 +107,7 @@ namespace Vts.MonteCarlo
         }
         private static ValidationResult ValidateDetectorInput(SimulationInput si)
         {
-            if (si.Options.Databases == null || (!si.Options.Databases.Any()) && (!si.DetectorInputs.Any()))
+            if (si.Options.Databases == null || !si.Options.Databases.Any() && !si.DetectorInputs.Any())
             {
                 return new ValidationResult(
                     false,
@@ -151,7 +149,7 @@ namespace Vts.MonteCarlo
         private static ValidationResult ValidateCombinedInputParameters(SimulationInput input)
         {
             // check that absorption weighting type set to analog and RR weight threshold != 0.0
-            if ((input.Options.AbsorptionWeightingType == AbsorptionWeightingType.Analog) &&
+            if (input.Options.AbsorptionWeightingType == AbsorptionWeightingType.Analog &&
                 input.Options.RussianRouletteWeightThreshold != 0.0)
             {
                 return new ValidationResult(
@@ -164,18 +162,18 @@ namespace Vts.MonteCarlo
             var tissueWithEllipsoid = input.TissueInput as SingleEllipsoidTissueInput;
             if (tissueWithEllipsoid != null)
             {
-                var ellipsoid = (EllipsoidTissueRegion)(tissueWithEllipsoid).EllipsoidRegion;
+                var ellipsoid = (EllipsoidTissueRegion)tissueWithEllipsoid.EllipsoidRegion;
                 foreach (var detectorInput in input.DetectorInputs)
                 {
                     if (detectorInput.TallyDetails.IsCylindricalTally &&
-                        (ellipsoid.Center.X != 0.0) && (ellipsoid.Center.Y != 0.0))
+                        ellipsoid.Center.X != 0.0 && ellipsoid.Center.Y != 0.0)
                     {
                         return new ValidationResult(
                             false,
                             "Ellipsoid must be centered at (x,y)=(0,0) for cylindrical tallies",
                             "Change ellipsoid center to (0,0) or specify non-cylindrical type tally");            
                     }
-                    if (detectorInput.TallyDetails.IsCylindricalTally && (ellipsoid.Dx != ellipsoid.Dy))
+                    if (detectorInput.TallyDetails.IsCylindricalTally && ellipsoid.Dx != ellipsoid.Dy)
                     {
                         return new ValidationResult(
                             false,
@@ -193,8 +191,8 @@ namespace Vts.MonteCarlo
             }
             // check that if single voxel or single infinite cylinder tissue specified,
             // cannot specify (r,z) detector 
-            if ((input.TissueInput is SingleVoxelTissueInput) || 
-                (input.TissueInput is SingleInfiniteCylinderTissueInput))
+            if (input.TissueInput is SingleVoxelTissueInput || 
+                input.TissueInput is SingleInfiniteCylinderTissueInput)
             {
                 foreach (var detectorInput in input.DetectorInputs)
                 {
@@ -218,7 +216,7 @@ namespace Vts.MonteCarlo
             // to be specified
             if (input.TissueInput is BoundingCylinderTissueInput)
             {
-                if (!input.DetectorInputs.Any(d => d.TallyType == TallyType.ATotalBoundingVolume))
+                if (input.DetectorInputs.All(d => d.TallyType != TallyType.ATotalBoundingVolume))
                 {
                     return new ValidationResult(
                         false,
@@ -246,9 +244,9 @@ namespace Vts.MonteCarlo
             }
             foreach (var detectorInput in input.DetectorInputs)
             {
-                if (detectorInput.TallyDetails.IsTransmittanceTally && (input.TissueInput is MultiLayerTissueInput))
+                if (detectorInput.TallyDetails.IsTransmittanceTally && input.TissueInput is MultiLayerTissueInput)
                 {
-                    if ((((dynamic)detectorInput).FinalTissueRegionIndex == 0))
+                    if (((dynamic)detectorInput).FinalTissueRegionIndex == 0)
                     {
                             return new ValidationResult(
                                 false,

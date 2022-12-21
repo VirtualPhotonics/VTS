@@ -117,16 +117,10 @@ namespace Vts.MonteCarlo.Tissues
             Direction currentDirection)
         {
             // needs to call MultiLayerTissue when crossing top and bottom layer
-            if (base.OnDomainBoundary(currentPosition))
-            {
-                return base.GetReflectedDirection(currentPosition, currentDirection);
-            }
-            else
-            {
-                return currentDirection;
-            }
-            //throw new NotImplementedException(); // hopefully, this won't happen when the tissue inclusion is index-matched
-        }
+            return base.OnDomainBoundary(currentPosition) 
+                ? base.GetReflectedDirection(currentPosition, currentDirection) 
+                : currentDirection;
+         }
         /// <summary>
         /// method that provides refracted direction when photon refracts off boundary
         /// </summary>
@@ -144,15 +138,9 @@ namespace Vts.MonteCarlo.Tissues
             double cosThetaSnell)
         {
             // needs to call MultiLayerTissue when crossing top and bottom layer
-            if (base.OnDomainBoundary(currentPosition))
-            {
-                return base.GetRefractedDirection(currentPosition, currentDirection, currentN, nextN, cosThetaSnell);
-            }
-            else
-            {
-                return currentDirection;
-            }
-            //throw new NotImplementedException(); // hopefully, this won't happen when the tissue inclusion is index-matched
+            return base.OnDomainBoundary(currentPosition) 
+                ? base.GetRefractedDirection(currentPosition, currentDirection, currentN, nextN, cosThetaSnell) 
+                : currentDirection;
         }
     }
 }
