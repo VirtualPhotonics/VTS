@@ -32,18 +32,14 @@ namespace Vts.MonteCarlo.Controllers
         {
             IVirtualBoundary vb = null;
             distance = double.PositiveInfinity;
-            if (VirtualBoundaries != null && VirtualBoundaries.Count > 0)
+            if (VirtualBoundaries == null || VirtualBoundaries.Count <= 0) return vb;
+            foreach (var virtualBoundary in VirtualBoundaries)
             {
-                foreach (var virtualBoundary in VirtualBoundaries)
-                {
-                    // each VB takes direction of VB into consideration when determining distance
-                    var distanceToVB = virtualBoundary.GetDistanceToVirtualBoundary(dp);
-                    if (distanceToVB < distance)
-                    {
-                        distance = distanceToVB;
-                        vb = virtualBoundary;
-                    }
-                }
+                // each VB takes direction of VB into consideration when determining distance
+                var distanceToVb = virtualBoundary.GetDistanceToVirtualBoundary(dp);
+                if (distanceToVb >= distance) continue;
+                distance = distanceToVb;
+                vb = virtualBoundary;
             }
             return vb;
         }

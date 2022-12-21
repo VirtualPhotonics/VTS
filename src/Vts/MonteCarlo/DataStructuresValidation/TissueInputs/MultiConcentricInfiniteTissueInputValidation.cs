@@ -23,17 +23,13 @@ namespace Vts.MonteCarlo
             var layers = ((MultiConcentricInfiniteCylinderTissueInput)input).LayerRegions.Select(region => (LayerTissueRegion)region).ToArray();
             var cylinders = ((MultiConcentricInfiniteCylinderTissueInput)input).InfiniteCylinderRegions.Select(
                 region => (InfiniteCylinderTissueRegion)region).ToArray();
-            ValidationResult tempResult;
-            tempResult = ValidateGeometry(layers, cylinders);
+            var tempResult = ValidateGeometry(layers, cylinders);
             if (!tempResult.IsValid)
             {
                 return tempResult;
             }
             tempResult = ValidateRefractiveIndexMatch(layers, cylinders);
-            if (!tempResult.IsValid)
-            {
-                return tempResult;
-            }
+
             return tempResult;
         }
         /// <summary>

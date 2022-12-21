@@ -47,7 +47,7 @@ namespace Vts.MonteCarlo.Detectors
         /// </summary>
         public DoubleRange Z { get; set; }
         /// <summary>
-        /// subregion blood volume fraction
+        /// sub-region blood volume fraction
         /// </summary>
         public IList<double> BloodVolumeFraction { get; set; }
         /// <summary>
@@ -234,105 +234,105 @@ namespace Vts.MonteCarlo.Detectors
         /// <param name="photon">photon data needed to tally</param>
         public void Tally(Photon photon)
         {
-            if (!IsWithinDetectorAperture(photon))
-                return;
+            if (!IsWithinDetectorAperture(photon)) return;
 
-            var tissueMT = new double[2]; // 2 is for [static, dynamic] tally separation
-            bool talliedMT = false;
-            double totalMT = 0;
-            var totalMTOfZForOnePhoton = new Complex[Fx.Count, Z.Count - 1];
-            var dynamicMTOfZForOnePhoton = new Complex[Fx.Count, Z.Count - 1];
+            var tissueMt = new double[2]; // 2 is for [static, dynamic] tally separation
+            var talliedMt = false;
+            double totalMt = 0;
+            var totalMtOfZForOnePhoton = new Complex[Fx.Count, Z.Count - 1];
+            var dynamicMtOfZForOnePhoton = new Complex[Fx.Count, Z.Count - 1];
             var fxArray = Fx.AsEnumerable().ToArray();
             var x = photon.DP.Position.X; // use final exiting x position
-            var sinNegativeTwoPiFX = fxArray.Select(fx => Math.Sin(-2 * Math.PI * fx * x)).ToArray();
-            var cosNegativeTwoPiFX = fxArray.Select(fx => Math.Cos(-2 * Math.PI * fx * x)).ToArray();
+            var sinNegativeTwoPiFx = fxArray.Select(fx => Math.Sin(-2 * Math.PI * fx * x)).ToArray();
+            var cosNegativeTwoPiFx = fxArray.Select(fx => Math.Cos(-2 * Math.PI * fx * x)).ToArray();
 
             // go through photon history and claculate momentum transfer
             // assumes that no MT tallied at pseudo-collisions (reflections and refractions)
             // this algorithm needs to look ahead to angle of next DP, but needs info from previous to determine whether real or pseudo-collision
-            PhotonDataPoint previousDP = photon.History.HistoryData.First();
-            PhotonDataPoint currentDP = photon.History.HistoryData.Skip(1).Take(1).First();
-            foreach (PhotonDataPoint nextDP in photon.History.HistoryData.Skip(2))
+            var previousDp = photon.History.HistoryData.First();
+            var currentDp = photon.History.HistoryData.Skip(1).Take(1).First();
+            foreach (var nextDp in photon.History.HistoryData.Skip(2))
             {
-                if (previousDP.Weight != currentDP.Weight) // only for true collision points
+                if (previousDp.Weight != currentDp.Weight) // only for true collision points
                 {
-                    var csr = _tissue.GetRegionIndex(currentDP.Position); // get current region index
+                    var csr = _tissue.GetRegionIndex(currentDp.Position); // get current region index
                     // get z bin of current position
-                    var iz = DetectorBinning.WhichBin(currentDP.Position.Z, Z.Count - 1, Z.Delta, Z.Start);
+                    var iz = DetectorBinning.WhichBin(currentDp.Position.Z, Z.Count - 1, Z.Delta, Z.Start);
                     // get angle between current and next
-                    double cosineBetweenTrajectories = Direction.GetDotProduct(currentDP.Direction, nextDP.Direction);
+                    var cosineBetweenTrajectories = Direction.GetDotProduct(currentDp.Direction, nextDp.Direction);
                     var momentumTransfer = 1 - cosineBetweenTrajectories;
-                    totalMT += momentumTransfer;
-                    for (int ifx = 0; ifx < Fx.Count; ifx++)
+                    totalMt += momentumTransfer;
+                    for (var ifx = 0; ifx < Fx.Count; ifx++)
                     {
-                        var deltaWeight = photon.DP.Weight * cosNegativeTwoPiFX[ifx] +
-                                      Complex.ImaginaryOne * sinNegativeTwoPiFX[ifx];
+                        var deltaWeight = photon.DP.Weight * cosNegativeTwoPiFx[ifx] +
+                                      Complex.ImaginaryOne * sinNegativeTwoPiFx[ifx];
                         TotalMTOfZ[ifx, iz] += deltaWeight * momentumTransfer;
-                        totalMTOfZForOnePhoton[ifx, iz] += deltaWeight * momentumTransfer;
+                        totalMtOfZForOnePhoton[ifx, iz] += deltaWeight * momentumTransfer;
                     }
                     //TotalCollisions[csr] += 1; //debug
                     if (_rng.NextDouble() < _bloodVolumeFraction[csr]) // hit blood 
                     {
-                        tissueMT[1] += momentumTransfer;
-                        for (int ifx = 0; ifx < Fx.Count; ifx++)
+                        tissueMt[1] += momentumTransfer;
+                        for (var ifx = 0; ifx < Fx.Count; ifx++)
                         {
-                            var deltaWeight = photon.DP.Weight * cosNegativeTwoPiFX[ifx] +
-                                          Complex.ImaginaryOne * sinNegativeTwoPiFX[ifx];
+                            var deltaWeight = photon.DP.Weight * cosNegativeTwoPiFx[ifx] +
+                                          Complex.ImaginaryOne * sinNegativeTwoPiFx[ifx];
                             DynamicMTOfZ[ifx, iz] += deltaWeight * momentumTransfer;
-                            dynamicMTOfZForOnePhoton[ifx, iz] += deltaWeight * momentumTransfer;
+                            dynamicMtOfZForOnePhoton[ifx, iz] += deltaWeight * momentumTransfer;
                         }
 
                         SubregionCollisions[csr, 1] += 1; // add to dynamic collision count
                     }
                     else // index 0 captures static events
                     {
-                        tissueMT[0] += momentumTransfer;
+                        tissueMt[0] += momentumTransfer;
                         SubregionCollisions[csr, 0] += 1; // add to static collision count
                     }
-                    talliedMT = true;
+                    talliedMt = true;
                 }
-                previousDP = currentDP;
-                currentDP = nextDP;
+                previousDp = currentDp;
+                currentDp = nextDp;
             }
-            if (totalMT > 0.0)  // only tally if momentum transfer accumulated
+
+            if (totalMt <= 0.0) return; // only tally if momentum transfer accumulated
             {
-                var imt = DetectorBinning.WhichBin(totalMT, MTBins.Count - 1, MTBins.Delta, MTBins.Start);
-                for (int ifx = 0; ifx < Fx.Count; ifx++)
+                var imt = DetectorBinning.WhichBin(totalMt, MTBins.Count - 1, MTBins.Delta, MTBins.Start);
+                for (var ifx = 0; ifx < Fx.Count; ifx++)
                 {
-                    var deltaWeight = photon.DP.Weight * cosNegativeTwoPiFX[ifx] +
-                                      Complex.ImaginaryOne * sinNegativeTwoPiFX[ifx];
+                    var deltaWeight = photon.DP.Weight * cosNegativeTwoPiFx[ifx] +
+                                      Complex.ImaginaryOne * sinNegativeTwoPiFx[ifx];
                     Mean[ifx, imt] += deltaWeight;
                     if (TallySecondMoment)
                     {
-                        // 2nd moment is E[xx*]=E[xreal^2]+E[ximag^2] and with cos^2+sin^2=1 => weight^2
+                        // 2nd moment is E[xx*]=E[xReal^2]+E[xImag^2] and with cos^2+sin^2=1 => weight^2
                         SecondMoment[ifx, imt] += photon.DP.Weight * photon.DP.Weight;
-                        for (int i = 0; i < Fx.Count - 1; i++)
+                        for (var i = 0; i < Fx.Count - 1; i++)
                         {
-                            for (int j = 0; j < Z.Count - 1; j++)
+                            for (var j = 0; j < Z.Count - 1; j++)
                             {
                                 TotalMTOfZSecondMoment[i, j] +=
-                                    totalMTOfZForOnePhoton[i, j] * totalMTOfZForOnePhoton[i, j];
+                                    totalMtOfZForOnePhoton[i, j] * totalMtOfZForOnePhoton[i, j];
                                 DynamicMTOfZSecondMoment[i, j] +=
-                                    dynamicMTOfZForOnePhoton[i, j] * dynamicMTOfZForOnePhoton[i, j];
+                                    dynamicMtOfZForOnePhoton[i, j] * dynamicMtOfZForOnePhoton[i, j];
                             }
                         }
                     }
 
-                    if (talliedMT) TallyCount++;
+                    if (talliedMt) TallyCount++;
 
                     // tally DYNAMIC fractional MT in entire tissue
 
                     // add 1 to ifrac to offset bin 0 added for =0 only tallies
-                    int ifrac = DetectorBinning.WhichBin(tissueMT[1] / totalMT,
-            FractionalMTBins.Count - 1, FractionalMTBins.Delta, FractionalMTBins.Start) + 1;
+                    var ifrac = DetectorBinning.WhichBin(tissueMt[1] / totalMt,
+                        FractionalMTBins.Count - 1, FractionalMTBins.Delta, FractionalMTBins.Start) + 1;
                     // put identically 0 fractional MT into separate bin at index 0
-                    if (tissueMT[1] / totalMT == 0.0)
+                    if (tissueMt[1] / totalMt == 0.0)
                     {
                         ifrac = 0;
                     }
 
                     // put identically 1 fractional MT into separate bin at index Count+1 -1
-                    if (tissueMT[1] / totalMT == 1.0)
+                    if (tissueMt[1] / totalMt == 1.0)
                     {
                         ifrac = FractionalMTBins.Count;
                     }
@@ -349,21 +349,21 @@ namespace Vts.MonteCarlo.Detectors
         /// <param name="numPhotons">number of photons launched</param>
         public void Normalize(long numPhotons)
         {
-            for (int ifx = 0; ifx < Fx.Count; ifx++)
+            for (var ifx = 0; ifx < Fx.Count; ifx++)
             {
-                for (int imt = 0; imt < MTBins.Count - 1; imt++)
+                for (var imt = 0; imt < MTBins.Count - 1; imt++)
                 {
                     Mean[ifx, imt] /= numPhotons;
                     if (TallySecondMoment)
                     {
                         SecondMoment[ifx, imt] /= numPhotons;
                     }
-                    for (int ifrac = 0; ifrac < FractionalMTBins.Count + 1; ifrac++)
+                    for (var ifrac = 0; ifrac < FractionalMTBins.Count + 1; ifrac++)
                     {
                         FractionalMT[ifx, imt, ifrac] /= numPhotons;
                     } 
                 }
-                for (int iz = 0; iz < Z.Count - 1; iz++)
+                for (var iz = 0; iz < Z.Count - 1; iz++)
                 {
                     TotalMTOfZ[ifx, iz] /= numPhotons;
                     DynamicMTOfZ[ifx, iz] /= numPhotons;

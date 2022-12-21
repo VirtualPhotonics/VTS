@@ -21,8 +21,7 @@ namespace Vts.MonteCarlo
         {
             var layers = ((BoundingCylinderTissueInput)input).LayerRegions.Select(region => (LayerTissueRegion)region).ToArray();
             var boundingCylinder = (CaplessCylinderTissueRegion)((BoundingCylinderTissueInput)input).CylinderRegion;
-            ValidationResult tempResult;
-            tempResult = ValidateGeometry(layers, boundingCylinder);
+            var tempResult = ValidateGeometry(layers, boundingCylinder);
             if (!tempResult.IsValid)
             {
                 return tempResult;
@@ -48,13 +47,14 @@ namespace Vts.MonteCarlo
             // check that layer definition is valid
             var tempResult = MultiLayerTissueInputValidation.ValidateLayers(layers);
 
-            if (!tempResult.IsValid){ return tempResult; }
+            if (!tempResult.IsValid) return tempResult;
 
             // test for air layers and eliminate from list
             var tissueLayers = layers.Where(layer => !layer.IsAir());
             
             // check that there is at least one layer of tissue 
-            if (!tissueLayers.Any())
+            var layerTissueRegions = tissueLayers.ToList();
+            if (!layerTissueRegions.Any())
             {
                 tempResult = new ValidationResult(
                     false,
@@ -62,9 +62,9 @@ namespace Vts.MonteCarlo
                     "BoundingCylinderTissueInput: redefine tissue definition to contain at least a single layer of tissue");
             }
 
-            if (!tempResult.IsValid) { return tempResult; }
+            if (!tempResult.IsValid) return tempResult;
 
-            var layersHeight = tissueLayers.Sum(layer => layer.ZRange.Delta);
+            var layersHeight = layerTissueRegions.Sum(layer => layer.ZRange.Delta);
 
             if (boundingCylinder.Height != layersHeight)
             {
@@ -74,7 +74,7 @@ namespace Vts.MonteCarlo
                     "BoundingCylinderTissueInput: make sure cylinder Height = depth of tissue");
             }
 
-            if (!tempResult.IsValid) { return tempResult; }
+            if (!tempResult.IsValid) return tempResult;
 
             return new ValidationResult(
                 true,
@@ -92,7 +92,7 @@ namespace Vts.MonteCarlo
             IList<LayerTissueRegion> layers, CaplessCylinderTissueRegion boundingCylinder)
         {
             // for all tissue layers
-            for (int i = 1; i <= layers.Count - 2; i++)
+            for (var i = 1; i <= layers.Count - 2; i++)
             {
                 if (layers[i].RegionOP.N != boundingCylinder.RegionOP.N)
                 {

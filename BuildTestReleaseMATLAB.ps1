@@ -15,7 +15,7 @@ Write-Host "Test MATLAB unit tests" -ForegroundColor Green
 .\RunMATLABUnitTests.ps1 
 
 Write-Host "Create MATLAB Release version = $version" -ForegroundColor Green
-$archive="$PWD\release\VTS_MATLAB_v" + $version + "Beta.zip"
+$archive="$PWD\release\VTS_MATLAB_v" + $version + ".zip"
 $source="$PWD\matlab\vts_wrapper\*"
 
 Compress-Archive -Path $source -DestinationPath $archive

@@ -21,7 +21,7 @@ namespace Vts.MonteCarlo
         public static IList<SimulationInput> GenerateAllSimulationInputs()
         {
             // additions to this list need to be added to MCCL Program tests for clean up
-            return new List<SimulationInput>()
+            return new List<SimulationInput>
             {
                 PointSourceOneLayerTissueAllDetectors(),
                 PointSourceOneLayerTissueROfRhoAndFluenceOfRhoAndZDetectors(),
@@ -61,7 +61,7 @@ namespace Vts.MonteCarlo
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Discrete,
                     PhaseFunctionType.HenyeyGreenstein,
-                    new List<DatabaseType>() { }, // databases to be written
+                    new List<DatabaseType> { }, // databases to be written
                     false, // track statistics
                     0.0, // RR threshold -> no RR performed
                     0),
@@ -83,67 +83,69 @@ namespace Vts.MonteCarlo
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
                     }
                 ),
-                new List<IDetectorInput>()
+                new List<IDetectorInput>
                 {
                     // units space[mm], time[ns], temporal-freq[GHz], abs./scat. coeff[/mm]    
-                    new AOfRhoAndZDetectorInput() {Rho=new DoubleRange(0.0, 10, 101),Z=new DoubleRange(0.0, 10, 101)},
-                    new AOfXAndYAndZDetectorInput(){X=new DoubleRange(-10, 10, 201),Y=new DoubleRange(-10, 10, 2),Z=new DoubleRange(0, 10, 101)},                
+                    new AOfRhoAndZDetectorInput {Rho=new DoubleRange(0.0, 10, 101),Z=new DoubleRange(0.0, 10, 101)},
+                    new AOfXAndYAndZDetectorInput {X=new DoubleRange(-10, 10, 201),Y=new DoubleRange(-10, 10, 2),Z=new DoubleRange(0, 10, 101)},                
                     new ATotalDetectorInput(),      
-                    new FluenceOfRhoAndZAndTimeDetectorInput(){Rho=new DoubleRange(0.0, 10, 101),Z=new DoubleRange(0.0, 10, 101),Time= new DoubleRange(0.0, 10, 101)},              
-                    new FluenceOfRhoAndZDetectorInput() {Rho=new DoubleRange(0.0, 10, 101),Z=new DoubleRange(0.0, 10, 101)},
-                    new FluenceOfXAndYAndZDetectorInput(){X=new DoubleRange(-10, 10, 201),Y=new DoubleRange(-10, 10, 2),Z=new DoubleRange(0, 10, 101)},
-                    new FluenceOfXAndYAndZAndOmegaDetectorInput(){X=new DoubleRange(-10, 10, 201),Y=new DoubleRange(-10, 10, 2),Z=new DoubleRange(0, 10, 101),Omega=new DoubleRange(0.0, 1, 21)},
-                    new FluenceOfXAndYAndZAndTimeDetectorInput(){X=new DoubleRange(-10, 10, 201),Y=new DoubleRange(-10, 10, 2),Z=new DoubleRange(0, 10, 101),Time=new DoubleRange(0.0, 1, 21)},
-                    new FluenceOfXAndYAndZAndStartingXAndYDetectorInput(){
+                    new FluenceOfRhoAndZAndTimeDetectorInput {Rho=new DoubleRange(0.0, 10, 101),Z=new DoubleRange(0.0, 10, 101),Time= new DoubleRange(0.0, 10, 101)},              
+                    new FluenceOfRhoAndZDetectorInput {Rho=new DoubleRange(0.0, 10, 101),Z=new DoubleRange(0.0, 10, 101)},
+                    new FluenceOfXAndYAndZDetectorInput {X=new DoubleRange(-10, 10, 201),Y=new DoubleRange(-10, 10, 2),Z=new DoubleRange(0, 10, 101)},
+                    new FluenceOfXAndYAndZAndOmegaDetectorInput {X=new DoubleRange(-10, 10, 201),Y=new DoubleRange(-10, 10, 2),Z=new DoubleRange(0, 10, 101),Omega=new DoubleRange(0.0, 1, 21)},
+                    new FluenceOfXAndYAndZAndTimeDetectorInput {X=new DoubleRange(-10, 10, 201),Y=new DoubleRange(-10, 10, 2),Z=new DoubleRange(0, 10, 101),Time=new DoubleRange(0.0, 1, 21)},
+                    new FluenceOfXAndYAndZAndStartingXAndYDetectorInput
+                    {
                         X =new DoubleRange(-10, 10, 5),Y=new DoubleRange(-10, 10, 2),Z=new DoubleRange(0, 10, 11),
                         StartingX=new DoubleRange(-1, 1, 2),StartingY=new DoubleRange(-10,10,2)},
-                    new FluenceOfRhoAndZAndOmegaDetectorInput(){Rho=new DoubleRange(0, 10, 101),Z=new DoubleRange(0, 10, 101),Omega=new DoubleRange(0.0, 1, 21)},
-                    new FluenceOfFxAndZDetectorInput(){Fx=new DoubleRange(0, 0.5, 51),Z=new DoubleRange(0, 10, 101)},
-                    new RadianceOfRhoAndZAndAngleDetectorInput(){Rho=new DoubleRange(0.0, 10, 101),Z=new DoubleRange(0.0, 10, 101),Angle=new DoubleRange(0, Math.PI, 5)},
-                    new RadianceOfFxAndZAndAngleDetectorInput(){Fx=new DoubleRange(0.0, 0.5, 51),Z=new DoubleRange(0.0, 10, 101),Angle=new DoubleRange(0, Math.PI, 5)},
-                    new RadianceOfXAndYAndZAndThetaAndPhiDetectorInput(){
+                    new FluenceOfRhoAndZAndOmegaDetectorInput {Rho=new DoubleRange(0, 10, 101),Z=new DoubleRange(0, 10, 101),Omega=new DoubleRange(0.0, 1, 21)},
+                    new FluenceOfFxAndZDetectorInput {Fx=new DoubleRange(0, 0.5, 51),Z=new DoubleRange(0, 10, 101)},
+                    new RadianceOfRhoAndZAndAngleDetectorInput {Rho=new DoubleRange(0.0, 10, 101),Z=new DoubleRange(0.0, 10, 101),Angle=new DoubleRange(0, Math.PI, 5)},
+                    new RadianceOfFxAndZAndAngleDetectorInput {Fx=new DoubleRange(0.0, 0.5, 51),Z=new DoubleRange(0.0, 10, 101),Angle=new DoubleRange(0, Math.PI, 5)},
+                    new RadianceOfXAndYAndZAndThetaAndPhiDetectorInput
+                    {
                         X=new DoubleRange(-10.0, 10.0, 101),
                         Y= new DoubleRange(-10.0, 10.0, 101),
                         Z= new DoubleRange(0.0, 10.0, 101), 
                         Theta=new DoubleRange(0.0, Math.PI, 5), // theta (polar angle)
                         Phi=new DoubleRange(-Math.PI, Math.PI, 5)}, // phi (azimuthal angle)
-                    new RadianceOfRhoAtZDetectorInput() {Rho = new DoubleRange(0.0, 10, 101), ZDepth = 3},
+                    new RadianceOfRhoAtZDetectorInput {Rho = new DoubleRange(0.0, 10, 101), ZDepth = 3},
                     new RDiffuseDetectorInput(),
-                    new ROfAngleDetectorInput() {Angle=new DoubleRange(Math.PI / 2 , Math.PI, 5)},
-                    new ROfFxAndTimeDetectorInput() {Fx = new DoubleRange(0.0, 0.5, 51), Time= new DoubleRange(0.0, 10, 11)},
-                    new ROfFxDetectorInput() {Fx = new DoubleRange(0.0, 0.5, 51)},
-                    new ROfFxAndAngleDetectorInput() {Fx = new DoubleRange(0.0, 0.5, 51), Angle= new DoubleRange(Math.PI / 2, Math.PI, 5)},
-                    new ROfFxAndMaxDepthDetectorInput() {Fx = new DoubleRange(0.0, 0.5, 51), MaxDepth= new DoubleRange(0.0, 10, 11)},
-                    new ROfRhoAndAngleDetectorInput() {Rho=new DoubleRange(0.0, 10, 101),Angle=new DoubleRange(Math.PI / 2 , Math.PI, 5)},             
-                    new ROfRhoAndOmegaDetectorInput() {Rho=new DoubleRange(0.0, 10, 101),Omega=new DoubleRange(0.0, 1, 21)}, // GHz
-                    new ROfRhoAndTimeDetectorInput() {Rho= new DoubleRange(0.0, 10, 101),Time=new DoubleRange(0.0, 10, 11)},
-                    new ROfRhoAndMaxDepthDetectorInput() {Rho= new DoubleRange(0.0, 10, 101),MaxDepth=new DoubleRange(0.0, 10, 11)},
-                    new ROfRhoAndMaxDepthRecessedDetectorInput() {Rho= new DoubleRange(0.0, 10, 101),MaxDepth=new DoubleRange(0.0, 10, 11),ZPlane=-1.0},
-                    new ROfRhoDetectorInput() {Rho =new DoubleRange(0.0, 10, 101)},
-                    new ROfRhoRecessedDetectorInput() {Rho =new DoubleRange(0.0, 10, 101),ZPlane=-1.0},
-                    new ROfXAndYDetectorInput() {X=new DoubleRange(-100.0, 100.0, 21), Y= new DoubleRange(-100.0, 100.0, 21)},
-                    new ROfXAndYRecessedDetectorInput() {X=new DoubleRange(-100.0, 100.0, 21), Y= new DoubleRange(-100.0, 100.0, 21),ZPlane=-1.0},
-                    new ROfXAndYAndTimeDetectorInput() {X=new DoubleRange(-100.0, 100.0, 21), Y= new DoubleRange(-100.0, 100.0, 21),Time=new DoubleRange(0.0, 1, 11)},
-                    new ROfXAndYAndTimeRecessedDetectorInput() {X=new DoubleRange(-100.0, 100.0, 21), Y= new DoubleRange(-100.0, 100.0, 21),Time=new DoubleRange(0.0, 1, 11),ZPlane=-1.0},
-                    new ROfXAndYAndTimeAndSubregionDetectorInput() {X=new DoubleRange(-100.0, 100.0, 21), Y= new DoubleRange(-100.0, 100.0, 21),Time=new DoubleRange(0.0, 1, 11)},
-                    new ROfXAndYAndTimeAndSubregionRecessedDetectorInput() {X=new DoubleRange(-100.0, 100.0, 21), Y= new DoubleRange(-100.0, 100.0, 21),Time=new DoubleRange(0.0, 1, 11),ZPlane=-1.0},
-                    new ROfXAndYAndThetaAndPhiDetectorInput()
+                    new ROfAngleDetectorInput {Angle=new DoubleRange(Math.PI / 2 , Math.PI, 5)},
+                    new ROfFxAndTimeDetectorInput {Fx = new DoubleRange(0.0, 0.5, 51), Time= new DoubleRange(0.0, 10, 11)},
+                    new ROfFxDetectorInput {Fx = new DoubleRange(0.0, 0.5, 51)},
+                    new ROfFxAndAngleDetectorInput {Fx = new DoubleRange(0.0, 0.5, 51), Angle= new DoubleRange(Math.PI / 2, Math.PI, 5)},
+                    new ROfFxAndMaxDepthDetectorInput {Fx = new DoubleRange(0.0, 0.5, 51), MaxDepth= new DoubleRange(0.0, 10, 11)},
+                    new ROfRhoAndAngleDetectorInput {Rho=new DoubleRange(0.0, 10, 101),Angle=new DoubleRange(Math.PI / 2 , Math.PI, 5)},             
+                    new ROfRhoAndOmegaDetectorInput {Rho=new DoubleRange(0.0, 10, 101),Omega=new DoubleRange(0.0, 1, 21)}, // GHz
+                    new ROfRhoAndTimeDetectorInput {Rho= new DoubleRange(0.0, 10, 101),Time=new DoubleRange(0.0, 10, 11)},
+                    new ROfRhoAndMaxDepthDetectorInput {Rho= new DoubleRange(0.0, 10, 101),MaxDepth=new DoubleRange(0.0, 10, 11)},
+                    new ROfRhoAndMaxDepthRecessedDetectorInput {Rho= new DoubleRange(0.0, 10, 101),MaxDepth=new DoubleRange(0.0, 10, 11),ZPlane=-1.0},
+                    new ROfRhoDetectorInput {Rho =new DoubleRange(0.0, 10, 101)},
+                    new ROfRhoRecessedDetectorInput {Rho =new DoubleRange(0.0, 10, 101),ZPlane=-1.0},
+                    new ROfXAndYDetectorInput {X=new DoubleRange(-100.0, 100.0, 21), Y= new DoubleRange(-100.0, 100.0, 21)},
+                    new ROfXAndYRecessedDetectorInput {X=new DoubleRange(-100.0, 100.0, 21), Y= new DoubleRange(-100.0, 100.0, 21),ZPlane=-1.0},
+                    new ROfXAndYAndTimeDetectorInput {X=new DoubleRange(-100.0, 100.0, 21), Y= new DoubleRange(-100.0, 100.0, 21),Time=new DoubleRange(0.0, 1, 11)},
+                    new ROfXAndYAndTimeRecessedDetectorInput {X=new DoubleRange(-100.0, 100.0, 21), Y= new DoubleRange(-100.0, 100.0, 21),Time=new DoubleRange(0.0, 1, 11),ZPlane=-1.0},
+                    new ROfXAndYAndTimeAndSubregionDetectorInput {X=new DoubleRange(-100.0, 100.0, 21), Y= new DoubleRange(-100.0, 100.0, 21),Time=new DoubleRange(0.0, 1, 11)},
+                    new ROfXAndYAndTimeAndSubregionRecessedDetectorInput {X=new DoubleRange(-100.0, 100.0, 21), Y= new DoubleRange(-100.0, 100.0, 21),Time=new DoubleRange(0.0, 1, 11),ZPlane=-1.0},
+                    new ROfXAndYAndThetaAndPhiDetectorInput
                     {
                         X = new DoubleRange(-10.0, 10.0, 101),
                         Y = new DoubleRange(-10.0, 10.0, 101),
                         Theta = new DoubleRange(Math.PI / 2, Math.PI, 3),
                         Phi = new DoubleRange(-Math.PI, Math.PI, 5)
                     },
-                    new ROfXAndYAndMaxDepthDetectorInput() {X=new DoubleRange(-100.0, 100.0, 21), Y= new DoubleRange(-100.0, 100.0, 21),MaxDepth=new DoubleRange(0.0, 10, 11)},
-                    new ROfXAndYAndMaxDepthRecessedDetectorInput() {X=new DoubleRange(-100.0, 100.0, 21), Y= new DoubleRange(-100.0, 100.0, 21),MaxDepth=new DoubleRange(0.0, 10, 11),ZPlane=-1.0},
+                    new ROfXAndYAndMaxDepthDetectorInput {X=new DoubleRange(-100.0, 100.0, 21), Y= new DoubleRange(-100.0, 100.0, 21),MaxDepth=new DoubleRange(0.0, 10, 11)},
+                    new ROfXAndYAndMaxDepthRecessedDetectorInput {X=new DoubleRange(-100.0, 100.0, 21), Y= new DoubleRange(-100.0, 100.0, 21),MaxDepth=new DoubleRange(0.0, 10, 11),ZPlane=-1.0},
                     new RSpecularDetectorInput(),
                     new TDiffuseDetectorInput(),
-                    new TOfAngleDetectorInput() {Angle=new DoubleRange(0.0, Math.PI / 2, 5)},
-                    new TOfRhoAndAngleDetectorInput() {Rho=new DoubleRange(0.0, 10, 101),Angle=new DoubleRange(0.0, Math.PI / 2, 5)},
-                    new TOfRhoDetectorInput() {Rho=new DoubleRange(0.0, 10, 101)},
-                    new TOfXAndYDetectorInput() {X=new DoubleRange(-100.0, 100.0, 21), Y= new DoubleRange(-100.0, 100.0, 21)},
-                    new TOfXAndYAndTimeAndSubregionDetectorInput() {X=new DoubleRange(-100.0, 100.0, 21), Y= new DoubleRange(-100.0, 100.0, 21),Time=new DoubleRange(0.0, 1, 11)},
-                    new TOfFxDetectorInput() {Fx = new DoubleRange(0.0, 0.5, 51)},
+                    new TOfAngleDetectorInput {Angle=new DoubleRange(0.0, Math.PI / 2, 5)},
+                    new TOfRhoAndAngleDetectorInput {Rho=new DoubleRange(0.0, 10, 101),Angle=new DoubleRange(0.0, Math.PI / 2, 5)},
+                    new TOfRhoDetectorInput {Rho=new DoubleRange(0.0, 10, 101)},
+                    new TOfXAndYDetectorInput {X=new DoubleRange(-100.0, 100.0, 21), Y= new DoubleRange(-100.0, 100.0, 21)},
+                    new TOfXAndYAndTimeAndSubregionDetectorInput {X=new DoubleRange(-100.0, 100.0, 21), Y= new DoubleRange(-100.0, 100.0, 21),Time=new DoubleRange(0.0, 1, 11)},
+                    new TOfFxDetectorInput {Fx = new DoubleRange(0.0, 0.5, 51)},
                 }
             );
         }
@@ -164,7 +166,7 @@ namespace Vts.MonteCarlo
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Discrete,
                     PhaseFunctionType.HenyeyGreenstein,
-                    new List<DatabaseType>() { }, // databases to be written
+                    new List<DatabaseType> { }, // databases to be written
                     false, // track statistics
                     0.0, // RR threshold -> no RR performed
                     0),
@@ -186,10 +188,10 @@ namespace Vts.MonteCarlo
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
                     }
                 ),
-                new List<IDetectorInput>()
+                new List<IDetectorInput>
                 {
-                    new ROfRhoDetectorInput() { Rho =new DoubleRange(0.0, 10, 101), FinalTissueRegionIndex=0, NA=1.0},
-                    new FluenceOfRhoAndZDetectorInput() {Rho=new DoubleRange(0.0, 10, 101),Z=new DoubleRange(0.0, 10, 101)}
+                    new ROfRhoDetectorInput { Rho =new DoubleRange(0.0, 10, 101), FinalTissueRegionIndex=0, NA=1.0},
+                    new FluenceOfRhoAndZDetectorInput {Rho=new DoubleRange(0.0, 10, 101),Z=new DoubleRange(0.0, 10, 101)}
                 }
              );
         }
@@ -211,7 +213,7 @@ namespace Vts.MonteCarlo
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Discrete,
                     PhaseFunctionType.HenyeyGreenstein,
-                    new List<DatabaseType>() { }, // databases to be written
+                    new List<DatabaseType> { }, // databases to be written
                     false, // track statistics
                     0.0, // RR threshold -> no RR performed
                     0),
@@ -233,10 +235,10 @@ namespace Vts.MonteCarlo
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
                     }
                 ),
-                new List<IDetectorInput>()
+                new List<IDetectorInput>
                 {
-                    new FluenceOfRhoAndZDetectorInput() {Rho=new DoubleRange(0.0, 10, 101),Z= new DoubleRange(0.0, 10, 101)},
-                    new RadianceOfRhoAndZAndAngleDetectorInput()
+                    new FluenceOfRhoAndZDetectorInput {Rho=new DoubleRange(0.0, 10, 101),Z= new DoubleRange(0.0, 10, 101)},
+                    new RadianceOfRhoAndZAndAngleDetectorInput
                     {
                         Rho=new DoubleRange(0.0, 10, 101),
                         Z=new DoubleRange(0.0, 10, 101),
@@ -262,7 +264,7 @@ namespace Vts.MonteCarlo
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Discrete,
                     PhaseFunctionType.HenyeyGreenstein,
-                    new List<DatabaseType>() { }, // databases to be written
+                    new List<DatabaseType> { }, // databases to be written
                     false, // track statistics
                     0.0, // RR threshold -> no RR performed
                     0),
@@ -287,7 +289,7 @@ namespace Vts.MonteCarlo
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
                     }
                 ),
-                new List<IDetectorInput>()
+                new List<IDetectorInput>
                 {
                     new ROfRhoDetectorInput
                     {
@@ -338,7 +340,7 @@ namespace Vts.MonteCarlo
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
                     }
                 ),
-                new List<IDetectorInput>()
+                new List<IDetectorInput>
                 {
                     new ROfRhoDetectorInput
                     {
@@ -364,7 +366,7 @@ namespace Vts.MonteCarlo
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Discrete,
                     PhaseFunctionType.HenyeyGreenstein,
-                    new List<DatabaseType>() { }, // databases to be written
+                    new List<DatabaseType> { }, // databases to be written
                     false, // track statistics
                     0.0, // RR threshold -> no RR performed
                     0),
@@ -393,9 +395,9 @@ namespace Vts.MonteCarlo
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
                     }
                 ),
-                new List<IDetectorInput>()
+                new List<IDetectorInput>
                 {
-                    new FluenceOfRhoAndZDetectorInput(){Rho=new DoubleRange(0.0, 10, 101),Z= new DoubleRange(0.0, 10, 101)}
+                    new FluenceOfRhoAndZDetectorInput {Rho=new DoubleRange(0.0, 10, 101),Z= new DoubleRange(0.0, 10, 101)}
                 }
             );
         }
@@ -416,7 +418,7 @@ namespace Vts.MonteCarlo
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Discrete,
                     PhaseFunctionType.HenyeyGreenstein,
-                    new List<DatabaseType>() { }, // databases to be written
+                    new List<DatabaseType> { }, // databases to be written
                     false, // track statistics
                     0.0, // RR threshold -> no RR performed
                     0),
@@ -443,9 +445,10 @@ namespace Vts.MonteCarlo
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
                     }
                 ),
-                new List<IDetectorInput>()
+                new List<IDetectorInput>
                 {
-                    new AOfXAndYAndZDetectorInput(){
+                    new AOfXAndYAndZDetectorInput
+                    {
                         X =new DoubleRange(-10, 10, 201),
                         Y =new DoubleRange(-10, 10, 2),
                         Z =new DoubleRange(0, 10, 101)}
@@ -469,7 +472,7 @@ namespace Vts.MonteCarlo
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Discrete,
                     PhaseFunctionType.HenyeyGreenstein,
-                    new List<DatabaseType>() { }, // databases to be written
+                    new List<DatabaseType> { }, // databases to be written
                     false, // track statistics
                     0.0, // RR threshold -> no RR performed
                     0),
@@ -504,9 +507,10 @@ new ITissueRegion[]
                         new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
                     }
                 ),
-                new List<IDetectorInput>()
+                new List<IDetectorInput>
                 {
-                    new AOfXAndYAndZDetectorInput(){
+                    new AOfXAndYAndZDetectorInput
+                    {
                         X =new DoubleRange(-10, 10, 201),
                         Y =new DoubleRange(-10, 10, 2),
                         Z =new DoubleRange(0, 10, 101)},
@@ -530,7 +534,7 @@ new ITissueRegion[]
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Discrete,
                     PhaseFunctionType.HenyeyGreenstein,
-                    new List<DatabaseType>() { DatabaseType.pMCDiffuseReflectance }, // databases to be written
+                    new List<DatabaseType> { DatabaseType.pMCDiffuseReflectance }, // databases to be written
                     false, // track statistics
                     0.0, // RR threshold -> 0 = no RR performed
                     0),
@@ -552,7 +556,7 @@ new ITissueRegion[]
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
                     }
                 ),
-                new List<IDetectorInput>()
+                new List<IDetectorInput>
                 {
                     new ROfRhoDetectorInput
                     {
@@ -578,7 +582,7 @@ new ITissueRegion[]
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Discrete,
                     PhaseFunctionType.HenyeyGreenstein,
-                    new List<DatabaseType>() { }, // databases to be written
+                    new List<DatabaseType> { }, // databases to be written
                     false, // track statistics
                     0.0, // RR threshold -> 0 = no RR performed
                     0),
@@ -606,7 +610,7 @@ new ITissueRegion[]
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
                     }
                 ),
-                new List<IDetectorInput>()
+                new List<IDetectorInput>
                 {
                     new ROfRhoDetectorInput
                     {
@@ -632,7 +636,7 @@ new ITissueRegion[]
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Discrete,
                     PhaseFunctionType.HenyeyGreenstein,
-                    new List<DatabaseType>() { }, // databases to be written
+                    new List<DatabaseType> { }, // databases to be written
                     false, // track statistics
                     0.0, // RR threshold -> 0 = no RR performed
                     0), 
@@ -666,7 +670,7 @@ new ITissueRegion[]
                             new OpticalProperties( 0.0, 1e-10, 1.0, 1.0))
                     }
                 ),
-                new List<IDetectorInput>()
+                new List<IDetectorInput>
                 {
                     new AOfRhoAndZDetectorInput
                     {
@@ -694,7 +698,7 @@ new ITissueRegion[]
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Discrete,
                     PhaseFunctionType.HenyeyGreenstein,
-                    new List<DatabaseType>() { }, // databases to be written
+                    new List<DatabaseType> { }, // databases to be written
                     false, // track statistics
                     0.0, // RR threshold -> 0 = no RR performed
                     0),
@@ -722,7 +726,7 @@ new ITissueRegion[]
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
                     }
                 ),
-                new List<IDetectorInput>()
+                new List<IDetectorInput>
                 {
                     new ROfRhoDetectorInput
                     {
@@ -748,7 +752,7 @@ new ITissueRegion[]
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Discrete,
                     PhaseFunctionType.HenyeyGreenstein,
-                    new List<DatabaseType>() { }, // databases to be written
+                    new List<DatabaseType> { }, // databases to be written
                     false, // track statistics
                     0.0, // RR threshold -> 0 = no RR performed
                     0),
@@ -775,7 +779,7 @@ new ITissueRegion[]
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
                     }
                 ),
-                new List<IDetectorInput>()
+                new List<IDetectorInput>
                 {
                     new ROfRhoDetectorInput
                     {
@@ -801,7 +805,7 @@ new ITissueRegion[]
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Continuous,
                     PhaseFunctionType.HenyeyGreenstein,
-                    new List<DatabaseType>() { }, // databases to be written
+                    new List<DatabaseType> { }, // databases to be written
                     true, // track statistics
                     0.00, // RR threshold -> no RR performed
                     0),
@@ -826,79 +830,89 @@ new ITissueRegion[]
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
                     }
                 ),
-                new List<IDetectorInput>()
+                new List<IDetectorInput>
                 {
                     // detectors with cylindrical symmetry
                     new ROfRhoDetectorInput{Rho =new DoubleRange(0.0, 10, 101) },
-                    new ReflectedMTOfRhoAndSubregionHistDetectorInput(){
+                    new ReflectedMTOfRhoAndSubregionHistDetectorInput
+                    {
                         Rho=new DoubleRange(0.0, 10.0, 101), // rho bins
                         MTBins=new DoubleRange(0.0, 500.0, 51), // MT bins
                         FractionalMTBins = new DoubleRange(0.0, 1.0, 11)}, // fractional MT bins
                     new TOfRhoDetectorInput {Rho =new DoubleRange(0.0, 10, 101)},
-                    new TransmittedMTOfRhoAndSubregionHistDetectorInput(){
+                    new TransmittedMTOfRhoAndSubregionHistDetectorInput
+                    {
                         Rho=new DoubleRange(0.0, 10.0, 101), // rho bins
                         MTBins=new DoubleRange(0.0, 500.0, 51), // MT bins
                         FractionalMTBins = new DoubleRange(0.0, 1.0, 11)}, // fractional MT bins
                     // detectors with Cartesian coordinates                      
-                    new ROfXAndYDetectorInput() {X=new DoubleRange(-100.0, 100.0, 21), Y= new DoubleRange(-100.0, 100.0, 21)},
-                    new ReflectedMTOfXAndYAndSubregionHistDetectorInput(){
+                    new ROfXAndYDetectorInput {X=new DoubleRange(-100.0, 100.0, 21), Y= new DoubleRange(-100.0, 100.0, 21)},
+                    new ReflectedMTOfXAndYAndSubregionHistDetectorInput
+                    {
                         X=new DoubleRange(-100.0, 100.0, 21), 
                         Y= new DoubleRange(-100.0, 100.0, 21),
                         MTBins=new DoubleRange(0.0, 500.0, 51), // MT bins
                         FractionalMTBins = new DoubleRange(0.0, 1.0, 11)}, // fractional MT bins
-                    new TOfXAndYDetectorInput() {X=new DoubleRange(-100.0, 100.0, 21), Y= new DoubleRange(-100.0, 100.0, 21)}, 
-                    new TransmittedMTOfXAndYAndSubregionHistDetectorInput(){
+                    new TOfXAndYDetectorInput {X=new DoubleRange(-100.0, 100.0, 21), Y= new DoubleRange(-100.0, 100.0, 21)}, 
+                    new TransmittedMTOfXAndYAndSubregionHistDetectorInput
+                    {
                         X=new DoubleRange(-100.0, 100.0, 21), 
                         Y= new DoubleRange(-100.0, 100.0, 21),
                         MTBins=new DoubleRange(0.0, 500.0, 51), // MT bins
                         FractionalMTBins = new DoubleRange(0.0, 1.0, 11)}, // fractional MT bins
                     // DYNAMIC MT detectors
                     // detectors with cylindrical symmetry
-                    new ReflectedDynamicMTOfRhoAndSubregionHistDetectorInput(){
+                    new ReflectedDynamicMTOfRhoAndSubregionHistDetectorInput
+                    {
                         Rho=new DoubleRange(0.0, 10.0, 101), // rho bins                
                         Z= new DoubleRange(0.0, 10.0, 11),
                         MTBins=new DoubleRange(0.0, 500.0, 51), // MT bins
                         FractionalMTBins = new DoubleRange(0.0, 1.0, 11), // fractional MT bins                        
-                        BloodVolumeFraction = new List<double>() { 0, 0.5, 0.5, 0 },
+                        BloodVolumeFraction = new List<double> { 0, 0.5, 0.5, 0 },
                         TallySecondMoment = true},
-                    new TransmittedDynamicMTOfRhoAndSubregionHistDetectorInput(){
+                    new TransmittedDynamicMTOfRhoAndSubregionHistDetectorInput
+                    {
                         Rho=new DoubleRange(0.0, 10.0, 101), // rho bins                
                         Z= new DoubleRange(0.0, 10.0, 11),
                         MTBins=new DoubleRange(0.0, 500.0, 51), // MT bins
                         FractionalMTBins = new DoubleRange(0.0, 1.0, 11), // fractional MT bins
-                        BloodVolumeFraction = new List<double>() { 0, 0.5, 0.5, 0 },
+                        BloodVolumeFraction = new List<double> { 0, 0.5, 0.5, 0 },
                         TallySecondMoment = true},
                     // detectors with Cartesian coordinates                      
-                    new ReflectedDynamicMTOfXAndYAndSubregionHistDetectorInput(){
+                    new ReflectedDynamicMTOfXAndYAndSubregionHistDetectorInput
+                    {
                         X=new DoubleRange(-10.0, 10.0, 21), 
                         Y= new DoubleRange(-10.0, 10.0, 21),                 
                         Z= new DoubleRange(0.0, 10.0, 11),
                         MTBins=new DoubleRange(0.0, 500.0, 51), // MT bins
                         FractionalMTBins = new DoubleRange(0.0, 1.0, 11), // fractional MT bins
-                        BloodVolumeFraction = new List<double>() { 0, 0.5, 0.5, 0 },
+                        BloodVolumeFraction = new List<double> { 0, 0.5, 0.5, 0 },
                         TallySecondMoment = true},
-                    new TransmittedDynamicMTOfXAndYAndSubregionHistDetectorInput(){
+                    new TransmittedDynamicMTOfXAndYAndSubregionHistDetectorInput
+                    {
                         X=new DoubleRange(-10.0, 10.0, 21), 
                         Y= new DoubleRange(-10.0, 10.0, 21),             
                         Z= new DoubleRange(0.0, 10.0, 11),
                         MTBins=new DoubleRange(0.0, 500.0, 51), // MT bins
                         FractionalMTBins = new DoubleRange(0.0, 1.0, 11), // fractional MT bins
-                        BloodVolumeFraction = new List<double>() { 0, 0.5, 0.5, 0 },
+                        BloodVolumeFraction = new List<double> { 0, 0.5, 0.5, 0 },
                         TallySecondMoment = true},
                     // SFD detectors
-                    new ReflectedDynamicMTOfFxAndSubregionHistDetectorInput(){
+                    new ReflectedDynamicMTOfFxAndSubregionHistDetectorInput
+                    {
                         Fx=new DoubleRange(0.0, 0.5, 11), // fx bins                
                         Z= new DoubleRange(0.0, 10.0, 11),
                         MTBins=new DoubleRange(0.0, 500.0, 51), // MT bins
                         FractionalMTBins = new DoubleRange(0.0, 1.0, 11), // fractional MT bins                        
-                        BloodVolumeFraction = new List<double>() { 0, 0.5, 0.5, 0 },
+                        BloodVolumeFraction = new List<double> { 0, 0.5, 0.5, 0 },
                         TallySecondMoment = true},
-                    new TransmittedDynamicMTOfFxAndSubregionHistDetectorInput(){
+                    new TransmittedDynamicMTOfFxAndSubregionHistDetectorInput
+                    {
                         Fx=new DoubleRange(0.0, 0.5, 11), // fx bins                
                         Z= new DoubleRange(0.0, 10.0, 11),
                         MTBins=new DoubleRange(0.0, 500.0, 51), // MT bins
                         FractionalMTBins = new DoubleRange(0.0, 1.0, 11), // fractional MT bins                        
-                        BloodVolumeFraction = new List<double>() { 0, 0.5, 0.5, 0 },
+                        BloodVolumeFraction = new List<double> { 0, 0.5, 0.5, 0 },
                         TallySecondMoment = true},
                 }
             );
@@ -920,7 +934,7 @@ new ITissueRegion[]
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Discrete,
                     PhaseFunctionType.HenyeyGreenstein,
-                    new List<DatabaseType>() { }, // databases to be written
+                    new List<DatabaseType> { }, // databases to be written
                     false, // track statistics
                     0.0, // RR threshold -> no RR performed
                     0),
@@ -948,10 +962,11 @@ new ITissueRegion[]
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
                     }
                 ),
-                new List<IDetectorInput>()
+                new List<IDetectorInput>
                 { 
-                    new ROfXAndYDetectorInput() {X=new DoubleRange(-100.0, 100.0, 21), Y= new DoubleRange(-100.0, 100.0, 21)}, 
-                    new FluenceOfXAndYAndZDetectorInput(){X=new DoubleRange(-10, 10, 101),
+                    new ROfXAndYDetectorInput {X=new DoubleRange(-100.0, 100.0, 21), Y= new DoubleRange(-100.0, 100.0, 21)}, 
+                    new FluenceOfXAndYAndZDetectorInput
+                    {X=new DoubleRange(-10, 10, 101),
                         Y=new DoubleRange(-10, 10, 101), Z= new DoubleRange(0.0, 10, 101)}
                 }
             );
@@ -974,7 +989,7 @@ new ITissueRegion[]
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Continuous,
                     PhaseFunctionType.HenyeyGreenstein,
-                    new List<DatabaseType>() { }, // databases to be written
+                    new List<DatabaseType> { }, // databases to be written
                     true, // track statistics
                     0.0, // RR threshold -> no RR performed
                     0),
@@ -1002,12 +1017,14 @@ new ITissueRegion[]
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
                     }
                 ),
-                new List<IDetectorInput>()
+                new List<IDetectorInput>
                 {
-                    new ROfRhoAndTimeDetectorInput(){
+                    new ROfRhoAndTimeDetectorInput
+                    {
                           Rho=new DoubleRange(0.0, 10.0, 21), // rho bins
                           Time=new DoubleRange(0.0, 1.0, 11)},  // time bins
-                    new ReflectedTimeOfRhoAndSubregionHistDetectorInput(){
+                    new ReflectedTimeOfRhoAndSubregionHistDetectorInput
+                    {
                           Rho=new DoubleRange(0.0, 10.0, 21), // rho bins
                           Time=new DoubleRange(0.0, 1.0, 11)} // time bins
                 }
@@ -1030,7 +1047,7 @@ new ITissueRegion[]
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Discrete,
                     PhaseFunctionType.HenyeyGreenstein,
-                    new List<DatabaseType>() { }, // databases to be written
+                    new List<DatabaseType> { }, // databases to be written
                     false, // track statistics
                     0.0, // RR threshold -> no RR performed
                     0),
@@ -1064,10 +1081,10 @@ new ITissueRegion[]
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
                     }
                 ),
-                new List<IDetectorInput>()
+                new List<IDetectorInput>
                 {
                     // units space[mm], time[ns], temporal-freq[GHz], abs./scat. coeff[/mm]    
-                    new FluenceOfXAndYAndZDetectorInput(){X=new DoubleRange(-5, 5, 100),Y=new DoubleRange(-5, 5, 100),Z=new DoubleRange(0, 10, 101)},
+                    new FluenceOfXAndYAndZDetectorInput {X=new DoubleRange(-5, 5, 100),Y=new DoubleRange(-5, 5, 100),Z=new DoubleRange(0, 10, 101)},
                 }
             );
         }
@@ -1090,7 +1107,7 @@ new ITissueRegion[]
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Discrete,
                     PhaseFunctionType.HenyeyGreenstein,
-                    new List<DatabaseType>() { }, // databases to be written
+                    new List<DatabaseType> { }, // databases to be written
                     true, // track statistics
                     0.0, // RR threshold -> no RR performed
                     0),
@@ -1117,9 +1134,9 @@ new ITissueRegion[]
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
                     }
                 ),
-                new List<IDetectorInput>()
+                new List<IDetectorInput>
                 { 
-                    new SurfaceFiberDetectorInput()
+                    new SurfaceFiberDetectorInput
                     {
                         Center = new Position(0, 0, 0),
                         Radius = 0.3,
@@ -1129,7 +1146,7 @@ new ITissueRegion[]
                         FinalTissueRegionIndex = 3,
                         TallySecondMoment = false
                     },
-                    new SurfaceFiberDetectorInput()
+                    new SurfaceFiberDetectorInput
                     {
                         Center = new Position(0, 0, 0),
                         Radius = 0.3,
@@ -1139,7 +1156,7 @@ new ITissueRegion[]
                         FinalTissueRegionIndex = 3,
                         TallySecondMoment = true
                     },
-                    new SurfaceFiberDetectorInput()
+                    new SurfaceFiberDetectorInput
                     {
                         Center = new Position(0, 0, 0),
                         Radius = 0.3,
@@ -1169,7 +1186,7 @@ new ITissueRegion[]
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Discrete,
                     PhaseFunctionType.HenyeyGreenstein,
-                    new List<DatabaseType>() { }, // databases to be written
+                    new List<DatabaseType> { }, // databases to be written
                     true, // track statistics
                     0.0, // RR threshold -> no RR performed
                     0),
@@ -1199,9 +1216,10 @@ new ITissueRegion[]
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
                     }
                 ),
-                new List<IDetectorInput>()
+                new List<IDetectorInput>
                 {
-                    new ROfXAndYDetectorInput() {X=new DoubleRange(-10, 10, 101),
+                    new ROfXAndYDetectorInput
+                    {X=new DoubleRange(-10, 10, 101),
                         Y = new DoubleRange(-100.0, 100.0, 2)},
                 }
             );

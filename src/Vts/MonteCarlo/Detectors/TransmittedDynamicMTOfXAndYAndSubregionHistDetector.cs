@@ -231,7 +231,7 @@ namespace Vts.MonteCarlo.Detectors
 
             SubregionCollisions = new double[NumSubregions, 2]; // 2nd index: 0=static, 1=dynamic 
 
-            // intialize any other necessary class fields here
+            // initialize any other necessary class fields here
             _bloodVolumeFraction = BloodVolumeFraction;
  
         }
@@ -242,92 +242,91 @@ namespace Vts.MonteCarlo.Detectors
         /// <param name="photon">photon data needed to tally</param>
         public void Tally(Photon photon)
         {
-            if (!IsWithinDetectorAperture(photon))
-                return;
+            if (!IsWithinDetectorAperture(photon)) return;
 
             // calculate the radial bin to attribute the deposition
             var ix = DetectorBinning.WhichBin(photon.DP.Position.X, X.Count - 1, X.Delta, X.Start);
             var iy = DetectorBinning.WhichBin(photon.DP.Position.Y, Y.Count - 1, Y.Delta, Y.Start);  
           
-            var tissueMT = new double[2]; // 2 is for [static, dynamic] tally separation
-            bool talliedMT = false;
-            double totalMT = 0;
-            var totalMTOfZForOnePhoton = new double[X.Count - 1, Y.Count - 1, Z.Count - 1];
-            var dynamicMTOfZForOnePhoton = new double[X.Count - 1, Y.Count - 1, Z.Count - 1];
+            var tissueMt = new double[2]; // 2 is for [static, dynamic] tally separation
+            var talliedMt = false;
+            double totalMt = 0;
+            var totalMtOfZForOnePhoton = new double[X.Count - 1, Y.Count - 1, Z.Count - 1];
+            var dynamicMtOfZForOnePhoton = new double[X.Count - 1, Y.Count - 1, Z.Count - 1];
 
             // go through photon history and claculate momentum transfer
             // assumes that no MT tallied at pseudo-collisions (reflections and refractions)
             // this algorithm needs to look ahead to angle of next DP, but needs info from previous to determine whether real or pseudo-collision
-            PhotonDataPoint previousDP = photon.History.HistoryData.First();
-            PhotonDataPoint currentDP = photon.History.HistoryData.Skip(1).Take(1).First();
-            foreach (PhotonDataPoint nextDP in photon.History.HistoryData.Skip(2))
+            var previousDp = photon.History.HistoryData.First();
+            var currentDp = photon.History.HistoryData.Skip(1).Take(1).First();
+            foreach (var nextDp in photon.History.HistoryData.Skip(2))
             {
-                if (previousDP.Weight != currentDP.Weight) // only for true collision points
+                if (previousDp.Weight != currentDp.Weight) // only for true collision points
                 {
-                    var csr = _tissue.GetRegionIndex(currentDP.Position); // get current region index
+                    var csr = _tissue.GetRegionIndex(currentDp.Position); // get current region index
                     // get z bin of current position
-                    var iz = DetectorBinning.WhichBin(currentDP.Position.Z, Z.Count - 1, Z.Delta, Z.Start);
+                    var iz = DetectorBinning.WhichBin(currentDp.Position.Z, Z.Count - 1, Z.Delta, Z.Start);
                     // get angle between current and next
-                    double cosineBetweenTrajectories = Direction.GetDotProduct(currentDP.Direction, nextDP.Direction);
+                    var cosineBetweenTrajectories = Direction.GetDotProduct(currentDp.Direction, nextDp.Direction);
                     var momentumTransfer = 1 - cosineBetweenTrajectories;
-                    totalMT += momentumTransfer;
+                    totalMt += momentumTransfer;
                     TotalMTOfZ[ix, iy, iz] += photon.DP.Weight * momentumTransfer;
-                    totalMTOfZForOnePhoton[ix, iy, iz] += photon.DP.Weight * momentumTransfer;
+                    totalMtOfZForOnePhoton[ix, iy, iz] += photon.DP.Weight * momentumTransfer;
                     if (_rng.NextDouble() < _bloodVolumeFraction[csr]) // hit blood 
                     {
-                        tissueMT[1] += momentumTransfer;
+                        tissueMt[1] += momentumTransfer;
                         DynamicMTOfZ[ix, iy, iz] += photon.DP.Weight * momentumTransfer;
-                        dynamicMTOfZForOnePhoton[ix, iy, iz] += photon.DP.Weight * momentumTransfer;
+                        dynamicMtOfZForOnePhoton[ix, iy, iz] += photon.DP.Weight * momentumTransfer;
                         SubregionCollisions[csr, 1] += 1; // add to dynamic collision count
                     }
                     else // index 0 captures static events
                     {
-                        tissueMT[0] += momentumTransfer;
+                        tissueMt[0] += momentumTransfer;
                         SubregionCollisions[csr, 0] += 1; // add to static collision count
                     }
-                    talliedMT = true;
+                    talliedMt = true;
                 }
-                previousDP = currentDP;
-                currentDP = nextDP;
+                previousDp = currentDp;
+                currentDp = nextDp;
             }
-            if (totalMT > 0.0)  // only tally if momentum transfer accumulated
+            if (totalMt > 0.0)  // only tally if momentum transfer accumulated
             {
-                var imt = DetectorBinning.WhichBin(totalMT, MTBins.Count - 1, MTBins.Delta, MTBins.Start);
+                var imt = DetectorBinning.WhichBin(totalMt, MTBins.Count - 1, MTBins.Delta, MTBins.Start);
                 Mean[ix, iy, imt] += photon.DP.Weight;
                 if (TallySecondMoment)
                 {
                     SecondMoment[ix, iy, imt] += photon.DP.Weight * photon.DP.Weight;
-                    for (int i = 0; i < X.Count - 1; i++)
+                    for (var i = 0; i < X.Count - 1; i++)
                     {
-                        for (int j = 0; j < Y.Count - 1; j++)
+                        for (var j = 0; j < Y.Count - 1; j++)
                         {
-                            for (int k = 0; k < Z.Count - 1; k++)
+                            for (var k = 0; k < Z.Count - 1; k++)
                             {
-                                TotalMTOfZSecondMoment[i, j, k] += totalMTOfZForOnePhoton[i, j, k] *
-                                                                totalMTOfZForOnePhoton[i, j, k];
-                                DynamicMTOfZSecondMoment[i, j, k] += dynamicMTOfZForOnePhoton[i, j, k] *
-                                                                  dynamicMTOfZForOnePhoton[i, j, k];
+                                TotalMTOfZSecondMoment[i, j, k] += totalMtOfZForOnePhoton[i, j, k] *
+                                                                totalMtOfZForOnePhoton[i, j, k];
+                                DynamicMTOfZSecondMoment[i, j, k] += dynamicMtOfZForOnePhoton[i, j, k] *
+                                                                  dynamicMtOfZForOnePhoton[i, j, k];
                             }
                         }
                     }
                 }
 
-                if (talliedMT) TallyCount++;
+                if (talliedMt) TallyCount++;
 
-                // tally DYNAMIC fractional MT in each subregion
+                // tally DYNAMIC fractional MT in each sub-region
                 int ifrac;
-                for (int isr = 0; isr < NumSubregions; isr++)
+                for (var isr = 0; isr < NumSubregions; isr++)
                 {
                     // add 1 to ifrac to offset bin 0 added for =0 only tallies
-                    ifrac = DetectorBinning.WhichBin(tissueMT[1] / totalMT,
+                    ifrac = DetectorBinning.WhichBin(tissueMt[1] / totalMt,
                         FractionalMTBins.Count - 1, FractionalMTBins.Delta, FractionalMTBins.Start) + 1;
                     // put identically 0 fractional MT into separate bin at index 0
-                    if (tissueMT[1] / totalMT == 0.0)
+                    if (tissueMt[1] / totalMt == 0.0)
                     {
                         ifrac = 0;
                     }
                     // put identically 1 fractional MT into separate bin at index Count+1 -1
-                    if (tissueMT[1] / totalMT == 1.0)
+                    if (tissueMt[1] / totalMt == 1.0)
                     {
                         ifrac = FractionalMTBins.Count;
                     }
@@ -343,11 +342,11 @@ namespace Vts.MonteCarlo.Detectors
         public void Normalize(long numPhotons)
         {
             var areaNorm = X.Delta * Y.Delta;
-            for (int ix = 0; ix < X.Count - 1; ix++)
+            for (var ix = 0; ix < X.Count - 1; ix++)
             {
-                for (int iy = 0; iy < Y.Count - 1; iy++)
+                for (var iy = 0; iy < Y.Count - 1; iy++)
                 {
-                    for (int imt = 0; imt < MTBins.Count - 1; imt++)
+                    for (var imt = 0; imt < MTBins.Count - 1; imt++)
                     {
                         // normalize by area dx * dy and N
                         Mean[ix, iy, imt] /= areaNorm*numPhotons;
@@ -355,12 +354,12 @@ namespace Vts.MonteCarlo.Detectors
                         {
                             SecondMoment[ix, iy, imt] /= areaNorm*areaNorm*numPhotons;
                         }
-                        for (int ifrac = 0; ifrac < FractionalMTBins.Count + 1; ifrac++)
+                        for (var ifrac = 0; ifrac < FractionalMTBins.Count + 1; ifrac++)
                         {
                             FractionalMT[ix, iy, imt, ifrac] /= areaNorm * numPhotons;
                         }
                     }
-                    for (int iz = 0; iz < Z.Count - 1; iz++)
+                    for (var iz = 0; iz < Z.Count - 1; iz++)
                     {
                         TotalMTOfZ[ix, iy, iz] /= areaNorm * numPhotons;
                         DynamicMTOfZ[ix, iy, iz] /= areaNorm * numPhotons;

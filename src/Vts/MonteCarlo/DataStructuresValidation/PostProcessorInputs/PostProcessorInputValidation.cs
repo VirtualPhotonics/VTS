@@ -19,8 +19,7 @@ namespace Vts.MonteCarlo
         /// <returns>An instance of the ValidationResult class</returns>
         public static ValidationResult ValidateInput(PostProcessorInput input, string inpath)
         {
-            ValidationResult tempResult;
-            tempResult = ValidateTissueOpticalProperties(input.DetectorInputs);
+            var tempResult = ValidateTissueOpticalProperties(input.DetectorInputs);
             if (!tempResult.IsValid)
 
             {
@@ -48,7 +47,7 @@ namespace Vts.MonteCarlo
 
             return new ValidationResult(
                 true,
-                "PostProcessorinput: input must be valid");
+                "PostProcessorInput: input must be valid");
         }
         private static ValidationResult ValidateInputFolderExistence(string inputFolder)
         {
@@ -121,7 +120,7 @@ namespace Vts.MonteCarlo
                     var ops = ((dynamic)detectorInput).PerturbedOps;
                     foreach (var op in ops)
                     {
-                        if ((op.Mua < 0.0) || (op.Musp < 0.0) || (op.N < 0.0))
+                        if (op.Mua < 0.0 || op.Musp < 0.0 || op.N < 0.0)
                         {
 
                             return new ValidationResult(

@@ -124,25 +124,23 @@ namespace Vts.MonteCarlo.Tissues
             {
                 return base.GetReflectedDirection(currentPosition, currentDirection);
             }
-            else // on boundary of inclusion
+
+            // on boundary of inclusion
+            if (_inclusionRegion.RegionOP.N == Regions[_layerRegionIndexOfInclusion].RegionOP.N)
             {
-                if (_inclusionRegion.RegionOP.N == Regions[_layerRegionIndexOfInclusion].RegionOP.N)
-                {
-                    return currentDirection;  // no refractive index mismatch
-                }
-                else
-                {                 
-                    // reflection equation reflected = incident - 2(incident dot surfaceNormal)surfaceNormal
-                    Direction surfaceNormal = _inclusionRegion.SurfaceNormal(currentPosition);
-                    var currentDirDotNormal = Direction.GetDotProduct(currentDirection, surfaceNormal);
-                    var newX = currentDirection.Ux - 2 * currentDirDotNormal * surfaceNormal.Ux;
-                    var newY = currentDirection.Uy - 2 * currentDirDotNormal * surfaceNormal.Uy;
-                    var newZ = currentDirection.Uz - 2 * currentDirDotNormal * surfaceNormal.Uz;
-                    var norm = Math.Sqrt(newX * newX + newY * newY + newZ * newZ);
-                    return new Direction(newX / norm, newY / norm, newZ / norm);
-                }
+                return currentDirection;  // no refractive index mismatch
             }
+
+            // reflection equation reflected = incident - 2(incident dot surfaceNormal)surfaceNormal
+            var surfaceNormal = _inclusionRegion.SurfaceNormal(currentPosition);
+            var currentDirDotNormal = Direction.GetDotProduct(currentDirection, surfaceNormal);
+            var newX = currentDirection.Ux - 2 * currentDirDotNormal * surfaceNormal.Ux;
+            var newY = currentDirection.Uy - 2 * currentDirDotNormal * surfaceNormal.Uy;
+            var newZ = currentDirection.Uz - 2 * currentDirDotNormal * surfaceNormal.Uz;
+            var norm = Math.Sqrt(newX * newX + newY * newY + newZ * newZ);
+            return new Direction(newX / norm, newY / norm, newZ / norm);
         }
+
         /// <summary>
         /// Method that provides refracted direction when photon refracts through boundary.
         /// ref: Bram de Greve "Reflections and Refractions in Ray Tracing" dated 11/13/2006, off web not published
@@ -165,28 +163,22 @@ namespace Vts.MonteCarlo.Tissues
             {
                 return base.GetRefractedDirection(currentPosition, currentDirection, currentN, nextN, cosThetaSnell);
             }
-            else
-            {
-                if (currentN == nextN)
-                {
-                    return currentDirection;  // no refractive index mismatch
-                }
-                else
-                {
-                    // refraction equations in ref
-                    // where theta1 and theta2 are angles relative to normal
-                    Direction normal = _inclusionRegion.SurfaceNormal(currentPosition);
-                    var cosTheta1 = Direction.GetDotProduct(currentDirection, normal);
-                    var nRatio = currentN / nextN;
-                    var sinTheta2Squared = nRatio * nRatio * (1 - cosTheta1 * cosTheta1);
-                    var factor = nRatio * cosTheta1 - Math.Sqrt(1 - sinTheta2Squared);
-                    var newX = nRatio * currentDirection.Ux + factor * normal.Ux;
-                    var newY = nRatio * currentDirection.Uy + factor * normal.Uy;
-                    var newZ = nRatio * currentDirection.Uz + factor * normal.Uz;
-                    var norm = Math.Sqrt(newX * newX + newY * newY + newZ * newZ);
-                    return new Direction(newX / norm, newY / norm, newZ / norm);
-                }
-            }
+
+            if (currentN == nextN) return currentDirection; // no refractive index mismatch
+
+            var normal = _inclusionRegion.SurfaceNormal(currentPosition);
+            var cosTheta1 = Direction.GetDotProduct(currentDirection, normal);
+            var nRatio = currentN / nextN;
+            var sinTheta2Squared = nRatio * nRatio * (1 - cosTheta1 * cosTheta1);
+            var factor = nRatio * cosTheta1 - Math.Sqrt(1 - sinTheta2Squared);
+            var newX = nRatio * currentDirection.Ux + factor * normal.Ux;
+            var newY = nRatio * currentDirection.Uy + factor * normal.Uy;
+            var newZ = nRatio * currentDirection.Uz + factor * normal.Uz;
+            var norm = Math.Sqrt(newX * newX + newY * newY + newZ * newZ);
+            return new Direction(newX / norm, newY / norm, newZ / norm);
+
+            // refraction equations in ref
+            // where theta1 and theta2 are angles relative to normal
         }
         /// <summary>
         /// Method to get cosine of the angle between photons current direction and boundary normal.
@@ -198,15 +190,10 @@ namespace Vts.MonteCarlo.Tissues
         public override double GetAngleRelativeToBoundaryNormal(Photon photon)
         {
             // needs to call MultiLayerTissue when crossing top and bottom layer
-            if (base.OnDomainBoundary(photon.DP.Position))
-            {
-                return base.GetAngleRelativeToBoundaryNormal(photon);
-            }
-            else
-            {
-                return Math.Abs(Direction.GetDotProduct( // need Abs here for unit tests but not sure correct
+            return base.OnDomainBoundary(photon.DP.Position)
+                ? base.GetAngleRelativeToBoundaryNormal(photon)
+                : Math.Abs(Direction.GetDotProduct( // need Abs here for unit tests but not sure correct
                     photon.DP.Direction, _inclusionRegion.SurfaceNormal(photon.DP.Position)));
-            }
         }
     }
 }

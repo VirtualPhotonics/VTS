@@ -101,12 +101,10 @@ namespace Vts.MonteCarlo.Detectors
         /// <param name="photon">photon data needed to tally</param>
         public void Tally(Photon photon)
         {
-            Mean += photon.DP.Weight;  // ckh: do I need mua/mut factor here?
-            if (TallySecondMoment)
-            {
-                SecondMoment += photon.DP.Weight * photon.DP.Weight;
-            }
+            Mean += photon.DP.Weight;  // no mua factor needed because absorbed energy
             TallyCount++;
+            if (!TallySecondMoment) return;
+            SecondMoment += photon.DP.Weight * photon.DP.Weight;
         }
 
         /// <summary>
@@ -116,20 +114,16 @@ namespace Vts.MonteCarlo.Detectors
         public void Normalize(long numPhotons)
         {
             Mean /= numPhotons;
-            if (TallySecondMoment)
-            {
-                SecondMoment /= numPhotons;
-            }
+            if (!TallySecondMoment) return;
+            SecondMoment /= numPhotons;
         }
 
         /// <summary>
         /// this scalar tally is saved to json
         /// </summary>
         /// <returns>array of BinaryArraySerializer</returns>
-        public BinaryArraySerializer[] GetBinarySerializers()
-        {
-            return null;
-        }
+        public BinaryArraySerializer[] GetBinarySerializers() => null;
+
         /// <summary>
         /// Method to determine if photon is within detector
         /// </summary>
