@@ -135,7 +135,7 @@ namespace Vts.MonteCarlo.Tissues
             if (Math.Abs(p1.Z - Z.Stop) < 1e-11) p1.Z = Z.Stop;
 
             // following algorithm from tavianator.com/fast-branchless-raybounding-box-intersections
-            // check interesctions of ray with planes that make up box
+            // check intersections of ray with planes that make up box
             var dMinimum = double.NegativeInfinity;
             var dMaximum = double.PositiveInfinity;
             var dist1 = (X.Start - p1.X)/d1.Ux;
@@ -177,8 +177,7 @@ namespace Vts.MonteCarlo.Tissues
                                            (zIntersect - p1.Z) * (zIntersect - p1.Z));
 
             // ckh fix 9/23/15: check if on boundary of voxel
-            if (distanceToBoundary >= 1e-11) return true;
-            return false;
+            return distanceToBoundary >= 1e-11;
             // dMaximum is less than dMinimum
         }
 
@@ -204,14 +203,14 @@ namespace Vts.MonteCarlo.Tissues
         public bool OnBoundary(Position position)
         {
             return ((position.X == X.Start || position.X == X.Stop) &&
-                            (position.Y >= Y.Start && position.Y <= Y.Stop) &&
-                            (position.Z >= Z.Start && position.Z <= Z.Stop)) ||
+                    position.Y >= Y.Start && position.Y <= Y.Stop &&
+                    position.Z >= Z.Start && position.Z <= Z.Stop) ||
                    ((position.Y == Y.Start || position.Y == Y.Stop) &&
-                            (position.X >= X.Start) && (position.X <= X.Stop) &&
-                            (position.Z >= Z.Start) && (position.Z <= Z.Stop)) ||
-                   ((position.Z == Z.Start) || (position.Z == Z.Stop) &&
-                            (position.X >= X.Start) && (position.X <= X.Stop) &&
-                            (position.Y >= Y.Start) && (position.Y <= Y.Stop));
+                    position.X >= X.Start && position.X <= X.Stop &&
+                    position.Z >= Z.Start && position.Z <= Z.Stop) ||
+                   position.Z == Z.Start || position.Z == Z.Stop &&
+                   position.X >= X.Start && position.X <= X.Stop &&
+                   position.Y >= Y.Start && position.Y <= Y.Stop;
         }
         /// <summary>
         /// method to determine normal to surface at given position

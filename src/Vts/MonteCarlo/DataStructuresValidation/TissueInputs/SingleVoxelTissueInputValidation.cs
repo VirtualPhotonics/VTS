@@ -22,17 +22,13 @@ namespace Vts.MonteCarlo
         {
             var layers = ((SingleVoxelTissueInput)input).LayerRegions.Select(region => (LayerTissueRegion)region).ToArray();
             var voxel = (VoxelTissueRegion)((SingleVoxelTissueInput)input).VoxelRegion;
-            ValidationResult tempResult;
-            tempResult = ValidateGeometry(layers, voxel);
-            if (!tempResult.IsValid)
-            {
-                return tempResult;
-            }
+            
+            var tempResult = ValidateGeometry(layers, voxel);
+            if (!tempResult.IsValid) return tempResult;
+
             tempResult = ValidateRefractiveIndexMatch(layers, voxel);
-            if (!tempResult.IsValid)
-            {
-                return tempResult;
-            }
+            if (!tempResult.IsValid) return tempResult;
+
             return tempResult;
         }
         /// <summary>
@@ -47,9 +43,9 @@ namespace Vts.MonteCarlo
             // check that layer definition is valid
             var tempResult = MultiLayerTissueInputValidation.ValidateLayers(layers);
 
-            if (!tempResult.IsValid){ return tempResult; }
+            if (!tempResult.IsValid) return tempResult; 
 
-            if ((Voxel.X.Stop - Voxel.X.Start <= 0) || ((Voxel.Y.Stop - Voxel.Y.Start) <= 0) || ((Voxel.Z.Stop - Voxel.Z.Start) <= 0))
+            if (Voxel.X.Stop - Voxel.X.Start <= 0 || Voxel.Y.Stop - Voxel.Y.Start <= 0 || Voxel.Z.Stop - Voxel.Z.Start <= 0)
             {
                 tempResult = new ValidationResult(
                     false,
@@ -57,13 +53,14 @@ namespace Vts.MonteCarlo
                     "SingleVoxelTissueInput: make sure X.Stop (Y.Stop, Z.Stop) is > X.Start (Y.Stop, Z.Stop)");
             }
 
-            if (!tempResult.IsValid) { return tempResult; }
+            if (!tempResult.IsValid) return tempResult; 
 
             // test for air layers and eliminate from list
             var tissueLayers = layers.Where(layer => !layer.IsAir());
 
             // check that there is at least one layer of tissue 
-            if (!tissueLayers.Any())
+            var layerTissueRegions = tissueLayers.ToList();
+            if (!layerTissueRegions.Any())
             {
                 tempResult = new ValidationResult(
                     false,
@@ -71,10 +68,10 @@ namespace Vts.MonteCarlo
                     "SingleVoxelTissueInput: redefine tissue definition to contain at least a single layer of tissue");
             }
 
-            if (!tempResult.IsValid) { return tempResult; }
+            if (!tempResult.IsValid) return tempResult; 
 
             // check that Voxel contained within a tissue layer
-            bool correctlyContainedInLayer = tissueLayers.Any(
+            var correctlyContainedInLayer = layerTissueRegions.Any(
                 layer =>
                     Voxel.Z.Start > layer.ZRange.Start &&
                     Voxel.Z.Stop < layer.ZRange.Stop
@@ -88,7 +85,7 @@ namespace Vts.MonteCarlo
                     "Redefine Voxel.Z.Start and Voxel.Z.Stop to be entirely within layer.ZRange.Start and Stop");
             }
 
-            if (!tempResult.IsValid) { return tempResult; }
+            if (!tempResult.IsValid) return tempResult;
 
             return new ValidationResult(
                 true,
@@ -100,21 +97,20 @@ namespace Vts.MonteCarlo
         /// Code does not yet include reflecting/refracting off Voxel surface.
         /// </summary>
         /// <param name="layers">list of LayerTissueRegion</param>
-        /// <param name="Voxel">VoxelTissueRegion></param>
+        /// <param name="voxel">VoxelTissueRegion></param>
         /// <returns>An instance of the ValidationResult class</returns>
         private static ValidationResult ValidateRefractiveIndexMatch(
-            IList<LayerTissueRegion> layers, VoxelTissueRegion Voxel)
+            IList<LayerTissueRegion> layers, VoxelTissueRegion voxel)
         {
-            int containingLayerIndex = -1;
-            for (int i = 0; i < layers.Count - 1; i++)
+            var containingLayerIndex = -1;
+            for (var i = 0; i < layers.Count - 1; i++)
             {
-                if (Voxel.Z.Start > layers[i].ZRange.Start &&
-                    Voxel.Z.Stop < layers[i].ZRange.Stop)
-                {
-                    containingLayerIndex = i;
-                }
+                if (voxel.Z.Start <= layers[i].ZRange.Start ||
+                    voxel.Z.Stop > layers[i].ZRange.Stop) continue;
+                containingLayerIndex = i;
             }
-            if ((containingLayerIndex != -1) && (layers[containingLayerIndex].RegionOP.N != Voxel.RegionOP.N))
+            if (containingLayerIndex != -1 && 
+                layers[containingLayerIndex].RegionOP.N != voxel.RegionOP.N)
             {
                 return new ValidationResult(
                     false,

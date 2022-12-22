@@ -6,7 +6,6 @@ using Vts.Common;
 using Vts.IO;
 using Vts.MonteCarlo.Extensions;
 using Vts.MonteCarlo.Helpers;
-using Vts.MonteCarlo.PhotonData;
 
 namespace Vts.MonteCarlo.Detectors
 {
@@ -142,21 +141,18 @@ namespace Vts.MonteCarlo.Detectors
         /// <param name="photon">photon data needed to tally</param>
         public void Tally(Photon photon)
         {
-            if (!IsWithinDetectorAperture(photon))
-                return;
+            if (!IsWithinDetectorAperture(photon)) return;
             
             var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(photon.DP.Position.X, photon.DP.Position.Y), Rho.Count - 1, Rho.Delta, Rho.Start);
             var totalTime = photon.DP.TotalTime;
-            for (int iw = 0; iw < Omega.Count; iw++)
+            for (var iw = 0; iw < Omega.Count; iw++)
             {
-                double freq = Omega.AsEnumerable().ToArray()[iw];
+                var freq = Omega.AsEnumerable().ToArray()[iw];
                 Mean[ir, iw] += photon.DP.Weight*(Math.Cos(-2*Math.PI*freq*totalTime) +
                                                   Complex.ImaginaryOne * Math.Sin(-2*Math.PI*freq*totalTime));
-                // 2nd moment is E[xx*]=E[xreal^2]+E[ximag^2] and with cos^2+sin^2=1 => weight^2
-                if (TallySecondMoment) 
-                {
-                    SecondMoment[ir, iw] += photon.DP.Weight * photon.DP.Weight;
-                }
+                // 2nd moment is E[xx*]=E[xReal^2]+E[xImag^2] and with cos^2+sin^2=1 => weight^2
+                if (!TallySecondMoment) continue;
+                SecondMoment[ir, iw] += photon.DP.Weight * photon.DP.Weight;
             }
             TallyCount++;
         }
@@ -167,9 +163,9 @@ namespace Vts.MonteCarlo.Detectors
         public void Normalize(long numPhotons)
         {
             var normalizationFactor = 2.0 * Math.PI * Rho.Delta;
-            for (int ir = 0; ir < Rho.Count - 1; ir++)
+            for (var ir = 0; ir < Rho.Count - 1; ir++)
             {
-                for (int iw = 0; iw < Omega.Count; iw++)
+                for (var iw = 0; iw < Omega.Count; iw++)
                 {
                     var areaNorm = (Rho.Start + (ir + 0.5) * Rho.Delta) * normalizationFactor;
                     Mean[ir, iw] /= areaNorm * numPhotons;
@@ -192,8 +188,8 @@ namespace Vts.MonteCarlo.Detectors
                     Name = "Mean",
                     FileTag = "",
                     WriteData = binaryWriter => {
-                        for (int i = 0; i < Rho.Count - 1; i++) {
-                            for (int j = 0; j < Omega.Count; j++)
+                        for (var i = 0; i < Rho.Count - 1; i++) {
+                            for (var j = 0; j < Omega.Count; j++)
                             {
                                 binaryWriter.Write(Mean[i, j].Real);
                                 binaryWriter.Write(Mean[i, j].Imaginary);
@@ -202,8 +198,8 @@ namespace Vts.MonteCarlo.Detectors
                     },
                     ReadData = binaryReader => {
                         Mean = Mean ?? new Complex[ Rho.Count - 1, Omega.Count];
-                        for (int i = 0; i <  Rho.Count - 1; i++) {
-                            for (int j = 0; j < Omega.Count; j++)
+                        for (var i = 0; i <  Rho.Count - 1; i++) {
+                            for (var j = 0; j < Omega.Count; j++)
                             {
                                 var real = binaryReader.ReadDouble();
                                 var imag = binaryReader.ReadDouble();
@@ -219,8 +215,8 @@ namespace Vts.MonteCarlo.Detectors
                     FileTag = "_2",
                     WriteData = binaryWriter => {
                         if (!TallySecondMoment || SecondMoment == null) return;
-                        for (int i = 0; i < Rho.Count - 1; i++) {
-                            for (int j = 0; j < Omega.Count; j++)
+                        for (var i = 0; i < Rho.Count - 1; i++) {
+                            for (var j = 0; j < Omega.Count; j++)
                             {
                                 binaryWriter.Write(SecondMoment[i, j].Real);
                                 binaryWriter.Write(SecondMoment[i, j].Imaginary);
@@ -230,8 +226,8 @@ namespace Vts.MonteCarlo.Detectors
                     ReadData = binaryReader => {
                         if (!TallySecondMoment || SecondMoment == null) return;
                         SecondMoment = new Complex[ Rho.Count - 1, Omega.Count ];
-                        for (int i = 0; i < Rho.Count - 1; i++) {
-                            for (int j = 0; j < Omega.Count; j++)
+                        for (var i = 0; i < Rho.Count - 1; i++) {
+                            for (var j = 0; j < Omega.Count; j++)
                             {
                                 var real = binaryReader.ReadDouble();
                                 var imag = binaryReader.ReadDouble();

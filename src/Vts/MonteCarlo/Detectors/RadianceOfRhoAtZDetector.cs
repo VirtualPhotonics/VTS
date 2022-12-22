@@ -141,17 +141,14 @@ namespace Vts.MonteCarlo.Detectors
         /// <param name="photon">photon data needed to tally</param>
         public void Tally(Photon photon)
         {
-            if (!IsWithinDetectorAperture(photon))
-                return;
+            if (!IsWithinDetectorAperture(photon))return;
            
             var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(photon.DP.Position.X, photon.DP.Position.Y), Rho.Count - 1, Rho.Delta, Rho.Start);
 
             Mean[ir] += photon.DP.Weight / photon.DP.Direction.Uz;
-            if (TallySecondMoment)
-            {
-                SecondMoment[ir] += (photon.DP.Weight / photon.DP.Direction.Uz) * (photon.DP.Weight / photon.DP.Direction.Uz);
-            }
             TallyCount++;
+            if (!TallySecondMoment) return;
+            SecondMoment[ir] += (photon.DP.Weight / photon.DP.Direction.Uz) * (photon.DP.Weight / photon.DP.Direction.Uz);
         }
 
         /// <summary>
@@ -162,14 +159,12 @@ namespace Vts.MonteCarlo.Detectors
         {
             // normalization accounts for Rho.Start != 0
             var normalizationFactor = 2.0 * Math.PI * Rho.Delta;
-            for (int ir = 0; ir < Rho.Count - 1; ir++)
+            for (var ir = 0; ir < Rho.Count - 1; ir++)
             {
                 var areaNorm = (Rho.Start + (ir + 0.5) * Rho.Delta) * normalizationFactor;
                 Mean[ir] /= areaNorm * numPhotons;
-                if (TallySecondMoment)
-                {
-                    SecondMoment[ir] /= areaNorm * areaNorm * numPhotons;
-                }
+                if (!TallySecondMoment) continue;
+                SecondMoment[ir] /= areaNorm * areaNorm * numPhotons;
             }
         }
 
@@ -185,13 +180,13 @@ namespace Vts.MonteCarlo.Detectors
                     Name = "Mean",
                     FileTag = "",
                     WriteData = binaryWriter => {
-                        for (int i = 0; i < Rho.Count - 1; i++) {
+                        for (var i = 0; i < Rho.Count - 1; i++) {
                             binaryWriter.Write(Mean[i]);
                         }
                     },
                     ReadData = binaryReader => {
                         Mean = Mean ?? new double[ Rho.Count - 1];
-                        for (int i = 0; i <  Rho.Count - 1; i++) {
+                        for (var i = 0; i <  Rho.Count - 1; i++) {
                             Mean[i] = binaryReader.ReadDouble();
                         }
                     }
@@ -203,14 +198,14 @@ namespace Vts.MonteCarlo.Detectors
                     FileTag = "_2",
                     WriteData = binaryWriter => {
                         if (!TallySecondMoment || SecondMoment == null) return;
-                        for (int i = 0; i < Rho.Count - 1; i++) {
+                        for (var i = 0; i < Rho.Count - 1; i++) {
                             binaryWriter.Write(SecondMoment[i]);
                         }
                     },
                     ReadData = binaryReader => {
                         if (!TallySecondMoment || SecondMoment == null) return;
                         SecondMoment = new double[ Rho.Count - 1];
-                        for (int i = 0; i < Rho.Count - 1; i++) {
+                        for (var i = 0; i < Rho.Count - 1; i++) {
                             SecondMoment[i] = binaryReader.ReadDouble();
 			            }
                     },

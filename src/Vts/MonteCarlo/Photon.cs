@@ -17,15 +17,15 @@ namespace Vts.MonteCarlo
     {
         // reducing any of the following values might result in unit tests not passing
         // should we dynamically set MAX_HISTORY_PTS and MAX_PHOTON_TIME?  derive one from other?
-        private const int MAX_HISTORY_PTS = 300000; // 300000 * [1/(5/mm)] = 60000 mm
-        private const double CHANCE = 0.1;
-        private const double MAX_PHOTON_TIME = 280; // ns = 60000 mm (pathlength) / (300 / 1.4)
-      
-        // could add layer of indirection to not expose Absorb;
-        private ITissue _tissue;
-        private Random _rng;
+        private const int MaxHistoryPts = 300000; // 300000 * [1/(5/mm)] = 60000 mm
+        private const double Chance = 0.1;
+        private const double MaxPhotonTime = 280; // ns = 60000 mm (pathlength) / (300 / 1.4)
+    
+        // could add layer of indirection to not expose Absorb
+        private readonly ITissue _tissue;
+        private readonly Random _rng;
         private bool _firstTimeEnteringDomain;
-        private double _russianRouletteWeightThreshold;
+        private readonly double _russianRouletteWeightThreshold;
         /// <summary>
         /// Class that keeps a photon's data as it moves through the tissue
         /// </summary>
@@ -51,15 +51,13 @@ namespace Vts.MonteCarlo
                     PhotonStateType.Alive);
 
             History = new PhotonHistory(tissue.Regions.Count);
-            History.AddDPToHistory(DP);  // add initial datapoint
+            History.AddDPToHistory(DP);  // add initial data point
             S = 0.0;
             SLeft = 0.0;        
             CurrentRegionIndex = currentTissueRegionIndex;
             CurrentRegionKey = tissue.Regions[CurrentRegionIndex].PhaseFunctionKey;
-
-            // flag to determin whether passing through specular or not
+            // flag to determine whether passing through specular or not
             // the following assumes tissues considered are slabs, only ones we have coded to date
-            // todo: make more general to handle other types of tissues
             _firstTimeEnteringDomain = true;
             if (CurrentRegionIndex >= 1) // photon does not go through specular
             {
@@ -161,7 +159,7 @@ namespace Vts.MonteCarlo
         /// <returns>Boolean indicating whether photon will hit boundary or not</returns>
          public bool Move(double distance)
          {
-            bool willHitBoundary = S >= distance;
+            var willHitBoundary = S >= distance;
 
             if (willHitBoundary)
             {
@@ -206,41 +204,36 @@ namespace Vts.MonteCarlo
         /// </summary>
         public void CrossRegionOrReflect()
         {
-            double cosTheta = _tissue.GetAngleRelativeToBoundaryNormal(this);
-            double nCurrent = _tissue.Regions[CurrentRegionIndex].RegionOP.N;
-            int neighborIndex = _tissue.GetNeighborRegionIndex(this);
-            double nNext = _tissue.Regions[neighborIndex].RegionOP.N;
+            var cosTheta = _tissue.GetAngleRelativeToBoundaryNormal(this);
+            var nCurrent = _tissue.Regions[CurrentRegionIndex].RegionOP.N;
+            var neighborIndex = _tissue.GetNeighborRegionIndex(this);
+            var nNext = _tissue.Regions[neighborIndex].RegionOP.N;
 
-            double coscrit;
-            if (nCurrent > nNext)
-                coscrit = Math.Sqrt(1.0 - (nNext / nCurrent) * (nNext / nCurrent));
-            else
-                coscrit = 0.0;
+            var cosCriticalAngle = nCurrent > nNext 
+                ? Math.Sqrt(1.0 - nNext / nCurrent * (nNext / nCurrent)) 
+                : 0.0;
 
-            double probOfReflecting;
             double cosThetaSnell;
             // call Fresnel be default to have uZSnell set, used to be within else
-            probOfReflecting = Optics.Fresnel(nCurrent, nNext, cosTheta, out cosThetaSnell);
-            if (cosTheta <= coscrit)
+            var probOfReflecting = Optics.Fresnel(nCurrent, nNext, cosTheta, out cosThetaSnell);
+            if (cosTheta <= cosCriticalAngle)
             {
                 probOfReflecting = 1.0;
             }
 
             /* Decide whether or not photon goes to next region */
             // perform first check so that rng not called on pseudo-collisions
-            if ((probOfReflecting == 0.0) || (_rng.NextDouble() > probOfReflecting)) // transmitted
+            if (probOfReflecting == 0.0 || _rng.NextDouble() > probOfReflecting) // transmitted
             {
                 // if at border of system  
-                if (_tissue.OnDomainBoundary(this.DP.Position) && !_firstTimeEnteringDomain)
+                if (_tissue.OnDomainBoundary(DP.Position) && !_firstTimeEnteringDomain)
                 {
                     DP.StateFlag = DP.StateFlag.Add(_tissue.GetPhotonDataPointStateOnExit(DP.Position));
                 }
 
                 // adjust CAW weight for portion of track to pseudo collision before CurrentRegionIndex updated
-                if (Absorb == AbsorbContinuous)
-                {
-                    AbsorbContinuous();
-                }
+                if (Absorb == AbsorbContinuous) AbsorbContinuous();
+                
                 CurrentRegionIndex = neighborIndex;
                 // note! need to update CurrentRegionKey whenever CurrentRegionIndex changes
                 CurrentRegionKey = _tissue.Regions[CurrentRegionIndex].PhaseFunctionKey;
@@ -248,10 +241,8 @@ namespace Vts.MonteCarlo
                 DP.Direction = _tissue.GetRefractedDirection(DP.Position, DP.Direction,
                     nCurrent, nNext, cosThetaSnell);
 
-                if (_firstTimeEnteringDomain)
-                {
-                    _firstTimeEnteringDomain = false;
-                }                
+                if (!_firstTimeEnteringDomain) return;
+                _firstTimeEnteringDomain = false;
             }
             else  // don't cross, reflect
             {
@@ -263,10 +254,7 @@ namespace Vts.MonteCarlo
                 }
 
                 // adjust CAW weight for portion of track to pseudo collision
-                if (Absorb == AbsorbContinuous)
-                {
-                    AbsorbContinuous();
-                }
+                if (Absorb == AbsorbContinuous)  AbsorbContinuous();
             }
         }
         /// <summary>
@@ -292,36 +280,33 @@ namespace Vts.MonteCarlo
             }
         }
         /// <summary>
-        /// Method to deweight for absorption according to discrete absorption weighting (DAW)
+        /// Method to de-weight for absorption according to discrete absorption weighting (DAW)
         /// random walk process
         /// </summary>
         public void AbsorbDiscrete()
         {
-            double mua = _tissue.Regions[CurrentRegionIndex].RegionOP.Mua;
-            double mus = _tissue.Regions[CurrentRegionIndex].RegionOP.Mus;
+            var mua = _tissue.Regions[CurrentRegionIndex].RegionOP.Mua;
+            var mus = _tissue.Regions[CurrentRegionIndex].RegionOP.Mus;
 
-            if (this.SLeft == 0.0)  // only deweight if at real collision
-            {
-                double dw = DP.Weight * mua / (mua + mus);
-                DP.Weight -= dw;
-                // fluence tallying used to be done here 
+            if (SLeft != 0.0) return; // only de-weight if at real collision
+            var dw = DP.Weight * mua / (mua + mus);
+            DP.Weight -= dw;
+            // fluence tallying used to be done here 
 
-                // update weight for current DP in History 
-                History.HistoryData[History.HistoryData.Count() - 1].Weight = DP.Weight;
-            }
+            // update weight for current DP in History 
+            History.HistoryData[History.HistoryData.Count - 1].Weight = DP.Weight;
         }
         /// <summary>
-        /// Method to deweight for absorption according to continuous absorption weighting (CAW)
+        /// Method to de-weight for absorption according to continuous absorption weighting (CAW)
         /// random walk process
         /// </summary>
         public void AbsorbContinuous()
         {
-            double mua = _tissue.Regions[CurrentRegionIndex].RegionOP.Mua;
-            // the following deweights at pseudo (sleft>0) and real collisions (sleft=0) as it should
-            // rather than use total path length in each layer to detemine weight,
+            // the following de-weights at pseudo (sleft>0) and real collisions (sleft=0) as it should
+            // rather than use total path length in each layer to determine weight,
             // this method updates weight at pseudo collision and can be used for total absorption tallies
             // note: added call to AbsorbContinuous in CrossOrReflect to accomplish this
-            double dw = DP.Weight * (1 - Math.Exp(-_tissue.Regions[CurrentRegionIndex].RegionOP.Mua * S));          
+            var dw = DP.Weight * (1 - Math.Exp(-_tissue.Regions[CurrentRegionIndex].RegionOP.Mua * S));          
             DP.Weight -= dw;
 
             // update weight for current DP in History 
@@ -349,7 +334,7 @@ namespace Vts.MonteCarlo
         /// </summary>
         public void TestWeightAndDistance()
         {
-            // kill by RR if weight < user-input WEIGHT_LIMIT (=0.0 then no RR)
+            // kill by RR if weight < user-input threshold (=0.0 then no RR)
             if (DP.Weight < _russianRouletteWeightThreshold)
             {
                 if (DP.Weight == 0.0)
@@ -357,36 +342,38 @@ namespace Vts.MonteCarlo
                     DP.StateFlag = DP.StateFlag.Add(PhotonStateType.KilledRussianRoulette);
                     DP.StateFlag = DP.StateFlag.Remove(PhotonStateType.Alive);
                 }
-                else if (_rng.NextDouble() < CHANCE)
-                {
-                    DP.Weight = DP.Weight / CHANCE;
-                }
                 else
                 {
-                    DP.StateFlag = DP.StateFlag.Add(PhotonStateType.KilledRussianRoulette);
-                    DP.StateFlag = DP.StateFlag.Remove(PhotonStateType.Alive);
+                    if (_rng.NextDouble() < Chance)
+                    {
+                        DP.Weight /= Chance;
+                    }
+                    else
+                    {
+                        DP.StateFlag = DP.StateFlag.Add(PhotonStateType.KilledRussianRoulette);
+                        DP.StateFlag = DP.StateFlag.Remove(PhotonStateType.Alive);
+                    }
                 }
-                if (DP.StateFlag.HasFlag(PhotonStateType.KilledRussianRoulette))
-                {
-                    History.AddDPToHistory(DP);
-                }
+            }
+
+            if (DP.StateFlag.HasFlag(PhotonStateType.KilledRussianRoulette))
+            {
+                History.AddDPToHistory(DP);
             }
             else
             {
                 // kill photon if it has had too many collisions
-                if (History.HistoryData.Count >= MAX_HISTORY_PTS)
+                if (History.HistoryData.Count >= MaxHistoryPts)
                 {
                     DP.StateFlag = DP.StateFlag.Add(PhotonStateType.KilledOverMaximumCollisions);
                     DP.StateFlag = DP.StateFlag.Remove(PhotonStateType.Alive);
                     History.AddDPToHistory(DP);
                 }
                 // kill photon if it has gone too far 
-                if (DP.TotalTime >= MAX_PHOTON_TIME)
-                {
-                    DP.StateFlag = DP.StateFlag.Add(PhotonStateType.KilledOverMaximumPathLength);
-                    DP.StateFlag = DP.StateFlag.Remove(PhotonStateType.Alive);
-                    History.AddDPToHistory(DP);
-                }
+                if (DP.TotalTime < MaxPhotonTime) return;
+                DP.StateFlag = DP.StateFlag.Add(PhotonStateType.KilledOverMaximumPathLength);
+                DP.StateFlag = DP.StateFlag.Remove(PhotonStateType.Alive);
+                History.AddDPToHistory(DP);
             }
         }
     }

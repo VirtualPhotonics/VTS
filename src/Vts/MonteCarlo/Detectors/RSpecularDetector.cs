@@ -119,15 +119,12 @@ namespace Vts.MonteCarlo.Detectors
         /// <param name="photon">photon data needed to tally</param>
         public void Tally(Photon photon)
         {
-            if (!IsWithinDetectorAperture(photon))
-                return;
+            if (!IsWithinDetectorAperture(photon)) return;
 
             Mean += photon.DP.Weight;
-            if (TallySecondMoment)
-            {
-                SecondMoment += photon.DP.Weight * photon.DP.Weight;
-            }
             TallyCount++;
+            if (!TallySecondMoment) return;
+            SecondMoment += photon.DP.Weight * photon.DP.Weight;
         }
 
         /// <summary>
@@ -137,10 +134,8 @@ namespace Vts.MonteCarlo.Detectors
         public void Normalize(long numPhotons)
         {
             Mean /= numPhotons;
-            if (TallySecondMoment)
-            {
-                SecondMoment /= numPhotons;
-            }
+            if (!TallySecondMoment) return;
+            SecondMoment /= numPhotons;
         }
 
         /// <summary>

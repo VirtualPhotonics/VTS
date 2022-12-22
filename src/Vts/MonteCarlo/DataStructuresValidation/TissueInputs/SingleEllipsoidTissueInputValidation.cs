@@ -22,17 +22,13 @@ namespace Vts.MonteCarlo
         {
             var layers = ((SingleEllipsoidTissueInput)input).LayerRegions.Select(region => (LayerTissueRegion)region).ToArray();
             var ellipsoid = (EllipsoidTissueRegion)((SingleEllipsoidTissueInput)input).EllipsoidRegion;
-            ValidationResult tempResult;
-            tempResult = ValidateGeometry(layers, ellipsoid);
+            var tempResult = ValidateGeometry(layers, ellipsoid);
             if (!tempResult.IsValid)
             {
                 return tempResult;
             }
             tempResult = ValidateRefractiveIndexMatch(layers, ellipsoid);
-            if (!tempResult.IsValid)
-            {
-                return tempResult;
-            }
+
             return tempResult;
         }
         /// <summary>
@@ -47,9 +43,9 @@ namespace Vts.MonteCarlo
             // check that layer definition is valid
             var tempResult = MultiLayerTissueInputValidation.ValidateLayers(layers);
 
-            if (!tempResult.IsValid){ return tempResult; }
+            if (!tempResult.IsValid) return tempResult;
 
-            if ((ellipsoid.Dx == 0) || (ellipsoid.Dy == 0) || (ellipsoid.Dz == 0))
+            if (ellipsoid.Dx == 0 || ellipsoid.Dy == 0 || ellipsoid.Dz == 0)
             {
                 tempResult = new ValidationResult(
                     false,
@@ -57,13 +53,14 @@ namespace Vts.MonteCarlo
                     "SingleEllipsoidTissueInput: make sure Dx, Dy, Dz are > 0");
             }
 
-            if (!tempResult.IsValid) { return tempResult; }
+            if (!tempResult.IsValid) return tempResult;
 
             // test for air layers and eliminate from list
             var tissueLayers = layers.Where(layer => !layer.IsAir());
 
             // check that there is at least one layer of tissue 
-            if (!tissueLayers.Any())
+            var layerTissueRegions = tissueLayers.ToList();
+            if (!layerTissueRegions.Any())
             {
                 tempResult = new ValidationResult(
                     false,
@@ -71,10 +68,10 @@ namespace Vts.MonteCarlo
                     "SingleEllipsoidTissueInput: redefine tissue definition to contain at least a single layer of tissue");
             }
 
-            if (!tempResult.IsValid) { return tempResult; }
+            if (!tempResult.IsValid) return tempResult;
 
             // check that ellipsoid contained within a tissue layer
-            bool correctlyContainedInLayer = tissueLayers.Any(
+            var correctlyContainedInLayer = layerTissueRegions.Any(
                 layer =>
                     layer.ContainsPosition(ellipsoid.Center) &&
                     ellipsoid.Center.Z + ellipsoid.Dz <= layer.ZRange.Stop &&
@@ -89,7 +86,7 @@ namespace Vts.MonteCarlo
                     "Resize Dz of Ellipsoid dimension so that 2*Dz<layer[1] depth");
             }
 
-            if (!tempResult.IsValid) { return tempResult; }
+            if (!tempResult.IsValid) return tempResult;
 
             return new ValidationResult(
                 true,
@@ -106,8 +103,8 @@ namespace Vts.MonteCarlo
         private static ValidationResult ValidateRefractiveIndexMatch(
             IList<LayerTissueRegion> layers, EllipsoidTissueRegion ellipsoid)
         {
-            int containingLayerIndex = -1;
-            for (int i = 0; i < layers.Count - 1; i++)
+            var containingLayerIndex = -1;
+            for (var i = 0; i < layers.Count - 1; i++)
             {
                 if (layers[i].ContainsPosition(ellipsoid.Center) &&
                     ellipsoid.Center.Z + ellipsoid.Dz <= layers[i].ZRange.Stop &&
@@ -116,7 +113,7 @@ namespace Vts.MonteCarlo
                     containingLayerIndex = i;
                 }
             }
-            if ((containingLayerIndex != -1) && (layers[containingLayerIndex].RegionOP.N != ellipsoid.RegionOP.N))
+            if (containingLayerIndex != -1 && layers[containingLayerIndex].RegionOP.N != ellipsoid.RegionOP.N)
             {
                 return new ValidationResult(
                     false,

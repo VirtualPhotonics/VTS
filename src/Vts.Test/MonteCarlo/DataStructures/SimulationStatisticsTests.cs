@@ -18,7 +18,7 @@ namespace Vts.Test.MonteCarlo
     public class SimulationStatisticsTests
     {
         private SimulationStatistics _simulationStatistics;
-        private const long N = 100; // N=100 for typical unit testing, 1000 to debug
+        private const long N = 100; 
 
         /// <summary>
         /// list of temporary files created by these unit tests
@@ -74,7 +74,8 @@ namespace Vts.Test.MonteCarlo
                         "HenyeyGreensteinKey1"),
                     new LayerTissueRegion(
                         new DoubleRange(0.0, 5.0),
-                        new OpticalProperties(0.1, 1.0, 0.8, 1.4),
+                        // make mua large to turn on RR faster
+                        new OpticalProperties(1.0, 1.0, 0.8, 1.4),
                         "HenyeyGreensteinKey2"),
                     new LayerTissueRegion(
                         new DoubleRange(5.0, double.PositiveInfinity),
@@ -113,30 +114,15 @@ namespace Vts.Test.MonteCarlo
         [Test]
         public void Validate_Russian_Roulette_statistics()
         {
-            if (N == 100)
-            {
-                Assert.IsTrue(_simulationStatistics.NumberOfPhotonsSpecularReflected == 4);
-                Assert.IsTrue(_simulationStatistics.NumberOfPhotonsOutTopOfTissue == 63);
-                Assert.IsTrue(_simulationStatistics.NumberOfPhotonsOutBottomOfTissue == 32);
+                Assert.IsTrue(_simulationStatistics.NumberOfPhotonsSpecularReflected == 3);
+                Assert.IsTrue(_simulationStatistics.NumberOfPhotonsOutTopOfTissue == 30);
+                Assert.IsTrue(_simulationStatistics.NumberOfPhotonsOutBottomOfTissue == 1);
                 Assert.IsTrue(_simulationStatistics.NumberOfPhotonsAbsorbed == 0);
-                Assert.IsTrue(_simulationStatistics.NumberOfPhotonsKilledByRussianRoulette == 1);
+                Assert.IsTrue(_simulationStatistics.NumberOfPhotonsKilledByRussianRoulette == 66);
                 Assert.IsTrue(_simulationStatistics.NumberOfPhotonsSpecularReflected +
                     _simulationStatistics.NumberOfPhotonsOutTopOfTissue +
                     _simulationStatistics.NumberOfPhotonsOutBottomOfTissue +
                     _simulationStatistics.NumberOfPhotonsKilledByRussianRoulette == N);
-            }
-            else
-            {
-                Assert.IsTrue(_simulationStatistics.NumberOfPhotonsSpecularReflected == 30);
-                Assert.IsTrue(_simulationStatistics.NumberOfPhotonsOutTopOfTissue == 640);
-                Assert.IsTrue(_simulationStatistics.NumberOfPhotonsOutBottomOfTissue == 293);
-                Assert.IsTrue(_simulationStatistics.NumberOfPhotonsAbsorbed == 0);
-                Assert.IsTrue(_simulationStatistics.NumberOfPhotonsKilledByRussianRoulette == 37);
-                Assert.IsTrue(_simulationStatistics.NumberOfPhotonsSpecularReflected +
-                    _simulationStatistics.NumberOfPhotonsOutTopOfTissue +
-                    _simulationStatistics.NumberOfPhotonsOutBottomOfTissue +
-                    _simulationStatistics.NumberOfPhotonsKilledByRussianRoulette == N);
-            }
         }
     }
 }

@@ -33,10 +33,7 @@ namespace Vts.MonteCarlo
             AbsorptionWeightingType = absWeightingType;
             Databases = databases;
             // check if databases list is null and if so make empty
-            if (Databases == null)
-            {
-                Databases = new List<DatabaseType>() { };
-            }
+            if (Databases == null) Databases = new List<DatabaseType>();
             Seed = seed;
             // handling of random seed moved to RNGFactory 10/01/11
             SimulationIndex = simulationIndex;

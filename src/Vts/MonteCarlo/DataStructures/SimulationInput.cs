@@ -39,10 +39,7 @@ namespace Vts.MonteCarlo
             TissueInput = tissueInput;
             DetectorInputs = detectorInputs;
             // check if detectorInputs list is null and if so make empty
-            if (DetectorInputs == null)
-            {
-                DetectorInputs = new List<IDetectorInput>() {};
-            }
+            if (DetectorInputs == null)  DetectorInputs = new List<IDetectorInput>();
         }
 
         /// <summary>
