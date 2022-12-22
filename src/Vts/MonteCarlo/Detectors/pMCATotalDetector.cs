@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Vts.IO;
-using Vts.MonteCarlo.PhotonData;
 
 namespace Vts.MonteCarlo.Detectors
 {
@@ -124,7 +123,7 @@ namespace Vts.MonteCarlo.Detectors
         public void Tally(Photon photon)
         {
             // first determine perturbed *reflected* weight
-            double weightFactor = _absorbAction(
+            var weightFactor = _absorbAction(
                 photon.History.SubRegionInfoList.Select(c => c.NumberOfCollisions).ToList(),
                 photon.History.SubRegionInfoList.Select(p => p.PathLength).ToList(),
                 _perturbedOps, _referenceOps, _perturbedRegionsIndices);
@@ -132,10 +131,8 @@ namespace Vts.MonteCarlo.Detectors
             var weight = 1 - (photon.DP.Weight * weightFactor);
 
             Mean += weight;
-            if (TallySecondMoment)
-            {
-                SecondMoment += weight * weight;
-            }
+            if (!TallySecondMoment) return;
+            SecondMoment += weight * weight;
         }
 
         /// <summary>
@@ -145,20 +142,15 @@ namespace Vts.MonteCarlo.Detectors
         public void Normalize(long numPhotons)
         {
             Mean /= numPhotons;
-            if (TallySecondMoment)
-            {
-                SecondMoment /= numPhotons;
-            }
+            if (!TallySecondMoment) return;
+            SecondMoment /= numPhotons;
         }
 
         /// <summary>
         /// this scalar tally is saved to json
         /// </summary>
         /// <returns>null</returns>
-        public BinaryArraySerializer[] GetBinarySerializers()
-        {
-            return null;
-        }
+        public BinaryArraySerializer[] GetBinarySerializers() => null;
 
         /// <summary>
         /// Method to determine if photon is within detector NA not applicable for ATotal

@@ -8,7 +8,7 @@
         /// <summary>
         /// default constructor for detector input
         /// </summary>
-        public DetectorInput()
+        protected DetectorInput()
         {
             TallyType = "";
             Name = "";
@@ -42,7 +42,7 @@
         /// <summary>
         /// default constructor for detector
         /// </summary>
-        public Detector()
+        protected Detector()
         {
             TallyType = "";
             Name = "";

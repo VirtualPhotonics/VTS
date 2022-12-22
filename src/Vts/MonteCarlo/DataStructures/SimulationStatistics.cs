@@ -77,7 +77,7 @@ namespace Vts.MonteCarlo
         /// <param name="filename">file name to write</param>
         public void ToFile(string filename)
         {
-            FileIO.WriteToJson(this, filename);
+            this.WriteToJson(filename);
         }
         /// <summary>
         /// method to read results from file

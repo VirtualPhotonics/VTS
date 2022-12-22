@@ -16,7 +16,7 @@ namespace Vts.MonteCarlo
         public static IList<PostProcessorInput> GenerateAllPostProcessorInputs()
         {
             // additions to this list need to be added to MCPP Program tests for clean up
-            return new List<PostProcessorInput>()
+            return new List<PostProcessorInput>
             {
                 PostProcessorROfRho(),
                 pMCROfRhoAndROfRhoAndTime(), // don't change this it is part of documentation
@@ -34,7 +34,7 @@ namespace Vts.MonteCarlo
         public static PostProcessorInput PostProcessorROfRho()
         {
             return new PostProcessorInput(
-                new List<IDetectorInput>()
+                new List<IDetectorInput>
                 {
                     new ROfRhoDetectorInput
                     {
@@ -57,90 +57,96 @@ namespace Vts.MonteCarlo
         public static PostProcessorInput pMCROfRhoAndROfRhoAndTime()
         {
             return new PostProcessorInput(
-                new List<IDetectorInput>()
+                new List<IDetectorInput>
                 {
                     // add in regular ROfRho and ROfRhoAndTime detectors for comparison
-                    new ROfRhoDetectorInput()
+                    new ROfRhoDetectorInput
                     {
                         Rho=new DoubleRange(0.0, 10, 101),
                         TallySecondMoment = true,
                     },
-                    new ROfRhoAndTimeDetectorInput()
+                    new ROfRhoAndTimeDetectorInput
                     {
                         Rho=new DoubleRange(0.0, 10, 101),
                         Time=new DoubleRange(0.0, 10, 101),
                     },
-                    new pMCROfRhoDetectorInput()
+                    new pMCROfRhoDetectorInput
                     {
                         Rho=new DoubleRange(0.0, 10, 101),
                         PerturbedOps =      // set perturbed ops to reference ops
-                            new List<OpticalProperties>() {
+                            new List<OpticalProperties>
+                            {
                                 new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
                                 new OpticalProperties(0.01, 1.0, 0.8, 1.4),
                                 new OpticalProperties(0.0, 1e-10, 1.0, 1.0)
                             },
-                        PerturbedRegionsIndices = new List<int>() { 1 },
+                        PerturbedRegionsIndices = new List<int> { 1 },
                         TallySecondMoment = true,
                         Name="pMCROfRhoReference",
                     },
-                    new pMCROfRhoDetectorInput()
+                    new pMCROfRhoDetectorInput
                     {
                         Rho=new DoubleRange(0.0, 10, 101),
                         PerturbedOps =  // perturb mus' by +50%
-                            new List<OpticalProperties>() {
+                            new List<OpticalProperties>
+                            {
                                 new OpticalProperties(0.0, 1e-10, 0.0, 1.0),
                                 new OpticalProperties(0.01, 1.5, 0.8, 1.4),
                                 new OpticalProperties(0.0, 1e-10, 0.0, 1.0)},
-                        PerturbedRegionsIndices = new List<int>() { 1 },
+                        PerturbedRegionsIndices = new List<int> { 1 },
                         TallySecondMoment = true,
                         Name="pMCROfRho_mus1p5",
                     },
-                    new pMCROfRhoDetectorInput()
+                    new pMCROfRhoDetectorInput
                     {
                         Rho=new DoubleRange(0.0, 10, 101),
                         PerturbedOps = // perturb mus' by -50%
-                            new List<OpticalProperties>() {
+                            new List<OpticalProperties>
+                            {
                                 new OpticalProperties(0.0, 1e-10, 0.0, 1.0),
                                 new OpticalProperties(0.01, 0.5, 0.8, 1.4),
                                 new OpticalProperties(0.0, 1e-10, 0.0, 1.0)},
-                        PerturbedRegionsIndices = new List<int>() { 1 },
+                        PerturbedRegionsIndices = new List<int> { 1 },
                         TallySecondMoment = true,
                         Name="pMCROfRho_mus0p5",
                     },
-                    new pMCROfRhoAndTimeDetectorInput()
+                    new pMCROfRhoAndTimeDetectorInput
                     {
                         Rho=new DoubleRange(0.0, 10, 101),
                         Time=new DoubleRange(0.0, 10, 101),
                         PerturbedOps =
-                            new List<OpticalProperties>() {
+                            new List<OpticalProperties>
+                            {
                                 new OpticalProperties(0.0, 1e-10, 0.0, 1.0),
                                 new OpticalProperties(0.01, 1.0, 0.8, 1.4),
                                 new OpticalProperties(0.0, 1e-10, 0.0, 1.0)},
-                        PerturbedRegionsIndices = new List<int>() { 1 },
+                        PerturbedRegionsIndices = new List<int> { 1 },
                         Name="pMCROfRhoAndTime_reference"
                     },
-                    new pMCROfRhoAndTimeDetectorInput()
+                    new pMCROfRhoAndTimeDetectorInput
                     {
                         Rho=new DoubleRange(0.0, 10, 101),
                         Time=new DoubleRange(0.0, 10, 101),
                         PerturbedOps =
-                            new List<OpticalProperties>() {
+                            new List<OpticalProperties>
+                            {
                                 new OpticalProperties(0.0, 1e-10, 0.0, 1.0),
                                 new OpticalProperties(0.01, 1.5, 0.8, 1.4),
                                 new OpticalProperties(0.0, 1e-10, 0.0, 1.0)},
-                        PerturbedRegionsIndices = new List<int>() { 1 },
+                        PerturbedRegionsIndices = new List<int> { 1 },
                         Name="pMCROfRhoAndTime_mus1p5"
                     },
-                    new pMCROfRhoAndTimeDetectorInput()
+                    new pMCROfRhoAndTimeDetectorInput
                     {
                         Rho=new DoubleRange(0.0, 10, 101),
                         Time=new DoubleRange(0.0, 10, 101),
                         PerturbedOps =
-                            new List<OpticalProperties>() {
+                            new List<OpticalProperties>
+                            {
                                 new OpticalProperties(0.0, 1e-10, 0.0, 1.0),
                                 new OpticalProperties(0.01, 0.5, 0.8, 1.4),
                                 new OpticalProperties(0.0, 1e-10, 0.0, 1.0)},
-                        PerturbedRegionsIndices = new List<int>() { 1 },
+                        PerturbedRegionsIndices = new List<int> { 1 },
                         Name="pMCROfRhoAndTime_mus0p5"
                     },
                  },
@@ -160,70 +166,75 @@ namespace Vts.MonteCarlo
         public static PostProcessorInput pMCROfRhoROfXAndYVariants()
         {
             return new PostProcessorInput(
-                new List<IDetectorInput>()
+                new List<IDetectorInput>
                 {
-                    new pMCROfRhoRecessedDetectorInput()
+                    new pMCROfRhoRecessedDetectorInput
                     {
                         Rho=new DoubleRange(0.0, 10, 101),
                         ZPlane=-1.0,
                         PerturbedOps =  // perturb mus' by +50%
-                            new List<OpticalProperties>() {
+                            new List<OpticalProperties>
+                            {
                                 new OpticalProperties(0.0, 1e-10, 0.0, 1.0),
                                 new OpticalProperties(0.01, 1.5, 0.8, 1.4),
                                 new OpticalProperties(0.0, 1e-10, 0.0, 1.0)},
-                        PerturbedRegionsIndices = new List<int>() { 1 },
+                        PerturbedRegionsIndices = new List<int> { 1 },
                         TallySecondMoment = true,
                         Name="pMCROfRhoRecessed_mus1p5",
                     },
-                     new pMCROfRhoAndTimeRecessedDetectorInput()
-                    {
+                     new pMCROfRhoAndTimeRecessedDetectorInput
+                     {
                         Rho=new DoubleRange(0.0, 10, 101),
                         Time=new DoubleRange(0.0, 10, 101),
                         ZPlane=-1.0,
                         PerturbedOps =
-                            new List<OpticalProperties>() {
+                            new List<OpticalProperties>
+                            {
                                 new OpticalProperties(0.0, 1e-10, 0.0, 1.0),
                                 new OpticalProperties(0.01, 1.5, 0.8, 1.4),
                                 new OpticalProperties(0.0, 1e-10, 0.0, 1.0)},
-                        PerturbedRegionsIndices = new List<int>() { 1 },
+                        PerturbedRegionsIndices = new List<int> { 1 },
                         Name="pMCROfRhoAndTimeRecessed_mus1p5"
                     },
-                     new pMCROfXAndYAndTimeAndSubregionDetectorInput()
+                     new pMCROfXAndYAndTimeAndSubregionDetectorInput
                      {
                          X=new DoubleRange(-10, 10, 101),
                          Y=new DoubleRange(-10, 10, 101),
                          Time=new DoubleRange(0.0, 1, 101),
                          PerturbedOps =  // perturb mus' by +50%
-                             new List<OpticalProperties>() {
+                             new List<OpticalProperties>
+                             {
                                  new OpticalProperties(0.0, 1e-10, 0.0, 1.0),
                                  new OpticalProperties(0.01, 1.5, 0.8, 1.4),
                                  new OpticalProperties(0.0, 1e-10, 0.0, 1.0)},
-                         PerturbedRegionsIndices = new List<int>() { 1 },
+                         PerturbedRegionsIndices = new List<int> { 1 },
                          TallySecondMoment = true,
                          Name="pMCROfXAndYAndTimeAndSubregionRecessed_mus1p5",
                      },
-                     new pMCROfXAndYAndTimeAndSubregionRecessedDetectorInput()
+                     new pMCROfXAndYAndTimeAndSubregionRecessedDetectorInput
                      {
                          X=new DoubleRange(-10, 10, 101),
                          Y=new DoubleRange(-10, 10, 101),
                          Time=new DoubleRange(0.0, 1, 101),
                          ZPlane=-1.0,
                          PerturbedOps =
-                             new List<OpticalProperties>() {
+                             new List<OpticalProperties>
+                             {
                                  new OpticalProperties(0.0, 1e-10, 0.0, 1.0),
                                  new OpticalProperties(0.01, 1.5, 0.8, 1.4),
                                  new OpticalProperties(0.0, 1e-10, 0.0, 1.0)},
-                         PerturbedRegionsIndices = new List<int>() { 1 },
+                         PerturbedRegionsIndices = new List<int> { 1 },
                          Name="pMCROfXAndYAndTimeAndSubregionRecessed_mus1p5"
                      },
-                     new pMCATotalDetectorInput()
+                     new pMCATotalDetectorInput
                      {
                          PerturbedOps =
-                             new List<OpticalProperties>() {
+                             new List<OpticalProperties>
+                             {
                                  new OpticalProperties(0.0, 1e-10, 0.0, 1.0),
                                  new OpticalProperties(0.01, 1.5, 0.8, 1.4),
                                  new OpticalProperties(0.0, 1e-10, 0.0, 1.0)},
-                         PerturbedRegionsIndices = new List<int>() { 1 },
+                         PerturbedRegionsIndices = new List<int> { 1 },
                          Name="pMCATotal_mus1p5"
                      },
                 },
@@ -244,55 +255,59 @@ namespace Vts.MonteCarlo
         {
             return new PostProcessorInput(
                 //VirtualBoundaryType.pMCDiffuseReflectance,
-                new List<IDetectorInput>()
+                new List<IDetectorInput>
                 {
-                    new pMCROfFxDetectorInput()
+                    new pMCROfFxDetectorInput
                     {
                         Fx=new DoubleRange(0.0, 0.5, 11),
                         PerturbedOps =      // set perturbed ops to reference ops
-                            new List<OpticalProperties>() { 
+                            new List<OpticalProperties>
+                            { 
                                 new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
                                 new OpticalProperties(0.01, 1.0, 0.8, 1.4),
                                 new OpticalProperties(0.0, 1e-10, 1.0, 1.0)
                             },
-                        PerturbedRegionsIndices = new List<int>() { 1 },
+                        PerturbedRegionsIndices = new List<int> { 1 },
                         TallySecondMoment = true,
                         Name="pMCROfFxReference",
                     },
-                    new pMCROfFxDetectorInput()
+                    new pMCROfFxDetectorInput
                     {                      
                         Fx=new DoubleRange(0.0, 0.5, 11),
                         PerturbedOps =  // perturb mus' by +50%
-                            new List<OpticalProperties>() { 
+                            new List<OpticalProperties>
+                            { 
                                 new OpticalProperties(0.0, 1e-10, 0.0, 1.0),
                                 new OpticalProperties(0.01, 1.5, 0.8, 1.4),
                                 new OpticalProperties(0.0, 1e-10, 0.0, 1.0)},
-                        PerturbedRegionsIndices = new List<int>() { 1 },
+                        PerturbedRegionsIndices = new List<int> { 1 },
                         TallySecondMoment = true,
                         Name="pMCROfFx_mus1p5",
                     },
-                    new pMCROfFxDetectorInput()
+                    new pMCROfFxDetectorInput
                     {                        
                         Fx=new DoubleRange(0.0, 0.5, 11),
                         PerturbedOps = // perturb mus' by -50%
-                            new List<OpticalProperties>() { 
+                            new List<OpticalProperties>
+                            { 
                                 new OpticalProperties(0.0, 1e-10, 0.0, 1.0),
                                 new OpticalProperties(0.01, 0.5, 0.8, 1.4),
                                 new OpticalProperties(0.0, 1e-10, 0.0, 1.0)},
-                        PerturbedRegionsIndices = new List<int>() { 1 },
+                        PerturbedRegionsIndices = new List<int> { 1 },
                         TallySecondMoment = true,
                         Name="pMCROfFx_mus0p5",
                     },
-                    new pMCROfFxAndTimeDetectorInput()
+                    new pMCROfFxAndTimeDetectorInput
                     {                        
                         Fx=new DoubleRange(0.0, 0.5, 11),
                         Time=new DoubleRange(0.0, 10, 101),
                         PerturbedOps = 
-                            new List<OpticalProperties>() {
+                            new List<OpticalProperties>
+                            {
                                 new OpticalProperties(0.0, 1e-10, 0.0, 1.0),
                                 new OpticalProperties(0.01, 1.5, 0.8, 1.4),
                                 new OpticalProperties(0.0, 1e-10, 0.0, 1.0)},
-                        PerturbedRegionsIndices = new List<int>() { 1 },
+                        PerturbedRegionsIndices = new List<int> { 1 },
                         Name="pMCROfFxAndTime_mus1p5"
                     },
                 },

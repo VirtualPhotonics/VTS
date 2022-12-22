@@ -81,7 +81,7 @@ namespace Vts.MonteCarlo
         /// <param name="filename">string file name</param>
         public void ToFile(string filename)
         {
-            FileIO.WriteToJson(this, filename);
+            this.WriteToJson(filename);
         }
         /// <summary>
         /// Method to read this class from file in Resources

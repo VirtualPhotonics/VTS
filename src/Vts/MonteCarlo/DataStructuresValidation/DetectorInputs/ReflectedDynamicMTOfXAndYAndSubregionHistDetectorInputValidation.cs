@@ -1,6 +1,4 @@
-using System.Linq;
 using Vts.MonteCarlo.DataStructuresValidation;
-using Vts.MonteCarlo.Detectors;
 
 namespace Vts.MonteCarlo
 {

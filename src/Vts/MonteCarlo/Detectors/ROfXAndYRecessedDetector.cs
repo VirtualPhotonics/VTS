@@ -149,8 +149,7 @@ namespace Vts.MonteCarlo.Detectors
         /// <param name="photon">photon data needed to tally</param>
         public void Tally(Photon photon)
         {
-            if (!IsWithinDetectorAperture(photon))
-                return;
+            if (!IsWithinDetectorAperture(photon)) return;
 
             // ray trace exit location and direction to location at ZPlane
             var positionAtZPlane = LayerTissueRegionToolbox.RayExtendToInfinitePlane(
@@ -160,11 +159,9 @@ namespace Vts.MonteCarlo.Detectors
             var iy = DetectorBinning.WhichBin(positionAtZPlane.Y, Y.Count - 1, Y.Delta, Y.Start);
 
             Mean[ix, iy] += photon.DP.Weight;
-            if (TallySecondMoment)
-            {
-                SecondMoment[ix, iy] += photon.DP.Weight * photon.DP.Weight;
-            }
             TallyCount++;
+            if (!TallySecondMoment) return;
+            SecondMoment[ix, iy] += photon.DP.Weight * photon.DP.Weight;
         }
         /// <summary>
         /// method to normalize detector results after all photons launched
@@ -173,15 +170,13 @@ namespace Vts.MonteCarlo.Detectors
         public void Normalize(long numPhotons)
         {
             var normalizationFactor = X.Delta * Y.Delta;
-            for (int ix = 0; ix < X.Count - 1; ix++)
+            for (var ix = 0; ix < X.Count - 1; ix++)
             {
-                for (int iy = 0; iy < Y.Count - 1; iy++)
+                for (var iy = 0; iy < Y.Count - 1; iy++)
                 {
                     Mean[ix, iy] /= normalizationFactor * numPhotons;
-                    if (TallySecondMoment)
-                    {
-                        SecondMoment[ix, iy] /= normalizationFactor * normalizationFactor * numPhotons;
-                    }
+                    if (!TallySecondMoment) continue;
+                    SecondMoment[ix, iy] /= normalizationFactor * normalizationFactor * numPhotons;
                 }
             }
         }
@@ -197,8 +192,8 @@ namespace Vts.MonteCarlo.Detectors
                     Name = "Mean",
                     FileTag = "",
                     WriteData = binaryWriter => {
-                        for (int i = 0; i < X.Count - 1; i++) {
-                            for (int j = 0; j < Y.Count - 1; j++)
+                        for (var i = 0; i < X.Count - 1; i++) {
+                            for (var j = 0; j < Y.Count - 1; j++)
                             {                                
                                 binaryWriter.Write(Mean[i, j]);
                             }
@@ -206,8 +201,8 @@ namespace Vts.MonteCarlo.Detectors
                     },
                     ReadData = binaryReader => {
                         Mean = Mean ?? new double[ X.Count - 1, Y.Count - 1];
-                        for (int i = 0; i <  X.Count - 1; i++) {
-                            for (int j = 0; j < Y.Count - 1; j++)
+                        for (var i = 0; i <  X.Count - 1; i++) {
+                            for (var j = 0; j < Y.Count - 1; j++)
                             {
                                Mean[i, j] = binaryReader.ReadDouble(); 
                             }
@@ -221,8 +216,8 @@ namespace Vts.MonteCarlo.Detectors
                     FileTag = "_2",
                     WriteData = binaryWriter => {
                         if (!TallySecondMoment || SecondMoment == null) return;
-                        for (int i = 0; i < X.Count - 1; i++) {
-                            for (int j = 0; j < Y.Count - 1; j++)
+                        for (var i = 0; i < X.Count - 1; i++) {
+                            for (var j = 0; j < Y.Count - 1; j++)
                             {
                                 binaryWriter.Write(SecondMoment[i, j]);
                             }                            
@@ -231,8 +226,8 @@ namespace Vts.MonteCarlo.Detectors
                     ReadData = binaryReader => {
                         if (!TallySecondMoment || SecondMoment == null) return;
                         SecondMoment = new double[ X.Count - 1, Y.Count - 1];
-                        for (int i = 0; i < X.Count - 1; i++) {
-                            for (int j = 0; j < Y.Count - 1; j++)
+                        for (var i = 0; i < X.Count - 1; i++) {
+                            for (var j = 0; j < Y.Count - 1; j++)
                             {
                                 SecondMoment[i, j] = binaryReader.ReadDouble();
                             }                       

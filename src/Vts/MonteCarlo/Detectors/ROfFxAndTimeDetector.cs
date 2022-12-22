@@ -141,33 +141,28 @@ namespace Vts.MonteCarlo.Detectors
         /// <param name="photon">photon data needed to tally</param>
         public void Tally(Photon photon)
         {
-            if (!IsWithinDetectorAperture(photon))
-                return;
+            if (!IsWithinDetectorAperture(photon)) return;
             
             var dp = photon.DP;
             var it = DetectorBinning.WhichBin(dp.TotalTime, Time.Count - 1, Time.Delta, Time.Start);
 
-            if (it != -1)
-            { 
-                var x = dp.Position.X;
-                var fxArray = Fx.AsEnumerable().ToArray();
-                for (int ifx = 0; ifx < fxArray.Length; ifx++)
-                {
-                    double freq = fxArray[ifx];
-                    var sinNegativeTwoPiFX = Math.Sin(-2*Math.PI*freq*x);
-                    var cosNegativeTwoPiFX = Math.Cos(-2*Math.PI*freq*x);
-                    // convert to Hz-sec from GHz-ns 1e-9*1e9=1
-                    var deltaWeight = dp.Weight*(cosNegativeTwoPiFX + Complex.ImaginaryOne*sinNegativeTwoPiFX);
+            if (it == -1) return;
+            var x = dp.Position.X;
+            var fxArray = Fx.AsEnumerable().ToArray();
+            for (var ifx = 0; ifx < fxArray.Length; ifx++)
+            {
+                var freq = fxArray[ifx];
+                var sinNegativeTwoPiFx = Math.Sin(-2*Math.PI*freq*x);
+                var cosNegativeTwoPiFx = Math.Cos(-2*Math.PI*freq*x);
+                // convert to Hz-sec from GHz-ns 1e-9*1e9=1
+                var deltaWeight = dp.Weight*(cosNegativeTwoPiFx + Complex.ImaginaryOne*sinNegativeTwoPiFx);
 
-                    Mean[ifx, it] += deltaWeight;                    
-                    // 2nd moment is E[xx*]=E[xreal^2]+E[ximag^2] and with cos^2+sin^2=1 => weight^2
-                    if (TallySecondMoment) 
-                    {
-                            SecondMoment[ifx, it] += dp.Weight * dp.Weight;
-                    }
-                }
-                TallyCount++;
+                Mean[ifx, it] += deltaWeight;                    
+                // 2nd moment is E[xx*]=E[xReal^2]+E[xImag^2] and with cos^2+sin^2=1 => weight^2
+                if (!TallySecondMoment) continue;
+                SecondMoment[ifx, it] += dp.Weight * dp.Weight;
             }
+            TallyCount++;
         }
 
         /// <summary>
