@@ -15,6 +15,11 @@ Write-Host "Test MATLAB unit tests" -ForegroundColor Green
 .\RunMATLABUnitTests.ps1 
 
 Write-Host "Create MATLAB Release version = $version" -ForegroundColor Green
+# Create release folder if it doesn't exist
+$releasedir = ".\release"
+if (-not (Test-Path -LiteralPath $releasedir)) {
+    New-Item -Path $PWD -Name $releasedir -ItemType "directory"
+}
 $archive="$PWD\release\VTS_MATLAB_v" + $version + ".zip"
 $source="$PWD\matlab\vts_wrapper\*"
 
