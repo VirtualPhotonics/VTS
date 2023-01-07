@@ -1,7 +1,7 @@
 %% publish the main documentation
 opt.outputDir = 'html';
 publish('getting_started', opt);
-publish('user_guide', opt);
+publish('mytoolbox_product_page', opt);
 publish('demo', opt);
 publish('function_categories', opt);
 
