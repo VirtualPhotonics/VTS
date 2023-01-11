@@ -23,6 +23,6 @@ if (-not (Test-Path -LiteralPath $releasedir)) {
 $archive="$PWD\release\VTS_MATLAB_v" + $version + ".zip"
 $source="$PWD\matlab\vts_wrapper\*"
 
-Compress-Archive -Path $source -DestinationPath $archive
+Compress-Archive -Path $source -DestinationPath $archive -Force
 
 Read-Host -Prompt "Press Enter to exit MATLAB release process"
