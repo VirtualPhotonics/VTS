@@ -3,10 +3,10 @@
 % MATLAB.
 %
 %% Prerequisites
-% MATLAB for Windows R2011b or higher
+% MATLAB for Windows R2022b or higher
 %
 % <html>
-% .NET Framework 4.0 - download <a href="http://www.microsoft.com/downloads/en/details.aspx?familyid=9cfb2d51-5ff4-4491-b0e5-b386f32c0992&displaylang=en">here</a>
+% .NET 6.0 - download <a href="https://dotnet.microsoft.com/en-us/download/dotnet/6.0">here</a>
 % </html>
 % 
 % *Note: Calling the VTS libraries from MATLAB will only work on the Windows version of MATLAB.* 

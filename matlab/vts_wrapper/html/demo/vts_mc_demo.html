@@ -6,84 +6,89 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>Monte Carlo Demo</title><meta name="generator" content="MATLAB 7.13"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-12-23"><meta name="DC.source" content="vts_mc_demo.m"><style type="text/css">
+      --><title>Monte Carlo Demo</title><meta name="generator" content="MATLAB 9.13"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2023-01-10"><meta name="DC.source" content="vts_mc_demo.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
-body {
-  background-color: white;
-  margin:10px;
-}
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
 
-h1 {
-  color: #990000; 
-  font-size: x-large;
-}
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
 
-h2 {
-  color: #990000;
-  font-size: medium;
-}
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
 
-/* Make the text shrink to fit narrow windows, but not stretch too far in 
-wide windows. */ 
-p,h1,h2,div.content div {
-  max-width: 600px;
-  /* Hack for IE6 */
-  width: auto !important; width: 600px;
-}
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; }
 
-pre.codeinput {
-  background: #EEEEEE;
-  padding: 10px;
-}
-@media print {
-  pre.codeinput {word-wrap:break-word; width:100%;}
-} 
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
 
-span.keyword {color: #0000FF}
-span.comment {color: #228B22}
-span.string {color: #A020F0}
-span.untermstring {color: #B20000}
-span.syscmd {color: #B28C00}
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
 
-pre.codeoutput {
-  color: #666666;
-  padding: 10px;
-}
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
 
-pre.error {
-  color: red;
-}
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
 
-p.footer {
-  text-align: right;
-  font-size: xx-small;
-  font-weight: lighter;
-  font-style: italic;
-  color: gray;
-}
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+span.typesection { color:#A0522D }
 
-  </style></head><body><div class="content"><h1>Monte Carlo Demo</h1><!--introduction--><p>Script for demoing use of VTS Monte Carlo tools within Matlab, to view the source code see vts_mc_demo.m</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#2">Example 1: run a simple Monte Carlo simulation with 1000 photons</a></li><li><a href="#3">Example 2: run Monte Carlo simulations for two absorption weighting types</a></li><li><a href="#4">Example 3: run a Monte Carlo simulation with a fully-customized input</a></li><li><a href="#5">Example 4: run a list of Monte Carlo simulations</a></li><li><a href="#6">create input to simulation</a></li><li><a href="#7">create database</a></li><li><a href="#8">Send optimization function that post-processes database for pMC/dMC results</a></li></ul></div><h2>Example 1: run a simple Monte Carlo simulation with 1000 photons<a name="2"></a></h2><pre class="codeoutput">Running simulation...
-Simulation complete! Run time: 3.0958 seconds
-</pre><img vspace="5" hspace="5" src="vts_mc_demo_01.png" alt=""> <h2>Example 2: run Monte Carlo simulations for two absorption weighting types<a name="3"></a></h2><p>with 1000 photons each and compare computation time</p><pre class="codeoutput">Running simulation...
-Simulation complete! Run time: 0.40023 seconds
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>Monte Carlo Demo</h1><!--introduction--><p>Script for demoing use of VTS Monte Carlo tools within Matlab, to view the source code see vts_mc_demo.m</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#2">Example 1: run a simple Monte Carlo simulation with 1000 photons</a></li><li><a href="#3">Example 2: run Monte Carlo simulations for two absorption weighting types</a></li><li><a href="#4">Example 3: run a Monte Carlo simulation with a fully-customized input</a></li><li><a href="#5">Example 4: run a list of Monte Carlo simulations</a></li><li><a href="#6">create input to simulation</a></li><li><a href="#7">create database</a></li><li><a href="#8">Send optimization function that post-processes database for pMC/dMC results</a></li><li><a href="#9">Example 9: run a Monte Carlo simulation for transmittance tallies with 1000 photons</a></li><li><a href="#10">Example 10: run R(fx) detector results</a></li></ul></div><h2 id="2">Example 1: run a simple Monte Carlo simulation with 1000 photons</h2><pre class="codeoutput">Running simulation...
+Simulation complete! Run time: 3.4301 seconds
+</pre><img vspace="5" hspace="5" src="vts_mc_demo_01.png" alt=""> <h2 id="3">Example 2: run Monte Carlo simulations for two absorption weighting types</h2><p>with 1000 photons each and compare computation time</p><pre class="codeoutput">Running simulation...
+Simulation complete! Run time: 0.74001 seconds
 Running simulation...
-Simulation complete! Run time: 0.36353 seconds
-</pre><h2>Example 3: run a Monte Carlo simulation with a fully-customized input<a name="4"></a></h2><p>(values used here are the class defaults)</p><pre class="codeoutput">Running simulation...
-Simulation complete! Run time: 0.35975 seconds
-</pre><h2>Example 4: run a list of Monte Carlo simulations<a name="5"></a></h2><p>create a list of two default SimulationInput with different numbers of photons</p><pre class="codeoutput">Running simulations...
-Simulations complete! Run time: 3.3784 seconds
+Simulation complete! Run time: 0.093481 seconds
+</pre><h2 id="4">Example 3: run a Monte Carlo simulation with a fully-customized input</h2><p>(values used here are the class defaults)</p><pre class="codeoutput">Running simulation...
+Simulation complete! Run time: 0.32915 seconds
+</pre><h2 id="5">Example 4: run a list of Monte Carlo simulations</h2><p>create a list of two default SimulationInput with different numbers of photons</p><pre class="codeoutput">Running simulations...
+Simulations complete! Run time: 3.2041 seconds
 Running simulation...
-Simulation complete! Run time: 2.832 seconds
+Simulation complete! Run time: 4.2911 seconds
 Running post-processor...
-Post-processing complete! Run time: 0.013024 seconds
+Post-processing complete! Run time: 0.010162 seconds
 Running simulation...
-Simulation complete! Run time: 3.0591 seconds
+Simulation complete! Run time: 4.4914 seconds
 Running post-processor...
-Post-processing complete! Run time: 0.014253 seconds
-</pre><img vspace="5" hspace="5" src="vts_mc_demo_02.png" alt=""> <img vspace="5" hspace="5" src="vts_mc_demo_03.png" alt=""> <img vspace="5" hspace="5" src="vts_mc_demo_04.png" alt=""> <img vspace="5" hspace="5" src="vts_mc_demo_05.png" alt=""> <h2>create input to simulation<a name="6"></a></h2><h2>create database<a name="7"></a></h2><pre class="codeoutput">Running simulation...
-Simulation complete! Run time: 3.0245 seconds
-</pre><h2>Send optimization function that post-processes database for pMC/dMC results<a name="8"></a></h2><p>specify initial guess equal to baseline value [mua mus] NOTE: mus not mus'</p><pre class="codeoutput">Running post-processor...
-Post-processing complete! Run time: 0.042407 seconds
+Post-processing complete! Run time: 0.021185 seconds
+</pre><img vspace="5" hspace="5" src="vts_mc_demo_02.png" alt=""> <img vspace="5" hspace="5" src="vts_mc_demo_03.png" alt=""> <img vspace="5" hspace="5" src="vts_mc_demo_04.png" alt=""> <img vspace="5" hspace="5" src="vts_mc_demo_05.png" alt=""> <h2 id="6">create input to simulation</h2><h2 id="7">create database</h2><pre class="codeoutput">Running simulation...
+Simulation complete! Run time: 3.6359 seconds
+</pre><h2 id="8">Send optimization function that post-processes database for pMC/dMC results</h2><p>specify initial guess equal to baseline value [mua mus] NOTE: mus not mus'</p><pre class="codeoutput">Running post-processor...
+Post-processing complete! Run time: 0.019706 seconds
 
 ____________________________________________________________
    Diagnostic Information
@@ -91,10 +96,10 @@ ____________________________________________________________
 Number of variables: 2
 
 Functions 
- Objective and gradient:               lsqcurvefit/objectiveAndJacobian
+Objective and gradient:               lsqcurvefit/objectiveAndJacobian
  
- Number of lower bound constraints:          0
- Number of upper bound constraints:          0
+Number of lower bound constraints:          0
+Number of upper bound constraints:          0
 
 Algorithm selected
    trust-region-reflective
@@ -103,39 +108,42 @@ Algorithm selected
 ____________________________________________________________
    End diagnostic information
 Running post-processor...
-Post-processing complete! Run time: 0.0089562 seconds
+Post-processing complete! Run time: 0.016156 seconds
 Running post-processor...
-Post-processing complete! Run time: 0.0050805 seconds
-Running post-processor...
-Post-processing complete! Run time: 0.0052104 seconds
+Post-processing complete! Run time: 0.019109 seconds
 
 Local minimum possible.
-
-lsqcurvefit stopped because the final change in the sum of squares relative to 
-its initial value is less than the default value of the function tolerance.
-
-
+lsqcurvefit stopped because the size of the current step is less than
+the value of the step size tolerance.
 
 Running post-processor...
-Post-processing complete! Run time: 0.0062796 seconds
+Post-processing complete! Run time: 0.0085396 seconds
 Meas =    [0.040000 4.750]
-IG =      [0.010000 5.000] Chi2=3.492e-005
-Conv =    [0.048527 4.931] Chi2=5.440e-007
-error =   [0.213166 0.191]
+IG =      [0.010000 5.000] Chi2=4.898e-05
+Conv =    [0.030498 4.484] Chi2=5.404e-06
+error =   [0.237543 0.280]
 
 tissueInput = 
 
-  MultiLayerTissueInput handle
+  MultiLayerTissueInput with properties:
 
-  Properties:
-    LayerRegions: [1x3 struct]
-
+    LayerRegions: [1&times;3 struct]
 
 Running simulation...
-Simulation complete! Run time: 0.041358 seconds
+Simulation complete! Run time: 0.07578 seconds
 unit tests pass
-</pre><img vspace="5" hspace="5" src="vts_mc_demo_06.png" alt=""> <p class="footer"><br>
-      Published with MATLAB&reg; 7.13<br></p></div><!--
+</pre><img vspace="5" hspace="5" src="vts_mc_demo_06.png" alt=""> <h2 id="9">Example 9: run a Monte Carlo simulation for transmittance tallies with 1000 photons</h2><pre class="codeoutput">
+tissueInput = 
+
+  MultiLayerTissueInput with properties:
+
+    LayerRegions: [1&times;3 struct]
+
+Running simulation...
+Simulation complete! Run time: 0.045001 seconds
+</pre><img vspace="5" hspace="5" src="vts_mc_demo_07.png" alt=""> <img vspace="5" hspace="5" src="vts_mc_demo_08.png" alt=""> <h2 id="10">Example 10: run R(fx) detector results</h2><pre class="codeoutput">Running simulation...
+Simulation complete! Run time: 4.1582 seconds
+</pre><img vspace="5" hspace="5" src="vts_mc_demo_09.png" alt=""> <p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2022b</a><br></p></div><!--
 ##### SOURCE BEGIN #####
 %% Monte Carlo Demo
 % Script for demoing use of VTS Monte Carlo tools within Matlab, to view
@@ -367,7 +375,7 @@ di.PerturbedOps = ...
                 [0.01,   1.0, 0.8, 1.4]; ...
                 [1e-10, 0.0, 0.0, 1.0]; ...
                 ];
-di.PerturbedRegions = [ 1 ];
+di.PerturbedRegionsIndices = [ 1 ];
 % specify detector with perturbed mus = 0.5xbaseline
 di0p5xmua = DetectorInput.pMCROfRho(linspace(0,40,201),'pMCROfRho_0p5xmua');
 di0p5xmua.PerturbedOps = ...
@@ -376,7 +384,7 @@ di0p5xmua.PerturbedOps = ...
                 [0.005,   1.0, 0.8, 1.4]; ...
                 [1e-10, 0.0, 0.0, 1.0]; ...
                 ];
-di0p5xmua.PerturbedRegions = [ 1 ]; 
+di0p5xmua.PerturbedRegionsIndices = [ 1 ]; 
 % specify detector with perturbed mus = 2xbaseline
 di2xmua = DetectorInput.pMCROfRho(linspace(0,40,201),'pMCROfRho_2xmua');
 di2xmua.PerturbedOps = ...
@@ -385,7 +393,7 @@ di2xmua.PerturbedOps = ...
                 [0.02,   1.0, 0.8, 1.4]; ...
                 [1e-10, 0.0, 0.0, 1.0]; ...
                 ];
-di2xmua.PerturbedRegions = [ 1 ];
+di2xmua.PerturbedRegionsIndices = [ 1 ];
 ppi.InputFolder = si.OutputName;
 ppi.DetectorInputs = { di, di0p5xmua, di2xmua} ;
 ppoutput = VtsMonteCarlo.RunPostProcessor(ppi,si);
@@ -481,7 +489,7 @@ diInitialGuess.PerturbedOps = ...
                 [x0(1), x0(2)*(1-0.8), 0.8, 1.4]; ...
                 [1e-10, 0.0, 0.0, 1.0]; ...
                 ];
-diInitialGuess.PerturbedRegions = [ 1 ];
+diInitialGuess.PerturbedRegionsIndices = [ 1 ];
 % determine forward results at converged optical properties
 diRecovered = DetectorInput.pMCROfRho(rho,'pMCROfRho_recovered');
 diRecovered.PerturbedOps = ...
@@ -490,7 +498,7 @@ diRecovered.PerturbedOps = ...
                 [recoveredOPs(1), recoveredOPs(2)*(1-0.8), 0.8, 1.4]; ...
                 [1e-10, 0.0, 0.0, 1.0]; ...
                 ];
-diRecovered.PerturbedRegions = [ 1 ];
+diRecovered.PerturbedRegionsIndices = [ 1 ];
 ppi = PostProcessorInput();
 ppi.InputFolder = si.OutputName;
 ppi.DetectorInputs = { diInitialGuess diRecovered } ;
@@ -561,7 +569,85 @@ if ((abs(d1.Mean(1,1)-0.95492965855)<0.00000000001) && ...
     (abs(d3.Mean(1,1)-95.492965855)<0.000000001))
   disp('unit tests pass');
 end
+% ======================================================================= %
+%% Example 9: run a Monte Carlo simulation for transmittance tallies with 1000 photons
 
+% create a default set of inputs
+si = SimulationInput();
+
+% modify number of photons
+si.N = 1000;
+
+tissueInput = MultiLayerTissueInput(); % define a thin tissue layer
+tissueInput.LayerRegions = struct(...
+    'ZRange', ...
+    {...
+        [-Inf, 0], ... % air "z" range
+        [0, 2], ... % tissue "z" range
+        [2, +Inf] ... % air "z" range
+    }, ...
+    'RegionOP', ...
+    {...
+        [0.0, 1e-10, 1.0, 1.0], ... % air optical properties
+        [0.01, 1.0, 0.8, 1.4], ... % tissue optical properties
+        [0.0, 1e-10, 1.0, 1.0] ... % air optical properties
+        } ...
+    )
+si.TissueInput = tissueInput;
+
+% specify a single R(rho) detector by the endpoints of rho bins
+si.DetectorInputs = { DetectorInput.TOfRho(linspace(0,40,201)),...
+                      DetectorInput.TOfFx(linspace(0,0.2,51)) };
+
+% use this to run a Matlab-wrapped MonteCarloSimulation using static method
+output = VtsMonteCarlo.RunSimulation(si);
+
+d1 = output.Detectors(output.DetectorNames{1}); % TOfRho
+f = figure; semilogy(d1.Rho, d1.Mean); ylabel('log(T(\rho)) [mm^-^2]'); xlabel('Rho (mm)');
+title('Transmittance vs \rho for N=1000');
+set(f,'Name','Transmittance vs Rho for N=1000');
+d2 = output.Detectors(output.DetectorNames{2}); % TOfFx
+f = figure; plot(d2.Fx, abs(d2.Mean)); ylabel('T(fx) [unitless]'); xlabel('Fx (mm^-^1)');
+title('Transmittance vs fx for N=1000');
+set(f,'Name','Transmittance vs Fx for N=1000');
+% ======================================================================= %
+%% Example 10: run R(fx) detector results
+
+% create a default set of inputs
+si = SimulationInput();
+
+% modify number of photons
+si.N = 1000;
+
+tissueInput = MultiLayerTissueInput();
+% assign the tissue layer regions struct
+tissueInput.LayerRegions = struct(...
+    'ZRange', ...
+    {...
+        [-Inf, 0], ... % air "z" range
+        [0, 100], ... % tissue "z" range
+        [100, +Inf] ... % air "z" range
+    }, ...
+    'RegionOP', ...
+    {...
+        [0.0, 1e-10, 1.0, 1.0], ... % air optical properties
+        [0.01, 1.0, 0.8, 1.4], ... % tissue optical properties
+        [0.0, 1e-10, 1.0, 1.0] ... % air optical properties
+        } ...
+    ); 
+si.TissueInput = tissueInput;
+
+% specify a single R(rho) detector by the endpoints of rho bins
+si.DetectorInputs = { DetectorInput.ROfFx(linspace(0,0.5,51)) };
+
+% use this to run a Matlab-wrapped MonteCarloSimulation using static method
+output = VtsMonteCarlo.RunSimulation(si);
+
+% more work to do on making outputs friendly, but it's working :)
+d = output.Detectors(output.DetectorNames{1});
+f = figure; plot(d.Fx, abs(d.Mean)); ylabel('R(fx)'); xlabel('fx (/mm)');
+title('Amplitude vs fx for N=1000');
+set(f,'Name','Amplitude vs Fx for N=1000');
 
 ##### SOURCE END #####
 --></body></html>

@@ -6,7 +6,7 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>ROfFx</title><meta name="generator" content="MATLAB 9.13"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2023-01-10"><meta name="DC.source" content="ROfFx_help.m"><style type="text/css">
+      --><title>VTS User Guide</title><meta name="generator" content="MATLAB 9.13"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2023-01-10"><meta name="DC.source" content="mytoolbox_product_page.m"><style type="text/css">
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
 html { min-height:100%; margin-bottom:1px; }
@@ -67,52 +67,11 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 
 
 
-  </style></head><body><div class="content"><h1>ROfFx</h1><!--introduction--><p>Spatial-frequency reflectance</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Syntax</a></li><li><a href="#2">Description</a></li><li><a href="#3">Examples</a></li><li><a href="#4">See Also</a></li></ul></div><h2 id="1">Syntax</h2><pre>ROfFx(OP, FX)</pre><pre>     OP is an N x 4 matrix of optical properties
-         eg. OP = [[mua1, mus1', g1, n1]; [mua2, mus2', g2, n2]; ...];
-         mua and mus' values in (1/mm)
-     FX is an 1 x M array of spatial frequencies (in 1/mm)
-         eg. FX = linspace(0,0.5,11);</pre><h2 id="2">Description</h2><p>Returns steady-state reflectance in the spatial frequency domain</p><h2 id="3">Examples</h2><pre>     op = [0.1 1.2 0.8 1.4]; % optical properties
-     fx = 0:0.001:0.2; % range of spatial frequencies in 1/mm
-     VtsSolvers.SetSolverType('PointSourceSDA'); % set solver type
-     reflectance = VtsSolvers.ROfFx(op, fx);</pre><h2 id="4">See Also</h2><p><a href="VtsSolvers_help.html">VtsSolvers</a> | <a href="AbsorbedEnergyOfRhoAndZ_help.html">AbsorbedEnergyOfRhoAndZ</a> | <a href="FluenceOfRhoAndZ_help.html">FluenceOfRhoAndZ</a> | <a href="PHDOfRhoAndZ_help.html">PHDOfRhoAndZ</a> | <a href="PHDOfRhoAndZTwoLayer_help.html">PHDOfRhoAndZTwoLayer</a> | <a href="ROfFx_help.html">ROfFx</a> | <a href="ROfFxAndFt_help.html">ROfFxAndFt</a> | <a href="ROfFxAndT_help.html">ROfFxAndT</a> | <a href="ROfFxTwoLayer_help.html">ROfFxTwoLayer</a> | <a href="ROfRho_help.html">ROfRho</a> | <a href="ROfRhoAndFt_help.html">ROfRhoAndFt</a> | <a href="ROfRhoAndFtTwoLayer_help.html">ROfRhoAndFtTwoLayer</a> | <a href="ROfRhoAndT_help.html">ROfRhoAndT</a> | <a href="ROfRhoAndTimeTwoLayer_help.html">ROfRhoAndTimeTwoLayer</a> | <a href="ROfRhoTwoLayer_help.html">ROfRhoTwoLayer</a> | <a href="SetSolverType_help.html">SetSolverType</a></p><p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2022b</a><br></p></div><!--
+  </style></head><body><div class="content"><h1>VTS User Guide</h1><p>This is the user guide for the VTS</p><p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2022b</a><br></p></div><!--
 ##### SOURCE BEGIN #####
-%% ROfFx
-% Spatial-frequency reflectance 
-%
-%% Syntax
-%  ROfFx(OP, FX) 
-%
-%       OP is an N x 4 matrix of optical properties
-%           eg. OP = [[mua1, mus1', g1, n1]; [mua2, mus2', g2, n2]; ...];
-%           mua and mus' values in (1/mm)
-%       FX is an 1 x M array of spatial frequencies (in 1/mm)
-%           eg. FX = linspace(0,0.5,11);
-%
-%% Description
-% Returns steady-state reflectance in the spatial frequency domain
-%
-%% Examples
-%       op = [0.1 1.2 0.8 1.4]; % optical properties
-%       fx = 0:0.001:0.2; % range of spatial frequencies in 1/mm
-%       VtsSolvers.SetSolverType('PointSourceSDA'); % set solver type
-%       reflectance = VtsSolvers.ROfFx(op, fx);
-%
-%% See Also
-% <VtsSolvers_help.html VtsSolvers> | 
-% <AbsorbedEnergyOfRhoAndZ_help.html AbsorbedEnergyOfRhoAndZ> | 
-% <FluenceOfRhoAndZ_help.html FluenceOfRhoAndZ> | 
-% <PHDOfRhoAndZ_help.html PHDOfRhoAndZ> | 
-% <PHDOfRhoAndZTwoLayer_help.html PHDOfRhoAndZTwoLayer> | 
-% <ROfFx_help.html ROfFx> | 
-% <ROfFxAndFt_help.html ROfFxAndFt> |
-% <ROfFxAndT_help.html ROfFxAndT> | 
-% <ROfFxTwoLayer_help.html ROfFxTwoLayer> | 
-% <ROfRho_help.html ROfRho> |
-% <ROfRhoAndFt_help.html ROfRhoAndFt> |
-% <ROfRhoAndFtTwoLayer_help.html ROfRhoAndFtTwoLayer> |
-% <ROfRhoAndT_help.html ROfRhoAndT> |
-% <ROfRhoAndTimeTwoLayer_help.html ROfRhoAndTimeTwoLayer> |
-% <ROfRhoTwoLayer_help.html ROfRhoTwoLayer> |
-% <SetSolverType_help.html SetSolverType>
+%% VTS User Guide
+% This is the user guide for the VTS
+%%
+
 ##### SOURCE END #####
 --></body></html>

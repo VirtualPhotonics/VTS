@@ -7,7 +7,7 @@
     
     <!-- Supply the following six elements in the order specified -->
     <!-- (Required) element; matlabrelease content is not currently used -->
-    <matlabrelease>R2011b</matlabrelease>
+    <matlabrelease>R2022b</matlabrelease>
     <!-- (Required) The name element appears in the Contents pane -->
     <name>VTS</name>
     <!-- (Required) The type elementidentifies your package; pick one: -->
@@ -45,7 +45,7 @@
         <listitem>
              <!-- Include call to open your Web site, if any -->
            <label>VP Web Site</label>
-            <callback>web http://www.virtualphotonics.org -browser</callback>
+            <callback>web https://virtualphotonics.org -browser</callback>
             <icon>$docroot/techdoc/matlab_env/examples/webicon.gif</icon>
         </listitem>
         <!-- Add listitems for other features of your toolbox... -->

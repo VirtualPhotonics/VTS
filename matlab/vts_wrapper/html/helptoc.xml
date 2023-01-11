@@ -78,7 +78,7 @@
             <tocitem target="demo/short_course_monte_carlo_lab.html">Short Course Monte Carlo Lab</tocitem>
         </tocitem>
         <!-- Optional link or links to your or other Web sites -->
-        <tocitem target="http://www.virtualphotonics.org" 
+        <tocitem target="https://virtualphotonics.org" 
                  image="$toolbox/matlab/icons/webicon.gif">
                  VP Web Site
         </tocitem>
