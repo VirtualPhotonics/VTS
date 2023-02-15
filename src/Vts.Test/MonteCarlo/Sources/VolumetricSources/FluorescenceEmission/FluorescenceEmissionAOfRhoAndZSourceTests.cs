@@ -75,10 +75,9 @@ namespace Vts.Test.MonteCarlo.Sources
                 "AOfRhoAndZ", "Resources/sourcetest/", assemblyName);
             // overwrite statistical data in Mean with deterministic values to test
             var count = 1;
-            // need to omit "edge" bins from fluorescence generation
-            for (var i = 0; i < _aOfRhoAndZDetector.Rho.Count - 2; i++)
+            for (var i = 0; i < _aOfRhoAndZDetector.Rho.Count - 1; i++)
             {
-                for (var k = 0; k < _aOfRhoAndZDetector.Z.Count - 2; k++)
+                for (var k = 0; k < _aOfRhoAndZDetector.Z.Count - 1; k++)
                 {
                     _aOfRhoAndZDetector.Mean[i, k] = count; // make all nonzero and unique
                     ++count;
