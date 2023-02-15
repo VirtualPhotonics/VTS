@@ -75,11 +75,12 @@ namespace Vts.Test.MonteCarlo.Sources
                 "AOfXAndYAndZ", "Resources/sourcetest/", assemblyName);
             // overwrite statistical data in Mean with deterministic values to test
             var count = 1;
-            for (var i = 0; i < _aOfXAndYAndZDetector.X.Count - 1; i++)
+            // note need to omit "edge" bins from fluorescence generation
+            for (var i = 0; i < _aOfXAndYAndZDetector.X.Count - 3; i++)
             {
-                for (var j = 0; j < _aOfXAndYAndZDetector.Y.Count - 1; j++)
+                for (var j = 0; j < _aOfXAndYAndZDetector.Y.Count - 3; j++)
                 {
-                    for (var k = 0; k < _aOfXAndYAndZDetector.Z.Count - 1; k++)
+                    for (var k = 0; k < _aOfXAndYAndZDetector.Z.Count - 2; k++)
                     {
                         _aOfXAndYAndZDetector.Mean[i, j, k] = count; // make all nonzero and unique
                         ++count;
@@ -142,9 +143,10 @@ namespace Vts.Test.MonteCarlo.Sources
         /// </summary>
         [Test]
         public void verify_that_GetFinalPositionAndWeight_samples_from_CDFOfXAndYAndZ_correctly()
-        {
-            var countArray = new int[_aOfXAndYAndZDetector.X.Count - 1,
-                _aOfXAndYAndZDetector.Y.Count - 1, _aOfXAndYAndZDetector.Z.Count - 1];
+        { 
+            // note need to omit "edge" bins from fluorescence generation
+            var countArray = new int[_aOfXAndYAndZDetector.X.Count - 3,
+                _aOfXAndYAndZDetector.Y.Count - 3, _aOfXAndYAndZDetector.Z.Count - 2];
             ITissueInput tissueInput = new SingleInfiniteCylinderTissueInput();
             var tissue = tissueInput.CreateTissue(AbsorptionWeightingType.Discrete,
                 PhaseFunctionType.HenyeyGreenstein, 0);
@@ -153,27 +155,23 @@ namespace Vts.Test.MonteCarlo.Sources
             {
                 var photon = _fluorEmissionAOfXAndYAndZSourceCdf.GetNextPhoton(tissue);
                 // verify that photons start within range of midpoints of voxels in infinite cylinder
-                Assert.IsTrue((photon.DP.Position.X >= -0.5) && (photon.DP.Position.X <= 0.5));
-                Assert.AreEqual(0, photon.DP.Position.Y);
-                Assert.IsTrue((photon.DP.Position.Z >= 0.5) && (photon.DP.Position.Z <= 1.5));
+                Assert.IsTrue(photon.DP.Position.X >= -0.5 && photon.DP.Position.X <= 0.5);
+                Assert.IsTrue(photon.DP.Position.Y >= -7.5 && photon.DP.Position.X <= 0.75);
+                Assert.IsTrue(photon.DP.Position.Z >= 0.5 && photon.DP.Position.Z <= 1.5);
                 Assert.IsTrue(Math.Abs(photon.DP.Weight - 1.0) < 1e-6);
                 var ix = (int)(photon.DP.Position.X + 0.5) + 1;
-                var iz =(int)(Math.Floor(photon.DP.Position.Z));
+                var iz =(int)Math.Floor(photon.DP.Position.Z);
                 countArray[ix, 0, iz] += 1;
             }
             // check that countArray is only 1 in region of infinite cylinder
             Assert.AreEqual(0,countArray[0, 0, 0]);
-            Assert.AreEqual(17,countArray[1, 0, 0]);
-            Assert.AreEqual(31,countArray[2, 0, 0]);
-            Assert.AreEqual(0,countArray[3, 0, 0]);
             Assert.AreEqual(0,countArray[0, 0, 1]);
-            Assert.AreEqual(16,countArray[1, 0, 1]);
-            Assert.AreEqual(36,countArray[2, 0, 1]);
-            Assert.AreEqual(0,countArray[3, 0, 1]);
-            Assert.AreEqual(0,countArray[0, 0, 2]);
-            Assert.AreEqual(0,countArray[1, 0, 2]);
-            Assert.AreEqual(0,countArray[2, 0, 2]);
-            Assert.AreEqual(0,countArray[3, 0, 2]);
+            Assert.AreEqual(0,countArray[0, 1, 0]);
+            Assert.AreEqual(0,countArray[0, 1, 1]);
+            Assert.AreEqual(51,countArray[1, 0, 0]);
+            Assert.AreEqual(49,countArray[1, 0, 1]);
+            Assert.AreEqual(0, countArray[1, 1, 0]);
+            Assert.AreEqual(0, countArray[1, 1, 1]);
             // Note: with the unit test AOfXAndYAndZ defined array the PDF is:
             // PDF[1,0,0]=16.6
             // PDF[2,0,0]=29.2
@@ -196,18 +194,19 @@ namespace Vts.Test.MonteCarlo.Sources
             {
                 var photon = _fluorEmissionAOfXAndYAndZSourceUnif.GetNextPhoton(tissue);
                 // verify that photons start within range of midpoints of voxels in infinite cylinder
-                Assert.IsTrue((photon.DP.Position.X >= -0.5) && (photon.DP.Position.X <= 0.5));
-                Assert.AreEqual(0, photon.DP.Position.Y);
-                Assert.IsTrue((photon.DP.Position.Z >= 0.5) && (photon.DP.Position.Z <= 1.5));
+                Assert.IsTrue(photon.DP.Position.X >= -0.5 && photon.DP.Position.X <= 0.5);
+                Assert.IsTrue(photon.DP.Position.Y >= -7.5 && photon.DP.Position.X <= 7.5);
+                Assert.IsTrue(photon.DP.Position.Z >= 0.5 && photon.DP.Position.Z <= 1.5);
                 // verify sampling is proceeding in coded sequence
-                // detector x=[-2 2] 4 bins, y=[-10 10] 1 bin, z=[0 3] 3 bins
-                var ix = (int) (photon.DP.Position.X + 0.5) + 1;
-                var iz = (int)(Math.Floor(photon.DP.Position.Z));
+                // detector x=[-2 2] 4 bins, y=[-10 10] 4 bins, z=[0 3] 3 bins
+                var ix = (int)((photon.DP.Position.X + 0.5)/_xyzLoaderUnif.X.Delta);
+                var iy = (int)((photon.DP.Position.Y + 7.5)/_xyzLoaderUnif.Y.Delta);
+                var iz = (int)(Math.Floor(photon.DP.Position.Z)/_xyzLoaderUnif.Z.Delta);
                 // verify weight at location is equal to AOfXAndYAndZ note: setup with single y bin
                 // expected: Map [ 0 1 1 0; 0 1 1 0; 0 0 0 0] row major
                 // expected: A   [ 1 4 7 10; 2 5 8 11; 3 6 9 12] row major
                 Assert.IsTrue(Math.Abs(photon.DP.Weight - 
-                                       _xyzLoaderUnif.AOfXAndYAndZ[ix, 0, iz] * xyzNorm) < 1e-6);
+                                       _xyzLoaderUnif.AOfXAndYAndZ[ix, iy, iz] * xyzNorm) < 1e-6);
             }
         }
         /// <summary>
