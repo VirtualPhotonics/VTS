@@ -446,11 +446,11 @@ namespace Vts.MonteCarlo
                     }
                 ),
                 new List<IDetectorInput>
-                {
-                    new AOfXAndYAndZDetectorInput
+                {// need to specify at least 2 bins in each dimension if generating fluorescence source
+                    new AOfXAndYAndZDetectorInput 
                     {
                         X =new DoubleRange(-10, 10, 201),
-                        Y =new DoubleRange(-10, 10, 2),
+                        Y =new DoubleRange(-10, 10, 5), 
                         Z =new DoubleRange(0, 10, 101)}
                 }
             );

@@ -14,7 +14,7 @@ Nphot=[10, 100, 1000, 10000]; % number of photons launched takes about 1 mins
 % simulation options initiation
 options = SimulationOptions();
 % set method to account for absorption
-options.AbsorptionWeightingType = 'Discrete'; % options 'Analog' or 'Discrete'
+options.AbsorptionWeightingType = 'Analog'; % options 'Analog' or 'Discrete'
 % seed of random number generator (-1=randomly selected seed, >=0 reproducible sequence)
 options.Seed = 0;
 
