@@ -6,73 +6,81 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>GetOP</title><meta name="generator" content="MATLAB 7.13"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2016-10-03"><meta name="DC.source" content="GetOP_help.m"><style type="text/css">
+      --><title>GetOP</title><meta name="generator" content="MATLAB 9.13"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2023-01-10"><meta name="DC.source" content="GetOP_help.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
-body {
-  background-color: white;
-  margin:10px;
-}
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
 
-h1 {
-  color: #990000; 
-  font-size: x-large;
-}
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
 
-h2 {
-  color: #990000;
-  font-size: medium;
-}
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
 
-/* Make the text shrink to fit narrow windows, but not stretch too far in 
-wide windows. */ 
-p,h1,h2,div.content div {
-  max-width: 600px;
-  /* Hack for IE6 */
-  width: auto !important; width: 600px;
-}
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; }
 
-pre.codeinput {
-  background: #EEEEEE;
-  padding: 10px;
-}
-@media print {
-  pre.codeinput {word-wrap:break-word; width:100%;}
-} 
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
 
-span.keyword {color: #0000FF}
-span.comment {color: #228B22}
-span.string {color: #A020F0}
-span.untermstring {color: #B20000}
-span.syscmd {color: #B28C00}
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
 
-pre.codeoutput {
-  color: #666666;
-  padding: 10px;
-}
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
 
-pre.error {
-  color: red;
-}
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
 
-p.footer {
-  text-align: right;
-  font-size: xx-small;
-  font-weight: lighter;
-  font-style: italic;
-  color: gray;
-}
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+span.typesection { color:#A0522D }
 
-  </style></head><body><div class="content"><h1>GetOP</h1><!--introduction--><p>Returns the optical properties</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Syntax</a></li><li><a href="#2">Description</a></li><li><a href="#3">Examples</a></li><li><a href="#4">See Also</a></li></ul></div><h2>Syntax<a name="1"></a></h2><p>GetOP(ABSORBERS, SCATTERER, WAVELENGTHS)</p><pre> ABSORBERS is a class that defines the list of absorbers and their
- concentrations
-     ABSORBERS.Name is a list of absorber names
-         eg. ABSORBERS.Names = {'HbO2', 'Hb', 'H2O'};
-     ABSORBERS.Concentrations is a list of concentrations
-         eg. ABSORBERS.Concentrations =  [70, 30, 0.8];</pre><pre> SCATTERER is a class that defines the scatterer
-     SCATTERER.Type (PowerLaw, Intralipid or Mie) Mie is the default
-         eg. SCATTERER.Type = 'PowerLaw';
-             SCATTERER.A = 1.2;
-             SCATTERER.b = 1.42;</pre><pre> WAVELENGTHS is an 1 x M array of wavelengths
-         eg. WAVELENGTHS = 450:0.5:1000;</pre><h2>Description<a name="2"></a></h2><p>Returns the optical properties from a list of chromophore absorbers and their concentrations for a range of wavelengths.</p><h2>Examples<a name="3"></a></h2><pre>     absorbers.Names = {'HbO2', 'Hb', 'H2O'};
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>GetOP</h1><!--introduction--><p>Returns the optical properties</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Syntax</a></li><li><a href="#2">Description</a></li><li><a href="#3">Examples</a></li><li><a href="#4">See Also</a></li></ul></div><h2 id="1">Syntax</h2><p>GetOP(ABSORBERS, SCATTERER, WAVELENGTHS)</p><pre class="language-matlab">ABSORBERS <span class="string">is</span> <span class="string">a</span> <span class="string">class</span> <span class="string">that</span> <span class="string">defines</span> <span class="string">the</span> <span class="string">list</span> <span class="string">of</span> <span class="string">absorbers</span> <span class="string">and</span> <span class="string">their</span>
+concentrations
+    ABSORBERS.Name is <span class="string">a</span> <span class="string">list</span> <span class="string">of</span> <span class="string">absorber</span> <span class="string">names</span>
+        eg. ABSORBERS.Names = {<span class="string">'HbO2'</span>, <span class="string">'Hb'</span>, <span class="string">'H2O'</span>};
+    ABSORBERS.Concentrations is <span class="string">a</span> <span class="string">list</span> <span class="string">of</span> <span class="string">concentrations</span>
+        eg. ABSORBERS.Concentrations =  [70, 30, 0.8];
+</pre><pre class="language-matlab">SCATTERER <span class="string">is</span> <span class="string">a</span> <span class="string">class</span> <span class="string">that</span> <span class="string">defines</span> <span class="string">the</span> <span class="string">scatterer</span>
+    SCATTERER.Type (PowerLaw, Intralipid or Mie) Mie <span class="string">is</span> <span class="string">the</span> <span class="string">default</span>
+        eg. SCATTERER.Type = <span class="string">'PowerLaw'</span>;
+            SCATTERER.A = 1.2;
+            SCATTERER.b = 1.42;
+</pre><pre class="language-matlab">WAVELENGTHS <span class="string">is</span> <span class="string">an</span> <span class="string">1</span> <span class="string">x</span> <span class="string">M</span> <span class="string">array</span> <span class="string">of</span> <span class="string">wavelengths</span>
+        eg. WAVELENGTHS = 450:0.5:1000;
+</pre><h2 id="2">Description</h2><p>Returns the optical properties from a list of chromophore absorbers and their concentrations for a range of wavelengths.</p><h2 id="3">Examples</h2><pre>     absorbers.Names = {'HbO2', 'Hb', 'H2O'};
      absorbers.Concentrations =  [70, 30, 0.8];
      scatterer.Type = 'PowerLaw';
      scatterer.A = 1.2;
@@ -90,8 +98,7 @@ p.footer {
      scatterer.n = 1.4;
      scatterer.nMedium = 1.0;
      wv = 450:0.5:1000;
-     op = VtsSpectroscopy.GetOP(absorbers, scatterer, wv);</pre><h2>See Also<a name="4"></a></h2><p><a href="VtsSpectroscopy_help.html">VtsSpectroscopy</a></p><p class="footer"><br>
-      Published with MATLAB&reg; 7.13<br></p></div><!--
+     op = VtsSpectroscopy.GetOP(absorbers, scatterer, wv);</pre><h2 id="4">See Also</h2><p><a href="VtsSpectroscopy_help.html">VtsSpectroscopy</a></p><p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2022b</a><br></p></div><!--
 ##### SOURCE BEGIN #####
 %% GetOP
 % Returns the optical properties
