@@ -1,6 +1,5 @@
 ﻿using System;
 using Vts.Common;
-using Vts.MonteCarlo.Interfaces;
 
 namespace Vts.MonteCarlo.Sources
 {
@@ -113,6 +112,8 @@ namespace Vts.MonteCarlo.Sources
                 initialTissueRegionIndex)
         {
             SamplingMethod = samplingMethod;
+            // Loader loads absorbed energy results in grid MINUS final bins
+            // which contain results of tallies beyond final bin
             Loader = new AOfXAndYAndZLoader(inputFolder, infile, initialTissueRegionIndex);
         }
         /// <summary>
@@ -130,11 +131,12 @@ namespace Vts.MonteCarlo.Sources
                     // determine position from CDF determined in AOfXAndYAndZLoader
                     // due to ordering of indices CDF will be increasing with each increment
                     var rho = rng.NextDouble();
-                    for (var i = 0; i < Loader.X.Count - 1; i++)
+                    // omit final bins from fluorescent source so Count-2
+                    for (var i = 0; i < Loader.X.Count - 3; i++)
                     {
-                        for (var j = 0; j < Loader.Y.Count - 1; j++)
+                        for (var j = 0; j < Loader.Y.Count - 3; j++)
                         {
-                            for (var k = 0; k < Loader.Z.Count - 1; k++)
+                            for (var k = 0; k < Loader.Z.Count - 2; k++)
                             {
                                 if (Loader.MapOfXAndYAndZ[i, j, k] != 1) continue;
                                 if (rho >= Loader.CDFOfXAndYAndZ[i, j, k]) continue;
