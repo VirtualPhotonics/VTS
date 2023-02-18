@@ -556,11 +556,10 @@ namespace Vts.MonteCarlo
                     0), // 0=start in air, 1=start in tissue
                 ti,
                 new List<IDetectorInput>()
-                    {
-                    new AOfXAndYAndZDetectorInput
-                    {
+                {
+                        new AOfXAndYAndZDetectorInput {
                         X =new DoubleRange(-10, 10, 201),
-                        Y =new DoubleRange(-10, 10, 2),
+                        Y =new DoubleRange(-10, 10, 5), 
                         Z =new DoubleRange(0, 10, 101)}
                 }
             );

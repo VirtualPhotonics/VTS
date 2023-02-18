@@ -8,7 +8,9 @@ using Vts.MonteCarlo.Tissues;
 namespace Vts.MonteCarlo.Sources
 {
     /// <summary>
-    /// class to handle loading of absorbed energy results from prior simulation
+    /// class to handle loading of absorbed energy results from prior simulation.
+    /// Because our code tallies photon contributions beyond the final grid bin, into
+    /// the final grid bin, the final grid bins are excluded from the fluorescent source.
     /// </summary>
     public class AOfRhoAndZLoader
     {
@@ -64,7 +66,7 @@ namespace Vts.MonteCarlo.Sources
         {
             if (infile != "")
             {
-                var inputPath = "";
+                string inputPath;
                 if (inputFolder == "")
                 {
                     inputPath = infile;
@@ -75,7 +77,7 @@ namespace Vts.MonteCarlo.Sources
                 }
                 var aOfRhoAndZDetector = (AOfRhoAndZDetector) DetectorIO.ReadDetectorFromFile(
                     "AOfRhoAndZ", inputFolder);
-                // use DoubleRange X,Y,Z to match detector dimensions
+                // use DoubleRange Rho,Z to match detector dimensions
                 Rho = aOfRhoAndZDetector.Rho;
                 Z = aOfRhoAndZDetector.Z;
                 AOfRhoAndZ = aOfRhoAndZDetector.Mean;
@@ -87,7 +89,7 @@ namespace Vts.MonteCarlo.Sources
                 if (exciteInfile.TissueInput.TissueType == "BoundingCylinder")
                 {
                     var cylinderIndex = exciteInfile.TissueInput.Regions.Length - 1;
-                    CaplessCylinderTissueRegion boundingCylinder =
+                    var boundingCylinder =
                         (CaplessCylinderTissueRegion)exciteInfile.TissueInput.Regions[cylinderIndex];
                     BoundedTissueRegion = new CaplessCylinderTissueRegion(
                         boundingCylinder.Center,
@@ -110,21 +112,30 @@ namespace Vts.MonteCarlo.Sources
         /// method to initialize fluorescent region arrays that are used to sample the fluorescent source
         /// </summary>
         public void InitializeFluorescentRegionArrays()
-        {     
-            MapOfRhoAndZ = new int[Rho.Count - 1, Z.Count - 1];
-            PDFOfRhoAndZ = new double[Rho.Count - 1, Z.Count - 1];
-            CDFOfRhoAndZ = new double[Rho.Count - 1, Z.Count - 1];
+        {                
+            // Omit final bins from fluorescent source so Count-2.
+            // First, check if results have dimension of at least 2
+            if (Rho.Count < 2 || Z.Count < 2)
+            {
+                throw new ArgumentException("Absorbed Energy grid needs at least 2 elements in each dimension");
+            }
+            MapOfRhoAndZ = new int[Rho.Count - 2, Z.Count - 2];
+            PDFOfRhoAndZ = new double[Rho.Count - 2, Z.Count - 2];
+            CDFOfRhoAndZ = new double[Rho.Count - 2, Z.Count - 2];
 
             // the following algorithm assumes that if the midpoint of the voxel is inside the 
             // fluorescent tissue region, then it is part of emission
             TotalProb = 0.0;
-            for (int i = 0; i < Rho.Count - 1; i++)
+            for (var i = 0; i < Rho.Count - 2; i++)
             {
                 // following code assumes tissue region is cylindrical in nature
                 // therefore, if (rho,z) in region, (x=rho,0,z) is in region
-                var xMidpoint = Rho.Start + i * Rho.Delta + Rho.Delta / 2;
+                // algorithm adopted from Jacques' mcfluor.c
+                var r1 = i * Rho.Delta;
+                var r2 = (i + 1) * Rho.Delta;
+                var xMidpoint = (2.0 / 3.0) * (r2 * r2 + r2 * r1 + r1 * r1) / (r1 + r2);
                 var yMidpoint = 0.0;
-                for (var k = 0; k < Z.Count - 1; k++)
+                for (var k = 0; k < Z.Count - 2; k++)
                 {
                     var zMidpoint = Z.Start + k * Z.Delta + Z.Delta / 2;
                     var inFluorescentTissue = FluorescentTissueRegion.ContainsPosition(
@@ -144,33 +155,29 @@ namespace Vts.MonteCarlo.Sources
                 }
             }
             // create pdf and cdf
-            for (var i = 0; i < Rho.Count - 1; i++)
+            for (var i = 0; i < Rho.Count - 2; i++)
             {
-                for (var k = 0; k < Z.Count - 1; k++)
+                for (var k = 0; k < Z.Count - 2; k++)
                 {
-                    if (MapOfRhoAndZ[i, k] == 1)
-                    {
-                        PDFOfRhoAndZ[i, k] /= TotalProb;
-                        CDFOfRhoAndZ[i, k] /= TotalProb;
-                    }                    
+                    if (MapOfRhoAndZ[i, k] != 1) continue;
+                    PDFOfRhoAndZ[i, k] /= TotalProb;
+                    CDFOfRhoAndZ[i, k] /= TotalProb;
                 }               
             }
         }
 
-        // set up order of fluor region indices using row major
+        // set up order of fluorescent region indices using row major
         private void SetupRegionIndices()
         {
             FluorescentRegionIndicesInOrder = new Dictionary<int, List<int>>();
             var count = 0;
-            for (var i = 0; i < Rho.Count - 1; i++)
+            for (var i = 0; i < Rho.Count - 2; i++)
             {
-                for (var k = 0; k < Z.Count - 1; k++)
+                for (var k = 0; k < Z.Count - 2; k++)
                 {
-                    if (MapOfRhoAndZ[i, k] == 1)
-                    { 
-                        FluorescentRegionIndicesInOrder.Add(count, new List<int>() { i, k });
-                        count += 1;
-                    }
+                    if (MapOfRhoAndZ[i, k] != 1) continue;
+                    FluorescentRegionIndicesInOrder.Add(count, new List<int> { i, k });
+                    count += 1;
                 }
             }
             // output number of voxels in fluorescent region so that can normalize results

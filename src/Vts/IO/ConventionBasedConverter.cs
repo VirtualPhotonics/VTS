@@ -126,11 +126,11 @@ namespace Vts.IO
         }
 
         /// <summary>
-        /// 
+        /// Method to add user-defined services
         /// </summary>
-        /// <param name="objectType"></param>
-        /// <param name="className"></param>
-        /// <param name="classPrefixString"></param>
+        /// <param name="objectType">The object type</param>
+        /// <param name="className">The class name</param>
+        /// <param name="classPrefixString">The class prefix string</param>
         public void AddUserDefinedServices(Type objectType, string className, string classPrefixString)
         {
             var classInfo = new VtsClassInfo
@@ -147,9 +147,9 @@ namespace Vts.IO
         }
 
         /// <summary>
-        /// method to determine if field exists
+        /// Method to determine if a field exists
         /// </summary>
-        /// <param name="fieldName">name of field string</param>
+        /// <param name="fieldName">Name of the field</param>
         /// <param name="jObject">JObject object to check</param>
         /// <returns>Boolean indicating if field exists</returns>
         private static bool FieldExists(string fieldName, JObject jObject)

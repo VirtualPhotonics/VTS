@@ -8,7 +8,9 @@ using Vts.MonteCarlo.Tissues;
 namespace Vts.MonteCarlo.Sources
 {
     /// <summary>
-    /// class to handle loading of absorbed energy results from prior simulation
+    /// class to handle loading of absorbed energy results from prior simulation.
+    /// Because our code tallies photon contributions beyond the final grid bin, into
+    /// the final grid bin, the final grid bins are excluded from the fluorescent source.
     /// </summary>
     public class AOfXAndYAndZLoader
     {
@@ -68,7 +70,7 @@ namespace Vts.MonteCarlo.Sources
         {
             if (infile != "")
             {
-                var inputPath = "";
+                string inputPath;
                 if (inputFolder == "")
                 {
                     inputPath = infile;
@@ -93,7 +95,7 @@ namespace Vts.MonteCarlo.Sources
                 if (exciteInfile.TissueInput.TissueType == "BoundingCylinder")
                 {
                     var cylinderIndex = exciteInfile.TissueInput.Regions.Length - 1;
-                    CaplessCylinderTissueRegion boundingCylinder = 
+                    var boundingCylinder = 
                         (CaplessCylinderTissueRegion)exciteInfile.TissueInput.Regions[cylinderIndex];
                     BoundedTissueRegion = new CaplessCylinderTissueRegion(
                         boundingCylinder.Center,
@@ -116,21 +118,27 @@ namespace Vts.MonteCarlo.Sources
         /// method to initialize the fluorescent region arrays that are used to sample fluorescent source
         /// </summary>
         public void InitializeFluorescentRegionArrays()
-        {     
-            MapOfXAndYAndZ = new int[X.Count - 1, Y.Count - 1, Z.Count - 1];
-            PDFOfXAndYAndZ = new double[X.Count - 1, Y.Count - 1, Z.Count - 1];
-            CDFOfXAndYAndZ = new double[X.Count - 1, Y.Count - 1, Z.Count - 1];
+        {
+            // Omit final bins on each side of X,Y from fluorescent source so Count-1-1-1=Count-3
+            // Omit final bin at depth of Z so Count-1-1=Count-2
+            if (X.Count < 3 || Y.Count < 3 || Z.Count < 2)
+            {
+                throw new ArgumentException("Absorbed Energy grid needs at least 2 elements in each dimension");
+            }
+            MapOfXAndYAndZ = new int[X.Count - 3, Y.Count - 3, Z.Count - 2];
+            PDFOfXAndYAndZ = new double[X.Count - 3, Y.Count - 3, Z.Count - 2];
+            CDFOfXAndYAndZ = new double[X.Count - 3, Y.Count - 3, Z.Count - 2];
 
             // the following algorithm assumes that if the midpoint of the voxel is inside the 
             // fluorescent tissue region, then it is part of emission
             TotalProb = 0.0;
-            for (var i = 0; i < X.Count - 1; i++)
+            for (var i = 0; i < X.Count - 3; i++)
             {
-                double xMidpoint = X.Start + i * X.Delta + X.Delta / 2;
-                for (var j = 0; j < Y.Count - 1; j++)
+                var xMidpoint = X.Start + i * X.Delta + X.Delta / 2;
+                for (var j = 0; j < Y.Count - 3; j++)
                 {
                     var yMidpoint = Y.Start + j * Y.Delta + Y.Delta / 2;
-                    for (var k = 0; k < Z.Count - 1; k++)
+                    for (var k = 0; k < Z.Count - 2; k++)
                     {
                         var zMidpoint = Z.Start + k * Z.Delta + Z.Delta / 2;
                         // first check if in tissue region
@@ -152,17 +160,15 @@ namespace Vts.MonteCarlo.Sources
                 }
             }
             // create pdf and cdf
-            for (var i = 0; i < X.Count - 1; i++)
+            for (var i = 0; i < X.Count - 3; i++)
             {
-                for (var j = 0; j < Y.Count - 1; j++)
+                for (var j = 0; j < Y.Count - 3; j++)
                 {
-                    for (var k = 0; k < Z.Count - 1; k++)
+                    for (var k = 0; k < Z.Count - 2; k++)
                     {
-                        if (MapOfXAndYAndZ[i, j, k] == 1)
-                        {
-                            PDFOfXAndYAndZ[i, j, k] /= TotalProb;
-                            CDFOfXAndYAndZ[i, j, k] /= TotalProb;
-                        }                    
+                        if (MapOfXAndYAndZ[i, j, k] != 1) continue;
+                        PDFOfXAndYAndZ[i, j, k] /= TotalProb;
+                        CDFOfXAndYAndZ[i, j, k] /= TotalProb;
                     }
                 }
             }
@@ -173,14 +179,14 @@ namespace Vts.MonteCarlo.Sources
         {
             FluorescentRegionIndicesInOrder = new Dictionary<int, List<int>>();
             var count = 0;
-            for (var i = 0; i < X.Count - 1; i++)
+            for (var i = 0; i < X.Count - 3; i++)
             {
-                for (var j = 0; j < Y.Count - 1; j++)
+                for (var j = 0; j < Y.Count - 3; j++)
                 {
-                    for (var k = 0; k < Z.Count - 1; k++)
+                    for (var k = 0; k < Z.Count - 2; k++)
                     {
                         if (MapOfXAndYAndZ[i, j, k] != 1) continue;
-                        FluorescentRegionIndicesInOrder.Add(count, new List<int>() { i, j, k });
+                        FluorescentRegionIndicesInOrder.Add(count, new List<int> { i, j, k });
                         count += 1;
                     }
                 }
