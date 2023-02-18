@@ -7,7 +7,7 @@
   "Y": {
     "Start": -10.0,
     "Stop": 10.0,
-    "Count": 2
+    "Count": 5
   },
   "Z": {
     "Start": 0.0,
@@ -24,7 +24,8 @@
     "IsSpecularReflectanceTally": false,
     "IsInternalSurfaceTally": false,
     "IspMCReflectanceTally": false,
-    "IsDosimetryTally": false,
+    "IspMCTransmittanceTally": false,
+    "IsBoundingVolumeTally": false,
     "IsVolumeTally": true,
     "IsCylindricalTally": false,
     "IsNotImplementedForDAW": false,

@@ -154,21 +154,21 @@ namespace Vts.Test.MonteCarlo.Sources
                 var rho = Math.Sqrt(photon.DP.Position.X * photon.DP.Position.X + 
                     photon.DP.Position.Y * photon.DP.Position.Y);
                 Assert.IsTrue(rho <= 3.5);
-                Assert.IsTrue((photon.DP.Position.Z >= 0.5) && (photon.DP.Position.Z <= 1.5));
+                Assert.IsTrue(photon.DP.Position.Z >= 0.5 && photon.DP.Position.Z <= 1.5);
                 Assert.IsTrue(Math.Abs(photon.DP.Weight - 1.0) < 1e-6);
                 var irho = (int)(Math.Floor(rho));
                 var iz = (int)(Math.Floor(photon.DP.Position.Z));
                 countArray[irho, iz] += 1;
             }
             // check that countArray is > 1 in region of AOfRhoAndZ
-            Assert.AreEqual(2, countArray[0, 0]);
-            Assert.AreEqual(4, countArray[0, 1]);
-            Assert.AreEqual(11, countArray[1, 0]);
-            Assert.AreEqual(7, countArray[1, 1]);
-            Assert.AreEqual(12, countArray[2, 0]);
-            Assert.AreEqual(19, countArray[2, 1]);
-            Assert.AreEqual(22, countArray[3, 0]);
-            Assert.AreEqual(23, countArray[3, 1]);
+            Assert.AreEqual(11, countArray[0, 0]);
+            Assert.AreEqual(0, countArray[0, 1]);
+            Assert.AreEqual(28, countArray[1, 0]);
+            Assert.AreEqual(0, countArray[1, 1]);
+            Assert.AreEqual(61, countArray[2, 0]);
+            Assert.AreEqual(0, countArray[2, 1]);
+            Assert.AreEqual(0, countArray[3, 0]);
+            Assert.AreEqual(0, countArray[3, 1]);
         }
         /// <summary>
         /// test switch statement in GetFinalPositionAndWeight method for setting other

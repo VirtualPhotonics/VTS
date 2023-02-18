@@ -1,11 +1,14 @@
 %% publish the main documentation
 opt.outputDir = 'html';
 publish('getting_started', opt);
-publish('user_guide', opt);
+publish('mytoolbox_product_page', opt);
 publish('demo', opt);
 publish('function_categories', opt);
 
 %% publish the demo documentation
+% Run Example 1a of short_course_monte_carlo_lab.m with Discrete and then 
+% change it to Analog before running this section (or publish.m) to 
+% generate documentation
 opt.outputDir = 'html\demo';
 opt.showCode = false;
 opt.createThumbnail = false;
