@@ -1,3 +1,4 @@
+using NLog;
 using System;
 using System.Collections.Generic;
 using Vts.Common;
@@ -42,6 +43,10 @@ namespace Vts.MonteCarlo.Sources
         /// CDF of fluorescent tissue region first index=row dominant index of MapOfRhoAndZ
         /// </summary>
         public double[,] CDFOfRhoAndZ { get; set; }
+        /// <summary>
+        /// Total Absorbed energy determined from AOfRhoAndZ minus final bins
+        /// </summary>
+        public double TotalAbsorbedEnergy { get; set; }
         /// <summary>
         /// tissue region of fluorescence
         /// </summary>
@@ -125,6 +130,7 @@ namespace Vts.MonteCarlo.Sources
             // the following algorithm assumes that if the midpoint of the voxel is inside the 
             // fluorescent tissue region, then it is part of emission
             TotalProb = 0.0;
+            TotalAbsorbedEnergy = 0.0;
             for (var i = 0; i < Rho.Count - 2; i++)
             {
                 // following code assumes tissue region is cylindrical in nature
@@ -151,6 +157,11 @@ namespace Vts.MonteCarlo.Sources
                     PDFOfRhoAndZ[i, k] = AOfRhoAndZ[i, k];
                     TotalProb += AOfRhoAndZ[i, k];
                     CDFOfRhoAndZ[i, k] += TotalProb;
+                    // determine total absorbed energy minus final bins
+                    var normalizationFactor = 2.0 * Math.PI * Rho.Delta * Z.Delta;
+                    var rhoZNorm = (Rho.Start + (i + 0.5) * Rho.Delta) * normalizationFactor;
+                    TotalAbsorbedEnergy += AOfRhoAndZ[i, k] * rhoZNorm;
+
                 }
             }
             // create pdf and cdf

@@ -126,6 +126,7 @@ namespace Vts.MonteCarlo.Sources
         protected override Position GetFinalPositionAndWeight(Random rng, out double weight)
         {
             double xMidpoint, yMidpoint, zMidpoint;
+            double r1, r2;
             switch (SamplingMethod)
             {
                 case SourcePositionSamplingType.CDF:
@@ -139,12 +140,15 @@ namespace Vts.MonteCarlo.Sources
                         {
                             if (Loader.MapOfRhoAndZ[i, k] != 1) continue;
                             if (rho >= Loader.CDFOfRhoAndZ[i, k]) continue;
-                            // SHOULD I SAMPLE THIS W CYLINDRICAL (Y=0) OR CARTESIAN COORD?
-                            xMidpoint = Loader.Rho.Start + i * Loader.Rho.Delta + Loader.Rho.Delta / 2;
-                            yMidpoint = 0.0;
-                            zMidpoint = Loader.Z.Start + k * Loader.Z.Delta + Loader.Z.Delta / 2;
-
-                            weight = 1.0;
+                            // following code assumes tissue region is cylindrical in nature
+                            // therefore, if (rho,z) in region, (x=rho,0,z) is in region
+                            // algorithm adopted from Jacques' mcfluor.c
+                            r1 = i * Loader.Rho.Delta;
+                            r2 = (i + 1) * Loader.Rho.Delta;
+                            xMidpoint = (2.0 / 3.0) * (r2 * r2 + r2 * r1 + r1 * r1) / (r1 + r2);
+                            yMidpoint = 0.0; 
+                            zMidpoint = Loader.Z.Start + k * Loader.Z.Delta + Loader.Z.Delta / 2; 
+                            weight = Loader.TotalAbsorbedEnergy;
                             return new Position(xMidpoint, yMidpoint, zMidpoint);
                         }
                         
@@ -160,7 +164,12 @@ namespace Vts.MonteCarlo.Sources
                     var indices = Loader.FluorescentRegionIndicesInOrder[IndexCount].ToArray();
                     var iRho = indices[0];
                     var iZ = indices[1];
-                    xMidpoint = Loader.Rho.Start + iRho * Loader.Rho.Delta + Loader.Rho.Delta / 2;
+                    // following code assumes tissue region is cylindrical in nature
+                    // therefore, if (rho,z) in region, (x=rho,0,z) is in region
+                    // algorithm adopted from Jacques' mcfluor.c
+                    r1 = iRho * Loader.Rho.Delta;
+                    r2 = (iRho + 1) * Loader.Rho.Delta;
+                    xMidpoint = (2.0 / 3.0) * (r2 * r2 + r2 * r1 + r1 * r1) / (r1 + r2); 
                     yMidpoint = 0.0;
                     zMidpoint = Loader.Z.Start + iZ * Loader.Z.Delta + Loader.Z.Delta / 2;
                     // undo normalization performed when AOfRhoAndZDetector saved
