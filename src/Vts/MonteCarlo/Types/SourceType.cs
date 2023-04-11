@@ -34,8 +34,8 @@ namespace Vts.MonteCarlo
                 // SURFACE EMITTING FLAT SOURCES (2D SURFACE SOURCES)
 
                 // Arbitrary Surface Sources
-                // 2D Rectangular Bitmap Image source: directional
-                "DirectionalBitmapImage",
+                // 2D Rectangular Arbitrary source: directional
+                "DirectionalArbitrary",
 
                 // Circular Surface Sources
                 // 2D Circular surface sources: directional 
