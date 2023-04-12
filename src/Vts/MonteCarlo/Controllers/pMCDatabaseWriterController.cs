@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Vts.MonteCarlo.PhotonData;
 
 namespace Vts.MonteCarlo.Controllers
@@ -8,7 +9,7 @@ namespace Vts.MonteCarlo.Controllers
     /// determining whether data should be written,
     /// and if so, writing the data, and finally disposing of the database.
     /// </summary>
-    public class pMCDatabaseWriterController
+    public class pMCDatabaseWriterController :IDisposable
     {
         /// <summary>
         /// constructor for pMC database writer controller

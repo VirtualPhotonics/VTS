@@ -82,23 +82,23 @@ namespace Vts.Modeling.ForwardSolvers
         /// <summary>
         /// Evaluates spatially- and temporally- resolved reflectance at sets of tissue regions, rhos and times
         /// </summary>
-        /// <param name="setsOfRegions">multiple sets of tissue regions</param>
+        /// <param name="regions">multiple sets of tissue regions</param>
         /// <param name="rhos">rhos</param>
         /// <param name="times">times</param>
         /// <returns>Reflectance at specified optical properties, rhos and times</returns>
-        public override IEnumerable<double> ROfRhoAndTime(IEnumerable<IOpticalPropertyRegion[]> setsOfRegions,
+        public override IEnumerable<double> ROfRhoAndTime(IEnumerable<IOpticalPropertyRegion[]> regions,
             IEnumerable<double> rhos, IEnumerable<double> times)
         {
-            double[] FFTtimeSequence;
-            foreach (var regions in setsOfRegions)
+            foreach (var region in regions)
             {
                 foreach (var rho in rhos)
                 {
                     // for fixed time and looping over rhos, this still is slow
-                    var rOfTime = DetermineROfTimeFromROfFtForFixedRho(rho, regions, out FFTtimeSequence);
+                    double[] ffTtimeSequence;
+                    var rOfTime = DetermineROfTimeFromROfFtForFixedRho(rho, region, out ffTtimeSequence);
                     foreach (var time in times)
                     {
-                        yield return Vts.Common.Math.Interpolation.interp1(FFTtimeSequence,
+                        yield return Vts.Common.Math.Interpolation.interp1(ffTtimeSequence,
                             rOfTime.ToList(), time);
                     }
                 }
@@ -265,22 +265,22 @@ namespace Vts.Modeling.ForwardSolvers
         /// <summary>
         /// Evaluates spatial-frequency and temporally- resolved reflectance at sets of tissue regions, fs and times
         /// </summary>
-        /// <param name="setsOfRegions">multiple sets of tissue regions</param>
+        /// <param name="regions">multiple sets of tissue regions</param>
         /// <param name="fxs">spatial frequencies</param>
         /// <param name="times">times</param>
         /// <returns>Reflectance at specified optical properties, rhos and times</returns>
-        public override IEnumerable<double> ROfFxAndTime(IEnumerable<IOpticalPropertyRegion[]> setsOfRegions,
+        public override IEnumerable<double> ROfFxAndTime(IEnumerable<IOpticalPropertyRegion[]> regions,
             IEnumerable<double> fxs, IEnumerable<double> times)
         {
-            foreach (var regions in setsOfRegions)
+            foreach (var region in regions)
             {
                 foreach (var fx in fxs)
                 {
-                    double[] FFTTimeSequence;
-                    var rOfTime = DetermineROfTimeFromROfFtForFixedFx(fx, regions, out FFTTimeSequence);
+                    double[] fftTimeSequence;
+                    var rOfTime = DetermineROfTimeFromROfFtForFixedFx(fx, region, out fftTimeSequence);
                     foreach (var time in times)
                     {
-                        yield return Vts.Common.Math.Interpolation.interp1(FFTTimeSequence, rOfTime.ToList(), time);
+                        yield return Vts.Common.Math.Interpolation.interp1(fftTimeSequence, rOfTime.ToList(), time);
                     }
                 }
             }

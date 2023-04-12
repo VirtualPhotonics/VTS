@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Linq;
 using Vts.Common;
@@ -85,7 +84,6 @@ namespace Vts.MonteCarlo.Detectors
     public class TransmittedMTOfRhoAndSubregionHistDetector : Detector, IDetector
     {
         private ITissue _tissue;
-        private IList<OpticalProperties> _ops;
 
         /* ==== Place optional/user-defined input properties here. They will be saved in text (JSON) format ==== */
         /* ==== Note: make sure to copy over all optional/user-defined inputs from corresponding input class ==== */
@@ -149,7 +147,7 @@ namespace Vts.MonteCarlo.Detectors
         {
             // initialize any necessary class fields here
             _tissue = tissue;
-            _ops = _tissue.Regions.Select(r => r.RegionOP).ToArray();
+            _tissue.Regions.Select(r => r.RegionOP).ToArray();
 
             // assign any user-defined outputs (except arrays...we'll make those on-demand)
             TallyCount = 0;

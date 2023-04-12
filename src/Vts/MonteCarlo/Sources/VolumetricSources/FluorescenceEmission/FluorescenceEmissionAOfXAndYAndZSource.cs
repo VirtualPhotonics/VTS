@@ -78,7 +78,6 @@ namespace Vts.MonteCarlo.Sources
     /// </summary>
     public class FluorescenceEmissionAOfXAndYAndZSource : FluorescenceEmissionSourceBase
     {
-        private double _totalWeight;
         /// <summary>
         /// class that holds all Source arrays for proper initiation
         /// </summary>
@@ -166,7 +165,6 @@ namespace Vts.MonteCarlo.Sources
                     // undo normalization performed when AOfXAndYAndZDetector saved
                     var xyzNorm = Loader.X.Delta * Loader.Y.Delta * Loader.Z.Delta;
                     weight = Loader.AOfXAndYAndZ[ix, iy, iz] * xyzNorm;
-                    _totalWeight += weight;
                     IndexCount += 1;
                     return new Position(xMidpoint, yMidpoint, zMidpoint);
                 default:

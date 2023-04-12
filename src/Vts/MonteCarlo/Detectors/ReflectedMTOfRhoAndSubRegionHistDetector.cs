@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Linq;
 using Vts.Common;
@@ -87,7 +86,6 @@ namespace Vts.MonteCarlo.Detectors
     public class ReflectedMTOfRhoAndSubregionHistDetector : Detector, IDetector
     {
         private ITissue _tissue;
-        private IList<OpticalProperties> _ops;
 
         /* ==== Place optional/user-defined input properties here. They will be saved in text (JSON) format ==== */
         /* ==== Note: make sure to copy over all optional/user-defined inputs from corresponding input class ==== */
@@ -151,7 +149,7 @@ namespace Vts.MonteCarlo.Detectors
         {
             // initialize any necessary class fields here
             _tissue = tissue;
-            _ops = _tissue.Regions.Select(r => r.RegionOP).ToArray();
+            _tissue.Regions.Select(r => r.RegionOP).ToArray();
 
             // assign any user-defined outputs (except arrays...we'll make those on-demand)
             TallyCount = 0;
@@ -177,7 +175,7 @@ namespace Vts.MonteCarlo.Detectors
             var subregionMt = new double[NumSubregions];
             var talliedMt = false;
 
-            // go through photon history and claculate momentum transfer
+            // go through photon history and calculate momentum transfer
             // assumes that no MT tallied at pseudo-collisions (reflections and refractions)
             // this algorithm needs to look ahead to angle of next DP, but needs info from previous to determine whether real or pseudo-collision
             var previousDp = photon.History.HistoryData.First();
