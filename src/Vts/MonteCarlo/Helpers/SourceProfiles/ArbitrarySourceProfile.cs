@@ -40,7 +40,7 @@ namespace Vts.MonteCarlo.Sources.SourceProfiles
                     binaryPixelMap.Add(i);
                 }
             }
-            binaryPixelMap.ToArray();
+            binaryPixelMap.ToArray(); // LM nothing is done with this array
         }
 
         /// <summary>

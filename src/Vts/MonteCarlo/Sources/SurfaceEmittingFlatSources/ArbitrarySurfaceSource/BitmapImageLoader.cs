@@ -1,17 +1,14 @@
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
-using System.Resources;
 using Vts.Common;
-using Vts.IO;
 
 namespace Vts.MonteCarlo.Sources
 {
     /// <summary>
     /// Class to handle loading of a bitmap image
     /// </summary>
-    public class BitmapImageLoader
+    public class BitmapImageLoader // LM should this be called ArbitrarySurfaceLoader?
     {
         /// <summary>
         /// x bins 
@@ -39,7 +36,7 @@ namespace Vts.MonteCarlo.Sources
         /// <param name="numberOfPixelsX">number of pixels in length (e.g. 1280)</param>
         /// <param name="numberOfPixelsY">number of pixels in width (e.g. 1024)</param>
         /// <exception cref="ArgumentException">throws ArgumentException if infile is not there</exception>
-        public static double[] LinearizeBitmap(string inputFolder, string infile, int numberOfPixelsX, int numberOfPixelsY)
+        public static double[] FlattenBitmap(string inputFolder, string infile, int numberOfPixelsX, int numberOfPixelsY)
         {
             if (infile != "")
             {
