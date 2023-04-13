@@ -94,11 +94,11 @@ namespace Vts.Modeling.ForwardSolvers
                 foreach (var rho in rhos)
                 {
                     // for fixed time and looping over rhos, this still is slow
-                    double[] ffTtimeSequence;
-                    var rOfTime = DetermineROfTimeFromROfFtForFixedRho(rho, region, out ffTtimeSequence);
+                    double[] fFtTimeSequence;
+                    var rOfTime = DetermineROfTimeFromROfFtForFixedRho(rho, region, out fFtTimeSequence);
                     foreach (var time in times)
                     {
-                        yield return Vts.Common.Math.Interpolation.interp1(ffTtimeSequence,
+                        yield return Vts.Common.Math.Interpolation.interp1(fFtTimeSequence,
                             rOfTime.ToList(), time);
                     }
                 }
@@ -107,7 +107,7 @@ namespace Vts.Modeling.ForwardSolvers
 
         // this method builds an R(rho, ft) array and then uses FFT to generate R(rho, t)
         private double[] DetermineROfTimeFromROfFtForFixedRho(double rho, IOpticalPropertyRegion[] regions, 
-            out double[] FFTTimeSequence)
+            out double[] fFtTimeSequence)
         {
             // get ops of top tissue region
             var op0 = regions[0].RegionOP;
@@ -132,7 +132,7 @@ namespace Vts.Modeling.ForwardSolvers
             // considerations: 2n datapoint and pad with 0s beyond (deltaTime * numFreq)
             var rOfFt = new Complex[numFreq];
             double[] ft = Enumerable.Range(0, numFreq).Select(x => x * deltaFrequency).ToArray();
-            FFTTimeSequence = Enumerable.Range(0, numFreq).Select(x => x*deltaTime).ToArray();
+            fFtTimeSequence = Enumerable.Range(0, numFreq).Select(x => x*deltaTime).ToArray();
 
             for (int i = 0; i < numFreq; i++)
             {
@@ -161,7 +161,7 @@ namespace Vts.Modeling.ForwardSolvers
         }
 
         // this method builds an R(fx, ft) array and then uses FFT to generate R(fx, t)
-        private double[] DetermineROfTimeFromROfFtForFixedFx(double fx, IOpticalPropertyRegion[] regions, out double[] FFTTimeSequence)
+        private double[] DetermineROfTimeFromROfFtForFixedFx(double fx, IOpticalPropertyRegion[] regions, out double[] fFtTimeSequence)
         {
             // get ops of top tissue region
             var op0 = regions[0].RegionOP;
@@ -180,7 +180,7 @@ namespace Vts.Modeling.ForwardSolvers
             // considerations: 2n datapoint and pad with 0s beyond (deltaTime * numFreq)
             var rOfFt = new Complex[numFreq];
             double[] ft = Enumerable.Range(0, numFreq).Select(x => x * deltaFrequency).ToArray();
-            FFTTimeSequence = Enumerable.Range(0, numFreq).Select(x => x * deltaTime).ToArray();
+            fFtTimeSequence = Enumerable.Range(0, numFreq).Select(x => x * deltaTime).ToArray();
 
             for (int i = 0; i < numFreq; i++)
             {
@@ -276,11 +276,11 @@ namespace Vts.Modeling.ForwardSolvers
             {
                 foreach (var fx in fxs)
                 {
-                    double[] fftTimeSequence;
-                    var rOfTime = DetermineROfTimeFromROfFtForFixedFx(fx, region, out fftTimeSequence);
+                    double[] fFtTimeSequence;
+                    var rOfTime = DetermineROfTimeFromROfFtForFixedFx(fx, region, out fFtTimeSequence);
                     foreach (var time in times)
                     {
-                        yield return Vts.Common.Math.Interpolation.interp1(fftTimeSequence, rOfTime.ToList(), time);
+                        yield return Vts.Common.Math.Interpolation.interp1(fFtTimeSequence, rOfTime.ToList(), time);
                     }
                 }
             }
