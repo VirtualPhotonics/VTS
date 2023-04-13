@@ -7,7 +7,7 @@ namespace Vts.MonteCarlo.Sources
     /// <summary>
     /// Define SourceDefault values
     /// </summary>
-    public class SourceDefaults
+    public static class SourceDefaults
     {
         /// <summary>
         /// Default direction (positive z-axis)
@@ -20,6 +20,11 @@ namespace Vts.MonteCarlo.Sources
         /// <summary>
         /// Default beam rotation angle from inward normal (0.0, 0.0)
         /// </summary>
+        public static PolarAzimuthalAngles DefaultBeamRotationFromInwardNormal => new PolarAzimuthalAngles(0.0, 0.0);
+        /// <summary>
+        /// Default beam rotation angle from inward normal (0.0, 0.0)
+        /// </summary>
+        [Obsolete("DefaultBeamRoationFromInwardNormal is deprecated, please use DefaultBeamRotationFromInwardNormal instead.")]
         public static PolarAzimuthalAngles DefaultBeamRoationFromInwardNormal => new PolarAzimuthalAngles(0.0, 0.0);
         /// <summary>
         /// Default full polar angle range (0.0, PI)

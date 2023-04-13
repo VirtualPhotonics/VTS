@@ -149,7 +149,6 @@ namespace Vts.MonteCarlo.Detectors
         {
             // initialize any necessary class fields here
             _tissue = tissue;
-            _tissue.Regions.Select(r => r.RegionOP).ToArray();
 
             // assign any user-defined outputs (except arrays...we'll make those on-demand)
             TallyCount = 0;
