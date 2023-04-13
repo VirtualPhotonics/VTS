@@ -10,6 +10,8 @@ namespace Vts.MonteCarlo.Tissues
     /// </summary>
     public class SingleVoxelTissueInput : TissueInput, ITissueInput
     {
+        private ITissueRegion _voxelRegion;
+        private ITissueRegion[] _layerRegions;
 
         /// <summary>
         /// allows definition of single voxel tissue
@@ -21,6 +23,7 @@ namespace Vts.MonteCarlo.Tissues
             TissueType = "SingleVoxel";
             VoxelRegion = voxelRegion;
             LayerRegions = layerRegions;
+            Regions = LayerRegions.Concat(VoxelRegion).ToArray();
         }
 
         /// <summary>
@@ -54,15 +57,33 @@ namespace Vts.MonteCarlo.Tissues
         /// regions of tissue (layers and ellipsoid)
         /// </summary>
         [IgnoreDataMember]
-        public ITissueRegion[] Regions { get { return LayerRegions.Concat(VoxelRegion).ToArray(); } }
+        public ITissueRegion[] Regions { get; private set; }
+
         /// <summary>
         /// tissue ellipsoid region
         /// </summary>
-        public ITissueRegion VoxelRegion { get; set; }
+        public ITissueRegion VoxelRegion
+        {
+            get => _voxelRegion;
+            set
+            {
+                _voxelRegion = value;
+                if (LayerRegions != null) Regions = LayerRegions.Concat(_voxelRegion).ToArray();
+            }
+        }
+
         /// <summary>
         /// tissue layer regions
         /// </summary>
-        public ITissueRegion[] LayerRegions { get; set; }
+        public ITissueRegion[] LayerRegions
+        {
+            get => _layerRegions;
+            set
+            {
+                _layerRegions = value;
+                if (VoxelRegion != null) Regions = _layerRegions.Concat(VoxelRegion).ToArray();
+            }
+        }
 
         /// <summary>
         /// Required factory method to create the corresponding 
