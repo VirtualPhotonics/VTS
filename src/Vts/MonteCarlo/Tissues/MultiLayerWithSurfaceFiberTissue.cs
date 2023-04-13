@@ -17,6 +17,8 @@ namespace Vts.MonteCarlo.Tissues
     /// </summary>
     public class MultiLayerWithSurfaceFiberTissueInput : TissueInput, ITissueInput
     {
+        private ITissueRegion _surfaceFiberRegion;
+        private ITissueRegion[] _layerRegions;
 
         /// <summary>
         /// constructor for Multi-layer tissue with surface fiber circle input
@@ -28,6 +30,7 @@ namespace Vts.MonteCarlo.Tissues
             TissueType = "MultiLayerWithSurfaceFiber";
             LayerRegions = layerRegions;
             SurfaceFiberRegion = surfaceFiberRegion;
+            Regions = LayerRegions.Concat(SurfaceFiberRegion).ToArray();
         }
 
         /// <summary>
@@ -41,7 +44,7 @@ namespace Vts.MonteCarlo.Tissues
                     new OpticalProperties(0.01, 1.0, 0.8, 1.4)
                 ),
                 new ITissueRegion[]
-                { 
+                {
                     new LayerTissueRegion(
                         new DoubleRange(double.NegativeInfinity, 0.0),
                         new OpticalProperties( 0.0, 1e-10, 1.0, 1.0)),
@@ -60,15 +63,33 @@ namespace Vts.MonteCarlo.Tissues
         /// regions of tissue (layers and surface fiber circle)
         /// </summary>
         [IgnoreDataMember]
-        public ITissueRegion[] Regions { get { return LayerRegions.Concat(SurfaceFiberRegion).ToArray(); } }
+        public ITissueRegion[] Regions { get; private set; }
+
         /// <summary>
         /// surface fiber region
         /// </summary>
-        public ITissueRegion SurfaceFiberRegion { get; set; }
+        public ITissueRegion SurfaceFiberRegion
+        {
+            get => _surfaceFiberRegion;
+            set
+            {
+                _surfaceFiberRegion = value;
+                if (LayerRegions != null) Regions = LayerRegions.Concat(_surfaceFiberRegion).ToArray();
+            }
+        }
+
         /// <summary>
         /// tissue layer regions
         /// </summary>
-        public ITissueRegion[] LayerRegions { get; set; }
+        public ITissueRegion[] LayerRegions
+        {
+            get => _layerRegions;
+            set
+            {
+                _layerRegions = value;
+                if (SurfaceFiberRegion != null) Regions = _layerRegions.Concat(SurfaceFiberRegion).ToArray();
+            }
+        }
 
         /// <summary>
         /// Required factory method to create the corresponding 
@@ -140,7 +161,7 @@ namespace Vts.MonteCarlo.Tissues
             }
             return index;
         }
-        
+
         /// <summary>
         /// Finds the distance to the next boundary and independent of hitting it
         /// </summary>
@@ -154,7 +175,7 @@ namespace Vts.MonteCarlo.Tissues
             var goingUp = photon.DP.Direction.Uz < 0.0;
 
             // get current and adjacent regions
-            var currentRegionIndex = photon.CurrentRegionIndex; 
+            var currentRegionIndex = photon.CurrentRegionIndex;
             // check if in embedded tissue region ckh fix 8/10/11
             var currentRegion = _layerRegions[1];
             if (currentRegionIndex < _layerRegions.Count)
@@ -234,7 +255,7 @@ namespace Vts.MonteCarlo.Tissues
         /// <param name="currentDirection">current photon direction</param>
         /// <returns>direction of reflected input direction</returns>
         public Direction GetReflectedDirection(
-            Position currentPosition, 
+            Position currentPosition,
             Direction currentDirection)
         {
             return new Direction(
@@ -252,10 +273,10 @@ namespace Vts.MonteCarlo.Tissues
         /// <param name="cosThetaSnell">cos(theta) resulting from Snell's law</param>
         /// <returns>direction of refracted photon</returns>
         public Direction GetRefractedDirection(
-            Position currentPosition, 
-            Direction currentDirection, 
-            double currentN, 
-            double nextN, 
+            Position currentPosition,
+            Direction currentDirection,
+            double currentN,
+            double nextN,
             double cosThetaSnell)
         {
             if (currentDirection.Uz > 0)
