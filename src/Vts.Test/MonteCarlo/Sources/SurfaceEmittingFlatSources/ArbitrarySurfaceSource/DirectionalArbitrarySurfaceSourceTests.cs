@@ -1,6 +1,8 @@
 ﻿using NUnit.Framework;
 using System;
+using Vts.Common;
 using Vts.MonteCarlo;
+using Vts.MonteCarlo.Helpers;
 using Vts.MonteCarlo.Sources;
 using Vts.MonteCarlo.Sources.SourceProfiles;
 using Vts.MonteCarlo.Tissues;
@@ -8,46 +10,54 @@ using Vts.MonteCarlo.Tissues;
 namespace Vts.Test.MonteCarlo.Sources
 {
     /// <summary>
-    /// Unit tests for Surface Emitting Sources: DirectionalArbitrarySurfaceSources
+    /// Unit tests for Surface Emitting Sources: DirectionalArbitrarySources
     /// </summary>
     [TestFixture]
-    public class DirectionalArbitrarySurfaceSourceTests
+    public class DirectionalArbitrarySourceTests
     {
-        private static SurfaceEmitting2DSourcesValidationData _validationData;
+        DirectionalArbitrarySourceInput _infile;
 
         [OneTimeSetUp]
-        public void Setup_validation_data()
+        public void Setup()
         {
-            // set up for first test
-            if (_validationData != null) return;
-            _validationData = new SurfaceEmitting2DSourcesValidationData();
-            _validationData.ReadData();
+            //_infile = new DirectionalArbitrarySourceInput(
 
-            // set up for second test
 
         }
         
         /// <summary>
-        /// Validate General Constructor of Directional Arbitrary Surface Source designated as flat
+        /// Instantiate ArbitrarySourceProfile and validate GetBinaryPixelMap,
+        /// then use this object in general constructor of DirectionalArbitrarySource
+        /// and validate initiated new Photon
         /// </summary>
         [Test]
-        public void Validate_general_constructor_with_flat_specification_for_directional_arbitrary_surface_source_test()
+        public void Validate_binary_map_and_general_constructor_for_directional_arbitrary_source_test()
         {
             Random rng = new MathNet.Numerics.Random.MersenneTwister(0); // not really necessary here, as this is now the default
             ITissue tissue = new MultiLayerTissue();
-            // make a flat source
-            var image = new double[] { 1 }; 
-
-            // DirectionalArbitrarySurfaceSource is protected so create 
+            // make a intensity varied source
+            var image = new double[4] { 1, 2, 2, 0 }; // representing a 2x2 pixel image
+            var arbitrarySourceProfile = new ArbitrarySourceProfile(
+                image,
+                2,
+                2,
+                1,
+                1,
+                new Vts.Common.Position(0, 0, 0));
+            var binaryMap = arbitrarySourceProfile.GetBinaryPixelMap();
+            Assert.IsTrue(binaryMap[0] == 1);
+            Assert.IsTrue(binaryMap[1] == 1);
+            Assert.IsTrue(binaryMap[2] == 1);
+            Assert.IsTrue(binaryMap[3] == 0);
 
             var ps = new DirectionalArbitrarySource(
-                _validationData.PolarAngle,
-                _validationData.LengthX,
-                _validationData.WidthY,
-                new ArbitrarySourceProfile(image, 1, 1),
-                _validationData.Direction,
-                _validationData.Translation,
-                _validationData.AngPair,
+                0.0, // normal
+                2.0,
+                2.0,
+                arbitrarySourceProfile,
+                new Direction(0, 0, 1),
+                new Position(0,0,0),
+                new PolarAzimuthalAngles(),
                 0)
             {
                 Rng = rng
@@ -55,16 +65,16 @@ namespace Vts.Test.MonteCarlo.Sources
 
             var photon = ps.GetNextPhoton(tissue);
 
-            // fix after confirm GetDirection code
-            //Assert.Less(Math.Abs(photon.DP.Direction.Ux - _validationData.Tp[3]), _validationData.AcceptablePrecision);
-            //Assert.Less(Math.Abs(photon.DP.Direction.Uy - _validationData.Tp[4]), _validationData.AcceptablePrecision);
-            //Assert.Less(Math.Abs(photon.DP.Direction.Uz - _validationData.Tp[0]), _validationData.AcceptablePrecision);
+            // normal launch
+            Assert.Less(Math.Abs(photon.DP.Direction.Ux), 1e-6);
+            Assert.Less(Math.Abs(photon.DP.Direction.Uy), 1e-6);
+            Assert.Less(Math.Abs(photon.DP.Direction.Uz - 1), 1e-6);
 
-            Assert.Less(Math.Abs(photon.DP.Position.X - _validationData.Tp[6]), _validationData.AcceptablePrecision);
-            Assert.Less(Math.Abs(photon.DP.Position.Y - _validationData.Tp[7]), _validationData.AcceptablePrecision);
-            Assert.Less(Math.Abs(photon.DP.Position.Z - _validationData.Tp[8]), _validationData.AcceptablePrecision);
+            Assert.Less(Math.Abs(photon.DP.Position.X + 0.5), 1e-6);
+            Assert.Less(Math.Abs(photon.DP.Position.Y - 0.5), 1e-6);
+            Assert.Less(Math.Abs(photon.DP.Position.Z), 1e-6);
         }
-
+ 
 
     }
 }

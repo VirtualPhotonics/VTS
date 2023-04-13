@@ -8,84 +8,46 @@ namespace Vts.MonteCarlo.Sources
     /// <summary>
     /// Class to handle loading of a bitmap image
     /// </summary>
-    public class BitmapImageLoader // LM should this be called ArbitrarySurfaceLoader?
+    public class BitmapImageLoader 
     {
-        /// <summary>
-        /// x bins 
-        /// </summary>
-        public DoubleRange X { get; set; }
-        /// <summary>
-        /// y bins centers
-        /// </summary>
-        public DoubleRange Y { get; set; }
-        /// <summary>
-        /// BitmapImage of source
-        /// </summary>
-        public double[,] BitmapImage { get; set; }
-
-        /// <summary>
-        /// dictionary that maps key=count to triple of indices to go through BitmapImage fluorescent region in order
-        /// </summary>
-        public Dictionary<int, List<int>> RegionIndicesInOrder { get; set; }
-
         /// <summary>
         /// constructor that load excitation simulation BitmapImage
         /// </summary>
-        /// <param name="inputFolder">input folder where excitation results reside</param>
-        /// <param name="infile">simulation infile of excitation simulation</param>
+        /// <param name="inputFolder">input folder where image resides</param>
+        /// <param name="imageName">name of image file</param>
         /// <param name="numberOfPixelsX">number of pixels in length (e.g. 1280)</param>
         /// <param name="numberOfPixelsY">number of pixels in width (e.g. 1024)</param>
+        /// <returns>flattened image in column major order</returns>
         /// <exception cref="ArgumentException">throws ArgumentException if infile is not there</exception>
-        public static double[] FlattenBitmap(string inputFolder, string infile, int numberOfPixelsX, int numberOfPixelsY)
+        public static double[] FlattenBitmap(string inputFolder, string imageName, int numberOfPixelsX, int numberOfPixelsY)
         {
-            if (infile != "")
+            if (imageName == "") throw new ArgumentException("infile string is empty");
+            string inputPath;
+            if (inputFolder == "")
             {
-                string inputPath;
-                if (inputFolder == "")
-                {
-                    inputPath = infile;
-                }
-                else
-                {
-                    inputPath = inputFolder + @"/" + infile;
-                }
-
-                var bitmap = new double[numberOfPixelsX, numberOfPixelsY];
-                var oneDArray = new double[numberOfPixelsX * numberOfPixelsY];
-                var sw = new StreamReader(@inputPath);
-                for (var i = 0; i < bitmap.Length; i += numberOfPixelsY)
-                {
-                    for (var j = 0; j < numberOfPixelsY; j++)
-                    {
-                        oneDArray[i+j] = sw.Read();
-                    }
-                }
-
-                sw.Close();
-                return oneDArray;
+                inputPath = imageName;
             }
             else
             {
-                throw new ArgumentException("infile string is empty");
+                inputPath = inputFolder + @"/" + imageName;
             }
+
+            var bitmap = new double[numberOfPixelsX, numberOfPixelsY];
+            var oneDArray = new double[numberOfPixelsX * numberOfPixelsY];
+            var sw = new StreamReader(@inputPath);
+            // make column major flatten
+            for (var i = 0; i < bitmap.Length; i += numberOfPixelsX)
+            {
+                for (var j = 0; j < numberOfPixelsY; j++)
+                {
+                    oneDArray[i+j] = sw.Read();
+                }
+            }
+
+            sw.Close();
+            return oneDArray;
+
         }
 
-
-        //// set up order of image indices using row major
-        //private void SetupRegionIndices()
-        //{
-        //    ImageIndicesInOrder = new Dictionary<int, List<int>>();
-        //    var count = 0;
-        //    for (var i = 0; i < X.Count - 3; i++)
-        //    {
-        //        for (var j = 0; j < Y.Count - 3; j++)
-        //        {
-        //            if (MapOfXAndYAndZ[i, j] > 0.0) continue;
-        //            ImageIndicesInOrder.Add(count, new List<int> { i, j, k });
-        //            count += 1;
-                    
-        //        }
-        //    }
-        //}
     }
 }

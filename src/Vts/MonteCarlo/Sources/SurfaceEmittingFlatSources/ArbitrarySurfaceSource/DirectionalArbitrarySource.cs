@@ -8,7 +8,7 @@ namespace Vts.MonteCarlo.Sources
 {
     /// <summary>
     /// Implements ISourceInput. Defines input data for DirectionalArbitrarySurfaceSource implementation 
-    /// including converging/diverging angle, length, width, source profile, direction, position, 
+    /// including converging/diverging angle, width, height, source profile, direction, position, 
     /// inward normal beam rotation and initial tissue region index.
     /// </summary>
     public class DirectionalArbitrarySourceInput : ISourceInput
@@ -20,8 +20,8 @@ namespace Vts.MonteCarlo.Sources
     /// <param name="imageName">Name of image to be used as source</param>
     /// <param name="numberOfPixelsX">The number of pixels along x-axis of the image source e.g. 1280</param>
     /// <param name="numberOfPixelsY">The number of pixels along y-axis of the image source e.g. 1024</param>
-    /// <param name="pixelLengthX">pixel length X</param>
-    /// <param name="pixelWidthY">pixel length Y</param>
+    /// <param name="pixelWidthX">pixel length X-axis</param>
+    /// <param name="pixelHeightY">pixel length Y-axis</param>
     /// <param name="sourceProfile">source profile = Arbitrary since image</param>
     /// <param name="thetaConvOrDiv">Convergence or Divergence Angle {= 0, for a collimated beam}</param>
     /// <param name="newDirectionOfPrincipalSourceAxis">New source axis direction</param>
@@ -33,8 +33,8 @@ namespace Vts.MonteCarlo.Sources
         string imageName,
         int numberOfPixelsX,
         int numberOfPixelsY,
-        double pixelLengthX,
-        double pixelWidthY,
+        double pixelWidthX,
+        double pixelHeightY,
         ISourceProfile sourceProfile,
         double thetaConvOrDiv,
         Direction newDirectionOfPrincipalSourceAxis,
@@ -47,8 +47,8 @@ namespace Vts.MonteCarlo.Sources
         ImageName = imageName;
         NumberOfPixelsX = numberOfPixelsX;
         NumberOfPixelsY = numberOfPixelsY;
-        PixelLengthX = pixelLengthX;
-        PixelWidthY = pixelWidthY;
+        PixelWidthX = pixelWidthX;
+        PixelHeightY = pixelHeightY;
         SourceProfile = sourceProfile;
         ThetaConvOrDiv = thetaConvOrDiv;
         NewDirectionOfPrincipalSourceAxis = newDirectionOfPrincipalSourceAxis;
@@ -64,24 +64,24 @@ namespace Vts.MonteCarlo.Sources
     /// <param name="imageName">name of image file</param>
     /// <param name="numberOfPixelsX">number of pixels along x-axis (columns) of source image</param>
     /// <param name="numberOfPixelsY">number of pixels along y-axis (rows) </param>
-    /// <param name="pixelLengthX"></param>
-    /// <param name="pixelWidthY"></param>
+    /// <param name="pixelWidthX"></param>
+    /// <param name="pixelHeightY"></param>
     /// <param name="sourceProfile">Source profile = Arbitrary</param>
     public DirectionalArbitrarySourceInput(
         string inputFolder,
         string imageName,
         int numberOfPixelsX,
         int numberOfPixelsY,
-        double pixelLengthX,
-        double pixelWidthY,
+        double pixelWidthX,
+        double pixelHeightY,
         ISourceProfile sourceProfile)
         : this(
             inputFolder,
             imageName,
             numberOfPixelsX,
             numberOfPixelsY,
-            pixelLengthX,
-            pixelWidthY,
+            pixelWidthX,
+            pixelHeightY,
             sourceProfile,
             0.0,
             SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone(),
@@ -132,11 +132,11 @@ namespace Vts.MonteCarlo.Sources
     /// <summary>
     /// The length of the Bitmap Source
     /// </summary>
-    public double PixelLengthX { get; set; }
+    public double PixelWidthX { get; set; }
     /// <summary>
     /// The width of the Bitmap Source
     /// </summary>
-    public double PixelWidthY { get; set; }
+    public double PixelHeightY { get; set; }
     /// <summary>
     /// Flattened image
     /// </summary>
@@ -146,7 +146,7 @@ namespace Vts.MonteCarlo.Sources
     /// </summary>
     public ISourceProfile SourceProfile { get; set; }
     /// <summary>
-    /// Convergence or Divergence Angle {= 0, for a collimated beam}
+    /// Convergence or Divergence Angle {= 0, for a normal beam}
     /// </summary>
     public double ThetaConvOrDiv { get; set; }
     /// <summary>
@@ -175,20 +175,26 @@ namespace Vts.MonteCarlo.Sources
     {
         rng = rng ?? new Random();
 
-        Image = BitmapImageLoader.FlattenBitmap( // LM: should this be in SourceToolbox or FileIO?
+        Image = BitmapImageLoader.FlattenBitmap(  
             InputFolder,
             ImageName,
             NumberOfPixelsX,
             NumberOfPixelsY);
 
-        // the next call removes values < 1e-10, could be helpful
+        // instantiate image, pdf and cdf to use to select new Photon
         SourceProfile = new ArbitrarySourceProfile(
-            Image, NumberOfPixelsX, NumberOfPixelsY);
+            Image, 
+            NumberOfPixelsX, 
+            NumberOfPixelsY,
+            PixelWidthX,
+            PixelHeightY,
+            TranslationFromOrigin
+        );
 
         return new DirectionalArbitrarySource(
             this.ThetaConvOrDiv,
-            this.NumberOfPixelsX * this.PixelLengthX,
-            this.NumberOfPixelsY * this.PixelWidthY,
+            this.NumberOfPixelsX * this.PixelWidthX,
+            this.NumberOfPixelsY * this.PixelHeightY,
             this.SourceProfile,
             this.NewDirectionOfPrincipalSourceAxis,
             this.TranslationFromOrigin,
@@ -205,7 +211,6 @@ namespace Vts.MonteCarlo.Sources
     /// source profile, direction, position, inward normal beam rotation and initial tissue 
     /// region index.
     /// </summary>
-    // LM: I did not change parameter order from before, let's discuss order
     public class DirectionalArbitrarySource : RectangularSourceBase
     {
         private readonly double _thetaConvOrDiv;  //convergence:positive, divergence:negative, collimated:zero
@@ -214,8 +219,8 @@ namespace Vts.MonteCarlo.Sources
         /// Defines DirectionalArbitrarySource
         /// </summary>
         /// <param name="thetaConvOrDiv">Convergence(negative angle in radians) or Divergence (positive angle in radians) angle {= 0, for a collimated beam}</param>
-        /// <param name="sourceLengthX">The length of the arbitrary (image-based) Source</param>
-        /// <param name="sourceWidthY">The width of the arbitrary (image-based) Source</param>
+        /// <param name="sourceWidthX">The width of the arbitrary (image-based) Source</param>
+        /// <param name="sourceHeightY">The height of the arbitrary (image-based) Source</param>
         /// <param name="sourceProfile">ISourceProfile type = Arbitrary</param>
         /// <param name="newDirectionOfPrincipalSourceAxis">New source axis direction</param>
         /// <param name="translationFromOrigin">New source location</param>
@@ -223,16 +228,16 @@ namespace Vts.MonteCarlo.Sources
         /// <param name="initialTissueRegionIndex">Initial tissue region index</param>
         public DirectionalArbitrarySource(
             double thetaConvOrDiv,
-            double sourceLengthX,
-            double sourceWidthY,
+            double sourceWidthX,
+            double sourceHeightY,
             ISourceProfile sourceProfile,
             Direction newDirectionOfPrincipalSourceAxis = null,
             Position translationFromOrigin = null,
             PolarAzimuthalAngles beamRotationFromInwardNormal = null,
             int initialTissueRegionIndex = 0)
             : base(
-                sourceLengthX,
-                sourceWidthY,
+                sourceWidthX,
+                sourceHeightY,
                 sourceProfile,
                 newDirectionOfPrincipalSourceAxis,
                 translationFromOrigin,
@@ -262,7 +267,7 @@ namespace Vts.MonteCarlo.Sources
                 _rectLengthX,
                 Math.Sqrt(position.X * position.X + position.Y * position.Y),
                 _thetaConvOrDiv);
-            return (SourceToolbox.GetDirectionForGiven2DPositionAndGivenPolarAngle(polarAngle, position));
+            return SourceToolbox.GetDirectionForGiven2DPositionAndGivenPolarAngle(polarAngle, position);
         }
     }
 }
