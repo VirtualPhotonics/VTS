@@ -41,21 +41,21 @@ namespace Vts.SpectralMapping
         /// <returns>The converted value as a double</returns>
         public static double ConvertCoefficient(this double coefficientValue, AbsorptionCoefficientUnit unit, MolarUnit molarUnit)
         {
-            double coeff;
+            double coefficient;
             switch (unit)
             {
                 case AbsorptionCoefficientUnit.InverseMillimeters:
                 default:
-                    coeff = coefficientValue;
+                    coefficient = coefficientValue;
                     break;
                 case AbsorptionCoefficientUnit.InverseMeters:
-                    coeff = coefficientValue / 1000; //10^3
+                    coefficient = coefficientValue / 1000; //10^3
                     break;
                 case AbsorptionCoefficientUnit.InverseCentimeters:
-                    coeff = coefficientValue / 10;
+                    coefficient = coefficientValue / 10;
                     break;
                 case AbsorptionCoefficientUnit.InverseMicrometers:
-                    coeff = coefficientValue * 1000; //10^3
+                    coefficient = coefficientValue * 1000; //10^3
                     break;
             }
 
@@ -64,13 +64,13 @@ namespace Vts.SpectralMapping
             {
                 case MolarUnit.MicroMolar:
                 default:
-                    return coeff;
+                    return coefficient;
                 case MolarUnit.MilliMolar:
-                    return coeff / 1000; //10^3
+                    return coefficient / 1000; //10^3
                 case MolarUnit.Molar:
-                    return coeff / 1000000; //10^6
+                    return coefficient / 1000000; //10^6
                 case MolarUnit.NanoMolar:
-                    return coeff * 1000;
+                    return coefficient * 1000;
             }
         }
 
@@ -147,27 +147,24 @@ namespace Vts.SpectralMapping
         public static AbsorptionCoefficientUnit getAbsorptionCoefficientUnit(string absorptionCoefficientUnit)
         {
             //pull out the unit values
-            Match match = Regex.Match(absorptionCoefficientUnit, @"1/\(?([a-zA-Z\*]+)\)?", RegexOptions.None, TimeSpan.FromSeconds(2));
-            if (match.Success)
+            var match = Regex.Match(absorptionCoefficientUnit, @"1/\(?([a-zA-Z\*]+)\)?", RegexOptions.None, TimeSpan.FromSeconds(2));
+            if (!match.Success) throw new ArgumentException("Not a valid absorption coefficient unit");
+            //get the value(s) in parentheses
+            var units = match.Groups[1].Value;
+            var unit = units.Split('*');
+            switch (unit[0].ToLower())
             {
-                //get the value(s) in parentheses
-                var units = match.Groups[1].Value;
-                var unit = units.Split('*');
-                switch (unit[0].ToLower())
-                {
-                    case "mm":
-                        return AbsorptionCoefficientUnit.InverseMillimeters;
-                    case "cm":
-                        return AbsorptionCoefficientUnit.InverseCentimeters;
-                    case "m":
-                        return AbsorptionCoefficientUnit.InverseMeters;
-                    case "um":
-                        return AbsorptionCoefficientUnit.InverseMicrometers;
-                    default:
-                        throw new ArgumentException("Not a valid absorption coefficient unit");
-                }
+                case "mm":
+                    return AbsorptionCoefficientUnit.InverseMillimeters;
+                case "cm":
+                    return AbsorptionCoefficientUnit.InverseCentimeters;
+                case "m":
+                    return AbsorptionCoefficientUnit.InverseMeters;
+                case "um":
+                    return AbsorptionCoefficientUnit.InverseMicrometers;
+                default:
+                    throw new ArgumentException("Not a valid absorption coefficient unit");
             }
-            throw new ArgumentException("Not a valid absorption coefficient unit");
         }
 
         /// <summary>

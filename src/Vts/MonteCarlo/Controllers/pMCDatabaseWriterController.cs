@@ -86,11 +86,14 @@ namespace Vts.MonteCarlo.Controllers
                    (dp.StateFlag.HasFlag(PhotonStateType.PseudoDiffuseTransmittanceVirtualBoundary) && // 
                     collisionInfoDatabaseWriter.VirtualBoundaryType == VirtualBoundaryType.pMCDiffuseTransmittance);
         }
+
         /// <summary>
         /// method to dispose of photon database writers
         /// </summary>
-        public void Dispose()
+        /// <param name="disposing"></param>
+        protected virtual void Dispose(bool disposing)
         {
+            if (!disposing) return;
             foreach (var writer in PhotonDatabaseWriters)
             {
                 writer.Dispose();
@@ -100,6 +103,14 @@ namespace Vts.MonteCarlo.Controllers
                 writer.Dispose();
             }
         }
-      
+
+        /// <summary>
+        /// method to dispose of photon database writers
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
     }
 } 

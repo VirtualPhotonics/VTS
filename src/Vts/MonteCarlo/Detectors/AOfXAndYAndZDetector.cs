@@ -125,7 +125,6 @@ namespace Vts.MonteCarlo.Detectors
             // initialize any other necessary class fields here
             _absorptionWeightingMethod = AbsorptionWeightingMethods.GetVolumeAbsorptionWeightingMethod(tissue, this);
             _tissue = tissue;
-            _tissue.Regions.Select(r => r.RegionOP).ToArray();
             _tallyForOnePhoton = _tallyForOnePhoton ?? (TallySecondMoment ? new double[X.Count - 1, Y.Count - 1, Z.Count - 1] : null);
         }
 
