@@ -1,5 +1,4 @@
-﻿using NLog.Filters;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -80,7 +79,7 @@ namespace Vts.Test.MonteCarlo.Sources
         [Test]
         public void Validate_starting_photon_locations_based_on_image()
         {
-            var simulationOptions = new SimulationOptions();
+            var simulationOptions = new SimulationOptions { Seed = 0 };
             var tissueInput = new MultiLayerTissueInput(
                 new ITissueRegion[]
                 {
@@ -97,7 +96,7 @@ namespace Vts.Test.MonteCarlo.Sources
             );
             var detectorInputs = new List<IDetectorInput>
             {
-                new TOfXAndYDetectorInput()
+                new TOfXAndYDetectorInput
                 {
                     X = new DoubleRange(-15, 15, 31),
                     Y = new DoubleRange(-15, 15, 31)
@@ -112,7 +111,7 @@ namespace Vts.Test.MonteCarlo.Sources
                 detectorInputs);
             var output = new MonteCarloSimulation(input).Run();
             // validate T(x,y)
-            Assert.IsTrue(output.T_xy[15, 15] > 0.0); // center of image
+            Assert.IsTrue(output.T_xy[14, 14] > 0.0); // center of image
             Assert.IsTrue(Math.Abs(output.T_xy[0, 0] - 0.0) < 1e-6); // corner of image
         }
 
@@ -127,7 +126,7 @@ namespace Vts.Test.MonteCarlo.Sources
             Random rng = new MathNet.Numerics.Random.MersenneTwister(0); // not really necessary here, as this is now the default
             ITissue tissue = new MultiLayerTissue();
             // make a intensity varied source
-            var image = new double[4] { 1, 2, 2, 0 }; // representing a 2x2 pixel image
+            var image = new double[] { 1, 2, 2, 0 }; // representing a 2x2 pixel image
             var arbitrarySourceProfile = new ArbitrarySourceProfile(
                 image,
                 2,
