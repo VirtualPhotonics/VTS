@@ -81,8 +81,6 @@ namespace Vts.MonteCarlo.Detectors
     /// </summary>
     public class SurfaceFiberDetector : Detector, IDetector
     {
-        private ITissue _tissue;
-
         /* ==== Place optional/user-defined input properties here. They will be saved in text (JSON) format ==== */
         /* ==== Note: make sure to copy over all optional/user-defined inputs from corresponding input class ==== */
         /// <summary>
@@ -141,7 +139,6 @@ namespace Vts.MonteCarlo.Detectors
             }
 
             // initialize any other necessary class fields here
-            _tissue = tissue;
         }
 
         /// <summary>

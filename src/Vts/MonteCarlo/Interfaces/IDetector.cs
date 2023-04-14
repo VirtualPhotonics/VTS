@@ -35,7 +35,7 @@ namespace Vts.MonteCarlo
         /// </summary>
         /// <param name="tissue">tissue definition</param>
         /// <param name="rng">random number generator</param>
-        void Initialize(ITissue tissue = null, Random rng = null);
+        void Initialize(ITissue tissue, Random rng);
 
         /// <summary>
         /// Method to tally to detector using information in Photon
