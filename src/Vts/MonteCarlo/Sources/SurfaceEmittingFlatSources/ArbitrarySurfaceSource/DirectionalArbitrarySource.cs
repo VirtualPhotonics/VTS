@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.Serialization;
 using Vts.Common;
 using Vts.MonteCarlo.Helpers;
 using Vts.MonteCarlo.Interfaces;
@@ -22,7 +23,6 @@ namespace Vts.MonteCarlo.Sources
     /// <param name="numberOfPixelsY">The number of pixels along y-axis of the image source e.g. 1024</param>
     /// <param name="pixelWidthX">pixel length X-axis</param>
     /// <param name="pixelHeightY">pixel length Y-axis</param>
-    /// <param name="sourceProfile">source profile = Arbitrary since image</param>
     /// <param name="thetaConvOrDiv">Convergence or Divergence Angle {= 0, for a collimated beam}</param>
     /// <param name="newDirectionOfPrincipalSourceAxis">New source axis direction</param>
     /// <param name="translationFromOrigin">New source location</param>
@@ -35,7 +35,6 @@ namespace Vts.MonteCarlo.Sources
         int numberOfPixelsY,
         double pixelWidthX,
         double pixelHeightY,
-        ISourceProfile sourceProfile,
         double thetaConvOrDiv,
         Direction newDirectionOfPrincipalSourceAxis,
         Position translationFromOrigin,
@@ -49,7 +48,6 @@ namespace Vts.MonteCarlo.Sources
         NumberOfPixelsY = numberOfPixelsY;
         PixelWidthX = pixelWidthX;
         PixelHeightY = pixelHeightY;
-        SourceProfile = sourceProfile;
         ThetaConvOrDiv = thetaConvOrDiv;
         NewDirectionOfPrincipalSourceAxis = newDirectionOfPrincipalSourceAxis;
         TranslationFromOrigin = translationFromOrigin;
@@ -66,7 +64,7 @@ namespace Vts.MonteCarlo.Sources
     /// <param name="numberOfPixelsY">number of pixels along y-axis (rows) </param>
     /// <param name="pixelWidthX"></param>
     /// <param name="pixelHeightY"></param>
-    /// <param name="sourceProfile">Source profile = Arbitrary</param>
+    /// <param name="sourceProfileType">Source profile type = Arbitrary</param>
     public DirectionalArbitrarySourceInput(
         string inputFolder,
         string imageName,
@@ -74,7 +72,7 @@ namespace Vts.MonteCarlo.Sources
         int numberOfPixelsY,
         double pixelWidthX,
         double pixelHeightY,
-        ISourceProfile sourceProfile)
+        SourceProfileType sourceProfileType)
         : this(
             inputFolder,
             imageName,
@@ -82,7 +80,6 @@ namespace Vts.MonteCarlo.Sources
             numberOfPixelsY,
             pixelWidthX,
             pixelHeightY,
-            sourceProfile,
             0.0,
             SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone(),
             SourceDefaults.DefaultPosition.Clone(), 
@@ -101,7 +98,6 @@ namespace Vts.MonteCarlo.Sources
             1024,
             0.003,
             0.003,
-            new ArbitrarySourceProfile(),
             0.0,
             SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone(),
             SourceDefaults.DefaultPosition.Clone(),
@@ -138,12 +134,9 @@ namespace Vts.MonteCarlo.Sources
     /// </summary>
     public double PixelHeightY { get; set; }
     /// <summary>
-    /// Flattened image
-    /// </summary>
-    public double[] Image { get; set; }
-    /// <summary>
     /// Source profile type
     /// </summary>
+    [IgnoreDataMember]
     public ISourceProfile SourceProfile { get; set; }
     /// <summary>
     /// Convergence or Divergence Angle {= 0, for a normal beam}
@@ -175,7 +168,7 @@ namespace Vts.MonteCarlo.Sources
     {
         rng = rng ?? new Random();
 
-        Image = BitmapImageLoader.FlattenBitmap(  
+        var image = BitmapImageLoader.FlattenBitmap(  
             InputFolder,
             ImageName,
             NumberOfPixelsX,
@@ -183,7 +176,7 @@ namespace Vts.MonteCarlo.Sources
 
         // instantiate image, pdf and cdf to use to select new Photon
         SourceProfile = new ArbitrarySourceProfile(
-            Image, 
+            image, 
             NumberOfPixelsX, 
             NumberOfPixelsY,
             PixelWidthX,

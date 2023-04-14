@@ -42,7 +42,8 @@ namespace Vts.MonteCarlo
                 EmbeddedDirectionalCircularSourceEllipTissueFluenceOfXAndYAndZ(),
                 PointSourceSurfaceFiberTissueAndDetector(),
                 FluorescenceEmissionAOfXAndYAndZSourceInfiniteCylinder(),
-                PointSourceBoundedTissue()
+                PointSourceBoundedTissue(),
+                ImageSourceOneLayerTissueROfXAndYDetector()
             };
         }
 
@@ -1226,7 +1227,7 @@ new ITissueRegion[]
         }
         #endregion
         
-        #region bounded region example 
+        #region tissue bounded by voxel region  
         /// <summary>
         /// Bounded Cylinder Tissue
         /// </summary>
@@ -1272,6 +1273,59 @@ new ITissueRegion[]
                 new List<IDetectorInput>()
                 {
                     new ATotalBoundingVolumeDetectorInput() 
+                }
+            );
+        }
+        #endregion
+
+        #region image source one layer 
+        /// <summary>
+        /// Bounded Cylinder Tissue
+        /// </summary>
+        /// <returns>An instance of the SimulationInput class</returns>
+        public static SimulationInput ImageSourceOneLayerTissueROfXAndYDetector()
+        {
+            return new SimulationInput(
+                100,
+                "image_source_one_layer_tissue_ROfXAndY",
+                new SimulationOptions(
+                    0, // random number generator seed, -1=random seed, 0=fixed seed
+                    RandomNumberGeneratorType.MersenneTwister,
+                    AbsorptionWeightingType.Discrete,
+                    PhaseFunctionType.HenyeyGreenstein,
+                    new List<DatabaseType>() { }, // databases to be written
+                    true, // track statistics
+                    0.0, // RR threshold -> no RR performed
+                    0),
+                new DirectionalArbitrarySourceInput(
+                    "folder",             // image folder
+                    "image.png",               // image name
+                    1280,        // x-axis number of pixels
+                    1024,        // y-axis number of pixels
+                    0.1,            // pixel size x-axis
+                    0.1,           // pixel size y-axis
+                    0.0,          // conv or diverge
+                    new Direction(0,0,1),  
+                    new Position(0.0, 0.0, 0.0),
+                    new PolarAzimuthalAngles(),
+                    0), // 0=start in air, 1=start in tissue
+                new MultiLayerTissueInput(
+                    new ITissueRegion[]
+                    {
+                        new LayerTissueRegion(
+                            new DoubleRange(double.NegativeInfinity, 0.0),
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
+                        new LayerTissueRegion(
+                            new DoubleRange(0.0, 100.0),
+                            new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
+                        new LayerTissueRegion(
+                            new DoubleRange(100.0, double.PositiveInfinity),
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
+                    }
+                ),
+                new List<IDetectorInput>()
+                {
+                    new ROfXAndYDetectorInput()
                 }
             );
         }
