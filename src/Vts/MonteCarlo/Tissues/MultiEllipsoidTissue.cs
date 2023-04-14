@@ -11,6 +11,8 @@ namespace Vts.MonteCarlo.Tissues
     /// </summary>
     public class MultiEllipsoidTissueInput : TissueInput, ITissueInput
     {
+        private ITissueRegion[] _ellipsoidRegions;
+        private ITissueRegion[] _layerRegions;
 
         /// <summary>
         /// allows definition of single ellipsoid tissue
@@ -23,6 +25,7 @@ namespace Vts.MonteCarlo.Tissues
             EllipsoidRegions = ellipsoidRegions;
             LayerRegions = layerRegions;
             RegionPhaseFunctionInputs = new Dictionary<string, IPhaseFunctionInput>();
+            Regions = LayerRegions.Concat(EllipsoidRegions).ToArray();
         }
 
         /// <summary>
@@ -34,22 +37,22 @@ namespace Vts.MonteCarlo.Tissues
                 new ITissueRegion[]
                 {
                     new EllipsoidTissueRegion(
-                        new Position(10, 0, 10), 
-                        5.0, 
-                        1.0, 
+                        new Position(10, 0, 10),
+                        5.0,
+                        1.0,
                         5.0,
                         new OpticalProperties(0.1, 1.0, 0.8, 1.4),
                         "HenyeyGreensteinKey1"),
                     new EllipsoidTissueRegion(
-                        new Position(0, 0, 40), 
-                        5.0, 
-                        0, 
+                        new Position(0, 0, 40),
+                        5.0,
+                        0,
                         5.0,
                         new OpticalProperties(0.05, 1.0, 0.8, 1.4),
                         "HenyeyGreensteinKey2")
                 },
-                new ITissueRegion[] 
-                { 
+                new ITissueRegion[]
+                {
                     new LayerTissueRegion(
                         new DoubleRange(double.NegativeInfinity, 0.0),
                         new OpticalProperties( 0.0, 1e-10, 1.0, 1.0),
@@ -76,15 +79,33 @@ namespace Vts.MonteCarlo.Tissues
         /// regions of tissue (layers and ellipsoid)
         /// </summary>
         [IgnoreDataMember]
-        public ITissueRegion[] Regions => LayerRegions.Concat(EllipsoidRegions).ToArray();
-        /// <summary>
-        /// tissue ellipsoid region
-        /// </summary>
-        public ITissueRegion[] EllipsoidRegions { get; set; }
+        public ITissueRegion[] Regions { get; private set; }
+
         /// <summary>
         /// tissue layer regions
         /// </summary>
-        public ITissueRegion[] LayerRegions { get; set; }
+        public ITissueRegion[] LayerRegions
+        {
+            get => _layerRegions;
+            set
+            {
+                _layerRegions = value;
+                if (EllipsoidRegions != null) Regions = _layerRegions.Concat(EllipsoidRegions).ToArray();
+            }
+        }
+        /// <summary>
+        /// tissue ellipsoid region
+        /// </summary>
+        public ITissueRegion[] EllipsoidRegions
+        {
+            get => _ellipsoidRegions;
+            set
+            {
+                _ellipsoidRegions = value;
+                if (LayerRegions != null) Regions = LayerRegions.Concat(_ellipsoidRegions).ToArray();
+            }
+        }
+
         /// <summary>
         /// dictionary of region phase function inputs
         /// </summary>

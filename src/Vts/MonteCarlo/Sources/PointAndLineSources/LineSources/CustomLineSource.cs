@@ -74,7 +74,7 @@ namespace Vts.MonteCarlo.Sources
                 azimuthalAngleEmissionRange,
                 SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone(),
                 SourceDefaults.DefaultPosition.Clone(),
-                SourceDefaults.DefaultBeamRoationFromInwardNormal.Clone(),
+                SourceDefaults.DefaultBeamRotationFromInwardNormal.Clone(),
                 0) { }
 
         /// <summary>
@@ -88,7 +88,7 @@ namespace Vts.MonteCarlo.Sources
                 SourceDefaults.DefaultAzimuthalAngleRange.Clone(),
                 SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone(),
                 SourceDefaults.DefaultPosition.Clone(),
-                SourceDefaults.DefaultBeamRoationFromInwardNormal.Clone(),
+                SourceDefaults.DefaultBeamRotationFromInwardNormal.Clone(),
                 0) { }
 
         /// <summary>

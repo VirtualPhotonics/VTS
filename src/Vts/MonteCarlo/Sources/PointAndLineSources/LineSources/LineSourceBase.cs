@@ -62,12 +62,12 @@ namespace Vts.MonteCarlo.Sources
             if (translationFromOrigin == null)
                 translationFromOrigin = SourceDefaults.DefaultPosition.Clone();
             if (beamRotationFromInwardNormal == null)
-                beamRotationFromInwardNormal = SourceDefaults.DefaultBeamRoationFromInwardNormal.Clone();
+                beamRotationFromInwardNormal = SourceDefaults.DefaultBeamRotationFromInwardNormal.Clone();
 
             _rotationAndTranslationFlags = new SourceFlags(
                 newDirectionOfPrincipalSourceAxis != SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone(),
                 translationFromOrigin != SourceDefaults.DefaultPosition.Clone(),
-                beamRotationFromInwardNormal != SourceDefaults.DefaultBeamRoationFromInwardNormal.Clone());
+                beamRotationFromInwardNormal != SourceDefaults.DefaultBeamRotationFromInwardNormal.Clone());
 
             _lineLength = lineLength;
             _sourceProfile = sourceProfile;

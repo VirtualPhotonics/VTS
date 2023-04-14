@@ -12,20 +12,21 @@ namespace Vts.IO
         /// <summary>
         /// The dimensions of the array
         /// </summary>
-        public int[] dims;
+        public int[] dims { get; set; }
         //[IgnoreDataMember]
         /// <summary>
-        /// Current data and time
+        /// Current date and time
         /// </summary>
-        public DateTime datetime = System.DateTime.Now;
+        public DateTime datetime => DateTime.Now;
+
         /// <summary>
         /// The type of the array
         /// </summary>
-        public string ObjectType;
+        public string ObjectType { get; set; }
         /// <summary>
         /// Name of the file
         /// </summary>
-        public string filename;
+        public string filename { get; set; }
 
         /// <summary>
         /// Default constructor

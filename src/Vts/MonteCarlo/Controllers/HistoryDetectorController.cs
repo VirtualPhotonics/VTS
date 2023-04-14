@@ -8,7 +8,7 @@ namespace Vts.MonteCarlo.Controllers
     /// </summary>
     public class HistoryDetectorController : IDetectorController
     {
-        private readonly IList<IHistoryDetector> _detectors;
+        private readonly IList<IHistoryDetector> _historyDetectors;
 
         /// <summary>
         /// Controller for history type detectors
@@ -17,12 +17,15 @@ namespace Vts.MonteCarlo.Controllers
         /// <param name="tissue">The Tissue (this is not used)</param>
         public HistoryDetectorController(IEnumerable<IHistoryDetector> detectors, ITissue tissue)
         {
-            _detectors = detectors.ToList();
+            _historyDetectors = detectors.ToList();
+            Detectors = _historyDetectors.Select(d => (IDetector)d).ToList();
+
         }
         /// <summary>
         /// IList of IDetector
         /// </summary>
-        public IList<IDetector> Detectors { get { return _detectors.Select(d => (IDetector)d).ToList(); } }
+        public IList<IDetector> Detectors { get; }
+
         /// <summary>
         /// method to tally to detectors managed by this controller
         /// </summary>
@@ -31,7 +34,7 @@ namespace Vts.MonteCarlo.Controllers
         {
             // CKH mod 4-1-15: need to call Tally rather than call TallySingle
             // because Tally contains 2nd moment processing
-            foreach (var detector in _detectors)
+            foreach (var detector in _historyDetectors)
             {
                 detector.Tally(photon);
             }
@@ -42,7 +45,7 @@ namespace Vts.MonteCarlo.Controllers
         /// <param name="n">number of photons launched from source</param>
         public virtual void NormalizeDetectors(long n)
         {
-            foreach (var detector in _detectors)
+            foreach (var detector in _historyDetectors)
             {
                 detector.Normalize(n);
             }

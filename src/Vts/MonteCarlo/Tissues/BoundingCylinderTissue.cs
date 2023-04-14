@@ -12,6 +12,9 @@ namespace Vts.MonteCarlo.Tissues
     /// </summary>
     public class BoundingCylinderTissueInput : TissueInput, ITissueInput
     {
+        private ITissueRegion _cylinderRegion;
+        private ITissueRegion[] _layerRegions;
+
         /// <summary>
         /// allows definition of tissue bounded by capless cylinder height of tissue
         /// </summary>
@@ -23,6 +26,7 @@ namespace Vts.MonteCarlo.Tissues
             CylinderRegion = (CaplessCylinderTissueRegion)caplessCylinderRegion;
             LayerRegions = layerRegions;
             RegionPhaseFunctionInputs = new Dictionary<string, IPhaseFunctionInput>();
+            Regions = LayerRegions.Concat(CylinderRegion).ToArray();
         }
 
         /// <summary>
@@ -38,8 +42,8 @@ namespace Vts.MonteCarlo.Tissues
                     new OpticalProperties(0.05, 1.0, 0.8, 1.4),
                     "HenyeyGreensteinKey4"
                 ),
-                new ITissueRegion[] 
-                { 
+                new ITissueRegion[]
+                {
                     new LayerTissueRegion(
                         new DoubleRange(double.NegativeInfinity, 0.0),
                         new OpticalProperties( 0.0, 1e-10, 1.0, 1.0),
@@ -64,15 +68,33 @@ namespace Vts.MonteCarlo.Tissues
         /// regions of tissue (layers and ellipsoid)
         /// </summary>
         [IgnoreDataMember]
-        public ITissueRegion[] Regions { get { return LayerRegions.Concat(CylinderRegion).ToArray(); } }
-        /// <summary>
-        /// tissue capless cylinder region
-        /// </summary>
-        public ITissueRegion CylinderRegion { get; set; }
+        public ITissueRegion[] Regions { get; private set; }
+
         /// <summary>
         /// tissue layer regions
         /// </summary>
-        public ITissueRegion[] LayerRegions { get; set; }
+        public ITissueRegion[] LayerRegions
+        {
+            get => _layerRegions;
+            set
+            {
+                _layerRegions = value;
+                if (CylinderRegion != null) Regions = _layerRegions.Concat(CylinderRegion).ToArray();
+            }
+        }
+        /// <summary>
+        /// tissue capless cylinder region
+        /// </summary>
+        public ITissueRegion CylinderRegion
+        {
+            get => _cylinderRegion;
+            set
+            {
+                _cylinderRegion = value;
+                if (LayerRegions != null) Regions = LayerRegions.Concat(_cylinderRegion).ToArray();
+            }
+        }
+
         /// <summary>
         /// dictionary of region phase function inputs
         /// </summary>

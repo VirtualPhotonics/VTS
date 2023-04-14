@@ -39,7 +39,7 @@ namespace Vts.Test.MonteCarlo.Sources
                     new FlatSourceProfile(),
                     SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone(),
                     SourceDefaults.DefaultPosition.Clone(),
-                    SourceDefaults.DefaultBeamRoationFromInwardNormal.Clone(),
+                    SourceDefaults.DefaultBeamRotationFromInwardNormal.Clone(),
                     0
             );
             Assert.IsInstanceOf<DirectionalLineSourceInput>(si);
