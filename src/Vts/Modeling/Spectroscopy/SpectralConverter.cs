@@ -11,78 +11,78 @@ namespace Vts.SpectralMapping
         /// <summary>
         /// Method to convert wavelength values
         /// </summary>
-        /// <param name="WavelengthValue">The wavelength value to convert</param>
-        /// <param name="Unit">An enum representing the units of the value to convert</param>
+        /// <param name="wavelengthValue">The wavelength value to convert</param>
+        /// <param name="unit">An enum representing the units of the value to convert</param>
         /// <returns>The converted value as a double</returns>
-        public static double ConvertWavelength(this double WavelengthValue, WavelengthUnit Unit)
+        public static double ConvertWavelength(this double wavelengthValue, WavelengthUnit unit)
         {
-            switch (Unit)
+            switch (unit)
             {
                 case WavelengthUnit.Nanometers:
                 default:
-                    return WavelengthValue;
+                    return wavelengthValue;
                 case WavelengthUnit.Micrometers:
-                    return WavelengthValue * 1000; //10^3
+                    return wavelengthValue * 1000; //10^3
                 case WavelengthUnit.Meters:
-                    return WavelengthValue * 1000000000; //10^9
+                    return wavelengthValue * 1000000000; //10^9
                 case WavelengthUnit.InverseMeters:
-                    return 1000000000 / WavelengthValue; //10^9
+                    return 1000000000 / wavelengthValue; //10^9
                 case WavelengthUnit.InverseCentimeters:
-                    return 10000000 / WavelengthValue; //10^7
+                    return 10000000 / wavelengthValue; //10^7
             }
         }
 
         /// <summary>
         /// Method to convert coefficient values
         /// </summary>
-        /// <param name="CoefficientValue">The coefficient value to convert</param>
-        /// <param name="Unit">An enum representing the units of the value to convert</param>
-        /// <param name="MolarUnit">An enum to represent a molar based coefficient</param>
+        /// <param name="coefficientValue">The coefficient value to convert</param>
+        /// <param name="unit">An enum representing the units of the value to convert</param>
+        /// <param name="molarUnit">An enum to represent a molar based coefficient</param>
         /// <returns>The converted value as a double</returns>
-        public static double ConvertCoefficient(this double CoefficientValue, AbsorptionCoefficientUnit Unit, MolarUnit MolarUnit)
+        public static double ConvertCoefficient(this double coefficientValue, AbsorptionCoefficientUnit unit, MolarUnit molarUnit)
         {
-            double coeff;
-            switch (Unit)
+            double coefficient;
+            switch (unit)
             {
                 case AbsorptionCoefficientUnit.InverseMillimeters:
                 default:
-                    coeff = CoefficientValue;
+                    coefficient = coefficientValue;
                     break;
                 case AbsorptionCoefficientUnit.InverseMeters:
-                    coeff = CoefficientValue / 1000; //10^3
+                    coefficient = coefficientValue / 1000; //10^3
                     break;
                 case AbsorptionCoefficientUnit.InverseCentimeters:
-                    coeff = CoefficientValue / 10;
+                    coefficient = coefficientValue / 10;
                     break;
                 case AbsorptionCoefficientUnit.InverseMicrometers:
-                    coeff = CoefficientValue * 1000; //10^3
+                    coefficient = coefficientValue * 1000; //10^3
                     break;
             }
 
             //molar coefficient applied
-            switch (MolarUnit)
+            switch (molarUnit)
             {
                 case MolarUnit.MicroMolar:
                 default:
-                    return coeff;
+                    return coefficient;
                 case MolarUnit.MilliMolar:
-                    return coeff / 1000; //10^3
+                    return coefficient / 1000; //10^3
                 case MolarUnit.Molar:
-                    return coeff / 1000000; //10^6
+                    return coefficient / 1000000; //10^6
                 case MolarUnit.NanoMolar:
-                    return coeff * 1000;
+                    return coefficient * 1000;
             }
         }
 
         /// <summary>
         /// Method to convert coefficient values with a default MolarUnit of MicroMolar
         /// </summary>
-        /// <param name="CoefficientValue">The coefficient value to convert</param>
-        /// <param name="Unit">An enum representing the units of the value to convert</param>
+        /// <param name="coefficientValue">The coefficient value to convert</param>
+        /// <param name="unit">An enum representing the units of the value to convert</param>
         /// <returns>The converted value as a double</returns>
-        public static double ConvertCoefficient(this double CoefficientValue, AbsorptionCoefficientUnit Unit)
+        public static double ConvertCoefficient(this double coefficientValue, AbsorptionCoefficientUnit unit)
         {
-            return ConvertCoefficient(CoefficientValue, Unit, MolarUnit.MicroMolar);
+            return ConvertCoefficient(coefficientValue, unit, MolarUnit.MicroMolar);
         }
 
         /// <summary>
@@ -93,7 +93,7 @@ namespace Vts.SpectralMapping
         public static WavelengthUnit getWavelengthUnit(string wavelengthUnit)
         {
             //pull out the unit values
-            var match = Regex.Match(wavelengthUnit, @"([a-zA-Z/1]+)");
+            var match = Regex.Match(wavelengthUnit, @"([a-zA-Z/1]+)", RegexOptions.None, TimeSpan.FromSeconds(2));
             if (match.Success)
             {
                 switch (match.Groups[1].Value.ToLower())
@@ -112,10 +112,7 @@ namespace Vts.SpectralMapping
                         throw new ArgumentException("Not a valid wavelength unit");
                 }
             }
-            else
-            {
-                throw new ArgumentException("Not a valid wavelength unit");
-            }
+            throw new ArgumentException("Not a valid wavelength unit");
         }
 
         /// <summary>
@@ -149,33 +146,24 @@ namespace Vts.SpectralMapping
         /// <returns>enum of type AbsorptionCoefficientUnit</returns>
         public static AbsorptionCoefficientUnit getAbsorptionCoefficientUnit(string absorptionCoefficientUnit)
         {
-            string units;
-            string[] unit;
-
             //pull out the unit values
-            Match match = Regex.Match(absorptionCoefficientUnit, @"1/\(?([a-zA-Z\*]+)\)?");
-            if (match.Success)
+            var match = Regex.Match(absorptionCoefficientUnit, @"1/\(?([a-zA-Z\*]+)\)?", RegexOptions.None, TimeSpan.FromSeconds(2));
+            if (!match.Success) throw new ArgumentException("Not a valid absorption coefficient unit");
+            //get the value(s) in parentheses
+            var units = match.Groups[1].Value;
+            var unit = units.Split('*');
+            switch (unit[0].ToLower())
             {
-                //get the value(s) in parentheses
-                units = match.Groups[1].Value;
-                unit = units.Split('*');
-                switch (unit[0].ToLower())
-                {
-                    case "mm":
-                        return AbsorptionCoefficientUnit.InverseMillimeters;
-                    case "cm":
-                        return AbsorptionCoefficientUnit.InverseCentimeters;
-                    case "m":
-                        return AbsorptionCoefficientUnit.InverseMeters;
-                    case "um":
-                        return AbsorptionCoefficientUnit.InverseMicrometers;
-                    default:
-                        throw new ArgumentException("Not a valid absorption coefficient unit");
-                }
-            }
-            else
-            {
-                throw new ArgumentException("Not a valid absorption coefficient unit");
+                case "mm":
+                    return AbsorptionCoefficientUnit.InverseMillimeters;
+                case "cm":
+                    return AbsorptionCoefficientUnit.InverseCentimeters;
+                case "m":
+                    return AbsorptionCoefficientUnit.InverseMeters;
+                case "um":
+                    return AbsorptionCoefficientUnit.InverseMicrometers;
+                default:
+                    throw new ArgumentException("Not a valid absorption coefficient unit");
             }
         }
 
@@ -186,40 +174,25 @@ namespace Vts.SpectralMapping
         /// <returns>enum of type MolarUnit</returns>
         public static MolarUnit getMolarUnit(string molarUnit)
         {
-            string units;
-            string[] unit;
-
             //pull out the unit values
-            Match match = Regex.Match(molarUnit, @"1/\(*([a-zA-Z\*]+)\)*");
-            if (match.Success)
+            var match = Regex.Match(molarUnit, @"1/\(*([a-zA-Z\*]+)\)*", RegexOptions.None, TimeSpan.FromSeconds(2));
+            if (!match.Success) throw new ArgumentException("Not a valid molar unit");
+            //get the value(s) in parentheses
+            var units = match.Groups[1].Value;
+            if (!units.Contains("*")) return MolarUnit.None;
+            var unit = units.Split('*');
+            switch (unit[1])
             {
-                //get the value(s) in parentheses
-                units = match.Groups[1].Value;
-                if (units.Contains("*"))
-                {
-                    unit = units.Split('*');
-                    switch (unit[1])
-                    {
-                        default:
-                             return MolarUnit.None;
-                        case "M":
-                            return MolarUnit.Molar;
-                        case "mM":
-                            return MolarUnit.MilliMolar;
-                        case "uM":
-                            return MolarUnit.MicroMolar;
-                        case "nM":
-                            return MolarUnit.NanoMolar;
-                    }
-                }
-                else
-                {
+                default:
                     return MolarUnit.None;
-                }
-            }
-            else
-            {
-                throw new ArgumentException("Not a valid molar unit");
+                case "M":
+                    return MolarUnit.Molar;
+                case "mM":
+                    return MolarUnit.MilliMolar;
+                case "uM":
+                    return MolarUnit.MicroMolar;
+                case "nM":
+                    return MolarUnit.NanoMolar;
             }
         }
 
@@ -232,7 +205,7 @@ namespace Vts.SpectralMapping
         public static string getSpectralUnit(MolarUnit molarUnit, AbsorptionCoefficientUnit absorptionCoefficientUnit)
         {
             string mU;
-            string aCU;
+            string aCu;
             string sU;
 
             switch (molarUnit)
@@ -259,27 +232,27 @@ namespace Vts.SpectralMapping
             switch (absorptionCoefficientUnit)
             {
                 case AbsorptionCoefficientUnit.InverseCentimeters:
-                    aCU = "cm";
+                    aCu = "cm";
                     break;
                 case AbsorptionCoefficientUnit.InverseMeters:
-                    aCU = "m";
+                    aCu = "m";
                     break;
                 case AbsorptionCoefficientUnit.InverseMicrometers:
-                    aCU = "um";
+                    aCu = "um";
                     break;
                 case AbsorptionCoefficientUnit.InverseMillimeters:
-                    aCU = "mm";
+                    aCu = "mm";
                     break;
                 default:
                     throw new ArgumentException("Unknown absorption coefficient unit");
             }
             if (molarUnit == MolarUnit.None)
             {
-                sU = "1/" + aCU;
+                sU = "1/" + aCu;
             }
             else
             {
-                sU = "1/(" + aCU + "*" + mU + ")";
+                sU = "1/(" + aCu + "*" + mU + ")";
             }
             return sU;
         }

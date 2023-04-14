@@ -9,10 +9,11 @@ namespace Vts.Modeling.ForwardSolvers.DiscreteOrdinates
         /// <summary>
         /// cosine theta?
         /// </summary>
-        public double[] mu;
+        public double[] mu { get; set; }
+
         /// <summary>
         /// weights
         /// </summary>
-        public double[] wt;
+        public double[] wt { get; set; }
     }
 }
