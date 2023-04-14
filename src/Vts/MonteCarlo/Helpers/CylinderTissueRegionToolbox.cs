@@ -33,9 +33,9 @@ namespace Vts.MonteCarlo.Tissues
             distanceToBoundary = double.PositiveInfinity;
             double root = 0;
             double a, b, c;
-            double dx = (p2.X - p1.X);
-            double dy = (p2.Y - p1.Y);
-            double dz = (p2.Z - p1.Z);
+            var dx = (p2.X - p1.X);
+            var dy = (p2.Y - p1.Y);
+            var dz = (p2.Z - p1.Z);
             switch (axis)
             {
                 case CylinderTissueRegionAxisType.X:
@@ -45,14 +45,6 @@ namespace Vts.MonteCarlo.Tissues
                     c = (p1.Y - center.Y) * (p1.Y - center.Y) +
                         (p1.Z - center.Z) * (p1.Z - center.Z) - radius * radius;
                     break;
-                default:
-                case CylinderTissueRegionAxisType.Y:
-                    a = dx * dx + dz * dz;
-                    b = 2 * (p1.X - center.X) * dx +
-                        2 * (p1.Z - center.Z) * dz;
-                    c = (p1.X - center.X) * (p1.X - center.X) +
-                        (p1.Z - center.Z) * (p1.Z - center.Z) - radius * radius;
-                    break;
                 case CylinderTissueRegionAxisType.Z:
                     a = dx * dx + dy * dy;
                     b = 2 * (p1.X - center.X) * dx +
@@ -60,17 +52,23 @@ namespace Vts.MonteCarlo.Tissues
                     c = (p1.X - center.X) * (p1.X - center.X) +
                         (p1.Y - center.Y) * (p1.Y - center.Y) - radius * radius;
                     break;
+                case CylinderTissueRegionAxisType.Y:
+                default:
+                    a = dx * dx + dz * dz;
+                    b = 2 * (p1.X - center.X) * dx +
+                        2 * (p1.Z - center.Z) * dz;
+                    c = (p1.X - center.X) * (p1.X - center.X) +
+                        (p1.Z - center.Z) * (p1.Z - center.Z) - radius * radius;
+                    break;
             }
 
             var rootTerm = b * b - 4 * a * c;
 
-            double root1, root2, xto, yto, zto;
-
             if (rootTerm > 0)  // roots are real 
             {
                 var rootTermSqrt = Math.Sqrt(rootTerm);
-                root1 = (-b - rootTermSqrt) / (2 * a);
-                root2 = (-b + rootTermSqrt) / (2 * a);
+                var root1 = (-b - rootTermSqrt) / (2 * a);
+                var root2 = (-b + rootTermSqrt) / (2 * a);
 
                 var numberOfIntersections = 0; //number of intersections
 
@@ -86,6 +84,9 @@ namespace Vts.MonteCarlo.Tissues
                     root = root2;
                 }
 
+                double xto;
+                double yto;
+                double zto;
                 switch (numberOfIntersections)
                 {
                     case 0: /* roots real but no intersection */

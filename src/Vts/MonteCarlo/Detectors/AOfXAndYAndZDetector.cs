@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using Vts.Common;
@@ -107,7 +106,6 @@ namespace Vts.MonteCarlo.Detectors
 
         private Func<PhotonDataPoint, PhotonDataPoint, int, double> _absorptionWeightingMethod;
         private ITissue _tissue;
-        private IList<OpticalProperties> _ops;
         private double[, ,] _tallyForOnePhoton;
 
         /// <summary>
@@ -127,7 +125,6 @@ namespace Vts.MonteCarlo.Detectors
             // initialize any other necessary class fields here
             _absorptionWeightingMethod = AbsorptionWeightingMethods.GetVolumeAbsorptionWeightingMethod(tissue, this);
             _tissue = tissue;
-            _ops = _tissue.Regions.Select(r => r.RegionOP).ToArray();
             _tallyForOnePhoton = _tallyForOnePhoton ?? (TallySecondMoment ? new double[X.Count - 1, Y.Count - 1, Z.Count - 1] : null);
         }
 

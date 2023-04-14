@@ -59,7 +59,6 @@ namespace Vts.MonteCarlo.Detectors
         private IList<OpticalProperties> _referenceOps;
         private IList<OpticalProperties> _perturbedOps;
         private IList<int> _perturbedRegionsIndices;
-        private ITissue _tissue; 
         private Func<IList<long>, IList<double>, IList<OpticalProperties>, IList<OpticalProperties>, IList<int>, double> _absorbAction;
            
         /* ==== Place optional/user-defined input properties here. They will be saved in text (JSON) format ==== */
@@ -113,7 +112,6 @@ namespace Vts.MonteCarlo.Detectors
             _perturbedRegionsIndices = PerturbedRegionsIndices;
             _referenceOps = tissue.Regions.Select(r => r.RegionOP).ToList();
             // perturb Ops of tissue then can determine weight as usual
-            _tissue = tissue;
             _absorbAction = AbsorptionWeightingMethods.GetpMCVolumeAbsorptionWeightingMethod(tissue, this);
          }
         /// <summary>

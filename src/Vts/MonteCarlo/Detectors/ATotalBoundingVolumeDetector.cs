@@ -69,10 +69,6 @@ namespace Vts.MonteCarlo.Detectors
         /// </summary>
         public long TallyCount { get; set; }
 
-        private Func<PhotonDataPoint, PhotonDataPoint, int, double> _absorptionWeightingMethod;
-        private ITissue _tissue;
-        private OpticalProperties _boundingVolumeOPs;
-
         /// <summary>
         /// Method to initialize detector
         /// </summary>
@@ -90,9 +86,7 @@ namespace Vts.MonteCarlo.Detectors
             }
 
             // initialize any other necessary class fields here
-            _absorptionWeightingMethod = AbsorptionWeightingMethods.GetVolumeAbsorptionWeightingMethod(tissue, this);
-            _tissue = tissue;
-            _boundingVolumeOPs = _tissue.Regions[_tissue.Regions.Count - 1].RegionOP;
+            AbsorptionWeightingMethods.GetVolumeAbsorptionWeightingMethod(tissue, this);
         }
 
         /// <summary>
