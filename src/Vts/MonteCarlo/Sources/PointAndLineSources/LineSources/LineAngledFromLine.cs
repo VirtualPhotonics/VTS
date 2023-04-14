@@ -104,7 +104,6 @@ namespace Vts.MonteCarlo.Sources
     /// </summary>
     public class LineAngledFromLineSource : LineSourceBase
     {
-        private double _tissueLineLength;
         private readonly double _lineInAirLength;
         private readonly Position _lineInAirCenterPosition;
 
@@ -129,10 +128,9 @@ namespace Vts.MonteCarlo.Sources
                   sourceProfile,
                   SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone(), // newDirectionOfPrincipalSourceAxis
                   translationFromOrigin,
-                  SourceDefaults.DefaultBeamRoationFromInwardNormal.Clone(), // beamRotationFromInwardNormal
+                  SourceDefaults.DefaultBeamRotationFromInwardNormal.Clone(), // beamRotationFromInwardNormal
                   initialTissueRegionIndex)
         {
-            _tissueLineLength = tissueLineLength;
             _lineInAirLength = lineInAirLength;
             _lineInAirCenterPosition = lineInAirTranslationFromOrigin;
         }

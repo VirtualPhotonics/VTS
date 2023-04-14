@@ -52,7 +52,7 @@ namespace Vts.MonteCarlo.Sources
                 sourceProfile,
                 SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone(),
                 SourceDefaults.DefaultPosition.Clone(),
-                SourceDefaults.DefaultBeamRoationFromInwardNormal.Clone(),
+                SourceDefaults.DefaultBeamRotationFromInwardNormal.Clone(),
                 0) { }
 
         /// <summary>
@@ -64,7 +64,7 @@ namespace Vts.MonteCarlo.Sources
                 new FlatSourceProfile(),
                 SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone(),
                 SourceDefaults.DefaultPosition.Clone(),
-                SourceDefaults.DefaultBeamRoationFromInwardNormal.Clone(),
+                SourceDefaults.DefaultBeamRotationFromInwardNormal.Clone(),
                 0) { }
 
         /// <summary>

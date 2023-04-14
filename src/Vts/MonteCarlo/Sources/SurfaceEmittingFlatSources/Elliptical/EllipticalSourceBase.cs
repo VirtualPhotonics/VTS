@@ -66,7 +66,7 @@ namespace Vts.MonteCarlo.Sources
             _rotationAndTranslationFlags = new SourceFlags(
                  newDirectionOfPrincipalSourceAxis != SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone(),
                  translationFromOrigin != SourceDefaults.DefaultPosition.Clone(),
-                 beamRotationFromInwardNormal != SourceDefaults.DefaultBeamRoationFromInwardNormal.Clone());
+                 beamRotationFromInwardNormal != SourceDefaults.DefaultBeamRotationFromInwardNormal.Clone());
 
             _aParameter = aParameter;
             _bParameter = bParameter;
