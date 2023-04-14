@@ -78,7 +78,6 @@ namespace Vts.MonteCarlo.Sources
     /// </summary>
     public class FluorescenceEmissionAOfRhoAndZSource : FluorescenceEmissionSourceBase
     {
-        private double _totalWeight;
         /// <summary>
         /// class that holds all Source arrays for proper initiation
         /// </summary>
@@ -167,7 +166,6 @@ namespace Vts.MonteCarlo.Sources
                     var normalizationFactor = 2.0 * Math.PI * Loader.Rho.Delta * Loader.Z.Delta;
                     var rhoZNorm = (Loader.Rho.Start + (iRho + 0.5) * Loader.Rho.Delta) * normalizationFactor;
                     weight = Loader.AOfRhoAndZ[iRho, iZ] * rhoZNorm;
-                    _totalWeight += weight;
                     IndexCount += 1;
                     return new Position(xMidpoint, yMidpoint, zMidpoint);
                 default:

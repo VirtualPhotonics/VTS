@@ -7,14 +7,14 @@ namespace Vts.MonteCarlo
     /// the current state of the photon.  These states communicate what to do with the photon.
     /// ref: http://www.codeproject.com/Articles/37921/Enums-Flags-and-Csharp-Oh-my-bad-pun.aspx
     /// or http://stackoverflow.com/questions/93744/most-common-c-bitwise-operations
+    ///     |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |
+    ///   8000 4000 2000 1000 0800 0400 0200 0100 0080 0040 0020 0010 0008 0004 0002 0001
+    ///   &lt;- transport flags                                                           -&gt;
+    ///   &lt;- virtual flags these with "0000" added in lowest bits                      -&gt;
     /// </summary>
     [Flags]
     public enum PhotonStateType
     {
-        //     |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |
-        //   8000 4000 2000 1000 0800 0400 0200 0100 0080 0040 0020 0010 0008 0004 0002 0001
-        //   <- transport flags                                                           ->
-        //   <- virtual flags these with "0000" added in lowest bits                      ->
         /// <summary>
         /// no bits set
         /// </summary>

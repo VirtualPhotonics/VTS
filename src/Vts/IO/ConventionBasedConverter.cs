@@ -106,7 +106,7 @@ namespace Vts.IO
         {
             if (!FieldExists(_typeCategoryString, jObject))
             {
-                throw new ArgumentException(String.Format("The given object type {0} is not supported!", objectType));
+                throw new ArgumentException($"The given object type {objectType} is not supported!");
             }
 
             var classPrefixString = jObject[_typeCategoryString].ToString();
@@ -117,12 +117,8 @@ namespace Vts.IO
             var classInstance = (TInterface)_serviceProvider.GetService(classInfo.ClassType);
             
             if (classInstance != null) return classInstance;
-            foreach (var instance in _userDefinedServiceProviders.Select(provider => (TInterface)provider.GetService(classInfo.ClassType)).Where(instance => instance != null))
-            {
-                return instance;
-            }
-
-            return classInstance;
+            return _userDefinedServiceProviders.Select(provider => (TInterface)provider.GetService(classInfo.ClassType))
+                .FirstOrDefault(instance => instance != null);
         }
 
         /// <summary>

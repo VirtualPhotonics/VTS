@@ -14,31 +14,31 @@ namespace Vts.Modeling.ForwardSolvers
         /// <summary>
         /// number of rho bins in reference database
         /// </summary>
-        public int nrReference; 
+        public int nrReference { get; set; }
         /// <summary>
         /// size of rho bins in reference database
         /// </summary>
-        public double drReference;
+        public double drReference { get; set; }
         /// <summary>
         /// number of time bins in reference database
         /// </summary>
-        public int ntReference; 
+        public int ntReference { get; set; }
         /// <summary>
         /// size of time bins in reference database
         /// </summary>
-        public double dtReference;
+        public double dtReference { get; set; }
         /// <summary>
         /// mus' value used in reference database
         /// </summary>
-        public double muspReference;
+        public double muspReference { get; set; }
         /// <summary>
         /// number of spatial frequency bins in reference 
         /// </summary>
-        public int nfxReference;
+        public int nfxReference { get; set; }
         /// <summary>
         /// size of spatial frequency bins in reference
         /// </summary>
-        public double dfxReference;
+        public double dfxReference { get; set; }
 
         /// <summary>
         /// array of rho bin centers in reference database

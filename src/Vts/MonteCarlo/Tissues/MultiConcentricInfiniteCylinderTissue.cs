@@ -12,6 +12,9 @@ namespace Vts.MonteCarlo.Tissues
     /// </summary>
     public class MultiConcentricInfiniteCylinderTissueInput : TissueInput, ITissueInput
     {
+        private ITissueRegion[] _infiniteCylinderRegions;
+        private ITissueRegion[] _layerRegions;
+
         /// <summary>
         /// constructor for Multi-ConcentricInfiniteCylinder tissue input
         /// </summary>
@@ -24,6 +27,7 @@ namespace Vts.MonteCarlo.Tissues
             TissueType = "MultiConcentricInfiniteCylinder";
             LayerRegions = layerRegions;
             InfiniteCylinderRegions = infiniteCylinderRegions;
+            Regions = LayerRegions.Concat(InfiniteCylinderRegions).ToArray();
         }
 
         /// <summary>
@@ -45,7 +49,7 @@ namespace Vts.MonteCarlo.Tissues
                     )
                 },
                 new ITissueRegion[]
-                { 
+                {
                     new LayerTissueRegion(
                         new DoubleRange(double.NegativeInfinity, 0.0),
                         new OpticalProperties( 0.0, 1e-10, 1.0, 1.0)),
@@ -63,15 +67,33 @@ namespace Vts.MonteCarlo.Tissues
         /// list of tissue regions comprising tissue
         /// </summary>
         [IgnoreDataMember]
-        public ITissueRegion[] Regions { get { return LayerRegions.Concat(InfiniteCylinderRegions).ToArray(); } }
+        public ITissueRegion[] Regions { get; private set; }
+
         /// <summary>
         /// tissue outer infinite cylinder region
         /// </summary>
-        public ITissueRegion[] InfiniteCylinderRegions { get; set; }
+        public ITissueRegion[] InfiniteCylinderRegions
+        {
+            get => _infiniteCylinderRegions;
+            set
+            {
+                _infiniteCylinderRegions = value;
+                if (LayerRegions != null) Regions = LayerRegions.Concat(_infiniteCylinderRegions).ToArray();
+            }
+        }
+
         /// <summary>
         /// tissue layer regions
         /// </summary>
-        public ITissueRegion[] LayerRegions { get; set; }
+        public ITissueRegion[] LayerRegions
+        {
+            get => _layerRegions;
+            set
+            {
+                _layerRegions = value;
+                if (InfiniteCylinderRegions != null) Regions = _layerRegions.Concat(InfiniteCylinderRegions).ToArray();
+            }
+        }
 
         /// <summary>
         /// Required factory method to create the corresponding 
@@ -117,7 +139,7 @@ namespace Vts.MonteCarlo.Tissues
             Regions = layerRegions.Concat(infiniteCylinderRegions).ToArray();
 
             _layerRegions = layerRegions.Select(r => (LayerTissueRegion)r).ToList();
-            _infiniteCylinderRegions = infiniteCylinderRegions.Select(r => (InfiniteCylinderTissueRegion) r).ToList();
+            _infiniteCylinderRegions = infiniteCylinderRegions.Select(r => (InfiniteCylinderTissueRegion)r).ToList();
             // also by convention larger radius infinite cylinder is first
             _layerRegionIndexOfInclusion = Enumerable.Range(0, _layerRegions.Count)
                 .FirstOrDefault(i => _layerRegions[i]
@@ -128,7 +150,7 @@ namespace Vts.MonteCarlo.Tissues
         /// Creates a default instance of a MultiConcentricInfiniteCylinderTissue based on a homogeneous medium slab geometry
         /// and discrete absorption weighting
         /// </summary>
-        public MultiConcentricInfiniteCylinderTissue() 
+        public MultiConcentricInfiniteCylinderTissue()
             : this(
                 new ITissueRegion[]
                     {
@@ -166,7 +188,7 @@ namespace Vts.MonteCarlo.Tissues
             }
             return index;
         }
-        
+
         /// <summary>
         /// Finds the distance to the next boundary and independent of hitting it
         /// </summary>
@@ -180,7 +202,7 @@ namespace Vts.MonteCarlo.Tissues
             var goingUp = photon.DP.Direction.Uz < 0.0;
 
             // get current and adjacent regions
-            var currentRegionIndex = photon.CurrentRegionIndex; 
+            var currentRegionIndex = photon.CurrentRegionIndex;
             // check if not in embedded tissue region ckh fix 8/10/11
             var currentRegion = _layerRegions[1];
             if (currentRegionIndex < _layerRegions.Count)
@@ -224,7 +246,7 @@ namespace Vts.MonteCarlo.Tissues
                 position.Z < 1e-10 ||
                 (Math.Abs(position.Z - _layerRegions.Last().ZRange.Start) < 1e-10);
         }
-    
+
         /// <summary>
         /// method to determine index of region photon is about to enter
         /// </summary>
@@ -273,7 +295,7 @@ namespace Vts.MonteCarlo.Tissues
         /// <param name="currentDirection">current direction of photon</param>
         /// <returns>direction of reflected input direction</returns>
         public override Direction GetReflectedDirection(
-            Position currentPosition, 
+            Position currentPosition,
             Direction currentDirection)
         {
             // check if crossing top and bottom layer
@@ -296,12 +318,12 @@ namespace Vts.MonteCarlo.Tissues
         /// <param name="cosThetaSnell">cos(theta) resulting from Snell's law</param>
         /// <returns>direction</returns>
         public override Direction GetRefractedDirection(
-            Position currentPosition, 
-            Direction currentDirection, 
-            double currentN, 
-            double nextN, 
+            Position currentPosition,
+            Direction currentDirection,
+            double currentN,
+            double nextN,
             double cosThetaSnell)
-        {            
+        {
             // check if crossing top and bottom layer
             if (currentPosition.Z < 1e-10 ||
                 (Math.Abs(currentPosition.Z - (_layerRegions.Last()).ZRange.Start) < 1e-10))

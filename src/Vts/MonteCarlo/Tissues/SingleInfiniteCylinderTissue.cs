@@ -10,6 +10,8 @@ namespace Vts.MonteCarlo.Tissues
     /// </summary>
     public class SingleInfiniteCylinderTissueInput : TissueInput, ITissueInput
     {
+        private ITissueRegion _infiniteCylinderRegion;
+        private ITissueRegion[] _layerRegions;
 
         /// <summary>
         /// allows definition of single infinite cylinder tissue
@@ -21,6 +23,7 @@ namespace Vts.MonteCarlo.Tissues
             TissueType = "SingleInfiniteCylinder";
             InfiniteCylinderRegion = infiniteCylinderRegion;
             LayerRegions = layerRegions;
+            Regions = LayerRegions.Concat(InfiniteCylinderRegion).ToArray();
         }
 
         /// <summary>
@@ -34,8 +37,8 @@ namespace Vts.MonteCarlo.Tissues
                     1.0,
                     new OpticalProperties(0.05, 1.0, 0.8, 1.4)
                 ),
-                new ITissueRegion[] 
-                { 
+                new ITissueRegion[]
+                {
                     new LayerTissueRegion(
                         new DoubleRange(double.NegativeInfinity, 0.0),
                         new OpticalProperties( 0.0, 1e-10, 1.0, 1.0)),
@@ -53,15 +56,33 @@ namespace Vts.MonteCarlo.Tissues
         /// regions of tissue (layers and infinite cylinder)
         /// </summary>
         [IgnoreDataMember]
-        public ITissueRegion[] Regions { get { return LayerRegions.Concat(InfiniteCylinderRegion).ToArray(); } }
+        public ITissueRegion[] Regions { get; private set; }
+
         /// <summary>
         /// tissue infinite cylinder region
         /// </summary>
-        public ITissueRegion InfiniteCylinderRegion { get; set; }
+        public ITissueRegion InfiniteCylinderRegion
+        {
+            get => _infiniteCylinderRegion;
+            set
+            {
+                _infiniteCylinderRegion = value;
+                if (LayerRegions != null) Regions = LayerRegions.Concat(_infiniteCylinderRegion).ToArray();
+            }
+        }
+
         /// <summary>
         /// tissue layer regions
         /// </summary>
-        public ITissueRegion[] LayerRegions { get; set; }
+        public ITissueRegion[] LayerRegions
+        {
+            get => _layerRegions;
+            set
+            {
+                _layerRegions = value;
+                if (InfiniteCylinderRegion != null) Regions = _layerRegions.Concat(InfiniteCylinderRegion).ToArray();
+            }
+        }
 
         /// <summary>
         /// Required factory method to create the corresponding 

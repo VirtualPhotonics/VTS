@@ -136,7 +136,7 @@ namespace Vts.MonteCarlo.Sources
                 sourceProfile,
                 SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone(), // newDirectionOfPrincipalSourceAxis
                 translationFromOrigin, 
-                SourceDefaults.DefaultBeamRoationFromInwardNormal.Clone(), // beamRotationFromInwardNormal
+                SourceDefaults.DefaultBeamRotationFromInwardNormal.Clone(), // beamRotationFromInwardNormal
                 initialTissueRegionIndex)
         {
             _pointLocation = pointLocation;
