@@ -57,18 +57,31 @@ namespace Vts.Test.MonteCarlo.Sources
         [Test]
         public void Validate_construction_of_source_class()
         {
+            // verify property settings
             var source = new DirectionalArbitrarySourceInput(
                 _sourceInput.InputFolder,
                 _sourceInput.ImageName,
                 _sourceInput.NumberOfPixelsX,
                 _sourceInput.NumberOfPixelsY,
                 _sourceInput.PixelWidthX,
-                _sourceInput.PixelHeightY,
-                SourceProfileType.Arbitrary);
+                _sourceInput.PixelHeightY);
             Assert.AreEqual(113, source.NumberOfPixelsX);
             Assert.AreEqual(102, source.NumberOfPixelsY);
             Assert.AreEqual(0.1, source.PixelWidthX);
             Assert.AreEqual(0.1, source.PixelHeightY);
+
+            // call CreateSource and verify settings
+            Random rng = new MathNet.Numerics.Random.MersenneTwister(0); 
+            source.CreateSource(rng);
+            // verify X and Y properties
+            Assert.IsTrue(Math.Abs(-5.65 - ((ArbitrarySourceProfile)source.SourceProfile).X.Start) < 1e-6 );
+            Assert.IsTrue(Math.Abs(5.65 -  ((ArbitrarySourceProfile)source.SourceProfile).X.Stop) < 1e-6);
+            Assert.AreEqual(114, ((ArbitrarySourceProfile)source.SourceProfile).X.Count);
+            Assert.IsTrue(Math.Abs(-5.1 - ((ArbitrarySourceProfile)source.SourceProfile).Y.Start) < 1e-6);
+            Assert.IsTrue(Math.Abs(5.1 - ((ArbitrarySourceProfile)source.SourceProfile).Y.Stop) < 1e-6);
+            Assert.AreEqual(103, ((ArbitrarySourceProfile)source.SourceProfile).Y.Count);
+            // verify Image property
+            Assert.IsTrue(Math.Abs(-1 - ((ArbitrarySourceProfile)source.SourceProfile).Image[0]) < 1e-6);
         }
 
         /// <summary>
@@ -116,34 +129,74 @@ namespace Vts.Test.MonteCarlo.Sources
         }
 
         /// <summary>
-        /// Instantiate ArbitrarySourceProfile and validate GetBinaryPixelMap,
+        /// Instantiate ArbitrarySourceProfile and validate GetBinaryPixelMap 
+        /// and GetPositionInARectangleBasedOnImageIntensity methods
+        /// </summary>
+        [Test]
+        public void Validate_ArbitrarySourceProfile_general_constructor_and_methods_test()
+        {
+            Random rng =
+                new MathNet.Numerics.Random.MersenneTwister(0); // not really necessary here, as this is now the default
+            // make a intensity varied source
+            var image = new double[] { 0, 1, 2, 3, 4, 5, 6, 7, 8 }; // representing a 3x3 pixel image
+            var arbitrarySourceProfile = new ArbitrarySourceProfile(
+                image,
+                3,
+                3,
+                1,
+                1,
+                new Vts.Common.Position(0, 0, 0));
+            // verify X, Y 
+            Assert.IsTrue(Math.Abs(-1.5 - arbitrarySourceProfile.X.Start) < 1e-6);
+            Assert.IsTrue(Math.Abs(1.5 - arbitrarySourceProfile.X.Stop) < 1e-6);
+            Assert.AreEqual(4, arbitrarySourceProfile.X.Count);
+            Assert.IsTrue(Math.Abs(-1.5 - arbitrarySourceProfile.Y.Start) < 1e-6);
+            Assert.IsTrue(Math.Abs(1.5 - arbitrarySourceProfile.Y.Stop) < 1e-6);
+            Assert.AreEqual(4, arbitrarySourceProfile.Y.Count);
+
+            // verify binary bit map
+            var binaryMap = arbitrarySourceProfile.GetBinaryPixelMap();
+            Assert.IsTrue(binaryMap[0] == 0);
+            for (int i = 1; i < image.Length; i++)
+            {
+                Assert.IsTrue(binaryMap[i] == 1);
+            }
+
+            // verify GetPositionInARectangleBasedOnImageIntensity method for 10 calls 
+            for (var i = 0; i < 10; i++)
+            {
+                var r = arbitrarySourceProfile.GetPositionInARectangleBasedOnImageIntensity(rng);
+                Assert.IsTrue(Math.Abs(r.Z) < 1e-6); // z is always 0
+                Assert.IsTrue(Math.Abs(r.X) <= 1.5); // x is in [-1.5, 1.5]
+                Assert.IsTrue(Math.Abs(r.Y) <= 1.5); // y is in [-1.5, 1.5]
+            }
+
+        }
+        /// <summary>
+        /// Create ArbitrarySourceProfile with all intensity in one pixel,
         /// then use this object in general constructor of DirectionalArbitrarySource
         /// and validate initiated new Photon
         /// </summary>
         [Test]
-        public void Validate_binary_map_and_general_constructor_for_directional_arbitrary_source_test()
+        public void Validate_construction_of_photons_given_specified_source_profile_test()
         {
             Random rng = new MathNet.Numerics.Random.MersenneTwister(0); // not really necessary here, as this is now the default
             ITissue tissue = new MultiLayerTissue();
             // make a intensity varied source
-            var image = new double[] { 1, 2, 2, 0 }; // representing a 2x2 pixel image
+            var image = new double[] { 0, 1, 0, 0, 0, 0, 0, 0, 0}; // representing a 3x3 pixel image
             var arbitrarySourceProfile = new ArbitrarySourceProfile(
                 image,
-                2,
-                2,
+                3,
+                3,
                 1,
                 1,
                 new Vts.Common.Position(0, 0, 0));
-            var binaryMap = arbitrarySourceProfile.GetBinaryPixelMap();
-            Assert.IsTrue(binaryMap[0] == 1);
-            Assert.IsTrue(binaryMap[1] == 1);
-            Assert.IsTrue(binaryMap[2] == 1);
-            Assert.IsTrue(binaryMap[3] == 0);
 
+            // instantiate source with profile
             var ps = new DirectionalArbitrarySource(
                 0.0, // normal
-                2.0,
-                2.0,
+                3.0,
+                3.0,
                 arbitrarySourceProfile,
                 new Direction(0, 0, 1),
                 new Position(0,0,0),
@@ -153,16 +206,20 @@ namespace Vts.Test.MonteCarlo.Sources
                 Rng = rng
             };
 
-            var photon = ps.GetNextPhoton(tissue);
+            // verify 10 photons originate from 2nd pixel i.e. x in [-1.5,-0.5], y in [-0.5,0.5]
+            // and normal
+            for (var i = 0; i < 10; i++)
+            {
+                var photon = ps.GetNextPhoton(tissue);
+                Assert.IsTrue(photon.DP.Position.X >= -1.5 && photon.DP.Position.X <= -0.5);
+                Assert.IsTrue(photon.DP.Position.Y > -0.5 && photon.DP.Position.Y <= 0.5);
+                Assert.Less(Math.Abs(photon.DP.Position.Z), 1e-6);
+                Assert.Less(Math.Abs(photon.DP.Direction.Ux), 1e-6);
+                Assert.Less(Math.Abs(photon.DP.Direction.Uy), 1e-6);
+                Assert.Less(Math.Abs(photon.DP.Direction.Uz - 1), 1e-6);
 
-            // normal launch
-            Assert.Less(Math.Abs(photon.DP.Direction.Ux), 1e-6);
-            Assert.Less(Math.Abs(photon.DP.Direction.Uy), 1e-6);
-            Assert.Less(Math.Abs(photon.DP.Direction.Uz - 1), 1e-6);
+            }
 
-            Assert.Less(Math.Abs(photon.DP.Position.X + 0.5), 1e-6);
-            Assert.Less(Math.Abs(photon.DP.Position.Y - 0.5), 1e-6);
-            Assert.Less(Math.Abs(photon.DP.Position.Z), 1e-6);
         }
  
 

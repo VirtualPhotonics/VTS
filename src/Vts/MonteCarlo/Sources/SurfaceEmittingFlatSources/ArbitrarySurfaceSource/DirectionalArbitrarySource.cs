@@ -64,15 +64,13 @@ namespace Vts.MonteCarlo.Sources
     /// <param name="numberOfPixelsY">number of pixels along y-axis (rows) </param>
     /// <param name="pixelWidthX"></param>
     /// <param name="pixelHeightY"></param>
-    /// <param name="sourceProfileType">Source profile type = Arbitrary</param>
     public DirectionalArbitrarySourceInput(
         string inputFolder,
         string imageName,
         int numberOfPixelsX,
         int numberOfPixelsY,
         double pixelWidthX,
-        double pixelHeightY,
-        SourceProfileType sourceProfileType)
+        double pixelHeightY)
         : this(
             inputFolder,
             imageName,
@@ -83,7 +81,7 @@ namespace Vts.MonteCarlo.Sources
             0.0,
             SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone(),
             SourceDefaults.DefaultPosition.Clone(), 
-            SourceDefaults.DefaultBeamRoationFromInwardNormal.Clone(),
+            SourceDefaults.DefaultBeamRotationFromInwardNormal.Clone(),
             0)
     { }
 
@@ -101,7 +99,7 @@ namespace Vts.MonteCarlo.Sources
             0.0,
             SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone(),
             SourceDefaults.DefaultPosition.Clone(),
-            SourceDefaults.DefaultBeamRoationFromInwardNormal.Clone(),
+            SourceDefaults.DefaultBeamRotationFromInwardNormal.Clone(),
               0)
     { }
 
