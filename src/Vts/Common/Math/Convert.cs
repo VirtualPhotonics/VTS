@@ -68,7 +68,7 @@ namespace Vts.Common.Math
         {
             if (real.Length != imaginary.Length)
             {
-                throw new ArgumentException("Error in ToAmplitude: real and imag arrays are not the same size!");       
+                throw new ArgumentException("Error in ToAmplitude: real and imaginary arrays are not the same size!");       
             }
             var amplitude = new double[real.Length];
             for (var i = 0; i < amplitude.Length; i++)
