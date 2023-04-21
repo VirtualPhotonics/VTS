@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using Vts.Common;
@@ -21,6 +22,27 @@ namespace Vts.MonteCarlo.Sources.SourceProfiles
     public class ArbitrarySourceProfile : ISourceProfile
     {
         /// <summary>
+        /// Returns Arbitrary profile type
+        /// </summary>
+        //[IgnoreDataMember]
+        public SourceProfileType SourceProfileType => SourceProfileType.Arbitrary;
+
+        /// <summary>
+        /// 1D array containing 2D image of values
+        /// </summary>
+        public double[] Image { get; set; }
+
+        /// <summary>
+        /// x-axis pixel edges
+        /// </summary>
+        public DoubleRange X { get; set; }
+
+        /// <summary>
+        /// y-axis pixel edges
+        /// </summary>
+        public DoubleRange Y { get; set; }
+
+        /// <summary>
         /// Probability density function created from image
         /// </summary>
         private double[] _probabilityDensityFunction;
@@ -29,7 +51,7 @@ namespace Vts.MonteCarlo.Sources.SourceProfiles
         /// Cumulative density function
         /// </summary>
         private double[] _cumulativeDensityFunction;
-
+       
         /// <summary>
         /// Initializes a new instance of the ArbitrarySourceProfile class
         /// </summary>
@@ -109,33 +131,18 @@ namespace Vts.MonteCarlo.Sources.SourceProfiles
                 if (rho >= _cumulativeDensityFunction[i]) continue;
                 // determine index into X and Y based on flattened CDF, (i,j) starts upper left corner
                 // and is column major
-                var iY = i % (Y.Count - 1);
-                var iX = i / (Y.Count - 1);
+                var iX = (int)Math.Floor((double)i / (Y.Count - 1));
+                int iY;
+                if (iX != 0)  // handle possible divide by 0 by mod function
+                    iY = i % ((Y.Count - 1) * iX);
+                else
+                    iY = i;
                 var xMidpoint = X.Start + iX * X.Delta + X.Delta / 2;
                 var yMidpoint = Y.Start + iY * Y.Delta + Y.Delta / 2;
                 return new Position(xMidpoint, yMidpoint, 0.0);
             }
             return null;
         }
-
-        /// <summary>
-        /// Returns Arbitrary profile type
-        /// </summary>
-        //[IgnoreDataMember]
-        public SourceProfileType SourceProfileType => SourceProfileType.Arbitrary;
-
-        /// <summary>
-        /// 1D array containing 2D image of values
-        /// </summary>
-        public double[] Image { get; set; }
-        /// <summary>
-        /// x-axis pixel edges
-        /// </summary>
-        public DoubleRange X { get; set; }
-        /// <summary>
-        /// y-axis pixel edges
-        /// </summary>
-        public DoubleRange Y { get; set; }
 
     }
 }

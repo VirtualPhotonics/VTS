@@ -43,7 +43,7 @@ namespace Vts.MonteCarlo.Sources
                     var values = line.Split(',');
                     for (var i = 0; i < numberOfPixelsX; i++)
                     {
-                        oneDArray[row + (numberOfPixelsY - 1) * i] = Convert.ToDouble(values[i]);
+                        oneDArray[row + numberOfPixelsY * i] = Convert.ToDouble(values[i]);
                     }
                     row += 1;
                 }

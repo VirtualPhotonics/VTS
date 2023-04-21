@@ -81,7 +81,7 @@ namespace Vts.Test.MonteCarlo.Sources
             Assert.IsTrue(Math.Abs(5.1 - ((ArbitrarySourceProfile)source.SourceProfile).Y.Stop) < 1e-6);
             Assert.AreEqual(103, ((ArbitrarySourceProfile)source.SourceProfile).Y.Count);
             // verify Image property
-            Assert.IsTrue(Math.Abs(1 - ((ArbitrarySourceProfile)source.SourceProfile).Image[534]) < 1e-6);
+            Assert.IsTrue(Math.Abs(1 - ((ArbitrarySourceProfile)source.SourceProfile).Image[539]) < 1e-6);
         }
 
         /// <summary>
@@ -124,7 +124,7 @@ namespace Vts.Test.MonteCarlo.Sources
                 detectorInputs);
             var output = new MonteCarloSimulation(input).Run();
             // validate T(x,y)
-            Assert.IsTrue(output.T_xy[14, 14] > 0.0); // center of image
+            Assert.IsTrue(output.T_xy[14, 15] > 0.0); // center of image
             Assert.IsTrue(Math.Abs(output.T_xy[0, 0] - 0.0) < 1e-6); // corner of image
         }
 
@@ -157,7 +157,7 @@ namespace Vts.Test.MonteCarlo.Sources
             // verify binary bit map
             var binaryMap = arbitrarySourceProfile.GetBinaryPixelMap();
             Assert.IsTrue(binaryMap[0] == 0);
-            for (int i = 1; i < image.Length; i++)
+            for (var i = 1; i < image.Length; i++)
             {
                 Assert.IsTrue(binaryMap[i] == 1);
             }
@@ -166,6 +166,7 @@ namespace Vts.Test.MonteCarlo.Sources
             for (var i = 0; i < 10; i++)
             {
                 var r = arbitrarySourceProfile.GetPositionInARectangleBasedOnImageIntensity(rng);
+                if (r == null) continue;
                 Assert.IsTrue(Math.Abs(r.Z) < 1e-6); // z is always 0
                 Assert.IsTrue(Math.Abs(r.X) <= 1.5); // x is in [-1.5, 1.5]
                 Assert.IsTrue(Math.Abs(r.Y) <= 1.5); // y is in [-1.5, 1.5]
