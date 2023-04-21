@@ -94,8 +94,8 @@ namespace Vts.MonteCarlo.Sources
             "",
             1280,
             1024,
-            0.003,
-            0.003,
+            0.1,
+            0.1,
             0.0,
             SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone(),
             SourceDefaults.DefaultPosition.Clone(),
@@ -166,7 +166,7 @@ namespace Vts.MonteCarlo.Sources
     {
         rng = rng ?? new Random();
 
-        var image = BitmapImageLoader.FlattenBitmap(  
+        var image = ImageDataLoader.ReadAndFlattenCsv(  
             InputFolder,
             ImageName,
             NumberOfPixelsX,

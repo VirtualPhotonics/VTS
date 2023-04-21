@@ -6,43 +6,49 @@ namespace Vts.MonteCarlo.Sources
     /// <summary>
     /// Class to handle loading of a bitmap image
     /// </summary>
-    public class BitmapImageLoader 
+    public class ImageDataLoader 
     {
         /// <summary>
         /// constructor that load excitation simulation BitmapImage
         /// </summary>
         /// <param name="inputFolder">input folder where image resides</param>
-        /// <param name="imageName">name of image file</param>
+        /// <param name="cSvFileName">name of image file</param>
         /// <param name="numberOfPixelsX">number of pixels in length (e.g. 1280)</param>
         /// <param name="numberOfPixelsY">number of pixels in width (e.g. 1024)</param>
         /// <returns>flattened image in column major order</returns>
         /// <exception cref="ArgumentException">throws ArgumentException if infile is not there</exception>
-        public static double[] FlattenBitmap(string inputFolder, string imageName, int numberOfPixelsX, int numberOfPixelsY)
+        public static double[] ReadAndFlattenCsv(string inputFolder, string cSvFileName, int numberOfPixelsX, int numberOfPixelsY)
         {
-            if (imageName == "") throw new ArgumentException("infile string is empty");
+            if (cSvFileName == "") throw new ArgumentException("infile string is empty");
             string inputPath;
             if (inputFolder == "")
             {
-                inputPath = imageName;
+                inputPath = cSvFileName;
             }
             else
             {
-                inputPath = inputFolder + @"/" + imageName;
+                inputPath = inputFolder + @"/" + cSvFileName;
             }
 
-            var bitmap = new double[numberOfPixelsX, numberOfPixelsY];
             var oneDArray = new double[numberOfPixelsX * numberOfPixelsY];
-            var sw = new StreamReader(@inputPath);
-            // make column major flatten
-            for (var i = 0; i < bitmap.Length; i += numberOfPixelsX)
+
+            // read in CSV file into 1D column major array
+            using (var reader = new StreamReader(inputPath))
             {
-                for (var j = 0; j < numberOfPixelsY; j++)
+                var row = 0;
+                while (!reader.EndOfStream)
                 {
-                    oneDArray[i+j] = sw.Read();
+                    var line = reader.ReadLine();
+                    if (line == null) continue;
+                    var values = line.Split(',');
+                    for (var i = 0; i < numberOfPixelsX; i++)
+                    {
+                        oneDArray[row + (numberOfPixelsY - 1) * i] = Convert.ToDouble(values[i]);
+                    }
+                    row += 1;
                 }
             }
 
-            sw.Close();
             return oneDArray;
 
         }

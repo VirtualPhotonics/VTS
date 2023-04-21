@@ -17,7 +17,7 @@
     <None Remove="Resources\sourcetest\AOfRhoAndZ.txt" />
     <None Remove="Resources\sourcetest\AOfXAndYAndZ" />
     <None Remove="Resources\sourcetest\AOfXAndYAndZ.txt" />
-    <None Remove="Resources\sourcetest\circle.png" />
+    <None Remove="Resources\sourcetest\circle.csv" />
     <None Remove="Resources\sourcetest\inputAOfRhoAndZ.txt" />
     <None Remove="Resources\sourcetest\inputAOfXAndYAndZ.txt" />
     <None Remove="Resources\sourcetest\subfolder\noextension" />
@@ -33,7 +33,7 @@
     <EmbeddedResource Include="Resources\fileiotest\ROfRho.txt" />
     <EmbeddedResource Include="Resources\sourcetest\AOfRhoAndZ" />
     <EmbeddedResource Include="Resources\sourcetest\AOfRhoAndZ.txt" />
-    <EmbeddedResource Include="Resources\sourcetest\circle.png" />
+    <EmbeddedResource Include="Resources\sourcetest\circle.csv" />
     <EmbeddedResource Include="Resources\sourcetest\inputAOfRhoAndZ.txt" />
     <EmbeddedResource Include="Resources\sourcetest\subfolder\noextension" />
     <EmbeddedResource Include="Resources\sourcetest\subfolder\textfile.txt" />

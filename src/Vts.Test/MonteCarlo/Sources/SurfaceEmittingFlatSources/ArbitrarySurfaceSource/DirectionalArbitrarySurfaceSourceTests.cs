@@ -33,13 +33,13 @@ namespace Vts.Test.MonteCarlo.Sources
             if (name == null) return; 
             var assemblyName = new AssemblyName(name).Name;
             FileIO.CopyFileFromEmbeddedResources(
-                assemblyName + ".Resources.circle.png", 
-                Path.Combine(folder, "circle.png"), 
+                assemblyName + ".Resources.sourcetest.circle.csv", 
+                Path.Combine(folder, "circle.csv"), 
                 name);
             // set up infile
             _sourceInput = new DirectionalArbitrarySourceInput(
                 "",
-                "circle.png",
+                "circle.csv",
                 113,
                 102,
                 0.1,
@@ -81,7 +81,7 @@ namespace Vts.Test.MonteCarlo.Sources
             Assert.IsTrue(Math.Abs(5.1 - ((ArbitrarySourceProfile)source.SourceProfile).Y.Stop) < 1e-6);
             Assert.AreEqual(103, ((ArbitrarySourceProfile)source.SourceProfile).Y.Count);
             // verify Image property
-            Assert.IsTrue(Math.Abs(-1 - ((ArbitrarySourceProfile)source.SourceProfile).Image[0]) < 1e-6);
+            Assert.IsTrue(Math.Abs(1 - ((ArbitrarySourceProfile)source.SourceProfile).Image[534]) < 1e-6);
         }
 
         /// <summary>
