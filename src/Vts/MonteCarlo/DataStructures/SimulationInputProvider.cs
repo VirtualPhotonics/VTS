@@ -1297,7 +1297,7 @@ new ITissueRegion[]
                     true, // track statistics
                     0.0, // RR threshold -> no RR performed
                     0),
-                new DirectionalArbitrarySourceInput(
+                new DirectionalImageSourceInput(
                     "folder",             // image folder
                     "image.png",               // image name
                     1280,        // x-axis number of pixels

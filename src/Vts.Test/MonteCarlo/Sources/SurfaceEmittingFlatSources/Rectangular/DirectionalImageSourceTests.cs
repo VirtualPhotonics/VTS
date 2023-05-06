@@ -15,14 +15,14 @@ using Vts.MonteCarlo.Tissues;
 namespace Vts.Test.MonteCarlo.Sources
 {
     /// <summary>
-    /// Unit tests for Surface Emitting Sources: DirectionalArbitrarySources
+    /// Unit tests for Surface Emitting Sources: DirectionalImageSources
     /// Note: the test image in Resources, "circle.png" was created by using
-    /// Inkscape and saving to a png file.
+    /// Inkscape and saving to a .csv file.
     /// </summary>
     [TestFixture]
-    public class DirectionalArbitrarySourceTests
+    public class DirectionalImageSourceTests
     {
-        DirectionalArbitrarySourceInput _sourceInput;
+        DirectionalImageSourceInput _sourceInput;
 
         [OneTimeSetUp]
         public void Setup()
@@ -37,7 +37,7 @@ namespace Vts.Test.MonteCarlo.Sources
                 Path.Combine(folder, "circle.csv"), 
                 name);
             // set up infile
-            _sourceInput = new DirectionalArbitrarySourceInput(
+            _sourceInput = new DirectionalImageSourceInput(
                 "",
                 "circle.csv",
                 113,
@@ -58,7 +58,7 @@ namespace Vts.Test.MonteCarlo.Sources
         public void Validate_construction_of_source_class()
         {
             // verify property settings
-            var source = new DirectionalArbitrarySourceInput(
+            var source = new DirectionalImageSourceInput(
                 _sourceInput.InputFolder,
                 _sourceInput.ImageName,
                 _sourceInput.NumberOfPixelsX,
@@ -74,14 +74,14 @@ namespace Vts.Test.MonteCarlo.Sources
             Random rng = new MathNet.Numerics.Random.MersenneTwister(0); 
             source.CreateSource(rng);
             // verify X and Y properties
-            Assert.IsTrue(Math.Abs(-5.65 - ((ArbitrarySourceProfile)source.SourceProfile).X.Start) < 1e-6 );
-            Assert.IsTrue(Math.Abs(5.65 -  ((ArbitrarySourceProfile)source.SourceProfile).X.Stop) < 1e-6);
-            Assert.AreEqual(114, ((ArbitrarySourceProfile)source.SourceProfile).X.Count);
-            Assert.IsTrue(Math.Abs(-5.1 - ((ArbitrarySourceProfile)source.SourceProfile).Y.Start) < 1e-6);
-            Assert.IsTrue(Math.Abs(5.1 - ((ArbitrarySourceProfile)source.SourceProfile).Y.Stop) < 1e-6);
-            Assert.AreEqual(103, ((ArbitrarySourceProfile)source.SourceProfile).Y.Count);
+            Assert.IsTrue(Math.Abs(-5.65 - ((ImageSourceProfile)source.SourceProfile).X.Start) < 1e-6 );
+            Assert.IsTrue(Math.Abs(5.65 -  ((ImageSourceProfile)source.SourceProfile).X.Stop) < 1e-6);
+            Assert.AreEqual(114, ((ImageSourceProfile)source.SourceProfile).X.Count);
+            Assert.IsTrue(Math.Abs(-5.1 - ((ImageSourceProfile)source.SourceProfile).Y.Start) < 1e-6);
+            Assert.IsTrue(Math.Abs(5.1 - ((ImageSourceProfile)source.SourceProfile).Y.Stop) < 1e-6);
+            Assert.AreEqual(103, ((ImageSourceProfile)source.SourceProfile).Y.Count);
             // verify Image property
-            Assert.IsTrue(Math.Abs(1 - ((ArbitrarySourceProfile)source.SourceProfile).Image[539]) < 1e-6);
+            Assert.IsTrue(Math.Abs(1 - ((ImageSourceProfile)source.SourceProfile).Image[539]) < 1e-6);
         }
 
         /// <summary>
@@ -129,17 +129,17 @@ namespace Vts.Test.MonteCarlo.Sources
         }
 
         /// <summary>
-        /// Instantiate ArbitrarySourceProfile and validate GetBinaryPixelMap 
+        /// Instantiate ImageSourceProfile and validate GetBinaryPixelMap 
         /// and GetPositionInARectangleBasedOnImageIntensity methods
         /// </summary>
         [Test]
-        public void Validate_ArbitrarySourceProfile_general_constructor_and_methods_test()
+        public void Validate_ImageSourceProfile_general_constructor_and_methods_test()
         {
             Random rng =
                 new MathNet.Numerics.Random.MersenneTwister(0); // not really necessary here, as this is now the default
             // make a intensity varied source
             var image = new double[] { 0, 1, 2, 3, 4, 5, 6, 7, 8 }; // representing a 3x3 pixel image
-            var arbitrarySourceProfile = new ArbitrarySourceProfile(
+            var arbitrarySourceProfile = new ImageSourceProfile(
                 image,
                 3,
                 3,
@@ -174,8 +174,8 @@ namespace Vts.Test.MonteCarlo.Sources
 
         }
         /// <summary>
-        /// Create ArbitrarySourceProfile with all intensity in one pixel,
-        /// then use this object in general constructor of DirectionalArbitrarySource
+        /// Create ImageSourceProfile with all intensity in one pixel,
+        /// then use this object in general constructor of DirectionalImageSource
         /// and validate initiated new Photon
         /// </summary>
         [Test]
@@ -185,7 +185,7 @@ namespace Vts.Test.MonteCarlo.Sources
             ITissue tissue = new MultiLayerTissue();
             // make a intensity varied source
             var image = new double[] { 0, 1, 0, 0, 0, 0, 0, 0, 0}; // representing a 3x3 pixel image
-            var arbitrarySourceProfile = new ArbitrarySourceProfile(
+            var arbitrarySourceProfile = new ImageSourceProfile(
                 image,
                 3,
                 3,
@@ -194,7 +194,7 @@ namespace Vts.Test.MonteCarlo.Sources
                 new Vts.Common.Position(0, 0, 0));
 
             // instantiate source with profile
-            var ps = new DirectionalArbitrarySource(
+            var ps = new DirectionalImageSource(
                 0.0, // normal
                 3.0,
                 3.0,

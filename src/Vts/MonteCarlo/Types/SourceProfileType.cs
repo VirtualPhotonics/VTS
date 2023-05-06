@@ -14,6 +14,10 @@ namespace Vts.MonteCarlo
         /// </summary>
         Gaussian,
         /// <summary>
+        /// Image based source profile
+        /// </summary>
+        Image,
+        /// <summary>
         /// Arbitrary beam source profile
         /// </summary>
         Arbitrary,

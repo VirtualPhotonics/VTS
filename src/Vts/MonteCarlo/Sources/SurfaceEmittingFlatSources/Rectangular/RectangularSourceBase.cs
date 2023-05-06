@@ -150,9 +150,11 @@ namespace Vts.MonteCarlo.Sources
                             gaussianProfile.BeamDiaFWHM,
                             rng);
                     break;
-                case SourceProfileType.Arbitrary:
-                    finalPosition = ((ArbitrarySourceProfile)sourceProfile).GetPositionInARectangleBasedOnImageIntensity(
+                case SourceProfileType.Image:
+                    finalPosition = ((ImageSourceProfile)sourceProfile).GetPositionInARectangleBasedOnImageIntensity(
                         rng);
+                    break;
+                case SourceProfileType.Arbitrary:
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(sourceProfile.SourceProfileType.ToString());

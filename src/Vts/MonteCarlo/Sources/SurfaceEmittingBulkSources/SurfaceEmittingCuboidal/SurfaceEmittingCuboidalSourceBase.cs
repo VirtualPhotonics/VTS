@@ -191,6 +191,8 @@ namespace Vts.MonteCarlo.Sources
                             gaussianProfile.BeamDiaFWHM,
                             rng);
                     break;
+                case SourceProfileType.Image:
+                    break;
                 case SourceProfileType.Arbitrary:
                     break;
                 default:
