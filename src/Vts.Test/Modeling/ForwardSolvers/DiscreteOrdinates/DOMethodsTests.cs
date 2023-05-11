@@ -38,8 +38,8 @@ namespace Vts.Test.Modeling.ForwardSolvers.DiscreteOrdinates
         [Test]
         public void Test_PWHalfSpace_returns_correct_value()
         {
-            var response = DOMethods.PWHalfSpace(0.1, 1.0, new[] { 0.1, 0.2, 0.3, 0.4 }, new[] { 0.1, 0.2, 0.3, 0.4 },
-                new SquareMatrix(4), 4);
+            var response = DOMethods.PWHalfSpace(0.1, 1.0, new double[] { 2, 4, 6, 8, 10, 12, 14, 16 }, new double[] { 2, 4, 6, 8, 10, 12, 14, 16 },
+                new SquareMatrix(8), 8);
             Assert.IsTrue(response.Length > 0);
         }
 
