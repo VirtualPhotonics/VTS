@@ -8,6 +8,13 @@ namespace Vts.Test.Modeling.Analyzers
     [TestFixture]
     internal class NumericalDerivativeExtensionsTests
     {
+        [SetUp]
+        public void Test_Setup()
+        {
+            // Make sure Delta is set to the default before each test
+            NumericalDerivativeExtensions.SetDelta(0.01);
+        }
+
         [Test]
         public void Test_NumericalDerivativeExtensions_dRdMua()
         {
