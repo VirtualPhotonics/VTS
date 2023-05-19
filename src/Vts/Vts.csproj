@@ -120,7 +120,7 @@
     <EmbeddedResource Include="Modeling\Spectroscopy\Resources\SpectralDictionary.xml" />
   </ItemGroup>
   <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Benchmark|AnyCPU'">
-	<PackageReference Include="BenchmarkDotNet" Version="0.13.0" />
+	<PackageReference Include="BenchmarkDotNet" Version="0.13.5" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="csmpfit" Version="1.1.2" />
@@ -129,7 +129,7 @@
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="NLog" Version="5.1.3" />
+    <PackageReference Include="NLog" Version="5.1.4" />
     <PackageReference Include="System.Reactive" Version="5.0.0" />
     <PackageReference Include="System.Reflection" Version="4.3.0" />
   </ItemGroup>
