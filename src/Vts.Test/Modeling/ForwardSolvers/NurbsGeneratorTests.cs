@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Numerics;
 using NUnit.Framework;
 using Vts.Modeling.ForwardSolvers;
 
@@ -250,6 +252,35 @@ namespace Vts.Test.Modeling.ForwardSolvers
             Assert.AreEqual(0.0, result, "The integral value of a null function should be zero.");
         }
 
+        [Test]
+        public void EvaluateNurbsCurveFourierTransform_returns()
+        {
+            var nurbsValues = new NurbsValues(3);
+            nurbsGenerator.TimeValues = nurbsValues;
+            nurbsGenerator.SpaceValues = nurbsValues;
+            double[,] controlPoints = {{0.0, 0.0, 0.0, 0.0, 0.0},
+                {0.0 , 25.0, 50.0, 25.0, 0.0},
+                {0.0 , 25.0, 50.0, 25.0, 0.0},
+                {0.0 , 25.0, 150.0, 25.0, 0.0},
+                {0.0, 0.0, 0.0, 0.0, 0.0}};
+            nurbsGenerator.ControlPoints = controlPoints;
+            double[] knots = { 0.0, 0.0, 0.0, 0.5, 1.0, 1.0, 1.0, 1.0 };
+            nurbsValues.KnotVector = knots;
+            nurbsGenerator.TimeKnotSpanPolynomialCoefficients = new List<BSplinesCoefficients>
+            {
+                new BSplinesCoefficients(nurbsValues, 0),
+                new BSplinesCoefficients(nurbsValues, 0),
+                new BSplinesCoefficients(nurbsValues, 0),
+                new BSplinesCoefficients(nurbsValues, 0),
+                new BSplinesCoefficients(nurbsValues, 0),
+                new BSplinesCoefficients(nurbsValues, 0),
+                new BSplinesCoefficients(nurbsValues, 0),
+                new BSplinesCoefficients(nurbsValues, 0)
+            };
+
+            var result = nurbsGenerator.EvaluateNurbsCurveFourierTransform(1.0, 2.0, 3.0);
+            Assert.IsInstanceOf<Complex>(result);
+        }
 
         /// <summary>
         /// Tear down for the NurbsGenerator tests.
