@@ -282,6 +282,111 @@ namespace Vts.Test.Modeling.ForwardSolvers
             Assert.IsInstanceOf<Complex>(result);
         }
 
+        [Test]
+        public void EvaluateNurbsCurveFourierTransform_RealDomain_returns()
+        {
+            nurbsGenerator = new NurbsGenerator(NurbsGeneratorType.RealDomain);
+            var nurbsValues = new NurbsValues(3);
+            nurbsGenerator.TimeValues = nurbsValues;
+            nurbsGenerator.SpaceValues = nurbsValues;
+            double[,] controlPoints = {{0.0, 0.0, 0.0, 0.0, 0.0},
+                {0.0 , 25.0, 50.0, 25.0, 0.0},
+                {0.0 , 25.0, 50.0, 25.0, 0.0},
+                {0.0 , 25.0, 150.0, 25.0, 0.0},
+                {0.0, 0.0, 0.0, 0.0, 0.0}};
+            nurbsGenerator.ControlPoints = controlPoints;
+            double[] knots = { 0.0, 0.0, 0.0, 0.5, 1.0, 1.0, 1.0, 1.0 };
+            nurbsValues.KnotVector = knots;
+            nurbsGenerator.TimeKnotSpanPolynomialCoefficients = new List<BSplinesCoefficients>
+            {
+                new BSplinesCoefficients(nurbsValues, 0),
+                new BSplinesCoefficients(nurbsValues, 0),
+                new BSplinesCoefficients(nurbsValues, 0),
+                new BSplinesCoefficients(nurbsValues, 0),
+                new BSplinesCoefficients(nurbsValues, 0),
+                new BSplinesCoefficients(nurbsValues, 0),
+                new BSplinesCoefficients(nurbsValues, 0),
+                new BSplinesCoefficients(nurbsValues, 0)
+            };
+
+            var result = nurbsGenerator.EvaluateNurbsCurveFourierTransform(1.0, 2.0, 3.0);
+            Assert.IsInstanceOf<Complex>(result);
+        }
+
+        [Test]
+        public void ComputeCurvePoint_time()
+        {
+            var nurbsValues = new NurbsValues(3);
+            double[] controlPoints = { 0.0, 0.0, 0.0, 0.5, 1.0, 1.0, 1.0, 1.0 };
+            nurbsValues.ControlPoints = controlPoints;
+            nurbsGenerator.TimeValues = nurbsValues;
+            double[] knots = { 0.0, 0.0, 0.0, 0.5, 1.0, 1.0, 1.0, 1.0 };
+            nurbsValues.KnotVector = knots;
+
+            var result = nurbsGenerator.ComputeCurvePoint(0.5, NurbsValuesDimensions.time);
+            Assert.IsInstanceOf<double>(result);
+            Assert.AreEqual(0.5, result);
+        }
+
+        [Test]
+        public void ComputeCurvePoint_space()
+        {
+            var nurbsValues = new NurbsValues(3);
+            double[] controlPoints = { 0.0, 0.0, 0.0, 0.5, 1.0, 1.0, 1.0, 1.0 };
+            nurbsValues.ControlPoints = controlPoints;
+            nurbsGenerator.SpaceValues = nurbsValues;
+            double[] knots = { 0.0, 0.0, 0.0, 0.5, 1.0, 1.0, 1.0, 1.0 };
+            nurbsValues.KnotVector = knots;
+
+            var result = nurbsGenerator.ComputeCurvePoint(0.5, NurbsValuesDimensions.space);
+            Assert.IsInstanceOf<double>(result);
+            Assert.AreEqual(0.5, result);
+        }
+
+        [Test]
+        public void ComputeCurvePoint_throws_ArgumentException()
+        {
+            var nurbsValues = new NurbsValues(3);
+            double[] controlPoints = { 0.0, 0.0, 0.0, 0.5, 1.0, 1.0, 1.0, 1.0 };
+            nurbsValues.ControlPoints = controlPoints;
+            nurbsGenerator.SpaceValues = nurbsValues;
+            double[] knots = { 0.0, 0.0, 0.0, 0.5, 1.0, 1.0, 1.0, 1.0 };
+            nurbsValues.KnotVector = knots;
+
+            Assert.Throws<ArgumentException>(() => nurbsGenerator.ComputeCurvePoint(0.5, (NurbsValuesDimensions)Enum.GetValues(typeof(NurbsValuesDimensions)).Length + 1));
+        }
+
+        [Test]
+        public void ComputePointOutOfSurface_()
+        {
+            nurbsGenerator = new NurbsGenerator();
+            var nurbsValues = new NurbsValues(3);
+            nurbsGenerator.TimeValues = nurbsValues;
+            nurbsGenerator.SpaceValues = nurbsValues;
+            double[,] controlPoints = {{0.0, 0.0, 0.0, 0.0, 0.0},
+                {0.0 , 25.0, 50.0, 25.0, 0.0},
+                {0.0 , 25.0, 50.0, 25.0, 0.0},
+                {0.0 , 25.0, 150.0, 25.0, 0.0},
+                {0.0, 0.0, 0.0, 0.0, 0.0}};
+            nurbsGenerator.ControlPoints = controlPoints;
+            double[] knots = { 0.0, 0.0, 0.0, 0.5, 1.0, 1.0, 1.0, 1.0 };
+            nurbsValues.KnotVector = knots;
+            nurbsValues.MaxValue = 0.5;
+
+            var result = nurbsGenerator.ComputePointOutOfSurface(0.5, 0.5, 0.1);
+            Assert.IsInstanceOf<double>(result);
+            Assert.AreEqual(0.1, result, 0.01);
+        }
+
+        [Test]
+        public void BinarySearch_throws_exception()
+        {
+            var nurbsValues = new NurbsValues(3);
+            nurbsValues.ValuesDimensions =
+                (NurbsValuesDimensions)Enum.GetValues(typeof(NurbsValuesDimensions)).Length + 1;
+            Assert.Throws<ArgumentException>(() => nurbsGenerator.BinarySearch(nurbsValues, 0.1));
+        }
+
         /// <summary>
         /// Tear down for the NurbsGenerator tests.
         /// </summary>
