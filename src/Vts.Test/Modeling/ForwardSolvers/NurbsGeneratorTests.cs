@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Numerics;
 using NUnit.Framework;
+using NUnit.Framework.Constraints;
 using Vts.Modeling.ForwardSolvers;
 
 namespace Vts.Test.Modeling.ForwardSolvers
@@ -19,6 +20,19 @@ namespace Vts.Test.Modeling.ForwardSolvers
         {
             nurbsGenerator = new NurbsGenerator();
             nurbsGenerator.GeneratorType = NurbsGeneratorType.Stub;
+        }
+
+        [Test]
+        public void Constructor_test()
+        {
+            nurbsGenerator = new NurbsGenerator(NurbsGeneratorType.SpatialFrequencyDomain);
+            Assert.AreEqual(NurbsGeneratorType.SpatialFrequencyDomain, nurbsGenerator.GeneratorType);
+            Assert.IsInstanceOf<NurbsValues>(nurbsGenerator.TimeValues);
+            Assert.IsInstanceOf<NurbsValues>(nurbsGenerator.SpaceValues);
+            Assert.IsInstanceOf<double [,]>(nurbsGenerator.ControlPoints);
+            Assert.IsInstanceOf<double[]>(nurbsGenerator.NativeTimes);
+            Assert.IsInstanceOf<List<BSplinesCoefficients>>(nurbsGenerator.TimeKnotSpanPolynomialCoefficients);
+            
         }
 
         /// <summary>
@@ -357,7 +371,7 @@ namespace Vts.Test.Modeling.ForwardSolvers
         }
 
         [Test]
-        public void ComputePointOutOfSurface_()
+        public void ComputePointOutOfSurface_returns_expected_result()
         {
             nurbsGenerator = new NurbsGenerator();
             var nurbsValues = new NurbsValues(3);
@@ -385,6 +399,106 @@ namespace Vts.Test.Modeling.ForwardSolvers
             nurbsValues.ValuesDimensions =
                 (NurbsValuesDimensions)Enum.GetValues(typeof(NurbsValuesDimensions)).Length + 1;
             Assert.Throws<ArgumentException>(() => nurbsGenerator.BinarySearch(nurbsValues, 0.1));
+        }
+
+        [Test]
+        public void FindSpan_space_test()
+        {
+            var nurbsValues = new NurbsValues(3);
+            double[,] controlPoints = {{0.0, 0.0, 0.0, 0.0, 0.0},
+                {0.0 , 25.0, 50.0, 25.0, 0.0},
+                {0.0 , 25.0, 50.0, 25.0, 0.0},
+                {0.0 , 25.0, 150.0, 25.0, 0.0},
+                {0.0, 0.0, 0.0, 0.0, 0.0}};
+            nurbsGenerator.ControlPoints = controlPoints;
+            nurbsValues.ValuesDimensions = NurbsValuesDimensions.space;
+            var result = nurbsGenerator.FindSpan(nurbsValues, 1.0);
+            Assert.AreEqual(4, result);
+        }
+
+        [Test]
+        public void FindSpan_time_test()
+        {
+            var nurbsValues = new NurbsValues(3);
+            double[,] controlPoints = {{0.0, 0.0, 0.0, 0.0, 0.0},
+                {0.0 , 25.0, 50.0, 25.0, 0.0},
+                {0.0 , 25.0, 50.0, 25.0, 0.0},
+                {0.0 , 25.0, 150.0, 25.0, 0.0},
+                {0.0, 0.0, 0.0, 0.0, 0.0}};
+            nurbsGenerator.ControlPoints = controlPoints;
+            nurbsValues.ValuesDimensions = NurbsValuesDimensions.space;
+            var result = nurbsGenerator.FindSpan(nurbsValues, 1.0);
+            Assert.AreEqual(4, result);
+        }
+
+        [Test]
+        public void FindSpan_throws_ArgumentException()
+        {
+            var nurbsValues = new NurbsValues(3);
+            double[,] controlPoints = {{0.0, 0.0, 0.0, 0.0, 0.0},
+                {0.0 , 25.0, 50.0, 25.0, 0.0},
+                {0.0 , 25.0, 50.0, 25.0, 0.0},
+                {0.0 , 25.0, 150.0, 25.0, 0.0},
+                {0.0, 0.0, 0.0, 0.0, 0.0}};
+            nurbsGenerator.ControlPoints = controlPoints;
+            nurbsValues.ValuesDimensions = (NurbsValuesDimensions)Enum.GetValues(typeof(NurbsValuesDimensions)).Length + 1;
+            Assert.Throws<ArgumentException>(() => nurbsGenerator.FindSpan(nurbsValues, 1.0));
+        }
+
+        [Test]
+        public void ComputePointOutOfSurface_time_space_greater_than_max_value()
+        {
+            nurbsGenerator = new NurbsGenerator();
+            var nurbsValues = new NurbsValues(3);
+            nurbsGenerator.GeneratorType = NurbsGeneratorType.SpatialFrequencyDomain;
+            nurbsValues.MaxValue = 0.8;
+            nurbsGenerator.TimeValues = nurbsValues;
+            nurbsGenerator.SpaceValues = nurbsValues;
+            nurbsValues.ValuesDimensions = NurbsValuesDimensions.space;
+            double[,] controlPoints = {{0.0, 0.0, 0.0, 0.0, 0.0},
+                {0.0 , 25.0, 50.0, 25.0, 0.0},
+                {0.0 , 25.0, 50.0, 25.0, 0.0},
+                {0.0 , 25.0, 150.0, 25.0, 0.0},
+                {0.0, 0.0, 0.0, 0.0, 0.0}};
+            nurbsGenerator.ControlPoints = controlPoints;
+            double[] knots = { 0.0, 0.0, 0.0, 0.5, 1.0, 1.0, 1.0, 1.0 };
+            nurbsValues.KnotVector = knots;
+            var result = nurbsGenerator.ComputePointOutOfSurface(1.0, 1.0, 0);
+            Assert.AreEqual(0.0, result);
+        }
+
+        [Test]
+        public void ComputePointOutOfSurface_not_spatial_frequency_domain()
+        {
+            nurbsGenerator = new NurbsGenerator();
+            var nurbsValues = new NurbsValues(3);
+            nurbsGenerator.GeneratorType = NurbsGeneratorType.RealDomain;
+            nurbsValues.MaxValue = 6;
+            nurbsGenerator.TimeValues = nurbsValues;
+            nurbsGenerator.SpaceValues = nurbsValues;
+            nurbsValues.ValuesDimensions = NurbsValuesDimensions.space;
+            double[,] controlPoints = {{0.0, 0.0, 0.0, 0.0, 0.0},
+                {0.0 , 25.0, 50.0, 25.0, 0.0},
+                {0.0 , 25.0, 50.0, 25.0, 0.0},
+                {0.0 , 25.0, 150.0, 25.0, 0.0},
+                {0.0, 0.0, 0.0, 0.0, 0.0}};
+            nurbsGenerator.ControlPoints = controlPoints;
+            double[] knots = { 0, 0.1, 0.01, 0.02, 0.1, 0.2, 0.3, 0.4 };
+            nurbsValues.KnotVector = knots;
+            var result = nurbsGenerator.ComputePointOutOfSurface(1.0, 7, 0);
+            Assert.AreEqual(double.NaN, result);
+        }
+
+        [Test]
+        public void ComputePointOutOfSurface_time_space_less_than_max_value()
+        {
+            var nurbsValues = new NurbsValues(3);
+            nurbsValues.MaxValue = 1.2;
+            nurbsGenerator.TimeValues = nurbsValues;
+            nurbsGenerator.SpaceValues = nurbsValues;
+            nurbsValues.ValuesDimensions = NurbsValuesDimensions.space;
+            var result = nurbsGenerator.ComputePointOutOfSurface(1.0, 1.0, 0);
+            Assert.AreEqual(0.0, result);
         }
 
         /// <summary>
