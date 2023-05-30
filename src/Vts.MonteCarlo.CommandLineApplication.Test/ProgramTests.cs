@@ -65,7 +65,7 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
         /// Clear all previously generated folders and files.
         /// </summary>
         [OneTimeTearDown]
-        private void Clear_folders_and_files()
+        public void Clear_folders_and_files()
         {
             // delete any previously generated infiles to test that "geninfiles" option creates them
             foreach (var infile in _listOfInfiles)
