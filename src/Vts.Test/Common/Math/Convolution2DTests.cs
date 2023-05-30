@@ -9,7 +9,7 @@ namespace Vts.Test.Common.Math
     public class Convolution2DTests
     {
         [Test]
-        public void validate_RollFilter_returns_correct_values()
+        public void Validate_RollFilter_returns_correct_values()
         {
             var input = new float[200].InitializeTo(1f);
 
@@ -25,6 +25,22 @@ namespace Vts.Test.Common.Math
 
             Assert.IsTrue(result.Skip(182).Take(6).All(f => f == 0f));
             Assert.IsTrue(result.Skip(192).Take(6).All(f => f == 0f));
+        }
+
+        [Ignore("Need to get a raw speckle image as an int array")]
+        [Test]
+        public void Validate_LsiRoll_populates_values_correctly()
+        {
+            var raw = new int[200];
+            var speckleContrast = new float[2];
+            var speckleFlowIndex = new float[2];
+            var rollRow = new int[2];
+            var rollColumn = new int[2];
+            var rollRowSquared = new int[2];
+            var rollColumnSquared = new int[2];
+
+            Convolution2D.LsiRoll(raw, speckleContrast, speckleFlowIndex, rollRow, rollColumn, rollRowSquared, rollColumnSquared, 10, 20, 2, 5);
+            Assert.AreEqual(0, rollRow[0]);
         }
     }
 }
