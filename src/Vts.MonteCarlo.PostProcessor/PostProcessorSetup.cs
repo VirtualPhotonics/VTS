@@ -95,10 +95,6 @@ namespace Vts.MonteCarlo.PostProcessor
                     input.DatabaseSimulationInputFilename + ".txt"));
                 // check for pMC tallies first because could have ReflectanceTallies mixed in and want to load CollisionInfo
 
-                // Why not mirror the "on-the-fly" code, and allow for all kinds of detector inputs simultaneously? (dc 12/21/2011)
-                // I hear you.  First step is to get code to handle two different types (remove elseif) and
-                // then optimize for multiple types if possible
-
                 // put stop watch start here because several ifs below could get processed
                 var stopwatch = System.Diagnostics.Stopwatch.StartNew();
 
