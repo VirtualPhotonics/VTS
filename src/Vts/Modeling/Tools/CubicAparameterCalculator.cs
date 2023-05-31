@@ -1,12 +1,9 @@
-﻿using System;
-using System.Net;
-
-namespace Vts.Modeling
+﻿namespace Vts.Modeling
 {
     /// <summary>
     /// cubic polynomial calculator
     /// </summary>
-    public class CubicAparameterCalculator
+    public static class CubicAparameterCalculator
     {
         /// <summary>
         /// Implementation of the cubic polynomial via Scott Prahl thesis 1988, Appendix A2.9

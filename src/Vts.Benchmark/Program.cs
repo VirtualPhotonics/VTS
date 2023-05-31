@@ -26,7 +26,7 @@ namespace Vts.Benchmark
                 .AddExporter(CsvExporter.Default, HtmlExporter.Default, MarkdownExporter.GitHub)
                 .AddAnalyser(EnvironmentAnalyser.Default);
             config.UnionRule = ConfigUnionRule.Union;
-            var summary = BenchmarkRunner.Run<ParallelMonteCarloSimulation>(config);
+            var summary = BenchmarkRunner.Run<MonteCarloSimulation>(config);
             Console.WriteLine(summary);
         }
     }

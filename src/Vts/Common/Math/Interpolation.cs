@@ -15,7 +15,7 @@ namespace Vts.Common.Math
         /// <param name="x">The known dependent values</param>
         /// <param name="y">The known independent values</param>
         /// <param name="xi">Value to at which to interpolate</param>
-        /// <returns>If xi outside range of x, returns NaN, otherwise, returns linearly interpolated result</returns>
+        /// <returns>If xi outside range of x, it returns the appropriate boundary value</returns>
         public static double interp1(IList<double> x, IList<double> y, double xi)
         {
             if (x.Count != y.Count)
