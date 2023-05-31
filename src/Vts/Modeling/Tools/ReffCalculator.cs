@@ -6,7 +6,7 @@ namespace Vts.Modeling
     /// <summary>
     /// Reff calculator
     /// </summary>
-    public class ReffCalculator
+    public static class ReffCalculator
     {
         private static readonly double[] nValues = 
             new double[] { 

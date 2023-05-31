@@ -14,15 +14,15 @@ namespace Vts.MonteCarlo.PostProcessor.Test
         /// </summary>
         
         // Note: needs to be kept current with PostProcessorInputProvider.  If an infile is added there, it should be added here.
-        readonly List<string> listOfMCPPInfiles = new List<string>()
+        private readonly List<string> _listOfMcppInfiles = new List<string>()
         {
-            "PostProcessor_ROfRho", 
+            "PostProcessor_ROfRhoTOfRho", 
             "PostProcessor_pMC_ROfRhoROfRhoAndTime",
             "PostProcessor_pMC_ROfRhoROfXAndYVariants",
             "PostProcessor_pMC_ROfFxROfFxAndTime",
         };
 
-        readonly List<string> listOfMCCLInfiles = new List<string>()
+        private readonly List<string> _listOfMcclInfiles = new List<string>()
         {
             "ellip_FluenceOfRhoAndZ",
             "infinite_cylinder_AOfXAndYAndZ",
@@ -40,7 +40,7 @@ namespace Vts.MonteCarlo.PostProcessor.Test
             "three_layer_ReflectedTimeOfRhoAndSubregionHist",
             "two_layer_momentum_transfer_detectors",
             "two_layer_ROfRho",
-            "two_layer_ROfRho_with_db",
+            "two_layer_ROfRho_TOfRho_with_databases",
             "voxel_ROfXAndY_FluenceOfXAndYAndZ",
             "surface_fiber_detector"
         };
@@ -49,27 +49,31 @@ namespace Vts.MonteCarlo.PostProcessor.Test
         /// clear all previously generated folders and files, then regenerate sample infiles using "geninfiles" option.
         /// </summary>
         [OneTimeSetUp]
-        public async Task setup()
+        public async Task Setup()
         {
-            clear_folders_and_files();
+            Clear_folders_and_files();
 
-            string[] arguments = new string[] { "geninfiles" };
+            var arguments = new string[] { "geninfiles" };
             // generate sample MCPP infiles because unit tests below rely on infiles being generated
             Program.Main(arguments);
 
-            // generate MCCL output so that can post-process
+            // generate MCCL output so that MCPP can post-process
             // generate MCCL infiles - this is overkill but it verifies that we have an MCCL infile
             // that pairs with a MCPP infile
             CommandLineApplication.Program.Main(arguments);
+            // run MCCL with generation of reflectance and transmittance databases
+            arguments = new string[] { "infile=infile_two_layer_ROfRho_TOfRho_with_databases" };
+            await Task.Run(() => CommandLineApplication.Program.Main(arguments));
+            // run MCCL to post-process with pMC
             arguments = new string[] { "infile=infile_pMC_one_layer_ROfRho_DAW" };
             await Task.Run(() => CommandLineApplication.Program.Main(arguments));
         }
 
         [OneTimeTearDown]
-        public void clear_folders_and_files()
+        public void Clear_folders_and_files()
         {
             // delete any previously generated infiles to test that "geninfiles" option creates them
-            foreach (var infile in listOfMCPPInfiles)
+            foreach (var infile in _listOfMcppInfiles)
             {
                 if (File.Exists("infile_" + infile + ".txt"))
                 {
@@ -80,7 +84,7 @@ namespace Vts.MonteCarlo.PostProcessor.Test
                     Directory.Delete(infile, true); // delete recursively
                 }
             }
-            foreach (var infile in listOfMCCLInfiles)
+            foreach (var infile in _listOfMcclInfiles)
             {
                 if (File.Exists("infile_" + infile + ".txt"))
                 {
@@ -103,25 +107,44 @@ namespace Vts.MonteCarlo.PostProcessor.Test
         }
 
         /// <summary>
-        /// test to verify "geninfiles" option works successfully. 
+        /// Test to verify "geninfiles" option works successfully. 
         /// </summary>
         [Test]
-        public void validate_geninfiles_option_generates_all_infiles()
+        public void Validate_geninfiles_option_generates_all_infiles()
         {
-            foreach (var infile in listOfMCPPInfiles)
+            foreach (var infile in _listOfMcppInfiles)
             {
                 Assert.IsTrue(File.Exists("infile_" + infile + ".txt"));
             }
         }
 
         /// <summary>
-        /// test to verify correct output files generated when post process MCCL database
+        /// Test to verify correct output files generated when post process MCCL reflectance
+        /// and transmittance database
         /// </summary>
         [Test]
-        public void validate_output_folders_and_files_correct_when_using_geninfile_infile()
+        public void Validate_output_folders_and_files_correct_when_using_reflectance_transmittance_database()
         {
-            string[] arguments = new string[] { "infile=infile_PostProcessor_pMC_ROfRhoROfRhoAndTime.txt" };
+            var arguments = new string[] { "infile=infile_PostProcessor_ROfRhoTOfRho.txt" };
             Program.Main(arguments);
+            // verify results folder exists
+            Assert.IsTrue(Directory.Exists("PostProcessor_ROfRhoTOfRho"));
+            // verify infile gets written to output folder
+            Assert.IsTrue(File.Exists("PostProcessor_ROfRhoTOfRho/PostProcessor_ROfRhoTOfRho.txt"));
+            // verify detectors specified in MCPP infile get written
+            Assert.IsTrue(File.Exists("PostProcessor_ROfRhoTOfRho/ROfRho.txt"));
+            Assert.IsTrue(File.Exists("PostProcessor_ROfRhoTOfRho/TOfRho.txt"));
+        }
+
+        /// <summary>
+        /// Test to verify correct output files generated when post process MCCL pMC database
+        /// </summary>
+        [Test]
+        public void Validate_output_folders_and_files_correct_when_using_pmc_geninfile_infile()
+        {
+            var arguments = new string[] { "infile=infile_PostProcessor_pMC_ROfRhoROfRhoAndTime.txt" };
+            Program.Main(arguments);
+            // verify results folder exists
             Assert.IsTrue(Directory.Exists("PostProcessor_pMC_ROfRhoROfRhoAndTime"));
             // verify infile gets written to output folder
             Assert.IsTrue(File.Exists("PostProcessor_pMC_ROfRhoROfRhoAndTime/PostProcessor_pMC_ROfRhoROfRhoAndTime.txt"));
@@ -159,7 +182,7 @@ namespace Vts.MonteCarlo.PostProcessor.Test
         }
 
         /// <summary>
-        /// test to verify correct output folder generated when commandline "outpath" directive given
+        /// Test to verify correct output folder generated when commandline "outpath" directive given
         /// </summary>
         [Test]
         public void validate_output_folders_correct_when_using_commandline_outpath_directive()
@@ -173,7 +196,7 @@ namespace Vts.MonteCarlo.PostProcessor.Test
         }
 
         /// <summary>
-        /// test to verify correct output folder generated when commandline "inpath" directive given
+        /// Test to verify correct output folder generated when commandline "inpath" directive given
         /// </summary>
         [Test]
         public void validate_output_folders_correct_when_using_commandline_inpath_directive()

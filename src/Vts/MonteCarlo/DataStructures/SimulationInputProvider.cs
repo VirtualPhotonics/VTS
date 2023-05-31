@@ -27,7 +27,7 @@ namespace Vts.MonteCarlo
                 PointSourceOneLayerTissueROfRhoAndFluenceOfRhoAndZDetectors(),
                 PointSourceOneLayerTissueRadianceOfRhoAndZAndAngleDetector(),
                 PointSourceTwoLayerTissueROfRhoDetector(),
-                PointSourceTwoLayerTissueROfRhoDetectorWithPhotonDatabase(),
+                PointSourceTwoLayerTissueROfRhoTOfRhoDetectorWithPhotonDatabase(),
                 PointSourceSingleEllipsoidTissueFluenceOfRhoAndZDetector(),
                 PointSourceOneLayerTissueLUTPhaseFunctionROfRhoDetector(),
                 PointSourceSingleInfiniteCylinderTissueAOfXAndYAndZDetector(),
@@ -327,12 +327,12 @@ namespace Vts.MonteCarlo
         }
         #endregion
 
-        #region point source two layer R(rho) with photon database
+        #region point source two layer R(rho) and T(rho) with photon database
         /// <summary>
         /// Point source, two-layer tissue definition, only ROfRho detector included
         /// </summary>
         /// <returns>An instance of the SimulationInput class</returns>
-        public static SimulationInput PointSourceTwoLayerTissueROfRhoDetectorWithPhotonDatabase()
+        public static SimulationInput PointSourceTwoLayerTissueROfRhoTOfRhoDetectorWithPhotonDatabase()
         {
             MultiLayerTissueInput ti = new MultiLayerTissueInput(
                     new ITissueRegion[]
@@ -361,12 +361,15 @@ namespace Vts.MonteCarlo
             ti.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey4", new HenyeyGreensteinPhaseFunctionInput());
             return new SimulationInput(
                 100,
-                "two_layer_ROfRho_with_db",
+                "two_layer_ROfRho_TOfRho_with_databases",
                 new SimulationOptions(
                     0, // random number generator seed, -1=random seed, 0=fixed seed
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Discrete,
-                    new[] { DatabaseType.DiffuseReflectance }, // databases to be written
+                    new []
+                    {
+                        DatabaseType.DiffuseReflectance, DatabaseType.DiffuseTransmittance
+                    }, // databases to be written
                     false, // track statistics
                     0.0, // RR threshold -> no RR performed
                     0),
@@ -380,6 +383,11 @@ namespace Vts.MonteCarlo
                     new ROfRhoDetectorInput
                     {
                         Rho =new DoubleRange(0.0, 10, 101)
+                    },
+                    new TOfRhoDetectorInput
+                    {
+                        Rho =new DoubleRange(0.0, 10, 101),
+                        FinalTissueRegionIndex = 3
                     },
                 }
             );

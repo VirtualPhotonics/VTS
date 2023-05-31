@@ -100,9 +100,11 @@ namespace Vts.MonteCarlo
         /// </summary>
         public double SLeft { get; set; }
         /// <summary>
-        /// tissue region index where photon current is
+        /// tissue region index where photon current is.  Set is public because MCPP
+        /// needs to set in order to determine which surface normal to use for
+        /// WithinNA method
         /// </summary>
-        public int CurrentRegionIndex { get; private set; }
+        public int CurrentRegionIndex { get; set; }
         /// <summary>
         /// index of current track of photon
         /// </summary>
