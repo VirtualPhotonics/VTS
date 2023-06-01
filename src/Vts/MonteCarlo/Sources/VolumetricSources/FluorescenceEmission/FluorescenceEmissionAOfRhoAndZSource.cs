@@ -6,7 +6,19 @@ namespace Vts.MonteCarlo.Sources
     /// <summary>
     /// Implements ISourceInput. Defines input data for FluorescenceEmissionAOfRhoAndZSource 
     /// implementation.  This source reads the Cartesian coordinate absorbed energy results of a
-    /// prior simulation and uses it to generate an emission source.
+    /// prior simulation and uses it to generate an emission source.  There are two methods
+    /// used to sample the absorbed energy: CDF or Uniform.
+    /// Using the CDF method, a probability density function (PDF) and resulting cumulative
+    /// function (CDF) is determined from the absorbed energy map.  Then the number of photons
+    /// launched from each fluorescent voxel is determined probabilistically from sampling the CDF.
+    /// And the weight of each photon is set to the total absorbed energy of the fluorescing region
+    /// because if N photons are launched the results are normalized by N producing back the total
+    /// absorbed energy.
+    /// Using the Uniform method, the same number of photons is sent out from each voxel with weight equal
+    /// to the absorbed energy of that voxel.  HOWEVER, the results of a multiple voxel source
+    /// CANNOT be combined because the initial weight is different  So if the fluorescing region
+    /// has more than 1 voxel, each voxel must be simulated with a different simulation (possibly
+    /// using the parallel MC).
     /// </summary>
     public class FluorescenceEmissionAOfRhoAndZSourceInput : ISourceInput
     {

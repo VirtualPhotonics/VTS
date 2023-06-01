@@ -190,13 +190,6 @@ namespace Vts.MonteCarlo.Sources
                     count += 1;
                 }
             }
-            // Output number of voxels in fluorescent region so that can normalize results.
-            // Results should be normalized by number of photons initiated from each fluor. voxel
-            // not N, which would be = (N/#voxels) for uniform sampling.
-            // So multiplying end result (which by convention has been normalized by N)
-            // by #voxels produces (tally/N)*(#voxels)=tally/(N/#voxels)
-            Console.WriteLine("number of fluorescent voxels = " + count.ToString(""));
-            Console.WriteLine("if using Uniform SamplingMethod, multiply results by this factor");
         }
     }
 }
