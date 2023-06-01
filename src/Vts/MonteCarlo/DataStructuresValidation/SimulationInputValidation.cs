@@ -61,10 +61,16 @@ namespace Vts.MonteCarlo
                     "Source input not valid given tissue definition",
                     "Alter sourceInput.InitialTissueRegionIndex to be consistent with tissue definition");
             }
+            if (sourceInput is FluorescenceEmissionAOfRhoAndZSourceInput)
+                return FluorescenceEmissionAOfRhoAndZSourceInputValidation.ValidateInput(sourceInput);
+            if (sourceInput is FluorescenceEmissionAOfXAndYAndZSourceInput)
+                return FluorescenceEmissionAOfXAndYAndZSourceInputValidation.ValidateInput(sourceInput);
 
             return new ValidationResult(
                 true,
                 "Starting photons in region " + sourceInput.InitialTissueRegionIndex);
+
+            
         }
 
         private static ValidationResult ValidateTissueInput(ITissueInput tissueInput)
@@ -79,31 +85,22 @@ namespace Vts.MonteCarlo
                      "Tissue optical properties mua, mus', n need to be non-negative",
                      "Please check optical properties");
             }
-            if (tissueInput is MultiLayerTissueInput)
-            {
-                return MultiLayerTissueInputValidation.ValidateInput(tissueInput);
-            }
-            if (tissueInput is SingleEllipsoidTissueInput)
-            {
-                return SingleEllipsoidTissueInputValidation.ValidateInput(tissueInput);
-            }
-            if (tissueInput is SingleVoxelTissueInput)
-            {
-                return SingleVoxelTissueInputValidation.ValidateInput(tissueInput);
-            }
-            if (tissueInput is MultiConcentricInfiniteCylinderTissueInput)
-            {
-                return MultiConcentricInfiniteCylinderTissueInputValidation.ValidateInput(tissueInput);
-            }
-            if (tissueInput is BoundingCylinderTissueInput)
-            {
-                return BoundingCylinderTissueInputValidation.ValidateInput(tissueInput);
-            }
 
+            if (tissueInput is MultiLayerTissueInput)
+                return MultiLayerTissueInputValidation.ValidateInput(tissueInput);
+            if (tissueInput is SingleEllipsoidTissueInput)
+                return SingleEllipsoidTissueInputValidation.ValidateInput(tissueInput);
+            if (tissueInput is SingleVoxelTissueInput)
+                return SingleVoxelTissueInputValidation.ValidateInput(tissueInput);
+            if (tissueInput is MultiConcentricInfiniteCylinderTissueInput)
+                return MultiConcentricInfiniteCylinderTissueInputValidation.ValidateInput(tissueInput);
+            if (tissueInput is BoundingCylinderTissueInput)
+                return BoundingCylinderTissueInputValidation.ValidateInput(tissueInput);
             return new ValidationResult(
                 true,
                 "Tissue input must be valid",
-                "Validation skipped for tissue input " + tissueInput + ". No matching validation rules were found.");
+                "Validation skipped for tissue input " + tissueInput +
+                ". No matching validation rules were found.");
         }
         private static ValidationResult ValidateDetectorInput(SimulationInput si)
         {
@@ -165,21 +162,21 @@ namespace Vts.MonteCarlo
                 var ellipsoid = (EllipsoidTissueRegion)tissueWithEllipsoid.EllipsoidRegion;
                 foreach (var detectorInput in input.DetectorInputs)
                 {
-                    if (detectorInput.TallyDetails.IsCylindricalTally &&
-                        ellipsoid.Center.X != 0.0 && ellipsoid.Center.Y != 0.0)
+                    switch (detectorInput.TallyDetails.IsCylindricalTally)
                     {
-                        return new ValidationResult(
-                            false,
-                            "Ellipsoid must be centered at (x,y)=(0,0) for cylindrical tallies",
-                            "Change ellipsoid center to (0,0) or specify non-cylindrical type tally");            
+                        case true when
+                            ellipsoid.Center.X != 0.0 && ellipsoid.Center.Y != 0.0:
+                            return new ValidationResult(
+                                false,
+                                "Ellipsoid must be centered at (x,y)=(0,0) for cylindrical tallies",
+                                "Change ellipsoid center to (0,0) or specify non-cylindrical type tally");
+                        case true when ellipsoid.Dx != ellipsoid.Dy:
+                            return new ValidationResult(
+                                false,
+                                "Ellipsoid must have Dx=Dy for cylindrical tallies",
+                                "Change ellipsoid.Dx to be = to Dy or specify non-cylindrical type tally");
                     }
-                    if (detectorInput.TallyDetails.IsCylindricalTally && ellipsoid.Dx != ellipsoid.Dy)
-                    {
-                        return new ValidationResult(
-                            false,
-                            "Ellipsoid must have Dx=Dy for cylindrical tallies",
-                            "Change ellipsoid.Dx to be = to Dy or specify non-cylindrical type tally");
-                    }
+
                     if (detectorInput.TallyType == TallyType.ROfFx)
                     {
                         return new ValidationResult(
