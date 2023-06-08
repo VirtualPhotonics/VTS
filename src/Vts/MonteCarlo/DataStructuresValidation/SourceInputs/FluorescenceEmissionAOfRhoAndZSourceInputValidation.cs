@@ -6,13 +6,13 @@ using Vts.MonteCarlo.Tissues;
 namespace Vts.MonteCarlo
 {
     /// <summary>
-    /// This verifies the structure of a FluorescentEmissionAOfXAndYAndZSourceInput
+    /// This verifies the structure of a FluorescentEmissionAOfRhoAndZSourceInput
     /// </summary>
-    public class FluorescenceEmissionAOfXAndYAndZSourceInputValidation
+    public class FluorescenceEmissionAOfRhoAndZSourceInputValidation
     {
         /// <summary>
         /// Method to warn that if Uniform sampling is specified, only one
-        /// fluorescing voxel can be simulated
+        /// fluorescing cylindrical voxel can be simulated
         /// </summary>
         /// <param name="input">source input in SimulationInput</param>
         /// <returns>An instance of the ValidationResult class</returns>
@@ -48,21 +48,20 @@ namespace Vts.MonteCarlo
             var fluorescentRegionIndex = priorSimulationInput.InitialTissueRegionIndex;
             // get region
             var region = priorSimulationInput.Tissue[fluorescentRegionIndex];
-            // region has to be voxel region and AOfXAndYAndZ dx,dy,dz = voxel size
-            var aOfXAndYAndZDetectorInput = priorSimulationInput.AOfXAndYAndZDetectorInput;
-            if (region is VoxelTissueRegion && 
-                aOfXAndYAndZDetectorInput.X.Delta == ((VoxelTissueRegion)region).X.Delta &&
-                aOfXAndYAndZDetectorInput.Y.Delta == ((VoxelTissueRegion)region).Y.Delta &&
-                aOfXAndYAndZDetectorInput.Z.Delta == ((VoxelTissueRegion)region).Z.Delta)
+            // region has to be cylinder region and AOfRhoAndZ rho,dz = voxel size
+            var aOfRhoAndZDetectorInput = priorSimulationInput.AOfRhoAndZDetectorInput;
+            if (region is CylinderTissueRegion &&
+                aOfRhoAndZDetectorInput.Rho.Delta == ((CylinderTissueRegion)region).Radius &&
+                aOfRhoAndZDetectorInput.Z.Delta == ((CylinderTissueRegion)region).Height)
             {
                 return new ValidationResult(false,
                     "Fluorescent region needs to be a single voxel",
-                    "Make sure AOfXAndYAndZDetectorInput definition aligns with VoxelRegion");
+                    "Make sure AOfRhoAndZDetectorInput definition aligns with CylinderTissueRegion");
             }
-            return new ValidationResult(true, 
+            return new ValidationResult(true,
                 "A Uniform Sampling Type requires that only one voxel is fluorescing");
 
         }
-       
     }
+    
 }
