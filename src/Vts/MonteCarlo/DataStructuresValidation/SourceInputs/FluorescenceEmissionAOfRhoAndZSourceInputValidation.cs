@@ -1,6 +1,7 @@
 using System.IO;
 using System.Reflection;
 using Vts.MonteCarlo.DataStructuresValidation;
+using Vts.MonteCarlo.Detectors;
 using Vts.MonteCarlo.Tissues;
 
 namespace Vts.MonteCarlo
@@ -44,19 +45,27 @@ namespace Vts.MonteCarlo
             }
             // open infile to read
             var priorSimulationInput = SimulationInput.FromFile(fullPathToInfile);
-            // check infile in folder to determine fluorescent region index
-            var fluorescentRegionIndex = priorSimulationInput.InitialTissueRegionIndex;
+            // check input to determine fluorescent region index
+            var fluorescentRegionIndex = input.InitialTissueRegionIndex;
             // get region
-            var region = priorSimulationInput.Tissue[fluorescentRegionIndex];
+            var region = priorSimulationInput.TissueInput.Regions[fluorescentRegionIndex];
+            if (!(region is CaplessCylinderTissueRegion))
+            {
+                return new ValidationResult(false,
+                    "Fluorescent region needs to be cylindrical",
+                    "Make sure prior simulation Tissue definition includes (Capless)CylinderTissueRegion");
+
+            }
             // region has to be cylinder region and AOfRhoAndZ rho,dz = voxel size
-            var aOfRhoAndZDetectorInput = priorSimulationInput.AOfRhoAndZDetectorInput;
-            if (region is CylinderTissueRegion &&
-                aOfRhoAndZDetectorInput.Rho.Delta == ((CylinderTissueRegion)region).Radius &&
-                aOfRhoAndZDetectorInput.Z.Delta == ((CylinderTissueRegion)region).Height)
+            // FIX following
+            var aOfRhoAndZDetectorInput = priorSimulationInput.DetectorInputs[0];
+            if (region is CaplessCylinderTissueRegion &&
+                aOfRhoAndZDetectorInput.Rho.Delta != ((CaplessCylinderTissueRegion)region).Radius ||
+                aOfRhoAndZDetectorInput.Z.Delta != ((CaplessCylinderTissueRegion)region).Height)
             {
                 return new ValidationResult(false,
                     "Fluorescent region needs to be a single voxel",
-                    "Make sure AOfRhoAndZDetectorInput definition aligns with CylinderTissueRegion");
+                    "Make sure AOfRhoAndZDetectorInput definition aligns with (Capless)CylinderTissueRegion");
             }
             return new ValidationResult(true,
                 "A Uniform Sampling Type requires that only one voxel is fluorescing");

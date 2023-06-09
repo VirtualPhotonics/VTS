@@ -1,6 +1,8 @@
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using Vts.MonteCarlo.DataStructuresValidation;
+using Vts.MonteCarlo.Detectors;
 using Vts.MonteCarlo.Tissues;
 
 namespace Vts.MonteCarlo
@@ -44,16 +46,24 @@ namespace Vts.MonteCarlo
             }
             // open infile to read
             var priorSimulationInput = SimulationInput.FromFile(fullPathToInfile);
-            // check infile in folder to determine fluorescent region index
-            var fluorescentRegionIndex = priorSimulationInput.InitialTissueRegionIndex;
+            // check input to determine fluorescent region index
+            var fluorescentRegionIndex = input.InitialTissueRegionIndex;
             // get region
-            var region = priorSimulationInput.Tissue[fluorescentRegionIndex];
+            var region = priorSimulationInput.TissueInput.Regions[fluorescentRegionIndex];
+            if (!(region is VoxelTissueRegion))
+            {
+                return new ValidationResult(false,
+                    "Fluorescent region needs to be VoxelTissueRegion",
+                    "Make sure prior simulation Tissue definition includes VoxelTissueRegion");
+
+            }
+            // get detector FIX!
+            var aOfXAndYAndZDetectorInput = priorSimulationInput.DetectorInputs[0];
             // region has to be voxel region and AOfXAndYAndZ dx,dy,dz = voxel size
-            var aOfXAndYAndZDetectorInput = priorSimulationInput.AOfXAndYAndZDetectorInput;
             if (region is VoxelTissueRegion && 
-                aOfXAndYAndZDetectorInput.X.Delta == ((VoxelTissueRegion)region).X.Delta &&
-                aOfXAndYAndZDetectorInput.Y.Delta == ((VoxelTissueRegion)region).Y.Delta &&
-                aOfXAndYAndZDetectorInput.Z.Delta == ((VoxelTissueRegion)region).Z.Delta)
+                aOfXAndYAndZDetectorInput.X.Delta != ((VoxelTissueRegion)region).X.Delta ||
+                aOfXAndYAndZDetectorInput.Y.Delta != ((VoxelTissueRegion)region).Y.Delta ||
+                aOfXAndYAndZDetectorInput.Z.Delta != ((VoxelTissueRegion)region).Z.Delta)
             {
                 return new ValidationResult(false,
                     "Fluorescent region needs to be a single voxel",
