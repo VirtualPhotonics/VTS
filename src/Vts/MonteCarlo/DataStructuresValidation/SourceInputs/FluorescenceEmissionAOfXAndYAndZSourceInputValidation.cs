@@ -13,7 +13,10 @@ namespace Vts.MonteCarlo
     public class FluorescenceEmissionAOfXAndYAndZSourceInputValidation
     {
         /// <summary>
-        /// Method to warn that if Uniform sampling is specified, only one
+        /// Method to validate fluorescence emission infile source specification.
+        /// Relies on valid excitation simulation has been executed prior to running
+        /// this simulation and checks for the validity of the excitation results.
+        /// Also, warns that if Uniform sampling is specified, only one
         /// fluorescing voxel can be simulated
         /// </summary>
         /// <param name="input">source input in SimulationInput</param>
@@ -26,9 +29,9 @@ namespace Vts.MonteCarlo
             // check that folder with results exists from prior simulation
             var currentAssemblyDirectoryName = Path.GetDirectoryName(
                 Assembly.GetExecutingAssembly().Location);
-            var priorSimulationResultsFolder = ((dynamic)input).InputFolder;
+            var excitationSimulationResultsFolder = ((dynamic)input).InputFolder;
 
-            var fullPathToFolder = currentAssemblyDirectoryName + "\\" + priorSimulationResultsFolder;
+            var fullPathToFolder = currentAssemblyDirectoryName + "\\" + excitationSimulationResultsFolder;
             if (!Directory.Exists(fullPathToFolder))
             {
                 return new ValidationResult(false,
@@ -36,20 +39,20 @@ namespace Vts.MonteCarlo
                     "Make sure specified InputFolder exists");
             }
 
-            var priorSimulationInfileName = ((dynamic)input).Infile;
-            var fullPathToInfile = fullPathToFolder + "\\" + priorSimulationInfileName;
+            var excitationSimulationInfileName = ((dynamic)input).Infile;
+            var fullPathToInfile = fullPathToFolder + "\\" + excitationSimulationInfileName;
             if (!File.Exists(fullPathToInfile))
             {
                 return new ValidationResult(false,
                     "Source Infile specification is invalid",
                     "Make sure InputFolder has specified Infile");
             }
-            // open infile to read
-            var priorSimulationInput = SimulationInput.FromFile(fullPathToInfile);
+            // open infile to read: need type specification so not dynamic
+            SimulationInput excitationSimulationInput = SimulationInput.FromFile(fullPathToInfile);
             // check input to determine fluorescent region index
             var fluorescentRegionIndex = input.InitialTissueRegionIndex;
             // get region
-            var region = priorSimulationInput.TissueInput.Regions[fluorescentRegionIndex];
+            var region = excitationSimulationInput.TissueInput.Regions[fluorescentRegionIndex];
             if (!(region is VoxelTissueRegion))
             {
                 return new ValidationResult(false,
@@ -57,11 +60,18 @@ namespace Vts.MonteCarlo
                     "Make sure prior simulation Tissue definition includes VoxelTissueRegion");
 
             }
-            // get detector FIX!
-            var aOfXAndYAndZDetectorInput = priorSimulationInput.DetectorInputs[0];
-            // region has to be voxel region and AOfXAndYAndZ dx,dy,dz = voxel size
-            if (region is VoxelTissueRegion && 
-                aOfXAndYAndZDetectorInput.X.Delta != ((VoxelTissueRegion)region).X.Delta ||
+            // check if AOfXAndYAndZ exists from excitation simulation
+            if (!excitationSimulationInput.DetectorInputs.Any(d => d.TallyType != TallyType.AOfXAndYAndZ))
+            {
+                return new ValidationResult(false,
+                    "No absorbed energy tally generated in excitation simulation",
+                    "Make sure excitation simulation specifies AOfXAndYAndZ DetectorInput");
+            }
+            // get detector 
+            var aOfXAndYAndZDetectorInput = (AOfXAndYAndZDetectorInput)excitationSimulationInput.DetectorInputs.First(
+                d => d.TallyType == TallyType.AOfXAndYAndZ);
+            // region is voxel region already checked and AOfXAndYAndZ dx,dy,dz = voxel size
+            if (aOfXAndYAndZDetectorInput.X.Delta != ((VoxelTissueRegion)region).X.Delta ||
                 aOfXAndYAndZDetectorInput.Y.Delta != ((VoxelTissueRegion)region).Y.Delta ||
                 aOfXAndYAndZDetectorInput.Z.Delta != ((VoxelTissueRegion)region).Z.Delta)
             {

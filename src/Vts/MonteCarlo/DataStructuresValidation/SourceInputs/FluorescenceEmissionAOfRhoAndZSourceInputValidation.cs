@@ -1,4 +1,5 @@
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using Vts.MonteCarlo.DataStructuresValidation;
 using Vts.MonteCarlo.Detectors;
@@ -12,7 +13,10 @@ namespace Vts.MonteCarlo
     public class FluorescenceEmissionAOfRhoAndZSourceInputValidation
     {
         /// <summary>
-        /// Method to warn that if Uniform sampling is specified, only one
+        /// Method to validate fluorescence emission infile source specification.
+        /// Relies on valid excitation simulation has been executed prior to running
+        /// this simulation and checks for the validity of the excitation results.
+        /// Also, warns that if Uniform sampling is specified, only one
         /// fluorescing cylindrical voxel can be simulated
         /// </summary>
         /// <param name="input">source input in SimulationInput</param>
@@ -22,12 +26,12 @@ namespace Vts.MonteCarlo
             if (((dynamic)input).SamplingMethod != SourcePositionSamplingType.Uniform)
                 return new ValidationResult(true, "");
 
-            // check that folder with results exists from prior simulation
+            // check that folder with results exists from excitation simulation
             var currentAssemblyDirectoryName = Path.GetDirectoryName(
                 Assembly.GetExecutingAssembly().Location);
-            var priorSimulationResultsFolder = ((dynamic)input).InputFolder;
+            var excitationSimulationResultsFolder = ((dynamic)input).InputFolder;
 
-            var fullPathToFolder = currentAssemblyDirectoryName + "\\" + priorSimulationResultsFolder;
+            var fullPathToFolder = currentAssemblyDirectoryName + "\\" + excitationSimulationResultsFolder;
             if (!Directory.Exists(fullPathToFolder))
             {
                 return new ValidationResult(false,
@@ -35,32 +39,40 @@ namespace Vts.MonteCarlo
                     "Make sure specified InputFolder exists");
             }
 
-            var priorSimulationInfileName = ((dynamic)input).Infile;
-            var fullPathToInfile = fullPathToFolder + "\\" + priorSimulationInfileName;
+            var excitationSimulationInfileName = ((dynamic)input).Infile;
+            var fullPathToInfile = fullPathToFolder + "\\" + excitationSimulationInfileName;
             if (!File.Exists(fullPathToInfile))
             {
                 return new ValidationResult(false,
                     "Source Infile specification is invalid",
                     "Make sure InputFolder has specified Infile");
             }
-            // open infile to read
-            var priorSimulationInput = SimulationInput.FromFile(fullPathToInfile);
+            // open infile to read: need type specification so not dynamic
+            SimulationInput excitationSimulationInput = SimulationInput.FromFile(fullPathToInfile);
             // check input to determine fluorescent region index
             var fluorescentRegionIndex = input.InitialTissueRegionIndex;
             // get region
-            var region = priorSimulationInput.TissueInput.Regions[fluorescentRegionIndex];
+            var region = excitationSimulationInput.TissueInput.Regions[fluorescentRegionIndex];
+            // region has to be cylinder region 
             if (!(region is CaplessCylinderTissueRegion))
             {
                 return new ValidationResult(false,
                     "Fluorescent region needs to be cylindrical",
-                    "Make sure prior simulation Tissue definition includes (Capless)CylinderTissueRegion");
+                    "Make sure excitation simulation Tissue definition includes (Capless)CylinderTissueRegion");
 
             }
-            // region has to be cylinder region and AOfRhoAndZ rho,dz = voxel size
-            // FIX following
-            var aOfRhoAndZDetectorInput = priorSimulationInput.DetectorInputs[0];
-            if (region is CaplessCylinderTissueRegion &&
-                aOfRhoAndZDetectorInput.Rho.Delta != ((CaplessCylinderTissueRegion)region).Radius ||
+            // check if AOfRhoAndZ exists from excitation simulation
+            if (!excitationSimulationInput.DetectorInputs.Any(d => d.TallyType == TallyType.AOfRhoAndZ))
+            {
+                return new ValidationResult(false,
+                    "No absorbed energy tally generated in excitation simulation",
+                    "Make sure excitation simulation specifies AOfRhoAndZ DetectorInput");
+            }
+            // get detector
+            var aOfRhoAndZDetectorInput = (AOfRhoAndZDetectorInput)excitationSimulationInput.DetectorInputs.First(
+                d => d.TallyType == TallyType.AOfRhoAndZ);
+            // region is cylinder region already checked and AOfRhoAndZ rho,dz = voxel size
+            if (aOfRhoAndZDetectorInput.Rho.Delta != ((CaplessCylinderTissueRegion)region).Radius ||
                 aOfRhoAndZDetectorInput.Z.Delta != ((CaplessCylinderTissueRegion)region).Height)
             {
                 return new ValidationResult(false,
