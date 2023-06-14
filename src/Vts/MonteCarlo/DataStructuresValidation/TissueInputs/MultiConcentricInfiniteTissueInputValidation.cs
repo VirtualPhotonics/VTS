@@ -11,7 +11,7 @@ namespace Vts.MonteCarlo
     /// that only one tissue layer is defined, and that the refractive index of the
     /// tissue layer and ellipsoid match.
     /// </summary>
-    public class MultiConcentricInfiniteCylinderTissueInputValidation
+    public static class MultiConcentricInfiniteCylinderTissueInputValidation
     {
         /// <summary>
         /// Main validation method for MultiConcentricInfiniteCylinderTissueInput.

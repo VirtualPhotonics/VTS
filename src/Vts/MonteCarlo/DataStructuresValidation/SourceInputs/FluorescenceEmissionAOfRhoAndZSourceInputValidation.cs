@@ -3,6 +3,7 @@ using System.Linq;
 using System.Reflection;
 using Vts.MonteCarlo.DataStructuresValidation;
 using Vts.MonteCarlo.Detectors;
+using Vts.MonteCarlo.Sources;
 using Vts.MonteCarlo.Tissues;
 
 namespace Vts.MonteCarlo
@@ -10,7 +11,7 @@ namespace Vts.MonteCarlo
     /// <summary>
     /// This verifies the structure of a FluorescentEmissionAOfRhoAndZSourceInput
     /// </summary>
-    public class FluorescenceEmissionAOfRhoAndZSourceInputValidation
+    public static class FluorescenceEmissionAOfRhoAndZSourceInputValidation
     {
         /// <summary>
         /// Method to validate fluorescence emission infile source specification.
@@ -23,13 +24,14 @@ namespace Vts.MonteCarlo
         /// <returns>An instance of the ValidationResult class</returns>
         public static ValidationResult ValidateInput(ISourceInput input)
         {
-            if (((dynamic)input).SamplingMethod != SourcePositionSamplingType.Uniform)
+            if (((FluorescenceEmissionAOfRhoAndZSourceInput)input).SamplingMethod != SourcePositionSamplingType.Uniform)
                 return new ValidationResult(true, "");
 
             // check that folder with results exists from excitation simulation
             var currentAssemblyDirectoryName = Path.GetDirectoryName(
                 Assembly.GetExecutingAssembly().Location);
-            var excitationSimulationResultsFolder = ((dynamic)input).InputFolder;
+            var excitationSimulationResultsFolder = 
+                ((FluorescenceEmissionAOfRhoAndZSourceInput)input).InputFolder;
 
             var fullPathToFolder = currentAssemblyDirectoryName + "\\" + excitationSimulationResultsFolder;
             if (!Directory.Exists(fullPathToFolder))
@@ -39,7 +41,7 @@ namespace Vts.MonteCarlo
                     "Make sure specified InputFolder exists");
             }
 
-            var excitationSimulationInfileName = ((dynamic)input).Infile;
+            var excitationSimulationInfileName = ((FluorescenceEmissionAOfRhoAndZSourceInput)input).Infile;
             var fullPathToInfile = fullPathToFolder + "\\" + excitationSimulationInfileName;
             if (!File.Exists(fullPathToInfile))
             {
@@ -47,8 +49,7 @@ namespace Vts.MonteCarlo
                     "Source Infile specification is invalid",
                     "Make sure InputFolder has specified Infile");
             }
-            // open infile to read: need type specification so not dynamic
-            SimulationInput excitationSimulationInput = SimulationInput.FromFile(fullPathToInfile);
+            var excitationSimulationInput = SimulationInput.FromFile(fullPathToInfile);
             // check input to determine fluorescent region index
             var fluorescentRegionIndex = input.InitialTissueRegionIndex;
             // get region

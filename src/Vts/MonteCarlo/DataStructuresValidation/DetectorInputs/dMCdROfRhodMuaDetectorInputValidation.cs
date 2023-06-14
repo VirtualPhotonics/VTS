@@ -1,11 +1,12 @@
 using Vts.MonteCarlo.DataStructuresValidation;
+using Vts.MonteCarlo.Detectors;
 
 namespace Vts.MonteCarlo
 {
     /// <summary>
     /// This verifies dMCROfRhoDMuaDetectorInput
     /// </summary>
-    public class dMCdROfRhodMuaDetectorInputValidation
+    public static class dMCdROfRhodMuaDetectorInputValidation
     {
         /// <summary>
         /// Method to validate that only one perturbed region specified
@@ -15,7 +16,7 @@ namespace Vts.MonteCarlo
         public static ValidationResult ValidateInput(IDetectorInput input)
         {
             // test if perturbed region indices has only one index
-            if (((dynamic)input).PerturbedRegionsIndices.Count > 1)
+            if (((dMCdROfRhodMuaDetectorInput)input).PerturbedRegionsIndices.Count > 1)
             {
                 return new ValidationResult(
                     false,
