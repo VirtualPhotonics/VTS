@@ -10,7 +10,7 @@ namespace Vts.MonteCarlo
     /// This verifies that the bounding cylinder is the same height as the tissue,
     /// and that the refractive index of the tissue layer and ellipsoid match.
     /// </summary>
-    public class BoundingCylinderTissueInputValidation
+    public static class BoundingCylinderTissueInputValidation
     {
         /// <summary>
         /// Main validation method for BoundingCylinderTissueInput.

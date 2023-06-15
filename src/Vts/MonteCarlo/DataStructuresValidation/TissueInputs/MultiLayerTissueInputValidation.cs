@@ -9,7 +9,7 @@ namespace Vts.MonteCarlo
     /// <summary>
     /// This verifies the structure of a MultiLayerTissue
     /// </summary>
-    public class MultiLayerTissueInputValidation
+    public static class MultiLayerTissueInputValidation
     {
         /// <summary>
         /// Method to validate that the tissue layers are contiguous and don't overlap

@@ -5,7 +5,7 @@ namespace Vts.MonteCarlo
     /// <summary>
     /// This verifies any Recessed DetectorInput
     /// </summary>
-    public class RecessedDetectorInputValidation
+    public static class RecessedDetectorInputValidation
     {
         /// <summary>
         /// Method to validate recessed ZPlane specification is negative
