@@ -1,11 +1,12 @@
 using Vts.MonteCarlo.DataStructuresValidation;
+using Vts.MonteCarlo.Detectors;
 
 namespace Vts.MonteCarlo
 {
     /// <summary>
     /// This verifies SurfaceFiberDetectorInput is correct
     /// </summary>
-    public class SurfaceFiberDetectorInputValidation
+    public static class SurfaceFiberDetectorInputValidation
     {
         /// <summary>
         /// Method to validate detector fiber is defined to be on surface of tissue
@@ -15,7 +16,7 @@ namespace Vts.MonteCarlo
         public static ValidationResult ValidateInput(IDetectorInput input)
         {
             // test if detector center is not on surface of tissue
-            if (((dynamic)input).Center.Z != 0.0)
+            if (((SurfaceFiberDetectorInput)input).Center.Z != 0.0)
             {
                 return new ValidationResult(
                     false,

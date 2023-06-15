@@ -1,11 +1,12 @@
 using Vts.MonteCarlo.DataStructuresValidation;
+using Vts.MonteCarlo.Detectors;
 
 namespace Vts.MonteCarlo
 {
     /// <summary>
     /// This verifies ReflectedDynamicMTOfRhoAndSubregionHistDetectorInput
     /// </summary>
-    public class ReflectedDynamicMTOfRhoAndSubregionHistDetectorInputValidation
+    public static class ReflectedDynamicMTOfRhoAndSubregionHistDetectorInputValidation
     {
         /// <summary>
         /// Method to validate blood volume fraction input agrees with number of tissue subregions
@@ -16,7 +17,7 @@ namespace Vts.MonteCarlo
         public static ValidationResult ValidateInput(IDetectorInput input, int tissueRegionCount)
         {
             // test if blood volume fraction list length agrees with number of tissue regions
-            if (((dynamic)input).BloodVolumeFraction.Count != tissueRegionCount)
+            if (((ReflectedDynamicMTOfRhoAndSubregionHistDetectorInput)input).BloodVolumeFraction.Count != tissueRegionCount)
             {
                 return new ValidationResult(
                     false,

@@ -11,11 +11,23 @@ Write-Host "Build MCCL Debug, Release" -ForegroundColor Green
 $mcclcsproj = "$PWD\src\Vts.MonteCarlo.CommandLineApplication\Vts.MonteCarlo.CommandLineApplication.csproj"
 dotnet build $mcclcsproj -c Debug
 dotnet build $mcclcsproj -c Release
+Write-Host "Test Vts.MonteCarlo.CommandLineApplication Debug and Release" -ForegroundColor Green
+$mcclcsproj = "$PWD\src\Vts.MonteCarlo.CommandLineApplication.Test\Vts.MonteCarlo.CommandLineApplication.Test.csproj"
+dotnet build $mcclcsproj -c Debug
+dotnet build $mcclcsproj -c Release
+dotnet test $mcclcsproj -l "console;verbosity=quiet" -c Debug
+dotnet test $mcclcsproj -c Release
 
 Write-Host "Build MCPP Debug, Release" -ForegroundColor Green
 $mcppcsproj = "$PWD\src\Vts.MonteCarlo.PostProcessor\Vts.MonteCarlo.PostProcessor.csproj"
 dotnet build $mcppcsproj -c Debug
 dotnet build $mcppcsproj -c Release
+Write-Host "Test Vts.MonteCarlo.PostProcessor Debug and Release" -ForegroundColor Green
+$mcppcsproj = "$PWD\src\Vts.MonteCarlo.PostProcessor.Test\Vts.MonteCarlo.PostProcessor.Test.csproj"
+dotnet build $mcppcsproj -c Debug
+dotnet build $mcppcsproj -c Release
+dotnet test $mcppcsproj -l "console;verbosity=quiet" -c Debug
+dotnet test $mcppcsproj -c Release
 
 Write-Host "Release Packages: version = $version" -ForegroundColor Green
 
