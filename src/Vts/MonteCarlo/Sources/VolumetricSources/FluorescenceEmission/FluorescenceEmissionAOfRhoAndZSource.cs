@@ -6,7 +6,19 @@ namespace Vts.MonteCarlo.Sources
     /// <summary>
     /// Implements ISourceInput. Defines input data for FluorescenceEmissionAOfRhoAndZSource 
     /// implementation.  This source reads the Cartesian coordinate absorbed energy results of a
-    /// prior simulation and uses it to generate an emission source.
+    /// prior simulation and uses it to generate an emission source.  There are two methods
+    /// used to sample the absorbed energy: CDF or Uniform.
+    /// Using the CDF method, a probability density function (PDF) and resulting cumulative
+    /// function (CDF) is determined from the absorbed energy map.  Then the number of photons
+    /// launched from each fluorescent voxel is determined probabilistically from sampling the CDF.
+    /// And the weight of each photon is set to the total absorbed energy of the fluorescing region
+    /// because if N photons are launched the results are normalized by N producing back the total
+    /// absorbed energy.
+    /// Using the Uniform method, the same number of photons is sent out from each voxel with weight equal
+    /// to the absorbed energy of that voxel.  HOWEVER, the results of a multiple voxel source
+    /// CANNOT be combined because the initial weight is different  So if the fluorescing region
+    /// has more than 1 voxel, each voxel must be simulated with a different simulation (possibly
+    /// using the parallel MC).
     /// </summary>
     public class FluorescenceEmissionAOfRhoAndZSourceInput : ISourceInput
     {
@@ -125,6 +137,7 @@ namespace Vts.MonteCarlo.Sources
         protected override Position GetFinalPositionAndWeight(Random rng, out double weight)
         {
             double xMidpoint, yMidpoint, zMidpoint;
+            double r1, r2;
             switch (SamplingMethod)
             {
                 case SourcePositionSamplingType.CDF:
@@ -138,12 +151,15 @@ namespace Vts.MonteCarlo.Sources
                         {
                             if (Loader.MapOfRhoAndZ[i, k] != 1) continue;
                             if (rho >= Loader.CDFOfRhoAndZ[i, k]) continue;
-                            // SHOULD I SAMPLE THIS W CYLINDRICAL (Y=0) OR CARTESIAN COORD?
-                            xMidpoint = Loader.Rho.Start + i * Loader.Rho.Delta + Loader.Rho.Delta / 2;
-                            yMidpoint = 0.0;
-                            zMidpoint = Loader.Z.Start + k * Loader.Z.Delta + Loader.Z.Delta / 2;
-
-                            weight = 1.0;
+                            // following code assumes tissue region is cylindrical in nature
+                            // therefore, if (rho,z) in region, (x=rho,0,z) is in region
+                            // algorithm adopted from Jacques' mcfluor.c
+                            r1 = i * Loader.Rho.Delta;
+                            r2 = (i + 1) * Loader.Rho.Delta;
+                            xMidpoint = (2.0 / 3.0) * (r2 * r2 + r2 * r1 + r1 * r1) / (r1 + r2);
+                            yMidpoint = 0.0; 
+                            zMidpoint = Loader.Z.Start + k * Loader.Z.Delta + Loader.Z.Delta / 2; 
+                            weight = Loader.TotalAbsorbedEnergy;
                             return new Position(xMidpoint, yMidpoint, zMidpoint);
                         }
                         
@@ -159,7 +175,12 @@ namespace Vts.MonteCarlo.Sources
                     var indices = Loader.FluorescentRegionIndicesInOrder[IndexCount].ToArray();
                     var iRho = indices[0];
                     var iZ = indices[1];
-                    xMidpoint = Loader.Rho.Start + iRho * Loader.Rho.Delta + Loader.Rho.Delta / 2;
+                    // following code assumes tissue region is cylindrical in nature
+                    // therefore, if (rho,z) in region, (x=rho,0,z) is in region
+                    // algorithm adopted from Jacques' mcfluor.c
+                    r1 = iRho * Loader.Rho.Delta;
+                    r2 = (iRho + 1) * Loader.Rho.Delta;
+                    xMidpoint = (2.0 / 3.0) * (r2 * r2 + r2 * r1 + r1 * r1) / (r1 + r2); 
                     yMidpoint = 0.0;
                     zMidpoint = Loader.Z.Start + iZ * Loader.Z.Delta + Loader.Z.Delta / 2;
                     // undo normalization performed when AOfRhoAndZDetector saved

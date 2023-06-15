@@ -11,7 +11,7 @@ namespace Vts.MonteCarlo
     /// that only one tissue layer is defined, and that the refractive index of the
     /// tissue layer and voxel match.
     /// </summary>
-    public class SingleVoxelTissueInputValidation
+    public static class SingleVoxelTissueInputValidation
     {
         /// <summary>
         /// Main validation method for SingleVoxelTissueInput.

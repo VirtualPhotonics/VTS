@@ -9,7 +9,7 @@ namespace Vts.MonteCarlo
     /// This class validates whether the fields in PostProcessorInput have been specified
     /// correctly or not.
     /// </summary>
-    public class PostProcessorInputValidation
+    public static class PostProcessorInputValidation
     {
         /// <summary>
         /// Method to validate infile as well as overriding command line input
