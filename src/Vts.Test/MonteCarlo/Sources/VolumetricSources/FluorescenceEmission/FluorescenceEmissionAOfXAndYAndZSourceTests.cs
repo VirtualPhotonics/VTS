@@ -165,7 +165,7 @@ namespace Vts.Test.MonteCarlo.Sources
                 Assert.IsTrue(photon.DP.Position.X >= -0.5 && photon.DP.Position.X <= 0.5);
                 Assert.IsTrue(photon.DP.Position.Y >= -7.5 && photon.DP.Position.X <= 0.75);
                 Assert.IsTrue(photon.DP.Position.Z >= 0.5 && photon.DP.Position.Z <= 1.5);
-                Assert.IsTrue(Math.Abs(photon.DP.Weight - 1.0) < 1e-6);
+                Assert.IsTrue(Math.Abs(photon.DP.Weight - _xyzLoaderCdf.TotalAbsorbedEnergy) < 1e-6);
                 var ix = (int)(photon.DP.Position.X + 0.5) + 1;
                 var iz =(int)Math.Floor(photon.DP.Position.Z);
                 countArray[ix, 0, iz] += 1;

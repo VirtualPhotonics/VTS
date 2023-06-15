@@ -65,10 +65,7 @@ namespace Vts.MonteCarlo.Sources
         private static Direction GetFinalDirection(Random rng)
         {
             //Lambertian distribution 
-            return SourceToolbox.GetDirectionForGivenPolarAzimuthalAngleRangeRandom(
-                    SourceDefaults.DefaultFullPolarAngleRange.Clone(),
-                    SourceDefaults.DefaultAzimuthalAngleRange.Clone(),
-                    rng);
+            return SourceToolbox.GetDirectionForIsotropicDistributionRandom(rng);
         }
 
         /// <summary>

@@ -45,7 +45,11 @@ namespace Vts.MonteCarlo.Sources
         /// <summary>
         /// CDF of fluorescent tissue region first index=row dominant index of MapOfXAndYAndZ
         /// </summary>
-        public double[,,] CDFOfXAndYAndZ { get; set; }
+        public double[,,] CDFOfXAndYAndZ { get; set; }        
+        /// <summary>
+        /// Total Absorbed energy determined from AOfRhoAndZ minus final bins
+        /// </summary>
+        public double TotalAbsorbedEnergy { get; set; }
         /// <summary>
         /// tissue region of fluorescence
         /// </summary>
@@ -132,6 +136,7 @@ namespace Vts.MonteCarlo.Sources
             // the following algorithm assumes that if the midpoint of the voxel is inside the 
             // fluorescent tissue region, then it is part of emission
             TotalProb = 0.0;
+            TotalAbsorbedEnergy = 0.0;
             for (var i = 0; i < X.Count - 3; i++)
             {
                 var xMidpoint = X.Start + i * X.Delta + X.Delta / 2;
@@ -156,6 +161,7 @@ namespace Vts.MonteCarlo.Sources
                         PDFOfXAndYAndZ[i, j, k] = AOfXAndYAndZ[i, j, k];
                         TotalProb += AOfXAndYAndZ[i, j, k];
                         CDFOfXAndYAndZ[i, j, k] += TotalProb;
+                        TotalAbsorbedEnergy += AOfXAndYAndZ[i, j, k] * X.Delta * Y.Delta * Z.Delta;
                     }
                 }
             }
@@ -191,9 +197,6 @@ namespace Vts.MonteCarlo.Sources
                     }
                 }
             }
-            // output number of voxels in fluorescent region so that can normalize results
-            Console.WriteLine("number of fluorescent voxels = " + count.ToString(""));
-            Console.WriteLine("if using Uniform SamplingMethod, multiply results by this factor");
         }
     }
 }

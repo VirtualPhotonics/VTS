@@ -23,7 +23,7 @@ namespace Vts.Test.MonteCarlo.Sources
         private AOfRhoAndZDetector _aOfRhoAndZDetector;
         private FluorescenceEmissionAOfRhoAndZSource _fluorEmissionAOfRhoAndZSourceCdf,
             _fluorEmissionAOfRhoAndZSourceUnif, _fluorEmissionAOfRhoAndZSourceOther;
-        private AOfRhoAndZLoader _rhozLoaderCdf, _rhozLoaderUnif;
+        private AOfRhoAndZLoader _rhoZLoaderCdf, _rhoZLoaderUnif;
 
         /// <summary>
         /// list of temporary files created by these unit tests
@@ -96,8 +96,8 @@ namespace Vts.Test.MonteCarlo.Sources
             // empty infileFolder will initialize AOfRhoAndZLoader with no AOfRhoAndZ read
             _fluorEmissionAOfRhoAndZSourceCdf.Loader = new AOfRhoAndZLoader(
                 "sourcetest", "inputAOfRhoAndZ.txt", 3);
-            _rhozLoaderCdf = _fluorEmissionAOfRhoAndZSourceCdf.Loader;
-            _rhozLoaderCdf.InitializeFluorescentRegionArrays();
+            _rhoZLoaderCdf = _fluorEmissionAOfRhoAndZSourceCdf.Loader;
+            _rhoZLoaderCdf.InitializeFluorescentRegionArrays();
 
             // following setup is used to test FluorescenceEmissionSource Unif sampling method
             _fluorEmissionAOfRhoAndZSourceUnif = new FluorescenceEmissionAOfRhoAndZSource(
@@ -105,9 +105,9 @@ namespace Vts.Test.MonteCarlo.Sources
             // empty infileFolder will initialize AOfRhoAndZLoader with no AOfRhoAndZ read
             _fluorEmissionAOfRhoAndZSourceUnif.Loader = new AOfRhoAndZLoader(
                 "sourcetest", "inputAOfRhoAndZ.txt", 3);
-            _rhozLoaderUnif = _fluorEmissionAOfRhoAndZSourceCdf.Loader;
+            _rhoZLoaderUnif = _fluorEmissionAOfRhoAndZSourceCdf.Loader;
 
-            _rhozLoaderCdf.InitializeFluorescentRegionArrays();
+            _rhoZLoaderCdf.InitializeFluorescentRegionArrays();
 
             // following setup is used to test FluorescenceEmissionSource other sampling method
             // to test switch default exception by setting enum SourcePositionSamplingType outside range
@@ -154,7 +154,8 @@ namespace Vts.Test.MonteCarlo.Sources
             regionPhaseFunctions.Add("HenyeyGreensteinKey4", new HenyeyGreensteinPhaseFunction(0.8, rng));
             var tissue = tissueInput.CreateTissue(AbsorptionWeightingType.Discrete,
                 regionPhaseFunctions, 0);
-            tissue.Regions[1] = _rhozLoaderCdf.FluorescentTissueRegion;
+            tissue.Regions[1] = _rhoZLoaderCdf.FluorescentTissueRegion;
+
             for (var i = 0; i < 100; i++)
             {
                 var photon = _fluorEmissionAOfRhoAndZSourceCdf.GetNextPhoton(tissue);
@@ -163,10 +164,10 @@ namespace Vts.Test.MonteCarlo.Sources
                     photon.DP.Position.Y * photon.DP.Position.Y);
                 Assert.IsTrue(rho <= 3.5);
                 Assert.IsTrue(photon.DP.Position.Z >= 0.5 && photon.DP.Position.Z <= 1.5);
-                Assert.IsTrue(Math.Abs(photon.DP.Weight - 1.0) < 1e-6);
-                var irho = (int)(Math.Floor(rho));
-                var iz = (int)(Math.Floor(photon.DP.Position.Z));
-                countArray[irho, iz] += 1;
+                Assert.IsTrue(Math.Abs(photon.DP.Weight - _rhoZLoaderCdf.TotalAbsorbedEnergy) < 1e-6);
+                var iRho = (int)(Math.Floor(rho));
+                var iZ = (int)(Math.Floor(photon.DP.Position.Z));
+                countArray[iRho, iZ] += 1;
             }
             // check that countArray is > 1 in region of AOfRhoAndZ
             Assert.AreEqual(11, countArray[0, 0]);
