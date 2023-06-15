@@ -1,14 +1,12 @@
-﻿using System;
+﻿using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 using System.Reflection;
-using NUnit.Framework;
 using Vts.IO;
 using Vts.MonteCarlo;
 using Vts.MonteCarlo.Detectors;
 using Vts.MonteCarlo.IO;
 using Vts.MonteCarlo.Sources;
-using Vts.MonteCarlo.Tissues;
-using Vts.MonteCarlo.Helpers;
 
 namespace Vts.Test.MonteCarlo.Sources
 {
@@ -21,7 +19,7 @@ namespace Vts.Test.MonteCarlo.Sources
         private AOfXAndYAndZDetector _aOfXAndYAndZDetector;
         private FluorescenceEmissionAOfXAndYAndZSource _fluorEmissionAOfXAndYAndZSourceCdf,
             _fluorEmissionAOfXAndYAndZSourceUnif;
-        private AOfXAndYAndZLoader _xyzLoaderCdf, _xyzLoaderUnif;
+        private AOfXAndYAndZLoader _xyzLoaderCdf;
 
         /// <summary>
         /// list of temporary files created by these unit tests
@@ -106,7 +104,6 @@ namespace Vts.Test.MonteCarlo.Sources
             // empty infileFolder will initialize AOfXAndYAndZLoader with no AOfXAndYAndZ read
             _fluorEmissionAOfXAndYAndZSourceUnif.Loader = new AOfXAndYAndZLoader(
                 "sourcetest", "inputAOfXAndYAndZ.txt", 3);
-            _xyzLoaderUnif = _fluorEmissionAOfXAndYAndZSourceCdf.Loader;
             _xyzLoaderCdf.InitializeFluorescentRegionArrays();
         }
 

@@ -18,7 +18,7 @@ namespace Vts.MonteCarlo
             // additions to this list need to be added to MCPP Program tests for clean up
             return new List<PostProcessorInput>
             {
-                PostProcessorROfRho(),
+                PostProcessorROfRhoTOfRho(),
                 pMCROfRhoAndROfRhoAndTime(), // don't change this it is part of documentation
                 pMCROfRhoROfXAndYVariants(),
                 pMCROfFxROfFxAndTime()
@@ -26,12 +26,12 @@ namespace Vts.MonteCarlo
         }
 
 
-        #region PostProcessor R(rho)
+        #region PostProcessor R(rho) and T(rho)
         /// <summary>
         /// Perturbation MC R(rho) 
         /// </summary>
         /// <returns>An instance of the PostProcessorInput class</returns>
-        public static PostProcessorInput PostProcessorROfRho()
+        public static PostProcessorInput PostProcessorROfRhoTOfRho()
         {
             return new PostProcessorInput(
                 new List<IDetectorInput>
@@ -39,11 +39,16 @@ namespace Vts.MonteCarlo
                     new ROfRhoDetectorInput
                     {
                         Rho = new DoubleRange(0.0, 10, 101)
+                    },           
+                    new TOfRhoDetectorInput
+                    {
+                        Rho = new DoubleRange(0.0, 10, 101),
+                        FinalTissueRegionIndex = 3
                     }
                 },
-                "one_layer_ROfRho_DAW",
-                "one_layer_ROfRho_DAW",
-                "PostProcessor_ROfRho"
+                "two_layer_ROfRho_TOfRho_with_databases",
+                "two_layer_ROfRho_TOfRho_with_databases",
+                "PostProcessor_ROfRhoTOfRho"
             );
         }
         #endregion

@@ -28,10 +28,11 @@ namespace Vts.MonteCarlo.PostProcessing
         private readonly VirtualBoundaryType _virtualBoundaryType;
         private readonly IList<IDetector> _detectors;
         private readonly DetectorController _detectorController;
-        private readonly pMCDatabase _pMCDatabase;
+        private readonly pMCDatabase _pMcDatabase;
         private readonly PhotonDatabase _photonDatabase;
         private readonly SimulationInput _databaseInput;
         private readonly bool _ispMcPostProcessor;
+        private readonly ITissue _tissue;
 
         /// <summary>
         /// Creates an instance of PhotonDatabasePostProcessor for pMC database processing
@@ -42,12 +43,12 @@ namespace Vts.MonteCarlo.PostProcessing
         /// <param name="databaseInput">Database information needed for post-processing</param>
         public PhotonDatabasePostProcessor(
             VirtualBoundaryType virtualBoundaryType,
-            IList<IDetectorInput> detectorInputs,
+            IEnumerable<IDetectorInput> detectorInputs,
             pMCDatabase database,
             SimulationInput databaseInput)
             : this(virtualBoundaryType, detectorInputs, databaseInput)
         {
-            _pMCDatabase = database;
+            _pMcDatabase = database;
             _ispMcPostProcessor = true;
         }
 
@@ -87,13 +88,13 @@ namespace Vts.MonteCarlo.PostProcessing
 
             _databaseInput = databaseInput;
 
-            var tissue = Factories.TissueFactory.GetTissue(
+            _tissue = Factories.TissueFactory.GetTissue(
                 databaseInput.TissueInput,
                 databaseInput.Options.AbsorptionWeightingType,
                 databaseInput.Options.PhaseFunctionType,
                 databaseInput.Options.RussianRouletteWeightThreshold);
 
-            _detectors = DetectorFactory.GetDetectors(detectorInputs, tissue, rng);
+            _detectors = DetectorFactory.GetDetectors(detectorInputs, _tissue, rng);
 
             _detectorController = new DetectorController(_detectors);
         }
@@ -133,7 +134,7 @@ namespace Vts.MonteCarlo.PostProcessing
                 var photon = new Photon();
                 if (_ispMcPostProcessor)
                 {
-                    foreach (var dp in _pMCDatabase.DataPoints)
+                    foreach (var dp in _pMcDatabase.DataPoints)
                     {
                         photon.DP = dp.PhotonDataPoint;
                         photon.History.SubRegionInfoList = dp.CollisionInfo;
@@ -145,6 +146,11 @@ namespace Vts.MonteCarlo.PostProcessing
                     foreach (var dp in _photonDatabase.DataPoints)
                     {
                         photon.DP = dp;
+                        if (_virtualBoundaryType == VirtualBoundaryType.DiffuseReflectance)
+                            photon.CurrentRegionIndex = 0;
+                        if (_virtualBoundaryType == VirtualBoundaryType.DiffuseTransmittance)
+                            // does following work for SingleInclusionTissue or BoundedTissue?
+                            photon.CurrentRegionIndex = _tissue.Regions.Count - 1;
                         _detectorController.Tally(photon);
                     }
                 }
