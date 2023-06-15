@@ -62,15 +62,17 @@ namespace Vts.MonteCarlo
                     "Alter sourceInput.InitialTissueRegionIndex to be consistent with tissue definition");
             }
             if (sourceInput is FluorescenceEmissionAOfRhoAndZSourceInput)
+            {
                 return FluorescenceEmissionAOfRhoAndZSourceInputValidation.ValidateInput(sourceInput);
+            }
             if (sourceInput is FluorescenceEmissionAOfXAndYAndZSourceInput)
+            {
                 return FluorescenceEmissionAOfXAndYAndZSourceInputValidation.ValidateInput(sourceInput);
-
+            }
             return new ValidationResult(
                 true,
                 "Starting photons in region " + sourceInput.InitialTissueRegionIndex);
 
-            
         }
 
         private static ValidationResult ValidateTissueInput(ITissueInput tissueInput)
@@ -87,15 +89,26 @@ namespace Vts.MonteCarlo
             }
 
             if (tissueInput is MultiLayerTissueInput)
+            {
                 return MultiLayerTissueInputValidation.ValidateInput(tissueInput);
+            }
             if (tissueInput is SingleEllipsoidTissueInput)
+            {
                 return SingleEllipsoidTissueInputValidation.ValidateInput(tissueInput);
+            }
             if (tissueInput is SingleVoxelTissueInput)
+            {
                 return SingleVoxelTissueInputValidation.ValidateInput(tissueInput);
+            }
             if (tissueInput is MultiConcentricInfiniteCylinderTissueInput)
+            {
                 return MultiConcentricInfiniteCylinderTissueInputValidation.ValidateInput(tissueInput);
+            }
             if (tissueInput is BoundingCylinderTissueInput)
+            {
                 return BoundingCylinderTissueInputValidation.ValidateInput(tissueInput);
+            }
+
             return new ValidationResult(
                 true,
                 "Tissue input must be valid",

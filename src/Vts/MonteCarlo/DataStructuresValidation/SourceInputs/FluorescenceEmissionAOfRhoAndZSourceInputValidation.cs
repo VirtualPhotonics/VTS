@@ -24,8 +24,11 @@ namespace Vts.MonteCarlo
         /// <returns>An instance of the ValidationResult class</returns>
         public static ValidationResult ValidateInput(ISourceInput input)
         {
-            if (((FluorescenceEmissionAOfRhoAndZSourceInput)input).SamplingMethod != SourcePositionSamplingType.Uniform)
+            if (((FluorescenceEmissionAOfRhoAndZSourceInput)input).SamplingMethod != 
+                SourcePositionSamplingType.Uniform)
+            {
                 return new ValidationResult(true, "");
+            }
 
             // check that folder with results exists from excitation simulation
             var currentAssemblyDirectoryName = Path.GetDirectoryName(
