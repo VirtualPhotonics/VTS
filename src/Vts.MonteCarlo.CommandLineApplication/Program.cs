@@ -358,7 +358,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
             }
         }
 
-        private static string GetVersionNumber(uint limiter = 0)
+        internal static string GetVersionNumber(uint limiter = 0)
         {
             var currentAssembly = Assembly.GetExecutingAssembly().GetName();
             if (currentAssembly.Version == null) return null;

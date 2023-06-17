@@ -4,6 +4,7 @@ using System.IO;
 using System.Reflection;
 using NUnit.Framework;
 using Vts.IO;
+using Vts.MonteCarlo.CommandLineApplication.Test.Helpers;
 
 namespace Vts.MonteCarlo.CommandLineApplication.Test
 {
@@ -186,6 +187,11 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
             {
                 Directory.Delete("one_layer_ROfRho_Mus_only", true);
             }
+
+            var currentPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            Files.DeleteDirectoryContaining(currentPath, "two_layer_ROfRho_mua1");
+            Files.DeleteDirectoryContaining(currentPath, "one_layer_ROfRho_FluenceOfRhoAndZ_seed");
+
         }
 
         /// <summary>
