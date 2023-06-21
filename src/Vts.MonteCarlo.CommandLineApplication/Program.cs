@@ -357,7 +357,12 @@ namespace Vts.MonteCarlo.CommandLineApplication
                     break;
             }
         }
-
+        
+        /// <summary>
+        /// Gets the version number of the application
+        /// </summary>
+        /// <param name="limiter">Determines how many levels of the version to return</param>
+        /// <returns>A string with the version</returns>
         internal static string GetVersionNumber(uint limiter = 0)
         {
             var currentAssembly = Assembly.GetExecutingAssembly().GetName();

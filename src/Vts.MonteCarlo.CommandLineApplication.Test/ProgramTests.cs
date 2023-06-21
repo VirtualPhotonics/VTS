@@ -585,5 +585,25 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
             result = Program.Main(arguments);
             Assert.AreEqual(0, result);
         }
+
+        [Test]
+        public void Test_version_number()
+        {
+            var version = Program.GetVersionNumber();
+            var levels = version.Split('.').Length;
+            Assert.AreEqual(4, levels);
+            version = Program.GetVersionNumber(1);
+            levels = version.Split('.').Length;
+            Assert.AreEqual(1, levels);
+            version = Program.GetVersionNumber(2);
+            levels = version.Split('.').Length;
+            Assert.AreEqual(2, levels);
+            version = Program.GetVersionNumber(3);
+            levels = version.Split('.').Length;
+            Assert.AreEqual(3, levels);
+            version = Program.GetVersionNumber(5);
+            levels = version.Split('.').Length;
+            Assert.AreEqual(4, levels);
+        }
     }
 }
