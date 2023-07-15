@@ -4,7 +4,6 @@ using System.IO;
 using System.Reflection;
 using NUnit.Framework;
 using Vts.IO;
-using Vts.MonteCarlo.CommandLineApplication.Test.Helpers;
 
 namespace Vts.MonteCarlo.CommandLineApplication.Test
 {
@@ -80,9 +79,9 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
             // delete any previously generated infiles to test that "geninfiles" option creates them
             foreach (var infile in _listOfInfiles)
             {
-                if (File.Exists("infile_" + infile + ".txt"))
+                if (System.IO.File.Exists("infile_" + infile + ".txt"))
                 {
-                    File.Delete("infile_" + infile + ".txt");
+                    System.IO.File.Delete("infile_" + infile + ".txt");
                 }
 
                 if (Directory.Exists(infile))
@@ -92,9 +91,9 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
             }
             foreach (var infile in _listOfInfilesThatRequireExistingResultsToRun)
             {
-                if (File.Exists("infile_" + infile + ".txt"))
+                if (System.IO.File.Exists("infile_" + infile + ".txt"))
                 {
-                    File.Delete("infile_" + infile + ".txt");
+                    System.IO.File.Delete("infile_" + infile + ".txt");
                 }
 
                 if (Directory.Exists(infile))
@@ -104,9 +103,9 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
             }
             foreach (var infile in _listOfInfilesInResources)
             {
-                if (File.Exists("infile_" + infile + ".txt"))
+                if (System.IO.File.Exists("infile_" + infile + ".txt"))
                 {
-                    File.Delete("infile_" + infile + ".txt");
+                    System.IO.File.Delete("infile_" + infile + ".txt");
                 }
 
                 if (Directory.Exists(infile))
@@ -117,9 +116,9 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
 
             foreach (var file in _listOfJsonInfilesInResources)
             {
-                if (File.Exists(file))
+                if (System.IO.File.Exists(file))
                 {
-                    File.Delete(file);
+                    System.IO.File.Delete(file);
                 }
             }
 
@@ -189,8 +188,8 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
             }
 
             var currentPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            Files.DeleteDirectoryContaining(currentPath, "two_layer_ROfRho_mua1");
-            Files.DeleteDirectoryContaining(currentPath, "one_layer_ROfRho_FluenceOfRhoAndZ_seed");
+            FolderCleanup.DeleteDirectoryContaining(currentPath, "two_layer_ROfRho_mua1");
+            FolderCleanup.DeleteDirectoryContaining(currentPath, "one_layer_ROfRho_FluenceOfRhoAndZ_seed");
 
         }
 
@@ -202,7 +201,7 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
         {
             foreach (var infile in _listOfInfiles)
             {
-                Assert.IsTrue(File.Exists("infile_" + infile + ".txt"));
+                Assert.IsTrue(System.IO.File.Exists("infile_" + infile + ".txt"));
             }
         }
 
@@ -243,7 +242,7 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
             Program.Main(arguments);
             Assert.IsTrue(Directory.Exists("one_layer_ROfRho_FluenceOfRhoAndZ"));
             // verify infile gets written to output folder
-            Assert.IsTrue(File.Exists("one_layer_ROfRho_FluenceOfRhoAndZ/one_layer_ROfRho_FluenceOfRhoAndZ.txt"));
+            Assert.IsTrue(System.IO.File.Exists("one_layer_ROfRho_FluenceOfRhoAndZ/one_layer_ROfRho_FluenceOfRhoAndZ.txt"));
         }
 
         /// <summary>
@@ -385,10 +384,10 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
             var arguments = new[] { "infile=infile_pMC_one_layer_ROfRho_DAW.txt" };
             Program.Main(arguments);
             Assert.IsTrue(Directory.Exists("pMC_one_layer_ROfRho_DAW"));
-            Assert.IsTrue(File.Exists("pMC_one_layer_ROfRho_DAW/DiffuseReflectanceDatabase"));
-            Assert.IsTrue(File.Exists("pMC_one_layer_ROfRho_DAW/DiffuseReflectanceDatabase.txt"));
-            Assert.IsTrue(File.Exists("pMC_one_layer_ROfRho_DAW/CollisionInfoDatabase"));
-            Assert.IsTrue(File.Exists("pMC_one_layer_ROfRho_DAW/CollisionInfoDatabase.txt"));
+            Assert.IsTrue(System.IO.File.Exists("pMC_one_layer_ROfRho_DAW/DiffuseReflectanceDatabase"));
+            Assert.IsTrue(System.IO.File.Exists("pMC_one_layer_ROfRho_DAW/DiffuseReflectanceDatabase.txt"));
+            Assert.IsTrue(System.IO.File.Exists("pMC_one_layer_ROfRho_DAW/CollisionInfoDatabase"));
+            Assert.IsTrue(System.IO.File.Exists("pMC_one_layer_ROfRho_DAW/CollisionInfoDatabase.txt"));
         }
 
         /// <summary>
@@ -472,13 +471,13 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
             Program.Main(arguments);
             Assert.IsTrue(Directory.Exists("infinite_cylinder_AOfXAndYAndZ"));
             // verify infile and detector results gets written to output folder
-            Assert.IsTrue(File.Exists("infinite_cylinder_AOfXAndYAndZ/infinite_cylinder_AOfXAndYAndZ.txt"));
-            Assert.IsTrue(File.Exists("infinite_cylinder_AOfXAndYAndZ/AOfXAndYAndZ"));
+            Assert.IsTrue(System.IO.File.Exists("infinite_cylinder_AOfXAndYAndZ/infinite_cylinder_AOfXAndYAndZ.txt"));
+            Assert.IsTrue(System.IO.File.Exists("infinite_cylinder_AOfXAndYAndZ/AOfXAndYAndZ"));
             // run emission simulation
             arguments = new[] { "infile=infile_fluorescence_emission_AOfXAndYAndZ_source_infinite_cylinder.txt" };
             Program.Main(arguments);
             Assert.IsTrue(Directory.Exists("fluorescence_emission_AOfXAndYAndZ_source_infinite_cylinder"));
-            Assert.IsTrue(File.Exists("fluorescence_emission_AOfXAndYAndZ_source_infinite_cylinder/ROfXAndY"));
+            Assert.IsTrue(System.IO.File.Exists("fluorescence_emission_AOfXAndYAndZ_source_infinite_cylinder/ROfXAndY"));
         }
 
         /// <summary>
@@ -494,7 +493,7 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
             Program.Main(arguments);
             Assert.IsTrue(Directory.Exists("two_layer_ROfRho"));
             // verify infile gets written to output folder
-            Assert.IsTrue(File.Exists("two_layer_ROfRho/two_layer_ROfRho.txt"));
+            Assert.IsTrue(System.IO.File.Exists("two_layer_ROfRho/two_layer_ROfRho.txt"));
         }
         /// <summary>
         /// Test to verify cpucount gets changed to 1 if infile specifies database
