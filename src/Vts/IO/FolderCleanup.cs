@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Runtime.CompilerServices;
 
-[assembly:InternalsVisibleTo("Vts.Test")]
+[assembly: InternalsVisibleTo("Vts.Test")]
 [assembly: InternalsVisibleTo("Vts.MonteCarlo.CommandLineApplication.Test")]
 [assembly: InternalsVisibleTo("Vts.MonteCarlo.PostProcessor.Test")]
 
