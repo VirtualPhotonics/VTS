@@ -1,0 +1,135 @@
+﻿{
+  "OutputName": "one_layer_ROfRho_FluenceOfRhoAndZ",
+  "N": 9,
+  "Options": {
+    "Seed": 0,
+    "RandomNumberGeneratorType": "MersenneTwister",
+    "AbsorptionWeightingType": "Discrete",
+    "PhaseFunctionType": "HenyeyGreenstein",
+    "Databases": [],
+    "TrackStatistics": false,
+    "RussianRouletteWeightThreshold": 0.0,
+    "SimulationIndex": 0
+  },
+  "SourceInput": {
+    "SourceType": "DirectionalPoint",
+    "PointLocation": {
+      "X": 0.0,
+      "Y": 0.0,
+      "Z": 0.0
+    },
+    "Direction": {
+      "Ux": 0.0,
+      "Uy": 0.0,
+      "Uz": 1.0
+    },
+    "InitialTissueRegionIndex": 0
+  },
+  "TissueInput": {
+    "Regions": [
+      {
+        "TissueRegionType": "Layer",
+        "ZRange": {
+          "Start": "-Infinity",
+          "Stop": 0.0,
+          "Count": 2
+        },
+        "RegionOP": {
+          "Mua": 0.0,
+          "G": 1.0,
+          "Musp": 1E-10,
+          "Mus": 1E-10,
+          "N": 1.0
+        }
+      },
+      {
+        "TissueRegionType": "Layer",
+        "ZRange": {
+          "Start": 0.0,
+          "Stop": 100.0,
+          "Count": 2
+        },
+        "RegionOP": {
+          "Mua": 0.01,
+          "G": 0.8,
+          "Musp": 1.0,
+          "Mus": 5.000000000000001,
+          "N": 1.4
+        }
+      },
+      {
+        "TissueRegionType": "Layer",
+        "ZRange": {
+          "Start": 100.0,
+          "Stop": "Infinity",
+          "Count": 2
+        },
+        "RegionOP": {
+          "Mua": 0.0,
+          "G": 1.0,
+          "Musp": 1E-10,
+          "Mus": 1E-10,
+          "N": 1.0
+        }
+      }
+    ],
+    "TissueType": "MultiLayer"
+  },
+  "DetectorInputs": [
+    {
+      "Rho": {
+        "Start": 0.0,
+        "Stop": 10.0,
+        "Count": 101
+      },
+      "FinalTissueRegionIndex": 0,
+      "NA": 1.0,
+      "TallyType": "ROfRho",
+      "Name": "ROfRho",
+      "TallySecondMoment": false,
+      "TallyDetails": {
+        "IsReflectanceTally": true,
+        "IsTransmittanceTally": false,
+        "IsSpecularReflectanceTally": false,
+        "IsInternalSurfaceTally": false,
+        "IspMCReflectanceTally": false,
+        "IspMCTransmittanceTally": false,
+        "IsBoundingVolumeTally": false,
+        "IsVolumeTally": false,
+        "IsCylindricalTally": true,
+        "IsNotImplementedForDAW": false,
+        "IsNotImplementedForCAW": false,
+        "IsNotImplementedYet": false
+      }
+    },
+    {
+      "Rho": {
+        "Start": 0.0,
+        "Stop": 10.0,
+        "Count": 101
+      },
+      "Z": {
+        "Start": 0.0,
+        "Stop": 10.0,
+        "Count": 101
+      },
+      "TallyType": "FluenceOfRhoAndZ",
+      "Name": "FluenceOfRhoAndZ",
+      "TallySecondMoment": false,
+      "TallyDetails": {
+        "IsReflectanceTally": false,
+        "IsTransmittanceTally": false,
+        "IsSpecularReflectanceTally": false,
+        "IsInternalSurfaceTally": false,
+        "IspMCReflectanceTally": false,
+        "IspMCTransmittanceTally": false,
+        "IsBoundingVolumeTally": false,
+        "IsVolumeTally": true,
+        "IsCylindricalTally": true,
+        "IsNotImplementedForDAW": false,
+        "IsNotImplementedForCAW": true,
+        "IsNotImplementedYet": false
+      }
+    }
+  ]
+}
