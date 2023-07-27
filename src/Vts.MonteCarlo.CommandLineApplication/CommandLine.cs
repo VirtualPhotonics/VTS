@@ -39,7 +39,7 @@ internal static class CommandLine
     private static readonly Regex ArgRegex =
         new Regex(@"(?<name>[^=]+)=?((?<quoted>\""?)(?<value>(?(quoted)[^\""]+|[^,]+))\""?,?)*",
             RegexOptions.Compiled | RegexOptions.CultureInvariant |
-            RegexOptions.ExplicitCapture | RegexOptions.IgnoreCase);
+            RegexOptions.ExplicitCapture | RegexOptions.IgnoreCase, TimeSpan.FromSeconds(10));
 
     private const string NameGroup = "name"; // Names of capture groups
     private const string ValueGroup = "value";
