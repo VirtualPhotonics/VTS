@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="SmallSharp" Version="1.1.7">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Vts\Vts.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="MonteCarlo.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="MonteCarloDemo.cs" />
+  </ItemGroup>
+
+</Project>
