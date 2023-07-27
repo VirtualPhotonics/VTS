@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using NUnit.Framework;
 using Vts.IO;
@@ -63,11 +64,15 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
             // generate sample infiles because unit tests below rely on infiles being generated
             var arguments = new[] { "geninfiles" };
             Program.Main(arguments);
-            var name = Assembly.GetExecutingAssembly().FullName;
+            var assembly = Assembly.GetExecutingAssembly();
+            var name = assembly.FullName;
             if (name == null) return;
-            var assemblyName = new AssemblyName(name).Name;
-            FileIO.CopyFileFromEmbeddedResources(assemblyName + ".Resources.infile_invalid.json", "infile_invalid.json", name);
-            FileIO.CopyFileFromEmbeddedResources(assemblyName + ".Resources.infile_empty.json", "infile_empty.json", name);
+            var filename = "infile_invalid.json";
+            var resourceName = assembly.GetManifestResourceNames().Single(n => n.EndsWith(filename));
+            FileIO.CopyFileFromEmbeddedResources(resourceName, filename, name);
+            filename = "infile_empty.json";
+            resourceName = assembly.GetManifestResourceNames().Single(n => n.EndsWith(filename));
+            FileIO.CopyFileFromEmbeddedResources(resourceName, filename, name);
         }
 
         /// <summary>
@@ -399,59 +404,61 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
         [Test]
         public void Validate_deserialization_of_infile_for_Mus_only_specification()
         {
-            var name = Assembly.GetExecutingAssembly().FullName;
+            var assembly = Assembly.GetExecutingAssembly();
+            var name = assembly.FullName;
+            const string filename = "infile_unit_test_one_layer_ROfRho_Mus_only.txt";
             if (name != null)
             {
-                var assemblyName = new AssemblyName(name).Name;
-                FileIO.CopyFileFromEmbeddedResources(
-                    assemblyName + ".Resources.infile_unit_test_one_layer_ROfRho_Mus_only.txt",
-                    "infile_unit_test_one_layer_ROfRho_Mus_only.txt", name);
+                var resourceName = assembly.GetManifestResourceNames().Single(n => n.EndsWith(filename));
+                FileIO.CopyFileFromEmbeddedResources(resourceName, filename, name);
             }
 
-            var arguments = new[] { "infile=infile_unit_test_one_layer_ROfRho_Mus_only.txt" };
+            var arguments = new[] { $"infile={filename}" };
             Program.Main(arguments);
             Assert.IsTrue(Directory.Exists("unit_test_one_layer_ROfRho_Mus_only"));
         }
+
         /// <summary>
         /// See summary above for 2)
         /// </summary>
         [Test]
         public void Validate_deserialization_of_infile_for_Musp_only_specification()
         {
-            var name = Assembly.GetExecutingAssembly().FullName;
+            var assembly = Assembly.GetExecutingAssembly();
+            var name = assembly.FullName;
+            const string filename = "infile_unit_test_one_layer_ROfRho_Musp_only.txt";
             if (name != null)
             {
-                var assemblyName = new AssemblyName(name).Name;
-                FileIO.CopyFileFromEmbeddedResources(
-                    assemblyName + ".Resources.infile_unit_test_one_layer_ROfRho_Musp_only.txt",
-                    "infile_unit_test_one_layer_ROfRho_Musp_only.txt", name);
+                var resourceName = assembly.GetManifestResourceNames().Single(n => n.EndsWith(filename));
+                FileIO.CopyFileFromEmbeddedResources(resourceName, filename, name);
             }
-
-            var arguments = new[] { "infile=infile_unit_test_one_layer_ROfRho_Musp_only.txt" };
+            var arguments = new[] { $"infile={filename}" };
             Program.Main(arguments);
             Assert.IsTrue(Directory.Exists("unit_test_one_layer_ROfRho_Musp_only"));
         }
+
         /// <summary>
         /// See summary above for 3)
         /// </summary>
         [Test]
         public void Validate_deserialization_of_infile_for_Mus_and_Musp_inconsistent_specification()
         {
-            var name = Assembly.GetExecutingAssembly().FullName;
+            var assembly = Assembly.GetExecutingAssembly();
+            var name = assembly.FullName;
+            const string filename = "infile_unit_test_one_layer_ROfRho_Musp_and_Mus_inconsistent.txt";
             if (name != null)
             {
-                var assemblyName = new AssemblyName(name).Name;
-                FileIO.CopyFileFromEmbeddedResources(
-                    assemblyName + ".Resources.infile_unit_test_one_layer_ROfRho_Musp_and_Mus_inconsistent.txt",
-                    "infile_unit_test_one_layer_ROfRho_Musp_and_Mus_inconsistent.txt", name);
+                var resourceName = assembly.GetManifestResourceNames().Single(n => n.EndsWith(filename));
+                FileIO.CopyFileFromEmbeddedResources(resourceName, filename, name);
             }
 
             var arguments = new[]
-                {"infile=infile_unit_test_one_layer_ROfRho_Musp_and_Mus_inconsistent.txt"};
+                { $"infile={filename}" };
+
             Program.Main(arguments);
             Assert.IsTrue(Directory.Exists("unit_test_one_layer_ROfRho_Musp_and_Mus_inconsistent"));
             var writtenInfile = SimulationInput.FromFile(
-                "unit_test_one_layer_ROfRho_Musp_and_Mus_inconsistent/unit_test_one_layer_ROfRho_Musp_and_Mus_inconsistent.txt");
+                $"unit_test_one_layer_ROfRho_Musp_and_Mus_inconsistent/unit_test_one_layer_ROfRho_Musp_and_Mus_inconsistent.txt");
             // infile specifies Mus=5.0 and Musp=1.2 with g=0.8
             // when there is inconsistency in Mus and Musp specification, code modifies Mus to conform to Musp
             // the following test verifies that Mus was modified accordingly

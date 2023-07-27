@@ -8,7 +8,7 @@ using System.Runtime.CompilerServices;
 using NLog;
 using Vts.Common.Logging;
 
-[assembly: InternalsVisibleTo("Vts.MonteCarlo.commandLineApplication.Test")]
+[assembly: InternalsVisibleTo("Vts.MonteCarlo.CommandLineApplication.Test")]
 
 namespace Vts.MonteCarlo.CommandLineApplication
 {
@@ -143,8 +143,6 @@ namespace Vts.MonteCarlo.CommandLineApplication
                         Console.Write("\nSimulation(s) contained one or more errors. Details:");
                         Console.Write("\nValidation rule:" + validationResult.ValidationRule);
                         Console.Write("\nRemarks:" + validationResult.Remarks);
-                        //Console.Write("\nPress enter key to exit.");
-                        //Console.Read();
                         return false;
                     };
                 SimulationInput input;
