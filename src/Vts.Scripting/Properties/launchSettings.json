@@ -1,6 +1,9 @@
 {
   "profiles": {
-    "MonteCarloDemo.cs": {
+    "MonteCarlo01ROfRho.cs": {
+      "commandName": "Project"
+    },
+    "MonteCarlo10ROfFx.cs": {
       "commandName": "Project"
     }
   }

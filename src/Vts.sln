@@ -27,7 +27,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vts.Mgrte.Console", "Vts.Mg
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vts.FemModeling", "Vts.FemModeling\Vts.FemModeling.csproj", "{6BA37669-7BA8-4FF2-911A-0E70EECD450B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vts.Scripting", "Vts.Scripting\Vts.Scripting.csproj", "{2F4FEE64-9215-4B6C-8180-3C9C02BE7C07}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vts.Scripting", "Vts.Scripting\Vts.Scripting.csproj", "{2F4FEE64-9215-4B6C-8180-3C9C02BE7C07}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vts.Scripting.Utilities", "Vts.Scripting.Utilities\Vts.Scripting.Utilities.csproj", "{84A508E0-099D-4247-90DC-1D821D87EAD2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -319,6 +321,38 @@ Global
 		{2F4FEE64-9215-4B6C-8180-3C9C02BE7C07}.ReleaseWhiteList|Win32.Build.0 = Release|Any CPU
 		{2F4FEE64-9215-4B6C-8180-3C9C02BE7C07}.ReleaseWhiteList|x86.ActiveCfg = Release|Any CPU
 		{2F4FEE64-9215-4B6C-8180-3C9C02BE7C07}.ReleaseWhiteList|x86.Build.0 = Release|Any CPU
+		{84A508E0-099D-4247-90DC-1D821D87EAD2}.Benchmark|Any CPU.ActiveCfg = Debug|Any CPU
+		{84A508E0-099D-4247-90DC-1D821D87EAD2}.Benchmark|Any CPU.Build.0 = Debug|Any CPU
+		{84A508E0-099D-4247-90DC-1D821D87EAD2}.Benchmark|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{84A508E0-099D-4247-90DC-1D821D87EAD2}.Benchmark|Mixed Platforms.Build.0 = Debug|Any CPU
+		{84A508E0-099D-4247-90DC-1D821D87EAD2}.Benchmark|Win32.ActiveCfg = Debug|Any CPU
+		{84A508E0-099D-4247-90DC-1D821D87EAD2}.Benchmark|Win32.Build.0 = Debug|Any CPU
+		{84A508E0-099D-4247-90DC-1D821D87EAD2}.Benchmark|x86.ActiveCfg = Debug|Any CPU
+		{84A508E0-099D-4247-90DC-1D821D87EAD2}.Benchmark|x86.Build.0 = Debug|Any CPU
+		{84A508E0-099D-4247-90DC-1D821D87EAD2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{84A508E0-099D-4247-90DC-1D821D87EAD2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{84A508E0-099D-4247-90DC-1D821D87EAD2}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{84A508E0-099D-4247-90DC-1D821D87EAD2}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{84A508E0-099D-4247-90DC-1D821D87EAD2}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{84A508E0-099D-4247-90DC-1D821D87EAD2}.Debug|Win32.Build.0 = Debug|Any CPU
+		{84A508E0-099D-4247-90DC-1D821D87EAD2}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{84A508E0-099D-4247-90DC-1D821D87EAD2}.Debug|x86.Build.0 = Debug|Any CPU
+		{84A508E0-099D-4247-90DC-1D821D87EAD2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{84A508E0-099D-4247-90DC-1D821D87EAD2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{84A508E0-099D-4247-90DC-1D821D87EAD2}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{84A508E0-099D-4247-90DC-1D821D87EAD2}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{84A508E0-099D-4247-90DC-1D821D87EAD2}.Release|Win32.ActiveCfg = Release|Any CPU
+		{84A508E0-099D-4247-90DC-1D821D87EAD2}.Release|Win32.Build.0 = Release|Any CPU
+		{84A508E0-099D-4247-90DC-1D821D87EAD2}.Release|x86.ActiveCfg = Release|Any CPU
+		{84A508E0-099D-4247-90DC-1D821D87EAD2}.Release|x86.Build.0 = Release|Any CPU
+		{84A508E0-099D-4247-90DC-1D821D87EAD2}.ReleaseWhiteList|Any CPU.ActiveCfg = Release|Any CPU
+		{84A508E0-099D-4247-90DC-1D821D87EAD2}.ReleaseWhiteList|Any CPU.Build.0 = Release|Any CPU
+		{84A508E0-099D-4247-90DC-1D821D87EAD2}.ReleaseWhiteList|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{84A508E0-099D-4247-90DC-1D821D87EAD2}.ReleaseWhiteList|Mixed Platforms.Build.0 = Release|Any CPU
+		{84A508E0-099D-4247-90DC-1D821D87EAD2}.ReleaseWhiteList|Win32.ActiveCfg = Release|Any CPU
+		{84A508E0-099D-4247-90DC-1D821D87EAD2}.ReleaseWhiteList|Win32.Build.0 = Release|Any CPU
+		{84A508E0-099D-4247-90DC-1D821D87EAD2}.ReleaseWhiteList|x86.ActiveCfg = Release|Any CPU
+		{84A508E0-099D-4247-90DC-1D821D87EAD2}.ReleaseWhiteList|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -333,9 +367,11 @@ Global
 		{3B0676C4-5CF1-4A0B-97E4-0CDF2B035702} = {D6A3DE7A-7E93-4932-AA8F-C612FD97830E}
 		{197229DB-8CEC-48DD-A953-FBC58D1A3EBC} = {D6A3DE7A-7E93-4932-AA8F-C612FD97830E}
 		{6BA37669-7BA8-4FF2-911A-0E70EECD450B} = {E87433B1-D691-4D36-BB6B-3B766192CC8E}
+		{2F4FEE64-9215-4B6C-8180-3C9C02BE7C07} = {D6A3DE7A-7E93-4932-AA8F-C612FD97830E}
+		{84A508E0-099D-4247-90DC-1D821D87EAD2} = {D6A3DE7A-7E93-4932-AA8F-C612FD97830E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.2\lib\NET35
 		SolutionGuid = {BB1B236A-1BE9-476A-A4B3-8C0F51F1FDA7}
+		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.2\lib\NET35
 	EndGlobalSection
 EndGlobal

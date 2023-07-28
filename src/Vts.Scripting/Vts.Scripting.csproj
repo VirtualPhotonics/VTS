@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -8,22 +8,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="SmallSharp" Version="1.1.7">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
+    <PackageReference Include="Plotly.NET" Version="4.1.0" />
+    <PackageReference Include="Plotly.NET.CSharp" Version="0.11.1" />
+    <PackageReference Include="SmallSharp" Version="1.1.7" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Vts.Scripting.Utilities\Vts.Scripting.Utilities.csproj" />
     <ProjectReference Include="..\Vts\Vts.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Remove="MonteCarlo.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Remove="MonteCarloDemo.cs" />
   </ItemGroup>
 
 </Project>
