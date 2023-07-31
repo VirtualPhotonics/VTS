@@ -6,13 +6,13 @@
     <RootNamespace>Vts.MonteCarlo.PostProcessor</RootNamespace>
     <AssemblyName>mc_post</AssemblyName>
     <RuntimeIdentifiers>win-x64;linux-x64;osx-x64</RuntimeIdentifiers>
-    <AssemblyVersion>7.1.0.0</AssemblyVersion>
-    <FileVersion>7.1.0.0</FileVersion>
+    <AssemblyVersion>7.2.0.0</AssemblyVersion>
+    <FileVersion>7.2.0.0</FileVersion>
     <Authors>David Cuccia; Carole Hayakawa; Lisa Malenfant; Janaka Ranasinghesagara; Jennifer Nguyen; Adam Gardner; Michele Martinelli</Authors>
     <Company>Virtual Photonics Technology Initiative</Company>
     <Product>MCPP</Product>
     <Description>Monte-Carlo post-processor command-line application</Description>
-    <Copyright>Copyright © 2022 Laser Microbeam and Medical Program</Copyright>
+    <Copyright>Copyright © 2023 Laser Microbeam and Medical Program</Copyright>
     <PackageProjectUrl>https://github.com/VirtualPhotonics/VTS/wiki</PackageProjectUrl>
     <PackageLicenseUrl>https://github.com/VirtualPhotonics/VTS/blob/master/license.md</PackageLicenseUrl>
     <PackageIconUrl>http://virtualphotonics.org/Themes/VP/Content/Images/logo.png</PackageIconUrl>
@@ -20,7 +20,7 @@
     <RepositoryType>Git</RepositoryType>
     <PackageTags>C#;Monte-Carlo</PackageTags>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-    <Version>7.1.0</Version>
+    <Version>7.2.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
