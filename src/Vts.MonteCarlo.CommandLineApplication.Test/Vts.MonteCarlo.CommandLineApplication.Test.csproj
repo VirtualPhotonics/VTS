@@ -7,12 +7,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\infile_empty.json" />
+    <None Remove="Resources\infile_invalid.json" />
     <None Remove="Resources\infile_unit_test_one_layer_ROfRho_Musp_and_Mus_inconsistent.txt" />
     <None Remove="Resources\infile_unit_test_one_layer_ROfRho_Musp_only.txt" />
     <None Remove="Resources\infile_unit_test_one_layer_ROfRho_Mus_only.txt" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Resources\infile_empty.json" />
+    <EmbeddedResource Include="Resources\infile_invalid.json" />
     <EmbeddedResource Include="Resources\infile_unit_test_one_layer_ROfRho_Musp_and_Mus_inconsistent.txt" />
     <EmbeddedResource Include="Resources\infile_unit_test_one_layer_ROfRho_Musp_only.txt" />
     <EmbeddedResource Include="Resources\infile_unit_test_one_layer_ROfRho_Mus_only.txt" />
