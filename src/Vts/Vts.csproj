@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk" ToolsVersion="Current">
   <PropertyGroup>
-	<TargetFrameworks>net6.0;netstandard2.0</TargetFrameworks>
+	<TargetFramework>net6.0</TargetFramework>
     <Description>The VTS (Virtual Tissue Simulator) is an open source library for .NET that was designed as a modular and scalable platform to provide an integrated suite of computational tools to define, solve, visualize, and analyze relevant forward and inverse radiative transport problems in Biomedical Optics.</Description>
     <Company>Virtual Photonics Technology Initiative</Company>
     <Copyright>Copyright © 2023 Laser Microbeam and Medical Program</Copyright>
