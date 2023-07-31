@@ -1,7 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk" ToolsVersion="Current">
   <PropertyGroup>
-	<TargetFramework Condition=" '$(OS)' != 'Windows_NT' ">net6.0</TargetFramework>
-	<TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">net6.0;net48</TargetFrameworks>
+	<TargetFramework>net6.0</TargetFramework>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
   <ItemGroup>

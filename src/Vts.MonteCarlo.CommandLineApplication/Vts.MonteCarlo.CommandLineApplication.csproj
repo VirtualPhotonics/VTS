@@ -6,21 +6,21 @@
     <AssemblyName>mc</AssemblyName>
     <RuntimeIdentifiers>win-x64;linux-x64;osx-x64</RuntimeIdentifiers>
     <RootNamespace>Vts.MonteCarlo.CommandLineApplication</RootNamespace>
-    <AssemblyVersion>7.1.0.0</AssemblyVersion>
-    <FileVersion>7.1.0.0</FileVersion>
+    <AssemblyVersion>7.2.0.0</AssemblyVersion>
+    <FileVersion>7.2.0.0</FileVersion>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <Company>Virtual Photonics Technology Initiative</Company>
     <Product>MCCL</Product>
     <Authors>David Cuccia; Carole Hayakawa; Lisa Malenfant; Janaka Ranasinghesagara; Jennifer Nguyen; Adam Gardner; Michele Martinelli</Authors>
     <Description>Monte-Carlo command-line application</Description>
-    <Copyright>Copyright © 2022 Laser Microbeam and Medical Program</Copyright>
+    <Copyright>Copyright © 2023 Laser Microbeam and Medical Program</Copyright>
     <PackageLicenseUrl>https://github.com/VirtualPhotonics/VTS/blob/master/license.md</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/VirtualPhotonics/VTS/wiki</PackageProjectUrl>
     <PackageIconUrl>http://virtualphotonics.org/Themes/VP/Content/Images/logo.png</PackageIconUrl>
     <RepositoryUrl>https://github.com/VirtualPhotonics/VTS</RepositoryUrl>
     <PackageTags>C#;Monte-Carlo</PackageTags>
     <RepositoryType>Git</RepositoryType>
-    <Version>7.1.0</Version>
+    <Version>7.2.0</Version>
   </PropertyGroup>
 
   <ItemGroup>

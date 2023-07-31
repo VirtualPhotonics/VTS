@@ -281,8 +281,8 @@ namespace Vts.Test.IO
         public void validate_write_json_to_stream()
         {
             var pos = new Position(2, 4, 6);
-            Stream stream = StreamFinder.GetFileStream("file6.txt", FileMode.Create);
-            FileIO.WriteJsonToStream(pos, stream);
+            var stream = StreamFinder.GetFileStream("file6.txt", FileMode.Create);
+            pos.WriteJsonToStream(stream);
             var pos2 = FileIO.ReadFromJson<Position>("file6.txt");
             Assert.AreEqual(2, pos2.X);
             Assert.AreEqual(4, pos2.Y);
@@ -307,9 +307,9 @@ namespace Vts.Test.IO
         [Test]
         public void validate_write_to_binary_custom()
         {
-            IEnumerable<double> arrayWritten = Enumerable.Range(7, 3).Select(x => (double) x);          
+            var arrayWritten = Enumerable.Range(7, 3).Select(x => (double) x);          
             void WriteMap(BinaryWriter b, double s) => b.Write(s);
-            FileIO.WriteToBinaryCustom<double>(arrayWritten, "array3", WriteMap);
+            arrayWritten.WriteToBinaryCustom<double>("array3", WriteMap);
             Assert.IsTrue(FileIO.FileExists("array3"));
             Assert.IsTrue(new FileInfo("array3").Length != 0);
         }
@@ -318,7 +318,7 @@ namespace Vts.Test.IO
         public void validate_write_to_json()
         {
             var pos = new Position(2, 4, 6);
-            FileIO.WriteToJson(pos, "file7.txt");
+            pos.WriteToJson("file7.txt");
             var pos2 = FileIO.ReadFromJson<Position>("file7.txt");
             Assert.AreEqual(2, pos2.X);
             Assert.AreEqual(4, pos2.Y);
@@ -329,7 +329,7 @@ namespace Vts.Test.IO
         public void validate_write_to_xml_and_read_from_xml()
         {
             var pos = new Position(2, 4, 6);
-            FileIO.WriteToXML<Position>(pos, "file7.xml");
+            pos.WriteToXML<Position>("file7.xml");
             Assert.IsTrue(FileIO.FileExists("file7.xml"));
             Assert.IsTrue(new FileInfo("file7.xml").Length != 0);
             var pos2 = FileIO.ReadFromXML<Position>("file7.xml");
@@ -344,8 +344,8 @@ namespace Vts.Test.IO
             var name = Assembly.GetExecutingAssembly().FullName;
             var assemblyName = new AssemblyName(name).Name;
             var xmlFile = FileIO.ReadFromXMLInResources<Position>("Resources/fileiotest/file7.xml", assemblyName);
-            Stream stream = StreamFinder.GetFileStream("file8.xml", FileMode.Create);
-            FileIO.WriteToXMLStream(xmlFile, stream);
+            var stream = StreamFinder.GetFileStream("file8.xml", FileMode.Create);
+            xmlFile.WriteToXMLStream(stream);
             Assert.IsNotNull(stream);
             Assert.IsTrue(FileIO.FileExists("file8.xml"));
             Assert.IsTrue(new FileInfo("file8.xml").Length != 0);

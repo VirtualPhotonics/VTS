@@ -54,11 +54,9 @@ namespace Vts.IO
         /// <param name="folder">Name of the directory to delete</param>
         public static void DeleteDirectory(string folder)
         {
-            if(Directory.Exists(folder))
-            {
-                ClearDirectory(folder);
-                Directory.Delete(folder);
-            }
+            if (!Directory.Exists(folder)) return;
+            ClearDirectory(folder);
+            Directory.Delete(folder);
         }
 
         /// <summary>
@@ -81,7 +79,7 @@ namespace Vts.IO
         /// <remarks>See http://stackoverflow.com/questions/230128/best-way-to-copy-between-two-stream-instances-c </remarks>
         public static void CopyStream(Stream input, Stream output)
         {
-            byte[] buffer = new byte[32768];
+            var buffer = new byte[32768];
             int read;
             while ((read = input.Read(buffer, 0, buffer.Length)) > 0)
             {
@@ -146,7 +144,7 @@ namespace Vts.IO
         /// <param name="stream">Stream to which to write the object</param>
         public static void WriteJsonToStream<T>(this T myObject, Stream stream)
         {
-            var serializedJson = VtsJsonSerializer.WriteToJson(myObject);
+            var serializedJson = myObject.WriteToJson();
             WriteTextToStream(serializedJson, stream);
         }
 
@@ -173,7 +171,7 @@ namespace Vts.IO
             using (var sr = new StreamReader(stream))
             {
                 var serializedJson = sr.ReadToEnd();
-                var myObject = VtsJsonSerializer.ReadFromJson<T>(serializedJson);
+                var myObject = serializedJson.ReadFromJson<T>();
                 return myObject;
             }
         }
@@ -185,9 +183,9 @@ namespace Vts.IO
         /// <param name="stream">Name of the stream</param>
         public static void WriteTextToStream(string text, Stream stream)
         {
-            using (StreamWriter outstream = new StreamWriter(stream))
+            using (var outStream = new StreamWriter(stream))
             {
-                outstream.Write(text);
+                outStream.Write(text);
             }
         }
 
@@ -198,10 +196,10 @@ namespace Vts.IO
         /// <param name="filename">Name of the text file to write </param>
         public static void WriteToTextFile(string text, string filename)
         {
-            Stream stream = StreamFinder.GetFileStream(filename, FileMode.Create);
-            using (StreamWriter outfile = new StreamWriter(stream))
+            var stream = StreamFinder.GetFileStream(filename, FileMode.Create);
+            using (var outFile = new StreamWriter(stream))
             {
-                outfile.Write(text);
+                outFile.Write(text);
             }
         }
 
@@ -213,7 +211,7 @@ namespace Vts.IO
         /// <param name="filename">Name of the XML file to write</param>
         public static void WriteToXML<T>(this T myObject, string filename)
         {
-            using (Stream stream = StreamFinder.GetFileStream(filename, FileMode.Create))
+            using (var stream = StreamFinder.GetFileStream(filename, FileMode.Create))
             {
                 myObject.WriteToXMLStream(stream);
             }
@@ -227,7 +225,7 @@ namespace Vts.IO
         /// <param name="filename">Name of the JSON file to write</param>
         public static void WriteToJson<T>(this T myObject, string filename)
         {
-            using (Stream stream = StreamFinder.GetFileStream(filename, FileMode.Create))
+            using (var stream = StreamFinder.GetFileStream(filename, FileMode.Create))
             {
                 myObject.WriteJsonToStream(stream);
             }
@@ -241,7 +239,7 @@ namespace Vts.IO
         /// <returns>The data as the specified type</returns>
         public static T ReadFromXML<T>(string filename)
         {
-            using (Stream stream = StreamFinder.GetFileStream(filename, FileMode.Open))
+            using (var stream = StreamFinder.GetFileStream(filename, FileMode.Open))
             {
                 return ReadFromStream<T>(stream);
             }
@@ -255,7 +253,7 @@ namespace Vts.IO
         /// <returns>The data as the specified type</returns>
         public static T ReadFromJson<T>(string filename)
         {
-            using (Stream stream = StreamFinder.GetFileStream(filename, FileMode.Open))
+            using (var stream = StreamFinder.GetFileStream(filename, FileMode.Open))
             {
                 return ReadFromJsonStream<T>(stream);
             }
@@ -379,7 +377,7 @@ namespace Vts.IO
         /// <returns>The data as the specified type</returns>
         public static T ReadFromXMLInResources<T>(string fileName, string projectName)
         {
-            using (Stream stream = StreamFinder.GetFileStreamFromResources(fileName, projectName))
+            using (var stream = StreamFinder.GetFileStreamFromResources(fileName, projectName))
             {
                 return ReadFromStream<T>(stream);
             }
@@ -404,17 +402,17 @@ namespace Vts.IO
         /// Writes a scalar value to a binary file
         /// </summary>
         /// <typeparam name="T">Type of the data to be written</typeparam>
-        /// <param name="dataIN">Data to be written</param>
+        /// <param name="dataIn">Data to be written</param>
         /// <param name="filename">Name of the binary file to write</param>
         /// <param name="writeMap">Action used to write binary</param>
-        public static void WriteScalarValueToBinary<T>(T dataIN, string filename, Action<BinaryWriter, T> writeMap)
+        public static void WriteScalarValueToBinary<T>(T dataIn, string filename, Action<BinaryWriter, T> writeMap)
         {
             // Create a file to write binary data 
-            using (Stream s = StreamFinder.GetFileStream(filename, FileMode.OpenOrCreate))
+            using (var s = StreamFinder.GetFileStream(filename, FileMode.OpenOrCreate))
             {
-                using (BinaryWriter bw = new BinaryWriter(s))
+                using (var bw = new BinaryWriter(s))
                 {
-                    writeMap(bw, dataIN);
+                    writeMap(bw, dataIn);
                 }
             }
         }
@@ -429,9 +427,9 @@ namespace Vts.IO
         public static T ReadScalarValueFromBinary<T>(string filename, Func<BinaryReader, T> readMap)
         {
             // Create a file to write binary data 
-            using (Stream s = StreamFinder.GetFileStream(filename, FileMode.OpenOrCreate))
+            using (var s = StreamFinder.GetFileStream(filename, FileMode.OpenOrCreate))
             {
-                using (BinaryReader br = new BinaryReader(s))
+                using (var br = new BinaryReader(s))
                 {
                     return readMap(br);
                 }
@@ -453,9 +451,9 @@ namespace Vts.IO
                 new MetaData(dataIN).WriteToJson(filename + ".txt");
             }
             // Create a file to write binary data 
-            using (Stream s = StreamFinder.GetFileStream(filename, FileMode.OpenOrCreate))
+            using (var s = StreamFinder.GetFileStream(filename, FileMode.OpenOrCreate))
             {
-                using (BinaryWriter bw = new BinaryWriter(s))
+                using (var bw = new BinaryWriter(s))
                 {
                     new ArrayCustomBinaryWriter().WriteToBinary(bw, dataIN);
                 }
@@ -480,7 +478,7 @@ namespace Vts.IO
         /// <returns>Array from the file</returns>
         public static Array ReadArrayFromBinary<T>(string filename) where T : struct
         {
-            MetaData dataInfo = ReadFromJson<MetaData>(filename + ".txt");
+            var dataInfo = ReadFromJson<MetaData>(filename + ".txt");
 
             return ReadArrayFromBinary<T>(filename, dataInfo.dims);
         }
@@ -494,9 +492,9 @@ namespace Vts.IO
         /// <returns>Array from the file</returns>
         public static Array ReadArrayFromBinary<T>(string filename, params int[] dims) where T : struct
         {
-            using (Stream s = StreamFinder.GetFileStream(filename, FileMode.Open))
+            using (var s = StreamFinder.GetFileStream(filename, FileMode.Open))
             {
-                using (BinaryReader br = new BinaryReader(s))
+                using (var br = new BinaryReader(s))
                 {
                     return new ArrayCustomBinaryReader<T>(dims).ReadFromBinary(br);
                 }
@@ -508,15 +506,15 @@ namespace Vts.IO
         /// </summary>
         /// <typeparam name="T">Type of the array being read</typeparam>
         /// <param name="filename">Name of the JSON file containing the meta data</param>
-        /// <param name="projectname">Project name for the location of resources</param>
+        /// <param name="projectName">Project name for the location of resources</param>
         /// <returns>Array from the file</returns>
-        public static Array ReadArrayFromBinaryInResources<T>(string filename, string projectname) where T : struct
+        public static Array ReadArrayFromBinaryInResources<T>(string filename, string projectName) where T : struct
         {
             // Read JSON text file that describes the contents of the binary file
-            MetaData dataInfo = ReadFromJsonInResources<MetaData>(filename + ".txt", projectname);
+            var dataInfo = ReadFromJsonInResources<MetaData>(filename + ".txt", projectName);
 
             // call the overload (below) which explicitly specifies the array dimensions
-            return ReadArrayFromBinaryInResources<T>(filename, projectname, dataInfo.dims);
+            return ReadArrayFromBinaryInResources<T>(filename, projectName, dataInfo.dims);
         }
 
         /// <summary>
@@ -524,14 +522,14 @@ namespace Vts.IO
         /// </summary>
         /// <typeparam name="T">Type of the array being read</typeparam>
         /// <param name="filename">Name of the JSON (text) file containing the meta data</param>
-        /// <param name="projectname">Project name for the location of resources</param>
+        /// <param name="projectName">Project name for the location of resources</param>
         /// <param name="dims">Dimensions of the array</param>
         /// <returns>Array from the file</returns>
-        public static Array ReadArrayFromBinaryInResources<T>(string filename, string projectname, params int[] dims) where T : struct
+        public static Array ReadArrayFromBinaryInResources<T>(string filename, string projectName, params int[] dims) where T : struct
         {
-            using (Stream stream = StreamFinder.GetFileStreamFromResources(filename, projectname))
+            using (var stream = StreamFinder.GetFileStreamFromResources(filename, projectName))
             {
-                using (BinaryReader br = new BinaryReader(stream))
+                using (var br = new BinaryReader(stream))
                 {
                     return new ArrayCustomBinaryReader<T>(dims).ReadFromBinary(br);
                 }
@@ -549,9 +547,9 @@ namespace Vts.IO
         public static void WriteToBinaryCustom<T>(this IEnumerable<T> data, string fileName, Action<BinaryWriter, T> writerMap)
         {
             // convert to "push" method with System.Observable in Rx Extensions (write upon appearance of new datum)?
-            using (Stream s = StreamFinder.GetFileStream(fileName, FileMode.Create))
+            using (var s = StreamFinder.GetFileStream(fileName, FileMode.Create))
             {
-                using (BinaryWriter bw = new BinaryWriter(s))
+                using (var bw = new BinaryWriter(s))
                 {
                     data.ForEach(d => writerMap(bw, d));
                 }
@@ -567,7 +565,7 @@ namespace Vts.IO
         /// <returns>IEnumerable of generic type T</returns>
         public static IEnumerable<T> ReadFromBinaryCustom<T>(string fileName, Func<BinaryReader, T> readerMap)
         {
-            using (Stream s = StreamFinder.GetFileStream(fileName, FileMode.Open))
+            using (var s = StreamFinder.GetFileStream(fileName, FileMode.Open))
             {
                 foreach (var item in ReadStreamFromBinaryCustom<T>(s, readerMap))
                 {
@@ -586,7 +584,7 @@ namespace Vts.IO
         /// <returns>IEnumerable of generic type T</returns>
         public static IEnumerable<T> ReadFromBinaryInResourcesCustom<T>(string fileName, string projectName, Func<BinaryReader, T> readerMap)
         {
-            using (Stream s = StreamFinder.GetFileStreamFromResources(fileName, projectName))
+            using (var s = StreamFinder.GetFileStreamFromResources(fileName, projectName))
             {
                 foreach (var item in ReadStreamFromBinaryCustom<T>(s, readerMap))
                 {
@@ -605,7 +603,7 @@ namespace Vts.IO
         /// <returns>IEnumerable of T</returns>
         private static IEnumerable<T> ReadStreamFromBinaryCustom<T>(Stream s, Func<BinaryReader, T> readerMap)
         {
-            using (BinaryReader br = new BinaryReader(s))
+            using (var br = new BinaryReader(s))
             {
                 while (s.Position < s.Length)
                 {
