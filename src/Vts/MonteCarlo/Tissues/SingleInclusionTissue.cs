@@ -52,7 +52,8 @@ namespace Vts.MonteCarlo.Tissues
         /// <returns>integer tissue region index</returns>
         public override int GetRegionIndex(Position position)
         {
-            // if it's in the inclusion, return "3", otherwise, call the layer method to determine
+            // if it's in the inclusion, return index of inclusion,
+            // otherwise, call the layer method to determine
             return _inclusionRegion.ContainsPosition(position) ? _inclusionRegionIndex : base.GetRegionIndex(position);
         }
 

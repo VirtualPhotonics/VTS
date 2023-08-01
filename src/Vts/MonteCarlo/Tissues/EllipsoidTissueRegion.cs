@@ -66,12 +66,12 @@ namespace Vts.MonteCarlo.Tissues
         /// <returns>Boolean, true if within or on, false otherwise</returns>
         public bool ContainsPosition(Position position)
         {
-                var inside = (position.X - Center.X) * (position.X - Center.X) /
-                             (Dx * Dx) +
-                             (position.Y - Center.Y) * (position.Y - Center.Y) /
-                             (Dy * Dy) +
-                             (position.Z - Center.Z) * (position.Z - Center.Z) /
-                             (Dz * Dz);
+            var inside = (position.X - Center.X) * (position.X - Center.X) /
+                            (Dx * Dx) +
+                            (position.Y - Center.Y) * (position.Y - Center.Y) /
+                            (Dy * Dy) +
+                            (position.Z - Center.Z) * (position.Z - Center.Z) /
+                            (Dz * Dz);
 
             if (inside < 0.9999999999) return true; // previous check  0.9999999
 

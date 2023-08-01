@@ -193,8 +193,6 @@ namespace Vts.MonteCarlo.Sources
                     break;
                 case SourceProfileType.Image:
                     break;
-                case SourceProfileType.Arbitrary:
-                    break;
                 default:
                     throw new ArgumentOutOfRangeException(sourceProfile.SourceProfileType.ToString());
             }

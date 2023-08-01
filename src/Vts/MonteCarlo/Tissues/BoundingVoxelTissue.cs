@@ -7,13 +7,13 @@ namespace Vts.MonteCarlo.Tissues
 {
     /// <summary>
     /// Implements ITissueInput.  Defines input to BoundingVoxelTissue class which is comprised of
-    /// multilayer tissue bounded laterally by *vertical* cylinder
+    /// multilayer tissue bounded laterally by a voxel
     /// </summary>
     public class BoundingVoxelTissueInput : TissueInput, ITissueInput
     {
 
         /// <summary>
-        /// allows definition of tissue bounded by capless cylinder height of tissue
+        /// allows definition of tissue bounded by capless voxel height of tissue
         /// </summary>
         /// <param name="caplessVoxelRegion">bounding vertical cylinder region specification</param>
         /// <param name="layerRegions">tissue layer specification</param>
@@ -52,7 +52,7 @@ namespace Vts.MonteCarlo.Tissues
         }
 
         /// <summary>
-        /// regions of tissue (layers and ellipsoid)
+        /// regions of tissue (layers and bounding voxel)
         /// </summary>
         [IgnoreDataMember]
         public ITissueRegion[] Regions => LayerRegions.Concat(VoxelRegion).ToArray();

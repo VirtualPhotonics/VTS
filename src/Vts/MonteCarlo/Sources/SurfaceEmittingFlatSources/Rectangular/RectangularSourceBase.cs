@@ -129,7 +129,8 @@ namespace Vts.MonteCarlo.Sources
         /// <param name="rectWidthY">rectangular length in y direction (width)</param>
         /// <param name="rng">random number generator</param>
         /// <returns>Position</returns>
-        protected static Position GetFinalPositionFromProfileType(ISourceProfile sourceProfile, double rectLengthX, double rectWidthY, Random rng)
+        protected static Position GetFinalPositionFromProfileType(
+            ISourceProfile sourceProfile, double rectLengthX, double rectWidthY, Random rng)
         {
             var finalPosition = SourceDefaults.DefaultPosition.Clone();
             switch (sourceProfile.SourceProfileType)
@@ -142,7 +143,7 @@ namespace Vts.MonteCarlo.Sources
                         rng);
                     break;                                
                 case SourceProfileType.Gaussian:
-                    if (sourceProfile is GaussianSourceProfile gaussianProfile) // LM why is if here and not above?
+                    if (sourceProfile is GaussianSourceProfile gaussianProfile) 
                         finalPosition = SourceToolbox.GetPositionInARectangleRandomGaussian(
                             SourceDefaults.DefaultPosition.Clone(),
                             0.5 * rectLengthX,
@@ -153,8 +154,6 @@ namespace Vts.MonteCarlo.Sources
                 case SourceProfileType.Image:
                     finalPosition = ((ImageSourceProfile)sourceProfile).GetPositionInARectangleBasedOnImageIntensity(
                         rng);
-                    break;
-                case SourceProfileType.Arbitrary:
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(sourceProfile.SourceProfileType.ToString());

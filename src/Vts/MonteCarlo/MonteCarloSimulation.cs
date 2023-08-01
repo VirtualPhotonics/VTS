@@ -358,36 +358,19 @@ namespace Vts.MonteCarlo
             foreach (var vbType in EnumHelper.GetValues<VirtualBoundaryType>())
             {
                 IEnumerable<IDetectorInput> detectorInputs = null;
-                switch (vbType)
+                detectorInputs = vbType switch
                 {
-                    case VirtualBoundaryType.DiffuseReflectance:
-                        detectorInputs = Input.DetectorInputs.Where(d => d.TallyDetails.IsReflectanceTally).ToList();
-                        break;
-                    case VirtualBoundaryType.DiffuseTransmittance:
-                        detectorInputs = Input.DetectorInputs.Where(d => d.TallyDetails.IsTransmittanceTally).ToList();
-                        break;
-                    case VirtualBoundaryType.SpecularReflectance:
-                        detectorInputs = Input.DetectorInputs.Where(d => d.TallyDetails.IsSpecularReflectanceTally).ToList();
-                        break;
-                    case VirtualBoundaryType.GenericVolumeBoundary:
-                        detectorInputs = Input.DetectorInputs.Where(d => d.TallyDetails.IsVolumeTally).ToList();
-                        break;
-                    case VirtualBoundaryType.Dosimetry:
-                        detectorInputs = Input.DetectorInputs.Where(d => d.TallyDetails.IsInternalSurfaceTally).ToList();
-                        break;
-                    case VirtualBoundaryType.pMCDiffuseReflectance:
-                        detectorInputs = Input.DetectorInputs.Where(d => d.TallyDetails.IspMCReflectanceTally).ToList();
-                        break;
-                    case VirtualBoundaryType.pMCDiffuseTransmittance:
-                        detectorInputs = Input.DetectorInputs.Where(d => d.TallyDetails.IspMCTransmittanceTally).ToList();
-                        break;
-                    case VirtualBoundaryType.BoundingVolume:
-                        detectorInputs = Input.DetectorInputs.Where(d => d.TallyDetails.IsLateralBoundingVolumeTally).ToList();
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException(
-                            "Virtual boundary type not recognized: " + vbType);
-                }
+                    VirtualBoundaryType.DiffuseReflectance => Input.DetectorInputs.Where(d => d.TallyDetails.IsReflectanceTally).ToList(),
+                    VirtualBoundaryType.DiffuseTransmittance => Input.DetectorInputs.Where(d => d.TallyDetails.IsTransmittanceTally).ToList(),
+                    VirtualBoundaryType.SpecularReflectance => Input.DetectorInputs.Where(d => d.TallyDetails.IsSpecularReflectanceTally).ToList(),
+                    VirtualBoundaryType.GenericVolumeBoundary => Input.DetectorInputs.Where(d => d.TallyDetails.IsVolumeTally).ToList(),
+                    VirtualBoundaryType.Dosimetry => Input.DetectorInputs.Where(d => d.TallyDetails.IsInternalSurfaceTally).ToList(),
+                    VirtualBoundaryType.pMCDiffuseReflectance => Input.DetectorInputs.Where(d => d.TallyDetails.IspMCReflectanceTally).ToList(),
+                    VirtualBoundaryType.pMCDiffuseTransmittance => Input.DetectorInputs.Where(d => d.TallyDetails.IspMCTransmittanceTally).ToList(),
+                    VirtualBoundaryType.BoundingVolume => Input.DetectorInputs.Where(d => d.TallyDetails.IsLateralBoundingVolumeTally).ToList(),
+                    _ => throw new ArgumentOutOfRangeException(
+                                                "Virtual boundary type not recognized: " + vbType),
+                };
 
                 // make sure VB Controller has at least diffuse reflectance and diffuse transmittance
                 // may change this in future if tissue OnDomainBoundary changes

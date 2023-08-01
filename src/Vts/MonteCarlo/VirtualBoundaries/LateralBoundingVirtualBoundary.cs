@@ -1,8 +1,18 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using Vts.MonteCarlo.PhotonData;
 
 namespace Vts.MonteCarlo.VirtualBoundaries
 {
+    /// <summary>
+    /// The <see cref="VirtualBoundaries"/> namespace contains the Monte Carlo virtual boundaries to which detectors attach
+    /// </summary>
+
+    [CompilerGenerated]
+    internal class NamespaceDoc
+    {
+    }
+
     /// <summary>
     /// Implements IVirtualBoundary.  Used to capture all photons absorbed by bounding 
     /// tissue region (whatever is dependency injected)
@@ -10,7 +20,7 @@ namespace Vts.MonteCarlo.VirtualBoundaries
     public class LateralBoundingVirtualBoundary : IVirtualBoundary
     {
         /// <summary>
-        /// diffuse reflectance VB
+        /// diffuse lateral boundary VB
         /// </summary>
         /// <param name="tissue">ITissue</param>
         /// <param name="detectorController">IDetectorController</param>

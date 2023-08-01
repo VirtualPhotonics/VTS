@@ -65,12 +65,13 @@ namespace Vts.MonteCarlo.Tissues
         /// <returns>integer tissue region index</returns>
         public override int GetRegionIndex(Position position)
         {
-            // if it's in the bounding region, return "3", otherwise, call the layer method to determine
+            // if it's in the bounding region, return bounding region index,
+            // otherwise, call the layer method to determine
             return !_boundingRegion.ContainsPosition(position)  ? _boundingRegionExteriorIndex : base.GetRegionIndex(position);
         }
 
         /// <summary>
-        /// method to get distance from current photon position and direction to boundary of region
+        /// Method to get distance from current photon position and direction to boundary of region
         /// </summary>
         /// <param name="photon">Photon</param>
         /// <returns>distance to boundary</returns>
@@ -92,7 +93,7 @@ namespace Vts.MonteCarlo.Tissues
             // if not hitting the inclusion, call the base (layer) method
         }
         /// <summary>
-        /// method to determine if on boundary of tissue, i.e. at tissue/air interface
+        /// Method to determine if on boundary of tissue, i.e. at tissue/air interface
         /// </summary>
         /// <param name="position">photon position</param>
         /// <returns>Boolean indicating whether on boundary or not</returns>
@@ -104,7 +105,7 @@ namespace Vts.MonteCarlo.Tissues
                 (Math.Abs(position.Z - ((LayerTissueRegion)_layers.Last()).ZRange.Start) < 1e-10);
         }
         /// <summary>
-        /// method to get index of neighbor tissue region when photon on boundary of two regions
+        /// Method to get index of neighbor tissue region when photon on boundary of two regions
         /// </summary>
         /// <param name="photon">Photon</param>
         /// <returns>index of neighbor index</returns>
@@ -125,7 +126,7 @@ namespace Vts.MonteCarlo.Tissues
             // else on layer boundary so return layer neighbor
         }
         /// <summary>
-        /// method to determine photon state type of photon exiting tissue boundary
+        /// Method to determine photon state type of photon exiting tissue boundary
         /// </summary>
         /// <param name="position">photon position</param>
         /// <returns>PhotonStateType</returns>
@@ -140,7 +141,7 @@ namespace Vts.MonteCarlo.Tissues
                 : PhotonStateType.PseudoBoundingVolumeTissueBoundary;
         }
         /// <summary>
-        /// method that provides reflected direction when photon reflects off boundary
+        /// Method that provides reflected direction when photon reflects off boundary
         /// </summary>
         /// <param name="currentPosition">Position</param>
         /// <param name="currentDirection">Direction</param>
@@ -175,7 +176,7 @@ namespace Vts.MonteCarlo.Tissues
         }
 
         /// <summary>
-        /// method that provides refracted direction when photon refracts off boundary
+        /// Method that provides refracted direction when photon refracts off boundary
         /// </summary>
         /// <param name="currentPosition">Position</param>
         /// <param name="currentDirection">Direction</param>

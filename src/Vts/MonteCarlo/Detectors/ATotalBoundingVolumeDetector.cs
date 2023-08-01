@@ -118,14 +118,5 @@ namespace Vts.MonteCarlo.Detectors
         /// <returns>array of BinaryArraySerializer</returns>
         public BinaryArraySerializer[] GetBinarySerializers() => null;
 
-        /// <summary>
-        /// Method to determine if photon is within detector
-        /// </summary>
-        /// <param name="dp">photon data point</param>
-        /// <returns>method always returns true</returns>
-        public bool ContainsPoint(PhotonDataPoint dp)
-        {
-            return true; // or, possibly test for NA or confined position, etc
-        }
     }
 }
