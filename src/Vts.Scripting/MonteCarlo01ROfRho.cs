@@ -1,60 +1,25 @@
-﻿using Vts.Common;
-using Vts.MonteCarlo.Detectors;
-using Vts.MonteCarlo.Sources;
-using Vts.MonteCarlo.Tissues;
+﻿using Vts;
+using Vts.Common;
 using Vts.MonteCarlo;
-using Vts;
+using Vts.MonteCarlo.Detectors;
 using Vts.Scripting.Utilities;
 using Plotly.NET.CSharp;
 
-// Example 01: run a simple Monte Carlo simulation with 1000 photons
-
-// set number of photons
-var numPhotons = 1000; 
-
-// define a point source beam normally incident at the origin
-var sourceInput = new DirectionalPointSourceInput
-{
-    SourceType = "DirectionalPoint",
-    PointLocation = new(x: 0, y: 0, z: 0),
-    Direction = new(ux: 0, uy: 0, uz: 1),
-    InitialTissueRegionIndex = 0
-};
-
-// define a semi-infinite slab tissue geometry with air-tissue boundary (a bottom air layer is necessary)
-var tissueInput = new MultiLayerTissueInput
-{
-    Regions = new ITissueRegion[]
-            {
-                new LayerTissueRegion(
-                    zRange: new(double.NegativeInfinity, 0),         // air "z" range
-                    op: new(mua: 0.0, musp: 1E-10, g: 1.0, n: 1.0)), // air optical properties
-                new LayerTissueRegion(
-                    zRange: new(0, 100),                             // tissue "z" range ("semi-infinite" slab, 100mm thick)
-                    op: new(mua: 0.01, musp: 1.0, g: 0.9, n: 1.4)),  // tissue optical properties
-                new LayerTissueRegion(
-                    zRange: new(100, double.PositiveInfinity),       // air "z" range
-                    op: new(mua: 0.0, musp: 1E-10, g: 1.0, n: 1.0))  // air optical properties
-            }
-};
-
-// define a single R(rho) detector by the endpoints of rho bins
-var detectorInput = new ROfRhoDetectorInput { Rho = new(0, 40, 201), TallySecondMoment = true };
+// Example 01: run a simple Monte Carlo simulation with 1000 photons.
+// Notes:
+//    - default source is a point source beam normally incident at the origin 
+//    - default tissue is a 100mm thick slab with air-tissue boundary
 
 // create a SimulationInput object to define the simulation
+var detectorRange = new DoubleRange(start: 0, stop: 40, number: 201);
 var simulationInput = new SimulationInput
-    {
-        N = numPhotons,
-        SourceInput = sourceInput,
-        TissueInput = tissueInput,
-        DetectorInputs = new IDetectorInput[] { detectorInput },
-        Options = new SimulationOptions
-        {
-            Seed = 0, // -1 will generate a random seed
-            AbsorptionWeightingType = AbsorptionWeightingType.Discrete,
-            PhaseFunctionType = PhaseFunctionType.HenyeyGreenstein
-        }
-    };
+{
+    // specify the number of photons to run
+    N = 1000,
+
+    // define a single R(rho) detector by the endpoints of rho bins
+    DetectorInputs = new [] { new ROfRhoDetectorInput { Rho = detectorRange } },
+};
 
 // create the simulation
 var simulation = new MonteCarloSimulation(simulationInput);
@@ -62,13 +27,13 @@ var simulation = new MonteCarloSimulation(simulationInput);
 // run the simulation
 var simulationOutput = simulation.Run();
 
-// plot the results
-var detectorMidpoints = detectorInput.Rho.GetMidpoints();
+// plot the results using Plotly.NET
+var detectorMidpoints = detectorRange.GetMidpoints();
 var logReflectance = simulationOutput.R_r.Select(r => Math.Log(r)).ToArray();
 Chart.Point<double, double, string>(
         x: detectorMidpoints,
         y: logReflectance
-    ).WithTraceInfo("log(R) vs rho [mm-2]", ShowLegend: true)
+    ).WithTraceInfo("log(R(ρ)) [mm-2]", ShowLegend: true)
      .WithXAxisStyle<double, double, string>(Title: Plotly.NET.Title.init("rho [mm]"))
-     .WithYAxisStyle<double, double, string>(Title: Plotly.NET.Title.init("log(R(rho)) [mm-2]"))
+     .WithYAxisStyle<double, double, string>(Title: Plotly.NET.Title.init("log(R(ρ)) [mm-2]"))
      .Show();
