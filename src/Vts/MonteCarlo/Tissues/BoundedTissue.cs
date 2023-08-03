@@ -80,7 +80,7 @@ namespace Vts.MonteCarlo.Tissues
             // if we're inside or outside the bounding region, distance is either to bounding region or
             // edge of layer
 
-            // check if current track will hit the bounding boundary
+            // check if current track will not hit the bounding boundary, then tissue boundary
             if (!_boundingRegion.RayIntersectBoundary(photon, out var distanceToBoundingBoundary))
                 return base.GetDistanceToBoundary(photon);
 
@@ -114,10 +114,10 @@ namespace Vts.MonteCarlo.Tissues
             // first, check what region the photon is in
             var regionIndex = photon.CurrentRegionIndex;
 
-            // if we're on the boundary of the bounding region
+            // if we're not on the boundary of the bounding region, get layer neighbor
             if (!_boundingRegion.OnBoundary(photon.DP.Position)) return base.GetNeighborRegionIndex(photon);
 
-            //  and outside bounding region then neighbor is tissue layer
+            // if we are on boundary of bounding region, determine neighbor index
             return regionIndex != _boundingRegionExteriorIndex
                 ? _boundingRegionExteriorIndex
                 : base.GetRegionIndex(photon.DP.Position);

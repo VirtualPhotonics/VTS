@@ -88,7 +88,7 @@ namespace Vts.Test.MonteCarlo.Tissues
             Photon photon = new Photon();
             photon.DP.Position = new Position(-2, 0, 3);
             photon.DP.Direction = new Direction(1, 0, 0);
-            photon.S = 10.0; // definitely intersect ckh this set to 2.0 makes test fail even though result is correct because _onBoundary local and not set correctly
+            photon.S = 10.0; // definitely intersect 
             double distanceToBoundary;
             bool result = _ellipsoidTissueRegion.RayIntersectBoundary(photon, out distanceToBoundary);
             Assert.AreEqual(true, result);
