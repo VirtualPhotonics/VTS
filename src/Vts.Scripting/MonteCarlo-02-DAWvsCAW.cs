@@ -9,12 +9,12 @@ using Plotly.NET.CSharp;
 // with 1000 photons each and compare computation time
 // Notes:
 //    - default source is a point source beam normally incident at the origin 
-//    - default tissue is a 100mm thick slab with air-tissue boundary
+//    - default tissue is a 100mm thick slab with air-tissue boundary and optical properties: mua: 0.01, musp: 1.0, g: 0.8, n:1.4
 
 // define some shared values between the two simulations
 var numPhotons = 1000;
 var detectorRange = new DoubleRange(start: 0, stop: 40, number: 201);
-var detectorInput = new ROfRhoDetectorInput { Rho = detectorRange };
+var detectorInput = new ROfRhoDetectorInput { Rho = detectorRange, Name = "ROfRho" }; // name can be whatever you want
 
 // create SimulationInput objects to define the two simulations
 var simulationInput1 = new SimulationInput
@@ -48,9 +48,12 @@ var simulation1Output = simulation1.Run();
 var simulation2Output = simulation2.Run();
 
 // plot and compare the results using Plotly.NET
+
+var detectorResults1 = (ROfRhoDetector)simulation1Output.ResultsDictionary[detectorInput.Name];
+var detectorResults2 = (ROfRhoDetector)simulation2Output.ResultsDictionary[detectorInput.Name];
+var logReflectance1 = detectorResults1.Mean.Select(r => Math.Log(r)).ToArray();
+var logReflectance2 = detectorResults2.Mean.Select(r => Math.Log(r)).ToArray();
 var detectorMidpoints = detectorRange.GetMidpoints();
-var logReflectance1 = simulation1Output.R_r.Select(r => Math.Log(r)).ToArray();
-var logReflectance2 = simulation2Output.R_r.Select(r => Math.Log(r)).ToArray();
 var chart1 = Chart.Point<double, double, string>(
         x: detectorMidpoints,
         y: logReflectance1

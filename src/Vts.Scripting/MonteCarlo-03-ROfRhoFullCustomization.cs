@@ -47,7 +47,7 @@ var simulationInput = new SimulationInput
     // define a single R(rho) detector by the endpoints of rho bins
     DetectorInputs = new [] 
     { 
-        new ROfRhoDetectorInput { Rho = detectorRange, TallySecondMoment = true } 
+        new ROfRhoDetectorInput { Rho = detectorRange, TallySecondMoment = true, Name = "ROfRho" }  // name can be whatever you want
     },
 
     // specify all simulation options
@@ -66,8 +66,9 @@ var simulation = new MonteCarloSimulation(simulationInput);
 var simulationOutput = simulation.Run();
 
 // plot the results using Plotly.NET
+var detectorResults = (ROfRhoDetector)simulationOutput.ResultsDictionary["ROfRho"];
+var logReflectance = detectorResults.Mean.Select(r => Math.Log(r)).ToArray();
 var detectorMidpoints = detectorRange.GetMidpoints();
-var logReflectance = simulationOutput.R_r.Select(r => Math.Log(r)).ToArray();
 Chart.Point<double, double, string>(
         x: detectorMidpoints,
         y: logReflectance

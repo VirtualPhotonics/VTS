@@ -1,18 +1,24 @@
 {
   "profiles": {
-    "MonteCarlo01ROfRho.cs": {
+    "MonteCarlo-01-ROfRhoSimple.cs": {
       "commandName": "Project"
     },
-    "MonteCarlo02ROfRho.cs": {
+    "MonteCarlo-02-DAWvsCAW.cs": {
       "commandName": "Project"
     },
-    "MonteCarlo03ROfRho.cs": {
+    "MonteCarlo-03-ROfRhoFullCustomization.cs": {
       "commandName": "Project"
     },
-    "MonteCarlo04ROfRho.cs": {
+    "MonteCarlo-04-N1000vsN100.cs": {
       "commandName": "Project"
     },
-    "MonteCarlo10ROfFx.cs": {
+    "MonteCarlo-05-PostProcessor.cs": {
+      "commandName": "Project"
+    },
+    "MonteCarlo-06-pMCPostProcessor.cs": {
+      "commandName": "Project"
+    },
+    "MonteCarlo-10-ROfFx.cs": {
       "commandName": "Project"
     }
   }

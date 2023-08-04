@@ -49,23 +49,29 @@ namespace Vts.MonteCarlo.Factories
         public static PhotonDatabaseWriter GetSurfaceVirtualBoundaryDatabaseWriter(
             DatabaseType databaseType, string filePath, string outputName)
         {
+            var rootPath = Path.Combine(filePath, outputName);
+            if (!Directory.Exists(rootPath))
+            {
+                Directory.CreateDirectory(rootPath);
+            }   
+
             switch (databaseType)
             {
                 case DatabaseType.DiffuseReflectance:
                     return new PhotonDatabaseWriter(VirtualBoundaryType.DiffuseReflectance,
-                        Path.Combine(filePath, outputName, "DiffuseReflectanceDatabase"));
+                        Path.Combine(rootPath, "DiffuseReflectanceDatabase"));
                 case DatabaseType.DiffuseTransmittance:
                     return new PhotonDatabaseWriter(VirtualBoundaryType.DiffuseTransmittance,
-                        Path.Combine(filePath, outputName, "DiffuseTransmittanceDatabase"));
+                        Path.Combine(rootPath, "DiffuseTransmittanceDatabase"));
                 case DatabaseType.SpecularReflectance:
                     return new PhotonDatabaseWriter(VirtualBoundaryType.SpecularReflectance,
-                        Path.Combine(filePath, outputName, "SpecularReflectanceDatabase"));
+                        Path.Combine(rootPath, "SpecularReflectanceDatabase"));
                 case DatabaseType.pMCDiffuseReflectance:
                     return new PhotonDatabaseWriter(VirtualBoundaryType.pMCDiffuseReflectance,
-                        Path.Combine(filePath, outputName, "DiffuseReflectanceDatabase"));
+                        Path.Combine(rootPath, "DiffuseReflectanceDatabase"));
                 case DatabaseType.pMCDiffuseTransmittance:
                     return new PhotonDatabaseWriter(VirtualBoundaryType.pMCDiffuseTransmittance,
-                        Path.Combine(filePath, outputName, "DiffuseTransmittanceDatabase"));
+                        Path.Combine(rootPath, "DiffuseTransmittanceDatabase"));
                 default:
                     throw new ArgumentOutOfRangeException(
                         "Database type not recognized: " + databaseType);

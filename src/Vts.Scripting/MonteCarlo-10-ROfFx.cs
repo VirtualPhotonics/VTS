@@ -25,8 +25,8 @@ var simulation = new MonteCarloSimulation(simulationInput);
 var simulationOutput = simulation.Run();
 
 // plot the results with Plotly.NET
-var detectorResults = (ROfFxDetector)simulationOutput.ResultsDictionary[detectorInput.Name]);
-var complexReflectance = ((ROfFxDetector)simulationOutput.ResultsDictionary[detectorInput.Name]).Mean;
+var detectorResults = (ROfFxDetector)simulationOutput.ResultsDictionary[detectorInput.Name];
+var complexReflectance = detectorResults.Mean;
 var reflectanceMagnitude = complexReflectance.Select(r => r.Magnitude).ToArray();
 Chart.Point<double, double, string>(
         x: fxRange.AsEnumerable().ToArray(),

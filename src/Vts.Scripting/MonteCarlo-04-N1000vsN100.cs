@@ -13,7 +13,7 @@ using Plotly.NET.CSharp;
 
 // define some shared values between the two simulations
 var detectorRange = new DoubleRange(start: 0, stop: 40, number: 201);
-var detectorInput = new ROfRhoDetectorInput { Rho = detectorRange };
+var detectorInput = new ROfRhoDetectorInput { Rho = detectorRange, Name = "ROfRho" };
 
 // create two simulations, one with n=1000 and one with n=100
 // note, we are creating a SimulationInput object here in-line
@@ -35,9 +35,11 @@ var simulation1Output = simulation1.Run();
 var simulation2Output = simulation2.Run();
 
 // plot and compare the results using Plotly.NET
+var detectorResults1 = (ROfRhoDetector)simulation1Output.ResultsDictionary[detectorInput.Name];
+var detectorResults2 = (ROfRhoDetector)simulation2Output.ResultsDictionary[detectorInput.Name];
+var logReflectance1 = detectorResults1.Mean.Select(r => Math.Log(r)).ToArray();
+var logReflectance2 = detectorResults2.Mean.Select(r => Math.Log(r)).ToArray();
 var detectorMidpoints = detectorRange.GetMidpoints();
-var logReflectance1 = simulation1Output.R_r.Select(r => Math.Log(r)).ToArray();
-var logReflectance2 = simulation2Output.R_r.Select(r => Math.Log(r)).ToArray();
 var chart1 = Chart.Point<double, double, string>(
         x: detectorMidpoints,
         y: logReflectance1
