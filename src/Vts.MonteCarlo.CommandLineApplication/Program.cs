@@ -1,11 +1,11 @@
 //#define PROCESS_ATTACH_DEBUG
 
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
-using NLog;
 using Vts.Common.Logging;
 
 [assembly: InternalsVisibleTo("Vts.MonteCarlo.CommandLineApplication.Test")]
@@ -51,7 +51,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
                    Logger.Info($"\nVirtual Photonics MC {GetVersionNumber(3)}\n");
                    Logger.Info("For more information type mc help");
                    Logger.Info("For help on a specific topic type dotnet mc.dll help=<topicname>\n");
-            },
+               },
                new CommandLine.Switch("help", val =>
                {
                    var helpTopic = val.First();
@@ -91,23 +91,23 @@ namespace Vts.MonteCarlo.CommandLineApplication
                }),
                new CommandLine.Switch("cpucount", val =>
                {
-                    CPUCount = val.First();
-                    if (CPUCount == "all")
-                    {
-                        CPUCount = Environment.ProcessorCount.ToString();
-                        Logger.Info(() => "changed to maximum CPUs on system " + CPUCount);
-                    }
-                    else
-                    {
-                        if (!int.TryParse(CPUCount, out var CPUCountInt))
-                        {
-                            Logger.Info(() => "unknown cpucount option " + CPUCount);
-                        }
-                        else
-                        {
-                            Logger.Info(() => "number of CPUs specified as " + CPUCount);
-                        }
-                    }
+                   CPUCount = val.First();
+                   if (CPUCount == "all")
+                   {
+                       CPUCount = Environment.ProcessorCount.ToString();
+                       Logger.Info(() => "changed to maximum CPUs on system " + CPUCount);
+                   }
+                   else
+                   {
+                       if (!int.TryParse(CPUCount, out var CPUCountInt))
+                       {
+                           Logger.Info(() => "unknown cpucount option " + CPUCount);
+                       }
+                       else
+                       {
+                           Logger.Info(() => "number of CPUs specified as " + CPUCount);
+                       }
+                   }
                }),
                new CommandLine.Switch("paramsweep", val =>
                {
@@ -218,7 +218,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
             LogManager.Configuration = null;
             return 0;
         }
-        
+
         private static void GenerateDefaultInputFiles()
         {
             try
@@ -355,7 +355,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
                     break;
             }
         }
-        
+
         /// <summary>
         /// Gets the version number of the application
         /// </summary>

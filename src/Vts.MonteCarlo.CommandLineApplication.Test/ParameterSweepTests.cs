@@ -29,7 +29,7 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
         [Test]
         public void ParameterSweep_constructor_with_double_array_test()
         {
-            var parameterSweep = new ParameterSweep("mua2", new [] { 0.1, 0.2, 0.3 });
+            var parameterSweep = new ParameterSweep("mua2", new[] { 0.1, 0.2, 0.3 });
             Assert.AreEqual(0.1, parameterSweep.Values[0]);
             Assert.AreEqual("mua2", parameterSweep.Name);
         }

@@ -24,6 +24,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="..\Vts.MonteCarlo.CommandLineApplication\CommandLine.cs" Link="CommandLine.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Vts\Vts.csproj" />
   </ItemGroup>
 
