@@ -38,7 +38,8 @@ var simulationInput = new SimulationInput
     OutputName = "results",
     Options = new SimulationOptions
     {
-        Databases = new DatabaseType[] { DatabaseType.pMCDiffuseTransmittance }
+        Seed = 0,
+        Databases = new DatabaseType[] { DatabaseType.pMCDiffuseReflectance }
     }
 };
 
@@ -93,13 +94,13 @@ var pMCPostProcessorInput = new PostProcessorInput
 };
 
 // create and run the post-processor
-var photonDatabase = PhotonDatabaseFactory.GetPhotonDatabase(
+var photonDatabase = PhotonDatabaseFactory.GetpMCDatabase(
     virtualBoundaryType: VirtualBoundaryType.pMCDiffuseReflectance,
     filePath: simulationInput.OutputName);
 var postProcessor = new PhotonDatabasePostProcessor(
     virtualBoundaryType: VirtualBoundaryType.pMCDiffuseReflectance, 
     detectorInputs: pMCPostProcessorInput.DetectorInputs,
-    photonDatabase: photonDatabase,
+    database: photonDatabase,
     databaseInput: simulationInput);
 var postProcessorOutput = postProcessor.Run();
 
