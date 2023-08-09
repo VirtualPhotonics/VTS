@@ -10,12 +10,9 @@
   <ItemGroup>
     <PackageReference Include="Plotly.NET.CSharp" Version="0.11.1" />
     <PackageReference Include="Plotly.NET.Interactive" Version="4.2.1" />
-    <PackageReference Include="SmallSharp" Version="1.1.7" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Vts.Scripting.Utilities\Vts.Scripting.Utilities.csproj" />
     <ProjectReference Include="..\Vts\Vts.csproj" />
   </ItemGroup>
-
 </Project>

@@ -1,9 +1,10 @@
 ﻿using Vts.Common;
 using Vts.MonteCarlo;
+using Plotly.NET.CSharp;
 
 namespace Vts.Scripting.Utilities;
 
-public static class PlottingExtensions
+public static class PlotHelper
 {
     /// <summary>
     /// Helper extension method that returns an array of midpoints, located halfway between the endpoints of the specified range
@@ -40,5 +41,15 @@ public static class PlottingExtensions
             .ToArray();
 
         return detectors ?? Array.Empty<TDetector>();
+    }
+
+    public static Plotly.NET.GenericChart.GenericChart LineChart(double[] xValues, double[] yValues, string xLabel = "", string yLabel = "", string title = "")
+    {
+        return Chart.Line<double, double, string>(
+                x: xValues,
+                y: yValues
+            ).WithTraceInfo(title, ShowLegend: true)
+             .WithXAxisStyle<double, double, string>(Title: Plotly.NET.Title.init(xLabel))
+             .WithYAxisStyle<double, double, string>(Title: Plotly.NET.Title.init(yLabel));
     }
 }
