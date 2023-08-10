@@ -13,7 +13,7 @@ public class Program
     {
         //RunAllMonteCarloDemos();
 
-        MC07_pMCInversion.RunDemo();
+        MC08_UnitTestComparison.RunDemo();
     }
 
     /// <summary>
@@ -28,6 +28,7 @@ public class Program
         MC05_PostProcessor.RunDemo();
         MC06_pMCPostProcessor.RunDemo();
         MC07_pMCInversion.RunDemo();
+        MC08_UnitTestComparison.RunDemo();
         MC10_ROfFx.RunDemo();
     }
 }

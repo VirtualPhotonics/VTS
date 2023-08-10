@@ -48,7 +48,7 @@ public class MC03_ROfRhoFullCustomization : IDemoScript
                         op: new(mua: 0.0, musp: 1E-10, g: 1.0, n: 1.0)), // air optical properties
                     new LayerTissueRegion(
                         zRange: new(0, 100),                             // tissue "z" range ("semi-infinite" slab, 100mm thick)
-                        op: new(mua: 0.01, musp: 1.0, g: 0.9, n: 1.4)),  // tissue optical properties
+                        op: new(mua: 0.01, musp: 1.0, g: 0.8, n: 1.4)),  // tissue optical properties
                     new LayerTissueRegion(
                         zRange: new(100, double.PositiveInfinity),       // air "z" range
                         op: new(mua: 0.0, musp: 1E-10, g: 1.0, n: 1.0))  // air optical properties

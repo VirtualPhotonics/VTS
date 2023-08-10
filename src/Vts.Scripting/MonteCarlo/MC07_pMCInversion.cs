@@ -45,7 +45,7 @@ public class MC07_pMCInversion : IDemoScript
                     op: new(mua: 0.0, musp: 1E-10, g: 1.0, n: 1.0)), // air optical properties
                 new LayerTissueRegion(
                     zRange: new(0, 100),                             // tissue "z" range ("semi-infinite" slab, 100mm thick)
-                    op: new(mua: 0.01, musp: 1.0, g: 0.9, n: 1.4)),  // tissue optical properties
+                    op: new(mua: 0.01, musp: 1.0, g: 0.8, n: 1.4)),  // tissue optical properties
                 new LayerTissueRegion(
                     zRange: new(100, double.PositiveInfinity),       // air "z" range
                     op: new(mua: 0.0, musp: 1E-10, g: 1.0, n: 1.0))  // air optical properties
@@ -81,10 +81,10 @@ public class MC07_pMCInversion : IDemoScript
         var initialGuess = new double[] { baselineOps.Mua, baselineOps.Mus };
 
         // Create an ad-hoc forward solver based on pMC prediction (see implementation below; note: implemented for ROfRho only)
-        var pMCForwardSolver = new pMCForwardSolver(detectorRange, simulationInput, simulationInput.OutputName); 
+        var pMCForwardSolver = new pMCForwardSolver(detectorRange, simulationInput, simulationInput.OutputName);
 
         // Run the inversion, based on Levenberg-Marquardt optimization
-        var initialGuessOPsAndRhoAxis = new object[] { new [] { baselineOps }, detectorMidpoints }; // "extra" (constant) data for the forward model calls
+        var initialGuessOPsAndRhoAxis = new object[] { new[] { baselineOps }, detectorMidpoints }; // "extra" (constant) data for the forward model calls
         var solution = ComputationFactory.SolveInverse(
             forwardSolver: pMCForwardSolver,
             optimizer: new MPFitLevenbergMarquardtOptimizer(),
@@ -104,13 +104,28 @@ public class MC07_pMCInversion : IDemoScript
         // plot and compare the results using Plotly.NET
         var logReflectance1 = postProcessorDetectorResultsInitialGuess.Select(r => Math.Log(r)).ToArray();
         var logReflectance2 = postProcessorDetectorResultsFitValues.Select(r => Math.Log(r)).ToArray();
-        var (xLabel, yLabel) = ( "rho [mm]", "log(R(ρ)) [mm-2]");
+        var (xLabel, yLabel) = ("rho [mm]", "log(R(ρ)) [mm-2]");
         Chart.Combine(new[]
         {
             PlotHelper.ScatterChart(detectorMidpoints, logReflectance2, xLabel, yLabel, title: "Measured Data"),
             PlotHelper.LineChart(detectorMidpoints, logReflectance1, xLabel, yLabel, title: $"Initial guess (mua={baselineOps.Mua:F3}/mm, musp={baselineOps.Musp:F3}/mm)"),
             PlotHelper.LineChart(detectorMidpoints, logReflectance2, xLabel, yLabel, title: $"Fit result (mua={fitOps.Mua:F3}/mm, musp={fitOps.Musp:F3}/mm)")
         }).Show(); // show all three charts together
+
+        // todo: add convergence error info similar to Matlab:
+        // xlabel('\rho [mm]');
+        // ylabel('log10(R(\rho))');
+        // legend('Meas','IG','Converged','Location','SouthWest');
+        // title('Inverse solution using pMC/dMC'); 
+        // set(f, 'Name', 'Inverse solution using pMC/dMC');
+        // disp(sprintf('Meas =    [%f %5.3f]',measOPs(1),measOPs(2)/(1-0.8)));
+        // disp(sprintf('IG =      [%f %5.3f] Chi2=%5.3e',x0(1),x0(2),...
+        //     (measData-doInitialGuess.Mean')*(measData-doInitialGuess.Mean')'));
+        // disp(sprintf('Conv =    [%f %5.3f] Chi2=%5.3e',recoveredOPs(1),recoveredOPs(2),...
+        //     (measData-doRecovered.Mean')*(measData-doRecovered.Mean')'));
+        // disp(sprintf('error =   [%f %5.3f]',abs(measOPs(1)-recoveredOPs(1))/measOPs(1),...
+        //     abs(measMus-recoveredOPs(2))/measOPs(2)));
+
     }
 
     private class pMCForwardSolver : IForwardSolver
