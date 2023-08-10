@@ -1,6 +1,7 @@
 ﻿using Vts.Common;
 using Vts.MonteCarlo;
 using Plotly.NET.CSharp;
+using System.Reflection.Emit;
 
 namespace Vts.Scripting.Utilities;
 
@@ -43,12 +44,28 @@ public static class PlotHelper
         return detectors ?? Array.Empty<TDetector>();
     }
 
+    public static Plotly.NET.GenericChart.GenericChart ScatterChart(double[] xValues, double[] yValues, string xLabel = "", string yLabel = "", string title = "")
+    {
+        return Chart.Point<double, double, string>(xValues, yValues).WithStandardStyling(xLabel, yLabel, title);
+    }
+
     public static Plotly.NET.GenericChart.GenericChart LineChart(double[] xValues, double[] yValues, string xLabel = "", string yLabel = "", string title = "")
     {
-        return Chart.Line<double, double, string>(
-                x: xValues,
-                y: yValues
-            ).WithTraceInfo(title, ShowLegend: true)
+        return Chart.Line<double, double, string>(xValues, yValues).WithStandardStyling(xLabel, yLabel, title);
+    }
+
+    /// <summary>
+    /// Fluent helper method to apply standard styling to a chart
+    /// </summary>
+    /// <param name="chart"></param>
+    /// <param name="title"></param>
+    /// <param name="xLabel"></param>
+    /// <param name="yLabel"></param>
+    /// <returns></returns>
+    private static Plotly.NET.GenericChart.GenericChart WithStandardStyling(
+        this Plotly.NET.GenericChart.GenericChart chart, string xLabel = "", string yLabel = "", string title = "")
+    {
+        return chart.WithTraceInfo(title, ShowLegend: true)
              .WithXAxisStyle<double, double, string>(Title: Plotly.NET.Title.init(xLabel))
              .WithYAxisStyle<double, double, string>(Title: Plotly.NET.Title.init(yLabel));
     }

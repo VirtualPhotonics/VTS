@@ -6,11 +6,11 @@ using Vts.MonteCarlo.Factories;
 using Vts.MonteCarlo.PostProcessing;
 using Vts.Scripting.Utilities;
 using Plotly.NET.CSharp;
-using FluentAssertions.Equivalency;
-using MathNet.Numerics.Distributions;
-using MathNet.Numerics;
-using Microsoft.CodeAnalysis.Options;
-using static System.Runtime.InteropServices.JavaScript.JSType;
+using Vts.Factories;
+using Vts.Modeling.Optimizers;
+using System.ComponentModel;
+using System.Numerics;
+using Vts.MonteCarlo.PhotonData;
 
 namespace Vts.Scripting.MonteCarlo;
 
@@ -39,108 +39,591 @@ public class MC07_pMCInversion : IDemoScript
         var tissueInput = new MultiLayerTissueInput
         {
             Regions = new[]
-                {
-                    new LayerTissueRegion(
-                        zRange: new(double.NegativeInfinity, 0),         // air "z" range
-                        op: new(mua: 0.0, musp: 1E-10, g: 1.0, n: 1.0)), // air optical properties
-                    new LayerTissueRegion(
-                        zRange: new(0, 100),                             // tissue "z" range ("semi-infinite" slab, 100mm thick)
-                        op: new(mua: 0.01, musp: 1.0, g: 0.9, n: 1.4)),  // tissue optical properties
-                    new LayerTissueRegion(
-                        zRange: new(100, double.PositiveInfinity),       // air "z" range
-                        op: new(mua: 0.0, musp: 1E-10, g: 1.0, n: 1.0))  // air optical properties
-                }
+            {
+                new LayerTissueRegion(
+                    zRange: new(double.NegativeInfinity, 0),         // air "z" range
+                    op: new(mua: 0.0, musp: 1E-10, g: 1.0, n: 1.0)), // air optical properties
+                new LayerTissueRegion(
+                    zRange: new(0, 100),                             // tissue "z" range ("semi-infinite" slab, 100mm thick)
+                    op: new(mua: 0.01, musp: 1.0, g: 0.9, n: 1.4)),  // tissue optical properties
+                new LayerTissueRegion(
+                    zRange: new(100, double.PositiveInfinity),       // air "z" range
+                    op: new(mua: 0.0, musp: 1E-10, g: 1.0, n: 1.0))  // air optical properties
+            }
         };
-        var detectorRange = new DoubleRange(start: 0, stop: 40, number: 201);
         var simulationInput = new SimulationInput
         {
-            N = 1000,
+            N = 10000,
             TissueInput = tissueInput,
             DetectorInputs = new IDetectorInput[] { }, // leaving this empty - no on-the-fly detectors needed!
             OutputName = "results",
             Options = new SimulationOptions
             {
-                Seed = 0,
+                //Seed = 0,
+                AbsorptionWeightingType = AbsorptionWeightingType.Discrete,
                 Databases = new DatabaseType[] { DatabaseType.pMCDiffuseReflectance }
             }
         };
 
-        // todo: #72: complete the demonstration following the Matlab example (and MPFitLevenbergMarquardtOptimizer)
-
-        // create and run the simulation
+        // create and run the simulation, generating the pMC database
         var simulation = new MonteCarloSimulation(input: simulationInput);
         var simulationOutput = simulation.Run();
 
-        // specify post-processing of three post-processor detectors with 1x, 0.5x, and 2x the baseline mua (0.01)
-        var pMCDetectorInput1xmua = new pMCROfRhoDetectorInput
-        {
-            Rho = detectorRange,
-            Name = "ROfRho",
-            PerturbedOps = new OpticalProperties[]
-            {
-                new(mua: 0.0, musp: 1E-10, g: 1.0, n: 1.0), // air optical properties
-                new(mua: 0.01, musp: 1.0, g: 0.9, n: 1.4),  // tissue optical properties (baseline)
-                new(mua: 0.0, musp: 1E-10, g: 1.0, n: 1.0)  // air optical properties
-            },
-            PerturbedRegionsIndices = new[] { 1 } // only perturbing the tissue OPs 
-        };
-        var pMCDetectorInput0p5xmua = new pMCROfRhoDetectorInput
-        {
-            Rho = detectorRange,
-            Name = "ROfRhoMuaHalf",
-            PerturbedOps = new OpticalProperties[]
-            {
-                new(mua: 0.0, musp: 1E-10, g: 1.0, n: 1.0), // air optical properties
-                new(mua: 0.005, musp: 1.0, g: 0.9, n: 1.4),  // tissue optical properties (half baseline)
-                new(mua: 0.0, musp: 1E-10, g: 1.0, n: 1.0)  // air optical properties
-            },
-            PerturbedRegionsIndices = new[] { 1 } // only perturbing the tissue OPs 
-        };
-        var pMCDetectorInput2xmua = new pMCROfRhoDetectorInput
-        {
-            Rho = detectorRange,
-            Name = "ROfRhoMuaDouble",
-            PerturbedOps = new OpticalProperties[]
-            {
-                new(mua: 0.0, musp: 1E-10, g: 1.0, n: 1.0), // air optical properties
-                new(mua: 0.02, musp: 1.0, g: 0.9, n: 1.4),  // tissue optical properties (double baseline)
-                new(mua: 0.0, musp: 1E-10, g: 1.0, n: 1.0)  // air optical properties
-            },
-            PerturbedRegionsIndices = new[] { 1 } // only perturbing the tissue OPs 
-        };
+        // Create some measurements, based on a Nurbs-based White Monte Carlo forward solver
+        var measuredOPs = new OpticalProperties(mua: 0.04, musp: 0.95, g: 0.8, n: 1.4);
+        var detectorRange = new DoubleRange(start: 0, stop: 6, number: 7);
+        var detectorMidpoints = detectorRange.GetMidpoints();
+        var measurementForwardSolver = SolverFactory.GetForwardSolver(ForwardSolverType.Nurbs);
+        var measuredData = measurementForwardSolver.ROfRho(measuredOPs, detectorMidpoints);
 
-        // create a PostProcessorInput object to define the post-processing, based on the three detector inputs above
-        var pMCPostProcessorInput = new PostProcessorInput
-        {
-            InputFolder = simulationInput.OutputName,
-            DetectorInputs = new IDetectorInput[] { pMCDetectorInput1xmua, pMCDetectorInput0p5xmua, pMCDetectorInput2xmua },
-            DatabaseSimulationInputFilename = "infile"
-        };
+        // Specify initial guess for optimization equal to the original pMC simulation baseline values
+        var baselineOps = tissueInput.Regions[1].RegionOP;
+        var initialGuess = new double[] { baselineOps.Mua, baselineOps.Mus };
 
-        // create and run the post-processor
-        var photonDatabase = PhotonDatabaseFactory.GetpMCDatabase(
-            virtualBoundaryType: VirtualBoundaryType.pMCDiffuseReflectance,
-            filePath: simulationInput.OutputName);
-        var postProcessor = new PhotonDatabasePostProcessor(
-            virtualBoundaryType: VirtualBoundaryType.pMCDiffuseReflectance,
-            detectorInputs: pMCPostProcessorInput.DetectorInputs,
-            database: photonDatabase,
-            databaseInput: simulationInput);
-        var postProcessorOutput = postProcessor.Run();
+        // Create an ad-hoc forward solver based on pMC prediction (see implementation below; note: implemented for ROfRho only)
+        var pMCForwardSolver = new pMCForwardSolver(detectorRange, simulationInput); 
+
+        // Run the inversion, based on Levenberg-Marquardt optimization
+        var initialGuessOPsAndRhoAxis = new object[] { new [] { baselineOps }, detectorMidpoints }; // "extra" (constant) data for the forward model calls
+        var solution = ComputationFactory.SolveInverse(
+            forwardSolver: pMCForwardSolver,
+            optimizer: new MPFitLevenbergMarquardtOptimizer(),
+            solutionDomainType: SolutionDomainType.ROfRho,
+            dependentValues: measuredData,
+            standardDeviationValues: measuredData,
+            inverseFitType: InverseFitType.MuaMusp,
+            initialGuessOPsAndRhoAxis
+        );
+        // convert the returned double[] {mua, musp} array to an OpticalProperties object
+        var fitOps = new OpticalProperties(solution[0], solution[1], baselineOps.G, baselineOps.N);
+
+        // For illustration purposes, also run the pMC solver
+        var postProcessorDetectorResultsInitialGuess = pMCForwardSolver.ROfRho(baselineOps, detectorMidpoints);
+        var postProcessorDetectorResultsFitValues = pMCForwardSolver.ROfRho(fitOps, detectorMidpoints);
 
         // plot and compare the results using Plotly.NET
-        var postProcessorDetectorResults1xmua = (pMCROfRhoDetector)postProcessorOutput.ResultsDictionary[pMCDetectorInput1xmua.Name];
-        var postProcessorDetectorResults0p5xmua = (pMCROfRhoDetector)postProcessorOutput.ResultsDictionary[pMCDetectorInput0p5xmua.Name];
-        var postProcessorDetectorResults2xmua = (pMCROfRhoDetector)postProcessorOutput.ResultsDictionary[pMCDetectorInput2xmua.Name];
-        var logReflectance1 = postProcessorDetectorResults1xmua.Mean.Select(r => Math.Log(r)).ToArray();
-        var logReflectance2 = postProcessorDetectorResults0p5xmua.Mean.Select(r => Math.Log(r)).ToArray();
-        var logReflectance3 = postProcessorDetectorResults2xmua.Mean.Select(r => Math.Log(r)).ToArray();
-        var (detectorMidpoints, xLabel, yLabel) = (detectorRange.GetMidpoints(), "rho [mm]", "log(R(ρ)) [mm-2]");
+        var logReflectance1 = postProcessorDetectorResultsInitialGuess.Select(r => Math.Log(r)).ToArray();
+        var logReflectance2 = postProcessorDetectorResultsFitValues.Select(r => Math.Log(r)).ToArray();
+        var (xLabel, yLabel) = ( "rho [mm]", "log(R(ρ)) [mm-2]");
         Chart.Combine(new[]
         {
-            PlotHelper.LineChart(detectorMidpoints, logReflectance1, xLabel, yLabel, title: "log(R(ρ)) [mm-2] - 1.0x baseline (mua=0.01/mm)"),
-            PlotHelper.LineChart(detectorMidpoints, logReflectance2, xLabel, yLabel, title: "log(R(ρ)) [mm-2] - 0.5x baseline (mua=0.005/mm)"),
-            PlotHelper.LineChart(detectorMidpoints, logReflectance2, xLabel, yLabel, title: "log(R(ρ)) [mm-2] - 2.0x baseline (mua=0.02/mm)")
+            PlotHelper.ScatterChart(detectorMidpoints, logReflectance2, xLabel, yLabel, title: "Measured Data"),
+            PlotHelper.LineChart(detectorMidpoints, logReflectance1, xLabel, yLabel, title: $"Initial guess (mua={baselineOps.Mua}/mm, musp={baselineOps.Musp}/mm)"),
+            PlotHelper.LineChart(detectorMidpoints, logReflectance2, xLabel, yLabel, title: $"Fit result (mua={fitOps.Mua}/mm, musp={fitOps.Musp}/mm)")
         }).Show(); // show all three charts together
+    }
+
+    private class pMCForwardSolver : IForwardSolver
+    {
+        private readonly DoubleRange _detectorRange;
+        private readonly SimulationInput _simulationInput;
+        private readonly pMCDatabase _photonDatabase;
+
+        public pMCForwardSolver(DoubleRange detectorRange, SimulationInput simulationInput)
+        {
+            _detectorRange = detectorRange;
+            _simulationInput = simulationInput;
+            _photonDatabase = PhotonDatabaseFactory.GetpMCDatabase(
+                virtualBoundaryType: VirtualBoundaryType.pMCDiffuseReflectance,
+                filePath: simulationInput.OutputName);
+        }
+
+        public double[] ROfRho(OpticalProperties op, double[] rhos)
+        {
+            // create and run the post-processor
+            var pMCDetectorInput = new pMCROfRhoDetectorInput
+            {
+                Rho = _detectorRange,
+                Name = "ROfRho-OnTheFly",
+                PerturbedOps = new OpticalProperties[]
+                {
+                    new(mua: 0.0, musp: 1E-10, g: 1.0, n: 1.0), // air optical properties
+                    new(mua: op.Mua, musp: op.Musp, g: op.G, n: op.N),  // tissue optical properties (perturbed)
+                    new(mua: 0.0, musp: 1E-10, g: 1.0, n: 1.0)  // air optical properties
+                },
+                PerturbedRegionsIndices = new[] { 1 } // only perturbing the tissue OPs 
+            };
+            var postProcessor = new PhotonDatabasePostProcessor(
+                virtualBoundaryType: VirtualBoundaryType.pMCDiffuseReflectance,
+                detectorInputs: new IDetectorInput[] { pMCDetectorInput },
+                database: _photonDatabase,
+                databaseInput: _simulationInput);
+            var postProcessorOutput = postProcessor.Run();
+            var postProcessorDetectorResults = (pMCROfRhoDetector)postProcessorOutput.ResultsDictionary[pMCDetectorInput.Name];
+            return postProcessorDetectorResults.Mean;
+        }
+
+        public double[] ROfRho(OpticalProperties[] ops, double[] rhos)
+        {
+            return ops.SelectMany(op => ROfRho(op, rhos)).ToArray();   
+        }
+
+        #region not implemented
+        public double BeamDiameter { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        public double ROfRho(IOpticalPropertyRegion[] regions, double rho)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<double> ROfRho(IEnumerable<IOpticalPropertyRegion[]> regions, IEnumerable<double> rhos)
+        {
+            throw new NotImplementedException();
+        }
+
+        public double[] ROfRho(IOpticalPropertyRegion[] regions, double[] rhos)
+        {
+            throw new NotImplementedException();
+        }
+
+        public double[] ROfRho(IOpticalPropertyRegion[][] regions, double[] rhos)
+        {
+            throw new NotImplementedException();
+        }
+
+        public double ROfRhoAndTime(IOpticalPropertyRegion[] regions, double rho, double time)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<double> ROfRhoAndTime(IEnumerable<IOpticalPropertyRegion[]> regions, IEnumerable<double> rhos, IEnumerable<double> times)
+        {
+            throw new NotImplementedException();
+        }
+
+        public double[] ROfRhoAndTime(IOpticalPropertyRegion[] regions, double[] rhos, double[] times)
+        {
+            throw new NotImplementedException();
+        }
+
+        public double[] ROfRhoAndTime(IOpticalPropertyRegion[] regions, double[] rhos, double time)
+        {
+            throw new NotImplementedException();
+        }
+
+        public double[] ROfRhoAndTime(IOpticalPropertyRegion[] regions, double rho, double[] times)
+        {
+            throw new NotImplementedException();
+        }
+
+        public double[] ROfRhoAndTime(IOpticalPropertyRegion[][] regions, double[] rhos, double[] times)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Complex ROfRhoAndFt(IOpticalPropertyRegion[] regions, double rho, double ft)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<Complex> ROfRhoAndFt(IEnumerable<IOpticalPropertyRegion[]> regions, IEnumerable<double> rhos, IEnumerable<double> fts)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Complex[] ROfRhoAndFt(IOpticalPropertyRegion[] regions, double rho, double[] fts)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Complex[] ROfRhoAndFt(IOpticalPropertyRegion[] regions, double[] rhos, double ft)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Complex[] ROfRhoAndFt(IOpticalPropertyRegion[] regions, double[] rhos, double[] fts)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Complex[] ROfRhoAndFt(IOpticalPropertyRegion[][] regions, double[] rhos, double[] fts)
+        {
+            throw new NotImplementedException();
+        }
+
+        public double ROfFx(IOpticalPropertyRegion[] regions, double fx)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<double> ROfFx(IEnumerable<IOpticalPropertyRegion[]> regions, IEnumerable<double> fxs)
+        {
+            throw new NotImplementedException();
+        }
+
+        public double[] ROfFx(IOpticalPropertyRegion[] regions, double[] fxs)
+        {
+            throw new NotImplementedException();
+        }
+
+        public double[] ROfFx(IOpticalPropertyRegion[][] regions, double[] fxs)
+        {
+            throw new NotImplementedException();
+        }
+
+        public double ROfFxAndTime(IOpticalPropertyRegion[] regions, double fx, double time)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<double> ROfFxAndTime(IEnumerable<IOpticalPropertyRegion[]> regions, IEnumerable<double> fxs, IEnumerable<double> times)
+        {
+            throw new NotImplementedException();
+        }
+
+        public double[] ROfFxAndTime(IOpticalPropertyRegion[] regions, double[] fxs, double[] times)
+        {
+            throw new NotImplementedException();
+        }
+
+        public double[] ROfFxAndTime(IOpticalPropertyRegion[] regions, double fx, double[] times)
+        {
+            throw new NotImplementedException();
+        }
+
+        public double[] ROfFxAndTime(IOpticalPropertyRegion[] regions, double[] fxs, double time)
+        {
+            throw new NotImplementedException();
+        }
+
+        public double[] ROfFxAndTime(IOpticalPropertyRegion[][] regions, double[] fxs, double[] times)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Complex ROfFxAndFt(IOpticalPropertyRegion[] regions, double fx, double ft)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<Complex> ROfFxAndFt(IEnumerable<IOpticalPropertyRegion[]> regions, IEnumerable<double> fxs, IEnumerable<double> fts)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Complex[] ROfFxAndFt(IOpticalPropertyRegion[] regions, double fx, double[] fts)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Complex[] ROfFxAndFt(IOpticalPropertyRegion[] regions, double[] fxs, double ft)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Complex[] ROfFxAndFt(IOpticalPropertyRegion[] regions, double[] fxs, double[] fts)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Complex[] ROfFxAndFt(IOpticalPropertyRegion[][] regions, double[] fxs, double[] fts)
+        {
+            throw new NotImplementedException();
+        }
+
+        public double[] FluenceOfRhoAndZ(IOpticalPropertyRegion[][] regions, double[] rhos, double[] zs)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<double> FluenceOfRhoAndZ(IEnumerable<IOpticalPropertyRegion[]> regions, IEnumerable<double> rhos, IEnumerable<double> zs)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Complex[] FluenceOfRhoAndZAndFt(IOpticalPropertyRegion[][] regions, double[] rhos, double[] zs, double[] fts)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<Complex> FluenceOfRhoAndZAndFt(IEnumerable<IOpticalPropertyRegion[]> regions, IEnumerable<double> rhos, IEnumerable<double> zs, IEnumerable<double> fts)
+        {
+            throw new NotImplementedException();
+        }
+
+        public double ROfRho(OpticalProperties op, double rho)
+        {
+            throw new NotImplementedException();
+        }
+
+        public double ROfRhoAndTime(OpticalProperties op, double rho, double time)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Complex ROfRhoAndFt(OpticalProperties op, double rho, double ft)
+        {
+            throw new NotImplementedException();
+        }
+
+        public double ROfFx(OpticalProperties op, double fx)
+        {
+            throw new NotImplementedException();
+        }
+
+        public double ROfFxAndTime(OpticalProperties op, double fx, double time)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Complex ROfFxAndFt(OpticalProperties op, double fx, double ft)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<double> FluenceOfRhoAndZ(IEnumerable<OpticalProperties> ops, IEnumerable<double> rhos, IEnumerable<double> zs)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<double> FluenceOfRhoAndZAndTime(IEnumerable<OpticalProperties> ops, IEnumerable<double> rhos, IEnumerable<double> zs, IEnumerable<double> times)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<Complex> FluenceOfRhoAndZAndFt(IEnumerable<OpticalProperties> ops, IEnumerable<double> rhos, IEnumerable<double> zs, IEnumerable<double> fts)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<double> FluenceOfFxAndZ(IEnumerable<OpticalProperties> ops, IEnumerable<double> fxs, IEnumerable<double> zs)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<double> FluenceOfFxAndZAndTime(IEnumerable<OpticalProperties> ops, IEnumerable<double> fxs, IEnumerable<double> zs, IEnumerable<double> times)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<Complex> FluenceOfFxAndZAndFt(IEnumerable<OpticalProperties> ops, IEnumerable<double> fxs, IEnumerable<double> zs, IEnumerable<double> fts)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<double> ROfRho(IEnumerable<OpticalProperties> ops, IEnumerable<double> rhos)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<double> ROfRhoAndTime(IEnumerable<OpticalProperties> ops, IEnumerable<double> rhos, IEnumerable<double> times)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<Complex> ROfRhoAndFt(IEnumerable<OpticalProperties> ops, IEnumerable<double> rhos, IEnumerable<double> fts)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<double> ROfFx(IEnumerable<OpticalProperties> ops, IEnumerable<double> fxs)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<double> ROfFxAndTime(IEnumerable<OpticalProperties> ops, IEnumerable<double> fxs, IEnumerable<double> times)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<Complex> ROfFxAndFt(IEnumerable<OpticalProperties> ops, IEnumerable<double> fxs, IEnumerable<double> fts)
+        {
+            throw new NotImplementedException();
+        }
+
+        public double[] ROfRhoAndTime(OpticalProperties op, double[] rhos, double[] times)
+        {
+            throw new NotImplementedException();
+        }
+
+        public double[] ROfRhoAndTime(OpticalProperties[] ops, double[] rhos, double[] times)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Complex[] ROfRhoAndFt(OpticalProperties op, double[] rhos, double[] fts)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Complex[] ROfRhoAndFt(OpticalProperties[] ops, double[] rhos, double[] fts)
+        {
+            throw new NotImplementedException();
+        }
+
+        public double[] ROfFx(OpticalProperties op, double[] fxs)
+        {
+            throw new NotImplementedException();
+        }
+
+        public double[] ROfFx(OpticalProperties[] ops, double[] fxs)
+        {
+            throw new NotImplementedException();
+        }
+
+        public double[] ROfFxAndTime(OpticalProperties op, double[] fxs, double[] times)
+        {
+            throw new NotImplementedException();
+        }
+
+        public double[] ROfFxAndTime(OpticalProperties[] ops, double[] fxs, double[] times)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Complex[] ROfFxAndFt(OpticalProperties op, double[] fxs, double[] fts)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Complex[] ROfFxAndFt(OpticalProperties[] ops, double[] fxs, double[] fts)
+        {
+            throw new NotImplementedException();
+        }
+
+        public double[] ROfRho(OpticalProperties[] ops, double rho)
+        {
+            throw new NotImplementedException();
+        }
+
+        public double[] ROfRhoAndTime(OpticalProperties[] ops, double rho, double[] times)
+        {
+            throw new NotImplementedException();
+        }
+
+        public double[] ROfRhoAndTime(OpticalProperties[] ops, double[] rhos, double time)
+        {
+            throw new NotImplementedException();
+        }
+
+        public double[] ROfRhoAndTime(OpticalProperties op, double rho, double[] times)
+        {
+            throw new NotImplementedException();
+        }
+
+        public double[] ROfRhoAndTime(OpticalProperties op, double[] rhos, double time)
+        {
+            throw new NotImplementedException();
+        }
+
+        public double[] ROfRhoAndTime(OpticalProperties[] ops, double rho, double time)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Complex[] ROfRhoAndFt(OpticalProperties[] ops, double rho, double[] fts)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Complex[] ROfRhoAndFt(OpticalProperties[] ops, double[] rhos, double ft)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Complex[] ROfRhoAndFt(OpticalProperties op, double rho, double[] fts)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Complex[] ROfRhoAndFt(OpticalProperties op, double[] rhos, double ft)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Complex[] ROfRhoAndFt(OpticalProperties[] ops, double rho, double ft)
+        {
+            throw new NotImplementedException();
+        }
+
+        public double[] ROfFx(OpticalProperties[] ops, double fx)
+        {
+            throw new NotImplementedException();
+        }
+
+        public double[] ROfFxAndTime(OpticalProperties[] ops, double fx, double[] times)
+        {
+            throw new NotImplementedException();
+        }
+
+        public double[] ROfFxAndTime(OpticalProperties[] ops, double[] fxs, double time)
+        {
+            throw new NotImplementedException();
+        }
+
+        public double[] ROfFxAndTime(OpticalProperties op, double fx, double[] times)
+        {
+            throw new NotImplementedException();
+        }
+
+        public double[] ROfFxAndTime(OpticalProperties op, double[] fxs, double time)
+        {
+            throw new NotImplementedException();
+        }
+
+        public double[] ROfFxAndTime(OpticalProperties[] ops, double fx, double time)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Complex[] ROfFxAndFt(OpticalProperties[] ops, double fx, double[] fts)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Complex[] ROfFxAndFt(OpticalProperties[] ops, double[] fxs, double ft)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Complex[] ROfFxAndFt(OpticalProperties op, double fx, double[] fts)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Complex[] ROfFxAndFt(OpticalProperties op, double[] fxs, double ft)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Complex[] ROfFxAndFt(OpticalProperties[] ops, double fx, double ft)
+        {
+            throw new NotImplementedException();
+        }
+
+        public double[] FluenceOfRhoAndZ(OpticalProperties[] ops, double[] rhos, double[] zs)
+        {
+            throw new NotImplementedException();
+        }
+
+        public double[] FluenceOfRhoAndZAndTime(OpticalProperties[] ops, double[] rhos, double[] zs, double[] times)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Complex[] FluenceOfRhoAndZAndFt(OpticalProperties[] ops, double[] rhos, double[] zs, double[] fts)
+        {
+            throw new NotImplementedException();
+        }
+
+        public double[] FluenceOfFxAndZ(OpticalProperties[] ops, double[] fxs, double[] zs)
+        {
+            throw new NotImplementedException();
+        }
+
+        public double[] FluenceOfFxAndZAndTime(OpticalProperties[] ops, double[] fxs, double[] zs, double[] times)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Complex[] FluenceOfFxAndZAndFt(OpticalProperties[] ops, double[] fx, double[] zs, double[] fts)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        #endregion
     }
 }

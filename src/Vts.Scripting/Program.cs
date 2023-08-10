@@ -16,6 +16,9 @@ public class Program
         MC07_pMCInversion.RunDemo();
     }
 
+    /// <summary>
+    /// Method to run all Monte Carlo demos
+    /// </summary>
     public static void RunAllMonteCarloDemos()
     {
         MC01_ROfRhoSimple.RunDemo();

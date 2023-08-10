@@ -54,7 +54,7 @@ public class MC06_pMCPostProcessor : IDemoScript
             }
         };
 
-        // create and run the simulation
+        // create and run the simulation, creating the database
         var simulation = new MonteCarloSimulation(input: simulationInput);
         var simulationOutput = simulation.Run();
 
@@ -96,21 +96,13 @@ public class MC06_pMCPostProcessor : IDemoScript
             PerturbedRegionsIndices = new[] { 1 } // only perturbing the tissue OPs 
         };
 
-        // create a PostProcessorInput object to define the post-processing, based on the three detector inputs above
-        var pMCPostProcessorInput = new PostProcessorInput
-        {
-            InputFolder = simulationInput.OutputName,
-            DetectorInputs = new IDetectorInput[] { pMCDetectorInput1xmua, pMCDetectorInput0p5xmua, pMCDetectorInput2xmua },
-            DatabaseSimulationInputFilename = "infile"
-        };
-
         // create and run the post-processor
         var photonDatabase = PhotonDatabaseFactory.GetpMCDatabase(
             virtualBoundaryType: VirtualBoundaryType.pMCDiffuseReflectance,
             filePath: simulationInput.OutputName);
         var postProcessor = new PhotonDatabasePostProcessor(
             virtualBoundaryType: VirtualBoundaryType.pMCDiffuseReflectance, 
-            detectorInputs: pMCPostProcessorInput.DetectorInputs,
+            detectorInputs: new IDetectorInput[] { pMCDetectorInput1xmua, pMCDetectorInput0p5xmua, pMCDetectorInput2xmua },
             database: photonDatabase,
             databaseInput: simulationInput);
         var postProcessorOutput = postProcessor.Run();
