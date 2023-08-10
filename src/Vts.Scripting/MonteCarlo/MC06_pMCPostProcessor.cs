@@ -117,9 +117,9 @@ public class MC06_pMCPostProcessor : IDemoScript
         var (detectorMidpoints, xLabel, yLabel) = (detectorRange.GetMidpoints(), "rho [mm]", "log(R(ρ)) [mm-2]");
         Chart.Combine(new[]
         {
-            PlotHelper.LineChart(detectorMidpoints, logReflectance1, xLabel, yLabel, title: "log(R(ρ)) [mm-2] - 1.0x baseline (mua=0.01/mm)"),
-            PlotHelper.LineChart(detectorMidpoints, logReflectance2, xLabel, yLabel, title: "log(R(ρ)) [mm-2] - 0.5x baseline (mua=0.005/mm)"),
-            PlotHelper.LineChart(detectorMidpoints, logReflectance2, xLabel, yLabel, title: "log(R(ρ)) [mm-2] - 2.0x baseline (mua=0.02/mm)")
+            PlotHelper.LineChart(detectorMidpoints, logReflectance1, xLabel, yLabel, title: $"log(R(ρ)) [mm-2] - 1.0x baseline (mua={0.01:F3}/mm)"),
+            PlotHelper.LineChart(detectorMidpoints, logReflectance2, xLabel, yLabel, title: $"log(R(ρ)) [mm-2] - 0.5x baseline (mua={0.005:F3}/mm)"),
+            PlotHelper.LineChart(detectorMidpoints, logReflectance2, xLabel, yLabel, title: $"log(R(ρ)) [mm-2] - 2.0x baseline (mua={0.02:F3}/mm)")
         }).Show(); // show all three charts together
     }
 }

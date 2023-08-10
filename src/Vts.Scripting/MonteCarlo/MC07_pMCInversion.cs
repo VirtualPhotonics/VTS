@@ -81,7 +81,7 @@ public class MC07_pMCInversion : IDemoScript
         var initialGuess = new double[] { baselineOps.Mua, baselineOps.Mus };
 
         // Create an ad-hoc forward solver based on pMC prediction (see implementation below; note: implemented for ROfRho only)
-        var pMCForwardSolver = new pMCForwardSolver(detectorRange, simulationInput); 
+        var pMCForwardSolver = new pMCForwardSolver(detectorRange, simulationInput, simulationInput.OutputName); 
 
         // Run the inversion, based on Levenberg-Marquardt optimization
         var initialGuessOPsAndRhoAxis = new object[] { new [] { baselineOps }, detectorMidpoints }; // "extra" (constant) data for the forward model calls
@@ -108,8 +108,8 @@ public class MC07_pMCInversion : IDemoScript
         Chart.Combine(new[]
         {
             PlotHelper.ScatterChart(detectorMidpoints, logReflectance2, xLabel, yLabel, title: "Measured Data"),
-            PlotHelper.LineChart(detectorMidpoints, logReflectance1, xLabel, yLabel, title: $"Initial guess (mua={baselineOps.Mua}/mm, musp={baselineOps.Musp}/mm)"),
-            PlotHelper.LineChart(detectorMidpoints, logReflectance2, xLabel, yLabel, title: $"Fit result (mua={fitOps.Mua}/mm, musp={fitOps.Musp}/mm)")
+            PlotHelper.LineChart(detectorMidpoints, logReflectance1, xLabel, yLabel, title: $"Initial guess (mua={baselineOps.Mua:F3}/mm, musp={baselineOps.Musp:F3}/mm)"),
+            PlotHelper.LineChart(detectorMidpoints, logReflectance2, xLabel, yLabel, title: $"Fit result (mua={fitOps.Mua:F3}/mm, musp={fitOps.Musp:F3}/mm)")
         }).Show(); // show all three charts together
     }
 
@@ -119,13 +119,19 @@ public class MC07_pMCInversion : IDemoScript
         private readonly SimulationInput _simulationInput;
         private readonly pMCDatabase _photonDatabase;
 
-        public pMCForwardSolver(DoubleRange detectorRange, SimulationInput simulationInput)
+
+        public pMCForwardSolver(DoubleRange detectorRange, SimulationInput simulationInput, pMCDatabase photonDatabase)
         {
             _detectorRange = detectorRange;
             _simulationInput = simulationInput;
-            _photonDatabase = PhotonDatabaseFactory.GetpMCDatabase(
+            _photonDatabase = photonDatabase;
+        }
+
+        public pMCForwardSolver(DoubleRange detectorRange, SimulationInput simulationInput, string photonDatabaseFilePath)
+            : this(detectorRange, simulationInput, PhotonDatabaseFactory.GetpMCDatabase(
                 virtualBoundaryType: VirtualBoundaryType.pMCDiffuseReflectance,
-                filePath: simulationInput.OutputName);
+                filePath: photonDatabaseFilePath))
+        {
         }
 
         public double[] ROfRho(OpticalProperties op, double[] rhos)
