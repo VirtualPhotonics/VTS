@@ -26,7 +26,7 @@ public class MC08_UnitTestComparison : IDemoScript
 
         // specify all detector inputs
         var rhoRange = new DoubleRange(start: 0, stop: 10, number: 101);
-        var omegaRange = new DoubleRange(start: 0.5, stop: 1, number: 101);
+        var omegaRange = new DoubleRange(start: 0.05, stop: 1, number: 101);
         var timeRange = new DoubleRange(start: 0, stop: 1, number: 101);
         var rOfRhoDetectorInput = new ROfRhoDetectorInput { Rho = rhoRange, Name = "ROfRho" };
         var rOfRhoAndOmegaDetectorInput = new ROfRhoAndOmegaDetectorInput { Rho = rhoRange, Omega = omegaRange, Name = "ROfRhoAndOmega" };
