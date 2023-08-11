@@ -3,7 +3,6 @@ using Vts.MonteCarlo.Detectors;
 using Vts.MonteCarlo;
 using Vts.MonteCarlo.Factories;
 using Vts.MonteCarlo.PostProcessing;
-using Vts.Scripting.Utilities;
 using Plotly.NET.CSharp;
 
 namespace Vts.Scripting.MonteCarlo;
@@ -70,8 +69,8 @@ public class MC05_PostProcessor : IDemoScript
         var (detectorMidpoints, xLabel, yLabel) = (detectorRange.GetMidpoints(), "rho [mm]", "log(R(ρ)) [mm-2]");
         Chart.Combine(new[]
         {
-            PlotHelper.LineChart(detectorMidpoints, logReflectance1, xLabel, yLabel, title: "log(R(ρ)) [mm-2] - on the fly"),
-            PlotHelper.LineChart(detectorMidpoints, logReflectance2, xLabel, yLabel, title: "log(R(ρ)) [mm-2] - post-processor")
+            LineChart(detectorMidpoints, logReflectance1, xLabel, yLabel, title: "log(R(ρ)) [mm-2] - on the fly"),
+            LineChart(detectorMidpoints, logReflectance2, xLabel, yLabel, title: "log(R(ρ)) [mm-2] - post-processor")
         }).Show(); // show both charts together
     }
 }

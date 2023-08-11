@@ -1,7 +1,6 @@
 ﻿using Vts.Common;
 using Vts.MonteCarlo;
 using Vts.MonteCarlo.Detectors;
-using Vts.Scripting.Utilities;
 using Plotly.NET.CSharp;
 
 namespace Vts.Scripting.MonteCarlo;
@@ -42,6 +41,6 @@ public class MC01_ROfRhoSimple : IDemoScript
         var detectorResults = (ROfRhoDetector)simulationOutput.ResultsDictionary["ROfRho"];
         var logReflectance = detectorResults.Mean.Select(r => Math.Log(r)).ToArray();
         var (detectorMidpoints, xLabel, yLabel) = (detectorRange.GetMidpoints(), "rho [mm]", "log(R(ρ)) [mm-2]");
-        PlotHelper.LineChart(detectorMidpoints, logReflectance, xLabel, yLabel, title: "log(R(ρ)) [mm-2]").Show();
+        LineChart(detectorMidpoints, logReflectance, xLabel, yLabel, title: "log(R(ρ)) [mm-2]").Show();
     }
 }

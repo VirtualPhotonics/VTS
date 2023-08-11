@@ -2,7 +2,6 @@
 using Vts.MonteCarlo;
 using Vts.MonteCarlo.Detectors;
 using Plotly.NET.CSharp;
-using Vts.Scripting.Utilities;
 
 namespace Vts.Scripting.MonteCarlo;
 
@@ -41,6 +40,6 @@ public class MC10_ROfFx : IDemoScript
         var complexReflectance = detectorResults.Mean;
         var reflectanceMagnitude = complexReflectance.Select(r => r.Magnitude).ToArray();
         var (detectorMidpoints, xLabel, yLabel) = (fxRange.AsEnumerable().ToArray(), "fx [mm-1]", "R(fx) [unitless]");
-        PlotHelper.LineChart(detectorMidpoints, reflectanceMagnitude, xLabel, yLabel, title: "R vs fx [unitless]").Show();
+        LineChart(detectorMidpoints, reflectanceMagnitude, xLabel, yLabel, title: "R vs fx [unitless]").Show();
     }
 }

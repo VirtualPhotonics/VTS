@@ -1,7 +1,6 @@
 ﻿using Vts.Common;
 using Vts.MonteCarlo;
 using Vts.MonteCarlo.Detectors;
-using Vts.Scripting.Utilities;
 using Plotly.NET.CSharp;
 
 namespace Vts.Scripting.MonteCarlo;
@@ -66,8 +65,8 @@ public class MC02_DAWvsCAW : IDemoScript
         var (detectorMidpoints, xLabel, yLabel) = (detectorRange.GetMidpoints(), "rho [mm]", "log(R(ρ)) [mm-2]");
         Chart.Combine(new[]
         {
-            PlotHelper.LineChart(detectorMidpoints, logReflectance1, xLabel, yLabel, title: "log(R(ρ)) [mm-2] - CAW"),
-            PlotHelper.LineChart(detectorMidpoints, logReflectance2, xLabel, yLabel, title: "log(R(ρ)) [mm-2] - DAW")
+            LineChart(detectorMidpoints, logReflectance1, xLabel, yLabel, title: "log(R(ρ)) [mm-2] - CAW"),
+            LineChart(detectorMidpoints, logReflectance2, xLabel, yLabel, title: "log(R(ρ)) [mm-2] - DAW")
         }).Show(); // show both charts together
     } 
 }

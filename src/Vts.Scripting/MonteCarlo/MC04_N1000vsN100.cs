@@ -1,7 +1,6 @@
 ﻿using Vts.Common;
 using Vts.MonteCarlo.Detectors;
 using Vts.MonteCarlo;
-using Vts.Scripting.Utilities;
 using Plotly.NET.CSharp;
 
 namespace Vts.Scripting.MonteCarlo;
@@ -53,8 +52,8 @@ public class MC04_N1000vsN100 : IDemoScript
         var (detectorMidpoints, xLabel, yLabel) = (detectorRange.GetMidpoints(), "rho [mm]", "log(R(ρ)) [mm-2]");
         Chart.Combine(new[]
         {
-            PlotHelper.LineChart(detectorMidpoints, logReflectance1, xLabel, yLabel, title: "log(R(ρ)) [mm-2] - n=1000"),
-            PlotHelper.LineChart(detectorMidpoints, logReflectance2, xLabel, yLabel, title: "log(R(ρ)) [mm-2] - n=100")
+            LineChart(detectorMidpoints, logReflectance1, xLabel, yLabel, title: "log(R(ρ)) [mm-2] - n=1000"),
+            LineChart(detectorMidpoints, logReflectance2, xLabel, yLabel, title: "log(R(ρ)) [mm-2] - n=100")
         }).Show(); // show both charts together
     }
 }

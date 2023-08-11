@@ -1,11 +1,11 @@
-﻿using Vts.Common;
+﻿global using static Vts.Scripting.ScriptHelper;
+using Vts.Common;
 using Vts.MonteCarlo;
 using Plotly.NET.CSharp;
-using System.Reflection.Emit;
 
-namespace Vts.Scripting.Utilities;
+namespace Vts.Scripting;
 
-public static class PlotHelper
+public static class ScriptHelper
 {
     /// <summary>
     /// Helper extension method that returns an array of midpoints, located halfway between the endpoints of the specified range
@@ -67,6 +67,7 @@ public static class PlotHelper
     {
         return chart.WithTraceInfo(title, ShowLegend: true)
              .WithXAxisStyle<double, double, string>(Title: Plotly.NET.Title.init(xLabel))
-             .WithYAxisStyle<double, double, string>(Title: Plotly.NET.Title.init(yLabel));
+             .WithYAxisStyle<double, double, string>(Title: Plotly.NET.Title.init(yLabel))
+             .WithLegendStyle(X: 0, Y: 150);
     }
 }

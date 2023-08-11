@@ -1,9 +1,8 @@
 ﻿using Vts.Common;
-using Vts.MonteCarlo.Detectors;
 using Vts.MonteCarlo;
-using Vts.Scripting.Utilities;
-using Plotly.NET.CSharp;
 using Vts.MonteCarlo.Tissues;
+using Vts.MonteCarlo.Detectors;
+using Plotly.NET.CSharp;
 
 namespace Vts.Scripting.MonteCarlo;
 
@@ -60,11 +59,11 @@ public class MC09_TransmittanceTallies : IDemoScript
         var tOfRhoResults = (TOfRhoDetector)simulationOutput.ResultsDictionary[tOfRhoDetectorInput.Name];
         var tOfRhoLogTransmittance = tOfRhoResults.Mean.Select(r => Math.Log(r)).ToArray();
         var (detectorMidpoints, xLabel, yLabel) = (rhoRange.GetMidpoints(), "rho [mm]", "log(T(ρ)) [mm-2]");
-        PlotHelper.LineChart(detectorMidpoints, tOfRhoLogTransmittance, xLabel, yLabel, title: "log(T(ρ)) [mm-2]").Show();
+        LineChart(detectorMidpoints, tOfRhoLogTransmittance, xLabel, yLabel, title: "log(T(ρ)) [mm-2]").Show();
 
         // plot the T(rho) results using Plotly.NET
         var tOfFxResults = (TOfFxDetector)simulationOutput.ResultsDictionary[tOfFxDetectorInput.Name];
         var tOfFxTransmittance = tOfFxResults.Mean.Select(t => t.Magnitude).ToArray();
-        PlotHelper.LineChart(fxRange.AsEnumerable().ToArray(), tOfFxTransmittance, xLabel, yLabel, title: "T(fx)) [unitless]").Show();
+        LineChart(fxRange.AsEnumerable().ToArray(), tOfFxTransmittance, xLabel, yLabel, title: "T(fx)) [unitless]").Show();
     }
 }

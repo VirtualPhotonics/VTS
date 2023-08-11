@@ -4,7 +4,6 @@ using Vts.MonteCarlo.Detectors;
 using Vts.MonteCarlo;
 using Vts.MonteCarlo.Factories;
 using Vts.MonteCarlo.PostProcessing;
-using Vts.Scripting.Utilities;
 using Plotly.NET.CSharp;
 using Vts.Factories;
 using Vts.Modeling.Optimizers;
@@ -90,7 +89,7 @@ public class MC07_pMCInversion : IDemoScript
             optimizer: new MPFitLevenbergMarquardtOptimizer(),
             solutionDomainType: SolutionDomainType.ROfRho,
             dependentValues: measuredData,
-            standardDeviationValues: measuredData,
+            standardDeviationValues: measuredData.Take(measuredData.Length - 1).Concat(new double[] { double.PositiveInfinity }).ToArray(),
             inverseFitType: InverseFitType.MuaMusp,
             initialGuessOPsAndRhoAxis
         );
@@ -107,9 +106,9 @@ public class MC07_pMCInversion : IDemoScript
         var (xLabel, yLabel) = ("rho [mm]", "log(R(ρ)) [mm-2]");
         Chart.Combine(new[]
         {
-            PlotHelper.ScatterChart(detectorMidpoints, logReflectance2, xLabel, yLabel, title: "Measured Data"),
-            PlotHelper.LineChart(detectorMidpoints, logReflectance1, xLabel, yLabel, title: $"Initial guess (mua={baselineOps.Mua:F3}/mm, musp={baselineOps.Musp:F3}/mm)"),
-            PlotHelper.LineChart(detectorMidpoints, logReflectance2, xLabel, yLabel, title: $"Fit result (mua={fitOps.Mua:F3}/mm, musp={fitOps.Musp:F3}/mm)")
+            ScatterChart(detectorMidpoints, logReflectance2, xLabel, yLabel, title: "Measured Data"),
+            LineChart(detectorMidpoints, logReflectance1, xLabel, yLabel, title: $"Initial guess (mua={baselineOps.Mua:F3}/mm, musp={baselineOps.Musp:F3}/mm)"),
+            LineChart(detectorMidpoints, logReflectance2, xLabel, yLabel, title: $"Fit result (mua={fitOps.Mua:F3}/mm, musp={fitOps.Musp:F3}/mm)")
         }).Show(); // show all three charts together
 
         // todo: add convergence error info similar to Matlab:

@@ -13,7 +13,7 @@ public class Program
     {
         //RunAllMonteCarloDemos();
 
-        MC09_TransmittanceTallies.RunDemo();
+        MC06_pMCPostProcessor.RunDemo();
     }
 
     /// <summary>
