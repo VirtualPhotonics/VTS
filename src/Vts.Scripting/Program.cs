@@ -1,4 +1,5 @@
-﻿using Vts.Scripting.MonteCarlo;
+﻿using Vts.Scripting.ForwardSolvers;
+using Vts.Scripting.MonteCarlo;
 
 /// <summary>
 /// Top program used to execute the desired demo script(s)
@@ -12,8 +13,9 @@ public class Program
     public static void Main(string[] args)
     {
         //RunAllMonteCarloDemos();
+        //RunAllForwardSolverDemos();
 
-        MC06_pMCPostProcessor.RunDemo();
+        FS01_ROfRhoAndFt.RunDemo();
     }
 
     /// <summary>
@@ -31,5 +33,13 @@ public class Program
         MC08_UnitTestComparison.RunDemo();
         MC09_TransmittanceTallies.RunDemo();
         MC10_ROfFx.RunDemo();
+    }
+
+    /// <summary>
+    /// Method to run all Forward Solver demos
+    /// </summary>
+    public static void RunAllForwardSolverDemos()
+    {
+        FS01_ROfRhoAndFt.RunDemo();
     }
 }

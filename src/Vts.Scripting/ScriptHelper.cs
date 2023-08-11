@@ -65,7 +65,7 @@ public static class ScriptHelper
     private static Plotly.NET.GenericChart.GenericChart WithStandardStyling(
         this Plotly.NET.GenericChart.GenericChart chart, string xLabel = "", string yLabel = "", string title = "")
     {
-        return chart.WithTraceInfo(title, ShowLegend: true)
+        return chart.WithTraceInfo(title, ShowLegend: !string.IsNullOrWhiteSpace(title))
              .WithXAxisStyle<double, double, string>(Title: Plotly.NET.Title.init(xLabel))
              .WithYAxisStyle<double, double, string>(Title: Plotly.NET.Title.init(yLabel))
              .WithLegendStyle(X: 0, Y: 150);
