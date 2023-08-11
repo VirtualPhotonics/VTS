@@ -3,11 +3,7 @@ using Vts.MonteCarlo.Detectors;
 using Vts.MonteCarlo;
 using Vts.Scripting.Utilities;
 using Plotly.NET.CSharp;
-using Vts.MonteCarlo.Sources;
 using Vts.MonteCarlo.Tissues;
-using MathNet.Numerics.LinearAlgebra.Factorization;
-using System.Numerics;
-using FluentAssertions;
 
 namespace Vts.Scripting.MonteCarlo;
 
