@@ -12,7 +12,7 @@ using FluentAssertions;
 namespace Vts.Scripting.MonteCarlo;
 
 /// <summary>
-/// Class using the Vts.dll library to demonstrate comparing two Monte Carlo simulations with different photon counts
+/// Class using the Vts.dll library to demonstrate comparing to well-characterized unit test results
 /// </summary>
 public class MC08_UnitTestComparison : IDemoScript
 {
@@ -23,9 +23,6 @@ public class MC08_UnitTestComparison : IDemoScript
     {
         // Example 08: run a Monte Carlo simulation and verify results with those in unit tests in Visual Studio
         // Spell out all input to ensure same settings as in unit test
-        // Notes:
-        //    - default source is a point source beam normally incident at the origin 
-        //    - default tissue is a 100mm thick slab with air-tissue boundary
 
         // specify all detector inputs
         var rhoRange = new DoubleRange(start: 0, stop: 10, number: 101);
