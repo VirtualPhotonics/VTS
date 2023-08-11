@@ -26,8 +26,8 @@ public class FS01_ROfRhoAndFt : IDemoScript
 
         // predict the temporal frequency response at the specified optical properties and s-d separation
         var rOfFt = solver.ROfRhoAndFt(op, rho, ft);
-        var magnitudeScale = 1E-4;
-        var rOfFtAmplitude = rOfFt.Select(r => r.Magnitude / magnitudeScale).ToArray();
+        var magnitudeScale = 1E4;
+        var rOfFtAmplitude = rOfFt.Select(r => r.Magnitude * magnitudeScale).ToArray();
         var rOfFtPhase = rOfFt.Select(r => -r.Phase).ToArray();
 
         //%% Example ROfRhoAndFt
