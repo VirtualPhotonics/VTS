@@ -35,8 +35,8 @@ public class FS01_ROfRhoAndFt : IDemoScript
         var xLabel = "time frequency [GHz]";
         var charts = new[]
         {
-            LineChart(ft, rOfFtAmplitude, xLabel, yLabel: $"R(ft) Amplitude [mm-2] * {magnitudeScale}"),
-            LineChart(ft, rOfFtPhase, xLabel, yLabel: $"R(ft) Phase[mm-2]")
+            LineChart(ft, rOfFtAmplitude, xLabel, yLabel: $"|R(ft)| [mm-2] * {magnitudeScale:E0}"),
+            LineChart(ft, rOfFtPhase, xLabel, yLabel: $"Φ(R(ft)) [rad]")
         };
         Chart.Grid(charts, nRows: 2, nCols: 1, Pattern: Plotly.NET.StyleParam.LayoutGridPattern.Coupled).Show();
     }
