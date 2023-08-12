@@ -15,7 +15,7 @@ public class Program
         //RunAllMonteCarloDemos();
         //RunAllForwardSolverDemos();
 
-        FS01_ROfRhoAndFt.RunDemo();
+        FS02_ROfFxAndFtMulti.RunDemo();
     }
 
     /// <summary>
@@ -40,7 +40,7 @@ public class Program
     /// </summary>
     public static void RunAllForwardSolverDemos()
     {
-        FS01_ROfRhoAndFt.RunDemo();
-        FS02_ROfFxAndFt.RunDemo();
+        FS01_ROfRhoAndFtSingle.RunDemo();
+        FS02_ROfFxAndFtMulti.RunDemo();
     }
 }
