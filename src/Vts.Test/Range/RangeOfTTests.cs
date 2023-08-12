@@ -1,4 +1,4 @@
-﻿using Moq;
+﻿using NSubstitute;
 using NUnit.Framework;
 using Vts.Common;
 
@@ -10,11 +10,8 @@ namespace Vts.Test.Range
         [Test]
         public void Test_default_constructor()
         {
-            var rangeMock = new Mock<Range<int>>
-            {
-                CallBase = true
-            };
-            Assert.AreEqual("Start: 0, Stop: 0, Count: 1, Delta: 0", rangeMock.Object.ToString());
+            var rangeMock = Substitute.ForPartsOf<Range<int>>();
+            Assert.AreEqual("Start: 0, Stop: 0, Count: 1, Delta: 0", rangeMock.ToString());
         }
 
         [Test]
