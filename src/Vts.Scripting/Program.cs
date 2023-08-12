@@ -41,5 +41,6 @@ public class Program
     public static void RunAllForwardSolverDemos()
     {
         FS01_ROfRhoAndFt.RunDemo();
+        FS02_ROfFxAndFt.RunDemo();
     }
 }
