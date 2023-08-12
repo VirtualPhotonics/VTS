@@ -1,8 +1,7 @@
 ﻿using Vts.Common;
 using Vts.Modeling.ForwardSolvers;
-using Plotly.NET.CSharp;
 using Vts.SpectralMapping;
-using System.ComponentModel.DataAnnotations;
+using Plotly.NET;
 
 namespace Vts.Scripting.ForwardSolvers;
 
@@ -49,6 +48,20 @@ public class FS03_FluenceOfRhoAndZ : IDemoScript
         var op = tissue.GetOpticalProperties(wavelengths);
         var fluenceOfRhoAndZ = solver.FluenceOfRhoAndZ(op, rhos, zs);
 
-        // todo: add web- and notebook-friendly cross-platform heatmap plotting (wrap Plotly, use NumSharp.Bitmap, or export SVG+HTML from OxyPlot)
+        // Plot the log(fluence(rho, z)) for the last wavelength
+        // attn devs: for reference, the following are the type parameters used in the call to Chart2D.Chart.Heatmap:
+        // Chart2D.Chart.Heatmap<a37: (row format), a38: (fluence value type), a39: X (rho value type), a40: Y (z value type), a41: Text type>(...)
+        var imageSize = rhos.Length * zs.Length;
+        var fluenceRowsToPlot = fluenceOfRhoAndZ            
+            .Skip((wavelengths.Length - 1) * imageSize) // skip to the last wavelength
+            .Select(fluence => Math.Log(fluence))
+            .Chunk(rhos.Length); // break the heatmap into rows
+        Chart2D.Chart.Heatmap<double[], double, double, double, string>(
+            zData: fluenceRowsToPlot, 
+            X: rhos,
+            Y: zs,
+            ReverseYAxis: true,
+            Text: "log(Φ(rho, z))",
+            ColorScale: StyleParam.Colorscale.Viridis).Show();
     }
 }
