@@ -8,7 +8,7 @@ dbstop if error;
 
 startup();
 
-%% Example ROfRhoAndFt
+%% Example 01 ROfRhoAndFt
 % Evaluate reflectance as a function of rho and temporal-frequency with one 
 % set of optical properites.
 
@@ -41,7 +41,7 @@ ylabel('R(f_t) Phase');
 xlabel('f_t');
 set(f,'Name','Reflectance as a function of Rho and Temporal-frequency');
 
-%% Example ROfFxAndFt
+%% Example 02 ROfFxAndFt
 % Evaluate reflectance as a function of spatial- and temporal- frequencies 
 % with one set of optical properites.
 
@@ -68,7 +68,7 @@ ylabel('R(f_t) Phase');
 xlabel('f_t');
 set(f,'Name','Reflectance as a function of Spatial- and Temporal- frequencies');
 
-%% Example FluenceOfRhoAndZ
+%% Example 03 FluenceOfRhoAndZ
 % Evaluate fluence as a function of rho and z using optical properties from 
 % a list of chromophore absorbers with their concentrations and a power law 
 % scatterer for a range of wavelengths.
@@ -109,7 +109,7 @@ title('Fluence of \lambda and z and \rho=0.1 mm');
 set(f,'Name','Fluence as a function of Rho and z');
 
 
-%% Example FluenceOfRhoAndZAndFt
+%% Example 04 FluenceOfRhoAndZAndFt
 % Evaluate fluence as a function of rho and z using one set of optical 
 % properties and a distributed gaussian source SDA solver type.
 
@@ -148,7 +148,7 @@ xlabel('\rho [mm]')
 ylabel('z [mm]')
 set(f,'Name','Modulation of fluence (AC/DC) of Rho and z and ft (ft=1GHz)');
 
-%% Example PHDOfRhoAndZ
+%% Example 05 PHDOfRhoAndZ
 % Evaluate Photon Hitting Density in cylindrical coordinates
 % using one set of optical properties and a distributed gaussian source SDA
 % solver type.
@@ -167,7 +167,7 @@ xlabel('\rho [mm]')
 ylabel('z [mm]')
 set(f,'Name','PHD of Rho and z');
 
-%% Example FluenceOfRhoAndZTwoLayer
+%% Example 06 FluenceOfRhoAndZTwoLayer
 % Evaluate fluence in cylindrical coordinates for a two
 % layer tissue with specified source-detector separation and top layer thickness
 % using two sets of optical properties.
@@ -185,7 +185,7 @@ xlabel('\rho [mm]');
 ylabel('z [mm]');
 set(f,'Name','Fluence of Rho and z - Two Layer');
 
-%% Example PHDOfRhoAndZTwoLayer
+%% Example 07 PHDOfRhoAndZTwoLayer
 % Evaluate Photon Hitting Density in cylindrical coordinates for a two
 % layer tissue with specified source-detector separation and top layer thickness
 % using two sets of optical properties.
@@ -204,7 +204,7 @@ xlabel('\rho [mm]');
 ylabel('z [mm]');
 set(f,'Name','PHD of Rho and z - Two Layer');
 
-%% Example AbsorbedEnergyOfRhoAndZ
+%% Example 08 AbsorbedEnergyOfRhoAndZ
 % Evaluate Absorbed Energy of rho and z using one set of optical properties 
 % and a point source SDA solver type.
 
@@ -225,7 +225,7 @@ xlabel('\rho [mm]');
 ylabel('z [mm]');
 set(f,'Name','Absorbed Energy of Rho and z');
 
-%% Example ROfRho
+%% Example 09 ROfRho
 % Evaluate reflectance as a function of rho with three sets
 % of optical properites.
 
@@ -242,7 +242,7 @@ title('Reflectance vs \rho for various optical properties');
 ylabel('R(\rho)');
 xlabel('\rho');
 
-%% Example ROfRhoAndT
+%% Example 10 ROfRhoAndT
 % Evaluate reflectance of rho and t at one s-d separation and 
 % two sets of optical properites.
 
@@ -259,7 +259,7 @@ title({'Reflectance of \rho vs time for various optical properties'; ' '});
 ylabel('R(t)');
 xlabel('Time, t [ns]');
 
-%% Example ROfFxAndT 
+%% Example 11 ROfFxAndT 
 % Evaluate reflectance as a function of spacial-frequency and t using one 
 % set of optical properites.
 
@@ -291,7 +291,7 @@ for i=1:length(t)
 end
 legend(l2, 'FontSize', 12);
 
-%% Example ROfFx (single set of optical properties)
+%% Example 12 ROfFx (single set of optical properties)
 % Evaluate reflectance as a function of spacial-frequency with a single set 
 % of optical properties.
 
@@ -304,7 +304,7 @@ title('Reflectance vs spatial frequency');
 ylabel('R(f_x)');
 xlabel('Spatial frequency, f_x [mm^-^1]');
 
-%% Example ROfFx (multiple sets of optical properties)
+%% Example 13 ROfFx (multiple sets of optical properties)
 % Evaluate reflectance as a function of spacial-frequency
 % with multiple sets of optical properties, varying mua linearly.
 
@@ -324,7 +324,7 @@ ylabel('R(f_x)');
 xlabel('Spatial frequency, f_x [mm^-^1]');
 
 
-%% Example ROfFx (multiple optical properties, varying mua as a function of wavelength, mus' as intralipid scatterer)
+%% Example 14 ROfFx (multiple optical properties, varying mua as a function of wavelength, mus' as intralipid scatterer)
 % Evaluate reflectance as a function of spacial-frequency with multiple 
 % sets of optical properties, varying mua as a function of wavelength.
 
@@ -384,7 +384,8 @@ ylabel('R(\lambda)');
 xlabel('Wavelength, \lambda [nm]');
 options = [{'Location', 'NorthWest'}; {'FontSize', 12}; {'Box', 'on'}];
 PlotHelper.CreateLegend(fx, 'f_x = ', 'mm^-^1', options);
-%% Example ROfFx (multiple optical properties, varying mua as a function of wavelength, mus' as mie scatterer)
+
+%% Example 15 ROfFx (multiple optical properties, varying mua as a function of wavelength, mus' as mie scatterer)
 % Evaluate reflectance as a function of spacial-frequency with multiple 
 % sets of optical properties, varying mua as a function of wavelength.
 
@@ -445,7 +446,7 @@ xlabel('Wavelength, \lambda [nm]');
 options = [{'Location', 'NorthWest'}; {'FontSize', 12}; {'Box', 'on'}];
 PlotHelper.CreateLegend(fx, 'f_x = ', 'mm^-^1', options);
 
-%% Example ROfFx
+%% Example 16 ROfFx
 % Call planar reflectance with multiple sets of optical
 % properties, varying the scattering prefactor as a function of wavelength.
 
@@ -478,7 +479,7 @@ xlabel('Wavelength, \lambda [nm]');
 options = [{'Location', 'NorthWest'}; {'FontSize', 12}; {'Box', 'on'}];
 PlotHelper.CreateLegend(A, '\mu_s''(1000nm) = ', 'mm^-^1', options);
 
-%% Example ROfRho (multiple wavelengths, multiple rho)
+%% Example 17 ROfRho (multiple wavelengths, multiple rho)
 % Call reflectance varying the wavelength.
 
 VtsSolvers.SetSolverType('PointSourceSDA');
@@ -508,7 +509,7 @@ ylabel('R(\lambda)');
 xlabel('Wavelength, \lambda [nm]');
 options = [{'Location', 'NorthEast'}; {'FontSize', 12}; {'Box', 'on'}];
 PlotHelper.CreateLegend(rho,'\rho = ', 'mm',options);
-%% Example ROfRho (inverse solution for chromophore concentrations for multiple wavelengths, single rho)
+%% Example 18 ROfRho (inverse solution for chromophore concentrations for multiple wavelengths, single rho)
 
 rho = 1;  % source-detector separation in mm
 wv = 400:50:1000;
@@ -571,7 +572,8 @@ disp(sprintf('Conv =    [%5.3f %5.3f %5.3f] Chi2=%5.3e',recoveredConc(1),recover
     (measData-recovered)*(measData-recovered)'));
 disp(sprintf('error =   [%5.3f %5.3f %5.3f]',abs(measData(1)-recovered(1))/measData(1),...
     abs(measData(2)-recovered(2))/measData(2),abs(measData(3)-recovered(3))/measData(3)));
-%% Example ROfRho for a two-layer tissue (multiple optical properties and rhos)
+
+%% Example 19 ROfRho for a two-layer tissue (multiple optical properties and rhos)
 clear op
 topLayerThickness = 2;  % units: mm
 
@@ -592,7 +594,8 @@ PlotHelper.CreateLegend(op(:,1), 'top \mu_a: ', 'mm^-^1', options);
 title('2-Layer Reflectance vs \rho for various top Layer OPs'); 
 ylabel('R(\rho)');
 xlabel('\rho');
-%% Example ROfFx for a two-layer tissue (multiple optical properties and fxs)
+
+%% Example 20 ROfFx for a two-layer tissue (multiple optical properties and fxs)
 clear op
 topLayerThickness = 2;  % units: mm
 
@@ -613,7 +616,8 @@ PlotHelper.CreateLegend(op(:,1), 'top \mu_a: ', 'mm^-^1', options);
 title('2-Layer Reflectance vs fx for various top Layer OPs'); 
 ylabel('R(fx)');
 xlabel('fx');
-%% Example ROfRhoAndTime for a two-layer tissue (multiple optical properties and times)
+
+%% Example 21 ROfRhoAndTime for a two-layer tissue (multiple optical properties and times)
 clear op
 topLayerThickness = 2;  % units: mm
 % 
@@ -662,7 +666,7 @@ title('2-Layer Reflectance vs time for various top Layer OPs');
 ylabel('R(t)');
 xlabel('Time, t [ns]');
 
-%% Example ROfRhoAndFt for a two-layer tissue (multiple optical properties and fts)
+%% Example 22 ROfRhoAndFt for a two-layer tissue (multiple optical properties and fts)
 % Evaluate reflectance as a function of rho and temporal-frequency with one 
 % set of optical properites.
 clear op

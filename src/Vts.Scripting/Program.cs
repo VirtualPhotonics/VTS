@@ -1,6 +1,8 @@
 ﻿using Vts.Scripting.ForwardSolvers;
 using Vts.Scripting.MonteCarlo;
 
+namespace Vts.Scripting;
+
 /// <summary>
 /// Top program used to execute the desired demo script(s)
 /// </summary>

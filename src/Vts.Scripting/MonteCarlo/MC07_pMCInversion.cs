@@ -52,7 +52,7 @@ public class MC07_pMCInversion : IDemoScript
         };
         var simulationInput = new SimulationInput
         {
-            N = 10000,
+            N = 1000,
             TissueInput = tissueInput,
             DetectorInputs = new IDetectorInput[] { }, // leaving this empty - no on-the-fly detectors needed!
             OutputName = "results",
