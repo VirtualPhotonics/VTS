@@ -17,7 +17,7 @@ public class Program
         //RunAllMonteCarloDemos();
         //RunAllForwardSolverDemos();
 
-        FS02_ROfFxAndFtMulti.RunDemo();
+        MC07_pMCInversion.RunDemo();
     }
 
     /// <summary>

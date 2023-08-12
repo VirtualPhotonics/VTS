@@ -92,7 +92,7 @@ public class MC07_pMCInversion : IDemoScript
             optimizer: new MPFitLevenbergMarquardtOptimizer(),
             solutionDomainType: SolutionDomainType.ROfRho,
             dependentValues: measuredData,
-            standardDeviationValues: measuredData.Take(measuredData.Length - 1).Concat(new double[] { double.PositiveInfinity }).ToArray(),
+            standardDeviationValues: measuredData[..^1].Append(double.PositiveInfinity).ToArray(),
             inverseFitType: InverseFitType.MuaMusp,
             initialGuessOPsAndRhoAxis
         );
