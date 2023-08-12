@@ -82,7 +82,10 @@ public class MC07_pMCInversion : IDemoScript
         // Create an ad-hoc forward solver based on pMC prediction (see implementation below; note: implemented for ROfRho only)
         var pMCForwardSolver = new pMCForwardSolver(detectorRange, simulationInput, simulationInput.OutputName);
 
-        // Run the inversion, based on Levenberg-Marquardt optimization
+        // Run the inversion, based on Levenberg-Marquardt optimization.
+        // Note: chi-squared weighting in the inversion is based on standard deviation of measured data, except for
+        // the last point, which is set to infinity to fully-deweight it. This is because the last point contains
+        // all photon counts for that bin and beyond, and we therefore don't want to include it in the fit
         var initialGuessOPsAndRhoAxis = new object[] { new[] { baselineOps }, detectorMidpoints }; // "extra" (constant) data for the forward model calls
         var solution = ComputationFactory.SolveInverse(
             forwardSolver: pMCForwardSolver,
@@ -108,23 +111,8 @@ public class MC07_pMCInversion : IDemoScript
         {
             ScatterChart(detectorMidpoints, logReflectance2, xLabel, yLabel, title: "Measured Data"),
             LineChart(detectorMidpoints, logReflectance1, xLabel, yLabel, title: $"Initial guess (mua={baselineOps.Mua:F3}/mm, musp={baselineOps.Musp:F3}/mm)"),
-            LineChart(detectorMidpoints, logReflectance2, xLabel, yLabel, title: $"Fit result (mua={fitOps.Mua:F3}/mm, musp={fitOps.Musp:F3}/mm)")
+            LineChart(detectorMidpoints, logReflectance2, xLabel, yLabel, title: $"Converged result (mua={fitOps.Mua:F3}/mm, musp={fitOps.Musp:F3}/mm)")
         }).Show(); // show all three charts together
-
-        // todo: add convergence error info similar to Matlab:
-        // xlabel('\rho [mm]');
-        // ylabel('log10(R(\rho))');
-        // legend('Meas','IG','Converged','Location','SouthWest');
-        // title('Inverse solution using pMC/dMC'); 
-        // set(f, 'Name', 'Inverse solution using pMC/dMC');
-        // disp(sprintf('Meas =    [%f %5.3f]',measOPs(1),measOPs(2)/(1-0.8)));
-        // disp(sprintf('IG =      [%f %5.3f] Chi2=%5.3e',x0(1),x0(2),...
-        //     (measData-doInitialGuess.Mean')*(measData-doInitialGuess.Mean')'));
-        // disp(sprintf('Conv =    [%f %5.3f] Chi2=%5.3e',recoveredOPs(1),recoveredOPs(2),...
-        //     (measData-doRecovered.Mean')*(measData-doRecovered.Mean')'));
-        // disp(sprintf('error =   [%f %5.3f]',abs(measOPs(1)-recoveredOPs(1))/measOPs(1),...
-        //     abs(measMus-recoveredOPs(2))/measOPs(2)));
-
     }
 
     private class pMCForwardSolver : IForwardSolver
