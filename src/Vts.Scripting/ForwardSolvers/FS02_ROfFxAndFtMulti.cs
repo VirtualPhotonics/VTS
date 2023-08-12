@@ -1,9 +1,6 @@
 ﻿using Vts.Common;
 using Vts.Modeling.ForwardSolvers;
 using Plotly.NET.CSharp;
-using System.Runtime.CompilerServices;
-using System.Numerics;
-using static Plotly.NET.StyleParam.LinearAxisId;
 
 namespace Vts.Scripting.ForwardSolvers;
 
