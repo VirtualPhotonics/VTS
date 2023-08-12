@@ -175,7 +175,7 @@ namespace Vts.Test.MonteCarlo.Factories
             // the following does not check exception it is aimed at
             var detectorInputMock = Substitute.For<IDetectorInput>();
             var detectorInputMockType = detectorInputMock.GetType();
-            Assert.Throws<ArgumentException>(() => DetectorFactory.RegisterDetector(
+            Assert.Throws<NotImplementedException>(() => DetectorFactory.RegisterDetector(
                 detectorInputMockType, typeof(IDetector)));
         }
 
