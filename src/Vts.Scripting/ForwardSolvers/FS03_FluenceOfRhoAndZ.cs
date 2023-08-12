@@ -54,13 +54,14 @@ public class FS03_FluenceOfRhoAndZ : IDemoScript
         var imageSize = rhos.Length * zs.Length;
         var fluenceRowsToPlot = fluenceOfRhoAndZ            
             .Skip((wavelengths.Length - 1) * imageSize) // skip to the last wavelength
-            .Select(fluence => Math.Log(fluence))
-            .Chunk(rhos.Length); // break the heatmap into rows
-        Chart2D.Chart.Heatmap<double[], double, double, double, string>(
-            zData: fluenceRowsToPlot, 
-            X: rhos,
-            Y: zs,
-            ReverseYAxis: true,
+            .Select(fluence => Math.Log(fluence)) // take log for visualization purposes
+            .Chunk(zs.Length); // break the heatmap into rows (inner dimension is zs)        
+        var fluenceDataToPlot = fluenceRowsToPlot.Reverse().Concat(fluenceRowsToPlot).ToArray(); // duplicate for -rho to make symmetric
+        Chart2D.Chart.Heatmap<IEnumerable<double>, double, double, double, string>(
+            zData: fluenceDataToPlot,
+            X: zs,
+            Y: rhos.Reverse().Concat(rhos).ToArray(),
+            Transpose: true,
             Text: "log(Φ(rho, z))",
             ColorScale: StyleParam.Colorscale.Viridis).Show();
     }
