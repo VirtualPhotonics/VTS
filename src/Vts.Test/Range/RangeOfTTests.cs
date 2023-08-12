@@ -1,4 +1,5 @@
-﻿using NSubstitute;
+﻿using System;
+using NSubstitute;
 using NUnit.Framework;
 using Vts.Common;
 
@@ -10,7 +11,7 @@ namespace Vts.Test.Range
         [Test]
         public void Test_default_constructor()
         {
-            var rangeMock = Substitute.ForPartsOf<Range<int>>();
+            var rangeMock = Substitute.ForPartsOf<TestRange>();
             Assert.AreEqual("Start: 0, Stop: 0, Count: 1, Delta: 0", rangeMock.ToString());
         }
 
@@ -28,6 +29,19 @@ namespace Vts.Test.Range
             Assert.AreEqual("Start: 0, Stop: 9, Count: 10, Delta: 1", range.ToString());
             range.Delta = 2;
             Assert.AreEqual("Start: 0, Stop: 9, Count: 10, Delta: 2", range.ToString());
+        }
+    }
+
+    public class TestRange : Range<int>
+    {
+        protected override Func<int, int> GetIncrement()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override int GetDelta()
+        {
+            return 0;
         }
     }
 }
