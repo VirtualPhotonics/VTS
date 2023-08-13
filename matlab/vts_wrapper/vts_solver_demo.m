@@ -105,8 +105,8 @@ test = VtsSolvers.FluenceOfRhoAndZ(op, rhos, zs);
 f = figure; imagesc(wv,zs,log(squeeze(test(:,1,:))));
 ylabel('z [mm]');
 xlabel('wavelength, \lambda [nm]');
-title('Fluence of \lambda and z and \rho=0.1 mm'); 
-set(f,'Name','Fluence as a function of Rho and z');
+title('Fluence of \lambda and z at \rho=0.1 mm'); 
+set(f,'Name','Fluence as a function of lambda and z');
 
 
 %% Example 04 FluenceOfRhoAndZAndFt

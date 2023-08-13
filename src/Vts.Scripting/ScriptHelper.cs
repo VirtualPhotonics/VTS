@@ -70,4 +70,32 @@ public static class ScriptHelper
              .WithYAxisStyle<double, double, string>(Title: Plotly.NET.Title.init(yLabel))
              .WithLegendStyle(X: 0, Y: 150);
     }
+
+    /// <summary>
+    /// Helper method to format a heatmap chart
+    /// </summary>
+    /// <param name="values"></param>
+    /// <param name="x"></param>
+    /// <param name="y"></param>
+    /// <param name="title"></param>
+    /// <returns></returns>
+    public static Plotly.NET.GenericChart.GenericChart Heatmap(
+        IEnumerable<double[]> values, 
+        double[] x = null, 
+        double[] y = null,
+        string title = "")
+    {
+        // attn devs: for reference, the following are the type parameters used in the call to Chart2D.Chart.Heatmap:
+        // Chart2D.Chart.Heatmap<a37: (row format), a38: (fluence value type), a39: X (rho value type), a40: Y (z value type), a41: Text type>(...)
+        var chart = Plotly.NET.Chart2D.Chart.Heatmap<IEnumerable<double>, double, double, double, string>(
+            zData: values,
+            X: x,
+            Y: y,
+            Transpose: true,
+            Text: title,
+            ColorScale: Plotly.NET.StyleParam.Colorscale.Viridis
+        );
+
+        return Plotly.NET.GenericChartExtensions.WithColorbar(chart, title: Plotly.NET.Title.init(title));
+    }
 }

@@ -49,20 +49,12 @@ public class FS03_FluenceOfRhoAndZ : IDemoScript
         var fluenceOfRhoAndZ = solver.FluenceOfRhoAndZ(op, rhos, zs);
 
         // Plot the log(fluence(rho, z)) for the last wavelength
-        // attn devs: for reference, the following are the type parameters used in the call to Chart2D.Chart.Heatmap:
-        // Chart2D.Chart.Heatmap<a37: (row format), a38: (fluence value type), a39: X (rho value type), a40: Y (z value type), a41: Text type>(...)
         var imageSize = rhos.Length * zs.Length;
         var fluenceRowsToPlot = fluenceOfRhoAndZ            
             .Skip((wavelengths.Length - 1) * imageSize) // skip to the last wavelength
             .Select(fluence => Math.Log(fluence)) // take log for visualization purposes
             .Chunk(zs.Length); // break the heatmap into rows (inner dimension is zs)        
         var fluenceDataToPlot = fluenceRowsToPlot.Reverse().Concat(fluenceRowsToPlot).ToArray(); // duplicate for -rho to make symmetric
-        Chart2D.Chart.Heatmap<IEnumerable<double>, double, double, double, string>(
-            zData: fluenceDataToPlot,
-            X: zs,
-            Y: rhos.Reverse().Concat(rhos).ToArray(),
-            Transpose: true,
-            Text: "log(Φ(rho, z))",
-            ColorScale: StyleParam.Colorscale.Viridis).Show();
+        Heatmap(values: fluenceDataToPlot, x: zs, y: rhos.Reverse().Concat(rhos).ToArray(), title: "log(Φ(rho, z))").Show();
     }
 }
