@@ -17,7 +17,7 @@ public class Program
         //RunAllMonteCarloDemos();
         //RunAllForwardSolverDemos();
 
-        FS03_FluenceOfRhoAndZ.RunDemo();
+        FS04_FluenceOfRhoAndZAndFt.RunDemo();
     }
 
     /// <summary>
@@ -45,5 +45,6 @@ public class Program
         FS01_ROfRhoAndFtSingle.RunDemo();
         FS02_ROfFxAndFtMulti.RunDemo();
         FS03_FluenceOfRhoAndZ.RunDemo();
+        FS04_FluenceOfRhoAndZAndFt.RunDemo();
     }
 }
