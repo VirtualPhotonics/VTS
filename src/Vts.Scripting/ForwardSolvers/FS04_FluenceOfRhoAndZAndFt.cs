@@ -50,7 +50,11 @@ public class FS04_FluenceOfRhoAndZAndFt : IDemoScript
             .Chunk(zs.Length); // break the heatmap into rows (inner dimension is zs)        
         var allFluenceRowsToPlot2 = fluenceRowsToPlot2.Reverse().Concat(fluenceRowsToPlot2).ToArray(); // duplicate for -rho to make symmetric
         var fdFluenceChart = Heatmap(values: allFluenceRowsToPlot2, x: allRhos, y: zs, xLabel: "rho", yLabel: "z", title: "log(Φ(rho, z, ft=1Ghz))");
-        Chart.Grid(new[]{ cwFluenceChart, fdFluenceChart }, nRows: 2, nCols: 1, Pattern: Plotly.NET.StyleParam.LayoutGridPattern.Independent).Show();
+
+        // show on separate plots, until we can figure out how to get separate colorbars for each
+        cwFluenceChart.Show(); 
+        fdFluenceChart.Show();
+        //Chart.Grid(new[]{ cwFluenceChart, fdFluenceChart }, nRows: 2, nCols: 1, Pattern: Plotly.NET.StyleParam.LayoutGridPattern.Independent).Show();
 
         // todo: implement/use slicing and Span instead of slow LINQ queries
     }

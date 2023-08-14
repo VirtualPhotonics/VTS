@@ -100,8 +100,6 @@ public static class ScriptHelper
             Text: title,
             ColorScale: Plotly.NET.StyleParam.Colorscale.Viridis
         ).WithTraceInfo(title, ShowLegend: !string.IsNullOrWhiteSpace(title))
-         .WithXAxisStyle<double, double, string>(Title: Plotly.NET.Title.init(xLabel))
-         .WithYAxisStyle<double, double, string>(Title: Plotly.NET.Title.init(yLabel))
          .WithLegendStyle(X: 0, Y: 150);
         
         //var chartLayout = Plotly.NET.GenericChart.getLayout(chart);
@@ -109,11 +107,15 @@ public static class ScriptHelper
         //yAxis.SetValue("scaleanchor", Plotly.NET.StyleParam.LinearAxisId.NewX(1));
         //chart = Plotly.NET.GenericChartExtensions.WithYAxis(chart, yAxis);
 
-        LinearAxis yAxis2 = LinearAxis.init<IConvertible, IConvertible, IConvertible, IConvertible, double, IConvertible>(
-            ScaleAnchor: Plotly.NET.StyleParam.LinearAxisId.NewX(1), AxisType: Plotly.NET.StyleParam.AxisType.Linear);
-        chart = Plotly.NET.GenericChartExtensions.WithYAxis(chart, yAxis2);
+        chart = Plotly.NET.GenericChartExtensions
+            .WithYAxis(chart, LinearAxis.init<IConvertible, IConvertible, IConvertible, IConvertible, double, IConvertible>(
+                ScaleAnchor: Plotly.NET.StyleParam.LinearAxisId.NewX(1), AxisType: Plotly.NET.StyleParam.AxisType.Linear))
+            .WithXAxisStyle<double, double, string>(Title: Plotly.NET.Title.init(xLabel), MinMax: new Tuple<double, double>(x[0], x[^1]))
+            .WithYAxisStyle<double, double, string>(Title: Plotly.NET.Title.init(yLabel), MinMax: new Tuple<double, double>(y[0], y[^1]));
 
-        chart = Plotly.NET.GenericChartExtensions.WithColorbar(chart, title: Plotly.NET.Title.init(title));
+        chart = Plotly.NET.GenericChartExtensions
+            .WithColorbar(chart, title: Plotly.NET.Title.init(title));
+
         return chart;
     }
 }
