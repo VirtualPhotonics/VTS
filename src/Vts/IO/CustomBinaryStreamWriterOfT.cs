@@ -72,6 +72,9 @@ namespace Vts.IO
         {
             try
             {
+                // guard against directory not existing ahead of time
+                Directory.CreateDirectory(Path.GetDirectoryName(_filename));
+
                 _stream = StreamFinder.GetFileStream(_filename, FileMode.Create);
                 _binaryWriter = new BinaryWriter(_stream);
 
