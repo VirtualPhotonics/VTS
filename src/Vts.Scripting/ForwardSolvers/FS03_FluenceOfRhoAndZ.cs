@@ -51,13 +51,14 @@ public class FS03_FluenceOfRhoAndZ : IDemoScript
         var fluenceOfRhoAndZ = solver.FluenceOfRhoAndZ(op, rhos, zs);
 
         // Plot the log(fluence(rho, z)) for the last wavelength
+        var wvi = wavelengths.Length - 1; // index of last wavelength (1000nm)
         var imageSize = rhos.Length * zs.Length;
         var allRhos = rhos.Select(rho => -rho).Reverse().Concat(rhos).ToArray(); // duplicate for -rho to make symmetric
         var fluenceRowsToPlot = fluenceOfRhoAndZ            
-            .Skip((wavelengths.Length - 1) * imageSize) // skip to the last wavelength
+            .Skip(wvi * imageSize) // skip to the last wavelength
             .Select(fluence => Math.Log(fluence)) // take log for visualization purposes
             .Chunk(zs.Length); // break the heatmap into rows (inner dimension is zs)        
         var fluenceDataToPlot = fluenceRowsToPlot.Reverse().Concat(fluenceRowsToPlot).ToArray(); // duplicate for -rho to make symmetric
-        Heatmap(values: fluenceDataToPlot, x: allRhos, y: zs, xLabel: "rho", yLabel: "z", title: "log(Φ(rho, z))").Show();
+        Heatmap(values: fluenceDataToPlot, x: allRhos, y: zs, xLabel: "rho", yLabel: "z", title: $"log(Φ(rho, z) @λ={wavelengths[wvi]}nm").Show();
     }
 }

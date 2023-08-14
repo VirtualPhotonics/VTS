@@ -2,7 +2,7 @@
 using Vts.Common;
 using Vts.MonteCarlo;
 using Plotly.NET.CSharp;
-using System.Reflection.Emit;
+using Plotly.NET.LayoutObjects;
 
 namespace Vts.Scripting;
 
@@ -47,12 +47,12 @@ public static class ScriptHelper
 
     public static Plotly.NET.GenericChart.GenericChart ScatterChart(double[] xValues, double[] yValues, string xLabel = "", string yLabel = "", string title = "")
     {
-        return Chart.Point<double, double, string>(xValues, yValues).WithStandardStyling(xLabel, yLabel, title);
+        return Plotly.NET.CSharp.Chart.Point<double, double, string>(xValues, yValues).WithStandardStyling(xLabel, yLabel, title);
     }
 
     public static Plotly.NET.GenericChart.GenericChart LineChart(double[] xValues, double[] yValues, string xLabel = "", string yLabel = "", string title = "")
     {
-        return Chart.Line<double, double, string>(xValues, yValues).WithStandardStyling(xLabel, yLabel, title);
+        return Plotly.NET.CSharp.Chart.Line<double, double, string>(xValues, yValues).WithStandardStyling(xLabel, yLabel, title);
     }
 
     /// <summary>
@@ -66,6 +66,7 @@ public static class ScriptHelper
     private static Plotly.NET.GenericChart.GenericChart WithStandardStyling(
         this Plotly.NET.GenericChart.GenericChart chart, string xLabel = "", string yLabel = "", string title = "")
     {
+        // uses Plotly.NET.CSharp.ChartExtensions (adding Plotly.NET to the using statements above will break this)
         return chart
             .WithTraceInfo(title, ShowLegend: !string.IsNullOrWhiteSpace(title))
             .WithXAxisStyle<double, double, string>(Title: Plotly.NET.Title.init(xLabel))
@@ -102,7 +103,17 @@ public static class ScriptHelper
          .WithXAxisStyle<double, double, string>(Title: Plotly.NET.Title.init(xLabel))
          .WithYAxisStyle<double, double, string>(Title: Plotly.NET.Title.init(yLabel))
          .WithLegendStyle(X: 0, Y: 150);
+        
+        //var chartLayout = Plotly.NET.GenericChart.getLayout(chart);
+        //var yAxis = Plotly.NET.Layout.getLinearAxisById(Plotly.NET.StyleParam.SubPlotId.NewYAxis(1)).Invoke(chartLayout);
+        //yAxis.SetValue("scaleanchor", Plotly.NET.StyleParam.LinearAxisId.NewX(1));
+        //chart = Plotly.NET.GenericChartExtensions.WithYAxis(chart, yAxis);
 
-        return Plotly.NET.GenericChartExtensions.WithColorbar(chart, title: Plotly.NET.Title.init(title));
+        LinearAxis yAxis2 = LinearAxis.init<IConvertible, IConvertible, IConvertible, IConvertible, double, IConvertible>(
+            ScaleAnchor: Plotly.NET.StyleParam.LinearAxisId.NewX(1), AxisType: Plotly.NET.StyleParam.AxisType.Linear);
+        chart = Plotly.NET.GenericChartExtensions.WithYAxis(chart, yAxis2);
+
+        chart = Plotly.NET.GenericChartExtensions.WithColorbar(chart, title: Plotly.NET.Title.init(title));
+        return chart;
     }
 }
