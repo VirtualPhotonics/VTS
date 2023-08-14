@@ -17,7 +17,7 @@ public class Program
         //RunAllMonteCarloDemos();
         //RunAllForwardSolverDemos();
 
-        MC06_pMCPostProcessor.RunDemo();
+        FS04_FluenceOfRhoAndZAndFt.RunDemo();
     }
 
     /// <summary>
