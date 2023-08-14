@@ -2,6 +2,7 @@
 using Vts.Common;
 using Vts.MonteCarlo;
 using Plotly.NET.CSharp;
+using System.Reflection.Emit;
 
 namespace Vts.Scripting;
 
@@ -65,10 +66,11 @@ public static class ScriptHelper
     private static Plotly.NET.GenericChart.GenericChart WithStandardStyling(
         this Plotly.NET.GenericChart.GenericChart chart, string xLabel = "", string yLabel = "", string title = "")
     {
-        return chart.WithTraceInfo(title, ShowLegend: !string.IsNullOrWhiteSpace(title))
-             .WithXAxisStyle<double, double, string>(Title: Plotly.NET.Title.init(xLabel))
-             .WithYAxisStyle<double, double, string>(Title: Plotly.NET.Title.init(yLabel))
-             .WithLegendStyle(X: 0, Y: 150);
+        return chart
+            .WithTraceInfo(title, ShowLegend: !string.IsNullOrWhiteSpace(title))
+            .WithXAxisStyle<double, double, string>(Title: Plotly.NET.Title.init(xLabel))
+            .WithYAxisStyle<double, double, string>(Title: Plotly.NET.Title.init(yLabel))
+            .WithLegendStyle(X: 0, Y: 150);
     }
 
     /// <summary>
@@ -81,20 +83,25 @@ public static class ScriptHelper
     /// <returns></returns>
     public static Plotly.NET.GenericChart.GenericChart Heatmap(
         IEnumerable<double[]> values, 
-        double[] x = null, 
-        double[] y = null,
+        double[]? x = null, 
+        double[]? y = null,
+        string xLabel = "",
+        string yLabel = "",
         string title = "")
     {
         // attn devs: for reference, the following are the type parameters used in the call to Chart2D.Chart.Heatmap:
         // Chart2D.Chart.Heatmap<a37: (row format), a38: (fluence value type), a39: X (rho value type), a40: Y (z value type), a41: Text type>(...)
         var chart = Plotly.NET.Chart2D.Chart.Heatmap<IEnumerable<double>, double, double, double, string>(
             zData: values,
-            X: x,
-            Y: y,
+            X: x, Y: y,
+            ReverseScale: false, ReverseYAxis: true,
             Transpose: true,
             Text: title,
             ColorScale: Plotly.NET.StyleParam.Colorscale.Viridis
-        );
+        ).WithTraceInfo(title, ShowLegend: !string.IsNullOrWhiteSpace(title))
+         .WithXAxisStyle<double, double, string>(Title: Plotly.NET.Title.init(xLabel))
+         .WithYAxisStyle<double, double, string>(Title: Plotly.NET.Title.init(yLabel))
+         .WithLegendStyle(X: 0, Y: 150);
 
         return Plotly.NET.GenericChartExtensions.WithColorbar(chart, title: Plotly.NET.Title.init(title));
     }

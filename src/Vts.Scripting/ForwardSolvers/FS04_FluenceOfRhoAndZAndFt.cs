@@ -1,7 +1,7 @@
 ﻿using Vts.Common;
 using Vts.Modeling.ForwardSolvers;
-using Vts.SpectralMapping;
-using Plotly.NET;
+using Plotly.NET.CSharp;
+using System;
 
 namespace Vts.Scripting.ForwardSolvers;
 
@@ -32,24 +32,26 @@ public class FS04_FluenceOfRhoAndZAndFt : IDemoScript
         var fluenceOfRhoAndZAndFt = solver.FluenceOfRhoAndZAndFt(new[]{ op }, rhos, zs, fts);
 
         var imageSize = rhos.Length * zs.Length;
-
+        var allRhos = rhos.Select(rho => -rho).Reverse().Concat(rhos).ToArray(); // duplicate for -rho to make symmetric
         // Plot the CW fluence: log(fluence(rho, z, ft=0GHz)) 
-        var fluenceRowsToPlot = fluenceOfRhoAndZAndFt          
-            .Take(imageSize) // take the first rho-z map (CW data)
+        var fti = 0; // index of ft to plot
+        var fluenceRowsToPlot = fluenceOfRhoAndZAndFt
+            .Where((_, i) => (i - fti) % fts.Length == 0) // (innermost axis is ft, so we need to take every 2nd starting at index 0)
             .Select(fluence => Math.Log(fluence.Magnitude)) // take log for visualization purposes
             .Chunk(zs.Length); // break the heatmap into rows (inner dimension is zs)        
-        var fluenceDataToPlot = fluenceRowsToPlot.Reverse().Concat(fluenceRowsToPlot).ToArray(); // duplicate for -rho to make symmetric
-        var cwFluenceChart = Heatmap(values: fluenceDataToPlot, x: zs, y: rhos.Reverse().Concat(rhos).ToArray(), title: "log(Φ(rho, z, ft=0Ghz))");
-
+        var allFluenceRowsToPlot = fluenceRowsToPlot.Reverse().Concat(fluenceRowsToPlot).ToArray(); // duplicate for -rho to make symmetric
+        var cwFluenceChart = Heatmap(values: allFluenceRowsToPlot, x: allRhos, y: zs, xLabel: "rho", yLabel: "z", title: "log(Φ(rho, z, ft=0Ghz))");
 
         // Plot the frequency-domain fluence amplitude at 1GHz: log(fluence(rho, z, ft=0GHz)) 
-        var fluenceRowsToPlot2 = fluenceOfRhoAndZAndFt          
-            .Skip(imageSize) // skip to the second rho-z map (f-d data)
+        var fti2 = 1; // index of ft to plot
+        var fluenceRowsToPlot2 = fluenceOfRhoAndZAndFt
+            .Where((_, i) => (i - fti2) % fts.Length == 0) // (innermost axis is ft, so we need to take every 2nd starting at index 1)
             .Select(fluence => Math.Log(fluence.Magnitude)) // take log for visualization purposes
             .Chunk(zs.Length); // break the heatmap into rows (inner dimension is zs)        
-        var fluenceDataToPlot2 = fluenceRowsToPlot.Reverse().Concat(fluenceRowsToPlot).ToArray(); // duplicate for -rho to make symmetric
-        var fdFluenceChart = Heatmap(values: fluenceDataToPlot2, x: zs, y: rhos.Reverse().Concat(rhos).ToArray(), title: "log(Φ(rho, z, ft=1Ghz))");
+        var allFluenceRowsToPlot2 = fluenceRowsToPlot2.Reverse().Concat(fluenceRowsToPlot2).ToArray(); // duplicate for -rho to make symmetric
+        var fdFluenceChart = Heatmap(values: allFluenceRowsToPlot2, x: allRhos, y: zs, xLabel: "rho", yLabel: "z", title: "log(Φ(rho, z, ft=1Ghz))");
+        Chart.Grid(new[]{ cwFluenceChart, fdFluenceChart }, nRows: 2, nCols: 1, Pattern: Plotly.NET.StyleParam.LayoutGridPattern.Independent).Show();
 
-        Chart.Grid(new[]{ cwFluenceChart, fdFluenceChart }, nRows: 2, nCols: 1, Pattern: Plotly.NET.StyleParam.LayoutGridPattern.Coupled).Show();
+        // todo: implement/use slicing and Span instead of slow LINQ queries
     }
 }
