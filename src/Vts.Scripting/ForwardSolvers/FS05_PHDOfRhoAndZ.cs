@@ -42,7 +42,7 @@ public class FS05_PHDOfRhoAndZ : IDemoScript
         var allPhdRowsToPlot = phdRowsToPlot;//.Reverse().Concat(phdRowsToPlot).ToArray(); // duplicate for -rho to make symmetric
         var phdChart = Heatmap(
             values: allPhdRowsToPlot, x: allRhos, y: zs,
-            xLabel: "ρ", yLabel: "z", title: $"PHD(ρ, z) @ s-d: {sourceDetectorSeparation} mm");
+            xLabel: "ρ [mm]", yLabel: "z [mm]", title: $"PHD(ρ, z) @ s-d: {sourceDetectorSeparation} mm");
         phdChart.Show();
     }
 }

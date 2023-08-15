@@ -5,7 +5,7 @@ using Plotly.NET.CSharp;
 namespace Vts.Scripting.ForwardSolvers;
 
 /// <summary>
-/// Class using the Vts.dll library to demonstrate predicting reflectance as a function of 
+/// Class using the Vts.dll library to demonstrate predicting fluence as a function of 
 /// radial extent, depth, and time frequency at a given set of optical properties
 /// </summary>
 public class FS04_FluenceOfRhoAndZAndFt : IDemoScript
@@ -64,7 +64,8 @@ public class FS04_FluenceOfRhoAndZAndFt : IDemoScript
         var modFluenceRowsToPlot = modFluenceOfRhoAndZ
             .Chunk(zs.Length); // break the heatmap into rows (inner dimension is zs)        
         var allModFluenceRowsToPlot = modFluenceRowsToPlot.Reverse().Concat(modFluenceRowsToPlot).ToArray(); // duplicate for -rho to make symmetric
-        var modFluenceChart = Heatmap(values: allModFluenceRowsToPlot, x: allRhos, y: zs, xLabel: "ρ", yLabel: "z", title: "modulation(ρ, z) @ ft=1Ghz))");
+        var modFluenceChart = Heatmap(values: allModFluenceRowsToPlot, x: allRhos, y: zs,
+            xLabel: "ρ [mm]", yLabel: "z [mm]", title: "modulation(ρ, z) @ ft=1Ghz))");
         modFluenceChart.Show();
     }
 }

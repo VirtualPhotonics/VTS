@@ -59,6 +59,7 @@ public class FS03_FluenceOfRhoAndZ : IDemoScript
             .Select(fluence => Math.Log(fluence)) // take log for visualization purposes
             .Chunk(zs.Length); // break the heatmap into rows (inner dimension is zs)        
         var fluenceDataToPlot = fluenceRowsToPlot.Reverse().Concat(fluenceRowsToPlot).ToArray(); // duplicate for -rho to make symmetric
-        Heatmap(values: fluenceDataToPlot, x: allRhos, y: zs, xLabel: "ρ", yLabel: "z", title: $"log(Φ(ρ, z) @λ={wavelengths[wvi]}nm").Show();
+        Heatmap(values: fluenceDataToPlot, x: allRhos, y: zs,
+            xLabel: "ρ [mm]", yLabel: "z [mm]", title: $"log(Φ(ρ, z) @λ={wavelengths[wvi]}nm").Show();
     }
 }

@@ -6,8 +6,8 @@ using Plotly.NET;
 namespace Vts.Scripting.ForwardSolvers;
 
 /// <summary>
-/// Class using the Vts.dll library to demonstrate predicting reflectance as a function of 
-/// radial extent and depth at a given set of optical properties 
+/// Class using the Vts.dll library to demonstrate predicting fluence in a multi-layer tissue
+/// as a function of radial extent and depth at a given set of optical properties 
 /// </summary>
 public class FS06_FluenceOfRhoAndZTwoLayer : IDemoScript
 {
@@ -62,7 +62,7 @@ public class FS06_FluenceOfRhoAndZTwoLayer : IDemoScript
         var allfluenceRowsToPlot = fluenceRowsToPlot.Reverse().Concat(fluenceRowsToPlot).ToArray(); // duplicate for -rho to make symmetric
         var fluenceChart = Heatmap(
             values: allfluenceRowsToPlot, x: allRhos, y: zs,
-            xLabel: "ρ", yLabel: "z", title: $"log(Φ(ρ, z))");
+            xLabel: "ρ [mm]", yLabel: "z [mm]", title: $"log(Φ(ρ, z) [mm-3])");
         fluenceChart.Show();
     }
 }
