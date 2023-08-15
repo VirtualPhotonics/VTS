@@ -13,9 +13,9 @@ namespace Vts.IO
     {
         private readonly string _filename;
         private readonly Action<BinaryWriter, T> _writeMap;
-
         private Stream? _stream;
         private BinaryWriter? _binaryWriter;
+        private bool disposedValue;
 
         /// <summary>
         /// Constructor
@@ -38,6 +38,9 @@ namespace Vts.IO
             string fileName,
             Action<BinaryWriter, T> writeMap)
         {
+            ArgumentNullException.ThrowIfNull(fileName);
+            ArgumentNullException.ThrowIfNull(writeMap);
+
             _filename = fileName;
             _writeMap = writeMap;
 
@@ -81,14 +84,16 @@ namespace Vts.IO
                 }
 
                 _stream = StreamFinder.GetFileStream(_filename, FileMode.Create);
+                if (_stream is null)
+                {
+                    throw new IOException("Could not open filestream for writing");
+                }
+
                 _binaryWriter = new BinaryWriter(_stream);
 
                 IsOpen = true;
 
-                if (PreWriteAction != null)
-                {
-                    PreWriteAction();
-                }
+                PreWriteAction?.Invoke();
             }
             catch (IOException)
             {
@@ -102,8 +107,7 @@ namespace Vts.IO
         /// <param name="item">Single data point to be written</param>
         public void Write(T item)
         {
-            ArgumentNullException.ThrowIfNull(_binaryWriter);
-            _writeMap(_binaryWriter, item);
+            _writeMap(_binaryWriter!, item); // _binaryWriter is guaranteed to be non-null here
             Count++;
         }
 
@@ -123,91 +127,40 @@ namespace Vts.IO
         /// <summary>
         /// Closes the filestream and writes the accompanying .xml
         /// </summary>
-        public virtual void Close()
+        public void Close()
         {
             Dispose();
         }
 
-        #region IDisposable Members
+        /// <summary>
+        /// Internal method for disposing the IDisposable object
+        /// </summary>
+        /// <param name="disposing">Specifies whether the object is currently being disposed</param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    _binaryWriter?.Close();
+                    _stream?.Close(); 
+                    PostWriteAction?.Invoke();
+                }
 
-        private bool _disposed = false;
-        // Do not make this method virtual.
-        // A derived class should not be able to override this method.
+                // TODO: free unmanaged resources (unmanaged objects) and override finalizer
+                // TODO: set large fields to null
+                disposedValue = true;
+            }
+        }
 
         /// <summary>
-        /// Closes the file and writes the accompanying .xml
+        /// Disposes the IDisposable object
         /// </summary>
         public void Dispose()
         {
-            Dispose(true);
-            // This object will be cleaned up by the Dispose method.
-            // Therefore, you should call GC.SupressFinalize to
-            // take this object off the finalization queue
-            // and prevent finalization code for this object
-            // from executing a second time.
+            // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+            Dispose(disposing: true);
             GC.SuppressFinalize(this);
         }
-
-        // Dispose(bool disposing) executes in two distinct scenarios.
-        // If disposing equals true, the method has been called directly
-        // or indirectly by a user's code. Managed and unmanaged resources
-        // can be disposed.
-        // If disposing equals false, the method has been called by the
-        // runtime from inside the finalizer and you should not reference
-        // other objects. Only unmanaged resources can be disposed.
-        private void Dispose(bool disposing)
-        {
-            // Check to see if Dispose has already been called.
-            if (!this._disposed)
-            {
-                // If disposing equals true, dispose all managed
-                // and unmanaged resources.
-                if (disposing)
-                {
-                    // Dispose managed resources.
-                    if (_binaryWriter != null)
-                    {
-                        _binaryWriter.Close();
-                    }
-
-                    if (_stream != null)
-                    {
-                        _stream.Close();
-                    }
-
-                    if (PostWriteAction != null)
-                    {
-                        PostWriteAction();
-                    }
-                }
-
-                // Call the appropriate methods to clean up
-                // unmanaged resources here.
-                // If disposing is false,
-                // only the following code is executed.
-
-                // Note disposing has been done.
-                _disposed = true;
-            }
-
-        }
-
-        // Use C# destructor syntax for finalization code.
-        // This destructor will run only if the Dispose method
-        // does not get called.
-        // It gives your base class the opportunity to finalize.
-        // Do not provide destructors in types derived from this class.
-        /// <summary>
-        /// Custom binary stream writer
-        /// </summary>
-        ~CustomBinaryStreamWriter()
-        {
-            // Do not re-create Dispose clean-up code here.
-            // Calling Dispose(false) is optimal in terms of
-            // readability and maintainability.
-            Dispose(false);
-        }
-
-        #endregion
     }
 }
