@@ -78,7 +78,7 @@ namespace Vts.IO
             {
                 // guard against directory not existing ahead of time
                 var path = Path.GetDirectoryName(_filename);
-                if(path is not null)
+                if(!string.IsNullOrWhiteSpace(path))
                 {
                     Directory.CreateDirectory(path);
                 }

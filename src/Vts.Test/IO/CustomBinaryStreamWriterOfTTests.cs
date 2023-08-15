@@ -28,6 +28,8 @@ namespace Vts.Test.IO
         {
             foreach (var folder in _listOfTestGeneratedFolders)
             {
+                if(!Directory.Exists(folder))
+                    continue;
                 Directory.Delete(folder, recursive: true);
             }
         }
