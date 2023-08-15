@@ -14,7 +14,7 @@ namespace Vts.Test.IO
         /// <summary>
         /// list of temporary files created by these unit tests
         /// </summary>
-        readonly List<string> listOfTestGeneratedFolders = new List<string>()
+        private readonly List<string> _listOfTestGeneratedFolders = new List<string>()
         {
             "results_CustomBinaryStreamWriterOfTTests",
         };
@@ -24,9 +24,9 @@ namespace Vts.Test.IO
         /// </summary>
         [OneTimeSetUp]
         [OneTimeTearDown]
-        public void clear_folders_and_files()
+        public void Clear_folders_and_files()
         {
-            foreach (var folder in listOfTestGeneratedFolders)
+            foreach (var folder in _listOfTestGeneratedFolders)
             {
                 Directory.Delete(folder, recursive: true);
             }
@@ -36,7 +36,7 @@ namespace Vts.Test.IO
         /// Validate writing text to a stream
         /// </summary>
         [Test]
-        public void validate_does_not_throw_when_no_folder_exists()
+        public void Validate_does_not_throw_when_no_folder_exists()
         {
             // constructor opens the stream directly
             Assert.DoesNotThrow(()=>

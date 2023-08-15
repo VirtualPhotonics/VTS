@@ -1,4 +1,5 @@
-﻿using System;
+﻿#nullable enable
+using System;
 using System.Collections.Generic;
 using System.IO;
 
@@ -10,11 +11,11 @@ namespace Vts.IO
     /// <typeparam name="T">Type of the data</typeparam>
     public class CustomBinaryStreamWriter<T> : IDisposable
     {
-        private string _filename;
-        private Action<BinaryWriter, T> _writeMap;
+        private readonly string _filename;
+        private readonly Action<BinaryWriter, T> _writeMap;
 
-        private Stream _stream;
-        private BinaryWriter _binaryWriter;
+        private Stream? _stream;
+        private BinaryWriter? _binaryWriter;
 
         /// <summary>
         /// Constructor
@@ -58,12 +59,12 @@ namespace Vts.IO
         /// <summary>
         /// Optional code that will be run before the database begins writing (after call to Open())
         /// </summary>
-        public Action PreWriteAction { get; set; }
+        public Action PreWriteAction { get; set; } = () => { };
 
         /// <summary>
         /// Optional code that will be run after the database has completed writing (on call to Close() or Dispose())
         /// </summary>
-        public Action PostWriteAction { get; set; }
+        public Action PostWriteAction { get; set; } = () => { };
 
         /// <summary>
         /// Opens the filestream for subsequent calls to WriteDataPoint or WriteDataPoints
@@ -73,7 +74,11 @@ namespace Vts.IO
             try
             {
                 // guard against directory not existing ahead of time
-                Directory.CreateDirectory(Path.GetDirectoryName(_filename));
+                var path = Path.GetDirectoryName(_filename);
+                if(path is not null)
+                {
+                    Directory.CreateDirectory(path);
+                }
 
                 _stream = StreamFinder.GetFileStream(_filename, FileMode.Create);
                 _binaryWriter = new BinaryWriter(_stream);
@@ -97,6 +102,7 @@ namespace Vts.IO
         /// <param name="item">Single data point to be written</param>
         public void Write(T item)
         {
+            ArgumentNullException.ThrowIfNull(_binaryWriter);
             _writeMap(_binaryWriter, item);
             Count++;
         }
