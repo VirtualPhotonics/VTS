@@ -106,7 +106,7 @@ public class MC07_pMCInversion : IDemoScript
         // plot and compare the results using Plotly.NET
         var logReflectance1 = postProcessorDetectorResultsInitialGuess.Select(r => Math.Log(r)).ToArray();
         var logReflectance2 = postProcessorDetectorResultsFitValues.Select(r => Math.Log(r)).ToArray();
-        var (xLabel, yLabel) = ("rho [mm]", "log(R(ρ)) [mm-2]");
+        var (xLabel, yLabel) = ("ρ [mm]", "log(R(ρ)) [mm-2]");
         Chart.Combine(new[]
         {
             ScatterChart(detectorMidpoints, logReflectance2, xLabel, yLabel, title: "Measured Data"),

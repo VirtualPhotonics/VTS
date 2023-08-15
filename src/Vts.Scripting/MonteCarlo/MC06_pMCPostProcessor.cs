@@ -113,7 +113,7 @@ public class MC06_pMCPostProcessor : IDemoScript
         var logReflectance1 = postProcessorDetectorResults1xmua.Mean.Select(r => Math.Log(r)).ToArray();
         var logReflectance2 = postProcessorDetectorResults0p5xmua.Mean.Select(r => Math.Log(r)).ToArray();
         var logReflectance3 = postProcessorDetectorResults2xmua.Mean.Select(r => Math.Log(r)).ToArray();
-        var (detectorMidpoints, xLabel, yLabel) = (detectorRange.GetMidpoints(), "rho [mm]", "log(R(ρ)) [mm-2]");
+        var (detectorMidpoints, xLabel, yLabel) = (detectorRange.GetMidpoints(), "ρ [mm]", "log(R(ρ)) [mm-2]");
         Chart.Combine(new[]
         {
             LineChart(detectorMidpoints, logReflectance1, xLabel, yLabel, title: $"log(R(ρ)) [mm-2] - 1.0x baseline (mua={0.01:F3}/mm)"),

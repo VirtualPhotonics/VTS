@@ -62,7 +62,7 @@ public class MC02_DAWvsCAW : IDemoScript
         var detectorResults2 = (ROfRhoDetector)simulation2Output.ResultsDictionary[detectorInput.Name];
         var logReflectance1 = detectorResults1.Mean.Select(r => Math.Log(r)).ToArray();
         var logReflectance2 = detectorResults2.Mean.Select(r => Math.Log(r)).ToArray();
-        var (detectorMidpoints, xLabel, yLabel) = (detectorRange.GetMidpoints(), "rho [mm]", "log(R(ρ)) [mm-2]");
+        var (detectorMidpoints, xLabel, yLabel) = (detectorRange.GetMidpoints(), "ρ [mm]", "log(R(ρ)) [mm-2]");
         Chart.Combine(new[]
         {
             LineChart(detectorMidpoints, logReflectance1, xLabel, yLabel, title: "log(R(ρ)) [mm-2] - CAW"),

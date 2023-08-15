@@ -58,7 +58,7 @@ public class MC09_TransmittanceTallies : IDemoScript
         // plot the T(rho) results using Plotly.NET
         var tOfRhoResults = (TOfRhoDetector)simulationOutput.ResultsDictionary[tOfRhoDetectorInput.Name];
         var tOfRhoLogTransmittance = tOfRhoResults.Mean.Select(r => Math.Log(r)).ToArray();
-        var (detectorMidpoints, xLabel, yLabel) = (rhoRange.GetMidpoints(), "rho [mm]", "log(T(ρ)) [mm-2]");
+        var (detectorMidpoints, xLabel, yLabel) = (rhoRange.GetMidpoints(), "ρ [mm]", "log(T(ρ)) [mm-2]");
         LineChart(detectorMidpoints, tOfRhoLogTransmittance, xLabel, yLabel, title: "log(T(ρ)) [mm-2]").Show();
 
         // plot the T(rho) results using Plotly.NET

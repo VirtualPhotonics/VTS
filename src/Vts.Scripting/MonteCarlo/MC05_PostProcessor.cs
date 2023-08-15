@@ -66,7 +66,7 @@ public class MC05_PostProcessor : IDemoScript
         var postProcessorDetectorResults = (ROfRhoDetector)postProcessorOutput.ResultsDictionary[detectorInput.Name];
         var logReflectance1 = onTheFlyDetectorResults.Mean.Select(r => Math.Log(r)).ToArray();
         var logReflectance2 = postProcessorDetectorResults.Mean.Select(r => Math.Log(r)).ToArray();
-        var (detectorMidpoints, xLabel, yLabel) = (detectorRange.GetMidpoints(), "rho [mm]", "log(R(ρ)) [mm-2]");
+        var (detectorMidpoints, xLabel, yLabel) = (detectorRange.GetMidpoints(), "ρ [mm]", "log(R(ρ)) [mm-2]");
         Chart.Combine(new[]
         {
             LineChart(detectorMidpoints, logReflectance1, xLabel, yLabel, title: "log(R(ρ)) [mm-2] - on the fly"),

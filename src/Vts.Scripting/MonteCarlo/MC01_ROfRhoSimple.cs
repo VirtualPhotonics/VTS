@@ -40,7 +40,7 @@ public class MC01_ROfRhoSimple : IDemoScript
         // plot the results using Plotly.NET
         var detectorResults = (ROfRhoDetector)simulationOutput.ResultsDictionary["ROfRho"];
         var logReflectance = detectorResults.Mean.Select(r => Math.Log(r)).ToArray();
-        var (detectorMidpoints, xLabel, yLabel) = (detectorRange.GetMidpoints(), "rho [mm]", "log(R(ρ)) [mm-2]");
+        var (detectorMidpoints, xLabel, yLabel) = (detectorRange.GetMidpoints(), "ρ [mm]", "log(R(ρ)) [mm-2]");
         LineChart(detectorMidpoints, logReflectance, xLabel, yLabel, title: "log(R(ρ)) [mm-2]").Show();
     }
 }

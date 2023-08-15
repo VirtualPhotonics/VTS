@@ -1,13 +1,12 @@
 ﻿using Vts.Common;
 using Vts.Modeling.ForwardSolvers;
 using Plotly.NET.CSharp;
-using System;
 
 namespace Vts.Scripting.ForwardSolvers;
 
 /// <summary>
 /// Class using the Vts.dll library to demonstrate predicting reflectance as a function of 
-/// s-d separation, depth, and time frequency at a given set of optical properties
+/// radial extent, depth, and time frequency at a given set of optical properties
 /// </summary>
 public class FS04_FluenceOfRhoAndZAndFt : IDemoScript
 {
@@ -16,7 +15,7 @@ public class FS04_FluenceOfRhoAndZAndFt : IDemoScript
     /// </summary>
     public static void RunDemo()
     {
-        // Example 04: Evaluate fluence as a function of rs-d separation, depth, 
+        // Example 04: Evaluate fluence as a function of radial extent, depth, 
         // and time frequency at a given set of optical properties
 
         // Solver type options:
@@ -44,14 +43,14 @@ public class FS04_FluenceOfRhoAndZAndFt : IDemoScript
             .Select(fluence => Math.Log(fluence.Magnitude)) // take log for visualization purposes
             .Chunk(zs.Length); // break the heatmap into rows (inner dimension is zs)        
         var allCwFluenceRowsToPlot = cwFluenceRowsToPlot.Reverse().Concat(cwFluenceRowsToPlot).ToArray(); // duplicate for -rho to make symmetric
-        var cwFluenceChart = Heatmap(values: allCwFluenceRowsToPlot, x: allRhos, y: zs, xLabel: "rho", yLabel: "z", title: "log(Φ(rho, z, ft=0Ghz))");
+        var cwFluenceChart = Heatmap(values: allCwFluenceRowsToPlot, x: allRhos, y: zs, xLabel: "ρ", yLabel: "z", title: "log(Φ(ρ, z, ft=0Ghz))");
 
         // Plot the frequency-domain fluence amplitude at 1GHz: log(fluence(rho, z, ft=0GHz)) 
         var fdFluenceRowsToPlot = fdFluenceOfRhoAndZ
             .Select(fluence => Math.Log(fluence.Magnitude)) // take log for visualization purposes
             .Chunk(zs.Length); // break the heatmap into rows (inner dimension is zs)        
         var allFdFluenceRowsToPlot = fdFluenceRowsToPlot.Reverse().Concat(fdFluenceRowsToPlot).ToArray(); // duplicate for -rho to make symmetric
-        var fdFluenceChart = Heatmap(values: allFdFluenceRowsToPlot, x: allRhos, y: zs, xLabel: "rho", yLabel: "z", title: "log(Φ(rho, z, ft=1Ghz))");
+        var fdFluenceChart = Heatmap(values: allFdFluenceRowsToPlot, x: allRhos, y: zs, xLabel: "ρ", yLabel: "z", title: "log(Φ(ρ, z, ft=1Ghz))");
 
         // show on separate plots, until we can figure out how to get separate colorbars for each
         cwFluenceChart.Show(); 
@@ -61,13 +60,11 @@ public class FS04_FluenceOfRhoAndZAndFt : IDemoScript
         // calculate the modulation by taking an element-wise ratio of the fluence maps (i.e. FD/Cw)
         var modFluenceOfRhoAndZ = fdFluenceOfRhoAndZ.Zip(cwFluenceOfRhoAndZ, (fd, cw) => fd.Magnitude / cw.Magnitude).ToArray();
 
-        // Plot the frequency-domain fluence amplitude at 1GHz: log(fluence(rho, z, ft=0GHz)) 
+        // Plot the modulation at 1GHz: log(fluence(rho, z, ft=1GHz)/fluence(rho, z, ft=0GHz)) 
         var modFluenceRowsToPlot = modFluenceOfRhoAndZ
             .Chunk(zs.Length); // break the heatmap into rows (inner dimension is zs)        
         var allModFluenceRowsToPlot = modFluenceRowsToPlot.Reverse().Concat(modFluenceRowsToPlot).ToArray(); // duplicate for -rho to make symmetric
-        var modFluenceChart = Heatmap(values: allModFluenceRowsToPlot, x: allRhos, y: zs, xLabel: "rho", yLabel: "z", title: "modulation(rho, z) @ ft=1Ghz))");
+        var modFluenceChart = Heatmap(values: allModFluenceRowsToPlot, x: allRhos, y: zs, xLabel: "ρ", yLabel: "z", title: "modulation(ρ, z) @ ft=1Ghz))");
         modFluenceChart.Show();
-
-        // todo: implement/use slicing and Span instead of slow LINQ queries
     }
 }

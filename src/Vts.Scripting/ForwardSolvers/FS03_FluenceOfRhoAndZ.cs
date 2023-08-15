@@ -7,7 +7,7 @@ namespace Vts.Scripting.ForwardSolvers;
 
 /// <summary>
 /// Class using the Vts.dll library to demonstrate predicting reflectance as a function of 
-/// s-d separation and depth using optical properties from a list of chromophore absorbers 
+/// radial extent and depth using optical properties from a list of chromophore absorbers 
 /// with their concentrations and a power law scatterer for a range of wavelengths
 /// </summary>
 public class FS03_FluenceOfRhoAndZ : IDemoScript
@@ -17,7 +17,7 @@ public class FS03_FluenceOfRhoAndZ : IDemoScript
     /// </summary>
     public static void RunDemo()
     {
-        // Example 03: Evaluate fluence as a function of source-detector separation and depth using optical properties from a list of
+        // Example 03: Evaluate fluence as a function of radial extent and depth using optical properties from a list of
         // chromophore absorbers with their concentrations and a power law scatterer for a range of wavelengths.
 
         // Solver type options:
@@ -59,6 +59,6 @@ public class FS03_FluenceOfRhoAndZ : IDemoScript
             .Select(fluence => Math.Log(fluence)) // take log for visualization purposes
             .Chunk(zs.Length); // break the heatmap into rows (inner dimension is zs)        
         var fluenceDataToPlot = fluenceRowsToPlot.Reverse().Concat(fluenceRowsToPlot).ToArray(); // duplicate for -rho to make symmetric
-        Heatmap(values: fluenceDataToPlot, x: allRhos, y: zs, xLabel: "rho", yLabel: "z", title: $"log(Φ(rho, z) @λ={wavelengths[wvi]}nm").Show();
+        Heatmap(values: fluenceDataToPlot, x: allRhos, y: zs, xLabel: "ρ", yLabel: "z", title: $"log(Φ(ρ, z) @λ={wavelengths[wvi]}nm").Show();
     }
 }
