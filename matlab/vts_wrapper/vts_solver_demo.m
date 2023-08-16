@@ -242,7 +242,7 @@ title('Reflectance vs \rho for various optical properties');
 ylabel('R(\rho)');
 xlabel('\rho');
 
-%% Example 10 ROfRhoAndT
+%% Example 10 ROfRhoAndTime
 % Evaluate reflectance of rho and t at one s-d separation and 
 % two sets of optical properites.
 
@@ -259,7 +259,7 @@ title({'Reflectance of \rho vs time for various optical properties'; ' '});
 ylabel('R(t)');
 xlabel('Time, t [ns]');
 
-%% Example 11 ROfFxAndT 
+%% Example 11 ROfFxAndTime
 % Evaluate reflectance as a function of spacial-frequency and t using one 
 % set of optical properites.
 

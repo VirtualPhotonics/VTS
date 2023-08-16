@@ -30,6 +30,16 @@ public static class ScriptHelper
     }
 
     /// <summary>
+    /// Helper extension method that returns every nth element of the enumerable, starting at the specified skip index
+    /// </summary>
+    /// <param name="values">the values being filtered</param>
+    /// <param name="n">number of values to jump forward at a time</param>
+    /// <param name="skip">number of values to initially skip</param>
+    /// <returns></returns>
+    public static IEnumerable<double> TakeEveryNth(this IEnumerable<double> values, int n, int skip = 0) =>
+            values.Where((_, i) => (i - skip) % n == 0);
+
+    /// <summary>
     /// Helper extension method that returns an array of all detectors matching the concrete type TDetector
     /// </summary>
     /// <typeparam name="TDetector">Concrete type to match</typeparam>
