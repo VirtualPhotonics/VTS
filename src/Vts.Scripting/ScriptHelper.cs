@@ -32,11 +32,12 @@ public static class ScriptHelper
     /// <summary>
     /// Helper extension method that returns every nth element of the enumerable, starting at the specified skip index
     /// </summary>
+    /// <typeparam name="T"></typeparam>
     /// <param name="values">the values being filtered</param>
     /// <param name="n">number of values to jump forward at a time</param>
     /// <param name="skip">number of values to initially skip</param>
     /// <returns></returns>
-    public static IEnumerable<double> TakeEveryNth(this IEnumerable<double> values, int n, int skip = 0) =>
+    public static IEnumerable<T> TakeEveryNth<T>(this IEnumerable<T> values, int n, int skip = 0) =>
             values.Where((_, i) => (i - skip) % n == 0);
 
     /// <summary>
