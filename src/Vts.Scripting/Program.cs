@@ -17,7 +17,7 @@ public class Program
         //RunAllMonteCarloDemos();
         //RunAllForwardSolverDemos();
 
-        FS09_ROfRhoMulti.RunDemo();
+        FS10_ROfRhoAndTMulti.RunDemo();
     }
 
     /// <summary>
@@ -51,5 +51,6 @@ public class Program
         FS07_PHDOfRhoAndZTwoLayer.RunDemo();
         FS08_AbsorbedEnergyOfRhoAndZ.RunDemo();
         FS09_ROfRhoMulti.RunDemo();
+        FS10_ROfRhoAndTMulti.RunDemo();
     }
 }

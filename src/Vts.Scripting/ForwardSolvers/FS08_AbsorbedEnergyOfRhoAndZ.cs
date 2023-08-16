@@ -16,8 +16,7 @@ public class FS08_AbsorbedEnergyOfRhoAndZ : IDemoScript
     /// </summary>
     public static void RunDemo()
     {
-        // Example 07: Compute absorbed energy as a function of 
-        /// radial extent and depth at a given set of optical properties 
+        // Example 08: Compute absorbed energy as a function of radial extent and depth at a given set of optical properties 
 
         // Solver type options:
         // PointSourceSDA,DistributedGaussianSourceSDA, DistributedPointSourceSDA,

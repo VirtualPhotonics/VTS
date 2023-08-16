@@ -15,7 +15,7 @@ public class FS09_ROfRhoMulti : IDemoScript
     /// </summary>
     public static void RunDemo()
     {
-        // Example 07: predict R(rho) based on a standard diffusion approximation solution to the time-dependent RTE
+        // Example 08: predict R(rho) for multiple OPs based on a standard diffusion approximation solution to the time-dependent RTE
 
         // Solver type options:
         // PointSourceSDA,DistributedGaussianSourceSDA, DistributedPointSourceSDA,
