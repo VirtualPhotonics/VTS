@@ -18,7 +18,7 @@ public class MC10_ROfFx : IDemoScript
         // Example 10: run R(fx) detector results
 
         // create a SimulationInput object to define the simulation
-        var fxRange = new DoubleRange(start: 0, stop: 40, number: 201);
+        var fxRange = new DoubleRange(start: 0, stop: .5, number: 51);
         var detectorInput = new ROfFxDetectorInput { Fx = fxRange, TallySecondMoment = true, Name = "ROfFx" };
         var simulationInput = new SimulationInput
         {

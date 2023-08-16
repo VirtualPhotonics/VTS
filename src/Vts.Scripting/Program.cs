@@ -14,10 +14,7 @@ public class Program
     /// <param name="args"></param>
     public static void Main(string[] args)
     {
-        //RunAllMonteCarloDemos();
-        //RunAllForwardSolverDemos();
-
-        FS04_FluenceOfRhoAndZAndFt.RunDemo();
+        MC10_ROfFx.RunDemo();
     }
 
     /// <summary>
