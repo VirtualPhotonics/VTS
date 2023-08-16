@@ -56,11 +56,29 @@ public static class ScriptHelper
         return detectors ?? Array.Empty<TDetector>();
     }
 
+    /// <summary>
+    /// Method to create a standard scatter chart from the specified x and y values using Plotly.NET
+    /// </summary>
+    /// <param name="xValues">The values for the x axis.</param>
+    /// <param name="yValues">The values for the y axis.</param>
+    /// <param name="xLabel">The label for the x axis. Optional.</param>
+    /// <param name="yLabel">The label for the y axis. Optional.</param>
+    /// <param name="title">The title of the chart. Optional.</param>
+    /// <returns>A `GenericChart` instance representing the scatter chart.</returns>
     public static Plotly.NET.GenericChart.GenericChart ScatterChart(double[] xValues, double[] yValues, string xLabel = "", string yLabel = "", string title = "")
     {
         return Plotly.NET.CSharp.Chart.Point<double, double, string>(xValues, yValues).WithStandardStyling(xLabel, yLabel, title);
     }
 
+    /// <summary>
+    /// Method to create a standard scatter chart from the specified x and y values using Plotly.NET
+    /// </summary>
+    /// <param name="xValues">The values for the x axis.</param>
+    /// <param name="yValues">The values for the y axis.</param>
+    /// <param name="xLabel">The label for the x axis. Optional.</param>
+    /// <param name="yLabel">The label for the y axis. Optional.</param>
+    /// <param name="title">The title of the chart. Optional.</param>
+    /// <returns>A `GenericChart` instance representing the line chart.</returns>
     public static Plotly.NET.GenericChart.GenericChart LineChart(double[] xValues, double[] yValues, string xLabel = "", string yLabel = "", string title = "")
     {
         return Plotly.NET.CSharp.Chart.Line<double, double, string>(xValues, yValues).WithStandardStyling(xLabel, yLabel, title);
@@ -69,11 +87,11 @@ public static class ScriptHelper
     /// <summary>
     /// Fluent helper method to apply standard styling to a chart
     /// </summary>
-    /// <param name="chart"></param>
-    /// <param name="title"></param>
-    /// <param name="xLabel"></param>
-    /// <param name="yLabel"></param>
-    /// <returns></returns>
+    /// <param name="chart">The `GenericChart` instance to apply styling to.</param>
+    /// <param name="xLabel">The label for the x-axis. Optional.</param>
+    /// <param name="yLabel">The label for the y-axis. Optional.</param>
+    /// <param name="title">The title of the chart. Optional.</param>
+    /// <returns>A `GenericChart` instance with standard styling applied.</returns>
     private static Plotly.NET.GenericChart.GenericChart WithStandardStyling(
         this Plotly.NET.GenericChart.GenericChart chart, string xLabel = "", string yLabel = "", string title = "")
     {
@@ -86,13 +104,15 @@ public static class ScriptHelper
     }
 
     /// <summary>
-    /// Helper method to format a heatmap chart
+    /// Helper method to format a heatmap chart using Plotly.NET.
     /// </summary>
-    /// <param name="values"></param>
-    /// <param name="x"></param>
-    /// <param name="y"></param>
-    /// <param name="title"></param>
-    /// <returns></returns>
+    /// <param name="values">An `IEnumerable` of double arrays specifying the z values of the heatmap.</param>
+    /// <param name="x">An optional array of double values specifying the x values of the heatmap. Default is null.</param>
+    /// <param name="y">An optional array of double values specifying the y values of the heatmap. Default is null.</param>
+    /// <param name="xLabel">An optional label for the x-axis. Default is an empty string.</param>
+    /// <param name="yLabel">An optional label for the y-axis. Default is an empty string.</param>
+    /// <param name="title">An optional title for the chart. Default is an empty string.</param>
+    /// <returns>A `GenericChart` instance representing the heatmap chart.</returns>
     public static Plotly.NET.GenericChart.GenericChart Heatmap(
         IEnumerable<double[]> values, 
         double[]? x = null, 

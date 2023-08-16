@@ -8,22 +8,10 @@ public class ProgramTests
     }
 
     [Test]
-    public void confirm_RunAllMonteCarloDemos_does_not_throw()
-    {
-        // arrange
-        TestDelegate testDelegate = Program.RunAllMonteCarloDemos;
-
-        // assert
-        Assert.DoesNotThrow(testDelegate);
-    }
+    public void Confirm_RunAllMonteCarloDemos_Does_Not_Throw()
+        => Assert.DoesNotThrow(Program.RunAllMonteCarloDemos);
 
     [Test]
-    public void confirm_RunAllForwardSolverDemos_does_not_throw()
-    {
-        // arrange
-        TestDelegate testDelegate = Program.RunAllForwardSolverDemos;
-
-        // assert
-        Assert.DoesNotThrow(testDelegate);
-    }
+    public void Confirm_RunAllForwardSolverDemos_Does_Not_Throw()
+        => Assert.DoesNotThrow(Program.RunAllForwardSolverDemos);
 }
