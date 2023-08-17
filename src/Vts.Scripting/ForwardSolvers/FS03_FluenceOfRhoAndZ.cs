@@ -39,7 +39,7 @@ public class FS03_FluenceOfRhoAndZ : IDemoScript
 
         // construct a scatterer
         var scatterer = new PowerLawScatterer(a: 1.2, b: 1.42);
-        // or: var scatterer = new IntralipidScatterer(volumeFraction: 0.05);
+        // or: var scatterer = new IntralipidScatterer(volumeFraction: 0.5);
         // or: var scatterer = new MieScatterer(particleRadius: 0.5, particleRefractiveIndex: 1.4, mediumRefractiveIndex: 1.0, volumeFraction: 0.5);
         
         // compose a tissue using the chromophores and scatterer

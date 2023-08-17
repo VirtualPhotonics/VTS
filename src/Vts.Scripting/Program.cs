@@ -14,7 +14,7 @@ public class Program
     /// <param name="args"></param>
     public static void Main(string[] args)
     {
-        MC10_ROfFx.RunDemo();
+        FS14_ROfFxMultiOPTissue.RunDemo();
     }
 
     /// <summary>
@@ -50,5 +50,8 @@ public class Program
         FS09_ROfRhoMulti.RunDemo();
         FS10_ROfRhoAndTimeMulti.RunDemo();
         FS11_ROfFxAndTime.RunDemo();
+        FS12_ROfFxSingle.RunDemo();
+        FS13_ROfFxMultiOPLinear.RunDemo();
+        FS14_ROfFxMultiOPTissue.RunDemo();
     }
 }

@@ -343,7 +343,7 @@ absorbers.Concentrations =  [70,     30,   0.8  ];
 
 % % or 
 scatterer.Type = 'Intralipid';
-scatterer.vol_frac =  0.5;
+scatterer.vol_frac =  0.05;
 
 % % or 
 % scatterer.Type = 'Mie';
