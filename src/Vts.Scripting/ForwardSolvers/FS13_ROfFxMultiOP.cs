@@ -6,7 +6,7 @@ namespace Vts.Scripting.ForwardSolvers;
 /// <summary>
 /// Class using the Vts.dll library to demonstrate predicting reflectance as a function of spatial frequency while varying absorption linearly
 /// </summary>
-public class FS13_ROfFxMultiOPLinear : IDemoScript
+public class FS13_ROfFxMultiOP : IDemoScript
 {
     /// <summary>
     /// Sample script to demonstrate this class' stated purpose
