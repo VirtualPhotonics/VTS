@@ -7,17 +7,17 @@ namespace Vts.Scripting.ForwardSolvers;
 
 /// <summary>
 /// Class using the Vts.dll library to demonstrate predicting reflectance as a function of spatial frequency 
-/// where optical properties vary as a function of wavelength in order to mimic tissue
+/// where optical properties vary as a function of wavelength using a Mie-theory scatterer
 /// </summary>
-public class FS14_ROfFxMultiOPTissue : IDemoScript
+public class FS15_ROfFxMultiOPMie : IDemoScript
 {
     /// <summary>
     /// Sample script to demonstrate this class' stated purpose
     /// </summary>
     public static void RunDemo()
     {
-        // Example 14: predict R(fx) based on a standard diffusion approximation solution to the time-dependent RTE
-        // where optical properties vary as a function of wavelength in order to mimic tissue
+        // Example 15: predict R(fx) based on a standard diffusion approximation solution to the time-dependent RTE
+        // where optical properties vary as a function of wavelength using a Mie-theory scatterer
 
         // Solver type options:
         // PointSourceSDA,DistributedGaussianSourceSDA, DistributedPointSourceSDA,
@@ -36,9 +36,9 @@ public class FS14_ROfFxMultiOPTissue : IDemoScript
         };
 
         // construct a scatterer
-        var scatterer = new IntralipidScatterer(volumeFraction: 0.05);
+        var scatterer = new MieScatterer(particleRadius: 0.5, particleRefractiveIndex: 1.4, mediumRefractiveIndex: 1.0, volumeFraction: 0.001);
+        // or: var scatterer = new IntralipidScatterer(volumeFraction: 0.01);
         // or: var scatterer = new PowerLawScatterer(a: 1.2, b: 1.42);
-        // or: var scatterer = new MieScatterer(particleRadius: 0.5, particleRefractiveIndex: 1.4, mediumRefractiveIndex: 1.0, volumeFraction: 0.5);
 
         // compose a tissue using the chromophores and scatterer
         var tissue = new Tissue(chromophores, scatterer, "", n: 1.4);

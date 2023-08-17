@@ -343,14 +343,14 @@ absorbers.Concentrations =  [70,     30,   0.8  ];
 
 % % or 
 scatterer.Type = 'Intralipid';
-scatterer.vol_frac =  0.05;
+scatterer.vol_frac =  0.01;
 
 % % or 
 % scatterer.Type = 'Mie';
 % scatterer.radius =  0.5;
 % scatterer.n =       1.4;
 % scatterer.nMedium = 1.0;
-% scatterer.vol_frac = 0.5;
+% scatterer.vol_frac = 0.001;
 
 op = VtsSpectroscopy.GetOP(absorbers, scatterer, wv);
 
@@ -404,14 +404,14 @@ absorbers.Concentrations =  [70,     30,   0.8  ];
 
 % % or 
 % scatterer.Type = 'Intralipid';
-% scatterer.vol_frac =  0.5;
+% scatterer.vol_frac =  0.01;
 
 % % or 
 scatterer.Type = 'Mie';
 scatterer.radius =  0.5;
 scatterer.n =       1.4;
 scatterer.nMedium = 1.0;
-scatterer.vol_frac = 0.5;
+scatterer.vol_frac = 0.001;
 
 op = VtsSpectroscopy.GetOP(absorbers, scatterer, wv);
 

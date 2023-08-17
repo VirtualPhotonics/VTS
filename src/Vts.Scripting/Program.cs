@@ -14,7 +14,7 @@ public class Program
     /// <param name="args"></param>
     public static void Main(string[] args)
     {
-        FS14_ROfFxMultiOPTissue.RunDemo();
+        FS15_ROfFxMultiOPMie.RunDemo();
     }
 
     /// <summary>
@@ -52,6 +52,8 @@ public class Program
         FS11_ROfFxAndTime.RunDemo();
         FS12_ROfFxSingle.RunDemo();
         FS13_ROfFxMultiOPLinear.RunDemo();
-        FS14_ROfFxMultiOPTissue.RunDemo();
+        FS14_ROfFxMultiOPIntralipid.RunDemo();
+        FS15_ROfFxMultiOPMie.RunDemo();
+        FS16_ROfFxMultiOPPowerLaw.RunDemo();
     }
 }
