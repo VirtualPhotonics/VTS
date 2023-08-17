@@ -7,9 +7,9 @@ namespace Vts.Scripting.ForwardSolvers;
 
 /// <summary>
 /// Class using the Vts.dll library to demonstrate predicting reflectance as a function of spatial frequency 
-/// where optical properties vary as a function of wavelength using a power-law scatterer
+/// where optical properties vary as a function of wavelength using a range of power-law scatterer prefactors, A
 /// </summary>
-public class FS16_ROfFxMultiOPPowerLaw : IDemoScript
+public class FS16_ROfFxMultiPowerLaw : IDemoScript
 {
     /// <summary>
     /// Sample script to demonstrate this class' stated purpose
@@ -17,13 +17,12 @@ public class FS16_ROfFxMultiOPPowerLaw : IDemoScript
     public static void RunDemo()
     {
         // Example 16: predict R(fx) based on a standard diffusion approximation solution to the time-dependent RTE
-        // where optical properties vary as a function of wavelength using a power-law scatterer
+        // where optical properties vary as a function of wavelength using a range of power-law scatterer prefactors, A
 
         // Solver type options:
         // PointSourceSDA,DistributedGaussianSourceSDA, DistributedPointSourceSDA,
         // MonteCarlo(basic scaled), Nurbs(scaled with smoothing and adaptive binning)
         var solver = new PointSourceSDAForwardSolver();
-        var fxs = new DoubleRange(start: 0, stop: 0.2, number: 5).AsEnumerable().ToArray(); // range of spatial frequencies in 1/mm
 
         // retrieve desired optical properties, based on spectral data information 
 
@@ -37,29 +36,32 @@ public class FS16_ROfFxMultiOPPowerLaw : IDemoScript
 
         // construct a scatterer
         var scatterer = new PowerLawScatterer(a: 1.2, b: 1.42);
-        // or: var scatterer = new IntralipidScatterer(volumeFraction: 0.01);
-        // or: var scatterer = new MieScatterer(particleRadius: 0.5, particleRefractiveIndex: 1.4, mediumRefractiveIndex: 1.0, volumeFraction: 0.001);
 
-        // compose a tissue using the chromophores and scatterer
-        var tissue = new Tissue(chromophores, scatterer, "", n: 1.4);
+        var fx = 0; // spatial frequency in 1/mm
 
         // predict the tissue's fluence(rho, z) for tissue optical properties spanning the visible and NIR spectral regimes
         var wavelengths = new DoubleRange(start: 450, stop: 1000, number: 1101).AsEnumerable().ToArray(); // range of wavelengths in nm
-        var ops = tissue.GetOpticalProperties(wavelengths);
 
-        // predict the spatial frequency response at each specified optical properties
-        var rOfFx = solver.ROfFx(ops, fxs);
+        var prefactorAs = new DoubleRange(start: 0.5, stop: 2.5, number: 9).AsEnumerable().ToArray(); // range of spatial frequencies in 1/mm
+        var opsForMultipleA = prefactorAs.Select(prefactorA => 
+            new Tissue(chromophores, new PowerLawScatterer(a: prefactorA, b: 1.42), "", n: 1.4).GetOpticalProperties(wavelengths)).ToArray();
+
+        // predict the wavelength response for each spectrum of optical properties given by a specific A prefactor
+        var rVsWavelengthForEachA = solver.ROfFx(opsForMultipleA.SelectMany(op => op).ToArray(), fx );
 
         // Plot mua, log(mua), musp, and reflectance as a function of wavelength at each set of optical properties
-        var rOfFxAmplitude = rOfFx.Select(r => Math.Abs(r)).ToArray();
         Chart.Grid(new[]
         {
-            LineChart(wavelengths, ops.Select(op => op.Mua).ToArray(), xLabel: "wavelength [nm]", yLabel: $"mua", title: "absorption [mm-1]"),
-            LineChart(wavelengths, ops.Select(op => Math.Log(op.Mua)).ToArray(), xLabel: "wavelength [nm]", yLabel: $"log(mua)", title: "log(absorption [mm-1])"),
-            LineChart(wavelengths, ops.Select(op => op.Musp).ToArray(), xLabel: "wavelength [nm]", yLabel: $"musp", title: "scattering [mm-1]"),
-            Chart.Combine(fxs.Select((fx, fxi) => // plot R(wavelength)@fx for each spatial frequency, fx
-                LineChart(wavelengths, rOfFxAmplitude.TakeEveryNth(fxs.Length, skip: fxi).ToArray(),
-                    xLabel: "wavelength [nm]", yLabel: $"R(wv)", title: $"R@fx={fx:F3} mm-1")))
+            LineChart(wavelengths, opsForMultipleA[0].Select(op => op.Mua).ToArray(), xLabel: "wavelength [nm]", yLabel: $"mua", title: "mua [mm-1]"),
+            LineChart(wavelengths, opsForMultipleA[0].Select(op => Math.Log(op.Mua)).ToArray(), xLabel: "wavelength [nm]", yLabel: $"log(mua)", title: "log(mua [mm-1])"),
+            Chart.Combine(prefactorAs.Select((prefactorA, pai) => 
+                LineChart(wavelengths, opsForMultipleA[pai].Select(op => op.Musp).ToArray(), 
+                    xLabel: "wavelength [nm]", yLabel: $"musp", title: $"musp@A={prefactorA:F3} [mm-1]"))
+            ),
+            Chart.Combine(prefactorAs.Select((prefactorA, pai) => // plot R(wavelength) @ fx=0 for each prefactor A
+                LineChart(wavelengths, rVsWavelengthForEachA.Skip(wavelengths.Length * pai).Take(wavelengths.Length).ToArray(),
+                    xLabel: "wavelength [nm]", yLabel: $"R(wv)", title: $"R@A={prefactorA:F3}"))
+            )
         }, nRows: 4, nCols: 1, Pattern: Plotly.NET.StyleParam.LayoutGridPattern.Coupled).Show();
     }
 }

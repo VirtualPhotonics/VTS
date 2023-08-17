@@ -54,9 +54,9 @@ public class FS15_ROfFxMultiOPMie : IDemoScript
         var rOfFxAmplitude = rOfFx.Select(r => Math.Abs(r)).ToArray();
         Chart.Grid(new[]
         {
-            LineChart(wavelengths, ops.Select(op => op.Mua).ToArray(), xLabel: "wavelength [nm]", yLabel: $"mua", title: "absorption [mm-1]"),
-            LineChart(wavelengths, ops.Select(op => Math.Log(op.Mua)).ToArray(), xLabel: "wavelength [nm]", yLabel: $"log(mua)", title: "log(absorption [mm-1])"),
-            LineChart(wavelengths, ops.Select(op => op.Musp).ToArray(), xLabel: "wavelength [nm]", yLabel: $"musp", title: "scattering [mm-1]"),
+            LineChart(wavelengths, ops.Select(op => op.Mua).ToArray(), xLabel: "wavelength [nm]", yLabel: $"mua", title: "mua [mm-1]"),
+            LineChart(wavelengths, ops.Select(op => Math.Log(op.Mua)).ToArray(), xLabel: "wavelength [nm]", yLabel: $"log(mua)", title: "log(mua [mm-1])"),
+            LineChart(wavelengths, ops.Select(op => op.Musp).ToArray(), xLabel: "wavelength [nm]", yLabel: $"musp", title: "musp [mm-1]"),
             Chart.Combine(fxs.Select((fx, fxi) => // plot R(wavelength)@fx for each spatial frequency, fx
                 LineChart(wavelengths, rOfFxAmplitude.TakeEveryNth(fxs.Length, skip: fxi).ToArray(),
                     xLabel: "wavelength [nm]", yLabel: $"R(wv)", title: $"R@fx={fx:F3} mm-1")))

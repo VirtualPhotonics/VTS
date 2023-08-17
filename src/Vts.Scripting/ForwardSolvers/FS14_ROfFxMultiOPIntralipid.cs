@@ -37,8 +37,8 @@ public class FS14_ROfFxMultiOPIntralipid : IDemoScript
 
         // construct a scatterer
         var scatterer = new IntralipidScatterer(volumeFraction: 0.01);
-        // or: var scatterer = new PowerLawScatterer(a: 1.2, b: 1.42);
         // or: var scatterer = new MieScatterer(particleRadius: 0.5, particleRefractiveIndex: 1.4, mediumRefractiveIndex: 1.0, volumeFraction: 0.001);
+        // or: var scatterer = new PowerLawScatterer(a: 1.2, b: 1.42);
 
         // compose a tissue using the chromophores and scatterer
         var tissue = new Tissue(chromophores, scatterer, "", n: 1.4);
@@ -54,9 +54,9 @@ public class FS14_ROfFxMultiOPIntralipid : IDemoScript
         var rOfFxAmplitude = rOfFx.Select(r => Math.Abs(r)).ToArray();
         Chart.Grid(new[]
         {
-            LineChart(wavelengths, ops.Select(op => op.Mua).ToArray(), xLabel: "wavelength [nm]", yLabel: $"mua", title: "absorption [mm-1]"),
-            LineChart(wavelengths, ops.Select(op => Math.Log(op.Mua)).ToArray(), xLabel: "wavelength [nm]", yLabel: $"log(mua)", title: "log(absorption [mm-1])"),
-            LineChart(wavelengths, ops.Select(op => op.Musp).ToArray(), xLabel: "wavelength [nm]", yLabel: $"musp", title: "scattering [mm-1]"),
+            LineChart(wavelengths, ops.Select(op => op.Mua).ToArray(), xLabel: "wavelength [nm]", yLabel: $"mua", title: "mua [mm-1]"),
+            LineChart(wavelengths, ops.Select(op => Math.Log(op.Mua)).ToArray(), xLabel: "wavelength [nm]", yLabel: $"log(mua)", title: "log(mua [mm-1])"),
+            LineChart(wavelengths, ops.Select(op => op.Musp).ToArray(), xLabel: "wavelength [nm]", yLabel: $"musp", title: "musp [mm-1]"),
             Chart.Combine(fxs.Select((fx, fxi) => // plot R(wavelength)@fx for each spatial frequency, fx
                 LineChart(wavelengths, rOfFxAmplitude.TakeEveryNth(fxs.Length, skip: fxi).ToArray(),
                     xLabel: "wavelength [nm]", yLabel: $"R(wv)", title: $"R@fx={fx:F3} mm-1")))
