@@ -10,6 +10,7 @@ using Vts.Modeling.Optimizers;
 using System.ComponentModel;
 using System.Numerics;
 using Vts.MonteCarlo.PhotonData;
+using Vts.Modeling.ForwardSolvers;
 
 namespace Vts.Scripting.MonteCarlo;
 
@@ -72,12 +73,11 @@ public class MC07_pMCInversion : IDemoScript
         var measuredOPs = new OpticalProperties(mua: 0.04, musp: 0.95, g: 0.8, n: 1.4);
         var detectorRange = new DoubleRange(start: 0, stop: 6, number: 7);
         var detectorMidpoints = detectorRange.GetMidpoints();
-        var measurementForwardSolver = SolverFactory.GetForwardSolver(ForwardSolverType.Nurbs);
+        var measurementForwardSolver = new NurbsForwardSolver();
         var measuredData = measurementForwardSolver.ROfRho(measuredOPs, detectorMidpoints);
 
         // Specify initial guess for optimization equal to the original pMC simulation baseline values
         var baselineOps = tissueInput.Regions[1].RegionOP;
-        var initialGuess = new double[] { baselineOps.Mua, baselineOps.Mus };
 
         // Create an ad-hoc forward solver based on pMC prediction (see implementation below; note: implemented for ROfRho only)
         var pMCForwardSolver = new pMCForwardSolver(detectorRange, simulationInput, simulationInput.OutputName);

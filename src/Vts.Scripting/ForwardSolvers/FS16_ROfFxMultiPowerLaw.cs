@@ -34,12 +34,9 @@ public class FS16_ROfFxMultiPowerLaw : IDemoScript
             new ChromophoreAbsorber(ChromophoreType.H2O, 0.8), // fractional concentration
         };
 
-        // construct a scatterer
-        var scatterer = new PowerLawScatterer(a: 1.2, b: 1.42);
-
         var fx = 0; // spatial frequency in 1/mm
 
-        // predict the tissue's fluence(rho, z) for tissue optical properties spanning the visible and NIR spectral regimes
+        // predict the tissue's optical properties spanning the visible and NIR spectral regimes
         var wavelengths = new DoubleRange(start: 450, stop: 1000, number: 1101).AsEnumerable().ToArray(); // range of wavelengths in nm
 
         var prefactorAs = new DoubleRange(start: 0.5, stop: 2.5, number: 9).AsEnumerable().ToArray(); // range of spatial frequencies in 1/mm

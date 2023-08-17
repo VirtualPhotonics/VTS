@@ -24,8 +24,6 @@ public class FS17_ROfRhoMultiOP : IDemoScript
         var solver = new PointSourceSDAForwardSolver();
         var rhos = new DoubleRange(start: 0.2, stop: 1, number: 5).AsEnumerable().ToArray(); // range of source-detector separations in mm
 
-        // retrieve desired optical properties, based on spectral data information 
-
         // create an array of chromophore absorbers, each with a given concentrations
         var chromophores = new[]
         {
@@ -40,7 +38,7 @@ public class FS17_ROfRhoMultiOP : IDemoScript
         // compose a tissue using the chromophores and scatterer
         var tissue = new Tissue(chromophores, scatterer, "", n: 1.4);
 
-        // predict the tissue's fluence(rho, z) for tissue optical properties spanning the visible and NIR spectral regimes
+        // predict the tissue's optical properties spanning the visible and NIR spectral regimes
         var wavelengths = new DoubleRange(start: 450, stop: 1000, number: 1101).AsEnumerable().ToArray(); // range of wavelengths in nm
         var ops = tissue.GetOpticalProperties(wavelengths);
 

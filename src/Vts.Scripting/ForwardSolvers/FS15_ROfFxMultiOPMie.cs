@@ -43,7 +43,7 @@ public class FS15_ROfFxMultiOPMie : IDemoScript
         // compose a tissue using the chromophores and scatterer
         var tissue = new Tissue(chromophores, scatterer, "", n: 1.4);
 
-        // predict the tissue's fluence(rho, z) for tissue optical properties spanning the visible and NIR spectral regimes
+        // predict the tissue's optical properties spanning the visible and NIR spectral regimes
         var wavelengths = new DoubleRange(start: 450, stop: 1000, number: 1101).AsEnumerable().ToArray(); // range of wavelengths in nm
         var ops = tissue.GetOpticalProperties(wavelengths);
 

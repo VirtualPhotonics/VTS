@@ -14,7 +14,7 @@ public class Program
     /// <param name="args"></param>
     public static void Main(string[] args)
     {
-        FS17_ROfRhoMultiOP.RunDemo();
+        FS18_ROfRhoMultiOPInversion.RunDemo();
     }
 
     /// <summary>
@@ -56,5 +56,6 @@ public class Program
         FS15_ROfFxMultiOPMie.RunDemo();
         FS16_ROfFxMultiPowerLaw.RunDemo();
         FS17_ROfRhoMultiOP.RunDemo();
+        FS18_ROfRhoMultiOPInversion.RunDemo();
     }
 }
