@@ -1,3 +1,4 @@
+
 namespace Vts.Scripting.Test;
 
 public class ProgramTests
@@ -9,9 +10,13 @@ public class ProgramTests
 
     [Test]
     public void Confirm_RunAllMonteCarloDemos_Does_Not_Throw()
-        => Assert.DoesNotThrow(Program.RunAllMonteCarloDemos);
+    {
+        Assert.DoesNotThrow(() => Program.RunAllMonteCarloDemos(showPlots: false));
+    }
 
     [Test]
     public void Confirm_RunAllForwardSolverDemos_Does_Not_Throw()
-        => Assert.DoesNotThrow(Program.RunAllForwardSolverDemos);
+    {
+        Assert.DoesNotThrow(() => Program.RunAllForwardSolverDemos(showPlots: false));
+    }
 }

@@ -13,7 +13,7 @@ internal class MC04_N1000vsN100 : IDemoScript
     /// <summary>
     /// Sample script to demonstrate this class' stated purpose
     /// </summary>
-    public static void RunDemo()
+    public static void RunDemo(bool showPlots = true)
     {
         // Example 04: run a list of Monte Carlo simulations
         // create a list of two default SimulationInput with different numbers of photons
@@ -50,10 +50,15 @@ internal class MC04_N1000vsN100 : IDemoScript
         var logReflectance1 = detectorResults1.Mean.Select(r => Math.Log(r)).ToArray();
         var logReflectance2 = detectorResults2.Mean.Select(r => Math.Log(r)).ToArray();
         var (detectorMidpoints, xLabel, yLabel) = (detectorRange.GetMidpoints(), "ρ [mm]", "log(R(ρ)) [mm-2]");
-        Chart.Combine(new[]
+        var chart = Chart.Combine(new[]
         {
             LineChart(detectorMidpoints, logReflectance1, xLabel, yLabel, title: "log(R(ρ)) [mm-2] - n=1000"),
             LineChart(detectorMidpoints, logReflectance2, xLabel, yLabel, title: "log(R(ρ)) [mm-2] - n=100")
-        }).Show(); // show both charts together
+        }); // show both charts together
+
+        if (showPlots)
+        {
+            chart.Show();
+        }
     }
 }

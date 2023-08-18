@@ -13,7 +13,7 @@ internal class MC10_ROfFx : IDemoScript
     /// <summary>
     /// Sample script to demonstrate this class' stated purpose
     /// </summary>
-    public static void RunDemo()
+    public static void RunDemo(bool showPlots = true)
     {
         // Example 10: run R(fx) detector results
 
@@ -40,6 +40,11 @@ internal class MC10_ROfFx : IDemoScript
         var complexReflectance = detectorResults.Mean;
         var reflectanceMagnitude = complexReflectance.Select(r => r.Magnitude).ToArray();
         var (detectorMidpoints, xLabel, yLabel) = (fxRange.AsEnumerable().ToArray(), "fx [mm-1]", "R(fx) [unitless]");
-        LineChart(detectorMidpoints, reflectanceMagnitude, xLabel, yLabel, title: "R vs fx [unitless]").Show();
+        var chart = LineChart(detectorMidpoints, reflectanceMagnitude, xLabel, yLabel, title: "R vs fx [unitless]");
+
+        if (showPlots)
+        {
+            chart.Show();
+        }
     }
 }

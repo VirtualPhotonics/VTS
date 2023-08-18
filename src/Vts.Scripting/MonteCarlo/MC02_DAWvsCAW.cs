@@ -13,7 +13,7 @@ internal class MC02_DAWvsCAW : IDemoScript
     /// <summary>
     /// Sample script to demonstrate this class' stated purpose
     /// </summary>
-    public static void RunDemo()
+    public static void RunDemo(bool showPlots = true)
     {
         // Example 02: run Monte Carlo simulations for two absorption weighting types 
         // with 1000 photons each and compare computation time
@@ -63,10 +63,15 @@ internal class MC02_DAWvsCAW : IDemoScript
         var logReflectance1 = detectorResults1.Mean.Select(r => Math.Log(r)).ToArray();
         var logReflectance2 = detectorResults2.Mean.Select(r => Math.Log(r)).ToArray();
         var (detectorMidpoints, xLabel, yLabel) = (detectorRange.GetMidpoints(), "ρ [mm]", "log(R(ρ)) [mm-2]");
-        Chart.Combine(new[]
+        var chart = Chart.Combine(new[]
         {
             LineChart(detectorMidpoints, logReflectance1, xLabel, yLabel, title: "log(R(ρ)) [mm-2] - CAW"),
             LineChart(detectorMidpoints, logReflectance2, xLabel, yLabel, title: "log(R(ρ)) [mm-2] - DAW")
-        }).Show(); // show both charts together
+        }); // show both charts together
+
+        if (showPlots)
+        {
+            chart.Show();
+        }
     } 
 }

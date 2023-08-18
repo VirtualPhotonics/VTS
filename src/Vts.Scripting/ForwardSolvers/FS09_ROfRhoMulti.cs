@@ -13,7 +13,7 @@ internal class FS09_ROfRhoMulti : IDemoScript
     /// <summary>
     /// Sample script to demonstrate this class' stated purpose
     /// </summary>
-    public static void RunDemo()
+    public static void RunDemo(bool showPlots = true)
     {
         // Example 08: predict R(rho) for multiple OPs based on a standard diffusion approximation solution to the time-dependent RTE
 
@@ -36,6 +36,11 @@ internal class FS09_ROfRhoMulti : IDemoScript
         var allCharts = allROfRho.Chunk(rhos.Length).Select((rOfRho, ridx) => // pull out each R(ρ) (outer loop is optical properties)
             LineChart(rhos, rOfRho.Select(r => Math.Log(r)).ToArray(),
                 xLabel: "ρ [mm]", yLabel: $"log(R(ρ) [mm-2])", title: $"log(R(ρ)) @ mua={ops[ridx].Mua:F3}"));
-        Chart.Combine(allCharts).Show();
+        var chartCombined = Chart.Combine(allCharts);
+
+        if (showPlots)
+        {
+            chartCombined.Show();
+        }
     }
 }

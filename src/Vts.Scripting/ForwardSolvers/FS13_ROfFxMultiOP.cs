@@ -12,7 +12,7 @@ internal class FS13_ROfFxMultiOP : IDemoScript
     /// <summary>
     /// Sample script to demonstrate this class' stated purpose
     /// </summary>
-    public static void RunDemo()
+    public static void RunDemo(bool showPlots = true)
     {
         // Example 13: predict R(fx) based on a standard diffusion approximation solution to the time-dependent RTE
         //  while varying absorption linearly
@@ -30,8 +30,13 @@ internal class FS13_ROfFxMultiOP : IDemoScript
 
         // Plot reflectance as a function of spatial frequencies at each set of optical properties
         var rOfFxAmplitude = rOfFx.Select(r => Math.Abs(r)).ToArray();
-        Chart.Combine(rOfFxAmplitude.Chunk(fxs.Length).Select((rOfFxSingleOP, opi) => // take and plot each R(fx) (outer loop is optical properties)
+        var chart = Chart.Combine(rOfFxAmplitude.Chunk(fxs.Length).Select((rOfFxSingleOP, opi) => // take and plot each R(fx) (outer loop is optical properties)
             LineChart(fxs, rOfFxSingleOP, xLabel: "fx [mm-1]", yLabel: $"R(fx) [unitless] (varying mua linearly)", 
-                title: $"Reflectance @ mua={ops[opi].Mua:F3}, musp={ops[opi].Musp:F3}"))).Show();
+                title: $"Reflectance @ mua={ops[opi].Mua:F3}, musp={ops[opi].Musp:F3}")));
+
+        if (showPlots)
+        {
+            chart.Show();
+        }
     }
 }

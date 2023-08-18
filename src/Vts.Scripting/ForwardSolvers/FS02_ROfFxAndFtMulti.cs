@@ -12,7 +12,7 @@ internal class FS02_ROfFxAndFtMulti : IDemoScript
     /// <summary>
     /// Sample script to demonstrate this class' stated purpose
     /// </summary>
-    public static void RunDemo()
+    public static void RunDemo(bool showPlots = true)
     {
         // Example 02: predict R(fx, ft) based on a standard diffusion approximation solution to the time-dependent RTE
         // Note:
@@ -40,7 +40,7 @@ internal class FS02_ROfFxAndFtMulti : IDemoScript
             Chart.Combine(fxs.Select((fx, fxi) =>
                 LineChart(fts, rOfFxAndFt[fxi].Select(r => -r.Phase).ToArray(), xLabel, yLabel: $"Φ(R(ft)) [rad]", title: $"phase@fx={fx:F3}")))
         };
-        Chart.Grid(amplitudeAndPhaseCharts, nRows: 2, nCols: 1, Pattern: Plotly.NET.StyleParam.LayoutGridPattern.Coupled).Show();
+        var grid1 = Chart.Grid(amplitudeAndPhaseCharts, nRows: 2, nCols: 1, Pattern: Plotly.NET.StyleParam.LayoutGridPattern.Coupled);
 
         var realAndImaginaryCharts = new[]
         {
@@ -49,6 +49,12 @@ internal class FS02_ROfFxAndFtMulti : IDemoScript
             Chart.Combine(fxs.Select((fx, fxi) =>
                 LineChart(fts, rOfFxAndFt[fxi].Select(r => r.Imaginary).ToArray(), xLabel, yLabel: $"R(ft) (imag) [unitless]", title: $"imag@fx={fx:F3}")))
         };
-        Chart.Grid(realAndImaginaryCharts, nRows: 2, nCols: 1, Pattern: Plotly.NET.StyleParam.LayoutGridPattern.Coupled).Show();
+        var grid2 = Chart.Grid(realAndImaginaryCharts, nRows: 2, nCols: 1, Pattern: Plotly.NET.StyleParam.LayoutGridPattern.Coupled);
+
+        if (showPlots)
+        {
+            grid1.Show();
+            grid2.Show();
+        }
     }
 }

@@ -16,7 +16,7 @@ internal class MC06_pMCPostProcessor : IDemoScript
     /// <summary>
     /// Sample script to demonstrate this class' stated purpose
     /// </summary>
-    public static void RunDemo()
+    public static void RunDemo(bool showPlots = true)
     {
         // Example 06: run a Monte Carlo simulation with Perturbation Monte Carlo (pMC) post-processing enabled.
         // First run a simulation, then post-process the generated database with pMC, varying optical properties post-simulation
@@ -114,11 +114,16 @@ internal class MC06_pMCPostProcessor : IDemoScript
         var logReflectance2 = postProcessorDetectorResults0p5xmua.Mean.Select(r => Math.Log(r)).ToArray();
         var logReflectance3 = postProcessorDetectorResults2xmua.Mean.Select(r => Math.Log(r)).ToArray();
         var (detectorMidpoints, xLabel, yLabel) = (detectorRange.GetMidpoints(), "ρ [mm]", "log(R(ρ)) [mm-2]");
-        Chart.Combine(new[]
+        var chart = Chart.Combine(new[]
         {
             LineChart(detectorMidpoints, logReflectance1, xLabel, yLabel, title: $"log(R(ρ)) [mm-2] - 1.0x baseline (mua={0.01:F3}/mm)"),
             LineChart(detectorMidpoints, logReflectance2, xLabel, yLabel, title: $"log(R(ρ)) [mm-2] - 0.5x baseline (mua={0.005:F3}/mm)"),
             LineChart(detectorMidpoints, logReflectance3, xLabel, yLabel, title: $"log(R(ρ)) [mm-2] - 2.0x baseline (mua={0.02:F3}/mm)")
-        }).Show(); // show all three charts together
+        }); // show all three charts together
+
+        if (showPlots)
+        {
+            chart.Show();
+        }
     }
 }

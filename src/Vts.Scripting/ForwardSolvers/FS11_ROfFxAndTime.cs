@@ -12,7 +12,7 @@ internal class FS11_ROfFxAndTime : IDemoScript
     /// <summary>
     /// Sample script to demonstrate this class' stated purpose
     /// </summary>
-    public static void RunDemo()
+    public static void RunDemo(bool showPlots = true)
     {
         // Example 11: predict R(fx, t) based on a standard diffusion approximation solution to the time-dependent RTE
 
@@ -28,18 +28,24 @@ internal class FS11_ROfFxAndTime : IDemoScript
         var rOfFxAndTime = solver.ROfFxAndTime(op, fxs, ts).ToArray();
 
         // Plot reflectance as a function of time at the specified spatial frequencies
-        Chart.Combine(rOfFxAndTime.Chunk(ts.Length).Select((rOfTime ,fxi) => // take and plot each R(t) (outer loop is spatial frequency)
-            LineChart(ts, rOfTime, xLabel: "time [ns]", yLabel: $"|R(t)| [s-1]", title: $"amp@fx={fxs[fxi]:F3}"))).Show();
+        var fxChart = Chart.Combine(rOfFxAndTime.Chunk(ts.Length).Select((rOfTime ,fxi) => // take and plot each R(t) (outer loop is spatial frequency)
+            LineChart(ts, rOfTime, xLabel: "time [ns]", yLabel: $"|R(t)| [s-1]", title: $"amp@fx={fxs[fxi]:F3}")));
         
         var (tIdx0p01, tIdx0p05) = (10, 50);
         var rOfFx0p01 = rOfFxAndTime.TakeEveryNth(ts.Length, skip: tIdx0p01).ToArray(); // t = 0.01 ns data
         var rOfFx0p05 = rOfFxAndTime.TakeEveryNth(ts.Length, skip: tIdx0p05).ToArray(); // t = 0.05 ns data
 
         // Plot reflectance as a function of time at the specified spatial frequencies
-        Chart.Combine(new[]
+        var timeChart = Chart.Combine(new[]
         {
             LineChart(fxs, rOfFx0p01, xLabel: "fx [mm-1]", yLabel: $"|R(fx)| [unitless]", title: $"amp@t={ts[tIdx0p01]:F3}"),
             LineChart(fxs, rOfFx0p05, xLabel: "fx [mm-1]", yLabel: $"|R(fx)| [unitless]", title: $"amp@t={ts[tIdx0p05]:F3}")
-        }).Show();
+        });
+
+        if (showPlots)
+        {
+            fxChart.Show();
+            timeChart.Show();
+        }
     }
 }

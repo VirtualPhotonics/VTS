@@ -15,7 +15,7 @@ internal class MC08_UnitTestComparison : IDemoScript
     /// <summary>
     /// Sample script to demonstrate this class' stated purpose
     /// </summary>
-    public static void RunDemo()
+    public static void RunDemo(bool showPlots = true)
     {
         // Example 08: run a Monte Carlo simulation and verify results with those in unit tests in Visual Studio
         // Spell out all input to ensure same settings as in unit test
@@ -93,6 +93,10 @@ internal class MC08_UnitTestComparison : IDemoScript
             )
         {
             Console.WriteLine("Unit tests pass");
+        }
+        else
+        {
+            throw new Exception("Unit tests fail");
         }
     }
 }

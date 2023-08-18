@@ -12,7 +12,7 @@ internal class FS12_ROfFxSingle : IDemoScript
     /// <summary>
     /// Sample script to demonstrate this class' stated purpose
     /// </summary>
-    public static void RunDemo()
+    public static void RunDemo(bool showPlots = true)
     {
         // Example 12: predict R(fx) based on a standard diffusion approximation solution to the time-dependent RTE
 
@@ -28,6 +28,11 @@ internal class FS12_ROfFxSingle : IDemoScript
 
         // Plot reflectance as a function of spatial frequency 
         var rOfFxAmplitude = rOfFx.Select(r => Math.Abs(r)).ToArray();
-        LineChart(fxs, rOfFxAmplitude, xLabel: "fx [mm-1]", yLabel: $"R(fx) [unitless]", title: "Reflectance vs spatial frequency").Show();
+        var chart = LineChart(fxs, rOfFxAmplitude, xLabel: "fx [mm-1]", yLabel: $"R(fx) [unitless]", title: "Reflectance vs spatial frequency");
+
+        if (showPlots)
+        {
+            chart.Show();
+        }
     }
 }

@@ -14,7 +14,7 @@ internal class FS06_FluenceOfRhoAndZTwoLayer : IDemoScript
     /// <summary>
     /// Sample script to demonstrate this class' stated purpose
     /// </summary>
-    public static void RunDemo()
+    public static void RunDemo(bool showPlots = true)
     {
         // Example 06: Compute fluence for a two-layer medium as a function
         // of radial extent and depth at a given set of optical properties 
@@ -63,6 +63,10 @@ internal class FS06_FluenceOfRhoAndZTwoLayer : IDemoScript
         var fluenceChart = Heatmap(
             values: allfluenceRowsToPlot, x: allRhos, y: zs,
             xLabel: "ρ [mm]", yLabel: "z [mm]", title: $"log(Φ(ρ, z) [mm-3])");
-        fluenceChart.Show();
+
+        if (showPlots)
+        {
+            fluenceChart.Show();
+        }
     }
 }

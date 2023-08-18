@@ -13,7 +13,7 @@ internal class FS19_ROfRhoTwoLayerMultiOP : IDemoScript
     /// <summary>
     /// Sample script to demonstrate this class' stated purpose
     /// </summary>
-    public static void RunDemo()
+    public static void RunDemo(bool showPlots = true)
     {
         // Example 19: predict R(rho) based on a standard diffusion approximation solution to the time-dependent RTE
         // for multiple sets of optical properties using a two-layer forward solver
@@ -45,7 +45,7 @@ internal class FS19_ROfRhoTwoLayerMultiOP : IDemoScript
         var rOfRho3 = rhos.Select(rho => solver.ROfRho(op3, rho)).ToArray();
 
         // Plot log(reflectance) as a function of spatial frequencies at each set of optical properties
-        Chart.Combine(
+        var chart = Chart.Combine(
             new[] {
                 LineChart(rhos, rOfRho1.Select(r => Math.Log(r)).ToArray(), xLabel: "rho [mm]", yLabel: $"R(rho) [mm-2]",
                     title: $"log(R(rho) [mm-2])@ mua1={op1[0].RegionOP.Mua:F3}"),
@@ -54,6 +54,11 @@ internal class FS19_ROfRhoTwoLayerMultiOP : IDemoScript
                 LineChart(rhos, rOfRho3.Select(r => Math.Log(r)).ToArray(), xLabel: "rho [mm]", yLabel: $"R(rho) [mm-2]",
                     title: $"log(R(rho) [mm-2])@ mua1={op3[0].RegionOP.Mua:F3}")
             }
-        ).Show();
+        );
+
+        if (showPlots)
+        {
+            chart.Show();
+        }
     }
 }

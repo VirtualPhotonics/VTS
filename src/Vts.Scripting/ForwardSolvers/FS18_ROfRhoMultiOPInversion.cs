@@ -14,7 +14,7 @@ internal class FS18_ROfRhoMultiOPInversion : IDemoScript
     /// <summary>
     /// Sample script to demonstrate this class' stated purpose
     /// </summary>
-    public static void RunDemo()
+    public static void RunDemo(bool showPlots = true)
     {
         // Example 18: determine chromophore concentration by perfoming a non-linear least squares fit to a simulated measured
         // reflectance spectrum at a given source-detector separation, using a diffusion theory forward model
@@ -105,11 +105,16 @@ internal class FS18_ROfRhoMultiOPInversion : IDemoScript
         var logGuessReflectance = initialGuessReflectanceSpectrum.Select(r => Math.Log(r)).ToArray();
         var logFitReflectance = fitReflectanceSpectrum.Select(r => Math.Log(r)).ToArray();
         var (xLabel, yLabel) = ("ρ [mm]", "log(R(ρ)) [mm-2]");
-        Chart.Combine(new[]
+        var chart = Chart.Combine(new[]
         {
             ScatterChart(wavelengths, logMeasuredReflectance, xLabel, yLabel, title: "Measured Data"),
             LineChart(wavelengths, logGuessReflectance, xLabel, yLabel, title: $"Initial guess (HbO2:{initialGuess[0]:F3}uM, Hb:{initialGuess[1]:F3}uM, H2O:{initialGuess[2]*100:F3}%)"),
             LineChart(wavelengths, logFitReflectance, xLabel, yLabel, title: $"Converged result (HbO2:{fit[0]:F3}uM, Hb:{fit[1]:F3}uM, H2O:{fit[2]*100:F3}%)")
-        }).Show(); // show all three charts together
+        }); // show all three charts together
+
+        if (showPlots)
+        {
+            chart.Show();
+        }
     }
 }

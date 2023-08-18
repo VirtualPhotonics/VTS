@@ -12,7 +12,7 @@ internal class FS01_ROfRhoAndFtSingle : IDemoScript
     /// <summary>
     /// Sample script to demonstrate this class' stated purpose
     /// </summary>
-    public static void RunDemo()
+    public static void RunDemo(bool showPlots = true)
     {
         // Example 01: predict R(rho, ft) based on a standard diffusion approximation solution to the time-dependent RTE
 
@@ -38,6 +38,11 @@ internal class FS01_ROfRhoAndFtSingle : IDemoScript
             LineChart(fts, rOfFtAmplitude, xLabel, yLabel: $"|R(ft)@ρ={rho}mm| [mm-2] * {magnitudeScale:E0}"),
             LineChart(fts, rOfFtPhase, xLabel, yLabel: $"Φ(R(ft)@ρ={rho}mm) [rad]")
         };
-        Chart.Grid(charts, nRows: 2, nCols: 1, Pattern: Plotly.NET.StyleParam.LayoutGridPattern.Coupled).Show();
+        var grid = Chart.Grid(charts, nRows: 2, nCols: 1, Pattern: Plotly.NET.StyleParam.LayoutGridPattern.Coupled);
+
+        if(showPlots) 
+        {
+            grid.Show();
+        }
     }
 }

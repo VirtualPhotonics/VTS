@@ -14,7 +14,7 @@ internal class FS08_AbsorbedEnergyOfRhoAndZ : IDemoScript
     /// <summary>
     /// Sample script to demonstrate this class' stated purpose
     /// </summary>
-    public static void RunDemo()
+    public static void RunDemo(bool showPlots = true)
     {
         // Example 08: Compute absorbed energy as a function of radial extent and depth at a given set of optical properties 
 
@@ -40,6 +40,10 @@ internal class FS08_AbsorbedEnergyOfRhoAndZ : IDemoScript
         var absorbedEnergyChart = Heatmap(
             values: allAbsorbedEnergyRowsToPlot, x: allRhos, y: zs,
             xLabel: "ρ [mm]", yLabel: "z [mm]", title: $"log(AbsorbedEnergy(ρ, z) [mm-3*mW-1])");
-        absorbedEnergyChart.Show();
+
+        if (showPlots)
+        {
+            absorbedEnergyChart.Show();
+        }
     }
 }

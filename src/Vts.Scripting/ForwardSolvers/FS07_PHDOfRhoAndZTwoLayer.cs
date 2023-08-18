@@ -14,7 +14,7 @@ internal class FS07_PHDOfRhoAndZTwoLayer : IDemoScript
     /// <summary>
     /// Sample script to demonstrate this class' stated purpose
     /// </summary>
-    public static void RunDemo()
+    public static void RunDemo(bool showPlots = true)
     {
         // Example 07: Compute photon hitting density (PHD) for a two-layer medium as a function
         // of radial extent and depth at a given set of optical properties and source-detector separation
@@ -67,6 +67,10 @@ internal class FS07_PHDOfRhoAndZTwoLayer : IDemoScript
         var phdChart = Heatmap(
             values: allPhdRowsToPlot, x: allRhos, y: zs,
             xLabel: "ρ [mm]", yLabel: "z [mm]", title: $"PHD(ρ, z) [unitless] @ s-d: {sourceDetectorSeparation} mm");
-        phdChart.Show();
+        
+        if (showPlots)
+        {
+            phdChart.Show();
+        }
     }
 }

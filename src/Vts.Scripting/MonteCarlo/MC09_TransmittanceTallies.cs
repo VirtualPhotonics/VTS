@@ -14,7 +14,7 @@ internal class MC09_TransmittanceTallies : IDemoScript
     /// <summary>
     /// Sample script to demonstrate this class' stated purpose
     /// </summary>
-    public static void RunDemo()
+    public static void RunDemo(bool showPlots = true)
     {
         // Example 09: run a Monte Carlo simulation for transmittance tallies with 1000 photons
 
@@ -59,11 +59,17 @@ internal class MC09_TransmittanceTallies : IDemoScript
         var tOfRhoResults = (TOfRhoDetector)simulationOutput.ResultsDictionary[tOfRhoDetectorInput.Name];
         var tOfRhoLogTransmittance = tOfRhoResults.Mean.Select(r => Math.Log(r)).ToArray();
         var (detectorMidpoints, xLabel, yLabel) = (rhoRange.GetMidpoints(), "ρ [mm]", "log(T(ρ)) [mm-2]");
-        LineChart(detectorMidpoints, tOfRhoLogTransmittance, xLabel, yLabel, title: "log(T(ρ)) [mm-2]").Show();
+        var chart1 = LineChart(detectorMidpoints, tOfRhoLogTransmittance, xLabel, yLabel, title: "log(T(ρ)) [mm-2]");
 
         // plot the T(rho) results using Plotly.NET
         var tOfFxResults = (TOfFxDetector)simulationOutput.ResultsDictionary[tOfFxDetectorInput.Name];
         var tOfFxTransmittance = tOfFxResults.Mean.Select(t => t.Magnitude).ToArray();
-        LineChart(fxRange.AsEnumerable().ToArray(), tOfFxTransmittance, xLabel, yLabel, title: "T(fx)) [unitless]").Show();
+        var chart2 = LineChart(fxRange.AsEnumerable().ToArray(), tOfFxTransmittance, xLabel, yLabel, title: "T(fx)) [unitless]");
+
+        if (showPlots)
+        {
+            chart1.Show();
+            chart2.Show();
+        }
     }
 }

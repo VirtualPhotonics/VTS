@@ -22,7 +22,7 @@ internal class MC07_pMCInversion : IDemoScript
     /// <summary>
     /// Sample script to demonstrate this class' stated purpose
     /// </summary>
-    public static void RunDemo()
+    public static void RunDemo(bool showPlots = true)
     {
         // Example 07: run a Monte Carlo simulation with Perturbation Monte Carlo post-processor to calculate
         // optical properties (i.e. "inversion") based on fitting to measured data generated using Nurbs
@@ -107,12 +107,17 @@ internal class MC07_pMCInversion : IDemoScript
         var logReflectance1 = postProcessorDetectorResultsInitialGuess.Select(r => Math.Log(r)).ToArray();
         var logReflectance2 = postProcessorDetectorResultsFitValues.Select(r => Math.Log(r)).ToArray();
         var (xLabel, yLabel) = ("ρ [mm]", "log(R(ρ)) [mm-2]");
-        Chart.Combine(new[]
+        var chart = Chart.Combine(new[]
         {
             ScatterChart(detectorMidpoints, logReflectance2, xLabel, yLabel, title: "Measured Data"),
             LineChart(detectorMidpoints, logReflectance1, xLabel, yLabel, title: $"Initial guess (mua={baselineOps.Mua:F3}/mm, musp={baselineOps.Musp:F3}/mm)"),
             LineChart(detectorMidpoints, logReflectance2, xLabel, yLabel, title: $"Converged result (mua={fitOps.Mua:F3}/mm, musp={fitOps.Musp:F3}/mm)")
-        }).Show(); // show all three charts together
+        }); // show all three charts together
+
+        if (showPlots)
+        {
+            chart.Show();
+        }
     }
 
     private class pMCForwardSolver : IForwardSolver

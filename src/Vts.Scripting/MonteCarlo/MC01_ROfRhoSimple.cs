@@ -13,7 +13,7 @@ internal class MC01_ROfRhoSimple : IDemoScript
     /// <summary>
     /// Sample script to demonstrate this class' stated purpose
     /// </summary>
-    public static void RunDemo()
+    public static void RunDemo(bool showPlots = true)
     {
         // Example 01: run a simple Monte Carlo simulation with 1000 photons.
         // Notes:
@@ -41,6 +41,11 @@ internal class MC01_ROfRhoSimple : IDemoScript
         var detectorResults = (ROfRhoDetector)simulationOutput.ResultsDictionary["ROfRho"];
         var logReflectance = detectorResults.Mean.Select(r => Math.Log(r)).ToArray();
         var (detectorMidpoints, xLabel, yLabel) = (detectorRange.GetMidpoints(), "ρ [mm]", "log(R(ρ)) [mm-2]");
-        LineChart(detectorMidpoints, logReflectance, xLabel, yLabel, title: "log(R(ρ)) [mm-2]").Show();
+        var chart = LineChart(detectorMidpoints, logReflectance, xLabel, yLabel, title: "log(R(ρ)) [mm-2]");
+
+        if (showPlots)
+        {
+            chart.Show();
+        }
     }
 }

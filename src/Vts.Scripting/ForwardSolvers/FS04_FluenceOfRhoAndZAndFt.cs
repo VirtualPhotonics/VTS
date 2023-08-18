@@ -1,6 +1,7 @@
 ﻿using Vts.Common;
 using Vts.Modeling.ForwardSolvers;
 using Plotly.NET.CSharp;
+using System;
 
 namespace Vts.Scripting.ForwardSolvers;
 
@@ -13,7 +14,7 @@ internal class FS04_FluenceOfRhoAndZAndFt : IDemoScript
     /// <summary>
     /// Sample script to demonstrate this class' stated purpose
     /// </summary>
-    public static void RunDemo()
+    public static void RunDemo(bool showPlots = true)
     {
         // Example 04: Evaluate fluence as a function of radial extent, depth, 
         // and time frequency at a given set of optical properties
@@ -52,10 +53,6 @@ internal class FS04_FluenceOfRhoAndZAndFt : IDemoScript
         var allFdFluenceRowsToPlot = fdFluenceRowsToPlot.Reverse().Concat(fdFluenceRowsToPlot).ToArray(); // duplicate for -rho to make symmetric
         var fdFluenceChart = Heatmap(values: allFdFluenceRowsToPlot, x: allRhos, y: zs, xLabel: "ρ", yLabel: "z", title: "log(Φ(ρ, z, ft=1Ghz))");
 
-        // show on separate plots, until we can figure out how to get separate colorbars for each
-        cwFluenceChart.Show(); 
-        fdFluenceChart.Show();
-        //Chart.Grid(new[]{ cwFluenceChart, fdFluenceChart }, nRows: 2, nCols: 1, Pattern: Plotly.NET.StyleParam.LayoutGridPattern.Independent).Show();
 
         // calculate the modulation by taking an element-wise ratio of the fluence maps (i.e. FD/Cw)
         var modFluenceOfRhoAndZ = fdFluenceOfRhoAndZ.Zip(cwFluenceOfRhoAndZ, (fd, cw) => fd.Magnitude / cw.Magnitude).ToArray();
@@ -66,6 +63,12 @@ internal class FS04_FluenceOfRhoAndZAndFt : IDemoScript
         var allModFluenceRowsToPlot = modFluenceRowsToPlot.Reverse().Concat(modFluenceRowsToPlot).ToArray(); // duplicate for -rho to make symmetric
         var modFluenceChart = Heatmap(values: allModFluenceRowsToPlot, x: allRhos, y: zs,
             xLabel: "ρ [mm]", yLabel: "z [mm]", title: "modulation(ρ, z) @ ft=1Ghz))");
-        modFluenceChart.Show();
+
+        if (showPlots)
+        {
+            cwFluenceChart.Show();
+            fdFluenceChart.Show();
+            modFluenceChart.Show();
+        }
     }
 }

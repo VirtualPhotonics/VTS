@@ -2,6 +2,7 @@
 using Vts.Modeling.ForwardSolvers;
 using Vts.SpectralMapping;
 using Plotly.NET;
+using System;
 
 namespace Vts.Scripting.ForwardSolvers;
 
@@ -15,7 +16,7 @@ internal class FS03_FluenceOfRhoAndZ : IDemoScript
     /// <summary>
     /// Sample script to demonstrate this class' stated purpose
     /// </summary>
-    public static void RunDemo()
+    public static void RunDemo(bool showPlots = true)
     {
         // Example 03: Evaluate fluence as a function of radial extent and depth using optical properties from a list of
         // chromophore absorbers with their concentrations and a power law scatterer for a range of wavelengths.
@@ -59,7 +60,12 @@ internal class FS03_FluenceOfRhoAndZ : IDemoScript
             .Select(fluence => Math.Log(fluence)) // take log for visualization purposes
             .Chunk(zs.Length); // break the heatmap into rows (inner dimension is zs)        
         var fluenceDataToPlot = fluenceRowsToPlot.Reverse().Concat(fluenceRowsToPlot).ToArray(); // duplicate for -rho to make symmetric
-        Heatmap(values: fluenceDataToPlot, x: allRhos, y: zs,
-            xLabel: "ρ [mm]", yLabel: "z [mm]", title: $"log(Φ(ρ, z) @λ={wavelengths[wvi]}nm").Show();
+        var map = Heatmap(values: fluenceDataToPlot, x: allRhos, y: zs,
+            xLabel: "ρ [mm]", yLabel: "z [mm]", title: $"log(Φ(ρ, z) @λ={wavelengths[wvi]}nm");
+
+        if (showPlots)
+        {
+            map.Show();
+        }
     }
 }

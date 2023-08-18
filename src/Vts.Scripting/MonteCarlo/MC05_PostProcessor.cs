@@ -15,7 +15,7 @@ internal class MC05_PostProcessor : IDemoScript
     /// <summary>
     /// Sample script to demonstrate this class' stated purpose
     /// </summary>
-    public static void RunDemo()
+    public static void RunDemo(bool showPlots = true)
     {
         // Example 05: run a Monte Carlo simulation with post-processing enabled. First run a simulation,
         // then post-process the generated database and compare on-the-fly results with post-processed results
@@ -67,10 +67,15 @@ internal class MC05_PostProcessor : IDemoScript
         var logReflectance1 = onTheFlyDetectorResults.Mean.Select(r => Math.Log(r)).ToArray();
         var logReflectance2 = postProcessorDetectorResults.Mean.Select(r => Math.Log(r)).ToArray();
         var (detectorMidpoints, xLabel, yLabel) = (detectorRange.GetMidpoints(), "ρ [mm]", "log(R(ρ)) [mm-2]");
-        Chart.Combine(new[]
+        var chart = Chart.Combine(new[]
         {
             LineChart(detectorMidpoints, logReflectance1, xLabel, yLabel, title: "log(R(ρ)) [mm-2] - on the fly"),
             LineChart(detectorMidpoints, logReflectance2, xLabel, yLabel, title: "log(R(ρ)) [mm-2] - post-processor")
-        }).Show(); // show both charts together
+        }); // show both charts together
+
+        if (showPlots)
+        {
+            chart.Show();
+        }
     }
 }

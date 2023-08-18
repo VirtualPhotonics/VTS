@@ -13,7 +13,7 @@ internal class FS17_ROfRhoMultiOP : IDemoScript
     /// <summary>
     /// Sample script to demonstrate this class' stated purpose
     /// </summary>
-    public static void RunDemo()
+    public static void RunDemo(bool showPlots = true)
     {
         // Example 17: predict R(rho) based on a standard diffusion approximation solution to the time-dependent RTE
         // while varying absorption linearly
@@ -47,7 +47,7 @@ internal class FS17_ROfRhoMultiOP : IDemoScript
 
         // Plot mua, log(mua), musp, and reflectance as a function of wavelength at each set of optical properties
         var rOfFxAmplitude = rOfFx.Select(r => Math.Abs(r)).ToArray();
-        Chart.Grid(new[]
+        var chart = Chart.Grid(new[]
         {
             LineChart(wavelengths, ops.Select(op => op.Mua).ToArray(), xLabel: "wavelength [nm]", yLabel: $"mua", title: "mua [mm-1]"),
             LineChart(wavelengths, ops.Select(op => Math.Log(op.Mua)).ToArray(), xLabel: "wavelength [nm]", yLabel: $"log(mua)", title: "log(mua [mm-1])"),
@@ -55,6 +55,11 @@ internal class FS17_ROfRhoMultiOP : IDemoScript
             Chart.Combine(rhos.Select((rho, rhoi) => // plot R(wavelength)@rho for each rho in mm
                 LineChart(wavelengths, rOfFxAmplitude.TakeEveryNth(rhos.Length, skip: rhoi).ToArray(),
                     xLabel: "wavelength [nm]", yLabel: $"R(wv)", title: $"R@rho={rho:F3} mm")))
-        }, nRows: 4, nCols: 1, Pattern: Plotly.NET.StyleParam.LayoutGridPattern.Coupled).Show();
+        }, nRows: 4, nCols: 1, Pattern: Plotly.NET.StyleParam.LayoutGridPattern.Coupled);
+
+        if (showPlots)
+        {
+            chart.Show();
+        }
     }
 }

@@ -13,7 +13,7 @@ internal class FS10_ROfRhoAndTimeMulti : IDemoScript
     /// <summary>
     /// Sample script to demonstrate this class' stated purpose
     /// </summary>
-    public static void RunDemo()
+    public static void RunDemo(bool showPlots = true)
     {
         // Example 10: predict R(rho,t) at various OPs based on a standard diffusion approximation solution to the time-dependent RTE
 
@@ -41,7 +41,12 @@ internal class FS10_ROfRhoAndTimeMulti : IDemoScript
             LineChart(ts, rOfTime.Select(r => Math.Log(r)).ToArray(),
                 xLabel: "t [ns]", yLabel: $"log(R(t) [mm-2*s-1]) @ mua={ops[1].Mua:F3}", title: $"log(R(t)) @ ρ={rhos[ridx]:F3}"));
 
-        Chart.Grid(new[] { Chart.Combine(chartsForOP1), Chart.Combine(chartsForOP2) }, 
-            nRows: 1, nCols: 2, Pattern: Plotly.NET.StyleParam.LayoutGridPattern.Coupled).Show();
+        var chartCombined = Chart.Grid(new[] { Chart.Combine(chartsForOP1), Chart.Combine(chartsForOP2) }, 
+            nRows: 1, nCols: 2, Pattern: Plotly.NET.StyleParam.LayoutGridPattern.Coupled);
+
+        if (showPlots)
+        {
+            chartCombined.Show();
+        }
     }
 }

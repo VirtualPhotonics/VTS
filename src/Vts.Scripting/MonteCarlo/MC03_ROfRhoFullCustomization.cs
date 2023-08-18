@@ -15,7 +15,7 @@ internal class MC03_ROfRhoFullCustomization : IDemoScript
     /// <summary>
     /// Sample script to demonstrate this class' stated purpose
     /// </summary>
-    public static void RunDemo()
+    public static void RunDemo(bool showPlots = true)
     {
         // Example 03: run a Monte Carlo simulation with a fully-customized input
         // (values used here are the class defaults)
@@ -79,6 +79,11 @@ internal class MC03_ROfRhoFullCustomization : IDemoScript
         var detectorResults = (ROfRhoDetector)simulationOutput.ResultsDictionary["ROfRho"];
         var logReflectance = detectorResults.Mean.Select(r => Math.Log(r)).ToArray();
         var (detectorMidpoints, xLabel, yLabel) = (detectorRange.GetMidpoints(), "ρ [mm]", "log(R(ρ)) [mm-2]");
-        LineChart(detectorMidpoints, logReflectance, xLabel, yLabel, title: "log(R(ρ)) [mm-2]").Show();
+        var chart = LineChart(detectorMidpoints, logReflectance, xLabel, yLabel, title: "log(R(ρ)) [mm-2]");
+
+        if (showPlots)
+        {
+            chart.Show();
+        }
     }
 }
