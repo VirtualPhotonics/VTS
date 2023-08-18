@@ -8,7 +8,7 @@ namespace Vts.Scripting.MonteCarlo;
 /// <summary>
 /// Class using the Vts.dll library to demonstrate performing a Monte Carlo simulation that tallies in the native spatial frequency domain
 /// </summary>
-internal class MC10_ROfFx : IDemoScript
+internal class Demo10ROfFx : IDemoScript
 {
     /// <summary>
     /// Sample script to demonstrate this class' stated purpose

@@ -9,7 +9,7 @@ namespace Vts.Scripting.MonteCarlo;
 /// <summary>
 /// Class using the Vts.dll library to demonstrate using the Perturbation Monte Carlo post-processor to calculate optical properties (i.e. "inversion")
 /// </summary>
-internal class FS18_ROfRhoMultiOPInversion : IDemoScript
+internal class Demo18ROfRhoMultiOPInversion : IDemoScript
 {
     /// <summary>
     /// Sample script to demonstrate this class' stated purpose
@@ -46,7 +46,7 @@ internal class FS18_ROfRhoMultiOPInversion : IDemoScript
         // Create a  forward solver based on pMC prediction (see implementation below; note: implemented for ROfRho only)
         var forwardSolverForInversion = new PointSourceSDAForwardSolver();
 
-        // declare a forward reflectance function that computes reflectance from chromophores
+        // declare a local forward reflectance function that computes reflectance from chromophores
         // note that some variables are captured from the outer scope for simplicity (scatterer, wavelengths
         double[] CalculateReflectanceVsWavelengthFromChromophoreConcentration(double[] chromophoreConcentration, params object[] otherValuesNeededForForwardSolution)
         {

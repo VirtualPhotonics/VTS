@@ -1,23 +1,23 @@
 ﻿using Vts.Common;
 using Vts.Modeling.ForwardSolvers;
+using Plotly.NET.CSharp;
 using Vts.Factories;
-using Plotly.NET;
 
 namespace Vts.Scripting.ForwardSolvers;
 
 /// <summary>
-/// Class using the Vts.dll library to demonstrate predicting fluence in a multi-layer tissue
-/// as a function of radial extent and depth at a given set of optical properties 
+/// Class using the Vts.dll library to demonstrate predicting photon hitting density (PHD) for a two-layer medium
+/// as a function of radial extent and depth at a given set of optical properties and source-detector separation
 /// </summary>
-internal class FS06_FluenceOfRhoAndZTwoLayer : IDemoScript
+internal class Demo07PHDOfRhoAndZTwoLayer : IDemoScript
 {
     /// <summary>
     /// Sample script to demonstrate this class' stated purpose
     /// </summary>
     public static void RunDemo(bool showPlots = true)
     {
-        // Example 06: Compute fluence for a two-layer medium as a function
-        // of radial extent and depth at a given set of optical properties 
+        // Example 07: Compute photon hitting density (PHD) for a two-layer medium as a function
+        // of radial extent and depth at a given set of optical properties and source-detector separation
 
         // Solver type options:
         // PointSourceSDA,DistributedGaussianSourceSDA, DistributedPointSourceSDA,
@@ -27,12 +27,12 @@ internal class FS06_FluenceOfRhoAndZTwoLayer : IDemoScript
         var opRegions = new IOpticalPropertyRegion[]
         {
             new LayerOpticalPropertyRegion
-            (
+            ( 
                 zRange: new DoubleRange(0, topLayerThickness, 2),
                 regionOP: new OpticalProperties(mua: 1, musp: 1, g: 0.8, n: 1.4)
             ),
             new LayerOpticalPropertyRegion
-            (
+            ( 
                 zRange: new DoubleRange(topLayerThickness, double.PositiveInfinity, 2),
                 regionOP: new OpticalProperties(mua: 0.1, musp: 1, g: 0.8, n: 1.4)
             )
@@ -41,7 +41,6 @@ internal class FS06_FluenceOfRhoAndZTwoLayer : IDemoScript
         var zs = new DoubleRange(start: 0.1, stop: 19.9, number: 100).AsEnumerable().ToArray(); // range of depths in mm
 
         // predict the tissue's fluence(rho, z) for the given optical properties 
-
         //var fluenceOfRhoAndZ = solver.FluenceOfRhoAndZ(new[] { opRegions }, rhos, zs );
         var fluenceOfRhoAndZ = ComputationFactory.ComputeFluence(
             forwardSolver: solver,
@@ -54,19 +53,24 @@ internal class FS06_FluenceOfRhoAndZTwoLayer : IDemoScript
             independentValues: new[] { rhos, zs },
             tissueRegions: opRegions);
 
+        var sourceDetectorSeparation = 10; // mm
+        var phd = ComputationFactory.GetPHD(forwardSolverType: ForwardSolverType.PointSourceSDA,
+            fluenceOfRhoAndZ, sourceDetectorSeparation, new[]{ opRegions[0].RegionOP }, rhos, zs); // todo: pick op based on layer thickness?
+
+        // plot the PHD @ 10 mm s-d separation
         var imageSize = rhos.Length * zs.Length;
-        var allRhos = rhos.Select(rho => -rho).Reverse().Concat(rhos).ToArray(); // duplicate for -rho to make symmetric
-        var fluenceRowsToPlot = fluenceOfRhoAndZ
+        var allRhos = rhos;//.Select(rho => -rho).Reverse().Concat(rhos).ToArray(); // duplicate for -rho to make symmetric
+        var phdRowsToPlot = phd
             .Select(fluence => Math.Log(fluence)) // take log for visualization purposes
             .Chunk(zs.Length); // break the heatmap into rows (inner dimension is zs)        
-        var allfluenceRowsToPlot = fluenceRowsToPlot.Reverse().Concat(fluenceRowsToPlot).ToArray(); // duplicate for -rho to make symmetric
-        var fluenceChart = Heatmap(
-            values: allfluenceRowsToPlot, x: allRhos, y: zs,
-            xLabel: "ρ [mm]", yLabel: "z [mm]", title: $"log(Φ(ρ, z) [mm-3])");
-
+        var allPhdRowsToPlot = phdRowsToPlot;//.Reverse().Concat(phdRowsToPlot).ToArray(); // duplicate for -rho to make symmetric
+        var phdChart = Heatmap(
+            values: allPhdRowsToPlot, x: allRhos, y: zs,
+            xLabel: "ρ [mm]", yLabel: "z [mm]", title: $"PHD(ρ, z) [unitless] @ s-d: {sourceDetectorSeparation} mm");
+        
         if (showPlots)
         {
-            fluenceChart.Show();
+            phdChart.Show();
         }
     }
 }

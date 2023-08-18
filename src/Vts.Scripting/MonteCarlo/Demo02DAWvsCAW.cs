@@ -8,7 +8,7 @@ namespace Vts.Scripting.MonteCarlo;
 /// <summary>
 /// Class using the Vts.dll library to demonstrate comparing Monte Carlo simulations with different absorption weighting types 
 /// </summary>
-internal class MC02_DAWvsCAW : IDemoScript
+internal class Demo02DAWvsCAW : IDemoScript
 {
     /// <summary>
     /// Sample script to demonstrate this class' stated purpose

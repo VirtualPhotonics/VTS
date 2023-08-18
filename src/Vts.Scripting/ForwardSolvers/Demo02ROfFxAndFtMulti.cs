@@ -7,7 +7,7 @@ namespace Vts.Scripting.ForwardSolvers;
 /// <summary>
 /// Class using the Vts.dll library to demonstrate predicting reflectance as a function of spatial frequency and time frequency
 /// </summary>
-internal class FS02_ROfFxAndFtMulti : IDemoScript
+internal class Demo02ROfFxAndFtMulti : IDemoScript
 {
     /// <summary>
     /// Sample script to demonstrate this class' stated purpose

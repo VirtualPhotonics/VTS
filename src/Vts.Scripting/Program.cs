@@ -16,7 +16,7 @@ public class Program
     /// <param name="args"></param>
     public static void Main(string[] args)
     {
-        FS20_ROfFxTwoLayerMultiOP.RunDemo();
+        Demo20ROfFxTwoLayerMultiOP.RunDemo();
     }
 
     /// <summary>
@@ -24,16 +24,16 @@ public class Program
     /// </summary>
     internal static void RunAllMonteCarloDemos(bool showPlots = true)
     {
-        MC01_ROfRhoSimple.RunDemo(showPlots);
-        MC02_DAWvsCAW.RunDemo(showPlots);
-        MC03_ROfRhoFullCustomization.RunDemo(showPlots);
-        MC04_N1000vsN100.RunDemo(showPlots);
-        MC05_PostProcessor.RunDemo(showPlots);
-        MC06_pMCPostProcessor.RunDemo(showPlots);
-        MC07_pMCInversion.RunDemo(showPlots);
-        MC08_UnitTestComparison.RunDemo(showPlots);
-        MC09_TransmittanceTallies.RunDemo(showPlots);
-        MC10_ROfFx.RunDemo(showPlots);
+        Demo01ROfRhoSimple.RunDemo(showPlots);
+        Demo02DAWvsCAW.RunDemo(showPlots);
+        Demo03ROfRhoFullCustomization.RunDemo(showPlots);
+        Demo04N1000vsN100.RunDemo(showPlots);
+        Demo05PostProcessor.RunDemo(showPlots);
+        Demo06pMCPostProcessor.RunDemo(showPlots);
+        Demo07pMCInversion.RunDemo(showPlots);
+        Demo08UnitTestComparison.RunDemo(showPlots);
+        Demo09TransmittanceTallies.RunDemo(showPlots);
+        Demo10ROfFx.RunDemo(showPlots);
     }
 
     /// <summary>
@@ -41,25 +41,25 @@ public class Program
     /// </summary>
     internal static void RunAllForwardSolverDemos(bool showPlots = true)
     {
-        FS01_ROfRhoAndFtSingle.RunDemo(showPlots);
-        FS02_ROfFxAndFtMulti.RunDemo(showPlots);
-        FS03_FluenceOfRhoAndZ.RunDemo(showPlots);
-        FS04_FluenceOfRhoAndZAndFt.RunDemo(showPlots);
-        FS05_PHDOfRhoAndZ.RunDemo(showPlots);
-        FS06_FluenceOfRhoAndZTwoLayer.RunDemo(showPlots);
-        FS07_PHDOfRhoAndZTwoLayer.RunDemo(showPlots);
-        FS08_AbsorbedEnergyOfRhoAndZ.RunDemo(showPlots);
-        FS09_ROfRhoMulti.RunDemo(showPlots);
-        FS10_ROfRhoAndTimeMulti.RunDemo(showPlots);
-        FS11_ROfFxAndTime.RunDemo(showPlots);
-        FS12_ROfFxSingle.RunDemo(showPlots);
-        FS13_ROfFxMultiOP.RunDemo(showPlots);
-        FS14_ROfFxMultiOPIntralipid.RunDemo(showPlots);
-        FS15_ROfFxMultiOPMie.RunDemo(showPlots);
-        FS16_ROfFxMultiPowerLaw.RunDemo(showPlots);
-        FS17_ROfRhoMultiOP.RunDemo(showPlots);
-        FS18_ROfRhoMultiOPInversion.RunDemo(showPlots);
-        FS19_ROfRhoTwoLayerMultiOP.RunDemo(showPlots);
-        FS20_ROfFxTwoLayerMultiOP.RunDemo(showPlots);
+        Demo01ROfRhoAndFtSingle.RunDemo(showPlots);
+        Demo02ROfFxAndFtMulti.RunDemo(showPlots);
+        Demo03FluenceOfRhoAndZ.RunDemo(showPlots);
+        Demo04FluenceOfRhoAndZAndFt.RunDemo(showPlots);
+        Demo05PHDOfRhoAndZ.RunDemo(showPlots);
+        Demo06FluenceOfRhoAndZTwoLayer.RunDemo(showPlots);
+        Demo07PHDOfRhoAndZTwoLayer.RunDemo(showPlots);
+        Demo08AbsorbedEnergyOfRhoAndZ.RunDemo(showPlots);
+        Demo09ROfRhoMulti.RunDemo(showPlots);
+        Demo10ROfRhoAndTimeMulti.RunDemo(showPlots);
+        Demo11ROfFxAndTime.RunDemo(showPlots);
+        Demo12ROfFxSingle.RunDemo(showPlots);
+        Demo13ROfFxMultiOP.RunDemo(showPlots);
+        Demo14ROfFxMultiOPIntralipid.RunDemo(showPlots);
+        Demo15ROfFxMultiOPMie.RunDemo(showPlots);
+        Demo16ROfFxMultiPowerLaw.RunDemo(showPlots);
+        Demo17ROfRhoMultiOP.RunDemo(showPlots);
+        Demo18ROfRhoMultiOPInversion.RunDemo(showPlots);
+        Demo19ROfRhoTwoLayerMultiOP.RunDemo(showPlots);
+        Demo20ROfFxTwoLayerMultiOP.RunDemo(showPlots);
     }
 }

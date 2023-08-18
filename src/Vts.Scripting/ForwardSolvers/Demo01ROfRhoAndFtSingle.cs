@@ -7,7 +7,7 @@ namespace Vts.Scripting.ForwardSolvers;
 /// <summary>
 /// Class using the Vts.dll library to demonstrate predicting reflectance as a function of rho and time frequency
 /// </summary>
-internal class FS01_ROfRhoAndFtSingle : IDemoScript
+internal class Demo01ROfRhoAndFtSingle : IDemoScript
 {
     /// <summary>
     /// Sample script to demonstrate this class' stated purpose

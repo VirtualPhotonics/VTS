@@ -11,7 +11,7 @@ namespace Vts.Scripting.ForwardSolvers;
 /// radial extent and depth using optical properties from a list of chromophore absorbers 
 /// with their concentrations and a power law scatterer for a range of wavelengths
 /// </summary>
-internal class FS03_FluenceOfRhoAndZ : IDemoScript
+internal class Demo03FluenceOfRhoAndZ : IDemoScript
 {
     /// <summary>
     /// Sample script to demonstrate this class' stated purpose

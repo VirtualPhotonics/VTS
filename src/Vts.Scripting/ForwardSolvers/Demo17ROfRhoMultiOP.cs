@@ -8,7 +8,7 @@ namespace Vts.Scripting.ForwardSolvers;
 /// <summary>
 /// Class using the Vts.dll library to demonstrate predicting reflectance as a function of source-detector separation while varying absorption linearly
 /// </summary>
-internal class FS17_ROfRhoMultiOP : IDemoScript
+internal class Demo17ROfRhoMultiOP : IDemoScript
 {
     /// <summary>
     /// Sample script to demonstrate this class' stated purpose

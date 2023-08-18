@@ -10,7 +10,7 @@ namespace Vts.Scripting.MonteCarlo;
 /// <summary>
 /// Class using the Vts.dll library to demonstrate using the Monte Carlo post-processor
 /// </summary>
-internal class MC05_PostProcessor : IDemoScript
+internal class Demo05PostProcessor : IDemoScript
 {
     /// <summary>
     /// Sample script to demonstrate this class' stated purpose

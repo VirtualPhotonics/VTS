@@ -7,17 +7,17 @@ namespace Vts.Scripting.ForwardSolvers;
 
 /// <summary>
 /// Class using the Vts.dll library to demonstrate predicting reflectance as a function of spatial frequency 
-/// where optical properties vary as a function of wavelength using an intralipid scatterer
+/// where optical properties vary as a function of wavelength using a Mie-theory scatterer
 /// </summary>
-internal class FS14_ROfFxMultiOPIntralipid : IDemoScript
+internal class Demo15ROfFxMultiOPMie : IDemoScript
 {
     /// <summary>
     /// Sample script to demonstrate this class' stated purpose
     /// </summary>
     public static void RunDemo(bool showPlots = true)
     {
-        // Example 14: predict R(fx) based on a standard diffusion approximation solution to the time-dependent RTE
-        // where optical properties vary as a function of wavelength using an intralipid scatterer
+        // Example 15: predict R(fx) based on a standard diffusion approximation solution to the time-dependent RTE
+        // where optical properties vary as a function of wavelength using a Mie-theory scatterer
 
         // Solver type options:
         // PointSourceSDA,DistributedGaussianSourceSDA, DistributedPointSourceSDA,
@@ -36,8 +36,8 @@ internal class FS14_ROfFxMultiOPIntralipid : IDemoScript
         };
 
         // construct a scatterer
-        var scatterer = new IntralipidScatterer(volumeFraction: 0.01);
-        // or: var scatterer = new MieScatterer(particleRadius: 0.5, particleRefractiveIndex: 1.4, mediumRefractiveIndex: 1.0, volumeFraction: 0.001);
+        var scatterer = new MieScatterer(particleRadius: 0.5, particleRefractiveIndex: 1.4, mediumRefractiveIndex: 1.0, volumeFraction: 0.001);
+        // or: var scatterer = new IntralipidScatterer(volumeFraction: 0.01);
         // or: var scatterer = new PowerLawScatterer(a: 1.2, b: 1.42);
 
         // compose a tissue using the chromophores and scatterer

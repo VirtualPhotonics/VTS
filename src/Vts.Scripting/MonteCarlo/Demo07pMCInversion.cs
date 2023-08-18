@@ -17,7 +17,7 @@ namespace Vts.Scripting.MonteCarlo;
 /// <summary>
 /// Class using the Vts.dll library to demonstrate using the Perturbation Monte Carlo post-processor to calculate optical properties (i.e. "inversion")
 /// </summary>
-internal class MC07_pMCInversion : IDemoScript
+internal class Demo07pMCInversion : IDemoScript
 {
     /// <summary>
     /// Sample script to demonstrate this class' stated purpose

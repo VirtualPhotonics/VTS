@@ -7,7 +7,7 @@ namespace Vts.Scripting.ForwardSolvers;
 /// <summary>
 /// Class using the Vts.dll library to demonstrate predicting reflectance as a function of spatial frequency at a single set of optical properties
 /// </summary>
-internal class FS12_ROfFxSingle : IDemoScript
+internal class Demo12ROfFxSingle : IDemoScript
 {
     /// <summary>
     /// Sample script to demonstrate this class' stated purpose

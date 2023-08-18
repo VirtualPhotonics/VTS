@@ -10,7 +10,7 @@ namespace Vts.Scripting.MonteCarlo;
 /// <summary>
 /// Class using the Vts.dll library to demonstrate performing a Monte Carlo simulation with full customization
 /// </summary>
-internal class MC03_ROfRhoFullCustomization : IDemoScript
+internal class Demo03ROfRhoFullCustomization : IDemoScript
 {
     /// <summary>
     /// Sample script to demonstrate this class' stated purpose
