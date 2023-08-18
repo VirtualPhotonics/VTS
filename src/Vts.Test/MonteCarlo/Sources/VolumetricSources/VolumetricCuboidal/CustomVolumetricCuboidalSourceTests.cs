@@ -1,7 +1,6 @@
-﻿using System;
-using MathNet.Numerics.Random;
-using Moq;
+﻿using MathNet.Numerics.Random;
 using NUnit.Framework;
+using System;
 using Vts.Common;
 using Vts.MonteCarlo;
 using Vts.MonteCarlo.Interfaces;
