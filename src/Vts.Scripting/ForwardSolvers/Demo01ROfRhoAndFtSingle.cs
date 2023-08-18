@@ -35,7 +35,7 @@ internal class Demo01ROfRhoAndFtSingle : IDemoScript
         var xLabel = "time frequency [GHz]";
         var charts = new[]
         {
-            LineChart(fts, rOfFtAmplitude, xLabel, yLabel: $"|R(ft)@ρ={rho}mm| [mm-2] * {magnitudeScale:E0}"),
+            LineChart(fts, rOfFtAmplitude, xLabel, yLabel: $"|R(ft)@ρ={rho}mm| [mm-2]*{magnitudeScale:E0}"),
             LineChart(fts, rOfFtPhase, xLabel, yLabel: $"Φ(R(ft)@ρ={rho}mm) [rad]")
         };
         var grid = Chart.Grid(charts, nRows: 2, nCols: 1, Pattern: Plotly.NET.StyleParam.LayoutGridPattern.Coupled);

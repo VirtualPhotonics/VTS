@@ -50,11 +50,11 @@ internal class Demo22ROfRhoAndFtTwoLayerMultiOP : IDemoScript
         var magnitudeScale = 1E4;
         var amplitudeChart = Chart.Combine(
             new[] {
-                LineChart(fts, rOfFt1.Select(r => r.Magnitude * magnitudeScale).ToArray(), xLabel: "ft [GHz]", yLabel: $"R(t) [mm-2] * {magnitudeScale:E0}",
+                LineChart(fts, rOfFt1.Select(r => r.Magnitude * magnitudeScale).ToArray(), xLabel: "ft [GHz]", yLabel: $"R(ft) [mm-2] * {magnitudeScale:E0}",
                     title: $"|R(ft)| [mm-2] @ rho={rho}mm (mua1={op1[0].RegionOP.Mua:F3}, mua2={op1[1].RegionOP.Mua:F3})"),
-                LineChart(fts, rOfFt2.Select(r => r.Magnitude * magnitudeScale).ToArray(), xLabel: "ft [GHz]", yLabel: $"R(t) [mm-2] * {magnitudeScale:E0}",
+                LineChart(fts, rOfFt2.Select(r => r.Magnitude * magnitudeScale).ToArray(), xLabel: "ft [GHz]", yLabel: $"R(ft) [mm-2] * {magnitudeScale:E0}",
                     title: $"|R(ft)| [mm-2] @ rho={rho}mm (mua1={op2[0].RegionOP.Mua:F3}, mua2={op2[1].RegionOP.Mua:F3})"),
-                LineChart(fts, rOfFt3.Select(r => r.Magnitude * magnitudeScale).ToArray(), xLabel: "ft [GHz]", yLabel: $"R(t) [mm-2] * {magnitudeScale:E0}",
+                LineChart(fts, rOfFt3.Select(r => r.Magnitude * magnitudeScale).ToArray(), xLabel: "ft [GHz]", yLabel: $"R(ft) [mm-2] * {magnitudeScale:E0}",
                     title: $"|R(ft)| [mm-2] @ rho={rho}mm (mua1={op3[0].RegionOP.Mua:F3}, mua2={op3[1].RegionOP.Mua:F3})")
             }
         );
@@ -67,12 +67,33 @@ internal class Demo22ROfRhoAndFtTwoLayerMultiOP : IDemoScript
                 LineChart(fts, rOfFt3.Select(r => -r.Phase).ToArray(), xLabel: "ft [GHz]", yLabel: $"Φ(R(ft)) [rad] @ rho={rho}mm",
                     title: $"Φ(R(ft)) [rad] @ rho={rho}mm (mua1={op3[0].RegionOP.Mua:F3}, mua2={op3[1].RegionOP.Mua:F3})")
             }
+        );        
+        var realChart = Chart.Combine(
+        new[] {
+                LineChart(fts, rOfFt1.Select(r => r.Real * magnitudeScale).ToArray(), xLabel: "ft [GHz]", yLabel: $"Re(R(ft)) [mm-2]*{magnitudeScale:E0}",
+                    title: $"Re(R(ft)) [mm-2] @ rho={rho}mm (mua1={op1[0].RegionOP.Mua:F3}, mua2={op1[1].RegionOP.Mua:F3})"),       
+                LineChart(fts, rOfFt2.Select(r => r.Real * magnitudeScale).ToArray(), xLabel: "ft [GHz]", yLabel: $"Re(R(ft)) [mm-2]*{magnitudeScale:E0}",
+                    title: $"Re(R(ft)) [mm-2] @ rho={rho}mm (mua1={op2[0].RegionOP.Mua:F3}, mua2={op2[1].RegionOP.Mua:F3})"),       
+                LineChart(fts, rOfFt3.Select(r => r.Real * magnitudeScale).ToArray(), xLabel: "ft [GHz]", yLabel: $"Re(R(ft)) [mm-2]*{magnitudeScale:E0}",
+                    title: $"Re(R(ft)) [mm-2] @ rho={rho}mm (mua1={op3[0].RegionOP.Mua:F3}, mua2={op3[1].RegionOP.Mua:F3})")
+            }
         );
-        var grid = Chart.Grid(new[] {amplitudeChart, phaseChart }, nRows: 2, nCols: 1, Pattern: Plotly.NET.StyleParam.LayoutGridPattern.Coupled);
-
+        var imagChart = Chart.Combine(
+        new[] {
+                LineChart(fts, rOfFt1.Select(r => r.Imaginary * magnitudeScale).ToArray(), xLabel: "ft [GHz]", yLabel: $"Imag(R(ft)) [mm-2]*{magnitudeScale:E0}",
+                    title: $"Imag(R(ft)) [mm-2] @ rho={rho}mm (mua1={op1[0].RegionOP.Mua:F3}, mua2={op1[1].RegionOP.Mua:F3})"),            
+                LineChart(fts, rOfFt2.Select(r => r.Imaginary * magnitudeScale).ToArray(), xLabel: "ft [GHz]", yLabel: $"Imag(R(ft)) [mm-2]*{magnitudeScale:E0}",
+                    title: $"Imag(R(ft)) [mm-2] @ rho={rho}mm (mua1={op2[0].RegionOP.Mua:F3}, mua2={op2[1].RegionOP.Mua:F3})"),            
+                LineChart(fts, rOfFt3.Select(r => r.Imaginary * magnitudeScale).ToArray(), xLabel: "ft [GHz]", yLabel: $"Imag(R(ft)) [mm-2]*{magnitudeScale:E0}",
+                    title: $"Imag(R(ft)) [mm-2] @ rho={rho}mm (mua1={op3[0].RegionOP.Mua:F3}, mua2={op3[1].RegionOP.Mua:F3})")
+            }
+        );
+        var realImagChart = Chart.Grid(new[] { realChart, imagChart }, nRows: 2, nCols: 1, Pattern: Plotly.NET.StyleParam.LayoutGridPattern.Coupled);
+        var ampPhaseChart = Chart.Grid(new[] { amplitudeChart, phaseChart }, nRows: 2, nCols: 1, Pattern: Plotly.NET.StyleParam.LayoutGridPattern.Coupled);
         if (showPlots)
         {
-            grid.Show();
+            realImagChart.Show();
+            ampPhaseChart.Show();
         }
     }
 }
