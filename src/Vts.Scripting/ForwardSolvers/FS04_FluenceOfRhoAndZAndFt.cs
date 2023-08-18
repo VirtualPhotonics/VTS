@@ -8,7 +8,7 @@ namespace Vts.Scripting.ForwardSolvers;
 /// Class using the Vts.dll library to demonstrate predicting fluence as a function of 
 /// radial extent, depth, and time frequency at a given set of optical properties
 /// </summary>
-public class FS04_FluenceOfRhoAndZAndFt : IDemoScript
+internal class FS04_FluenceOfRhoAndZAndFt : IDemoScript
 {
     /// <summary>
     /// Sample script to demonstrate this class' stated purpose

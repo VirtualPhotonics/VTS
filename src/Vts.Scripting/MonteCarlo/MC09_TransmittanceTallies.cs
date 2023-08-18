@@ -9,7 +9,7 @@ namespace Vts.Scripting.MonteCarlo;
 /// <summary>
 /// Class using the Vts.dll library to demonstrate performing transmittance tallies in Monte Carlo simulations
 /// </summary>
-public class MC09_TransmittanceTallies : IDemoScript
+internal class MC09_TransmittanceTallies : IDemoScript
 {
     /// <summary>
     /// Sample script to demonstrate this class' stated purpose

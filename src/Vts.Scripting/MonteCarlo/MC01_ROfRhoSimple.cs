@@ -8,7 +8,7 @@ namespace Vts.Scripting.MonteCarlo;
 /// <summary>
 /// Class using the Vts.dll library to demonstrate performing a simple Monte Carlo simulation
 /// </summary>
-public class MC01_ROfRhoSimple : IDemoScript
+internal class MC01_ROfRhoSimple : IDemoScript
 {
     /// <summary>
     /// Sample script to demonstrate this class' stated purpose

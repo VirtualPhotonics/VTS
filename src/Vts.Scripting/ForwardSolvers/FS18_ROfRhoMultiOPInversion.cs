@@ -9,7 +9,7 @@ namespace Vts.Scripting.MonteCarlo;
 /// <summary>
 /// Class using the Vts.dll library to demonstrate using the Perturbation Monte Carlo post-processor to calculate optical properties (i.e. "inversion")
 /// </summary>
-public class FS18_ROfRhoMultiOPInversion : IDemoScript
+internal class FS18_ROfRhoMultiOPInversion : IDemoScript
 {
     /// <summary>
     /// Sample script to demonstrate this class' stated purpose

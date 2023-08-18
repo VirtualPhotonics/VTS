@@ -10,7 +10,7 @@ namespace Vts.Scripting.MonteCarlo;
 /// <summary>
 /// Class using the Vts.dll library to demonstrate comparing to well-characterized unit test results
 /// </summary>
-public class MC08_UnitTestComparison : IDemoScript
+internal class MC08_UnitTestComparison : IDemoScript
 {
     /// <summary>
     /// Sample script to demonstrate this class' stated purpose

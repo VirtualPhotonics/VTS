@@ -9,7 +9,7 @@ namespace Vts.Scripting.ForwardSolvers;
 /// Class using the Vts.dll library to demonstrate predicting fluence in a multi-layer tissue
 /// as a function of radial extent and depth at a given set of optical properties 
 /// </summary>
-public class FS06_FluenceOfRhoAndZTwoLayer : IDemoScript
+internal class FS06_FluenceOfRhoAndZTwoLayer : IDemoScript
 {
     /// <summary>
     /// Sample script to demonstrate this class' stated purpose

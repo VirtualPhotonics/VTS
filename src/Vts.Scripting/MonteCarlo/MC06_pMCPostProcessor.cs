@@ -11,7 +11,7 @@ namespace Vts.Scripting.MonteCarlo;
 /// <summary>
 /// Class using the Vts.dll library to demonstrate using the Perturbation Monte Carlo post-processor
 /// </summary>
-public class MC06_pMCPostProcessor : IDemoScript
+internal class MC06_pMCPostProcessor : IDemoScript
 {
     /// <summary>
     /// Sample script to demonstrate this class' stated purpose

@@ -9,7 +9,7 @@ namespace Vts.Scripting.ForwardSolvers;
 /// Class using the Vts.dll library to demonstrate predicting reflectance as a function of spatial frequency 
 /// where optical properties vary as a function of wavelength using a range of power-law scatterer prefactors, A
 /// </summary>
-public class FS16_ROfFxMultiPowerLaw : IDemoScript
+internal class FS16_ROfFxMultiPowerLaw : IDemoScript
 {
     /// <summary>
     /// Sample script to demonstrate this class' stated purpose

@@ -9,7 +9,7 @@ namespace Vts.Scripting.ForwardSolvers;
 /// Class using the Vts.dll library to demonstrate predicting photon hitting density (PHD) for a two-layer medium
 /// as a function of radial extent and depth at a given set of optical properties and source-detector separation
 /// </summary>
-public class FS07_PHDOfRhoAndZTwoLayer : IDemoScript
+internal class FS07_PHDOfRhoAndZTwoLayer : IDemoScript
 {
     /// <summary>
     /// Sample script to demonstrate this class' stated purpose

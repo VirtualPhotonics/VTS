@@ -8,7 +8,7 @@ namespace Vts.Scripting.MonteCarlo;
 /// <summary>
 /// Class using the Vts.dll library to demonstrate comparing two Monte Carlo simulations with different photon counts
 /// </summary>
-public class MC04_N1000vsN100 : IDemoScript
+internal class MC04_N1000vsN100 : IDemoScript
 {
     /// <summary>
     /// Sample script to demonstrate this class' stated purpose

@@ -1,6 +1,8 @@
-﻿using Vts.Scripting.ForwardSolvers;
+﻿using System.Runtime.CompilerServices;
+using Vts.Scripting.ForwardSolvers;
 using Vts.Scripting.MonteCarlo;
 
+[assembly: InternalsVisibleTo("Vts.Scripting.Test")]
 namespace Vts.Scripting;
 
 /// <summary>
@@ -20,7 +22,7 @@ public class Program
     /// <summary>
     /// Method to run all Monte Carlo demos
     /// </summary>
-    public static void RunAllMonteCarloDemos()
+    internal static void RunAllMonteCarloDemos()
     {
         MC01_ROfRhoSimple.RunDemo();
         MC02_DAWvsCAW.RunDemo();
@@ -37,7 +39,7 @@ public class Program
     /// <summary>
     /// Method to run all Forward Solver demos
     /// </summary>
-    public static void RunAllForwardSolverDemos()
+    internal static void RunAllForwardSolverDemos()
     {
         FS01_ROfRhoAndFtSingle.RunDemo();
         FS02_ROfFxAndFtMulti.RunDemo();

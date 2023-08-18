@@ -9,7 +9,7 @@ namespace Vts.Scripting.ForwardSolvers;
 /// Class using the Vts.dll library to demonstrate predicting absorbed energy as a function of 
 /// radial extent and depth at a given set of optical properties 
 /// </summary>
-public class FS08_AbsorbedEnergyOfRhoAndZ : IDemoScript
+internal class FS08_AbsorbedEnergyOfRhoAndZ : IDemoScript
 {
     /// <summary>
     /// Sample script to demonstrate this class' stated purpose

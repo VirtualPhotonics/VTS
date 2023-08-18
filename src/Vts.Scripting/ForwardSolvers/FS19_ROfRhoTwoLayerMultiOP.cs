@@ -8,7 +8,7 @@ namespace Vts.Scripting.ForwardSolvers;
 /// Class using the Vts.dll library to demonstrate predicting reflectance as a function of source-detector separation
 /// for multiple sets of optical properties using a two-layer forward solver
 /// </summary>
-public class FS19_ROfRhoTwoLayerMultiOP : IDemoScript
+internal class FS19_ROfRhoTwoLayerMultiOP : IDemoScript
 {
     /// <summary>
     /// Sample script to demonstrate this class' stated purpose

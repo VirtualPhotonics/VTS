@@ -9,7 +9,7 @@ namespace Vts.Scripting.ForwardSolvers;
 /// Class using the Vts.dll library to demonstrate predicting reflectance as a function of spatial frequency 
 /// where optical properties vary as a function of wavelength using a Mie-theory scatterer
 /// </summary>
-public class FS15_ROfFxMultiOPMie : IDemoScript
+internal class FS15_ROfFxMultiOPMie : IDemoScript
 {
     /// <summary>
     /// Sample script to demonstrate this class' stated purpose
