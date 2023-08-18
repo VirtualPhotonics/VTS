@@ -14,7 +14,7 @@ public class Program
     /// <param name="args"></param>
     public static void Main(string[] args)
     {
-        FS19_ROfRhoTwoLayerMultiOP.RunDemo();
+        FS20_ROfFxTwoLayerMultiOP.RunDemo();
     }
 
     /// <summary>
@@ -58,5 +58,6 @@ public class Program
         FS17_ROfRhoMultiOP.RunDemo();
         FS18_ROfRhoMultiOPInversion.RunDemo();
         FS19_ROfRhoTwoLayerMultiOP.RunDemo();
+        FS20_ROfFxTwoLayerMultiOP.RunDemo();
     }
 }

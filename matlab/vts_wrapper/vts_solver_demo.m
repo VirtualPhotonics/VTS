@@ -608,7 +608,7 @@ op(3,:,:) = [opsC];
 
 fx = 0:0.01:0.5; % range of spatial frequencies in 1/mm
 test = VtsSolvers.ROfFxTwoLayer(op, topLayerThickness, fx);
-f = figure; semilogy(fx, test);
+f = figure; plot(fx, test);
 set(f,'Name','2-Layer Reflectance vs Fx for various top Layer Optical Properties');
 % create the legend with just the mua value from the top layer optical properties
 options = [{'FontSize', 12}; {'Location', 'NorthEast'}];
