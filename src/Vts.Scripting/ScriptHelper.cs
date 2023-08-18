@@ -1,6 +1,5 @@
 ﻿global using static Vts.Scripting.ScriptHelper;
 using Vts.Common;
-using Vts.MonteCarlo;
 using Plotly.NET.CSharp;
 using Plotly.NET.LayoutObjects;
 
@@ -26,7 +25,7 @@ public static class ScriptHelper
         {
             midpoints[i] = endpoints[i + 1] - endpoints[i];
         }
-        return endpoints;
+        return midpoints;
     }
 
     /// <summary>
@@ -41,22 +40,6 @@ public static class ScriptHelper
             values.Where((_, i) => (i - skip) % n == 0);
 
     /// <summary>
-    /// Helper extension method that returns an array of all detectors matching the concrete type TDetector
-    /// </summary>
-    /// <typeparam name="TDetector">Concrete type to match</typeparam>
-    /// <param name="output">The simulation output source</param>
-    /// <returns>Array of all detectors matching the concrete type TDetector</returns>
-    public static TDetector[] GetAllDetectorsOfType<TDetector>(this SimulationOutput output)
-    {
-        var detectors = output?.ResultsDictionary?.Values
-            .Where(d => d is TDetector)
-            .Select(d => (TDetector)d)
-            .ToArray();
-
-        return detectors ?? Array.Empty<TDetector>();
-    }
-
-    /// <summary>
     /// Method to create a standard scatter chart from the specified x and y values using Plotly.NET
     /// </summary>
     /// <param name="xValues">The values for the x axis.</param>
@@ -67,7 +50,7 @@ public static class ScriptHelper
     /// <returns>A `GenericChart` instance representing the scatter chart.</returns>
     public static Plotly.NET.GenericChart.GenericChart ScatterChart(double[] xValues, double[] yValues, string xLabel = "", string yLabel = "", string title = "")
     {
-        return Plotly.NET.CSharp.Chart.Point<double, double, string>(xValues, yValues).WithStandardStyling(xLabel, yLabel, title);
+        return Chart.Point<double, double, string>(xValues, yValues).WithStandardStyling(xLabel, yLabel, title);
     }
 
     /// <summary>
@@ -81,7 +64,7 @@ public static class ScriptHelper
     /// <returns>A `GenericChart` instance representing the line chart.</returns>
     public static Plotly.NET.GenericChart.GenericChart LineChart(double[] xValues, double[] yValues, string xLabel = "", string yLabel = "", string title = "")
     {
-        return Plotly.NET.CSharp.Chart.Line<double, double, string>(xValues, yValues).WithStandardStyling(xLabel, yLabel, title);
+        return Chart.Line<double, double, string>(xValues, yValues).WithStandardStyling(xLabel, yLabel, title);
     }
 
     /// <summary>

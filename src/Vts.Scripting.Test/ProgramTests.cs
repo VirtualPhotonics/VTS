@@ -19,4 +19,10 @@ public class ProgramTests
     {
         Assert.DoesNotThrow(() => Program.RunAllForwardSolverDemos(showPlots: false));
     }
+
+    [Test]
+    public void Confirm_RunAllShortCourseDemos_Does_Not_Throw()
+    {
+        Assert.DoesNotThrow(() => Program.RunAllShortCourseDemos(showPlots: false));
+    }
 }

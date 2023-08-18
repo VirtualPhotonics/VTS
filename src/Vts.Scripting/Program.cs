@@ -12,7 +12,7 @@ public class Program
     /// <param name="args"></param>
     public static void Main(string[] args)
     {
-        ForwardSolvers.Demo22ROfRhoAndFtTwoLayerMultiOP.RunDemo();
+        ShortCourse.Demo01AFluenceOfRhoAndZ.RunDemo();
     }
 
     /// <summary>
@@ -59,5 +59,13 @@ public class Program
         ForwardSolvers.Demo20ROfFxTwoLayerMultiOP.RunDemo(showPlots);
         ForwardSolvers.Demo21ROfRhoAndFtTwoLayerMultiOP.RunDemo(showPlots);
         ForwardSolvers.Demo22ROfRhoAndFtTwoLayerMultiOP.RunDemo(showPlots);
+    }
+
+    /// <summary>
+    /// Method to run all Short Course examples
+    /// </summary>
+    internal static void RunAllShortCourseDemos(bool showPlots = true)
+    {
+        ShortCourse.Demo01AFluenceOfRhoAndZ.RunDemo(showPlots);
     }
 }
