@@ -15,4 +15,8 @@
   <ItemGroup>
     <ProjectReference Include="..\Vts\Vts.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="ShortCourse\" />
+  </ItemGroup>
 </Project>
