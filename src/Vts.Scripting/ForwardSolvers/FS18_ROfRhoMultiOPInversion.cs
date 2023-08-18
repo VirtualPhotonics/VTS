@@ -1,19 +1,8 @@
 ﻿using Vts.Common;
-using Vts.MonteCarlo.Tissues;
-using Vts.MonteCarlo.Detectors;
-using Vts.MonteCarlo;
-using Vts.MonteCarlo.Factories;
-using Vts.MonteCarlo.PostProcessing;
 using Plotly.NET.CSharp;
-using Vts.Factories;
 using Vts.Modeling.Optimizers;
-using System.ComponentModel;
-using System.Numerics;
-using Vts.MonteCarlo.PhotonData;
 using Vts.Modeling.ForwardSolvers;
 using Vts.SpectralMapping;
-using Vts.MonteCarlo.IO;
-using Vts.IO;
 
 namespace Vts.Scripting.MonteCarlo;
 
