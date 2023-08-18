@@ -9,14 +9,14 @@ namespace Vts.Scripting.ForwardSolvers;
 /// Class using the Vts.dll library to demonstrate predicting reflectance as a function of time at a fixed source-detector location
 /// for multiple sets of optical properties using a two-layer forward solver
 /// </summary>
-internal class Demo21ROfRhoAndTimeTwoLayerMultiOP : IDemoScript
+internal class Demo21ROfRhoAndFtTwoLayerMultiOP : IDemoScript
 {
     /// <summary>
     /// Sample script to demonstrate this class' stated purpose
     /// </summary>
     public static void RunDemo(bool showPlots = true)
     {
-        // Example 20: predict R(t) at a fixed source-detector location based on a standard diffusion approximation solution
+        // Example 21: predict R(t) at a fixed source-detector location based on a standard diffusion approximation solution
         // to the time-dependent RTE for multiple sets of optical properties using a two-layer forward solver
 
         // Solver type options:
@@ -66,7 +66,7 @@ internal class Demo21ROfRhoAndTimeTwoLayerMultiOP : IDemoScript
             new LayerOpticalPropertyRegion(zRange: new DoubleRange(0, 2, 2),  regionOP: opsBottomLayer[2]),
         };
 
-        // predict the reflectance at each specified optical properties for the given s-d separation
+        // predict reflectance versus time at each specified optical properties for the given s-d separation
         var rho = 10; // s-d separation in mm
         var rOfTime1 = solver.ROfRhoAndTime(op1, rho, ts);
         var rOfTime2 = solver.ROfRhoAndTime(op2, rho, ts);
@@ -79,7 +79,7 @@ internal class Demo21ROfRhoAndTimeTwoLayerMultiOP : IDemoScript
                     title: $"R(t) [mm-2*s-1] @ rho={rho}mm (mua1={op1[0].RegionOP.Mua:F3}, mua2={op1[1].RegionOP.Mua:F3})"),
                 LineChart(ts, rOfTime2, xLabel: "t [ns]", yLabel: $"R(t) [mm-2*s-1] @ rho={rho}mm",
                     title: $"R(t) [mm-2*s-1] @ rho={rho}mm (mua1={op2[0].RegionOP.Mua:F3}, mua2={op2[1].RegionOP.Mua:F3})"),
-                LineChart(ts, rOfTime3, xLabel: "t [ns]", yLabel: $"R(t) [mm-2*s-1] @ rho= {rho} mm",
+                LineChart(ts, rOfTime3, xLabel: "t [ns]", yLabel: $"R(t) [mm-2*s-1] @ rho= {rho}mm",
                     title: $"R(t) [mm-2*s-1] @ rho={rho}mm (mua1={op3[0].RegionOP.Mua:F3}, mua2={op3[1].RegionOP.Mua:F3})")
             }
         );

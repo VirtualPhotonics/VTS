@@ -22,7 +22,7 @@ internal class Demo19ROfRhoTwoLayerMultiOP : IDemoScript
         // PointSourceSDA,DistributedGaussianSourceSDA, DistributedPointSourceSDA,
         // MonteCarlo(basic scaled), Nurbs(scaled with smoothing and adaptive binning)
         var solver = new TwoLayerSDAForwardSolver();
-        var rhos = new DoubleRange(start: 0.5, stop: 9.5, number: 19).AsEnumerable().ToArray(); // range of spatial frequencies in 1/mm
+        var rhos = new DoubleRange(start: 0.5, stop: 9.5, number: 19).AsEnumerable().ToArray(); // range of radial distances in 1/mm
         var op1 = new IOpticalPropertyRegion[]
         {
             new LayerOpticalPropertyRegion(zRange: new DoubleRange(0, 2, 2),  regionOP: new OpticalProperties(mua: 0.01, musp: 1, g: 0.8, n: 1.4)),
@@ -40,11 +40,11 @@ internal class Demo19ROfRhoTwoLayerMultiOP : IDemoScript
         };
 
         // predict the reflectance at each specified optical properties for the given s-d separation
-        var rOfRho1 = rhos.Select(rho => solver.ROfRho(op1, rho)).ToArray();
-        var rOfRho2 = rhos.Select(rho => solver.ROfRho(op2, rho)).ToArray();
-        var rOfRho3 = rhos.Select(rho => solver.ROfRho(op3, rho)).ToArray();
+        var rOfRho1 = solver.ROfRho(op1, rhos);
+        var rOfRho2 = solver.ROfRho(op2, rhos);
+        var rOfRho3 = solver.ROfRho(op3, rhos);
 
-        // Plot log(reflectance) as a function of spatial frequencies at each set of optical properties
+        // Plot log(reflectance) as a function of source-detector separation at each set of optical properties
         var chart = Chart.Combine(
             new[] {
                 LineChart(rhos, rOfRho1.Select(r => Math.Log(r)).ToArray(), xLabel: "rho [mm]", yLabel: $"R(rho) [mm-2]",

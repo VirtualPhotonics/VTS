@@ -39,10 +39,10 @@ internal class Demo20ROfFxTwoLayerMultiOP : IDemoScript
             new LayerOpticalPropertyRegion(zRange: new DoubleRange(0, 2, 2),  regionOP: new OpticalProperties(mua: 0.01, musp: 1, g: 0.8, n: 1.4)),
         };
 
-        // predict the reflectance at each specified optical properties for the given s-d separation
-        var rOfFx1 = fxs.Select(fx => solver.ROfFx(op1, fx)).ToArray();
-        var rOfFx2 = fxs.Select(fx => solver.ROfFx(op2, fx)).ToArray();
-        var rOfFx3 = fxs.Select(fx => solver.ROfFx(op3, fx)).ToArray();
+        // predict the reflectance versus spatial frequency at each specified optical properties
+        var rOfFx1 = solver.ROfFx(op1, fxs);
+        var rOfFx2 = solver.ROfFx(op2, fxs);
+        var rOfFx3 = solver.ROfFx(op3, fxs);
 
         // Plot reflectance as a function of spatial frequencies at each set of optical properties
         var chart = Chart.Combine(

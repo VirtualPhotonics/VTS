@@ -16,7 +16,7 @@ public class Program
     /// <param name="args"></param>
     public static void Main(string[] args)
     {
-        Demo21ROfRhoAndTimeTwoLayerMultiOP.RunDemo();
+        Demo22ROfRhoAndFtTwoLayerMultiOP.RunDemo();
     }
 
     /// <summary>
@@ -61,6 +61,7 @@ public class Program
         Demo18ROfRhoMultiOPInversion.RunDemo(showPlots);
         Demo19ROfRhoTwoLayerMultiOP.RunDemo(showPlots);
         Demo20ROfFxTwoLayerMultiOP.RunDemo(showPlots);
-        Demo21ROfRhoAndTimeTwoLayerMultiOP.RunDemo(showPlots);
+        Demo21ROfRhoAndFtTwoLayerMultiOP.RunDemo(showPlots);
+        Demo22ROfRhoAndFtTwoLayerMultiOP.RunDemo(showPlots);
     }
 }
