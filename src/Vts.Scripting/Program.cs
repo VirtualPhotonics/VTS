@@ -12,7 +12,7 @@ public class Program
     /// <param name="args"></param>
     public static void Main(string[] args)
     {
-        ShortCourse.Demo01AFluenceOfRhoAndZ.RunDemo();
+        ShortCourse.Demo02AnalogVsContinuousWithReflectance.RunDemo();
     }
 
     /// <summary>
@@ -66,7 +66,8 @@ public class Program
     /// </summary>
     internal static void RunAllShortCourseDemos(bool showPlots = true)
     {
-        ShortCourse.Demo01AFluenceOfRhoAndZ.RunDemo(showPlots);
-        ShortCourse.Demo01BFluenceOfRhoAndZ.RunDemo(showPlots);
+        ShortCourse.Demo01APhotonCountWithFluence.RunDemo(showPlots);
+        ShortCourse.Demo01BAnalogVsDiscreteWithFluence.RunDemo(showPlots);
+        ShortCourse.Demo02AnalogVsContinuousWithReflectance.RunDemo(showPlots);
     }
 }

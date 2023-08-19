@@ -5,24 +5,22 @@ using Vts.MonteCarlo.Detectors;
 using Vts.MonteCarlo.Sources;
 using Vts.MonteCarlo.Tissues;
 using Plotly.NET.CSharp;
-using System;
 
 namespace Vts.Scripting.ShortCourse;
 
 /// <summary>
 /// Class using the Vts.dll library to demonstrate performing a Monte Carlo simulation 
-/// to estimate fluence versus radial position using different absorption methods
+/// to estimate fluence versus radial position and depth for increasing photon counts
 /// </summary>
-internal class Demo01BFluenceOfRhoAndZ : IDemoScript
+internal class Demo01APhotonCountWithFluence : IDemoScript
 {
     /// <summary>
     /// Sample script to demonstrate this class' stated purpose
     /// </summary>
     public static void RunDemo(bool showPlots = true)
     {
-        // Short Course Monte Carlo Example 01b: run a Monte Carlo simulation to estimate fluence versus
-        // radial position and depth using different absorption methods. This example is similar to Example 01a
-        // but runs 8 total combos: the same 4 different photon counts, now for each of 2 absorption weighting combos
+        // Short Course Monte Carlo Example 01a: run a Monte Carlo simulation to estimate fluence versus
+        // radial position and depth for increasing photon counts
 
         // set up the simulation info that will be constant throughout the set of simulations
 
@@ -39,17 +37,17 @@ internal class Demo01BFluenceOfRhoAndZ : IDemoScript
         var tissueInput = new MultiLayerTissueInput
         {
             Regions = new[]
-                {
-                    new LayerTissueRegion(
-                        zRange: new(double.NegativeInfinity, 0),         // air "z" range
-                        op: new(mua: 0.0, musp: 1E-10, g: 1.0, n: 1.0)), // air optical properties
-                    new LayerTissueRegion(
-                        zRange: new(0, 100),                             // tissue "z" range ("semi-infinite" slab, 100mm thick)
-                        op: new(mua: 0.01, musp: 1.0, g: 0.8, n: 1.4)),  // tissue optical properties
-                    new LayerTissueRegion(
-                        zRange: new(100, double.PositiveInfinity),       // air "z" range
-                        op: new(mua: 0.0, musp: 1E-10, g: 1.0, n: 1.0))  // air optical properties
-                }
+            {
+                new LayerTissueRegion(
+                    zRange: new(double.NegativeInfinity, 0),         // air "z" range
+                    op: new(mua: 0.0, musp: 1E-10, g: 1.0, n: 1.0)), // air optical properties
+                new LayerTissueRegion(
+                    zRange: new(0, 100),                             // tissue "z" range ("semi-infinite" slab, 100mm thick)
+                    op: new(mua: 0.01, musp: 1.0, g: 0.8, n: 1.4)),  // tissue optical properties
+                new LayerTissueRegion(
+                    zRange: new(100, double.PositiveInfinity),       // air "z" range
+                    op: new(mua: 0.0, musp: 1E-10, g: 1.0, n: 1.0))  // air optical properties
+            }
         };
 
         // define a single fluence(rho,z) detector by the endpoints of rho and z bins
@@ -68,31 +66,16 @@ internal class Demo01BFluenceOfRhoAndZ : IDemoScript
             PhaseFunctionType = PhaseFunctionType.HenyeyGreenstein
         };
 
-        // define how many different photon count and absorption weighting combos to simulate
-        var simulationTuples = new[]
-        { 
-            (numPhotons:    10, weightingType: AbsorptionWeightingType.Analog), 
-            (numPhotons:   100, weightingType: AbsorptionWeightingType.Analog),
-            (numPhotons:  1000, weightingType: AbsorptionWeightingType.Analog),
-            (numPhotons: 10000, weightingType: AbsorptionWeightingType.Analog),
-            (numPhotons:    10, weightingType: AbsorptionWeightingType.Discrete),
-            (numPhotons:   100, weightingType: AbsorptionWeightingType.Discrete),
-            (numPhotons:  1000, weightingType: AbsorptionWeightingType.Discrete),
-            (numPhotons: 10000, weightingType: AbsorptionWeightingType.Discrete),
-        };
+        // define how many different photon counts to simulate
+        var numPhotonsArray = new[] { 10, 100, 1000, 10000 };
 
         // create an array of simulations, one for each different photon count value
-        var allSimulations = simulationTuples.Select(tuple => 
+        var allSimulations = numPhotonsArray.Select(n => 
             new MonteCarloSimulation(
                 new SimulationInput(
-                    numberOfPhotons: tuple.numPhotons,
+                    numberOfPhotons: n,
                     outputName: "results",
-                    simulationOptions: new SimulationOptions
-                    {
-                        Seed = 0, // -1 will generate a random seed
-                        AbsorptionWeightingType = tuple.weightingType,
-                        PhaseFunctionType = PhaseFunctionType.HenyeyGreenstein
-                    },
+                    simulationOptions: options,
                     sourceInput: sourceInput,
                     tissueInput: tissueInput,
                     detectorInputs: detectorInputs)
@@ -108,23 +91,17 @@ internal class Demo01BFluenceOfRhoAndZ : IDemoScript
         var allFluenceSecondMoments = allFluenceDetectors.Select(detector => detector.SecondMoment.ToEnumerable<double>().ToArray()).ToArray();
 
         // compute the relative error (standard deviation / mean) for each simulation
-        var allRelativeErrors = simulationTuples.Select((tuple, tupleIdx) =>
-            allFluenceMeans[tupleIdx].Zip(allFluenceSecondMoments[tupleIdx], (mean, secondMoment) => 
-                Math.Sqrt((secondMoment - mean * mean) / tuple.numPhotons) / mean).ToArray()).ToArray();
-
-        // compute the relative error difference between the analog and discrete absorption weighting simulations
-        var analogRelativeErrors = allRelativeErrors.Take(4).ToArray();
-        var discreteRelativeErrors = allRelativeErrors.Skip(4).ToArray();
-        var relativeErrorDifference = analogRelativeErrors.Zip(discreteRelativeErrors, (analog, discrete) =>
-                analog.Zip(discrete, (a, d) => a - d).ToArray()).ToArray();
+        var allRelativeErrors = numPhotonsArray.Select((numPhotons, npidx) =>
+            allFluenceMeans[npidx].Zip(allFluenceSecondMoments[npidx], (mean, secondMoment) => 
+                Math.Sqrt((secondMoment - mean * mean) / numPhotons) / mean).ToArray()).ToArray();
 
         // plot the results using Plotly.NET
         var rhos = rhoRange.GetMidpoints();
         var zs = zRange.GetMidpoints();
         var allRhos = rhos.Select(rho => -rho).Reverse().Concat(rhos).ToArray(); // duplicate for -rho to make symmetric
-        var fluenceAndRelativeErrorCharts = simulationTuples.Select((tuple, tupleIdx) =>
+        var charts = numPhotonsArray.Select((numPhotons, npidx) =>
         {
-            var fluenceRowsToPlot = allFluenceMeans[tupleIdx]
+            var fluenceRowsToPlot = allFluenceMeans[npidx]
                 .Select(f => Math.Log(f)) // take log for visualization purposes (negative infinity/NaN values won't be rendered )
                 .Chunk(zs.Length) // break the heatmap into rows (inner dimension is zs)   
                 .ToArray();
@@ -132,7 +109,7 @@ internal class Demo01BFluenceOfRhoAndZ : IDemoScript
             var fluenceMap = Heatmap(values: fluenceDataToPlot, x: allRhos, y: zs,
                 xLabel: "ρ [mm]", yLabel: "z [mm]", title: $"log(Φ(ρ, z))");
 
-            var relativeErrorRowsToPlot = allRelativeErrors[tupleIdx]
+            var relativeErrorRowsToPlot = allRelativeErrors[npidx]
                 .Chunk(zs.Length) // break the heatmap into rows (inner dimension is zs)   
                 .ToArray();
             var relativeErrorDataToPlot = relativeErrorRowsToPlot.Reverse().Concat(relativeErrorRowsToPlot).ToArray(); // duplicate for -rho to make symmetric
@@ -143,21 +120,13 @@ internal class Demo01BFluenceOfRhoAndZ : IDemoScript
 
             return combined;
         });
-        var analogVsDiscreteRelativeErrorCharts = relativeErrorDifference.Select((difference, differenceIdx) =>
-        {
-            var differenceRowsToPlot = relativeErrorDifference[differenceIdx]
-                .Chunk(zs.Length) // break the heatmap into rows (inner dimension is zs)   
-                .ToArray();
-            var differenceDataToPlot = differenceRowsToPlot.Reverse().Concat(differenceRowsToPlot).ToArray(); // duplicate for -rho to make symmetric
-            var differenceMap = Heatmap(values: differenceDataToPlot, x: allRhos, y: zs,
-                xLabel: "ρ [mm]", yLabel: "z [mm]", title: $"Δ-error(ρ, z)");
-            return differenceMap;
-        });
 
         if (showPlots)
         {
-            fluenceAndRelativeErrorCharts.ForEach(chart => chart.Show());
-            analogVsDiscreteRelativeErrorCharts.ForEach(chart => chart.Show());
+            foreach (var chart in charts)
+            {
+                chart.Show();
+            }
         }
     }
 }
