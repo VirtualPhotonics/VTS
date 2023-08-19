@@ -1,5 +1,4 @@
 ﻿using MathNet.Numerics.Random;
-using Moq;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -7,6 +6,7 @@ using System.IO;
 using System.Linq;
 // using the following for user-defined ROfXDetector implementation
 using System.Runtime.Serialization;
+using NSubstitute;
 using Vts.Common;
 using Vts.IO;
 using Vts.MonteCarlo;
@@ -173,9 +173,9 @@ namespace Vts.Test.MonteCarlo.Factories
             Assert.Throws<ArgumentException>(() => DetectorFactory.RegisterDetector(
                 typeof(RDiffuseDetectorInput), detectorBadType));
             // the following does not check exception it is aimed at
-            var detectorInputMock = new Mock<IDetectorInput>();
+            var detectorInputMock = Substitute.For<IDetectorInput>();
             var detectorInputMockType = detectorInputMock.GetType();
-            Assert.Throws<ArgumentException>(() => DetectorFactory.RegisterDetector(
+            Assert.Throws<NotImplementedException>(() => DetectorFactory.RegisterDetector(
                 detectorInputMockType, typeof(IDetector)));
         }
 
