@@ -201,6 +201,7 @@ namespace Vts.MonteCarlo
                 if (type.Equals(typeof(double[])))
                 {
                     var listOfMeans = detectors.Select(d => (double[])((dynamic)d).Mean).ToList();
+                    if (listOfMeans.FirstOrDefault() == null) continue;
                     var listOfSMs = detectors.Select(d => (double[])((dynamic)d).SecondMoment).ToList();
                     var dim = listOfMeans.FirstOrDefault().Length;
                     var means = new double[dim];
@@ -218,6 +219,7 @@ namespace Vts.MonteCarlo
                 if (type.Equals(typeof(double[,])))
                 {
                     var listOfMeans = detectors.Select(d => (double[,])((dynamic)d).Mean).ToList();
+                    if (listOfMeans.FirstOrDefault() == null) continue;
                     var listOfSMs = detectors.Select(d => (double[,])((dynamic)d).SecondMoment).ToList();
                     var dim1 = listOfMeans.FirstOrDefault().GetLength(0);
                     var dim2 = listOfMeans.FirstOrDefault().GetLength(1);
@@ -239,6 +241,7 @@ namespace Vts.MonteCarlo
                 if (type.Equals(typeof(double[,,])))
                 {
                     var listOfMeans = detectors.Select(d => (double[,,])((dynamic)d).Mean).ToList();
+                    if (listOfMeans.FirstOrDefault() == null) continue;
                     var listOfSMs = detectors.Select(d => (double[,,])((dynamic)d).SecondMoment).ToList();
                     var dim1 = listOfMeans.FirstOrDefault().GetLength(0);
                     var dim2 = listOfMeans.FirstOrDefault().GetLength(1);
@@ -264,6 +267,7 @@ namespace Vts.MonteCarlo
                 if (type.Equals(typeof(double[,,,])))
                 {
                     var listOfMeans = detectors.Select(d => (double[,,,])((dynamic)d).Mean).ToList();
+                    if (listOfMeans.FirstOrDefault() == null) continue;
                     var listOfSMs = detectors.Select(d => (double[,,,])((dynamic)d).SecondMoment).ToList();
                     var dim1 = listOfMeans.FirstOrDefault().GetLength(0);
                     var dim2 = listOfMeans.FirstOrDefault().GetLength(1);
@@ -294,6 +298,7 @@ namespace Vts.MonteCarlo
                 if (type.Equals(typeof(double[,,,,])))
                 {
                     var listOfMeans = detectors.Select(d => (double[,,,,])((dynamic)d).Mean).ToList();
+                    if (listOfMeans.FirstOrDefault() == null) continue;
                     var listOfSMs = detectors.Select(d => (double[,,,,])((dynamic)d).SecondMoment).ToList();
                     var dim1 = listOfMeans.FirstOrDefault().GetLength(0);
                     var dim2 = listOfMeans.FirstOrDefault().GetLength(1);
@@ -329,6 +334,7 @@ namespace Vts.MonteCarlo
                 if (type.Equals(typeof(Complex[])))
                 {
                     var listOfMeans = detectors.Select(d => (Complex[])((dynamic)d).Mean).ToList();
+                    if (listOfMeans.FirstOrDefault() == null) continue;
                     var listOfSMs = detectors.Select(d => (Complex[])((dynamic)d).SecondMoment).ToList();
                     var dim = listOfMeans.FirstOrDefault().Length;
                     var means = new Complex[dim];
@@ -349,6 +355,7 @@ namespace Vts.MonteCarlo
                 if (type.Equals(typeof(Complex[,])))
                 {
                     var listOfMeans = detectors.Select(d => (Complex[,])((dynamic)d).Mean).ToList();
+                    if (listOfMeans.FirstOrDefault() == null) continue;
                     var listOfSMs = detectors.Select(d => (Complex[,])((dynamic)d).SecondMoment).ToList();
                     var dim1 = listOfMeans.FirstOrDefault().GetLength(0);
                     var dim2 = listOfMeans.FirstOrDefault().GetLength(1);
@@ -373,6 +380,7 @@ namespace Vts.MonteCarlo
                 if (type.Equals(typeof(Complex[,,])))
                 {
                     var listOfMeans = detectors.Select(d => (Complex[,,])((dynamic)d).Mean).ToList();
+                    if (listOfMeans.FirstOrDefault() == null) continue;
                     var listOfSMs = detectors.Select(d => (Complex[,,])((dynamic)d).SecondMoment).ToList();
                     var dim1 = listOfMeans.FirstOrDefault().GetLength(0);
                     var dim2 = listOfMeans.FirstOrDefault().GetLength(1);
@@ -402,6 +410,7 @@ namespace Vts.MonteCarlo
                 if (type.Equals(typeof(Complex[,,,])))
                 {
                     var listOfMeans = detectors.Select(d => (Complex[,,,])((dynamic)d).Mean).ToList();
+                    if (listOfMeans.FirstOrDefault() == null) continue;
                     var listOfSMs = detectors.Select(d => (Complex[,,,])((dynamic)d).SecondMoment).ToList();
                     var dim1 = listOfMeans.FirstOrDefault().GetLength(0);
                     var dim2 = listOfMeans.FirstOrDefault().GetLength(1);
@@ -435,6 +444,7 @@ namespace Vts.MonteCarlo
                 if (type.Equals(typeof(Complex[,,,,])))
                 {
                     var listOfMeans = detectors.Select(d => (Complex[,,,,])((dynamic)d).Mean).ToList();
+                    if (listOfMeans.FirstOrDefault() == null) continue;
                     var listOfSMs = detectors.Select(d => (Complex[,,,,])((dynamic)d).SecondMoment).ToList();
                     var dim1 = listOfMeans.FirstOrDefault().GetLength(0);
                     var dim2 = listOfMeans.FirstOrDefault().GetLength(1);
