@@ -1,14 +1,4 @@
-﻿using Vts.Common;
-using Vts.Extensions;
-using Vts.MonteCarlo;
-using Vts.MonteCarlo.Detectors;
-using Vts.MonteCarlo.Sources;
-using Vts.MonteCarlo.Tissues;
-using Plotly.NET.CSharp;
-using static System.Net.WebRequestMethods;
-using System.Reflection.Emit;
-
-namespace Vts.Scripting.ShortCourse;
+﻿namespace Vts.Scripting.ShortCourse;
 
 /// <summary>
 /// Class using the Vts.dll library to demonstrate performing a Monte Carlo simulation 

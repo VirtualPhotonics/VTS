@@ -1,9 +1,4 @@
-﻿using Vts.Common;
-using Vts.Modeling.ForwardSolvers;
-using Plotly.NET.CSharp;
-using Vts.Factories;
-
-namespace Vts.Scripting.ForwardSolvers;
+﻿namespace Vts.Scripting.ForwardSolvers;
 
 /// <summary>
 /// Class using the Vts.dll library to demonstrate predicting photon hitting density (PHD)
@@ -33,12 +28,12 @@ internal class Demo05PHDOfRhoAndZ : IDemoScript
         var phd = ComputationFactory.GetPHD(forwardSolverType: ForwardSolverType.DistributedPointSourceSDA,
             fluenceOfRhoAndZ, sourceDetectorSeparation, ops: new[] { op }, rhos, zs);
 
-        var imageSize = rhos.Length * zs.Length;
         var allRhos = rhos;//.Select(rho => -rho).Reverse().Concat(rhos).ToArray(); // duplicate for -rho to make symmetric
         // Plot the CW fluence: log(fluence(rho, z, ft=0GHz)) 
         var phdRowsToPlot = phd
             .Select(fluence => Math.Log(fluence)) // take log for visualization purposes
-            .Chunk(zs.Length); // break the heatmap into rows (inner dimension is zs)        
+            .Chunk(zs.Length) // break the heatmap into rows (inner dimension is zs)        
+            .ToArray();
         var allPhdRowsToPlot = phdRowsToPlot;//.Reverse().Concat(phdRowsToPlot).ToArray(); // duplicate for -rho to make symmetric
         var phdChart = Heatmap(
             values: allPhdRowsToPlot, x: allRhos, y: zs,

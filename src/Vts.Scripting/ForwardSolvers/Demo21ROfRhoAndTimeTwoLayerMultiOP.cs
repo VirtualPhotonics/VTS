@@ -1,9 +1,4 @@
-﻿using Vts.Common;
-using Vts.Modeling.ForwardSolvers;
-using Plotly.NET.CSharp;
-using Vts.SpectralMapping;
-
-namespace Vts.Scripting.ForwardSolvers;
+﻿namespace Vts.Scripting.ForwardSolvers;
 
 /// <summary>
 /// Class using the Vts.dll library to demonstrate predicting reflectance as a function of time at a fixed source-detector location

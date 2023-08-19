@@ -12,7 +12,7 @@ public class Program
     /// <param name="args"></param>
     public static void Main(string[] args)
     {
-        ShortCourse.Demo02AnalogVsContinuousWithReflectance.RunDemo();
+        ShortCourse.Demo01BAnalogVsDiscreteWithFluence.RunDemo();
     }
 
     /// <summary>

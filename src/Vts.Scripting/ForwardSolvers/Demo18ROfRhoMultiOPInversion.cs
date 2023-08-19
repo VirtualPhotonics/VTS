@@ -1,10 +1,4 @@
-﻿using Vts.Common;
-using Plotly.NET.CSharp;
-using Vts.Modeling.Optimizers;
-using Vts.Modeling.ForwardSolvers;
-using Vts.SpectralMapping;
-
-namespace Vts.Scripting.ForwardSolvers;
+﻿namespace Vts.Scripting.ForwardSolvers;
 
 /// <summary>
 /// Class using the Vts.dll library to demonstrate using the Perturbation Monte Carlo post-processor to calculate optical properties (i.e. "inversion")

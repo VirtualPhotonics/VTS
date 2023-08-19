@@ -1,4 +1,3 @@
-
 namespace Vts.Scripting.Test;
 
 public class ProgramTests

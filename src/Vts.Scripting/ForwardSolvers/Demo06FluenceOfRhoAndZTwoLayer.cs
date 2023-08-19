@@ -1,9 +1,4 @@
-﻿using Vts.Common;
-using Vts.Modeling.ForwardSolvers;
-using Vts.Factories;
-using Plotly.NET;
-
-namespace Vts.Scripting.ForwardSolvers;
+﻿namespace Vts.Scripting.ForwardSolvers;
 
 /// <summary>
 /// Class using the Vts.dll library to demonstrate predicting fluence in a multi-layer tissue
@@ -54,11 +49,11 @@ internal class Demo06FluenceOfRhoAndZTwoLayer : IDemoScript
             independentValues: new[] { rhos, zs },
             tissueRegions: opRegions);
 
-        var imageSize = rhos.Length * zs.Length;
         var allRhos = rhos.Select(rho => -rho).Reverse().Concat(rhos).ToArray(); // duplicate for -rho to make symmetric
         var fluenceRowsToPlot = fluenceOfRhoAndZ
             .Select(fluence => Math.Log(fluence)) // take log for visualization purposes
-            .Chunk(zs.Length); // break the heatmap into rows (inner dimension is zs)        
+            .Chunk(zs.Length) // break the heatmap into rows (inner dimension is zs)        
+            .ToArray();
         var allfluenceRowsToPlot = fluenceRowsToPlot.Reverse().Concat(fluenceRowsToPlot).ToArray(); // duplicate for -rho to make symmetric
         var fluenceChart = Heatmap(
             values: allfluenceRowsToPlot, x: allRhos, y: zs,

@@ -1,11 +1,4 @@
-﻿using Vts.Common;
-using Vts.MonteCarlo.Detectors;
-using Vts.MonteCarlo;
-using Vts.MonteCarlo.Factories;
-using Vts.MonteCarlo.PostProcessing;
-using Plotly.NET.CSharp;
-
-namespace Vts.Scripting.MonteCarlo;
+﻿namespace Vts.Scripting.MonteCarlo;
 
 /// <summary>
 /// Class using the Vts.dll library to demonstrate using the Monte Carlo post-processor

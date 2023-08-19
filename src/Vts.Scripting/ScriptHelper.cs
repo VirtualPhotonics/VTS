@@ -1,7 +1,4 @@
-﻿global using static Vts.Scripting.ScriptHelper;
-using Vts.Common;
-using Plotly.NET.CSharp;
-using Plotly.NET.LayoutObjects;
+﻿using Plotly.NET.LayoutObjects;
 
 namespace Vts.Scripting;
 

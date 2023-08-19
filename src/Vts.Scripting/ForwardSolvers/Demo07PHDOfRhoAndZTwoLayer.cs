@@ -1,9 +1,4 @@
-﻿using Vts.Common;
-using Vts.Modeling.ForwardSolvers;
-using Plotly.NET.CSharp;
-using Vts.Factories;
-
-namespace Vts.Scripting.ForwardSolvers;
+﻿namespace Vts.Scripting.ForwardSolvers;
 
 /// <summary>
 /// Class using the Vts.dll library to demonstrate predicting photon hitting density (PHD) for a two-layer medium
@@ -58,11 +53,11 @@ internal class Demo07PHDOfRhoAndZTwoLayer : IDemoScript
             fluenceOfRhoAndZ, sourceDetectorSeparation, new[]{ opRegions[0].RegionOP }, rhos, zs); // todo: pick op based on layer thickness?
 
         // plot the PHD @ 10 mm s-d separation
-        var imageSize = rhos.Length * zs.Length;
         var allRhos = rhos;//.Select(rho => -rho).Reverse().Concat(rhos).ToArray(); // duplicate for -rho to make symmetric
         var phdRowsToPlot = phd
             .Select(fluence => Math.Log(fluence)) // take log for visualization purposes
-            .Chunk(zs.Length); // break the heatmap into rows (inner dimension is zs)        
+            .Chunk(zs.Length) // break the heatmap into rows (inner dimension is zs)    
+            .ToArray();
         var allPhdRowsToPlot = phdRowsToPlot;//.Reverse().Concat(phdRowsToPlot).ToArray(); // duplicate for -rho to make symmetric
         var phdChart = Heatmap(
             values: allPhdRowsToPlot, x: allRhos, y: zs,

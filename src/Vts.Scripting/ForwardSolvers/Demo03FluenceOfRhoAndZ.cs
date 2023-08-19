@@ -1,10 +1,4 @@
-﻿using Vts.Common;
-using Vts.Modeling.ForwardSolvers;
-using Vts.SpectralMapping;
-using Plotly.NET;
-using System;
-
-namespace Vts.Scripting.ForwardSolvers;
+﻿namespace Vts.Scripting.ForwardSolvers;
 
 /// <summary>
 /// Class using the Vts.dll library to demonstrate predicting reflectance as a function of 
@@ -58,7 +52,8 @@ internal class Demo03FluenceOfRhoAndZ : IDemoScript
         var fluenceRowsToPlot = fluenceOfRhoAndZ            
             .Skip(wvi * imageSize) // skip to the last wavelength
             .Select(fluence => Math.Log(fluence)) // take log for visualization purposes
-            .Chunk(zs.Length); // break the heatmap into rows (inner dimension is zs)        
+            .Chunk(zs.Length) // break the heatmap into rows (inner dimension is zs)
+            .ToArray();
         var fluenceDataToPlot = fluenceRowsToPlot.Reverse().Concat(fluenceRowsToPlot).ToArray(); // duplicate for -rho to make symmetric
         var map = Heatmap(values: fluenceDataToPlot, x: allRhos, y: zs,
             xLabel: "ρ [mm]", yLabel: "z [mm]", title: $"log(Φ(ρ, z) @λ={wavelengths[wvi]}nm");

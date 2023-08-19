@@ -1,18 +1,4 @@
-﻿using Vts.Common;
-using Vts.MonteCarlo.Tissues;
-using Vts.MonteCarlo.Detectors;
-using Vts.MonteCarlo;
-using Vts.MonteCarlo.Factories;
-using Vts.MonteCarlo.PostProcessing;
-using Plotly.NET.CSharp;
-using Vts.Factories;
-using Vts.Modeling.Optimizers;
-using System.ComponentModel;
-using System.Numerics;
-using Vts.MonteCarlo.PhotonData;
-using Vts.Modeling.ForwardSolvers;
-
-namespace Vts.Scripting.MonteCarlo;
+﻿namespace Vts.Scripting.MonteCarlo;
 
 /// <summary>
 /// Class using the Vts.dll library to demonstrate using the Perturbation Monte Carlo post-processor to calculate optical properties (i.e. "inversion")
@@ -174,7 +160,7 @@ internal class Demo07pMCInversion : IDemoScript
         #region not implemented
         public double BeamDiameter { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
-        public event PropertyChangedEventHandler? PropertyChanged;
+        public event System.ComponentModel.PropertyChangedEventHandler? PropertyChanged;
 
         public double ROfRho(IOpticalPropertyRegion[] regions, double rho)
         {

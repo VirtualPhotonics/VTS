@@ -1,9 +1,4 @@
-﻿using Vts.Common;
-using Vts.Modeling.ForwardSolvers;
-using Vts.Factories;
-using Plotly.NET;
-
-namespace Vts.Scripting.ForwardSolvers;
+﻿namespace Vts.Scripting.ForwardSolvers;
 
 /// <summary>
 /// Class using the Vts.dll library to demonstrate predicting absorbed energy as a function of 
@@ -30,11 +25,11 @@ internal class Demo08AbsorbedEnergyOfRhoAndZ : IDemoScript
         var fluenceOfRhoAndZ = solver.FluenceOfRhoAndZ(new[] { op }, rhos, zs );
         var absorbedEnergyOfRhoAndZ = ComputationFactory.GetAbsorbedEnergy(fluenceOfRhoAndZ, op.Mua).ToArray();
 
-        var imageSize = rhos.Length * zs.Length;
         var allRhos = rhos.Select(rho => -rho).Reverse().Concat(rhos).ToArray(); // duplicate for -rho to make symmetric
         var absorbedEnergyRowsToPlot = absorbedEnergyOfRhoAndZ
             .Select(ae => Math.Log(ae)) // take log for visualization purposes
-            .Chunk(zs.Length); // break the heatmap into rows (inner dimension is zs)        
+            .Chunk(zs.Length) // break the heatmap into rows (inner dimension is zs)        
+            .ToArray();
         var allAbsorbedEnergyRowsToPlot = absorbedEnergyRowsToPlot.Reverse()
             .Concat(absorbedEnergyRowsToPlot).ToArray(); // duplicate for -rho to make symmetric
         var absorbedEnergyChart = Heatmap(

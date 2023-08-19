@@ -1,9 +1,4 @@
-﻿using Vts.Common;
-using Vts.MonteCarlo.Detectors;
-using Vts.MonteCarlo;
-using Plotly.NET.CSharp;
-
-namespace Vts.Scripting.MonteCarlo;
+﻿namespace Vts.Scripting.MonteCarlo;
 
 /// <summary>
 /// Class using the Vts.dll library to demonstrate comparing two Monte Carlo simulations with different photon counts

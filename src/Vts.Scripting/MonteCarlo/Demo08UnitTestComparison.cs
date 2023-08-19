@@ -1,11 +1,4 @@
-﻿using Vts.Common;
-using Vts.MonteCarlo.Detectors;
-using Vts.MonteCarlo;
-using Vts.MonteCarlo.Sources;
-using Vts.MonteCarlo.Tissues;
-using System.Numerics;
-
-namespace Vts.Scripting.MonteCarlo;
+﻿namespace Vts.Scripting.MonteCarlo;
 
 /// <summary>
 /// Class using the Vts.dll library to demonstrate comparing to well-characterized unit test results

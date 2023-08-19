@@ -1,10 +1,4 @@
-﻿using Vts.Common;
-using Vts.MonteCarlo;
-using Vts.MonteCarlo.Tissues;
-using Vts.MonteCarlo.Detectors;
-using Plotly.NET.CSharp;
-
-namespace Vts.Scripting.MonteCarlo;
+﻿namespace Vts.Scripting.MonteCarlo;
 
 /// <summary>
 /// Class using the Vts.dll library to demonstrate performing transmittance tallies in Monte Carlo simulations
