@@ -92,9 +92,8 @@ internal class Demo01AFluenceOfRhoAndZ : IDemoScript
         {
             var detectorResults = (FluenceOfRhoAndZDetector)allSimulationOutputs[npidx].ResultsDictionary["FluenceOfRhoAndZ"];
             var fluence1D = detectorResults.Mean.ToEnumerable<double>();
-            var minValueLog = Math.Log(fluence1D.Where(d => d > 0).Min());
             var fluenceRowsToPlot = fluence1D 
-                .Select(f => f > 0 ? Math.Log(f) : minValueLog) // take log for visualization purposes (replace zeros with min value)
+                .Select(f => Math.Log(f)) // take log for visualization purposes (negative infinity/NaN values won't be rendered )
                 .Chunk(zs.Length) // break the heatmap into rows (inner dimension is zs)   
                 .ToArray();
             var fluenceDataToPlot = fluenceRowsToPlot.Reverse().Concat(fluenceRowsToPlot).ToArray(); // duplicate for -rho to make symmetric

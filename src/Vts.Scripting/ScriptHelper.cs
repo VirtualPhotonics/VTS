@@ -23,7 +23,7 @@ public static class ScriptHelper
         var midpoints = new double[endpoints.Length - 1];
         for (int i = 0; i < midpoints.Length; i++)
         {
-            midpoints[i] = endpoints[i + 1] - endpoints[i];
+            midpoints[i] = (endpoints[i + 1] + endpoints[i]) / 2;
         }
         return midpoints;
     }
