@@ -84,22 +84,41 @@ internal class Demo01AFluenceOfRhoAndZ : IDemoScript
         // run all the simulations in parallel
         var allSimulationOutputs = MonteCarloSimulation.RunAll(allSimulations);
 
+        // collect all the results in helpful arrays
+        var allFluenceDetectors = allSimulationOutputs.Select(detectorResult => 
+            (FluenceOfRhoAndZDetector)detectorResult.ResultsDictionary["FluenceOfRhoAndZ"]).ToArray();
+        var allFluenceMeans = allFluenceDetectors.Select(detector => detector.Mean.ToEnumerable<double>().ToArray()).ToArray();
+        var allFluenceSecondMoments = allFluenceDetectors.Select(detector => detector.SecondMoment.ToEnumerable<double>().ToArray()).ToArray();
+
+        // compute the relative error (standard deviation / mean) for each simulation
+        var allRelativeErrors = numPhotonsArray.Select((numPhotons, npidx) =>
+            allFluenceMeans[npidx].Zip(allFluenceSecondMoments[npidx], (mean, secondMoment) => 
+                Math.Sqrt((secondMoment - mean * mean) / numPhotons) / mean).ToArray()).ToArray();
+
         // plot the results using Plotly.NET
         var rhos = rhoRange.GetMidpoints();
         var zs = zRange.GetMidpoints();
         var allRhos = rhos.Select(rho => -rho).Reverse().Concat(rhos).ToArray(); // duplicate for -rho to make symmetric
         var charts = numPhotonsArray.Select((numPhotons, npidx) =>
         {
-            var detectorResults = (FluenceOfRhoAndZDetector)allSimulationOutputs[npidx].ResultsDictionary["FluenceOfRhoAndZ"];
-            var fluence1D = detectorResults.Mean.ToEnumerable<double>();
-            var fluenceRowsToPlot = fluence1D 
+            var fluenceRowsToPlot = allFluenceMeans[npidx]
                 .Select(f => Math.Log(f)) // take log for visualization purposes (negative infinity/NaN values won't be rendered )
                 .Chunk(zs.Length) // break the heatmap into rows (inner dimension is zs)   
                 .ToArray();
             var fluenceDataToPlot = fluenceRowsToPlot.Reverse().Concat(fluenceRowsToPlot).ToArray(); // duplicate for -rho to make symmetric
-            var map = Heatmap(values: fluenceDataToPlot, x: allRhos, y: zs,
+            var fluenceMap = Heatmap(values: fluenceDataToPlot, x: allRhos, y: zs,
                 xLabel: "ρ [mm]", yLabel: "z [mm]", title: $"log(Φ(ρ, z)");
-            return map;
+
+            var relativeErrorRowsToPlot = allRelativeErrors[npidx]
+                .Chunk(zs.Length) // break the heatmap into rows (inner dimension is zs)   
+                .ToArray();
+            var relativeErrorDataToPlot = relativeErrorRowsToPlot.Reverse().Concat(relativeErrorRowsToPlot).ToArray(); // duplicate for -rho to make symmetric
+            var relativeErrorMap = Heatmap(values: relativeErrorDataToPlot, x: allRhos, y: zs,
+                xLabel: "ρ [mm]", yLabel: "z [mm]", title: $"log(Φ(ρ, z)");
+
+            var combined = Chart.Grid(new[]{ fluenceMap, relativeErrorMap }, nRows: 2, nCols: 1, Pattern: Plotly.NET.StyleParam.LayoutGridPattern.Coupled);
+
+            return combined;
         });
 
         if (showPlots)
