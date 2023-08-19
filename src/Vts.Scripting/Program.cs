@@ -67,5 +67,6 @@ public class Program
     internal static void RunAllShortCourseDemos(bool showPlots = true)
     {
         ShortCourse.Demo01AFluenceOfRhoAndZ.RunDemo(showPlots);
+        ShortCourse.Demo01BFluenceOfRhoAndZ.RunDemo(showPlots);
     }
 }
