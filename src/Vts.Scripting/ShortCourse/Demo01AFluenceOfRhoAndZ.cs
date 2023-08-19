@@ -5,7 +5,6 @@ using Vts.MonteCarlo.Detectors;
 using Vts.MonteCarlo.Sources;
 using Vts.MonteCarlo.Tissues;
 using Plotly.NET.CSharp;
-using CommunityToolkit.HighPerformance;
 
 namespace Vts.Scripting.ShortCourse;
 
@@ -92,10 +91,11 @@ internal class Demo01AFluenceOfRhoAndZ : IDemoScript
         var charts = numPhotonsArray.Select((numPhotons, npidx) =>
         {
             var detectorResults = (FluenceOfRhoAndZDetector)allSimulationOutputs[npidx].ResultsDictionary["FluenceOfRhoAndZ"];
-            var minValueLog = Math.Log(detectorResults.Mean.ToEnumerable<double>().Where(d => d > 0).Min());
-            var fluenceRowsToPlot = Enumerable.Range(0, rhos.Length)
-                .Select(ridx => detectorResults.Mean.GetRow(ridx).ToArray() // break the heatmap into rows (inner dimension is zs)   
-                .Select(f => f > 0 ? Math.Log(f) : minValueLog).ToArray()) // take log for visualization purposes (replace zeros with min value)
+            var fluence1D = detectorResults.Mean.ToEnumerable<double>();
+            var minValueLog = Math.Log(fluence1D.Where(d => d > 0).Min());
+            var fluenceRowsToPlot = fluence1D 
+                .Select(f => f > 0 ? Math.Log(f) : minValueLog) // take log for visualization purposes (replace zeros with min value)
+                .Chunk(zs.Length) // break the heatmap into rows (inner dimension is zs)   
                 .ToArray();
             var fluenceDataToPlot = fluenceRowsToPlot.Reverse().Concat(fluenceRowsToPlot).ToArray(); // duplicate for -rho to make symmetric
             var map = Heatmap(values: fluenceDataToPlot, x: allRhos, y: zs,
