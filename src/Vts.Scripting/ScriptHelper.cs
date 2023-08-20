@@ -87,21 +87,21 @@ public static class ScriptHelper
     /// Helper method to format a heatmap chart using Plotly.NET.
     /// </summary>
     /// <param name="values">An `IEnumerable` of double arrays specifying the z values of the heatmap.</param>
-    /// <param name="x">An optional array of double values specifying the x values of the heatmap. Default is null.</param>
-    /// <param name="y">An optional array of double values specifying the y values of the heatmap. Default is null.</param>
+    /// <param name="x">An array of double values specifying the x values of the heatmap.</param>
+    /// <param name="y">An array of double values specifying the y values of the heatmap.</param>
     /// <param name="xLabel">An optional label for the x-axis. Default is an empty string.</param>
     /// <param name="yLabel">An optional label for the y-axis. Default is an empty string.</param>
     /// <param name="title">An optional title for the chart. Default is an empty string.</param>
     /// <returns>A `GenericChart` instance representing the heatmap chart.</returns>
     public static Plotly.NET.GenericChart.GenericChart Heatmap(
         IEnumerable<double[]> values, 
-        double[]? x = null, 
-        double[]? y = null,
+        double[] x, 
+        double[] y,
         string xLabel = "",
         string yLabel = "",
         string title = "")
     {
-        // attn devs: for reference, the following are the type parameters used in the call to Chart2D.Chart.Heatmap:
+        // attn developers: for reference, the following are the type parameters used in the call to Chart2D.Chart.Heatmap:
         // Chart2D.Chart.Heatmap<a37: (row format), a38: (fluence value type), a39: X (rho value type), a40: Y (z value type), a41: Text type>(...)
         var chart = Plotly.NET.Chart2D.Chart.Heatmap<IEnumerable<double>, double, double, double, string>(
             zData: values,

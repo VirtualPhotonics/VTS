@@ -23,7 +23,7 @@ internal class Demo12ROfFxSingle : IDemoScript
         var rOfFx = solver.ROfFx(op, fxs);
 
         // Plot reflectance as a function of spatial frequency 
-        var rOfFxAmplitude = rOfFx.Select(r => Math.Abs(r)).ToArray();
+        var rOfFxAmplitude = rOfFx.Select(Math.Abs).ToArray();
         var chart = LineChart(fxs, rOfFxAmplitude, xLabel: "fx [mm-1]", yLabel: $"R(fx) [unitless]", title: "Reflectance vs spatial frequency");
 
         if (showPlots)

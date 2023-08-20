@@ -4,7 +4,7 @@
 /// Class using the Vts.dll library to demonstrate predicting reflectance as a function of time at a fixed source-detector location
 /// for multiple sets of optical properties using a two-layer forward solver
 /// </summary>
-internal class Demo22ROfRhoAndFtTwoLayerMultiOP : IDemoScript
+internal class Demo22ROfRhoAndFtTwoLayerMultiOpProp : IDemoScript
 {
     /// <summary>
     /// Sample script to demonstrate this class' stated purpose

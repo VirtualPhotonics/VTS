@@ -29,7 +29,7 @@ internal class Demo01BAnalogVsDiscreteWithFluence : IDemoScript
         // define a semi-infinite slab tissue geometry with air-tissue boundary (a bottom air layer is necessary)
         var tissueInput = new MultiLayerTissueInput
         {
-            Regions = new[]
+            Regions = new ITissueRegion[]
             {
                 new LayerTissueRegion(
                     zRange: new(double.NegativeInfinity, 0),         // air "z" range
@@ -46,17 +46,9 @@ internal class Demo01BAnalogVsDiscreteWithFluence : IDemoScript
         // define a single fluence(rho,z) detector by the endpoints of rho and z bins
         var rhoRange = new DoubleRange(start: 0, stop: 10, number: 101);
         var zRange = new DoubleRange(start: 0, stop: 10, number: 101);
-        var detectorInputs = new[]
+        var detectorInputs = new IDetectorInput[]
         {
             new FluenceOfRhoAndZDetectorInput { Rho = rhoRange, Z = zRange, TallySecondMoment = true, Name = "FluenceOfRhoAndZ" }, // name can be whatever you want
-        };
-
-        // specify simulation options
-        var options = new SimulationOptions
-        {
-            Seed = 0, // -1 will generate a random seed
-            AbsorptionWeightingType = AbsorptionWeightingType.Analog,
-            PhaseFunctionType = PhaseFunctionType.HenyeyGreenstein
         };
 
         // define how many different photon count and absorption weighting combos to simulate

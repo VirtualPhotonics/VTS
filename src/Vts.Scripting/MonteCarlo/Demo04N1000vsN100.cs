@@ -3,7 +3,7 @@
 /// <summary>
 /// Class using the Vts.dll library to demonstrate comparing two Monte Carlo simulations with different photon counts
 /// </summary>
-internal class Demo04N1000vsN100 : IDemoScript
+internal class Demo04N1000VsN100 : IDemoScript
 {
     /// <summary>
     /// Sample script to demonstrate this class' stated purpose

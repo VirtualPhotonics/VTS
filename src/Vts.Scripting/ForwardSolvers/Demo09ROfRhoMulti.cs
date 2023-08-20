@@ -29,9 +29,9 @@ internal class Demo09ROfRhoMulti : IDemoScript
         var allROfRho = solver.ROfRho(ops, rhos).ToArray();
 
         // Plot log(reflectance) as a function of radial distance at the specified spatial frequencies
-        var allCharts = allROfRho.Chunk(rhos.Length).Select((rOfRho, ridx) => // pull out each R(ρ) (outer loop is optical properties)
+        var allCharts = allROfRho.Chunk(rhos.Length).Select((rOfRho, rIdx) => // pull out each R(ρ) (outer loop is optical properties)
             LineChart(rhos, rOfRho.Select(r => Math.Log(r)).ToArray(),
-                xLabel: "ρ [mm]", yLabel: $"log(R(ρ) [mm-2])", title: $"log(R(ρ)) @ mua={ops[ridx].Mua:F3}"));
+                xLabel: "ρ [mm]", yLabel: $"log(R(ρ) [mm-2])", title: $"log(R(ρ)) @ mua={ops[rIdx].Mua:F3}"));
         var chartCombined = Chart.Combine(allCharts);
 
         if (showPlots)

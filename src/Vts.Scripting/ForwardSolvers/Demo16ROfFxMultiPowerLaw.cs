@@ -22,7 +22,7 @@ internal class Demo16ROfFxMultiPowerLaw : IDemoScript
         // retrieve desired optical properties, based on spectral data information 
 
         // create an array of chromophore absorbers, each with a given concentrations
-        var chromophores = new[]
+        var chromophores = new IChromophoreAbsorber[]
         {
             new ChromophoreAbsorber(ChromophoreType.HbO2, 70), // molar concentration
             new ChromophoreAbsorber(ChromophoreType.Hb, 30), // molar concentration

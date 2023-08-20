@@ -27,7 +27,7 @@ internal class Demo05PostProcessor : IDemoScript
             OutputName = "results",
             Options = new SimulationOptions
             {
-                Databases = new DatabaseType[] { DatabaseType.DiffuseReflectance }
+                Databases = new [] { DatabaseType.DiffuseReflectance }
             }
         };
 

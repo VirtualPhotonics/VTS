@@ -4,7 +4,7 @@
 /// Class using the Vts.dll library to demonstrate predicting reflectance as a function of spatial frequency 
 /// where optical properties vary as a function of wavelength using an intralipid scatterer
 /// </summary>
-internal class Demo14ROfFxMultiOPIntralipid : IDemoScript
+internal class Demo14ROfFxMultiOpPropIntralipid : IDemoScript
 {
     /// <summary>
     /// Sample script to demonstrate this class' stated purpose
@@ -23,7 +23,7 @@ internal class Demo14ROfFxMultiOPIntralipid : IDemoScript
         // retrieve desired optical properties, based on spectral data information 
 
         // create an array of chromophore absorbers, each with a given concentrations
-        var chromophores = new[]
+        var chromophores = new IChromophoreAbsorber[]
         {
             new ChromophoreAbsorber(ChromophoreType.HbO2, 70), // molar concentration
             new ChromophoreAbsorber(ChromophoreType.Hb, 30), // molar concentration
@@ -46,7 +46,7 @@ internal class Demo14ROfFxMultiOPIntralipid : IDemoScript
         var rOfFx = solver.ROfFx(ops, fxs);
 
         // Plot mua, log(mua), musp, and reflectance as a function of wavelength at each set of optical properties
-        var rOfFxAmplitude = rOfFx.Select(r => Math.Abs(r)).ToArray();
+        var rOfFxAmplitude = rOfFx.Select(Math.Abs).ToArray();
         var chart = Chart.Grid(new[]
         {
             LineChart(wavelengths, ops.Select(op => op.Mua).ToArray(), xLabel: "wavelength [nm]", yLabel: $"mua", title: "mua [mm-1]"),

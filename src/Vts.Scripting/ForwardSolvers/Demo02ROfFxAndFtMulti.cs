@@ -12,8 +12,8 @@ internal class Demo02ROfFxAndFtMulti : IDemoScript
     {
         // Example 02: predict R(fx, ft) based on a standard diffusion approximation solution to the time-dependent RTE
         // Note:
-        //     - this example computes and displays R(ft) at mutiple spatial frequencies, to demonstrate that multiplexing functionality
-        //     - updating the fx range to emit a single value will isloate to the frequency desired
+        //     - this example computes and displays R(ft) at multiple spatial frequencies, to demonstrate that multiplexing functionality
+        //     - updating the fx range to emit a single value will isolate to the frequency desired
         //     - e.g. var fxs = new DoubleRange(start: 0, stop: 0, number: 1) will plot R(ft) at fx=0 only (i.e. planar illumination)
 
         // Solver type options:

@@ -21,7 +21,7 @@ internal class Demo10ROfFx : IDemoScript
             N = 1000,
 
             // define a single R(fx) detector at spatial frequencies fx
-            DetectorInputs = new [] { detectorInput }
+            DetectorInputs = new IDetectorInput[] { detectorInput }
         };
 
         // create the simulation

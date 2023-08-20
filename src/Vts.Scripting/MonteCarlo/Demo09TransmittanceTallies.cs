@@ -27,7 +27,7 @@ internal class Demo09TransmittanceTallies : IDemoScript
             // define a semi-infinite slab tissue geometry with air-tissue boundary (a bottom air layer is necessary)
             TissueInput = new MultiLayerTissueInput
             {
-                Regions = new[]
+                Regions = new ITissueRegion[]
                 {
                     new LayerTissueRegion(
                         zRange: new(double.NegativeInfinity, 0),         // air "z" range

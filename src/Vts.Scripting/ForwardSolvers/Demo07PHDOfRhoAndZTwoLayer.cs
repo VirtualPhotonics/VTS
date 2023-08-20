@@ -4,7 +4,7 @@
 /// Class using the Vts.dll library to demonstrate predicting photon hitting density (PHD) for a two-layer medium
 /// as a function of radial extent and depth at a given set of optical properties and source-detector separation
 /// </summary>
-internal class Demo07PHDOfRhoAndZTwoLayer : IDemoScript
+internal class Demo07PhdOfRhoAndZTwoLayer : IDemoScript
 {
     /// <summary>
     /// Sample script to demonstrate this class' stated purpose

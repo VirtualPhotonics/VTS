@@ -23,7 +23,7 @@ internal class Demo01ROfRhoSimple : IDemoScript
             N = 1000,
 
             // define a single R(rho) detector by the endpoints of rho bins
-            DetectorInputs = new [] { new ROfRhoDetectorInput { Rho = detectorRange, Name = "ROfRho" } }, // name can be whatever you want
+            DetectorInputs = new List<IDetectorInput> { new ROfRhoDetectorInput { Rho = detectorRange, Name = "ROfRho" } }, // name can be whatever you want
         };
 
         // create the simulation

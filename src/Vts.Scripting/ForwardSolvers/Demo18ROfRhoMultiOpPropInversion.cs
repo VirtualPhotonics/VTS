@@ -3,18 +3,18 @@
 /// <summary>
 /// Class using the Vts.dll library to demonstrate using the Perturbation Monte Carlo post-processor to calculate optical properties (i.e. "inversion")
 /// </summary>
-internal class Demo18ROfRhoMultiOPInversion : IDemoScript
+internal class Demo18ROfRhoMultiOpPropInversion : IDemoScript
 {
     /// <summary>
     /// Sample script to demonstrate this class' stated purpose
     /// </summary>
     public static void RunDemo(bool showPlots = true)
     {
-        // Example 18: determine chromophore concentration by perfoming a non-linear least squares fit to a simulated measured
+        // Example 18: determine chromophore concentration by performing a non-linear least squares fit to a simulated measured
         // reflectance spectrum at a given source-detector separation, using a diffusion theory forward model
 
         // create an array of chromophore absorbers, each with a given concentrations
-        var chromophoresForMeasuredData = new[]
+        var chromophoresForMeasuredData = new IChromophoreAbsorber[]
         {
             new ChromophoreAbsorber(ChromophoreType.HbO2, 70), // molar concentration
             new ChromophoreAbsorber(ChromophoreType.Hb, 30), // molar concentration
@@ -45,7 +45,7 @@ internal class Demo18ROfRhoMultiOPInversion : IDemoScript
         double[] CalculateReflectanceVsWavelengthFromChromophoreConcentration(double[] chromophoreConcentration, params object[] otherValuesNeededForForwardSolution)
         {
             // create an array of chromophore absorbers, each with a given concentrations
-            var chromophoresLocal = new[]
+            var chromophoresLocal = new IChromophoreAbsorber[]
             {
                 new ChromophoreAbsorber(ChromophoreType.HbO2, chromophoreConcentration[0]), // molar concentration
                 new ChromophoreAbsorber(ChromophoreType.Hb, chromophoreConcentration[1]), // molar concentration
@@ -56,9 +56,9 @@ internal class Demo18ROfRhoMultiOPInversion : IDemoScript
             var opsLocal = new Tissue(chromophoresLocal, scatterer, "", n: 1.4).GetOpticalProperties(wavelengths);
 
             // compute the reflectance based on that OP spectrum
-            var measuredData = forwardSolverForInversion.ROfRho(opsLocal, rho);
+            var measuredDataLocal = forwardSolverForInversion.ROfRho(opsLocal, rho);
 
-            return measuredData;
+            return measuredDataLocal;
         }
 
         // Run the inversion, based on Levenberg-Marquardt optimization.
@@ -74,25 +74,25 @@ internal class Demo18ROfRhoMultiOPInversion : IDemoScript
             CalculateReflectanceVsWavelengthFromChromophoreConcentration);
 
         // calculate the final reflectance prediction at the fit values
-        var fitChromophores = new[]
+        var fitChromophores = new IChromophoreAbsorber[]
         {
             new ChromophoreAbsorber(ChromophoreType.HbO2, fit[0]), // molar concentration
             new ChromophoreAbsorber(ChromophoreType.Hb, fit[1]), // molar concentration
             new ChromophoreAbsorber(ChromophoreType.H2O, fit[2]), // fractional concentration
         };
         var fitTissue = new Tissue(fitChromophores, scatterer, "", n: 1.4);
-        var fitOpticalProperties = tissue.GetOpticalProperties(wavelengths);
+        var fitOpticalProperties = fitTissue.GetOpticalProperties(wavelengths);
         var fitReflectanceSpectrum = forwardSolverForInversion.ROfRho(fitOpticalProperties, rho);
 
         // calculate the initial guess reflectance prediction
-        var initialGuessChromophores = new[]
+        var initialGuessChromophores = new IChromophoreAbsorber[]
         {
             new ChromophoreAbsorber(ChromophoreType.HbO2, initialGuess[0]), // molar concentration
             new ChromophoreAbsorber(ChromophoreType.Hb, initialGuess[1]), // molar concentration
             new ChromophoreAbsorber(ChromophoreType.H2O, initialGuess[2]), // fractional concentration
         };
-        var initialGuessTissueOP = new Tissue(fitChromophores, scatterer, "", n: 1.4).GetOpticalProperties(wavelengths);
-        var initialGuessReflectanceSpectrum = forwardSolverForInversion.ROfRho(initialGuessTissueOP, rho);
+        var initialGuessTissueOpProp = new Tissue(initialGuessChromophores, scatterer, "", n: 1.4).GetOpticalProperties(wavelengths);
+        var initialGuessReflectanceSpectrum = forwardSolverForInversion.ROfRho(initialGuessTissueOpProp, rho);
 
         // plot and compare the results using Plotly.NET
         var logMeasuredReflectance = measuredData.Select(r => Math.Log(r)).ToArray();

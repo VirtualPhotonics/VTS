@@ -3,7 +3,7 @@
 /// <summary>
 /// Class using the Vts.dll library to demonstrate using the Perturbation Monte Carlo post-processor to calculate optical properties (i.e. "inversion")
 /// </summary>
-internal class Demo07pMCInversion : IDemoScript
+internal class Demo07PmcInversion : IDemoScript
 {
     /// <summary>
     /// Sample script to demonstrate this class' stated purpose
@@ -19,12 +19,13 @@ internal class Demo07pMCInversion : IDemoScript
         //        - placement and number of rho
         //        - distance of initial guess from actual
         //        - normalization of chi2
-        //        - optimset options selected
+        //        - weighting of chi2 via the standard deviation provided
+        //        - optimization options selected
 
         // create a SimulationInput object to define the simulation
         var tissueInput = new MultiLayerTissueInput
         {
-            Regions = new[]
+            Regions = new ITissueRegion[]
             {
                 new LayerTissueRegion(
                     zRange: new(double.NegativeInfinity, 0),         // air "z" range
@@ -47,7 +48,7 @@ internal class Demo07pMCInversion : IDemoScript
             {
                 //Seed = 0,
                 AbsorptionWeightingType = AbsorptionWeightingType.Discrete,
-                Databases = new DatabaseType[] { DatabaseType.pMCDiffuseReflectance }
+                Databases = new [] { DatabaseType.pMCDiffuseReflectance }
             }
         };
 
@@ -66,7 +67,7 @@ internal class Demo07pMCInversion : IDemoScript
         var baselineOps = tissueInput.Regions[1].RegionOP;
 
         // Create an ad-hoc forward solver based on pMC prediction (see implementation below; note: implemented for ROfRho only)
-        var pMCForwardSolver = new pMCForwardSolver(detectorRange, simulationInput, simulationInput.OutputName);
+        var pmcForwardSolver = new PmcForwardSolver(detectorRange, simulationOutput.Input);
 
         // Run the inversion, based on Levenberg-Marquardt optimization.
         // Note: chi-squared weighting in the inversion is based on standard deviation of measured data, except for
@@ -74,7 +75,7 @@ internal class Demo07pMCInversion : IDemoScript
         // all photon counts for that bin and beyond, and we therefore don't want to include it in the fit
         var initialGuessOPsAndRhoAxis = new object[] { new[] { baselineOps }, detectorMidpoints }; // "extra" (constant) data for the forward model calls
         var solution = ComputationFactory.SolveInverse(
-            forwardSolver: pMCForwardSolver,
+            forwardSolver: pmcForwardSolver,
             optimizer: new MPFitLevenbergMarquardtOptimizer(),
             solutionDomainType: SolutionDomainType.ROfRho,
             dependentValues: measuredData,
@@ -86,8 +87,8 @@ internal class Demo07pMCInversion : IDemoScript
         var fitOps = new OpticalProperties(solution[0], solution[1], baselineOps.G, baselineOps.N);
 
         // For illustration purposes, also run the pMC solver
-        var postProcessorDetectorResultsInitialGuess = pMCForwardSolver.ROfRho(baselineOps, detectorMidpoints);
-        var postProcessorDetectorResultsFitValues = pMCForwardSolver.ROfRho(fitOps, detectorMidpoints);
+        var postProcessorDetectorResultsInitialGuess = pmcForwardSolver.ROfRho(baselineOps, detectorMidpoints);
+        var postProcessorDetectorResultsFitValues = pmcForwardSolver.ROfRho(fitOps, detectorMidpoints);
 
         // plot and compare the results using Plotly.NET
         var logReflectance1 = postProcessorDetectorResultsInitialGuess.Select(r => Math.Log(r)).ToArray();
@@ -106,31 +107,60 @@ internal class Demo07pMCInversion : IDemoScript
         }
     }
 
-    private class pMCForwardSolver : IForwardSolver
+    /// <summary>
+    /// The PmcForwardSolver class is a private class that implements the IForwardSolver interface. 
+    /// It is used for performing forward simulations using a perturbation Monte Carlo (pMC) approach. 
+    /// The class uses a specified detector range, simulation input parameters, and a pMC database 
+    /// to calculate reflectance as a function of radial distance for given sets of optical properties.
+    /// </summary>
+    private class PmcForwardSolver : IForwardSolver
     {
         private readonly DoubleRange _detectorRange;
         private readonly SimulationInput _simulationInput;
         private readonly pMCDatabase _photonDatabase;
 
-
-        public pMCForwardSolver(DoubleRange detectorRange, SimulationInput simulationInput, pMCDatabase photonDatabase)
+        /// <summary>
+        /// Initializes a new instance of the PmcForwardSolver class using the specified detector range, simulation input, and photon database.
+        /// </summary>
+        /// <param name="detectorRange">The range of the detector for the simulation.</param>
+        /// <param name="simulationInput">The input parameters for the simulation.</param>
+        /// <param name="photonDatabase">The pMC (probability Monte Carlo) database used for the simulation.</param>
+        /// <remarks>
+        /// This is a private constructor used internally by the class for initialization.
+        /// </remarks>
+        private PmcForwardSolver(DoubleRange detectorRange, SimulationInput simulationInput, pMCDatabase photonDatabase)
         {
             _detectorRange = detectorRange;
             _simulationInput = simulationInput;
             _photonDatabase = photonDatabase;
         }
 
-        public pMCForwardSolver(DoubleRange detectorRange, SimulationInput simulationInput, string photonDatabaseFilePath)
+        /// <summary>
+        /// Initializes a new instance of the PmcForwardSolver class using the specified detector range and simulation input.
+        /// </summary>
+        /// <param name="detectorRange">The range of the detector for the simulation.</param>
+        /// <param name="simulationInput">The input parameters for the simulation.</param>
+        /// <remarks>
+        /// This constructor uses the output name from the simulation input to create a pMC (perturbation Monte Carlo) database.
+        /// The pMC database is retrieved using the PhotonDatabaseFactory's GetpMCDatabase method with the virtual boundary type set to pMCDiffuseReflectance.
+        /// </remarks>
+        public PmcForwardSolver(DoubleRange detectorRange, SimulationInput simulationInput)
             : this(detectorRange, simulationInput, PhotonDatabaseFactory.GetpMCDatabase(
                 virtualBoundaryType: VirtualBoundaryType.pMCDiffuseReflectance,
-                filePath: photonDatabaseFilePath))
+                filePath: simulationInput.OutputName))
         {
         }
 
+        /// <summary>
+        /// Calculates the reflectance as a function of radial distance (rho) for a given set of optical properties.
+        /// </summary>
+        /// <param name="op">The optical properties of the medium.</param>
+        /// <param name="rhos">An array of radial distances at which the reflectance is to be calculated.</param>
+        /// <returns>An array of reflectance values corresponding to each radial distance in the input array.</returns>
         public double[] ROfRho(OpticalProperties op, double[] rhos)
         {
             // create and run the post-processor
-            var pMCDetectorInput = new pMCROfRhoDetectorInput
+            var pmcDetectorInput = new pMCROfRhoDetectorInput
             {
                 Rho = _detectorRange,
                 Name = "ROfRho-OnTheFly",
@@ -144,14 +174,20 @@ internal class Demo07pMCInversion : IDemoScript
             };
             var postProcessor = new PhotonDatabasePostProcessor(
                 virtualBoundaryType: VirtualBoundaryType.pMCDiffuseReflectance,
-                detectorInputs: new IDetectorInput[] { pMCDetectorInput },
+                detectorInputs: new IDetectorInput[] { pmcDetectorInput },
                 database: _photonDatabase,
                 databaseInput: _simulationInput);
             var postProcessorOutput = postProcessor.Run();
-            var postProcessorDetectorResults = (pMCROfRhoDetector)postProcessorOutput.ResultsDictionary[pMCDetectorInput.Name];
+            var postProcessorDetectorResults = (pMCROfRhoDetector)postProcessorOutput.ResultsDictionary[pmcDetectorInput.Name];
             return postProcessorDetectorResults.Mean;
         }
 
+        /// <summary>
+        /// Calculates the reflectance as a function of radial distance (rho) for each set of optical properties provided.
+        /// </summary>
+        /// <param name="ops">An array of optical properties of the medium.</param>
+        /// <param name="rhos">An array of radial distances at which the reflectance is to be calculated.</param>
+        /// <returns>An array of reflectance values corresponding to each set of optical properties and each radial distance in the input arrays.</returns>
         public double[] ROfRho(OpticalProperties[] ops, double[] rhos)
         {
             return ops.SelectMany(op => ROfRho(op, rhos)).ToArray();   

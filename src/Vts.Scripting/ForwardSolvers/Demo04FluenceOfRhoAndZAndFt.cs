@@ -29,8 +29,8 @@ internal class Demo04FluenceOfRhoAndZAndFt : IDemoScript
         // collect the steady-state (CW) and frequency domain fluence maps for plotting
         // (innermost axis is ft, so we need to take every 2nd starting at index 0)
         var (ft1, ft2) = (0, 1); // indices of the two time frequencies, ft, to plot
-        var cwFluenceOfRhoAndZ = fluenceOfRhoAndZAndFt.TakeEveryNth(n: fts.Length, skip: ft1);
-        var fdFluenceOfRhoAndZ = fluenceOfRhoAndZAndFt.TakeEveryNth(n: fts.Length, skip: ft2);
+        var cwFluenceOfRhoAndZ = fluenceOfRhoAndZAndFt.TakeEveryNth(n: fts.Length, skip: ft1).ToArray();
+        var fdFluenceOfRhoAndZ = fluenceOfRhoAndZAndFt.TakeEveryNth(n: fts.Length, skip: ft2).ToArray();
 
         var allRhos = rhos.Select(rho => -rho).Reverse().Concat(rhos).ToArray(); // duplicate for -rho to make symmetric
         // Plot the CW fluence: log(fluence(rho, z, ft=0GHz)) 

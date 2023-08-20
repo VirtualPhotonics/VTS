@@ -41,7 +41,7 @@ internal class Demo08UnitTestComparison : IDemoScript
             // define a semi-infinite slab tissue geometry with air-tissue boundary (a bottom air layer is necessary)
             TissueInput = new MultiLayerTissueInput
             {
-                Regions = new[]
+                Regions = new ITissueRegion[]
                 {
                     new LayerTissueRegion(
                         zRange: new(double.NegativeInfinity, 0),         // air "z" range
@@ -76,20 +76,17 @@ internal class Demo08UnitTestComparison : IDemoScript
         var rOfRhoAndOmegaResults = (ROfRhoAndOmegaDetector)simulationOutput.ResultsDictionary[rOfRhoAndOmegaDetectorInput.Name];
         var rOfRhoAndTimeResults = (ROfRhoAndTimeDetector)simulationOutput.ResultsDictionary[rOfRhoAndTimeDetectorInput.Name];
 
-        if (
-                // currently 0.95492965855137191 (good)
-                Math.Abs(rOfRhoResults.Mean[0] - 0.95492965855) < 0.00000000001 &&
-                // currently [0.9548488285246218, -0.008172650857889858] (bad)
-                Math.Abs((rOfRhoAndOmegaResults.Mean[0, 0] - new Complex(0.95492885, -0.000817329)).Magnitude) < 0.00000001 &&
-                // currently 95.4929658551372 (good)
-                Math.Abs(rOfRhoAndTimeResults.Mean[0, 0] - 95.492965855) < 0.000000001
-            )
+        var unitTestsPass = 
+            // currently 0.95492965855137191 (good)
+            Math.Abs(rOfRhoResults.Mean[0] - 0.95492965855) < 0.00000000001 &&
+            // currently [0.9548488285246218, -0.008172650857889858] (bad)
+            Math.Abs((rOfRhoAndOmegaResults.Mean[0, 0] - new Complex(0.95492885, -0.000817329)).Magnitude) < 0.00000001 &&
+            // currently 95.4929658551372 (good)
+            Math.Abs(rOfRhoAndTimeResults.Mean[0, 0] - 95.492965855) < 0.000000001;
+
+        if (!unitTestsPass)
         {
-            Console.WriteLine("Unit tests pass");
-        }
-        else
-        {
-            throw new Exception("Unit tests fail");
+            throw new Exception("Unit tests failed");
         }
     }
 }

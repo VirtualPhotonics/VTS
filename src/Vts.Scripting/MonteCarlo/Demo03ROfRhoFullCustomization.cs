@@ -33,7 +33,7 @@ internal class Demo03ROfRhoFullCustomization : IDemoScript
             // define a semi-infinite slab tissue geometry with air-tissue boundary (a bottom air layer is necessary)
             TissueInput = new MultiLayerTissueInput
             {
-                Regions = new []
+                Regions = new ITissueRegion[]
                 {
                     new LayerTissueRegion(
                         zRange: new(double.NegativeInfinity, 0),         // air "z" range
@@ -48,7 +48,7 @@ internal class Demo03ROfRhoFullCustomization : IDemoScript
             },
 
             // define a single R(rho) detector by the endpoints of rho bins
-            DetectorInputs = new [] 
+            DetectorInputs = new IDetectorInput[] 
             { 
                 new ROfRhoDetectorInput { Rho = detectorRange, TallySecondMoment = true, Name = "ROfRho" }  // name can be whatever you want
             },

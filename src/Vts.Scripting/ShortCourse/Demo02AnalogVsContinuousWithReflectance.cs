@@ -29,7 +29,7 @@ internal class Demo02AnalogVsContinuousWithReflectance : IDemoScript
         // define a semi-infinite slab tissue geometry with air-tissue boundary (a bottom air layer is necessary)
         var tissueInput = new MultiLayerTissueInput
         {
-            Regions = new[]
+            Regions = new ITissueRegion[]
             {
                 new LayerTissueRegion(
                     zRange: new(double.NegativeInfinity, 0),         // air "z" range
@@ -45,17 +45,9 @@ internal class Demo02AnalogVsContinuousWithReflectance : IDemoScript
 
         // define a single fluence(rho,z) detector by the endpoints of rho and z bins
         var rhoRange = new DoubleRange(start: 0, stop: 10, number: 101);
-        var detectorInputs = new[]
+        var detectorInputs = new IDetectorInput[]
         {
             new ROfRhoDetectorInput { Rho = rhoRange, TallySecondMoment = true, Name = "ROfRho" }, // name can be whatever you want
-        };
-
-        // specify simulation options
-        var options = new SimulationOptions
-        {
-            Seed = 0, // -1 will generate a random seed
-            AbsorptionWeightingType = AbsorptionWeightingType.Analog,
-            PhaseFunctionType = PhaseFunctionType.HenyeyGreenstein
         };
 
         // define how many different absorption weighting types to simulate

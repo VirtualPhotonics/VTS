@@ -3,7 +3,7 @@
 /// <summary>
 /// Class using the Vts.dll library to demonstrate comparing Monte Carlo simulations with different absorption weighting types 
 /// </summary>
-internal class Demo02DAWvsCAW : IDemoScript
+internal class Demo02DawVsCaw : IDemoScript
 {
     /// <summary>
     /// Sample script to demonstrate this class' stated purpose
@@ -25,7 +25,7 @@ internal class Demo02DAWvsCAW : IDemoScript
         var simulationInput1 = new SimulationInput
         {
             N = numPhotons,
-            DetectorInputs = new [] { detectorInput },
+            DetectorInputs = new List<IDetectorInput> { detectorInput },
             OutputName = "MonteCarlo02ROfRho-DAW",
             Options = new SimulationOptions
             {
@@ -36,7 +36,7 @@ internal class Demo02DAWvsCAW : IDemoScript
         var simulationInput2 = new SimulationInput
         {
             N = numPhotons,
-            DetectorInputs = new [] { detectorInput },
+            DetectorInputs = new List<IDetectorInput> { detectorInput },
             OutputName = "MonteCarlo02ROfRho-CAW",
             Options = new SimulationOptions
             {

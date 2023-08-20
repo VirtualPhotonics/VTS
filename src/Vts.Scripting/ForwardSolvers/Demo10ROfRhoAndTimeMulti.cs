@@ -30,14 +30,14 @@ internal class Demo10ROfRhoAndTimeMulti : IDemoScript
 
         // Plot log(reflectance) as a function of time at a range of source-detector separations
         // Create two plots - one for each set of optical properties
-        var chartsForOP1 = allROfRho.Chunk(ts.Length).Skip(0).Take(rhos.Length).Select((rOfTime, ridx) => // pull out each R(t) (innermost loop is time)
+        var op1Chart = allROfRho.Chunk(ts.Length).Skip(0).Take(rhos.Length).Select((rOfTime, rIdx) => // pull out each R(t) (innermost loop is time)
             LineChart(ts, rOfTime.Select(r => Math.Log(r)).ToArray(),
-                xLabel: "t [ns]", yLabel: $"log(R(t) [mm-2*s-1]) @ mua={ops[0].Mua:F3}", title: $"log(R(t)) @ ρ={rhos[ridx]:F3}"));
-        var chartsForOP2 = allROfRho.Chunk(ts.Length).Skip(rhos.Length).Take(rhos.Length).Select((rOfTime, ridx) => 
+                xLabel: "t [ns]", yLabel: $"log(R(t) [mm-2*s-1]) @ mua={ops[0].Mua:F3}", title: $"log(R(t)) @ ρ={rhos[rIdx]:F3}"));
+        var op2Chart = allROfRho.Chunk(ts.Length).Skip(rhos.Length).Take(rhos.Length).Select((rOfTime, rIdx) => 
             LineChart(ts, rOfTime.Select(r => Math.Log(r)).ToArray(),
-                xLabel: "t [ns]", yLabel: $"log(R(t) [mm-2*s-1]) @ mua={ops[1].Mua:F3}", title: $"log(R(t)) @ ρ={rhos[ridx]:F3}"));
+                xLabel: "t [ns]", yLabel: $"log(R(t) [mm-2*s-1]) @ mua={ops[1].Mua:F3}", title: $"log(R(t)) @ ρ={rhos[rIdx]:F3}"));
 
-        var chartCombined = Chart.Grid(new[] { Chart.Combine(chartsForOP1), Chart.Combine(chartsForOP2) }, 
+        var chartCombined = Chart.Grid(new[] { Chart.Combine(op1Chart), Chart.Combine(op2Chart) }, 
             nRows: 1, nCols: 2, Pattern: Plotly.NET.StyleParam.LayoutGridPattern.Coupled);
 
         if (showPlots)

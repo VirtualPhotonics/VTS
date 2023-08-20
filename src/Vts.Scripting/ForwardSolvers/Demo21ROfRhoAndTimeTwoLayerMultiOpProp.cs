@@ -4,7 +4,7 @@
 /// Class using the Vts.dll library to demonstrate predicting reflectance as a function of time at a fixed source-detector location
 /// for multiple sets of optical properties using a two-layer forward solver
 /// </summary>
-internal class Demo21ROfRhoAndFtTwoLayerMultiOP : IDemoScript
+internal class Demo21ROfRhoAndFtTwoLayerMultiOpProp : IDemoScript
 {
     /// <summary>
     /// Sample script to demonstrate this class' stated purpose
@@ -21,7 +21,7 @@ internal class Demo21ROfRhoAndFtTwoLayerMultiOP : IDemoScript
         var ts = new DoubleRange(start: 0, stop: 0.5, number: 51).AsEnumerable().ToArray(); // range of times in 1/mm
         
         // create an array of chromophore absorbers, each with a given concentrations
-        var chromophores = new[]
+        var chromophores = new IChromophoreAbsorber[]
         {
             new ChromophoreAbsorber(ChromophoreType.HbO2, 70), // molar concentration
             new ChromophoreAbsorber(ChromophoreType.Hb, 30), // molar concentration
@@ -44,7 +44,7 @@ internal class Demo21ROfRhoAndFtTwoLayerMultiOP : IDemoScript
             .Select(op => new OpticalProperties(mua: op.Mua * muaPerturbationFactor, musp: op.Musp, g: op.G, n: op.N))
             .ToArray();
 
-        // create the multilayer optical properties with the purturbed top layer values
+        // create the multilayer optical properties with the perturbed top layer values
         var op1 = new IOpticalPropertyRegion[]
         {
             new LayerOpticalPropertyRegion(zRange: new DoubleRange(0, 2, 2),  regionOP: opsTopLayer[0]),

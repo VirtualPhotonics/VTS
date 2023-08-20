@@ -28,7 +28,7 @@ internal class Demo01APhotonCountWithFluence : IDemoScript
         // define a semi-infinite slab tissue geometry with air-tissue boundary (a bottom air layer is necessary)
         var tissueInput = new MultiLayerTissueInput
         {
-            Regions = new[]
+            Regions = new ITissueRegion[]
             {
                 new LayerTissueRegion(
                     zRange: new(double.NegativeInfinity, 0),         // air "z" range
@@ -45,7 +45,7 @@ internal class Demo01APhotonCountWithFluence : IDemoScript
         // define a single fluence(rho,z) detector by the endpoints of rho and z bins
         var rhoRange = new DoubleRange(start: 0, stop: 10, number: 101);
         var zRange = new DoubleRange(start: 0, stop: 10, number: 101);
-        var detectorInputs = new[]
+        var detectorInputs = new IDetectorInput[]
         {
             new FluenceOfRhoAndZDetectorInput { Rho = rhoRange, Z = zRange, TallySecondMoment = true, Name = "FluenceOfRhoAndZ" }, // name can be whatever you want
         };
@@ -83,17 +83,17 @@ internal class Demo01APhotonCountWithFluence : IDemoScript
         var allFluenceSecondMoments = allFluenceDetectors.Select(detector => detector.SecondMoment.ToEnumerable<double>().ToArray()).ToArray();
 
         // compute the relative error (standard deviation / mean) for each simulation
-        var allRelativeErrors = numPhotonsArray.Select((numPhotons, npidx) =>
-            allFluenceMeans[npidx].Zip(allFluenceSecondMoments[npidx], (mean, secondMoment) => 
+        var allRelativeErrors = numPhotonsArray.Select((numPhotons, npIdx) =>
+            allFluenceMeans[npIdx].Zip(allFluenceSecondMoments[npIdx], (mean, secondMoment) => 
                 Math.Sqrt((secondMoment - mean * mean) / numPhotons) / mean).ToArray()).ToArray();
 
         // plot the results using Plotly.NET
         var rhos = rhoRange.GetMidpoints();
         var zs = zRange.GetMidpoints();
         var allRhos = rhos.Select(rho => -rho).Reverse().Concat(rhos).ToArray(); // duplicate for -rho to make symmetric
-        var charts = numPhotonsArray.Select((numPhotons, npidx) =>
+        var charts = numPhotonsArray.Select((numPhotons, npIdx) =>
         {
-            var fluenceRowsToPlot = allFluenceMeans[npidx]
+            var fluenceRowsToPlot = allFluenceMeans[npIdx]
                 .Select(f => Math.Log(f)) // take log for visualization purposes (negative infinity/NaN values won't be rendered )
                 .Chunk(zs.Length) // break the heatmap into rows (inner dimension is zs)   
                 .ToArray();
@@ -101,7 +101,7 @@ internal class Demo01APhotonCountWithFluence : IDemoScript
             var fluenceMap = Heatmap(values: fluenceDataToPlot, x: allRhos, y: zs,
                 xLabel: "ρ [mm]", yLabel: "z [mm]", title: $"log(Φ(ρ, z))");
 
-            var relativeErrorRowsToPlot = allRelativeErrors[npidx]
+            var relativeErrorRowsToPlot = allRelativeErrors[npIdx]
                 .Chunk(zs.Length) // break the heatmap into rows (inner dimension is zs)   
                 .ToArray();
             var relativeErrorDataToPlot = relativeErrorRowsToPlot.Reverse().Concat(relativeErrorRowsToPlot).ToArray(); // duplicate for -rho to make symmetric
