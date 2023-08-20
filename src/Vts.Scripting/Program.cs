@@ -1,73 +1,28 @@
-﻿[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("Vts.Scripting.Test")]
-namespace Vts.Scripting;
+﻿// This is a top-level program that lets you run any of the demos in the Vts.Scripts project.
+// It is a good place to start if you want to run a demo, or if you want to write your own code.
+using Vts.Scripting;
 
-/// <summary>
-/// Top program used to execute the desired demo script(s)
-/// </summary>
-public class Program
-{
-    /// <summary>
-    /// Main function that executes the desired demo script(s)
-    /// </summary>
-    /// <param name="args"></param>
-    public static void Main(string[] args)
-    {
-        ForwardSolvers.Demo18ROfRhoMultiOpPropInversion.RunDemo();
-    }
+// to run a single demo, find the one you want by browsing to them, and run it:
+Vts.Scripting.MonteCarlo.Demo01ROfRhoSimple.RunDemo();
+// or: Vts.Scripting.ForwardSolvers.Demo01ROfRhoAndFtSingle.RunDemo();
+// or: Vts.Scripting.ShortCourse.Demo01APhotonCountWithFluence.RunDemo();
 
-    /// <summary>
-    /// Method to run all Monte Carlo demos
-    /// </summary>
-    internal static void RunAllMonteCarloDemos(bool showPlots = true)
-    {
-        MonteCarlo.Demo01ROfRhoSimple.RunDemo(showPlots);
-        MonteCarlo.Demo02DawVsCaw.RunDemo(showPlots);
-        MonteCarlo.Demo03ROfRhoFullCustomization.RunDemo(showPlots);
-        MonteCarlo.Demo04N1000VsN100.RunDemo(showPlots);
-        MonteCarlo.Demo05PostProcessor.RunDemo(showPlots);
-        MonteCarlo.Demo06PmcPostProcessor.RunDemo(showPlots);
-        MonteCarlo.Demo07PmcInversion.RunDemo(showPlots);
-        MonteCarlo.Demo08UnitTestComparison.RunDemo(showPlots);
-        MonteCarlo.Demo09TransmittanceTallies.RunDemo(showPlots);
-        MonteCarlo.Demo10ROfFx.RunDemo(showPlots);
-    }
+// or, uncomment one of the following lines to run all demos in a category:
+// BatchDemoRunner.RunAllMonteCarloDemos();
+// BatchDemoRunner.RunAllForwardSolverDemos();
+// BatchDemoRunner.RunAllShortCourseDemos();
 
-    /// <summary>
-    /// Method to run all Forward Solver demos
-    /// </summary>
-    internal static void RunAllForwardSolverDemos(bool showPlots = true)
-    {
-        ForwardSolvers.Demo01ROfRhoAndFtSingle.RunDemo(showPlots);
-        ForwardSolvers.Demo02ROfFxAndFtMulti.RunDemo(showPlots);
-        ForwardSolvers.Demo03FluenceOfRhoAndZ.RunDemo(showPlots);
-        ForwardSolvers.Demo04FluenceOfRhoAndZAndFt.RunDemo(showPlots);
-        ForwardSolvers.Demo05PhdOfRhoAndZ.RunDemo(showPlots);
-        ForwardSolvers.Demo06FluenceOfRhoAndZTwoLayer.RunDemo(showPlots);
-        ForwardSolvers.Demo07PhdOfRhoAndZTwoLayer.RunDemo(showPlots);
-        ForwardSolvers.Demo08AbsorbedEnergyOfRhoAndZ.RunDemo(showPlots);
-        ForwardSolvers.Demo09ROfRhoMulti.RunDemo(showPlots);
-        ForwardSolvers.Demo10ROfRhoAndTimeMulti.RunDemo(showPlots);
-        ForwardSolvers.Demo11ROfFxAndTime.RunDemo(showPlots);
-        ForwardSolvers.Demo12ROfFxSingle.RunDemo(showPlots);
-        ForwardSolvers.Demo13ROfFxMultiOpProp.RunDemo(showPlots);
-        ForwardSolvers.Demo14ROfFxMultiOpPropIntralipid.RunDemo(showPlots);
-        ForwardSolvers.Demo15ROfFxMultiOpPropMie.RunDemo(showPlots);
-        ForwardSolvers.Demo16ROfFxMultiPowerLaw.RunDemo(showPlots);
-        ForwardSolvers.Demo17ROfRhoMultiOpProp.RunDemo(showPlots);
-        ForwardSolvers.Demo18ROfRhoMultiOpPropInversion.RunDemo(showPlots);
-        ForwardSolvers.Demo19ROfRhoTwoLayerMultiOpProp.RunDemo(showPlots);
-        ForwardSolvers.Demo20ROfFxTwoLayerMultiOpProp.RunDemo(showPlots);
-        ForwardSolvers.Demo21ROfRhoAndFtTwoLayerMultiOpProp.RunDemo(showPlots);
-        ForwardSolvers.Demo22ROfRhoAndFtTwoLayerMultiOpProp.RunDemo(showPlots);
-    }
-
-    /// <summary>
-    /// Method to run all Short Course examples
-    /// </summary>
-    internal static void RunAllShortCourseDemos(bool showPlots = true)
-    {
-        ShortCourse.Demo01APhotonCountWithFluence.RunDemo(showPlots);
-        ShortCourse.Demo01BAnalogVsDiscreteWithFluence.RunDemo(showPlots);
-        ShortCourse.Demo02AnalogVsContinuousWithReflectance.RunDemo(showPlots);
-    }
-}
+// you can also put any of your own code here, if you want, e.g. commenting out this code will run a Monte Carlo simulation:
+// var rhos = new DoubleRange(0.0, 10.0, 101);
+// var simulationResults = new MonteCarloSimulation(
+//     new SimulationInput
+//     {
+//         N = 10_000,
+//         DetectorInputs = new IDetectorInput[] { new ROfRhoDetectorInput { Rho = rhos, Name = "ROfRho" } }
+//     }).Run();
+// var rhoMidpoints = rhos.GetMidpoints();
+// var detectorResults = (ROfRhoDetector)simulationResults.ResultsDictionary["ROfRho"];
+// LineChart(
+//     xValues: rhoMidpoints, 
+//     yValues: detectorResults.Mean.Select(r => Math.Log(r)).ToArray(), 
+//     xLabel: "ρ [mm]", yLabel: "log(R(ρ) [mm-2])", title: "log(R(ρ))").Show();

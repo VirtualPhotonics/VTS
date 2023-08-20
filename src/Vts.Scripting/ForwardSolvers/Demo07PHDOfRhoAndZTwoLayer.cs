@@ -36,17 +36,7 @@ internal class Demo07PhdOfRhoAndZTwoLayer : IDemoScript
         var zs = new DoubleRange(start: 0.1, stop: 19.9, number: 100).AsEnumerable().ToArray(); // range of depths in mm
 
         // predict the tissue's fluence(rho, z) for the given optical properties 
-        //var fluenceOfRhoAndZ = solver.FluenceOfRhoAndZ(new[] { opRegions }, rhos, zs );
-        var fluenceOfRhoAndZ = ComputationFactory.ComputeFluence(
-            forwardSolver: solver,
-            solutionDomainType: FluenceSolutionDomainType.FluenceOfRhoAndZ,
-            independentAxesTypes: new[]
-            {
-                IndependentVariableAxis.Rho,
-                IndependentVariableAxis.Z
-            },
-            independentValues: new[] { rhos, zs },
-            tissueRegions: opRegions);
+        var fluenceOfRhoAndZ = solver.FluenceOfRhoAndZ(new[] { opRegions }, rhos, zs );
 
         var sourceDetectorSeparation = 10; // mm
         var phd = ComputationFactory.GetPHD(forwardSolverType: ForwardSolverType.PointSourceSDA,
