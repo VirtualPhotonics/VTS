@@ -94,10 +94,10 @@ internal class Demo02AnalogVsContinuousWithReflectance : IDemoScript
         var (aawIdx, cawIdx) = (0, 1); // (analog, continuous) absorption weighting indices for convenience
         var reflectanceChart = Chart.Combine(new[]
         {
-            LineChart(rhos, allReflectanceMeans[aawIdx].Select(f => Math.Log(f)).ToArray(), xLabel: "ρ [mm]", yLabel: $"log(R(ρ) [mm-2]) - AAW"),
-            LineChart(rhos, allReflectanceMeans[cawIdx].Select(f => Math.Log(f)).ToArray(), xLabel: "ρ [mm]", yLabel: $"log(R(ρ) [mm-2]) - CAW")
+            LineChart(rhos, allReflectanceMeans[aawIdx].Select(f => Math.Log(f)).ToArray(), xLabel: "ρ [mm]", yLabel: $"log(R(ρ) [mm-2])", title: "Analog"),
+            LineChart(rhos, allReflectanceMeans[cawIdx].Select(f => Math.Log(f)).ToArray(), xLabel: "ρ [mm]", yLabel: $"log(R(ρ) [mm-2])", title: "CAW")
         });
-        var errorChart = LineChart(rhos, relativeErrorDifference, xLabel: "ρ [mm]", yLabel: $"Δ-error(ρ) (AAW-CAW)");
+        var errorChart = LineChart(rhos, relativeErrorDifference, xLabel: "ρ [mm]", yLabel: $"Δ-error(ρ) (Analog-CAW)");
         var combinedChart = Chart.Grid(new[]{ reflectanceChart, errorChart }, nRows: 2, nCols: 1, Pattern: Plotly.NET.StyleParam.LayoutGridPattern.Coupled);
 
         if (showPlots)

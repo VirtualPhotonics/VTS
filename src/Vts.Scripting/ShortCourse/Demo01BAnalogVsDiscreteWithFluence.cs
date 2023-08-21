@@ -52,17 +52,21 @@ internal class Demo01BAnalogVsDiscreteWithFluence : IDemoScript
         };
 
         // define how many different photon count and absorption weighting combos to simulate
-        var simulationTuples = new[]
-        { 
-            (numPhotons:    10, weightingType: AbsorptionWeightingType.Analog), 
-            (numPhotons:   100, weightingType: AbsorptionWeightingType.Analog),
-            (numPhotons:  1000, weightingType: AbsorptionWeightingType.Analog),
-            (numPhotons: 10000, weightingType: AbsorptionWeightingType.Analog),
-            (numPhotons:    10, weightingType: AbsorptionWeightingType.Discrete),
-            (numPhotons:   100, weightingType: AbsorptionWeightingType.Discrete),
-            (numPhotons:  1000, weightingType: AbsorptionWeightingType.Discrete),
-            (numPhotons: 10000, weightingType: AbsorptionWeightingType.Discrete),
-        };
+        var weightingTypeArray = new[] { AbsorptionWeightingType.Analog, AbsorptionWeightingType.Discrete };
+        var numPhotonsArray = new[] { 10, 100, 1000, 10000 };
+        var simulationTuples = weightingTypeArray.SelectMany(wt => numPhotonsArray.Select(np => (numPhotons: np, weightingType: wt))).ToArray();
+        // equivalent to:
+        //var simulationTuples = new[]
+        //{
+        //    (numPhotons:    10, weightingType: AbsorptionWeightingType.Analog),
+        //    (numPhotons:   100, weightingType: AbsorptionWeightingType.Analog),
+        //    (numPhotons:  1000, weightingType: AbsorptionWeightingType.Analog),
+        //    (numPhotons: 10000, weightingType: AbsorptionWeightingType.Analog),
+        //    (numPhotons:    10, weightingType: AbsorptionWeightingType.Discrete),
+        //    (numPhotons:   100, weightingType: AbsorptionWeightingType.Discrete),
+        //    (numPhotons:  1000, weightingType: AbsorptionWeightingType.Discrete),
+        //    (numPhotons: 10000, weightingType: AbsorptionWeightingType.Discrete),
+        //};
 
         // create an array of simulations, one for each different photon count value
         var allSimulations = simulationTuples.Select(tuple => 
@@ -113,22 +117,22 @@ internal class Demo01BAnalogVsDiscreteWithFluence : IDemoScript
                 .ToArray();
             var fluenceDataToPlot = fluenceRowsToPlot.Reverse().Concat(fluenceRowsToPlot).ToArray(); // duplicate for -rho to make symmetric
             var fluenceMap = Heatmap(values: fluenceDataToPlot, x: allRhos, y: zs,
-                xLabel: "ρ [mm]", yLabel: "z [mm]", title: $"log(Φ(ρ, z))");
+                xLabel: "ρ [mm]", yLabel: "z [mm]", title: $"log(Φ(ρ, z)) - {tuple.weightingType} N={tuple.numPhotons}");
 
             var relativeErrorRowsToPlot = allRelativeErrors[tupleIdx]
                 .Chunk(zs.Length) // break the heatmap into rows (inner dimension is zs)   
                 .ToArray();
             var relativeErrorDataToPlot = relativeErrorRowsToPlot.Reverse().Concat(relativeErrorRowsToPlot).ToArray(); // duplicate for -rho to make symmetric
             var relativeErrorMap = Heatmap(values: relativeErrorDataToPlot, x: allRhos, y: zs,
-                xLabel: "ρ [mm]", yLabel: "z [mm]", title: $"error(ρ, z)");
+                xLabel: "ρ [mm]", yLabel: "z [mm]", title: $"error(ρ, z) - {tuple.weightingType} N={tuple.numPhotons}");
 
             var combined = Chart.Grid(new[]{ fluenceMap, relativeErrorMap }, nRows: 2, nCols: 1, Pattern: Plotly.NET.StyleParam.LayoutGridPattern.Coupled);
 
             return combined;
         });
-        var analogVsDiscreteRelativeErrorCharts = relativeErrorDifference.Select((difference, differenceIdx) =>
+        var analogVsDiscreteRelativeErrorCharts = numPhotonsArray.Select((numPhotons, npIdx) =>
         {
-            var differenceRowsToPlot = relativeErrorDifference[differenceIdx]
+            var differenceRowsToPlot = relativeErrorDifference[npIdx]
                 .Chunk(zs.Length) // break the heatmap into rows (inner dimension is zs)   
                 .ToArray();
             var differenceDataToPlot = differenceRowsToPlot.Reverse().Concat(differenceRowsToPlot).ToArray(); // duplicate for -rho to make symmetric

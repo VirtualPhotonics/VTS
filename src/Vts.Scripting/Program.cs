@@ -3,7 +3,8 @@
 using Vts.Scripting;
 
 // to run a single demo, find the one you want by browsing to them, and run it:
-Vts.Scripting.ForwardSolvers.Demo18ROfRhoMultiOpPropInversion.RunDemo();
+Vts.Scripting.ShortCourse.Demo02AnalogVsContinuousWithReflectance.RunDemo();
+// or: Vts.Scripting.MonteCarlo.Demo01ROfRhoSimple.RunDemo();
 // or: Vts.Scripting.ForwardSolvers.Demo01ROfRhoAndFtSingle.RunDemo();
 // or: Vts.Scripting.ShortCourse.Demo01APhotonCountWithFluence.RunDemo();
 
