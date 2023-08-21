@@ -98,7 +98,7 @@ internal class Demo18ROfRhoMultiOpPropInversion : IDemoScript
         var logMeasuredReflectance = measuredData.Select(r => Math.Log(r)).ToArray();
         var logGuessReflectance = initialGuessReflectanceSpectrum.Select(r => Math.Log(r)).ToArray();
         var logFitReflectance = fitReflectanceSpectrum.Select(r => Math.Log(r)).ToArray();
-        var (xLabel, yLabel) = ("ρ [mm]", "log(R(ρ)) [mm-2]");
+        var (xLabel, yLabel) = ("wavelength [nm]", "log(R(λ)) [mm-2]");
         var chart = Chart.Combine(new[]
         {
             ScatterChart(wavelengths, logMeasuredReflectance, xLabel, yLabel, title: "Measured Data"),

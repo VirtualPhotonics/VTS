@@ -25,7 +25,7 @@ internal class Demo11ROfFxAndTime : IDemoScript
 
         // Plot reflectance as a function of time at the specified spatial frequencies
         var fxChart = Chart.Combine(rOfFxAndTime.Chunk(ts.Length).Select((rOfTime ,fxi) => // take and plot each R(t) (outer loop is spatial frequency)
-            LineChart(ts, rOfTime, xLabel: "time [ns]", yLabel: $"|R(t)| [s-1]", title: $"amp@fx={fxs[fxi]:F3}")));
+            LineChart(ts, rOfTime, xLabel: "time [ns]", yLabel: $"R(t) [ns-1]", title: $"amp@fx={fxs[fxi]:F3}")));
         
         var (tIdx0p01, tIdx0p05) = (10, 50);
         var rOfFx0p01 = rOfFxAndTime.TakeEveryNth(ts.Length, skip: tIdx0p01).ToArray(); // t = 0.01 ns data
@@ -34,8 +34,8 @@ internal class Demo11ROfFxAndTime : IDemoScript
         // Plot reflectance as a function of time at the specified spatial frequencies
         var timeChart = Chart.Combine(new[]
         {
-            LineChart(fxs, rOfFx0p01, xLabel: "fx [mm-1]", yLabel: $"|R(fx)| [unitless]", title: $"amp@t={ts[tIdx0p01]:F3}"),
-            LineChart(fxs, rOfFx0p05, xLabel: "fx [mm-1]", yLabel: $"|R(fx)| [unitless]", title: $"amp@t={ts[tIdx0p05]:F3}")
+            LineChart(fxs, rOfFx0p01, xLabel: "fx [mm-1]", yLabel: $"R(fx) [unitless]", title: $"amp@t={ts[tIdx0p01]:F3}"),
+            LineChart(fxs, rOfFx0p05, xLabel: "fx [mm-1]", yLabel: $"R(fx) [unitless]", title: $"amp@t={ts[tIdx0p05]:F3}")
         });
 
         if (showPlots)

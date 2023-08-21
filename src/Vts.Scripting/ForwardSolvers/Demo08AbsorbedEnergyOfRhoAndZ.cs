@@ -34,7 +34,7 @@ internal class Demo08AbsorbedEnergyOfRhoAndZ : IDemoScript
             .Concat(absorbedEnergyRowsToPlot).ToArray(); // duplicate for -rho to make symmetric
         var absorbedEnergyChart = Heatmap(
             values: allAbsorbedEnergyRowsToPlot, x: allRhos, y: zs,
-            xLabel: "ρ [mm]", yLabel: "z [mm]", title: $"log(AbsorbedEnergy(ρ, z) [mm-3*mW-1])");
+            xLabel: "ρ [mm]", yLabel: "z [mm]", title: $"log(AbsorbedEnergy(ρ, z) [mm-3])");
 
         if (showPlots)
         {

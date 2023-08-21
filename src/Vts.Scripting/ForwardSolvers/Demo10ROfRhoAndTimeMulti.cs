@@ -22,23 +22,19 @@ internal class Demo10ROfRhoAndTimeMulti : IDemoScript
             new OpticalProperties(mua:  0.1, musp: 1, g: 0.8, n: 1.4),
             new OpticalProperties(mua:  0.2, musp: 1, g: 0.8, n: 1.4)
         };
-        var rhos = new DoubleRange(start: 0.5, stop: 9.5, number: 19).AsEnumerable().ToArray(); // range of radial detector locations in mm
+        var rho = 10; // radial detector location in mm
         var ts = new DoubleRange(start: 0, stop: 0.5, number: 501).AsEnumerable().ToArray(); // range of times in ns
 
         // predict the reflectance at each specified optical property and source-detector separation
-        var allROfRho = solver.ROfRhoAndTime(ops, rhos, ts).ToArray();
+        var allROfRho = solver.ROfRhoAndTime(ops, rho, ts).ToArray();
 
         // Plot log(reflectance) as a function of time at a range of source-detector separations
         // Create two plots - one for each set of optical properties
-        var op1Chart = allROfRho.Chunk(ts.Length).Skip(0).Take(rhos.Length).Select((rOfTime, rIdx) => // pull out each R(t) (innermost loop is time)
-            LineChart(ts, rOfTime.Select(r => Math.Log(r)).ToArray(),
-                xLabel: "t [ns]", yLabel: $"log(R(t) [mm-2*s-1]) @ mua={ops[0].Mua:F3}", title: $"log(R(t)) @ ρ={rhos[rIdx]:F3}"));
-        var op2Chart = allROfRho.Chunk(ts.Length).Skip(rhos.Length).Take(rhos.Length).Select((rOfTime, rIdx) => 
-            LineChart(ts, rOfTime.Select(r => Math.Log(r)).ToArray(),
-                xLabel: "t [ns]", yLabel: $"log(R(t) [mm-2*s-1]) @ mua={ops[1].Mua:F3}", title: $"log(R(t)) @ ρ={rhos[rIdx]:F3}"));
+        var bothCharts = allROfRho.Chunk(ts.Length).Select((rOfTime, opIdx) => // pull out each R(t) (innermost loop is time)
+            LineChart(ts, rOfTime.Select(r =>r).ToArray(),
+                xLabel: "t [ns]", yLabel: $"R(t) [mm-2*ns-1])", title: $"R(t) @ mua={ops[opIdx].Mua:F3}"));
 
-        var chartCombined = Chart.Grid(new[] { Chart.Combine(op1Chart), Chart.Combine(op2Chart) }, 
-            nRows: 1, nCols: 2, Pattern: Plotly.NET.StyleParam.LayoutGridPattern.Coupled);
+        var chartCombined = Chart.Combine(bothCharts);
 
         if (showPlots)
         {

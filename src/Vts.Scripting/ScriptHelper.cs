@@ -109,10 +109,10 @@ public static class ScriptHelper
             ReverseScale: false, ReverseYAxis: true,
             Transpose: true,
             Text: title,
-            ColorScale: Plotly.NET.StyleParam.Colorscale.Viridis
+            ColorScale: Plotly.NET.StyleParam.Colorscale.Hot
         ).WithTraceInfo(title, ShowLegend: !string.IsNullOrWhiteSpace(title))
          .WithLegendStyle(X: 0, Y: 150);
-        
+
         //var chartLayout = Plotly.NET.GenericChart.getLayout(chart);
         //var yAxis = Plotly.NET.Layout.getLinearAxisById(Plotly.NET.StyleParam.SubPlotId.NewYAxis(1)).Invoke(chartLayout);
         //yAxis.SetValue("scaleanchor", Plotly.NET.StyleParam.LinearAxisId.NewX(1));

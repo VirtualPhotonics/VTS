@@ -70,11 +70,11 @@ internal class Demo21ROfRhoAndFtTwoLayerMultiOpProp : IDemoScript
         // Plot reflectance as a function of times at each set of optical properties
         var chart = Chart.Combine(
             new[] {
-                LineChart(ts, rOfTime1, xLabel: "t [ns]", yLabel: $"R(t) [mm-2*s-1] @ rho={rho}mm",
+                LineChart(ts, rOfTime1, xLabel: "t [ns]", yLabel: $"R(t) [mm-2*ns-1] @ rho={rho}mm",
                     title: $"R(t) [mm-2*s-1] @ rho={rho}mm (mua1={op1[0].RegionOP.Mua:F3}, mua2={op1[1].RegionOP.Mua:F3})"),
-                LineChart(ts, rOfTime2, xLabel: "t [ns]", yLabel: $"R(t) [mm-2*s-1] @ rho={rho}mm",
+                LineChart(ts, rOfTime2, xLabel: "t [ns]", yLabel: $"R(t) [mm-2*ns-1] @ rho={rho}mm",
                     title: $"R(t) [mm-2*s-1] @ rho={rho}mm (mua1={op2[0].RegionOP.Mua:F3}, mua2={op2[1].RegionOP.Mua:F3})"),
-                LineChart(ts, rOfTime3, xLabel: "t [ns]", yLabel: $"R(t) [mm-2*s-1] @ rho= {rho}mm",
+                LineChart(ts, rOfTime3, xLabel: "t [ns]", yLabel: $"R(t) [mm-2*ns-1] @ rho= {rho}mm",
                     title: $"R(t) [mm-2*s-1] @ rho={rho}mm (mua1={op3[0].RegionOP.Mua:F3}, mua2={op3[1].RegionOP.Mua:F3})")
             }
         );

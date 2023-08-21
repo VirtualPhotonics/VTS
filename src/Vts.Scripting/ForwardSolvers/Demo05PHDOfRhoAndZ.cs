@@ -23,9 +23,9 @@ internal class Demo05PhdOfRhoAndZ : IDemoScript
         var zs = new DoubleRange(start: 0.1, stop: 19.9, number: 100).AsEnumerable().ToArray(); // range of depths in mm
 
         // predict the tissue's fluence(rho, z) for the given optical properties 
-        var fluenceOfRhoAndZ = solver.FluenceOfFxAndZ(new[]{ op }, rhos, zs);
+        var fluenceOfRhoAndZ = solver.FluenceOfRhoAndZ(new[]{ op }, rhos, zs);
         var sourceDetectorSeparation = 10; // mm
-        var phd = ComputationFactory.GetPHD(forwardSolverType: ForwardSolverType.DistributedPointSourceSDA,
+        var phd = ComputationFactory.GetPHD(forwardSolverType: ForwardSolverType.PointSourceSDA,
             fluenceOfRhoAndZ, sourceDetectorSeparation, ops: new[] { op }, rhos, zs);
 
         var allRhos = rhos;//.Select(rho => -rho).Reverse().Concat(rhos).ToArray(); // duplicate for -rho to make symmetric
