@@ -8,5 +8,5 @@ interface IDemoScript
     /// <summary>
     /// The one required static method for all demo scripts
     /// </summary>
-    static abstract void RunDemo(bool showPlots = true);
+    // static abstract void RunDemo(bool showPlots = true); // todo: fix this in a future branch
 }
