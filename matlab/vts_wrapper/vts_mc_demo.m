@@ -8,7 +8,7 @@ clc
 startup();
 
 % ======================================================================= %
-%% Example 1: run a simple Monte Carlo simulation with 1000 photons
+%% Example 01: run a simple Monte Carlo simulation with 1000 photons
 
 % create a default set of inputs
 si = SimulationInput();
@@ -29,7 +29,7 @@ title('Reflectance vs \rho for N=1000');
 set(f,'Name','Reflectance vs Rho for N=1000');
 
 % ======================================================================= %
-%% Example 2: run Monte Carlo simulations for two absorption weighting types 
+%% Example 02: run Monte Carlo simulations for two absorption weighting types 
 % with 1000 photons each and compare computation time
 
 % create a default set of inputs
@@ -49,7 +49,7 @@ si.Options.AbsorptionWeightingType = 'Discrete';
 output2 = VtsMonteCarlo.RunSimulation(si);
 
 % ======================================================================= %
-%% Example 3: run a Monte Carlo simulation with a fully-customized input
+%% Example 03: run a Monte Carlo simulation with a fully-customized input
 % (values used here are the class defaults)
 
 % 1) define a source...
@@ -128,7 +128,7 @@ input.Options = options;
 output = VtsMonteCarlo.RunSimulation(input);
 
 % ======================================================================= %
-%% Example 4: run a list of Monte Carlo simulations
+%% Example 04: run a list of Monte Carlo simulations
 % create a list of two default SimulationInput with different numbers of 
 % photons
 
@@ -156,7 +156,7 @@ title('Simulation 2 results');
 set(f,'Name','Simulation 2 results');
 
 % ======================================================================= %
-% Example 5: run a Monte Carlo simulation with post-processing enabled
+% Example 05: run a Monte Carlo simulation with post-processing enabled
 % First run a simulation, then post-process the generated database and
 % compare on-the-fly results with post-processed results
 si = SimulationInput();
@@ -187,7 +187,7 @@ set(f,'Name','Post processing a database');
 legend('on-the-fly','post-processed');
 
 % ======================================================================= %
-% Example 6: run a Monte Carlo simulation with pMC post-processing enabled
+% Example 06: run a Monte Carlo simulation with pMC post-processing enabled
 % First run a simulation, then post-process the generated database CA
 % varying optical properties
 si = SimulationInput();
@@ -260,7 +260,7 @@ title('Perturbation MC using CAW');
 set(f,'Name','Perturbation MC using CAW');
 
 % ======================================================================= %
-% Example 7: run a Monte Carlo simulation with pMC post-processing enabled
+% Example 07: run a Monte Carlo simulation with pMC post-processing enabled
 % Use generated database to solve inverse problem with measured data
 % generated using Nurbs
 % NOTE: convergence to measured data optical properties affected by:
@@ -375,7 +375,7 @@ disp(sprintf('error =   [%f %5.3f]',abs(measOPs(1)-recoveredOPs(1))/measOPs(1),.
     abs(measMus-recoveredOPs(2))/measOPs(2)));
 
 % ======================================================================= %
-% Example 8: run a Monte Carlo simulation and verify results with
+% Example 08: run a Monte Carlo simulation and verify results with
 % those in unit tests in Visual Studio
 % spell out all input to ensure same settings as in unit test
 si = SimulationInput();
@@ -422,8 +422,9 @@ if ((abs(d1.Mean(1,1)-0.95492965855)<0.00000000001) && ...
     (abs(d3.Mean(1,1)-95.492965855)<0.000000001))
   disp('unit tests pass');
 end
+
 % ======================================================================= %
-%% Example 9: run a Monte Carlo simulation for transmittance tallies with 1000 photons
+%% Example 09: run a Monte Carlo simulation for transmittance tallies with 1000 photons
 
 % create a default set of inputs
 si = SimulationInput();
@@ -463,6 +464,7 @@ d2 = output.Detectors(output.DetectorNames{2}); % TOfFx
 f = figure; plot(d2.Fx, abs(d2.Mean)); ylabel('T(fx) [unitless]'); xlabel('Fx (mm^-^1)');
 title('Transmittance vs fx for N=1000');
 set(f,'Name','Transmittance vs Fx for N=1000');
+
 % ======================================================================= %
 %% Example 10: run R(fx) detector results
 
