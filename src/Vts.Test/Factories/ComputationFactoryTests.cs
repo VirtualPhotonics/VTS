@@ -1,4 +1,4 @@
-using Moq;
+using NSubstitute;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -19,104 +19,59 @@ namespace Vts.Test.Factories
         private double[] _realFluence;
         private double[] _firstAxis, _secondAxis;
         private Complex[] _complexFluence;
-        private Mock<TwoLayerSDAForwardSolver> _twoLayerSdaForwardSolverMock;
-        private Mock<MonteCarloForwardSolver> _monteCarloForwardSolverMock;
+        private TwoLayerSDAForwardSolver _twoLayerSdaForwardSolverMock;
+        private MonteCarloForwardSolver _monteCarloForwardSolverMock;
 
         [OneTimeSetUp]
         public void One_time_setup()
         {
-            _twoLayerSdaForwardSolverMock = new Mock<TwoLayerSDAForwardSolver>()
-            {
-                CallBase = true
-            };
-            _monteCarloForwardSolverMock = new Mock<MonteCarloForwardSolver>()
-            {
-                CallBase = true
-            };
+            _twoLayerSdaForwardSolverMock = Substitute.ForPartsOf<TwoLayerSDAForwardSolver>();
+            _monteCarloForwardSolverMock = Substitute.ForPartsOf<MonteCarloForwardSolver>();
             // Setup the mocks for forward solver methods
             // ROfRho
-            _monteCarloForwardSolverMock.Setup(x => x.ROfRho(It.IsAny<OpticalProperties>(), It.IsAny<double>()))
-                .Returns(0.1);
+            _monteCarloForwardSolverMock.ROfRho(Arg.Any<OpticalProperties>(), Arg.Any<double>()).Returns(0.1);
             _twoLayerSdaForwardSolverMock
-                .Setup(x => x.ROfRho(It.IsAny<IOpticalPropertyRegion[]>(), It.IsAny<double>())).Returns(0.2);
+                .ROfRho(Arg.Any<IOpticalPropertyRegion[]>(), Arg.Any<double>()).Returns(0.2);
             // ROFTheta
-            _monteCarloForwardSolverMock.Setup(x => x.ROfTheta(It.IsAny<OpticalProperties>(), It.IsAny<double>()))
-                .Returns(0.3);
+            _monteCarloForwardSolverMock.ROfTheta(Arg.Any<OpticalProperties>(), Arg.Any<double>()).Returns(0.3);
             // ROfFx
-            _monteCarloForwardSolverMock.Setup(x => x.ROfFx(It.IsAny<OpticalProperties>(), It.IsAny<double>()))
-                .Returns(0.4);
+            _monteCarloForwardSolverMock.ROfFx(Arg.Any<OpticalProperties>(), Arg.Any<double>()).Returns(0.4);
             _twoLayerSdaForwardSolverMock
-                .Setup(x => x.ROfFx(It.IsAny<IOpticalPropertyRegion[]>(), It.IsAny<double>())).Returns(0.5);
+                .ROfFx(Arg.Any<IOpticalPropertyRegion[]>(), Arg.Any<double>()).Returns(0.5);
             // ROfRhoAndTime
-            _monteCarloForwardSolverMock.Setup(x =>
-                x.ROfRhoAndTime(It.IsAny<OpticalProperties>(), It.IsAny<double>(), It.IsAny<double>())).Returns(0.6);
-            _twoLayerSdaForwardSolverMock.Setup(x =>
-                    x.ROfRhoAndTime(It.IsAny<IOpticalPropertyRegion[]>(), It.IsAny<double>(), It.IsAny<double>()))
-                .Returns(0.7);
+            _monteCarloForwardSolverMock.ROfRhoAndTime(Arg.Any<OpticalProperties>(), Arg.Any<double>(), Arg.Any<double>()).Returns(0.6);
+            _twoLayerSdaForwardSolverMock.ROfRhoAndTime(Arg.Any<IOpticalPropertyRegion[]>(), Arg.Any<double>(), Arg.Any<double>()).Returns(0.7);
             // ROfRhoAndFt
             _monteCarloForwardSolverMock
-                .Setup(x => x.ROfRhoAndFt(It.IsAny<OpticalProperties>(), It.IsAny<double>(), It.IsAny<double>()))
-                .Returns(new Complex(0.8, 0));
+                .ROfRhoAndFt(Arg.Any<OpticalProperties>(), Arg.Any<double>(), Arg.Any<double>()).Returns(new Complex(0.8, 0));
             _twoLayerSdaForwardSolverMock
-                .Setup(x => x.ROfRhoAndFt(It.IsAny<IOpticalPropertyRegion[]>(), It.IsAny<double>(), It.IsAny<double>()))
-                .Returns(new Complex(0.9, 0));
+                .ROfRhoAndFt(Arg.Any<IOpticalPropertyRegion[]>(), Arg.Any<double>(), Arg.Any<double>()).Returns(new Complex(0.9, 0));
             // ROfFxAndTime
-            _monteCarloForwardSolverMock.Setup(x =>
-                x.ROfFxAndTime(It.IsAny<OpticalProperties>(), It.IsAny<double>(), It.IsAny<double>())).Returns(1.0);
-            _twoLayerSdaForwardSolverMock.Setup(x =>
-                    x.ROfFxAndTime(It.IsAny<IOpticalPropertyRegion[]>(), It.IsAny<double>(), It.IsAny<double>()))
-                .Returns(1.1);
+            _monteCarloForwardSolverMock.ROfFxAndTime(Arg.Any<OpticalProperties>(), Arg.Any<double>(), Arg.Any<double>()).Returns(1.0);
+            _twoLayerSdaForwardSolverMock.ROfFxAndTime(Arg.Any<IOpticalPropertyRegion[]>(), Arg.Any<double>(), Arg.Any<double>()).Returns(1.1);
             // ROfFxAndFt
             _monteCarloForwardSolverMock
-                .Setup(x => x.ROfFxAndFt(It.IsAny<OpticalProperties>(), It.IsAny<double>(), It.IsAny<double>()))
-                .Returns(new Complex(1.2, 0));
+                .ROfFxAndFt(Arg.Any<OpticalProperties>(), Arg.Any<double>(), Arg.Any<double>()).Returns(new Complex(1.2, 0));
             _twoLayerSdaForwardSolverMock
-                .Setup(x => x.ROfFxAndFt(It.IsAny<IOpticalPropertyRegion[]>(), It.IsAny<double>(), It.IsAny<double>()))
-                .Returns(new Complex(1.3, 0));
+                .ROfFxAndFt(Arg.Any<IOpticalPropertyRegion[]>(), Arg.Any<double>(), Arg.Any<double>()).Returns(new Complex(1.3, 0));
 
             // FluenceOfRhoAndZ
-            _monteCarloForwardSolverMock
-                .Setup(x => x.FluenceOfRhoAndZ(It.IsAny<IEnumerable<OpticalProperties>>(),
-                    It.IsAny<IEnumerable<double>>(), It.IsAny<IEnumerable<double>>()))
-                .Returns(new List<double> { 0.1, 0.2 });
+            _monteCarloForwardSolverMock.FluenceOfRhoAndZ(Arg.Any<IEnumerable<OpticalProperties>>(), Arg.Any<IEnumerable<double>>(), Arg.Any<IEnumerable<double>>()).Returns(new List<double> { 0.1, 0.2 });
             _twoLayerSdaForwardSolverMock
-                .Setup(x => x.FluenceOfRhoAndZ(It.IsAny<IEnumerable<IOpticalPropertyRegion[]>>(),
-                    It.IsAny<IEnumerable<double>>(), It.IsAny<IEnumerable<double>>()))
-                .Returns(new List<double> { 0.3, 0.4 });
+                .FluenceOfRhoAndZ(Arg.Any<IEnumerable<IOpticalPropertyRegion[]>>(), Arg.Any<IEnumerable<double>>(), Arg.Any<IEnumerable<double>>()).Returns(new List<double> { 0.3, 0.4 });
             // FluenceOfRhoAndZAndTime
             _monteCarloForwardSolverMock
-                .Setup(x => x.FluenceOfRhoAndZAndTime(It.IsAny<IEnumerable<OpticalProperties>>(),
-                    It.IsAny<IEnumerable<double>>(), It.IsAny<IEnumerable<double>>(), It.IsAny<IEnumerable<double>>()))
-                .Returns(new List<double> { 0.5, 0.6 });
-            _twoLayerSdaForwardSolverMock.Setup(x =>
-                    x.FluenceOfRhoAndZAndTime(It.IsAny<IEnumerable<IOpticalPropertyRegion[]>>(),
-                        It.IsAny<IEnumerable<double>>(), It.IsAny<IEnumerable<double>>(),
-                        It.IsAny<IEnumerable<double>>()))
-                .Returns(new List<double> { 0.7, 0.8 });
+                .FluenceOfRhoAndZAndTime(Arg.Any<IEnumerable<OpticalProperties>>(), Arg.Any<IEnumerable<double>>(), Arg.Any<IEnumerable<double>>(), Arg.Any<IEnumerable<double>>()).Returns(new List<double> { 0.5, 0.6 });
+            _twoLayerSdaForwardSolverMock.FluenceOfRhoAndZAndTime(Arg.Any<IEnumerable<IOpticalPropertyRegion[]>>(), Arg.Any<IEnumerable<double>>(), Arg.Any<IEnumerable<double>>(), Arg.Any<IEnumerable<double>>()).Returns(new List<double> { 0.7, 0.8 });
             // FluenceOfRhoAndZAndFt
-            _monteCarloForwardSolverMock
-                .Setup(x => x.FluenceOfRhoAndZAndFt(It.IsAny<IEnumerable<OpticalProperties>>(),
-                    It.IsAny<IEnumerable<double>>(), It.IsAny<IEnumerable<double>>(), It.IsAny<IEnumerable<double>>()))
-                .Returns(new List<Complex> { new Complex(0.9, 0), new Complex(1.0, 0) });
-            _twoLayerSdaForwardSolverMock
-                .Setup(x => x.FluenceOfRhoAndZAndFt(It.IsAny<IEnumerable<IOpticalPropertyRegion[]>>(),
-                    It.IsAny<IEnumerable<double>>(), It.IsAny<IEnumerable<double>>(), It.IsAny<IEnumerable<double>>()))
-                .Returns(new List<Complex> { new Complex(1.1, 0), new Complex(1.2, 0) });
+            _monteCarloForwardSolverMock.FluenceOfRhoAndZAndFt(Arg.Any<IEnumerable<OpticalProperties>>(), Arg.Any<IEnumerable<double>>(), Arg.Any<IEnumerable<double>>(), Arg.Any<IEnumerable<double>>()).Returns(new List<Complex> { new Complex(0.9, 0), new Complex(1.0, 0) });
+            _twoLayerSdaForwardSolverMock.FluenceOfRhoAndZAndFt(Arg.Any<IEnumerable<IOpticalPropertyRegion[]>>(), Arg.Any<IEnumerable<double>>(), Arg.Any<IEnumerable<double>>(), Arg.Any<IEnumerable<double>>()).Returns(new List<Complex> { new Complex(1.1, 0), new Complex(1.2, 0) });
             // FluenceOfFxAndZ
-            _monteCarloForwardSolverMock
-                .Setup(x => x.FluenceOfFxAndZ(It.IsAny<IEnumerable<OpticalProperties>>(),
-                    It.IsAny<IEnumerable<double>>(), It.IsAny<IEnumerable<double>>()))
-                .Returns(new List<double> { 1.3, 1.4 });
+            _monteCarloForwardSolverMock.FluenceOfFxAndZ(Arg.Any<IEnumerable<OpticalProperties>>(), Arg.Any<IEnumerable<double>>(), Arg.Any<IEnumerable<double>>()).Returns(new List<double> { 1.3, 1.4 });
             // FluenceOfFxAndZAndTime
-            _monteCarloForwardSolverMock
-                .Setup(x => x.FluenceOfFxAndZAndTime(It.IsAny<IEnumerable<OpticalProperties>>(),
-                    It.IsAny<IEnumerable<double>>(), It.IsAny<IEnumerable<double>>(), It.IsAny<IEnumerable<double>>()))
-                .Returns(new List<double> { 1.5, 1.6 });
+            _monteCarloForwardSolverMock.FluenceOfFxAndZAndTime(Arg.Any<IEnumerable<OpticalProperties>>(), Arg.Any<IEnumerable<double>>(), Arg.Any<IEnumerable<double>>(), Arg.Any<IEnumerable<double>>()).Returns(new List<double> { 1.5, 1.6 });
             // FluenceOfFxAndZAndFt
-            _monteCarloForwardSolverMock
-                .Setup(x => x.FluenceOfFxAndZAndFt(It.IsAny<IEnumerable<OpticalProperties>>(),
-                    It.IsAny<IEnumerable<double>>(), It.IsAny<IEnumerable<double>>(), It.IsAny<IEnumerable<double>>()))
-                .Returns(new List<Complex> { new Complex(1.7, 0), new Complex(1.8, 0) });
+            _monteCarloForwardSolverMock.FluenceOfFxAndZAndFt(Arg.Any<IEnumerable<OpticalProperties>>(), Arg.Any<IEnumerable<double>>(), Arg.Any<IEnumerable<double>>(), Arg.Any<IEnumerable<double>>()).Returns(new List<Complex> { new Complex(1.7, 0), new Complex(1.8, 0) });
         }
 
         [SetUp]
@@ -627,7 +582,7 @@ namespace Vts.Test.Factories
         {
             var independentValues = new[] { _firstAxis, _secondAxis };
             var fluence = ComputationFactory.ComputeFluence(
-                _twoLayerSdaForwardSolverMock.Object,
+                _twoLayerSdaForwardSolverMock,
                 FluenceSolutionDomainType.FluenceOfRhoAndZ,
                 new[] { IndependentVariableAxis.Rho, IndependentVariableAxis.Z },
                 independentValues,
@@ -647,7 +602,7 @@ namespace Vts.Test.Factories
         {
             var independentValues = new[] { _firstAxis, _secondAxis };
             var fluence = ComputationFactory.ComputeFluence(
-                _monteCarloForwardSolverMock.Object,
+                _monteCarloForwardSolverMock,
                 FluenceSolutionDomainType.FluenceOfFxAndZ,
                 new[] { IndependentVariableAxis.Fx, IndependentVariableAxis.Z },
                 independentValues,
@@ -661,7 +616,7 @@ namespace Vts.Test.Factories
         {
             var independentValues = new[] { _firstAxis, _secondAxis };
             var fluence = ComputationFactory.ComputeFluence(
-                _monteCarloForwardSolverMock.Object,
+                _monteCarloForwardSolverMock,
                 FluenceSolutionDomainType.FluenceOfRhoAndZAndTime,
                 new[] { IndependentVariableAxis.Rho, IndependentVariableAxis.Z, IndependentVariableAxis.Time },
                 independentValues,
@@ -675,7 +630,7 @@ namespace Vts.Test.Factories
         {
             var independentValues = new[] { _firstAxis, _secondAxis };
             var fluence = ComputationFactory.ComputeFluence(
-                _monteCarloForwardSolverMock.Object,
+                _monteCarloForwardSolverMock,
                 FluenceSolutionDomainType.FluenceOfRhoAndZAndTime,
                 new[] { IndependentVariableAxis.Time, IndependentVariableAxis.Rho, IndependentVariableAxis.Z },
                 independentValues,
@@ -689,7 +644,7 @@ namespace Vts.Test.Factories
         {
             var independentValues = new[] { _firstAxis, _secondAxis };
             var fluence = ComputationFactory.ComputeFluence(
-                _monteCarloForwardSolverMock.Object,
+                _monteCarloForwardSolverMock,
                 FluenceSolutionDomainType.FluenceOfFxAndZAndTime,
                 new[] { IndependentVariableAxis.Fx, IndependentVariableAxis.Z, IndependentVariableAxis.Time },
                 independentValues,
@@ -703,7 +658,7 @@ namespace Vts.Test.Factories
         {
             var independentValues = new[] { _firstAxis, _secondAxis };
             var fluence = ComputationFactory.ComputeFluence(
-                _monteCarloForwardSolverMock.Object,
+                _monteCarloForwardSolverMock,
                 FluenceSolutionDomainType.FluenceOfFxAndZAndTime,
                 new[] { IndependentVariableAxis.Time, IndependentVariableAxis.Fx, IndependentVariableAxis.Z },
                 independentValues,
@@ -721,7 +676,7 @@ namespace Vts.Test.Factories
                 try
                 {
                     ComputationFactory.ComputeFluence(
-                        _monteCarloForwardSolverMock.Object,
+                        _monteCarloForwardSolverMock,
                         (FluenceSolutionDomainType)Enum.GetValues(typeof(FluenceSolutionDomainType)).Length + 1,
                         new[] { IndependentVariableAxis.Time, IndependentVariableAxis.Fx, IndependentVariableAxis.Z },
                         independentValues,
@@ -744,7 +699,7 @@ namespace Vts.Test.Factories
                 try
                 {
                     ComputationFactory.ComputeFluence(
-                        _monteCarloForwardSolverMock.Object,
+                        _monteCarloForwardSolverMock,
                         FluenceSolutionDomainType.FluenceOfRhoAndZAndTime,
                         new[] { (IndependentVariableAxis)Enum.GetValues(typeof(IndependentVariableAxis)).Length + 1, IndependentVariableAxis.Fx, IndependentVariableAxis.Z },
                         independentValues,
@@ -767,7 +722,7 @@ namespace Vts.Test.Factories
                 try
                 {
                     ComputationFactory.ComputeFluence(
-                        _monteCarloForwardSolverMock.Object,
+                        _monteCarloForwardSolverMock,
                         FluenceSolutionDomainType.FluenceOfFxAndZAndTime,
                         new[] { (IndependentVariableAxis)Enum.GetValues(typeof(IndependentVariableAxis)).Length + 1, IndependentVariableAxis.Fx, IndependentVariableAxis.Z },
                         independentValues,
@@ -809,7 +764,7 @@ namespace Vts.Test.Factories
         {
             var independentValues = new[] { _firstAxis, _secondAxis };
             var fluence = ComputationFactory.ComputeFluenceComplex(
-                _twoLayerSdaForwardSolverMock.Object,
+                _twoLayerSdaForwardSolverMock,
                 FluenceSolutionDomainType.FluenceOfRhoAndZAndFt,
                 new[] { IndependentVariableAxis.Rho, IndependentVariableAxis.Z },
                 independentValues,
@@ -847,7 +802,7 @@ namespace Vts.Test.Factories
         {
             var independentValues = new[] { _firstAxis, _secondAxis };
             var fluence = ComputationFactory.ComputeFluenceComplex(
-                _monteCarloForwardSolverMock.Object,
+                _monteCarloForwardSolverMock,
                 FluenceSolutionDomainType.FluenceOfFxAndZAndFt,
                 new[] { IndependentVariableAxis.Fx, IndependentVariableAxis.Z },
                 independentValues,
@@ -866,7 +821,7 @@ namespace Vts.Test.Factories
         {
             var independentValues = new[] { _firstAxis, _secondAxis };
             var fluence = ComputationFactory.ComputeFluenceComplex(
-                _monteCarloForwardSolverMock.Object,
+                _monteCarloForwardSolverMock,
                 FluenceSolutionDomainType.FluenceOfFxAndZAndFt,
                 new[] { IndependentVariableAxis.Ft, IndependentVariableAxis.Z },
                 independentValues,
@@ -903,7 +858,7 @@ namespace Vts.Test.Factories
         {
             var independentValues = new[] { _firstAxis, _secondAxis };
             var fluence = ComputationFactory.ComputeFluenceComplex(
-                _twoLayerSdaForwardSolverMock.Object,
+                _twoLayerSdaForwardSolverMock,
                 FluenceSolutionDomainType.FluenceOfRhoAndZAndFt,
                 new[] { IndependentVariableAxis.Ft, IndependentVariableAxis.Z, IndependentVariableAxis.Rho },
                 independentValues,
@@ -1399,7 +1354,7 @@ namespace Vts.Test.Factories
         public void Validate_GetForwardReflectanceFunc_returns_data_for_ROfFx()
         {
             var reflectance = ComputationFactory.ComputeReflectance(
-                _monteCarloForwardSolverMock.Object,
+                _monteCarloForwardSolverMock,
                 SolutionDomainType.ROfFx,
                 ForwardAnalysisType.R,
                 new object[]
@@ -1415,7 +1370,7 @@ namespace Vts.Test.Factories
         public void Validate_GetForwardReflectanceFunc_returns_data_for_ROfRhoAndTime()
         {
             var reflectance = ComputationFactory.ComputeReflectance(
-                _monteCarloForwardSolverMock.Object,
+                _monteCarloForwardSolverMock,
                 SolutionDomainType.ROfRhoAndTime,
                 ForwardAnalysisType.R,
                 new object[]
@@ -1432,7 +1387,7 @@ namespace Vts.Test.Factories
         public void Validate_GetForwardReflectanceFunc_returns_data_for_ROfFxAndTime()
         {
             var reflectance = ComputationFactory.ComputeReflectance(
-                _monteCarloForwardSolverMock.Object,
+                _monteCarloForwardSolverMock,
                 SolutionDomainType.ROfFxAndTime,
                 ForwardAnalysisType.R,
                 new object[]
@@ -1449,7 +1404,7 @@ namespace Vts.Test.Factories
         public void Validate_GetForwardReflectanceFunc_returns_data_for_ROfRhoAndFt()
         {
             var reflectance = ComputationFactory.ComputeReflectance(
-                _monteCarloForwardSolverMock.Object,
+                _monteCarloForwardSolverMock,
                 SolutionDomainType.ROfRhoAndFt,
                 ForwardAnalysisType.R,
                 new object[]
@@ -1466,7 +1421,7 @@ namespace Vts.Test.Factories
         public void Validate_GetForwardReflectanceFunc_returns_data_for_ROfFxAndFt()
         {
             var reflectance = ComputationFactory.ComputeReflectance(
-                _monteCarloForwardSolverMock.Object,
+                _monteCarloForwardSolverMock,
                 SolutionDomainType.ROfFxAndFt,
                 ForwardAnalysisType.R,
                 new object[]
@@ -1497,7 +1452,7 @@ namespace Vts.Test.Factories
         public void Validate_GetForwardReflectanceFunc_2_layer_returns_data_for_ROfRho()
         {
             var reflectance = ComputationFactory.ComputeReflectance(
-                _twoLayerSdaForwardSolverMock.Object,
+                _twoLayerSdaForwardSolverMock,
                 SolutionDomainType.ROfRho,
                 ForwardAnalysisType.R,
                 new object[]
@@ -1518,7 +1473,7 @@ namespace Vts.Test.Factories
         public void Validate_GetForwardReflectanceFunc_2_layer_returns_data_for_ROfFx()
         {
             var reflectance = ComputationFactory.ComputeReflectance(
-                _twoLayerSdaForwardSolverMock.Object,
+                _twoLayerSdaForwardSolverMock,
                 SolutionDomainType.ROfFx,
                 ForwardAnalysisType.R,
                 new object[]
@@ -1539,7 +1494,7 @@ namespace Vts.Test.Factories
         public void Validate_GetForwardReflectanceFunc_2_layer_returns_data_for_ROfRhoAndTime()
         {
             var reflectance = ComputationFactory.ComputeReflectance(
-                _twoLayerSdaForwardSolverMock.Object,
+                _twoLayerSdaForwardSolverMock,
                 SolutionDomainType.ROfRhoAndTime,
                 ForwardAnalysisType.R,
                 new object[]
@@ -1564,7 +1519,7 @@ namespace Vts.Test.Factories
         public void Validate_GetForwardReflectanceFunc_2_layer_returns_data_for_ROfFxAndTime()
         {
             var reflectance = ComputationFactory.ComputeReflectance(
-                _twoLayerSdaForwardSolverMock.Object,
+                _twoLayerSdaForwardSolverMock,
                 SolutionDomainType.ROfFxAndTime,
                 ForwardAnalysisType.R,
                 new object[]
@@ -1589,7 +1544,7 @@ namespace Vts.Test.Factories
         public void Validate_GetForwardReflectanceFunc_2_layer_returns_data_for_ROfRhoAndFt()
         {
             var reflectance = ComputationFactory.ComputeReflectance(
-                _twoLayerSdaForwardSolverMock.Object,
+                _twoLayerSdaForwardSolverMock,
                 SolutionDomainType.ROfRhoAndFt,
                 ForwardAnalysisType.R,
                 new object[]
@@ -1611,7 +1566,7 @@ namespace Vts.Test.Factories
         public void Validate_GetForwardReflectanceFunc_2_layer_returns_data_for_ROfFxAndFt()
         {
             var reflectance = ComputationFactory.ComputeReflectance(
-                _twoLayerSdaForwardSolverMock.Object,
+                _twoLayerSdaForwardSolverMock,
                 SolutionDomainType.ROfFxAndFt,
                 ForwardAnalysisType.R,
                 new object[]
