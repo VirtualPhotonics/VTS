@@ -7,7 +7,7 @@ clc
 startup();
 
 % ======================================================================= %
-%% Example 1a: run Monte Carlo simulations for fluence with increasing N photons
+%% Example 01a: run Monte Carlo simulations for fluence with increasing N photons
 clear;
 Nphot=[10, 100, 1000, 10000]; % number of photons launched takes about 1 mins
 
@@ -129,7 +129,8 @@ for j=1:size(Nphot,2)
     save(sprintf('dawSD%d.txt',j),'-ascii','SD');
   end
 end
-%% Example 1b: Compare standard deviation of two absorption methods
+
+%% Example 01b: Compare standard deviation of two absorption methods
 % this cell relies on above cell execution
 f=figure('Position',[scrsz(3)/5 scrsz(4)/5 scrsz(3)/2 scrsz(4)/2]);
 set(f,'Name','Analog relative error - DAW relative error');
@@ -156,7 +157,7 @@ for j=1:size(Nphot,2)
 end
 
 % ======================================================================= %
-%% Example 2: run Monte Carlo simulations accounting for absorption with
+%% Example 02: run Monte Carlo simulations accounting for absorption with
 % analog and continuous absorption weighting with 10,000 photons and compare
 % time and relative error
 

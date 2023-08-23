@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using MathNet.Numerics.Random;
+using NSubstitute;
 using NUnit.Framework;
+using System;
 using Vts.Common;
 using Vts.MonteCarlo;
-using Vts.MonteCarlo.Sources;
 using Vts.MonteCarlo.Factories;
-using MathNet.Numerics.Random;
-using Moq;
-using Vts.IO;
+using Vts.MonteCarlo.Sources;
 
 namespace Vts.Test.MonteCarlo.Factories
 {
@@ -41,13 +38,10 @@ namespace Vts.Test.MonteCarlo.Factories
         [Test]
         public void Demonstrate_GetSource_returns_null_on_faulty_tissue_input()
         {
-            var sourceInputMock = new Mock<ISourceInput>();
-            sourceInputMock.Setup(x => x.CreateSource(
-                It.IsAny<Random>())).Returns((ISource) null);
+            var sourceInputMock = Substitute.For<ISourceInput>();
+            sourceInputMock.CreateSource(Arg.Any<Random>()).Returns((ISource) null);
 
-            Assert.IsNull(SourceFactory.GetSource(
-                sourceInputMock.Object,
-                new MersenneTwister(0)));
+            Assert.IsNull(SourceFactory.GetSource(sourceInputMock, new MersenneTwister(0)));
         }
     }
 }

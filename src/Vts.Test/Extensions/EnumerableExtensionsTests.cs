@@ -1,8 +1,8 @@
-﻿using System;
+﻿using NSubstitute;
+using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using Moq;
-using NUnit.Framework;
 using Vts.Extensions;
 using Vts.Modeling.ForwardSolvers;
 
@@ -11,23 +11,17 @@ namespace Vts.Test.Extensions
     [TestFixture]
     public class EnumerableExtensionsTests
     {
-        private Mock<ForwardSolverBase> _forwardSolverBaseMock;
-        private Mock<ForwardSolverBase> _forwardSolverBaseMockWithSetup;
+        private ForwardSolverBase _forwardSolverBaseMock;
+        private ForwardSolverBase _forwardSolverBaseMockWithSetup;
         private IEnumerable<double> _doubleEnumerable;
 
         [OneTimeSetUp]
         public void One_time_setup()
         {
-            _forwardSolverBaseMock = new Mock<ForwardSolverBase>()
-            {
-                CallBase = true
-            };
-            _forwardSolverBaseMockWithSetup = new Mock<ForwardSolverBase>()
-            {
-                CallBase = true
-            };
-            _forwardSolverBaseMockWithSetup.Setup(x => x.ROfRhoAndTime(It.IsAny<OpticalProperties>(), It.IsAny<double>(), It.IsAny<double>())).Returns(0.6);
-            _doubleEnumerable = _forwardSolverBaseMockWithSetup.Object.ROfRhoAndTime(
+            _forwardSolverBaseMock = Substitute.ForPartsOf<ForwardSolverBase>();
+            _forwardSolverBaseMockWithSetup = Substitute.ForPartsOf<ForwardSolverBase>();
+            _forwardSolverBaseMockWithSetup.ROfRhoAndTime(Arg.Any<OpticalProperties>(), Arg.Any<double>(), Arg.Any<double>()).Returns(0.6);
+            _doubleEnumerable = _forwardSolverBaseMockWithSetup.ROfRhoAndTime(
                 new List<OpticalProperties>
                 {
                     new OpticalProperties(0.1, 1, 0.8, 1.4),
@@ -48,7 +42,7 @@ namespace Vts.Test.Extensions
         public void Test_LoopOverVariables_with_two_values()
         {
             var doubleList =
-                _forwardSolverBaseMock.Object.ROfRho(new List<OpticalProperties>
+                _forwardSolverBaseMock.ROfRho(new List<OpticalProperties>
                 {
                     new OpticalProperties(0.1, 1, 0.8, 1.4),
                     new OpticalProperties(0.01, 1, 0.8, 1.4)
@@ -70,7 +64,7 @@ namespace Vts.Test.Extensions
         public void Test_LoopOverVariables_with_three_values()
         {
             var doubleList =
-                _forwardSolverBaseMock.Object.ROfRhoAndTime(new List<OpticalProperties>
+                _forwardSolverBaseMock.ROfRhoAndTime(new List<OpticalProperties>
                 {
                     new OpticalProperties(0.1, 1, 0.8, 1.4),
                     new OpticalProperties(0.01, 1, 0.8, 1.4)
