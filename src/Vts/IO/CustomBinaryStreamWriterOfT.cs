@@ -78,7 +78,7 @@ public class CustomBinaryStreamWriter<T> : IDisposable
         {
             // guard against directory not existing ahead of time
             var path = Path.GetDirectoryName(_filename);
-            if(!string.IsNullOrWhiteSpace(path))
+            if (!string.IsNullOrWhiteSpace(path))
             {
                 Directory.CreateDirectory(path);
             }
