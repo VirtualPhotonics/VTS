@@ -37,7 +37,7 @@ namespace Vts.MonteCarlo.Factories
         {
             return databaseTypes.Select(v => GetSurfaceVirtualBoundaryDatabaseWriter(v,
                 filePath, outputName)).ToList();
-        
+
         }
         /// <summary>
         /// Static method to instantiate correct PhotonDatabaseWriter given a 
@@ -108,7 +108,7 @@ namespace Vts.MonteCarlo.Factories
             {
                 case DatabaseType.pMCDiffuseReflectance:
                     return new CollisionInfoDatabaseWriter(VirtualBoundaryType.pMCDiffuseReflectance,
-                        Path.Combine(filePath, outputName, "CollisionInfoDatabase"), 
+                        Path.Combine(filePath, outputName, "CollisionInfoDatabase"),
                         tissue.Regions.Count);
                 case DatabaseType.pMCDiffuseTransmittance:
                     return new CollisionInfoDatabaseWriter(VirtualBoundaryType.pMCDiffuseTransmittance,
@@ -169,4 +169,4 @@ namespace Vts.MonteCarlo.Factories
         }
 
     }
-} 
+}

@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using NUnit.Framework;
-using Vts.Common;
-using Vts.MonteCarlo;
+﻿using NUnit.Framework;
+using System;
 using Vts.MonteCarlo.Factories;
-using MathNet.Numerics.Random;
-using Moq;
-using Vts.MonteCarlo.Detectors;
 
 namespace Vts.Test.MonteCarlo.Factories
 {

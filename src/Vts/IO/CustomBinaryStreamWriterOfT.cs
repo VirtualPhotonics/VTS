@@ -1,204 +1,165 @@
-﻿using System;
+﻿#nullable enable
+using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace Vts.IO
+namespace Vts.IO;
+
+/// <summary>
+/// Class to write specified types to a binary stream
+/// </summary>
+/// <typeparam name="T">Type of the data</typeparam>
+public class CustomBinaryStreamWriter<T> : IDisposable
 {
+    private readonly string _filename;
+    private readonly Action<BinaryWriter, T> _writeMap;
+    private Stream? _stream;
+    private BinaryWriter? _binaryWriter;
+    private bool _disposedValue;
+
     /// <summary>
-    /// Class to write specified types to a binary stream
+    /// Constructor
     /// </summary>
-    /// <typeparam name="T">Type of the data</typeparam>
-    public class CustomBinaryStreamWriter<T> : IDisposable
+    /// <param name="fileName">Name of the binary file to write</param>
+    /// <param name="binaryWriter">ICustomBinaryWriter of generic type T</param>
+    public CustomBinaryStreamWriter(
+        string fileName,
+        ICustomBinaryWriter<T> binaryWriter)
+        : this(fileName, binaryWriter.WriteToBinary)
     {
-        private string _filename;
-        private Action<BinaryWriter, T> _writeMap;
+    }
 
-        private Stream _stream;
-        private BinaryWriter _binaryWriter;
+    /// <summary>
+    /// Custom binary stream writer
+    /// </summary>
+    /// <param name="fileName">Name of the binary file</param>
+    /// <param name="writeMap">Action on BinaryWriter and generic type T</param>
+    public CustomBinaryStreamWriter(
+        string fileName,
+        Action<BinaryWriter, T> writeMap)
+    {
+        ArgumentNullException.ThrowIfNull(fileName);
+        ArgumentNullException.ThrowIfNull(writeMap);
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="fileName">Name of the binary file to write</param>
-        /// <param name="binaryWriter">ICustomBinaryWriter of generic type T</param>
-        public CustomBinaryStreamWriter(
-            string fileName,
-            ICustomBinaryWriter<T> binaryWriter)
-            : this(fileName, binaryWriter.WriteToBinary)
+        _filename = fileName;
+        _writeMap = writeMap;
+
+        IsOpen = false;
+        Count = 0;
+
+        OpenStream();
+    }
+
+    /// <summary>
+    /// Value to check if the file is open for writing
+    /// </summary>
+    public bool IsOpen { get; private set; }
+    /// <summary>
+    /// The number of items that have been written
+    /// </summary>
+    public int Count { get; private set; }
+
+    /// <summary>
+    /// Optional code that will be run before the database begins writing (after call to Open())
+    /// </summary>
+    public Action PreWriteAction { get; set; } = () => { };
+
+    /// <summary>
+    /// Optional code that will be run after the database has completed writing (on call to Close() or Dispose())
+    /// </summary>
+    public Action PostWriteAction { get; set; } = () => { };
+
+    /// <summary>
+    /// Opens the filestream for subsequent calls to WriteDataPoint or WriteDataPoints
+    /// </summary>
+    private void OpenStream()
+    {
+        try
         {
-        }
-
-        /// <summary>
-        /// Custom binary stream writer
-        /// </summary>
-        /// <param name="fileName">Name of the binary file</param>
-        /// <param name="writeMap">Action on BinaryWriter and generic type T</param>
-        public CustomBinaryStreamWriter(
-            string fileName,
-            Action<BinaryWriter, T> writeMap)
-        {
-            _filename = fileName;
-            _writeMap = writeMap;
-
-            IsOpen = false;
-            Count = 0;
-
-            OpenStream();
-        }
-
-        /// <summary>
-        /// Value to check if the file is open for writing
-        /// </summary>
-        public bool IsOpen { get; private set; }
-        /// <summary>
-        /// The number of items that have been written
-        /// </summary>
-        public int Count { get; private set; }
-
-        /// <summary>
-        /// Optional code that will be run before the database begins writing (after call to Open())
-        /// </summary>
-        public Action PreWriteAction { get; set; }
-
-        /// <summary>
-        /// Optional code that will be run after the database has completed writing (on call to Close() or Dispose())
-        /// </summary>
-        public Action PostWriteAction { get; set; }
-
-        /// <summary>
-        /// Opens the filestream for subsequent calls to WriteDataPoint or WriteDataPoints
-        /// </summary>
-        private void OpenStream()
-        {
-            try
+            // guard against directory not existing ahead of time
+            var path = Path.GetDirectoryName(_filename);
+            if (!string.IsNullOrWhiteSpace(path))
             {
-                _stream = StreamFinder.GetFileStream(_filename, FileMode.Create);
-                _binaryWriter = new BinaryWriter(_stream);
-
-                IsOpen = true;
-
-                if (PreWriteAction != null)
-                {
-                    PreWriteAction();
-                }
+                Directory.CreateDirectory(path);
             }
-            catch (IOException)
+
+            _stream = StreamFinder.GetFileStream(_filename, FileMode.Create);
+            if (_stream is null)
             {
-                Close();
+                throw new IOException("Could not open filestream for writing");
             }
-        }
 
-        /// <summary>
-        /// Writes a single data point to the underlying filestream
-        /// </summary>
-        /// <param name="item">Single data point to be written</param>
-        public void Write(T item)
+            _binaryWriter = new BinaryWriter(_stream);
+
+            IsOpen = true;
+
+            PreWriteAction?.Invoke();
+        }
+        catch (IOException)
         {
-            _writeMap(_binaryWriter, item);
+            Close();
+        }
+    }
+
+    /// <summary>
+    /// Writes a single data point to the underlying filestream
+    /// </summary>
+    /// <param name="item">Single data point to be written</param>
+    public void Write(T item)
+    {
+        _writeMap(_binaryWriter!, item); // _binaryWriter is guaranteed to be non-null here
+        Count++;
+    }
+
+    /// <summary>
+    /// Writes an enumerable list of data points to the underlying filestream
+    /// </summary>
+    /// <param name="items">A list of data points to be written</param>
+    public void Write(IEnumerable<T> items)
+    {
+        foreach (var item in items)
+        {
+            Write(item);
             Count++;
         }
+    }
 
-        /// <summary>
-        /// Writes an enumerable list of data points to the underlying filestream
-        /// </summary>
-        /// <param name="items">A list of data points to be written</param>
-        public void Write(IEnumerable<T> items)
+    /// <summary>
+    /// Closes the filestream and writes the accompanying .xml
+    /// </summary>
+    public void Close()
+    {
+        Dispose();
+    }
+
+    /// <summary>
+    /// Internal method for disposing the IDisposable object
+    /// </summary>
+    /// <param name="disposing">Specifies whether the object is currently being disposed</param>
+    protected virtual void Dispose(bool disposing)
+    {
+        if (_disposedValue)
+            return;
+
+        if (disposing)
         {
-            foreach (var item in items)
-            {
-                Write(item);
-                Count++;
-            }
+            _binaryWriter?.Close();
+            _stream?.Close();
+            PostWriteAction?.Invoke();
         }
 
-        /// <summary>
-        /// Closes the filestream and writes the accompanying .xml
-        /// </summary>
-        public virtual void Close()
-        {
-            Dispose();
-        }
+        // TODO: free unmanaged resources (unmanaged objects) and override finalizer
+        // TODO: set large fields to null
+        _disposedValue = true;
+    }
 
-        #region IDisposable Members
-
-        private bool _disposed = false;
-        // Do not make this method virtual.
-        // A derived class should not be able to override this method.
-
-        /// <summary>
-        /// Closes the file and writes the accompanying .xml
-        /// </summary>
-        public void Dispose()
-        {
-            Dispose(true);
-            // This object will be cleaned up by the Dispose method.
-            // Therefore, you should call GC.SupressFinalize to
-            // take this object off the finalization queue
-            // and prevent finalization code for this object
-            // from executing a second time.
-            GC.SuppressFinalize(this);
-        }
-
-        // Dispose(bool disposing) executes in two distinct scenarios.
-        // If disposing equals true, the method has been called directly
-        // or indirectly by a user's code. Managed and unmanaged resources
-        // can be disposed.
-        // If disposing equals false, the method has been called by the
-        // runtime from inside the finalizer and you should not reference
-        // other objects. Only unmanaged resources can be disposed.
-        private void Dispose(bool disposing)
-        {
-            // Check to see if Dispose has already been called.
-            if (!this._disposed)
-            {
-                // If disposing equals true, dispose all managed
-                // and unmanaged resources.
-                if (disposing)
-                {
-                    // Dispose managed resources.
-                    if (_binaryWriter != null)
-                    {
-                        _binaryWriter.Close();
-                    }
-
-                    if (_stream != null)
-                    {
-                        _stream.Close();
-                    }
-
-                    if (PostWriteAction != null)
-                    {
-                        PostWriteAction();
-                    }
-                }
-
-                // Call the appropriate methods to clean up
-                // unmanaged resources here.
-                // If disposing is false,
-                // only the following code is executed.
-
-                // Note disposing has been done.
-                _disposed = true;
-            }
-
-        }
-
-        // Use C# destructor syntax for finalization code.
-        // This destructor will run only if the Dispose method
-        // does not get called.
-        // It gives your base class the opportunity to finalize.
-        // Do not provide destructors in types derived from this class.
-        /// <summary>
-        /// Custom binary stream writer
-        /// </summary>
-        ~CustomBinaryStreamWriter()
-        {
-            // Do not re-create Dispose clean-up code here.
-            // Calling Dispose(false) is optimal in terms of
-            // readability and maintainability.
-            Dispose(false);
-        }
-
-        #endregion
+    /// <summary>
+    /// Disposes the IDisposable object
+    /// </summary>
+    public void Dispose()
+    {
+        // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+        Dispose(disposing: true);
+        GC.SuppressFinalize(this);
     }
 }
