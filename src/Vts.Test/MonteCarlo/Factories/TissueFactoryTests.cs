@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections;
+using NSubstitute;
+using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 using MathNet.Numerics.Random;
-using NUnit.Framework;
-using NUnit.Framework.Internal;
-using Vts.MonteCarlo;
-using Vts.MonteCarlo.Tissues;
-using Vts.MonteCarlo.Factories;
-using Moq;
 using Vts.Common;
+using Vts.MonteCarlo;
+using Vts.MonteCarlo.Factories;
+using Vts.MonteCarlo.Tissues;
 
 namespace Vts.Test.MonteCarlo.Factories
 {
@@ -67,16 +65,16 @@ namespace Vts.Test.MonteCarlo.Factories
         [Test]
         public void Demonstrate_GetTissue_returns_null_on_faulty_tissue_input()
         {
-            var tissueInputMock = new Mock<ITissueInput>();
+            var tissueInputMock = Substitute.For<ITissueInput>();
             var phaseFunctions = new Dictionary<string, IPhaseFunction>();
-            tissueInputMock.Setup(x => x.CreateTissue(
-                It.IsAny<AbsorptionWeightingType>(),
+            tissueInputMock.CreateTissue(
+                Arg.Any<AbsorptionWeightingType>(),
                 phaseFunctions,
-                It.IsAny<double>())).Returns((ITissue)null);
+                Arg.Any<double>()).Returns((ITissue)null);
 
             Assert.Throws<ArgumentException>(() =>
                 TissueFactory.GetTissue(
-                    tissueInputMock.Object,
+                    tissueInputMock,
                     AbsorptionWeightingType.Analog,
                     phaseFunctions,
                     0.0));
