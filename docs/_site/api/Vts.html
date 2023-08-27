@@ -1,0 +1,396 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Namespace Vts
+ </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Namespace Vts
+ ">
+      
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      
+      
+      
+      
+  </head>
+
+  <script type="module">
+    import options from './../public/main.js'
+    import { init } from './../public/docfx.min.js'
+    init(options)
+  </script>
+
+  <script>
+    const theme = localStorage.getItem('theme') || 'auto'
+    document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+  </script>
+
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../logo.svg" alt="">
+            
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" style="margin-top: -.65em; margin-left: -.8em" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="Vts">
+
+  <h1 id="Vts" data-uid="Vts" class="text-break">Namespace Vts
+</h1>
+  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="markdown level0 remarks"></div>
+
+    <h3 id="classes">
+Classes
+</h3>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Vts.BindableObject.html">BindableObject</a></dt>
+      <dd><p>Implements the INotifyPropertyChangedPlus interface and
+exposes a RaisePropertyChanged method for derived
+classes to raise the PropertyChange event.  The event
+arguments created by this class are cached to prevent
+managed heap fragmentation.</p>
+<p>Adapted from Josh Smith's post:
+<a href="http://joshsmithonwpf.wordpress.com/2007/08/29/a-base-class-which-implements-inotifypropertychanged/">http://joshsmithonwpf.wordpress.com/2007/08/29/a-base-class-which-implements-inotifypropertychanged/</a></p>
+<p>Added SetProperty method to simplify set operations.
+Modified &quot;RaisePropertyChanged&quot; to &quot;OnPropertyChanged&quot;
+to work with INotifyPropertyChangedPlus, enabling
+compatibility with the DependsOn attribute and
+PropertyDependencyManager class.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Vts.BindableObjectWithChangeTracking.html">BindableObjectWithChangeTracking</a></dt>
+      <dd><p>Adds change tracking to a bindable object class</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Vts.DependsOnAttribute.html">DependsOnAttribute</a></dt>
+      <dd><p>This is an attribute that when applied to a property will create a dependency for
+when that property changes. The DependsOn attribute contains no logic, just a list
+of dependencies. It is used by the PropertyDependencyManager to determine if a
+property has changed due to a change in a dependent property.
+Usage:
+[DependsOn(&quot;Second&quot;, third)]
+public int First { get; set; }</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Vts.EnumExtensions.html">EnumExtensions</a></dt>
+      <dd><p>methods to ease access to enums</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Vts.EnumHelper.html">EnumHelper</a></dt>
+      <dd><p>Helper methods for enums</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Vts.GlobalConstants.html">GlobalConstants</a></dt>
+      <dd><p>Class of global constants</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Vts.OpticalProperties.html">OpticalProperties</a></dt>
+      <dd><p>Describes optical properties needed as input for various
+forward solver models.
+<a class="xref" href="Vts.html">Namespace contains the main classes</a></p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Vts.OpticalPropertiesConverter.html">OpticalPropertiesConverter</a></dt>
+      <dd><p>Describes optical properties Converter for deserializing OPs based on (mua, mus, g, n)
+not on (mua, musp, g, n)
+ref: <a href="https://stackoverflow.com/questions/23017716/json-net-how-to-deserialize-without-using-the-default-constructor/23017892#23017892">https://stackoverflow.com/questions/23017716/json-net-how-to-deserialize-without-using-the-default-constructor/23017892#23017892</a></p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Vts.PropertyDependencyManager.html">PropertyDependencyManager</a></dt>
+      <dd><p>Class to manage dependencies of INotifyPropertyChanged objects,
+as suggested by Tomas Elison here:
+<a href="http://neilmosafi.blogspot.com/2008/07/is-inotifypropertychanged-anti-pattern.html">http://neilmosafi.blogspot.com/2008/07/is-inotifypropertychanged-anti-pattern.html</a>
+This class builds a dependency graph the &quot;right&quot; way. It knows for example
+that if Quantity is changed, TotalPrice has asked to be informed about this.
+The PropertyDependencyManager listens to the PropertyChanged event for any
+class that is registered with it and uses the dependency graph to propagate
+the events the right way.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Vts.Range-1.html">Range&lt;T&gt;</a></dt>
+      <dd><p>Immutable class that specifies a range of values and allows enumeration</p>
+</dd>
+    </dl>
+    <h3 id="interfaces">
+Interfaces
+</h3>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Vts.IChangeTracking.html">IChangeTracking</a></dt>
+      <dd><p>Interface to enable change tracking in POCO classes</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Vts.IForwardSolver.html">IForwardSolver</a></dt>
+      <dd><p>Defines contract for a forward solver</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Vts.ILayerOpticalPropertyRegion.html">ILayerOpticalPropertyRegion</a></dt>
+      <dd><p>layer optical property region</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Vts.INotifyPropertyChangedPlus.html">INotifyPropertyChangedPlus</a></dt>
+      <dd><p>An adaptation of the INotifyPropertyChanged interface to include
+OnPropertyChanged method.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Vts.IOpticalPropertyRegion.html">IOpticalPropertyRegion</a></dt>
+      <dd><p>interface for region optical properties</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Vts.IOptimizer.html">IOptimizer</a></dt>
+      <dd><p>This is the contract for the inverse solver</p>
+</dd>
+    </dl>
+    <h3 id="enums">
+Enums
+</h3>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Vts.AbsorptionCoefficientUnit.html">AbsorptionCoefficientUnit</a></dt>
+      <dd><p>Enum to represent the possible absorption coefficient inputs</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Vts.AbsorptionWeightingType.html">AbsorptionWeightingType</a></dt>
+      <dd><p>Absorption weighting type used within Monte Carlo code</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Vts.AnalyzerType.html">AnalyzerType</a></dt>
+      <dd><p>Analyzer types</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Vts.BloodConcentrationUnit.html">BloodConcentrationUnit</a></dt>
+      <dd><p>units allowed for blood concentration</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Vts.ChromophoreCoefficientType.html">ChromophoreCoefficientType</a></dt>
+      <dd><p>chromophore coefficient types</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Vts.ChromophoreType.html">ChromophoreType</a></dt>
+      <dd><p>chromophore types</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Vts.ColormapType.html">ColormapType</a></dt>
+      <dd><p>Available choices for mapping grayscale intensity.  These names taken from matlab.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Vts.ConcentrationUnits.html">ConcentrationUnits</a></dt>
+      <dd><p>concentration units</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Vts.DependentVariableAxisUnits.html">DependentVariableAxisUnits</a></dt>
+      <dd><p>dependent variable axis unit types</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Vts.FluenceSolutionDomainType.html">FluenceSolutionDomainType</a></dt>
+      <dd><p>fluence solution domain types</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Vts.ForwardAnalysisType.html">ForwardAnalysisType</a></dt>
+      <dd><p>forward analysis types</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Vts.ForwardSolverType.html">ForwardSolverType</a></dt>
+      <dd><p>Types of Forward solvers in our GUI</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Vts.IndependentVariableAxis.html">IndependentVariableAxis</a></dt>
+      <dd><p>independent variable axis types</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Vts.IndependentVariableAxisUnits.html">IndependentVariableAxisUnits</a></dt>
+      <dd><p>independent variable axis unit types.  These are the default units used throughout code</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Vts.InputParameterType.html">InputParameterType</a></dt>
+      <dd><p>input parameters types used in the Monte Carlo CommandLine application for parameter sweeps</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Vts.InverseFitType.html">InverseFitType</a></dt>
+      <dd><p>inverse solution parameter types</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Vts.MapType.html">MapType</a></dt>
+      <dd><p>map plot types</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Vts.MieScattererType.html">MieScattererType</a></dt>
+      <dd><p>Types of Mie Scatterers</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Vts.MolarUnit.html">MolarUnit</a></dt>
+      <dd><p>molar unit units</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Vts.OptimizerType.html">OptimizerType</a></dt>
+      <dd><p>types of optimization methods</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Vts.ParameterSweepType.html">ParameterSweepType</a></dt>
+      <dd><p>Monte Carlo command line parameter sweep types</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Vts.PhaseFunctionType.html">PhaseFunctionType</a></dt>
+      <dd><p>Phase function type used within the Monte Carlo code</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Vts.PlotNormalizationType.html">PlotNormalizationType</a></dt>
+      <dd><p>plot normalization types</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Vts.PlotToggleType.html">PlotToggleType</a></dt>
+      <dd><p>plot toggle types</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Vts.RandomNumberGeneratorType.html">RandomNumberGeneratorType</a></dt>
+      <dd><p>Random number generator types</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Vts.ReflectancePlotType.html">ReflectancePlotType</a></dt>
+      <dd><p>reflectance plot types</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Vts.ScalingType.html">ScalingType</a></dt>
+      <dd><p>scaling types</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Vts.ScatteringType.html">ScatteringType</a></dt>
+      <dd><p>ScatteringType used within Modeling\Spectroscopy</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Vts.SolutionDomainType.html">SolutionDomainType</a></dt>
+      <dd><p>Reflectance solution domain types</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Vts.SolverType.html">SolverType</a></dt>
+      <dd><p>solver type. Added to determine which panel is in context LMM</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Vts.SpatialDomainType.html">SpatialDomainType</a></dt>
+      <dd><p>spatial-frequency domain types</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Vts.TimeDomainType.html">TimeDomainType</a></dt>
+      <dd><p>temporal-frequency domain types</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Vts.TissueType.html">TissueType</a></dt>
+      <dd><p>tissue types</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Vts.WavelengthUnit.html">WavelengthUnit</a></dt>
+      <dd><p>Enum to represent the possible wavelength and wavenumber inputs</p>
+</dd>
+    </dl>
+
+
+</article>
+
+        <div class="contribution d-print-none">
+        </div>
+
+        
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+
+    <footer class="border-top">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span>Made with <a href="https://dotnet.github.io/docfx">docfx</a></span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

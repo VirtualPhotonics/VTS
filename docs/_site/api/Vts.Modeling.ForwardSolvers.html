@@ -1,0 +1,278 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Namespace Vts.Modeling.ForwardSolvers
+ </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Namespace Vts.Modeling.ForwardSolvers
+ ">
+      
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      
+      
+      
+      
+  </head>
+
+  <script type="module">
+    import options from './../public/main.js'
+    import { init } from './../public/docfx.min.js'
+    init(options)
+  </script>
+
+  <script>
+    const theme = localStorage.getItem('theme') || 'auto'
+    document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+  </script>
+
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../logo.svg" alt="">
+            
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" style="margin-top: -.65em; margin-left: -.8em" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="Vts.Modeling.ForwardSolvers">
+
+  <h1 id="Vts_Modeling_ForwardSolvers" data-uid="Vts.Modeling.ForwardSolvers" class="text-break">Namespace Vts.Modeling.ForwardSolvers
+</h1>
+  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="markdown level0 remarks"></div>
+
+    <h3 id="classes">
+Classes
+</h3>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Vts.Modeling.ForwardSolvers.BSplinesCoefficients.html">BSplinesCoefficients</a></dt>
+      <dd><p>This class holds the coefficients of the non vanishing B-splines
+over a single knot span and the upper and lower limit of the knot span
+mapped to the non parametric space.
+These values are used to evaluate analytically the steady state reflectance
+for the real domain and for the spatial frequency domain through the integration of
+the time resolved curves at the required locations.
+The effect of the linear mapping from the original space to the parametric space
+is embedded within these coefficients.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Vts.Modeling.ForwardSolvers.DeltaPOneForwardSolver.html">DeltaPOneForwardSolver</a></dt>
+      <dd><p>delta-P1 forward solver class</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Vts.Modeling.ForwardSolvers.DiffusionForwardSolverBase.html">DiffusionForwardSolverBase</a></dt>
+      <dd><p>diffusion based forward solvers class</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Vts.Modeling.ForwardSolvers.DiffusionGreensFunctions.html">DiffusionGreensFunctions</a></dt>
+      <dd><p>This class contains Green's functions based on the infinite media diffusion case.
+Source-sink(image) configurations are then composed for the semi-infinite half-space too.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Vts.Modeling.ForwardSolvers.DiffusionParameters.html">DiffusionParameters</a></dt>
+      <dd><p>This class allows creation and copying of a diffusion parameters object, which contains fields
+necessary for solution of diffusion models. The creation is made by passing an OpticalProperties
+object.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Vts.Modeling.ForwardSolvers.DiscreteOrdinatesForwardSolver.html">DiscreteOrdinatesForwardSolver</a></dt>
+      <dd><p>discrete ordinates forward solver</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Vts.Modeling.ForwardSolvers.DistributedGaussianSourceSDAForwardSolver.html">DistributedGaussianSourceSDAForwardSolver</a></dt>
+      <dd><p>Evaluation of the distributed Gaussian diffusion forward solver. This model is a specific
+mathematical derivation in the stationary case for semi-infinite media.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Vts.Modeling.ForwardSolvers.DistributedPointSourceSDAForwardSolver.html">DistributedPointSourceSDAForwardSolver</a></dt>
+      <dd><p>Contains distributed point source solutions for the diffusion point source-image solution in the
+semi-infinite domain.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Vts.Modeling.ForwardSolvers.ForwardSolverBase.html">ForwardSolverBase</a></dt>
+      <dd><p>This is a base class for all forward solvers. It contains default (virtual) vectorization methods such that only the scalar solver methods
+must be implemented to create a new IForwardSolver-implementing class. Override these virtual methods to impose optimizations possible through vectorization.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Vts.Modeling.ForwardSolvers.MonteCarloForwardSolver.html">MonteCarloForwardSolver</a></dt>
+      <dd><p>Forward solver based on the Scaled Monte Carlo approach, proposed by Kienle and Patterson,
+used to evaluate the reflectance of a semi-infinite homogenous medium with g = 0.8 and n = 1.4.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Vts.Modeling.ForwardSolvers.MonteCarloLoader.html">MonteCarloLoader</a></dt>
+      <dd><p>class to handle loading of scaled Monte Carlo database</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Vts.Modeling.ForwardSolvers.NurbsForwardSolver.html">NurbsForwardSolver</a></dt>
+      <dd><p>Forward solver based on the Scaled Monte Carlo approach, proposed by Kienle and Patterson,
+used to evaluate the reflectance of a semi-infinite homogenous medium with g = 0.8 and n = 1.4.
+The reference time and space resolved reflectance, and the reference spatial frequency and
+time resolved reflectance are held in a NurbsGenerator class which computes the interpolation
+necessary to evaluate the reflectance in the specific domain.
+The interpolation is based on NURBS surfaces theory. The main reference used to implement
+this forward solver is 'The NURBS Book' by Las Piegl and Wayne Tiller.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Vts.Modeling.ForwardSolvers.NurbsGenerator.html">NurbsGenerator</a></dt>
+      <dd><p>Class that contains the reference NURBS values.
+Its methods are used to evaluate the value of a point
+on the NURBS surface or curve using B-splines interpolation,
+and to evaluate the integral of a NURBS curve.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Vts.Modeling.ForwardSolvers.NurbsValues.html">NurbsValues</a></dt>
+      <dd><p>Class where the reference values read from binary files in resources are stored.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Vts.Modeling.ForwardSolvers.PointSourceSDAForwardSolver.html">PointSourceSDAForwardSolver</a></dt>
+      <dd><p>Point source standard diffusion approximation forward solver</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Vts.Modeling.ForwardSolvers.SFDDiffusionForwardSolver.html">SFDDiffusionForwardSolver</a></dt>
+      <dd><p>Class containing diffusion approximation solutions to the RTE in the
+spatial frequency domain.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Vts.Modeling.ForwardSolvers.StubNurbsGenerator.html">StubNurbsGenerator</a></dt>
+      <dd><p>Class used for Unit testing of the NurbsGenerator methods and of the NurbsForwardSolver
+class.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Vts.Modeling.ForwardSolvers.TwoLayerSDAForwardSolver.html">TwoLayerSDAForwardSolver</a></dt>
+      <dd><p>This implements Kienle's two-layer SDA solutions described in:</p>
+<ol>
+<li>Kienle et al., &quot;Noninvasive determination of the optical properties of two-layered
+turbid media&quot;, Applied Optics 37(4), 1998.</li>
+<li>Kienle et al., &quot;In vivo determination of the optical properties of muscle with time-
+resolved reflectance using a layered model, Phys. Med. Biol. 44, 1999 (in particular, the
+appendix)
+Notes:</li>
+<li>this solution assumes that the embedded source is within top layer.</li>
+<li>zp = location of embedded isotropic source is determined using layer 1 opt. props.</li>
+<li>zb = extrapolated boundary is determined using layer 1 opt. props.
+This currently inherits ForwardSolverBase.  In order to provide fluence of ft type solutions,
+this would need to inherit DiffusionForwardSolverBase however the methods there assume homogeneous
+tissue so not sure best way to implement ft type solutions.</li>
+</ol>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Vts.Modeling.ForwardSolvers.VectorizedForwardSolverFuncs.html">VectorizedForwardSolverFuncs</a></dt>
+      <dd><p>vectorized forward solver functions</p>
+</dd>
+    </dl>
+    <h3 id="interfaces">
+Interfaces
+</h3>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Vts.Modeling.ForwardSolvers.INurbs.html">INurbs</a></dt>
+      <dd><p>Defines the methods and properties that need to be implemented by the NurbsGenerator
+class and by its stub version, StubNurbsGenerator used for Unit Testing.</p>
+</dd>
+    </dl>
+    <h3 id="enums">
+Enums
+</h3>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Vts.Modeling.ForwardSolvers.ForwardModel.html">ForwardModel</a></dt>
+      <dd><p>ForwardModel enum</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Vts.Modeling.ForwardSolvers.NurbsGeneratorType.html">NurbsGeneratorType</a></dt>
+      <dd><p>Defines the nurbs surface physical domain.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Vts.Modeling.ForwardSolvers.NurbsValuesDimensions.html">NurbsValuesDimensions</a></dt>
+      <dd><p>Specifies the physical dimension of the NURBS characteristic values.
+Space refers to both rho or fx.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Vts.Modeling.ForwardSolvers.SourceConfiguration.html">SourceConfiguration</a></dt>
+      <dd><p>SourceConfiguration enum</p>
+</dd>
+    </dl>
+
+
+</article>
+
+        <div class="contribution d-print-none">
+        </div>
+
+        
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+
+    <footer class="border-top">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span>Made with <a href="https://dotnet.github.io/docfx">docfx</a></span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

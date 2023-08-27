@@ -1,0 +1,1841 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Class NLogLogger
+ </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Class NLogLogger
+ ">
+      
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/VirtualPhotonics/VTS/new/master/apiSpec/new?filename=Vts_Common_Logging_NLogIntegration_NLogLogger.md&amp;value=---%0Auid%3A%20Vts.Common.Logging.NLogIntegration.NLogLogger%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+  </head>
+
+  <script type="module">
+    import options from './../public/main.js'
+    import { init } from './../public/docfx.min.js'
+    init(options)
+  </script>
+
+  <script>
+    const theme = localStorage.getItem('theme') || 'auto'
+    document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+  </script>
+
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../logo.svg" alt="">
+            
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" style="margin-top: -.65em; margin-left: -.8em" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="Vts.Common.Logging.NLogIntegration.NLogLogger">
+
+
+
+  <h1 id="Vts_Common_Logging_NLogIntegration_NLogLogger" data-uid="Vts.Common.Logging.NLogIntegration.NLogLogger" class="text-break">
+    Class NLogLogger
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Common/Logging/NLogLogger.cs/#L35"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="Vts.html">Vts</a>.<a class="xref" href="Vts.Common.html">Common</a>.<a class="xref" href="Vts.Common.Logging.html">Logging</a>.<a class="xref" href="Vts.Common.Logging.NLogIntegration.html">NLogIntegration</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>Vts.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"><p>Implementation of <a class="xref" href="Vts.Common.Logging.ILogger.html">ILogger</a> for NLog.</p>
+</div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class NLogLogger : ILogger</code></pre>
+  </div>
+
+
+
+
+  <dl class="typelist inheritance">
+    <dt>Inheritance</dt>
+    <dd>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></div>
+      <div><span class="xref">NLogLogger</span></div>
+    </dd>
+  </dl>
+
+  <dl class="typelist implements">
+    <dt>Implements</dt>
+    <dd>
+      <div><a class="xref" href="Vts.Common.Logging.ILogger.html">ILogger</a></div>
+    </dd>
+  </dl>
+
+
+  <dl class="typelist derived">
+    <dt>Inherited Members</dt>
+    <dd>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)">object.Equals(object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)">object.Equals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gethashcode">object.GetHashCode()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gettype">object.GetType()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone">object.MemberwiseClone()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.referenceequals">object.ReferenceEquals(object, object)</a>
+    </div>
+  </dd></dl>
+
+  <dl class="typelist extensionMethods">
+    <dt>Extension Methods</dt>
+    <dd>
+  <div>
+      <a class="xref" href="Vts.Extensions.EnumerableExtensions.html#Vts_Extensions_EnumerableExtensions_AsEnumerable__1___0_">EnumerableExtensions.AsEnumerable&lt;T&gt;(T)</a>
+  </div>
+  <div>
+      <a class="xref" href="Vts.Extensions.IEnumerableArrayExtensions.html#Vts_Extensions_IEnumerableArrayExtensions_PopulateFromEnumerable2__2___1_System_Collections_Generic_IEnumerable___0__">IEnumerableArrayExtensions.PopulateFromEnumerable2&lt;T, TArray&gt;(TArray, IEnumerable&lt;T&gt;)</a>
+  </div>
+  <div>
+      <a class="xref" href="Vts.IO.FileIO.html#Vts_IO_FileIO_Clone__1___0_">FileIO.Clone&lt;T&gt;(T)</a>
+  </div>
+  <div>
+      <a class="xref" href="Vts.IO.FileIO.html#Vts_IO_FileIO_WriteJsonToStream__1___0_System_IO_Stream_">FileIO.WriteJsonToStream&lt;T&gt;(T, Stream)</a>
+  </div>
+  <div>
+      <a class="xref" href="Vts.IO.FileIO.html#Vts_IO_FileIO_WriteToJson__1___0_System_String_">FileIO.WriteToJson&lt;T&gt;(T, string)</a>
+  </div>
+  <div>
+      <a class="xref" href="Vts.IO.FileIO.html#Vts_IO_FileIO_WriteToXMLStream__1___0_System_IO_Stream_">FileIO.WriteToXMLStream&lt;T&gt;(T, Stream)</a>
+  </div>
+  <div>
+      <a class="xref" href="Vts.IO.FileIO.html#Vts_IO_FileIO_WriteToXML__1___0_System_String_">FileIO.WriteToXML&lt;T&gt;(T, string)</a>
+  </div>
+  <div>
+      <a class="xref" href="Vts.IO.VtsJsonSerializer.html#Vts_IO_VtsJsonSerializer_WriteToJsonFile__1___0_System_String_">VtsJsonSerializer.WriteToJsonFile&lt;T&gt;(T, string)</a>
+  </div>
+  <div>
+      <a class="xref" href="Vts.IO.VtsJsonSerializer.html#Vts_IO_VtsJsonSerializer_WriteToJson__1___0_">VtsJsonSerializer.WriteToJson&lt;T&gt;(T)</a>
+  </div>
+  </dd></dl>
+
+
+
+
+
+  <h2 class="section" id="constructors">Constructors
+</h2>
+
+
+  <a id="Vts_Common_Logging_NLogIntegration_NLogLogger__ctor_" data-uid="Vts.Common.Logging.NLogIntegration.NLogLogger.#ctor*"></a>
+
+  <h3 id="Vts_Common_Logging_NLogIntegration_NLogLogger__ctor_NLog_Logger_Vts_Common_Logging_NLogIntegration_NLogFactory_" data-uid="Vts.Common.Logging.NLogIntegration.NLogLogger.#ctor(NLog.Logger,Vts.Common.Logging.NLogIntegration.NLogFactory)">
+  NLogLogger(Logger, NLogFactory)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Common/Logging/NLogLogger.cs/#L42"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="Vts.Common.Logging.NLogIntegration.NLogLogger.html">NLogLogger</a> class.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public NLogLogger(Logger logger, NLogFactory factory)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>logger</code> <span class="xref">Logger</span></dt>
+    <dd><p>The logger</p>
+</dd>
+    <dt><code>factory</code> <a class="xref" href="Vts.Common.Logging.NLogIntegration.NLogFactory.html">NLogFactory</a></dt>
+    <dd><p>The factory</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="properties">Properties
+</h2>
+
+
+  <a id="Vts_Common_Logging_NLogIntegration_NLogLogger_Factory_" data-uid="Vts.Common.Logging.NLogIntegration.NLogLogger.Factory*"></a>
+
+  <h3 id="Vts_Common_Logging_NLogIntegration_NLogLogger_Factory" data-uid="Vts.Common.Logging.NLogIntegration.NLogLogger.Factory">
+  Factory
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Common/Logging/NLogLogger.cs/#L101"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets or sets the factory.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected NLogFactory Factory { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Vts.Common.Logging.NLogIntegration.NLogFactory.html">NLogFactory</a></dt>
+    <dd><p>The factory</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Vts_Common_Logging_NLogIntegration_NLogLogger_IsDebugEnabled_" data-uid="Vts.Common.Logging.NLogIntegration.NLogLogger.IsDebugEnabled*"></a>
+
+  <h3 id="Vts_Common_Logging_NLogIntegration_NLogLogger_IsDebugEnabled" data-uid="Vts.Common.Logging.NLogIntegration.NLogLogger.IsDebugEnabled">
+  IsDebugEnabled
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Common/Logging/NLogLogger.cs/#L56"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Determines if messages of priority &quot;debug&quot; will be logged.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool IsDebugEnabled { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p>True if &quot;debug&quot; messages will be logged.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Vts_Common_Logging_NLogIntegration_NLogLogger_IsErrorEnabled_" data-uid="Vts.Common.Logging.NLogIntegration.NLogLogger.IsErrorEnabled*"></a>
+
+  <h3 id="Vts_Common_Logging_NLogIntegration_NLogLogger_IsErrorEnabled" data-uid="Vts.Common.Logging.NLogIntegration.NLogLogger.IsErrorEnabled">
+  IsErrorEnabled
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Common/Logging/NLogLogger.cs/#L65"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Determines if messages of priority &quot;error&quot; will be logged.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool IsErrorEnabled { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p><code>true</code> if &quot;error&quot; messages will be logged, <code>false</code> otherwise</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Vts_Common_Logging_NLogIntegration_NLogLogger_IsFatalEnabled_" data-uid="Vts.Common.Logging.NLogIntegration.NLogLogger.IsFatalEnabled*"></a>
+
+  <h3 id="Vts_Common_Logging_NLogIntegration_NLogLogger_IsFatalEnabled" data-uid="Vts.Common.Logging.NLogIntegration.NLogLogger.IsFatalEnabled">
+  IsFatalEnabled
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Common/Logging/NLogLogger.cs/#L74"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Determines if messages of priority &quot;fatal&quot; will be logged.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool IsFatalEnabled { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p><code>true</code> if &quot;fatal&quot; messages will be logged, <code>false</code> otherwise</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Vts_Common_Logging_NLogIntegration_NLogLogger_IsInfoEnabled_" data-uid="Vts.Common.Logging.NLogIntegration.NLogLogger.IsInfoEnabled*"></a>
+
+  <h3 id="Vts_Common_Logging_NLogIntegration_NLogLogger_IsInfoEnabled" data-uid="Vts.Common.Logging.NLogIntegration.NLogLogger.IsInfoEnabled">
+  IsInfoEnabled
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Common/Logging/NLogLogger.cs/#L83"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Determines if messages of priority &quot;info&quot; will be logged.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool IsInfoEnabled { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p><code>true</code> if &quot;info&quot; messages will be logged, <code>false</code> otherwise</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Vts_Common_Logging_NLogIntegration_NLogLogger_IsWarnEnabled_" data-uid="Vts.Common.Logging.NLogIntegration.NLogLogger.IsWarnEnabled*"></a>
+
+  <h3 id="Vts_Common_Logging_NLogIntegration_NLogLogger_IsWarnEnabled" data-uid="Vts.Common.Logging.NLogIntegration.NLogLogger.IsWarnEnabled">
+  IsWarnEnabled
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Common/Logging/NLogLogger.cs/#L92"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Determines if messages of priority &quot;warn&quot; will be logged.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool IsWarnEnabled { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p><code>true</code> if &quot;warn&quot; messages will be logged, <code>false</code> otherwise</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Vts_Common_Logging_NLogIntegration_NLogLogger_Logger_" data-uid="Vts.Common.Logging.NLogIntegration.NLogLogger.Logger*"></a>
+
+  <h3 id="Vts_Common_Logging_NLogIntegration_NLogLogger_Logger" data-uid="Vts.Common.Logging.NLogIntegration.NLogLogger.Logger">
+  Logger
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Common/Logging/NLogLogger.cs/#L107"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets or sets the logger.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected Logger Logger { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><span class="xref">Logger</span></dt>
+    <dd><p>The logger</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+  <a id="Vts_Common_Logging_NLogIntegration_NLogLogger_CreateChildLogger_" data-uid="Vts.Common.Logging.NLogIntegration.NLogLogger.CreateChildLogger*"></a>
+
+  <h3 id="Vts_Common_Logging_NLogIntegration_NLogLogger_CreateChildLogger_System_String_" data-uid="Vts.Common.Logging.NLogIntegration.NLogLogger.CreateChildLogger(System.String)">
+  CreateChildLogger(string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Common/Logging/NLogLogger.cs/#L125"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Creates a child logger with the specified <code class="paramref">loggerName</code>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public virtual ILogger CreateChildLogger(string loggerName)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>loggerName</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>logger name</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Vts.Common.Logging.ILogger.html">ILogger</a></dt>
+    <dd><p>The child logger that was created</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_Common_Logging_NLogIntegration_NLogLogger_Debug_" data-uid="Vts.Common.Logging.NLogIntegration.NLogLogger.Debug*"></a>
+
+  <h3 id="Vts_Common_Logging_NLogIntegration_NLogLogger_Debug_System_Func_System_String__" data-uid="Vts.Common.Logging.NLogIntegration.NLogLogger.Debug(System.Func{System.String})">
+  Debug(Func&lt;string&gt;)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Common/Logging/NLogLogger.cs/#L143"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Logs a debug message.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Debug(Func&lt;string&gt; messageFactory)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>messageFactory</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.func-1">Func</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>&gt;</dt>
+    <dd><p>Factory constructing lazily the message to log if the level is enabled</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_Common_Logging_NLogIntegration_NLogLogger_Debug_" data-uid="Vts.Common.Logging.NLogIntegration.NLogLogger.Debug*"></a>
+
+  <h3 id="Vts_Common_Logging_NLogIntegration_NLogLogger_Debug_System_String_" data-uid="Vts.Common.Logging.NLogIntegration.NLogLogger.Debug(System.String)">
+  Debug(string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Common/Logging/NLogLogger.cs/#L134"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Logs a debug message.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Debug(string message)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>message</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>The message to log</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_Common_Logging_NLogIntegration_NLogLogger_Debug_" data-uid="Vts.Common.Logging.NLogIntegration.NLogLogger.Debug*"></a>
+
+  <h3 id="Vts_Common_Logging_NLogIntegration_NLogLogger_Debug_System_String_System_Exception_" data-uid="Vts.Common.Logging.NLogIntegration.NLogLogger.Debug(System.String,System.Exception)">
+  Debug(string, Exception)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Common/Logging/NLogLogger.cs/#L153"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Logs a debug message.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Debug(string message, Exception exception)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>message</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>The message to log</p>
+</dd>
+    <dt><code>exception</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.exception">Exception</a></dt>
+    <dd><p>The exception to log</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_Common_Logging_NLogIntegration_NLogLogger_DebugFormat_" data-uid="Vts.Common.Logging.NLogIntegration.NLogLogger.DebugFormat*"></a>
+
+  <h3 id="Vts_Common_Logging_NLogIntegration_NLogLogger_DebugFormat_System_Exception_System_IFormatProvider_System_String_System_Object___" data-uid="Vts.Common.Logging.NLogIntegration.NLogLogger.DebugFormat(System.Exception,System.IFormatProvider,System.String,System.Object[])">
+  DebugFormat(Exception, IFormatProvider, string, params object[])
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Common/Logging/NLogLogger.cs/#L197"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Logs a debug message.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void DebugFormat(Exception exception, IFormatProvider formatProvider, string format, params object[] args)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>exception</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.exception">Exception</a></dt>
+    <dd><p>The exception to log</p>
+</dd>
+    <dt><code>formatProvider</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.iformatprovider">IFormatProvider</a></dt>
+    <dd><p>The format provider to use</p>
+</dd>
+    <dt><code>format</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>Format string for the message to log</p>
+</dd>
+    <dt><code>args</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a>[]</dt>
+    <dd><p>Format arguments for the message to log</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_Common_Logging_NLogIntegration_NLogLogger_DebugFormat_" data-uid="Vts.Common.Logging.NLogIntegration.NLogLogger.DebugFormat*"></a>
+
+  <h3 id="Vts_Common_Logging_NLogIntegration_NLogLogger_DebugFormat_System_Exception_System_String_System_Object___" data-uid="Vts.Common.Logging.NLogIntegration.NLogLogger.DebugFormat(System.Exception,System.String,System.Object[])">
+  DebugFormat(Exception, string, params object[])
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Common/Logging/NLogLogger.cs/#L174"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Logs a debug message.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void DebugFormat(Exception exception, string format, params object[] args)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>exception</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.exception">Exception</a></dt>
+    <dd><p>The exception to log</p>
+</dd>
+    <dt><code>format</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>Format string for the message to log</p>
+</dd>
+    <dt><code>args</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a>[]</dt>
+    <dd><p>Format arguments for the message to log</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_Common_Logging_NLogIntegration_NLogLogger_DebugFormat_" data-uid="Vts.Common.Logging.NLogIntegration.NLogLogger.DebugFormat*"></a>
+
+  <h3 id="Vts_Common_Logging_NLogIntegration_NLogLogger_DebugFormat_System_IFormatProvider_System_String_System_Object___" data-uid="Vts.Common.Logging.NLogIntegration.NLogLogger.DebugFormat(System.IFormatProvider,System.String,System.Object[])">
+  DebugFormat(IFormatProvider, string, params object[])
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Common/Logging/NLogLogger.cs/#L185"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Logs a debug message.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void DebugFormat(IFormatProvider formatProvider, string format, params object[] args)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>formatProvider</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.iformatprovider">IFormatProvider</a></dt>
+    <dd><p>The format provider to use</p>
+</dd>
+    <dt><code>format</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>Format string for the message to log</p>
+</dd>
+    <dt><code>args</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a>[]</dt>
+    <dd><p>Format arguments for the message to log</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_Common_Logging_NLogIntegration_NLogLogger_DebugFormat_" data-uid="Vts.Common.Logging.NLogIntegration.NLogLogger.DebugFormat*"></a>
+
+  <h3 id="Vts_Common_Logging_NLogIntegration_NLogLogger_DebugFormat_System_String_System_Object___" data-uid="Vts.Common.Logging.NLogIntegration.NLogLogger.DebugFormat(System.String,System.Object[])">
+  DebugFormat(string, params object[])
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Common/Logging/NLogLogger.cs/#L163"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Logs a debug message.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void DebugFormat(string format, params object[] args)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>format</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>Format string for the message to log</p>
+</dd>
+    <dt><code>args</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a>[]</dt>
+    <dd><p>Format arguments for the message to log</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_Common_Logging_NLogIntegration_NLogLogger_Error_" data-uid="Vts.Common.Logging.NLogIntegration.NLogLogger.Error*"></a>
+
+  <h3 id="Vts_Common_Logging_NLogIntegration_NLogLogger_Error_System_Func_System_String__" data-uid="Vts.Common.Logging.NLogIntegration.NLogLogger.Error(System.Func{System.String})">
+  Error(Func&lt;string&gt;)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Common/Logging/NLogLogger.cs/#L215"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Logs an error message.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Error(Func&lt;string&gt; messageFactory)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>messageFactory</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.func-1">Func</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>&gt;</dt>
+    <dd><p>Factory constructing lazily the message to log if the level is enabled</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_Common_Logging_NLogIntegration_NLogLogger_Error_" data-uid="Vts.Common.Logging.NLogIntegration.NLogLogger.Error*"></a>
+
+  <h3 id="Vts_Common_Logging_NLogIntegration_NLogLogger_Error_System_String_" data-uid="Vts.Common.Logging.NLogIntegration.NLogLogger.Error(System.String)">
+  Error(string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Common/Logging/NLogLogger.cs/#L206"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Logs an error message.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Error(string message)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>message</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>The message to log</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_Common_Logging_NLogIntegration_NLogLogger_Error_" data-uid="Vts.Common.Logging.NLogIntegration.NLogLogger.Error*"></a>
+
+  <h3 id="Vts_Common_Logging_NLogIntegration_NLogLogger_Error_System_String_System_Exception_" data-uid="Vts.Common.Logging.NLogIntegration.NLogLogger.Error(System.String,System.Exception)">
+  Error(string, Exception)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Common/Logging/NLogLogger.cs/#L225"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Logs an error message.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Error(string message, Exception exception)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>message</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>The message to log</p>
+</dd>
+    <dt><code>exception</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.exception">Exception</a></dt>
+    <dd><p>The exception to log</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_Common_Logging_NLogIntegration_NLogLogger_ErrorFormat_" data-uid="Vts.Common.Logging.NLogIntegration.NLogLogger.ErrorFormat*"></a>
+
+  <h3 id="Vts_Common_Logging_NLogIntegration_NLogLogger_ErrorFormat_System_Exception_System_IFormatProvider_System_String_System_Object___" data-uid="Vts.Common.Logging.NLogIntegration.NLogLogger.ErrorFormat(System.Exception,System.IFormatProvider,System.String,System.Object[])">
+  ErrorFormat(Exception, IFormatProvider, string, params object[])
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Common/Logging/NLogLogger.cs/#L269"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Logs an error message.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void ErrorFormat(Exception exception, IFormatProvider formatProvider, string format, params object[] args)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>exception</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.exception">Exception</a></dt>
+    <dd><p>The exception to log</p>
+</dd>
+    <dt><code>formatProvider</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.iformatprovider">IFormatProvider</a></dt>
+    <dd><p>The format provider to use</p>
+</dd>
+    <dt><code>format</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>Format string for the message to log</p>
+</dd>
+    <dt><code>args</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a>[]</dt>
+    <dd><p>Format arguments for the message to log</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_Common_Logging_NLogIntegration_NLogLogger_ErrorFormat_" data-uid="Vts.Common.Logging.NLogIntegration.NLogLogger.ErrorFormat*"></a>
+
+  <h3 id="Vts_Common_Logging_NLogIntegration_NLogLogger_ErrorFormat_System_Exception_System_String_System_Object___" data-uid="Vts.Common.Logging.NLogIntegration.NLogLogger.ErrorFormat(System.Exception,System.String,System.Object[])">
+  ErrorFormat(Exception, string, params object[])
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Common/Logging/NLogLogger.cs/#L246"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Logs an error message.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void ErrorFormat(Exception exception, string format, params object[] args)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>exception</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.exception">Exception</a></dt>
+    <dd><p>The exception to log</p>
+</dd>
+    <dt><code>format</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>Format string for the message to log</p>
+</dd>
+    <dt><code>args</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a>[]</dt>
+    <dd><p>Format arguments for the message to log</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_Common_Logging_NLogIntegration_NLogLogger_ErrorFormat_" data-uid="Vts.Common.Logging.NLogIntegration.NLogLogger.ErrorFormat*"></a>
+
+  <h3 id="Vts_Common_Logging_NLogIntegration_NLogLogger_ErrorFormat_System_IFormatProvider_System_String_System_Object___" data-uid="Vts.Common.Logging.NLogIntegration.NLogLogger.ErrorFormat(System.IFormatProvider,System.String,System.Object[])">
+  ErrorFormat(IFormatProvider, string, params object[])
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Common/Logging/NLogLogger.cs/#L257"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Logs an error message.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void ErrorFormat(IFormatProvider formatProvider, string format, params object[] args)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>formatProvider</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.iformatprovider">IFormatProvider</a></dt>
+    <dd><p>The format provider to use</p>
+</dd>
+    <dt><code>format</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>Format string for the message to log</p>
+</dd>
+    <dt><code>args</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a>[]</dt>
+    <dd><p>Format arguments for the message to log</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_Common_Logging_NLogIntegration_NLogLogger_ErrorFormat_" data-uid="Vts.Common.Logging.NLogIntegration.NLogLogger.ErrorFormat*"></a>
+
+  <h3 id="Vts_Common_Logging_NLogIntegration_NLogLogger_ErrorFormat_System_String_System_Object___" data-uid="Vts.Common.Logging.NLogIntegration.NLogLogger.ErrorFormat(System.String,System.Object[])">
+  ErrorFormat(string, params object[])
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Common/Logging/NLogLogger.cs/#L235"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Logs an error message.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void ErrorFormat(string format, params object[] args)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>format</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>Format string for the message to log</p>
+</dd>
+    <dt><code>args</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a>[]</dt>
+    <dd><p>Format arguments for the message to log</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_Common_Logging_NLogIntegration_NLogLogger_Fatal_" data-uid="Vts.Common.Logging.NLogIntegration.NLogLogger.Fatal*"></a>
+
+  <h3 id="Vts_Common_Logging_NLogIntegration_NLogLogger_Fatal_System_Func_System_String__" data-uid="Vts.Common.Logging.NLogIntegration.NLogLogger.Fatal(System.Func{System.String})">
+  Fatal(Func&lt;string&gt;)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Common/Logging/NLogLogger.cs/#L287"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Logs a fatal message.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Fatal(Func&lt;string&gt; messageFactory)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>messageFactory</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.func-1">Func</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>&gt;</dt>
+    <dd><p>Factory constructing lazily the message to log if the level is enabled</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_Common_Logging_NLogIntegration_NLogLogger_Fatal_" data-uid="Vts.Common.Logging.NLogIntegration.NLogLogger.Fatal*"></a>
+
+  <h3 id="Vts_Common_Logging_NLogIntegration_NLogLogger_Fatal_System_String_" data-uid="Vts.Common.Logging.NLogIntegration.NLogLogger.Fatal(System.String)">
+  Fatal(string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Common/Logging/NLogLogger.cs/#L278"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Logs a fatal message.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Fatal(string message)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>message</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>The message to log</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_Common_Logging_NLogIntegration_NLogLogger_Fatal_" data-uid="Vts.Common.Logging.NLogIntegration.NLogLogger.Fatal*"></a>
+
+  <h3 id="Vts_Common_Logging_NLogIntegration_NLogLogger_Fatal_System_String_System_Exception_" data-uid="Vts.Common.Logging.NLogIntegration.NLogLogger.Fatal(System.String,System.Exception)">
+  Fatal(string, Exception)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Common/Logging/NLogLogger.cs/#L298"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Logs a fatal message.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Fatal(string message, Exception exception)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>message</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>The message to log</p>
+</dd>
+    <dt><code>exception</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.exception">Exception</a></dt>
+    <dd><p>The exception to log</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_Common_Logging_NLogIntegration_NLogLogger_FatalFormat_" data-uid="Vts.Common.Logging.NLogIntegration.NLogLogger.FatalFormat*"></a>
+
+  <h3 id="Vts_Common_Logging_NLogIntegration_NLogLogger_FatalFormat_System_Exception_System_IFormatProvider_System_String_System_Object___" data-uid="Vts.Common.Logging.NLogIntegration.NLogLogger.FatalFormat(System.Exception,System.IFormatProvider,System.String,System.Object[])">
+  FatalFormat(Exception, IFormatProvider, string, params object[])
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Common/Logging/NLogLogger.cs/#L342"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Logs a fatal message.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void FatalFormat(Exception exception, IFormatProvider formatProvider, string format, params object[] args)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>exception</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.exception">Exception</a></dt>
+    <dd><p>The exception to log</p>
+</dd>
+    <dt><code>formatProvider</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.iformatprovider">IFormatProvider</a></dt>
+    <dd><p>The format provider to use</p>
+</dd>
+    <dt><code>format</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>Format string for the message to log</p>
+</dd>
+    <dt><code>args</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a>[]</dt>
+    <dd><p>Format arguments for the message to log</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_Common_Logging_NLogIntegration_NLogLogger_FatalFormat_" data-uid="Vts.Common.Logging.NLogIntegration.NLogLogger.FatalFormat*"></a>
+
+  <h3 id="Vts_Common_Logging_NLogIntegration_NLogLogger_FatalFormat_System_Exception_System_String_System_Object___" data-uid="Vts.Common.Logging.NLogIntegration.NLogLogger.FatalFormat(System.Exception,System.String,System.Object[])">
+  FatalFormat(Exception, string, params object[])
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Common/Logging/NLogLogger.cs/#L319"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Logs a fatal message.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void FatalFormat(Exception exception, string format, params object[] args)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>exception</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.exception">Exception</a></dt>
+    <dd><p>The exception to log</p>
+</dd>
+    <dt><code>format</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>Format string for the message to log</p>
+</dd>
+    <dt><code>args</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a>[]</dt>
+    <dd><p>Format arguments for the message to log</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_Common_Logging_NLogIntegration_NLogLogger_FatalFormat_" data-uid="Vts.Common.Logging.NLogIntegration.NLogLogger.FatalFormat*"></a>
+
+  <h3 id="Vts_Common_Logging_NLogIntegration_NLogLogger_FatalFormat_System_IFormatProvider_System_String_System_Object___" data-uid="Vts.Common.Logging.NLogIntegration.NLogLogger.FatalFormat(System.IFormatProvider,System.String,System.Object[])">
+  FatalFormat(IFormatProvider, string, params object[])
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Common/Logging/NLogLogger.cs/#L330"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Logs a fatal message.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void FatalFormat(IFormatProvider formatProvider, string format, params object[] args)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>formatProvider</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.iformatprovider">IFormatProvider</a></dt>
+    <dd><p>The format provider to use</p>
+</dd>
+    <dt><code>format</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>Format string for the message to log</p>
+</dd>
+    <dt><code>args</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a>[]</dt>
+    <dd><p>Format arguments for the message to log</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_Common_Logging_NLogIntegration_NLogLogger_FatalFormat_" data-uid="Vts.Common.Logging.NLogIntegration.NLogLogger.FatalFormat*"></a>
+
+  <h3 id="Vts_Common_Logging_NLogIntegration_NLogLogger_FatalFormat_System_String_System_Object___" data-uid="Vts.Common.Logging.NLogIntegration.NLogLogger.FatalFormat(System.String,System.Object[])">
+  FatalFormat(string, params object[])
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Common/Logging/NLogLogger.cs/#L308"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Logs a fatal message.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void FatalFormat(string format, params object[] args)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>format</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>Format string for the message to log</p>
+</dd>
+    <dt><code>args</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a>[]</dt>
+    <dd><p>Format arguments for the message to log</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_Common_Logging_NLogIntegration_NLogLogger_Info_" data-uid="Vts.Common.Logging.NLogIntegration.NLogLogger.Info*"></a>
+
+  <h3 id="Vts_Common_Logging_NLogIntegration_NLogLogger_Info_System_Func_System_String__" data-uid="Vts.Common.Logging.NLogIntegration.NLogLogger.Info(System.Func{System.String})">
+  Info(Func&lt;string&gt;)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Common/Logging/NLogLogger.cs/#L360"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Logs a info message.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Info(Func&lt;string&gt; messageFactory)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>messageFactory</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.func-1">Func</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>&gt;</dt>
+    <dd><p>Factory constructing lazily the message to log if the level is enabled</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_Common_Logging_NLogIntegration_NLogLogger_Info_" data-uid="Vts.Common.Logging.NLogIntegration.NLogLogger.Info*"></a>
+
+  <h3 id="Vts_Common_Logging_NLogIntegration_NLogLogger_Info_System_String_" data-uid="Vts.Common.Logging.NLogIntegration.NLogLogger.Info(System.String)">
+  Info(string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Common/Logging/NLogLogger.cs/#L351"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Logs an info message.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Info(string message)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>message</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>The message to log</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_Common_Logging_NLogIntegration_NLogLogger_Info_" data-uid="Vts.Common.Logging.NLogIntegration.NLogLogger.Info*"></a>
+
+  <h3 id="Vts_Common_Logging_NLogIntegration_NLogLogger_Info_System_String_System_Exception_" data-uid="Vts.Common.Logging.NLogIntegration.NLogLogger.Info(System.String,System.Exception)">
+  Info(string, Exception)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Common/Logging/NLogLogger.cs/#L370"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Logs an info message.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Info(string message, Exception exception)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>message</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>The message to log</p>
+</dd>
+    <dt><code>exception</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.exception">Exception</a></dt>
+    <dd><p>The exception to log</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_Common_Logging_NLogIntegration_NLogLogger_InfoFormat_" data-uid="Vts.Common.Logging.NLogIntegration.NLogLogger.InfoFormat*"></a>
+
+  <h3 id="Vts_Common_Logging_NLogIntegration_NLogLogger_InfoFormat_System_Exception_System_IFormatProvider_System_String_System_Object___" data-uid="Vts.Common.Logging.NLogIntegration.NLogLogger.InfoFormat(System.Exception,System.IFormatProvider,System.String,System.Object[])">
+  InfoFormat(Exception, IFormatProvider, string, params object[])
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Common/Logging/NLogLogger.cs/#L414"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Logs an info message.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void InfoFormat(Exception exception, IFormatProvider formatProvider, string format, params object[] args)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>exception</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.exception">Exception</a></dt>
+    <dd><p>The exception to log</p>
+</dd>
+    <dt><code>formatProvider</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.iformatprovider">IFormatProvider</a></dt>
+    <dd><p>The format provider to use</p>
+</dd>
+    <dt><code>format</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>Format string for the message to log</p>
+</dd>
+    <dt><code>args</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a>[]</dt>
+    <dd><p>Format arguments for the message to log</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_Common_Logging_NLogIntegration_NLogLogger_InfoFormat_" data-uid="Vts.Common.Logging.NLogIntegration.NLogLogger.InfoFormat*"></a>
+
+  <h3 id="Vts_Common_Logging_NLogIntegration_NLogLogger_InfoFormat_System_Exception_System_String_System_Object___" data-uid="Vts.Common.Logging.NLogIntegration.NLogLogger.InfoFormat(System.Exception,System.String,System.Object[])">
+  InfoFormat(Exception, string, params object[])
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Common/Logging/NLogLogger.cs/#L391"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Logs an info message.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void InfoFormat(Exception exception, string format, params object[] args)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>exception</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.exception">Exception</a></dt>
+    <dd><p>The exception to log</p>
+</dd>
+    <dt><code>format</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>Format string for the message to log</p>
+</dd>
+    <dt><code>args</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a>[]</dt>
+    <dd><p>Format arguments for the message to log</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_Common_Logging_NLogIntegration_NLogLogger_InfoFormat_" data-uid="Vts.Common.Logging.NLogIntegration.NLogLogger.InfoFormat*"></a>
+
+  <h3 id="Vts_Common_Logging_NLogIntegration_NLogLogger_InfoFormat_System_IFormatProvider_System_String_System_Object___" data-uid="Vts.Common.Logging.NLogIntegration.NLogLogger.InfoFormat(System.IFormatProvider,System.String,System.Object[])">
+  InfoFormat(IFormatProvider, string, params object[])
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Common/Logging/NLogLogger.cs/#L402"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Logs an info message.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void InfoFormat(IFormatProvider formatProvider, string format, params object[] args)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>formatProvider</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.iformatprovider">IFormatProvider</a></dt>
+    <dd><p>The format provider to use</p>
+</dd>
+    <dt><code>format</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>Format string for the message to log</p>
+</dd>
+    <dt><code>args</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a>[]</dt>
+    <dd><p>Format arguments for the message to log</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_Common_Logging_NLogIntegration_NLogLogger_InfoFormat_" data-uid="Vts.Common.Logging.NLogIntegration.NLogLogger.InfoFormat*"></a>
+
+  <h3 id="Vts_Common_Logging_NLogIntegration_NLogLogger_InfoFormat_System_String_System_Object___" data-uid="Vts.Common.Logging.NLogIntegration.NLogLogger.InfoFormat(System.String,System.Object[])">
+  InfoFormat(string, params object[])
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Common/Logging/NLogLogger.cs/#L380"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Logs an info message.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void InfoFormat(string format, params object[] args)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>format</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>Format string for the message to log</p>
+</dd>
+    <dt><code>args</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a>[]</dt>
+    <dd><p>Format arguments for the message to log</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_Common_Logging_NLogIntegration_NLogLogger_ToString_" data-uid="Vts.Common.Logging.NLogIntegration.NLogLogger.ToString*"></a>
+
+  <h3 id="Vts_Common_Logging_NLogIntegration_NLogLogger_ToString" data-uid="Vts.Common.Logging.NLogIntegration.NLogLogger.ToString">
+  ToString()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Common/Logging/NLogLogger.cs/#L115"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Returns a <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a> that represents this instance.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override string ToString()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>A <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a> that represents this instance.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_Common_Logging_NLogIntegration_NLogLogger_Warn_" data-uid="Vts.Common.Logging.NLogIntegration.NLogLogger.Warn*"></a>
+
+  <h3 id="Vts_Common_Logging_NLogIntegration_NLogLogger_Warn_System_Func_System_String__" data-uid="Vts.Common.Logging.NLogIntegration.NLogLogger.Warn(System.Func{System.String})">
+  Warn(Func&lt;string&gt;)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Common/Logging/NLogLogger.cs/#L432"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Logs a warn message.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Warn(Func&lt;string&gt; messageFactory)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>messageFactory</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.func-1">Func</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>&gt;</dt>
+    <dd><p>Factory constructing lazily the message to log if the level is enabled</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_Common_Logging_NLogIntegration_NLogLogger_Warn_" data-uid="Vts.Common.Logging.NLogIntegration.NLogLogger.Warn*"></a>
+
+  <h3 id="Vts_Common_Logging_NLogIntegration_NLogLogger_Warn_System_String_" data-uid="Vts.Common.Logging.NLogIntegration.NLogLogger.Warn(System.String)">
+  Warn(string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Common/Logging/NLogLogger.cs/#L423"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Logs a warn message.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Warn(string message)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>message</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>The message to log</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_Common_Logging_NLogIntegration_NLogLogger_Warn_" data-uid="Vts.Common.Logging.NLogIntegration.NLogLogger.Warn*"></a>
+
+  <h3 id="Vts_Common_Logging_NLogIntegration_NLogLogger_Warn_System_String_System_Exception_" data-uid="Vts.Common.Logging.NLogIntegration.NLogLogger.Warn(System.String,System.Exception)">
+  Warn(string, Exception)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Common/Logging/NLogLogger.cs/#L442"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Logs a warn message.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Warn(string message, Exception exception)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>message</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>The message to log</p>
+</dd>
+    <dt><code>exception</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.exception">Exception</a></dt>
+    <dd><p>The exception to log</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_Common_Logging_NLogIntegration_NLogLogger_WarnFormat_" data-uid="Vts.Common.Logging.NLogIntegration.NLogLogger.WarnFormat*"></a>
+
+  <h3 id="Vts_Common_Logging_NLogIntegration_NLogLogger_WarnFormat_System_Exception_System_IFormatProvider_System_String_System_Object___" data-uid="Vts.Common.Logging.NLogIntegration.NLogLogger.WarnFormat(System.Exception,System.IFormatProvider,System.String,System.Object[])">
+  WarnFormat(Exception, IFormatProvider, string, params object[])
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Common/Logging/NLogLogger.cs/#L486"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Logs a warn message.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void WarnFormat(Exception exception, IFormatProvider formatProvider, string format, params object[] args)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>exception</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.exception">Exception</a></dt>
+    <dd><p>The exception to log</p>
+</dd>
+    <dt><code>formatProvider</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.iformatprovider">IFormatProvider</a></dt>
+    <dd><p>The format provider to use</p>
+</dd>
+    <dt><code>format</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>Format string for the message to log</p>
+</dd>
+    <dt><code>args</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a>[]</dt>
+    <dd><p>Format arguments for the message to log</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_Common_Logging_NLogIntegration_NLogLogger_WarnFormat_" data-uid="Vts.Common.Logging.NLogIntegration.NLogLogger.WarnFormat*"></a>
+
+  <h3 id="Vts_Common_Logging_NLogIntegration_NLogLogger_WarnFormat_System_Exception_System_String_System_Object___" data-uid="Vts.Common.Logging.NLogIntegration.NLogLogger.WarnFormat(System.Exception,System.String,System.Object[])">
+  WarnFormat(Exception, string, params object[])
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Common/Logging/NLogLogger.cs/#L463"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Logs a warn message.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void WarnFormat(Exception exception, string format, params object[] args)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>exception</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.exception">Exception</a></dt>
+    <dd><p>The exception to log</p>
+</dd>
+    <dt><code>format</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>Format string for the message to log</p>
+</dd>
+    <dt><code>args</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a>[]</dt>
+    <dd><p>Format arguments for the message to log</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_Common_Logging_NLogIntegration_NLogLogger_WarnFormat_" data-uid="Vts.Common.Logging.NLogIntegration.NLogLogger.WarnFormat*"></a>
+
+  <h3 id="Vts_Common_Logging_NLogIntegration_NLogLogger_WarnFormat_System_IFormatProvider_System_String_System_Object___" data-uid="Vts.Common.Logging.NLogIntegration.NLogLogger.WarnFormat(System.IFormatProvider,System.String,System.Object[])">
+  WarnFormat(IFormatProvider, string, params object[])
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Common/Logging/NLogLogger.cs/#L474"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Logs a warn message.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void WarnFormat(IFormatProvider formatProvider, string format, params object[] args)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>formatProvider</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.iformatprovider">IFormatProvider</a></dt>
+    <dd><p>The format provider to use</p>
+</dd>
+    <dt><code>format</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>Format string for the message to log</p>
+</dd>
+    <dt><code>args</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a>[]</dt>
+    <dd><p>Format arguments for the message to log</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_Common_Logging_NLogIntegration_NLogLogger_WarnFormat_" data-uid="Vts.Common.Logging.NLogIntegration.NLogLogger.WarnFormat*"></a>
+
+  <h3 id="Vts_Common_Logging_NLogIntegration_NLogLogger_WarnFormat_System_String_System_Object___" data-uid="Vts.Common.Logging.NLogIntegration.NLogLogger.WarnFormat(System.String,System.Object[])">
+  WarnFormat(string, params object[])
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Common/Logging/NLogLogger.cs/#L452"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Logs a warn message.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void WarnFormat(string format, params object[] args)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>format</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>Format string for the message to log</p>
+</dd>
+    <dt><code>args</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a>[]</dt>
+    <dd><p>Format arguments for the message to log</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Common/Logging/NLogLogger.cs/#L35" class="edit-link">Edit this page</a>
+        </div>
+
+        
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+
+    <footer class="border-top">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span>Made with <a href="https://dotnet.github.io/docfx">docfx</a></span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

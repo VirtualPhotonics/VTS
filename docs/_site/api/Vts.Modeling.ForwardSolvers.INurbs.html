@@ -1,0 +1,598 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Interface INurbs
+ </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Interface INurbs
+ ">
+      
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/VirtualPhotonics/VTS/new/master/apiSpec/new?filename=Vts_Modeling_ForwardSolvers_INurbs.md&amp;value=---%0Auid%3A%20Vts.Modeling.ForwardSolvers.INurbs%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+  </head>
+
+  <script type="module">
+    import options from './../public/main.js'
+    import { init } from './../public/docfx.min.js'
+    init(options)
+  </script>
+
+  <script>
+    const theme = localStorage.getItem('theme') || 'auto'
+    document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+  </script>
+
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../logo.svg" alt="">
+            
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" style="margin-top: -.65em; margin-left: -.8em" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="Vts.Modeling.ForwardSolvers.INurbs">
+
+
+
+  <h1 id="Vts_Modeling_ForwardSolvers_INurbs" data-uid="Vts.Modeling.ForwardSolvers.INurbs" class="text-break">
+    Interface INurbs
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Modeling/ForwardSolvers/INurbs.cs/#L9"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="Vts.html">Vts</a>.<a class="xref" href="Vts.Modeling.html">Modeling</a>.<a class="xref" href="Vts.Modeling.ForwardSolvers.html">ForwardSolvers</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>Vts.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"><p>Defines the methods and properties that need to be implemented by the NurbsGenerator
+class and by its stub version, StubNurbsGenerator used for Unit Testing.</p>
+</div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public interface INurbs</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+  <dl class="typelist extensionMethods">
+    <dt>Extension Methods</dt>
+    <dd>
+  <div>
+      <a class="xref" href="Vts.Extensions.EnumerableExtensions.html#Vts_Extensions_EnumerableExtensions_AsEnumerable__1___0_">EnumerableExtensions.AsEnumerable&lt;T&gt;(T)</a>
+  </div>
+  <div>
+      <a class="xref" href="Vts.Extensions.IEnumerableArrayExtensions.html#Vts_Extensions_IEnumerableArrayExtensions_PopulateFromEnumerable2__2___1_System_Collections_Generic_IEnumerable___0__">IEnumerableArrayExtensions.PopulateFromEnumerable2&lt;T, TArray&gt;(TArray, IEnumerable&lt;T&gt;)</a>
+  </div>
+  <div>
+      <a class="xref" href="Vts.IO.FileIO.html#Vts_IO_FileIO_Clone__1___0_">FileIO.Clone&lt;T&gt;(T)</a>
+  </div>
+  <div>
+      <a class="xref" href="Vts.IO.FileIO.html#Vts_IO_FileIO_WriteJsonToStream__1___0_System_IO_Stream_">FileIO.WriteJsonToStream&lt;T&gt;(T, Stream)</a>
+  </div>
+  <div>
+      <a class="xref" href="Vts.IO.FileIO.html#Vts_IO_FileIO_WriteToJson__1___0_System_String_">FileIO.WriteToJson&lt;T&gt;(T, string)</a>
+  </div>
+  <div>
+      <a class="xref" href="Vts.IO.FileIO.html#Vts_IO_FileIO_WriteToXMLStream__1___0_System_IO_Stream_">FileIO.WriteToXMLStream&lt;T&gt;(T, Stream)</a>
+  </div>
+  <div>
+      <a class="xref" href="Vts.IO.FileIO.html#Vts_IO_FileIO_WriteToXML__1___0_System_String_">FileIO.WriteToXML&lt;T&gt;(T, string)</a>
+  </div>
+  <div>
+      <a class="xref" href="Vts.IO.VtsJsonSerializer.html#Vts_IO_VtsJsonSerializer_WriteToJsonFile__1___0_System_String_">VtsJsonSerializer.WriteToJsonFile&lt;T&gt;(T, string)</a>
+  </div>
+  <div>
+      <a class="xref" href="Vts.IO.VtsJsonSerializer.html#Vts_IO_VtsJsonSerializer_WriteToJson__1___0_">VtsJsonSerializer.WriteToJson&lt;T&gt;(T)</a>
+  </div>
+  </dd></dl>
+
+
+
+
+
+  <h2 class="section" id="properties">Properties
+</h2>
+
+
+  <a id="Vts_Modeling_ForwardSolvers_INurbs_NativeTimes_" data-uid="Vts.Modeling.ForwardSolvers.INurbs.NativeTimes*"></a>
+
+  <h3 id="Vts_Modeling_ForwardSolvers_INurbs_NativeTimes" data-uid="Vts.Modeling.ForwardSolvers.INurbs.NativeTimes">
+  NativeTimes
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Modeling/ForwardSolvers/INurbs.cs/#L86"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>native times</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">double[] NativeTimes { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a>[]</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Vts_Modeling_ForwardSolvers_INurbs_SpaceValues_" data-uid="Vts.Modeling.ForwardSolvers.INurbs.SpaceValues*"></a>
+
+  <h3 id="Vts_Modeling_ForwardSolvers_INurbs_SpaceValues" data-uid="Vts.Modeling.ForwardSolvers.INurbs.SpaceValues">
+  SpaceValues
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Modeling/ForwardSolvers/INurbs.cs/#L77"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets the NurbsValues along the space dimension.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">NurbsValues SpaceValues { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Vts.Modeling.ForwardSolvers.NurbsValues.html">NurbsValues</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Vts_Modeling_ForwardSolvers_INurbs_TimeKnotSpanPolynomialCoefficients_" data-uid="Vts.Modeling.ForwardSolvers.INurbs.TimeKnotSpanPolynomialCoefficients*"></a>
+
+  <h3 id="Vts_Modeling_ForwardSolvers_INurbs_TimeKnotSpanPolynomialCoefficients" data-uid="Vts.Modeling.ForwardSolvers.INurbs.TimeKnotSpanPolynomialCoefficients">
+  TimeKnotSpanPolynomialCoefficients
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Modeling/ForwardSolvers/INurbs.cs/#L82"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets or sets the coefficients of the non vanishing B-splines over each knot span.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">List&lt;BSplinesCoefficients&gt; TimeKnotSpanPolynomialCoefficients { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1">List</a>&lt;<a class="xref" href="Vts.Modeling.ForwardSolvers.BSplinesCoefficients.html">BSplinesCoefficients</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Vts_Modeling_ForwardSolvers_INurbs_TimeValues_" data-uid="Vts.Modeling.ForwardSolvers.INurbs.TimeValues*"></a>
+
+  <h3 id="Vts_Modeling_ForwardSolvers_INurbs_TimeValues" data-uid="Vts.Modeling.ForwardSolvers.INurbs.TimeValues">
+  TimeValues
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Modeling/ForwardSolvers/INurbs.cs/#L72"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets the NurbsValues along the time dimension.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">NurbsValues TimeValues { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Vts.Modeling.ForwardSolvers.NurbsValues.html">NurbsValues</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+  <a id="Vts_Modeling_ForwardSolvers_INurbs_ComputeCurvePoint_" data-uid="Vts.Modeling.ForwardSolvers.INurbs.ComputeCurvePoint*"></a>
+
+  <h3 id="Vts_Modeling_ForwardSolvers_INurbs_ComputeCurvePoint_System_Double_Vts_Modeling_ForwardSolvers_NurbsValuesDimensions_" data-uid="Vts.Modeling.ForwardSolvers.INurbs.ComputeCurvePoint(System.Double,Vts.Modeling.ForwardSolvers.NurbsValuesDimensions)">
+  ComputeCurvePoint(double, NurbsValuesDimensions)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Modeling/ForwardSolvers/INurbs.cs/#L24"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Defines the signature of the method used to compute a point on a NURBS curve.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">double ComputeCurvePoint(double point, NurbsValuesDimensions dimension)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>point</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>physical coordinate of the point</p>
+</dd>
+    <dt><code>dimension</code> <a class="xref" href="Vts.Modeling.ForwardSolvers.NurbsValuesDimensions.html">NurbsValuesDimensions</a></dt>
+    <dd><p>physical dimension represented by the NURBS curve</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Value of a point on the curve</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_Modeling_ForwardSolvers_INurbs_ComputePointOutOfSurface_" data-uid="Vts.Modeling.ForwardSolvers.INurbs.ComputePointOutOfSurface*"></a>
+
+  <h3 id="Vts_Modeling_ForwardSolvers_INurbs_ComputePointOutOfSurface_System_Double_System_Double_System_Double_" data-uid="Vts.Modeling.ForwardSolvers.INurbs.ComputePointOutOfSurface(System.Double,System.Double,System.Double)">
+  ComputePointOutOfSurface(double, double, double)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Modeling/ForwardSolvers/INurbs.cs/#L41"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Defines the signature of the method used to compute the point outside the surface range.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">double ComputePointOutOfSurface(double time, double space, double edgeValue)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>time</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>time coordinate</p>
+</dd>
+    <dt><code>space</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>space coordinate(rho or fx)</p>
+</dd>
+    <dt><code>edgeValue</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>point calculated on a position on the limit of the surface</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Value of a point outside the surface</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_Modeling_ForwardSolvers_INurbs_ComputeSurfacePoint_" data-uid="Vts.Modeling.ForwardSolvers.INurbs.ComputeSurfacePoint*"></a>
+
+  <h3 id="Vts_Modeling_ForwardSolvers_INurbs_ComputeSurfacePoint_System_Double_System_Double_" data-uid="Vts.Modeling.ForwardSolvers.INurbs.ComputeSurfacePoint(System.Double,System.Double)">
+  ComputeSurfacePoint(double, double)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Modeling/ForwardSolvers/INurbs.cs/#L32"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Defines the signature of the method used to compute the point on a NURBS surface.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">double ComputeSurfacePoint(double time, double space)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>time</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>time coordinate</p>
+</dd>
+    <dt><code>space</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>space coordinate(rho or fx)</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Value of a point  on the surface</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_Modeling_ForwardSolvers_INurbs_EvaluateNurbsCurveFourierTransform_" data-uid="Vts.Modeling.ForwardSolvers.INurbs.EvaluateNurbsCurveFourierTransform*"></a>
+
+  <h3 id="Vts_Modeling_ForwardSolvers_INurbs_EvaluateNurbsCurveFourierTransform_System_Double_System_Double_System_Double_" data-uid="Vts.Modeling.ForwardSolvers.INurbs.EvaluateNurbsCurveFourierTransform(System.Double,System.Double,System.Double)">
+  EvaluateNurbsCurveFourierTransform(double, double, double)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Modeling/ForwardSolvers/INurbs.cs/#L59"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Defines the signature for the method used to evaluate the FT of an isoparametric curve.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">Complex EvaluateNurbsCurveFourierTransform(double space, double expTerm, double ft)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>space</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>spatial coordinate</p>
+</dd>
+    <dt><code>expTerm</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>exponential coefficient</p>
+</dd>
+    <dt><code>ft</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>temporal frequency</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.numerics.complex">Complex</a></dt>
+    <dd><p>R(ft) at  fixed rho</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_Modeling_ForwardSolvers_INurbs_EvaluateNurbsCurveIntegral_" data-uid="Vts.Modeling.ForwardSolvers.INurbs.EvaluateNurbsCurveIntegral*"></a>
+
+  <h3 id="Vts_Modeling_ForwardSolvers_INurbs_EvaluateNurbsCurveIntegral_System_Double_System_Double_" data-uid="Vts.Modeling.ForwardSolvers.INurbs.EvaluateNurbsCurveIntegral(System.Double,System.Double)">
+  EvaluateNurbsCurveIntegral(double, double)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Modeling/ForwardSolvers/INurbs.cs/#L50"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Defines the signature of the method used to calculate the integral value of an
+isoparametric NURBS curve multiplied by an exponential function analytically.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">double EvaluateNurbsCurveIntegral(double space, double exponentialTerm)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>space</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>radial position or spatial frequency mapped to the reference spatial value</p>
+</dd>
+    <dt><code>exponentialTerm</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>exponential decay due to absorption</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>integral value of an isoparametric NURBS curve</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_Modeling_ForwardSolvers_INurbs_EvaluateTensorProductControlPoints_" data-uid="Vts.Modeling.ForwardSolvers.INurbs.EvaluateTensorProductControlPoints*"></a>
+
+  <h3 id="Vts_Modeling_ForwardSolvers_INurbs_EvaluateTensorProductControlPoints_System_Double_" data-uid="Vts.Modeling.ForwardSolvers.INurbs.EvaluateTensorProductControlPoints(System.Double)">
+  EvaluateTensorProductControlPoints(double)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Modeling/ForwardSolvers/INurbs.cs/#L67"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Defines the signature of the method used to evaluate the tensor product control points
+necessary to evaluate the integral of an isoparametric curve.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">List&lt;double[]&gt; EvaluateTensorProductControlPoints(double space_ref)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>space_ref</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>spatial coordinate mapped to the reference space</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1">List</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a>[]&gt;</dt>
+    <dd><p>Tensor product control points for an isoparametric curve on a surface</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_Modeling_ForwardSolvers_INurbs_GetMinimumValidTime_" data-uid="Vts.Modeling.ForwardSolvers.INurbs.GetMinimumValidTime*"></a>
+
+  <h3 id="Vts_Modeling_ForwardSolvers_INurbs_GetMinimumValidTime_System_Double_" data-uid="Vts.Modeling.ForwardSolvers.INurbs.GetMinimumValidTime(System.Double)">
+  GetMinimumValidTime(double)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Modeling/ForwardSolvers/INurbs.cs/#L16"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Defines signature for a method used to consider causality of the photon migration.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">double GetMinimumValidTime(double rho)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>rho</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>source detector separation</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>minimal valid time</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Modeling/ForwardSolvers/INurbs.cs/#L9" class="edit-link">Edit this page</a>
+        </div>
+
+        
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+
+    <footer class="border-top">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span>Made with <a href="https://dotnet.github.io/docfx">docfx</a></span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,897 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Class SimulationInputProvider
+ </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Class SimulationInputProvider
+ ">
+      
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/VirtualPhotonics/VTS/new/master/apiSpec/new?filename=Vts_MonteCarlo_SimulationInputProvider.md&amp;value=---%0Auid%3A%20Vts.MonteCarlo.SimulationInputProvider%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+  </head>
+
+  <script type="module">
+    import options from './../public/main.js'
+    import { init } from './../public/docfx.min.js'
+    init(options)
+  </script>
+
+  <script>
+    const theme = localStorage.getItem('theme') || 'auto'
+    document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+  </script>
+
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../logo.svg" alt="">
+            
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" style="margin-top: -.65em; margin-left: -.8em" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="Vts.MonteCarlo.SimulationInputProvider">
+
+
+
+  <h1 id="Vts_MonteCarlo_SimulationInputProvider" data-uid="Vts.MonteCarlo.SimulationInputProvider" class="text-break">
+    Class SimulationInputProvider
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/MonteCarlo/DataStructures/SimulationInputProvider.cs/#L15"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="Vts.html">Vts</a>.<a class="xref" href="Vts.MonteCarlo.html">MonteCarlo</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>Vts.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"><p>Implements various commonly used SimulationInput classes for various tissue types.</p>
+</div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class SimulationInputProvider : SimulationInput</code></pre>
+  </div>
+
+
+
+
+  <dl class="typelist inheritance">
+    <dt>Inheritance</dt>
+    <dd>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></div>
+      <div><a class="xref" href="Vts.MonteCarlo.SimulationInput.html">SimulationInput</a></div>
+      <div><span class="xref">SimulationInputProvider</span></div>
+    </dd>
+  </dl>
+
+
+
+  <dl class="typelist derived">
+    <dt>Inherited Members</dt>
+    <dd>
+    <div>
+      <a class="xref" href="Vts.MonteCarlo.SimulationInput.html#Vts_MonteCarlo_SimulationInput_OutputName">SimulationInput.OutputName</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.MonteCarlo.SimulationInput.html#Vts_MonteCarlo_SimulationInput_N">SimulationInput.N</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.MonteCarlo.SimulationInput.html#Vts_MonteCarlo_SimulationInput_Options">SimulationInput.Options</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.MonteCarlo.SimulationInput.html#Vts_MonteCarlo_SimulationInput_SourceInput">SimulationInput.SourceInput</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.MonteCarlo.SimulationInput.html#Vts_MonteCarlo_SimulationInput_TissueInput">SimulationInput.TissueInput</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.MonteCarlo.SimulationInput.html#Vts_MonteCarlo_SimulationInput_DetectorInputs">SimulationInput.DetectorInputs</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.MonteCarlo.SimulationInput.html#Vts_MonteCarlo_SimulationInput_FromFile_System_String_">SimulationInput.FromFile(string)</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.MonteCarlo.SimulationInput.html#Vts_MonteCarlo_SimulationInput_CreateSimulation">SimulationInput.CreateSimulation()</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.MonteCarlo.SimulationInput.html#Vts_MonteCarlo_SimulationInput_ToFile_System_String_">SimulationInput.ToFile(string)</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.MonteCarlo.SimulationInput.html#Vts_MonteCarlo_SimulationInput_FromFileInResources_System_String_System_String_">SimulationInput.FromFileInResources(string, string)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)">object.Equals(object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)">object.Equals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gethashcode">object.GetHashCode()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gettype">object.GetType()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone">object.MemberwiseClone()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.referenceequals">object.ReferenceEquals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.tostring">object.ToString()</a>
+    </div>
+  </dd></dl>
+
+  <dl class="typelist extensionMethods">
+    <dt>Extension Methods</dt>
+    <dd>
+  <div>
+      <a class="xref" href="Vts.MonteCarlo.Extensions.SimulationInputExtensions.html#Vts_MonteCarlo_Extensions_SimulationInputExtensions_WithValue_Vts_MonteCarlo_SimulationInput_System_String_System_Double_">SimulationInputExtensions.WithValue(SimulationInput, string, double)</a>
+  </div>
+  <div>
+      <a class="xref" href="Vts.Extensions.EnumerableExtensions.html#Vts_Extensions_EnumerableExtensions_AsEnumerable__1___0_">EnumerableExtensions.AsEnumerable&lt;T&gt;(T)</a>
+  </div>
+  <div>
+      <a class="xref" href="Vts.Extensions.IEnumerableArrayExtensions.html#Vts_Extensions_IEnumerableArrayExtensions_PopulateFromEnumerable2__2___1_System_Collections_Generic_IEnumerable___0__">IEnumerableArrayExtensions.PopulateFromEnumerable2&lt;T, TArray&gt;(TArray, IEnumerable&lt;T&gt;)</a>
+  </div>
+  <div>
+      <a class="xref" href="Vts.IO.FileIO.html#Vts_IO_FileIO_Clone__1___0_">FileIO.Clone&lt;T&gt;(T)</a>
+  </div>
+  <div>
+      <a class="xref" href="Vts.IO.FileIO.html#Vts_IO_FileIO_WriteJsonToStream__1___0_System_IO_Stream_">FileIO.WriteJsonToStream&lt;T&gt;(T, Stream)</a>
+  </div>
+  <div>
+      <a class="xref" href="Vts.IO.FileIO.html#Vts_IO_FileIO_WriteToJson__1___0_System_String_">FileIO.WriteToJson&lt;T&gt;(T, string)</a>
+  </div>
+  <div>
+      <a class="xref" href="Vts.IO.FileIO.html#Vts_IO_FileIO_WriteToXMLStream__1___0_System_IO_Stream_">FileIO.WriteToXMLStream&lt;T&gt;(T, Stream)</a>
+  </div>
+  <div>
+      <a class="xref" href="Vts.IO.FileIO.html#Vts_IO_FileIO_WriteToXML__1___0_System_String_">FileIO.WriteToXML&lt;T&gt;(T, string)</a>
+  </div>
+  <div>
+      <a class="xref" href="Vts.IO.VtsJsonSerializer.html#Vts_IO_VtsJsonSerializer_WriteToJsonFile__1___0_System_String_">VtsJsonSerializer.WriteToJsonFile&lt;T&gt;(T, string)</a>
+  </div>
+  <div>
+      <a class="xref" href="Vts.IO.VtsJsonSerializer.html#Vts_IO_VtsJsonSerializer_WriteToJson__1___0_">VtsJsonSerializer.WriteToJson&lt;T&gt;(T)</a>
+  </div>
+  </dd></dl>
+
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+  <a id="Vts_MonteCarlo_SimulationInputProvider_EmbeddedDirectionalCircularSourceEllipTissueFluenceOfXAndYAndZ_" data-uid="Vts.MonteCarlo.SimulationInputProvider.EmbeddedDirectionalCircularSourceEllipTissueFluenceOfXAndYAndZ*"></a>
+
+  <h3 id="Vts_MonteCarlo_SimulationInputProvider_EmbeddedDirectionalCircularSourceEllipTissueFluenceOfXAndYAndZ" data-uid="Vts.MonteCarlo.SimulationInputProvider.EmbeddedDirectionalCircularSourceEllipTissueFluenceOfXAndYAndZ">
+  EmbeddedDirectionalCircularSourceEllipTissueFluenceOfXAndYAndZ()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/MonteCarlo/DataStructures/SimulationInputProvider.cs/#L1044"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Directional circular source, converging on tissue with embedded ellipse</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static SimulationInput EmbeddedDirectionalCircularSourceEllipTissueFluenceOfXAndYAndZ()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Vts.MonteCarlo.SimulationInput.html">SimulationInput</a></dt>
+    <dd><p>An instance of the SimulationInput class</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_MonteCarlo_SimulationInputProvider_Flat2DSourceOneLayerTissueROfRhoDetector_" data-uid="Vts.MonteCarlo.SimulationInputProvider.Flat2DSourceOneLayerTissueROfRhoDetector*"></a>
+
+  <h3 id="Vts_MonteCarlo_SimulationInputProvider_Flat2DSourceOneLayerTissueROfRhoDetector" data-uid="Vts.MonteCarlo.SimulationInputProvider.Flat2DSourceOneLayerTissueROfRhoDetector">
+  Flat2DSourceOneLayerTissueROfRhoDetector()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/MonteCarlo/DataStructures/SimulationInputProvider.cs/#L695"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Flat 2D source, single tissue layer definition, only ROfRho detector included</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static SimulationInput Flat2DSourceOneLayerTissueROfRhoDetector()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Vts.MonteCarlo.SimulationInput.html">SimulationInput</a></dt>
+    <dd><p>An instance of the SimulationInput class</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_MonteCarlo_SimulationInputProvider_Flat2DSourceTwoLayerBoundedTissueAOfRhoAndZDetector_" data-uid="Vts.MonteCarlo.SimulationInputProvider.Flat2DSourceTwoLayerBoundedTissueAOfRhoAndZDetector*"></a>
+
+  <h3 id="Vts_MonteCarlo_SimulationInputProvider_Flat2DSourceTwoLayerBoundedTissueAOfRhoAndZDetector" data-uid="Vts.MonteCarlo.SimulationInputProvider.Flat2DSourceTwoLayerBoundedTissueAOfRhoAndZDetector">
+  Flat2DSourceTwoLayerBoundedTissueAOfRhoAndZDetector()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/MonteCarlo/DataStructures/SimulationInputProvider.cs/#L633"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Flat 2D source, two layer, bounded tissue, AOfRhoAndZ detector included</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static SimulationInput Flat2DSourceTwoLayerBoundedTissueAOfRhoAndZDetector()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Vts.MonteCarlo.SimulationInput.html">SimulationInput</a></dt>
+    <dd><p>An instance of the SimulationInput class</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_MonteCarlo_SimulationInputProvider_FluorescenceEmissionAOfXAndYAndZSourceInfiniteCylinder_" data-uid="Vts.MonteCarlo.SimulationInputProvider.FluorescenceEmissionAOfXAndYAndZSourceInfiniteCylinder*"></a>
+
+  <h3 id="Vts_MonteCarlo_SimulationInputProvider_FluorescenceEmissionAOfXAndYAndZSourceInfiniteCylinder" data-uid="Vts.MonteCarlo.SimulationInputProvider.FluorescenceEmissionAOfXAndYAndZSourceInfiniteCylinder">
+  FluorescenceEmissionAOfXAndYAndZSourceInfiniteCylinder()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/MonteCarlo/DataStructures/SimulationInputProvider.cs/#L1183"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Fluorescence emission source using A(x,y,z) from prior simulation</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static SimulationInput FluorescenceEmissionAOfXAndYAndZSourceInfiniteCylinder()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Vts.MonteCarlo.SimulationInput.html">SimulationInput</a></dt>
+    <dd><p>An instance of the SimulationInput class</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_MonteCarlo_SimulationInputProvider_Gaussian2DSourceOneLayerTissueROfRhoDetector_" data-uid="Vts.MonteCarlo.SimulationInputProvider.Gaussian2DSourceOneLayerTissueROfRhoDetector*"></a>
+
+  <h3 id="Vts_MonteCarlo_SimulationInputProvider_Gaussian2DSourceOneLayerTissueROfRhoDetector" data-uid="Vts.MonteCarlo.SimulationInputProvider.Gaussian2DSourceOneLayerTissueROfRhoDetector">
+  Gaussian2DSourceOneLayerTissueROfRhoDetector()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/MonteCarlo/DataStructures/SimulationInputProvider.cs/#L579"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gaussian 2D source, single tissue layer definition, only ROfRho detector included</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static SimulationInput Gaussian2DSourceOneLayerTissueROfRhoDetector()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Vts.MonteCarlo.SimulationInput.html">SimulationInput</a></dt>
+    <dd><p>An instance of the SimulationInput class</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_MonteCarlo_SimulationInputProvider_GaussianLineSourceOneLayerTissueROfRhoDetector_" data-uid="Vts.MonteCarlo.SimulationInputProvider.GaussianLineSourceOneLayerTissueROfRhoDetector*"></a>
+
+  <h3 id="Vts_MonteCarlo_SimulationInputProvider_GaussianLineSourceOneLayerTissueROfRhoDetector" data-uid="Vts.MonteCarlo.SimulationInputProvider.GaussianLineSourceOneLayerTissueROfRhoDetector">
+  GaussianLineSourceOneLayerTissueROfRhoDetector()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/MonteCarlo/DataStructures/SimulationInputProvider.cs/#L749"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gaussian line source, single tissue layer definition, only ROfRho detector included</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static SimulationInput GaussianLineSourceOneLayerTissueROfRhoDetector()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Vts.MonteCarlo.SimulationInput.html">SimulationInput</a></dt>
+    <dd><p>An instance of the SimulationInput class</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_MonteCarlo_SimulationInputProvider_GenerateAllSimulationInputs_" data-uid="Vts.MonteCarlo.SimulationInputProvider.GenerateAllSimulationInputs*"></a>
+
+  <h3 id="Vts_MonteCarlo_SimulationInputProvider_GenerateAllSimulationInputs" data-uid="Vts.MonteCarlo.SimulationInputProvider.GenerateAllSimulationInputs">
+  GenerateAllSimulationInputs()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/MonteCarlo/DataStructures/SimulationInputProvider.cs/#L21"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Method that provides instances of all inputs in this class.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static IList&lt;SimulationInput&gt; GenerateAllSimulationInputs()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ilist-1">IList</a>&lt;<a class="xref" href="Vts.MonteCarlo.SimulationInput.html">SimulationInput</a>&gt;</dt>
+    <dd><p>a list of the SimulationInputs generated</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_MonteCarlo_SimulationInputProvider_PointSourceMultiInfiniteCylinderTissueAOfXAndYAndZDetector_" data-uid="Vts.MonteCarlo.SimulationInputProvider.PointSourceMultiInfiniteCylinderTissueAOfXAndYAndZDetector*"></a>
+
+  <h3 id="Vts_MonteCarlo_SimulationInputProvider_PointSourceMultiInfiniteCylinderTissueAOfXAndYAndZDetector" data-uid="Vts.MonteCarlo.SimulationInputProvider.PointSourceMultiInfiniteCylinderTissueAOfXAndYAndZDetector">
+  PointSourceMultiInfiniteCylinderTissueAOfXAndYAndZDetector()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/MonteCarlo/DataStructures/SimulationInputProvider.cs/#L469"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Point source, multi infinite cylinder tissue definition, only AOfXAndYAndZ detector included</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static SimulationInput PointSourceMultiInfiniteCylinderTissueAOfXAndYAndZDetector()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Vts.MonteCarlo.SimulationInput.html">SimulationInput</a></dt>
+    <dd><p>An instance of the SimulationInput class</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_MonteCarlo_SimulationInputProvider_PointSourceMultiLayerMomentumTransferDetectors_" data-uid="Vts.MonteCarlo.SimulationInputProvider.PointSourceMultiLayerMomentumTransferDetectors*"></a>
+
+  <h3 id="Vts_MonteCarlo_SimulationInputProvider_PointSourceMultiLayerMomentumTransferDetectors" data-uid="Vts.MonteCarlo.SimulationInputProvider.PointSourceMultiLayerMomentumTransferDetectors">
+  PointSourceMultiLayerMomentumTransferDetectors()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/MonteCarlo/DataStructures/SimulationInputProvider.cs/#L802"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Point source, multi-layer tissue definition, all momentum detectors detectors included</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static SimulationInput PointSourceMultiLayerMomentumTransferDetectors()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Vts.MonteCarlo.SimulationInput.html">SimulationInput</a></dt>
+    <dd><p>An instance of the SimulationInput class</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_MonteCarlo_SimulationInputProvider_PointSourceOneLayerTissueAllDetectors_" data-uid="Vts.MonteCarlo.SimulationInputProvider.PointSourceOneLayerTissueAllDetectors*"></a>
+
+  <h3 id="Vts_MonteCarlo_SimulationInputProvider_PointSourceOneLayerTissueAllDetectors" data-uid="Vts.MonteCarlo.SimulationInputProvider.PointSourceOneLayerTissueAllDetectors">
+  PointSourceOneLayerTissueAllDetectors()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/MonteCarlo/DataStructures/SimulationInputProvider.cs/#L53"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Point source, single tissue layer definition, all detectors included</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static SimulationInput PointSourceOneLayerTissueAllDetectors()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Vts.MonteCarlo.SimulationInput.html">SimulationInput</a></dt>
+    <dd><p>An instance of the SimulationInput class</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_MonteCarlo_SimulationInputProvider_PointSourceOneLayerTissueROfRhoAndFluenceOfRhoAndZDetectors_" data-uid="Vts.MonteCarlo.SimulationInputProvider.PointSourceOneLayerTissueROfRhoAndFluenceOfRhoAndZDetectors*"></a>
+
+  <h3 id="Vts_MonteCarlo_SimulationInputProvider_PointSourceOneLayerTissueROfRhoAndFluenceOfRhoAndZDetectors" data-uid="Vts.MonteCarlo.SimulationInputProvider.PointSourceOneLayerTissueROfRhoAndFluenceOfRhoAndZDetectors">
+  PointSourceOneLayerTissueROfRhoAndFluenceOfRhoAndZDetectors()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/MonteCarlo/DataStructures/SimulationInputProvider.cs/#L158"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Point source, single tissue layer definition, only ROfRho detector included</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static SimulationInput PointSourceOneLayerTissueROfRhoAndFluenceOfRhoAndZDetectors()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Vts.MonteCarlo.SimulationInput.html">SimulationInput</a></dt>
+    <dd><p>An instance of the SimulationInput class</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_MonteCarlo_SimulationInputProvider_PointSourceOneLayerTissueRadianceOfRhoAndZAndAngleDetector_" data-uid="Vts.MonteCarlo.SimulationInputProvider.PointSourceOneLayerTissueRadianceOfRhoAndZAndAngleDetector*"></a>
+
+  <h3 id="Vts_MonteCarlo_SimulationInputProvider_PointSourceOneLayerTissueRadianceOfRhoAndZAndAngleDetector" data-uid="Vts.MonteCarlo.SimulationInputProvider.PointSourceOneLayerTissueRadianceOfRhoAndZAndAngleDetector">
+  PointSourceOneLayerTissueRadianceOfRhoAndZAndAngleDetector()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/MonteCarlo/DataStructures/SimulationInputProvider.cs/#L205"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Point source, single tissue layer definition, Radiance included</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static SimulationInput PointSourceOneLayerTissueRadianceOfRhoAndZAndAngleDetector()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Vts.MonteCarlo.SimulationInput.html">SimulationInput</a></dt>
+    <dd><p>An instance of the SimulationInput class</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_MonteCarlo_SimulationInputProvider_PointSourceSingleEllipsoidTissueFluenceOfRhoAndZDetector_" data-uid="Vts.MonteCarlo.SimulationInputProvider.PointSourceSingleEllipsoidTissueFluenceOfRhoAndZDetector*"></a>
+
+  <h3 id="Vts_MonteCarlo_SimulationInputProvider_PointSourceSingleEllipsoidTissueFluenceOfRhoAndZDetector" data-uid="Vts.MonteCarlo.SimulationInputProvider.PointSourceSingleEllipsoidTissueFluenceOfRhoAndZDetector">
+  PointSourceSingleEllipsoidTissueFluenceOfRhoAndZDetector()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/MonteCarlo/DataStructures/SimulationInputProvider.cs/#L363"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Point source, single ellipsoid tissue definition, only FluenceOfRhoAndZ detector included</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static SimulationInput PointSourceSingleEllipsoidTissueFluenceOfRhoAndZDetector()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Vts.MonteCarlo.SimulationInput.html">SimulationInput</a></dt>
+    <dd><p>An instance of the SimulationInput class</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_MonteCarlo_SimulationInputProvider_PointSourceSingleInfiniteCylinderTissueAOfXAndYAndZDetector_" data-uid="Vts.MonteCarlo.SimulationInputProvider.PointSourceSingleInfiniteCylinderTissueAOfXAndYAndZDetector*"></a>
+
+  <h3 id="Vts_MonteCarlo_SimulationInputProvider_PointSourceSingleInfiniteCylinderTissueAOfXAndYAndZDetector" data-uid="Vts.MonteCarlo.SimulationInputProvider.PointSourceSingleInfiniteCylinderTissueAOfXAndYAndZDetector">
+  PointSourceSingleInfiniteCylinderTissueAOfXAndYAndZDetector()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/MonteCarlo/DataStructures/SimulationInputProvider.cs/#L415"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Point source, single infinite cylinder tissue definition, only AOfXAndYAndZ detector included</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static SimulationInput PointSourceSingleInfiniteCylinderTissueAOfXAndYAndZDetector()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Vts.MonteCarlo.SimulationInput.html">SimulationInput</a></dt>
+    <dd><p>An instance of the SimulationInput class</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_MonteCarlo_SimulationInputProvider_PointSourceSingleVoxelTissueROfXAndYAndFluenceOfXAndYAndZDetector_" data-uid="Vts.MonteCarlo.SimulationInputProvider.PointSourceSingleVoxelTissueROfXAndYAndFluenceOfXAndYAndZDetector*"></a>
+
+  <h3 id="Vts_MonteCarlo_SimulationInputProvider_PointSourceSingleVoxelTissueROfXAndYAndFluenceOfXAndYAndZDetector" data-uid="Vts.MonteCarlo.SimulationInputProvider.PointSourceSingleVoxelTissueROfXAndYAndFluenceOfXAndYAndZDetector">
+  PointSourceSingleVoxelTissueROfXAndYAndFluenceOfXAndYAndZDetector()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/MonteCarlo/DataStructures/SimulationInputProvider.cs/#L931"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Point source, single voxel tissue definition, only FluenceOfXAndYAndZ detector included</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static SimulationInput PointSourceSingleVoxelTissueROfXAndYAndFluenceOfXAndYAndZDetector()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Vts.MonteCarlo.SimulationInput.html">SimulationInput</a></dt>
+    <dd><p>An instance of the SimulationInput class</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_MonteCarlo_SimulationInputProvider_PointSourceSurfaceFiberTissueAndDetector_" data-uid="Vts.MonteCarlo.SimulationInputProvider.PointSourceSurfaceFiberTissueAndDetector*"></a>
+
+  <h3 id="Vts_MonteCarlo_SimulationInputProvider_PointSourceSurfaceFiberTissueAndDetector" data-uid="Vts.MonteCarlo.SimulationInputProvider.PointSourceSurfaceFiberTissueAndDetector">
+  PointSourceSurfaceFiberTissueAndDetector()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/MonteCarlo/DataStructures/SimulationInputProvider.cs/#L1104"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Point source on multilayer with surface fiber tissue and surface
+fiber detector</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static SimulationInput PointSourceSurfaceFiberTissueAndDetector()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Vts.MonteCarlo.SimulationInput.html">SimulationInput</a></dt>
+    <dd><p>An instance of the SimulationInput class</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_MonteCarlo_SimulationInputProvider_PointSourceThreeLayerReflectedTimeOfRhoAndSubregionHistDetector_" data-uid="Vts.MonteCarlo.SimulationInputProvider.PointSourceThreeLayerReflectedTimeOfRhoAndSubregionHistDetector*"></a>
+
+  <h3 id="Vts_MonteCarlo_SimulationInputProvider_PointSourceThreeLayerReflectedTimeOfRhoAndSubregionHistDetector" data-uid="Vts.MonteCarlo.SimulationInputProvider.PointSourceThreeLayerReflectedTimeOfRhoAndSubregionHistDetector">
+  PointSourceThreeLayerReflectedTimeOfRhoAndSubregionHistDetector()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/MonteCarlo/DataStructures/SimulationInputProvider.cs/#L986"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Point source, three-layer tissue definition, with R(rho,time) and
+ReflectedTimeOfRhoAndSubregionHistDetector detector included</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static SimulationInput PointSourceThreeLayerReflectedTimeOfRhoAndSubregionHistDetector()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Vts.MonteCarlo.SimulationInput.html">SimulationInput</a></dt>
+    <dd><p>An instance of the SimulationInput class</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_MonteCarlo_SimulationInputProvider_PointSourceTwoLayerTissueROfRhoDetector_" data-uid="Vts.MonteCarlo.SimulationInputProvider.PointSourceTwoLayerTissueROfRhoDetector*"></a>
+
+  <h3 id="Vts_MonteCarlo_SimulationInputProvider_PointSourceTwoLayerTissueROfRhoDetector" data-uid="Vts.MonteCarlo.SimulationInputProvider.PointSourceTwoLayerTissueROfRhoDetector">
+  PointSourceTwoLayerTissueROfRhoDetector()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/MonteCarlo/DataStructures/SimulationInputProvider.cs/#L256"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Point source, two-layer tissue definition, only ROfRho detector included</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static SimulationInput PointSourceTwoLayerTissueROfRhoDetector()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Vts.MonteCarlo.SimulationInput.html">SimulationInput</a></dt>
+    <dd><p>An instance of the SimulationInput class</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_MonteCarlo_SimulationInputProvider_PointSourceTwoLayerTissueROfRhoTOfRhoDetectorWithPhotonDatabase_" data-uid="Vts.MonteCarlo.SimulationInputProvider.PointSourceTwoLayerTissueROfRhoTOfRhoDetectorWithPhotonDatabase*"></a>
+
+  <h3 id="Vts_MonteCarlo_SimulationInputProvider_PointSourceTwoLayerTissueROfRhoTOfRhoDetectorWithPhotonDatabase" data-uid="Vts.MonteCarlo.SimulationInputProvider.PointSourceTwoLayerTissueROfRhoTOfRhoDetectorWithPhotonDatabase">
+  PointSourceTwoLayerTissueROfRhoTOfRhoDetectorWithPhotonDatabase()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/MonteCarlo/DataStructures/SimulationInputProvider.cs/#L307"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Point source, two-layer tissue definition, only ROfRho detector included</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static SimulationInput PointSourceTwoLayerTissueROfRhoTOfRhoDetectorWithPhotonDatabase()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Vts.MonteCarlo.SimulationInput.html">SimulationInput</a></dt>
+    <dd><p>An instance of the SimulationInput class</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_MonteCarlo_SimulationInputProvider_pMCPointSourceOneLayerTissueROfRhoDAW_" data-uid="Vts.MonteCarlo.SimulationInputProvider.pMCPointSourceOneLayerTissueROfRhoDAW*"></a>
+
+  <h3 id="Vts_MonteCarlo_SimulationInputProvider_pMCPointSourceOneLayerTissueROfRhoDAW" data-uid="Vts.MonteCarlo.SimulationInputProvider.pMCPointSourceOneLayerTissueROfRhoDAW">
+  pMCPointSourceOneLayerTissueROfRhoDAW()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/MonteCarlo/DataStructures/SimulationInputProvider.cs/#L531"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Perturbation MC point source, single tissue layer definition, R(rho) included</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static SimulationInput pMCPointSourceOneLayerTissueROfRhoDAW()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Vts.MonteCarlo.SimulationInput.html">SimulationInput</a></dt>
+    <dd><p>An instance of the SimulationInput class</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/MonteCarlo/DataStructures/SimulationInputProvider.cs/#L15" class="edit-link">Edit this page</a>
+        </div>
+
+        
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+
+    <footer class="border-top">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span>Made with <a href="https://dotnet.github.io/docfx">docfx</a></span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

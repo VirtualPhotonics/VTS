@@ -1,0 +1,5472 @@
+{
+  "homepages": [],
+  "source_base_path": "C:/Projects/external/VirtualPhotonics/VTS/docfx_project",
+  "xrefmap": "xrefmap.yml",
+  "files": [
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.AbsorptionCoefficientUnit.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.AbsorptionCoefficientUnit.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.AbsorptionWeightingType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.AbsorptionWeightingType.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.AnalyzerType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.AnalyzerType.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.BindableObject.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.BindableObject.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.BindableObjectWithChangeTracking.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.BindableObjectWithChangeTracking.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.BloodConcentrationUnit.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.BloodConcentrationUnit.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.ChromophoreCoefficientType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.ChromophoreCoefficientType.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.ChromophoreType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.ChromophoreType.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.ColormapType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.ColormapType.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.Common.Direction.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.Common.Direction.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.Common.DoubleRange.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.Common.DoubleRange.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.Common.FloatRange.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.Common.FloatRange.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.Common.IntRange.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.Common.IntRange.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.Common.LayerOpticalPropertyRegion.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.Common.LayerOpticalPropertyRegion.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.Common.Logging.AbstractLoggerFactory.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.Common.Logging.AbstractLoggerFactory.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.Common.Logging.ILogger.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.Common.Logging.ILogger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.Common.Logging.ILoggerFactory.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.Common.Logging.ILoggerFactory.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.Common.Logging.LoggerFactoryLocator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.Common.Logging.LoggerFactoryLocator.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.Common.Logging.LoggerLevel.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.Common.Logging.LoggerLevel.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.Common.Logging.NLogIntegration.NLogFactory.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.Common.Logging.NLogIntegration.NLogFactory.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.Common.Logging.NLogIntegration.NLogLogger.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.Common.Logging.NLogIntegration.NLogLogger.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.Common.Logging.NLogIntegration.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.Common.Logging.NLogIntegration.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.Common.Logging.ObservableTarget.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.Common.Logging.ObservableTarget.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.Common.Logging.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.Common.Logging.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.Common.LongRange.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.Common.LongRange.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.Common.Math.Convert.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.Common.Math.Convert.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.Common.Math.Convolution2D.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.Common.Math.Convolution2D.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.Common.Math.Integration.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.Common.Math.Integration.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.Common.Math.Interpolation.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.Common.Math.Interpolation.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.Common.Math.Statistics.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.Common.Math.Statistics.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.Common.Math.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.Common.Math.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.Common.Position.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.Common.Position.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.Common.Resources.Strings.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.Common.Resources.Strings.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.Common.Resources.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.Common.Resources.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.Common.UIntRange.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.Common.UIntRange.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.Common.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.Common.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.ConcentrationUnits.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.ConcentrationUnits.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.DependentVariableAxisUnits.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.DependentVariableAxisUnits.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.DependsOnAttribute.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.DependsOnAttribute.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.EnumExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.EnumExtensions.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.EnumHelper.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.EnumHelper.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.Extensions.ArrayExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.Extensions.ArrayExtensions.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.Extensions.DataExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.Extensions.DataExtensions.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.Extensions.EnumerableExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.Extensions.EnumerableExtensions.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.Extensions.IEnumerableArrayExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.Extensions.IEnumerableArrayExtensions.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.Extensions.OpticalPropertiesExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.Extensions.OpticalPropertiesExtensions.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.Extensions.RNGExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.Extensions.RNGExtensions.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.Extensions.TypeExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.Extensions.TypeExtensions.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.Extensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.Extensions.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.Factories.ComputationFactory.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.Factories.ComputationFactory.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.Factories.SolverFactory.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.Factories.SolverFactory.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.Factories.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.Factories.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.FluenceSolutionDomainType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.FluenceSolutionDomainType.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.ForwardAnalysisType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.ForwardAnalysisType.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.ForwardSolverType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.ForwardSolverType.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.GlobalConstants.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.GlobalConstants.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.IChangeTracking.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.IChangeTracking.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.IForwardSolver.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.IForwardSolver.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.ILayerOpticalPropertyRegion.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.ILayerOpticalPropertyRegion.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.INotifyPropertyChangedPlus.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.INotifyPropertyChangedPlus.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.IO.ArrayCustomBinaryReader-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.IO.ArrayCustomBinaryReader-1.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.IO.ArrayCustomBinaryWriter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.IO.ArrayCustomBinaryWriter.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.IO.BinaryArraySerializer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.IO.BinaryArraySerializer.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.IO.ConventionBasedConverter-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.IO.ConventionBasedConverter-1.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.IO.CustomBinaryStreamWriter-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.IO.CustomBinaryStreamWriter-1.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.IO.FileIO.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.IO.FileIO.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.IO.ICustomBinaryReader-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.IO.ICustomBinaryReader-1.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.IO.ICustomBinaryWriter-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.IO.ICustomBinaryWriter-1.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.IO.JsonCreationConverter-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.IO.JsonCreationConverter-1.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.IO.KnownTypes.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.IO.KnownTypes.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.IO.LibraryIO.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.IO.LibraryIO.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.IO.MetaData.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.IO.MetaData.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.IO.StreamFinder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.IO.StreamFinder.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.IO.VtsJsonSerializer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.IO.VtsJsonSerializer.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.IO.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.IO.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.IOpticalPropertyRegion.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.IOpticalPropertyRegion.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.IOptimizer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.IOptimizer.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.IndependentVariableAxis.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.IndependentVariableAxis.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.IndependentVariableAxisUnits.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.IndependentVariableAxisUnits.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.InputParameterType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.InputParameterType.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.InverseFitType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.InverseFitType.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MapType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MapType.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MieScattererType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MieScattererType.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.Modeling.CalculatorToolbox.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.Modeling.CalculatorToolbox.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.Modeling.CubicAparameterCalculator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.Modeling.CubicAparameterCalculator.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.Modeling.ForwardSolvers.BSplinesCoefficients.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.Modeling.ForwardSolvers.BSplinesCoefficients.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.Modeling.ForwardSolvers.DeltaPOneForwardSolver.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.Modeling.ForwardSolvers.DeltaPOneForwardSolver.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.Modeling.ForwardSolvers.DiffusionForwardSolverBase.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.Modeling.ForwardSolvers.DiffusionForwardSolverBase.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.Modeling.ForwardSolvers.DiffusionGreensFunctions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.Modeling.ForwardSolvers.DiffusionGreensFunctions.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.Modeling.ForwardSolvers.DiffusionParameters.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.Modeling.ForwardSolvers.DiffusionParameters.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.Modeling.ForwardSolvers.DiscreteOrdinates.DOMethods.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.Modeling.ForwardSolvers.DiscreteOrdinates.DOMethods.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.Modeling.ForwardSolvers.DiscreteOrdinates.GaussLegendreCoefficients.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.Modeling.ForwardSolvers.DiscreteOrdinates.GaussLegendreCoefficients.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.Modeling.ForwardSolvers.DiscreteOrdinates.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.Modeling.ForwardSolvers.DiscreteOrdinates.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.Modeling.ForwardSolvers.DiscreteOrdinatesForwardSolver.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.Modeling.ForwardSolvers.DiscreteOrdinatesForwardSolver.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.Modeling.ForwardSolvers.DistributedGaussianSourceSDAForwardSolver.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.Modeling.ForwardSolvers.DistributedGaussianSourceSDAForwardSolver.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.Modeling.ForwardSolvers.DistributedPointSourceSDAForwardSolver.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.Modeling.ForwardSolvers.DistributedPointSourceSDAForwardSolver.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.Modeling.ForwardSolvers.Extensions.PhotonHittingDensityExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.Modeling.ForwardSolvers.Extensions.PhotonHittingDensityExtensions.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.Modeling.ForwardSolvers.Extensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.Modeling.ForwardSolvers.Extensions.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.Modeling.ForwardSolvers.ForwardModel.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.Modeling.ForwardSolvers.ForwardModel.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.Modeling.ForwardSolvers.ForwardSolverBase.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.Modeling.ForwardSolvers.ForwardSolverBase.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.Modeling.ForwardSolvers.INurbs.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.Modeling.ForwardSolvers.INurbs.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.Modeling.ForwardSolvers.MonteCarloForwardSolver.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.Modeling.ForwardSolvers.MonteCarloForwardSolver.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.Modeling.ForwardSolvers.MonteCarloLoader.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.Modeling.ForwardSolvers.MonteCarloLoader.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.Modeling.ForwardSolvers.NurbsForwardSolver.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.Modeling.ForwardSolvers.NurbsForwardSolver.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.Modeling.ForwardSolvers.NurbsGenerator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.Modeling.ForwardSolvers.NurbsGenerator.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.Modeling.ForwardSolvers.NurbsGeneratorType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.Modeling.ForwardSolvers.NurbsGeneratorType.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.Modeling.ForwardSolvers.NurbsValues.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.Modeling.ForwardSolvers.NurbsValues.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.Modeling.ForwardSolvers.NurbsValuesDimensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.Modeling.ForwardSolvers.NurbsValuesDimensions.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.Modeling.ForwardSolvers.PointSourceSDAForwardSolver.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.Modeling.ForwardSolvers.PointSourceSDAForwardSolver.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.Modeling.ForwardSolvers.SFDDiffusionForwardSolver.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.Modeling.ForwardSolvers.SFDDiffusionForwardSolver.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.Modeling.ForwardSolvers.SourceConfiguration.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.Modeling.ForwardSolvers.SourceConfiguration.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.Modeling.ForwardSolvers.StubNurbsGenerator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.Modeling.ForwardSolvers.StubNurbsGenerator.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.Modeling.ForwardSolvers.TwoLayerSDAForwardSolver.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.Modeling.ForwardSolvers.TwoLayerSDAForwardSolver.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.Modeling.ForwardSolvers.VectorizedForwardSolverFuncs.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.Modeling.ForwardSolvers.VectorizedForwardSolverFuncs.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.Modeling.ForwardSolvers.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.Modeling.ForwardSolvers.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.Modeling.HankelTransform.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.Modeling.HankelTransform.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.Modeling.LinearDiscreteFourierTransform.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.Modeling.LinearDiscreteFourierTransform.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.Modeling.LinearDiscreteHankelTransform.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.Modeling.LinearDiscreteHankelTransform.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.Modeling.NumericalDerivativeExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.Modeling.NumericalDerivativeExtensions.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.Modeling.Optimizers.MPFitLevenbergMarquardtOptimizer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.Modeling.Optimizers.MPFitLevenbergMarquardtOptimizer.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.Modeling.Optimizers.OptimizationData.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.Modeling.Optimizers.OptimizationData.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.Modeling.Optimizers.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.Modeling.Optimizers.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.Modeling.ReffCalculator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.Modeling.ReffCalculator.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.Modeling.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.Modeling.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MolarUnit.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MolarUnit.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.AbsorptionWeightingMethods.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.AbsorptionWeightingMethods.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.AngleDistributionType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.AngleDistributionType.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.BoundaryHitType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.BoundaryHitType.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.BoundingCylinderTissueInputValidation.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.BoundingCylinderTissueInputValidation.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.CommandLineApplication.MonteCarloSetup.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.CommandLineApplication.MonteCarloSetup.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.CommandLineApplication.ParameterSweep.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.CommandLineApplication.ParameterSweep.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.CommandLineApplication.Program.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.CommandLineApplication.Program.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.CommandLineApplication.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.CommandLineApplication.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Controllers.DatabaseWriterController.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Controllers.DatabaseWriterController.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Controllers.DetectorController.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Controllers.DetectorController.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Controllers.HistoryDetectorController.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Controllers.HistoryDetectorController.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Controllers.VirtualBoundaryController.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Controllers.VirtualBoundaryController.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Controllers.pMCDatabaseWriterController.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Controllers.pMCDatabaseWriterController.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Controllers.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Controllers.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.CylinderTissueRegionAxisType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.CylinderTissueRegionAxisType.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.DataStructuresValidation.ValidationResult.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.DataStructuresValidation.ValidationResult.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.DataStructuresValidation.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.DataStructuresValidation.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.DatabaseType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.DatabaseType.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.AOfRhoAndZDetector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.AOfRhoAndZDetector.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.AOfRhoAndZDetectorInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.AOfRhoAndZDetectorInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.AOfXAndYAndZDetector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.AOfXAndYAndZDetector.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.AOfXAndYAndZDetectorInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.AOfXAndYAndZDetectorInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.ATotalBoundingVolumeDetector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.ATotalBoundingVolumeDetector.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.ATotalBoundingVolumeDetectorInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.ATotalBoundingVolumeDetectorInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.ATotalDetector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.ATotalDetector.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.ATotalDetectorInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.ATotalDetectorInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.Detector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.Detector.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.DetectorInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.DetectorInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.FluenceOfFxAndZDetector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.FluenceOfFxAndZDetector.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.FluenceOfFxAndZDetectorInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.FluenceOfFxAndZDetectorInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.FluenceOfRhoAndZAndOmegaDetector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.FluenceOfRhoAndZAndOmegaDetector.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.FluenceOfRhoAndZAndOmegaDetectorInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.FluenceOfRhoAndZAndOmegaDetectorInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.FluenceOfRhoAndZAndTimeDetector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.FluenceOfRhoAndZAndTimeDetector.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.FluenceOfRhoAndZAndTimeDetectorInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.FluenceOfRhoAndZAndTimeDetectorInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.FluenceOfRhoAndZDetector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.FluenceOfRhoAndZDetector.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.FluenceOfRhoAndZDetectorInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.FluenceOfRhoAndZDetectorInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.FluenceOfXAndYAndZAndOmegaDetector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.FluenceOfXAndYAndZAndOmegaDetector.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.FluenceOfXAndYAndZAndOmegaDetectorInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.FluenceOfXAndYAndZAndOmegaDetectorInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.FluenceOfXAndYAndZAndStartingXAndYDetector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.FluenceOfXAndYAndZAndStartingXAndYDetector.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.FluenceOfXAndYAndZAndStartingXAndYDetectorInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.FluenceOfXAndYAndZAndStartingXAndYDetectorInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.FluenceOfXAndYAndZAndTimeDetector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.FluenceOfXAndYAndZAndTimeDetector.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.FluenceOfXAndYAndZAndTimeDetectorInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.FluenceOfXAndYAndZAndTimeDetectorInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.FluenceOfXAndYAndZDetector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.FluenceOfXAndYAndZDetector.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.FluenceOfXAndYAndZDetectorInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.FluenceOfXAndYAndZDetectorInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.RDiffuseDetector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.RDiffuseDetector.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.RDiffuseDetectorInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.RDiffuseDetectorInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.ROfAngleDetector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.ROfAngleDetector.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.ROfAngleDetectorInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.ROfAngleDetectorInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.ROfFxAndAngleDetector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.ROfFxAndAngleDetector.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.ROfFxAndAngleDetectorInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.ROfFxAndAngleDetectorInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.ROfFxAndMaxDepthDetector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.ROfFxAndMaxDepthDetector.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.ROfFxAndMaxDepthDetectorInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.ROfFxAndMaxDepthDetectorInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.ROfFxAndTimeDetector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.ROfFxAndTimeDetector.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.ROfFxAndTimeDetectorInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.ROfFxAndTimeDetectorInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.ROfFxDetector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.ROfFxDetector.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.ROfFxDetectorInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.ROfFxDetectorInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.ROfRhoAndAngleDetector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.ROfRhoAndAngleDetector.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.ROfRhoAndAngleDetectorInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.ROfRhoAndAngleDetectorInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.ROfRhoAndMaxDepthDetector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.ROfRhoAndMaxDepthDetector.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.ROfRhoAndMaxDepthDetectorInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.ROfRhoAndMaxDepthDetectorInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.ROfRhoAndMaxDepthRecessedDetector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.ROfRhoAndMaxDepthRecessedDetector.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.ROfRhoAndMaxDepthRecessedDetectorInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.ROfRhoAndMaxDepthRecessedDetectorInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.ROfRhoAndOmegaDetector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.ROfRhoAndOmegaDetector.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.ROfRhoAndOmegaDetectorInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.ROfRhoAndOmegaDetectorInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.ROfRhoAndTimeDetector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.ROfRhoAndTimeDetector.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.ROfRhoAndTimeDetectorInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.ROfRhoAndTimeDetectorInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.ROfRhoDetector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.ROfRhoDetector.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.ROfRhoDetectorInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.ROfRhoDetectorInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.ROfRhoRecessedDetector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.ROfRhoRecessedDetector.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.ROfRhoRecessedDetectorInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.ROfRhoRecessedDetectorInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.ROfXAndYAndMaxDepthDetector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.ROfXAndYAndMaxDepthDetector.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.ROfXAndYAndMaxDepthDetectorInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.ROfXAndYAndMaxDepthDetectorInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.ROfXAndYAndMaxDepthRecessedDetector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.ROfXAndYAndMaxDepthRecessedDetector.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.ROfXAndYAndMaxDepthRecessedDetectorInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.ROfXAndYAndMaxDepthRecessedDetectorInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.ROfXAndYAndThetaAndPhiDetector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.ROfXAndYAndThetaAndPhiDetector.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.ROfXAndYAndThetaAndPhiDetectorInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.ROfXAndYAndThetaAndPhiDetectorInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.ROfXAndYAndTimeAndSubregionDetector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.ROfXAndYAndTimeAndSubregionDetector.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.ROfXAndYAndTimeAndSubregionDetectorInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.ROfXAndYAndTimeAndSubregionDetectorInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.ROfXAndYAndTimeAndSubregionRecessedDetector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.ROfXAndYAndTimeAndSubregionRecessedDetector.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.ROfXAndYAndTimeAndSubregionRecessedDetectorInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.ROfXAndYAndTimeAndSubregionRecessedDetectorInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.ROfXAndYAndTimeDetector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.ROfXAndYAndTimeDetector.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.ROfXAndYAndTimeDetectorInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.ROfXAndYAndTimeDetectorInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.ROfXAndYAndTimeRecessedDetector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.ROfXAndYAndTimeRecessedDetector.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.ROfXAndYAndTimeRecessedDetectorInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.ROfXAndYAndTimeRecessedDetectorInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.ROfXAndYDetector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.ROfXAndYDetector.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.ROfXAndYDetectorInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.ROfXAndYDetectorInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.ROfXAndYRecessedDetector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.ROfXAndYRecessedDetector.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.ROfXAndYRecessedDetectorInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.ROfXAndYRecessedDetectorInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.RSpecularDetector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.RSpecularDetector.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.RSpecularDetectorInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.RSpecularDetectorInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.RadianceOfFxAndZAndAngleDetector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.RadianceOfFxAndZAndAngleDetector.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.RadianceOfFxAndZAndAngleDetectorInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.RadianceOfFxAndZAndAngleDetectorInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.RadianceOfRhoAndZAndAngleDetector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.RadianceOfRhoAndZAndAngleDetector.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.RadianceOfRhoAndZAndAngleDetectorInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.RadianceOfRhoAndZAndAngleDetectorInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.RadianceOfRhoAtZDetector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.RadianceOfRhoAtZDetector.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.RadianceOfRhoAtZDetectorInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.RadianceOfRhoAtZDetectorInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.RadianceOfXAndYAndZAndThetaAndPhiDetector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.RadianceOfXAndYAndZAndThetaAndPhiDetector.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.RadianceOfXAndYAndZAndThetaAndPhiDetectorInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.RadianceOfXAndYAndZAndThetaAndPhiDetectorInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.ReflectedDynamicMTOfFxAndSubregionHistDetector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.ReflectedDynamicMTOfFxAndSubregionHistDetector.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.ReflectedDynamicMTOfFxAndSubregionHistDetectorInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.ReflectedDynamicMTOfFxAndSubregionHistDetectorInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.ReflectedDynamicMTOfRhoAndSubregionHistDetector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.ReflectedDynamicMTOfRhoAndSubregionHistDetector.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.ReflectedDynamicMTOfRhoAndSubregionHistDetectorInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.ReflectedDynamicMTOfRhoAndSubregionHistDetectorInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.ReflectedDynamicMTOfXAndYAndSubregionHistDetector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.ReflectedDynamicMTOfXAndYAndSubregionHistDetector.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.ReflectedDynamicMTOfXAndYAndSubregionHistDetectorInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.ReflectedDynamicMTOfXAndYAndSubregionHistDetectorInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.ReflectedMTOfRhoAndSubregionHistDetector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.ReflectedMTOfRhoAndSubregionHistDetector.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.ReflectedMTOfRhoAndSubregionHistDetectorInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.ReflectedMTOfRhoAndSubregionHistDetectorInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.ReflectedMTOfXAndYAndSubregionHistDetector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.ReflectedMTOfXAndYAndSubregionHistDetector.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.ReflectedMTOfXAndYAndSubregionHistDetectorInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.ReflectedMTOfXAndYAndSubregionHistDetectorInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.ReflectedTimeOfRhoAndSubregionHistDetector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.ReflectedTimeOfRhoAndSubregionHistDetector.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.ReflectedTimeOfRhoAndSubregionHistDetectorInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.ReflectedTimeOfRhoAndSubregionHistDetectorInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.SurfaceFiberDetector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.SurfaceFiberDetector.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.SurfaceFiberDetectorInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.SurfaceFiberDetectorInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.TDiffuseDetector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.TDiffuseDetector.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.TDiffuseDetectorInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.TDiffuseDetectorInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.TOfAngleDetector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.TOfAngleDetector.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.TOfAngleDetectorInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.TOfAngleDetectorInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.TOfFxDetector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.TOfFxDetector.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.TOfFxDetectorInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.TOfFxDetectorInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.TOfRhoAndAngleDetector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.TOfRhoAndAngleDetector.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.TOfRhoAndAngleDetectorInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.TOfRhoAndAngleDetectorInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.TOfRhoDetector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.TOfRhoDetector.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.TOfRhoDetectorInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.TOfRhoDetectorInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.TOfXAndYAndTimeAndSubregionDetector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.TOfXAndYAndTimeAndSubregionDetector.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.TOfXAndYAndTimeAndSubregionDetectorInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.TOfXAndYAndTimeAndSubregionDetectorInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.TOfXAndYDetector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.TOfXAndYDetector.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.TOfXAndYDetectorInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.TOfXAndYDetectorInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.TallyDetails.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.TallyDetails.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.TransmittedDynamicMTOfFxAndSubregionHistDetector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.TransmittedDynamicMTOfFxAndSubregionHistDetector.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.TransmittedDynamicMTOfFxAndSubregionHistDetectorInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.TransmittedDynamicMTOfFxAndSubregionHistDetectorInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.TransmittedDynamicMTOfRhoAndSubregionHistDetector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.TransmittedDynamicMTOfRhoAndSubregionHistDetector.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.TransmittedDynamicMTOfRhoAndSubregionHistDetectorInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.TransmittedDynamicMTOfRhoAndSubregionHistDetectorInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.TransmittedDynamicMTOfXAndYAndSubregionHistDetector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.TransmittedDynamicMTOfXAndYAndSubregionHistDetector.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.TransmittedDynamicMTOfXAndYAndSubregionHistDetectorInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.TransmittedDynamicMTOfXAndYAndSubregionHistDetectorInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.TransmittedMTOfRhoAndSubregionHistDetector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.TransmittedMTOfRhoAndSubregionHistDetector.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.TransmittedMTOfRhoAndSubregionHistDetectorInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.TransmittedMTOfRhoAndSubregionHistDetectorInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.TransmittedMTOfXAndYAndSubregionHistDetector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.TransmittedMTOfXAndYAndSubregionHistDetector.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.TransmittedMTOfXAndYAndSubregionHistDetectorInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.TransmittedMTOfXAndYAndSubregionHistDetectorInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.dMCdROfRhodMuaDetector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.dMCdROfRhodMuaDetector.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.dMCdROfRhodMuaDetectorInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.dMCdROfRhodMuaDetectorInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.dMCdROfRhodMusDetector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.dMCdROfRhodMusDetector.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.dMCdROfRhodMusDetectorInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.dMCdROfRhodMusDetectorInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.pMCATotalDetector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.pMCATotalDetector.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.pMCATotalDetectorInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.pMCATotalDetectorInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.pMCROfFxAndTimeDetector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.pMCROfFxAndTimeDetector.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.pMCROfFxAndTimeDetectorInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.pMCROfFxAndTimeDetectorInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.pMCROfFxDetector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.pMCROfFxDetector.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.pMCROfFxDetectorInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.pMCROfFxDetectorInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.pMCROfRhoAndTimeDetector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.pMCROfRhoAndTimeDetector.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.pMCROfRhoAndTimeDetectorInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.pMCROfRhoAndTimeDetectorInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.pMCROfRhoAndTimeRecessedDetector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.pMCROfRhoAndTimeRecessedDetector.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.pMCROfRhoAndTimeRecessedDetectorInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.pMCROfRhoAndTimeRecessedDetectorInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.pMCROfRhoDetector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.pMCROfRhoDetector.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.pMCROfRhoDetectorInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.pMCROfRhoDetectorInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.pMCROfRhoRecessedDetector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.pMCROfRhoRecessedDetector.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.pMCROfRhoRecessedDetectorInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.pMCROfRhoRecessedDetectorInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.pMCROfXAndYAndTimeAndSubregionDetector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.pMCROfXAndYAndTimeAndSubregionDetector.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.pMCROfXAndYAndTimeAndSubregionDetectorInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.pMCROfXAndYAndTimeAndSubregionDetectorInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.pMCROfXAndYAndTimeAndSubregionRecessedDetector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.pMCROfXAndYAndTimeAndSubregionRecessedDetector.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.pMCROfXAndYAndTimeAndSubregionRecessedDetectorInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.pMCROfXAndYAndTimeAndSubregionRecessedDetectorInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.pMCROfXAndYDetector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.pMCROfXAndYDetector.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.pMCROfXAndYDetectorInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.pMCROfXAndYDetectorInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.pMCTOfRhoDetector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.pMCTOfRhoDetector.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.pMCTOfRhoDetectorInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.pMCTOfRhoDetectorInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Detectors.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Detectors.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Extensions.DatabaseExtensionMethods.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Extensions.DatabaseExtensionMethods.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Extensions.ITissueRegionExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Extensions.ITissueRegionExtensions.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Extensions.PhotonDataExtensionMethods.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Extensions.PhotonDataExtensionMethods.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Extensions.SimulationInputExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Extensions.SimulationInputExtensions.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Extensions.StatisticsExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Extensions.StatisticsExtensions.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Extensions.VirtualBoundariesExtensionMethods.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Extensions.VirtualBoundariesExtensionMethods.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Extensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Extensions.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Factories.DatabaseWriterFactory.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Factories.DatabaseWriterFactory.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Factories.DetectorControllerFactory.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Factories.DetectorControllerFactory.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Factories.DetectorFactory.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Factories.DetectorFactory.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Factories.PhotonDatabaseFactory.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Factories.PhotonDatabaseFactory.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Factories.RandomNumberGeneratorFactory.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Factories.RandomNumberGeneratorFactory.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Factories.SourceFactory.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Factories.SourceFactory.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Factories.TissueFactory.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Factories.TissueFactory.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Factories.VirtualBoundaryFactory.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Factories.VirtualBoundaryFactory.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Factories.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Factories.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.FluorescenceEmissionAOfRhoAndZSourceInputValidation.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.FluorescenceEmissionAOfRhoAndZSourceInputValidation.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.FluorescenceEmissionAOfXAndYAndZSourceInputValidation.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.FluorescenceEmissionAOfXAndYAndZSourceInputValidation.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Helpers.DetectorBinning.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Helpers.DetectorBinning.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Helpers.ErrorCalculation.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Helpers.ErrorCalculation.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Helpers.Optics.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Helpers.Optics.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Helpers.PolarAzimuthalAngles.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Helpers.PolarAzimuthalAngles.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Helpers.SourceFlags.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Helpers.SourceFlags.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Helpers.SourceToolbox.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Helpers.SourceToolbox.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Helpers.ThreeAxisRotation.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Helpers.ThreeAxisRotation.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Helpers.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Helpers.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.IDetector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.IDetector.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.IDetectorController.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.IDetectorController.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.IDetectorInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.IDetectorInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.IHistoryDetector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.IHistoryDetector.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.IO.Database-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.IO.Database-1.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.IO.DatabaseReader-2.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.IO.DatabaseReader-2.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.IO.DatabaseWriter-2.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.IO.DatabaseWriter-2.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.IO.DetectorIO.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.IO.DetectorIO.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.IO.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.IO.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.ISource.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.ISource.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.ISourceInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.ISourceInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.ITissue.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.ITissue.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.ITissueInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.ITissueInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.ITissueRegion.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.ITissueRegion.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.IVirtualBoundary.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.IVirtualBoundary.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Interfaces.ISourceProfile.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Interfaces.ISourceProfile.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Interfaces.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Interfaces.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.IpMCDetectorInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.IpMCDetectorInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.MonteCarloSimulation.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.MonteCarloSimulation.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.MultiConcentricInfiniteCylinderTissueInputValidation.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.MultiConcentricInfiniteCylinderTissueInputValidation.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.MultiLayerTissueInputValidation.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.MultiLayerTissueInputValidation.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.ParallelMonteCarloSimulation.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.ParallelMonteCarloSimulation.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Photon.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Photon.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.PhotonData.CollisionInfo.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.PhotonData.CollisionInfo.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.PhotonData.CollisionInfoDatabase.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.PhotonData.CollisionInfoDatabase.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.PhotonData.CollisionInfoDatabaseWriter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.PhotonData.CollisionInfoDatabaseWriter.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.PhotonData.CollisionInfoSerializer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.PhotonData.CollisionInfoSerializer.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.PhotonData.PhotonDataPoint.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.PhotonData.PhotonDataPoint.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.PhotonData.PhotonDataPointSerializer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.PhotonData.PhotonDataPointSerializer.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.PhotonData.PhotonDatabase.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.PhotonData.PhotonDatabase.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.PhotonData.PhotonDatabaseWriter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.PhotonData.PhotonDatabaseWriter.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.PhotonData.SubRegionCollisionInfo.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.PhotonData.SubRegionCollisionInfo.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.PhotonData.pMCDataPoint.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.PhotonData.pMCDataPoint.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.PhotonData.pMCDatabase.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.PhotonData.pMCDatabase.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.PhotonData.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.PhotonData.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.PhotonHistory.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.PhotonHistory.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.PhotonStateType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.PhotonStateType.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.PostProcessing.PhotonDatabasePostProcessor.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.PostProcessing.PhotonDatabasePostProcessor.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.PostProcessing.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.PostProcessing.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.PostProcessor.PostProcessorSetup.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.PostProcessor.PostProcessorSetup.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.PostProcessor.Program.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.PostProcessor.Program.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.PostProcessor.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.PostProcessor.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.PostProcessorInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.PostProcessorInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.PostProcessorInputProvider.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.PostProcessorInputProvider.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.PostProcessorInputValidation.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.PostProcessorInputValidation.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.RecessedDetectorInputValidation.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.RecessedDetectorInputValidation.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.ReflectedDynamicMTOfRhoAndSubregionHistDetectorInputValidation.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.ReflectedDynamicMTOfRhoAndSubregionHistDetectorInputValidation.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.ReflectedDynamicMTOfXAndYAndSubregionHistDetectorInputValidation.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.ReflectedDynamicMTOfXAndYAndSubregionHistDetectorInputValidation.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Rng.DynamicCreatorMersenneTwister.mt_struct.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Rng.DynamicCreatorMersenneTwister.mt_struct.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Rng.DynamicCreatorMersenneTwister.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Rng.DynamicCreatorMersenneTwister.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Rng.MersenneTwisterSerializationInfo.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Rng.MersenneTwisterSerializationInfo.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Rng.SerializableMersenneTwister.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Rng.SerializableMersenneTwister.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Rng.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Rng.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.SimulationInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.SimulationInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.SimulationInputProvider.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.SimulationInputProvider.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.SimulationInputValidation.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.SimulationInputValidation.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.SimulationOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.SimulationOptions.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.SimulationOutput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.SimulationOutput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.SimulationStatistics.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.SimulationStatistics.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.SingleEllipsoidTissueInputValidation.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.SingleEllipsoidTissueInputValidation.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.SingleVoxelTissueInputValidation.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.SingleVoxelTissueInputValidation.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.SourceInputProvider.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.SourceInputProvider.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.SourceOrientationType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.SourceOrientationType.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.SourcePositionSamplingType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.SourcePositionSamplingType.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.SourceProfileType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.SourceProfileType.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.SourceType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.SourceType.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Sources.AOfRhoAndZLoader.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Sources.AOfRhoAndZLoader.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Sources.AOfXAndYAndZLoader.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Sources.AOfXAndYAndZLoader.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Sources.CircularAngledFromCircleSource.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Sources.CircularAngledFromCircleSource.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Sources.CircularAngledFromCircleSourceInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Sources.CircularAngledFromCircleSourceInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Sources.CircularAngledFromPointSource.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Sources.CircularAngledFromPointSource.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Sources.CircularAngledFromPointSourceInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Sources.CircularAngledFromPointSourceInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Sources.CircularSourceBase.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Sources.CircularSourceBase.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Sources.CustomCircularSource.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Sources.CustomCircularSource.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Sources.CustomCircularSourceInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Sources.CustomCircularSourceInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Sources.CustomEllipticalSource.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Sources.CustomEllipticalSource.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Sources.CustomEllipticalSourceInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Sources.CustomEllipticalSourceInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Sources.CustomLineSource.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Sources.CustomLineSource.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Sources.CustomLineSourceInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Sources.CustomLineSourceInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Sources.CustomPointSource.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Sources.CustomPointSource.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Sources.CustomPointSourceInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Sources.CustomPointSourceInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Sources.CustomRectangularSource.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Sources.CustomRectangularSource.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Sources.CustomRectangularSourceInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Sources.CustomRectangularSourceInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Sources.CustomSurfaceEmittingSphericalSource.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Sources.CustomSurfaceEmittingSphericalSource.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Sources.CustomSurfaceEmittingSphericalSourceInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Sources.CustomSurfaceEmittingSphericalSourceInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Sources.CustomVolumetricCuboidalSource.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Sources.CustomVolumetricCuboidalSource.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Sources.CustomVolumetricCuboidalSourceInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Sources.CustomVolumetricCuboidalSourceInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Sources.CustomVolumetricEllipsoidalSource.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Sources.CustomVolumetricEllipsoidalSource.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Sources.CustomVolumetricEllipsoidalSourceInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Sources.CustomVolumetricEllipsoidalSourceInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Sources.DirectionalArbitrarySurfaceSource.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Sources.DirectionalArbitrarySurfaceSource.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Sources.DirectionalCircularSource.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Sources.DirectionalCircularSource.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Sources.DirectionalCircularSourceInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Sources.DirectionalCircularSourceInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Sources.DirectionalEllipticalSource.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Sources.DirectionalEllipticalSource.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Sources.DirectionalEllipticalSourceInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Sources.DirectionalEllipticalSourceInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Sources.DirectionalLineSource.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Sources.DirectionalLineSource.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Sources.DirectionalLineSourceInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Sources.DirectionalLineSourceInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Sources.DirectionalPointSource.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Sources.DirectionalPointSource.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Sources.DirectionalPointSourceInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Sources.DirectionalPointSourceInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Sources.DirectionalRectangularSource.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Sources.DirectionalRectangularSource.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Sources.DirectionalRectangularSourceInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Sources.DirectionalRectangularSourceInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Sources.EllipticalSourceBase.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Sources.EllipticalSourceBase.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Sources.FluorescenceEmissionAOfRhoAndZSource.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Sources.FluorescenceEmissionAOfRhoAndZSource.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Sources.FluorescenceEmissionAOfRhoAndZSourceInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Sources.FluorescenceEmissionAOfRhoAndZSourceInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Sources.FluorescenceEmissionAOfXAndYAndZSource.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Sources.FluorescenceEmissionAOfXAndYAndZSource.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Sources.FluorescenceEmissionAOfXAndYAndZSourceInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Sources.FluorescenceEmissionAOfXAndYAndZSourceInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Sources.FluorescenceEmissionSourceBase.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Sources.FluorescenceEmissionSourceBase.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Sources.IsotropicLineSource.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Sources.IsotropicLineSource.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Sources.IsotropicLineSourceInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Sources.IsotropicLineSourceInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Sources.IsotropicPointSource.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Sources.IsotropicPointSource.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Sources.IsotropicPointSourceInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Sources.IsotropicPointSourceInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Sources.IsotropicVolumetricCuboidalSource.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Sources.IsotropicVolumetricCuboidalSource.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Sources.IsotropicVolumetricCuboidalSourceInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Sources.IsotropicVolumetricCuboidalSourceInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Sources.IsotropicVolumetricEllipsoidalSource.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Sources.IsotropicVolumetricEllipsoidalSource.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Sources.IsotropicVolumetricEllipsoidalSourceInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Sources.IsotropicVolumetricEllipsoidalSourceInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Sources.LambertianSurfaceEmittingCuboidalSource.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Sources.LambertianSurfaceEmittingCuboidalSource.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Sources.LambertianSurfaceEmittingCuboidalSourceInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Sources.LambertianSurfaceEmittingCuboidalSourceInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Sources.LambertianSurfaceEmittingCylindricalFiberSource.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Sources.LambertianSurfaceEmittingCylindricalFiberSource.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Sources.LambertianSurfaceEmittingCylindricalFiberSourceInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Sources.LambertianSurfaceEmittingCylindricalFiberSourceInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Sources.LambertianSurfaceEmittingSphericalSource.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Sources.LambertianSurfaceEmittingSphericalSource.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Sources.LambertianSurfaceEmittingSphericalSourceInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Sources.LambertianSurfaceEmittingSphericalSourceInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Sources.LambertianSurfaceEmittingTubularSource.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Sources.LambertianSurfaceEmittingTubularSource.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Sources.LambertianSurfaceEmittingTubularSourceInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Sources.LambertianSurfaceEmittingTubularSourceInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Sources.LineAngledFromLineSource.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Sources.LineAngledFromLineSource.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Sources.LineAngledFromLineSourceInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Sources.LineAngledFromLineSourceInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Sources.LineSourceBase.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Sources.LineSourceBase.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Sources.PointSourceBase.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Sources.PointSourceBase.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Sources.RectangularAngledFromCircleSource.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Sources.RectangularAngledFromCircleSource.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Sources.RectangularAngledFromCircleSourceInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Sources.RectangularAngledFromCircleSourceInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Sources.RectangularSourceBase.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Sources.RectangularSourceBase.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Sources.SourceDefaults.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Sources.SourceDefaults.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Sources.SourceProfiles.ArbitrarySourceProfile.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Sources.SourceProfiles.ArbitrarySourceProfile.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Sources.SourceProfiles.FlatSourceProfile.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Sources.SourceProfiles.FlatSourceProfile.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Sources.SourceProfiles.GaussianSourceProfile.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Sources.SourceProfiles.GaussianSourceProfile.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Sources.SourceProfiles.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Sources.SourceProfiles.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Sources.SurfaceEmittingCuboidalSourceBase.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Sources.SurfaceEmittingCuboidalSourceBase.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Sources.SurfaceEmittingCylindricalFiberSourceBase.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Sources.SurfaceEmittingCylindricalFiberSourceBase.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Sources.SurfaceEmittingSphericalSourceBase.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Sources.SurfaceEmittingSphericalSourceBase.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Sources.SurfaceEmittingTubularSourceBase.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Sources.SurfaceEmittingTubularSourceBase.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Sources.VolumetricCuboidalSourceBase.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Sources.VolumetricCuboidalSourceBase.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Sources.VolumetricEllipsoidalSourceBase.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Sources.VolumetricEllipsoidalSourceBase.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Sources.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Sources.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.SurfaceFiberDetectorInputValidation.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.SurfaceFiberDetectorInputValidation.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.TallyType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.TallyType.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.TissueRegionType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.TissueRegionType.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.TissueType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.TissueType.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Tissues.BoundedTissue.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Tissues.BoundedTissue.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Tissues.BoundingCylinderTissueInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Tissues.BoundingCylinderTissueInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Tissues.CaplessCylinderTissueRegion.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Tissues.CaplessCylinderTissueRegion.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Tissues.CylinderTissueRegion.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Tissues.CylinderTissueRegion.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Tissues.CylinderTissueRegionToolbox.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Tissues.CylinderTissueRegionToolbox.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Tissues.EllipsoidTissueRegion.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Tissues.EllipsoidTissueRegion.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Tissues.InfiniteCylinderTissueRegion.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Tissues.InfiniteCylinderTissueRegion.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Tissues.LayerTissueRegion.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Tissues.LayerTissueRegion.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Tissues.LayerTissueRegionToolbox.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Tissues.LayerTissueRegionToolbox.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Tissues.MultiConcentricInfiniteCylinderTissue.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Tissues.MultiConcentricInfiniteCylinderTissue.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Tissues.MultiConcentricInfiniteCylinderTissueInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Tissues.MultiConcentricInfiniteCylinderTissueInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Tissues.MultiEllipsoidTissueInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Tissues.MultiEllipsoidTissueInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Tissues.MultiLayerTissue.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Tissues.MultiLayerTissue.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Tissues.MultiLayerTissueInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Tissues.MultiLayerTissueInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Tissues.MultiLayerWithSurfaceFiberTissue.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Tissues.MultiLayerWithSurfaceFiberTissue.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Tissues.MultiLayerWithSurfaceFiberTissueInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Tissues.MultiLayerWithSurfaceFiberTissueInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Tissues.SemiInfiniteTissueInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Tissues.SemiInfiniteTissueInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Tissues.SemiInfiniteTissueRegion.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Tissues.SemiInfiniteTissueRegion.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Tissues.SingleCylinderTissueInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Tissues.SingleCylinderTissueInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Tissues.SingleEllipsoidTissueInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Tissues.SingleEllipsoidTissueInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Tissues.SingleInclusionTissue.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Tissues.SingleInclusionTissue.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Tissues.SingleInfiniteCylinderTissueInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Tissues.SingleInfiniteCylinderTissueInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Tissues.SingleVoxelTissueInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Tissues.SingleVoxelTissueInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Tissues.SurfaceFiberTissueRegion.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Tissues.SurfaceFiberTissueRegion.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Tissues.TissueBase.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Tissues.TissueBase.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Tissues.TissueInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Tissues.TissueInput.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Tissues.VoxelTissueRegion.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Tissues.VoxelTissueRegion.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.Tissues.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.Tissues.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.TransmittedDynamicMTOfRhoAndSubregionHistDetectorInputValidation.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.TransmittedDynamicMTOfRhoAndSubregionHistDetectorInputValidation.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.TransmittedDynamicMTOfXAndYAndSubregionHistDetectorInputValidation.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.TransmittedDynamicMTOfXAndYAndSubregionHistDetectorInputValidation.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.VirtualBoundaries.BoundingCylinderVirtualBoundary.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.VirtualBoundaries.BoundingCylinderVirtualBoundary.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.VirtualBoundaries.DiffuseReflectanceVirtualBoundary.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.VirtualBoundaries.DiffuseReflectanceVirtualBoundary.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.VirtualBoundaries.DiffuseTransmittanceVirtualBoundary.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.VirtualBoundaries.DiffuseTransmittanceVirtualBoundary.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.VirtualBoundaries.GenericVolumeVirtualBoundary.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.VirtualBoundaries.GenericVolumeVirtualBoundary.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.VirtualBoundaries.RadianceVirtualBoundary.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.VirtualBoundaries.RadianceVirtualBoundary.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.VirtualBoundaries.SpecularReflectanceVirtualBoundary.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.VirtualBoundaries.SpecularReflectanceVirtualBoundary.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.VirtualBoundaries.pMCDiffuseReflectanceVirtualBoundary.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.VirtualBoundaries.pMCDiffuseReflectanceVirtualBoundary.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.VirtualBoundaries.pMCDiffuseTransmittanceVirtualBoundary.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.VirtualBoundaries.pMCDiffuseTransmittanceVirtualBoundary.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.VirtualBoundaries.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.VirtualBoundaries.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.VirtualBoundaryType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.VirtualBoundaryType.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.dMCdROfRhodMuaDetectorInputValidation.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.dMCdROfRhodMuaDetectorInputValidation.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.dMCdROfRhodMusDetectorInputValidation.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.dMCdROfRhodMusDetectorInputValidation.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.MonteCarlo.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.MonteCarlo.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.OpticalProperties.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.OpticalProperties.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.OpticalPropertiesConverter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.OpticalPropertiesConverter.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.OptimizerType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.OptimizerType.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.ParameterSweepType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.ParameterSweepType.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.PhaseFunctionType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.PhaseFunctionType.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.PlotNormalizationType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.PlotNormalizationType.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.PlotToggleType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.PlotToggleType.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.PropertyDependencyManager.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.PropertyDependencyManager.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.RandomNumberGeneratorType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.RandomNumberGeneratorType.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.Range-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.Range-1.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.ReflectancePlotType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.ReflectancePlotType.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.ScalingType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.ScalingType.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.ScatteringType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.ScatteringType.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.SolutionDomainType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.SolutionDomainType.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.SolverType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.SolverType.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.SpatialDomainType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.SpatialDomainType.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.SpectralMapping.ChromophoreAbsorber.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.SpectralMapping.ChromophoreAbsorber.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.SpectralMapping.ChromophoreSpectrum.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.SpectralMapping.ChromophoreSpectrum.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.SpectralMapping.ChromophoreSpectrumDictionary.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.SpectralMapping.ChromophoreSpectrumDictionary.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.SpectralMapping.ChromophoreSpectrumExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.SpectralMapping.ChromophoreSpectrumExtensions.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.SpectralMapping.IAbsorber.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.SpectralMapping.IAbsorber.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.SpectralMapping.IChromophoreAbsorber.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.SpectralMapping.IChromophoreAbsorber.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.SpectralMapping.IScatterer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.SpectralMapping.IScatterer.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.SpectralMapping.ISpectrum.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.SpectralMapping.ISpectrum.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.SpectralMapping.IntralipidScatterer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.SpectralMapping.IntralipidScatterer.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.SpectralMapping.MieScatterer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.SpectralMapping.MieScatterer.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.SpectralMapping.PowerLawScatterer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.SpectralMapping.PowerLawScatterer.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.SpectralMapping.SpectralConverter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.SpectralMapping.SpectralConverter.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.SpectralMapping.SpectralDatabase.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.SpectralMapping.SpectralDatabase.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.SpectralMapping.Tissue.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.SpectralMapping.Tissue.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.SpectralMapping.TissueProvider.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.SpectralMapping.TissueProvider.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.SpectralMapping.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.SpectralMapping.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.TimeDomainType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.TimeDomainType.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.TissueType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.TissueType.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.WavelengthUnit.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.WavelengthUnit.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Vts.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Vts.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "api/index.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/index.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "api/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/toc.html"
+        },
+        ".json": {
+          "relative_path": "api/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/intro.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/intro.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "articles/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "articles/toc.html"
+        },
+        ".json": {
+          "relative_path": "articles/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "index.md",
+      "output": {
+        ".html": {
+          "relative_path": "index.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "toc.html"
+        },
+        ".json": {
+          "relative_path": "toc.json"
+        }
+      },
+      "version": ""
+    }
+  ],
+  "version_info": {},
+  "groups": [
+    {
+      "xrefmap": "xrefmap.yml"
+    }
+  ]
+}

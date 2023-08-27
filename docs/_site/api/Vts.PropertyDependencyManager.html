@@ -1,0 +1,241 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Class PropertyDependencyManager
+ </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Class PropertyDependencyManager
+ ">
+      
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/VirtualPhotonics/VTS/new/master/apiSpec/new?filename=Vts_PropertyDependencyManager.md&amp;value=---%0Auid%3A%20Vts.PropertyDependencyManager%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+  </head>
+
+  <script type="module">
+    import options from './../public/main.js'
+    import { init } from './../public/docfx.min.js'
+    init(options)
+  </script>
+
+  <script>
+    const theme = localStorage.getItem('theme') || 'auto'
+    document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+  </script>
+
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../logo.svg" alt="">
+            
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" style="margin-top: -.65em; margin-left: -.8em" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="Vts.PropertyDependencyManager">
+
+
+
+  <h1 id="Vts_PropertyDependencyManager" data-uid="Vts.PropertyDependencyManager" class="text-break">
+    Class PropertyDependencyManager
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Global/PropertyDependencyManager.cs/#L17"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="Vts.html">Vts</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>Vts.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"><p>Class to manage dependencies of INotifyPropertyChanged objects,
+as suggested by Tomas Elison here:
+<a href="http://neilmosafi.blogspot.com/2008/07/is-inotifypropertychanged-anti-pattern.html">http://neilmosafi.blogspot.com/2008/07/is-inotifypropertychanged-anti-pattern.html</a>
+This class builds a dependency graph the &quot;right&quot; way. It knows for example
+that if Quantity is changed, TotalPrice has asked to be informed about this.
+The PropertyDependencyManager listens to the PropertyChanged event for any
+class that is registered with it and uses the dependency graph to propagate
+the events the right way.</p>
+</div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class PropertyDependencyManager</code></pre>
+  </div>
+
+
+
+
+  <dl class="typelist inheritance">
+    <dt>Inheritance</dt>
+    <dd>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></div>
+      <div><span class="xref">PropertyDependencyManager</span></div>
+    </dd>
+  </dl>
+
+
+
+  <dl class="typelist derived">
+    <dt>Inherited Members</dt>
+    <dd>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)">object.Equals(object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)">object.Equals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gethashcode">object.GetHashCode()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gettype">object.GetType()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone">object.MemberwiseClone()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.referenceequals">object.ReferenceEquals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.tostring">object.ToString()</a>
+    </div>
+  </dd></dl>
+
+  <dl class="typelist extensionMethods">
+    <dt>Extension Methods</dt>
+    <dd>
+  <div>
+      <a class="xref" href="Vts.Extensions.EnumerableExtensions.html#Vts_Extensions_EnumerableExtensions_AsEnumerable__1___0_">EnumerableExtensions.AsEnumerable&lt;T&gt;(T)</a>
+  </div>
+  <div>
+      <a class="xref" href="Vts.Extensions.IEnumerableArrayExtensions.html#Vts_Extensions_IEnumerableArrayExtensions_PopulateFromEnumerable2__2___1_System_Collections_Generic_IEnumerable___0__">IEnumerableArrayExtensions.PopulateFromEnumerable2&lt;T, TArray&gt;(TArray, IEnumerable&lt;T&gt;)</a>
+  </div>
+  <div>
+      <a class="xref" href="Vts.IO.FileIO.html#Vts_IO_FileIO_Clone__1___0_">FileIO.Clone&lt;T&gt;(T)</a>
+  </div>
+  <div>
+      <a class="xref" href="Vts.IO.FileIO.html#Vts_IO_FileIO_WriteJsonToStream__1___0_System_IO_Stream_">FileIO.WriteJsonToStream&lt;T&gt;(T, Stream)</a>
+  </div>
+  <div>
+      <a class="xref" href="Vts.IO.FileIO.html#Vts_IO_FileIO_WriteToJson__1___0_System_String_">FileIO.WriteToJson&lt;T&gt;(T, string)</a>
+  </div>
+  <div>
+      <a class="xref" href="Vts.IO.FileIO.html#Vts_IO_FileIO_WriteToXMLStream__1___0_System_IO_Stream_">FileIO.WriteToXMLStream&lt;T&gt;(T, Stream)</a>
+  </div>
+  <div>
+      <a class="xref" href="Vts.IO.FileIO.html#Vts_IO_FileIO_WriteToXML__1___0_System_String_">FileIO.WriteToXML&lt;T&gt;(T, string)</a>
+  </div>
+  <div>
+      <a class="xref" href="Vts.IO.VtsJsonSerializer.html#Vts_IO_VtsJsonSerializer_WriteToJsonFile__1___0_System_String_">VtsJsonSerializer.WriteToJsonFile&lt;T&gt;(T, string)</a>
+  </div>
+  <div>
+      <a class="xref" href="Vts.IO.VtsJsonSerializer.html#Vts_IO_VtsJsonSerializer_WriteToJson__1___0_">VtsJsonSerializer.WriteToJson&lt;T&gt;(T)</a>
+  </div>
+  </dd></dl>
+
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+  <a id="Vts_PropertyDependencyManager_Register_" data-uid="Vts.PropertyDependencyManager.Register*"></a>
+
+  <h3 id="Vts_PropertyDependencyManager_Register_Vts_INotifyPropertyChangedPlus_" data-uid="Vts.PropertyDependencyManager.Register(Vts.INotifyPropertyChangedPlus)">
+  Register(INotifyPropertyChangedPlus)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Global/PropertyDependencyManager.cs/#L36"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Registers the class to notify changes to properties and their dependencies</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static void Register(INotifyPropertyChangedPlus target)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>target</code> <a class="xref" href="Vts.INotifyPropertyChangedPlus.html">INotifyPropertyChangedPlus</a></dt>
+    <dd><p>The target class that implements INotifyPropertyChangedPlus</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Global/PropertyDependencyManager.cs/#L17" class="edit-link">Edit this page</a>
+        </div>
+
+        
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+
+    <footer class="border-top">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span>Made with <a href="https://dotnet.github.io/docfx">docfx</a></span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

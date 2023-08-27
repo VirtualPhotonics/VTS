@@ -1,0 +1,514 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Class SingleInclusionTissue
+ </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Class SingleInclusionTissue
+ ">
+      
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/VirtualPhotonics/VTS/new/master/apiSpec/new?filename=Vts_MonteCarlo_Tissues_SingleInclusionTissue.md&amp;value=---%0Auid%3A%20Vts.MonteCarlo.Tissues.SingleInclusionTissue%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+  </head>
+
+  <script type="module">
+    import options from './../public/main.js'
+    import { init } from './../public/docfx.min.js'
+    init(options)
+  </script>
+
+  <script>
+    const theme = localStorage.getItem('theme') || 'auto'
+    document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+  </script>
+
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../logo.svg" alt="">
+            
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" style="margin-top: -.65em; margin-left: -.8em" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="Vts.MonteCarlo.Tissues.SingleInclusionTissue">
+
+
+
+  <h1 id="Vts_MonteCarlo_Tissues_SingleInclusionTissue" data-uid="Vts.MonteCarlo.Tissues.SingleInclusionTissue" class="text-break">
+    Class SingleInclusionTissue
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/MonteCarlo/Tissues/SingleInclusionTissue.cs/#L13"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="Vts.html">Vts</a>.<a class="xref" href="Vts.MonteCarlo.html">MonteCarlo</a>.<a class="xref" href="Vts.MonteCarlo.Tissues.html">Tissues</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>Vts.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"><p>Implements ITissue.  Defines a tissue geometry comprised of an
+inclusion embedded within a layered slab.</p>
+</div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class SingleInclusionTissue : MultiLayerTissue, ITissue</code></pre>
+  </div>
+
+
+
+
+  <dl class="typelist inheritance">
+    <dt>Inheritance</dt>
+    <dd>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></div>
+      <div><a class="xref" href="Vts.MonteCarlo.Tissues.TissueBase.html">TissueBase</a></div>
+      <div><a class="xref" href="Vts.MonteCarlo.Tissues.MultiLayerTissue.html">MultiLayerTissue</a></div>
+      <div><span class="xref">SingleInclusionTissue</span></div>
+    </dd>
+  </dl>
+
+  <dl class="typelist implements">
+    <dt>Implements</dt>
+    <dd>
+      <div><a class="xref" href="Vts.MonteCarlo.ITissue.html">ITissue</a></div>
+    </dd>
+  </dl>
+
+
+  <dl class="typelist derived">
+    <dt>Inherited Members</dt>
+    <dd>
+    <div>
+      <a class="xref" href="Vts.MonteCarlo.Tissues.MultiLayerTissue.html#Vts_MonteCarlo_Tissues_MultiLayerTissue_OnDomainBoundary_Vts_Common_Position_">MultiLayerTissue.OnDomainBoundary(Position)</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.MonteCarlo.Tissues.MultiLayerTissue.html#Vts_MonteCarlo_Tissues_MultiLayerTissue_GetPhotonDataPointStateOnExit_Vts_Common_Position_">MultiLayerTissue.GetPhotonDataPointStateOnExit(Position)</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.MonteCarlo.Tissues.MultiLayerTissue.html#Vts_MonteCarlo_Tissues_MultiLayerTissue_GetAngleRelativeToBoundaryNormal_Vts_MonteCarlo_Photon_">MultiLayerTissue.GetAngleRelativeToBoundaryNormal(Photon)</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.MonteCarlo.Tissues.TissueBase.html#Vts_MonteCarlo_Tissues_TissueBase_Regions">TissueBase.Regions</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.MonteCarlo.Tissues.TissueBase.html#Vts_MonteCarlo_Tissues_TissueBase_RegionScatterLengths">TissueBase.RegionScatterLengths</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.MonteCarlo.Tissues.TissueBase.html#Vts_MonteCarlo_Tissues_TissueBase_AbsorptionWeightingType">TissueBase.AbsorptionWeightingType</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.MonteCarlo.Tissues.TissueBase.html#Vts_MonteCarlo_Tissues_TissueBase_PhaseFunctionType">TissueBase.PhaseFunctionType</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.MonteCarlo.Tissues.TissueBase.html#Vts_MonteCarlo_Tissues_TissueBase_RussianRouletteWeightThreshold">TissueBase.RussianRouletteWeightThreshold</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.MonteCarlo.Tissues.TissueBase.html#Vts_MonteCarlo_Tissues_TissueBase_Initialize_Vts_AbsorptionWeightingType_Vts_PhaseFunctionType_System_Double_">TissueBase.Initialize(AbsorptionWeightingType, PhaseFunctionType, double)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)">object.Equals(object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)">object.Equals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gethashcode">object.GetHashCode()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gettype">object.GetType()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone">object.MemberwiseClone()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.referenceequals">object.ReferenceEquals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.tostring">object.ToString()</a>
+    </div>
+  </dd></dl>
+
+  <dl class="typelist extensionMethods">
+    <dt>Extension Methods</dt>
+    <dd>
+  <div>
+      <a class="xref" href="Vts.Extensions.EnumerableExtensions.html#Vts_Extensions_EnumerableExtensions_AsEnumerable__1___0_">EnumerableExtensions.AsEnumerable&lt;T&gt;(T)</a>
+  </div>
+  <div>
+      <a class="xref" href="Vts.Extensions.IEnumerableArrayExtensions.html#Vts_Extensions_IEnumerableArrayExtensions_PopulateFromEnumerable2__2___1_System_Collections_Generic_IEnumerable___0__">IEnumerableArrayExtensions.PopulateFromEnumerable2&lt;T, TArray&gt;(TArray, IEnumerable&lt;T&gt;)</a>
+  </div>
+  <div>
+      <a class="xref" href="Vts.IO.FileIO.html#Vts_IO_FileIO_Clone__1___0_">FileIO.Clone&lt;T&gt;(T)</a>
+  </div>
+  <div>
+      <a class="xref" href="Vts.IO.FileIO.html#Vts_IO_FileIO_WriteJsonToStream__1___0_System_IO_Stream_">FileIO.WriteJsonToStream&lt;T&gt;(T, Stream)</a>
+  </div>
+  <div>
+      <a class="xref" href="Vts.IO.FileIO.html#Vts_IO_FileIO_WriteToJson__1___0_System_String_">FileIO.WriteToJson&lt;T&gt;(T, string)</a>
+  </div>
+  <div>
+      <a class="xref" href="Vts.IO.FileIO.html#Vts_IO_FileIO_WriteToXMLStream__1___0_System_IO_Stream_">FileIO.WriteToXMLStream&lt;T&gt;(T, Stream)</a>
+  </div>
+  <div>
+      <a class="xref" href="Vts.IO.FileIO.html#Vts_IO_FileIO_WriteToXML__1___0_System_String_">FileIO.WriteToXML&lt;T&gt;(T, string)</a>
+  </div>
+  <div>
+      <a class="xref" href="Vts.IO.VtsJsonSerializer.html#Vts_IO_VtsJsonSerializer_WriteToJsonFile__1___0_System_String_">VtsJsonSerializer.WriteToJsonFile&lt;T&gt;(T, string)</a>
+  </div>
+  <div>
+      <a class="xref" href="Vts.IO.VtsJsonSerializer.html#Vts_IO_VtsJsonSerializer_WriteToJson__1___0_">VtsJsonSerializer.WriteToJson&lt;T&gt;(T)</a>
+  </div>
+  </dd></dl>
+
+
+
+
+
+  <h2 class="section" id="constructors">Constructors
+</h2>
+
+
+  <a id="Vts_MonteCarlo_Tissues_SingleInclusionTissue__ctor_" data-uid="Vts.MonteCarlo.Tissues.SingleInclusionTissue.#ctor*"></a>
+
+  <h3 id="Vts_MonteCarlo_Tissues_SingleInclusionTissue__ctor" data-uid="Vts.MonteCarlo.Tissues.SingleInclusionTissue.#ctor">
+  SingleInclusionTissue()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/MonteCarlo/Tissues/SingleInclusionTissue.cs/#L41"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Creates a default instance of a SingleInclusionTissue</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public SingleInclusionTissue()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_MonteCarlo_Tissues_SingleInclusionTissue__ctor_" data-uid="Vts.MonteCarlo.Tissues.SingleInclusionTissue.#ctor*"></a>
+
+  <h3 id="Vts_MonteCarlo_Tissues_SingleInclusionTissue__ctor_Vts_MonteCarlo_ITissueRegion_System_Collections_Generic_IList_Vts_MonteCarlo_ITissueRegion__" data-uid="Vts.MonteCarlo.Tissues.SingleInclusionTissue.#ctor(Vts.MonteCarlo.ITissueRegion,System.Collections.Generic.IList{Vts.MonteCarlo.ITissueRegion})">
+  SingleInclusionTissue(ITissueRegion, IList&lt;ITissueRegion&gt;)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/MonteCarlo/Tissues/SingleInclusionTissue.cs/#L24"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Creates an instance of a SingleInclusionTissue</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public SingleInclusionTissue(ITissueRegion inclusionRegion, IList&lt;ITissueRegion&gt; layerRegions)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>inclusionRegion</code> <a class="xref" href="Vts.MonteCarlo.ITissueRegion.html">ITissueRegion</a></dt>
+    <dd><p>The single inclusion (must be contained completely within a layer region)</p>
+</dd>
+    <dt><code>layerRegions</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ilist-1">IList</a>&lt;<a class="xref" href="Vts.MonteCarlo.ITissueRegion.html">ITissueRegion</a>&gt;</dt>
+    <dd><p>The tissue layers</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+  <a id="Vts_MonteCarlo_Tissues_SingleInclusionTissue_GetDistanceToBoundary_" data-uid="Vts.MonteCarlo.Tissues.SingleInclusionTissue.GetDistanceToBoundary*"></a>
+
+  <h3 id="Vts_MonteCarlo_Tissues_SingleInclusionTissue_GetDistanceToBoundary_Vts_MonteCarlo_Photon_" data-uid="Vts.MonteCarlo.Tissues.SingleInclusionTissue.GetDistanceToBoundary(Vts.MonteCarlo.Photon)">
+  GetDistanceToBoundary(Photon)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/MonteCarlo/Tissues/SingleInclusionTissue.cs/#L84"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>method to get distance from current photon position and direction to boundary of region</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override double GetDistanceToBoundary(Photon photon)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>photon</code> <a class="xref" href="Vts.MonteCarlo.Photon.html">Photon</a></dt>
+    <dd><p>Photon</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>distance to boundary</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_MonteCarlo_Tissues_SingleInclusionTissue_GetNeighborRegionIndex_" data-uid="Vts.MonteCarlo.Tissues.SingleInclusionTissue.GetNeighborRegionIndex*"></a>
+
+  <h3 id="Vts_MonteCarlo_Tissues_SingleInclusionTissue_GetNeighborRegionIndex_Vts_MonteCarlo_Photon_" data-uid="Vts.MonteCarlo.Tissues.SingleInclusionTissue.GetNeighborRegionIndex(Vts.MonteCarlo.Photon)">
+  GetNeighborRegionIndex(Photon)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/MonteCarlo/Tissues/SingleInclusionTissue.cs/#L63"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>method to get index of neighbor tissue region when photon on boundary of two regions</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override int GetNeighborRegionIndex(Photon photon)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>photon</code> <a class="xref" href="Vts.MonteCarlo.Photon.html">Photon</a></dt>
+    <dd><p>Photon</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>index of neighbor index</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_MonteCarlo_Tissues_SingleInclusionTissue_GetReflectedDirection_" data-uid="Vts.MonteCarlo.Tissues.SingleInclusionTissue.GetReflectedDirection*"></a>
+
+  <h3 id="Vts_MonteCarlo_Tissues_SingleInclusionTissue_GetReflectedDirection_Vts_Common_Position_Vts_Common_Direction_" data-uid="Vts.MonteCarlo.Tissues.SingleInclusionTissue.GetReflectedDirection(Vts.Common.Position,Vts.Common.Direction)">
+  GetReflectedDirection(Position, Direction)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/MonteCarlo/Tissues/SingleInclusionTissue.cs/#L115"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>method that provides reflected direction when photon reflects off boundary</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override Direction GetReflectedDirection(Position currentPosition, Direction currentDirection)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>currentPosition</code> <a class="xref" href="Vts.Common.Position.html">Position</a></dt>
+    <dd><p>Position</p>
+</dd>
+    <dt><code>currentDirection</code> <a class="xref" href="Vts.Common.Direction.html">Direction</a></dt>
+    <dd><p>Direction</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Vts.Common.Direction.html">Direction</a></dt>
+    <dd><p>new Direction</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_MonteCarlo_Tissues_SingleInclusionTissue_GetRefractedDirection_" data-uid="Vts.MonteCarlo.Tissues.SingleInclusionTissue.GetRefractedDirection*"></a>
+
+  <h3 id="Vts_MonteCarlo_Tissues_SingleInclusionTissue_GetRefractedDirection_Vts_Common_Position_Vts_Common_Direction_System_Double_System_Double_System_Double_" data-uid="Vts.MonteCarlo.Tissues.SingleInclusionTissue.GetRefractedDirection(Vts.Common.Position,Vts.Common.Direction,System.Double,System.Double,System.Double)">
+  GetRefractedDirection(Position, Direction, double, double, double)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/MonteCarlo/Tissues/SingleInclusionTissue.cs/#L133"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>method that provides refracted direction when photon refracts off boundary</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override Direction GetRefractedDirection(Position currentPosition, Direction currentDirection, double currentN, double nextN, double cosThetaSnell)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>currentPosition</code> <a class="xref" href="Vts.Common.Position.html">Position</a></dt>
+    <dd><p>Position</p>
+</dd>
+    <dt><code>currentDirection</code> <a class="xref" href="Vts.Common.Direction.html">Direction</a></dt>
+    <dd><p>Direction</p>
+</dd>
+    <dt><code>currentN</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>refractive index N of current tissue region</p>
+</dd>
+    <dt><code>nextN</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>refractive index N of next tissue region</p>
+</dd>
+    <dt><code>cosThetaSnell</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>cosine of theta from Snell's law</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Vts.Common.Direction.html">Direction</a></dt>
+    <dd><p>new Direction</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_MonteCarlo_Tissues_SingleInclusionTissue_GetRegionIndex_" data-uid="Vts.MonteCarlo.Tissues.SingleInclusionTissue.GetRegionIndex*"></a>
+
+  <h3 id="Vts_MonteCarlo_Tissues_SingleInclusionTissue_GetRegionIndex_Vts_Common_Position_" data-uid="Vts.MonteCarlo.Tissues.SingleInclusionTissue.GetRegionIndex(Vts.Common.Position)">
+  GetRegionIndex(Position)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/MonteCarlo/Tissues/SingleInclusionTissue.cs/#L50"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>method to get tissue region index of photon's current position</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override int GetRegionIndex(Position position)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>position</code> <a class="xref" href="Vts.Common.Position.html">Position</a></dt>
+    <dd><p>photon Position</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>integer tissue region index</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/MonteCarlo/Tissues/SingleInclusionTissue.cs/#L13" class="edit-link">Edit this page</a>
+        </div>
+
+        
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+
+    <footer class="border-top">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span>Made with <a href="https://dotnet.github.io/docfx">docfx</a></span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

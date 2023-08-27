@@ -1,0 +1,634 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Class SimulationInput
+ </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Class SimulationInput
+ ">
+      
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/VirtualPhotonics/VTS/new/master/apiSpec/new?filename=Vts_MonteCarlo_SimulationInput.md&amp;value=---%0Auid%3A%20Vts.MonteCarlo.SimulationInput%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+  </head>
+
+  <script type="module">
+    import options from './../public/main.js'
+    import { init } from './../public/docfx.min.js'
+    init(options)
+  </script>
+
+  <script>
+    const theme = localStorage.getItem('theme') || 'auto'
+    document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+  </script>
+
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../logo.svg" alt="">
+            
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" style="margin-top: -.65em; margin-left: -.8em" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="Vts.MonteCarlo.SimulationInput">
+
+
+
+  <h1 id="Vts_MonteCarlo_SimulationInput" data-uid="Vts.MonteCarlo.SimulationInput" class="text-break">
+    Class SimulationInput
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/MonteCarlo/DataStructures/SimulationInput.cs/#L15"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="Vts.html">Vts</a>.<a class="xref" href="Vts.MonteCarlo.html">MonteCarlo</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>Vts.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"><p>Defines input to the Monte Carlo simulation.  This includes the output
+file name, number of photons to execute (N), source, tissue and detector
+definitions.</p>
+</div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class SimulationInput</code></pre>
+  </div>
+
+
+
+
+  <dl class="typelist inheritance">
+    <dt>Inheritance</dt>
+    <dd>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></div>
+      <div><span class="xref">SimulationInput</span></div>
+    </dd>
+  </dl>
+
+
+  <dl class="typelist derived">
+    <dt>Derived</dt>
+    <dd>
+      <div><a class="xref" href="Vts.MonteCarlo.SimulationInputProvider.html">SimulationInputProvider</a></div>
+    </dd>
+  </dl>
+
+  <dl class="typelist derived">
+    <dt>Inherited Members</dt>
+    <dd>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)">object.Equals(object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)">object.Equals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gethashcode">object.GetHashCode()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gettype">object.GetType()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone">object.MemberwiseClone()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.referenceequals">object.ReferenceEquals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.tostring">object.ToString()</a>
+    </div>
+  </dd></dl>
+
+  <dl class="typelist extensionMethods">
+    <dt>Extension Methods</dt>
+    <dd>
+  <div>
+      <a class="xref" href="Vts.Extensions.EnumerableExtensions.html#Vts_Extensions_EnumerableExtensions_AsEnumerable__1___0_">EnumerableExtensions.AsEnumerable&lt;T&gt;(T)</a>
+  </div>
+  <div>
+      <a class="xref" href="Vts.Extensions.IEnumerableArrayExtensions.html#Vts_Extensions_IEnumerableArrayExtensions_PopulateFromEnumerable2__2___1_System_Collections_Generic_IEnumerable___0__">IEnumerableArrayExtensions.PopulateFromEnumerable2&lt;T, TArray&gt;(TArray, IEnumerable&lt;T&gt;)</a>
+  </div>
+  <div>
+      <a class="xref" href="Vts.IO.FileIO.html#Vts_IO_FileIO_Clone__1___0_">FileIO.Clone&lt;T&gt;(T)</a>
+  </div>
+  <div>
+      <a class="xref" href="Vts.IO.FileIO.html#Vts_IO_FileIO_WriteJsonToStream__1___0_System_IO_Stream_">FileIO.WriteJsonToStream&lt;T&gt;(T, Stream)</a>
+  </div>
+  <div>
+      <a class="xref" href="Vts.IO.FileIO.html#Vts_IO_FileIO_WriteToJson__1___0_System_String_">FileIO.WriteToJson&lt;T&gt;(T, string)</a>
+  </div>
+  <div>
+      <a class="xref" href="Vts.IO.FileIO.html#Vts_IO_FileIO_WriteToXMLStream__1___0_System_IO_Stream_">FileIO.WriteToXMLStream&lt;T&gt;(T, Stream)</a>
+  </div>
+  <div>
+      <a class="xref" href="Vts.IO.FileIO.html#Vts_IO_FileIO_WriteToXML__1___0_System_String_">FileIO.WriteToXML&lt;T&gt;(T, string)</a>
+  </div>
+  <div>
+      <a class="xref" href="Vts.IO.VtsJsonSerializer.html#Vts_IO_VtsJsonSerializer_WriteToJsonFile__1___0_System_String_">VtsJsonSerializer.WriteToJsonFile&lt;T&gt;(T, string)</a>
+  </div>
+  <div>
+      <a class="xref" href="Vts.IO.VtsJsonSerializer.html#Vts_IO_VtsJsonSerializer_WriteToJson__1___0_">VtsJsonSerializer.WriteToJson&lt;T&gt;(T)</a>
+  </div>
+  <div>
+      <a class="xref" href="Vts.MonteCarlo.Extensions.SimulationInputExtensions.html#Vts_MonteCarlo_Extensions_SimulationInputExtensions_WithValue_Vts_MonteCarlo_SimulationInput_System_String_System_Double_">SimulationInputExtensions.WithValue(SimulationInput, string, double)</a>
+  </div>
+  </dd></dl>
+
+
+
+
+
+  <h2 class="section" id="constructors">Constructors
+</h2>
+
+
+  <a id="Vts_MonteCarlo_SimulationInput__ctor_" data-uid="Vts.MonteCarlo.SimulationInput.#ctor*"></a>
+
+  <h3 id="Vts_MonteCarlo_SimulationInput__ctor" data-uid="Vts.MonteCarlo.SimulationInput.#ctor">
+  SimulationInput()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/MonteCarlo/DataStructures/SimulationInput.cs/#L46"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>SimulationInput default constructor</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public SimulationInput()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_MonteCarlo_SimulationInput__ctor_" data-uid="Vts.MonteCarlo.SimulationInput.#ctor*"></a>
+
+  <h3 id="Vts_MonteCarlo_SimulationInput__ctor_System_Int64_System_String_Vts_MonteCarlo_SimulationOptions_Vts_MonteCarlo_ISourceInput_Vts_MonteCarlo_ITissueInput_System_Collections_Generic_IList_Vts_MonteCarlo_IDetectorInput__" data-uid="Vts.MonteCarlo.SimulationInput.#ctor(System.Int64,System.String,Vts.MonteCarlo.SimulationOptions,Vts.MonteCarlo.ISourceInput,Vts.MonteCarlo.ITissueInput,System.Collections.Generic.IList{Vts.MonteCarlo.IDetectorInput})">
+  SimulationInput(long, string, SimulationOptions, ISourceInput, ITissueInput, IList&lt;IDetectorInput&gt;)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/MonteCarlo/DataStructures/SimulationInput.cs/#L26"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Monte Carlo simulation input data</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public SimulationInput(long numberOfPhotons, string outputName, SimulationOptions simulationOptions, ISourceInput sourceInput, ITissueInput tissueInput, IList&lt;IDetectorInput&gt; detectorInputs)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>numberOfPhotons</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int64">long</a></dt>
+    <dd><p>long number indicating number of photons launched from source</p>
+</dd>
+    <dt><code>outputName</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>string indicating output name</p>
+</dd>
+    <dt><code>simulationOptions</code> <a class="xref" href="Vts.MonteCarlo.SimulationOptions.html">SimulationOptions</a></dt>
+    <dd><p>options to execute simulation</p>
+</dd>
+    <dt><code>sourceInput</code> <a class="xref" href="Vts.MonteCarlo.ISourceInput.html">ISourceInput</a></dt>
+    <dd><p>ISourceInput specifying source of light</p>
+</dd>
+    <dt><code>tissueInput</code> <a class="xref" href="Vts.MonteCarlo.ITissueInput.html">ITissueInput</a></dt>
+    <dd><p>ITissueInput specifying tissue definition</p>
+</dd>
+    <dt><code>detectorInputs</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ilist-1">IList</a>&lt;<a class="xref" href="Vts.MonteCarlo.IDetectorInput.html">IDetectorInput</a>&gt;</dt>
+    <dd><p>IDetectorInput specifying which detectors to tally</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="properties">Properties
+</h2>
+
+
+  <a id="Vts_MonteCarlo_SimulationInput_DetectorInputs_" data-uid="Vts.MonteCarlo.SimulationInput.DetectorInputs*"></a>
+
+  <h3 id="Vts_MonteCarlo_SimulationInput_DetectorInputs" data-uid="Vts.MonteCarlo.SimulationInput.DetectorInputs">
+  DetectorInputs
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/MonteCarlo/DataStructures/SimulationInput.cs/#L107"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>detector input (IList of IDetectorInput)</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public IList&lt;IDetectorInput&gt; DetectorInputs { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ilist-1">IList</a>&lt;<a class="xref" href="Vts.MonteCarlo.IDetectorInput.html">IDetectorInput</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Vts_MonteCarlo_SimulationInput_N_" data-uid="Vts.MonteCarlo.SimulationInput.N*"></a>
+
+  <h3 id="Vts_MonteCarlo_SimulationInput_N" data-uid="Vts.MonteCarlo.SimulationInput.N">
+  N
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/MonteCarlo/DataStructures/SimulationInput.cs/#L91"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>number of photons launched from source</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public long N { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int64">long</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Vts_MonteCarlo_SimulationInput_Options_" data-uid="Vts.MonteCarlo.SimulationInput.Options*"></a>
+
+  <h3 id="Vts_MonteCarlo_SimulationInput_Options" data-uid="Vts.MonteCarlo.SimulationInput.Options">
+  Options
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/MonteCarlo/DataStructures/SimulationInput.cs/#L95"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>SimulationOptions specify, for example, absorption weighting type</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public SimulationOptions Options { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Vts.MonteCarlo.SimulationOptions.html">SimulationOptions</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Vts_MonteCarlo_SimulationInput_OutputName_" data-uid="Vts.MonteCarlo.SimulationInput.OutputName*"></a>
+
+  <h3 id="Vts_MonteCarlo_SimulationInput_OutputName" data-uid="Vts.MonteCarlo.SimulationInput.OutputName">
+  OutputName
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/MonteCarlo/DataStructures/SimulationInput.cs/#L87"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>string name of output file</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string OutputName { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Vts_MonteCarlo_SimulationInput_SourceInput_" data-uid="Vts.MonteCarlo.SimulationInput.SourceInput*"></a>
+
+  <h3 id="Vts_MonteCarlo_SimulationInput_SourceInput" data-uid="Vts.MonteCarlo.SimulationInput.SourceInput">
+  SourceInput
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/MonteCarlo/DataStructures/SimulationInput.cs/#L99"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>source input (ISourceInput)</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ISourceInput SourceInput { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Vts.MonteCarlo.ISourceInput.html">ISourceInput</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Vts_MonteCarlo_SimulationInput_TissueInput_" data-uid="Vts.MonteCarlo.SimulationInput.TissueInput*"></a>
+
+  <h3 id="Vts_MonteCarlo_SimulationInput_TissueInput" data-uid="Vts.MonteCarlo.SimulationInput.TissueInput">
+  TissueInput
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/MonteCarlo/DataStructures/SimulationInput.cs/#L103"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>tissue input (ITissueInput)</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ITissueInput TissueInput { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Vts.MonteCarlo.ITissueInput.html">ITissueInput</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+  <a id="Vts_MonteCarlo_SimulationInput_CreateSimulation_" data-uid="Vts.MonteCarlo.SimulationInput.CreateSimulation*"></a>
+
+  <h3 id="Vts_MonteCarlo_SimulationInput_CreateSimulation" data-uid="Vts.MonteCarlo.SimulationInput.CreateSimulation">
+  CreateSimulation()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/MonteCarlo/DataStructures/SimulationInput.cs/#L122"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Method to create simulation</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public MonteCarloSimulation CreateSimulation()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Vts.MonteCarlo.MonteCarloSimulation.html">MonteCarloSimulation</a></dt>
+    <dd><p>An instance of the MonteCarloSimulation class</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_MonteCarlo_SimulationInput_FromFile_" data-uid="Vts.MonteCarlo.SimulationInput.FromFile*"></a>
+
+  <h3 id="Vts_MonteCarlo_SimulationInput_FromFile_System_String_" data-uid="Vts.MonteCarlo.SimulationInput.FromFile(System.String)">
+  FromFile(string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/MonteCarlo/DataStructures/SimulationInput.cs/#L114"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Method to read SimulationInput from JSON file</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static SimulationInput FromFile(string filename)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>filename</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>string filename of file to be read</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Vts.MonteCarlo.SimulationInput.html">SimulationInput</a></dt>
+    <dd><p>An instance of the SimulationInput class</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_MonteCarlo_SimulationInput_FromFileInResources_" data-uid="Vts.MonteCarlo.SimulationInput.FromFileInResources*"></a>
+
+  <h3 id="Vts_MonteCarlo_SimulationInput_FromFileInResources_System_String_System_String_" data-uid="Vts.MonteCarlo.SimulationInput.FromFileInResources(System.String,System.String)">
+  FromFileInResources(string, string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/MonteCarlo/DataStructures/SimulationInput.cs/#L142"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Method to read SimulationInput json from file in resources</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static SimulationInput FromFileInResources(string filename, string project)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>filename</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>string filename</p>
+</dd>
+    <dt><code>project</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>string project name</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Vts.MonteCarlo.SimulationInput.html">SimulationInput</a></dt>
+    <dd><p>An instance of the SimulationInput class</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_MonteCarlo_SimulationInput_ToFile_" data-uid="Vts.MonteCarlo.SimulationInput.ToFile*"></a>
+
+  <h3 id="Vts_MonteCarlo_SimulationInput_ToFile_System_String_" data-uid="Vts.MonteCarlo.SimulationInput.ToFile(System.String)">
+  ToFile(string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/MonteCarlo/DataStructures/SimulationInput.cs/#L131"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Method to write SimulationInput to file</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void ToFile(string filename)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>filename</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>string filename to write to</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/MonteCarlo/DataStructures/SimulationInput.cs/#L15" class="edit-link">Edit this page</a>
+        </div>
+
+        
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+
+    <footer class="border-top">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span>Made with <a href="https://dotnet.github.io/docfx">docfx</a></span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,1849 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Class DiffusionForwardSolverBase
+ </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Class DiffusionForwardSolverBase
+ ">
+      
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/VirtualPhotonics/VTS/new/master/apiSpec/new?filename=Vts_Modeling_ForwardSolvers_DiffusionForwardSolverBase.md&amp;value=---%0Auid%3A%20Vts.Modeling.ForwardSolvers.DiffusionForwardSolverBase%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+  </head>
+
+  <script type="module">
+    import options from './../public/main.js'
+    import { init } from './../public/docfx.min.js'
+    init(options)
+  </script>
+
+  <script>
+    const theme = localStorage.getItem('theme') || 'auto'
+    document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+  </script>
+
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../logo.svg" alt="">
+            
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" style="margin-top: -.65em; margin-left: -.8em" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="Vts.Modeling.ForwardSolvers.DiffusionForwardSolverBase">
+
+
+
+  <h1 id="Vts_Modeling_ForwardSolvers_DiffusionForwardSolverBase" data-uid="Vts.Modeling.ForwardSolvers.DiffusionForwardSolverBase" class="text-break">
+    Class DiffusionForwardSolverBase
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Modeling/ForwardSolvers/DiffusionForwardSolverBase.cs/#L46"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="Vts.html">Vts</a>.<a class="xref" href="Vts.Modeling.html">Modeling</a>.<a class="xref" href="Vts.Modeling.ForwardSolvers.html">ForwardSolvers</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>Vts.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"><p>diffusion based forward solvers class</p>
+</div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public abstract class DiffusionForwardSolverBase : ForwardSolverBase, INotifyPropertyChangedPlus, IForwardSolver, INotifyPropertyChanged</code></pre>
+  </div>
+
+
+
+
+  <dl class="typelist inheritance">
+    <dt>Inheritance</dt>
+    <dd>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></div>
+      <div><a class="xref" href="Vts.BindableObject.html">BindableObject</a></div>
+      <div><a class="xref" href="Vts.Modeling.ForwardSolvers.ForwardSolverBase.html">ForwardSolverBase</a></div>
+      <div><span class="xref">DiffusionForwardSolverBase</span></div>
+    </dd>
+  </dl>
+
+  <dl class="typelist implements">
+    <dt>Implements</dt>
+    <dd>
+      <div><a class="xref" href="Vts.INotifyPropertyChangedPlus.html">INotifyPropertyChangedPlus</a></div>
+      <div><a class="xref" href="Vts.IForwardSolver.html">IForwardSolver</a></div>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.componentmodel.inotifypropertychanged">INotifyPropertyChanged</a></div>
+    </dd>
+  </dl>
+
+  <dl class="typelist derived">
+    <dt>Derived</dt>
+    <dd>
+      <div><a class="xref" href="Vts.Modeling.ForwardSolvers.DeltaPOneForwardSolver.html">DeltaPOneForwardSolver</a></div>
+      <div><a class="xref" href="Vts.Modeling.ForwardSolvers.DistributedGaussianSourceSDAForwardSolver.html">DistributedGaussianSourceSDAForwardSolver</a></div>
+      <div><a class="xref" href="Vts.Modeling.ForwardSolvers.DistributedPointSourceSDAForwardSolver.html">DistributedPointSourceSDAForwardSolver</a></div>
+      <div><a class="xref" href="Vts.Modeling.ForwardSolvers.PointSourceSDAForwardSolver.html">PointSourceSDAForwardSolver</a></div>
+    </dd>
+  </dl>
+
+  <dl class="typelist derived">
+    <dt>Inherited Members</dt>
+    <dd>
+    <div>
+      <a class="xref" href="Vts.Modeling.ForwardSolvers.ForwardSolverBase.html#Vts_Modeling_ForwardSolvers_ForwardSolverBase_BeamDiameter">ForwardSolverBase.BeamDiameter</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.Modeling.ForwardSolvers.ForwardSolverBase.html#Vts_Modeling_ForwardSolvers_ForwardSolverBase_SourceConfiguration">ForwardSolverBase.SourceConfiguration</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.Modeling.ForwardSolvers.ForwardSolverBase.html#Vts_Modeling_ForwardSolvers_ForwardSolverBase_ROfRho_Vts_IOpticalPropertyRegion___System_Double_">ForwardSolverBase.ROfRho(IOpticalPropertyRegion[], double)</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.Modeling.ForwardSolvers.ForwardSolverBase.html#Vts_Modeling_ForwardSolvers_ForwardSolverBase_ROfTheta_Vts_OpticalProperties_System_Double_">ForwardSolverBase.ROfTheta(OpticalProperties, double)</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.Modeling.ForwardSolvers.ForwardSolverBase.html#Vts_Modeling_ForwardSolvers_ForwardSolverBase_ROfRhoAndTime_Vts_IOpticalPropertyRegion___System_Double_System_Double_">ForwardSolverBase.ROfRhoAndTime(IOpticalPropertyRegion[], double, double)</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.Modeling.ForwardSolvers.ForwardSolverBase.html#Vts_Modeling_ForwardSolvers_ForwardSolverBase_ROfRhoAndFt_Vts_IOpticalPropertyRegion___System_Double_System_Double_">ForwardSolverBase.ROfRhoAndFt(IOpticalPropertyRegion[], double, double)</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.Modeling.ForwardSolvers.ForwardSolverBase.html#Vts_Modeling_ForwardSolvers_ForwardSolverBase_ROfFx_Vts_IOpticalPropertyRegion___System_Double_">ForwardSolverBase.ROfFx(IOpticalPropertyRegion[], double)</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.Modeling.ForwardSolvers.ForwardSolverBase.html#Vts_Modeling_ForwardSolvers_ForwardSolverBase_ROfFxAndTime_Vts_IOpticalPropertyRegion___System_Double_System_Double_">ForwardSolverBase.ROfFxAndTime(IOpticalPropertyRegion[], double, double)</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.Modeling.ForwardSolvers.ForwardSolverBase.html#Vts_Modeling_ForwardSolvers_ForwardSolverBase_ROfFxAndFt_Vts_IOpticalPropertyRegion___System_Double_System_Double_">ForwardSolverBase.ROfFxAndFt(IOpticalPropertyRegion[], double, double)</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.Modeling.ForwardSolvers.ForwardSolverBase.html#Vts_Modeling_ForwardSolvers_ForwardSolverBase_ROfRho_System_Collections_Generic_IEnumerable_Vts_IOpticalPropertyRegion____System_Collections_Generic_IEnumerable_System_Double__">ForwardSolverBase.ROfRho(IEnumerable&lt;IOpticalPropertyRegion[]&gt;, IEnumerable&lt;double&gt;)</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.Modeling.ForwardSolvers.ForwardSolverBase.html#Vts_Modeling_ForwardSolvers_ForwardSolverBase_ROfTheta_System_Collections_Generic_IEnumerable_Vts_OpticalProperties__System_Collections_Generic_IEnumerable_System_Double__">ForwardSolverBase.ROfTheta(IEnumerable&lt;OpticalProperties&gt;, IEnumerable&lt;double&gt;)</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.Modeling.ForwardSolvers.ForwardSolverBase.html#Vts_Modeling_ForwardSolvers_ForwardSolverBase_ROfRhoAndTime_System_Collections_Generic_IEnumerable_Vts_IOpticalPropertyRegion____System_Collections_Generic_IEnumerable_System_Double__System_Collections_Generic_IEnumerable_System_Double__">ForwardSolverBase.ROfRhoAndTime(IEnumerable&lt;IOpticalPropertyRegion[]&gt;, IEnumerable&lt;double&gt;, IEnumerable&lt;double&gt;)</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.Modeling.ForwardSolvers.ForwardSolverBase.html#Vts_Modeling_ForwardSolvers_ForwardSolverBase_ROfRhoAndFt_System_Collections_Generic_IEnumerable_Vts_IOpticalPropertyRegion____System_Collections_Generic_IEnumerable_System_Double__System_Collections_Generic_IEnumerable_System_Double__">ForwardSolverBase.ROfRhoAndFt(IEnumerable&lt;IOpticalPropertyRegion[]&gt;, IEnumerable&lt;double&gt;, IEnumerable&lt;double&gt;)</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.Modeling.ForwardSolvers.ForwardSolverBase.html#Vts_Modeling_ForwardSolvers_ForwardSolverBase_ROfFx_System_Collections_Generic_IEnumerable_Vts_IOpticalPropertyRegion____System_Collections_Generic_IEnumerable_System_Double__">ForwardSolverBase.ROfFx(IEnumerable&lt;IOpticalPropertyRegion[]&gt;, IEnumerable&lt;double&gt;)</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.Modeling.ForwardSolvers.ForwardSolverBase.html#Vts_Modeling_ForwardSolvers_ForwardSolverBase_ROfFxAndTime_System_Collections_Generic_IEnumerable_Vts_IOpticalPropertyRegion____System_Collections_Generic_IEnumerable_System_Double__System_Collections_Generic_IEnumerable_System_Double__">ForwardSolverBase.ROfFxAndTime(IEnumerable&lt;IOpticalPropertyRegion[]&gt;, IEnumerable&lt;double&gt;, IEnumerable&lt;double&gt;)</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.Modeling.ForwardSolvers.ForwardSolverBase.html#Vts_Modeling_ForwardSolvers_ForwardSolverBase_ROfFxAndFt_System_Collections_Generic_IEnumerable_Vts_OpticalProperties__System_Collections_Generic_IEnumerable_System_Double__System_Collections_Generic_IEnumerable_System_Double__">ForwardSolverBase.ROfFxAndFt(IEnumerable&lt;OpticalProperties&gt;, IEnumerable&lt;double&gt;, IEnumerable&lt;double&gt;)</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.Modeling.ForwardSolvers.ForwardSolverBase.html#Vts_Modeling_ForwardSolvers_ForwardSolverBase_ROfFxAndFt_System_Collections_Generic_IEnumerable_Vts_IOpticalPropertyRegion____System_Collections_Generic_IEnumerable_System_Double__System_Collections_Generic_IEnumerable_System_Double__">ForwardSolverBase.ROfFxAndFt(IEnumerable&lt;IOpticalPropertyRegion[]&gt;, IEnumerable&lt;double&gt;, IEnumerable&lt;double&gt;)</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.Modeling.ForwardSolvers.ForwardSolverBase.html#Vts_Modeling_ForwardSolvers_ForwardSolverBase_ROfRho_Vts_OpticalProperties___System_Double___">ForwardSolverBase.ROfRho(OpticalProperties[], double[])</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.Modeling.ForwardSolvers.ForwardSolverBase.html#Vts_Modeling_ForwardSolvers_ForwardSolverBase_ROfRho_Vts_IOpticalPropertyRegion_____System_Double___">ForwardSolverBase.ROfRho(IOpticalPropertyRegion[][], double[])</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.Modeling.ForwardSolvers.ForwardSolverBase.html#Vts_Modeling_ForwardSolvers_ForwardSolverBase_ROfTheta_Vts_OpticalProperties___System_Double___">ForwardSolverBase.ROfTheta(OpticalProperties[], double[])</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.Modeling.ForwardSolvers.ForwardSolverBase.html#Vts_Modeling_ForwardSolvers_ForwardSolverBase_ROfRhoAndTime_Vts_OpticalProperties___System_Double___System_Double___">ForwardSolverBase.ROfRhoAndTime(OpticalProperties[], double[], double[])</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.Modeling.ForwardSolvers.ForwardSolverBase.html#Vts_Modeling_ForwardSolvers_ForwardSolverBase_ROfRhoAndTime_Vts_IOpticalPropertyRegion_____System_Double___System_Double___">ForwardSolverBase.ROfRhoAndTime(IOpticalPropertyRegion[][], double[], double[])</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.Modeling.ForwardSolvers.ForwardSolverBase.html#Vts_Modeling_ForwardSolvers_ForwardSolverBase_ROfRhoAndFt_Vts_OpticalProperties___System_Double___System_Double___">ForwardSolverBase.ROfRhoAndFt(OpticalProperties[], double[], double[])</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.Modeling.ForwardSolvers.ForwardSolverBase.html#Vts_Modeling_ForwardSolvers_ForwardSolverBase_ROfRhoAndFt_Vts_IOpticalPropertyRegion_____System_Double___System_Double___">ForwardSolverBase.ROfRhoAndFt(IOpticalPropertyRegion[][], double[], double[])</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.Modeling.ForwardSolvers.ForwardSolverBase.html#Vts_Modeling_ForwardSolvers_ForwardSolverBase_ROfFx_Vts_OpticalProperties___System_Double___">ForwardSolverBase.ROfFx(OpticalProperties[], double[])</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.Modeling.ForwardSolvers.ForwardSolverBase.html#Vts_Modeling_ForwardSolvers_ForwardSolverBase_ROfFx_Vts_IOpticalPropertyRegion_____System_Double___">ForwardSolverBase.ROfFx(IOpticalPropertyRegion[][], double[])</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.Modeling.ForwardSolvers.ForwardSolverBase.html#Vts_Modeling_ForwardSolvers_ForwardSolverBase_ROfFxAndTime_Vts_OpticalProperties___System_Double___System_Double___">ForwardSolverBase.ROfFxAndTime(OpticalProperties[], double[], double[])</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.Modeling.ForwardSolvers.ForwardSolverBase.html#Vts_Modeling_ForwardSolvers_ForwardSolverBase_ROfFxAndTime_Vts_IOpticalPropertyRegion_____System_Double___System_Double___">ForwardSolverBase.ROfFxAndTime(IOpticalPropertyRegion[][], double[], double[])</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.Modeling.ForwardSolvers.ForwardSolverBase.html#Vts_Modeling_ForwardSolvers_ForwardSolverBase_ROfFxAndFt_Vts_OpticalProperties___System_Double___System_Double___">ForwardSolverBase.ROfFxAndFt(OpticalProperties[], double[], double[])</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.Modeling.ForwardSolvers.ForwardSolverBase.html#Vts_Modeling_ForwardSolvers_ForwardSolverBase_ROfFxAndFt_Vts_IOpticalPropertyRegion_____System_Double___System_Double___">ForwardSolverBase.ROfFxAndFt(IOpticalPropertyRegion[][], double[], double[])</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.Modeling.ForwardSolvers.ForwardSolverBase.html#Vts_Modeling_ForwardSolvers_ForwardSolverBase_ROfRho_Vts_OpticalProperties_System_Double___">ForwardSolverBase.ROfRho(OpticalProperties, double[])</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.Modeling.ForwardSolvers.ForwardSolverBase.html#Vts_Modeling_ForwardSolvers_ForwardSolverBase_ROfRho_Vts_IOpticalPropertyRegion___System_Double___">ForwardSolverBase.ROfRho(IOpticalPropertyRegion[], double[])</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.Modeling.ForwardSolvers.ForwardSolverBase.html#Vts_Modeling_ForwardSolvers_ForwardSolverBase_ROfRho_Vts_OpticalProperties___System_Double_">ForwardSolverBase.ROfRho(OpticalProperties[], double)</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.Modeling.ForwardSolvers.ForwardSolverBase.html#Vts_Modeling_ForwardSolvers_ForwardSolverBase_ROfRho_Vts_IOpticalPropertyRegion_____System_Double_">ForwardSolverBase.ROfRho(IOpticalPropertyRegion[][], double)</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.Modeling.ForwardSolvers.ForwardSolverBase.html#Vts_Modeling_ForwardSolvers_ForwardSolverBase_ROfTheta_Vts_OpticalProperties_System_Double___">ForwardSolverBase.ROfTheta(OpticalProperties, double[])</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.Modeling.ForwardSolvers.ForwardSolverBase.html#Vts_Modeling_ForwardSolvers_ForwardSolverBase_ROfTheta_Vts_OpticalProperties___System_Double_">ForwardSolverBase.ROfTheta(OpticalProperties[], double)</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.Modeling.ForwardSolvers.ForwardSolverBase.html#Vts_Modeling_ForwardSolvers_ForwardSolverBase_ROfRhoAndTime_Vts_OpticalProperties_System_Double___System_Double___">ForwardSolverBase.ROfRhoAndTime(OpticalProperties, double[], double[])</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.Modeling.ForwardSolvers.ForwardSolverBase.html#Vts_Modeling_ForwardSolvers_ForwardSolverBase_ROfRhoAndTime_Vts_IOpticalPropertyRegion___System_Double___System_Double___">ForwardSolverBase.ROfRhoAndTime(IOpticalPropertyRegion[], double[], double[])</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.Modeling.ForwardSolvers.ForwardSolverBase.html#Vts_Modeling_ForwardSolvers_ForwardSolverBase_ROfRhoAndTime_Vts_OpticalProperties___System_Double_System_Double___">ForwardSolverBase.ROfRhoAndTime(OpticalProperties[], double, double[])</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.Modeling.ForwardSolvers.ForwardSolverBase.html#Vts_Modeling_ForwardSolvers_ForwardSolverBase_ROfRhoAndTime_Vts_IOpticalPropertyRegion_____System_Double_System_Double___">ForwardSolverBase.ROfRhoAndTime(IOpticalPropertyRegion[][], double, double[])</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.Modeling.ForwardSolvers.ForwardSolverBase.html#Vts_Modeling_ForwardSolvers_ForwardSolverBase_ROfRhoAndTime_Vts_OpticalProperties___System_Double___System_Double_">ForwardSolverBase.ROfRhoAndTime(OpticalProperties[], double[], double)</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.Modeling.ForwardSolvers.ForwardSolverBase.html#Vts_Modeling_ForwardSolvers_ForwardSolverBase_ROfRhoAndTime_Vts_IOpticalPropertyRegion_____System_Double___System_Double_">ForwardSolverBase.ROfRhoAndTime(IOpticalPropertyRegion[][], double[], double)</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.Modeling.ForwardSolvers.ForwardSolverBase.html#Vts_Modeling_ForwardSolvers_ForwardSolverBase_ROfRhoAndTime_Vts_OpticalProperties_System_Double_System_Double___">ForwardSolverBase.ROfRhoAndTime(OpticalProperties, double, double[])</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.Modeling.ForwardSolvers.ForwardSolverBase.html#Vts_Modeling_ForwardSolvers_ForwardSolverBase_ROfRhoAndTime_Vts_IOpticalPropertyRegion___System_Double_System_Double___">ForwardSolverBase.ROfRhoAndTime(IOpticalPropertyRegion[], double, double[])</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.Modeling.ForwardSolvers.ForwardSolverBase.html#Vts_Modeling_ForwardSolvers_ForwardSolverBase_ROfRhoAndTime_Vts_OpticalProperties_System_Double___System_Double_">ForwardSolverBase.ROfRhoAndTime(OpticalProperties, double[], double)</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.Modeling.ForwardSolvers.ForwardSolverBase.html#Vts_Modeling_ForwardSolvers_ForwardSolverBase_ROfRhoAndTime_Vts_IOpticalPropertyRegion___System_Double___System_Double_">ForwardSolverBase.ROfRhoAndTime(IOpticalPropertyRegion[], double[], double)</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.Modeling.ForwardSolvers.ForwardSolverBase.html#Vts_Modeling_ForwardSolvers_ForwardSolverBase_ROfRhoAndTime_Vts_OpticalProperties___System_Double_System_Double_">ForwardSolverBase.ROfRhoAndTime(OpticalProperties[], double, double)</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.Modeling.ForwardSolvers.ForwardSolverBase.html#Vts_Modeling_ForwardSolvers_ForwardSolverBase_ROfRhoAndTime_Vts_IOpticalPropertyRegion_____System_Double_System_Double_">ForwardSolverBase.ROfRhoAndTime(IOpticalPropertyRegion[][], double, double)</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.Modeling.ForwardSolvers.ForwardSolverBase.html#Vts_Modeling_ForwardSolvers_ForwardSolverBase_ROfRhoAndFt_Vts_OpticalProperties_System_Double___System_Double___">ForwardSolverBase.ROfRhoAndFt(OpticalProperties, double[], double[])</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.Modeling.ForwardSolvers.ForwardSolverBase.html#Vts_Modeling_ForwardSolvers_ForwardSolverBase_ROfRhoAndFt_Vts_IOpticalPropertyRegion___System_Double___System_Double___">ForwardSolverBase.ROfRhoAndFt(IOpticalPropertyRegion[], double[], double[])</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.Modeling.ForwardSolvers.ForwardSolverBase.html#Vts_Modeling_ForwardSolvers_ForwardSolverBase_ROfRhoAndFt_Vts_OpticalProperties___System_Double_System_Double___">ForwardSolverBase.ROfRhoAndFt(OpticalProperties[], double, double[])</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.Modeling.ForwardSolvers.ForwardSolverBase.html#Vts_Modeling_ForwardSolvers_ForwardSolverBase_ROfRhoAndFt_Vts_IOpticalPropertyRegion_____System_Double_System_Double___">ForwardSolverBase.ROfRhoAndFt(IOpticalPropertyRegion[][], double, double[])</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.Modeling.ForwardSolvers.ForwardSolverBase.html#Vts_Modeling_ForwardSolvers_ForwardSolverBase_ROfRhoAndFt_Vts_OpticalProperties___System_Double___System_Double_">ForwardSolverBase.ROfRhoAndFt(OpticalProperties[], double[], double)</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.Modeling.ForwardSolvers.ForwardSolverBase.html#Vts_Modeling_ForwardSolvers_ForwardSolverBase_ROfRhoAndFt_Vts_IOpticalPropertyRegion_____System_Double___System_Double_">ForwardSolverBase.ROfRhoAndFt(IOpticalPropertyRegion[][], double[], double)</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.Modeling.ForwardSolvers.ForwardSolverBase.html#Vts_Modeling_ForwardSolvers_ForwardSolverBase_ROfRhoAndFt_Vts_IOpticalPropertyRegion___System_Double___System_Double_">ForwardSolverBase.ROfRhoAndFt(IOpticalPropertyRegion[], double[], double)</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.Modeling.ForwardSolvers.ForwardSolverBase.html#Vts_Modeling_ForwardSolvers_ForwardSolverBase_ROfRhoAndFt_Vts_OpticalProperties_System_Double_System_Double___">ForwardSolverBase.ROfRhoAndFt(OpticalProperties, double, double[])</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.Modeling.ForwardSolvers.ForwardSolverBase.html#Vts_Modeling_ForwardSolvers_ForwardSolverBase_ROfRhoAndFt_Vts_IOpticalPropertyRegion___System_Double_System_Double___">ForwardSolverBase.ROfRhoAndFt(IOpticalPropertyRegion[], double, double[])</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.Modeling.ForwardSolvers.ForwardSolverBase.html#Vts_Modeling_ForwardSolvers_ForwardSolverBase_ROfRhoAndFt_Vts_OpticalProperties_System_Double___System_Double_">ForwardSolverBase.ROfRhoAndFt(OpticalProperties, double[], double)</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.Modeling.ForwardSolvers.ForwardSolverBase.html#Vts_Modeling_ForwardSolvers_ForwardSolverBase_ROfRhoAndFt_Vts_OpticalProperties___System_Double_System_Double_">ForwardSolverBase.ROfRhoAndFt(OpticalProperties[], double, double)</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.Modeling.ForwardSolvers.ForwardSolverBase.html#Vts_Modeling_ForwardSolvers_ForwardSolverBase_ROfFx_Vts_OpticalProperties_System_Double___">ForwardSolverBase.ROfFx(OpticalProperties, double[])</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.Modeling.ForwardSolvers.ForwardSolverBase.html#Vts_Modeling_ForwardSolvers_ForwardSolverBase_ROfFx_Vts_IOpticalPropertyRegion___System_Double___">ForwardSolverBase.ROfFx(IOpticalPropertyRegion[], double[])</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.Modeling.ForwardSolvers.ForwardSolverBase.html#Vts_Modeling_ForwardSolvers_ForwardSolverBase_ROfFx_Vts_OpticalProperties___System_Double_">ForwardSolverBase.ROfFx(OpticalProperties[], double)</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.Modeling.ForwardSolvers.ForwardSolverBase.html#Vts_Modeling_ForwardSolvers_ForwardSolverBase_ROfFx_Vts_IOpticalPropertyRegion_____System_Double_">ForwardSolverBase.ROfFx(IOpticalPropertyRegion[][], double)</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.Modeling.ForwardSolvers.ForwardSolverBase.html#Vts_Modeling_ForwardSolvers_ForwardSolverBase_ROfFxAndTime_Vts_OpticalProperties_System_Double___System_Double___">ForwardSolverBase.ROfFxAndTime(OpticalProperties, double[], double[])</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.Modeling.ForwardSolvers.ForwardSolverBase.html#Vts_Modeling_ForwardSolvers_ForwardSolverBase_ROfFxAndTime_Vts_IOpticalPropertyRegion___System_Double___System_Double___">ForwardSolverBase.ROfFxAndTime(IOpticalPropertyRegion[], double[], double[])</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.Modeling.ForwardSolvers.ForwardSolverBase.html#Vts_Modeling_ForwardSolvers_ForwardSolverBase_ROfFxAndTime_Vts_OpticalProperties___System_Double_System_Double___">ForwardSolverBase.ROfFxAndTime(OpticalProperties[], double, double[])</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.Modeling.ForwardSolvers.ForwardSolverBase.html#Vts_Modeling_ForwardSolvers_ForwardSolverBase_ROfFxAndTime_Vts_IOpticalPropertyRegion_____System_Double_System_Double___">ForwardSolverBase.ROfFxAndTime(IOpticalPropertyRegion[][], double, double[])</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.Modeling.ForwardSolvers.ForwardSolverBase.html#Vts_Modeling_ForwardSolvers_ForwardSolverBase_ROfFxAndTime_Vts_OpticalProperties___System_Double___System_Double_">ForwardSolverBase.ROfFxAndTime(OpticalProperties[], double[], double)</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.Modeling.ForwardSolvers.ForwardSolverBase.html#Vts_Modeling_ForwardSolvers_ForwardSolverBase_ROfFxAndTime_Vts_OpticalProperties_System_Double_System_Double___">ForwardSolverBase.ROfFxAndTime(OpticalProperties, double, double[])</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.Modeling.ForwardSolvers.ForwardSolverBase.html#Vts_Modeling_ForwardSolvers_ForwardSolverBase_ROfFxAndTime_Vts_IOpticalPropertyRegion___System_Double_System_Double___">ForwardSolverBase.ROfFxAndTime(IOpticalPropertyRegion[], double, double[])</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.Modeling.ForwardSolvers.ForwardSolverBase.html#Vts_Modeling_ForwardSolvers_ForwardSolverBase_ROfFxAndTime_Vts_OpticalProperties_System_Double___System_Double_">ForwardSolverBase.ROfFxAndTime(OpticalProperties, double[], double)</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.Modeling.ForwardSolvers.ForwardSolverBase.html#Vts_Modeling_ForwardSolvers_ForwardSolverBase_ROfFxAndTime_Vts_OpticalProperties___System_Double_System_Double_">ForwardSolverBase.ROfFxAndTime(OpticalProperties[], double, double)</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.Modeling.ForwardSolvers.ForwardSolverBase.html#Vts_Modeling_ForwardSolvers_ForwardSolverBase_ROfFxAndFt_Vts_OpticalProperties_System_Double___System_Double___">ForwardSolverBase.ROfFxAndFt(OpticalProperties, double[], double[])</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.Modeling.ForwardSolvers.ForwardSolverBase.html#Vts_Modeling_ForwardSolvers_ForwardSolverBase_ROfFxAndFt_Vts_IOpticalPropertyRegion___System_Double___System_Double___">ForwardSolverBase.ROfFxAndFt(IOpticalPropertyRegion[], double[], double[])</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.Modeling.ForwardSolvers.ForwardSolverBase.html#Vts_Modeling_ForwardSolvers_ForwardSolverBase_ROfFxAndFt_Vts_OpticalProperties___System_Double_System_Double___">ForwardSolverBase.ROfFxAndFt(OpticalProperties[], double, double[])</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.Modeling.ForwardSolvers.ForwardSolverBase.html#Vts_Modeling_ForwardSolvers_ForwardSolverBase_ROfFxAndFt_Vts_IOpticalPropertyRegion___System_Double_System_Double___">ForwardSolverBase.ROfFxAndFt(IOpticalPropertyRegion[], double, double[])</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.Modeling.ForwardSolvers.ForwardSolverBase.html#Vts_Modeling_ForwardSolvers_ForwardSolverBase_ROfFxAndTime_Vts_IOpticalPropertyRegion___System_Double___System_Double_">ForwardSolverBase.ROfFxAndTime(IOpticalPropertyRegion[], double[], double)</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.Modeling.ForwardSolvers.ForwardSolverBase.html#Vts_Modeling_ForwardSolvers_ForwardSolverBase_ROfFxAndFt_Vts_OpticalProperties___System_Double___System_Double_">ForwardSolverBase.ROfFxAndFt(OpticalProperties[], double[], double)</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.Modeling.ForwardSolvers.ForwardSolverBase.html#Vts_Modeling_ForwardSolvers_ForwardSolverBase_ROfFxAndFt_Vts_IOpticalPropertyRegion_____System_Double___System_Double_">ForwardSolverBase.ROfFxAndFt(IOpticalPropertyRegion[][], double[], double)</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.Modeling.ForwardSolvers.ForwardSolverBase.html#Vts_Modeling_ForwardSolvers_ForwardSolverBase_ROfFxAndFt_Vts_OpticalProperties_System_Double_System_Double___">ForwardSolverBase.ROfFxAndFt(OpticalProperties, double, double[])</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.Modeling.ForwardSolvers.ForwardSolverBase.html#Vts_Modeling_ForwardSolvers_ForwardSolverBase_ROfFxAndFt_Vts_IOpticalPropertyRegion___System_Double___System_Double_">ForwardSolverBase.ROfFxAndFt(IOpticalPropertyRegion[], double[], double)</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.Modeling.ForwardSolvers.ForwardSolverBase.html#Vts_Modeling_ForwardSolvers_ForwardSolverBase_ROfFxAndFt_Vts_OpticalProperties_System_Double___System_Double_">ForwardSolverBase.ROfFxAndFt(OpticalProperties, double[], double)</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.Modeling.ForwardSolvers.ForwardSolverBase.html#Vts_Modeling_ForwardSolvers_ForwardSolverBase_ROfFxAndFt_Vts_OpticalProperties___System_Double_System_Double_">ForwardSolverBase.ROfFxAndFt(OpticalProperties[], double, double)</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.Modeling.ForwardSolvers.ForwardSolverBase.html#Vts_Modeling_ForwardSolvers_ForwardSolverBase_FluenceOfRhoAndZ_System_Collections_Generic_IEnumerable_Vts_IOpticalPropertyRegion____System_Collections_Generic_IEnumerable_System_Double__System_Collections_Generic_IEnumerable_System_Double__">ForwardSolverBase.FluenceOfRhoAndZ(IEnumerable&lt;IOpticalPropertyRegion[]&gt;, IEnumerable&lt;double&gt;, IEnumerable&lt;double&gt;)</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.Modeling.ForwardSolvers.ForwardSolverBase.html#Vts_Modeling_ForwardSolvers_ForwardSolverBase_FluenceOfRhoAndZAndTime_System_Collections_Generic_IEnumerable_Vts_IOpticalPropertyRegion____System_Collections_Generic_IEnumerable_System_Double__System_Collections_Generic_IEnumerable_System_Double__System_Collections_Generic_IEnumerable_System_Double__">ForwardSolverBase.FluenceOfRhoAndZAndTime(IEnumerable&lt;IOpticalPropertyRegion[]&gt;, IEnumerable&lt;double&gt;, IEnumerable&lt;double&gt;, IEnumerable&lt;double&gt;)</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.Modeling.ForwardSolvers.ForwardSolverBase.html#Vts_Modeling_ForwardSolvers_ForwardSolverBase_FluenceOfRhoAndZAndFt_System_Collections_Generic_IEnumerable_Vts_IOpticalPropertyRegion____System_Collections_Generic_IEnumerable_System_Double__System_Collections_Generic_IEnumerable_System_Double__System_Collections_Generic_IEnumerable_System_Double__">ForwardSolverBase.FluenceOfRhoAndZAndFt(IEnumerable&lt;IOpticalPropertyRegion[]&gt;, IEnumerable&lt;double&gt;, IEnumerable&lt;double&gt;, IEnumerable&lt;double&gt;)</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.Modeling.ForwardSolvers.ForwardSolverBase.html#Vts_Modeling_ForwardSolvers_ForwardSolverBase_FluenceOfRhoAndZ_Vts_OpticalProperties___System_Double___System_Double___">ForwardSolverBase.FluenceOfRhoAndZ(OpticalProperties[], double[], double[])</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.Modeling.ForwardSolvers.ForwardSolverBase.html#Vts_Modeling_ForwardSolvers_ForwardSolverBase_FluenceOfRhoAndZ_Vts_IOpticalPropertyRegion_____System_Double___System_Double___">ForwardSolverBase.FluenceOfRhoAndZ(IOpticalPropertyRegion[][], double[], double[])</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.Modeling.ForwardSolvers.ForwardSolverBase.html#Vts_Modeling_ForwardSolvers_ForwardSolverBase_FluenceOfRhoAndZAndTime_Vts_OpticalProperties___System_Double___System_Double___System_Double___">ForwardSolverBase.FluenceOfRhoAndZAndTime(OpticalProperties[], double[], double[], double[])</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.Modeling.ForwardSolvers.ForwardSolverBase.html#Vts_Modeling_ForwardSolvers_ForwardSolverBase_FluenceOfRhoAndZAndTime_Vts_IOpticalPropertyRegion_____System_Double___System_Double___System_Double___">ForwardSolverBase.FluenceOfRhoAndZAndTime(IOpticalPropertyRegion[][], double[], double[], double[])</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.Modeling.ForwardSolvers.ForwardSolverBase.html#Vts_Modeling_ForwardSolvers_ForwardSolverBase_FluenceOfRhoAndZAndFt_Vts_OpticalProperties___System_Double___System_Double___System_Double___">ForwardSolverBase.FluenceOfRhoAndZAndFt(OpticalProperties[], double[], double[], double[])</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.Modeling.ForwardSolvers.ForwardSolverBase.html#Vts_Modeling_ForwardSolvers_ForwardSolverBase_FluenceOfRhoAndZAndFt_Vts_IOpticalPropertyRegion_____System_Double___System_Double___System_Double___">ForwardSolverBase.FluenceOfRhoAndZAndFt(IOpticalPropertyRegion[][], double[], double[], double[])</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.Modeling.ForwardSolvers.ForwardSolverBase.html#Vts_Modeling_ForwardSolvers_ForwardSolverBase_FluenceOfFxAndZ_Vts_OpticalProperties___System_Double___System_Double___">ForwardSolverBase.FluenceOfFxAndZ(OpticalProperties[], double[], double[])</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.Modeling.ForwardSolvers.ForwardSolverBase.html#Vts_Modeling_ForwardSolvers_ForwardSolverBase_FluenceOfFxAndZAndTime_Vts_OpticalProperties___System_Double___System_Double___System_Double___">ForwardSolverBase.FluenceOfFxAndZAndTime(OpticalProperties[], double[], double[], double[])</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.Modeling.ForwardSolvers.ForwardSolverBase.html#Vts_Modeling_ForwardSolvers_ForwardSolverBase_FluenceOfFxAndZAndFt_Vts_OpticalProperties___System_Double___System_Double___System_Double___">ForwardSolverBase.FluenceOfFxAndZAndFt(OpticalProperties[], double[], double[], double[])</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.BindableObject.html#Vts_BindableObject_PropertyChanged">BindableObject.PropertyChanged</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.BindableObject.html#Vts_BindableObject_GetPropertyChangedEventArgs_System_String_">BindableObject.GetPropertyChangedEventArgs(string)</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.BindableObject.html#Vts_BindableObject_AfterPropertyChanged_System_String_">BindableObject.AfterPropertyChanged(string)</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.BindableObject.html#Vts_BindableObject_OnPropertyChanged_System_String_">BindableObject.OnPropertyChanged(string)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)">object.Equals(object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)">object.Equals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gethashcode">object.GetHashCode()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gettype">object.GetType()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone">object.MemberwiseClone()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.referenceequals">object.ReferenceEquals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.tostring">object.ToString()</a>
+    </div>
+  </dd></dl>
+
+  <dl class="typelist extensionMethods">
+    <dt>Extension Methods</dt>
+    <dd>
+  <div>
+      <a class="xref" href="Vts.Modeling.ForwardSolvers.Extensions.PhotonHittingDensityExtensions.html#Vts_Modeling_ForwardSolvers_Extensions_PhotonHittingDensityExtensions_SteadyStateFluence2SurfacePointPHD_Vts_IForwardSolver_System_Collections_Generic_IEnumerable_Vts_OpticalProperties__System_Collections_Generic_IEnumerable_System_Double__System_Collections_Generic_IEnumerable_System_Double__">PhotonHittingDensityExtensions.SteadyStateFluence2SurfacePointPHD(IForwardSolver, IEnumerable&lt;OpticalProperties&gt;, IEnumerable&lt;double&gt;, IEnumerable&lt;double&gt;)</a>
+  </div>
+  <div>
+      <a class="xref" href="Vts.Modeling.ForwardSolvers.Extensions.PhotonHittingDensityExtensions.html#Vts_Modeling_ForwardSolvers_Extensions_PhotonHittingDensityExtensions_TemporalFrequencyPointSourceCenterlinePHD_Vts_IForwardSolver_System_Collections_Generic_IEnumerable_Vts_OpticalProperties__System_Collections_Generic_IEnumerable_System_Double__System_Collections_Generic_IEnumerable_System_Double__System_Collections_Generic_IEnumerable_System_Double__System_Collections_Generic_IEnumerable_System_Double__">PhotonHittingDensityExtensions.TemporalFrequencyPointSourceCenterlinePHD(IForwardSolver, IEnumerable&lt;OpticalProperties&gt;, IEnumerable&lt;double&gt;, IEnumerable&lt;double&gt;, IEnumerable&lt;double&gt;, IEnumerable&lt;double&gt;)</a>
+  </div>
+  <div>
+      <a class="xref" href="Vts.Modeling.ForwardSolvers.Extensions.PhotonHittingDensityExtensions.html#Vts_Modeling_ForwardSolvers_Extensions_PhotonHittingDensityExtensions_TemporalPointSourceCenterlinePHD_Vts_IForwardSolver_System_Collections_Generic_IEnumerable_Vts_OpticalProperties__System_Collections_Generic_IEnumerable_System_Double__System_Collections_Generic_IEnumerable_System_Double__System_Collections_Generic_IEnumerable_System_Double__System_Collections_Generic_IEnumerable_System_Double__">PhotonHittingDensityExtensions.TemporalPointSourceCenterlinePHD(IForwardSolver, IEnumerable&lt;OpticalProperties&gt;, IEnumerable&lt;double&gt;, IEnumerable&lt;double&gt;, IEnumerable&lt;double&gt;, IEnumerable&lt;double&gt;)</a>
+  </div>
+  <div>
+      <a class="xref" href="Vts.Modeling.ForwardSolvers.Extensions.PhotonHittingDensityExtensions.html#Vts_Modeling_ForwardSolvers_Extensions_PhotonHittingDensityExtensions_TimeFrequencyDomainFluence2SurfacePointPHD_Vts_IForwardSolver_System_Double_System_Collections_Generic_IEnumerable_Vts_OpticalProperties__System_Collections_Generic_IEnumerable_System_Double__System_Collections_Generic_IEnumerable_System_Double__">PhotonHittingDensityExtensions.TimeFrequencyDomainFluence2SurfacePointPHD(IForwardSolver, double, IEnumerable&lt;OpticalProperties&gt;, IEnumerable&lt;double&gt;, IEnumerable&lt;double&gt;)</a>
+  </div>
+  <div>
+      <a class="xref" href="Vts.Extensions.EnumerableExtensions.html#Vts_Extensions_EnumerableExtensions_AsEnumerable__1___0_">EnumerableExtensions.AsEnumerable&lt;T&gt;(T)</a>
+  </div>
+  <div>
+      <a class="xref" href="Vts.Extensions.IEnumerableArrayExtensions.html#Vts_Extensions_IEnumerableArrayExtensions_PopulateFromEnumerable2__2___1_System_Collections_Generic_IEnumerable___0__">IEnumerableArrayExtensions.PopulateFromEnumerable2&lt;T, TArray&gt;(TArray, IEnumerable&lt;T&gt;)</a>
+  </div>
+  <div>
+      <a class="xref" href="Vts.IO.FileIO.html#Vts_IO_FileIO_Clone__1___0_">FileIO.Clone&lt;T&gt;(T)</a>
+  </div>
+  <div>
+      <a class="xref" href="Vts.IO.FileIO.html#Vts_IO_FileIO_WriteJsonToStream__1___0_System_IO_Stream_">FileIO.WriteJsonToStream&lt;T&gt;(T, Stream)</a>
+  </div>
+  <div>
+      <a class="xref" href="Vts.IO.FileIO.html#Vts_IO_FileIO_WriteToJson__1___0_System_String_">FileIO.WriteToJson&lt;T&gt;(T, string)</a>
+  </div>
+  <div>
+      <a class="xref" href="Vts.IO.FileIO.html#Vts_IO_FileIO_WriteToXMLStream__1___0_System_IO_Stream_">FileIO.WriteToXMLStream&lt;T&gt;(T, Stream)</a>
+  </div>
+  <div>
+      <a class="xref" href="Vts.IO.FileIO.html#Vts_IO_FileIO_WriteToXML__1___0_System_String_">FileIO.WriteToXML&lt;T&gt;(T, string)</a>
+  </div>
+  <div>
+      <a class="xref" href="Vts.IO.VtsJsonSerializer.html#Vts_IO_VtsJsonSerializer_WriteToJsonFile__1___0_System_String_">VtsJsonSerializer.WriteToJsonFile&lt;T&gt;(T, string)</a>
+  </div>
+  <div>
+      <a class="xref" href="Vts.IO.VtsJsonSerializer.html#Vts_IO_VtsJsonSerializer_WriteToJson__1___0_">VtsJsonSerializer.WriteToJson&lt;T&gt;(T)</a>
+  </div>
+  </dd></dl>
+
+
+
+
+
+  <h2 class="section" id="constructors">Constructors
+</h2>
+
+
+  <a id="Vts_Modeling_ForwardSolvers_DiffusionForwardSolverBase__ctor_" data-uid="Vts.Modeling.ForwardSolvers.DiffusionForwardSolverBase.#ctor*"></a>
+
+  <h3 id="Vts_Modeling_ForwardSolvers_DiffusionForwardSolverBase__ctor_Vts_Modeling_ForwardSolvers_SourceConfiguration_System_Double_" data-uid="Vts.Modeling.ForwardSolvers.DiffusionForwardSolverBase.#ctor(Vts.Modeling.ForwardSolvers.SourceConfiguration,System.Double)">
+  DiffusionForwardSolverBase(SourceConfiguration, double)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Modeling/ForwardSolvers/DiffusionForwardSolverBase.cs/#L53"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>diffusion forward solver base</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected DiffusionForwardSolverBase(SourceConfiguration sourceConfiguration, double beamDiameter)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>sourceConfiguration</code> <a class="xref" href="Vts.Modeling.ForwardSolvers.SourceConfiguration.html">SourceConfiguration</a></dt>
+    <dd><p>source configuration</p>
+</dd>
+    <dt><code>beamDiameter</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>diameter of source [mm]</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="properties">Properties
+</h2>
+
+
+  <a id="Vts_Modeling_ForwardSolvers_DiffusionForwardSolverBase_ForwardModel_" data-uid="Vts.Modeling.ForwardSolvers.DiffusionForwardSolverBase.ForwardModel*"></a>
+
+  <h3 id="Vts_Modeling_ForwardSolvers_DiffusionForwardSolverBase_ForwardModel" data-uid="Vts.Modeling.ForwardSolvers.DiffusionForwardSolverBase.ForwardModel">
+  ForwardModel
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Modeling/ForwardSolvers/DiffusionForwardSolverBase.cs/#L59"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>forward model enum</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected ForwardModel ForwardModel { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Vts.Modeling.ForwardSolvers.ForwardModel.html">ForwardModel</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+  <a id="Vts_Modeling_ForwardSolvers_DiffusionForwardSolverBase_FluenceOfFxAndZ_" data-uid="Vts.Modeling.ForwardSolvers.DiffusionForwardSolverBase.FluenceOfFxAndZ*"></a>
+
+  <h3 id="Vts_Modeling_ForwardSolvers_DiffusionForwardSolverBase_FluenceOfFxAndZ_System_Collections_Generic_IEnumerable_Vts_OpticalProperties__System_Collections_Generic_IEnumerable_System_Double__System_Collections_Generic_IEnumerable_System_Double__" data-uid="Vts.Modeling.ForwardSolvers.DiffusionForwardSolverBase.FluenceOfFxAndZ(System.Collections.Generic.IEnumerable{Vts.OpticalProperties},System.Collections.Generic.IEnumerable{System.Double},System.Collections.Generic.IEnumerable{System.Double})">
+  FluenceOfFxAndZ(IEnumerable&lt;OpticalProperties&gt;, IEnumerable&lt;double&gt;, IEnumerable&lt;double&gt;)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Modeling/ForwardSolvers/DiffusionForwardSolverBase.cs/#L432"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>fluence as a function of spatial-frequency and depth z</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override IEnumerable&lt;double&gt; FluenceOfFxAndZ(IEnumerable&lt;OpticalProperties&gt; ops, IEnumerable&lt;double&gt; fxs, IEnumerable&lt;double&gt; zs)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>ops</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;<a class="xref" href="Vts.OpticalProperties.html">OpticalProperties</a>&gt;</dt>
+    <dd><p>optical properties</p>
+</dd>
+    <dt><code>fxs</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a>&gt;</dt>
+    <dd><p>spatial-frequencies</p>
+</dd>
+    <dt><code>zs</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a>&gt;</dt>
+    <dd><p>depths</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a>&gt;</dt>
+    <dd><p>Fluence(fxs,zs)</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_Modeling_ForwardSolvers_DiffusionForwardSolverBase_FluenceOfFxAndZAndFt_" data-uid="Vts.Modeling.ForwardSolvers.DiffusionForwardSolverBase.FluenceOfFxAndZAndFt*"></a>
+
+  <h3 id="Vts_Modeling_ForwardSolvers_DiffusionForwardSolverBase_FluenceOfFxAndZAndFt_System_Collections_Generic_IEnumerable_Vts_OpticalProperties__System_Collections_Generic_IEnumerable_System_Double__System_Collections_Generic_IEnumerable_System_Double__System_Collections_Generic_IEnumerable_System_Double__" data-uid="Vts.Modeling.ForwardSolvers.DiffusionForwardSolverBase.FluenceOfFxAndZAndFt(System.Collections.Generic.IEnumerable{Vts.OpticalProperties},System.Collections.Generic.IEnumerable{System.Double},System.Collections.Generic.IEnumerable{System.Double},System.Collections.Generic.IEnumerable{System.Double})">
+  FluenceOfFxAndZAndFt(IEnumerable&lt;OpticalProperties&gt;, IEnumerable&lt;double&gt;, IEnumerable&lt;double&gt;, IEnumerable&lt;double&gt;)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Modeling/ForwardSolvers/DiffusionForwardSolverBase.cs/#L489"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>fluence as a function of spatial-frequency and temporal-frequency</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override IEnumerable&lt;Complex&gt; FluenceOfFxAndZAndFt(IEnumerable&lt;OpticalProperties&gt; ops, IEnumerable&lt;double&gt; fxs, IEnumerable&lt;double&gt; zs, IEnumerable&lt;double&gt; fts)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>ops</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;<a class="xref" href="Vts.OpticalProperties.html">OpticalProperties</a>&gt;</dt>
+    <dd><p>IEnumerable of optical properties</p>
+</dd>
+    <dt><code>fxs</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a>&gt;</dt>
+    <dd><p>spatial frequencies</p>
+</dd>
+    <dt><code>zs</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a>&gt;</dt>
+    <dd><p>depths</p>
+</dd>
+    <dt><code>fts</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a>&gt;</dt>
+    <dd><p>temporal-frequencies</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.numerics.complex">Complex</a>&gt;</dt>
+    <dd><p>Fluence(fxs,z,fts)</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_Modeling_ForwardSolvers_DiffusionForwardSolverBase_FluenceOfFxAndZAndTime_" data-uid="Vts.Modeling.ForwardSolvers.DiffusionForwardSolverBase.FluenceOfFxAndZAndTime*"></a>
+
+  <h3 id="Vts_Modeling_ForwardSolvers_DiffusionForwardSolverBase_FluenceOfFxAndZAndTime_System_Collections_Generic_IEnumerable_Vts_OpticalProperties__System_Collections_Generic_IEnumerable_System_Double__System_Collections_Generic_IEnumerable_System_Double__System_Collections_Generic_IEnumerable_System_Double__" data-uid="Vts.Modeling.ForwardSolvers.DiffusionForwardSolverBase.FluenceOfFxAndZAndTime(System.Collections.Generic.IEnumerable{Vts.OpticalProperties},System.Collections.Generic.IEnumerable{System.Double},System.Collections.Generic.IEnumerable{System.Double},System.Collections.Generic.IEnumerable{System.Double})">
+  FluenceOfFxAndZAndTime(IEnumerable&lt;OpticalProperties&gt;, IEnumerable&lt;double&gt;, IEnumerable&lt;double&gt;, IEnumerable&lt;double&gt;)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Modeling/ForwardSolvers/DiffusionForwardSolverBase.cs/#L458"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>fluence as a function of spatial-frequency and depth z and time</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override IEnumerable&lt;double&gt; FluenceOfFxAndZAndTime(IEnumerable&lt;OpticalProperties&gt; ops, IEnumerable&lt;double&gt; fxs, IEnumerable&lt;double&gt; zs, IEnumerable&lt;double&gt; times)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>ops</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;<a class="xref" href="Vts.OpticalProperties.html">OpticalProperties</a>&gt;</dt>
+    <dd><p>optical properties</p>
+</dd>
+    <dt><code>fxs</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a>&gt;</dt>
+    <dd><p>spatial-frequencies</p>
+</dd>
+    <dt><code>zs</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a>&gt;</dt>
+    <dd><p>depths</p>
+</dd>
+    <dt><code>times</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a>&gt;</dt>
+    <dd><p>times</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a>&gt;</dt>
+    <dd><p>Fluence(fxs,zs,times)</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_Modeling_ForwardSolvers_DiffusionForwardSolverBase_FluenceOfRhoAndZ_" data-uid="Vts.Modeling.ForwardSolvers.DiffusionForwardSolverBase.FluenceOfRhoAndZ*"></a>
+
+  <h3 id="Vts_Modeling_ForwardSolvers_DiffusionForwardSolverBase_FluenceOfRhoAndZ_System_Collections_Generic_IEnumerable_Vts_OpticalProperties__System_Collections_Generic_IEnumerable_System_Double__System_Collections_Generic_IEnumerable_System_Double__" data-uid="Vts.Modeling.ForwardSolvers.DiffusionForwardSolverBase.FluenceOfRhoAndZ(System.Collections.Generic.IEnumerable{Vts.OpticalProperties},System.Collections.Generic.IEnumerable{System.Double},System.Collections.Generic.IEnumerable{System.Double})">
+  FluenceOfRhoAndZ(IEnumerable&lt;OpticalProperties&gt;, IEnumerable&lt;double&gt;, IEnumerable&lt;double&gt;)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Modeling/ForwardSolvers/DiffusionForwardSolverBase.cs/#L348"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>fluence as function of s-d separations and depths</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override IEnumerable&lt;double&gt; FluenceOfRhoAndZ(IEnumerable&lt;OpticalProperties&gt; ops, IEnumerable&lt;double&gt; rhos, IEnumerable&lt;double&gt; zs)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>ops</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;<a class="xref" href="Vts.OpticalProperties.html">OpticalProperties</a>&gt;</dt>
+    <dd><p>optical properties</p>
+</dd>
+    <dt><code>rhos</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a>&gt;</dt>
+    <dd><p>s-d separations</p>
+</dd>
+    <dt><code>zs</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a>&gt;</dt>
+    <dd><p>depths</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a>&gt;</dt>
+    <dd><p>Fluence(rhos,zs)</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_Modeling_ForwardSolvers_DiffusionForwardSolverBase_FluenceOfRhoAndZAndFt_" data-uid="Vts.Modeling.ForwardSolvers.DiffusionForwardSolverBase.FluenceOfRhoAndZAndFt*"></a>
+
+  <h3 id="Vts_Modeling_ForwardSolvers_DiffusionForwardSolverBase_FluenceOfRhoAndZAndFt_System_Collections_Generic_IEnumerable_Vts_OpticalProperties__System_Collections_Generic_IEnumerable_System_Double__System_Collections_Generic_IEnumerable_System_Double__System_Collections_Generic_IEnumerable_System_Double__" data-uid="Vts.Modeling.ForwardSolvers.DiffusionForwardSolverBase.FluenceOfRhoAndZAndFt(System.Collections.Generic.IEnumerable{Vts.OpticalProperties},System.Collections.Generic.IEnumerable{System.Double},System.Collections.Generic.IEnumerable{System.Double},System.Collections.Generic.IEnumerable{System.Double})">
+  FluenceOfRhoAndZAndFt(IEnumerable&lt;OpticalProperties&gt;, IEnumerable&lt;double&gt;, IEnumerable&lt;double&gt;, IEnumerable&lt;double&gt;)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Modeling/ForwardSolvers/DiffusionForwardSolverBase.cs/#L403"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>fluence as a function of s-d separations, depth z and temporal-frequencies</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override IEnumerable&lt;Complex&gt; FluenceOfRhoAndZAndFt(IEnumerable&lt;OpticalProperties&gt; ops, IEnumerable&lt;double&gt; rhos, IEnumerable&lt;double&gt; zs, IEnumerable&lt;double&gt; fts)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>ops</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;<a class="xref" href="Vts.OpticalProperties.html">OpticalProperties</a>&gt;</dt>
+    <dd><p>optical properties</p>
+</dd>
+    <dt><code>rhos</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a>&gt;</dt>
+    <dd><p>s-d separations</p>
+</dd>
+    <dt><code>zs</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a>&gt;</dt>
+    <dd><p>depths</p>
+</dd>
+    <dt><code>fts</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a>&gt;</dt>
+    <dd><p>temporal-frequencies</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.numerics.complex">Complex</a>&gt;</dt>
+    <dd><p>Fluence(rhos,zs,fts)</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_Modeling_ForwardSolvers_DiffusionForwardSolverBase_FluenceOfRhoAndZAndTime_" data-uid="Vts.Modeling.ForwardSolvers.DiffusionForwardSolverBase.FluenceOfRhoAndZAndTime*"></a>
+
+  <h3 id="Vts_Modeling_ForwardSolvers_DiffusionForwardSolverBase_FluenceOfRhoAndZAndTime_System_Collections_Generic_IEnumerable_Vts_OpticalProperties__System_Collections_Generic_IEnumerable_System_Double__System_Collections_Generic_IEnumerable_System_Double__System_Collections_Generic_IEnumerable_System_Double__" data-uid="Vts.Modeling.ForwardSolvers.DiffusionForwardSolverBase.FluenceOfRhoAndZAndTime(System.Collections.Generic.IEnumerable{Vts.OpticalProperties},System.Collections.Generic.IEnumerable{System.Double},System.Collections.Generic.IEnumerable{System.Double},System.Collections.Generic.IEnumerable{System.Double})">
+  FluenceOfRhoAndZAndTime(IEnumerable&lt;OpticalProperties&gt;, IEnumerable&lt;double&gt;, IEnumerable&lt;double&gt;, IEnumerable&lt;double&gt;)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Modeling/ForwardSolvers/DiffusionForwardSolverBase.cs/#L373"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>fluence as function of s-d separations, depths and times</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override IEnumerable&lt;double&gt; FluenceOfRhoAndZAndTime(IEnumerable&lt;OpticalProperties&gt; ops, IEnumerable&lt;double&gt; rhos, IEnumerable&lt;double&gt; zs, IEnumerable&lt;double&gt; times)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>ops</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;<a class="xref" href="Vts.OpticalProperties.html">OpticalProperties</a>&gt;</dt>
+    <dd><p>optical properties</p>
+</dd>
+    <dt><code>rhos</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a>&gt;</dt>
+    <dd><p>s-d separations</p>
+</dd>
+    <dt><code>zs</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a>&gt;</dt>
+    <dd><p>depths</p>
+</dd>
+    <dt><code>times</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a>&gt;</dt>
+    <dd><p>times</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a>&gt;</dt>
+    <dd><p>Fluence(rhos,zs,times)</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_Modeling_ForwardSolvers_DiffusionForwardSolverBase_GetBackwardHemisphereIntegralDiffuseReflectance_" data-uid="Vts.Modeling.ForwardSolvers.DiffusionForwardSolverBase.GetBackwardHemisphereIntegralDiffuseReflectance*"></a>
+
+  <h3 id="Vts_Modeling_ForwardSolvers_DiffusionForwardSolverBase_GetBackwardHemisphereIntegralDiffuseReflectance_System_Double_System_Double_System_Double_" data-uid="Vts.Modeling.ForwardSolvers.DiffusionForwardSolverBase.GetBackwardHemisphereIntegralDiffuseReflectance(System.Double,System.Double,System.Double)">
+  GetBackwardHemisphereIntegralDiffuseReflectance(double, double, double)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Modeling/ForwardSolvers/DiffusionForwardSolverBase.cs/#L279"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Calculates the reflectance based on the integral of the radiance over the backward hemisphere...</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected static double GetBackwardHemisphereIntegralDiffuseReflectance(double surfaceFluence, double surfaceFlux, double mediaRefractiveIndex)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>surfaceFluence</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>diffuse fluence at the surface</p>
+</dd>
+    <dt><code>surfaceFlux</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>diffuse flux at the surface</p>
+</dd>
+    <dt><code>mediaRefractiveIndex</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>refractive index of the medium</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Reflectance</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_Modeling_ForwardSolvers_DiffusionForwardSolverBase_GetBackwardHemisphereIntegralDiffuseReflectance_" data-uid="Vts.Modeling.ForwardSolvers.DiffusionForwardSolverBase.GetBackwardHemisphereIntegralDiffuseReflectance*"></a>
+
+  <h3 id="Vts_Modeling_ForwardSolvers_DiffusionForwardSolverBase_GetBackwardHemisphereIntegralDiffuseReflectance_System_Double_System_Double_System_Double_System_Double_" data-uid="Vts.Modeling.ForwardSolvers.DiffusionForwardSolverBase.GetBackwardHemisphereIntegralDiffuseReflectance(System.Double,System.Double,System.Double,System.Double)">
+  GetBackwardHemisphereIntegralDiffuseReflectance(double, double, double, double)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Modeling/ForwardSolvers/DiffusionForwardSolverBase.cs/#L314"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>get backward hemisphere integral for diffuse reflectance</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected static double GetBackwardHemisphereIntegralDiffuseReflectance(double fluence, double flux, double fr1, double fr2)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>fluence</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Fluence</p>
+</dd>
+    <dt><code>flux</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Flux</p>
+</dd>
+    <dt><code>fr1</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>1st moment of Fresnel Reflection</p>
+</dd>
+    <dt><code>fr2</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>2nd moment of Fresnel Reflection</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Reflectance</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_Modeling_ForwardSolvers_DiffusionForwardSolverBase_GetBackwardHemisphereIntegralDiffuseReflectance_" data-uid="Vts.Modeling.ForwardSolvers.DiffusionForwardSolverBase.GetBackwardHemisphereIntegralDiffuseReflectance*"></a>
+
+  <h3 id="Vts_Modeling_ForwardSolvers_DiffusionForwardSolverBase_GetBackwardHemisphereIntegralDiffuseReflectance_System_Numerics_Complex_System_Numerics_Complex_System_Double_" data-uid="Vts.Modeling.ForwardSolvers.DiffusionForwardSolverBase.GetBackwardHemisphereIntegralDiffuseReflectance(System.Numerics.Complex,System.Numerics.Complex,System.Double)">
+  GetBackwardHemisphereIntegralDiffuseReflectance(Complex, Complex, double)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Modeling/ForwardSolvers/DiffusionForwardSolverBase.cs/#L298"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Calculates the reflectance based on the integral of the radiance over the backward
+hemisphere for complex fluence</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected static Complex GetBackwardHemisphereIntegralDiffuseReflectance(Complex surfaceFluence, Complex surfaceFlux, double mediaRefractiveIndex)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>surfaceFluence</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.numerics.complex">Complex</a></dt>
+    <dd><p>complex diffuse fluence at the surface</p>
+</dd>
+    <dt><code>surfaceFlux</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.numerics.complex">Complex</a></dt>
+    <dd><p>complex diffuse flux at the surface</p>
+</dd>
+    <dt><code>mediaRefractiveIndex</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>refractive index of the medium</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.numerics.complex">Complex</a></dt>
+    <dd><p>Reflectance</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_Modeling_ForwardSolvers_DiffusionForwardSolverBase_GetBackwardHemisphereIntegralDiffuseReflectance_" data-uid="Vts.Modeling.ForwardSolvers.DiffusionForwardSolverBase.GetBackwardHemisphereIntegralDiffuseReflectance*"></a>
+
+  <h3 id="Vts_Modeling_ForwardSolvers_DiffusionForwardSolverBase_GetBackwardHemisphereIntegralDiffuseReflectance_System_Numerics_Complex_System_Numerics_Complex_System_Double_System_Double_" data-uid="Vts.Modeling.ForwardSolvers.DiffusionForwardSolverBase.GetBackwardHemisphereIntegralDiffuseReflectance(System.Numerics.Complex,System.Numerics.Complex,System.Double,System.Double)">
+  GetBackwardHemisphereIntegralDiffuseReflectance(Complex, Complex, double, double)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Modeling/ForwardSolvers/DiffusionForwardSolverBase.cs/#L329"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>get backward hemisphere integral for diffuse reflectance</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected static Complex GetBackwardHemisphereIntegralDiffuseReflectance(Complex fluence, Complex flux, double fr1, double fr2)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>fluence</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.numerics.complex">Complex</a></dt>
+    <dd><p>fluence term</p>
+</dd>
+    <dt><code>flux</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.numerics.complex">Complex</a></dt>
+    <dd><p>flux term</p>
+</dd>
+    <dt><code>fr1</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>First Fresnel Reflection Moment</p>
+</dd>
+    <dt><code>fr2</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Second Fresnel Reflection Moment</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.numerics.complex">Complex</a></dt>
+    <dd><p>Reflectance</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_Modeling_ForwardSolvers_DiffusionForwardSolverBase_ROfFx_" data-uid="Vts.Modeling.ForwardSolvers.DiffusionForwardSolverBase.ROfFx*"></a>
+
+  <h3 id="Vts_Modeling_ForwardSolvers_DiffusionForwardSolverBase_ROfFx_System_Collections_Generic_IEnumerable_Vts_OpticalProperties__System_Collections_Generic_IEnumerable_System_Double__" data-uid="Vts.Modeling.ForwardSolvers.DiffusionForwardSolverBase.ROfFx(System.Collections.Generic.IEnumerable{Vts.OpticalProperties},System.Collections.Generic.IEnumerable{System.Double})">
+  ROfFx(IEnumerable&lt;OpticalProperties&gt;, IEnumerable&lt;double&gt;)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Modeling/ForwardSolvers/DiffusionForwardSolverBase.cs/#L188"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Vectorized ROfFx. Solves SDA using Cuccia et al JBO, March/April 2009</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override IEnumerable&lt;double&gt; ROfFx(IEnumerable&lt;OpticalProperties&gt; ops, IEnumerable&lt;double&gt; fxs)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>ops</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;<a class="xref" href="Vts.OpticalProperties.html">OpticalProperties</a>&gt;</dt>
+    <dd><p>set of optical properties of the medium</p>
+</dd>
+    <dt><code>fxs</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a>&gt;</dt>
+    <dd><p>spatial frequencies (1/mm)</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a>&gt;</dt>
+    <dd><p>IEnumerable R(fxs)</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_Modeling_ForwardSolvers_DiffusionForwardSolverBase_ROfFx_" data-uid="Vts.Modeling.ForwardSolvers.DiffusionForwardSolverBase.ROfFx*"></a>
+
+  <h3 id="Vts_Modeling_ForwardSolvers_DiffusionForwardSolverBase_ROfFx_Vts_OpticalProperties_System_Double_" data-uid="Vts.Modeling.ForwardSolvers.DiffusionForwardSolverBase.ROfFx(Vts.OpticalProperties,System.Double)">
+  ROfFx(OpticalProperties, double)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Modeling/ForwardSolvers/DiffusionForwardSolverBase.cs/#L177"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>ROfFx, solves SDA using Cuccia et al JBO, March/April 2009</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override double ROfFx(OpticalProperties op, double fx)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>op</code> <a class="xref" href="Vts.OpticalProperties.html">OpticalProperties</a></dt>
+    <dd><p>optical properties</p>
+</dd>
+    <dt><code>fx</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>spatial frequency (1/mm)</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>R(fx)</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_Modeling_ForwardSolvers_DiffusionForwardSolverBase_ROfFxAndFt_" data-uid="Vts.Modeling.ForwardSolvers.DiffusionForwardSolverBase.ROfFxAndFt*"></a>
+
+  <h3 id="Vts_Modeling_ForwardSolvers_DiffusionForwardSolverBase_ROfFxAndFt_Vts_OpticalProperties_System_Double_System_Double_" data-uid="Vts.Modeling.ForwardSolvers.DiffusionForwardSolverBase.ROfFxAndFt(Vts.OpticalProperties,System.Double,System.Double)">
+  ROfFxAndFt(OpticalProperties, double, double)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Modeling/ForwardSolvers/DiffusionForwardSolverBase.cs/#L245"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Modulation frequency-dependent reflectance. Modified from Pham et al, Appl. Opt. Sept 2000
+to include spatial modulation, as described in Cuccia et al, J. Biomed. Opt. March/April 2009</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override Complex ROfFxAndFt(OpticalProperties op, double fx, double ft)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>op</code> <a class="xref" href="Vts.OpticalProperties.html">OpticalProperties</a></dt>
+    <dd><p>optical properties of the medium</p>
+</dd>
+    <dt><code>fx</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>spatial frequency</p>
+</dd>
+    <dt><code>ft</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>modulation frequency (GHz)</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.numerics.complex">Complex</a></dt>
+    <dd><p>R(fx,ft)</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_Modeling_ForwardSolvers_DiffusionForwardSolverBase_ROfFxAndTime_" data-uid="Vts.Modeling.ForwardSolvers.DiffusionForwardSolverBase.ROfFxAndTime*"></a>
+
+  <h3 id="Vts_Modeling_ForwardSolvers_DiffusionForwardSolverBase_ROfFxAndTime_System_Collections_Generic_IEnumerable_Vts_OpticalProperties__System_Collections_Generic_IEnumerable_System_Double__System_Collections_Generic_IEnumerable_System_Double__" data-uid="Vts.Modeling.ForwardSolvers.DiffusionForwardSolverBase.ROfFxAndTime(System.Collections.Generic.IEnumerable{Vts.OpticalProperties},System.Collections.Generic.IEnumerable{System.Double},System.Collections.Generic.IEnumerable{System.Double})">
+  ROfFxAndTime(IEnumerable&lt;OpticalProperties&gt;, IEnumerable&lt;double&gt;, IEnumerable&lt;double&gt;)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Modeling/ForwardSolvers/DiffusionForwardSolverBase.cs/#L219"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>reflectance as a function of spatial-frequencies and times</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override IEnumerable&lt;double&gt; ROfFxAndTime(IEnumerable&lt;OpticalProperties&gt; ops, IEnumerable&lt;double&gt; fxs, IEnumerable&lt;double&gt; times)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>ops</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;<a class="xref" href="Vts.OpticalProperties.html">OpticalProperties</a>&gt;</dt>
+    <dd><p>IEnumerable of optical properties</p>
+</dd>
+    <dt><code>fxs</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a>&gt;</dt>
+    <dd><p>spatial-frequencies</p>
+</dd>
+    <dt><code>times</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a>&gt;</dt>
+    <dd><p>times</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a>&gt;</dt>
+    <dd><p>R(fxs,times)</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_Modeling_ForwardSolvers_DiffusionForwardSolverBase_ROfFxAndTime_" data-uid="Vts.Modeling.ForwardSolvers.DiffusionForwardSolverBase.ROfFxAndTime*"></a>
+
+  <h3 id="Vts_Modeling_ForwardSolvers_DiffusionForwardSolverBase_ROfFxAndTime_Vts_OpticalProperties_System_Double_System_Double_" data-uid="Vts.Modeling.ForwardSolvers.DiffusionForwardSolverBase.ROfFxAndTime(Vts.OpticalProperties,System.Double,System.Double)">
+  ROfFxAndTime(OpticalProperties, double, double)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Modeling/ForwardSolvers/DiffusionForwardSolverBase.cs/#L208"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>reflectance as a function of spatial-frequency and time</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override double ROfFxAndTime(OpticalProperties op, double fx, double time)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>op</code> <a class="xref" href="Vts.OpticalProperties.html">OpticalProperties</a></dt>
+    <dd><p>optical properties</p>
+</dd>
+    <dt><code>fx</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>spatial-frequency</p>
+</dd>
+    <dt><code>time</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>time [ns]</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>R(fx,time)</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_Modeling_ForwardSolvers_DiffusionForwardSolverBase_ROfRho_" data-uid="Vts.Modeling.ForwardSolvers.DiffusionForwardSolverBase.ROfRho*"></a>
+
+  <h3 id="Vts_Modeling_ForwardSolvers_DiffusionForwardSolverBase_ROfRho_System_Collections_Generic_IEnumerable_Vts_OpticalProperties__System_Collections_Generic_IEnumerable_System_Double__" data-uid="Vts.Modeling.ForwardSolvers.DiffusionForwardSolverBase.ROfRho(System.Collections.Generic.IEnumerable{Vts.OpticalProperties},System.Collections.Generic.IEnumerable{System.Double})">
+  ROfRho(IEnumerable&lt;OpticalProperties&gt;, IEnumerable&lt;double&gt;)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Modeling/ForwardSolvers/DiffusionForwardSolverBase.cs/#L78"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>reflectance as a function of rhos</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override IEnumerable&lt;double&gt; ROfRho(IEnumerable&lt;OpticalProperties&gt; ops, IEnumerable&lt;double&gt; rhos)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>ops</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;<a class="xref" href="Vts.OpticalProperties.html">OpticalProperties</a>&gt;</dt>
+    <dd><p>IEnumerable of optical properties</p>
+</dd>
+    <dt><code>rhos</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a>&gt;</dt>
+    <dd><p>IEnumerable of rho values</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a>&gt;</dt>
+    <dd><p>R(rhos)</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_Modeling_ForwardSolvers_DiffusionForwardSolverBase_ROfRho_" data-uid="Vts.Modeling.ForwardSolvers.DiffusionForwardSolverBase.ROfRho*"></a>
+
+  <h3 id="Vts_Modeling_ForwardSolvers_DiffusionForwardSolverBase_ROfRho_Vts_OpticalProperties_System_Double_" data-uid="Vts.Modeling.ForwardSolvers.DiffusionForwardSolverBase.ROfRho(Vts.OpticalProperties,System.Double)">
+  ROfRho(OpticalProperties, double)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Modeling/ForwardSolvers/DiffusionForwardSolverBase.cs/#L68"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>reflectance as a function of s-d separation</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override double ROfRho(OpticalProperties op, double rho)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>op</code> <a class="xref" href="Vts.OpticalProperties.html">OpticalProperties</a></dt>
+    <dd><p>optical properties</p>
+</dd>
+    <dt><code>rho</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>s-d separation</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>R(rho)</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_Modeling_ForwardSolvers_DiffusionForwardSolverBase_ROfRhoAndFt_" data-uid="Vts.Modeling.ForwardSolvers.DiffusionForwardSolverBase.ROfRhoAndFt*"></a>
+
+  <h3 id="Vts_Modeling_ForwardSolvers_DiffusionForwardSolverBase_ROfRhoAndFt_System_Collections_Generic_IEnumerable_Vts_OpticalProperties__System_Collections_Generic_IEnumerable_System_Double__System_Collections_Generic_IEnumerable_System_Double__" data-uid="Vts.Modeling.ForwardSolvers.DiffusionForwardSolverBase.ROfRhoAndFt(System.Collections.Generic.IEnumerable{Vts.OpticalProperties},System.Collections.Generic.IEnumerable{System.Double},System.Collections.Generic.IEnumerable{System.Double})">
+  ROfRhoAndFt(IEnumerable&lt;OpticalProperties&gt;, IEnumerable&lt;double&gt;, IEnumerable&lt;double&gt;)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Modeling/ForwardSolvers/DiffusionForwardSolverBase.cs/#L149"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>reflectance as a function of s-d separations and temporal-frequencies</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override IEnumerable&lt;Complex&gt; ROfRhoAndFt(IEnumerable&lt;OpticalProperties&gt; ops, IEnumerable&lt;double&gt; rhos, IEnumerable&lt;double&gt; fts)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>ops</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;<a class="xref" href="Vts.OpticalProperties.html">OpticalProperties</a>&gt;</dt>
+    <dd><p>IEnumerable of optical properties</p>
+</dd>
+    <dt><code>rhos</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a>&gt;</dt>
+    <dd><p>s-d separations</p>
+</dd>
+    <dt><code>fts</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a>&gt;</dt>
+    <dd><p>temporal-frequencies</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.numerics.complex">Complex</a>&gt;</dt>
+    <dd><p>R(rhos,fts)</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_Modeling_ForwardSolvers_DiffusionForwardSolverBase_ROfRhoAndFt_" data-uid="Vts.Modeling.ForwardSolvers.DiffusionForwardSolverBase.ROfRhoAndFt*"></a>
+
+  <h3 id="Vts_Modeling_ForwardSolvers_DiffusionForwardSolverBase_ROfRhoAndFt_Vts_OpticalProperties_System_Double_System_Double_" data-uid="Vts.Modeling.ForwardSolvers.DiffusionForwardSolverBase.ROfRhoAndFt(Vts.OpticalProperties,System.Double,System.Double)">
+  ROfRhoAndFt(OpticalProperties, double, double)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Modeling/ForwardSolvers/DiffusionForwardSolverBase.cs/#L138"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>reflectance as a function of s-d separation and temporal-frequency</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override Complex ROfRhoAndFt(OpticalProperties op, double rho, double ft)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>op</code> <a class="xref" href="Vts.OpticalProperties.html">OpticalProperties</a></dt>
+    <dd><p>optical properties</p>
+</dd>
+    <dt><code>rho</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>s-d separation</p>
+</dd>
+    <dt><code>ft</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>temporal-frequency</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.numerics.complex">Complex</a></dt>
+    <dd><p>R(rho,ft)</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_Modeling_ForwardSolvers_DiffusionForwardSolverBase_ROfRhoAndTime_" data-uid="Vts.Modeling.ForwardSolvers.DiffusionForwardSolverBase.ROfRhoAndTime*"></a>
+
+  <h3 id="Vts_Modeling_ForwardSolvers_DiffusionForwardSolverBase_ROfRhoAndTime_System_Collections_Generic_IEnumerable_Vts_OpticalProperties__System_Collections_Generic_IEnumerable_System_Double__System_Collections_Generic_IEnumerable_System_Double__" data-uid="Vts.Modeling.ForwardSolvers.DiffusionForwardSolverBase.ROfRhoAndTime(System.Collections.Generic.IEnumerable{Vts.OpticalProperties},System.Collections.Generic.IEnumerable{System.Double},System.Collections.Generic.IEnumerable{System.Double})">
+  ROfRhoAndTime(IEnumerable&lt;OpticalProperties&gt;, IEnumerable&lt;double&gt;, IEnumerable&lt;double&gt;)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Modeling/ForwardSolvers/DiffusionForwardSolverBase.cs/#L112"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>reflectance as a function of rhos and times</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override IEnumerable&lt;double&gt; ROfRhoAndTime(IEnumerable&lt;OpticalProperties&gt; ops, IEnumerable&lt;double&gt; rhos, IEnumerable&lt;double&gt; times)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>ops</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;<a class="xref" href="Vts.OpticalProperties.html">OpticalProperties</a>&gt;</dt>
+    <dd><p>IEnumerable of optical properties</p>
+</dd>
+    <dt><code>rhos</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a>&gt;</dt>
+    <dd><p>s-d separations</p>
+</dd>
+    <dt><code>times</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a>&gt;</dt>
+    <dd><p>times</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a>&gt;</dt>
+    <dd><p>R(rhos,times)</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_Modeling_ForwardSolvers_DiffusionForwardSolverBase_ROfRhoAndTime_" data-uid="Vts.Modeling.ForwardSolvers.DiffusionForwardSolverBase.ROfRhoAndTime*"></a>
+
+  <h3 id="Vts_Modeling_ForwardSolvers_DiffusionForwardSolverBase_ROfRhoAndTime_Vts_OpticalProperties_System_Double_System_Double_" data-uid="Vts.Modeling.ForwardSolvers.DiffusionForwardSolverBase.ROfRhoAndTime(Vts.OpticalProperties,System.Double,System.Double)">
+  ROfRhoAndTime(OpticalProperties, double, double)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Modeling/ForwardSolvers/DiffusionForwardSolverBase.cs/#L100"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>reflectance as a function of s-d separation and time</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override double ROfRhoAndTime(OpticalProperties op, double rho, double time)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>op</code> <a class="xref" href="Vts.OpticalProperties.html">OpticalProperties</a></dt>
+    <dd><p>optical properties</p>
+</dd>
+    <dt><code>rho</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>s-d separation</p>
+</dd>
+    <dt><code>time</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>time [ns]</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>R(rho,time)</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_Modeling_ForwardSolvers_DiffusionForwardSolverBase_StationaryFluence_" data-uid="Vts.Modeling.ForwardSolvers.DiffusionForwardSolverBase.StationaryFluence*"></a>
+
+  <h3 id="Vts_Modeling_ForwardSolvers_DiffusionForwardSolverBase_StationaryFluence_System_Double_System_Double_Vts_Modeling_ForwardSolvers_DiffusionParameters_" data-uid="Vts.Modeling.ForwardSolvers.DiffusionForwardSolverBase.StationaryFluence(System.Double,System.Double,Vts.Modeling.ForwardSolvers.DiffusionParameters)">
+  StationaryFluence(double, double, DiffusionParameters)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Modeling/ForwardSolvers/DiffusionForwardSolverBase.cs/#L544"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>time-independent fluence</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public abstract double StationaryFluence(double rho, double z, DiffusionParameters dp)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>rho</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>s-d separation</p>
+</dd>
+    <dt><code>z</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>depth</p>
+</dd>
+    <dt><code>dp</code> <a class="xref" href="Vts.Modeling.ForwardSolvers.DiffusionParameters.html">DiffusionParameters</a></dt>
+    <dd><p>diffusion parameters</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Fluence(rho,z)</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_Modeling_ForwardSolvers_DiffusionForwardSolverBase_StationaryReflectance_" data-uid="Vts.Modeling.ForwardSolvers.DiffusionForwardSolverBase.StationaryReflectance*"></a>
+
+  <h3 id="Vts_Modeling_ForwardSolvers_DiffusionForwardSolverBase_StationaryReflectance_Vts_Modeling_ForwardSolvers_DiffusionParameters_System_Double_System_Double_System_Double_" data-uid="Vts.Modeling.ForwardSolvers.DiffusionForwardSolverBase.StationaryReflectance(Vts.Modeling.ForwardSolvers.DiffusionParameters,System.Double,System.Double,System.Double)">
+  StationaryReflectance(DiffusionParameters, double, double, double)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Modeling/ForwardSolvers/DiffusionForwardSolverBase.cs/#L511"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>time-independent reflectance</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public abstract double StationaryReflectance(DiffusionParameters dp, double rho, double fr1, double fr2)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>dp</code> <a class="xref" href="Vts.Modeling.ForwardSolvers.DiffusionParameters.html">DiffusionParameters</a></dt>
+    <dd><p>diffusion parameters</p>
+</dd>
+    <dt><code>rho</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>s-d separation</p>
+</dd>
+    <dt><code>fr1</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>First Fresnel Reflection Moment</p>
+</dd>
+    <dt><code>fr2</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Second Fresnel Reflection Moment</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>R(rho)</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_Modeling_ForwardSolvers_DiffusionForwardSolverBase_TemporalFluence_" data-uid="Vts.Modeling.ForwardSolvers.DiffusionForwardSolverBase.TemporalFluence*"></a>
+
+  <h3 id="Vts_Modeling_ForwardSolvers_DiffusionForwardSolverBase_TemporalFluence_Vts_Modeling_ForwardSolvers_DiffusionParameters_System_Double_System_Double_System_Double_" data-uid="Vts.Modeling.ForwardSolvers.DiffusionForwardSolverBase.TemporalFluence(Vts.Modeling.ForwardSolvers.DiffusionParameters,System.Double,System.Double,System.Double)">
+  TemporalFluence(DiffusionParameters, double, double, double)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Modeling/ForwardSolvers/DiffusionForwardSolverBase.cs/#L554"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>temporal fluence</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public abstract double TemporalFluence(DiffusionParameters dp, double rho, double z, double t)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>dp</code> <a class="xref" href="Vts.Modeling.ForwardSolvers.DiffusionParameters.html">DiffusionParameters</a></dt>
+    <dd><p>diffusion parameters</p>
+</dd>
+    <dt><code>rho</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>s-d separation</p>
+</dd>
+    <dt><code>z</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>depth</p>
+</dd>
+    <dt><code>t</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>time</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Fluence(rho,z,time)</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_Modeling_ForwardSolvers_DiffusionForwardSolverBase_TemporalFrequencyFluence_" data-uid="Vts.Modeling.ForwardSolvers.DiffusionForwardSolverBase.TemporalFrequencyFluence*"></a>
+
+  <h3 id="Vts_Modeling_ForwardSolvers_DiffusionForwardSolverBase_TemporalFrequencyFluence_Vts_Modeling_ForwardSolvers_DiffusionParameters_System_Double_System_Double_System_Numerics_Complex_" data-uid="Vts.Modeling.ForwardSolvers.DiffusionForwardSolverBase.TemporalFrequencyFluence(Vts.Modeling.ForwardSolvers.DiffusionParameters,System.Double,System.Double,System.Numerics.Complex)">
+  TemporalFrequencyFluence(DiffusionParameters, double, double, Complex)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Modeling/ForwardSolvers/DiffusionForwardSolverBase.cs/#L564"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>fluence as a function of s-d separation, z depth and temporal-frequency</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public abstract Complex TemporalFrequencyFluence(DiffusionParameters dp, double rho, double z, Complex k)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>dp</code> <a class="xref" href="Vts.Modeling.ForwardSolvers.DiffusionParameters.html">DiffusionParameters</a></dt>
+    <dd><p>diffusion parameters</p>
+</dd>
+    <dt><code>rho</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>s-d separation</p>
+</dd>
+    <dt><code>z</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>depth</p>
+</dd>
+    <dt><code>k</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.numerics.complex">Complex</a></dt>
+    <dd><p>temporal frequency</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.numerics.complex">Complex</a></dt>
+    <dd><p>Fluence(rho,z,ft)</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_Modeling_ForwardSolvers_DiffusionForwardSolverBase_TemporalFrequencyReflectance_" data-uid="Vts.Modeling.ForwardSolvers.DiffusionForwardSolverBase.TemporalFrequencyReflectance*"></a>
+
+  <h3 id="Vts_Modeling_ForwardSolvers_DiffusionForwardSolverBase_TemporalFrequencyReflectance_Vts_Modeling_ForwardSolvers_DiffusionParameters_System_Double_System_Numerics_Complex_System_Double_System_Double_" data-uid="Vts.Modeling.ForwardSolvers.DiffusionForwardSolverBase.TemporalFrequencyReflectance(Vts.Modeling.ForwardSolvers.DiffusionParameters,System.Double,System.Numerics.Complex,System.Double,System.Double)">
+  TemporalFrequencyReflectance(DiffusionParameters, double, Complex, double, double)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Modeling/ForwardSolvers/DiffusionForwardSolverBase.cs/#L533"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>reflectance as a function of s-d separation and temporal-frequency</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public abstract Complex TemporalFrequencyReflectance(DiffusionParameters dp, double rho, Complex k, double fr1, double fr2)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>dp</code> <a class="xref" href="Vts.Modeling.ForwardSolvers.DiffusionParameters.html">DiffusionParameters</a></dt>
+    <dd><p>diffusion parameters</p>
+</dd>
+    <dt><code>rho</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>s-d separation</p>
+</dd>
+    <dt><code>k</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.numerics.complex">Complex</a></dt>
+    <dd><p>temporal-frequency</p>
+</dd>
+    <dt><code>fr1</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>First Fresnel Reflection Moment</p>
+</dd>
+    <dt><code>fr2</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Second Fresnel Reflection Moment</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.numerics.complex">Complex</a></dt>
+    <dd><p>Reflectance(rho,ft)</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_Modeling_ForwardSolvers_DiffusionForwardSolverBase_TemporalReflectance_" data-uid="Vts.Modeling.ForwardSolvers.DiffusionForwardSolverBase.TemporalReflectance*"></a>
+
+  <h3 id="Vts_Modeling_ForwardSolvers_DiffusionForwardSolverBase_TemporalReflectance_Vts_Modeling_ForwardSolvers_DiffusionParameters_System_Double_System_Double_System_Double_System_Double_" data-uid="Vts.Modeling.ForwardSolvers.DiffusionForwardSolverBase.TemporalReflectance(Vts.Modeling.ForwardSolvers.DiffusionParameters,System.Double,System.Double,System.Double,System.Double)">
+  TemporalReflectance(DiffusionParameters, double, double, double, double)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Modeling/ForwardSolvers/DiffusionForwardSolverBase.cs/#L522"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>time-dependent reflectance</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public abstract double TemporalReflectance(DiffusionParameters dp, double rho, double t, double fr1, double fr2)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>dp</code> <a class="xref" href="Vts.Modeling.ForwardSolvers.DiffusionParameters.html">DiffusionParameters</a></dt>
+    <dd><p>diffusion parameters</p>
+</dd>
+    <dt><code>rho</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>s-d separation</p>
+</dd>
+    <dt><code>t</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>time [ns]</p>
+</dd>
+    <dt><code>fr1</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>First Fresnel Reflection Moment</p>
+</dd>
+    <dt><code>fr2</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Second Fresnel Reflection Moment</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>R(rho,time)</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Modeling/ForwardSolvers/DiffusionForwardSolverBase.cs/#L46" class="edit-link">Edit this page</a>
+        </div>
+
+        
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+
+    <footer class="border-top">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span>Made with <a href="https://dotnet.github.io/docfx">docfx</a></span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

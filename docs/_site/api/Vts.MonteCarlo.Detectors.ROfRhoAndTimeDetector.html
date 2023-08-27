@@ -1,0 +1,625 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Class ROfRhoAndTimeDetector
+ </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Class ROfRhoAndTimeDetector
+ ">
+      
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/VirtualPhotonics/VTS/new/master/apiSpec/new?filename=Vts_MonteCarlo_Detectors_ROfRhoAndTimeDetector.md&amp;value=---%0Auid%3A%20Vts.MonteCarlo.Detectors.ROfRhoAndTimeDetector%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+  </head>
+
+  <script type="module">
+    import options from './../public/main.js'
+    import { init } from './../public/docfx.min.js'
+    init(options)
+  </script>
+
+  <script>
+    const theme = localStorage.getItem('theme') || 'auto'
+    document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+  </script>
+
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../logo.svg" alt="">
+            
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" style="margin-top: -.65em; margin-left: -.8em" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="Vts.MonteCarlo.Detectors.ROfRhoAndTimeDetector">
+
+
+
+  <h1 id="Vts_MonteCarlo_Detectors_ROfRhoAndTimeDetector" data-uid="Vts.MonteCarlo.Detectors.ROfRhoAndTimeDetector" class="text-break">
+    Class ROfRhoAndTimeDetector
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/MonteCarlo/Detectors/ROfRhoAndTimeDetector.cs/#L76"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="Vts.html">Vts</a>.<a class="xref" href="Vts.MonteCarlo.html">MonteCarlo</a>.<a class="xref" href="Vts.MonteCarlo.Detectors.html">Detectors</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>Vts.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"><p>Implements IDetector.  Tally for reflectance as a function  of Rho and Time.
+This implementation works for Analog, DAW and CAW processing.</p>
+</div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class ROfRhoAndTimeDetector : Detector, IDetector</code></pre>
+  </div>
+
+
+
+
+  <dl class="typelist inheritance">
+    <dt>Inheritance</dt>
+    <dd>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></div>
+      <div><a class="xref" href="Vts.MonteCarlo.Detectors.Detector.html">Detector</a></div>
+      <div><span class="xref">ROfRhoAndTimeDetector</span></div>
+    </dd>
+  </dl>
+
+  <dl class="typelist implements">
+    <dt>Implements</dt>
+    <dd>
+      <div><a class="xref" href="Vts.MonteCarlo.IDetector.html">IDetector</a></div>
+    </dd>
+  </dl>
+
+
+  <dl class="typelist derived">
+    <dt>Inherited Members</dt>
+    <dd>
+    <div>
+      <a class="xref" href="Vts.MonteCarlo.Detectors.Detector.html#Vts_MonteCarlo_Detectors_Detector_TallyType">Detector.TallyType</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.MonteCarlo.Detectors.Detector.html#Vts_MonteCarlo_Detectors_Detector_Name">Detector.Name</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.MonteCarlo.Detectors.Detector.html#Vts_MonteCarlo_Detectors_Detector_TallySecondMoment">Detector.TallySecondMoment</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.MonteCarlo.Detectors.Detector.html#Vts_MonteCarlo_Detectors_Detector_TallyDetails">Detector.TallyDetails</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)">object.Equals(object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)">object.Equals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gethashcode">object.GetHashCode()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gettype">object.GetType()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone">object.MemberwiseClone()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.referenceequals">object.ReferenceEquals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.tostring">object.ToString()</a>
+    </div>
+  </dd></dl>
+
+  <dl class="typelist extensionMethods">
+    <dt>Extension Methods</dt>
+    <dd>
+  <div>
+      <a class="xref" href="Vts.Extensions.EnumerableExtensions.html#Vts_Extensions_EnumerableExtensions_AsEnumerable__1___0_">EnumerableExtensions.AsEnumerable&lt;T&gt;(T)</a>
+  </div>
+  <div>
+      <a class="xref" href="Vts.Extensions.IEnumerableArrayExtensions.html#Vts_Extensions_IEnumerableArrayExtensions_PopulateFromEnumerable2__2___1_System_Collections_Generic_IEnumerable___0__">IEnumerableArrayExtensions.PopulateFromEnumerable2&lt;T, TArray&gt;(TArray, IEnumerable&lt;T&gt;)</a>
+  </div>
+  <div>
+      <a class="xref" href="Vts.IO.FileIO.html#Vts_IO_FileIO_Clone__1___0_">FileIO.Clone&lt;T&gt;(T)</a>
+  </div>
+  <div>
+      <a class="xref" href="Vts.IO.FileIO.html#Vts_IO_FileIO_WriteJsonToStream__1___0_System_IO_Stream_">FileIO.WriteJsonToStream&lt;T&gt;(T, Stream)</a>
+  </div>
+  <div>
+      <a class="xref" href="Vts.IO.FileIO.html#Vts_IO_FileIO_WriteToJson__1___0_System_String_">FileIO.WriteToJson&lt;T&gt;(T, string)</a>
+  </div>
+  <div>
+      <a class="xref" href="Vts.IO.FileIO.html#Vts_IO_FileIO_WriteToXMLStream__1___0_System_IO_Stream_">FileIO.WriteToXMLStream&lt;T&gt;(T, Stream)</a>
+  </div>
+  <div>
+      <a class="xref" href="Vts.IO.FileIO.html#Vts_IO_FileIO_WriteToXML__1___0_System_String_">FileIO.WriteToXML&lt;T&gt;(T, string)</a>
+  </div>
+  <div>
+      <a class="xref" href="Vts.IO.VtsJsonSerializer.html#Vts_IO_VtsJsonSerializer_WriteToJsonFile__1___0_System_String_">VtsJsonSerializer.WriteToJsonFile&lt;T&gt;(T, string)</a>
+  </div>
+  <div>
+      <a class="xref" href="Vts.IO.VtsJsonSerializer.html#Vts_IO_VtsJsonSerializer_WriteToJson__1___0_">VtsJsonSerializer.WriteToJson&lt;T&gt;(T)</a>
+  </div>
+  </dd></dl>
+
+
+
+
+
+  <h2 class="section" id="properties">Properties
+</h2>
+
+
+  <a id="Vts_MonteCarlo_Detectors_ROfRhoAndTimeDetector_FinalTissueRegionIndex_" data-uid="Vts.MonteCarlo.Detectors.ROfRhoAndTimeDetector.FinalTissueRegionIndex*"></a>
+
+  <h3 id="Vts_MonteCarlo_Detectors_ROfRhoAndTimeDetector_FinalTissueRegionIndex" data-uid="Vts.MonteCarlo.Detectors.ROfRhoAndTimeDetector.FinalTissueRegionIndex">
+  FinalTissueRegionIndex
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/MonteCarlo/Detectors/ROfRhoAndTimeDetector.cs/#L93"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Detector region index</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int FinalTissueRegionIndex { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Vts_MonteCarlo_Detectors_ROfRhoAndTimeDetector_Mean_" data-uid="Vts.MonteCarlo.Detectors.ROfRhoAndTimeDetector.Mean*"></a>
+
+  <h3 id="Vts_MonteCarlo_Detectors_ROfRhoAndTimeDetector_Mean" data-uid="Vts.MonteCarlo.Detectors.ROfRhoAndTimeDetector.Mean">
+  Mean
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/MonteCarlo/Detectors/ROfRhoAndTimeDetector.cs/#L104"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>detector mean</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[IgnoreDataMember]
+public double[,] Mean { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a>[,]</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Vts_MonteCarlo_Detectors_ROfRhoAndTimeDetector_NA_" data-uid="Vts.MonteCarlo.Detectors.ROfRhoAndTimeDetector.NA*"></a>
+
+  <h3 id="Vts_MonteCarlo_Detectors_ROfRhoAndTimeDetector_NA" data-uid="Vts.MonteCarlo.Detectors.ROfRhoAndTimeDetector.NA">
+  NA
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/MonteCarlo/Detectors/ROfRhoAndTimeDetector.cs/#L97"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>numerical aperture</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public double NA { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Vts_MonteCarlo_Detectors_ROfRhoAndTimeDetector_Rho_" data-uid="Vts.MonteCarlo.Detectors.ROfRhoAndTimeDetector.Rho*"></a>
+
+  <h3 id="Vts_MonteCarlo_Detectors_ROfRhoAndTimeDetector_Rho" data-uid="Vts.MonteCarlo.Detectors.ROfRhoAndTimeDetector.Rho">
+  Rho
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/MonteCarlo/Detectors/ROfRhoAndTimeDetector.cs/#L85"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>rho binning</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public DoubleRange Rho { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Vts.Common.DoubleRange.html">DoubleRange</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Vts_MonteCarlo_Detectors_ROfRhoAndTimeDetector_SecondMoment_" data-uid="Vts.MonteCarlo.Detectors.ROfRhoAndTimeDetector.SecondMoment*"></a>
+
+  <h3 id="Vts_MonteCarlo_Detectors_ROfRhoAndTimeDetector_SecondMoment" data-uid="Vts.MonteCarlo.Detectors.ROfRhoAndTimeDetector.SecondMoment">
+  SecondMoment
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/MonteCarlo/Detectors/ROfRhoAndTimeDetector.cs/#L109"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>detector second moment</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[IgnoreDataMember]
+public double[,] SecondMoment { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a>[,]</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Vts_MonteCarlo_Detectors_ROfRhoAndTimeDetector_TallyCount_" data-uid="Vts.MonteCarlo.Detectors.ROfRhoAndTimeDetector.TallyCount*"></a>
+
+  <h3 id="Vts_MonteCarlo_Detectors_ROfRhoAndTimeDetector_TallyCount" data-uid="Vts.MonteCarlo.Detectors.ROfRhoAndTimeDetector.TallyCount">
+  TallyCount
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/MonteCarlo/Detectors/ROfRhoAndTimeDetector.cs/#L116"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>number of times detector gets tallied to</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public long TallyCount { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int64">long</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Vts_MonteCarlo_Detectors_ROfRhoAndTimeDetector_Time_" data-uid="Vts.MonteCarlo.Detectors.ROfRhoAndTimeDetector.Time*"></a>
+
+  <h3 id="Vts_MonteCarlo_Detectors_ROfRhoAndTimeDetector_Time" data-uid="Vts.MonteCarlo.Detectors.ROfRhoAndTimeDetector.Time">
+  Time
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/MonteCarlo/Detectors/ROfRhoAndTimeDetector.cs/#L89"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Time binning</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public DoubleRange Time { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Vts.Common.DoubleRange.html">DoubleRange</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+  <a id="Vts_MonteCarlo_Detectors_ROfRhoAndTimeDetector_GetBinarySerializers_" data-uid="Vts.MonteCarlo.Detectors.ROfRhoAndTimeDetector.GetBinarySerializers*"></a>
+
+  <h3 id="Vts_MonteCarlo_Detectors_ROfRhoAndTimeDetector_GetBinarySerializers" data-uid="Vts.MonteCarlo.Detectors.ROfRhoAndTimeDetector.GetBinarySerializers">
+  GetBinarySerializers()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/MonteCarlo/Detectors/ROfRhoAndTimeDetector.cs/#L174"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>this is to allow saving of large arrays separately as a binary file</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public BinaryArraySerializer[] GetBinarySerializers()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Vts.IO.BinaryArraySerializer.html">BinaryArraySerializer</a>[]</dt>
+    <dd><p>BinaryArraySerializer[]</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_MonteCarlo_Detectors_ROfRhoAndTimeDetector_Initialize_" data-uid="Vts.MonteCarlo.Detectors.ROfRhoAndTimeDetector.Initialize*"></a>
+
+  <h3 id="Vts_MonteCarlo_Detectors_ROfRhoAndTimeDetector_Initialize_Vts_MonteCarlo_ITissue_System_Random_" data-uid="Vts.MonteCarlo.Detectors.ROfRhoAndTimeDetector.Initialize(Vts.MonteCarlo.ITissue,System.Random)">
+  Initialize(ITissue, Random)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/MonteCarlo/Detectors/ROfRhoAndTimeDetector.cs/#L123"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Method to initialize detector</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Initialize(ITissue tissue, Random rng)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>tissue</code> <a class="xref" href="Vts.MonteCarlo.ITissue.html">ITissue</a></dt>
+    <dd><p>tissue definition</p>
+</dd>
+    <dt><code>rng</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.random">Random</a></dt>
+    <dd><p>random number generator</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_MonteCarlo_Detectors_ROfRhoAndTimeDetector_IsWithinDetectorAperture_" data-uid="Vts.MonteCarlo.Detectors.ROfRhoAndTimeDetector.IsWithinDetectorAperture*"></a>
+
+  <h3 id="Vts_MonteCarlo_Detectors_ROfRhoAndTimeDetector_IsWithinDetectorAperture_Vts_MonteCarlo_Photon_" data-uid="Vts.MonteCarlo.Detectors.ROfRhoAndTimeDetector.IsWithinDetectorAperture(Vts.MonteCarlo.Photon)">
+  IsWithinDetectorAperture(Photon)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/MonteCarlo/Detectors/ROfRhoAndTimeDetector.cs/#L233"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Method to determine if photon is within detector NA</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool IsWithinDetectorAperture(Photon photon)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>photon</code> <a class="xref" href="Vts.MonteCarlo.Photon.html">Photon</a></dt>
+    <dd><p>photon</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p>Boolean indicating whether photon is within detector</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_MonteCarlo_Detectors_ROfRhoAndTimeDetector_Normalize_" data-uid="Vts.MonteCarlo.Detectors.ROfRhoAndTimeDetector.Normalize*"></a>
+
+  <h3 id="Vts_MonteCarlo_Detectors_ROfRhoAndTimeDetector_Normalize_System_Int64_" data-uid="Vts.MonteCarlo.Detectors.ROfRhoAndTimeDetector.Normalize(System.Int64)">
+  Normalize(long)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/MonteCarlo/Detectors/ROfRhoAndTimeDetector.cs/#L156"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>method to normalize detector results after all photons launched</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Normalize(long numPhotons)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>numPhotons</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int64">long</a></dt>
+    <dd><p>number of photons launched</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_MonteCarlo_Detectors_ROfRhoAndTimeDetector_Tally_" data-uid="Vts.MonteCarlo.Detectors.ROfRhoAndTimeDetector.Tally*"></a>
+
+  <h3 id="Vts_MonteCarlo_Detectors_ROfRhoAndTimeDetector_Tally_Vts_MonteCarlo_Photon_" data-uid="Vts.MonteCarlo.Detectors.ROfRhoAndTimeDetector.Tally(Vts.MonteCarlo.Photon)">
+  Tally(Photon)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/MonteCarlo/Detectors/ROfRhoAndTimeDetector.cs/#L140"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>method to tally to detector</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Tally(Photon photon)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>photon</code> <a class="xref" href="Vts.MonteCarlo.Photon.html">Photon</a></dt>
+    <dd><p>photon data needed to tally</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/MonteCarlo/Detectors/ROfRhoAndTimeDetector.cs/#L76" class="edit-link">Edit this page</a>
+        </div>
+
+        
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+
+    <footer class="border-top">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span>Made with <a href="https://dotnet.github.io/docfx">docfx</a></span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

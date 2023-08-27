@@ -1,0 +1,335 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Class CustomVolumetricEllipsoidalSource
+ </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Class CustomVolumetricEllipsoidalSource
+ ">
+      
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/VirtualPhotonics/VTS/new/master/apiSpec/new?filename=Vts_MonteCarlo_Sources_CustomVolumetricEllipsoidalSource.md&amp;value=---%0Auid%3A%20Vts.MonteCarlo.Sources.CustomVolumetricEllipsoidalSource%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+  </head>
+
+  <script type="module">
+    import options from './../public/main.js'
+    import { init } from './../public/docfx.min.js'
+    init(options)
+  </script>
+
+  <script>
+    const theme = localStorage.getItem('theme') || 'auto'
+    document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+  </script>
+
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../logo.svg" alt="">
+            
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" style="margin-top: -.65em; margin-left: -.8em" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="Vts.MonteCarlo.Sources.CustomVolumetricEllipsoidalSource">
+
+
+
+  <h1 id="Vts_MonteCarlo_Sources_CustomVolumetricEllipsoidalSource" data-uid="Vts.MonteCarlo.Sources.CustomVolumetricEllipsoidalSource" class="text-break">
+    Class CustomVolumetricEllipsoidalSource
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/MonteCarlo/Sources/VolumetricSources/Ellipsoidal/CustomVolumetricEllipsoidalSource.cs/#L161"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="Vts.html">Vts</a>.<a class="xref" href="Vts.MonteCarlo.html">MonteCarlo</a>.<a class="xref" href="Vts.MonteCarlo.Sources.html">Sources</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>Vts.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"><p>Implements CustomVolumetricEllipsoidalSource with a,b and c parameters, source
+profile, polar angle range, azimuthal angle range, direction, position and
+initial tissue region index.</p>
+</div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class CustomVolumetricEllipsoidalSource : VolumetricEllipsoidalSourceBase, ISource</code></pre>
+  </div>
+
+
+
+
+  <dl class="typelist inheritance">
+    <dt>Inheritance</dt>
+    <dd>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></div>
+      <div><a class="xref" href="Vts.MonteCarlo.Sources.VolumetricEllipsoidalSourceBase.html">VolumetricEllipsoidalSourceBase</a></div>
+      <div><span class="xref">CustomVolumetricEllipsoidalSource</span></div>
+    </dd>
+  </dl>
+
+  <dl class="typelist implements">
+    <dt>Implements</dt>
+    <dd>
+      <div><a class="xref" href="Vts.MonteCarlo.ISource.html">ISource</a></div>
+    </dd>
+  </dl>
+
+
+  <dl class="typelist derived">
+    <dt>Inherited Members</dt>
+    <dd>
+    <div>
+      <a class="xref" href="Vts.MonteCarlo.Sources.VolumetricEllipsoidalSourceBase.html#Vts_MonteCarlo_Sources_VolumetricEllipsoidalSourceBase__sourceProfile">VolumetricEllipsoidalSourceBase._sourceProfile</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.MonteCarlo.Sources.VolumetricEllipsoidalSourceBase.html#Vts_MonteCarlo_Sources_VolumetricEllipsoidalSourceBase__newDirectionOfPrincipalSourceAxis">VolumetricEllipsoidalSourceBase._newDirectionOfPrincipalSourceAxis</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.MonteCarlo.Sources.VolumetricEllipsoidalSourceBase.html#Vts_MonteCarlo_Sources_VolumetricEllipsoidalSourceBase__translationFromOrigin">VolumetricEllipsoidalSourceBase._translationFromOrigin</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.MonteCarlo.Sources.VolumetricEllipsoidalSourceBase.html#Vts_MonteCarlo_Sources_VolumetricEllipsoidalSourceBase__rotationAndTranslationFlags">VolumetricEllipsoidalSourceBase._rotationAndTranslationFlags</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.MonteCarlo.Sources.VolumetricEllipsoidalSourceBase.html#Vts_MonteCarlo_Sources_VolumetricEllipsoidalSourceBase__aParameter">VolumetricEllipsoidalSourceBase._aParameter</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.MonteCarlo.Sources.VolumetricEllipsoidalSourceBase.html#Vts_MonteCarlo_Sources_VolumetricEllipsoidalSourceBase__bParameter">VolumetricEllipsoidalSourceBase._bParameter</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.MonteCarlo.Sources.VolumetricEllipsoidalSourceBase.html#Vts_MonteCarlo_Sources_VolumetricEllipsoidalSourceBase__cParameter">VolumetricEllipsoidalSourceBase._cParameter</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.MonteCarlo.Sources.VolumetricEllipsoidalSourceBase.html#Vts_MonteCarlo_Sources_VolumetricEllipsoidalSourceBase__initialTissueRegionIndex">VolumetricEllipsoidalSourceBase._initialTissueRegionIndex</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.MonteCarlo.Sources.VolumetricEllipsoidalSourceBase.html#Vts_MonteCarlo_Sources_VolumetricEllipsoidalSourceBase_GetNextPhoton_Vts_MonteCarlo_ITissue_">VolumetricEllipsoidalSourceBase.GetNextPhoton(ITissue)</a>
+    </div>
+    <div>
+      <a class="xref" href="Vts.MonteCarlo.Sources.VolumetricEllipsoidalSourceBase.html#Vts_MonteCarlo_Sources_VolumetricEllipsoidalSourceBase_Rng">VolumetricEllipsoidalSourceBase.Rng</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)">object.Equals(object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)">object.Equals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gethashcode">object.GetHashCode()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gettype">object.GetType()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone">object.MemberwiseClone()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.referenceequals">object.ReferenceEquals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.tostring">object.ToString()</a>
+    </div>
+  </dd></dl>
+
+  <dl class="typelist extensionMethods">
+    <dt>Extension Methods</dt>
+    <dd>
+  <div>
+      <a class="xref" href="Vts.Extensions.EnumerableExtensions.html#Vts_Extensions_EnumerableExtensions_AsEnumerable__1___0_">EnumerableExtensions.AsEnumerable&lt;T&gt;(T)</a>
+  </div>
+  <div>
+      <a class="xref" href="Vts.Extensions.IEnumerableArrayExtensions.html#Vts_Extensions_IEnumerableArrayExtensions_PopulateFromEnumerable2__2___1_System_Collections_Generic_IEnumerable___0__">IEnumerableArrayExtensions.PopulateFromEnumerable2&lt;T, TArray&gt;(TArray, IEnumerable&lt;T&gt;)</a>
+  </div>
+  <div>
+      <a class="xref" href="Vts.IO.FileIO.html#Vts_IO_FileIO_Clone__1___0_">FileIO.Clone&lt;T&gt;(T)</a>
+  </div>
+  <div>
+      <a class="xref" href="Vts.IO.FileIO.html#Vts_IO_FileIO_WriteJsonToStream__1___0_System_IO_Stream_">FileIO.WriteJsonToStream&lt;T&gt;(T, Stream)</a>
+  </div>
+  <div>
+      <a class="xref" href="Vts.IO.FileIO.html#Vts_IO_FileIO_WriteToJson__1___0_System_String_">FileIO.WriteToJson&lt;T&gt;(T, string)</a>
+  </div>
+  <div>
+      <a class="xref" href="Vts.IO.FileIO.html#Vts_IO_FileIO_WriteToXMLStream__1___0_System_IO_Stream_">FileIO.WriteToXMLStream&lt;T&gt;(T, Stream)</a>
+  </div>
+  <div>
+      <a class="xref" href="Vts.IO.FileIO.html#Vts_IO_FileIO_WriteToXML__1___0_System_String_">FileIO.WriteToXML&lt;T&gt;(T, string)</a>
+  </div>
+  <div>
+      <a class="xref" href="Vts.IO.VtsJsonSerializer.html#Vts_IO_VtsJsonSerializer_WriteToJsonFile__1___0_System_String_">VtsJsonSerializer.WriteToJsonFile&lt;T&gt;(T, string)</a>
+  </div>
+  <div>
+      <a class="xref" href="Vts.IO.VtsJsonSerializer.html#Vts_IO_VtsJsonSerializer_WriteToJson__1___0_">VtsJsonSerializer.WriteToJson&lt;T&gt;(T)</a>
+  </div>
+  </dd></dl>
+
+
+
+
+
+  <h2 class="section" id="constructors">Constructors
+</h2>
+
+
+  <a id="Vts_MonteCarlo_Sources_CustomVolumetricEllipsoidalSource__ctor_" data-uid="Vts.MonteCarlo.Sources.CustomVolumetricEllipsoidalSource.#ctor*"></a>
+
+  <h3 id="Vts_MonteCarlo_Sources_CustomVolumetricEllipsoidalSource__ctor_System_Double_System_Double_System_Double_Vts_MonteCarlo_Interfaces_ISourceProfile_Vts_Common_DoubleRange_Vts_Common_DoubleRange_Vts_Common_Direction_Vts_Common_Position_System_Int32_" data-uid="Vts.MonteCarlo.Sources.CustomVolumetricEllipsoidalSource.#ctor(System.Double,System.Double,System.Double,Vts.MonteCarlo.Interfaces.ISourceProfile,Vts.Common.DoubleRange,Vts.Common.DoubleRange,Vts.Common.Direction,Vts.Common.Position,System.Int32)">
+  CustomVolumetricEllipsoidalSource(double, double, double, ISourceProfile, DoubleRange, DoubleRange, Direction, Position, int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/MonteCarlo/Sources/VolumetricSources/Ellipsoidal/CustomVolumetricEllipsoidalSource.cs/#L179"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Returns an instance of  Custom Ellipsoidal Source with a given source profile (Flat/Gaussian),
+polar and azimuthal angle range, new source axis direction, and translation,</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public CustomVolumetricEllipsoidalSource(double aParameter, double bParameter, double cParameter, ISourceProfile sourceProfile, DoubleRange polarAngleEmissionRange, DoubleRange azimuthalAngleEmissionRange, Direction newDirectionOfPrincipalSourceAxis = null, Position translationFromOrigin = null, int initialTissueRegionIndex = 0)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>aParameter</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>&quot;a&quot; parameter of the ellipsoid source</p>
+</dd>
+    <dt><code>bParameter</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>&quot;b&quot; parameter of the ellipsoid source</p>
+</dd>
+    <dt><code>cParameter</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>&quot;c&quot; parameter of the ellipsoid source</p>
+</dd>
+    <dt><code>sourceProfile</code> <a class="xref" href="Vts.MonteCarlo.Interfaces.ISourceProfile.html">ISourceProfile</a></dt>
+    <dd><p>Source Profile {Flat / Gaussian}</p>
+</dd>
+    <dt><code>polarAngleEmissionRange</code> <a class="xref" href="Vts.Common.DoubleRange.html">DoubleRange</a></dt>
+    <dd><p>Polar angle emission range</p>
+</dd>
+    <dt><code>azimuthalAngleEmissionRange</code> <a class="xref" href="Vts.Common.DoubleRange.html">DoubleRange</a></dt>
+    <dd><p>Azimuthal angle emission range</p>
+</dd>
+    <dt><code>newDirectionOfPrincipalSourceAxis</code> <a class="xref" href="Vts.Common.Direction.html">Direction</a></dt>
+    <dd><p>New source axis direction</p>
+</dd>
+    <dt><code>translationFromOrigin</code> <a class="xref" href="Vts.Common.Position.html">Position</a></dt>
+    <dd><p>New source location</p>
+</dd>
+    <dt><code>initialTissueRegionIndex</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>Initial tissue region index</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+  <a id="Vts_MonteCarlo_Sources_CustomVolumetricEllipsoidalSource_GetFinalDirection_" data-uid="Vts.MonteCarlo.Sources.CustomVolumetricEllipsoidalSource.GetFinalDirection*"></a>
+
+  <h3 id="Vts_MonteCarlo_Sources_CustomVolumetricEllipsoidalSource_GetFinalDirection" data-uid="Vts.MonteCarlo.Sources.CustomVolumetricEllipsoidalSource.GetFinalDirection">
+  GetFinalDirection()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/MonteCarlo/Sources/VolumetricSources/Ellipsoidal/CustomVolumetricEllipsoidalSource.cs/#L206"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Returns direction</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected override Direction GetFinalDirection()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Vts.Common.Direction.html">Direction</a></dt>
+    <dd><p>new direction</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/MonteCarlo/Sources/VolumetricSources/Ellipsoidal/CustomVolumetricEllipsoidalSource.cs/#L161" class="edit-link">Edit this page</a>
+        </div>
+
+        
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+
+    <footer class="border-top">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span>Made with <a href="https://dotnet.github.io/docfx">docfx</a></span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

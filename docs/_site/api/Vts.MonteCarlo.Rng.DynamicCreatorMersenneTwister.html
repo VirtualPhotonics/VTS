@@ -1,0 +1,885 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Class DynamicCreatorMersenneTwister
+ </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Class DynamicCreatorMersenneTwister
+ ">
+      
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/VirtualPhotonics/VTS/new/master/apiSpec/new?filename=Vts_MonteCarlo_Rng_DynamicCreatorMersenneTwister.md&amp;value=---%0Auid%3A%20Vts.MonteCarlo.Rng.DynamicCreatorMersenneTwister%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+  </head>
+
+  <script type="module">
+    import options from './../public/main.js'
+    import { init } from './../public/docfx.min.js'
+    init(options)
+  </script>
+
+  <script>
+    const theme = localStorage.getItem('theme') || 'auto'
+    document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+  </script>
+
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../logo.svg" alt="">
+            
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" style="margin-top: -.65em; margin-left: -.8em" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="Vts.MonteCarlo.Rng.DynamicCreatorMersenneTwister">
+
+
+
+  <h1 id="Vts_MonteCarlo_Rng_DynamicCreatorMersenneTwister" data-uid="Vts.MonteCarlo.Rng.DynamicCreatorMersenneTwister" class="text-break">
+    Class DynamicCreatorMersenneTwister
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/MonteCarlo/Rng/DynamicCreatorMersenneTwister.cs/#L25"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="Vts.html">Vts</a>.<a class="xref" href="Vts.MonteCarlo.html">MonteCarlo</a>.<a class="xref" href="Vts.MonteCarlo.Rng.html">Rng</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>Vts.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"><p>This class creates a parallelizable representation of the Mersenne Twister class.
+Code from Dynamic Creator (dc) Home Page
+<a href="http://www.math.sci.hiroshima-u.ac.jp/%7Em-mat/MT/DC/dc.html">http://www.math.sci.hiroshima-u.ac.jp/~m-mat/MT/DC/dc.html</a> or
+GitHub: <a href="https://github.com/MersenneTwister-Lab/dcmt">https://github.com/MersenneTwister-Lab/dcmt</a> (same code both places)
+The code is in C, so this code maintained many of the constructs and coding
+statements to be able to produce same results</p>
+</div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class DynamicCreatorMersenneTwister : RandomSource</code></pre>
+  </div>
+
+
+
+
+  <dl class="typelist inheritance">
+    <dt>Inheritance</dt>
+    <dd>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></div>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.random">Random</a></div>
+      <div><span class="xref">RandomSource</span></div>
+      <div><span class="xref">DynamicCreatorMersenneTwister</span></div>
+    </dd>
+  </dl>
+
+
+
+  <dl class="typelist derived">
+    <dt>Inherited Members</dt>
+    <dd>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">RandomSource.NextDoubles(double[])</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">RandomSource.NextDoubles(int)</a>
+    </div>
+    <div>
+      <span class="xref">RandomSource.NextDoubleSequence()</span>
+    </div>
+    <div>
+      <span class="xref">RandomSource.Next()</span>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">RandomSource.Next(int)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">RandomSource.Next(int, int)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">RandomSource.NextInt32s(int[])</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">RandomSource.NextInt32s(int)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">RandomSource.NextInt32s(int[], int)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">RandomSource.NextInt32s(int, int)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">RandomSource.NextInt32s(int[], int, int)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">RandomSource.NextInt32s(int, int, int)</a>
+    </div>
+    <div>
+      <span class="xref">RandomSource.NextInt32Sequence()</span>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">RandomSource.NextInt32Sequence(int, int)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">RandomSource.NextBytes(byte[])</a>
+    </div>
+    <div>
+      <span class="xref">RandomSource.Sample()</span>
+    </div>
+    <div>
+      <span class="xref">RandomSource.DoSampleInteger()</span>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">RandomSource.DoSampleBytes(byte[])</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">RandomSource.DoSampleInt32WithNBits(int)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">RandomSource.DoSampleInt64WithNBits(int)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">RandomSource.DoSampleInteger(int)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">RandomSource.DoSampleInteger(int, int)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.random.nextint64#system-random-nextint64">Random.NextInt64()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.random.nextint64#system-random-nextint64(system-int64)">Random.NextInt64(long)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.random.nextint64#system-random-nextint64(system-int64-system-int64)">Random.NextInt64(long, long)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.random.nextbytes#system-random-nextbytes(system-span((system-byte)))">Random.NextBytes(Span&lt;byte&gt;)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.random.nextsingle">Random.NextSingle()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.random.nextdouble">Random.NextDouble()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.random.shared">Random.Shared</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)">object.Equals(object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)">object.Equals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gethashcode">object.GetHashCode()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gettype">object.GetType()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone">object.MemberwiseClone()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.referenceequals">object.ReferenceEquals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.tostring">object.ToString()</a>
+    </div>
+  </dd></dl>
+
+  <dl class="typelist extensionMethods">
+    <dt>Extension Methods</dt>
+    <dd>
+  <div>
+      <a class="xref" href="Vts.Extensions.RNGExtensions.html#Vts_Extensions_RNGExtensions_NextDouble_System_Random_System_Double_System_Double_">RNGExtensions.NextDouble(Random, double, double)</a>
+  </div>
+  <div>
+      <a class="xref" href="Vts.Extensions.EnumerableExtensions.html#Vts_Extensions_EnumerableExtensions_AsEnumerable__1___0_">EnumerableExtensions.AsEnumerable&lt;T&gt;(T)</a>
+  </div>
+  <div>
+      <a class="xref" href="Vts.Extensions.IEnumerableArrayExtensions.html#Vts_Extensions_IEnumerableArrayExtensions_PopulateFromEnumerable2__2___1_System_Collections_Generic_IEnumerable___0__">IEnumerableArrayExtensions.PopulateFromEnumerable2&lt;T, TArray&gt;(TArray, IEnumerable&lt;T&gt;)</a>
+  </div>
+  <div>
+      <a class="xref" href="Vts.IO.FileIO.html#Vts_IO_FileIO_Clone__1___0_">FileIO.Clone&lt;T&gt;(T)</a>
+  </div>
+  <div>
+      <a class="xref" href="Vts.IO.FileIO.html#Vts_IO_FileIO_WriteJsonToStream__1___0_System_IO_Stream_">FileIO.WriteJsonToStream&lt;T&gt;(T, Stream)</a>
+  </div>
+  <div>
+      <a class="xref" href="Vts.IO.FileIO.html#Vts_IO_FileIO_WriteToJson__1___0_System_String_">FileIO.WriteToJson&lt;T&gt;(T, string)</a>
+  </div>
+  <div>
+      <a class="xref" href="Vts.IO.FileIO.html#Vts_IO_FileIO_WriteToXMLStream__1___0_System_IO_Stream_">FileIO.WriteToXMLStream&lt;T&gt;(T, Stream)</a>
+  </div>
+  <div>
+      <a class="xref" href="Vts.IO.FileIO.html#Vts_IO_FileIO_WriteToXML__1___0_System_String_">FileIO.WriteToXML&lt;T&gt;(T, string)</a>
+  </div>
+  <div>
+      <a class="xref" href="Vts.IO.VtsJsonSerializer.html#Vts_IO_VtsJsonSerializer_WriteToJsonFile__1___0_System_String_">VtsJsonSerializer.WriteToJsonFile&lt;T&gt;(T, string)</a>
+  </div>
+  <div>
+      <a class="xref" href="Vts.IO.VtsJsonSerializer.html#Vts_IO_VtsJsonSerializer_WriteToJson__1___0_">VtsJsonSerializer.WriteToJson&lt;T&gt;(T)</a>
+  </div>
+  </dd></dl>
+
+
+
+
+
+  <h2 class="section" id="constructors">Constructors
+</h2>
+
+
+  <a id="Vts_MonteCarlo_Rng_DynamicCreatorMersenneTwister__ctor_" data-uid="Vts.MonteCarlo.Rng.DynamicCreatorMersenneTwister.#ctor*"></a>
+
+  <h3 id="Vts_MonteCarlo_Rng_DynamicCreatorMersenneTwister__ctor_System_Int32_" data-uid="Vts.MonteCarlo.Rng.DynamicCreatorMersenneTwister.#ctor(System.Int32)">
+  DynamicCreatorMersenneTwister(int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/MonteCarlo/Rng/DynamicCreatorMersenneTwister.cs/#L337"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Initializes a new instance of the MersenneTwister class.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public DynamicCreatorMersenneTwister(int seed)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>seed</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>random number generator seed</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_MonteCarlo_Rng_DynamicCreatorMersenneTwister__ctor_" data-uid="Vts.MonteCarlo.Rng.DynamicCreatorMersenneTwister.#ctor*"></a>
+
+  <h3 id="Vts_MonteCarlo_Rng_DynamicCreatorMersenneTwister__ctor_System_Int32_System_Int32_" data-uid="Vts.MonteCarlo.Rng.DynamicCreatorMersenneTwister.#ctor(System.Int32,System.Int32)">
+  DynamicCreatorMersenneTwister(int, int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/MonteCarlo/Rng/DynamicCreatorMersenneTwister.cs/#L347"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Initializes a new instance of the MersenneTwister class.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public DynamicCreatorMersenneTwister(int streamSeed, int seed)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>streamSeed</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>seed to obtain stream</p>
+</dd>
+    <dt><code>seed</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>seed within stream to start</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_MonteCarlo_Rng_DynamicCreatorMersenneTwister__ctor_" data-uid="Vts.MonteCarlo.Rng.DynamicCreatorMersenneTwister.#ctor*"></a>
+
+  <h3 id="Vts_MonteCarlo_Rng_DynamicCreatorMersenneTwister__ctor_System_Int32_System_Int32_System_Int32_System_UInt32_System_UInt32_" data-uid="Vts.MonteCarlo.Rng.DynamicCreatorMersenneTwister.#ctor(System.Int32,System.Int32,System.Int32,System.UInt32,System.UInt32)">
+  DynamicCreatorMersenneTwister(int, int, int, uint, uint)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/MonteCarlo/Rng/DynamicCreatorMersenneTwister.cs/#L375"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Overload that allows an Id to be specified</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public DynamicCreatorMersenneTwister(int wordLength, int periodExponent, int Id, uint streamSeed, uint seed)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>wordLength</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>word size either 31 or 32</p>
+</dd>
+    <dt><code>periodExponent</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>Mersenne exponent defining period of stream</p>
+</dd>
+    <dt><code>Id</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>Id of stream</p>
+</dd>
+    <dt><code>streamSeed</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.uint32">uint</a></dt>
+    <dd><p>seed to obtain stream, this can be fixed if Id varying</p>
+</dd>
+    <dt><code>seed</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.uint32">uint</a></dt>
+    <dd><p>seed within stream to start</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_MonteCarlo_Rng_DynamicCreatorMersenneTwister__ctor_" data-uid="Vts.MonteCarlo.Rng.DynamicCreatorMersenneTwister.#ctor*"></a>
+
+  <h3 id="Vts_MonteCarlo_Rng_DynamicCreatorMersenneTwister__ctor_System_Int32_System_Int32_System_UInt32_System_UInt32_" data-uid="Vts.MonteCarlo.Rng.DynamicCreatorMersenneTwister.#ctor(System.Int32,System.Int32,System.UInt32,System.UInt32)">
+  DynamicCreatorMersenneTwister(int, int, uint, uint)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/MonteCarlo/Rng/DynamicCreatorMersenneTwister.cs/#L360"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Initializes a new instance of the MersenneTwister class.  This version
+allows the user to specify word length, period exponent, original MT seed and
+new generator seed</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public DynamicCreatorMersenneTwister(int wordLength, int periodExponent, uint streamSeed, uint seed)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>wordLength</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>word size either 31 or 32</p>
+</dd>
+    <dt><code>periodExponent</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>Mersenne exponent defining period of stream</p>
+</dd>
+    <dt><code>streamSeed</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.uint32">uint</a></dt>
+    <dd><p>seed to obtain stream</p>
+</dd>
+    <dt><code>seed</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.uint32">uint</a></dt>
+    <dd><p>seed within stream to start</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_MonteCarlo_Rng_DynamicCreatorMersenneTwister__ctor_" data-uid="Vts.MonteCarlo.Rng.DynamicCreatorMersenneTwister.#ctor*"></a>
+
+  <h3 id="Vts_MonteCarlo_Rng_DynamicCreatorMersenneTwister__ctor_System_Int32_System_Int32_System_UInt32_System_UInt32___System_Int32_System_Int32_System_Int32__" data-uid="Vts.MonteCarlo.Rng.DynamicCreatorMersenneTwister.#ctor(System.Int32,System.Int32,System.UInt32,System.UInt32[],System.Int32,System.Int32,System.Int32@)">
+  DynamicCreatorMersenneTwister(int, int, uint, uint[], int, int, ref int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/MonteCarlo/Rng/DynamicCreatorMersenneTwister.cs/#L392"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Overload that allows multiple MT streams to be specified in one call</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public DynamicCreatorMersenneTwister(int wordLength, int periodExponent, uint streamSeed, uint[] seeds, int startId, int maxId, ref int count)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>wordLength</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>word size either 31 or 32</p>
+</dd>
+    <dt><code>periodExponent</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>Mersenne exponent defining period of stream</p>
+</dd>
+    <dt><code>streamSeed</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.uint32">uint</a></dt>
+    <dd><p>seed to search for stream</p>
+</dd>
+    <dt><code>seeds</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.uint32">uint</a>[]</dt>
+    <dd><p>seeds within stream to start</p>
+</dd>
+    <dt><code>startId</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>starting ID</p>
+</dd>
+    <dt><code>maxId</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>maximum ID</p>
+</dd>
+    <dt><code>count</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>number of streams</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+  <a id="Vts_MonteCarlo_Rng_DynamicCreatorMersenneTwister_DoSample_" data-uid="Vts.MonteCarlo.Rng.DynamicCreatorMersenneTwister.DoSample*"></a>
+
+  <h3 id="Vts_MonteCarlo_Rng_DynamicCreatorMersenneTwister_DoSample" data-uid="Vts.MonteCarlo.Rng.DynamicCreatorMersenneTwister.DoSample">
+  DoSample()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/MonteCarlo/Rng/DynamicCreatorMersenneTwister.cs/#L1575"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Returns a random number between 0.0 and 1.0. ONLY NEEDED IF INHERIT MATHNET.NUMERICS</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected override double DoSample()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>A double-precision floating point number greater than or equal to 0.0, and less than 1.0.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_MonteCarlo_Rng_DynamicCreatorMersenneTwister_genrand_mt_" data-uid="Vts.MonteCarlo.Rng.DynamicCreatorMersenneTwister.genrand_mt*"></a>
+
+  <h3 id="Vts_MonteCarlo_Rng_DynamicCreatorMersenneTwister_genrand_mt_Vts_MonteCarlo_Rng_DynamicCreatorMersenneTwister_mt_struct__" data-uid="Vts.MonteCarlo.Rng.DynamicCreatorMersenneTwister.genrand_mt(Vts.MonteCarlo.Rng.DynamicCreatorMersenneTwister.mt_struct@)">
+  genrand_mt(ref mt_struct)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/MonteCarlo/Rng/DynamicCreatorMersenneTwister.cs/#L487"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Generates uint random number given mts. Method in genmtrand.c</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public uint genrand_mt(ref DynamicCreatorMersenneTwister.mt_struct mts)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>mts</code> <a class="xref" href="Vts.MonteCarlo.Rng.DynamicCreatorMersenneTwister.html">DynamicCreatorMersenneTwister</a>.<a class="xref" href="Vts.MonteCarlo.Rng.DynamicCreatorMersenneTwister.mt_struct.html">mt_struct</a></dt>
+    <dd><p>mts_struct</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.uint32">uint</a></dt>
+    <dd><p>uint random number</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_MonteCarlo_Rng_DynamicCreatorMersenneTwister_get_mt_parameter_" data-uid="Vts.MonteCarlo.Rng.DynamicCreatorMersenneTwister.get_mt_parameter*"></a>
+
+  <h3 id="Vts_MonteCarlo_Rng_DynamicCreatorMersenneTwister_get_mt_parameter_System_Int32_System_Int32_" data-uid="Vts.MonteCarlo.Rng.DynamicCreatorMersenneTwister.get_mt_parameter(System.Int32,System.Int32)">
+  get_mt_parameter(int, int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/MonteCarlo/Rng/DynamicCreatorMersenneTwister.cs/#L1264"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>There are variants of this method:  Methods in seive.c
+get_mt_parameter(wordSize,periodExponent)
+get_mt_parameter_st(wordSize,periodExponent,originalMTSeed)<br>
+get_mt_parameters_st(wordSize,periodExponent,startId,maxId,originalMTSeed,count)
+get_mt_parameter_id(wordSize,periodExponent,id) id must be less than 65536 and positive
+get_mt_parameter_id_st(wordSize,periodExponent,id,originalMTSeed)</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public DynamicCreatorMersenneTwister.mt_struct get_mt_parameter(int wordSize, int periodExponent)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>wordSize</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>word size: only w=32 or 31 allowed</p>
+</dd>
+    <dt><code>periodExponent</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>Mersenne exponent: p greater than or equal to 521
+and p less than or equal to 44497</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Vts.MonteCarlo.Rng.DynamicCreatorMersenneTwister.html">DynamicCreatorMersenneTwister</a>.<a class="xref" href="Vts.MonteCarlo.Rng.DynamicCreatorMersenneTwister.mt_struct.html">mt_struct</a></dt>
+    <dd><p>mt_struct</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_MonteCarlo_Rng_DynamicCreatorMersenneTwister_get_mt_parameter_id_st_" data-uid="Vts.MonteCarlo.Rng.DynamicCreatorMersenneTwister.get_mt_parameter_id_st*"></a>
+
+  <h3 id="Vts_MonteCarlo_Rng_DynamicCreatorMersenneTwister_get_mt_parameter_id_st_System_Int32_System_Int32_System_Int32_System_UInt32_" data-uid="Vts.MonteCarlo.Rng.DynamicCreatorMersenneTwister.get_mt_parameter_id_st(System.Int32,System.Int32,System.Int32,System.UInt32)">
+  get_mt_parameter_id_st(int, int, int, uint)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/MonteCarlo/Rng/DynamicCreatorMersenneTwister.cs/#L1369"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>There are variants of this method:  Methods in seive.c</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public DynamicCreatorMersenneTwister.mt_struct get_mt_parameter_id_st(int wordSize, int periodExponent, int id, uint originalMTSeed)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>wordSize</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>word size: only w=32 or 31 allowed</p>
+</dd>
+    <dt><code>periodExponent</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>Mersenne exponent: p greater than or equal to 521
+and p less than or equal to 44497</p>
+</dd>
+    <dt><code>id</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>id of substream: id must be less than 65536 and positive</p>
+</dd>
+    <dt><code>originalMTSeed</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.uint32">uint</a></dt>
+    <dd><p>seed of original mt19937 to generate parameter</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Vts.MonteCarlo.Rng.DynamicCreatorMersenneTwister.html">DynamicCreatorMersenneTwister</a>.<a class="xref" href="Vts.MonteCarlo.Rng.DynamicCreatorMersenneTwister.mt_struct.html">mt_struct</a></dt>
+    <dd><p>mt_struct</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_MonteCarlo_Rng_DynamicCreatorMersenneTwister_get_mt_parameter_st_" data-uid="Vts.MonteCarlo.Rng.DynamicCreatorMersenneTwister.get_mt_parameter_st*"></a>
+
+  <h3 id="Vts_MonteCarlo_Rng_DynamicCreatorMersenneTwister_get_mt_parameter_st_System_Int32_System_Int32_System_UInt32_" data-uid="Vts.MonteCarlo.Rng.DynamicCreatorMersenneTwister.get_mt_parameter_st(System.Int32,System.Int32,System.UInt32)">
+  get_mt_parameter_st(int, int, uint)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/MonteCarlo/Rng/DynamicCreatorMersenneTwister.cs/#L1286"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>There are variants of this method:  Methods in seive.c</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public DynamicCreatorMersenneTwister.mt_struct get_mt_parameter_st(int wordSize, int periodExponent, uint originalMTSeed)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>wordSize</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>word size: only w=32 or 31 allowed</p>
+</dd>
+    <dt><code>periodExponent</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>Mersenne exponent that defines period of substream:
+521 greater than or equal to p and p less than or equal to 44497</p>
+</dd>
+    <dt><code>originalMTSeed</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.uint32">uint</a></dt>
+    <dd><p>seed of original mt19937 to generate parameter</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Vts.MonteCarlo.Rng.DynamicCreatorMersenneTwister.html">DynamicCreatorMersenneTwister</a>.<a class="xref" href="Vts.MonteCarlo.Rng.DynamicCreatorMersenneTwister.mt_struct.html">mt_struct</a></dt>
+    <dd><p>mt_struct</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_MonteCarlo_Rng_DynamicCreatorMersenneTwister_get_mt_parameters_st_" data-uid="Vts.MonteCarlo.Rng.DynamicCreatorMersenneTwister.get_mt_parameters_st*"></a>
+
+  <h3 id="Vts_MonteCarlo_Rng_DynamicCreatorMersenneTwister_get_mt_parameters_st_System_Int32_System_Int32_System_Int32_System_Int32_System_UInt32_System_Int32__" data-uid="Vts.MonteCarlo.Rng.DynamicCreatorMersenneTwister.get_mt_parameters_st(System.Int32,System.Int32,System.Int32,System.Int32,System.UInt32,System.Int32@)">
+  get_mt_parameters_st(int, int, int, int, uint, ref int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/MonteCarlo/Rng/DynamicCreatorMersenneTwister.cs/#L1316"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Variant of get_mt_parameter_st for vectors.  Methods in seive.c
+get_mt_parameters_st(w,p,start_id,max_id,seed,count)</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public DynamicCreatorMersenneTwister.mt_struct[] get_mt_parameters_st(int wordSize, int periodExponent, int startId, int maxId, uint originalMTSeed, ref int count)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>wordSize</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>word size: only w=32 or 31 allowed</p>
+</dd>
+    <dt><code>periodExponent</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>Mersenne exponent: p greater than or equal to 521
+and p less than or equal to 44497</p>
+</dd>
+    <dt><code>startId</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>starting Id of substreams</p>
+</dd>
+    <dt><code>maxId</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>ending Id of substreams</p>
+</dd>
+    <dt><code>originalMTSeed</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.uint32">uint</a></dt>
+    <dd><p>seed of original mt19937 to generate parameter</p>
+</dd>
+    <dt><code>count</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>number of streams initiated</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Vts.MonteCarlo.Rng.DynamicCreatorMersenneTwister.mt_struct.html">mt_struct</a>[]</dt>
+    <dd><p>array of mt_struct</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_MonteCarlo_Rng_DynamicCreatorMersenneTwister_get_tempering_parameter_hard_dc_" data-uid="Vts.MonteCarlo.Rng.DynamicCreatorMersenneTwister.get_tempering_parameter_hard_dc*"></a>
+
+  <h3 id="Vts_MonteCarlo_Rng_DynamicCreatorMersenneTwister_get_tempering_parameter_hard_dc_Vts_MonteCarlo_Rng_DynamicCreatorMersenneTwister_mt_struct__" data-uid="Vts.MonteCarlo.Rng.DynamicCreatorMersenneTwister.get_tempering_parameter_hard_dc(Vts.MonteCarlo.Rng.DynamicCreatorMersenneTwister.mt_struct@)">
+  get_tempering_parameter_hard_dc(ref mt_struct)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/MonteCarlo/Rng/DynamicCreatorMersenneTwister.cs/#L842"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Initializes tempering eqdeg_t struct and then updates it and
+mt_struct</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void get_tempering_parameter_hard_dc(ref DynamicCreatorMersenneTwister.mt_struct mts)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>mts</code> <a class="xref" href="Vts.MonteCarlo.Rng.DynamicCreatorMersenneTwister.html">DynamicCreatorMersenneTwister</a>.<a class="xref" href="Vts.MonteCarlo.Rng.DynamicCreatorMersenneTwister.mt_struct.html">mt_struct</a></dt>
+    <dd><p>mt_struct</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_MonteCarlo_Rng_DynamicCreatorMersenneTwister_init_dc_" data-uid="Vts.MonteCarlo.Rng.DynamicCreatorMersenneTwister.init_dc*"></a>
+
+  <h3 id="Vts_MonteCarlo_Rng_DynamicCreatorMersenneTwister_init_dc_System_UInt32_" data-uid="Vts.MonteCarlo.Rng.DynamicCreatorMersenneTwister.init_dc(System.UInt32)">
+  init_dc(uint)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/MonteCarlo/Rng/DynamicCreatorMersenneTwister.cs/#L406"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>method to initialize regular MT</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void init_dc(uint seed)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>seed</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.uint32">uint</a></dt>
+    <dd><p>unsigned integer seed</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_MonteCarlo_Rng_DynamicCreatorMersenneTwister_sgenrand_mt_" data-uid="Vts.MonteCarlo.Rng.DynamicCreatorMersenneTwister.sgenrand_mt*"></a>
+
+  <h3 id="Vts_MonteCarlo_Rng_DynamicCreatorMersenneTwister_sgenrand_mt_System_UInt32_Vts_MonteCarlo_Rng_DynamicCreatorMersenneTwister_mt_struct__" data-uid="Vts.MonteCarlo.Rng.DynamicCreatorMersenneTwister.sgenrand_mt(System.UInt32,Vts.MonteCarlo.Rng.DynamicCreatorMersenneTwister.mt_struct@)">
+  sgenrand_mt(uint, ref mt_struct)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/MonteCarlo/Rng/DynamicCreatorMersenneTwister.cs/#L465"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Initiates mts struct given a seed. Method in genmtrand.c</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void sgenrand_mt(uint seed, ref DynamicCreatorMersenneTwister.mt_struct mts)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>seed</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.uint32">uint</a></dt>
+    <dd><p>seed for sequence</p>
+</dd>
+    <dt><code>mts</code> <a class="xref" href="Vts.MonteCarlo.Rng.DynamicCreatorMersenneTwister.html">DynamicCreatorMersenneTwister</a>.<a class="xref" href="Vts.MonteCarlo.Rng.DynamicCreatorMersenneTwister.mt_struct.html">mt_struct</a></dt>
+    <dd><p>return struct</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/MonteCarlo/Rng/DynamicCreatorMersenneTwister.cs/#L25" class="edit-link">Edit this page</a>
+        </div>
+
+        
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+
+    <footer class="border-top">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span>Made with <a href="https://dotnet.github.io/docfx">docfx</a></span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

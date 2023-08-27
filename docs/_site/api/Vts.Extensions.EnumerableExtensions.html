@@ -1,0 +1,830 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Class EnumerableExtensions
+ </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Class EnumerableExtensions
+ ">
+      
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/VirtualPhotonics/VTS/new/master/apiSpec/new?filename=Vts_Extensions_EnumerableExtensions.md&amp;value=---%0Auid%3A%20Vts.Extensions.EnumerableExtensions%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+  </head>
+
+  <script type="module">
+    import options from './../public/main.js'
+    import { init } from './../public/docfx.min.js'
+    init(options)
+  </script>
+
+  <script>
+    const theme = localStorage.getItem('theme') || 'auto'
+    document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+  </script>
+
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../logo.svg" alt="">
+            
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" style="margin-top: -.65em; margin-left: -.8em" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="Vts.Extensions.EnumerableExtensions">
+
+
+
+  <h1 id="Vts_Extensions_EnumerableExtensions" data-uid="Vts.Extensions.EnumerableExtensions" class="text-break">
+    Class EnumerableExtensions
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Extensions/EnumerableExtensions.cs/#L10"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="Vts.html">Vts</a>.<a class="xref" href="Vts.Extensions.html">Extensions</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>Vts.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"><p>Helper group of extension methods for adding LINQ functionality</p>
+</div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static class EnumerableExtensions</code></pre>
+  </div>
+
+
+
+
+  <dl class="typelist inheritance">
+    <dt>Inheritance</dt>
+    <dd>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></div>
+      <div><span class="xref">EnumerableExtensions</span></div>
+    </dd>
+  </dl>
+
+
+
+  <dl class="typelist derived">
+    <dt>Inherited Members</dt>
+    <dd>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)">object.Equals(object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)">object.Equals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gethashcode">object.GetHashCode()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gettype">object.GetType()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone">object.MemberwiseClone()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.referenceequals">object.ReferenceEquals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.tostring">object.ToString()</a>
+    </div>
+  </dd></dl>
+
+
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+  <a id="Vts_Extensions_EnumerableExtensions_AsEnumerable_" data-uid="Vts.Extensions.EnumerableExtensions.AsEnumerable*"></a>
+
+  <h3 id="Vts_Extensions_EnumerableExtensions_AsEnumerable__1___0_" data-uid="Vts.Extensions.EnumerableExtensions.AsEnumerable``1(``0)">
+  AsEnumerable&lt;T&gt;(T)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Extensions/EnumerableExtensions.cs/#L18"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Extension method to turn any single item into an IEnumerable (i.e. &quot;yield-returns&quot; the item)</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static IEnumerable&lt;T&gt; AsEnumerable&lt;T&gt;(this T singleItem)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>singleItem</code> <span class="xref">T</span></dt>
+    <dd><p>The single item to turn into IEnumerable</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;T&gt;</dt>
+    <dd><p>An IEnumerable of type T</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Type Parameters</h4>
+  <dl class="parameters">
+    <dt><code>T</code></dt>
+    <dd><p>The generic type</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_Extensions_EnumerableExtensions_Concat_" data-uid="Vts.Extensions.EnumerableExtensions.Concat*"></a>
+
+  <h3 id="Vts_Extensions_EnumerableExtensions_Concat__1_System_Collections_Generic_IEnumerable___0____0_" data-uid="Vts.Extensions.EnumerableExtensions.Concat``1(System.Collections.Generic.IEnumerable{``0},``0)">
+  Concat&lt;T&gt;(IEnumerable&lt;T&gt;, T)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Extensions/EnumerableExtensions.cs/#L30"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Extension method to append a single item to an IEnumerable</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static IEnumerable&lt;T&gt; Concat&lt;T&gt;(this IEnumerable&lt;T&gt; items, T newItem)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>items</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;T&gt;</dt>
+    <dd><p>The list of existing items</p>
+</dd>
+    <dt><code>newItem</code> <span class="xref">T</span></dt>
+    <dd><p>The item to be added</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;T&gt;</dt>
+    <dd><p>An IEnumerable of type T with concatenated list</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Type Parameters</h4>
+  <dl class="parameters">
+    <dt><code>T</code></dt>
+    <dd><p>The generic type</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_Extensions_EnumerableExtensions_ForEach_" data-uid="Vts.Extensions.EnumerableExtensions.ForEach*"></a>
+
+  <h3 id="Vts_Extensions_EnumerableExtensions_ForEach__1_System_Collections_Generic_IEnumerable___0__System_Action___0_System_Int32__" data-uid="Vts.Extensions.EnumerableExtensions.ForEach``1(System.Collections.Generic.IEnumerable{``0},System.Action{``0,System.Int32})">
+  ForEach&lt;T&gt;(IEnumerable&lt;T&gt;, Action&lt;T, int&gt;)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Extensions/EnumerableExtensions.cs/#L94"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Method for applying an action to any enumerable sequence.
+This is the analog of Select, but with no output (only &quot;side effects&quot;).
+This overload takes in an Action with an additional int parameter that
+provides the index of the sequence.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static void ForEach&lt;T&gt;(this IEnumerable&lt;T&gt; items, Action&lt;T, int&gt; action)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>items</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;T&gt;</dt>
+    <dd><p>The list of items</p>
+</dd>
+    <dt><code>action</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.action-2">Action</a>&lt;T, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a>&gt;</dt>
+    <dd><p>The action to apply to list</p>
+</dd>
+  </dl>
+
+
+  <h4 class="section">Type Parameters</h4>
+  <dl class="parameters">
+    <dt><code>T</code></dt>
+    <dd><p>The generic type</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_Extensions_EnumerableExtensions_ForEach_" data-uid="Vts.Extensions.EnumerableExtensions.ForEach*"></a>
+
+  <h3 id="Vts_Extensions_EnumerableExtensions_ForEach__1_System_Collections_Generic_IEnumerable___0__System_Action___0__" data-uid="Vts.Extensions.EnumerableExtensions.ForEach``1(System.Collections.Generic.IEnumerable{``0},System.Action{``0})">
+  ForEach&lt;T&gt;(IEnumerable&lt;T&gt;, Action&lt;T&gt;)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Extensions/EnumerableExtensions.cs/#L77"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Method for applying an action to any enumerable sequence.
+This is the analog of Select, but with no output (only &quot;side effects&quot;).
+This overload takes in an Action with an additional int parameter that
+provides the index of the sequence.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static void ForEach&lt;T&gt;(this IEnumerable&lt;T&gt; items, Action&lt;T&gt; action)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>items</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;T&gt;</dt>
+    <dd><p>The list of items</p>
+</dd>
+    <dt><code>action</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.action-1">Action</a>&lt;T&gt;</dt>
+    <dd><p>The action to apply to list</p>
+</dd>
+  </dl>
+
+
+  <h4 class="section">Type Parameters</h4>
+  <dl class="parameters">
+    <dt><code>T</code></dt>
+    <dd><p>The generic type</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_Extensions_EnumerableExtensions_LoopOverVariables_" data-uid="Vts.Extensions.EnumerableExtensions.LoopOverVariables*"></a>
+
+  <h3 id="Vts_Extensions_EnumerableExtensions_LoopOverVariables__3_System_Func___0___1___2__System_Collections_Generic_IEnumerable___0__System_Collections_Generic_IEnumerable___1__" data-uid="Vts.Extensions.EnumerableExtensions.LoopOverVariables``3(System.Func{``0,``1,``2},System.Collections.Generic.IEnumerable{``0},System.Collections.Generic.IEnumerable{``1})">
+  LoopOverVariables&lt;T1, T2, TReturn&gt;(Func&lt;T1, T2, TReturn&gt;, IEnumerable&lt;T1&gt;, IEnumerable&lt;T2&gt;)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Extensions/EnumerableExtensions.cs/#L294"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Extension method to loop over 2D set of values and apply a function</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static IEnumerable&lt;TReturn&gt; LoopOverVariables&lt;T1, T2, TReturn&gt;(this Func&lt;T1, T2, TReturn&gt; myFunc, IEnumerable&lt;T1&gt; firstValues, IEnumerable&lt;T2&gt; secondValues)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>myFunc</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.func-3">Func</a>&lt;T1, T2, TReturn&gt;</dt>
+    <dd><p>The function to be evaluated</p>
+</dd>
+    <dt><code>firstValues</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;T1&gt;</dt>
+    <dd><p>The first dimension values</p>
+</dd>
+    <dt><code>secondValues</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;T2&gt;</dt>
+    <dd><p>The second dimension values</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;TReturn&gt;</dt>
+    <dd><p>An IEnumerable of type TReturn</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Type Parameters</h4>
+  <dl class="parameters">
+    <dt><code>T1</code></dt>
+    <dd><p>The type of first dimension</p>
+</dd>
+    <dt><code>T2</code></dt>
+    <dd><p>The type of second dimension</p>
+</dd>
+    <dt><code>TReturn</code></dt>
+    <dd><p>The resulting list type</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_Extensions_EnumerableExtensions_LoopOverVariables_" data-uid="Vts.Extensions.EnumerableExtensions.LoopOverVariables*"></a>
+
+  <h3 id="Vts_Extensions_EnumerableExtensions_LoopOverVariables__4_System_Func___0___1___2___3__System_Collections_Generic_IEnumerable___0__System_Collections_Generic_IEnumerable___1__System_Collections_Generic_IEnumerable___2__" data-uid="Vts.Extensions.EnumerableExtensions.LoopOverVariables``4(System.Func{``0,``1,``2,``3},System.Collections.Generic.IEnumerable{``0},System.Collections.Generic.IEnumerable{``1},System.Collections.Generic.IEnumerable{``2})">
+  LoopOverVariables&lt;T1, T2, T3, TReturn&gt;(Func&lt;T1, T2, T3, TReturn&gt;, IEnumerable&lt;T1&gt;, IEnumerable&lt;T2&gt;, IEnumerable&lt;T3&gt;)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Extensions/EnumerableExtensions.cs/#L266"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Extension method to loop over 3D set of values and apply a function</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static IEnumerable&lt;TReturn&gt; LoopOverVariables&lt;T1, T2, T3, TReturn&gt;(this Func&lt;T1, T2, T3, TReturn&gt; myFunc, IEnumerable&lt;T1&gt; firstValues, IEnumerable&lt;T2&gt; secondValues, IEnumerable&lt;T3&gt; thirdValues)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>myFunc</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.func-4">Func</a>&lt;T1, T2, T3, TReturn&gt;</dt>
+    <dd><p>The function to be evaluated</p>
+</dd>
+    <dt><code>firstValues</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;T1&gt;</dt>
+    <dd><p>The first dimension values</p>
+</dd>
+    <dt><code>secondValues</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;T2&gt;</dt>
+    <dd><p>The second dimension values</p>
+</dd>
+    <dt><code>thirdValues</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;T3&gt;</dt>
+    <dd><p>The third dimension values</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;TReturn&gt;</dt>
+    <dd><p>An IEnumerable of type TResult</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Type Parameters</h4>
+  <dl class="parameters">
+    <dt><code>T1</code></dt>
+    <dd><p>The type of first dimension</p>
+</dd>
+    <dt><code>T2</code></dt>
+    <dd><p>The type of second dimension</p>
+</dd>
+    <dt><code>T3</code></dt>
+    <dd><p>The type of third dimension</p>
+</dd>
+    <dt><code>TReturn</code></dt>
+    <dd><p>The resulting list type</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_Extensions_EnumerableExtensions_Select_" data-uid="Vts.Extensions.EnumerableExtensions.Select*"></a>
+
+  <h3 id="Vts_Extensions_EnumerableExtensions_Select__2___0_0__0___System_Func___0_System_Int32_System_Int32___1__" data-uid="Vts.Extensions.EnumerableExtensions.Select``2(``0[0:,0:],System.Func{``0,System.Int32,System.Int32,``1})">
+  Select&lt;T, TResult&gt;(T[,], Func&lt;T, int, int, TResult&gt;)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Extensions/EnumerableExtensions.cs/#L55"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>2D array overload of the LINQ Select operator with x and y indexers</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static IEnumerable&lt;TResult&gt; Select&lt;T, TResult&gt;(this T[,] my2DArray, Func&lt;T, int, int, TResult&gt; myFunc)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>my2DArray</code> T[,]</dt>
+    <dd><p>The 2D array of type T</p>
+</dd>
+    <dt><code>myFunc</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.func-4">Func</a>&lt;T, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a>, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a>, TResult&gt;</dt>
+    <dd><p>The linq select function</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;TResult&gt;</dt>
+    <dd><p>An IEnumerable of type TResult</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Type Parameters</h4>
+  <dl class="parameters">
+    <dt><code>T</code></dt>
+    <dd><p>The generic type</p>
+</dd>
+    <dt><code>TResult</code></dt>
+    <dd><p>The type of result</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_Extensions_EnumerableExtensions_To2DArray_" data-uid="Vts.Extensions.EnumerableExtensions.To2DArray*"></a>
+
+  <h3 id="Vts_Extensions_EnumerableExtensions_To2DArray__1_System_Collections_Generic_IEnumerable___0__System_Int32_System_Int32_" data-uid="Vts.Extensions.EnumerableExtensions.To2DArray``1(System.Collections.Generic.IEnumerable{``0},System.Int32,System.Int32)">
+  To2DArray&lt;T&gt;(IEnumerable&lt;T&gt;, int, int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Extensions/EnumerableExtensions.cs/#L112"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Converts an IEnumerable into a 2D array given a specified width and height</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static T[,] To2DArray&lt;T&gt;(this IEnumerable&lt;T&gt; myArray, int width, int height)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>myArray</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;T&gt;</dt>
+    <dd><p>The IEnumerable type T</p>
+</dd>
+    <dt><code>width</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>The integer representing the width of the array</p>
+</dd>
+    <dt><code>height</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>The integer representing the height of the array</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt>T[,]</dt>
+    <dd><p>A 2D array of type T</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Type Parameters</h4>
+  <dl class="parameters">
+    <dt><code>T</code></dt>
+    <dd><p>The generic type</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_Extensions_EnumerableExtensions_ToDictionary_" data-uid="Vts.Extensions.EnumerableExtensions.ToDictionary*"></a>
+
+  <h3 id="Vts_Extensions_EnumerableExtensions_ToDictionary__2_System_Collections_Generic_IEnumerable_System_Collections_Generic_KeyValuePair___0___1___" data-uid="Vts.Extensions.EnumerableExtensions.ToDictionary``2(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{``0,``1}})">
+  ToDictionary&lt;TKey, TValue&gt;(IEnumerable&lt;KeyValuePair&lt;TKey, TValue&gt;&gt;)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Extensions/EnumerableExtensions.cs/#L42"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Extension method to create a dictionary from key-value pairs</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static IDictionary&lt;TKey, TValue&gt; ToDictionary&lt;TKey, TValue&gt;(this IEnumerable&lt;KeyValuePair&lt;TKey, TValue&gt;&gt; keyValuePairs)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>keyValuePairs</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.keyvaluepair-2">KeyValuePair</a>&lt;TKey, TValue&gt;&gt;</dt>
+    <dd><p>The key-value pairs used to create the dictionary</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.idictionary-2">IDictionary</a>&lt;TKey, TValue&gt;</dt>
+    <dd><p>An IDictionary with key-value pairs</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Type Parameters</h4>
+  <dl class="parameters">
+    <dt><code>TKey</code></dt>
+    <dd><p>The dictionary key</p>
+</dd>
+    <dt><code>TValue</code></dt>
+    <dd><p>The dictionary value</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_Extensions_EnumerableExtensions_Zip_" data-uid="Vts.Extensions.EnumerableExtensions.Zip*"></a>
+
+  <h3 id="Vts_Extensions_EnumerableExtensions_Zip__4_System_Collections_Generic_IEnumerable___0__System_Collections_Generic_IEnumerable___1__System_Collections_Generic_IEnumerable___2__System_Func___0___1___2___3__" data-uid="Vts.Extensions.EnumerableExtensions.Zip``4(System.Collections.Generic.IEnumerable{``0},System.Collections.Generic.IEnumerable{``1},System.Collections.Generic.IEnumerable{``2},System.Func{``0,``1,``2,``3})">
+  Zip&lt;TFirst, TSecond, TThird, TResult&gt;(IEnumerable&lt;TFirst&gt;, IEnumerable&lt;TSecond&gt;, IEnumerable&lt;TThird&gt;, Func&lt;TFirst, TSecond, TThird, TResult&gt;)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Extensions/EnumerableExtensions.cs/#L139"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Method to zip together values using supplied function</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static IEnumerable&lt;TResult&gt; Zip&lt;TFirst, TSecond, TThird, TResult&gt;(this IEnumerable&lt;TFirst&gt; first, IEnumerable&lt;TSecond&gt; second, IEnumerable&lt;TThird&gt; third, Func&lt;TFirst, TSecond, TThird, TResult&gt; func)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>first</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;TFirst&gt;</dt>
+    <dd><p>The IEnumerable of 1st values</p>
+</dd>
+    <dt><code>second</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;TSecond&gt;</dt>
+    <dd><p>The IEnumerable of 2nd values</p>
+</dd>
+    <dt><code>third</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;TThird&gt;</dt>
+    <dd><p>IEnumerable of 3rd values</p>
+</dd>
+    <dt><code>func</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.func-4">Func</a>&lt;TFirst, TSecond, TThird, TResult&gt;</dt>
+    <dd><p>The function to zip together the values</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;TResult&gt;</dt>
+    <dd><p>An IEnumerable of type TResult of the zipped values</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Type Parameters</h4>
+  <dl class="parameters">
+    <dt><code>TFirst</code></dt>
+    <dd><p>The type of 1st list</p>
+</dd>
+    <dt><code>TSecond</code></dt>
+    <dd><p>The type of 2nd list</p>
+</dd>
+    <dt><code>TThird</code></dt>
+    <dd><p>The type of 3rd list</p>
+</dd>
+    <dt><code>TResult</code></dt>
+    <dd><p>The type of the resulting list</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_Extensions_EnumerableExtensions_Zip_" data-uid="Vts.Extensions.EnumerableExtensions.Zip*"></a>
+
+  <h3 id="Vts_Extensions_EnumerableExtensions_Zip__5_System_Collections_Generic_IEnumerable___0__System_Collections_Generic_IEnumerable___1__System_Collections_Generic_IEnumerable___2__System_Collections_Generic_IEnumerable___3__System_Func___0___1___2___3___4__" data-uid="Vts.Extensions.EnumerableExtensions.Zip``5(System.Collections.Generic.IEnumerable{``0},System.Collections.Generic.IEnumerable{``1},System.Collections.Generic.IEnumerable{``2},System.Collections.Generic.IEnumerable{``3},System.Func{``0,``1,``2,``3,``4})">
+  Zip&lt;TFirst, TSecond, TThird, TFourth, TResult&gt;(IEnumerable&lt;TFirst&gt;, IEnumerable&lt;TSecond&gt;, IEnumerable&lt;TThird&gt;, IEnumerable&lt;TFourth&gt;, Func&lt;TFirst, TSecond, TThird, TFourth, TResult&gt;)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Extensions/EnumerableExtensions.cs/#L177"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Method to zip together values using supplied function</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static IEnumerable&lt;TResult&gt; Zip&lt;TFirst, TSecond, TThird, TFourth, TResult&gt;(this IEnumerable&lt;TFirst&gt; first, IEnumerable&lt;TSecond&gt; second, IEnumerable&lt;TThird&gt; third, IEnumerable&lt;TFourth&gt; fourth, Func&lt;TFirst, TSecond, TThird, TFourth, TResult&gt; func)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>first</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;TFirst&gt;</dt>
+    <dd><p>The IEnumerable of 1st values</p>
+</dd>
+    <dt><code>second</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;TSecond&gt;</dt>
+    <dd><p>The IEnumerable of 2nd values</p>
+</dd>
+    <dt><code>third</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;TThird&gt;</dt>
+    <dd><p>The IEnumerable of 3rd values</p>
+</dd>
+    <dt><code>fourth</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;TFourth&gt;</dt>
+    <dd><p>The IEnumerable of 4th values</p>
+</dd>
+    <dt><code>func</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.func-5">Func</a>&lt;TFirst, TSecond, TThird, TFourth, TResult&gt;</dt>
+    <dd><p>The function to zip together the values</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;TResult&gt;</dt>
+    <dd><p>An IEnumerable of type TResult of the zipped values</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Type Parameters</h4>
+  <dl class="parameters">
+    <dt><code>TFirst</code></dt>
+    <dd><p>The type of 1st list</p>
+</dd>
+    <dt><code>TSecond</code></dt>
+    <dd><p>The type of 2nd list</p>
+</dd>
+    <dt><code>TThird</code></dt>
+    <dd><p>The type of 3rd list</p>
+</dd>
+    <dt><code>TFourth</code></dt>
+    <dd><p>The type of 4th list</p>
+</dd>
+    <dt><code>TResult</code></dt>
+    <dd><p>The resulting list type</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_Extensions_EnumerableExtensions_Zip_" data-uid="Vts.Extensions.EnumerableExtensions.Zip*"></a>
+
+  <h3 id="Vts_Extensions_EnumerableExtensions_Zip__6_System_Collections_Generic_IEnumerable___0__System_Collections_Generic_IEnumerable___1__System_Collections_Generic_IEnumerable___2__System_Collections_Generic_IEnumerable___3__System_Collections_Generic_IEnumerable___4__System_Func___0___1___2___3___4___5__" data-uid="Vts.Extensions.EnumerableExtensions.Zip``6(System.Collections.Generic.IEnumerable{``0},System.Collections.Generic.IEnumerable{``1},System.Collections.Generic.IEnumerable{``2},System.Collections.Generic.IEnumerable{``3},System.Collections.Generic.IEnumerable{``4},System.Func{``0,``1,``2,``3,``4,``5})">
+  Zip&lt;TFirst, TSecond, TThird, TFourth, TFifth, TResult&gt;(IEnumerable&lt;TFirst&gt;, IEnumerable&lt;TSecond&gt;, IEnumerable&lt;TThird&gt;, IEnumerable&lt;TFourth&gt;, IEnumerable&lt;TFifth&gt;, Func&lt;TFirst, TSecond, TThird, TFourth, TFifth, TResult&gt;)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Extensions/EnumerableExtensions.cs/#L222"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Method to zip together values using supplied function</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static IEnumerable&lt;TResult&gt; Zip&lt;TFirst, TSecond, TThird, TFourth, TFifth, TResult&gt;(this IEnumerable&lt;TFirst&gt; first, IEnumerable&lt;TSecond&gt; second, IEnumerable&lt;TThird&gt; third, IEnumerable&lt;TFourth&gt; fourth, IEnumerable&lt;TFifth&gt; fifth, Func&lt;TFirst, TSecond, TThird, TFourth, TFifth, TResult&gt; func)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>first</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;TFirst&gt;</dt>
+    <dd><p>The IEnumerable of 1st values</p>
+</dd>
+    <dt><code>second</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;TSecond&gt;</dt>
+    <dd><p>The IEnumerable of 2nd values</p>
+</dd>
+    <dt><code>third</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;TThird&gt;</dt>
+    <dd><p>The IEnumerable of 3rd values</p>
+</dd>
+    <dt><code>fourth</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;TFourth&gt;</dt>
+    <dd><p>The IEnumerable of 4th values</p>
+</dd>
+    <dt><code>fifth</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;TFifth&gt;</dt>
+    <dd><p>The IEnumerable of 5th values</p>
+</dd>
+    <dt><code>func</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.func-6">Func</a>&lt;TFirst, TSecond, TThird, TFourth, TFifth, TResult&gt;</dt>
+    <dd><p>The function to zip together the values</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;TResult&gt;</dt>
+    <dd><p>An IEnumerable of type TResult of the zipped values</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Type Parameters</h4>
+  <dl class="parameters">
+    <dt><code>TFirst</code></dt>
+    <dd><p>The type of 1st list</p>
+</dd>
+    <dt><code>TSecond</code></dt>
+    <dd><p>The type of 2nd list</p>
+</dd>
+    <dt><code>TThird</code></dt>
+    <dd><p>The type of 3rd list</p>
+</dd>
+    <dt><code>TFourth</code></dt>
+    <dd><p>The type of 4th list</p>
+</dd>
+    <dt><code>TFifth</code></dt>
+    <dd><p>The type of 5th list</p>
+</dd>
+    <dt><code>TResult</code></dt>
+    <dd><p>The resulting list type</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Extensions/EnumerableExtensions.cs/#L10" class="edit-link">Edit this page</a>
+        </div>
+
+        
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+
+    <footer class="border-top">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span>Made with <a href="https://dotnet.github.io/docfx">docfx</a></span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

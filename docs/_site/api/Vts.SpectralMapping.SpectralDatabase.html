@@ -1,0 +1,439 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Class SpectralDatabase
+ </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Class SpectralDatabase
+ ">
+      
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/VirtualPhotonics/VTS/new/master/apiSpec/new?filename=Vts_SpectralMapping_SpectralDatabase.md&amp;value=---%0Auid%3A%20Vts.SpectralMapping.SpectralDatabase%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+  </head>
+
+  <script type="module">
+    import options from './../public/main.js'
+    import { init } from './../public/docfx.min.js'
+    init(options)
+  </script>
+
+  <script>
+    const theme = localStorage.getItem('theme') || 'auto'
+    document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+  </script>
+
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../logo.svg" alt="">
+            
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" style="margin-top: -.65em; margin-left: -.8em" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="Vts.SpectralMapping.SpectralDatabase">
+
+
+
+  <h1 id="Vts_SpectralMapping_SpectralDatabase" data-uid="Vts.SpectralMapping.SpectralDatabase" class="text-break">
+    Class SpectralDatabase
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Modeling/Spectroscopy/SpectralDatabase.cs/#L12"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="Vts.html">Vts</a>.<a class="xref" href="Vts.SpectralMapping.html">SpectralMapping</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>Vts.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"><p>This static class provides simple, application-wide access to the loaded spectra.</p>
+</div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static class SpectralDatabase</code></pre>
+  </div>
+
+
+
+
+  <dl class="typelist inheritance">
+    <dt>Inheritance</dt>
+    <dd>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></div>
+      <div><span class="xref">SpectralDatabase</span></div>
+    </dd>
+  </dl>
+
+
+
+  <dl class="typelist derived">
+    <dt>Inherited Members</dt>
+    <dd>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)">object.Equals(object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)">object.Equals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gethashcode">object.GetHashCode()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gettype">object.GetType()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone">object.MemberwiseClone()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.referenceequals">object.ReferenceEquals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.tostring">object.ToString()</a>
+    </div>
+  </dd></dl>
+
+
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+  <a id="Vts_SpectralMapping_SpectralDatabase_AppendDatabaseFromFile_" data-uid="Vts.SpectralMapping.SpectralDatabase.AppendDatabaseFromFile*"></a>
+
+  <h3 id="Vts_SpectralMapping_SpectralDatabase_AppendDatabaseFromFile_Vts_SpectralMapping_ChromophoreSpectrumDictionary_System_IO_Stream_" data-uid="Vts.SpectralMapping.SpectralDatabase.AppendDatabaseFromFile(Vts.SpectralMapping.ChromophoreSpectrumDictionary,System.IO.Stream)">
+  AppendDatabaseFromFile(ChromophoreSpectrumDictionary, Stream)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Modeling/Spectroscopy/SpectralDatabase.cs/#L81"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Appends a new chromophore spectral dictionary created from a tab-delimited stream onto an existing dictionary of chromophore spectra</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static ChromophoreSpectrumDictionary AppendDatabaseFromFile(ChromophoreSpectrumDictionary existingDictionary, Stream fileStream)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>existingDictionary</code> <a class="xref" href="Vts.SpectralMapping.ChromophoreSpectrumDictionary.html">ChromophoreSpectrumDictionary</a></dt>
+    <dd><p>The existing dictionary to which to append</p>
+</dd>
+    <dt><code>fileStream</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.io.stream">Stream</a></dt>
+    <dd><p>The file stream</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Vts.SpectralMapping.ChromophoreSpectrumDictionary.html">ChromophoreSpectrumDictionary</a></dt>
+    <dd><p>The new dictionary of chromophore spectra</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_SpectralMapping_SpectralDatabase_GetDatabaseFromFile_" data-uid="Vts.SpectralMapping.SpectralDatabase.GetDatabaseFromFile*"></a>
+
+  <h3 id="Vts_SpectralMapping_SpectralDatabase_GetDatabaseFromFile_System_String_" data-uid="Vts.SpectralMapping.SpectralDatabase.GetDatabaseFromFile(System.String)">
+  GetDatabaseFromFile(string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Modeling/Spectroscopy/SpectralDatabase.cs/#L60"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Returns a dictionary of Chromophore spectra from the specified file</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static ChromophoreSpectrumDictionary GetDatabaseFromFile(string fileName)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>fileName</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>file name of file to read</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Vts.SpectralMapping.ChromophoreSpectrumDictionary.html">ChromophoreSpectrumDictionary</a></dt>
+    <dd><p>Dictionary of Chromophore spectra</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_SpectralMapping_SpectralDatabase_GetDefaultDatabaseFromFileInResources_" data-uid="Vts.SpectralMapping.SpectralDatabase.GetDefaultDatabaseFromFileInResources*"></a>
+
+  <h3 id="Vts_SpectralMapping_SpectralDatabase_GetDefaultDatabaseFromFileInResources" data-uid="Vts.SpectralMapping.SpectralDatabase.GetDefaultDatabaseFromFileInResources">
+  GetDefaultDatabaseFromFileInResources()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Modeling/Spectroscopy/SpectralDatabase.cs/#L50"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Returns a dictionary of Chromophore spectra from the file SpectralDictionary.txt in resources</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static ChromophoreSpectrumDictionary GetDefaultDatabaseFromFileInResources()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Vts.SpectralMapping.ChromophoreSpectrumDictionary.html">ChromophoreSpectrumDictionary</a></dt>
+    <dd><p>Dictionary of Chromophore spectra</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_SpectralMapping_SpectralDatabase_GetSpectraFromFile_" data-uid="Vts.SpectralMapping.SpectralDatabase.GetSpectraFromFile*"></a>
+
+  <h3 id="Vts_SpectralMapping_SpectralDatabase_GetSpectraFromFile_System_IO_Stream_System_Boolean_" data-uid="Vts.SpectralMapping.SpectralDatabase.GetSpectraFromFile(System.IO.Stream,System.Boolean)">
+  GetSpectraFromFile(Stream, bool)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Modeling/Spectroscopy/SpectralDatabase.cs/#L107"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Creates a dictionary of chromophore spectra from a file stream of tab-delimited data, converts the data to work in the VTS
+The header data is written as a comment line starting with %
+Tab delimited data is in the format: Wavelength  1st Column  2nd Column  3rd Column  ...</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static IList&lt;ChromophoreSpectrum&gt; GetSpectraFromFile(Stream fileStream, bool convert)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>fileStream</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.io.stream">Stream</a></dt>
+    <dd><p>The file stream of spectral data</p>
+</dd>
+    <dt><code>convert</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p>Boolean which is true if the data should be converted</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ilist-1">IList</a>&lt;<a class="xref" href="Vts.SpectralMapping.ChromophoreSpectrum.html">ChromophoreSpectrum</a>&gt;</dt>
+    <dd><p>The dictionary of chromophore spectrum</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_SpectralMapping_SpectralDatabase_GetSpectrumValue_" data-uid="Vts.SpectralMapping.SpectralDatabase.GetSpectrumValue*"></a>
+
+  <h3 id="Vts_SpectralMapping_SpectralDatabase_GetSpectrumValue_System_String_System_Double_" data-uid="Vts.SpectralMapping.SpectralDatabase.GetSpectrumValue(System.String,System.Double)">
+  GetSpectrumValue(string, double)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Modeling/Spectroscopy/SpectralDatabase.cs/#L35"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Method to retrieve a spectral value keyed by it's name in the database</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static double GetSpectrumValue(string name, double wavelength)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>name</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>Name of the spectra</p>
+</dd>
+    <dt><code>wavelength</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>The wavelength at which to get the value</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd><p>Value at the given wavelength</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_SpectralMapping_SpectralDatabase_SaveDatabaseToFile_" data-uid="Vts.SpectralMapping.SpectralDatabase.SaveDatabaseToFile*"></a>
+
+  <h3 id="Vts_SpectralMapping_SpectralDatabase_SaveDatabaseToFile_Vts_SpectralMapping_ChromophoreSpectrumDictionary_System_String_" data-uid="Vts.SpectralMapping.SpectralDatabase.SaveDatabaseToFile(Vts.SpectralMapping.ChromophoreSpectrumDictionary,System.String)">
+  SaveDatabaseToFile(ChromophoreSpectrumDictionary, string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Modeling/Spectroscopy/SpectralDatabase.cs/#L70"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Saves a given dictionary of Chromophore spectra to the specified file</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static void SaveDatabaseToFile(ChromophoreSpectrumDictionary dictionary, string filename)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>dictionary</code> <a class="xref" href="Vts.SpectralMapping.ChromophoreSpectrumDictionary.html">ChromophoreSpectrumDictionary</a></dt>
+    <dd><p>Name of the chromophore spectrum dictionary</p>
+</dd>
+    <dt><code>filename</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>Name of the file</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Vts_SpectralMapping_SpectralDatabase_WriteDatabaseToFiles_" data-uid="Vts.SpectralMapping.SpectralDatabase.WriteDatabaseToFiles*"></a>
+
+  <h3 id="Vts_SpectralMapping_SpectralDatabase_WriteDatabaseToFiles_Vts_SpectralMapping_ChromophoreSpectrumDictionary_" data-uid="Vts.SpectralMapping.SpectralDatabase.WriteDatabaseToFiles(Vts.SpectralMapping.ChromophoreSpectrumDictionary)">
+  WriteDatabaseToFiles(ChromophoreSpectrumDictionary)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Modeling/Spectroscopy/SpectralDatabase.cs/#L267"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Writes the Chromophore dictionary to separate text files</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static void WriteDatabaseToFiles(ChromophoreSpectrumDictionary chromophoreDictionary)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>chromophoreDictionary</code> <a class="xref" href="Vts.SpectralMapping.ChromophoreSpectrumDictionary.html">ChromophoreSpectrumDictionary</a></dt>
+    <dd><p>The dictionary to write</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/Modeling/Spectroscopy/SpectralDatabase.cs/#L12" class="edit-link">Edit this page</a>
+        </div>
+
+        
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+
+    <footer class="border-top">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span>Made with <a href="https://dotnet.github.io/docfx">docfx</a></span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,436 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Class Detector
+ </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Class Detector
+ ">
+      
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/VirtualPhotonics/VTS/new/master/apiSpec/new?filename=Vts_MonteCarlo_Detectors_Detector.md&amp;value=---%0Auid%3A%20Vts.MonteCarlo.Detectors.Detector%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+  </head>
+
+  <script type="module">
+    import options from './../public/main.js'
+    import { init } from './../public/docfx.min.js'
+    init(options)
+  </script>
+
+  <script>
+    const theme = localStorage.getItem('theme') || 'auto'
+    document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+  </script>
+
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../logo.svg" alt="">
+            
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" style="margin-top: -.65em; margin-left: -.8em" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="Vts.MonteCarlo.Detectors.Detector">
+
+
+
+  <h1 id="Vts_MonteCarlo_Detectors_Detector" data-uid="Vts.MonteCarlo.Detectors.Detector" class="text-break">
+    Class Detector
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/MonteCarlo/Detectors/Detector.cs/#L40"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="Vts.html">Vts</a>.<a class="xref" href="Vts.MonteCarlo.html">MonteCarlo</a>.<a class="xref" href="Vts.MonteCarlo.Detectors.html">Detectors</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>Vts.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"><p>detector abstract class</p>
+</div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public abstract class Detector</code></pre>
+  </div>
+
+
+
+
+  <dl class="typelist inheritance">
+    <dt>Inheritance</dt>
+    <dd>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></div>
+      <div><span class="xref">Detector</span></div>
+    </dd>
+  </dl>
+
+
+  <dl class="typelist derived">
+    <dt>Derived</dt>
+    <dd>
+      <div><a class="xref" href="Vts.MonteCarlo.Detectors.AOfRhoAndZDetector.html">AOfRhoAndZDetector</a></div>
+      <div><a class="xref" href="Vts.MonteCarlo.Detectors.AOfXAndYAndZDetector.html">AOfXAndYAndZDetector</a></div>
+      <div><a class="xref" href="Vts.MonteCarlo.Detectors.ATotalBoundingVolumeDetector.html">ATotalBoundingVolumeDetector</a></div>
+      <div><a class="xref" href="Vts.MonteCarlo.Detectors.ATotalDetector.html">ATotalDetector</a></div>
+      <div><a class="xref" href="Vts.MonteCarlo.Detectors.FluenceOfFxAndZDetector.html">FluenceOfFxAndZDetector</a></div>
+      <div><a class="xref" href="Vts.MonteCarlo.Detectors.FluenceOfRhoAndZAndOmegaDetector.html">FluenceOfRhoAndZAndOmegaDetector</a></div>
+      <div><a class="xref" href="Vts.MonteCarlo.Detectors.FluenceOfRhoAndZAndTimeDetector.html">FluenceOfRhoAndZAndTimeDetector</a></div>
+      <div><a class="xref" href="Vts.MonteCarlo.Detectors.FluenceOfRhoAndZDetector.html">FluenceOfRhoAndZDetector</a></div>
+      <div><a class="xref" href="Vts.MonteCarlo.Detectors.FluenceOfXAndYAndZAndOmegaDetector.html">FluenceOfXAndYAndZAndOmegaDetector</a></div>
+      <div><a class="xref" href="Vts.MonteCarlo.Detectors.FluenceOfXAndYAndZAndStartingXAndYDetector.html">FluenceOfXAndYAndZAndStartingXAndYDetector</a></div>
+      <div><a class="xref" href="Vts.MonteCarlo.Detectors.FluenceOfXAndYAndZAndTimeDetector.html">FluenceOfXAndYAndZAndTimeDetector</a></div>
+      <div><a class="xref" href="Vts.MonteCarlo.Detectors.FluenceOfXAndYAndZDetector.html">FluenceOfXAndYAndZDetector</a></div>
+      <div><a class="xref" href="Vts.MonteCarlo.Detectors.RDiffuseDetector.html">RDiffuseDetector</a></div>
+      <div><a class="xref" href="Vts.MonteCarlo.Detectors.ROfAngleDetector.html">ROfAngleDetector</a></div>
+      <div><a class="xref" href="Vts.MonteCarlo.Detectors.ROfFxAndAngleDetector.html">ROfFxAndAngleDetector</a></div>
+      <div><a class="xref" href="Vts.MonteCarlo.Detectors.ROfFxAndMaxDepthDetector.html">ROfFxAndMaxDepthDetector</a></div>
+      <div><a class="xref" href="Vts.MonteCarlo.Detectors.ROfFxAndTimeDetector.html">ROfFxAndTimeDetector</a></div>
+      <div><a class="xref" href="Vts.MonteCarlo.Detectors.ROfFxDetector.html">ROfFxDetector</a></div>
+      <div><a class="xref" href="Vts.MonteCarlo.Detectors.ROfRhoAndAngleDetector.html">ROfRhoAndAngleDetector</a></div>
+      <div><a class="xref" href="Vts.MonteCarlo.Detectors.ROfRhoAndMaxDepthDetector.html">ROfRhoAndMaxDepthDetector</a></div>
+      <div><a class="xref" href="Vts.MonteCarlo.Detectors.ROfRhoAndMaxDepthRecessedDetector.html">ROfRhoAndMaxDepthRecessedDetector</a></div>
+      <div><a class="xref" href="Vts.MonteCarlo.Detectors.ROfRhoAndOmegaDetector.html">ROfRhoAndOmegaDetector</a></div>
+      <div><a class="xref" href="Vts.MonteCarlo.Detectors.ROfRhoAndTimeDetector.html">ROfRhoAndTimeDetector</a></div>
+      <div><a class="xref" href="Vts.MonteCarlo.Detectors.ROfRhoDetector.html">ROfRhoDetector</a></div>
+      <div><a class="xref" href="Vts.MonteCarlo.Detectors.ROfRhoRecessedDetector.html">ROfRhoRecessedDetector</a></div>
+      <div><a class="xref" href="Vts.MonteCarlo.Detectors.ROfXAndYAndMaxDepthDetector.html">ROfXAndYAndMaxDepthDetector</a></div>
+      <div><a class="xref" href="Vts.MonteCarlo.Detectors.ROfXAndYAndMaxDepthRecessedDetector.html">ROfXAndYAndMaxDepthRecessedDetector</a></div>
+      <div><a class="xref" href="Vts.MonteCarlo.Detectors.ROfXAndYAndThetaAndPhiDetector.html">ROfXAndYAndThetaAndPhiDetector</a></div>
+      <div><a class="xref" href="Vts.MonteCarlo.Detectors.ROfXAndYAndTimeAndSubregionDetector.html">ROfXAndYAndTimeAndSubregionDetector</a></div>
+      <div><a class="xref" href="Vts.MonteCarlo.Detectors.ROfXAndYAndTimeAndSubregionRecessedDetector.html">ROfXAndYAndTimeAndSubregionRecessedDetector</a></div>
+      <div><a class="xref" href="Vts.MonteCarlo.Detectors.ROfXAndYAndTimeDetector.html">ROfXAndYAndTimeDetector</a></div>
+      <div><a class="xref" href="Vts.MonteCarlo.Detectors.ROfXAndYAndTimeRecessedDetector.html">ROfXAndYAndTimeRecessedDetector</a></div>
+      <div><a class="xref" href="Vts.MonteCarlo.Detectors.ROfXAndYDetector.html">ROfXAndYDetector</a></div>
+      <div><a class="xref" href="Vts.MonteCarlo.Detectors.ROfXAndYRecessedDetector.html">ROfXAndYRecessedDetector</a></div>
+      <div><a class="xref" href="Vts.MonteCarlo.Detectors.RSpecularDetector.html">RSpecularDetector</a></div>
+      <div><a class="xref" href="Vts.MonteCarlo.Detectors.RadianceOfFxAndZAndAngleDetector.html">RadianceOfFxAndZAndAngleDetector</a></div>
+      <div><a class="xref" href="Vts.MonteCarlo.Detectors.RadianceOfRhoAndZAndAngleDetector.html">RadianceOfRhoAndZAndAngleDetector</a></div>
+      <div><a class="xref" href="Vts.MonteCarlo.Detectors.RadianceOfRhoAtZDetector.html">RadianceOfRhoAtZDetector</a></div>
+      <div><a class="xref" href="Vts.MonteCarlo.Detectors.RadianceOfXAndYAndZAndThetaAndPhiDetector.html">RadianceOfXAndYAndZAndThetaAndPhiDetector</a></div>
+      <div><a class="xref" href="Vts.MonteCarlo.Detectors.ReflectedDynamicMTOfFxAndSubregionHistDetector.html">ReflectedDynamicMTOfFxAndSubregionHistDetector</a></div>
+      <div><a class="xref" href="Vts.MonteCarlo.Detectors.ReflectedDynamicMTOfRhoAndSubregionHistDetector.html">ReflectedDynamicMTOfRhoAndSubregionHistDetector</a></div>
+      <div><a class="xref" href="Vts.MonteCarlo.Detectors.ReflectedDynamicMTOfXAndYAndSubregionHistDetector.html">ReflectedDynamicMTOfXAndYAndSubregionHistDetector</a></div>
+      <div><a class="xref" href="Vts.MonteCarlo.Detectors.ReflectedMTOfRhoAndSubregionHistDetector.html">ReflectedMTOfRhoAndSubregionHistDetector</a></div>
+      <div><a class="xref" href="Vts.MonteCarlo.Detectors.ReflectedMTOfXAndYAndSubregionHistDetector.html">ReflectedMTOfXAndYAndSubregionHistDetector</a></div>
+      <div><a class="xref" href="Vts.MonteCarlo.Detectors.ReflectedTimeOfRhoAndSubregionHistDetector.html">ReflectedTimeOfRhoAndSubregionHistDetector</a></div>
+      <div><a class="xref" href="Vts.MonteCarlo.Detectors.SurfaceFiberDetector.html">SurfaceFiberDetector</a></div>
+      <div><a class="xref" href="Vts.MonteCarlo.Detectors.TDiffuseDetector.html">TDiffuseDetector</a></div>
+      <div><a class="xref" href="Vts.MonteCarlo.Detectors.TOfAngleDetector.html">TOfAngleDetector</a></div>
+      <div><a class="xref" href="Vts.MonteCarlo.Detectors.TOfFxDetector.html">TOfFxDetector</a></div>
+      <div><a class="xref" href="Vts.MonteCarlo.Detectors.TOfRhoAndAngleDetector.html">TOfRhoAndAngleDetector</a></div>
+      <div><a class="xref" href="Vts.MonteCarlo.Detectors.TOfRhoDetector.html">TOfRhoDetector</a></div>
+      <div><a class="xref" href="Vts.MonteCarlo.Detectors.TOfXAndYAndTimeAndSubregionDetector.html">TOfXAndYAndTimeAndSubregionDetector</a></div>
+      <div><a class="xref" href="Vts.MonteCarlo.Detectors.TOfXAndYDetector.html">TOfXAndYDetector</a></div>
+      <div><a class="xref" href="Vts.MonteCarlo.Detectors.TransmittedDynamicMTOfFxAndSubregionHistDetector.html">TransmittedDynamicMTOfFxAndSubregionHistDetector</a></div>
+      <div><a class="xref" href="Vts.MonteCarlo.Detectors.TransmittedDynamicMTOfRhoAndSubregionHistDetector.html">TransmittedDynamicMTOfRhoAndSubregionHistDetector</a></div>
+      <div><a class="xref" href="Vts.MonteCarlo.Detectors.TransmittedDynamicMTOfXAndYAndSubregionHistDetector.html">TransmittedDynamicMTOfXAndYAndSubregionHistDetector</a></div>
+      <div><a class="xref" href="Vts.MonteCarlo.Detectors.TransmittedMTOfRhoAndSubregionHistDetector.html">TransmittedMTOfRhoAndSubregionHistDetector</a></div>
+      <div><a class="xref" href="Vts.MonteCarlo.Detectors.TransmittedMTOfXAndYAndSubregionHistDetector.html">TransmittedMTOfXAndYAndSubregionHistDetector</a></div>
+      <div><a class="xref" href="Vts.MonteCarlo.Detectors.dMCdROfRhodMuaDetector.html">dMCdROfRhodMuaDetector</a></div>
+      <div><a class="xref" href="Vts.MonteCarlo.Detectors.dMCdROfRhodMusDetector.html">dMCdROfRhodMusDetector</a></div>
+      <div><a class="xref" href="Vts.MonteCarlo.Detectors.pMCATotalDetector.html">pMCATotalDetector</a></div>
+      <div><a class="xref" href="Vts.MonteCarlo.Detectors.pMCROfFxAndTimeDetector.html">pMCROfFxAndTimeDetector</a></div>
+      <div><a class="xref" href="Vts.MonteCarlo.Detectors.pMCROfFxDetector.html">pMCROfFxDetector</a></div>
+      <div><a class="xref" href="Vts.MonteCarlo.Detectors.pMCROfRhoAndTimeDetector.html">pMCROfRhoAndTimeDetector</a></div>
+      <div><a class="xref" href="Vts.MonteCarlo.Detectors.pMCROfRhoAndTimeRecessedDetector.html">pMCROfRhoAndTimeRecessedDetector</a></div>
+      <div><a class="xref" href="Vts.MonteCarlo.Detectors.pMCROfRhoDetector.html">pMCROfRhoDetector</a></div>
+      <div><a class="xref" href="Vts.MonteCarlo.Detectors.pMCROfRhoRecessedDetector.html">pMCROfRhoRecessedDetector</a></div>
+      <div><a class="xref" href="Vts.MonteCarlo.Detectors.pMCROfXAndYAndTimeAndSubregionDetector.html">pMCROfXAndYAndTimeAndSubregionDetector</a></div>
+      <div><a class="xref" href="Vts.MonteCarlo.Detectors.pMCROfXAndYAndTimeAndSubregionRecessedDetector.html">pMCROfXAndYAndTimeAndSubregionRecessedDetector</a></div>
+      <div><a class="xref" href="Vts.MonteCarlo.Detectors.pMCROfXAndYDetector.html">pMCROfXAndYDetector</a></div>
+      <div><a class="xref" href="Vts.MonteCarlo.Detectors.pMCTOfRhoDetector.html">pMCTOfRhoDetector</a></div>
+    </dd>
+  </dl>
+
+  <dl class="typelist derived">
+    <dt>Inherited Members</dt>
+    <dd>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)">object.Equals(object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)">object.Equals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gethashcode">object.GetHashCode()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gettype">object.GetType()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone">object.MemberwiseClone()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.referenceequals">object.ReferenceEquals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.tostring">object.ToString()</a>
+    </div>
+  </dd></dl>
+
+  <dl class="typelist extensionMethods">
+    <dt>Extension Methods</dt>
+    <dd>
+  <div>
+      <a class="xref" href="Vts.Extensions.EnumerableExtensions.html#Vts_Extensions_EnumerableExtensions_AsEnumerable__1___0_">EnumerableExtensions.AsEnumerable&lt;T&gt;(T)</a>
+  </div>
+  <div>
+      <a class="xref" href="Vts.Extensions.IEnumerableArrayExtensions.html#Vts_Extensions_IEnumerableArrayExtensions_PopulateFromEnumerable2__2___1_System_Collections_Generic_IEnumerable___0__">IEnumerableArrayExtensions.PopulateFromEnumerable2&lt;T, TArray&gt;(TArray, IEnumerable&lt;T&gt;)</a>
+  </div>
+  <div>
+      <a class="xref" href="Vts.IO.FileIO.html#Vts_IO_FileIO_Clone__1___0_">FileIO.Clone&lt;T&gt;(T)</a>
+  </div>
+  <div>
+      <a class="xref" href="Vts.IO.FileIO.html#Vts_IO_FileIO_WriteJsonToStream__1___0_System_IO_Stream_">FileIO.WriteJsonToStream&lt;T&gt;(T, Stream)</a>
+  </div>
+  <div>
+      <a class="xref" href="Vts.IO.FileIO.html#Vts_IO_FileIO_WriteToJson__1___0_System_String_">FileIO.WriteToJson&lt;T&gt;(T, string)</a>
+  </div>
+  <div>
+      <a class="xref" href="Vts.IO.FileIO.html#Vts_IO_FileIO_WriteToXMLStream__1___0_System_IO_Stream_">FileIO.WriteToXMLStream&lt;T&gt;(T, Stream)</a>
+  </div>
+  <div>
+      <a class="xref" href="Vts.IO.FileIO.html#Vts_IO_FileIO_WriteToXML__1___0_System_String_">FileIO.WriteToXML&lt;T&gt;(T, string)</a>
+  </div>
+  <div>
+      <a class="xref" href="Vts.IO.VtsJsonSerializer.html#Vts_IO_VtsJsonSerializer_WriteToJsonFile__1___0_System_String_">VtsJsonSerializer.WriteToJsonFile&lt;T&gt;(T, string)</a>
+  </div>
+  <div>
+      <a class="xref" href="Vts.IO.VtsJsonSerializer.html#Vts_IO_VtsJsonSerializer_WriteToJson__1___0_">VtsJsonSerializer.WriteToJson&lt;T&gt;(T)</a>
+  </div>
+  </dd></dl>
+
+
+
+
+
+  <h2 class="section" id="constructors">Constructors
+</h2>
+
+
+  <a id="Vts_MonteCarlo_Detectors_Detector__ctor_" data-uid="Vts.MonteCarlo.Detectors.Detector.#ctor*"></a>
+
+  <h3 id="Vts_MonteCarlo_Detectors_Detector__ctor" data-uid="Vts.MonteCarlo.Detectors.Detector.#ctor">
+  Detector()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/MonteCarlo/Detectors/Detector.cs/#L45"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>default constructor for detector</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected Detector()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="properties">Properties
+</h2>
+
+
+  <a id="Vts_MonteCarlo_Detectors_Detector_Name_" data-uid="Vts.MonteCarlo.Detectors.Detector.Name*"></a>
+
+  <h3 id="Vts_MonteCarlo_Detectors_Detector_Name" data-uid="Vts.MonteCarlo.Detectors.Detector.Name">
+  Name
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/MonteCarlo/Detectors/Detector.cs/#L61"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>tally name string</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string Name { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Vts_MonteCarlo_Detectors_Detector_TallyDetails_" data-uid="Vts.MonteCarlo.Detectors.Detector.TallyDetails*"></a>
+
+  <h3 id="Vts_MonteCarlo_Detectors_Detector_TallyDetails" data-uid="Vts.MonteCarlo.Detectors.Detector.TallyDetails">
+  TallyDetails
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/MonteCarlo/Detectors/Detector.cs/#L69"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>tally details</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TallyDetails TallyDetails { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Vts.MonteCarlo.Detectors.TallyDetails.html">TallyDetails</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Vts_MonteCarlo_Detectors_Detector_TallySecondMoment_" data-uid="Vts.MonteCarlo.Detectors.Detector.TallySecondMoment*"></a>
+
+  <h3 id="Vts_MonteCarlo_Detectors_Detector_TallySecondMoment" data-uid="Vts.MonteCarlo.Detectors.Detector.TallySecondMoment">
+  TallySecondMoment
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/MonteCarlo/Detectors/Detector.cs/#L65"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Boolean indicating whether to tally 2nd moment</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool TallySecondMoment { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Vts_MonteCarlo_Detectors_Detector_TallyType_" data-uid="Vts.MonteCarlo.Detectors.Detector.TallyType*"></a>
+
+  <h3 id="Vts_MonteCarlo_Detectors_Detector_TallyType" data-uid="Vts.MonteCarlo.Detectors.Detector.TallyType">
+  TallyType
+  <a class="header-action link-secondary" title="View source" href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/MonteCarlo/Detectors/Detector.cs/#L57"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>tally type enum</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string TallyType { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/VirtualPhotonics/VTS/blob/master/src/Vts/MonteCarlo/Detectors/Detector.cs/#L40" class="edit-link">Edit this page</a>
+        </div>
+
+        
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+
+    <footer class="border-top">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span>Made with <a href="https://dotnet.github.io/docfx">docfx</a></span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

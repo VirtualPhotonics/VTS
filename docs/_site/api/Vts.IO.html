@@ -1,0 +1,188 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Namespace Vts.IO
+ </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Namespace Vts.IO
+ ">
+      
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      
+      
+      
+      
+  </head>
+
+  <script type="module">
+    import options from './../public/main.js'
+    import { init } from './../public/docfx.min.js'
+    init(options)
+  </script>
+
+  <script>
+    const theme = localStorage.getItem('theme') || 'auto'
+    document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+  </script>
+
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../logo.svg" alt="">
+            
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" style="margin-top: -.65em; margin-left: -.8em" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="Vts.IO">
+
+  <h1 id="Vts_IO" data-uid="Vts.IO" class="text-break">Namespace Vts.IO
+</h1>
+  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="markdown level0 remarks"></div>
+
+    <h3 id="classes">
+Classes
+</h3>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Vts.IO.ArrayCustomBinaryReader-1.html">ArrayCustomBinaryReader&lt;T&gt;</a></dt>
+      <dd><p>Class that implements the interface ICustomBinaryReader to read different types of Array from a binary stream</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Vts.IO.ArrayCustomBinaryWriter.html">ArrayCustomBinaryWriter</a></dt>
+      <dd><p>Class that implements the interface ICustomBinaryWriter to write different types of Array to a binary stream supported types are double, float, ushort, Complex and byte</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Vts.IO.BinaryArraySerializer.html">BinaryArraySerializer</a></dt>
+      <dd><p>class to write detector arrays to/from binary files</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Vts.IO.ConventionBasedConverter-1.html">ConventionBasedConverter&lt;TInterface&gt;</a></dt>
+      <dd><p>class to deserialize json
+from <a href="http://stackoverflow.com/questions/8030538/how-to-implement-custom-jsonconverter-in-json-net-to-deserialize-a-list-of-base">http://stackoverflow.com/questions/8030538/how-to-implement-custom-jsonconverter-in-json-net-to-deserialize-a-list-of-base</a></p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Vts.IO.CustomBinaryStreamWriter-1.html">CustomBinaryStreamWriter&lt;T&gt;</a></dt>
+      <dd><p>Class to write specified types to a binary stream</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Vts.IO.FileIO.html">FileIO</a></dt>
+      <dd><p>This class includes methods for saving and loading JSON text and binary data
+It uses custom iterators for saving (unfortunately, nothing as useful for reading value types)
+Currently, float, double and ushort are supported (and they're processed in that order)</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Vts.IO.JsonCreationConverter-1.html">JsonCreationConverter&lt;T&gt;</a></dt>
+      <dd><p>class JsonCreationConverter</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Vts.IO.KnownTypes.html">KnownTypes</a></dt>
+      <dd><p>Class created to work-around the issues with the DataContractSerializer in Mono</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Vts.IO.LibraryIO.html">LibraryIO</a></dt>
+      <dd><p>This class includes methods for dynamically loading DLLs</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Vts.IO.MetaData.html">MetaData</a></dt>
+      <dd><p>This class will create metadata objects that will aid in the reading of binary files created
+with the BinaryWriter tools</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Vts.IO.StreamFinder.html">StreamFinder</a></dt>
+      <dd><p>Implements static functions for returning streams from various locations (resources, file system, etc)</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Vts.IO.VtsJsonSerializer.html">VtsJsonSerializer</a></dt>
+      <dd><p>json serializer methods for the VTS</p>
+</dd>
+    </dl>
+    <h3 id="interfaces">
+Interfaces
+</h3>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Vts.IO.ICustomBinaryReader-1.html">ICustomBinaryReader&lt;T&gt;</a></dt>
+      <dd><p>General interface to read a specified type from binary</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="Vts.IO.ICustomBinaryWriter-1.html">ICustomBinaryWriter&lt;T&gt;</a></dt>
+      <dd><p>General interface to write a specified type to binary</p>
+</dd>
+    </dl>
+
+
+</article>
+
+        <div class="contribution d-print-none">
+        </div>
+
+        
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+
+    <footer class="border-top">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span>Made with <a href="https://dotnet.github.io/docfx">docfx</a></span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
