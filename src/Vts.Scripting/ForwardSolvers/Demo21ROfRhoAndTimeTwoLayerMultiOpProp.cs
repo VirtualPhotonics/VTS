@@ -18,7 +18,7 @@ internal class Demo21ROfRhoAndFtTwoLayerMultiOpProp : IDemoScript
         // PointSourceSDA,DistributedGaussianSourceSDA, DistributedPointSourceSDA,
         // MonteCarlo(basic scaled), Nurbs(scaled with smoothing and adaptive binning)
         var solver = new TwoLayerSDAForwardSolver();
-        var ts = new DoubleRange(start: 0, stop: 0.5, number: 51).AsEnumerable().ToArray(); // range of times in 1/mm
+        var ts = new DoubleRange(start: 0, stop: 0.5, number: 51).ToArray(); // range of times in 1/mm
         
         // create an array of chromophore absorbers, each with a given concentrations
         var chromophores = new IChromophoreAbsorber[]
@@ -35,7 +35,7 @@ internal class Demo21ROfRhoAndFtTwoLayerMultiOpProp : IDemoScript
         var tissue = new Tissue(chromophores, scatterer, "", n: 1.4);
 
         // predict the bulk tissue's NIR optical properties
-        var wavelengths = new DoubleRange(start: 650, stop: 850, number: 3).AsEnumerable().ToArray(); // range of wavelengths in nm
+        var wavelengths = new DoubleRange(start: 650, stop: 850, number: 3).ToArray(); // range of wavelengths in nm
         var opsBottomLayer = tissue.GetOpticalProperties(wavelengths);
 
         // perturb the top layer's mua by a multiplicative factor

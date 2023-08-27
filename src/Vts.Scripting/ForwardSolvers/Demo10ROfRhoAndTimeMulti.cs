@@ -23,7 +23,7 @@ internal class Demo10ROfRhoAndTimeMulti : IDemoScript
             new OpticalProperties(mua:  0.2, musp: 1, g: 0.8, n: 1.4)
         };
         var rho = 10; // radial detector location in mm
-        var ts = new DoubleRange(start: 0, stop: 0.5, number: 501).AsEnumerable().ToArray(); // range of times in ns
+        var ts = new DoubleRange(start: 0, stop: 0.5, number: 501).ToArray(); // range of times in ns
 
         // predict the reflectance at each specified optical property and source-detector separation
         var allROfRho = solver.ROfRhoAndTime(ops, rho, ts).ToArray();

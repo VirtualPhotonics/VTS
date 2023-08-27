@@ -163,7 +163,7 @@ namespace Vts.MonteCarlo.Detectors
             {
                 for (int iw = 0; iw < Omega.Count; iw++)
                 {
-                    double freq = Omega.AsEnumerable().ToArray()[iw];
+                    double freq = Omega.ToArray()[iw];
 
                     Mean[ix, iy, iz, iw] += (weight/_ops[regionIndex].Mua) *
                                                (Math.Cos(-2 * Math.PI * freq * totalTime) +

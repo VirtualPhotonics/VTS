@@ -147,7 +147,7 @@ namespace Vts.MonteCarlo.Detectors
             var totalTime = photon.DP.TotalTime;
             for (var iw = 0; iw < Omega.Count; iw++)
             {
-                var freq = Omega.AsEnumerable().ToArray()[iw];
+                var freq = Omega.ToArray()[iw];
                 Mean[ir, iw] += photon.DP.Weight*(Math.Cos(-2*Math.PI*freq*totalTime) +
                                                   Complex.ImaginaryOne * Math.Sin(-2*Math.PI*freq*totalTime));
                 // 2nd moment is E[xx*]=E[xReal^2]+E[xImag^2] and with cos^2+sin^2=1 => weight^2
