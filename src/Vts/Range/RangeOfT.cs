@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -11,6 +12,7 @@ namespace Vts
     /// <typeparam name="T">The type of the values in the range</typeparam>
     /// <remarks>Explicit data contract necessary for JSON.Net: http://stackoverflow.com/questions/19231367/serializing-poco-class-derived-from-baseclass-with-datacontract </remarks>
     [DataContract]
+    [JsonObject]
     public abstract class Range<T> : BindableObject, IEnumerable<T> where T : struct
     {
         private T _start;
