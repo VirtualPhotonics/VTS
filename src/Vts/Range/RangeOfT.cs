@@ -129,7 +129,7 @@ namespace Vts
         /// Returns an IEnumerator of type T that enumerates the range
         /// </summary>
         /// <returns>An IEnumerator of type T that enumerates the range</returns>
-        public IEnumerator<T> GetEnumerator() => ToEnumerable().GetEnumerator();
+        public IEnumerator<T> GetEnumerator() => AsEnumerable().GetEnumerator();
 
         /// <summary>
         /// Explicit interface implementation to hide the non-generic version
@@ -142,7 +142,7 @@ namespace Vts
         /// </summary>
         /// <returns>An IEnumerable of type T that enumerates the range</returns>
         [Obsolete("This method is deprecated. Use built-in IEnumerable implementation instead.")]
-        public IEnumerable<T> ToEnumerable()
+        public IEnumerable<T> AsEnumerable()
         {
             var increment = GetIncrement();
 
