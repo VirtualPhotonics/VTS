@@ -34,7 +34,7 @@ namespace Vts.Test.MonteCarlo.Factories
                     detectorList, null));
             Assert.IsInstanceOf<IDetectorController>(
                 DetectorControllerFactory.GetDetectorController(
-                    VirtualBoundaryType.Dosimetry,
+                    VirtualBoundaryType.InternalSurface,
                     detectorList, null));
             Assert.IsInstanceOf<IDetectorController>(
                 DetectorControllerFactory.GetDetectorController(

@@ -17,7 +17,7 @@ namespace Vts.MonteCarlo
         // should we dynamically set MAX_HISTORY_PTS and MAX_PHOTON_TIME?  derive one from other?
         private const int MaxHistoryPts = 300000; // 300000 * [1/(5/mm)] = 60000 mm
         private const double Chance = 0.1;
-        private const double MaxPhotonTime = 280; // ns = 60000 mm (pathlength) / (300 / 1.4)
+        private const double MaxPhotonTime = 280; // ns = 60000 mm (path length) / (300 / 1.4)
     
         // could add layer of indirection to not expose Absorb
         private readonly ITissue _tissue;
@@ -133,15 +133,12 @@ namespace Vts.MonteCarlo
         }
         private void SetScatterAction(PhaseFunctionType st)
         {
-            switch (st)
+            Scatter = st switch
             {
-                case PhaseFunctionType.HenyeyGreenstein:
-                    Scatter = ScatterHenyeyGreenstein;
-                    break;
-                case PhaseFunctionType.Bidirectional:
-                    Scatter = Scatter1D;
-                    break;
-            }
+                PhaseFunctionType.HenyeyGreenstein => ScatterHenyeyGreenstein,
+                PhaseFunctionType.Bidirectional => Scatter1D,
+                _ => Scatter
+            };
         }
         /// <summary>
         /// method that determines photon's step size based on the RegionScatterLength (1/mus or 1/mut depending on CAW or DAW)

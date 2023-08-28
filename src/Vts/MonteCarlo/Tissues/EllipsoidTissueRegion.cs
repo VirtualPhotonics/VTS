@@ -73,13 +73,17 @@ namespace Vts.MonteCarlo.Tissues
                             (position.Z - Center.Z) * (position.Z - Center.Z) /
                             (Dz * Dz);
 
-            if (inside < 0.9999999999) return true; // previous check  0.9999999
-
-            if (inside > 1.00000000001) return false; // previous check 1.0000001
-
-            // on boundary means ellipsoid contains position
-            _onBoundary = true;
-            return true;  // ckh 2/28/19 this has to return true or unit tests fail => contains if on ellipsoid
+            switch (inside)
+            {
+                case < 0.9999999999:
+                    return true; // previous check  0.9999999
+                case > 1.00000000001:
+                    return false; // previous check 1.0000001
+                default:
+                    // on boundary means ellipsoid contains position
+                    _onBoundary = true;
+                    return true;  // ckh 2/28/19 this has to return true or unit tests fail => contains if on ellipsoid
+            }
         }
         /// <summary>
         /// Method to determine if given Position lies on boundary of ellipsoid.

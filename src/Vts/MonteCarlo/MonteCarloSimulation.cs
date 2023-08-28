@@ -364,7 +364,7 @@ namespace Vts.MonteCarlo
                     VirtualBoundaryType.DiffuseTransmittance => Input.DetectorInputs.Where(d => d.TallyDetails.IsTransmittanceTally).ToList(),
                     VirtualBoundaryType.SpecularReflectance => Input.DetectorInputs.Where(d => d.TallyDetails.IsSpecularReflectanceTally).ToList(),
                     VirtualBoundaryType.GenericVolumeBoundary => Input.DetectorInputs.Where(d => d.TallyDetails.IsVolumeTally).ToList(),
-                    VirtualBoundaryType.Dosimetry => Input.DetectorInputs.Where(d => d.TallyDetails.IsInternalSurfaceTally).ToList(),
+                    VirtualBoundaryType.InternalSurface => Input.DetectorInputs.Where(d => d.TallyDetails.IsInternalSurfaceTally).ToList(),
                     VirtualBoundaryType.pMCDiffuseReflectance => Input.DetectorInputs.Where(d => d.TallyDetails.IspMCReflectanceTally).ToList(),
                     VirtualBoundaryType.pMCDiffuseTransmittance => Input.DetectorInputs.Where(d => d.TallyDetails.IspMCTransmittanceTally).ToList(),
                     VirtualBoundaryType.BoundingVolume => Input.DetectorInputs.Where(d => d.TallyDetails.IsLateralBoundingVolumeTally).ToList(),
@@ -421,7 +421,7 @@ namespace Vts.MonteCarlo
         /// Initializes databases for diffuse reflectance (1 database) or perturbation
         /// MC (2 databases)
         /// </summary>
-        /// <param name="doPmc"></param>
+        /// <param name="doPmc">flag indicating whether to do pmc or not</param>
         private void InitialDatabases(bool doPmc)
         {
             if (doPmc)
@@ -454,9 +454,9 @@ namespace Vts.MonteCarlo
         /// appropriate photon state flag, e.g. PhotonStateType.PseudoBoundingVolumeTissueBoundary
         /// c) finally sets BoundaryHitType.Virtual and tallies in main MC loop
         /// </summary>
-        /// <param name="photon"></param>
-        /// <param name="closestVirtualBoundary"></param>
-        /// <returns></returns>
+        /// <param name="photon">Photon class</param>
+        /// <param name="closestVirtualBoundary">IVirtualBoundary</param>
+        /// <returns>BoundaryHitType indicating type of boundary hit</returns>
         private BoundaryHitType MoveToBoundaryCheck(Photon photon, out IVirtualBoundary closestVirtualBoundary)
         {
             // get distance to any tissue boundary
@@ -511,13 +511,13 @@ namespace Vts.MonteCarlo
         /// <summary>
         /// Method that displays simulation percentage done
         /// </summary>
-        /// <param name="n"></param>
-        /// <param name="numPhot"></param>
-        private void DisplayStatus(long n, long numPhot)
+        /// <param name="n">current number of photons run</param>
+        /// <param name="numberOfPhotonsLaunched">total number of photons to be launched</param>
+        private void DisplayStatus(long n, long numberOfPhotonsLaunched)
         {
             var header = Input.OutputName + " (" + SimulationIndex + "): ";
             // fraction of photons completed
-            var fraction = 100.0 * n / numPhot;
+            var fraction = 100.0 * n / numberOfPhotonsLaunched;
 
             _logger.Info(() => header + fraction + " percent complete\n");
         }

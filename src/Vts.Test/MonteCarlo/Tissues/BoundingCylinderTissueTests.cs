@@ -17,7 +17,7 @@ namespace Vts.Test.MonteCarlo.Tissues
         /// Validate general constructor of Tissue for a one layer and two layer tissue cylinder
         /// </summary>
         [OneTimeSetUp]
-        public void create_instance_of_class()
+        public void Create_instance_of_class()
         {
             _oneLayerTissue = new BoundedTissue(new CaplessCylinderTissueRegion(
                 new Position(0, 0, 50), 1.0, 100.0, new OpticalProperties()),
@@ -56,9 +56,9 @@ namespace Vts.Test.MonteCarlo.Tissues
         /// Validate method GetRegionIndex return correct Boolean
         /// </summary>
         [Test]
-        public void verify_GetRegionIndex_method_returns_correct_result()
+        public void Verify_GetRegionIndex_method_returns_correct_result()
         {
-            int index = _oneLayerTissue.GetRegionIndex(new Position(10, 0, 0)); // outside cylinder
+            var index = _oneLayerTissue.GetRegionIndex(new Position(10, 0, 0)); // outside cylinder
             Assert.AreEqual(3, index);
             index = _oneLayerTissue.GetRegionIndex(new Position(0, 0, 2.5)); // inside cylinder
             Assert.AreEqual(1, index);
@@ -77,9 +77,9 @@ namespace Vts.Test.MonteCarlo.Tissues
         /// Validate method GetNeighborRegionIndex return correct Boolean
         /// </summary>
         [Test]
-        public void verify_GetNeighborRegionIndex_method_returns_correct_result()
+        public void Verify_GetNeighborRegionIndex_method_returns_correct_result()
         {
-            Photon photon = new Photon( // on side of cylinder pointed into it
+            var photon = new Photon( // on side of cylinder pointed into it
                 new Position(-1, 0, 1),
                 new Direction(1.0, 0, 0),
                 1.0,
@@ -140,16 +140,16 @@ namespace Vts.Test.MonteCarlo.Tissues
         /// Validate method GetAngleRelativeToBoundaryNormal return correct Boolean
         /// </summary>
         [Test]
-        public void verify_GetAngleRelativeToBoundaryNormal_method_returns_correct_result()
+        public void Verify_GetAngleRelativeToBoundaryNormal_method_returns_correct_result()
         {
-            Photon photon = new Photon( // on top of tissue pointed into it
+            var photon = new Photon( // on top of tissue pointed into it
                 new Position(0.0, 0.0, 0.0),
                 new Direction(0.0, 0.0, 1.0),
                 1,
                 _twoLayerTissue,
                 1,
                 new Random());
-            double cosTheta = _twoLayerTissue.GetAngleRelativeToBoundaryNormal(photon);
+            var cosTheta = _twoLayerTissue.GetAngleRelativeToBoundaryNormal(photon);
             Assert.AreEqual(1, cosTheta);
             // put on side of cylinder pointing in
             photon.DP.Position = new Position(1.0, 1.0, 5.0);

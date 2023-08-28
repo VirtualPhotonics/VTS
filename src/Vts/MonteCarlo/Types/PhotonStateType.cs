@@ -82,7 +82,7 @@ namespace Vts.MonteCarlo
         /// </summary>
         PseudoGenericVolumeVirtualBoundary = 0x80000,
         /// <summary>
-        /// photon pseudo-collision at Dosimetry Virtual Boundary (VB)
+        /// photon pseudo-collision at Internal Surface Virtual Boundary (VB)
         /// </summary>
         PseudoSurfaceRadianceVirtualBoundary = 0x100000,
         /// <summary>

@@ -21,14 +21,14 @@ namespace Vts.Test.MonteCarlo.Tissues
         /// Test default constructor
         /// </summary>
         [Test]
-        public void validate_default_constructor()
+        public void Validate_default_constructor()
         {
             var boundedTissue = new BoundedTissue();
             Assert.IsInstanceOf<BoundedTissue>(boundedTissue);
         }
 
         [OneTimeSetUp]
-        public void create_instance_of_class()
+        public void Create_instance_of_class()
         {
             _oneLayerTissueBoundedByVoxel = new BoundedTissue(
                 new CaplessVoxelTissueRegion(
@@ -75,9 +75,9 @@ namespace Vts.Test.MonteCarlo.Tissues
         /// Validate method GetRegionIndex return correct Boolean
         /// </summary>
         [Test]
-        public void verify_GetRegionIndex_method_returns_correct_result()
+        public void Verify_GetRegionIndex_method_returns_correct_result()
         {
-            int index = _oneLayerTissueBoundedByVoxel.GetRegionIndex(new Position(0, 0, 0.5)); // inside voxel
+            var index = _oneLayerTissueBoundedByVoxel.GetRegionIndex(new Position(0, 0, 0.5)); // inside voxel
             Assert.AreEqual(1, index);
             index = _oneLayerTissueBoundedByVoxel.GetRegionIndex(new Position(2.5, 0, 2.5)); // inside bounding voxel
             Assert.AreEqual(3, index);
@@ -89,9 +89,9 @@ namespace Vts.Test.MonteCarlo.Tissues
         /// Validate method GetNeighborRegionIndex for oneLayerTissueBoundedByVoxel return correct Boolean
         /// </summary>
         [Test]
-        public void verify_oneLayerTissueBoundedByVoxel_GetNeighborRegionIndex_method_correct_when_photon_on_ellipsoid()
+        public void Verify_oneLayerTissueBoundedByVoxel_GetNeighborRegionIndex_method_correct_when_photon_on_ellipsoid()
         {
-            Photon photon = new Photon( // on side of voxel pointed into it
+            var photon = new Photon( // on side of voxel pointed into it
                 new Position(-1.0, 0, 1.0),
                 new Direction(1.0, 0, 0.0),
                 1,
@@ -106,10 +106,10 @@ namespace Vts.Test.MonteCarlo.Tissues
         /// Validate method GetNeighborRegionIndex for oneLayerTissueBoundedByVoxel return correct Boolean
         /// </summary>
         [Test]
-        public void verify_oneLayerTissueBoundedByVoxel_GetNeighborRegionIndex_method_correct_when_photon_bottom_slab()
+        public void Verify_oneLayerTissueBoundedByVoxel_GetNeighborRegionIndex_method_correct_when_photon_bottom_slab()
         {
             // on bottom of slab pointed out
-            Photon photon = new Photon( // have to reinitialize photon so that _onBoundary is set to false
+            var photon = new Photon( // have to reinitialize photon so that _onBoundary is set to false
                 new Position(0, 0, 10.0),
                 new Direction(0.0, 0, 1.0),
                 1,
@@ -127,12 +127,12 @@ namespace Vts.Test.MonteCarlo.Tissues
         /// test just tests isolated method.
         /// </summary>
         [Test]
-        public void verify_GetReflectedDirection_method_returns_correct_result()
+        public void Verify_GetReflectedDirection_method_returns_correct_result()
         {
             // put photon on boundary of domain to make sure base (MultiLayerTissue) call works
             var currentPosition = new Position(0, 0, 0);
             var currentDirection = new Direction(1 / Math.Sqrt(2), 0, -1 / Math.Sqrt(2));
-            Direction reflectedDir = _oneLayerTissueBoundedByVoxel.GetReflectedDirection(
+            var reflectedDir = _oneLayerTissueBoundedByVoxel.GetReflectedDirection(
                 currentPosition, currentDirection);
             Assert.AreEqual(1 / Math.Sqrt(2), reflectedDir.Ux);
             Assert.AreEqual(0, reflectedDir.Uy);
@@ -164,7 +164,7 @@ namespace Vts.Test.MonteCarlo.Tissues
         /// Validate method GetReflectedDirection returns correct direction.
         /// </summary>
         [Test]
-        public void verify_GetRefractedDirection_method_returns_correct_result()
+        public void Verify_GetRefractedDirection_method_returns_correct_result()
         {
             // put photon on boundary of domain to make sure base (MultiLayerTissue) call works
             var currentPosition = new Position(0, 0, 10);
@@ -172,7 +172,7 @@ namespace Vts.Test.MonteCarlo.Tissues
             var nCurrent = 1.4;
             var nNext = 1.4;
             var cosThetaSnell = 1 / Math.Sqrt(2);
-            Direction refractedDir = _oneLayerTissueBoundedByVoxel.GetRefractedDirection(
+            var refractedDir = _oneLayerTissueBoundedByVoxel.GetRefractedDirection(
                 currentPosition, currentDirection, nCurrent, nNext, cosThetaSnell);
             Assert.IsTrue(Math.Abs(refractedDir.Ux - 1 / Math.Sqrt(2)) < 1e-6);
             Assert.AreEqual(0, refractedDir.Uy);
@@ -205,11 +205,16 @@ namespace Vts.Test.MonteCarlo.Tissues
         /// from GetAngleRelativeToBoundaryNormal are positive to be used successfully by Photon.
         /// </summary>
         [Test]
-        public void verify_GetAngleRelativeToBoundaryNormal_method_returns_correct_result()
+        public void Verify_GetAngleRelativeToBoundaryNormal_method_returns_correct_result()
         {
-            var photon = new Photon();
-            photon.DP.Position = new Position(0, 0, 0); // put photon on voxel top
-            photon.DP.Direction = new Direction(0, 0, 1); // direction opposite surface normal
+            var photon = new Photon
+            {
+                DP =
+                {
+                    Position = new Position(0, 0, 0), // put photon on voxel top
+                    Direction = new Direction(0, 0, 1) // direction opposite surface normal
+                }
+            };
             var dirCosine = _oneLayerTissueBoundedByVoxel.GetAngleRelativeToBoundaryNormal(photon);
             Assert.AreEqual(1, dirCosine);
             photon.DP.Position = new Position(0, 0, 10); // put photon on voxel bottom

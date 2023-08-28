@@ -26,8 +26,8 @@ namespace Vts.MonteCarlo.Factories
                                         tissue, detectorController, VirtualBoundaryType.DiffuseTransmittance.ToString()),
                 VirtualBoundaryType.SpecularReflectance => new SpecularReflectanceVirtualBoundary(
                                          tissue, detectorController, VirtualBoundaryType.SpecularReflectance.ToString()),// reflecting off first layer without transporting in medium
-                VirtualBoundaryType.Dosimetry => new RadianceVirtualBoundary(
-                                        detectorController, VirtualBoundaryType.Dosimetry.ToString()),
+                VirtualBoundaryType.InternalSurface => new RadianceVirtualBoundary(
+                                        detectorController, VirtualBoundaryType.InternalSurface.ToString()),
                 VirtualBoundaryType.GenericVolumeBoundary => new GenericVolumeVirtualBoundary(
                                         tissue, detectorController, VirtualBoundaryType.GenericVolumeBoundary.ToString()),
                 VirtualBoundaryType.pMCDiffuseReflectance => new pMCDiffuseReflectanceVirtualBoundary(

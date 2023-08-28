@@ -33,20 +33,18 @@ namespace Vts.MonteCarlo.Sources
             var oneDArray = new double[numberOfPixelsX * numberOfPixelsY];
 
             // read in CSV file into 1D column major array
-            using (var reader = new StreamReader(inputPath))
+            using var reader = new StreamReader(inputPath);
+            var row = 0;
+            while (!reader.EndOfStream)
             {
-                var row = 0;
-                while (!reader.EndOfStream)
+                var line = reader.ReadLine();
+                if (line == null) continue;
+                var values = line.Split(',');
+                for (var i = 0; i < numberOfPixelsX; i++)
                 {
-                    var line = reader.ReadLine();
-                    if (line == null) continue;
-                    var values = line.Split(',');
-                    for (var i = 0; i < numberOfPixelsX; i++)
-                    {
-                        oneDArray[row + numberOfPixelsY * i] = Convert.ToDouble(values[i]);
-                    }
-                    row += 1;
+                    oneDArray[row + numberOfPixelsY * i] = Convert.ToDouble(values[i]);
                 }
+                row += 1;
             }
 
             return oneDArray;

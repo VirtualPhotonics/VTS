@@ -37,7 +37,7 @@ namespace Vts.Test.MonteCarlo.Factories
                     tissue, new DetectorController(detectorList)));
             Assert.IsInstanceOf<IVirtualBoundary>(
                 VirtualBoundaryFactory.GetVirtualBoundary(
-                    VirtualBoundaryType.Dosimetry,
+                    VirtualBoundaryType.InternalSurface,
                     tissue, new DetectorController(detectorList)));
             Assert.IsInstanceOf<IVirtualBoundary>(
                 VirtualBoundaryFactory.GetVirtualBoundary(

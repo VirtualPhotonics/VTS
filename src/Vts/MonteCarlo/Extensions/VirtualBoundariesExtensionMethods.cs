@@ -21,7 +21,7 @@ namespace Vts.MonteCarlo.Extensions
                 case VirtualBoundaryType.SpecularReflectance:
                 case VirtualBoundaryType.pMCDiffuseReflectance:
                 case VirtualBoundaryType.pMCDiffuseTransmittance:
-                case VirtualBoundaryType.Dosimetry:
+                case VirtualBoundaryType.InternalSurface:
                     return true;
                 case VirtualBoundaryType.GenericVolumeBoundary:
                 case VirtualBoundaryType.BoundingVolume:
@@ -48,7 +48,7 @@ namespace Vts.MonteCarlo.Extensions
                 case VirtualBoundaryType.DiffuseReflectance:
                 case VirtualBoundaryType.DiffuseTransmittance:
                 case VirtualBoundaryType.SpecularReflectance:
-                case VirtualBoundaryType.Dosimetry:
+                case VirtualBoundaryType.InternalSurface:
                 case VirtualBoundaryType.pMCDiffuseReflectance:
                 case VirtualBoundaryType.pMCDiffuseTransmittance:
                     return false;
@@ -73,7 +73,7 @@ namespace Vts.MonteCarlo.Extensions
                 case VirtualBoundaryType.DiffuseTransmittance:
                 case VirtualBoundaryType.SpecularReflectance:
                 case VirtualBoundaryType.GenericVolumeBoundary:
-                case VirtualBoundaryType.Dosimetry:
+                case VirtualBoundaryType.InternalSurface:
                 case VirtualBoundaryType.pMCDiffuseTransmittance:
                 case VirtualBoundaryType.BoundingVolume:
                     return false;
@@ -98,7 +98,7 @@ namespace Vts.MonteCarlo.Extensions
                 case VirtualBoundaryType.DiffuseReflectance:
                 case VirtualBoundaryType.SpecularReflectance:
                 case VirtualBoundaryType.GenericVolumeBoundary:
-                case VirtualBoundaryType.Dosimetry:
+                case VirtualBoundaryType.InternalSurface:
                 case VirtualBoundaryType.pMCDiffuseReflectance:
                 case VirtualBoundaryType.BoundingVolume:
                     return false;
@@ -122,7 +122,7 @@ namespace Vts.MonteCarlo.Extensions
                 case VirtualBoundaryType.DiffuseReflectance:
                 case VirtualBoundaryType.DiffuseTransmittance:
                 case VirtualBoundaryType.GenericVolumeBoundary:
-                case VirtualBoundaryType.Dosimetry:
+                case VirtualBoundaryType.InternalSurface:
                 case VirtualBoundaryType.pMCDiffuseReflectance:
                 case VirtualBoundaryType.pMCDiffuseTransmittance:
                 case VirtualBoundaryType.BoundingVolume:
@@ -134,15 +134,15 @@ namespace Vts.MonteCarlo.Extensions
             }
         }
         /// <summary>
-        /// Method to determine if dosimetry VB or not
+        /// Method to determine if internal surface (dosimetry) VB or not
         /// </summary>
         /// <param name="virtualBoundaryType">VB type </param>
         /// <returns>true if internal surface VB, false if not</returns>
-        public static bool IsDosimetryVirtualBoundary(this VirtualBoundaryType virtualBoundaryType)
+        public static bool IsInternalSurfaceVirtualBoundary(this VirtualBoundaryType virtualBoundaryType)
         {
             switch (virtualBoundaryType)
             {
-                case VirtualBoundaryType.Dosimetry:
+                case VirtualBoundaryType.InternalSurface:
                     return true;
                 case VirtualBoundaryType.DiffuseReflectance:
                 case VirtualBoundaryType.DiffuseTransmittance:
@@ -173,7 +173,7 @@ namespace Vts.MonteCarlo.Extensions
                 case VirtualBoundaryType.DiffuseReflectance:
                 case VirtualBoundaryType.DiffuseTransmittance:
                 case VirtualBoundaryType.SpecularReflectance:
-                case VirtualBoundaryType.Dosimetry:
+                case VirtualBoundaryType.InternalSurface:
                 case VirtualBoundaryType.pMCDiffuseReflectance:
                 case VirtualBoundaryType.pMCDiffuseTransmittance:
                 case VirtualBoundaryType.BoundingVolume:
@@ -201,7 +201,7 @@ namespace Vts.MonteCarlo.Extensions
                 case VirtualBoundaryType.DiffuseReflectance:
                 case VirtualBoundaryType.DiffuseTransmittance:
                 case VirtualBoundaryType.SpecularReflectance:
-                case VirtualBoundaryType.Dosimetry:
+                case VirtualBoundaryType.InternalSurface:
                     return false;
                 default:
                     throw new ArgumentOutOfRangeException(

@@ -17,7 +17,7 @@ namespace Vts.Test.MonteCarlo.Tissues
         /// Validate general constructor of TissueRegion
         /// </summary>
         [OneTimeSetUp]
-        public void create_instance_of_class()
+        public void Create_instance_of_class()
         {
             _caplessCylinderTissueRegion = new CaplessCylinderTissueRegion(
                new Position(0, 0, 2), // center
@@ -29,7 +29,7 @@ namespace Vts.Test.MonteCarlo.Tissues
         /// Validate general constructor of TissueRegion
         /// </summary>
         [Test]
-        public void validate_caplessCylinder_properties()
+        public void Validate_caplessCylinder_properties()
         {
             Assert.AreEqual(0.0, _caplessCylinderTissueRegion.Center.X);
             Assert.AreEqual(0.0, _caplessCylinderTissueRegion.Center.Y);

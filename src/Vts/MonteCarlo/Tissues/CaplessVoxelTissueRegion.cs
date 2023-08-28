@@ -137,7 +137,8 @@ namespace Vts.MonteCarlo.Tissues
             
             // following algorithm from tavianator.com/fast-branchless-raybounding-box-intersections
             // check intersections of ray with planes that make up box
-            double dmin = double.NegativeInfinity, dmax = double.PositiveInfinity;
+            var dmin = double.NegativeInfinity;
+            var dmax = double.PositiveInfinity;
             var dist1 = (X.Start - p1.X)/d1.Ux;
             var dist2 = (X.Stop - p1.X)/d1.Ux;
             dmin = Math.Max(dmin, Math.Min(dist1, dist2));
@@ -242,12 +243,9 @@ namespace Vts.MonteCarlo.Tissues
                 return new Direction(0, -1, 0);
             }
 
-            if (Math.Abs(position.Y - Y.Stop) < tol)
-            {
-                return new Direction(0, 1, 0);
-            }
-            // no check on Z since capless
-            return null;
+            return Math.Abs(position.Y - Y.Stop) < tol ? new Direction(0, 1, 0) :
+                // no check on Z since capless
+                null;
         }
     }
 }

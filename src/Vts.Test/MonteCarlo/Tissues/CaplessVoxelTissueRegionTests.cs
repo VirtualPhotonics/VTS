@@ -17,7 +17,7 @@ namespace Vts.Test.MonteCarlo.Tissues
         /// Validate general constructor of TissueRegion
         /// </summary>
         [OneTimeSetUp]
-        public void create_instance_of_class()
+        public void Create_instance_of_class()
         {
             _caplessVoxelTissueRegion = new CaplessVoxelTissueRegion(
                 new DoubleRange(-1, 1, 2), // x range
@@ -29,7 +29,7 @@ namespace Vts.Test.MonteCarlo.Tissues
         /// Validate general constructor of TissueRegion
         /// </summary>
         [Test]
-        public void validate_CaplessVoxel_properties()
+        public void Validate_CaplessVoxel_properties()
         {
             Assert.AreEqual(-1, _caplessVoxelTissueRegion.X.Start);
             Assert.AreEqual(1, _caplessVoxelTissueRegion.X.Stop);
@@ -46,10 +46,10 @@ namespace Vts.Test.MonteCarlo.Tissues
         /// Currently OnBoundary of an inclusion region isn't called by any code ckh 3/5/19.
         /// </summary>
         [Test]
-        public void verify_OnBoundary_method_returns_correct_result()
+        public void Verify_OnBoundary_method_returns_correct_result()
         {
             // OnBoundary returns true if *exactly* on boundary
-            bool result = _caplessVoxelTissueRegion.OnBoundary(new Position(0, 0, 1.0)); // on boundary
+            var result = _caplessVoxelTissueRegion.OnBoundary(new Position(0, 0, 1.0)); // on boundary
             Assert.IsFalse(result);
             result = _caplessVoxelTissueRegion.OnBoundary(new Position(0, 0, 0.5)); // outside
             Assert.IsFalse(result);
@@ -61,9 +61,9 @@ namespace Vts.Test.MonteCarlo.Tissues
         /// or *on* boundary.
         /// </summary>
         [Test]
-        public void verify_ContainsPosition_method_returns_correct_result()
+        public void Verify_ContainsPosition_method_returns_correct_result()
         {
-            bool result = _caplessVoxelTissueRegion.ContainsPosition(new Position(0, 0, 2.0)); // inside
+            var result = _caplessVoxelTissueRegion.ContainsPosition(new Position(0, 0, 2.0)); // inside
             Assert.IsTrue(result);
             result = _caplessVoxelTissueRegion.ContainsPosition(new Position(0, 0, 1.0)); // on boundary
             Assert.IsTrue(result);
@@ -73,9 +73,9 @@ namespace Vts.Test.MonteCarlo.Tissues
         /// Only valid for sides of voxel
         /// </summary>
         [Test]
-        public void verify_SurfaceNormal_method_returns_correct_result()
+        public void Verify_SurfaceNormal_method_returns_correct_result()
         {
-            Direction result = _caplessVoxelTissueRegion.SurfaceNormal(new Position(0, 0, 1.0)); // top
+            var result = _caplessVoxelTissueRegion.SurfaceNormal(new Position(0, 0, 1.0)); // top
             Assert.AreEqual(null, result);
             result = _caplessVoxelTissueRegion.SurfaceNormal(new Position(0, 0, 3.0));  //bottom
             Assert.AreEqual(null, result);
@@ -100,14 +100,14 @@ namespace Vts.Test.MonteCarlo.Tissues
         /// Validate method RayIntersectBoundary return correct result
         /// </summary>
         [Test]
-        public void verify_RayIntersectBoundary_method_returns_correct_result()
+        public void Verify_RayIntersectBoundary_method_returns_correct_result()
         {
-            Photon photon = new Photon();
+            var photon = new Photon();
             photon.DP.Position = new Position(-2, 0, 2);
             photon.DP.Direction = new Direction(1, 0, 0);
             photon.S = 10.0; // definitely intersect 
             double distanceToBoundary;
-            bool result = _caplessVoxelTissueRegion.RayIntersectBoundary(photon, out distanceToBoundary);
+            var result = _caplessVoxelTissueRegion.RayIntersectBoundary(photon, out distanceToBoundary);
             Assert.AreEqual(true, result);
             Assert.AreEqual(1.0, distanceToBoundary);
             photon.S = 0.5; // definitely don't intersect

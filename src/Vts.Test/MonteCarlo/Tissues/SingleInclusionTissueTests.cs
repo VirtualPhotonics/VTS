@@ -17,7 +17,7 @@ namespace Vts.Test.MonteCarlo.Tissues
         /// Validate general constructor of Tissue
         /// </summary>
         [OneTimeSetUp]
-        public void create_instance_of_class()
+        public void Create_instance_of_class()
         {
             _tissueWithEllipsoid = new SingleInclusionTissue(new EllipsoidTissueRegion(
                 new Position(0, 0, 3), 1.0, 1.0, 2.0, new OpticalProperties()),
@@ -53,9 +53,9 @@ namespace Vts.Test.MonteCarlo.Tissues
         /// Validate method GetRegionIndex return correct Boolean
         /// </summary>
         [Test]
-        public void verify_GetRegionIndex_method_returns_correct_result()
+        public void Verify_GetRegionIndex_method_returns_correct_result()
         {
-            int index = _tissueWithEllipsoid.GetRegionIndex(new Position(0, 0, 0.5)); // outside ellipsoid
+            var index = _tissueWithEllipsoid.GetRegionIndex(new Position(0, 0, 0.5)); // outside ellipsoid
             Assert.AreEqual(1, index);
             index = _tissueWithEllipsoid.GetRegionIndex(new Position(0, 0, 2.5)); // inside ellipsoid
             Assert.AreEqual( 3,index);
@@ -67,10 +67,10 @@ namespace Vts.Test.MonteCarlo.Tissues
         /// Validate method GetNeighborRegionIndex for tissueWithEllipsoid return correct Boolean
         /// </summary>
         [Test]
-        public void verify_tissueWithEllipsoid_GetNeighborRegionIndex_method_correct_when_photon_on_ellipsoid()
+        public void Verify_tissueWithEllipsoid_GetNeighborRegionIndex_method_correct_when_photon_on_ellipsoid()
         {
             // Ellipsoid
-            Photon photon = new Photon( // on top of ellipsoid pointed into it
+            var photon = new Photon( // on top of ellipsoid pointed into it
                 new Position(0, 0, 1.0),
                 new Direction(0.0, 0, 1.0),
                 1,
@@ -85,10 +85,10 @@ namespace Vts.Test.MonteCarlo.Tissues
         /// Validate method GetNeighborRegionIndex for tissueWithEllipsoid return correct Boolean
         /// </summary>
         [Test]
-        public void verify_tissueWithEllipsoid_GetNeighborRegionIndex_method_correct_when_photon_bottom_slab()
+        public void Verify_tissueWithEllipsoid_GetNeighborRegionIndex_method_correct_when_photon_bottom_slab()
         {
             // on bottom of slab pointed out
-            Photon photon = new Photon( // have to reinitialize photon so that _onBoundary is set to false
+            var photon = new Photon( // have to reinitialize photon so that _onBoundary is set to false
                 new Position(0, 0, 100.0),
                 new Direction(0.0, 0, 1.0),
                 1,
@@ -106,12 +106,12 @@ namespace Vts.Test.MonteCarlo.Tissues
         /// test just tests isolated method.
         /// </summary>
         [Test]
-        public void verify_GetReflectedDirection_method_returns_correct_result()
+        public void Verify_GetReflectedDirection_method_returns_correct_result()
         {
             // put photon on boundary of domain to make sure base (MultiLayerTissue) call works
             var currentPosition = new Position(10, 10, 0);
             var currentDirection = new Direction(1/Math.Sqrt(2), 0, -1/Math.Sqrt(2));
-            Direction reflectedDir = _tissueWithEllipsoid.GetReflectedDirection(currentPosition, currentDirection);
+            var reflectedDir = _tissueWithEllipsoid.GetReflectedDirection(currentPosition, currentDirection);
             Assert.AreEqual(1/Math.Sqrt(2), reflectedDir.Ux);
             Assert.AreEqual(0, reflectedDir.Uy);
             Assert.AreEqual(1/Math.Sqrt(2), reflectedDir.Uz); // reflection off layer just flips sign of Uz
@@ -140,15 +140,15 @@ namespace Vts.Test.MonteCarlo.Tissues
         /// Validate method GetReflectedDirection returns correct direction.
         /// </summary>
         [Test]
-        public void verify_GetRefractedDirection_method_returns_correct_result()
+        public void Verify_GetRefractedDirection_method_returns_correct_result()
         {
             // put photon on boundary of domain to make sure base (MultiLayerTissue) call works
             var currentPosition = new Position(10, 10, 0);
             var currentDirection = new Direction(1/Math.Sqrt(2), 0, -1/Math.Sqrt(2));
-            var nCurrent = 1.4;
+            const double nCurrent = 1.4;
             var nNext = 1.4; 
             var cosThetaSnell = 1/Math.Sqrt(2);
-            Direction refractedDir = _tissueWithEllipsoid.GetRefractedDirection(currentPosition, currentDirection, nCurrent, nNext, cosThetaSnell);
+            var refractedDir = _tissueWithEllipsoid.GetRefractedDirection(currentPosition, currentDirection, nCurrent, nNext, cosThetaSnell);
             Assert.IsTrue(Math.Abs(refractedDir.Ux - 1 / Math.Sqrt(2)) < 1e-6);
             Assert.AreEqual(0, refractedDir.Uy);
             Assert.IsTrue(Math.Abs(refractedDir.Uz + 1 / Math.Sqrt(2)) < 1e-6);
@@ -178,11 +178,16 @@ namespace Vts.Test.MonteCarlo.Tissues
         /// from GetAngleRelativeToBoundaryNormal are positive to be used successfully by Photon.
         /// </summary>
         [Test]
-        public void verify_GetAngleRelativeToBoundaryNormal_method_returns_correct_result()
+        public void Verify_GetAngleRelativeToBoundaryNormal_method_returns_correct_result()
         {
-            var photon = new Photon();
-            photon.DP.Position = new Position(0, 0, 2); // put photon on ellipsoid top
-            photon.DP.Direction = new Direction(0, 0, 1); // direction opposite surface normal
+            var photon = new Photon
+            {
+                DP =
+                {
+                    Position = new Position(0, 0, 2), // put photon on ellipsoid top
+                    Direction = new Direction(0, 0, 1) // direction opposite surface normal
+                }
+            };
             var dirCosine = _tissueWithEllipsoid.GetAngleRelativeToBoundaryNormal(photon);
             Assert.AreEqual(1, dirCosine);
             photon.DP.Position = new Position(0, 0, 4); // put photon on ellipsoid bottom

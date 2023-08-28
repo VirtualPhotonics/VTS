@@ -28,14 +28,14 @@ namespace Vts.Test.MonteCarlo.Detectors
         /// <summary>
         /// list of temporary files created by these unit tests
         /// </summary>
-        List<string> listOfTestGeneratedFiles = new List<string>()
+        readonly List<string> _listOfTestGeneratedFiles = new List<string>()
         {
             "file.txt", // file that captures screen output of MC simulation
         };
         [OneTimeTearDown]
-        public void clear_folders_and_files()
+        public void Clear_folders_and_files()
         {
-            foreach (var file in listOfTestGeneratedFiles)
+            foreach (var file in _listOfTestGeneratedFiles)
             {
                 FileIO.FileDelete(file);
             }
@@ -44,10 +44,10 @@ namespace Vts.Test.MonteCarlo.Detectors
         /// SingleInclusionTissue with InfiniteCylinderTissueRegion
         /// </summary>
         [OneTimeSetUp]
-        public void execute_Monte_Carlo()
+        public void Execute_Monte_Carlo()
         {
             // delete previously generated files
-            clear_folders_and_files();
+            Clear_folders_and_files();
 
             // instantiate common classes
             var simulationOptions = new SimulationOptions(
@@ -106,7 +106,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                         1, // radius
                         new OpticalProperties(0.01, 1.0, 0.8, 1.4) 
                     ), 
-                    new LayerTissueRegion[]
+                    new ITissueRegion[]
                     { 
                         new LayerTissueRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
@@ -133,7 +133,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                         1, // radius
                         new OpticalProperties(0.01, 1.0, 0.8, 1.5) // mismatched n=1.5
                     ),
-                    new LayerTissueRegion[]
+                    new ITissueRegion[]
                     {
                         new LayerTissueRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
@@ -159,7 +159,7 @@ namespace Vts.Test.MonteCarlo.Detectors
 
         // Diffuse Reflectance
         [Test]
-        public void validate_DAW_voxel_RDiffuse()
+        public void Validate_DAW_voxel_RDiffuse()
         {
             Assert.Less(Math.Abs(_outputOneRegionTissue.Rd * _factor - 0.565017749), 0.000000001);
             Assert.Less(Math.Abs(_outputTwoRegionMatchedTissue.Rd * _factor - 0.565017749), 0.000000001);
@@ -167,7 +167,7 @@ namespace Vts.Test.MonteCarlo.Detectors
         }
         // Reflection R(angle)
         [Test]
-        public void validate_DAW_voxel_ROfAngle()
+        public void Validate_DAW_voxel_ROfAngle()
         {
             Assert.Less(Math.Abs(_outputOneRegionTissue.R_a[0] * _factor - 0.0809612757), 0.0000000001);
             Assert.Less(Math.Abs(_outputTwoRegionMatchedTissue.R_a[0] * _factor - 0.0809612757), 0.0000000001);
@@ -175,7 +175,7 @@ namespace Vts.Test.MonteCarlo.Detectors
         }
         // Diffuse Transmittance
         [Test]
-        public void validate_DAW_voxel_TDiffuse()
+        public void Validate_DAW_voxel_TDiffuse()
         {
             Assert.Less(Math.Abs(_outputOneRegionTissue.Td * _factor - 0.0228405921), 0.000000001);
             Assert.Less(Math.Abs(_outputTwoRegionMatchedTissue.Td * _factor - 0.0228405921), 0.000000001);
@@ -183,7 +183,7 @@ namespace Vts.Test.MonteCarlo.Detectors
         }
         // Transmittance Time(angle)
         [Test]
-        public void validate_DAW_voxel_TOfAngle()
+        public void Validate_DAW_voxel_TOfAngle()
         {
             Assert.Less(Math.Abs(_outputOneRegionTissue.T_a[0] * _factor - 0.00327282369), 0.00000000001);
             Assert.Less(Math.Abs(_outputTwoRegionMatchedTissue.T_a[0] * _factor - 0.00327282369), 0.00000000001);
@@ -191,7 +191,7 @@ namespace Vts.Test.MonteCarlo.Detectors
         }
         // Reflectance R(x,y)
         [Test]
-        public void validate_DAW_voxel_ROfXAndY()
+        public void Validate_DAW_voxel_ROfXAndY()
         {
             Assert.Less(Math.Abs(_outputOneRegionTissue.R_xy[198, 201] * _factor - 0.00825301), 0.00000001);
             Assert.Less(Math.Abs(_outputTwoRegionMatchedTissue.R_xy[198, 201] * _factor - 0.00825301), 0.00000001);
@@ -199,7 +199,7 @@ namespace Vts.Test.MonteCarlo.Detectors
         }
         // Total Absorption
         [Test]
-        public void validate_DAW_voxel_ATotal()
+        public void Validate_DAW_voxel_ATotal()
         {
             Assert.Less(Math.Abs(_outputOneRegionTissue.Atot * _factor - 0.384363881), 0.000000001);
             Assert.Less(Math.Abs(_outputTwoRegionMatchedTissue.Atot * _factor - 0.384363881), 0.000000001);
@@ -208,7 +208,7 @@ namespace Vts.Test.MonteCarlo.Detectors
        
         // sanity checks
         [Test]
-        public void validate_DAW_voxel_RDiffuse_plus_ATotal_plus_TDiffuse_equals_one()
+        public void Validate_DAW_voxel_RDiffuse_plus_ATotal_plus_TDiffuse_equals_one()
         {
             // no specular because photons started inside tissue
             Assert.Less(Math.Abs(_outputOneRegionTissue.Rd + 

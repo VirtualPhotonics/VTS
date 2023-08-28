@@ -9,7 +9,7 @@ namespace Vts.MonteCarlo.Tissues
 {   
     /// <summary>
     /// Implements ITissue.  Defines a tissue geometry comprised of an inclusion embedded within a layered slab.
-    /// Note that many of the methods in this class are invoked by Photon classs and Photon masterminds their returns.
+    /// Note that many of the methods in this class are invoked by Photon class and Photon masterminds their returns.
     /// For example, when the photon is on the boundary of the domain or the inclusion, Photon determines whether
     /// in the critical angle and if so whether to reflect or refract, then invokes the methods below accordingly.
     /// </summary>

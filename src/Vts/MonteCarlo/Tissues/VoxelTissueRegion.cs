@@ -69,18 +69,17 @@ namespace Vts.MonteCarlo.Tissues
         public Position Center
         {
             get =>
-                new Position(
+                new(
                     (X.Start + X.Stop)/2,
                     (Y.Start + Y.Stop)/2,
                     (Z.Start + Z.Stop)/2);
             set
             {
                 var oldCenter = Center;
-                var newCenter = value;
 
-                var dx = newCenter.X - oldCenter.X;
-                var dy = newCenter.Y - oldCenter.Y;
-                var dz = newCenter.Z - oldCenter.Z;
+                var dx = value.X - oldCenter.X;
+                var dy = value.Y - oldCenter.Y;
+                var dz = value.Z - oldCenter.Z;
 
                 X.Start += dx;
                 X.Stop += dx;
@@ -257,11 +256,7 @@ namespace Vts.MonteCarlo.Tissues
                 return new Direction(0, 0, -1);
             }
 
-            if (Math.Abs(position.Z - Z.Stop) < tol)
-            {
-                return new Direction(0, 0, 1);
-            }
-            return null;
+            return Math.Abs(position.Z - Z.Stop) < tol ? new Direction(0, 0, 1) : null;
         }
     }
 }

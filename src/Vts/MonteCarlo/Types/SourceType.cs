@@ -68,9 +68,9 @@ namespace Vts.MonteCarlo
                 // Spherical surface sources: custom
                 "CustomSurfaceEmittingSpherical",
 
-                // Cubiodal Surface Sources
-                // Cubiodal surface sources: Lambertian surface emitting cubiodal
-                "LambertianSurfaceEmittingCubiodal",
+                // Cuboidal Surface Sources
+                // Cuboidal surface sources: Lambertian surface emitting Cuboidal
+                "LambertianSurfaceEmittingCuboidal",
 
                 // Tubular Sources
                 // Tubular sources: Lambertian
@@ -83,11 +83,11 @@ namespace Vts.MonteCarlo
 
                 // VOLUMETRIC SOURCES (3D)
 
-                // Cubiodal Volume Sources
-                // 3D Cubiodal volume sources: isotropic
+                // Cuboidal Volume Sources
+                // 3D Cuboidal volume sources: isotropic
                 "IsotropicVolumetricCuboidal",
-                // 3D Cubiodal volume sources: custom
-                "CustomVolumetricCubiodal",
+                // 3D Cuboidal volume sources: custom
+                "CustomVolumetricCuboidal",
 
                 // Ellipsoidal Volume Sources
                 // 3D Ellipsoidal volume sources: isotropic
