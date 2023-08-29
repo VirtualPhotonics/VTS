@@ -9,8 +9,8 @@ on:
   pull_request:
     branches: [ "master" ]
     paths:
-    - '**.cs'
-    - '**.csproj'
+    - 'src/**/*.csproj'
+    
 jobs:
   build:
 
