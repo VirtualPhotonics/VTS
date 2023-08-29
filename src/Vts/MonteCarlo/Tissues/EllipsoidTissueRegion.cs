@@ -179,13 +179,13 @@ namespace Vts.MonteCarlo.Tissues
 
             var numberOfIntersections = 0; //number of intersections
 
-            if (root1 < 1 && root1 > 0)
+            if (root1 is < 1 and > 0)
             {
                 numberOfIntersections += 1;
                 root = root1;
             }
 
-            if (root2 < 1 && root2 > 0)
+            if (root2 is < 1 and > 0)
             {
                 numberOfIntersections += 1;
                 root = root2;

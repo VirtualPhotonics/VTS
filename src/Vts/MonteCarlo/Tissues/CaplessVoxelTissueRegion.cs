@@ -70,7 +70,7 @@ namespace Vts.MonteCarlo.Tissues
         public Position Center
         {
             get =>
-                new Position(
+                new(
                     (X.Start + X.Stop)/2,
                     (Y.Start + Y.Stop)/2,
                     (Z.Start + Z.Stop)/2);

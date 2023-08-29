@@ -102,10 +102,15 @@ namespace Vts.Test.MonteCarlo.Tissues
         [Test]
         public void Verify_RayIntersectBoundary_method_returns_correct_result()
         {
-            var photon = new Photon();
-            photon.DP.Position = new Position(-2, 0, 2);
-            photon.DP.Direction = new Direction(1, 0, 0);
-            photon.S = 10.0; // definitely intersect 
+            var photon = new Photon
+            {
+                DP =
+                {
+                    Position = new Position(-2, 0, 2),
+                    Direction = new Direction(1, 0, 0)
+                },
+                S = 10.0 // definitely intersect 
+            };
             double distanceToBoundary;
             var result = _caplessVoxelTissueRegion.RayIntersectBoundary(photon, out distanceToBoundary);
             Assert.AreEqual(true, result);
@@ -113,7 +118,7 @@ namespace Vts.Test.MonteCarlo.Tissues
             photon.S = 0.5; // definitely don't intersect
             result = _caplessVoxelTissueRegion.RayIntersectBoundary(photon, out distanceToBoundary);
             Assert.AreEqual(false, result);
-            Assert.AreEqual(Double.PositiveInfinity, distanceToBoundary);
+            Assert.AreEqual(double.PositiveInfinity, distanceToBoundary);
             photon.S = 1.0; // ends right at boundary => intersection
             result = _caplessVoxelTissueRegion.RayIntersectBoundary(photon, out distanceToBoundary);
             Assert.AreEqual(true, result);

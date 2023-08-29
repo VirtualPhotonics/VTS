@@ -47,10 +47,10 @@ namespace Vts.Test.MonteCarlo.Tissues
         /// Currently OnBoundary of an inclusion region isn't called by any code ckh 3/5/19.
         /// </summary>
         [Test]
-        public void verify_OnBoundary_method_returns_correct_result()
+        public void Verify_OnBoundary_method_returns_correct_result()
         {
             // OnBoundary returns true if *exactly* on boundary
-            bool result = _caplessCylinderTissueRegion.OnBoundary(new Position(0, 0, 1.0)); // on top cap boundary
+            var result = _caplessCylinderTissueRegion.OnBoundary(new Position(0, 0, 1.0)); // on top cap boundary
             Assert.IsFalse(result);
             result = _caplessCylinderTissueRegion.OnBoundary(new Position(0, 0, 3.0)); // on bottom cap boundary -> so false
             Assert.IsFalse(result);
@@ -65,9 +65,9 @@ namespace Vts.Test.MonteCarlo.Tissues
         /// or *on* boundary.
         /// </summary>
         [Test]
-        public void verify_ContainsPosition_method_returns_correct_result()
+        public void Verify_ContainsPosition_method_returns_correct_result()
         {
-            bool result = _caplessCylinderTissueRegion.ContainsPosition(new Position(0, 0, 2.0)); // inside
+            var result = _caplessCylinderTissueRegion.ContainsPosition(new Position(0, 0, 2.0)); // inside
             Assert.IsTrue(result);
             result = _caplessCylinderTissueRegion.ContainsPosition(new Position(0, 0, 3.0)); // on boundary
             Assert.IsTrue(result);
@@ -77,44 +77,49 @@ namespace Vts.Test.MonteCarlo.Tissues
         /// Validate method RayIntersectBoundary return correct result
         /// </summary>
         [Test]
-        public void verify_RayIntersectBoundary_method_returns_correct_result()
+        public void Verify_RayIntersectBoundary_method_returns_correct_result()
         {
             // test intersection with sides
-            Photon photon = new Photon();
-            photon.DP.Position = new Position(0, 0, 2);
-            photon.DP.Direction = new Direction(1, 0, 0);
-            photon.S = 2.0; // definitely intersect sides
+            var photon = new Photon
+            {
+                DP =
+                {
+                    Position = new Position(0, 0, 2),
+                    Direction = new Direction(1, 0, 0)
+                },
+                S = 2.0 // definitely intersect sides
+            };
             double distanceToBoundary;
-            bool result = _caplessCylinderTissueRegion.RayIntersectBoundary(photon, out distanceToBoundary);
+            var result = _caplessCylinderTissueRegion.RayIntersectBoundary(photon, out distanceToBoundary);
             Assert.AreEqual(true, result);
             Assert.AreEqual(1.0, distanceToBoundary);
             photon.S = 0.5; // definitely don't intersect sides
             result = _caplessCylinderTissueRegion.RayIntersectBoundary(photon, out distanceToBoundary);
             Assert.AreEqual(false, result);
-            Assert.AreEqual(Double.PositiveInfinity, distanceToBoundary);
+            Assert.AreEqual(double.PositiveInfinity, distanceToBoundary);
             photon.S = 1.0; // ends right at boundary => both out and no intersection
             result = _caplessCylinderTissueRegion.RayIntersectBoundary(photon, out distanceToBoundary);
             Assert.AreEqual(false, result);
-            Assert.AreEqual(Double.PositiveInfinity, distanceToBoundary);
+            Assert.AreEqual(double.PositiveInfinity, distanceToBoundary);
             // intersect cap of caplessCylinder tests
             photon.DP.Position = new Position(0, 0, 0); // intersect top cap
             photon.DP.Direction = new Direction(0, 0, 1);  
             photon.S = 2.0; // make sure intersects top cap
             result = _caplessCylinderTissueRegion.RayIntersectBoundary(photon, out distanceToBoundary);
             Assert.AreEqual(false, result);
-            Assert.AreEqual(Double.PositiveInfinity, distanceToBoundary);
+            Assert.AreEqual(double.PositiveInfinity, distanceToBoundary);
             photon.DP.Position = new Position(0, 0, 4); // intersect bottom cap
             photon.DP.Direction = new Direction(0, 0, -1);
             photon.S = 2.0; // make sure intersects top cap
             result = _caplessCylinderTissueRegion.RayIntersectBoundary(photon, out distanceToBoundary);
             Assert.AreEqual(false, result);
-            Assert.AreEqual(Double.PositiveInfinity, distanceToBoundary);
+            Assert.AreEqual(double.PositiveInfinity, distanceToBoundary);
             photon.DP.Position = new Position(0, 0, 0); // intersect both
             photon.DP.Direction = new Direction(0, 0, 1);
             photon.S = 10.0; // make sure intersects both
             result = _caplessCylinderTissueRegion.RayIntersectBoundary(photon, out distanceToBoundary);
             Assert.AreEqual(false, result);
-            Assert.AreEqual(Double.PositiveInfinity, distanceToBoundary);
+            Assert.AreEqual(double.PositiveInfinity, distanceToBoundary);
         }
     }
 }

@@ -117,19 +117,13 @@ namespace Vts.MonteCarlo
 
         private void SetAbsorbAction(AbsorptionWeightingType awt)
         {
-            switch (awt)
+            Absorb = awt switch
             {
-                case AbsorptionWeightingType.Analog:
-                    Absorb = AbsorbAnalog;
-                    break;
-                case AbsorptionWeightingType.Continuous:
-                    Absorb = AbsorbContinuous;
-                    break;
-                case AbsorptionWeightingType.Discrete:
-                default:
-                    Absorb = AbsorbDiscrete;
-                    break;
-            }
+                AbsorptionWeightingType.Analog => AbsorbAnalog,
+                AbsorptionWeightingType.Continuous => AbsorbContinuous,
+                AbsorptionWeightingType.Discrete => AbsorbDiscrete,
+                _ => AbsorbDiscrete
+            };
         }
         private void SetScatterAction(PhaseFunctionType st)
         {
@@ -319,14 +313,13 @@ namespace Vts.MonteCarlo
         /// </summary>
         public void AbsorbAnalog()
         {
-            if (_rng.NextDouble() > _tissue.Regions[CurrentRegionIndex].RegionOP.Mus /
-                (_tissue.Regions[CurrentRegionIndex].RegionOP.Mus +
-                 _tissue.Regions[CurrentRegionIndex].RegionOP.Mua))
-            {
-                DP.StateFlag = DP.StateFlag.Add(PhotonStateType.Absorbed);
-                DP.StateFlag = DP.StateFlag.Remove(PhotonStateType.Alive);
-                History.AddDPToHistory(DP);
-            }
+            if (!(_rng.NextDouble() > _tissue.Regions[CurrentRegionIndex].RegionOP.Mus /
+                    (_tissue.Regions[CurrentRegionIndex].RegionOP.Mus +
+                     _tissue.Regions[CurrentRegionIndex].RegionOP.Mua))) return;
+            
+            DP.StateFlag = DP.StateFlag.Add(PhotonStateType.Absorbed);
+            DP.StateFlag = DP.StateFlag.Remove(PhotonStateType.Alive);
+            History.AddDPToHistory(DP);
         }
         /// <summary>
         /// Method to de-weight for absorption according to discrete absorption weighting (DAW)
@@ -368,14 +361,13 @@ namespace Vts.MonteCarlo
         {
             TestWeightAndDistance();         
             // if VB crossing flagged
-            if (DP.StateFlag.HasFlag(PhotonStateType.PseudoDiffuseReflectanceVirtualBoundary)  ||
-                DP.StateFlag.HasFlag(PhotonStateType.PseudoDiffuseTransmittanceVirtualBoundary) ||
-                DP.StateFlag.HasFlag(PhotonStateType.PseudoSpecularReflectanceVirtualBoundary) ||
-                DP.StateFlag.HasFlag(PhotonStateType.PseudoLateralBoundingVirtualBoundary))
-            {
-                DP.StateFlag = DP.StateFlag.Remove(PhotonStateType.Alive);
-                History.AddDPToHistory(DP);
-            }
+            if (!DP.StateFlag.HasFlag(PhotonStateType.PseudoDiffuseReflectanceVirtualBoundary) &&
+                !DP.StateFlag.HasFlag(PhotonStateType.PseudoDiffuseTransmittanceVirtualBoundary) &&
+                !DP.StateFlag.HasFlag(PhotonStateType.PseudoSpecularReflectanceVirtualBoundary) &&
+                !DP.StateFlag.HasFlag(PhotonStateType.PseudoLateralBoundingVirtualBoundary)) return;
+            
+            DP.StateFlag = DP.StateFlag.Remove(PhotonStateType.Alive);
+            History.AddDPToHistory(DP);
         }
         /// <summary>
         /// Method that kills photon due to Russian Roulette, maximum path length, etc.

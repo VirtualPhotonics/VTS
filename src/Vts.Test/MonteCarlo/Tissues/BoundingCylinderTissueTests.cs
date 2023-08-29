@@ -12,14 +12,14 @@ namespace Vts.Test.MonteCarlo.Tissues
     [TestFixture]
     public class BoundingCylinderTissueTests
     {
-        private BoundedTissue _oneLayerTissue, _twoLayerTissue;
+        private BoundedTissue _oneLayerTissueBoundedByCylinder, _twoLayerTissueBoundedByCylinder;
         /// <summary>
         /// Validate general constructor of Tissue for a one layer and two layer tissue cylinder
         /// </summary>
         [OneTimeSetUp]
         public void Create_instance_of_class()
         {
-            _oneLayerTissue = new BoundedTissue(new CaplessCylinderTissueRegion(
+            _oneLayerTissueBoundedByCylinder = new BoundedTissue(new CaplessCylinderTissueRegion(
                 new Position(0, 0, 50), 1.0, 100.0, new OpticalProperties()),
                 new ITissueRegion[]
                 {
@@ -33,7 +33,7 @@ namespace Vts.Test.MonteCarlo.Tissues
                         new DoubleRange(100.0, double.PositiveInfinity),
                         new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
                 });
-            _twoLayerTissue = new BoundedTissue(new CaplessCylinderTissueRegion(
+            _twoLayerTissueBoundedByCylinder = new BoundedTissue(new CaplessCylinderTissueRegion(
                     new Position(0, 0, 50), 1.0, 100.0, new OpticalProperties()),
                 new ITissueRegion[]
                 {
@@ -58,18 +58,18 @@ namespace Vts.Test.MonteCarlo.Tissues
         [Test]
         public void Verify_GetRegionIndex_method_returns_correct_result()
         {
-            var index = _oneLayerTissue.GetRegionIndex(new Position(10, 0, 0)); // outside cylinder
+            var index = _oneLayerTissueBoundedByCylinder.GetRegionIndex(new Position(10, 0, 0)); // outside cylinder
             Assert.AreEqual(3, index);
-            index = _oneLayerTissue.GetRegionIndex(new Position(0, 0, 2.5)); // inside cylinder
+            index = _oneLayerTissueBoundedByCylinder.GetRegionIndex(new Position(0, 0, 2.5)); // inside cylinder
             Assert.AreEqual(1, index);
-            index = _oneLayerTissue.GetRegionIndex(new Position(0, 0, 0)); // on cylinder is considered in
+            index = _oneLayerTissueBoundedByCylinder.GetRegionIndex(new Position(0, 0, 0)); // on cylinder is considered in
             Assert.AreEqual(1, index);
             // two layer results
-            index = _twoLayerTissue.GetRegionIndex(new Position(10, 0, 0)); // outside cylinder
+            index = _twoLayerTissueBoundedByCylinder.GetRegionIndex(new Position(10, 0, 0)); // outside cylinder
             Assert.AreEqual(4, index);
-            index = _twoLayerTissue.GetRegionIndex(new Position(0, 0, 2.5)); // inside cylinder
+            index = _twoLayerTissueBoundedByCylinder.GetRegionIndex(new Position(0, 0, 2.5)); // inside cylinder
             Assert.AreEqual(2, index);
-            index = _twoLayerTissue.GetRegionIndex(new Position(0, 0, 0)); // on cylinder is considered in
+            index = _twoLayerTissueBoundedByCylinder.GetRegionIndex(new Position(0, 0, 0)); // on cylinder is considered in
             Assert.AreEqual(1, index);
         }
 
@@ -83,56 +83,56 @@ namespace Vts.Test.MonteCarlo.Tissues
                 new Position(-1, 0, 1),
                 new Direction(1.0, 0, 0),
                 1.0,
-                _oneLayerTissue,
+                _oneLayerTissueBoundedByCylinder,
                 3,
                 new Random());
-            var index = _oneLayerTissue.GetNeighborRegionIndex(photon);
+            var index = _oneLayerTissueBoundedByCylinder.GetNeighborRegionIndex(photon);
             Assert.AreEqual(1, index);
             photon = new Photon( // on side of cylinder pointed out of it
                 new Position(-1, 0, 1),
                 new Direction(-1.0, 0, 0),
                 1.0,
-                _oneLayerTissue,
+                _oneLayerTissueBoundedByCylinder,
                 1,
                 new Random());
-            index = _oneLayerTissue.GetNeighborRegionIndex(photon);
+            index = _oneLayerTissueBoundedByCylinder.GetNeighborRegionIndex(photon);
             Assert.AreEqual(3, index);
             // two layer results
             photon = new Photon( // on side of cylinder pointed into LAYER 1
                 new Position(-1, 0, 0.5),
                 new Direction(1.0, 0, 0),
                 1.0,
-                _twoLayerTissue,
+                _twoLayerTissueBoundedByCylinder,
                 4,
                 new Random());
-            index = _twoLayerTissue.GetNeighborRegionIndex(photon);
+            index = _twoLayerTissueBoundedByCylinder.GetNeighborRegionIndex(photon);
             Assert.AreEqual(1, index);
             photon = new Photon( // on side of cylinder in LAYER 1 pointed out of it
                 new Position(-1, 0, 0.5),
                 new Direction(-1.0, 0, 0),
                 1.0,
-                _twoLayerTissue,
+                _twoLayerTissueBoundedByCylinder,
                 1,
                 new Random());
-            index = _twoLayerTissue.GetNeighborRegionIndex(photon);
+            index = _twoLayerTissueBoundedByCylinder.GetNeighborRegionIndex(photon);
             Assert.AreEqual(4, index);
             photon = new Photon( // on side of cylinder pointed into LAYER 2
                 new Position(-1, 0, 1.5),
                 new Direction(1.0, 0, 0),
                 1.0,
-                _twoLayerTissue,
+                _twoLayerTissueBoundedByCylinder,
                 4,
                 new Random());
-            index = _twoLayerTissue.GetNeighborRegionIndex(photon);
+            index = _twoLayerTissueBoundedByCylinder.GetNeighborRegionIndex(photon);
             Assert.AreEqual(2, index);
             photon = new Photon( // on side of cylinder in LAYER 2 pointed out of it
                 new Position(-1, 0, 1.5),
                 new Direction(-1.0, 0, 0),
                 1.0,
-                _twoLayerTissue,
+                _twoLayerTissueBoundedByCylinder,
                 1,
                 new Random());
-            index = _twoLayerTissue.GetNeighborRegionIndex(photon);
+            index = _twoLayerTissueBoundedByCylinder.GetNeighborRegionIndex(photon);
             Assert.AreEqual(4, index);
         }
 
@@ -146,15 +146,15 @@ namespace Vts.Test.MonteCarlo.Tissues
                 new Position(0.0, 0.0, 0.0),
                 new Direction(0.0, 0.0, 1.0),
                 1,
-                _twoLayerTissue,
+                _twoLayerTissueBoundedByCylinder,
                 1,
                 new Random());
-            var cosTheta = _twoLayerTissue.GetAngleRelativeToBoundaryNormal(photon);
+            var cosTheta = _twoLayerTissueBoundedByCylinder.GetAngleRelativeToBoundaryNormal(photon);
             Assert.AreEqual(1, cosTheta);
             // put on side of cylinder pointing in
             photon.DP.Position = new Position(1.0, 1.0, 5.0);
             photon.DP.Direction = new Direction(1.0, 0.0, 0.0);
-            cosTheta = _twoLayerTissue.GetAngleRelativeToBoundaryNormal(photon);
+            cosTheta = _twoLayerTissueBoundedByCylinder.GetAngleRelativeToBoundaryNormal(photon);
             Assert.IsTrue(Math.Abs(cosTheta - 1/Math.Sqrt(2)) < 1e-6);
         }
 

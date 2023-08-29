@@ -121,7 +121,7 @@ namespace Vts.Test.MonteCarlo.Tissues
             photon.S = 0.5; // definitely don't intersect
             result = _voxelTissueRegion.RayIntersectBoundary(photon, out distanceToBoundary);
             Assert.AreEqual(false, result);
-            Assert.AreEqual(Double.PositiveInfinity, distanceToBoundary);
+            Assert.AreEqual(double.PositiveInfinity, distanceToBoundary);
             photon.S = 1.0; // ends right at boundary => intersection
             result = _voxelTissueRegion.RayIntersectBoundary(photon, out distanceToBoundary);
             Assert.AreEqual(true, result);
