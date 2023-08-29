@@ -9,8 +9,8 @@ on:
   pull_request:
     branches: [ "master" ]
     paths:
-    - 'src/**/*.csproj'
-    
+    - '/src/Vts.sln'
+
 jobs:
   build:
 
