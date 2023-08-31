@@ -258,7 +258,7 @@ namespace Vts.MonteCarlo.Detectors
             double totalMt = 0;
             var totalMtOfZForOnePhoton = new Complex[Fx.Count, Z.Count - 1];
             var dynamicMtOfZForOnePhoton = new Complex[Fx.Count, Z.Count - 1];
-            var fxArray = Fx.AsEnumerable().ToArray();
+            var fxArray = Fx.ToArray();
             var x = photon.DP.Position.X; // use final exiting x position
             var sinNegativeTwoPiFx = fxArray.Select(fx => Math.Sin(-2 * Math.PI * fx * x)).ToArray();
             var cosNegativeTwoPiFx = fxArray.Select(fx => Math.Cos(-2 * Math.PI * fx * x)).ToArray();

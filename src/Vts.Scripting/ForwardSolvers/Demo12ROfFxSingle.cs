@@ -17,7 +17,7 @@ internal class Demo12ROfFxSingle : IDemoScript
         // MonteCarlo(basic scaled), Nurbs(scaled with smoothing and adaptive binning)
         var solver = new PointSourceSDAForwardSolver();
         var op = new OpticalProperties(mua: 0.1, musp: 1.2, g: 0.8, n: 1.4);
-        var fxs = new DoubleRange(start: 0, stop: 0.2, number: 201).AsEnumerable().ToArray(); // range of spatial frequencies in 1/mm
+        var fxs = new DoubleRange(start: 0, stop: 0.2, number: 201).ToArray(); // range of spatial frequencies in 1/mm
 
         // predict the spatial frequency response at each specified optical properties
         var rOfFx = solver.ROfFx(op, fxs);

@@ -19,9 +19,9 @@ internal class Demo04FluenceOfRhoAndZAndFt : IDemoScript
         // MonteCarlo(basic scaled), Nurbs(scaled with smoothing and adaptive binning)
         var solver = new PointSourceSDAForwardSolver();
         var op = new OpticalProperties(mua: 0.01, musp: 1, g: 0.8, n: 1.4);
-        var rhos = new DoubleRange(start: 0.1, stop: 19.9, number: 100).AsEnumerable().ToArray(); // range of s-d separations in mm
-        var zs = new DoubleRange(start: 0.1, stop: 19.9, number: 100).AsEnumerable().ToArray(); // range of depths in mm
-        var fts = new DoubleRange(start: 0, stop: 1, number: 2).AsEnumerable().ToArray(); // range of time frequencies in GHz
+        var rhos = new DoubleRange(start: 0.1, stop: 19.9, number: 100).ToArray(); // range of s-d separations in mm
+        var zs = new DoubleRange(start: 0.1, stop: 19.9, number: 100).ToArray(); // range of depths in mm
+        var fts = new DoubleRange(start: 0, stop: 1, number: 2).ToArray(); // range of time frequencies in GHz
 
         // predict the tissue's fluence(rho, z, ft) for the given optical properties 
         var fluenceOfRhoAndZAndFt = solver.FluenceOfRhoAndZAndFt(new[]{ op }, rhos, zs, fts);

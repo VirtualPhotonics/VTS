@@ -1,4 +1,6 @@
+using Newtonsoft.Json;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 
@@ -10,7 +12,8 @@ namespace Vts
     /// <typeparam name="T">The type of the values in the range</typeparam>
     /// <remarks>Explicit data contract necessary for JSON.Net: http://stackoverflow.com/questions/19231367/serializing-poco-class-derived-from-baseclass-with-datacontract </remarks>
     [DataContract]
-    public abstract class Range<T> : BindableObject where T : struct
+    [JsonObject]
+    public abstract class Range<T> : BindableObject, IEnumerable<T> where T : struct
     {
         private T _start;
         private T _stop;
@@ -122,11 +125,23 @@ namespace Vts
                  ", Delta: " + Delta.ToString();
         }
 
-        // revisit Ayende's INotifyPropertyChanged generics implementation
         /// <summary>
-        /// Returns an IEnumerable of type Time that represents the range
+        /// Returns an IEnumerator of type T that enumerates the range
         /// </summary>
-        /// <returns>An IEnumerable of type Time that represents the range</returns>
+        /// <returns>An IEnumerator of type T that enumerates the range</returns>
+        public IEnumerator<T> GetEnumerator() => AsEnumerable().GetEnumerator();
+
+        /// <summary>
+        /// Explicit interface implementation to hide the non-generic version
+        /// </summary>
+        /// <returns></returns>
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+        
+        /// <summary>
+        /// Returns an IEnumerable of type T that enumerates the range
+        /// </summary>
+        /// <returns>An IEnumerable of type T that enumerates the range</returns>
+        [Obsolete("This method is deprecated. Use built-in IEnumerable implementation instead.")]
         public IEnumerable<T> AsEnumerable()
         {
             var increment = GetIncrement();

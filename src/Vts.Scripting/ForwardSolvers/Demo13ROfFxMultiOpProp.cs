@@ -17,8 +17,8 @@ internal class Demo13ROfFxMultiOpProp : IDemoScript
         // PointSourceSDA,DistributedGaussianSourceSDA, DistributedPointSourceSDA,
         // MonteCarlo(basic scaled), Nurbs(scaled with smoothing and adaptive binning)
         var solver = new PointSourceSDAForwardSolver();
-        var fxs = new DoubleRange(start: 0, stop: 0.2, number: 201).AsEnumerable().ToArray(); // range of spatial frequencies in 1/mm
-        var muas = new DoubleRange(start: 0, stop: 0.1, number: 11).AsEnumerable().ToArray(); // range of absorption values in 1/mm
+        var fxs = new DoubleRange(start: 0, stop: 0.2, number: 201).ToArray(); // range of spatial frequencies in 1/mm
+        var muas = new DoubleRange(start: 0, stop: 0.1, number: 11).ToArray(); // range of absorption values in 1/mm
         var ops = muas.Select(mua => new OpticalProperties(mua: mua, musp: 1.2, g: 0.8, n: 1.4)).ToArray();
 
         // predict the spatial frequency response at each specified optical properties

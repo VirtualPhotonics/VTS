@@ -146,7 +146,7 @@ namespace Vts.MonteCarlo.Detectors
             _perturbedRegionsIndices = PerturbedRegionsIndices;
             _referenceOps = tissue.Regions.Select(r => r.RegionOP).ToArray();
             _absorbAction = AbsorptionWeightingMethods.GetpMCTerminationAbsorptionWeightingMethod(tissue, this);
-            _fxArray = Fx.AsEnumerable().ToArray();
+            _fxArray = Fx.ToArray();
             _tissue = tissue;
         }
 
