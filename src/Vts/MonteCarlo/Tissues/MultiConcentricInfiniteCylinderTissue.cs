@@ -8,7 +8,7 @@ namespace Vts.MonteCarlo.Tissues
 {
     /// <summary>
     /// Implements ITissueInput.  Defines input to MultiConcentricInfiniteCylinderTissue class.
-    /// This assumes infinite cylinders are concentric and lie entirely within a layer.
+    /// This assumes infinite cylinders are concentric and lie entirely within a single layer of tissue.
     /// </summary>
     public class MultiConcentricInfiniteCylinderTissueInput : TissueInput, ITissueInput
     {
@@ -224,7 +224,7 @@ namespace Vts.MonteCarlo.Tissues
                 // first check that photon isn't sitting on boundary of one of the cylinders
                 // note 1e-9 was found by trial and error using unit tests to verify selection
                 // if you change value, need to update InfiniteCylinderTissueRegion.ContainsPosition eps
-                if ((distToInfiniteCylinder > 1e-9) && (distToInfiniteCylinder < smallestInfCylDistance))
+                if (distToInfiniteCylinder > 1e-9 && distToInfiniteCylinder < smallestInfCylDistance)
                 {
                     smallestInfCylDistance = distToInfiniteCylinder;
                 }
@@ -244,7 +244,7 @@ namespace Vts.MonteCarlo.Tissues
             // this code assumes that the first and last layer is air
             return
                 position.Z < 1e-10 ||
-                (Math.Abs(position.Z - _layerRegions.Last().ZRange.Start) < 1e-10);
+                Math.Abs(position.Z - _layerRegions.Last().ZRange.Start) < 1e-10;
         }
 
         /// <summary>
@@ -300,7 +300,7 @@ namespace Vts.MonteCarlo.Tissues
         {
             // check if crossing top and bottom layer
             if (currentPosition.Z < 1e-10 ||
-                (Math.Abs(currentPosition.Z - (_layerRegions.Last()).ZRange.Start) < 1e-10))
+                Math.Abs(currentPosition.Z - _layerRegions.Last().ZRange.Start) < 1e-10)
             {
                 return base.GetReflectedDirection(currentPosition, currentDirection);
             }
@@ -326,7 +326,7 @@ namespace Vts.MonteCarlo.Tissues
         {
             // check if crossing top and bottom layer
             if (currentPosition.Z < 1e-10 ||
-                (Math.Abs(currentPosition.Z - (_layerRegions.Last()).ZRange.Start) < 1e-10))
+                Math.Abs(currentPosition.Z - _layerRegions.Last().ZRange.Start) < 1e-10)
             {
                 return base.GetRefractedDirection(currentPosition, currentDirection, currentN, nextN, cosThetaSnell);
             }

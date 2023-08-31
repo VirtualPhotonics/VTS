@@ -32,8 +32,8 @@ internal class Demo06FluenceOfRhoAndZTwoLayer : IDemoScript
                 regionOP: new OpticalProperties(mua: 0.01, musp: 1, g: 0.8, n: 1.4)
             )
         };
-        var rhos = new DoubleRange(start: 0.1, stop: 19.9, number: 100).AsEnumerable().ToArray(); // range of s-d separations in mm
-        var zs = new DoubleRange(start: 0.1, stop: 19.9, number: 100).AsEnumerable().ToArray(); // range of depths in mm
+        var rhos = new DoubleRange(start: 0.1, stop: 19.9, number: 100).ToArray(); // range of s-d separations in mm
+        var zs = new DoubleRange(start: 0.1, stop: 19.9, number: 100).ToArray(); // range of depths in mm
 
         // predict the tissue's fluence(rho, z) for the given optical properties 
         var fluenceOfRhoAndZ = solver.FluenceOfRhoAndZ(new[] { opRegions }, rhos, zs );

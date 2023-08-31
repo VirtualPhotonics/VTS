@@ -13,7 +13,7 @@ namespace Vts.Test.MonteCarlo.Tissues
         /// <summary>
         /// list of temporary files created by these unit tests
         /// </summary>
-        readonly List<string> listOfTestGeneratedFiles = new List<string>()
+        readonly List<string> _listOfTestGeneratedFiles = new()
         {
             "SingleEllipsoidTissue.txt"
         };
@@ -25,7 +25,7 @@ namespace Vts.Test.MonteCarlo.Tissues
         [OneTimeTearDown]
         public void Clear_folders_and_files()
         {
-            foreach (var file in listOfTestGeneratedFiles)
+            foreach (var file in _listOfTestGeneratedFiles)
             {
                 FileIO.FileDelete(file);
             }

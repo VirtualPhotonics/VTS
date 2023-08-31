@@ -17,7 +17,7 @@ namespace Vts.Test.MonteCarlo.Tissues
         /// <summary>
         /// list of temporary files created by these unit tests
         /// </summary>
-        private readonly List<string> listOftestGeneratedFiles = new List<string>()
+        private readonly List<string> _listOftestGeneratedFiles = new()
         {
             "SemiInfiniteTissue.txt"
         };
@@ -29,7 +29,7 @@ namespace Vts.Test.MonteCarlo.Tissues
         [OneTimeTearDown]
         public void Clear_folders_and_files()
         {
-            foreach (var file in listOftestGeneratedFiles)
+            foreach (var file in _listOftestGeneratedFiles)
             {
                 FileIO.FileDelete(file);
             }

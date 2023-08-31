@@ -32,7 +32,7 @@
         /// <summary>
         /// Boolean identifying all bounding volume tallies
         /// </summary>
-        public bool IsBoundingVolumeTally { get; set; }
+        public bool IsLateralBoundingVolumeTally { get; set; }
         /// <summary>
         /// Boolean identifying all volume tallies
         /// </summary>

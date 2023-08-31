@@ -24,10 +24,10 @@ namespace Vts.MonteCarlo.Factories
                 case VirtualBoundaryType.DiffuseReflectance:
                 case VirtualBoundaryType.DiffuseTransmittance:
                 case VirtualBoundaryType.SpecularReflectance:
-                case VirtualBoundaryType.Dosimetry:
+                case VirtualBoundaryType.InternalSurface:
                 case VirtualBoundaryType.pMCDiffuseReflectance:
                 case VirtualBoundaryType.pMCDiffuseTransmittance:
-                case VirtualBoundaryType.BoundingCylinderVolume:
+                case VirtualBoundaryType.BoundingVolume:
                     return new DetectorController(detectors);
                 case VirtualBoundaryType.GenericVolumeBoundary:
                     return new HistoryDetectorController((from d in detectors where d is IHistoryDetector select (IHistoryDetector)d).ToList(), tissue);
