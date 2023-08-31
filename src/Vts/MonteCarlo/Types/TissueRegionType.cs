@@ -12,6 +12,8 @@ namespace Vts.MonteCarlo
         {
             // voxel tissue region
             "Voxel",
+            // capless voxel tissue region
+            "CaplessVoxel",
             // layer tissue region
             "Layer",
             // ellipsoid tissue region

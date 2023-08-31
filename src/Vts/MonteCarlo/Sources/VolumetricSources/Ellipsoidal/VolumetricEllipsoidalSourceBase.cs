@@ -135,7 +135,7 @@ namespace Vts.MonteCarlo.Sources
                             gaussianProfile.BeamDiaFWHM,
                             rng);
                     break;
-                case SourceProfileType.Arbitrary:
+                case SourceProfileType.Image:
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(sourceProfile.SourceProfileType.ToString());

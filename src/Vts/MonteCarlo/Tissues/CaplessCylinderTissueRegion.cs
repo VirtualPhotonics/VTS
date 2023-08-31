@@ -123,15 +123,20 @@ namespace Vts.MonteCarlo.Tissues
             return true;
 
         }
-
         /// <summary>
-        /// method to determine normal to surface at given position
+        /// method to determine normal to surface at given position. Cylinder has axis along
+        /// z-axis so normal has z component = 0.  Note this returns outward facing normal.
         /// </summary>
         /// <param name="position">position</param>
         /// <returns>Direction normal to surface at position</returns>
         public Direction SurfaceNormal(Position position)
         {
-            throw new NotImplementedException();
+            var norm = Math.Sqrt(4 * (position.X - Center.X) * (position.X - Center.X) +
+                                 4 * (position.Y - Center.Y) * (position.Y - Center.Y));
+            return new Direction(
+                2 * (position.X - Center.X) / norm,
+                2 * (position.Y - Center.Y) / norm,
+                0.0);
         }
     }
 }

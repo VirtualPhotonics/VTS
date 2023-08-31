@@ -7,19 +7,19 @@ using Vts.MonteCarlo.Tissues;
 namespace Vts.Test.MonteCarlo.Tissues
 {
     /// <summary>
-    /// Unit tests for CylinderTissueRegion
+    /// Unit tests for CaplessCylinderTissueRegion
     /// </summary>
     [TestFixture]
-    public class CylinderTissueRegionTests
+    public class CaplessCylinderTissueRegionTests
     {
-        private CylinderTissueRegion _cylinderTissueRegion;
+        private CaplessCylinderTissueRegion _caplessCylinderTissueRegion;
         /// <summary>
         /// Validate general constructor of TissueRegion
         /// </summary>
         [OneTimeSetUp]
         public void Create_instance_of_class()
         {
-            _cylinderTissueRegion = new CylinderTissueRegion(
+            _caplessCylinderTissueRegion = new CaplessCylinderTissueRegion(
                new Position(0, 0, 2), // center
                 1.0, 
                 2.0, // z goes from z=1 to 3
@@ -29,17 +29,17 @@ namespace Vts.Test.MonteCarlo.Tissues
         /// Validate general constructor of TissueRegion
         /// </summary>
         [Test]
-        public void Validate_cylinder_properties()
+        public void Validate_caplessCylinder_properties()
         {
-            Assert.AreEqual(0.0, _cylinderTissueRegion.Center.X);
-            Assert.AreEqual(0.0, _cylinderTissueRegion.Center.Y);
-            Assert.AreEqual(2.0, _cylinderTissueRegion.Center.Z);
-            Assert.AreEqual(1.0, _cylinderTissueRegion.Radius);
-            Assert.AreEqual(2.0, _cylinderTissueRegion.Height);
-            Assert.AreEqual(0.01, _cylinderTissueRegion.RegionOP.Mua);
-            Assert.AreEqual(1.0, _cylinderTissueRegion.RegionOP.Musp);
-            Assert.AreEqual(0.8, _cylinderTissueRegion.RegionOP.G);
-            Assert.AreEqual(1.4, _cylinderTissueRegion.RegionOP.N);
+            Assert.AreEqual(0.0, _caplessCylinderTissueRegion.Center.X);
+            Assert.AreEqual(0.0, _caplessCylinderTissueRegion.Center.Y);
+            Assert.AreEqual(2.0, _caplessCylinderTissueRegion.Center.Z);
+            Assert.AreEqual(1.0, _caplessCylinderTissueRegion.Radius);
+            Assert.AreEqual(2.0, _caplessCylinderTissueRegion.Height);
+            Assert.AreEqual(0.01, _caplessCylinderTissueRegion.RegionOP.Mua);
+            Assert.AreEqual(1.0, _caplessCylinderTissueRegion.RegionOP.Musp);
+            Assert.AreEqual(0.8, _caplessCylinderTissueRegion.RegionOP.G);
+            Assert.AreEqual(1.4, _caplessCylinderTissueRegion.RegionOP.N);
         }
 
         /// <summary>
@@ -50,14 +50,14 @@ namespace Vts.Test.MonteCarlo.Tissues
         public void Verify_OnBoundary_method_returns_correct_result()
         {
             // OnBoundary returns true if *exactly* on boundary
-            var result = _cylinderTissueRegion.OnBoundary(new Position(0, 0, 1.0)); // on top cap boundary
-            Assert.IsTrue(result);
-            result = _cylinderTissueRegion.OnBoundary(new Position(0, 0, 3.0)); // on bottom cap boundary
-            Assert.IsTrue(result);
-            result = _cylinderTissueRegion.OnBoundary(new Position(0, 0, 10.0)); // not on boundary
+            var result = _caplessCylinderTissueRegion.OnBoundary(new Position(0, 0, 1.0)); // on top cap boundary
             Assert.IsFalse(result);
-            // on cylinder
-            result = _cylinderTissueRegion.OnBoundary(new Position(1.0/Math.Sqrt(2), 1.0/Math.Sqrt(2), 2.0)); 
+            result = _caplessCylinderTissueRegion.OnBoundary(new Position(0, 0, 3.0)); // on bottom cap boundary -> so false
+            Assert.IsFalse(result);
+            result = _caplessCylinderTissueRegion.OnBoundary(new Position(0, 0, 10.0)); // not on boundary
+            Assert.IsFalse(result);
+            // on caplessCylinder
+            result = _caplessCylinderTissueRegion.OnBoundary(new Position(1.0/Math.Sqrt(2), 1.0/Math.Sqrt(2), 2.0)); 
             Assert.IsTrue(result);
         }
         /// <summary>
@@ -67,9 +67,9 @@ namespace Vts.Test.MonteCarlo.Tissues
         [Test]
         public void Verify_ContainsPosition_method_returns_correct_result()
         {
-            var result = _cylinderTissueRegion.ContainsPosition(new Position(0, 0, 2.0)); // inside
+            var result = _caplessCylinderTissueRegion.ContainsPosition(new Position(0, 0, 2.0)); // inside
             Assert.IsTrue(result);
-            result = _cylinderTissueRegion.ContainsPosition(new Position(0, 0, 3.0)); // on boundary
+            result = _caplessCylinderTissueRegion.ContainsPosition(new Position(0, 0, 3.0)); // on boundary
             Assert.IsTrue(result);
         }
 
@@ -90,36 +90,36 @@ namespace Vts.Test.MonteCarlo.Tissues
                 S = 2.0 // definitely intersect sides
             };
             double distanceToBoundary;
-            var result = _cylinderTissueRegion.RayIntersectBoundary(photon, out distanceToBoundary);
+            var result = _caplessCylinderTissueRegion.RayIntersectBoundary(photon, out distanceToBoundary);
             Assert.AreEqual(true, result);
             Assert.AreEqual(1.0, distanceToBoundary);
             photon.S = 0.5; // definitely don't intersect sides
-            result = _cylinderTissueRegion.RayIntersectBoundary(photon, out distanceToBoundary);
+            result = _caplessCylinderTissueRegion.RayIntersectBoundary(photon, out distanceToBoundary);
             Assert.AreEqual(false, result);
             Assert.AreEqual(double.PositiveInfinity, distanceToBoundary);
             photon.S = 1.0; // ends right at boundary => both out and no intersection
-            result = _cylinderTissueRegion.RayIntersectBoundary(photon, out distanceToBoundary);
+            result = _caplessCylinderTissueRegion.RayIntersectBoundary(photon, out distanceToBoundary);
             Assert.AreEqual(false, result);
             Assert.AreEqual(double.PositiveInfinity, distanceToBoundary);
-            // intersect cap of cylinder tests
+            // intersect cap of caplessCylinder tests
             photon.DP.Position = new Position(0, 0, 0); // intersect top cap
             photon.DP.Direction = new Direction(0, 0, 1);  
             photon.S = 2.0; // make sure intersects top cap
-            result = _cylinderTissueRegion.RayIntersectBoundary(photon, out distanceToBoundary);
-            Assert.AreEqual(true, result);
-            Assert.AreEqual(1.0, distanceToBoundary);
+            result = _caplessCylinderTissueRegion.RayIntersectBoundary(photon, out distanceToBoundary);
+            Assert.AreEqual(false, result);
+            Assert.AreEqual(double.PositiveInfinity, distanceToBoundary);
             photon.DP.Position = new Position(0, 0, 4); // intersect bottom cap
             photon.DP.Direction = new Direction(0, 0, -1);
             photon.S = 2.0; // make sure intersects top cap
-            result = _cylinderTissueRegion.RayIntersectBoundary(photon, out distanceToBoundary);
-            Assert.AreEqual(true, result);
-            Assert.AreEqual(1.0, distanceToBoundary);
+            result = _caplessCylinderTissueRegion.RayIntersectBoundary(photon, out distanceToBoundary);
+            Assert.AreEqual(false, result);
+            Assert.AreEqual(double.PositiveInfinity, distanceToBoundary);
             photon.DP.Position = new Position(0, 0, 0); // intersect both
             photon.DP.Direction = new Direction(0, 0, 1);
             photon.S = 10.0; // make sure intersects both
-            result = _cylinderTissueRegion.RayIntersectBoundary(photon, out distanceToBoundary);
-            Assert.AreEqual(true, result);
-            Assert.AreEqual(1.0, distanceToBoundary);
+            result = _caplessCylinderTissueRegion.RayIntersectBoundary(photon, out distanceToBoundary);
+            Assert.AreEqual(false, result);
+            Assert.AreEqual(double.PositiveInfinity, distanceToBoundary);
         }
     }
 }

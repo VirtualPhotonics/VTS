@@ -37,8 +37,8 @@ namespace Vts.MonteCarlo.Factories
                     dbFilename = Path.Combine(filePath, "DiffuseTransmittanceDatabase");
                     break;
                 case VirtualBoundaryType.GenericVolumeBoundary:
-                case VirtualBoundaryType.Dosimetry:
-                case VirtualBoundaryType.BoundingCylinderVolume:
+                case VirtualBoundaryType.InternalSurface:
+                case VirtualBoundaryType.BoundingVolume:
                     return null;
                 default:
                     throw new ArgumentOutOfRangeException(
@@ -59,26 +59,23 @@ namespace Vts.MonteCarlo.Factories
         public static pMCDatabase GetpMCDatabase(
             VirtualBoundaryType virtualBoundaryType, string filePath)
         {
-            switch (virtualBoundaryType)
+            return virtualBoundaryType switch
             {
-                case VirtualBoundaryType.pMCDiffuseReflectance:
-                    return pMCDatabase.FromFile(Path.Combine(filePath, "DiffuseReflectanceDatabase"),
-                        Path.Combine(filePath, "CollisionInfoDatabase"));
-                case VirtualBoundaryType.pMCDiffuseTransmittance:
-                    return pMCDatabase.FromFile(Path.Combine(filePath, "DiffuseTransmittanceDatabase"),
-                        Path.Combine(filePath, "CollisionInfoTransmittanceDatabase"));
-                case VirtualBoundaryType.DiffuseReflectance:
-                case VirtualBoundaryType.DiffuseTransmittance:
-                case VirtualBoundaryType.SpecularReflectance:
-                case VirtualBoundaryType.GenericVolumeBoundary:
-                case VirtualBoundaryType.Dosimetry:
-                case VirtualBoundaryType.BoundingCylinderVolume:
-                    return null;
-                default:
-                    throw new ArgumentOutOfRangeException(
-                        "Virtual boundary type not recognized: " + virtualBoundaryType);
-
-            }
+                VirtualBoundaryType.pMCDiffuseReflectance => pMCDatabase.FromFile(
+                    Path.Combine(filePath, "DiffuseReflectanceDatabase"),
+                    Path.Combine(filePath, "CollisionInfoDatabase")),
+                VirtualBoundaryType.pMCDiffuseTransmittance => pMCDatabase.FromFile(
+                    Path.Combine(filePath, "DiffuseTransmittanceDatabase"),
+                    Path.Combine(filePath, "CollisionInfoTransmittanceDatabase")),
+                VirtualBoundaryType.DiffuseReflectance => null,
+                VirtualBoundaryType.DiffuseTransmittance => null,
+                VirtualBoundaryType.SpecularReflectance => null,
+                VirtualBoundaryType.GenericVolumeBoundary => null,
+                VirtualBoundaryType.InternalSurface => null,
+                VirtualBoundaryType.BoundingVolume => null,
+                _ => throw new ArgumentOutOfRangeException("Virtual boundary type not recognized: " +
+                                                           virtualBoundaryType)
+            };
         }
 
     }

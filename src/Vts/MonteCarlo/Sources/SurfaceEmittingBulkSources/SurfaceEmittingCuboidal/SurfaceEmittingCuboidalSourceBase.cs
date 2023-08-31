@@ -154,13 +154,13 @@ namespace Vts.MonteCarlo.Sources
             }
 
             //Find the relevant polar and azimuthal pair for the direction
-            var _rotationalAnglesOfPrincipalSourceAxis = SourceToolbox.GetPolarAzimuthalPairFromDirection(_newDirectionOfPrincipalSourceAxis);
+            var rotationalAnglesOfPrincipalSourceAxis = SourceToolbox.GetPolarAzimuthalPairFromDirection(_newDirectionOfPrincipalSourceAxis);
             
             //Translation and source rotation
             SourceToolbox.UpdateDirectionPositionAfterGivenFlags(
                 ref finalPosition,
                 ref finalDirection,
-                _rotationalAnglesOfPrincipalSourceAxis,
+                rotationalAnglesOfPrincipalSourceAxis,
                 _translationFromOrigin,
                 _rotationAndTranslationFlags);
 
@@ -191,7 +191,7 @@ namespace Vts.MonteCarlo.Sources
                             gaussianProfile.BeamDiaFWHM,
                             rng);
                     break;
-                case SourceProfileType.Arbitrary:
+                case SourceProfileType.Image:
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(sourceProfile.SourceProfileType.ToString());
@@ -209,7 +209,7 @@ namespace Vts.MonteCarlo.Sources
         /// <param name="heightZ">The height of the cube (along z axis)</param>
         /// <param name="rng">random number generator</param>
         /// <returns>string indicating emitting surface</returns>
-        public static String SelectEmittingSurface(            
+        public static string SelectEmittingSurface(            
             double lengthX,
             double widthY,
             double heightZ,

@@ -5,7 +5,7 @@ using Vts.MonteCarlo.PhotonData;
 namespace Vts.MonteCarlo.VirtualBoundaries
 {
     /// <summary>
-    /// The <see cref="VirtualBoundaries"/> namespace contains the Monte Carlo virtual boundary classes 
+    /// The <see cref="VirtualBoundaries"/> namespace contains the Monte Carlo virtual boundaries to which detectors attach
     /// </summary>
 
     [CompilerGenerated]
@@ -14,17 +14,18 @@ namespace Vts.MonteCarlo.VirtualBoundaries
     }
 
     /// <summary>
-    /// Implements IVirtualBoundary.  Used to capture all photons absorbed by bounding cylinder
+    /// Implements IVirtualBoundary.  Used to capture all photons absorbed by bounding 
+    /// tissue region (whatever is dependency injected)
     /// </summary>
-    public class BoundingCylinderVirtualBoundary : IVirtualBoundary
+    public class LateralBoundingVirtualBoundary : IVirtualBoundary
     {
         /// <summary>
-        /// diffuse reflectance VB
+        /// diffuse lateral boundary VB
         /// </summary>
         /// <param name="tissue">ITissue</param>
         /// <param name="detectorController">IDetectorController</param>
         /// <param name="name">string name</param>
-        public BoundingCylinderVirtualBoundary(ITissue tissue, IDetectorController detectorController, string name)
+        public LateralBoundingVirtualBoundary(ITissue tissue, IDetectorController detectorController, string name)
         {
             var boundingTissueRegion = tissue.Regions[tissue.Regions.Count - 1]; // bounding region always last by convention
 
@@ -32,8 +33,8 @@ namespace Vts.MonteCarlo.VirtualBoundaries
                 dp.StateFlag.HasFlag(PhotonStateType.PseudoBoundingVolumeTissueBoundary) &&
                 boundingTissueRegion.ContainsPosition(dp.Position);
 
-            VirtualBoundaryType = VirtualBoundaryType.BoundingCylinderVolume;
-            PhotonStateType = PhotonStateType.PseudoBoundingCylinderVolumeVirtualBoundary;
+            VirtualBoundaryType = VirtualBoundaryType.BoundingVolume;
+            PhotonStateType = PhotonStateType.PseudoLateralBoundingVirtualBoundary;
 
             DetectorController = detectorController;
 
