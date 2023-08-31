@@ -32,9 +32,9 @@ internal class Demo16ROfFxMultiPowerLaw : IDemoScript
         var fx = 0; // spatial frequency in 1/mm
 
         // predict the tissue's optical properties spanning the visible and NIR spectral regimes
-        var wavelengths = new DoubleRange(start: 450, stop: 1000, number: 1101).AsEnumerable().ToArray(); // range of wavelengths in nm
+        var wavelengths = new DoubleRange(start: 450, stop: 1000, number: 1101).ToArray(); // range of wavelengths in nm
 
-        var prefactorAs = new DoubleRange(start: 0.5, stop: 2.5, number: 9).AsEnumerable().ToArray(); // range of spatial frequencies in 1/mm
+        var prefactorAs = new DoubleRange(start: 0.5, stop: 2.5, number: 9).ToArray(); // range of spatial frequencies in 1/mm
         var opsForMultipleA = prefactorAs.Select(prefactorA => 
             new Tissue(chromophores, new PowerLawScatterer(a: prefactorA, b: 1.42), "", n: 1.4).GetOpticalProperties(wavelengths)).ToArray();
 

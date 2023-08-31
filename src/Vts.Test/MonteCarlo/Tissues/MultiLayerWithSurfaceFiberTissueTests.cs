@@ -17,7 +17,7 @@ namespace Vts.Test.MonteCarlo.Tissues
         /// Validate general constructor of TissueRegion
         /// </summary>
         [OneTimeSetUp]
-        public void create_instance_of_class()
+        public void Create_instance_of_class()
         {
             _tissue = new MultiLayerWithSurfaceFiberTissue(new SurfaceFiberTissueRegion(
                 new Position(0, 0, 0), 1.0, new OpticalProperties(0, 1, 0.8, 1.4)),
@@ -39,9 +39,9 @@ namespace Vts.Test.MonteCarlo.Tissues
         /// Validate method GetRegionIndex return correct Boolean
         /// </summary>
         [Test]
-        public void verify_GetRegionIndex_method_returns_correct_result()
+        public void Verify_GetRegionIndex_method_returns_correct_result()
         {
-            int index = _tissue.GetRegionIndex(new Position(2, 0, 0)); // outside surface fiber
+            var index = _tissue.GetRegionIndex(new Position(2, 0, 0)); // outside surface fiber
             Assert.AreEqual(1, index);
             index = _tissue.GetRegionIndex(new Position(0.5, 0, 0)); // inside surface fiber
             Assert.AreEqual(3, index);
@@ -53,9 +53,9 @@ namespace Vts.Test.MonteCarlo.Tissues
         /// Validate method GetNeighborRegionIndex  return correct Boolean
         /// </summary>
         [Test]
-        public void verify_GetNeighborRegionIndex_method_returns_correct_result()
+        public void Verify_GetNeighborRegionIndex_method_returns_correct_result()
         {
-            Photon photon = new Photon( // in fiber pointed into it within NA
+            var photon = new Photon( // in fiber pointed into it within NA
                 new Position(0, 0, 0.0),
                 new Direction(0.0, 0, -1.0),
                 1,
@@ -70,10 +70,10 @@ namespace Vts.Test.MonteCarlo.Tissues
         /// Validate method GetNeighborRegionIndex for tissueWithEllipsoid return correct Boolean
         /// </summary>
         [Test]
-        public void verify_GetNeighborRegionIndex_method_correct_when_photon_bottom_slab()
+        public void Verify_GetNeighborRegionIndex_method_correct_when_photon_bottom_slab()
         {
             // on bottom of slab pointed out
-            Photon photon = new Photon( // have to reinitialize photon so that _onBoundary is set to false
+            var photon = new Photon( // have to reinitialize photon so that _onBoundary is set to false
                 new Position(0, 0, 100.0),
                 new Direction(0.0, 0, 1.0),
                 1,
@@ -89,16 +89,16 @@ namespace Vts.Test.MonteCarlo.Tissues
         /// Validate method GetAngleRelativeToBoundaryNormal return correct Boolean
         /// </summary>
         [Test]
-        public void verify_GetAngleRelativeToBoundaryNormal_method_returns_correct_result()
+        public void Verify_GetAngleRelativeToBoundaryNormal_method_returns_correct_result()
         {
-            Photon photon = new Photon( // on top of ellipsoid pointed into it
+            var photon = new Photon( // on top of ellipsoid pointed into it
                 new Position(0, 0, 1.0),
                 new Direction(0.0, 0, 1.0),
                 1,
                 _tissue,
                 1,
                 new Random());
-            double cosTheta = _tissue.GetAngleRelativeToBoundaryNormal(photon);
+            var cosTheta = _tissue.GetAngleRelativeToBoundaryNormal(photon);
             Assert.AreEqual(1,cosTheta);
         }
         /// <summary>

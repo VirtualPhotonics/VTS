@@ -18,7 +18,7 @@ internal class Demo19ROfRhoTwoLayerMultiOpProp : IDemoScript
         // PointSourceSDA,DistributedGaussianSourceSDA, DistributedPointSourceSDA,
         // MonteCarlo(basic scaled), Nurbs(scaled with smoothing and adaptive binning)
         var solver = new TwoLayerSDAForwardSolver();
-        var rhos = new DoubleRange(start: 0.5, stop: 9.5, number: 19).AsEnumerable().ToArray(); // range of radial distances in 1/mm
+        var rhos = new DoubleRange(start: 0.5, stop: 9.5, number: 19).ToArray(); // range of radial distances in 1/mm
         var op1 = new IOpticalPropertyRegion[]
         {
             new LayerOpticalPropertyRegion(zRange: new DoubleRange(0, 2, 2),  regionOP: new OpticalProperties(mua: 0.01, musp: 1, g: 0.8, n: 1.4)),

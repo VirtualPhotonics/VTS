@@ -66,20 +66,24 @@ namespace Vts.MonteCarlo.Tissues
         /// <returns>Boolean, true if within or on, false otherwise</returns>
         public bool ContainsPosition(Position position)
         {
-                var inside = (position.X - Center.X) * (position.X - Center.X) /
-                             (Dx * Dx) +
-                             (position.Y - Center.Y) * (position.Y - Center.Y) /
-                             (Dy * Dy) +
-                             (position.Z - Center.Z) * (position.Z - Center.Z) /
-                             (Dz * Dz);
+            var inside = (position.X - Center.X) * (position.X - Center.X) /
+                            (Dx * Dx) +
+                            (position.Y - Center.Y) * (position.Y - Center.Y) /
+                            (Dy * Dy) +
+                            (position.Z - Center.Z) * (position.Z - Center.Z) /
+                            (Dz * Dz);
 
-            if (inside < 0.9999999999) return true; // previous check  0.9999999
-
-            if (inside > 1.00000000001) return false; // previous check 1.0000001
-
-            // on boundary means ellipsoid contains position
-            _onBoundary = true;
-            return true;  // ckh 2/28/19 this has to return true or unit tests fail => contains if on ellipsoid
+            switch (inside)
+            {
+                case < 0.9999999999:
+                    return true; // previous check  0.9999999
+                case > 1.00000000001:
+                    return false; // previous check 1.0000001
+                default:
+                    // on boundary means ellipsoid contains position
+                    _onBoundary = true;
+                    return true;  // ckh 2/28/19 this has to return true or unit tests fail => contains if on ellipsoid
+            }
         }
         /// <summary>
         /// Method to determine if given Position lies on boundary of ellipsoid.
@@ -98,10 +102,11 @@ namespace Vts.MonteCarlo.Tissues
         /// <returns>Direction normal to surface at position</returns>
         public Direction SurfaceNormal(Position position)
         {
-            return new Direction(
-                2 * (position.X - Center.X) / (Dx * Dx),
-                2 * (position.Y - Center.Y) / (Dy * Dy),
-                2 * (position.Z - Center.Z) / (Dz * Dz));
+            var newX = 2 * (position.X - Center.X) / (Dx * Dx);
+            var newY = 2 * (position.Y - Center.Y) / (Dy * Dy);
+            var newZ = 2 * (position.Z - Center.Z) / (Dz * Dz);
+            var norm = Math.Sqrt(newX * newX + newY * newY + newZ * newZ);
+            return new Direction(newX / norm, newY / norm, newZ / norm);
         }
         /// <summary>
         /// method to determine if photon track or ray intersects boundary of ellipsoid
@@ -174,13 +179,13 @@ namespace Vts.MonteCarlo.Tissues
 
             var numberOfIntersections = 0; //number of intersections
 
-            if (root1 < 1 && root1 > 0)
+            if (root1 is < 1 and > 0)
             {
                 numberOfIntersections += 1;
                 root = root1;
             }
 
-            if (root2 < 1 && root2 > 0)
+            if (root2 is < 1 and > 0)
             {
                 numberOfIntersections += 1;
                 root = root2;

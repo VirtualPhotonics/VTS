@@ -11,7 +11,7 @@ public static class ScriptHelper
     /// <returns>The corresponding midpoint outputs</returns>
     public static double[] GetMidpoints(this DoubleRange endpointRange)
     {
-        var endpoints = endpointRange.AsEnumerable().ToArray();
+        var endpoints = endpointRange.ToArray();
         if (endpoints.Length < 2)
         {
             return Array.Empty<double>();

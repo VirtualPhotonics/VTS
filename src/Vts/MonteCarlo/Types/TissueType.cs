@@ -29,7 +29,9 @@ namespace Vts.MonteCarlo
             // Multiple (2 right now) concentric infinite cylinder
             "MultiConcentricInfiniteCylinder",
             // Multilayer tissue bounded by vertical cylinder laterally
-            "BoundingCylinder"
+            "BoundingCylinder",
+            // Multilayer tissue bounded by voxel laterally
+            "BoundingVoxel"
         };
     }
 }

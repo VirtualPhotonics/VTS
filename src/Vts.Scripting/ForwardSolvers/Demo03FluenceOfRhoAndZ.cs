@@ -19,8 +19,8 @@ internal class Demo03FluenceOfRhoAndZ : IDemoScript
         // PointSourceSDA,DistributedGaussianSourceSDA, DistributedPointSourceSDA,
         // MonteCarlo(basic scaled), Nurbs(scaled with smoothing and adaptive binning)
         var solver = new PointSourceSDAForwardSolver();
-        var rhos = new DoubleRange(start: 0.1, stop: 10, number: 100).AsEnumerable().ToArray(); // range of s-d separations in mm
-        var zs = new DoubleRange(start: 0.1, stop: 10, number: 100).AsEnumerable().ToArray(); // range of depths in mm
+        var rhos = new DoubleRange(start: 0.1, stop: 10, number: 100).ToArray(); // range of s-d separations in mm
+        var zs = new DoubleRange(start: 0.1, stop: 10, number: 100).ToArray(); // range of depths in mm
 
         // retrieve desired optical properties, based on spectral data information 
 
@@ -41,7 +41,7 @@ internal class Demo03FluenceOfRhoAndZ : IDemoScript
         var tissue = new Tissue(chromophores, scatterer, "", n: 1.4);
 
         // predict the tissue's fluence(rho, z) for tissue optical properties spanning the visible and NIR spectral regimes
-        var wavelengths = new DoubleRange(start: 450, stop: 1000, number: 1101).AsEnumerable().ToArray(); // range of wavelengths in nm
+        var wavelengths = new DoubleRange(start: 450, stop: 1000, number: 1101).ToArray(); // range of wavelengths in nm
         var op = tissue.GetOpticalProperties(wavelengths);
         var fluenceOfRhoAndZ = solver.FluenceOfRhoAndZ(op, rhos, zs);
 

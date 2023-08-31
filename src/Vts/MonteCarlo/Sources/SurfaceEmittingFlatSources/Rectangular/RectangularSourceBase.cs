@@ -90,14 +90,14 @@ namespace Vts.MonteCarlo.Sources
             // sample angular distribution
             var finalDirection = GetFinalDirection(finalPosition);
 
-            //Find the relevent polar and azimuthal pair for the direction
-            var _rotationalAnglesOfPrincipalSourceAxis = SourceToolbox.GetPolarAzimuthalPairFromDirection(_newDirectionOfPrincipalSourceAxis);
+            //Find the relevant polar and azimuthal pair for the direction
+            var rotationalAnglesOfPrincipalSourceAxis = SourceToolbox.GetPolarAzimuthalPairFromDirection(_newDirectionOfPrincipalSourceAxis);
             
             //Rotation and translation
             SourceToolbox.UpdateDirectionPositionAfterGivenFlags(
                 ref finalPosition,
                 ref finalDirection,
-                _rotationalAnglesOfPrincipalSourceAxis,
+                rotationalAnglesOfPrincipalSourceAxis,
                 _translationFromOrigin,
                 _beamRotationFromInwardNormal,
                 _rotationAndTranslationFlags);
@@ -129,7 +129,8 @@ namespace Vts.MonteCarlo.Sources
         /// <param name="rectWidthY">rectangular length in y direction (width)</param>
         /// <param name="rng">random number generator</param>
         /// <returns>Position</returns>
-        protected static Position GetFinalPositionFromProfileType(ISourceProfile sourceProfile, double rectLengthX, double rectWidthY, Random rng)
+        protected static Position GetFinalPositionFromProfileType(
+            ISourceProfile sourceProfile, double rectLengthX, double rectWidthY, Random rng)
         {
             var finalPosition = SourceDefaults.DefaultPosition.Clone();
             switch (sourceProfile.SourceProfileType)
@@ -142,7 +143,7 @@ namespace Vts.MonteCarlo.Sources
                         rng);
                     break;                                
                 case SourceProfileType.Gaussian:
-                    if (sourceProfile is GaussianSourceProfile gaussianProfile)
+                    if (sourceProfile is GaussianSourceProfile gaussianProfile) 
                         finalPosition = SourceToolbox.GetPositionInARectangleRandomGaussian(
                             SourceDefaults.DefaultPosition.Clone(),
                             0.5 * rectLengthX,
@@ -150,7 +151,9 @@ namespace Vts.MonteCarlo.Sources
                             gaussianProfile.BeamDiaFWHM,
                             rng);
                     break;
-                case SourceProfileType.Arbitrary:
+                case SourceProfileType.Image:
+                    finalPosition = ((ImageSourceProfile)sourceProfile).GetPositionInARectangleBasedOnImageIntensity(
+                        rng);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(sourceProfile.SourceProfileType.ToString());

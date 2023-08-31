@@ -26,8 +26,6 @@ namespace Vts.MonteCarlo
             {
                 return tempResult;
             }
-            tempResult = ValidateRefractiveIndexMatch(layers, boundingCylinder);
-
             return tempResult;
         }
         /// <summary>
@@ -75,32 +73,6 @@ namespace Vts.MonteCarlo
             return new ValidationResult(
                 true,
                 "BoundingCylinderTissueInput: geometry and refractive index settings validated");
-        }
-
-        /// <summary>
-        /// Method to verify refractive index of tissue layer and bounding cylinder match.
-        /// Code does not yet include reflecting/refracting off bounding cylinder surface.
-        /// </summary>
-        /// <param name="layers">list of LayerTissueRegion</param>
-        /// <param name="boundingCylinder">CylinderTissueRegion></param>
-        /// <returns>An instance of the ValidationResult class</returns>
-        private static ValidationResult ValidateRefractiveIndexMatch(
-            IList<LayerTissueRegion> layers, CaplessCylinderTissueRegion boundingCylinder)
-        {
-            // for all tissue layers
-            for (var i = 1; i <= layers.Count - 2; i++)
-            {
-                if (layers[i].RegionOP.N != boundingCylinder.RegionOP.N)
-                {
-                    return new ValidationResult(
-                        false,
-                        "BoundingCylinderTissueInput: refractive index of tissue layer must match that of bounding cylinder",
-                        "Change N of bounding cylinder to match tissue layer N");
-                }
-            }
-            return new ValidationResult(
-                true,
-                "BoundingCylinderTissueInput: refractive index of tissue and bounding cylinder match");
         }
     }
 }
