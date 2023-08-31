@@ -91,13 +91,13 @@ namespace Vts.MonteCarlo.Sources
             var finalDirection = GetFinalDirection(finalPosition);
 
             //Find the relevent polar and azimuthal pair for the direction
-            var _rotationalAnglesOfPrincipalSourceAxis = SourceToolbox.GetPolarAzimuthalPairFromDirection(_newDirectionOfPrincipalSourceAxis);
+            var rotationalAnglesOfPrincipalSourceAxis = SourceToolbox.GetPolarAzimuthalPairFromDirection(_newDirectionOfPrincipalSourceAxis);
             
             //Rotation and translation
             SourceToolbox.UpdateDirectionPositionAfterGivenFlags(
                 ref finalPosition,
                 ref finalDirection,
-                _rotationalAnglesOfPrincipalSourceAxis,
+                rotationalAnglesOfPrincipalSourceAxis,
                 _translationFromOrigin,
                 _beamRotationFromInwardNormal,
                 _rotationAndTranslationFlags);
@@ -135,7 +135,7 @@ namespace Vts.MonteCarlo.Sources
                             gaussianProfile.BeamDiaFWHM,
                             rng);
                     break;
-                case SourceProfileType.Arbitrary:
+                case SourceProfileType.Image:
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(sourceProfile.SourceProfileType.ToString());

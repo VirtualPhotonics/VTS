@@ -1,5 +1,4 @@
-﻿using System;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using Vts.Common;
 using Vts.MonteCarlo;
 using Vts.MonteCarlo.Tissues;
@@ -17,7 +16,7 @@ namespace Vts.Test.MonteCarlo.Tissues
         /// Validate general constructor of TissueRegion
         /// </summary>
         [OneTimeSetUp]
-        public void create_instance_of_class()
+        public void Create_instance_of_class()
         {
             _layerTissueRegion = new LayerTissueRegion(
                 new DoubleRange(0, 10), new OpticalProperties(0.01, 1.0, 0.8, 1.4));
@@ -26,7 +25,7 @@ namespace Vts.Test.MonteCarlo.Tissues
         /// Validate general constructor of TissueRegion
         /// </summary>
         [Test]
-        public void validate_layer_properties()
+        public void Validate_layer_properties()
         {
             Assert.AreEqual(0.0, _layerTissueRegion.ZRange.Start);
             Assert.AreEqual(10.0, _layerTissueRegion.ZRange.Stop);
@@ -37,10 +36,10 @@ namespace Vts.Test.MonteCarlo.Tissues
         /// Currently OnBoundary of an inclusion region isn't called by any code ckh 3/5/19.
         /// </summary>
         [Test]
-        public void verify_OnBoundary_method_returns_correct_result()
+        public void Verify_OnBoundary_method_returns_correct_result()
         {
             // OnBoundary returns false if *exactly* on boundary
-            bool result = _layerTissueRegion.OnBoundary(new Position(0, 0, 1.0));
+            var result = _layerTissueRegion.OnBoundary(new Position(0, 0, 1.0));
             Assert.IsFalse(result);
             result = _layerTissueRegion.OnBoundary(new Position(0, 0, 10.0));
             Assert.IsTrue(result);
@@ -52,9 +51,9 @@ namespace Vts.Test.MonteCarlo.Tissues
         /// or *on* boundary.
         /// </summary>
         [Test]
-        public void verify_ContainsPosition_method_returns_correct_result()
+        public void Verify_ContainsPosition_method_returns_correct_result()
         {
-            bool result = _layerTissueRegion.ContainsPosition(new Position(0, 0, 3.0)); // inside
+            var result = _layerTissueRegion.ContainsPosition(new Position(0, 0, 3.0)); // inside
             Assert.IsTrue(result);
             result = _layerTissueRegion.ContainsPosition(new Position(0, 0, 10.0)); // on boundary
             Assert.IsFalse(result);
@@ -67,14 +66,19 @@ namespace Vts.Test.MonteCarlo.Tissues
         /// returned distance is not infinity (unless horizontal)
         /// </summary>
         [Test]
-        public void verify_RayIntersectBoundary_method_returns_correct_result()
+        public void Verify_RayIntersectBoundary_method_returns_correct_result()
         {
-            Photon photon = new Photon();
-            photon.DP.Position = new Position(0, 0, 2);
-            photon.DP.Direction = new Direction(0, 0, 1);
+            var photon = new Photon
+            {
+                DP =
+                {
+                    Position = new Position(0, 0, 2),
+                    Direction = new Direction(0, 0, 1)
+                }
+            };
             //photon.S = 100.0; // definitely intersect 
             double distanceToBoundary;
-            bool result = _layerTissueRegion.RayIntersectBoundary(photon, out distanceToBoundary);
+            var result = _layerTissueRegion.RayIntersectBoundary(photon, out distanceToBoundary);
             Assert.AreEqual(true, result);
             Assert.AreEqual(8.0, distanceToBoundary);
         }

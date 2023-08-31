@@ -17,7 +17,7 @@ namespace Vts.Test.MonteCarlo.Tissues
         /// Validate general constructor of TissueRegion
         /// </summary>
         [OneTimeSetUp]
-        public void create_instance_of_class()
+        public void Create_instance_of_class()
         {
             _ellipsoidTissueRegion = new EllipsoidTissueRegion(
                 new Position(0, 0, 3), 1.0, 1.0, 2.0, new OpticalProperties(0.01, 1.0, 0.8, 1.4));
@@ -26,7 +26,7 @@ namespace Vts.Test.MonteCarlo.Tissues
         /// Validate general constructor of TissueRegion
         /// </summary>
         [Test]
-        public void validate_ellipsoid_properties()
+        public void Validate_ellipsoid_properties()
         {
             Assert.AreEqual(0.0, _ellipsoidTissueRegion.Center.X);
             Assert.AreEqual(0.0, _ellipsoidTissueRegion.Center.Y);
@@ -40,10 +40,10 @@ namespace Vts.Test.MonteCarlo.Tissues
         /// Currently OnBoundary of an inclusion region isn't called by any code ckh 3/5/19.
         /// </summary>
         [Test]
-        public void verify_OnBoundary_method_returns_correct_result()
+        public void Verify_OnBoundary_method_returns_correct_result()
         {
             // OnBoundary returns false if *exactly* on boundary
-            bool result = _ellipsoidTissueRegion.OnBoundary(new Position(0, 0, 1.0));
+            var result = _ellipsoidTissueRegion.OnBoundary(new Position(0, 0, 1.0));
             Assert.IsFalse(result);
             // but returns true if outside ellipsoid which doesn't make sense but it is how code is written
             // and all unit tests (linux included) are based on this wrong return
@@ -57,9 +57,9 @@ namespace Vts.Test.MonteCarlo.Tissues
         /// or *on* boundary.
         /// </summary>
         [Test]
-        public void verify_ContainsPosition_method_returns_correct_result()
+        public void Verify_ContainsPosition_method_returns_correct_result()
         {
-            bool result = _ellipsoidTissueRegion.ContainsPosition(new Position(0, 0, 3.0)); // inside
+            var result = _ellipsoidTissueRegion.ContainsPosition(new Position(0, 0, 3.0)); // inside
             Assert.IsTrue(result);
             result = _ellipsoidTissueRegion.ContainsPosition(new Position(0, 0, 2.0)); // on boundary
             Assert.IsTrue(result);
@@ -68,25 +68,34 @@ namespace Vts.Test.MonteCarlo.Tissues
         /// Validate method SurfaceNormal return correct normal vector
         /// </summary>
         [Test]
-        public void verify_SurfaceNormal_method_returns_correct_result()
+        public void Verify_SurfaceNormal_method_returns_correct_result()
         {
-            Direction result = _ellipsoidTissueRegion.SurfaceNormal(new Position(0, 0, 1.0));
-            Assert.AreEqual(new Direction(0, 0, -1), result);
+            var result = _ellipsoidTissueRegion.SurfaceNormal(new Position(0, 0, 1.0));
+            Assert.AreEqual(result.Ux, 0);
+            Assert.AreEqual(result.Uy, 0);
+            Assert.AreEqual(result.Uz, -1);
             result = _ellipsoidTissueRegion.SurfaceNormal(new Position(0, 0, 5.0));
-            Assert.AreEqual(new Direction(0, 0, 1), result);
+            Assert.AreEqual(result.Ux, 0);
+            Assert.AreEqual(result.Uy, 0);
+            Assert.AreEqual(result.Uz, 1);
         }
         /// <summary>
         /// Validate method RayIntersectBoundary return correct result
         /// </summary>
         [Test]
-        public void verify_RayIntersectBoundary_method_returns_correct_result()
+        public void Verify_RayIntersectBoundary_method_returns_correct_result()
         {
-            Photon photon = new Photon();
-            photon.DP.Position = new Position(-2, 0, 3);
-            photon.DP.Direction = new Direction(1, 0, 0);
-            photon.S = 10.0; // definitely intersect ckh this set to 2.0 makes test fail even though result is correct hmm
+            var photon = new Photon
+            {
+                DP =
+                {
+                    Position = new Position(-2, 0, 3),
+                    Direction = new Direction(1, 0, 0)
+                },
+                S = 10.0 // definitely intersect 
+            };
             double distanceToBoundary;
-            bool result = _ellipsoidTissueRegion.RayIntersectBoundary(photon, out distanceToBoundary);
+            var result = _ellipsoidTissueRegion.RayIntersectBoundary(photon, out distanceToBoundary);
             Assert.AreEqual(true, result);
             Assert.AreEqual(1.0, distanceToBoundary);
             photon.S = 0.5; // definitely don't intersect
