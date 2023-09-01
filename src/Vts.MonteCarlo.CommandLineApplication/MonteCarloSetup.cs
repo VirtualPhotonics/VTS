@@ -34,7 +34,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
 
                 if (File.Exists(fullFilePath))
                 {
-                    return SimulationInput.FromFile(fullFilePath);       
+                    return SimulationInput.FromFile(fullFilePath);
                 }
 
                 if (File.Exists(fullFilePath + ".txt"))
@@ -58,7 +58,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
             {
                 if (parameterSweepString.Length != 4)
                 {
-                    
+
                     var message =
                         " *** Invalid sweep parameter ***" +
                         "\n\t\tsweep parameters should have 4 values in the format:";
@@ -73,7 +73,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
                     message += "\n\t\tIgnoring this sweep parameter\n";
                     Logger.Warn(() => message);
                     return null;
-                    
+
                 }
             }
             else // type==ParameterSweepType.List
@@ -107,7 +107,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
                         // use Math.Round to make sure floating point precision doesn't reduce/increase count
                         sweepRange = new DoubleRange(start, stop, (int)(Math.Round((stop - start) / delta)) + 1);
                         return new ParameterSweep(inputParameterType, sweepRange);
-                    case ParameterSweepType.Count: 
+                    case ParameterSweepType.Count:
                         // eg. paramsweep=mua1,0.01,4.0,101 paramsweep=mus1,0.5,1.5,3 paramsweep=mus2,0.5,1.5,3 ...
                         start = double.Parse(parameterSweepString[1]);
                         stop = double.Parse(parameterSweepString[2]);
@@ -119,8 +119,8 @@ namespace Vts.MonteCarlo.CommandLineApplication
                         var number = int.Parse(parameterSweepString[1]);
                         var sweepList = new double[number];
                         for (var i = 0; i < number; i++)
-                        { 
-                            sweepList[i]=double.Parse(parameterSweepString[i + 2]);
+                        {
+                            sweepList[i] = double.Parse(parameterSweepString[i + 2]);
                         }
                         return new ParameterSweep(inputParameterType, sweepList);
                 }
