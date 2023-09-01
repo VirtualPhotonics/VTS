@@ -52,12 +52,12 @@ internal static class CommandLine
             and b) see if any were invoked at all (each returns 1 if invoked).
             If none were invoked, we simply invoke the printUsage handler. */
         if ((from arg in args
-                from Match match in ArgRegex.Matches(arg)
-                from s in switches
-                where match.Success &&
-                      ((string.Compare(match.Groups[NameGroup].Value, s.Name, true) == 0) ||
-                       (string.Compare(match.Groups[NameGroup].Value, s.ShortForm, true) == 0))
-                select s.InvokeHandler(match.Groups[ValueGroup].Value.Split(','))).Sum() == 0)
+             from Match match in ArgRegex.Matches(arg)
+             from s in switches
+             where match.Success &&
+                   ((string.Compare(match.Groups[NameGroup].Value, s.Name, true) == 0) ||
+                    (string.Compare(match.Groups[NameGroup].Value, s.ShortForm, true) == 0))
+             select s.InvokeHandler(match.Groups[ValueGroup].Value.Split(','))).Sum() == 0)
             printUsage(); // We didn't find any switches
     }
 }
