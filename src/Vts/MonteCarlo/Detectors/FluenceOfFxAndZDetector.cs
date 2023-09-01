@@ -132,7 +132,7 @@ namespace Vts.MonteCarlo.Detectors
         public void TallySingle(PhotonDataPoint previousDP, PhotonDataPoint dp, int currentRegionIndex)
         {
             var x = dp.Position.X;
-            var fxArray = Fx.AsEnumerable().ToArray();
+            var fxArray = Fx.ToArray();
             var iz = DetectorBinning.WhichBin(dp.Position.Z, Z.Count - 1, Z.Delta, Z.Start);
             var weight = _absorptionWeightingMethod(previousDP, dp, currentRegionIndex);
             // Note: GetVolumeAbsorptionWeightingMethod in Initialize method determines the *absorbed* weight

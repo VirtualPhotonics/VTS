@@ -25,9 +25,9 @@ namespace Vts.MonteCarlo
         /// </summary>
         GenericVolumeBoundary,
         /// <summary>
-        /// Internal dosimetry detectors attach to this virtual boundary type
+        /// Internal surface detectors attach to this virtual boundary type
         /// </summary>
-        Dosimetry,
+        InternalSurface,
         /// <summary>
         /// Virtual boundary used for pMC diffuse reflectance detectors
         /// </summary>
@@ -39,6 +39,6 @@ namespace Vts.MonteCarlo
         /// <summary>
         /// Virtual boundary used to capture photons if leave this lateral boundary
         /// </summary>
-        BoundingCylinderVolume,
+        BoundingVolume,
     }
 }

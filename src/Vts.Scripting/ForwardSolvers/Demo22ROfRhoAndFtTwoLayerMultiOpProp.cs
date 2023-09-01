@@ -18,7 +18,7 @@ internal class Demo22ROfRhoAndFtTwoLayerMultiOpProp : IDemoScript
         // PointSourceSDA,DistributedGaussianSourceSDA, DistributedPointSourceSDA,
         // MonteCarlo(basic scaled), Nurbs(scaled with smoothing and adaptive binning)
         var solver = new TwoLayerSDAForwardSolver();
-        var fts = new DoubleRange(start: 0, stop: 0.5, number: 51).AsEnumerable().ToArray(); // range of time frequencies in GHz
+        var fts = new DoubleRange(start: 0, stop: 0.5, number: 51).ToArray(); // range of time frequencies in GHz
         var op1 = new IOpticalPropertyRegion[]
         {
             new LayerOpticalPropertyRegion(zRange: new DoubleRange(0, 2, 2),  regionOP: new OpticalProperties(mua: 0.01, musp: 1, g: 0.8, n: 1.4)),

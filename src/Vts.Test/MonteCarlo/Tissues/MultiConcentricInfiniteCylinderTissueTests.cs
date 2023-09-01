@@ -17,7 +17,7 @@ namespace Vts.Test.MonteCarlo.Tissues
         /// Validate general constructor of Tissue
         /// </summary>
         [OneTimeSetUp]
-        public void create_instance_of_class()
+        public void Create_instance_of_class()
         {
             _tissue = new MultiConcentricInfiniteCylinderTissue(
          new ITissueRegion[]
@@ -52,9 +52,9 @@ namespace Vts.Test.MonteCarlo.Tissues
         /// Validate method GetRegionIndex return correct Boolean
         /// </summary>
         [Test]
-        public void verify_GetRegionIndex_method_returns_correct_result()
+        public void Verify_GetRegionIndex_method_returns_correct_result()
         {
-            int index = _tissue.GetRegionIndex(new Position(0, 0, 7)); // outside both infinite cylinders
+            var index = _tissue.GetRegionIndex(new Position(0, 0, 7)); // outside both infinite cylinders
             Assert.AreEqual(1, index);
             index = _tissue.GetRegionIndex(new Position(0, 0, 0.1)); // inside outer cylinder outside inner
             Assert.AreEqual(3, index);
@@ -66,9 +66,9 @@ namespace Vts.Test.MonteCarlo.Tissues
         /// Validate method GetNeighborRegionIndex return correct Boolean
         /// </summary>
         [Test]
-        public void verify_GetNeighborRegionIndex_method_returns_correct_result()
+        public void Verify_GetNeighborRegionIndex_method_returns_correct_result()
         {
-            Photon photon = new Photon( // on bottom of outer infinite cylinder pointed into it
+            var photon = new Photon( // on bottom of outer infinite cylinder pointed into it
                 new Position(0, 0, 6.0),
                 new Direction(0.0, 0, -1.0),
                 1.0,
@@ -118,16 +118,18 @@ namespace Vts.Test.MonteCarlo.Tissues
         /// Test to make sure that shortest distance to layer boundary or infinite cylinders is correct
         /// </summary>
         [Test]
-        public void validate_GetDistanceToBoundary_method_returns_correct_results()
+        public void Validate_GetDistanceToBoundary_method_returns_correct_results()
         {
-            Photon photon = new Photon( // below outer infinite cylinder pointed into it
+            var photon = new Photon( // below outer infinite cylinder pointed into it
                 new Position(0, 0, 7),
                 new Direction(0.0, 0, -1.0),
                 1.0,
                 _tissue,
                 1,
-                new Random());
-            photon.S = 10;
+                new Random())
+            {
+                S = 10
+            };
             var distance = _tissue.GetDistanceToBoundary(photon);
             Assert.IsTrue(Math.Abs(distance - 1) < 1e-6);
             photon = new Photon(        // above inner infinite cylinder pointed into it
@@ -136,8 +138,10 @@ namespace Vts.Test.MonteCarlo.Tissues
                 1.0,
                 _tissue,
                 3,
-                new Random());
-            photon.S = 10;
+                new Random())
+            {
+                S = 10
+            };
             distance = _tissue.GetDistanceToBoundary(photon);
             Assert.IsTrue(Math.Abs(distance - 0.4) < 1e-6);
             photon = new Photon(        // inside inner infinite cylinder pointed out and down
@@ -146,8 +150,10 @@ namespace Vts.Test.MonteCarlo.Tissues
                 1.0,
                 _tissue,
                 3,
-                new Random());
-            photon.S = 10;
+                new Random())
+            {
+                S = 10
+            };
             distance = _tissue.GetDistanceToBoundary(photon);
             Assert.IsTrue(Math.Abs(distance - 4.5) < 1e-6);
             photon = new Photon( // on bottom of slab pointed out
@@ -165,16 +171,16 @@ namespace Vts.Test.MonteCarlo.Tissues
         /// Validate method GetAngleRelativeToBoundaryNormal return correct Boolean
         /// </summary>
         [Test]
-        public void verify_GetAngleRelativeToBoundaryNormal_method_returns_correct_result()
+        public void Verify_GetAngleRelativeToBoundaryNormal_method_returns_correct_result()
         {
-            Photon photon = new Photon( // on top of cylinder pointed into it
+            var photon = new Photon( // on top of cylinder pointed into it
                 new Position(0, 0, 1.0),
                 new Direction(0.0, 0, 1.0),
                 1,
                 _tissue,
                 1,
                 new Random());
-            double cosTheta = _tissue.GetAngleRelativeToBoundaryNormal(photon);
+            var cosTheta = _tissue.GetAngleRelativeToBoundaryNormal(photon);
             Assert.AreEqual(1,cosTheta);
         }
 

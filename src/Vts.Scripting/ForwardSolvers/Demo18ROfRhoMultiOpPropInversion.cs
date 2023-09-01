@@ -29,7 +29,7 @@ internal class Demo18ROfRhoMultiOpPropInversion : IDemoScript
 
         // predict the tissue's optical properties spanning the visible and NIR spectral regimes
         //var wavelengths = new DoubleRange(start: 400, stop: 1000, number: 13).AsEnumerable().ToArray(); // range of wavelengths in nm
-        var wavelengths = new DoubleRange(start: 400, stop: 1000, number: 601).AsEnumerable().ToArray(); // range of wavelengths in nm
+        var wavelengths = new DoubleRange(start: 400, stop: 1000, number: 601).ToArray(); // range of wavelengths in nm
         var measuredOPs = tissue.GetOpticalProperties(wavelengths);
 
         // Create some measurements, based on a Nurbs-based White Monte Carlo forward solver

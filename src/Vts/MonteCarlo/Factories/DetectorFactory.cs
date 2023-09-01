@@ -33,7 +33,7 @@ namespace Vts.MonteCarlo.Factories
         /// <param name="detectorInput">IEnumerable of IDetectorInput</param>
         /// <param name="tissue">ITissue</param>
         /// <param name="rng">random number generator</param>
-        /// <returns>List of IDetector</returns>
+        /// <returns>IDetector</returns>
         public static IDetector GetDetector(IDetectorInput detectorInput, ITissue tissue, Random rng)
         {
             if (detectorInput == null)
@@ -49,7 +49,7 @@ namespace Vts.MonteCarlo.Factories
         }
 
         /// <summary>
-        /// method to register detector: currently not used
+        /// Method to register detector: currently not used
         /// </summary>
         /// <param name="detectorInputType">type of detector input</param>
         /// <param name="detectorType">type of detector</param>
