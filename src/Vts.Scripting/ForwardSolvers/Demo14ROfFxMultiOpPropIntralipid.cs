@@ -18,7 +18,7 @@ internal class Demo14ROfFxMultiOpPropIntralipid : IDemoScript
         // PointSourceSDA,DistributedGaussianSourceSDA, DistributedPointSourceSDA,
         // MonteCarlo(basic scaled), Nurbs(scaled with smoothing and adaptive binning)
         var solver = new PointSourceSDAForwardSolver();
-        var fxs = new DoubleRange(start: 0, stop: 0.2, number: 5).AsEnumerable().ToArray(); // range of spatial frequencies in 1/mm
+        var fxs = new DoubleRange(start: 0, stop: 0.2, number: 5).ToArray(); // range of spatial frequencies in 1/mm
 
         // retrieve desired optical properties, based on spectral data information 
 
@@ -39,7 +39,7 @@ internal class Demo14ROfFxMultiOpPropIntralipid : IDemoScript
         var tissue = new Tissue(chromophores, scatterer, "", n: 1.4);
 
         // predict the tissue's optical properties spanning the visible and NIR spectral regimes
-        var wavelengths = new DoubleRange(start: 450, stop: 1000, number: 1101).AsEnumerable().ToArray(); // range of wavelengths in nm
+        var wavelengths = new DoubleRange(start: 450, stop: 1000, number: 1101).ToArray(); // range of wavelengths in nm
         var ops = tissue.GetOpticalProperties(wavelengths);
 
         // predict the spatial frequency response at each specified optical properties

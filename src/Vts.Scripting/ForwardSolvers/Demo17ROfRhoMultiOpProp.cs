@@ -17,7 +17,7 @@ internal class Demo17ROfRhoMultiOpProp : IDemoScript
         // PointSourceSDA,DistributedGaussianSourceSDA, DistributedPointSourceSDA,
         // MonteCarlo(basic scaled), Nurbs(scaled with smoothing and adaptive binning)
         var solver = new PointSourceSDAForwardSolver();
-        var rhos = new DoubleRange(start: 0.2, stop: 1, number: 5).AsEnumerable().ToArray(); // range of source-detector separations in mm
+        var rhos = new DoubleRange(start: 0.2, stop: 1, number: 5).ToArray(); // range of source-detector separations in mm
 
         // create an array of chromophore absorbers, each with a given concentrations
         var chromophores = new IChromophoreAbsorber[]
@@ -34,7 +34,7 @@ internal class Demo17ROfRhoMultiOpProp : IDemoScript
         var tissue = new Tissue(chromophores, scatterer, "", n: 1.4);
 
         // predict the tissue's optical properties spanning the visible and NIR spectral regimes
-        var wavelengths = new DoubleRange(start: 450, stop: 1000, number: 1101).AsEnumerable().ToArray(); // range of wavelengths in nm
+        var wavelengths = new DoubleRange(start: 450, stop: 1000, number: 1101).ToArray(); // range of wavelengths in nm
         var ops = tissue.GetOpticalProperties(wavelengths);
 
         // predict the radial reflectance response across the spectrum of optical properties

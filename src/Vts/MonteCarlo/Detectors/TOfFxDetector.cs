@@ -133,7 +133,7 @@ namespace Vts.MonteCarlo.Detectors
             
             var dp = photon.DP;
             var x = dp.Position.X;
-            var fxArray = Fx.AsEnumerable().ToArray();
+            var fxArray = Fx.ToArray();
             for (var i = 0; i < fxArray.Length; i++)
             {
                 var freq = fxArray[i];

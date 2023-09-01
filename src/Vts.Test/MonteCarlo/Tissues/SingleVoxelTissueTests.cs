@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using NUnit.Framework;
 using Vts.Common;
 using Vts.IO;
@@ -100,3 +100,4 @@ namespace Vts.Test.MonteCarlo.Tissues
         }
     }
 }
+

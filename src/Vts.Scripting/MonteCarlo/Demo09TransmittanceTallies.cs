@@ -61,7 +61,7 @@ internal class Demo09TransmittanceTallies : IDemoScript
         // plot the T(rho) results using Plotly.NET
         var tOfFxResults = (TOfFxDetector)simulationOutput.ResultsDictionary[tOfFxDetectorInput.Name];
         var tOfFxTransmittance = tOfFxResults.Mean.Select(t => t.Magnitude).ToArray();
-        var chart2 = LineChart(fxRange.AsEnumerable().ToArray(), tOfFxTransmittance, xLabel, yLabel, title: "T(fx)) [unitless]");
+        var chart2 = LineChart(fxRange.ToArray(), tOfFxTransmittance, xLabel, yLabel, title: "T(fx)) [unitless]");
 
         if (showPlots)
         {

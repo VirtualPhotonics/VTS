@@ -6,6 +6,7 @@ using Vts.MonteCarlo.Helpers;
 using Vts.MonteCarlo.Sources;
 using Vts.MonteCarlo.Sources.SourceProfiles;
 using Vts.MonteCarlo.Tissues;
+using Vts.SpectralMapping;
 
 namespace Vts.MonteCarlo
 {
@@ -43,7 +44,8 @@ namespace Vts.MonteCarlo
                 EmbeddedDirectionalCircularSourceEllipTissueFluenceOfXAndYAndZ(),
                 PointSourceSurfaceFiberTissueAndDetector(),
                 FluorescenceEmissionAOfXAndYAndZSourceInfiniteCylinder(),
-                PointSourceOneLayerReynoldsMcCormickScattering(),
+                PointSourceBoundedTissue(),
+                ImageSourceOneLayerTissueROfXAndYDetector()
             };
         }
 
@@ -457,33 +459,35 @@ namespace Vts.MonteCarlo
         #endregion
 
         #region point source one layer LUT Phase function R(rho)
+
         /// <summary>
         /// Point source, one layer tissue definition with LUT phase function, only ROfRho detector included
         /// </summary>
         public static SimulationInput PointSourceOneLayerTissueLUTPhaseFunctionROfRhoDetector()
         {
             MultiLayerTissueInput ti = new MultiLayerTissueInput(
-                    new ITissueRegion[]
-                    { 
-                        new LayerTissueRegion(
-                            new DoubleRange(double.NegativeInfinity, 0.0),
-                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
+                new ITissueRegion[]
+                {
+                    new LayerTissueRegion(
+                        new DoubleRange(double.NegativeInfinity, 0.0),
+                        new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
                         "HenyeyGreensteinKey1"),
-                        new LayerTissueRegion(
-                            new DoubleRange(0.0, 100.0),
-                            new OpticalProperties(0.01, 1.0, 0.8, 1.4),
+                    new LayerTissueRegion(
+                        new DoubleRange(0.0, 100.0),
+                        new OpticalProperties(0.01, 1.0, 0.8, 1.4),
                         "LUT1"),
-                        new LayerTissueRegion(
-                            new DoubleRange(100.0, double.PositiveInfinity),
-                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
+                    new LayerTissueRegion(
+                        new DoubleRange(100.0, double.PositiveInfinity),
+                        new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
                         "HenyeyGreensteinKey2")
-                    }
-                );
+                }
+            );
             ti.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey1", new HenyeyGreensteinPhaseFunctionInput());
             ti.RegionPhaseFunctionInputs.Add("LUT1", new LookupTablePhaseFunctionInput(
                 new PolarLookupTablePhaseFunctionData
                 {
-                    LutAngles = new[] { 0, Math.PI / 6, Math.PI / 3, Math.PI / 2, 2 * Math.PI / 3, Math.PI * 5 / 6, Math.PI },
+                    LutAngles = new[]
+                        { 0, Math.PI / 6, Math.PI / 3, Math.PI / 2, 2 * Math.PI / 3, Math.PI * 5 / 6, Math.PI },
                     LutPdf = new[] { 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5 }
                     //LutCdf = new[] { 0, 0.5 * (1 - Math.Sqrt(3) / 2), 0.25, 0.5, 0.75, 0.5 * (1 + Math.Sqrt(3) / 2), 1 },
                 }
@@ -495,7 +499,7 @@ namespace Vts.MonteCarlo
                 new SimulationOptions(
                     0, // random number generator seed, -1=random seed, 0=fixed seed
                     RandomNumberGeneratorType.MersenneTwister,
-                    AbsorptionWeightingType.Discrete, 
+                    AbsorptionWeightingType.Discrete,
                     new List<DatabaseType>() { }, // databases to be written
                     false, // track statistics
                     0.0, // RR threshold -> no RR performed
@@ -507,7 +511,7 @@ namespace Vts.MonteCarlo
                 ti,
                 new List<IDetectorInput>()
                 {
-                    new ROfRhoDetectorInput { Rho =new DoubleRange(0.0, 10, 101) },
+                    new ROfRhoAndAngleDetectorInput() { Rho = new DoubleRange(0.0, 10, 101) }
                 }
             );
         }
@@ -522,9 +526,9 @@ namespace Vts.MonteCarlo
         {
             SingleInfiniteCylinderTissueInput ti = new SingleInfiniteCylinderTissueInput(
                 new InfiniteCylinderTissueRegion(
-                    new Position(0, 0, 1),
+                    new Position(0, 0, 2),
                     1.0,
-                    new OpticalProperties(0.05, 1.0, 0.8, 1.4),
+                    new OpticalProperties(0.05, 1.0, 0.8, 1.0),
                     "HenyeyGreensteinKey1"
                 ),
                 new ITissueRegion[]
@@ -551,21 +555,22 @@ namespace Vts.MonteCarlo
                 100,
                 "infinite_cylinder_AOfXAndYAndZ",
                 new SimulationOptions(
-                    0, // random number generator seed, -1=random seed, 0=fixed seed
+                    0,
                     RandomNumberGeneratorType.MersenneTwister,
                     AbsorptionWeightingType.Discrete,
-                    new List<DatabaseType>() { }, // databases to be written
-                    false, // track statistics
-                    0.0, // RR threshold -> no RR performed
+                    new List<DatabaseType>(){ },
+                    false,
+                    0.0,
                     0),
                 new DirectionalPointSourceInput(
                     new Position(0.0, 0.0, 0.0),
                     new Direction(0.0, 0.0, 1.0),
-                    0), // 0=start in air, 1=start in tissue
+                    0),
                 ti,
-                new List<IDetectorInput>()
-                {
-                        new AOfXAndYAndZDetectorInput {
+                new List<IDetectorInput>
+                {// need to specify at least 2 bins in each dimension if generating fluorescence source
+                    new AOfXAndYAndZDetectorInput 
+                    {
                         X =new DoubleRange(-10, 10, 201),
                         Y =new DoubleRange(-10, 10, 5), 
                         Z =new DoubleRange(0, 10, 101)}
@@ -1427,7 +1432,7 @@ namespace Vts.MonteCarlo
                     0.0, // RR threshold -> no RR performed
                     0),
                 // pairs w above infinite_cylinder_ROfRho_FluenceOfRhoAndZ
-                new FluorescenceEmissionAOfXAndYAndZSourceInput( 
+                new FluorescenceEmissionAOfXAndYAndZSourceInput(
                     "infinite_cylinder_AOfXAndYAndZ",
                     "infinite_cylinder_AOfXAndYAndZ.txt",
                     3,
@@ -1458,8 +1463,7 @@ namespace Vts.MonteCarlo
                         "HenyeyGreensteinKey1"),
                         new LayerTissueRegion(
                             new DoubleRange(0.0, 100.0),
-                            new OpticalProperties(0.01, 1.0, 0.8, 1.4),
-                        "ReynoldsMcCormickKey1"),
+                            new OpticalProperties(0.01, 10, 0.8, 1.4)),  
                         new LayerTissueRegion(
                             new DoubleRange(100.0, double.PositiveInfinity),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
@@ -1488,6 +1492,126 @@ namespace Vts.MonteCarlo
                 new List<IDetectorInput>()
                 {
                     new ROfRhoDetectorInput() {Rho =new DoubleRange(0.0, 10, 101)},
+                }
+            );
+        }
+        #endregion
+        
+        #region tissue bounded by voxel region  
+        /// <summary>
+        /// Bounded Cylinder Tissue
+        /// </summary>
+        /// <returns>An instance of the SimulationInput class</returns>
+        public static SimulationInput PointSourceBoundedTissue()
+        {
+            var tissue = new BoundingVoxelTissueInput(
+                new CaplessVoxelTissueRegion(
+                    new DoubleRange(-1, 1, 2),
+                    new DoubleRange(-1, 1, 2),
+                    new DoubleRange(0, 100.0),
+                    new OpticalProperties(0.05, 1.0, 0.8, 1.4),
+                    "HenyeyGreensteinKey1"
+                ),
+                new ITissueRegion[]
+                {
+                    new LayerTissueRegion(
+                        new DoubleRange(double.NegativeInfinity, 0.0),
+                        new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
+                        "HenyeyGreensteinKey2"),
+                    new LayerTissueRegion(
+                        new DoubleRange(0.0, 100.0),
+                        new OpticalProperties(0.01, 10, 0.8, 1.4),
+                        "HenyeyGreensteinKey3"),
+                    new LayerTissueRegion(
+                        new DoubleRange(100.0, double.PositiveInfinity),
+                        new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
+                        "HenyeyGreensteinKey4")
+                }
+            );
+            tissue.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey1", new HenyeyGreensteinPhaseFunctionInput());
+            tissue.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey2", new HenyeyGreensteinPhaseFunctionInput());
+            tissue.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey3", new HenyeyGreensteinPhaseFunctionInput());
+            tissue.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey4", new HenyeyGreensteinPhaseFunctionInput());
+
+            return new SimulationInput(
+                100,
+                "point_source_bounded_tissue",
+                new SimulationOptions(
+                    0, // random number generator seed, -1=random seed, 0=fixed seed
+                    RandomNumberGeneratorType.MersenneTwister,
+                    AbsorptionWeightingType.Discrete,
+                    new List<DatabaseType>() { }, // databases to be written
+                    true, // track statistics
+                    0.0, // RR threshold -> no RR performed
+                    0),
+                new DirectionalPointSourceInput(
+                    new Position(0.0, 0.0, 0.0),
+                    new Direction(0.0, 0.0, 1.0),
+                    0), // 0=start in air, 1=start in tissue
+                tissue,
+                new List<IDetectorInput>()
+                {
+                    new ATotalBoundingVolumeDetectorInput() 
+                }
+            );
+        }
+        #endregion
+
+        #region image source one layer 
+        /// <summary>
+        /// Bounded Cylinder Tissue
+        /// </summary>
+        /// <returns>An instance of the SimulationInput class</returns>
+        public static SimulationInput ImageSourceOneLayerTissueROfXAndYDetector()
+        {
+            var tissue = new MultiLayerTissueInput(
+                new ITissueRegion[]
+                {
+                    new LayerTissueRegion(
+                        new DoubleRange(double.NegativeInfinity, 0.0),
+                        new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
+                        "HenyeyGreensteinKey1"),
+                    new LayerTissueRegion(
+                        new DoubleRange(0.0, 100.0),
+                        new OpticalProperties(0.01, 1.0, 0.8, 1.4),
+                        "HenyeyGreensteinKey2"),
+                    new LayerTissueRegion(
+                        new DoubleRange(100.0, double.PositiveInfinity),
+                        new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
+                        "HenyeyGreensteinKey3")
+                }
+            );
+            tissue.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey1", new HenyeyGreensteinPhaseFunctionInput());
+            tissue.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey2", new HenyeyGreensteinPhaseFunctionInput());
+            tissue.RegionPhaseFunctionInputs.Add("HenyeyGreensteinKey3", new HenyeyGreensteinPhaseFunctionInput());
+
+            return new SimulationInput(
+                100,
+                "image_source_one_layer_tissue_ROfXAndY",
+                new SimulationOptions(
+                    0, // random number generator seed, -1=random seed, 0=fixed seed
+                    RandomNumberGeneratorType.MersenneTwister,
+                    AbsorptionWeightingType.Discrete,
+                    new List<DatabaseType>() { }, // databases to be written
+                    true, // track statistics
+                    0.0, // RR threshold -> no RR performed
+                    0),
+                new DirectionalImageSourceInput(
+                    "folder",             // image folder
+                    "image.png",               // image name
+                    1280,        // x-axis number of pixels
+                    1024,        // y-axis number of pixels
+                    0.1,            // pixel size x-axis
+                    0.1,           // pixel size y-axis
+                    0.0,          // conv or diverge
+                    new Direction(0,0,1),  
+                    new Position(0.0, 0.0, 0.0),
+                    new PolarAzimuthalAngles(),
+                    0), // 0=start in air, 1=start in tissue
+                tissue,
+                new List<IDetectorInput>()
+                {
+                    new ROfXAndYDetectorInput()
                 }
             );
         }

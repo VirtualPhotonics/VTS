@@ -314,7 +314,7 @@ namespace Vts.Test.Modeling.ForwardSolvers
             var scatterer = new IntralipidScatterer(0.01);
             var fatAbsorber = new ChromophoreAbsorber(ChromophoreType.Fat, 0.01);
             var waterAbsorber = new ChromophoreAbsorber(ChromophoreType.H2O, 0.99);
-            var wvs = new DoubleRange(650, 1000, 36).AsEnumerable().ToArray();
+            var wvs = new DoubleRange(650, 1000, 36).ToArray();
             var rho = 10;
 
             var tempOps = wvs.Select(wv =>
@@ -345,7 +345,7 @@ namespace Vts.Test.Modeling.ForwardSolvers
             var fatAbsorber = new ChromophoreAbsorber(ChromophoreType.Fat, 0.01);
             var waterAbsorber = new ChromophoreAbsorber(ChromophoreType.H2O, 0.99);
 
-            var wvs = new DoubleRange(650, 1000, 36).AsEnumerable().ToArray();
+            var wvs = new DoubleRange(650, 1000, 36).ToArray();
             var rho = 10;
 
             var tissue = new Tissue(

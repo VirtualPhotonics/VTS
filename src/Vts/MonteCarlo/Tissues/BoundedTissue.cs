@@ -23,10 +23,11 @@ namespace Vts.MonteCarlo.Tissues
     {
         private readonly ITissueRegion _boundingRegion;
         private readonly IList<ITissueRegion> _layers;
-        private int _boundingRegionExteriorIndex;
+        private readonly int _boundingRegionExteriorIndex;
+        private readonly IList<int> _tissueLayersInsideBoundIndices;
 
         /// <summary>
-        /// Creates an instance of a SingleInclusionTissue
+        /// Creates an instance of a BoundedTissue
         /// </summary>
         /// <param name="boundingRegion">Tissue region defining later extent of tissue (must span top to bottom of tissue layers)</param>
         /// <param name="layerRegions">The tissue layers</param>
@@ -42,6 +43,12 @@ namespace Vts.MonteCarlo.Tissues
             Regions = layerRegions.Concat(boundingRegion).ToArray();
             _layers = layerRegions;
             _boundingRegion = boundingRegion;
+            // create list of tissue layers inside bounding region, assumes air-multilayer-air tissue
+            _tissueLayersInsideBoundIndices = new List<int>();
+            for (var i = 1; i < layerRegions.Count - 1; i++)
+            {
+                _tissueLayersInsideBoundIndices.Add(i);
+            }
         }
 
         /// <summary>
@@ -58,12 +65,13 @@ namespace Vts.MonteCarlo.Tissues
         /// <returns>integer tissue region index</returns>
         public override int GetRegionIndex(Position position)
         {
-            // if it's in the bounding region, return "3", otherwise, call the layer method to determine
+            // if it's in the bounding region, return bounding region index,
+            // otherwise, call the layer method to determine
             return !_boundingRegion.ContainsPosition(position)  ? _boundingRegionExteriorIndex : base.GetRegionIndex(position);
         }
 
         /// <summary>
-        /// method to get distance from current photon position and direction to boundary of region
+        /// Method to get distance from current photon position and direction to boundary of region
         /// </summary>
         /// <param name="photon">Photon</param>
         /// <returns>distance to boundary</returns>
@@ -72,19 +80,20 @@ namespace Vts.MonteCarlo.Tissues
             // if we're inside or outside the bounding region, distance is either to bounding region or
             // edge of layer
 
-            // check if current track will hit the bounding boundary
+            // check if current track will not hit the bounding boundary, then tissue boundary
             if (!_boundingRegion.RayIntersectBoundary(photon, out var distanceToBoundingBoundary))
                 return base.GetDistanceToBoundary(photon);
 
             // check if will hit layer boundary
             var distanceToLayerBoundary = base.GetDistanceToBoundary(photon);
-            if (!(distanceToBoundingBoundary < distanceToLayerBoundary)) return distanceToLayerBoundary;
-            return distanceToBoundingBoundary;
+            return !(distanceToBoundingBoundary < distanceToLayerBoundary) 
+                ? distanceToLayerBoundary 
+                : distanceToBoundingBoundary;
 
             // if not hitting the inclusion, call the base (layer) method
         }
         /// <summary>
-        /// method to determine if on boundary of tissue, i.e. at tissue/air interface
+        /// Method to determine if on boundary of tissue, i.e. at tissue/air interface
         /// </summary>
         /// <param name="position">photon position</param>
         /// <returns>Boolean indicating whether on boundary or not</returns>
@@ -96,7 +105,7 @@ namespace Vts.MonteCarlo.Tissues
                 (Math.Abs(position.Z - ((LayerTissueRegion)_layers.Last()).ZRange.Start) < 1e-10);
         }
         /// <summary>
-        /// method to get index of neighbor tissue region when photon on boundary of two regions
+        /// Method to get index of neighbor tissue region when photon on boundary of two regions
         /// </summary>
         /// <param name="photon">Photon</param>
         /// <returns>index of neighbor index</returns>
@@ -105,10 +114,10 @@ namespace Vts.MonteCarlo.Tissues
             // first, check what region the photon is in
             var regionIndex = photon.CurrentRegionIndex;
 
-            // if we're on the boundary of the bounding region
+            // if we're not on the boundary of the bounding region, get layer neighbor
             if (!_boundingRegion.OnBoundary(photon.DP.Position)) return base.GetNeighborRegionIndex(photon);
 
-            //  and outside bounding region then neighbor is tissue layer
+            // if we are on boundary of bounding region, determine neighbor index
             return regionIndex != _boundingRegionExteriorIndex
                 ? _boundingRegionExteriorIndex
                 : base.GetRegionIndex(photon.DP.Position);
@@ -117,7 +126,7 @@ namespace Vts.MonteCarlo.Tissues
             // else on layer boundary so return layer neighbor
         }
         /// <summary>
-        /// method to determine photon state type of photon exiting tissue boundary
+        /// Method to determine photon state type of photon exiting tissue boundary
         /// </summary>
         /// <param name="position">photon position</param>
         /// <returns>PhotonStateType</returns>
@@ -132,7 +141,7 @@ namespace Vts.MonteCarlo.Tissues
                 : PhotonStateType.PseudoBoundingVolumeTissueBoundary;
         }
         /// <summary>
-        /// method that provides reflected direction when photon reflects off boundary
+        /// Method that provides reflected direction when photon reflects off boundary
         /// </summary>
         /// <param name="currentPosition">Position</param>
         /// <param name="currentDirection">Direction</param>
@@ -142,13 +151,32 @@ namespace Vts.MonteCarlo.Tissues
             Direction currentDirection)
         {
             // needs to call MultiLayerTissue when crossing top and bottom layer
-            return base.OnDomainBoundary(currentPosition)
-                ? base.GetReflectedDirection(currentPosition, currentDirection)
-                : currentDirection; // currently reflection/refraction not performed on bounding region
+            if (base.OnDomainBoundary(currentPosition))
+            {
+                return base.GetReflectedDirection(currentPosition, currentDirection);
+            }
+
+            // on tissue layer and bounding region border
+            // determine which layer 
+            var layerIndex = base.GetRegionIndex(currentPosition);
+            // the following assumes air-multilayers-air tissue
+            if (_boundingRegion.RegionOP.N == Regions[layerIndex].RegionOP.N)
+            {
+                return currentDirection;  // no refractive index mismatch
+            }
+
+            // reflection equation reflected = incident - 2(incident dot surfaceNormal)surfaceNormal
+            var surfaceNormal = _boundingRegion.SurfaceNormal(currentPosition);
+            var currentDirDotNormal = Direction.GetDotProduct(currentDirection, surfaceNormal);
+            var newX = currentDirection.Ux - 2 * currentDirDotNormal * surfaceNormal.Ux;
+            var newY = currentDirection.Uy - 2 * currentDirDotNormal * surfaceNormal.Uy;
+            var newZ = currentDirection.Uz - 2 * currentDirDotNormal * surfaceNormal.Uz;
+            var norm = Math.Sqrt(newX * newX + newY * newY + newZ * newZ);
+            return new Direction(newX / norm, newY / norm, newZ / norm);
         }
 
         /// <summary>
-        /// method that provides refracted direction when photon refracts off boundary
+        /// Method that provides refracted direction when photon refracts off boundary
         /// </summary>
         /// <param name="currentPosition">Position</param>
         /// <param name="currentDirection">Direction</param>
@@ -164,10 +192,47 @@ namespace Vts.MonteCarlo.Tissues
             double cosThetaSnell)
         {
             // needs to call MultiLayerTissue when crossing top and bottom layer
-            return base.OnDomainBoundary(currentPosition)
-                ? base.GetRefractedDirection(currentPosition, currentDirection, currentN, nextN, cosThetaSnell)
-                : currentDirection; // currently reflection/refraction not performed on bounding region
-            //throw new NotImplementedException(); // hopefully, this won't happen when the tissue inclusion is index-matched
+            if (base.OnDomainBoundary(currentPosition))
+            {
+                return base.GetRefractedDirection(currentPosition, currentDirection, currentN, nextN, cosThetaSnell);
+            }
+            {
+                if (currentN == nextN)
+                {
+                    return currentDirection;  // no refractive index mismatch
+                }
+
+                // refraction equations in ref
+                // where theta1 and theta2 are angles relative to normal
+                var normal = _boundingRegion.SurfaceNormal(currentPosition);
+                var cosTheta1 = Direction.GetDotProduct(currentDirection, normal);
+                var nRatio = currentN / nextN;
+                var sinTheta2Squared = nRatio * nRatio * (1 - cosTheta1 * cosTheta1);
+                var factor = nRatio * cosTheta1 - Math.Sqrt(1 - sinTheta2Squared);
+                var newX = nRatio * currentDirection.Ux + factor * normal.Ux;
+                var newY = nRatio * currentDirection.Uy + factor * normal.Uy;
+                var newZ = nRatio * currentDirection.Uz + factor * normal.Uz;
+                var norm = Math.Sqrt(newX * newX + newY * newY + newZ * newZ);
+                return new Direction(newX / norm, newY / norm, newZ / norm);
+            }
+        }
+        /// <summary>
+        /// Method to get cosine of the angle between photons current direction and boundary normal.
+        /// When this method is called photon is sitting on boundary of region and CurrentRegionIndex is Index
+        /// of region photon had been in.
+        /// </summary>
+        /// <param name="photon"></param>
+        /// <returns>Uz=cos(theta)</returns>
+        public override double GetAngleRelativeToBoundaryNormal(Photon photon)
+        {
+            // needs to call MultiLayerTissue when crossing top and bottom layer
+            if (base.OnDomainBoundary(photon.DP.Position))
+            {
+                return base.GetAngleRelativeToBoundaryNormal(photon);
+            }
+
+            return Math.Abs(Direction.GetDotProduct( // Abs consistent with SingleInclusionTissue
+                photon.DP.Direction, _boundingRegion.SurfaceNormal(photon.DP.Position)));
         }
     }
 }

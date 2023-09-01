@@ -34,7 +34,7 @@ internal class Demo10ROfFx : IDemoScript
         var detectorResults = (ROfFxDetector)simulationOutput.ResultsDictionary[detectorInput.Name];
         var complexReflectance = detectorResults.Mean;
         var reflectanceMagnitude = complexReflectance.Select(r => r.Magnitude).ToArray();
-        var (detectorMidpoints, xLabel, yLabel) = (fxRange.AsEnumerable().ToArray(), "fx [mm-1]", "R(fx) [unitless]");
+        var (detectorMidpoints, xLabel, yLabel) = (fxRange.ToArray(), "fx [mm-1]", "R(fx) [unitless]");
         var chart = LineChart(detectorMidpoints, reflectanceMagnitude, xLabel, yLabel, title: "R vs fx [unitless]");
 
         if (showPlots)
