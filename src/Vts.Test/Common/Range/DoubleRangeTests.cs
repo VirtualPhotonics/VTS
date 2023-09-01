@@ -92,7 +92,7 @@ namespace Vts.Test.Common
         {
             var r = new DoubleRange(10D, 10D, 3);
 
-            var values = r.AsEnumerable().ToArray();
+            var values = r.ToArray();
 
             Assert.AreEqual(3, values.Length);
             foreach (var value in values)

@@ -12,14 +12,14 @@ namespace Vts.Test.MonteCarlo.Tissues
     [TestFixture]
     public class SurfaceFiberTissueRegionTests
     {
-        private SurfaceFiberTissueRegion _SurfaceFiberTissueRegion;
+        private SurfaceFiberTissueRegion _surfaceFiberTissueRegion;
         /// <summary>
         /// Validate general constructor of TissueRegion
         /// </summary>
         [OneTimeSetUp]
-        public void create_instance_of_class()
+        public void Create_instance_of_class()
         {
-            _SurfaceFiberTissueRegion = new SurfaceFiberTissueRegion(
+            _surfaceFiberTissueRegion = new SurfaceFiberTissueRegion(
                 new Position(0, 0, 2), // center
                 1.0,  
                 new OpticalProperties(0.01, 1.0, 0.8, 1.4));
@@ -28,16 +28,16 @@ namespace Vts.Test.MonteCarlo.Tissues
         /// Validate general constructor of TissueRegion
         /// </summary>
         [Test]
-        public void validate_SurfaceFiber_properties()
+        public void Validate_SurfaceFiber_properties()
         {
-            Assert.AreEqual(0.0,_SurfaceFiberTissueRegion.Center.X);
-            Assert.AreEqual(0.0,_SurfaceFiberTissueRegion.Center.Y);
-            Assert.AreEqual(2.0,_SurfaceFiberTissueRegion.Center.Z);
-            Assert.AreEqual(1.0, _SurfaceFiberTissueRegion.Radius);
-            Assert.AreEqual(0.01, _SurfaceFiberTissueRegion.RegionOP.Mua);
-            Assert.AreEqual(1.0, _SurfaceFiberTissueRegion.RegionOP.Musp);
-            Assert.AreEqual(0.8, _SurfaceFiberTissueRegion.RegionOP.G);
-            Assert.AreEqual(1.4, _SurfaceFiberTissueRegion.RegionOP.N);
+            Assert.AreEqual(0.0,_surfaceFiberTissueRegion.Center.X);
+            Assert.AreEqual(0.0,_surfaceFiberTissueRegion.Center.Y);
+            Assert.AreEqual(2.0,_surfaceFiberTissueRegion.Center.Z);
+            Assert.AreEqual(1.0, _surfaceFiberTissueRegion.Radius);
+            Assert.AreEqual(0.01, _surfaceFiberTissueRegion.RegionOP.Mua);
+            Assert.AreEqual(1.0, _surfaceFiberTissueRegion.RegionOP.Musp);
+            Assert.AreEqual(0.8, _surfaceFiberTissueRegion.RegionOP.G);
+            Assert.AreEqual(1.4, _surfaceFiberTissueRegion.RegionOP.N);
         }
 
     }

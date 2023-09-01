@@ -93,7 +93,7 @@ namespace Vts.Test.Common
         {
             var r = new LongRange(10L, 10L, 3);
 
-            var values = r.AsEnumerable().ToArray();
+            var values = r.ToArray();
 
             Assert.AreEqual(3, values.Length);
             foreach (var value in values)

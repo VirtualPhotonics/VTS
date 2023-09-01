@@ -1,12 +1,9 @@
-﻿using System;
+﻿using NUnit.Framework;
+using System;
 using System.Collections.Generic;
-using NUnit.Framework;
-using Vts.Common;
 using Vts.MonteCarlo;
-using Vts.MonteCarlo.Factories;
-using MathNet.Numerics.Random;
-using Moq;
 using Vts.MonteCarlo.Detectors;
+using Vts.MonteCarlo.Factories;
 
 namespace Vts.Test.MonteCarlo.Factories
 {
@@ -37,7 +34,7 @@ namespace Vts.Test.MonteCarlo.Factories
                     detectorList, null));
             Assert.IsInstanceOf<IDetectorController>(
                 DetectorControllerFactory.GetDetectorController(
-                    VirtualBoundaryType.Dosimetry,
+                    VirtualBoundaryType.InternalSurface,
                     detectorList, null));
             Assert.IsInstanceOf<IDetectorController>(
                 DetectorControllerFactory.GetDetectorController(
@@ -45,7 +42,7 @@ namespace Vts.Test.MonteCarlo.Factories
                     detectorList, null));
             Assert.IsInstanceOf<IDetectorController>(
                 DetectorControllerFactory.GetDetectorController(
-                    VirtualBoundaryType.BoundingCylinderVolume,
+                    VirtualBoundaryType.BoundingVolume,
                     detectorList, null));
         }
         /// <summary>

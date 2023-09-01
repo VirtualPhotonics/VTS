@@ -9,6 +9,7 @@ namespace Vts.MonteCarlo.Tissues
     /// </summary>
     public class VoxelTissueRegion : ITissueRegion
     {
+        private bool _onBoundary = false;
         /// <summary>
         /// constructor for voxel region
         /// </summary>
@@ -68,18 +69,17 @@ namespace Vts.MonteCarlo.Tissues
         public Position Center
         {
             get =>
-                new Position(
+                new(
                     (X.Start + X.Stop)/2,
                     (Y.Start + Y.Stop)/2,
                     (Z.Start + Z.Stop)/2);
             set
             {
                 var oldCenter = Center;
-                var newCenter = value;
 
-                var dx = newCenter.X - oldCenter.X;
-                var dy = newCenter.Y - oldCenter.Y;
-                var dz = newCenter.Z - oldCenter.Z;
+                var dx = value.X - oldCenter.X;
+                var dy = value.Y - oldCenter.Y;
+                var dz = value.Z - oldCenter.Z;
 
                 X.Start += dx;
                 X.Stop += dx;
@@ -113,6 +113,14 @@ namespace Vts.MonteCarlo.Tissues
 
             // check if ray within voxel 
             if (oneIn && twoIn)
+            {
+                return false;
+            }
+            // check if ray outside voxel
+            if (!oneIn && !twoIn &&
+                p1.X < X.Start && p2.X < X.Start || (p1.X > X.Stop && p2.X > X.Stop) ||
+                (p1.Y < Y.Start && p2.Y < Y.Start) || (p1.Y > Y.Stop && p2.Y > Y.Stop) ||
+                (p1.Z < Z.Start && p2.Z < Z.Start) || (p1.Z > Z.Stop && p2.Z > Z.Stop))
             {
                 return false;
             }
@@ -194,15 +202,24 @@ namespace Vts.MonteCarlo.Tissues
         /// <returns>Boolean indicating whether on boundary or not</returns>
         public bool OnBoundary(Position position)
         {
-            return ((position.X == X.Start || position.X == X.Stop) &&
-                    position.Y >= Y.Start && position.Y <= Y.Stop &&
-                    position.Z >= Z.Start && position.Z <= Z.Stop) ||
-                   ((position.Y == Y.Start || position.Y == Y.Stop) &&
-                    position.X >= X.Start && position.X <= X.Stop &&
-                    position.Z >= Z.Start && position.Z <= Z.Stop) ||
-                   position.Z == Z.Start || position.Z == Z.Stop &&
-                   position.X >= X.Start && position.X <= X.Stop &&
-                   position.Y >= Y.Start && position.Y <= Y.Stop;
+            const double tol = 1e-11;
+            if (((Math.Abs(position.X - X.Start) < tol || Math.Abs(position.X - X.Stop) < tol) &&
+                 position.Y >= Y.Start && position.Y <= Y.Stop &&
+                 position.Z >= Z.Start && position.Z <= Z.Stop) ||
+                ((Math.Abs(position.Y - Y.Start) < tol || Math.Abs(position.Y - Y.Stop) < tol) &&
+                 position.X >= X.Start && position.X <= X.Stop &&
+                 position.Z >= Z.Start && position.Z <= Z.Stop) ||
+                ((Math.Abs(position.Z - Z.Start) < tol || Math.Abs(position.Z - Z.Stop) < tol) &&
+                 position.X >= X.Start && position.X <= X.Stop &&
+                 position.Y >= Y.Start && position.Y <= Y.Stop))
+            {
+                _onBoundary = true;
+            }
+            else
+            {
+                _onBoundary = false;
+            }
+            return _onBoundary; 
         }
         /// <summary>
         /// method to determine normal to surface at given position
@@ -211,7 +228,35 @@ namespace Vts.MonteCarlo.Tissues
         /// <returns>Direction normal to surface at position</returns>
         public Direction SurfaceNormal(Position position)
         {
-            throw new NotImplementedException();
+            const double tol = 1e-11; // use tolerance because position will have floating point errors
+
+            // the following code doesn't handle if on or edge corner, but may not be problem
+            if (Math.Abs(position.X - X.Start) < tol)
+            {
+                return new Direction(-1, 0, 0);
+            }
+
+            if (Math.Abs(position.X - X.Stop) < tol)
+            {
+                return new Direction(1, 0, 0);
+            }
+
+            if (Math.Abs(position.Y - Y.Start) < tol)
+            {
+                return new Direction(0, -1, 0);
+            }
+
+            if (Math.Abs(position.Y - Y.Stop) < tol)
+            {
+                return new Direction(0, 1, 0);
+            }
+
+            if (Math.Abs(position.Z - Z.Start) < tol)
+            {
+                return new Direction(0, 0, -1);
+            }
+
+            return Math.Abs(position.Z - Z.Stop) < tol ? new Direction(0, 0, 1) : null;
         }
     }
 }

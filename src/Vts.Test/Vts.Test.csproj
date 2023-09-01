@@ -16,6 +16,7 @@
     <None Remove="Resources\sourcetest\AOfRhoAndZ.txt" />
     <None Remove="Resources\sourcetest\AOfXAndYAndZ" />
     <None Remove="Resources\sourcetest\AOfXAndYAndZ.txt" />
+    <None Remove="Resources\sourcetest\circle.csv" />
     <None Remove="Resources\sourcetest\inputAOfRhoAndZ.txt" />
     <None Remove="Resources\sourcetest\inputAOfXAndYAndZ.txt" />
     <None Remove="Resources\sourcetest\subfolder\noextension" />
@@ -31,6 +32,7 @@
     <EmbeddedResource Include="Resources\fileiotest\ROfRho.txt" />
     <EmbeddedResource Include="Resources\sourcetest\AOfRhoAndZ" />
     <EmbeddedResource Include="Resources\sourcetest\AOfRhoAndZ.txt" />
+    <EmbeddedResource Include="Resources\sourcetest\circle.csv" />
     <EmbeddedResource Include="Resources\sourcetest\inputAOfRhoAndZ.txt" />
     <EmbeddedResource Include="Resources\sourcetest\subfolder\noextension" />
     <EmbeddedResource Include="Resources\sourcetest\subfolder\textfile.txt" />
@@ -41,7 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.6.0" />
-    <PackageReference Include="Moq" Version="4.18.4" />
+    <PackageReference Include="NSubstitute" Version="5.0.0" />
     <PackageReference Include="NUnit" Version="3.13.3" />
     <PackageReference Include="NUnit3TestAdapter" Version="4.4.2">
       <PrivateAssets>all</PrivateAssets>

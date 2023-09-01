@@ -88,8 +88,8 @@ namespace Vts.Modeling.ForwardSolvers
             // assume mus' used by Kienle
             muspReference = 1.0;  
 
-            RhoReference = new DoubleRange(drReference / 2, drReference * nrReference - drReference / 2, nrReference).AsEnumerable().ToArray();
-            TimeReference = new DoubleRange(dtReference / 2, dtReference * ntReference - dtReference / 2, ntReference).AsEnumerable().ToArray();
+            RhoReference = new DoubleRange(drReference / 2, drReference * nrReference - drReference / 2, nrReference).ToArray();
+            TimeReference = new DoubleRange(dtReference / 2, dtReference * ntReference - dtReference / 2, ntReference).ToArray();
            
             RReferenceOfRhoAndTime = new double[nrReference, ntReference];
             for (int ir = 0; ir < nrReference; ir++)
@@ -108,7 +108,7 @@ namespace Vts.Modeling.ForwardSolvers
             nfxReference = rOfFxAndTime.Fx.Count;
             dfxReference = 1.0/nfxReference;
 
-            FxReference = new DoubleRange(dfxReference / 2, dfxReference * nfxReference - dfxReference / 2, nfxReference).AsEnumerable().ToArray();
+            FxReference = new DoubleRange(dfxReference / 2, dfxReference * nfxReference - dfxReference / 2, nfxReference).ToArray();
 
             RReferenceOfFxAndTime = new double[nfxReference, ntReference];
             for (int ifx = 0; ifx < nfxReference; ifx++)

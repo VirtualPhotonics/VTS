@@ -17,17 +17,17 @@ namespace Vts.Test.MonteCarlo.Detectors
     [TestFixture]
     public class DetectorNATests
     {
-        private SimulationInput _inputForPMC;
-        private SimulationOutput _outputNA0, _outputNA0p3, _outputNoNANoFinalTissueRegionSpecified, _outputNa0p3FinalTissueRegion1;
-        private readonly double _dosimetryDepth = 1.0;
-        private pMCDatabase _pMCDatabase;
+        private SimulationInput _inputForPmc;
+        private SimulationOutput _outputNa0, _outputNa0P3, _outputNoNaNoFinalTissueRegionSpecified, _outputNa0p3FinalTissueRegion1;
+        private const double _dosimetryDepth = 1.0;
+        private pMCDatabase _pMcDatabase;
 
         /// <summary>
         /// Setup input to the MC for a homogeneous one layer tissue and specify reflectance
         /// and transmittance detectors
         /// </summary>
         [OneTimeSetUp]
-        public void execute_Monte_Carlo()
+        public void Execute_Monte_Carlo()
         {
             // instantiate common classes
             var simulationOptions = new SimulationOptions(
@@ -56,7 +56,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                         new DoubleRange(10.0, double.PositiveInfinity),
                         new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
                 });
-            var detectorsNA0 =  new List<IDetectorInput>
+            var detectorsNa0 =  new List<IDetectorInput>
                 {
                     new RDiffuseDetectorInput() {FinalTissueRegionIndex=0, NA=0.0},         
                     new ROfAngleDetectorInput() {Angle = new DoubleRange(Math.PI / 2 , Math.PI, 2),FinalTissueRegionIndex= 0, NA = 0.0},
@@ -120,16 +120,16 @@ namespace Vts.Test.MonteCarlo.Detectors
                             NA = 0.0
                     },
                 };
-            var inputNA0 = new SimulationInput(
+            var inputNa0 = new SimulationInput(
                 100,
                 "",
                 new SimulationOptions() { Seed = 0 }, // no database gen 
                 source,
                 tissue,
-                detectorsNA0);             
-            _outputNA0 = new MonteCarloSimulation(inputNA0).Run();
+                detectorsNa0);             
+            _outputNa0 = new MonteCarloSimulation(inputNa0).Run();
 
-            var detectorsNA0p3 = new List<IDetectorInput>
+            var detectorsNa0P3 = new List<IDetectorInput>
                 {
                     new RDiffuseDetectorInput() {FinalTissueRegionIndex=0, NA=0.3},         
                     new ROfAngleDetectorInput() {Angle = new DoubleRange(Math.PI / 2 , Math.PI, 2),FinalTissueRegionIndex= 0, NA=0.3},
@@ -195,16 +195,16 @@ namespace Vts.Test.MonteCarlo.Detectors
                             NA=0.3
                     },
                 };
-            var inputNA0p3 = new SimulationInput(
+            var inputNa0P3 = new SimulationInput(
                 100,
                 "",
                 new SimulationOptions() { Seed = 0 }, // don't turn on database gen
                 source,
                 tissue,
-                detectorsNA0p3);
-            _outputNA0p3 = new MonteCarloSimulation(inputNA0p3).Run();
+                detectorsNa0P3);
+            _outputNa0P3 = new MonteCarloSimulation(inputNa0P3).Run();
 
-            var detectorsNoNANoFinalTissueRegionSpecified = new List<IDetectorInput>
+            var detectorsNoNaNoFinalTissueRegionSpecified = new List<IDetectorInput>
                 {
                     new RDiffuseDetectorInput() {},         
                     new ROfAngleDetectorInput() {Angle = new DoubleRange(Math.PI / 2 , Math.PI, 2)},
@@ -262,19 +262,19 @@ namespace Vts.Test.MonteCarlo.Detectors
                             FractionalMTBins = new DoubleRange(0.0, 1.0, 11),
                     },
                 };
-            var inputNoNANoFinalTissueRegionSpecified = new SimulationInput(
+            var inputNoNaNoFinalTissueRegionSpecified = new SimulationInput(
                 100,
                 "",
                 simulationOptions, // turn on database gen when NA fully open
                 source,
                 tissue,
-                detectorsNoNANoFinalTissueRegionSpecified);
-            _outputNoNANoFinalTissueRegionSpecified = new MonteCarloSimulation(inputNoNANoFinalTissueRegionSpecified).Run();
+                detectorsNoNaNoFinalTissueRegionSpecified);
+            _outputNoNaNoFinalTissueRegionSpecified = new MonteCarloSimulation(inputNoNaNoFinalTissueRegionSpecified).Run();
 
-            _inputForPMC = inputNoNANoFinalTissueRegionSpecified;  // set pMC input to one that specified database generation
-            _pMCDatabase = pMCDatabase.FromFile("DiffuseReflectanceDatabase", "CollisionInfoDatabase"); // grab database 
+            _inputForPmc = inputNoNaNoFinalTissueRegionSpecified;  // set pMC input to one that specified database generation
+            _pMcDatabase = pMCDatabase.FromFile("DiffuseReflectanceDatabase", "CollisionInfoDatabase"); // grab database 
 
-            var detectorsNa0p3FinalTissueRegion1 = new List<IDetectorInput>
+            var detectorsNa0P3FinalTissueRegion1 = new List<IDetectorInput>
                 {
                     new RDiffuseDetectorInput() { NA=0.3,FinalTissueRegionIndex = 1},
                     new ROfAngleDetectorInput() {Angle = new DoubleRange(Math.PI / 2 , Math.PI, 2),NA=0.3, FinalTissueRegionIndex = 1},
@@ -335,14 +335,14 @@ namespace Vts.Test.MonteCarlo.Detectors
                             NA=0.3,FinalTissueRegionIndex=1
                     },
                 };
-            var inputNa0p3FinalTissueRegion1 = new SimulationInput(
+            var inputNa0P3FinalTissueRegion1 = new SimulationInput(
             100,
             "",
             new SimulationOptions() { Seed = 0 }, // don't turn on database gen
             source,
             tissue,
-            detectorsNa0p3FinalTissueRegion1);
-            _outputNa0p3FinalTissueRegion1 = new MonteCarloSimulation(inputNa0p3FinalTissueRegion1).Run();
+            detectorsNa0P3FinalTissueRegion1);
+            _outputNa0p3FinalTissueRegion1 = new MonteCarloSimulation(inputNa0P3FinalTissueRegion1).Run();
 
         }
 
@@ -350,71 +350,71 @@ namespace Vts.Test.MonteCarlo.Detectors
         /// test to validate NA=0.  Note that not all validation values are 0 due to vertical detection
         /// </summary>
         [Test]
-        public void validate_detector_tallies_are_zero_when_NA_is_zero()
+        public void Validate_detector_tallies_are_zero_when_NA_is_zero()
         {
-            Assert.AreEqual(0.0, _outputNA0.Rd);
-            Assert.AreEqual(0.0, _outputNA0.R_r[0]);
-            Assert.AreEqual(0.0, _outputNA0.R_a[0]);
-            Assert.AreEqual(0.0, _outputNA0.R_ra[0, 0]);
-            Assert.AreEqual(0.0, _outputNA0.R_rt[0, 0]);
-            Assert.AreEqual(0.0, _outputNA0.R_rw[0, 0].Real);
-            Assert.AreEqual(0.0, _outputNA0.R_rw[0, 0].Imaginary);
-            Assert.AreEqual(0.0, _outputNA0.R_xy[0, 0]);
-            Assert.AreEqual(0.0, _outputNA0.R_xyt[0, 0, 0]);
-            Assert.AreEqual(0.0, _outputNA0.R_xymd[0, 0, 0]);
-            Assert.AreEqual(0.0, _outputNA0.R_fx[0].Real);
-            Assert.AreEqual(0.0, _outputNA0.R_fx[0].Imaginary);
-            Assert.AreEqual(0.0, _outputNA0.R_fxt[0, 0].Real);
-            Assert.AreEqual(0.0, _outputNA0.R_fxt[0, 0].Imaginary);
-            Assert.AreEqual(0.0, _outputNA0.R_fxa[0, 0].Real);
-            Assert.AreEqual(0.0, _outputNA0.R_fxa[0, 0].Imaginary);
-            Assert.AreEqual(0.0, _outputNA0.R_xytp[0, 0, 0, 0]);
-            Assert.AreEqual(0.01, _outputNA0.Rspec); // specular reflection of collimated beam is [0,0,-1] so passes NA
-            Assert.AreEqual(0.0, _outputNA0.Td);
-            Assert.AreEqual(0.0, _outputNA0.T_r[0]);
-            Assert.AreEqual(0.0, _outputNA0.T_a[0]);
-            Assert.AreEqual(0.0, _outputNA0.T_ra[0, 0]);
-            Assert.AreEqual(0.0, _outputNA0.T_xy[0, 0]);
-            Assert.AreEqual(0.0, _outputNA0.Rad_r[0]); 
-            Assert.AreEqual(0.0, _outputNA0.RefMT_rmt[0, 0]);
-            Assert.AreEqual(0.0, _outputNA0.RefMT_xymt[0, 0, 0]);
-            Assert.AreEqual(0.0, _outputNA0.TransMT_rmt[0, 0]);
-            Assert.AreEqual(0.0, _outputNA0.TransMT_xymt[0, 0, 0]);
+            Assert.AreEqual(0.0, _outputNa0.Rd);
+            Assert.AreEqual(0.0, _outputNa0.R_r[0]);
+            Assert.AreEqual(0.0, _outputNa0.R_a[0]);
+            Assert.AreEqual(0.0, _outputNa0.R_ra[0, 0]);
+            Assert.AreEqual(0.0, _outputNa0.R_rt[0, 0]);
+            Assert.AreEqual(0.0, _outputNa0.R_rw[0, 0].Real);
+            Assert.AreEqual(0.0, _outputNa0.R_rw[0, 0].Imaginary);
+            Assert.AreEqual(0.0, _outputNa0.R_xy[0, 0]);
+            Assert.AreEqual(0.0, _outputNa0.R_xyt[0, 0, 0]);
+            Assert.AreEqual(0.0, _outputNa0.R_xymd[0, 0, 0]);
+            Assert.AreEqual(0.0, _outputNa0.R_fx[0].Real);
+            Assert.AreEqual(0.0, _outputNa0.R_fx[0].Imaginary);
+            Assert.AreEqual(0.0, _outputNa0.R_fxt[0, 0].Real);
+            Assert.AreEqual(0.0, _outputNa0.R_fxt[0, 0].Imaginary);
+            Assert.AreEqual(0.0, _outputNa0.R_fxa[0, 0].Real);
+            Assert.AreEqual(0.0, _outputNa0.R_fxa[0, 0].Imaginary);
+            Assert.AreEqual(0.0, _outputNa0.R_xytp[0, 0, 0, 0]);
+            Assert.AreEqual(0.01, _outputNa0.Rspec); // specular reflection of collimated beam is [0,0,-1] so passes NA
+            Assert.AreEqual(0.0, _outputNa0.Td);
+            Assert.AreEqual(0.0, _outputNa0.T_r[0]);
+            Assert.AreEqual(0.0, _outputNa0.T_a[0]);
+            Assert.AreEqual(0.0, _outputNa0.T_ra[0, 0]);
+            Assert.AreEqual(0.0, _outputNa0.T_xy[0, 0]);
+            Assert.AreEqual(0.0, _outputNa0.Rad_r[0]); 
+            Assert.AreEqual(0.0, _outputNa0.RefMT_rmt[0, 0]);
+            Assert.AreEqual(0.0, _outputNa0.RefMT_xymt[0, 0, 0]);
+            Assert.AreEqual(0.0, _outputNa0.TransMT_rmt[0, 0]);
+            Assert.AreEqual(0.0, _outputNa0.TransMT_xymt[0, 0, 0]);
         }
         /// <summary>
         /// test to validate partially open NA validation values taken from prior test run
         /// </summary>
         [Test]
-        public void validate_detector_tallies_when_NA_is_0p3()
+        public void Validate_detector_tallies_when_NA_is_0p3()
         {
-            Assert.Less(Math.Abs(_outputNA0p3.Rd - 0.045615), 0.000001);
-            Assert.Less(Math.Abs(_outputNA0p3.R_r[0] - 0.003170), 0.000001);
-            Assert.Less(Math.Abs(_outputNA0p3.R_a[0] - 0.006536), 0.000001);
-            Assert.Less(Math.Abs(_outputNA0p3.R_ra[0, 0] - 0.000454), 0.000001);
-            Assert.Less(Math.Abs(_outputNA0p3.R_rt[0, 0] - 0.031704), 0.000001);
-            Assert.Less(Math.Abs(_outputNA0p3.R_rw[0, 0].Real - 0.003170), 0.000001);
-            Assert.Less(Math.Abs(_outputNA0p3.R_rw[0, 0].Imaginary + 1.474517e-6), 0.00001e-6);
-            Assert.Less(Math.Abs(_outputNA0p3.R_xy[3, 6] - 0.001351), 0.000001);
-            Assert.Less(Math.Abs(_outputNA0p3.R_xyt[3, 6, 3] - 0.013510), 0.000001);
-            Assert.Less(Math.Abs(_outputNA0p3.R_xymd[3, 6, 5] - 0.001351), 0.000001);
-            Assert.Less(Math.Abs(_outputNA0p3.R_fx[1].Real - 0.044879), 0.000001);
-            Assert.Less(Math.Abs(_outputNA0p3.R_fx[1].Imaginary - 0.000765), 0.000001);
-            Assert.Less(Math.Abs(_outputNA0p3.R_fxt[1, 0].Real - 0.252024), 0.000001);
-            Assert.Less(Math.Abs(_outputNA0p3.R_fxt[1, 0].Imaginary - 0.089027), 0.000001);
-            Assert.Less(Math.Abs(_outputNA0p3.R_fxa[1, 0].Real - 0.002755), 0.000001);
-            Assert.Less(Math.Abs(_outputNA0p3.R_fxa[1, 0].Imaginary - 0.001786), 0.000001);
-            Assert.Less(Math.Abs(_outputNA0p3.R_xytp[3, 6, 0, 0] - 0.000193), 0.000001);
-            Assert.AreEqual(0.01, _outputNA0p3.Rspec);
-            Assert.Less(Math.Abs(_outputNA0p3.Td - 0.023415), 0.000001);
-            Assert.Less(Math.Abs(_outputNA0p3.T_r[1] - 0.001520), 0.000001);
-            Assert.Less(Math.Abs(_outputNA0p3.T_a[0] - 0.003355), 0.000001);
-            Assert.Less(Math.Abs(_outputNA0p3.T_ra[1, 0] - 0.000217), 0.000001);
-            Assert.Less(Math.Abs(_outputNA0p3.T_xy[4, 7] - 0.000997), 0.000001);
-            Assert.Less(Math.Abs(_outputNA0p3.Rad_r[0] - 0.015929), 0.000001);
-            Assert.Less(Math.Abs(_outputNA0p3.RefMT_rmt[2, 0] - 0.000599), 0.000001);
-            Assert.Less(Math.Abs(_outputNA0p3.RefMT_xymt[3, 6, 0] - 0.001351), 0.000001);
-            Assert.Less(Math.Abs(_outputNA0p3.TransMT_rmt[1, 0] - 0.001520), 0.000001);
-            Assert.Less(Math.Abs(_outputNA0p3.TransMT_xymt[4, 7, 0] - 0.000997), 0.000001);
+            Assert.Less(Math.Abs(_outputNa0P3.Rd - 0.045615), 0.000001);
+            Assert.Less(Math.Abs(_outputNa0P3.R_r[0] - 0.003170), 0.000001);
+            Assert.Less(Math.Abs(_outputNa0P3.R_a[0] - 0.006536), 0.000001);
+            Assert.Less(Math.Abs(_outputNa0P3.R_ra[0, 0] - 0.000454), 0.000001);
+            Assert.Less(Math.Abs(_outputNa0P3.R_rt[0, 0] - 0.031704), 0.000001);
+            Assert.Less(Math.Abs(_outputNa0P3.R_rw[0, 0].Real - 0.003170), 0.000001);
+            Assert.Less(Math.Abs(_outputNa0P3.R_rw[0, 0].Imaginary + 1.474517e-6), 0.00001e-6);
+            Assert.Less(Math.Abs(_outputNa0P3.R_xy[3, 6] - 0.001351), 0.000001);
+            Assert.Less(Math.Abs(_outputNa0P3.R_xyt[3, 6, 3] - 0.013510), 0.000001);
+            Assert.Less(Math.Abs(_outputNa0P3.R_xymd[3, 6, 5] - 0.001351), 0.000001);
+            Assert.Less(Math.Abs(_outputNa0P3.R_fx[1].Real - 0.044879), 0.000001);
+            Assert.Less(Math.Abs(_outputNa0P3.R_fx[1].Imaginary - 0.000765), 0.000001);
+            Assert.Less(Math.Abs(_outputNa0P3.R_fxt[1, 0].Real - 0.252024), 0.000001);
+            Assert.Less(Math.Abs(_outputNa0P3.R_fxt[1, 0].Imaginary - 0.089027), 0.000001);
+            Assert.Less(Math.Abs(_outputNa0P3.R_fxa[1, 0].Real - 0.002755), 0.000001);
+            Assert.Less(Math.Abs(_outputNa0P3.R_fxa[1, 0].Imaginary - 0.001786), 0.000001);
+            Assert.Less(Math.Abs(_outputNa0P3.R_xytp[3, 6, 0, 0] - 0.000193), 0.000001);
+            Assert.AreEqual(0.01, _outputNa0P3.Rspec);
+            Assert.Less(Math.Abs(_outputNa0P3.Td - 0.023415), 0.000001);
+            Assert.Less(Math.Abs(_outputNa0P3.T_r[1] - 0.001520), 0.000001);
+            Assert.Less(Math.Abs(_outputNa0P3.T_a[0] - 0.003355), 0.000001);
+            Assert.Less(Math.Abs(_outputNa0P3.T_ra[1, 0] - 0.000217), 0.000001);
+            Assert.Less(Math.Abs(_outputNa0P3.T_xy[4, 7] - 0.000997), 0.000001);
+            Assert.Less(Math.Abs(_outputNa0P3.Rad_r[0] - 0.015929), 0.000001);
+            Assert.Less(Math.Abs(_outputNa0P3.RefMT_rmt[2, 0] - 0.000599), 0.000001);
+            Assert.Less(Math.Abs(_outputNa0P3.RefMT_xymt[3, 6, 0] - 0.001351), 0.000001);
+            Assert.Less(Math.Abs(_outputNa0P3.TransMT_rmt[1, 0] - 0.001520), 0.000001);
+            Assert.Less(Math.Abs(_outputNa0P3.TransMT_xymt[4, 7, 0] - 0.000997), 0.000001);
         }
 
         /// <summary>
@@ -423,36 +423,36 @@ namespace Vts.Test.MonteCarlo.Detectors
         /// FinalTissueRegion=1) occur and give non-zero results.
         /// /// </summary>
         [Test]
-        public void validate_detector_tallies_are_not_zero_when_NA_is_not_specified()
+        public void Validate_detector_tallies_are_not_zero_when_NA_is_not_specified()
         {
-            Assert.AreNotEqual(0.0, _outputNoNANoFinalTissueRegionSpecified.Rd);
-            Assert.AreNotEqual(0.0, _outputNoNANoFinalTissueRegionSpecified.R_r[1]);
-            Assert.AreNotEqual(0.0, _outputNoNANoFinalTissueRegionSpecified.R_a[0]);
-            Assert.AreNotEqual(0.0, _outputNoNANoFinalTissueRegionSpecified.R_ra[1, 0]);
-            Assert.AreNotEqual(0.0, _outputNoNANoFinalTissueRegionSpecified.R_rt[1, 0]);
-            Assert.AreNotEqual(0.0, _outputNoNANoFinalTissueRegionSpecified.R_rw[1, 0].Real);
-            Assert.AreNotEqual(0.0, _outputNoNANoFinalTissueRegionSpecified.R_rw[1, 0].Imaginary);
-            Assert.AreNotEqual(0.0, _outputNoNANoFinalTissueRegionSpecified.R_xy[0, 1]);
-            Assert.AreNotEqual(0.0, _outputNoNANoFinalTissueRegionSpecified.R_xyt[0, 1, 3]);
-            Assert.AreNotEqual(0.0, _outputNoNANoFinalTissueRegionSpecified.R_xymd[0, 1, 7]);
-            Assert.AreNotEqual(0.0, _outputNoNANoFinalTissueRegionSpecified.R_fx[1].Real);
-            Assert.AreNotEqual(0.0, _outputNoNANoFinalTissueRegionSpecified.R_fx[1].Imaginary);
-            Assert.AreNotEqual(0.0, _outputNoNANoFinalTissueRegionSpecified.R_fxt[1, 0].Real);
-            Assert.AreNotEqual(0.0, _outputNoNANoFinalTissueRegionSpecified.R_fxt[1, 0].Imaginary);
-            Assert.AreNotEqual(0.0, _outputNoNANoFinalTissueRegionSpecified.R_fxa[1, 0].Real);
-            Assert.AreNotEqual(0.0, _outputNoNANoFinalTissueRegionSpecified.R_fxa[1, 0].Imaginary);
-            Assert.AreNotEqual(0.0, _outputNoNANoFinalTissueRegionSpecified.R_xytp[0, 1, 0, 0]);
-            Assert.AreNotEqual(0.0, _outputNoNANoFinalTissueRegionSpecified.Rspec);
-            Assert.AreNotEqual(0.0, _outputNoNANoFinalTissueRegionSpecified.Td);
-            Assert.AreNotEqual(0.0, _outputNoNANoFinalTissueRegionSpecified.T_r[1]);
-            Assert.AreNotEqual(0.0, _outputNoNANoFinalTissueRegionSpecified.T_a[0]);
-            Assert.AreNotEqual(0.0, _outputNoNANoFinalTissueRegionSpecified.T_ra[1, 0]);
-            Assert.AreNotEqual(0.0, _outputNoNANoFinalTissueRegionSpecified.T_xy[0, 2]);
-            Assert.AreNotEqual(0.0, _outputNoNANoFinalTissueRegionSpecified.Rad_r[0]);
-            Assert.AreNotEqual(0.0, _outputNoNANoFinalTissueRegionSpecified.RefMT_rmt[1, 0]);
-            Assert.AreNotEqual(0.0, _outputNoNANoFinalTissueRegionSpecified.RefMT_xymt[0, 1, 0]);
-            Assert.AreNotEqual(0.0, _outputNoNANoFinalTissueRegionSpecified.TransMT_rmt[1, 0]);
-            Assert.AreNotEqual(0.0, _outputNoNANoFinalTissueRegionSpecified.TransMT_xymt[0, 2, 0]);
+            Assert.AreNotEqual(0.0, _outputNoNaNoFinalTissueRegionSpecified.Rd);
+            Assert.AreNotEqual(0.0, _outputNoNaNoFinalTissueRegionSpecified.R_r[1]);
+            Assert.AreNotEqual(0.0, _outputNoNaNoFinalTissueRegionSpecified.R_a[0]);
+            Assert.AreNotEqual(0.0, _outputNoNaNoFinalTissueRegionSpecified.R_ra[1, 0]);
+            Assert.AreNotEqual(0.0, _outputNoNaNoFinalTissueRegionSpecified.R_rt[1, 0]);
+            Assert.AreNotEqual(0.0, _outputNoNaNoFinalTissueRegionSpecified.R_rw[1, 0].Real);
+            Assert.AreNotEqual(0.0, _outputNoNaNoFinalTissueRegionSpecified.R_rw[1, 0].Imaginary);
+            Assert.AreNotEqual(0.0, _outputNoNaNoFinalTissueRegionSpecified.R_xy[0, 1]);
+            Assert.AreNotEqual(0.0, _outputNoNaNoFinalTissueRegionSpecified.R_xyt[0, 1, 3]);
+            Assert.AreNotEqual(0.0, _outputNoNaNoFinalTissueRegionSpecified.R_xymd[0, 1, 7]);
+            Assert.AreNotEqual(0.0, _outputNoNaNoFinalTissueRegionSpecified.R_fx[1].Real);
+            Assert.AreNotEqual(0.0, _outputNoNaNoFinalTissueRegionSpecified.R_fx[1].Imaginary);
+            Assert.AreNotEqual(0.0, _outputNoNaNoFinalTissueRegionSpecified.R_fxt[1, 0].Real);
+            Assert.AreNotEqual(0.0, _outputNoNaNoFinalTissueRegionSpecified.R_fxt[1, 0].Imaginary);
+            Assert.AreNotEqual(0.0, _outputNoNaNoFinalTissueRegionSpecified.R_fxa[1, 0].Real);
+            Assert.AreNotEqual(0.0, _outputNoNaNoFinalTissueRegionSpecified.R_fxa[1, 0].Imaginary);
+            Assert.AreNotEqual(0.0, _outputNoNaNoFinalTissueRegionSpecified.R_xytp[0, 1, 0, 0]);
+            Assert.AreNotEqual(0.0, _outputNoNaNoFinalTissueRegionSpecified.Rspec);
+            Assert.AreNotEqual(0.0, _outputNoNaNoFinalTissueRegionSpecified.Td);
+            Assert.AreNotEqual(0.0, _outputNoNaNoFinalTissueRegionSpecified.T_r[1]);
+            Assert.AreNotEqual(0.0, _outputNoNaNoFinalTissueRegionSpecified.T_a[0]);
+            Assert.AreNotEqual(0.0, _outputNoNaNoFinalTissueRegionSpecified.T_ra[1, 0]);
+            Assert.AreNotEqual(0.0, _outputNoNaNoFinalTissueRegionSpecified.T_xy[0, 2]);
+            Assert.AreNotEqual(0.0, _outputNoNaNoFinalTissueRegionSpecified.Rad_r[0]);
+            Assert.AreNotEqual(0.0, _outputNoNaNoFinalTissueRegionSpecified.RefMT_rmt[1, 0]);
+            Assert.AreNotEqual(0.0, _outputNoNaNoFinalTissueRegionSpecified.RefMT_xymt[0, 1, 0]);
+            Assert.AreNotEqual(0.0, _outputNoNaNoFinalTissueRegionSpecified.TransMT_rmt[1, 0]);
+            Assert.AreNotEqual(0.0, _outputNoNaNoFinalTissueRegionSpecified.TransMT_xymt[0, 2, 0]);
         }
 
 
@@ -463,117 +463,121 @@ namespace Vts.Test.MonteCarlo.Detectors
         /// equal if photons are within NA in both cases and AreEqual is used
         /// /// </summary>
         [Test]
-        public void validate_detector_tallies_for_final_tissue_region_0_or_1_comparison()
+        public void Validate_detector_tallies_for_final_tissue_region_0_or_1_comparison()
         {
-            Assert.AreNotEqual(_outputNA0p3.Rd, _outputNa0p3FinalTissueRegion1.Rd);
-            Assert.AreNotEqual(_outputNA0p3.R_r[0], _outputNa0p3FinalTissueRegion1.R_r[0]);
-            Assert.AreNotEqual(_outputNA0p3.R_a[0], _outputNa0p3FinalTissueRegion1.R_a[0]);
-            Assert.AreNotEqual(_outputNA0p3.R_ra[0, 0], _outputNa0p3FinalTissueRegion1.R_ra[0, 0]);
-            Assert.AreNotEqual(_outputNA0p3.R_rt[0, 0], _outputNa0p3FinalTissueRegion1.R_rt[0, 0]);
-            Assert.AreNotEqual(_outputNA0p3.R_rw[0, 0].Real, _outputNa0p3FinalTissueRegion1.R_rw[0, 0].Real);
-            Assert.AreNotEqual(_outputNA0p3.R_rw[0, 0].Imaginary, _outputNa0p3FinalTissueRegion1.R_rw[0, 0].Imaginary);
-            Assert.AreEqual(_outputNA0p3.R_xy[3, 6], _outputNa0p3FinalTissueRegion1.R_xy[3, 6]);
-            Assert.AreEqual(_outputNA0p3.R_xyt[3, 6, 3], _outputNa0p3FinalTissueRegion1.R_xyt[3, 6, 3]);
-            Assert.AreEqual(_outputNA0p3.R_xymd[3, 6, 5], _outputNa0p3FinalTissueRegion1.R_xymd[3, 6, 5]);
-            Assert.AreNotEqual(_outputNA0p3.R_fx[1].Real, _outputNa0p3FinalTissueRegion1.R_fx[1].Real);
-            Assert.AreNotEqual(_outputNA0p3.R_fx[1].Imaginary, _outputNa0p3FinalTissueRegion1.R_fx[1].Imaginary);
-            Assert.AreNotEqual(_outputNA0p3.R_fxt[1, 0].Real, _outputNa0p3FinalTissueRegion1.R_fxt[1, 0].Real);
-            Assert.AreNotEqual(_outputNA0p3.R_fxt[1, 0].Imaginary, _outputNa0p3FinalTissueRegion1.R_fxt[1, 0].Imaginary);
-            Assert.AreNotEqual(_outputNA0p3.R_fxa[1, 0].Real, _outputNa0p3FinalTissueRegion1.R_fxa[1, 0].Real);
-            Assert.AreNotEqual(_outputNA0p3.R_fxa[1, 0].Imaginary, _outputNa0p3FinalTissueRegion1.R_fxa[1, 0].Imaginary);
-            Assert.AreEqual(_outputNA0p3.R_xytp[3, 6, 0, 0], _outputNa0p3FinalTissueRegion1.R_xytp[3, 6, 0, 0]);
-            Assert.AreEqual(_outputNA0p3.Td, _outputNa0p3FinalTissueRegion1.Td);
-            Assert.AreEqual(_outputNA0p3.T_r[1], _outputNa0p3FinalTissueRegion1.T_r[1]);
-            Assert.AreEqual(_outputNA0p3.T_a[0], _outputNa0p3FinalTissueRegion1.T_a[0]);
-            Assert.AreEqual(_outputNA0p3.T_ra[1, 0], _outputNa0p3FinalTissueRegion1.T_ra[1, 0]);
-            Assert.AreEqual(_outputNA0p3.T_xy[4, 7], _outputNa0p3FinalTissueRegion1.T_xy[4, 7]);
-            Assert.AreNotEqual(_outputNA0p3.Rad_r[0], _outputNa0p3FinalTissueRegion1.Rad_r[0]);
-            Assert.AreNotEqual(_outputNA0p3.RefMT_rmt[2, 0], _outputNa0p3FinalTissueRegion1.RefMT_rmt[2, 0]);
-            Assert.AreEqual(_outputNA0p3.RefMT_xymt[3, 6, 0], _outputNa0p3FinalTissueRegion1.RefMT_xymt[3, 6, 0]);
-            Assert.AreEqual(_outputNA0p3.TransMT_rmt[1, 0], _outputNa0p3FinalTissueRegion1.TransMT_rmt[1, 0]);
-            Assert.AreEqual(_outputNA0p3.TransMT_xymt[4, 7, 0], _outputNa0p3FinalTissueRegion1.TransMT_xymt[4, 7, 0]);
+            Assert.AreNotEqual(_outputNa0P3.Rd, _outputNa0p3FinalTissueRegion1.Rd);
+            Assert.AreNotEqual(_outputNa0P3.R_r[0], _outputNa0p3FinalTissueRegion1.R_r[0]);
+            Assert.AreNotEqual(_outputNa0P3.R_a[0], _outputNa0p3FinalTissueRegion1.R_a[0]);
+            Assert.AreNotEqual(_outputNa0P3.R_ra[0, 0], _outputNa0p3FinalTissueRegion1.R_ra[0, 0]);
+            Assert.AreNotEqual(_outputNa0P3.R_rt[0, 0], _outputNa0p3FinalTissueRegion1.R_rt[0, 0]);
+            Assert.AreNotEqual(_outputNa0P3.R_rw[0, 0].Real, _outputNa0p3FinalTissueRegion1.R_rw[0, 0].Real);
+            Assert.AreNotEqual(_outputNa0P3.R_rw[0, 0].Imaginary, _outputNa0p3FinalTissueRegion1.R_rw[0, 0].Imaginary);
+            Assert.AreEqual(_outputNa0P3.R_xy[3, 6], _outputNa0p3FinalTissueRegion1.R_xy[3, 6]);
+            Assert.AreEqual(_outputNa0P3.R_xyt[3, 6, 3], _outputNa0p3FinalTissueRegion1.R_xyt[3, 6, 3]);
+            Assert.AreEqual(_outputNa0P3.R_xymd[3, 6, 5], _outputNa0p3FinalTissueRegion1.R_xymd[3, 6, 5]);
+            Assert.AreNotEqual(_outputNa0P3.R_fx[1].Real, _outputNa0p3FinalTissueRegion1.R_fx[1].Real);
+            Assert.AreNotEqual(_outputNa0P3.R_fx[1].Imaginary, _outputNa0p3FinalTissueRegion1.R_fx[1].Imaginary);
+            Assert.AreNotEqual(_outputNa0P3.R_fxt[1, 0].Real, _outputNa0p3FinalTissueRegion1.R_fxt[1, 0].Real);
+            Assert.AreNotEqual(_outputNa0P3.R_fxt[1, 0].Imaginary, _outputNa0p3FinalTissueRegion1.R_fxt[1, 0].Imaginary);
+            Assert.AreNotEqual(_outputNa0P3.R_fxa[1, 0].Real, _outputNa0p3FinalTissueRegion1.R_fxa[1, 0].Real);
+            Assert.AreNotEqual(_outputNa0P3.R_fxa[1, 0].Imaginary, _outputNa0p3FinalTissueRegion1.R_fxa[1, 0].Imaginary);
+            Assert.AreEqual(_outputNa0P3.R_xytp[3, 6, 0, 0], _outputNa0p3FinalTissueRegion1.R_xytp[3, 6, 0, 0]);
+            Assert.AreEqual(_outputNa0P3.Td, _outputNa0p3FinalTissueRegion1.Td);
+            Assert.AreEqual(_outputNa0P3.T_r[1], _outputNa0p3FinalTissueRegion1.T_r[1]);
+            Assert.AreEqual(_outputNa0P3.T_a[0], _outputNa0p3FinalTissueRegion1.T_a[0]);
+            Assert.AreEqual(_outputNa0P3.T_ra[1, 0], _outputNa0p3FinalTissueRegion1.T_ra[1, 0]);
+            Assert.AreEqual(_outputNa0P3.T_xy[4, 7], _outputNa0p3FinalTissueRegion1.T_xy[4, 7]);
+            Assert.AreNotEqual(_outputNa0P3.Rad_r[0], _outputNa0p3FinalTissueRegion1.Rad_r[0]);
+            Assert.AreNotEqual(_outputNa0P3.RefMT_rmt[2, 0], _outputNa0p3FinalTissueRegion1.RefMT_rmt[2, 0]);
+            Assert.AreEqual(_outputNa0P3.RefMT_xymt[3, 6, 0], _outputNa0p3FinalTissueRegion1.RefMT_xymt[3, 6, 0]);
+            Assert.AreEqual(_outputNa0P3.TransMT_rmt[1, 0], _outputNa0p3FinalTissueRegion1.TransMT_rmt[1, 0]);
+            Assert.AreEqual(_outputNa0P3.TransMT_xymt[4, 7, 0], _outputNa0p3FinalTissueRegion1.TransMT_xymt[4, 7, 0]);
         }
         /// <summary>
         /// Test to validate that pMC/dMC detectors tallies are 0 when NA=0
         /// </summary>
         [Test]
-        public void validate_pMC_dMC_detector_NA_tallies_are_zero_when_NA_is_0()
+        public void Validate_pMC_dMC_detector_NA_tallies_are_zero_when_NA_is_0()
         {
             var postProcessor = new PhotonDatabasePostProcessor(
                 VirtualBoundaryType.pMCDiffuseReflectance,
-                new List<IDetectorInput>()
+                new List<IDetectorInput>
                 {
-                    new pMCROfRhoDetectorInput()
+                    new pMCROfRhoDetectorInput
                     {
                         Rho=new DoubleRange(0.0, 10.0, 11),
-                        PerturbedOps=new List<OpticalProperties>() { // perturbed ops
-                            _inputForPMC.TissueInput.Regions[0].RegionOP,
-                            _inputForPMC.TissueInput.Regions[1].RegionOP,
-                            _inputForPMC.TissueInput.Regions[2].RegionOP},
-                        PerturbedRegionsIndices=new List<int>() { 1 },
+                        PerturbedOps=new List<OpticalProperties>
+                        { // perturbed ops
+                            _inputForPmc.TissueInput.Regions[0].RegionOP,
+                            _inputForPmc.TissueInput.Regions[1].RegionOP,
+                            _inputForPmc.TissueInput.Regions[2].RegionOP},
+                        PerturbedRegionsIndices=new List<int> { 1 },
                         FinalTissueRegionIndex = 0,
                         NA=0.0,
                     },
-                    new pMCROfRhoAndTimeDetectorInput()
+                    new pMCROfRhoAndTimeDetectorInput
                     {
                         Rho=new DoubleRange(0.0, 10.0, 11),
                         Time=new DoubleRange(0.0, 1.0, 11),
-                        PerturbedOps=new List<OpticalProperties>() { // perturbed ops
-                            _inputForPMC.TissueInput.Regions[0].RegionOP,
-                            _inputForPMC.TissueInput.Regions[1].RegionOP,
-                            _inputForPMC.TissueInput.Regions[2].RegionOP},
-                        PerturbedRegionsIndices=new List<int>() { 1 },
+                        PerturbedOps=new List<OpticalProperties>
+                        { // perturbed ops
+                            _inputForPmc.TissueInput.Regions[0].RegionOP,
+                            _inputForPmc.TissueInput.Regions[1].RegionOP,
+                            _inputForPmc.TissueInput.Regions[2].RegionOP},
+                        PerturbedRegionsIndices=new List<int> { 1 },
                         FinalTissueRegionIndex = 0,
                         NA=0.0,
                     },  
-                    new pMCROfFxDetectorInput()
+                    new pMCROfFxDetectorInput
                     {
                         Fx=new DoubleRange(0.0, 0.5, 5),
                         PerturbedOps=new OpticalProperties[] { // perturbed ops
-                            _inputForPMC.TissueInput.Regions[0].RegionOP,
-                            _inputForPMC.TissueInput.Regions[1].RegionOP,
-                            _inputForPMC.TissueInput.Regions[2].RegionOP},
+                            _inputForPmc.TissueInput.Regions[0].RegionOP,
+                            _inputForPmc.TissueInput.Regions[1].RegionOP,
+                            _inputForPmc.TissueInput.Regions[2].RegionOP},
                         PerturbedRegionsIndices=new int[] { 1 },
                         FinalTissueRegionIndex = 0,
                         NA=0.0,
                     },
-                    new pMCROfFxAndTimeDetectorInput()
+                    new pMCROfFxAndTimeDetectorInput
                     {
                         Fx=new DoubleRange(0.0, 0.5, 5),
                         Time=new DoubleRange(0.0, 1.0, 11),
                         PerturbedOps=new OpticalProperties[] { // perturbed ops
-                            _inputForPMC.TissueInput.Regions[0].RegionOP,
-                            _inputForPMC.TissueInput.Regions[1].RegionOP,
-                            _inputForPMC.TissueInput.Regions[2].RegionOP},
+                            _inputForPmc.TissueInput.Regions[0].RegionOP,
+                            _inputForPmc.TissueInput.Regions[1].RegionOP,
+                            _inputForPmc.TissueInput.Regions[2].RegionOP},
                         PerturbedRegionsIndices=new int[] { 1 },
                         FinalTissueRegionIndex = 0,
                         NA=0.0,
                     },                    
-                    new dMCdROfRhodMuaDetectorInput()
+                    new dMCdROfRhodMuaDetectorInput
                     {
                         Rho=new DoubleRange(0.0, 10.0, 11),
-                        PerturbedOps=new List<OpticalProperties>() { // perturbed ops
-                            _inputForPMC.TissueInput.Regions[0].RegionOP,
-                            _inputForPMC.TissueInput.Regions[1].RegionOP,
-                            _inputForPMC.TissueInput.Regions[2].RegionOP},
-                        PerturbedRegionsIndices=new List<int>() { 1 },
+                        PerturbedOps=new List<OpticalProperties>
+                        { // perturbed ops
+                            _inputForPmc.TissueInput.Regions[0].RegionOP,
+                            _inputForPmc.TissueInput.Regions[1].RegionOP,
+                            _inputForPmc.TissueInput.Regions[2].RegionOP},
+                        PerturbedRegionsIndices=new List<int> { 1 },
                         FinalTissueRegionIndex = 0,
                         NA=0.0,
                     },
-                    new dMCdROfRhodMusDetectorInput()
+                    new dMCdROfRhodMusDetectorInput
                     {
                         Rho=new DoubleRange(0.0, 10.0, 11),
-                        PerturbedOps=new List<OpticalProperties>() { // perturbed ops
-                            _inputForPMC.TissueInput.Regions[0].RegionOP,
-                            _inputForPMC.TissueInput.Regions[1].RegionOP,
-                            _inputForPMC.TissueInput.Regions[2].RegionOP},
-                        PerturbedRegionsIndices=new List<int>() { 1 },
+                        PerturbedOps=new List<OpticalProperties>
+                        { // perturbed ops
+                            _inputForPmc.TissueInput.Regions[0].RegionOP,
+                            _inputForPmc.TissueInput.Regions[1].RegionOP,
+                            _inputForPmc.TissueInput.Regions[2].RegionOP},
+                        PerturbedRegionsIndices=new List<int> { 1 },
                         FinalTissueRegionIndex = 0,
                         NA=0.0,
                     }, 
                 },
-                _pMCDatabase,
-                _inputForPMC);
+                _pMcDatabase,
+                _inputForPmc);
             var postProcessedOutput = postProcessor.Run();
 
             Assert.AreEqual(0.0, postProcessedOutput.pMC_R_r[0]);
@@ -589,83 +593,87 @@ namespace Vts.Test.MonteCarlo.Detectors
         /// Test to validate that pMC/dMC detectors with partially open NA results match prior run
         /// </summary>
         [Test]
-        public void validate_pMC_dMC_detector_NA_tallies_when_NA_is_0p3()
+        public void Validate_pMC_dMC_detector_NA_tallies_when_NA_is_0p3()
         {
             var postProcessor = new PhotonDatabasePostProcessor(
                 VirtualBoundaryType.pMCDiffuseReflectance,
-                new List<IDetectorInput>()
+                new List<IDetectorInput>
                 {
-                    new pMCROfRhoDetectorInput()
+                    new pMCROfRhoDetectorInput
                     {
                         Rho=new DoubleRange(0.0, 10.0, 11),
-                        PerturbedOps=new List<OpticalProperties>() { // perturbed ops
-                            _inputForPMC.TissueInput.Regions[0].RegionOP,
-                            _inputForPMC.TissueInput.Regions[1].RegionOP,
-                            _inputForPMC.TissueInput.Regions[2].RegionOP},
-                        PerturbedRegionsIndices=new List<int>() { 1 },
+                        PerturbedOps=new List<OpticalProperties>
+                        { // perturbed ops
+                            _inputForPmc.TissueInput.Regions[0].RegionOP,
+                            _inputForPmc.TissueInput.Regions[1].RegionOP,
+                            _inputForPmc.TissueInput.Regions[2].RegionOP},
+                        PerturbedRegionsIndices=new List<int> { 1 },
                         FinalTissueRegionIndex = 0,
                         NA=0.3,
                     },
-                    new pMCROfRhoAndTimeDetectorInput()
+                    new pMCROfRhoAndTimeDetectorInput
                     {
                         Rho=new DoubleRange(0.0, 10.0, 11),
                         Time=new DoubleRange(0.0, 1.0, 11),
-                        PerturbedOps=new List<OpticalProperties>() { // perturbed ops
-                            _inputForPMC.TissueInput.Regions[0].RegionOP,
-                            _inputForPMC.TissueInput.Regions[1].RegionOP,
-                            _inputForPMC.TissueInput.Regions[2].RegionOP},
-                        PerturbedRegionsIndices=new List<int>() { 1 },
+                        PerturbedOps=new List<OpticalProperties>
+                        { // perturbed ops
+                            _inputForPmc.TissueInput.Regions[0].RegionOP,
+                            _inputForPmc.TissueInput.Regions[1].RegionOP,
+                            _inputForPmc.TissueInput.Regions[2].RegionOP},
+                        PerturbedRegionsIndices=new List<int> { 1 },
                         FinalTissueRegionIndex = 0,
                         NA=0.3,
                     },  
-                    new pMCROfFxDetectorInput()
+                    new pMCROfFxDetectorInput
                     {
                         Fx=new DoubleRange(0.0, 0.5, 5),
                         PerturbedOps=new OpticalProperties[] { // perturbed ops
-                            _inputForPMC.TissueInput.Regions[0].RegionOP,
-                            _inputForPMC.TissueInput.Regions[1].RegionOP,
-                            _inputForPMC.TissueInput.Regions[2].RegionOP},
+                            _inputForPmc.TissueInput.Regions[0].RegionOP,
+                            _inputForPmc.TissueInput.Regions[1].RegionOP,
+                            _inputForPmc.TissueInput.Regions[2].RegionOP},
                         PerturbedRegionsIndices=new int[] { 1 },
                         FinalTissueRegionIndex = 0,
                         NA=0.3,
                     },
-                    new pMCROfFxAndTimeDetectorInput()
+                    new pMCROfFxAndTimeDetectorInput
                     {
                         Fx=new DoubleRange(0.0, 0.5, 5),
                         Time=new DoubleRange(0.0, 1.0, 11),
                         PerturbedOps=new OpticalProperties[] { // perturbed ops
-                            _inputForPMC.TissueInput.Regions[0].RegionOP,
-                            _inputForPMC.TissueInput.Regions[1].RegionOP,
-                            _inputForPMC.TissueInput.Regions[2].RegionOP},
+                            _inputForPmc.TissueInput.Regions[0].RegionOP,
+                            _inputForPmc.TissueInput.Regions[1].RegionOP,
+                            _inputForPmc.TissueInput.Regions[2].RegionOP},
                         PerturbedRegionsIndices=new int[] { 1 },
                         FinalTissueRegionIndex = 0,
                         NA=0.3,
                     },                    
-                    new dMCdROfRhodMuaDetectorInput()
+                    new dMCdROfRhodMuaDetectorInput
                     {
                         Rho=new DoubleRange(0.0, 10.0, 11),
-                        PerturbedOps=new List<OpticalProperties>() { // perturbed ops
-                            _inputForPMC.TissueInput.Regions[0].RegionOP,
-                            _inputForPMC.TissueInput.Regions[1].RegionOP,
-                            _inputForPMC.TissueInput.Regions[2].RegionOP},
-                        PerturbedRegionsIndices=new List<int>() { 1 },
+                        PerturbedOps=new List<OpticalProperties>
+                        { // perturbed ops
+                            _inputForPmc.TissueInput.Regions[0].RegionOP,
+                            _inputForPmc.TissueInput.Regions[1].RegionOP,
+                            _inputForPmc.TissueInput.Regions[2].RegionOP},
+                        PerturbedRegionsIndices=new List<int> { 1 },
                         FinalTissueRegionIndex = 0,
                         NA=0.3,
                     },
-                    new dMCdROfRhodMusDetectorInput()
+                    new dMCdROfRhodMusDetectorInput
                     {
                         Rho=new DoubleRange(0.0, 10.0, 11),
-                        PerturbedOps=new List<OpticalProperties>() { // perturbed ops
-                            _inputForPMC.TissueInput.Regions[0].RegionOP,
-                            _inputForPMC.TissueInput.Regions[1].RegionOP,
-                            _inputForPMC.TissueInput.Regions[2].RegionOP},
-                        PerturbedRegionsIndices=new List<int>() { 1 },
+                        PerturbedOps=new List<OpticalProperties>
+                        { // perturbed ops
+                            _inputForPmc.TissueInput.Regions[0].RegionOP,
+                            _inputForPmc.TissueInput.Regions[1].RegionOP,
+                            _inputForPmc.TissueInput.Regions[2].RegionOP},
+                        PerturbedRegionsIndices=new List<int> { 1 },
                         FinalTissueRegionIndex = 0,
                         NA=0.3,
                     }, 
                 },
-                _pMCDatabase,
-                _inputForPMC);
+                _pMcDatabase,
+                _inputForPmc);
             var postProcessedOutput = postProcessor.Run();
 
             Assert.Less(Math.Abs(postProcessedOutput.pMC_R_r[0] - 0.003170), 0.000001);

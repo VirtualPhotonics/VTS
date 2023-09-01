@@ -148,7 +148,7 @@ namespace Vts.MonteCarlo.Detectors
 
             if (it == -1) return;
             var x = dp.Position.X;
-            var fxArray = Fx.AsEnumerable().ToArray();
+            var fxArray = Fx.ToArray();
             for (var ifx = 0; ifx < fxArray.Length; ifx++)
             {
                 var freq = fxArray[ifx];
