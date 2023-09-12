@@ -13,7 +13,7 @@ namespace Vts.Test.MonteCarlo.PhotonData
         /// <summary>
         /// list of temporary files created by these unit tests
         /// </summary>
-        readonly List<string> listOfTestGeneratedFiles = new List<string>()
+        private readonly List<string> _listOfTestGeneratedFiles = new()
         {
             "testcollisioninfodatabase",
             "testcollisioninfodatabase.txt"
@@ -24,12 +24,11 @@ namespace Vts.Test.MonteCarlo.PhotonData
         /// </summary>
         [OneTimeSetUp]
         [OneTimeTearDown]
-        public void clear_folders_and_files()
+        public void Clear_folders_and_files()
         {
             // delete any previously generated files
-            foreach (var file in listOfTestGeneratedFiles)
+            foreach (var file in _listOfTestGeneratedFiles)
             {
-                GC.Collect();
                 FileIO.FileDelete(file);
             }
         }
@@ -39,10 +38,10 @@ namespace Vts.Test.MonteCarlo.PhotonData
         /// are working correctly.
         /// </summary>
         [Test]
-        public void validate_CollisionInfo_deserialized_class_is_correct_when_using_WriteToFile()
+        public void Validate_CollisionInfo_deserialized_class_is_correct_when_using_WriteToFile()
         {
-            int numberOfSubregions = 3;
-            string databaseFilename = "testcollisioninfodatabase";
+            const int numberOfSubRegions = 3;
+            const string databaseFilename = "testcollisioninfodatabase";
             
             #region Notes on implementation...
             // which do we like? (#1 requires writing a separate class, #2 requires a little more comfort
@@ -56,11 +55,10 @@ namespace Vts.Test.MonteCarlo.PhotonData
             //    new CollisionInfoSerializer(numberOfSubregions)))
             #endregion
 
-            using (var dbWriter = new CollisionInfoDatabaseWriter(
-                VirtualBoundaryType.pMCDiffuseReflectance,"testcollisioninfodatabase", numberOfSubregions))
+            using (var dbWriter = new CollisionInfoDatabaseWriter(VirtualBoundaryType.pMCDiffuseReflectance,"testcollisioninfodatabase", numberOfSubRegions))
             {
                 dbWriter.Write(
-                    new CollisionInfo(numberOfSubregions)
+                    new CollisionInfo(numberOfSubRegions)
                         {
                             new SubRegionCollisionInfo(10.0, 1000),
                             new SubRegionCollisionInfo(20.0, 2000),
@@ -68,7 +66,7 @@ namespace Vts.Test.MonteCarlo.PhotonData
                         });
 
                 dbWriter.Write(
-                    new CollisionInfo(numberOfSubregions)
+                    new CollisionInfo(numberOfSubRegions)
                         {
                             new SubRegionCollisionInfo(40.0, 4000),
                             new SubRegionCollisionInfo(50.0, 5000),
@@ -76,15 +74,15 @@ namespace Vts.Test.MonteCarlo.PhotonData
                         });
             }
 
-            var dbcloned = CollisionInfoDatabase.FromFile(databaseFilename);
+            var dbCloned = CollisionInfoDatabase.FromFile(databaseFilename);
 
-            Assert.AreEqual(3, dbcloned.NumberOfSubRegions);
-            Assert.AreEqual(2, dbcloned.NumberOfElements);
+            Assert.AreEqual(3, dbCloned.NumberOfSubRegions);
+            Assert.AreEqual(2, dbCloned.NumberOfElements);
 
             // manually enumerate through the first two elements (same as foreach)
             // PhotonDatabase is designed so you don't have to have the whole thing
             // in memory, so .ToArray() loses the benefits of the lazy-load data points
-            var enumerator = dbcloned.DataPoints.GetEnumerator();
+            using var enumerator = dbCloned.DataPoints.GetEnumerator();
 
             // advance to the first point and test that the point is valid
             enumerator.MoveNext();
