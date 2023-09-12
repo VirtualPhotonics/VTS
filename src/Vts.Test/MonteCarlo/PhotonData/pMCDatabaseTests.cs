@@ -97,7 +97,7 @@ namespace Vts.Test.MonteCarlo.PhotonData
             enumerator.MoveNext();
             var dp1 = enumerator.Current;
             // verify photon database entries for first photon
-            Assert.AreEqual(new Position(1, 2, 3), dp1.PhotonDataPoint.Position);
+            Assert.AreEqual(new Position(1, 2, 3), dp1?.PhotonDataPoint.Position);
             Assert.AreEqual(new Direction(0, 0, 1), dp1.PhotonDataPoint.Direction);
             Assert.AreEqual(1.0, dp1.PhotonDataPoint.Weight);
             Assert.AreEqual(10, dp1.PhotonDataPoint.TotalTime);
@@ -114,7 +114,7 @@ namespace Vts.Test.MonteCarlo.PhotonData
             enumerator.MoveNext();
             // verify photon database entries for second photon
             var dp2 = enumerator.Current;
-            Assert.AreEqual(new Position(4, 5, 6), dp2.PhotonDataPoint.Position);
+            Assert.AreEqual(new Position(4, 5, 6), dp2?.PhotonDataPoint.Position);
             Assert.AreEqual(new Direction(1, 0, 0), dp2.PhotonDataPoint.Direction);
             Assert.AreEqual(0.5, dp2.PhotonDataPoint.Weight);
             Assert.AreEqual(100, dp2.PhotonDataPoint.TotalTime);
