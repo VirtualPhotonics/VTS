@@ -49,5 +49,5 @@ jobs:
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"VirtualPhotonics_Vts" /o:"virtualphotonics" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.vscoveragexml.reportsPaths=coverage.xml
           dotnet build src\VtsLibrary.sln /t:Rebuild /p:Configuration=Release
           dotnet test src\VtsLibrary.sln -c:Release
-          dotnet-coverage collect 'dotnet test' -f xml -o 'coverage.xml'
+          dotnet-coverage collect 'dotnet test src\VtsLibrary.sln' -f xml -o 'coverage.xml'
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
