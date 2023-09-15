@@ -18,7 +18,7 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation
             // generate input without any detector inputs and no database specified
             var input = new SimulationInput()  // default constructor has empty list of databases
             {
-                DetectorInputs = new List<IDetectorInput> {}
+                DetectorInputs = new List<IDetectorInput>()
             };
             var result = SimulationInputValidation.ValidateInput(input);
             Assert.IsFalse(result.IsValid);
@@ -29,7 +29,7 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation
             // generate input without any detector inputs but with database specified
             var input = new SimulationInput
             {
-                DetectorInputs = new List<IDetectorInput> {}
+                DetectorInputs = new List<IDetectorInput>()
             };
             input.Options.Databases = new List<DatabaseType> {DatabaseType.DiffuseReflectance};
             var result = SimulationInputValidation.ValidateInput(input);
