@@ -448,6 +448,87 @@ namespace Vts
         double[] ROfFx(IOpticalPropertyRegion[][] regions, double[] fxs);
         #endregion
 
+        #region ROfFxAndTime
+        /// <summary>
+        /// Determines reflectance at spatial frequency fx and time
+        /// </summary>
+        /// <param name="op">optical properties of the medium</param>
+        /// <param name="fx">spatial frequency (1/mm)</param>
+        /// <param name="time">time (ns)</param>
+        /// <returns>Reflectance at spatial frequency fx and time</returns>
+        double ROfFxAndTime(OpticalProperties op, double fx, double time);
+
+        /// <summary>
+        /// Overload of scalar ROfFxAndTime function. Determines reflectance at optical properties 'op', spatial frequencies 'fxs' and time 't'
+        /// </summary>
+        /// <param name="op">medium optical properties</param>
+        /// <param name="fxs">spatial frequency (1/mm)</param>
+        /// <param name="time">times (ns)</param>
+        /// <returns>Reflectance as a function of fxs and time</returns>
+        double[] ROfFxAndTime(OpticalProperties op, double[] fxs, double time);
+
+        /// <summary>
+        /// Overload of scalar ROfFxAndTime function. Determines reflectance at optical properties 'op', spatial frequency 'fx' and times 
+        /// </summary>
+        /// <param name="op">medium optical properties</param>
+        /// <param name="fx">spatial frequency (1/mm)</param>
+        /// <param name="times">times (ns)</param>
+        /// <returns>Reflectance as a function of fx and times</returns>
+        double[] ROfFxAndTime(OpticalProperties op, double fx, double[] times);
+
+        /// <summary>
+        /// Overload of scalar ROfFxAndTime function. Determines reflectance at optical properties 'op', spatial frequencies 'fxs' and times 
+        /// </summary>
+        /// <param name="op">medium optical properties</param>
+        /// <param name="fxs">spatial frequencies (1/mm)</param>
+        /// <param name="times">times (ns)</param>
+        /// <returns>Reflectance as a function of fxs and times</returns>
+        double[] ROfFxAndTime(OpticalProperties op, double[] fxs, double[] times);
+
+        /// <summary>
+        /// Overload of scalar ROfFxAndTime function. Determines reflectance at optical properties 'ops', spatial frequency 'fx' and time 't'
+        /// </summary>
+        /// <param name="ops">sets of medium optical properties</param>
+        /// <param name="fx">spatial frequency (1/mm)</param>
+        /// <param name="time">time (ns)</param>
+        /// <returns>Reflectance as a function of fx and time</returns>
+        double[] ROfFxAndTime(OpticalProperties[] ops, double fx, double time);
+
+        /// <summary>
+        /// Overload of scalar ROfFxAndTime function. Determines reflectance at optical properties 'ops', spatial frequencies 'fxs' and time 
+        /// </summary>
+        /// <param name="ops">sets of medium optical properties</param>
+        /// <param name="fxs">spatial frequencies (1/mm)</param>
+        /// <param name="time">time (ns)</param>
+        /// <returns>Reflectance as a function of fxs and time</returns>
+        double[] ROfFxAndTime(OpticalProperties[] ops, double[] fxs, double time);
+
+        /// <summary>
+        /// Overload of scalar ROfFxAndTime function. Determines reflectance at optical properties 'ops', spatial frequency 'fx' and times 
+        /// </summary>
+        /// <param name="ops">sets of medium optical properties</param>
+        /// <param name="fx">spatial frequency (1/mm)</param>
+        /// <param name="times">times (ns)</param>
+        /// <returns>Reflectance as a function of fx and times</returns>
+        double[] ROfFxAndTime(OpticalProperties[] ops, double fx, double[] times);
+
+        /// <summary>
+        /// Overload of scalar ROfFxAndTime function. Determines reflectance at optical properties 'ops', spatial frequencies 'fxs' and times 
+        /// </summary>
+        /// <param name="ops">sets of medium optical properties</param>
+        /// <param name="fxs">spatial frequencies (1/mm)</param>
+        /// <param name="times">times (ns)</param>
+        /// <returns>Reflectance as a function of fxs and times</returns>
+        double[] ROfFxAndTime(OpticalProperties[] ops, double[] fxs, double[] times);
+
+        /// <summary>
+        /// Overload of scalar ROfFxAndTime function. Determines reflectance at optical properties 'ops', spatial frequencies 'fxs' and times 
+        /// </summary>
+        /// <param name="ops">sets of medium optical properties</param>
+        /// <param name="fxs">spatial frequencies (1/mm)</param>
+        /// <param name="times">times (ns)</param>
+        /// <returns>Reflectance as a function of fx and time</returns>
+        IEnumerable<double> ROfFxAndTime(IEnumerable<OpticalProperties> ops, IEnumerable<double> fxs, IEnumerable<double> times);
 
         /// <summary>
         /// Determines reflectance at spatial frequency and time
@@ -457,6 +538,36 @@ namespace Vts
         /// <param name="time">time (ns)</param>
         /// <returns>Reflectance at spatial frequency fx</returns>
         double ROfFxAndTime(IOpticalPropertyRegion[] regions, double fx, double time);
+
+        /// <summary>
+        /// Overload of scalar ROfFxAndTime function.  Determines reflectance given tissue regions, spatial frequencies 'fxs',
+        /// and time 'time'
+        /// </summary>
+        /// <param name="regions">medium optical and geometrical properties for each sub-region</param>
+        /// <param name="fxs">spatial frequencies</param>
+        /// <param name="time">time (ns)</param>
+        /// <returns>Reflectance as a function of fxs and time</returns>
+        double[] ROfFxAndTime(IOpticalPropertyRegion[] regions, double[] fxs, double time);
+
+        /// <summary>
+        /// Overload of scalar ROfFxAndTime function. Determines reflectance given tissue regions, spatial frequency 'fx',
+        /// and times 'times'
+        /// </summary>
+        /// <param name="regions">medium optical and geometrical properties for each sub-region</param>
+        /// <param name="fx">spatial frequency</param>
+        /// <param name="times">times (ns)</param>
+        /// <returns>Reflectance as a function of fx and times</returns>
+        double[] ROfFxAndTime(IOpticalPropertyRegion[] regions, double fx, double[] times);
+
+        /// <summary>
+        /// Overload of scalar ROfFxAndTime function. Determines reflectance given tissue regions, spatial frequencies 'fxs', 
+        /// and times 'times'
+        /// </summary>
+        /// <param name="regions">medium optical and geometrical properties for each sub-region</param>
+        /// <param name="fxs">spatial frequencies</param>
+        /// <param name="times">times (ns)</param>
+        /// <returns>Reflectance at spatial freq. and time</returns>
+        double[] ROfFxAndTime(IOpticalPropertyRegion[] regions, double[] fxs, double[] times);
 
         /// <summary>
         /// Overload of scalar ROfFxAndTim function. Determines reflectance at tissue regions, spatial frequencies 'fxs', 
@@ -477,37 +588,8 @@ namespace Vts
         /// <param name="fxs">spatial frequencies</param>
         /// <param name="times">times (ns)</param>
         /// <returns>Reflectance at spatial freq. and time</returns>
-        double[] ROfFxAndTime(IOpticalPropertyRegion[] regions, double[] fxs, double[] times);
-
-        /// <summary>
-        /// Overload of scalar ROfFxAndTime function. Determines reflectance given tissue regions, spatial frequency 'fx',
-        /// and times 'times'
-        /// </summary>
-        /// <param name="regions">medium optical and geometrical properties for each sub-region</param>
-        /// <param name="fx">spatial frequency</param>
-        /// <param name="times">times (ns)</param>
-        /// <returns>Reflectance as a function of fx and times</returns>
-        double[] ROfFxAndTime(IOpticalPropertyRegion[] regions, double fx, double[] times);
-
-        /// <summary>
-        /// Overload of scalar ROfFxAndTime function.  Determines reflectance given tissue regions, spatial frequencies 'fxs',
-        /// and time 'time'
-        /// </summary>
-        /// <param name="regions">medium optical and geometrical properties for each sub-region</param>
-        /// <param name="fxs">spatial frequencies</param>
-        /// <param name="time">time (ns)</param>
-        /// <returns>Reflectance as a function of fxs and time</returns>
-        double[] ROfFxAndTime(IOpticalPropertyRegion[] regions, double[] fxs, double time);
-
-        /// <summary>
-        /// Overload of scalar ROfFxAndTime function. Determines reflectance given tissue regions, spatial frequencies 'fxs', 
-        /// and times 'times'
-        /// </summary>
-        /// <param name="regions">medium optical and geometrical properties for each sub-region</param>
-        /// <param name="fxs">spatial frequencies</param>
-        /// <param name="times">times (ns)</param>
-        /// <returns>Reflectance at spatial freq. and time</returns>
         double[] ROfFxAndTime(IOpticalPropertyRegion[][] regions, double[] fxs, double[] times);
+        #endregion
 
 
         /// <summary>
@@ -611,17 +693,6 @@ namespace Vts
         IEnumerable<Complex> FluenceOfRhoAndZAndFt(IEnumerable<IOpticalPropertyRegion[]> regions, IEnumerable<double> rhos, IEnumerable<double> zs, IEnumerable<double> fts);
 
         /// <summary>
-        /// Determines reflectance at spatial frequency fx and time
-        /// </summary>
-        /// <param name="op">optical properties of the medium</param>
-        /// <param name="fx">spatial frequency (1/mm)</param>
-        /// <param name="time">time (ns)</param>
-        /// <returns>Reflectance at spatial frequency fx and time</returns>
-        double ROfFxAndTime(OpticalProperties op, double fx, double time);
-
-
-
-        /// <summary>
         /// Determines reflectance at spatial frequency fx and modulation frequency ft
         /// </summary>
         /// <param name="op">optical properties of the medium</param>
@@ -706,18 +777,6 @@ namespace Vts
         IEnumerable<Complex> FluenceOfFxAndZAndFt(IEnumerable<OpticalProperties> ops, IEnumerable<double> fxs, IEnumerable<double> zs, IEnumerable<double> fts);
 
         /// <summary>
-        /// Overload of scalar ROfFxAndTime function. Determines reflectance at optical properties 'ops', spatial frequencies 'fxs' and times 
-        /// </summary>
-        /// <param name="ops">sets of medium optical properties</param>
-        /// <param name="fxs">spatial frequencies (1/mm)</param>
-        /// <param name="times">times (ns)</param>
-        /// <returns>Reflectance as a function of fx and time</returns>
-        IEnumerable<double> ROfFxAndTime(IEnumerable<OpticalProperties> ops, IEnumerable<double> fxs, IEnumerable<double> times);
-
-
-
-
-        /// <summary>
         /// Overload of scalar ROfFxAndFt function. Determines reflectance at optical properties 'ops', spatial frequencies 'fxs' and time frequencies 'fts'
         /// </summary>
         /// <param name="ops">sets of medium optical properties</param>
@@ -731,24 +790,6 @@ namespace Vts
         /// </summary>
         double BeamDiameter { get; set; } // temp - should go in ISourceConfiguration or something
         
-        /// <summary>
-        /// Overload of scalar ROfFxAndTime function. Determines reflectance at optical properties 'op', spatial frequencies 'fxs' and times 
-        /// </summary>
-        /// <param name="op">medium optical properties</param>
-        /// <param name="fxs">spatial frequencies (1/mm)</param>
-        /// <param name="times">times (ns)</param>
-        /// <returns>Reflectance as a function of fxs and times</returns>
-        double[] ROfFxAndTime(OpticalProperties op, double[] fxs, double[] times);
-
-        /// <summary>
-        /// Overload of scalar ROfFxAndTime function. Determines reflectance at optical properties 'ops', spatial frequencies 'fxs' and times 
-        /// </summary>
-        /// <param name="ops">sets of medium optical properties</param>
-        /// <param name="fxs">spatial frequencies (1/mm)</param>
-        /// <param name="times">times (ns)</param>
-        /// <returns>Reflectance as a function of fxs and times</returns>
-        double[] ROfFxAndTime(OpticalProperties[] ops, double[] fxs, double[] times);
-
         /// <summary>
         /// Overload of scalar ROfFxAndFt function. Determines reflectance at optical properties 'op', spatial frequencies 'fxs' and time frequencies 'fts'
         /// </summary>
@@ -766,51 +807,6 @@ namespace Vts
         /// <param name="fts">modulation frequencies (GHz)</param>
         /// <returns>Reflectance as a function of fxs and fts</returns>
         Complex[] ROfFxAndFt(OpticalProperties[] ops, double[] fxs, double[] fts);
-
-        /// <summary>
-        /// Overload of scalar ROfFxAndTime function. Determines reflectance at optical properties 'ops', spatial frequency 'fx' and times 
-        /// </summary>
-        /// <param name="ops">sets of medium optical properties</param>
-        /// <param name="fx">spatial frequency (1/mm)</param>
-        /// <param name="times">times (ns)</param>
-        /// <returns>Reflectance as a function of fx and times</returns>
-        double[] ROfFxAndTime(OpticalProperties[] ops, double fx, double[] times);
-
-        /// <summary>
-        /// Overload of scalar ROfFxAndTime function. Determines reflectance at optical properties 'ops', spatial frequencies 'fxs' and time 
-        /// </summary>
-        /// <param name="ops">sets of medium optical properties</param>
-        /// <param name="fxs">spatial frequencies (1/mm)</param>
-        /// <param name="time">time (ns)</param>
-        /// <returns>Reflectance as a function of fxs and time</returns>
-        double[] ROfFxAndTime(OpticalProperties[] ops, double[] fxs, double time);
-
-        /// <summary>
-        /// Overload of scalar ROfFxAndTime function. Determines reflectance at optical properties 'op', spatial frequency 'fx' and times 
-        /// </summary>
-        /// <param name="op">medium optical properties</param>
-        /// <param name="fx">spatial frequency (1/mm)</param>
-        /// <param name="times">times (ns)</param>
-        /// <returns>Reflectance as a function of fx and times</returns>
-        double[] ROfFxAndTime(OpticalProperties op, double fx, double[] times);
-
-        /// <summary>
-        /// Overload of scalar ROfFxAndTime function. Determines reflectance at optical properties 'op', spatial frequencies 'fxs' and time 't'
-        /// </summary>
-        /// <param name="op">medium optical properties</param>
-        /// <param name="fxs">spatial frequency (1/mm)</param>
-        /// <param name="time">times (ns)</param>
-        /// <returns>Reflectance as a function of fxs and time</returns>
-        double[] ROfFxAndTime(OpticalProperties op, double[] fxs, double time);
-
-        /// <summary>
-        /// Overload of scalar ROfFxAndTime function. Determines reflectance at optical properties 'ops', spatial frequency 'fx' and time 't'
-        /// </summary>
-        /// <param name="ops">sets of medium optical properties</param>
-        /// <param name="fx">spatial frequency (1/mm)</param>
-        /// <param name="time">time (ns)</param>
-        /// <returns>Reflectance as a function of fx and time</returns>
-        double[] ROfFxAndTime(OpticalProperties[] ops, double fx, double time);
 
         /// <summary>
         /// Overload of scalar ROfFxAndFt function. Determines reflectance at optical properties 'ops', spatial frequency 'fx' and modulation frequencies 'fts'
