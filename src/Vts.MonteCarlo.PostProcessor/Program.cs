@@ -7,12 +7,6 @@ using Vts.MonteCarlo.CommandLineApplication;
 
 namespace Vts.MonteCarlo.PostProcessor
 {
-    #region CommandLine Arguments Parser
-
-    /* Simple commandline argument parser written by Ananth B. http://www.ananthonline.net */
-
-    #endregion
-
     public static class Program
     {
         /// <summary>
@@ -23,14 +17,10 @@ namespace Vts.MonteCarlo.PostProcessor
         /// <returns>int = 2 (infile exists but does not pass validation)</returns>
         public static int Main(string[] args)
         {
-#if PROCESS_ATTACH_DEBUG
-            Console.Read();
-#endif
             var inFile = "infile.txt";
             var inPath = "";
             var outName = "";
             var outPath = "";
-            var infoOnlyOption = false;
             args.Process(() =>
                 {
                     Console.WriteLine(@"Virtual Photonics MC Post-Processor 1.0");
@@ -40,13 +30,11 @@ namespace Vts.MonteCarlo.PostProcessor
                 },
                 new CommandLine.Switch("help", val =>
                 {
-                    infoOnlyOption = true;
                     ShowHelp();
                 }),
                 new CommandLine.Switch("geninfiles", val =>
                 {
                     GenerateDefaultInputFiles();
-                    infoOnlyOption = true;
                 }),
                 new CommandLine.Switch("infile", val =>
                 {
@@ -70,7 +58,7 @@ namespace Vts.MonteCarlo.PostProcessor
                 })
             );
 
-            if (infoOnlyOption) return 0;
+            if (CheckInfoOnly(args)) return 0;
             var input = PostProcessorSetup.ReadPostProcessorInputFromFile(inFile);
             if (input == null)
             {
@@ -92,6 +80,11 @@ namespace Vts.MonteCarlo.PostProcessor
             PostProcessorSetup.RunPostProcessor(input, inPath, outPath);
             Console.WriteLine("\nPost-processing complete.");
             return 0;
+        }
+
+        private static bool CheckInfoOnly(string[] args)
+        {
+            return args.Contains("help") || args.Contains("geninfiles");
         }
 
         private static void GenerateDefaultInputFiles()

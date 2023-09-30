@@ -23,9 +23,9 @@ internal static class CommandLine
             Handler = handler;
         }
 
-        public string Name { get; private set; }
-        public string ShortForm { get; private set; }
-        public Action<IEnumerable<string>> Handler { get; private set; }
+        public string Name { get; }
+        public string ShortForm { get; }
+        public Action<IEnumerable<string>> Handler { get; }
 
         public int InvokeHandler(string[] values)
         {
@@ -37,7 +37,7 @@ internal static class CommandLine
     /* The regex that extracts names and comma-separated values for switches 
         in the form (<switch>[="value 1",value2,...])+ */
     private static readonly Regex ArgRegex =
-        new Regex(@"(?<name>[^=]+)=?((?<quoted>\""?)(?<value>(?(quoted)[^\""]+|[^,]+))\""?,?)*",
+        new(@"(?<name>[^=]+)=?((?<quoted>\""?)(?<value>(?(quoted)[^\""]+|[^,]+))\""?,?)*",
             RegexOptions.Compiled | RegexOptions.CultureInvariant |
             RegexOptions.ExplicitCapture | RegexOptions.IgnoreCase, TimeSpan.FromSeconds(10));
 
