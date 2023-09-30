@@ -7,6 +7,7 @@ using System.Runtime.CompilerServices;
 using Vts.Common.Logging;
 
 [assembly: InternalsVisibleTo("Vts.MonteCarlo.CommandLineApplication.Test")]
+[assembly: InternalsVisibleTo("Vts.MonteCarlo.PostProcessor.CommandLineApplication.Test")]
 
 namespace Vts.MonteCarlo.CommandLineApplication
 {
