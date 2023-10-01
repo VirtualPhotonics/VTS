@@ -23,7 +23,7 @@ namespace Vts.MonteCarlo.PostProcessor
             var outPath = "";
             args.Process(() =>
                 {
-                    Console.WriteLine(@"Virtual Photonics MC Post-Processor 1.0");
+                    Console.WriteLine(@"Virtual Photonics MC Post-Processor {GetVersionNumber(3)}\n"")");
                     Console.WriteLine();
                     Console.WriteLine(@"For more information type mc_post help");
                     Console.WriteLine();
