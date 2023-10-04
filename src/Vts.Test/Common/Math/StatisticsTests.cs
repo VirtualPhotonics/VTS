@@ -1,7 +1,6 @@
-﻿using System;
+﻿using NUnit.Framework;
+using System;
 using System.Linq;
-using Newtonsoft.Json.Linq;
-using NUnit.Framework;
 using Vts.Common.Math;
 
 namespace Vts.Test.Common.Math
@@ -36,8 +35,8 @@ namespace Vts.Test.Common.Math
             var array = new double[10];
             var x = new double[] { 1, 2, 3, 4 };
             var y = new double[] { 1, 2, 3, 4 };
-            var dx = new double[] { };
-            var dy = new double[] { };
+            var dx = Array.Empty<double>();
+            var dy = Array.Empty<double>();
             Assert.Throws<ArgumentException>(() =>
             {
                 try
