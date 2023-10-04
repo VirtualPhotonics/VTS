@@ -12,8 +12,8 @@ namespace Vts.Test
             get => _first;
             set
             {
-                HandleChangeTracking("First", ref _first, ref _first);
-                SetProperty("First", ref _first, ref value);
+                HandleChangeTracking(nameof(First), ref _first, ref _first);
+                SetProperty(nameof(First), ref _first, ref value);
                 _first = value;
             }
         }
@@ -27,7 +27,7 @@ namespace Vts.Test
             set
             {
                 _third = value;
-                OnPropertyChanged("Third");
+                OnPropertyChanged(nameof(Third));
             }
         }
 

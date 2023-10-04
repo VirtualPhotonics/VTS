@@ -23,7 +23,7 @@ namespace Vts.Test.MonteCarlo.Detectors
         /// and transmittance detectors
         /// </summary>
         [OneTimeSetUp]
-        public void execute_Monte_Carlo()
+        public void Execute_Monte_Carlo()
         {
             // instantiate common classes
             var simulationOptions = new SimulationOptions(
@@ -231,7 +231,7 @@ namespace Vts.Test.MonteCarlo.Detectors
         /// test to validate NA=0.  Note that not all validation values are 0 due to vertical detection
         /// </summary>
         [Test]
-        public void validate_dynamic_detector_tallies_are_zero_when_NA_is_zero()
+        public void Validate_dynamic_detector_tallies_are_zero_when_NA_is_zero()
         {
             Assert.AreEqual(0.0, _outputNA0.RefDynMT_fxmt[0, 0].Magnitude);
             Assert.AreEqual(0.0, _outputNA0.RefDynMT_rmt[0, 0]);
@@ -246,7 +246,7 @@ namespace Vts.Test.MonteCarlo.Detectors
         /// change to test
         /// </summary>
         [Test]
-        public void validate_detector_tallies_when_NA_is_0p3()
+        public void Validate_detector_tallies_when_NA_is_0p3()
         {
             Assert.Less(Math.Abs(_outputNA0p3.RefDynMT_rmt[0, 0] - 0.006296), 0.000001);
             Assert.Less(Math.Abs(_outputNA0p3.RefDynMT_xymt[4, 4, 0] - 0.002490), 0.000001);
@@ -260,12 +260,12 @@ namespace Vts.Test.MonteCarlo.Detectors
         /// FinalTissueRegion=1) occur and give non-zero results.
         /// /// </summary>
         [Test]
-        public void validate_dynamic_detector_tallies_are_not_zero_when_NA_is_not_specified()
+        public void Validate_dynamic_detector_tallies_are_not_zero_when_NA_is_not_specified()
         {
-            Assert.AreNotEqual(_outputNoNASpecified.RefDynMT_rmt[1, 0], 0.0);
-            Assert.AreNotEqual(_outputNoNASpecified.RefDynMT_xymt[0, 9, 1], 0.0);
-            Assert.AreNotEqual(_outputNoNASpecified.TransDynMT_rmt[1, 0], 0.0);
-            Assert.AreNotEqual(_outputNoNASpecified.TransDynMT_xymt[0, 0, 0], 0.0);
+            Assert.AreNotEqual(0.0, _outputNoNASpecified.RefDynMT_rmt[1, 0]);
+            Assert.AreNotEqual(0.0, _outputNoNASpecified.RefDynMT_xymt[0, 9, 1]);
+            Assert.AreNotEqual(0.0, _outputNoNASpecified.TransDynMT_rmt[1, 0]);
+            Assert.AreNotEqual(0.0, _outputNoNASpecified.TransDynMT_xymt[0, 0, 0]);
         }
 
     }

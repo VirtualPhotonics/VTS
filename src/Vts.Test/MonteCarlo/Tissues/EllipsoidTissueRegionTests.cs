@@ -71,13 +71,13 @@ namespace Vts.Test.MonteCarlo.Tissues
         public void Verify_SurfaceNormal_method_returns_correct_result()
         {
             var result = _ellipsoidTissueRegion.SurfaceNormal(new Position(0, 0, 1.0));
-            Assert.AreEqual(result.Ux, 0);
-            Assert.AreEqual(result.Uy, 0);
-            Assert.AreEqual(result.Uz, -1);
+            Assert.AreEqual(0, result.Ux);
+            Assert.AreEqual(0, result.Uy);
+            Assert.AreEqual(-1, result.Uz);
             result = _ellipsoidTissueRegion.SurfaceNormal(new Position(0, 0, 5.0));
-            Assert.AreEqual(result.Ux, 0);
-            Assert.AreEqual(result.Uy, 0);
-            Assert.AreEqual(result.Uz, 1);
+            Assert.AreEqual(0, result.Ux);
+            Assert.AreEqual(0, result.Uy);
+            Assert.AreEqual(1, result.Uz);
         }
         /// <summary>
         /// Validate method RayIntersectBoundary return correct result
