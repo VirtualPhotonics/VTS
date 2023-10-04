@@ -87,11 +87,11 @@ namespace Vts.Test.MonteCarlo.Factories
                     TallySecondMoment = false,
                     Rho = new DoubleRange(0, 1, 5),
                 };
-            var simInput = new SimulationInput { DetectorInputs = new[] { detectorInput } };
+            var simInput = new SimulationInput { DetectorInputs = new IDetectorInput[] { detectorInput } };
             var sim = simInput.CreateSimulation();
             var results = sim.Run();
             var rOfRhoDetector = results.ResultsDictionary.TryGetValue(
-                detectorInput.Name, out var detector);
+                detectorInput.Name, out _);
             Assert.NotNull(rOfRhoDetector);
         }
 
@@ -103,7 +103,7 @@ namespace Vts.Test.MonteCarlo.Factories
         {
             var rOfRhoDetector = new SimulationInput
                 {
-                    DetectorInputs = new[]
+                    DetectorInputs = new IDetectorInput[]
                     {
                         new ROfRhoDetectorInput
                         {
@@ -207,13 +207,13 @@ namespace Vts.Test.MonteCarlo.Factories
                 return new ROfXDetector
                 {
                     // required properties (part of DetectorInput/Detector base classes)
-                    TallyType = this.TallyType,
-                    Name = this.Name,
-                    TallySecondMoment = this.TallySecondMoment,
-                    TallyDetails = this.TallyDetails,
+                    TallyType = TallyType,
+                    Name = Name,
+                    TallySecondMoment = TallySecondMoment,
+                    TallyDetails = TallyDetails,
 
                     // optional/custom detector-specific properties
-                    X = this.X
+                    X = X
                 };
             }
         }
@@ -256,8 +256,8 @@ namespace Vts.Test.MonteCarlo.Factories
                 TallyCount = 0;
 
                 // if the data arrays are null, create them (only create second moment if TallySecondMoment is true)
-                Mean = Mean ?? new double[X.Count - 1];
-                SecondMoment = SecondMoment ?? (TallySecondMoment ? new double[X.Count - 1] : null);
+                Mean ??= new double[X.Count - 1];
+                SecondMoment ??= (TallySecondMoment ? new double[X.Count - 1] : null);
 
                 // initialize any other necessary class fields here
             }
@@ -310,7 +310,7 @@ namespace Vts.Test.MonteCarlo.Factories
                         }
                     },
                     ReadData = binaryReader => {
-                        Mean = Mean ?? new double[ X.Count - 1];
+                        Mean ??= new double[ X.Count - 1];
                         for (var i = 0; i <  X.Count - 1; i++) {
                             Mean[i] = binaryReader.ReadDouble();
                         }
