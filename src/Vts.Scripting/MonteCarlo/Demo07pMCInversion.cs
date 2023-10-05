@@ -1,4 +1,6 @@
-﻿namespace Vts.Scripting.MonteCarlo;
+﻿using System.ComponentModel;
+
+namespace Vts.Scripting.MonteCarlo;
 
 /// <summary>
 /// Class using the Vts.dll library to demonstrate using the Perturbation Monte Carlo post-processor to calculate optical properties (i.e. "inversion")
@@ -28,21 +30,21 @@ internal class Demo07PmcInversion : IDemoScript
             Regions = new ITissueRegion[]
             {
                 new LayerTissueRegion(
-                    zRange: new(double.NegativeInfinity, 0),         // air "z" range
-                    op: new(mua: 0.0, musp: 1E-10, g: 1.0, n: 1.0)), // air optical properties
+                    zRange: new DoubleRange(double.NegativeInfinity, 0),         // air "z" range
+                    op: new OpticalProperties(mua: 0.0, musp: 1E-10, g: 1.0, n: 1.0)), // air optical properties
                 new LayerTissueRegion(
-                    zRange: new(0, 100),                             // tissue "z" range ("semi-infinite" slab, 100mm thick)
-                    op: new(mua: 0.01, musp: 1.0, g: 0.8, n: 1.4)),  // tissue optical properties
+                    zRange: new DoubleRange(0, 100),                             // tissue "z" range ("semi-infinite" slab, 100mm thick)
+                    op: new OpticalProperties(mua: 0.01, musp: 1.0, g: 0.8, n: 1.4)),  // tissue optical properties
                 new LayerTissueRegion(
-                    zRange: new(100, double.PositiveInfinity),       // air "z" range
-                    op: new(mua: 0.0, musp: 1E-10, g: 1.0, n: 1.0))  // air optical properties
+                    zRange: new DoubleRange(100, double.PositiveInfinity),       // air "z" range
+                    op: new OpticalProperties(mua: 0.0, musp: 1E-10, g: 1.0, n: 1.0))  // air optical properties
             }
         };
         var simulationInput = new SimulationInput
         {
             N = 1000,
             TissueInput = tissueInput,
-            DetectorInputs = new IDetectorInput[] { }, // leaving this empty - no on-the-fly detectors needed!
+            DetectorInputs = Array.Empty<IDetectorInput>(), // leaving this empty - no on-the-fly detectors needed!
             OutputName = "results",
             Options = new SimulationOptions
             {
@@ -118,6 +120,35 @@ internal class Demo07PmcInversion : IDemoScript
         private readonly DoubleRange _detectorRange;
         private readonly SimulationInput _simulationInput;
         private readonly pMCDatabase _photonDatabase;
+        private double _beamDiameter;
+
+        /// <summary>
+        /// IForwardSolver implements INotifyPropertyChanged to notify if
+        /// a property changes 
+        /// </summary>
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        /// <summary>
+        ///  OnPropertyChanged method to raise the property changed event
+        /// </summary>
+        /// <param name="name">The property name</param>
+        private void OnPropertyChanged(string name)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        }
+
+        /// <summary>
+        /// Beam Diameter
+        /// </summary>
+        public double BeamDiameter
+        {
+            get => _beamDiameter;
+            set
+            {
+                _beamDiameter = value;
+                OnPropertyChanged("BeamDiameter");
+            }
+        }
 
         /// <summary>
         /// Initializes a new instance of the PmcForwardSolver class using the specified detector range, simulation input, and photon database.
@@ -653,9 +684,6 @@ internal class Demo07PmcInversion : IDemoScript
         {
             throw new NotImplementedException();
         }
-        public double BeamDiameter { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-
-        public event System.ComponentModel.PropertyChangedEventHandler? PropertyChanged;
         #endregion
     }
 }
