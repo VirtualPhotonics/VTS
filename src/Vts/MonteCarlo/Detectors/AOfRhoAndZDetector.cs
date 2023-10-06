@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Runtime.Serialization;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -208,51 +209,67 @@ namespace Vts.MonteCarlo.Detectors
                     DataArray = Mean,
                     Name = "Mean",
                     FileTag = "",
-                    WriteData = binaryWriter => {
-                        for (var i = 0; i < Rho.Count - 1; i++) {
-                            for (var j = 0; j < Z.Count - 1; j++)
-                            {                                
-                                binaryWriter.Write(Mean[i, j]);
-                            }
-                        }
-                    },
-                    ReadData = binaryReader => {
-                        Mean = Mean ?? new double[ Rho.Count - 1, Z.Count - 1];
-                        for (var i = 0; i <  Rho.Count - 1; i++) {
-                            for (var j = 0; j < Z.Count - 1; j++)
-                            {
-                               Mean[i, j] = binaryReader.ReadDouble(); 
-                            }
-                        }
-                    }
+                    WriteData = MeanWriter,
+                    ReadData = MeanReader
                 },
                 // return a null serializer, if we're not serializing the second moment
                 !TallySecondMoment ? null :  new BinaryArraySerializer {
                     DataArray = SecondMoment,
                     Name = "SecondMoment",
                     FileTag = "_2",
-                    WriteData = binaryWriter => {
-                        if(!TallySecondMoment || SecondMoment == null) return;
-                        for (var i = 0; i < Rho.Count - 1; i++) {
-                            for (var j = 0; j < Z.Count - 1; j++)
-                            {
-                                binaryWriter.Write(SecondMoment[i, j]);
-                            }                            
-                        }
-                    },
-                    ReadData = binaryReader => {
-                        if (!TallySecondMoment || SecondMoment == null) return;
-                        SecondMoment = new double[ Rho.Count - 1, Z.Count - 1];
-                        for (var i = 0; i < Rho.Count - 1; i++) {
-                            for (var j = 0; j < Z.Count - 1; j++)
-                            {
-                                SecondMoment[i, j] = binaryReader.ReadDouble();
-                            }                       
-			            }
-                    },
+                    WriteData = SecondMomentWriter,
+                    ReadData = SecondMomentReader,
                 },
             };
         }
+        private void MeanWriter(BinaryWriter binaryWriter)
+        {
+            for (var i = 0; i < Rho.Count - 1; i++)
+            {
+                for (var j = 0; j < Z.Count - 1; j++)
+                {
+                    binaryWriter.Write(Mean[i, j]);
+                }
+            }
+        }
+
+        private void MeanReader(BinaryReader binaryReader)
+        {
+            Mean = Mean ?? new double[Rho.Count - 1, Z.Count - 1];
+            for (var i = 0; i < Rho.Count - 1; i++)
+            {
+                for (var j = 0; j < Z.Count - 1; j++)
+                {
+                    Mean[i, j] = binaryReader.ReadDouble();
+                }
+            }
+        }
+
+        private void SecondMomentWriter(BinaryWriter binaryWriter)
+        {
+            if (!TallySecondMoment || SecondMoment == null) return;
+            for (var i = 0; i < Rho.Count - 1; i++)
+            {
+                for (var j = 0; j < Z.Count - 1; j++)
+                {
+                    binaryWriter.Write(SecondMoment[i, j]);
+                }
+            }
+        }
+
+        private void SecondMomentReader(BinaryReader binaryReader)
+        {
+            if (!TallySecondMoment || SecondMoment == null) return;
+            SecondMoment = new double[Rho.Count - 1, Z.Count - 1];
+            for (var i = 0; i < Rho.Count - 1; i++)
+            {
+                for (var j = 0; j < Z.Count - 1; j++)
+                {
+                    SecondMoment[i, j] = binaryReader.ReadDouble();
+                }
+            }
+        }
+
         /// <summary>
         /// Method to determine if photon is within detector
         /// </summary>
