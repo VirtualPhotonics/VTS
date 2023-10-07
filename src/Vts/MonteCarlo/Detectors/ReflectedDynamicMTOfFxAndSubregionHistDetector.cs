@@ -8,6 +8,7 @@ using Vts.IO;
 using Vts.MonteCarlo.Extensions;
 using Vts.MonteCarlo.Helpers;
 using Vts.MonteCarlo.PhotonData;
+using System.IO;
 
 namespace Vts.MonteCarlo.Detectors
 {
@@ -375,6 +376,224 @@ namespace Vts.MonteCarlo.Detectors
                 }
             } 
         }
+
+        private void MeanWriter(BinaryWriter binaryWriter)
+        {
+            for (var i = 0; i < Fx.Count; i++)
+            {
+                for (var j = 0; j < MTBins.Count - 1; j++)
+                {
+                    binaryWriter.Write(Mean[i, j].Real);
+                    binaryWriter.Write(Mean[i, j].Imaginary);
+                }
+            }
+        }
+
+        private void MeanReader(BinaryReader binaryReader)
+        {
+            Mean ??= new Complex[Fx.Count, MTBins.Count - 1];
+            for (var i = 0; i < Fx.Count; i++)
+            {
+                for (var j = 0; j < MTBins.Count - 1; j++)
+                {
+                    var real = binaryReader.ReadDouble();
+                    var imag = binaryReader.ReadDouble();
+                    Mean[i, j] = new Complex(real, imag);
+                }
+            }
+        }
+
+        private void FractionalMtWriter(BinaryWriter binaryWriter)
+        {
+            for (var i = 0; i < Fx.Count; i++)
+            {
+                for (var k = 0; k < MTBins.Count - 1; k++)
+                {
+                    for (var m = 0; m < FractionalMTBins.Count + 1; m++)
+                    {
+                        binaryWriter.Write(FractionalMT[i, k, m].Real);
+                        binaryWriter.Write(FractionalMT[i, k, m].Imaginary);
+                    }
+                }
+            }
+        }
+
+        private void FractionalMtReader(BinaryReader binaryReader)
+        {
+            FractionalMT ??= new Complex[Fx.Count, MTBins.Count - 1, FractionalMTBins.Count + 1];
+            for (var i = 0; i < Fx.Count; i++)
+            {
+                for (var k = 0; k < MTBins.Count - 1; k++)
+                {
+                    for (var m = 0; m < FractionalMTBins.Count + 1; m++)
+                    {
+                        var real = binaryReader.ReadDouble();
+                        var imag = binaryReader.ReadDouble();
+                        FractionalMT[i, k, m] = new Complex(real, imag);
+                    }
+                }
+            }
+        }
+
+        private void TotalMtOfZWriter(BinaryWriter binaryWriter)
+        {
+            for (var i = 0; i < Fx.Count; i++)
+            {
+                for (var l = 0; l < Z.Count - 1; l++)
+                {
+                    binaryWriter.Write(TotalMTOfZ[i, l].Real);
+                    binaryWriter.Write(TotalMTOfZ[i, l].Imaginary);
+                }
+            }
+        }
+
+        private void TotalMtOfZReader(BinaryReader binaryReader)
+        {
+            TotalMTOfZ ??= new Complex[Fx.Count, Z.Count - 1];
+            for (var i = 0; i < Fx.Count; i++)
+            {
+                for (var l = 0; l < Z.Count - 1; l++)
+                {
+                    var real = binaryReader.ReadDouble();
+                    var imag = binaryReader.ReadDouble();
+                    TotalMTOfZ[i, l] = new Complex(real, imag);
+                }
+            }
+        }
+
+        private void DynamicMtOfZWriter(BinaryWriter binaryWriter)
+        {
+            for (var i = 0; i < Fx.Count; i++)
+            {
+                for (var l = 0; l < Z.Count - 1; l++)
+                {
+                    binaryWriter.Write(DynamicMTOfZ[i, l].Real);
+                    binaryWriter.Write(DynamicMTOfZ[i, l].Imaginary);
+                }
+            }
+        }
+
+        private void DynamicMtOfZReader(BinaryReader binaryReader)
+        {
+            DynamicMTOfZ ??= new Complex[Fx.Count, Z.Count - 1];
+            for (var i = 0; i < Fx.Count; i++)
+            {
+                for (var l = 0; l < Z.Count - 1; l++)
+                {
+                    var real = binaryReader.ReadDouble();
+                    var imag = binaryReader.ReadDouble();
+                    DynamicMTOfZ[i, l] = new Complex(real, imag);
+                }
+            }
+        }
+
+        private void SubRegionCollisionsWriter(BinaryWriter binaryWriter)
+        {
+            for (var i = 0; i < NumSubregions; i++)
+            {
+                for (var l = 0; l < 2; l++)
+                {
+                    binaryWriter.Write(SubregionCollisions[i, l]);
+                }
+            }
+        }
+
+        private void SubRegionCollisionsReader(BinaryReader binaryReader)
+        {
+            SubregionCollisions ??= new double[NumSubregions, 2];
+            for (var i = 0; i < NumSubregions; i++)
+            {
+                for (var l = 0; l < 2; l++)
+                {
+                    SubregionCollisions[i, l] = binaryReader.ReadDouble();
+                }
+            }
+        }
+
+        private void TotalMtOfZSecondMomentWriter(BinaryWriter binaryWriter)
+        {
+            if (!TallySecondMoment || TotalMTOfZSecondMoment == null) return;
+            for (var i = 0; i < Fx.Count; i++)
+            {
+                for (var j = 0; j < Z.Count - 1; j++)
+                {
+                    binaryWriter.Write(TotalMTOfZSecondMoment[i, j].Real);
+                    binaryWriter.Write(TotalMTOfZSecondMoment[i, j].Imaginary);
+                }
+            }
+        }
+
+        private void TotalMtOfZSecondMomentReader(BinaryReader binaryReader)
+        {
+            if (!TallySecondMoment || TotalMTOfZSecondMoment == null) return;
+            TotalMTOfZSecondMoment = new Complex[Fx.Count, Z.Count - 1];
+            for (var i = 0; i < Fx.Count; i++)
+            {
+                for (var j = 0; j < Z.Count - 1; j++)
+                {
+                    var real = binaryReader.ReadDouble();
+                    var imag = binaryReader.ReadDouble();
+                    TotalMTOfZSecondMoment[i, j] = new Complex(real, imag);
+                }
+            }
+        }
+
+        private void DynamicMtOfZSecondMomentWriter(BinaryWriter binaryWriter)
+        {
+            if (!TallySecondMoment || DynamicMTOfZSecondMoment == null) return;
+            for (var i = 0; i < Fx.Count; i++)
+            {
+                for (var j = 0; j < Z.Count - 1; j++)
+                {
+                    binaryWriter.Write(DynamicMTOfZSecondMoment[i, j].Real);
+                    binaryWriter.Write(DynamicMTOfZSecondMoment[i, j].Imaginary);
+                }
+            }
+        }
+
+        private void DynamicMtOfZSecondMomentReader(BinaryReader binaryReader)
+        {
+            if (!TallySecondMoment || DynamicMTOfZSecondMoment == null) return;
+            DynamicMTOfZSecondMoment = new Complex[Fx.Count, Z.Count - 1];
+            for (var i = 0; i < Fx.Count; i++)
+            {
+                for (var j = 0; j < Z.Count - 1; j++)
+                {
+                    var real = binaryReader.ReadDouble();
+                    var imag = binaryReader.ReadDouble();
+                    DynamicMTOfZSecondMoment[i, j] = new Complex(real, imag);
+                }
+            }
+        }
+
+        private void SecondMomentWriter(BinaryWriter binaryWriter)
+        {
+            if (!TallySecondMoment || SecondMoment == null) return;
+            for (var i = 0; i < Fx.Count; i++)
+            {
+                for (var j = 0; j < MTBins.Count - 1; j++)
+                {
+                    binaryWriter.Write(SecondMoment[i, j].Real);
+                    binaryWriter.Write(SecondMoment[i, j].Imaginary);
+                }
+            }
+        }
+
+        private void SecondMomentReader(BinaryReader binaryReader)
+        {
+            if (!TallySecondMoment || SecondMoment == null) return;
+            SecondMoment = new Complex[Fx.Count, MTBins.Count - 1];
+            for (var i = 0; i < Fx.Count - 1; i++)
+            {
+                for (var j = 0; j < MTBins.Count - 1; j++)
+                {
+                    var real = binaryReader.ReadDouble();
+                    var imag = binaryReader.ReadDouble();
+                    SecondMoment[i, j] = new Complex(real, imag);
+                }
+            }
+        }
+
         /// <summary>
         /// this is to allow saving of large arrays separately as a binary file
         /// </summary>
@@ -386,234 +605,66 @@ namespace Vts.MonteCarlo.Detectors
                     DataArray = Mean,
                     Name = "Mean",
                     FileTag = "",
-                    WriteData = binaryWriter => {
-                        for (int i = 0; i < Fx.Count; i++) {
-                            for (int j = 0; j < MTBins.Count - 1; j++)
-                            {                                
-                                binaryWriter.Write(Mean[i, j].Real);
-                                binaryWriter.Write(Mean[i, j].Imaginary);
-                            }
-                        }
-                    },
-                    ReadData = binaryReader => {
-                        Mean = Mean ?? new Complex[ Fx.Count, MTBins.Count - 1];
-                        for (int i = 0; i <  Fx.Count; i++) {
-                            for (int j = 0; j < MTBins.Count - 1; j++)
-                            {
-                               var real = binaryReader.ReadDouble();
-                               var imag = binaryReader.ReadDouble();
-                               Mean[i, j] = new Complex(real, imag);
-                            }
-                        }
-                    }
+                    WriteData = MeanWriter,
+                    ReadData = MeanReader
                 },
                 new BinaryArraySerializer {
                     DataArray = FractionalMT,
                     Name = "FractionalMT",
                     FileTag = "_FractionalMT",
-                    WriteData = binaryWriter =>
-                    {
-                        for (int i = 0; i < Fx.Count; i++)
-                        {
-                            for (int k = 0; k < MTBins.Count - 1; k++)
-                            {
-                                for (int m = 0; m < FractionalMTBins.Count + 1; m++)
-                                {
-                                    binaryWriter.Write(FractionalMT[i, k, m].Real);
-                                    binaryWriter.Write(FractionalMT[i, k, m].Imaginary);
-                                }
-                            }
-                        }
-                    },
-                    ReadData = binaryReader => {
-                        FractionalMT = FractionalMT ?? new Complex[ Fx.Count, MTBins.Count - 1, FractionalMTBins.Count + 1];
-                        for (int i = 0; i < Fx.Count; i++)
-                        {
-                            for (int k = 0; k < MTBins.Count - 1; k++)
-                            {
-                                for (int m = 0; m < FractionalMTBins.Count + 1; m++)
-                                {
-                                    var real = binaryReader.ReadDouble();
-                                    var imag = binaryReader.ReadDouble();
-                                    FractionalMT[i, k, m] = new Complex(real, imag);
-                                }
-                            }
-                        }
-                    }
+                    WriteData = FractionalMtWriter,
+                    ReadData = FractionalMtReader
                 },
                 new BinaryArraySerializer
                 {
                     DataArray = TotalMTOfZ,
                     Name = "TotalMTOfZ",
                     FileTag = "_TotalMTOfZ",
-                    WriteData = binaryWriter =>
-                    {
-                        for (int i = 0; i < Fx.Count; i++)
-                        {
-                            for (int l = 0; l < Z.Count - 1; l++)
-                            {
-                                binaryWriter.Write(TotalMTOfZ[i, l].Real);
-                                binaryWriter.Write(TotalMTOfZ[i, l].Imaginary);
-                            }
-                        }
-                    },
-                    ReadData = binaryReader =>
-                    {
-                        TotalMTOfZ = TotalMTOfZ ?? new Complex[Fx.Count, Z.Count - 1];
-                        for (int i = 0; i < Fx.Count; i++)
-                        {
-                            for (int l = 0; l < Z.Count - 1; l++)
-                            {
-                                var real = binaryReader.ReadDouble();
-                                var imag = binaryReader.ReadDouble();
-                                TotalMTOfZ[i, l] = new Complex(real, imag);
-                            }
-                        }
-                    }
+                    WriteData = TotalMtOfZWriter,
+                    ReadData = TotalMtOfZReader
                 },
                 new BinaryArraySerializer
                 {
                     DataArray = DynamicMTOfZ,
                     Name = "DynamicMTOfZ",
                     FileTag = "_DynamicMTOfZ",
-                    WriteData = binaryWriter =>
-                    {
-                        for (int i = 0; i < Fx.Count; i++)
-                        {
-                            for (int l = 0; l < Z.Count - 1; l++)
-                            {
-                                binaryWriter.Write(DynamicMTOfZ[i, l].Real);
-                                binaryWriter.Write(DynamicMTOfZ[i, l].Imaginary);
-                            }
-                        }
-                    },
-                    ReadData = binaryReader =>
-                    {
-                        DynamicMTOfZ = DynamicMTOfZ ?? new Complex[Fx.Count, Z.Count - 1];
-                        for (int i = 0; i < Fx.Count; i++)
-                        {
-                            for (int l = 0; l < Z.Count - 1; l++)
-                            {
-                                var real = binaryReader.ReadDouble();
-                                var imag = binaryReader.ReadDouble();
-                                DynamicMTOfZ[i, l] = new Complex(real, imag);
-                            }
-                        }
-                    }
+                    WriteData = DynamicMtOfZWriter,
+                    ReadData = DynamicMtOfZReader
                 },
                 new BinaryArraySerializer
                 {
                     DataArray = SubregionCollisions,
                     Name = "SubregionCollisions",
                     FileTag = "_SubregionCollisions",
-                    WriteData = binaryWriter =>
-                    {
-                        for (int i = 0; i < NumSubregions; i++)
-                        {
-                            for (int l = 0; l < 2; l++)
-                            {
-                                binaryWriter.Write(SubregionCollisions[i, l]);
-                            }
-                        }
-                    },
-                    ReadData = binaryReader =>
-                    {
-                        SubregionCollisions = SubregionCollisions ??
-                                       new double[NumSubregions, 2];
-                        for (int i = 0; i < NumSubregions; i++)
-                        {
-                            for (int l = 0; l < 2; l++)
-                            {
-                                SubregionCollisions[i, l] = binaryReader.ReadDouble();
-                            }
-                        }
-                    }
+                    WriteData = SubRegionCollisionsWriter,
+                    ReadData = SubRegionCollisionsReader
                 },
                 // return a null serializer, if we're not serializing the second moment
-                !TallySecondMoment ? null :  
-                new BinaryArraySerializer {
+                !TallySecondMoment ? null : new BinaryArraySerializer 
+                {
                     DataArray = TotalMTOfZSecondMoment,
                     Name = "TotalMTOfZSecondMoment",
                     FileTag = "_TotalMTOfZ_2",
-                    WriteData = binaryWriter => {
-                        if (!TallySecondMoment || TotalMTOfZSecondMoment == null) return;
-                        for (int i = 0; i < Fx.Count; i++) {
-                            for (int j = 0; j < Z.Count - 1; j++)
-                            {
-                                binaryWriter.Write(TotalMTOfZSecondMoment[i, j].Real);
-                                binaryWriter.Write(TotalMTOfZSecondMoment[i, j].Imaginary);
-                            }                            
-                        }
-                    },
-                    ReadData = binaryReader => {
-                        if (!TallySecondMoment || TotalMTOfZSecondMoment == null) return;
-                        TotalMTOfZSecondMoment = new Complex[ Fx.Count, Z.Count - 1];
-                        for (int i = 0; i < Fx.Count; i++) {
-                            for (int j = 0; j < Z.Count - 1; j++)
-                            {
-                                var real = binaryReader.ReadDouble();
-                                var imag = binaryReader.ReadDouble();
-                                TotalMTOfZSecondMoment[i, j] = new Complex(real, imag);
-                            }                       
-                        }
-                    },
+                    WriteData = TotalMtOfZSecondMomentWriter,
+                    ReadData = TotalMtOfZSecondMomentReader
                 },
                 new BinaryArraySerializer {
                     DataArray = DynamicMTOfZSecondMoment,
                     Name = "DynamicMTOfZSecondMoment",
                     FileTag = "_DynamicMTOfZ_2",
-                    WriteData = binaryWriter => {
-                        if (!TallySecondMoment || DynamicMTOfZSecondMoment == null) return;
-                        for (int i = 0; i < Fx.Count; i++) {
-                            for (int j = 0; j < Z.Count - 1; j++)
-                            {
-                                binaryWriter.Write(DynamicMTOfZSecondMoment[i, j].Real);
-                                binaryWriter.Write(DynamicMTOfZSecondMoment[i, j].Imaginary);
-                            }                            
-                        }
-                    },
-                    ReadData = binaryReader => {
-                        if (!TallySecondMoment || DynamicMTOfZSecondMoment == null) return;
-                        DynamicMTOfZSecondMoment = new Complex[ Fx.Count, Z.Count - 1];
-                        for (int i = 0; i < Fx.Count; i++) {
-                            for (int j = 0; j < Z.Count - 1; j++)
-                            {
-                                var real = binaryReader.ReadDouble();
-                                var imag = binaryReader.ReadDouble();
-                                DynamicMTOfZSecondMoment[i, j] = new Complex(real, imag);
-                            }                       
-			            }
-                    },
+                    WriteData = DynamicMtOfZSecondMomentWriter,
+                    ReadData = DynamicMtOfZSecondMomentReader,
                 },
                 new BinaryArraySerializer {
                     DataArray = SecondMoment,
                     Name = "SecondMoment",
                     FileTag = "_2",
-                    WriteData = binaryWriter => {
-                        if (!TallySecondMoment || SecondMoment == null) return;
-                        for (int i = 0; i < Fx.Count; i++) {
-                            for (int j = 0; j < MTBins.Count - 1; j++)
-                            {
-                                binaryWriter.Write(SecondMoment[i, j].Real);
-                                binaryWriter.Write(SecondMoment[i, j].Imaginary);
-                            }                            
-                        }
-                    },
-                    ReadData = binaryReader => {
-                        if (!TallySecondMoment || SecondMoment == null) return;
-                        SecondMoment = new Complex[ Fx.Count, MTBins.Count - 1];
-                        for (int i = 0; i < Fx.Count - 1; i++) {
-                            for (int j = 0; j < MTBins.Count - 1; j++)
-                            {
-                                var real = binaryReader.ReadDouble();
-                                var imag = binaryReader.ReadDouble();
-                                SecondMoment[i, j] = new Complex(real, imag);
-                            }                       
-			            }
-                    },
+                    WriteData = SecondMomentWriter,
+                    ReadData = SecondMomentReader,
                 },
             };
         }
+
         /// <summary>
         /// Method to determine if photon is within detector
         /// </summary>
@@ -623,6 +674,7 @@ namespace Vts.MonteCarlo.Detectors
         {
             return true; // or, possibly test for NA or confined position, etc
         }
+
         /// <summary>
         /// Method to determine if photon is within detector NA
         /// </summary>

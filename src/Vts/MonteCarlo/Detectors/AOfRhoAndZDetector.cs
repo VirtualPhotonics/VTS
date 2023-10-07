@@ -222,6 +222,7 @@ namespace Vts.MonteCarlo.Detectors
                 },
             };
         }
+
         private void MeanWriter(BinaryWriter binaryWriter)
         {
             for (var i = 0; i < Rho.Count - 1; i++)
