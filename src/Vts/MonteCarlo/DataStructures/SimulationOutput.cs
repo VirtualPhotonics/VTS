@@ -29,6 +29,14 @@ namespace Vts.MonteCarlo
             _detectorResults = detectorResults;
         }
         /// <summary>
+        /// Slanted Recessed fiber
+        /// </summary>
+        public double SlantFib { get { return (double)((dynamic)ResultsDictionary[_detectorResults.First(d => d.TallyType == "SlantedRecessedFiber").Name]).Mean; } }
+        /// <summary>
+        /// Slanted Recessed fiber 2nd moment
+        /// </summary>
+        public double SlantFib2 { get { return (double)((dynamic)ResultsDictionary[_detectorResults.First(d => d.TallyType == "SlantedRecessedFiber").Name]).SecondMoment; } }
+        /// <summary>
         /// Surface fiber
         /// </summary>
         public double SurFib { get { return (double)((dynamic)ResultsDictionary[_detectorResults.First(d => d.TallyType == "SurfaceFiber").Name]).Mean; } }

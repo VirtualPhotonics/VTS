@@ -10,6 +10,8 @@ namespace Vts.MonteCarlo
         /// </summary>
         public static readonly string[] BuiltInTypes =
         {
+            // Reflectance detected by a slanted recessed fiber 
+            "SlantedRecessedFiber",
             // Reflectance Surface fiber 
             "SurfaceFiber",
             // Reflectance as a function of source-detector separation (rho) and angle

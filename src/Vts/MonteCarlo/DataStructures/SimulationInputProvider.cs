@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Reflection.Metadata;
 using Vts.Common;
 using Vts.MonteCarlo.Detectors;
 using Vts.MonteCarlo.Helpers;
@@ -1170,6 +1171,77 @@ new ITissueRegion[]
                         NA = 0.39,
                         Name = "SurfaceFiber_NA0p39",
                         FinalTissueRegionIndex = 3,
+                        TallySecondMoment = true
+                    }
+                }
+            );
+        }
+        #endregion
+
+        #region point source one layer Slanted Recessed Fiber Detector 
+
+        /// <summary>
+        /// Point source on multilayer with surface fiber tissue and surface
+        /// fiber detector
+        /// </summary>
+        /// <returns>An instance of the SimulationInput class</returns>
+        public static SimulationInput PointSourceSlantedRecessedFiberTissueAndDetector()
+        {
+            return new SimulationInput(
+                100,
+                "surface_fiber_detector",
+                new SimulationOptions(
+                    0, // random number generator seed, -1=random seed, 0=fixed seed
+                    RandomNumberGeneratorType.MersenneTwister,
+                    AbsorptionWeightingType.Discrete,
+                    PhaseFunctionType.HenyeyGreenstein,
+                    new List<DatabaseType> { }, // databases to be written
+                    true, // track statistics
+                    0.0, // RR threshold -> no RR performed
+                    0),
+                new DirectionalPointSourceInput(
+                    new Position(0.0, 0.0, 0.0),
+                    new Direction(0.0, 0.0, 1.0),
+                    1), // 0=start in air, 1=start in tissue
+                new MultiLayerWithSurfaceFiberTissueInput(
+                    new SurfaceFiberTissueRegion(
+                        new Position(0, 0, 0),
+                        0.3, // needs to match SurfaceFiberDetectorInput
+                        new OpticalProperties(0.01, 1.0, 0.8, 1.4)
+                    ),
+                    new ITissueRegion[]
+                    {
+                        new LayerTissueRegion(
+                            new DoubleRange(double.NegativeInfinity, 0.0),
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
+                        new LayerTissueRegion(
+                            new DoubleRange(0.0, 100.0),
+                            new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
+                        new LayerTissueRegion(
+                            new DoubleRange(100.0, double.PositiveInfinity),
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
+                    }
+                ),
+                new List<IDetectorInput>
+                {
+                    new SlantedRecessedFiberDetectorInput
+                    {
+                        Radius = 1.0,
+                        Angle = Math.PI / 6.0,
+                        ContactPosition = new Position(5.0, 0.0, 0.0),
+                        NA = double.PositiveInfinity,
+                        Name = "SlantedRecessedFiber_Open",
+                        FinalTissueRegionIndex = 0,
+                        TallySecondMoment = false
+                    },
+                    new SlantedRecessedFiberDetectorInput
+                    {
+                        Radius = 1.0,
+                        Angle = Math.PI / 6.0,
+                        ContactPosition = new Position(5.0, 0.0, 0.0),
+                        NA = 0.39,
+                        Name = "SlantedRecessedFiber_NA0p39",
+                        FinalTissueRegionIndex = 0,
                         TallySecondMoment = true
                     }
                 }
