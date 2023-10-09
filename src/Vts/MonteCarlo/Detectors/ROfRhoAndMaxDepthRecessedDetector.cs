@@ -154,7 +154,7 @@ namespace Vts.MonteCarlo.Detectors
             if (!IsWithinDetectorAperture(photon))return;
 
             // ray trace exit location and direction to location at ZPlane in air
-            var positionAtHeight = LayerTissueRegionToolbox.RayExtendToInfinitePlane(
+            var positionAtHeight = LayerTissueRegionToolbox.RayExtendToInfiniteZPlane(
                 photon.DP.Position, photon.DP.Direction, ZPlane);
 
             var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(positionAtHeight.X, positionAtHeight.Y), Rho.Count - 1, Rho.Delta, Rho.Start);

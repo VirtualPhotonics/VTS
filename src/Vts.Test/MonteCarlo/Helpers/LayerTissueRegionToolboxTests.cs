@@ -9,7 +9,7 @@ namespace Vts.Test.MonteCarlo.Tissues
     public class LayerTissueRegionToolboxTests
     {
         /// <summary>
-        /// Validate RayExtendToInfinitePlane provides correct results
+        /// Validate RayExtendToInfiniteZPlane provides correct results
         /// </summary>
         [Test]
         public void Validate_RayExtendToInfinitePlane_results()
@@ -18,33 +18,33 @@ namespace Vts.Test.MonteCarlo.Tissues
             var pos = new Position(0, 0, 0);
             // check vertical direction
             var dir = new Direction(0, 0, -1);
-            var newPos = LayerTissueRegionToolbox.RayExtendToInfinitePlane(pos, dir, zPlane);
+            var newPos = LayerTissueRegionToolbox.RayExtendToInfiniteZPlane(pos, dir, zPlane);
             Assert.Less(Math.Abs(pos.X - newPos.X), 0.000001);
             Assert.Less(Math.Abs(pos.Y - newPos.Y), 0.000001);
             Assert.Less(Math.Abs(-1 - newPos.Z), 0.000001);
             dir = new Direction(1.0 / Math.Sqrt(2), 0, -1.0 / Math.Sqrt(2));
-            newPos = LayerTissueRegionToolbox.RayExtendToInfinitePlane(pos, dir, zPlane);
+            newPos = LayerTissueRegionToolbox.RayExtendToInfiniteZPlane(pos, dir, zPlane);
             Assert.Less(Math.Abs(1.0 - newPos.X), 0.000001);
             Assert.Less(Math.Abs(0.0 - newPos.Y), 0.000001);
             Assert.Less(Math.Abs(-1 - newPos.Z), 0.000001);
             dir = new Direction(-1.0 / Math.Sqrt(2), 0, -1.0 / Math.Sqrt(2));
-            newPos = LayerTissueRegionToolbox.RayExtendToInfinitePlane(pos, dir, zPlane);
+            newPos = LayerTissueRegionToolbox.RayExtendToInfiniteZPlane(pos, dir, zPlane);
             Assert.Less(Math.Abs(-1.0 - newPos.X), 0.000001);
             Assert.Less(Math.Abs(0.0 - newPos.Y), 0.000001);
             Assert.Less(Math.Abs(-1 - newPos.Z), 0.000001);
             dir = new Direction(0.0, 1.0 / Math.Sqrt(2), -1.0 / Math.Sqrt(2));
-            newPos = LayerTissueRegionToolbox.RayExtendToInfinitePlane(pos, dir, zPlane);
+            newPos = LayerTissueRegionToolbox.RayExtendToInfiniteZPlane(pos, dir, zPlane);
             Assert.Less(Math.Abs(0.0 - newPos.X), 0.000001);
             Assert.Less(Math.Abs(1.0 - newPos.Y), 0.000001);
             Assert.Less(Math.Abs(-1 - newPos.Z), 0.000001);
             dir = new Direction(0.0, -1.0 / Math.Sqrt(2), -1.0 / Math.Sqrt(2));
-            newPos = LayerTissueRegionToolbox.RayExtendToInfinitePlane(pos, dir, zPlane);
+            newPos = LayerTissueRegionToolbox.RayExtendToInfiniteZPlane(pos, dir, zPlane);
             Assert.Less(Math.Abs(0.0 - newPos.X), 0.000001);
             Assert.Less(Math.Abs(-1.0 - newPos.Y), 0.000001);
             Assert.Less(Math.Abs(-1 - newPos.Z), 0.000001);
             // try parallel direction
             dir = new Direction(1.0 / Math.Sqrt(2), -1.0 / Math.Sqrt(2), 0.0);
-            newPos = LayerTissueRegionToolbox.RayExtendToInfinitePlane(pos, dir, zPlane);
+            newPos = LayerTissueRegionToolbox.RayExtendToInfiniteZPlane(pos, dir, zPlane);
             Assert.IsTrue(newPos == null);
         }
     }

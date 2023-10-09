@@ -180,7 +180,7 @@ namespace Vts.MonteCarlo.Detectors
             if (!IsWithinDetectorAperture(photon)) return;
 
             // ray trace exit location and direction to location at ZPlane
-            var positionAtZPlane = LayerTissueRegionToolbox.RayExtendToInfinitePlane(
+            var positionAtZPlane = LayerTissueRegionToolbox.RayExtendToInfiniteZPlane(
                 photon.DP.Position, photon.DP.Direction, ZPlane);
 
             // WhichBin to match ROfRhoAndTimeDetector
