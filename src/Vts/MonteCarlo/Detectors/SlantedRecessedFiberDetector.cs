@@ -3,7 +3,6 @@ using System.Runtime.Serialization;
 using Vts.Common;
 using Vts.IO;
 using Vts.MonteCarlo.Extensions;
-using Vts.MonteCarlo.Helpers;
 using Vts.MonteCarlo.Tissues;
 
 namespace Vts.MonteCarlo.Detectors
@@ -22,30 +21,31 @@ namespace Vts.MonteCarlo.Detectors
             Name = "SlantedRecessedFiber";
             Radius = 1.0;
             Angle = Math.PI / 6.0;
-            ContactPosition = new Position(5.0, 0.0, 0.0);
+            ZPlane = 0.0;
+            Center = new (5.0, 0.0, 0.0);
             NA = double.PositiveInfinity; // set default NA completely open regardless of detector region refractive index
             FinalTissueRegionIndex = 0; // detector is always in air
 
             // modify base class TallyDetails to take advantage of built-in validation capabilities (error-checking)
             TallyDetails.IsReflectanceTally = true;
-            TallyDetails.IsCylindricalTally = true;
         }
 
         /// <summary>
         /// radius of the detector
         /// </summary>
         public double Radius { get; set; }
-
         /// <summary>
         /// Slanted angle (clockwise 0-90)
         /// </summary>
         public double Angle { get; set; }
-
         /// <summary>
-        /// Contact Position of the tissue
+        /// The lowest z coordinate of the fiber after rotation
         /// </summary>
-        public Position ContactPosition { get; set; }
-
+        public double ZPlane { get; set; }
+        /// <summary>
+        /// detector center location
+        /// </summary>
+        public Position Center { get; set; }
         /// <summary>
         /// Detector region index
         /// </summary>
@@ -73,7 +73,8 @@ namespace Vts.MonteCarlo.Detectors
                 // custom detector-specific properties
                 Radius = this.Radius,
                 Angle = this.Angle,
-                ContactPosition = this.ContactPosition,
+                ZPlane = this.ZPlane,
+                Center = this.Center,
                 NA = this.NA,
                 FinalTissueRegionIndex = this.FinalTissueRegionIndex
             };
@@ -81,7 +82,7 @@ namespace Vts.MonteCarlo.Detectors
     }
 
     /// <summary>
-    /// Implements IDetector.  Tally for reflectance as a function  of Rho.
+    /// Implements IDetector.  Tally for fiber flat surface detection.
     /// This implementation works for Analog, DAW and CAW processing.
     /// </summary>
     public class SlantedRecessedFiberDetector : Detector, IDetector
@@ -99,9 +100,13 @@ namespace Vts.MonteCarlo.Detectors
         /// </summary>
         public double Angle { get; set; }
         /// <summary>
-        /// Contact Position of the tissue
+        /// The lowest z coordinate of the fiber after rotation
         /// </summary>
-        public Position ContactPosition { get; set; }
+        public double ZPlane { get; set; }
+        /// <summary>
+        /// detector center location
+        /// </summary>
+        public Position Center { get; set; }
         /// <summary>
         /// Detector region index
         /// </summary>
@@ -146,7 +151,6 @@ namespace Vts.MonteCarlo.Detectors
             }
 
             // initialize any other necessary class fields here
-            _tissue = tissue;
         }
 
         /// <summary>
@@ -155,31 +159,24 @@ namespace Vts.MonteCarlo.Detectors
         /// <param name="photon">photon data needed to tally</param>
         public void Tally(Photon photon)
         {
-            //Find the center point of fiber, when it is normal the surface
-            Position centerPos = new Position(ContactPosition.X - Radius, ContactPosition.Y, ContactPosition.Z);
             //Find the center point of fiber, when it is rotated
-            Position rotatedCenterPos = new Position(ContactPosition.X - Radius * Math.Cos(Angle), 
-                ContactPosition.Y, ContactPosition.Z - Radius * Math.Sin(Angle));
+            Position rotatedCenterPos = new (Center.X * Math.Cos(Angle),
+                Center.Y, Center.Z * Math.Sin(Angle));
 
             //find the inward normal vector to the detector plane
-            Direction normDir = new Direction(0.0, 0.0, -1.0);  //Default direction (0, 0, 1
-            var dx = rotatedCenterPos.X - centerPos.X;
-            var dy = rotatedCenterPos.Y - centerPos.Y;
-            var dz = rotatedCenterPos.Z - centerPos.Z;
-            var d = Math.Sqrt(dx * dx + dy * dy + dz * dz);
-            if (d > 0.0)             
-                normDir = new Direction(dx / d, dy / d, dz / d);
+            Direction normDir = new (Math.Sin(Angle), 0.0, Math.Cos(Angle));
 
             // ray trace exit location and direction to location at ZPlane
+            Position contactPos = new (Center.X + Radius, Center.Y, Center.Z);
             var positionAtSlantedPlane = LayerTissueRegionToolbox.RayExtendToInfiniteSlantedPlane
-                (photon.DP.Position, photon.DP.Direction, ContactPosition, normDir);
+                (photon.DP.Position, photon.DP.Direction, contactPos, normDir);
 
-            //check that exit location is within fiber radius
-            var dx1 = positionAtSlantedPlane.X - rotatedCenterPos.X;
-            var dy1 = positionAtSlantedPlane.Y - rotatedCenterPos.Y;
-            var dz1 = positionAtSlantedPlane.Z - rotatedCenterPos.Z;
-            var d1 = Math.Sqrt(dx1 * dx1 + dy1 * dy1 + dz1 * dz1);
-            if (d1 >= Radius) return;
+            //check that entry location is within fiber radius
+            var dx = positionAtSlantedPlane.X - rotatedCenterPos.X;
+            var dy = positionAtSlantedPlane.Y - rotatedCenterPos.Y;
+            var dz = positionAtSlantedPlane.Z - rotatedCenterPos.Z;
+            var d = Math.Sqrt(dx * dx + dy * dy + dz * dz);
+            if (d >= Radius) return;
 
             if (!IsWithinDetectorAperture(photon, normDir)) return;
 

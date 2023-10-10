@@ -18,12 +18,12 @@ namespace Vts.MonteCarlo
         {
             // test if contact position of the detector fiber is defined to be on 
             // surface of tissue or above
-            if (((SlantedRecessedFiberDetectorInput)input).ContactPosition.Z > 0.0)
+            if (((SlantedRecessedFiberDetectorInput)input).ZPlane > 0.0)
             {
                 return new ValidationResult(
                     false,
                     "SlantedRecessedFiberDetectorInput: contact position of the detector needs to be defined to be " +
-                    "on surface of tissue or above","Modify ContactPosition Z value to be 0.0 or negative");
+                    "on surface of tissue or above", "Modify ContactPosition Z value to be 0.0 or negative");
             }
 
             // test if radius of the detector fiber is positive
@@ -36,7 +36,7 @@ namespace Vts.MonteCarlo
             }
 
             // test if angle of the detector fiber is not negative
-            if (((SlantedRecessedFiberDetectorInput)input).Angle < 0.0) 
+            if (((SlantedRecessedFiberDetectorInput)input).Angle < 0.0)
             {
                 return new ValidationResult(
                     false,
@@ -45,17 +45,16 @@ namespace Vts.MonteCarlo
             }
 
             // test if angle of the detector fiber is not negative
-            if (((SlantedRecessedFiberDetectorInput)input).Angle >= Math.PI/2.0)
-                {
+            if (((SlantedRecessedFiberDetectorInput)input).Angle >= Math.PI / 2.0)
+            {
                 return new ValidationResult(
                     false,
                     "SlantedRecessedFiberDetectorInput: angle cannot be 90 degrees or more",
                     "Modify angle to be below 90 degrees");
             }
-
             return new ValidationResult(
                 true,
-                "SlantedRecessedDetectorInput: contact position is properly defined");
+                "SlantedRecessedDetectorInput: inputs are properly defined");
         }
     }
 }
