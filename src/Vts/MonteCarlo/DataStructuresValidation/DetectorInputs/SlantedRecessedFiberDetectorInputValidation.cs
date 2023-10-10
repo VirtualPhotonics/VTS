@@ -35,26 +35,17 @@ namespace Vts.MonteCarlo
                     "Modify radius to be positive");
             }
 
-            // test if angle of the detector fiber is not negative
-            if (((SlantedRecessedFiberDetectorInput)input).Angle < 0.0)
+            return ((SlantedRecessedFiberDetectorInput)input).Angle switch
             {
-                return new ValidationResult(
-                    false,
-                    "SlantedRecessedFiberDetectorInput: angle cannot be negative",
-                    "Modify angle to be zero or positive");
-            }
-
-            // test if angle of the detector fiber is not negative
-            if (((SlantedRecessedFiberDetectorInput)input).Angle >= Math.PI / 2.0)
-            {
-                return new ValidationResult(
-                    false,
+                // test if angle of the detector fiber is not negative
+                < 0.0 => new ValidationResult(false, "SlantedRecessedFiberDetectorInput: angle cannot be negative",
+                    "Modify angle to be zero or positive"),
+                // test if angle of the detector fiber is not negative
+                >= Math.PI / 2.0 => new ValidationResult(false,
                     "SlantedRecessedFiberDetectorInput: angle cannot be 90 degrees or more",
-                    "Modify angle to be below 90 degrees");
-            }
-            return new ValidationResult(
-                true,
-                "SlantedRecessedDetectorInput: inputs are properly defined");
+                    "Modify angle to be below 90 degrees"),
+                _ => new ValidationResult(true, "SlantedRecessedDetectorInput: inputs are properly defined")
+            };
         }
     }
 }

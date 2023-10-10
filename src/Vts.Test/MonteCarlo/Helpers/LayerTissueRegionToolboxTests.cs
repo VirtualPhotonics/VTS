@@ -14,7 +14,7 @@ namespace Vts.Test.MonteCarlo.Tissues
         [Test]
         public void Validate_RayExtendToInfinitePlane_results()
         {
-            var zPlane = -1;
+            const int zPlane = -1;
             var pos = new Position(0, 0, 0);
             // check vertical direction
             var dir = new Direction(0, 0, -1);

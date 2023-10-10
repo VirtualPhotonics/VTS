@@ -14,7 +14,7 @@ namespace Vts.Test.MonteCarlo
         /// Test to check that deserialized ROfAngleDetector is correct
         /// </summary>
         [Test]
-        public void validate_deserialized_class_is_correct()
+        public void Validate_deserialized_class_is_correct()
         {
             var detectorList =
                 new List<IDetector>

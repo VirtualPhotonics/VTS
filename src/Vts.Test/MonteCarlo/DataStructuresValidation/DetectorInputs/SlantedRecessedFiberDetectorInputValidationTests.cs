@@ -1,7 +1,6 @@
+using NUnit.Framework;
 using System;
 using System.Collections.Generic;
-using NUnit.Framework;
-using Vts.Common;
 using Vts.MonteCarlo;
 using Vts.MonteCarlo.Detectors;
 using Vts.MonteCarlo.Sources;
@@ -16,7 +15,7 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation.DetectorInputs
         /// Test to check that detector defined on surface of tissue or above
         /// </summary>
         [Test]
-        public void validate_code_checks_that_detector_defined_on_tissue_surface()
+        public void Validate_code_checks_that_detector_defined_on_tissue_surface()
         {
             var tissueInput = new MultiLayerTissueInput();
             var input = new SimulationInput(
@@ -41,7 +40,7 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation.DetectorInputs
         /// Test to check that detector radius is not negative or zero
         /// </summary>
         [Test]
-        public void validate_code_checks_that_detector_radius_is_nonzero()
+        public void Validate_code_checks_that_detector_radius_is_nonzero()
         {
             var tissueInput = new MultiLayerTissueInput();
             var input = new SimulationInput(
@@ -66,7 +65,7 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation.DetectorInputs
         /// Test to check that detector radius is not negative or zero
         /// </summary>
         [Test]
-        public void validate_code_checks_that_detector_angle_is_not_negative()
+        public void Validate_code_checks_that_detector_angle_is_not_negative()
         {
             var tissueInput = new MultiLayerTissueInput();
             var input = new SimulationInput(
@@ -82,7 +81,7 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation.DetectorInputs
                         Angle = -Math.PI
                     }
                 }
-            ); ;
+            );
             var result = SimulationInputValidation.ValidateInput(input);
             Assert.IsFalse(result.IsValid);
         }
@@ -91,7 +90,7 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation.DetectorInputs
         /// Test to check that detector radius is not negative or zero
         /// </summary>
         [Test]
-        public void validate_code_checks_that_detector_angle_is_larger_than_90()
+        public void Validate_code_checks_that_detector_angle_is_larger_than_90()
         {
             var tissueInput = new MultiLayerTissueInput();
             var input = new SimulationInput(
@@ -107,7 +106,7 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation.DetectorInputs
                         Angle = Math.PI
                     }
                 }
-            ); ;
+            );
             var result = SimulationInputValidation.ValidateInput(input);
             Assert.IsFalse(result.IsValid);
         }

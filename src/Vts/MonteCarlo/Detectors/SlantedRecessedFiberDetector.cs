@@ -22,7 +22,7 @@ namespace Vts.MonteCarlo.Detectors
             Radius = 1.0;
             Angle = Math.PI / 6.0;
             ZPlane = 0.0;
-            Center = new (5.0, 0.0, 0.0);
+            Center = new Position(5.0, 0.0, 0.0);
             NA = double.PositiveInfinity; // set default NA completely open regardless of detector region refractive index
             FinalTissueRegionIndex = 0; // detector is always in air
 
