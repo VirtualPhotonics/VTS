@@ -1,3 +1,4 @@
+using System;
 using Vts.Common;
 
 namespace Vts.MonteCarlo.Tissues
@@ -40,13 +41,17 @@ namespace Vts.MonteCarlo.Tissues
             Position planePos, Direction detectorNormal)
         {
             //compute denominator
-            var denominator = detectorNormal.Ux + photonDir.Ux + detectorNormal.Uy + photonDir.Uy + detectorNormal.Uz + photonDir.Uz; 
+            var denominator = detectorNormal.Ux * photonDir.Ux + detectorNormal.Uy * photonDir.Uy + detectorNormal.Uz * photonDir.Uz; 
             if (denominator < 1e-14) // check if almost parallel to the plane
                 return null;
 
             //compute numerator
-            Direction diffDir = new Direction(planePos.X - photonPos.X, planePos.Y - photonPos.Y, planePos.Z - photonPos.Z);
-            var numerator = detectorNormal.Ux + diffDir.Ux + detectorNormal.Uy + diffDir.Uy + detectorNormal.Uz + diffDir.Uz; 
+            var dx = planePos.X - photonPos.X;
+            var dy = planePos.Y - photonPos.Y;
+            var dz = planePos.Z - photonPos.Z;
+            var d = Math.Sqrt(dx * dx + dy * dy + dz * dz);
+            var diffDir = new Direction(dx / d, dy / d, dz / d);
+            var numerator = detectorNormal.Ux * diffDir.Ux + detectorNormal.Uy * diffDir.Uy + detectorNormal.Uz * diffDir.Uz; 
             if (numerator < 1e-14) // check if almost parallel to the plane
                 return null;
 

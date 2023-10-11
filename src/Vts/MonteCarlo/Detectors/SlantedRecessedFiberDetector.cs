@@ -159,15 +159,15 @@ namespace Vts.MonteCarlo.Detectors
         /// <param name="photon">photon data needed to tally</param>
         public void Tally(Photon photon)
         {
-            //Regardless of the z coordinate of 'Center', replace it with zPlane
-            Center.Z = ZPlane;
+            //Regardless of the z coordinate of 'Center', replace it with zPlane + tiny air layer
+            Center.Z = ZPlane - 1e-10;
 
             //Find the center point of fiber, when it is rotated around the right edge (x = Center.X + Radius)
-            var rotatedCenterPos = new Position (Center.X + Radius - Radius * Math.Cos(Angle),
-                Center.Y, Center.Z + Radius * Math.Sin(Angle));
+            var rotatedCenterPos = new Position (Center.X + Radius * (1.0 - Math.Cos(Angle)),
+                Center.Y, Center.Z - Radius * Math.Sin(Angle));
 
             //find the inward normal vector to the detector plane
-            var normDir = new Direction (Math.Sin(Angle), 0.0, Math.Cos(Angle));
+            var normDir = new Direction (Math.Sin(Angle), 0.0, -Math.Cos(Angle));
 
             // ray trace to find the photon entry location of the fiber surface
             var positionAtSlantedPlane = LayerTissueRegionToolbox.RayExtendToInfiniteSlantedPlane
