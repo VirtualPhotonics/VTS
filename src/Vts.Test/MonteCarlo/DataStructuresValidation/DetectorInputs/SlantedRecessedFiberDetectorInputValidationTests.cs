@@ -53,7 +53,7 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation.DetectorInputs
                 {
                     new SlantedRecessedFiberDetectorInput()
                     {
-                        Radius = -5
+                        Radius = 0
                     }
                 }
             );
@@ -62,7 +62,7 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation.DetectorInputs
         }
 
         /// <summary>
-        /// Test to check that detector radius is not negative or zero
+        /// Test to check that detector angle is not negative
         /// </summary>
         [Test]
         public void Validate_code_checks_that_detector_angle_is_not_negative()
@@ -87,10 +87,10 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation.DetectorInputs
         }
 
         /// <summary>
-        /// Test to check that detector radius is not negative or zero
+        /// Test to check that detector angle is not 90 or beyond
         /// </summary>
         [Test]
-        public void Validate_code_checks_that_detector_angle_is_larger_than_90()
+        public void Validate_code_checks_that_detector_angle_is_not_90_or_beyond()
         {
             var tissueInput = new MultiLayerTissueInput();
             var input = new SimulationInput(
@@ -103,7 +103,7 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation.DetectorInputs
                 {
                     new SlantedRecessedFiberDetectorInput()
                     {
-                        Angle = Math.PI
+                        Angle = Math.PI/2.0
                     }
                 }
             );

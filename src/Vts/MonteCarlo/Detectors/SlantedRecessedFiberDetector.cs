@@ -35,11 +35,11 @@ namespace Vts.MonteCarlo.Detectors
         /// </summary>
         public double Radius { get; set; }
         /// <summary>
-        /// Slanted angle (clockwise 0-90)
+        /// Slanted angle (clockwise 0-89.999999deg)
         /// </summary>
         public double Angle { get; set; }
         /// <summary>
-        /// The lowest z coordinate of the fiber after rotation
+        /// The lowest z coordinate of the fiber after rotation. If fiber is just touching the tissue, ZPlane=0.
         /// </summary>
         public double ZPlane { get; set; }
         /// <summary>
@@ -96,11 +96,11 @@ namespace Vts.MonteCarlo.Detectors
         /// </summary>
         public double Radius { get; set; }
         /// <summary>
-        /// Slanted angle (clockwise 0-90)
+        /// Slanted angle (clockwise 0-89.999999deg)
         /// </summary>
         public double Angle { get; set; }
         /// <summary>
-        /// The lowest z coordinate of the fiber after rotation
+        /// The lowest z coordinate of the fiber after rotation. If fiber is just touching the tissue, ZPlane=0. 
         /// </summary>
         public double ZPlane { get; set; }
         /// <summary>
@@ -159,17 +159,19 @@ namespace Vts.MonteCarlo.Detectors
         /// <param name="photon">photon data needed to tally</param>
         public void Tally(Photon photon)
         {
-            //Find the center point of fiber, when it is rotated
-            Position rotatedCenterPos = new (Center.X * Math.Cos(Angle),
-                Center.Y, Center.Z * Math.Sin(Angle));
+            //Regardless of the z coordinate of 'Center', replace it with zPlane
+            Center.Z = ZPlane;
+
+            //Find the center point of fiber, when it is rotated around the right edge (x = Center.X + Radius)
+            var rotatedCenterPos = new Position (Center.X + Radius - Radius * Math.Cos(Angle),
+                Center.Y, Center.Z + Radius * Math.Sin(Angle));
 
             //find the inward normal vector to the detector plane
-            Direction normDir = new (Math.Sin(Angle), 0.0, Math.Cos(Angle));
+            var normDir = new Direction (Math.Sin(Angle), 0.0, Math.Cos(Angle));
 
-            // ray trace exit location and direction to location at ZPlane
-            Position contactPos = new (Center.X + Radius, Center.Y, Center.Z);
+            // ray trace to find the photon entry location of the fiber surface
             var positionAtSlantedPlane = LayerTissueRegionToolbox.RayExtendToInfiniteSlantedPlane
-                (photon.DP.Position, photon.DP.Direction, contactPos, normDir);
+                (photon.DP.Position, photon.DP.Direction, rotatedCenterPos, normDir);
 
             //check that entry location is within fiber radius
             var dx = positionAtSlantedPlane.X - rotatedCenterPos.X;

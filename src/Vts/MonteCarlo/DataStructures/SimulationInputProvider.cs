@@ -1203,12 +1203,7 @@ new ITissueRegion[]
                     new Position(0.0, 0.0, 0.0),
                     new Direction(0.0, 0.0, 1.0),
                     1), // 0=start in air, 1=start in tissue
-                new MultiLayerWithSurfaceFiberTissueInput(
-                    new SurfaceFiberTissueRegion(
-                        new Position(0, 0, 0),
-                        0.3, // needs to match SurfaceFiberDetectorInput
-                        new OpticalProperties(0.01, 1.0, 0.8, 1.4)
-                    ),
+                new MultiLayerTissueInput(
                     new ITissueRegion[]
                     {
                         new LayerTissueRegion(
