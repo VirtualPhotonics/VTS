@@ -214,8 +214,7 @@ namespace Vts.MonteCarlo.Detectors
         /// <returns>Boolean indicating whether photon is within detector</returns>
         public bool IsWithinDetectorAperture(Photon photon, Direction detectorNormal)
         {
-            var detectorRegionN = _tissue.Regions[photon.CurrentRegionIndex].RegionOP.N;
-            return photon.DP.IsWithinNA(NA, detectorNormal, detectorRegionN);
+            return photon.DP.IsWithinNA(NA, detectorNormal, 1.0);
         }
     }
 }

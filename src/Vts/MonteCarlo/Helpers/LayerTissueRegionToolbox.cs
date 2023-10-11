@@ -34,7 +34,7 @@ namespace Vts.MonteCarlo.Tissues
         /// </summary>
         /// <param name="photonPos">position of photon exit</param>
         /// <param name="photonDir">direction of photon exit</param>
-        /// <param name="planePos">position on the detector</param>
+        /// <param name="planePos">position on the detector plane</param>
         /// <param name="detectorNormal">normal Direction of detector</param>
         /// <returns>position on plane extended to</returns>
         public static Position RayExtendToInfiniteSlantedPlane(Position photonPos, Direction photonDir, 
