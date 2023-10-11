@@ -22,7 +22,7 @@ namespace Vts.MonteCarlo.Detectors
             Radius = 1.0;
             Angle = Math.PI / 6.0;
             ZPlane = 0.0;
-            Center = new Position(5.0, 0.0, 0.0);
+            Center = new Position(2.0, 0.0, 0.0);
             NA = double.PositiveInfinity; // set default NA completely open regardless of detector region refractive index
             FinalTissueRegionIndex = 0; // detector is always in air
 
@@ -173,19 +173,22 @@ namespace Vts.MonteCarlo.Detectors
             var positionAtSlantedPlane = LayerTissueRegionToolbox.RayExtendToInfiniteSlantedPlane
                 (photon.DP.Position, photon.DP.Direction, rotatedCenterPos, normDir);
 
-            //check that entry location is within fiber radius
-            var dx = positionAtSlantedPlane.X - rotatedCenterPos.X;
-            var dy = positionAtSlantedPlane.Y - rotatedCenterPos.Y;
-            var dz = positionAtSlantedPlane.Z - rotatedCenterPos.Z;
-            var d = Math.Sqrt(dx * dx + dy * dy + dz * dz);
-            if (d >= Radius) return;
+            if (positionAtSlantedPlane != null)
+            {
+                //check that entry location is within fiber radius
+                var dx = positionAtSlantedPlane.X - rotatedCenterPos.X;
+                var dy = positionAtSlantedPlane.Y - rotatedCenterPos.Y;
+                var dz = positionAtSlantedPlane.Z - rotatedCenterPos.Z;
+                var d = Math.Sqrt(dx * dx + dy * dy + dz * dz);
+                if (d >= Radius) return;
 
-            if (!IsWithinDetectorAperture(photon, normDir)) return;
+                if (!IsWithinDetectorAperture(photon, normDir)) return;
 
-            Mean += photon.DP.Weight;
-            TallyCount++;
-            if (!TallySecondMoment) return;
-            SecondMoment += photon.DP.Weight * photon.DP.Weight;
+                Mean += photon.DP.Weight;
+                TallyCount++;
+                if (!TallySecondMoment) return;
+                SecondMoment += photon.DP.Weight * photon.DP.Weight;
+            }
         }
 
         /// <summary>

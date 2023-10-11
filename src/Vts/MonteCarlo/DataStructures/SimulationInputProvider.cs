@@ -1218,24 +1218,13 @@ new ITissueRegion[]
                     }
                 ),
                 new List<IDetectorInput>
-                {
+                {                    
                     new SlantedRecessedFiberDetectorInput
                     {
                         Radius = 1.0,
-                        Angle = Math.PI / 6.0,
+                        Angle = Math.PI/6.0,
                         ZPlane = 0.0,
-                        Center = new Position(5.0, 0.0, 0.0),
-                        NA = double.PositiveInfinity,
-                        Name = "SlantedRecessedFiber_Open",
-                        FinalTissueRegionIndex = 0,
-                        TallySecondMoment = false
-                    },
-                    new SlantedRecessedFiberDetectorInput
-                    {
-                        Radius = 1.0,
-                        Angle = Math.PI / 6.0,
-                        ZPlane = 0.0,
-                        Center = new Position(5.0, 0.0, 0.0),
+                        Center = new Position(2.0, 0.0, 0.0),
                         NA = 0.39,
                         Name = "SlantedRecessedFiber_NA0p39",
                         FinalTissueRegionIndex = 0,
