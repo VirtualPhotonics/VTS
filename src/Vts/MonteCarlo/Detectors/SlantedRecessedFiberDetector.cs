@@ -121,11 +121,11 @@ namespace Vts.MonteCarlo.Detectors
         /// <summary>
         /// detector mean
         /// </summary>
-        [IgnoreDataMember] public double Mean { get; set; }
+        public double Mean { get; set; }
         /// <summary>
         /// detector second moment
         /// </summary>
-        [IgnoreDataMember] public double SecondMoment { get; set; }
+        public double SecondMoment { get; set; }
 
         /* ==== Place optional/user-defined output properties here. They will be saved in text (JSON) format ==== */
         /// <summary>
