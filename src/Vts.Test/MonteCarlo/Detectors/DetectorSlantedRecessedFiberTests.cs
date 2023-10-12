@@ -13,26 +13,24 @@ using Vts.MonteCarlo.Tissues;
 namespace Vts.Test.MonteCarlo.Detectors
 {
     /// <summary>
-    /// These tests verify that the specification of a detector fiber processes the exiting photon
-    /// correctly.  There are two intentions: (1) verify that a fiber centered at 0 produces same 
-    /// results as R(rho) first bin with same radius, (2) compare fiber centered off 0 to R(rho)
-    /// with rho radius at center of fiber, (3) verify Bargo's results
+    /// These tests verify that the specification of a detector fiber processes the exiting photon correctly.  
+    /// The output of the surfacefiber is compared with the output of the slantedrecessedfiber with angle = 0 
     /// </summary>
     [TestFixture]
     public class DetectorSlantedRecessedFiberTests
     {
-        private SimulationOutput _outputNa;
+        private SimulationOutput _outputSlantedRecessedFiber;
+        private SimulationOutput _outputSurfaceFiber;
         private SimulationOptions _simulationOptions;
         private ISourceInput _source;
-        private ITissueInput _tissue;
-        private IList<IDetectorInput> _detectorNa;
+        private ITissueInput _tissueForSlantedRecessedFiber;
+        private ITissueInput _tissueForSurfaceFiber;
+        private IList<IDetectorInput> _detector;
         private readonly double _detectorRadius = 1; // debug set to 10
 
         /// <summary>
         /// Setup input to the MC for a homogeneous one layer tissue with 
-        /// fiber surface circle and specify fiber detector and R(rho).
-        /// Need to create new simulation for open and NA cases since output
-        /// cannot handle two detectors of same type
+        /// fiber surface circle 
         /// </summary>
         [OneTimeSetUp]
         public void Execute_Monte_Carlo()
@@ -56,69 +54,82 @@ namespace Vts.Test.MonteCarlo.Detectors
                 new Position (-0.134, 0.0, 0.0),
                 new PolarAzimuthalAngles(0.5235,0.0),
                 0);
-            _tissue = new MultiLayerTissueInput(
+            //Tissue for Slanted Recessed Fiber
+            _tissueForSlantedRecessedFiber = new MultiLayerTissueInput(
                 new ITissueRegion[]
                 {
                     new LayerTissueRegion(
-                        new DoubleRange(double.NegativeInfinity, 0.0),
-                        new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
-                    new LayerTissueRegion(
-                        new DoubleRange(0.0, 0.040), 
-                        new OpticalProperties(0.038, 44, 0.9, 1.5)),
-                    new LayerTissueRegion(
-                        new DoubleRange(0.040, 0.110),
-                        new OpticalProperties(0.038, 11, 0.9, 1.34)),
-                    new LayerTissueRegion(
-                        new DoubleRange(0.110, 1.0),
-                        new OpticalProperties(0.095, 10, 0.95, 1.4)),
-                    new LayerTissueRegion(
-                        new DoubleRange(1.0, 2.0),
-                        new OpticalProperties(0.089, 2.4, 0.9, 1.36)),
-                    new LayerTissueRegion(
-                        new DoubleRange(2.0, 2.89),
-                        new OpticalProperties(0.095, 10, 0.95, 1.4)),
-                    new LayerTissueRegion(
-                        new DoubleRange(2.89, 2.96),
-                        new OpticalProperties(0.038, 11, 0.9, 1.34)),
-                    new LayerTissueRegion(
-                        new DoubleRange(2.96, 3.0),
-                        new OpticalProperties(0.038, 44, 0.9, 1.5)),
-                    new LayerTissueRegion(
-                        new DoubleRange(3.0, double.PositiveInfinity),
-                        new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
-                });           
+                            new DoubleRange(double.NegativeInfinity, 0.0),
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
+                        new LayerTissueRegion(
+                            new DoubleRange(0.0, 100.0),
+                            new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
+                        new LayerTissueRegion(
+                            new DoubleRange(100.0, double.PositiveInfinity),
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
+                });
+            //Tissue for Surface Fiber
+            _tissueForSurfaceFiber =
+                new MultiLayerWithSurfaceFiberTissueInput(
+                    new SurfaceFiberTissueRegion(
+                        new Position(0, 0, 0),
+                        _detectorRadius, // needs to match SurfaceFiberDetectorInput
+                        new OpticalProperties(0.0, 1e-10, 1.0, 1.0)
+                    ),
+                    new ITissueRegion[]
+                    {
+                        new LayerTissueRegion(
+                            new DoubleRange(double.NegativeInfinity, 0.0),
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
+                        new LayerTissueRegion(
+                            new DoubleRange(0.0, 100.0),
+                            new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
+                        new LayerTissueRegion(
+                            new DoubleRange(100.0, double.PositiveInfinity),
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
+                    }
+                );
 
-            _detectorNa = new List<IDetectorInput>
+            _detector = new List<IDetectorInput>
             {
                 new SlantedRecessedFiberDetectorInput()
                 {
                     Radius = _detectorRadius,
-                    Angle = Math.PI /6.0,
+                    Angle = 0.0,
                     ZPlane = 0.0,
                     Center = new Position(1.0, 0, 0), 
                     NA = 0.39,
                     TallySecondMoment = true,
                     FinalTissueRegionIndex = 0
                 },
-                new ROfRhoDetectorInput() // 1mm wide ring to match fiber and 2 because beyond goes into 2nd
+                new SurfaceFiberDetectorInput() 
                 {
-                    Rho = new DoubleRange(0.0, 2 * _detectorRadius, 3),                    
-                    // since tissue w fiber specified -> photon will be in 3 upon exit
-                    FinalTissueRegionIndex = 0,
-                    NA = 1.4,
-                    TallySecondMoment = true
+                    Center = new Position(0, 0, 0),
+                    Radius = _detectorRadius,
+                    TallySecondMoment = true,
+                    N = 1.0,
+                    FinalTissueRegionIndex = 3,
+                    NA = 0.39
                 },            
             };          
 
-            var inputNa = new SimulationInput(
+            var inputSlantedRecessedFiber = new SimulationInput(
                 1000,
                 "",
                 _simulationOptions,
                 _source,
-                _tissue,
-                _detectorNa);
-            _outputNa = new MonteCarloSimulation(inputNa).Run();
-                        
+                _tissueForSlantedRecessedFiber,
+                _detector);
+            var inputSurfaceFiber = new SimulationInput(
+                1000,
+                "",
+                _simulationOptions,
+                _source,
+                _tissueForSurfaceFiber,
+                _detector);
+            _outputSlantedRecessedFiber = new MonteCarloSimulation(inputSlantedRecessedFiber).Run();
+            _outputSurfaceFiber = new MonteCarloSimulation(inputSurfaceFiber).Run();
+
         }
 
         /// <summary>
@@ -128,7 +139,7 @@ namespace Vts.Test.MonteCarlo.Detectors
         [Test]
         public void Validate_fully_open_surface_fiber_detector_produces_correct_results()
         {
-            Assert.Less(Math.Abs(_outputNa.SlantedFib - 0.017095), 0.000001);
+            Assert.Less(Math.Abs(_outputSurfaceFiber.SurFib - _outputSlantedRecessedFiber.SurFib), 0.000001);
         }        
     }
 }
