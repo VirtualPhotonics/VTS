@@ -163,11 +163,12 @@ namespace Vts.MonteCarlo.Detectors
             Center.Z = ZPlane - 1e-10;
 
             //Find the center point of fiber, when it is rotated around the right edge (x = Center.X + Radius)
-            var rotatedCenterPos = new Position (Center.X + Radius * (1.0 - Math.Cos(Angle)),
-                Center.Y, Center.Z - Radius * Math.Sin(Angle));
+            var cosAngle = Math.Cos(Angle);
+            var sinAngle = Math.Sqrt(1.0- cosAngle*cosAngle);
+            var rotatedCenterPos = new Position (Center.X + Radius * (1.0 - cosAngle), Center.Y, Center.Z - Radius * sinAngle);
 
             //find the inward normal vector to the detector plane
-            var normDir = new Direction (Math.Sin(Angle), 0.0, -Math.Cos(Angle));
+            var normDir = new Direction (sinAngle, 0.0, -cosAngle);
 
             // ray trace to find the photon entry location of the fiber surface
             var positionAtSlantedPlane = LayerTissueRegionToolbox.RayExtendToInfiniteSlantedPlane
