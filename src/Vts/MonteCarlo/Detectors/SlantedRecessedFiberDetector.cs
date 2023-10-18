@@ -151,6 +151,7 @@ namespace Vts.MonteCarlo.Detectors
             }
 
             // initialize any other necessary class fields here
+            _tissue = tissue;
         }
 
         /// <summary>
