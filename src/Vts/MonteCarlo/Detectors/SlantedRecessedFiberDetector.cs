@@ -23,8 +23,9 @@ namespace Vts.MonteCarlo.Detectors
             Angle = Math.PI / 6.0;
             ZPlane = 0.0;
             Center = new Position(2.0, 0.0, 0.0);
+            N = 1.4;
             NA = double.PositiveInfinity; // set default NA completely open regardless of detector region refractive index
-            FinalTissueRegionIndex = 0; // detector is always in air
+            FinalTissueRegionIndex = 0;   // recessed detector is always above the tissue
 
             // modify base class TallyDetails to take advantage of built-in validation capabilities (error-checking)
             TallyDetails.IsReflectanceTally = true;
@@ -47,10 +48,13 @@ namespace Vts.MonteCarlo.Detectors
         /// </summary>
         public Position Center { get; set; }
         /// <summary>
+        /// detector fiber refractive index
+        /// </summary>
+        public double N { get; set; }
+        /// <summary>
         /// Detector region index
         /// </summary>
         public int FinalTissueRegionIndex { get; set; }
-
         /// <summary>
         /// detector numerical aperture
         /// </summary>
@@ -75,6 +79,7 @@ namespace Vts.MonteCarlo.Detectors
                 Angle = this.Angle,
                 ZPlane = this.ZPlane,
                 Center = this.Center,
+                N=this.N,
                 NA = this.NA,
                 FinalTissueRegionIndex = this.FinalTissueRegionIndex
             };
@@ -107,6 +112,10 @@ namespace Vts.MonteCarlo.Detectors
         /// detector center location
         /// </summary>
         public Position Center { get; set; }
+        /// <summary>
+        /// detector fiber refractive index
+        /// </summary>
+        public double N { get; set; }
         /// <summary>
         /// Detector region index
         /// </summary>
@@ -159,39 +168,56 @@ namespace Vts.MonteCarlo.Detectors
         /// </summary>
         /// <param name="photon">photon data needed to tally</param>
         public void Tally(Photon photon)
-        {
-            //Regardless of the z coordinate of 'Center', replace it with zPlane + tiny air layer
-            Center.Z = ZPlane - 1e-10;
-
+        { 
             //Find the center point of fiber, when it is rotated around the right edge (x = Center.X + Radius)
             var cosAngle = Math.Cos(Angle);
-            var sinAngle = Math.Sqrt(1.0- cosAngle*cosAngle);
-            var rotatedCenterPos = new Position (Center.X + Radius * (1.0 - cosAngle), Center.Y, Center.Z - Radius * sinAngle);
+            var sinAngle = Math.Sqrt(1.0 - cosAngle * cosAngle);
 
-            //find the inward normal vector to the detector plane
-            var normDir = new Direction (sinAngle, 0.0, -cosAngle);
+            //find the vector normal to the detector plane (towards fiber)
+            var normDir = new Direction(sinAngle, 0.0, -cosAngle);
 
-            // ray trace to find the photon entry location of the fiber surface
-            var positionAtSlantedPlane = LayerTissueRegionToolbox.RayExtendToInfiniteSlantedPlane
-                (photon.DP.Position, photon.DP.Direction, rotatedCenterPos, normDir);
+            //Compute acceptance angle of fiber
+            var detectorRegionN = _tissue.Regions[FinalTissueRegionIndex].RegionOP.N;
+            var acceptanceAngle = Math.Asin(NA / detectorRegionN);
 
-            if (positionAtSlantedPlane != null)
+            // determine if photon direction and detector normal
+            var cosTheta = Direction.GetDotProduct(photon.DP.Direction, normDir);
+
+            if (cosTheta >= Math.Cos(acceptanceAngle))
             {
+                //Regardless of the z coordinate of the 'Center', replace it with zPlane + tiny air layer
+                Center.Z = ZPlane - 1e-10;
+
+                var xShift = Radius * sinAngle * sinAngle / cosAngle;
+                var zShift = -Radius * sinAngle;
+                var rotatedCenterPos = new Position(Center.X + xShift, Center.Y, Center.Z + zShift );
+
                 //check that entry location is within fiber radius
-                var dx = positionAtSlantedPlane.X - rotatedCenterPos.X;
-                var dy = positionAtSlantedPlane.Y - rotatedCenterPos.Y;
-                var dz = positionAtSlantedPlane.Z - rotatedCenterPos.Z;
-                var d = Math.Sqrt(dx * dx + dy * dy + dz * dz);
-                if (d >= Radius) return;
+                var dx = rotatedCenterPos.X - photon.DP.Position.X;
+                var dy = rotatedCenterPos.Y - photon.DP.Position.Y;
+                var dz = rotatedCenterPos.Z - photon.DP.Position.Z;
+                var planeDir = new Direction(dx, dy, dz);
 
-                if (!IsWithinDetectorAperture(photon, normDir)) return;
+                var t = Direction.GetDotProduct(planeDir, normDir) / cosTheta;
+                if (t > 0.0)
+                {
+                    var planePos = new Position(photon.DP.Position.X + photon.DP.Direction.Ux * t, photon.DP.Position.Y + 
+                        photon.DP.Direction.Uy * t, photon.DP.Position.Z + photon.DP.Direction.Uz * t);
+                    
+                    //check that entry location is within fiber radius
+                    var dx0 = planePos.X - rotatedCenterPos.X;
+                    var dy0 = planePos.Y - rotatedCenterPos.Y;
+                    var dz0 = planePos.Z - rotatedCenterPos.Z;
+                    var d = Math.Sqrt(dx0 * dx0 + dy0 * dy0 + dz0 * dz0);
+                    if (d >= Radius) return;
 
-                Mean += photon.DP.Weight;
-                TallyCount++;
-                if (!TallySecondMoment) return;
-                SecondMoment += photon.DP.Weight * photon.DP.Weight;
+                    Mean += photon.DP.Weight;
+                    TallyCount++;
+                    if (!TallySecondMoment) return;
+                    SecondMoment += photon.DP.Weight * photon.DP.Weight;
+                }
             }
-        }
+        }            
 
         /// <summary>
         /// method to normalize detector tally results
@@ -199,11 +225,12 @@ namespace Vts.MonteCarlo.Detectors
         /// <param name="numPhotons">number of photons launched</param>
         public void Normalize(long numPhotons)
         {
-            var areaNorm = Math.PI * Radius * Radius; // do we normalize fiber detector results by area of fiber end?
+            // Normalize the results by area of fiber surface. 
+            var areaNorm = Math.PI * Radius * Radius; 
             Mean /= areaNorm * numPhotons;
             if (!TallySecondMoment) return;
             SecondMoment /= areaNorm * areaNorm * numPhotons;
-        }
+        }       
 
         /// <summary>
         /// this is to allow saving of large arrays separately as a binary file

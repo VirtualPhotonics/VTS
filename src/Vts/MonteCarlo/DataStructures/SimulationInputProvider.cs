@@ -1225,6 +1225,7 @@ new ITissueRegion[]
                         Angle = Math.PI/6.0,
                         ZPlane = 0.0,
                         Center = new Position(2.0, 0.0, 0.0),
+                        N = 1.4,
                         NA = 0.39,
                         Name = "SlantedRecessedFiber_NA0p39",
                         FinalTissueRegionIndex = 0,
