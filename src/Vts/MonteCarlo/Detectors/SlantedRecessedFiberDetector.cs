@@ -36,15 +36,15 @@ namespace Vts.MonteCarlo.Detectors
         /// </summary>
         public double Radius { get; set; }
         /// <summary>
-        /// Slanted angle (clockwise 0-89.999999deg)
+        /// slanted angle (clockwise 0-89.999999deg)
         /// </summary>
         public double Angle { get; set; }
         /// <summary>
-        /// The lowest z coordinate of the fiber after rotation. If fiber is just touching the tissue, ZPlane=0.
+        /// the lowest z coordinate of the fiber after rotation. If fiber is just touching the tissue, ZPlane=0.
         /// </summary>
         public double ZPlane { get; set; }
         /// <summary>
-        /// detector center location
+        /// detector center location (before rotation)
         /// </summary>
         public Position Center { get; set; }
         /// <summary>
@@ -52,7 +52,7 @@ namespace Vts.MonteCarlo.Detectors
         /// </summary>
         public double N { get; set; }
         /// <summary>
-        /// Detector region index
+        /// detector region index
         /// </summary>
         public int FinalTissueRegionIndex { get; set; }
         /// <summary>
@@ -101,15 +101,15 @@ namespace Vts.MonteCarlo.Detectors
         /// </summary>
         public double Radius { get; set; }
         /// <summary>
-        /// Slanted angle (clockwise 0-89.999999deg)
+        /// slanted angle (clockwise 0-89.999999deg)
         /// </summary>
         public double Angle { get; set; }
         /// <summary>
-        /// The lowest z coordinate of the fiber after rotation. If fiber is just touching the tissue, ZPlane=0. 
+        /// the lowest z coordinate of the fiber after rotation. If fiber is just touching the tissue, ZPlane=0. 
         /// </summary>
         public double ZPlane { get; set; }
         /// <summary>
-        /// detector center location
+        /// detector center location (before rotation)
         /// </summary>
         public Position Center { get; set; }
         /// <summary>
@@ -117,7 +117,7 @@ namespace Vts.MonteCarlo.Detectors
         /// </summary>
         public double N { get; set; }
         /// <summary>
-        /// Detector region index
+        /// detector region index
         /// </summary>
         public int FinalTissueRegionIndex { get; set; }
         /// <summary>
@@ -169,47 +169,48 @@ namespace Vts.MonteCarlo.Detectors
         /// <param name="photon">photon data needed to tally</param>
         public void Tally(Photon photon)
         { 
-            //Find the center point of fiber, when it is rotated around the right edge (x = Center.X + Radius)
+            //find the center point of fiber, when it is rotated around the right edge (x = Center.X + Radius)
             var cosAngle = Math.Cos(Angle);
             var sinAngle = Math.Sqrt(1.0 - cosAngle * cosAngle);
 
-            //find the vector normal to the detector plane (towards fiber)
-            var normDir = new Direction(sinAngle, 0.0, -cosAngle);
+            //compute acceptance angle of fiber
+            var acceptanceAngle = Math.Asin(NA / _tissue.Regions[FinalTissueRegionIndex].RegionOP.N);
 
-            //Compute acceptance angle of fiber
-            var detectorRegionN = _tissue.Regions[FinalTissueRegionIndex].RegionOP.N;
-            var acceptanceAngle = Math.Asin(NA / detectorRegionN);
+            //find the normal vector to the detector plane (inward)
+            var normDir = new Direction(sinAngle, 0.0, -cosAngle);
 
             // determine if photon direction and detector normal
             var cosTheta = Direction.GetDotProduct(photon.DP.Direction, normDir);
 
             if (cosTheta >= Math.Cos(acceptanceAngle))
             {
-                //Regardless of the z coordinate of the 'Center', replace it with zPlane + tiny air layer
+                //regardless of the z coordinate of the 'Center', replace it with "zPlane + tiny air layer"
                 Center.Z = ZPlane - 1e-10;
-
+                
+                // center after rotation
                 var xShift = Radius * sinAngle * sinAngle / cosAngle;
                 var zShift = -Radius * sinAngle;
                 var rotatedCenterPos = new Position(Center.X + xShift, Center.Y, Center.Z + zShift );
 
-                //check that entry location is within fiber radius
-                var dx = rotatedCenterPos.X - photon.DP.Position.X;
-                var dy = rotatedCenterPos.Y - photon.DP.Position.Y;
-                var dz = rotatedCenterPos.Z - photon.DP.Position.Z;
-                var planeDir = new Direction(dx, dy, dz);
+                // apply the method described in https://en.wikipedia.org/wiki/Line%E2%80%93plane_intersection
+                //compute the difference between a point on the plane and photon exit point
+                var planeDir = new Direction(rotatedCenterPos.X - photon.DP.Position.X,
+                    rotatedCenterPos.Y - photon.DP.Position.Y, rotatedCenterPos.Z - photon.DP.Position.Z);
 
+                //compute "t" parameter
                 var t = Direction.GetDotProduct(planeDir, normDir) / cosTheta;
                 if (t > 0.0)
                 {
+                    //compute the loction on the plane
                     var planePos = new Position(photon.DP.Position.X + photon.DP.Direction.Ux * t, photon.DP.Position.Y + 
                         photon.DP.Direction.Uy * t, photon.DP.Position.Z + photon.DP.Direction.Uz * t);
                     
-                    //check that entry location is within fiber radius
-                    var dx0 = planePos.X - rotatedCenterPos.X;
-                    var dy0 = planePos.Y - rotatedCenterPos.Y;
-                    var dz0 = planePos.Z - rotatedCenterPos.Z;
-                    var d = Math.Sqrt(dx0 * dx0 + dy0 * dy0 + dz0 * dz0);
-                    if (d >= Radius) return;
+                    //check that photon entry location is within fiber radius
+                    var dx = planePos.X - rotatedCenterPos.X;
+                    var dy = planePos.Y - rotatedCenterPos.Y;
+                    var dz = planePos.Z - rotatedCenterPos.Z;
+                    var d = Math.Sqrt(dx * dx + dy * dy + dz * dz);
+                    if (d > Radius) return;  //when entry location is NOT within fiber radius
 
                     Mean += photon.DP.Weight;
                     TallyCount++;
