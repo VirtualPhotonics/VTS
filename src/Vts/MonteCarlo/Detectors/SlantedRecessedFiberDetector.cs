@@ -182,42 +182,38 @@ namespace Vts.MonteCarlo.Detectors
             // determine if photon direction and detector normal
             var cosTheta = Direction.GetDotProduct(photon.DP.Direction, normDir);
 
-            if (cosTheta >= Math.Cos(acceptanceAngle))
-            {
-                //regardless of the z coordinate of the 'Center', replace it with "zPlane + tiny air layer"
-                Center.Z = ZPlane - 1e-10;
+            if (cosTheta >= Math.Cos(acceptanceAngle)) return;
+            //regardless of the z coordinate of the 'Center', replace it with "zPlane + tiny air layer"
+            Center.Z = ZPlane - 1e-10;
                 
-                // center after rotation
-                var xShift = Radius * sinAngle * sinAngle / cosAngle;
-                var zShift = -Radius * sinAngle;
-                var rotatedCenterPos = new Position(Center.X + xShift, Center.Y, Center.Z + zShift );
+            // center after rotation
+            var xShift = Radius * sinAngle * sinAngle / cosAngle;
+            var zShift = -Radius * sinAngle;
+            var rotatedCenterPos = new Position(Center.X + xShift, Center.Y, Center.Z + zShift );
 
-                // apply the method described in https://en.wikipedia.org/wiki/Line%E2%80%93plane_intersection
-                //compute the difference between a point on the plane and photon exit point
-                var planeDir = new Direction(rotatedCenterPos.X - photon.DP.Position.X,
-                    rotatedCenterPos.Y - photon.DP.Position.Y, rotatedCenterPos.Z - photon.DP.Position.Z);
+            // apply the method described in https://en.wikipedia.org/wiki/Line%E2%80%93plane_intersection
+            //compute the difference between a point on the plane and photon exit point
+            var planeDir = new Direction(rotatedCenterPos.X - photon.DP.Position.X,
+                rotatedCenterPos.Y - photon.DP.Position.Y, rotatedCenterPos.Z - photon.DP.Position.Z);
 
-                //compute "t" parameter
-                var t = Direction.GetDotProduct(planeDir, normDir) / cosTheta;
-                if (t > 0.0)
-                {
-                    //compute the loction on the plane
-                    var planePos = new Position(photon.DP.Position.X + photon.DP.Direction.Ux * t, photon.DP.Position.Y + 
-                        photon.DP.Direction.Uy * t, photon.DP.Position.Z + photon.DP.Direction.Uz * t);
+            //compute "t" parameter
+            var t = Direction.GetDotProduct(planeDir, normDir) / cosTheta;
+            if (t > 0.0) return;
+            //compute the location on the plane
+            var planePos = new Position(photon.DP.Position.X + photon.DP.Direction.Ux * t, photon.DP.Position.Y + 
+                photon.DP.Direction.Uy * t, photon.DP.Position.Z + photon.DP.Direction.Uz * t);
                     
-                    //check that photon entry location is within fiber radius
-                    var dx = planePos.X - rotatedCenterPos.X;
-                    var dy = planePos.Y - rotatedCenterPos.Y;
-                    var dz = planePos.Z - rotatedCenterPos.Z;
-                    var d = Math.Sqrt(dx * dx + dy * dy + dz * dz);
-                    if (d > Radius) return;  //when entry location is NOT within fiber radius
+            //check that photon entry location is within fiber radius
+            var dx = planePos.X - rotatedCenterPos.X;
+            var dy = planePos.Y - rotatedCenterPos.Y;
+            var dz = planePos.Z - rotatedCenterPos.Z;
+            var d = Math.Sqrt(dx * dx + dy * dy + dz * dz);
+            if (d > Radius) return;  //when entry location is NOT within fiber radius
 
-                    Mean += photon.DP.Weight;
-                    TallyCount++;
-                    if (!TallySecondMoment) return;
-                    SecondMoment += photon.DP.Weight * photon.DP.Weight;
-                }
-            }
+            Mean += photon.DP.Weight;
+            TallyCount++;
+            if (!TallySecondMoment) return;
+            SecondMoment += photon.DP.Weight * photon.DP.Weight;
         }            
 
         /// <summary>

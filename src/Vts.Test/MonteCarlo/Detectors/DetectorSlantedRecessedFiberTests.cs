@@ -1,11 +1,10 @@
+using NUnit.Framework;
 using System;
 using System.Collections.Generic;
-using NUnit.Framework;
 using Vts.Common;
 using Vts.MonteCarlo;
 using Vts.MonteCarlo.Detectors;
 using Vts.MonteCarlo.Helpers;
-using Vts.MonteCarlo.Interfaces;
 using Vts.MonteCarlo.Sources;
 using Vts.MonteCarlo.Sources.SourceProfiles;
 using Vts.MonteCarlo.Tissues;
@@ -14,7 +13,7 @@ namespace Vts.Test.MonteCarlo.Detectors
 {
     /// <summary>
     /// These tests verify that the specification of a detector fiber processes the exiting photon correctly.  
-    /// The output of the surfacefiber is compared with the output of the slantedrecessedfiber with angle = 0 
+    /// The output of the surface fiber is compared with the output of the slanted recessed fiber with angle = 0 
     /// </summary>
     [TestFixture]
     public class DetectorSlantedRecessedFiberTests
@@ -92,7 +91,7 @@ namespace Vts.Test.MonteCarlo.Detectors
 
             _detector = new List<IDetectorInput>
             {
-                new SlantedRecessedFiberDetectorInput()
+                new SlantedRecessedFiberDetectorInput
                 {
                     Radius = _detectorRadius,
                     Angle = 0.0,
@@ -102,7 +101,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                     TallySecondMoment = true,
                     FinalTissueRegionIndex = 0
                 },
-                new SurfaceFiberDetectorInput() 
+                new SurfaceFiberDetectorInput
                 {
                     Center = new Position(0, 0, 0),
                     Radius = _detectorRadius,
