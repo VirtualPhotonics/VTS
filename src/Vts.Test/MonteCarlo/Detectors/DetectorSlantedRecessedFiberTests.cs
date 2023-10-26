@@ -18,14 +18,16 @@ namespace Vts.Test.MonteCarlo.Detectors
     [TestFixture]
     public class DetectorSlantedRecessedFiberTests
     {
+        private SimulationOutput _outputNormalRecessedFiber;
         private SimulationOutput _outputSlantedRecessedFiber;
         private SimulationOutput _outputSurfaceFiber;
         private SimulationOptions _simulationOptions;
         private ISourceInput _source;
         private ITissueInput _tissueForSlantedRecessedFiber;
         private ITissueInput _tissueForSurfaceFiber;
-        private IList<IDetectorInput> _detector;
-        private readonly double _detectorRadius = 1; // debug set to 10
+        private IList<IDetectorInput> _detectorNormal;
+        private IList<IDetectorInput> _detectorSlanted;
+        private readonly double _detectorRadius = 1; 
 
         /// <summary>
         /// Setup input to the MC for a homogeneous one layer tissue with 
@@ -89,7 +91,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                     }
                 );
 
-            _detector = new List<IDetectorInput>
+            _detectorNormal = new List<IDetectorInput>
             {
                 new SlantedRecessedFiberDetectorInput
                 {
@@ -97,21 +99,53 @@ namespace Vts.Test.MonteCarlo.Detectors
                     Angle = 0.0,
                     ZPlane = 0.0,
                     Center = new Position(1.0, 0, 0), 
-                    NA = 0.39,
-                    N = 1.0,
+                    NA = 0.0,
+                    N = 1.4,
                     TallySecondMoment = true,
                     FinalTissueRegionIndex = 0
-                },
+                },                
                 new SurfaceFiberDetectorInput
                 {
                     Center = new Position(0, 0, 0),
                     Radius = _detectorRadius,
                     TallySecondMoment = true,
-                    N = 1.0,
+                    N = 1.4,
                     FinalTissueRegionIndex = 3,
-                    NA = 0.39
-                },            
-            };          
+                    NA = 0.0
+                },
+            };
+            _detectorSlanted = new List<IDetectorInput>
+            {
+                new SlantedRecessedFiberDetectorInput
+                {
+                    Radius = _detectorRadius,
+                    Angle = Math.PI / 6.0,
+                    ZPlane = 0.0,
+                    Center = new Position(1.0, 0, 0),
+                    NA = 0.39,
+                    N = 1.0,
+                    TallySecondMoment = true,
+                    FinalTissueRegionIndex = 0
+                },                
+            };
+
+            var inputNormalRecessedFiber = new SimulationInput(
+                1000,
+                "",
+                _simulationOptions,
+                _source,
+                _tissueForSlantedRecessedFiber,
+                _detectorNormal);
+            _outputNormalRecessedFiber = new MonteCarloSimulation(inputNormalRecessedFiber).Run();
+
+            var inputSurfaceFiber = new SimulationInput(
+                1000,
+                "",
+                _simulationOptions,
+                _source,
+                _tissueForSurfaceFiber,
+                _detectorNormal);
+            _outputSurfaceFiber = new MonteCarloSimulation(inputSurfaceFiber).Run();
 
             var inputSlantedRecessedFiber = new SimulationInput(
                 1000,
@@ -119,27 +153,21 @@ namespace Vts.Test.MonteCarlo.Detectors
                 _simulationOptions,
                 _source,
                 _tissueForSlantedRecessedFiber,
-                _detector);
-            var inputSurfaceFiber = new SimulationInput(
-                1000,
-                "",
-                _simulationOptions,
-                _source,
-                _tissueForSurfaceFiber,
-                _detector);
+                _detectorSlanted);
             _outputSlantedRecessedFiber = new MonteCarloSimulation(inputSlantedRecessedFiber).Run();
-            _outputSurfaceFiber = new MonteCarloSimulation(inputSurfaceFiber).Run();
 
         }
 
         /// <summary>
-        /// Test to validate fiber at tissue surface fully open. 
-        /// Validation values based on prior test.
+        /// Test to validate slanted recessed detector
+        /// i. Slanted Recessed fiber (Angle = 0.0, NA = 0.0) = Surface Fiber
+        /// ii. Check reflectance of Slanted Recessed fiber for Angle = 30 deg
         /// </summary>
         [Test]
-        public void Validate_fully_open_surface_fiber_detector_produces_correct_results()
+        public void Validate_slanted_fiber_detector_produces_correct_results()
         {
-            Assert.Less(Math.Abs(_outputSurfaceFiber.SurFib - _outputSlantedRecessedFiber.SurFib), 0.000001);
+            Assert.Less(Math.Abs(_outputSurfaceFiber.SurFib - _outputNormalRecessedFiber.SlantedFib), 0.000001);
+            Assert.Less(Math.Abs(_outputSlantedRecessedFiber.SlantedFib - 0.00603615), 0.000001);                     
         }        
     }
 }
