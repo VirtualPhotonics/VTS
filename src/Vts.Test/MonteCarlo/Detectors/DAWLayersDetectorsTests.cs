@@ -36,7 +36,7 @@ namespace Vts.Test.MonteCarlo.Detectors
         /// <summary>
         /// list of temporary files created by these unit tests
         /// </summary>
-        private readonly List<string> _listOfTestGeneratedFiles = new List<string>
+        private readonly List<string> _listOfTestGeneratedFiles = new()
         {
             "file.txt", // file that captures screen output of MC simulation
         };
