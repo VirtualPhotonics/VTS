@@ -1,9 +1,7 @@
 using System;
-using System.Runtime.Serialization;
 using Vts.Common;
 using Vts.IO;
 using Vts.MonteCarlo.Extensions;
-using Vts.MonteCarlo.Tissues;
 
 namespace Vts.MonteCarlo.Detectors
 {
@@ -182,7 +180,7 @@ namespace Vts.MonteCarlo.Detectors
             // determine if photon direction and detector normal
             var cosTheta = Direction.GetDotProduct(photon.DP.Direction, normDir);
 
-            if (cosTheta >= Math.Cos(acceptanceAngle)) return;
+            if (cosTheta < Math.Cos(acceptanceAngle)) return;
             //regardless of the z coordinate of the 'Center', replace it with "zPlane + tiny air layer"
             Center.Z = ZPlane - 1e-10;
                 
@@ -198,7 +196,7 @@ namespace Vts.MonteCarlo.Detectors
 
             //compute "t" parameter
             var t = Direction.GetDotProduct(planeDir, normDir) / cosTheta;
-            if (t > 0.0) return;
+            if (t <= 0.0) return;
             //compute the location on the plane
             var planePos = new Position(photon.DP.Position.X + photon.DP.Direction.Ux * t, photon.DP.Position.Y + 
                 photon.DP.Direction.Uy * t, photon.DP.Position.Z + photon.DP.Direction.Uz * t);

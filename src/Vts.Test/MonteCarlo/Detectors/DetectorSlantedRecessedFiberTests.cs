@@ -98,6 +98,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                     ZPlane = 0.0,
                     Center = new Position(1.0, 0, 0), 
                     NA = 0.39,
+                    N = 1.0,
                     TallySecondMoment = true,
                     FinalTissueRegionIndex = 0
                 },
