@@ -9,7 +9,7 @@ using Vts.MonteCarlo.Tissues;
 namespace Vts.Test.MonteCarlo.DataStructuresValidation.DetectorInputs
 {
     [TestFixture]
-    public class SlantedRecessedDetectorInputValidationTests
+    public class SlantedRecessedFiberDetectorInputValidationTests
     {
         /// <summary>
         /// Test to check that detector defined on surface of tissue or above

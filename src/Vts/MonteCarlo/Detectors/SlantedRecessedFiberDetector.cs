@@ -1,7 +1,7 @@
 using System;
 using Vts.Common;
 using Vts.IO;
-using Vts.MonteCarlo.Extensions;
+using Vts.Modeling.ForwardSolvers;
 
 namespace Vts.MonteCarlo.Detectors
 {
@@ -172,7 +172,8 @@ namespace Vts.MonteCarlo.Detectors
             var sinAngle = Math.Sqrt(1.0 - cosAngle * cosAngle);
 
             //compute acceptance angle of fiber
-            var acceptanceAngle = Math.Asin(NA / _tissue.Regions[FinalTissueRegionIndex].RegionOP.N);
+            var regionRefIndex = _tissue.Regions[FinalTissueRegionIndex].RegionOP.N;
+            var acceptanceAngle = Math.Asin(NA / regionRefIndex);
 
             //find the normal vector to the detector plane (inward)
             var normDir = new Direction(sinAngle, 0.0, -cosAngle);
@@ -208,10 +209,13 @@ namespace Vts.MonteCarlo.Detectors
             var d = Math.Sqrt(dx * dx + dy * dy + dz * dz);
             if (d > Radius) return;  //when entry location is NOT within fiber radius
 
-            Mean += photon.DP.Weight;
+            //Compute fresnel reflectance and modify photon weight
+            var photonWeight = photon.DP.Weight * (1.0 - GetFresnel(regionRefIndex, N, Math.Acos(cosTheta)));
+
+            Mean += photonWeight;
             TallyCount++;
             if (!TallySecondMoment) return;
-            SecondMoment += photon.DP.Weight * photon.DP.Weight;
+            SecondMoment += photonWeight * photonWeight;
         }            
 
         /// <summary>
@@ -234,14 +238,23 @@ namespace Vts.MonteCarlo.Detectors
         public BinaryArraySerializer[] GetBinarySerializers() => null;
 
         /// <summary>
-        /// Method to determine if photon is within detector NA
+        /// compute Fresnel value 
         /// </summary>
-        /// <param name="photon">photon</param>
-        /// <param name="detectorNormal">normal Direction of detector</param> 
-        /// <returns>Boolean indicating whether photon is within detector</returns>
-        public bool IsWithinDetectorAperture(Photon photon, Direction detectorNormal)
+        /// <param name="nIn">refractive index of incoming ray</param>
+        /// <param name="nOut">refractive index of outgoing ray</param>
+        /// <param name="theta">angle of inception</param>
+        /// <returns>Fresnel value</returns>
+        public double GetFresnel(double nIn, double nOut, double theta)
         {
-            return photon.DP.IsWithinNA(NA, detectorNormal, 1.0);
+            double thetaPrime = (nIn / nOut) * Math.Sin(theta);
+            double cosTheta = Math.Cos(theta);
+            double cosThetaPrime = Math.Cos(thetaPrime);
+            double dum1 = nIn * cosThetaPrime - nOut * cosTheta;
+            double dum2 = nIn * cosThetaPrime + nOut * cosTheta;
+            double dum3 = nIn * cosTheta - nOut * cosThetaPrime;
+            double dum4 = nIn * cosTheta + nOut * cosThetaPrime;
+            return 0.5 * (dum1 / dum2) * (dum1 / dum2) +
+                   0.5 * (dum3 / dum4) * (dum3 / dum4);
         }
     }
 }

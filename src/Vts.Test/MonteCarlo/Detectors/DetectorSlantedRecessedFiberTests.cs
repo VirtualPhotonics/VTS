@@ -123,7 +123,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                     ZPlane = 0.0,
                     Center = new Position(1.0, 0, 0),
                     NA = 0.39,
-                    N = 1.0,
+                    N = 1.4,
                     TallySecondMoment = true,
                     FinalTissueRegionIndex = 0
                 },                
@@ -160,14 +160,20 @@ namespace Vts.Test.MonteCarlo.Detectors
 
         /// <summary>
         /// Test to validate slanted recessed detector
-        /// i. Slanted Recessed fiber (Angle = 0.0, NA = 0.0) = Surface Fiber
+        /// i. Slanted Recessed fiber (Angle = 0.0, NA = 0.0) = Surface Fiber. Compare
+        ///  Mean, Second Moment and Tally count
         /// ii. Check reflectance of Slanted Recessed fiber for Angle = 30 deg
         /// </summary>
         [Test]
         public void Validate_slanted_fiber_detector_produces_correct_results()
         {
+            //Mean
             Assert.Less(Math.Abs(_outputSurfaceFiber.SurFib - _outputNormalRecessedFiber.SlantedFib), 0.000001);
-            Assert.Less(Math.Abs(_outputSlantedRecessedFiber.SlantedFib - 0.00603615), 0.000001);                     
+            //Second Moment
+            Assert.Less(Math.Abs(_outputSurfaceFiber.SurFib2 - _outputNormalRecessedFiber.SlantedFib2), 0.000001); 
+            //TallyCount
+            Assert.Less(Math.Abs(_outputSurfaceFiber.SurFib_TallyCount - _outputNormalRecessedFiber.SlantedFib_TallyCount), 0.000001);
+            Assert.Less(Math.Abs(_outputSlantedRecessedFiber.SlantedFib - 0.00586779), 0.000001);                     
         }        
     }
 }

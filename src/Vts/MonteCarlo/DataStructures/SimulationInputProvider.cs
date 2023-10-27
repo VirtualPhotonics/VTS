@@ -1181,8 +1181,7 @@ new ITissueRegion[]
         #region point source one layer Slanted Recessed Fiber Detector 
 
         /// <summary>
-        /// Point source on multilayer with surface fiber tissue and surface
-        /// fiber detector
+        /// Point source on multilayer with slanted recessed fiber
         /// </summary>
         /// <returns>An instance of the SimulationInput class</returns>
         public static SimulationInput PointSourceSlantedRecessedFiberTissueAndDetector()
