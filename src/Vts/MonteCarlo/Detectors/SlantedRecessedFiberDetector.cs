@@ -1,7 +1,7 @@
 using System;
 using Vts.Common;
 using Vts.IO;
-using Vts.Modeling.ForwardSolvers;
+using Vts.MonteCarlo.Helpers;
 
 namespace Vts.MonteCarlo.Detectors
 {
@@ -210,7 +210,7 @@ namespace Vts.MonteCarlo.Detectors
             if (d > Radius) return;  //when entry location is NOT within fiber radius
 
             //Compute fresnel reflectance and modify photon weight
-            var photonWeight = photon.DP.Weight * (1.0 - GetFresnel(regionRefIndex, N, Math.Acos(cosTheta)));
+            var photonWeight = photon.DP.Weight * (1.0 - Optics.Fresnel(regionRefIndex, N, cosTheta, out double uz_snell));
 
             Mean += photonWeight;
             TallyCount++;
@@ -235,26 +235,6 @@ namespace Vts.MonteCarlo.Detectors
         /// this is to allow saving of large arrays separately as a binary file
         /// </summary>
         /// <returns>BinaryArraySerializer[]</returns>
-        public BinaryArraySerializer[] GetBinarySerializers() => null;
-
-        /// <summary>
-        /// compute Fresnel value 
-        /// </summary>
-        /// <param name="nIn">refractive index of incoming ray</param>
-        /// <param name="nOut">refractive index of outgoing ray</param>
-        /// <param name="theta">angle of inception</param>
-        /// <returns>Fresnel value</returns>
-        public double GetFresnel(double nIn, double nOut, double theta)
-        {
-            double thetaPrime = (nIn / nOut) * Math.Sin(theta);
-            double cosTheta = Math.Cos(theta);
-            double cosThetaPrime = Math.Cos(thetaPrime);
-            double dum1 = nIn * cosThetaPrime - nOut * cosTheta;
-            double dum2 = nIn * cosThetaPrime + nOut * cosTheta;
-            double dum3 = nIn * cosTheta - nOut * cosThetaPrime;
-            double dum4 = nIn * cosTheta + nOut * cosThetaPrime;
-            return 0.5 * (dum1 / dum2) * (dum1 / dum2) +
-                   0.5 * (dum3 / dum4) * (dum3 / dum4);
-        }
+        public BinaryArraySerializer[] GetBinarySerializers() => null;        
     }
 }
