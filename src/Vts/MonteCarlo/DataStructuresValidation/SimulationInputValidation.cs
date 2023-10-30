@@ -337,6 +337,10 @@ namespace Vts.MonteCarlo
                 {
                     return SurfaceFiberDetectorInputValidation.ValidateInput(detectorInput);
                 }
+                if (detectorInput.TallyType.Contains("SlantedRecessedFiber"))
+                {
+                    return SlantedRecessedFiberDetectorInputValidation.ValidateInput(detectorInput);
+                }
                 // check any ..RecessedDetectorInput 
                 // this breaks form with prior checks that were on a detector basis
                 if (detectorInput.TallyType.Contains("Recessed"))

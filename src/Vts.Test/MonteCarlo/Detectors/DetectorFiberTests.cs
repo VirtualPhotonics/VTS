@@ -18,11 +18,11 @@ namespace Vts.Test.MonteCarlo.Detectors
     [TestFixture]
     public class DetectorFiberTests
     {
-        private SimulationOutput _outputOpen, _outputNA, _outputNAOffCenter;
+        private SimulationOutput _outputOpen, _outputNa, _outputNaOffCenter;
         private SimulationOptions _simulationOptions;
         private ISourceInput _source;
         private ITissueInput _tissue;
-        private IList<IDetectorInput> _detectorOpen, _detectorNA, _detectorNAOffCenter;
+        private IList<IDetectorInput> _detectorOpen, _detectorNa, _detectorNaOffCenter;
         private readonly double _detectorRadius = 1; // debug set to 10
 
         /// <summary>
@@ -32,7 +32,7 @@ namespace Vts.Test.MonteCarlo.Detectors
         /// cannot handle two detectors of same type
         /// </summary>
         [OneTimeSetUp]
-        public void execute_Monte_Carlo()
+        public void Execute_Monte_Carlo()
         {
             // instantiate common classes
             _simulationOptions = new SimulationOptions(
@@ -107,7 +107,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                     TallySecondMoment = true
                 },
             };
-            _detectorNA = new List<IDetectorInput>
+            _detectorNa = new List<IDetectorInput>
             {
                 new SurfaceFiberDetectorInput()
                 {
@@ -127,7 +127,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                     TallySecondMoment = true
                 },
             };
-            _detectorNAOffCenter = new List<IDetectorInput>
+            _detectorNaOffCenter = new List<IDetectorInput>
             {
                 new SurfaceFiberDetectorInput()
                 {
@@ -148,32 +148,32 @@ namespace Vts.Test.MonteCarlo.Detectors
                     TallySecondMoment = true
                 },
             };
-            var _inputOpen = new SimulationInput(
+            var inputOpen = new SimulationInput(
                 100,
                 "",
                 _simulationOptions,
                 _source,
                 _tissue,
                 _detectorOpen);
-            _outputOpen = new MonteCarloSimulation(_inputOpen).Run();
+            _outputOpen = new MonteCarloSimulation(inputOpen).Run();
 
-            var _inputNA = new SimulationInput(
+            var inputNa = new SimulationInput(
                 100,
                 "",
                 _simulationOptions,
                 _source,
                 _tissue,
-                _detectorNA);
-            _outputNA = new MonteCarloSimulation(_inputNA).Run();
+                _detectorNa);
+            _outputNa = new MonteCarloSimulation(inputNa).Run();
 
-            var _inputNAOffCenter = new SimulationInput(
+            var inputNaOffCenter = new SimulationInput(
                 100,
                 "",
                 _simulationOptions,
                 _source,
                 _tissue,
-                _detectorNAOffCenter);
-            _outputNAOffCenter = new MonteCarloSimulation(_inputNAOffCenter).Run();
+                _detectorNaOffCenter);
+            _outputNaOffCenter = new MonteCarloSimulation(inputNaOffCenter).Run();
         }
 
         /// <summary>
@@ -181,7 +181,7 @@ namespace Vts.Test.MonteCarlo.Detectors
         /// Validation values based on prior test.
         /// </summary>
         [Test]
-        public void validate_fully_open_surface_fiber_detector_produces_correct_results()
+        public void Validate_fully_open_surface_fiber_detector_produces_correct_results()
         {
             Assert.Less(Math.Abs(_outputOpen.SurFib - 0.079266), 0.000001);
             Assert.Less(Math.Abs(_outputOpen.SurFib - _outputOpen.R_r[0]), 0.000001);
@@ -202,12 +202,12 @@ namespace Vts.Test.MonteCarlo.Detectors
         /// but if take 3sigma range may agree
         /// </summary>
         [Test]
-        public void validate_NA_surface_fiber_detector_produces_correct_results()
+        public void Validate_NA_surface_fiber_detector_produces_correct_results()
         {
-            Assert.Less(Math.Abs(_outputNA.SurFib - 0.003034), 0.000001);
-            Assert.Less(Math.Abs(_outputNA.SurFib - _outputNA.R_r[0]), 0.000001);
-            Assert.Less(Math.Abs(_outputNA.SurFib2 - 0.000920), 0.000001);
-            Assert.AreEqual(1, _outputNA.SurFib_TallyCount);
+            Assert.Less(Math.Abs(_outputNa.SurFib - 0.003034), 0.000001);
+            Assert.Less(Math.Abs(_outputNa.SurFib - _outputNa.R_r[0]), 0.000001);
+            Assert.Less(Math.Abs(_outputNa.SurFib2 - 0.000920), 0.000001);
+            Assert.AreEqual(1, _outputNa.SurFib_TallyCount);
             // output for Bargo comparison
             //var sd = Math.Sqrt((_outputNA.SurFib2 -
             //        _outputNA.SurFib * _outputNA.SurFib) / 100)
@@ -219,14 +219,14 @@ namespace Vts.Test.MonteCarlo.Detectors
         /// equivalent results within variance
         /// </summary>
         [Test]
-        public void validate_NA_surface_fiber_detector_off_center_produces_correct_results()
+        public void Validate_NA_surface_fiber_detector_off_center_produces_correct_results()
         {
-            var sd = Math.Sqrt((_outputNAOffCenter.SurFib2 -
-                _outputNAOffCenter.SurFib * _outputNAOffCenter.SurFib) / 100);
-            var threeSigmaPos = _outputNAOffCenter.SurFib + 3 * sd;
-            var threeSigmaNeg = _outputNAOffCenter.SurFib - 3 * sd;
-            Assert.IsTrue(_outputNAOffCenter.R_r[0] < threeSigmaPos);
-            Assert.IsTrue(_outputNAOffCenter.R_r[0] > threeSigmaNeg);
+            var sd = Math.Sqrt((_outputNaOffCenter.SurFib2 -
+                _outputNaOffCenter.SurFib * _outputNaOffCenter.SurFib) / 100);
+            var threeSigmaPos = _outputNaOffCenter.SurFib + 3 * sd;
+            var threeSigmaNeg = _outputNaOffCenter.SurFib - 3 * sd;
+            Assert.IsTrue(_outputNaOffCenter.R_r[0] < threeSigmaPos);
+            Assert.IsTrue(_outputNaOffCenter.R_r[0] > threeSigmaNeg);
         }
     }
 }
