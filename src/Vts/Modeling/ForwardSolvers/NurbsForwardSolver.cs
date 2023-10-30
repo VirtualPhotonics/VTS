@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
-using MathNet.Numerics;
 using Vts.Extensions;
 
 namespace Vts.Modeling.ForwardSolvers
@@ -20,17 +19,23 @@ namespace Vts.Modeling.ForwardSolvers
     {
         #region fields
 
-        private INurbs _rdGenerator;
-        private INurbs _sfdGenerator;
+        private readonly INurbs _rdGenerator;
+        private readonly INurbs _sfdGenerator;
 
         /// <summary>
         /// speed of light
         /// </summary>
         public static readonly double v =  GlobalConstants.C / 1.4;
-        private static readonly OpticalProperties _opReference =
-                                                 new OpticalProperties(0.0, 1, 0.8, 1.4);
+        private static readonly OpticalProperties OpReference = new(0.0, 1, 0.8, 1.4);
 
         #endregion fields
+
+        #region Properties
+        /// <summary>
+        /// The used FT is analytical or discrete based on this boolean value. Defaults to false
+        /// </summary>
+        public bool AnalyticIntegration { get; set; } = false;
+        #endregion
 
         #region constructor
 
@@ -101,24 +106,19 @@ namespace Vts.Modeling.ForwardSolvers
         /// <returns>spatially resolved reflectance</returns>
         public override IEnumerable<double> ROfRho(IEnumerable<OpticalProperties> ops, IEnumerable<double> rhos)
         {
-            
-            double scalingFactor;
-            double rho_ref;
-            double integralValue;
-
             foreach (var op in ops)
             {
-                scalingFactor = GetScalingFactor(op, 2);
+                var scalingFactor = GetScalingFactor(op, 2);
 
                 foreach (var rho in rhos)
                 {
-                    rho_ref = rho * op.Musp / _opReference.Musp;
-                    double exponentialTerm = op.Mua * v * _opReference.Musp / op.Musp;
+                    var rhoRef = rho * op.Musp / OpReference.Musp;
+                    var exponentialTerm = op.Mua * v * OpReference.Musp / op.Musp;
 
-                    if (rho_ref <= _rdGenerator.SpaceValues.MaxValue && rho_ref >= 0)
+                    if (rhoRef <= _rdGenerator.SpaceValues.MaxValue && rhoRef >= 0)
                     {
-                        integralValue = _rdGenerator.EvaluateNurbsCurveIntegral(rho_ref,exponentialTerm);                   
-                        integralValue += ExtrapolateIntegralValueOutOfRange(_rdGenerator, rho_ref,op);
+                        var integralValue = _rdGenerator.EvaluateNurbsCurveIntegral(rhoRef,exponentialTerm);                   
+                        integralValue += ExtrapolateIntegralValueOutOfRange(_rdGenerator, rhoRef,op);
                         integralValue = CheckIfValidOutput(integralValue);
                         yield return integralValue * scalingFactor;
                     }
@@ -126,7 +126,7 @@ namespace Vts.Modeling.ForwardSolvers
                     {
                         yield return 0.0;
                     }
-                }   
+                }
             }
         }
 
@@ -162,36 +162,24 @@ namespace Vts.Modeling.ForwardSolvers
         /// <returns>space and time resolved reflectance at rho and t</returns>
         public override IEnumerable<double> ROfRhoAndTime(IEnumerable<OpticalProperties> ops, IEnumerable<double> rhos, IEnumerable<double> times)
         {
-            double scalingFactor;
-            double rho_ref;
-            double t_ref;
-            double scaledValue;
-
             foreach (var op in ops)
             {
-                scalingFactor = GetScalingFactor(op, 3);
+                var scalingFactor = GetScalingFactor(op, 3);
 
                 foreach (var rho in rhos)
                 {
-                    rho_ref = rho * op.Musp / _opReference.Musp;
-                    
+                    var rhoRef = rho * op.Musp / OpReference.Musp;
+
                     foreach (var t in times)
                     {
-                        t_ref = t * op.Musp / _opReference.Musp;
-                        if (t_ref < _rdGenerator.GetMinimumValidTime(rho_ref))
-                        {  
-                            scaledValue = 0.0;
-                        }
-                        else
-                        {
-                            scaledValue = _rdGenerator.ComputeSurfacePoint(t_ref, rho_ref);
-                        }
+                        var tRef = t * op.Musp / OpReference.Musp;
+                        var scaledValue = tRef < _rdGenerator.GetMinimumValidTime(rhoRef) ? 0.0 : _rdGenerator.ComputeSurfacePoint(tRef, rhoRef);
 
-                        if ((rho_ref > _rdGenerator.SpaceValues.MaxValue ||
-                               t_ref > _rdGenerator.TimeValues.MaxValue) &&
-                               t_ref > _rdGenerator.GetMinimumValidTime(rho_ref))
+                        if ((rhoRef > _rdGenerator.SpaceValues.MaxValue ||
+                               tRef > _rdGenerator.TimeValues.MaxValue) &&
+                               tRef > _rdGenerator.GetMinimumValidTime(rhoRef))
                         {
-                            scaledValue = _rdGenerator.ComputePointOutOfSurface(t_ref, rho_ref,
+                            scaledValue = _rdGenerator.ComputePointOutOfSurface(tRef, rhoRef,
                                                                                  scaledValue);
                         }
 
@@ -216,12 +204,13 @@ namespace Vts.Modeling.ForwardSolvers
         {
             return ROfRhoAndFt(op.AsEnumerable(), rho.AsEnumerable(), ft.AsEnumerable()).FirstOrDefault();
         }
+
         /// <summary>
         ///  Evaluates the temporal frequency and space resolved reflectance at a source 
         ///  detector separation rho for a modulation frequency ft,for the specified 
         ///  optical properties. It calculates the Fourier transform of the NURBS
         ///  curve R(t) at the required source detector separation.
-        ///  The used FT is analytical or discrete according to the Boolean value 'analyticIntegration'.
+        ///  The used FT is analytical or discrete according to the Boolean value <see cref="AnalyticIntegration"/>
         /// </summary>
         /// <param name="ops">optical properties</param>
         /// <param name="rhos">source detector separation</param>
@@ -229,22 +218,20 @@ namespace Vts.Modeling.ForwardSolvers
         /// <returns>Reflectance intensity</returns>
         public override IEnumerable<Complex> ROfRhoAndFt(IEnumerable<OpticalProperties> ops, IEnumerable<double> rhos, IEnumerable<double> fts)
         {
-            bool analyticIntegration = false;
-            double rho_ref;
-
             foreach (var op in ops)
             {   
-                if (analyticIntegration)
+                // Added a global public variable so that this code can be reached
+                if (AnalyticIntegration)
                 {
                     foreach (var rho in rhos)
                     {
-                        double exponentialTerm = op.Mua * v * _opReference.Musp / op.Musp;
-                        rho_ref = rho * op.Musp / _opReference.Musp;
-                        if (rho_ref <= _rdGenerator.SpaceValues.MaxValue)
+                        var exponentialTerm = op.Mua * v * OpReference.Musp / op.Musp;
+                        var rhoRef = rho * op.Musp / OpReference.Musp;
+                        if (rhoRef <= _rdGenerator.SpaceValues.MaxValue)
                         {
                             foreach (var ft in fts)
                             {
-                                yield return GetScalingFactor(op,2) * _rdGenerator.EvaluateNurbsCurveFourierTransform(rho_ref, exponentialTerm, ft * _opReference.Musp / op.Musp);
+                                yield return GetScalingFactor(op,2) * _rdGenerator.EvaluateNurbsCurveFourierTransform(rhoRef, exponentialTerm, ft * OpReference.Musp / op.Musp);
                             }
                         }
                         else
@@ -259,15 +246,15 @@ namespace Vts.Modeling.ForwardSolvers
                 else
                 {
                     var time = _rdGenerator.NativeTimes.ToArray();
-                    for (int i = 0; i < time.Length; i++)
+                    for (var i = 0; i < time.Length; i++)
                     {
-                        time[i] = time[i] * _opReference.Musp / op.Musp;
+                        time[i] = time[i] * OpReference.Musp / op.Musp;
                     }
                     var deltaT = GetDeltaT(time);
                     
                     foreach (var rho in rhos)
                     {
-                        if (rho * _opReference.Musp / op.Musp <= _rdGenerator.SpaceValues.MaxValue)
+                        if (rho * OpReference.Musp / op.Musp <= _rdGenerator.SpaceValues.MaxValue)
                         {
                             var ROfT = ROfRhoAndTime(op.AsEnumerable(), rho.AsEnumerable(), time);
 
@@ -304,6 +291,7 @@ namespace Vts.Modeling.ForwardSolvers
         {
             return ROfFx(op.AsEnumerable(), fx.AsEnumerable()).FirstOrDefault();
         }
+
         /// <summary>
         /// Returns the spatial frequency resolved reflectance at fx applying the scaling on
         /// the reference fx-time resolved reflectance.
@@ -316,18 +304,16 @@ namespace Vts.Modeling.ForwardSolvers
         /// <returns>spatial frequency resolved reflectance</returns>
         public override IEnumerable<double> ROfFx(IEnumerable<OpticalProperties> ops, IEnumerable<double> fxs)
         {
-            double fx_ref;
-            double integralValue;
             foreach (var op in ops)
             {
                 foreach (var fx in fxs)
                 {
-                    fx_ref = fx * _opReference.Musp / op.Musp;
-                    double exponentialterm = op.Mua * v * _opReference.Musp / op.Musp;
+                    var fxRef = fx * OpReference.Musp / op.Musp;
+                    var exponentialTerm = op.Mua * v * OpReference.Musp / op.Musp;
 
-                    if (fx_ref <= _sfdGenerator.SpaceValues.MaxValue && fx_ref >= 0.0)
+                    if (fxRef <= _sfdGenerator.SpaceValues.MaxValue && fxRef >= 0.0)
                     {
-                        integralValue = _sfdGenerator.EvaluateNurbsCurveIntegral(fx_ref, exponentialterm);
+                        var integralValue = _sfdGenerator.EvaluateNurbsCurveIntegral(fxRef, exponentialTerm);
                         integralValue = CheckIfValidOutput(integralValue);
                         yield return integralValue;
                     }
@@ -352,6 +338,7 @@ namespace Vts.Modeling.ForwardSolvers
         {
             return ROfFxAndTime(op.AsEnumerable(), fx.AsEnumerable(), time.AsEnumerable()).FirstOrDefault();
         }
+
         /// <summary>
         /// Returns the reflectance at spatial frequency, fx, and time, t, scaling the 
         /// reference fx-time resolved reflectance.
@@ -367,35 +354,30 @@ namespace Vts.Modeling.ForwardSolvers
         /// <returns>spatial frequency and time resolved reflectance</returns>
         public override IEnumerable<double> ROfFxAndTime(IEnumerable<OpticalProperties> ops, IEnumerable<double> fxs, IEnumerable<double> times)
         {
-            double scalingFactor;
-            double fx_ref;
-            double t_ref;
-            double scaledValue;
-
             foreach (var op in ops)
             {
-                scalingFactor = GetScalingFactor(op, 1);
+                var scalingFactor = GetScalingFactor(op, 1);
 
                 foreach (var fx in fxs)
                 {
-                    fx_ref = fx * _opReference.Musp / op.Musp;
-                    
+                    var fxRef = fx * OpReference.Musp / op.Musp;
+
                     foreach (var t in times)
                     {
-                        t_ref = t * op.Musp / _opReference.Musp;
-                        if (fx_ref > _sfdGenerator.SpaceValues.MaxValue || t_ref > _sfdGenerator.TimeValues.MaxValue)
+                        var tRef = t * op.Musp / OpReference.Musp;
+                        if (fxRef > _sfdGenerator.SpaceValues.MaxValue || tRef > _sfdGenerator.TimeValues.MaxValue)
                         {
                             yield return 0.0;
                         }
                         else
                         {
-                            scaledValue = _sfdGenerator.ComputeSurfacePoint(t_ref, fx_ref);
+                            var scaledValue = _sfdGenerator.ComputeSurfacePoint(tRef, fxRef);
 
                             scaledValue = CheckIfValidOutput(scaledValue);
 
                             yield return scalingFactor * scaledValue * Math.Exp(-op.Mua * v * t);
-                        }                   
-                    } 
+                        }
+                    }
                 }
             }
         }
@@ -412,11 +394,12 @@ namespace Vts.Modeling.ForwardSolvers
         {
             return ROfFxAndFt(op.AsEnumerable(), fx.AsEnumerable(), ft.AsEnumerable()).First();
         }
+
         /// <summary>
         /// Evaluates the spatial frequency and temporal frequency resolved reflectance
         /// calculating the Fourier transform of the NURBS curve R(t) at the
         /// required spatial frequency for the specified optical properties. 
-        /// The computed FT is analytical or discrete according to the Boolean value 'analyticIntegration'.
+        /// The computed FT is analytical or discrete according to the Boolean value <see cref="AnalyticIntegration"/>.
         /// </summary>
         /// <param name="ops">optical properties</param>
         /// <param name="fxs">spatial frequency</param>
@@ -424,24 +407,21 @@ namespace Vts.Modeling.ForwardSolvers
         /// <returns>spatial frequency and temporal frequency resolved reflectance</returns>
         public override IEnumerable<Complex> ROfFxAndFt(IEnumerable<OpticalProperties> ops, IEnumerable<double> fxs, IEnumerable<double> fts)
         {
-            bool analyticIntegration = false;
-            double fx_ref;
-            Complex transformedValue;
-
             foreach (var op in ops)
             {
-                if (analyticIntegration)
+                double fxRef;
+                if (AnalyticIntegration)
                 {
                     foreach (var fx in fxs)
                     {
-                        fx_ref = fx * _opReference.Musp / op.Musp;
-                        double exponentialterm = op.Mua * v * _opReference.Musp / op.Musp;
+                        fxRef = fx * OpReference.Musp / op.Musp;
+                        var exponentialTerm = op.Mua * v * OpReference.Musp / op.Musp;
 
-                        if (fx_ref <= _sfdGenerator.SpaceValues.MaxValue)
+                        if (fxRef <= _sfdGenerator.SpaceValues.MaxValue)
                         {
                             foreach (var ft in fts)
                             {
-                                transformedValue = _sfdGenerator.EvaluateNurbsCurveFourierTransform(fx_ref, exponentialterm, ft * _opReference.Musp / op.Musp);
+                                var transformedValue = _sfdGenerator.EvaluateNurbsCurveFourierTransform(fxRef, exponentialTerm, ft * OpReference.Musp / op.Musp);
                                 yield return Math.PI * transformedValue;
                             }
                         }
@@ -461,14 +441,14 @@ namespace Vts.Modeling.ForwardSolvers
 
                     foreach (var fx in fxs)
                     {
-                        fx_ref = fx * op.Musp / _opReference.Musp;
-                        if (fx_ref <= _sfdGenerator.SpaceValues.MaxValue)
+                        fxRef = fx * op.Musp / OpReference.Musp;
+                        if (fxRef <= _sfdGenerator.SpaceValues.MaxValue)
                         {
-                            var ROfT = ROfFxAndTime(op.AsEnumerable(), fx_ref.AsEnumerable(), time);
+                            var ROfT = ROfFxAndTime(op.AsEnumerable(), fxRef.AsEnumerable(), time);
 
                             foreach (var ft in fts)
                             {
-                                yield return LinearDiscreteFourierTransform.GetFourierTransform(time.ToArray(), ROfT.ToArray(), deltaT.ToArray(), ft * _opReference.Musp / op.Musp);    
+                                yield return LinearDiscreteFourierTransform.GetFourierTransform(time.ToArray(), ROfT.ToArray(), deltaT.ToArray(), ft * OpReference.Musp / op.Musp);    
                             }
                         }
                         else
@@ -479,7 +459,7 @@ namespace Vts.Modeling.ForwardSolvers
                             }
                         }
                     }
-                }  
+                }
             }
         }
 
@@ -572,24 +552,6 @@ namespace Vts.Modeling.ForwardSolvers
         #endregion IForwardSolver methods
 
         #region public methods
-
-        private double[] GetDeltaT(double[] t)
-        {
-            double[] deltaT = new double[t.Length];
-            double[] T = new double[t.Length + 1];
-            T[0] = t[0];
-            for (int i = 1; i < T.Length - 1; i++)
-            {
-                T[i] = t[i - 1] + (t[i] - t[i - 1]) / 2.0;
-            }
-            T[T.Length - 1] = 2.0 * t[t.Length - 1] - T[T.Length - 2];
-            for (int i = 0; i < deltaT.Length; i++)
-            {
-                deltaT[i] = T[i + 1] - T[i];
-            }
-            return deltaT;
-        }
-
         /// <summary>
         /// Returns zero if the input value is smaller then zero or if it is <see cref="double.NaN"/>.
         /// Negative value are not possible for the measured reflectance.
@@ -599,13 +561,33 @@ namespace Vts.Modeling.ForwardSolvers
         /// </summary>
         /// <param name="value">double precision number</param>
         /// <returns>zero or the input value</returns>
-        public double CheckIfValidOutput(double value)
+        public static double CheckIfValidOutput(double value)
         {
-            if (value < 0.0 || double.IsNaN(value))
+            if (value is < 0.0 or double.NaN)
             {
                 value = 0.0;
             }
             return value;
+        }
+        #endregion
+
+        #region private methods
+
+        private static double[] GetDeltaT(IReadOnlyList<double> t)
+        {
+            var deltaT = new double[t.Count];
+            var T = new double[t.Count + 1];
+            T[0] = t[0];
+            for (var i = 1; i < T.Length - 1; i++)
+            {
+                T[i] = t[i - 1] + (t[i] - t[i - 1]) / 2.0;
+            }
+            T[T.Length - 1] = 2.0 * t[t.Count - 1] - T[T.Length - 2];
+            for (var i = 0; i < deltaT.Length; i++)
+            {
+                deltaT[i] = T[i + 1] - T[i];
+            }
+            return deltaT;
         }
         
         /// <summary>
@@ -614,9 +596,9 @@ namespace Vts.Modeling.ForwardSolvers
         /// <param name="op">optical properties</param>
         /// <param name="power">domain dependent scaling factor power</param>
         /// <returns>scaling factor</returns>
-        private double GetScalingFactor(OpticalProperties op, int power)
+        private static double GetScalingFactor(OpticalProperties op, int power)
         {
-            return Math.Pow(op.Musp / _opReference.Musp, power);
+            return Math.Pow(op.Musp / OpReference.Musp, power);
         }
 
         /// <summary>
@@ -624,23 +606,21 @@ namespace Vts.Modeling.ForwardSolvers
         /// analytically from tMax to infinity to evaluate the steady state signal
         /// </summary>
         /// <param name="generator">NurbsGenerator</param>
-        /// <param name="space_ref">spatial coordinate</param>
+        /// <param name="spaceRef">spatial coordinate</param>
         /// <param name="op">optical Properties</param>
         /// <returns>Integral value of the curve extrapolated outside the time range</returns>
-        private double ExtrapolateIntegralValueOutOfRange(INurbs generator, double space_ref, OpticalProperties op)
+        private static double ExtrapolateIntegralValueOutOfRange(INurbs generator, double spaceRef, OpticalProperties op)
         {
-            double area;
-            double deltaT = 0.01;//ns
+            const double deltaT = 0.01; //ns
             GetScalingFactor(op, 3);
-            double lR2 = Math.Log10(generator.ComputeSurfacePoint(generator.TimeValues.MaxValue, space_ref));
-            double lR1 = Math.Log10(generator.ComputeSurfacePoint(generator.TimeValues.MaxValue - deltaT, space_ref));
-            double slope = (lR2 - lR1) / (deltaT);
-            double intercept = -slope * generator.TimeValues.MaxValue + lR1;
-            area = -Math.Pow(10.0, intercept + slope * generator.TimeValues.MaxValue)
-                   * Math.Exp(-op.Mua * v * generator.TimeValues.MaxValue) / (slope - op.Mua);
+            var lR2 = Math.Log10(generator.ComputeSurfacePoint(generator.TimeValues.MaxValue, spaceRef));
+            var lR1 = Math.Log10(generator.ComputeSurfacePoint(generator.TimeValues.MaxValue - deltaT, spaceRef));
+            var slope = (lR2 - lR1) / (deltaT);
+            var intercept = -slope * generator.TimeValues.MaxValue + lR1;
+            var area = -Math.Pow(10.0, intercept + slope * generator.TimeValues.MaxValue)
+                * Math.Exp(-op.Mua * v * generator.TimeValues.MaxValue) / (slope - op.Mua);
             return area;
         }
-        
         #endregion public methods
     }
 }

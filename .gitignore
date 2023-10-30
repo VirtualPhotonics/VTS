@@ -79,9 +79,17 @@ CVS
 #######################
 *.nuspec
 *.nupkg
-src/.vs/
+
+# Misc ignores #
+################
+.vs/
+.sonarqube/
 publish/
 matlab/post_processing/one_layer_all_detectors/
+
+# Nested MCCL Repo ignores #
+############################
+src/.vs/
 src/Vts.MonteCarlo.sln
 src/Vts.MonteCarlo.PostProcessor/Vts.MonteCarlo.PostProcessor.Application.csproj
 src/Vts.MonteCarlo.PostProcessor.Test/Vts.MonteCarlo.PostProcessor.Application.Test.csproj
@@ -90,7 +98,6 @@ src/Vts.MonteCarlo.CommandLineApplication.Test/Vts.MonteCarlo.Application.Test.c
 src/.gitignore
 src/license.md
 src/README.md
-.vs/
 src/Vts.MonteCarlo.CommandLineApplication/Properties/launchSettings.json
-.sonarqube/
 src/Vts/Vts.xml
+src/.github/

@@ -14,7 +14,7 @@ namespace Vts.Test.Modeling.Spectroscopy
         /// <summary>
         /// list of temporary files created by these unit tests
         /// </summary>
-        readonly List<string> listOfTestGeneratedFiles = new List<string>()
+        private readonly List<string> _listOfTestGeneratedFiles = new()
         {
             "ChromophoreSpectrum.txt",
         };
@@ -25,9 +25,9 @@ namespace Vts.Test.Modeling.Spectroscopy
         /// </summary>
         [OneTimeSetUp]
         [OneTimeTearDown]
-        public void clear_previously_generated_folders_and_files()
+        public void Clear_previously_generated_folders_and_files()
         {
-            foreach (var file in listOfTestGeneratedFiles)
+            foreach (var file in _listOfTestGeneratedFiles)
             {
                 FileIO.FileDelete(file);
             }
@@ -37,9 +37,9 @@ namespace Vts.Test.Modeling.Spectroscopy
         /// Test that the ChromophoreSpectrum class can be serialized
         /// </summary>
         [Test]
-        public void validate_Serializing_Chromophore_Spectrum()
+        public void Validate_Serializing_Chromophore_Spectrum()
         {
-            ChromophoreSpectrum chromophoreSpectrum = CreateChromophoreSpectrum();
+            var chromophoreSpectrum = CreateChromophoreSpectrum();
             chromophoreSpectrum.WriteToJson("ChromophoreSpectrum.txt");
             Assert.IsTrue(FileIO.FileExists("ChromophoreSpectrum.txt"));
         }
@@ -48,35 +48,39 @@ namespace Vts.Test.Modeling.Spectroscopy
         /// Test that the ChromophoreSpectrum class can be deserialized
         /// </summary>
         [Test]
-        public void validate_Deserializing_Chromophore_Spectrum()
+        public void Validate_Deserializing_Chromophore_Spectrum()
         {
-            ChromophoreSpectrum chromophoreSpectrum = CreateChromophoreSpectrum();
+            var chromophoreSpectrum = CreateChromophoreSpectrum();
             chromophoreSpectrum.WriteToJson("ChromophoreSpectrum.txt");
 
             var chromophoreSpectrumRead = FileIO.ReadFromJson<ChromophoreSpectrum>("ChromophoreSpectrum.txt");
             Assert.IsInstanceOf<ChromophoreSpectrum>(chromophoreSpectrumRead);
         }
 
-        private ChromophoreSpectrum CreateChromophoreSpectrum()
+        private static ChromophoreSpectrum CreateChromophoreSpectrum()
         {
-            string name = "Melanin";
-            AbsorptionCoefficientUnit muaUnit = AbsorptionCoefficientUnit.InverseMillimeters;
-            MolarUnit molarUnit = MolarUnit.None;
-            ChromophoreCoefficientType coeffType = ChromophoreCoefficientType.FractionalAbsorptionCoefficient;
+            const string name = "Melanin";
+            const AbsorptionCoefficientUnit muaUnit = AbsorptionCoefficientUnit.InverseMillimeters;
+            const MolarUnit molarUnit = MolarUnit.None;
+            const ChromophoreCoefficientType coefficientType = ChromophoreCoefficientType.FractionalAbsorptionCoefficient;
 
             // populate list of wavelengths
-            List<double> wavelengths = new List<double>();
-            wavelengths.Add(0.0);
-            wavelengths.Add(1.0);
-            wavelengths.Add(2.0);
+            var wavelengths = new List<double>
+            {
+                0.0,
+                1.0,
+                2.0
+            };
 
             // populate list of values
-            List<double> values = new List<double>();
-            values.Add(0.1);
-            values.Add(1.1);
-            values.Add(2.1);
+            var values = new List<double>
+            {
+                0.1,
+                1.1,
+                2.1
+            };
 
-            return new ChromophoreSpectrum(wavelengths, values, name, coeffType, muaUnit, molarUnit, WavelengthUnit.Nanometers);
+            return new ChromophoreSpectrum(wavelengths, values, name, coefficientType, muaUnit, molarUnit, WavelengthUnit.Nanometers);
         }
     }
 }
