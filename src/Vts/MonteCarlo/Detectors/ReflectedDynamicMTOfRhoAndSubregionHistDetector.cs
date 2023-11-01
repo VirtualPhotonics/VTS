@@ -373,19 +373,19 @@ namespace Vts.MonteCarlo.Detectors
                 BinaryArraySerializerFactory.GetSerializer(
                     Mean, "Mean", ""),
                 BinaryArraySerializerFactory.GetSerializer(
-                    FractionalMT, "FractionalMT", ""),
+                    FractionalMT, "FractionalMT", "_FractionalMT"),
                 BinaryArraySerializerFactory.GetSerializer(
-                    TotalMTOfZ, "TotalMTOfZ",""),
+                    TotalMTOfZ, "TotalMTOfZ","_TotalMTOfZ"),
                 BinaryArraySerializerFactory.GetSerializer(
-                    DynamicMTOfZ, "DynamicMTOfZ",""),
+                    DynamicMTOfZ, "DynamicMTOfZ","_DynamicMTOfZ"),
                 BinaryArraySerializerFactory.GetSerializer(
-                    SubregionCollisions,"SubregionCollisions",""),
+                    SubregionCollisions,"SubregionCollisions","_SubregionCollisions"),
                 TallySecondMoment ? BinaryArraySerializerFactory.GetSerializer(
                     SecondMoment, "SecondMoment", "_2") : null,
                 TallySecondMoment ? BinaryArraySerializerFactory.GetSerializer(
-                    TotalMTOfZSecondMoment, "TotalMTOfZSecondMoment", "_2") : null,
+                    TotalMTOfZSecondMoment, "TotalMTOfZSecondMoment", "_TotalMTOfZ_2") : null,
                 TallySecondMoment ? BinaryArraySerializerFactory.GetSerializer(
-                    DynamicMTOfZSecondMoment, "DynamicMTOfZSecondMoment", "_2") : null
+                    DynamicMTOfZSecondMoment, "DynamicMTOfZSecondMoment", "_DynamicMTOfZ_2") : null
             };
             return allSerializers.Where(s => s is not null).ToArray();
 

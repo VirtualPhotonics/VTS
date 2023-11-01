@@ -275,10 +275,13 @@ namespace Vts.MonteCarlo.Detectors
         {
             Mean ??= new double[X.Count - 1, Y.Count - 1, Z.Count - 1, StartingX.Count - 1, StartingY.Count - 1];
             SecondMoment ??= new double[X.Count - 1, Y.Count - 1, Z.Count - 1, StartingX.Count - 1, StartingY.Count - 1];
+            StartingXYCount ??= new double[StartingX.Count - 1, StartingY.Count - 1];
             var allSerializers = new List<BinaryArraySerializer>
             {
                 BinaryArraySerializerFactory.GetSerializer(
-                    Mean, "Mean", ""),
+                    Mean, "Mean", ""),                
+                BinaryArraySerializerFactory.GetSerializer(
+                    StartingXYCount, "StartingXYCount", "_StartingXYCount"),
                 TallySecondMoment ? BinaryArraySerializerFactory.GetSerializer(
                     SecondMoment, "SecondMoment", "_2") : null
             };
