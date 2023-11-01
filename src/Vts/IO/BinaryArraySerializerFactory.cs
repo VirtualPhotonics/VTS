@@ -13,7 +13,6 @@ public static class BinaryArraySerializerFactory
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <param name="item"></param>
-    /// <param name="detectorDimensionsInOrder"></param>
     /// <param name="name"></param>
     /// <param name="fileTag"></param>
     /// <returns></returns>
@@ -73,7 +72,7 @@ public static class BinaryArraySerializerFactory
 
     internal static void WriteDataArray(BinaryWriter binaryWriter, double[] dataArray)
     {
-        int[] axesDimensions = GetAllDimensions(dataArray);
+        var axesDimensions = GetAllDimensions(dataArray);
         for (var i = 0; i < axesDimensions[0]; i++)
         {
             binaryWriter.Write(dataArray[i]);
@@ -82,7 +81,7 @@ public static class BinaryArraySerializerFactory
 
     internal static void WriteDataArray(BinaryWriter binaryWriter, double[,] dataArray)
     {
-        int[] axesDimensions = GetAllDimensions(dataArray);
+        var axesDimensions = GetAllDimensions(dataArray);
         for (var i = 0; i < axesDimensions[0]; i++)
         {
             for (var j = 0; j < axesDimensions[1]; j++)
@@ -94,7 +93,7 @@ public static class BinaryArraySerializerFactory
 
     internal static void WriteDataArray(BinaryWriter binaryWriter, double[,,] dataArray)
     {
-        int[] axesDimensions = GetAllDimensions(dataArray);
+        var axesDimensions = GetAllDimensions(dataArray);
         for (var i = 0; i < axesDimensions[0]; i++)
         {
             for (var j = 0; j < axesDimensions[1]; j++)
@@ -109,7 +108,7 @@ public static class BinaryArraySerializerFactory
 
     internal static void WriteDataArray(BinaryWriter binaryWriter, double[,,,] dataArray)
     {
-        int[] axesDimensions = GetAllDimensions(dataArray);
+        var axesDimensions = GetAllDimensions(dataArray);
         for (var i = 0; i < axesDimensions[0]; i++)
         {
             for (var j = 0; j < axesDimensions[1]; j++)
@@ -127,7 +126,7 @@ public static class BinaryArraySerializerFactory
 
     internal static void WriteDataArray(BinaryWriter binaryWriter, double[,,,,] dataArray)
     {
-        int[] axesDimensions = GetAllDimensions(dataArray);
+        var axesDimensions = GetAllDimensions(dataArray);
         for (var i = 0; i < axesDimensions[0]; i++)
         {
             for (var j = 0; j < axesDimensions[1]; j++)
@@ -148,7 +147,7 @@ public static class BinaryArraySerializerFactory
 
     internal static void WriteDataArray(BinaryWriter binaryWriter, double[,,,,,] dataArray)
     {
-        int[] axesDimensions = GetAllDimensions(dataArray);
+        var axesDimensions = GetAllDimensions(dataArray);
         for (var i = 0; i < axesDimensions[0]; i++)
         {
             for (var j = 0; j < axesDimensions[1]; j++)
@@ -172,7 +171,7 @@ public static class BinaryArraySerializerFactory
 
     internal static void ReadIntoDataArray(BinaryReader binaryReader, double[] dataArray)
     {
-        int[] axesDimensions = GetAllDimensions(dataArray);
+        var axesDimensions = GetAllDimensions(dataArray);
         for (var i = 0; i < axesDimensions[0]; i++)
         {
             dataArray[i] = binaryReader.ReadDouble();
@@ -181,7 +180,7 @@ public static class BinaryArraySerializerFactory
 
     internal static void ReadIntoDataArray(BinaryReader binaryReader, double[,] dataArray)
     {
-        int[] axesDimensions = GetAllDimensions(dataArray);
+        var axesDimensions = GetAllDimensions(dataArray);
         for (var i = 0; i < axesDimensions[0]; i++)
         {
             for (var j = 0; j < axesDimensions[1]; j++)
@@ -193,7 +192,7 @@ public static class BinaryArraySerializerFactory
 
     internal static void ReadIntoDataArray(BinaryReader binaryReader, double[,,] dataArray)
     {
-        int[] axesDimensions = GetAllDimensions(dataArray);
+        var axesDimensions = GetAllDimensions(dataArray);
         for (var i = 0; i < axesDimensions[0]; i++)
         {
             for (var j = 0; j < axesDimensions[1]; j++)
@@ -208,7 +207,7 @@ public static class BinaryArraySerializerFactory
 
     internal static void ReadIntoDataArray(BinaryReader binaryReader, double[,,,] dataArray)
     {
-        int[] axesDimensions = GetAllDimensions(dataArray);
+        var axesDimensions = GetAllDimensions(dataArray);
         for (var i = 0; i < axesDimensions[0]; i++)
         {
             for (var j = 0; j < axesDimensions[1]; j++)
@@ -226,7 +225,7 @@ public static class BinaryArraySerializerFactory
 
     internal static void ReadIntoDataArray(BinaryReader binaryReader, double[,,,,] dataArray)
     {
-        int[] axesDimensions = GetAllDimensions(dataArray);
+        var axesDimensions = GetAllDimensions(dataArray);
         for (var i = 0; i < axesDimensions[0]; i++)
         {
             for (var j = 0; j < axesDimensions[1]; j++)
@@ -247,7 +246,7 @@ public static class BinaryArraySerializerFactory
 
     internal static void ReadIntoDataArray(BinaryReader binaryReader, double[,,,,,] dataArray)
     {
-        int[] axesDimensions = GetAllDimensions(dataArray);
+        var axesDimensions = GetAllDimensions(dataArray);
         for (var i = 0; i < axesDimensions[0]; i++)
         {
             for (var j = 0; j < axesDimensions[1]; j++)
@@ -271,7 +270,7 @@ public static class BinaryArraySerializerFactory
     // Complex versions
     internal static void WriteDataArray(BinaryWriter binaryWriter, Complex[] dataArray)
     {
-        int[] axesDimensions = GetAllDimensions(dataArray);
+        var axesDimensions = GetAllDimensions(dataArray);
         for (var i = 0; i < axesDimensions[0]; i++)
         {
             binaryWriter.Write(dataArray[i].Real);
@@ -281,7 +280,7 @@ public static class BinaryArraySerializerFactory
 
     internal static void WriteDataArray(BinaryWriter binaryWriter, Complex[,] dataArray)
     {
-        int[] axesDimensions = GetAllDimensions(dataArray);
+        var axesDimensions = GetAllDimensions(dataArray);
         for (var i = 0; i < axesDimensions[0]; i++)
         {
             for (var j = 0; j < axesDimensions[1]; j++)
@@ -294,7 +293,7 @@ public static class BinaryArraySerializerFactory
 
     internal static void WriteDataArray(BinaryWriter binaryWriter, Complex[,,] dataArray)
     {
-        int[] axesDimensions = GetAllDimensions(dataArray);
+        var axesDimensions = GetAllDimensions(dataArray);
         for (var i = 0; i < axesDimensions[0]; i++)
         {
             for (var j = 0; j < axesDimensions[1]; j++)
@@ -310,7 +309,7 @@ public static class BinaryArraySerializerFactory
 
     internal static void WriteDataArray(BinaryWriter binaryWriter, Complex[,,,] dataArray)
     {
-        int[] axesDimensions = GetAllDimensions(dataArray);
+        var axesDimensions = GetAllDimensions(dataArray);
         for (var i = 0; i < axesDimensions[0]; i++)
         {
             for (var j = 0; j < axesDimensions[1]; j++)
@@ -329,7 +328,7 @@ public static class BinaryArraySerializerFactory
 
     internal static void WriteDataArray(BinaryWriter binaryWriter, Complex[,,,,] dataArray)
     {
-        int[] axesDimensions = GetAllDimensions(dataArray);
+        var axesDimensions = GetAllDimensions(dataArray);
         for (var i = 0; i < axesDimensions[0]; i++)
         {
             for (var j = 0; j < axesDimensions[1]; j++)
@@ -351,7 +350,7 @@ public static class BinaryArraySerializerFactory
 
     internal static void WriteDataArray(BinaryWriter binaryWriter, Complex[,,,,,] dataArray)
     {
-        int[] axesDimensions = GetAllDimensions(dataArray);
+        var axesDimensions = GetAllDimensions(dataArray);
         for (var i = 0; i < axesDimensions[0]; i++)
         {
             for (var j = 0; j < axesDimensions[1]; j++)
@@ -376,7 +375,7 @@ public static class BinaryArraySerializerFactory
 
     internal static void ReadIntoDataArray(BinaryReader binaryReader, Complex[] dataArray)
     {
-        int[] axesDimensions = GetAllDimensions(dataArray);
+        var axesDimensions = GetAllDimensions(dataArray);
         for (var i = 0; i < axesDimensions[0]; i++)
         {
             var real = binaryReader.ReadDouble();
@@ -387,7 +386,7 @@ public static class BinaryArraySerializerFactory
 
     internal static void ReadIntoDataArray(BinaryReader binaryReader, Complex[,] dataArray)
     {
-        int[] axesDimensions = GetAllDimensions(dataArray);
+        var axesDimensions = GetAllDimensions(dataArray);
         for (var i = 0; i < axesDimensions[0]; i++)
         {
             for (var j = 0; j < axesDimensions[1]; j++)
@@ -401,7 +400,7 @@ public static class BinaryArraySerializerFactory
 
     internal static void ReadIntoDataArray(BinaryReader binaryReader, Complex[,,] dataArray)
     {
-        int[] axesDimensions = GetAllDimensions(dataArray);
+        var axesDimensions = GetAllDimensions(dataArray);
         for (var i = 0; i < axesDimensions[0]; i++)
         {
             for (var j = 0; j < axesDimensions[1]; j++)
@@ -418,7 +417,7 @@ public static class BinaryArraySerializerFactory
 
     internal static void ReadIntoDataArray(BinaryReader binaryReader, Complex[,,,] dataArray)
     {
-        int[] axesDimensions = GetAllDimensions(dataArray);
+        var axesDimensions = GetAllDimensions(dataArray);
         for (var i = 0; i < axesDimensions[0]; i++)
         {
             for (var j = 0; j < axesDimensions[1]; j++)
@@ -438,7 +437,7 @@ public static class BinaryArraySerializerFactory
 
     internal static void ReadIntoDataArray(BinaryReader binaryReader, Complex[,,,,] dataArray)
     {
-        int[] axesDimensions = GetAllDimensions(dataArray);
+        var axesDimensions = GetAllDimensions(dataArray);
         for (var i = 0; i < axesDimensions[0]; i++)
         {
             for (var j = 0; j < axesDimensions[1]; j++)
@@ -461,7 +460,7 @@ public static class BinaryArraySerializerFactory
 
     internal static void ReadIntoDataArray(BinaryReader binaryReader, Complex[,,,,,] dataArray)
     {
-        int[] axesDimensions = GetAllDimensions(dataArray);
+        var axesDimensions = GetAllDimensions(dataArray);
         for (var i = 0; i < axesDimensions[0]; i++)
         {
             for (var j = 0; j < axesDimensions[1]; j++)
