@@ -3,6 +3,7 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Vts.Common;
 using Vts.Extensions;
 using Vts.Modeling.ForwardSolvers;
 
@@ -169,6 +170,19 @@ namespace Vts.Test.Extensions
             var result = _doubleEnumerable.Zip(_doubleEnumerable,
                 _doubleEnumerable, _doubleEnumerable, _doubleEnumerable, (d1, d2, d3, d4, d5) => d1 * d2 * d3 * d4);
             result.ForEach(x => Assert.IsInstanceOf<double>(x));
+        }
+
+        [Test]
+        public void Test_TakeEveryNth_returns_correct_values()
+        {
+            var range = new DoubleRange(0, 99, 100);
+            var skippedValues = range.TakeEveryNth(5);
+            var skippedValueArray = skippedValues.ToArray();
+            Assert.AreEqual(20, skippedValueArray.Length);
+            Assert.AreEqual(0, skippedValueArray[0]);
+            Assert.AreEqual(10, skippedValueArray[2]);
+            Assert.AreEqual(20, skippedValueArray[4]);
+            Assert.AreEqual(85, skippedValueArray[17]);
         }
     }
 }

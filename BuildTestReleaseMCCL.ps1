@@ -53,33 +53,34 @@ New-Item -Path $PWD -Name $releasedir -ItemType "directory"
 $archive = $releasedir + "\MC_v" + $version + "_Win_x64.zip"
 $source = "publish\win-x64\*"
 Compress-Archive -Path $source -DestinationPath $archive 
-$matlabfiles = "$PWD\matlab\post_processing\*"
+$matlabdir = "$PWD\matlab"
+$matlabfiles = "$matlabdir\post_processing\*"
 Compress-Archive -Path $matlabfiles -Update -DestinationPath $archive
-$mcinversegeneralfiles = "$PWD\matlab\monte_carlo_inverse\general\*"
+$mcinversegeneralfiles = "$matlabdir\monte_carlo_inverse\general\*"
 Compress-Archive -Path $mcinversegeneralfiles -Update -DestinationPath $archive
-$mcinversefiles = "$PWD\matlab\monte_carlo_inverse\windows\*"
+$mcinversefiles = "$matlabdir\monte_carlo_inverse\windows\*"
 Compress-Archive -Path $mcinversefiles -Update -DestinationPath $archive
 
 # Create linux-x64 zip
 $archive = $releasedir + "\MC_v" + $version + "_Linux_x64.zip"
 $source = "publish\linux-x64\*"
 Compress-Archive -Path $source -DestinationPath $archive 
-$matlabfiles = "$PWD\matlab\post_processing\*"
+$matlabfiles = "$matlabdir\post_processing\*"
 Compress-Archive -Path $matlabfiles -Update -DestinationPath $archive
-$mcinversegeneralfiles = "$PWD\matlab\monte_carlo_inverse\general\*"
+$mcinversegeneralfiles = "$matlabdir\monte_carlo_inverse\general\*"
 Compress-Archive -Path $mcinversegeneralfiles -Update -DestinationPath $archive
-$mcinversefiles = "$PWD\matlab\monte_carlo_inverse\linux_and_mac\*"
+$mcinversefiles = "$matlabdir\monte_carlo_inverse\linux_and_mac\*"
 Compress-Archive -Path $mcinversefiles -Update -DestinationPath $archive
 
 # Create osx-x64 zip
 $archive = $releasedir + "\MC_v" + $version + "_Mac_x64.zip"
 $source = "publish\osx-x64\*"
 Compress-Archive -Path $source -DestinationPath $archive 
-$matlabfiles = "$PWD\matlab\post_processing\*"
+$matlabfiles = "$matlabdir\post_processing\*"
 Compress-Archive -Path $matlabfiles -Update -DestinationPath $archive
-$mcinversegeneralfiles = "$PWD\matlab\monte_carlo_inverse\general\*"
+$mcinversegeneralfiles = "$matlabdir\monte_carlo_inverse\general\*"
 Compress-Archive -Path $mcinversegeneralfiles -Update -DestinationPath $archive
-$mcinversefiles = "$PWD\matlab\monte_carlo_inverse\linux_and_mac\*"
+$mcinversefiles = "$matlabdir\monte_carlo_inverse\linux_and_mac\*"
 Compress-Archive -Path $mcinversefiles -Update -DestinationPath $archive
 
 Write-Host "Run MCCL MATLAB post-processing tests" -ForegroundColor Green
@@ -91,11 +92,11 @@ dotnet mc.dll geninfiles
 dotnet mc.dll infile=infile_one_layer_all_detectors.txt
 
 # Change current dir to MATLAB Monte Carlo post-processing
-cd "$vtslevel\matlab\post_processing"
+cd "$matlabdir\post_processing"
 
 # remove any residual folder
 # Copy results from Monte Carlo to current directory 
-$MCmatlabdir = "$vtslevel\matlab\post_processing\one_layer_all_detectors"
+$MCmatlabdir = "$matlabdir\post_processing\one_layer_all_detectors"
 Remove-Item  $MCmatlabdir -Recurse -ErrorAction Ignore
 New-Item $MCmatlabdir -ItemType "directory"
 $MCresults = "$vtslevel\publish\local\one_layer_all_detectors\*"
