@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Vts.Extensions;
 
@@ -61,9 +60,10 @@ public static class DataExtensions
     }
 
     /// <summary>
-    /// Helper extension method that returns an array of midpoints, located halfway between the endpoints of the specified range
+    /// Helper extension method that returns an array of midpoints,
+    /// located halfway between the endpoints of the specified range
     /// </summary>
-    /// <param name="endpointRange">The range of endpoints</param>
+    /// <param name="endpoints">The array of endpoints</param>
     /// <returns>The corresponding midpoint outputs</returns>
     public static double[] GetMidpoints(this double[] endpoints)
     {
@@ -73,7 +73,7 @@ public static class DataExtensions
         }
 
         var midpoints = new double[endpoints.Length - 1];
-        for (int i = 0; i < midpoints.Length; i++)
+        for (var i = 0; i < midpoints.Length; i++)
         {
             midpoints[i] = (endpoints[i + 1] + endpoints[i]) / 2;
         }
