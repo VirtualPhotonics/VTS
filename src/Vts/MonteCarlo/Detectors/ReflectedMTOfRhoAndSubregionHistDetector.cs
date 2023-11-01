@@ -6,6 +6,7 @@ using Vts.IO;
 using Vts.MonteCarlo.Extensions;
 using Vts.MonteCarlo.Helpers;
 using Vts.MonteCarlo.PhotonData;
+using System.Collections.Generic;
 
 namespace Vts.MonteCarlo.Detectors
 {
@@ -260,85 +261,21 @@ namespace Vts.MonteCarlo.Detectors
         /// <returns>BinaryArraySerializer[]</returns>
         public BinaryArraySerializer[] GetBinarySerializers()
         {
-            return new[] {
-                new BinaryArraySerializer {
-                    DataArray = Mean,
-                    Name = "Mean",
-                    FileTag = "",
-                    WriteData = binaryWriter => {
-                        for (var i = 0; i < Rho.Count - 1; i++) {
-                            for (var j = 0; j < MTBins.Count - 1; j++)
-                            {                                
-                                binaryWriter.Write(Mean[i, j]);
-                            }
-                        }
-                    },
-                    ReadData = binaryReader => {
-                        Mean = Mean ?? new double[ Rho.Count - 1, MTBins.Count - 1];
-                        for (var i = 0; i <  Rho.Count - 1; i++) {
-                            for (var j = 0; j < MTBins.Count - 1; j++)
-                            {
-                               Mean[i, j] = binaryReader.ReadDouble(); 
-                            }
-                        }
-                    }
-                },
-                new BinaryArraySerializer {
-                    DataArray = FractionalMT,
-                    Name = "FractionalMT",
-                    FileTag = "_FractionalMT",
-                    WriteData = binaryWriter => {
-                        for (var i = 0; i < Rho.Count - 1; i++) {
-                            for (var j = 0; j < MTBins.Count - 1; j++) {
-                                for (var k = 0; k < NumSubregions; k++) {
-                                    for (var l = 0; l < FractionalMTBins.Count + 1; l++)
-                                    {
-                                        binaryWriter.Write(FractionalMT[i, j, k, l]);
-                                    } 
-                                }                                                             
-                            }
-                        }
-                    },
-                    ReadData = binaryReader => {
-                        FractionalMT = FractionalMT ?? new double[ Rho.Count - 1, MTBins.Count - 1, NumSubregions, FractionalMTBins.Count + 1];
-                        for (var i = 0; i <  Rho.Count - 1; i++) {
-                            for (var j = 0; j < MTBins.Count - 1; j++) {
-                                for (var k = 0; k < NumSubregions; k++) {
-                                    for (var l = 0; l < FractionalMTBins.Count + 1; l++)
-                                    {
-                                        FractionalMT[i, j, k, l] = binaryReader.ReadDouble(); 
-                                    }
-                                }                              
-                            }
-                        }
-                    }
-                },
-                // return a null serializer, if we're not serializing the second moment
-                !TallySecondMoment ? null :  new BinaryArraySerializer {
-                    DataArray = SecondMoment,
-                    Name = "SecondMoment",
-                    FileTag = "_2",
-                    WriteData = binaryWriter => {
-                        if (!TallySecondMoment || SecondMoment == null) return;
-                        for (var i = 0; i < Rho.Count - 1; i++) {
-                            for (var j = 0; j < MTBins.Count - 1; j++)
-                            {
-                                binaryWriter.Write(SecondMoment[i, j]);
-                            }                            
-                        }
-                    },
-                    ReadData = binaryReader => {
-                        if (!TallySecondMoment || SecondMoment == null) return;
-                        SecondMoment = new double[ Rho.Count - 1, MTBins.Count - 1];
-                        for (var i = 0; i < Rho.Count - 1; i++) {
-                            for (var j = 0; j < MTBins.Count - 1; j++)
-                            {
-                                SecondMoment[i, j] = binaryReader.ReadDouble();
-                            }                       
-			            }
-                    },
-                },
+            Mean ??= new double[Rho.Count - 1, MTBins.Count - 1];
+            FractionalMT ??= new double[Rho.Count - 1, MTBins.Count - 1, NumSubregions, FractionalMTBins.Count + 1];
+            if (TallySecondMoment)
+            {
+                SecondMoment ??= new double[Rho.Count - 1, MTBins.Count - 1];
+            }
+            var allSerializers = new List<BinaryArraySerializer>
+            {
+                BinaryArraySerializerFactory.GetSerializer(
+                    Mean, "Mean", ""),
+                BinaryArraySerializerFactory.GetSerializer(
+                    FractionalMT, "FractionalMT", "_FractionalMT"),
             };
+            return allSerializers.Where(s => s is not null).ToArray();
+
         }
         /// <summary>
         /// Method to determine if photon is within detector NA
