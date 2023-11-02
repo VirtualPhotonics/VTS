@@ -11,6 +11,7 @@ namespace Vts.IO
         /// <summary>
         /// array to be written or read
         /// </summary>
+        [Obsolete]
         public Array DataArray { get; set; }
         /// <summary>
         /// name of array
