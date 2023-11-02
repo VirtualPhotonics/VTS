@@ -298,7 +298,7 @@ namespace Vts.MonteCarlo.Detectors
                 TallySecondMoment ? BinaryArraySerializerFactory.GetSerializer(
                     SecondMoment, "SecondMoment", "_2") : null,
                 TallySecondMoment ? BinaryArraySerializerFactory.GetSerializer(
-                    ROfXAndYSecondMoment, "ROfXAndYSecondMoment", "ROfXAndY_2") : null
+                    ROfXAndYSecondMoment, "ROfXAndYSecondMoment", "_ROfXAndY_2") : null
             };
             return allSerializers.Where(s => s is not null).ToArray();
 
