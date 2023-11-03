@@ -41,7 +41,7 @@ namespace Vts.Test.MonteCarlo.Detectors
         };
 
         [OneTimeTearDown]
-        public void clear_folders_and_files()
+        public void Clear_folders_and_files()
         {
             // make sure databases generated from previous tests are deleted
             foreach (var file in listOfTestFiles)
@@ -55,7 +55,7 @@ namespace Vts.Test.MonteCarlo.Detectors
         /// </summary>
         /// <returns></returns>
         [OneTimeSetUp]
-        public void execute_Monte_Carlo()
+        public void Execute_Monte_Carlo()
         {
             var simulationOptions = new SimulationOptions(
                 0,
@@ -113,7 +113,7 @@ namespace Vts.Test.MonteCarlo.Detectors
         /// R(rho,time) recessed to a height of 0 are equal
         /// </summary>
         [Test]
-        public void validate_pMC_DAW_ROfRhoAndTime_zero_perturbation_one_layer_tissue()
+        public void Validate_pMC_DAW_ROfRhoAndTime_zero_perturbation_one_layer_tissue()
         {
             var postProcessor = new PhotonDatabasePostProcessor(
                 VirtualBoundaryType.pMCDiffuseReflectance,
@@ -164,7 +164,7 @@ namespace Vts.Test.MonteCarlo.Detectors
         /// when Height=0, and R(rho,maxdepth) recessed when Height=0
         /// </summary>
         [Test]
-        public void validate_pMC_DAW_ROfRho_zero_perturbation_one_layer_tissue()
+        public void Validate_pMC_DAW_ROfRho_zero_perturbation_one_layer_tissue()
         {
             var postProcessor = new PhotonDatabasePostProcessor(
                 VirtualBoundaryType.pMCDiffuseReflectance,
@@ -214,7 +214,7 @@ namespace Vts.Test.MonteCarlo.Detectors
         /// determines results equal to linux results for R(rho)
         /// </summary>
         [Test]
-        public void validate_pMC_DAW_ROfRho_nonzero_perturbation_one_layer_tissue()
+        public void Validate_pMC_DAW_ROfRho_nonzero_perturbation_one_layer_tissue()
         {
             var postProcessor = new PhotonDatabasePostProcessor(
                 VirtualBoundaryType.pMCDiffuseReflectance,
@@ -249,7 +249,7 @@ namespace Vts.Test.MonteCarlo.Detectors
         /// Test to validate that calling dMC results in not a NaN
         /// </summary>
         [Test]
-        public void validate_dMC_DAW_dROfRhodMua_produces_not_NaN_results()
+        public void Validate_dMC_DAW_dROfRhodMua_produces_not_NaN_results()
         {
             var postProcessor = new PhotonDatabasePostProcessor(
                 VirtualBoundaryType.pMCDiffuseReflectance,
@@ -292,8 +292,8 @@ namespace Vts.Test.MonteCarlo.Detectors
                 _referenceInputOneLayerTissue);
             var postProcessedOutput = postProcessor.Run();
             // validation value obtained from linux run using above input and seeded the same
-            Assert.AreNotEqual(Math.Abs(postProcessedOutput.dMCdMua_R_r[0]), double.NaN);
-            Assert.AreNotEqual(Math.Abs(postProcessedOutput.dMCdMus_R_r[0]), double.NaN);
+            Assert.AreNotEqual(double.NaN, Math.Abs(postProcessedOutput.dMCdMua_R_r[0]));
+            Assert.AreNotEqual(double.NaN, Math.Abs(postProcessedOutput.dMCdMus_R_r[0]));
             Assert.AreEqual(89, postProcessedOutput.dMCdMua_R_r_TallyCount);
             Assert.AreEqual(89, postProcessedOutput.dMCdMus_R_r_TallyCount);
         }
@@ -303,7 +303,7 @@ namespace Vts.Test.MonteCarlo.Detectors
         /// determines results equal to reference for R(fx,time)
         /// </summary>
         [Test]
-        public void validate_pMC_DAW_ROfFxAndTime_zero_perturbation_one_layer_tissue()
+        public void Validate_pMC_DAW_ROfFxAndTime_zero_perturbation_one_layer_tissue()
         {
             var postProcessor = new PhotonDatabasePostProcessor(
                 VirtualBoundaryType.pMCDiffuseReflectance,
@@ -339,7 +339,7 @@ namespace Vts.Test.MonteCarlo.Detectors
         /// determines results equal to reference for R(fx)
         /// </summary>
         [Test]
-        public void validate_pMC_DAW_ROfFx_zero_perturbation_one_layer_tissue()
+        public void Validate_pMC_DAW_ROfFx_zero_perturbation_one_layer_tissue()
         {
             var postProcessor = new PhotonDatabasePostProcessor(
                 VirtualBoundaryType.pMCDiffuseReflectance,
@@ -374,7 +374,7 @@ namespace Vts.Test.MonteCarlo.Detectors
         /// determines results equal to linux results for R(fx)
         /// </summary>
         [Test]
-        public void validate_pMC_DAW_ROfFx_nonzero_perturbation_one_layer_tissue()
+        public void Validate_pMC_DAW_ROfFx_nonzero_perturbation_one_layer_tissue()
         {
             var postProcessor = new PhotonDatabasePostProcessor(
                 VirtualBoundaryType.pMCDiffuseReflectance,
