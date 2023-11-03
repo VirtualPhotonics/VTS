@@ -1,16 +1,4 @@
-The Virtual Photonics Technology Initiative was established by the Laser Microbeam and Medical Program (LAMMP), an NIH/NIBIB Biotechnology Resource Center at the Beckman Laser Institute and Medical Clinic in April 2008.
-
-![LAMMP](https://github.com/VirtualPhotonics/VTS/wiki/images/Home_lammp.png)
-
-### The Virtual Photonics Technology Initiative has four primary goals:
-
-* (a) Design and distribute easy-to-use open-source software tools with graphical-user interfaces that simulate the propagation and distribution of optical radiation in cells and tissues.
-
-* (b) Supply educational resources that provide the appropriate foundation for the proper usage of these computational tools.
-
-* (c) Develop improved computational models to simulate and design optical diagnostic, imaging, and therapeutic modalities.
-
-* (d) Stimulate the formation of an active community of 'experts' in Computational Biophotonics interested in offering their expertise and in developing advanced simulation tools to advance this open-source effort.
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=VirtualPhotonics_VTS&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=VirtualPhotonics_VTS)
 
 ## Virtual Tissue Simulator (VTS)
 The primary vehicle for the accomplishment of these goals is the ongoing development of the Virtual Tissue Simulator (VTS). The VTS is being designed as a modular and scalable platform to provide an integrated suite of computational tools to define, solve, visualize, and analyze relevant forward and inverse radiative transport problems in Biomedical Optics. We intend to develop specific Application ToolKits (ATKs) that will provide a user-interface customized for the simulation of issues specific to an application domain. Examples include Small Animal Imaging and Fiber Optic Probe development.

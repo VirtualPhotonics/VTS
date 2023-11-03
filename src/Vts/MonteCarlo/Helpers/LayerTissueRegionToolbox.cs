@@ -1,3 +1,4 @@
+using System;
 using Vts.Common;
 
 namespace Vts.MonteCarlo.Tissues
@@ -23,7 +24,7 @@ namespace Vts.MonteCarlo.Tissues
                 return null;
 
             var t = -zPlane / denominator;
-            return new Position( p.X + d.Ux * t, p.Y + d.Uy * t, p.Z + d.Uz * t);
+            return new Position(p.X + d.Ux * t, p.Y + d.Uy * t, p.Z + d.Uz * t);
         }
     }
 }

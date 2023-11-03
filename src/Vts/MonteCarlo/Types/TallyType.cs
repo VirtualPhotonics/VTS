@@ -10,6 +10,8 @@ namespace Vts.MonteCarlo
         /// </summary>
         public static readonly string[] BuiltInTypes =
         {
+            // Reflectance detected by a slanted recessed fiber 
+            "SlantedRecessedFiber",
             // Reflectance Surface fiber 
             "SurfaceFiber",
             // Reflectance as a function of source-detector separation (rho) and angle
@@ -157,6 +159,10 @@ namespace Vts.MonteCarlo
             // differential Monte Carlo (dMC) d(reflectance)/dMus as a function of source-detector separation (rho) 
             "dMCdROfRhodMus",
         };
+        /// <summary>
+        /// slanted recessed fiber detector
+        /// </summary>
+        public static string SlantedRecessedFiber { get { return "SlantedRecessedFiber"; } }
         /// <summary>
         /// cylindrical fiber detector
         /// </summary>
@@ -331,7 +337,7 @@ namespace Vts.MonteCarlo
         /// <summary>
         /// Transmitted dynamic momentum transfer as a function of fx and tissue region with histogram of MT
         /// </summary>
-        public static string TransmittedDynamicMTOfFxAndSubregionHist { get { return "TransmittedDynamicMTOfFxAndSubregionHist";} }
+        public static string TransmittedDynamicMTOfFxAndSubregionHist { get { return "TransmittedDynamicMTOfFxAndSubregionHist"; } }
         /// <summary>
         /// Reflected subregion time as a function of source-detector separation (rho) and tissue region 
         /// </summary>
@@ -371,7 +377,7 @@ namespace Vts.MonteCarlo
         /// <summary>
         /// perturbation Monte Carlo (pMC) reflectance as a function of source-detector separation (rho) and time recessed in air
         /// </summary>
-        public static string pMCROfRhoAndTimeRecessed { get { return "pMCROfRhoAndTimeRecessed"; } } 
+        public static string pMCROfRhoAndTimeRecessed { get { return "pMCROfRhoAndTimeRecessed"; } }
         /// <summary>
         /// perturbation Monte Carlo (pMC) reflectance as a function of Cartesian coordinates (x,y)
         /// </summary>

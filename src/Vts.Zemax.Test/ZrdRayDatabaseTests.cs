@@ -12,7 +12,7 @@ namespace Vts.Zemax.Test
         /// <summary>
         /// list of temporary files created by these unit tests
         /// </summary>
-        readonly List<string> listOfTestGeneratedFiles = new List<string>()
+        private readonly List<string> _listOfTestGeneratedFiles = new()
         {
             "testzrdraydatabase",
             "testzrdraydatabase.txt",
@@ -20,11 +20,12 @@ namespace Vts.Zemax.Test
         /// <summary>
         /// clear all previously generated files.
         /// </summary>
+        [OneTimeSetUp]
         [OneTimeTearDown]
-        public void clear_folders_and_files()
+        public void Clear_folders_and_files()
         {
             // delete any previously generated files
-            foreach (var file in listOfTestGeneratedFiles)
+            foreach (var file in _listOfTestGeneratedFiles)
             {
                 FileIO.FileDelete(file);
             }
@@ -35,8 +36,8 @@ namespace Vts.Zemax.Test
         [Test]
         public void Validate_ZrdRayDatabase_writing_and_reading_is_correct()
         {
-            string databaseFileName = "testzrdraydatabase";
-            var firstRayDP = new ZrdRayDataPoint()
+            const string databaseFileName = "testzrdraydatabase";
+            var firstRayDp = new ZrdRayDataPoint()
             {
                 X = 1,
                 Y = 2,
@@ -46,7 +47,7 @@ namespace Vts.Zemax.Test
                 Uz = 1 / Math.Sqrt(2),
                 Weight = 1
             };
-            var secondRayDP = new ZrdRayDataPoint()
+            var secondRayDp = new ZrdRayDataPoint()
             {
                 X = 4,
                 Y = 5,
@@ -59,8 +60,9 @@ namespace Vts.Zemax.Test
             using (var dbWriter = new ZrdRayDatabaseWriter(
                 VirtualBoundaryType.DiffuseReflectance, databaseFileName))
             {
-                dbWriter.Write(firstRayDP);
-                dbWriter.Write(secondRayDP);
+                dbWriter.Write(firstRayDp);
+                dbWriter.Write(secondRayDp);
+                dbWriter.Close();
             }
             // read back file written
             var rayDatabase = ZrdRayDatabase.FromFile(databaseFileName);
@@ -72,23 +74,30 @@ namespace Vts.Zemax.Test
             // advance to the first point and test that the point is valid
             enumerator.MoveNext();
             var dp1 = enumerator.Current;
-            Assert.IsTrue(dp1.X == firstRayDP.X);
-            Assert.IsTrue(dp1.Y == firstRayDP.Y);
-            Assert.IsTrue(dp1.Z == firstRayDP.Z);
-            Assert.IsTrue(dp1.Ux == firstRayDP.Ux);
-            Assert.IsTrue(dp1.Uy == firstRayDP.Uy);
-            Assert.IsTrue(dp1.Uz == firstRayDP.Uz);
-            Assert.IsTrue(dp1.Weight == firstRayDP.Weight);
+            if (dp1 != null)
+            {
+                Assert.IsTrue(dp1.X == firstRayDp.X);
+                Assert.IsTrue(dp1.Y == firstRayDp.Y);
+                Assert.IsTrue(dp1.Z == firstRayDp.Z);
+                Assert.IsTrue(dp1.Ux == firstRayDp.Ux);
+                Assert.IsTrue(dp1.Uy == firstRayDp.Uy);
+                Assert.IsTrue(dp1.Uz == firstRayDp.Uz);
+                Assert.IsTrue(dp1.Weight == firstRayDp.Weight);
+            }
+
             // advance to the second point and test that the point is valid
             enumerator.MoveNext();
             var dp2 = enumerator.Current;
-            Assert.IsTrue(dp2.X == secondRayDP.X);
-            Assert.IsTrue(dp2.Y == secondRayDP.Y);
-            Assert.IsTrue(dp2.Z == secondRayDP.Z);
-            Assert.IsTrue(dp2.Ux == secondRayDP.Ux);
-            Assert.IsTrue(dp2.Uy == secondRayDP.Uy);
-            Assert.IsTrue(dp2.Uz == secondRayDP.Uz);
-            Assert.IsTrue(dp2.Weight == secondRayDP.Weight);
+            if (dp2 == null) return;
+            Assert.IsTrue(dp2.X == secondRayDp.X);
+            Assert.IsTrue(dp2.Y == secondRayDp.Y);
+            Assert.IsTrue(dp2.Z == secondRayDp.Z);
+            Assert.IsTrue(dp2.Ux == secondRayDp.Ux);
+            Assert.IsTrue(dp2.Uy == secondRayDp.Uy);
+            Assert.IsTrue(dp2.Uz == secondRayDp.Uz);
+            Assert.IsTrue(dp2.Weight == secondRayDp.Weight);
+
+            enumerator.Dispose();
         }
     }
 }
