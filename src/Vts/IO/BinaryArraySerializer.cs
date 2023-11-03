@@ -24,6 +24,7 @@ namespace Vts.IO
         /// <summary>
         /// dimensions of array
         /// </summary>
+        [Obsolete]
         public int[] Dimensions { get; set; }
 
         /// <summary>
