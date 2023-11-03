@@ -28,11 +28,11 @@ namespace Vts.Test.MonteCarlo.Factories
         /// <summary>
         /// list of temporary files created by these unit tests
         /// </summary>
-        private readonly List<string> listOfTestGeneratedFolders = new List<string>()
+        private readonly List<string> _listOfTestGeneratedFolders = new()
         {
             "user_defined_detector",
         };
-        private readonly List<string> listOfTestGeneratedFiles = new List<string>()
+        private readonly List<string> _listOfTestGeneratedFiles = new()
         {
             "file.txt" // file that captures screen output of MC simulation
         };
@@ -44,14 +44,14 @@ namespace Vts.Test.MonteCarlo.Factories
         [OneTimeTearDown]
         public void Clear_folders_and_files()
         {
-            foreach (var folder in listOfTestGeneratedFolders)
+            foreach (var folder in _listOfTestGeneratedFolders)
             {
                 if (Directory.Exists(folder))
                 {
                     FileIO.DeleteDirectory(folder);
                 }
             }
-            foreach (var file in listOfTestGeneratedFiles)
+            foreach (var file in _listOfTestGeneratedFiles)
             {
                 if (File.Exists(file))
                 {
@@ -87,11 +87,11 @@ namespace Vts.Test.MonteCarlo.Factories
                     TallySecondMoment = false,
                     Rho = new DoubleRange(0, 1, 5),
                 };
-            var simInput = new SimulationInput { DetectorInputs = new[] { detectorInput } };
+            var simInput = new SimulationInput { DetectorInputs = new IDetectorInput[] { detectorInput } };
             var sim = simInput.CreateSimulation();
             var results = sim.Run();
             var rOfRhoDetector = results.ResultsDictionary.TryGetValue(
-                detectorInput.Name, out IDetector detector);
+                detectorInput.Name, out _);
             Assert.NotNull(rOfRhoDetector);
         }
 
@@ -103,7 +103,7 @@ namespace Vts.Test.MonteCarlo.Factories
         {
             var rOfRhoDetector = new SimulationInput
                 {
-                    DetectorInputs = new[]
+                    DetectorInputs = new IDetectorInput[]
                     {
                         new ROfRhoDetectorInput
                         {
@@ -139,13 +139,13 @@ namespace Vts.Test.MonteCarlo.Factories
             };
             var simInput = new SimulationInput
                 {
-                    DetectorInputs = new[] { detectorInput },
+                    DetectorInputs = new IDetectorInput[] { detectorInput },
                     N = 100,
                 };
             var sim = simInput.CreateSimulation();
             var results = sim.Run();
             var detectorExists = results.ResultsDictionary.TryGetValue(
-                detectorInput.Name, out IDetector detector);
+                detectorInput.Name, out var detector);
             Assert.IsTrue(detectorExists);
             var firstValue = ((ROfXDetector)detector).Mean.FirstOrDefault();
             Assert.IsTrue(firstValue != 0);
@@ -207,13 +207,13 @@ namespace Vts.Test.MonteCarlo.Factories
                 return new ROfXDetector
                 {
                     // required properties (part of DetectorInput/Detector base classes)
-                    TallyType = this.TallyType,
-                    Name = this.Name,
-                    TallySecondMoment = this.TallySecondMoment,
-                    TallyDetails = this.TallyDetails,
+                    TallyType = TallyType,
+                    Name = Name,
+                    TallySecondMoment = TallySecondMoment,
+                    TallyDetails = TallyDetails,
 
                     // optional/custom detector-specific properties
-                    X = this.X
+                    X = X
                 };
             }
         }
@@ -256,8 +256,8 @@ namespace Vts.Test.MonteCarlo.Factories
                 TallyCount = 0;
 
                 // if the data arrays are null, create them (only create second moment if TallySecondMoment is true)
-                Mean = Mean ?? new double[X.Count - 1];
-                SecondMoment = SecondMoment ?? (TallySecondMoment ? new double[X.Count - 1] : null);
+                Mean ??= new double[X.Count - 1];
+                SecondMoment ??= (TallySecondMoment ? new double[X.Count - 1] : null);
 
                 // initialize any other necessary class fields here
             }
@@ -286,7 +286,7 @@ namespace Vts.Test.MonteCarlo.Factories
             {
                 // normalization accounts for Rho.Start != 0
                 var normalizationFactor = X.Delta;
-                for (int ir = 0; ir < X.Count - 1; ir++)
+                for (var ir = 0; ir < X.Count - 1; ir++)
                 {
                     Mean[ir] /= normalizationFactor * numPhotons;
                     if (TallySecondMoment)
@@ -305,13 +305,13 @@ namespace Vts.Test.MonteCarlo.Factories
                     Name = "Mean",
                     FileTag = "",
                     WriteData = binaryWriter => {
-                        for (int i = 0; i < X.Count - 1; i++) {
+                        for (var i = 0; i < X.Count - 1; i++) {
                             binaryWriter.Write(Mean[i]);
                         }
                     },
                     ReadData = binaryReader => {
-                        Mean = Mean ?? new double[ X.Count - 1];
-                        for (int i = 0; i <  X.Count - 1; i++) {
+                        Mean ??= new double[ X.Count - 1];
+                        for (var i = 0; i <  X.Count - 1; i++) {
                             Mean[i] = binaryReader.ReadDouble();
                         }
                     }
@@ -323,14 +323,14 @@ namespace Vts.Test.MonteCarlo.Factories
                     FileTag = "_2",
                     WriteData = binaryWriter => {
                         if (!TallySecondMoment || SecondMoment == null) return;
-                        for (int i = 0; i < X.Count - 1; i++) {
+                        for (var i = 0; i < X.Count - 1; i++) {
                             binaryWriter.Write(SecondMoment[i]);
                         }
                     },
                     ReadData = binaryReader => {
                         if (!TallySecondMoment || SecondMoment == null) return;
                         SecondMoment = new double[ X.Count - 1];
-                        for (int i = 0; i < X.Count - 1; i++) {
+                        for (var i = 0; i < X.Count - 1; i++) {
                             SecondMoment[i] = binaryReader.ReadDouble();
                         }
                     },
@@ -343,8 +343,9 @@ namespace Vts.Test.MonteCarlo.Factories
             /// </summary>
             /// <param name="dp">photon data point</param>
             /// <returns>method always returns true</returns>
-            public bool ContainsPoint(PhotonDataPoint dp)
+            public static bool ContainsPoint(PhotonDataPoint dp)
             {
+                _ = dp;
                 return true; // or, possibly test for NA or confined position, etc
             }
 

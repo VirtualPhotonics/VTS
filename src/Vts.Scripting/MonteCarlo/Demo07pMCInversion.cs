@@ -1,4 +1,6 @@
-﻿namespace Vts.Scripting.MonteCarlo;
+﻿using System.ComponentModel;
+
+namespace Vts.Scripting.MonteCarlo;
 
 /// <summary>
 /// Class using the Vts.dll library to demonstrate using the Perturbation Monte Carlo post-processor to calculate optical properties (i.e. "inversion")
@@ -39,13 +41,14 @@ internal class Demo07PmcInversion : IDemoScript
                     zRange: new(100, double.PositiveInfinity),       // air "z" range
                     op: new(mua: 0.0, musp: 1E-10, g: 1.0, n: 1.0),
                     phaseFunctionKey: "HenyeyGreensteinKey3")  // air optical properties
+
             }
         };
         var simulationInput = new SimulationInput
         {
             N = 1000,
             TissueInput = tissueInput,
-            DetectorInputs = new IDetectorInput[] { }, // leaving this empty - no on-the-fly detectors needed!
+            DetectorInputs = Array.Empty<IDetectorInput>(), // leaving this empty - no on-the-fly detectors needed!
             OutputName = "results",
             Options = new SimulationOptions
             {
@@ -121,6 +124,35 @@ internal class Demo07PmcInversion : IDemoScript
         private readonly DoubleRange _detectorRange;
         private readonly SimulationInput _simulationInput;
         private readonly pMCDatabase _photonDatabase;
+        private double _beamDiameter;
+
+        /// <summary>
+        /// IForwardSolver implements INotifyPropertyChanged to notify if
+        /// a property changes 
+        /// </summary>
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        /// <summary>
+        ///  OnPropertyChanged method to raise the property changed event
+        /// </summary>
+        /// <param name="name">The property name</param>
+        private void OnPropertyChanged(string name)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        }
+
+        /// <summary>
+        /// Beam Diameter
+        /// </summary>
+        public double BeamDiameter
+        {
+            get => _beamDiameter;
+            set
+            {
+                _beamDiameter = value;
+                OnPropertyChanged("BeamDiameter");
+            }
+        }
 
         /// <summary>
         /// Initializes a new instance of the PmcForwardSolver class using the specified detector range, simulation input, and photon database.
@@ -196,327 +228,8 @@ internal class Demo07PmcInversion : IDemoScript
             return ops.SelectMany(op => ROfRho(op, rhos)).ToArray();   
         }
 
-        #region not implemented
-        public double BeamDiameter { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-
-        public event System.ComponentModel.PropertyChangedEventHandler? PropertyChanged;
-
-        public double ROfRho(IOpticalPropertyRegion[] regions, double rho)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<double> ROfRho(IEnumerable<IOpticalPropertyRegion[]> regions, IEnumerable<double> rhos)
-        {
-            throw new NotImplementedException();
-        }
-
-        public double[] ROfRho(IOpticalPropertyRegion[] regions, double[] rhos)
-        {
-            throw new NotImplementedException();
-        }
-
-        public double[] ROfRho(IOpticalPropertyRegion[][] regions, double[] rhos)
-        {
-            throw new NotImplementedException();
-        }
-
-        public double ROfRhoAndTime(IOpticalPropertyRegion[] regions, double rho, double time)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<double> ROfRhoAndTime(IEnumerable<IOpticalPropertyRegion[]> regions, IEnumerable<double> rhos, IEnumerable<double> times)
-        {
-            throw new NotImplementedException();
-        }
-
-        public double[] ROfRhoAndTime(IOpticalPropertyRegion[] regions, double[] rhos, double[] times)
-        {
-            throw new NotImplementedException();
-        }
-
-        public double[] ROfRhoAndTime(IOpticalPropertyRegion[] regions, double[] rhos, double time)
-        {
-            throw new NotImplementedException();
-        }
-
-        public double[] ROfRhoAndTime(IOpticalPropertyRegion[] regions, double rho, double[] times)
-        {
-            throw new NotImplementedException();
-        }
-
-        public double[] ROfRhoAndTime(IOpticalPropertyRegion[][] regions, double[] rhos, double[] times)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Complex ROfRhoAndFt(IOpticalPropertyRegion[] regions, double rho, double ft)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<Complex> ROfRhoAndFt(IEnumerable<IOpticalPropertyRegion[]> regions, IEnumerable<double> rhos, IEnumerable<double> fts)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Complex[] ROfRhoAndFt(IOpticalPropertyRegion[] regions, double rho, double[] fts)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Complex[] ROfRhoAndFt(IOpticalPropertyRegion[] regions, double[] rhos, double ft)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Complex[] ROfRhoAndFt(IOpticalPropertyRegion[] regions, double[] rhos, double[] fts)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Complex[] ROfRhoAndFt(IOpticalPropertyRegion[][] regions, double[] rhos, double[] fts)
-        {
-            throw new NotImplementedException();
-        }
-
-        public double ROfFx(IOpticalPropertyRegion[] regions, double fx)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<double> ROfFx(IEnumerable<IOpticalPropertyRegion[]> regions, IEnumerable<double> fxs)
-        {
-            throw new NotImplementedException();
-        }
-
-        public double[] ROfFx(IOpticalPropertyRegion[] regions, double[] fxs)
-        {
-            throw new NotImplementedException();
-        }
-
-        public double[] ROfFx(IOpticalPropertyRegion[][] regions, double[] fxs)
-        {
-            throw new NotImplementedException();
-        }
-
-        public double ROfFxAndTime(IOpticalPropertyRegion[] regions, double fx, double time)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<double> ROfFxAndTime(IEnumerable<IOpticalPropertyRegion[]> regions, IEnumerable<double> fxs, IEnumerable<double> times)
-        {
-            throw new NotImplementedException();
-        }
-
-        public double[] ROfFxAndTime(IOpticalPropertyRegion[] regions, double[] fxs, double[] times)
-        {
-            throw new NotImplementedException();
-        }
-
-        public double[] ROfFxAndTime(IOpticalPropertyRegion[] regions, double fx, double[] times)
-        {
-            throw new NotImplementedException();
-        }
-
-        public double[] ROfFxAndTime(IOpticalPropertyRegion[] regions, double[] fxs, double time)
-        {
-            throw new NotImplementedException();
-        }
-
-        public double[] ROfFxAndTime(IOpticalPropertyRegion[][] regions, double[] fxs, double[] times)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Complex ROfFxAndFt(IOpticalPropertyRegion[] regions, double fx, double ft)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<Complex> ROfFxAndFt(IEnumerable<IOpticalPropertyRegion[]> regions, IEnumerable<double> fxs, IEnumerable<double> fts)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Complex[] ROfFxAndFt(IOpticalPropertyRegion[] regions, double fx, double[] fts)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Complex[] ROfFxAndFt(IOpticalPropertyRegion[] regions, double[] fxs, double ft)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Complex[] ROfFxAndFt(IOpticalPropertyRegion[] regions, double[] fxs, double[] fts)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Complex[] ROfFxAndFt(IOpticalPropertyRegion[][] regions, double[] fxs, double[] fts)
-        {
-            throw new NotImplementedException();
-        }
-
-        public double[] FluenceOfRhoAndZ(IOpticalPropertyRegion[][] regions, double[] rhos, double[] zs)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<double> FluenceOfRhoAndZ(IEnumerable<IOpticalPropertyRegion[]> regions, IEnumerable<double> rhos, IEnumerable<double> zs)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Complex[] FluenceOfRhoAndZAndFt(IOpticalPropertyRegion[][] regions, double[] rhos, double[] zs, double[] fts)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<Complex> FluenceOfRhoAndZAndFt(IEnumerable<IOpticalPropertyRegion[]> regions, IEnumerable<double> rhos, IEnumerable<double> zs, IEnumerable<double> fts)
-        {
-            throw new NotImplementedException();
-        }
-
+        #region Not Implemented
         public double ROfRho(OpticalProperties op, double rho)
-        {
-            throw new NotImplementedException();
-        }
-
-        public double ROfRhoAndTime(OpticalProperties op, double rho, double time)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Complex ROfRhoAndFt(OpticalProperties op, double rho, double ft)
-        {
-            throw new NotImplementedException();
-        }
-
-        public double ROfFx(OpticalProperties op, double fx)
-        {
-            throw new NotImplementedException();
-        }
-
-        public double ROfFxAndTime(OpticalProperties op, double fx, double time)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Complex ROfFxAndFt(OpticalProperties op, double fx, double ft)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<double> FluenceOfRhoAndZ(IEnumerable<OpticalProperties> ops, IEnumerable<double> rhos, IEnumerable<double> zs)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<double> FluenceOfRhoAndZAndTime(IEnumerable<OpticalProperties> ops, IEnumerable<double> rhos, IEnumerable<double> zs, IEnumerable<double> times)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<Complex> FluenceOfRhoAndZAndFt(IEnumerable<OpticalProperties> ops, IEnumerable<double> rhos, IEnumerable<double> zs, IEnumerable<double> fts)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<double> FluenceOfFxAndZ(IEnumerable<OpticalProperties> ops, IEnumerable<double> fxs, IEnumerable<double> zs)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<double> FluenceOfFxAndZAndTime(IEnumerable<OpticalProperties> ops, IEnumerable<double> fxs, IEnumerable<double> zs, IEnumerable<double> times)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<Complex> FluenceOfFxAndZAndFt(IEnumerable<OpticalProperties> ops, IEnumerable<double> fxs, IEnumerable<double> zs, IEnumerable<double> fts)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<double> ROfRho(IEnumerable<OpticalProperties> ops, IEnumerable<double> rhos)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<double> ROfRhoAndTime(IEnumerable<OpticalProperties> ops, IEnumerable<double> rhos, IEnumerable<double> times)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<Complex> ROfRhoAndFt(IEnumerable<OpticalProperties> ops, IEnumerable<double> rhos, IEnumerable<double> fts)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<double> ROfFx(IEnumerable<OpticalProperties> ops, IEnumerable<double> fxs)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<double> ROfFxAndTime(IEnumerable<OpticalProperties> ops, IEnumerable<double> fxs, IEnumerable<double> times)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<Complex> ROfFxAndFt(IEnumerable<OpticalProperties> ops, IEnumerable<double> fxs, IEnumerable<double> fts)
-        {
-            throw new NotImplementedException();
-        }
-
-        public double[] ROfRhoAndTime(OpticalProperties op, double[] rhos, double[] times)
-        {
-            throw new NotImplementedException();
-        }
-
-        public double[] ROfRhoAndTime(OpticalProperties[] ops, double[] rhos, double[] times)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Complex[] ROfRhoAndFt(OpticalProperties op, double[] rhos, double[] fts)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Complex[] ROfRhoAndFt(OpticalProperties[] ops, double[] rhos, double[] fts)
-        {
-            throw new NotImplementedException();
-        }
-
-        public double[] ROfFx(OpticalProperties op, double[] fxs)
-        {
-            throw new NotImplementedException();
-        }
-
-        public double[] ROfFx(OpticalProperties[] ops, double[] fxs)
-        {
-            throw new NotImplementedException();
-        }
-
-        public double[] ROfFxAndTime(OpticalProperties op, double[] fxs, double[] times)
-        {
-            throw new NotImplementedException();
-        }
-
-        public double[] ROfFxAndTime(OpticalProperties[] ops, double[] fxs, double[] times)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Complex[] ROfFxAndFt(OpticalProperties op, double[] fxs, double[] fts)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Complex[] ROfFxAndFt(OpticalProperties[] ops, double[] fxs, double[] fts)
         {
             throw new NotImplementedException();
         }
@@ -526,12 +239,37 @@ internal class Demo07PmcInversion : IDemoScript
             throw new NotImplementedException();
         }
 
-        public double[] ROfRhoAndTime(OpticalProperties[] ops, double rho, double[] times)
+        public IEnumerable<double> ROfRho(IEnumerable<OpticalProperties> ops, IEnumerable<double> rhos)
         {
             throw new NotImplementedException();
         }
 
-        public double[] ROfRhoAndTime(OpticalProperties[] ops, double[] rhos, double time)
+        public double ROfRho(IOpticalPropertyRegion[] regions, double rho)
+        {
+            throw new NotImplementedException();
+        }
+
+        public double[] ROfRho(IOpticalPropertyRegion[] regions, double[] rhos)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<double> ROfRho(IEnumerable<IOpticalPropertyRegion[]> regions, IEnumerable<double> rhos)
+        {
+            throw new NotImplementedException();
+        }
+
+        public double[] ROfRho(IOpticalPropertyRegion[][] regions, double[] rhos)
+        {
+            throw new NotImplementedException();
+        }
+
+        public double ROfRhoAndTime(OpticalProperties op, double rho, double time)
+        {
+            throw new NotImplementedException();
+        }
+
+        public double[] ROfRhoAndTime(OpticalProperties op, double[] rhos, double[] times)
         {
             throw new NotImplementedException();
         }
@@ -551,17 +289,57 @@ internal class Demo07PmcInversion : IDemoScript
             throw new NotImplementedException();
         }
 
-        public Complex[] ROfRhoAndFt(OpticalProperties[] ops, double rho, double[] fts)
+        public double[] ROfRhoAndTime(OpticalProperties[] ops, double[] rhos, double time)
         {
             throw new NotImplementedException();
         }
 
-        public Complex[] ROfRhoAndFt(OpticalProperties[] ops, double[] rhos, double ft)
+        public double[] ROfRhoAndTime(OpticalProperties[] ops, double rho, double[] times)
         {
             throw new NotImplementedException();
         }
 
-        public Complex[] ROfRhoAndFt(OpticalProperties op, double rho, double[] fts)
+        public double[] ROfRhoAndTime(OpticalProperties[] ops, double[] rhos, double[] times)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<double> ROfRhoAndTime(IEnumerable<OpticalProperties> ops, IEnumerable<double> rhos, IEnumerable<double> times)
+        {
+            throw new NotImplementedException();
+        }
+
+        public double ROfRhoAndTime(IOpticalPropertyRegion[] regions, double rho, double time)
+        {
+            throw new NotImplementedException();
+        }
+
+        public double[] ROfRhoAndTime(IOpticalPropertyRegion[] regions, double[] rhos, double time)
+        {
+            throw new NotImplementedException();
+        }
+
+        public double[] ROfRhoAndTime(IOpticalPropertyRegion[] regions, double rho, double[] times)
+        {
+            throw new NotImplementedException();
+        }
+
+        public double[] ROfRhoAndTime(IOpticalPropertyRegion[] regions, double[] rhos, double[] times)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<double> ROfRhoAndTime(IEnumerable<IOpticalPropertyRegion[]> regions, IEnumerable<double> rhos, IEnumerable<double> times)
+        {
+            throw new NotImplementedException();
+        }
+
+        public double[] ROfRhoAndTime(IOpticalPropertyRegion[][] regions, double[] rhos, double[] times)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Complex ROfRhoAndFt(OpticalProperties op, double rho, double ft)
         {
             throw new NotImplementedException();
         }
@@ -571,7 +349,77 @@ internal class Demo07PmcInversion : IDemoScript
             throw new NotImplementedException();
         }
 
+        public Complex[] ROfRhoAndFt(OpticalProperties op, double rho, double[] fts)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Complex[] ROfRhoAndFt(OpticalProperties op, double[] rhos, double[] fts)
+        {
+            throw new NotImplementedException();
+        }
+
         public Complex[] ROfRhoAndFt(OpticalProperties[] ops, double rho, double ft)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Complex[] ROfRhoAndFt(OpticalProperties[] ops, double[] rhos, double ft)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Complex[] ROfRhoAndFt(OpticalProperties[] ops, double rho, double[] fts)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Complex[] ROfRhoAndFt(OpticalProperties[] ops, double[] rhos, double[] fts)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<Complex> ROfRhoAndFt(IEnumerable<OpticalProperties> ops, IEnumerable<double> rhos, IEnumerable<double> fts)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Complex ROfRhoAndFt(IOpticalPropertyRegion[] regions, double rho, double ft)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Complex[] ROfRhoAndFt(IOpticalPropertyRegion[] regions, double[] rhos, double ft)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Complex[] ROfRhoAndFt(IOpticalPropertyRegion[] regions, double rho, double[] fts)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Complex[] ROfRhoAndFt(IOpticalPropertyRegion[] regions, double[] rhos, double[] fts)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<Complex> ROfRhoAndFt(IEnumerable<IOpticalPropertyRegion[]> regions, IEnumerable<double> rhos, IEnumerable<double> fts)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Complex[] ROfRhoAndFt(IOpticalPropertyRegion[][] regions, double[] rhos, double[] fts)
+        {
+            throw new NotImplementedException();
+        }
+
+        public double ROfFx(OpticalProperties op, double fx)
+        {
+            throw new NotImplementedException();
+        }
+
+        public double[] ROfFx(OpticalProperties op, double[] fxs)
         {
             throw new NotImplementedException();
         }
@@ -581,17 +429,37 @@ internal class Demo07PmcInversion : IDemoScript
             throw new NotImplementedException();
         }
 
-        public double[] ROfFxAndTime(OpticalProperties[] ops, double fx, double[] times)
+        public double[] ROfFx(OpticalProperties[] ops, double[] fxs)
         {
             throw new NotImplementedException();
         }
 
-        public double[] ROfFxAndTime(OpticalProperties[] ops, double[] fxs, double time)
+        public IEnumerable<double> ROfFx(IEnumerable<OpticalProperties> ops, IEnumerable<double> fxs)
         {
             throw new NotImplementedException();
         }
 
-        public double[] ROfFxAndTime(OpticalProperties op, double fx, double[] times)
+        public double ROfFx(IOpticalPropertyRegion[] regions, double fx)
+        {
+            throw new NotImplementedException();
+        }
+
+        public double[] ROfFx(IOpticalPropertyRegion[] regions, double[] fxs)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<double> ROfFx(IEnumerable<IOpticalPropertyRegion[]> regions, IEnumerable<double> fxs)
+        {
+            throw new NotImplementedException();
+        }
+
+        public double[] ROfFx(IOpticalPropertyRegion[][] regions, double[] fxs)
+        {
+            throw new NotImplementedException();
+        }
+
+        public double ROfFxAndTime(OpticalProperties op, double fx, double time)
         {
             throw new NotImplementedException();
         }
@@ -601,22 +469,72 @@ internal class Demo07PmcInversion : IDemoScript
             throw new NotImplementedException();
         }
 
+        public double[] ROfFxAndTime(OpticalProperties op, double fx, double[] times)
+        {
+            throw new NotImplementedException();
+        }
+
+        public double[] ROfFxAndTime(OpticalProperties op, double[] fxs, double[] times)
+        {
+            throw new NotImplementedException();
+        }
+
         public double[] ROfFxAndTime(OpticalProperties[] ops, double fx, double time)
         {
             throw new NotImplementedException();
         }
 
-        public Complex[] ROfFxAndFt(OpticalProperties[] ops, double fx, double[] fts)
+        public double[] ROfFxAndTime(OpticalProperties[] ops, double[] fxs, double time)
         {
             throw new NotImplementedException();
         }
 
-        public Complex[] ROfFxAndFt(OpticalProperties[] ops, double[] fxs, double ft)
+        public double[] ROfFxAndTime(OpticalProperties[] ops, double fx, double[] times)
         {
             throw new NotImplementedException();
         }
 
-        public Complex[] ROfFxAndFt(OpticalProperties op, double fx, double[] fts)
+        public double[] ROfFxAndTime(OpticalProperties[] ops, double[] fxs, double[] times)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<double> ROfFxAndTime(IEnumerable<OpticalProperties> ops, IEnumerable<double> fxs, IEnumerable<double> times)
+        {
+            throw new NotImplementedException();
+        }
+
+        public double ROfFxAndTime(IOpticalPropertyRegion[] regions, double fx, double time)
+        {
+            throw new NotImplementedException();
+        }
+
+        public double[] ROfFxAndTime(IOpticalPropertyRegion[] regions, double[] fxs, double time)
+        {
+            throw new NotImplementedException();
+        }
+
+        public double[] ROfFxAndTime(IOpticalPropertyRegion[] regions, double fx, double[] times)
+        {
+            throw new NotImplementedException();
+        }
+
+        public double[] ROfFxAndTime(IOpticalPropertyRegion[] regions, double[] fxs, double[] times)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<double> ROfFxAndTime(IEnumerable<IOpticalPropertyRegion[]> regions, IEnumerable<double> fxs, IEnumerable<double> times)
+        {
+            throw new NotImplementedException();
+        }
+
+        public double[] ROfFxAndTime(IOpticalPropertyRegion[][] regions, double[] fxs, double[] times)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Complex ROfFxAndFt(OpticalProperties op, double fx, double ft)
         {
             throw new NotImplementedException();
         }
@@ -626,7 +544,67 @@ internal class Demo07PmcInversion : IDemoScript
             throw new NotImplementedException();
         }
 
+        public Complex[] ROfFxAndFt(OpticalProperties op, double fx, double[] fts)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Complex[] ROfFxAndFt(OpticalProperties op, double[] fxs, double[] fts)
+        {
+            throw new NotImplementedException();
+        }
+
         public Complex[] ROfFxAndFt(OpticalProperties[] ops, double fx, double ft)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Complex[] ROfFxAndFt(OpticalProperties[] ops, double[] fxs, double ft)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Complex[] ROfFxAndFt(OpticalProperties[] ops, double fx, double[] fts)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Complex[] ROfFxAndFt(OpticalProperties[] ops, double[] fxs, double[] fts)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<Complex> ROfFxAndFt(IEnumerable<OpticalProperties> ops, IEnumerable<double> fxs, IEnumerable<double> fts)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Complex ROfFxAndFt(IOpticalPropertyRegion[] regions, double fx, double ft)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Complex[] ROfFxAndFt(IOpticalPropertyRegion[] regions, double[] fxs, double ft)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Complex[] ROfFxAndFt(IOpticalPropertyRegion[] regions, double fx, double[] fts)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Complex[] ROfFxAndFt(IOpticalPropertyRegion[] regions, double[] fxs, double[] fts)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<Complex> ROfFxAndFt(IEnumerable<IOpticalPropertyRegion[]> regions, IEnumerable<double> fxs, IEnumerable<double> fts)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Complex[] ROfFxAndFt(IOpticalPropertyRegion[][] regions, double[] fxs, double[] fts)
         {
             throw new NotImplementedException();
         }
@@ -636,7 +614,27 @@ internal class Demo07PmcInversion : IDemoScript
             throw new NotImplementedException();
         }
 
+        public IEnumerable<double> FluenceOfRhoAndZ(IEnumerable<OpticalProperties> ops, IEnumerable<double> rhos, IEnumerable<double> zs)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<double> FluenceOfRhoAndZ(IEnumerable<IOpticalPropertyRegion[]> regions, IEnumerable<double> rhos, IEnumerable<double> zs)
+        {
+            throw new NotImplementedException();
+        }
+
+        public double[] FluenceOfRhoAndZ(IOpticalPropertyRegion[][] regions, double[] rhos, double[] zs)
+        {
+            throw new NotImplementedException();
+        }
+
         public double[] FluenceOfRhoAndZAndTime(OpticalProperties[] ops, double[] rhos, double[] zs, double[] times)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<double> FluenceOfRhoAndZAndTime(IEnumerable<OpticalProperties> ops, IEnumerable<double> rhos, IEnumerable<double> zs, IEnumerable<double> times)
         {
             throw new NotImplementedException();
         }
@@ -646,7 +644,27 @@ internal class Demo07PmcInversion : IDemoScript
             throw new NotImplementedException();
         }
 
+        public IEnumerable<Complex> FluenceOfRhoAndZAndFt(IEnumerable<OpticalProperties> ops, IEnumerable<double> rhos, IEnumerable<double> zs, IEnumerable<double> fts)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<Complex> FluenceOfRhoAndZAndFt(IEnumerable<IOpticalPropertyRegion[]> regions, IEnumerable<double> rhos, IEnumerable<double> zs, IEnumerable<double> fts)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Complex[] FluenceOfRhoAndZAndFt(IOpticalPropertyRegion[][] regions, double[] rhos, double[] zs, double[] fts)
+        {
+            throw new NotImplementedException();
+        }
+
         public double[] FluenceOfFxAndZ(OpticalProperties[] ops, double[] fxs, double[] zs)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<double> FluenceOfFxAndZ(IEnumerable<OpticalProperties> ops, IEnumerable<double> fxs, IEnumerable<double> zs)
         {
             throw new NotImplementedException();
         }
@@ -656,12 +674,20 @@ internal class Demo07PmcInversion : IDemoScript
             throw new NotImplementedException();
         }
 
+        public IEnumerable<double> FluenceOfFxAndZAndTime(IEnumerable<OpticalProperties> ops, IEnumerable<double> fxs, IEnumerable<double> zs, IEnumerable<double> times)
+        {
+            throw new NotImplementedException();
+        }
+
         public Complex[] FluenceOfFxAndZAndFt(OpticalProperties[] ops, double[] fx, double[] zs, double[] fts)
         {
             throw new NotImplementedException();
         }
 
-
+        public IEnumerable<Complex> FluenceOfFxAndZAndFt(IEnumerable<OpticalProperties> ops, IEnumerable<double> fxs, IEnumerable<double> zs, IEnumerable<double> fts)
+        {
+            throw new NotImplementedException();
+        }
         #endregion
     }
 }

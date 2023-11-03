@@ -72,13 +72,13 @@ namespace Vts.MonteCarlo.Tissues
 
                 var numberOfIntersections = 0; //number of intersections
 
-                if (root1 < 1 && root1 > 0)
+                if (root1 < 1.0 && root1 > 0.0)
                 {
                     numberOfIntersections += 1;
                     root = root1;
                 }
 
-                if (root2 < 1 && root2 > 0)
+                if (root2 < 1.0 && root2 > 0.0)
                 {
                     numberOfIntersections += 1;
                     root = root2;
@@ -107,8 +107,7 @@ namespace Vts.MonteCarlo.Tissues
                                                        (zto - p1.Z) * (zto - p1.Z));
 
                         //// ckh fix 8/25/11: check if on boundary of cylinder
-                        if (distanceToBoundary >= 1e-11) return true;
-                        return false;
+                        return distanceToBoundary >= 1e-11;
 
                     case 2:  /* went through cylinder: must stop at nearest intersection */
                         //*which is nearest?*/

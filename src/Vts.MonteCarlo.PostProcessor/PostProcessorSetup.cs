@@ -22,10 +22,10 @@ namespace Vts.MonteCarlo.PostProcessor
                 // read input file then read in elements of input file
                 if (string.IsNullOrEmpty(inputFile))
                 {
-                        Console.WriteLine("\nNo input file specified. Using infile.txt from root mc_post.exe folder... ");
-                        return ReadPostProcessorInputFromFile("infile.txt");
+                    Console.WriteLine("\nNo input file specified. Using infile.txt from root mc_post.exe folder... ");
+                    return ReadPostProcessorInputFromFile("infile.txt");
                 }
-            
+
                 //get the full path for the input file
                 var fullFilePath = Path.GetFullPath(inputFile);
 
@@ -48,6 +48,7 @@ namespace Vts.MonteCarlo.PostProcessor
                 return null;
             }
         }
+
         /// <summary>
         /// Validate PostProcessor input with optional overriding command line "infile" option
         /// </summary>
@@ -188,7 +189,7 @@ namespace Vts.MonteCarlo.PostProcessor
                     }
                 }
                 if (input.DetectorInputs.Any(di => di.TallyDetails.IsSpecularReflectanceTally))
-                { 
+                {
                     detectorInputs = input.DetectorInputs.Where(
                         di => di.TallyDetails.IsSpecularReflectanceTally).ToList();
                     var postProcessor = new PhotonDatabasePostProcessor(

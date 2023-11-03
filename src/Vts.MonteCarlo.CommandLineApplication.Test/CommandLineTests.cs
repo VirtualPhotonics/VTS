@@ -1,5 +1,5 @@
-﻿using System;
-using NUnit.Framework;
+﻿using NUnit.Framework;
+using System;
 using System.Linq;
 
 namespace Vts.MonteCarlo.CommandLineApplication.Test
@@ -10,8 +10,8 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
         [Test]
         public void CommandLine_switch_test()
         {
-            var arguments = new [] { "h=topic" };
-            arguments.Process(() => Console.WriteLine("Usage"),
+            var arguments = new[] { "h=topic" };
+            arguments.Process(() => Console.WriteLine(@"Usage"),
                 new CommandLine.Switch("help", "h", arg =>
                 {
                     var helpTopic = arg.First();
@@ -23,7 +23,7 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
         public void CommandLine_no_switches_test()
         {
             var arguments = new[] { "undefined=true" };
-            arguments.Process(() => Console.WriteLine("Usage"),
+            arguments.Process(() => Console.WriteLine(@"Usage"),
                 new CommandLine.Switch("help", "h", arg =>
                 {
                     var undefined = arg.First();

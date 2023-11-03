@@ -1,23 +1,16 @@
-//#define PROCESS_ATTACH_DEBUG
-
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
-using NLog;
 using Vts.Common.Logging;
 
 [assembly: InternalsVisibleTo("Vts.MonteCarlo.CommandLineApplication.Test")]
+[assembly: InternalsVisibleTo("Vts.MonteCarlo.PostProcessor.CommandLineApplication.Test")]
 
 namespace Vts.MonteCarlo.CommandLineApplication
 {
-
-    #region CommandLine Arguments Parser
-
-    /* Simple commandline argument parser written by Ananth B. http://www.ananthonline.net */
-
-    #endregion
     /// <summary>
     /// Monte Carlo command line application program.  Type "mc help" for
     /// a description of the different command line parameters.
@@ -35,15 +28,11 @@ namespace Vts.MonteCarlo.CommandLineApplication
         /// <returns>int = 2 (infile exists but does not pass validation)</returns>
         public static int Main(string[] args)
         {
-#if PROCESS_ATTACH_DEBUG
-            Console.Read();
-#endif
             var inFile = "";
             var inFiles = new List<string>();
             var outName = "";
             var outPath = "";
-            var CPUCount = "1"; // default is to use 1
-            var infoOnlyOption = false;
+            var cpuCount = "1"; // default is to use 1
             IList<ParameterSweep> paramSweep = new List<ParameterSweep>();
 
             args.Process(() =>
@@ -51,7 +40,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
                    Logger.Info($"\nVirtual Photonics MC {GetVersionNumber(3)}\n");
                    Logger.Info("For more information type mc help");
                    Logger.Info("For help on a specific topic type dotnet mc.dll help=<topicname>\n");
-            },
+               },
                new CommandLine.Switch("help", val =>
                {
                    var helpTopic = val.First();
@@ -59,12 +48,10 @@ namespace Vts.MonteCarlo.CommandLineApplication
                        ShowHelp(helpTopic);
                    else
                        ShowHelp();
-                   infoOnlyOption = true;
                }),
                new CommandLine.Switch("geninfiles", val =>
                {
                    GenerateDefaultInputFiles();
-                   infoOnlyOption = true;
                }),
                new CommandLine.Switch("infile", val =>
                {
@@ -91,23 +78,23 @@ namespace Vts.MonteCarlo.CommandLineApplication
                }),
                new CommandLine.Switch("cpucount", val =>
                {
-                    CPUCount = val.First();
-                    if (CPUCount == "all")
-                    {
-                        CPUCount = Environment.ProcessorCount.ToString();
-                        Logger.Info(() => "changed to maximum CPUs on system " + CPUCount);
-                    }
-                    else
-                    {
-                        if (!int.TryParse(CPUCount, out var CPUCountInt))
-                        {
-                            Logger.Info(() => "unknown cpucount option " + CPUCount);
-                        }
-                        else
-                        {
-                            Logger.Info(() => "number of CPUs specified as " + CPUCount);
-                        }
-                    }
+                   cpuCount = val.First();
+                   if (cpuCount == "all")
+                   {
+                       cpuCount = Environment.ProcessorCount.ToString();
+                       Logger.Info(() => "changed to maximum CPUs on system " + cpuCount);
+                   }
+                   else
+                   {
+                       if (!int.TryParse(cpuCount, out var cpuCountInt))
+                       {
+                           Logger.Info(() => $"unknown cpucount option {cpuCount}");
+                       }
+                       else
+                       {
+                           Logger.Info(() => $"number of CPUs specified as {cpuCountInt}");
+                       }
+                   }
                }),
                new CommandLine.Switch("paramsweep", val =>
                {
@@ -134,9 +121,13 @@ namespace Vts.MonteCarlo.CommandLineApplication
                     Logger.Info(() => "parameter sweep specified as " + sweepString[0] + " values");
                 }));
 
-            if (!infoOnlyOption)
+            if (CheckInfoOnly(args))
             {
-                Func<SimulationInput, bool> checkValid = simInput =>
+                LogManager.Configuration = null;
+                return 0;
+            }
+
+            Func<SimulationInput, bool> checkValid = simInput =>
                     {
                         var validationResult = MonteCarloSetup.ValidateSimulationInput(simInput);
                         if (validationResult.IsValid) return true;
@@ -145,80 +136,86 @@ namespace Vts.MonteCarlo.CommandLineApplication
                         Console.Write("\nRemarks:" + validationResult.Remarks);
                         return false;
                     };
-                SimulationInput input;
-                if (paramSweep.Any() || inFiles.Any())
+            SimulationInput input;
+            if (paramSweep.Any() || inFiles.Any())
+            {
+                IList<SimulationInput> inputs;
+                if (paramSweep.Any())
                 {
-                    IList<SimulationInput> inputs;
-                    if (paramSweep.Any())
+                    input = MonteCarloSetup.ReadSimulationInputFromFile(inFile);
+                    if (input == null)
                     {
-                        input = MonteCarloSetup.ReadSimulationInputFromFile(inFile);
-                        if (input == null)
-                        {
-                            return 1;
-                        }
-                        if (!string.IsNullOrEmpty(outName))
-                        {
-                            input.OutputName = outName;
-                        }
-
-                        inputs = MonteCarloSetup.ApplyParameterSweeps(input, paramSweep).ToList();
+                        return 1;
                     }
-                    else // if infiles.Count() > 0
+                    if (!string.IsNullOrEmpty(outName))
                     {
-                        inputs = inFiles.Select(file => MonteCarloSetup.ReadSimulationInputFromFile(file)).ToList();
-                        if (!inputs.Any())
-                        {
-                            return 1;
-                        }
-                    }
-                    // validate input 
-                    if (inputs.Any(simulationInput => !checkValid(simulationInput)))
-                    {
-                        return 2;
-                    }
-                    // make sure input does not specify Database if CPUCount>1
-                    if (int.Parse(CPUCount) > 1 && (inputs.First().Options.Databases != null && inputs.First().Options.Databases.Count != 0))
-                    {
-                        CPUCount = 1.ToString();
-                        Logger.Info(() => "parallel processing cannot be performed when a Database is specified, changed CPUCount to 1");
+                        input.OutputName = outName;
                     }
 
-                    MonteCarloSetup.RunSimulations(inputs, outPath, int.Parse(CPUCount));
-                    Logger.Info("\nSimulations complete.");
-                    return 0;
+                    inputs = MonteCarloSetup.ApplyParameterSweeps(input, paramSweep).ToList();
                 }
-
-                input = MonteCarloSetup.ReadSimulationInputFromFile(inFile);
-                if (input == null)
+                else // if infiles.Count() > 0
                 {
-                    return 1;
+                    inputs = inFiles.Select(file => MonteCarloSetup.ReadSimulationInputFromFile(file)).ToList();
+                    if (!inputs.Any())
+                    {
+                        return 1;
+                    }
                 }
-
-                if (!checkValid(input))
+                // validate input 
+                if (inputs.Any(simulationInput => !checkValid(simulationInput)))
+                {
                     return 2;
-
-                if (!string.IsNullOrEmpty(outName))
-                {
-                    input.OutputName = outName;
                 }
-
                 // make sure input does not specify Database if CPUCount>1
-                if (int.Parse(CPUCount) > 1 && (input.Options.Databases != null && input.Options.Databases?.Count != 0))
+                if (int.Parse(cpuCount) > 1 && (inputs.First().Options.Databases != null && inputs.First().Options.Databases.Count != 0))
                 {
-                    CPUCount = 1.ToString();
-                    Logger.Info(() =>
-                        "parallel processing cannot be performed when a Database is specified, changed CPUCount to 1");
+                    cpuCount = 1.ToString();
+                    Logger.Info(() => "parallel processing cannot be performed when a Database is specified, changed CPUCount to 1");
                 }
 
-                MonteCarloSetup.RunSimulation(input, outPath, int.Parse(CPUCount));
-                Logger.Info("\nSimulation complete.");
+                MonteCarloSetup.RunSimulations(inputs, outPath, int.Parse(cpuCount));
+                Logger.Info("\nSimulations complete.");
                 return 0;
             }
 
-            LogManager.Configuration = null;
+            input = MonteCarloSetup.ReadSimulationInputFromFile(inFile);
+            if (input == null)
+            {
+                return 1;
+            }
+
+            if (!checkValid(input))
+                return 2;
+
+            if (!string.IsNullOrEmpty(outName))
+            {
+                input.OutputName = outName;
+            }
+
+            // make sure input does not specify Database if CPUCount>1
+            if (int.Parse(cpuCount) > 1 && (input.Options.Databases != null && input.Options.Databases?.Count != 0))
+            {
+                cpuCount = 1.ToString();
+                Logger.Info(() =>
+                    "parallel processing cannot be performed when a Database is specified, changed CPUCount to 1");
+            }
+
+            MonteCarloSetup.RunSimulation(input, outPath, int.Parse(cpuCount));
+            Logger.Info("\nSimulation complete.");
             return 0;
         }
-        
+
+        private static bool CheckInfoOnly(IEnumerable<string> args)
+        {
+            foreach (var arg in args)
+            {
+                if (arg.StartsWith("help")) return true;
+                if (arg.Equals("geninfiles")) return true;
+            }
+            return false;
+        }
+
         private static void GenerateDefaultInputFiles()
         {
             try
@@ -355,7 +352,7 @@ namespace Vts.MonteCarlo.CommandLineApplication
                     break;
             }
         }
-        
+
         /// <summary>
         /// Gets the version number of the application
         /// </summary>

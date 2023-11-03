@@ -339,7 +339,7 @@ namespace Vts.MonteCarlo.Detectors
                     WriteData = binaryWriter => {
                         if (!TallySecondMoment || SecondMoment == null) return;
                         for (var i = 0; i < X.Count - 1; i++) {
-                            for (var j = 0; j < X.Count - 1; j++) {
+                            for (var j = 0; j < Y.Count - 1; j++) {
                                 for (var k = 0; k < MTBins.Count - 1; k++)
                                 {
                                     binaryWriter.Write(SecondMoment[i, j, k]);
