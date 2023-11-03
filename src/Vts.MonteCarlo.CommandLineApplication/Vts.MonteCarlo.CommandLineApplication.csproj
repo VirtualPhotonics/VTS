@@ -6,8 +6,8 @@
     <AssemblyName>mc</AssemblyName>
     <RuntimeIdentifiers>win-x64;linux-x64;osx-x64</RuntimeIdentifiers>
     <RootNamespace>Vts.MonteCarlo.CommandLineApplication</RootNamespace>
-    <AssemblyVersion>7.2.0.0</AssemblyVersion>
-    <FileVersion>7.2.0.0</FileVersion>
+    <AssemblyVersion>7.3.0.0</AssemblyVersion>
+    <FileVersion>7.3.0.0</FileVersion>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <Company>Virtual Photonics Technology Initiative</Company>
     <Product>MCCL</Product>
@@ -20,7 +20,7 @@
     <RepositoryUrl>https://github.com/VirtualPhotonics/VTS</RepositoryUrl>
     <PackageTags>C#;Monte-Carlo</PackageTags>
     <RepositoryType>Git</RepositoryType>
-    <Version>7.2.0</Version>
+    <Version>7.3.0</Version>
   </PropertyGroup>
 
   <ItemGroup>

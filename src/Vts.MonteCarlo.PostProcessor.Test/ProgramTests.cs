@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using NUnit.Framework;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
-using NUnit.Framework;
 using Vts.MonteCarlo.IO;
 
 namespace Vts.MonteCarlo.PostProcessor.Test
@@ -12,11 +12,11 @@ namespace Vts.MonteCarlo.PostProcessor.Test
         /// <summary>
         /// clear all previously generated folders and files.
         /// </summary>
-        
+
         // Note: needs to be kept current with PostProcessorInputProvider.  If an infile is added there, it should be added here.
         private readonly List<string> _listOfMcppInfiles = new List<string>()
         {
-            "PostProcessor_ROfRhoTOfRho", 
+            "PostProcessor_ROfRhoTOfRho",
             "PostProcessor_pMC_ROfRhoROfRhoAndTime",
             "PostProcessor_pMC_ROfRhoROfXAndYVariants",
             "PostProcessor_pMC_ROfFxROfFxAndTime",

@@ -23,9 +23,9 @@ internal static class CommandLine
             Handler = handler;
         }
 
-        public string Name { get; private set; }
-        public string ShortForm { get; private set; }
-        public Action<IEnumerable<string>> Handler { get; private set; }
+        public string Name { get; }
+        public string ShortForm { get; }
+        public Action<IEnumerable<string>> Handler { get; }
 
         public int InvokeHandler(string[] values)
         {
@@ -37,7 +37,7 @@ internal static class CommandLine
     /* The regex that extracts names and comma-separated values for switches 
         in the form (<switch>[="value 1",value2,...])+ */
     private static readonly Regex ArgRegex =
-        new Regex(@"(?<name>[^=]+)=?((?<quoted>\""?)(?<value>(?(quoted)[^\""]+|[^,]+))\""?,?)*",
+        new(@"(?<name>[^=]+)=?((?<quoted>\""?)(?<value>(?(quoted)[^\""]+|[^,]+))\""?,?)*",
             RegexOptions.Compiled | RegexOptions.CultureInvariant |
             RegexOptions.ExplicitCapture | RegexOptions.IgnoreCase, TimeSpan.FromSeconds(10));
 
@@ -52,12 +52,12 @@ internal static class CommandLine
             and b) see if any were invoked at all (each returns 1 if invoked).
             If none were invoked, we simply invoke the printUsage handler. */
         if ((from arg in args
-                from Match match in ArgRegex.Matches(arg)
-                from s in switches
-                where match.Success &&
-                      ((string.Compare(match.Groups[NameGroup].Value, s.Name, true) == 0) ||
-                       (string.Compare(match.Groups[NameGroup].Value, s.ShortForm, true) == 0))
-                select s.InvokeHandler(match.Groups[ValueGroup].Value.Split(','))).Sum() == 0)
+             from Match match in ArgRegex.Matches(arg)
+             from s in switches
+             where match.Success &&
+                   ((string.Compare(match.Groups[NameGroup].Value, s.Name, true) == 0) ||
+                    (string.Compare(match.Groups[NameGroup].Value, s.ShortForm, true) == 0))
+             select s.InvokeHandler(match.Groups[ValueGroup].Value.Split(','))).Sum() == 0)
             printUsage(); // We didn't find any switches
     }
 }

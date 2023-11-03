@@ -196,7 +196,7 @@ namespace Vts.MonteCarlo.Tissues
             double zto;
             switch (numberOfIntersections)
             {
-                case 0: /* roots real but no intersection */
+                default: /* roots real but no intersection */
                     return false;
                 case 1:
                     if (!oneIn && Math.Abs(root) < 1e-7)  return false;
@@ -236,11 +236,7 @@ namespace Vts.MonteCarlo.Tissues
                     return true;
 
             } /* end switch */
-
             /* bb-4ac>0 */
-            /* roots imaginary -> no intersection */
-            return false;
         }
-
     }
 }
