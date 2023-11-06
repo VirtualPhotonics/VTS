@@ -383,12 +383,9 @@ namespace Vts.MonteCarlo.Detectors
             TotalMTOfZ ??= new double[X.Count - 1, Y.Count - 1, Z.Count - 1];
             DynamicMTOfZ ??= new double[X.Count - 1, Y.Count - 1, Z.Count - 1];
             SubregionCollisions ??= new double[NumSubregions, 2];
-            if (TallySecondMoment)
-            {
-                SecondMoment ??= new double[X.Count - 1, Y.Count - 1, Z.Count - 1];
-                TotalMTOfZSecondMoment ??= new double[X.Count - 1, Y.Count - 1, Z.Count - 1];
-                DynamicMTOfZSecondMoment ??= new double[X.Count - 1, Y.Count - 1, Z.Count - 1];
-            }
+            SecondMoment ??= new double[X.Count - 1, Y.Count - 1, Z.Count - 1];
+            TotalMTOfZSecondMoment ??= new double[X.Count - 1, Y.Count - 1, Z.Count - 1];
+            DynamicMTOfZSecondMoment ??= new double[X.Count - 1, Y.Count - 1, Z.Count - 1];
 
             var allSerializers = new List<BinaryArraySerializer>
             {
