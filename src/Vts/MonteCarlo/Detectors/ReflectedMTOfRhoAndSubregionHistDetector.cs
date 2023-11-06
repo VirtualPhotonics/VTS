@@ -263,7 +263,11 @@ namespace Vts.MonteCarlo.Detectors
         {
             Mean ??= new double[Rho.Count - 1, MTBins.Count - 1];
             FractionalMT ??= new double[Rho.Count - 1, MTBins.Count - 1, NumSubregions, FractionalMTBins.Count + 1];
-            SecondMoment ??= new double[Rho.Count - 1, MTBins.Count - 1];
+            if (TallySecondMoment)
+            {
+                SecondMoment ??= new double[Rho.Count - 1, MTBins.Count - 1];
+            }
+
             var allSerializers = new List<BinaryArraySerializer>
             {
                 BinaryArraySerializerFactory.GetSerializer(
