@@ -20,11 +20,11 @@ namespace Vts.Test.MonteCarlo
         {
             // 0D detectors
             "testrdiffuse",
-            "testrdiffuse_2", 
+            "testrdiffuse_2",
             "testtdiffuse",
             "testtdiffuse_2",
             "testatotal",
-            "testatotal_2", 
+            "testatotal_2",
             // 1D detectors
             "testrofangle",
             "testrofangle_2",
@@ -35,7 +35,7 @@ namespace Vts.Test.MonteCarlo
             "testtofrho",
             "testtofrho_2",
             "testpmcrofrho",
-            "testpmcrofrho_2", 
+            "testpmcrofrho_2",
             // 2D detectors
             "testdmcdrofrhodmua",
             "testdmcdrorrhodmua_2",
@@ -48,22 +48,22 @@ namespace Vts.Test.MonteCarlo
             "testrofrhoandangle",
             "testrofrhoandangle_2",
             "testrofrhoandtime",
-            "testrofrhoandtime_2", 
+            "testrofrhoandtime_2",
             "testrofrhoandomega",
-            "testrofrhoandomega_2", 
+            "testrofrhoandomega_2",
             "testrofxandy_2",
             "testtofrhoandangle",
-            "testrofrhoandangle_2", 
+            "testrofrhoandangle_2",
             "testaofrhoandz",
             "testaofrhoandz_2",
             "testreflectedmtofrhoandsubregionhist",
-            "testreflectedmtofrhoandsubregionhist_2", 
+            "testreflectedmtofrhoandsubregionhist_2",
             "testreflectedmtofrhoandsubregionhist_FractionalMT", // additional output for this detector
             "testpmcrofrhoandtime",
-            "testpmcrofrhoandtime_2", 
+            "testpmcrofrhoandtime_2",
             // 3D detectors
             "testfluenceofrhoandzandtime",
-            "testfluenceofrhoandzandtime_2", 
+            "testfluenceofrhoandzandtime_2",
             "testfluenceofrhoandzandomega",
             "testfluenceofrhoandzandomega_2",
             "testfluenceofxandyandz",
@@ -222,6 +222,42 @@ namespace Vts.Test.MonteCarlo
             Assert.AreEqual(6, detector.SecondMoment[2]);
         }
 
+        //[Test]
+        //public void Validate_1DRealDetectors_deserialized_class_is_correct_when_using_GetBinarySerializers()
+        //{
+
+        //    var detectors = new List<IDetector>();
+        //    var detectorName = "testrofangle";
+        //    detectors.Add(new ROfAngleDetector
+        //    {
+        //        Angle = new DoubleRange(0, 10, 3),
+        //        TallySecondMoment = true, // tally SecondMoment
+        //        Name = detectorName,
+        //        Mean = new double[] { 1, 2, 3 },
+        //        SecondMoment = new double[] { 4, 5, 6 }
+        //    });
+        //    detectorName = "testrofrho";
+        //    detectors.Add(new ROfRhoDetector
+        //    {
+        //        Rho = new DoubleRange(0, 10, 3),
+        //        TallySecondMoment = true, // tally SecondMoment
+        //        Name = detectorName,
+        //        Mean = new double[] { 1, 2, 3 },
+        //        SecondMoment = new double[] { 4, 5, 6 }
+        //    });
+        //    foreach (var detector in detectors)
+        //    {
+        //        DetectorBinarySerializationHelper.WriteClearAndReReadArrays(detector, detector.Mean, detector.SecondMoment);
+
+        //        Assert.AreEqual(1, detector.Mean[0]);
+        //        Assert.AreEqual(2, detector.Mean[1]);
+        //        Assert.AreEqual(3, detector.Mean[2]);
+        //        Assert.AreEqual(4, detector.SecondMoment[0]);
+        //        Assert.AreEqual(5, detector.SecondMoment[1]);
+        //        Assert.AreEqual(6, detector.SecondMoment[2]);
+        //    }
+        //}
+
         [Test]
         public void Validate_ROfAngleDetector_deserialized_class_is_correct_when_using_GetBinarySerializers()
         {
@@ -246,10 +282,58 @@ namespace Vts.Test.MonteCarlo
         }
 
         [Test]
+        public void Validate_ROFxDetector_deserialized_class_is_correct_when_using_GetBinarySerializers()
+        {
+            const string detectorName = "testroffx";
+            var detector = new ROfFxDetector
+            {
+                Fx = new DoubleRange(0, 10, 3),
+                TallySecondMoment = true, // tally SecondMoment
+                Name = detectorName,
+                Mean = new[]
+                    { 1 + 1 * Complex.ImaginaryOne, 2 + 2 * Complex.ImaginaryOne, 3 + 3 * Complex.ImaginaryOne },
+                SecondMoment = new[]
+                    { 4 + 4 * Complex.ImaginaryOne, 5 + 5 * Complex.ImaginaryOne, 6 + 6 * Complex.ImaginaryOne },
+            };
+
+            DetectorBinarySerializationHelper.WriteClearAndReReadArrays(detector, detector.Mean, detector.SecondMoment);
+
+            Assert.AreEqual(1 + 1 * Complex.ImaginaryOne, detector.Mean[0]);
+            Assert.AreEqual(2 + 2 * Complex.ImaginaryOne, detector.Mean[1]);
+            Assert.AreEqual(3 + 3 * Complex.ImaginaryOne, detector.Mean[2]);
+            Assert.AreEqual(4 + 4 * Complex.ImaginaryOne, detector.SecondMoment[0]);
+            Assert.AreEqual(5 + 5 * Complex.ImaginaryOne, detector.SecondMoment[1]);
+            Assert.AreEqual(6 + 6 * Complex.ImaginaryOne, detector.SecondMoment[2]);
+        }
+
+        [Test]
         public void Validate_ROfRhoDetector_deserialized_class_is_correct_when_using_GetBinarySerializers()
         {
             const string detectorName = "testrofrho";
             var detector = new ROfRhoDetector
+            {
+                Rho = new DoubleRange(0, 10, 3),
+                TallySecondMoment = true, // tally SecondMoment
+                Name = detectorName,
+                Mean = new double[] { 1, 2, 3 },
+                SecondMoment = new double[] { 4, 5, 6 }
+            };
+
+            DetectorBinarySerializationHelper.WriteClearAndReReadArrays(detector, detector.Mean, detector.SecondMoment);
+
+            Assert.AreEqual(1, detector.Mean[0]);
+            Assert.AreEqual(2, detector.Mean[1]);
+            Assert.AreEqual(3, detector.Mean[2]);
+            Assert.AreEqual(4, detector.SecondMoment[0]);
+            Assert.AreEqual(5, detector.SecondMoment[1]);
+            Assert.AreEqual(6, detector.SecondMoment[2]);
+        }
+
+        [Test]
+        public void Validate_ROfRhoRecessedDetector_deserialized_class_is_correct_when_using_GetBinarySerializers()
+        {
+            const string detectorName = "testrofrhorecessed";
+            var detector = new ROfRhoRecessedDetector
             {
                 Rho = new DoubleRange(0, 10, 3),
                 TallySecondMoment = true, // tally SecondMoment
@@ -343,6 +427,121 @@ namespace Vts.Test.MonteCarlo
         /// test to verify that DetectorIO.WriteDetectorToFile and DetectorIO.ReadDetectorToFile
         /// are working correctly for 2D detector.
         /// </summary>
+
+        [Test]
+        public void Validate_ROFxAndAngleDetector_deserialized_class_is_correct_when_using_GetBinarySerializers()
+        {
+            const string detectorName = "testroffxandangle";
+            var detector = new ROfFxAndAngleDetector
+            {
+                Fx = new DoubleRange(0, 10, 3),
+                Angle = new DoubleRange(0, 1, 2),
+                TallySecondMoment = true, // tally SecondMoment
+                Name = detectorName,
+                Mean = new[,]
+                {
+                    { 1 + 1 * Complex.ImaginaryOne, 2 + 2 * Complex.ImaginaryOne, 3 + 3 * Complex.ImaginaryOne },
+                    { 4 + 4 * Complex.ImaginaryOne, 5 + 5 * Complex.ImaginaryOne, 6 + 6 * Complex.ImaginaryOne }
+                },
+                SecondMoment = new[,]
+                {
+                    { 7 + 7 * Complex.ImaginaryOne, 8 + 8 * Complex.ImaginaryOne, 9 + 9 * Complex.ImaginaryOne },
+                    { 10 + 10 * Complex.ImaginaryOne, 11 + 11 * Complex.ImaginaryOne, 12 + 12 * Complex.ImaginaryOne }
+                }
+            };
+
+            DetectorBinarySerializationHelper.WriteClearAndReReadArrays(detector, detector.Mean, detector.SecondMoment);
+
+            Assert.AreEqual(1 + 1 * Complex.ImaginaryOne, detector.Mean[0, 0]);
+            Assert.AreEqual(2 + 2 * Complex.ImaginaryOne, detector.Mean[0, 1]);
+            Assert.AreEqual(3 + 3 * Complex.ImaginaryOne, detector.Mean[0, 2]);
+            Assert.AreEqual(4 + 4 * Complex.ImaginaryOne, detector.Mean[1, 0]);
+            Assert.AreEqual(5 + 5 * Complex.ImaginaryOne, detector.Mean[1, 1]);
+            Assert.AreEqual(6 + 6 * Complex.ImaginaryOne, detector.Mean[1, 2]);
+            Assert.AreEqual(7 + 7 * Complex.ImaginaryOne, detector.SecondMoment[0, 0]);
+            Assert.AreEqual(8 + 8 * Complex.ImaginaryOne, detector.SecondMoment[0, 1]);
+            Assert.AreEqual(9 + 9 * Complex.ImaginaryOne, detector.SecondMoment[0, 2]);
+            Assert.AreEqual(10 + 10 * Complex.ImaginaryOne, detector.SecondMoment[1, 0]);
+            Assert.AreEqual(11 + 11 * Complex.ImaginaryOne, detector.SecondMoment[1, 1]);
+            Assert.AreEqual(12 + 12 * Complex.ImaginaryOne, detector.SecondMoment[1, 2]);
+        }
+
+        [Test]
+        public void Validate_ROFxAndMaxDepthDetector_deserialized_class_is_correct_when_using_GetBinarySerializers()
+        {
+            const string detectorName = "testroffxandMaxDepth";
+            var detector = new ROfFxAndMaxDepthDetector
+            {
+                Fx = new DoubleRange(0, 10, 3),
+                MaxDepth = new DoubleRange(0, 1, 2),
+                TallySecondMoment = true, // tally SecondMoment
+                Name = detectorName,
+                Mean = new[,]
+                {
+                    { 1 + 1 * Complex.ImaginaryOne, 2 + 2 * Complex.ImaginaryOne, 3 + 3 * Complex.ImaginaryOne },
+                    { 4 + 4 * Complex.ImaginaryOne, 5 + 5 * Complex.ImaginaryOne, 6 + 6 * Complex.ImaginaryOne }
+                },
+                SecondMoment = new[,]
+                {
+                    { 7 + 7 * Complex.ImaginaryOne, 8 + 8 * Complex.ImaginaryOne, 9 + 9 * Complex.ImaginaryOne },
+                    { 10 + 10 * Complex.ImaginaryOne, 11 + 11 * Complex.ImaginaryOne, 12 + 12 * Complex.ImaginaryOne }
+                }
+            };
+
+            DetectorBinarySerializationHelper.WriteClearAndReReadArrays(detector, detector.Mean, detector.SecondMoment);
+
+            Assert.AreEqual(1 + 1 * Complex.ImaginaryOne, detector.Mean[0, 0]);
+            Assert.AreEqual(2 + 2 * Complex.ImaginaryOne, detector.Mean[0, 1]);
+            Assert.AreEqual(3 + 3 * Complex.ImaginaryOne, detector.Mean[0, 2]);
+            Assert.AreEqual(4 + 4 * Complex.ImaginaryOne, detector.Mean[1, 0]);
+            Assert.AreEqual(5 + 5 * Complex.ImaginaryOne, detector.Mean[1, 1]);
+            Assert.AreEqual(6 + 6 * Complex.ImaginaryOne, detector.Mean[1, 2]);
+            Assert.AreEqual(7 + 7 * Complex.ImaginaryOne, detector.SecondMoment[0, 0]);
+            Assert.AreEqual(8 + 8 * Complex.ImaginaryOne, detector.SecondMoment[0, 1]);
+            Assert.AreEqual(9 + 9 * Complex.ImaginaryOne, detector.SecondMoment[0, 2]);
+            Assert.AreEqual(10 + 10 * Complex.ImaginaryOne, detector.SecondMoment[1, 0]);
+            Assert.AreEqual(11 + 11 * Complex.ImaginaryOne, detector.SecondMoment[1, 1]);
+            Assert.AreEqual(12 + 12 * Complex.ImaginaryOne, detector.SecondMoment[1, 2]);
+        }
+
+        [Test]
+        public void Validate_ROFxAndTimeDetector_deserialized_class_is_correct_when_using_GetBinarySerializers()
+        {
+            const string detectorName = "testroffxandTime";
+            var detector = new ROfFxAndTimeDetector
+            {
+                Fx = new DoubleRange(0, 10, 3),
+                Time = new DoubleRange(0, 1, 2),
+                TallySecondMoment = true, // tally SecondMoment
+                Name = detectorName,
+                Mean = new[,]
+                {
+                    { 1 + 1 * Complex.ImaginaryOne, 2 + 2 * Complex.ImaginaryOne, 3 + 3 * Complex.ImaginaryOne },
+                    { 4 + 4 * Complex.ImaginaryOne, 5 + 5 * Complex.ImaginaryOne, 6 + 6 * Complex.ImaginaryOne }
+                },
+                SecondMoment = new[,]
+                {
+                    { 7 + 7 * Complex.ImaginaryOne, 8 + 8 * Complex.ImaginaryOne, 9 + 9 * Complex.ImaginaryOne },
+                    { 10 + 10 * Complex.ImaginaryOne, 11 + 11 * Complex.ImaginaryOne, 12 + 12 * Complex.ImaginaryOne }
+                }
+            };
+
+            DetectorBinarySerializationHelper.WriteClearAndReReadArrays(detector, detector.Mean, detector.SecondMoment);
+
+            Assert.AreEqual(1 + 1 * Complex.ImaginaryOne, detector.Mean[0, 0]);
+            Assert.AreEqual(2 + 2 * Complex.ImaginaryOne, detector.Mean[0, 1]);
+            Assert.AreEqual(3 + 3 * Complex.ImaginaryOne, detector.Mean[0, 2]);
+            Assert.AreEqual(4 + 4 * Complex.ImaginaryOne, detector.Mean[1, 0]);
+            Assert.AreEqual(5 + 5 * Complex.ImaginaryOne, detector.Mean[1, 1]);
+            Assert.AreEqual(6 + 6 * Complex.ImaginaryOne, detector.Mean[1, 2]);
+            Assert.AreEqual(7 + 7 * Complex.ImaginaryOne, detector.SecondMoment[0, 0]);
+            Assert.AreEqual(8 + 8 * Complex.ImaginaryOne, detector.SecondMoment[0, 1]);
+            Assert.AreEqual(9 + 9 * Complex.ImaginaryOne, detector.SecondMoment[0, 2]);
+            Assert.AreEqual(10 + 10 * Complex.ImaginaryOne, detector.SecondMoment[1, 0]);
+            Assert.AreEqual(11 + 11 * Complex.ImaginaryOne, detector.SecondMoment[1, 1]);
+            Assert.AreEqual(12 + 12 * Complex.ImaginaryOne, detector.SecondMoment[1, 2]);
+        }
+
         [Test]
         public void Validate_ROfRhoAndAngleDetector_deserialized_class_is_correct_when_using_GetBinarySerializers()
         {
@@ -878,6 +1077,92 @@ namespace Vts.Test.MonteCarlo
                 X = new DoubleRange(-10, 10, 3),
                 Y = new DoubleRange(-10, 10, 2),
                 Z = new DoubleRange(0, 1, 2),
+                TallySecondMoment = true, // tally SecondMoment
+                Name = detectorName,
+                Mean = new double[,,] { { { 1, 2, 3 }, { 4, 5, 6 } }, { { 7, 8, 9 }, { 10, 11, 12 } } },
+                SecondMoment = new double[,,] { { { 13, 14, 15 }, { 16, 17, 18 } }, { { 19, 20, 21 }, { 22, 23, 24 } } }
+            };
+
+            DetectorBinarySerializationHelper.WriteClearAndReReadArrays(detector, detector.Mean, detector.SecondMoment);
+
+            Assert.AreEqual(1, detector.Mean[0, 0, 0]);
+            Assert.AreEqual(2, detector.Mean[0, 0, 1]);
+            Assert.AreEqual(3, detector.Mean[0, 0, 2]);
+            Assert.AreEqual(4, detector.Mean[0, 1, 0]);
+            Assert.AreEqual(5, detector.Mean[0, 1, 1]);
+            Assert.AreEqual(6, detector.Mean[0, 1, 2]);
+            Assert.AreEqual(7, detector.Mean[1, 0, 0]);
+            Assert.AreEqual(8, detector.Mean[1, 0, 1]);
+            Assert.AreEqual(9, detector.Mean[1, 0, 2]);
+            Assert.AreEqual(10, detector.Mean[1, 1, 0]);
+            Assert.AreEqual(11, detector.Mean[1, 1, 1]);
+            Assert.AreEqual(12, detector.Mean[1, 1, 2]);
+            Assert.AreEqual(13, detector.SecondMoment[0, 0, 0]);
+            Assert.AreEqual(14, detector.SecondMoment[0, 0, 1]);
+            Assert.AreEqual(15, detector.SecondMoment[0, 0, 2]);
+            Assert.AreEqual(16, detector.SecondMoment[0, 1, 0]);
+            Assert.AreEqual(17, detector.SecondMoment[0, 1, 1]);
+            Assert.AreEqual(18, detector.SecondMoment[0, 1, 2]);
+            Assert.AreEqual(19, detector.SecondMoment[1, 0, 0]);
+            Assert.AreEqual(20, detector.SecondMoment[1, 0, 1]);
+            Assert.AreEqual(21, detector.SecondMoment[1, 0, 2]);
+            Assert.AreEqual(22, detector.SecondMoment[1, 1, 0]);
+            Assert.AreEqual(23, detector.SecondMoment[1, 1, 1]);
+            Assert.AreEqual(24, detector.SecondMoment[1, 1, 2]);
+        }
+
+        [Test]
+        public void Validate_ROfXAndYAndMaxDepth_deserialized_class_is_correct_when_using_GetBinarySerializers()
+        {
+            const string detectorName = "testrofxandyandmaxdepth";
+            var detector = new ROfXAndYAndMaxDepthDetector
+            {
+                X = new DoubleRange(-10, 10, 3),
+                Y = new DoubleRange(-10, 10, 2),
+                MaxDepth = new DoubleRange(0, 1, 2),
+                TallySecondMoment = true, // tally SecondMoment
+                Name = detectorName,
+                Mean = new double[,,] { { { 1, 2, 3 }, { 4, 5, 6 } }, { { 7, 8, 9 }, { 10, 11, 12 } } },
+                SecondMoment = new double[,,] { { { 13, 14, 15 }, { 16, 17, 18 } }, { { 19, 20, 21 }, { 22, 23, 24 } } }
+            };
+
+            DetectorBinarySerializationHelper.WriteClearAndReReadArrays(detector, detector.Mean, detector.SecondMoment);
+
+            Assert.AreEqual(1, detector.Mean[0, 0, 0]);
+            Assert.AreEqual(2, detector.Mean[0, 0, 1]);
+            Assert.AreEqual(3, detector.Mean[0, 0, 2]);
+            Assert.AreEqual(4, detector.Mean[0, 1, 0]);
+            Assert.AreEqual(5, detector.Mean[0, 1, 1]);
+            Assert.AreEqual(6, detector.Mean[0, 1, 2]);
+            Assert.AreEqual(7, detector.Mean[1, 0, 0]);
+            Assert.AreEqual(8, detector.Mean[1, 0, 1]);
+            Assert.AreEqual(9, detector.Mean[1, 0, 2]);
+            Assert.AreEqual(10, detector.Mean[1, 1, 0]);
+            Assert.AreEqual(11, detector.Mean[1, 1, 1]);
+            Assert.AreEqual(12, detector.Mean[1, 1, 2]);
+            Assert.AreEqual(13, detector.SecondMoment[0, 0, 0]);
+            Assert.AreEqual(14, detector.SecondMoment[0, 0, 1]);
+            Assert.AreEqual(15, detector.SecondMoment[0, 0, 2]);
+            Assert.AreEqual(16, detector.SecondMoment[0, 1, 0]);
+            Assert.AreEqual(17, detector.SecondMoment[0, 1, 1]);
+            Assert.AreEqual(18, detector.SecondMoment[0, 1, 2]);
+            Assert.AreEqual(19, detector.SecondMoment[1, 0, 0]);
+            Assert.AreEqual(20, detector.SecondMoment[1, 0, 1]);
+            Assert.AreEqual(21, detector.SecondMoment[1, 0, 2]);
+            Assert.AreEqual(22, detector.SecondMoment[1, 1, 0]);
+            Assert.AreEqual(23, detector.SecondMoment[1, 1, 1]);
+            Assert.AreEqual(24, detector.SecondMoment[1, 1, 2]);
+        }
+
+        [Test]
+        public void Validate_ROfXAndYAndMaxDepthRecessed_deserialized_class_is_correct_when_using_GetBinarySerializers()
+        {
+            const string detectorName = "testrofxandyandmaxdepthrecessed";
+            var detector = new ROfXAndYAndMaxDepthRecessedDetector
+            {
+                X = new DoubleRange(-10, 10, 3),
+                Y = new DoubleRange(-10, 10, 2),
+                MaxDepth = new DoubleRange(0, 1, 2),
                 TallySecondMoment = true, // tally SecondMoment
                 Name = detectorName,
                 Mean = new double[,,] { { { 1, 2, 3 }, { 4, 5, 6 } }, { { 7, 8, 9 }, { 10, 11, 12 } } },

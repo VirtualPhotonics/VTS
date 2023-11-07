@@ -8,6 +8,8 @@ namespace Vts.MonteCarlo.Detectors
         /// <summary>
         /// detector input abstract class
         /// </summary>
+        /// <param name="detector">IDetector being serialized</param>
+        /// <param name="arrays">arrays to be serialized (e.g. Mean, SecondMoment, etc.)</param>
         internal static void WriteClearAndReReadArrays(IDetector detector, params Array[] arrays)
         {
             var serializers = detector.GetBinarySerializers();
