@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using Vts.IO;
 using Vts.MonteCarlo.PhotonData;
 
@@ -144,7 +145,10 @@ namespace Vts.MonteCarlo.Detectors
         /// this scalar tally is saved to json
         /// </summary>
         /// <returns>array of BinaryArraySerializer</returns>
-        public BinaryArraySerializer[] GetBinarySerializers() => null;
+        public BinaryArraySerializer[] GetBinarySerializers()
+        {
+            return Array.Empty<BinaryArraySerializer>();
+        }
 
         /// <summary>
         /// Method to determine if photon is within detector
