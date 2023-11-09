@@ -2,20 +2,22 @@
 using System.IO;
 using System.Linq;
 using System.Numerics;
-using Vts.Extensions;
 
 namespace Vts.IO;
 
+/// <summary>
+/// Factory class to get the correct serializer for the binary array
+/// </summary>
 public static class BinaryArraySerializerFactory
 {
     /// <summary>
     /// Factory method that writes an array item to a binary file
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="item"></param>
-    /// <param name="name"></param>
-    /// <param name="fileTag"></param>
-    /// <returns></returns>
+    /// <typeparam name="T">The type of the array</typeparam>
+    /// <param name="item">The data array</param>
+    /// <param name="name">The name of the array</param>
+    /// <param name="fileTag">The file tag to append to the filename</param>
+    /// <returns>An instance of BinaryArraySerializer</returns>
     public static BinaryArraySerializer GetSerializer<T>(T item, string name, string fileTag)
     {
         return new BinaryArraySerializer
@@ -169,104 +171,6 @@ public static class BinaryArraySerializerFactory
         }
     }
 
-    internal static void ReadIntoDataArray(BinaryReader binaryReader, double[] dataArray)
-    {
-        var axesDimensions = GetAllDimensions(dataArray);
-        for (var i = 0; i < axesDimensions[0]; i++)
-        {
-            dataArray[i] = binaryReader.ReadDouble();
-        }
-    }
-
-    internal static void ReadIntoDataArray(BinaryReader binaryReader, double[,] dataArray)
-    {
-        var axesDimensions = GetAllDimensions(dataArray);
-        for (var i = 0; i < axesDimensions[0]; i++)
-        {
-            for (var j = 0; j < axesDimensions[1]; j++)
-            {
-                dataArray[i, j] = binaryReader.ReadDouble();
-            }
-        }
-    }
-
-    internal static void ReadIntoDataArray(BinaryReader binaryReader, double[,,] dataArray)
-    {
-        var axesDimensions = GetAllDimensions(dataArray);
-        for (var i = 0; i < axesDimensions[0]; i++)
-        {
-            for (var j = 0; j < axesDimensions[1]; j++)
-            {
-                for (var k = 0; k < axesDimensions[2]; k++)
-                {
-                    dataArray[i, j, k] = binaryReader.ReadDouble();
-                }
-            }
-        }
-    }
-
-    internal static void ReadIntoDataArray(BinaryReader binaryReader, double[,,,] dataArray)
-    {
-        var axesDimensions = GetAllDimensions(dataArray);
-        for (var i = 0; i < axesDimensions[0]; i++)
-        {
-            for (var j = 0; j < axesDimensions[1]; j++)
-            {
-                for (var k = 0; k < axesDimensions[2]; k++)
-                {
-                    for (var el = 0; el < axesDimensions[3]; el++)
-                    {
-                        dataArray[i, j, k, el] = binaryReader.ReadDouble();
-                    }
-                }
-            }
-        }
-    }
-
-    internal static void ReadIntoDataArray(BinaryReader binaryReader, double[,,,,] dataArray)
-    {
-        var axesDimensions = GetAllDimensions(dataArray);
-        for (var i = 0; i < axesDimensions[0]; i++)
-        {
-            for (var j = 0; j < axesDimensions[1]; j++)
-            {
-                for (var k = 0; k < axesDimensions[2]; k++)
-                {
-                    for (var el = 0; el < axesDimensions[3]; el++)
-                    {
-                        for (var m = 0; m < axesDimensions[4]; m++)
-                        {
-                            dataArray[i, j, k, el, m] = binaryReader.ReadDouble();
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    internal static void ReadIntoDataArray(BinaryReader binaryReader, double[,,,,,] dataArray)
-    {
-        var axesDimensions = GetAllDimensions(dataArray);
-        for (var i = 0; i < axesDimensions[0]; i++)
-        {
-            for (var j = 0; j < axesDimensions[1]; j++)
-            {
-                for (var k = 0; k < axesDimensions[2]; k++)
-                {
-                    for (var el = 0; el < axesDimensions[3]; el++)
-                    {
-                        for (var m = 0; m < axesDimensions[4]; m++)
-                        {
-                            for (var n = 0; n < axesDimensions[5]; n++)
-                            {
-                                dataArray[i, j, k, el, m, n] = binaryReader.ReadDouble();
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
     // Complex versions
     internal static void WriteDataArray(BinaryWriter binaryWriter, Complex[] dataArray)
     {
@@ -373,6 +277,106 @@ public static class BinaryArraySerializerFactory
         }
     }
 
+    internal static void ReadIntoDataArray(BinaryReader binaryReader, double[] dataArray)
+    {
+        var axesDimensions = GetAllDimensions(dataArray);
+        for (var i = 0; i < axesDimensions[0]; i++)
+        {
+            dataArray[i] = binaryReader.ReadDouble();
+        }
+    }
+
+    internal static void ReadIntoDataArray(BinaryReader binaryReader, double[,] dataArray)
+    {
+        var axesDimensions = GetAllDimensions(dataArray);
+        for (var i = 0; i < axesDimensions[0]; i++)
+        {
+            for (var j = 0; j < axesDimensions[1]; j++)
+            {
+                dataArray[i, j] = binaryReader.ReadDouble();
+            }
+        }
+    }
+
+    internal static void ReadIntoDataArray(BinaryReader binaryReader, double[,,] dataArray)
+    {
+        var axesDimensions = GetAllDimensions(dataArray);
+        for (var i = 0; i < axesDimensions[0]; i++)
+        {
+            for (var j = 0; j < axesDimensions[1]; j++)
+            {
+                for (var k = 0; k < axesDimensions[2]; k++)
+                {
+                    dataArray[i, j, k] = binaryReader.ReadDouble();
+                }
+            }
+        }
+    }
+
+    internal static void ReadIntoDataArray(BinaryReader binaryReader, double[,,,] dataArray)
+    {
+        var axesDimensions = GetAllDimensions(dataArray);
+        for (var i = 0; i < axesDimensions[0]; i++)
+        {
+            for (var j = 0; j < axesDimensions[1]; j++)
+            {
+                for (var k = 0; k < axesDimensions[2]; k++)
+                {
+                    for (var el = 0; el < axesDimensions[3]; el++)
+                    {
+                        dataArray[i, j, k, el] = binaryReader.ReadDouble();
+                    }
+                }
+            }
+        }
+    }
+
+    internal static void ReadIntoDataArray(BinaryReader binaryReader, double[,,,,] dataArray)
+    {
+        var axesDimensions = GetAllDimensions(dataArray);
+        for (var i = 0; i < axesDimensions[0]; i++)
+        {
+            for (var j = 0; j < axesDimensions[1]; j++)
+            {
+                for (var k = 0; k < axesDimensions[2]; k++)
+                {
+                    for (var el = 0; el < axesDimensions[3]; el++)
+                    {
+                        for (var m = 0; m < axesDimensions[4]; m++)
+                        {
+                            dataArray[i, j, k, el, m] = binaryReader.ReadDouble();
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    internal static void ReadIntoDataArray(BinaryReader binaryReader, double[,,,,,] dataArray)
+    {
+        var axesDimensions = GetAllDimensions(dataArray);
+        for (var i = 0; i < axesDimensions[0]; i++)
+        {
+            for (var j = 0; j < axesDimensions[1]; j++)
+            {
+                for (var k = 0; k < axesDimensions[2]; k++)
+                {
+                    for (var el = 0; el < axesDimensions[3]; el++)
+                    {
+                        for (var m = 0; m < axesDimensions[4]; m++)
+                        {
+                            for (var n = 0; n < axesDimensions[5]; n++)
+                            {
+                                dataArray[i, j, k, el, m, n] = binaryReader.ReadDouble();
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // Complex versions
     internal static void ReadIntoDataArray(BinaryReader binaryReader, Complex[] dataArray)
     {
         var axesDimensions = GetAllDimensions(dataArray);
