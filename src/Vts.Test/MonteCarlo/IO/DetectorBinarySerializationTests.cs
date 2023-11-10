@@ -124,8 +124,7 @@ namespace Vts.Test.MonteCarlo
         #region single value detectors: complete
 
         /// <summary>
-        /// test to verify that DetectorIO.WriteDetectorToFile and DetectorIO.ReadDetectorToFile
-        /// are working correctly for 0D detectors.
+        /// test to verify that GetBinarySerializers are working correctly for 0D detectors.
         /// </summary>
 
         [Test]
@@ -257,8 +256,7 @@ namespace Vts.Test.MonteCarlo
 
         #region 1D detectors: complete
         /// <summary>
-        /// test to verify that DetectorIO.WriteDetectorToFile and DetectorIO.ReadDetectorToFile
-        /// are working correctly for 1D detector.
+        /// test to verify that GetBinarySerializers are working correctly for 1D detector.
         /// </summary>
         [Test]
         public void Validate_dMCdROfRhodMuaDetector_deserialized_class_is_correct_when_using_GetBinarySerializers()
@@ -577,8 +575,7 @@ namespace Vts.Test.MonteCarlo
 
         #region 2D detectors: 
         /// <summary>
-        /// test to verify that DetectorIO.WriteDetectorToFile and DetectorIO.ReadDetectorToFile
-        /// are working correctly for 2D detector.
+        /// test to verify that GetBinarySerializers are working correctly for 2D detector.
         /// </summary>
 
         [Test]
@@ -813,6 +810,124 @@ namespace Vts.Test.MonteCarlo
             Assert.AreEqual(12, detector.SecondMoment[1, 2]);
         }
         [Test]
+        public void Validate_ReflectedDynamicMTOfFxAndSubregionHistDetector_deserialized_class_is_correct_when_using_GetBinarySerializers()
+        {
+            const string detectorName = "testreflecteddynamicmtoffxandsubregionhist";
+            var detector = new ReflectedDynamicMTOfFxAndSubregionHistDetector
+            {
+                Fx = new DoubleRange(0, 10, 2),
+                MTBins = new DoubleRange(0, 10, 4),
+                Z = new DoubleRange(0, 10, 4),
+                FractionalMTBins = new DoubleRange(0, 1, 1),
+                TallySecondMoment = true, // tally SecondMoment
+                Name = detectorName,
+                Mean = new[,] // Fx.Count x MTBins.Count-1: 2x3
+                {
+                    { 1 + Complex.ImaginaryOne, 2 + 2 * Complex.ImaginaryOne, 3 + 3 * Complex.ImaginaryOne},
+                    { 4 + 4 * Complex.ImaginaryOne, 5 + 5 * Complex.ImaginaryOne, 6 + 6 * Complex.ImaginaryOne }
+                },
+                SecondMoment = new[,]
+                {
+                    { 7 + 7 * Complex.ImaginaryOne, 8 + 8 * Complex.ImaginaryOne, 9 + 9 * Complex.ImaginaryOne }, 
+                    { 10 + 10 * Complex.ImaginaryOne, 11 + 11 * Complex.ImaginaryOne, 12 + 12 * Complex.ImaginaryOne }
+                },
+                TotalMTOfZ = new[,] // Fx.Count x Z.Count-1: 2x3
+                {
+                    { 13 + 13 * Complex.ImaginaryOne, 14 + 14 * Complex.ImaginaryOne, 15 + 15 * Complex.ImaginaryOne }, 
+                    { 16 + 16 * Complex.ImaginaryOne, 17 + 17 * Complex.ImaginaryOne, 18 + 18 * Complex.ImaginaryOne }
+                },
+                TotalMTOfZSecondMoment = new[,] 
+                { 
+                    { 19 + 19 * Complex.ImaginaryOne, 20 + 20 * Complex.ImaginaryOne, 21 + 21 * Complex.ImaginaryOne }, 
+                    { 22 + 22 * Complex.ImaginaryOne, 23 + 23 * Complex.ImaginaryOne, 24 + 24 * Complex.ImaginaryOne },
+                },
+                DynamicMTOfZ = new[,] // Fx.Count x Z.Count-1: 2x3
+                {
+                    { 25 + 25 * Complex.ImaginaryOne, 26 + 26 * Complex.ImaginaryOne, 27 + 27 * Complex.ImaginaryOne }, 
+                    { 28 + 28 * Complex.ImaginaryOne, 29 + 29 * Complex.ImaginaryOne, 30 + 30 * Complex.ImaginaryOne } },
+                DynamicMTOfZSecondMoment = new[,]
+                {
+                    { 31 + 31 * Complex.ImaginaryOne, 32 + 32 * Complex.ImaginaryOne, 33 + 33 * Complex.ImaginaryOne }, 
+                    { 34 + 34 * Complex.ImaginaryOne, 35 + 35 * Complex.ImaginaryOne, 36 + 36 * Complex.ImaginaryOne }, 
+                },
+                FractionalMT = new[,,] // Fx.Count x MTBins.Count-1 x FractionalMTBins.Count+1=2x3x2
+                {
+                    { 
+                        { 37 + 37 * Complex.ImaginaryOne, 38 + 38 * Complex.ImaginaryOne }, 
+                        { 39 + 39 * Complex.ImaginaryOne, 40 + 40 * Complex.ImaginaryOne }, 
+                        { 41 + 41 * Complex.ImaginaryOne, 42 + 42 * Complex.ImaginaryOne }
+                    },
+                    {
+                        { 43 + 43 * Complex.ImaginaryOne, 44 + 44 * Complex.ImaginaryOne }, 
+                        { 45 + 45 * Complex.ImaginaryOne, 46 + 46 * Complex.ImaginaryOne }, 
+                        { 47 + 47 * Complex.ImaginaryOne, 48 + 48 * Complex.ImaginaryOne }
+                    }
+                },
+                SubregionCollisions = new double[,] // NumSubregions x 2: 3x2
+                    { { 49, 50 }, { 51, 52 }, { 53, 54 } }, // 2nd index: 0=static, 1=dynamic
+            };
+
+            DetectorBinarySerializationHelper.WriteClearAndReReadArrays(detector, detector.Mean, detector.SecondMoment,
+                detector.TotalMTOfZ, detector.TotalMTOfZSecondMoment, detector.DynamicMTOfZ, detector.DynamicMTOfZSecondMoment,
+                detector.FractionalMT, detector.SubregionCollisions);
+
+            Assert.AreEqual(1 + Complex.ImaginaryOne, detector.Mean[0, 0]);
+            Assert.AreEqual(2 + 2 * Complex.ImaginaryOne, detector.Mean[0, 1]);
+            Assert.AreEqual(3 + 3 * Complex.ImaginaryOne, detector.Mean[0, 2]);
+            Assert.AreEqual(4 + 4 * Complex.ImaginaryOne, detector.Mean[1, 0]);
+            Assert.AreEqual(5 + 5 * Complex.ImaginaryOne, detector.Mean[1, 1]);
+            Assert.AreEqual(6 + 6 * Complex.ImaginaryOne, detector.Mean[1, 2]);
+            Assert.AreEqual(7 + 7 * Complex.ImaginaryOne, detector.SecondMoment[0, 0]);
+            Assert.AreEqual(8 + 8 * Complex.ImaginaryOne, detector.SecondMoment[0, 1]);
+            Assert.AreEqual(9 + 9 * Complex.ImaginaryOne, detector.SecondMoment[0, 2]);
+            Assert.AreEqual(10 + 10 * Complex.ImaginaryOne, detector.SecondMoment[1, 0]);
+            Assert.AreEqual(11 + 11 * Complex.ImaginaryOne, detector.SecondMoment[1, 1]);
+            Assert.AreEqual(12 + 12 * Complex.ImaginaryOne, detector.SecondMoment[1, 2]);
+            Assert.AreEqual(13 + 13 * Complex.ImaginaryOne, detector.TotalMTOfZ[0, 0]);
+            Assert.AreEqual(14 + 14 * Complex.ImaginaryOne, detector.TotalMTOfZ[0, 1]);
+            Assert.AreEqual(15 + 15 * Complex.ImaginaryOne, detector.TotalMTOfZ[0, 2]);
+            Assert.AreEqual(16 + 16 * Complex.ImaginaryOne, detector.TotalMTOfZ[1, 0]);
+            Assert.AreEqual(17 + 17 * Complex.ImaginaryOne, detector.TotalMTOfZ[1, 1]);
+            Assert.AreEqual(18 + 18 * Complex.ImaginaryOne, detector.TotalMTOfZ[1, 2]);
+            Assert.AreEqual(19 + 19 * Complex.ImaginaryOne, detector.TotalMTOfZSecondMoment[0, 0]);
+            Assert.AreEqual(20 + 20 * Complex.ImaginaryOne, detector.TotalMTOfZSecondMoment[0, 1]);
+            Assert.AreEqual(21 + 21 * Complex.ImaginaryOne, detector.TotalMTOfZSecondMoment[0, 2]);
+            Assert.AreEqual(22 + 22 * Complex.ImaginaryOne, detector.TotalMTOfZSecondMoment[1, 0]);
+            Assert.AreEqual(23 + 23 * Complex.ImaginaryOne, detector.TotalMTOfZSecondMoment[1, 1]);
+            Assert.AreEqual(24 + 24 * Complex.ImaginaryOne, detector.TotalMTOfZSecondMoment[1, 2]);
+            Assert.AreEqual(25 + 25 * Complex.ImaginaryOne, detector.DynamicMTOfZ[0, 0]);
+            Assert.AreEqual(26 + 26 * Complex.ImaginaryOne, detector.DynamicMTOfZ[0, 1]);
+            Assert.AreEqual(27 + 27 * Complex.ImaginaryOne, detector.DynamicMTOfZ[0, 2]);
+            Assert.AreEqual(28 + 28 * Complex.ImaginaryOne, detector.DynamicMTOfZ[1, 0]);
+            Assert.AreEqual(29 + 29 * Complex.ImaginaryOne, detector.DynamicMTOfZ[1, 1]);
+            Assert.AreEqual(30 + 30 * Complex.ImaginaryOne, detector.DynamicMTOfZ[1, 2]);
+            Assert.AreEqual(31 + 31 * Complex.ImaginaryOne, detector.DynamicMTOfZSecondMoment[0, 0]);
+            Assert.AreEqual(32 + 32 * Complex.ImaginaryOne, detector.DynamicMTOfZSecondMoment[0, 1]);
+            Assert.AreEqual(33 + 33 * Complex.ImaginaryOne, detector.DynamicMTOfZSecondMoment[0, 2]);
+            Assert.AreEqual(34 + 34 * Complex.ImaginaryOne, detector.DynamicMTOfZSecondMoment[1, 0]);
+            Assert.AreEqual(35 + 35 * Complex.ImaginaryOne, detector.DynamicMTOfZSecondMoment[1, 1]);
+            Assert.AreEqual(36 + 36 * Complex.ImaginaryOne, detector.DynamicMTOfZSecondMoment[1, 2]);
+            Assert.AreEqual(37 + 37 * Complex.ImaginaryOne, detector.FractionalMT[0, 0, 0]);
+            Assert.AreEqual(38 + 38 * Complex.ImaginaryOne, detector.FractionalMT[0, 0, 1]);
+            Assert.AreEqual(39 + 39 * Complex.ImaginaryOne, detector.FractionalMT[0, 1, 0]);
+            Assert.AreEqual(40 + 40 * Complex.ImaginaryOne, detector.FractionalMT[0, 1, 1]);
+            Assert.AreEqual(41 + 41 * Complex.ImaginaryOne, detector.FractionalMT[0, 2, 0]);
+            Assert.AreEqual(42 + 42 * Complex.ImaginaryOne, detector.FractionalMT[0, 2, 1]);
+            Assert.AreEqual(43 + 43 * Complex.ImaginaryOne, detector.FractionalMT[1, 0, 0]);
+            Assert.AreEqual(44 + 44 * Complex.ImaginaryOne, detector.FractionalMT[1, 0, 1]);
+            Assert.AreEqual(45 + 45 * Complex.ImaginaryOne, detector.FractionalMT[1, 1, 0]);
+            Assert.AreEqual(46 + 46 * Complex.ImaginaryOne, detector.FractionalMT[1, 1, 1]);
+            Assert.AreEqual(47 + 47 * Complex.ImaginaryOne, detector.FractionalMT[1, 2, 0]);
+            Assert.AreEqual(48 + 48 * Complex.ImaginaryOne, detector.FractionalMT[1, 2, 1]);
+            Assert.AreEqual(49, detector.SubregionCollisions[0, 0]);
+            Assert.AreEqual(50, detector.SubregionCollisions[0, 1]);
+            Assert.AreEqual(51, detector.SubregionCollisions[1, 0]);
+            Assert.AreEqual(52, detector.SubregionCollisions[1, 1]);
+            Assert.AreEqual(53, detector.SubregionCollisions[2, 0]);
+            Assert.AreEqual(54, detector.SubregionCollisions[2, 1]);
+        }
+
+        [Test]
         public void Validate_ReflectedDynamicMTOfRhoAndSubregionHistDetector_deserialized_class_is_correct_when_using_GetBinarySerializers()
         {
             const string detectorName = "testreflecteddynamicmtofrhoandsubregionhist";
@@ -820,18 +935,19 @@ namespace Vts.Test.MonteCarlo
             {
                 Rho = new DoubleRange(0, 10, 3),
                 MTBins = new DoubleRange(0, 10, 4),
-                FractionalMTBins = new DoubleRange(0, 1, 2),
+                Z = new DoubleRange(0, 10, 4),
+                FractionalMTBins = new DoubleRange(0, 1, 1),
                 TallySecondMoment = true, // tally SecondMoment
                 Name = detectorName,
-                Mean = new double[,] { { 1, 2, 3 }, { 4, 5, 6 } }, // 2x3
+                Mean = new double[,] { { 1, 2, 3 }, { 4, 5, 6 } }, // Rho.Count-1 x MTBins.Count-1: 2x3
                 SecondMoment = new double[,] { { 7, 8, 9 }, { 10, 11, 12 } },
-                TotalMTOfZ = new double[,] { { 19, 20, 21 }, { 22, 23, 24 }, { 25, 26, 27 } },
-                TotalMTOfZSecondMoment = new double[,] { { 28, 29, 30 }, { 31, 32, 33 }, { 34, 35, 36 } },
-                DynamicMTOfZ = new double[,] { { 37, 38, 39 }, { 40, 41, 42 }, { 43, 44, 45 } },
-                DynamicMTOfZSecondMoment = new double[,] { { 46, 47, 48 }, { 49, 50, 51 }, { 52, 53, 54 } },
-                // FractionalMT has dimensions Rho.Count - 1, MTBins.Count - 1, FractionalMTBins.Count + 1]=[2,2,3]
-                FractionalMT = new double[,,] { { { 55, 56, 57 }, { 58, 59, 60 } }, { { 61, 62, 63 }, { 64, 65, 66 } } },
-                SubregionCollisions = new double[,] { { 67, 68, 69 }, { 70, 71, 72 } }, // 2nd index: 0=static, 1=dynamic
+                TotalMTOfZ = new double[,] { { 13, 14, 15 }, { 16, 17, 18 } }, // Rho.Count-1 x Z.Count-1: 2x3
+                TotalMTOfZSecondMoment = new double[,] { { 19, 20, 21 }, { 22, 23, 24 } },
+                DynamicMTOfZ = new double[,] { { 25, 26, 27 }, { 28, 29, 30 } }, // Rho.Count-1 x Z.Count-1: 2x3
+                DynamicMTOfZSecondMoment = new double[,] { { 31, 32, 33 }, { 34, 35, 36 } },
+                // FractionalMT has dimensions Rho.Count-1, MTBins.Count-1, FractionalMTBins.Count+1=2x3x2
+                FractionalMT = new double[,,] { { { 37, 38 },{ 39, 40 }, { 41, 42 } }, { { 43, 44 }, { 45, 46 }, { 47, 48 } } },
+                SubregionCollisions = new double[,] { { 49, 50 }, { 51, 52 }, { 53, 54 } }, // numsubregions x 2nd index: 0=static, 1=dynamic: 3x2
             };
 
             DetectorBinarySerializationHelper.WriteClearAndReReadArrays(detector, detector.Mean, detector.SecondMoment,
@@ -850,62 +966,49 @@ namespace Vts.Test.MonteCarlo
             Assert.AreEqual(10, detector.SecondMoment[1, 0]);
             Assert.AreEqual(11, detector.SecondMoment[1, 1]);
             Assert.AreEqual(12, detector.SecondMoment[1, 2]);
-            Assert.AreEqual(19, detector.TotalMTOfZ[0, 0]);
-            Assert.AreEqual(20, detector.TotalMTOfZ[0, 1]);
-            Assert.AreEqual(21, detector.TotalMTOfZ[0, 2]);
-            Assert.AreEqual(22, detector.TotalMTOfZ[1, 0]);
-            Assert.AreEqual(23, detector.TotalMTOfZ[1, 1]);
-            Assert.AreEqual(24, detector.TotalMTOfZ[1, 2]);
-            Assert.AreEqual(25, detector.TotalMTOfZ[2, 0]);
-            Assert.AreEqual(26, detector.TotalMTOfZ[2, 1]);
-            Assert.AreEqual(27, detector.TotalMTOfZ[2, 2]);
-            Assert.AreEqual(28, detector.TotalMTOfZSecondMoment[0, 0]);
-            Assert.AreEqual(29, detector.TotalMTOfZSecondMoment[0, 1]);
-            Assert.AreEqual(30, detector.TotalMTOfZSecondMoment[0, 2]);
-            Assert.AreEqual(31, detector.TotalMTOfZSecondMoment[1, 0]);
-            Assert.AreEqual(32, detector.TotalMTOfZSecondMoment[1, 1]);
-            Assert.AreEqual(33, detector.TotalMTOfZSecondMoment[1, 2]);
-            Assert.AreEqual(34, detector.TotalMTOfZSecondMoment[2, 0]);
-            Assert.AreEqual(35, detector.TotalMTOfZSecondMoment[2, 1]);
-            Assert.AreEqual(36, detector.TotalMTOfZSecondMoment[2, 2]);
-            Assert.AreEqual(37, detector.DynamicMTOfZ[0, 0]);
-            Assert.AreEqual(38, detector.DynamicMTOfZ[0, 1]);
-            Assert.AreEqual(39, detector.DynamicMTOfZ[0, 2]);
-            Assert.AreEqual(40, detector.DynamicMTOfZ[1, 0]);
-            Assert.AreEqual(41, detector.DynamicMTOfZ[1, 1]);
-            Assert.AreEqual(42, detector.DynamicMTOfZ[1, 2]);
-            Assert.AreEqual(43, detector.DynamicMTOfZ[2, 0]);
-            Assert.AreEqual(44, detector.DynamicMTOfZ[2, 1]);
-            Assert.AreEqual(45, detector.DynamicMTOfZ[2, 2]);
-            Assert.AreEqual(46, detector.DynamicMTOfZSecondMoment[0, 0]);
-            Assert.AreEqual(47, detector.DynamicMTOfZSecondMoment[0, 1]);
-            Assert.AreEqual(48, detector.DynamicMTOfZSecondMoment[0, 2]);
-            Assert.AreEqual(49, detector.DynamicMTOfZSecondMoment[1, 0]);
-            Assert.AreEqual(50, detector.DynamicMTOfZSecondMoment[1, 1]);
-            Assert.AreEqual(51, detector.DynamicMTOfZSecondMoment[1, 2]);
-            Assert.AreEqual(52, detector.DynamicMTOfZSecondMoment[2, 0]);
-            Assert.AreEqual(53, detector.DynamicMTOfZSecondMoment[2, 1]);
-            Assert.AreEqual(54, detector.DynamicMTOfZSecondMoment[2, 2]);
-            Assert.AreEqual(55, detector.FractionalMT[0, 0, 0]);
-            Assert.AreEqual(56, detector.FractionalMT[0, 0, 1]);
-            Assert.AreEqual(57, detector.FractionalMT[0, 0, 2]);
-            Assert.AreEqual(58, detector.FractionalMT[0, 1, 0]);
-            Assert.AreEqual(59, detector.FractionalMT[0, 1, 1]);
-            Assert.AreEqual(60, detector.FractionalMT[0, 1, 2]);
-            Assert.AreEqual(61, detector.FractionalMT[1, 0, 0]);
-            Assert.AreEqual(62, detector.FractionalMT[1, 0, 1]);
-            Assert.AreEqual(63, detector.FractionalMT[1, 0, 2]);
-            Assert.AreEqual(64, detector.FractionalMT[1, 1, 0]);
-            Assert.AreEqual(65, detector.FractionalMT[1, 1, 1]);
-            Assert.AreEqual(66, detector.FractionalMT[1, 1, 2]);
-            Assert.AreEqual(67, detector.SubregionCollisions[0, 0]);
-            Assert.AreEqual(68, detector.SubregionCollisions[0, 1]);
-            Assert.AreEqual(69, detector.SubregionCollisions[0, 2]);
-            Assert.AreEqual(70, detector.SubregionCollisions[1, 0]);
-            Assert.AreEqual(71, detector.SubregionCollisions[1, 1]);
-            Assert.AreEqual(72, detector.SubregionCollisions[1, 2]);
+            Assert.AreEqual(13, detector.TotalMTOfZ[0, 0]);
+            Assert.AreEqual(14, detector.TotalMTOfZ[0, 1]);
+            Assert.AreEqual(15, detector.TotalMTOfZ[0, 2]);
+            Assert.AreEqual(16, detector.TotalMTOfZ[1, 0]);
+            Assert.AreEqual(17, detector.TotalMTOfZ[1, 1]);
+            Assert.AreEqual(18, detector.TotalMTOfZ[1, 2]);
+            Assert.AreEqual(19, detector.TotalMTOfZSecondMoment[0, 0]);
+            Assert.AreEqual(20, detector.TotalMTOfZSecondMoment[0, 1]);
+            Assert.AreEqual(21, detector.TotalMTOfZSecondMoment[0, 2]);
+            Assert.AreEqual(22, detector.TotalMTOfZSecondMoment[1, 0]);
+            Assert.AreEqual(23, detector.TotalMTOfZSecondMoment[1, 1]);
+            Assert.AreEqual(24, detector.TotalMTOfZSecondMoment[1, 2]);
+            Assert.AreEqual(25, detector.DynamicMTOfZ[0, 0]);
+            Assert.AreEqual(26, detector.DynamicMTOfZ[0, 1]);
+            Assert.AreEqual(27, detector.DynamicMTOfZ[0, 2]);
+            Assert.AreEqual(28, detector.DynamicMTOfZ[1, 0]);
+            Assert.AreEqual(29, detector.DynamicMTOfZ[1, 1]);
+            Assert.AreEqual(30, detector.DynamicMTOfZ[1, 2]);
+            Assert.AreEqual(31, detector.DynamicMTOfZSecondMoment[0, 0]);
+            Assert.AreEqual(32, detector.DynamicMTOfZSecondMoment[0, 1]);
+            Assert.AreEqual(33, detector.DynamicMTOfZSecondMoment[0, 2]);
+            Assert.AreEqual(34, detector.DynamicMTOfZSecondMoment[1, 0]);
+            Assert.AreEqual(35, detector.DynamicMTOfZSecondMoment[1, 1]);
+            Assert.AreEqual(36, detector.DynamicMTOfZSecondMoment[1, 2]);
+            Assert.AreEqual(37, detector.FractionalMT[0, 0, 0]);
+            Assert.AreEqual(38, detector.FractionalMT[0, 0, 1]);
+            Assert.AreEqual(39, detector.FractionalMT[0, 1, 0]);
+            Assert.AreEqual(40, detector.FractionalMT[0, 1, 1]);
+            Assert.AreEqual(41, detector.FractionalMT[0, 2, 0]);
+            Assert.AreEqual(42, detector.FractionalMT[0, 2, 1]);
+            Assert.AreEqual(43, detector.FractionalMT[1, 0, 0]);
+            Assert.AreEqual(44, detector.FractionalMT[1, 0, 1]);
+            Assert.AreEqual(45, detector.FractionalMT[1, 1, 0]);
+            Assert.AreEqual(46, detector.FractionalMT[1, 1, 1]);
+            Assert.AreEqual(47, detector.FractionalMT[1, 2, 0]);
+            Assert.AreEqual(48, detector.FractionalMT[1, 2, 1]);
+            Assert.AreEqual(49, detector.SubregionCollisions[0, 0]);
+            Assert.AreEqual(50, detector.SubregionCollisions[0, 1]);
+            Assert.AreEqual(51, detector.SubregionCollisions[1, 0]);
+            Assert.AreEqual(52, detector.SubregionCollisions[1, 1]);
+            Assert.AreEqual(53, detector.SubregionCollisions[2, 0]);
+            Assert.AreEqual(54, detector.SubregionCollisions[2, 1]);
         }
-
 
         [Test]
         public void Validate_ReflectedMTOfRhoAndSubregionHistDetector_deserialized_class_is_correct_when_using_GetBinarySerializers()
@@ -915,18 +1018,35 @@ namespace Vts.Test.MonteCarlo
             {
                 Rho = new DoubleRange(0, 10, 3),
                 MTBins = new DoubleRange(0, 10, 4),
-                FractionalMTBins = new DoubleRange(0, 1, 2),
+                FractionalMTBins = new DoubleRange(0, 1, 1),
                 TallySecondMoment = true, // tally SecondMoment
                 Name = detectorName,
-                Mean = new double[,] { { 1, 2, 3 }, { 4, 5, 6 } }, // 2x3
+                Mean = new double[,] { { 1, 2, 3 }, { 4, 5, 6 } }, // Rho.Count-1 x MTBins.Count-1: 2x3
                 SecondMoment = new double[,] { { 7, 8, 9 }, { 10, 11, 12 } },
-                // FractionalMT has dimensions [Rho.Count - 1, MTBins.Count - 1, NumSubregions, FractionalMTBins.Count + 1]=[2,2,3,3]
-                FractionalMT = new double[,,,]
+                // FractionalMT has dimensions [Rho.Count-1, MTBins.Count-1, NumSubregions, FractionalMTBins.Count + 1]=[2,3,3,2]
+                FractionalMT = new double[,,,] // 2x3x3x2
                 {
-                    { { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } }, { { 10, 11, 12 }, { 13, 14, 15 }, { 16, 17, 18 } } },
                     {
-                        { { 19, 20, 21 }, { 22, 23, 24 }, { 25, 26, 27 } },
-                        { { 28, 29, 30 }, { 31, 32, 33 }, { 34, 35, 36 } }
+                        { 
+                            { 1, 2 },  { 3, 4 },  { 5, 6 }, 
+                        },
+                        {
+                            { 7, 8 }, { 9, 10 }, { 11, 12 } 
+                        },
+                        {
+                            { 13, 14 }, { 15 ,16 }, { 17, 18 }
+                        }
+                    },
+                    {
+                        {
+                            { 19, 20 },  { 21, 22 },  { 23, 24 },
+                        },
+                        {
+                            { 25, 26 }, { 27, 28 }, { 29, 30 }
+                        },
+                        {
+                            { 31, 32 }, { 33, 34 }, { 35, 36 }
+                        }
                     }
                 }
             };
@@ -949,40 +1069,40 @@ namespace Vts.Test.MonteCarlo
 
             Assert.AreEqual(1, detector.FractionalMT[0, 0, 0, 0]);
             Assert.AreEqual(2, detector.FractionalMT[0, 0, 0, 1]);
-            Assert.AreEqual(3, detector.FractionalMT[0, 0, 0, 2]);
-            Assert.AreEqual(4, detector.FractionalMT[0, 0, 1, 0]);
-            Assert.AreEqual(5, detector.FractionalMT[0, 0, 1, 1]);
-            Assert.AreEqual(6, detector.FractionalMT[0, 0, 1, 2]);
-            Assert.AreEqual(7, detector.FractionalMT[0, 0, 2, 0]);
-            Assert.AreEqual(8, detector.FractionalMT[0, 0, 2, 1]);
-            Assert.AreEqual(9, detector.FractionalMT[0, 0, 2, 2]);
-            Assert.AreEqual(10, detector.FractionalMT[0, 1, 0, 0]);
-            Assert.AreEqual(11, detector.FractionalMT[0, 1, 0, 1]);
-            Assert.AreEqual(12, detector.FractionalMT[0, 1, 0, 2]);
-            Assert.AreEqual(13, detector.FractionalMT[0, 1, 1, 0]);
-            Assert.AreEqual(14, detector.FractionalMT[0, 1, 1, 1]);
-            Assert.AreEqual(15, detector.FractionalMT[0, 1, 1, 2]);
-            Assert.AreEqual(16, detector.FractionalMT[0, 1, 2, 0]);
-            Assert.AreEqual(17, detector.FractionalMT[0, 1, 2, 1]);
-            Assert.AreEqual(18, detector.FractionalMT[0, 1, 2, 2]);
+            Assert.AreEqual(3, detector.FractionalMT[0, 0, 1, 0]);
+            Assert.AreEqual(4, detector.FractionalMT[0, 0, 1, 1]);
+            Assert.AreEqual(5, detector.FractionalMT[0, 0, 2, 0]);
+            Assert.AreEqual(6, detector.FractionalMT[0, 0, 2, 1]);
+            Assert.AreEqual(7, detector.FractionalMT[0, 1, 0, 0]);
+            Assert.AreEqual(8, detector.FractionalMT[0, 1, 0, 1]);
+            Assert.AreEqual(9, detector.FractionalMT[0, 1, 1, 0]);
+            Assert.AreEqual(10, detector.FractionalMT[0, 1, 1, 1]);
+            Assert.AreEqual(11, detector.FractionalMT[0, 1, 2, 0]);
+            Assert.AreEqual(12, detector.FractionalMT[0, 1, 2, 1]);
+            Assert.AreEqual(13, detector.FractionalMT[0, 2, 0, 0]);
+            Assert.AreEqual(14, detector.FractionalMT[0, 2, 0, 1]);
+            Assert.AreEqual(15, detector.FractionalMT[0, 2, 1, 0]);
+            Assert.AreEqual(16, detector.FractionalMT[0, 2, 1, 1]);
+            Assert.AreEqual(17, detector.FractionalMT[0, 2, 2, 0]);
+            Assert.AreEqual(18, detector.FractionalMT[0, 2, 2, 1]);
             Assert.AreEqual(19, detector.FractionalMT[1, 0, 0, 0]);
             Assert.AreEqual(20, detector.FractionalMT[1, 0, 0, 1]);
-            Assert.AreEqual(21, detector.FractionalMT[1, 0, 0, 2]);
-            Assert.AreEqual(22, detector.FractionalMT[1, 0, 1, 0]);
-            Assert.AreEqual(23, detector.FractionalMT[1, 0, 1, 1]);
-            Assert.AreEqual(24, detector.FractionalMT[1, 0, 1, 2]);
-            Assert.AreEqual(25, detector.FractionalMT[1, 0, 2, 0]);
-            Assert.AreEqual(26, detector.FractionalMT[1, 0, 2, 1]);
-            Assert.AreEqual(27, detector.FractionalMT[1, 0, 2, 2]);
-            Assert.AreEqual(28, detector.FractionalMT[1, 1, 0, 0]);
-            Assert.AreEqual(29, detector.FractionalMT[1, 1, 0, 1]);
-            Assert.AreEqual(30, detector.FractionalMT[1, 1, 0, 2]);
-            Assert.AreEqual(31, detector.FractionalMT[1, 1, 1, 0]);
-            Assert.AreEqual(32, detector.FractionalMT[1, 1, 1, 1]);
-            Assert.AreEqual(33, detector.FractionalMT[1, 1, 1, 2]);
-            Assert.AreEqual(34, detector.FractionalMT[1, 1, 2, 0]);
-            Assert.AreEqual(35, detector.FractionalMT[1, 1, 2, 1]);
-            Assert.AreEqual(36, detector.FractionalMT[1, 1, 2, 2]);
+            Assert.AreEqual(21, detector.FractionalMT[1, 0, 1, 0]);
+            Assert.AreEqual(22, detector.FractionalMT[1, 0, 1, 1]);
+            Assert.AreEqual(23, detector.FractionalMT[1, 0, 2, 0]);
+            Assert.AreEqual(24, detector.FractionalMT[1, 0, 2, 1]);
+            Assert.AreEqual(25, detector.FractionalMT[1, 1, 0, 0]);
+            Assert.AreEqual(26, detector.FractionalMT[1, 1, 0, 1]);
+            Assert.AreEqual(27, detector.FractionalMT[1, 1, 1, 0]);
+            Assert.AreEqual(28, detector.FractionalMT[1, 1, 1, 1]);
+            Assert.AreEqual(29, detector.FractionalMT[1, 1, 2, 0]);
+            Assert.AreEqual(30, detector.FractionalMT[1, 1, 2, 1]);
+            Assert.AreEqual(31, detector.FractionalMT[1, 2, 0, 0]);
+            Assert.AreEqual(32, detector.FractionalMT[1, 2, 0, 1]);
+            Assert.AreEqual(33, detector.FractionalMT[1, 2, 1, 0]);
+            Assert.AreEqual(34, detector.FractionalMT[1, 2, 1, 1]);
+            Assert.AreEqual(35, detector.FractionalMT[1, 2, 2, 0]);
+            Assert.AreEqual(36, detector.FractionalMT[1, 2, 2, 1]);
         }
 
         [Test]
@@ -1255,7 +1375,7 @@ namespace Vts.Test.MonteCarlo
             Assert.AreEqual(12, detector.SecondMoment[1, 2]);
         }
 
-    
+
         [Test]
         public void Validate_ROfXAndYDetector_deserialized_class_is_correct_when_using_GetBinarySerializers()
         {
@@ -1315,8 +1435,8 @@ namespace Vts.Test.MonteCarlo
             Assert.AreEqual(11, detector.SecondMoment[1, 1]);
             Assert.AreEqual(12, detector.SecondMoment[1, 2]);
         }
-       
-         [Test]
+
+        [Test]
         public void Validate_TOfRhoAndAngleDetector_deserialized_class_is_correct_when_using_GetBinarySerializers()
         {
             const string detectorName = "testtofrhoandz";
@@ -1376,25 +1496,242 @@ namespace Vts.Test.MonteCarlo
         }
 
         [Test]
-        public void Validate_TransmittedMTOfRhoAndSubregionHistDetector_deserialized_class_is_correct_when_using_GetBinarySerializers()
+        public void Validate_TransmittedDynamicMTOfFxAndSubregionHistDetector_deserialized_class_is_correct_when_using_GetBinarySerializers()
+        {
+            const string detectorName = "testtransmitteddynamicmtoffxandsubregionhist";
+            var detector = new TransmittedDynamicMTOfFxAndSubregionHistDetector
+            {
+                Fx = new DoubleRange(0, 10, 2),
+                MTBins = new DoubleRange(0, 10, 4),
+                Z = new DoubleRange(0, 10, 4),
+                FractionalMTBins = new DoubleRange(0, 1, 1),
+                TallySecondMoment = true, // tally SecondMoment
+                Name = detectorName,
+                Mean = new[,] // Fx.Count x MTBins.Count-1: 2x3
+                {
+                    { 1 + Complex.ImaginaryOne, 2 + 2 * Complex.ImaginaryOne, 3 + 3 * Complex.ImaginaryOne},
+                    { 4 + 4 * Complex.ImaginaryOne, 5 + 5 * Complex.ImaginaryOne, 6 + 6 * Complex.ImaginaryOne }
+                },
+                SecondMoment = new[,]
+                {
+                    { 7 + 7 * Complex.ImaginaryOne, 8 + 8 * Complex.ImaginaryOne, 9 + 9 * Complex.ImaginaryOne },
+                    { 10 + 10 * Complex.ImaginaryOne, 11 + 11 * Complex.ImaginaryOne, 12 + 12 * Complex.ImaginaryOne }
+                },
+                TotalMTOfZ = new[,] // Fx.Count x Z.Count-1: 2x3
+                {
+                    { 13 + 13 * Complex.ImaginaryOne, 14 + 14 * Complex.ImaginaryOne, 15 + 15 * Complex.ImaginaryOne },
+                    { 16 + 16 * Complex.ImaginaryOne, 17 + 17 * Complex.ImaginaryOne, 18 + 18 * Complex.ImaginaryOne }
+                },
+                TotalMTOfZSecondMoment = new[,]
+                {
+                    { 19 + 19 * Complex.ImaginaryOne, 20 + 20 * Complex.ImaginaryOne, 21 + 21 * Complex.ImaginaryOne },
+                    { 22 + 22 * Complex.ImaginaryOne, 23 + 23 * Complex.ImaginaryOne, 24 + 24 * Complex.ImaginaryOne },
+                },
+                DynamicMTOfZ = new[,] // Fx.Count x Z.Count-1: 2x3
+                {
+                    { 25 + 25 * Complex.ImaginaryOne, 26 + 26 * Complex.ImaginaryOne, 27 + 27 * Complex.ImaginaryOne },
+                    { 28 + 28 * Complex.ImaginaryOne, 29 + 29 * Complex.ImaginaryOne, 30 + 30 * Complex.ImaginaryOne } },
+                DynamicMTOfZSecondMoment = new[,]
+                {
+                    { 31 + 31 * Complex.ImaginaryOne, 32 + 32 * Complex.ImaginaryOne, 33 + 33 * Complex.ImaginaryOne },
+                    { 34 + 34 * Complex.ImaginaryOne, 35 + 35 * Complex.ImaginaryOne, 36 + 36 * Complex.ImaginaryOne },
+                },
+                FractionalMT = new[, ,] // Fx.Count x MTBins.Count-1 x FractionalMTBins.Count+1=2x3x2
+                {
+                    {
+                        { 37 + 37 * Complex.ImaginaryOne, 38 + 38 * Complex.ImaginaryOne },
+                        { 39 + 39 * Complex.ImaginaryOne, 40 + 40 * Complex.ImaginaryOne },
+                        { 41 + 41 * Complex.ImaginaryOne, 42 + 42 * Complex.ImaginaryOne }
+                    },
+                    {
+                        { 43 + 43 * Complex.ImaginaryOne, 44 + 44 * Complex.ImaginaryOne },
+                        { 45 + 45 * Complex.ImaginaryOne, 46 + 46 * Complex.ImaginaryOne },
+                        { 47 + 47 * Complex.ImaginaryOne, 48 + 48 * Complex.ImaginaryOne }
+                    }
+                },
+                SubregionCollisions = new double[,] // NumSubregions x 2: 3x2
+                    { { 49, 50 }, { 51, 52 }, { 53, 54 } }, // 2nd index: 0=static, 1=dynamic
+            };
+
+            DetectorBinarySerializationHelper.WriteClearAndReReadArrays(detector, detector.Mean, detector.SecondMoment,
+                detector.TotalMTOfZ, detector.TotalMTOfZSecondMoment, detector.DynamicMTOfZ, detector.DynamicMTOfZSecondMoment,
+                detector.FractionalMT, detector.SubregionCollisions);
+
+            Assert.AreEqual(1 + Complex.ImaginaryOne, detector.Mean[0, 0]);
+            Assert.AreEqual(2 + 2 * Complex.ImaginaryOne, detector.Mean[0, 1]);
+            Assert.AreEqual(3 + 3 * Complex.ImaginaryOne, detector.Mean[0, 2]);
+            Assert.AreEqual(4 + 4 * Complex.ImaginaryOne, detector.Mean[1, 0]);
+            Assert.AreEqual(5 + 5 * Complex.ImaginaryOne, detector.Mean[1, 1]);
+            Assert.AreEqual(6 + 6 * Complex.ImaginaryOne, detector.Mean[1, 2]);
+            Assert.AreEqual(7 + 7 * Complex.ImaginaryOne, detector.SecondMoment[0, 0]);
+            Assert.AreEqual(8 + 8 * Complex.ImaginaryOne, detector.SecondMoment[0, 1]);
+            Assert.AreEqual(9 + 9 * Complex.ImaginaryOne, detector.SecondMoment[0, 2]);
+            Assert.AreEqual(10 + 10 * Complex.ImaginaryOne, detector.SecondMoment[1, 0]);
+            Assert.AreEqual(11 + 11 * Complex.ImaginaryOne, detector.SecondMoment[1, 1]);
+            Assert.AreEqual(12 + 12 * Complex.ImaginaryOne, detector.SecondMoment[1, 2]);
+            Assert.AreEqual(13 + 13 * Complex.ImaginaryOne, detector.TotalMTOfZ[0, 0]);
+            Assert.AreEqual(14 + 14 * Complex.ImaginaryOne, detector.TotalMTOfZ[0, 1]);
+            Assert.AreEqual(15 + 15 * Complex.ImaginaryOne, detector.TotalMTOfZ[0, 2]);
+            Assert.AreEqual(16 + 16 * Complex.ImaginaryOne, detector.TotalMTOfZ[1, 0]);
+            Assert.AreEqual(17 + 17 * Complex.ImaginaryOne, detector.TotalMTOfZ[1, 1]);
+            Assert.AreEqual(18 + 18 * Complex.ImaginaryOne, detector.TotalMTOfZ[1, 2]);
+            Assert.AreEqual(19 + 19 * Complex.ImaginaryOne, detector.TotalMTOfZSecondMoment[0, 0]);
+            Assert.AreEqual(20 + 20 * Complex.ImaginaryOne, detector.TotalMTOfZSecondMoment[0, 1]);
+            Assert.AreEqual(21 + 21 * Complex.ImaginaryOne, detector.TotalMTOfZSecondMoment[0, 2]);
+            Assert.AreEqual(22 + 22 * Complex.ImaginaryOne, detector.TotalMTOfZSecondMoment[1, 0]);
+            Assert.AreEqual(23 + 23 * Complex.ImaginaryOne, detector.TotalMTOfZSecondMoment[1, 1]);
+            Assert.AreEqual(24 + 24 * Complex.ImaginaryOne, detector.TotalMTOfZSecondMoment[1, 2]);
+            Assert.AreEqual(25 + 25 * Complex.ImaginaryOne, detector.DynamicMTOfZ[0, 0]);
+            Assert.AreEqual(26 + 26 * Complex.ImaginaryOne, detector.DynamicMTOfZ[0, 1]);
+            Assert.AreEqual(27 + 27 * Complex.ImaginaryOne, detector.DynamicMTOfZ[0, 2]);
+            Assert.AreEqual(28 + 28 * Complex.ImaginaryOne, detector.DynamicMTOfZ[1, 0]);
+            Assert.AreEqual(29 + 29 * Complex.ImaginaryOne, detector.DynamicMTOfZ[1, 1]);
+            Assert.AreEqual(30 + 30 * Complex.ImaginaryOne, detector.DynamicMTOfZ[1, 2]);
+            Assert.AreEqual(31 + 31 * Complex.ImaginaryOne, detector.DynamicMTOfZSecondMoment[0, 0]);
+            Assert.AreEqual(32 + 32 * Complex.ImaginaryOne, detector.DynamicMTOfZSecondMoment[0, 1]);
+            Assert.AreEqual(33 + 33 * Complex.ImaginaryOne, detector.DynamicMTOfZSecondMoment[0, 2]);
+            Assert.AreEqual(34 + 34 * Complex.ImaginaryOne, detector.DynamicMTOfZSecondMoment[1, 0]);
+            Assert.AreEqual(35 + 35 * Complex.ImaginaryOne, detector.DynamicMTOfZSecondMoment[1, 1]);
+            Assert.AreEqual(36 + 36 * Complex.ImaginaryOne, detector.DynamicMTOfZSecondMoment[1, 2]);
+            Assert.AreEqual(37 + 37 * Complex.ImaginaryOne, detector.FractionalMT[0, 0, 0]);
+            Assert.AreEqual(38 + 38 * Complex.ImaginaryOne, detector.FractionalMT[0, 0, 1]);
+            Assert.AreEqual(39 + 39 * Complex.ImaginaryOne, detector.FractionalMT[0, 1, 0]);
+            Assert.AreEqual(40 + 40 * Complex.ImaginaryOne, detector.FractionalMT[0, 1, 1]);
+            Assert.AreEqual(41 + 41 * Complex.ImaginaryOne, detector.FractionalMT[0, 2, 0]);
+            Assert.AreEqual(42 + 42 * Complex.ImaginaryOne, detector.FractionalMT[0, 2, 1]);
+            Assert.AreEqual(43 + 43 * Complex.ImaginaryOne, detector.FractionalMT[1, 0, 0]);
+            Assert.AreEqual(44 + 44 * Complex.ImaginaryOne, detector.FractionalMT[1, 0, 1]);
+            Assert.AreEqual(45 + 45 * Complex.ImaginaryOne, detector.FractionalMT[1, 1, 0]);
+            Assert.AreEqual(46 + 46 * Complex.ImaginaryOne, detector.FractionalMT[1, 1, 1]);
+            Assert.AreEqual(47 + 47 * Complex.ImaginaryOne, detector.FractionalMT[1, 2, 0]);
+            Assert.AreEqual(48 + 48 * Complex.ImaginaryOne, detector.FractionalMT[1, 2, 1]);
+            Assert.AreEqual(49, detector.SubregionCollisions[0, 0]);
+            Assert.AreEqual(50, detector.SubregionCollisions[0, 1]);
+            Assert.AreEqual(51, detector.SubregionCollisions[1, 0]);
+            Assert.AreEqual(52, detector.SubregionCollisions[1, 1]);
+            Assert.AreEqual(53, detector.SubregionCollisions[2, 0]);
+            Assert.AreEqual(54, detector.SubregionCollisions[2, 1]);
+        }
+
+        [Test]
+        public void Validate_TransmittedDynamicMTOfRhoAndSubregionHistDetector_deserialized_class_is_correct_when_using_GetBinarySerializers()
+        {
+            const string detectorName = "testtransmiteddynamicmtofrhoandsubregionhist";
+            var detector = new TransmittedDynamicMTOfRhoAndSubregionHistDetector
+            {
+                Rho = new DoubleRange(0, 10, 3),
+                MTBins = new DoubleRange(0, 10, 4),
+                Z = new DoubleRange(0, 10, 4),
+                FractionalMTBins = new DoubleRange(0, 1, 1),
+                TallySecondMoment = true, // tally SecondMoment
+                Name = detectorName,
+                Mean = new double[,] { { 1, 2, 3 }, { 4, 5, 6 } }, // Rho.Count-1 x MTBins.Count-1: 2x3
+                SecondMoment = new double[,] { { 7, 8, 9 }, { 10, 11, 12 } },
+                TotalMTOfZ = new double[,] { { 13, 14, 15 }, { 16, 17, 18 } }, // Rho.Count-1 x Z.Count-1: 2x3
+                TotalMTOfZSecondMoment = new double[,] { { 19, 20, 21 }, { 22, 23, 24 } },
+                DynamicMTOfZ = new double[,] { { 25, 26, 27 }, { 28, 29, 30 } }, // Rho.Count-1 x Z.Count-1: 2x3
+                DynamicMTOfZSecondMoment = new double[,] { { 31, 32, 33 }, { 34, 35, 36 } },
+                // FractionalMT has dimensions Rho.Count-1, MTBins.Count-1, FractionalMTBins.Count+1=2x3x2
+                FractionalMT = new double[,,] { { { 37, 38 }, { 39, 40 }, { 41, 42 } }, { { 43, 44 }, { 45, 46 }, { 47, 48 } } },
+                SubregionCollisions = new double[,] { { 49, 50 }, { 51, 52 }, { 53, 54 } }, // numsubregions x 2nd index: 0=static, 1=dynamic: 3x2
+            };
+
+            DetectorBinarySerializationHelper.WriteClearAndReReadArrays(detector, detector.Mean, detector.SecondMoment,
+                detector.TotalMTOfZ, detector.TotalMTOfZSecondMoment, detector.DynamicMTOfZ, detector.DynamicMTOfZSecondMoment,
+                detector.FractionalMT, detector.SubregionCollisions);
+
+            Assert.AreEqual(1, detector.Mean[0, 0]);
+            Assert.AreEqual(2, detector.Mean[0, 1]);
+            Assert.AreEqual(3, detector.Mean[0, 2]);
+            Assert.AreEqual(4, detector.Mean[1, 0]);
+            Assert.AreEqual(5, detector.Mean[1, 1]);
+            Assert.AreEqual(6, detector.Mean[1, 2]);
+            Assert.AreEqual(7, detector.SecondMoment[0, 0]);
+            Assert.AreEqual(8, detector.SecondMoment[0, 1]);
+            Assert.AreEqual(9, detector.SecondMoment[0, 2]);
+            Assert.AreEqual(10, detector.SecondMoment[1, 0]);
+            Assert.AreEqual(11, detector.SecondMoment[1, 1]);
+            Assert.AreEqual(12, detector.SecondMoment[1, 2]);
+            Assert.AreEqual(13, detector.TotalMTOfZ[0, 0]);
+            Assert.AreEqual(14, detector.TotalMTOfZ[0, 1]);
+            Assert.AreEqual(15, detector.TotalMTOfZ[0, 2]);
+            Assert.AreEqual(16, detector.TotalMTOfZ[1, 0]);
+            Assert.AreEqual(17, detector.TotalMTOfZ[1, 1]);
+            Assert.AreEqual(18, detector.TotalMTOfZ[1, 2]);
+            Assert.AreEqual(19, detector.TotalMTOfZSecondMoment[0, 0]);
+            Assert.AreEqual(20, detector.TotalMTOfZSecondMoment[0, 1]);
+            Assert.AreEqual(21, detector.TotalMTOfZSecondMoment[0, 2]);
+            Assert.AreEqual(22, detector.TotalMTOfZSecondMoment[1, 0]);
+            Assert.AreEqual(23, detector.TotalMTOfZSecondMoment[1, 1]);
+            Assert.AreEqual(24, detector.TotalMTOfZSecondMoment[1, 2]);
+            Assert.AreEqual(25, detector.DynamicMTOfZ[0, 0]);
+            Assert.AreEqual(26, detector.DynamicMTOfZ[0, 1]);
+            Assert.AreEqual(27, detector.DynamicMTOfZ[0, 2]);
+            Assert.AreEqual(28, detector.DynamicMTOfZ[1, 0]);
+            Assert.AreEqual(29, detector.DynamicMTOfZ[1, 1]);
+            Assert.AreEqual(30, detector.DynamicMTOfZ[1, 2]);
+            Assert.AreEqual(31, detector.DynamicMTOfZSecondMoment[0, 0]);
+            Assert.AreEqual(32, detector.DynamicMTOfZSecondMoment[0, 1]);
+            Assert.AreEqual(33, detector.DynamicMTOfZSecondMoment[0, 2]);
+            Assert.AreEqual(34, detector.DynamicMTOfZSecondMoment[1, 0]);
+            Assert.AreEqual(35, detector.DynamicMTOfZSecondMoment[1, 1]);
+            Assert.AreEqual(36, detector.DynamicMTOfZSecondMoment[1, 2]);
+            Assert.AreEqual(37, detector.FractionalMT[0, 0, 0]);
+            Assert.AreEqual(38, detector.FractionalMT[0, 0, 1]);
+            Assert.AreEqual(39, detector.FractionalMT[0, 1, 0]);
+            Assert.AreEqual(40, detector.FractionalMT[0, 1, 1]);
+            Assert.AreEqual(41, detector.FractionalMT[0, 2, 0]);
+            Assert.AreEqual(42, detector.FractionalMT[0, 2, 1]);
+            Assert.AreEqual(43, detector.FractionalMT[1, 0, 0]);
+            Assert.AreEqual(44, detector.FractionalMT[1, 0, 1]);
+            Assert.AreEqual(45, detector.FractionalMT[1, 1, 0]);
+            Assert.AreEqual(46, detector.FractionalMT[1, 1, 1]);
+            Assert.AreEqual(47, detector.FractionalMT[1, 2, 0]);
+            Assert.AreEqual(48, detector.FractionalMT[1, 2, 1]);
+            Assert.AreEqual(49, detector.SubregionCollisions[0, 0]);
+            Assert.AreEqual(50, detector.SubregionCollisions[0, 1]);
+            Assert.AreEqual(51, detector.SubregionCollisions[1, 0]);
+            Assert.AreEqual(52, detector.SubregionCollisions[1, 1]);
+            Assert.AreEqual(53, detector.SubregionCollisions[2, 0]);
+            Assert.AreEqual(54, detector.SubregionCollisions[2, 1]);
+        }
+        [Test]
+        public void Validate_TramsittedMTOfRhoAndSubregionHistDetector_deserialized_class_is_correct_when_using_GetBinarySerializers()
         {
             const string detectorName = "testtransmittedmtofrhoandsubregionhist";
             var detector = new TransmittedMTOfRhoAndSubregionHistDetector
             {
-                Rho = new DoubleRange(0, 10, 4),
+                Rho = new DoubleRange(0, 10, 3),
                 MTBins = new DoubleRange(0, 10, 4),
-                FractionalMTBins = new DoubleRange(0, 1, 2),
+                FractionalMTBins = new DoubleRange(0, 1, 1),
                 TallySecondMoment = true, // tally SecondMoment
                 Name = detectorName,
-                Mean = new double[,] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } },
-                SecondMoment = new double[,] { { 10, 11, 12 }, { 13, 14, 15 }, { 16, 17, 18 } },
-                // FractionalMT has dimensions [Rho.Count - 1, MTBins.Count - 1, NumSubregions, FractionalMTBins.Count + 1]=[2,2,3,3]
-                FractionalMT = new double[,,,]
+                Mean = new double[,] { { 1, 2, 3 }, { 4, 5, 6 } }, // Rho.Count-1 x MTBins.Count-1: 2x3
+                SecondMoment = new double[,] { { 7, 8, 9 }, { 10, 11, 12 } },
+                // FractionalMT has dimensions [Rho.Count-1, MTBins.Count-1, NumSubregions, FractionalMTBins.Count + 1]=[2,3,3,2]
+                FractionalMT = new double[,,,] // 2x3x3x2
                 {
-                    { { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } }, { { 10, 11, 12 }, { 13, 14, 15 }, { 16, 17, 18 } } },
                     {
-                        { { 19, 20, 21 }, { 22, 23, 24 }, { 25, 26, 27 } },
-                        { { 28, 29, 30 }, { 31, 32, 33 }, { 34, 35, 36 } }
+                        {
+                            { 1, 2 },  { 3, 4 },  { 5, 6 },
+                        },
+                        {
+                            { 7, 8 }, { 9, 10 }, { 11, 12 }
+                        },
+                        {
+                            { 13, 14 }, { 15 ,16 }, { 17, 18 }
+                        }
+                    },
+                    {
+                        {
+                            { 19, 20 },  { 21, 22 },  { 23, 24 },
+                        },
+                        {
+                            { 25, 26 }, { 27, 28 }, { 29, 30 }
+                        },
+                        {
+                            { 31, 32 }, { 33, 34 }, { 35, 36 }
+                        }
                     }
                 }
             };
@@ -1408,63 +1745,58 @@ namespace Vts.Test.MonteCarlo
             Assert.AreEqual(4, detector.Mean[1, 0]);
             Assert.AreEqual(5, detector.Mean[1, 1]);
             Assert.AreEqual(6, detector.Mean[1, 2]);
-            Assert.AreEqual(7, detector.Mean[2, 0]);
-            Assert.AreEqual(8, detector.Mean[2, 1]);
-            Assert.AreEqual(9, detector.Mean[2, 2]);
-            Assert.AreEqual(10, detector.SecondMoment[0, 0]);
-            Assert.AreEqual(11, detector.SecondMoment[0, 1]);
-            Assert.AreEqual(12, detector.SecondMoment[0, 2]);
-            Assert.AreEqual(13, detector.SecondMoment[1, 0]);
-            Assert.AreEqual(14, detector.SecondMoment[1, 1]);
-            Assert.AreEqual(15, detector.SecondMoment[1, 2]);
-            Assert.AreEqual(16, detector.SecondMoment[2, 0]);
-            Assert.AreEqual(17, detector.SecondMoment[2, 1]);
-            Assert.AreEqual(18, detector.SecondMoment[2, 2]);
+            Assert.AreEqual(7, detector.SecondMoment[0, 0]);
+            Assert.AreEqual(8, detector.SecondMoment[0, 1]);
+            Assert.AreEqual(9, detector.SecondMoment[0, 2]);
+            Assert.AreEqual(10, detector.SecondMoment[1, 0]);
+            Assert.AreEqual(11, detector.SecondMoment[1, 1]);
+            Assert.AreEqual(12, detector.SecondMoment[1, 2]);
 
             Assert.AreEqual(1, detector.FractionalMT[0, 0, 0, 0]);
             Assert.AreEqual(2, detector.FractionalMT[0, 0, 0, 1]);
-            Assert.AreEqual(3, detector.FractionalMT[0, 0, 0, 2]);
-            Assert.AreEqual(4, detector.FractionalMT[0, 0, 1, 0]);
-            Assert.AreEqual(5, detector.FractionalMT[0, 0, 1, 1]);
-            Assert.AreEqual(6, detector.FractionalMT[0, 0, 1, 2]);
-            Assert.AreEqual(7, detector.FractionalMT[0, 0, 2, 0]);
-            Assert.AreEqual(8, detector.FractionalMT[0, 0, 2, 1]);
-            Assert.AreEqual(9, detector.FractionalMT[0, 0, 2, 2]);
-            Assert.AreEqual(10, detector.FractionalMT[0, 1, 0, 0]);
-            Assert.AreEqual(11, detector.FractionalMT[0, 1, 0, 1]);
-            Assert.AreEqual(12, detector.FractionalMT[0, 1, 0, 2]);
-            Assert.AreEqual(13, detector.FractionalMT[0, 1, 1, 0]);
-            Assert.AreEqual(14, detector.FractionalMT[0, 1, 1, 1]);
-            Assert.AreEqual(15, detector.FractionalMT[0, 1, 1, 2]);
-            Assert.AreEqual(16, detector.FractionalMT[0, 1, 2, 0]);
-            Assert.AreEqual(17, detector.FractionalMT[0, 1, 2, 1]);
-            Assert.AreEqual(18, detector.FractionalMT[0, 1, 2, 2]);
+            Assert.AreEqual(3, detector.FractionalMT[0, 0, 1, 0]);
+            Assert.AreEqual(4, detector.FractionalMT[0, 0, 1, 1]);
+            Assert.AreEqual(5, detector.FractionalMT[0, 0, 2, 0]);
+            Assert.AreEqual(6, detector.FractionalMT[0, 0, 2, 1]);
+            Assert.AreEqual(7, detector.FractionalMT[0, 1, 0, 0]);
+            Assert.AreEqual(8, detector.FractionalMT[0, 1, 0, 1]);
+            Assert.AreEqual(9, detector.FractionalMT[0, 1, 1, 0]);
+            Assert.AreEqual(10, detector.FractionalMT[0, 1, 1, 1]);
+            Assert.AreEqual(11, detector.FractionalMT[0, 1, 2, 0]);
+            Assert.AreEqual(12, detector.FractionalMT[0, 1, 2, 1]);
+            Assert.AreEqual(13, detector.FractionalMT[0, 2, 0, 0]);
+            Assert.AreEqual(14, detector.FractionalMT[0, 2, 0, 1]);
+            Assert.AreEqual(15, detector.FractionalMT[0, 2, 1, 0]);
+            Assert.AreEqual(16, detector.FractionalMT[0, 2, 1, 1]);
+            Assert.AreEqual(17, detector.FractionalMT[0, 2, 2, 0]);
+            Assert.AreEqual(18, detector.FractionalMT[0, 2, 2, 1]);
             Assert.AreEqual(19, detector.FractionalMT[1, 0, 0, 0]);
             Assert.AreEqual(20, detector.FractionalMT[1, 0, 0, 1]);
-            Assert.AreEqual(21, detector.FractionalMT[1, 0, 0, 2]);
-            Assert.AreEqual(22, detector.FractionalMT[1, 0, 1, 0]);
-            Assert.AreEqual(23, detector.FractionalMT[1, 0, 1, 1]);
-            Assert.AreEqual(24, detector.FractionalMT[1, 0, 1, 2]);
-            Assert.AreEqual(25, detector.FractionalMT[1, 0, 2, 0]);
-            Assert.AreEqual(26, detector.FractionalMT[1, 0, 2, 1]);
-            Assert.AreEqual(27, detector.FractionalMT[1, 0, 2, 2]);
-            Assert.AreEqual(28, detector.FractionalMT[1, 1, 0, 0]);
-            Assert.AreEqual(29, detector.FractionalMT[1, 1, 0, 1]);
-            Assert.AreEqual(30, detector.FractionalMT[1, 1, 0, 2]);
-            Assert.AreEqual(31, detector.FractionalMT[1, 1, 1, 0]);
-            Assert.AreEqual(32, detector.FractionalMT[1, 1, 1, 1]);
-            Assert.AreEqual(33, detector.FractionalMT[1, 1, 1, 2]);
-            Assert.AreEqual(34, detector.FractionalMT[1, 1, 2, 0]);
-            Assert.AreEqual(35, detector.FractionalMT[1, 1, 2, 1]);
-            Assert.AreEqual(36, detector.FractionalMT[1, 1, 2, 2]);
+            Assert.AreEqual(21, detector.FractionalMT[1, 0, 1, 0]);
+            Assert.AreEqual(22, detector.FractionalMT[1, 0, 1, 1]);
+            Assert.AreEqual(23, detector.FractionalMT[1, 0, 2, 0]);
+            Assert.AreEqual(24, detector.FractionalMT[1, 0, 2, 1]);
+            Assert.AreEqual(25, detector.FractionalMT[1, 1, 0, 0]);
+            Assert.AreEqual(26, detector.FractionalMT[1, 1, 0, 1]);
+            Assert.AreEqual(27, detector.FractionalMT[1, 1, 1, 0]);
+            Assert.AreEqual(28, detector.FractionalMT[1, 1, 1, 1]);
+            Assert.AreEqual(29, detector.FractionalMT[1, 1, 2, 0]);
+            Assert.AreEqual(30, detector.FractionalMT[1, 1, 2, 1]);
+            Assert.AreEqual(31, detector.FractionalMT[1, 2, 0, 0]);
+            Assert.AreEqual(32, detector.FractionalMT[1, 2, 0, 1]);
+            Assert.AreEqual(33, detector.FractionalMT[1, 2, 1, 0]);
+            Assert.AreEqual(34, detector.FractionalMT[1, 2, 1, 1]);
+            Assert.AreEqual(35, detector.FractionalMT[1, 2, 2, 0]);
+            Assert.AreEqual(36, detector.FractionalMT[1, 2, 2, 1]);
         }
+
+
         #endregion
 
         #region 3D detectors
 
         /// <summary>
-        /// test to verify that DetectorIO.WriteDetectorToFile and DetectorIO.ReadDetectorToFile
-        /// are working correctly for 3D detector.
+        /// test to verify that GetBinarySerializers are working correctly for 3D detector.
         /// </summary>
         [Test]
         public void Validate_AOfXAndYAndZ_deserialized_class_is_correct_when_using_GetBinarySerializers()
@@ -1520,7 +1852,7 @@ namespace Vts.Test.MonteCarlo
                 Omega = new DoubleRange(0, 1, 3),
                 TallySecondMoment = true, // tally SecondMoment
                 Name = detectorName,
-                Mean = new[,,]
+                Mean = new[, ,]
                 {   {
                         { 1 + Complex.ImaginaryOne, 2 + 2 * Complex.ImaginaryOne, 3 + 3 * Complex.ImaginaryOne },
                         { 4 + 4 * Complex.ImaginaryOne, 5 + 5 * Complex.ImaginaryOne, 6 + 6 * Complex.ImaginaryOne }
@@ -1530,9 +1862,9 @@ namespace Vts.Test.MonteCarlo
                         { 10 + 10 * Complex.ImaginaryOne, 11 + 11 * Complex.ImaginaryOne, 12 + 12 * Complex.ImaginaryOne }
                     }
                 },
-                SecondMoment = new[,,]
+                SecondMoment = new[, ,]
                 {   {
-                        { 13 + 13 * Complex.ImaginaryOne, 14 + 14 * Complex.ImaginaryOne, 15 + 15 * Complex.ImaginaryOne}, 
+                        { 13 + 13 * Complex.ImaginaryOne, 14 + 14 * Complex.ImaginaryOne, 15 + 15 * Complex.ImaginaryOne},
                         { 16 + 16 * Complex.ImaginaryOne, 17 + 17 * Complex.ImaginaryOne, 18 + 18 * Complex.ImaginaryOne}
                     },
                     {
@@ -1667,17 +1999,17 @@ namespace Vts.Test.MonteCarlo
                 Angle = new DoubleRange(0, 1, 4),
                 TallySecondMoment = true, // tally SecondMoment
                 Name = detectorName,
-                Mean = new Complex[,,] {
-                    { { 1 + Complex.ImaginaryOne, 2 + 2 * Complex.ImaginaryOne, 3 + 3 * Complex.ImaginaryOne}, 
+                Mean = new[,,] {
+                    { { 1 + Complex.ImaginaryOne, 2 + 2 * Complex.ImaginaryOne, 3 + 3 * Complex.ImaginaryOne},
                         { 4 + 4 * Complex.ImaginaryOne, 5 + 5 * Complex.ImaginaryOne, 6 + 6 * Complex.ImaginaryOne }
                     },
                     { { 7 + 7 * Complex.ImaginaryOne, 8 + 8 * Complex.ImaginaryOne, 9 + 9 * Complex.ImaginaryOne},
                         { 10 + 10 * Complex.ImaginaryOne, 11 + 11 * Complex.ImaginaryOne, 12 + 12 * Complex.ImaginaryOne } } },
-                SecondMoment = new Complex[,,] { 
-                    { { 13 + 13 * Complex.ImaginaryOne, 14 + 14 * Complex.ImaginaryOne, 15 + 15 * Complex.ImaginaryOne }, 
+                SecondMoment = new[,,] {
+                    { { 13 + 13 * Complex.ImaginaryOne, 14 + 14 * Complex.ImaginaryOne, 15 + 15 * Complex.ImaginaryOne },
                         { 16 + 16 * Complex.ImaginaryOne, 17 + 17 * Complex.ImaginaryOne, 18 + 18 * Complex.ImaginaryOne }
-                    }, 
-                    { { 19 + 19 * Complex.ImaginaryOne, 20 + 20 * Complex.ImaginaryOne, 21 + 21 * Complex.ImaginaryOne }, 
+                    },
+                    { { 19 + 19 * Complex.ImaginaryOne, 20 + 20 * Complex.ImaginaryOne, 21 + 21 * Complex.ImaginaryOne },
                         { 22 + 22 * Complex.ImaginaryOne, 23 + 23 * Complex.ImaginaryOne, 24 + 24 * Complex.ImaginaryOne } }
                 }
             };
@@ -1885,11 +2217,10 @@ namespace Vts.Test.MonteCarlo
         #region 4D detectors
 
         /// <summary>
-        /// test to verify that DetectorIO.WriteDetectorToFile and DetectorIO.ReadDetectorToFile
-        /// are working correctly for 4D detector.
+        /// test to verify that GetBinarySerializers are working correctly for 4D detector.
         /// </summary>
 
-       
+
         [Test]
         public void Validate_FluenceOfXAndYAndZAndTime_deserialized_class_is_correct_when_using_GetBinarySerializers()
         {
@@ -1904,7 +2235,7 @@ namespace Vts.Test.MonteCarlo
                 Name = detectorName,
                 Mean = new double[,,,]  {
                     {
-                        { { 1, 2, 3 }, { 4, 5, 6 } }, 
+                        { { 1, 2, 3 }, { 4, 5, 6 } },
                         { { 7, 8, 9 }, { 10, 11, 12 } }
                     },
                     {
@@ -1913,7 +2244,7 @@ namespace Vts.Test.MonteCarlo
                     } },
                 SecondMoment = new double[,,,] {
                     {
-                        { { 25, 26, 27 }, { 28, 29, 30 } }, 
+                        { { 25, 26, 27 }, { 28, 29, 30 } },
                         { { 31, 32, 33 }, { 34, 35, 36 } }
                     },
                     {
@@ -2454,6 +2785,15 @@ namespace Vts.Test.MonteCarlo
             Assert.AreEqual(60, detector.ROfXAndYSecondMoment[1, 2]);
         }
 
+
+        #endregion
+
+
+        #region 5D detectors
+
+        /// <summary>
+        /// test to verify that GetBinarySerializers are working correctly for 5D detector.
+        /// </summary>
 
         #endregion
     }
