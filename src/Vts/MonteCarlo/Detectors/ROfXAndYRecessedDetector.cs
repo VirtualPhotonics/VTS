@@ -189,7 +189,10 @@ namespace Vts.MonteCarlo.Detectors
         public BinaryArraySerializer[] GetBinarySerializers()
         {
             Mean ??= new double[X.Count - 1, Y.Count - 1];
-            SecondMoment ??= new double[X.Count - 1, Y.Count - 1];
+            if (TallySecondMoment)
+            {
+                SecondMoment ??= new double[X.Count - 1, Y.Count - 1];
+            }
             var allSerializers = new List<BinaryArraySerializer>
             {
                 BinaryArraySerializerFactory.GetSerializer(

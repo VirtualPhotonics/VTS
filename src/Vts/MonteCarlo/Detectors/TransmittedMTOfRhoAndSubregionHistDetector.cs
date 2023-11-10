@@ -267,7 +267,6 @@ namespace Vts.MonteCarlo.Detectors
             {
                 SecondMoment ??= new double[Rho.Count - 1, MTBins.Count - 1];
             }
-
             var allSerializers = new List<BinaryArraySerializer>
             {
                 BinaryArraySerializerFactory.GetSerializer(

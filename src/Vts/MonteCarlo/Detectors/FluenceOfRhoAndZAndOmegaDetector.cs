@@ -229,7 +229,10 @@ namespace Vts.MonteCarlo.Detectors
         public BinaryArraySerializer[] GetBinarySerializers()
         {
             Mean ??= new Complex[Rho.Count - 1, Z.Count - 1, Omega.Count];
-            SecondMoment ??= new Complex[Rho.Count - 1, Z.Count - 1, Omega.Count];
+            if (TallySecondMoment)
+            {
+                SecondMoment ??= new Complex[Rho.Count - 1, Z.Count - 1, Omega.Count];
+            }
             var allSerializers = new List<BinaryArraySerializer>
             {
                 BinaryArraySerializerFactory.GetSerializer(

@@ -230,8 +230,11 @@ namespace Vts.MonteCarlo.Detectors
         {
             Mean ??= new double[X.Count - 1, Y.Count - 1, Time.Count - 1, NumberOfRegions];
             TOfXAndY ??= new double[X.Count - 1, Y.Count - 1];
-            SecondMoment ??= new double[X.Count - 1, Y.Count - 1, Time.Count - 1, NumberOfRegions];
-            TOfXAndYSecondMoment ??= new double[X.Count - 1, Y.Count - 1];
+            if (TallySecondMoment)
+            {
+                SecondMoment ??= new double[X.Count - 1, Y.Count - 1, Time.Count - 1, NumberOfRegions];
+                TOfXAndYSecondMoment ??= new double[X.Count - 1, Y.Count - 1];
+            }
             var allSerializers = new List<BinaryArraySerializer>
             {
                 BinaryArraySerializerFactory.GetSerializer(
