@@ -5,9 +5,7 @@ using System.IO;
 using System.Numerics;
 using Vts.Common;
 using Vts.IO;
-using Vts.MonteCarlo;
 using Vts.MonteCarlo.Detectors;
-using Vts.MonteCarlo.IO;
 using Vts.Test.MonteCarlo.IO;
 
 namespace Vts.Test.MonteCarlo
@@ -573,7 +571,7 @@ namespace Vts.Test.MonteCarlo
 
         #endregion
 
-        #region 2D detectors: 
+        #region 2D detectors: complete
         /// <summary>
         /// test to verify that GetBinarySerializers are working correctly for 2D detector.
         /// </summary>
@@ -1696,7 +1694,7 @@ namespace Vts.Test.MonteCarlo
             Assert.AreEqual(54, detector.SubregionCollisions[2, 1]);
         }
         [Test]
-        public void Validate_TramsittedMTOfRhoAndSubregionHistDetector_deserialized_class_is_correct_when_using_GetBinarySerializers()
+        public void Validate_TransmittedMTOfRhoAndSubregionHistDetector_deserialized_class_is_correct_when_using_GetBinarySerializers()
         {
             const string detectorName = "testtransmittedmtofrhoandsubregionhist";
             var detector = new TransmittedMTOfRhoAndSubregionHistDetector
@@ -1852,7 +1850,7 @@ namespace Vts.Test.MonteCarlo
                 Omega = new DoubleRange(0, 1, 3),
                 TallySecondMoment = true, // tally SecondMoment
                 Name = detectorName,
-                Mean = new[, ,]
+                Mean = new[, ,] // Rho.Count-1 x Z.Count-1 x Omega.Count: 2x2x3
                 {   {
                         { 1 + Complex.ImaginaryOne, 2 + 2 * Complex.ImaginaryOne, 3 + 3 * Complex.ImaginaryOne },
                         { 4 + 4 * Complex.ImaginaryOne, 5 + 5 * Complex.ImaginaryOne, 6 + 6 * Complex.ImaginaryOne }
@@ -1914,7 +1912,8 @@ namespace Vts.Test.MonteCarlo
                 Time = new DoubleRange(0, 1, 4),
                 TallySecondMoment = true, // tally SecondMoment
                 Name = detectorName,
-                Mean = new double[,,] { { { 1, 2, 3 }, { 4, 5, 6 } }, { { 7, 8, 9 }, { 10, 11, 12 } } }, // 4x2x3
+                Mean = new double[,,] // Rho.Count-1 x Z.Count-1 x Time.Count-1: 2x2x3
+                    { { { 1, 2, 3 }, { 4, 5, 6 } }, { { 7, 8, 9 }, { 10, 11, 12 } } }, // 4x2x3
                 SecondMoment = new double[,,] { { { 13, 14, 15 }, { 16, 17, 18 } }, { { 19, 20, 21 }, { 22, 23, 24 } } }
             };
 
@@ -1957,7 +1956,8 @@ namespace Vts.Test.MonteCarlo
                 Z = new DoubleRange(0, 1, 4),
                 TallySecondMoment = true, // tally SecondMoment
                 Name = detectorName,
-                Mean = new double[,,] { { { 1, 2, 3 }, { 4, 5, 6 } }, { { 7, 8, 9 }, { 10, 11, 12 } } },
+                Mean = new double[,,] // Rho.Count-1 x Z.Count-1 x Z.Count-1: 2x2x3
+                    { { { 1, 2, 3 }, { 4, 5, 6 } }, { { 7, 8, 9 }, { 10, 11, 12 } } },
                 SecondMoment = new double[,,] { { { 13, 14, 15 }, { 16, 17, 18 } }, { { 19, 20, 21 }, { 22, 23, 24 } } }
             };
 
@@ -1999,18 +1999,27 @@ namespace Vts.Test.MonteCarlo
                 Angle = new DoubleRange(0, 1, 4),
                 TallySecondMoment = true, // tally SecondMoment
                 Name = detectorName,
-                Mean = new[,,] {
-                    { { 1 + Complex.ImaginaryOne, 2 + 2 * Complex.ImaginaryOne, 3 + 3 * Complex.ImaginaryOne},
+                Mean = new[,,] // Fx.Count x Z.Count-1 x Angle.Count-1: 2x2x3
+                {
+                    { 
+                        { 1 + Complex.ImaginaryOne, 2 + 2 * Complex.ImaginaryOne, 3 + 3 * Complex.ImaginaryOne}, 
                         { 4 + 4 * Complex.ImaginaryOne, 5 + 5 * Complex.ImaginaryOne, 6 + 6 * Complex.ImaginaryOne }
                     },
-                    { { 7 + 7 * Complex.ImaginaryOne, 8 + 8 * Complex.ImaginaryOne, 9 + 9 * Complex.ImaginaryOne},
-                        { 10 + 10 * Complex.ImaginaryOne, 11 + 11 * Complex.ImaginaryOne, 12 + 12 * Complex.ImaginaryOne } } },
-                SecondMoment = new[,,] {
-                    { { 13 + 13 * Complex.ImaginaryOne, 14 + 14 * Complex.ImaginaryOne, 15 + 15 * Complex.ImaginaryOne },
+                    { 
+                        { 7 + 7 * Complex.ImaginaryOne, 8 + 8 * Complex.ImaginaryOne, 9 + 9 * Complex.ImaginaryOne},
+                        { 10 + 10 * Complex.ImaginaryOne, 11 + 11 * Complex.ImaginaryOne, 12 + 12 * Complex.ImaginaryOne }
+                    }
+                },
+                SecondMoment = new[,,] 
+                {
+                    { 
+                        { 13 + 13 * Complex.ImaginaryOne, 14 + 14 * Complex.ImaginaryOne, 15 + 15 * Complex.ImaginaryOne },
                         { 16 + 16 * Complex.ImaginaryOne, 17 + 17 * Complex.ImaginaryOne, 18 + 18 * Complex.ImaginaryOne }
                     },
-                    { { 19 + 19 * Complex.ImaginaryOne, 20 + 20 * Complex.ImaginaryOne, 21 + 21 * Complex.ImaginaryOne },
-                        { 22 + 22 * Complex.ImaginaryOne, 23 + 23 * Complex.ImaginaryOne, 24 + 24 * Complex.ImaginaryOne } }
+                    { 
+                        { 19 + 19 * Complex.ImaginaryOne, 20 + 20 * Complex.ImaginaryOne, 21 + 21 * Complex.ImaginaryOne },
+                        { 22 + 22 * Complex.ImaginaryOne, 23 + 23 * Complex.ImaginaryOne, 24 + 24 * Complex.ImaginaryOne }
+                    }
                 }
             };
 
@@ -2052,8 +2061,16 @@ namespace Vts.Test.MonteCarlo
                 Angle = new DoubleRange(0, 1, 4),
                 TallySecondMoment = true, // tally SecondMoment
                 Name = detectorName,
-                Mean = new double[,,] { { { 1, 2, 3 }, { 4, 5, 6 } }, { { 7, 8, 9 }, { 10, 11, 12 } } },
-                SecondMoment = new double[,,] { { { 13, 14, 15 }, { 16, 17, 18 } }, { { 19, 20, 21 }, { 22, 23, 24 } } }
+                Mean = new double[,,] // Rho.Count-1 x Z.Count-1 x Angle.Count-1: 2x2x3
+                {
+                    { { 1, 2, 3 }, { 4, 5, 6 } }, 
+                    { { 7, 8, 9 }, { 10, 11, 12 } }
+                },
+                SecondMoment = new double[,,]
+                {
+                    { { 13, 14, 15 }, { 16, 17, 18 } }, 
+                    { { 19, 20, 21 }, { 22, 23, 24 } }
+                }
             };
 
             DetectorBinarySerializationHelper.WriteClearAndReReadArrays(detector, detector.Mean, detector.SecondMoment);
@@ -2095,8 +2112,16 @@ namespace Vts.Test.MonteCarlo
                 MaxDepth = new DoubleRange(0, 1, 4),
                 TallySecondMoment = true, // tally SecondMoment
                 Name = detectorName,
-                Mean = new double[,,] { { { 1, 2, 3 }, { 4, 5, 6 } }, { { 7, 8, 9 }, { 10, 11, 12 } } },
-                SecondMoment = new double[,,] { { { 13, 14, 15 }, { 16, 17, 18 } }, { { 19, 20, 21 }, { 22, 23, 24 } } }
+                Mean = new double[,,] // X.Count-1 x Y.Count-1 x Z.Count-1: 2x2x3
+                {
+                    { { 1, 2, 3 }, { 4, 5, 6 } }, 
+                    { { 7, 8, 9 }, { 10, 11, 12 } }
+                },
+                SecondMoment = new double[,,]
+                {
+                    { { 13, 14, 15 }, { 16, 17, 18 } }, 
+                    { { 19, 20, 21 }, { 22, 23, 24 } }
+                }
             };
 
             DetectorBinarySerializationHelper.WriteClearAndReReadArrays(detector, detector.Mean, detector.SecondMoment);
@@ -2139,8 +2164,16 @@ namespace Vts.Test.MonteCarlo
                 ZPlane = -0.1,
                 TallySecondMoment = true, // tally SecondMoment
                 Name = detectorName,
-                Mean = new double[,,] { { { 1, 2, 3 }, { 4, 5, 6 } }, { { 7, 8, 9 }, { 10, 11, 12 } } },
-                SecondMoment = new double[,,] { { { 13, 14, 15 }, { 16, 17, 18 } }, { { 19, 20, 21 }, { 22, 23, 24 } } }
+                Mean = new double[,,] // X.Count-1 x Y.Count-1 x MaxDepth.Count-1: 2x2x3
+                {
+                    { { 1, 2, 3 }, { 4, 5, 6 } }, 
+                    { { 7, 8, 9 }, { 10, 11, 12 } }
+                },
+                SecondMoment = new double[,,]
+                {
+                    { { 13, 14, 15 }, { 16, 17, 18 } }, 
+                    { { 19, 20, 21 }, { 22, 23, 24 } }
+                }
             };
 
             DetectorBinarySerializationHelper.WriteClearAndReReadArrays(detector, detector.Mean, detector.SecondMoment);
@@ -2181,8 +2214,16 @@ namespace Vts.Test.MonteCarlo
                 Time = new DoubleRange(0, 1, 4),
                 TallySecondMoment = true, // tally SecondMoment
                 Name = detectorName,
-                Mean = new double[,,] { { { 1, 2, 3 }, { 4, 5, 6 } }, { { 7, 8, 9 }, { 10, 11, 12 } } },
-                SecondMoment = new double[,,] { { { 13, 14, 15 }, { 16, 17, 18 } }, { { 19, 20, 21 }, { 22, 23, 24 } } }
+                Mean = new double[,,] // X.Count-1 x Y.Count-1 x Time.Count-1: 2x2x3
+                {
+                    { { 1, 2, 3 }, { 4, 5, 6 } }, 
+                    { { 7, 8, 9 }, { 10, 11, 12 } }
+                },
+                SecondMoment = new double[,,]
+                {
+                    { { 13, 14, 15 }, { 16, 17, 18 } }, 
+                    { { 19, 20, 21 }, { 22, 23, 24 } }
+                }
             };
 
             DetectorBinarySerializationHelper.WriteClearAndReReadArrays(detector, detector.Mean, detector.SecondMoment);
@@ -2233,7 +2274,8 @@ namespace Vts.Test.MonteCarlo
                 Time = new DoubleRange(0, 1, 4),
                 TallySecondMoment = true, // tally SecondMoment
                 Name = detectorName,
-                Mean = new double[,,,]  {
+                Mean = new double[,,,]  // X.Count-1 x Y.Count-1 x Z.Count-1 x Time.Count-1: 2x2x2x3
+                {
                     {
                         { { 1, 2, 3 }, { 4, 5, 6 } },
                         { { 7, 8, 9 }, { 10, 11, 12 } }
@@ -2241,8 +2283,10 @@ namespace Vts.Test.MonteCarlo
                     {
                         { { 13, 14, 15 }, { 16, 17, 18 } },
                         { { 19, 20, 21 }, { 22, 23, 24 } }
-                    } },
-                SecondMoment = new double[,,,] {
+                    }
+                },
+                SecondMoment = new double[,,,] 
+                {
                     {
                         { { 25, 26, 27 }, { 28, 29, 30 } },
                         { { 31, 32, 33 }, { 34, 35, 36 } }
@@ -2250,7 +2294,8 @@ namespace Vts.Test.MonteCarlo
                     {
                         { { 37, 38, 39 }, { 40, 41, 42 } },
                         { { 43, 44, 45 }, { 46, 47, 48 } }
-                    } }
+                    }
+                }
             };
 
             DetectorBinarySerializationHelper.WriteClearAndReReadArrays(detector, detector.Mean, detector.SecondMoment);
@@ -2313,12 +2358,13 @@ namespace Vts.Test.MonteCarlo
             {
                 X = new DoubleRange(-10, 10, 3),
                 Y = new DoubleRange(-10, 10, 3),
-                Time = new DoubleRange(0, 1, 4),
+                Time = new DoubleRange(0, 1, 3),
                 TallySecondMoment = true, // tally SecondMoment
                 PerturbedOps = new List<OpticalProperties> { new OpticalProperties() },
                 PerturbedRegionsIndices = new List<int> { 1 },
                 Name = detectorName,
-                Mean = new double[,,,]  {
+                Mean = new double[,,,]  // X.Count-1 x Z.Count-1 x Time.Count-1 x NumOfRegions: 2x2x2x3
+                {
                     {
                         { { 1, 2, 3 }, { 4, 5, 6 } },
                         { { 7, 8, 9 }, { 10, 11, 12 } }
@@ -2326,8 +2372,10 @@ namespace Vts.Test.MonteCarlo
                     {
                         { { 13, 14, 15 }, { 16, 17, 18 } },
                         { { 19, 20, 21 }, { 22, 23, 24 } }
-                    } },
-                SecondMoment = new double[,,,] {
+                    }
+                },
+                SecondMoment = new double[,,,] 
+                {
                     {
                         { { 25, 26, 27 }, { 28, 29, 30 } },
                         { { 31, 32, 33 }, { 34, 35, 36 } }
@@ -2335,14 +2383,17 @@ namespace Vts.Test.MonteCarlo
                     {
                         { { 37, 38, 39 }, { 40, 41, 42 } },
                         { { 43, 44, 45 }, { 46, 47, 48 } }
-                    } },
-                ROfXAndY = new double[,]
-                    {{ 49, 50, 51 }, { 52, 53, 54}},
+                    }
+                },
+                ROfXAndY = new double[,] // X.Count-1 x Y.Count-1: 2x2
+                    { { 49, 50 }, { 51, 52 } },
                 ROfXAndYSecondMoment = new double[,]
-                    {{ 55, 56, 57}, { 58, 59, 60}}
+                    { { 53, 54 }, { 55, 56 } }
             };
 
-            DetectorBinarySerializationHelper.WriteClearAndReReadArrays(detector, detector.Mean, detector.SecondMoment);
+            DetectorBinarySerializationHelper.WriteClearAndReReadArrays(detector, detector.Mean, detector.SecondMoment,
+                detector.ROfXAndY, detector.ROfXAndYSecondMoment);
+
             Assert.AreEqual(1, detector.Mean[0, 0, 0, 0]);
             Assert.AreEqual(2, detector.Mean[0, 0, 0, 1]);
             Assert.AreEqual(3, detector.Mean[0, 0, 0, 2]);
@@ -2393,16 +2444,12 @@ namespace Vts.Test.MonteCarlo
             Assert.AreEqual(48, detector.SecondMoment[1, 1, 1, 2]);
             Assert.AreEqual(49, detector.ROfXAndY[0, 0]);
             Assert.AreEqual(50, detector.ROfXAndY[0, 1]);
-            Assert.AreEqual(51, detector.ROfXAndY[0, 2]);
-            Assert.AreEqual(52, detector.ROfXAndY[1, 0]);
-            Assert.AreEqual(53, detector.ROfXAndY[1, 1]);
-            Assert.AreEqual(54, detector.ROfXAndY[1, 2]);
-            Assert.AreEqual(55, detector.ROfXAndYSecondMoment[0, 0]);
-            Assert.AreEqual(56, detector.ROfXAndYSecondMoment[0, 1]);
-            Assert.AreEqual(57, detector.ROfXAndYSecondMoment[0, 2]);
-            Assert.AreEqual(58, detector.ROfXAndYSecondMoment[1, 0]);
-            Assert.AreEqual(59, detector.ROfXAndYSecondMoment[1, 1]);
-            Assert.AreEqual(60, detector.ROfXAndYSecondMoment[1, 2]);
+            Assert.AreEqual(51, detector.ROfXAndY[1, 0]);
+            Assert.AreEqual(52, detector.ROfXAndY[1, 1]);
+            Assert.AreEqual(53, detector.ROfXAndYSecondMoment[0, 0]);
+            Assert.AreEqual(54, detector.ROfXAndYSecondMoment[0, 1]);
+            Assert.AreEqual(55, detector.ROfXAndYSecondMoment[1, 0]);
+            Assert.AreEqual(56, detector.ROfXAndYSecondMoment[1, 1]);
         }
 
         [Test]
@@ -2413,13 +2460,14 @@ namespace Vts.Test.MonteCarlo
             {
                 X = new DoubleRange(-10, 10, 3),
                 Y = new DoubleRange(-10, 10, 3),
-                Time = new DoubleRange(0, 1, 4),
+                Time = new DoubleRange(0, 1, 3),
                 ZPlane = -0.1,
                 TallySecondMoment = true, // tally SecondMoment
                 PerturbedOps = new List<OpticalProperties> { new OpticalProperties() },
                 PerturbedRegionsIndices = new List<int> { 1 },
                 Name = detectorName,
-                Mean = new double[,,,]  {
+                Mean = new double[,,,]  // X.Count-1 x Y.Count-1 x Time.Count-1 x NumSubregions: 2x2x2x3
+                {
                     {
                         { { 1, 2, 3 }, { 4, 5, 6 } },
                         { { 7, 8, 9 }, { 10, 11, 12 } }
@@ -2427,8 +2475,10 @@ namespace Vts.Test.MonteCarlo
                     {
                         { { 13, 14, 15 }, { 16, 17, 18 } },
                         { { 19, 20, 21 }, { 22, 23, 24 } }
-                    } },
-                SecondMoment = new double[,,,] {
+                    }
+                },
+                SecondMoment = new double[,,,] 
+                {
                     {
                         { { 25, 26, 27 }, { 28, 29, 30 } },
                         { { 31, 32, 33 }, { 34, 35, 36 } }
@@ -2436,14 +2486,17 @@ namespace Vts.Test.MonteCarlo
                     {
                         { { 37, 38, 39 }, { 40, 41, 42 } },
                         { { 43, 44, 45 }, { 46, 47, 48 } }
-                    } },
-                ROfXAndY = new double[,]
-                    {{ 49, 50, 51 }, { 52, 53, 54}},
+                    }
+                },
+                ROfXAndY = new double[,] // X.Count-1 x Y.Count-1: 2x2
+                    { { 49, 50 }, { 51, 52 } },
                 ROfXAndYSecondMoment = new double[,]
-                    {{ 55, 56, 57}, { 58, 59, 60}}
+                    { { 53, 54 }, { 55, 56 } }
             };
 
-            DetectorBinarySerializationHelper.WriteClearAndReReadArrays(detector, detector.Mean, detector.SecondMoment);
+            DetectorBinarySerializationHelper.WriteClearAndReReadArrays(detector, detector.Mean, detector.SecondMoment,
+                detector.ROfXAndY, detector.ROfXAndYSecondMoment);
+
             Assert.AreEqual(1, detector.Mean[0, 0, 0, 0]);
             Assert.AreEqual(2, detector.Mean[0, 0, 0, 1]);
             Assert.AreEqual(3, detector.Mean[0, 0, 0, 2]);
@@ -2494,16 +2547,12 @@ namespace Vts.Test.MonteCarlo
             Assert.AreEqual(48, detector.SecondMoment[1, 1, 1, 2]);
             Assert.AreEqual(49, detector.ROfXAndY[0, 0]);
             Assert.AreEqual(50, detector.ROfXAndY[0, 1]);
-            Assert.AreEqual(51, detector.ROfXAndY[0, 2]);
-            Assert.AreEqual(52, detector.ROfXAndY[1, 0]);
-            Assert.AreEqual(53, detector.ROfXAndY[1, 1]);
-            Assert.AreEqual(54, detector.ROfXAndY[1, 2]);
-            Assert.AreEqual(55, detector.ROfXAndYSecondMoment[0, 0]);
-            Assert.AreEqual(56, detector.ROfXAndYSecondMoment[0, 1]);
-            Assert.AreEqual(57, detector.ROfXAndYSecondMoment[0, 2]);
-            Assert.AreEqual(58, detector.ROfXAndYSecondMoment[1, 0]);
-            Assert.AreEqual(59, detector.ROfXAndYSecondMoment[1, 1]);
-            Assert.AreEqual(60, detector.ROfXAndYSecondMoment[1, 2]);
+            Assert.AreEqual(51, detector.ROfXAndY[1, 0]);
+            Assert.AreEqual(52, detector.ROfXAndY[1, 1]);
+            Assert.AreEqual(53, detector.ROfXAndYSecondMoment[0, 0]);
+            Assert.AreEqual(54, detector.ROfXAndYSecondMoment[0, 1]);
+            Assert.AreEqual(55, detector.ROfXAndYSecondMoment[1, 0]);
+            Assert.AreEqual(56, detector.ROfXAndYSecondMoment[1, 1]);
         }
         [Test]
         public void Validate_ROfXAndYAndThetaAndPhi_deserialized_class_is_correct_when_using_GetBinarySerializers()
@@ -2517,7 +2566,8 @@ namespace Vts.Test.MonteCarlo
                 Phi = new DoubleRange(0, 1, 4),
                 TallySecondMoment = true, // tally SecondMoment
                 Name = detectorName,
-                Mean = new double[,,,]  {
+                Mean = new double[,,,]  // X.Count-1 x Y.Count-1 x Theta.Count-1 x Phi.Count-1: 2x2x2x3
+                {
                     {
                         { { 1, 2, 3 }, { 4, 5, 6 } },
                         { { 7, 8, 9 }, { 10, 11, 12 } }
@@ -2525,8 +2575,10 @@ namespace Vts.Test.MonteCarlo
                     {
                         { { 13, 14, 15 }, { 16, 17, 18 } },
                         { { 19, 20, 21 }, { 22, 23, 24 } }
-                    } },
-                SecondMoment = new double[,,,] {
+                    }
+                },
+                SecondMoment = new double[,,,] 
+                {
                     {
                         { { 25, 26, 27 }, { 28, 29, 30 } },
                         { { 31, 32, 33 }, { 34, 35, 36 } }
@@ -2534,7 +2586,8 @@ namespace Vts.Test.MonteCarlo
                     {
                         { { 37, 38, 39 }, { 40, 41, 42 } },
                         { { 43, 44, 45 }, { 46, 47, 48 } }
-                    } }
+                    }
+                }
             };
 
             DetectorBinarySerializationHelper.WriteClearAndReReadArrays(detector, detector.Mean, detector.SecondMoment);
@@ -2596,10 +2649,11 @@ namespace Vts.Test.MonteCarlo
             {
                 X = new DoubleRange(-10, 10, 3),
                 Y = new DoubleRange(-10, 10, 3),
-                Time = new DoubleRange(0, 1, 4),
+                Time = new DoubleRange(0, 1, 3),
                 TallySecondMoment = true, // tally SecondMoment
                 Name = detectorName,
-                Mean = new double[,,,]  {
+                Mean = new double[,,,]  // X.Count-1 x Y.Count-1 x Time.Count-1 x NumOfRegions: 2x2x2x3
+                {
                     {
                         { { 1, 2, 3 }, { 4, 5, 6 } },
                         { { 7, 8, 9 }, { 10, 11, 12 } }
@@ -2607,8 +2661,10 @@ namespace Vts.Test.MonteCarlo
                     {
                         { { 13, 14, 15 }, { 16, 17, 18 } },
                         { { 19, 20, 21 }, { 22, 23, 24 } }
-                    } },
-                SecondMoment = new double[,,,] {
+                    }
+                },
+                SecondMoment = new double[,,,] 
+                {
                     {
                         { { 25, 26, 27 }, { 28, 29, 30 } },
                         { { 31, 32, 33 }, { 34, 35, 36 } }
@@ -2616,14 +2672,17 @@ namespace Vts.Test.MonteCarlo
                     {
                         { { 37, 38, 39 }, { 40, 41, 42 } },
                         { { 43, 44, 45 }, { 46, 47, 48 } }
-                    } },
-                ROfXAndY = new double[,]
-                    {{ 49, 50, 51 }, { 52, 53, 54}},
+                    }
+                },
+                ROfXAndY = new double[,] // X.Count-1 x Y.Count-1: 2x2
+                    { { 49, 50 }, { 51, 52 } },
                 ROfXAndYSecondMoment = new double[,]
-                    {{ 55, 56, 57}, { 58, 59, 60}}
+                    { { 53, 54 }, { 55, 56 } }
             };
 
-            DetectorBinarySerializationHelper.WriteClearAndReReadArrays(detector, detector.Mean, detector.SecondMoment);
+            DetectorBinarySerializationHelper.WriteClearAndReReadArrays(detector, detector.Mean, detector.SecondMoment,
+                    detector.ROfXAndY, detector.ROfXAndYSecondMoment);
+
             Assert.AreEqual(1, detector.Mean[0, 0, 0, 0]);
             Assert.AreEqual(2, detector.Mean[0, 0, 0, 1]);
             Assert.AreEqual(3, detector.Mean[0, 0, 0, 2]);
@@ -2674,16 +2733,12 @@ namespace Vts.Test.MonteCarlo
             Assert.AreEqual(48, detector.SecondMoment[1, 1, 1, 2]);
             Assert.AreEqual(49, detector.ROfXAndY[0, 0]);
             Assert.AreEqual(50, detector.ROfXAndY[0, 1]);
-            Assert.AreEqual(51, detector.ROfXAndY[0, 2]);
-            Assert.AreEqual(52, detector.ROfXAndY[1, 0]);
-            Assert.AreEqual(53, detector.ROfXAndY[1, 1]);
-            Assert.AreEqual(54, detector.ROfXAndY[1, 2]);
-            Assert.AreEqual(55, detector.ROfXAndYSecondMoment[0, 0]);
-            Assert.AreEqual(56, detector.ROfXAndYSecondMoment[0, 1]);
-            Assert.AreEqual(57, detector.ROfXAndYSecondMoment[0, 2]);
-            Assert.AreEqual(58, detector.ROfXAndYSecondMoment[1, 0]);
-            Assert.AreEqual(59, detector.ROfXAndYSecondMoment[1, 1]);
-            Assert.AreEqual(60, detector.ROfXAndYSecondMoment[1, 2]);
+            Assert.AreEqual(51, detector.ROfXAndY[1, 0]);
+            Assert.AreEqual(52, detector.ROfXAndY[1, 1]);
+            Assert.AreEqual(53, detector.ROfXAndYSecondMoment[0, 0]);
+            Assert.AreEqual(54, detector.ROfXAndYSecondMoment[0, 1]);
+            Assert.AreEqual(55, detector.ROfXAndYSecondMoment[1, 0]);
+            Assert.AreEqual(56, detector.ROfXAndYSecondMoment[1, 1]);
         }
 
         [Test]
@@ -2694,11 +2749,12 @@ namespace Vts.Test.MonteCarlo
             {
                 X = new DoubleRange(-10, 10, 3),
                 Y = new DoubleRange(-10, 10, 3),
-                Time = new DoubleRange(0, 1, 4),
+                Time = new DoubleRange(0, 1, 3),
                 ZPlane = -0.1,
                 TallySecondMoment = true, // tally SecondMoment
                 Name = detectorName,
-                Mean = new double[,,,]  {
+                Mean = new double[,,,]  // X.Count-1 x Y.Count-1 x Time.Count-1 x NumRegions: 2x2x2x3
+                {
                     {
                         { { 1, 2, 3 }, { 4, 5, 6 } },
                         { { 7, 8, 9 }, { 10, 11, 12 } }
@@ -2706,8 +2762,10 @@ namespace Vts.Test.MonteCarlo
                     {
                         { { 13, 14, 15 }, { 16, 17, 18 } },
                         { { 19, 20, 21 }, { 22, 23, 24 } }
-                    } },
-                SecondMoment = new double[,,,] {
+                    }
+                },
+                SecondMoment = new double[,,,] 
+                {
                     {
                         { { 25, 26, 27 }, { 28, 29, 30 } },
                         { { 31, 32, 33 }, { 34, 35, 36 } }
@@ -2715,14 +2773,17 @@ namespace Vts.Test.MonteCarlo
                     {
                         { { 37, 38, 39 }, { 40, 41, 42 } },
                         { { 43, 44, 45 }, { 46, 47, 48 } }
-                    } },
-                ROfXAndY = new double[,]
-                    {{ 49, 50, 51 }, { 52, 53, 54}},
+                    }
+                },
+                ROfXAndY = new double[,] // X.Count-1 x Y.Count-1: 2x2
+                    { { 49, 50 }, { 51, 52 } },
                 ROfXAndYSecondMoment = new double[,]
-                    {{ 55, 56, 57}, { 58, 59, 60}}
+                    { { 53, 54 }, { 55, 56 } }
             };
 
-            DetectorBinarySerializationHelper.WriteClearAndReReadArrays(detector, detector.Mean, detector.SecondMoment);
+            DetectorBinarySerializationHelper.WriteClearAndReReadArrays(detector, detector.Mean, detector.SecondMoment,
+                detector.ROfXAndY, detector.ROfXAndYSecondMoment);
+
             Assert.AreEqual(1, detector.Mean[0, 0, 0, 0]);
             Assert.AreEqual(2, detector.Mean[0, 0, 0, 1]);
             Assert.AreEqual(3, detector.Mean[0, 0, 0, 2]);
@@ -2773,16 +2834,12 @@ namespace Vts.Test.MonteCarlo
             Assert.AreEqual(48, detector.SecondMoment[1, 1, 1, 2]);
             Assert.AreEqual(49, detector.ROfXAndY[0, 0]);
             Assert.AreEqual(50, detector.ROfXAndY[0, 1]);
-            Assert.AreEqual(51, detector.ROfXAndY[0, 2]);
-            Assert.AreEqual(52, detector.ROfXAndY[1, 0]);
-            Assert.AreEqual(53, detector.ROfXAndY[1, 1]);
-            Assert.AreEqual(54, detector.ROfXAndY[1, 2]);
-            Assert.AreEqual(55, detector.ROfXAndYSecondMoment[0, 0]);
-            Assert.AreEqual(56, detector.ROfXAndYSecondMoment[0, 1]);
-            Assert.AreEqual(57, detector.ROfXAndYSecondMoment[0, 2]);
-            Assert.AreEqual(58, detector.ROfXAndYSecondMoment[1, 0]);
-            Assert.AreEqual(59, detector.ROfXAndYSecondMoment[1, 1]);
-            Assert.AreEqual(60, detector.ROfXAndYSecondMoment[1, 2]);
+            Assert.AreEqual(51, detector.ROfXAndY[1, 0]);
+            Assert.AreEqual(52, detector.ROfXAndY[1, 1]);
+            Assert.AreEqual(53, detector.ROfXAndYSecondMoment[0, 0]);
+            Assert.AreEqual(54, detector.ROfXAndYSecondMoment[0, 1]);
+            Assert.AreEqual(55, detector.ROfXAndYSecondMoment[1, 0]);
+            Assert.AreEqual(56, detector.ROfXAndYSecondMoment[1, 1]);
         }
 
 
