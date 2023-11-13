@@ -3,10 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Numerics;
-using System.Threading.Tasks;
 using Vts.Common;
 using Vts.IO;
-using Vts.MonteCarlo;
 using Vts.MonteCarlo.Detectors;
 using Vts.Test.MonteCarlo.IO;
 
@@ -121,19 +119,21 @@ namespace Vts.Test.MonteCarlo
             }
         }
 
-        #region single value detectors: complete
+        #region single value detectors
 
         /// <summary>
         /// test to verify that GetBinarySerializers are working correctly for 0D detectors.
         /// </summary>
 
         [Test]
-        public void Validate_ATotalDetector_deserialized_class_is_correct_when_using_GetBinarySerializers()
+        [TestCase(true)]
+        [TestCase(false)]
+        public void Validate_ATotalDetector_deserialized_class_is_correct_when_using_GetBinarySerializers(bool tallySecondMoment)
         {
             const string detectorName = "testatotal";
             var detector = new ATotalDetector
             {
-                TallySecondMoment = true, // tally SecondMoment
+                TallySecondMoment = tallySecondMoment,
                 Name = detectorName,
                 Mean = new double(),
                 SecondMoment = new double()
@@ -144,13 +144,15 @@ namespace Vts.Test.MonteCarlo
         }
 
         [Test]
+        [TestCase(true)]
+        [TestCase(false)]
         public void
-            Validate_ATotalBoundingVolumeDetector_deserialized_class_is_correct_when_using_GetBinarySerializers()
+            Validate_ATotalBoundingVolumeDetector_deserialized_class_is_correct_when_using_GetBinarySerializers(bool tallySecondMoment)
         {
             const string detectorName = "testatotalboundingvolume";
             var detector = new ATotalBoundingVolumeDetector
             {
-                TallySecondMoment = true, // tally SecondMoment
+                TallySecondMoment = tallySecondMoment,
                 Name = detectorName,
                 Mean = new double(),
                 SecondMoment = new double()
@@ -161,12 +163,14 @@ namespace Vts.Test.MonteCarlo
         }
 
         [Test]
-        public void Validate_pMCATotalDetector_deserialized_class_is_correct_when_using_GetBinarySerializers()
+        [TestCase(true)]
+        [TestCase(false)]
+        public void Validate_pMCATotalDetector_deserialized_class_is_correct_when_using_GetBinarySerializers(bool tallySecondMoment)
         {
             const string detectorName = "testpmcatotal";
             var detector = new pMCATotalDetector
             {
-                TallySecondMoment = true, // tally SecondMoment
+                TallySecondMoment = tallySecondMoment,
                 Name = detectorName,
                 Mean = new double(),
                 SecondMoment = new double()
@@ -177,12 +181,14 @@ namespace Vts.Test.MonteCarlo
         }
 
         [Test]
-        public void Validate_RDiffuseDetector_deserialized_class_is_correct_when_using_GetBinarySerializers()
+        [TestCase(true)]
+        [TestCase(false)]
+        public void Validate_RDiffuseDetector_deserialized_class_is_correct_when_using_GetBinarySerializers(bool tallySecondMoment)
         {
             const string detectorName = "testrdiffuse";
             var detector = new RDiffuseDetector
             {
-                TallySecondMoment = true, // tally SecondMoment
+                TallySecondMoment = tallySecondMoment,
                 Name = detectorName,
                 Mean = new double(),
                 SecondMoment = new double()
@@ -193,12 +199,14 @@ namespace Vts.Test.MonteCarlo
         }
 
         [Test]
-        public void Validate_RSpecularDetector_deserialized_class_is_correct_when_using_GetBinarySerializers()
+        [TestCase(true)]
+        [TestCase(false)]
+        public void Validate_RSpecularDetector_deserialized_class_is_correct_when_using_GetBinarySerializers(bool tallySecondMoment)
         {
             const string detectorName = "testspecular";
             var detector = new RSpecularDetector
             {
-                TallySecondMoment = true, // tally SecondMoment
+                TallySecondMoment = tallySecondMoment,
                 Name = detectorName,
                 Mean = new double(),
                 SecondMoment = new double()
@@ -209,13 +217,15 @@ namespace Vts.Test.MonteCarlo
         }
 
         [Test]
+        [TestCase(true)]
+        [TestCase(false)]
         public void
-            Validate_SlantedRecessedFiberDetector_deserialized_class_is_correct_when_using_GetBinarySerializers()
+            Validate_SlantedRecessedFiberDetector_deserialized_class_is_correct_when_using_GetBinarySerializers(bool tallySecondMoment)
         {
             const string detectorName = "testslantedrecessedfiber";
             var detector = new SlantedRecessedFiberDetector
             {
-                TallySecondMoment = true, // tally SecondMoment
+                TallySecondMoment = tallySecondMoment,
                 Name = detectorName,
                 Mean = new double(),
                 SecondMoment = new double()
@@ -226,12 +236,14 @@ namespace Vts.Test.MonteCarlo
         }
 
         [Test]
-        public void Validate_SurfaceFiberDetector_deserialized_class_is_correct_when_using_GetBinarySerializers()
+        [TestCase(true)]
+        [TestCase(false)]
+        public void Validate_SurfaceFiberDetector_deserialized_class_is_correct_when_using_GetBinarySerializers(bool tallySecondMoment)
         {
             const string detectorName = "testsurfacefiber";
             var detector = new SurfaceFiberDetector
             {
-                TallySecondMoment = true, // tally SecondMoment
+                TallySecondMoment = tallySecondMoment,
                 Name = detectorName,
                 Mean = new double(),
                 SecondMoment = new double()
@@ -242,12 +254,14 @@ namespace Vts.Test.MonteCarlo
         }
 
         [Test]
-        public void Validate_TDiffuseDetector_deserialized_class_is_correct_when_using_GetBinarySerializers()
+        [TestCase(true)]
+        [TestCase(false)]
+        public void Validate_TDiffuseDetector_deserialized_class_is_correct_when_using_GetBinarySerializers(bool tallySecondMoment)
         {
             const string detectorName = "testtdiffuse";
             var detector = new TDiffuseDetector
             {
-                TallySecondMoment = true, // tally SecondMoment
+                TallySecondMoment = tallySecondMoment,
                 Name = detectorName,
                 Mean = new double(),
                 SecondMoment = new double()
@@ -259,13 +273,15 @@ namespace Vts.Test.MonteCarlo
 
         #endregion
 
-        #region 1D detectors: complete
+        #region 1D detectors
 
         /// <summary>
         /// test to verify that GetBinarySerializers are working correctly for 1D detector.
         /// </summary>
         [Test]
-        public void Validate_dMCdROfRhodMuaDetector_deserialized_class_is_correct_when_using_GetBinarySerializers()
+        [TestCase(true)]
+        [TestCase(false)]
+        public void Validate_dMCdROfRhodMuaDetector_deserialized_class_is_correct_when_using_GetBinarySerializers(bool tallySecondMoment)
         {
             const string detectorName = "testdmcdrofrhodmua";
             var detector = new dMCdROfRhodMuaDetector
@@ -273,7 +289,7 @@ namespace Vts.Test.MonteCarlo
                 Rho = new DoubleRange(0, 10, 3),
                 PerturbedOps = new List<OpticalProperties> { new() },
                 PerturbedRegionsIndices = new List<int> { 1 },
-                TallySecondMoment = true, // tally SecondMoment
+                TallySecondMoment = tallySecondMoment,
                 Name = detectorName,
                 Mean = new double[] { 1, 2, 3 },
                 SecondMoment = new double[] { 4, 5, 6 }
@@ -284,13 +300,16 @@ namespace Vts.Test.MonteCarlo
             Assert.AreEqual(1, detector.Mean[0]);
             Assert.AreEqual(2, detector.Mean[1]);
             Assert.AreEqual(3, detector.Mean[2]);
+            if (!tallySecondMoment) return;
             Assert.AreEqual(4, detector.SecondMoment[0]);
             Assert.AreEqual(5, detector.SecondMoment[1]);
             Assert.AreEqual(6, detector.SecondMoment[2]);
         }
 
         [Test]
-        public void Validate_dMCdROfRhodMusDetector_deserialized_class_is_correct_when_using_GetBinarySerializers()
+        [TestCase(true)]
+        [TestCase(false)]
+        public void Validate_dMCdROfRhodMusDetector_deserialized_class_is_correct_when_using_GetBinarySerializers(bool tallySecondMoment)
         {
             const string detectorName = "testdmcdrofrhodmus";
             var detector = new dMCdROfRhodMuaDetector
@@ -298,7 +317,7 @@ namespace Vts.Test.MonteCarlo
                 Rho = new DoubleRange(0, 10, 3),
                 PerturbedOps = new List<OpticalProperties> { new() },
                 PerturbedRegionsIndices = new List<int> { 1 },
-                TallySecondMoment = true, // tally SecondMoment
+                TallySecondMoment = tallySecondMoment,
                 Name = detectorName,
                 Mean = new double[] { 1, 2, 3 },
                 SecondMoment = new double[] { 4, 5, 6 }
@@ -309,19 +328,22 @@ namespace Vts.Test.MonteCarlo
             Assert.AreEqual(1, detector.Mean[0]);
             Assert.AreEqual(2, detector.Mean[1]);
             Assert.AreEqual(3, detector.Mean[2]);
+            if (!tallySecondMoment) return;
             Assert.AreEqual(4, detector.SecondMoment[0]);
             Assert.AreEqual(5, detector.SecondMoment[1]);
             Assert.AreEqual(6, detector.SecondMoment[2]);
         }
 
         [Test]
-        public void Validate_pMCROFxDetector_deserialized_class_is_correct_when_using_GetBinarySerializers()
+        [TestCase(true)]
+        [TestCase(false)]
+        public void Validate_pMCROFxDetector_deserialized_class_is_correct_when_using_GetBinarySerializers(bool tallySecondMoment)
         {
             const string detectorName = "testpmcroffx";
             var detector = new pMCROfFxDetector
             {
                 Fx = new DoubleRange(0, 10, 3),
-                TallySecondMoment = true, // tally SecondMoment
+                TallySecondMoment = tallySecondMoment,
                 PerturbedOps = new List<OpticalProperties> { new() },
                 PerturbedRegionsIndices = new List<int> { 1 },
                 Name = detectorName,
@@ -336,19 +358,22 @@ namespace Vts.Test.MonteCarlo
             Assert.AreEqual(1 + 1 * Complex.ImaginaryOne, detector.Mean[0]);
             Assert.AreEqual(2 + 2 * Complex.ImaginaryOne, detector.Mean[1]);
             Assert.AreEqual(3 + 3 * Complex.ImaginaryOne, detector.Mean[2]);
+            if (!tallySecondMoment) return;
             Assert.AreEqual(4 + 4 * Complex.ImaginaryOne, detector.SecondMoment[0]);
             Assert.AreEqual(5 + 5 * Complex.ImaginaryOne, detector.SecondMoment[1]);
             Assert.AreEqual(6 + 6 * Complex.ImaginaryOne, detector.SecondMoment[2]);
         }
 
         [Test]
-        public void Validate_pMCROfRhoDetector_deserialized_class_is_correct_when_using_GetBinarySerializers()
+        [TestCase(true)]
+        [TestCase(false)]
+        public void Validate_pMCROfRhoDetector_deserialized_class_is_correct_when_using_GetBinarySerializers(bool tallySecondMoment)
         {
             const string detectorName = "testpmcrofrho";
             var detector = new pMCROfRhoDetector
             {
                 Rho = new DoubleRange(0, 10, 3),
-                TallySecondMoment = true, // tally SecondMoment
+                TallySecondMoment = tallySecondMoment,
                 PerturbedOps = new List<OpticalProperties> { new() },
                 PerturbedRegionsIndices = new List<int> { 1 },
                 Name = detectorName,
@@ -361,20 +386,23 @@ namespace Vts.Test.MonteCarlo
             Assert.AreEqual(1, detector.Mean[0]);
             Assert.AreEqual(2, detector.Mean[1]);
             Assert.AreEqual(3, detector.Mean[2]);
+            if (!tallySecondMoment) return;
             Assert.AreEqual(4, detector.SecondMoment[0]);
             Assert.AreEqual(5, detector.SecondMoment[1]);
             Assert.AreEqual(6, detector.SecondMoment[2]);
         }
 
         [Test]
-        public void Validate_pMCROfRhoRecessedDetector_deserialized_class_is_correct_when_using_GetBinarySerializers()
+        [TestCase(true)]
+        [TestCase(false)]
+        public void Validate_pMCROfRhoRecessedDetector_deserialized_class_is_correct_when_using_GetBinarySerializers(bool tallySecondMoment)
         {
             const string detectorName = "testpmcrofrhorecessed";
             var detector = new pMCROfRhoRecessedDetector
             {
                 Rho = new DoubleRange(0, 10, 3),
                 ZPlane = -0.1,
-                TallySecondMoment = true, // tally SecondMoment
+                TallySecondMoment = tallySecondMoment,
                 PerturbedOps = new List<OpticalProperties> { new() },
                 PerturbedRegionsIndices = new List<int> { 1 },
                 Name = detectorName,
@@ -387,20 +415,23 @@ namespace Vts.Test.MonteCarlo
             Assert.AreEqual(1, detector.Mean[0]);
             Assert.AreEqual(2, detector.Mean[1]);
             Assert.AreEqual(3, detector.Mean[2]);
+            if (!tallySecondMoment) return;
             Assert.AreEqual(4, detector.SecondMoment[0]);
             Assert.AreEqual(5, detector.SecondMoment[1]);
             Assert.AreEqual(6, detector.SecondMoment[2]);
         }
 
         [Test]
-        public void Validate_RadianceOfRhoAtZDetector_deserialized_class_is_correct_when_using_GetBinarySerializers()
+        [TestCase(true)]
+        [TestCase(false)]
+        public void Validate_RadianceOfRhoAtZDetector_deserialized_class_is_correct_when_using_GetBinarySerializers(bool tallySecondMoment)
         {
             const string detectorName = "testradianceofrhoatz";
             var detector = new RadianceOfRhoAtZDetector
             {
                 Rho = new DoubleRange(0, 10, 3),
                 ZDepth = 1.0,
-                TallySecondMoment = true, // tally SecondMoment
+                TallySecondMoment = tallySecondMoment,
                 Name = detectorName,
                 Mean = new double[] { 1, 2, 3 },
                 SecondMoment = new double[] { 4, 5, 6 }
@@ -411,20 +442,22 @@ namespace Vts.Test.MonteCarlo
             Assert.AreEqual(1, detector.Mean[0]);
             Assert.AreEqual(2, detector.Mean[1]);
             Assert.AreEqual(3, detector.Mean[2]);
+            if (!tallySecondMoment) return;
             Assert.AreEqual(4, detector.SecondMoment[0]);
             Assert.AreEqual(5, detector.SecondMoment[1]);
             Assert.AreEqual(6, detector.SecondMoment[2]);
         }
 
-
         [Test]
-        public void Validate_ROfAngleDetector_deserialized_class_is_correct_when_using_GetBinarySerializers()
+        [TestCase(true)]
+        [TestCase(false)]
+        public void Validate_ROfAngleDetector_deserialized_class_is_correct_when_using_GetBinarySerializers(bool tallySecondMoment)
         {
             const string detectorName = "testrofangle";
             var detector = new ROfAngleDetector
             {
                 Angle = new DoubleRange(0, 10, 3),
-                TallySecondMoment = true, // tally SecondMoment
+                TallySecondMoment = tallySecondMoment,
                 Name = detectorName,
                 Mean = new double[] { 1, 2, 3 },
                 SecondMoment = new double[] { 4, 5, 6 }
@@ -435,19 +468,22 @@ namespace Vts.Test.MonteCarlo
             Assert.AreEqual(1, detector.Mean[0]);
             Assert.AreEqual(2, detector.Mean[1]);
             Assert.AreEqual(3, detector.Mean[2]);
+            if (!tallySecondMoment) return;
             Assert.AreEqual(4, detector.SecondMoment[0]);
             Assert.AreEqual(5, detector.SecondMoment[1]);
             Assert.AreEqual(6, detector.SecondMoment[2]);
         }
 
         [Test]
-        public void Validate_ROfFxDetector_deserialized_class_is_correct_when_using_GetBinarySerializers()
+        [TestCase(true)]
+        [TestCase(false)]
+        public void Validate_ROfFxDetector_deserialized_class_is_correct_when_using_GetBinarySerializers(bool tallySecondMoment)
         {
             const string detectorName = "testroffx";
             var detector = new ROfFxDetector
             {
                 Fx = new DoubleRange(0, 10, 3),
-                TallySecondMoment = true, // tally SecondMoment
+                TallySecondMoment = tallySecondMoment,
                 Name = detectorName,
                 Mean = new[]
                     { 1 + 1 * Complex.ImaginaryOne, 2 + 2 * Complex.ImaginaryOne, 3 + 3 * Complex.ImaginaryOne },
@@ -460,19 +496,22 @@ namespace Vts.Test.MonteCarlo
             Assert.AreEqual(1 + 1 * Complex.ImaginaryOne, detector.Mean[0]);
             Assert.AreEqual(2 + 2 * Complex.ImaginaryOne, detector.Mean[1]);
             Assert.AreEqual(3 + 3 * Complex.ImaginaryOne, detector.Mean[2]);
+            if (!tallySecondMoment) return;
             Assert.AreEqual(4 + 4 * Complex.ImaginaryOne, detector.SecondMoment[0]);
             Assert.AreEqual(5 + 5 * Complex.ImaginaryOne, detector.SecondMoment[1]);
             Assert.AreEqual(6 + 6 * Complex.ImaginaryOne, detector.SecondMoment[2]);
         }
 
         [Test]
-        public void Validate_ROfRhoDetector_deserialized_class_is_correct_when_using_GetBinarySerializers()
+        [TestCase(true)]
+        [TestCase(false)]
+        public void Validate_ROfRhoDetector_deserialized_class_is_correct_when_using_GetBinarySerializers(bool tallySecondMoment)
         {
             const string detectorName = "testrofrho";
             var detector = new ROfRhoDetector
             {
                 Rho = new DoubleRange(0, 10, 3),
-                TallySecondMoment = true, // tally SecondMoment
+                TallySecondMoment = tallySecondMoment,
                 Name = detectorName,
                 Mean = new double[] { 1, 2, 3 },
                 SecondMoment = new double[] { 4, 5, 6 }
@@ -483,20 +522,23 @@ namespace Vts.Test.MonteCarlo
             Assert.AreEqual(1, detector.Mean[0]);
             Assert.AreEqual(2, detector.Mean[1]);
             Assert.AreEqual(3, detector.Mean[2]);
+            if (!tallySecondMoment) return;
             Assert.AreEqual(4, detector.SecondMoment[0]);
             Assert.AreEqual(5, detector.SecondMoment[1]);
             Assert.AreEqual(6, detector.SecondMoment[2]);
         }
 
         [Test]
-        public void Validate_ROfRhoRecessedDetector_deserialized_class_is_correct_when_using_GetBinarySerializers()
+        [TestCase(true)]
+        [TestCase(false)]
+        public void Validate_ROfRhoRecessedDetector_deserialized_class_is_correct_when_using_GetBinarySerializers(bool tallySecondMoment)
         {
             const string detectorName = "testrofrhorecessed";
             var detector = new ROfRhoRecessedDetector
             {
                 Rho = new DoubleRange(0, 10, 3),
                 ZPlane = -0.1,
-                TallySecondMoment = true, // tally SecondMoment
+                TallySecondMoment = tallySecondMoment,
                 Name = detectorName,
                 Mean = new double[] { 1, 2, 3 },
                 SecondMoment = new double[] { 4, 5, 6 }
@@ -507,19 +549,22 @@ namespace Vts.Test.MonteCarlo
             Assert.AreEqual(1, detector.Mean[0]);
             Assert.AreEqual(2, detector.Mean[1]);
             Assert.AreEqual(3, detector.Mean[2]);
+            if (!tallySecondMoment) return;
             Assert.AreEqual(4, detector.SecondMoment[0]);
             Assert.AreEqual(5, detector.SecondMoment[1]);
             Assert.AreEqual(6, detector.SecondMoment[2]);
         }
 
         [Test]
-        public void Validate_TOfAngleDetector_deserialized_class_is_correct_when_using_GetBinarySerializers()
+        [TestCase(true)]
+        [TestCase(false)]
+        public void Validate_TOfAngleDetector_deserialized_class_is_correct_when_using_GetBinarySerializers(bool tallySecondMoment)
         {
             const string detectorName = "testtofangle";
             var detector = new TOfAngleDetector
             {
                 Angle = new DoubleRange(0, 10, 3),
-                TallySecondMoment = true, // tally SecondMoment
+                TallySecondMoment = tallySecondMoment,
                 Name = detectorName,
                 Mean = new double[] { 1, 2, 3 },
                 SecondMoment = new double[] { 4, 5, 6 }
@@ -530,19 +575,22 @@ namespace Vts.Test.MonteCarlo
             Assert.AreEqual(1, detector.Mean[0]);
             Assert.AreEqual(2, detector.Mean[1]);
             Assert.AreEqual(3, detector.Mean[2]);
+            if (!tallySecondMoment) return;
             Assert.AreEqual(4, detector.SecondMoment[0]);
             Assert.AreEqual(5, detector.SecondMoment[1]);
             Assert.AreEqual(6, detector.SecondMoment[2]);
         }
 
         [Test]
-        public void Validate_TOfFxDetector_deserialized_class_is_correct_when_using_GetBinarySerializers()
+        [TestCase(true)]
+        [TestCase(false)]
+        public void Validate_TOfFxDetector_deserialized_class_is_correct_when_using_GetBinarySerializers(bool tallySecondMoment)
         {
             const string detectorName = "testtoffx";
             var detector = new TOfFxDetector
             {
                 Fx = new DoubleRange(0, 10, 3),
-                TallySecondMoment = true, // tally SecondMoment
+                TallySecondMoment = tallySecondMoment,
                 Name = detectorName,
                 Mean = new[]
                     { 1 + 1 * Complex.ImaginaryOne, 2 + 2 * Complex.ImaginaryOne, 3 + 3 * Complex.ImaginaryOne },
@@ -555,19 +603,22 @@ namespace Vts.Test.MonteCarlo
             Assert.AreEqual(1 + 1 * Complex.ImaginaryOne, detector.Mean[0]);
             Assert.AreEqual(2 + 2 * Complex.ImaginaryOne, detector.Mean[1]);
             Assert.AreEqual(3 + 3 * Complex.ImaginaryOne, detector.Mean[2]);
+            if (!tallySecondMoment) return;
             Assert.AreEqual(4 + 4 * Complex.ImaginaryOne, detector.SecondMoment[0]);
             Assert.AreEqual(5 + 5 * Complex.ImaginaryOne, detector.SecondMoment[1]);
             Assert.AreEqual(6 + 6 * Complex.ImaginaryOne, detector.SecondMoment[2]);
         }
 
         [Test]
-        public void Validate_TOfRhoDetector_deserialized_class_is_correct_when_using_GetBinarySerializers()
+        [TestCase(true)]
+        [TestCase(false)]
+        public void Validate_TOfRhoDetector_deserialized_class_is_correct_when_using_GetBinarySerializers(bool tallySecondMoment)
         {
             const string detectorName = "testtofrho";
             var detector = new TOfRhoDetector
             {
                 Rho = new DoubleRange(0, 10, 3),
-                TallySecondMoment = true, // tally SecondMoment
+                TallySecondMoment = tallySecondMoment,
                 Name = detectorName,
                 Mean = new double[] { 1, 2, 3 },
                 SecondMoment = new double[] { 4, 5, 6 }
@@ -578,6 +629,7 @@ namespace Vts.Test.MonteCarlo
             Assert.AreEqual(1, detector.Mean[0]);
             Assert.AreEqual(2, detector.Mean[1]);
             Assert.AreEqual(3, detector.Mean[2]);
+            if (!tallySecondMoment) return;
             Assert.AreEqual(4, detector.SecondMoment[0]);
             Assert.AreEqual(5, detector.SecondMoment[1]);
             Assert.AreEqual(6, detector.SecondMoment[2]);
@@ -585,21 +637,23 @@ namespace Vts.Test.MonteCarlo
 
         #endregion
 
-        #region 2D detectors: complete
+        #region 2D detectors
 
         /// <summary>
         /// test to verify that GetBinarySerializers are working correctly for 2D detector.
         /// </summary>
 
         [Test]
-        public void Validate_AOfRhoAndZDetector_deserialized_class_is_correct_when_using_GetBinarySerializers()
+        [TestCase(true)]
+        [TestCase(false)]
+        public void Validate_AOfRhoAndZDetector_deserialized_class_is_correct_when_using_GetBinarySerializers(bool tallySecondMoment)
         {
             const string detectorName = "testaofrhoandz";
             var detector = new AOfRhoAndZDetector
             {
                 Rho = new DoubleRange(0, 10, 3),
                 Z = new DoubleRange(0, 1, 4),
-                TallySecondMoment = true, // tally SecondMoment
+                TallySecondMoment = tallySecondMoment,
                 Name = detectorName,
                 Mean = new double[,] { { 1, 2, 3 }, { 4, 5, 6 } },
                 SecondMoment = new double[,] { { 7, 8, 9 }, { 10, 11, 12 } }
@@ -613,6 +667,7 @@ namespace Vts.Test.MonteCarlo
             Assert.AreEqual(4, detector.Mean[1, 0]);
             Assert.AreEqual(5, detector.Mean[1, 1]);
             Assert.AreEqual(6, detector.Mean[1, 2]);
+            if (!tallySecondMoment) return;
             Assert.AreEqual(7, detector.SecondMoment[0, 0]);
             Assert.AreEqual(8, detector.SecondMoment[0, 1]);
             Assert.AreEqual(9, detector.SecondMoment[0, 2]);
@@ -622,14 +677,16 @@ namespace Vts.Test.MonteCarlo
         }
 
         [Test]
-        public void Validate_FluenceOfFxAndZDetector_deserialized_class_is_correct_when_using_GetBinarySerializers()
+        [TestCase(true)]
+        [TestCase(false)]
+        public void Validate_FluenceOfFxAndZDetector_deserialized_class_is_correct_when_using_GetBinarySerializers(bool tallySecondMoment)
         {
             const string detectorName = "testfluenceoffxandz";
             var detector = new FluenceOfFxAndZDetector
             {
                 Fx = new DoubleRange(0, 10, 3),
                 Z = new DoubleRange(0, 1, 4),
-                TallySecondMoment = true, // tally SecondMoment
+                TallySecondMoment = tallySecondMoment,
                 Name = detectorName,
                 Mean = new[,]
                 {
@@ -651,6 +708,7 @@ namespace Vts.Test.MonteCarlo
             Assert.AreEqual(4 + 4 * Complex.ImaginaryOne, detector.Mean[1, 0]);
             Assert.AreEqual(5 + 5 * Complex.ImaginaryOne, detector.Mean[1, 1]);
             Assert.AreEqual(6 + 6 * Complex.ImaginaryOne, detector.Mean[1, 2]);
+            if (!tallySecondMoment) return;
             Assert.AreEqual(7 + 7 * Complex.ImaginaryOne, detector.SecondMoment[0, 0]);
             Assert.AreEqual(8 + 8 * Complex.ImaginaryOne, detector.SecondMoment[0, 1]);
             Assert.AreEqual(9 + 9 * Complex.ImaginaryOne, detector.SecondMoment[0, 2]);
@@ -660,14 +718,16 @@ namespace Vts.Test.MonteCarlo
         }
 
         [Test]
-        public void Validate_FluenceOfRhoAndZDetector_deserialized_class_is_correct_when_using_GetBinarySerializers()
+        [TestCase(true)]
+        [TestCase(false)]
+        public void Validate_FluenceOfRhoAndZDetector_deserialized_class_is_correct_when_using_GetBinarySerializers(bool tallySecondMoment)
         {
             const string detectorName = "testfluenceofrhoandz";
             var detector = new FluenceOfRhoAndZDetector
             {
                 Rho = new DoubleRange(0, 10, 3),
                 Z = new DoubleRange(0, 1, 4),
-                TallySecondMoment = true, // tally SecondMoment
+                TallySecondMoment = tallySecondMoment,
                 Name = detectorName,
                 Mean = new double[,] { { 1, 2, 3 }, { 4, 5, 6 } },
                 SecondMoment = new double[,] { { 7, 8, 9 }, { 10, 11, 12 } }
@@ -681,6 +741,7 @@ namespace Vts.Test.MonteCarlo
             Assert.AreEqual(4, detector.Mean[1, 0]);
             Assert.AreEqual(5, detector.Mean[1, 1]);
             Assert.AreEqual(6, detector.Mean[1, 2]);
+            if (!tallySecondMoment) return;
             Assert.AreEqual(7, detector.SecondMoment[0, 0]);
             Assert.AreEqual(8, detector.SecondMoment[0, 1]);
             Assert.AreEqual(9, detector.SecondMoment[0, 2]);
@@ -691,7 +752,9 @@ namespace Vts.Test.MonteCarlo
 
 
         [Test]
-        public void Validate_pMCROFxAndTimeDetector_deserialized_class_is_correct_when_using_GetBinarySerializers()
+        [TestCase(true)]
+        [TestCase(false)]
+        public void Validate_pMCROFxAndTimeDetector_deserialized_class_is_correct_when_using_GetBinarySerializers(bool tallySecondMoment)
         {
             const string detectorName = "testpmcroffxandtime";
             var detector = new pMCROfFxAndTimeDetector
@@ -700,7 +763,7 @@ namespace Vts.Test.MonteCarlo
                 Time = new DoubleRange(0, 1, 4),
                 PerturbedOps = new List<OpticalProperties> { new() },
                 PerturbedRegionsIndices = new List<int> { 1 },
-                TallySecondMoment = true, // tally SecondMoment
+                TallySecondMoment = tallySecondMoment,
                 Name = detectorName,
                 Mean = new[,]
                 {
@@ -722,6 +785,7 @@ namespace Vts.Test.MonteCarlo
             Assert.AreEqual(4 + 4 * Complex.ImaginaryOne, detector.Mean[1, 0]);
             Assert.AreEqual(5 + 5 * Complex.ImaginaryOne, detector.Mean[1, 1]);
             Assert.AreEqual(6 + 6 * Complex.ImaginaryOne, detector.Mean[1, 2]);
+            if (!tallySecondMoment) return;
             Assert.AreEqual(7 + 7 * Complex.ImaginaryOne, detector.SecondMoment[0, 0]);
             Assert.AreEqual(8 + 8 * Complex.ImaginaryOne, detector.SecondMoment[0, 1]);
             Assert.AreEqual(9 + 9 * Complex.ImaginaryOne, detector.SecondMoment[0, 2]);
@@ -731,7 +795,9 @@ namespace Vts.Test.MonteCarlo
         }
 
         [Test]
-        public void Validate_pMCROfRhoAndTimeDetector_deserialized_class_is_correct_when_using_GetBinarySerializers()
+        [TestCase(true)]
+        [TestCase(false)]
+        public void Validate_pMCROfRhoAndTimeDetector_deserialized_class_is_correct_when_using_GetBinarySerializers(bool tallySecondMoment)
         {
             const string detectorName = "testpmcrofrhoandtime";
             var detector = new pMCROfRhoAndTimeDetector
@@ -740,7 +806,7 @@ namespace Vts.Test.MonteCarlo
                 Time = new DoubleRange(0, 1, 4),
                 PerturbedOps = new List<OpticalProperties> { new() },
                 PerturbedRegionsIndices = new List<int> { 1 },
-                TallySecondMoment = true, // tally SecondMoment
+                TallySecondMoment = tallySecondMoment,
                 Name = detectorName,
                 Mean = new double[,] { { 1, 2, 3 }, { 4, 5, 6 } },
                 SecondMoment = new double[,] { { 7, 8, 9 }, { 10, 11, 12 } }
@@ -754,6 +820,7 @@ namespace Vts.Test.MonteCarlo
             Assert.AreEqual(4, detector.Mean[1, 0]);
             Assert.AreEqual(5, detector.Mean[1, 1]);
             Assert.AreEqual(6, detector.Mean[1, 2]);
+            if (!tallySecondMoment) return;
             Assert.AreEqual(7, detector.SecondMoment[0, 0]);
             Assert.AreEqual(8, detector.SecondMoment[0, 1]);
             Assert.AreEqual(9, detector.SecondMoment[0, 2]);
@@ -763,8 +830,10 @@ namespace Vts.Test.MonteCarlo
         }
 
         [Test]
+        [TestCase(true)]
+        [TestCase(false)]
         public void
-            Validate_pMCROfRhoAndTimeRecessedDetector_deserialized_class_is_correct_when_using_GetBinarySerializers()
+            Validate_pMCROfRhoAndTimeRecessedDetector_deserialized_class_is_correct_when_using_GetBinarySerializers(bool tallySecondMoment)
         {
             const string detectorName = "testpmcrofrhoandtimerecessed";
             var detector = new pMCROfRhoAndTimeRecessedDetector
@@ -774,7 +843,7 @@ namespace Vts.Test.MonteCarlo
                 ZPlane = -0.1,
                 PerturbedOps = new List<OpticalProperties> { new() },
                 PerturbedRegionsIndices = new List<int> { 1 },
-                TallySecondMoment = true, // tally SecondMoment
+                TallySecondMoment = tallySecondMoment,
                 Name = detectorName,
                 Mean = new double[,] { { 1, 2, 3 }, { 4, 5, 6 } },
                 SecondMoment = new double[,] { { 7, 8, 9 }, { 10, 11, 12 } }
@@ -788,6 +857,7 @@ namespace Vts.Test.MonteCarlo
             Assert.AreEqual(4, detector.Mean[1, 0]);
             Assert.AreEqual(5, detector.Mean[1, 1]);
             Assert.AreEqual(6, detector.Mean[1, 2]);
+            if (!tallySecondMoment) return;
             Assert.AreEqual(7, detector.SecondMoment[0, 0]);
             Assert.AreEqual(8, detector.SecondMoment[0, 1]);
             Assert.AreEqual(9, detector.SecondMoment[0, 2]);
@@ -797,7 +867,9 @@ namespace Vts.Test.MonteCarlo
         }
 
         [Test]
-        public void Validate_pMCROfXAndYDetector_deserialized_class_is_correct_when_using_GetBinarySerializers()
+        [TestCase(true)]
+        [TestCase(false)]
+        public void Validate_pMCROfXAndYDetector_deserialized_class_is_correct_when_using_GetBinarySerializers(bool tallySecondMoment)
         {
             const string detectorName = "testpmcrofxandy";
             var detector = new pMCROfXAndYDetector
@@ -806,7 +878,7 @@ namespace Vts.Test.MonteCarlo
                 Y = new DoubleRange(0, 1, 4),
                 PerturbedOps = new List<OpticalProperties> { new() },
                 PerturbedRegionsIndices = new List<int> { 1 },
-                TallySecondMoment = true, // tally SecondMoment
+                TallySecondMoment = tallySecondMoment,
                 Name = detectorName,
                 Mean = new double[,] { { 1, 2, 3 }, { 4, 5, 6 } },
                 SecondMoment = new double[,] { { 7, 8, 9 }, { 10, 11, 12 } }
@@ -820,6 +892,7 @@ namespace Vts.Test.MonteCarlo
             Assert.AreEqual(4, detector.Mean[1, 0]);
             Assert.AreEqual(5, detector.Mean[1, 1]);
             Assert.AreEqual(6, detector.Mean[1, 2]);
+            if (!tallySecondMoment) return;
             Assert.AreEqual(7, detector.SecondMoment[0, 0]);
             Assert.AreEqual(8, detector.SecondMoment[0, 1]);
             Assert.AreEqual(9, detector.SecondMoment[0, 2]);
@@ -829,8 +902,10 @@ namespace Vts.Test.MonteCarlo
         }
 
         [Test]
+        [TestCase(true)]
+        [TestCase(false)]
         public void
-            Validate_ReflectedDynamicMTOfFxAndSubregionHistDetector_deserialized_class_is_correct_when_using_GetBinarySerializers()
+            Validate_ReflectedDynamicMTOfFxAndSubregionHistDetector_deserialized_class_is_correct_when_using_GetBinarySerializers(bool tallySecondMoment)
         {
             const string detectorName = "testreflecteddynamicmtoffxandsubregionhist";
             var detector = new ReflectedDynamicMTOfFxAndSubregionHistDetector
@@ -839,7 +914,7 @@ namespace Vts.Test.MonteCarlo
                 MTBins = new DoubleRange(0, 10, 4),
                 Z = new DoubleRange(0, 10, 4),
                 FractionalMTBins = new DoubleRange(0, 1, 1),
-                TallySecondMoment = true, // tally SecondMoment
+                TallySecondMoment = tallySecondMoment,
                 Name = detectorName,
                 Mean = new[,] // Fx.Count x MTBins.Count-1: 2x3
                 {
@@ -899,37 +974,18 @@ namespace Vts.Test.MonteCarlo
             Assert.AreEqual(4 + 4 * Complex.ImaginaryOne, detector.Mean[1, 0]);
             Assert.AreEqual(5 + 5 * Complex.ImaginaryOne, detector.Mean[1, 1]);
             Assert.AreEqual(6 + 6 * Complex.ImaginaryOne, detector.Mean[1, 2]);
-            Assert.AreEqual(7 + 7 * Complex.ImaginaryOne, detector.SecondMoment[0, 0]);
-            Assert.AreEqual(8 + 8 * Complex.ImaginaryOne, detector.SecondMoment[0, 1]);
-            Assert.AreEqual(9 + 9 * Complex.ImaginaryOne, detector.SecondMoment[0, 2]);
-            Assert.AreEqual(10 + 10 * Complex.ImaginaryOne, detector.SecondMoment[1, 0]);
-            Assert.AreEqual(11 + 11 * Complex.ImaginaryOne, detector.SecondMoment[1, 1]);
-            Assert.AreEqual(12 + 12 * Complex.ImaginaryOne, detector.SecondMoment[1, 2]);
             Assert.AreEqual(13 + 13 * Complex.ImaginaryOne, detector.TotalMTOfZ[0, 0]);
             Assert.AreEqual(14 + 14 * Complex.ImaginaryOne, detector.TotalMTOfZ[0, 1]);
             Assert.AreEqual(15 + 15 * Complex.ImaginaryOne, detector.TotalMTOfZ[0, 2]);
             Assert.AreEqual(16 + 16 * Complex.ImaginaryOne, detector.TotalMTOfZ[1, 0]);
             Assert.AreEqual(17 + 17 * Complex.ImaginaryOne, detector.TotalMTOfZ[1, 1]);
             Assert.AreEqual(18 + 18 * Complex.ImaginaryOne, detector.TotalMTOfZ[1, 2]);
-            Assert.AreEqual(19 + 19 * Complex.ImaginaryOne, detector.TotalMTOfZSecondMoment[0, 0]);
-            Assert.AreEqual(20 + 20 * Complex.ImaginaryOne, detector.TotalMTOfZSecondMoment[0, 1]);
-            Assert.AreEqual(21 + 21 * Complex.ImaginaryOne, detector.TotalMTOfZSecondMoment[0, 2]);
-            Assert.AreEqual(22 + 22 * Complex.ImaginaryOne, detector.TotalMTOfZSecondMoment[1, 0]);
-            Assert.AreEqual(23 + 23 * Complex.ImaginaryOne, detector.TotalMTOfZSecondMoment[1, 1]);
-            Assert.AreEqual(24 + 24 * Complex.ImaginaryOne, detector.TotalMTOfZSecondMoment[1, 2]);
             Assert.AreEqual(25 + 25 * Complex.ImaginaryOne, detector.DynamicMTOfZ[0, 0]);
             Assert.AreEqual(26 + 26 * Complex.ImaginaryOne, detector.DynamicMTOfZ[0, 1]);
             Assert.AreEqual(27 + 27 * Complex.ImaginaryOne, detector.DynamicMTOfZ[0, 2]);
             Assert.AreEqual(28 + 28 * Complex.ImaginaryOne, detector.DynamicMTOfZ[1, 0]);
             Assert.AreEqual(29 + 29 * Complex.ImaginaryOne, detector.DynamicMTOfZ[1, 1]);
-            Assert.AreEqual(30 + 30 * Complex.ImaginaryOne, detector.DynamicMTOfZ[1, 2]);
-            Assert.AreEqual(31 + 31 * Complex.ImaginaryOne, detector.DynamicMTOfZSecondMoment[0, 0]);
-            Assert.AreEqual(32 + 32 * Complex.ImaginaryOne, detector.DynamicMTOfZSecondMoment[0, 1]);
-            Assert.AreEqual(33 + 33 * Complex.ImaginaryOne, detector.DynamicMTOfZSecondMoment[0, 2]);
-            Assert.AreEqual(34 + 34 * Complex.ImaginaryOne, detector.DynamicMTOfZSecondMoment[1, 0]);
-            Assert.AreEqual(35 + 35 * Complex.ImaginaryOne, detector.DynamicMTOfZSecondMoment[1, 1]);
-            Assert.AreEqual(36 + 36 * Complex.ImaginaryOne, detector.DynamicMTOfZSecondMoment[1, 2]);
-            Assert.AreEqual(37 + 37 * Complex.ImaginaryOne, detector.FractionalMT[0, 0, 0]);
+            Assert.AreEqual(30 + 30 * Complex.ImaginaryOne, detector.DynamicMTOfZ[1, 2]); Assert.AreEqual(37 + 37 * Complex.ImaginaryOne, detector.FractionalMT[0, 0, 0]);
             Assert.AreEqual(38 + 38 * Complex.ImaginaryOne, detector.FractionalMT[0, 0, 1]);
             Assert.AreEqual(39 + 39 * Complex.ImaginaryOne, detector.FractionalMT[0, 1, 0]);
             Assert.AreEqual(40 + 40 * Complex.ImaginaryOne, detector.FractionalMT[0, 1, 1]);
@@ -947,11 +1003,33 @@ namespace Vts.Test.MonteCarlo
             Assert.AreEqual(52, detector.SubregionCollisions[1, 1]);
             Assert.AreEqual(53, detector.SubregionCollisions[2, 0]);
             Assert.AreEqual(54, detector.SubregionCollisions[2, 1]);
+            if (!tallySecondMoment) return;
+            Assert.AreEqual(7 + 7 * Complex.ImaginaryOne, detector.SecondMoment[0, 0]);
+            Assert.AreEqual(8 + 8 * Complex.ImaginaryOne, detector.SecondMoment[0, 1]);
+            Assert.AreEqual(9 + 9 * Complex.ImaginaryOne, detector.SecondMoment[0, 2]);
+            Assert.AreEqual(10 + 10 * Complex.ImaginaryOne, detector.SecondMoment[1, 0]);
+            Assert.AreEqual(11 + 11 * Complex.ImaginaryOne, detector.SecondMoment[1, 1]);
+            Assert.AreEqual(12 + 12 * Complex.ImaginaryOne, detector.SecondMoment[1, 2]);
+            Assert.AreEqual(19 + 19 * Complex.ImaginaryOne, detector.TotalMTOfZSecondMoment[0, 0]);
+            Assert.AreEqual(20 + 20 * Complex.ImaginaryOne, detector.TotalMTOfZSecondMoment[0, 1]);
+            Assert.AreEqual(21 + 21 * Complex.ImaginaryOne, detector.TotalMTOfZSecondMoment[0, 2]);
+            Assert.AreEqual(22 + 22 * Complex.ImaginaryOne, detector.TotalMTOfZSecondMoment[1, 0]);
+            Assert.AreEqual(23 + 23 * Complex.ImaginaryOne, detector.TotalMTOfZSecondMoment[1, 1]);
+            Assert.AreEqual(24 + 24 * Complex.ImaginaryOne, detector.TotalMTOfZSecondMoment[1, 2]);
+            Assert.AreEqual(31 + 31 * Complex.ImaginaryOne, detector.DynamicMTOfZSecondMoment[0, 0]);
+            Assert.AreEqual(32 + 32 * Complex.ImaginaryOne, detector.DynamicMTOfZSecondMoment[0, 1]);
+            Assert.AreEqual(33 + 33 * Complex.ImaginaryOne, detector.DynamicMTOfZSecondMoment[0, 2]);
+            Assert.AreEqual(34 + 34 * Complex.ImaginaryOne, detector.DynamicMTOfZSecondMoment[1, 0]);
+            Assert.AreEqual(35 + 35 * Complex.ImaginaryOne, detector.DynamicMTOfZSecondMoment[1, 1]);
+            Assert.AreEqual(36 + 36 * Complex.ImaginaryOne, detector.DynamicMTOfZSecondMoment[1, 2]);
+
         }
 
         [Test]
+        [TestCase(true)]
+        [TestCase(false)]
         public void
-            Validate_ReflectedDynamicMTOfRhoAndSubregionHistDetector_deserialized_class_is_correct_when_using_GetBinarySerializers()
+            Validate_ReflectedDynamicMTOfRhoAndSubregionHistDetector_deserialized_class_is_correct_when_using_GetBinarySerializers(bool tallySecondMoment)
         {
             const string detectorName = "testreflecteddynamicmtofrhoandsubregionhist";
             var detector = new ReflectedDynamicMTOfRhoAndSubregionHistDetector
@@ -960,7 +1038,7 @@ namespace Vts.Test.MonteCarlo
                 MTBins = new DoubleRange(0, 10, 4),
                 Z = new DoubleRange(0, 10, 4),
                 FractionalMTBins = new DoubleRange(0, 1, 1),
-                TallySecondMoment = true, // tally SecondMoment
+                TallySecondMoment = tallySecondMoment,
                 Name = detectorName,
                 Mean = new double[,] { { 1, 2, 3 }, { 4, 5, 6 } }, // Rho.Count-1 x MTBins.Count-1: 2x3
                 SecondMoment = new double[,] { { 7, 8, 9 }, { 10, 11, 12 } },
@@ -985,37 +1063,19 @@ namespace Vts.Test.MonteCarlo
             Assert.AreEqual(3, detector.Mean[0, 2]);
             Assert.AreEqual(4, detector.Mean[1, 0]);
             Assert.AreEqual(5, detector.Mean[1, 1]);
-            Assert.AreEqual(6, detector.Mean[1, 2]);
-            Assert.AreEqual(7, detector.SecondMoment[0, 0]);
-            Assert.AreEqual(8, detector.SecondMoment[0, 1]);
-            Assert.AreEqual(9, detector.SecondMoment[0, 2]);
-            Assert.AreEqual(10, detector.SecondMoment[1, 0]);
-            Assert.AreEqual(11, detector.SecondMoment[1, 1]);
-            Assert.AreEqual(12, detector.SecondMoment[1, 2]);
+            Assert.AreEqual(6, detector.Mean[1, 2]); 
             Assert.AreEqual(13, detector.TotalMTOfZ[0, 0]);
             Assert.AreEqual(14, detector.TotalMTOfZ[0, 1]);
             Assert.AreEqual(15, detector.TotalMTOfZ[0, 2]);
             Assert.AreEqual(16, detector.TotalMTOfZ[1, 0]);
             Assert.AreEqual(17, detector.TotalMTOfZ[1, 1]);
             Assert.AreEqual(18, detector.TotalMTOfZ[1, 2]);
-            Assert.AreEqual(19, detector.TotalMTOfZSecondMoment[0, 0]);
-            Assert.AreEqual(20, detector.TotalMTOfZSecondMoment[0, 1]);
-            Assert.AreEqual(21, detector.TotalMTOfZSecondMoment[0, 2]);
-            Assert.AreEqual(22, detector.TotalMTOfZSecondMoment[1, 0]);
-            Assert.AreEqual(23, detector.TotalMTOfZSecondMoment[1, 1]);
-            Assert.AreEqual(24, detector.TotalMTOfZSecondMoment[1, 2]);
             Assert.AreEqual(25, detector.DynamicMTOfZ[0, 0]);
             Assert.AreEqual(26, detector.DynamicMTOfZ[0, 1]);
             Assert.AreEqual(27, detector.DynamicMTOfZ[0, 2]);
             Assert.AreEqual(28, detector.DynamicMTOfZ[1, 0]);
             Assert.AreEqual(29, detector.DynamicMTOfZ[1, 1]);
             Assert.AreEqual(30, detector.DynamicMTOfZ[1, 2]);
-            Assert.AreEqual(31, detector.DynamicMTOfZSecondMoment[0, 0]);
-            Assert.AreEqual(32, detector.DynamicMTOfZSecondMoment[0, 1]);
-            Assert.AreEqual(33, detector.DynamicMTOfZSecondMoment[0, 2]);
-            Assert.AreEqual(34, detector.DynamicMTOfZSecondMoment[1, 0]);
-            Assert.AreEqual(35, detector.DynamicMTOfZSecondMoment[1, 1]);
-            Assert.AreEqual(36, detector.DynamicMTOfZSecondMoment[1, 2]);
             Assert.AreEqual(37, detector.FractionalMT[0, 0, 0]);
             Assert.AreEqual(38, detector.FractionalMT[0, 0, 1]);
             Assert.AreEqual(39, detector.FractionalMT[0, 1, 0]);
@@ -1034,11 +1094,33 @@ namespace Vts.Test.MonteCarlo
             Assert.AreEqual(52, detector.SubregionCollisions[1, 1]);
             Assert.AreEqual(53, detector.SubregionCollisions[2, 0]);
             Assert.AreEqual(54, detector.SubregionCollisions[2, 1]);
+            if (!tallySecondMoment) return;
+            Assert.AreEqual(7, detector.SecondMoment[0, 0]);
+            Assert.AreEqual(8, detector.SecondMoment[0, 1]);
+            Assert.AreEqual(9, detector.SecondMoment[0, 2]);
+            Assert.AreEqual(10, detector.SecondMoment[1, 0]);
+            Assert.AreEqual(11, detector.SecondMoment[1, 1]);
+            Assert.AreEqual(12, detector.SecondMoment[1, 2]);
+            Assert.AreEqual(19, detector.TotalMTOfZSecondMoment[0, 0]);
+            Assert.AreEqual(20, detector.TotalMTOfZSecondMoment[0, 1]);
+            Assert.AreEqual(21, detector.TotalMTOfZSecondMoment[0, 2]);
+            Assert.AreEqual(22, detector.TotalMTOfZSecondMoment[1, 0]);
+            Assert.AreEqual(23, detector.TotalMTOfZSecondMoment[1, 1]);
+            Assert.AreEqual(24, detector.TotalMTOfZSecondMoment[1, 2]);
+            Assert.AreEqual(31, detector.DynamicMTOfZSecondMoment[0, 0]);
+            Assert.AreEqual(32, detector.DynamicMTOfZSecondMoment[0, 1]);
+            Assert.AreEqual(33, detector.DynamicMTOfZSecondMoment[0, 2]);
+            Assert.AreEqual(34, detector.DynamicMTOfZSecondMoment[1, 0]);
+            Assert.AreEqual(35, detector.DynamicMTOfZSecondMoment[1, 1]);
+            Assert.AreEqual(36, detector.DynamicMTOfZSecondMoment[1, 2]);
+
         }
 
         [Test]
+        [TestCase(true)]
+        [TestCase(false)]
         public void
-            Validate_ReflectedMTOfRhoAndSubregionHistDetector_deserialized_class_is_correct_when_using_GetBinarySerializers()
+            Validate_ReflectedMTOfRhoAndSubregionHistDetector_deserialized_class_is_correct_when_using_GetBinarySerializers(bool tallySecondMoment)
         {
             const string detectorName = "testreflectedmtofrhoandsubregionhist";
             var detector = new ReflectedMTOfRhoAndSubregionHistDetector
@@ -1046,7 +1128,7 @@ namespace Vts.Test.MonteCarlo
                 Rho = new DoubleRange(0, 10, 3),
                 MTBins = new DoubleRange(0, 10, 4),
                 FractionalMTBins = new DoubleRange(0, 1, 1),
-                TallySecondMoment = true, // tally SecondMoment
+                TallySecondMoment = tallySecondMoment,
                 Name = detectorName,
                 Mean = new double[,] { { 1, 2, 3 }, { 4, 5, 6 } }, // Rho.Count-1 x MTBins.Count-1: 2x3
                 SecondMoment = new double[,] { { 7, 8, 9 }, { 10, 11, 12 } },
@@ -1087,12 +1169,6 @@ namespace Vts.Test.MonteCarlo
             Assert.AreEqual(4, detector.Mean[1, 0]);
             Assert.AreEqual(5, detector.Mean[1, 1]);
             Assert.AreEqual(6, detector.Mean[1, 2]);
-            Assert.AreEqual(7, detector.SecondMoment[0, 0]);
-            Assert.AreEqual(8, detector.SecondMoment[0, 1]);
-            Assert.AreEqual(9, detector.SecondMoment[0, 2]);
-            Assert.AreEqual(10, detector.SecondMoment[1, 0]);
-            Assert.AreEqual(11, detector.SecondMoment[1, 1]);
-            Assert.AreEqual(12, detector.SecondMoment[1, 2]);
 
             Assert.AreEqual(1, detector.FractionalMT[0, 0, 0, 0]);
             Assert.AreEqual(2, detector.FractionalMT[0, 0, 0, 1]);
@@ -1130,17 +1206,26 @@ namespace Vts.Test.MonteCarlo
             Assert.AreEqual(34, detector.FractionalMT[1, 2, 1, 1]);
             Assert.AreEqual(35, detector.FractionalMT[1, 2, 2, 0]);
             Assert.AreEqual(36, detector.FractionalMT[1, 2, 2, 1]);
+            if (!tallySecondMoment) return;
+            Assert.AreEqual(7, detector.SecondMoment[0, 0]);
+            Assert.AreEqual(8, detector.SecondMoment[0, 1]);
+            Assert.AreEqual(9, detector.SecondMoment[0, 2]);
+            Assert.AreEqual(10, detector.SecondMoment[1, 0]);
+            Assert.AreEqual(11, detector.SecondMoment[1, 1]);
+            Assert.AreEqual(12, detector.SecondMoment[1, 2]);
         }
 
         [Test]
-        public void Validate_ROfFxAndAngleDetector_deserialized_class_is_correct_when_using_GetBinarySerializers()
+        [TestCase(true)]
+        [TestCase(false)]
+        public void Validate_ROfFxAndAngleDetector_deserialized_class_is_correct_when_using_GetBinarySerializers(bool tallySecondMoment)
         {
             const string detectorName = "testroffxandangle";
             var detector = new ROfFxAndAngleDetector
             {
                 Fx = new DoubleRange(0, 10, 3),
                 Angle = new DoubleRange(0, 1, 4),
-                TallySecondMoment = true, // tally SecondMoment
+                TallySecondMoment = tallySecondMoment,
                 Name = detectorName,
                 Mean = new[,]
                 {
@@ -1162,6 +1247,7 @@ namespace Vts.Test.MonteCarlo
             Assert.AreEqual(4 + 4 * Complex.ImaginaryOne, detector.Mean[1, 0]);
             Assert.AreEqual(5 + 5 * Complex.ImaginaryOne, detector.Mean[1, 1]);
             Assert.AreEqual(6 + 6 * Complex.ImaginaryOne, detector.Mean[1, 2]);
+            if (!tallySecondMoment) return;
             Assert.AreEqual(7 + 7 * Complex.ImaginaryOne, detector.SecondMoment[0, 0]);
             Assert.AreEqual(8 + 8 * Complex.ImaginaryOne, detector.SecondMoment[0, 1]);
             Assert.AreEqual(9 + 9 * Complex.ImaginaryOne, detector.SecondMoment[0, 2]);
@@ -1171,14 +1257,16 @@ namespace Vts.Test.MonteCarlo
         }
 
         [Test]
-        public void Validate_ROfFxAndMaxDepthDetector_deserialized_class_is_correct_when_using_GetBinarySerializers()
+        [TestCase(true)]
+        [TestCase(false)]
+        public void Validate_ROfFxAndMaxDepthDetector_deserialized_class_is_correct_when_using_GetBinarySerializers(bool tallySecondMoment)
         {
             const string detectorName = "testroffxandMaxDepth";
             var detector = new ROfFxAndMaxDepthDetector
             {
                 Fx = new DoubleRange(0, 10, 3),
                 MaxDepth = new DoubleRange(0, 1, 4),
-                TallySecondMoment = true, // tally SecondMoment
+                TallySecondMoment = tallySecondMoment,
                 Name = detectorName,
                 Mean = new[,]
                 {
@@ -1200,6 +1288,7 @@ namespace Vts.Test.MonteCarlo
             Assert.AreEqual(4 + 4 * Complex.ImaginaryOne, detector.Mean[1, 0]);
             Assert.AreEqual(5 + 5 * Complex.ImaginaryOne, detector.Mean[1, 1]);
             Assert.AreEqual(6 + 6 * Complex.ImaginaryOne, detector.Mean[1, 2]);
+            if (!tallySecondMoment) return;
             Assert.AreEqual(7 + 7 * Complex.ImaginaryOne, detector.SecondMoment[0, 0]);
             Assert.AreEqual(8 + 8 * Complex.ImaginaryOne, detector.SecondMoment[0, 1]);
             Assert.AreEqual(9 + 9 * Complex.ImaginaryOne, detector.SecondMoment[0, 2]);
@@ -1209,14 +1298,16 @@ namespace Vts.Test.MonteCarlo
         }
 
         [Test]
-        public void Validate_ROfFxAndTimeDetector_deserialized_class_is_correct_when_using_GetBinarySerializers()
+        [TestCase(true)]
+        [TestCase(false)]
+        public void Validate_ROfFxAndTimeDetector_deserialized_class_is_correct_when_using_GetBinarySerializers(bool tallySecondMoment)
         {
             const string detectorName = "testroffxandtime";
             var detector = new ROfFxAndTimeDetector
             {
                 Fx = new DoubleRange(0, 10, 3),
                 Time = new DoubleRange(0, 1, 4),
-                TallySecondMoment = true, // tally SecondMoment
+                TallySecondMoment = tallySecondMoment,
                 Name = detectorName,
                 Mean = new[,]
                 {
@@ -1238,6 +1329,7 @@ namespace Vts.Test.MonteCarlo
             Assert.AreEqual(4 + 4 * Complex.ImaginaryOne, detector.Mean[1, 0]);
             Assert.AreEqual(5 + 5 * Complex.ImaginaryOne, detector.Mean[1, 1]);
             Assert.AreEqual(6 + 6 * Complex.ImaginaryOne, detector.Mean[1, 2]);
+            if (!tallySecondMoment) return;
             Assert.AreEqual(7 + 7 * Complex.ImaginaryOne, detector.SecondMoment[0, 0]);
             Assert.AreEqual(8 + 8 * Complex.ImaginaryOne, detector.SecondMoment[0, 1]);
             Assert.AreEqual(9 + 9 * Complex.ImaginaryOne, detector.SecondMoment[0, 2]);
@@ -1247,14 +1339,16 @@ namespace Vts.Test.MonteCarlo
         }
 
         [Test]
-        public void Validate_ROfRhoAndAngleDetector_deserialized_class_is_correct_when_using_GetBinarySerializers()
+        [TestCase(true)]
+        [TestCase(false)]
+        public void Validate_ROfRhoAndAngleDetector_deserialized_class_is_correct_when_using_GetBinarySerializers(bool tallySecondMoment)
         {
             const string detectorName = "testrofrhoandangle";
             var detector = new ROfRhoAndAngleDetector
             {
                 Rho = new DoubleRange(0, 10, 3),
                 Angle = new DoubleRange(0, 1, 4),
-                TallySecondMoment = true, // tally SecondMoment
+                TallySecondMoment = tallySecondMoment,
                 Name = detectorName,
                 Mean = new double[,] { { 1, 2, 3 }, { 4, 5, 6 } },
                 SecondMoment = new double[,] { { 7, 8, 9 }, { 10, 11, 12 } }
@@ -1268,6 +1362,7 @@ namespace Vts.Test.MonteCarlo
             Assert.AreEqual(4, detector.Mean[1, 0]);
             Assert.AreEqual(5, detector.Mean[1, 1]);
             Assert.AreEqual(6, detector.Mean[1, 2]);
+            if (!tallySecondMoment) return;
             Assert.AreEqual(7, detector.SecondMoment[0, 0]);
             Assert.AreEqual(8, detector.SecondMoment[0, 1]);
             Assert.AreEqual(9, detector.SecondMoment[0, 2]);
@@ -1277,14 +1372,16 @@ namespace Vts.Test.MonteCarlo
         }
 
         [Test]
-        public void Validate_ROfRhoAndMaxDepthDetector_deserialized_class_is_correct_when_using_GetBinarySerializers()
+        [TestCase(true)]
+        [TestCase(false)]
+        public void Validate_ROfRhoAndMaxDepthDetector_deserialized_class_is_correct_when_using_GetBinarySerializers(bool tallySecondMoment)
         {
             const string detectorName = "testrofrhoandmaxdepth";
             var detector = new ROfRhoAndMaxDepthDetector
             {
                 Rho = new DoubleRange(0, 10, 3),
                 MaxDepth = new DoubleRange(0, 1, 4),
-                TallySecondMoment = true, // tally SecondMoment
+                TallySecondMoment = tallySecondMoment,
                 Name = detectorName,
                 Mean = new double[,] { { 1, 2, 3 }, { 4, 5, 6 } },
                 SecondMoment = new double[,] { { 7, 8, 9 }, { 10, 11, 12 } }
@@ -1298,6 +1395,7 @@ namespace Vts.Test.MonteCarlo
             Assert.AreEqual(4, detector.Mean[1, 0]);
             Assert.AreEqual(5, detector.Mean[1, 1]);
             Assert.AreEqual(6, detector.Mean[1, 2]);
+            if (!tallySecondMoment) return;
             Assert.AreEqual(7, detector.SecondMoment[0, 0]);
             Assert.AreEqual(8, detector.SecondMoment[0, 1]);
             Assert.AreEqual(9, detector.SecondMoment[0, 2]);
@@ -1307,8 +1405,10 @@ namespace Vts.Test.MonteCarlo
         }
 
         [Test]
+        [TestCase(true)]
+        [TestCase(false)]
         public void
-            Validate_ROfRhoAndMaxDepthRecessedDetector_deserialized_class_is_correct_when_using_GetBinarySerializers()
+            Validate_ROfRhoAndMaxDepthRecessedDetector_deserialized_class_is_correct_when_using_GetBinarySerializers(bool tallySecondMoment)
         {
             const string detectorName = "testrofrhoandmaxdepthrecessed";
             var detector = new ROfRhoAndMaxDepthRecessedDetector
@@ -1316,7 +1416,7 @@ namespace Vts.Test.MonteCarlo
                 Rho = new DoubleRange(0, 10, 3),
                 MaxDepth = new DoubleRange(0, 1, 4),
                 ZPlane = -0.1,
-                TallySecondMoment = true, // tally SecondMoment
+                TallySecondMoment = tallySecondMoment,
                 Name = detectorName,
                 Mean = new double[,] { { 1, 2, 3 }, { 4, 5, 6 } },
                 SecondMoment = new double[,] { { 7, 8, 9 }, { 10, 11, 12 } }
@@ -1330,6 +1430,7 @@ namespace Vts.Test.MonteCarlo
             Assert.AreEqual(4, detector.Mean[1, 0]);
             Assert.AreEqual(5, detector.Mean[1, 1]);
             Assert.AreEqual(6, detector.Mean[1, 2]);
+            if (!tallySecondMoment) return;
             Assert.AreEqual(7, detector.SecondMoment[0, 0]);
             Assert.AreEqual(8, detector.SecondMoment[0, 1]);
             Assert.AreEqual(9, detector.SecondMoment[0, 2]);
@@ -1339,14 +1440,16 @@ namespace Vts.Test.MonteCarlo
         }
 
         [Test]
-        public void Validate_ROfRhoAndOmegaDetector_deserialized_class_is_correct_when_using_GetBinarySerializers()
+        [TestCase(true)]
+        [TestCase(false)]
+        public void Validate_ROfRhoAndOmegaDetector_deserialized_class_is_correct_when_using_GetBinarySerializers(bool tallySecondMoment)
         {
             const string detectorName = "testrofrhoandomega";
             var detector = new ROfRhoAndOmegaDetector
             {
                 Rho = new DoubleRange(0, 10, 3),
                 Omega = new DoubleRange(0, 1, 4),
-                TallySecondMoment = true, // tally SecondMoment
+                TallySecondMoment = tallySecondMoment,
                 Name = detectorName,
                 Mean = new[,]
                 {
@@ -1368,6 +1471,7 @@ namespace Vts.Test.MonteCarlo
             Assert.AreEqual(4 + 4 * Complex.ImaginaryOne, detector.Mean[1, 0]);
             Assert.AreEqual(5 + 5 * Complex.ImaginaryOne, detector.Mean[1, 1]);
             Assert.AreEqual(6 + 6 * Complex.ImaginaryOne, detector.Mean[1, 2]);
+            if (!tallySecondMoment) return;
             Assert.AreEqual(7 + 7 * Complex.ImaginaryOne, detector.SecondMoment[0, 0]);
             Assert.AreEqual(8 + 8 * Complex.ImaginaryOne, detector.SecondMoment[0, 1]);
             Assert.AreEqual(9 + 9 * Complex.ImaginaryOne, detector.SecondMoment[0, 2]);
@@ -1377,14 +1481,16 @@ namespace Vts.Test.MonteCarlo
         }
 
         [Test]
-        public void Validate_ROfRhoAndTimeDetector_deserialized_class_is_correct_when_using_GetBinarySerializers()
+        [TestCase(true)]
+        [TestCase(false)]
+        public void Validate_ROfRhoAndTimeDetector_deserialized_class_is_correct_when_using_GetBinarySerializers(bool tallySecondMoment)
         {
             const string detectorName = "testrofrhoandtime";
             var detector = new ROfRhoAndTimeDetector
             {
                 Rho = new DoubleRange(0, 10, 3),
                 Time = new DoubleRange(0, 1, 4),
-                TallySecondMoment = true, // tally SecondMoment
+                TallySecondMoment = tallySecondMoment,
                 Name = detectorName,
                 Mean = new double[,] { { 1, 2, 3 }, { 4, 5, 6 } },
                 SecondMoment = new double[,] { { 7, 8, 9 }, { 10, 11, 12 } }
@@ -1398,6 +1504,7 @@ namespace Vts.Test.MonteCarlo
             Assert.AreEqual(4, detector.Mean[1, 0]);
             Assert.AreEqual(5, detector.Mean[1, 1]);
             Assert.AreEqual(6, detector.Mean[1, 2]);
+            if (!tallySecondMoment) return;
             Assert.AreEqual(7, detector.SecondMoment[0, 0]);
             Assert.AreEqual(8, detector.SecondMoment[0, 1]);
             Assert.AreEqual(9, detector.SecondMoment[0, 2]);
@@ -1408,14 +1515,16 @@ namespace Vts.Test.MonteCarlo
 
 
         [Test]
-        public void Validate_ROfXAndYDetector_deserialized_class_is_correct_when_using_GetBinarySerializers()
+        [TestCase(true)]
+        [TestCase(false)]
+        public void Validate_ROfXAndYDetector_deserialized_class_is_correct_when_using_GetBinarySerializers(bool tallySecondMoment)
         {
             const string detectorName = "testrofxandy";
             var detector = new ROfXAndYDetector
             {
                 X = new DoubleRange(0, 10, 3),
                 Y = new DoubleRange(0, 1, 4),
-                TallySecondMoment = true, // tally SecondMoment
+                TallySecondMoment = tallySecondMoment,
                 Name = detectorName,
                 Mean = new double[,] { { 1, 2, 3 }, { 4, 5, 6 } },
                 SecondMoment = new double[,] { { 7, 8, 9 }, { 10, 11, 12 } }
@@ -1429,6 +1538,7 @@ namespace Vts.Test.MonteCarlo
             Assert.AreEqual(4, detector.Mean[1, 0]);
             Assert.AreEqual(5, detector.Mean[1, 1]);
             Assert.AreEqual(6, detector.Mean[1, 2]);
+            if (!tallySecondMoment) return;
             Assert.AreEqual(7, detector.SecondMoment[0, 0]);
             Assert.AreEqual(8, detector.SecondMoment[0, 1]);
             Assert.AreEqual(9, detector.SecondMoment[0, 2]);
@@ -1438,7 +1548,9 @@ namespace Vts.Test.MonteCarlo
         }
 
         [Test]
-        public void Validate_ROfXAndYRecessedDetector_deserialized_class_is_correct_when_using_GetBinarySerializers()
+        [TestCase(true)]
+        [TestCase(false)]
+        public void Validate_ROfXAndYRecessedDetector_deserialized_class_is_correct_when_using_GetBinarySerializers(bool tallySecondMoment)
         {
             const string detectorName = "testrofxandyrecessed";
             var detector = new ROfXAndYRecessedDetector
@@ -1446,7 +1558,7 @@ namespace Vts.Test.MonteCarlo
                 X = new DoubleRange(0, 10, 3),
                 Y = new DoubleRange(0, 1, 4),
                 ZPlane = -0.1,
-                TallySecondMoment = true, // tally SecondMoment
+                TallySecondMoment = tallySecondMoment,
                 Name = detectorName,
                 Mean = new double[,] { { 1, 2, 3 }, { 4, 5, 6 } },
                 SecondMoment = new double[,] { { 7, 8, 9 }, { 10, 11, 12 } }
@@ -1460,6 +1572,7 @@ namespace Vts.Test.MonteCarlo
             Assert.AreEqual(4, detector.Mean[1, 0]);
             Assert.AreEqual(5, detector.Mean[1, 1]);
             Assert.AreEqual(6, detector.Mean[1, 2]);
+            if (!tallySecondMoment) return;
             Assert.AreEqual(7, detector.SecondMoment[0, 0]);
             Assert.AreEqual(8, detector.SecondMoment[0, 1]);
             Assert.AreEqual(9, detector.SecondMoment[0, 2]);
@@ -1469,14 +1582,16 @@ namespace Vts.Test.MonteCarlo
         }
 
         [Test]
-        public void Validate_TOfRhoAndAngleDetector_deserialized_class_is_correct_when_using_GetBinarySerializers()
+        [TestCase(true)]
+        [TestCase(false)]
+        public void Validate_TOfRhoAndAngleDetector_deserialized_class_is_correct_when_using_GetBinarySerializers(bool tallySecondMoment)
         {
             const string detectorName = "testtofrhoandz";
             var detector = new TOfRhoAndAngleDetector
             {
                 Rho = new DoubleRange(0, 10, 3),
                 Angle = new DoubleRange(0, 1, 4),
-                TallySecondMoment = true, // tally SecondMoment
+                TallySecondMoment = tallySecondMoment,
                 Name = detectorName,
                 Mean = new double[,] { { 1, 2, 3 }, { 4, 5, 6 } },
                 SecondMoment = new double[,] { { 7, 8, 9 }, { 10, 11, 12 } }
@@ -1490,6 +1605,7 @@ namespace Vts.Test.MonteCarlo
             Assert.AreEqual(4, detector.Mean[1, 0]);
             Assert.AreEqual(5, detector.Mean[1, 1]);
             Assert.AreEqual(6, detector.Mean[1, 2]);
+            if (!tallySecondMoment) return;
             Assert.AreEqual(7, detector.SecondMoment[0, 0]);
             Assert.AreEqual(8, detector.SecondMoment[0, 1]);
             Assert.AreEqual(9, detector.SecondMoment[0, 2]);
@@ -1499,14 +1615,16 @@ namespace Vts.Test.MonteCarlo
         }
 
         [Test]
-        public void Validate_TOfXAndYDetector_deserialized_class_is_correct_when_using_GetBinarySerializers()
+        [TestCase(true)]
+        [TestCase(false)]
+        public void Validate_TOfXAndYDetector_deserialized_class_is_correct_when_using_GetBinarySerializers(bool tallySecondMoment)
         {
             const string detectorName = "testtofxandy";
             var detector = new TOfXAndYDetector
             {
                 X = new DoubleRange(0, 10, 3),
                 Y = new DoubleRange(0, 1, 4),
-                TallySecondMoment = true, // tally SecondMoment
+                TallySecondMoment = tallySecondMoment,
                 Name = detectorName,
                 Mean = new double[,] { { 1, 2, 3 }, { 4, 5, 6 } },
                 SecondMoment = new double[,] { { 7, 8, 9 }, { 10, 11, 12 } }
@@ -1520,6 +1638,7 @@ namespace Vts.Test.MonteCarlo
             Assert.AreEqual(4, detector.Mean[1, 0]);
             Assert.AreEqual(5, detector.Mean[1, 1]);
             Assert.AreEqual(6, detector.Mean[1, 2]);
+            if (!tallySecondMoment) return;
             Assert.AreEqual(7, detector.SecondMoment[0, 0]);
             Assert.AreEqual(8, detector.SecondMoment[0, 1]);
             Assert.AreEqual(9, detector.SecondMoment[0, 2]);
@@ -1529,8 +1648,10 @@ namespace Vts.Test.MonteCarlo
         }
 
         [Test]
+        [TestCase(true)]
+        [TestCase(false)]
         public void
-            Validate_TransmittedDynamicMTOfFxAndSubregionHistDetector_deserialized_class_is_correct_when_using_GetBinarySerializers()
+            Validate_TransmittedDynamicMTOfFxAndSubregionHistDetector_deserialized_class_is_correct_when_using_GetBinarySerializers(bool tallySecondMoment)
         {
             const string detectorName = "testtransmitteddynamicmtoffxandsubregionhist";
             var detector = new TransmittedDynamicMTOfFxAndSubregionHistDetector
@@ -1539,7 +1660,7 @@ namespace Vts.Test.MonteCarlo
                 MTBins = new DoubleRange(0, 10, 4),
                 Z = new DoubleRange(0, 10, 4),
                 FractionalMTBins = new DoubleRange(0, 1, 1),
-                TallySecondMoment = true, // tally SecondMoment
+                TallySecondMoment = tallySecondMoment,
                 Name = detectorName,
                 Mean = new[,] // Fx.Count x MTBins.Count-1: 2x3
                 {
@@ -1599,36 +1720,18 @@ namespace Vts.Test.MonteCarlo
             Assert.AreEqual(4 + 4 * Complex.ImaginaryOne, detector.Mean[1, 0]);
             Assert.AreEqual(5 + 5 * Complex.ImaginaryOne, detector.Mean[1, 1]);
             Assert.AreEqual(6 + 6 * Complex.ImaginaryOne, detector.Mean[1, 2]);
-            Assert.AreEqual(7 + 7 * Complex.ImaginaryOne, detector.SecondMoment[0, 0]);
-            Assert.AreEqual(8 + 8 * Complex.ImaginaryOne, detector.SecondMoment[0, 1]);
-            Assert.AreEqual(9 + 9 * Complex.ImaginaryOne, detector.SecondMoment[0, 2]);
-            Assert.AreEqual(10 + 10 * Complex.ImaginaryOne, detector.SecondMoment[1, 0]);
-            Assert.AreEqual(11 + 11 * Complex.ImaginaryOne, detector.SecondMoment[1, 1]);
-            Assert.AreEqual(12 + 12 * Complex.ImaginaryOne, detector.SecondMoment[1, 2]);
             Assert.AreEqual(13 + 13 * Complex.ImaginaryOne, detector.TotalMTOfZ[0, 0]);
             Assert.AreEqual(14 + 14 * Complex.ImaginaryOne, detector.TotalMTOfZ[0, 1]);
             Assert.AreEqual(15 + 15 * Complex.ImaginaryOne, detector.TotalMTOfZ[0, 2]);
             Assert.AreEqual(16 + 16 * Complex.ImaginaryOne, detector.TotalMTOfZ[1, 0]);
             Assert.AreEqual(17 + 17 * Complex.ImaginaryOne, detector.TotalMTOfZ[1, 1]);
             Assert.AreEqual(18 + 18 * Complex.ImaginaryOne, detector.TotalMTOfZ[1, 2]);
-            Assert.AreEqual(19 + 19 * Complex.ImaginaryOne, detector.TotalMTOfZSecondMoment[0, 0]);
-            Assert.AreEqual(20 + 20 * Complex.ImaginaryOne, detector.TotalMTOfZSecondMoment[0, 1]);
-            Assert.AreEqual(21 + 21 * Complex.ImaginaryOne, detector.TotalMTOfZSecondMoment[0, 2]);
-            Assert.AreEqual(22 + 22 * Complex.ImaginaryOne, detector.TotalMTOfZSecondMoment[1, 0]);
-            Assert.AreEqual(23 + 23 * Complex.ImaginaryOne, detector.TotalMTOfZSecondMoment[1, 1]);
-            Assert.AreEqual(24 + 24 * Complex.ImaginaryOne, detector.TotalMTOfZSecondMoment[1, 2]);
             Assert.AreEqual(25 + 25 * Complex.ImaginaryOne, detector.DynamicMTOfZ[0, 0]);
             Assert.AreEqual(26 + 26 * Complex.ImaginaryOne, detector.DynamicMTOfZ[0, 1]);
             Assert.AreEqual(27 + 27 * Complex.ImaginaryOne, detector.DynamicMTOfZ[0, 2]);
             Assert.AreEqual(28 + 28 * Complex.ImaginaryOne, detector.DynamicMTOfZ[1, 0]);
             Assert.AreEqual(29 + 29 * Complex.ImaginaryOne, detector.DynamicMTOfZ[1, 1]);
             Assert.AreEqual(30 + 30 * Complex.ImaginaryOne, detector.DynamicMTOfZ[1, 2]);
-            Assert.AreEqual(31 + 31 * Complex.ImaginaryOne, detector.DynamicMTOfZSecondMoment[0, 0]);
-            Assert.AreEqual(32 + 32 * Complex.ImaginaryOne, detector.DynamicMTOfZSecondMoment[0, 1]);
-            Assert.AreEqual(33 + 33 * Complex.ImaginaryOne, detector.DynamicMTOfZSecondMoment[0, 2]);
-            Assert.AreEqual(34 + 34 * Complex.ImaginaryOne, detector.DynamicMTOfZSecondMoment[1, 0]);
-            Assert.AreEqual(35 + 35 * Complex.ImaginaryOne, detector.DynamicMTOfZSecondMoment[1, 1]);
-            Assert.AreEqual(36 + 36 * Complex.ImaginaryOne, detector.DynamicMTOfZSecondMoment[1, 2]);
             Assert.AreEqual(37 + 37 * Complex.ImaginaryOne, detector.FractionalMT[0, 0, 0]);
             Assert.AreEqual(38 + 38 * Complex.ImaginaryOne, detector.FractionalMT[0, 0, 1]);
             Assert.AreEqual(39 + 39 * Complex.ImaginaryOne, detector.FractionalMT[0, 1, 0]);
@@ -1647,11 +1750,32 @@ namespace Vts.Test.MonteCarlo
             Assert.AreEqual(52, detector.SubregionCollisions[1, 1]);
             Assert.AreEqual(53, detector.SubregionCollisions[2, 0]);
             Assert.AreEqual(54, detector.SubregionCollisions[2, 1]);
+            if (!tallySecondMoment) return;
+            Assert.AreEqual(7 + 7 * Complex.ImaginaryOne, detector.SecondMoment[0, 0]);
+            Assert.AreEqual(8 + 8 * Complex.ImaginaryOne, detector.SecondMoment[0, 1]);
+            Assert.AreEqual(9 + 9 * Complex.ImaginaryOne, detector.SecondMoment[0, 2]);
+            Assert.AreEqual(10 + 10 * Complex.ImaginaryOne, detector.SecondMoment[1, 0]);
+            Assert.AreEqual(11 + 11 * Complex.ImaginaryOne, detector.SecondMoment[1, 1]);
+            Assert.AreEqual(12 + 12 * Complex.ImaginaryOne, detector.SecondMoment[1, 2]);
+            Assert.AreEqual(19 + 19 * Complex.ImaginaryOne, detector.TotalMTOfZSecondMoment[0, 0]);
+            Assert.AreEqual(20 + 20 * Complex.ImaginaryOne, detector.TotalMTOfZSecondMoment[0, 1]);
+            Assert.AreEqual(21 + 21 * Complex.ImaginaryOne, detector.TotalMTOfZSecondMoment[0, 2]);
+            Assert.AreEqual(22 + 22 * Complex.ImaginaryOne, detector.TotalMTOfZSecondMoment[1, 0]);
+            Assert.AreEqual(23 + 23 * Complex.ImaginaryOne, detector.TotalMTOfZSecondMoment[1, 1]);
+            Assert.AreEqual(24 + 24 * Complex.ImaginaryOne, detector.TotalMTOfZSecondMoment[1, 2]);
+            Assert.AreEqual(31 + 31 * Complex.ImaginaryOne, detector.DynamicMTOfZSecondMoment[0, 0]);
+            Assert.AreEqual(32 + 32 * Complex.ImaginaryOne, detector.DynamicMTOfZSecondMoment[0, 1]);
+            Assert.AreEqual(33 + 33 * Complex.ImaginaryOne, detector.DynamicMTOfZSecondMoment[0, 2]);
+            Assert.AreEqual(34 + 34 * Complex.ImaginaryOne, detector.DynamicMTOfZSecondMoment[1, 0]);
+            Assert.AreEqual(35 + 35 * Complex.ImaginaryOne, detector.DynamicMTOfZSecondMoment[1, 1]);
+            Assert.AreEqual(36 + 36 * Complex.ImaginaryOne, detector.DynamicMTOfZSecondMoment[1, 2]);
         }
 
         [Test]
+        [TestCase(true)]
+        [TestCase(false)]
         public void
-            Validate_TransmittedDynamicMTOfRhoAndSubregionHistDetector_deserialized_class_is_correct_when_using_GetBinarySerializers()
+            Validate_TransmittedDynamicMTOfRhoAndSubregionHistDetector_deserialized_class_is_correct_when_using_GetBinarySerializers(bool tallySecondMoment)
         {
             const string detectorName = "testtransmiteddynamicmtofrhoandsubregionhist";
             var detector = new TransmittedDynamicMTOfRhoAndSubregionHistDetector
@@ -1660,7 +1784,7 @@ namespace Vts.Test.MonteCarlo
                 MTBins = new DoubleRange(0, 10, 4),
                 Z = new DoubleRange(0, 10, 4),
                 FractionalMTBins = new DoubleRange(0, 1, 1),
-                TallySecondMoment = true, // tally SecondMoment
+                TallySecondMoment = tallySecondMoment,
                 Name = detectorName,
                 Mean = new double[,] { { 1, 2, 3 }, { 4, 5, 6 } }, // Rho.Count-1 x MTBins.Count-1: 2x3
                 SecondMoment = new double[,] { { 7, 8, 9 }, { 10, 11, 12 } },
@@ -1686,36 +1810,18 @@ namespace Vts.Test.MonteCarlo
             Assert.AreEqual(4, detector.Mean[1, 0]);
             Assert.AreEqual(5, detector.Mean[1, 1]);
             Assert.AreEqual(6, detector.Mean[1, 2]);
-            Assert.AreEqual(7, detector.SecondMoment[0, 0]);
-            Assert.AreEqual(8, detector.SecondMoment[0, 1]);
-            Assert.AreEqual(9, detector.SecondMoment[0, 2]);
-            Assert.AreEqual(10, detector.SecondMoment[1, 0]);
-            Assert.AreEqual(11, detector.SecondMoment[1, 1]);
-            Assert.AreEqual(12, detector.SecondMoment[1, 2]);
             Assert.AreEqual(13, detector.TotalMTOfZ[0, 0]);
             Assert.AreEqual(14, detector.TotalMTOfZ[0, 1]);
             Assert.AreEqual(15, detector.TotalMTOfZ[0, 2]);
             Assert.AreEqual(16, detector.TotalMTOfZ[1, 0]);
             Assert.AreEqual(17, detector.TotalMTOfZ[1, 1]);
             Assert.AreEqual(18, detector.TotalMTOfZ[1, 2]);
-            Assert.AreEqual(19, detector.TotalMTOfZSecondMoment[0, 0]);
-            Assert.AreEqual(20, detector.TotalMTOfZSecondMoment[0, 1]);
-            Assert.AreEqual(21, detector.TotalMTOfZSecondMoment[0, 2]);
-            Assert.AreEqual(22, detector.TotalMTOfZSecondMoment[1, 0]);
-            Assert.AreEqual(23, detector.TotalMTOfZSecondMoment[1, 1]);
-            Assert.AreEqual(24, detector.TotalMTOfZSecondMoment[1, 2]);
             Assert.AreEqual(25, detector.DynamicMTOfZ[0, 0]);
             Assert.AreEqual(26, detector.DynamicMTOfZ[0, 1]);
             Assert.AreEqual(27, detector.DynamicMTOfZ[0, 2]);
             Assert.AreEqual(28, detector.DynamicMTOfZ[1, 0]);
             Assert.AreEqual(29, detector.DynamicMTOfZ[1, 1]);
             Assert.AreEqual(30, detector.DynamicMTOfZ[1, 2]);
-            Assert.AreEqual(31, detector.DynamicMTOfZSecondMoment[0, 0]);
-            Assert.AreEqual(32, detector.DynamicMTOfZSecondMoment[0, 1]);
-            Assert.AreEqual(33, detector.DynamicMTOfZSecondMoment[0, 2]);
-            Assert.AreEqual(34, detector.DynamicMTOfZSecondMoment[1, 0]);
-            Assert.AreEqual(35, detector.DynamicMTOfZSecondMoment[1, 1]);
-            Assert.AreEqual(36, detector.DynamicMTOfZSecondMoment[1, 2]);
             Assert.AreEqual(37, detector.FractionalMT[0, 0, 0]);
             Assert.AreEqual(38, detector.FractionalMT[0, 0, 1]);
             Assert.AreEqual(39, detector.FractionalMT[0, 1, 0]);
@@ -1734,11 +1840,32 @@ namespace Vts.Test.MonteCarlo
             Assert.AreEqual(52, detector.SubregionCollisions[1, 1]);
             Assert.AreEqual(53, detector.SubregionCollisions[2, 0]);
             Assert.AreEqual(54, detector.SubregionCollisions[2, 1]);
+            if (!tallySecondMoment) return;
+            Assert.AreEqual(7, detector.SecondMoment[0, 0]);
+            Assert.AreEqual(8, detector.SecondMoment[0, 1]);
+            Assert.AreEqual(9, detector.SecondMoment[0, 2]);
+            Assert.AreEqual(10, detector.SecondMoment[1, 0]);
+            Assert.AreEqual(11, detector.SecondMoment[1, 1]);
+            Assert.AreEqual(12, detector.SecondMoment[1, 2]);
+            Assert.AreEqual(19, detector.TotalMTOfZSecondMoment[0, 0]);
+            Assert.AreEqual(20, detector.TotalMTOfZSecondMoment[0, 1]);
+            Assert.AreEqual(21, detector.TotalMTOfZSecondMoment[0, 2]);
+            Assert.AreEqual(22, detector.TotalMTOfZSecondMoment[1, 0]);
+            Assert.AreEqual(23, detector.TotalMTOfZSecondMoment[1, 1]);
+            Assert.AreEqual(24, detector.TotalMTOfZSecondMoment[1, 2]);
+            Assert.AreEqual(31, detector.DynamicMTOfZSecondMoment[0, 0]);
+            Assert.AreEqual(32, detector.DynamicMTOfZSecondMoment[0, 1]);
+            Assert.AreEqual(33, detector.DynamicMTOfZSecondMoment[0, 2]);
+            Assert.AreEqual(34, detector.DynamicMTOfZSecondMoment[1, 0]);
+            Assert.AreEqual(35, detector.DynamicMTOfZSecondMoment[1, 1]);
+            Assert.AreEqual(36, detector.DynamicMTOfZSecondMoment[1, 2]);
         }
 
         [Test]
+        [TestCase(true)]
+        [TestCase(false)]
         public void
-            Validate_TransmittedMTOfRhoAndSubregionHistDetector_deserialized_class_is_correct_when_using_GetBinarySerializers()
+            Validate_TransmittedMTOfRhoAndSubregionHistDetector_deserialized_class_is_correct_when_using_GetBinarySerializers(bool tallySecondMoment)
         {
             const string detectorName = "testtransmittedmtofrhoandsubregionhist";
             var detector = new TransmittedMTOfRhoAndSubregionHistDetector
@@ -1746,7 +1873,7 @@ namespace Vts.Test.MonteCarlo
                 Rho = new DoubleRange(0, 10, 3),
                 MTBins = new DoubleRange(0, 10, 4),
                 FractionalMTBins = new DoubleRange(0, 1, 1),
-                TallySecondMoment = true, // tally SecondMoment
+                TallySecondMoment = tallySecondMoment,
                 Name = detectorName,
                 Mean = new double[,] { { 1, 2, 3 }, { 4, 5, 6 } }, // Rho.Count-1 x MTBins.Count-1: 2x3
                 SecondMoment = new double[,] { { 7, 8, 9 }, { 10, 11, 12 } },
@@ -1787,12 +1914,6 @@ namespace Vts.Test.MonteCarlo
             Assert.AreEqual(4, detector.Mean[1, 0]);
             Assert.AreEqual(5, detector.Mean[1, 1]);
             Assert.AreEqual(6, detector.Mean[1, 2]);
-            Assert.AreEqual(7, detector.SecondMoment[0, 0]);
-            Assert.AreEqual(8, detector.SecondMoment[0, 1]);
-            Assert.AreEqual(9, detector.SecondMoment[0, 2]);
-            Assert.AreEqual(10, detector.SecondMoment[1, 0]);
-            Assert.AreEqual(11, detector.SecondMoment[1, 1]);
-            Assert.AreEqual(12, detector.SecondMoment[1, 2]);
 
             Assert.AreEqual(1, detector.FractionalMT[0, 0, 0, 0]);
             Assert.AreEqual(2, detector.FractionalMT[0, 0, 0, 1]);
@@ -1830,18 +1951,27 @@ namespace Vts.Test.MonteCarlo
             Assert.AreEqual(34, detector.FractionalMT[1, 2, 1, 1]);
             Assert.AreEqual(35, detector.FractionalMT[1, 2, 2, 0]);
             Assert.AreEqual(36, detector.FractionalMT[1, 2, 2, 1]);
+            if (!tallySecondMoment) return;
+            Assert.AreEqual(7, detector.SecondMoment[0, 0]);
+            Assert.AreEqual(8, detector.SecondMoment[0, 1]);
+            Assert.AreEqual(9, detector.SecondMoment[0, 2]);
+            Assert.AreEqual(10, detector.SecondMoment[1, 0]);
+            Assert.AreEqual(11, detector.SecondMoment[1, 1]);
+            Assert.AreEqual(12, detector.SecondMoment[1, 2]);
         }
 
 
         #endregion
 
-        #region 3D detectors: complete
+        #region 3D detectors
 
         /// <summary>
         /// test to verify that GetBinarySerializers are working correctly for 3D detector.
         /// </summary>
         [Test]
-        public void Validate_AOfXAndYAndZDetector_deserialized_class_is_correct_when_using_GetBinarySerializers()
+        [TestCase(true)]
+        [TestCase(false)]
+        public void Validate_AOfXAndYAndZDetector_deserialized_class_is_correct_when_using_GetBinarySerializers(bool tallySecondMoment)
         {
             const string detectorName = "testaofxandyandz";
             var detector = new AOfXAndYAndZDetector
@@ -1849,7 +1979,7 @@ namespace Vts.Test.MonteCarlo
                 X = new DoubleRange(-10, 10, 3),
                 Y = new DoubleRange(-10, 10, 3),
                 Z = new DoubleRange(0, 1, 4),
-                TallySecondMoment = true, // tally SecondMoment
+                TallySecondMoment = tallySecondMoment,
                 Name = detectorName,
                 Mean = new double[,,] { { { 1, 2, 3 }, { 4, 5, 6 } }, { { 7, 8, 9 }, { 10, 11, 12 } } },
                 SecondMoment = new double[,,] { { { 13, 14, 15 }, { 16, 17, 18 } }, { { 19, 20, 21 }, { 22, 23, 24 } } }
@@ -1869,6 +1999,7 @@ namespace Vts.Test.MonteCarlo
             Assert.AreEqual(10, detector.Mean[1, 1, 0]);
             Assert.AreEqual(11, detector.Mean[1, 1, 1]);
             Assert.AreEqual(12, detector.Mean[1, 1, 2]);
+            if (!tallySecondMoment) return;
             Assert.AreEqual(13, detector.SecondMoment[0, 0, 0]);
             Assert.AreEqual(14, detector.SecondMoment[0, 0, 1]);
             Assert.AreEqual(15, detector.SecondMoment[0, 0, 2]);
@@ -1884,8 +2015,10 @@ namespace Vts.Test.MonteCarlo
         }
 
         [Test]
+        [TestCase(true)]
+        [TestCase(false)]
         public void
-            Validate_FluenceOfRhoAndZAndOmegaDetector_deserialized_class_is_correct_when_using_GetBinarySerializers()
+            Validate_FluenceOfRhoAndZAndOmegaDetector_deserialized_class_is_correct_when_using_GetBinarySerializers(bool tallySecondMoment)
         {
             const string detectorName = "testfluenceofrhoandzandomega";
             var detector = new FluenceOfRhoAndZAndOmegaDetector
@@ -1893,7 +2026,7 @@ namespace Vts.Test.MonteCarlo
                 Rho = new DoubleRange(0, 10, 3),
                 Z = new DoubleRange(0, 1, 3),
                 Omega = new DoubleRange(0, 1, 3),
-                TallySecondMoment = true, // tally SecondMoment
+                TallySecondMoment = tallySecondMoment,
                 Name = detectorName,
                 Mean = new[,,] // Rho.Count-1 x Z.Count-1 x Omega.Count: 2x2x3
                 {
@@ -1948,6 +2081,7 @@ namespace Vts.Test.MonteCarlo
             Assert.AreEqual(10 + 10 * Complex.ImaginaryOne, detector.Mean[1, 1, 0]);
             Assert.AreEqual(11 + 11 * Complex.ImaginaryOne, detector.Mean[1, 1, 1]);
             Assert.AreEqual(12 + 12 * Complex.ImaginaryOne, detector.Mean[1, 1, 2]);
+            if (!tallySecondMoment) return;
             Assert.AreEqual(13 + 13 * Complex.ImaginaryOne, detector.SecondMoment[0, 0, 0]);
             Assert.AreEqual(14 + 14 * Complex.ImaginaryOne, detector.SecondMoment[0, 0, 1]);
             Assert.AreEqual(15 + 15 * Complex.ImaginaryOne, detector.SecondMoment[0, 0, 2]);
@@ -1964,8 +2098,10 @@ namespace Vts.Test.MonteCarlo
 
 
         [Test]
+        [TestCase(true)]
+        [TestCase(false)]
         public void
-            Validate_FluenceOfRhoAndZAndTimeDetector_deserialized_class_is_correct_when_using_GetBinarySerializers()
+            Validate_FluenceOfRhoAndZAndTimeDetector_deserialized_class_is_correct_when_using_GetBinarySerializers(bool tallySecondMoment)
         {
             const string detectorName = "testfluenceofrhoandzandtime";
             var detector = new FluenceOfRhoAndZAndTimeDetector
@@ -1973,7 +2109,7 @@ namespace Vts.Test.MonteCarlo
                 Rho = new DoubleRange(0, 10, 3),
                 Z = new DoubleRange(0, 100, 3),
                 Time = new DoubleRange(0, 1, 4),
-                TallySecondMoment = true, // tally SecondMoment
+                TallySecondMoment = tallySecondMoment,
                 Name = detectorName,
                 Mean = new double[,,] // Rho.Count-1 x Z.Count-1 x Time.Count-1: 2x2x3
                     { { { 1, 2, 3 }, { 4, 5, 6 } }, { { 7, 8, 9 }, { 10, 11, 12 } } }, // 4x2x3
@@ -1994,6 +2130,7 @@ namespace Vts.Test.MonteCarlo
             Assert.AreEqual(10, detector.Mean[1, 1, 0]);
             Assert.AreEqual(11, detector.Mean[1, 1, 1]);
             Assert.AreEqual(12, detector.Mean[1, 1, 2]);
+            if (!tallySecondMoment) return;
             Assert.AreEqual(13, detector.SecondMoment[0, 0, 0]);
             Assert.AreEqual(14, detector.SecondMoment[0, 0, 1]);
             Assert.AreEqual(15, detector.SecondMoment[0, 0, 2]);
@@ -2009,7 +2146,9 @@ namespace Vts.Test.MonteCarlo
         }
 
         [Test]
-        public void Validate_FluenceOfXAndYAndZDetector_deserialized_class_is_correct_when_using_GetBinarySerializers()
+        [TestCase(true)]
+        [TestCase(false)]
+        public void Validate_FluenceOfXAndYAndZDetector_deserialized_class_is_correct_when_using_GetBinarySerializers(bool tallySecondMoment)
         {
             const string detectorName = "testfluenceofxandyandz";
             var detector = new FluenceOfXAndYAndZDetector
@@ -2017,7 +2156,7 @@ namespace Vts.Test.MonteCarlo
                 X = new DoubleRange(-10, 10, 3),
                 Y = new DoubleRange(-10, 10, 3),
                 Z = new DoubleRange(0, 1, 4),
-                TallySecondMoment = true, // tally SecondMoment
+                TallySecondMoment = tallySecondMoment,
                 Name = detectorName,
                 Mean = new double[,,] // Rho.Count-1 x Z.Count-1 x Z.Count-1: 2x2x3
                     { { { 1, 2, 3 }, { 4, 5, 6 } }, { { 7, 8, 9 }, { 10, 11, 12 } } },
@@ -2038,6 +2177,7 @@ namespace Vts.Test.MonteCarlo
             Assert.AreEqual(10, detector.Mean[1, 1, 0]);
             Assert.AreEqual(11, detector.Mean[1, 1, 1]);
             Assert.AreEqual(12, detector.Mean[1, 1, 2]);
+            if (!tallySecondMoment) return;
             Assert.AreEqual(13, detector.SecondMoment[0, 0, 0]);
             Assert.AreEqual(14, detector.SecondMoment[0, 0, 1]);
             Assert.AreEqual(15, detector.SecondMoment[0, 0, 2]);
@@ -2052,8 +2192,10 @@ namespace Vts.Test.MonteCarlo
             Assert.AreEqual(24, detector.SecondMoment[1, 1, 2]);
         }
         [Test]
+        [TestCase(true)]
+        [TestCase(false)]
         public void
-      Validate_ReflectedDynamicMTOfXAndYAndSubregionDetector_deserialized_class_is_correct_when_using_GetBinarySerializers()
+      Validate_ReflectedDynamicMTOfXAndYAndSubregionDetector_deserialized_class_is_correct_when_using_GetBinarySerializers(bool tallySecondMoment)
         {
             const string detectorName = "testreflecteddynamicmtofxandyandsubregionhist";
             var detector = new ReflectedDynamicMTOfXAndYAndSubregionHistDetector
@@ -2063,7 +2205,7 @@ namespace Vts.Test.MonteCarlo
                 MTBins = new DoubleRange(0, 100, 4),
                 Z = new DoubleRange(0, 100, 4),
                 FractionalMTBins = new DoubleRange(0, 10, 1),
-                TallySecondMoment = true, // tally SecondMoment
+                TallySecondMoment = tallySecondMoment,
                 Name = detectorName,
                 Mean = new double[,,] // X.Count-1 x Y.Count-1 x MTBins.Count-1: 2x2x3
                 {
@@ -2136,18 +2278,6 @@ namespace Vts.Test.MonteCarlo
             Assert.AreEqual(10, detector.Mean[1, 1, 0]);
             Assert.AreEqual(11, detector.Mean[1, 1, 1]);
             Assert.AreEqual(12, detector.Mean[1, 1, 2]);
-            Assert.AreEqual(13, detector.SecondMoment[0, 0, 0]);
-            Assert.AreEqual(14, detector.SecondMoment[0, 0, 1]);
-            Assert.AreEqual(15, detector.SecondMoment[0, 0, 2]);
-            Assert.AreEqual(16, detector.SecondMoment[0, 1, 0]);
-            Assert.AreEqual(17, detector.SecondMoment[0, 1, 1]);
-            Assert.AreEqual(18, detector.SecondMoment[0, 1, 2]);
-            Assert.AreEqual(19, detector.SecondMoment[1, 0, 0]);
-            Assert.AreEqual(20, detector.SecondMoment[1, 0, 1]);
-            Assert.AreEqual(21, detector.SecondMoment[1, 0, 2]);
-            Assert.AreEqual(22, detector.SecondMoment[1, 1, 0]);
-            Assert.AreEqual(23, detector.SecondMoment[1, 1, 1]);
-            Assert.AreEqual(24, detector.SecondMoment[1, 1, 2]);
 
             Assert.AreEqual(25, detector.TotalMTOfZ[0, 0, 0]);
             Assert.AreEqual(26, detector.TotalMTOfZ[0, 0, 1]);
@@ -2161,18 +2291,6 @@ namespace Vts.Test.MonteCarlo
             Assert.AreEqual(34, detector.TotalMTOfZ[1, 1, 0]);
             Assert.AreEqual(35, detector.TotalMTOfZ[1, 1, 1]);
             Assert.AreEqual(36, detector.TotalMTOfZ[1, 1, 2]);
-            Assert.AreEqual(37, detector.TotalMTOfZSecondMoment[0, 0, 0]);
-            Assert.AreEqual(38, detector.TotalMTOfZSecondMoment[0, 0, 1]);
-            Assert.AreEqual(39, detector.TotalMTOfZSecondMoment[0, 0, 2]);
-            Assert.AreEqual(40, detector.TotalMTOfZSecondMoment[0, 1, 0]);
-            Assert.AreEqual(41, detector.TotalMTOfZSecondMoment[0, 1, 1]);
-            Assert.AreEqual(42, detector.TotalMTOfZSecondMoment[0, 1, 2]);
-            Assert.AreEqual(43, detector.TotalMTOfZSecondMoment[1, 0, 0]);
-            Assert.AreEqual(44, detector.TotalMTOfZSecondMoment[1, 0, 1]);
-            Assert.AreEqual(45, detector.TotalMTOfZSecondMoment[1, 0, 2]);
-            Assert.AreEqual(46, detector.TotalMTOfZSecondMoment[1, 1, 0]);
-            Assert.AreEqual(47, detector.TotalMTOfZSecondMoment[1, 1, 1]);
-            Assert.AreEqual(48, detector.TotalMTOfZSecondMoment[1, 1, 2]);
 
             Assert.AreEqual(49, detector.DynamicMTOfZ[0, 0, 0]);
             Assert.AreEqual(50, detector.DynamicMTOfZ[0, 0, 1]);
@@ -2186,18 +2304,6 @@ namespace Vts.Test.MonteCarlo
             Assert.AreEqual(58, detector.DynamicMTOfZ[1, 1, 0]);
             Assert.AreEqual(59, detector.DynamicMTOfZ[1, 1, 1]);
             Assert.AreEqual(60, detector.DynamicMTOfZ[1, 1, 2]);
-            Assert.AreEqual(61, detector.DynamicMTOfZSecondMoment[0, 0, 0]);
-            Assert.AreEqual(62, detector.DynamicMTOfZSecondMoment[0, 0, 1]);
-            Assert.AreEqual(63, detector.DynamicMTOfZSecondMoment[0, 0, 2]);
-            Assert.AreEqual(64, detector.DynamicMTOfZSecondMoment[0, 1, 0]);
-            Assert.AreEqual(65, detector.DynamicMTOfZSecondMoment[0, 1, 1]);
-            Assert.AreEqual(66, detector.DynamicMTOfZSecondMoment[0, 1, 2]);
-            Assert.AreEqual(67, detector.DynamicMTOfZSecondMoment[1, 0, 0]);
-            Assert.AreEqual(68, detector.DynamicMTOfZSecondMoment[1, 0, 1]);
-            Assert.AreEqual(69, detector.DynamicMTOfZSecondMoment[1, 0, 2]);
-            Assert.AreEqual(70, detector.DynamicMTOfZSecondMoment[1, 1, 0]);
-            Assert.AreEqual(71, detector.DynamicMTOfZSecondMoment[1, 1, 1]);
-            Assert.AreEqual(72, detector.DynamicMTOfZSecondMoment[1, 1, 2]);
 
             Assert.AreEqual(1, detector.FractionalMT[0, 0, 0, 0]);
             Assert.AreEqual(2, detector.FractionalMT[0, 0, 0, 1]);
@@ -2231,10 +2337,50 @@ namespace Vts.Test.MonteCarlo
             Assert.AreEqual(29, detector.SubregionCollisions[2, 0]);
             Assert.AreEqual(30, detector.SubregionCollisions[2, 1]);
 
+            if (!tallySecondMoment) return;
+            Assert.AreEqual(13, detector.SecondMoment[0, 0, 0]);
+            Assert.AreEqual(14, detector.SecondMoment[0, 0, 1]);
+            Assert.AreEqual(15, detector.SecondMoment[0, 0, 2]);
+            Assert.AreEqual(16, detector.SecondMoment[0, 1, 0]);
+            Assert.AreEqual(17, detector.SecondMoment[0, 1, 1]);
+            Assert.AreEqual(18, detector.SecondMoment[0, 1, 2]);
+            Assert.AreEqual(19, detector.SecondMoment[1, 0, 0]);
+            Assert.AreEqual(20, detector.SecondMoment[1, 0, 1]);
+            Assert.AreEqual(21, detector.SecondMoment[1, 0, 2]);
+            Assert.AreEqual(22, detector.SecondMoment[1, 1, 0]);
+            Assert.AreEqual(23, detector.SecondMoment[1, 1, 1]);
+            Assert.AreEqual(24, detector.SecondMoment[1, 1, 2]);
+            Assert.AreEqual(37, detector.TotalMTOfZSecondMoment[0, 0, 0]);
+            Assert.AreEqual(38, detector.TotalMTOfZSecondMoment[0, 0, 1]);
+            Assert.AreEqual(39, detector.TotalMTOfZSecondMoment[0, 0, 2]);
+            Assert.AreEqual(40, detector.TotalMTOfZSecondMoment[0, 1, 0]);
+            Assert.AreEqual(41, detector.TotalMTOfZSecondMoment[0, 1, 1]);
+            Assert.AreEqual(42, detector.TotalMTOfZSecondMoment[0, 1, 2]);
+            Assert.AreEqual(43, detector.TotalMTOfZSecondMoment[1, 0, 0]);
+            Assert.AreEqual(44, detector.TotalMTOfZSecondMoment[1, 0, 1]);
+            Assert.AreEqual(45, detector.TotalMTOfZSecondMoment[1, 0, 2]);
+            Assert.AreEqual(46, detector.TotalMTOfZSecondMoment[1, 1, 0]);
+            Assert.AreEqual(47, detector.TotalMTOfZSecondMoment[1, 1, 1]);
+            Assert.AreEqual(48, detector.TotalMTOfZSecondMoment[1, 1, 2]);
+            Assert.AreEqual(61, detector.DynamicMTOfZSecondMoment[0, 0, 0]);
+            Assert.AreEqual(62, detector.DynamicMTOfZSecondMoment[0, 0, 1]);
+            Assert.AreEqual(63, detector.DynamicMTOfZSecondMoment[0, 0, 2]);
+            Assert.AreEqual(64, detector.DynamicMTOfZSecondMoment[0, 1, 0]);
+            Assert.AreEqual(65, detector.DynamicMTOfZSecondMoment[0, 1, 1]);
+            Assert.AreEqual(66, detector.DynamicMTOfZSecondMoment[0, 1, 2]);
+            Assert.AreEqual(67, detector.DynamicMTOfZSecondMoment[1, 0, 0]);
+            Assert.AreEqual(68, detector.DynamicMTOfZSecondMoment[1, 0, 1]);
+            Assert.AreEqual(69, detector.DynamicMTOfZSecondMoment[1, 0, 2]);
+            Assert.AreEqual(70, detector.DynamicMTOfZSecondMoment[1, 1, 0]);
+            Assert.AreEqual(71, detector.DynamicMTOfZSecondMoment[1, 1, 1]);
+            Assert.AreEqual(72, detector.DynamicMTOfZSecondMoment[1, 1, 2]);
+
         }
         [Test]
+        [TestCase(true)]
+        [TestCase(false)]
         public void
-    Validate_ReflectedMTOfXAndYAndSubregionDetector_deserialized_class_is_correct_when_using_GetBinarySerializers()
+    Validate_ReflectedMTOfXAndYAndSubregionDetector_deserialized_class_is_correct_when_using_GetBinarySerializers(bool tallySecondMoment)
         {
             const string detectorName = "testreflectedmtofxandyandsubregionhist";
             var detector = new ReflectedMTOfXAndYAndSubregionHistDetector
@@ -2243,7 +2389,7 @@ namespace Vts.Test.MonteCarlo
                 Y = new DoubleRange(-10, 10, 3),
                 MTBins = new DoubleRange(0, 100, 4),
                 FractionalMTBins = new DoubleRange(0, 10, 1),
-                TallySecondMoment = true, // tally SecondMoment
+                TallySecondMoment = tallySecondMoment,
                 Name = detectorName,
                 Mean = new double[,,] // X.Count-1 x Y.Count-1 x MTBins.Count-1: 2x2x3
                 {
@@ -2313,18 +2459,6 @@ namespace Vts.Test.MonteCarlo
             Assert.AreEqual(10, detector.Mean[1, 1, 0]);
             Assert.AreEqual(11, detector.Mean[1, 1, 1]);
             Assert.AreEqual(12, detector.Mean[1, 1, 2]);
-            Assert.AreEqual(13, detector.SecondMoment[0, 0, 0]);
-            Assert.AreEqual(14, detector.SecondMoment[0, 0, 1]);
-            Assert.AreEqual(15, detector.SecondMoment[0, 0, 2]);
-            Assert.AreEqual(16, detector.SecondMoment[0, 1, 0]);
-            Assert.AreEqual(17, detector.SecondMoment[0, 1, 1]);
-            Assert.AreEqual(18, detector.SecondMoment[0, 1, 2]);
-            Assert.AreEqual(19, detector.SecondMoment[1, 0, 0]);
-            Assert.AreEqual(20, detector.SecondMoment[1, 0, 1]);
-            Assert.AreEqual(21, detector.SecondMoment[1, 0, 2]);
-            Assert.AreEqual(22, detector.SecondMoment[1, 1, 0]);
-            Assert.AreEqual(23, detector.SecondMoment[1, 1, 1]);
-            Assert.AreEqual(24, detector.SecondMoment[1, 1, 2]);
 
             Assert.AreEqual(1, detector.FractionalMT[0, 0, 0, 0, 0]);
             Assert.AreEqual(2, detector.FractionalMT[0, 0, 0, 0, 1]);
@@ -2375,19 +2509,35 @@ namespace Vts.Test.MonteCarlo
             Assert.AreEqual(47, detector.FractionalMT[1, 1, 1, 2, 0]);
             Assert.AreEqual(48, detector.FractionalMT[1, 1, 1, 2, 1]);
 
+            if (!tallySecondMoment) return;
+            Assert.AreEqual(13, detector.SecondMoment[0, 0, 0]);
+            Assert.AreEqual(14, detector.SecondMoment[0, 0, 1]);
+            Assert.AreEqual(15, detector.SecondMoment[0, 0, 2]);
+            Assert.AreEqual(16, detector.SecondMoment[0, 1, 0]);
+            Assert.AreEqual(17, detector.SecondMoment[0, 1, 1]);
+            Assert.AreEqual(18, detector.SecondMoment[0, 1, 2]);
+            Assert.AreEqual(19, detector.SecondMoment[1, 0, 0]);
+            Assert.AreEqual(20, detector.SecondMoment[1, 0, 1]);
+            Assert.AreEqual(21, detector.SecondMoment[1, 0, 2]);
+            Assert.AreEqual(22, detector.SecondMoment[1, 1, 0]);
+            Assert.AreEqual(23, detector.SecondMoment[1, 1, 1]);
+            Assert.AreEqual(24, detector.SecondMoment[1, 1, 2]);
+
 
         }
 
         [Test]
+        [TestCase(true)]
+        [TestCase(false)]
         public void
-       Validate_ReflectedTimeOfRhoAndSubregionDetector_deserialized_class_is_correct_when_using_GetBinarySerializers()
+       Validate_ReflectedTimeOfRhoAndSubregionDetector_deserialized_class_is_correct_when_using_GetBinarySerializers(bool tallySecondMoment)
         {
             const string detectorName = "testreflectedtimeofrhoandsubregionhist";
             var detector = new ReflectedTimeOfRhoAndSubregionHistDetector
             {
                 Rho = new DoubleRange(0, 10, 3),
                 Time = new DoubleRange(0, 10, 4),
-                TallySecondMoment = true, // tally SecondMoment
+                TallySecondMoment = tallySecondMoment,
                 Name = detectorName,
                 Mean = new double[,,] // Rho.Count-1 x NumRegions x Time.Count-1: 2x2x3
                 {
@@ -2415,6 +2565,7 @@ namespace Vts.Test.MonteCarlo
             Assert.AreEqual(10, detector.Mean[1, 1, 0]);
             Assert.AreEqual(11, detector.Mean[1, 1, 1]);
             Assert.AreEqual(12, detector.Mean[1, 1, 2]);
+            if (!tallySecondMoment) return;
             Assert.AreEqual(13, detector.SecondMoment[0, 0, 0]);
             Assert.AreEqual(14, detector.SecondMoment[0, 0, 1]);
             Assert.AreEqual(15, detector.SecondMoment[0, 0, 2]);
@@ -2430,8 +2581,10 @@ namespace Vts.Test.MonteCarlo
         }
 
         [Test]
+        [TestCase(true)]
+        [TestCase(false)]
         public void
-            Validate_RadianceOfFxAndZAndAngleDetector_deserialized_class_is_correct_when_using_GetBinarySerializers()
+            Validate_RadianceOfFxAndZAndAngleDetector_deserialized_class_is_correct_when_using_GetBinarySerializers(bool tallySecondMoment)
         {
             const string detectorName = "testradianceoffxandzandangle";
             var detector = new RadianceOfFxAndZAndAngleDetector
@@ -2439,7 +2592,7 @@ namespace Vts.Test.MonteCarlo
                 Fx = new DoubleRange(-0, 10, 2),
                 Z = new DoubleRange(0, 10, 3),
                 Angle = new DoubleRange(0, 1, 4),
-                TallySecondMoment = true, // tally SecondMoment
+                TallySecondMoment = tallySecondMoment,
                 Name = detectorName,
                 Mean = new[,,] // Fx.Count x Z.Count-1 x Angle.Count-1: 2x2x3
                 {
@@ -2494,6 +2647,7 @@ namespace Vts.Test.MonteCarlo
             Assert.AreEqual(10 + 10 * Complex.ImaginaryOne, detector.Mean[1, 1, 0]);
             Assert.AreEqual(11 + 11 * Complex.ImaginaryOne, detector.Mean[1, 1, 1]);
             Assert.AreEqual(12 + 12 * Complex.ImaginaryOne, detector.Mean[1, 1, 2]);
+            if (!tallySecondMoment) return;
             Assert.AreEqual(13 + 13 * Complex.ImaginaryOne, detector.SecondMoment[0, 0, 0]);
             Assert.AreEqual(14 + 14 * Complex.ImaginaryOne, detector.SecondMoment[0, 0, 1]);
             Assert.AreEqual(15 + 15 * Complex.ImaginaryOne, detector.SecondMoment[0, 0, 2]);
@@ -2509,8 +2663,10 @@ namespace Vts.Test.MonteCarlo
         }
 
         [Test]
+        [TestCase(true)]
+        [TestCase(false)]
         public void
-            Validate_RadianceOfRhoAndZAndAngleDetector_deserialized_class_is_correct_when_using_GetBinarySerializers()
+            Validate_RadianceOfRhoAndZAndAngleDetector_deserialized_class_is_correct_when_using_GetBinarySerializers(bool tallySecondMoment)
         {
             const string detectorName = "testradianceofrhoandzandangle";
             var detector = new RadianceOfRhoAndZAndAngleDetector
@@ -2518,7 +2674,7 @@ namespace Vts.Test.MonteCarlo
                 Rho = new DoubleRange(-0, 10, 3),
                 Z = new DoubleRange(0, 10, 3),
                 Angle = new DoubleRange(0, 1, 4),
-                TallySecondMoment = true, // tally SecondMoment
+                TallySecondMoment = tallySecondMoment,
                 Name = detectorName,
                 Mean = new double[,,] // Rho.Count-1 x Z.Count-1 x Angle.Count-1: 2x2x3
                 {
@@ -2546,6 +2702,7 @@ namespace Vts.Test.MonteCarlo
             Assert.AreEqual(10, detector.Mean[1, 1, 0]);
             Assert.AreEqual(11, detector.Mean[1, 1, 1]);
             Assert.AreEqual(12, detector.Mean[1, 1, 2]);
+            if (!tallySecondMoment) return;
             Assert.AreEqual(13, detector.SecondMoment[0, 0, 0]);
             Assert.AreEqual(14, detector.SecondMoment[0, 0, 1]);
             Assert.AreEqual(15, detector.SecondMoment[0, 0, 2]);
@@ -2561,7 +2718,9 @@ namespace Vts.Test.MonteCarlo
         }
 
         [Test]
-        public void Validate_ROfXAndYAndMaxDepthDetector_deserialized_class_is_correct_when_using_GetBinarySerializers()
+        [TestCase(true)]
+        [TestCase(false)]
+        public void Validate_ROfXAndYAndMaxDepthDetector_deserialized_class_is_correct_when_using_GetBinarySerializers(bool tallySecondMoment)
         {
             const string detectorName = "testrofxandyandmaxdepth";
             var detector = new ROfXAndYAndMaxDepthDetector
@@ -2569,7 +2728,7 @@ namespace Vts.Test.MonteCarlo
                 X = new DoubleRange(-10, 10, 3),
                 Y = new DoubleRange(-10, 10, 3),
                 MaxDepth = new DoubleRange(0, 1, 4),
-                TallySecondMoment = true, // tally SecondMoment
+                TallySecondMoment = tallySecondMoment,
                 Name = detectorName,
                 Mean = new double[,,] // X.Count-1 x Y.Count-1 x Z.Count-1: 2x2x3
                 {
@@ -2597,6 +2756,7 @@ namespace Vts.Test.MonteCarlo
             Assert.AreEqual(10, detector.Mean[1, 1, 0]);
             Assert.AreEqual(11, detector.Mean[1, 1, 1]);
             Assert.AreEqual(12, detector.Mean[1, 1, 2]);
+            if (!tallySecondMoment) return;
             Assert.AreEqual(13, detector.SecondMoment[0, 0, 0]);
             Assert.AreEqual(14, detector.SecondMoment[0, 0, 1]);
             Assert.AreEqual(15, detector.SecondMoment[0, 0, 2]);
@@ -2612,8 +2772,10 @@ namespace Vts.Test.MonteCarlo
         }
 
         [Test]
+        [TestCase(true)]
+        [TestCase(false)]
         public void
-            Validate_ROfXAndYAndMaxDepthRecessedDetector_deserialized_class_is_correct_when_using_GetBinarySerializers()
+            Validate_ROfXAndYAndMaxDepthRecessedDetector_deserialized_class_is_correct_when_using_GetBinarySerializers(bool tallySecondMoment)
         {
             const string detectorName = "testrofxandyandmaxdepthrecessed";
             var detector = new ROfXAndYAndMaxDepthRecessedDetector
@@ -2622,7 +2784,7 @@ namespace Vts.Test.MonteCarlo
                 Y = new DoubleRange(-10, 10, 3),
                 MaxDepth = new DoubleRange(0, 1, 4),
                 ZPlane = -0.1,
-                TallySecondMoment = true, // tally SecondMoment
+                TallySecondMoment = tallySecondMoment,
                 Name = detectorName,
                 Mean = new double[,,] // X.Count-1 x Y.Count-1 x MaxDepth.Count-1: 2x2x3
                 {
@@ -2650,6 +2812,7 @@ namespace Vts.Test.MonteCarlo
             Assert.AreEqual(10, detector.Mean[1, 1, 0]);
             Assert.AreEqual(11, detector.Mean[1, 1, 1]);
             Assert.AreEqual(12, detector.Mean[1, 1, 2]);
+            if (!tallySecondMoment) return;
             Assert.AreEqual(13, detector.SecondMoment[0, 0, 0]);
             Assert.AreEqual(14, detector.SecondMoment[0, 0, 1]);
             Assert.AreEqual(15, detector.SecondMoment[0, 0, 2]);
@@ -2665,7 +2828,9 @@ namespace Vts.Test.MonteCarlo
         }
 
         [Test]
-        public void Validate_ROfXAndYAndTimeDetector_deserialized_class_is_correct_when_using_GetBinarySerializers()
+        [TestCase(true)]
+        [TestCase(false)]
+        public void Validate_ROfXAndYAndTimeDetector_deserialized_class_is_correct_when_using_GetBinarySerializers(bool tallySecondMoment)
         {
             const string detectorName = "testrofxandyandtime";
             var detector = new ROfXAndYAndTimeDetector
@@ -2673,7 +2838,7 @@ namespace Vts.Test.MonteCarlo
                 X = new DoubleRange(-10, 10, 3),
                 Y = new DoubleRange(-10, 10, 3),
                 Time = new DoubleRange(0, 1, 4),
-                TallySecondMoment = true, // tally SecondMoment
+                TallySecondMoment = tallySecondMoment,
                 Name = detectorName,
                 Mean = new double[,,] // X.Count-1 x Y.Count-1 x Time.Count-1: 2x2x3
                 {
@@ -2701,6 +2866,7 @@ namespace Vts.Test.MonteCarlo
             Assert.AreEqual(10, detector.Mean[1, 1, 0]);
             Assert.AreEqual(11, detector.Mean[1, 1, 1]);
             Assert.AreEqual(12, detector.Mean[1, 1, 2]);
+            if (!tallySecondMoment) return;
             Assert.AreEqual(13, detector.SecondMoment[0, 0, 0]);
             Assert.AreEqual(14, detector.SecondMoment[0, 0, 1]);
             Assert.AreEqual(15, detector.SecondMoment[0, 0, 2]);
@@ -2715,7 +2881,9 @@ namespace Vts.Test.MonteCarlo
             Assert.AreEqual(24, detector.SecondMoment[1, 1, 2]);
         }
         [Test]
-        public void Validate_ROfXAndYAndTimeRecessedDetector_deserialized_class_is_correct_when_using_GetBinarySerializers()
+        [TestCase(true)]
+        [TestCase(false)]
+        public void Validate_ROfXAndYAndTimeRecessedDetector_deserialized_class_is_correct_when_using_GetBinarySerializers(bool tallySecondMoment)
         {
             const string detectorName = "testrofxandyandtimerecessed";
             var detector = new ROfXAndYAndTimeRecessedDetector
@@ -2724,7 +2892,7 @@ namespace Vts.Test.MonteCarlo
                 Y = new DoubleRange(-10, 10, 3),
                 Time = new DoubleRange(0, 1, 4),
                 ZPlane = -0.1,
-                TallySecondMoment = true, // tally SecondMoment
+                TallySecondMoment = tallySecondMoment,
                 Name = detectorName,
                 Mean = new double[,,] // X.Count-1 x Y.Count-1 x Time.Count-1: 2x2x3
                 {
@@ -2752,6 +2920,7 @@ namespace Vts.Test.MonteCarlo
             Assert.AreEqual(10, detector.Mean[1, 1, 0]);
             Assert.AreEqual(11, detector.Mean[1, 1, 1]);
             Assert.AreEqual(12, detector.Mean[1, 1, 2]);
+            if (!tallySecondMoment) return;
             Assert.AreEqual(13, detector.SecondMoment[0, 0, 0]);
             Assert.AreEqual(14, detector.SecondMoment[0, 0, 1]);
             Assert.AreEqual(15, detector.SecondMoment[0, 0, 2]);
@@ -2766,8 +2935,10 @@ namespace Vts.Test.MonteCarlo
             Assert.AreEqual(24, detector.SecondMoment[1, 1, 2]);
         }
         [Test]
+        [TestCase(true)]
+        [TestCase(false)]
         public void
-    Validate_TransmittedDynamicMTOfXAndYAndSubregionDetector_deserialized_class_is_correct_when_using_GetBinarySerializers()
+    Validate_TransmittedDynamicMTOfXAndYAndSubregionDetector_deserialized_class_is_correct_when_using_GetBinarySerializers(bool tallySecondMoment)
         {
             const string detectorName = "testtransmiteddynamicmtofxandyandsubregionhist";
             var detector = new TransmittedDynamicMTOfXAndYAndSubregionHistDetector
@@ -2777,7 +2948,7 @@ namespace Vts.Test.MonteCarlo
                 MTBins = new DoubleRange(0, 100, 4),
                 Z = new DoubleRange(0, 100, 4),
                 FractionalMTBins = new DoubleRange(0, 10, 1),
-                TallySecondMoment = true, // tally SecondMoment
+                TallySecondMoment = tallySecondMoment,
                 Name = detectorName,
                 Mean = new double[,,] // X.Count-1 x Y.Count-1 x MTBins.Count-1: 2x2x3
                 {
@@ -2850,18 +3021,6 @@ namespace Vts.Test.MonteCarlo
             Assert.AreEqual(10, detector.Mean[1, 1, 0]);
             Assert.AreEqual(11, detector.Mean[1, 1, 1]);
             Assert.AreEqual(12, detector.Mean[1, 1, 2]);
-            Assert.AreEqual(13, detector.SecondMoment[0, 0, 0]);
-            Assert.AreEqual(14, detector.SecondMoment[0, 0, 1]);
-            Assert.AreEqual(15, detector.SecondMoment[0, 0, 2]);
-            Assert.AreEqual(16, detector.SecondMoment[0, 1, 0]);
-            Assert.AreEqual(17, detector.SecondMoment[0, 1, 1]);
-            Assert.AreEqual(18, detector.SecondMoment[0, 1, 2]);
-            Assert.AreEqual(19, detector.SecondMoment[1, 0, 0]);
-            Assert.AreEqual(20, detector.SecondMoment[1, 0, 1]);
-            Assert.AreEqual(21, detector.SecondMoment[1, 0, 2]);
-            Assert.AreEqual(22, detector.SecondMoment[1, 1, 0]);
-            Assert.AreEqual(23, detector.SecondMoment[1, 1, 1]);
-            Assert.AreEqual(24, detector.SecondMoment[1, 1, 2]);
 
             Assert.AreEqual(25, detector.TotalMTOfZ[0, 0, 0]);
             Assert.AreEqual(26, detector.TotalMTOfZ[0, 0, 1]);
@@ -2875,18 +3034,6 @@ namespace Vts.Test.MonteCarlo
             Assert.AreEqual(34, detector.TotalMTOfZ[1, 1, 0]);
             Assert.AreEqual(35, detector.TotalMTOfZ[1, 1, 1]);
             Assert.AreEqual(36, detector.TotalMTOfZ[1, 1, 2]);
-            Assert.AreEqual(37, detector.TotalMTOfZSecondMoment[0, 0, 0]);
-            Assert.AreEqual(38, detector.TotalMTOfZSecondMoment[0, 0, 1]);
-            Assert.AreEqual(39, detector.TotalMTOfZSecondMoment[0, 0, 2]);
-            Assert.AreEqual(40, detector.TotalMTOfZSecondMoment[0, 1, 0]);
-            Assert.AreEqual(41, detector.TotalMTOfZSecondMoment[0, 1, 1]);
-            Assert.AreEqual(42, detector.TotalMTOfZSecondMoment[0, 1, 2]);
-            Assert.AreEqual(43, detector.TotalMTOfZSecondMoment[1, 0, 0]);
-            Assert.AreEqual(44, detector.TotalMTOfZSecondMoment[1, 0, 1]);
-            Assert.AreEqual(45, detector.TotalMTOfZSecondMoment[1, 0, 2]);
-            Assert.AreEqual(46, detector.TotalMTOfZSecondMoment[1, 1, 0]);
-            Assert.AreEqual(47, detector.TotalMTOfZSecondMoment[1, 1, 1]);
-            Assert.AreEqual(48, detector.TotalMTOfZSecondMoment[1, 1, 2]);
 
             Assert.AreEqual(49, detector.DynamicMTOfZ[0, 0, 0]);
             Assert.AreEqual(50, detector.DynamicMTOfZ[0, 0, 1]);
@@ -2900,18 +3047,6 @@ namespace Vts.Test.MonteCarlo
             Assert.AreEqual(58, detector.DynamicMTOfZ[1, 1, 0]);
             Assert.AreEqual(59, detector.DynamicMTOfZ[1, 1, 1]);
             Assert.AreEqual(60, detector.DynamicMTOfZ[1, 1, 2]);
-            Assert.AreEqual(61, detector.DynamicMTOfZSecondMoment[0, 0, 0]);
-            Assert.AreEqual(62, detector.DynamicMTOfZSecondMoment[0, 0, 1]);
-            Assert.AreEqual(63, detector.DynamicMTOfZSecondMoment[0, 0, 2]);
-            Assert.AreEqual(64, detector.DynamicMTOfZSecondMoment[0, 1, 0]);
-            Assert.AreEqual(65, detector.DynamicMTOfZSecondMoment[0, 1, 1]);
-            Assert.AreEqual(66, detector.DynamicMTOfZSecondMoment[0, 1, 2]);
-            Assert.AreEqual(67, detector.DynamicMTOfZSecondMoment[1, 0, 0]);
-            Assert.AreEqual(68, detector.DynamicMTOfZSecondMoment[1, 0, 1]);
-            Assert.AreEqual(69, detector.DynamicMTOfZSecondMoment[1, 0, 2]);
-            Assert.AreEqual(70, detector.DynamicMTOfZSecondMoment[1, 1, 0]);
-            Assert.AreEqual(71, detector.DynamicMTOfZSecondMoment[1, 1, 1]);
-            Assert.AreEqual(72, detector.DynamicMTOfZSecondMoment[1, 1, 2]);
 
             Assert.AreEqual(1, detector.FractionalMT[0, 0, 0, 0]);
             Assert.AreEqual(2, detector.FractionalMT[0, 0, 0, 1]);
@@ -2945,10 +3080,50 @@ namespace Vts.Test.MonteCarlo
             Assert.AreEqual(29, detector.SubregionCollisions[2, 0]);
             Assert.AreEqual(30, detector.SubregionCollisions[2, 1]);
 
+            if (!tallySecondMoment) return;
+            Assert.AreEqual(13, detector.SecondMoment[0, 0, 0]);
+            Assert.AreEqual(14, detector.SecondMoment[0, 0, 1]);
+            Assert.AreEqual(15, detector.SecondMoment[0, 0, 2]);
+            Assert.AreEqual(16, detector.SecondMoment[0, 1, 0]);
+            Assert.AreEqual(17, detector.SecondMoment[0, 1, 1]);
+            Assert.AreEqual(18, detector.SecondMoment[0, 1, 2]);
+            Assert.AreEqual(19, detector.SecondMoment[1, 0, 0]);
+            Assert.AreEqual(20, detector.SecondMoment[1, 0, 1]);
+            Assert.AreEqual(21, detector.SecondMoment[1, 0, 2]);
+            Assert.AreEqual(22, detector.SecondMoment[1, 1, 0]);
+            Assert.AreEqual(23, detector.SecondMoment[1, 1, 1]);
+            Assert.AreEqual(24, detector.SecondMoment[1, 1, 2]);
+            Assert.AreEqual(37, detector.TotalMTOfZSecondMoment[0, 0, 0]);
+            Assert.AreEqual(38, detector.TotalMTOfZSecondMoment[0, 0, 1]);
+            Assert.AreEqual(39, detector.TotalMTOfZSecondMoment[0, 0, 2]);
+            Assert.AreEqual(40, detector.TotalMTOfZSecondMoment[0, 1, 0]);
+            Assert.AreEqual(41, detector.TotalMTOfZSecondMoment[0, 1, 1]);
+            Assert.AreEqual(42, detector.TotalMTOfZSecondMoment[0, 1, 2]);
+            Assert.AreEqual(43, detector.TotalMTOfZSecondMoment[1, 0, 0]);
+            Assert.AreEqual(44, detector.TotalMTOfZSecondMoment[1, 0, 1]);
+            Assert.AreEqual(45, detector.TotalMTOfZSecondMoment[1, 0, 2]);
+            Assert.AreEqual(46, detector.TotalMTOfZSecondMoment[1, 1, 0]);
+            Assert.AreEqual(47, detector.TotalMTOfZSecondMoment[1, 1, 1]);
+            Assert.AreEqual(48, detector.TotalMTOfZSecondMoment[1, 1, 2]);
+            Assert.AreEqual(61, detector.DynamicMTOfZSecondMoment[0, 0, 0]);
+            Assert.AreEqual(62, detector.DynamicMTOfZSecondMoment[0, 0, 1]);
+            Assert.AreEqual(63, detector.DynamicMTOfZSecondMoment[0, 0, 2]);
+            Assert.AreEqual(64, detector.DynamicMTOfZSecondMoment[0, 1, 0]);
+            Assert.AreEqual(65, detector.DynamicMTOfZSecondMoment[0, 1, 1]);
+            Assert.AreEqual(66, detector.DynamicMTOfZSecondMoment[0, 1, 2]);
+            Assert.AreEqual(67, detector.DynamicMTOfZSecondMoment[1, 0, 0]);
+            Assert.AreEqual(68, detector.DynamicMTOfZSecondMoment[1, 0, 1]);
+            Assert.AreEqual(69, detector.DynamicMTOfZSecondMoment[1, 0, 2]);
+            Assert.AreEqual(70, detector.DynamicMTOfZSecondMoment[1, 1, 0]);
+            Assert.AreEqual(71, detector.DynamicMTOfZSecondMoment[1, 1, 1]);
+            Assert.AreEqual(72, detector.DynamicMTOfZSecondMoment[1, 1, 2]);
+
         }
         [Test]
+        [TestCase(true)]
+        [TestCase(false)]
         public void
-Validate_TransmittedMTOfXAndYAndSubregionDetector_deserialized_class_is_correct_when_using_GetBinarySerializers()
+Validate_TransmittedMTOfXAndYAndSubregionDetector_deserialized_class_is_correct_when_using_GetBinarySerializers(bool tallySecondMoment)
         {
             const string detectorName = "testtransmittedmtofxandyandsubregionhist";
             var detector = new TransmittedMTOfXAndYAndSubregionHistDetector
@@ -2957,7 +3132,7 @@ Validate_TransmittedMTOfXAndYAndSubregionDetector_deserialized_class_is_correct_
                 Y = new DoubleRange(-10, 10, 3),
                 MTBins = new DoubleRange(0, 100, 4),
                 FractionalMTBins = new DoubleRange(0, 10, 1),
-                TallySecondMoment = true, // tally SecondMoment
+                TallySecondMoment = tallySecondMoment,
                 Name = detectorName,
                 Mean = new double[,,] // X.Count-1 x Y.Count-1 x MTBins.Count-1: 2x2x3
                 {
@@ -3027,18 +3202,6 @@ Validate_TransmittedMTOfXAndYAndSubregionDetector_deserialized_class_is_correct_
             Assert.AreEqual(10, detector.Mean[1, 1, 0]);
             Assert.AreEqual(11, detector.Mean[1, 1, 1]);
             Assert.AreEqual(12, detector.Mean[1, 1, 2]);
-            Assert.AreEqual(13, detector.SecondMoment[0, 0, 0]);
-            Assert.AreEqual(14, detector.SecondMoment[0, 0, 1]);
-            Assert.AreEqual(15, detector.SecondMoment[0, 0, 2]);
-            Assert.AreEqual(16, detector.SecondMoment[0, 1, 0]);
-            Assert.AreEqual(17, detector.SecondMoment[0, 1, 1]);
-            Assert.AreEqual(18, detector.SecondMoment[0, 1, 2]);
-            Assert.AreEqual(19, detector.SecondMoment[1, 0, 0]);
-            Assert.AreEqual(20, detector.SecondMoment[1, 0, 1]);
-            Assert.AreEqual(21, detector.SecondMoment[1, 0, 2]);
-            Assert.AreEqual(22, detector.SecondMoment[1, 1, 0]);
-            Assert.AreEqual(23, detector.SecondMoment[1, 1, 1]);
-            Assert.AreEqual(24, detector.SecondMoment[1, 1, 2]);
 
             Assert.AreEqual(1, detector.FractionalMT[0, 0, 0, 0, 0]);
             Assert.AreEqual(2, detector.FractionalMT[0, 0, 0, 0, 1]);
@@ -3089,6 +3252,20 @@ Validate_TransmittedMTOfXAndYAndSubregionDetector_deserialized_class_is_correct_
             Assert.AreEqual(47, detector.FractionalMT[1, 1, 1, 2, 0]);
             Assert.AreEqual(48, detector.FractionalMT[1, 1, 1, 2, 1]);
 
+            if (!tallySecondMoment) return;
+            Assert.AreEqual(13, detector.SecondMoment[0, 0, 0]);
+            Assert.AreEqual(14, detector.SecondMoment[0, 0, 1]);
+            Assert.AreEqual(15, detector.SecondMoment[0, 0, 2]);
+            Assert.AreEqual(16, detector.SecondMoment[0, 1, 0]);
+            Assert.AreEqual(17, detector.SecondMoment[0, 1, 1]);
+            Assert.AreEqual(18, detector.SecondMoment[0, 1, 2]);
+            Assert.AreEqual(19, detector.SecondMoment[1, 0, 0]);
+            Assert.AreEqual(20, detector.SecondMoment[1, 0, 1]);
+            Assert.AreEqual(21, detector.SecondMoment[1, 0, 2]);
+            Assert.AreEqual(22, detector.SecondMoment[1, 1, 0]);
+            Assert.AreEqual(23, detector.SecondMoment[1, 1, 1]);
+            Assert.AreEqual(24, detector.SecondMoment[1, 1, 2]);
+
         }
 
         #endregion
@@ -3099,8 +3276,10 @@ Validate_TransmittedMTOfXAndYAndSubregionDetector_deserialized_class_is_correct_
         /// test to verify that GetBinarySerializers are working correctly for 4D detector.
         /// </summary>
         [Test]
+        [TestCase(true)]
+        [TestCase(false)]
         public void
-            Validate_FluenceOfXAndYAndZAndOmegaDetector_deserialized_class_is_correct_when_using_GetBinarySerializers()
+            Validate_FluenceOfXAndYAndZAndOmegaDetector_deserialized_class_is_correct_when_using_GetBinarySerializers(bool tallySecondMoment)
         {
             const string detectorName = "testfluenceofxandyandzandOmega";
             var detector = new FluenceOfXAndYAndZAndOmegaDetector
@@ -3109,9 +3288,9 @@ Validate_TransmittedMTOfXAndYAndSubregionDetector_deserialized_class_is_correct_
                 Y = new DoubleRange(-10, 10, 3),
                 Z = new DoubleRange(0, 1, 3),
                 Omega = new DoubleRange(0, 1, 3),
-                TallySecondMoment = true, // tally SecondMoment
+                TallySecondMoment = tallySecondMoment,
                 Name = detectorName,
-                Mean = new Complex[,,,] // X.Count-1 x Y.Count-1 x Z.Count-1 x Omega.Count: 2x2x2x3
+                Mean = new[,,,] // X.Count-1 x Y.Count-1 x Z.Count-1 x Omega.Count: 2x2x2x3
                 {
                     {
                         { 
@@ -3134,7 +3313,7 @@ Validate_TransmittedMTOfXAndYAndSubregionDetector_deserialized_class_is_correct_
                         }
                     }
                 },
-                SecondMoment = new Complex[,,,]
+                SecondMoment = new[,,,]
                 {
                     {
                         {
@@ -3185,6 +3364,7 @@ Validate_TransmittedMTOfXAndYAndSubregionDetector_deserialized_class_is_correct_
             Assert.AreEqual(22 + 22 * Complex.ImaginaryOne, detector.Mean[1, 1, 1, 0]);
             Assert.AreEqual(23 + 23 * Complex.ImaginaryOne, detector.Mean[1, 1, 1, 1]);
             Assert.AreEqual(24 + 24 * Complex.ImaginaryOne, detector.Mean[1, 1, 1, 2]);
+            if (!tallySecondMoment) return;
             Assert.AreEqual(25 + 25 * Complex.ImaginaryOne, detector.SecondMoment[0, 0, 0, 0]);
             Assert.AreEqual(26 + 26 * Complex.ImaginaryOne, detector.SecondMoment[0, 0, 0, 1]);
             Assert.AreEqual(27 + 27 * Complex.ImaginaryOne, detector.SecondMoment[0, 0, 0, 2]);
@@ -3211,8 +3391,10 @@ Validate_TransmittedMTOfXAndYAndSubregionDetector_deserialized_class_is_correct_
             Assert.AreEqual(48 + 48 * Complex.ImaginaryOne, detector.SecondMoment[1, 1, 1, 2]);
         }
         [Test]
+        [TestCase(true)]
+        [TestCase(false)]
         public void
-            Validate_FluenceOfXAndYAndZAndTimeDetector_deserialized_class_is_correct_when_using_GetBinarySerializers()
+            Validate_FluenceOfXAndYAndZAndTimeDetector_deserialized_class_is_correct_when_using_GetBinarySerializers(bool tallySecondMoment)
         {
             const string detectorName = "testfluenceofxandyandzandtime";
             var detector = new FluenceOfXAndYAndZAndTimeDetector
@@ -3221,7 +3403,7 @@ Validate_TransmittedMTOfXAndYAndSubregionDetector_deserialized_class_is_correct_
                 Y = new DoubleRange(-10, 10, 3),
                 Z = new DoubleRange(0, 1, 3),
                 Time = new DoubleRange(0, 1, 4),
-                TallySecondMoment = true, // tally SecondMoment
+                TallySecondMoment = tallySecondMoment,
                 Name = detectorName,
                 Mean = new double[,,,] // X.Count-1 x Y.Count-1 x Z.Count-1 x Time.Count-1: 2x2x2x3
                 {
@@ -3273,6 +3455,7 @@ Validate_TransmittedMTOfXAndYAndSubregionDetector_deserialized_class_is_correct_
             Assert.AreEqual(22, detector.Mean[1, 1, 1, 0]);
             Assert.AreEqual(23, detector.Mean[1, 1, 1, 1]);
             Assert.AreEqual(24, detector.Mean[1, 1, 1, 2]);
+            if (!tallySecondMoment) return;
             Assert.AreEqual(25, detector.SecondMoment[0, 0, 0, 0]);
             Assert.AreEqual(26, detector.SecondMoment[0, 0, 0, 1]);
             Assert.AreEqual(27, detector.SecondMoment[0, 0, 0, 2]);
@@ -3300,8 +3483,10 @@ Validate_TransmittedMTOfXAndYAndSubregionDetector_deserialized_class_is_correct_
         }
 
         [Test]
+        [TestCase(true)]
+        [TestCase(false)]
         public void
-            Validate_pMCROfXAndYAndTimeAndSubregionDetector_deserialized_class_is_correct_when_using_GetBinarySerializers()
+            Validate_pMCROfXAndYAndTimeAndSubregionDetector_deserialized_class_is_correct_when_using_GetBinarySerializers(bool tallySecondMoment)
         {
             const string detectorName = "testpmcrofxandyandtimeandsubregion";
             var detector = new pMCROfXAndYAndTimeAndSubregionDetector
@@ -3309,7 +3494,7 @@ Validate_TransmittedMTOfXAndYAndSubregionDetector_deserialized_class_is_correct_
                 X = new DoubleRange(-10, 10, 3),
                 Y = new DoubleRange(-10, 10, 3),
                 Time = new DoubleRange(0, 1, 3),
-                TallySecondMoment = true, // tally SecondMoment
+                TallySecondMoment = tallySecondMoment,
                 PerturbedOps = new List<OpticalProperties> { new() },
                 PerturbedRegionsIndices = new List<int> { 1 },
                 Name = detectorName,
@@ -3368,6 +3553,12 @@ Validate_TransmittedMTOfXAndYAndSubregionDetector_deserialized_class_is_correct_
             Assert.AreEqual(22, detector.Mean[1, 1, 1, 0]);
             Assert.AreEqual(23, detector.Mean[1, 1, 1, 1]);
             Assert.AreEqual(24, detector.Mean[1, 1, 1, 2]);
+            Assert.AreEqual(49, detector.ROfXAndY[0, 0]);
+            Assert.AreEqual(50, detector.ROfXAndY[0, 1]);
+            Assert.AreEqual(51, detector.ROfXAndY[1, 0]);
+            Assert.AreEqual(52, detector.ROfXAndY[1, 1]);
+
+            if (!tallySecondMoment) return;
             Assert.AreEqual(25, detector.SecondMoment[0, 0, 0, 0]);
             Assert.AreEqual(26, detector.SecondMoment[0, 0, 0, 1]);
             Assert.AreEqual(27, detector.SecondMoment[0, 0, 0, 2]);
@@ -3392,10 +3583,6 @@ Validate_TransmittedMTOfXAndYAndSubregionDetector_deserialized_class_is_correct_
             Assert.AreEqual(46, detector.SecondMoment[1, 1, 1, 0]);
             Assert.AreEqual(47, detector.SecondMoment[1, 1, 1, 1]);
             Assert.AreEqual(48, detector.SecondMoment[1, 1, 1, 2]);
-            Assert.AreEqual(49, detector.ROfXAndY[0, 0]);
-            Assert.AreEqual(50, detector.ROfXAndY[0, 1]);
-            Assert.AreEqual(51, detector.ROfXAndY[1, 0]);
-            Assert.AreEqual(52, detector.ROfXAndY[1, 1]);
             Assert.AreEqual(53, detector.ROfXAndYSecondMoment[0, 0]);
             Assert.AreEqual(54, detector.ROfXAndYSecondMoment[0, 1]);
             Assert.AreEqual(55, detector.ROfXAndYSecondMoment[1, 0]);
@@ -3403,8 +3590,10 @@ Validate_TransmittedMTOfXAndYAndSubregionDetector_deserialized_class_is_correct_
         }
 
         [Test]
+        [TestCase(true)]
+        [TestCase(false)]
         public void
-            Validate_pMCROfXAndYAndTimeAndSubregionRecessedDetector_deserialized_class_is_correct_when_using_GetBinarySerializers()
+            Validate_pMCROfXAndYAndTimeAndSubregionRecessedDetector_deserialized_class_is_correct_when_using_GetBinarySerializers(bool tallySecondMoment)
         {
             const string detectorName = "testpmcrofxandyandtimeandsubregionrecessed";
             var detector = new pMCROfXAndYAndTimeAndSubregionRecessedDetector
@@ -3413,7 +3602,7 @@ Validate_TransmittedMTOfXAndYAndSubregionDetector_deserialized_class_is_correct_
                 Y = new DoubleRange(-10, 10, 3),
                 Time = new DoubleRange(0, 1, 3),
                 ZPlane = -0.1,
-                TallySecondMoment = true, // tally SecondMoment
+                TallySecondMoment = tallySecondMoment,
                 PerturbedOps = new List<OpticalProperties> { new() },
                 PerturbedRegionsIndices = new List<int> { 1 },
                 Name = detectorName,
@@ -3472,6 +3661,12 @@ Validate_TransmittedMTOfXAndYAndSubregionDetector_deserialized_class_is_correct_
             Assert.AreEqual(22, detector.Mean[1, 1, 1, 0]);
             Assert.AreEqual(23, detector.Mean[1, 1, 1, 1]);
             Assert.AreEqual(24, detector.Mean[1, 1, 1, 2]);
+            Assert.AreEqual(49, detector.ROfXAndY[0, 0]);
+            Assert.AreEqual(50, detector.ROfXAndY[0, 1]);
+            Assert.AreEqual(51, detector.ROfXAndY[1, 0]);
+            Assert.AreEqual(52, detector.ROfXAndY[1, 1]);
+
+            if (!tallySecondMoment) return;
             Assert.AreEqual(25, detector.SecondMoment[0, 0, 0, 0]);
             Assert.AreEqual(26, detector.SecondMoment[0, 0, 0, 1]);
             Assert.AreEqual(27, detector.SecondMoment[0, 0, 0, 2]);
@@ -3496,10 +3691,6 @@ Validate_TransmittedMTOfXAndYAndSubregionDetector_deserialized_class_is_correct_
             Assert.AreEqual(46, detector.SecondMoment[1, 1, 1, 0]);
             Assert.AreEqual(47, detector.SecondMoment[1, 1, 1, 1]);
             Assert.AreEqual(48, detector.SecondMoment[1, 1, 1, 2]);
-            Assert.AreEqual(49, detector.ROfXAndY[0, 0]);
-            Assert.AreEqual(50, detector.ROfXAndY[0, 1]);
-            Assert.AreEqual(51, detector.ROfXAndY[1, 0]);
-            Assert.AreEqual(52, detector.ROfXAndY[1, 1]);
             Assert.AreEqual(53, detector.ROfXAndYSecondMoment[0, 0]);
             Assert.AreEqual(54, detector.ROfXAndYSecondMoment[0, 1]);
             Assert.AreEqual(55, detector.ROfXAndYSecondMoment[1, 0]);
@@ -3507,8 +3698,10 @@ Validate_TransmittedMTOfXAndYAndSubregionDetector_deserialized_class_is_correct_
         }
 
         [Test]
+        [TestCase(true)]
+        [TestCase(false)]
         public void
-            Validate_ROfXAndYAndThetaAndPhiDetector_deserialized_class_is_correct_when_using_GetBinarySerializers()
+            Validate_ROfXAndYAndThetaAndPhiDetector_deserialized_class_is_correct_when_using_GetBinarySerializers(bool tallySecondMoment)
         {
             const string detectorName = "testrofxandyandthetaandphi";
             var detector = new ROfXAndYAndThetaAndPhiDetector
@@ -3517,7 +3710,7 @@ Validate_TransmittedMTOfXAndYAndSubregionDetector_deserialized_class_is_correct_
                 Y = new DoubleRange(-10, 10, 3),
                 Theta = new DoubleRange(0, 1, 3),
                 Phi = new DoubleRange(0, 1, 4),
-                TallySecondMoment = true, // tally SecondMoment
+                TallySecondMoment = tallySecondMoment,
                 Name = detectorName,
                 Mean = new double[,,,] // X.Count-1 x Y.Count-1 x Theta.Count-1 x Phi.Count-1: 2x2x2x3
                 {
@@ -3569,6 +3762,7 @@ Validate_TransmittedMTOfXAndYAndSubregionDetector_deserialized_class_is_correct_
             Assert.AreEqual(22, detector.Mean[1, 1, 1, 0]);
             Assert.AreEqual(23, detector.Mean[1, 1, 1, 1]);
             Assert.AreEqual(24, detector.Mean[1, 1, 1, 2]);
+            if (!tallySecondMoment) return;
             Assert.AreEqual(25, detector.SecondMoment[0, 0, 0, 0]);
             Assert.AreEqual(26, detector.SecondMoment[0, 0, 0, 1]);
             Assert.AreEqual(27, detector.SecondMoment[0, 0, 0, 2]);
@@ -3596,8 +3790,10 @@ Validate_TransmittedMTOfXAndYAndSubregionDetector_deserialized_class_is_correct_
         }
 
         [Test]
+        [TestCase(true)]
+        [TestCase(false)]
         public void
-            Validate_ROfXAndYAndTimeAndSubregionDetector_deserialized_class_is_correct_when_using_GetBinarySerializers()
+            Validate_ROfXAndYAndTimeAndSubregionDetector_deserialized_class_is_correct_when_using_GetBinarySerializers(bool tallySecondMoment)
         {
             const string detectorName = "testrofxandyandtimeandsubregion";
             var detector = new ROfXAndYAndTimeAndSubregionDetector
@@ -3605,7 +3801,7 @@ Validate_TransmittedMTOfXAndYAndSubregionDetector_deserialized_class_is_correct_
                 X = new DoubleRange(-10, 10, 3),
                 Y = new DoubleRange(-10, 10, 3),
                 Time = new DoubleRange(0, 1, 3),
-                TallySecondMoment = true, // tally SecondMoment
+                TallySecondMoment = tallySecondMoment,
                 Name = detectorName,
                 Mean = new double[,,,] // X.Count-1 x Y.Count-1 x Time.Count-1 x NumOfRegions: 2x2x2x3
                 {
@@ -3662,6 +3858,12 @@ Validate_TransmittedMTOfXAndYAndSubregionDetector_deserialized_class_is_correct_
             Assert.AreEqual(22, detector.Mean[1, 1, 1, 0]);
             Assert.AreEqual(23, detector.Mean[1, 1, 1, 1]);
             Assert.AreEqual(24, detector.Mean[1, 1, 1, 2]);
+            Assert.AreEqual(49, detector.ROfXAndY[0, 0]);
+            Assert.AreEqual(50, detector.ROfXAndY[0, 1]);
+            Assert.AreEqual(51, detector.ROfXAndY[1, 0]);
+            Assert.AreEqual(52, detector.ROfXAndY[1, 1]);
+
+            if (!tallySecondMoment) return;
             Assert.AreEqual(25, detector.SecondMoment[0, 0, 0, 0]);
             Assert.AreEqual(26, detector.SecondMoment[0, 0, 0, 1]);
             Assert.AreEqual(27, detector.SecondMoment[0, 0, 0, 2]);
@@ -3686,10 +3888,6 @@ Validate_TransmittedMTOfXAndYAndSubregionDetector_deserialized_class_is_correct_
             Assert.AreEqual(46, detector.SecondMoment[1, 1, 1, 0]);
             Assert.AreEqual(47, detector.SecondMoment[1, 1, 1, 1]);
             Assert.AreEqual(48, detector.SecondMoment[1, 1, 1, 2]);
-            Assert.AreEqual(49, detector.ROfXAndY[0, 0]);
-            Assert.AreEqual(50, detector.ROfXAndY[0, 1]);
-            Assert.AreEqual(51, detector.ROfXAndY[1, 0]);
-            Assert.AreEqual(52, detector.ROfXAndY[1, 1]);
             Assert.AreEqual(53, detector.ROfXAndYSecondMoment[0, 0]);
             Assert.AreEqual(54, detector.ROfXAndYSecondMoment[0, 1]);
             Assert.AreEqual(55, detector.ROfXAndYSecondMoment[1, 0]);
@@ -3697,8 +3895,10 @@ Validate_TransmittedMTOfXAndYAndSubregionDetector_deserialized_class_is_correct_
         }
 
         [Test]
+        [TestCase(true)]
+        [TestCase(false)]
         public void
-            Validate_ROfXAndYAndTimeAndSubregionRecessedDetector_deserialized_class_is_correct_when_using_GetBinarySerializers()
+            Validate_ROfXAndYAndTimeAndSubregionRecessedDetector_deserialized_class_is_correct_when_using_GetBinarySerializers(bool tallySecondMoment)
         {
             const string detectorName = "testrofxandyandtimeandsubregionrecessed";
             var detector = new ROfXAndYAndTimeAndSubregionRecessedDetector
@@ -3707,7 +3907,7 @@ Validate_TransmittedMTOfXAndYAndSubregionDetector_deserialized_class_is_correct_
                 Y = new DoubleRange(-10, 10, 3),
                 Time = new DoubleRange(0, 1, 3),
                 ZPlane = -0.1,
-                TallySecondMoment = true, // tally SecondMoment
+                TallySecondMoment = tallySecondMoment,
                 Name = detectorName,
                 Mean = new double[,,,] // X.Count-1 x Y.Count-1 x Time.Count-1 x NumRegions: 2x2x2x3
                 { 
@@ -3764,6 +3964,12 @@ Validate_TransmittedMTOfXAndYAndSubregionDetector_deserialized_class_is_correct_
             Assert.AreEqual(22, detector.Mean[1, 1, 1, 0]);
             Assert.AreEqual(23, detector.Mean[1, 1, 1, 1]);
             Assert.AreEqual(24, detector.Mean[1, 1, 1, 2]);
+            Assert.AreEqual(49, detector.ROfXAndY[0, 0]);
+            Assert.AreEqual(50, detector.ROfXAndY[0, 1]);
+            Assert.AreEqual(51, detector.ROfXAndY[1, 0]);
+            Assert.AreEqual(52, detector.ROfXAndY[1, 1]);
+
+            if (!tallySecondMoment) return;
             Assert.AreEqual(25, detector.SecondMoment[0, 0, 0, 0]);
             Assert.AreEqual(26, detector.SecondMoment[0, 0, 0, 1]);
             Assert.AreEqual(27, detector.SecondMoment[0, 0, 0, 2]);
@@ -3788,26 +3994,24 @@ Validate_TransmittedMTOfXAndYAndSubregionDetector_deserialized_class_is_correct_
             Assert.AreEqual(46, detector.SecondMoment[1, 1, 1, 0]);
             Assert.AreEqual(47, detector.SecondMoment[1, 1, 1, 1]);
             Assert.AreEqual(48, detector.SecondMoment[1, 1, 1, 2]);
-            Assert.AreEqual(49, detector.ROfXAndY[0, 0]);
-            Assert.AreEqual(50, detector.ROfXAndY[0, 1]);
-            Assert.AreEqual(51, detector.ROfXAndY[1, 0]);
-            Assert.AreEqual(52, detector.ROfXAndY[1, 1]);
             Assert.AreEqual(53, detector.ROfXAndYSecondMoment[0, 0]);
             Assert.AreEqual(54, detector.ROfXAndYSecondMoment[0, 1]);
             Assert.AreEqual(55, detector.ROfXAndYSecondMoment[1, 0]);
             Assert.AreEqual(56, detector.ROfXAndYSecondMoment[1, 1]);
         }
         [Test]
+        [TestCase(true)]
+        [TestCase(false)]
         public void
-           Validate_TOfXAndYAndTimeAndSubregionDetector_deserialized_class_is_correct_when_using_GetBinarySerializers()
+           Validate_TOfXAndYAndTimeAndSubregionDetector_deserialized_class_is_correct_when_using_GetBinarySerializers(bool tallySecondMoment)
         {
-            const string detectorName = "testTofxandyandtimeandsubregion";
+            const string detectorName = "testtofxandyandtimeandsubregion";
             var detector = new TOfXAndYAndTimeAndSubregionDetector
             {
                 X = new DoubleRange(-10, 10, 3),
                 Y = new DoubleRange(-10, 10, 3),
                 Time = new DoubleRange(0, 1, 3),
-                TallySecondMoment = true, // tally SecondMoment
+                TallySecondMoment = tallySecondMoment,
                 Name = detectorName,
                 Mean = new double[,,,] // X.Count-1 x Y.Count-1 x Time.Count-1 x NumOfRegions: 2x2x2x3
                 {
@@ -3864,6 +4068,12 @@ Validate_TransmittedMTOfXAndYAndSubregionDetector_deserialized_class_is_correct_
             Assert.AreEqual(22, detector.Mean[1, 1, 1, 0]);
             Assert.AreEqual(23, detector.Mean[1, 1, 1, 1]);
             Assert.AreEqual(24, detector.Mean[1, 1, 1, 2]);
+            Assert.AreEqual(49, detector.TOfXAndY[0, 0]);
+            Assert.AreEqual(50, detector.TOfXAndY[0, 1]);
+            Assert.AreEqual(51, detector.TOfXAndY[1, 0]);
+            Assert.AreEqual(52, detector.TOfXAndY[1, 1]);
+
+            if (!tallySecondMoment) return;
             Assert.AreEqual(25, detector.SecondMoment[0, 0, 0, 0]);
             Assert.AreEqual(26, detector.SecondMoment[0, 0, 0, 1]);
             Assert.AreEqual(27, detector.SecondMoment[0, 0, 0, 2]);
@@ -3888,10 +4098,7 @@ Validate_TransmittedMTOfXAndYAndSubregionDetector_deserialized_class_is_correct_
             Assert.AreEqual(46, detector.SecondMoment[1, 1, 1, 0]);
             Assert.AreEqual(47, detector.SecondMoment[1, 1, 1, 1]);
             Assert.AreEqual(48, detector.SecondMoment[1, 1, 1, 2]);
-            Assert.AreEqual(49, detector.TOfXAndY[0, 0]);
-            Assert.AreEqual(50, detector.TOfXAndY[0, 1]);
-            Assert.AreEqual(51, detector.TOfXAndY[1, 0]);
-            Assert.AreEqual(52, detector.TOfXAndY[1, 1]);
+
             Assert.AreEqual(53, detector.TOfXAndYSecondMoment[0, 0]);
             Assert.AreEqual(54, detector.TOfXAndYSecondMoment[0, 1]);
             Assert.AreEqual(55, detector.TOfXAndYSecondMoment[1, 0]);
@@ -3900,14 +4107,16 @@ Validate_TransmittedMTOfXAndYAndSubregionDetector_deserialized_class_is_correct_
 
         #endregion
 
-        #region 5D detectors: complete
+        #region 5D detectors
 
         /// <summary>
         /// test to verify that GetBinarySerializers are working correctly for 5D detector.
         /// </summary>
         [Test]
+        [TestCase(true)]
+        [TestCase(false)]
         public void
-     Validate_FluenceOfXAndYAndZAndStartingXAndYDetector_deserialized_class_is_correct_when_using_GetBinarySerializers()
+     Validate_FluenceOfXAndYAndZAndStartingXAndYDetector_deserialized_class_is_correct_when_using_GetBinarySerializers(bool tallySecondMoment)
         {
             const string detectorName = "testfluenceofxandyandzandstartingxandy";
             var detector = new FluenceOfXAndYAndZAndStartingXAndYDetector
@@ -3918,7 +4127,7 @@ Validate_TransmittedMTOfXAndYAndSubregionDetector_deserialized_class_is_correct_
                 StartingX = new DoubleRange(0, 1, 3),
                 StartingY = new DoubleRange(0, 1, 4),
                 Name = detectorName,
-                TallySecondMoment = true, // tally SecondMoment 
+                TallySecondMoment = tallySecondMoment, 
                 Mean = new double[,,,,] // X.Count-1 x Y.Count-1 x Z.Count-1 x Theta.Count-1 x Phi.Count-1: 2x2x2x2x3
                 {
                     {
@@ -4075,6 +4284,14 @@ Validate_TransmittedMTOfXAndYAndSubregionDetector_deserialized_class_is_correct_
             Assert.AreEqual(47, detector.Mean[1, 1, 1, 1, 1]);
             Assert.AreEqual(48, detector.Mean[1, 1, 1, 1, 2]);
 
+            Assert.AreEqual(49, detector.StartingXYCount[0, 0]);
+            Assert.AreEqual(50, detector.StartingXYCount[0, 1]);
+            Assert.AreEqual(51, detector.StartingXYCount[0, 2]);
+            Assert.AreEqual(52, detector.StartingXYCount[1, 0]);
+            Assert.AreEqual(53, detector.StartingXYCount[1, 1]);
+            Assert.AreEqual(54, detector.StartingXYCount[1, 2]);
+
+            if (!tallySecondMoment) return;
             Assert.AreEqual(1, detector.SecondMoment[0, 0, 0, 0, 0]);
             Assert.AreEqual(2, detector.SecondMoment[0, 0, 0, 0, 1]);
             Assert.AreEqual(3, detector.SecondMoment[0, 0, 0, 0, 2]);
@@ -4127,19 +4344,14 @@ Validate_TransmittedMTOfXAndYAndSubregionDetector_deserialized_class_is_correct_
             Assert.AreEqual(47, detector.SecondMoment[1, 1, 1, 1, 1]);
             Assert.AreEqual(48, detector.SecondMoment[1, 1, 1, 1, 2]);
 
-            Assert.AreEqual(49, detector.StartingXYCount[0, 0]);
-            Assert.AreEqual(50, detector.StartingXYCount[0, 1]);
-            Assert.AreEqual(51, detector.StartingXYCount[0, 2]);
-            Assert.AreEqual(52, detector.StartingXYCount[1, 0]);
-            Assert.AreEqual(53, detector.StartingXYCount[1, 1]);
-            Assert.AreEqual(54, detector.StartingXYCount[1, 2]);
-
         }
 
 
         [Test]
+        [TestCase(true)]
+        [TestCase(false)]
         public void
-            Validate_RadianceOfXAndYAndZAndThetaAndPhiDetector_deserialized_class_is_correct_when_using_GetBinarySerializers()
+            Validate_RadianceOfXAndYAndZAndThetaAndPhiDetector_deserialized_class_is_correct_when_using_GetBinarySerializers(bool tallySecondMoment)
         {
             const string detectorName = "testradianceofxandyandzandthetaandphi";
             var detector = new RadianceOfXAndYAndZAndThetaAndPhiDetector
@@ -4150,7 +4362,7 @@ Validate_TransmittedMTOfXAndYAndSubregionDetector_deserialized_class_is_correct_
                 Theta = new DoubleRange(0, 1, 3),
                 Phi = new DoubleRange(0, 1, 4),
                 Name = detectorName,
-                TallySecondMoment = true, // tally SecondMoment 
+                TallySecondMoment = tallySecondMoment, 
                 Mean = new double[,,,,] // X.Count-1 x Y.Count-1 x Z.Count-1 x Theta.Count-1 x Phi.Count-1: 2x2x2x2x3
                 {
                     {
@@ -4300,6 +4512,7 @@ Validate_TransmittedMTOfXAndYAndSubregionDetector_deserialized_class_is_correct_
             Assert.AreEqual(47, detector.Mean[1, 1, 1, 1, 1]);
             Assert.AreEqual(48, detector.Mean[1, 1, 1, 1, 2]);
 
+            if (!tallySecondMoment) return;
             Assert.AreEqual(1, detector.SecondMoment[0, 0, 0, 0, 0]);
             Assert.AreEqual(2, detector.SecondMoment[0, 0, 0, 0, 1]);
             Assert.AreEqual(3, detector.SecondMoment[0, 0, 0, 0, 2]);
@@ -4351,8 +4564,6 @@ Validate_TransmittedMTOfXAndYAndSubregionDetector_deserialized_class_is_correct_
             Assert.AreEqual(46, detector.SecondMoment[1, 1, 1, 1, 0]);
             Assert.AreEqual(47, detector.SecondMoment[1, 1, 1, 1, 1]);
             Assert.AreEqual(48, detector.SecondMoment[1, 1, 1, 1, 2]);
-
-
         }
 
         #endregion
