@@ -2,7 +2,7 @@
 using System.IO;
 using Vts.MonteCarlo;
 
-namespace Vts.Test.MonteCarlo.IO
+namespace Vts.Test.Unit.MonteCarlo.Detectors
 {
     internal static class DetectorBinarySerializationHelper
     {
