@@ -14,6 +14,7 @@ public class SurfaceFiberDetectorTests
     /// clear all test generated files
     /// </summary>
     [OneTimeSetUp]
+    [OneTimeTearDown]
     public void Clear_previously_generated_files()
     {
         var currentPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
