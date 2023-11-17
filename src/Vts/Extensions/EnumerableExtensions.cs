@@ -66,6 +66,17 @@ namespace Vts.Extensions
         }
 
         /// <summary>
+        /// Helper extension method that returns every nth element of the enumerable, starting at the specified skip index
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="values">the values being filtered</param>
+        /// <param name="n">number of values to jump forward at a time</param>
+        /// <param name="skip">number of values to initially skip</param>
+        /// <returns></returns>
+        public static IEnumerable<T> TakeEveryNth<T>(this IEnumerable<T> values, int n, int skip = 0) =>
+                values.Where((_, i) => (i - skip) % n == 0);
+
+        /// <summary>
         /// Method for applying an action to any enumerable sequence. 
         /// This is the analog of Select, but with no output (only "side effects").
         /// This overload takes in an Action with an additional int parameter that 
