@@ -22,7 +22,7 @@ public class SurfaceFiberDetectorTests
     }
 
     /// <summary>
-    /// test to verify that GetBinarySerializers are working correctly for this detector.
+    /// Test to verify that GetBinarySerializers are working correctly for this detector.
     /// </summary>
 
     [Test]
