@@ -24,7 +24,7 @@ namespace Vts.IO
         /// <summary>
         /// dimensions of array
         /// </summary>
-        [Obsolete]
+        [Obsolete("Property is not used by any code.")]
         public int[] Dimensions { get; set; }
 
         /// <summary>
