@@ -324,15 +324,15 @@ namespace Vts.Test.MonteCarlo
             DetectorIO.WriteDetectorToFile(detector, "");
             var dcloned = (ROfRhoAndOmegaDetector)DetectorIO.ReadDetectorFromFile(detectorName, "");
 
-            Assert.AreEqual(dcloned.Name, detectorName);
-            Assert.AreEqual(dcloned.Mean[0, 0], 1 + Complex.ImaginaryOne * 1);
-            Assert.AreEqual(dcloned.Mean[0, 1], 2 + Complex.ImaginaryOne * 2);
-            Assert.AreEqual(dcloned.Mean[0, 2], 3 + Complex.ImaginaryOne * 3);
-            Assert.AreEqual(dcloned.Mean[0, 3], 4 + Complex.ImaginaryOne * 4);
-            Assert.AreEqual(dcloned.Mean[1, 0], 5 + Complex.ImaginaryOne * 5);
-            Assert.AreEqual(dcloned.Mean[1, 1], 6 + Complex.ImaginaryOne * 6);
-            Assert.AreEqual(dcloned.Mean[1, 2], 7 + Complex.ImaginaryOne * 7);
-            Assert.AreEqual(dcloned.Mean[1, 3], 8 + Complex.ImaginaryOne * 8);
+            Assert.AreEqual(detectorName, dcloned.Name);
+            Assert.AreEqual( 1 + Complex.ImaginaryOne * 1, dcloned.Mean[0, 0]);
+            Assert.AreEqual( 2 + Complex.ImaginaryOne * 2, dcloned.Mean[0, 1]);
+            Assert.AreEqual( 3 + Complex.ImaginaryOne * 3, dcloned.Mean[0, 2]);
+            Assert.AreEqual( 4 + Complex.ImaginaryOne * 4, dcloned.Mean[0, 3]);
+            Assert.AreEqual( 5 + Complex.ImaginaryOne * 5, dcloned.Mean[1, 0]);
+            Assert.AreEqual( 6 + Complex.ImaginaryOne * 6, dcloned.Mean[1, 1]);
+            Assert.AreEqual( 7 + Complex.ImaginaryOne * 7, dcloned.Mean[1, 2]);
+            Assert.AreEqual( 8 + Complex.ImaginaryOne * 8, dcloned.Mean[1, 3]);
         }
         [Test]
         public void Validate_ROfXAndYDetector_deserialized_class_is_correct_when_using_WriteReadDetectorToFile()
