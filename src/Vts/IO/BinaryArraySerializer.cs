@@ -11,7 +11,7 @@ namespace Vts.IO
         /// <summary>
         /// array to be written or read
         /// </summary>
-        [Obsolete]
+        [Obsolete("Property is not used by any code.")]
         public Array DataArray { get; set; }
         /// <summary>
         /// name of array
