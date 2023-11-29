@@ -25,7 +25,6 @@ public class pMCROfXAndYAndTimeAndSubregionDetectorTests
     /// <summary>
     /// Test to verify that GetBinarySerializers are working correctly for this detector.
     /// </summary>
-
     [Test]
     [TestCase(true)]
     [TestCase(false)]
@@ -43,25 +42,25 @@ public class pMCROfXAndYAndTimeAndSubregionDetectorTests
             Name = detectorName,
             Mean = new double[,,,] // X.Count-1 x Z.Count-1 x Time.Count-1 x NumOfRegions: 2x2x2x3
             {
-                    {
-                        { { 1, 2, 3 }, { 4, 5, 6 } },
-                        { { 7, 8, 9 }, { 10, 11, 12 } }
-                    },
-                    {
-                        { { 13, 14, 15 }, { 16, 17, 18 } },
-                        { { 19, 20, 21 }, { 22, 23, 24 } }
-                    }
+                {
+                    { { 1, 2, 3 }, { 4, 5, 6 } },
+                    { { 7, 8, 9 }, { 10, 11, 12 } }
+                },
+                {
+                    { { 13, 14, 15 }, { 16, 17, 18 } },
+                    { { 19, 20, 21 }, { 22, 23, 24 } }
+                }
             },
             SecondMoment = new double[,,,]
             {
-                    {
-                        { { 25, 26, 27 }, { 28, 29, 30 } },
-                        { { 31, 32, 33 }, { 34, 35, 36 } }
-                    },
-                    {
-                        { { 37, 38, 39 }, { 40, 41, 42 } },
-                        { { 43, 44, 45 }, { 46, 47, 48 } }
-                    }
+                {
+                    { { 25, 26, 27 }, { 28, 29, 30 } },
+                    { { 31, 32, 33 }, { 34, 35, 36 } }
+                },
+                {
+                    { { 37, 38, 39 }, { 40, 41, 42 } },
+                    { { 43, 44, 45 }, { 46, 47, 48 } }
+                }
             },
             ROfXAndY = new double[,] // X.Count-1 x Y.Count-1: 2x2
                 { { 49, 50 }, { 51, 52 } },

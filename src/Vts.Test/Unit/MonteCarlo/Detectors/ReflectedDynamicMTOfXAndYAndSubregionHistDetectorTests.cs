@@ -206,6 +206,5 @@ public class ReflectedDynamicMTOfXAndYAndSubregionHistDetectorTests
         Assert.AreEqual(70, detector.DynamicMTOfZSecondMoment[1, 1, 0]);
         Assert.AreEqual(71, detector.DynamicMTOfZSecondMoment[1, 1, 1]);
         Assert.AreEqual(72, detector.DynamicMTOfZSecondMoment[1, 1, 2]);
-
     }
 }

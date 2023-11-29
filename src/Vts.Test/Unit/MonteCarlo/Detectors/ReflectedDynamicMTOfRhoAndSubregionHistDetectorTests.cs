@@ -24,7 +24,6 @@ public class ReflectedDynamicMTOfRhoAndSubregionHistDetectorTests
     /// <summary>
     /// Test to verify that GetBinarySerializers are working correctly for this detector.
     /// </summary>
-
     [Test]
     [TestCase(true)]
     [TestCase(false)]
@@ -113,6 +112,5 @@ public class ReflectedDynamicMTOfRhoAndSubregionHistDetectorTests
         Assert.AreEqual(34, detector.DynamicMTOfZSecondMoment[1, 0]);
         Assert.AreEqual(35, detector.DynamicMTOfZSecondMoment[1, 1]);
         Assert.AreEqual(36, detector.DynamicMTOfZSecondMoment[1, 2]);
-
     }
 }

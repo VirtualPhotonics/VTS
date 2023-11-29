@@ -25,7 +25,6 @@ public class ROfRhoAndOmegaDetectorTests
     /// <summary>
     /// Test to verify that GetBinarySerializers are working correctly for this detector.
     /// </summary>
-
     [Test]
     [TestCase(true)]
     [TestCase(false)]
@@ -66,5 +65,4 @@ public class ROfRhoAndOmegaDetectorTests
         Assert.AreEqual(11 + 11 * Complex.ImaginaryOne, detector.SecondMoment[1, 1]);
         Assert.AreEqual(12 + 12 * Complex.ImaginaryOne, detector.SecondMoment[1, 2]);
     }
-
 }

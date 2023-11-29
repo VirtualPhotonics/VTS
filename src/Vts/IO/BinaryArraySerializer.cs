@@ -11,7 +11,7 @@ namespace Vts.IO
         /// <summary>
         /// array to be written or read
         /// </summary>
-        [Obsolete("Property is not used by any code.")]
+        [Obsolete("The Serialization reconfiguration made this property obsolete.")]
         public Array DataArray { get; set; }
         /// <summary>
         /// name of array
@@ -24,7 +24,7 @@ namespace Vts.IO
         /// <summary>
         /// dimensions of array
         /// </summary>
-        [Obsolete("Property is not used by any code.")]
+        [Obsolete("Property was never used by the code and will be removed.")]
         public int[] Dimensions { get; set; }
 
         /// <summary>

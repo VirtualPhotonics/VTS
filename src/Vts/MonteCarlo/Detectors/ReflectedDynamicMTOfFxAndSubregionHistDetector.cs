@@ -375,6 +375,7 @@ namespace Vts.MonteCarlo.Detectors
                 }
             } 
         }
+
         /// <summary>
         /// this is to allow saving of large arrays separately as a binary file
         /// </summary>
@@ -414,8 +415,8 @@ namespace Vts.MonteCarlo.Detectors
 
             };
             return allSerializers.Where(s => s is not null).ToArray();
-                   
         }
+
         /// <summary>
         /// Method to determine if photon is within detector
         /// </summary>

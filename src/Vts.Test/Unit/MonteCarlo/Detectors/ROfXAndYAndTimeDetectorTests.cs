@@ -24,7 +24,6 @@ public class ROfXAndYAndTimeDetectorTests
     /// <summary>
     /// Test to verify that GetBinarySerializers are working correctly for this detector.
     /// </summary>
-
     [Test]
     [TestCase(true)]
     [TestCase(false)]

@@ -24,7 +24,6 @@ public class ROfXAndYAndTimeRecessedDetectorTests
     /// <summary>
     /// Test to verify that GetBinarySerializers are working correctly for this detector.
     /// </summary>
-
     [Test]
     [TestCase(true)]
     [TestCase(false)]
@@ -79,5 +78,4 @@ public class ROfXAndYAndTimeRecessedDetectorTests
         Assert.AreEqual(23, detector.SecondMoment[1, 1, 1]);
         Assert.AreEqual(24, detector.SecondMoment[1, 1, 2]);
     }
-    
 }

@@ -487,5 +487,4 @@ public static class BinaryArraySerializerFactory
             }
         }
     }
-
 }

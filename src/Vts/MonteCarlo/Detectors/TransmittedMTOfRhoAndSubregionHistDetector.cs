@@ -1,12 +1,11 @@
 using System;
 using System.Collections.Generic;
-using System.Runtime.Serialization;
 using System.Linq;
+using System.Runtime.Serialization;
 using Vts.Common;
 using Vts.IO;
 using Vts.MonteCarlo.Extensions;
 using Vts.MonteCarlo.Helpers;
-using Vts.MonteCarlo.PhotonData;
 
 namespace Vts.MonteCarlo.Detectors
 {
@@ -255,6 +254,7 @@ namespace Vts.MonteCarlo.Detectors
                 }
             }
         }
+
         /// <summary>
         /// this is to allow saving of large arrays separately as a binary file
         /// </summary>
@@ -278,8 +278,8 @@ namespace Vts.MonteCarlo.Detectors
 
             };
             return allSerializers.Where(s => s is not null).ToArray();
-
         }
+
         /// <summary>
         /// Method to determine if photon is within detector NA
         /// </summary>

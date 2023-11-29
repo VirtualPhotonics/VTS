@@ -24,7 +24,6 @@ public class ROfXAndYAndThetaAndPhiDetectorTests
     /// <summary>
     /// Test to verify that GetBinarySerializers are working correctly for this detector.
     /// </summary>
-
     [Test]
     [TestCase(true)]
     [TestCase(false)]
@@ -115,5 +114,4 @@ public class ROfXAndYAndThetaAndPhiDetectorTests
         Assert.AreEqual(47, detector.SecondMoment[1, 1, 1, 1]);
         Assert.AreEqual(48, detector.SecondMoment[1, 1, 1, 2]);
     }
-
 }

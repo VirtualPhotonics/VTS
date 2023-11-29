@@ -241,7 +241,6 @@ namespace Vts.MonteCarlo.Detectors
                     SecondMoment, "SecondMoment", "_2") : null
             };
             return allSerializers.Where(s => s is not null).ToArray();
-
         }
 
         /// <summary>

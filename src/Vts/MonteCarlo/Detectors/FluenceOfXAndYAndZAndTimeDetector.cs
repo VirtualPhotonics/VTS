@@ -4,9 +4,8 @@ using System.Linq;
 using System.Runtime.Serialization;
 using Vts.Common;
 using Vts.IO;
-using Vts.MonteCarlo.PhotonData;
 using Vts.MonteCarlo.Helpers;
-using MathNet.Numerics.Distributions;
+using Vts.MonteCarlo.PhotonData;
 
 namespace Vts.MonteCarlo.Detectors
 {

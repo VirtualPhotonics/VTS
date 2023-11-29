@@ -1,12 +1,10 @@
 using System;
 using System.Collections.Generic;
-using System.Runtime.Serialization;
 using System.Linq;
 using System.Numerics;
+using System.Runtime.Serialization;
 using Vts.Common;
 using Vts.IO;
-using Vts.MonteCarlo;
-using Vts.MonteCarlo.Detectors;
 using Vts.MonteCarlo.Extensions;
 using Vts.MonteCarlo.Helpers;
 using Vts.MonteCarlo.PhotonData;
@@ -415,7 +413,6 @@ namespace Vts.MonteCarlo.Detectors
                 TotalMTOfZSecondMoment ??= new Complex[Fx.Count, Z.Count - 1];
                 DynamicMTOfZSecondMoment ??= new Complex[Fx.Count, Z.Count - 1];
             }
-
             var allSerializers = new List<BinaryArraySerializer>
             {
                 BinaryArraySerializerFactory.GetSerializer(
@@ -437,7 +434,6 @@ namespace Vts.MonteCarlo.Detectors
 
             };
             return allSerializers.Where(s => s is not null).ToArray();
-
         }
 
         /// <summary>

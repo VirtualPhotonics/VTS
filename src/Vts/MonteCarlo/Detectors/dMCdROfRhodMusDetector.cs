@@ -6,7 +6,6 @@ using Vts.Common;
 using Vts.IO;
 using Vts.MonteCarlo.Extensions;
 using Vts.MonteCarlo.Helpers;
-using Vts.MonteCarlo.PhotonData;
 
 namespace Vts.MonteCarlo.Detectors
 {
@@ -298,7 +297,6 @@ namespace Vts.MonteCarlo.Detectors
             {
                 SecondMoment ??= new double[Rho.Count - 1];
             }
-
             var allSerializers = new List<BinaryArraySerializer>
             {
                 BinaryArraySerializerFactory.GetSerializer(
@@ -308,6 +306,7 @@ namespace Vts.MonteCarlo.Detectors
             };
             return allSerializers.Where(s => s is not null).ToArray();
         }
+
         /// <summary>
         /// Method to determine if photon is within detector NA
         /// pMC does not have access to PreviousDP so logic based on DP and 

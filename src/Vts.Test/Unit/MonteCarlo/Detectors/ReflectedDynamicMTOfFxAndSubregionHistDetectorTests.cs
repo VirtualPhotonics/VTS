@@ -25,7 +25,6 @@ public class ReflectedDynamicMTOfFxAndSubregionHistDetectorTests
     /// <summary>
     /// Test to verify that GetBinarySerializers are working correctly for this detector.
     /// </summary>
-
     [Test]
     [TestCase(true)]
     [TestCase(false)]
@@ -146,6 +145,5 @@ public class ReflectedDynamicMTOfFxAndSubregionHistDetectorTests
         Assert.AreEqual(34 + 34 * Complex.ImaginaryOne, detector.DynamicMTOfZSecondMoment[1, 0]);
         Assert.AreEqual(35 + 35 * Complex.ImaginaryOne, detector.DynamicMTOfZSecondMoment[1, 1]);
         Assert.AreEqual(36 + 36 * Complex.ImaginaryOne, detector.DynamicMTOfZSecondMoment[1, 2]);
-
     }
 }

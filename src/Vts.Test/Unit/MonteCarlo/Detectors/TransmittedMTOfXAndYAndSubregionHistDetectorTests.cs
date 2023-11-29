@@ -24,7 +24,6 @@ public class TransmittedMTOfXAndYAndSubregionHistDetectorTests
     /// <summary>
     /// Test to verify that GetBinarySerializers are working correctly for this detector.
     /// </summary>
-
     [Test]
     [TestCase(true)]
     [TestCase(false)]
@@ -51,43 +50,43 @@ public class TransmittedMTOfXAndYAndSubregionHistDetectorTests
             },
             FractionalMT = new double[,,,,] // X.Count-1 x Y.Count-1 x MTBins.Count-1 x NumRegions x FractionalMTBins.Count+1: 2x2x3x2x2
             {
+                {
                     {
                         {
-                            {
-                                { 1, 2 }, { 3, 4 }, { 5, 6 }
-                            },
-                            {
-                                { 7, 8 }, { 9, 10 }, { 11, 12 }
-                            }
+                            { 1, 2 }, { 3, 4 }, { 5, 6 }
                         },
                         {
-                            {
-                                { 13, 14 }, { 15, 16 }, { 17, 18 }
-                            },
-                            {
-                                { 19, 20 }, { 21, 22 }, { 23, 24 }
-                            }
+                            { 7, 8 }, { 9, 10 }, { 11, 12 }
                         }
-
                     },
                     {
                         {
-                            {
-                                { 25, 26 }, { 27, 28 }, { 29, 30 }
-                            },
-                            {
-                                { 31, 32 }, { 33, 34 }, { 35, 36 }
-                            },
+                            { 13, 14 }, { 15, 16 }, { 17, 18 }
                         },
                         {
-                            {
-                                { 37, 38 }, { 39, 40 }, { 41, 42 }
-                            },
-                            {
-                                { 43, 44 }, { 45, 46 }, { 47, 48 }
-                            },
+                            { 19, 20 }, { 21, 22 }, { 23, 24 }
                         }
                     }
+
+                },
+                {
+                    {
+                        {
+                            { 25, 26 }, { 27, 28 }, { 29, 30 }
+                        },
+                        {
+                            { 31, 32 }, { 33, 34 }, { 35, 36 }
+                        },
+                    },
+                    {
+                        {
+                            { 37, 38 }, { 39, 40 }, { 41, 42 }
+                        },
+                        {
+                            { 43, 44 }, { 45, 46 }, { 47, 48 }
+                        },
+                    }
+                }
             },
 
         };
@@ -170,6 +169,5 @@ public class TransmittedMTOfXAndYAndSubregionHistDetectorTests
         Assert.AreEqual(22, detector.SecondMoment[1, 1, 0]);
         Assert.AreEqual(23, detector.SecondMoment[1, 1, 1]);
         Assert.AreEqual(24, detector.SecondMoment[1, 1, 2]);
-
     }
 }

@@ -238,6 +238,7 @@ namespace Vts.MonteCarlo.Detectors
             };
             return allSerializers.Where(s => s is not null).ToArray();
         }
+
         /// <summary>
         /// Method to determine if photon is within detector NA
         /// pMC does not have access to PreviousDP so logic based on DP and 

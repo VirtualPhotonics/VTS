@@ -24,7 +24,6 @@ public class TransmittedDynamicMTOfXAndYAndSubregionHistDetectorTests
     /// <summary>
     /// Test to verify that GetBinarySerializers are working correctly for this detector.
     /// </summary>
-
     [Test]
     [TestCase(true)]
     [TestCase(false)]
@@ -72,23 +71,23 @@ public class TransmittedDynamicMTOfXAndYAndSubregionHistDetectorTests
             },
             FractionalMT = new double[,,,] // X.Count-1 x Y.Count-1 x MTBins.Count-1, FractionalMTBins.Count+1: 2x2x3x2
             {
+                {
                     {
-                        {
-                            { 1, 2 }, { 3, 4 }, { 5, 6 }
-                        },
-                        {
-                            { 7, 8 }, { 9, 10 }, { 11, 12 }
-                        }
-
+                        { 1, 2 }, { 3, 4 }, { 5, 6 }
                     },
                     {
-                        {
-                            { 13, 14 }, { 15, 16 }, { 17, 18 }
-                        },
-                        {
-                            { 19, 20 }, { 21, 22 }, { 23, 24 }
-                        }
+                        { 7, 8 }, { 9, 10 }, { 11, 12 }
                     }
+
+                },
+                {
+                    {
+                        { 13, 14 }, { 15, 16 }, { 17, 18 }
+                    },
+                    {
+                        { 19, 20 }, { 21, 22 }, { 23, 24 }
+                    }
+                }
             },
             SubregionCollisions = new double[,] // NumSubregions x 2: 3x2
                 { { 25, 26 }, { 27, 28 }, { 29, 30 } }, // 2nd index: 0=static, 1=dynamic

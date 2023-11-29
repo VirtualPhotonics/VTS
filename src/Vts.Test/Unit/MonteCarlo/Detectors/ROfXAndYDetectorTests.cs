@@ -24,7 +24,6 @@ public class ROfXAndYDetectorTests
     /// <summary>
     /// Test to verify that GetBinarySerializers are working correctly for this detector.
     /// </summary>
-
     [Test]
     [TestCase(true)]
     [TestCase(false)]
@@ -57,5 +56,4 @@ public class ROfXAndYDetectorTests
         Assert.AreEqual(11, detector.SecondMoment[1, 1]);
         Assert.AreEqual(12, detector.SecondMoment[1, 2]);
     }
-
 }

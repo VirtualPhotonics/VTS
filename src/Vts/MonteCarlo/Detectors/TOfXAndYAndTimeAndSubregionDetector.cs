@@ -222,6 +222,7 @@ namespace Vts.MonteCarlo.Detectors
                 }
             }
         }
+
         /// <summary>
         /// this is to allow saving of large arrays separately as a binary file
         /// </summary>
