@@ -38,13 +38,13 @@ public class ReflectedTimeOfRhoAndSubregionHistDetectorTests
             Name = detectorName,
             Mean = new double[,,] // Rho.Count-1 x NumRegions x Time.Count-1: 2x2x3
             {
-                    { { 1, 2, 3 }, { 4, 5, 6 } },
-                    { { 7, 8, 9 }, { 10, 11, 12 } }
+                { { 1, 2, 3 }, { 4, 5, 6 } },
+                { { 7, 8, 9 }, { 10, 11, 12 } }
             },
             SecondMoment = new double[,,]
             {
-                    { { 13, 14, 15 }, { 16, 17, 18 } },
-                    { { 19, 20, 21 }, { 22, 23, 24 } }
+                { { 13, 14, 15 }, { 16, 17, 18 } },
+                { { 19, 20, 21 }, { 22, 23, 24 } }
             }
         };
 

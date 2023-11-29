@@ -40,41 +40,41 @@ public class FluenceOfRhoAndZAndOmegaDetectorTests
             Name = detectorName,
             Mean = new[, ,] // Rho.Count-1 x Z.Count-1 x Omega.Count: 2x2x3
             {
-                    {
-                        { 1 + Complex.ImaginaryOne, 2 + 2 * Complex.ImaginaryOne, 3 + 3 * Complex.ImaginaryOne },
-                        { 4 + 4 * Complex.ImaginaryOne, 5 + 5 * Complex.ImaginaryOne, 6 + 6 * Complex.ImaginaryOne }
-                    },
-                    {
-                        { 7 + 7 * Complex.ImaginaryOne, 8 + 8 * Complex.ImaginaryOne, 9 + 9 * Complex.ImaginaryOne },
-                        {
-                            10 + 10 * Complex.ImaginaryOne, 11 + 11 * Complex.ImaginaryOne,
-                            12 + 12 * Complex.ImaginaryOne
-                        }
-                    }
+                {
+                    { 1 + Complex.ImaginaryOne, 2 + 2 * Complex.ImaginaryOne, 3 + 3 * Complex.ImaginaryOne },
+                    { 4 + 4 * Complex.ImaginaryOne, 5 + 5 * Complex.ImaginaryOne, 6 + 6 * Complex.ImaginaryOne }
                 },
-            SecondMoment = new[, ,]
-            {
+                {
+                    { 7 + 7 * Complex.ImaginaryOne, 8 + 8 * Complex.ImaginaryOne, 9 + 9 * Complex.ImaginaryOne },
                     {
-                        {
-                            13 + 13 * Complex.ImaginaryOne, 14 + 14 * Complex.ImaginaryOne,
-                            15 + 15 * Complex.ImaginaryOne
-                        },
-                        {
-                            16 + 16 * Complex.ImaginaryOne, 17 + 17 * Complex.ImaginaryOne,
-                            18 + 18 * Complex.ImaginaryOne
-                        }
-                    },
-                    {
-                        {
-                            19 + 19 * Complex.ImaginaryOne, 20 + 20 * Complex.ImaginaryOne,
-                            21 + 21 * Complex.ImaginaryOne
-                        },
-                        {
-                            22 + 22 * Complex.ImaginaryOne, 23 + 23 * Complex.ImaginaryOne,
-                            24 + 24 * Complex.ImaginaryOne
-                        }
+                        10 + 10 * Complex.ImaginaryOne, 11 + 11 * Complex.ImaginaryOne,
+                        12 + 12 * Complex.ImaginaryOne
                     }
                 }
+            },
+            SecondMoment = new[, ,]
+            {
+                {
+                    {
+                        13 + 13 * Complex.ImaginaryOne, 14 + 14 * Complex.ImaginaryOne,
+                        15 + 15 * Complex.ImaginaryOne
+                    },
+                    {
+                        16 + 16 * Complex.ImaginaryOne, 17 + 17 * Complex.ImaginaryOne,
+                        18 + 18 * Complex.ImaginaryOne
+                    }
+                },
+                {
+                    {
+                        19 + 19 * Complex.ImaginaryOne, 20 + 20 * Complex.ImaginaryOne,
+                        21 + 21 * Complex.ImaginaryOne
+                    },
+                    {
+                        22 + 22 * Complex.ImaginaryOne, 23 + 23 * Complex.ImaginaryOne,
+                        24 + 24 * Complex.ImaginaryOne
+                    }
+                }
+            }
         };
 
         DetectorBinarySerializationHelper.WriteClearAndReReadArrays(detector, detector.Mean, detector.SecondMoment);

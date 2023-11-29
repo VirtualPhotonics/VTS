@@ -31,7 +31,7 @@ public class dMCdROfRhodMusDetectorTests
     public void Validate_deserialized_class_is_correct_when_using_GetBinarySerializers(bool tallySecondMoment)
     {
         const string detectorName = "testdmcdrofrhodmus";
-        var detector = new dMCdROfRhodMuaDetector
+        var detector = new dMCdROfRhodMusDetector
         {
             Rho = new DoubleRange(0, 10, 3),
             PerturbedOps = new List<OpticalProperties> { new() },
