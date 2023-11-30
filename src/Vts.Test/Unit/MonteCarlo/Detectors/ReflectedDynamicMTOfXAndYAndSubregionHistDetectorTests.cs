@@ -83,7 +83,6 @@ public class ReflectedDynamicMTOfXAndYAndSubregionHistDetectorTests
             },
             SubregionCollisions = new double[,] // NumSubregions x 2: 3x2
                 { { 25, 26 }, { 27, 28 }, { 29, 30 } }, // 2nd index: 0=static, 1=dynamic
-
         };
 
         DetectorBinarySerializationHelper.WriteClearAndReReadArrays(detector, detector.Mean, detector.SecondMoment,

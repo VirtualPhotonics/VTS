@@ -108,7 +108,8 @@ public class ReflectedDynamicMTOfFxAndSubregionHistDetectorTests
         Assert.AreEqual(27 + 27 * Complex.ImaginaryOne, detector.DynamicMTOfZ[0, 2]);
         Assert.AreEqual(28 + 28 * Complex.ImaginaryOne, detector.DynamicMTOfZ[1, 0]);
         Assert.AreEqual(29 + 29 * Complex.ImaginaryOne, detector.DynamicMTOfZ[1, 1]);
-        Assert.AreEqual(30 + 30 * Complex.ImaginaryOne, detector.DynamicMTOfZ[1, 2]); Assert.AreEqual(37 + 37 * Complex.ImaginaryOne, detector.FractionalMT[0, 0, 0]);
+        Assert.AreEqual(30 + 30 * Complex.ImaginaryOne, detector.DynamicMTOfZ[1, 2]); 
+        Assert.AreEqual(37 + 37 * Complex.ImaginaryOne, detector.FractionalMT[0, 0, 0]);
         Assert.AreEqual(38 + 38 * Complex.ImaginaryOne, detector.FractionalMT[0, 0, 1]);
         Assert.AreEqual(39 + 39 * Complex.ImaginaryOne, detector.FractionalMT[0, 1, 0]);
         Assert.AreEqual(40 + 40 * Complex.ImaginaryOne, detector.FractionalMT[0, 1, 1]);

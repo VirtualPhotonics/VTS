@@ -1,12 +1,11 @@
 using System;
-using System.Runtime.Serialization;
+using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using Vts.Common;
 using Vts.IO;
 using Vts.MonteCarlo.Extensions;
 using Vts.MonteCarlo.Helpers;
-using Vts.MonteCarlo.PhotonData;
-using System.Collections.Generic;
 
 namespace Vts.MonteCarlo.Detectors
 {

@@ -412,7 +412,6 @@ namespace Vts.MonteCarlo.Detectors
                     TotalMTOfZSecondMoment, "TotalMTOfZSecondMoment", "_TotalMTOfZ_2") : null,
                 TallySecondMoment ? BinaryArraySerializerFactory.GetSerializer(
                     DynamicMTOfZSecondMoment, "DynamicMTOfZSecondMoment", "_DynamicMTOfZ_2") : null
-
             };
             return allSerializers.Where(s => s is not null).ToArray();
         }

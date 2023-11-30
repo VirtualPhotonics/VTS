@@ -290,7 +290,6 @@ namespace Vts.MonteCarlo.Detectors
                     FractionalMT, "FractionalMT", "_FractionalMT"),
                 TallySecondMoment ? BinaryArraySerializerFactory.GetSerializer(
                     SecondMoment, "SecondMoment", "_2") : null,
-
              };
             return allSerializers.Where(s => s is not null).ToArray();
         }
