@@ -141,11 +141,12 @@ namespace Vts.MonteCarlo.Detectors
         /// <summary>
         /// this scalar tally is saved to json
         /// </summary>
-        /// <returns>null</returns>
+        /// <returns>empty array of BinaryArraySerializer</returns>
         public BinaryArraySerializer[] GetBinarySerializers()
         {
-            return null;
+            return Array.Empty<BinaryArraySerializer>();
         }
+
         /// <summary>
         /// Method to determine if photon is within detector NA
         /// </summary>

@@ -228,69 +228,19 @@ namespace Vts.MonteCarlo.Detectors
         /// <returns>BinaryArraySerializer[]</returns>
         public BinaryArraySerializer[] GetBinarySerializers()
         {
-            return new[] {
-                new BinaryArraySerializer {
-                    DataArray = Mean,
-                    Name = "Mean",
-                    FileTag = "",
-                    WriteData = binaryWriter => {
-                        for (var i = 0; i < Rho.Count - 1; i++) {
-                            for (var k = 0; k < Z.Count - 1; k++) {
-                                for (var l = 0; l < Omega.Count; l++)
-                                {
-                                    binaryWriter.Write(Mean[i, k, l].Real);
-                                    binaryWriter.Write(Mean[i, k, l].Imaginary);
-                                }
-                            } 
-                        }
-                    },
-                    ReadData = binaryReader => {
-                        Mean = Mean ?? new Complex[Rho.Count - 1, Z.Count -1, Omega.Count];
-                        for (var i = 0; i <  Rho.Count - 1; i++) {
-                            for (var k = 0; k < Z.Count - 1; k++) {
-                                for (var l = 0; l < Omega.Count; l++)
-                                {
-                                    var real = binaryReader.ReadDouble();
-                                    var imag = binaryReader.ReadDouble();
-                                    Mean[i, k, l] = new Complex(real, imag);
-                                }
-                            }   
-                        }
-                    }
-                },
-                // return a null serializer, if we're not serializing the second moment
-                !TallySecondMoment ? null :  new BinaryArraySerializer {
-                    DataArray = SecondMoment,
-                    Name = "SecondMoment",
-                    FileTag = "_2",
-                    WriteData = binaryWriter => {
-                        if (!TallySecondMoment || SecondMoment == null) return;
-                        for (var i = 0; i < Rho.Count - 1; i++) {
-                            for (var k = 0; k < Z.Count - 1; k++){
-                                for (var l = 0; l < Omega.Count; l++)
-                                {
-                                    binaryWriter.Write(SecondMoment[i, k, l].Real);
-                                    binaryWriter.Write(SecondMoment[i, k, l].Imaginary);
-                                }
-                            }
-                        }
-                    },
-                    ReadData = binaryReader => {
-                        if (!TallySecondMoment || SecondMoment == null) return;
-                        SecondMoment = new Complex[Rho.Count - 1, Z.Count - 1, Omega.Count];
-                        for (var i = 0; i < Rho.Count - 1; i++) {
-                            for (var k = 0; k < Z.Count - 1; k++) {
-                                for (var l = 0; l < Omega.Count; l++)
-                                {
-                                    var real = binaryReader.ReadDouble();
-                                    var imag = binaryReader.ReadDouble();
-                                    SecondMoment[i, k, l] = new Complex(real, imag);
-                                }
-                            }  
-			            }
-                    },
-                },
+            Mean ??= new Complex[Rho.Count - 1, Z.Count - 1, Omega.Count];
+            if (TallySecondMoment)
+            {
+                SecondMoment ??= new Complex[Rho.Count - 1, Z.Count - 1, Omega.Count];
+            }
+            var allSerializers = new List<BinaryArraySerializer>
+            {
+                BinaryArraySerializerFactory.GetSerializer(
+                    Mean, "Mean", ""),
+                TallySecondMoment ? BinaryArraySerializerFactory.GetSerializer(
+                    SecondMoment, "SecondMoment", "_2") : null
             };
+            return allSerializers.Where(s => s is not null).ToArray();
         }
 
         /// <summary>
