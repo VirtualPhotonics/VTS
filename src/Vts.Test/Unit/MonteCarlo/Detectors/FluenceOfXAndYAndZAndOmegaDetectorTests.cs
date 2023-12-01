@@ -28,7 +28,7 @@ public class FluenceOfXAndYAndZAndOmegaDetectorTests
     [Test]
     [TestCase(true)]
     [TestCase(false)]
-    public void Validate_deserialized_class_is_correct_when_using_GetBinarySerializers(bool tallySecondMoment)
+    public void Validate_deserialized_binary_arrays_are_correct_when_using_GetBinarySerializers(bool tallySecondMoment)
     {
         const string detectorName = "testfluenceofxandyandzandOmega";
         var detector = new FluenceOfXAndYAndZAndOmegaDetector
