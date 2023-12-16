@@ -4,6 +4,7 @@ using System.Linq;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using Vts.Common;
+using Vts.Common.Math;
 using Vts.Extensions;
 using Vts.Modeling;
 using Vts.Modeling.ForwardSolvers;
@@ -97,6 +98,38 @@ namespace Vts.Factories
         }
 
         /// <summary>
+        /// Method to determine phase of an array of complex values
+        /// </summary>
+        /// <param name="values">The complex values to flatten</param>
+        /// <returns>A 1D array of real (1st half) and imaginary (2nd half) </returns>
+        private static double[] ComputePhase(this IReadOnlyList<Complex> values)
+        {
+            var phase = new double[values.Count];
+            var nValues = values.Count;
+            for (var i = 0; i < nValues; i++)
+            {
+                phase[i] = Common.Math.Convert.ToPhase(values[i].Real, values[i].Imaginary);
+            }
+            return phase;
+        }
+
+        /// <summary>
+        /// Method to determine phase of an array of complex values
+        /// </summary>
+        /// <param name="values">The complex values to flatten</param>
+        /// <returns>A 1D array of real (1st half) and imaginary (2nd half) </returns>
+        private static double[] ComputeAmplitude(this IReadOnlyList<Complex> values)
+        {
+            var amplitude = new double[values.Count];
+            var nValues = values.Count;
+            for (var i = 0; i < nValues; i++)
+            {
+                amplitude[i] = Common.Math.Convert.ToAmplitude(values[i].Real, values[i].Imaginary);
+            }
+            return amplitude;
+        }
+
+        /// <summary>
         /// ComputeReflectance determines reflectance. It uses the first parameter
         /// forwardSolverType to determine appropriate IForwardSolver and then calls the method overload with that value.
         /// </summary>
@@ -148,6 +181,55 @@ namespace Vts.Factories
 
             // create a list of inputs (besides optical properties) that corresponds to the behavior of the function above
 
+            return forwardAnalysisType == ForwardAnalysisType.R
+                ? func(independentValues)
+                : func.GetDerivativeFunc(forwardAnalysisType)(independentValues);
+        }
+        /// <summary>
+        /// Overload for GUI
+        /// </summary>
+        /// <param name="forwardSolverType"></param>
+        /// <param name="solutionDomainType"></param>
+        /// <param name="forwardAnalysisType"></param>
+        /// <param name="plotToggleType"></param>
+        /// <param name="independentValues"></param>
+        /// <returns></returns>
+        public static double[] ComputeReflectance(
+            ForwardSolverType forwardSolverType,
+            SolutionDomainType solutionDomainType,
+            ForwardAnalysisType forwardAnalysisType,
+            PlotToggleType plotToggleType,
+            object[] independentValues)
+        {
+            // use factory method on each call, as opposed to injecting an instance from the outside
+            // -- still time-efficient if singletons are used
+            // -- potentially memory-inefficient if the user creates lots of large solver instances
+            // call the method below once ForwardSolver obtained using ForwardSolverType
+            return ComputeReflectance(
+                SolverFactory.GetForwardSolver(forwardSolverType),
+                solutionDomainType,
+                forwardAnalysisType,
+                plotToggleType,
+                independentValues);
+        }
+        /// <summary>
+        /// Overload for GUI
+        /// </summary>
+        /// <param name="forwardSolver"></param>
+        /// <param name="solutionDomainType"></param>
+        /// <param name="forwardAnalysisType"></param>
+        /// <param name="plotToggleType"></param>
+        /// <param name="independentValues"></param>
+        /// <returns></returns>
+        public static double[] ComputeReflectance(
+            IForwardSolver forwardSolver,
+            SolutionDomainType solutionDomainType,
+            ForwardAnalysisType forwardAnalysisType,
+            PlotToggleType plotToggleType,
+            object[] independentValues)
+        {
+            var func = GetForwardComplexReflectanceFunc(forwardSolver, solutionDomainType, forwardAnalysisType, plotToggleType);
+          
             return forwardAnalysisType == ForwardAnalysisType.R
                 ? func(independentValues)
                 : func.GetDerivativeFunc(forwardAnalysisType)(independentValues);
@@ -850,6 +932,56 @@ namespace Vts.Factories
                         return forwardData => fs.ROfFxAndFt((IOpticalPropertyRegion[][])forwardData[0], (double[])forwardData[1], (double[])forwardData[2]).FlattenRealAndImaginary();
                     }
                     return forwardData => fs.ROfFxAndFt(ops: (OpticalProperties[])forwardData[0], fxs: (double[])forwardData[1], fts: (double[])forwardData[2]).FlattenRealAndImaginary();
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(type));
+            }
+        }
+
+        private static Func<object[], double[]> GetForwardComplexReflectanceFunc(IForwardSolver fs, SolutionDomainType type,
+            ForwardAnalysisType analysisType, PlotToggleType plotToggleType)
+        {
+            switch (type)
+            {
+                case SolutionDomainType.ROfRho:
+                case SolutionDomainType.ROfRhoAndTime:
+                case SolutionDomainType.ROfFx:
+                case SolutionDomainType.ROfFxAndTime:
+                    return GetForwardReflectanceFunc(fs, type);
+                case SolutionDomainType.ROfRhoAndFt:
+                    if (fs is TwoLayerSDAForwardSolver)
+                    {
+                        return forwardData => fs.ROfRhoAndFt((IOpticalPropertyRegion[][])forwardData[0], (double[])forwardData[1], (double[])forwardData[2]).FlattenRealAndImaginary();
+                    }
+                    switch (analysisType)
+                    {
+                        case ForwardAnalysisType.dRdMua when plotToggleType is PlotToggleType.Phase:
+                        case ForwardAnalysisType.dRdMusp when plotToggleType is PlotToggleType.Phase:
+                            return forwardData => fs.ROfRhoAndFt(ops: (OpticalProperties[])forwardData[0],
+                                rhos: (double[])forwardData[1], fts: (double[])forwardData[2]).ComputePhase();
+                        case ForwardAnalysisType.dRdMua when plotToggleType is PlotToggleType.Amp:
+                        case ForwardAnalysisType.dRdMusp when plotToggleType is PlotToggleType.Amp:
+                            return forwardData => fs.ROfRhoAndFt(ops: (OpticalProperties[])forwardData[0],
+                                rhos: (double[])forwardData[1], fts: (double[])forwardData[2]).ComputeAmplitude();
+                    }
+                    return forwardData => fs.ROfRhoAndFt(ops: (OpticalProperties[])forwardData[0], rhos: (double[])forwardData[1], fts: (double[])forwardData[2]).FlattenRealAndImaginary();
+                case SolutionDomainType.ROfFxAndFt:
+                    if (fs is TwoLayerSDAForwardSolver)
+                    {
+                        return forwardData => fs.ROfFxAndFt((IOpticalPropertyRegion[][])forwardData[0], (double[])forwardData[1], (double[])forwardData[2]).FlattenRealAndImaginary();
+                    }
+                    switch (analysisType)
+                    {
+                        case ForwardAnalysisType.dRdMua when plotToggleType is PlotToggleType.Phase:
+                        case ForwardAnalysisType.dRdMusp when plotToggleType is PlotToggleType.Phase:
+                            return forwardData => fs.ROfFxAndFt(ops: (OpticalProperties[])forwardData[0],
+                                fxs: (double[])forwardData[1], fts: (double[])forwardData[2]).ComputePhase();
+                        case ForwardAnalysisType.dRdMua when plotToggleType is PlotToggleType.Amp:
+                        case ForwardAnalysisType.dRdMusp when plotToggleType is PlotToggleType.Amp:
+                            return forwardData => fs.ROfFxAndFt(ops: (OpticalProperties[])forwardData[0],
+                                fxs: (double[])forwardData[1], fts: (double[])forwardData[2]).ComputeAmplitude();
+                    }
+                    return forwardData => fs.ROfFxAndFt(ops: (OpticalProperties[])forwardData[0], fxs: (double[])forwardData[1], fts: (double[])forwardData[2]).FlattenRealAndImaginary();
+
 
                 default:
                     throw new ArgumentOutOfRangeException(nameof(type));

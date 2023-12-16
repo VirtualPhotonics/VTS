@@ -68,13 +68,17 @@ namespace Vts.Modeling
                     {
                         var less = new object[parameters.Length];
                         var more = new object[parameters.Length];
+                        var temp = new object[parameters.Length];
                         for (var i = 1; i < parameters.Length; i++)
                         {
                             //loop through objects 2 to the end and set the data equal to parameters
                             less[i] = (double[])parameters[i];
                             more[i] = (double[])parameters[i];
+                            temp[i] = (double[])parameters[i];
                         }
                         var ops = (OpticalProperties[])parameters[0];
+                        temp[0] = ops.Select(opi => new OpticalProperties(opi.Mua, opi.Musp, opi.G, opi.N)).ToArray();
+                        var tempValues = myFunc(temp);
                         less[0] = ops.Select(opi => new OpticalProperties(opi.Mua, opi.Musp * (1 - _delta), opi.G, opi.N)).ToArray();
                         more[0] = ops.Select(opi => new OpticalProperties(opi.Mua, opi.Musp * (1 + _delta), opi.G, opi.N)).ToArray();
                         var lessValues = myFunc(less);
