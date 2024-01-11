@@ -207,63 +207,22 @@ namespace Vts.MonteCarlo.Detectors
         /// this is to allow saving of large arrays separately as a binary file
         /// </summary>
         /// <returns>BinaryArraySerializer[]</returns>
-        public BinaryArraySerializer[] GetBinarySerializers() 
+        public BinaryArraySerializer[] GetBinarySerializers()
         {
-            return new[] {
-                new BinaryArraySerializer {
-                    DataArray = Mean,
-                    Name = "Mean",
-                    FileTag = "",
-                    WriteData = binaryWriter => {
-                        for (var i = 0; i < Fx.Count; i++) {
-                            for (var j = 0; j < Z.Count - 1; j++)
-                            {
-                                binaryWriter.Write(Mean[i, j].Real);
-                                binaryWriter.Write(Mean[i, j].Imaginary);
-                            }
-                        }
-                    },
-                    ReadData = binaryReader => {
-                        Mean = Mean ?? new Complex[ Fx.Count, Z.Count - 1];
-                        for (var i = 0; i <  Fx.Count; i++) {
-                            for (var j = 0; j < Z.Count - 1; j++)
-                            {
-                                var real = binaryReader.ReadDouble();
-                                var imag = binaryReader.ReadDouble();
-                                Mean[i, j] = new Complex(real, imag);
-                            }
-                        }
-                    }
-                },
-                // return a null serializer, if we're not serializing the second moment
-                !TallySecondMoment ? null :  new BinaryArraySerializer {
-                    DataArray = SecondMoment,
-                    Name = "SecondMoment",
-                    FileTag = "_2",
-                    WriteData = binaryWriter => {
-                        if (!TallySecondMoment || SecondMoment == null) return;
-                        for (var i = 0; i < Fx.Count; i++) {
-                            for (var j = 0; j < Z.Count - 1; j++)
-                            {
-                                binaryWriter.Write(SecondMoment[i, j].Real);
-                                binaryWriter.Write(SecondMoment[i, j].Imaginary);
-                            }                            
-                        }
-                    },
-                    ReadData = binaryReader => {
-                        if (!TallySecondMoment || SecondMoment == null) return;
-                        SecondMoment = new Complex[ Fx.Count, Z.Count - 1];
-                        for (var i = 0; i < Fx.Count; i++) {
-                            for (var j = 0; j < Z.Count - 1; j++)
-                            {
-                                var real = binaryReader.ReadDouble();
-                                var imag = binaryReader.ReadDouble();
-                                SecondMoment[i, j] = new Complex(real, imag);
-                            }                       
-			            }
-                    },
-                },
+            Mean ??= new Complex[Fx.Count,Z.Count - 1];
+            if (TallySecondMoment)
+            {
+                SecondMoment ??= new Complex[Fx.Count, Z.Count - 1];
+            }
+
+            var allSerializers = new List<BinaryArraySerializer>
+            {
+                BinaryArraySerializerFactory.GetSerializer(
+                    Mean, "Mean", ""),
+                TallySecondMoment ? BinaryArraySerializerFactory.GetSerializer(
+                    SecondMoment, "SecondMoment", "_2") : null
             };
+            return allSerializers.Where(s => s is not null).ToArray();
         }
 
         /// <summary>
