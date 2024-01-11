@@ -94,7 +94,6 @@ namespace Vts.MonteCarlo.Detectors
         /// </summary>
         [IgnoreDataMember]
         public double[,] SecondMoment { get; set; }
-
         /* ==== Place optional/user-defined output properties here. They will be saved in text (JSON) format ==== */
         /// <summary>
         /// number of Zs detector gets tallied to
@@ -198,62 +197,32 @@ namespace Vts.MonteCarlo.Detectors
                 }
             }
         }
+
         /// <summary>
         /// this is to allow saving of large arrays separately as a binary file
         /// </summary>
         /// <returns>An array of BinaryArraySerializer</returns>
-        public BinaryArraySerializer[] GetBinarySerializers()
+        /// <remarks></remarks>
+        public BinaryArraySerializer[] GetBinarySerializers() => EnumerateAllSerializers().ToArray();
+
+        private IEnumerable<BinaryArraySerializer> EnumerateAllSerializers()
         {
-            return new[] {
-                new BinaryArraySerializer {
-                    DataArray = Mean,
-                    Name = "Mean",
-                    FileTag = "",
-                    WriteData = binaryWriter => {
-                        for (var i = 0; i < Rho.Count - 1; i++) {
-                            for (var j = 0; j < Z.Count - 1; j++)
-                            {                                
-                                binaryWriter.Write(Mean[i, j]);
-                            }
-                        }
-                    },
-                    ReadData = binaryReader => {
-                        Mean = Mean ?? new double[ Rho.Count - 1, Z.Count - 1];
-                        for (var i = 0; i <  Rho.Count - 1; i++) {
-                            for (var j = 0; j < Z.Count - 1; j++)
-                            {
-                               Mean[i, j] = binaryReader.ReadDouble(); 
-                            }
-                        }
-                    }
-                },
-                // return a null serializer, if we're not serializing the second moment
-                !TallySecondMoment ? null :  new BinaryArraySerializer {
-                    DataArray = SecondMoment,
-                    Name = "SecondMoment",
-                    FileTag = "_2",
-                    WriteData = binaryWriter => {
-                        if (!TallySecondMoment || SecondMoment == null) return;
-                        for (var i = 0; i < Rho.Count - 1; i++) {
-                            for (var j = 0; j < Z.Count - 1; j++)
-                            {
-                                binaryWriter.Write(SecondMoment[i, j]);
-                            }                            
-                        }
-                    },
-                    ReadData = binaryReader => {
-                        if (!TallySecondMoment || SecondMoment == null) return;
-                        SecondMoment = new double[ Rho.Count - 1, Z.Count - 1];
-                        for (var i = 0; i < Rho.Count - 1; i++) {
-                            for (var j = 0; j < Z.Count - 1; j++)
-                            {
-                                SecondMoment[i, j] = binaryReader.ReadDouble();
-                            }                       
-			            }
-                    },
-                },
+            Mean ??= new double[Rho.Count - 1, Z.Count - 1];
+            if (TallySecondMoment)
+            {
+                SecondMoment ??= new double[Rho.Count - 1, Z.Count - 1];
+            }
+
+            var allSerializers = new List<BinaryArraySerializer>
+            {
+                BinaryArraySerializerFactory.GetSerializer(
+                    Mean, "Mean", ""),
+                TallySecondMoment ? BinaryArraySerializerFactory.GetSerializer(
+                    SecondMoment, "SecondMoment", "_2") : null
             };
+            return allSerializers.Where(s => s is not null).ToArray();
         }
+
         /// <summary>
         /// Method to determine if photon is within detector
         /// </summary>
@@ -263,6 +232,5 @@ namespace Vts.MonteCarlo.Detectors
         {
             return true; // or, possibly test for NA or confined position, etc
         }
-
     }
 }

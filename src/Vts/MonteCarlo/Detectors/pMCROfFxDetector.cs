@@ -210,49 +210,19 @@ namespace Vts.MonteCarlo.Detectors
         /// <returns>BinaryArraySerializer[]</returns>
         public BinaryArraySerializer[] GetBinarySerializers() 
         {
-            return new[] {
-                new BinaryArraySerializer {
-                    DataArray = Mean,
-                    Name = "Mean",
-                    FileTag = "",
-                    WriteData = binaryWriter => {
-                        for (var i = 0; i < Fx.Count; i++) {
-                                binaryWriter.Write(Mean[i].Real);
-                                binaryWriter.Write(Mean[i].Imaginary);
-                        }
-                    },
-                    ReadData = binaryReader => {
-                        Mean = Mean ?? new Complex[ Fx.Count ];
-                        for (var i = 0; i <  Fx.Count; i++) {
-                            var real = binaryReader.ReadDouble();
-                            var imag = binaryReader.ReadDouble();
-                            Mean[i] = new Complex(real, imag);
-                        }
-                    }
-                },
-                // return a null serializer, if we're not serializing the second moment
-                !TallySecondMoment ? null :  new BinaryArraySerializer {
-                    DataArray = SecondMoment,
-                    Name = "SecondMoment",
-                    FileTag = "_2",
-                    WriteData = binaryWriter => {
-                        if (!TallySecondMoment || SecondMoment == null) return;
-                        for (var i = 0; i < Fx.Count; i++) {
-                            binaryWriter.Write(SecondMoment[i].Real);
-                            binaryWriter.Write(SecondMoment[i].Imaginary);
-                        }
-                    },
-                    ReadData = binaryReader => {
-                        if (!TallySecondMoment || SecondMoment == null) return;
-                        SecondMoment = new Complex[ Fx.Count ];
-                        for (var i = 0; i < Fx.Count; i++) {
-                            var real = binaryReader.ReadDouble();
-                            var imag = binaryReader.ReadDouble();
-                            SecondMoment[i] = new Complex(real, imag);
-                        }
-                    },
-                },
+            Mean ??= new Complex[Fx.Count];
+            if (TallySecondMoment)
+            {
+                SecondMoment ??= new Complex[Fx.Count];
+            }
+            var allSerializers = new List<BinaryArraySerializer>
+            {
+                BinaryArraySerializerFactory.GetSerializer(
+                    Mean, "Mean", ""),
+                TallySecondMoment ? BinaryArraySerializerFactory.GetSerializer(
+                    SecondMoment, "SecondMoment", "_2") : null
             };
+            return allSerializers.Where(s => s is not null).ToArray();
         }
         /// <summary>
         /// Method to determine if photon is within detector NA       

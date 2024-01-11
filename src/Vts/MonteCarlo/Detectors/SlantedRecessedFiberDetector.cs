@@ -229,12 +229,15 @@ namespace Vts.MonteCarlo.Detectors
             Mean /= areaNorm * numPhotons;
             if (!TallySecondMoment) return;
             SecondMoment /= areaNorm * areaNorm * numPhotons;
-        }       
+        }
 
         /// <summary>
-        /// this is to allow saving of large arrays separately as a binary file
+        /// this scalar tally is saved to json
         /// </summary>
-        /// <returns>BinaryArraySerializer[]</returns>
-        public BinaryArraySerializer[] GetBinarySerializers() => null;        
+        /// <returns>empty array of BinaryArraySerializer</returns>
+        public BinaryArraySerializer[] GetBinarySerializers()
+        {
+            return Array.Empty<BinaryArraySerializer>();
+        }
     }
 }
