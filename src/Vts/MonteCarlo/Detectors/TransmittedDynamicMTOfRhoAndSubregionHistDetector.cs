@@ -1,12 +1,11 @@
 using System;
 using System.Collections.Generic;
-using System.Runtime.Serialization;
 using System.Linq;
+using System.Runtime.Serialization;
 using Vts.Common;
 using Vts.IO;
 using Vts.MonteCarlo.Extensions;
 using Vts.MonteCarlo.Helpers;
-using Vts.MonteCarlo.PhotonData;
 
 namespace Vts.MonteCarlo.Detectors
 {
@@ -350,226 +349,46 @@ namespace Vts.MonteCarlo.Detectors
                 }
             }
         }
+
         /// <summary>
         /// this is to allow saving of large arrays separately as a binary file
         /// </summary>
         /// <returns>BinaryArraySerializer[]</returns>
         public BinaryArraySerializer[] GetBinarySerializers()
         {
-            return new[] {
-                new BinaryArraySerializer {
-                    DataArray = Mean,
-                    Name = "Mean",
-                    FileTag = "",
-                    WriteData = binaryWriter => {
-                        for (var i = 0; i < Rho.Count - 1; i++) {
-                            for (var j = 0; j < MTBins.Count - 1; j++)
-                            {                                
-                                binaryWriter.Write(Mean[i, j]);
-                            }
-                        }
-                    },
-                    ReadData = binaryReader => {
-                        Mean = Mean ?? new double[ Rho.Count - 1, MTBins.Count - 1];
-                        for (var i = 0; i <  Rho.Count - 1; i++) {
-                            for (var j = 0; j < MTBins.Count - 1; j++)
-                            {
-                               Mean[i, j] = binaryReader.ReadDouble(); 
-                            }
-                        }
-                    }
-                },
-                new BinaryArraySerializer {
-                    DataArray = FractionalMT,
-                    Name = "FractionalMT",
-                    FileTag = "_FractionalMT",
-                    WriteData = binaryWriter =>
-                    {
-                        for (var i = 0; i < Rho.Count - 1; i++)
-                        {
-                            for (var k = 0; k < MTBins.Count - 1; k++)
-                            {
-                                for (var m = 0; m < FractionalMTBins.Count + 1; m++)
-                                {
-                                    binaryWriter.Write(FractionalMT[i, k, m]);
-                                }
-                            }
-                        }
-                    },
-                    ReadData = binaryReader => {
-                        FractionalMT = FractionalMT ?? new double[ Rho.Count - 1, MTBins.Count - 1, FractionalMTBins.Count + 1];
-                        for (var i = 0; i < Rho.Count - 1; i++)
-                        {
-                            for (var k = 0; k < MTBins.Count - 1; k++)
-                            {
-                                for (var m = 0; m < FractionalMTBins.Count + 1; m++)
-                                {
-                                    FractionalMT[i, k, m] = binaryReader.ReadDouble();
-                                }
-                            }
-                        }
-                    }
-                },
-                new BinaryArraySerializer
-                {
-                    DataArray = TotalMTOfZ,
-                    Name = "TotalMTOfZ",
-                    FileTag = "_TotalMTOfZ",
-                    WriteData = binaryWriter =>
-                    {
-                        for (var i = 0; i < Rho.Count - 1; i++)
-                        {
-                            for (var l = 0; l < Z.Count - 1; l++)
-                            {
-                                binaryWriter.Write(TotalMTOfZ[i, l]);
-                            }
-                        }
-                    },
-                    ReadData = binaryReader =>
-                    {
-                        TotalMTOfZ = TotalMTOfZ ??
-                                       new double[Rho.Count - 1, Z.Count - 1];
-                        for (var i = 0; i < Rho.Count - 1; i++)
-                        {
-                            for (var l = 0; l < Z.Count - 1; l++)
-                            {
-                                    TotalMTOfZ[i, l] = binaryReader.ReadDouble();
-                            }
-                        }
-                    }
-                },
-                new BinaryArraySerializer
-                {
-                    DataArray = DynamicMTOfZ,
-                    Name = "DynamicMTOfZ",
-                    FileTag = "_DynamicMTOfZ",
-                    WriteData = binaryWriter =>
-                    {
-                        for (var i = 0; i < Rho.Count - 1; i++)
-                        {
-                            for (var l = 0; l < Z.Count - 1; l++)
-                            {
-                                binaryWriter.Write(DynamicMTOfZ[i, l]);
-                            }
-                        }
-                    },
-                    ReadData = binaryReader =>
-                    {
-                        DynamicMTOfZ = DynamicMTOfZ ??
-                                       new double[Rho.Count - 1, Z.Count - 1];
-                        for (var i = 0; i < Rho.Count - 1; i++)
-                        {
-                            for (var l = 0; l < Z.Count - 1; l++)
-                            {
-                                DynamicMTOfZ[i, l] = binaryReader.ReadDouble();
-                            }
-                        }
-                    }
-                },
-                new BinaryArraySerializer
-                {
-                    DataArray = SubregionCollisions,
-                    Name = "SubregionCollisions",
-                    FileTag = "_SubregionCollisions",
-                    WriteData = binaryWriter =>
-                    {
-                        for (var i = 0; i < NumSubregions; i++)
-                        {
-                            for (var l = 0; l < 2; l++)
-                            {
-                                binaryWriter.Write(SubregionCollisions[i, l]);
-                            }
-                        }
-                    },
-                    ReadData = binaryReader =>
-                    {
-                        SubregionCollisions = SubregionCollisions ??
-                                       new double[NumSubregions, 2];
-                        for (var i = 0; i < NumSubregions; i++)
-                        {
-                            for (var l = 0; l < 2; l++)
-                            {
-                                SubregionCollisions[i, l] = binaryReader.ReadDouble();
-                            }
-                        }
-                    }
-                },
-                 // return a null serializer, if we're not serializing the second moment
-                !TallySecondMoment ? null :  
-                new BinaryArraySerializer {
-                    DataArray = TotalMTOfZSecondMoment,
-                    Name = "TotalMTOfZSecondMoment",
-                    FileTag = "_TotalMTOfZ_2",
-                    WriteData = binaryWriter => {
-                        if (!TallySecondMoment || TotalMTOfZSecondMoment == null) return;
-                        for (var i = 0; i < Rho.Count - 1; i++) {
-                            for (var j = 0; j < Z.Count - 1; j++)
-                            {
-                                binaryWriter.Write(TotalMTOfZSecondMoment[i, j]);
-                            }                            
-                        }
-                    },
-                    ReadData = binaryReader => {
-                        if (!TallySecondMoment || TotalMTOfZSecondMoment == null) return;
-                        TotalMTOfZSecondMoment = new double[ Rho.Count - 1, Z.Count - 1];
-                        for (var i = 0; i < Rho.Count - 1; i++) {
-                            for (var j = 0; j < Z.Count - 1; j++)
-                            {
-                                TotalMTOfZSecondMoment[i, j] = binaryReader.ReadDouble();
-                            }                       
-                        }
-                    },
-                },
-                new BinaryArraySerializer {
-                    DataArray = DynamicMTOfZSecondMoment,
-                    Name = "DynamicMTOfZSecondMoment",
-                    FileTag = "_DynamicMTOfZ_2",
-                    WriteData = binaryWriter => {
-                        if (!TallySecondMoment || DynamicMTOfZSecondMoment == null) return;
-                        for (var i = 0; i < Rho.Count - 1; i++) {
-                            for (var j = 0; j < Z.Count - 1; j++)
-                            {
-                                binaryWriter.Write(DynamicMTOfZSecondMoment[i, j]);
-                            }                            
-                        }
-                    },
-                    ReadData = binaryReader => {
-                        if (!TallySecondMoment || DynamicMTOfZSecondMoment == null) return;
-                        DynamicMTOfZSecondMoment = new double[ Rho.Count - 1, Z.Count - 1];
-                        for (var i = 0; i < Rho.Count - 1; i++) {
-                            for (var j = 0; j < Z.Count - 1; j++)
-                            {
-                                DynamicMTOfZSecondMoment[i, j] = binaryReader.ReadDouble();
-                            }                       
-			            }
-                    },
-                },
-                new BinaryArraySerializer {
-                    DataArray = SecondMoment,
-                    Name = "SecondMoment",
-                    FileTag = "_2",
-                    WriteData = binaryWriter => {
-                        if (!TallySecondMoment || SecondMoment == null) return;
-                        for (var i = 0; i < Rho.Count - 1; i++) {
-                            for (var j = 0; j < MTBins.Count - 1; j++)
-                            {
-                                binaryWriter.Write(SecondMoment[i, j]);
-                            }                            
-                        }
-                    },
-                    ReadData = binaryReader => {
-                        if (!TallySecondMoment || SecondMoment == null) return;
-                        SecondMoment = new double[ Rho.Count - 1, MTBins.Count - 1];
-                        for (var i = 0; i < Rho.Count - 1; i++) {
-                            for (var j = 0; j < MTBins.Count - 1; j++)
-                            {
-                                SecondMoment[i, j] = binaryReader.ReadDouble();
-                            }                       
-			            }
-                    },
-                },
+            Mean ??= new double[Rho.Count - 1, Z.Count - 1];
+            FractionalMT ??= new double[Rho.Count - 1, MTBins.Count - 1, FractionalMTBins.Count + 1];
+            TotalMTOfZ ??= new double[Rho.Count - 1, Z.Count - 1];
+            DynamicMTOfZ ??= new double[Rho.Count - 1, Z.Count - 1];
+            SubregionCollisions ??= new double[NumSubregions, 2];
+            if (TallySecondMoment)
+            {
+                SecondMoment ??= new double[Rho.Count - 1, Z.Count - 1];
+                TotalMTOfZSecondMoment ??= new double[Rho.Count - 1, Z.Count - 1];
+                DynamicMTOfZSecondMoment ??= new double[Rho.Count - 1, Z.Count - 1];
+            }
+            var allSerializers = new List<BinaryArraySerializer>
+            {
+                BinaryArraySerializerFactory.GetSerializer(
+                    Mean, "Mean", ""),
+                BinaryArraySerializerFactory.GetSerializer(
+                    FractionalMT, "FractionalMT", "_FractionalMT"),
+                BinaryArraySerializerFactory.GetSerializer(
+                    TotalMTOfZ, "TotalMTOfZ","_TotalMTOfZ"),
+                BinaryArraySerializerFactory.GetSerializer(
+                    DynamicMTOfZ, "DynamicMTOfZ","_DynamicMTOfZ"),
+                BinaryArraySerializerFactory.GetSerializer(
+                    SubregionCollisions,"SubregionCollisions","_SubregionCollisions"),
+                TallySecondMoment ? BinaryArraySerializerFactory.GetSerializer(
+                    SecondMoment, "SecondMoment", "_2") : null,
+                TallySecondMoment ? BinaryArraySerializerFactory.GetSerializer(
+                    TotalMTOfZSecondMoment, "TotalMTOfZSecondMoment", "_TotalMTOfZ_2") : null,
+                TallySecondMoment ? BinaryArraySerializerFactory.GetSerializer(
+                    DynamicMTOfZSecondMoment, "DynamicMTOfZSecondMoment", "_DynamicMTOfZ_2") : null
             };
+            return allSerializers.Where(s => s is not null).ToArray();
         }
+
         /// <summary>
         /// Method to determine if photon is within detector NA
         /// </summary>

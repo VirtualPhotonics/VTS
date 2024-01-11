@@ -299,43 +299,17 @@ namespace Vts.Test.MonteCarlo.Factories
             // this is to allow saving of large arrays separately as a binary file
             public BinaryArraySerializer[] GetBinarySerializers()
             {
-                return new[] {
-                new BinaryArraySerializer {
-                    DataArray = Mean,
-                    Name = "Mean",
-                    FileTag = "",
-                    WriteData = binaryWriter => {
-                        for (var i = 0; i < X.Count - 1; i++) {
-                            binaryWriter.Write(Mean[i]);
-                        }
-                    },
-                    ReadData = binaryReader => {
-                        Mean ??= new double[ X.Count - 1];
-                        for (var i = 0; i <  X.Count - 1; i++) {
-                            Mean[i] = binaryReader.ReadDouble();
-                        }
-                    }
-                },
-                // return a null serializer, if we're not serializing the second moment
-                !TallySecondMoment ? null :  new BinaryArraySerializer {
-                    DataArray = SecondMoment,
-                    Name = "SecondMoment",
-                    FileTag = "_2",
-                    WriteData = binaryWriter => {
-                        if (!TallySecondMoment || SecondMoment == null) return;
-                        for (var i = 0; i < X.Count - 1; i++) {
-                            binaryWriter.Write(SecondMoment[i]);
-                        }
-                    },
-                    ReadData = binaryReader => {
-                        if (!TallySecondMoment || SecondMoment == null) return;
-                        SecondMoment = new double[ X.Count - 1];
-                        for (var i = 0; i < X.Count - 1; i++) {
-                            SecondMoment[i] = binaryReader.ReadDouble();
-                        }
-                    },
-                },
-            };
+                Mean ??= new double[X.Count - 1];
+                SecondMoment ??= new double[X.Count - 1];
+                var allSerializers = new List<BinaryArraySerializer>
+                {
+                    BinaryArraySerializerFactory.GetSerializer(
+                        Mean, "Mean", ""),
+                    TallySecondMoment ? BinaryArraySerializerFactory.GetSerializer(
+                        SecondMoment, "SecondMoment", "_2") : null,
+                };
+                return allSerializers.Where(s => s is not null).ToArray();
+
             }
 
             /// <summary>

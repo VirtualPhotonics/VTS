@@ -4,8 +4,8 @@ using System.Linq;
 using System.Runtime.Serialization;
 using Vts.Common;
 using Vts.IO;
-using Vts.MonteCarlo.PhotonData;
 using Vts.MonteCarlo.Helpers;
+using Vts.MonteCarlo.PhotonData;
 
 namespace Vts.MonteCarlo.Detectors
 {
@@ -272,99 +272,22 @@ namespace Vts.MonteCarlo.Detectors
         /// <returns>BinaryArraySerializer[]</returns>
         public BinaryArraySerializer[] GetBinarySerializers()
         {
-            return new[] {
-                new BinaryArraySerializer {
-                    DataArray = Mean,
-                    Name = "Mean",
-                    FileTag = "",
-                    WriteData = binaryWriter => {
-                        for (var g = 0; g < StartingX.Count - 1; g++) {
-                            for (var h = 0; h < StartingY.Count - 1; h++) {
-                                for (var i = 0; i < X.Count - 1; i++) {
-                                    for (var j = 0; j < Y.Count - 1; j++) {
-                                        for (var k = 0; k < Z.Count - 1; k++) {
-                                            binaryWriter.Write(Mean[g, h, i, j, k]);
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    ReadData = binaryReader => {
-                        Mean = Mean ?? new double[StartingX.Count - 1, StartingY.Count -1, X.Count - 1, Y.Count - 1, Z.Count -1];
-                        for (var g = 0; g < StartingX.Count - 1; g++) {
-                            for (var h = 0; h < StartingY.Count - 1; h++) {
-                                for (var i = 0; i <  X.Count - 1; i++) {
-                                    for (var j = 0; j < Y.Count - 1; j++) {
-                                        for (var k = 0; k < Z.Count - 1; k++) {
-                                            Mean[g, h, i, j, k] = binaryReader.ReadDouble();
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
-                // return a null serializer, if we're not serializing the second moment
-                !TallySecondMoment ? null :  new BinaryArraySerializer {
-                    DataArray = SecondMoment,
-                    Name = "SecondMoment",
-                    FileTag = "_2",
-                    WriteData = binaryWriter => {
-                        if (!TallySecondMoment || SecondMoment == null) return;
-                        for (var g = 0; g < StartingX.Count - 1; g++) {
-                            for (var h = 0; h < StartingY.Count - 1; h++) {
-                                for (var i = 0; i < X.Count - 1; i++) {
-                                    for (var j = 0; j < Y.Count - 1; j++) {
-                                        for (var k = 0; k < Z.Count - 1; k++)
-                                        {
-                                            binaryWriter.Write(SecondMoment[g, h, i, j, k]);
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    ReadData = binaryReader => {
-                        if (!TallySecondMoment || SecondMoment == null) return;
-                        SecondMoment = new double[StartingX.Count - 1, StartingY.Count - 1, X.Count - 1, Y.Count - 1, Z.Count - 1];
-                        for (var g = 0; g < StartingX.Count - 1; g++) {
-                            for (var h = 0; h < StartingY.Count - 1; h++) {
-                                for (var i = 0; i < X.Count - 1; i++) {
-                                    for (var j = 0; j < Y.Count - 1; j++) {
-                                        for (var k = 0; k < Z.Count - 1; k++)
-                                        {
-                                            SecondMoment[g, h, i, j, k] = binaryReader.ReadDouble();
-                                        }
-                                    }
-                                }
-                            }
-			            }
-                    },
-                },
-                new BinaryArraySerializer {
-                    DataArray = StartingXYCount,
-                    Name = "StartingXYCount",
-                    FileTag = "_StartingXYCount",
-                    WriteData = binaryWriter => {
-                        for (var i = 0; i < StartingX.Count - 1; i++) {
-                            for (var j = 0; j < StartingY.Count - 1; j++)
-                            {
-                                binaryWriter.Write(StartingXYCount[i, j]);
-                            }
-                        }
-                    },
-                    ReadData = binaryReader => {
-                        StartingXYCount = StartingXYCount ?? new double[ StartingX.Count - 1, StartingY.Count - 1];
-                        for (var i = 0; i <  StartingX.Count - 1; i++) {
-                            for (var j = 0; j < StartingY.Count - 1; j++)
-                            {
-                               StartingXYCount[i, j] = binaryReader.ReadDouble();
-                            }
-                        }
-                    }
-                }
+            Mean ??= new double[X.Count - 1, Y.Count - 1, Z.Count - 1, StartingX.Count - 1, StartingY.Count - 1];
+            StartingXYCount ??= new double[StartingX.Count - 1, StartingY.Count - 1];
+            if (TallySecondMoment)
+            {
+                SecondMoment ??= new double[X.Count - 1, Y.Count - 1, Z.Count - 1, StartingX.Count - 1, StartingY.Count - 1];
+            }
+            var allSerializers = new List<BinaryArraySerializer>
+            {
+                BinaryArraySerializerFactory.GetSerializer(
+                    Mean, "Mean", ""),                
+                BinaryArraySerializerFactory.GetSerializer(
+                    StartingXYCount, "StartingXYCount", "_StartingXYCount"),
+                TallySecondMoment ? BinaryArraySerializerFactory.GetSerializer(
+                    SecondMoment, "SecondMoment", "_2") : null
             };
+            return allSerializers.Where(s => s is not null).ToArray();
         }
 
         /// <summary>
