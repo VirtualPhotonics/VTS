@@ -118,16 +118,16 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ForwardAnalysisType_dRdIV" xml:space="preserve">
-    <value>∂R/∂IV</value>
+    <value>∂/∂IV</value>
   </data>
   <data name="ForwardAnalysisType_dRdMua" xml:space="preserve">
-    <value>∂R/∂μa</value>
+    <value>∂/∂μa</value>
   </data>
   <data name="ForwardAnalysisType_dRdMusp" xml:space="preserve">
-    <value>∂R/∂μs'</value>
+    <value>∂/∂μs'</value>
   </data>
   <data name="ForwardAnalysisType_dRdN" xml:space="preserve">
-    <value>∂R/∂n</value>
+    <value>∂/∂n</value>
   </data>
   <data name="ForwardAnalysisType_R" xml:space="preserve">
     <value>R</value>
@@ -229,7 +229,7 @@
     <value>Unitless</value>
   </data>
   <data name="ForwardAnalysisType_dRdG" xml:space="preserve">
-    <value>∂R/∂g</value>
+    <value>∂/∂g</value>
   </data>
   <data name="InverseFitType_MuaMuspG" xml:space="preserve">
     <value>μa, μs' and g</value>
