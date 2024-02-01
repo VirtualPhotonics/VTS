@@ -12,14 +12,14 @@ namespace Vts.Test.MonteCarlo.Tissues
     [TestFixture]
     public class MultiConcentricInfiniteCylinderTissueTests
     {
-        private MultiConcentricInfiniteCylinderTissue _tissue;
+        private MultiConcentricInclusionTissue _tissue;
         /// <summary>
         /// Validate general constructor of Tissue
         /// </summary>
         [OneTimeSetUp]
         public void Create_instance_of_class()
         {
-            _tissue = new MultiConcentricInfiniteCylinderTissue(
+            _tissue = new MultiConcentricInclusionTissue(
          new ITissueRegion[]
                 {
                     new InfiniteCylinderTissueRegion(
