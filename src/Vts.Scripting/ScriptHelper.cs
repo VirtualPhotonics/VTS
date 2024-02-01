@@ -9,32 +9,10 @@ public static class ScriptHelper
     /// </summary>
     /// <param name="endpointRange">The range of endpoints</param>
     /// <returns>The corresponding midpoint outputs</returns>
-    public static double[] GetMidpoints(this DoubleRange endpointRange)
+    public static double[] GetMidpoints(this DoubleRange endpoints)
     {
-        var endpoints = endpointRange.ToArray();
-        if (endpoints.Length < 2)
-        {
-            return Array.Empty<double>();
-        }
-
-        var midpoints = new double[endpoints.Length - 1];
-        for (int i = 0; i < midpoints.Length; i++)
-        {
-            midpoints[i] = (endpoints[i + 1] + endpoints[i]) / 2;
-        }
-        return midpoints;
+         return endpoints.AsEnumerable().ToArray().GetMidpoints();
     }
-
-    /// <summary>
-    /// Helper extension method that returns every nth element of the enumerable, starting at the specified skip index
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="values">the values being filtered</param>
-    /// <param name="n">number of values to jump forward at a time</param>
-    /// <param name="skip">number of values to initially skip</param>
-    /// <returns></returns>
-    public static IEnumerable<T> TakeEveryNth<T>(this IEnumerable<T> values, int n, int skip = 0) =>
-            values.Where((_, i) => (i - skip) % n == 0);
 
     /// <summary>
     /// Method to create a standard scatter chart from the specified x and y values using Plotly.NET

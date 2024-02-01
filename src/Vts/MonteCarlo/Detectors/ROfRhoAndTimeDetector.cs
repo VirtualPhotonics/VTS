@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.Serialization;
 using Vts.Common;
 using Vts.IO;
@@ -34,14 +36,17 @@ namespace Vts.MonteCarlo.Detectors
         /// rho binning
         /// </summary>
         public DoubleRange Rho { get; set; }
+
         /// <summary>
         /// Time binning
         /// </summary>
         public DoubleRange Time { get; set; }
+
         /// <summary>
         /// Detector region index
         /// </summary>
         public int FinalTissueRegionIndex { get; set; }
+
         /// <summary>
         /// numerical aperture
         /// </summary>
@@ -69,6 +74,7 @@ namespace Vts.MonteCarlo.Detectors
             };
         }
     }
+
     /// <summary>
     /// Implements IDetector.  Tally for reflectance as a function  of Rho and Time.
     /// This implementation works for Analog, DAW and CAW processing.
@@ -83,14 +89,17 @@ namespace Vts.MonteCarlo.Detectors
         /// rho binning
         /// </summary>
         public DoubleRange Rho { get; set; }
+
         /// <summary>
         /// Time binning
         /// </summary>
         public DoubleRange Time { get; set; }
+
         /// <summary>
         /// Detector region index
         /// </summary>
         public int FinalTissueRegionIndex { get; set; }
+
         /// <summary>
         /// numerical aperture
         /// </summary>
@@ -103,6 +112,7 @@ namespace Vts.MonteCarlo.Detectors
         /// </summary>
         [IgnoreDataMember]
         public double[,] Mean { get; set; }
+
         /// <summary>
         /// detector second moment
         /// </summary>
@@ -128,7 +138,7 @@ namespace Vts.MonteCarlo.Detectors
             // if the data arrays are null, create them (only create second moment if TallySecondMoment is true)
             Mean = Mean ?? new double[Rho.Count - 1, Time.Count - 1];
             SecondMoment = SecondMoment ?? (TallySecondMoment ? new double[Rho.Count - 1, Time.Count - 1] : null);
-                        
+
             // initialize any other necessary class fields here
             _tissue = tissue;
         }
@@ -140,15 +150,17 @@ namespace Vts.MonteCarlo.Detectors
         public void Tally(Photon photon)
         {
             if (!IsWithinDetectorAperture(photon)) return;
-            
-            var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(photon.DP.Position.X, photon.DP.Position.Y), Rho.Count - 1, Rho.Delta, Rho.Start);
+
+            var ir = DetectorBinning.WhichBin(DetectorBinning.GetRho(photon.DP.Position.X, photon.DP.Position.Y),
+                Rho.Count - 1, Rho.Delta, Rho.Start);
             var it = DetectorBinning.WhichBin(photon.DP.TotalTime, Time.Count - 1, Time.Delta, Time.Start);
-            
+
             Mean[ir, it] += photon.DP.Weight;
             TallyCount++;
             if (!TallySecondMoment) return;
             SecondMoment[ir, it] += photon.DP.Weight * photon.DP.Weight;
         }
+
         /// <summary>
         /// method to normalize detector results after all photons launched
         /// </summary>
@@ -161,68 +173,34 @@ namespace Vts.MonteCarlo.Detectors
                 var areaNorm = (Rho.Start + (ir + 0.5) * Rho.Delta) * normalizationFactor;
                 for (var it = 0; it < Time.Count - 1; it++)
                 {
-                      Mean[ir, it] /= areaNorm * numPhotons;
-                      if (!TallySecondMoment) continue;
-                      SecondMoment[ir, it] /= areaNorm * areaNorm * numPhotons;
+                    Mean[ir, it] /= areaNorm * numPhotons;
+                    if (!TallySecondMoment) continue;
+                    SecondMoment[ir, it] /= areaNorm * areaNorm * numPhotons;
                 }
             }
         }
+
         /// <summary>
         /// this is to allow saving of large arrays separately as a binary file
         /// </summary>
         /// <returns>BinaryArraySerializer[]</returns>
         public BinaryArraySerializer[] GetBinarySerializers()
         {
-            return new []
+            Mean ??= new double[Rho.Count - 1, Time.Count - 1];
+            if (TallySecondMoment)
             {
-                new BinaryArraySerializer {
-                    DataArray = Mean,
-                    Name = "Mean",
-                    FileTag = "",
-                    WriteData = binaryWriter => {
-                        for (var i = 0; i < Rho.Count - 1; i++) {
-                            for (var j = 0; j < Time.Count - 1; j++)
-                            {                                
-                                binaryWriter.Write(Mean[i, j]);
-                            }
-                        }
-                    },
-                    ReadData = binaryReader => {
-                        Mean = Mean ?? new double[ Rho.Count - 1, Time.Count - 1];
-                        for (var i = 0; i <  Rho.Count - 1; i++) {
-                            for (var j = 0; j < Time.Count - 1; j++)
-                            {
-                               Mean[i, j] = binaryReader.ReadDouble(); 
-                            }
-                        }
-                    }
-                },
-                // return a null serializer, if we're not serializing the second moment
-                !TallySecondMoment ? null :  new BinaryArraySerializer {
-                    DataArray = SecondMoment,
-                    Name = "SecondMoment",
-                    FileTag = "_2",
-                    WriteData = binaryWriter => {
-                        if (!TallySecondMoment || SecondMoment == null) return;
-                        for (var i = 0; i < Rho.Count - 1; i++) {
-                            for (var j = 0; j < Time.Count - 1; j++)
-                            {
-                                binaryWriter.Write(SecondMoment[i, j]);
-                            }                            
-                        }
-                    },
-                    ReadData = binaryReader => {
-                        if (!TallySecondMoment || SecondMoment == null) return;
-                        SecondMoment = new double[ Rho.Count - 1, Time.Count - 1];
-                        for (var i = 0; i < Rho.Count - 1; i++) {
-                            for (var j = 0; j < Time.Count - 1; j++)
-                            {
-                                SecondMoment[i, j] = binaryReader.ReadDouble();
-                            }                       
-			            }
-                    },
-                }
+                SecondMoment ??= new double[Rho.Count - 1, Time.Count - 1];
+            }
+            var allSerializers = new List<BinaryArraySerializer>
+            {
+                BinaryArraySerializerFactory.GetSerializer(
+                    Mean, "Mean", ""),
+                TallySecondMoment
+                    ? BinaryArraySerializerFactory.GetSerializer(
+                        SecondMoment, "SecondMoment", "_2")
+                    : null
             };
+            return allSerializers.Where(s => s is not null).ToArray();
         }
 
         /// <summary>
