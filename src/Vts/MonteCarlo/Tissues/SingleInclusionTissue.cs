@@ -10,11 +10,12 @@ namespace Vts.MonteCarlo.Tissues
     /// <summary>
     /// Implements ITissue.  Defines a tissue geometry comprised of an inclusion embedded within a layered slab.
     /// Note that many of the methods in this class are invoked by Photon class and Photon masterminds their returns.
-    /// For example, when the photon is on the boundary of the domain or the inclusion, Photon determines whether
+    /// For example, when the photon is on the boundary of the layers or the inclusion, Photon determines whether
     /// in the critical angle and if so whether to reflect or refract, then invokes the methods below accordingly.
     /// </summary>
     public class SingleInclusionTissue : MultiLayerTissue, ITissue
     {
+        private readonly IList<LayerTissueRegion> _layerRegions;
         private readonly ITissueRegion _inclusionRegion;
         private readonly int _inclusionRegionIndex;
         private readonly int _layerRegionIndexOfInclusion;
@@ -32,6 +33,7 @@ namespace Vts.MonteCarlo.Tissues
             // overwrite the Regions property in the TissueBase class (will be called last in the most derived class)
             Regions = layerRegions.Concat(inclusionRegion).ToArray();
 
+            _layerRegions = layerRegions.Select(r => (LayerTissueRegion)r).ToList();
             _inclusionRegion = inclusionRegion;
             _inclusionRegionIndex = layerRegions.Count; // index is, by convention, after the layer region indices
             _layerRegionIndexOfInclusion = Enumerable.Range(0, layerRegions.Count)
@@ -46,7 +48,7 @@ namespace Vts.MonteCarlo.Tissues
                 new EllipsoidTissueRegion(),
                 new MultiLayerTissueInput().Regions) { }
         /// <summary>
-        /// method to get tissue region index of photon's current position
+        /// Method to get tissue region index of photon's current position
         /// </summary>
         /// <param name="position">photon Position</param>
         /// <returns>integer tissue region index</returns>
@@ -81,7 +83,7 @@ namespace Vts.MonteCarlo.Tissues
                 base.GetNeighborRegionIndex(photon);
         }
         /// <summary>
-        /// method to get distance from current photon position and direction to boundary of region
+        /// Method to get distance from current photon position and direction to boundary of region
         /// </summary>
         /// <param name="photon">Photon</param>
         /// <returns>distance to boundary</returns>
@@ -111,7 +113,7 @@ namespace Vts.MonteCarlo.Tissues
                 base.GetDistanceToBoundary(photon);
         }
         /// <summary>
-        /// method that provides reflected direction when photon reflects off boundary
+        /// Method that provides reflected direction when photon reflects off boundary
         /// </summary>
         /// <param name="currentPosition">Position</param>
         /// <param name="currentDirection">Direction</param>
@@ -121,6 +123,8 @@ namespace Vts.MonteCarlo.Tissues
             Direction currentDirection)
         {
             // needs to call MultiLayerTissue when crossing top and bottom layer
+            // note that inner layer reflections handled by Photon.CrossRegionOrReflect by calling
+            // _tissue.GetRefractedDirection
             if (base.OnDomainBoundary(currentPosition)) // OnDomainBoundary checks if on tissue boundary
             {
                 return base.GetReflectedDirection(currentPosition, currentDirection);
