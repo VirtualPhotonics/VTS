@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.CompilerServices;
 using Vts.Common;
 
 namespace Vts.MonteCarlo.Tissues
@@ -58,17 +59,16 @@ namespace Vts.MonteCarlo.Tissues
             // return (Math.Sqrt((position.X - Center.X) * (position.X - Center.X) +
             //                  (position.Z - Center.Z) * (position.Z - Center.Z)) < Radius)
             // wrote following to match EllipsoidTissueRegion because it seems to work better than above
-            var inside = Math.Sqrt((position.X - Center.X) * (position.X - Center.X) +
-                                   (position.Z - Center.Z) * (position.Z - Center.Z));
+            var deltaR = Math.Sqrt((position.X - Center.X) * (position.X - Center.X) +
+                                   (position.Z - Center.Z) * (position.Z - Center.Z)) - Radius;
 
             // the epsilon subtracted and added needs to match MultiConcentricInfiniteCylinder
-            // GetDistanceToBoundary or code goes through cycles at cylinder boundary
-            if (inside < Radius - 1e-9) return true;
-            if (inside > Radius + 1e-9) return false;
-            // on boundary means cylinder contains position
+            // GetDistanceToBoundary or code goes through cycles at cylinder boundary            
+            if (deltaR < 1e-9) return true;
+            if (deltaR > 1e-9) return false;
             _onBoundary = true;
             return true;  // ckh 2/28/19 this has to return true or unit tests fail
-            
+
         }
         /// <summary>
         /// Method to determine if photon on boundary of infinite cylinder.
@@ -87,12 +87,10 @@ namespace Vts.MonteCarlo.Tissues
         /// <returns>Direction normal to surface at position</returns>
         public Direction SurfaceNormal(Position position)
         {
-            var norm = Math.Sqrt(4 * (position.X - Center.X) * (position.X - Center.X) +
-                                 4 * (position.Z - Center.Z) * (position.Z - Center.Z));
-            return new Direction(
-                2 * (position.X - Center.X) / norm,
-                0,
-                2 * (position.Z - Center.Z) / norm);
+            var dx = position.X - Center.X;
+            var dz = position.Z - Center.Z;
+            var norm = Math.Sqrt(dx * dx + dz * dz);
+            return new Direction(dx / norm, 0, dz / norm);
         }
         /// <summary>
         /// Method to determine if photon ray (or track) will intersect boundary of cylinder
@@ -117,8 +115,8 @@ namespace Vts.MonteCarlo.Tissues
             var d1 = dp.Direction;
 
             // determine location of end of ray
-            var p2 = new Position(p1.X + d1.Ux * photon.S, 
-                                  p1.Y + d1.Uy * photon.S, 
+            var p2 = new Position(p1.X + d1.Ux * photon.S,
+                                  p1.Y + d1.Uy * photon.S,
                                   p1.Z + d1.Uz * photon.S);
 
             var oneIn = this.ContainsPosition(p1);
@@ -134,6 +132,6 @@ namespace Vts.MonteCarlo.Tissues
             return (CylinderTissueRegionToolbox.RayIntersectInfiniteCylinder(p1, p2, oneIn,
                 CylinderTissueRegionAxisType.Y, Center, Radius,
                 out distanceToBoundary));
-        }  
+        }
     }
 }

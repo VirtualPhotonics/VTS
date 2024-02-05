@@ -84,9 +84,6 @@ namespace Vts.MonteCarlo.Tissues
                     root = root2;
                 }
 
-                double xto;
-                double yto;
-                double zto;
                 switch (numberOfIntersections)
                 {
                     case 0: /* roots real but no intersection */
@@ -97,14 +94,8 @@ namespace Vts.MonteCarlo.Tissues
                             return false;
                         }
                         /*entering or exiting cylinder. It's the same*/
-                        xto = p1.X + root * dx;
-                        yto = p1.Y + root * dy;
-                        zto = p1.Z + root * dz;
-
                         /*distance to the boundary*/
-                        distanceToBoundary = Math.Sqrt((xto - p1.X) * (xto - p1.X) +
-                                                       (yto - p1.Y) * (yto - p1.Y) +
-                                                       (zto - p1.Z) * (zto - p1.Z));
+                        distanceToBoundary = root * Math.Sqrt(dx * dx + dy * dy + dz * dz);
 
                         //// ckh fix 8/25/11: check if on boundary of cylinder
                         return distanceToBoundary >= 1e-11;
@@ -119,14 +110,9 @@ namespace Vts.MonteCarlo.Tissues
                         {
                             root = root1 < root2 ? root1 : root2;
                         }
-                        xto = p1.X + root * dx;
-                        yto = p1.Y + root * dy;
-                        zto = p1.Z + root * dz;
 
                         /*distance to the nearest boundary*/
-                        distanceToBoundary = Math.Sqrt((xto - p1.X) * (xto - p1.X) +
-                                                       (yto - p1.Y) * (yto - p1.Y) +
-                                                       (zto - p1.Z) * (zto - p1.Z));
+                        distanceToBoundary = root * Math.Sqrt(dx * dx + dy * dy + dz * dz);
 
                         return true;
 
