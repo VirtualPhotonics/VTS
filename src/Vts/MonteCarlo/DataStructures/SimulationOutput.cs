@@ -976,6 +976,27 @@ namespace Vts.MonteCarlo
         /// </summary>
         public long pMC_R_xyts_TallyCount { get { return (long)((dynamic)ResultsDictionary[_detectorResults.First(d => d.TallyType == "pMCROfXAndYAndTimeAndSubregion").Name]).TallyCount; } }
         /// <summary>
+        /// perturbation MC Reflectance as a function of rho, time and tissue subregion
+        /// </summary>
+        public double[,,] pMC_R_rts { get { return (double[,,])((dynamic)ResultsDictionary[_detectorResults.First(d => d.TallyType == "pMCROfRhoAndTimeAndSubregion").Name]).Mean; } }
+        /// <summary>
+        /// perturbation MC Reflectance as a function of rho and time and subregion ROfXAndY
+        /// </summary>
+        public double[] pMC_R_rts_r { get { return (double[])((dynamic)ResultsDictionary[_detectorResults.First(d => d.TallyType == "pMCROfRhoAndTimeAndSubregion").Name]).ROfRho; } }
+        /// <summary>
+        /// perturbation MC Reflectance as a function of rho and time and subregion ROfXAndY 2nd moment
+        /// </summary>
+        public double[,] pMC_R_rts_r2 { get { return (double[,])((dynamic)ResultsDictionary[_detectorResults.First(d => d.TallyType == "pMCROfRhoAndTimeAndSubregion").Name]).ROfRhoSecondMoment; } }
+
+        /// <summary>
+        /// perturbation MC Reflectance as a function of rho, time and tissue subregion 2nd moment
+        /// </summary>
+        public double[,,] pMC_R_rts2 { get { return (double[,,])((dynamic)ResultsDictionary[_detectorResults.First(d => d.TallyType == "pMCROfRhoAndTimeAndSubregion").Name]).SecondMoment; } }
+        /// <summary>
+        /// perturbation MC Reflectance as a function of rho, time and tissue subregion Tally Count
+        /// </summary>
+        public long pMC_R_rts_TallyCount { get { return (long)((dynamic)ResultsDictionary[_detectorResults.First(d => d.TallyType == "pMCROfRhoAndTimeAndSubregion").Name]).TallyCount; } }
+        /// <summary>
         /// perturbation MC Reflectance as a function of x, y, time and tissue subregion recessed in air
         /// </summary>
         public double[,,,] pMC_R_xytsr { get { return (double[,,,])((dynamic)ResultsDictionary[_detectorResults.First(d => d.TallyType == "pMCROfXAndYAndTimeAndSubregionRecessed").Name]).Mean; } }
@@ -1010,7 +1031,7 @@ namespace Vts.MonteCarlo
         public long pMC_T_r_TallyCount { get { return (long)((dynamic)ResultsDictionary[_detectorResults.Where(d => d.TallyType == "pMCTOfRho").First().Name]).TallyCount; } }
         /// <summary>
         /// differential MC Reflectance as a function of rho wrt to mua
-        /// </summary>
+        /// </summary> 
         public double[] dMCdMua_R_r { get { return (double[])((dynamic)ResultsDictionary[_detectorResults.First(d => d.TallyType == "dMCdROfRhodMua").Name]).Mean; } }
         /// <summary>
         /// differential MC Reflectance as a function of rho wrt to mua 2nd moment
@@ -1032,6 +1053,30 @@ namespace Vts.MonteCarlo
         /// differential MC Reflectance as a function of rho wrt to mus Tally Count
         /// </summary>
         public long dMCdMus_R_r_TallyCount { get { return (long)((dynamic)ResultsDictionary[_detectorResults.First(d => d.TallyType == "dMCdROfRhodMus").Name]).TallyCount; } }
+        /// <summary>
+        /// differential MC Reflectance as a function of rho wrt to mua 
+        /// </summary>
+        public double[,] dMCdMua_R_rt { get { return (double[,])((dynamic)ResultsDictionary[_detectorResults.First(d => d.TallyType == "dMCdROfRhoAndTimedMua").Name]).Mean; } }
+        /// <summary>
+        /// differential MC Reflectance as a function of rho wrt to mua 2nd moment
+        /// </summary>
+        public double[,] dMCdMua_R_rt2 { get { return (double[,])((dynamic)ResultsDictionary[_detectorResults.First(d => d.TallyType == "dMCdROfRhoAndTimedMua").Name]).SecondMoment; } }
+        /// <summary>
+        /// differential MC Reflectance as a function of rho wrt to mua Tally Count
+        /// </summary>
+        public long dMCdMua_R_rt_TallyCount { get { return (long)((dynamic)ResultsDictionary[_detectorResults.First(d => d.TallyType == "dMCdROfRhoAndTimedMua").Name]).TallyCount; } }
+        /// <summary>
+        /// differential MC Reflectance as a function of rho wrt to mus
+        /// </summary>
+        public double[,] dMCdMus_R_rt { get { return (double[,])((dynamic)ResultsDictionary[_detectorResults.First(d => d.TallyType == "dMCdROfRhoAndTimedMus").Name]).Mean; } }
+        /// <summary>
+        /// differential MC Reflectance as a function of rho wrt to mus 2nd moment
+        /// </summary>
+        public double[,] dMCdMus_R_rt2 { get { return (double[,])((dynamic)ResultsDictionary[_detectorResults.First(d => d.TallyType == "dMCdROfRhoAndTimedMus").Name]).SecondMoment; } }
+        /// <summary>
+        /// differential MC Reflectance as a function of rho wrt to mus Tally Count
+        /// </summary>
+        public long dMCdMus_R_rt_TallyCount { get { return (long)((dynamic)ResultsDictionary[_detectorResults.First(d => d.TallyType == "dMCdROfRhoAndTimedMus").Name]).TallyCount; } }
         /// <summary>
         /// perturbation MC Reflectance as a function of fx
         /// </summary>

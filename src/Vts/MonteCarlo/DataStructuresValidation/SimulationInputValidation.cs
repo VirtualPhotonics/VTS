@@ -316,6 +316,14 @@ namespace Vts.MonteCarlo
                 {
                     return dMCdROfRhodMusDetectorInputValidation.ValidateInput(detectorInput);
                 }
+                if (detectorInput.TallyType.Contains("dMCdROfRhoAndTimedMua"))
+                {
+                    return dMCdROfRhoAndTimedMuaDetectorInputValidation.ValidateInput(detectorInput);
+                }
+                if (detectorInput.TallyType.Contains("dMCdROfRhoAndTimedMus"))
+                {
+                    return dMCdROfRhoAndTimedMusDetectorInputValidation.ValidateInput(detectorInput);
+                }
                 // check that number in blood volume list matches number of tissue subregions
                 if (detectorInput.TallyType.Contains("ReflectedDynamicMTOfRhoAndSubregionHist"))
                 {
