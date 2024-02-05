@@ -33,9 +33,9 @@ namespace Vts.MonteCarlo.Tissues
             distanceToBoundary = double.PositiveInfinity;
             double root = 0;
             double a, b, c;
-            var dx = (p2.X - p1.X);
-            var dy = (p2.Y - p1.Y);
-            var dz = (p2.Z - p1.Z);
+            var dx = p2.X - p1.X;
+            var dy = p2.Y - p1.Y;
+            var dz = p2.Z - p1.Z;
             switch (axis)
             {
                 case CylinderTissueRegionAxisType.X:
@@ -52,8 +52,7 @@ namespace Vts.MonteCarlo.Tissues
                     c = (p1.X - center.X) * (p1.X - center.X) +
                         (p1.Y - center.Y) * (p1.Y - center.Y) - radius * radius;
                     break;
-                case CylinderTissueRegionAxisType.Y:
-                default:
+                default:  // default ia cylinder axis along Y axis
                     a = dx * dx + dz * dz;
                     b = 2 * (p1.X - center.X) * dx +
                         2 * (p1.Z - center.Z) * dz;

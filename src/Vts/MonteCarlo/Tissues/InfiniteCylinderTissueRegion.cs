@@ -1,5 +1,4 @@
 using System;
-using System.Runtime.CompilerServices;
 using Vts.Common;
 
 namespace Vts.MonteCarlo.Tissues
@@ -55,10 +54,7 @@ namespace Vts.MonteCarlo.Tissues
         /// <returns>Boolean</returns>
         public bool ContainsPosition(Position position)
         {
-            // an option to the following would be:
-            // return (Math.Sqrt((position.X - Center.X) * (position.X - Center.X) +
-            //                  (position.Z - Center.Z) * (position.Z - Center.Z)) < Radius)
-            // wrote following to match EllipsoidTissueRegion because it seems to work better than above
+            // wrote following to give "buffer" of error
             var deltaR = Math.Sqrt((position.X - Center.X) * (position.X - Center.X) +
                                    (position.Z - Center.Z) * (position.Z - Center.Z)) - Radius;
 
@@ -70,6 +66,7 @@ namespace Vts.MonteCarlo.Tissues
             return true;  // ckh 2/28/19 this has to return true or unit tests fail
 
         }
+
         /// <summary>
         /// Method to determine if photon on boundary of infinite cylinder.
         /// Currently OnBoundary of an inclusion region isn't called by any code ckh 3/5/19.
@@ -80,6 +77,7 @@ namespace Vts.MonteCarlo.Tissues
         {
             return !ContainsPosition(position) && _onBoundary; // match with EllipsoidTissueRegion
         }
+
         /// <summary>
         /// method to determine normal to surface at given position. Note this returns outward facing normal.
         /// </summary>
@@ -92,6 +90,7 @@ namespace Vts.MonteCarlo.Tissues
             var norm = Math.Sqrt(dx * dx + dz * dz);
             return new Direction(dx / norm, 0, dz / norm);
         }
+
         /// <summary>
         /// Method to determine if photon ray (or track) will intersect boundary of cylinder
         /// equations to determine intersection are derived by parameterizing ray from p1 to p2
