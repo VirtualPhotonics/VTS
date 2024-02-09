@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.Serialization;
 using Vts.Common;
 
@@ -132,7 +133,7 @@ namespace Vts.MonteCarlo.Tissues
         /// <summary>
         /// Creates an instance of a MultiConcentricInclusionTissue
         /// </summary>
-        /// <param name="inclusionRegions">list of concentric inclusion regions</param>
+        /// <param name="inclusionRegions">list of concentric inclusion regions ordered largest to smallest</param>
         /// <param name="layerRegions">list of layer regions</param>
         /// <remarks>air above and below tissue needs to be specified for a slab geometry</remarks>
         public MultiConcentricInclusionTissue(
@@ -144,7 +145,7 @@ namespace Vts.MonteCarlo.Tissues
             Regions = layerRegions.Concat(inclusionRegions).ToArray();
 
             _layerRegions = layerRegions.Select(r => (LayerTissueRegion)r).ToList();
-            _inclusionRegions = inclusionRegions.Select(r => (ITissueRegion)r).ToList();
+            _inclusionRegions = inclusionRegions.Select(r => r).ToList();
             // also by convention larger radius inclusion is first
             _layerRegionIndexOfInclusion = Enumerable.Range(0, _layerRegions.Count)
                 .FirstOrDefault(i => _layerRegions[i]
@@ -179,7 +180,7 @@ namespace Vts.MonteCarlo.Tissues
             {
                 if (_layerRegions[i].ContainsPosition(position))
                 {
-                    index = i;
+                    index = i; // this gets set but could get overwritten below if also in inclusion
                 }
             }
             // use InclusionTissueRegion to determine if within one of inclusions
@@ -259,28 +260,48 @@ namespace Vts.MonteCarlo.Tissues
         /// <returns>region index</returns>
         public override int GetNeighborRegionIndex(Photon photon)
         {
-            // check if coming from innermost inclusion
-            if (photon.CurrentRegionIndex == _layerRegions.Count + 1)
-            {
-                return _layerRegions.Count; // inner inclusion is inside outer so always neighbor
-            }
-            // if coming from outermost inclusion => layer of inclusion or inner inclusion
-            if (photon.CurrentRegionIndex == _layerRegions.Count)
-            {
-                if (_inclusionRegions[1].ContainsPosition(photon.DP.Position)) // must be entering inner
-                {
-                    return _layerRegions.Count + 1;
-                }
-                return _layerRegionIndexOfInclusion;
-            }
-            // could be on layer boundary
-            if (photon.CurrentRegionIndex != _layerRegionIndexOfInclusion) return base.GetNeighborRegionIndex(photon);
+            // on some boundary at this point, possibilities include
+            // 1) in layer of inclusion entering inclusion
+            // 2) in outer inclusion entering layer of inclusion
+            // 3) in inner inclusion entering neighbor inclusion
+            // 4) on layer region boundary
+            // first, check what region the photon is in
+            var regionIndex = photon.CurrentRegionIndex;
 
-            // if not on layer boundary that contains inclusion, then return inclusion index
+            // if we're in the layer region of the outermost inclusion and not on boundary of layer
+            // then on boundary of outermost inclusion
+            if (regionIndex == _layerRegionIndexOfInclusion &&
+                !Regions[_layerRegionIndexOfInclusion].OnBoundary(photon.DP.Position))
+            {
+                return _layerRegions.Count;  // index of outer inclusion
+            }
+
+            // check if in outermost inclusion
+            if (regionIndex == _layerRegions.Count) // index of outer inclusion
+            {
+                var surfaceNormal = Regions[regionIndex].SurfaceNormal(photon.DP.Position);
+                if (Direction.GetDotProduct(photon.DP.Direction, surfaceNormal) > 0)
+                    return _layerRegionIndexOfInclusion;
+                else
+                    return regionIndex + 1;
+            }
+
+            // check if in innermost inclusion
+            if (regionIndex == Regions.Count - 1) return regionIndex - 1;
+
+            /// else if in an inner inclusion but not outermost or innermost
+            if (regionIndex > _layerRegions.Count - 1) // photon on one of inclusions
+            {
+                // dotproduct with surface normal will tell if outgoing or incoming
+                var surfaceNormal = Regions[regionIndex].SurfaceNormal(photon.DP.Position);
+                if (Direction.GetDotProduct(photon.DP.Direction, surfaceNormal) > 0)
+                    return regionIndex - 1;
+                else
+                    return regionIndex + 1;                   
+            }
+
             // otherwise return neighbor layer index
-            return !_layerRegions[_layerRegionIndexOfInclusion].OnBoundary(photon.DP.Position)
-                ? _layerRegions.Count
-                : base.GetNeighborRegionIndex(photon);
+            return  base.GetNeighborRegionIndex(photon);
         }
         /// <summary>
         /// Method to determine photon state type of photon exiting tissue boundary

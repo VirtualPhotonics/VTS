@@ -52,7 +52,8 @@ namespace Vts.MonteCarlo.Tissues
                     c = (p1.X - center.X) * (p1.X - center.X) +
                         (p1.Y - center.Y) * (p1.Y - center.Y) - radius * radius;
                     break;
-                default:  // default ia cylinder axis along Y axis
+                default:
+                case CylinderTissueRegionAxisType.Y:
                     a = dx * dx + dz * dz;
                     b = 2 * (p1.X - center.X) * dx +
                         2 * (p1.Z - center.Z) * dz;
