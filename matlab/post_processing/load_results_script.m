@@ -8,7 +8,7 @@ addpath(pwd);
 addpath([pwd slash 'jsonlab']);
 
 % names of individual MC simulations
-datanames = { 'no_curvature_1310_Flat_7Layer_10M' };
+datanames = { 'one_layer_all_detectors' };
 % datanames = { 'results_mua0.1musp1.0' 'results_mua0.1musp1.1' }; %...etc
 
 % outdir = 'C:\Projects\vts\src\Vts.MonteCarlo.CommandLineApplication\bin\Release';
