@@ -146,15 +146,8 @@ namespace Vts.Factories
             //    new[] { op.Mua, op.Musp, op.G, op.N }
             //double[] optimizationParameters = GetOptimizationParameters(forwardSolver, solutionDomainType, independentAxisTypes); // will need this for inverse solver
 
-            if (IsComplexSolver(solutionDomainType) && forwardAnalysisType != ForwardAnalysisType.R) // complex derivative
-            {
-                // create a list of inputs (besides optical properties) that corresponds to the behavior of the function above
-                // create Complex derivative function with re/im and dre/dim in it
-                return func(independentValues)
-                    .Concat(func.GetDerivativeFunc(forwardAnalysisType)(independentValues)).ToArray();
-            }
+            // create a list of inputs (besides optical properties) that corresponds to the behavior of the function above
 
-            // prior code
             return forwardAnalysisType == ForwardAnalysisType.R
                 ? func(independentValues)
                 : func.GetDerivativeFunc(forwardAnalysisType)(independentValues);
