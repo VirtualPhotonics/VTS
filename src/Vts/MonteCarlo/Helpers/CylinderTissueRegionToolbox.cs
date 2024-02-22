@@ -64,7 +64,7 @@ namespace Vts.MonteCarlo.Tissues
 
             var rootTerm = b * b - 4 * a * c;
 
-            if (!(rootTerm > 0)) return false; // roots are real 
+            if (rootTerm <= 0) return false; // roots are real 
             var rootTermSqrt = Math.Sqrt(rootTerm);
             var root1 = (-b - rootTermSqrt) / (2 * a);
             var root2 = (-b + rootTermSqrt) / (2 * a);

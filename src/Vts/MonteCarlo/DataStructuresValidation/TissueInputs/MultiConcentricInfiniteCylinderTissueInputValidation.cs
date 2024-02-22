@@ -63,7 +63,7 @@ namespace Vts.MonteCarlo
             if (!tempResult.IsValid) { return tempResult; }
 
             // check that infinite cylinders all have same Center
-            var theCenter = infiniteCylinders.First().Center;
+            var theCenter = infiniteCylinders[0].Center;
 
             foreach (var cylinder in infiniteCylinders.Skip(1))
             {

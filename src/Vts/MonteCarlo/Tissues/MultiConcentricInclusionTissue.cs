@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
+using System.Threading;
 using Vts.Common;
 
 namespace Vts.MonteCarlo.Tissues
@@ -249,7 +250,7 @@ namespace Vts.MonteCarlo.Tissues
             // this code assumes that the first and last layer is air
             return
                 position.Z < 1e-10 ||
-                Math.Abs(position.Z - _layerRegions.Last().ZRange.Start) < 1e-10;
+                Math.Abs(position.Z - _layerRegions[^1].ZRange.Start) < 1e-10;
         }
 
         /// <summary>
@@ -276,9 +277,10 @@ namespace Vts.MonteCarlo.Tissues
             }
 
             // check if in outermost inclusion
+            Direction surfaceNormal;
             if (regionIndex == _layerRegions.Count) // index of outer inclusion
             {
-                var surfaceNormal = Regions[regionIndex].SurfaceNormal(photon.DP.Position);
+                surfaceNormal = Regions[regionIndex].SurfaceNormal(photon.DP.Position);
                 if (Direction.GetDotProduct(photon.DP.Direction, surfaceNormal) > 0)
                     return _layerRegionIndexOfInclusion;
                 else
@@ -290,13 +292,11 @@ namespace Vts.MonteCarlo.Tissues
 
             // else if in an inner inclusion but not outermost or innermost
             if (regionIndex <= _layerRegions.Count - 1) return base.GetNeighborRegionIndex(photon); // photon on one of inclusions
-            {
-                // dot product with surface normal will tell if outgoing or incoming
-                var surfaceNormal = Regions[regionIndex].SurfaceNormal(photon.DP.Position);
-                if (Direction.GetDotProduct(photon.DP.Direction, surfaceNormal) > 0)
-                    return regionIndex - 1;
-                return regionIndex + 1;
-            }
+            // dot product with surface normal will tell if outgoing or incoming
+            surfaceNormal = Regions[regionIndex].SurfaceNormal(photon.DP.Position);
+            if (Direction.GetDotProduct(photon.DP.Direction, surfaceNormal) > 0)
+                return regionIndex - 1;
+            return regionIndex + 1;
 
             // otherwise return neighbor layer index
         }

@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using Vts.Common;
 using Vts.MonteCarlo.DataStructuresValidation;
+using Vts.MonteCarlo.Interfaces;
 using Vts.MonteCarlo.Sources;
 using Vts.MonteCarlo.Tissues;
 
@@ -221,20 +222,17 @@ namespace Vts.MonteCarlo
                         "Add ATotalBoundingVolumeDetectorInput to detector inputs");
             }
 
-            if (input.SourceInput is DirectionalPointSourceInput source)
+            if (input.SourceInput is DirectionalPointSourceInput source && 
+                source.Direction != new Direction(0,0,1) && 
+                input.DetectorInputs.Any(detectorInput => detectorInput.TallyDetails.IsCylindricalTally))
             {
-                if (source.Direction != new Direction(0,0,1))
-                {
-                    if (input.DetectorInputs.Any(detectorInput => detectorInput.TallyDetails.IsCylindricalTally))
-                    {
-                        return new ValidationResult(
-                            false,
-                            "If source is angled, cannot define cylindrically symmetric detectors",
-                            "Change detector to Cartesian equivalent or define source to be normal");
-                    }
-                }
+                return new ValidationResult(
+                    false,
+                    "If source is angled, cannot define cylindrically symmetric detectors",
+                    "Change detector to Cartesian equivalent or define source to be normal");
             }
-            if (input.DetectorInputs.Where(detectorInput => detectorInput.TallyDetails.IsTransmittanceTally && input.TissueInput is MultiLayerTissueInput).Any(detectorInput => ((dynamic)detectorInput).FinalTissueRegionIndex == 0))
+            if (input.DetectorInputs.Where(detectorInput => detectorInput.TallyDetails.IsTransmittanceTally && 
+                input.TissueInput is MultiLayerTissueInput).Any(detectorInput => ((dynamic)detectorInput).FinalTissueRegionIndex == 0))
             {
                 return new ValidationResult(
                     false,
@@ -278,7 +276,7 @@ namespace Vts.MonteCarlo
                 case AbsorptionWeightingType.Continuous:
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException();
+                    throw new ArgumentOutOfRangeException(typeof(AbsorptionWeightingType).ToString());
             }
 
             foreach (var detectorInput in input.DetectorInputs)
