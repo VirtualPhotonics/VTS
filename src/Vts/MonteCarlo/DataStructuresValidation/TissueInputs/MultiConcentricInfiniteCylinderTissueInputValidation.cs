@@ -23,13 +23,9 @@ namespace Vts.MonteCarlo
             var cylinders = ((MultiConcentricInfiniteCylinderTissueInput)input).InfiniteCylinderRegions.Select(
                 region => (InfiniteCylinderTissueRegion)region).ToArray();
             var tempResult = ValidateGeometry(layers, cylinders);
-            if (!tempResult.IsValid)
-            {
-                return tempResult;
-            }
-
             return tempResult;
         }
+
         /// <summary>
         /// Method to validate that the geometry of tissue layers and ellipsoid agree with capabilities
         /// of code.
@@ -56,7 +52,8 @@ namespace Vts.MonteCarlo
             var tissueLayers = layers.Where(layer => !layer.IsAir());
 
             // check that there is at least one layer of tissue 
-            if (!tissueLayers.Any())
+            var layerTissueRegions = tissueLayers as LayerTissueRegion[] ?? tissueLayers.ToArray();
+            if (!layerTissueRegions.Any())
             {
                 tempResult = new ValidationResult(
                     false,
@@ -82,7 +79,7 @@ namespace Vts.MonteCarlo
 
             // check that cylinder with largest radius contained within a tissue layer then all will be
             var largestRadius = infiniteCylinders.Select(region => region.Radius).Max();
-            bool correctlyContainedInLayer = tissueLayers.Any(
+            var correctlyContainedInLayer = layerTissueRegions.Any(
                 layer =>
                     layer.ContainsPosition(theCenter) &&
                     theCenter.Z + largestRadius <= layer.ZRange.Stop &&

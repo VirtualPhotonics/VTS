@@ -8,7 +8,8 @@ namespace Vts.MonteCarlo.Tissues
     /// </summary>
     public class InfiniteCylinderTissueRegion : ITissueRegion
     {
-        private bool _onBoundary = false;
+        private bool _onBoundary;
+
         /// <summary>
         /// CylinderTissueRegion assumes cylinder axis is parallel with z-axis
         /// </summary>
@@ -22,6 +23,7 @@ namespace Vts.MonteCarlo.Tissues
             Radius = radius;
             RegionOP = op;
         }
+
         /// <summary>
         /// default constructor
         /// </summary>
@@ -58,13 +60,18 @@ namespace Vts.MonteCarlo.Tissues
             var deltaR = Math.Sqrt((position.X - Center.X) * (position.X - Center.X) +
                                    (position.Z - Center.Z) * (position.Z - Center.Z)) - Radius;
 
-            // the epsilon subtracted and added needs to match MultiConcentricInfiniteCylinder
-            // GetDistanceToBoundary or code goes through cycles at cylinder boundary            
-            if (deltaR < -1e-9) return true;
-            if (deltaR > 1e-9) return false;
-            _onBoundary = true;
-            return true;  // ckh 2/28/19 this has to return true or unit tests fail
-
+            switch (deltaR)
+            {
+                // the epsilon needs to match MultiConcentricInfiniteCylinder
+                // GetDistanceToBoundary or code goes through cycles at cylinder boundary            
+                case < -1e-9:
+                    return true;
+                case > 1e-9:
+                    return false;
+                default:
+                    _onBoundary = true;
+                    return true;  // ckh 2/28/19 this has to return true or unit tests fail
+            }
         }
 
         /// <summary>

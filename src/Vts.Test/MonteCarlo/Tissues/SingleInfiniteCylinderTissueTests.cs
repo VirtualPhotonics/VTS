@@ -13,7 +13,7 @@ namespace Vts.Test.MonteCarlo.Tissues
         /// <summary>
         /// list of temporary files created by these unit tests
         /// </summary>
-        readonly List<string> _listOfTestGeneratedFiles = new()
+        private readonly List<string> _listOfTestGeneratedFiles = new()
         {
             "SingleInfiniteCylinderTissue.txt"
         };

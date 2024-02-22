@@ -7,10 +7,10 @@ using Vts.MonteCarlo.Tissues;
 namespace Vts.Test.MonteCarlo.Tissues
 {
     /// <summary>
-    /// Unit tests for MultiConcentricinclusionTissue
+    /// Unit tests for MultiConcentricInclusionTissue
     /// </summary>
     [TestFixture]
-    public class MultiConcentricinclusionTissueTests
+    public class MultiConcentricInclusionTissueTests
     {
         private MultiConcentricInclusionTissue _tissue;
         /// <summary>

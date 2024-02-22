@@ -64,62 +64,60 @@ namespace Vts.MonteCarlo.Tissues
 
             var rootTerm = b * b - 4 * a * c;
 
-            if (rootTerm > 0)  // roots are real 
+            if (!(rootTerm > 0)) return false; // roots are real 
+            var rootTermSqrt = Math.Sqrt(rootTerm);
+            var root1 = (-b - rootTermSqrt) / (2 * a);
+            var root2 = (-b + rootTermSqrt) / (2 * a);
+
+            var numberOfIntersections = 0; //number of intersections
+
+            if (root1 is < 1.0 and > 0.0)
             {
-                var rootTermSqrt = Math.Sqrt(rootTerm);
-                var root1 = (-b - rootTermSqrt) / (2 * a);
-                var root2 = (-b + rootTermSqrt) / (2 * a);
+                numberOfIntersections += 1;
+                root = root1;
+            }
 
-                var numberOfIntersections = 0; //number of intersections
+            if (root2 is < 1.0 and > 0.0)
+            {
+                numberOfIntersections += 1;
+                root = root2;
+            }
 
-                if (root1 < 1.0 && root1 > 0.0)
-                {
-                    numberOfIntersections += 1;
-                    root = root1;
-                }
-
-                if (root2 < 1.0 && root2 > 0.0)
-                {
-                    numberOfIntersections += 1;
-                    root = root2;
-                }
-
-                switch (numberOfIntersections)
-                {
-                    case 0: /* roots real but no intersection */
+            switch (numberOfIntersections)
+            {
+                case 0: /* roots real but no intersection */
+                    return false;
+                case 1:
+                    if (!oneIn && Math.Abs(root) < 1e-7)
+                    {
                         return false;
-                    case 1:
-                        if (!oneIn && Math.Abs(root) < 1e-7)
-                        {
-                            return false;
-                        }
-                        /*entering or exiting cylinder. It's the same*/
-                        /*distance to the boundary*/
-                        distanceToBoundary = root * Math.Sqrt(dx * dx + dy * dy + dz * dz);
+                    }
+                    /*entering or exiting cylinder. It's the same*/
+                    /*distance to the boundary*/
+                    distanceToBoundary = root * Math.Sqrt(dx * dx + dy * dy + dz * dz);
 
-                        //// ckh fix 8/25/11: check if on boundary of cylinder
-                        return distanceToBoundary >= 1e-11;
+                    //// ckh fix 8/25/11: check if on boundary of cylinder
+                    return distanceToBoundary >= 1e-11;
 
-                    case 2:  /* went through cylinder: must stop at nearest intersection */
-                        //*which is nearest?*/
-                        if (oneIn)
-                        {
-                            root = root1 > root2 ? root1 : root2;
-                        }
-                        else
-                        {
-                            root = root1 < root2 ? root1 : root2;
-                        }
+                case 2:  /* went through cylinder: must stop at nearest intersection */
+                    //*which is nearest?*/
+                    if (oneIn)
+                    {
+                        root = root1 > root2 ? root1 : root2;
+                    }
+                    else
+                    {
+                        root = root1 < root2 ? root1 : root2;
+                    }
 
-                        /*distance to the nearest boundary*/
-                        distanceToBoundary = root * Math.Sqrt(dx * dx + dy * dy + dz * dz);
+                    /*distance to the nearest boundary*/
+                    distanceToBoundary = root * Math.Sqrt(dx * dx + dy * dy + dz * dz);
 
-                        return true;
+                    return true;
 
-                } /* end switch */
+            } /* end switch */
 
-            } /* bb-4ac>0 */
-
+            /* bb-4ac>0 */
             /* roots imaginary -> no intersection */
             return false;
         }  

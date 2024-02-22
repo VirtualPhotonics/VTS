@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Runtime.Serialization;
 using Vts.Common;
 
@@ -289,20 +288,19 @@ namespace Vts.MonteCarlo.Tissues
             // check if in innermost inclusion
             if (regionIndex == Regions.Count - 1) return regionIndex - 1;
 
-            /// else if in an inner inclusion but not outermost or innermost
-            if (regionIndex > _layerRegions.Count - 1) // photon on one of inclusions
+            // else if in an inner inclusion but not outermost or innermost
+            if (regionIndex <= _layerRegions.Count - 1) return base.GetNeighborRegionIndex(photon); // photon on one of inclusions
             {
-                // dotproduct with surface normal will tell if outgoing or incoming
+                // dot product with surface normal will tell if outgoing or incoming
                 var surfaceNormal = Regions[regionIndex].SurfaceNormal(photon.DP.Position);
                 if (Direction.GetDotProduct(photon.DP.Direction, surfaceNormal) > 0)
                     return regionIndex - 1;
-                else
-                    return regionIndex + 1;                   
+                return regionIndex + 1;
             }
 
             // otherwise return neighbor layer index
-            return  base.GetNeighborRegionIndex(photon);
         }
+
         /// <summary>
         /// Method to determine photon state type of photon exiting tissue boundary
         /// </summary>
@@ -314,6 +312,7 @@ namespace Vts.MonteCarlo.Tissues
                 ? PhotonStateType.PseudoReflectedTissueBoundary
                 : PhotonStateType.PseudoTransmittedTissueBoundary;
         }
+
         /// <summary>
         /// Method to determine direction of reflected photon
         /// ref: Bram de Greve "Reflections and Refractions in Ray Tracing" dated 11/13/2006, off web not published
@@ -333,9 +332,9 @@ namespace Vts.MonteCarlo.Tissues
                 return base.GetReflectedDirection(currentPosition, currentDirection);
             }
 
-            int inclusionIndex = 0;
+            var inclusionIndex = 0;
             // on boundary of an inclusion, check which one
-            for (int i = 0; i < _inclusionRegions.Count; i++)
+            for (var i = 0; i < _inclusionRegions.Count; i++)
             {
                 if (_inclusionRegions[i].ContainsPosition(currentPosition)) inclusionIndex = i;
             }
@@ -354,6 +353,7 @@ namespace Vts.MonteCarlo.Tissues
             var norm = Math.Sqrt(newX * newX + newY * newY + newZ * newZ);
             return new Direction(newX / norm, newY / norm, newZ / norm);
         }
+
         /// <summary>
         /// Method to determine refracted direction of photon
         /// </summary>
@@ -378,9 +378,9 @@ namespace Vts.MonteCarlo.Tissues
 
             if (currentN == nextN) return currentDirection; // no refractive index mismatch
 
-            int inclusionIndex = 0;
+            var inclusionIndex = 0;
             // on boundary of an inclusion, check which one
-            for (int i = 0; i < _inclusionRegions.Count; i++)
+            for (var i = 0; i < _inclusionRegions.Count; i++)
             {
                 if (_inclusionRegions[i].ContainsPosition(currentPosition)) inclusionIndex = i;
             }
@@ -399,6 +399,7 @@ namespace Vts.MonteCarlo.Tissues
             // refraction equations in ref
             // where theta1 and theta2 are angles relative to normal
         }
+
         /// <summary>
         /// Method to get cosine of the angle between photons current direction and boundary normal
         /// </summary>

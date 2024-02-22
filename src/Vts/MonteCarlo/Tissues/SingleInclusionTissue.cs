@@ -15,7 +15,6 @@ namespace Vts.MonteCarlo.Tissues
     /// </summary>
     public class SingleInclusionTissue : MultiLayerTissue, ITissue
     {
-        private readonly IList<LayerTissueRegion> _layerRegions;
         private readonly ITissueRegion _inclusionRegion;
         private readonly int _inclusionRegionIndex;
         private readonly int _layerRegionIndexOfInclusion;
@@ -33,7 +32,6 @@ namespace Vts.MonteCarlo.Tissues
             // overwrite the Regions property in the TissueBase class (will be called last in the most derived class)
             Regions = layerRegions.Concat(inclusionRegion).ToArray();
 
-            _layerRegions = layerRegions.Select(r => (LayerTissueRegion)r).ToList();
             _inclusionRegion = inclusionRegion;
             _inclusionRegionIndex = layerRegions.Count; // index is, by convention, after the layer region indices
             _layerRegionIndexOfInclusion = Enumerable.Range(0, layerRegions.Count)
@@ -112,6 +110,7 @@ namespace Vts.MonteCarlo.Tissues
                 // if not hitting the inclusion, call the base (layer) method
                 base.GetDistanceToBoundary(photon);
         }
+
         /// <summary>
         /// Method that provides reflected direction when photon reflects off boundary
         /// </summary>
@@ -185,6 +184,7 @@ namespace Vts.MonteCarlo.Tissues
             // refraction equations in ref
             // where theta1 and theta2 are angles relative to normal
         }
+
         /// <summary>
         /// Method to get cosine of the angle between photons current direction and boundary normal.
         /// When this method is called photon is sitting on boundary of region and CurrentRegionIndex is Index

@@ -22,13 +22,9 @@ namespace Vts.MonteCarlo
             var layers = ((SingleInfiniteCylinderTissueInput)input).LayerRegions.Select(region => (LayerTissueRegion)region).ToArray();
             var cylinder = ((SingleInfiniteCylinderTissueInput)input).InfiniteCylinderRegion;
             var tempResult = ValidateGeometry(layers, (InfiniteCylinderTissueRegion)cylinder);
-            if (!tempResult.IsValid)
-            {
-                return tempResult;
-            }
-
             return tempResult;
         }
+
         /// <summary>
         /// Method to validate that the geometry of tissue layers and ellipsoid agree with capabilities
         /// of code.
@@ -55,7 +51,8 @@ namespace Vts.MonteCarlo
             var tissueLayers = layers.Where(layer => !layer.IsAir());
 
             // check that there is at least one layer of tissue 
-            if (!tissueLayers.Any())
+            var layerTissueRegions = tissueLayers as LayerTissueRegion[] ?? tissueLayers.ToArray();
+            if (!layerTissueRegions.Any())
             {
                 tempResult = new ValidationResult(
                     false,
@@ -66,7 +63,7 @@ namespace Vts.MonteCarlo
 
             // check that cylinder is contained within a tissue layer 
             var cylinderRadius = infiniteCylinder.Radius;
-            bool correctlyContainedInLayer = tissueLayers.Any(
+            var correctlyContainedInLayer = layerTissueRegions.Any(
                 layer =>
                     layer.ContainsPosition(infiniteCylinder.Center) &&
                     infiniteCylinder.Center.Z + cylinderRadius <= layer.ZRange.Stop &&

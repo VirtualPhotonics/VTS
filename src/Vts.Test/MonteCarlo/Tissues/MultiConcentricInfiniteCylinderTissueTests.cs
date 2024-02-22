@@ -17,7 +17,7 @@ namespace Vts.Test.MonteCarlo.Tissues
         /// <summary>
         /// list of temporary files created by these unit tests
         /// </summary>
-        readonly List<string> _listOfTestGeneratedFiles = new()
+        private readonly List<string> _listOfTestGeneratedFiles = new()
         {
             "MultiConcentricInfiniteCylinderTissue.txt"
         };
@@ -41,8 +41,8 @@ namespace Vts.Test.MonteCarlo.Tissues
         public void Validate_default_constructor()
         {
             var i = new MultiConcentricInfiniteCylinderTissueInput();
-            var cylinder1 = i.Regions[i.Regions.Count() - 2];
-            var cylinder2 = i.Regions[i.Regions.Count() - 1];
+            var cylinder1 = i.Regions[^2];
+            var cylinder2 = i.Regions[^1];
             var tissueLayer = i.Regions[1];
             Assert.AreEqual(0.0, cylinder1.Center.X);
             Assert.AreEqual(0.0, cylinder1.Center.Y);
