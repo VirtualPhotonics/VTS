@@ -83,22 +83,23 @@ namespace Vts.MonteCarlo.Tissues
                 root = root2;
             }
 
+            var hit = false;
             switch (numberOfIntersections)
             {
                 case 0: /* roots real but no intersection */
-                    return false;
+                    break;
                 case 1:
                     if (!oneIn && Math.Abs(root) < 1e-7)
                     {
-                        return false;
+                        break;
                     }
                     /*entering or exiting cylinder. It's the same*/
                     /*distance to the boundary*/
                     distanceToBoundary = root * Math.Sqrt(dx * dx + dy * dy + dz * dz);
 
                     //// ckh fix 8/25/11: check if on boundary of cylinder
-                    return distanceToBoundary >= 1e-11;
-
+                    hit =  distanceToBoundary >= 1e-11;
+                    break;
                 case 2:  /* went through cylinder: must stop at nearest intersection */
                     //*which is nearest?*/
                     if (oneIn)
@@ -113,12 +114,11 @@ namespace Vts.MonteCarlo.Tissues
                     /*distance to the nearest boundary*/
                     distanceToBoundary = root * Math.Sqrt(dx * dx + dy * dy + dz * dz);
 
-                    return true;
-
-                default:     // roots imaginary -> no intersection 
-                    return false;
+                    hit = true;
+                    break;
             } /* end switch */
 
+            return hit;
         }  
     }
 }
