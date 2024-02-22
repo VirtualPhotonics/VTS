@@ -115,11 +115,10 @@ namespace Vts.MonteCarlo.Tissues
 
                     return true;
 
+                default:     // roots imaginary -> no intersection 
+                    return false;
             } /* end switch */
 
-            /* bb-4ac>0 */
-            /* roots imaginary -> no intersection */
-            return false;
         }  
     }
 }

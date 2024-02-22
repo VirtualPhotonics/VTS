@@ -93,8 +93,7 @@ namespace Vts.MonteCarlo.Tissues
             if ((regionIndex != _layerRegionIndexOfInclusion) && (regionIndex != _inclusionRegionIndex))
                 return base.GetDistanceToBoundary(photon);
             // check if current track will hit the inclusion boundary, returning the correct distance
-            double distanceToBoundary;
-            if (_inclusionRegion.RayIntersectBoundary(photon, out distanceToBoundary))
+            if (_inclusionRegion.RayIntersectBoundary(photon, out var distanceToBoundary))
             {
                 return distanceToBoundary;
             }
