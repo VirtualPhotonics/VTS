@@ -28,6 +28,8 @@ namespace Vts.MonteCarlo
             "ROfRhoAndTime",
             // Reflectance as a function of source-detector separation (rho) and maximum depth
             "ROfRhoAndMaxDepth",
+            // Reflectance as a function of source-detector separation (rho) time and maximum depth
+            "ROfRhoAndTimeAndMaxDepth",
             // Reflectance as a function of source-detector separation (rho) and maximum depth recessed in air
             "ROfRhoAndMaxDepthRecessed",
             // Reflectance as a function of Cartesian position on the surface of the tissue
@@ -205,6 +207,10 @@ namespace Vts.MonteCarlo
         /// Reflectance as a function of source-detector separation (rho) and maximum depth attained
         /// </summary>
         public static string ROfRhoAndMaxDepth { get { return "ROfRhoAndMaxDepth"; } }
+        /// <summary>
+        /// Reflectance as a function of source-detector separation (rho), time and maximum depth attained
+        /// </summary>
+        public static string ROfRhoAndTimeAndMaxDepth { get { return "ROfRhoAndTimeAndMaxDepth"; } }
         /// <summary>
         /// Reflectance as a function of source-detector separation (rho) and maximum depth attained recessed in air
         /// </summary>

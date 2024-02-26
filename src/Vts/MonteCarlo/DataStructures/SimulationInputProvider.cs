@@ -122,6 +122,7 @@ namespace Vts.MonteCarlo
                     new ROfRhoAndOmegaDetectorInput {Rho=new DoubleRange(0.0, 10, 101),Omega=new DoubleRange(0.0, 1, 21)}, // GHz
                     new ROfRhoAndTimeDetectorInput {Rho= new DoubleRange(0.0, 10, 101),Time=new DoubleRange(0.0, 10, 11)},
                     new ROfRhoAndMaxDepthDetectorInput {Rho= new DoubleRange(0.0, 10, 101),MaxDepth=new DoubleRange(0.0, 10, 11)},
+                    new ROfRhoAndTimeAndMaxDepthDetectorInput {Rho= new DoubleRange(0.0, 10, 101),Time=new DoubleRange(0.0, 10, 11),MaxDepth=new DoubleRange(0.0, 10, 11)},
                     new ROfRhoAndMaxDepthRecessedDetectorInput {Rho= new DoubleRange(0.0, 10, 101),MaxDepth=new DoubleRange(0.0, 10, 11),ZPlane=-1.0},
                     new ROfRhoDetectorInput {Rho =new DoubleRange(0.0, 10, 101)},
                     new ROfRhoRecessedDetectorInput {Rho =new DoubleRange(0.0, 10, 101),ZPlane=-1.0},
