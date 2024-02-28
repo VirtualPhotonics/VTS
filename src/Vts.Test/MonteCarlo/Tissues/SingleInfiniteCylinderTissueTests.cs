@@ -44,6 +44,7 @@ namespace Vts.Test.MonteCarlo.Tissues
             Assert.AreEqual(1.0, cylinder.Center.Z);
             Assert.AreEqual(50.0, layers[1].Center.Z);
         }
+
         /// <summary>
         /// verify SingleInfiniteCylinderTissueInput deserializes correctly
         /// </summary>
@@ -73,6 +74,7 @@ namespace Vts.Test.MonteCarlo.Tissues
 
             Assert.AreEqual(iCloned.Regions[1].RegionOP.Mua, i.Regions[1].RegionOP.Mua);
         }
+
         /// <summary>
         /// verify SingleInfiniteCylinderTissueInput deserializes correctly when using FileIO
         /// </summary>
@@ -102,6 +104,7 @@ namespace Vts.Test.MonteCarlo.Tissues
 
             Assert.AreEqual(iCloned.Regions[1].RegionOP.Mua, i.Regions[1].RegionOP.Mua);
         }
+
         /// <summary>
         /// verify CreateTissue generates ITissue
         /// </summary>

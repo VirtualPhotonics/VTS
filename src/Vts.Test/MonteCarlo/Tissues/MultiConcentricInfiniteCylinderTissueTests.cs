@@ -1,6 +1,5 @@
 ﻿using NUnit.Framework;
 using System.Collections.Generic;
-using System.Linq;
 using Vts.Common;
 using Vts.IO;
 using Vts.MonteCarlo;
@@ -88,6 +87,7 @@ namespace Vts.Test.MonteCarlo.Tissues
 
             Assert.AreEqual(iCloned.Regions[1].RegionOP.Mua, i.Regions[1].RegionOP.Mua);
         }
+
         /// <summary>
         /// verify MultiConcentricInfiniteCylinderTissueInput deserializes correctly when using FileIO
         /// </summary>
@@ -124,6 +124,7 @@ namespace Vts.Test.MonteCarlo.Tissues
 
             Assert.AreEqual(iCloned.Regions[1].RegionOP.Mua, i.Regions[1].RegionOP.Mua);
         }
+
         /// <summary>
         /// verify CreateTissue generates ITissue
         /// </summary>

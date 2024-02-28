@@ -36,7 +36,7 @@ namespace Vts.MonteCarlo
         {            
             // check that layer definition is valid
             var tempResult = MultiLayerTissueInputValidation.ValidateLayers(layers);
-            if (!tempResult.IsValid){ return tempResult; }
+            if (!tempResult.IsValid) return tempResult; 
 
             if (infiniteCylinder.Radius == 0.0)
             {
@@ -45,7 +45,7 @@ namespace Vts.MonteCarlo
                     "SingleInfiniteCylinderTissueInput: infinite cylinder has radius equal to 0",
                     "SingleInfiniteCylinderTissueInput: make sure infinite cylinder radius is > 0");
             }
-            if (!tempResult.IsValid) { return tempResult; }
+            if (!tempResult.IsValid) return tempResult; 
 
             // test for air layers and eliminate from list
             var tissueLayers = layers.Where(layer => !layer.IsAir());
@@ -59,7 +59,7 @@ namespace Vts.MonteCarlo
                     "SingleInfiniteCylinderTissueInput: tissue layer is assumed to be at least a single layer with air layer above and below",
                     "SingleInfiniteCylinderTissueInput: redefine tissue definition to contain at least a single layer of tissue");
             }
-            if (!tempResult.IsValid) { return tempResult; }
+            if (!tempResult.IsValid) return tempResult; 
 
             // check that cylinder is contained within a tissue layer 
             var cylinderRadius = infiniteCylinder.Radius;
@@ -78,7 +78,7 @@ namespace Vts.MonteCarlo
                     "Resize radii and or Center so that infinite cylinders entirely within tissue layer");
             }
 
-            if (!tempResult.IsValid) { return tempResult; }
+            if (!tempResult.IsValid) return tempResult; 
 
             return new ValidationResult(
                 true,

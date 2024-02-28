@@ -114,6 +114,7 @@ namespace Vts.Test.MonteCarlo.Tissues
             index = _tissue.GetNeighborRegionIndex(photon);
             Assert.AreEqual(2, index);
         }
+
         /// <summary>
         /// Test to make sure that shortest distance to layer boundary or infinite cylinders is correct
         /// </summary>
@@ -281,6 +282,5 @@ namespace Vts.Test.MonteCarlo.Tissues
             var cosTheta = _tissue.GetAngleRelativeToBoundaryNormal(photon);
             Assert.AreEqual(1,cosTheta);
         }
-
     }
 }

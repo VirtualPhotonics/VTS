@@ -66,6 +66,7 @@ namespace Vts.Test.MonteCarlo.Tissues
             result = _infiniteCylinderTissueRegion.OnBoundary(new Position(0, 0, 2.0));
             Assert.IsFalse(result);
         }
+
         /// <summary>
         /// Validate method SurfaceNormal return correct normal vector.  Should be outward directed normal.
         /// </summary>
