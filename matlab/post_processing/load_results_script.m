@@ -15,6 +15,7 @@ datanames = { 'one_layer_all_detectors' };
 outdir = '.';
 
 show.SurfaceFiber =             1;
+show.SlantedRecessedFiber =     1;
 show.RDiffuse =                 1;
 show.ROfRho =                   1;
 show.ROfRhoRecessed =           1;
@@ -94,7 +95,15 @@ for mci = 1:length(datanames)
             num2str(results{di}.SurfaceFiber.Mean - 3 * results{di}.SurfaceFiber.Stdev) ' - ' ...
             num2str(results{di}.SurfaceFiber.Mean + 3 * results{di}.SurfaceFiber.Stdev)]);
     end
-    
+        
+    if isfield(results{di}, 'SlantedRecessedFiber') && show.SlantedRecessedFiber
+        disp(['Total reflectance captured by SlantedRecessedFiber detector: ' num2str(results{di}.SlantedRecessedFiber.Mean)]);
+        disp(['Standard Deviation captured by SlantedRecessedFiber detector: ' num2str(results{di}.SlantedRecessedFiber.Stdev)]);
+        disp(['+/- 3sigma by SlantedRecessedFiber detector: ' ...
+            num2str(results{di}.SlantedRecessedFiber.Mean - 3 * results{di}.SlantedRecessedFiber.Stdev) ' - ' ...
+            num2str(results{di}.SlantedRecessedFiber.Mean + 3 * results{di}.SlantedRecessedFiber.Stdev)]);
+    end
+
     if isfield(results{di}, 'RDiffuse') && show.RDiffuse
         disp(['Total reflectance captured by RDiffuse detector: ' num2str(results{di}.RDiffuse.Mean)]);
     end

@@ -8,7 +8,8 @@ namespace Vts.MonteCarlo.Tissues
     /// </summary>
     public class InfiniteCylinderTissueRegion : ITissueRegion
     {
-        private bool _onBoundary = false;
+        private bool _onBoundary;
+
         /// <summary>
         /// CylinderTissueRegion assumes cylinder axis is parallel with z-axis
         /// </summary>
@@ -22,6 +23,7 @@ namespace Vts.MonteCarlo.Tissues
             Radius = radius;
             RegionOP = op;
         }
+
         /// <summary>
         /// default constructor
         /// </summary>
@@ -54,22 +56,24 @@ namespace Vts.MonteCarlo.Tissues
         /// <returns>Boolean</returns>
         public bool ContainsPosition(Position position)
         {
-            // an option to the following would be:
-            // return (Math.Sqrt((position.X - Center.X) * (position.X - Center.X) +
-            //                  (position.Z - Center.Z) * (position.Z - Center.Z)) < Radius)
-            // wrote following to match EllipsoidTissueRegion because it seems to work better than above
-            var inside = Math.Sqrt((position.X - Center.X) * (position.X - Center.X) +
-                                   (position.Z - Center.Z) * (position.Z - Center.Z));
+            // wrote following to give "buffer" of error
+            var deltaR = Math.Sqrt((position.X - Center.X) * (position.X - Center.X) +
+                                   (position.Z - Center.Z) * (position.Z - Center.Z)) - Radius;
 
-            // the epsilon subtracted and added needs to match MultiConcentricInfiniteCylinder
-            // GetDistanceToBoundary or code goes through cycles at cylinder boundary
-            if (inside < (1 - 1e-9) * Radius) return true;
-            if (inside > (1 + 1e-9) * Radius) return false;
-            // on boundary means cylinder contains position
-            _onBoundary = true;
-            return true;  // ckh 2/28/19 this has to return true or unit tests fail
-            
+            switch (deltaR)
+            {
+                // the epsilon needs to match MultiConcentricInfiniteCylinder
+                // GetDistanceToBoundary or code goes through cycles at cylinder boundary            
+                case < -1e-9:
+                    return true;
+                case > 1e-9:
+                    return false;
+                default:
+                    _onBoundary = true;
+                    return true;  // ckh 2/28/19 this has to return true or unit tests fail
+            }
         }
+
         /// <summary>
         /// Method to determine if photon on boundary of infinite cylinder.
         /// Currently OnBoundary of an inclusion region isn't called by any code ckh 3/5/19.
@@ -80,6 +84,7 @@ namespace Vts.MonteCarlo.Tissues
         {
             return !ContainsPosition(position) && _onBoundary; // match with EllipsoidTissueRegion
         }
+
         /// <summary>
         /// method to determine normal to surface at given position. Note this returns outward facing normal.
         /// </summary>
@@ -87,13 +92,12 @@ namespace Vts.MonteCarlo.Tissues
         /// <returns>Direction normal to surface at position</returns>
         public Direction SurfaceNormal(Position position)
         {
-            var norm = Math.Sqrt(4 * (position.X - Center.X) * (position.X - Center.X) +
-                                 4 * (position.Z - Center.Z) * (position.Z - Center.Z));
-            return new Direction(
-                2 * (position.X - Center.X) / norm,
-                0,
-                2 * (position.Z - Center.Z) / norm);
+            var dx = position.X - Center.X;
+            var dz = position.Z - Center.Z;
+            var norm = Math.Sqrt(dx * dx + dz * dz);
+            return new Direction(dx / norm, 0, dz / norm);
         }
+
         /// <summary>
         /// Method to determine if photon ray (or track) will intersect boundary of cylinder
         /// equations to determine intersection are derived by parameterizing ray from p1 to p2
@@ -117,8 +121,8 @@ namespace Vts.MonteCarlo.Tissues
             var d1 = dp.Direction;
 
             // determine location of end of ray
-            var p2 = new Position(p1.X + d1.Ux * photon.S, 
-                                  p1.Y + d1.Uy * photon.S, 
+            var p2 = new Position(p1.X + d1.Ux * photon.S,
+                                  p1.Y + d1.Uy * photon.S,
                                   p1.Z + d1.Uz * photon.S);
 
             var oneIn = this.ContainsPosition(p1);
@@ -134,6 +138,6 @@ namespace Vts.MonteCarlo.Tissues
             return (CylinderTissueRegionToolbox.RayIntersectInfiniteCylinder(p1, p2, oneIn,
                 CylinderTissueRegionAxisType.Y, Center, Radius,
                 out distanceToBoundary));
-        }  
+        }
     }
 }

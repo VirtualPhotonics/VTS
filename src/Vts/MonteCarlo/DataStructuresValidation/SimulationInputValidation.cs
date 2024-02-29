@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using Vts.Common;
 using Vts.MonteCarlo.DataStructuresValidation;
+using Vts.MonteCarlo.Interfaces;
 using Vts.MonteCarlo.Sources;
 using Vts.MonteCarlo.Tissues;
 
@@ -20,14 +21,14 @@ namespace Vts.MonteCarlo
         /// <returns>An instance of ValidationResult with IsValid bool set and message about error if false</returns>
         public static ValidationResult ValidateInput(SimulationInput input)
         {
-            var validations = new Func<SimulationInput, ValidationResult>[]
+            var validations = new[]
                 {
                     si => ValidateN(si.N),
                     si => ValidateSourceInput(si.SourceInput, si.TissueInput),
                     si => ValidateTissueInput(si.TissueInput),
-                    si => ValidateDetectorInput(si),
-                    si => ValidateCombinedInputParameters(si),
-                    si => ValidateCurrentIncapabilities(si)
+                    ValidateDetectorInput,
+                    ValidateCombinedInputParameters,
+                    ValidateCurrentIncapabilities
                 };
 
             foreach (var validation in validations)
@@ -43,10 +44,10 @@ namespace Vts.MonteCarlo
 
         }
 
-        private static ValidationResult ValidateN(long N)
+        private static ValidationResult ValidateN(long n)
         {
             return new ValidationResult(
-                N >= 10,
+                n >= 10,
                 "Number of photons must be greater than 9",
                 "This is an implementation detail of the MC simulation");
         }
@@ -61,18 +62,15 @@ namespace Vts.MonteCarlo
                     "Source input not valid given tissue definition",
                     "Alter sourceInput.InitialTissueRegionIndex to be consistent with tissue definition");
             }
-            if (sourceInput is FluorescenceEmissionAOfRhoAndZSourceInput)
-            {
-                return FluorescenceEmissionAOfRhoAndZSourceInputValidation.ValidateInput(sourceInput);
-            }
-            if (sourceInput is FluorescenceEmissionAOfXAndYAndZSourceInput)
-            {
-                return FluorescenceEmissionAOfXAndYAndZSourceInputValidation.ValidateInput(sourceInput);
-            }
-            return new ValidationResult(
-                true,
-                "Starting photons in region " + sourceInput.InitialTissueRegionIndex);
 
+            return sourceInput switch
+            {
+                FluorescenceEmissionAOfRhoAndZSourceInput => FluorescenceEmissionAOfRhoAndZSourceInputValidation
+                    .ValidateInput(sourceInput),
+                FluorescenceEmissionAOfXAndYAndZSourceInput => FluorescenceEmissionAOfXAndYAndZSourceInputValidation
+                    .ValidateInput(sourceInput),
+                _ => new ValidationResult(true, "Starting photons in region " + sourceInput.InitialTissueRegionIndex)
+            };
         }
 
         private static ValidationResult ValidateTissueInput(ITissueInput tissueInput)
@@ -88,32 +86,19 @@ namespace Vts.MonteCarlo
                      "Please check optical properties");
             }
 
-            if (tissueInput is MultiLayerTissueInput)
+            return tissueInput switch
             {
-                return MultiLayerTissueInputValidation.ValidateInput(tissueInput);
-            }
-            if (tissueInput is SingleEllipsoidTissueInput)
-            {
-                return SingleEllipsoidTissueInputValidation.ValidateInput(tissueInput);
-            }
-            if (tissueInput is SingleVoxelTissueInput)
-            {
-                return SingleVoxelTissueInputValidation.ValidateInput(tissueInput);
-            }
-            if (tissueInput is MultiConcentricInfiniteCylinderTissueInput)
-            {
-                return MultiConcentricInfiniteCylinderTissueInputValidation.ValidateInput(tissueInput);
-            }
-            if (tissueInput is BoundingCylinderTissueInput)
-            {
-                return BoundingCylinderTissueInputValidation.ValidateInput(tissueInput);
-            }
-
-            return new ValidationResult(
-                true,
-                "Tissue input must be valid",
-                "Validation skipped for tissue input " + tissueInput +
-                ". No matching validation rules were found.");
+                MultiLayerTissueInput => MultiLayerTissueInputValidation.ValidateInput(tissueInput),
+                SingleEllipsoidTissueInput => SingleEllipsoidTissueInputValidation.ValidateInput(tissueInput),
+                SingleVoxelTissueInput => SingleVoxelTissueInputValidation.ValidateInput(tissueInput),
+                SingleInfiniteCylinderTissueInput => SingleInfiniteCylinderTissueInputValidation.ValidateInput(
+                    tissueInput),
+                MultiConcentricInfiniteCylinderTissueInput => MultiConcentricInfiniteCylinderTissueInputValidation
+                    .ValidateInput(tissueInput),
+                BoundingCylinderTissueInput => BoundingCylinderTissueInputValidation.ValidateInput(tissueInput),
+                _ => new ValidationResult(true, "Tissue input must be valid",
+                    "Validation skipped for tissue input " + tissueInput + ". No matching validation rules were found.")
+            };
         }
         private static ValidationResult ValidateDetectorInput(SimulationInput si)
         {
@@ -167,78 +152,46 @@ namespace Vts.MonteCarlo
                     "Russian Roulette cannot be employed with Analog absorption weighting is specified",
                     "With Analog absorption weighting, set Russian Roulette weight threshold = 0.0");
             }
-            // check that if single ellipsoid tissue specified and (r,z) detector specified,
-            // that (1) ellipsoid is centered at x=0, y=0, (2) ellipsoid is cylindrically symmetric (dx=dy)
-            var tissueWithEllipsoid = input.TissueInput as SingleEllipsoidTissueInput;
-            if (tissueWithEllipsoid != null)
+
+            switch (input.TissueInput)
             {
-                var ellipsoid = (EllipsoidTissueRegion)tissueWithEllipsoid.EllipsoidRegion;
-                foreach (var detectorInput in input.DetectorInputs)
+                // check that if single ellipsoid tissue specified and (r,z) detector specified,
+                // that (1) ellipsoid is centered at x=0, y=0, (2) ellipsoid is cylindrically symmetric (dx=dy)
+                case SingleEllipsoidTissueInput tissueWithEllipsoid:
                 {
-                    switch (detectorInput.TallyDetails.IsCylindricalTally)
+                    var ellipsoid = (EllipsoidTissueRegion)tissueWithEllipsoid.EllipsoidRegion;
+                    foreach (var detectorInput in input.DetectorInputs)
                     {
-                        case true when
-                            ellipsoid.Center.X != 0.0 && ellipsoid.Center.Y != 0.0:
+                        switch (detectorInput.TallyDetails.IsCylindricalTally)
+                        {
+                            case true when
+                                ellipsoid.Center.X != 0.0 && ellipsoid.Center.Y != 0.0:
+                                return new ValidationResult(
+                                    false,
+                                    "Ellipsoid must be centered at (x,y)=(0,0) for cylindrical tallies",
+                                    "Change ellipsoid center to (0,0) or specify non-cylindrical type tally");
+                            case true when ellipsoid.Dx != ellipsoid.Dy:
+                                return new ValidationResult(
+                                    false,
+                                    "Ellipsoid must have Dx=Dy for cylindrical tallies",
+                                    "Change ellipsoid.Dx to be = to Dy or specify non-cylindrical type tally");
+                        }
+
+                        if (detectorInput.TallyType == TallyType.ROfFx)
+                        {
                             return new ValidationResult(
                                 false,
-                                "Ellipsoid must be centered at (x,y)=(0,0) for cylindrical tallies",
-                                "Change ellipsoid center to (0,0) or specify non-cylindrical type tally");
-                        case true when ellipsoid.Dx != ellipsoid.Dy:
-                            return new ValidationResult(
-                                false,
-                                "Ellipsoid must have Dx=Dy for cylindrical tallies",
-                                "Change ellipsoid.Dx to be = to Dy or specify non-cylindrical type tally");
+                                "R(fx) tallies assume a homogeneous or layered tissue geometry",
+                                "Change tissue type to be homogeneous or layered"); 
+                        }
                     }
 
-                    if (detectorInput.TallyType == TallyType.ROfFx)
-                    {
-                        return new ValidationResult(
-                            false,
-                            "R(fx) tallies assume a homogeneous or layered tissue geometry",
-                            "Change tissue type to be homogeneous or layered"); 
-                    }
+                    break;
                 }
-            }
-            // check that if single voxel or single infinite cylinder tissue specified,
-            // cannot specify (r,z) detector 
-            if (input.TissueInput is SingleVoxelTissueInput || 
-                input.TissueInput is SingleInfiniteCylinderTissueInput)
-            {
-                foreach (var detectorInput in input.DetectorInputs)
-                {
-                    if (detectorInput.TallyDetails.IsCylindricalTally)
-                    {
-                        return new ValidationResult(
-                            false,
-                            "Cannot use Single Voxel Tissue for cylindrical tallies",
-                            "Change detector inputs to specify non-cylindrical type tallies");
-                    }
-                    if (detectorInput.TallyType == TallyType.ROfFx)
-                    {
-                        return new ValidationResult(
-                            false,
-                            "R(fx) tallies assume a homogeneous or layered tissue geometry",
-                            "Change tissue type to be homogeneous or layered");
-                    }
-                }
-            }
-            // check that if bounding volume tissue specified, the ATotalBoundingVolumeTissueInput detector needs
-            // to be specified
-            if (input.TissueInput is BoundingCylinderTissueInput)
-            {
-                if (input.DetectorInputs.All(d => d.TallyType != TallyType.ATotalBoundingVolume))
-                {
-                    return new ValidationResult(
-                        false,
-                        "BoundingCylinderTissueInput needs associated detector ATotalBoundingVolume to be defined",
-                        "Add ATotalBoundingVolumeDetectorInput to detector inputs");
-                }
-            }
-
-            var source = input.SourceInput as DirectionalPointSourceInput;
-            if (source != null)
-            {
-                if (source.Direction != new Direction(0,0,1))
+                // check that if single voxel or single infinite cylinder tissue specified,
+                // cannot specify (r,z) detector 
+                case SingleVoxelTissueInput:
+                case SingleInfiniteCylinderTissueInput:
                 {
                     foreach (var detectorInput in input.DetectorInputs)
                     {
@@ -246,24 +199,45 @@ namespace Vts.MonteCarlo
                         {
                             return new ValidationResult(
                                 false,
-                                "If source is angled, cannot define cylindrically symmetric detectors",
-                                "Change detector to Cartesian equivalent or define source to be normal"); 
+                                "Cannot use Single Voxel Tissue for cylindrical tallies",
+                                "Change detector inputs to specify non-cylindrical type tallies");
                         }
-                    }
-                }
-            }
-            foreach (var detectorInput in input.DetectorInputs)
-            {
-                if (detectorInput.TallyDetails.IsTransmittanceTally && input.TissueInput is MultiLayerTissueInput)
-                {
-                    if (((dynamic)detectorInput).FinalTissueRegionIndex == 0)
-                    {
+                        if (detectorInput.TallyType == TallyType.ROfFx)
+                        {
                             return new ValidationResult(
                                 false,
-                                "Transmittance detectors with MultiLayerTissues cannot detect in tissue region 0",
-                                "Change FinalTissueRegionIndex to be index of air below tissue (index >= 2)");
+                                "R(fx) tallies assume a homogeneous or layered tissue geometry",
+                                "Change tissue type to be homogeneous or layered");
+                        }
                     }
+
+                    break;
                 }
+                // check that if bounding volume tissue specified, the ATotalBoundingVolumeTissueInput detector needs
+                // to be specified
+                case BoundingCylinderTissueInput when input.DetectorInputs.All(d => d.TallyType != TallyType.ATotalBoundingVolume):
+                    return new ValidationResult(
+                        false,
+                        "BoundingCylinderTissueInput needs associated detector ATotalBoundingVolume to be defined",
+                        "Add ATotalBoundingVolumeDetectorInput to detector inputs");
+            }
+
+            if (input.SourceInput is DirectionalPointSourceInput source && 
+                source.Direction != new Direction(0,0,1) && 
+                input.DetectorInputs.Any(detectorInput => detectorInput.TallyDetails.IsCylindricalTally))
+            {
+                return new ValidationResult(
+                    false,
+                    "If source is angled, cannot define cylindrically symmetric detectors",
+                    "Change detector to Cartesian equivalent or define source to be normal");
+            }
+            if (input.DetectorInputs.Where(detectorInput => detectorInput.TallyDetails.IsTransmittanceTally && 
+                input.TissueInput is MultiLayerTissueInput).Any(detectorInput => ((dynamic)detectorInput).FinalTissueRegionIndex == 0))
+            {
+                return new ValidationResult(
+                    false,
+                    "Transmittance detectors with MultiLayerTissues cannot detect in tissue region 0",
+                    "Change FinalTissueRegionIndex to be index of air below tissue (index >= 2)");
             }
             return new ValidationResult(
                 true,
@@ -271,6 +245,7 @@ namespace Vts.MonteCarlo
                 "");
 
         }
+
         /// <summary>
         /// Method checks SimulationInput against current in-capabilities of the code.
         /// </summary>
@@ -278,33 +253,32 @@ namespace Vts.MonteCarlo
         /// <returns>An instance of the ValidationResult class</returns>
         private static ValidationResult ValidateCurrentIncapabilities(SimulationInput input)
         {
-            if (input.Options.AbsorptionWeightingType == AbsorptionWeightingType.Continuous)
+            switch (input.Options.AbsorptionWeightingType)
             {
-                foreach (var detectorInput in input.DetectorInputs)
+                case AbsorptionWeightingType.Continuous when input.DetectorInputs.Any(detectorInput => detectorInput.TallyDetails.IsNotImplementedForCAW):
+                    return new ValidationResult(
+                        false,
+                        "The use of Continuous Absorption Weighting is not implemented for one of the infile detectors",
+                        "Modify AbsorptionWeightingType to Discrete");
+                case AbsorptionWeightingType.Discrete:
                 {
-                    if (detectorInput.TallyDetails.IsNotImplementedForCAW)
-                    {
-                        return new ValidationResult(
-                            false,
-                            "The use of Continuous Absorption Weighting is not implemented for one of the infile detectors",
-                            "Modify AbsorptionWeightingType to Discrete");
-                    }
-                }
-
-            }
-            if (input.Options.AbsorptionWeightingType == AbsorptionWeightingType.Discrete)
-            {
-                foreach (var detectorInput in input.DetectorInputs)
-                {
-                    if (detectorInput.TallyDetails.IsNotImplementedForDAW)
+                    if (input.DetectorInputs.Any(detectorInput => detectorInput.TallyDetails.IsNotImplementedForDAW))
                     {
                         return new ValidationResult(
                             false,
                             "The use of Discrete Absorption Weighting with path length type detectors not implemented yet",
                             "Modify AbsorptionWeightingType to Continuous");
                     }
+
+                    break;
                 }
+                case AbsorptionWeightingType.Analog:
+                case AbsorptionWeightingType.Continuous:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(typeof(AbsorptionWeightingType).ToString());
             }
+
             foreach (var detectorInput in input.DetectorInputs)
             {
                 // can only run dMC detectors with 1 perturbed region for the present
