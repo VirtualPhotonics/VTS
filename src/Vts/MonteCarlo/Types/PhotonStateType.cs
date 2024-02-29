@@ -89,5 +89,13 @@ namespace Vts.MonteCarlo
         /// photon pseudo-collision at Lateral Bounding Virtual Boundary (VB)
         /// </summary>
         PseudoLateralBoundingVirtualBoundary = 0x110000,
+        /// <summary>
+        /// photon pseudo-collision at Outer Cylinder Virtual Boundary (VB)
+        /// </summary>
+        PseudoOuterCylinderVirtualBoundary = 0x200000,
+        /// <summary>
+        /// photon pseudo-collision at Inner Cylinder Virtual Boundary (VB)
+        /// </summary>
+        PseudoInnerCylinderVirtualBoundary = 0x400000,
     }
 }
