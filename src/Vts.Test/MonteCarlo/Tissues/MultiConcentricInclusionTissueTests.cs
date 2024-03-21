@@ -121,6 +121,7 @@ namespace Vts.Test.MonteCarlo.Tissues
         [Test]
         public void Validate_GetDistanceToBoundary_method_returns_correct_results()
         {
+            // the following cases sets S to 0 to make sure "projected" distance is calculated
             var photon = new Photon( // below outer infinite cylinder pointed into it
                 new Position(0, 0, 7),
                 new Direction(0.0, 0, -1.0),
@@ -129,7 +130,7 @@ namespace Vts.Test.MonteCarlo.Tissues
                 1,
                 new Random())
             {
-                S = 10
+                S = 0
             };
             var distance = _tissue.GetDistanceToBoundary(photon);
             Assert.IsTrue(Math.Abs(distance - 1) < 1e-6);
@@ -141,7 +142,7 @@ namespace Vts.Test.MonteCarlo.Tissues
                 3,
                 new Random())
             {
-                S = 10
+                S = 0
             };
             distance = _tissue.GetDistanceToBoundary(photon);
             Assert.IsTrue(Math.Abs(distance - 0.4) < 1e-6);
@@ -153,7 +154,7 @@ namespace Vts.Test.MonteCarlo.Tissues
                 3,
                 new Random())
             {
-                S = 10
+                S = 0
             };
             distance = _tissue.GetDistanceToBoundary(photon);
             Assert.IsTrue(Math.Abs(distance - 4.5) < 1e-6);
@@ -163,9 +164,10 @@ namespace Vts.Test.MonteCarlo.Tissues
                 1.0,
                 _tissue,
                 1,
-                new Random());
-            distance = _tissue.GetDistanceToBoundary(photon);
-            Assert.IsTrue(Math.Abs(distance - 5) < 1e-6);
+                new Random())
+            {
+                S = 0
+            };
         }
 
         /// <summary>

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Threading;
 using Vts.Common;
+using Vts.MonteCarlo.PhotonData;
 
 namespace Vts.MonteCarlo.Tissues
 {
@@ -224,9 +225,16 @@ namespace Vts.MonteCarlo.Tissues
             // then check if inclusion boundaries are closer
             var smallestInclusionDistance = double.PositiveInfinity;
 
+            // check that a projected track will hit one of the inclusions
+            var projectedPhoton = new Photon
+            {
+                DP = new PhotonDataPoint(photon.DP.Position, photon.DP.Direction, photon.DP.Weight,
+                    photon.DP.TotalTime, photon.DP.StateFlag),
+                S = 100 
+            };
             foreach (var inclusionRegion in _inclusionRegions)
             {
-                inclusionRegion.RayIntersectBoundary(photon, out var distToInclusion);
+                inclusionRegion.RayIntersectBoundary(projectedPhoton, out var distToInclusion);
                 // first check that photon isn't sitting on boundary of one of the inclusions
                 // note 1e-9 was found by trial and error using unit tests to verify selection
                 // if you change value, need to update InclusionTissueRegion.ContainsPosition eps
