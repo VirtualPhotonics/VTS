@@ -364,6 +364,7 @@ namespace Vts.MonteCarlo.Tissues
 
         /// <summary>
         /// Method to determine refracted direction of photon
+        /// ref: Bram de Greve "Reflections and Refractions in Ray Tracing" dated 11/13/2006, off web not published
         /// </summary>
         /// <param name="currentPosition">current photon position</param>
         /// <param name="currentDirection">current photon direction</param>
@@ -403,8 +404,6 @@ namespace Vts.MonteCarlo.Tissues
             var newZ = nRatio * currentDirection.Uz + factor * normal.Uz;
             var norm = Math.Sqrt(newX * newX + newY * newY + newZ * newZ);
             return new Direction(newX / norm, newY / norm, newZ / norm);
-
-            // refraction equations in ref
             // where theta1 and theta2 are angles relative to normal
         }
 
@@ -415,7 +414,20 @@ namespace Vts.MonteCarlo.Tissues
         /// <returns>Uz=cos(theta)</returns>
         public new double GetAngleRelativeToBoundaryNormal(Photon photon)
         {
-            return Math.Abs(photon.DP.Direction.Uz); // abs will work for upward normal and downward normal
+            // needs to call MultiLayerTissue when crossing top and bottom layer
+            if (base.OnDomainBoundary(photon.DP.Position))
+            {
+                return base.GetAngleRelativeToBoundaryNormal(photon);
+            }
+            // otherwise determine which cylinder photon is on
+            var inclusionIndex = 0;
+            for (var i = 0; i < _inclusionRegions.Count; i++)
+            {
+                if (_inclusionRegions[i].OnBoundary(photon.DP.Position)) inclusionIndex = i;
+            }
+            return Math.Abs(Direction.GetDotProduct( // Abs consistent with SingleInclusionTissue
+                photon.DP.Direction, _inclusionRegions[inclusionIndex].SurfaceNormal(photon.DP.Position)));
+
         }
     }
 }
