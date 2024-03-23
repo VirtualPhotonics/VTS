@@ -395,9 +395,10 @@ namespace Vts.MonteCarlo.Tissues
             }
             // must be on inclusions for now no reflection 
             var normal = _inclusionRegions[inclusionIndex].SurfaceNormal(currentPosition);
-            var cosTheta1 = Direction.GetDotProduct(currentDirection, normal);
+            var cosTheta1 = Math.Abs(Direction.GetDotProduct(currentDirection, normal));
             var nRatio = currentN / nextN;
             var sinTheta2Squared = nRatio * nRatio * (1 - cosTheta1 * cosTheta1);
+            // do I need to check if 1-sinTheta2Squared <0? then reflection
             var factor = nRatio * cosTheta1 - Math.Sqrt(1 - sinTheta2Squared);
             var newX = nRatio * currentDirection.Ux + factor * normal.Ux;
             var newY = nRatio * currentDirection.Uy + factor * normal.Uy;
@@ -408,7 +409,9 @@ namespace Vts.MonteCarlo.Tissues
         }
 
         /// <summary>
-        /// Method to get cosine of the angle between photons current direction and boundary normal
+        /// This gets called by Photon/CrossOrReflect upon crossing any tissue region (not
+        /// just domain boundaries).  Method determines cosine of the photon direction and
+        /// surface normal. 
         /// </summary>
         /// <param name="photon">photon</param>
         /// <returns>Uz=cos(theta)</returns>
@@ -425,6 +428,7 @@ namespace Vts.MonteCarlo.Tissues
             {
                 if (_inclusionRegions[i].OnBoundary(photon.DP.Position)) inclusionIndex = i;
             }
+            // NOT sure if Abs makes sense here if normal and photon direction in opposite directions
             return Math.Abs(Direction.GetDotProduct( // Abs consistent with SingleInclusionTissue
                 photon.DP.Direction, _inclusionRegions[inclusionIndex].SurfaceNormal(photon.DP.Position)));
 
