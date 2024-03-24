@@ -394,18 +394,24 @@ namespace Vts.MonteCarlo.Tissues
                 if (_inclusionRegions[i].ContainsPosition(currentPosition)) inclusionIndex = i;
             }
             // must be on inclusions for now no reflection 
+            // Theta1 = incident, Theta2 = transmitted relative to normal
             var normal = _inclusionRegions[inclusionIndex].SurfaceNormal(currentPosition);
-            var cosTheta1 = Math.Abs(Direction.GetDotProduct(currentDirection, normal));
+            var cosTheta1 = Direction.GetDotProduct(currentDirection, normal);
+            // the following code follows de Greve fairly closely but needed following 2 lines
+            // from https://stackoverflow.com/questions/26087106/refraction-in-raytracing
+            if (cosTheta1 > 0.0) normal = new Direction(-normal.Ux, -normal.Uy, -normal.Uz);
+            else cosTheta1 = -cosTheta1;
             var nRatio = currentN / nextN;
             var sinTheta2Squared = nRatio * nRatio * (1 - cosTheta1 * cosTheta1);
-            // do I need to check if 1-sinTheta2Squared <0? then reflection
+            // check for internal reflection
+            if (currentN > nextN && sinTheta2Squared > 1.0) return GetReflectedDirection(currentPosition, currentDirection);
             var factor = nRatio * cosTheta1 - Math.Sqrt(1 - sinTheta2Squared);
+            // following is Eq.(21) of de Greve
             var newX = nRatio * currentDirection.Ux + factor * normal.Ux;
             var newY = nRatio * currentDirection.Uy + factor * normal.Uy;
             var newZ = nRatio * currentDirection.Uz + factor * normal.Uz;
             var norm = Math.Sqrt(newX * newX + newY * newY + newZ * newZ);
             return new Direction(newX / norm, newY / norm, newZ / norm);
-            // where theta1 and theta2 are angles relative to normal
         }
 
         /// <summary>

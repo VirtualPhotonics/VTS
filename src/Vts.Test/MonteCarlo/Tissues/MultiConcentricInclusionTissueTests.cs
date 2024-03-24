@@ -271,18 +271,27 @@ namespace Vts.Test.MonteCarlo.Tissues
         }
 
         /// <summary>
-        /// Validate method GetReflectedDirection returns correct direction.
+        /// Validate method GetReflectedDirection returns correct direction.  These tests first test
+        /// the surrounding boundary layer n=1.4 mismatch with air n=1 and determines refracted directions
+        /// Case 1: exiting top at 45 deg angle
+        /// Case 2: exiting bottom at 45 deg angle
+        /// Case 3: entering top at exiting angle of Case 1 (opposite direction)
+        /// Case 4: entering bottom at exiting angle of Case 2 (opposite direction)
+        /// These cases validation values are used when testing refraction out of/into cylinder when
+        /// tangent is z=constant plane
         /// </summary>
         [Test]
         public void Verify_GetRefractedDirection_method_returns_correct_result()
         {
             // check refraction between tissue layer and air
-            // put photon on boundary of domain (top surface) to make sure base (MultiLayerTissue) call works
+            // put photon on boundary of domain (top layer surface) to make sure base (MultiLayerTissue)
+            // call works
+
+            // Case 1: index mismatched 45 deg to top z-plane surface 1.4 to 1.0
             var currentPosition = new Position(0, 0, 0);
             var currentDirection = new Direction(1 / Math.Sqrt(2), 0, -1 / Math.Sqrt(2));
             var currentN = 1.4;
-            var nextN = 1.0;
-            // cosThetaSnell obtained using cosTheta = angle with normal and Fresnel
+            var nextN = 1.0; // 1.4 to 1.0
             var cosTheta = Math.Abs(Direction.GetDotProduct( // normal to top layer surface is [0,0,-1]
                 currentDirection, new Direction(0, 0, -1)));
             Optics.Fresnel(currentN, nextN, cosTheta, out var cosThetaSnell);
@@ -291,7 +300,8 @@ namespace Vts.Test.MonteCarlo.Tissues
             Assert.IsTrue(Math.Abs(refractedDir.Ux - 0.989949) < 1e-6);
             Assert.AreEqual(0, refractedDir.Uy);
             Assert.IsTrue(Math.Abs(refractedDir.Uz + 0.141421) < 1e-6); // refracted
-            // put photon on boundary of domain (bottom surface) to make sure base (MultiLayerTissue) call works
+            // put photon on boundary of domain (bottom surface) to make sure base call works
+            // Case 2: index mismatched 45 deg to tangent z-plane surface still 1.4 to 1.0
             currentPosition = new Position(0, 0, 100);
             currentDirection = new Direction(1 / Math.Sqrt(2), 0, 1 / Math.Sqrt(2));
             cosTheta = Math.Abs(Direction.GetDotProduct( // normal to bottom layer surface is [0,0,1]
@@ -302,27 +312,38 @@ namespace Vts.Test.MonteCarlo.Tissues
             Assert.IsTrue(Math.Abs(refractedDir.Ux - 0.989949) < 1e-6);
             Assert.AreEqual(0, refractedDir.Uy);
             Assert.IsTrue(Math.Abs(refractedDir.Uz - 0.141421) < 1e-6); // refracted
-
-            // check refraction between outer cylinder and surrounding layer: concave up refraction
-            // index matched perpendicular: instance of class defines layer and outer cylinder n=1.4
-            currentPosition = new Position(0, 0, 5.95); // photon on bottom outer infinite cylinder
-            currentDirection = new Direction(0, 0, -1); // pointed into it
-            currentN = 1.4;
-            nextN = 1.4;
+            // now test opposite direction from n=1.0 to n=1.4
+            // Case 3: index mismatched 45 deg into top layer surface 
+            currentPosition = new Position(0, 0, 0);
+            currentDirection = new Direction(0.989949, 0, 0.141421);
+            currentN = 1.0;
+            nextN = 1.4; // n=1.0 to n=1.4
+            cosTheta = Math.Abs(Direction.GetDotProduct( // normal to top layer surface is [0,0,-1]
+                currentDirection, new Direction(0, 0, -1)));
+            Optics.Fresnel(currentN, nextN, cosTheta, out cosThetaSnell);
+            refractedDir = _tissue.GetRefractedDirection(
+                currentPosition, currentDirection, currentN, nextN, cosThetaSnell);
+            Assert.IsTrue(Math.Abs(refractedDir.Ux - 1 / Math.Sqrt(2)) < 1e-6);
+            Assert.AreEqual(0, refractedDir.Uy);
+            Assert.IsTrue(Math.Abs(refractedDir.Uz - 1 / Math.Sqrt(2)) < 1e-6); // refracted
+            // Case 4: index mismatched 45 deg into bottom layer surface 1.0 to 1.4
+            currentPosition = new Position(0, 0, 100);
+            currentDirection = new Direction(0.989949, 0, -0.141421);
             cosTheta = Math.Abs(Direction.GetDotProduct( // normal to bottom layer surface is [0,0,1]
                 currentDirection, new Direction(0, 0, 1)));
             Optics.Fresnel(currentN, nextN, cosTheta, out cosThetaSnell);
             refractedDir = _tissue.GetRefractedDirection(
                 currentPosition, currentDirection, currentN, nextN, cosThetaSnell);
-            Assert.AreEqual(0, refractedDir.Ux);
+            Assert.IsTrue(Math.Abs(refractedDir.Ux - 1 / Math.Sqrt(2)) < 1e-6);
             Assert.AreEqual(0, refractedDir.Uy);
-            Assert.AreEqual(currentDirection.Uz, refractedDir.Uz); // no refraction
-            // index mismatched perpendicular between tissue 
-            currentN = 1.4;
-            nextN = 1.0;
-            _tissue.Regions[1].RegionOP.N = 1.0; // make layer n=1
+            Assert.IsTrue(Math.Abs(refractedDir.Uz + 1 / Math.Sqrt(2)) < 1e-6); // refracted
+
+            // check cases where NO refraction should occur between outer cylinder and surrounding layer
+            // index matched perpendicular: instance of class defines layer and outer cylinder n=1.4
             currentPosition = new Position(0, 0, 5.95); // photon on bottom outer infinite cylinder
             currentDirection = new Direction(0, 0, -1); // pointed into it
+            currentN = 1.4;
+            nextN = 1.4;
             cosTheta = Math.Abs(Direction.GetDotProduct( // normal to bottom layer surface is [0,0,1]
                 currentDirection, new Direction(0, 0, 1)));
             Optics.Fresnel(currentN, nextN, cosTheta, out cosThetaSnell);
@@ -339,27 +360,26 @@ namespace Vts.Test.MonteCarlo.Tissues
             _tissue.Regions[1].RegionOP.N = 1.4; // make layer n=1.4
             cosTheta = Math.Abs(Direction.GetDotProduct( // normal to bottom layer surface is [0,0,1]
                 currentDirection, new Direction(0, 0, 1)));
-            Optics.Fresnel(currentN, nextN, cosTheta, out cosThetaSnell); 
+            Optics.Fresnel(currentN, nextN, cosTheta, out cosThetaSnell);
             refractedDir = _tissue.GetRefractedDirection(
                 currentPosition, currentDirection, currentN, nextN, cosThetaSnell);
             Assert.IsTrue(Math.Abs(refractedDir.Ux - 1 / Math.Sqrt(2)) < 1e-6);
             Assert.AreEqual(0, refractedDir.Uy);
             Assert.IsTrue(Math.Abs(refractedDir.Uz + 1 / Math.Sqrt(2)) < 1e-6); // no refraction
-            // index mismatched 45 deg to tangent z-plane surface
+            // index mismatched perpendicular between tissue  1.4 to 1.0
             currentN = 1.4;
             nextN = 1.0;
             _tissue.Regions[1].RegionOP.N = 1.0; // make layer n=1
             currentPosition = new Position(0, 0, 5.95); // photon on bottom outer infinite cylinder
-            currentDirection = new Direction(1 / Math.Sqrt(2), 0, -1 / Math.Sqrt(2));
-            cosTheta = Math.Abs(Direction.GetDotProduct( // normal to bottom cyl surface is [0,0,1]
+            currentDirection = new Direction(0, 0, -1); // pointed into it
+            cosTheta = Math.Abs(Direction.GetDotProduct( // normal to bottom layer surface is [0,0,1]
                 currentDirection, new Direction(0, 0, 1)));
             Optics.Fresnel(currentN, nextN, cosTheta, out cosThetaSnell);
             refractedDir = _tissue.GetRefractedDirection(
                 currentPosition, currentDirection, currentN, nextN, cosThetaSnell);
-            Assert.IsTrue(Math.Abs(refractedDir.Ux - 0.989949) < 1e-6);
+            Assert.AreEqual(0, refractedDir.Ux);
             Assert.AreEqual(0, refractedDir.Uy);
-            Assert.IsTrue(Math.Abs(refractedDir.Uz + 0.141421) < 1e-6); // refracted
-            // check concave down refraction
+            Assert.AreEqual(currentDirection.Uz, refractedDir.Uz); // no refraction
             // index matched perpendicular
             currentN = 1.4;
             nextN = 1.4;
@@ -374,20 +394,6 @@ namespace Vts.Test.MonteCarlo.Tissues
             Assert.AreEqual(0, refractedDir.Ux);
             Assert.AreEqual(0, refractedDir.Uy);
             Assert.AreEqual(-1, refractedDir.Uz); // no refraction
-            // index mismatched perpendicular between tissue
-            currentN = 1.4;
-            nextN = 1.0;
-            _tissue.Regions[1].RegionOP.N = 1.0;
-            currentPosition = new Position(0, 0, 0.05); // photon on top outer infinite cylinder
-            currentDirection = new Direction(0, 0, -1); // pointed out of it
-            cosTheta = Math.Abs(Direction.GetDotProduct( // normal to top cylinder surface is [0,0,-1]
-                currentDirection, new Direction(0, 0, -1)));
-            Optics.Fresnel(currentN, nextN, cosTheta, out cosThetaSnell);
-            refractedDir = _tissue.GetRefractedDirection(
-                currentPosition, currentDirection, currentN, nextN, cosThetaSnell);
-            Assert.AreEqual(0, refractedDir.Ux);
-            Assert.AreEqual(0, refractedDir.Uy);
-            Assert.AreEqual(-1, refractedDir.Uz); // refraction but no angle change
             // index matched 45 deg to tangent surface
             // set n of surrounding region to 1.4
             currentN = 1.4;
@@ -403,8 +409,26 @@ namespace Vts.Test.MonteCarlo.Tissues
             Assert.IsTrue(Math.Abs(refractedDir.Ux - 1 / Math.Sqrt(2)) < 1e-6);
             Assert.AreEqual(0, refractedDir.Uy);
             Assert.IsTrue(Math.Abs(refractedDir.Uz + 1 / Math.Sqrt(2)) < 1e-6); // no refraction
-            // index mismatched 45 deg to tangent surface
-            // set n of surrounding region to 1.0
+
+            // check cases where WITH refraction should occur between outer cylinder and surrounding layer
+            // results should be the same as results above for refraction through plane since tangent
+            // to cylinder at topmost or bottommost position is z=constant plane
+            // index mismatched perpendicular between tissue n=1.4 to n=1.0
+            currentN = 1.4;
+            nextN = 1.0;
+            _tissue.Regions[1].RegionOP.N = 1.0;
+            currentPosition = new Position(0, 0, 0.05); // photon on top outer infinite cylinder
+            currentDirection = new Direction(0, 0, -1); // pointed out of it
+            cosTheta = Math.Abs(Direction.GetDotProduct( // normal to top cylinder surface is [0,0,-1]
+                currentDirection, new Direction(0, 0, -1)));
+            Optics.Fresnel(currentN, nextN, cosTheta, out cosThetaSnell);
+            refractedDir = _tissue.GetRefractedDirection(
+                currentPosition, currentDirection, currentN, nextN, cosThetaSnell);
+            Assert.AreEqual(0, refractedDir.Ux);
+            Assert.AreEqual(0, refractedDir.Uy);
+            Assert.AreEqual(-1, refractedDir.Uz); // refraction but no angle change since perpendicular
+
+            // index mismatched 45 deg to tangent top surface n=1.4 to n=1.0 sb equal to Case 1 above
             currentN = 1.4;
             nextN = 1.0;
             _tissue.Regions[1].RegionOP.N = 1.0;
@@ -415,10 +439,52 @@ namespace Vts.Test.MonteCarlo.Tissues
             Optics.Fresnel(currentN, nextN, cosTheta, out cosThetaSnell);
             refractedDir = _tissue.GetRefractedDirection(
                 currentPosition, currentDirection, currentN, nextN, cosThetaSnell);
-            //// not sure of following
-            //Assert.IsTrue(Math.Abs(refractedDir.Ux - 0.989949) < 1e-6);
-            //Assert.AreEqual(0, refractedDir.Uy);
-            //Assert.IsTrue(Math.Abs(refractedDir.Uz + 0.141421) < 1e-6);  // refraction
+            Assert.IsTrue(Math.Abs(refractedDir.Ux - 0.989949) < 1e-6);
+            Assert.AreEqual(0, refractedDir.Uy);
+            Assert.IsTrue(Math.Abs(refractedDir.Uz + 0.141421) < 1e-6); // refracted
+            // index mismatched 45 deg to tangent bottom surface 1.4 to 1.0 sb equal to Case 2 above
+            currentN = 1.4;
+            nextN = 1.0;
+            _tissue.Regions[1].RegionOP.N = 1.0; // make layer n=1.4 and cyl n=1.0
+            currentPosition = new Position(0, 0, 5.95); // photon on bottom outer infinite cylinder
+            currentDirection = new Direction(1 / Math.Sqrt(2), 0, 1 / Math.Sqrt(2));
+            cosTheta = Math.Abs(Direction.GetDotProduct( // normal to bottom cyl surface is [0,0,1]
+                currentDirection, new Direction(0, 0, 1)));
+            Optics.Fresnel(currentN, nextN, cosTheta, out cosThetaSnell);
+            refractedDir = _tissue.GetRefractedDirection(
+                currentPosition, currentDirection, currentN, nextN, cosThetaSnell);
+            Assert.IsTrue(Math.Abs(refractedDir.Ux - 0.989949) < 1e-6);
+            Assert.AreEqual(0, refractedDir.Uy);
+            Assert.IsTrue(Math.Abs(refractedDir.Uz - 0.141421) < 1e-6); // refracted
+            // index mismatched 45 deg to top tangent surface n=1.0 to n=1.4 sb equal to Case 3 above
+            currentN = 1.0;
+            nextN = 1.4;
+            _tissue.Regions[1].RegionOP.N = 1.0;
+            currentPosition = new Position(0, 0, 0.05); // photon on top outer infinite cylinder
+            currentDirection = new Direction(0.989949, 0, 0.141421);
+            cosTheta = Math.Abs(Direction.GetDotProduct( // normal to top cylinder surface is [0,0,-1]
+                currentDirection, new Direction(0, 0, -1)));
+            Optics.Fresnel(currentN, nextN, cosTheta, out cosThetaSnell);
+            refractedDir = _tissue.GetRefractedDirection(
+                currentPosition, currentDirection, currentN, nextN, cosThetaSnell);
+            // not sure of following
+            Assert.IsTrue(Math.Abs(refractedDir.Ux - 1 / Math.Sqrt(2)) < 1e-6);
+            Assert.AreEqual(0, refractedDir.Uy);
+            Assert.IsTrue(Math.Abs(refractedDir.Uz - 1 / Math.Sqrt(2)) < 1e-6);  // refraction
+            // index mismatched 45 deg to tangent z-plane surface 1.0 to 1.4 sb equal to Case 4 above
+            currentN = 1.0;
+            nextN = 1.4;
+            _tissue.Regions[1].RegionOP.N = 1.0; // make layer n=1
+            currentPosition = new Position(0, 0, 5.95); // photon on bottom outer infinite cylinder
+            currentDirection = new Direction(0.989949, 0, -0.141421);
+            cosTheta = Math.Abs(Direction.GetDotProduct( // normal to bottom cyl surface is [0,0,1]
+                currentDirection, new Direction(0, 0, 1)));
+            Optics.Fresnel(currentN, nextN, cosTheta, out cosThetaSnell);
+            refractedDir = _tissue.GetRefractedDirection(
+                currentPosition, currentDirection, currentN, nextN, cosThetaSnell);
+            Assert.IsTrue(Math.Abs(refractedDir.Ux - 1 / Math.Sqrt(2)) < 1e-6);
+            Assert.AreEqual(0, refractedDir.Uy);
+            Assert.IsTrue(Math.Abs(refractedDir.Uz + 1 / Math.Sqrt(2)) < 1e-6); // refracted
         }
 
         /// <summary>
