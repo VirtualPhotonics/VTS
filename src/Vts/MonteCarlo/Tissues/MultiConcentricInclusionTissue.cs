@@ -346,7 +346,8 @@ namespace Vts.MonteCarlo.Tissues
             {
                 if (_inclusionRegions[i].ContainsPosition(currentPosition)) inclusionIndex = i;
             }
-            if (_inclusionRegions[inclusionIndex].RegionOP.N == Regions[_layerRegionIndexOfInclusion].RegionOP.N)
+            if (Math.Abs(_inclusionRegions[inclusionIndex].RegionOP.N - 
+                         Regions[_layerRegionIndexOfInclusion].RegionOP.N) < 1e-6)
             {
                 return currentDirection;  // no refractive index mismatch
             }
