@@ -385,7 +385,7 @@ namespace Vts.MonteCarlo.Tissues
                 return base.GetRefractedDirection(currentPosition, currentDirection, currentN, nextN, cosThetaSnell);
             }
 
-            if (currentN == nextN) return currentDirection; // no refractive index mismatch
+            if (Math.Abs(currentN - nextN) < 1e-6) return currentDirection; // no refractive index mismatch
 
             var inclusionIndex = 0;
             // on boundary of an inclusion, check which one
