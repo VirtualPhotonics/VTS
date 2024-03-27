@@ -485,6 +485,22 @@ namespace Vts.Test.MonteCarlo.Tissues
             Assert.IsTrue(Math.Abs(refractedDir.Ux - 1 / Math.Sqrt(2)) < 1e-6);
             Assert.AreEqual(0, refractedDir.Uy);
             Assert.IsTrue(Math.Abs(refractedDir.Uz + 1 / Math.Sqrt(2)) < 1e-6); // refracted
+
+            // finally test when outside critical angle and reflects instead of refracts
+            // index mismatched >45 deg going from n=1.4 to n=1.0
+            currentN = 1.4;
+            nextN = 1.0;
+            _tissue.Regions[1].RegionOP.N = 1.0;
+            currentPosition = new Position(0, 0, 0.05); // photon on bottom outer infinite cylinder
+            currentDirection = new Direction(0.894427, 0, -0.447213); // outside critical angle
+            cosTheta = Math.Abs(Direction.GetDotProduct( // normal to top cyl surface is [0,0,-1]
+                currentDirection, new Direction(0, 0, -1)));
+            Optics.Fresnel(currentN, nextN, cosTheta, out cosThetaSnell);
+            refractedDir = _tissue.GetRefractedDirection(
+                currentPosition, currentDirection, currentN, nextN, cosThetaSnell);
+            Assert.IsTrue(Math.Abs(refractedDir.Ux - 0.894427) < 1e-6);
+            Assert.AreEqual(0, refractedDir.Uy);
+            Assert.IsTrue(Math.Abs(refractedDir.Uz - 0.447213) < 1e-6); // refracted
         }
 
         /// <summary>
