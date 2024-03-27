@@ -1,129 +1,19 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Serialization;
-using System.Threading;
 using Vts.Common;
 using Vts.MonteCarlo.PhotonData;
 
 namespace Vts.MonteCarlo.Tissues
 {
     /// <summary>
-    /// Implements ITissueInput.  Defines input to MultiConcentricInclusionTissue class.
-    /// Defines a tissue geometry comprised of a list of concentric inclusions (of same type)
-    /// embedded within a layered slab.  Note that many of the methods in this class are invoked
-    /// by Photon class and Photon masterminds their returns.  For example, when the photon is on the
-    /// boundary of the layers or the inclusions, Photon determines whether in the critical angle and
-    /// if so whether to reflect or refract, then invokes the methods below accordingly.
+    /// Implements ITissue.  All "InclusionTissue" classes define processing for those tissues that use
+    /// this class to get created. Defines a tissue geometry comprised of a list of concentric inclusions
+    /// (of same type) embedded within a layered slab.  Note that many of the methods in this class are
+    /// invoked by Photon class and Photon masterminds their returns.  For example, when the photon is
+    /// on the boundary of the layers or the inclusions, Photon determines whether in the critical angle
+    /// and if so whether to reflect or refract, then invokes the methods below accordingly.
     /// This assumes inclusions are concentric and lie entirely within a single layer of tissue.
-    /// </summary>
-    public class MultiConcentricInclusionTissueInput : TissueInput, ITissueInput
-    {
-        private ITissueRegion[] _inclusionRegions;
-        private ITissueRegion[] _layerRegions;
-
-        /// <summary>
-        /// constructor for MultiConcentricInclusion tissue input
-        /// </summary>
-        /// <param name="inclusionRegions">concentric inclusion regions, larger first</param>
-        /// <param name="layerRegions">layer regions</param>
-        public MultiConcentricInclusionTissueInput(
-            ITissueRegion[] inclusionRegions,
-            ITissueRegion[] layerRegions)
-        {
-            TissueType = "MultiConcentricInclusion";
-            LayerRegions = layerRegions;
-            InclusionRegions = inclusionRegions;
-            Regions = LayerRegions.Concat(InclusionRegions).ToArray();
-        }
-
-        /// <summary>
-        /// MultiConcentricInclusionTissue default constructor provides homogeneous tissue
-        /// </summary>
-        public MultiConcentricInclusionTissueInput()
-            : this(
-                new ITissueRegion[]
-                {
-                    new InfiniteCylinderTissueRegion(
-                        new Position(0, 0, 1),
-                        0.75,
-                        new OpticalProperties(0.05, 1.0, 0.8, 1.4)
-                    ),
-                    new InfiniteCylinderTissueRegion(
-                        new Position(0, 0, 1),
-                        0.5,
-                        new OpticalProperties(0.05, 1.0, 0.8, 1.4)
-                    )
-                },
-                new ITissueRegion[]
-                {
-                    new LayerTissueRegion(
-                        new DoubleRange(double.NegativeInfinity, 0.0),
-                        new OpticalProperties( 0.0, 1e-10, 1.0, 1.0)),
-                    new LayerTissueRegion(
-                        new DoubleRange(0.0, 100.0),
-                        new OpticalProperties(0.0, 1.0, 0.8, 1.4)),
-                    new LayerTissueRegion(
-                        new DoubleRange(100.0, double.PositiveInfinity),
-                        new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
-                })
-        {
-        }
-
-        /// <summary>
-        /// List of tissue regions comprising tissue
-        /// </summary>
-        [IgnoreDataMember]
-        public ITissueRegion[] Regions { get; private set; }
-
-        /// <summary>
-        /// tissue outer inclusion region
-        /// </summary>
-        public ITissueRegion[] InclusionRegions
-        {
-            get => _inclusionRegions;
-            set
-            {
-                _inclusionRegions = value;
-                if (LayerRegions != null) Regions = LayerRegions.Concat(_inclusionRegions).ToArray();
-            }
-        }
-
-        /// <summary>
-        /// Tissue layer regions
-        /// </summary>
-        public ITissueRegion[] LayerRegions
-        {
-            get => _layerRegions;
-            set
-            {
-                _layerRegions = value;
-                if (InclusionRegions != null) Regions = _layerRegions.Concat(InclusionRegions).ToArray();
-            }
-        }
-
-        /// <summary>
-        /// Required factory method to create the corresponding 
-        /// ITissue based on the ITissueInput data
-        /// </summary>
-        /// <param name="awt">Absorption Weighting Type</param>
-        /// <param name="pft">Phase Function Type</param>
-        /// <param name="russianRouletteWeightThreshold">Russian Roulette Weight Threshold</param>
-        /// <returns>instantiated tissue</returns>
-        public ITissue CreateTissue(AbsorptionWeightingType awt, PhaseFunctionType pft, double russianRouletteWeightThreshold)
-        {
-            var t = new MultiConcentricInclusionTissue(InclusionRegions, LayerRegions);
-
-            t.Initialize(awt, pft, russianRouletteWeightThreshold);
-
-            return t;
-        }
-    }
-
-    /// <summary>
-    /// Implements ITissue.  Defines tissue geometries comprised of layers
-    /// (including homogenous with air layers above and below).  Layers are infinite along
-    /// x- and y- axes.
     /// </summary>
     public class MultiConcentricInclusionTissue : MultiLayerTissue, ITissue
     {
