@@ -325,7 +325,9 @@ namespace Vts.MonteCarlo.Tissues
             {
                 if (_inclusionRegions[i].OnBoundary(photon.DP.Position)) inclusionIndex = i;
             }
-            // NOT sure if Abs makes sense here if normal and photon direction in opposite directions
+            // Since this method is called by Photon and used in Optics/Fresnel, definition used
+            // there calls for cos(theta) of normal to surface interface (normal to both sides).
+            // This is why the Abs is taken.
             return Math.Abs(Direction.GetDotProduct( // Abs consistent with SingleInclusionTissue
                 photon.DP.Direction, _inclusionRegions[inclusionIndex].SurfaceNormal(photon.DP.Position)));
 

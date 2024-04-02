@@ -287,7 +287,7 @@ namespace Vts.Test.MonteCarlo.Tissues
             // put photon on boundary of domain (top layer surface) to make sure base (MultiLayerTissue)
             // call works
 
-            // Case 1: index mismatched 45 deg to top z-plane surface 1.4 to 1.0
+            // Case 1: index mismatched 45 deg to top z-plane surface 1.4 to 1.0 
             var currentPosition = new Position(0, 0, 0);
             var currentDirection = new Direction(1 / Math.Sqrt(2), 0, -1 / Math.Sqrt(2));
             var currentN = 1.4;
@@ -428,7 +428,7 @@ namespace Vts.Test.MonteCarlo.Tissues
             Assert.AreEqual(0, refractedDir.Uy);
             Assert.AreEqual(-1, refractedDir.Uz); // refraction but no angle change since perpendicular
 
-            // index mismatched 45 deg to tangent top surface n=1.4 to n=1.0 sb equal to Case 1 above
+            // Case 1: index mismatched 45 deg to tangent top surface n=1.4 to n=1.0 sb equal to Case 1 above
             currentN = 1.4;
             nextN = 1.0;
             _tissue.Regions[1].RegionOP.N = 1.0;
@@ -442,7 +442,7 @@ namespace Vts.Test.MonteCarlo.Tissues
             Assert.IsTrue(Math.Abs(refractedDir.Ux - 0.989949) < 1e-6);
             Assert.AreEqual(0, refractedDir.Uy);
             Assert.IsTrue(Math.Abs(refractedDir.Uz + 0.141421) < 1e-6); // refracted
-            // index mismatched 45 deg to tangent bottom surface 1.4 to 1.0 sb equal to Case 2 above
+            // Case 2: index mismatched 45 deg to tangent bottom surface 1.4 to 1.0 sb equal to Case 2 above
             currentN = 1.4;
             nextN = 1.0;
             _tissue.Regions[1].RegionOP.N = 1.0; // make layer n=1.4 and cyl n=1.0
@@ -456,7 +456,7 @@ namespace Vts.Test.MonteCarlo.Tissues
             Assert.IsTrue(Math.Abs(refractedDir.Ux - 0.989949) < 1e-6);
             Assert.AreEqual(0, refractedDir.Uy);
             Assert.IsTrue(Math.Abs(refractedDir.Uz - 0.141421) < 1e-6); // refracted
-            // index mismatched 45 deg to top tangent surface n=1.0 to n=1.4 sb equal to Case 3 above
+            // Case 3: index mismatched 45 deg to top tangent surface n=1.0 to n=1.4 sb equal to Case 3 above
             currentN = 1.0;
             nextN = 1.4;
             _tissue.Regions[1].RegionOP.N = 1.0;
@@ -471,7 +471,7 @@ namespace Vts.Test.MonteCarlo.Tissues
             Assert.IsTrue(Math.Abs(refractedDir.Ux - 1 / Math.Sqrt(2)) < 1e-6);
             Assert.AreEqual(0, refractedDir.Uy);
             Assert.IsTrue(Math.Abs(refractedDir.Uz - 1 / Math.Sqrt(2)) < 1e-6);  // refraction
-            // index mismatched 45 deg to tangent z-plane surface 1.0 to 1.4 sb equal to Case 4 above
+            // Case 4: index mismatched 45 deg to tangent z-plane surface 1.0 to 1.4 sb equal to Case 4 above
             currentN = 1.0;
             nextN = 1.4;
             _tissue.Regions[1].RegionOP.N = 1.0; // make layer n=1
@@ -504,20 +504,92 @@ namespace Vts.Test.MonteCarlo.Tissues
         }
 
         /// <summary>
-        /// Validate method GetAngleRelativeToBoundaryNormal return correct Boolean
+        /// Validate method GetAngleRelativeToBoundaryNormal return correct angle. These tests
+        /// include perpendicular to plane of normal and cases when not perpendicular:
+        /// Case 1: exiting top at 45 deg angle (same direction as normal)
+        /// Case 2: exiting bottom at 45 deg angle (same direction as normal)
+        /// Case 3: entering top at exiting angle of Case 1 (opposite direction)
+        /// Case 4: entering bottom at exiting angle of Case 2 (opposite direction)
+        /// These cases validation values are used when testing refraction out of/into cylinder when
+        /// tangent is z=constant plane
+        /// Since this method is called by Photon and used in Optics/Fresnel, definition used
+        /// there calls for cos(theta) of normal to surface interface (normal to both sides).
+        /// This is why the Abs is taken.
         /// </summary>
         [Test]
         public void Verify_GetAngleRelativeToBoundaryNormal_method_returns_correct_result()
         {
+            // perpendicular to plane of normal in same direction as surface normal
+            var currentPosition = new Position(0, 0, 0.05); // photon on top outer infinite cylinder
+            var currentDirection = new Direction(0, 0, -1); // pointed out of it
             var photon = new Photon( // on top of cylinder pointed into it
-                new Position(0, 0, 1.0),
-                new Direction(0.0, 0, 1.0),
+                currentPosition,
+                currentDirection,
                 1,
                 _tissue,
                 1,
                 new Random());
             var cosTheta = _tissue.GetAngleRelativeToBoundaryNormal(photon);
             Assert.AreEqual(1,cosTheta);
+            // perpendicular to plane of normal in opposite direction as surface normal
+            currentPosition = new Position(0, 0, 0.05); // photon on top outer infinite cylinder
+            currentDirection = new Direction(0, 0, 1); // pointed into it
+            photon = new Photon( // on top of cylinder pointed into it
+                currentPosition,
+                currentDirection,
+                1,
+                _tissue,
+                1,
+                new Random());
+            cosTheta = _tissue.GetAngleRelativeToBoundaryNormal(photon);
+            Assert.AreEqual(1, cosTheta);
+            // Case 1: exiting top at 45 deg angle (same direction as normal)
+            currentPosition = new Position(0, 0, 0.05); // photon on top outer infinite cylinder
+            currentDirection = new Direction(1 / Math.Sqrt(2), 0, -1 / Math.Sqrt(2));
+            photon = new Photon( // on top of cylinder pointed into it
+                currentPosition,
+                currentDirection,
+                1,
+                _tissue,
+                1,
+                new Random());
+            cosTheta = _tissue.GetAngleRelativeToBoundaryNormal(photon);
+            Assert.AreEqual(1 / Math.Sqrt(2), cosTheta);
+            // Case 2: exiting bottom at 45 deg angle (same direction as normal)
+            currentPosition = new Position(0, 0, 5.95); // photon on bottom outer infinite cylinder
+            currentDirection = new Direction(1 / Math.Sqrt(2), 0, 1 / Math.Sqrt(2));
+            photon = new Photon( // on top of cylinder pointed into it
+                currentPosition,
+                currentDirection,
+                1,
+                _tissue,
+                1,
+                new Random());
+            cosTheta = _tissue.GetAngleRelativeToBoundaryNormal(photon);
+            Assert.AreEqual(1 / Math.Sqrt(2), cosTheta);
+            // Case 3: entering top at exiting angle of Case 1 (opposite direction)
+            currentPosition = new Position(0, 0, 0.05); // photon on top outer infinite cylinder
+            currentDirection = new Direction(0.989949, 0, 0.141421);
+            photon = new Photon( // on top of cylinder pointed into it
+                currentPosition,
+                currentDirection,
+                1,
+                _tissue,
+                1,
+                new Random());
+            cosTheta = _tissue.GetAngleRelativeToBoundaryNormal(photon);
+            Assert.AreEqual(0.141421, cosTheta);
+            // Case 4: entering bottom at exiting angle of Case 2 (opposite direction)
+            currentPosition = new Position(0, 0, 5.95); // photon on bottom outer infinite cylinder
+            currentDirection = new Direction(0.989949, 0, -0.141421); photon = new Photon( // on top of cylinder pointed into it
+                currentPosition,
+                currentDirection,
+                1,
+                _tissue,
+                1,
+                new Random());
+            cosTheta = _tissue.GetAngleRelativeToBoundaryNormal(photon);
+            Assert.AreEqual(0.141421, cosTheta);
         }
     }
 }
