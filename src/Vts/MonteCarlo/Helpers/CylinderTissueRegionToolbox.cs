@@ -33,9 +33,9 @@ namespace Vts.MonteCarlo.Tissues
             distanceToBoundary = double.PositiveInfinity;
             double root = 0;
             double a, b, c;
-            var dx = (p2.X - p1.X);
-            var dy = (p2.Y - p1.Y);
-            var dz = (p2.Z - p1.Z);
+            var dx = p2.X - p1.X;
+            var dy = p2.Y - p1.Y;
+            var dz = p2.Z - p1.Z;
             switch (axis)
             {
                 case CylinderTissueRegionAxisType.X:
@@ -52,8 +52,8 @@ namespace Vts.MonteCarlo.Tissues
                     c = (p1.X - center.X) * (p1.X - center.X) +
                         (p1.Y - center.Y) * (p1.Y - center.Y) - radius * radius;
                     break;
-                case CylinderTissueRegionAxisType.Y:
                 default:
+                case CylinderTissueRegionAxisType.Y:
                     a = dx * dx + dz * dz;
                     b = 2 * (p1.X - center.X) * dx +
                         2 * (p1.Z - center.Z) * dz;
@@ -64,78 +64,61 @@ namespace Vts.MonteCarlo.Tissues
 
             var rootTerm = b * b - 4 * a * c;
 
-            if (rootTerm > 0)  // roots are real 
+            if (rootTerm <= 0) return false; // roots are real 
+            var rootTermSqrt = Math.Sqrt(rootTerm);
+            var root1 = (-b - rootTermSqrt) / (2 * a);
+            var root2 = (-b + rootTermSqrt) / (2 * a);
+
+            var numberOfIntersections = 0; //number of intersections
+
+            if (root1 is < 1.0 and > 0.0)
             {
-                var rootTermSqrt = Math.Sqrt(rootTerm);
-                var root1 = (-b - rootTermSqrt) / (2 * a);
-                var root2 = (-b + rootTermSqrt) / (2 * a);
+                numberOfIntersections += 1;
+                root = root1;
+            }
 
-                var numberOfIntersections = 0; //number of intersections
+            if (root2 is < 1.0 and > 0.0)
+            {
+                numberOfIntersections += 1;
+                root = root2;
+            }
 
-                if (root1 < 1.0 && root1 > 0.0)
-                {
-                    numberOfIntersections += 1;
-                    root = root1;
-                }
+            var hit = false;
+            switch (numberOfIntersections)
+            {
+                case 0: /* roots real but no intersection */
+                    break;
+                case 1:
+                    if (!oneIn && Math.Abs(root) < 1e-7)
+                    {
+                        break;
+                    }
+                    /*entering or exiting cylinder. It's the same*/
+                    /*distance to the boundary*/
+                    distanceToBoundary = root * Math.Sqrt(dx * dx + dy * dy + dz * dz);
 
-                if (root2 < 1.0 && root2 > 0.0)
-                {
-                    numberOfIntersections += 1;
-                    root = root2;
-                }
+                    //// ckh fix 8/25/11: check if on boundary of cylinder
+                    hit =  distanceToBoundary >= 1e-11;
+                    break;
+                case 2:  /* went through cylinder: must stop at nearest intersection */
+                    //*which is nearest?*/
+                    if (oneIn)
+                    {
+                        root = root1 > root2 ? root1 : root2;
+                    }
+                    else
+                    {
+                        root = root1 < root2 ? root1 : root2;
+                    }
 
-                double xto;
-                double yto;
-                double zto;
-                switch (numberOfIntersections)
-                {
-                    case 0: /* roots real but no intersection */
-                        return false;
-                    case 1:
-                        if (!oneIn && Math.Abs(root) < 1e-7)
-                        {
-                            return false;
-                        }
-                        /*entering or exiting cylinder. It's the same*/
-                        xto = p1.X + root * dx;
-                        yto = p1.Y + root * dy;
-                        zto = p1.Z + root * dz;
+                    /*distance to the nearest boundary*/
+                    distanceToBoundary = root * Math.Sqrt(dx * dx + dy * dy + dz * dz);
 
-                        /*distance to the boundary*/
-                        distanceToBoundary = Math.Sqrt((xto - p1.X) * (xto - p1.X) +
-                                                       (yto - p1.Y) * (yto - p1.Y) +
-                                                       (zto - p1.Z) * (zto - p1.Z));
+                    hit = true;
+                    break;
+            } /* end switch */
 
-                        //// ckh fix 8/25/11: check if on boundary of cylinder
-                        return distanceToBoundary >= 1e-11;
-
-                    case 2:  /* went through cylinder: must stop at nearest intersection */
-                        //*which is nearest?*/
-                        if (oneIn)
-                        {
-                            root = root1 > root2 ? root1 : root2;
-                        }
-                        else
-                        {
-                            root = root1 < root2 ? root1 : root2;
-                        }
-                        xto = p1.X + root * dx;
-                        yto = p1.Y + root * dy;
-                        zto = p1.Z + root * dz;
-
-                        /*distance to the nearest boundary*/
-                        distanceToBoundary = Math.Sqrt((xto - p1.X) * (xto - p1.X) +
-                                                       (yto - p1.Y) * (yto - p1.Y) +
-                                                       (zto - p1.Z) * (zto - p1.Z));
-
-                        return true;
-
-                } /* end switch */
-
-            } /* bb-4ac>0 */
-
-            /* roots imaginary -> no intersection */
-            return false;
+            return hit;
         }  
     }
 }
