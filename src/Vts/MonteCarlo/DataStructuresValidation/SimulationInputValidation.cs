@@ -307,7 +307,7 @@ namespace Vts.MonteCarlo
                 {
                     return TransmittedDynamicMTOfXAndYAndSubregionHistDetectorInputValidation.ValidateInput(detectorInput, input.TissueInput.Regions.Count());
                 }
-                if (detectorInput.TallyType.Contains("SurfaceFiber"))
+                if (detectorInput.TallyType.Contains("SurfaceFiber") && !detectorInput.TallyType.Contains("InfiniteCylinder"))
                 {
                     return SurfaceFiberDetectorInputValidation.ValidateInput(detectorInput);
                 }

@@ -14,6 +14,8 @@ namespace Vts.MonteCarlo
             "SlantedRecessedFiber",
             // Reflectance Surface fiber 
             "SurfaceFiber",
+            // Infinite cylinder surface fiber
+            "InfiniteCylinderSurfaceFiber",
             // Reflectance as a function of source-detector separation (rho) and angle
             "ROfRhoAndAngle",
             // Reflectance as a function of source-detector separation (rho)

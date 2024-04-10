@@ -52,6 +52,18 @@ namespace Vts.MonteCarlo
         /// Surface fiber tally count
         /// </summary>
         public double SurFib_TallyCount { get { return (double)((dynamic)ResultsDictionary[_detectorResults.First(d => d.TallyType == "SurfaceFiber").Name]).TallyCount; } }
+        /// <summary>
+        /// Surface fiber
+        /// </summary>
+        public double InfCylSurFib { get { return (double)((dynamic)ResultsDictionary[_detectorResults.First(d => d.TallyType == "InfiniteCylinderSurfaceFiber").Name]).Mean; } }
+        /// <summary>
+        /// Surface fiber 2nd moment
+        /// </summary>
+        public double InfCylSurFib2 { get { return (double)((dynamic)ResultsDictionary[_detectorResults.First(d => d.TallyType == "InfiniteCylinderSurfaceFiber").Name]).SecondMoment; } }
+        /// <summary>
+        /// Surface fiber tally count
+        /// </summary>
+        public double InfCylSurFib_TallyCount { get { return (double)((dynamic)ResultsDictionary[_detectorResults.First(d => d.TallyType == "InfiniteCylinderSurfaceFiber").Name]).TallyCount; } }
 
         /// <summary>
         /// Diffuse Reflectance

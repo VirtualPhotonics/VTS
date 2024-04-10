@@ -483,20 +483,20 @@ namespace Vts.MonteCarlo
                     false, // track statistics
                     0.0, // RR threshold -> no RR performed
                     0),
-                new DirectionalPointSourceInput(
-                    new Position(0.0, 0.0, 0.0),
-                    new Direction(0.0, 0.0, 1.0),
-                    0), // 0=start in air, 1=start in tissue
+                new DirectionalPointSourceInput( // on left side of outer cyl pointed right
+                    new Position(-1.0, 0.0, 1.0),
+                    new Direction(1.0, 0.0, 0.0),
+                    1), // 0=start in air, 1=start in tissue
                 new MultiConcentricInfiniteCylinderTissueInput(
-new ITissueRegion[]
+                    new ITissueRegion[]
                     {
                         new InfiniteCylinderTissueRegion(
-                            new Position(0, 0, 1),
+                            new Position(0, 0, 2),
                             1.0,
                             new OpticalProperties(0.05, 1.0, 0.8, 1.4)
                         ),
                         new InfiniteCylinderTissueRegion(
-                            new Position(0, 0, 1),
+                            new Position(0, 0, 2),
                             0.75,
                             new OpticalProperties(0.05, 1.0, 0.8, 1.4)
                         ),
@@ -520,7 +520,16 @@ new ITissueRegion[]
                     {
                         X =new DoubleRange(-10, 10, 201),
                         Y =new DoubleRange(-10, 10, 2),
-                        Z =new DoubleRange(0, 10, 101)},
+                        Z =new DoubleRange(0, 10, 101)
+                    },
+                    new InfiniteCylinderSurfaceFiberDetectorInput
+                    {
+                        FinalTissueRegionIndex = 1,
+                        Center = new Position(0.0, 0.0, 1.0),
+                        Radius = 1.0,
+                        N = 1.0,
+                        NA = 1.0,
+                    }
                 }
             );
         }

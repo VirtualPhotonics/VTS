@@ -35,7 +35,11 @@ namespace Vts.MonteCarlo.Factories
                 VirtualBoundaryType.pMCDiffuseTransmittance => new pMCDiffuseTransmittanceVirtualBoundary(
                                         tissue, detectorController, VirtualBoundaryType.DiffuseTransmittance.ToString()),
                 VirtualBoundaryType.BoundingVolume => new LateralBoundingVirtualBoundary(
-                                        tissue, detectorController, VirtualBoundaryType.BoundingVolume.ToString()),
+                    tissue, detectorController, VirtualBoundaryType.BoundingVolume.ToString()),
+                VirtualBoundaryType.InfiniteCylinderSurfaceDotNormalPositive => new InfiniteCylinderSurfaceDotNormalPositiveVirtualBoundary(
+                    tissue, detectorController, VirtualBoundaryType.InfiniteCylinderSurfaceDotNormalPositive.ToString()),
+                VirtualBoundaryType.InfiniteCylinderSurfaceDotNormalNegative => new InfiniteCylinderSurfaceDotNormalNegativeVirtualBoundary(
+                    tissue, detectorController, VirtualBoundaryType.InfiniteCylinderSurfaceDotNormalNegative.ToString()),
                 _ => throw new ArgumentOutOfRangeException("Virtual boundary type not recognized: " + vbType),
             };
             return vb;

@@ -1,4 +1,6 @@
-﻿namespace Vts.MonteCarlo.Detectors
+﻿using Newtonsoft.Json.Serialization;
+
+namespace Vts.MonteCarlo.Detectors
 {
     /// <summary>
     /// details for each detector that identifies type of detector
@@ -33,6 +35,16 @@
         /// Boolean identifying all bounding volume tallies
         /// </summary>
         public bool IsLateralBoundingVolumeTally { get; set; }
+        /// <summary>
+        /// Boolean identifying all infinite cylinder surface tallies
+        /// with photon direction dot normal is positive
+        /// </summary>
+        public bool IsInfiniteCylinderSurfaceDotNormalPositiveTally { get; set; }
+        /// <summary>
+        /// Boolean identifying all infinite cylinder surface tallies
+        /// with photon direction dot normal is negative
+        /// </summary>
+        public bool IsInfiniteCylinderSurfaceDotNormalNegativeTally { get; set; }
         /// <summary>
         /// Boolean identifying all volume tallies
         /// </summary>

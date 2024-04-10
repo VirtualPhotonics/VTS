@@ -6,26 +6,28 @@ using Vts.MonteCarlo.Tissues;
 namespace Vts.MonteCarlo.VirtualBoundaries
 {
     /// <summary>
-    /// Implements IVirtualBoundary.  Used to capture Outer cylinder reflectance detectors
+    /// Implements IVirtualBoundary.  Used to capture Inner cylinder reflectance detectors
     /// </summary>
-    public class OuterCylinderReflectanceVirtualBoundary : IVirtualBoundary
+    public class InfiniteCylinderSurfaceDotNormalPositiveVirtualBoundary : IVirtualBoundary
     {
         private readonly double distanceToBoundary;
 
         /// <summary>
-        /// Outer cylinder reflectance VB
+        /// Inner cylinder reflectance VB
         /// </summary>
         /// <param name="tissue">ITissue</param>
         /// <param name="detectorController">IDetectorController</param>
         /// <param name="name">string name</param>
-        public OuterCylinderReflectanceVirtualBoundary(ITissue tissue, IDetectorController detectorController, string name)
+        public InfiniteCylinderSurfaceDotNormalPositiveVirtualBoundary(ITissue tissue, IDetectorController detectorController, string name)
         {
-            // 1. Use "ContainsPosition(Position position)" to check whether photon is insde the outer cylinder or not
-            // 2. If no, WillHitBoundary = false
-            // 3. If yes, use "RayIntersectBoundary(Photon photon, out double distanceToBoundary)" to compute distanceToBoundary
+            // 1. Use "ContainsPosition(Position position)" to check whether photon is insde the inner cylinder or not
+            // 2. If yes, WillHitBoundary = false
+            // 3. If no, compute dot product of "SurfaceNormal" and "photon direction"
+            //     a. if dot product is positive (>=0), WillHitBoundary = false
+            //     b. if dotproduct is negative (<0), apply "RayIntersectBoundary(Photon photon, out double distanceToBoundary)" to compute distanceToBoundary
 
-            VirtualBoundaryType = VirtualBoundaryType.OuterCylinderReflectance;
-            PhotonStateType = PhotonStateType.PseudoOuterCylinderVirtualBoundary;
+            VirtualBoundaryType = VirtualBoundaryType.InfiniteCylinderSurfaceDotNormalPositive;
+            //PhotonStateType = PhotonStateType.PseudoInfiniteCylinderSurfaceDotNormalNegativeVirtualBoundary;
 
             DetectorController = detectorController;
 
@@ -61,11 +63,10 @@ namespace Vts.MonteCarlo.VirtualBoundaries
         public double GetDistanceToVirtualBoundary(PhotonDataPoint dp)
         {
             // check if VB not applied
-            if (!dp.StateFlag.HasFlag(PhotonStateType.PseudoOuterCylinderVirtualBoundary) ||
-                dp.Direction.Uz >= 0.0)
-            {
-                return double.PositiveInfinity;
-            }
+            //if (!dp.StateFlag.HasFlag(PhotonStateType.PseudoInfiniteCylinderSurfaceDotNormalNegativeVirtualBoundary))
+            //{
+            //    return double.PositiveInfinity;
+            //}
             // VB applies            
             return distanceToBoundary;
         }
