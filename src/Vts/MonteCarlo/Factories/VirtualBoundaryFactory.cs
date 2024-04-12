@@ -27,7 +27,7 @@ namespace Vts.MonteCarlo.Factories
                 VirtualBoundaryType.SpecularReflectance => new SpecularReflectanceVirtualBoundary(
                                          tissue, detectorController, VirtualBoundaryType.SpecularReflectance.ToString()),// reflecting off first layer without transporting in medium
                 VirtualBoundaryType.InternalSurface => new RadianceVirtualBoundary(
-                                        detectorController, VirtualBoundaryType.InternalSurface.ToString()),
+                                        tissue, detectorController, VirtualBoundaryType.InternalSurface.ToString()),
                 VirtualBoundaryType.GenericVolumeBoundary => new GenericVolumeVirtualBoundary(
                                         tissue, detectorController, VirtualBoundaryType.GenericVolumeBoundary.ToString()),
                 VirtualBoundaryType.pMCDiffuseReflectance => new pMCDiffuseReflectanceVirtualBoundary(
@@ -36,10 +36,6 @@ namespace Vts.MonteCarlo.Factories
                                         tissue, detectorController, VirtualBoundaryType.DiffuseTransmittance.ToString()),
                 VirtualBoundaryType.BoundingVolume => new LateralBoundingVirtualBoundary(
                     tissue, detectorController, VirtualBoundaryType.BoundingVolume.ToString()),
-                VirtualBoundaryType.InfiniteCylinderSurfaceDotNormalPositive => new InfiniteCylinderSurfaceDotNormalPositiveVirtualBoundary(
-                    tissue, detectorController, VirtualBoundaryType.InfiniteCylinderSurfaceDotNormalPositive.ToString()),
-                VirtualBoundaryType.InfiniteCylinderSurfaceDotNormalNegative => new InfiniteCylinderSurfaceDotNormalNegativeVirtualBoundary(
-                    tissue, detectorController, VirtualBoundaryType.InfiniteCylinderSurfaceDotNormalNegative.ToString()),
                 _ => throw new ArgumentOutOfRangeException("Virtual boundary type not recognized: " + vbType),
             };
             return vb;

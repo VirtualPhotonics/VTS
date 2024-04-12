@@ -170,6 +170,10 @@ namespace Vts.MonteCarlo
         /// </summary>
         public static string SurfaceFiber { get { return "SurfaceFiber"; } }
         /// <summary>
+        /// cylindrical fiber detector on infinite cylinder
+        /// </summary>
+        public static string InfiniteCylinderSurfaceFiber { get { return "InfiniteCylinderSurfaceFiber"; } }
+        /// <summary>
         /// Total diffuse reflectance
         /// </summary>
         public static string RDiffuse { get { return "RDiffuse"; } }
@@ -344,6 +348,10 @@ namespace Vts.MonteCarlo
         /// Reflected subregion time as a function of source-detector separation (rho) and tissue region 
         /// </summary>
         public static string ReflectedTimeOfRhoAndSubregionHist { get { return "ReflectedTimeOfRhoAndSubregionHist"; } }
+        /// <summary>
+        /// Surface radiance downward as a function of source-detector separation (rho) at z=constant plane 
+        /// </summary>
+        public static string RadianceOfRhoAtZ { get { return "RadianceOfRhoAtZ"; } }        
         /// <summary>
         /// Surface radiance as a function of source-detector separation (rho)
         /// </summary>

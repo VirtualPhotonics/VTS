@@ -39,14 +39,6 @@ namespace Vts.MonteCarlo
         /// <summary>
         /// Virtual boundary used to capture photons if leave this lateral boundary
         /// </summary>
-        BoundingVolume,
-        /// <summary>
-        /// Virtual boundary used to capture photons if leave cylinder in direction of outward normal
-        /// </summary>
-        InfiniteCylinderSurfaceDotNormalPositive,
-        /// <summary>
-        /// Virtual boundary used to capture photons if leave cylinder not in direction of outward normal
-        /// </summary>
-        InfiniteCylinderSurfaceDotNormalNegative,
+        BoundingVolume
     }
 }

@@ -522,13 +522,14 @@ namespace Vts.MonteCarlo
                         Y =new DoubleRange(-10, 10, 2),
                         Z =new DoubleRange(0, 10, 101)
                     },
-                    new InfiniteCylinderSurfaceFiberDetectorInput
+                    new InfiniteCylinderSurfaceFiberDetectorInput // put on top of outer cyl
                     {
                         FinalTissueRegionIndex = 1,
                         Center = new Position(0.0, 0.0, 1.0),
                         Radius = 1.0,
                         N = 1.0,
                         NA = 1.0,
+                        InDirectionOfFiberAxis = new Direction(0, 0, -1)
                     }
                 }
             );

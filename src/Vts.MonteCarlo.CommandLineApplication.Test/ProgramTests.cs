@@ -214,7 +214,7 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
         /// Test to verify infiles generated run successfully
         /// </summary>
         [Test]
-         public void Validate_infiles_generated_using_geninfiles_option_run_successfully()
+        public void Validate_infiles_generated_using_geninfiles_option_run_successfully()
         {
             foreach (var infile in _listOfInfiles)
             {

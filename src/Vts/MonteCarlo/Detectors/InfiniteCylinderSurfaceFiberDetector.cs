@@ -23,11 +23,12 @@ namespace Vts.MonteCarlo.Detectors
             Name = "InfiniteCylinderSurfaceFiber";
             NA = double.PositiveInfinity; // set default NA completely open regardless of detector region refractive index
             FinalTissueRegionIndex = 1; // assume detector is in surface fiber region
+            InDirectionOfFiberAxis = new Direction(0, 0, -1);
 
             // modify base class TallyDetails to take advantage of built-in validation capabilities (error-checking)
-            TallyDetails.IsInfiniteCylinderSurfaceDotNormalPositiveTally = true;
+            TallyDetails.IsInternalSurfaceTally = true;
         }
-
+         
         /// <summary>
         /// detector center location
         /// </summary>
@@ -41,14 +42,17 @@ namespace Vts.MonteCarlo.Detectors
         /// </summary>
         public double N { get; set; }
         /// <summary>
-        /// Detector region index
-        /// </summary>
-        public int FinalTissueRegionIndex { get; set; }
-
-        /// <summary>
         /// detector numerical aperture
         /// </summary>
         public double NA { get; set; }
+        /// <summary>
+        /// vector direction of input to fiber detector
+        /// </summary>
+        public Direction InDirectionOfFiberAxis { get; set; }
+        /// <summary>
+        /// Detector region index
+        /// </summary>
+        public int FinalTissueRegionIndex { get; set; }
 
         /// <summary>
         /// Method to create detector from detector input
@@ -69,7 +73,8 @@ namespace Vts.MonteCarlo.Detectors
                 Radius = this.Radius,
                 N = this.N,
                 NA = this.NA,
-                FinalTissueRegionIndex = this.FinalTissueRegionIndex
+                FinalTissueRegionIndex = this.FinalTissueRegionIndex,
+                InDirectionOfFiberAxis = this.InDirectionOfFiberAxis
             };
         }
     }
@@ -82,6 +87,8 @@ namespace Vts.MonteCarlo.Detectors
     {
         /* ==== Place optional/user-defined input properties here. They will be saved in text (JSON) format ==== */
         /* ==== Note: make sure to copy over all optional/user-defined inputs from corresponding input class ==== */
+        private ITissue _tissue;
+
         /// <summary>
         /// detector center location
         /// </summary>
@@ -90,6 +97,10 @@ namespace Vts.MonteCarlo.Detectors
         /// detector Radius
         /// </summary>
         public double Radius { get; set; }
+        /// <summary>
+        /// vector direction of input to fiber detector
+        /// </summary>
+        public Direction InDirectionOfFiberAxis { get; set; }
         /// <summary>
         /// detector fiber refractive index
         /// </summary>
@@ -138,6 +149,7 @@ namespace Vts.MonteCarlo.Detectors
             }
 
             // initialize any other necessary class fields here
+            _tissue = tissue;
         }
 
         /// <summary>
@@ -187,10 +199,9 @@ namespace Vts.MonteCarlo.Detectors
         /// <returns>Boolean indicating whether photon is within detector</returns>
         public bool IsWithinDetectorAperture(Photon photon)
         {
-            // the following assumes fiber adjacent to tissue
-            // if want tissue-air-fiber then use following prior to last line
-            // var detectorRegionN = _tissue.Regions[FinalTissueRegionIndex].RegionOP.N
-            return photon.DP.IsWithinNA(NA, Direction.AlongNegativeZAxis, N);
+            // determine which refractive index to use
+            var detectorRegionN = _tissue.Regions[FinalTissueRegionIndex].RegionOP.N;
+            return photon.DP.IsWithinNA(NA, InDirectionOfFiberAxis, detectorRegionN);
         }
     }
 }
