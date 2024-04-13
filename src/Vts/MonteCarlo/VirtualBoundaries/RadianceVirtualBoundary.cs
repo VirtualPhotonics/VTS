@@ -42,9 +42,9 @@ namespace Vts.MonteCarlo.VirtualBoundaries
                     Math.Abs(dp.Position.Z - _zPlanePosition) < 10E-16;
             }
 
-            if (internalSurfaceDetector.TallyType == TallyType.InfiniteCylinderSurfaceFiber)
+            if (internalSurfaceDetector.TallyType == TallyType.InternalSurfaceFiber)
             {
-                _cylinderRegionTissueIndex = ((InfiniteCylinderSurfaceFiberDetector)internalSurfaceDetector)
+                _cylinderRegionTissueIndex = ((InternalSurfaceFiberDetector)internalSurfaceDetector)
                     .FinalTissueRegionIndex;
                 _infiniteCylinder = tissue.Regions[_cylinderRegionTissueIndex];
                

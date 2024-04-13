@@ -15,7 +15,7 @@ namespace Vts.MonteCarlo
             // Reflectance Surface fiber 
             "SurfaceFiber",
             // Infinite cylinder surface fiber
-            "InfiniteCylinderSurfaceFiber",
+            "InternalSurfaceFiber",
             // Reflectance as a function of source-detector separation (rho) and angle
             "ROfRhoAndAngle",
             // Reflectance as a function of source-detector separation (rho)
@@ -172,7 +172,7 @@ namespace Vts.MonteCarlo
         /// <summary>
         /// cylindrical fiber detector on infinite cylinder
         /// </summary>
-        public static string InfiniteCylinderSurfaceFiber { get { return "InfiniteCylinderSurfaceFiber"; } }
+        public static string InternalSurfaceFiber { get { return "InternalSurfaceFiber"; } }
         /// <summary>
         /// Total diffuse reflectance
         /// </summary>

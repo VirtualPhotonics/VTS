@@ -518,17 +518,17 @@ namespace Vts.MonteCarlo
                 {
                     new AOfXAndYAndZDetectorInput
                     {
-                        X =new DoubleRange(-10, 10, 201),
+                        X =new DoubleRange(-10, 10, 21),
                         Y =new DoubleRange(-10, 10, 2),
-                        Z =new DoubleRange(0, 10, 101)
+                        Z =new DoubleRange(0, 10, 11)
                     },
-                    new InfiniteCylinderSurfaceFiberDetectorInput // put on top of outer cyl
+                    new InternalSurfaceFiberDetectorInput // put on top of outer cyl
                     {
-                        FinalTissueRegionIndex = 1,
+                        FinalTissueRegionIndex = 3,
                         Center = new Position(0.0, 0.0, 1.0),
                         Radius = 1.0,
-                        N = 1.0,
-                        NA = 1.0,
+                        N = 1.4,
+                        NA = 1.4,
                         InDirectionOfFiberAxis = new Direction(0, 0, -1)
                     }
                 }

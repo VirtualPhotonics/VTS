@@ -53,17 +53,17 @@ namespace Vts.MonteCarlo
         /// </summary>
         public double SurFib_TallyCount { get { return (double)((dynamic)ResultsDictionary[_detectorResults.First(d => d.TallyType == "SurfaceFiber").Name]).TallyCount; } }
         /// <summary>
-        /// Surface fiber
+        /// Internal surface fiber
         /// </summary>
-        public double InfCylSurFib { get { return (double)((dynamic)ResultsDictionary[_detectorResults.First(d => d.TallyType == "InfiniteCylinderSurfaceFiber").Name]).Mean; } }
+        public double IntSurFib { get { return (double)((dynamic)ResultsDictionary[_detectorResults.First(d => d.TallyType == "InternalSurfaceFiber").Name]).Mean; } }
         /// <summary>
-        /// Surface fiber 2nd moment
+        /// Internal surface fiber 2nd moment
         /// </summary>
-        public double InfCylSurFib2 { get { return (double)((dynamic)ResultsDictionary[_detectorResults.First(d => d.TallyType == "InfiniteCylinderSurfaceFiber").Name]).SecondMoment; } }
+        public double IntSurFib2 { get { return (double)((dynamic)ResultsDictionary[_detectorResults.First(d => d.TallyType == "InternalSurfaceFiber").Name]).SecondMoment; } }
         /// <summary>
-        /// Surface fiber tally count
+        /// Internal surface fiber tally count
         /// </summary>
-        public double InfCylSurFib_TallyCount { get { return (double)((dynamic)ResultsDictionary[_detectorResults.First(d => d.TallyType == "InfiniteCylinderSurfaceFiber").Name]).TallyCount; } }
+        public double IntSurFib_TallyCount { get { return (double)((dynamic)ResultsDictionary[_detectorResults.First(d => d.TallyType == "InternalSurfaceFiber").Name]).TallyCount; } }
 
         /// <summary>
         /// Diffuse Reflectance

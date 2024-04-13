@@ -8,21 +8,21 @@ namespace Vts.MonteCarlo.Detectors
     /// <summary>
     /// DetectorInput for an actual fiber detector. 
     /// </summary>
-    public class InfiniteCylinderSurfaceFiberDetectorInput : DetectorInput, IDetectorInput
+    public class InternalSurfaceFiberDetectorInput : DetectorInput, IDetectorInput
     {
         /// <summary>
         /// constructor for cylindrical surface fiber detector input. The fiber only detects as photon
         /// crosses bottom cap in an upward direction (negative z direction)
         /// </summary>
-        public InfiniteCylinderSurfaceFiberDetectorInput()
+        public InternalSurfaceFiberDetectorInput()
         {
-            TallyType = "InfiniteCylinderSurfaceFiber";
+            TallyType = "InternalSurfaceFiber";
             Center = new Position(0, 0, 0);
             Radius = 0.6;
             N = 1.0;
-            Name = "InfiniteCylinderSurfaceFiber";
+            Name = "InternalSurfaceFiber";
             NA = double.PositiveInfinity; // set default NA completely open regardless of detector region refractive index
-            FinalTissueRegionIndex = 1; // assume detector is in surface fiber region
+            FinalTissueRegionIndex = 1; // assume detector is on this surface fiber region
             InDirectionOfFiberAxis = new Direction(0, 0, -1);
 
             // modify base class TallyDetails to take advantage of built-in validation capabilities (error-checking)
@@ -60,7 +60,7 @@ namespace Vts.MonteCarlo.Detectors
         /// <returns>created IDetector</returns>
         public IDetector CreateDetector()
         {
-            return new InfiniteCylinderSurfaceFiberDetector
+            return new InternalSurfaceFiberDetector
             {
                 // required properties (part of DetectorInput/Detector base classes)
                 TallyType = this.TallyType,
@@ -83,7 +83,7 @@ namespace Vts.MonteCarlo.Detectors
     /// Implements IDetector.  Tally for fiber detection.
     /// This implementation works for Analog, DAW and CAW processing.
     /// </summary>
-    public class InfiniteCylinderSurfaceFiberDetector : Detector, IDetector
+    public class InternalSurfaceFiberDetector : Detector, IDetector
     {
         /* ==== Place optional/user-defined input properties here. They will be saved in text (JSON) format ==== */
         /* ==== Note: make sure to copy over all optional/user-defined inputs from corresponding input class ==== */
