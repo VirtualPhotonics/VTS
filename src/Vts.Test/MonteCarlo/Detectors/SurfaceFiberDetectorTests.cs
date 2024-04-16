@@ -16,14 +16,14 @@ namespace Vts.Test.MonteCarlo.Detectors
     /// with rho radius at center of fiber, (3) verify Bargo's results
     /// </summary>
     [TestFixture]
-    public class DetectorFiberTests
+    public class SurfaceFiberDetectorTests
     {
         private SimulationOutput _outputOpen, _outputNa, _outputNaOffCenter;
         private SimulationOptions _simulationOptions;
         private ISourceInput _source;
         private ITissueInput _tissue;
         private IList<IDetectorInput> _detectorOpen, _detectorNa, _detectorNaOffCenter;
-        private readonly double _detectorRadius = 1; // debug set to 10
+        private const double DetectorRadius = 1; // debug set to 10
 
         /// <summary>
         /// Setup input to the MC for a homogeneous one layer tissue with 
@@ -53,7 +53,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                 new MultiLayerWithSurfaceFiberTissueInput(
                     new SurfaceFiberTissueRegion(
                         new Position(0, 0, 0),
-                        _detectorRadius, // needs to match SurfaceFiberDetectorInput
+                        DetectorRadius, // needs to match SurfaceFiberDetectorInput
                         new OpticalProperties(0.01, 1.0, 0.8, 1.4)
                     ),
                     new ITissueRegion[]
@@ -92,7 +92,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                 new SurfaceFiberDetectorInput()
                 {
                     Center = new Position(0, 0, 0), 
-                    Radius = _detectorRadius, 
+                    Radius = DetectorRadius, 
                     TallySecondMoment = true,
                     N = 1.4,  
                     NA = 1.4,
@@ -100,7 +100,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                 },
                 new ROfRhoDetectorInput() // 1mm wide ring to match fiber and 2 because beyond goes into 2nd
                 {
-                    Rho = new DoubleRange(0.0, 2 * _detectorRadius, 3),                    
+                    Rho = new DoubleRange(0.0, 2 * DetectorRadius, 3),                    
                     // since tissue w fiber specified -> photon will be in 3 upon exit
                     FinalTissueRegionIndex = 3,
                     NA = 1.4,
@@ -112,7 +112,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                 new SurfaceFiberDetectorInput()
                 {
                     Center = new Position(0, 0, 0), 
-                    Radius = _detectorRadius, 
+                    Radius = DetectorRadius, 
                     TallySecondMoment = true,
                     N = 1.4,
                     FinalTissueRegionIndex = 3,
@@ -120,7 +120,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                 },
                 new ROfRhoDetectorInput() // ring to match fiber detector
                 {
-                    Rho = new DoubleRange(0.0, 2 * _detectorRadius, 3),
+                    Rho = new DoubleRange(0.0, 2 * DetectorRadius, 3),
                     // since tissue w fiber specified -> photon will be in 3 upon exit
                     FinalTissueRegionIndex = 3,  
                     NA = 0.39,
@@ -131,8 +131,8 @@ namespace Vts.Test.MonteCarlo.Detectors
             {
                 new SurfaceFiberDetectorInput()
                 {
-                    Center = new Position(_detectorRadius, 0, 0), // diam = [0, 2*radius]
-                    Radius = _detectorRadius,
+                    Center = new Position(DetectorRadius, 0, 0), // diam = [0, 2*radius]
+                    Radius = DetectorRadius,
                     TallySecondMoment = true,
                     N = 1.4,
                     FinalTissueRegionIndex = 3,
@@ -141,7 +141,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                 new ROfRhoDetectorInput() // ring to match fiber detector
                 {
                     // place 1st rho bin center at _detectorRadius with width = 2*radius
-                    Rho = new DoubleRange(_detectorRadius / 2, 2 * _detectorRadius + _detectorRadius / 2, 3),  
+                    Rho = new DoubleRange(DetectorRadius / 2, 2 * DetectorRadius + DetectorRadius / 2, 3),  
                     // since tissue w fiber specified -> photon will be in 3 upon exit
                     FinalTissueRegionIndex = 3,
                     NA = 1.4,

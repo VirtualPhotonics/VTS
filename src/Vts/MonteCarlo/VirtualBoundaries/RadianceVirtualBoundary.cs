@@ -105,9 +105,17 @@ namespace Vts.MonteCarlo.VirtualBoundaries
             else // infinite cylinder
             {
                 // not sure if I should be calling tissue region methods here
-                _infiniteCylinder.RayIntersectBoundary(
-                    new Photon(dp.Position, dp.Direction, dp.Weight, _tissue, _cylinderRegionTissueIndex , null),
-                    out distanceToBoundary);
+                var photon = new Photon(
+                    dp.Position, 
+                    dp.Direction, 
+                    dp.Weight, 
+                    _tissue, 
+                    _cylinderRegionTissueIndex,
+                    null) // no need for RNG here
+                {
+                    S = 100
+                }; 
+                _infiniteCylinder.RayIntersectBoundary(photon, out distanceToBoundary);
             }
 
             return distanceToBoundary;

@@ -16,7 +16,7 @@ namespace Vts.Test.MonteCarlo.Detectors
     /// The output of the surface fiber is compared with the output of the slanted recessed fiber with angle = 0 
     /// </summary>
     [TestFixture]
-    public class DetectorSlantedRecessedFiberTests
+    public class SlantedRecessedFiberDetectorTests
     {
         private SimulationOutput _outputNormalRecessedFiber;
         private SimulationOutput _outputSlantedRecessedFiber;
@@ -27,7 +27,7 @@ namespace Vts.Test.MonteCarlo.Detectors
         private ITissueInput _tissueForSurfaceFiber;
         private IList<IDetectorInput> _detectorNormal;
         private IList<IDetectorInput> _detectorSlanted;
-        private readonly double _detectorRadius = 1; 
+        private const double DetectorRadius = 1; 
 
         /// <summary>
         /// Setup input to the MC for a homogeneous one layer tissue with 
@@ -74,7 +74,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                 new MultiLayerWithSurfaceFiberTissueInput(
                     new SurfaceFiberTissueRegion(
                         new Position(0, 0, 0),
-                        _detectorRadius, // needs to match SurfaceFiberDetectorInput
+                        DetectorRadius, // needs to match SurfaceFiberDetectorInput
                         new OpticalProperties(0.0, 1e-10, 1.0, 1.0)
                     ),
                     new ITissueRegion[]
@@ -95,7 +95,7 @@ namespace Vts.Test.MonteCarlo.Detectors
             {
                 new SlantedRecessedFiberDetectorInput
                 {
-                    Radius = _detectorRadius,
+                    Radius = DetectorRadius,
                     Angle = 0.0,
                     ZPlane = 0.0,
                     Center = new Position(1.0, 0, 0), 
@@ -107,7 +107,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                 new SurfaceFiberDetectorInput
                 {
                     Center = new Position(0, 0, 0),
-                    Radius = _detectorRadius,
+                    Radius = DetectorRadius,
                     TallySecondMoment = true,
                     N = 1.4,
                     FinalTissueRegionIndex = 3,
@@ -118,7 +118,7 @@ namespace Vts.Test.MonteCarlo.Detectors
             {
                 new SlantedRecessedFiberDetectorInput
                 {
-                    Radius = _detectorRadius,
+                    Radius = DetectorRadius,
                     Angle = Math.PI / 6.0,
                     ZPlane = 0.0,
                     Center = new Position(1.0, 0, 0),

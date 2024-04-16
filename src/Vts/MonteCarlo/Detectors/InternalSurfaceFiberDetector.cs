@@ -160,9 +160,11 @@ namespace Vts.MonteCarlo.Detectors
         {
             //check that exit location is within fiber radius
             if (Math.Sqrt((photon.DP.Position.X - Center.X) *
-                            (photon.DP.Position.X - Center.X) +
-                            (photon.DP.Position.Y - Center.Y) *
-                            (photon.DP.Position.Y - Center.Y)) >= Radius) return;
+                          (photon.DP.Position.X - Center.X) +
+                          (photon.DP.Position.Y - Center.Y) *
+                          (photon.DP.Position.Y - Center.Y)) >= Radius) return;
+            // check that exit location with close to z location of fiber center
+            if (Math.Abs(photon.DP.Position.Z - Center.Z) > 1e-3) return;
             if (!IsWithinDetectorAperture(photon)) return;
 
             Mean += photon.DP.Weight;
