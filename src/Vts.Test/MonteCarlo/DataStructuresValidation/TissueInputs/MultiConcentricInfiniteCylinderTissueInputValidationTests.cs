@@ -56,6 +56,7 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation.TissueInputs
             var result = SimulationInputValidation.ValidateInput(input);
             Assert.IsFalse(result.IsValid);
         }
+
         /// <summary>
         /// Test to check that infinite cylinders have non-zero axis definitions.
         /// </summary>
@@ -231,6 +232,7 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation.TissueInputs
             var result = SimulationInputValidation.ValidateInput(input);
             Assert.IsFalse(result.IsValid);
         }
+
         /// <summary>
         /// Test to check that infinite cylinders refractive index matches refractive index of surrounding layer
         /// </summary>
@@ -276,6 +278,7 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation.TissueInputs
             var result = SimulationInputValidation.ValidateInput(input);
             Assert.IsFalse(result.IsValid);
         }
+
         /// <summary>
         /// Test to check two layer tissue with one layer enclosing concentric infinite cylinders works
         /// </summary>
