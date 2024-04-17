@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using Vts.Common;
 using Vts.MonteCarlo.DataStructuresValidation;
+using Vts.MonteCarlo.Interfaces;
 using Vts.MonteCarlo.Sources;
 using Vts.MonteCarlo.Tissues;
 
@@ -20,14 +21,14 @@ namespace Vts.MonteCarlo
         /// <returns>An instance of ValidationResult with IsValid bool set and message about error if false</returns>
         public static ValidationResult ValidateInput(SimulationInput input)
         {
-            var validations = new Func<SimulationInput, ValidationResult>[]
+            var validations = new[]
                 {
                     si => ValidateN(si.N),
                     si => ValidateSourceInput(si.SourceInput, si.TissueInput),
                     si => ValidateTissueInput(si.TissueInput),
-                    si => ValidateDetectorInput(si),
-                    si => ValidateCombinedInputParameters(si),
-                    si => ValidateCurrentIncapabilities(si)
+                    ValidateDetectorInput,
+                    ValidateCombinedInputParameters,
+                    ValidateCurrentIncapabilities
                 };
 
             foreach (var validation in validations)
@@ -43,10 +44,10 @@ namespace Vts.MonteCarlo
 
         }
 
-        private static ValidationResult ValidateN(long N)
+        private static ValidationResult ValidateN(long n)
         {
             return new ValidationResult(
-                N >= 10,
+                n >= 10,
                 "Number of photons must be greater than 9",
                 "This is an implementation detail of the MC simulation");
         }
@@ -90,6 +91,8 @@ namespace Vts.MonteCarlo
                 MultiLayerTissueInput => MultiLayerTissueInputValidation.ValidateInput(tissueInput),
                 SingleEllipsoidTissueInput => SingleEllipsoidTissueInputValidation.ValidateInput(tissueInput),
                 SingleVoxelTissueInput => SingleVoxelTissueInputValidation.ValidateInput(tissueInput),
+                SingleInfiniteCylinderTissueInput => SingleInfiniteCylinderTissueInputValidation.ValidateInput(
+                    tissueInput),
                 MultiConcentricInfiniteCylinderTissueInput => MultiConcentricInfiniteCylinderTissueInputValidation
                     .ValidateInput(tissueInput),
                 BoundingCylinderTissueInput => BoundingCylinderTissueInputValidation.ValidateInput(tissueInput),
@@ -219,22 +222,17 @@ namespace Vts.MonteCarlo
                         "Add ATotalBoundingVolumeDetectorInput to detector inputs");
             }
 
-            var source = input.SourceInput as DirectionalPointSourceInput;
-            if (source != null)
+            if (input.SourceInput is DirectionalPointSourceInput source && 
+                source.Direction != new Direction(0,0,1) && 
+                input.DetectorInputs.Any(detectorInput => detectorInput.TallyDetails.IsCylindricalTally))
             {
-                if (source.Direction != new Direction(0,0,1))
-                {
-                    if (input.DetectorInputs.Any(detectorInput => detectorInput.TallyDetails.IsCylindricalTally))
-                    {
-                        return new ValidationResult(
-                            false,
-                            "If source is angled, cannot define cylindrically symmetric detectors",
-                            "Change detector to Cartesian equivalent or define source to be normal");
-                    }
-                }
+                return new ValidationResult(
+                    false,
+                    "If source is angled, cannot define cylindrically symmetric detectors",
+                    "Change detector to Cartesian equivalent or define source to be normal");
             }
             if (input.DetectorInputs.Where(detectorInput => detectorInput.TallyDetails.IsTransmittanceTally && 
-                                                            input.TissueInput is MultiLayerTissueInput).Any(detectorInput => ((dynamic)detectorInput).FinalTissueRegionIndex == 0))
+                input.TissueInput is MultiLayerTissueInput).Any(detectorInput => ((dynamic)detectorInput).FinalTissueRegionIndex == 0))
             {
                 return new ValidationResult(
                     false,
@@ -247,6 +245,7 @@ namespace Vts.MonteCarlo
                 "");
 
         }
+
         /// <summary>
         /// Method checks SimulationInput against current in-capabilities of the code.
         /// </summary>
@@ -254,22 +253,32 @@ namespace Vts.MonteCarlo
         /// <returns>An instance of the ValidationResult class</returns>
         private static ValidationResult ValidateCurrentIncapabilities(SimulationInput input)
         {
-            if (input.Options.AbsorptionWeightingType == AbsorptionWeightingType.Continuous && 
-                input.DetectorInputs.Any(detectorInput => detectorInput.TallyDetails.IsNotImplementedForCAW))
+            switch (input.Options.AbsorptionWeightingType)
             {
-                return new ValidationResult(
-                    false,
-                    "The use of Continuous Absorption Weighting is not implemented for one of the infile detectors",
-                    "Modify AbsorptionWeightingType to Discrete");
+                case AbsorptionWeightingType.Continuous when input.DetectorInputs.Any(detectorInput => detectorInput.TallyDetails.IsNotImplementedForCAW):
+                    return new ValidationResult(
+                        false,
+                        "The use of Continuous Absorption Weighting is not implemented for one of the infile detectors",
+                        "Modify AbsorptionWeightingType to Discrete");
+                case AbsorptionWeightingType.Discrete:
+                {
+                    if (input.DetectorInputs.Any(detectorInput => detectorInput.TallyDetails.IsNotImplementedForDAW))
+                    {
+                        return new ValidationResult(
+                            false,
+                            "The use of Discrete Absorption Weighting with path length type detectors not implemented yet",
+                            "Modify AbsorptionWeightingType to Continuous");
+                    }
+
+                    break;
+                }
+                case AbsorptionWeightingType.Analog:
+                case AbsorptionWeightingType.Continuous:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(typeof(AbsorptionWeightingType).ToString());
             }
-            if (input.Options.AbsorptionWeightingType == AbsorptionWeightingType.Discrete && 
-                input.DetectorInputs.Any(detectorInput => detectorInput.TallyDetails.IsNotImplementedForDAW))
-            {
-                return new ValidationResult(
-                    false,
-                    "The use of Discrete Absorption Weighting with path length type detectors not implemented yet",
-                    "Modify AbsorptionWeightingType to Continuous");
-            }
+
             foreach (var detectorInput in input.DetectorInputs)
             {
                 // can only run dMC detectors with 1 perturbed region for the present
