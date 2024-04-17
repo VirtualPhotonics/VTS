@@ -1,6 +1,7 @@
-﻿using System;
-using NUnit.Framework;
+﻿using NUnit.Framework;
+using System.Collections.Generic;
 using Vts.Common;
+using Vts.IO;
 using Vts.MonteCarlo;
 using Vts.MonteCarlo.Tissues;
 
@@ -12,15 +13,52 @@ namespace Vts.Test.MonteCarlo.Tissues
     [TestFixture]
     public class MultiConcentricInfiniteCylinderTissueTests
     {
-        private MultiConcentricInfiniteCylinderTissue _tissue;
         /// <summary>
-        /// Validate general constructor of Tissue
+        /// list of temporary files created by these unit tests
+        /// </summary>
+        private readonly List<string> _listOfTestGeneratedFiles = new()
+        {
+            "MultiConcentricInfiniteCylinderTissue.txt"
+        };
+
+        /// <summary>
+        /// clear all generated folders and files
         /// </summary>
         [OneTimeSetUp]
-        public void Create_instance_of_class()
+        [OneTimeTearDown]
+        public void Clear_folders_and_files()
         {
-            _tissue = new MultiConcentricInfiniteCylinderTissue(
-         new ITissueRegion[]
+            foreach (var file in _listOfTestGeneratedFiles)
+            {
+                FileIO.FileDelete(file);
+            }
+        }
+        /// <summary>
+        /// test default constructor
+        /// </summary>
+        [Test]
+        public void Validate_default_constructor()
+        {
+            var i = new MultiConcentricInfiniteCylinderTissueInput();
+            var cylinder1 = i.Regions[^2];
+            var cylinder2 = i.Regions[^1];
+            var tissueLayer = i.Regions[1];
+            Assert.AreEqual(0.0, cylinder1.Center.X);
+            Assert.AreEqual(0.0, cylinder1.Center.Y);
+            Assert.AreEqual(1.0, cylinder1.Center.Z);
+            Assert.AreEqual(0.0, cylinder2.Center.X);
+            Assert.AreEqual(0.0, cylinder2.Center.Y);
+            Assert.AreEqual(1.0, cylinder2.Center.Z);
+            Assert.AreEqual(50.0, tissueLayer.Center.Z);
+        }
+        /// <summary>
+        /// verify MultiConcentricInfiniteCylinderTissueInput deserializes correctly
+        /// </summary>
+        [Test]
+        public void Validate_deserialized_class_is_correct()
+        {
+            var i = new MultiConcentricInfiniteCylinderTissueInput(
+                new ITissueRegion[]
                 {
                     new InfiniteCylinderTissueRegion(
                         new Position(0, 0, 3),
@@ -35,159 +73,111 @@ namespace Vts.Test.MonteCarlo.Tissues
                         "HenyeyGreensteinKey5"
                     )
                 },
-                new ITissueRegion []
+                new ITissueRegion[]
+                    {
+                        new LayerTissueRegion(
+                            new DoubleRange(double.NegativeInfinity, 0.0),
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
+                            "HenyeyGreensteinKey1"),
+                        new LayerTissueRegion(
+                            new DoubleRange(0.0, 100.0),
+                            new OpticalProperties(0.01, 1.0, 0.8, 1.4),
+                            "HenyeyGreensteinKey2"),
+                        new LayerTissueRegion(
+                            new DoubleRange(100.0, double.PositiveInfinity),
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
+                            "HenyeyGreensteinKey3")
+                    }
+                );
+
+            var iCloned = i.Clone();
+
+            Assert.AreEqual(iCloned.Regions[1].RegionOP.Mua, i.Regions[1].RegionOP.Mua);
+        }
+
+        /// <summary>
+        /// verify MultiConcentricInfiniteCylinderTissueInput deserializes correctly when using FileIO
+        /// </summary>
+        [Test]
+        public void Validate_deserialized_class_is_correct_when_using_FileIO()
+        {
+            var i = new MultiConcentricInfiniteCylinderTissueInput(
+                new ITissueRegion[] {
+                new InfiniteCylinderTissueRegion(
+                    new Position(0, 0, 1),
+                    0.75,
+                    new OpticalProperties(0.05, 1.0, 0.8, 1.4),
+                    "HenyeyGreensteinKey4"),
+                new InfiniteCylinderTissueRegion(
+                    new Position(0, 0, 1),
+                    0.5,
+                    new OpticalProperties(0.05, 1.0, 0.8, 1.4),
+                    "HenyeyGreensteinKey5"),
+                },
+                new ITissueRegion[]
+                    {
+                        new LayerTissueRegion(
+                            new DoubleRange(double.NegativeInfinity, 0.0),
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
+                            "HenyeyGreensteinKey1"),
+                        new LayerTissueRegion(
+                            new DoubleRange(0.0, 100.0),
+                            new OpticalProperties(0.01, 1.0, 0.8, 1.4),
+                            "HenyeyGreensteinKey2"),
+                        new LayerTissueRegion(
+                            new DoubleRange(100.0, double.PositiveInfinity),
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
+                            "HenyeyGreensteinKey3")
+                    }
+                );
+            i.WriteToJson("MultiConcentricInfiniteCylinderTissue.txt");
+            var iCloned = FileIO.ReadFromJson<MultiConcentricInfiniteCylinderTissueInput>("MultiConcentricInfiniteCylinderTissue.txt");
+
+            Assert.AreEqual(iCloned.Regions[1].RegionOP.Mua, i.Regions[1].RegionOP.Mua);
+        }
+
+        /// <summary>
+        /// verify CreateTissue generates ITissue
+        /// </summary>
+        [Test]
+        public void Validate_CreateTissue_creates_class()
+        {
+            var i = new MultiConcentricInfiniteCylinderTissueInput(
+                new ITissueRegion[]
                 {
-                    new LayerTissueRegion(
-                        new DoubleRange(double.NegativeInfinity, 0.0),
-                        new OpticalProperties( 0.0, 1e-10, 1.0, 1.0),
-                        "HenyeyGreensteinKey1"),
-                    new LayerTissueRegion(
-                        new DoubleRange(0.0, 100.0),
-                        new OpticalProperties(0.0, 1.0, 0.8, 1.4),
-                        "HenyeyGreensteinKey2"),
-                    new LayerTissueRegion(
-                        new DoubleRange(100.0, double.PositiveInfinity),
-                        new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
-                        "HenyeyGreensteinKey3")
-                }
-            );
-        }
+                new InfiniteCylinderTissueRegion(
+                    new Position(0, 0, 1),
+                    0.75,
+                    new OpticalProperties(0.05, 1.0, 0.8, 1.4),
+                    "HenyeyGreensteinKey4"),
+                new InfiniteCylinderTissueRegion(
+                    new Position(0, 0, 1),
+                    0.5,
+                    new OpticalProperties(0.05, 1.0, 0.8, 1.4),
+                    "HenyeyGreensteinKey5")
+                },
+                new ITissueRegion[]
+                    {
+                        new LayerTissueRegion(
+                            new DoubleRange(double.NegativeInfinity, 0.0),
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
+                            "HenyeyGreensteinKey1"),
+                        new LayerTissueRegion(
+                            new DoubleRange(0.0, 100.0),
+                            new OpticalProperties(0.01, 1.0, 0.8, 1.4),
+                            "HenyeyGreensteinKey2"),
+                        new LayerTissueRegion(
+                            new DoubleRange(100.0, double.PositiveInfinity),
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0),
+                            "HenyeyGreensteinKey3")
+                    }
+                );
 
-        /// <summary>
-        /// Validate method GetRegionIndex return correct Boolean
-        /// </summary>
-        [Test]
-        public void Verify_GetRegionIndex_method_returns_correct_result()
-        {
-            var index = _tissue.GetRegionIndex(new Position(0, 0, 7)); // outside both infinite cylinders
-            Assert.AreEqual(1, index);
-            index = _tissue.GetRegionIndex(new Position(0, 0, 0.1)); // inside outer cylinder outside inner
-            Assert.AreEqual(3, index);
-            index = _tissue.GetRegionIndex(new Position(0, 0, 1.0)); // inside inner cylinder
-            Assert.AreEqual(4, index);
+            Assert.IsInstanceOf<ITissue>(i.CreateTissue(
+                AbsorptionWeightingType.Continuous,
+                new Dictionary<string, IPhaseFunction>(),
+                0.0));
         }
-
-        /// <summary>
-        /// Validate method GetNeighborRegionIndex return correct Boolean
-        /// </summary>
-        [Test]
-        public void Verify_GetNeighborRegionIndex_method_returns_correct_result()
-        {
-            var photon = new Photon( // on bottom of outer infinite cylinder pointed into it
-                new Position(0, 0, 6.0),
-                new Direction(0.0, 0, -1.0),
-                1.0,
-                _tissue,
-                1,
-                new Random());
-            var index = _tissue.GetNeighborRegionIndex(photon);
-            Assert.AreEqual(3, index);
-            photon = new Photon( // on bottom of outer infinite cylinder pointed out of it
-                new Position(0, 0, 6.0),
-                new Direction(0.0, 0, 1.0),
-                1.0,
-                _tissue,
-                3,
-                new Random());
-            index = _tissue.GetNeighborRegionIndex(photon);
-            Assert.AreEqual(1, index);
-            photon = new Photon( // on bottom of inner infinite cylinder pointed into it
-                new Position(0, 0, 5.5),
-                new Direction(0.0, 0, -1.0),
-                1.0,
-                _tissue,
-                3,
-                new Random());
-            index = _tissue.GetNeighborRegionIndex(photon);
-            Assert.AreEqual(4, index);
-            photon = new Photon( // on bottom of inner infinite cylinder pointed out of it
-                new Position(0, 0, 5.5),
-                new Direction(0.0, 0, 1.0),
-                1.0,
-                _tissue,
-                4,
-                new Random());
-            index = _tissue.GetNeighborRegionIndex(photon);
-            Assert.AreEqual(3, index);
-            photon = new Photon( // on bottom of slab pointed out
-                new Position(0, 0, 100.0),
-                new Direction(0.0, 0, 1.0),
-                1.0,
-                _tissue,
-                1,
-                new Random());
-            index = _tissue.GetNeighborRegionIndex(photon);
-            Assert.AreEqual(2, index);
-        }
-        /// <summary>
-        /// Test to make sure that shortest distance to layer boundary or infinite cylinders is correct
-        /// </summary>
-        [Test]
-        public void Validate_GetDistanceToBoundary_method_returns_correct_results()
-        {
-            var photon = new Photon( // below outer infinite cylinder pointed into it
-                new Position(0, 0, 7),
-                new Direction(0.0, 0, -1.0),
-                1.0,
-                _tissue,
-                1,
-                new Random())
-            {
-                S = 10
-            };
-            var distance = _tissue.GetDistanceToBoundary(photon);
-            Assert.IsTrue(Math.Abs(distance - 1) < 1e-6);
-            photon = new Photon(        // above inner infinite cylinder pointed into it
-                new Position(0, 0, 0.1),
-                new Direction(0.0, 0, 1.0),
-                1.0,
-                _tissue,
-                3,
-                new Random())
-            {
-                S = 10
-            };
-            distance = _tissue.GetDistanceToBoundary(photon);
-            Assert.IsTrue(Math.Abs(distance - 0.4) < 1e-6);
-            photon = new Photon(        // inside inner infinite cylinder pointed out and down
-                new Position(0, 0, 1.0),
-                new Direction(0.0, 0, 1.0),
-                1.0,
-                _tissue,
-                3,
-                new Random())
-            {
-                S = 10
-            };
-            distance = _tissue.GetDistanceToBoundary(photon);
-            Assert.IsTrue(Math.Abs(distance - 4.5) < 1e-6);
-            photon = new Photon( // on bottom of slab pointed out
-                new Position(0, 0, 95.0),
-                new Direction(0.0, 0, 1.0),
-                1.0,
-                _tissue,
-                1,
-                new Random());
-            distance = _tissue.GetDistanceToBoundary(photon);
-            Assert.IsTrue(Math.Abs(distance - 5) < 1e-6);
-        }
-
-        /// <summary>
-        /// Validate method GetAngleRelativeToBoundaryNormal return correct Boolean
-        /// </summary>
-        [Test]
-        public void Verify_GetAngleRelativeToBoundaryNormal_method_returns_correct_result()
-        {
-            var photon = new Photon( // on top of cylinder pointed into it
-                new Position(0, 0, 1.0),
-                new Direction(0.0, 0, 1.0),
-                1,
-                _tissue,
-                1,
-                new Random());
-            var cosTheta = _tissue.GetAngleRelativeToBoundaryNormal(photon);
-            Assert.AreEqual(1,cosTheta);
-        }
-
     }
 }
+

@@ -142,6 +142,7 @@ namespace Vts.Test.MonteCarlo.Tissues
             Assert.AreEqual(0, reflectedDir.Uy);
             Assert.IsTrue(Math.Abs(reflectedDir.Uz + 1/Math.Sqrt(2)) < 1e-7);
         }
+
         /// <summary>
         /// Validate method GetReflectedDirection returns correct direction.
         /// </summary>
@@ -178,6 +179,7 @@ namespace Vts.Test.MonteCarlo.Tissues
                                     refractedDir.Uy * refractedDir.Uy +
                                     refractedDir.Uz * refractedDir.Uz) - 1 < 1e-6);
         }
+
         /// <summary>
         /// Validate method GetAngleRelativeToBoundaryNormal return correct value.   Note that this
         /// gets called by Photon method CrossRegionOrReflect.  All return values
@@ -213,6 +215,5 @@ namespace Vts.Test.MonteCarlo.Tissues
             dirCosine = _tissueWithEllipsoid.GetAngleRelativeToBoundaryNormal(photon);
             Assert.AreEqual(1, dirCosine);
         }
-
     }
 }

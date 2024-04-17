@@ -1,9 +1,8 @@
-﻿using System;
-using NUnit.Framework;
+﻿using NUnit.Framework;
+using System;
 using Vts.Common;
 using Vts.MonteCarlo;
 using Vts.MonteCarlo.Tissues;
-using Vts.SpectralMapping;
 
 namespace Vts.Test.MonteCarlo.Tissues
 {
@@ -15,7 +14,8 @@ namespace Vts.Test.MonteCarlo.Tissues
     {
         private BoundedTissue _oneLayerTissueBoundedByVoxel, _twoLayerTissueBoundedByVoxel;
         /// <summary>
-        /// Validate general constructor of Tissue for a one layer and two layer tissue cylinder
+        /// Validate general constructor of Tissue for a one layer and two layer tissue bounded
+        /// by voxel
         /// </summary>
         [OneTimeSetUp]
         public void create_instance_of_class()
@@ -100,10 +100,10 @@ namespace Vts.Test.MonteCarlo.Tissues
                 });
      
             _twoLayerTissueBoundedByVoxel = new BoundedTissue(
-                new VoxelTissueRegion(
+                new CaplessVoxelTissueRegion(
                     new DoubleRange(-1, 1, 2), // x range
                     new DoubleRange(-1, 1, 2), // y range
-                    new DoubleRange(1, 10, 2),  // z range
+                    new DoubleRange(0, 10, 2),  // z range
                     new OpticalProperties(0.01, 1.0, 0.8, 1.0),
                     "HenyeyGreensteinKey1"),
                 new ITissueRegion[]
@@ -139,6 +139,77 @@ namespace Vts.Test.MonteCarlo.Tissues
             Assert.AreEqual(3, index);
             index = _oneLayerTissueBoundedByVoxel.GetRegionIndex(new Position(0.0, 0.0, 0.0)); // on top sb inside voxel
             Assert.AreEqual(1, index);
+        }
+
+        /// <summary>
+        /// Validate method GetDistanceToBoundary return correct "projected" distance
+        /// </summary>
+        [Test]
+        public void Verify_GetDistanceToBoundary_method_returns_correct_result()
+        {
+            // the following cases sets S to 0 to make sure "projected" distance is calculated
+            // first test the layer boundaries
+            var photon = new Photon( // towards bottom of 2nd layer pointed up
+                new Position(0, 0, 9),
+                new Direction(0.0, 0, -1.0),
+                1.0,
+                _twoLayerTissueBoundedByVoxel,
+                2,
+                new Random())
+            {
+                S = 0
+            };
+            var distance = _twoLayerTissueBoundedByVoxel.GetDistanceToBoundary(photon);
+            Assert.IsTrue(Math.Abs(distance - 7) < 1e-6);
+            photon = new Photon( // towards bottom of 1st layer pointed up
+                new Position(0, 0, 1.8),
+                new Direction(0.0, 0, -1.0),
+                1.0,
+                _twoLayerTissueBoundedByVoxel,
+                1,
+                new Random())
+            {
+                S = 0
+            };
+            distance = _twoLayerTissueBoundedByVoxel.GetDistanceToBoundary(photon);
+            Assert.IsTrue(Math.Abs(distance - 1.8) < 1e-6);
+            photon = new Photon( // towards bottom of 2nd layer pointed down
+                new Position(0, 0, 9),
+                new Direction(0.0, 0, 1.0),
+                1.0,
+                _twoLayerTissueBoundedByVoxel,
+                2,
+                new Random())
+            {
+                S = 0
+            };
+            distance = _twoLayerTissueBoundedByVoxel.GetDistanceToBoundary(photon);
+            Assert.IsTrue(Math.Abs(distance - 1) < 1e-6);
+            photon = new Photon( // towards bottom of 1st layer pointed down
+                new Position(0, 0, 1.8),
+                new Direction(0.0, 0, 1.0),
+                1.0,
+                _twoLayerTissueBoundedByVoxel,
+                1,
+                new Random())
+            {
+                S = 0
+            };
+            distance = _twoLayerTissueBoundedByVoxel.GetDistanceToBoundary(photon);
+            Assert.IsTrue(Math.Abs(distance - 0.2) < 1e-6);
+            // next test the surrounding voxel region
+            photon = new Photon( // in top layer pointed to right
+                new Position(0.8, 0, 0.8),
+                new Direction(1.0, 0, 0.0),
+                1.0,
+                _twoLayerTissueBoundedByVoxel,
+                1,
+                new Random())
+            {
+                S = 0
+            };
+            distance = _twoLayerTissueBoundedByVoxel.GetDistanceToBoundary(photon);
+            Assert.IsTrue(Math.Abs(distance - 0.2) < 1e-6);
         }
 
         /// <summary>
@@ -216,6 +287,7 @@ namespace Vts.Test.MonteCarlo.Tissues
             // set n of surrounding region back
             _oneLayerTissueBoundedByVoxel.Regions[3].RegionOP.N = 1.0; 
         }
+
         /// <summary>
         /// Validate method GetReflectedDirection returns correct direction.
         /// </summary>
@@ -255,6 +327,7 @@ namespace Vts.Test.MonteCarlo.Tissues
                                     refractedDir.Uy * refractedDir.Uy +
                                     refractedDir.Uz * refractedDir.Uz) - 1 < 1e-6);
         }
+
         /// <summary>
         /// Validate method GetAngleRelativeToBoundaryNormal return correct value.   Note that this
         /// gets called by Photon method CrossRegionOrReflect.  All return values
