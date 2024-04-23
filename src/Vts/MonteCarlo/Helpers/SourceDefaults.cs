@@ -22,11 +22,6 @@ namespace Vts.MonteCarlo.Sources
         /// </summary>
         public static PolarAzimuthalAngles DefaultBeamRotationFromInwardNormal => new PolarAzimuthalAngles(0.0, 0.0);
         /// <summary>
-        /// Default beam rotation angle from inward normal (0.0, 0.0)
-        /// </summary>
-        [Obsolete("DefaultBeamRoationFromInwardNormal is deprecated, please use DefaultBeamRotationFromInwardNormal instead.")]
-        public static PolarAzimuthalAngles DefaultBeamRoationFromInwardNormal => new PolarAzimuthalAngles(0.0, 0.0);
-        /// <summary>
         /// Default full polar angle range (0.0, PI)
         /// </summary>
         public static DoubleRange DefaultFullPolarAngleRange => new DoubleRange(0, Math.PI);
