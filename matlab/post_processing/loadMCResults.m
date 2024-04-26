@@ -22,6 +22,13 @@ for di = 1:numDetectors
             SurfaceFiber.SecondMoment = SurfaceFiber_txt.SecondMoment;
             SurfaceFiber.Stdev = sqrt((SurfaceFiber.SecondMoment - (SurfaceFiber.Mean .* SurfaceFiber.Mean)) / (json.N)); 
             results{di}.SurfaceFiber = SurfaceFiber;
+        case 'InternalSurfaceFiber'
+            InternalSurfaceFiber.Name = detector.Name;
+            InternalSurfaceFiber_txt = readAndParseJson([datadir slash detector.Name '.txt']);
+            InternalSurfaceFiber.Mean = InternalSurfaceFiber_txt.Mean;              
+            InternalSurfaceFiber.SecondMoment = InternalSurfaceFiber_txt.SecondMoment;
+            InternalSurfaceFiber.Stdev = sqrt((InternalSurfaceFiber.SecondMoment - (InternalSurfaceFiber.Mean .* InternalSurfaceFiber.Mean)) / (json.N)); 
+            results{di}.InternalSurfaceFiber = InternalSurfaceFiber;
         case 'SlantedRecessedFiber'
             SlantedRecessedFiber.Name = detector.Name;
             SlantedRecessedFiber_txt = readAndParseJson([datadir slash detector.Name '.txt']);

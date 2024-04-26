@@ -8,13 +8,14 @@ addpath(pwd);
 addpath([pwd slash 'jsonlab']);
 
 % names of individual MC simulations
-datanames = { 'one_layer_all_detectors' };
+datanames = { 'curvature_1310_Cyl_R1_7layer_2mmGap' };
 % datanames = { 'results_mua0.1musp1.0' 'results_mua0.1musp1.1' }; %...etc
 
 % outdir = 'C:\Projects\vts\src\Vts.MonteCarlo.CommandLineApplication\bin\Release';
 outdir = '.';
 
 show.SurfaceFiber =             1;
+show.InternalSurfaceFiber =             1;
 show.SlantedRecessedFiber =     1;
 show.RDiffuse =                 1;
 show.ROfRho =                   1;
@@ -94,6 +95,14 @@ for mci = 1:length(datanames)
         disp(['+/- 3sigma by SurfaceFiber detector: ' ...
             num2str(results{di}.SurfaceFiber.Mean - 3 * results{di}.SurfaceFiber.Stdev) ' - ' ...
             num2str(results{di}.SurfaceFiber.Mean + 3 * results{di}.SurfaceFiber.Stdev)]);
+    end
+
+    if isfield(results{di}, 'InternalSurfaceFiber') && show.InternalSurfaceFiber
+        disp(['Total reflectance captured by InternalSurfaceFiber detector: ' num2str(results{di}.InternalSurfaceFiber.Mean)]);
+        disp(['Standard Deviation captured by InternalSurfaceFiber detector: ' num2str(results{di}.InternalSurfaceFiber.Stdev)]);
+        disp(['+/- 3sigma by InternalSurfaceFiber detector: ' ...
+            num2str(results{di}.InternalSurfaceFiber.Mean - 3 * results{di}.InternalSurfaceFiber.Stdev) ' - ' ...
+            num2str(results{di}.InternalSurfaceFiber.Mean + 3 * results{di}.InternalSurfaceFiber.Stdev)]);
     end
         
     if isfield(results{di}, 'SlantedRecessedFiber') && show.SlantedRecessedFiber
