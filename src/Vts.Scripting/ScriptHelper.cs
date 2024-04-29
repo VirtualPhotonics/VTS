@@ -9,9 +9,9 @@ public static class ScriptHelper
     /// </summary>
     /// <param name="endpointRange">The range of endpoints</param>
     /// <returns>The corresponding midpoint outputs</returns>
-    public static double[] GetMidpoints(this DoubleRange endpoints)
+    public static double[] GetMidpoints(this DoubleRange endpointRange)
     {
-         return endpoints.AsEnumerable().ToArray().GetMidpoints();
+         return endpointRange.ToArray().GetMidpoints();
     }
 
     /// <summary>
