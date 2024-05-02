@@ -193,42 +193,32 @@ namespace Vts.MonteCarlo.Detectors
 
         private double AbsorbContinuous(IList<long> numberOfCollisions, IList<double> pathLength, IList<OpticalProperties> perturbedOps)
         {
-            var weightFactor = 1.0;
-
             // NOTE: following code only works for single perturbed region because derivative of
             // Radon-Nikodym product needs d(AB)=dA B + A dB and this does not produce that
-            foreach (var i in _perturbedRegionsIndices)
-            {
-                // rearranged to be more numerically stable
-                weightFactor *=
-                    -pathLength[i] * // dMua* factor 
-                    Math.Pow(
-                        _perturbedOps[i].Mus / _referenceOps[i].Mus * 
-                        Math.Exp(-(_perturbedOps[i].Mus + _perturbedOps[i].Mua - _referenceOps[i].Mus - _referenceOps[i].Mua) *
-                            pathLength[i] / numberOfCollisions[i]),
-                        numberOfCollisions[i]);
-            }
-            return weightFactor;
+            // Check for only one perturbedRegionIndices specified by user performed in DataStructuresValidation
+            var i = _perturbedRegionsIndices[0]; 
+            // rearranged to be more numerically stable
+            return -pathLength[i] * // dMua* factor 
+                Math.Pow(
+                    _perturbedOps[i].Mus / _referenceOps[i].Mus * 
+                    Math.Exp(-(_perturbedOps[i].Mus + _perturbedOps[i].Mua - _referenceOps[i].Mus - _referenceOps[i].Mua) *
+                        pathLength[i] / numberOfCollisions[i]),
+                    numberOfCollisions[i]);
         }
 
         private double AbsorbDiscrete(IList<long> numberOfCollisions, IList<double> pathLength, IList<OpticalProperties> perturbedOps)
         {
-            var weightFactor = 1.0;
-
             // NOTE: following code only works for single perturbed region because derivative of
-            // Radon-Nikodym product needs d(AB)=dA B + A dB and this does not produce that
-            foreach (var i in _perturbedRegionsIndices)
-            {
-                // rearranged to be more numerically stable
-                weightFactor *=
-                    -pathLength[i] * // dMua* factor 
-                    Math.Pow(
-                        _perturbedOps[i].Mus / _referenceOps[i].Mus *
-                        Math.Exp(-(_perturbedOps[i].Mus + _perturbedOps[i].Mua - _referenceOps[i].Mus - _referenceOps[i].Mua) *
-                            pathLength[i] / numberOfCollisions[i]),
-                        numberOfCollisions[i]);
-            }
-            return weightFactor;
+            // Radon-Nikodym product needs d(AB)=dA B + A dB and this does not produce that.
+            // Check for only one perturbedRegionIndices specified by user performed in DataStructuresValidation
+            var i = _perturbedRegionsIndices[0]; 
+            // rearranged to be more numerically stable
+            return -pathLength[i] * // dMua* factor 
+                Math.Pow(
+                    _perturbedOps[i].Mus / _referenceOps[i].Mus *
+                    Math.Exp(-(_perturbedOps[i].Mus + _perturbedOps[i].Mua - _referenceOps[i].Mus - _referenceOps[i].Mua) *
+                        pathLength[i] / numberOfCollisions[i]),
+                    numberOfCollisions[i]);
         }
 
         /// <summary>
