@@ -198,54 +198,13 @@ namespace Vts.MonteCarlo.Detectors
             // Radon-Nikodym product needs d(AB)=dA B + A dB and this does not produce that
             foreach (var i in _perturbedRegionsIndices)
             {
-                if (numberOfCollisions[i] - 1 > 0)
-                {
-                    var dum = numberOfCollisions[i] / _referenceOps[i].Mus * // dMus* 1st factor
-                              Math.Pow(
-                                  _perturbedOps[i].Mus / _referenceOps[i].Mus *
-                                  Math.Exp(-(_perturbedOps[i].Mus + _perturbedOps[i].Mua - _referenceOps[i].Mus -
-                                             _referenceOps[i].Mua) *
-                                      pathLength[i] / (numberOfCollisions[i] - 1)),
-                                  numberOfCollisions[i] - 1);
-                    var dum2 = pathLength[i] * // dMus* 2nd factor
-                               Math.Pow(
-                                   _perturbedOps[i].Mus / _referenceOps[i].Mus *
-                                   Math.Exp(
-                                       -(_perturbedOps[i].Mus + _perturbedOps[i].Mua - _referenceOps[i].Mus -
-                                         _referenceOps[i].Mua) *
-                                       pathLength[i] / numberOfCollisions[i]),
-                                   numberOfCollisions[i]);
-                    weightFactor *=
-                        numberOfCollisions[i] / _referenceOps[i].Mus * // dMus* 1st factor
-                        Math.Pow(
-                            _perturbedOps[i].Mus / _referenceOps[i].Mus *
-                            Math.Exp(-(_perturbedOps[i].Mus + _perturbedOps[i].Mua - _referenceOps[i].Mus -
-                                       _referenceOps[i].Mua) *
-                                pathLength[i] / (numberOfCollisions[i] - 1)),
-                            numberOfCollisions[i] - 1) //  (j-1) here
-                        - pathLength[i] * // dMus* 2nd factor
-                        Math.Pow(
-                            _perturbedOps[i].Mus / _referenceOps[i].Mus *
-                            Math.Exp(-(_perturbedOps[i].Mus + _perturbedOps[i].Mua - _referenceOps[i].Mus -
-                                       _referenceOps[i].Mua ) *
-                                pathLength[i] / numberOfCollisions[i]),
-                            numberOfCollisions[i]); // j here
-                }
-                else // number of collisions in pert region is 1
-                {
-                    weightFactor *=
-                        1 / _referenceOps[i].Mus * // dMus* 1st factor
-                        Math.Exp(
-                            -(_perturbedOps[i].Mus + _perturbedOps[i].Mua - _referenceOps[i].Mus -
-                              _referenceOps[i].Mus) *
-                            pathLength[i])
-                        - pathLength[i] * // dMus* 2nd factor
-                        (_perturbedOps[i].Mus / _referenceOps[i].Mus) *
-                        Math.Exp(
-                            -(_perturbedOps[i].Mus + _perturbedOps[i].Mua - _referenceOps[i].Mus -
-                              _referenceOps[i].Mus) *
-                            pathLength[i]);
-                }
+                // rearranged to be more numerically stable
+                weightFactor *=
+                    ((numberOfCollisions[i] / _perturbedOps[i].Mus) - pathLength[i]) * // dMus* factor 
+                    Math.Pow(_perturbedOps[i].Mus / _referenceOps[i].Mus *
+                        Math.Exp(-(_perturbedOps[i].Mus + _perturbedOps[i].Mua - _referenceOps[i].Mus - _referenceOps[i].Mua) *
+                            pathLength[i] / numberOfCollisions[i]),
+                        numberOfCollisions[i]);
             }
             return weightFactor;
         }
@@ -258,55 +217,13 @@ namespace Vts.MonteCarlo.Detectors
             // Radon-Nikodym product needs d(AB)=dA B + A dB and this does not produce that
             foreach (var i in _perturbedRegionsIndices)
             {
-                if (numberOfCollisions[i] - 1 > 0)
-                {
-                    var dum = numberOfCollisions[i] / _referenceOps[i].Mus * // dMus* 1st factor
-                              Math.Pow(
-                                  _perturbedOps[i].Mus / _referenceOps[i].Mus *
-                                  Math.Exp(-(_perturbedOps[i].Mus + _perturbedOps[i].Mua - _referenceOps[i].Mus -
-                                             _referenceOps[i].Mua) *
-                                      pathLength[i] / (numberOfCollisions[i] - 1)),
-                                  numberOfCollisions[i] - 1);
-                    var dum2= pathLength[i] * // dMus* 2nd factor
-                              Math.Pow(
-                                  _perturbedOps[i].Mus / _referenceOps[i].Mus *
-                                  Math.Exp(
-                                      -(_perturbedOps[i].Mus + _perturbedOps[i].Mua - _referenceOps[i].Mus -
-                                        _referenceOps[i].Mua) *
-                                      pathLength[i] / numberOfCollisions[i]),
-                                  numberOfCollisions[i]);
-                    weightFactor *=
-                        numberOfCollisions[i] / _referenceOps[i].Mus * // dMus* 1st factor
-                        Math.Pow(
-                            _perturbedOps[i].Mus/_referenceOps[i].Mus *
-                            Math.Exp(-(_perturbedOps[i].Mus + _perturbedOps[i].Mua - _referenceOps[i].Mus -
-                                  _referenceOps[i].Mua) *
-                                pathLength[i]/(numberOfCollisions[i] - 1)),
-                            numberOfCollisions[i] - 1) // (j-1) here
-                        - pathLength[i] * // dMus* 2nd factor
-                        Math.Pow(
-                            _perturbedOps[i].Mus/_referenceOps[i].Mus *
-                            Math.Exp(
-                                -(_perturbedOps[i].Mus + _perturbedOps[i].Mua - _referenceOps[i].Mus -
-                                  _referenceOps[i].Mua) *
-                                pathLength[i]/numberOfCollisions[i]),
-                            numberOfCollisions[i]); // j here
-                }
-                else // number of collisions in pert region is 1
-                {
-                    weightFactor *=
-                        1 / _referenceOps[i].Mus * // dMus* 1st factor
-                        Math.Exp(
-                            -(_perturbedOps[i].Mus + _perturbedOps[i].Mua - _referenceOps[i].Mus -
-                              _referenceOps[i].Mus) *
-                            pathLength[i])
-                        - pathLength[i] * // dMus* 2nd factor
-                        (_perturbedOps[i].Mus / _referenceOps[i].Mus) *
-                        Math.Exp(
-                            -(_perturbedOps[i].Mus + _perturbedOps[i].Mua - _referenceOps[i].Mus -
-                              _referenceOps[i].Mus) *
-                            pathLength[i]); 
-                }
+                // rearranged to be more numerically stable
+                weightFactor *=
+                    ((numberOfCollisions[i]/ _perturbedOps[i].Mus) -pathLength[i] )* // dMus* factor 
+                    Math.Pow(_perturbedOps[i].Mus / _referenceOps[i].Mus *
+                        Math.Exp(-(_perturbedOps[i].Mus + _perturbedOps[i].Mua - _referenceOps[i].Mus - _referenceOps[i].Mua) *
+                            pathLength[i] / numberOfCollisions[i]),
+                        numberOfCollisions[i]);
             }
             return weightFactor;
         }
