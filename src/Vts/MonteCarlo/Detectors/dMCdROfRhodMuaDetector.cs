@@ -158,17 +158,15 @@ namespace Vts.MonteCarlo.Detectors
             // AbsorptionWeightingType.Analog cannot have derivatives so not a case
             switch (awt)
             {
-                // note: pMC is not applied to analog processing,
-                // only DAW and CAW
+                // note: pMC is not applied to analog processing, only DAW and CAW
                 case AbsorptionWeightingType.Continuous:
-                    _absorbAction = AbsorbContinuous;
-                    break;
                 case AbsorptionWeightingType.Discrete:
                 default:
-                    _absorbAction = AbsorbDiscrete;
+                    _absorbAction = AbsorbContinuousOrDiscrete;
                     break;
             }
         }
+
         /// <summary>
         /// method to tally to detector
         /// </summary>
@@ -191,7 +189,14 @@ namespace Vts.MonteCarlo.Detectors
             SecondMoment[ir] += photon.DP.Weight * weightFactor * photon.DP.Weight * weightFactor;
         }
 
-        private double AbsorbContinuous(IList<long> numberOfCollisions, IList<double> pathLength, IList<OpticalProperties> perturbedOps)
+        /// <summary>
+        /// The following method works for both discrete or continuous absorption weighting
+        /// </summary>
+        /// <param name="numberOfCollisions">photon number of collisions in perturbed region</param>
+        /// <param name="pathLength">photon path length in perturbed region</param>
+        /// <param name="perturbedOps">perturbed optical properties of perturbed region</param>
+        /// <returns>derivative with respect to mus</returns>
+        private double AbsorbContinuousOrDiscrete(IList<long> numberOfCollisions, IList<double> pathLength, IList<OpticalProperties> perturbedOps)
         {
             // NOTE: following code only works for single perturbed region because derivative of
             // Radon-Nikodym product needs d(AB)=dA B + A dB and this does not produce that
@@ -201,21 +206,6 @@ namespace Vts.MonteCarlo.Detectors
             return -pathLength[i] * // dMua* factor 
                 Math.Pow(
                     _perturbedOps[i].Mus / _referenceOps[i].Mus * 
-                    Math.Exp(-(_perturbedOps[i].Mus + _perturbedOps[i].Mua - _referenceOps[i].Mus - _referenceOps[i].Mua) *
-                        pathLength[i] / numberOfCollisions[i]),
-                    numberOfCollisions[i]);
-        }
-
-        private double AbsorbDiscrete(IList<long> numberOfCollisions, IList<double> pathLength, IList<OpticalProperties> perturbedOps)
-        {
-            // NOTE: following code only works for single perturbed region because derivative of
-            // Radon-Nikodym product needs d(AB)=dA B + A dB and this does not produce that.
-            // Check for only one perturbedRegionIndices specified by user performed in DataStructuresValidation
-            var i = _perturbedRegionsIndices[0]; 
-            // rearranged to be more numerically stable
-            return -pathLength[i] * // dMua* factor 
-                Math.Pow(
-                    _perturbedOps[i].Mus / _referenceOps[i].Mus *
                     Math.Exp(-(_perturbedOps[i].Mus + _perturbedOps[i].Mua - _referenceOps[i].Mus - _referenceOps[i].Mua) *
                         pathLength[i] / numberOfCollisions[i]),
                     numberOfCollisions[i]);
