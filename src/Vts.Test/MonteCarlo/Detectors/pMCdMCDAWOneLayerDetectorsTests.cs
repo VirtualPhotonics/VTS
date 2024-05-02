@@ -491,6 +491,59 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.AreEqual(89, postProcessedOutput.pMC_R_fx_TallyCount);
         }
 
+        [Test]
+        public void Test_Analog_absorption_weighting_type_throws_argument_exception()
+        {
+            var test1 = new DMuaDetectorTest();
+            Assert.Throws<ArgumentException>(() =>
+            {
+                try
+                {
+                    test1.SetAbsorbAction(AbsorptionWeightingType.Analog);
+                }
+                catch (Exception e)
+                {
+                    Assert.AreEqual("Analog is not allowed with this detector (Parameter 'awt')", e.Message);
+                    throw;
+                }
+            });
+            var test2 = new DMusDetectorTest();
+            Assert.Throws<ArgumentException>(() =>
+            {
+                try
+                {
+                    test2.SetAbsorbAction(AbsorptionWeightingType.Analog);
+                }
+                catch (Exception e)
+                {
+                    Assert.AreEqual("Analog is not allowed with this detector (Parameter 'awt')", e.Message);
+                    throw;
+                }
+            });
+        }
+
+        /// <summary>
+        /// Expose protected method in a new class that inherits the class under test
+        /// </summary>
+        public class DMuaDetectorTest : dMCdROfRhodMuaDetector
+        {
+            public new void SetAbsorbAction(AbsorptionWeightingType awt)
+            {
+                base.SetAbsorbAction(awt);
+            }
+        }
+
+        /// <summary>
+        /// Expose protected method in a new class that inherits the class under test
+        /// </summary>
+        public class DMusDetectorTest : dMCdROfRhodMusDetector
+        {
+            public new void SetAbsorbAction(AbsorptionWeightingType awt)
+            {
+                base.SetAbsorbAction(awt);
+            }
+        }
+
     }
 }
 
