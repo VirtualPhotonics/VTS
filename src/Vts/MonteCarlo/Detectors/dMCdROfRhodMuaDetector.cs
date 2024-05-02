@@ -155,16 +155,15 @@ namespace Vts.MonteCarlo.Detectors
         /// <param name="awt">absorption weighting type</param>
         protected void SetAbsorbAction(AbsorptionWeightingType awt)
         {
-            // AbsorptionWeightingType.Analog cannot have derivatives so not a case
-            switch (awt)
+            // AbsorptionWeightingType.Analog cannot have derivatives so exception
+            _absorbAction = awt switch
             {
                 // note: pMC is not applied to analog processing, only DAW and CAW
-                case AbsorptionWeightingType.Continuous:
-                case AbsorptionWeightingType.Discrete:
-                default:
-                    _absorbAction = AbsorbContinuousOrDiscrete;
-                    break;
-            }
+                AbsorptionWeightingType.Continuous => AbsorbContinuousOrDiscrete,
+                AbsorptionWeightingType.Discrete => AbsorbContinuousOrDiscrete,
+                AbsorptionWeightingType.Analog => throw new ArgumentException(@"Analog is not allowed with this detector", nameof(awt)),
+                _ => throw new ArgumentOutOfRangeException(typeof(AbsorptionWeightingType).ToString())
+            };
         }
 
         /// <summary>
