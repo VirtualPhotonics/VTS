@@ -1,4 +1,4 @@
-using System;
+ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -138,8 +138,8 @@ namespace Vts.MonteCarlo.Detectors
             TallyCount = 0;
 
             // if the data arrays are null, create them (only create second moment if TallySecondMoment is true)
-            Mean = Mean ?? new double[Rho.Count - 1];
-            SecondMoment = SecondMoment ?? (TallySecondMoment ? new double[Rho.Count - 1] : null);
+            Mean ??= new double[Rho.Count - 1];
+            SecondMoment ??= (TallySecondMoment ? new double[Rho.Count - 1] : null);
 
             // initialize any other necessary class fields here
             _perturbedOps = PerturbedOps;
@@ -155,6 +155,7 @@ namespace Vts.MonteCarlo.Detectors
         /// <param name="awt">absorption weighting type</param>
         protected void SetAbsorbAction(AbsorptionWeightingType awt)
         {
+            // AbsorptionWeightingType.Analog cannot have derivatives so not a case
             switch (awt)
             {
                 // note: pMC is not applied to analog processing,
@@ -194,24 +195,18 @@ namespace Vts.MonteCarlo.Detectors
         {
             var weightFactor = 1.0;
 
-            // NOTE: following code only works for single perturbed region
+            // NOTE: following code only works for single perturbed region because derivative of
+            // Radon-Nikodym product needs d(AB)=dA B + A dB and this does not produce that
             foreach (var i in _perturbedRegionsIndices)
             {
+                // rearranged to be more numerically stable
                 weightFactor *=
-                    -pathLength[i] * // dMua* factor
-                    (Math.Exp(-perturbedOps[i].Mua * pathLength[i]) / Math.Exp(-_referenceOps[i].Mua * pathLength[i])); // mua pert
-                if (numberOfCollisions[i] > 0)
-                {
-                    // the following is more numerically stable
+                    -pathLength[i] * // dMua* factor 
                     Math.Pow(
-                        _perturbedOps[i].Mus / _referenceOps[i].Mus * Math.Exp(-(_perturbedOps[i].Mus - _referenceOps[i].Mus) *
+                        _perturbedOps[i].Mus / _referenceOps[i].Mus * 
+                        Math.Exp(-(_perturbedOps[i].Mus + _perturbedOps[i].Mua - _referenceOps[i].Mus - _referenceOps[i].Mua) *
                             pathLength[i] / numberOfCollisions[i]),
                         numberOfCollisions[i]);
-                }
-                else
-                {
-                    weightFactor *= Math.Exp(-(_perturbedOps[i].Mus - _referenceOps[i].Mus) * pathLength[i]);
-                }
             }
             return weightFactor;
         }
@@ -220,26 +215,18 @@ namespace Vts.MonteCarlo.Detectors
         {
             var weightFactor = 1.0;
 
-            // NOTE: following code only works for single perturbed region
+            // NOTE: following code only works for single perturbed region because derivative of
+            // Radon-Nikodym product needs d(AB)=dA B + A dB and this does not produce that
             foreach (var i in _perturbedRegionsIndices)
             {
-                if (numberOfCollisions[i] > 0)
-                {
-                    weightFactor *=
-                        -pathLength[i] * // dMua* factor
-                        Math.Pow(
-                            _perturbedOps[i].Mus / _referenceOps[i].Mus *
-                                Math.Exp(-(_perturbedOps[i].Mus + _perturbedOps[i].Mua - _referenceOps[i].Mus - _referenceOps[i].Mua) *
-                                    pathLength[i] / numberOfCollisions[i]),
-                            numberOfCollisions[i]);
-                }
-                else // numberOfCollisions[i] in pert region is 0
-                {
-                    weightFactor *=
-                        -pathLength[i] * // dMua* factor
-                                Math.Exp(-(_perturbedOps[i].Mus + _perturbedOps[i].Mua - _referenceOps[i].Mus - _referenceOps[i].Mua) *
-                                    pathLength[i]);
-                }
+                // rearranged to be more numerically stable
+                weightFactor *=
+                    -pathLength[i] * // dMua* factor 
+                    Math.Pow(
+                        _perturbedOps[i].Mus / _referenceOps[i].Mus *
+                        Math.Exp(-(_perturbedOps[i].Mus + _perturbedOps[i].Mua - _referenceOps[i].Mus - _referenceOps[i].Mua) *
+                            pathLength[i] / numberOfCollisions[i]),
+                        numberOfCollisions[i]);
             }
             return weightFactor;
         }
