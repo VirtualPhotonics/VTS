@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using Vts.Common;
 using Vts.Extensions;
+using Vts.MonteCarlo.PhotonData;
 
 namespace Vts.MonteCarlo.Tissues
 {
@@ -80,8 +81,15 @@ namespace Vts.MonteCarlo.Tissues
             // if we're inside or outside the bounding region, distance is either to bounding region or
             // edge of layer
 
-            // check if current track will not hit the bounding boundary, then tissue boundary
-            if (!_boundingRegion.RayIntersectBoundary(photon, out var distanceToBoundingBoundary))
+            // check that a projected track will hit bounding volume, if so, check layers and find minimum
+            // if not, check distance to layers
+            var projectedPhoton = new Photon
+            {
+                DP = new PhotonDataPoint(photon.DP.Position, photon.DP.Direction, photon.DP.Weight,
+                    photon.DP.TotalTime, photon.DP.StateFlag),
+                S = 100
+            };
+            if (!_boundingRegion.RayIntersectBoundary(projectedPhoton, out var distanceToBoundingBoundary))
                 return base.GetDistanceToBoundary(photon);
 
             // check if will hit layer boundary
@@ -89,9 +97,8 @@ namespace Vts.MonteCarlo.Tissues
             return !(distanceToBoundingBoundary < distanceToLayerBoundary) 
                 ? distanceToLayerBoundary 
                 : distanceToBoundingBoundary;
-
-            // if not hitting the inclusion, call the base (layer) method
         }
+
         /// <summary>
         /// Method to determine if on boundary of tissue, i.e. at tissue/air interface
         /// </summary>
@@ -104,6 +111,7 @@ namespace Vts.MonteCarlo.Tissues
                 position.Z < 1e-10 ||
                 (Math.Abs(position.Z - ((LayerTissueRegion)_layers.Last()).ZRange.Start) < 1e-10);
         }
+
         /// <summary>
         /// Method to get index of neighbor tissue region when photon on boundary of two regions
         /// </summary>
@@ -125,6 +133,7 @@ namespace Vts.MonteCarlo.Tissues
             // else inside bounding region so return outside bounding region index
             // else on layer boundary so return layer neighbor
         }
+
         /// <summary>
         /// Method to determine photon state type of photon exiting tissue boundary
         /// </summary>
@@ -216,6 +225,7 @@ namespace Vts.MonteCarlo.Tissues
                 return new Direction(newX / norm, newY / norm, newZ / norm);
             }
         }
+
         /// <summary>
         /// Method to get cosine of the angle between photons current direction and boundary normal.
         /// When this method is called photon is sitting on boundary of region and CurrentRegionIndex is Index

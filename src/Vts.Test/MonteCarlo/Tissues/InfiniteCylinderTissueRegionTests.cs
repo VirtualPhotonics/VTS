@@ -37,6 +37,60 @@ namespace Vts.Test.MonteCarlo.Tissues
             Assert.AreEqual(0.8, _infiniteCylinderTissueRegion.RegionOP.G);
             Assert.AreEqual(1.4, _infiniteCylinderTissueRegion.RegionOP.N);
         }
+
+        /// <summary>
+        /// Validate method ContainsPositions return correct Boolean. ContainsPosition is true if inside
+        /// or *on* boundary.
+        /// </summary>
+        [Test]
+        public void Verify_ContainsPosition_method_returns_correct_result()
+        {
+            var result = _infiniteCylinderTissueRegion.ContainsPosition(new Position(0, 0, 3.0)); // inside
+            Assert.IsTrue(result);
+            result = _infiniteCylinderTissueRegion.ContainsPosition(new Position(0, 0, 2.0)); // on boundary
+            Assert.IsTrue(result);
+        }
+        /// <summary>
+        /// Validate method OnBoundary return correct Boolean.
+        /// </summary>
+        [Test]
+        public void Verify_OnBoundary_method_returns_correct_result()
+        {
+            // OnBoundary returns false if *exactly* on boundary
+            var result = _infiniteCylinderTissueRegion.OnBoundary(new Position(0, 0, 2.0));
+            Assert.IsFalse(result);
+            // but returns true if outside infinite cylinder which doesn't make sense but it is how code is written
+            // and all unit tests (linux included) are based on this wrong return
+            result = _infiniteCylinderTissueRegion.OnBoundary(new Position(0, 0, 0.5));
+            Assert.IsTrue(result);
+            result = _infiniteCylinderTissueRegion.OnBoundary(new Position(0, 0, 2.0));
+            Assert.IsFalse(result);
+        }
+
+        /// <summary>
+        /// Validate method SurfaceNormal return correct normal vector.  Should be outward directed normal.
+        /// </summary>
+        [Test]
+        public void Verify_SurfaceNormal_method_returns_correct_result()
+        {
+            var result = _infiniteCylinderTissueRegion.SurfaceNormal(new Position(0, 0, 2.0)); // top of cyl
+            Assert.AreEqual(0, result.Ux);
+            Assert.AreEqual(0, result.Uy);
+            Assert.AreEqual(-1, result.Uz);
+            result = _infiniteCylinderTissueRegion.SurfaceNormal(new Position(0, 0, 4.0)); // bottom of cyl
+            Assert.AreEqual(0, result.Ux);
+            Assert.AreEqual(0, result.Uy);
+            Assert.AreEqual(1, result.Uz);
+            // select a more random location on the surface of the cylinder
+            const double x = 0.3; // pick any x value and determine z on cylinder
+            var z = Math.Sqrt(_infiniteCylinderTissueRegion.Radius * _infiniteCylinderTissueRegion.Radius - x * x);
+            const double y = 1.11; // pick any y value
+            result = _infiniteCylinderTissueRegion.SurfaceNormal(new Position(x, y, z));
+            Assert.IsTrue(Math.Abs(result.Ux - 0.145072) < 1e-6);
+            Assert.AreEqual(0, result.Uy); // surface normal on infinite cylinder should *always* have Uz=0
+            Assert.IsTrue(Math.Abs(result.Uz + 0.989421) < 1e-6);
+        }
+
         /// <summary>
         /// Validate method RayIntersectBoundary return correct result
         /// </summary>
@@ -63,30 +117,6 @@ namespace Vts.Test.MonteCarlo.Tissues
             result = _infiniteCylinderTissueRegion.RayIntersectBoundary(photon, out distanceToBoundary);
             Assert.AreEqual(false, result);
             Assert.AreEqual(double.PositiveInfinity, distanceToBoundary);
-        }
-
-        /// <summary>
-        /// Validate method SurfaceNormal return correct normal vector.  Should be outward directed normal.
-        /// </summary>
-        [Test]
-        public void Verify_SurfaceNormal_method_returns_correct_result()
-        {
-            var result = _infiniteCylinderTissueRegion.SurfaceNormal(new Position(0, 0, 2.0)); // top of cyl
-            Assert.AreEqual(0, result.Ux);
-            Assert.AreEqual(0, result.Uy);
-            Assert.AreEqual(-1, result.Uz);
-            result = _infiniteCylinderTissueRegion.SurfaceNormal(new Position(0, 0, 4.0)); // bottom of cyl
-            Assert.AreEqual(0, result.Ux);
-            Assert.AreEqual(0, result.Uy);
-            Assert.AreEqual(1, result.Uz);
-            // select a more random location on the surface of the cylinder
-            const double x = 0.3; // pick any x value and determine z on cylinder
-            var z = Math.Sqrt(_infiniteCylinderTissueRegion.Radius * _infiniteCylinderTissueRegion.Radius - x * x);
-            const double y = 1.11; // pick any y value
-            result = _infiniteCylinderTissueRegion.SurfaceNormal(new Position(x, y, z)); 
-            Assert.IsTrue(Math.Abs(result.Ux - 0.145072) < 1e-6);
-            Assert.AreEqual(0, result.Uy); // surface normal on infinite cylinder should *always* have Uz=0
-            Assert.IsTrue(Math.Abs(result.Uz + 0.989421) < 1e-6);
         }
 
     }

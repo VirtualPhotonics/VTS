@@ -102,8 +102,12 @@ New-Item $MCmatlabdir -ItemType "directory"
 $MCresults = "$vtslevel\publish\local\one_layer_all_detectors\*"
 Copy-Item -Path $MCresults -Destination $MCmatlabdir -Recurse -ErrorAction Ignore
 
-# run load_results_script (default datanames is set to one_layer_all_detectors) 
-matlab -wait -r "load_results_script; quit"
+# only run following commands if matlab installed
+if (Get-Command "matlab" -ErrorAction SilentlyContinue)
+{
+  # run load_results_script (default datanames is set to one_layer_all_detectors) 
+  matlab -wait -r "load_results_script; quit"
+}
 
 #cleanup one_layer_all_detectors folder
 Remove-Item  $MCmatlabdir -Recurse -ErrorAction Ignore
