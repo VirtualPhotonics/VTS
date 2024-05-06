@@ -261,107 +261,30 @@ namespace Vts.MonteCarlo.Detectors
         /// <summary>
         /// this is to allow saving of large arrays separately as a binary file
         /// </summary>
-        /// <returns>An array of BinaryArraySerializer</returns>
+        /// <returns>BinaryArraySerializer[]</returns>
         public BinaryArraySerializer[] GetBinarySerializers()
         {
-            return new[] {
-                new BinaryArraySerializer {
-                    DataArray = Mean,
-                    Name = "Mean",
-                    FileTag = "",
-                    WriteData = binaryWriter => {
-                        for (var i = 0; i < Rho.Count - 1; i++) {
-                            for (var j = 0; j < Time.Count - 1; j++) {
-                                for (var k = 0; k < NumberOfRegions; k++)
-                                {
-                                    binaryWriter.Write(Mean[i, j, k]);
-                                }
-                            }                            
-                        }
-                    },
-                    ReadData = binaryReader => {
-                        Mean = Mean ?? new double[ Rho.Count - 1,Time.Count - 1,NumberOfRegions];
-                        for (var i = 0; i < Rho.Count - 1; i++) {
-                            for (var j = 0; j < Time.Count - 1; j++)  {
-                                for (var k = 0; k < NumberOfRegions; k++)
-                                {
-                                    Mean[i, j, k] = binaryReader.ReadDouble();
-                                }
-                            }
-                        }
-                    }
-                },
-                new BinaryArraySerializer
-                {
-                    DataArray = ROfRho,
-                    Name = "ROfRho",
-                    FileTag = "_ROfRho",
-                    WriteData = binaryWriter => {
-                        for (var i = 0; i < Rho.Count - 1; i++)
-                        {
-                            binaryWriter.Write(ROfRho[i]);
-                        }
-                    },
-                    ReadData = binaryReader => {
-                        ROfRho = ROfRho ?? new double[Rho.Count - 1];
-                        for (var i = 0; i < Rho.Count - 1; i++)
-                        {                            
-                            ROfRho[i] = binaryReader.ReadDouble();                            
-                        }
-                    }
-                },
-                // return a null serializer, if we're not serializing the second moment
-                !TallySecondMoment? null :  new BinaryArraySerializer {
-                    DataArray = SecondMoment,
-                    Name = "SecondMoment",
-                    FileTag = "_2",
-                    WriteData = binaryWriter => {
-                        if (!TallySecondMoment || SecondMoment == null) return;
-                        for (var i = 0; i<Rho.Count - 1; i++) {
-                            for (var j = 0; j<Time.Count - 1; j++)  {
-                                for (var k = 0; k<NumberOfRegions; k++)
-                                {
-                                    binaryWriter.Write(SecondMoment[i, j, k]);
-                                }
-                            }
-                        }
-                    },
-                    ReadData = binaryReader => {
-                        if (!TallySecondMoment || SecondMoment == null) return;
-                        SecondMoment = new double[Rho.Count - 1, Time.Count - 1, NumberOfRegions];
-                        for (var i = 0; i < Rho.Count - 1; i++)
-                        {                            
-                            for (var j = 0; j < Time.Count - 1; j++)
-                            {
-                                for (var k = 0; k < NumberOfRegions; k++)
-                                {
-                                    SecondMoment[i, j, k] = binaryReader.ReadDouble();
-                                }
-                            }
-                        }
-                    },
-                },
-                !TallySecondMoment ? null : new BinaryArraySerializer
-                {
-                    DataArray = ROfRhoSecondMoment,
-                    Name = "ROfRhoSecondMoment",
-                    FileTag = "_ROfRho_2",
-                    WriteData = binaryWriter => {
-                        for (var i = 0; i < Rho.Count - 1; i++)
-                        {
-                            binaryWriter.Write(ROfRhoSecondMoment[i]);
-                        }                        
-                    },
-                    ReadData = binaryReader => {
-                        ROfRhoSecondMoment = ROfRhoSecondMoment ?? new double[Rho.Count - 1];
-                        for (var i = 0; i < Rho.Count - 1; i++)
-                        {                            
-                            ROfRhoSecondMoment[i] = binaryReader.ReadDouble();                            
-                        }
-                    }
-                },
+            Mean ??= new double[Rho.Count - 1, Time.Count - 1, NumberOfRegions];
+            ROfRho ??= new double[Rho.Count - 1];
+            if (TallySecondMoment)
+            {
+                SecondMoment ??= new double[Rho.Count - 1, Time.Count - 1, NumberOfRegions];
+                ROfRhoSecondMoment ??= new double[Rho.Count - 1];
+            }
+            var allSerializers = new List<BinaryArraySerializer>
+            {
+                BinaryArraySerializerFactory.GetSerializer(
+                    Mean, "Mean", ""),
+                BinaryArraySerializerFactory.GetSerializer(
+                    ROfRho, "ROfRho", "_ROfRho"),
+                TallySecondMoment ? BinaryArraySerializerFactory.GetSerializer(
+                    SecondMoment, "SecondMoment", "_2") : null,
+                TallySecondMoment ? BinaryArraySerializerFactory.GetSerializer(
+                    ROfRhoSecondMoment, "ROfRhoSecondMoment", "_ROfRho_2") : null
             };
+            return allSerializers.Where(s => s is not null).ToArray();
         }
+
         /// <summary>
         /// Method to determine if photon is within detector NA
         /// pMC does not have access to PreviousDP so logic based on DP and 

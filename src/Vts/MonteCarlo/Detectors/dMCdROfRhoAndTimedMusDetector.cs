@@ -165,18 +165,15 @@ namespace Vts.MonteCarlo.Detectors
         /// <param name="awt">absorption weighting type</param>
         protected void SetAbsorbAction(AbsorptionWeightingType awt)
         {
-            switch (awt)
+            // AbsorptionWeightingType.Analog cannot have derivatives so exception
+            _absorbAction = awt switch
             {
-                // note: pMC is not applied to analog processing,
-                // only DAW and CAW
-                case AbsorptionWeightingType.Continuous:
-                    _absorbAction = AbsorbContinuous;
-                    break;
-                case AbsorptionWeightingType.Discrete:
-                default:
-                    _absorbAction = AbsorbDiscrete;
-                    break;
-            }
+                // note: pMC is not applied to analog processing, only DAW and CAW
+                AbsorptionWeightingType.Continuous => AbsorbContinuousOrDiscrete,
+                AbsorptionWeightingType.Discrete => AbsorbContinuousOrDiscrete,
+                AbsorptionWeightingType.Analog => throw new ArgumentException(@"Analog is not allowed with this detector", nameof(awt)),
+                _ => throw new ArgumentOutOfRangeException(typeof(AbsorptionWeightingType).ToString())
+            };
         }
         /// <summary>
         /// method to tally to detector
@@ -202,85 +199,27 @@ namespace Vts.MonteCarlo.Detectors
             SecondMoment[ir, it] += photon.DP.Weight * weightFactor * photon.DP.Weight * weightFactor;
         }
 
-        private double AbsorbContinuous(IList<long> numberOfCollisions, IList<double> pathLength, IList<OpticalProperties> perturbedOps)
+        /// <summary>
+        /// The following method works for both discrete or continuous absorption weighting
+        /// </summary>
+        /// <param name="numberOfCollisions">photon number of collisions in perturbed region</param>
+        /// <param name="pathLength">photon path length in perturbed region</param>
+        /// <param name="perturbedOps">perturbed optical properties of perturbed region</param>
+        /// <returns>derivative with respect to mua</returns>
+        private double AbsorbContinuousOrDiscrete(IList<long> numberOfCollisions, IList<double> pathLength, IList<OpticalProperties> perturbedOps)
         {
-            var weightFactor = 1.0;
-
-            // NOTE: following code only works for single perturbed region
-            foreach (var i in _perturbedRegionsIndices)
-            {
-                weightFactor *=
-                    Math.Exp(-perturbedOps[i].Mus * pathLength[i]) / Math.Exp(-_referenceOps[i].Mus * pathLength[i]); // Mus pert
-                if (numberOfCollisions[i] - 1 > 0)
-                {
-                    weightFactor *=
-                    numberOfCollisions[i] * (1.0 / _referenceOps[i].Mus) * // dMus* 1st factor
-                    Math.Pow(
-                        _perturbedOps[i].Mus / _referenceOps[i].Mus *
-                        Math.Exp(-(_perturbedOps[i].Mus - _referenceOps[i].Mus) *
-                            pathLength[i] / (numberOfCollisions[i] - 1)),
-                        numberOfCollisions[i] - 1) // minus one here
-                    - pathLength[i] * // dMus* 2nd factor
-                    Math.Pow(
-                        _perturbedOps[i].Mus / _referenceOps[i].Mus *
-                        Math.Exp(-(_perturbedOps[i].Mus - _referenceOps[i].Mus) *
+            // NOTE: following code only works for single perturbed region because derivative of
+            // Radon-Nikodym product needs d(AB)=dA B + A dB and this does not produce that
+            // Check for only one perturbedRegionIndices specified by user performed in DataStructuresValidation
+            var i = _perturbedRegionsIndices[0];
+            // rearranged to be more numerically stable
+            return (numberOfCollisions[i] / _perturbedOps[i].Mus - pathLength[i]) *
+                    Math.Pow(_perturbedOps[i].Mus / _referenceOps[i].Mus *
+                        Math.Exp(-(_perturbedOps[i].Mus + _perturbedOps[i].Mua -
+                                   _referenceOps[i].Mus - _referenceOps[i].Mua) *
                             pathLength[i] / numberOfCollisions[i]),
-                        numberOfCollisions[i]); // one here
-                }
-                else
-                {
-                    weightFactor *= Math.Exp(-(_perturbedOps[i].Mus - _referenceOps[i].Mus) * pathLength[i]);
-                }
-            }
-            return weightFactor;
+                        numberOfCollisions[i]);
         }
-
-        private double AbsorbDiscrete(IList<long> numberOfCollisions, IList<double> pathLength, IList<OpticalProperties> perturbedOps)
-        {
-            var weightFactor = 1.0;
-
-            // NOTE: following code only works for single perturbed region
-            foreach (var i in _perturbedRegionsIndices)
-            {
-                if (numberOfCollisions[i] - 1 > 0)
-                {
-                    weightFactor *=
-                        numberOfCollisions[i]*(1.0/_referenceOps[i].Mus)* // dMus* 1st factor
-                        Math.Pow(
-                            _perturbedOps[i].Mus/_referenceOps[i].Mus*
-                            Math.Exp(
-                                -(_perturbedOps[i].Mus + _perturbedOps[i].Mus - _referenceOps[i].Mus -
-                                  _referenceOps[i].Mus)*
-                                pathLength[i]/(numberOfCollisions[i] - 1)),
-                            numberOfCollisions[i] - 1) // minus one here
-                        - pathLength[i]* // dMus* 2nd factor
-                        Math.Pow(
-                            _perturbedOps[i].Mus/_referenceOps[i].Mus*
-                            Math.Exp(
-                                -(_perturbedOps[i].Mus + _perturbedOps[i].Mus - _referenceOps[i].Mus -
-                                  _referenceOps[i].Mus)*
-                                pathLength[i]/numberOfCollisions[i]),
-                            numberOfCollisions[i]); // one here
-                }
-                else // number of collisions in pert region is 1
-                {
-                    weightFactor *=
-                        numberOfCollisions[i] * (1.0 / _referenceOps[i].Mus) * // dMus* 1st factor
-                        Math.Exp(
-                            -(_perturbedOps[i].Mus + _perturbedOps[i].Mus - _referenceOps[i].Mus -
-                              _referenceOps[i].Mus) *
-                            pathLength[i])
-                        - pathLength[i] * // dMus* 2nd factor
-                        (_perturbedOps[i].Mus / _referenceOps[i].Mus) *
-                        Math.Exp(
-                            -(_perturbedOps[i].Mus + _perturbedOps[i].Mus - _referenceOps[i].Mus -
-                              _referenceOps[i].Mus) *
-                            pathLength[i]); 
-                }
-            }
-            return weightFactor;
-        }
-
 
         /// <summary>
         /// method to normalize detector results after numPhotons launched
@@ -308,56 +247,21 @@ namespace Vts.MonteCarlo.Detectors
         /// <returns>BinaryArraySerializer[]</returns>
         public BinaryArraySerializer[] GetBinarySerializers()
         {
-            return new[] {
-                new BinaryArraySerializer {
-                    DataArray = Mean,
-                    Name = "Mean",
-                    FileTag = "",
-                    WriteData = binaryWriter => {
-                        for (var i = 0; i < Rho.Count - 1; i++) {
-                            for (var j = 0; j < Time.Count - 1; j++)
-                            {
-                                binaryWriter.Write(Mean[i, j]);
-                            }
-                        }
-                    },
-                    ReadData = binaryReader => {
-                        Mean = Mean ?? new double[ Rho.Count - 1, Time.Count - 1];
-                        for (var i = 0; i <  Rho.Count - 1; i++) {
-                            for (var j = 0; j < Time.Count - 1; j++)
-                            {
-                               Mean[i, j] = binaryReader.ReadDouble();
-                            }
-                        }
-                    }
-                },
-                // return a null serializer, if we're not serializing the second moment
-                !TallySecondMoment ? null :  new BinaryArraySerializer {
-                    DataArray = SecondMoment,
-                    Name = "SecondMoment",
-                    FileTag = "_2",
-                    WriteData = binaryWriter => {
-                        if (!TallySecondMoment || SecondMoment == null) return;
-                        for (var i = 0; i < Rho.Count - 1; i++) {
-                            for (var j = 0; j < Time.Count - 1; j++)
-                            {
-                                binaryWriter.Write(SecondMoment[i, j]);
-                            }
-                        }
-                    },
-                    ReadData = binaryReader => {
-                        if (!TallySecondMoment || SecondMoment == null) return;
-                        SecondMoment = new double[ Rho.Count - 1, Time.Count - 1];
-                        for (var i = 0; i < Rho.Count - 1; i++) {
-                            for (var j = 0; j < Time.Count - 1; j++)
-                            {
-                                SecondMoment[i, j] = binaryReader.ReadDouble();
-                            }
-                        }
-                    },
-                },
+            Mean ??= new double[Rho.Count - 1, Time.Count - 1];
+            if (TallySecondMoment)
+            {
+                SecondMoment ??= new double[Rho.Count - 1, Time.Count - 1];
+            }
+            var allSerializers = new List<BinaryArraySerializer>
+            {
+                BinaryArraySerializerFactory.GetSerializer(
+                    Mean, "Mean", ""),
+                TallySecondMoment ? BinaryArraySerializerFactory.GetSerializer(
+                    SecondMoment, "SecondMoment", "_2") : null
             };
+            return allSerializers.Where(s => s is not null).ToArray();
         }
+
         /// <summary>
         /// Method to determine if photon is within detector NA
         /// pMC does not have access to PreviousDP so logic based on DP and 
