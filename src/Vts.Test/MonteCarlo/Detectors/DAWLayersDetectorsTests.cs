@@ -1151,8 +1151,8 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.Less(Math.Abs(_outputTwoLayerTissue.Rad_r2[0] - 63.5278), 0.0001);
             //need radiance detector to compare results, for now make sure both simulations give same results
             Assert.Less(Math.Abs(_outputOneLayerTissue.Rad_r[1] - _outputTwoLayerTissue.Rad_r[1]), 0.0000001);
-            Assert.AreEqual(199, _outputOneLayerTissue.Rad_r_TallyCount);
-            Assert.AreEqual(199, _outputTwoLayerTissue.Rad_r_TallyCount);
+            Assert.AreEqual(186, _outputOneLayerTissue.Rad_r_TallyCount);
+            Assert.AreEqual(186, _outputTwoLayerTissue.Rad_r_TallyCount);
         }
         // sanity checks
         [Test]

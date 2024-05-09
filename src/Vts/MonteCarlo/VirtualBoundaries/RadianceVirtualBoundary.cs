@@ -139,16 +139,11 @@ namespace Vts.MonteCarlo.VirtualBoundaries
             // otherwise following processes internal surface fiber
 
             if (_tissueRegion is LayerTissueRegion)
-            {            
-                // check if VB not applied (could be applied by MC/MoveToBoundaryCheck)
-                if (!dp.StateFlag.HasFlag(PhotonStateType.PseudoSurfaceRadianceVirtualBoundary))
-                {
-                    return distanceToBoundary;
-                }
+            {     
                 distanceToBoundary = double.PositiveInfinity;
-
-                if ((dp.Direction.Uz > 0.0 && dp.Position.Z <= _zPlanePosition) ||
-                    (dp.Direction.Uz < 0.0 && dp.Position.Z >= _zPlanePosition))
+                // the strictly > and < are needed so that if sitting at VB won't get stuck there
+                if ((dp.Direction.Uz > 0.0 && dp.Position.Z < _zPlanePosition) || // < key here
+                    (dp.Direction.Uz < 0.0 && dp.Position.Z > _zPlanePosition))   // > key here
                 {
                     distanceToBoundary = (_zPlanePosition - dp.Position.Z) / dp.Direction.Uz;
                 }

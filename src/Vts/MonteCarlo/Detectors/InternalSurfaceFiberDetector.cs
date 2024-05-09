@@ -202,8 +202,16 @@ namespace Vts.MonteCarlo.Detectors
         public bool IsWithinDetectorAperture(Photon photon)
         {
             // determine which refractive index to use
-            var detectorRegionN = _tissue.Regions[FinalTissueRegionIndex].RegionOP.N;
-            return photon.DP.IsWithinNA(NA, InDirectionOfFiberAxis, detectorRegionN);
+            if (photon.CurrentRegionIndex == FinalTissueRegionIndex)
+            {
+                var detectorRegionN = _tissue.Regions[photon.CurrentRegionIndex].RegionOP.N;
+                return photon.DP.IsWithinNA(NA, InDirectionOfFiberAxis, detectorRegionN);
+            }
+            else // determine n of prior tissue region
+            {
+                var detectorRegionN = _tissue.Regions[FinalTissueRegionIndex].RegionOP.N;
+                return photon.History.PreviousDP.IsWithinNA(NA, InDirectionOfFiberAxis, detectorRegionN);
+            }
         }
     }
 }

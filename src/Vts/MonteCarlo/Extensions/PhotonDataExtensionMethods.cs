@@ -39,6 +39,7 @@ namespace Vts.MonteCarlo.Extensions
                 collisionInfoDatabaseWriter.Write(collisionInfo);
             }
         }
+
         /// <summary>
         /// method to determine whether photon database belongs to surface virtual boundary
         /// </summary>
@@ -55,6 +56,7 @@ namespace Vts.MonteCarlo.Extensions
                    (dp.StateFlag.HasFlag(PhotonStateType.PseudoDiffuseReflectanceVirtualBoundary) && // pMC uses regular PST
                     collisionInfoDatabaseWriter.VirtualBoundaryType == VirtualBoundaryType.pMCDiffuseReflectance);
         }
+
         /// <summary>
         /// method to determine whether photon direction is within NA of detector
         /// </summary>
@@ -68,9 +70,9 @@ namespace Vts.MonteCarlo.Extensions
             var photonDirection = dp.Direction;
             // determine if sin(theta)<=NA/n where theta is angle between photon direction and detector normal
             var cosTheta = Direction.GetDotProduct(photonDirection, detectorNormal);
+            if (cosTheta < 0) return false; // photon direction and detector not aligned so can't be in NA
             return detectorNA/n >= Math.Sqrt(1 - cosTheta * cosTheta);
         }
-
 
     }
 }
