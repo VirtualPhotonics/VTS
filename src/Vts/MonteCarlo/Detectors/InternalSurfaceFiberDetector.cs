@@ -163,8 +163,11 @@ namespace Vts.MonteCarlo.Detectors
                           (photon.DP.Position.X - Center.X) +
                           (photon.DP.Position.Y - Center.Y) *
                           (photon.DP.Position.Y - Center.Y)) >= Radius) return;
-            // check that exit location with close to z location of fiber center
-            if (Math.Abs(photon.DP.Position.Z - Center.Z) > 1e-3) return;
+            // no check that exit location with close to z location of fiber center
+            // because this check could be problematic if VB is curved, then photon Z position
+            // might not be directly at Center.Z and the check that is on curved VB already
+            // performed if Tally is being called
+            //if (Math.Abs(photon.DP.Position.Z - Center.Z) > 1e-3) return;
             if (!IsWithinDetectorAperture(photon)) return;
 
             Mean += photon.DP.Weight;

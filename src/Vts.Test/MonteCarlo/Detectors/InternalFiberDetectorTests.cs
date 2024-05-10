@@ -51,21 +51,21 @@ namespace Vts.Test.MonteCarlo.Detectors
                 0.0, // RR threshold -> 0 = no RR performed
                 0);
             _sourceOutsideSurface = new DirectionalPointSourceInput(
-                     new Position(0.0, 0.0, 0.0),
-                     new Direction(0.0, 0.0, 1.0),
+                     new Position(0.0, 0.0, 1.0), // at surface of outer cyl and 2nd "tissue" layer
+                     new Direction(0.0, 0.0, 1.0), 
                      1);
             _tissueWithCylinders =
                 new MultiConcentricInfiniteCylinderTissueInput(
                     new ITissueRegion[]
                     {
                         new InfiniteCylinderTissueRegion(
-                            new Position(0, 0, 2),
-                            1.0,
-                            new OpticalProperties(0.05, 1.0, 0.8, 1.4)),
+                            new Position(0, 0, 10),
+                            9.0,
+                            new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
                         new InfiniteCylinderTissueRegion(
-                            new Position(0, 0, 2),
-                            0.5,
-                            new OpticalProperties(0.05, 1.0, 0.8, 1.4))
+                            new Position(0, 0, 10),
+                            8.0,
+                            new OpticalProperties(0.01, 1.0, 0.8, 1.4))
                     },
                     new ITissueRegion[]
                     {
@@ -86,7 +86,7 @@ namespace Vts.Test.MonteCarlo.Detectors
             {
                 new InternalSurfaceFiberDetectorInput
                 {
-                    Center = new Position(0, 0, 1),
+                    Center = new Position(0, 0, 1.0),
                     Radius = DetectorRadius,
                     TallySecondMoment = true,
                     N = 1.4,
@@ -99,7 +99,7 @@ namespace Vts.Test.MonteCarlo.Detectors
             {
                 new InternalSurfaceFiberDetectorInput
                 {
-                    Center = new Position(0, 0, 1),
+                    Center = new Position(0, 0, 1.0),
                     Radius = DetectorRadius,
                     TallySecondMoment = true,
                     N = 1.4,
@@ -112,7 +112,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                 {
                 new InternalSurfaceFiberDetectorInput
                 {
-                    Center = new Position(0, 0, 1.5),
+                    Center = new Position(0, 0, 2.0),
                     Radius = DetectorRadius,
                     TallySecondMoment = true,
                     N = 1.4,
@@ -125,11 +125,11 @@ namespace Vts.Test.MonteCarlo.Detectors
             {
                 new InternalSurfaceFiberDetectorInput
                 {
-                    Center = new Position(0, 0, 1.5),
+                    Center = new Position(0, 0, 2.0),
                     Radius = DetectorRadius,
                     TallySecondMoment = true,
                     N = 1.4,
-                    NA = 0.8, // make smaller but not too small so some still tally but different than open
+                    NA = 1.0, // make smaller but not too small so some still tally but different than open
                     FinalTissueRegionIndex = 4,
                     InDirectionOfFiberAxis = new Direction(0,0, 1),
                 }
@@ -247,22 +247,22 @@ namespace Vts.Test.MonteCarlo.Detectors
         [Test]
         public void Validate_fully_open_fiber_on_outer_cylinder_produces_correct_results()
         {
-            Assert.Less(Math.Abs(_outputOuterCylinderDotNormalPositiveOpen.IntSurFib - 0.047083), 0.000001);
-            Assert.Less(Math.Abs(_outputOuterCylinderDotNormalPositiveOpen.IntSurFib2 - 0.014778), 0.000001);
-            Assert.AreEqual(15, _outputOuterCylinderDotNormalPositiveOpen.IntSurFib_TallyCount);
+            Assert.Less(Math.Abs(_outputOuterCylinderDotNormalPositiveOpen.IntSurFib - 0.090464), 0.000001);
+            Assert.Less(Math.Abs(_outputOuterCylinderDotNormalPositiveOpen.IntSurFib2 - 0.027442), 0.000001);
+            Assert.AreEqual(30, _outputOuterCylinderDotNormalPositiveOpen.IntSurFib_TallyCount);
         }
 
         /// <summary>
         /// Test to validate fiber at outer cylinder surface smaller NA with dot normal positive. 
-        /// Validation values based on prior test.  Tried NA=1.1 (15 photons), NA=1.0 (none)
+        /// Validation values based on prior test.  
         /// </summary>
         [Test]
         public void Validate_NA_fiber_on_outer_cylinder_produces_correct_results()
         {
             // these results are smaller than open NA results for same fiber location as they should be
-            Assert.Less(Math.Abs(_outputOuterCylinderDotNormalPositiveNa.IntSurFib - 0.0), 0.000001);
-            Assert.Less(Math.Abs(_outputOuterCylinderDotNormalPositiveNa.IntSurFib2 - 0.0), 0.000001);
-            Assert.AreEqual(0, _outputOuterCylinderDotNormalPositiveNa.IntSurFib_TallyCount);
+            Assert.Less(Math.Abs(_outputOuterCylinderDotNormalPositiveNa.IntSurFib - 0.042396), 0.000001);
+            Assert.Less(Math.Abs(_outputOuterCylinderDotNormalPositiveNa.IntSurFib2 - 0.012859), 0.000001);
+            Assert.AreEqual(14, _outputOuterCylinderDotNormalPositiveNa.IntSurFib_TallyCount);
         }
 
         /// <summary>
@@ -272,9 +272,9 @@ namespace Vts.Test.MonteCarlo.Detectors
         [Test]
         public void Validate_fully_open_fiber_on_inner_cylinder_produces_correct_results()
         {
-            Assert.Less(Math.Abs(_outputInnerCylinderDotNormalNegativeOpen.IntSurFib - 0.009330), 0.000001);
-            Assert.Less(Math.Abs(_outputInnerCylinderDotNormalNegativeOpen.IntSurFib2 - 0.002902), 0.000001);
-            Assert.AreEqual(3, _outputInnerCylinderDotNormalNegativeOpen.IntSurFib_TallyCount);
+            Assert.Less(Math.Abs(_outputInnerCylinderDotNormalNegativeOpen.IntSurFib - 0.183936), 0.000001);
+            Assert.Less(Math.Abs(_outputInnerCylinderDotNormalNegativeOpen.IntSurFib2 - 0.057392), 0.000001);
+            Assert.AreEqual(59, _outputInnerCylinderDotNormalNegativeOpen.IntSurFib_TallyCount);
         }
 
         /// <summary>
@@ -285,9 +285,9 @@ namespace Vts.Test.MonteCarlo.Detectors
         public void Validate_NA_fiber_on_inner_cylinder_produces_correct_results()
         {
             // these results are smaller than open NA results for same fiber location as they should be
-            Assert.Less(Math.Abs(_outputInnerCylinderDotNormalNegativeNa.IntSurFib - 0.006278), 0.000001);
-            Assert.Less(Math.Abs(_outputInnerCylinderDotNormalNegativeNa.IntSurFib2 - 0.001970), 0.000001);
-            Assert.AreEqual(2, _outputInnerCylinderDotNormalNegativeNa.IntSurFib_TallyCount);
+            Assert.Less(Math.Abs(_outputInnerCylinderDotNormalNegativeNa.IntSurFib - 0.119258), 0.000001);
+            Assert.Less(Math.Abs(_outputInnerCylinderDotNormalNegativeNa.IntSurFib2 - 0.037445), 0.000001);
+            Assert.AreEqual(38, _outputInnerCylinderDotNormalNegativeNa.IntSurFib_TallyCount);
         }
 
         /// <summary>
@@ -297,9 +297,9 @@ namespace Vts.Test.MonteCarlo.Detectors
         [Test]
         public void Validate_fully_open_fiber_atop_second_layer_below_tissue_produces_correct_results()
         {
-            Assert.Less(Math.Abs(_outputAtopSecondTissueLayer.IntSurFib - 0.024520), 0.000001);
-            Assert.Less(Math.Abs(_outputAtopSecondTissueLayer.IntSurFib2 - 0.007525), 0.000001);
-            Assert.AreEqual(8, _outputAtopSecondTissueLayer.IntSurFib_TallyCount);
+            Assert.Less(Math.Abs(_outputAtopSecondTissueLayer.IntSurFib - 0.073386), 0.000001);
+            Assert.Less(Math.Abs(_outputAtopSecondTissueLayer.IntSurFib2 - 0.022474), 0.000001);
+            Assert.AreEqual(24, _outputAtopSecondTissueLayer.IntSurFib_TallyCount);
         }
 
         /// <summary>
