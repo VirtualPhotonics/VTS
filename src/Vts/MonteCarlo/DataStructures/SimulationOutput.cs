@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using Vts.MonteCarlo.Detectors;
 
 namespace Vts.MonteCarlo
 {
@@ -64,7 +65,51 @@ namespace Vts.MonteCarlo
         /// Internal surface fiber tally count
         /// </summary>
         public double IntSurFib_TallyCount { get { return (double)((dynamic)ResultsDictionary[_detectorResults.First(d => d.TallyType == "InternalSurfaceFiber").Name]).TallyCount; } }
-
+        /// <summary>
+        /// Created array to allow multiple fiber detectors to be specified in single simulation unit test
+        /// </summary>
+        public double[] AllInternalFiberDetectorMeans
+        {
+            get
+            {
+                string[] internalFiberDetectorNames = { "InternalFiber1", "InternalFiber2", "InternalFiber3","InternalFiber4" };
+                var internalFiberDetectors = _detectorResults
+                    .Where(detectorResult=>internalFiberDetectorNames.Contains(detectorResult.Name) &&
+                           detectorResult is InternalSurfaceFiberDetector)
+                               .ToArray();
+                return internalFiberDetectors.Select(isfd=>((InternalSurfaceFiberDetector)isfd).Mean).ToArray();
+            }
+        }
+        /// <summary>
+        /// Created SecondMoment array to allow multiple fiber detectors to be specified in single simulation unit test
+        /// </summary>
+        public double[] AllInternalFiberDetectorSecondMoments
+        {
+            get
+            {
+                string[] internalFiberDetectorNames = { "InternalFiber1", "InternalFiber2", "InternalFiber3", "InternalFiber4" };
+                var internalFiberDetectors = _detectorResults
+                    .Where(detectorResult => internalFiberDetectorNames.Contains(detectorResult.Name) &&
+                                             detectorResult is InternalSurfaceFiberDetector)
+                    .ToArray();
+                return internalFiberDetectors.Select(isfd => ((InternalSurfaceFiberDetector)isfd).SecondMoment).ToArray();
+            }
+        }
+        /// <summary>
+        /// Created TallyCount array to allow multiple fiber detectors to be specified in single simulation unit test
+        /// </summary>
+        public long[] AllInternalFiberDetectorTallyCounts
+        {
+            get
+            {
+                string[] internalFiberDetectorNames = { "InternalFiber1", "InternalFiber2", "InternalFiber3", "InternalFiber4" };
+                var internalFiberDetectors = _detectorResults
+                    .Where(detectorResult => internalFiberDetectorNames.Contains(detectorResult.Name) &&
+                                             detectorResult is InternalSurfaceFiberDetector)
+                    .ToArray();
+                return internalFiberDetectors.Select(isfd => ((InternalSurfaceFiberDetector)isfd).TallyCount).ToArray();
+            }
+        }
         /// <summary>
         /// Diffuse Reflectance
         /// </summary>
