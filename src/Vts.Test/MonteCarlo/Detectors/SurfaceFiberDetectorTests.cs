@@ -1,6 +1,6 @@
+using NUnit.Framework;
 using System;
 using System.Collections.Generic;
-using NUnit.Framework;
 using Vts.Common;
 using Vts.MonteCarlo;
 using Vts.MonteCarlo.Detectors;
@@ -18,18 +18,16 @@ namespace Vts.Test.MonteCarlo.Detectors
     [TestFixture]
     public class SurfaceFiberDetectorTests
     {
-        private SimulationOutput _outputOpen, _outputNa, _outputNaOffCenter;
+        private SimulationOutput _output;
         private SimulationOptions _simulationOptions;
         private ISourceInput _source;
         private ITissueInput _tissue;
-        private IList<IDetectorInput> _detectorOpen, _detectorNa, _detectorNaOffCenter;
+        private IList<IDetectorInput> _detectors;
         private const double DetectorRadius = 1; // debug set to 10
 
         /// <summary>
         /// Setup input to the MC for a homogeneous one layer tissue with 
-        /// fiber surface circle and specify fiber detector and R(rho).
-        /// Need to create new simulation for open and NA cases since output
-        /// cannot handle two detectors of same type
+        /// fiber surface circle and specify fiber detector and R(rho). 
         /// </summary>
         [OneTimeSetUp]
         public void Execute_Monte_Carlo()
@@ -86,17 +84,18 @@ namespace Vts.Test.MonteCarlo.Detectors
             //            new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
             //    
             //)
-
-            _detectorOpen = new List<IDetectorInput>
+            // using SimulationOutput AllSurfaceFiberDetectorMeans definition
+            _detectors = new List<IDetectorInput>
             {
-                new SurfaceFiberDetectorInput()
+                new SurfaceFiberDetectorInput() // centered at (0,0,0) and open NA
                 {
                     Center = new Position(0, 0, 0), 
                     Radius = DetectorRadius, 
                     TallySecondMoment = true,
                     N = 1.4,  
                     NA = 1.4,
-                    FinalTissueRegionIndex = 3
+                    FinalTissueRegionIndex = 3,
+                    Name = "SurfaceFiber1" // open NA
                 },
                 new ROfRhoDetectorInput() // 1mm wide ring to match fiber and 2 because beyond goes into 2nd
                 {
@@ -104,19 +103,18 @@ namespace Vts.Test.MonteCarlo.Detectors
                     // since tissue w fiber specified -> photon will be in 3 upon exit
                     FinalTissueRegionIndex = 3,
                     NA = 1.4,
-                    TallySecondMoment = true
+                    TallySecondMoment = true,
+                    Name = "ROfRho1"
                 },
-            };
-            _detectorNa = new List<IDetectorInput>
-            {
-                new SurfaceFiberDetectorInput()
+                new SurfaceFiberDetectorInput() // centered at (0,0,0) and NA=0.39
                 {
                     Center = new Position(0, 0, 0), 
                     Radius = DetectorRadius, 
                     TallySecondMoment = true,
                     N = 1.4,
                     FinalTissueRegionIndex = 3,
-                    NA = 0.39
+                    NA = 0.39,
+                    Name = "SurfaceFiber2" // NA = 0.39
                 },
                 new ROfRhoDetectorInput() // ring to match fiber detector
                 {
@@ -124,75 +122,62 @@ namespace Vts.Test.MonteCarlo.Detectors
                     // since tissue w fiber specified -> photon will be in 3 upon exit
                     FinalTissueRegionIndex = 3,  
                     NA = 0.39,
-                    TallySecondMoment = true
+                    TallySecondMoment = true,
+                    Name = "ROfRho2"
                 },
-            };
-            _detectorNaOffCenter = new List<IDetectorInput>
-            {
-                new SurfaceFiberDetectorInput()
+                new SurfaceFiberDetectorInput() // off center and open NA
                 {
-                    Center = new Position(DetectorRadius, 0, 0), // diam = [0, 2*radius]
+                    Center = new Position(DetectorRadius, 0, 0), // diam = 2*radius
                     Radius = DetectorRadius,
                     TallySecondMoment = true,
                     N = 1.4,
                     FinalTissueRegionIndex = 3,
-                    NA = 1.4
+                    NA = 1.4,
+                    Name = "SurfaceFiber3"
                 },
-                new ROfRhoDetectorInput() // ring to match fiber detector
+                new ROfRhoDetectorInput() // ring to match off center fiber detector
                 {
-                    // place 1st rho bin center at _detectorRadius with width = 2*radius
-                    Rho = new DoubleRange(DetectorRadius / 2, 2 * DetectorRadius + DetectorRadius / 2, 3),  
+                    // place 1st rho bins w/ center at _detectorRadius with width = 2*radius
+                    Rho = new DoubleRange(0, 4 * DetectorRadius, 3),  
                     // since tissue w fiber specified -> photon will be in 3 upon exit
                     FinalTissueRegionIndex = 3,
                     NA = 1.4,
-                    TallySecondMoment = true
+                    TallySecondMoment = true,
+                    Name = "ROfRho3"
                 },
             };
-            var inputOpen = new SimulationInput(
+            var input = new SimulationInput(
                 100,
                 "",
                 _simulationOptions,
                 _source,
                 _tissue,
-                _detectorOpen);
-            _outputOpen = new MonteCarloSimulation(inputOpen).Run();
-
-            var inputNa = new SimulationInput(
-                100,
-                "",
-                _simulationOptions,
-                _source,
-                _tissue,
-                _detectorNa);
-            _outputNa = new MonteCarloSimulation(inputNa).Run();
-
-            var inputNaOffCenter = new SimulationInput(
-                100,
-                "",
-                _simulationOptions,
-                _source,
-                _tissue,
-                _detectorNaOffCenter);
-            _outputNaOffCenter = new MonteCarloSimulation(inputNaOffCenter).Run();
+                _detectors);
+            _output = new MonteCarloSimulation(input).Run();
         }
 
         /// <summary>
         /// Test to validate fiber at tissue surface fully open. 
-        /// Validation values based on prior test.
+        /// Validation values based on prior test.  Final tests compare with Bargo's results.
         /// </summary>
         [Test]
         public void Validate_fully_open_surface_fiber_detector_produces_correct_results()
         {
-            Assert.Less(Math.Abs(_outputOpen.SurFib - 0.079266), 0.000001);
-            Assert.Less(Math.Abs(_outputOpen.SurFib - _outputOpen.R_r[0]), 0.000001);
-            Assert.Less(Math.Abs(_outputOpen.SurFib2 - 0.024315), 0.000001);
-            Assert.AreEqual(26, _outputOpen.SurFib_TallyCount);
+            Assert.Less(Math.Abs(_output.AllSurfaceFiberDetectorMeans[0] - 0.079266), 0.000001);
+            Assert.Less(Math.Abs(_output.AllSurfaceFiberDetectorMeans[0] -
+                                 _output.AllROfRhoDetectorMeans[0][0]), 0.000001);
+            Assert.Less(Math.Abs(_output.AllSurfaceFiberDetectorSecondMoments[0] - 0.024315), 0.000001);
+            Assert.AreEqual(26, _output.AllSurfaceFiberDetectorTallyCounts[0]);
             // output for Bargo comparison
-            //var sd = Math.Sqrt((_outputOpen.SurFib2 -
-            //    _outputOpen.SurFib * _outputOpen.SurFib) / 100)
-            //var threeSigmaPos = _outputOpen.SurFib + 3 * sd
-            //var threeSigmaNeg = _outputOpen.SurFib - 3 * sd
+            var sd = Math.Sqrt((_output.AllSurfaceFiberDetectorSecondMoments[0] -
+                                _output.AllSurfaceFiberDetectorMeans[0] * _output.AllSurfaceFiberDetectorMeans[0]) /
+                               100);
+            var threeSigmaPos = _output.AllSurfaceFiberDetectorMeans[0] + 3 * sd;
+            var threeSigmaNeg = _output.AllSurfaceFiberDetectorMeans[0] - 3 * sd; 
+            Assert.IsTrue(_output.AllSurfaceFiberDetectorMeans[0] < threeSigmaPos);
+            Assert.IsTrue(_output.AllSurfaceFiberDetectorMeans[0] > threeSigmaNeg);
         }
+
         /// <summary>
         /// Test to validate fiber at tissue surface fully open. Validation values based on prior test.
         /// Theory [Bargo et al., AO 42(16) 2003] states (R_NA/R_Open)=(NA/ntiss)^2
@@ -204,16 +189,20 @@ namespace Vts.Test.MonteCarlo.Detectors
         [Test]
         public void Validate_NA_surface_fiber_detector_produces_correct_results()
         {
-            Assert.Less(Math.Abs(_outputNa.SurFib - 0.003034), 0.000001);
-            Assert.Less(Math.Abs(_outputNa.SurFib - _outputNa.R_r[0]), 0.000001);
-            Assert.Less(Math.Abs(_outputNa.SurFib2 - 0.000920), 0.000001);
-            Assert.AreEqual(1, _outputNa.SurFib_TallyCount);
+            Assert.Less(Math.Abs(_output.AllSurfaceFiberDetectorMeans[1] - 0.003034), 0.000001);
+            Assert.Less(Math.Abs(_output.AllSurfaceFiberDetectorMeans[1] -
+                                 _output.AllROfRhoDetectorMeans[1][0]), 0.000001);
+            Assert.Less(Math.Abs(_output.AllSurfaceFiberDetectorSecondMoments[1] - 0.000920), 0.000001);
+            Assert.AreEqual(1, _output.AllSurfaceFiberDetectorTallyCounts[1]);
             // output for Bargo comparison
-            //var sd = Math.Sqrt((_outputNA.SurFib2 -
-            //        _outputNA.SurFib * _outputNA.SurFib) / 100)
-            //var threeSigmaPos = _outputNA.SurFib + 3 * sd
-            //var threeSigmaNeg = _outputNA.SurFib - 3 * sd
+            var sd = Math.Sqrt((_output.AllSurfaceFiberDetectorSecondMoments[1] - 
+                _output.AllSurfaceFiberDetectorMeans[1] * _output.AllSurfaceFiberDetectorMeans[1]) / 100);
+            var threeSigmaPos = _output.AllSurfaceFiberDetectorMeans[1] + 3 * sd;
+            var threeSigmaNeg = _output.AllSurfaceFiberDetectorMeans[1] - 3 * sd;
+            Assert.IsTrue(_output.AllSurfaceFiberDetectorMeans[1] < threeSigmaPos);
+            Assert.IsTrue(_output.AllSurfaceFiberDetectorMeans[1] > threeSigmaNeg);
         }
+
         /// <summary>
         /// Test to verify that the results using a fiber and R(rho) produce
         /// equivalent results within variance
@@ -221,12 +210,12 @@ namespace Vts.Test.MonteCarlo.Detectors
         [Test]
         public void Validate_NA_surface_fiber_detector_off_center_produces_correct_results()
         {
-            var sd = Math.Sqrt((_outputNaOffCenter.SurFib2 -
-                _outputNaOffCenter.SurFib * _outputNaOffCenter.SurFib) / 100);
-            var threeSigmaPos = _outputNaOffCenter.SurFib + 3 * sd;
-            var threeSigmaNeg = _outputNaOffCenter.SurFib - 3 * sd;
-            Assert.IsTrue(_outputNaOffCenter.R_r[0] < threeSigmaPos);
-            Assert.IsTrue(_outputNaOffCenter.R_r[0] > threeSigmaNeg);
+            var sd = Math.Sqrt((_output.AllSurfaceFiberDetectorSecondMoments[2] -
+                _output.AllSurfaceFiberDetectorMeans[2] * _output.AllSurfaceFiberDetectorMeans[2]) / 100);
+            var threeSigmaPos = _output.AllSurfaceFiberDetectorMeans[2] + 3 * sd;
+            var threeSigmaNeg = _output.AllSurfaceFiberDetectorMeans[2] - 3 * sd;
+            Assert.IsTrue(_output.AllROfRhoDetectorMeans[2][0] < threeSigmaPos);
+            Assert.IsTrue(_output.AllROfRhoDetectorMeans[2][0] > threeSigmaNeg);
         }
     }
 }

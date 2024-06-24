@@ -42,6 +42,51 @@ namespace Vts.MonteCarlo
         /// </summary>
         public double SlantedFib_TallyCount { get { return (double)((dynamic)ResultsDictionary[_detectorResults.First(d => d.TallyType == "SlantedRecessedFiber").Name]).TallyCount; } }
         /// <summary>
+        /// Created array to allow multiple fiber detectors to be specified in single simulation unit test
+        /// </summary>
+        public double[] AllSlantedRecessedFiberDetectorMeans
+        {
+            get
+            {
+                string[] surfaceFiberDetectorNames = { "SlantedRecessedFiber1", "SlantedRecessedFiber2", "SlantedRecessedFiber3", "SlantedRecessedFiber4" };
+                var surfaceFiberDetectors = _detectorResults
+                    .Where(detectorResult => surfaceFiberDetectorNames.Contains(detectorResult.Name) &&
+                                             detectorResult is SlantedRecessedFiberDetector)
+                    .ToArray();
+                return surfaceFiberDetectors.Select(srfd => ((SlantedRecessedFiberDetector)srfd).Mean).ToArray();
+            }
+        }
+        /// <summary>
+        /// Created SecondMoment array to allow multiple fiber detectors to be specified in single simulation unit test
+        /// </summary>
+        public double[] AllSlantedRecessedFiberDetectorSecondMoments
+        {
+            get
+            {
+                string[] surfaceFiberDetectorNames = { "SlantedRecessedFiber1", "SlantedRecessedFiber2", "SlantedRecessedFiber3", "SlantedRecessedFiber4" };
+                var surfaceFiberDetectors = _detectorResults
+                    .Where(detectorResult => surfaceFiberDetectorNames.Contains(detectorResult.Name) &&
+                                             detectorResult is SlantedRecessedFiberDetector)
+                    .ToArray();
+                return surfaceFiberDetectors.Select(srfd => ((SlantedRecessedFiberDetector)srfd).SecondMoment).ToArray();
+            }
+        }
+        /// <summary>
+        /// Created TallyCount array to allow multiple fiber detectors to be specified in single simulation unit test
+        /// </summary>
+        public long[] AllSlantedRecessedFiberDetectorTallyCounts
+        {
+            get
+            {
+                string[] surfaceFiberDetectorNames = { "SlantedRecessedFiber1", "SlantedRecessedFiber2", "SlantedRecessedFiber3", "SlantedRecessedFiber4" };
+                var surfaceFiberDetectors = _detectorResults
+                    .Where(detectorResult => surfaceFiberDetectorNames.Contains(detectorResult.Name) &&
+                                             detectorResult is SlantedRecessedFiberDetector)
+                    .ToArray();
+                return surfaceFiberDetectors.Select(srfd => ((SlantedRecessedFiberDetector)srfd).TallyCount).ToArray();
+            }
+        }
+        /// <summary>
         /// Surface fiber
         /// </summary>
         public double SurFib { get { return (double)((dynamic)ResultsDictionary[_detectorResults.First(d => d.TallyType == "SurfaceFiber").Name]).Mean; } }
@@ -53,6 +98,51 @@ namespace Vts.MonteCarlo
         /// Surface fiber tally count
         /// </summary>
         public double SurFib_TallyCount { get { return (double)((dynamic)ResultsDictionary[_detectorResults.First(d => d.TallyType == "SurfaceFiber").Name]).TallyCount; } }
+        /// <summary>
+        /// Created array to allow multiple fiber detectors to be specified in single simulation unit test
+        /// </summary>
+        public double[] AllSurfaceFiberDetectorMeans
+        {
+            get
+            {
+                string[] surfaceFiberDetectorNames = { "SurfaceFiber1", "SurfaceFiber2", "SurfaceFiber3", "SurfaceFiber4" };
+                var surfaceFiberDetectors = _detectorResults
+                    .Where(detectorResult => surfaceFiberDetectorNames.Contains(detectorResult.Name) &&
+                                             detectorResult is SurfaceFiberDetector)
+                    .ToArray();
+                return surfaceFiberDetectors.Select(sfd => ((SurfaceFiberDetector)sfd).Mean).ToArray();
+            }
+        }
+        /// <summary>
+        /// Created SecondMoment array to allow multiple fiber detectors to be specified in single simulation unit test
+        /// </summary>
+        public double[] AllSurfaceFiberDetectorSecondMoments
+        {
+            get
+            {
+                string[] surfaceFiberDetectorNames = { "SurfaceFiber1", "SurfaceFiber2", "SurfaceFiber3", "SurfaceFiber4" };
+                var surfaceFiberDetectors = _detectorResults
+                    .Where(detectorResult => surfaceFiberDetectorNames.Contains(detectorResult.Name) &&
+                                             detectorResult is SurfaceFiberDetector)
+                    .ToArray();
+                return surfaceFiberDetectors.Select(sfd => ((SurfaceFiberDetector)sfd).SecondMoment).ToArray();
+            }
+        }
+        /// <summary>
+        /// Created TallyCount array to allow multiple fiber detectors to be specified in single simulation unit test
+        /// </summary>
+        public long[] AllSurfaceFiberDetectorTallyCounts
+        {
+            get
+            {
+                string[] surfaceFiberDetectorNames = { "SurfaceFiber1", "SurfaceFiber2", "SurfaceFiber3", "SurfaceFiber4" };
+                var surfaceFiberDetectors = _detectorResults
+                    .Where(detectorResult => surfaceFiberDetectorNames.Contains(detectorResult.Name) &&
+                                             detectorResult is SurfaceFiberDetector)
+                    .ToArray();
+                return surfaceFiberDetectors.Select(sfd => ((SurfaceFiberDetector)sfd).TallyCount).ToArray();
+            }
+        }
         /// <summary>
         /// Internal surface fiber
         /// </summary>
@@ -68,46 +158,46 @@ namespace Vts.MonteCarlo
         /// <summary>
         /// Created array to allow multiple fiber detectors to be specified in single simulation unit test
         /// </summary>
-        public double[] AllInternalFiberDetectorMeans
+        public double[] AllInternalSurfaceFiberDetectorMeans
         {
             get
             {
-                string[] internalFiberDetectorNames = { "InternalFiber1", "InternalFiber2", "InternalFiber3","InternalFiber4" };
-                var internalFiberDetectors = _detectorResults
-                    .Where(detectorResult=>internalFiberDetectorNames.Contains(detectorResult.Name) &&
+                string[] internalSurfaceFiberDetectorNames = { "InternalSurfaceFiber1", "InternalSurfaceFiber2", "InternalSurfaceFiber3", "InternalSurfaceFiber4" };
+                var internalSurfaceFiberDetectors = _detectorResults
+                    .Where(detectorResult=> internalSurfaceFiberDetectorNames.Contains(detectorResult.Name) &&
                            detectorResult is InternalSurfaceFiberDetector)
                                .ToArray();
-                return internalFiberDetectors.Select(isfd=>((InternalSurfaceFiberDetector)isfd).Mean).ToArray();
+                return internalSurfaceFiberDetectors.Select(isfd=>((InternalSurfaceFiberDetector)isfd).Mean).ToArray();
             }
         }
         /// <summary>
         /// Created SecondMoment array to allow multiple fiber detectors to be specified in single simulation unit test
         /// </summary>
-        public double[] AllInternalFiberDetectorSecondMoments
+        public double[] AllInternalSurfaceFiberDetectorSecondMoments
         {
             get
             {
-                string[] internalFiberDetectorNames = { "InternalFiber1", "InternalFiber2", "InternalFiber3", "InternalFiber4" };
-                var internalFiberDetectors = _detectorResults
-                    .Where(detectorResult => internalFiberDetectorNames.Contains(detectorResult.Name) &&
+                string[] internalSurfaceFiberDetectorNames = { "InternalSurfaceFiber1", "InternalSurfaceFiber2", "InternalSurfaceFiber3", "InternalSurfaceFiber4" };
+                var internalSurfaceFiberDetectors = _detectorResults
+                    .Where(detectorResult => internalSurfaceFiberDetectorNames.Contains(detectorResult.Name) &&
                                              detectorResult is InternalSurfaceFiberDetector)
                     .ToArray();
-                return internalFiberDetectors.Select(isfd => ((InternalSurfaceFiberDetector)isfd).SecondMoment).ToArray();
+                return internalSurfaceFiberDetectors.Select(isfd => ((InternalSurfaceFiberDetector)isfd).SecondMoment).ToArray();
             }
         }
         /// <summary>
         /// Created TallyCount array to allow multiple fiber detectors to be specified in single simulation unit test
         /// </summary>
-        public long[] AllInternalFiberDetectorTallyCounts
+        public long[] AllInternalSurfaceFiberDetectorTallyCounts
         {
             get
             {
-                string[] internalFiberDetectorNames = { "InternalFiber1", "InternalFiber2", "InternalFiber3", "InternalFiber4" };
-                var internalFiberDetectors = _detectorResults
-                    .Where(detectorResult => internalFiberDetectorNames.Contains(detectorResult.Name) &&
+                string[] internalSurfaceFiberDetectorNames = { "InternalSurfaceFiber1", "InternalSurfaceFiber2", "InternalSurfaceFiber3", "InternalSurfaceFiber4" };
+                var internalSurfaceFiberDetectors = _detectorResults
+                    .Where(detectorResult => internalSurfaceFiberDetectorNames.Contains(detectorResult.Name) &&
                                              detectorResult is InternalSurfaceFiberDetector)
                     .ToArray();
-                return internalFiberDetectors.Select(isfd => ((InternalSurfaceFiberDetector)isfd).TallyCount).ToArray();
+                return internalSurfaceFiberDetectors.Select(isfd => ((InternalSurfaceFiberDetector)isfd).TallyCount).ToArray();
             }
         }
         /// <summary>
@@ -146,6 +236,51 @@ namespace Vts.MonteCarlo
         /// Reflectance as a function of rho (source-detector separation) Tally Count
         /// </summary>
         public long R_r_TallyCount { get { return (long)((dynamic)ResultsDictionary[_detectorResults.First(d => d.TallyType == "ROfRho").Name]).TallyCount; } }
+        /// <summary>
+        /// Created array to allow multiple ROfRho detectors to be specified in single simulation unit test
+        /// </summary>
+        public double[][] AllROfRhoDetectorMeans
+        {
+            get
+            {
+                string[] rOfRhoDetectorNames = { "ROfRho1", "ROfRho2", "ROfRho3", "ROfRho4" };
+                var rOfRhoDetectors = _detectorResults
+                    .Where(detectorResult => rOfRhoDetectorNames.Contains(detectorResult.Name) &&
+                           detectorResult is ROfRhoDetector)
+                               .ToArray();
+                return rOfRhoDetectors.Select(rr => ((ROfRhoDetector)rr).Mean).ToArray();
+            }
+        }
+        /// <summary>
+        /// Created SecondMoment array to allow multiple fiber detectors to be specified in single simulation unit test
+        /// </summary>
+        public double[][] AllROfRhoDetectorSecondMoments
+        {
+            get
+            {
+                string[] rOfRhoDetectorNames = { "ROfRho1", "ROfRho2", "ROfRho3", "ROfRho4" };
+                var rOfRhoDetectors = _detectorResults
+                    .Where(detectorResult => rOfRhoDetectorNames.Contains(detectorResult.Name) &&
+                                             detectorResult is ROfRhoDetector)
+                    .ToArray();
+                return rOfRhoDetectors.Select(rr => ((ROfRhoDetector)rr).SecondMoment).ToArray();
+            }
+        }
+        /// <summary>
+        /// Created TallyCount array to allow multiple ROfRho detectors to be specified in single simulation unit test
+        /// </summary>
+        public long[] AllROfRhoDetectorTallyCounts
+        {
+            get
+            {
+                string[] rOfRhoDetectorNames = { "ROfRho1", "ROfRho2", "ROfRho3", "ROfRho4" };
+                var rOfRhoDetectors = _detectorResults
+                    .Where(detectorResult => rOfRhoDetectorNames.Contains(detectorResult.Name) &&
+                                             detectorResult is ROfRhoDetector)
+                    .ToArray();
+                return rOfRhoDetectors.Select(rr => ((ROfRhoDetector)rr).TallyCount).ToArray();
+            }
+        }
         /// <summary>
         /// Reflectance as a function of rho (source-detector separation) recessed in air
         /// </summary>
