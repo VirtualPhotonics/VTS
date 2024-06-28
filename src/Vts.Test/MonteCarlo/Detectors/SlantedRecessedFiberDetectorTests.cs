@@ -102,7 +102,8 @@ namespace Vts.Test.MonteCarlo.Detectors
                     NA = 0.0,
                     N = 1.4,
                     TallySecondMoment = true,
-                    FinalTissueRegionIndex = 0
+                    FinalTissueRegionIndex = 0,
+                    Name = "SlantedRecessedFiber1"
                 },                
                 new SurfaceFiberDetectorInput
                 {
@@ -111,7 +112,8 @@ namespace Vts.Test.MonteCarlo.Detectors
                     TallySecondMoment = true,
                     N = 1.4,
                     FinalTissueRegionIndex = 3,
-                    NA = 0.0
+                    NA = 0.0,
+                    Name = "SurfaceFiber1"
                 },
             };
             _detectorSlanted = new List<IDetectorInput>
@@ -125,7 +127,8 @@ namespace Vts.Test.MonteCarlo.Detectors
                     NA = 0.39,
                     N = 1.4,
                     TallySecondMoment = true,
-                    FinalTissueRegionIndex = 0
+                    FinalTissueRegionIndex = 0,
+                    Name = "SlantedRecessedFiber2"
                 },                
             };
 
@@ -167,13 +170,17 @@ namespace Vts.Test.MonteCarlo.Detectors
         [Test]
         public void Validate_slanted_fiber_detector_produces_correct_results()
         {
-            //Mean
-            Assert.Less(Math.Abs(_outputSurfaceFiber.SurFib - _outputNormalRecessedFiber.SlantedFib), 0.000001);
-            //Second Moment
-            Assert.Less(Math.Abs(_outputSurfaceFiber.SurFib2 - _outputNormalRecessedFiber.SlantedFib2), 0.000001); 
-            //TallyCount
-            Assert.Less(Math.Abs(_outputSurfaceFiber.SurFib_TallyCount - _outputNormalRecessedFiber.SlantedFib_TallyCount), 0.000001);
-            Assert.Less(Math.Abs(_outputSlantedRecessedFiber.SlantedFib - 0.00586779), 0.000001);                     
+            // check Mean of perpendicular fiber
+            Assert.Less(Math.Abs(_outputSurfaceFiber.AllSurfaceFiberDetectorMeans[0] -
+                                 _outputNormalRecessedFiber.AllSlantedRecessedFiberDetectorMeans[0]), 0.000001);
+            // check Second Moment of surface fiber with perpendicular recessed fiber
+            Assert.Less(Math.Abs(_outputSurfaceFiber.AllSurfaceFiberDetectorSecondMoments[0] -
+                                 _outputNormalRecessedFiber.AllSlantedRecessedFiberDetectorSecondMoments[0]), 0.000001);
+            // check TallyCount of surface fiber with perpendicular recessed fiber
+            Assert.Less(Math.Abs(_outputSurfaceFiber.AllSurfaceFiberDetectorTallyCounts[0] - 
+                                 _outputNormalRecessedFiber.AllSlantedRecessedFiberDetectorTallyCounts[0]), 0.000001);
+            // check slanted fiber with prior test value
+            Assert.Less(Math.Abs(_outputSlantedRecessedFiber.AllSlantedRecessedFiberDetectorMeans[0] - 0.00586779), 0.000001);                     
         }        
     }
 }
