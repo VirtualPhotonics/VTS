@@ -167,7 +167,7 @@ namespace Vts.MonteCarlo
                     .Where(detectorResult=> internalSurfaceFiberDetectorNames.Contains(detectorResult.Name) &&
                            detectorResult is InternalSurfaceFiberDetector)
                                .ToArray();
-                return internalSurfaceFiberDetectors.Select(isfd=>((InternalSurfaceFiberDetector)isfd).Mean).ToArray();
+                return internalSurfaceFiberDetectors.Select(isfd => ((InternalSurfaceFiberDetector)isfd).Mean).ToArray();
             }
         }
         /// <summary>
