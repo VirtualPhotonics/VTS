@@ -71,12 +71,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                 });
             //Tissue for Surface Fiber
             _tissueForSurfaceFiber =
-                new MultiLayerWithSurfaceFiberTissueInput(
-                    new SurfaceFiberTissueRegion(
-                        new Position(0, 0, 0),
-                        DetectorRadius, // needs to match SurfaceFiberDetectorInput
-                        new OpticalProperties(0.0, 1e-10, 1.0, 1.0)
-                    ),
+                new MultiLayerTissueInput( 
                     new ITissueRegion[]
                     {
                         new LayerTissueRegion(
@@ -111,7 +106,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                     Radius = DetectorRadius,
                     TallySecondMoment = true,
                     N = 1.4,
-                    FinalTissueRegionIndex = 3,
+                    FinalTissueRegionIndex = 0,
                     NA = 0.0,
                     Name = "SurfaceFiber1"
                 },

@@ -83,6 +83,7 @@ namespace Vts.MonteCarlo.Detectors
     {
         /* ==== Place optional/user-defined input properties here. They will be saved in text (JSON) format ==== */
         /* ==== Note: make sure to copy over all optional/user-defined inputs from corresponding input class ==== */
+        private ITissue _tissue;
         /// <summary>
         /// detector center location
         /// </summary>
@@ -139,6 +140,7 @@ namespace Vts.MonteCarlo.Detectors
             }
 
             // initialize any other necessary class fields here
+            _tissue = tissue;
         }
 
         /// <summary>
@@ -188,10 +190,19 @@ namespace Vts.MonteCarlo.Detectors
         /// <returns>Boolean indicating whether photon is within detector</returns>
         public bool IsWithinDetectorAperture(Photon photon)
         {
-            // the following assumes fiber adjacent to tissue
-            // if want tissue-air-fiber then use following prior to last line
-            // var detectorRegionN = _tissue.Regions[FinalTissueRegionIndex].RegionOP.N
-            return photon.DP.IsWithinNA(NA, Direction.AlongNegativeZAxis, N);
+            // the following checks if fiber in tissue-air-fiber system
+            // or tissue-fiber and backs up photon collision
+            // determine which refractive index to use
+            if (photon.CurrentRegionIndex == FinalTissueRegionIndex)
+            {
+                var detectorRegionN = _tissue.Regions[photon.CurrentRegionIndex].RegionOP.N;
+                return photon.DP.IsWithinNA(NA, Direction.AlongNegativeZAxis, detectorRegionN);
+            }
+            else // determine n of prior tissue region
+            {
+                var detectorRegionN = _tissue.Regions[FinalTissueRegionIndex].RegionOP.N;
+                return photon.History.PreviousDP.IsWithinNA(NA, Direction.AlongNegativeZAxis, detectorRegionN);
+            }
         }
     }
 }
