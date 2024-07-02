@@ -1,6 +1,6 @@
+using NUnit.Framework;
 using System;
 using System.Collections.Generic;
-using NUnit.Framework;
 using Vts.Common;
 using Vts.MonteCarlo;
 using Vts.MonteCarlo.Detectors;
@@ -208,9 +208,10 @@ namespace Vts.Test.MonteCarlo.Detectors
         [Test]
         public void Validate_fully_open_fiber_on_outer_cylinder_produces_correct_results()
         {
-            Assert.Less(Math.Abs(_outputCylinderSystem.AllInternalSurfaceFiberDetectorMeans[0] - 0.090464), 0.000001);
-            Assert.Less(Math.Abs(_outputCylinderSystem.AllInternalSurfaceFiberDetectorSecondMoments[0] - 0.027442), 0.000001);
-            Assert.AreEqual(30, _outputCylinderSystem.AllInternalSurfaceFiberDetectorTallyCounts[0]);
+            var detector = (InternalSurfaceFiberDetector)_outputCylinderSystem.ResultsDictionary["InternalSurfaceFiber1"];
+            Assert.Less(Math.Abs(detector.Mean - 0.090464), 0.000001);
+            Assert.Less(Math.Abs(detector.SecondMoment - 0.027442), 0.000001);
+            Assert.AreEqual(30, detector.TallyCount);
         }
 
         /// <summary>
@@ -221,9 +222,10 @@ namespace Vts.Test.MonteCarlo.Detectors
         public void Validate_NA_fiber_on_outer_cylinder_produces_correct_results()
         {
             // these results are smaller than open NA results for same fiber location as they should be
-            Assert.Less(Math.Abs(_outputCylinderSystem.AllInternalSurfaceFiberDetectorMeans[1] - 0.042396), 0.000001);
-            Assert.Less(Math.Abs(_outputCylinderSystem.AllInternalSurfaceFiberDetectorSecondMoments[1] - 0.012859), 0.000001);
-            Assert.AreEqual(14, _outputCylinderSystem.AllInternalSurfaceFiberDetectorTallyCounts[1]);
+            var detector = (InternalSurfaceFiberDetector)_outputCylinderSystem.ResultsDictionary["InternalSurfaceFiber2"];
+            Assert.Less(Math.Abs(detector.Mean - 0.042396), 0.000001);
+            Assert.Less(Math.Abs(detector.SecondMoment - 0.012859), 0.000001);
+            Assert.AreEqual(14, detector.TallyCount);
         }
 
         /// <summary>
@@ -233,9 +235,10 @@ namespace Vts.Test.MonteCarlo.Detectors
         [Test]
         public void Validate_fully_open_fiber_on_inner_cylinder_produces_correct_results()
         {
-            Assert.Less(Math.Abs(_outputCylinderSystem.AllInternalSurfaceFiberDetectorMeans[2] - 0.020568), 0.000001);
-            Assert.Less(Math.Abs(_outputCylinderSystem.AllInternalSurfaceFiberDetectorSecondMoments[2] - 0.006091), 0.000001);
-            Assert.AreEqual(7, _outputCylinderSystem.AllInternalSurfaceFiberDetectorTallyCounts[2]);
+            var detector = (InternalSurfaceFiberDetector)_outputCylinderSystem.ResultsDictionary["InternalSurfaceFiber3"];
+            Assert.Less(Math.Abs(detector.Mean - 0.020568), 0.000001);
+            Assert.Less(Math.Abs(detector.SecondMoment - 0.006091), 0.000001);
+            Assert.AreEqual(7, detector.TallyCount);
         }
 
         /// <summary>
@@ -245,10 +248,11 @@ namespace Vts.Test.MonteCarlo.Detectors
         [Test]
         public void Validate_NA_fiber_on_inner_cylinder_produces_correct_results()
         {
+            var detector = (InternalSurfaceFiberDetector)_outputCylinderSystem.ResultsDictionary["InternalSurfaceFiber4"];
             // these results are smaller than open NA results for same fiber location as they should be
-            Assert.Less(Math.Abs(_outputCylinderSystem.AllInternalSurfaceFiberDetectorMeans[3] - 0.006058), 0.000001);
-            Assert.Less(Math.Abs(_outputCylinderSystem.AllInternalSurfaceFiberDetectorSecondMoments[3] - 0.001836), 0.000001);
-            Assert.AreEqual(2, _outputCylinderSystem.AllInternalSurfaceFiberDetectorTallyCounts[3]);
+            Assert.Less(Math.Abs(detector.Mean - 0.006058), 0.000001);
+            Assert.Less(Math.Abs(detector.SecondMoment - 0.001836), 0.000001);
+            Assert.AreEqual(2, detector.TallyCount);
         }
 
         /// <summary>
