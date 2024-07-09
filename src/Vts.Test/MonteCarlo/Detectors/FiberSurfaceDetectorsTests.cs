@@ -16,7 +16,7 @@ namespace Vts.Test.MonteCarlo.Detectors
     /// with rho radius at center of fiber, (3) verify Bargo's results
     /// </summary>
     [TestFixture]
-    public class SurfaceFiberDetectorTests
+    public class FiberSurfaceDetectorsTests
     {
         private SimulationOutput _output;
         private SimulationOptions _simulationOptions;

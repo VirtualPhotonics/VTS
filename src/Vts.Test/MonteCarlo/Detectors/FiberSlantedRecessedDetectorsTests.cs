@@ -16,7 +16,7 @@ namespace Vts.Test.MonteCarlo.Detectors
     /// The output of the surface fiber is compared with the output of the slanted recessed fiber with angle = 0 
     /// </summary>
     [TestFixture]
-    public class SlantedRecessedFiberDetectorTests
+    public class FiberSlantedRecessedDetectorsTests
     {
         private SimulationOutput _outputNormalRecessedFiber;
         private SimulationOutput _outputSlantedRecessedFiber;

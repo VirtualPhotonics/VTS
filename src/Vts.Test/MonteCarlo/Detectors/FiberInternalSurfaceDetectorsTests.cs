@@ -13,7 +13,7 @@ namespace Vts.Test.MonteCarlo.Detectors
     /// These tests verify that the specification of an internal surface fiber detector.
     /// </summary>
     [TestFixture]
-    public class InternalSurfaceFiberDetectorTests
+    public class FiberInternalSurfaceDetectorsTests
     {
         private SimulationOptions _simulationOptions;
         private ISourceInput _sourceOutsideSurface;
