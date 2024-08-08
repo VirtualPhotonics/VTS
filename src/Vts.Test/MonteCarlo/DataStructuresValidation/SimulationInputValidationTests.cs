@@ -38,9 +38,12 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation
             // generate input without any detector inputs but with database specified
             var input = new SimulationInput
             {
-                DetectorInputs = new List<IDetectorInput>()
+                DetectorInputs = new List<IDetectorInput>(),
+                Options =
+                {
+                    Databases = new List<DatabaseType> {DatabaseType.DiffuseReflectance}
+                }
             };
-            input.Options.Databases = new List<DatabaseType> {DatabaseType.DiffuseReflectance};
             var result = SimulationInputValidation.ValidateInput(input);
             Assert.IsTrue(result.IsValid);
         }
@@ -81,29 +84,34 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation
         }
 
         /// <summary>
-        /// Test to verify input with cylindrical detector and off axis ellipsoid in tissue is invalid
+        /// Test to verify input with cylindrical detector and off axis ellipsoid in tissue outputs warning
+        /// but continues as valid input
         /// </summary>
         [Test]
-        public void Validate_ellipsoid_tissue_with_off_zaxis_center_and_cylindrical_detectors_are_not_defined_together()
+        public void Validate_ellipsoid_tissue_with_off_zaxis_center_and_cylindrical_detectors_issues_warning()
         {
             // generate input embedded ellipsoid tissue and cylindrical detector
             var input = new SimulationInput
             {
                 TissueInput = new SingleEllipsoidTissueInput
                 {
-                    EllipsoidRegion = new EllipsoidTissueRegion {Center = new Position(1, 1, 0)}
+                    EllipsoidRegion = new EllipsoidTissueRegion {Center = new Position(1, 1, 5)}
                 },
                 DetectorInputs = new List<IDetectorInput> {new ROfRhoDetectorInput()}
             };
+            // set to catch Console output
+            var output = new StringWriter();
+            Console.SetOut(output);
             var result = SimulationInputValidation.ValidateInput(input);
-            Assert.IsFalse(result.IsValid);
+            Assert.IsTrue(result.IsValid); // only warning
+            Assert.That(output.ToString(), Is.EqualTo("Warning: off center ellipsoid in tissue with cylindrical detector defined: user discretion advised\r\n"));
         }
 
         /// <summary>
         /// Test to verify input cylindrical detector and ellipsoid in tissue is invalid
         /// </summary>
         [Test]
-        public void Validate_ellipsoid_tissue_without_cylindrical_symmetry_and_cylindrical_detectors_are_not_defined_together()
+        public void Validate_ellipsoid_tissue_without_cylindrical_symmetry_and_cylindrical_detectors_issues_warning()
         {
             // generate input embedded ellipsoid tissue and cylindrical detector
             var input = new SimulationInput
@@ -114,12 +122,17 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation
                 },
                 DetectorInputs = new List<IDetectorInput> { new ROfRhoDetectorInput() }
             };
+            // set to catch Console output
+            var output = new StringWriter();
+            Console.SetOut(output);
             var result = SimulationInputValidation.ValidateInput(input);
-            Assert.IsFalse(result.IsValid);
+            Assert.IsTrue(result.IsValid); // only warning
+            Assert.That(output.ToString(), Is.EqualTo("Warning: ellipsoid with Dx != Dy in tissue with cylindrical detector defined: user discretion advised\r\n"));
         }
 
         /// <summary>
-        /// Test to verify input with angled source and cylindrical detectors is invalid
+        /// Test to verify input with angled source and cylindrical detectors outputs warning
+        /// but continues as valid input
         /// </summary>
         [Test]
         public void Validate_angled_source_and_cylindrical_detectors_are_not_defined_together()
@@ -131,12 +144,16 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation
                     new Position(0,0,0), new Direction(1.0/Math.Sqrt(2), 0, 1.0/Math.Sqrt(2)),1),
                 DetectorInputs = new List<IDetectorInput> { new ROfRhoDetectorInput() }
             };
+            // set to catch Console output
+            var output = new StringWriter();
+            Console.SetOut(output);
             var result = SimulationInputValidation.ValidateInput(input);
-            Assert.IsFalse(result.IsValid);
+            Assert.IsTrue(result.IsValid); // only warning
+            Assert.That(output.ToString(), Is.EqualTo("Warning: Angled source and cylindrical coordinate detector defined: user discretion advised\r\n"));
         }
 
         /// <summary>
-        /// Test to verify input with ellipsoid in tissue and R(fx) detector puts out warning
+        /// Test to verify input with ellipsoid in tissue and R(fx) detector outputs warning
         /// but continues as valid input
         /// </summary>
         [Test]
@@ -156,11 +173,11 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation
             Console.SetOut(output);
             var result = SimulationInputValidation.ValidateInput(input);
             Assert.IsTrue(result.IsValid); // only warning
-            Assert.That(output.ToString(), Is.EqualTo("Warning: R(fx) theory assumes a homogeneous or layered tissue geometry.User discretion advised\r\n"));
+            Assert.That(output.ToString(), Is.EqualTo("Warning: R(fx) theory assumes a homogeneous or layered tissue geometry: user discretion advised\r\n"));
         }
 
         /// <summary>
-        /// Test to verify input with voxel in tissue and R(fx) detector puts out warning
+        /// Test to verify input with voxel in tissue and R(fx) detector outputs warning
         /// but continues as valid input
         /// </summary>
         [Test]
@@ -186,7 +203,7 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation
             Console.SetOut(output);
             var result = SimulationInputValidation.ValidateInput(input);
             Assert.IsTrue(result.IsValid); // only warning
-            Assert.That(output.ToString(), Is.EqualTo("Warning: R(fx) theory assumes a homogeneous or layered tissue geometry.User discretion advised\r\n"));
+            Assert.That(output.ToString(), Is.EqualTo("Warning: R(fx) theory assumes a homogeneous or layered tissue geometry: user discretion advised\r\n"));
 
         }
 

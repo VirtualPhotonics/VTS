@@ -137,7 +137,10 @@ namespace Vts.MonteCarlo
 
         /// <summary>
         /// This method checks the input against combined combinations of options
-        /// and source, tissue, detector definitions.   
+        /// and source, tissue, detector definitions. The philosophy here is that if the transport will
+        /// not error, a warning is issued and the validation result remains true.  This allows users to
+        /// specify inconsistent combinations, e.g. angled source and cylindrical coordinate detectors,
+        /// receive a warning and have the simulation proceed.
         /// </summary>
         /// <param name="input">input to be validated</param>
         /// <returns>An instance of ValidationResult with IsValid set and error message if false</returns>
@@ -166,19 +169,21 @@ namespace Vts.MonteCarlo
                         {
                             case true when
                                 ellipsoid.Center.X != 0.0 && ellipsoid.Center.Y != 0.0:
-                                return new ValidationResult(
-                                    false,
-                                    "Ellipsoid must be centered at (x,y)=(0,0) for cylindrical tallies",
-                                    "Change ellipsoid center to (0,0) or specify non-cylindrical type tally");
+                                    Console.WriteLine("Warning: off center ellipsoid in tissue with cylindrical detector defined: user discretion advised");
+                                    return new ValidationResult(
+                                    true,
+                                    "Warning: off center ellipsoid in tissue with cylindrical detector defined",
+                                    "User discretion advised: change ellipsoid center to (0,0) or specify non-cylindrical type tally");
                             case true when ellipsoid.Dx != ellipsoid.Dy:
+                                Console.WriteLine("Warning: ellipsoid with Dx != Dy in tissue with cylindrical detector defined: user discretion advised");
                                 return new ValidationResult(
-                                    false,
-                                    "Ellipsoid must have Dx=Dy for cylindrical tallies",
-                                    "Change ellipsoid.Dx to be = to Dy or specify non-cylindrical type tally");
+                                    true,
+                                    "Warning: ellipsoid with Dx != Dy in tissue with cylindrical detector defined",
+                                    "User discretion advised: change ellipsoid.Dx to be = to Dy or specify non-cylindrical type tally");
                         }
 
                         if (detectorInput.TallyType != TallyType.ROfFx) continue;
-                        Console.WriteLine("Warning: R(fx) theory assumes a homogeneous or layered tissue geometry.User discretion advised");
+                        Console.WriteLine("Warning: R(fx) theory assumes a homogeneous or layered tissue geometry: user discretion advised");
                         return new ValidationResult(
                             true,
                             "Warning: R(fx) theory assumes a homogeneous or layered tissue geometry",
@@ -203,7 +208,7 @@ namespace Vts.MonteCarlo
                         }
 
                         if (detectorInput.TallyType != TallyType.ROfFx) continue;
-                        Console.WriteLine("Warning: R(fx) theory assumes a homogeneous or layered tissue geometry.User discretion advised");
+                        Console.WriteLine("Warning: R(fx) theory assumes a homogeneous or layered tissue geometry: user discretion advised");
                         return new ValidationResult(
                             true,
                             "Warning: R(fx) theory assumes a homogeneous or layered tissue geometry",
@@ -225,10 +230,11 @@ namespace Vts.MonteCarlo
                 source.Direction != new Direction(0,0,1) && 
                 input.DetectorInputs.Any(detectorInput => detectorInput.TallyDetails.IsCylindricalTally))
             {
+                Console.WriteLine("Warning: Angled source and cylindrical coordinate detector defined: user discretion advised");
                 return new ValidationResult(
-                    false,
-                    "If source is angled, cannot define cylindrically symmetric detectors",
-                    "Change detector to Cartesian equivalent or define source to be normal");
+                    true,
+                    "Warning: Angled source and cylindrical coordinate detector defined",
+                    "User discretion advised: change detector to Cartesian equivalent or define source to be normal");
             }
             if (input.DetectorInputs.Where(detectorInput => detectorInput.TallyDetails.IsTransmittanceTally && 
                 input.TissueInput is MultiLayerTissueInput).Any(detectorInput => ((dynamic)detectorInput).FinalTissueRegionIndex == 0))
