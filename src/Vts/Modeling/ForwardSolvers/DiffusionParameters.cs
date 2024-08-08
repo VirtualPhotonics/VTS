@@ -58,6 +58,9 @@ namespace Vts.Modeling.ForwardSolvers
             var tempMutTilde = op.Mua + tempMusTilde;
             var tempZp = 1 / tempMutTilde;
 
+            // put out warning if mus' on order of mua
+            if (op.Mua >= op.Musp) Console.WriteLine("Warning: Mua >= Musp");
+
             return new DiffusionParameters(tempA, tempMueff, tempZb, tempZp, tempMutTilde, tempMusTilde, tempMutr, tempGTilde, tempD, tempCn, tempMua);
         }
 
