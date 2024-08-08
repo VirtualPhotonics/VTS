@@ -140,7 +140,9 @@ namespace Vts.MonteCarlo
         /// and source, tissue, detector definitions. The philosophy here is that if the transport will
         /// not error, a warning is issued and the validation result remains true.  This allows users to
         /// specify inconsistent combinations, e.g. angled source and cylindrical coordinate detectors,
-        /// receive a warning and have the simulation proceed.
+        /// receive a warning and have the simulation proceed.  However, if the transport will error then
+        /// the validation result will be false, the validationRule and remarks output and simulation stops,
+        /// e.g. embedded ellipsoid in tissue that overlaps tissue layer. 
         /// </summary>
         /// <param name="input">input to be validated</param>
         /// <returns>An instance of ValidationResult with IsValid set and error message if false</returns>
@@ -201,10 +203,11 @@ namespace Vts.MonteCarlo
                     {
                         if (detectorInput.TallyDetails.IsCylindricalTally)
                         {
-                            return new ValidationResult(
-                                false,
-                                "Cannot use Single Voxel Tissue for cylindrical tallies",
-                                "Change detector inputs to specify non-cylindrical type tallies");
+                                Console.WriteLine("Warning: voxel in tissue with cylindrical detector defined: user discretion advised");
+                                return new ValidationResult(
+                                true,
+                                "Warning: voxel in tissue with cylindrical detector defined",
+                                "User discretion advised: change detector inputs to specify non-cylindrical type tallies");
                         }
 
                         if (detectorInput.TallyType != TallyType.ROfFx) continue;
