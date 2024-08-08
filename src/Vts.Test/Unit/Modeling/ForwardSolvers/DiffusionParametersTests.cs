@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using NUnit.Framework;
 using Vts.Modeling.ForwardSolvers;
 
@@ -44,7 +45,15 @@ namespace Vts.Test.Unit.Modeling.ForwardSolvers
             Assert.IsTrue(Math.Abs(1.01 - diffusionParameters.mutr) < 1e-6);
             Assert.IsTrue(Math.Abs(1.947246 - diffusionParameters.zb) < 1e-6);
             Assert.IsTrue(Math.Abs(0.552486 - diffusionParameters.zp) < 1e-6);
-            // add test to test warning
+            // add test to test warning if Mua >= Musp
+            ops = new OpticalProperties(1.0, 1.0, 0.8, 1.4);
+            var output = new StringWriter();
+            Console.SetOut(output);
+            diffusionParameters = DiffusionParameters.Create(
+                ops,
+                ForwardModel.SDA);
+            Assert.IsTrue(diffusionParameters != null);
+            Assert.That(output.ToString(), Is.EqualTo("Warning: Mua >= Musp\r\n"));
         }
 
         /// <summary>
