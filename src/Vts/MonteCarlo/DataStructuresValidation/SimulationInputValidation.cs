@@ -177,13 +177,12 @@ namespace Vts.MonteCarlo
                                     "Change ellipsoid.Dx to be = to Dy or specify non-cylindrical type tally");
                         }
 
-                        if (detectorInput.TallyType == TallyType.ROfFx)
-                        {
-                            return new ValidationResult(
-                                true,
-                                "Warning: R(fx) theory assumes a homogeneous or layered tissue geometry",
-                                "User discretion advised"); 
-                        }
+                        if (detectorInput.TallyType != TallyType.ROfFx) continue;
+                        Console.WriteLine("Warning: R(fx) theory assumes a homogeneous or layered tissue geometry.User discretion advised");
+                        return new ValidationResult(
+                            true,
+                            "Warning: R(fx) theory assumes a homogeneous or layered tissue geometry",
+                            "User discretion advised");
                     }
 
                     break;
@@ -202,13 +201,13 @@ namespace Vts.MonteCarlo
                                 "Cannot use Single Voxel Tissue for cylindrical tallies",
                                 "Change detector inputs to specify non-cylindrical type tallies");
                         }
-                        if (detectorInput.TallyType == TallyType.ROfFx)
-                        {
-                            return new ValidationResult(
-                                true,
-                                "Warning: R(fx) theory assumes a homogeneous or layered tissue geometry",
-                                "User discretion advised");
-                        }
+
+                        if (detectorInput.TallyType != TallyType.ROfFx) continue;
+                        Console.WriteLine("Warning: R(fx) theory assumes a homogeneous or layered tissue geometry.User discretion advised");
+                        return new ValidationResult(
+                            true,
+                            "Warning: R(fx) theory assumes a homogeneous or layered tissue geometry",
+                            "User discretion advised");
                     }
 
                     break;

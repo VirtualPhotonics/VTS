@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using NUnit.Framework;
 using Vts.Common;
+using Vts.Modeling.ForwardSolvers;
 using Vts.MonteCarlo;
 using Vts.MonteCarlo.Detectors;
 using Vts.MonteCarlo.Sources;
@@ -12,6 +14,9 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation
     [TestFixture]
     public class SimulationInputValidationTests
     {
+        /// <summary>
+        /// Test to verify input with no detectors nor database specified is invalid
+        /// </summary>
         [Test]
         public void Validate_null_detector_input_is_invalid_when_no_database_specified()
         {
@@ -23,6 +28,10 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation
             var result = SimulationInputValidation.ValidateInput(input);
             Assert.IsFalse(result.IsValid);
         }
+
+        /// <summary>
+        /// Test to verify input with database specified and no detectors specified is valid
+        /// </summary>
         [Test]
         public void Validate_null_detector_input_is_valid_when_database_specified()
         {
@@ -35,6 +44,11 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation
             var result = SimulationInputValidation.ValidateInput(input);
             Assert.IsTrue(result.IsValid);
         }
+
+        /// <summary>
+        /// Test to verify input with detector, Radiance(x,y,z,theta,phi) and CAW is invalid
+        /// because not implemented
+        /// </summary>
         [Test]
         public void Validate_detector_input_not_implemented_is_invalid()
         {
@@ -47,6 +61,10 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation
             var result = SimulationInputValidation.ValidateInput(input);
             Assert.IsFalse(result.IsValid);
         }
+
+        /// <summary>
+        /// Test to verify that input with two detectors with the same Name is invalid
+        /// </summary>
         [Test]
         public void Validate_duplicate_detector_name_is_invalid()
         {
@@ -61,6 +79,10 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation
             var result = SimulationInputValidation.ValidateInput(input);
             Assert.IsFalse(result.IsValid);
         }
+
+        /// <summary>
+        /// Test to verify input with cylindrical detector and off axis ellipsoid in tissue is invalid
+        /// </summary>
         [Test]
         public void Validate_ellipsoid_tissue_with_off_zaxis_center_and_cylindrical_detectors_are_not_defined_together()
         {
@@ -76,6 +98,10 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation
             var result = SimulationInputValidation.ValidateInput(input);
             Assert.IsFalse(result.IsValid);
         }
+
+        /// <summary>
+        /// Test to verify input cylindrical detector and ellipsoid in tissue is invalid
+        /// </summary>
         [Test]
         public void Validate_ellipsoid_tissue_without_cylindrical_symmetry_and_cylindrical_detectors_are_not_defined_together()
         {
@@ -91,6 +117,10 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation
             var result = SimulationInputValidation.ValidateInput(input);
             Assert.IsFalse(result.IsValid);
         }
+
+        /// <summary>
+        /// Test to verify input with angled source and cylindrical detectors is invalid
+        /// </summary>
         [Test]
         public void Validate_angled_source_and_cylindrical_detectors_are_not_defined_together()
         {
@@ -104,8 +134,13 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation
             var result = SimulationInputValidation.ValidateInput(input);
             Assert.IsFalse(result.IsValid);
         }
+
+        /// <summary>
+        /// Test to verify input with ellipsoid in tissue and R(fx) detector puts out warning
+        /// but continues as valid input
+        /// </summary>
         [Test]
-        public void Validate_ellipsoid_tissue_and_ROfFx_detectors_are_not_defined_together()
+        public void Validate_ellipsoid_tissue_and_ROfFx_detectors_defined_together_issues_warning()
         {
             // generate input embedded ellipsoid tissue and cylindrical detector
             var input = new SimulationInput
@@ -116,11 +151,20 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation
                 },
                 DetectorInputs = new List<IDetectorInput> { new ROfFxDetectorInput() }
             };
+            // set to catch Console output
+            var output = new StringWriter();
+            Console.SetOut(output);
             var result = SimulationInputValidation.ValidateInput(input);
             Assert.IsTrue(result.IsValid); // only warning
+            Assert.That(output.ToString(), Is.EqualTo("Warning: R(fx) theory assumes a homogeneous or layered tissue geometry.User discretion advised\r\n"));
         }
+
+        /// <summary>
+        /// Test to verify input with voxel in tissue and R(fx) detector puts out warning
+        /// but continues as valid input
+        /// </summary>
         [Test]
-        public void Validate_voxel_tissue_and_ROfFx_detectors_are_not_defined_together()
+        public void Validate_voxel_tissue_and_ROfFx_detectors_defined_together_issues_warning()
         {
             // generate input embedded ellipsoid tissue and cylindrical detector
             var input = new SimulationInput
@@ -137,9 +181,18 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation
                 },
                 DetectorInputs = new List<IDetectorInput> { new ROfFxDetectorInput() }
             };
+            // set to catch Console output
+            var output = new StringWriter();
+            Console.SetOut(output);
             var result = SimulationInputValidation.ValidateInput(input);
             Assert.IsTrue(result.IsValid); // only warning
+            Assert.That(output.ToString(), Is.EqualTo("Warning: R(fx) theory assumes a homogeneous or layered tissue geometry.User discretion advised\r\n"));
+
         }
+
+        /// <summary>
+        /// Test to verify input with negative optical properties is invalid
+        /// </summary>
         [Test]
         public void Validate_tissue_optical_properties_are_non_negative()
         {
