@@ -33,10 +33,8 @@ namespace Vts.MonteCarlo
             foreach (var validation in validations)
             {
                 var tempResult = validation(input);
-                if (!tempResult.IsValid)
-                {
-                    return tempResult;
-                }
+                if (!tempResult.IsValid) return tempResult;
+                
             }
             
             return new ValidationResult( true, "Simulation input is valid");
@@ -158,8 +156,8 @@ namespace Vts.MonteCarlo
             }
 
             // check combination of tissue definition with detector definition
-            var result = ValidateTissueCombinedWithDetectors(input);
-            if (!result.IsValid) return result;
+            var tempResult = ValidateTissueCombinedWithDetectors(input);
+            if (!tempResult.IsValid) return tempResult;
 
             // check combination of source definition with detector definition
             if (input.SourceInput is DirectionalPointSourceInput source && 
@@ -195,8 +193,8 @@ namespace Vts.MonteCarlo
                 case SingleEllipsoidTissueInput tissueWithEllipsoid:
                 {
                     var ellipsoid = (EllipsoidTissueRegion)tissueWithEllipsoid.EllipsoidRegion;
-                    var result = ValidateSingleEllipsoidTissueCombinedWithDetectors(input, ellipsoid);
-                    if (!result.IsValid) return result;
+                    var tempResult = ValidateSingleEllipsoidTissueCombinedWithDetectors(input, ellipsoid);
+                    if (!tempResult.IsValid) return tempResult;
                     break;
                 }
                 // check that if single voxel or single infinite cylinder tissue specified,
@@ -308,7 +306,17 @@ namespace Vts.MonteCarlo
                 default:
                     throw new ArgumentOutOfRangeException(typeof(AbsorptionWeightingType).ToString());
             }
+            // check current detector capabilities
+            var tempResult = ValidateCurrentDetectorIncapabilities(input);
+            if (!tempResult.IsValid) return tempResult;
 
+            return new ValidationResult(
+                true,
+                "Detector definitions are consistent with current capabilities");
+        }
+
+        private static ValidationResult ValidateCurrentDetectorIncapabilities(SimulationInput input)
+        {
             foreach (var detectorInput in input.DetectorInputs)
             {
                 // can only run dMC detectors with 1 perturbed region for the present
@@ -355,10 +363,11 @@ namespace Vts.MonteCarlo
                 {
                     return RecessedDetectorInputValidation.ValidateInput(detectorInput);
                 }
-            }         
+            }
             return new ValidationResult(
                 true,
                 "Detector definitions are consistent with current capabilities");
+
         }
     }
 }
