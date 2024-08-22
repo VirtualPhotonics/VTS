@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using Vts.Common;
 using Vts.MonteCarlo.DataStructuresValidation;
+using Vts.MonteCarlo.Detectors;
 using Vts.MonteCarlo.Sources;
 using Vts.MonteCarlo.Tissues;
 
@@ -27,7 +28,7 @@ namespace Vts.MonteCarlo
                     si => ValidateTissueInput(si.TissueInput),
                     ValidateDetectorInput,
                     ValidateCombinedInputParameters,
-                    ValidateCurrentIncapabilities
+                    ValidateCurrentCapabilities
                 };
 
             foreach (var validation in validations)
@@ -275,11 +276,11 @@ namespace Vts.MonteCarlo
         }
 
         /// <summary>
-        /// Method checks SimulationInput against current in-capabilities of the code.
+        /// Method checks SimulationInput against current capabilities of the code.
         /// </summary>
         /// <param name="input">SimulationInput</param>
         /// <returns>An instance of the ValidationResult class</returns>
-        private static ValidationResult ValidateCurrentIncapabilities(SimulationInput input)
+        private static ValidationResult ValidateCurrentCapabilities(SimulationInput input)
         {
             switch (input.Options.AbsorptionWeightingType)
             {
@@ -307,7 +308,7 @@ namespace Vts.MonteCarlo
                     throw new ArgumentOutOfRangeException(typeof(AbsorptionWeightingType).ToString());
             }
             // check current detector capabilities
-            var tempResult = ValidateCurrentDetectorIncapabilities(input);
+            var tempResult = ValidateCurrentDetectorCapabilities(input);
             if (!tempResult.IsValid) return tempResult;
 
             return new ValidationResult(
@@ -315,7 +316,8 @@ namespace Vts.MonteCarlo
                 "Detector definitions are consistent with current capabilities");
         }
 
-        private static ValidationResult ValidateCurrentDetectorIncapabilities(SimulationInput input)
+        private static ValidationResult ValidateCurrentDetectorCapabilities(
+            SimulationInput input)
         {
             foreach (var detectorInput in input.DetectorInputs)
             {
@@ -328,27 +330,12 @@ namespace Vts.MonteCarlo
                 {
                     return dMCdROfRhodMusDetectorInputValidation.ValidateInput(detectorInput);
                 }
+                
                 // check that number in blood volume list matches number of tissue subregions
-                if (detectorInput.TallyType.Contains("ReflectedDynamicMTOfRhoAndSubregionHist"))
-                {
-                    return ReflectedDynamicMTOfRhoAndSubregionHistDetectorInputValidation.ValidateInput(
-                        detectorInput, input.TissueInput.Regions.Length);
-                }
-                if (detectorInput.TallyType.Contains("ReflectedDynamicMTOfXAndYAndSubregionHist"))
-                {
-                    return ReflectedDynamicMTOfXAndYAndSubregionHistDetectorInputValidation.ValidateInput(
-                        detectorInput, input.TissueInput.Regions.Length);
-                }
-                if (detectorInput.TallyType.Contains("TransmittedDynamicMTOfRhoAndSubregionHist"))
-                {
-                    return TransmittedDynamicMTOfRhoAndSubregionHistDetectorInputValidation.ValidateInput(
-                        detectorInput, input.TissueInput.Regions.Length);
-                }
-                if (detectorInput.TallyType.Contains("TransmittedDynamicMTOfXAndYAndSubregionHist"))
-                {
-                    return TransmittedDynamicMTOfXAndYAndSubregionHistDetectorInputValidation.ValidateInput(
-                        detectorInput, input.TissueInput.Regions.Length);
-                }
+                var tempResult = ValidateBloodVolumeDetectorConsistencies(input, detectorInput);
+                if (!tempResult.IsValid) return tempResult;
+
+                // check fiber consistencies
                 if (detectorInput.TallyType.Contains("SurfaceFiber"))
                 {
                     return SurfaceFiberDetectorInputValidation.ValidateInput(detectorInput);
@@ -363,6 +350,34 @@ namespace Vts.MonteCarlo
                 {
                     return RecessedDetectorInputValidation.ValidateInput(detectorInput);
                 }
+            }
+            return new ValidationResult(
+                true,
+                "Detector definitions are consistent with current capabilities");
+        }
+
+        private static ValidationResult ValidateBloodVolumeDetectorConsistencies(
+            SimulationInput input, IDetectorInput detectorInput)
+        {
+            if (detectorInput.TallyType.Contains("ReflectedDynamicMTOfRhoAndSubregionHist"))
+            {
+                return ReflectedDynamicMTOfRhoAndSubregionHistDetectorInputValidation.ValidateInput(
+                    detectorInput, input.TissueInput.Regions.Length);
+            }
+            if (detectorInput.TallyType.Contains("ReflectedDynamicMTOfXAndYAndSubregionHist"))
+            {
+                return ReflectedDynamicMTOfXAndYAndSubregionHistDetectorInputValidation.ValidateInput(
+                    detectorInput, input.TissueInput.Regions.Length);
+            }
+            if (detectorInput.TallyType.Contains("TransmittedDynamicMTOfRhoAndSubregionHist"))
+            {
+                return TransmittedDynamicMTOfRhoAndSubregionHistDetectorInputValidation.ValidateInput(
+                    detectorInput, input.TissueInput.Regions.Length);
+            }
+            if (detectorInput.TallyType.Contains("TransmittedDynamicMTOfXAndYAndSubregionHist"))
+            {
+                return TransmittedDynamicMTOfXAndYAndSubregionHistDetectorInputValidation.ValidateInput(
+                    detectorInput, input.TissueInput.Regions.Length);
             }
             return new ValidationResult(
                 true,
