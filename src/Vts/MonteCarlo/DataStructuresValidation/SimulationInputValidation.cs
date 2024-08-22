@@ -176,7 +176,7 @@ namespace Vts.MonteCarlo
                                     true,
                                     "Warning: off center ellipsoid in tissue with cylindrical detector defined",
                                     "User discretion advised: change ellipsoid center to (0,0) or specify non-cylindrical type tally");
-                            case true when ellipsoid.Dx != ellipsoid.Dy:
+                            case true when Math.Abs(ellipsoid.Dx - ellipsoid.Dy) > 1e-6:
                                 Console.WriteLine("Warning: ellipsoid with Dx != Dy in tissue with cylindrical detector defined: user discretion advised");
                                 return new ValidationResult(
                                     true,
