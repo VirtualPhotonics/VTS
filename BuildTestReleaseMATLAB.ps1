@@ -11,8 +11,26 @@ Remove-Item "$matlabdir/vts_wrapper/vts_libraries" -Recurse -ErrorAction Ignore
 Remove-Item "$matlabdir/vts_wrapper/results*" -Recurse -ErrorAction Ignore
 
 Write-Host "Test MATLAB unit tests" -ForegroundColor Green
-# RunMATLABUnitTests copies Vts.Desktop/bin/Release files to matlab/vts_wrapper/vts_libraries
-.\RunMATLABUnitTests.ps1 
+# RunMATLABUnitTests copies Vts\publish\win-x64 files to matlab/vts_wrapper/vts_libraries
+Write-Host "Run vts_wrapper tests" -ForegroundColor Green
+Write-Host "MATLAB not exiting nicely indicates test failure" -ForegroundColor Green
+$vtslevel = $PWD
+
+# Change current dir to vts\matlab\vts_wrapper and get rid of prior build results
+cd "$vtslevel\matlab\vts_wrapper"
+$matlablibdir = "$vtslevel\matlab\vts_wrapper\vts_libraries"
+Remove-Item $matlablibdir -Recurse -ErrorAction Ignore
+New-Item $matlablibdir -ItemType "directory"
+
+# put supporting libraries into vts_libraries folder
+$vtslibraries = "$vtslevel\publish\win-x64"
+Copy-Item -Path "$vtslibraries\*" -Destination "$matlablibdir"
+
+matlab -wait -r "vts_tests; quit"
+
+# return to vts level
+cd $vtslevel
+
 
 Write-Host "Create MATLAB Release version = $version" -ForegroundColor Green
 # Create release folder if it doesn't exist
