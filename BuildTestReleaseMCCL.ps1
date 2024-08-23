@@ -2,10 +2,10 @@
 if (!$args) {
   $version="x.xx.x"
   echo "version set to x.xx.x"
+  .\BuildTestCore.ps1 
 }
 
 $vtslevel = $PWD
-.\BuildTestCore.ps1 
 
 $mcclcsproj = "$PWD\src\Vts.MonteCarlo.CommandLineApplication\Vts.MonteCarlo.CommandLineApplication.csproj"
 $mccltestcsproj = "$PWD\src\Vts.MonteCarlo.CommandLineApplication.Test\Vts.MonteCarlo.CommandLineApplication.Test.csproj"
@@ -32,8 +32,7 @@ dotnet test $mcpptestcsproj -c Release
 
 Write-Host "Release Packages: version = $version" -ForegroundColor Green
 
-Write-Host "Create clean publish and release folders" -ForegroundColor Green
-Remove-Item "$PWD\release" -Recurse -ErrorAction Ignore
+Write-Host "Create clean publish folder" -ForegroundColor Green
 Remove-Item $PWD\publish -Recurse -ErrorAction Ignore
 
 dotnet publish $mcclcsproj -c Release -r linux-x64 -o $PWD\publish\linux-x64 --self-contained false 
@@ -46,8 +45,11 @@ dotnet publish $mcppcsproj -c Release -r win-x64 -o $PWD\publish\win-x64 --self-
 dotnet publish $mcppcsproj -c Release -r osx-x64 -o $PWD\publish\osx-x64 --self-contained false 
 
 # Create MCCL zip files for different OS
+# Create release folder if it doesn't exist
 $releasedir = ".\release"
-New-Item -Path $PWD -Name $releasedir -ItemType "directory"
+if (-not (Test-Path -LiteralPath $releasedir)) {
+    New-Item -Path $PWD -Name $releasedir -ItemType "directory"
+}
 
 # Create win-x64 zip
 $archive = $releasedir + "\MC_v" + $version + "_Win_x64.zip"
@@ -102,8 +104,12 @@ New-Item $MCmatlabdir -ItemType "directory"
 $MCresults = "$vtslevel\publish\local\one_layer_all_detectors\*"
 Copy-Item -Path $MCresults -Destination $MCmatlabdir -Recurse -ErrorAction Ignore
 
-# run load_results_script (default datanames is set to one_layer_all_detectors) 
-matlab -wait -r "load_results_script; quit"
+# only run following commands if matlab installed
+if (Get-Command "matlab" -ErrorAction SilentlyContinue)
+{
+  # run load_results_script (default datanames is set to one_layer_all_detectors) 
+  matlab -wait -r "load_results_script; quit"
+}
 
 #cleanup one_layer_all_detectors folder
 Remove-Item  $MCmatlabdir -Recurse -ErrorAction Ignore

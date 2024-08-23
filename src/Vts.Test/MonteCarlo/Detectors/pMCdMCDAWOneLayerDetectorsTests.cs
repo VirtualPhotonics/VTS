@@ -414,4 +414,3 @@ namespace Vts.Test.MonteCarlo.Detectors
 
     }
 }
-
