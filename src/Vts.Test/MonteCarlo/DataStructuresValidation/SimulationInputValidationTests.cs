@@ -134,7 +134,7 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation
             Console.SetOut(output);
             var result = SimulationInputValidation.ValidateInput(input);
             Assert.IsTrue(result.IsValid); // only warning
-            Assert.That(output.ToString(), Is.EqualTo("Warning: off center ellipsoid in tissue with cylindrical detector defined: user discretion advised\r\n"));
+            Assert.That(output.ToString().Trim(), Is.EqualTo("Warning: off center ellipsoid in tissue with cylindrical detector defined: user discretion advised"));
         }
 
         /// <summary>
@@ -158,7 +158,7 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation
             Console.SetOut(output);
             var result = SimulationInputValidation.ValidateInput(input);
             Assert.IsTrue(result.IsValid); // only warning
-            Assert.That(output.ToString(), Is.EqualTo("Warning: ellipsoid with Dx != Dy in tissue with cylindrical detector defined: user discretion advised\r\n"));
+            Assert.That(output.ToString().Trim(), Is.EqualTo("Warning: ellipsoid with Dx != Dy in tissue with cylindrical detector defined: user discretion advised"));
         }
 
         /// <summary>
@@ -187,7 +187,7 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation
             Console.SetOut(output);
             var result = SimulationInputValidation.ValidateInput(input);
             Assert.IsTrue(result.IsValid); // only warning
-            Assert.That(output.ToString(), Is.EqualTo("Warning: voxel in tissue with cylindrical detector defined: user discretion advised\r\n"));
+            Assert.That(output.ToString().Trim(), Is.EqualTo("Warning: voxel in tissue with cylindrical detector defined: user discretion advised"));
         }
 
         /// <summary>
@@ -226,7 +226,7 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation
             Console.SetOut(output);
             var result = SimulationInputValidation.ValidateInput(input);
             Assert.IsTrue(result.IsValid); // only warning
-            Assert.That(output.ToString(), Is.EqualTo("Warning: Angled source and cylindrical coordinate detector defined: user discretion advised\r\n"));
+            Assert.That(output.ToString().Trim(), Is.EqualTo("Warning: Angled source and cylindrical coordinate detector defined: user discretion advised"));
         }
 
         /// <summary>
@@ -271,7 +271,7 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation
             Console.SetOut(output);
             var result = SimulationInputValidation.ValidateInput(input);
             Assert.IsTrue(result.IsValid); // only warning
-            Assert.That(output.ToString(), Is.EqualTo("Warning: R(fx) theory assumes a homogeneous or layered tissue geometry: user discretion advised\r\n"));
+            Assert.That(output.ToString().Trim(), Is.EqualTo("Warning: R(fx) theory assumes a homogeneous or layered tissue geometry: user discretion advised"));
         }
 
         /// <summary>
@@ -301,7 +301,7 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation
             Console.SetOut(output);
             var result = SimulationInputValidation.ValidateInput(input);
             Assert.IsTrue(result.IsValid); // only warning
-            Assert.That(output.ToString(), Is.EqualTo("Warning: R(fx) theory assumes a homogeneous or layered tissue geometry: user discretion advised\r\n"));
+            Assert.That(output.ToString().Trim(), Is.EqualTo("Warning: R(fx) theory assumes a homogeneous or layered tissue geometry: user discretion advised"));
         }
 
         /// <summary>
