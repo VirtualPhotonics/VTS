@@ -83,6 +83,21 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation
         }
 
         /// <summary>
+        /// Test to verify that input with Analog specified does not also
+        /// specify Russian Roulette
+        /// </summary>
+        [Test]
+        public void Validate_Analog_with_Russian_Roulette_is_invalid()
+        {
+            // generate input with Analog
+            var input = new SimulationInput();
+            input.Options.AbsorptionWeightingType = AbsorptionWeightingType.Analog;
+            input.Options.RussianRouletteWeightThreshold = 0.1;
+            var result = SimulationInputValidation.ValidateInput(input);
+            Assert.IsFalse(result.IsValid);
+        }
+
+        /// <summary>
         /// Test to verify input with cylindrical detector and off axis ellipsoid in tissue outputs warning
         /// but continues as valid input
         /// </summary>
@@ -179,6 +194,27 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation
             var result = SimulationInputValidation.ValidateInput(input);
             Assert.IsTrue(result.IsValid); // only warning
             Assert.That(output.ToString(), Is.EqualTo("Warning: Angled source and cylindrical coordinate detector defined: user discretion advised\r\n"));
+        }
+
+        /// <summary>
+        /// Test to verify that input with transmittance detector with final tissue region=0
+        /// is invalid
+        /// </summary>
+        [Test]
+        public void Validate_transmittance_detector_with_final_tissue_region_equal_0_is_invalid()
+        {
+            // generate input with transmittance
+            var input = new SimulationInput
+            {
+                DetectorInputs = new List<IDetectorInput> {
+                    new TOfRhoDetectorInput()
+                    {
+                        FinalTissueRegionIndex = 0
+                    }
+                }
+            };
+            var result = SimulationInputValidation.ValidateInput(input);
+            Assert.IsFalse(result.IsValid);
         }
 
         /// <summary>
