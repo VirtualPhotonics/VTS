@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using NUnit.Framework;
 using Vts.Common;
-using Vts.Modeling.ForwardSolvers;
 using Vts.MonteCarlo;
 using Vts.MonteCarlo.Detectors;
 using Vts.MonteCarlo.Sources;
@@ -261,6 +260,144 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation
                 })
             };
             var result = SimulationInputValidation.ValidateInput(input);
+            Assert.IsFalse(result.IsValid);
+        }
+
+        /// <summary>
+        /// Test to verify blood volume detectors
+        /// </summary>
+        [Test]
+        public void Validate_blood_volume_detectors()
+        {
+            // generate multilayer tissue
+            var input = new SimulationInput
+            {
+                TissueInput = new MultiLayerTissueInput(
+                    new ITissueRegion[]
+                    {
+                        new LayerTissueRegion(
+                            new DoubleRange(double.NegativeInfinity, 0.0),
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
+                        new LayerTissueRegion(
+                            new DoubleRange(0.0, 1.0),
+                            new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
+                        new LayerTissueRegion(
+                            new DoubleRange(1.0, 10.0),
+                            new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
+                        new LayerTissueRegion(
+                            new DoubleRange(10.0, double.PositiveInfinity),
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
+                    }
+                ),
+                DetectorInputs = new List<IDetectorInput>
+                { 
+                    new ReflectedDynamicMTOfRhoAndSubregionHistDetectorInput
+                    {
+                        Rho=new DoubleRange(0.0, 10.0, 21), // rho bins MAKE SURE AGREES with ROfRho rho specification for unit test below
+                        Z = new DoubleRange(0.0, 10.0, 21),
+                        MTBins=new DoubleRange(0.0, 500.0, 51), // MT bins
+                        FractionalMTBins = new DoubleRange(0.0, 1.0, 11),
+                        BloodVolumeFraction = new List<double> { 0, 0.5, 0.5, 0},
+                        TallySecondMoment = true
+                    },
+                    new TransmittedDynamicMTOfRhoAndSubregionHistDetectorInput
+                    {
+                        Rho=new DoubleRange(0.0, 10.0, 21), // rho bins MAKE SURE AGREES with TOfRho rho specification for unit test below
+                        Z = new DoubleRange(0.0, 10.0, 21),
+                        MTBins=new DoubleRange(0.0, 500.0, 51), // MT bins
+                        FractionalMTBins = new DoubleRange(0.0, 1.0, 11),
+                        BloodVolumeFraction = new List<double> { 0, 0.5, 0.5, 0 },
+                        TallySecondMoment = true
+                    },
+                    new ReflectedDynamicMTOfXAndYAndSubregionHistDetectorInput
+                    {
+                        X = new DoubleRange(-10.0, 10.0, 21),
+                        Y = new DoubleRange(-10.0, 10.0, 21),
+                        Z = new DoubleRange(0.0, 10.0, 21),
+                        MTBins=new DoubleRange(0.0, 500.0, 51), // MT bins
+                        FractionalMTBins = new DoubleRange(0.0, 1.0, 11),
+                        BloodVolumeFraction = new List<double> { 0, 0.5, 0.5, 0},
+                        TallySecondMoment = true
+                    },
+                    new TransmittedDynamicMTOfXAndYAndSubregionHistDetectorInput
+                    {
+                        X = new DoubleRange(-10.0, 10.0, 21),
+                        Y = new DoubleRange(-10.0, 10.0, 21),
+                        Z = new DoubleRange(0.0, 10.0, 21),
+                        MTBins=new DoubleRange(0.0, 500.0, 51), // MT bins
+                        FractionalMTBins = new DoubleRange(0.0, 1.0, 11),
+                        BloodVolumeFraction = new List<double> { 0, 0.5, 0.5, 0},
+                        TallySecondMoment = true
+                    }
+                }
+            };
+            // verify when blood volume fraction size is same as tissue
+            var result = SimulationInputValidation.ValidateInput(input);
+            Assert.IsTrue(result.IsValid);
+            // create case when validation fails
+            input = new SimulationInput
+            {
+                TissueInput = new MultiLayerTissueInput(
+                    new ITissueRegion[]
+                    {
+                        new LayerTissueRegion(
+                            new DoubleRange(double.NegativeInfinity, 0.0),
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
+                        new LayerTissueRegion(
+                            new DoubleRange(0.0, 1.0),
+                            new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
+                        new LayerTissueRegion(
+                            new DoubleRange(1.0, 10.0),
+                            new OpticalProperties(0.01, 1.0, 0.8, 1.4)),
+                        new LayerTissueRegion(
+                            new DoubleRange(10.0, double.PositiveInfinity),
+                            new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
+                    }
+                ),
+                DetectorInputs = new List<IDetectorInput>
+                {
+                    new ReflectedDynamicMTOfRhoAndSubregionHistDetectorInput
+                    {
+                        Rho=new DoubleRange(0.0, 10.0, 21), // rho bins MAKE SURE AGREES with ROfRho rho specification for unit test below
+                        Z = new DoubleRange(0.0, 10.0, 21),
+                        MTBins=new DoubleRange(0.0, 500.0, 51), // MT bins
+                        FractionalMTBins = new DoubleRange(0.0, 1.0, 11),
+                        BloodVolumeFraction = new List<double> { 0, 0.5, 0}, // FAILURE
+                        TallySecondMoment = true
+                    },
+                    new TransmittedDynamicMTOfRhoAndSubregionHistDetectorInput
+                    {
+                        Rho=new DoubleRange(0.0, 10.0, 21), // rho bins MAKE SURE AGREES with TOfRho rho specification for unit test below
+                        Z = new DoubleRange(0.0, 10.0, 21),
+                        MTBins=new DoubleRange(0.0, 500.0, 51), // MT bins
+                        FractionalMTBins = new DoubleRange(0.0, 1.0, 11),
+                        BloodVolumeFraction = new List<double> { 0, 0.5, 0.5, 0 },
+                        TallySecondMoment = true
+                    },
+                    new ReflectedDynamicMTOfXAndYAndSubregionHistDetectorInput
+                    {
+                        X = new DoubleRange(-10.0, 10.0, 21),
+                        Y = new DoubleRange(-10.0, 10.0, 21),
+                        Z = new DoubleRange(0.0, 10.0, 21),
+                        MTBins=new DoubleRange(0.0, 500.0, 51), // MT bins
+                        FractionalMTBins = new DoubleRange(0.0, 1.0, 11),
+                        BloodVolumeFraction = new List<double> { 0, 0.5, 0.5, 0},
+                        TallySecondMoment = true
+                    },
+                    new TransmittedDynamicMTOfXAndYAndSubregionHistDetectorInput
+                    {
+                        X = new DoubleRange(-10.0, 10.0, 21),
+                        Y = new DoubleRange(-10.0, 10.0, 21),
+                        Z = new DoubleRange(0.0, 10.0, 21),
+                        MTBins=new DoubleRange(0.0, 500.0, 51), // MT bins
+                        FractionalMTBins = new DoubleRange(0.0, 1.0, 11),
+                        BloodVolumeFraction = new List<double> { 0, 0.5, 0.5, 0},
+                        TallySecondMoment = true
+                    }
+                }
+            };
+            // verify when blood volume fraction size is same as tissue
+            result = SimulationInputValidation.ValidateInput(input);
             Assert.IsFalse(result.IsValid);
         }
     }
