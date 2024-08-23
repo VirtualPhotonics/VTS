@@ -119,10 +119,10 @@ namespace Vts
         /// <returns>A string that represents the current range</returns>
         public override string ToString()
         {
-            return "Start: " + Start.ToString() + 
-                 ", Stop: " + Stop.ToString() + 
-                 ", Count: " + Count.ToString() + 
-                 ", Delta: " + Delta.ToString();
+            return "Start: " + Start + 
+                 ", Stop: " + Stop + 
+                 ", Count: " + Count + 
+                 ", Delta: " + Delta;
         }
 
         /// <summary>
@@ -141,8 +141,7 @@ namespace Vts
         /// Returns an IEnumerable of type T that enumerates the range
         /// </summary>
         /// <returns>An IEnumerable of type T that enumerates the range</returns>
-        [Obsolete("This method is deprecated. Use built-in IEnumerable implementation instead.")]
-        public IEnumerable<T> AsEnumerable()
+        private IEnumerable<T> AsEnumerable()
         {
             var increment = GetIncrement();
 
