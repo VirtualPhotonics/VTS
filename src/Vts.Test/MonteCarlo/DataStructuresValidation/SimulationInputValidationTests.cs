@@ -14,6 +14,22 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation
     public class SimulationInputValidationTests
     {
         /// <summary>
+        /// Test to verify input with source initial tissue region index outside number
+        /// of tissue regions is invalid
+        /// </summary>
+        [Test]
+        public void Validate_source_with_initial_tissue_region_index_outside_tissue_range_invalid()
+        {
+            // generate input without source initial tissue region in error
+            var input = new SimulationInput()  // default constructor has empty list of databases
+            {
+                SourceInput = new CustomPointSourceInput { InitialTissueRegionIndex = 100 }
+            };
+            var result = SimulationInputValidation.ValidateInput(input);
+            Assert.IsFalse(result.IsValid);
+        }
+
+        /// <summary>
         /// Test to verify input with no detectors nor database specified is invalid
         /// </summary>
         [Test]
@@ -175,6 +191,23 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation
         }
 
         /// <summary>
+        /// Test to verify input with bounded tissue without ATotalBoundingVolume detector
+        /// is invalid
+        /// </summary>
+        [Test]
+        public void Validate_bounded_tissue_without_ATotalBoundingVolume_detector_invalid()
+        {
+            // generate input with bounding cylinder tissue without needed detector
+            var input = new SimulationInput
+            {
+                TissueInput = new BoundingCylinderTissueInput(),
+                DetectorInputs = new List<IDetectorInput> { new ROfRhoDetectorInput() }
+            };
+            var result = SimulationInputValidation.ValidateInput(input);
+            Assert.IsFalse(result.IsValid); 
+        }
+
+        /// <summary>
         /// Test to verify input with angled source and cylindrical detectors outputs warning
         /// but continues as valid input
         /// </summary>
@@ -207,7 +240,7 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation
             var input = new SimulationInput
             {
                 DetectorInputs = new List<IDetectorInput> {
-                    new TOfRhoDetectorInput()
+                    new TOfRhoDetectorInput
                     {
                         FinalTissueRegionIndex = 0
                     }
@@ -269,7 +302,6 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation
             var result = SimulationInputValidation.ValidateInput(input);
             Assert.IsTrue(result.IsValid); // only warning
             Assert.That(output.ToString(), Is.EqualTo("Warning: R(fx) theory assumes a homogeneous or layered tissue geometry: user discretion advised\r\n"));
-
         }
 
         /// <summary>

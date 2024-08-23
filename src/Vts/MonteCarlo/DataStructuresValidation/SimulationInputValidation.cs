@@ -2,7 +2,6 @@ using System;
 using System.Linq;
 using Vts.Common;
 using Vts.MonteCarlo.DataStructuresValidation;
-using Vts.MonteCarlo.Detectors;
 using Vts.MonteCarlo.Sources;
 using Vts.MonteCarlo.Tissues;
 
