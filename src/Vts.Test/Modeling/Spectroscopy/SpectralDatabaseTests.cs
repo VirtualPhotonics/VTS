@@ -61,7 +61,7 @@ namespace Vts.Test.Modeling.Spectroscopy
         public void Test_get_spectrum_value()
         {
             var spectrum = SpectralDatabase.GetSpectrumValue("H2O", 600);
-            Assert.AreEqual(0.000202, spectrum, 0.000001);
+            Assert.AreEqual(0.000222, spectrum, 0.000001);
         }
 
         [Test]

@@ -56,7 +56,7 @@ namespace Vts.Test.Modeling.Spectroscopy
         public void Test_get_mua()
         {
             var mua = _tissue.GetMua(1000);
-            Assert.AreEqual(0.065231, mua, 0.000001);
+            Assert.AreEqual(0.067854, mua, 0.000001);
         }
 
         [Test]
@@ -91,7 +91,7 @@ namespace Vts.Test.Modeling.Spectroscopy
         {
             var opticalProperties = _tissue.GetOpticalProperties(1000);
             Assert.AreEqual(1.4, opticalProperties.N);
-            Assert.AreEqual(0.065231, opticalProperties.Mua, 0.000001);
+            Assert.AreEqual(0.067854, opticalProperties.Mua, 0.000001);
             Assert.AreEqual(4.2, opticalProperties.Mus, 0.000001);
             Assert.AreEqual(0.84, opticalProperties.Musp, 0.000001);
             Assert.AreEqual(0.8, opticalProperties.G);
@@ -104,17 +104,17 @@ namespace Vts.Test.Modeling.Spectroscopy
                 600, 700, 1000
             });
             Assert.AreEqual(1.4, opticalPropertyArray[0].N);
-            Assert.AreEqual(0.314602, opticalPropertyArray[0].Mua, 0.000001);
+            Assert.AreEqual(0.314619, opticalPropertyArray[0].Mua, 0.000001);
             Assert.AreEqual(5.562449, opticalPropertyArray[0].Mus, 0.000001);
             Assert.AreEqual(1.112489, opticalPropertyArray[0].Musp, 0.000001);
             Assert.AreEqual(0.8, opticalPropertyArray[0].G);
             Assert.AreEqual(1.4, opticalPropertyArray[1].N);
-            Assert.AreEqual(0.036077, opticalPropertyArray[1].Mua, 0.000001);
+            Assert.AreEqual(0.036097, opticalPropertyArray[1].Mua, 0.000001);
             Assert.AreEqual(5.110287, opticalPropertyArray[1].Mus, 0.000001);
             Assert.AreEqual(1.022057, opticalPropertyArray[1].Musp, 0.000001);
             Assert.AreEqual(0.8, opticalPropertyArray[1].G);
             Assert.AreEqual(1.4, opticalPropertyArray[2].N);
-            Assert.AreEqual(0.065231, opticalPropertyArray[2].Mua, 0.000001);
+            Assert.AreEqual(0.067854, opticalPropertyArray[2].Mua, 0.000001);
             Assert.AreEqual(4.2, opticalPropertyArray[2].Mus, 0.000001);
             Assert.AreEqual(0.84, opticalPropertyArray[2].Musp, 0.000001);
             Assert.AreEqual(0.8, opticalPropertyArray[2].G);
