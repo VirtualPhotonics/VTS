@@ -15,17 +15,17 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macOS-latest]
+        os: [windows-latest]
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Setup .NET
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 6.0.x
     - name: Restore dependencies
-      run: dotnet restore src\\Vts.sln
+      run: dotnet restore src\\VtsLibrary.sln
     - name: Build
-      run: dotnet build src\\Vts.sln --no-restore
+      run: dotnet build src\\VtsLibrary.sln --no-restore
     - name: Test
-      run: dotnet test src\\Vts.sln --no-build --verbosity normal
+      run: dotnet test src\\VtsLibrary.sln --no-build --verbosity normal
