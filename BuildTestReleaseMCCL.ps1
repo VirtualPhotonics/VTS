@@ -54,7 +54,7 @@ if (-not (Test-Path -LiteralPath $releasedir)) {
 # Create win-x64 zip
 $archive = $releasedir + "\MC_v" + $version + "_Win_x64.zip"
 $source = "publish\win-x64\*"
-Compress-Archive -Path $source -DestinationPath $archive 
+Compress-Archive -Force -Path $source -DestinationPath $archive 
 $matlabdir = "$PWD\matlab"
 $matlabfiles = "$matlabdir\post_processing\*"
 Compress-Archive -Path $matlabfiles -Update -DestinationPath $archive
@@ -66,7 +66,7 @@ Compress-Archive -Path $mcinversefiles -Update -DestinationPath $archive
 # Create linux-x64 zip
 $archive = $releasedir + "\MC_v" + $version + "_Linux_x64.zip"
 $source = "publish\linux-x64\*"
-Compress-Archive -Path $source -DestinationPath $archive 
+Compress-Archive -Force -Path $source -DestinationPath $archive 
 $matlabfiles = "$matlabdir\post_processing\*"
 Compress-Archive -Path $matlabfiles -Update -DestinationPath $archive
 $mcinversegeneralfiles = "$matlabdir\monte_carlo_inverse\general\*"
@@ -77,7 +77,7 @@ Compress-Archive -Path $mcinversefiles -Update -DestinationPath $archive
 # Create osx-x64 zip
 $archive = $releasedir + "\MC_v" + $version + "_Mac_x64.zip"
 $source = "publish\osx-x64\*"
-Compress-Archive -Path $source -DestinationPath $archive 
+Compress-Archive -Force -Path $source -DestinationPath $archive 
 $matlabfiles = "$matlabdir\post_processing\*"
 Compress-Archive -Path $matlabfiles -Update -DestinationPath $archive
 $mcinversegeneralfiles = "$matlabdir\monte_carlo_inverse\general\*"
