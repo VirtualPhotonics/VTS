@@ -6,12 +6,12 @@
 % 2) Example 2: inverse solution for chromophore concentrations 
 %   for multiple wavelengths, single rho: use N=10000 in
 %   infile_pMC_db_gen_template.txt.  Example specifies
-%   wv=500:100:1000nm and rho=1mm,
+%   wvs=500:100:1000nm and rho=1mm,
 %   these selections different than those used in vts_solver_demo.m
 % 3) Example 3: inverse solution for chromophore concentrations
 %   for multiple wavelengths, two rho: use N=10000 in
 %   infile_pMC_db_gen_template.txt.  Example specifies
-%   wv=600:100:900nm and rho=0.1429mm and 1mm.
+%   wvs=600:100:900nm and rho=0.1429mm and 1mm.
 % 
 % Note! This script does not require *MATLAB interop* code to run
 %%
@@ -29,7 +29,7 @@ clc
 % 4) normalization of chi2
 % 5) optimset options selected
 %% read in baseline OPs from database gen infile
-x0 = [0.01, 5.0]; % baseline values for database and initial guess [mua, mus], i.e musp=1.0
+x0 = [0.01, 5.0]; % baseline values for database and initial guess [mua, mus], i.e. musp=1.0
 g = 0.8;
 % input rho: in inversion don't use last point since includes tallies from
 % beyond
@@ -66,7 +66,7 @@ measData = [0.0331 0.0099 0.0042 0.0020 0.0010];
 % run lsqcurvefit if have Optimization Toolbox because it makes use of
 % dMC differential Monte Carlo predictions
 % if don't have Optimization Toolbox, run non-gradient, non-constrained
-% fminsearch
+% fminsearch (use more photons for improved results)
 if(exist('lsqcurvefit','file'))
     options = optimset('Jacobian','on','diagnostics','on','largescale','on');
     [recoveredOPs,resnorm] = lsqcurvefit('pmc_F_dmc_J_ex1_Win',x0,rhoMidpoints,measData,lb,ub,...
@@ -81,11 +81,14 @@ f = figure; semilogy(rhoMidpoints(1:end-1),measData,'rx',...
     rhoMidpoints(1:end-1),R_ig,'g-',...
     rhoMidpoints(1:end-1),R_conv,'b:','LineWidth',2);
 xlabel('\rho [mm]');
-ylabel('log10(R(\rho))');
+ylabel('log10[R(\rho)]');
 legend('Meas','IG','Converged','Location','Best');
-title('Inverse solution using pMC/dMC'); 
-set(f, 'Name', 'Inverse solution using pMC/dMC');
-disp(sprintf('IG   =    [%f %5.3f]',measParms(1),measParms(2)));
+legend boxoff;
+grid on;
+set(gca,'TickDir','out','FontSize',12);
+title('Ex 1: Inverse solution using pMC/dMC'); 
+set(f, 'Name', 'Ex 1: Inverse solution using pMC/dMC');
+disp(sprintf('Meas =    [%f %5.3f]',measParms(1),measParms(2)));
 disp(sprintf('IG   =    [%f %5.3f] Chi2=%5.3e',x0(1),x0(2),...
     (measData-R_ig)*(measData-R_ig)'));
 disp(sprintf('Conv =    [%f %5.3f] Chi2=%5.3e',recoveredOPs(1),recoveredOPs(2),...
@@ -101,8 +104,9 @@ disp(sprintf('error=    [%f %5.3f]',abs(measParms(1)-recoveredOPs(1))/measParms(
 % Use generated database to solve inverse problem with measured data
 % generated using Nurbs and selected concentrations
 
-% following rho specifications just needed to fill out infile template
-rhostart=0;
+% define 8 rho, however only 4th bin is used in inverse problem
+% following rho specifications needed to fill out infile template
+rhostart=0; 
 rhostop=2;
 rhocount=8;  
 rho=linspace(rhostart,rhostop,rhocount);
@@ -182,8 +186,11 @@ f = figure; plot(wvs,measData,'rx',...
 xlabel('\lambda [nm]');
 ylabel('R(\lambda)');
 legend('Meas','IG','Converged','Location','Best');
-title('Inverse solution using pMC/dMC'); 
-set(f, 'Name', 'Inverse solution using pMC/dMC');
+legend boxoff;
+grid on;
+set(gca,'TickDir','out','FontSize',12);
+title('Ex 2: Inverse solution using pMC/dMC'); 
+set(f, 'Name', 'Ex 2: Inverse solution using pMC/dMC');
 disp(sprintf('Meas =    [%5.3f %5.3f %5.3f]',measParms(1),measParms(2),measParms(3)));
 disp(sprintf('IG   =    [%5.3f %5.3f %5.3f] Chi2=%5.3e',igConc(1),igConc(2),...
     igConc(3),(measData-R_ig)*(measData-R_ig)'));
@@ -192,8 +199,10 @@ disp(sprintf('Conv =    [%5.3f %5.3f %5.3f] Chi2=%5.3e',recoveredOPs(1),recovere
 disp(sprintf('error=    [%5.3f %5.3f %5.3f]',abs(measParms(1)-recoveredOPs(1))/measParms(1),...
     abs(measParms(2)-recoveredOPs(2))/measParms(2),abs(measParms(3)-recoveredOPs(3))/measParms(3)));
 %% ======================================================================= %
-% Example 3: Inverse solution for R(rho,wavelength) chromophore concentrations
-%   and scatterer coefficients
+% Example 3: Inverse solution for R(rho,wavelength) chromophore
+%  concentrations (Hb, HbO2) and scatterer coefficients (a,b) for
+%  4 wavelengths and 2 rho
+% define 8 rho, however only 1st and 4th bins used in inverse problem
 rhostart=0;
 rhostop=2;
 rhocount=8;  
@@ -274,8 +283,11 @@ xlabel('\lambda [nm]');
 ylabel('R(\lambda)');
 legend('Meas rho=0.1429','Meas rho=1.0','IG rho=0.01429','IG rho=1.0',...
     'Converged rho=0.01429','Converged rho=1.0','Location','Best');
-title('Inverse solution using pMC/dMC'); 
-set(f, 'Name', 'Inverse solution using pMC/dMC');
+legend boxoff;
+grid on;
+set(gca,'TickDir','out','FontSize',12);
+title('Ex 3: Inverse solution using pMC/dMC'); 
+set(f, 'Name', 'Ex 3: Inverse solution using pMC/dMC');
 disp(sprintf('Meas =    [%5.3f %5.3f %5.3f %5.3f]',measParms(1),measParms(2),...
     measParms(3),measParms(4)));
 disp(sprintf('IG   =    [%5.3f %5.3f %5.3f %5.3f] Chi2=%5.3e',igParms(1),igParms(2),...
