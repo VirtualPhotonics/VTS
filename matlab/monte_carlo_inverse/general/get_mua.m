@@ -2,27 +2,28 @@
 function [mua,dmua]=get_mua(absorbers,wavelengths)
 persistent data;
 if isempty(data)
-  data=xlsread('SpectralDictionary.xlsx'); % file has 1 tab only
+  data=readtable('SpectralDictionary.xlsx','ReadVariableNames',false,'HeaderLines',1); % file has 1 tab only
 end
-last_line=1202;
+% the following assumes all columns in table have same length
 % read Fat data
-wv_fat=data(2:last_line,1);
-spec_fat=data(2:last_line,2);
+wv_fat=data(:,1);
+spec_fat=data(:,2);
 % read H2O data
-wv_h2o=data(2:last_line,3);
-spec_h2o=data(2:last_line,4);
+wv_h2o=data(:,3);
+spec_h2o=data(:,4);
 % read Hb data
-wv_hb=data(2:last_line,5);
-spec_hb=data(2:last_line,6);
+wv_hb=data(:,5);
+spec_hb=data(:,6);
 % read HbO2 data
-wv_hbo2=data(2:last_line,7);
-spec_hbo2=data(2:last_line,8);
+wv_hbo2=data(:,7);
+spec_hbo2=data(:,8);
 % read melanin data
-wv_melanin=data(2:last_line,9);
-spec_melanin=data(2:last_line,10);
+wv_melanin=data(:,9);
+spec_melanin=data(:,10);
 
 mua=zeros(1,length(wavelengths));
 dmua=zeros(length(wavelengths),length(absorbers.Names));
+values=zeros(1,length(wavelengths));
 for i=1:length(absorbers.Names)
   % determine if spectra is in molar absorption coefficients or fractional abs coefficient
   if (strcmp(absorbers.Names(i),'Fat')) % fractional
