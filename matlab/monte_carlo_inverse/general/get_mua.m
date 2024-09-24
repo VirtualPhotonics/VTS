@@ -2,7 +2,7 @@
 function [mua,dmua]=get_mua(absorbers,wavelengths)
 persistent data;
 if isempty(data)
-  data=readtable('SpectralDictionary.xlsx','ReadVariableNames',false,'HeaderLines',1); % file has 1 tab only
+  data=readmatrix('SpectralDictionary.xlsx','Range','A2:J1202'); % file has 1 tab only
 end
 % the following assumes all columns in table have same length
 % read Fat data
