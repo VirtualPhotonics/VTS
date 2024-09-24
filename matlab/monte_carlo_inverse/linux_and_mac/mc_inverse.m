@@ -55,7 +55,7 @@ R_ig=R(1:end-1)';
 lb=[]; ub=[];
 
 % input measData
-measParms = [ 0.04 0.95 ];  % mua, musp
+measParms = [ 0.04 4.75 ];  % mua, mus, i.e. musp=0.95
 measData = [0.0331 0.0099 0.0042 0.0020 0.0010];
 
 % option: divide measured data and forward model by measured data
