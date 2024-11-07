@@ -404,21 +404,21 @@ namespace Vts.Test.Modeling.ForwardSolvers
             //           ... repeat above with ops1...
 
             // [0] -> ops0=650, rho0=0.5, ts0=0.05
-            Assert.IsTrue(Math.Abs(rVsWavelength[0] - 0.044606) < 0.000001); // API match
+            Assert.IsTrue(Math.Abs(rVsWavelength[0] - 0.044627) < 0.000001); // API match
             // [1] -> ops0=650, rho0=0.5, ts1=0.10
-            Assert.IsTrue(Math.Abs(rVsWavelength[1] - 0.005555) < 0.000001);
+            Assert.IsTrue(Math.Abs(rVsWavelength[1] - 0.005561) < 0.000001);
             // [2] -> ops0=650, rho1=1.635, ts0=0.05
-            Assert.IsTrue(Math.Abs(rVsWavelength[2] - 0.036900) < 0.000001); // API match
+            Assert.IsTrue(Math.Abs(rVsWavelength[2] - 0.036918) < 0.000001); // API match
             // [3] -> ops0=650, rho1=1.635, ts1=0.10
-            Assert.IsTrue(Math.Abs(rVsWavelength[3] - 0.005053) < 0.000001);
+            Assert.IsTrue(Math.Abs(rVsWavelength[3] - 0.005058) < 0.000001);
             // [4] -> ops1=700, rho0=0.5, ts0=0.05
-            Assert.IsTrue(Math.Abs(rVsWavelength[4] - 0.057894) < 0.000001); // API match
+            Assert.IsTrue(Math.Abs(rVsWavelength[4] - 0.057913) < 0.000001); // API match
             // [5] -> ops1=700, rho0=0.5, ts1=0.10
-            Assert.IsTrue(Math.Abs(rVsWavelength[5] - 0.010309) < 0.000001);
+            Assert.IsTrue(Math.Abs(rVsWavelength[5] - 0.010316) < 0.000001);
             // [6] -> ops1=700, rho1=1.635, ts0=0.05
-            Assert.IsTrue(Math.Abs(rVsWavelength[6] - 0.048493) < 0.000001); // API match
+            Assert.IsTrue(Math.Abs(rVsWavelength[6] - 0.048509) < 0.000001); // API match
             // [7] -> ops1=700, rho1=1.635, ts1=0.10
-            Assert.IsTrue(Math.Abs(rVsWavelength[7] - 0.009434) < 0.000001); 
+            Assert.IsTrue(Math.Abs(rVsWavelength[7] - 0.009441) < 0.000001); 
         }
 
         [Test]
@@ -454,28 +454,28 @@ namespace Vts.Test.Modeling.ForwardSolvers
             //           ... repeat above with ops1...
 
             // [0] -> ops0=650, rho0=0.5, fts0=0.0
-            Assert.IsTrue(Math.Abs(rVsWavelength[0].Real - 0.037575) < 0.000001);
+            Assert.IsTrue(Math.Abs(rVsWavelength[0].Real - 0.037577) < 0.000001);
             Assert.IsTrue(Math.Abs(rVsWavelength[0].Imaginary - 0.0) < 0.000001);
             // [1] -> ops0=650, rho0=0.5, fts1=0.5
-            Assert.IsTrue(Math.Abs(rVsWavelength[1].Real - 0.037511) < 0.000001);
+            Assert.IsTrue(Math.Abs(rVsWavelength[1].Real - 0.037513) < 0.000001);
             Assert.IsTrue(Math.Abs(rVsWavelength[1].Imaginary + 0.001200) < 0.000001);
             // [2] -> ops0=650, rho1=1.635, fts0=0.0
-            Assert.IsTrue(Math.Abs(rVsWavelength[2].Real - 0.009306) < 0.000001);
+            Assert.IsTrue(Math.Abs(rVsWavelength[2].Real - 0.009308) < 0.000001);
             Assert.IsTrue(Math.Abs(rVsWavelength[2].Imaginary - 0.0) < 0.000001);
             // [3] -> ops0=650, rho1=1.635, fts1=0.5
-            Assert.IsTrue(Math.Abs(rVsWavelength[3].Real - 0.009255) < 0.000001);
+            Assert.IsTrue(Math.Abs(rVsWavelength[3].Real - 0.009257) < 0.000001);
             Assert.IsTrue(Math.Abs(rVsWavelength[3].Imaginary + 0.000674) < 0.000001);
             // [4] -> ops1=700, rho0=0.5, fts0=0.0
-            Assert.IsTrue(Math.Abs(rVsWavelength[4].Real - 0.036425) < 0.000001);
+            Assert.IsTrue(Math.Abs(rVsWavelength[4].Real - 0.036426) < 0.000001);
             Assert.IsTrue(Math.Abs(rVsWavelength[4].Imaginary - 0.0) < 0.000001);
             // [5] -> ops1=700, rho0=0.5, fts1=0.5
-            Assert.IsTrue(Math.Abs(rVsWavelength[5].Real - 0.036310) < 0.000001);
-            Assert.IsTrue(Math.Abs(rVsWavelength[5].Imaginary + 0.001446) < 0.000001);
+            Assert.IsTrue(Math.Abs(rVsWavelength[5].Real - 0.036311) < 0.000001);
+            Assert.IsTrue(Math.Abs(rVsWavelength[5].Imaginary + 0.001447) < 0.000001);
             // [6] -> ops1=700, rho1=1.635, fts0=0.0
-            Assert.IsTrue(Math.Abs(rVsWavelength[6].Real - 0.010657) < 0.000001);
+            Assert.IsTrue(Math.Abs(rVsWavelength[6].Real - 0.010659) < 0.000001);
             Assert.IsTrue(Math.Abs(rVsWavelength[6].Imaginary - 0.0) < 0.000001);
             // [7] -> ops1=700, rho1=1.635, fts1=0.5
-            Assert.IsTrue(Math.Abs(rVsWavelength[7].Real - 0.010558) < 0.000001);
+            Assert.IsTrue(Math.Abs(rVsWavelength[7].Real - 0.010560) < 0.000001);
             Assert.IsTrue(Math.Abs(rVsWavelength[7].Imaginary + 0.000929) < 0.000001);
         }
         [Test]
@@ -511,21 +511,21 @@ namespace Vts.Test.Modeling.ForwardSolvers
             //           ... repeat above with ops1...
 
             // [0] -> ops0=650, fx0=0.0, ts0=0.05
-            Assert.IsTrue(Math.Abs(rVsWavelength[0] - 1.558702) < 0.000001);
+            Assert.IsTrue(Math.Abs(rVsWavelength[0] - 1.559579) < 0.000001);
             // [1] -> ops0=650, fx0=0.0, ts1=0.10
-            Assert.IsTrue(Math.Abs(rVsWavelength[1] - 0.391871) < 0.000001);
+            Assert.IsTrue(Math.Abs(rVsWavelength[1] - 0.392302) < 0.000001);
             // [2] -> ops0=650, fx1=0.5, ts0=0.05
-            Assert.IsTrue(Math.Abs(rVsWavelength[2] - 5.023055e-12) < 0.000001e-12);
+            Assert.IsTrue(Math.Abs(rVsWavelength[2] - 5.024166e-12) < 0.000001e-12);
             // [3] -> ops0=650, fx1=0.5, ts1=0.10
-            Assert.IsTrue(Math.Abs(rVsWavelength[3] - 1.032586e-13) < 0.000001e-13);
+            Assert.IsTrue(Math.Abs(rVsWavelength[3] - 1.034161e-13) < 0.000001e-13);
             // [4] -> ops1=700, fx0=0.0, ts0=0.05
-            Assert.IsTrue(Math.Abs(rVsWavelength[4] - 2.218329) < 0.000001);
+            Assert.IsTrue(Math.Abs(rVsWavelength[4] - 2.219202) < 0.000001);
             // [5] -> ops1=700, fx1=0.5, ts1=0.10
-            Assert.IsTrue(Math.Abs(rVsWavelength[5] - 0.797200) < 0.000001);
+            Assert.IsTrue(Math.Abs(rVsWavelength[5] - 0.797814) < 0.000001);
             // [6] -> ops1=700, fx0=0.0, ts0=0.05
-            Assert.IsTrue(Math.Abs(rVsWavelength[6] - 1.347053e-12) < 0.000001e-12);
+            Assert.IsTrue(Math.Abs(rVsWavelength[6] - 1.344535e-12) < 0.000001e-12);
             // [7] -> ops1=700, fx1=0.5, ts1=0.10
-            Assert.IsTrue(Math.Abs(rVsWavelength[7] - 2.052883e-13) < 0.000001e-13);
+            Assert.IsTrue(Math.Abs(rVsWavelength[7] - 2.053738e-13) < 0.000001e-13);
         }
         [Test]
         public void validate_ROfFxAndFt_With_Wavelength()
@@ -560,28 +560,28 @@ namespace Vts.Test.Modeling.ForwardSolvers
             //           ... repeat above with ops1...
 
             // [0] -> ops0=650, fx0=0.0, fts0=0.0
-            Assert.IsTrue(Math.Abs(rVsWavelength[0].Real - 1.890007) < 0.000001); // API match
+            Assert.IsTrue(Math.Abs(rVsWavelength[0].Real - 1.890311) < 0.000001); // API match
             Assert.IsTrue(Math.Abs(rVsWavelength[0].Imaginary - 0.0) < 0.000001); // API match
             // [1] -> ops0=650, fx0=0.0, fts1=0.5
-            Assert.IsTrue(Math.Abs(rVsWavelength[1].Real - 1.888160) < 0.000001);
-            Assert.IsTrue(Math.Abs(rVsWavelength[1].Imaginary + 0.045122) < 0.000001);
+            Assert.IsTrue(Math.Abs(rVsWavelength[1].Real - 1.888462) < 0.000001);
+            Assert.IsTrue(Math.Abs(rVsWavelength[1].Imaginary + 0.045147) < 0.000001);
             // [2] -> ops0=650, fx1=0.5, fts0=0.0
-            Assert.IsTrue(Math.Abs(rVsWavelength[2].Real - 0.562537) < 0.000001); // API match
+            Assert.IsTrue(Math.Abs(rVsWavelength[2].Real - 0.562543) < 0.000001); // API match
             Assert.IsTrue(Math.Abs(rVsWavelength[2].Imaginary - 0.0) < 0.000001); // API match
             // [3] -> ops0=650, fx1=0.5, fts1=0.5
-            Assert.IsTrue(Math.Abs(rVsWavelength[3].Real - 0.562543) < 0.000001);
+            Assert.IsTrue(Math.Abs(rVsWavelength[3].Real - 0.562548) < 0.000001);
             Assert.IsTrue(Math.Abs(rVsWavelength[3].Imaginary + 0.000799) < 0.000001);
             // [4] -> ops1=700, fx0=0.0, fts0=0.0
-            Assert.IsTrue(Math.Abs(rVsWavelength[4].Real - 2.118427) < 0.000001); // API match
+            Assert.IsTrue(Math.Abs(rVsWavelength[4].Real - 2.118766) < 0.000001); // API match
             Assert.IsTrue(Math.Abs(rVsWavelength[4].Imaginary - 0.0) < 0.000001); // API match
             // [5] -> ops1=700, fx0=0.0, fts1=0.5
-            Assert.IsTrue(Math.Abs(rVsWavelength[5].Real - 2.113377) < 0.000001);
-            Assert.IsTrue(Math.Abs(rVsWavelength[5].Imaginary + 0.071758) < 0.000001);
+            Assert.IsTrue(Math.Abs(rVsWavelength[5].Real - 2.113708) < 0.000001);
+            Assert.IsTrue(Math.Abs(rVsWavelength[5].Imaginary + 0.071804) < 0.000001);
             // [6] -> ops1=700, fx1=0.5, fts0=0.0
-            Assert.IsTrue(Math.Abs(rVsWavelength[6].Real - 0.543539) < 0.000001); // API match
+            Assert.IsTrue(Math.Abs(rVsWavelength[6].Real - 0.543542) < 0.000001); // API match
             Assert.IsTrue(Math.Abs(rVsWavelength[6].Imaginary - 0.0) < 0.000001); // API match
             // [7] -> ops1=700, fx1=0.5, fts1=0.5
-            Assert.IsTrue(Math.Abs(rVsWavelength[7].Real - 0.543546) < 0.000001);
+            Assert.IsTrue(Math.Abs(rVsWavelength[7].Real - 0.543549) < 0.000001);
             Assert.IsTrue(Math.Abs(rVsWavelength[7].Imaginary + 0.000651) < 0.000001);
         }
         #endregion
