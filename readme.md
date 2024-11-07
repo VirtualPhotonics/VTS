@@ -12,8 +12,6 @@ To access getting started instructions in Linux, Mac or Windows, click
 * [Mac](https://github.com/VirtualPhotonics/VTS/wiki/Getting-Started-on-Mac)
 * [Windows](https://github.com/VirtualPhotonics/VTS/wiki/Getting-Started-in-Windows)
 
-For detailed instructions on how to launch the VTS GUI, click [here](https://github.com/VirtualPhotonics/VTS/wiki/Compile-and-run-the-VTS). 
-
 ## Acknowledgement
 Use the following citation or acknowledgement in publications or applications that make use of this open source software or underlying technology and research:
 
