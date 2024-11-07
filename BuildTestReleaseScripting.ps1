@@ -14,19 +14,9 @@ if (-not (Test-Path -LiteralPath $releasedir)) {
     New-Item -Path $PWD -Name $releasedir -ItemType "directory"
 }
 
-# Create win-x64 zip
-$archive="$PWD\release\VTS_Scripting_v" + $version + "_Win_x64.zip"
-$source="$vtslevel\publish\win-x64\*"
-Compress-Archive -Path $source -DestinationPath $archive -Force
-
-# Create linux-x64 zip
-$archive="$PWD\release\VTS_Scripting_v" + $version + "_Linux_x64.zip"
-$source="$vtslevel\publish\linux-x64\*"
-Compress-Archive -Path $source -DestinationPath $archive -Force
-
-# Create osx-x64 zip
-$archive="$PWD\release\VTS_Scripting_v" + $version + "_Mac_x64.zip"
-$source="$vtslevel\publish\osx-x64\*"
+# Create library zip
+$archive="$PWD\release\VTS_Scripting_v" + $version + ".zip"
+$source="$vtslevel\publish\local\*"
 Compress-Archive -Path $source -DestinationPath $archive -Force
 
 Read-Host -Prompt "Press Enter to exit Scripting release process"

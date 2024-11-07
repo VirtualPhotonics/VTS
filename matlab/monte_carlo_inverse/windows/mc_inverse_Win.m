@@ -2,14 +2,18 @@
 % This script includes three examples:
 % 1) Example 1: equivalent to Example 7 in vts_mc_demo.m: use N=1000 in 
 %   infile_pMC_db_gen_template.txt to reproduce results in vts_mc_demo.m
+%   for multiple rho
 % 2) Example 2: inverse solution for chromophore concentrations 
-%   for multiple wavelengths, single rho: use 
-%   wv=500:100:1000 and rho=1, N=10000 in infile_pMC_db_gen_template.txt
+%   for multiple wavelengths, single rho: use N=10000 in
+%   infile_pMC_db_gen_template.txt.  Example specifies
+%   wvs=500:100:1000nm and rho=1mm,
 %   these selections different than those used in vts_solver_demo.m
 % 3) Example 3: inverse solution for chromophore concentrations
-%   for multiple wavelengths, two rho: use
+%   for multiple wavelengths, two rho: use N=10000 in
+%   infile_pMC_db_gen_template.txt.  Example specifies
+%   wvs=600:100:900nm and rho=0.1429mm and 1mm.
 % 
-% but does not require *MATLAB interop* code to run
+% Note! This script does not require *MATLAB interop* code to run
 %%
 clear all
 clc
@@ -25,7 +29,7 @@ clc
 % 4) normalization of chi2
 % 5) optimset options selected
 %% read in baseline OPs from database gen infile
-x0 = [0.01, 5.0]; % baseline values for database and initial guess [mua, mus]
+x0 = [0.01, 5.0]; % baseline values for database and initial guess [mua, mus], i.e. musp=1.0
 g = 0.8;
 % input rho: in inversion don't use last point since includes tallies from
 % beyond
@@ -51,7 +55,7 @@ R_ig=R(1:end-1)';
 lb=[]; ub=[];
 
 % input measData
-measParms = [ 0.04 0.95 ];  % mua, musp
+measParms = [ 0.04 4.75 ];  % mua, mus, i.e. musp=0.95
 measData = [0.0331 0.0099 0.0042 0.0020 0.0010];
 
 % option: divide measured data and forward model by measured data
@@ -62,7 +66,7 @@ measData = [0.0331 0.0099 0.0042 0.0020 0.0010];
 % run lsqcurvefit if have Optimization Toolbox because it makes use of
 % dMC differential Monte Carlo predictions
 % if don't have Optimization Toolbox, run non-gradient, non-constrained
-% fminsearch
+% fminsearch (use more photons for improved results)
 if(exist('lsqcurvefit','file'))
     options = optimset('Jacobian','on','diagnostics','on','largescale','on');
     [recoveredOPs,resnorm] = lsqcurvefit('pmc_F_dmc_J_ex1_Win',x0,rhoMidpoints,measData,lb,ub,...
@@ -73,15 +77,18 @@ else
 end
 [R,pmcR,dmcRmua,dmcRmus]=load_for_inv_results('PP_rho');
 R_conv=pmcR(1:end-1)';
-f = figure; semilogy(rhoMidpoints(1:end-1),measData,'r.',...
+f = figure; semilogy(rhoMidpoints(1:end-1),measData,'rx',...
     rhoMidpoints(1:end-1),R_ig,'g-',...
     rhoMidpoints(1:end-1),R_conv,'b:','LineWidth',2);
 xlabel('\rho [mm]');
-ylabel('log10(R(\rho))');
+ylabel('log10[R(\rho)]');
 legend('Meas','IG','Converged','Location','Best');
-title('Inverse solution using pMC/dMC'); 
-set(f, 'Name', 'Inverse solution using pMC/dMC');
-disp(sprintf('IG   =    [%f %5.3f]',measParms(1),measParms(2)));
+legend boxoff;
+grid on;
+set(gca,'TickDir','out','FontSize',12);
+title('Ex 1: Inverse solution using pMC/dMC'); 
+set(f, 'Name', 'Ex 1: Inverse solution using pMC/dMC');
+disp(sprintf('Meas =    [%f %5.3f]',measParms(1),measParms(2)));
 disp(sprintf('IG   =    [%f %5.3f] Chi2=%5.3e',x0(1),x0(2),...
     (measData-R_ig)*(measData-R_ig)'));
 disp(sprintf('Conv =    [%f %5.3f] Chi2=%5.3e',recoveredOPs(1),recoveredOPs(2),...
@@ -96,13 +103,16 @@ disp(sprintf('error=    [%f %5.3f]',abs(measParms(1)-recoveredOPs(1))/measParms(
 % Run a Monte Carlo simulation with pMC post-processing enabled
 % Use generated database to solve inverse problem with measured data
 % generated using Nurbs and selected concentrations
-rhostart=0;
+
+% define 8 rho, however only 4th bin is used in inverse problem
+% following rho specifications needed to fill out infile template
+rhostart=0; 
 rhostop=2;
 rhocount=8;  
 rho=linspace(rhostart,rhostop,rhocount);
 rhoMidpoints=(rho(1:end-1) + rho(2:end))/2;
 gen_db=true;
-wv = 500:100:1000; % change from vts_solver_demo
+wvs = 500:100:1000; % change from vts_solver_demo
 
 % create a list of chromophore absorbers and their concentrations
 % these values are the initial guess 
@@ -116,18 +126,18 @@ scatterers.Coefficients = [1.2, 1.42];
 g=0.8;
 n=1.4;
 
-% ops has dimensions [numwv 4]
-[ops,dmua,dmusp]=get_optical_properties(absorbers,scatterers,wv); 
+% ops has dimensions [numwvs 4] 4=[mua,musp,g,n]
+[ops,dmua,dmusp]=get_optical_properties(absorbers,scatterers,wvs); 
 
-R_ig=zeros(1,length(wv));
+R_ig=zeros(1,length(wvs));
 infile_pMC='infile_pMC_db_gen.txt';
 if (gen_db)
-  for iwv=1:length(wv)
+  for iwv=1:length(wvs)
     [status]=system(sprintf('copy infile_pMC_db_gen_template.txt %s',infile_pMC));
     [status]=system(sprintf('powershell -inputformat none -file replace_string.ps1 %s %s %s',infile_pMC,'var1',sprintf('wv%d',iwv)));
     [status]=system(sprintf('powershell -inputformat none -file replace_string.ps1 %s %s %f',infile_pMC,'a1',ops(iwv,1)));
-    [status]=system(sprintf('powershell -inputformat none -file replace_string.ps1 %s %s %f',infile_pMC,'s1',ops(iwv,2)));
-    [status]=system(sprintf('powershell -inputformat none -file replace_string.ps1 %s %s %f',infile_pMC,'sp1',ops(iwv,2)*(1-g)));
+    [status]=system(sprintf('powershell -inputformat none -file replace_string.ps1 %s %s %f',infile_pMC,'s1',ops(iwv,2)/(1-g)));
+    [status]=system(sprintf('powershell -inputformat none -file replace_string.ps1 %s %s %f',infile_pMC,'sp1',ops(iwv,2)));
     [status]=system(sprintf('powershell -inputformat none -file replace_string.ps1 %s %s %f',infile_pMC,'rhostart',rhostart));
     [status]=system(sprintf('powershell -inputformat none -file replace_string.ps1 %s %s %f',infile_pMC,'rhostop',rhostop));
     [status]=system(sprintf('powershell -inputformat none -file replace_string.ps1 %s %s %d',infile_pMC,'rhocount',rhocount));
@@ -135,7 +145,7 @@ if (gen_db)
     system('mc infile=infile_pMC_db_gen.txt');
   end
 end
-for iwv=1:length(wv)
+for iwv=1:length(wvs)
   [R,pmcR,dmcRmua,dmcRmus]=load_for_inv_results(sprintf('pMC_db_wv%d',iwv));
   R_ig(iwv)=R(4);
 end
@@ -144,7 +154,7 @@ end
 lb=[]; ub=[];
 % input measData taken from vts_solver_demo using Nurbs rho=1mm and
 % concentrations 
-%measParms = [ 70, 30, 0.8 ];  % debug with same as measured
+%measParms = [ 70, 30, 0.8 ];  % debug with same as initial guess
 %measData = [0.0089 0.0221 0.0346 0.0301 0.0251 0.0198]; 
 measParms = [ 72, 35, 0.6 ];
 measData = [0.0082 0.0208 0.0342 0.0299 0.0250 0.0205];
@@ -153,28 +163,34 @@ measData = [0.0082 0.0208 0.0342 0.0299 0.0250 0.0205];
 % dMC differential Monte Carlo predictions
 % if don't have Optimization Toolbox, run non-gradient, non-constrained
 % fminsearch
+% additional parameters (rhoMidpoints,absorbers,scatterers,g,n) sent into
+% pmc_F_dmc_J_ex2_Win to provide post-processor infile needed variable
+% substitutions (e.g. rhoMidpoints not used by inversion)
 if(exist('lsqcurvefit','file'))
     options = optimoptions('lsqcurvefit','Algorithm','levenberg-marquardt',...
         'SpecifyObjectiveGradient',true,'Diagnostics','on');
-    [recoveredOPs,resnorm] = lsqcurvefit('pmc_F_dmc_J_ex2_Win',igConc,wv,measData',lb,ub,...
+    [recoveredOPs,resnorm] = lsqcurvefit('pmc_F_dmc_J_ex2_Win',igConc,wvs,measData',lb,ub,...
         options,rhoMidpoints,absorbers,scatterers,g,n);
 else 
     options = optimset('diagnostics','on','largescale','on');
     recoveredOPs = fminsearch('pmc_Chi2_ex2_Win',igConc,options,wvs,rhoMidpoints,absorbers,scatterers,g,n,measData);
 end
-R_conv=zeros(1,length(wv));
-for iwv=1:length(wv)
+R_conv=zeros(1,length(wvs));
+for iwv=1:length(wvs)
   [R,pmcR,dmcRmua,dmcRmus]=load_for_inv_results(sprintf('PP_wv%d',iwv));
   R_conv(iwv)=pmcR(4);
 end
-f = figure; plot(wv,measData,'r.',...
-    wv,R_ig,'g-',...
-    wv,R_conv,'b:','LineWidth',2);
+f = figure; plot(wvs,measData,'rx',...
+    wvs,R_ig,'g-',...
+    wvs,R_conv,'b:','LineWidth',2);
 xlabel('\lambda [nm]');
 ylabel('R(\lambda)');
 legend('Meas','IG','Converged','Location','Best');
-title('Inverse solution using pMC/dMC'); 
-set(f, 'Name', 'Inverse solution using pMC/dMC');
+legend boxoff;
+grid on;
+set(gca,'TickDir','out','FontSize',12);
+title('Ex 2: Inverse solution using pMC/dMC'); 
+set(f, 'Name', 'Ex 2: Inverse solution using pMC/dMC');
 disp(sprintf('Meas =    [%5.3f %5.3f %5.3f]',measParms(1),measParms(2),measParms(3)));
 disp(sprintf('IG   =    [%5.3f %5.3f %5.3f] Chi2=%5.3e',igConc(1),igConc(2),...
     igConc(3),(measData-R_ig)*(measData-R_ig)'));
@@ -183,8 +199,10 @@ disp(sprintf('Conv =    [%5.3f %5.3f %5.3f] Chi2=%5.3e',recoveredOPs(1),recovere
 disp(sprintf('error=    [%5.3f %5.3f %5.3f]',abs(measParms(1)-recoveredOPs(1))/measParms(1),...
     abs(measParms(2)-recoveredOPs(2))/measParms(2),abs(measParms(3)-recoveredOPs(3))/measParms(3)));
 %% ======================================================================= %
-% Example 3: Inverse solution for R(rho,wavelength) chromophore concentrations
-%   and scatterer coefficients
+% Example 3: Inverse solution for R(rho,wavelength) chromophore
+%  concentrations (Hb, HbO2) and scatterer coefficients (a,b) for
+%  4 wavelengths and 2 rho
+% define 8 rho, however only 1st and 4th bins used in inverse problem
 rhostart=0;
 rhostop=2;
 rhocount=8;  
@@ -207,22 +225,22 @@ g=0.8;
 n=1.4;
 igParms = [absorbers.Concentrations(1) absorbers.Concentrations(2) scatterers.Coefficients(1) scatterers.Coefficients(2)];
 
-% ops has dimensions [numwv 4]
-[ops,dmua,dmusp]=get_optical_properties(absorbers,scatterers,wv); 
+% ops has dimensions [numwv 4] 4=[mua,musp,g,n]
+[ops,dmua,dmusp]=get_optical_properties(absorbers,scatterers,wvs); 
 
 infile_pMC='infile_pMC_db_gen.txt';
 if (gen_db)
-  for iwv=1:length(wv)
+  for iwv=1:length(wvs)
     [status]=system(sprintf('copy infile_pMC_db_gen_template.txt %s',infile_pMC));
     [status]=system(sprintf('powershell -inputformat none -file replace_string.ps1 %s %s %s',infile_pMC,'var1',sprintf('wv%d',iwv)));
     [status]=system(sprintf('powershell -inputformat none -file replace_string.ps1 %s %s %f',infile_pMC,'a1',ops(iwv,1)));
-    [status]=system(sprintf('powershell -inputformat none -file replace_string.ps1 %s %s %f',infile_pMC,'s1',ops(iwv,2)));
-    [status]=system(sprintf('powershell -inputformat none -file replace_string.ps1 %s %s %f',infile_pMC,'sp1',ops(iwv,2)*(1-g)));
+    [status]=system(sprintf('powershell -inputformat none -file replace_string.ps1 %s %s %f',infile_pMC,'s1',ops(iwv,2)/(1-g)));
+    [status]=system(sprintf('powershell -inputformat none -file replace_string.ps1 %s %s %f',infile_pMC,'sp1',ops(iwv,2)));
     [status]=system(sprintf('powershell -inputformat none -file replace_string.ps1 %s %s %f',infile_pMC,'rhostart',rhostart));
     [status]=system(sprintf('powershell -inputformat none -file replace_string.ps1 %s %s %f',infile_pMC,'rhostop',rhostop));
     [status]=system(sprintf('powershell -inputformat none -file replace_string.ps1 %s %s %d',infile_pMC,'rhocount',rhocount));
     % generate databases for each wavelength
-    system('./mc infile=infile_pMC_db_gen.txt');
+    system('mc infile=infile_pMC_db_gen.txt');
   end
 end
 R_ig=zeros(1,length(wvs)*numrho);
@@ -235,7 +253,7 @@ end
 
 %% use unconstrained optimization lb=[-inf -inf]; ub=[inf inf];
 lb=[]; ub=[];
-% input measData taken from vts_solver_demo using Nurbs rhoMidpoint=0.1429,1.0mm and
+% input measData taken from vts_solver_demo using Nurbs rhoMidpoints=0.1429,1.0mm and
 % parameters { 28.4, 22.4, 1.2, 1.42 }
 measParms = [28.4, 22.4, 1.2, 1.42 ];
 measData = [0.2931 0.2548 0.2068 0.1711 0.0255 0.0355 0.0320 0.0277]; 
@@ -246,27 +264,30 @@ measData = [0.2931 0.2548 0.2068 0.1711 0.0255 0.0355 0.0320 0.0277];
 if(exist('lsqcurvefit','file'))
     options = optimoptions('lsqcurvefit','Algorithm','levenberg-marquardt',...
         'SpecifyObjectiveGradient',true,'Diagnostics','on');
-    [recoveredOPs,resnorm] = lsqcurvefit('pmc_F_dmc_J_ex3_Win',igParms,[wv wv],measData',lb,ub,...
+    [recoveredOPs,resnorm] = lsqcurvefit('pmc_F_dmc_J_ex3_Win',igParms,[wvs wvs],measData',lb,ub,...
         options,rhoMidpoints,absorbers,scatterers,g,n);
 else
     options = optimset('diagnostics','on','largescale','on');
     recoveredOPs = fminsearch('pmc_Chi2_ex3_Win',igParms,options,wvs,rhoMidpoints,absorbers,scatterers,g,n,measData);
 end
-R_conv=zeros(1,length(wv));
-for iwv=1:length(wv)
+R_conv=zeros(1,length(wvs));
+for iwv=1:length(wvs)
   [R,pmcR,dmcRmua,dmcRmus]=load_for_inv_results(sprintf('PP_wv%d',iwv));
   R_conv(iwv)=pmcR(1);
-  R_conv(iwv+length(wv))=pmcR(4);
+  R_conv(iwv+length(wvs))=pmcR(4);
 end
-f = figure; plot(wv,measData(1:length(wv)),'rx',wv,measData(length(wv)+1:end),'ro',...
-    wv,R_ig(1:length(wv)),'g-',wv,R_ig(length(wv)+1:end),'g--',...
-    wv,R_conv(1:length(wv)),'b-',wv,R_conv(length(wv)+1:end),'b--','LineWidth',2);
+f = figure; plot(wvs,measData(1:length(wvs)),'rx',wvs,measData(length(wvs)+1:end),'ro',...
+    wvs,R_ig(1:length(wvs)),'g-',wvs,R_ig(length(wvs)+1:end),'g--',...
+    wvs,R_conv(1:length(wvs)),'b-',wvs,R_conv(length(wvs)+1:end),'b--','LineWidth',2);
 xlabel('\lambda [nm]');
 ylabel('R(\lambda)');
 legend('Meas rho=0.1429','Meas rho=1.0','IG rho=0.01429','IG rho=1.0',...
     'Converged rho=0.01429','Converged rho=1.0','Location','Best');
-title('Inverse solution using pMC/dMC'); 
-set(f, 'Name', 'Inverse solution using pMC/dMC');
+legend boxoff;
+grid on;
+set(gca,'TickDir','out','FontSize',12);
+title('Ex 3: Inverse solution using pMC/dMC'); 
+set(f, 'Name', 'Ex 3: Inverse solution using pMC/dMC');
 disp(sprintf('Meas =    [%5.3f %5.3f %5.3f %5.3f]',measParms(1),measParms(2),...
     measParms(3),measParms(4)));
 disp(sprintf('IG   =    [%5.3f %5.3f %5.3f %5.3f] Chi2=%5.3e',igParms(1),igParms(2),...

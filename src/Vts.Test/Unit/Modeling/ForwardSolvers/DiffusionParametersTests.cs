@@ -53,7 +53,7 @@ namespace Vts.Test.Unit.Modeling.ForwardSolvers
                 ops,
                 ForwardModel.SDA);
             Assert.IsTrue(diffusionParameters != null);
-            Assert.That(output.ToString(), Is.EqualTo("Warning: Mua >= Musp\r\n"));
+            Assert.That(output.ToString().Trim(), Is.EqualTo("Warning: Mua >= Musp"));
         }
 
         /// <summary>

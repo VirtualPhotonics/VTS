@@ -270,7 +270,7 @@ namespace Vts.MonteCarlo.Rng
             /// </summary>
             public uint[] state; // if null then struct is mull
         } 
-        struct polynomial
+        struct Polynomial
         {
             public int[] x;
             public int deg;
@@ -279,7 +279,7 @@ namespace Vts.MonteCarlo.Rng
         {
             public int sizeOfA;      // paramter size
             public uint[][] modlist; // size[_nirredpoly][pre.sizeOfA]
-            public polynomial[] preModPolys; // size[pre.sizeOfA+1]
+            public Polynomial[] preModPolys; // size[pre.sizeOfA+1]
         }
        
         struct eqdeg_t
@@ -601,9 +601,9 @@ namespace Vts.MonteCarlo.Rng
         }
         private void init_prescreening_dc(ref prescr_t pre, int m, int n, int r, int w)
         {
-            polynomial pl;
+            Polynomial pl;
             pre.sizeOfA = w;
-            pre.preModPolys = new polynomial[pre.sizeOfA + 1]; 
+            pre.preModPolys = new Polynomial[pre.sizeOfA + 1]; 
             make_pre_mod_polys(ref pre, m, n, r, w);
             pre.modlist = new uint[_nirredpoly][];
             for (int i = 0; i < _nirredpoly; i++)
@@ -619,7 +619,7 @@ namespace Vts.MonteCarlo.Rng
             }
             //was in original code: for loop (i eq 0 until i lt pre.sizeOfA) then free poly -> don't need this
         }
-        private void next_irred_poly(ref polynomial pl, int nth)
+        private void next_irred_poly(ref Polynomial pl, int nth)
         {
             int i, max_deg;
             for (max_deg = 0, i = 0; i <= _max_irred_deg; i++)
@@ -632,9 +632,9 @@ namespace Vts.MonteCarlo.Rng
             }
             pl.deg = max_deg;
         }
-        private void make_modlist(ref prescr_t pre, polynomial pl, int nPoly)
+        private void make_modlist(ref prescr_t pre, Polynomial pl, int nPoly)
         {
-            polynomial tmpPl;
+            Polynomial tmpPl;
             int i;
             for (i = 0; i <= pre.sizeOfA; i++)
             {
@@ -648,7 +648,7 @@ namespace Vts.MonteCarlo.Rng
         /// </summary>
         /// <param name="wara">first polynomial</param>
         /// <param name="waru">second polynomial</param>
-        private void polynomial_mod(ref polynomial wara, polynomial waru) // waru is "const" in C code
+        private void polynomial_mod(ref Polynomial wara, Polynomial waru) // waru is "const" in C code
         {
             int deg_diff, i; 
             while (wara.deg >= waru.deg)
@@ -668,7 +668,7 @@ namespace Vts.MonteCarlo.Rng
                 wara.deg = i;
             }
         }
-        private uint word2bit(polynomial pl)
+        private uint word2bit(Polynomial pl)
         {
             uint bx = 0;
             for (int i = pl.deg; i > 0; i--)
@@ -719,7 +719,7 @@ namespace Vts.MonteCarlo.Rng
         /// <param name="ww"></param>
         private void make_pre_mod_polys(ref prescr_t pre, int mm, int nn, int rr, int ww)
         {
-            polynomial t, t0, s, s0;  // orig code had t1 and s1 in this list
+            Polynomial t, t0, s, s0;  // orig code had t1 and s1 in this list
             int i;
             int j = 0;
             t = new_poly(0);
@@ -758,18 +758,18 @@ namespace Vts.MonteCarlo.Rng
         /// </summary>
         /// <param name="pl">polynomial to be duplicated</param>
         /// <returns>polynomial class</returns>
-        private polynomial polynomial_dup(polynomial pl)
+        private Polynomial polynomial_dup(Polynomial pl)
         {
-            polynomial pt = new_poly(pl.deg);
+            Polynomial pt = new_poly(pl.deg);
             for (int i = pl.deg; i >= 0; i--)
             {
                 pt.x[i] = pl.x[i];
             }
             return pt;
         }
-        private polynomial polynomial_mult(polynomial p0, polynomial p1)
+        private Polynomial polynomial_mult(Polynomial p0, Polynomial p1)
         {
-            polynomial p;
+            Polynomial p;
             if ((p0.deg < 0) || (p1.deg < 0))
             {
                 p = new_poly(-1);
@@ -788,9 +788,9 @@ namespace Vts.MonteCarlo.Rng
             }
             return p;
         }
-        private polynomial make_tntm(int n, int m)
+        private Polynomial make_tntm(int n, int m)
         {
-            polynomial p = new_poly(n);
+            Polynomial p = new_poly(n);
             p.x[m] = 1;
             p.x[n] = p.x[m];
             return p;
@@ -802,9 +802,9 @@ namespace Vts.MonteCarlo.Rng
         /// </summary>
         /// <param name="degree">degree of polynomial created</param>
         /// <returns>polynomial class</returns>
-        private polynomial new_poly(int degree)
+        private Polynomial new_poly(int degree)
         {
-            polynomial p = new polynomial();
+            Polynomial p = new Polynomial();
             p.deg = degree;
             if (degree < 0)
             {

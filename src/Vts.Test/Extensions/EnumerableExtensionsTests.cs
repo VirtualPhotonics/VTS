@@ -96,7 +96,7 @@ namespace Vts.Test.Extensions
                 new KeyValuePair<string, string>("two", "second"),
                 new KeyValuePair<string, string>("three", "third")
             };
-            var dictionary = keyValuePairList.ToDictionary();
+            var dictionary = EnumerableExtensions.ToDictionary(keyValuePairList);
             Assert.IsInstanceOf<Dictionary<string, string>>(dictionary);
             Assert.AreEqual("first", dictionary["one"]);
             Assert.AreEqual("second", dictionary["two"]);
