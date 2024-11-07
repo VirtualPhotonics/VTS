@@ -12,8 +12,6 @@ To access getting started instructions in Linux, Mac or Windows, click
 * [Mac](https://github.com/VirtualPhotonics/VTS/wiki/Getting-Started-on-Mac)
 * [Windows](https://github.com/VirtualPhotonics/VTS/wiki/Getting-Started-in-Windows)
 
-For detailed instructions on how to launch the VTS GUI, click [here](https://github.com/VirtualPhotonics/VTS/wiki/Compile-and-run-the-VTS). 
-
 ## Acknowledgement
 Use the following citation or acknowledgement in publications or applications that make use of this open source software or underlying technology and research:
 
@@ -39,4 +37,4 @@ _THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPL
 ## Copyright
 Virtual Tissue Simulator (VTS) Project.
 
-Copyright ©2023 [Virtual Photonics Technology Initiative](https://virtualphotonics.org/).
+Copyright ©2024 [Virtual Photonics Technology Initiative](https://virtualphotonics.org/).
