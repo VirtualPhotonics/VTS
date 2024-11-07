@@ -16,7 +16,6 @@ There are 4 categories of documentation, the first is for users of the GUI and p
 ### Instructions for VTS Source Code Download and Use
 * Getting Started ([Linux](https://github.com/VirtualPhotonics/VTS/wiki/Getting-Started-on-Linux), [Mac](https://github.com/VirtualPhotonics/VTS/wiki/Getting-Started-on-Mac), [Windows](https://github.com/VirtualPhotonics/VTS/wiki/Getting-Started-in-Windows))()
 * [Coding Conventions](https://github.com/VirtualPhotonics/VTS/wiki/Coding-Conventions)
-* [Compiling and running the VTS](https://github.com/VirtualPhotonics/VTS/wiki/Compile-and-run-the-VTS)
 * [Build, Test and Run the VTS without Visual Studio](https://github.com/VirtualPhotonics/VTS/wiki/Without-Visual-Studio)
 * [Documenting Source Code](https://github.com/VirtualPhotonics/VTS/wiki/Visual-Studio-XML-Comment-Tags)
 * [Adding a New Forward Solver](https://github.com/VirtualPhotonics/VTS/wiki/Adding-a-New-Forward-Solver-to-the-VTS)
