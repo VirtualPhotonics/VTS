@@ -16,7 +16,7 @@ namespace Vts.Test.MonteCarlo.Detectors
     public class FiberInternalSurfaceDetectorsTests
     {
         private SimulationOptions _simulationOptions;
-        private ISourceInput _sourceOutsideSurface;
+        private ISourceInput _sourceAtopFirstLayer, _sourceAtopOuterCylinder;
         private ITissueInput _tissueWithLayers, _tissueWithAirLayer, _tissueWithCylinders;
         private IList<IDetectorInput> _detectorAtopSecondLayerOpen, _detectorsCylinderSystem;
         private SimulationInput _inputAtopSecondTissueLayer, _inputAtopSecondAirLayer, _inputCylinderSystem;
@@ -45,10 +45,10 @@ namespace Vts.Test.MonteCarlo.Detectors
                 false, // track statistics
                 0.0, // RR threshold -> 0 = no RR performed
                 0);
-            _sourceOutsideSurface = new DirectionalPointSourceInput(
-                new Position(0.0, 0.0, 1.0), // at surface of 2nd "tissue" layer or outer cylinder
+            _sourceAtopFirstLayer = new DirectionalPointSourceInput(
+                new Position(0.0, 0.0, 1.0), // atop 2nd "tissue" layer
                 new Direction(0.0, 0.0, 1.0),
-                1); // in top tissue layer or surrounding layer of cylinder
+                1); // start above 2nd "tissue" layer
 
             // Specify air-tissue-tissue-air system with internal fiber atop second layer
             _detectorAtopSecondLayerOpen = new List<IDetectorInput>
@@ -85,7 +85,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                 100,
                 "",
                 _simulationOptions,
-                _sourceOutsideSurface,
+                _sourceAtopFirstLayer,
                 _tissueWithLayers,
                 _detectorAtopSecondLayerOpen); // this is below bottom of 2nd air layer
             _outputAtopSecondTissueLayer = new MonteCarloSimulation(_inputAtopSecondTissueLayer).Run();
@@ -112,16 +112,21 @@ namespace Vts.Test.MonteCarlo.Detectors
                 100,
                 "",
                 _simulationOptions,
-                _sourceOutsideSurface,
+                _sourceAtopFirstLayer,
                 _tissueWithAirLayer,
                 _detectorAtopSecondLayerOpen); // this is below bottom of 2nd air layer
             _outputAtopSecondAirLayer = new MonteCarloSimulation(_inputAtopSecondAirLayer).Run();
 
-            // Specify air-tissue(with 2 concentric cylinders)-air system with internal fiber atop outer cylinder
+            // Case 3) Concentric cylinders inside single layer of tissue
+            // Specify air-tissue(with 2 concentric cylinders)-air system with internal fiber atop
+            // outer and inner cylinder
+            _sourceAtopOuterCylinder = new DirectionalPointSourceInput(
+                new Position(0.0, 0.0, 1.0), // atop outer cylinder
+                new Direction(0.0, 0.0, 1.0),
+                1); // start in surrounding tissue
             _tissueWithCylinders =
                 new MultiConcentricInfiniteCylinderTissueInput(
-                    new ITissueRegion[]
-                    {
+                    [
                         new InfiniteCylinderTissueRegion(
                             new Position(0, 0, 10),
                             9.0,
@@ -130,9 +135,8 @@ namespace Vts.Test.MonteCarlo.Detectors
                             new Position(0, 0, 10),
                             8.0,
                             new OpticalProperties(0.01, 1.0, 0.8, 1.4))
-                    },
-                    new ITissueRegion[]
-                    {
+                    ],
+                    [
                         new LayerTissueRegion(
                             new DoubleRange(double.NegativeInfinity, 0.0),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0)),
@@ -142,11 +146,8 @@ namespace Vts.Test.MonteCarlo.Detectors
                         new LayerTissueRegion(
                             new DoubleRange(100.0, double.PositiveInfinity),
                             new OpticalProperties(0.0, 1e-10, 1.0, 1.0))
-                    }
-                );
-
-            // Case 3) Concentric cylinders inside single layer of tissue
-            // using SimulationOutput AllInternalFiberDetectorMeans definition
+                    ]
+                ); // using SimulationOutput AllInternalFiberDetectorMeans definition
             _detectorsCylinderSystem = new List<IDetectorInput>
             {
                 new InternalSurfaceFiberDetectorInput // outer cylinder dot normal positive open
@@ -156,7 +157,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                     TallySecondMoment = true,
                     N = 1.4,
                     NA = 1.4,
-                    FinalTissueRegionIndex = 3,
+                    FinalTissueRegionIndex = 3, // has to be index of cylinder it atop
                     InDirectionOfFiberAxis = new Direction(0, 0, -1),
                     Name = "InternalSurfaceFiber1"
                 },
@@ -198,7 +199,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                 100,
                 "",
                 _simulationOptions,
-                _sourceOutsideSurface,
+                _sourceAtopOuterCylinder,
                 _tissueWithCylinders,
                 _detectorsCylinderSystem);
             _outputCylinderSystem = new MonteCarloSimulation(_inputCylinderSystem).Run();
