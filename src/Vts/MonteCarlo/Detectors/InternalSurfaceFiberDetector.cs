@@ -158,6 +158,7 @@ namespace Vts.MonteCarlo.Detectors
         /// <param name="photon">photon data needed to tally</param>
         public void Tally(Photon photon)
         {
+            // NOTE! following only works if fiber surface along x-y plane
             //check that exit location is within fiber radius
             if (Math.Sqrt((photon.DP.Position.X - Center.X) *
                           (photon.DP.Position.X - Center.X) +
