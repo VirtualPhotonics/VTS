@@ -11,7 +11,7 @@ namespace Vts.MonteCarlo.Helpers
     public class SourceToolbox
     {
         /// <summary>
-        /// Provides a direction for a given two dimensional position and a polar angle
+        /// Provides a direction for a given two-dimensional position and a polar angle
         /// </summary>
         /// <param name="polarAngle">Constant polar angle</param>
         /// <param name="position">The position </param>
@@ -20,7 +20,7 @@ namespace Vts.MonteCarlo.Helpers
             double polarAngle,
             Position position)
         {
-            double radius = Math.Sqrt(position.X * position.X + position.Y * position.Y);
+            var radius = Math.Sqrt(position.X * position.X + position.Y * position.Y);
 
             if (radius == 0.0)
                 return new Direction(
@@ -34,7 +34,8 @@ namespace Vts.MonteCarlo.Helpers
         }
         
         /// <summary>
-        /// Provides a direction after uniform sampling of given polar angle range and azimuthal angle range 
+        /// Provides an Isotropic direction after uniform sampling of given polar angle range and
+        /// azimuthal angle range 
         /// </summary>
         /// <param name="polarAngleEmissionRange">The polar angle range</param>
         /// <param name="azimuthalAngleEmissionRange">The azimuthal angle range</param>
@@ -64,7 +65,7 @@ namespace Vts.MonteCarlo.Helpers
         }
 
         /// <summary>
-        /// Provides a random direction for a isotropic point source
+        /// Provides a random direction for an Isotropic point source
         /// </summary>
         /// <param name="rng">The random number generator</param>
         /// <returns>direction</returns>
@@ -86,11 +87,46 @@ namespace Vts.MonteCarlo.Helpers
         }
 
         /// <summary>
+        /// Provides an Lambertian direction after uniform sampling of given polar angle range and
+        /// azimuthal angle range 
+        /// </summary>
+        /// <param name="polarAngleEmissionRange">The polar angle range</param>
+        /// <param name="azimuthalAngleEmissionRange">The azimuthal angle range</param>
+        /// <param name="rng">The random number generator</param>
+        /// <returns>direction</returns>
+        public static Direction GetDirectionForGivenPolarAzimuthalAngleRangeLambertianRandom(
+            DoubleRange polarAngleEmissionRange,
+            DoubleRange azimuthalAngleEmissionRange,
+            Random rng)
+        {
+            double cost, sint, phi, cosp, sinp;
+            if (polarAngleEmissionRange.Start == polarAngleEmissionRange.Stop && azimuthalAngleEmissionRange.Start == azimuthalAngleEmissionRange.Stop)
+                return (new Direction(0.0, 0.0, 1.0));
+
+            //sampling sint for Lambertian and do until find cost within range specified
+            do
+            {
+                sint = 2 * rng.NextDouble() - 1;
+                cost = Math.Sqrt(1.0 - sint * sint);
+            } while (cost < polarAngleEmissionRange.Start || cost > polarAngleEmissionRange.Stop);
+
+            //sampling phi
+            phi = rng.NextDouble(azimuthalAngleEmissionRange.Start, azimuthalAngleEmissionRange.Stop);
+            cosp = Math.Cos(phi);
+            sinp = Math.Sin(phi);
+
+            return new Direction(
+                sint * cosp,
+                sint * sinp,
+                cost);
+        }
+
+        /// <summary>
         /// Provides a direction after Lambertian emission of given polar angle range and azimuthal angle range 
         /// </summary>
         /// <param name="rng">The random number generator</param>
         /// <returns>direction</returns>
-        public static Direction GetDirectionForGivenPolarAzimuthalAngleRangeLambertianRandom(Random rng)
+        public static Direction GetDirectionForLambertianRandom(Random rng)
         {
             double cost, sint, phi, cosp, sinp;
             //sampling sint           

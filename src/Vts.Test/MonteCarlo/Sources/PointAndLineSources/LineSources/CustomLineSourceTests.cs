@@ -12,7 +12,7 @@ using Vts.MonteCarlo.Tissues;
 namespace Vts.Test.MonteCarlo.Sources
 {
     /// <summary>
-    /// Unit tests for Custom Line Sources
+    /// Unit tests for Custom Line Sources with Isotropic angular distribution
     /// </summary>
     [TestFixture]
     public class CustomLineSourceTests
@@ -22,11 +22,9 @@ namespace Vts.Test.MonteCarlo.Sources
         [OneTimeSetUp]
         public void setup_validation_data()
         {
-            if (_validationData == null)
-            {
-                _validationData = new LineSourcesValidationData();
-                _validationData.ReadData();
-            }
+            if (_validationData != null) return;
+            _validationData = new LineSourcesValidationData();
+            _validationData.ReadData();
         }
         /// <summary>
         /// test source input
@@ -69,6 +67,7 @@ namespace Vts.Test.MonteCarlo.Sources
                 profile, 
                 _validationData.PolRange, 
                 _validationData.AziRange, 
+                SourceAngularDistributionType.Isotropic,
                 _validationData.Direction, 
                 _validationData.Translation, 
                 _validationData.AngPair)
@@ -104,6 +103,7 @@ namespace Vts.Test.MonteCarlo.Sources
                 profile, 
                 _validationData.PolRange, 
                 _validationData.AziRange, 
+                SourceAngularDistributionType.Isotropic,
                 _validationData.Direction, 
                 _validationData.Translation, 
                 _validationData.AngPair)
@@ -134,6 +134,7 @@ namespace Vts.Test.MonteCarlo.Sources
                 new FakeSourceProfile(),
                 new DoubleRange(),
                 new DoubleRange(),
+                SourceAngularDistributionType.Isotropic,
                 new Direction(),
                 new Position(),
                 new PolarAzimuthalAngles(),

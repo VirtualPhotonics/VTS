@@ -23,6 +23,8 @@ namespace Vts.MonteCarlo
                 // Line Sources
                 // 1D Line sources: isotropic line
                 "IsotropicLine",
+                // 1D Line sourcds: Lambertian line
+                "LambertianLine",
                 // 1D Line sources: directional line 
                 "DirectionalLine",
                 // 1D Line sources: custom
