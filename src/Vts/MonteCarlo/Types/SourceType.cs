@@ -15,6 +15,8 @@ namespace Vts.MonteCarlo
                 //Point Sources
                 // Point sources: isotropic
                 "IsotropicPoint",
+                // Point sources: Lambertian
+                "LambertianPoint",
                 // Point sources: directional point
                 "DirectionalPoint",
                 // Point sources: custom point
