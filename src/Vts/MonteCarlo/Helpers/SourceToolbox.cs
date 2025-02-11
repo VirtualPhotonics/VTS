@@ -6,7 +6,12 @@ using Vts.MonteCarlo.Sources;
 namespace Vts.MonteCarlo.Helpers
 {
     /// <summary>
-    /// Utilities shared by Sources.
+    /// Utilities shared by Sources.  For the following algorithms the following
+    /// references and definitions are provided:
+    /// Lambertian source: samples theta according to uniform sin(theta)
+    /// (ref: https://en.wikipedia.org/wiki/Lambert%27s_cosine_law).
+    /// Isotropic source: samples theta according to uniform cos(theta)
+    /// (ref: https://en.wikipedia.org/wiki/Isotropic_radiation)
     /// </summary>
     public class SourceToolbox
     {
@@ -87,7 +92,7 @@ namespace Vts.MonteCarlo.Helpers
         }
 
         /// <summary>
-        /// Provides an Lambertian direction after uniform sampling of given polar angle range and
+        /// Provides a Lambertian direction after uniform sampling of given polar angle range and
         /// azimuthal angle range 
         /// </summary>
         /// <param name="polarAngleEmissionRange">The polar angle range</param>
