@@ -24,52 +24,17 @@ namespace Vts.MonteCarlo.Sources
     public class CustomLineSourceInput : ISourceInput
     {
         /// <summary>
-        /// Initializes a new instance of CustomLineSourceInput class
+        /// Constructor with the fullest parameter list, no default parameter settings.
         /// </summary>
         /// <param name="lineLength">The length of the line source</param>
         /// <param name="sourceProfile">Source Profile {Flat / Gaussian}</param>
         /// <param name="polarAngleEmissionRange">Polar angle range</param>
         /// <param name="azimuthalAngleEmissionRange">Azimuthal angle range</param>
+        /// <param name="sourceAngularDistribution">source angular distribution</param>
         /// <param name="newDirectionOfPrincipalSourceAxis">New source axis direction</param>
         /// <param name="translationFromOrigin">New source location</param>
         /// <param name="beamRotationFromInwardNormal">beam rotation angle</param>
         /// <param name="initialTissueRegionIndex">Initial tissue region index</param>
-        public CustomLineSourceInput(
-            double lineLength,
-            ISourceProfile sourceProfile,
-            DoubleRange polarAngleEmissionRange,
-            DoubleRange azimuthalAngleEmissionRange,
-            Direction newDirectionOfPrincipalSourceAxis,
-            Position translationFromOrigin,
-            PolarAzimuthalAngles beamRotationFromInwardNormal,
-            int initialTissueRegionIndex)
-        {
-            SourceType = "CustomLine";
-            LineLength = lineLength;
-            SourceProfile = sourceProfile;
-            PolarAngleEmissionRange = polarAngleEmissionRange;
-            AzimuthalAngleEmissionRange = azimuthalAngleEmissionRange;
-            NewDirectionOfPrincipalSourceAxis = newDirectionOfPrincipalSourceAxis;
-            TranslationFromOrigin = translationFromOrigin;
-            BeamRotationFromInwardNormal = beamRotationFromInwardNormal;
-            InitialTissueRegionIndex = initialTissueRegionIndex;
-            // default angular distribution is Isotropic
-            SourceAngularDistribution = SourceAngularDistributionType.Isotropic;
-        }
-
-        /// <summary>
-        /// Overload that allows users to specify angular distribution of either
-        /// Isotropic (default) or Lambertian.
-        /// </summary>
-        /// <param name="lineLength">The length of the line source</param>
-        /// <param name="sourceProfile">Source Profile {Flat / Gaussian}</param>
-        /// <param name="polarAngleEmissionRange">Polar angle range</param>
-        /// <param name="azimuthalAngleEmissionRange">Azimuthal angle range</param>
-          /// <param name="sourceAngularDistribution">source angular distribution</param>
-    /// <param name="newDirectionOfPrincipalSourceAxis">New source axis direction</param>
-        /// <param name="translationFromOrigin">New source location</param>
-        /// <param name="beamRotationFromInwardNormal">beam rotation angle</param>
-          /// <param name="initialTissueRegionIndex">Initial tissue region index</param>
         public CustomLineSourceInput(
             double lineLength,
             ISourceProfile sourceProfile,
@@ -94,9 +59,51 @@ namespace Vts.MonteCarlo.Sources
         }
 
         /// <summary>
+        /// Initializes a new instance of CustomLineSourceInput class
+        /// with the assumption of an Isotropic angular distribution.
+        /// Default parameter settings:
+        /// SourceAngularDistribution = Isotropic
+        /// </summary>
+        /// <param name="lineLength">The length of the line source</param>
+        /// <param name="sourceProfile">Source Profile {Flat / Gaussian}</param>
+        /// <param name="polarAngleEmissionRange">Polar angle range</param>
+        /// <param name="azimuthalAngleEmissionRange">Azimuthal angle range</param>
+        /// <param name="newDirectionOfPrincipalSourceAxis">New source axis direction</param>
+        /// <param name="translationFromOrigin">New source location</param>
+        /// <param name="beamRotationFromInwardNormal">beam rotation angle</param>
+        /// <param name="initialTissueRegionIndex">Initial tissue region index</param>
+        public CustomLineSourceInput(
+            double lineLength,
+            ISourceProfile sourceProfile,
+            DoubleRange polarAngleEmissionRange,
+            DoubleRange azimuthalAngleEmissionRange,
+            Direction newDirectionOfPrincipalSourceAxis,
+            Position translationFromOrigin,
+            PolarAzimuthalAngles beamRotationFromInwardNormal,
+            int initialTissueRegionIndex)
+        {
+            SourceType = "CustomLine";
+            LineLength = lineLength;
+            SourceProfile = sourceProfile;
+            PolarAngleEmissionRange = polarAngleEmissionRange;
+            AzimuthalAngleEmissionRange = azimuthalAngleEmissionRange;
+            // default angular distribution is Isotropic
+            SourceAngularDistribution = SourceAngularDistributionType.Isotropic;
+            NewDirectionOfPrincipalSourceAxis = newDirectionOfPrincipalSourceAxis;
+            TranslationFromOrigin = translationFromOrigin;
+            BeamRotationFromInwardNormal = beamRotationFromInwardNormal;
+            InitialTissueRegionIndex = initialTissueRegionIndex;
+        }
+
+        /// <summary>
         /// Initializes a new instance of CustomLineSourceInput class with default
         /// settings for principal source axis direction, translation from origin, and
         /// beam rotation from inward normal
+        /// Default parameter settings:
+        /// SourceAngularDistribution = Isotropic
+        /// TranslationFromOrigin = Position(0,0,0)
+        /// BeamRotationFromInwardNorm = (theta=0, phi=0)
+        /// InitialTissueRegionIndex = 0 (air above tissue)
         /// </summary>
         /// <param name="lineLength">The length of the line source</param>
         /// <param name="sourceProfile">Source Profile {Flat / Gaussian}</param>
@@ -120,6 +127,15 @@ namespace Vts.MonteCarlo.Sources
 
         /// <summary>
         /// Initializes the default constructor of CustomLineSourceInput class
+        /// Default parameter settings:
+        /// LineLength = 1.0mm
+        /// SourceProfile = Flat
+        /// PolarAngleEmissionRange = [0, pi]
+        /// AzimuthalAngleEmissionRange = [0, 2pi]
+        /// SourceAngularDistribution = Isotropic
+        /// TranslationFromOrigin = Position(0,0,0)
+        /// BeamRotationFromInwardNorm = (theta=0, phi=0)
+        /// InitialTissueRegionIndex = 0 (air above tissue)
         /// </summary>
         public CustomLineSourceInput()
             : this(
@@ -154,6 +170,10 @@ namespace Vts.MonteCarlo.Sources
         /// </summary>
         public DoubleRange AzimuthalAngleEmissionRange { get; set; }
         /// <summary>
+        /// Source Angular Distribution
+        /// </summary>
+        public SourceAngularDistributionType SourceAngularDistribution { get; set; }
+        /// <summary>
         /// New source axis direction
         /// </summary>
         public Direction NewDirectionOfPrincipalSourceAxis { get; set; }
@@ -166,10 +186,6 @@ namespace Vts.MonteCarlo.Sources
         /// </summary>
         public PolarAzimuthalAngles BeamRotationFromInwardNormal { get; set; }
         /// <summary>
-        /// Source Angular Distribution
-        /// </summary>
-        public SourceAngularDistributionType SourceAngularDistribution { get; set; }
-        /// <summary>
         /// Initial tissue region index
         /// </summary>
         public int InitialTissueRegionIndex { get; set; }
@@ -181,18 +197,18 @@ namespace Vts.MonteCarlo.Sources
         /// <returns>instantiated source</returns>
         public ISource CreateSource(Random rng = null)
         {
-            rng = rng ?? new Random();
+            rng ??= new Random();
 
             return new CustomLineSource(
-                        this.LineLength,
-                        this.SourceProfile,
-                        this.PolarAngleEmissionRange,
-                        this.AzimuthalAngleEmissionRange,
-                        this.SourceAngularDistribution,
-                        this.NewDirectionOfPrincipalSourceAxis,
-                        this.TranslationFromOrigin,
-                        this.BeamRotationFromInwardNormal,
-                        this.InitialTissueRegionIndex) { Rng = rng };
+                        LineLength,
+                        SourceProfile,
+                        PolarAngleEmissionRange,
+                        AzimuthalAngleEmissionRange,
+                        SourceAngularDistribution,
+                        NewDirectionOfPrincipalSourceAxis,
+                        TranslationFromOrigin,
+                        BeamRotationFromInwardNormal,
+                        InitialTissueRegionIndex) { Rng = rng };
         }
     }
 
@@ -248,13 +264,14 @@ namespace Vts.MonteCarlo.Sources
         /// <returns>new direction</returns>  
         protected override Direction GetFinalDirection(Position position)
         {
+            // Isotropic
             if (_sourceAngularDistribution == SourceAngularDistributionType.Isotropic)
                 return SourceToolbox.GetDirectionForGivenPolarAzimuthalAngleRangeRandom(
                     _polarAngleEmissionRange,
                     _azimuthalAngleEmissionRange,
                     Rng);
-            else 
-                return SourceToolbox.GetDirectionForGivenPolarAzimuthalAngleRangeLambertianRandom(
+            // Lambertian
+            return SourceToolbox.GetDirectionForGivenPolarAzimuthalAngleRangeLambertianRandom(
                 _polarAngleEmissionRange,
                 _azimuthalAngleEmissionRange,
                 Rng);

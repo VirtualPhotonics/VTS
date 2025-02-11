@@ -12,7 +12,7 @@ using Vts.MonteCarlo.Tissues;
 namespace Vts.Test.MonteCarlo.Sources
 {
     /// <summary>
-    /// Unit tests for Custom Line Sources with Isotropic angular distribution
+    /// Unit tests for Custom Line Sources 
     /// </summary>
     [TestFixture]
     public class CustomLineSourceTests
@@ -26,8 +26,9 @@ namespace Vts.Test.MonteCarlo.Sources
             _validationData = new LineSourcesValidationData();
             _validationData.ReadData();
         }
+
         /// <summary>
-        /// test source input
+        /// Test source input CreateSource
         /// </summary>
         [Test]
         public void Validate_source_input_with_flat_profile_type()
@@ -41,6 +42,7 @@ namespace Vts.Test.MonteCarlo.Sources
                     new FlatSourceProfile(),
                     SourceDefaults.DefaultFullPolarAngleRange.Clone(),
                     SourceDefaults.DefaultAzimuthalAngleRange.Clone(),
+                    SourceAngularDistributionType.Isotropic,
                     SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone(),
                     SourceDefaults.DefaultPosition.Clone(),
                     SourceDefaults.DefaultBeamRotationFromInwardNormal.Clone(),
@@ -58,7 +60,7 @@ namespace Vts.Test.MonteCarlo.Sources
         [Test]
         public void Validate_general_constructor_with_flat_profiletype_for_custom_line_source_test()
         {
-            Random rng = new MathNet.Numerics.Random.MersenneTwister(0); // not really necessary here, as this is now the default
+            Random rng = new MersenneTwister(0); // not really necessary here, as this is now the default
             ITissue tissue = new MultiLayerTissue();             
             var profile = new FlatSourceProfile();
 
@@ -86,15 +88,13 @@ namespace Vts.Test.MonteCarlo.Sources
             Assert.Less(Math.Abs(photon.DP.Position.Z - _validationData.Tp[23]), _validationData.AcceptablePrecision);
         }
 
-
         /// <summary>
         /// Validate General Constructor of Custom Gaussian Line Source
         /// </summary>
         [Test]
         public void Validate_general_constructor_with_gaussian_profiletype_for_custom_line_source_test()
         {         
-
-            Random rng = new MathNet.Numerics.Random.MersenneTwister(0); // not really necessary here, as this is now the default
+            Random rng = new MersenneTwister(0); // not really necessary here, as this is now the default
             ITissue tissue = new MultiLayerTissue();
             var profile = new GaussianSourceProfile(_validationData.BdFWHM);
 
@@ -121,8 +121,45 @@ namespace Vts.Test.MonteCarlo.Sources
             Assert.Less(Math.Abs(photon.DP.Position.Y - _validationData.Tp[28]), _validationData.AcceptablePrecision);
             Assert.Less(Math.Abs(photon.DP.Position.Z - _validationData.Tp[29]), _validationData.AcceptablePrecision);
         }
+
         /// <summary>
-        /// test switch statement in GetFinalPositionFromProfileType method for setting other
+        /// Validate General Constructor of Custom Gaussian Line Source and
+        /// Lambertian angular distribution.  Resulting photon Position should be same
+        /// as test above, however Direction will be different.
+        /// </summary>
+        [Test]
+        public void Validate_general_constructor_with_gaussian_profiletype_lambertian_angle_distribution_for_custom_line_source_test()
+        {
+            Random rng = new MersenneTwister(0); // not really necessary here, as this is now the default
+            ITissue tissue = new MultiLayerTissue();
+            var profile = new GaussianSourceProfile(_validationData.BdFWHM);
+
+            var ps = new CustomLineSource(
+                _validationData.LengthX,
+                profile,
+                _validationData.PolRange,
+                _validationData.AziRange,
+                SourceAngularDistributionType.Lambertian,
+                _validationData.Direction,
+                _validationData.Translation,
+                _validationData.AngPair)
+            {
+                Rng = rng
+            };
+
+            var photon = ps.GetNextPhoton(tissue);
+
+            //Assert.Less(Math.Abs(photon.DP.Direction.Ux - Math.Sin(Math.Acos(_validationData.Tp[24]))), _validationData.AcceptablePrecision);
+            //Assert.Less(Math.Abs(photon.DP.Direction.Uy - Math.Sin(Math.Acos(_validationData.Tp[25]))), _validationData.AcceptablePrecision);
+            Assert.Less(Math.Abs(photon.DP.Direction.Uz - Math.Sin(Math.Acos(_validationData.Tp[26]))), _validationData.AcceptablePrecision);
+
+            Assert.Less(Math.Abs(photon.DP.Position.X - _validationData.Tp[27]), _validationData.AcceptablePrecision);
+            Assert.Less(Math.Abs(photon.DP.Position.Y - _validationData.Tp[28]), _validationData.AcceptablePrecision);
+            Assert.Less(Math.Abs(photon.DP.Position.Z - _validationData.Tp[29]), _validationData.AcceptablePrecision);
+        }
+
+        /// <summary>
+        /// Test switch statement in GetFinalPositionFromProfileType method for setting other
         /// than Flat or Gaussian verify exception is thrown
         /// </summary>
         [Test]
