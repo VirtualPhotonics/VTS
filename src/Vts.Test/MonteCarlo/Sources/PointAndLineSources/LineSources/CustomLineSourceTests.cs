@@ -125,7 +125,8 @@ namespace Vts.Test.MonteCarlo.Sources
         /// <summary>
         /// Validate General Constructor of Custom Gaussian Line Source and
         /// Lambertian angular distribution.  Resulting photon Position should be same
-        /// as test above, however Direction will be different.
+        /// as test above, however Direction will be different.  Since test added after generation
+        /// of validation data, data used to validate is from prior test.
         /// </summary>
         [Test]
         public void Validate_general_constructor_with_gaussian_profiletype_lambertian_angle_distribution_for_custom_line_source_test()
@@ -149,9 +150,9 @@ namespace Vts.Test.MonteCarlo.Sources
 
             var photon = ps.GetNextPhoton(tissue);
 
-            //Assert.Less(Math.Abs(photon.DP.Direction.Ux - Math.Sin(Math.Acos(_validationData.Tp[24]))), _validationData.AcceptablePrecision);
-            //Assert.Less(Math.Abs(photon.DP.Direction.Uy - Math.Sin(Math.Acos(_validationData.Tp[25]))), _validationData.AcceptablePrecision);
-            Assert.Less(Math.Abs(photon.DP.Direction.Uz - Math.Sin(Math.Acos(_validationData.Tp[26]))), _validationData.AcceptablePrecision);
+            Assert.Less(Math.Abs(photon.DP.Direction.Ux - 0.45063777), _validationData.AcceptablePrecision);
+            Assert.Less(Math.Abs(photon.DP.Direction.Uy - 0.88316418), _validationData.AcceptablePrecision);
+            Assert.Less(Math.Abs(photon.DP.Direction.Uz - 0.13017915), _validationData.AcceptablePrecision);
 
             Assert.Less(Math.Abs(photon.DP.Position.X - _validationData.Tp[27]), _validationData.AcceptablePrecision);
             Assert.Less(Math.Abs(photon.DP.Position.Y - _validationData.Tp[28]), _validationData.AcceptablePrecision);

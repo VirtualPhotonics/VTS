@@ -8,10 +8,16 @@ namespace Vts.MonteCarlo.Helpers
     /// <summary>
     /// Utilities shared by Sources.  For the following algorithms the following
     /// references and definitions are provided:
-    /// Lambertian source: samples theta according to uniform sin(theta)
-    /// (ref: https://en.wikipedia.org/wiki/Lambert%27s_cosine_law).
     /// Isotropic source: samples theta according to uniform cos(theta)
-    /// (ref: https://en.wikipedia.org/wiki/Isotropic_radiation)
+    /// (ref: https://en.wikipedia.org/wiki/Isotropic_radiation).
+    /// The PDF is p(theta)=sin(theta) which integrated to obtain CDF
+    /// P(theta)=cos(theta).  Inverted to sample: RN = cos(theta)
+    /// Lambertian source: samples theta according to Lamert's cosine law
+    /// (ref: https://en.wikipedia.org/wiki/Lambert%27s_cosine_law)
+    /// which states that the angular emission is directly proportional to
+    /// the cosine of the angle theta between the angle of propagation and the
+    /// surface normal. The PDF is p(theta)=2cos(theta)sin(theta) and associated
+    /// CDF P(theta)=sin^2(theta) 
     /// </summary>
     public class SourceToolbox
     {
@@ -111,7 +117,7 @@ namespace Vts.MonteCarlo.Helpers
             //sampling sint for Lambertian and do until find cost within range specified
             do
             {
-                sint = 2 * rng.NextDouble() - 1;
+                sint = Math.Sqrt(2 * rng.NextDouble() - 1);
                 cost = Math.Sqrt(1.0 - sint * sint);
             } while (cost < polarAngleEmissionRange.Start || cost > polarAngleEmissionRange.Stop);
 
@@ -135,7 +141,7 @@ namespace Vts.MonteCarlo.Helpers
         {
             double cost, sint, phi, cosp, sinp;
             //sampling sint           
-            sint = 2 * rng.NextDouble() - 1;
+            sint = Math.Sqrt(2 * rng.NextDouble() - 1);
             cost = Math.Sqrt(1.0 - sint * sint);
 
             //sampling phi
