@@ -117,4 +117,4 @@ Remove-Item  $MCmatlabdir -Recurse -ErrorAction Ignore
 # cd back to start
 cd $vtslevel
 
-Read-Host -Prompt "Press Enter to exit MCCL build process"
+Read-Host -Prompt "MCCL build and release complete, press Enter to exit MCCL build process"
