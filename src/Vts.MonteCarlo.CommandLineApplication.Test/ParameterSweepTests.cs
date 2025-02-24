@@ -10,28 +10,28 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
         public void ParameterSweep_default_constructor_test()
         {
             var parameterSweep = new ParameterSweep();
-            Assert.AreEqual("mua1", parameterSweep.Name);
-            Assert.AreEqual(0.01, parameterSweep.Range.Start);
-            Assert.AreEqual(0.05, parameterSweep.Range.Stop);
-            Assert.AreEqual(0.01, parameterSweep.Range.Delta);
+            Assert.That( parameterSweep.Name, Is.EqualTo("mua1"));
+            Assert.That( parameterSweep.Range.Start, Is.EqualTo(0.01));
+            Assert.That( parameterSweep.Range.Stop, Is.EqualTo(0.05));
+            Assert.That( parameterSweep.Range.Delta, Is.EqualTo(0.01));
         }
 
         [Test]
         public void ParameterSweep_constructor_with_DoubleRange_test()
         {
             var parameterSweep = new ParameterSweep("mua1", new DoubleRange(0.0, 9.0, 10));
-            Assert.AreEqual("mua1", parameterSweep.Name);
-            Assert.AreEqual(0.0, parameterSweep.Range.Start);
-            Assert.AreEqual(9.0, parameterSweep.Range.Stop);
-            Assert.AreEqual(1.0, parameterSweep.Range.Delta);
+            Assert.That( parameterSweep.Name, Is.EqualTo("mua1"));
+            Assert.That( parameterSweep.Range.Start, Is.EqualTo(0.0));
+            Assert.That( parameterSweep.Range.Stop, Is.EqualTo(9.0));
+            Assert.That( parameterSweep.Range.Delta, Is.EqualTo(1.0));
         }
 
         [Test]
         public void ParameterSweep_constructor_with_double_array_test()
         {
             var parameterSweep = new ParameterSweep("mua2", new[] { 0.1, 0.2, 0.3 });
-            Assert.AreEqual(0.1, parameterSweep.Values[0]);
-            Assert.AreEqual("mua2", parameterSweep.Name);
+            Assert.That( parameterSweep.Values[0], Is.EqualTo(0.1));
+            Assert.That( parameterSweep.Name, Is.EqualTo("mua2"));
         }
     }
 }

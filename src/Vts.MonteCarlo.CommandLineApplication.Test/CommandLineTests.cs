@@ -15,7 +15,7 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
                 new CommandLine.Switch("help", "h", arg =>
                 {
                     var helpTopic = arg.First();
-                    Assert.AreEqual("topic", helpTopic);
+                    Assert.That( helpTopic, Is.EqualTo("topic"));
                 }));
         }
 
@@ -27,7 +27,7 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
                 new CommandLine.Switch("help", "h", arg =>
                 {
                     var undefined = arg.First();
-                    Assert.AreEqual("topic", undefined);
+                    Assert.That( undefined, Is.EqualTo("topic"));
                 }));
         }
     }

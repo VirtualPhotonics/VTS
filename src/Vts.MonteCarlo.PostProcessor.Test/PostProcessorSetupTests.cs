@@ -11,14 +11,14 @@ namespace Vts.MonteCarlo.PostProcessor.Test
         public void ReadSimulationInputFromFile_returns_null()
         {
             var result = PostProcessorSetup.ReadPostProcessorInputFromFile("");
-            Assert.IsNull(result);
+            Assert.That(result, Is.Null);
         }
 
         [Test]
         public void ReadSimulationInputFromFile_throws_FileNotFoundException_returns_null()
         {
             var result = PostProcessorSetup.ReadPostProcessorInputFromFile("dummy.txt");
-            Assert.IsNull(result);
+            Assert.That(result, Is.Null);
         }
     }
 }
