@@ -124,7 +124,6 @@ GaussPolAzi = Func_GetPolarAzimuthalPairFromDirection(U);
 
 %Lambertian Flat Line Source
 FlatPos = Func_GetPositionInALineRandomFlat(V, l, RN1);
-%FlatDir = Func_GetDirectionForGivenPolarAzimuthalAngleRange([0, pi/2], [0, 2*pi], RN2, RN3);
 FlatDir = Func_GetDirectionForLambertianDistributionRandom(RN2, RN3);
 FlatPolAzi = Func_GetPolarAzimuthalPairFromDirection(U);
 [TestLamLineSourceFlat_U, TestLamLineSourceFlat_V] = Func_UpdateDirectionAndPositionAfterGivenFlags...
@@ -132,7 +131,6 @@ FlatPolAzi = Func_GetPolarAzimuthalPairFromDirection(U);
 
 %Lambertian Gaussian Line Source
 GaussPos = Func_GetPositionInALineRandomGaussian(V, l, BDFWHM, RN1, RN2);
-%GaussDir = Func_GetDirectionForGivenPolarAzimuthalAngleRange([0, pi/2], [0, 2*pi], RN3, RN4);
 GaussDir = Func_GetDirectionForLambertianDistributionRandom(RN3, RN4);
 GaussPolAzi = Func_GetPolarAzimuthalPairFromDirection(U);
 [TestLamLineSourceGauss_U, TestLamLineSourceGauss_V] = Func_UpdateDirectionAndPositionAfterGivenFlags...

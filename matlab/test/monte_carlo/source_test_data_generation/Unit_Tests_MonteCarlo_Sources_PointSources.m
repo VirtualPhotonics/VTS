@@ -99,6 +99,12 @@ FlatPolAzi = Func_GetPolarAzimuthalPairFromDirection(U);
 [TestIsoPointSourceFlat_U, TestIsoPointSourceFlat_V] = Func_UpdateDirectionAndPositionAfterGivenFlags...
     (FlatDir, FlatPos, [0,0],T, [0,0], Flags);
 
+%Lambertian Point Source
+FlatPos = V;
+FlatDir = Func_GetDirectionForLambertianDistributionRandom(RN1, RN2);
+FlatPolAzi = Func_GetPolarAzimuthalPairFromDirection(U);
+[TestLamPointSourceFlat_U, TestLamPointSourceFlat_V] = Func_UpdateDirectionAndPositionAfterGivenFlags...
+    (FlatDir, FlatPos, [0,0],T, [0,0], Flags);
 
 fid = fopen('UnitTests_PointSources.txt', 'w');
 fprintf(fid,'%.10e, %.10e, %.10e, %.10e, %.10e, %.10e, %.10e, %.10e, %.10e, ',...
@@ -109,5 +115,7 @@ fprintf(fid,'%.10e, %.10e, ',...
     TestDirPointSourceFlat_U,TestDirPointSourceFlat_V);
 fprintf(fid,'%.10e, %.10e, ',...
     TestIsoPointSourceFlat_U,TestIsoPointSourceFlat_V);
+fprintf(fid,'%.10e, %.10e, ',...
+    TestLamPointSourceFlat_U,TestLamPointSourceFlat_V);
 
 fclose(fid);
