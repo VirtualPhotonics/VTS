@@ -153,9 +153,9 @@ namespace Vts.Test.MonteCarlo.Sources
                 // verify that photons start within range of midpoints of voxels in bounding cylinder
                 var rho = Math.Sqrt(photon.DP.Position.X * photon.DP.Position.X + 
                     photon.DP.Position.Y * photon.DP.Position.Y);
-                Assert.IsTrue(rho <= 3.5);
-                Assert.IsTrue(photon.DP.Position.Z >= 0.5 && photon.DP.Position.Z <= 1.5);
-                Assert.IsTrue(Math.Abs(photon.DP.Weight - _rhoZLoaderCdf.TotalAbsorbedEnergy) < 1e-6);
+                Assert.That(rho <= 3.5, Is.True);
+                Assert.That(photon.DP.Position.Z >= 0.5 && photon.DP.Position.Z <= 1.5, Is.True);
+                Assert.That(Math.Abs(photon.DP.Weight - _rhoZLoaderCdf.TotalAbsorbedEnergy) < 1e-6, Is.True);
                 var iRho = (int)(Math.Floor(rho));
                 var iZ = (int)(Math.Floor(photon.DP.Position.Z));
                 countArray[iRho, iZ] += 1;

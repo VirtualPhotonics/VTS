@@ -36,7 +36,7 @@ namespace Vts.Test.MonteCarlo.Sources
         {
             // check default constructor
             var si = new CustomLineSourceInput();
-            Assert.IsInstanceOf<CustomLineSourceInput>(si);
+            Assert.That(si, Is.InstanceOf<CustomLineSourceInput>());
             // check full definition
             si = new CustomLineSourceInput(
                     1.0,
@@ -48,10 +48,10 @@ namespace Vts.Test.MonteCarlo.Sources
                     SourceDefaults.DefaultBeamRotationFromInwardNormal.Clone(),
                     0
             );
-            Assert.IsInstanceOf<CustomLineSourceInput>(si);
+            Assert.That(si, Is.InstanceOf<CustomLineSourceInput>());
             // validate CreateSource
             var source = si.CreateSource(new MersenneTwister(0));
-            Assert.IsInstanceOf<CustomLineSource>(source);
+            Assert.That(source, Is.InstanceOf<CustomLineSource>());
         }
 
         /// <summary>

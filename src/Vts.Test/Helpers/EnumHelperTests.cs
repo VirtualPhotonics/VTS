@@ -29,7 +29,7 @@ namespace Vts.Test.Helpers
         public void Get_values_returns_type_array()
         {
             var enumValues = EnumHelper.GetValues<SpatialDomainType>();
-            Assert.IsInstanceOf<SpatialDomainType[]>(enumValues);
+            Assert.That(enumValues, Is.InstanceOf<SpatialDomainType[]>());
             Assert.AreEqual(SpatialDomainType.Real, enumValues[0]);
             Assert.AreEqual(SpatialDomainType.SpatialFrequency, enumValues[1]);
         }
@@ -44,7 +44,7 @@ namespace Vts.Test.Helpers
         public void Get_values_returns_enum_array()
         {
             var enumValues = EnumHelper.GetValues(typeof(SpatialDomainType));
-            Assert.IsInstanceOf<object[]>(enumValues);
+            Assert.That(enumValues, Is.InstanceOf<object[]>());
             Assert.AreEqual(SpatialDomainType.Real, enumValues[0]);
             Assert.AreEqual(SpatialDomainType.SpatialFrequency, enumValues[1]);
         }

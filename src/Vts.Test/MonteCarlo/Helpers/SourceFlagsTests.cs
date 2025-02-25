@@ -38,9 +38,9 @@ namespace Vts.Test.MonteCarlo.Helpers
                 BeamRotationFromInwardNormalFlag = false
             };
             var sourceFlagsClone = sourceFlags.Clone();
-            Assert.IsTrue(sourceFlagsClone.RotationOfPrincipalSourceAxisFlag);
-            Assert.IsTrue(sourceFlagsClone.TranslationFromOriginFlag);
-            Assert.IsFalse(sourceFlagsClone.BeamRotationFromInwardNormalFlag);
+            Assert.That(sourceFlagsClone.RotationOfPrincipalSourceAxisFlag, Is.True);
+            Assert.That(sourceFlagsClone.TranslationFromOriginFlag, Is.True);
+            Assert.That(sourceFlagsClone.BeamRotationFromInwardNormalFlag, Is.False);
         }
 
     }

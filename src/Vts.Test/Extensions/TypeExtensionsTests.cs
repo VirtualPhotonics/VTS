@@ -16,7 +16,7 @@ namespace Vts.Test.Extensions
             Assert.IsInstanceOf<ILayerOpticalPropertyRegion>(layerOpticalPropertyRegion);
             var type = layerOpticalPropertyRegion.GetType();
             var instance = type.Implements<ILayerOpticalPropertyRegion>(layerOpticalPropertyRegion);
-            Assert.IsTrue(instance);
+            Assert.That(instance, Is.True);
         }
 
         [Test]
@@ -26,7 +26,7 @@ namespace Vts.Test.Extensions
             IForwardSolver forwardSolver = new PointSourceSDAForwardSolver();
             Assert.IsInstanceOf<IForwardSolver>(forwardSolver);
             var instance = type.Implements<IForwardSolver>(forwardSolver);
-            Assert.IsFalse(instance);
+            Assert.That(instance, Is.False);
         }
         [Test]
         public void Test_implements_type_throws_exception()

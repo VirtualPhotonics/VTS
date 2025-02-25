@@ -33,7 +33,7 @@ namespace Vts.Test.Common
         [Test]
         public void Validate_class_is_serializable()
         {
-            Assert.IsInstanceOf<UIntRange>(new UIntRange().Clone<UIntRange>());
+            Assert.That(new UIntRange().Clone<UIntRange>(), Is.InstanceOf<UIntRange>());
         }
 
         [Test]
@@ -43,7 +43,7 @@ namespace Vts.Test.Common
 
             var deserializedR = r.Clone<UIntRange>();
 
-            Assert.IsInstanceOf<UIntRange>(deserializedR);
+            Assert.That(deserializedR, Is.InstanceOf<UIntRange>());
 
             Assert.AreEqual(0U, deserializedR.Start);
             Assert.AreEqual(9U, deserializedR.Stop);
@@ -105,7 +105,7 @@ namespace Vts.Test.Common
         public void Test_clone()
         {
             var uIntRange = new UIntRange(0, 10);
-            Assert.IsInstanceOf<UIntRange>(uIntRange.Clone());
+            Assert.That(uIntRange.Clone(), Is.InstanceOf<UIntRange>());
         }
 
         [Test]

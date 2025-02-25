@@ -46,9 +46,9 @@ namespace Vts.Test.MonteCarlo.Tissues
         public void Verify_ContainsPosition_method_returns_correct_result()
         {
             var result = _infiniteCylinderTissueRegion.ContainsPosition(new Position(0, 0, 3.0)); // inside
-            Assert.IsTrue(result);
+            Assert.That(result, Is.True);
             result = _infiniteCylinderTissueRegion.ContainsPosition(new Position(0, 0, 2.0)); // on boundary
-            Assert.IsTrue(result);
+            Assert.That(result, Is.True);
         }
         /// <summary>
         /// Validate method OnBoundary return correct Boolean.
@@ -58,13 +58,13 @@ namespace Vts.Test.MonteCarlo.Tissues
         {
             // OnBoundary returns false if *exactly* on boundary
             var result = _infiniteCylinderTissueRegion.OnBoundary(new Position(0, 0, 2.0));
-            Assert.IsFalse(result);
+            Assert.That(result, Is.False);
             // but returns true if outside infinite cylinder which doesn't make sense but it is how code is written
             // and all unit tests (linux included) are based on this wrong return
             result = _infiniteCylinderTissueRegion.OnBoundary(new Position(0, 0, 0.5));
-            Assert.IsTrue(result);
+            Assert.That(result, Is.True);
             result = _infiniteCylinderTissueRegion.OnBoundary(new Position(0, 0, 2.0));
-            Assert.IsFalse(result);
+            Assert.That(result, Is.False);
         }
 
         /// <summary>
@@ -86,9 +86,9 @@ namespace Vts.Test.MonteCarlo.Tissues
             var z = Math.Sqrt(_infiniteCylinderTissueRegion.Radius * _infiniteCylinderTissueRegion.Radius - x * x);
             const double y = 1.11; // pick any y value
             result = _infiniteCylinderTissueRegion.SurfaceNormal(new Position(x, y, z));
-            Assert.IsTrue(Math.Abs(result.Ux - 0.145072) < 1e-6);
+            Assert.That(Math.Abs(result.Ux - 0.145072) < 1e-6, Is.True);
             Assert.AreEqual(0, result.Uy); // surface normal on infinite cylinder should *always* have Uz=0
-            Assert.IsTrue(Math.Abs(result.Uz + 0.989421) < 1e-6);
+            Assert.That(Math.Abs(result.Uz + 0.989421) < 1e-6, Is.True);
         }
 
         /// <summary>

@@ -34,7 +34,7 @@ namespace Vts.Test.MonteCarlo.Sources
         {
             // check default constructor
             var si = new CustomEllipticalSourceInput();
-            Assert.IsInstanceOf<CustomEllipticalSourceInput>(si);
+            Assert.That(si, Is.InstanceOf<CustomEllipticalSourceInput>());
             // check full definition
             si = new CustomEllipticalSourceInput(
                 1.0,
@@ -47,10 +47,10 @@ namespace Vts.Test.MonteCarlo.Sources
                 SourceDefaults.DefaultBeamRotationFromInwardNormal.Clone(),
                 0
             );
-            Assert.IsInstanceOf<CustomEllipticalSourceInput>(si);
+            Assert.That(si, Is.InstanceOf<CustomEllipticalSourceInput>());
             // validate CreateSource
             var source = si.CreateSource(new MersenneTwister(0));
-            Assert.IsInstanceOf<CustomEllipticalSource>(source);
+            Assert.That(source, Is.InstanceOf<CustomEllipticalSource>());
         }
 
         /// <summary>

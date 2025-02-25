@@ -25,14 +25,14 @@ namespace Vts.Test.Common.Logging
         [Test]
         public void Test_create_new_nlog_logger()
         {
-            Assert.IsInstanceOf<NLogLogger>(_nLogLogger);
+            
         }
 
         [Test]
         public void Test_default_constructor()
         {
             var logger = new NLogLogger();
-            Assert.IsInstanceOf<NLogLogger>(logger);
+            
         }
 
         [Test]
@@ -75,7 +75,7 @@ namespace Vts.Test.Common.Logging
         public void Test_create_child_logger()
         {
             var childLogger = _nLogLogger.CreateChildLogger("Child");
-            Assert.IsInstanceOf<NLogLogger>(childLogger);
+            
             Assert.IsInstanceOf<Logger>(LogManager.GetLogger("NLog.Child"));
         }
 

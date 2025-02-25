@@ -146,9 +146,9 @@ namespace Vts.Test.MonteCarlo.Factories
             var results = sim.Run();
             var detectorExists = results.ResultsDictionary.TryGetValue(
                 detectorInput.Name, out var detector);
-            Assert.IsTrue(detectorExists);
+            Assert.That(detectorExists, Is.True);
             var firstValue = ((ROfXDetector)detector).Mean.FirstOrDefault();
-            Assert.IsTrue(firstValue != 0);
+            Assert.That(firstValue != 0, Is.True);
 
             // write detector to folder "user_defined_detector"
             DetectorIO.WriteDetectorToFile(detector, "user_defined_detector");

@@ -38,7 +38,7 @@ namespace Vts.Test.MonteCarlo
                 //genrand_mt_return = rng.genrand_mt(ref mts)
                 RN = rng.NextDouble();
                 Assert.AreEqual(RN / reciprocal, cCodeResultsUints[i]);
-                Assert.IsTrue(Math.Abs(RN - cCodeResultsRNs[i]) < 0.000001);
+                Assert.That(Math.Abs(RN - cCodeResultsRNs[i]) < 0.000001, Is.True);
             }
         }
 
@@ -106,7 +106,7 @@ namespace Vts.Test.MonteCarlo
             var rng = new DynamicCreatorMersenneTwister(0);
             // get first MT id = 0
             mtss = rng.get_mt_parameters_st(32, 521, 3, 5, 4172, ref count);
-            Assert.IsTrue(mtss[0].state != null);
+            Assert.That(mtss[0].state != null, Is.True);
             for (int i = 0; i < count; i++)
             {
                 rng.sgenrand_mt((uint)seed[i], ref mtss[i]);

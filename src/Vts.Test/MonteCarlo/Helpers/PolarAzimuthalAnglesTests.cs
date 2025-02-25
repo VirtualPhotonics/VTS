@@ -40,13 +40,13 @@ namespace Vts.Test.MonteCarlo.Helpers
                 Theta = 1.0,
                 Phi = 2.0
             };
-            Assert.IsTrue(polarAzimuthalAngles1 == polarAzimuthalAngles2);
+            Assert.That(polarAzimuthalAngles1 == polarAzimuthalAngles2, Is.True);
             var polarAzimuthalAngles3 = new PolarAzimuthalAngles()
             {
                 Theta = 1.0,
                 Phi = 3.0
             };
-            Assert.IsTrue(polarAzimuthalAngles1 != polarAzimuthalAngles3);
+            Assert.That(polarAzimuthalAngles1 != polarAzimuthalAngles3, Is.True);
         }
         /// <summary>
         /// Validate Equals method
@@ -65,16 +65,16 @@ namespace Vts.Test.MonteCarlo.Helpers
                 Theta = 1.0,
                 Phi = 2.0
             };
-            Assert.IsTrue(polarAzimuthalAngles1.Equals(polarAzimuthalAngles2)); 
+            Assert.That(polarAzimuthalAngles1.Equals(polarAzimuthalAngles2), Is.True); 
             // test when not equal
             var polarAzimuthalAngles3 = new PolarAzimuthalAngles()
             {
                 Theta = 1.0,
                 Phi = 3.0
             };
-            Assert.IsFalse(polarAzimuthalAngles1.Equals(polarAzimuthalAngles3));
+            Assert.That(polarAzimuthalAngles1.Equals(polarAzimuthalAngles3), Is.False);
             // test when null
-            Assert.IsFalse(polarAzimuthalAngles1.Equals((PolarAzimuthalAngles) null));
+            Assert.That(polarAzimuthalAngles1.Equals((PolarAzimuthalAngles) null), Is.False);
 
         }
         /// <summary>
@@ -89,8 +89,8 @@ namespace Vts.Test.MonteCarlo.Helpers
                 Phi = 2.0
             };
             var polarAzimuthalAnglesClone = polarAzimuthalAngles.Clone();
-            Assert.IsTrue(Math.Abs(polarAzimuthalAnglesClone.Theta - 1.0) < 1e-6);
-            Assert.IsTrue(Math.Abs(polarAzimuthalAnglesClone.Phi - 2.0) < 1e-6);
+            Assert.That(Math.Abs(polarAzimuthalAnglesClone.Theta - 1.0) < 1e-6, Is.True);
+            Assert.That(Math.Abs(polarAzimuthalAnglesClone.Phi - 2.0) < 1e-6, Is.True);
         }
 
         [Test]

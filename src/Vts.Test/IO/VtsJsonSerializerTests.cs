@@ -72,7 +72,7 @@ namespace Vts.Test.IO
         public void validate_file_exists_after_writing()
         {
             VtsJsonSerializer.WriteToJsonFile(new[] { "Hello", "World" }, "VtsJsonSerializerTests_file1.txt");
-            Assert.IsTrue(FileIO.FileExists("VtsJsonSerializerTests_file1.txt"));
+            Assert.That(FileIO.FileExists("VtsJsonSerializerTests_file1.txt"), Is.True);
         }
 
         [Test]
@@ -80,8 +80,8 @@ namespace Vts.Test.IO
         {
             var jsonSerialized = VtsJsonSerializer.WriteToJson(new[] { "Hello", "Dolly" });
             var objectDeserialized = VtsJsonSerializer.ReadFromJson<string[]>(jsonSerialized);
-            Assert.IsTrue(objectDeserialized != null);
-            Assert.IsTrue(objectDeserialized.Length > 0);
+            Assert.That(objectDeserialized != null, Is.True);
+            Assert.That(objectDeserialized.Length > 0, Is.True);
             Assert.AreEqual("Hello",objectDeserialized[0]);
             Assert.AreEqual("Dolly", objectDeserialized[1]);
         }
@@ -91,8 +91,8 @@ namespace Vts.Test.IO
         {
             VtsJsonSerializer.WriteToJsonFile(new[] { "Hello", "Sailor" }, "VtsJsonSerializerTests_file2.txt");
             var objectDeserialized = VtsJsonSerializer.ReadFromJsonFile<string[]>("VtsJsonSerializerTests_file2.txt");
-            Assert.IsTrue(objectDeserialized != null);
-            Assert.IsTrue(objectDeserialized.Length > 0);
+            Assert.That(objectDeserialized != null, Is.True);
+            Assert.That(objectDeserialized.Length > 0, Is.True);
             Assert.AreEqual("Hello", objectDeserialized[0]);
             Assert.AreEqual("Sailor",objectDeserialized[1]);
         }
@@ -112,7 +112,7 @@ namespace Vts.Test.IO
             };
             var jsonSerialized = VtsJsonSerializer.WriteToJson(compositeThingy);
             var thingyDeserialized = VtsJsonSerializer.ReadFromJson<CompositeThingy>(jsonSerialized);
-            Assert.IsTrue(thingyDeserialized != null);
+            Assert.That(thingyDeserialized != null, Is.True);
         }
 
         [Test]
@@ -120,14 +120,14 @@ namespace Vts.Test.IO
         {
             var jsonSerialized = VtsJsonSerializer.WriteToJson(new SimulationOptions());
             var optionsDerialized = VtsJsonSerializer.ReadFromJson<SimulationOptions>(jsonSerialized);
-            Assert.IsTrue(optionsDerialized != null);
+            Assert.That(optionsDerialized != null, Is.True);
         }
 
         [Test]
         public void validate_serialization_of_SimulationInput()
         {
             var jsonSerialized = VtsJsonSerializer.WriteToJson(new SimulationInput());
-            Assert.IsTrue(jsonSerialized != null && jsonSerialized.Length > 0);
+            Assert.That(jsonSerialized != null && jsonSerialized.Length > 0, Is.True);
         }
 
         [Test]
@@ -135,7 +135,7 @@ namespace Vts.Test.IO
         {
             var jsonSerialized = VtsJsonSerializer.WriteToJson(new SimulationInput());
             var inputDeserialized = VtsJsonSerializer.ReadFromJson<SimulationInput>(jsonSerialized);
-            Assert.IsTrue(inputDeserialized != null);
+            Assert.That(inputDeserialized != null, Is.True);
         }
 
         [Test]
@@ -143,7 +143,7 @@ namespace Vts.Test.IO
         {
             VtsJsonSerializer.WriteToJsonFile(new SimulationInput(), "VtsJsonSerializerTests_file3.txt");
             var objectDeserialized = VtsJsonSerializer.ReadFromJsonFile<SimulationInput>("VtsJsonSerializerTests_file3.txt");
-            Assert.IsTrue(objectDeserialized != null);
+            Assert.That(objectDeserialized != null, Is.True);
         }
 
         [Test]
@@ -151,7 +151,7 @@ namespace Vts.Test.IO
         {
             var range = new IntRange(10, 20, 11);
             var jsonSerialized = VtsJsonSerializer.WriteToJson(range);
-            Assert.IsTrue(jsonSerialized != null && jsonSerialized.Length > 0);
+            Assert.That(jsonSerialized != null && jsonSerialized.Length > 0, Is.True);
         }
 
         [Test]
@@ -160,7 +160,7 @@ namespace Vts.Test.IO
             var range = new IntRange(10, 20, 11);
             var jsonSerialized = VtsJsonSerializer.WriteToJson(range);
             var intRangeDeserialized = VtsJsonSerializer.ReadFromJson<IntRange>(jsonSerialized);
-            Assert.IsTrue(intRangeDeserialized != null);
+            Assert.That(intRangeDeserialized != null, Is.True);
             Assert.AreEqual(10, intRangeDeserialized.Start);
             Assert.AreEqual(20, intRangeDeserialized.Stop);
             Assert.AreEqual(11, intRangeDeserialized.Count);
@@ -172,7 +172,7 @@ namespace Vts.Test.IO
         {
             var op = new OpticalProperties(0.011, 1.1, 0.99, 1.44);
             var jsonSerialized = VtsJsonSerializer.WriteToJson(op);
-            Assert.IsTrue(jsonSerialized != null && jsonSerialized.Length > 0);
+            Assert.That(jsonSerialized != null && jsonSerialized.Length > 0, Is.True);
         }
 
         [Test]
@@ -182,11 +182,11 @@ namespace Vts.Test.IO
             var op = new OpticalProperties(0.011, 1.1, 0.99, 1.44);
             var jsonSerialized = VtsJsonSerializer.WriteToJson(op);
             var opDeserialized = VtsJsonSerializer.ReadFromJson<OpticalProperties>(jsonSerialized);
-            Assert.IsTrue(opDeserialized != null);
-            Assert.IsTrue(areRoughlyEqual(opDeserialized.Mua, 0.011));
-            Assert.IsTrue(areRoughlyEqual(opDeserialized.Musp, 1.1));
-            Assert.IsTrue(areRoughlyEqual(opDeserialized.G, 0.99));
-            Assert.IsTrue(areRoughlyEqual(opDeserialized.N, 1.44));
+            Assert.That(opDeserialized != null, Is.True);
+            Assert.That(areRoughlyEqual(opDeserialized.Mua, 0.011), Is.True);
+            Assert.That(areRoughlyEqual(opDeserialized.Musp, 1.1), Is.True);
+            Assert.That(areRoughlyEqual(opDeserialized.G, 0.99), Is.True);
+            Assert.That(areRoughlyEqual(opDeserialized.N, 1.44), Is.True);
         }
 
         [Test]
@@ -198,7 +198,7 @@ namespace Vts.Test.IO
 
             var jsonSerialized = VtsJsonSerializer.WriteToJson(layer);
 
-            Assert.IsTrue(jsonSerialized != null && jsonSerialized.Length > 0);
+            Assert.That(jsonSerialized != null && jsonSerialized.Length > 0, Is.True);
         }
 
         [Test]
@@ -212,14 +212,14 @@ namespace Vts.Test.IO
 
             var jsonSerialized = VtsJsonSerializer.WriteToJson(layer);
             var layerDeserialized = VtsJsonSerializer.ReadFromJson<LayerTissueRegion>(jsonSerialized);
-            Assert.IsTrue(layerDeserialized != null);
-            Assert.IsTrue(areRoughlyEqual(layerDeserialized.ZRange.Start, 3.0));
-            Assert.IsTrue(areRoughlyEqual(layerDeserialized.ZRange.Stop, 4.0));
-            Assert.IsTrue(areRoughlyEqual(layerDeserialized.ZRange.Count, 2));
-            Assert.IsTrue(areRoughlyEqual(layerDeserialized.RegionOP.Mua, 0.011));
-            Assert.IsTrue(areRoughlyEqual(layerDeserialized.RegionOP.Musp, 1.1));
-            Assert.IsTrue(areRoughlyEqual(layerDeserialized.RegionOP.G, 0.99));
-            Assert.IsTrue(areRoughlyEqual(layerDeserialized.RegionOP.N, 1.44));
+            Assert.That(layerDeserialized != null, Is.True);
+            Assert.That(areRoughlyEqual(layerDeserialized.ZRange.Start, 3.0), Is.True);
+            Assert.That(areRoughlyEqual(layerDeserialized.ZRange.Stop, 4.0), Is.True);
+            Assert.That(areRoughlyEqual(layerDeserialized.ZRange.Count, 2), Is.True);
+            Assert.That(areRoughlyEqual(layerDeserialized.RegionOP.Mua, 0.011), Is.True);
+            Assert.That(areRoughlyEqual(layerDeserialized.RegionOP.Musp, 1.1), Is.True);
+            Assert.That(areRoughlyEqual(layerDeserialized.RegionOP.G, 0.99), Is.True);
+            Assert.That(areRoughlyEqual(layerDeserialized.RegionOP.N, 1.44), Is.True);
         }
 
         [Test]
@@ -237,7 +237,7 @@ namespace Vts.Test.IO
 
             var jsonSerialized = VtsJsonSerializer.WriteToJson(multiRegionInput);
 
-            Assert.IsTrue(jsonSerialized != null && jsonSerialized.Length > 0);
+            Assert.That(jsonSerialized != null && jsonSerialized.Length > 0, Is.True);
         }
 
         [Test]
@@ -257,25 +257,25 @@ namespace Vts.Test.IO
 
             var jsonSerialized = VtsJsonSerializer.WriteToJson(multiRegionInput);
             var multiRegionInputDeserialized = VtsJsonSerializer.ReadFromJson<MultiLayerTissueInput>(jsonSerialized);
-            Assert.IsTrue(multiRegionInputDeserialized != null);
+            Assert.That(multiRegionInputDeserialized != null, Is.True);
 
             var region0Deserialized = (LayerTissueRegion) multiRegionInputDeserialized.Regions[0];
-            Assert.IsTrue(areRoughlyEqual(region0Deserialized.ZRange.Start, 2.0));
-            Assert.IsTrue(areRoughlyEqual(region0Deserialized.ZRange.Stop, 3.0));
-            Assert.IsTrue(areRoughlyEqual(region0Deserialized.ZRange.Count, 2));
-            Assert.IsTrue(areRoughlyEqual(region0Deserialized.RegionOP.Mua, 0.011));
-            Assert.IsTrue(areRoughlyEqual(region0Deserialized.RegionOP.Musp, 1.1));
-            Assert.IsTrue(areRoughlyEqual(region0Deserialized.RegionOP.G, 0.99));
-            Assert.IsTrue(areRoughlyEqual(region0Deserialized.RegionOP.N, 1.44));
+            Assert.That(areRoughlyEqual(region0Deserialized.ZRange.Start, 2.0), Is.True);
+            Assert.That(areRoughlyEqual(region0Deserialized.ZRange.Stop, 3.0), Is.True);
+            Assert.That(areRoughlyEqual(region0Deserialized.ZRange.Count, 2), Is.True);
+            Assert.That(areRoughlyEqual(region0Deserialized.RegionOP.Mua, 0.011), Is.True);
+            Assert.That(areRoughlyEqual(region0Deserialized.RegionOP.Musp, 1.1), Is.True);
+            Assert.That(areRoughlyEqual(region0Deserialized.RegionOP.G, 0.99), Is.True);
+            Assert.That(areRoughlyEqual(region0Deserialized.RegionOP.N, 1.44), Is.True);
 
             var region1Deserialized = (LayerTissueRegion)multiRegionInputDeserialized.Regions[1];
-            Assert.IsTrue(areRoughlyEqual(region1Deserialized.ZRange.Start, 3.0));
-            Assert.IsTrue(areRoughlyEqual(region1Deserialized.ZRange.Stop, 4.0));
-            Assert.IsTrue(areRoughlyEqual(region1Deserialized.ZRange.Count, 2));
-            Assert.IsTrue(areRoughlyEqual(region1Deserialized.RegionOP.Mua, 0.0111));
-            Assert.IsTrue(areRoughlyEqual(region1Deserialized.RegionOP.Musp, 1.11));
-            Assert.IsTrue(areRoughlyEqual(region1Deserialized.RegionOP.G, 0.999));
-            Assert.IsTrue(areRoughlyEqual(region1Deserialized.RegionOP.N, 1.444));
+            Assert.That(areRoughlyEqual(region1Deserialized.ZRange.Start, 3.0), Is.True);
+            Assert.That(areRoughlyEqual(region1Deserialized.ZRange.Stop, 4.0), Is.True);
+            Assert.That(areRoughlyEqual(region1Deserialized.ZRange.Count, 2), Is.True);
+            Assert.That(areRoughlyEqual(region1Deserialized.RegionOP.Mua, 0.0111), Is.True);
+            Assert.That(areRoughlyEqual(region1Deserialized.RegionOP.Musp, 1.11), Is.True);
+            Assert.That(areRoughlyEqual(region1Deserialized.RegionOP.G, 0.999), Is.True);
+            Assert.That(areRoughlyEqual(region1Deserialized.RegionOP.N, 1.444), Is.True);
         }
         /// <summary>
         /// test to verify serialization and deserialization of gaussiansourceprofile runs successfully
@@ -292,7 +292,7 @@ namespace Vts.Test.IO
 
             var sourceDeserialized = VtsJsonSerializer.ReadFromJson<CustomCircularSourceInput>(sourceSerialized);
 
-            Assert.IsTrue(sourceDeserialized.SourceProfile.SourceProfileType == SourceProfileType.Gaussian);
+            Assert.That(sourceDeserialized.SourceProfile.SourceProfileType == SourceProfileType.Gaussian, Is.True);
         }
     }
 }

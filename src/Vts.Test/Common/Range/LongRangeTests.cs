@@ -34,7 +34,7 @@ namespace Vts.Test.Common
         [Test]
         public void Validate_class_is_serializable()
         {
-            Assert.IsInstanceOf<LongRange>(new LongRange().Clone<LongRange>());
+            Assert.That(new LongRange().Clone<LongRange>(), Is.InstanceOf<LongRange>());
         }
 
         [Test]
@@ -106,7 +106,7 @@ namespace Vts.Test.Common
         public void Test_clone()
         {
             var longRange = new LongRange(0L, 10L);
-            Assert.IsInstanceOf<LongRange>(longRange.Clone());
+            Assert.That(longRange.Clone(), Is.InstanceOf<LongRange>());
         }
 
         [Test]

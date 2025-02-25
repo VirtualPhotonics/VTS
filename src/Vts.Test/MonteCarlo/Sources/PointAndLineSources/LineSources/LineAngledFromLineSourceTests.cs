@@ -53,8 +53,8 @@ namespace Vts.Test.MonteCarlo.Sources
                 0);
             var photon = source.GetNextPhoton(tissue);
             // Position.X will be random between [-5 5] and Y and Z should be 0
-            Assert.IsTrue(photon.DP.Position.X < 5);
-            Assert.IsTrue(photon.DP.Position.X > -5);
+            Assert.That(photon.DP.Position.X < 5, Is.True);
+            Assert.That(photon.DP.Position.X > -5, Is.True);
             Assert.AreEqual(0.0, photon.DP.Position.Y);
             Assert.AreEqual(0.0, photon.DP.Position.Z);
             // Direction.Ux,Uz will be random but Uy should be 0

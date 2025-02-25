@@ -65,18 +65,18 @@ namespace Vts.Test.MonteCarlo.Tissues
         public void Verify_GetRegionIndex_method_returns_correct_result()
         {
             var index = _oneLayerTissueBoundedByVoxel.GetRegionIndex(new Position(10, 0, 0)); // outside voxel
-            Assert.AreEqual(3, index);
+            Assert.That(index, Is.EqualTo(3));
             index = _oneLayerTissueBoundedByVoxel.GetRegionIndex(new Position(0, 0, 2.5)); // inside voxel
-            Assert.AreEqual(1, index);
+            Assert.That(index, Is.EqualTo(1));
             index = _oneLayerTissueBoundedByVoxel.GetRegionIndex(new Position(0, 0, 0)); // on voxel is considered in
-            Assert.AreEqual(1, index);
+            Assert.That(index, Is.EqualTo(1));
             // two layer results
             index = _twoLayerTissueBoundedByVoxel.GetRegionIndex(new Position(10, 0, 0)); // outside voxel
-            Assert.AreEqual(4, index);
+            Assert.That(index, Is.EqualTo(4));
             index = _twoLayerTissueBoundedByVoxel.GetRegionIndex(new Position(0, 0, 2.5)); // inside voxel
-            Assert.AreEqual(2, index);
+            Assert.That(index, Is.EqualTo(2));
             index = _twoLayerTissueBoundedByVoxel.GetRegionIndex(new Position(0, 0, 0)); // on voxel is considered in
-            Assert.AreEqual(1, index);
+            Assert.That(index, Is.EqualTo(1));
         }
 
         /// <summary>
@@ -93,7 +93,7 @@ namespace Vts.Test.MonteCarlo.Tissues
                 3,
                 new Random());
             var index = _oneLayerTissueBoundedByVoxel.GetNeighborRegionIndex(photon); 
-            Assert.AreEqual(1, index);
+            Assert.That(index, Is.EqualTo(1));
             photon = new Photon( // on side of voxel pointed out of it
                 new Position(-1, 0, 1),
                 new Direction(-1.0, 0, 0),
@@ -102,7 +102,7 @@ namespace Vts.Test.MonteCarlo.Tissues
                 1,
                 new Random());
             index = _oneLayerTissueBoundedByVoxel.GetNeighborRegionIndex(photon);
-            Assert.AreEqual(3, index);
+            Assert.That(index, Is.EqualTo(3));
             // two layer results
             photon = new Photon( // on side of voxel pointed into LAYER 1
                 new Position(-1, 0, 0.5),  
@@ -112,7 +112,7 @@ namespace Vts.Test.MonteCarlo.Tissues
                 4,
                 new Random());
             index = _twoLayerTissueBoundedByVoxel.GetNeighborRegionIndex(photon);
-            Assert.AreEqual(1, index);
+            Assert.That(index, Is.EqualTo(1));
             photon = new Photon( // on side of voxel in LAYER 1 pointed out of it
                 new Position(-1, 0, 0.5),
                 new Direction(-1.0, 0, 0),
@@ -121,7 +121,7 @@ namespace Vts.Test.MonteCarlo.Tissues
                 1,
                 new Random());
             index = _twoLayerTissueBoundedByVoxel.GetNeighborRegionIndex(photon);
-            Assert.AreEqual(4, index);
+            Assert.That(index, Is.EqualTo(4));
             photon = new Photon( // on side of voxel pointed into LAYER 2
                 new Position(-1, 0, 1.5),
                 new Direction(1.0, 0, 0),
@@ -130,7 +130,7 @@ namespace Vts.Test.MonteCarlo.Tissues
                 4,
                 new Random());
             index = _twoLayerTissueBoundedByVoxel.GetNeighborRegionIndex(photon);
-            Assert.AreEqual(2, index);
+            Assert.That(index, Is.EqualTo(2));
             photon = new Photon( // on side of voxel in LAYER 2 pointed out of it
                 new Position(-1, 0, 1.5),
                 new Direction(-1.0, 0, 0),
@@ -139,7 +139,7 @@ namespace Vts.Test.MonteCarlo.Tissues
                 1,
                 new Random());
             index = _twoLayerTissueBoundedByVoxel.GetNeighborRegionIndex(photon);
-            Assert.AreEqual(4, index);
+            Assert.That(index, Is.EqualTo(4));
         }
 
         /// <summary>
@@ -161,7 +161,7 @@ namespace Vts.Test.MonteCarlo.Tissues
             photon.DP.Position = new Position(-1.0, 0.0, 5.0);
             photon.DP.Direction = new Direction(1.0, 0.0, 0.0);
             cosTheta = _twoLayerTissueBoundedByVoxel.GetAngleRelativeToBoundaryNormal(photon);
-            Assert.AreEqual(1, cosTheta);
+            Assert.That(cosTheta, Is.EqualTo(1));
         }
 
 

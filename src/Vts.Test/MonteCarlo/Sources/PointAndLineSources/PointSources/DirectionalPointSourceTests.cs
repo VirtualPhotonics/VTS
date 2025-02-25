@@ -32,17 +32,17 @@ namespace Vts.Test.MonteCarlo.Sources
         {
             // check default constructor
             var si = new DirectionalPointSourceInput();
-            Assert.IsInstanceOf<DirectionalPointSourceInput>(si);
+            Assert.That(si, Is.InstanceOf<DirectionalPointSourceInput>());
             // check full definition
             si = new DirectionalPointSourceInput(
                     SourceDefaults.DefaultPosition.Clone(),
                     SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone(),
                     0
                 );
-            Assert.IsInstanceOf<DirectionalPointSourceInput>(si);
+            Assert.That(si, Is.InstanceOf<DirectionalPointSourceInput>());
             // validate CreateSource
             var source = si.CreateSource(new MersenneTwister(0));
-            Assert.IsInstanceOf<DirectionalPointSource>(source);
+            Assert.That(source, Is.InstanceOf<DirectionalPointSource>());
         }
         /// <summary>
         /// Validate General Constructor of Directional Point Source

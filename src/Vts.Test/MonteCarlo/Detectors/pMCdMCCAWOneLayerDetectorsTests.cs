@@ -246,8 +246,8 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.AreEqual(88, postProcessedOutput.pMC_R_rr_TallyCount);
 
             // validate derivatives with respect to mua and mus with prior run
-            Assert.IsTrue(Math.Abs(postProcessedOutput.dMCdMua_R_r[0] + 0.612979) < 1e-6);
-            Assert.IsTrue(Math.Abs(postProcessedOutput.dMCdMus_R_r[0] - 0.207432) < 1e-6);
+            Assert.That(Math.Abs(postProcessedOutput.dMCdMua_R_r[0] + 0.612979) < 1e-6, Is.True);
+            Assert.That(Math.Abs(postProcessedOutput.dMCdMus_R_r[0] - 0.207432) < 1e-6, Is.True);
         }
 
         /// <summary>
@@ -319,14 +319,14 @@ namespace Vts.Test.MonteCarlo.Detectors
 
             // validation value obtained from linux run using above input and seeded the same
             Assert.Less(Math.Abs(postProcessedOutput.pMC_R_r[0] * _factor - 1.013156), 0.000001);
-            Assert.IsTrue(Math.Abs(postProcessedOutput.pMC_R_r2[0] - 37.0997) < 1e-4);
+            Assert.That(Math.Abs(postProcessedOutput.pMC_R_r2[0] - 37.0997) < 1e-4, Is.True);
             Assert.AreEqual(88, postProcessedOutput.pMC_R_r_TallyCount);
             // validate derivative values with prior run
-            Assert.IsTrue(Math.Abs(postProcessedOutput.dMCdMua_R_r[0] + 0.609284) < 1e-6);
-            Assert.IsTrue(Math.Abs(postProcessedOutput.dMCdMus_R_r[0] - 0.192882) < 1e-6);
+            Assert.That(Math.Abs(postProcessedOutput.dMCdMua_R_r[0] + 0.609284) < 1e-6, Is.True);
+            Assert.That(Math.Abs(postProcessedOutput.dMCdMus_R_r[0] - 0.192882) < 1e-6, Is.True);
             // and 2nd moments
-            Assert.IsTrue(Math.Abs(postProcessedOutput.dMCdMua_R_r2[0] - 19.5494) < 1e-4);
-            Assert.IsTrue(Math.Abs(postProcessedOutput.dMCdMus_R_r2[0] - 5.47322) < 1e-5);
+            Assert.That(Math.Abs(postProcessedOutput.dMCdMua_R_r2[0] - 19.5494) < 1e-4, Is.True);
+            Assert.That(Math.Abs(postProcessedOutput.dMCdMus_R_r2[0] - 5.47322) < 1e-5, Is.True);
         }
 
         /// <summary>

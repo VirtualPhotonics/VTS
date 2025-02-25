@@ -38,9 +38,9 @@ namespace Vts.Test.MonteCarlo.Helpers
                 ZRotation = 3.0
             };
             var threeAxisRotationClone = threeAxisRotation.Clone();
-            Assert.IsTrue(Math.Abs(threeAxisRotationClone.XRotation - 1.0) < 1e-6);
-            Assert.IsTrue(Math.Abs(threeAxisRotationClone.YRotation - 2.0) < 1e-6);
-            Assert.IsTrue(Math.Abs(threeAxisRotationClone.ZRotation - 3.0) < 1e-6);
+            Assert.That(Math.Abs(threeAxisRotationClone.XRotation - 1.0) < 1e-6, Is.True);
+            Assert.That(Math.Abs(threeAxisRotationClone.YRotation - 2.0) < 1e-6, Is.True);
+            Assert.That(Math.Abs(threeAxisRotationClone.ZRotation - 3.0) < 1e-6, Is.True);
         }
 
     }

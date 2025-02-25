@@ -83,7 +83,7 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation.PostProcessorInputs
             // set pMC mua value to be negative
             ((pMCROfRhoDetectorInput) input.DetectorInputs[0]).PerturbedOps[1].Mua = -0.01;
             var result = PostProcessorInputValidation.ValidateInput(input,"");
-            Assert.IsTrue(result.ValidationRule.Equals("Tissue optical properties mua, mus', n need to be non-negative"));
+            Assert.That(result.ValidationRule.Equals("Tissue optical properties mua, mus', n need to be non-negative"), Is.True);
             // set pMC mua value back to being positive so passes rest of tests
             ((pMCROfRhoDetectorInput)input.DetectorInputs[0]).PerturbedOps[1].Mua = 0.01;
         }
@@ -123,12 +123,12 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation.PostProcessorInputs
             
             // first check for no existence of simulation input file
             var result = PostProcessorInputValidation.ValidateInput(input, "");
-            Assert.IsFalse(result.IsValid);
+            Assert.That(result.IsValid, Is.False);
             // now put file in place and test
             var simulationInput = new SimulationInput();
             simulationInput.ToFile(folderName + "/simulationInput.txt");
             result = PostProcessorInputValidation.ValidateInput(input, "");
-            Assert.IsTrue(result.IsValid);
+            Assert.That(result.IsValid, Is.True);
             // remove directory so other tests don't have it
             FileIO.DeleteDirectory(folderName);
             // set back input

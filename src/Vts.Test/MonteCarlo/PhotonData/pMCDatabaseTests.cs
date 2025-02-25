@@ -101,7 +101,7 @@ namespace Vts.Test.MonteCarlo.PhotonData
             Assert.AreEqual(new Direction(0, 0, 1), dp1.PhotonDataPoint.Direction);
             Assert.AreEqual(1.0, dp1.PhotonDataPoint.Weight);
             Assert.AreEqual(10, dp1.PhotonDataPoint.TotalTime);
-            Assert.IsTrue(dp1.PhotonDataPoint.StateFlag.HasFlag(PhotonStateType.None));
+            Assert.That(dp1.PhotonDataPoint.StateFlag.HasFlag(PhotonStateType.None), Is.True);
             // verify collision info for first photon
             Assert.AreEqual(10.0, dp1.CollisionInfo[0].PathLength);
             Assert.AreEqual(1000, dp1.CollisionInfo[0].NumberOfCollisions);
@@ -118,7 +118,7 @@ namespace Vts.Test.MonteCarlo.PhotonData
             Assert.AreEqual(new Direction(1, 0, 0), dp2.PhotonDataPoint.Direction);
             Assert.AreEqual(0.5, dp2.PhotonDataPoint.Weight);
             Assert.AreEqual(100, dp2.PhotonDataPoint.TotalTime);
-            Assert.IsTrue(dp2.PhotonDataPoint.StateFlag.HasFlag(PhotonStateType.None));
+            Assert.That(dp2.PhotonDataPoint.StateFlag.HasFlag(PhotonStateType.None), Is.True);
             // verify collision info for second photon
             Assert.AreEqual(40.0, dp2.CollisionInfo[0].PathLength);
             Assert.AreEqual(4000, dp2.CollisionInfo[0].NumberOfCollisions);

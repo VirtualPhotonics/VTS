@@ -132,9 +132,9 @@ namespace Vts.Test.MonteCarlo.Tissues
             Assert.AreEqual(-1, reflectedDir.Uz);
             currentDirection = new Direction(1/Math.Sqrt(2), 0, 1/Math.Sqrt(2)); // 45 deg to tangent surface
             reflectedDir = _tissueWithEllipsoid.GetReflectedDirection(currentPosition, currentDirection);
-            Assert.IsTrue(Math.Abs(reflectedDir.Ux - 1/Math.Sqrt(2)) < 1e-7);
+            Assert.That(Math.Abs(reflectedDir.Ux - 1/Math.Sqrt(2)) < 1e-7, Is.True);
             Assert.AreEqual(0, reflectedDir.Uy);
-            Assert.IsTrue(Math.Abs(reflectedDir.Uz + 1/Math.Sqrt(2)) < 1e-7);
+            Assert.That(Math.Abs(reflectedDir.Uz + 1/Math.Sqrt(2)) < 1e-7, Is.True);
         }
 
         /// <summary>
@@ -150,25 +150,25 @@ namespace Vts.Test.MonteCarlo.Tissues
             var nNext = 1.4; 
             var cosThetaSnell = 1/Math.Sqrt(2);
             var refractedDir = _tissueWithEllipsoid.GetRefractedDirection(currentPosition, currentDirection, nCurrent, nNext, cosThetaSnell);
-            Assert.IsTrue(Math.Abs(refractedDir.Ux - 1 / Math.Sqrt(2)) < 1e-6);
+            Assert.That(Math.Abs(refractedDir.Ux - 1 / Math.Sqrt(2)) < 1e-6, Is.True);
             Assert.AreEqual(0, refractedDir.Uy);
-            Assert.IsTrue(Math.Abs(refractedDir.Uz + 1 / Math.Sqrt(2)) < 1e-6);
+            Assert.That(Math.Abs(refractedDir.Uz + 1 / Math.Sqrt(2)) < 1e-6, Is.True);
             // put photon on ellipsoid: index matched
             currentPosition = new Position(0, 0, 2); 
             currentDirection = new Direction(1/Math.Sqrt(2), 0, 1/Math.Sqrt(2));
             nNext = 1.4;
             refractedDir = _tissueWithEllipsoid.GetRefractedDirection(currentPosition, currentDirection, nCurrent, nNext, cosThetaSnell);
-            Assert.IsTrue(Math.Abs(refractedDir.Ux - 1 / Math.Sqrt(2)) < 1e-6);
+            Assert.That(Math.Abs(refractedDir.Ux - 1 / Math.Sqrt(2)) < 1e-6, Is.True);
             Assert.AreEqual(0, refractedDir.Uy);
-            Assert.IsTrue(Math.Abs(refractedDir.Uz - 1 / Math.Sqrt(2)) < 1e-6);
+            Assert.That(Math.Abs(refractedDir.Uz - 1 / Math.Sqrt(2)) < 1e-6, Is.True);
             // put photon on ellipsoid: index mismatched
             currentPosition = new Position(0, 0, 2);
             currentDirection = new Direction(1 / Math.Sqrt(14), 2 / Math.Sqrt(14), 3 / Math.Sqrt(14));
             nNext = 1.5;
             refractedDir = _tissueWithEllipsoid.GetRefractedDirection(currentPosition, currentDirection, nCurrent, nNext, cosThetaSnell);
-            Assert.IsTrue(Math.Abs(refractedDir.Ux - 0.104257) < 1e-6);
-            Assert.IsTrue(Math.Abs(refractedDir.Uy - 0.208514) < 1e-6);
-            Assert.IsTrue(Math.Abs(refractedDir.Uz - 0.972446) < 1e-6);
+            Assert.That(Math.Abs(refractedDir.Ux - 0.104257) < 1e-6, Is.True);
+            Assert.That(Math.Abs(refractedDir.Uy - 0.208514) < 1e-6, Is.True);
+            Assert.That(Math.Abs(refractedDir.Uz - 0.972446) < 1e-6, Is.True);
             Assert.IsTrue(Math.Sqrt(refractedDir.Ux * refractedDir.Ux +
                                     refractedDir.Uy * refractedDir.Uy +
                                     refractedDir.Uz * refractedDir.Uz) - 1 < 1e-6);

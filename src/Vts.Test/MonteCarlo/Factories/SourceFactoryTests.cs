@@ -41,7 +41,7 @@ namespace Vts.Test.MonteCarlo.Factories
             var sourceInputMock = Substitute.For<ISourceInput>();
             sourceInputMock.CreateSource(Arg.Any<Random>()).Returns((ISource) null);
 
-            Assert.IsNull(SourceFactory.GetSource(sourceInputMock, new MersenneTwister(0)));
+            Assert.That(SourceFactory.GetSource(sourceInputMock, new MersenneTwister(0)), Is.Null);
         }
     }
 }

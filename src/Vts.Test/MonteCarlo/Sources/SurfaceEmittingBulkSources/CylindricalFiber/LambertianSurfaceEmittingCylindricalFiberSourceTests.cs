@@ -75,7 +75,7 @@ namespace Vts.Test.MonteCarlo.Sources
             }
             else // on bottom, make sure pointed down
             {
-                Assert.IsTrue(photon.DP.Direction.Uz > 0);
+                Assert.That(photon.DP.Direction.Uz > 0, Is.True);
             }
         }
     }

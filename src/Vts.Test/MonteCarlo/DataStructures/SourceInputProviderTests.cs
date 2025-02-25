@@ -29,8 +29,8 @@ namespace Vts.Test.MonteCarlo
         {
             var sourceInput = (DirectionalPointSourceInput)sourceInputList.First(
                     si => si.SourceType == "DirectionalPoint");
-            Assert.IsTrue(sourceInput != null);
-            Assert.IsTrue(Math.Abs(sourceInput.Direction.Uz - 1) < 0.000001);
+            Assert.That(sourceInput != null, Is.True);
+            Assert.That(Math.Abs(sourceInput.Direction.Uz - 1) < 0.000001, Is.True);
         }
 
         /// <summary>
@@ -41,7 +41,7 @@ namespace Vts.Test.MonteCarlo
         {
             var sourceInput = (CustomLineSourceInput) sourceInputList.First(
                 si => si.SourceType == "CustomLine");
-            Assert.IsTrue(sourceInput != null);
+            Assert.That(sourceInput != null, Is.True);
             Assert.IsTrue(
                 Math.Abs(sourceInput.NewDirectionOfPrincipalSourceAxis.Uz - 1) < 0.000001);
         }
@@ -53,10 +53,10 @@ namespace Vts.Test.MonteCarlo
         {
             var sourceInput = (CustomCircularSourceInput)sourceInputList.First(
                 si => si.SourceType == "CustomCircular");
-            Assert.IsTrue(sourceInput != null);
+            Assert.That(sourceInput != null, Is.True);
             Assert.IsTrue(
                 Math.Abs(sourceInput.NewDirectionOfPrincipalSourceAxis.Uz - 1) < 0.000001);
-            Assert.IsTrue(sourceInput.SourceProfile is GaussianSourceProfile);
+            Assert.That(sourceInput.SourceProfile is GaussianSourceProfile, Is.True);
         }
     }
 }

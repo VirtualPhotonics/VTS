@@ -26,7 +26,7 @@ namespace Vts.Test.MonteCarlo
                 false,
                 0.0,
                 0);
-            Assert.IsTrue(so.Databases.Count == 0);
+            Assert.That(so.Databases.Count == 0, Is.True);
         }
 
     }

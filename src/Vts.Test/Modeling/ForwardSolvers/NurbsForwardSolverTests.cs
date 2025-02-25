@@ -45,10 +45,10 @@ namespace Vts.Test.Modeling.ForwardSolvers
             var op = new OpticalProperties();
 
             var value1 = fs.ROfRho(op, 10);
-            Assert.IsTrue(value1 > 0);
+            Assert.That(value1 > 0, Is.True);
 
             var value2 = fs.ROfFx(op, 0.1);
-            Assert.IsTrue(value2 > 0);
+            Assert.That(value2 > 0, Is.True);
         }
 
         /// <summary>
@@ -63,10 +63,10 @@ namespace Vts.Test.Modeling.ForwardSolvers
             var fxs = 0.1.AsEnumerable();
 
             var value1 = fs.ROfRho(ops, rhos).First();
-            Assert.IsTrue(value1 > 0);
+            Assert.That(value1 > 0, Is.True);
 
             var value2 = fs.ROfFx(ops, fxs).First();
-            Assert.IsTrue(value2 > 0);
+            Assert.That(value2 > 0, Is.True);
         }
 
         /// <summary>
@@ -81,10 +81,10 @@ namespace Vts.Test.Modeling.ForwardSolvers
             var fxs = new[] { 0.1 };
 
             var value1 = fs.ROfRho(ops, rhos);
-            Assert.IsTrue(value1[0] > 0);
+            Assert.That(value1[0] > 0, Is.True);
 
             var value2 = fs.ROfFx(ops, fxs);
-            Assert.IsTrue(value2[0] > 0);
+            Assert.That(value2[0] > 0, Is.True);
         }
         
         /// <summary>

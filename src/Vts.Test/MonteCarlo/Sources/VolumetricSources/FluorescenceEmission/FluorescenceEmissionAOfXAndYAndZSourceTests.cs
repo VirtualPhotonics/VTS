@@ -154,10 +154,10 @@ namespace Vts.Test.MonteCarlo.Sources
             {
                 var photon = _fluorEmissionAOfXAndYAndZSourceCdf.GetNextPhoton(tissue);
                 // verify that photons start within range of midpoints of voxels in infinite cylinder
-                Assert.IsTrue(photon.DP.Position.X >= -0.5 && photon.DP.Position.X <= 0.5);
-                Assert.IsTrue(photon.DP.Position.Y >= -7.5 && photon.DP.Position.X <= 0.75);
-                Assert.IsTrue(photon.DP.Position.Z >= 0.5 && photon.DP.Position.Z <= 1.5);
-                Assert.IsTrue(Math.Abs(photon.DP.Weight - _xyzLoaderCdf.TotalAbsorbedEnergy) < 1e-6);
+                Assert.That(photon.DP.Position.X >= -0.5 && photon.DP.Position.X <= 0.5, Is.True);
+                Assert.That(photon.DP.Position.Y >= -7.5 && photon.DP.Position.X <= 0.75, Is.True);
+                Assert.That(photon.DP.Position.Z >= 0.5 && photon.DP.Position.Z <= 1.5, Is.True);
+                Assert.That(Math.Abs(photon.DP.Weight - _xyzLoaderCdf.TotalAbsorbedEnergy) < 1e-6, Is.True);
                 var ix = (int)(photon.DP.Position.X + 0.5) + 1;
                 var iz =(int)Math.Floor(photon.DP.Position.Z);
                 countArray[ix, 0, iz] += 1;
@@ -188,9 +188,9 @@ namespace Vts.Test.MonteCarlo.Sources
             {
                 var photon = _fluorEmissionAOfXAndYAndZSourceUnif.GetNextPhoton(tissue);
                 // verify that photons start within range of midpoints of voxels in infinite cylinder
-                Assert.IsTrue(photon.DP.Position.X >= -0.5 && photon.DP.Position.X <= 0.5);
-                Assert.IsTrue(photon.DP.Position.Y >= -7.5 && photon.DP.Position.X <= 7.5);
-                Assert.IsTrue(photon.DP.Position.Z >= 0.5 && photon.DP.Position.Z <= 2.5);
+                Assert.That(photon.DP.Position.X >= -0.5 && photon.DP.Position.X <= 0.5, Is.True);
+                Assert.That(photon.DP.Position.Y >= -7.5 && photon.DP.Position.X <= 7.5, Is.True);
+                Assert.That(photon.DP.Position.Z >= 0.5 && photon.DP.Position.Z <= 2.5, Is.True);
                 // verify sampling is proceeding in coded sequence
                 // detector x=[-2 2] 4 bins, y=[-10 10] 4 bins, z=[0 3] 3 bins
                 var ix = (int)((photon.DP.Position.X + 1.0)/_xyzLoaderUnif.X.Delta) + 1;

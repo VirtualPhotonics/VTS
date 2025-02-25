@@ -19,7 +19,7 @@ namespace Vts.Test.Common
         [Test]
         public void Test_constructor()
         {
-            Assert.IsInstanceOf<LayerOpticalPropertyRegion>(_layerOpticalPropertyRegion);
+            Assert.That(_layerOpticalPropertyRegion, Is.InstanceOf<LayerOpticalPropertyRegion>());
         }
 
         [Test]

@@ -42,25 +42,25 @@ namespace Vts.Test.MonteCarlo
                 10.0,
                 PhotonStateType.Absorbed);
             // before adding photon data points, check CurrentDP and PreviousDP are null
-            Assert.IsNull(photonHistory.CurrentDP);
-            Assert.IsNull(photonHistory.PreviousDP);
+            Assert.That(photonHistory.CurrentDP, Is.Null);
+            Assert.That(photonHistory.PreviousDP, Is.Null);
             photonHistory.AddDPToHistory(dp1);
             photonHistory.AddDPToHistory(dp2);
             // verify contents of HistoryData
-            Assert.IsTrue(Math.Abs(photonHistory.HistoryData[0].Position.X - 1) < 1e-6);
-            Assert.IsTrue(Math.Abs(photonHistory.HistoryData[0].Position.Y - 2) < 1e-6);
-            Assert.IsTrue(Math.Abs(photonHistory.HistoryData[0].Position.Z - 3) < 1e-6);
-            Assert.IsTrue(Math.Abs(photonHistory.HistoryData[0].Weight - 1) < 1e-6);
-            Assert.IsTrue(photonHistory.HistoryData[0].StateFlag == PhotonStateType.Alive);
-            Assert.IsTrue(Math.Abs(photonHistory.HistoryData[1].Position.X - 4) < 1e-6);
-            Assert.IsTrue(Math.Abs(photonHistory.HistoryData[1].Position.Y - 5) < 1e-6);
-            Assert.IsTrue(Math.Abs(photonHistory.HistoryData[1].Position.Z - 6) < 1e-6);
-            Assert.IsTrue(Math.Abs(photonHistory.HistoryData[1].Weight - 0.1) < 1e-6);
-            Assert.IsTrue(photonHistory.HistoryData[1].StateFlag == PhotonStateType.Absorbed);
+            Assert.That(Math.Abs(photonHistory.HistoryData[0].Position.X - 1) < 1e-6, Is.True);
+            Assert.That(Math.Abs(photonHistory.HistoryData[0].Position.Y - 2) < 1e-6, Is.True);
+            Assert.That(Math.Abs(photonHistory.HistoryData[0].Position.Z - 3) < 1e-6, Is.True);
+            Assert.That(Math.Abs(photonHistory.HistoryData[0].Weight - 1) < 1e-6, Is.True);
+            Assert.That(photonHistory.HistoryData[0].StateFlag == PhotonStateType.Alive, Is.True);
+            Assert.That(Math.Abs(photonHistory.HistoryData[1].Position.X - 4) < 1e-6, Is.True);
+            Assert.That(Math.Abs(photonHistory.HistoryData[1].Position.Y - 5) < 1e-6, Is.True);
+            Assert.That(Math.Abs(photonHistory.HistoryData[1].Position.Z - 6) < 1e-6, Is.True);
+            Assert.That(Math.Abs(photonHistory.HistoryData[1].Weight - 0.1) < 1e-6, Is.True);
+            Assert.That(photonHistory.HistoryData[1].StateFlag == PhotonStateType.Absorbed, Is.True);
             var currentDp = photonHistory.CurrentDP;
-            Assert.IsTrue(currentDp.StateFlag == PhotonStateType.Absorbed);
+            Assert.That(currentDp.StateFlag == PhotonStateType.Absorbed, Is.True);
             var previousDp = photonHistory.PreviousDP;
-            Assert.IsTrue(previousDp.StateFlag == PhotonStateType.Alive);
+            Assert.That(previousDp.StateFlag == PhotonStateType.Alive, Is.True);
         }
 
     }

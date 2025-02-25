@@ -81,7 +81,7 @@ namespace Vts.Test.MonteCarlo.PhotonData
             Assert.AreEqual(new Direction(0, 0, 1),dp1.Direction);
             Assert.AreEqual(1.0, dp1.Weight);
             Assert.AreEqual(10, dp1.TotalTime);
-            Assert.IsTrue(dp1.StateFlag.HasFlag(PhotonStateType.None));
+            Assert.That(dp1.StateFlag.HasFlag(PhotonStateType.None), Is.True);
 
             // advance to the second point and test that the point is valid
             enumerator.MoveNext();
@@ -90,7 +90,7 @@ namespace Vts.Test.MonteCarlo.PhotonData
             Assert.AreEqual(new Direction(1, 0, 0),dp2.Direction);
             Assert.AreEqual(0.5,dp2.Weight);
             Assert.AreEqual(100,dp2.TotalTime);
-            Assert.IsTrue(dp2.StateFlag.HasFlag(PhotonStateType.None));
+            Assert.That(dp2.StateFlag.HasFlag(PhotonStateType.None), Is.True);
 
             enumerator.Dispose();
         }

@@ -75,8 +75,8 @@ namespace Vts.Test.MonteCarlo.PhotonData
 
             var dbCloned = CollisionInfoDatabase.FromFile(databaseFilename);
 
-            Assert.AreEqual(3, dbCloned.NumberOfSubRegions);
-            Assert.AreEqual(2, dbCloned.NumberOfElements);
+            Assert.That(dbCloned.NumberOfSubRegions, Is.EqualTo(3));
+            Assert.That(dbCloned.NumberOfElements, Is.EqualTo(2));
 
             // manually enumerate through the first two elements (same as foreach)
             // PhotonDatabase is designed so you don't have to have the whole thing
@@ -87,23 +87,23 @@ namespace Vts.Test.MonteCarlo.PhotonData
             enumerator.MoveNext();
             var dp1 = enumerator.Current;
             Assert.IsNotNull(dp1);
-            Assert.AreEqual(10.0, dp1[0].PathLength);
-            Assert.AreEqual(1000, dp1[0].NumberOfCollisions);
-            Assert.AreEqual(20.0, dp1[1].PathLength);
-            Assert.AreEqual(2000, dp1[1].NumberOfCollisions);
-            Assert.AreEqual(30.0, dp1[2].PathLength);
-            Assert.AreEqual(3000, dp1[2].NumberOfCollisions);
+            Assert.That(dp1[0].PathLength, Is.EqualTo(10.0));
+            Assert.That(dp1[0].NumberOfCollisions, Is.EqualTo(1000));
+            Assert.That(dp1[1].PathLength, Is.EqualTo(20.0));
+            Assert.That(dp1[1].NumberOfCollisions, Is.EqualTo(2000));
+            Assert.That(dp1[2].PathLength, Is.EqualTo(30.0));
+            Assert.That(dp1[2].NumberOfCollisions, Is.EqualTo(3000));
 
             // advance to the second point and test that the point is valid
             enumerator.MoveNext();
             var dp2 = enumerator.Current;
             Assert.IsNotNull(dp2);
-            Assert.AreEqual(40.0, dp2[0].PathLength);
-            Assert.AreEqual(4000, dp2[0].NumberOfCollisions);
-            Assert.AreEqual(50.0, dp2[1].PathLength);
-            Assert.AreEqual(5000, dp2[1].NumberOfCollisions);
-            Assert.AreEqual(60.0, dp2[2].PathLength);
-            Assert.AreEqual(6000, dp2[2].NumberOfCollisions);
+            Assert.That(dp2[0].PathLength, Is.EqualTo(40.0));
+            Assert.That(dp2[0].NumberOfCollisions, Is.EqualTo(4000));
+            Assert.That(dp2[1].PathLength, Is.EqualTo(50.0));
+            Assert.That(dp2[1].NumberOfCollisions, Is.EqualTo(5000));
+            Assert.That(dp2[2].PathLength, Is.EqualTo(60.0));
+            Assert.That(dp2[2].NumberOfCollisions, Is.EqualTo(6000));
         }
     }
 }

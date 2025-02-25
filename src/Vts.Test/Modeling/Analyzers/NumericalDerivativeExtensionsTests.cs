@@ -29,7 +29,7 @@ namespace Vts.Test.Modeling.Analyzers
 
             var result = func.GetDerivativeFunc(ForwardAnalysisType.dRdMua)(independentValues);
             Assert.IsNotNull(result);
-            Assert.AreEqual(-0.1281, result[0], 0.0001);
+            Assert.That(result[0], Is.EqualTo(-0.1281).Within(0.0001));
         }
 
         [Test]
@@ -46,13 +46,13 @@ namespace Vts.Test.Modeling.Analyzers
 
             var result = func.GetDerivativeFunc(ForwardAnalysisType.dRdMua)(independentValues);
             Assert.IsNotNull(result);
-            Assert.AreEqual(-0.1281, result[0], 0.0001);
+            Assert.That(result[0], Is.EqualTo(-0.1281).Within(0.0001));
             
             NumericalDerivativeExtensions.SetDelta(1);
 
             result = func.GetDerivativeFunc(ForwardAnalysisType.dRdMua)(independentValues);
             Assert.IsNotNull(result);
-            Assert.AreEqual(-0.1337, result[0], 0.0001);
+            Assert.That(result[0], Is.EqualTo(-0.1337).Within(0.0001));
         }
 
         [Test]
@@ -69,7 +69,7 @@ namespace Vts.Test.Modeling.Analyzers
 
             var result = func.GetDerivativeFunc(ForwardAnalysisType.dRdMusp)(independentValues);
             Assert.IsNotNull(result);
-            Assert.AreEqual(0.02113, result[0], 0.00001);
+            Assert.That(result[0], Is.EqualTo(0.02113).Within(0.00001));
         }
 
         [Test]
@@ -86,7 +86,7 @@ namespace Vts.Test.Modeling.Analyzers
 
             var result = func.GetDerivativeFunc(ForwardAnalysisType.dRdG)(independentValues);
             Assert.IsNotNull(result);
-            Assert.AreEqual(0, result[0], 0.1);
+            Assert.That(result[0], Is.EqualTo(0).Within(0.1));
         }
 
         [Test]
@@ -103,7 +103,7 @@ namespace Vts.Test.Modeling.Analyzers
 
             var result = func.GetDerivativeFunc(ForwardAnalysisType.dRdN)(independentValues);
             Assert.IsNotNull(result);
-            Assert.AreEqual(0, result[0], 0.1);
+            Assert.That(result[0], Is.EqualTo(0).Within(0.1));
         }
 
         [Test]

@@ -141,27 +141,27 @@ namespace Vts.Test.MonteCarlo.Detectors
         [Test]
         public void validate_Analog_RDiffuse()
         {
-            Assert.Less(Math.Abs(_output.Rd * _factor - 0.670833333), 0.000000001);
+            Assert.That(Math.Abs(_output.Rd * _factor - 0.670833333), Is.LessThan(0.000000001));
             // for analog 1st and 2nd moment should be equal (since weight tallied is 1)
-            Assert.AreEqual(_output.Rd, _output.Rd2);
+            Assert.That( _output.Rd2, Is.EqualTo(_output.Rd));
         }
         // Reflection R(rho)
         [Test]
         public void validate_Analog_ROfRho()
         {
-            Assert.Less(Math.Abs(_output.R_r[0] * _factor - 0.928403835), 0.000000001);
+            Assert.That(Math.Abs(_output.R_r[0] * _factor - 0.928403835), Is.LessThan(0.000000001));
         }
         // Reflection R(rho) 2nd moment, linux value output in printf statement
         [Test]
         public void validate_Analog_ROfRho_second_moment()
         {
-            Assert.Less(Math.Abs(_output.R_r2[0] * _factor * _factor - 28.73112), 0.00001);
+            Assert.That(Math.Abs(_output.R_r2[0] * _factor * _factor - 28.73112), Is.LessThan(0.00001));
         }
         // Reflection R(angle)
         [Test]
         public void validate_Analog_ROfAngle()
         {
-            Assert.Less(Math.Abs(_output.R_a[0] * _factor - 0.0961235688), 0.0000000001);
+            Assert.That(Math.Abs(_output.R_a[0] * _factor - 0.0961235688), Is.LessThan(0.0000000001));
         }
         // Reflection R(rho,angle)
         [Test]
@@ -266,9 +266,9 @@ namespace Vts.Test.MonteCarlo.Detectors
         [Test]
         public void validate_Analog_Statistics()
         {
-            Assert.IsTrue(_simulationStatistics.NumberOfPhotonsOutTopOfTissue == 69);
-            Assert.IsTrue(_simulationStatistics.NumberOfPhotonsOutBottomOfTissue == 2);
-            Assert.IsTrue(_simulationStatistics.NumberOfPhotonsAbsorbed == 29);
+            Assert.That(_simulationStatistics.NumberOfPhotonsOutTopOfTissue == 69, Is.True);
+            Assert.That(_simulationStatistics.NumberOfPhotonsOutBottomOfTissue == 2, Is.True);
+            Assert.That(_simulationStatistics.NumberOfPhotonsAbsorbed == 29, Is.True);
         }
     }
 }

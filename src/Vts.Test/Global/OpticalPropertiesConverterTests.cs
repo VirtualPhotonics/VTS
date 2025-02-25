@@ -18,7 +18,7 @@ namespace Vts.Test
         [Test]
         public void Test_can_convert()
         {
-            Assert.IsTrue(new OpticalPropertiesConverter().CanConvert(_opticalProperties.GetType()));
+            Assert.That(new OpticalPropertiesConverter().CanConvert(_opticalProperties.GetType()), Is.True);
         }
 
         [Test]
@@ -26,7 +26,7 @@ namespace Vts.Test
         {
             var jsonSerialized = _opticalProperties.WriteToJson();
             var opticalPropertiesDeserialized = jsonSerialized.ReadFromJson<OpticalProperties>();
-            Assert.IsInstanceOf<OpticalProperties>(opticalPropertiesDeserialized);
+            Assert.That(opticalPropertiesDeserialized, Is.InstanceOf<OpticalProperties>());
             Assert.AreEqual(0.01, opticalPropertiesDeserialized.Mua);
             Assert.AreEqual(1.0, opticalPropertiesDeserialized.Musp);
             Assert.AreEqual(0.8, opticalPropertiesDeserialized.G);
@@ -36,7 +36,7 @@ namespace Vts.Test
         [Test]
         public void Test_can_write()
         {
-            Assert.IsFalse(new OpticalPropertiesConverter().CanWrite);
+            Assert.That(new OpticalPropertiesConverter().CanWrite, Is.False);
         }
 
         [Test]

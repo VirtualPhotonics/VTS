@@ -53,11 +53,11 @@ namespace Vts.Test.Extensions
                     0.2,
                     0.3
                 });
-            Assert.IsInstanceOf<IEnumerable<double>>(doubleList);
+            Assert.That(doubleList, Is.InstanceOf<IEnumerable<double>>());
             Assert.Throws<NotImplementedException>(() =>
             {
                 var arrayList = doubleList.ToArray();
-                Assert.IsNull(arrayList);
+                Assert.That(arrayList, Is.Null);
             });
         }
 
@@ -79,11 +79,11 @@ namespace Vts.Test.Extensions
                     0.1,
                     0.2
                 });
-            Assert.IsInstanceOf<IEnumerable<double>>(doubleList);
+            Assert.That(doubleList, Is.InstanceOf<IEnumerable<double>>());
             Assert.Throws<NotImplementedException>(() =>
             {
                 var arrayList = doubleList.ToArray();
-                Assert.IsNull(arrayList);
+                Assert.That(arrayList, Is.Null);
             });
         }
 
@@ -97,7 +97,7 @@ namespace Vts.Test.Extensions
                 new KeyValuePair<string, string>("three", "third")
             };
             var dictionary = EnumerableExtensions.ToDictionary(keyValuePairList);
-            Assert.IsInstanceOf<Dictionary<string, string>>(dictionary);
+            Assert.That(dictionary, Is.InstanceOf<Dictionary<string, string>>());
             Assert.AreEqual("first", dictionary["one"]);
             Assert.AreEqual("second", dictionary["two"]);
             Assert.AreEqual("third", dictionary["three"]);
@@ -115,7 +115,7 @@ namespace Vts.Test.Extensions
         {
             var twoDArray = _doubleEnumerable.To2DArray(2, 4);
             var doubleEnumerable = twoDArray.Select((d, i1, i2) => d * i1 * i2);
-            doubleEnumerable.ForEach(x => Assert.IsInstanceOf<double>(x));
+            doubleEnumerable.ForEach(x => Assert.That(x, Is.InstanceOf<double>()));
         }
 
         [Test]
@@ -161,7 +161,7 @@ namespace Vts.Test.Extensions
         {
             var result = _doubleEnumerable.Zip(_doubleEnumerable,
                 _doubleEnumerable, _doubleEnumerable, (d1, d2, d3, d4) => d1 * d2 * d3);
-            result.ForEach(x => Assert.IsInstanceOf<double>(x));
+            result.ForEach(x => Assert.That(x, Is.InstanceOf<double>()));
         }
 
         [Test]
@@ -169,7 +169,7 @@ namespace Vts.Test.Extensions
         {
             var result = _doubleEnumerable.Zip(_doubleEnumerable,
                 _doubleEnumerable, _doubleEnumerable, _doubleEnumerable, (d1, d2, d3, d4, d5) => d1 * d2 * d3 * d4);
-            result.ForEach(x => Assert.IsInstanceOf<double>(x));
+            result.ForEach(x => Assert.That(x, Is.InstanceOf<double>()));
         }
 
         [Test]

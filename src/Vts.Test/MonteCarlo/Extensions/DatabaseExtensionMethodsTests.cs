@@ -16,16 +16,16 @@ namespace Vts.Test.MonteCarlo.Extensions
         {
             // validate those that are true
             var databaseType = DatabaseType.pMCDiffuseReflectance;
-            Assert.IsTrue(databaseType.IspMCDatabase());
+            Assert.That(databaseType.IspMCDatabase(), Is.True);
             databaseType = DatabaseType.pMCDiffuseTransmittance;
-            Assert.IsTrue(databaseType.IspMCDatabase());
+            Assert.That(databaseType.IspMCDatabase(), Is.True);
             // validate those that are false
             databaseType = DatabaseType.DiffuseReflectance;
-            Assert.IsFalse(databaseType.IspMCDatabase());
+            Assert.That(databaseType.IspMCDatabase(), Is.False);
             databaseType = DatabaseType.DiffuseTransmittance;
-            Assert.IsFalse(databaseType.IspMCDatabase());
+            Assert.That(databaseType.IspMCDatabase(), Is.False);
             databaseType = DatabaseType.SpecularReflectance;
-            Assert.IsFalse(databaseType.IspMCDatabase());
+            Assert.That(databaseType.IspMCDatabase(), Is.False);
             // check if enum set to something out of range
             databaseType = (DatabaseType)Enum.GetNames(typeof(DatabaseType)).Length + 1;
             Assert.Throws<ArgumentOutOfRangeException>(

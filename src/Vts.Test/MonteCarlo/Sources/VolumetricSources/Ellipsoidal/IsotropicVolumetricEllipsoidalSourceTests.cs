@@ -73,7 +73,7 @@ namespace Vts.Test.MonteCarlo.Sources
                     (photon.DP.Position.X - center.X) * (photon.DP.Position.X - center.X) / (aParameter * aParameter) +
                     (photon.DP.Position.Y - center.Y) * (photon.DP.Position.Y - center.Y) / (bParameter * bParameter) +
                     (photon.DP.Position.Z - center.Z) * (photon.DP.Position.Z - center.Z) / (cParameter * cParameter);
-                Assert.IsTrue(inside <= 1.0);
+                Assert.That(inside <= 1.0, Is.True);
             }
 
         }
@@ -112,7 +112,7 @@ namespace Vts.Test.MonteCarlo.Sources
                     (photon.DP.Position.X - center.X) / aParameter + (photon.DP.Position.X - center.X) / aParameter +
                     (photon.DP.Position.Y - center.Y) / bParameter + (photon.DP.Position.Y - center.Y) / bParameter +
                     (photon.DP.Position.Z - center.Z) / cParameter + (photon.DP.Position.Z - center.Z) / cParameter;
-                Assert.IsTrue(inside <= 1.0);
+                Assert.That(inside <= 1.0, Is.True);
             }
         }
 

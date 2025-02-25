@@ -33,7 +33,7 @@ namespace Vts.Test.Common
         [Test]
         public void Validate_class_is_serializable()
         {
-            Assert.IsInstanceOf<DoubleRange>(new DoubleRange().Clone<DoubleRange>());
+            Assert.That(new DoubleRange().Clone<DoubleRange>(), Is.InstanceOf<DoubleRange>());
         }
 
         [Test]
@@ -105,7 +105,7 @@ namespace Vts.Test.Common
         public void Test_clone()
         {
             var doubleRange = new DoubleRange(0.1, 0.9);
-            Assert.IsInstanceOf<DoubleRange>(doubleRange.Clone());
+            Assert.That(doubleRange.Clone(), Is.InstanceOf<DoubleRange>());
         }
 
         [Test]

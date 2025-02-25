@@ -83,7 +83,7 @@ namespace Vts.Test.MonteCarlo
                 new MultiLayerTissueInput(),
                 null
                 );
-            Assert.IsTrue(si.DetectorInputs.Count == 0);
+            Assert.That(si.DetectorInputs.Count == 0, Is.True);
         }
         /// <summary>
         /// validate detector input gets serialized correctly

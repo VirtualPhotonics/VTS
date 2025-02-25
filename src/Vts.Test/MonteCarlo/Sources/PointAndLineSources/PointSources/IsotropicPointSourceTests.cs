@@ -37,10 +37,10 @@ namespace Vts.Test.MonteCarlo.Sources
                     new Position(0, 0, 0),
                     0
             );
-            Assert.IsInstanceOf<IsotropicPointSourceInput>(si);
+            Assert.That(si, Is.InstanceOf<IsotropicPointSourceInput>());
             // validate CreateSource
             var source = si.CreateSource(new MersenneTwister(0));
-            Assert.IsInstanceOf<IsotropicPointSource>(source);
+            Assert.That(source, Is.InstanceOf<IsotropicPointSource>());
         }
         /// <summary>
         /// Validate General Constructor of Isotropic Point Source

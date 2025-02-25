@@ -225,8 +225,8 @@ namespace Vts.Test.MonteCarlo.Detectors
                 _outputNaOffCenter.SurFib * _outputNaOffCenter.SurFib) / 100);
             var threeSigmaPos = _outputNaOffCenter.SurFib + 3 * sd;
             var threeSigmaNeg = _outputNaOffCenter.SurFib - 3 * sd;
-            Assert.IsTrue(_outputNaOffCenter.R_r[0] < threeSigmaPos);
-            Assert.IsTrue(_outputNaOffCenter.R_r[0] > threeSigmaNeg);
+            Assert.That(_outputNaOffCenter.R_r[0] < threeSigmaPos, Is.True);
+            Assert.That(_outputNaOffCenter.R_r[0] > threeSigmaNeg, Is.True);
         }
     }
 }

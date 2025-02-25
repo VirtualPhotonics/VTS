@@ -12,7 +12,7 @@ namespace Vts.Test.Common
         [Test]
         public void Validate_class_is_serializable()
         {
-            Assert.IsInstanceOf<IntRange>(new IntRange().Clone<IntRange>());
+            Assert.That(new IntRange().Clone<IntRange>(), Is.InstanceOf<IntRange>());
         }
 
         [Test]
@@ -106,7 +106,7 @@ namespace Vts.Test.Common
         public void Test_clone()
         {
             var intRange = new IntRange(0, 10);
-            Assert.IsInstanceOf<IntRange>(intRange.Clone());
+            Assert.That(intRange.Clone(), Is.InstanceOf<IntRange>());
         }
 
         [Test]

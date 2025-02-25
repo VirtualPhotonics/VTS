@@ -22,7 +22,7 @@ namespace Vts.Test.MonteCarlo.Sources
         {
             // check default constructor
             var si = new CustomSurfaceEmittingSphericalSourceInput();
-            Assert.IsInstanceOf<CustomSurfaceEmittingSphericalSourceInput>(si);
+            Assert.That(si, Is.InstanceOf<CustomSurfaceEmittingSphericalSourceInput>());
             // check full definition
             si = new CustomSurfaceEmittingSphericalSourceInput(
                     1.0,
@@ -32,10 +32,10 @@ namespace Vts.Test.MonteCarlo.Sources
                     SourceDefaults.DefaultPosition.Clone(),
                     0
             );
-            Assert.IsInstanceOf<CustomSurfaceEmittingSphericalSourceInput>(si);
+            Assert.That(si, Is.InstanceOf<CustomSurfaceEmittingSphericalSourceInput>());
             // validate CreateSource
             var source = si.CreateSource(new MersenneTwister(0));
-            Assert.IsInstanceOf<CustomSurfaceEmittingSphericalSource>(source);
+            Assert.That(source, Is.InstanceOf<CustomSurfaceEmittingSphericalSource>());
         }
         /// <summary>
         /// This test validated using geometry assumptions
@@ -118,7 +118,7 @@ namespace Vts.Test.MonteCarlo.Sources
                                        positionOnSurface.Y * positionOnSurface.Y +
                                        positionOnSurface.Z * positionOnSurface.Z)) < 0.00001);
                 // make sure initial x-y-z position is only in lower hemisphere
-                Assert.IsTrue(positionOnSurface.Z >= 0.0);
+                Assert.That(positionOnSurface.Z >= 0.0, Is.True);
                 // determine outward normal from photon position
                 var outwardNormalAtPosition = new Direction(positionOnSurface.X,
                     positionOnSurface.Y, positionOnSurface.Z);

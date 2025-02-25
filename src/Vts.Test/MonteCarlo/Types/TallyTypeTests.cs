@@ -28,7 +28,7 @@ namespace Vts.Test.MonteCarlo
                 // get rid of pMC tallies because won't be SimulationInputProvider
                 if (!tallyType.Substring(1, 1).Equals("M"))
                 {
-                    Assert.IsTrue(detectorInputs.Any(d => d.TallyType == tallyType));
+                    Assert.That(detectorInputs.Any(d => d.TallyType == tallyType), Is.True);
                     cnt++;
                 }
             }

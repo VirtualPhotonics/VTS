@@ -9,11 +9,11 @@ namespace Vts.Test
         public void Validate_constructor_with_array()
         {
             var opticalProperties = new OpticalProperties(new[] { 0.1, 0.001, 0.8, 1.4 });
-            Assert.AreEqual(0.1, opticalProperties.Mua);
-            Assert.AreEqual(0.001, opticalProperties.Musp);
-            Assert.AreEqual(0.8, opticalProperties.G);
-            Assert.AreEqual(1.4, opticalProperties.N);
-            Assert.AreEqual(0.005, opticalProperties.Mus, 0.00001);
+            Assert.That(opticalProperties.Mua, Is.EqualTo(0.1));
+            Assert.That(opticalProperties.Musp, Is.EqualTo(0.001));
+            Assert.That(opticalProperties.G, Is.EqualTo(0.8));
+            Assert.That(opticalProperties.N, Is.EqualTo(1.4));
+            Assert.That(opticalProperties.Mus, Is.EqualTo(0.005).Within(0.00001));
         }
 
         [Test]
@@ -21,19 +21,19 @@ namespace Vts.Test
         {
             var op1 = new OpticalProperties(mua: 0.01, musp: 2.0, g: 0.9, n: 1.4);
 
-            Assert.AreEqual(0.01, op1.Mua);
-            Assert.AreEqual(2.0, op1.Musp);
-            Assert.AreEqual(0.9, op1.G);
-            Assert.AreEqual(1.4, op1.N);
+            Assert.That(op1.Mua, Is.EqualTo(0.01));
+            Assert.That(op1.Musp, Is.EqualTo(2.0));
+            Assert.That(op1.G, Is.EqualTo(0.9));
+            Assert.That(op1.N, Is.EqualTo(1.4));
             Assert.Less(System.Math.Abs(op1.Mus - 20.0), 10E-6);
 
 
             var op2 = new OpticalProperties(mua: 0.01, musp: 2.0, g: 0.0, n: 1.4);
 
-            Assert.AreEqual(0.01, op2.Mua);
-            Assert.AreEqual(2.0, op2.Musp);
-            Assert.AreEqual(0.0, op2.G);
-            Assert.AreEqual(1.4, op2.N);
+            Assert.That(op2.Mua, Is.EqualTo(0.01));
+            Assert.That(op2.Musp, Is.EqualTo(2.0));
+            Assert.That(op2.G, Is.EqualTo(0.0));
+            Assert.That(op2.N, Is.EqualTo(1.4));
             Assert.Less(System.Math.Abs(op2.Mus - 2.0), 10E-6);
         }
 
@@ -42,18 +42,18 @@ namespace Vts.Test
         {
             var op1 = new OpticalProperties(mua: 0.01, musp: 2.0, g: 0.9, n: 1.4);
 
-            Assert.AreEqual(0.01, op1.Mua);
-            Assert.AreEqual(2.0, op1.Musp);
-            Assert.AreEqual(0.9, op1.G);
-            Assert.AreEqual(1.4, op1.N);
+            Assert.That(op1.Mua, Is.EqualTo(0.01));
+            Assert.That(op1.Musp, Is.EqualTo(2.0));
+            Assert.That(op1.G, Is.EqualTo(0.9));
+            Assert.That(op1.N, Is.EqualTo(1.4));
             Assert.Less(System.Math.Abs(op1.Mus - 20.0), 10E-6);
 
             op1.G = 0.0;
 
-            Assert.AreEqual(0.01, op1.Mua);
-            Assert.AreEqual(2.0, op1.Musp);
-            Assert.AreEqual(0.0, op1.G);
-            Assert.AreEqual(1.4, op1.N);
+            Assert.That(op1.Mua, Is.EqualTo(0.01));
+            Assert.That(op1.Musp, Is.EqualTo(2.0));
+            Assert.That(op1.G, Is.EqualTo(0.0));
+            Assert.That(op1.N, Is.EqualTo(1.4));
             Assert.Less(System.Math.Abs(op1.Mus - 2.0), 10E-6);
         }
 
@@ -62,18 +62,18 @@ namespace Vts.Test
         {
             var op1 = new OpticalProperties(mua: 0.01, musp: 2.0, g: 0.9, n: 1.4);
 
-            Assert.AreEqual(0.01, op1.Mua);
-            Assert.AreEqual(2.0, op1.Musp);
-            Assert.AreEqual(0.9, op1.G);
-            Assert.AreEqual(1.4, op1.N);
+            Assert.That(op1.Mua, Is.EqualTo(0.01));
+            Assert.That(op1.Musp, Is.EqualTo(2.0));
+            Assert.That(op1.G, Is.EqualTo(0.9));
+            Assert.That(op1.N, Is.EqualTo(1.4));
             Assert.Less(System.Math.Abs(op1.Mus - 20.0), 10E-6);
 
             op1.Mus = 2.0;
 
-            Assert.AreEqual(0.01, op1.Mua);
-            Assert.AreEqual(2.0, op1.Mus);
-            Assert.AreEqual(0.9, op1.G);
-            Assert.AreEqual(1.4, op1.N);
+            Assert.That(op1.Mua, Is.EqualTo(0.01));
+            Assert.That(op1.Mus, Is.EqualTo(2.0));
+            Assert.That(op1.G, Is.EqualTo(0.9));
+            Assert.That(op1.N, Is.EqualTo(1.4));
             Assert.Less(System.Math.Abs(op1.Musp - 0.2), 10E-6);
         }
 
@@ -82,18 +82,18 @@ namespace Vts.Test
         {
             var op1 = new OpticalProperties(mua: 0.01, musp: 2.0, g: 0.9, n: 1.4);
 
-            Assert.AreEqual(0.01, op1.Mua);
-            Assert.AreEqual(2.0, op1.Musp);
-            Assert.AreEqual(0.9, op1.G);
-            Assert.AreEqual(1.4, op1.N);
+            Assert.That(op1.Mua, Is.EqualTo(0.01));
+            Assert.That(op1.Musp, Is.EqualTo(2.0));
+            Assert.That(op1.G, Is.EqualTo(0.9));
+            Assert.That(op1.N, Is.EqualTo(1.4));
             Assert.Less(System.Math.Abs(op1.Mus - 20.0), 10E-6);
 
             op1.Musp = 1.0;
 
-            Assert.AreEqual(0.01, op1.Mua);
-            Assert.AreEqual(1.0, op1.Musp);
-            Assert.AreEqual(0.9, op1.G);
-            Assert.AreEqual(1.4, op1.N);
+            Assert.That(op1.Mua, Is.EqualTo(0.01));
+            Assert.That(op1.Musp, Is.EqualTo(1.0));
+            Assert.That(op1.G, Is.EqualTo(0.9));
+            Assert.That(op1.N, Is.EqualTo(1.4));
             Assert.Less(System.Math.Abs(op1.Mus - 10.0), 10E-6);
         }
 
@@ -101,7 +101,7 @@ namespace Vts.Test
         public void Validate_to_string()
         {
             var opticalProperties = new OpticalProperties();
-            Assert.AreEqual("μa=0.01 μs'=1 g=0.8 n=1.4", opticalProperties.ToString());
+            Assert.That(opticalProperties.ToString(), Is.EqualTo("μa=0.01 μs'=1 g=0.8 n=1.4"));
         }
     }
 }

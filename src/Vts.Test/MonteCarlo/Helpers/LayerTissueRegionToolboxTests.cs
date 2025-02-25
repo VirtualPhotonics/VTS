@@ -45,7 +45,7 @@ namespace Vts.Test.MonteCarlo.Tissues
             // try parallel direction
             dir = new Direction(1.0 / Math.Sqrt(2), -1.0 / Math.Sqrt(2), 0.0);
             newPos = LayerTissueRegionToolbox.RayExtendToInfinitePlane(pos, dir, zPlane);
-            Assert.IsTrue(newPos == null);
+            Assert.That(newPos == null, Is.True);
         }
     }
 }

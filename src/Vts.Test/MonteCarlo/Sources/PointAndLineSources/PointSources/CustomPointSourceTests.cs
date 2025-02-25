@@ -31,7 +31,7 @@ namespace Vts.Test.MonteCarlo.Sources
         {
             // check default constructor
             var si = new CustomPointSourceInput();
-            Assert.IsInstanceOf<CustomPointSourceInput>(si);
+            Assert.That(si, Is.InstanceOf<CustomPointSourceInput>());
             // check full definition
             si = new CustomPointSourceInput(
 
@@ -41,10 +41,10 @@ namespace Vts.Test.MonteCarlo.Sources
                     SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone(),
                     0
             );
-            Assert.IsInstanceOf<CustomPointSourceInput>(si);
+            Assert.That(si, Is.InstanceOf<CustomPointSourceInput>());
             // validate CreateSource
             var source = si.CreateSource(new MersenneTwister(0));
-            Assert.IsInstanceOf<CustomPointSource>(source);
+            Assert.That(source, Is.InstanceOf<CustomPointSource>());
         }
         /// <summary>
         /// Validate General Constructor of Custom Point Source

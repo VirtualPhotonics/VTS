@@ -74,14 +74,14 @@ namespace Vts.Test.MonteCarlo.Sources
             Random rng = new MathNet.Numerics.Random.MersenneTwister(0); 
             source.CreateSource(rng);
             // verify X and Y properties
-            Assert.IsTrue(Math.Abs(-5.65 - ((ImageSourceProfile)source.SourceProfile).X.Start) < 1e-6 );
-            Assert.IsTrue(Math.Abs(5.65 -  ((ImageSourceProfile)source.SourceProfile).X.Stop) < 1e-6);
+            Assert.That(Math.Abs(-5.65 - ((ImageSourceProfile)source.SourceProfile).X.Start) < 1e-6 , Is.True);
+            Assert.That(Math.Abs(5.65 -  ((ImageSourceProfile)source.SourceProfile).X.Stop) < 1e-6, Is.True);
             Assert.AreEqual(114, ((ImageSourceProfile)source.SourceProfile).X.Count);
-            Assert.IsTrue(Math.Abs(-5.1 - ((ImageSourceProfile)source.SourceProfile).Y.Start) < 1e-6);
-            Assert.IsTrue(Math.Abs(5.1 - ((ImageSourceProfile)source.SourceProfile).Y.Stop) < 1e-6);
+            Assert.That(Math.Abs(-5.1 - ((ImageSourceProfile)source.SourceProfile).Y.Start) < 1e-6, Is.True);
+            Assert.That(Math.Abs(5.1 - ((ImageSourceProfile)source.SourceProfile).Y.Stop) < 1e-6, Is.True);
             Assert.AreEqual(103, ((ImageSourceProfile)source.SourceProfile).Y.Count);
             // verify Image property
-            Assert.IsTrue(Math.Abs(1 - ((ImageSourceProfile)source.SourceProfile).Image[539]) < 1e-6);
+            Assert.That(Math.Abs(1 - ((ImageSourceProfile)source.SourceProfile).Image[539]) < 1e-6, Is.True);
         }
 
         /// <summary>
@@ -124,8 +124,8 @@ namespace Vts.Test.MonteCarlo.Sources
                 detectorInputs);
             var output = new MonteCarloSimulation(input).Run();
             // validate T(x,y)
-            Assert.IsTrue(output.T_xy[14, 15] > 0.0); // center of image
-            Assert.IsTrue(Math.Abs(output.T_xy[0, 0] - 0.0) < 1e-6); // corner of image
+            Assert.That(output.T_xy[14, 15] > 0.0, Is.True); // center of image
+            Assert.That(Math.Abs(output.T_xy[0, 0] - 0.0) < 1e-6, Is.True); // corner of image
         }
 
         /// <summary>
@@ -147,19 +147,19 @@ namespace Vts.Test.MonteCarlo.Sources
                 1,
                 new Vts.Common.Position(0, 0, 0));
             // verify X, Y 
-            Assert.IsTrue(Math.Abs(-1.5 - arbitrarySourceProfile.X.Start) < 1e-6);
-            Assert.IsTrue(Math.Abs(1.5 - arbitrarySourceProfile.X.Stop) < 1e-6);
+            Assert.That(Math.Abs(-1.5 - arbitrarySourceProfile.X.Start) < 1e-6, Is.True);
+            Assert.That(Math.Abs(1.5 - arbitrarySourceProfile.X.Stop) < 1e-6, Is.True);
             Assert.AreEqual(4, arbitrarySourceProfile.X.Count);
-            Assert.IsTrue(Math.Abs(-1.5 - arbitrarySourceProfile.Y.Start) < 1e-6);
-            Assert.IsTrue(Math.Abs(1.5 - arbitrarySourceProfile.Y.Stop) < 1e-6);
+            Assert.That(Math.Abs(-1.5 - arbitrarySourceProfile.Y.Start) < 1e-6, Is.True);
+            Assert.That(Math.Abs(1.5 - arbitrarySourceProfile.Y.Stop) < 1e-6, Is.True);
             Assert.AreEqual(4, arbitrarySourceProfile.Y.Count);
 
             // verify binary bit map
             var binaryMap = arbitrarySourceProfile.GetBinaryPixelMap();
-            Assert.IsTrue(binaryMap[0] == 0);
+            Assert.That(binaryMap[0] == 0, Is.True);
             for (var i = 1; i < image.Length; i++)
             {
-                Assert.IsTrue(binaryMap[i] == 1);
+                Assert.That(binaryMap[i] == 1, Is.True);
             }
 
             // verify GetPositionInARectangleBasedOnImageIntensity method for 10 calls 
@@ -167,9 +167,9 @@ namespace Vts.Test.MonteCarlo.Sources
             {
                 var r = arbitrarySourceProfile.GetPositionInARectangleBasedOnImageIntensity(rng);
                 if (r == null) continue;
-                Assert.IsTrue(Math.Abs(r.Z) < 1e-6); // z is always 0
-                Assert.IsTrue(Math.Abs(r.X) <= 1.5); // x is in [-1.5, 1.5]
-                Assert.IsTrue(Math.Abs(r.Y) <= 1.5); // y is in [-1.5, 1.5]
+                Assert.That(Math.Abs(r.Z) < 1e-6, Is.True); // z is always 0
+                Assert.That(Math.Abs(r.X) <= 1.5, Is.True); // x is in [-1.5, 1.5]
+                Assert.That(Math.Abs(r.Y) <= 1.5, Is.True); // y is in [-1.5, 1.5]
             }
 
         }
@@ -212,8 +212,8 @@ namespace Vts.Test.MonteCarlo.Sources
             for (var i = 0; i < 10; i++)
             {
                 var photon = ps.GetNextPhoton(tissue);
-                Assert.IsTrue(photon.DP.Position.X >= -1.5 && photon.DP.Position.X <= -0.5);
-                Assert.IsTrue(photon.DP.Position.Y > -0.5 && photon.DP.Position.Y <= 0.5);
+                Assert.That(photon.DP.Position.X >= -1.5 && photon.DP.Position.X <= -0.5, Is.True);
+                Assert.That(photon.DP.Position.Y > -0.5 && photon.DP.Position.Y <= 0.5, Is.True);
                 Assert.Less(Math.Abs(photon.DP.Position.Z), 1e-6);
                 Assert.Less(Math.Abs(photon.DP.Direction.Ux), 1e-6);
                 Assert.Less(Math.Abs(photon.DP.Direction.Uy), 1e-6);

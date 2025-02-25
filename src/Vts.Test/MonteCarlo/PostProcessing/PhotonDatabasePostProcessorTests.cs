@@ -222,8 +222,8 @@ namespace Vts.Test.MonteCarlo.PostProcessing
                  new List<IDetectorInput>(){} // specify NO DETECTORS
             );
             new MonteCarloSimulation(input).Run();
-            Assert.IsTrue(FileIO.FileExists("DiffuseReflectanceDatabase"));
-            Assert.IsFalse(FileIO.FileExists("DiffuseTransmittanceDatabase"));
+            Assert.That(FileIO.FileExists("DiffuseReflectanceDatabase"), Is.True);
+            Assert.That(FileIO.FileExists("DiffuseTransmittanceDatabase"), Is.False);
         }
     }
 }

@@ -66,7 +66,7 @@ namespace Vts.Test.MonteCarlo.Extensions
                     databases, "", ""),
                 collisionInfoDatabases);
             dbController.WriteToSurfaceVirtualBoundaryDatabases(dp, collisionInfo);
-            Assert.IsTrue(FileIO.FileExists("collisionInfoReflectance2"));
+            Assert.That(FileIO.FileExists("collisionInfoReflectance2"), Is.True);
             dbController.Dispose();
         }
         /// <summary>
@@ -99,16 +99,16 @@ namespace Vts.Test.MonteCarlo.Extensions
             // test various combinations
             // test for tru
             var result = dpReflectance.BelongsToSurfaceVirtualBoundary(collisionInfoDatabaseWriterReflectance);
-            Assert.IsTrue(result);
+            Assert.That(result, Is.True);
             result = dpTransmittance.BelongsToSurfaceVirtualBoundary(collisionInfoDatabaseWriterTransmittance);
-            Assert.IsTrue(result);
+            Assert.That(result, Is.True);
             result = dpReflectance.BelongsToSurfaceVirtualBoundary(collisionInfoDatabaseWriterPmcReflectance);
-            Assert.IsTrue(result);
+            Assert.That(result, Is.True);
             // test for false
             result = dpReflectance.BelongsToSurfaceVirtualBoundary(collisionInfoDatabaseWriterTransmittance);
-            Assert.IsFalse(result);
+            Assert.That(result, Is.False);
             result = dpTransmittance.BelongsToSurfaceVirtualBoundary(collisionInfoDatabaseWriterPmcReflectance);
-            Assert.IsFalse(result);
+            Assert.That(result, Is.False);
             collisionInfoDatabaseWriterPmcReflectance.Close();
             collisionInfoDatabaseWriterReflectance.Close();
             collisionInfoDatabaseWriterTransmittance.Close();

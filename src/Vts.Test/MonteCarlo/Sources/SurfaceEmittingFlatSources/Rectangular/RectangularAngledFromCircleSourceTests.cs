@@ -72,10 +72,10 @@ namespace Vts.Test.MonteCarlo.Sources
             // make sure initial position is at tissue surface
             Assert.AreEqual(0.0, photon.DP.Position.Z);
             // make sure initial position is inside rectangle
-            Assert.IsTrue((photon.DP.Position.X < 5) && (photon.DP.Position.X > -5));
-            Assert.IsTrue((photon.DP.Position.Y < 2.5) && (photon.DP.Position.Y > -2.5));
+            Assert.That((photon.DP.Position.X < 5) && (photon.DP.Position.X > -5), Is.True);
+            Assert.That((photon.DP.Position.Y < 2.5) && (photon.DP.Position.Y > -2.5), Is.True);
             // make sure angle is less than 45 degrees
-            Assert.IsTrue(photon.DP.Direction.Uz >= 1 / Math.Sqrt(2));
+            Assert.That(photon.DP.Direction.Uz >= 1 / Math.Sqrt(2), Is.True);
 
             // test off center rectangle
             translationFromOrigin = new Position(1.0, 0, 0);
@@ -96,8 +96,8 @@ namespace Vts.Test.MonteCarlo.Sources
                 // make sure initial position is at tissue surface
                 Assert.AreEqual(0.0,photon.DP.Position.Z);
                 // make sure initial position is inside rectangle
-                Assert.IsTrue((photon.DP.Position.X < 5 + 1) && (photon.DP.Position.X > -5 + 1));
-                Assert.IsTrue((photon.DP.Position.Y < 2.5) && (photon.DP.Position.Y > -2.5));
+                Assert.That((photon.DP.Position.X < 5 + 1) && (photon.DP.Position.X > -5 + 1), Is.True);
+                Assert.That((photon.DP.Position.Y < 2.5) && (photon.DP.Position.Y > -2.5), Is.True);
             }
         }
     }

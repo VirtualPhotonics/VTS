@@ -44,13 +44,13 @@ namespace Vts.Test.MonteCarlo.Tissues
         {
             // OnBoundary returns false if *exactly* on boundary
             var result = _ellipsoidTissueRegion.OnBoundary(new Position(0, 0, 1.0));
-            Assert.IsFalse(result);
+            Assert.That(result, Is.False);
             // but returns true if outside ellipsoid which doesn't make sense but it is how code is written
             // and all unit tests (linux included) are based on this wrong return
             result = _ellipsoidTissueRegion.OnBoundary(new Position(0, 0, 0.5));
-            Assert.IsTrue(result);
+            Assert.That(result, Is.True);
             result = _ellipsoidTissueRegion.OnBoundary(new Position(0, 0, 2.0));
-            Assert.IsFalse(result);
+            Assert.That(result, Is.False);
         }
         /// <summary>
         /// Validate method ContainsPositions return correct Boolean. ContainsPosition is true if inside
@@ -60,9 +60,9 @@ namespace Vts.Test.MonteCarlo.Tissues
         public void Verify_ContainsPosition_method_returns_correct_result()
         {
             var result = _ellipsoidTissueRegion.ContainsPosition(new Position(0, 0, 3.0)); // inside
-            Assert.IsTrue(result);
+            Assert.That(result, Is.True);
             result = _ellipsoidTissueRegion.ContainsPosition(new Position(0, 0, 2.0)); // on boundary
-            Assert.IsTrue(result);
+            Assert.That(result, Is.True);
         }
         /// <summary>
         /// Validate method SurfaceNormal return correct normal vector
