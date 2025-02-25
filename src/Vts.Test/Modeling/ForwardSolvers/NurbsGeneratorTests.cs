@@ -26,11 +26,11 @@ namespace Vts.Test.Modeling.ForwardSolvers
         {
             _nurbsGenerator = new NurbsGenerator(NurbsGeneratorType.SpatialFrequencyDomain);
             Assert.That( _nurbsGenerator.GeneratorType, Is.EqualTo(NurbsGeneratorType.SpatialFrequencyDomain));
-            Assert.IsInstanceOf<NurbsValues>(_nurbsGenerator.TimeValues);
-            Assert.IsInstanceOf<NurbsValues>(_nurbsGenerator.SpaceValues);
-            Assert.IsInstanceOf<double[,]>(_nurbsGenerator.ControlPoints);
-            Assert.IsInstanceOf<double[]>(_nurbsGenerator.NativeTimes);
-            Assert.IsInstanceOf<List<BSplinesCoefficients>>(_nurbsGenerator.TimeKnotSpanPolynomialCoefficients);
+            Assert.That(_nurbsGenerator.TimeValues, Is.InstanceOf<NurbsValues>());
+            Assert.That(_nurbsGenerator.SpaceValues, Is.InstanceOf<NurbsValues>());
+            Assert.That(_nurbsGenerator.ControlPoints, Is.InstanceOf<double[,]>());
+            Assert.That(_nurbsGenerator.NativeTimes, Is.InstanceOf<double[]>());
+            Assert.That(_nurbsGenerator.TimeKnotSpanPolynomialCoefficients, Is.InstanceOf<List<BSplinesCoefficients>>());
 
         }
 
@@ -241,7 +241,7 @@ namespace Vts.Test.Modeling.ForwardSolvers
             };
 
             var result = _nurbsGenerator.EvaluateNurbsCurveFourierTransform(1.0, 2.0, 3.0);
-            Assert.IsInstanceOf<Complex>(result);
+            Assert.That(result, Is.InstanceOf<Complex>());
         }
 
         [Test]
@@ -272,7 +272,7 @@ namespace Vts.Test.Modeling.ForwardSolvers
             };
 
             var result = _nurbsGenerator.EvaluateNurbsCurveFourierTransform(1.0, 2.0, 3.0);
-            Assert.IsInstanceOf<Complex>(result);
+            Assert.That(result, Is.InstanceOf<Complex>());
         }
 
         [Test]
@@ -286,7 +286,7 @@ namespace Vts.Test.Modeling.ForwardSolvers
             nurbsValues.KnotVector = knots;
 
             var result = _nurbsGenerator.ComputeCurvePoint(0.5, NurbsValuesDimensions.time);
-            Assert.IsInstanceOf<double>(result);
+            Assert.That(result, Is.InstanceOf<double>());
             Assert.That( result, Is.EqualTo(0.5));
         }
 
@@ -301,7 +301,7 @@ namespace Vts.Test.Modeling.ForwardSolvers
             nurbsValues.KnotVector = knots;
 
             var result = _nurbsGenerator.ComputeCurvePoint(0.5, NurbsValuesDimensions.space);
-            Assert.IsInstanceOf<double>(result);
+            Assert.That(result, Is.InstanceOf<double>());
             Assert.That( result, Is.EqualTo(0.5));
         }
 
@@ -336,7 +336,7 @@ namespace Vts.Test.Modeling.ForwardSolvers
             nurbsValues.MaxValue = 0.5;
 
             var result = _nurbsGenerator.ComputePointOutOfSurface(0.5, 0.5, 0.1);
-            Assert.IsInstanceOf<double>(result);
+            Assert.That(result, Is.InstanceOf<double>());
             Assert.That( result, Is.EqualTo(0.1).Within(0.01));
         }
 

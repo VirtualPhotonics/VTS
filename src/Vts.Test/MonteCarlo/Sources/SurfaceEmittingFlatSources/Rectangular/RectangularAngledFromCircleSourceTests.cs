@@ -23,7 +23,7 @@ namespace Vts.Test.MonteCarlo.Sources
         {
             // check default constructor
             var si = new RectangularAngledFromCircleSourceInput();
-            Assert.IsNotNull(si);
+            Assert.That(si, Is.Not.Null);
             // check full definition
             si = new RectangularAngledFromCircleSourceInput(
                     1.0,
@@ -34,10 +34,10 @@ namespace Vts.Test.MonteCarlo.Sources
                     SourceDefaults.DefaultPosition.Clone(),
                     0
             );
-            Assert.IsInstanceOf<RectangularAngledFromCircleSourceInput>(si);
+            Assert.That(si, Is.InstanceOf<RectangularAngledFromCircleSourceInput>());
             // validate CreateSource
             var source = si.CreateSource(new MersenneTwister(0));
-            Assert.IsInstanceOf<RectangularAngledFromCircleSource>(source);
+            Assert.That(source, Is.InstanceOf<RectangularAngledFromCircleSource>());
         }
 
         /// <summary>

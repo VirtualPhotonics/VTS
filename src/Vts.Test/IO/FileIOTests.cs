@@ -121,9 +121,9 @@ namespace Vts.Test.IO
             var assemblyName = new AssemblyName(name).Name;
             var stream1 = StreamFinder.GetFileStreamFromResources("Resources/streamfindertest/resourcefile.txt", assemblyName);
             var stream2 = StreamFinder.GetFileStream("file5.txt", FileMode.CreateNew);
-            Assert.IsNotNull(stream1);
+            Assert.That(stream1, Is.Not.Null);
             FileIO.CopyStream(stream1, stream2);
-            Assert.IsNotNull(stream2);
+            Assert.That(stream2, Is.Not.Null);
             Assert.That(stream2, Is.EqualTo(stream1));
             stream1.Close();
             stream2.Close();
@@ -346,7 +346,7 @@ namespace Vts.Test.IO
             var xmlFile = FileIO.ReadFromXMLInResources<Position>("Resources/fileiotest/file7.xml", assemblyName);
             var stream = StreamFinder.GetFileStream("file8.xml", FileMode.Create);
             xmlFile.WriteToXMLStream(stream);
-            Assert.IsNotNull(stream);
+            Assert.That(stream, Is.Not.Null);
             Assert.That(FileIO.FileExists("file8.xml"), Is.True);
             Assert.That(new FileInfo("file8.xml").Length != 0, Is.True);
             stream.Close();

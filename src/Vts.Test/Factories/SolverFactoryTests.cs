@@ -15,7 +15,7 @@ namespace Vts.Test.Factories
             foreach (var fsType in EnumHelper.GetValues<ForwardSolverType>())
             {
                 var fs = SolverFactory.GetForwardSolver(fsType);
-                Assert.IsNotNull(fs, "The requested instance matching " + fsType + " returned null from the call to GetForwardSolver().");
+                Assert.That(fs, Is.Not.Null, "The requested instance matching " + fsType + " returned null from the call to GetForwardSolver().");
             }
         }
 
@@ -38,7 +38,7 @@ namespace Vts.Test.Factories
             foreach (var oType in EnumHelper.GetValues<OptimizerType>())
             {
                 var o = SolverFactory.GetOptimizer(oType);
-                Assert.IsNotNull(o, "The requested instance matching " + oType + " returned null from the call to GetOptimizer().");
+                Assert.That(o, Is.Not.Null, "The requested instance matching " + oType + " returned null from the call to GetOptimizer().");
             }
         }
 

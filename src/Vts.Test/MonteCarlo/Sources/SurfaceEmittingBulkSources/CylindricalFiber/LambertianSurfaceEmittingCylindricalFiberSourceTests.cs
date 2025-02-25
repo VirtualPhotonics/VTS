@@ -22,7 +22,7 @@ namespace Vts.Test.MonteCarlo.Sources
         {
             // check default constructor
             var si = new LambertianSurfaceEmittingCylindricalFiberSourceInput();
-            Assert.IsNotNull(si);
+            Assert.That(si, Is.Not.Null);
             // check full definition
             si = new LambertianSurfaceEmittingCylindricalFiberSourceInput(
                     1.0,
@@ -33,10 +33,10 @@ namespace Vts.Test.MonteCarlo.Sources
                     SourceDefaults.DefaultPosition.Clone(),
                     0
             );
-            Assert.IsNotNull(si);
+            Assert.That(si, Is.Not.Null);
             // validate CreateSource
             var source = si.CreateSource(new MersenneTwister(0));
-            Assert.IsNotNull(source);
+            Assert.That(source, Is.Not.Null);
         }
         /// <summary>
         /// This test validated using geometry assumptions

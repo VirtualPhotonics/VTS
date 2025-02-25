@@ -76,7 +76,7 @@ namespace Vts.Test.Common.Logging
         {
             var childLogger = _nLogLogger.CreateChildLogger("Child");
             
-            Assert.IsInstanceOf<Logger>(LogManager.GetLogger("NLog.Child"));
+            Assert.That(LogManager.GetLogger("NLog.Child"), Is.InstanceOf<Logger>());
         }
 
         [Test]

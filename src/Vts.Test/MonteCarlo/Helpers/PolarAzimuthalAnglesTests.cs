@@ -15,14 +15,14 @@ namespace Vts.Test.MonteCarlo.Helpers
         {
             // default constructor
             var polarAzimuthalAngles = new PolarAzimuthalAngles();
-            Assert.IsInstanceOf<PolarAzimuthalAngles>(polarAzimuthalAngles);
+            Assert.That(polarAzimuthalAngles, Is.InstanceOf<PolarAzimuthalAngles>());
             // fully defined
             polarAzimuthalAngles = new PolarAzimuthalAngles()
             {
                 Theta = 1.0, 
                 Phi = 2.0
             };
-            Assert.IsInstanceOf<PolarAzimuthalAngles>(polarAzimuthalAngles);
+            Assert.That(polarAzimuthalAngles, Is.InstanceOf<PolarAzimuthalAngles>());
         }
         /// <summary>
         /// Validate equals and not equals operator method

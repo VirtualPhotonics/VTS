@@ -84,7 +84,7 @@ namespace Vts.Test.Modeling.Spectroscopy
         public void Validate_loading_spectral_database_from_file_in_resources()
         {
             var testDictionary = SpectralDatabase.GetDefaultDatabaseFromFileInResources();
-            Assert.IsNotNull(testDictionary);
+            Assert.That(testDictionary, Is.Not.Null);
         }
 
         /// <summary>
@@ -104,8 +104,8 @@ namespace Vts.Test.Modeling.Spectroscopy
         public void Test_get_database_from_file()
         {
             var chromophoreSpectrumDictionary = SpectralDatabase.GetDatabaseFromFile("dictionary.json");
-            Assert.IsNotNull(chromophoreSpectrumDictionary);
-            Assert.IsInstanceOf<ChromophoreSpectrumDictionary>(chromophoreSpectrumDictionary);
+            Assert.That(chromophoreSpectrumDictionary, Is.Not.Null);
+            Assert.That(chromophoreSpectrumDictionary, Is.InstanceOf<ChromophoreSpectrumDictionary>());
         }
 
         /// <summary>
@@ -207,8 +207,8 @@ namespace Vts.Test.Modeling.Spectroscopy
 
             var testSpectra = SpectralDatabase.GetSpectraFromFile(stream, true);
             var testDictionary = testSpectra.ToDictionary();
-            Assert.IsInstanceOf<List<ChromophoreSpectrum>>(testSpectra);
-            Assert.IsInstanceOf<ChromophoreSpectrumDictionary>(testDictionary);
+            Assert.That(testSpectra, Is.InstanceOf<List<ChromophoreSpectrum>>());
+            Assert.That(testDictionary, Is.InstanceOf<ChromophoreSpectrumDictionary>());
         }
 
         /// <summary>
@@ -257,8 +257,8 @@ namespace Vts.Test.Modeling.Spectroscopy
 
             var testSpectra = SpectralDatabase.GetSpectraFromFile(stream, false);
             var testDictionary = testSpectra.ToDictionary();
-            Assert.IsInstanceOf<List<ChromophoreSpectrum>>(testSpectra);
-            Assert.IsInstanceOf<ChromophoreSpectrumDictionary>(testDictionary);
+            Assert.That(testSpectra, Is.InstanceOf<List<ChromophoreSpectrum>>());
+            Assert.That(testDictionary, Is.InstanceOf<ChromophoreSpectrumDictionary>());
         }
 
         /// <summary>

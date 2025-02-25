@@ -300,14 +300,10 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.That(Math.Abs(postProcessedOutput.pMC_R_xyts[0, 2, 4, 1] - 0.842746), Is.LessThan(0.000001));
             Assert.That(Math.Abs(postProcessedOutput.pMC_R_xyts[0, 2, 5, 2] - 0.842746), Is.LessThan(0.000001));
             // show that unperturbed results are not same
-            Assert.IsTrue(Math.Abs(postProcessedOutput.pMC_R_xyts[0, 2, 4, 1] -
-                                   _referenceOutputTwoLayerTissue.R_xyts[0, 2, 4, 1]) > 0.000001);
-            Assert.IsTrue(Math.Abs(postProcessedOutput.pMC_R_xyts[0, 2, 5, 2] -
-                                   _referenceOutputTwoLayerTissue.R_xyts[0, 2, 5, 2]) > 0.000001);
-            Assert.IsTrue(Math.Abs(postProcessedOutput.pMC_R_xyts_xy[0, 2] -
-                                   _referenceOutputTwoLayerTissue.R_xyts_xy[0, 2]) > 0.000001);
-            Assert.IsTrue(Math.Abs(postProcessedOutput.pMC_R_xyts_xy[0, 2] -
-                                   _referenceOutputTwoLayerTissue.R_xyts_xy[0, 2]) > 0.000001);
+            Assert.That(Math.Abs(postProcessedOutput.pMC_R_xyts[0, 2, 4, 1] - _referenceOutputTwoLayerTissue.R_xyts[0, 2, 4, 1]) > 0.000001, Is.True);
+            Assert.That(Math.Abs(postProcessedOutput.pMC_R_xyts[0, 2, 5, 2] - _referenceOutputTwoLayerTissue.R_xyts[0, 2, 5, 2]) > 0.000001, Is.True);
+            Assert.That(Math.Abs(postProcessedOutput.pMC_R_xyts_xy[0, 2] - _referenceOutputTwoLayerTissue.R_xyts_xy[0, 2]) > 0.000001, Is.True);
+            Assert.That(Math.Abs(postProcessedOutput.pMC_R_xyts_xy[0, 2] - _referenceOutputTwoLayerTissue.R_xyts_xy[0, 2]) > 0.000001, Is.True);
         }
         /// <summary>
         /// Test to validate mua non-zero perturbation and time in layer results

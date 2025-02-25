@@ -15,7 +15,7 @@ namespace Vts.Test.MonteCarlo.Helpers
         {
             // default constructor
             var threeAxisRotation = new ThreeAxisRotation();
-            Assert.IsInstanceOf<ThreeAxisRotation>(threeAxisRotation);
+            Assert.That(threeAxisRotation, Is.InstanceOf<ThreeAxisRotation>());
             // fully defined
             threeAxisRotation = new ThreeAxisRotation()
             {
@@ -23,7 +23,7 @@ namespace Vts.Test.MonteCarlo.Helpers
                 YRotation = 2.0,
                 ZRotation = 3.0
             };
-            Assert.IsInstanceOf<ThreeAxisRotation>(threeAxisRotation);
+            Assert.That(threeAxisRotation, Is.InstanceOf<ThreeAxisRotation>());
         }
         /// <summary>
         /// Validate Clone method

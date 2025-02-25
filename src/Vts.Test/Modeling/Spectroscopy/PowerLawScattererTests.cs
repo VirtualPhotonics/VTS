@@ -11,7 +11,7 @@ namespace Vts.Test.Modeling.Spectroscopy
         public void Test_power_law_scatterer_constructor()
         {
             var scatterer = new PowerLawScatterer();
-            Assert.IsInstanceOf<PowerLawScatterer>(scatterer);
+            Assert.That(scatterer, Is.InstanceOf<PowerLawScatterer>());
             Assert.That(scatterer.A, Is.EqualTo(1));
             Assert.That(scatterer.B, Is.EqualTo(0.1));
             Assert.That(scatterer.C, Is.EqualTo(0.0));

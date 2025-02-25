@@ -22,7 +22,7 @@ namespace Vts.Test.MonteCarlo.PhotonData
                 0.0,
                 Vts.MonteCarlo.PhotonStateType.Alive), 
                 new CollisionInfo());
-            Assert.IsInstanceOf<pMCDataPoint>(pmcDataPoint);
+            Assert.That(pmcDataPoint, Is.InstanceOf<pMCDataPoint>());
         }
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace Vts.Test.MonteCarlo.PhotonData
                     Vts.MonteCarlo.PhotonStateType.Alive),
                 new CollisionInfo(2)); 
             var clone = pmcDataPoint.Clone();
-            Assert.IsInstanceOf<pMCDataPoint>(clone);
+            Assert.That(clone, Is.InstanceOf<pMCDataPoint>());
             Assert.AreEqual(pmcDataPoint.PhotonDataPoint.Weight, 
                 clone.PhotonDataPoint.Weight);
             clone.PhotonDataPoint.Weight = 0.01;

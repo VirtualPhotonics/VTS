@@ -10,7 +10,7 @@ namespace Vts.Test
         {
             var myTestClass = new BindableTestClass();
             PropertyDependencyManager.Register(myTestClass);
-            Assert.IsInstanceOf<BindableObjectWithChangeTracking>(myTestClass);
+            Assert.That(myTestClass, Is.InstanceOf<BindableObjectWithChangeTracking>());
         }
 
         [Test]

@@ -44,7 +44,7 @@ namespace Vts.Test.Common
 
             var deserializedR = r.Clone<LongRange>();
 
-            Assert.IsNotNull(deserializedR);
+            Assert.That(deserializedR, Is.Not.Null);
 
             Assert.That(deserializedR.Start, Is.EqualTo(0L));
             Assert.That(deserializedR.Stop, Is.EqualTo(9L));

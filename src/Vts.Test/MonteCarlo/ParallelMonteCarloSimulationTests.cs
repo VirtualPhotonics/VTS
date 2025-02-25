@@ -317,7 +317,7 @@ namespace Vts.Test.MonteCarlo
         public void Check_default_constructor()
         {
             var parallelMC = new ParallelMonteCarloSimulation();
-            Assert.IsInstanceOf<ParallelMonteCarloSimulation>(parallelMC);
+            Assert.That(parallelMC, Is.InstanceOf<ParallelMonteCarloSimulation>());
         }
         /// <summary>
         /// test if number of photons on each CPU is < 10

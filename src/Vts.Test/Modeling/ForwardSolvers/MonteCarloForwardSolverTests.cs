@@ -18,7 +18,7 @@ namespace Vts.Test.Modeling.ForwardSolvers
         {
             var fs = new MonteCarloForwardSolver();
 
-            Assert.IsNotNull(fs);
+            Assert.That(fs, Is.Not.Null);
         }
 
         /// <summary>

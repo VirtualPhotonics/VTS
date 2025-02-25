@@ -48,7 +48,7 @@ namespace Vts.Test.Modeling.Spectroscopy
             Assert.That(tissue.Absorbers[0].Name, Is.EqualTo("Hb"));
             Assert.That(tissue.Absorbers[0].Concentration, Is.EqualTo(66));
             Assert.That(tissue.Absorbers[0].ChromophoreCoefficientType, Is.EqualTo(ChromophoreCoefficientType.MolarAbsorptionCoefficient));
-            Assert.IsInstanceOf<PowerLawScatterer>(tissue.Scatterer);
+            Assert.That(tissue.Scatterer, Is.InstanceOf<PowerLawScatterer>());
             Assert.That(tissue.ScattererType, Is.EqualTo(ScatteringType.PowerLaw));
         }
 

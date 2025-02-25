@@ -150,7 +150,7 @@ namespace Vts.Test.Common
             using (var stream = new MemoryStream(new byte[24], true))
             {
                 position.WriteBinary(new BinaryWriter(stream));
-                Assert.IsInstanceOf<MemoryStream>(stream);
+                Assert.That(stream, Is.InstanceOf<MemoryStream>());
                 stream.Position = 0;
                 var binaryReader = new BinaryReader(stream);
                 Assert.That(binaryReader.ReadDouble(), Is.EqualTo(2));

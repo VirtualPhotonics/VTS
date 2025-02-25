@@ -40,7 +40,7 @@ namespace Vts.Test.Modeling.ForwardSolvers
             {
                 var relDiff = Math.Abs(pointSourceForwardSolver.StationaryReflectance(dp, rhos[irho], f1, f2)
                     - rOfRhos[irho]) / rOfRhos[irho];
-                Assert.IsTrue(relDiff < thresholdValue, "Test failed for rho =" + rhos[irho] +
+                Assert.That(relDiff < thresholdValue, Is.True, "Test failed for rho =" + rhos[irho] +
                     "mm, with relative difference " + relDiff);
             }
         }
@@ -54,7 +54,7 @@ namespace Vts.Test.Modeling.ForwardSolvers
             {
                 var relDiff = Math.Abs(distributedPointSourceForwardSolver.StationaryReflectance(dp, rhos[irho], f1, f2)
                     - rOfRhos[irho]) / rOfRhos[irho];
-                Assert.IsTrue(relDiff < thresholdValue, "Test failed for rho =" + rhos[irho] +
+                Assert.That(relDiff < thresholdValue, Is.True, "Test failed for rho =" + rhos[irho] +
                     "mm, with relative difference " + relDiff);
             }
         }
@@ -78,7 +78,7 @@ namespace Vts.Test.Modeling.ForwardSolvers
                 var oneLayerResult = oneLayerPointSourceForwardSolver.ROfRho(ops, rhos[irho]);
                 var twoLayerResult = twoLayerSdaForwardSolver.ROfRho(twoLayerTissue, rhos[irho]);
                 var relDiff = Math.Abs(twoLayerResult - oneLayerResult)/oneLayerResult;
-                Assert.IsTrue(relDiff < _thresholdValue, "Test failed for rho =" + rhos[irho] +
+                Assert.That(relDiff < _thresholdValue, Is.True, "Test failed for rho =" + rhos[irho] +
                     "mm, with relative difference " + relDiff);
             }
         }
@@ -95,7 +95,7 @@ namespace Vts.Test.Modeling.ForwardSolvers
             {
                 var relDiff = Math.Abs(pointSourceForwardSolver.TemporalReflectance(dp, rhos[irho], t, f1, f2)
                     - rOfRhoAndTs[irho]) / rOfRhoAndTs[irho];
-                Assert.IsTrue(relDiff < thresholdValue, "Test failed for rho =" + rhos[irho] +
+                Assert.That(relDiff < thresholdValue, Is.True, "Test failed for rho =" + rhos[irho] +
                     "mm, with relative difference " + relDiff);
             }
         }
@@ -109,7 +109,7 @@ namespace Vts.Test.Modeling.ForwardSolvers
             {
                 var relDiff = Math.Abs(distributedPointSourceForwardSolver.TemporalReflectance(dp, rhos[irho], t, f1, f2)
                     - rOfRhoAndTs[irho]) / rOfRhoAndTs[irho];
-                Assert.IsTrue(relDiff < thresholdValue, "Test failed for rho =" + rhos[irho] +
+                Assert.That(relDiff < thresholdValue, Is.True, "Test failed for rho =" + rhos[irho] +
                     "mm, with relative difference " + relDiff);
             }
         }
@@ -136,7 +136,7 @@ namespace Vts.Test.Modeling.ForwardSolvers
                 var oneLayerResult = oneLayerForwardSolver.ROfRhoAndTime(ops, tempRhos[i], tempTimes[i]);
                 var twoLayerResult = twoLayerSdaForwardSolver.ROfRhoAndTime(twoLayerTissue, tempRhos[i], tempTimes[i]);
                 var relDiff = Math.Abs(twoLayerResult - oneLayerResult) / oneLayerResult;
-                Assert.IsTrue(relDiff < _thresholdValue, "Test failed for rho =" + tempRhos[i] +
+                Assert.That(relDiff < _thresholdValue, Is.True, "Test failed for rho =" + tempRhos[i] +
                     "mm, with relative difference " + relDiff);
             }
         }
@@ -154,7 +154,7 @@ namespace Vts.Test.Modeling.ForwardSolvers
                 var relDiff = rOfRhoAndFts[irho] != 0
                     ? Math.Abs(pointSourceForwardSolver.ROfRhoAndFt(ops, rhos[irho], ft).Magnitude - rOfRhoAndFts[irho]) / rOfRhoAndFts[irho]
                     : Math.Abs(pointSourceForwardSolver.ROfRhoAndFt(ops, rhos[irho], ft).Magnitude);
-                Assert.IsTrue(relDiff < thresholdValue, "Test failed for rho =" + rhos[irho] +
+                Assert.That(relDiff < thresholdValue, Is.True, "Test failed for rho =" + rhos[irho] +
                     "mm, with relative difference " + relDiff);
             }
         }
@@ -170,7 +170,7 @@ namespace Vts.Test.Modeling.ForwardSolvers
                   ? Math.Abs(distributedPointSourceForwardSolver.ROfRhoAndFt(ops, rhos[irho], ft).Magnitude - rOfRhoAndFts[irho]) / rOfRhoAndFts[irho]
                   : Math.Abs(distributedPointSourceForwardSolver.ROfRhoAndFt(ops, rhos[irho], ft).Magnitude);
 
-                Assert.IsTrue(relDiff < thresholdValue, "Test failed for rho =" + rhos[irho] +
+                Assert.That(relDiff < thresholdValue, Is.True, "Test failed for rho =" + rhos[irho] +
                 "mm, with relative difference " + relDiff);
             }
         }
@@ -195,9 +195,9 @@ namespace Vts.Test.Modeling.ForwardSolvers
                 var twoLayerResult = twoLayerSdaForwardSolver.ROfRhoAndFt(twoLayerTissue, rhos[irho], ft);
                 var relDiffRe = Math.Abs(twoLayerResult.Real - oneLayerResult.Real) / oneLayerResult.Real;
                 var relDiffIm = Math.Abs((twoLayerResult.Imaginary - oneLayerResult.Imaginary) / oneLayerResult.Imaginary);
-                Assert.IsTrue(relDiffRe < tighterThresholdValue, "Test failed for rho =" + rhos[irho] +
+                Assert.That(relDiffRe < tighterThresholdValue, Is.True, "Test failed for rho =" + rhos[irho] +
                     "mm, with Real relative difference " + relDiffRe);
-                Assert.IsTrue(relDiffIm < tighterThresholdValue, "Test failed for rho =" + rhos[irho] +
+                Assert.That(relDiffIm < tighterThresholdValue, Is.True, "Test failed for rho =" + rhos[irho] +
                     "mm, with Imaginary relative difference " + relDiffIm);
             }
         }
@@ -226,7 +226,7 @@ namespace Vts.Test.Modeling.ForwardSolvers
                 var oneLayerResult = oneLayerNurbsForwardSolver.ROfFx(ops, fxs[ifx]);
                 var twoLayerResult = twoLayerSdaForwardSolver.ROfFx(twoLayerTissue, fxs[ifx]);
                 var relDiff = Math.Abs(twoLayerResult - oneLayerResult) / oneLayerResult;
-                Assert.IsTrue(relDiff < _thresholdValue, "Test failed for fx =" + fxs[ifx] +
+                Assert.That(relDiff < _thresholdValue, Is.True, "Test failed for fx =" + fxs[ifx] +
                     ", with relative difference " + relDiff);
             }
         }
@@ -252,7 +252,7 @@ namespace Vts.Test.Modeling.ForwardSolvers
                 var oneLayerResult = oneLayerSdaForwardSolver.ROfFxAndTime(ops, fxs[i], times[i]);
                 var twoLayerResult = twoLayerSdaForwardSolver.ROfFxAndTime(twoLayerTissue, fxs[i], times[i]);
                 var relDiffRe = Math.Abs(twoLayerResult - oneLayerResult) / oneLayerResult;
-                Assert.IsTrue(relDiffRe < _thresholdValue, "Test failed for fx =" + fxs[i] +
+                Assert.That(relDiffRe < _thresholdValue, Is.True, "Test failed for fx =" + fxs[i] +
                     " and ft=", + times[i] + ", with relative difference " + relDiffRe);
             }
         }
@@ -277,9 +277,9 @@ namespace Vts.Test.Modeling.ForwardSolvers
                 var twoLayerResult = twoLayerSdaForwardSolver.ROfFxAndFt(twoLayerTissue, fxs[ifx], ft);
                 var relDiffRe = Math.Abs(twoLayerResult.Real - oneLayerResult.Real) / oneLayerResult.Real;
                 var relDiffIm = Math.Abs((twoLayerResult.Imaginary - oneLayerResult.Imaginary) / oneLayerResult.Imaginary);
-                Assert.IsTrue(relDiffRe < _thresholdValue, "Test failed for fx =" + fxs[ifx] +
+                Assert.That(relDiffRe < _thresholdValue, Is.True, "Test failed for fx =" + fxs[ifx] +
                     " and ft=", +ft + ", with Real relative difference " + relDiffRe);
-                Assert.IsTrue(relDiffIm < _thresholdValue, "Test failed for fx =" + fxs[ifx] +
+                Assert.That(relDiffIm < _thresholdValue, Is.True, "Test failed for fx =" + fxs[ifx] +
                     " and ft=", +ft + ", with Imag relative difference " + relDiffIm);
             }
         }

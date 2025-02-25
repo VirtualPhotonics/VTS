@@ -386,7 +386,7 @@ namespace Vts.Test.Extensions
             {
                 Assert.That(x, Is.InstanceOf<Complex>());
                 var complexArray = _complexArray;
-                Assert.IsNotNull(complexArray);
+                Assert.That(complexArray, Is.Not.Null);
                 Assert.That(complexArray[index].Real, Is.EqualTo(x.Real));
                 Assert.That(complexArray[index].Imaginary, Is.EqualTo(x.Imaginary));
                 _length++;

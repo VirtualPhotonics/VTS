@@ -86,7 +86,7 @@ namespace Vts.Test.MonteCarlo.PhotonData
             // advance to the first point and test that the point is valid
             enumerator.MoveNext();
             var dp1 = enumerator.Current;
-            Assert.IsNotNull(dp1);
+            Assert.That(dp1, Is.Not.Null);
             Assert.That(dp1[0].PathLength, Is.EqualTo(10.0));
             Assert.That(dp1[0].NumberOfCollisions, Is.EqualTo(1000));
             Assert.That(dp1[1].PathLength, Is.EqualTo(20.0));
@@ -97,7 +97,7 @@ namespace Vts.Test.MonteCarlo.PhotonData
             // advance to the second point and test that the point is valid
             enumerator.MoveNext();
             var dp2 = enumerator.Current;
-            Assert.IsNotNull(dp2);
+            Assert.That(dp2, Is.Not.Null);
             Assert.That(dp2[0].PathLength, Is.EqualTo(40.0));
             Assert.That(dp2[0].NumberOfCollisions, Is.EqualTo(4000));
             Assert.That(dp2[1].PathLength, Is.EqualTo(50.0));

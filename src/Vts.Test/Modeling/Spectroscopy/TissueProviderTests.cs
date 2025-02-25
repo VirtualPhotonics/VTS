@@ -92,63 +92,63 @@ namespace Vts.Test.Modeling.Spectroscopy
         public void Test_create_scatterer_skin()
         {
             var scatterer = TissueProvider.CreateScatterer(TissueType.Skin);
-            Assert.IsInstanceOf<PowerLawScatterer>(scatterer);
+            Assert.That(scatterer, Is.InstanceOf<PowerLawScatterer>());
         }
 
         [Test]
         public void Test_create_scatterer_liver()
         {
             var scatterer = TissueProvider.CreateScatterer(TissueType.Liver);
-            Assert.IsInstanceOf<PowerLawScatterer>(scatterer);
+            Assert.That(scatterer, Is.InstanceOf<PowerLawScatterer>());
         }
 
         [Test]
         public void Test_create_scatterer_brain_white_matter()
         {
             var scatterer = TissueProvider.CreateScatterer(TissueType.BrainWhiteMatter);
-            Assert.IsInstanceOf<PowerLawScatterer>(scatterer);
+            Assert.That(scatterer, Is.InstanceOf<PowerLawScatterer>());
         }
 
         [Test]
         public void Test_create_scatterer_brain_gray_matter()
         {
             var scatterer = TissueProvider.CreateScatterer(TissueType.BrainGrayMatter);
-            Assert.IsInstanceOf<PowerLawScatterer>(scatterer);
+            Assert.That(scatterer, Is.InstanceOf<PowerLawScatterer>());
         }
 
         [Test]
         public void Test_create_scatterer_breast_pre_menopause()
         {
             var scatterer = TissueProvider.CreateScatterer(TissueType.BreastPreMenopause);
-            Assert.IsInstanceOf<PowerLawScatterer>(scatterer);
+            Assert.That(scatterer, Is.InstanceOf<PowerLawScatterer>());
         }
 
         [Test]
         public void Test_create_scatterer_breast_post_menopause()
         {
             var scatterer = TissueProvider.CreateScatterer(TissueType.BreastPostMenopause);
-            Assert.IsInstanceOf<PowerLawScatterer>(scatterer);
+            Assert.That(scatterer, Is.InstanceOf<PowerLawScatterer>());
         }
 
         [Test]
         public void Test_create_scatterer_custom()
         {
             var scatterer = TissueProvider.CreateScatterer(TissueType.Custom);
-            Assert.IsInstanceOf<PowerLawScatterer>(scatterer);
+            Assert.That(scatterer, Is.InstanceOf<PowerLawScatterer>());
         }
 
         [Test]
         public void Test_create_scatterer_intralipid_phantom()
         {
             var scatterer = TissueProvider.CreateScatterer(TissueType.IntralipidPhantom);
-            Assert.IsInstanceOf<IntralipidScatterer>(scatterer);
+            Assert.That(scatterer, Is.InstanceOf<IntralipidScatterer>());
         }
 
         [Test]
         public void Test_create_scatterer_polystyrene_sphere_phantom()
         {
             var scatterer = TissueProvider.CreateScatterer(TissueType.PolystyreneSpherePhantom);
-            Assert.IsInstanceOf<MieScatterer>(scatterer);
+            Assert.That(scatterer, Is.InstanceOf<MieScatterer>());
         }
 
         [Test]

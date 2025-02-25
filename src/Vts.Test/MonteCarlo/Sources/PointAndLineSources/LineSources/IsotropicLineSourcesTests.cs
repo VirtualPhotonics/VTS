@@ -34,7 +34,7 @@ namespace Vts.Test.MonteCarlo.Sources
         {
             // check default constructor
             var si = new IsotropicLineSourceInput();
-            Assert.IsNotNull(si);
+            Assert.That(si, Is.Not.Null);
             // check full definition
             si = new IsotropicLineSourceInput(
                     1.0,
@@ -44,10 +44,10 @@ namespace Vts.Test.MonteCarlo.Sources
                     SourceDefaults.DefaultBeamRotationFromInwardNormal.Clone(),
                     0
             );
-            Assert.IsNotNull(si);
+            Assert.That(si, Is.Not.Null);
             // validate CreateSource
             var source = si.CreateSource(new MersenneTwister(0));
-            Assert.IsNotNull(source);
+            Assert.That(source, Is.Not.Null);
         }
         /// <summary>
         /// Validate General Constructor of Isotropic Flat Line Source

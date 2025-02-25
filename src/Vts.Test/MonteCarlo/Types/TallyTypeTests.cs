@@ -24,7 +24,7 @@ namespace Vts.Test.MonteCarlo
             var cnt = 0;
             foreach (var tallyType in tallyTypeList)
             {
-                Assert.IsNotNull(tallyType);
+                Assert.That(tallyType, Is.Not.Null);
                 // get rid of pMC tallies because won't be SimulationInputProvider
                 if (!tallyType.Substring(1, 1).Equals("M"))
                 {

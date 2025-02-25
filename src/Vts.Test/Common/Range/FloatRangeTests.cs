@@ -43,7 +43,7 @@ namespace Vts.Test.Common
 
             var deserializedR = r.Clone<FloatRange>();
 
-            Assert.IsNotNull(deserializedR);
+            Assert.That(deserializedR, Is.Not.Null);
 
             Assert.That(deserializedR.Start, Is.EqualTo(0f));
             Assert.That(deserializedR.Stop, Is.EqualTo(9f));

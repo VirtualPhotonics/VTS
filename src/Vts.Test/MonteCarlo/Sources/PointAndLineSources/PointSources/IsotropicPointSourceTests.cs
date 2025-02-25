@@ -31,7 +31,7 @@ namespace Vts.Test.MonteCarlo.Sources
         {
             // check default constructor
             var si = new IsotropicPointSourceInput();
-            Assert.IsNotNull(si);
+            Assert.That(si, Is.Not.Null);
             // check full definition
             si = new IsotropicPointSourceInput(
                     new Position(0, 0, 0),

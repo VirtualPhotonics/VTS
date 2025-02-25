@@ -15,7 +15,7 @@ namespace Vts.Test.MonteCarlo.Helpers
         {
             // default constructor
             var sourceFlags = new SourceFlags();
-            Assert.IsInstanceOf<SourceFlags>(sourceFlags);
+            Assert.That(sourceFlags, Is.InstanceOf<SourceFlags>());
             // fully defined
             sourceFlags = new SourceFlags()
             {
@@ -23,7 +23,7 @@ namespace Vts.Test.MonteCarlo.Helpers
                 TranslationFromOriginFlag = true,
                 BeamRotationFromInwardNormalFlag = false
             };
-            Assert.IsInstanceOf<SourceFlags>(sourceFlags);
+            Assert.That(sourceFlags, Is.InstanceOf<SourceFlags>());
         }
         /// <summary>
         /// Validate Clone method

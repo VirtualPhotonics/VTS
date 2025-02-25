@@ -18,7 +18,7 @@ namespace Vts.Test.MonteCarlo
             // constructor
             var numberSubRegions = 3;
             var photonHistory = new PhotonHistory(numberSubRegions);
-            Assert.IsInstanceOf<PhotonHistory>(photonHistory);
+            Assert.That(photonHistory, Is.InstanceOf<PhotonHistory>());
         }
         /// <summary>
         /// Validate adding to history list
