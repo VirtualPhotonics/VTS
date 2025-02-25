@@ -197,8 +197,8 @@ namespace Vts.Test.MonteCarlo.Sources
                 var iy = (int)((photon.DP.Position.Y + 10.0)/_xyzLoaderUnif.Y.Delta);
                 var iz = (int)(Math.Floor(photon.DP.Position.Z)/_xyzLoaderUnif.Z.Delta);
                 // verify weight at location is equal to AOfXAndYAndZ 
-                Assert.IsTrue(Math.Abs(photon.DP.Weight - 
-                                       _xyzLoaderUnif.AOfXAndYAndZ[ix, iy, iz] * xyzNorm) < 1e-6);
+                Assert.That(Math.Abs(photon.DP.Weight - 
+                                     _xyzLoaderUnif.AOfXAndYAndZ[ix, iy, iz] * xyzNorm), Is.LessThan(1e-6));
             }
         }
         /// <summary>

@@ -69,9 +69,9 @@ namespace Vts.Test.MonteCarlo.Sources
             // make sure initial x-y position is on surface if not on bottom
             if (Math.Abs(photon.DP.Position.Z - 4) > 1e-10 ) // on sides
             {
-                Assert.IsTrue(Math.Abs(fiberRadius -
-                                       Math.Sqrt(photon.DP.Position.X * photon.DP.Position.X +
-                                                 photon.DP.Position.Y * photon.DP.Position.Y)) < 0.00001);
+                Assert.That(Math.Abs(fiberRadius -
+                                     Math.Sqrt(photon.DP.Position.X * photon.DP.Position.X + 
+                                               photon.DP.Position.Y * photon.DP.Position.Y)), Is.LessThan(0.00001));
             }
             else // on bottom, make sure pointed down
             {

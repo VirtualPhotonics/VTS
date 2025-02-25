@@ -41,9 +41,8 @@ namespace Vts.Test.MonteCarlo
         {
             var sourceInput = (CustomLineSourceInput) sourceInputList.First(
                 si => si.SourceType == "CustomLine");
-            Assert.That(sourceInput != null, Is.True);
-            Assert.IsTrue(
-                Math.Abs(sourceInput.NewDirectionOfPrincipalSourceAxis.Uz - 1) < 0.000001);
+            Assert.That(sourceInput, Is.Not.Null);
+            Assert.That(Math.Abs(sourceInput.NewDirectionOfPrincipalSourceAxis.Uz - 1), Is.LessThan(0.000001));
         }
         /// <summary>
         /// Test verifies Gaussian CustomCircular source input generation
@@ -53,9 +52,8 @@ namespace Vts.Test.MonteCarlo
         {
             var sourceInput = (CustomCircularSourceInput)sourceInputList.First(
                 si => si.SourceType == "CustomCircular");
-            Assert.That(sourceInput != null, Is.True);
-            Assert.IsTrue(
-                Math.Abs(sourceInput.NewDirectionOfPrincipalSourceAxis.Uz - 1) < 0.000001);
+            Assert.That(sourceInput, Is.Not.Null);
+            Assert.That(Math.Abs(sourceInput.NewDirectionOfPrincipalSourceAxis.Uz - 1), Is.LessThan(0.000001));
             Assert.That(sourceInput.SourceProfile is GaussianSourceProfile, Is.True);
         }
     }

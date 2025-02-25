@@ -64,12 +64,12 @@ namespace Vts.Test.MonteCarlo.Sources
             {
                 var photon = ps.GetNextPhoton(tissue);
                 // make sure initial x-y is on surface
-                Assert.IsTrue(tubeRadius - Math.Sqrt(
+                Assert.That(tubeRadius - Math.Sqrt(
                     photon.DP.Position.X * photon.DP.Position.X +
-                    photon.DP.Position.Y * photon.DP.Position.Y) < 0.00001);
+                    photon.DP.Position.Y * photon.DP.Position.Y), Is.LessThan(0.00001));
                 // make sure initial z is within height
-                Assert.IsTrue(photon.DP.Position.Z > tubeHeightZ / 2 - translationFromOrigin.Z &&
-                              photon.DP.Position.Z < tubeHeightZ / 2 + translationFromOrigin.Z);
+                Assert.That(photon.DP.Position.Z > tubeHeightZ / 2 - translationFromOrigin.Z &&
+                              photon.DP.Position.Z < tubeHeightZ / 2 + translationFromOrigin.Z, Is.True);
 
             }
         }

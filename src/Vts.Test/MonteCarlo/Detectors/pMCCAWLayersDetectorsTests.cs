@@ -274,10 +274,8 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.That(Math.Abs(postProcessedOutput.pMC_Atot - 0.290926), Is.LessThan(0.000001));
             Assert.That(Math.Abs(postProcessedOutput.pMC_Atot2 - 0.185483), Is.LessThan(0.000001));
             // show that unperturbed results are not same for reason in above comment
-            Assert.IsTrue(Math.Abs(postProcessedOutput.pMC_Atot -
-                                   _referenceOutputTwoLayerTissue.Atot)> 0.000001);
-            Assert.IsTrue(Math.Abs(postProcessedOutput.pMC_Atot2 -
-                                   _referenceOutputTwoLayerTissue.Atot2)> 0.000001);
+            Assert.That(Math.Abs(postProcessedOutput.pMC_Atot - _referenceOutputTwoLayerTissue.Atot), Is.GreaterThan(0.000001));
+            Assert.That(Math.Abs(postProcessedOutput.pMC_Atot2 - _referenceOutputTwoLayerTissue.Atot2), Is.GreaterThan(0.000001));
         }
     }
 }

@@ -59,11 +59,11 @@ namespace Vts.Test.MonteCarlo.Sources
             // make sure initial position is at tissue surface
             Assert.That(photon.DP.Position.Z, Is.EqualTo(0.0));
             // make sure initial position is inside radius
-            Assert.IsTrue(Math.Sqrt(
+            Assert.That(Math.Sqrt(
                 (photon.DP.Position.X - translationFromOrigin.X) *
                 (photon.DP.Position.X - translationFromOrigin.X) +
                 (photon.DP.Position.Y - translationFromOrigin.Y) *
-                (photon.DP.Position.Y - translationFromOrigin.Y)) <= radius);
+                (photon.DP.Position.Y - translationFromOrigin.Y)), Is.LessThanOrEqualTo(radius));
             // make sure angle is less than 45 degrees
             Assert.That(photon.DP.Direction.Uz >= 1 / Math.Sqrt(2), Is.True);
         }

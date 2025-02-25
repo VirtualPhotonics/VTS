@@ -21,7 +21,7 @@ namespace Vts.Test.MonteCarlo.Helpers
             Assert.That(Math.Abs(variance), Is.LessThan(0.000001)); // check 0 variance
             secondMoment = 0.125;
             variance = ErrorCalculation.StandardDeviation(numberOfPhotons, mean, secondMoment);
-            Assert.IsNaN(variance); // check NaN variance
+            Assert.That(variance, Is.NaN); // check NaN variance
             secondMoment = 0.5;
             variance = ErrorCalculation.StandardDeviation(numberOfPhotons, mean, secondMoment);
             Assert.That(Math.Abs(variance - 0.05), Is.LessThan(0.000001)); // check non-zero variance

@@ -79,11 +79,10 @@ namespace Vts.Test.MonteCarlo.Sources
             {
             };
 
-            Assert.IsTrue(
+            Assert.That(
                 ps.PointLocation.X == 1.0 &&
                 ps.PointLocation.Y == 2.0 &&
-                ps.PointLocation.Z == 3.0
-            );
+                ps.PointLocation.Z == 3.0, Is.True);
         }
         /// <summary>
         /// test default constructor and verify position is correct
@@ -95,11 +94,10 @@ namespace Vts.Test.MonteCarlo.Sources
             {
             };
 
-            Assert.IsTrue(
+            Assert.That(
                 ps.PointLocation.X == 0.0 &&
                 ps.PointLocation.Y == 0.0 &&
-                ps.PointLocation.Z == 0.0
-            );
+                ps.PointLocation.Z == 0.0, Is.True);
         }
     }
 }

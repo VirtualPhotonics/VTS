@@ -267,9 +267,9 @@ namespace Vts.Test.MonteCarlo.Tissues
             Assert.That(Math.Abs(refractedDir.Ux - 0.965519) < 1e-6, Is.True);
             Assert.That(refractedDir.Uy, Is.EqualTo(0));
             Assert.That(Math.Abs(refractedDir.Uz - 0.260331) < 1e-6, Is.True);
-            Assert.IsTrue(Math.Sqrt(refractedDir.Ux * refractedDir.Ux +
+            Assert.That(Math.Sqrt(refractedDir.Ux * refractedDir.Ux +
                                     refractedDir.Uy * refractedDir.Uy +
-                                    refractedDir.Uz * refractedDir.Uz) - 1 < 1e-6);
+                                    refractedDir.Uz * refractedDir.Uz) - 1, Is.LessThan(1e-6));
         }
         /// <summary>
         /// Validate method GetAngleRelativeToBoundaryNormal return correct value.   Note that this

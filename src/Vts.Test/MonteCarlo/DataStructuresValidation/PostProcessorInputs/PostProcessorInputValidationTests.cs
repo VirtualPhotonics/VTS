@@ -94,8 +94,7 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation.PostProcessorInputs
         public void Validate_input_folder_existence()
         {
             var result = PostProcessorInputValidation.ValidateInput(input, "");
-            Assert.IsTrue(result.ValidationRule.Equals(
-                "PostProcessorInput: the input folder does not exist"));
+            Assert.That(result.ValidationRule.Equals("PostProcessorInput: the input folder does not exist"), Is.True);
         }
         /// <summary>
         /// Test to check for simulation input
@@ -152,29 +151,25 @@ namespace Vts.Test.MonteCarlo.DataStructuresValidation.PostProcessorInputs
             FileIO.CreateDirectory(folderName);
             // test detector that is defined in the OneTimeSetup input = pMC reflectance tally
             var result = PostProcessorInputValidation.ValidateInput(input, folderName);
-            Assert.IsTrue(result.ValidationRule.Equals(
-                "PostProcessorInput:  files DiffuseReflectanceDatabase or CollisionInfoDatabase do not exist"));
+            Assert.That(result.ValidationRule.Equals("PostProcessorInput:  files DiffuseReflectanceDatabase or CollisionInfoDatabase do not exist"), Is.True);
             // clear out detector list
             input.DetectorInputs.Clear();
             // add reflectance tally detector
             input.DetectorInputs.Add(new ROfRhoDetectorInput()); // this has IsReflectanceTally=true
             result = PostProcessorInputValidation.ValidateInput(input, folderName);
-            Assert.IsTrue(result.ValidationRule.Equals(
-                "PostProcessorInput:  file DiffuseReflectanceDatabase does not exist")); 
+            Assert.That(result.ValidationRule.Equals("PostProcessorInput:  file DiffuseReflectanceDatabase does not exist"), Is.True); 
             // clear out detector list
             input.DetectorInputs.Clear();
             // add transmittance tally detector
             input.DetectorInputs.Add(new TOfRhoDetectorInput()); // this has IsTransmittanceTally=true
             result = PostProcessorInputValidation.ValidateInput(input, folderName);
-            Assert.IsTrue(result.ValidationRule.Equals(
-                "PostProcessorInput:  file DiffuseTransmittanceDatabase does not exist"));
+            Assert.That(result.ValidationRule.Equals("PostProcessorInput:  file DiffuseTransmittanceDatabase does not exist"), Is.True);
             // clear out detector list
             input.DetectorInputs.Clear();
             // add specular reflectance tally detector
             input.DetectorInputs.Add(new RSpecularDetectorInput()); // this has IsSpecularReflectanceTally=true
             result = PostProcessorInputValidation.ValidateInput(input, folderName);
-            Assert.IsTrue(result.ValidationRule.Equals(
-                "PostProcessorInput:  file SpecularReflectanceDatabase does not exist"));
+            Assert.That(result.ValidationRule.Equals("PostProcessorInput:  file SpecularReflectanceDatabase does not exist"), Is.True);
         }
     }
 }

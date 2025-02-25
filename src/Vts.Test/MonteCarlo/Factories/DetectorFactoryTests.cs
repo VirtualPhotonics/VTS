@@ -67,11 +67,9 @@ namespace Vts.Test.MonteCarlo.Factories
         public void Demonstrate_GetDetectors_null_return_on_empty_list()
         {
             IEnumerable<IDetectorInput> emptyDetectorList = null;
-            Assert.IsNull(DetectorFactory.GetDetectors(
-                emptyDetectorList, new MultiLayerTissue(), new MersenneTwister(0)));
+            Assert.That(DetectorFactory.GetDetectors(emptyDetectorList, new MultiLayerTissue(), new MersenneTwister(0)), Is.Null);
             IDetectorInput nullDetector = null;
-            Assert.IsNull(DetectorFactory.GetDetector(
-                nullDetector, new MultiLayerTissue(), new MersenneTwister(0)));
+            Assert.That(DetectorFactory.GetDetector(nullDetector, new MultiLayerTissue(), new MersenneTwister(0)), Is.Null);
         }
 
         /// <summary>

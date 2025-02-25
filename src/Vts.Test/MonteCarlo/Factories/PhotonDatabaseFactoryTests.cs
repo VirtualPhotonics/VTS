@@ -165,8 +165,7 @@ namespace Vts.Test.MonteCarlo.Factories
         public void Demonstrate_GetPhotonDatabase_returns_null_when_vb_does_not_create_database()
         {
             // provide non-existing database
-            Assert.IsNull(PhotonDatabaseFactory.GetPhotonDatabase(
-                VirtualBoundaryType.GenericVolumeBoundary, ""));
+            Assert.That(PhotonDatabaseFactory.GetPhotonDatabase(VirtualBoundaryType.GenericVolumeBoundary, ""), Is.Null);
         }
         /// <summary>
         /// Simulate erroneous invocation
@@ -186,8 +185,7 @@ namespace Vts.Test.MonteCarlo.Factories
         public void Demonstrate_GetpMCPhotonDatabase_returns_null_when_vb_does_not_create_database()
         {
             // provide non-existing database
-            Assert.IsNull(PhotonDatabaseFactory.GetpMCDatabase(
-                VirtualBoundaryType.GenericVolumeBoundary, ""));
+            Assert.That(PhotonDatabaseFactory.GetpMCDatabase(VirtualBoundaryType.GenericVolumeBoundary, ""), Is.Null);
         }
     }
 }
