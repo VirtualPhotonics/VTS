@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Meta.Numerics.Matrices;
+using System;
 using Vts.Common;
 using Vts.Extensions;
 using Vts.MonteCarlo.Sources;
@@ -58,7 +59,7 @@ namespace Vts.MonteCarlo.Helpers
             Random rng)
         {
             if (polarAngleEmissionRange.Start == polarAngleEmissionRange.Stop && azimuthalAngleEmissionRange.Start == azimuthalAngleEmissionRange.Stop)
-                return (new Direction(0.0, 0.0, 1.0));
+                return new Direction(0.0, 0.0, 1.0);
 
             //sampling cost           
             var cost = rng.NextDouble(Math.Cos(polarAngleEmissionRange.Stop), Math.Cos(polarAngleEmissionRange.Start));
@@ -103,23 +104,25 @@ namespace Vts.MonteCarlo.Helpers
         /// </summary>
         /// <param name="polarAngleEmissionRange">The polar angle range</param>
         /// <param name="azimuthalAngleEmissionRange">The azimuthal angle range</param>
+        /// <param name="order">The order of cosine assumed in theta distribution</param>
         /// <param name="rng">The random number generator</param>
         /// <returns>direction</returns>
         public static Direction GetDirectionForGivenPolarAzimuthalAngleRangeLambertianRandom(
             DoubleRange polarAngleEmissionRange,
             DoubleRange azimuthalAngleEmissionRange,
+            int order,
             Random rng)
         {
             double cost, sint, phi, cosp, sinp;
             if (polarAngleEmissionRange.Start == polarAngleEmissionRange.Stop && azimuthalAngleEmissionRange.Start == azimuthalAngleEmissionRange.Stop)
-                return (new Direction(0.0, 0.0, 1.0));
+                return new Direction(0.0, 0.0, 1.0);
 
-            //sampling sint for Lambertian and do until find cost within range specified
+            //sampling cost for Lambertian and do until find cost within range specified
             do
             {
-                sint = Math.Sqrt(2 * rng.NextDouble() - 1);
-                cost = Math.Sqrt(1.0 - sint * sint);
+                cost = Math.Pow(2 * rng.NextDouble() - 1, 1.0 / (order + 1));
             } while (cost < polarAngleEmissionRange.Start || cost > polarAngleEmissionRange.Stop);
+            sint = Math.Sqrt(1.0 - cost * cost);
 
             //sampling phi
             phi = rng.NextDouble(azimuthalAngleEmissionRange.Start, azimuthalAngleEmissionRange.Stop);
@@ -135,24 +138,25 @@ namespace Vts.MonteCarlo.Helpers
         /// <summary>
         /// Provides a direction after Lambertian emission of given polar angle range and azimuthal angle range 
         /// </summary>
+        /// <param name="order">The order of cosine assumed in theta distribution</param>
         /// <param name="rng">The random number generator</param>
         /// <returns>direction</returns>
-        public static Direction GetDirectionForLambertianRandom(Random rng)
+        public static Direction GetDirectionForLambertianRandom(int order, Random rng)
         {
             double cost, sint, phi, cosp, sinp;
-            //sampling sint           
-            sint = Math.Sqrt(2 * rng.NextDouble() - 1);
-            cost = Math.Sqrt(1.0 - sint * sint);
+            //sampling cost           
+            cost = Math.Pow(2 * rng.NextDouble() - 1, 1.0 / (order + 1));
+            sint = Math.Sqrt(1.0 - cost * cost);
 
             //sampling phi
             phi = rng.NextDouble(0, 2 * Math.PI);
             cosp = Math.Cos(phi);
             sinp = Math.Sin(phi);
 
-            return (new Direction(
+            return new Direction(
                 sint * cosp,
                 sint * sinp,
-                cost));
+                cost);
         }       
 
         /// <summary>
@@ -529,7 +533,7 @@ namespace Vts.MonteCarlo.Helpers
                     GetLimit(factorB),
                     rng);
             }
-            while ((x * x / (a * a)) + (y * y / (b * b)) >= 1.0);            
+            while (x * x / (a * a) + y * y / (b * b) >= 1.0);            
             return new Position(
                 center.X + x,
                 center.Y + y,
@@ -563,10 +567,10 @@ namespace Vts.MonteCarlo.Helpers
                 z = c * (2.0 * rng.NextDouble() - 1);
             }
             while (x * x / (a * a) + (y * y / (b * b) + z * z / (c * c)) >= 1.0);
-            return (new Position(
+            return new Position(
                 center.X + x,
                 center.Y + y,
-                center.Z + z));
+                center.Z + z);
         }
 
         /// <summary>
@@ -1019,7 +1023,7 @@ namespace Vts.MonteCarlo.Helpers
             if (thetaConvOrDiv == 0.0)
                 return thetaConvOrDiv;
             var height = fullLength / Math.Tan(thetaConvOrDiv);
-            return (Math.Atan(curLength) / height);
+            return Math.Atan(curLength) / height;
         }
 
         /// <summary>

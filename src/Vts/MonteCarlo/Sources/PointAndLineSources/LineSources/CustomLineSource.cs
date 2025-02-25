@@ -274,6 +274,7 @@ namespace Vts.MonteCarlo.Sources
             return SourceToolbox.GetDirectionForGivenPolarAzimuthalAngleRangeLambertianRandom(
                 _polarAngleEmissionRange,
                 _azimuthalAngleEmissionRange,
+                1,
                 Rng);
         }
     }

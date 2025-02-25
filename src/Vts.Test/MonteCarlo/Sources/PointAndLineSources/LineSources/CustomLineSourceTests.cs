@@ -150,9 +150,9 @@ namespace Vts.Test.MonteCarlo.Sources
 
             var photon = ps.GetNextPhoton(tissue);
 
-            Assert.Less(Math.Abs(photon.DP.Direction.Ux - 0.45063777), _validationData.AcceptablePrecision);
-            Assert.Less(Math.Abs(photon.DP.Direction.Uy - 0.88316418), _validationData.AcceptablePrecision);
-            Assert.Less(Math.Abs(photon.DP.Direction.Uz - 0.13017915), _validationData.AcceptablePrecision);
+            Assert.Less(Math.Abs(photon.DP.Direction.Ux - 0.48735295), _validationData.AcceptablePrecision);
+            Assert.Less(Math.Abs(photon.DP.Direction.Uy - 0.83486990), _validationData.AcceptablePrecision);
+            Assert.Less(Math.Abs(photon.DP.Direction.Uz - 0.25588931), _validationData.AcceptablePrecision);
 
             Assert.Less(Math.Abs(photon.DP.Position.X - _validationData.Tp[27]), _validationData.AcceptablePrecision);
             Assert.Less(Math.Abs(photon.DP.Position.Y - _validationData.Tp[28]), _validationData.AcceptablePrecision);

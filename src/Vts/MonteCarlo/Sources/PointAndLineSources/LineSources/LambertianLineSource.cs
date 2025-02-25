@@ -17,6 +17,36 @@ namespace Vts.MonteCarlo.Sources
         /// Initializes a new instance of LambertianLineSourceInput class
         /// </summary>
         /// <param name="lineLength">The length of the line source</param>
+        /// <param name="lambertOrder">Order of the Lambertian angular distribution</param>
+        /// <param name="sourceProfile">Source Profile {Flat / Gaussian}</param>
+        /// <param name="newDirectionOfPrincipalSourceAxis">New source axis direction</param>
+        /// <param name="translationFromOrigin">New source location</param>
+        /// <param name="beamRotationFromInwardNormal">beam rotation angle</param>
+        /// <param name="initialTissueRegionIndex">Initial tissue region index</param>
+        public LambertianLineSourceInput(
+            double lineLength,
+            int lambertOrder,
+            ISourceProfile sourceProfile,
+            Direction newDirectionOfPrincipalSourceAxis,
+            Position translationFromOrigin,
+            PolarAzimuthalAngles beamRotationFromInwardNormal,
+            int initialTissueRegionIndex)
+        {
+            SourceType = "LambertianLine";
+            LambertOrder = lambertOrder;
+            LineLength = lineLength;
+            SourceProfile = sourceProfile;
+            NewDirectionOfPrincipalSourceAxis = newDirectionOfPrincipalSourceAxis;
+            TranslationFromOrigin = translationFromOrigin;
+            BeamRotationFromInwardNormal = beamRotationFromInwardNormal;
+            InitialTissueRegionIndex = initialTissueRegionIndex;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of LambertianLineSourceInput class assuming
+        /// Lambert order 1
+        /// </summary>
+        /// <param name="lineLength">The length of the line source</param>
         /// <param name="sourceProfile">Source Profile {Flat / Gaussian}</param>
         /// <param name="newDirectionOfPrincipalSourceAxis">New source axis direction</param>
         /// <param name="translationFromOrigin">New source location</param>
@@ -32,6 +62,7 @@ namespace Vts.MonteCarlo.Sources
         {
             SourceType = "LambertianLine";
             LineLength = lineLength;
+            LambertOrder = 1;
             SourceProfile = sourceProfile;
             NewDirectionOfPrincipalSourceAxis = newDirectionOfPrincipalSourceAxis;
             TranslationFromOrigin = translationFromOrigin;
@@ -61,6 +92,7 @@ namespace Vts.MonteCarlo.Sources
         public LambertianLineSourceInput()
             : this(
                 1.0,
+                1,
                 new FlatSourceProfile(),
                 SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone(),
                 SourceDefaults.DefaultPosition.Clone(),
@@ -75,6 +107,10 @@ namespace Vts.MonteCarlo.Sources
         /// The length of the line source
         /// </summary>
         public double LineLength { get; set; }
+        /// <summary>
+        /// The order of the lambertian angular distribution
+        /// </summary>
+        public int LambertOrder { get; set; }
         /// <summary>
         /// Source profile type
         /// </summary>
@@ -103,14 +139,15 @@ namespace Vts.MonteCarlo.Sources
         /// <returns>instantiated source</returns>
         public ISource CreateSource(Random rng = null)
         {
-            rng = rng ?? new Random();
+            rng ??= new Random();
 
             return new LambertianLineSource(
-                this.LineLength,
-                this.SourceProfile,
-                this.NewDirectionOfPrincipalSourceAxis,
-                this.TranslationFromOrigin,
-                this.BeamRotationFromInwardNormal) { Rng = rng };
+                LineLength,
+                LambertOrder,
+                SourceProfile,
+                NewDirectionOfPrincipalSourceAxis,
+                TranslationFromOrigin,
+                BeamRotationFromInwardNormal) { Rng = rng };
         }
     }
 
@@ -119,12 +156,15 @@ namespace Vts.MonteCarlo.Sources
     /// inward normal beam rotation and initial tissue region index.
     /// </summary>
     public class LambertianLineSource : LineSourceBase
-    {     
+    {
+        private readonly int _lambertOrder;
+
         /// <summary>
         /// Returns an instance of isotropicLineSource with line length, source profile, direction, position, 
         /// inward normal beam rotation and initial tissue region index.
         /// </summary>
         /// <param name="lineLength">The length of the line source</param>
+        /// <param name="lambertOrder">Order of the Lambertian angular distribution</param>
         /// <param name="sourceProfile">Source Profile {Flat / Gaussian}</param>
         /// <param name="newDirectionOfPrincipalSourceAxis">New source axis direction</param>
         /// <param name="translationFromOrigin">New source location</param>
@@ -132,6 +172,7 @@ namespace Vts.MonteCarlo.Sources
         /// <param name="initialTissueRegionIndex">Initial tissue region index</param>
         public LambertianLineSource(
             double lineLength,
+            int lambertOrder,
             ISourceProfile sourceProfile,
             Direction newDirectionOfPrincipalSourceAxis = null,
             Position translationFromOrigin = null,
@@ -144,7 +185,8 @@ namespace Vts.MonteCarlo.Sources
                 translationFromOrigin,
                 beamRotationFromInwardNormal,
                 initialTissueRegionIndex)
-        {            
+        {      
+            _lambertOrder = lambertOrder;
         }
 
         /// <summary>
@@ -155,7 +197,7 @@ namespace Vts.MonteCarlo.Sources
         protected override Direction GetFinalDirection(Position position)
         { 
             //Sample angular distribution with full range of theta and phi
-            var finalDirection = SourceToolbox.GetDirectionForLambertianRandom(Rng);
+            var finalDirection = SourceToolbox.GetDirectionForLambertianRandom(_lambertOrder, Rng);
 
             return finalDirection;
         }
