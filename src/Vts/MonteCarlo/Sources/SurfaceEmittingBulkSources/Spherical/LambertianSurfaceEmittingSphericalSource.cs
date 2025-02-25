@@ -14,6 +14,27 @@ namespace Vts.MonteCarlo.Sources
         /// Initializes a new instance of LambertianSurfaceEmittingSphericalSourceInput class
         /// </summary>
         /// <param name="radius">The radius of the sphere</param>
+        /// <param name="lambertOrder">Lambert order of angular distribution</param>
+        /// <param name="translationFromOrigin">New source location</param>
+        /// <param name="initialTissueRegionIndex">Initial tissue region index</param>
+        public LambertianSurfaceEmittingSphericalSourceInput(
+            double radius,
+            int lambertOrder,
+            Position translationFromOrigin,
+            int initialTissueRegionIndex)
+        {
+            SourceType = "LambertianSurfaceEmittingSpherical";
+            Radius = radius;
+            LambertOrder = lambertOrder;
+            TranslationFromOrigin = translationFromOrigin;
+            InitialTissueRegionIndex = initialTissueRegionIndex;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of LambertianSurfaceEmittingSphericalSourceInput
+        /// class assuming LambertOrder=1
+        /// </summary>
+        /// <param name="radius">The radius of the sphere</param>
         /// <param name="translationFromOrigin">New source location</param>
         /// <param name="initialTissueRegionIndex">Initial tissue region index</param>
         public LambertianSurfaceEmittingSphericalSourceInput(
@@ -23,6 +44,7 @@ namespace Vts.MonteCarlo.Sources
         {
             SourceType = "LambertianSurfaceEmittingSpherical";
             Radius = radius;
+            LambertOrder = 1;
             TranslationFromOrigin = translationFromOrigin;
             InitialTissueRegionIndex = initialTissueRegionIndex;
         }
@@ -56,6 +78,10 @@ namespace Vts.MonteCarlo.Sources
         /// </summary>
         public double Radius { get; set; }
         /// <summary>
+        /// Lambert order of angular distribution
+        /// </summary>
+        public int LambertOrder { get; set; }
+        /// <summary>
         /// New source location
         /// </summary>
         public Position TranslationFromOrigin { get; set; }
@@ -71,12 +97,13 @@ namespace Vts.MonteCarlo.Sources
         /// <returns>instantiated source</returns>
         public ISource CreateSource(Random rng = null)
         {
-            rng = rng ?? new Random();
+            rng ??= new Random();
 
             return new LambertianSurfaceEmittingSphericalSource(
-                this.Radius,
-                this.TranslationFromOrigin,
-                this.InitialTissueRegionIndex) { Rng = rng };
+                Radius,
+                LambertOrder,
+                TranslationFromOrigin,
+                InitialTissueRegionIndex) { Rng = rng };
         }        
     }
 
@@ -86,14 +113,18 @@ namespace Vts.MonteCarlo.Sources
     /// </summary>
     public class LambertianSurfaceEmittingSphericalSource : SurfaceEmittingSphericalSourceBase
     {
+        private readonly int _lambertOrder;
+
         /// <summary>
         /// Returns an instance of Lambertian Spherical Surface Emitting Source with a specified translation.
         /// </summary>
-        /// <param name="radius">The radius of the sphere</param> 
+        /// <param name="radius">The radius of the sphere</param>
+        /// <param name="lambertOrder">Lambert order of angular distribution</param>
         /// <param name="translationFromOrigin">New source location</param>
         /// <param name="initialTissueRegionIndex">Initial tissue region index</param>
         public LambertianSurfaceEmittingSphericalSource(
             double radius,
+            int lambertOrder,
             Position translationFromOrigin = null,
             int initialTissueRegionIndex = 0)
             : base(
@@ -104,8 +135,9 @@ namespace Vts.MonteCarlo.Sources
                 translationFromOrigin,
                 initialTissueRegionIndex)
         {
+            _lambertOrder = lambertOrder;
             if (translationFromOrigin == null)
-                translationFromOrigin = SourceDefaults.DefaultPosition.Clone();
+                SourceDefaults.DefaultPosition.Clone();
         }
             
         /// <summary>
@@ -117,7 +149,7 @@ namespace Vts.MonteCarlo.Sources
         protected override Direction GetFinalDirection(Direction direction, Position position)
         {
             //Lambertian distribution 
-            PolarAzimuthalAngles polarAzimuthalPair = SourceToolbox.GetPolarAzimuthalPairForLambertianRandom(Rng);
+            var polarAzimuthalPair = SourceToolbox.GetPolarAzimuthalPairForLambertianRandom(_lambertOrder, Rng);
 
             //Use a dummy variable to avoid update the position during next rotation
             var dummyPosition = new Position(position.X, position.Y, position.Z);

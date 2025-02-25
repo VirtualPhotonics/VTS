@@ -81,19 +81,19 @@ namespace Vts.MonteCarlo.Sources
         public Photon GetNextPhoton(ITissue tissue)
         {
             // sample angular distribution and compute normal vector direction (normalVectorDirection)
-            Direction normalVectorDirection = SourceToolbox.GetDirectionForGivenPolarAzimuthalAngleRangeRandom(
+            var normalVectorDirection = SourceToolbox.GetDirectionForGivenPolarAzimuthalAngleRangeRandom(
                 _polarAngleRangeToDefineSphericalSurface,
                 _azimuthalAngleRangeToDefineSphericalSurface,
                 Rng);
 
             //Compute emitting location based on normalVectorDirection
-            Position finalPosition = GetFinalPositionFromProfileType(normalVectorDirection, _radius);
+            var finalPosition = GetFinalPositionFromProfileType(normalVectorDirection, _radius);
 
             //Get final direction
-            Direction finalDirection = GetFinalDirection(normalVectorDirection, finalPosition);
+            var finalDirection = GetFinalDirection(normalVectorDirection, finalPosition);
 
             //Find the relevant polar and azimuthal pair for the direction
-            PolarAzimuthalAngles _rotationalAnglesOfPrincipalSourceAxis = SourceToolbox.GetPolarAzimuthalPairFromDirection(_newDirectionOfPrincipalSourceAxis);
+            var _rotationalAnglesOfPrincipalSourceAxis = SourceToolbox.GetPolarAzimuthalPairFromDirection(_newDirectionOfPrincipalSourceAxis);
 
             //Translation and source rotation
             SourceToolbox.UpdateDirectionPositionAfterGivenFlags(

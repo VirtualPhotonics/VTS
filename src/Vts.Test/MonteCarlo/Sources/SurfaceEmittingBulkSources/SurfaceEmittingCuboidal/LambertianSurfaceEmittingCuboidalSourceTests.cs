@@ -40,6 +40,7 @@ namespace Vts.Test.MonteCarlo.Sources
             var source = si.CreateSource(new MersenneTwister(0));
             Assert.IsNotNull(source);
         }
+
         /// <summary>
         /// This test validated using geometry assumptions
         /// </summary>
@@ -49,10 +50,11 @@ namespace Vts.Test.MonteCarlo.Sources
             Random rng =
                 new MathNet.Numerics.Random.MersenneTwister(0); // not really necessary here, as this is now the default
             ITissue tissue = new MultiLayerTissue();
-            var cubeLengthX = 1.0;
-            var cubeWidthY = 2.0;
-            var cubeHeightZ = 2.0;
+            const double cubeLengthX = 1.0;
+            const double cubeWidthY = 2.0;
+            const double cubeHeightZ = 2.0;
             var profile = new FlatSourceProfile();
+            const int lambertOrder = 1;
             var directionAxis = new Direction(0, 0, 1);
             var translationFromOrigin = new Position(0, 0, 4);
 
@@ -61,6 +63,7 @@ namespace Vts.Test.MonteCarlo.Sources
                 cubeWidthY,
                 cubeHeightZ,
                 profile,
+                lambertOrder,
                 directionAxis,
                 translationFromOrigin,
                 1)
@@ -90,16 +93,15 @@ namespace Vts.Test.MonteCarlo.Sources
                                   photon.DP.Position.Z > -cubeHeightZ / 2 + translationFromOrigin.Z);
                 }
                 // if on z is on 1 of 2 constant faces, make sure x and y are within boundaries
-                if (Math.Abs(photon.DP.Position.Z - cubeHeightZ / 2 - translationFromOrigin.Z) < 1e-10 ||
-                    Math.Abs(photon.DP.Position.Z + cubeHeightZ / 2 - translationFromOrigin.Z) < 1e-10)
-                {
-                    Assert.IsTrue(photon.DP.Position.X < cubeLengthX / 2 + translationFromOrigin.X &&
-                                  photon.DP.Position.X > -cubeLengthX / 2 + translationFromOrigin.X);
-                    Assert.IsTrue(photon.DP.Position.Y < cubeWidthY / 2 + translationFromOrigin.Y &&
-                                  photon.DP.Position.Y > -cubeWidthY / 2 + translationFromOrigin.Y);
-                }
+                if (!(Math.Abs(photon.DP.Position.Z - cubeHeightZ / 2 - translationFromOrigin.Z) < 1e-10) &&
+                    !(Math.Abs(photon.DP.Position.Z + cubeHeightZ / 2 - translationFromOrigin.Z) < 1e-10)) continue;
+                Assert.IsTrue(photon.DP.Position.X < cubeLengthX / 2 + translationFromOrigin.X &&
+                              photon.DP.Position.X > -cubeLengthX / 2 + translationFromOrigin.X);
+                Assert.IsTrue(photon.DP.Position.Y < cubeWidthY / 2 + translationFromOrigin.Y &&
+                              photon.DP.Position.Y > -cubeWidthY / 2 + translationFromOrigin.Y);
             }
         }
+
         /// <summary>
         /// test switch statement in GetFinalPositionFromProfileType method for setting other
         /// than Flat or Gaussian verify exception is thrown
@@ -113,6 +115,7 @@ namespace Vts.Test.MonteCarlo.Sources
                 1.0,
                 1.0,
                 new FakeSourceProfile(),
+                1,
                 new Direction(),
                 new Position(),
                 1
@@ -120,6 +123,10 @@ namespace Vts.Test.MonteCarlo.Sources
             Assert.Throws<ArgumentOutOfRangeException>(
                 () => source.GetNextPhoton(tissue));
         }
+
+        /// <summary>
+        /// Fake constructor for testing purposes
+        /// </summary>
         public class FakeSourceProfile : ISourceProfile
         {
             /// <summary>

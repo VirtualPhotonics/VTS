@@ -1,5 +1,4 @@
-﻿using Meta.Numerics.Matrices;
-using System;
+﻿using System;
 using Vts.Common;
 using Vts.Extensions;
 using Vts.MonteCarlo.Sources;
@@ -210,6 +209,18 @@ namespace Vts.MonteCarlo.Helpers
             return new PolarAzimuthalAngles(
                 Math.Acos(rng.NextDouble(cosMin, cosMax)),
                 rng.NextDouble(azimuthalAngleEmissionRange.Start, azimuthalAngleEmissionRange.Stop));
+        }
+
+        /// <summary>
+        /// Provides polar azimuthal angle pair for Lambertian Emission of specified order
+        /// </summary>
+        /// <param name="rng">The random number generato</param>
+        /// <returns>polar azimuthal angle pair</returns>
+        public static PolarAzimuthalAngles GetPolarAzimuthalPairForLambertianRandom(int lambertOrder, Random rng)
+        {
+            return new PolarAzimuthalAngles(
+                Math.Acos(Math.Pow(rng.NextDouble(0.0, 1.0), 1.0 / (lambertOrder + 1))),
+                rng.NextDouble(0, 2 * Math.PI));
         }
 
         /// <summary>
