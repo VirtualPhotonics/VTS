@@ -163,14 +163,14 @@ namespace Vts.Test.MonteCarlo.Sources
                 countArray[ix, 0, iz] += 1;
             }
             // check that countArray is only 1 in region of infinite cylinder
-            Assert.AreEqual(0,countArray[0, 0, 0]);
-            Assert.AreEqual(0,countArray[0, 0, 1]);
-            Assert.AreEqual(0,countArray[0, 1, 0]);
-            Assert.AreEqual(0,countArray[0, 1, 1]);
-            Assert.AreEqual(51,countArray[1, 0, 0]);
-            Assert.AreEqual(49,countArray[1, 0, 1]);
-            Assert.AreEqual(0, countArray[1, 1, 0]);
-            Assert.AreEqual(0, countArray[1, 1, 1]);
+            Assert.That(countArray[0,0,0], Is.EqualTo(0));
+            Assert.That(countArray[0,0,1], Is.EqualTo(0));
+            Assert.That(countArray[0,1,0], Is.EqualTo(0));
+            Assert.That(countArray[0,1,1], Is.EqualTo(0));
+            Assert.That(countArray[1,0,0], Is.EqualTo(51));
+            Assert.That(countArray[1,0,1], Is.EqualTo(49));
+            Assert.That(countArray[1,1,0], Is.EqualTo(0));
+            Assert.That(countArray[1,1,1], Is.EqualTo(0));
         }
         /// <summary>
         /// Test to make sure GetFinalPosition produces correct distribution of sources and weights
