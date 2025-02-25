@@ -140,25 +140,25 @@ namespace Vts.Test.MonteCarlo.Detectors
         [Test]
         public void validate_DAW_multiinfinitecylinder_RDiffuse()
         {
-            Assert.Less(Math.Abs(_outputOneRegionTissue.Rd - _outputThreeRegionTissue.Rd), 0.000001);
+            Assert.That(Math.Abs(_outputOneRegionTissue.Rd - _outputThreeRegionTissue.Rd), Is.LessThan(0.000001));
         }
         // Reflection R(angle)
         [Test]
         public void validate_DAW_multiinfinitecylinder_ROfAngle()
         {
-            Assert.Less(Math.Abs(_outputOneRegionTissue.R_a[0] - _outputThreeRegionTissue.R_a[0]), 0.000001);
+            Assert.That(Math.Abs(_outputOneRegionTissue.R_a[0] - _outputThreeRegionTissue.R_a[0]), Is.LessThan(0.000001));
         }
         // Diffuse Transmittance
         [Test]
         public void validate_DAW_multiinfinitecylinder_TDiffuse()
         {
-            Assert.Less(Math.Abs(_outputOneRegionTissue.Td - _outputThreeRegionTissue.Td), 0.000001);
+            Assert.That(Math.Abs(_outputOneRegionTissue.Td - _outputThreeRegionTissue.Td), Is.LessThan(0.000001));
         }
         // Transmittance Time(angle)
         [Test]
         public void validate_DAW_multiinfinitecylinder_TOfAngle()
         {
-            Assert.Less(Math.Abs(_outputOneRegionTissue.T_a[0] - _outputThreeRegionTissue.T_a[0]), 0.000001);
+            Assert.That(Math.Abs(_outputOneRegionTissue.T_a[0] - _outputThreeRegionTissue.T_a[0]), Is.LessThan(0.000001));
         }
         // Reflectance R(x,y)
         [Test]
@@ -171,7 +171,7 @@ namespace Vts.Test.MonteCarlo.Detectors
         [Test]
         public void validate_DAW_multiinfinitecylinder_ATotal()
         {
-            Assert.Less(Math.Abs(_outputOneRegionTissue.Atot -_outputThreeRegionTissue.Atot), 0.000001);
+            Assert.That(Math.Abs(_outputOneRegionTissue.Atot -_outputThreeRegionTissue.Atot), Is.LessThan(0.000001));
         }
         // Absorption(x,y,z)
         [Test]

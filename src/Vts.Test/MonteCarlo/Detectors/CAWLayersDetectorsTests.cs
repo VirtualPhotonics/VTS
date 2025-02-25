@@ -149,45 +149,45 @@ namespace Vts.Test.MonteCarlo.Detectors
                 _outputOneLayerTissue.Input.N, _outputOneLayerTissue.Rd, _outputOneLayerTissue.Rd2);
             //var sdTwoLayerTissue = ErrorCalculation.StandardDeviation(
             //    _outputTwoLayerTissue.Input.N, _outputTwoLayerTissue.Rd, _outputTwoLayerTissue.Rd2)
-            Assert.Less(Math.Abs(_outputOneLayerTissue.Rd * _factor - 0.572710099), 0.000000001);
+            Assert.That(Math.Abs(_outputOneLayerTissue.Rd * _factor - 0.572710099), Is.LessThan(0.000000001));
             // figure out best check of two below 
-            Assert.Less(Math.Abs(_outputTwoLayerTissue.Rd * _factor - 0.572710099), 1 * sdOneLayerTissue);
-            Assert.Less(Math.Abs(_outputTwoLayerTissue.Rd * _factor - 0.572710099), 0.000000001);
+            Assert.That(Math.Abs(_outputTwoLayerTissue.Rd * _factor - 0.572710099), Is.LessThan(1 * sdOneLayerTissue));
+            Assert.That(Math.Abs(_outputTwoLayerTissue.Rd * _factor - 0.572710099), Is.LessThan(0.000000001));
         }
         // Reflection R(rho)
         [Test]
         public void validate_CAW_ROfRho()
         {
-            Assert.Less(Math.Abs(_outputOneLayerTissue.R_r[0] * _factor - 0.922411018), 0.000000001);
-            Assert.Less(Math.Abs(_outputTwoLayerTissue.R_r[0] * _factor - 0.922411018), 0.00001);
+            Assert.That(Math.Abs(_outputOneLayerTissue.R_r[0] * _factor - 0.922411018), Is.LessThan(0.000000001));
+            Assert.That(Math.Abs(_outputTwoLayerTissue.R_r[0] * _factor - 0.922411018), Is.LessThan(0.00001));
         }
         // Reflection R(rho) 2nd moment, linux value output in printf statement
         [Test]
         public void validate_CAW_ROfRho_second_moment()
         {
-            Assert.Less(Math.Abs(_outputOneLayerTissue.R_r2[0] * _factor * _factor - 28.36225), 0.00001);
-            Assert.Less(Math.Abs(_outputTwoLayerTissue.R_r2[0] * _factor * _factor - 28.36225), 0.00001);
+            Assert.That(Math.Abs(_outputOneLayerTissue.R_r2[0] * _factor * _factor - 28.36225), Is.LessThan(0.00001));
+            Assert.That(Math.Abs(_outputTwoLayerTissue.R_r2[0] * _factor * _factor - 28.36225), Is.LessThan(0.00001));
         }
         // Reflection R(angle)
         [Test]
         public void validate_CAW_ROfAngle()
         {
-            Assert.Less(Math.Abs(_outputOneLayerTissue.R_a[0] * _factor - 0.0820635109), 0.0000000001);
-            Assert.Less(Math.Abs(_outputTwoLayerTissue.R_a[0] * _factor - 0.0820635109), 0.0005);
+            Assert.That(Math.Abs(_outputOneLayerTissue.R_a[0] * _factor - 0.0820635109), Is.LessThan(0.0000000001));
+            Assert.That(Math.Abs(_outputTwoLayerTissue.R_a[0] * _factor - 0.0820635109), Is.LessThan(0.0005));
         }
         // Reflection R(rho,angle)
         [Test]
         public void validate_CAW_ROfRhoAndAngle()
         {
-            Assert.Less(Math.Abs(_outputOneLayerTissue.R_ra[0, 0] * _factor - 0.132172083), 0.0000000001);
-            Assert.Less(Math.Abs(_outputTwoLayerTissue.R_ra[0, 0] * _factor - 0.132172083), 0.0000000001);
+            Assert.That(Math.Abs(_outputOneLayerTissue.R_ra[0, 0] * _factor - 0.132172083), Is.LessThan(0.0000000001));
+            Assert.That(Math.Abs(_outputTwoLayerTissue.R_ra[0, 0] * _factor - 0.132172083), Is.LessThan(0.0000000001));
         }
         // Reflection R(rho,time)
         [Test]
         public void validate_CAW_ROfRhoAndTime()
         {
-            Assert.Less(Math.Abs(_outputOneLayerTissue.R_rt[0, 0] * _factor - 92.2411018), 0.0000001);
-            Assert.Less(Math.Abs(_outputTwoLayerTissue.R_rt[0, 0] * _factor - 92.2411018), 0.0000001);
+            Assert.That(Math.Abs(_outputOneLayerTissue.R_rt[0, 0] * _factor - 92.2411018), Is.LessThan(0.0000001));
+            Assert.That(Math.Abs(_outputTwoLayerTissue.R_rt[0, 0] * _factor - 92.2411018), Is.LessThan(0.0000001));
         }
         // Reflection R(rho,omega)
         [Test]
@@ -206,8 +206,8 @@ namespace Vts.Test.MonteCarlo.Detectors
         {
             // the two validation numbers are different due to the way CAW tallies
             // across layer interfaces
-            Assert.Less(Math.Abs(_outputOneLayerTissue.Atot - 0.386961), 0.000001);
-            Assert.Less(Math.Abs(_outputTwoLayerTissue.Atot - 0.386961), 0.000001);
+            Assert.That(Math.Abs(_outputOneLayerTissue.Atot - 0.386961), Is.LessThan(0.000001));
+            Assert.That(Math.Abs(_outputTwoLayerTissue.Atot - 0.386961), Is.LessThan(0.000001));
         }
         // Absorption A(rho,z) not coded yet for CAW
 
@@ -215,36 +215,36 @@ namespace Vts.Test.MonteCarlo.Detectors
         [Test]
         public void validate_CAW_TDiffuse()
         {
-            Assert.Less(Math.Abs(_outputOneLayerTissue.Td * _factor - 0.0232993770), 0.000000001);
-            Assert.Less(Math.Abs(_outputTwoLayerTissue.Td * _factor - 0.0232993770), 0.000000001);
+            Assert.That(Math.Abs(_outputOneLayerTissue.Td * _factor - 0.0232993770), Is.LessThan(0.000000001));
+            Assert.That(Math.Abs(_outputTwoLayerTissue.Td * _factor - 0.0232993770), Is.LessThan(0.000000001));
         }
         // Transmittance T(rho)
         [Test]
         public void validate_CAW_TOfRho()
         {
-            Assert.Less(Math.Abs(_outputOneLayerTissue.T_r[54] * _factor - 0.00167241353), 0.00000000001);
-            Assert.Less(Math.Abs(_outputTwoLayerTissue.T_r[54] * _factor - 0.00167241353), 0.00000000001);
+            Assert.That(Math.Abs(_outputOneLayerTissue.T_r[54] * _factor - 0.00167241353), Is.LessThan(0.00000000001));
+            Assert.That(Math.Abs(_outputTwoLayerTissue.T_r[54] * _factor - 0.00167241353), Is.LessThan(0.00000000001));
         }
         // Transmittance T(angle)
         [Test]
         public void validate_CAW_TOfAngle()
         {
-            Assert.Less(Math.Abs(_outputOneLayerTissue.T_a[0] * _factor - 0.00333856288), 0.00000000001);
-            Assert.Less(Math.Abs(_outputTwoLayerTissue.T_a[0] * _factor - 0.00333856288), 0.00000000001);
+            Assert.That(Math.Abs(_outputOneLayerTissue.T_a[0] * _factor - 0.00333856288), Is.LessThan(0.00000000001));
+            Assert.That(Math.Abs(_outputTwoLayerTissue.T_a[0] * _factor - 0.00333856288), Is.LessThan(0.00000000001));
         }
         // Transmittance T(rho,angle)
         [Test]
         public void validate_CAW_TOfRhoAndAngle()
         {
-            Assert.Less(Math.Abs(_outputOneLayerTissue.T_ra[54, 0] * _factor - 0.000239639787), 0.000000000001);
-            Assert.Less(Math.Abs(_outputTwoLayerTissue.T_ra[54, 0] * _factor - 0.000239639787), 0.000000000001);
+            Assert.That(Math.Abs(_outputOneLayerTissue.T_ra[54, 0] * _factor - 0.000239639787), Is.LessThan(0.000000000001));
+            Assert.That(Math.Abs(_outputTwoLayerTissue.T_ra[54, 0] * _factor - 0.000239639787), Is.LessThan(0.000000000001));
         }
         // Transmittance T(x,y): validation is not with linux code, but with prior execution of test so no "factor"
         [Test]
         public void validate_CAW_TOfXAndY()
         {
-            Assert.Less(Math.Abs(_outputOneLayerTissue.T_xy[0, 0] - 0.0061468), 0.0000001);
-            Assert.Less(Math.Abs(_outputTwoLayerTissue.T_xy[0, 0] - 0.0061468), 0.0000001);
+            Assert.That(Math.Abs(_outputOneLayerTissue.T_xy[0, 0] - 0.0061468), Is.LessThan(0.0000001));
+            Assert.That(Math.Abs(_outputTwoLayerTissue.T_xy[0, 0] - 0.0061468), Is.LessThan(0.0000001));
         }
         //// Fluence Flu(rho,z) not coded yet for CAW
 
@@ -252,8 +252,8 @@ namespace Vts.Test.MonteCarlo.Detectors
         [Test]
         public void validate_CAW_ROfXAndY()
         {
-            Assert.Less(Math.Abs(_outputOneLayerTissue.R_xy[0, 14] * _factor - 0.00060744), 0.00000001);
-            Assert.Less(Math.Abs(_outputTwoLayerTissue.R_xy[0, 14] * _factor - 0.00060744), 0.00000001);
+            Assert.That(Math.Abs(_outputOneLayerTissue.R_xy[0, 14] * _factor - 0.00060744), Is.LessThan(0.00000001));
+            Assert.That(Math.Abs(_outputTwoLayerTissue.R_xy[0, 14] * _factor - 0.00060744), Is.LessThan(0.00000001));
         }
 
         // sanity checks
@@ -261,14 +261,14 @@ namespace Vts.Test.MonteCarlo.Detectors
         public void validate_CAW_RDiffuse_plus_ATotal_plus_TDiffuse_equals_one()
         {
             // no specular because photons started inside tissue
-            Assert.Less(Math.Abs(_outputOneLayerTissue.Rd + _outputOneLayerTissue.Atot + _outputOneLayerTissue.Td - 1), 0.00000000001);
+            Assert.That(Math.Abs(_outputOneLayerTissue.Rd + _outputOneLayerTissue.Atot + _outputOneLayerTissue.Td - 1), Is.LessThan(0.00000000001));
         }
 
         // ReflectedTimeOfRhoAndSubregionHist : this is validated using initial run results since no supporting linux code 
         [Test]
         public void validate_CAW_ReflectedTimeOfRhoAndSubregionHist()
         {
-            Assert.Less(Math.Abs(_outputOneLayerTissue.RefTime_rs_hist[0, 1, 0] - 0.9487656), 0.0000001);
+            Assert.That(Math.Abs(_outputOneLayerTissue.RefTime_rs_hist[0, 1, 0] - 0.9487656), Is.LessThan(0.0000001));
         }
     }
 }

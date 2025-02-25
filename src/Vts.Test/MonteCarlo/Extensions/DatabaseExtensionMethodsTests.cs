@@ -40,19 +40,19 @@ namespace Vts.Test.MonteCarlo.Extensions
         {
             var databaseType = DatabaseType.DiffuseReflectance;
             var virtualBoundary = databaseType.GetCorrespondingVirtualBoundaryType();
-            Assert.AreEqual(VirtualBoundaryType.DiffuseReflectance, virtualBoundary);
+            Assert.That(virtualBoundary, Is.EqualTo(VirtualBoundaryType.DiffuseReflectance));
             databaseType = DatabaseType.DiffuseTransmittance;
             virtualBoundary = databaseType.GetCorrespondingVirtualBoundaryType();
-            Assert.AreEqual(VirtualBoundaryType.DiffuseTransmittance, virtualBoundary);
+            Assert.That(virtualBoundary, Is.EqualTo(VirtualBoundaryType.DiffuseTransmittance));
             databaseType = DatabaseType.SpecularReflectance;
             virtualBoundary = databaseType.GetCorrespondingVirtualBoundaryType();
-            Assert.AreEqual(VirtualBoundaryType.SpecularReflectance, virtualBoundary);
+            Assert.That(virtualBoundary, Is.EqualTo(VirtualBoundaryType.SpecularReflectance));
             databaseType = DatabaseType.pMCDiffuseReflectance;
             virtualBoundary = databaseType.GetCorrespondingVirtualBoundaryType();
-            Assert.AreEqual(VirtualBoundaryType.pMCDiffuseReflectance, virtualBoundary);
+            Assert.That(virtualBoundary, Is.EqualTo(VirtualBoundaryType.pMCDiffuseReflectance));
             databaseType = DatabaseType.pMCDiffuseTransmittance;
             virtualBoundary = databaseType.GetCorrespondingVirtualBoundaryType();
-            Assert.AreEqual(VirtualBoundaryType.pMCDiffuseTransmittance, virtualBoundary);
+            Assert.That(virtualBoundary, Is.EqualTo(VirtualBoundaryType.pMCDiffuseTransmittance));
             // check if enum set to something out of range
             databaseType = (DatabaseType)Enum.GetNames(typeof(DatabaseType)).Length + 1;
             Assert.Throws<ArgumentOutOfRangeException>(

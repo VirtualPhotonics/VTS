@@ -214,10 +214,10 @@ namespace Vts.Test.MonteCarlo.Sources
                 var photon = ps.GetNextPhoton(tissue);
                 Assert.That(photon.DP.Position.X >= -1.5 && photon.DP.Position.X <= -0.5, Is.True);
                 Assert.That(photon.DP.Position.Y > -0.5 && photon.DP.Position.Y <= 0.5, Is.True);
-                Assert.Less(Math.Abs(photon.DP.Position.Z), 1e-6);
-                Assert.Less(Math.Abs(photon.DP.Direction.Ux), 1e-6);
-                Assert.Less(Math.Abs(photon.DP.Direction.Uy), 1e-6);
-                Assert.Less(Math.Abs(photon.DP.Direction.Uz - 1), 1e-6);
+                Assert.That(Math.Abs(photon.DP.Position.Z), Is.LessThan(1e-6));
+                Assert.That(Math.Abs(photon.DP.Direction.Ux), Is.LessThan(1e-6));
+                Assert.That(Math.Abs(photon.DP.Direction.Uy), Is.LessThan(1e-6));
+                Assert.That(Math.Abs(photon.DP.Direction.Uz - 1), Is.LessThan(1e-6));
 
             }
 

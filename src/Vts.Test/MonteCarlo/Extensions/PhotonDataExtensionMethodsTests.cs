@@ -211,9 +211,9 @@ namespace Vts.Test.MonteCarlo.Extensions
                 }
             }
             var etaC = na0P22Count / naOpenCount;
-            Assert.Less(Math.Abs(etaC - na0P22/detectorRegionN*(na0P22/detectorRegionN)), 0.001);
+            Assert.That(Math.Abs(etaC - na0P22/detectorRegionN*(na0P22/detectorRegionN)), Is.LessThan(0.001));
             etaC = na0P39Count / naOpenCount;
-            Assert.Less(Math.Abs(etaC - na0P39 / detectorRegionN * (na0P39 / detectorRegionN)), 0.001);
+            Assert.That(Math.Abs(etaC - na0P39 / detectorRegionN * (na0P39 / detectorRegionN)), Is.LessThan(0.001));
         }
     }
 }

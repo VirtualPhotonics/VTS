@@ -157,7 +157,7 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.Less(Math.Abs(postProcessedOutput.pMC_R_rt[0, 0] -
                                  _referenceOutputOneLayerTissue.R_rt[0, 0]), 1e-10);
             // validation value obtained from linux run using above input and seeded the same
-            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_rt[0, 0] * _factor - 92.2411018), 0.0000001);
+            Assert.That(Math.Abs(postProcessedOutput.pMC_R_rt[0, 0] * _factor - 92.2411018), Is.LessThan(0.0000001));
             Assert.AreEqual(88, postProcessedOutput.pMC_R_rt_TallyCount);
 
             // validation value obtained from non-pMC non-recessed run
@@ -233,11 +233,11 @@ namespace Vts.Test.MonteCarlo.Detectors
             var postProcessedOutput = postProcessor.Run();
 
             // validation value obtained from reference non-pMC run
-            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_r[0] - _referenceOutputOneLayerTissue.R_r[0]), 1e-10);
+            Assert.That(Math.Abs(postProcessedOutput.pMC_R_r[0] - _referenceOutputOneLayerTissue.R_r[0]), Is.LessThan(1e-10));
             // validation value obtained from linux run using above input and seeded the same
-            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_r[0] * _factor - 0.922411018), 0.000000001);
+            Assert.That(Math.Abs(postProcessedOutput.pMC_R_r[0] * _factor - 0.922411018), Is.LessThan(0.000000001));
             // validation value based on previous run
-            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_r2[0] - 30.0061), 0.0001);
+            Assert.That(Math.Abs(postProcessedOutput.pMC_R_r2[0] - 30.0061), Is.LessThan(0.0001));
             Assert.AreEqual(88, postProcessedOutput.pMC_R_r_TallyCount);
 
             // validation value obtained from non-pMC non-recessed run
@@ -318,7 +318,7 @@ namespace Vts.Test.MonteCarlo.Detectors
             var postProcessedOutput = postProcessor.Run();
 
             // validation value obtained from linux run using above input and seeded the same
-            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_r[0] * _factor - 1.013156), 0.000001);
+            Assert.That(Math.Abs(postProcessedOutput.pMC_R_r[0] * _factor - 1.013156), Is.LessThan(0.000001));
             Assert.That(Math.Abs(postProcessedOutput.pMC_R_r2[0] - 37.0997) < 1e-4, Is.True);
             Assert.AreEqual(88, postProcessedOutput.pMC_R_r_TallyCount);
             // validate derivative values with prior run
@@ -436,8 +436,8 @@ namespace Vts.Test.MonteCarlo.Detectors
                 _referenceOutputOneLayerTissue.R_fx[0].Real), 0.00000000001);
             Assert.Less(Math.Abs(postProcessedOutput.pMC_R_fx[0].Imaginary - 
                 _referenceOutputOneLayerTissue.R_fx[0].Imaginary), 0.00000000001);
-            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_fx2[1].Real - 0.483629), 0.000001);
-            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_fx2[1].Imaginary - 0.0), 0.000001); // imag of 2nd moment is 0=
+            Assert.That(Math.Abs(postProcessedOutput.pMC_R_fx2[1].Real - 0.483629), Is.LessThan(0.000001));
+            Assert.That(Math.Abs(postProcessedOutput.pMC_R_fx2[1].Imaginary - 0.0), Is.LessThan(0.000001)); // imag of 2nd moment is 0=
         }
 
         /// <summary>
@@ -473,8 +473,8 @@ namespace Vts.Test.MonteCarlo.Detectors
             var postProcessedOutput = postProcessor.Run();
 
             // validation value obtained from prior run
-            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_fx[1].Real - 0.303789), 0.000001);
-            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_fx[1].Imaginary - 0.036982), 0.000001);
+            Assert.That(Math.Abs(postProcessedOutput.pMC_R_fx[1].Real - 0.303789), Is.LessThan(0.000001));
+            Assert.That(Math.Abs(postProcessedOutput.pMC_R_fx[1].Imaginary - 0.036982), Is.LessThan(0.000001));
         }
 
         /// <summary>

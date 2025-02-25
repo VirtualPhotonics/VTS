@@ -248,10 +248,10 @@ namespace Vts.Test.MonteCarlo.Detectors
         [Test]
         public void Validate_detector_tallies_when_NA_is_0p3()
         {
-            Assert.Less(Math.Abs(_outputNA0p3.RefDynMT_rmt[0, 0] - 0.006296), 0.000001);
-            Assert.Less(Math.Abs(_outputNA0p3.RefDynMT_xymt[4, 4, 0] - 0.002490), 0.000001);
-            Assert.Less(Math.Abs(_outputNA0p3.TransDynMT_rmt[2, 0] - 0.000469), 0.000001);
-            Assert.Less(Math.Abs(_outputNA0p3.TransDynMT_xymt[1, 9, 1] - 0.000678), 0.000001);
+            Assert.That(Math.Abs(_outputNA0p3.RefDynMT_rmt[0, 0] - 0.006296), Is.LessThan(0.000001));
+            Assert.That(Math.Abs(_outputNA0p3.RefDynMT_xymt[4, 4, 0] - 0.002490), Is.LessThan(0.000001));
+            Assert.That(Math.Abs(_outputNA0p3.TransDynMT_rmt[2, 0] - 0.000469), Is.LessThan(0.000001));
+            Assert.That(Math.Abs(_outputNA0p3.TransDynMT_xymt[1, 9, 1] - 0.000678), Is.LessThan(0.000001));
         }
 
         /// <summary>

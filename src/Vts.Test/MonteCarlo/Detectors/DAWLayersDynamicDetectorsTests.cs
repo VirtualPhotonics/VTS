@@ -213,10 +213,10 @@ namespace Vts.Test.MonteCarlo.Detectors
         public void validate_DAW_ReflectedDynamicMTOfRhoAndSubregionHist()
         {
             // use initial results to verify any new changes to the code
-            Assert.Less(Math.Abs(_outputOneLayerTissue.RefDynMT_rmt[0, 0] - 0.100174), 0.000001);
-            Assert.Less(Math.Abs(_outputOneLayerTissue.RefDynMT_rmt[0, 1] - 0.011499), 0.000001);
-            Assert.Less(Math.Abs(_outputOneLayerTissue.RefDynMT_rmt2[0, 0] - 0.125508), 0.000001);
-            Assert.Less(Math.Abs(_outputOneLayerTissue.RefDynMT_rmt2[0, 1] - 0.013222), 0.000001);
+            Assert.That(Math.Abs(_outputOneLayerTissue.RefDynMT_rmt[0, 0] - 0.100174), Is.LessThan(0.000001));
+            Assert.That(Math.Abs(_outputOneLayerTissue.RefDynMT_rmt[0, 1] - 0.011499), Is.LessThan(0.000001));
+            Assert.That(Math.Abs(_outputOneLayerTissue.RefDynMT_rmt2[0, 0] - 0.125508), Is.LessThan(0.000001));
+            Assert.That(Math.Abs(_outputOneLayerTissue.RefDynMT_rmt2[0, 1] - 0.013222), Is.LessThan(0.000001));
             // verify mean integral over MT equals R(rho) results
             var mtbins = ((ReflectedDynamicMTOfRhoAndSubregionHistDetectorInput) _inputOneLayerTissue.DetectorInputs.First(
                 d => d.TallyType == "ReflectedDynamicMTOfRhoAndSubregionHist")).MTBins;
@@ -225,7 +225,7 @@ namespace Vts.Test.MonteCarlo.Detectors
             {
                 integral += _outputOneLayerTissue.RefDynMT_rmt[0, i];
             }
-            Assert.Less(Math.Abs(_outputOneLayerTissue.R_r[0] - integral), 0.000001);
+            Assert.That(Math.Abs(_outputOneLayerTissue.R_r[0] - integral), Is.LessThan(0.000001));
             // verify that sum of FractionalMT for a particular region and dynamic or static summed over
             // other indices equals Mean(rho,mt)
             var rhobins = ((ReflectedDynamicMTOfRhoAndSubregionHistDetectorInput) _inputOneLayerTissue.DetectorInputs.First(
@@ -242,20 +242,20 @@ namespace Vts.Test.MonteCarlo.Detectors
                     {
                         integral += _outputOneLayerTissue.RefDynMT_rmt_frac[i, j, m];
                     }
-                    Assert.Less(Math.Abs(integral - _outputOneLayerTissue.RefDynMT_rmt[i, j]), 0.001);
+                    Assert.That(Math.Abs(integral - _outputOneLayerTissue.RefDynMT_rmt[i, j]), Is.LessThan(0.001));
                 }
             }
             // validate a few fractional values - indices rho, mtbins, fraction
-            Assert.Less(Math.Abs(_outputOneLayerTissue.RefDynMT_rmt_frac[0, 0, 0] - 0.0127), 0.0001);
-            Assert.Less(Math.Abs(_outputOneLayerTissue.RefDynMT_rmt_frac[0, 0, 1] - 0.0378), 0.0001);
+            Assert.That(Math.Abs(_outputOneLayerTissue.RefDynMT_rmt_frac[0, 0, 0] - 0.0127), Is.LessThan(0.0001));
+            Assert.That(Math.Abs(_outputOneLayerTissue.RefDynMT_rmt_frac[0, 0, 1] - 0.0378), Is.LessThan(0.0001));
             // validate 2 layer tissue results 
-            Assert.Less(Math.Abs(_outputTwoLayerTissue.RefDynMT_rmt_frac[0, 0, 0] - 0.0127), 0.0001);
-            Assert.Less(Math.Abs(_outputTwoLayerTissue.RefDynMT_rmt_frac[0, 0, 1] - 0.0378), 0.0001);
+            Assert.That(Math.Abs(_outputTwoLayerTissue.RefDynMT_rmt_frac[0, 0, 0] - 0.0127), Is.LessThan(0.0001));
+            Assert.That(Math.Abs(_outputTwoLayerTissue.RefDynMT_rmt_frac[0, 0, 1] - 0.0378), Is.LessThan(0.0001));
             // validate dynamic results
-            Assert.Less(Math.Abs(_outputOneLayerTissue.RefDynMT_rmt_dynofz[0, 1] - 0.0814), 0.0001);
-            Assert.Less(Math.Abs(_outputTwoLayerTissue.RefDynMT_rmt_dynofz[0, 1] - 0.0814), 0.0001);
-            Assert.Less(Math.Abs(_outputOneLayerTissue.RefDynMT_rmt_dynofz[2, 8] - 0.000001243), 0.000000001);
-            Assert.Less(Math.Abs(_outputTwoLayerTissue.RefDynMT_rmt_dynofz[2, 8] - 0.000001243), 0.000000001);
+            Assert.That(Math.Abs(_outputOneLayerTissue.RefDynMT_rmt_dynofz[0, 1] - 0.0814), Is.LessThan(0.0001));
+            Assert.That(Math.Abs(_outputTwoLayerTissue.RefDynMT_rmt_dynofz[0, 1] - 0.0814), Is.LessThan(0.0001));
+            Assert.That(Math.Abs(_outputOneLayerTissue.RefDynMT_rmt_dynofz[2, 8] - 0.000001243), Is.LessThan(0.000000001));
+            Assert.That(Math.Abs(_outputTwoLayerTissue.RefDynMT_rmt_dynofz[2, 8] - 0.000001243), Is.LessThan(0.000000001));
             // validate SubregionCollision static, dynamic count for one and two layer tissue
             Assert.AreEqual(12798, _outputOneLayerTissue.RefDynMT_rmt_subrcols[1, 0]);
             Assert.AreEqual(12631, _outputOneLayerTissue.RefDynMT_rmt_subrcols[1, 1]);
@@ -279,8 +279,8 @@ namespace Vts.Test.MonteCarlo.Detectors
         public void validate_DAW_TransmittedDynamicMTOfRhoAndSubregionHist()
         {
             // use initial results to verify any new changes to the code
-            Assert.Less(Math.Abs(_outputOneLayerTissue.TransDynMT_rmt[3, 19] - 0.000326), 0.000001);
-            Assert.Less(Math.Abs(_outputOneLayerTissue.TransDynMT_rmt2[3, 19] - 1.06449e-5), 0.00001e-5);
+            Assert.That(Math.Abs(_outputOneLayerTissue.TransDynMT_rmt[3, 19] - 0.000326), Is.LessThan(0.000001));
+            Assert.That(Math.Abs(_outputOneLayerTissue.TransDynMT_rmt2[3, 19] - 1.06449e-5), Is.LessThan(0.00001e-5));
             // make sure mean integral over MT equals T(rho) results
             var mtbins = ((TransmittedDynamicMTOfRhoAndSubregionHistDetectorInput)_inputOneLayerTissue.DetectorInputs.First(
                 d => d.TallyType == "TransmittedDynamicMTOfRhoAndSubregionHist")).MTBins;
@@ -289,15 +289,15 @@ namespace Vts.Test.MonteCarlo.Detectors
             {
                 integral += _outputOneLayerTissue.TransDynMT_rmt[3, i];
             }
-            Assert.Less(Math.Abs(_outputOneLayerTissue.T_r[3] - integral), 0.000001);
+            Assert.That(Math.Abs(_outputOneLayerTissue.T_r[3] - integral), Is.LessThan(0.000001));
         }
         // Reflected Dynamic Momentum Transfer of X, Y and SubRegion
         [Test]
         public void validate_DAW_ReflectedDynamicMTOfXAndYAndSubregionHist()
         {
             // use initial results to verify any new changes to the code
-            Assert.Less(Math.Abs(_outputOneLayerTissue.RefDynMT_xymt[0, 0, 23] - 0.000917), 0.000001);
-            Assert.Less(Math.Abs(_outputTwoLayerTissue.RefDynMT_xymt2[0, 0, 23] - 0.000084), 0.000001);
+            Assert.That(Math.Abs(_outputOneLayerTissue.RefDynMT_xymt[0, 0, 23] - 0.000917), Is.LessThan(0.000001));
+            Assert.That(Math.Abs(_outputTwoLayerTissue.RefDynMT_xymt2[0, 0, 23] - 0.000084), Is.LessThan(0.000001));
             // make sure mean integral over MT equals R(rho) results
             var mtbins = ((ReflectedDynamicMTOfXAndYAndSubregionHistDetectorInput)_inputOneLayerTissue.DetectorInputs.First(
                 d => d.TallyType == "ReflectedDynamicMTOfXAndYAndSubregionHist")).MTBins;
@@ -306,7 +306,7 @@ namespace Vts.Test.MonteCarlo.Detectors
             {
                 integral += _outputOneLayerTissue.RefDynMT_xymt[0, 0, i];
             }
-            Assert.Less(Math.Abs(_outputOneLayerTissue.R_xy[0, 0] - integral), 0.000001);
+            Assert.That(Math.Abs(_outputOneLayerTissue.R_xy[0, 0] - integral), Is.LessThan(0.000001));
 
             // verify that sum of FractionalMT for a particular region and dynamic or static summed over
             // other indices equals Mean(rho,mt)
@@ -327,17 +327,17 @@ namespace Vts.Test.MonteCarlo.Detectors
                         {
                             integral += _outputOneLayerTissue.RefDynMT_xymt_frac[l, i, j, m];
                         }
-                        Assert.Less(Math.Abs(integral - _outputOneLayerTissue.RefDynMT_xymt[l, i, j]), 0.001);
+                        Assert.That(Math.Abs(integral - _outputOneLayerTissue.RefDynMT_xymt[l, i, j]), Is.LessThan(0.001));
                     }
                 }
             }
             // validate a few fractional values - indices rho, mtbins, fraction
-            Assert.Less(Math.Abs(_outputOneLayerTissue.RefDynMT_xymt_frac[0, 0, 23, 5] - 0.00091), 0.00001);
+            Assert.That(Math.Abs(_outputOneLayerTissue.RefDynMT_xymt_frac[0, 0, 23, 5] - 0.00091), Is.LessThan(0.00001));
             // validate 2 layer tissue results 
-            Assert.Less(Math.Abs(_outputTwoLayerTissue.RefDynMT_xymt_frac[0, 0, 23, 5] - 0.00091), 0.00001);
+            Assert.That(Math.Abs(_outputTwoLayerTissue.RefDynMT_xymt_frac[0, 0, 23, 5] - 0.00091), Is.LessThan(0.00001));
             // validate dynamic results
-            Assert.Less(Math.Abs(_outputOneLayerTissue.RefDynMT_xymt_dynofz[0, 0, 1] - 0.00221), 0.00001);
-            Assert.Less(Math.Abs(_outputTwoLayerTissue.RefDynMT_xymt_dynofz[0, 0, 1] - 0.00221), 0.00001);
+            Assert.That(Math.Abs(_outputOneLayerTissue.RefDynMT_xymt_dynofz[0, 0, 1] - 0.00221), Is.LessThan(0.00001));
+            Assert.That(Math.Abs(_outputTwoLayerTissue.RefDynMT_xymt_dynofz[0, 0, 1] - 0.00221), Is.LessThan(0.00001));
             // validate SubregionCollision static, dynamic count for one and two layer tissue
             Assert.AreEqual(12803, _outputOneLayerTissue.RefDynMT_xymt_subrcols[1, 0]);
             Assert.AreEqual(12626, _outputOneLayerTissue.RefDynMT_xymt_subrcols[1, 1]);
@@ -360,7 +360,7 @@ namespace Vts.Test.MonteCarlo.Detectors
         public void validate_DAW_TransmittedDynamicMTOfXAndYAndSubregionHist()
         {
             // use initial results to verify any new changes to the code
-            Assert.Less(Math.Abs(_outputOneLayerTissue.TransDynMT_xymt[0, 0, 45] - 0.000155), 0.000001);
+            Assert.That(Math.Abs(_outputOneLayerTissue.TransDynMT_xymt[0, 0, 45] - 0.000155), Is.LessThan(0.000001));
             // make sure mean integral over MT equals T(rho) results
             var mtbins = ((TransmittedDynamicMTOfXAndYAndSubregionHistDetectorInput)_inputOneLayerTissue.DetectorInputs.First(
                 d => d.TallyType == "TransmittedDynamicMTOfXAndYAndSubregionHist")).MTBins;
@@ -369,7 +369,7 @@ namespace Vts.Test.MonteCarlo.Detectors
             {
                 integral += _outputOneLayerTissue.TransDynMT_xymt[0, 0, i];
             }
-            Assert.Less(Math.Abs(_outputOneLayerTissue.T_xy[0, 0] - integral), 0.000001);
+            Assert.That(Math.Abs(_outputOneLayerTissue.T_xy[0, 0] - integral), Is.LessThan(0.000001));
         }
     }
 }

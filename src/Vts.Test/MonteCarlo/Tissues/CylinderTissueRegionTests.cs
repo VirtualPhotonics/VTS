@@ -91,35 +91,35 @@ namespace Vts.Test.MonteCarlo.Tissues
             };
             double distanceToBoundary;
             var result = _cylinderTissueRegion.RayIntersectBoundary(photon, out distanceToBoundary);
-            Assert.AreEqual(true, result);
-            Assert.AreEqual(1.0, distanceToBoundary);
+            Assert.That(result, Is.True);
+            Assert.That(distanceToBoundary, Is.EqualTo(1.0));
             photon.S = 0.5; // definitely don't intersect sides
             result = _cylinderTissueRegion.RayIntersectBoundary(photon, out distanceToBoundary);
-            Assert.AreEqual(false, result);
-            Assert.AreEqual(double.PositiveInfinity, distanceToBoundary);
+            Assert.That(result, Is.False);
+            Assert.That(distanceToBoundary, Is.EqualTo(double.PositiveInfinity));
             photon.S = 1.0; // ends right at boundary => both out and no intersection
             result = _cylinderTissueRegion.RayIntersectBoundary(photon, out distanceToBoundary);
-            Assert.AreEqual(false, result);
-            Assert.AreEqual(double.PositiveInfinity, distanceToBoundary);
+            Assert.That(result, Is.False);
+            Assert.That(distanceToBoundary, Is.EqualTo(double.PositiveInfinity));
             // intersect cap of cylinder tests
             photon.DP.Position = new Position(0, 0, 0); // intersect top cap
             photon.DP.Direction = new Direction(0, 0, 1);  
             photon.S = 2.0; // make sure intersects top cap
             result = _cylinderTissueRegion.RayIntersectBoundary(photon, out distanceToBoundary);
-            Assert.AreEqual(true, result);
-            Assert.AreEqual(1.0, distanceToBoundary);
+            Assert.That(result, Is.True);
+            Assert.That(distanceToBoundary, Is.EqualTo(1.0));
             photon.DP.Position = new Position(0, 0, 4); // intersect bottom cap
             photon.DP.Direction = new Direction(0, 0, -1);
             photon.S = 2.0; // make sure intersects top cap
             result = _cylinderTissueRegion.RayIntersectBoundary(photon, out distanceToBoundary);
-            Assert.AreEqual(true, result);
-            Assert.AreEqual(1.0, distanceToBoundary);
+            Assert.That(result, Is.EqualTo(true));
+            Assert.That(distanceToBoundary, Is.EqualTo(1.0));
             photon.DP.Position = new Position(0, 0, 0); // intersect both
             photon.DP.Direction = new Direction(0, 0, 1);
             photon.S = 10.0; // make sure intersects both
             result = _cylinderTissueRegion.RayIntersectBoundary(photon, out distanceToBoundary);
-            Assert.AreEqual(true, result);
-            Assert.AreEqual(1.0, distanceToBoundary);
+            Assert.That(result, Is.True);
+            Assert.That(distanceToBoundary, Is.EqualTo(1.0));
         }
     }
 }

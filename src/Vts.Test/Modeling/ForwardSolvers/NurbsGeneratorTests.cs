@@ -93,7 +93,7 @@ namespace Vts.Test.Modeling.ForwardSolvers
             var basisFunctions = _nurbsGenerator.EvaluateBasisFunctions(4, 0.5, nurbsValues);
             var result = basisFunctions.Sum();
 
-            Assert.Less(1.0 - result, 0.00001, "The sum of the basis functions should be equal to one, within the rounding error.");
+            Assert.That(1.0 - result, Is.LessThan(0.00001), "The sum of the basis functions should be equal to one, within the rounding error.");
         }
 
         [Test]
@@ -105,7 +105,7 @@ namespace Vts.Test.Modeling.ForwardSolvers
             var nurbsValues = new NurbsValues(knots, 2, 3.0, controlPoints);
 
             var result = 3.204 - _nurbsGenerator.EvaluateCurvePoint(2, basisFunction, nurbsValues);
-            Assert.Less(result, 0.00001, "The returned value should be the same as the example at page 69 of the book 'An introduction to NURBS', within the rounding error.");
+            Assert.That(result, Is.LessThan(0.00001), "The returned value should be the same as the example at page 69 of the book 'An introduction to NURBS', within the rounding error.");
         }
 
         [Test]
@@ -127,7 +127,7 @@ namespace Vts.Test.Modeling.ForwardSolvers
             double[] spaceBasisFunctions = { 1.0 / 32.0, 0.25, 19.0 / 32.0, 1.0 / 8.0 };
 
             var result = 62.5 - _nurbsGenerator.EvaluateSurfacePoint(timeSpanIndex, timeBasisFunctions, spaceSpanIndex, spaceBasisFunctions);
-            Assert.Less(result, 0.00001, "The returned value should be the same as the example at page 216 of the book 'An introduction to NURBS', within the rounding error.");
+            Assert.That(result, Is.LessThan(0.00001), "The returned value should be the same as the example at page 216 of the book 'An introduction to NURBS', within the rounding error.");
         }
 
         [Test]
@@ -136,7 +136,7 @@ namespace Vts.Test.Modeling.ForwardSolvers
             double[,] polynomialCoefs = { { 1.0, 0.0, 0.0 }, { -2.0, 2.0, 0.0 }, { 1.0, -3.0 / 2.0, 1.0 / 2.0 } };
             double[] controlPoints = { 1.0, 1.0, 1.0 };
             var result = Math.Abs(1.0 - _nurbsGenerator.EvaluateKnotSpanIntegralValue(0.0, polynomialCoefs, controlPoints, 0.0, 1.0, 1.0));
-            Assert.Less(result, 0.000001, "The Value should be as the example from the Nurbs Book at page 55, within the rounding error.");
+            Assert.That(result, Is.LessThan(0.000001), "The Value should be as the example from the Nurbs Book at page 55, within the rounding error.");
         }
 
         [Test]

@@ -25,7 +25,7 @@ namespace Vts.Test
             Assert.That(op1.Musp, Is.EqualTo(2.0));
             Assert.That(op1.G, Is.EqualTo(0.9));
             Assert.That(op1.N, Is.EqualTo(1.4));
-            Assert.Less(System.Math.Abs(op1.Mus - 20.0), 10E-6);
+            Assert.That(System.Math.Abs(op1.Mus - 20.0), Is.LessThan(10E-6));
 
 
             var op2 = new OpticalProperties(mua: 0.01, musp: 2.0, g: 0.0, n: 1.4);
@@ -34,7 +34,7 @@ namespace Vts.Test
             Assert.That(op2.Musp, Is.EqualTo(2.0));
             Assert.That(op2.G, Is.EqualTo(0.0));
             Assert.That(op2.N, Is.EqualTo(1.4));
-            Assert.Less(System.Math.Abs(op2.Mus - 2.0), 10E-6);
+            Assert.That(System.Math.Abs(op2.Mus - 2.0), Is.LessThan(10E-6));
         }
 
         [Test]
@@ -46,7 +46,7 @@ namespace Vts.Test
             Assert.That(op1.Musp, Is.EqualTo(2.0));
             Assert.That(op1.G, Is.EqualTo(0.9));
             Assert.That(op1.N, Is.EqualTo(1.4));
-            Assert.Less(System.Math.Abs(op1.Mus - 20.0), 10E-6);
+            Assert.That(System.Math.Abs(op1.Mus - 20.0), Is.LessThan(10E-6));
 
             op1.G = 0.0;
 
@@ -54,7 +54,7 @@ namespace Vts.Test
             Assert.That(op1.Musp, Is.EqualTo(2.0));
             Assert.That(op1.G, Is.EqualTo(0.0));
             Assert.That(op1.N, Is.EqualTo(1.4));
-            Assert.Less(System.Math.Abs(op1.Mus - 2.0), 10E-6);
+            Assert.That(System.Math.Abs(op1.Mus - 2.0), Is.LessThan(10E-6));
         }
 
         [Test]
@@ -66,7 +66,7 @@ namespace Vts.Test
             Assert.That(op1.Musp, Is.EqualTo(2.0));
             Assert.That(op1.G, Is.EqualTo(0.9));
             Assert.That(op1.N, Is.EqualTo(1.4));
-            Assert.Less(System.Math.Abs(op1.Mus - 20.0), 10E-6);
+            Assert.That(System.Math.Abs(op1.Mus - 20.0), Is.LessThan(10E-6));
 
             op1.Mus = 2.0;
 
@@ -74,7 +74,7 @@ namespace Vts.Test
             Assert.That(op1.Mus, Is.EqualTo(2.0));
             Assert.That(op1.G, Is.EqualTo(0.9));
             Assert.That(op1.N, Is.EqualTo(1.4));
-            Assert.Less(System.Math.Abs(op1.Musp - 0.2), 10E-6);
+            Assert.That(System.Math.Abs(op1.Musp - 0.2), Is.LessThan(10E-6));
         }
 
         [Test]
@@ -86,7 +86,7 @@ namespace Vts.Test
             Assert.That(op1.Musp, Is.EqualTo(2.0));
             Assert.That(op1.G, Is.EqualTo(0.9));
             Assert.That(op1.N, Is.EqualTo(1.4));
-            Assert.Less(System.Math.Abs(op1.Mus - 20.0), 10E-6);
+            Assert.That(System.Math.Abs(op1.Mus - 20.0), Is.LessThan(10E-6));
 
             op1.Musp = 1.0;
 
@@ -94,7 +94,7 @@ namespace Vts.Test
             Assert.That(op1.Musp, Is.EqualTo(1.0));
             Assert.That(op1.G, Is.EqualTo(0.9));
             Assert.That(op1.N, Is.EqualTo(1.4));
-            Assert.Less(System.Math.Abs(op1.Mus - 10.0), 10E-6);
+            Assert.That(System.Math.Abs(op1.Mus - 10.0), Is.LessThan(10E-6));
         }
 
         [Test]

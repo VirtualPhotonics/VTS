@@ -27,14 +27,14 @@ namespace Vts.Test.Common
         {
             var zRange = _layerOpticalPropertyRegion.ZRange;
             var regionOp = _layerOpticalPropertyRegion.RegionOP;
-            Assert.AreEqual(0, zRange.Start);
-            Assert.AreEqual(9, zRange.Stop);
-            Assert.AreEqual(10, zRange.Count);
-            Assert.AreEqual(1, zRange.Delta);
-            Assert.AreEqual(0.1, regionOp.Mua);
-            Assert.AreEqual(1, regionOp.Musp);
-            Assert.AreEqual(0.8, regionOp.G);
-            Assert.AreEqual(1.4, regionOp.N);
+            Assert.That(zRange.Start, Is.EqualTo(0));
+            Assert.That(zRange.Stop, Is.EqualTo(9));
+            Assert.That(zRange.Count, Is.EqualTo(10));
+            Assert.That(zRange.Delta, Is.EqualTo(1));
+            Assert.That(regionOp.Mua, Is.EqualTo(0.1));
+            Assert.That(regionOp.Musp, Is.EqualTo(1));
+            Assert.That(regionOp.G, Is.EqualTo(0.8));
+            Assert.That(regionOp.N, Is.EqualTo(1.4));
         }
     }
 }

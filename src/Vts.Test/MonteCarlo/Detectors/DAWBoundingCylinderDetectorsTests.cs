@@ -128,44 +128,44 @@ namespace Vts.Test.MonteCarlo.Detectors
         [Test]
         public void validate_DAW_boundingcylinder_RDiffuse()
         {
-              Assert.Less(Math.Abs(_outputBoundedTissue.Rd - 0.238231), 0.000001);
+              Assert.That(Math.Abs(_outputBoundedTissue.Rd - 0.238231), Is.LessThan(0.000001));
         }
         // Reflection R(rho)
         [Test]
         public void validate_DAW_boundingcylinder_ROfRho()
         {
-             Assert.Less(Math.Abs(_outputBoundedTissue.R_r[0] - 0.0), 0.12381000001);
+             Assert.That(Math.Abs(_outputBoundedTissue.R_r[0] - 0.0), Is.LessThan(0.12381000001));
         }
         // Diffuse Transmittance
         [Test]
         public void validate_DAW_boundingcylinder_TDiffuse()
         {
-             Assert.Less(Math.Abs(_outputBoundedTissue.Td - 0.256878), 0.000001);
+             Assert.That(Math.Abs(_outputBoundedTissue.Td - 0.256878), Is.LessThan(0.000001));
         }
         // Transmittance T(rho)
         [Test]
         public void validate_DAW_boundingcylinder_TOfRho()
         {
-            Assert.Less(Math.Abs(_outputBoundedTissue.T_r[1] - 0.003941), 0.000001);
+            Assert.That(Math.Abs(_outputBoundedTissue.T_r[1] - 0.003941), Is.LessThan(0.000001));
         }
         // Total Absorption
         [Test]
         public void validate_DAW_boundingcylinder_ATotal()
         {
-            Assert.Less(Math.Abs(_outputBoundedTissue.Atot - 0.047790), 0.000001);
+            Assert.That(Math.Abs(_outputBoundedTissue.Atot - 0.047790), Is.LessThan(0.000001));
         }
         // Total Absorption in Bounding Volume
         [Test]
         public void validate_DAW_boundingcylinder_ATotalBoundingCylinder()
         {
-            Assert.Less(Math.Abs(_outputBoundedTissue.AtotBV - 0.427099), 0.000001);
-            Assert.Less(Math.Abs(_outputBoundedTissue.AtotBV2 - 0.405981), 0.000001);
+            Assert.That(Math.Abs(_outputBoundedTissue.AtotBV - 0.427099), Is.LessThan(0.000001));
+            Assert.That(Math.Abs(_outputBoundedTissue.AtotBV2 - 0.405981), Is.LessThan(0.000001));
         }
         // Absorption(x,y,z)
         [Test]
         public void validate_DAW_boundingcylinder_AOfRhoAndZ()
         {
-            Assert.Less(Math.Abs(_outputBoundedTissue.A_rz[0, 0] - 0.000746), 0.000001);
+            Assert.That(Math.Abs(_outputBoundedTissue.A_rz[0, 0] - 0.000746), Is.LessThan(0.000001));
         }
         // sanity checks
         [Test]

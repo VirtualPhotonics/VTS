@@ -167,13 +167,13 @@ namespace Vts.Test.MonteCarlo.Detectors
         [Test]
         public void validate_Analog_ROfRhoAndAngle()
         {
-            Assert.Less(Math.Abs(_output.R_ra[0, 0] * _factor - 0.133030792), 0.000000001);
+            Assert.That(Math.Abs(_output.R_ra[0, 0] * _factor - 0.133030792), Is.LessThan(0.000000001));
         }
         // Reflection R(rho,time)
         [Test]
         public void validate_Analog_ROfRhoAndTime()
         {
-            Assert.Less(Math.Abs(_output.R_rt[2, 1] * _factor - 6.18935890), 0.00000001);
+            Assert.That(Math.Abs(_output.R_rt[2, 1] * _factor - 6.18935890), Is.LessThan(0.00000001));
         }
         // Reflection R(rho,omega)
         [Test]
@@ -188,43 +188,43 @@ namespace Vts.Test.MonteCarlo.Detectors
         [Test]
         public void validate_Analog_TDiffuse()
         {
-            Assert.Less(Math.Abs(_output.Td * _factor - 0.0194444444), 0.0000000001);
+            Assert.That(Math.Abs(_output.Td * _factor - 0.0194444444), Is.LessThan(0.0000000001));
         }
         // Transmittance Time(rho)
         [Test]
         public void validate_Analog_TOfRho()
         {
-            Assert.Less(Math.Abs(_output.T_r[46] * _factor - 0.00332761231), 0.00000000001);
+            Assert.That(Math.Abs(_output.T_r[46] * _factor - 0.00332761231), Is.LessThan(0.00000000001));
         }
         // Transmittance Time(angle)
         [Test]
         public void validate_Analog_TOfAngle()
         {
-            Assert.Less(Math.Abs(_output.T_a[0] * _factor - 0.00278619040), 0.00000000001);
+            Assert.That(Math.Abs(_output.T_a[0] * _factor - 0.00278619040), Is.LessThan(0.00000000001));
         }
         // Transmittance Time(rho,angle)
         [Test]
         public void validate_Analog_TOfRhoAndAngle()
         {
-            Assert.Less(Math.Abs(_output.T_ra[46, 0] * _factor - 0.000476812876), 0.000000000001);
+            Assert.That(Math.Abs(_output.T_ra[46, 0] * _factor - 0.000476812876), Is.LessThan(0.000000000001));
         }
         // Total Absorption
         [Test]
         public void validate_Analog_ATotal()
         {
-            Assert.Less(Math.Abs(_output.Atot * _factor - 0.281944444), 0.000000001);
+            Assert.That(Math.Abs(_output.Atot * _factor - 0.281944444), Is.LessThan(0.000000001));
         }
         // Absorption A(rho,z)
         [Test]
         public void validate_Analog_AOfRhoAndZ()
         {
-            Assert.Less(Math.Abs(_output.A_rz[0, 6] * _factor - 3.09467945), 0.00000001);
+            Assert.That(Math.Abs(_output.A_rz[0, 6] * _factor - 3.09467945), Is.LessThan(0.00000001));
         }
         // Fluence Flu(rho,z)
         [Test]
         public void validate_Analog_FluenceOfRhoAndZ()
         {
-            Assert.Less(Math.Abs(_output.Flu_rz[0, 6] * _factor - 309.467945), 0.000001);
+            Assert.That(Math.Abs(_output.Flu_rz[0, 6] * _factor - 309.467945), Is.LessThan(0.000001));
         }
         // Volume Radiance Rad(rho,z,angle)
         // Verify integral over angle of Radiance equals Fluence
@@ -240,27 +240,27 @@ namespace Vts.Test.MonteCarlo.Detectors
             {
                 integral += _output.Rad_rza[0, 6, ia] * Math.Sin((ia + 0.5) * angle.Delta);
             }
-            Assert.Less(Math.Abs(integral * norm - _output.Flu_rz[0, 6]), 0.000000000001);
+            Assert.That(Math.Abs(integral * norm - _output.Flu_rz[0, 6]), Is.LessThan(0.000000000001));
         }
         // Fluence(rho,z,t)
         [Test]
         public void validate_Analog_FluenceOfRhoAndZAndTime()
         {
-            Assert.Less(Math.Abs(_output.Flu_rzt[0, 6, 0]*_factor - 3094.67945), 0.00001);
+            Assert.That(Math.Abs(_output.Flu_rzt[0, 6, 0]*_factor - 3094.67945), Is.LessThan(0.00001));
         }
 
         // Reflectance R(x,y)
         [Test]
         public void validate_Analog_ROfXAndY()
         {
-            Assert.Less(Math.Abs(_output.R_xy[0, 22] * _factor - 0.24305556), 0.00000001);
+            Assert.That(Math.Abs(_output.R_xy[0, 22] * _factor - 0.24305556), Is.LessThan(0.00000001));
         }
         // sanity checks
         [Test]
         public void validate_Analog_RDiffuse_plus_ATotal_plus_TDiffuse_equals_one()
         {
             // no specular because photons started inside tissue
-            Assert.Less(Math.Abs(_output.Rd + _output.Atot + _output.Td - 1), 0.00000000001);
+            Assert.That(Math.Abs(_output.Rd + _output.Atot + _output.Td - 1), Is.LessThan(0.00000000001));
         }
         // statistics
         [Test]
