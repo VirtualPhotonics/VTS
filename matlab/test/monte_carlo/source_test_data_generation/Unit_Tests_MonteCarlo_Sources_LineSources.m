@@ -80,14 +80,14 @@ RN18 = 0.27265629458070179;
 
 %Custom Flat Line Source
 FlatPos = Func_GetPositionInALineRandomFlat(V, l, RN1);
-FlatDir = Func_GetDirectionForGivenPolaAzimuthalAngleRange(PolRange, AziRange, RN2, RN3);
+FlatDir = Func_GetDirectionForGivenPolarAzimuthalAngleRange(PolRange, AziRange, RN2, RN3);
 FlatPolAzi = Func_GetPolarAzimuthalPairFromDirection(U);
 [TestCustomLineSourceFlat_U, TestCustomLineSourceFlat_V] = Func_UpdateDirectionAndPositionAfterGivenFlags...
     (FlatDir, FlatPos, FlatPolAzi,T, AngPair, Flags);
 
 %Custom Gaussian Line Source
 GaussPos = Func_GetPositionInALineRandomGaussian(V, l, BDFWHM, RN1, RN2);
-GaussDir = Func_GetDirectionForGivenPolaAzimuthalAngleRange(PolRange, AziRange, RN3, RN4);
+GaussDir = Func_GetDirectionForGivenPolarAzimuthalAngleRange(PolRange, AziRange, RN3, RN4);
 GaussPolAzi = Func_GetPolarAzimuthalPairFromDirection(U);
 [TestCustomLineSourceGauss_U, TestCustomLineSourceGauss_V] = Func_UpdateDirectionAndPositionAfterGivenFlags...
     (GaussDir, GaussPos, GaussPolAzi, T, AngPair, Flags);
@@ -110,17 +110,34 @@ GaussPolAzi = Func_GetPolarAzimuthalPairFromDirection(U);
 
 %Isotropic Flat Line Source
 FlatPos = Func_GetPositionInALineRandomFlat(V, l, RN1);
-FlatDir = Func_GetDirectionForGivenPolaAzimuthalAngleRange([0, pi], [0, 2*pi], RN2, RN3);
+FlatDir = Func_GetDirectionForGivenPolarAzimuthalAngleRange([0, pi], [0, 2*pi], RN2, RN3);
 FlatPolAzi = Func_GetPolarAzimuthalPairFromDirection(U);
 [TestIsoLineSourceFlat_U, TestIsoLineSourceFlat_V] = Func_UpdateDirectionAndPositionAfterGivenFlags...
     (FlatDir, FlatPos, FlatPolAzi,T, AngPair, Flags);
 
 %Isotropic Gaussian Line Source
 GaussPos = Func_GetPositionInALineRandomGaussian(V, l, BDFWHM, RN1, RN2);
-GaussDir = Func_GetDirectionForGivenPolaAzimuthalAngleRange([0, pi], [0, 2*pi], RN3, RN4);
+GaussDir = Func_GetDirectionForGivenPolarAzimuthalAngleRange([0, pi], [0, 2*pi], RN3, RN4);
 GaussPolAzi = Func_GetPolarAzimuthalPairFromDirection(U);
 [TestIsoLineSourceGauss_U, TestIsoLineSourceGauss_V] = Func_UpdateDirectionAndPositionAfterGivenFlags...
     (GaussDir, GaussPos, GaussPolAzi, T, AngPair, Flags);
+
+%Lambertian Flat Line Source
+FlatPos = Func_GetPositionInALineRandomFlat(V, l, RN1);
+%FlatDir = Func_GetDirectionForGivenPolarAzimuthalAngleRange([0, pi/2], [0, 2*pi], RN2, RN3);
+FlatDir = Func_GetDirectionForLambertianDistributionRandom(RN2, RN3);
+FlatPolAzi = Func_GetPolarAzimuthalPairFromDirection(U);
+[TestLamLineSourceFlat_U, TestLamLineSourceFlat_V] = Func_UpdateDirectionAndPositionAfterGivenFlags...
+    (FlatDir, FlatPos, FlatPolAzi,T, AngPair, Flags);
+
+%Lambertian Gaussian Line Source
+GaussPos = Func_GetPositionInALineRandomGaussian(V, l, BDFWHM, RN1, RN2);
+%GaussDir = Func_GetDirectionForGivenPolarAzimuthalAngleRange([0, pi/2], [0, 2*pi], RN3, RN4);
+GaussDir = Func_GetDirectionForLambertianDistributionRandom(RN3, RN4);
+GaussPolAzi = Func_GetPolarAzimuthalPairFromDirection(U);
+[TestLamLineSourceGauss_U, TestLamLineSourceGauss_V] = Func_UpdateDirectionAndPositionAfterGivenFlags...
+    (GaussDir, GaussPos, GaussPolAzi, T, AngPair, Flags);
+
 
 fid = fopen('UnitTests_LineSources.txt', 'w');
 fprintf(fid,'%.10e, %.10e, %.10e, %.10e, %.10e, %.10e, %.10e, %.10e, %.10e, ',...
@@ -137,4 +154,8 @@ fprintf(fid,'%.10e, %.10e, ',...
     TestIsoLineSourceFlat_U,TestIsoLineSourceFlat_V);
 fprintf(fid,'%.10e, %.10e, ',...
     TestIsoLineSourceGauss_U,TestIsoLineSourceGauss_V);
+fprintf(fid,'%.10e, %.10e, ',...
+    TestLamLineSourceFlat_U,TestLamLineSourceFlat_V);
+fprintf(fid,'%.10e, %.10e, ',...
+    TestLamLineSourceGauss_U,TestLamLineSourceGauss_V);
 fclose(fid);
