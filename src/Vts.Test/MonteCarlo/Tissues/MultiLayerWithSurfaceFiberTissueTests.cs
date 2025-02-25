@@ -42,11 +42,11 @@ namespace Vts.Test.MonteCarlo.Tissues
         public void Verify_GetRegionIndex_method_returns_correct_result()
         {
             var index = _tissue.GetRegionIndex(new Position(2, 0, 0)); // outside surface fiber
-            Assert.AreEqual(1, index);
+            Assert.That(index, Is.EqualTo(1));
             index = _tissue.GetRegionIndex(new Position(0.5, 0, 0)); // inside surface fiber
-            Assert.AreEqual(3, index);
+            Assert.That(index, Is.EqualTo(3));
             index = _tissue.GetRegionIndex(new Position(0, 0, 1.0)); // below surface fiber
-            Assert.AreEqual(1, index);
+            Assert.That(index, Is.EqualTo(1));
         }
 
         /// <summary>
@@ -63,7 +63,7 @@ namespace Vts.Test.MonteCarlo.Tissues
                 1,
                 new Random());
             var index = _tissue.GetNeighborRegionIndex(photon);
-            Assert.AreEqual(3, index);
+            Assert.That(index, Is.EqualTo(3));
         }
 
         /// <summary>
@@ -81,7 +81,7 @@ namespace Vts.Test.MonteCarlo.Tissues
                 1,
                 new Random());
             var index = _tissue.GetNeighborRegionIndex(photon);
-            Assert.AreEqual(2, index);
+            Assert.That(index, Is.EqualTo(2));
         }
 
 

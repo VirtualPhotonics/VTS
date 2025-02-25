@@ -98,16 +98,16 @@ namespace Vts.Test.Extensions
             };
             var dictionary = EnumerableExtensions.ToDictionary(keyValuePairList);
             Assert.That(dictionary, Is.InstanceOf<Dictionary<string, string>>());
-            Assert.AreEqual("first", dictionary["one"]);
-            Assert.AreEqual("second", dictionary["two"]);
-            Assert.AreEqual("third", dictionary["three"]);
+            Assert.That(dictionary["one"], Is.EqualTo("first"));
+            Assert.That(dictionary["two"], Is.EqualTo("second"));
+            Assert.That(dictionary["three"], Is.EqualTo("third"));
         }
 
         [Test]
         public void To2DArray_returns_a_2_dimensional_array()
         {
             var twoDArray = _doubleEnumerable.To2DArray(2, 4);
-            Assert.AreEqual(0.6, twoDArray[0,0]);
+            Assert.That(twoDArray[0,0], Is.EqualTo(0.6));
         }
 
         [Test]
@@ -178,11 +178,11 @@ namespace Vts.Test.Extensions
             var range = new DoubleRange(0, 99, 100);
             var skippedValues = range.TakeEveryNth(5);
             var skippedValueArray = skippedValues.ToArray();
-            Assert.AreEqual(20, skippedValueArray.Length);
-            Assert.AreEqual(0, skippedValueArray[0]);
-            Assert.AreEqual(10, skippedValueArray[2]);
-            Assert.AreEqual(20, skippedValueArray[4]);
-            Assert.AreEqual(85, skippedValueArray[17]);
+            Assert.That(skippedValueArray.Length, Is.EqualTo(20));
+            Assert.That(skippedValueArray[0], Is.EqualTo(0));
+            Assert.That(skippedValueArray[2], Is.EqualTo(10));
+            Assert.That(skippedValueArray[4], Is.EqualTo(20));
+            Assert.That(skippedValueArray[17], Is.EqualTo(85));
         }
     }
 }

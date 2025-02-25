@@ -75,14 +75,14 @@ namespace Vts.Test.Extensions
         public void Validate_GetInternationalizedString_returns_string()
         {
             const ChromophoreCoefficientType enumToStringify = ChromophoreCoefficientType.FractionalAbsorptionCoefficient;
-            Assert.AreEqual("vol. frac.", enumToStringify.GetInternationalizedString());
+            Assert.That(enumToStringify.GetInternationalizedString(), Is.EqualTo("vol. frac."));
         }
 
         [Test]
         public void Validate_GetInternationalizedString_returns_empty_string()
         {
             const Days enumToStringify = Days.Saturday;
-            Assert.AreEqual("", enumToStringify.GetInternationalizedString());
+            Assert.That(enumToStringify.GetInternationalizedString(), Is.EqualTo(""));
         }
     }
 }

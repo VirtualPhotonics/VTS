@@ -56,11 +56,11 @@ namespace Vts.Test.MonteCarlo.Tissues
         public void Verify_GetRegionIndex_method_returns_correct_result()
         {
             var index = _tissueWithEllipsoid.GetRegionIndex(new Position(0, 0, 0.5)); // outside ellipsoid
-            Assert.AreEqual(1, index);
+            Assert.That(index, Is.EqualTo(1));
             index = _tissueWithEllipsoid.GetRegionIndex(new Position(0, 0, 2.5)); // inside ellipsoid
             Assert.AreEqual( 3,index);
             index = _tissueWithEllipsoid.GetRegionIndex(new Position(0, 0, 1.0)); // on ellipsoid is considered in
-            Assert.AreEqual(3, index);
+            Assert.That(index, Is.EqualTo(3));
         }
 
         /// <summary>
@@ -78,7 +78,7 @@ namespace Vts.Test.MonteCarlo.Tissues
                 1,
                 new Random());
             var index = _tissueWithEllipsoid.GetNeighborRegionIndex(photon);
-            Assert.AreEqual(3, index);
+            Assert.That(index, Is.EqualTo(3));
         }
 
         /// <summary>
@@ -96,7 +96,7 @@ namespace Vts.Test.MonteCarlo.Tissues
                 1,
                 new Random());
             var index = _tissueWithEllipsoid.GetNeighborRegionIndex(photon);
-            Assert.AreEqual(2, index);
+            Assert.That(index, Is.EqualTo(2));
         }
 
 
@@ -112,28 +112,28 @@ namespace Vts.Test.MonteCarlo.Tissues
             var currentPosition = new Position(10, 10, 0);
             var currentDirection = new Direction(1/Math.Sqrt(2), 0, -1/Math.Sqrt(2));
             var reflectedDir = _tissueWithEllipsoid.GetReflectedDirection(currentPosition, currentDirection);
-            Assert.AreEqual(1/Math.Sqrt(2), reflectedDir.Ux);
-            Assert.AreEqual(0, reflectedDir.Uy);
-            Assert.AreEqual(1/Math.Sqrt(2), reflectedDir.Uz); // reflection off layer just flips sign of Uz
+            Assert.That(reflectedDir.Ux, Is.EqualTo(1/Math.Sqrt(2)));
+            Assert.That(reflectedDir.Uy, Is.EqualTo(0));
+            Assert.That(reflectedDir.Uz, Is.EqualTo(1/Math.Sqrt(2))); // reflection off layer just flips sign of Uz
             // index matched
             currentPosition = new Position(0, 0, 2); // put photon on ellipsoid
             currentDirection = new Direction(0, 0, 1);
             reflectedDir = _tissueWithEllipsoid.GetReflectedDirection(currentPosition, currentDirection);
-            Assert.AreEqual(0, reflectedDir.Ux);
-            Assert.AreEqual(0, reflectedDir.Uy);
-            Assert.AreEqual(1, reflectedDir.Uz);
+            Assert.That(reflectedDir.Ux, Is.EqualTo(0));
+            Assert.That(reflectedDir.Uy, Is.EqualTo(0));
+            Assert.That(reflectedDir.Uz, Is.EqualTo(1));
             // index mismatched
             _tissueWithEllipsoid.Regions[3].RegionOP.N = 1.5; // surrounding layer has n=1.4
             currentPosition = new Position(0, 0, 2); // put photon on top of ellipsoid
             currentDirection = new Direction(0, 0, 1); // perpendicular to tangent surface
             reflectedDir = _tissueWithEllipsoid.GetReflectedDirection(currentPosition, currentDirection);
-            Assert.AreEqual(0, reflectedDir.Ux);
-            Assert.AreEqual(0, reflectedDir.Uy);
-            Assert.AreEqual(-1, reflectedDir.Uz);
+            Assert.That(reflectedDir.Ux, Is.EqualTo(0));
+            Assert.That(reflectedDir.Uy, Is.EqualTo(0));
+            Assert.That(reflectedDir.Uz, Is.EqualTo(-1));
             currentDirection = new Direction(1/Math.Sqrt(2), 0, 1/Math.Sqrt(2)); // 45 deg to tangent surface
             reflectedDir = _tissueWithEllipsoid.GetReflectedDirection(currentPosition, currentDirection);
             Assert.That(Math.Abs(reflectedDir.Ux - 1/Math.Sqrt(2)) < 1e-7, Is.True);
-            Assert.AreEqual(0, reflectedDir.Uy);
+            Assert.That(reflectedDir.Uy, Is.EqualTo(0));
             Assert.That(Math.Abs(reflectedDir.Uz + 1/Math.Sqrt(2)) < 1e-7, Is.True);
         }
 
@@ -151,7 +151,7 @@ namespace Vts.Test.MonteCarlo.Tissues
             var cosThetaSnell = 1/Math.Sqrt(2);
             var refractedDir = _tissueWithEllipsoid.GetRefractedDirection(currentPosition, currentDirection, nCurrent, nNext, cosThetaSnell);
             Assert.That(Math.Abs(refractedDir.Ux - 1 / Math.Sqrt(2)) < 1e-6, Is.True);
-            Assert.AreEqual(0, refractedDir.Uy);
+            Assert.That(refractedDir.Uy, Is.EqualTo(0));
             Assert.That(Math.Abs(refractedDir.Uz + 1 / Math.Sqrt(2)) < 1e-6, Is.True);
             // put photon on ellipsoid: index matched
             currentPosition = new Position(0, 0, 2); 
@@ -159,7 +159,7 @@ namespace Vts.Test.MonteCarlo.Tissues
             nNext = 1.4;
             refractedDir = _tissueWithEllipsoid.GetRefractedDirection(currentPosition, currentDirection, nCurrent, nNext, cosThetaSnell);
             Assert.That(Math.Abs(refractedDir.Ux - 1 / Math.Sqrt(2)) < 1e-6, Is.True);
-            Assert.AreEqual(0, refractedDir.Uy);
+            Assert.That(refractedDir.Uy, Is.EqualTo(0));
             Assert.That(Math.Abs(refractedDir.Uz - 1 / Math.Sqrt(2)) < 1e-6, Is.True);
             // put photon on ellipsoid: index mismatched
             currentPosition = new Position(0, 0, 2);
@@ -191,15 +191,15 @@ namespace Vts.Test.MonteCarlo.Tissues
                 }
             };
             var dirCosine = _tissueWithEllipsoid.GetAngleRelativeToBoundaryNormal(photon);
-            Assert.AreEqual(1, dirCosine);
+            Assert.That(dirCosine, Is.EqualTo(1));
             photon.DP.Position = new Position(0, 0, 4); // put photon on ellipsoid bottom
             photon.DP.Direction = new Direction(0, 0, 1); // direction in line with surface normal
             dirCosine = _tissueWithEllipsoid.GetAngleRelativeToBoundaryNormal(photon);
-            Assert.AreEqual(1, dirCosine);
+            Assert.That(dirCosine, Is.EqualTo(1));
             photon.DP.Position = new Position(1, 0, 3); // put photon on right
             photon.DP.Direction = new Direction(0, 0, 1); // straight down 90 degrees to normal
             dirCosine = _tissueWithEllipsoid.GetAngleRelativeToBoundaryNormal(photon);
-            Assert.AreEqual(0, dirCosine);
+            Assert.That(dirCosine, Is.EqualTo(0));
             photon.DP.Position = new Position(-1, 0, 3); // put photon on left
             photon.DP.Direction = new Direction(-1, 0, 0); // in line with surface normal
             dirCosine = _tissueWithEllipsoid.GetAngleRelativeToBoundaryNormal(photon);
@@ -207,7 +207,7 @@ namespace Vts.Test.MonteCarlo.Tissues
             photon.DP.Position = new Position(0, 1, 3); // put photon on front
             photon.DP.Direction = new Direction(0, -1, 0); // opposite surface normal
             dirCosine = _tissueWithEllipsoid.GetAngleRelativeToBoundaryNormal(photon);
-            Assert.AreEqual(1, dirCosine);
+            Assert.That(dirCosine, Is.EqualTo(1));
         }
     }
 }

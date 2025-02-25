@@ -83,7 +83,7 @@ namespace Vts.Test.IO
             Assert.That(objectDeserialized != null, Is.True);
             Assert.That(objectDeserialized.Length > 0, Is.True);
             Assert.AreEqual("Hello",objectDeserialized[0]);
-            Assert.AreEqual("Dolly", objectDeserialized[1]);
+            Assert.That(objectDeserialized[1], Is.EqualTo("Dolly"));
         }
 
         [Test]
@@ -93,7 +93,7 @@ namespace Vts.Test.IO
             var objectDeserialized = VtsJsonSerializer.ReadFromJsonFile<string[]>("VtsJsonSerializerTests_file2.txt");
             Assert.That(objectDeserialized != null, Is.True);
             Assert.That(objectDeserialized.Length > 0, Is.True);
-            Assert.AreEqual("Hello", objectDeserialized[0]);
+            Assert.That(objectDeserialized[0], Is.EqualTo("Hello"));
             Assert.AreEqual("Sailor",objectDeserialized[1]);
         }
 
@@ -161,10 +161,10 @@ namespace Vts.Test.IO
             var jsonSerialized = VtsJsonSerializer.WriteToJson(range);
             var intRangeDeserialized = VtsJsonSerializer.ReadFromJson<IntRange>(jsonSerialized);
             Assert.That(intRangeDeserialized != null, Is.True);
-            Assert.AreEqual(10, intRangeDeserialized.Start);
-            Assert.AreEqual(20, intRangeDeserialized.Stop);
-            Assert.AreEqual(11, intRangeDeserialized.Count);
-            Assert.AreEqual(1, intRangeDeserialized.Delta);
+            Assert.That(intRangeDeserialized.Start, Is.EqualTo(10));
+            Assert.That(intRangeDeserialized.Stop, Is.EqualTo(20));
+            Assert.That(intRangeDeserialized.Count, Is.EqualTo(11));
+            Assert.That(intRangeDeserialized.Delta, Is.EqualTo(1));
         }
 
         [Test]

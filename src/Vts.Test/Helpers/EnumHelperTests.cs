@@ -10,13 +10,13 @@ namespace Vts.Test.Helpers
         public void Get_names_returns_string_array()
         {
             var enumName = EnumHelper.GetNames<ForwardSolverType>();
-            Assert.AreEqual("PointSourceSDA", enumName[0]);
-            Assert.AreEqual("DistributedPointSourceSDA", enumName[1]);
-            Assert.AreEqual("DistributedGaussianSourceSDA", enumName[2]);
-            Assert.AreEqual("DeltaPOne", enumName[3]);
-            Assert.AreEqual("MonteCarlo", enumName[4]);
-            Assert.AreEqual("Nurbs", enumName[5]);
-            Assert.AreEqual("TwoLayerSDA", enumName[6]);
+            Assert.That(enumName[0], Is.EqualTo("PointSourceSDA"));
+            Assert.That(enumName[1], Is.EqualTo("DistributedPointSourceSDA"));
+            Assert.That(enumName[2], Is.EqualTo("DistributedGaussianSourceSDA"));
+            Assert.That(enumName[3], Is.EqualTo("DeltaPOne"));
+            Assert.That(enumName[4], Is.EqualTo("MonteCarlo"));
+            Assert.That(enumName[5], Is.EqualTo("Nurbs"));
+            Assert.That(enumName[6], Is.EqualTo("TwoLayerSDA"));
         }
 
         [Test]
@@ -30,8 +30,8 @@ namespace Vts.Test.Helpers
         {
             var enumValues = EnumHelper.GetValues<SpatialDomainType>();
             Assert.That(enumValues, Is.InstanceOf<SpatialDomainType[]>());
-            Assert.AreEqual(SpatialDomainType.Real, enumValues[0]);
-            Assert.AreEqual(SpatialDomainType.SpatialFrequency, enumValues[1]);
+            Assert.That(enumValues[0], Is.EqualTo(SpatialDomainType.Real));
+            Assert.That(enumValues[1], Is.EqualTo(SpatialDomainType.SpatialFrequency));
         }
 
         [Test]
@@ -45,8 +45,8 @@ namespace Vts.Test.Helpers
         {
             var enumValues = EnumHelper.GetValues(typeof(SpatialDomainType));
             Assert.That(enumValues, Is.InstanceOf<object[]>());
-            Assert.AreEqual(SpatialDomainType.Real, enumValues[0]);
-            Assert.AreEqual(SpatialDomainType.SpatialFrequency, enumValues[1]);
+            Assert.That(enumValues[0], Is.EqualTo(SpatialDomainType.Real));
+            Assert.That(enumValues[1], Is.EqualTo(SpatialDomainType.SpatialFrequency));
         }
 
         [Test]

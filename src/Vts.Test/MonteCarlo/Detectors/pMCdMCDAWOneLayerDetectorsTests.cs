@@ -158,12 +158,12 @@ namespace Vts.Test.MonteCarlo.Detectors
                                  _referenceOutputOneLayerTissue.R_rt[0, 0]), 1e-10);
             // validation value obtained from linux run using above input and seeded the same
             Assert.That(Math.Abs(postProcessedOutput.pMC_R_rt[0, 0]*_factor - 61.5238307), Is.LessThan(0.0000001));
-            Assert.AreEqual(89, postProcessedOutput.pMC_R_rt_TallyCount);
+            Assert.That(postProcessedOutput.pMC_R_rt_TallyCount, Is.EqualTo(89));
 
             // validation value obtained from non-pMC non-recessed run
             Assert.Less(Math.Abs(postProcessedOutput.pMC_R_rtr[0, 0] - 
                                 _referenceOutputOneLayerTissue.R_rt[0, 0]), 1e-10);
-            Assert.AreEqual(89, postProcessedOutput.pMC_R_rtr_TallyCount);
+            Assert.That(postProcessedOutput.pMC_R_rtr_TallyCount, Is.EqualTo(89));
         }
 
         /// <summary>
@@ -238,12 +238,12 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.That(Math.Abs(postProcessedOutput.pMC_R_r[0]*_factor - 0.615238307), Is.LessThan(0.000000001));
             // validation value based on previous run
             Assert.That(Math.Abs(postProcessedOutput.pMC_R_r2[0] - 20.022918), Is.LessThan(0.000001));
-            Assert.AreEqual(89, postProcessedOutput.pMC_R_r_TallyCount);
+            Assert.That(postProcessedOutput.pMC_R_r_TallyCount, Is.EqualTo(89));
 
             // validation value obtained from non-pMC non-recessed run
             Assert.Less(Math.Abs(postProcessedOutput.pMC_R_rr[0] -
                                 _referenceOutputOneLayerTissue.R_r[0]), 1e-10);
-            Assert.AreEqual(89, postProcessedOutput.pMC_R_rr_TallyCount);
+            Assert.That(postProcessedOutput.pMC_R_rr_TallyCount, Is.EqualTo(89));
 
             // validate derivatives with respect to mua and mus with prior run
             Assert.That(Math.Abs(postProcessedOutput.dMCdMua_R_r[0] + 0.166157) < 1e-6, Is.True);
@@ -321,7 +321,7 @@ namespace Vts.Test.MonteCarlo.Detectors
             // validation value obtained from linux run using above input and seeded the same
             Assert.That(Math.Abs(postProcessedOutput.pMC_R_r[0] * _factor - 0.7226588), Is.LessThan(0.0000001));
             Assert.That(Math.Abs(postProcessedOutput.pMC_R_r2[0] - 28.10877) < 1e-4, Is.True);
-            Assert.AreEqual(89, postProcessedOutput.pMC_R_r_TallyCount);
+            Assert.That(postProcessedOutput.pMC_R_r_TallyCount, Is.EqualTo(89));
             // validate derivative values with prior run
             Assert.That(Math.Abs(postProcessedOutput.dMCdMua_R_r[0] + 0.187384) < 1e-6, Is.True);
             Assert.That(Math.Abs(postProcessedOutput.dMCdMus_R_r[0] - 0.235936) < 1e-6, Is.True);
@@ -372,8 +372,8 @@ namespace Vts.Test.MonteCarlo.Detectors
             // validation value obtained from linux run using above input and seeded the same
             Assert.AreNotEqual(double.NaN, Math.Abs(postProcessedOutput.dMCdMua_R_r[0]));
             Assert.AreNotEqual(double.NaN, Math.Abs(postProcessedOutput.dMCdMus_R_r[0]));
-            Assert.AreEqual(89, postProcessedOutput.dMCdMua_R_r_TallyCount);
-            Assert.AreEqual(89, postProcessedOutput.dMCdMus_R_r_TallyCount);
+            Assert.That(postProcessedOutput.dMCdMua_R_r_TallyCount, Is.EqualTo(89));
+            Assert.That(postProcessedOutput.dMCdMus_R_r_TallyCount, Is.EqualTo(89));
         }
 
         /// <summary>
@@ -412,7 +412,7 @@ namespace Vts.Test.MonteCarlo.Detectors
             // validation value obtained from prior run
             Assert.That(Math.Abs(postProcessedOutput.pMC_R_fxt[1, 0].Real - 6.858014), Is.LessThan(0.000001));
             Assert.That(Math.Abs(postProcessedOutput.pMC_R_fxt[1, 0].Imaginary - 0.339772), Is.LessThan(0.000001));
-            Assert.AreEqual(89, postProcessedOutput.pMC_R_fxt_TallyCount);
+            Assert.That(postProcessedOutput.pMC_R_fxt_TallyCount, Is.EqualTo(89));
         }
 
         /// <summary>
@@ -451,7 +451,7 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.That(Math.Abs(postProcessedOutput.pMC_R_fx[1].Imaginary - 0.083909), Is.LessThan(0.000001));
             Assert.That(Math.Abs(postProcessedOutput.pMC_R_fx2[1].Real - 0.467357), Is.LessThan(0.000001));
             Assert.That(Math.Abs(postProcessedOutput.pMC_R_fx2[1].Imaginary - 0.0), Is.LessThan(0.000001)); // imag of 2nd moment is 0
-            Assert.AreEqual(89, postProcessedOutput.pMC_R_fx_TallyCount);
+            Assert.That(postProcessedOutput.pMC_R_fx_TallyCount, Is.EqualTo(89));
         }
 
         /// <summary>
@@ -488,7 +488,7 @@ namespace Vts.Test.MonteCarlo.Detectors
             // validation value obtained from prior run
             Assert.That(Math.Abs(postProcessedOutput.pMC_R_fx[1].Real - 0.304018), Is.LessThan(0.000001));
             Assert.That(Math.Abs(postProcessedOutput.pMC_R_fx[1].Imaginary - 0.029895), Is.LessThan(0.000001));
-            Assert.AreEqual(89, postProcessedOutput.pMC_R_fx_TallyCount);
+            Assert.That(postProcessedOutput.pMC_R_fx_TallyCount, Is.EqualTo(89));
         }
 
         [Test]
@@ -503,7 +503,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                 }
                 catch (Exception e)
                 {
-                    Assert.AreEqual("Analog is not allowed with this detector (Parameter 'awt')", e.Message);
+                    Assert.That(e.Message, Is.EqualTo("Analog is not allowed with this detector (Parameter 'awt')"));
                     throw;
                 }
             });
@@ -516,7 +516,7 @@ namespace Vts.Test.MonteCarlo.Detectors
                 }
                 catch (Exception e)
                 {
-                    Assert.AreEqual("Analog is not allowed with this detector (Parameter 'awt')", e.Message);
+                    Assert.That(e.Message, Is.EqualTo("Analog is not allowed with this detector (Parameter 'awt')"));
                     throw;
                 }
             });

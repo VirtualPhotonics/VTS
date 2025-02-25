@@ -19,7 +19,7 @@ namespace Vts.Test
             var myTestClass = new BindableTestClass();
             PropertyDependencyManager.Register(myTestClass);
             myTestClass.Third = 8;
-            Assert.AreEqual(2, myTestClass.PropertyChangedCount);
+            Assert.That(myTestClass.PropertyChangedCount, Is.EqualTo(2));
         }
     }
 }

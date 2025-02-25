@@ -13,10 +13,10 @@ namespace Vts.Test.Common
         {
             var r = new UIntRange(0, 9, 10);
 
-            Assert.AreEqual(0U, r.Start);
-            Assert.AreEqual(9U, r.Stop);
-            Assert.AreEqual(1U, r.Delta);
-            Assert.AreEqual(10, r.Count);
+            Assert.That(r.Start, Is.EqualTo(0U));
+            Assert.That(r.Stop, Is.EqualTo(9U));
+            Assert.That(r.Delta, Is.EqualTo(1U));
+            Assert.That(r.Count, Is.EqualTo(10));
         }
 
         [Test]
@@ -24,10 +24,10 @@ namespace Vts.Test.Common
         {
             var r = new UIntRange();
 
-            Assert.AreEqual(0U, r.Start);
-            Assert.AreEqual(1U, r.Stop);
-            Assert.AreEqual(1U, r.Delta);
-            Assert.AreEqual(2, r.Count);
+            Assert.That(r.Start, Is.EqualTo(0U));
+            Assert.That(r.Stop, Is.EqualTo(1U));
+            Assert.That(r.Delta, Is.EqualTo(1U));
+            Assert.That(r.Count, Is.EqualTo(2));
         }
 
         [Test]
@@ -45,10 +45,10 @@ namespace Vts.Test.Common
 
             Assert.That(deserializedR, Is.InstanceOf<UIntRange>());
 
-            Assert.AreEqual(0U, deserializedR.Start);
-            Assert.AreEqual(9U, deserializedR.Stop);
-            Assert.AreEqual(1U, deserializedR.Delta);
-            Assert.AreEqual(10, deserializedR.Count);
+            Assert.That(deserializedR.Start, Is.EqualTo(0U));
+            Assert.That(deserializedR.Stop, Is.EqualTo(9U));
+            Assert.That(deserializedR.Delta, Is.EqualTo(1U));
+            Assert.That(deserializedR.Count, Is.EqualTo(10));
         }
 
         [Test]
@@ -59,8 +59,8 @@ namespace Vts.Test.Common
             var delta = r.Delta;
             var count = r.Count;
 
-            Assert.AreEqual(0U, delta);
-            Assert.AreEqual(1, count);
+            Assert.That(delta, Is.EqualTo(0U));
+            Assert.That(count, Is.EqualTo(1));
         }
 
         [Test]
@@ -71,8 +71,8 @@ namespace Vts.Test.Common
             var delta = r.Delta;
             var count = r.Count;
 
-            Assert.AreEqual(10U, delta);
-            Assert.AreEqual(1, count);
+            Assert.That(delta, Is.EqualTo(10U));
+            Assert.That(count, Is.EqualTo(1));
         }
 
         [Test]
@@ -83,8 +83,8 @@ namespace Vts.Test.Common
             var count = r.Count;
             var delta = r.Delta;
 
-            Assert.AreEqual(3, count);
-            Assert.AreEqual(0U, delta);
+            Assert.That(count, Is.EqualTo(3));
+            Assert.That(delta, Is.EqualTo(0U));
         }
 
         [Test]
@@ -94,10 +94,10 @@ namespace Vts.Test.Common
 
             var values = r.ToArray();
 
-            Assert.AreEqual(3, values.Length);
+            Assert.That(values.Length, Is.EqualTo(3));
             foreach (var value in values)
             {
-                Assert.AreEqual(10U, value);
+                Assert.That(value, Is.EqualTo(10U));
             }
         }
 
@@ -112,7 +112,7 @@ namespace Vts.Test.Common
         public void Test_ToString()
         {
             var uIntRange = new UIntRange(0U, 9U, 10);
-            Assert.AreEqual("Start: 0, Stop: 9, Count: 10, Delta: 1", uIntRange.ToString());
+            Assert.That(uIntRange.ToString(), Is.EqualTo("Start: 0, Stop: 9, Count: 10, Delta: 1"));
         }
     }
 }

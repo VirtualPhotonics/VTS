@@ -186,7 +186,7 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.That(Math.Abs(_outputOpen.SurFib - 0.079266), Is.LessThan(0.000001));
             Assert.That(Math.Abs(_outputOpen.SurFib - _outputOpen.R_r[0]), Is.LessThan(0.000001));
             Assert.That(Math.Abs(_outputOpen.SurFib2 - 0.024315), Is.LessThan(0.000001));
-            Assert.AreEqual(26, _outputOpen.SurFib_TallyCount);
+            Assert.That(_outputOpen.SurFib_TallyCount, Is.EqualTo(26));
             // output for Bargo comparison
             //var sd = Math.Sqrt((_outputOpen.SurFib2 -
             //    _outputOpen.SurFib * _outputOpen.SurFib) / 100)
@@ -207,7 +207,7 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.That(Math.Abs(_outputNa.SurFib - 0.003034), Is.LessThan(0.000001));
             Assert.That(Math.Abs(_outputNa.SurFib - _outputNa.R_r[0]), Is.LessThan(0.000001));
             Assert.That(Math.Abs(_outputNa.SurFib2 - 0.000920), Is.LessThan(0.000001));
-            Assert.AreEqual(1, _outputNa.SurFib_TallyCount);
+            Assert.That(_outputNa.SurFib_TallyCount, Is.EqualTo(1));
             // output for Bargo comparison
             //var sd = Math.Sqrt((_outputNA.SurFib2 -
             //        _outputNA.SurFib * _outputNA.SurFib) / 100)

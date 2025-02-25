@@ -70,7 +70,7 @@ namespace Vts.Test.MonteCarlo.Sources
             };
             var photon = ps.GetNextPhoton(tissue);
             // make sure initial position is at tissue surface
-            Assert.AreEqual(0.0, photon.DP.Position.Z);
+            Assert.That(photon.DP.Position.Z, Is.EqualTo(0.0));
             // make sure initial position is inside rectangle
             Assert.That((photon.DP.Position.X < 5) && (photon.DP.Position.X > -5), Is.True);
             Assert.That((photon.DP.Position.Y < 2.5) && (photon.DP.Position.Y > -2.5), Is.True);

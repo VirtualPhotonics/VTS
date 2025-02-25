@@ -156,8 +156,8 @@ namespace Vts.Test.MonteCarlo.Factories
             // read detector filename="My First R(x) Detector" from folder "user_defined_detector"
             var detectorFromFile = DetectorIO.ReadDetectorFromFile(detectorInput.Name, "user_defined_detector");
             Assert.IsNotNull(detectorFromFile);
-            Assert.AreEqual(detector.Name, detectorFromFile.Name);
-            Assert.AreEqual(detector.TallyType, detectorFromFile.TallyType);
+            Assert.That(detectorFromFile.Name, Is.EqualTo(detector.Name));
+            Assert.That(detectorFromFile.TallyType, Is.EqualTo(detector.TallyType));
         }
 
         /// <summary>

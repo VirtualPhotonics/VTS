@@ -27,9 +27,9 @@ namespace Vts.Test.MonteCarlo.Tissues
         [Test]
         public void Validate_layer_properties()
         {
-            Assert.AreEqual(0.0, _layerTissueRegion.ZRange.Start);
-            Assert.AreEqual(10.0, _layerTissueRegion.ZRange.Stop);
-            Assert.AreEqual(5.0, _layerTissueRegion.Center.Z);
+            Assert.That(_layerTissueRegion.ZRange.Start, Is.EqualTo(0.0));
+            Assert.That(_layerTissueRegion.ZRange.Stop, Is.EqualTo(10.0));
+            Assert.That(_layerTissueRegion.Center.Z, Is.EqualTo(5.0));
         }
         /// <summary>
         /// Validate method OnBoundary return correct Boolean.
@@ -79,8 +79,8 @@ namespace Vts.Test.MonteCarlo.Tissues
             //photon.S = 100.0; // definitely intersect 
             double distanceToBoundary;
             var result = _layerTissueRegion.RayIntersectBoundary(photon, out distanceToBoundary);
-            Assert.AreEqual(true, result);
-            Assert.AreEqual(8.0, distanceToBoundary);
+            Assert.That(result, Is.EqualTo(true));
+            Assert.That(distanceToBoundary, Is.EqualTo(8.0));
         }
     }
 }

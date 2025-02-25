@@ -38,37 +38,37 @@ namespace Vts.Test.Common.Logging
         [Test]
         public void Test_is_info_enabled()
         {
-            Assert.AreEqual(Logger.IsInfoEnabled, _nLogLogger.IsInfoEnabled);
+            Assert.That(_nLogLogger.IsInfoEnabled, Is.EqualTo(Logger.IsInfoEnabled));
         }
 
         [Test]
         public void Test_is_warn_enabled()
         {
-            Assert.AreEqual(Logger.IsWarnEnabled, _nLogLogger.IsWarnEnabled);
+            Assert.That(_nLogLogger.IsWarnEnabled, Is.EqualTo(Logger.IsWarnEnabled));
         }
 
         [Test]
         public void Test_is_debug_enabled()
         {
-            Assert.AreEqual(Logger.IsDebugEnabled, _nLogLogger.IsDebugEnabled);
+            Assert.That(_nLogLogger.IsDebugEnabled, Is.EqualTo(Logger.IsDebugEnabled));
         }
 
         [Test]
         public void Test_is_fatal_enabled()
         {
-            Assert.AreEqual(Logger.IsFatalEnabled, _nLogLogger.IsFatalEnabled);
+            Assert.That(_nLogLogger.IsFatalEnabled, Is.EqualTo(Logger.IsFatalEnabled));
         }
 
         [Test]
         public void Test_is_error_enabled()
         {
-            Assert.AreEqual(Logger.IsErrorEnabled, _nLogLogger.IsErrorEnabled);
+            Assert.That(_nLogLogger.IsErrorEnabled, Is.EqualTo(Logger.IsErrorEnabled));
         }
 
         [Test]
         public void Test_to_string()
         {
-            Assert.AreEqual(Logger.ToString(), _nLogLogger.ToString());
+            Assert.That(_nLogLogger.ToString(), Is.EqualTo(Logger.ToString()));
         }
 
         [Test]

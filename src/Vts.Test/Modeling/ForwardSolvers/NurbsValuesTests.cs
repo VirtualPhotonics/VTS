@@ -12,10 +12,10 @@ namespace Vts.Test.Modeling.ForwardSolvers
             double[] knots = { 0.0, 0.0, 0.0, 0.5, 1.0, 1.0, 1.0, 1.0 };
 
             var nurbsValues = new NurbsValues(NurbsValuesDimensions.time, knots, 0.9, 2);
-            Assert.AreEqual(NurbsValuesDimensions.time, nurbsValues.ValuesDimensions);
-            Assert.AreEqual(knots[5], nurbsValues.KnotVector[5]);
-            Assert.AreEqual(0.9, nurbsValues.MaxValue);
-            Assert.AreEqual(2, nurbsValues.Degree);
+            Assert.That(nurbsValues.ValuesDimensions, Is.EqualTo(NurbsValuesDimensions.time));
+            Assert.That(nurbsValues.KnotVector[5], Is.EqualTo(knots[5]));
+            Assert.That(nurbsValues.MaxValue, Is.EqualTo(0.9));
+            Assert.That(nurbsValues.Degree, Is.EqualTo(2));
         }
 
         [Test]
@@ -25,10 +25,10 @@ namespace Vts.Test.Modeling.ForwardSolvers
             double[] controlPoints = { 0.0, 0.0, 0.0, 0.5, 1.0, 1.0, 1.0, 1.0 };
 
             var nurbsValues = new NurbsValues(knots, 2, 0.9, controlPoints);
-            Assert.AreEqual(knots[5], nurbsValues.KnotVector[5]);
-            Assert.AreEqual(0.9, nurbsValues.MaxValue);
-            Assert.AreEqual(2, nurbsValues.Degree);
-            Assert.AreEqual(controlPoints[3], nurbsValues.ControlPoints[3]);
+            Assert.That(nurbsValues.KnotVector[5], Is.EqualTo(knots[5]));
+            Assert.That(nurbsValues.MaxValue, Is.EqualTo(0.9));
+            Assert.That(nurbsValues.Degree, Is.EqualTo(2));
+            Assert.That(nurbsValues.ControlPoints[3], Is.EqualTo(controlPoints[3]));
         }
     }
 }

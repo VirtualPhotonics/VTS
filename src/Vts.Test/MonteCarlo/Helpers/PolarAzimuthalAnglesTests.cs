@@ -98,9 +98,9 @@ namespace Vts.Test.MonteCarlo.Helpers
         {
             var polarAzimuthalAngles = new PolarAzimuthalAngles();
             var hashCode = polarAzimuthalAngles.GetHashCode();
-            Assert.AreEqual(hashCode, polarAzimuthalAngles.GetHashCode());
+            Assert.That(polarAzimuthalAngles.GetHashCode(), Is.EqualTo(hashCode));
             var direction2 = new PolarAzimuthalAngles();
-            Assert.AreEqual(hashCode, direction2.GetHashCode());
+            Assert.That(direction2.GetHashCode(), Is.EqualTo(hashCode));
         }
     }
 }

@@ -55,7 +55,7 @@ namespace Vts.Test.MonteCarlo
 
             var iCloned = i.Clone();
 
-            Assert.AreEqual(10, iCloned.N);
+            Assert.That(iCloned.N, Is.EqualTo(10));
         }
         /// <summary>
         ///  validate deserialization of SimulationInput when using FileIO
@@ -66,7 +66,7 @@ namespace Vts.Test.MonteCarlo
             new SimulationInput { N = 10 }.ToFile("test.txt");
             var iCloned = SimulationInput.FromFile("test.txt");
 
-            Assert.AreEqual(10, iCloned.N);
+            Assert.That(iCloned.N, Is.EqualTo(10));
         }
         /// <summary>
         /// check that null detector input in SimulationInput gets converted
@@ -121,7 +121,7 @@ namespace Vts.Test.MonteCarlo
             var i = new ROfRhoDetectorInput() { Rho = new DoubleRange(10, 20, 51) };
             var iCloned = i.Clone();
 
-            Assert.AreEqual(10, iCloned.Rho.Start);
+            Assert.That(iCloned.Rho.Start, Is.EqualTo(10));
         }
         /// <summary>
         /// check that deserialized detector input is correct
@@ -132,7 +132,7 @@ namespace Vts.Test.MonteCarlo
             new ROfRhoDetectorInput() { Rho = new DoubleRange(10, 20, 51) }.WriteToJson("test");
             var iCloned = FileIO.ReadFromJson<ROfRhoDetectorInput>("test");
 
-            Assert.AreEqual(10, iCloned.Rho.Start);
+            Assert.That(iCloned.Rho.Start, Is.EqualTo(10));
         }
 
     }

@@ -387,11 +387,11 @@ namespace Vts.Test.Extensions
                 Assert.That(x, Is.InstanceOf<Complex>());
                 var complexArray = _complexArray;
                 Assert.IsNotNull(complexArray);
-                Assert.AreEqual(x.Real, complexArray[index].Real);
-                Assert.AreEqual(x.Imaginary, complexArray[index].Imaginary);
+                Assert.That(complexArray[index].Real, Is.EqualTo(x.Real));
+                Assert.That(complexArray[index].Imaginary, Is.EqualTo(x.Imaginary));
                 _length++;
             });
-            Assert.AreEqual(_complexArray.Length, _length);
+            Assert.That(_length, Is.EqualTo(_complexArray.Length));
         }
 
         [Test]
@@ -404,7 +404,7 @@ namespace Vts.Test.Extensions
                 Assert.That(x, Is.InstanceOf<double>());
                 _length++;
             });
-            Assert.AreEqual(_doubleArray.Length, _length);
+            Assert.That(_length, Is.EqualTo(_doubleArray.Length));
         }
 
         [Test]
@@ -417,7 +417,7 @@ namespace Vts.Test.Extensions
                 Assert.That(x, Is.InstanceOf<ushort>());
                 _length++;
             });
-            Assert.AreEqual(_uShortArray.Length, _length);
+            Assert.That(_length, Is.EqualTo(_uShortArray.Length));
         }
 
         [Test]
@@ -430,7 +430,7 @@ namespace Vts.Test.Extensions
                 Assert.That(x, Is.InstanceOf<ushort>());
                 _length++;
             });
-            Assert.AreEqual(_uShortArray4D.Length, _length);
+            Assert.That(_length, Is.EqualTo(_uShortArray4D.Length));
         }
 
         [Test]
@@ -443,7 +443,7 @@ namespace Vts.Test.Extensions
                 Assert.That(x, Is.InstanceOf<int>());
                 _length++;
             });
-            Assert.AreEqual(_intArray.Length, _length);
+            Assert.That(_length, Is.EqualTo(_intArray.Length));
         }
 
         [Test]
@@ -456,7 +456,7 @@ namespace Vts.Test.Extensions
                 Assert.That(x, Is.InstanceOf<int>());
                 _length++;
             });
-            Assert.AreEqual(_intArray6D.Length, _length);
+            Assert.That(_length, Is.EqualTo(_intArray6D.Length));
         }
 
         [Test]
@@ -469,7 +469,7 @@ namespace Vts.Test.Extensions
                 Assert.That(x, Is.InstanceOf<int>());
                 _length++;
             });
-            Assert.AreEqual(_intArray7D.Length, _length);
+            Assert.That(_length, Is.EqualTo(_intArray7D.Length));
         }
 
         [Test]
@@ -482,7 +482,7 @@ namespace Vts.Test.Extensions
                 Assert.That(x, Is.InstanceOf<double>());
                 _length++;
             });
-            Assert.AreEqual(_doubleArray.Length, _length);
+            Assert.That(_length, Is.EqualTo(_doubleArray.Length));
         }
 
         [Test]
@@ -495,7 +495,7 @@ namespace Vts.Test.Extensions
                 Assert.That(x, Is.InstanceOf<ushort>());
                 _length++;
             });
-            Assert.AreEqual(_uShortArray.Length, _length);
+            Assert.That(_length, Is.EqualTo(_uShortArray.Length));
         }
 
         [Test]
@@ -508,7 +508,7 @@ namespace Vts.Test.Extensions
                 Assert.That(x, Is.InstanceOf<ushort>());
                 _length++;
             });
-            Assert.AreEqual(_uShortArray4D.Length, _length);
+            Assert.That(_length, Is.EqualTo(_uShortArray4D.Length));
         }
 
         [Test]
@@ -521,7 +521,7 @@ namespace Vts.Test.Extensions
                 Assert.That(x, Is.InstanceOf<int>());
                 _length++;
             });
-            Assert.AreEqual(_intArray.Length, _length);
+            Assert.That(_length, Is.EqualTo(_intArray.Length));
         }
 
         [Test]
@@ -534,7 +534,7 @@ namespace Vts.Test.Extensions
                 Assert.That(x, Is.InstanceOf<int>());
                 _length++;
             });
-            Assert.AreEqual(_intArray6D.Length, _length);
+            Assert.That(_length, Is.EqualTo(_intArray6D.Length));
         }
 
         [Test]
@@ -547,7 +547,7 @@ namespace Vts.Test.Extensions
                 Assert.That(x, Is.InstanceOf<int>());
                 _length++;
             });
-            Assert.AreEqual(_intArray7D.Length, _length);
+            Assert.That(_length, Is.EqualTo(_intArray7D.Length));
         }
 
         [Test]
@@ -710,14 +710,14 @@ namespace Vts.Test.Extensions
         {
             var complexArray = new[] { new Complex(5.0, 1.0), new Complex(2.0, 1.3) };
             var array = complexArray.PopulateWithValue(new Complex(3.0, 0.0));
-            Assert.AreEqual(3.0, array[0].Real);
-            Assert.AreEqual(0.0, array[0].Imaginary);
-            Assert.AreEqual(3.0, array[1].Real);
-            Assert.AreEqual(0.0, array[1].Imaginary);
-            Assert.AreEqual(3.0, complexArray[0].Real);
-            Assert.AreEqual(0.0, complexArray[0].Imaginary);
-            Assert.AreEqual(3.0, complexArray[1].Real);
-            Assert.AreEqual(0.0, complexArray[1].Imaginary);
+            Assert.That(array[0].Real, Is.EqualTo(3.0));
+            Assert.That(array[0].Imaginary, Is.EqualTo(0.0));
+            Assert.That(array[1].Real, Is.EqualTo(3.0));
+            Assert.That(array[1].Imaginary, Is.EqualTo(0.0));
+            Assert.That(complexArray[0].Real, Is.EqualTo(3.0));
+            Assert.That(complexArray[0].Imaginary, Is.EqualTo(0.0));
+            Assert.That(complexArray[1].Real, Is.EqualTo(3.0));
+            Assert.That(complexArray[1].Imaginary, Is.EqualTo(0.0));
         }
     }
 }

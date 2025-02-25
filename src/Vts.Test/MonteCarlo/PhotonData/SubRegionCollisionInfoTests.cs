@@ -27,7 +27,7 @@ namespace Vts.Test.MonteCarlo.PhotonData
             var subRegionCollisionInfo = new SubRegionCollisionInfo(10, 100);
             var clone = subRegionCollisionInfo.Clone();
             Assert.IsInstanceOf<SubRegionCollisionInfo>(clone);
-            Assert.AreEqual(subRegionCollisionInfo.NumberOfCollisions, clone.NumberOfCollisions);
+            Assert.That(clone.NumberOfCollisions, Is.EqualTo(subRegionCollisionInfo.NumberOfCollisions));
             clone.NumberOfCollisions = 200;
             Assert.AreNotEqual(subRegionCollisionInfo.NumberOfCollisions, clone.NumberOfCollisions);
         }

@@ -65,10 +65,10 @@ namespace Vts.Test.MonteCarlo.Sources
                 _sourceInput.NumberOfPixelsY,
                 _sourceInput.PixelWidthX,
                 _sourceInput.PixelHeightY);
-            Assert.AreEqual(113, source.NumberOfPixelsX);
-            Assert.AreEqual(102, source.NumberOfPixelsY);
-            Assert.AreEqual(0.1, source.PixelWidthX);
-            Assert.AreEqual(0.1, source.PixelHeightY);
+            Assert.That(source.NumberOfPixelsX, Is.EqualTo(113));
+            Assert.That(source.NumberOfPixelsY, Is.EqualTo(102));
+            Assert.That(source.PixelWidthX, Is.EqualTo(0.1));
+            Assert.That(source.PixelHeightY, Is.EqualTo(0.1));
 
             // call CreateSource and verify settings
             Random rng = new MathNet.Numerics.Random.MersenneTwister(0); 
@@ -76,10 +76,10 @@ namespace Vts.Test.MonteCarlo.Sources
             // verify X and Y properties
             Assert.That(Math.Abs(-5.65 - ((ImageSourceProfile)source.SourceProfile).X.Start) < 1e-6 , Is.True);
             Assert.That(Math.Abs(5.65 -  ((ImageSourceProfile)source.SourceProfile).X.Stop) < 1e-6, Is.True);
-            Assert.AreEqual(114, ((ImageSourceProfile)source.SourceProfile).X.Count);
+            Assert.That(((ImageSourceProfile)source.SourceProfile).X.Count, Is.EqualTo(114));
             Assert.That(Math.Abs(-5.1 - ((ImageSourceProfile)source.SourceProfile).Y.Start) < 1e-6, Is.True);
             Assert.That(Math.Abs(5.1 - ((ImageSourceProfile)source.SourceProfile).Y.Stop) < 1e-6, Is.True);
-            Assert.AreEqual(103, ((ImageSourceProfile)source.SourceProfile).Y.Count);
+            Assert.That(((ImageSourceProfile)source.SourceProfile).Y.Count, Is.EqualTo(103));
             // verify Image property
             Assert.That(Math.Abs(1 - ((ImageSourceProfile)source.SourceProfile).Image[539]) < 1e-6, Is.True);
         }
@@ -149,10 +149,10 @@ namespace Vts.Test.MonteCarlo.Sources
             // verify X, Y 
             Assert.That(Math.Abs(-1.5 - arbitrarySourceProfile.X.Start) < 1e-6, Is.True);
             Assert.That(Math.Abs(1.5 - arbitrarySourceProfile.X.Stop) < 1e-6, Is.True);
-            Assert.AreEqual(4, arbitrarySourceProfile.X.Count);
+            Assert.That(arbitrarySourceProfile.X.Count, Is.EqualTo(4));
             Assert.That(Math.Abs(-1.5 - arbitrarySourceProfile.Y.Start) < 1e-6, Is.True);
             Assert.That(Math.Abs(1.5 - arbitrarySourceProfile.Y.Stop) < 1e-6, Is.True);
-            Assert.AreEqual(4, arbitrarySourceProfile.Y.Count);
+            Assert.That(arbitrarySourceProfile.Y.Count, Is.EqualTo(4));
 
             // verify binary bit map
             var binaryMap = arbitrarySourceProfile.GetBinaryPixelMap();

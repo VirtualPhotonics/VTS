@@ -27,10 +27,10 @@ namespace Vts.Test
             var jsonSerialized = _opticalProperties.WriteToJson();
             var opticalPropertiesDeserialized = jsonSerialized.ReadFromJson<OpticalProperties>();
             Assert.That(opticalPropertiesDeserialized, Is.InstanceOf<OpticalProperties>());
-            Assert.AreEqual(0.01, opticalPropertiesDeserialized.Mua);
-            Assert.AreEqual(1.0, opticalPropertiesDeserialized.Musp);
-            Assert.AreEqual(0.8, opticalPropertiesDeserialized.G);
-            Assert.AreEqual(1.4, opticalPropertiesDeserialized.N);
+            Assert.That(opticalPropertiesDeserialized.Mua, Is.EqualTo(0.01));
+            Assert.That(opticalPropertiesDeserialized.Musp, Is.EqualTo(1.0));
+            Assert.That(opticalPropertiesDeserialized.G, Is.EqualTo(0.8));
+            Assert.That(opticalPropertiesDeserialized.N, Is.EqualTo(1.4));
         }
 
         [Test]

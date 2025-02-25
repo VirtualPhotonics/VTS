@@ -109,9 +109,9 @@ namespace Vts.Test.IO
         {
             var i = new Position { X = 2, Y = 5, Z = 9 };
             var iCloned = i.Clone();
-            Assert.AreEqual(iCloned.X, i.X);
-            Assert.AreEqual(iCloned.Y, i.Y);
-            Assert.AreEqual(iCloned.Z, i.Z);
+            Assert.That(i.X, Is.EqualTo(iCloned.X));
+            Assert.That(i.Y, Is.EqualTo(iCloned.Y));
+            Assert.That(i.Z, Is.EqualTo(iCloned.Z));
         }
 
         [Test]
@@ -124,7 +124,7 @@ namespace Vts.Test.IO
             Assert.IsNotNull(stream1);
             FileIO.CopyStream(stream1, stream2);
             Assert.IsNotNull(stream2);
-            Assert.AreEqual(stream1, stream2);
+            Assert.That(stream2, Is.EqualTo(stream1));
             stream1.Close();
             stream2.Close();
         }
@@ -207,7 +207,7 @@ namespace Vts.Test.IO
             // the following method has a "yield return" so won't load until accessed
             var listRead = FileIO.ReadFromBinaryCustom<double>("array6", ReadMap);
             var arrayRead = listRead.Take(3).ToArray();
-            Assert.AreEqual(16, arrayRead[1]);
+            Assert.That(arrayRead[1], Is.EqualTo(16));
         }
 
         [Test]
@@ -218,8 +218,8 @@ namespace Vts.Test.IO
             FileIO.CopyFileFromResources("Resources/fileiotest/position.txt", "position.txt", assemblyName);
             var pos = FileIO.ReadFromJson<Position>("position.txt");
             Assert.AreEqual(5,pos.X);
-            Assert.AreEqual(10, pos.Y);
-            Assert.AreEqual(15, pos.Z);
+            Assert.That(pos.Y, Is.EqualTo(10));
+            Assert.That(pos.Z, Is.EqualTo(15));
         }
 
         [Test]
@@ -228,9 +228,9 @@ namespace Vts.Test.IO
             var name = Assembly.GetExecutingAssembly().FullName;
             var assemblyName = new AssemblyName(name).Name;
             var pos = FileIO.ReadFromJsonInResources<Position>("Resources/fileiotest/position.txt", assemblyName);
-            Assert.AreEqual(5, pos.X);
-            Assert.AreEqual(10, pos.Y);
-            Assert.AreEqual(15, pos.Z);
+            Assert.That(pos.X, Is.EqualTo(5));
+            Assert.That(pos.Y, Is.EqualTo(10));
+            Assert.That(pos.Z, Is.EqualTo(15));
         }
 
         [Test]
@@ -241,8 +241,8 @@ namespace Vts.Test.IO
             // create a JSON stream
             var stream = StreamFinder.GetFileStreamFromResources("Resources/fileiotest/position.txt", assemblyName);
             var pos = FileIO.ReadFromJsonStream<Position>(stream);
-            Assert.AreEqual(5, pos.X);
-            Assert.AreEqual(10, pos.Y);
+            Assert.That(pos.X, Is.EqualTo(5));
+            Assert.That(pos.Y, Is.EqualTo(10));
             Assert.AreEqual(15,pos.Z);
             stream.Close();
         }
@@ -260,9 +260,9 @@ namespace Vts.Test.IO
             {
                 pos = FileIO.ReadFromStream<Position>(stream);
             }
-            Assert.AreEqual(2, pos.X);
-            Assert.AreEqual(4, pos.Y);
-            Assert.AreEqual(6, pos.Z);
+            Assert.That(pos.X, Is.EqualTo(2));
+            Assert.That(pos.Y, Is.EqualTo(4));
+            Assert.That(pos.Z, Is.EqualTo(6));
         }
 
         [Test]
@@ -271,9 +271,9 @@ namespace Vts.Test.IO
             var name = Assembly.GetExecutingAssembly().FullName;
             var assemblyName = new AssemblyName(name).Name;
             var pos = FileIO.ReadFromXMLInResources<Position>("Resources/fileiotest/file7.xml", assemblyName);
-            Assert.AreEqual(2, pos.X);
-            Assert.AreEqual(4, pos.Y);
-            Assert.AreEqual(6, pos.Z);
+            Assert.That(pos.X, Is.EqualTo(2));
+            Assert.That(pos.Y, Is.EqualTo(4));
+            Assert.That(pos.Z, Is.EqualTo(6));
         }
 
 
@@ -284,9 +284,9 @@ namespace Vts.Test.IO
             var stream = StreamFinder.GetFileStream("file6.txt", FileMode.Create);
             pos.WriteJsonToStream(stream);
             var pos2 = FileIO.ReadFromJson<Position>("file6.txt");
-            Assert.AreEqual(2, pos2.X);
-            Assert.AreEqual(4, pos2.Y);
-            Assert.AreEqual(6, pos2.Z);
+            Assert.That(pos2.X, Is.EqualTo(2));
+            Assert.That(pos2.Y, Is.EqualTo(4));
+            Assert.That(pos2.Z, Is.EqualTo(6));
         }
 
         [Test]
@@ -301,7 +301,7 @@ namespace Vts.Test.IO
             // then read what what written using func ReadMap and validate value
             int ReadMap(BinaryReader b) => b.Read();
             var data = FileIO.ReadScalarValueFromBinary<int>("scalar", ReadMap);
-            Assert.AreEqual(11, data);
+            Assert.That(data, Is.EqualTo(11));
         }
 
         [Test]
@@ -320,9 +320,9 @@ namespace Vts.Test.IO
             var pos = new Position(2, 4, 6);
             pos.WriteToJson("file7.txt");
             var pos2 = FileIO.ReadFromJson<Position>("file7.txt");
-            Assert.AreEqual(2, pos2.X);
-            Assert.AreEqual(4, pos2.Y);
-            Assert.AreEqual(6, pos2.Z);
+            Assert.That(pos2.X, Is.EqualTo(2));
+            Assert.That(pos2.Y, Is.EqualTo(4));
+            Assert.That(pos2.Z, Is.EqualTo(6));
         }
 
         [Test]
@@ -333,9 +333,9 @@ namespace Vts.Test.IO
             Assert.That(FileIO.FileExists("file7.xml"), Is.True);
             Assert.That(new FileInfo("file7.xml").Length != 0, Is.True);
             var pos2 = FileIO.ReadFromXML<Position>("file7.xml");
-            Assert.AreEqual(2, pos2.X);
-            Assert.AreEqual(4, pos2.Y);
-            Assert.AreEqual(6, pos2.Z);
+            Assert.That(pos2.X, Is.EqualTo(2));
+            Assert.That(pos2.Y, Is.EqualTo(4));
+            Assert.That(pos2.Z, Is.EqualTo(6));
         }
 
         [Test]
@@ -476,7 +476,7 @@ namespace Vts.Test.IO
             Assert.That(new FileInfo("array1").Length != 0, Is.True);
             Assert.That(FileIO.FileExists("array1.txt"), Is.True);
             var data = (double[])FileIO.ReadArrayFromBinary<double>("array1");
-            Assert.AreEqual(1.0, data[0]);
+            Assert.That(data[0], Is.EqualTo(1.0));
         }
 
         /// <summary>
@@ -492,7 +492,7 @@ namespace Vts.Test.IO
             Assert.That(new FileInfo("floatarray").Length != 0, Is.True);
             Assert.That(FileIO.FileExists("floatarray.txt"), Is.True);
             var data = (float[])FileIO.ReadArrayFromBinary<float>("floatarray", 3);
-            Assert.AreEqual(1.0F, data[0]);
+            Assert.That(data[0], Is.EqualTo(1.0F));
         }
 
         /// <summary>
@@ -508,7 +508,7 @@ namespace Vts.Test.IO
             Assert.That(new FileInfo("complexarray").Length != 0, Is.True);
             Assert.That(FileIO.FileExists("complexarray.txt"), Is.True);
             var data = (Complex[])FileIO.ReadArrayFromBinary<Complex>("complexarray", 2);
-            Assert.AreEqual(data[1], new Complex(0.3, 0.0));
+            Assert.That(new Complex(0.3, 0.0), Is.EqualTo(data[1]));
         }
 
         /// <summary>
@@ -524,7 +524,7 @@ namespace Vts.Test.IO
             Assert.That(new FileInfo("ushortarray").Length != 0, Is.True);
             Assert.That(FileIO.FileExists("ushortarray.txt"), Is.True);
             var data = (ushort[])FileIO.ReadArrayFromBinary<ushort>("ushortarray", 2);
-            Assert.AreEqual(7, data[1]);
+            Assert.That(data[1], Is.EqualTo(7));
         }
 
         /// <summary>
@@ -540,7 +540,7 @@ namespace Vts.Test.IO
             Assert.That(new FileInfo("bytearray").Length != 0, Is.True);
             Assert.That(FileIO.FileExists("bytearray.txt"), Is.True);
             var data = (byte[])FileIO.ReadArrayFromBinary<byte>("bytearray", 5);
-            Assert.AreEqual(0, data[1]);
+            Assert.That(data[1], Is.EqualTo(0));
         }
 
         /// <summary>
@@ -552,7 +552,7 @@ namespace Vts.Test.IO
         {
             var input = SimulationInputProvider.PointSourceOneLayerTissueROfRhoAndFluenceOfRhoAndZDetectors();
             var inputCopy = input.Clone();
-            Assert.AreEqual(input.N, inputCopy.N);
+            Assert.That(inputCopy.N, Is.EqualTo(input.N));
             input.N = 10000;
             Assert.AreNotEqual(input.N, inputCopy.N);
         }

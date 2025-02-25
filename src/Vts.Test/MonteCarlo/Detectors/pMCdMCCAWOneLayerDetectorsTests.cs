@@ -158,12 +158,12 @@ namespace Vts.Test.MonteCarlo.Detectors
                                  _referenceOutputOneLayerTissue.R_rt[0, 0]), 1e-10);
             // validation value obtained from linux run using above input and seeded the same
             Assert.That(Math.Abs(postProcessedOutput.pMC_R_rt[0, 0] * _factor - 92.2411018), Is.LessThan(0.0000001));
-            Assert.AreEqual(88, postProcessedOutput.pMC_R_rt_TallyCount);
+            Assert.That(postProcessedOutput.pMC_R_rt_TallyCount, Is.EqualTo(88));
 
             // validation value obtained from non-pMC non-recessed run
             Assert.Less(Math.Abs(postProcessedOutput.pMC_R_rtr[0, 0] -
                                  _referenceOutputOneLayerTissue.R_rt[0, 0]), 1e-10);
-            Assert.AreEqual(88, postProcessedOutput.pMC_R_rtr_TallyCount);
+            Assert.That(postProcessedOutput.pMC_R_rtr_TallyCount, Is.EqualTo(88));
         }
 
         /// <summary>
@@ -238,12 +238,12 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.That(Math.Abs(postProcessedOutput.pMC_R_r[0] * _factor - 0.922411018), Is.LessThan(0.000000001));
             // validation value based on previous run
             Assert.That(Math.Abs(postProcessedOutput.pMC_R_r2[0] - 30.0061), Is.LessThan(0.0001));
-            Assert.AreEqual(88, postProcessedOutput.pMC_R_r_TallyCount);
+            Assert.That(postProcessedOutput.pMC_R_r_TallyCount, Is.EqualTo(88));
 
             // validation value obtained from non-pMC non-recessed run
             Assert.Less(Math.Abs(postProcessedOutput.pMC_R_rr[0] -
                                  _referenceOutputOneLayerTissue.R_r[0]), 1e-10);
-            Assert.AreEqual(88, postProcessedOutput.pMC_R_rr_TallyCount);
+            Assert.That(postProcessedOutput.pMC_R_rr_TallyCount, Is.EqualTo(88));
 
             // validate derivatives with respect to mua and mus with prior run
             Assert.That(Math.Abs(postProcessedOutput.dMCdMua_R_r[0] + 0.612979) < 1e-6, Is.True);
@@ -320,7 +320,7 @@ namespace Vts.Test.MonteCarlo.Detectors
             // validation value obtained from linux run using above input and seeded the same
             Assert.That(Math.Abs(postProcessedOutput.pMC_R_r[0] * _factor - 1.013156), Is.LessThan(0.000001));
             Assert.That(Math.Abs(postProcessedOutput.pMC_R_r2[0] - 37.0997) < 1e-4, Is.True);
-            Assert.AreEqual(88, postProcessedOutput.pMC_R_r_TallyCount);
+            Assert.That(postProcessedOutput.pMC_R_r_TallyCount, Is.EqualTo(88));
             // validate derivative values with prior run
             Assert.That(Math.Abs(postProcessedOutput.dMCdMua_R_r[0] + 0.609284) < 1e-6, Is.True);
             Assert.That(Math.Abs(postProcessedOutput.dMCdMus_R_r[0] - 0.192882) < 1e-6, Is.True);

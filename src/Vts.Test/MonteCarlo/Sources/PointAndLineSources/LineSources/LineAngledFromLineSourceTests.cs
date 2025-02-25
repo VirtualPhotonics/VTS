@@ -55,10 +55,10 @@ namespace Vts.Test.MonteCarlo.Sources
             // Position.X will be random between [-5 5] and Y and Z should be 0
             Assert.That(photon.DP.Position.X < 5, Is.True);
             Assert.That(photon.DP.Position.X > -5, Is.True);
-            Assert.AreEqual(0.0, photon.DP.Position.Y);
-            Assert.AreEqual(0.0, photon.DP.Position.Z);
+            Assert.That(photon.DP.Position.Y, Is.EqualTo(0.0));
+            Assert.That(photon.DP.Position.Z, Is.EqualTo(0.0));
             // Direction.Ux,Uz will be random but Uy should be 0
-            Assert.AreEqual(0.0, photon.DP.Direction.Uy);
+            Assert.That(photon.DP.Direction.Uy, Is.EqualTo(0.0));
         }
 
     }
