@@ -31,8 +31,7 @@ namespace Vts.Test.Modeling.ForwardSolvers
             INurbs fakeNurbsGenerator = new StubNurbsGenerator();
             nurbsForwardSolver = new NurbsForwardSolver(fakeNurbsGenerator);
             OpticalProperties op = new OpticalProperties(0.0, 1.0, 0.8, 1.4);
-            Assert.AreEqual(0.0, nurbsForwardSolver.ROfRhoAndTime(op, 10.0,0.01),
-                  "The returned value should be 0.0");
+            Assert.That(nurbsForwardSolver.ROfRhoAndTime(op, 10.0,0.01), Is.EqualTo(0.0), "The returned value should be 0.0");
         }
 
         /// <summary>

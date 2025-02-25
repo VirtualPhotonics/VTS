@@ -229,12 +229,12 @@ namespace Vts.Test.MonteCarlo.Detectors
             // verify one layer totals equal two layer totals
             // note: the two layer static (or dynamic) sum will not equal the one layer static (or dynamic)
             // because of the random number call to determine which collisions are static vs dynamic
-            Assert.AreEqual(_outputOneLayerTissue.RefDynMT_fxmt_subrcols[1,0]+
-                            _outputOneLayerTissue.RefDynMT_fxmt_subrcols[1,1],
-                            _outputTwoLayerTissue.RefDynMT_fxmt_subrcols[1,0]+
-                            _outputTwoLayerTissue.RefDynMT_fxmt_subrcols[1,1]+
-                            _outputTwoLayerTissue.RefDynMT_fxmt_subrcols[2,0]+
-                            _outputTwoLayerTissue.RefDynMT_fxmt_subrcols[2,1]);
+            Assert.That(_outputTwoLayerTissue.RefDynMT_fxmt_subrcols[1,0]+
+                        _outputTwoLayerTissue.RefDynMT_fxmt_subrcols[1,1]+
+                        _outputTwoLayerTissue.RefDynMT_fxmt_subrcols[2,0]+
+                        _outputTwoLayerTissue.RefDynMT_fxmt_subrcols[2,1],
+                        Is.EqualTo(_outputOneLayerTissue.RefDynMT_fxmt_subrcols[1, 0] +
+                                   _outputOneLayerTissue.RefDynMT_fxmt_subrcols[1, 1]));
         }
 
         // Transmitted Momentum Transfer of Fx and SubRegion

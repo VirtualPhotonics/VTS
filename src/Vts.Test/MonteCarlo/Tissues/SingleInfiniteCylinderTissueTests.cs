@@ -130,10 +130,10 @@ namespace Vts.Test.MonteCarlo.Tissues
                 }
             );
 
-            Assert.IsInstanceOf<ITissue>(i.CreateTissue(
+            Assert.That(i.CreateTissue(
                 AbsorptionWeightingType.Continuous,
                 PhaseFunctionType.HenyeyGreenstein,
-                0.0));
+                0.0), Is.InstanceOf<ITissue>());
         }
     }
 }

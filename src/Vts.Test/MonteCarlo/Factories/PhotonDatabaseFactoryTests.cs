@@ -66,10 +66,9 @@ namespace Vts.Test.MonteCarlo.Factories
                     100,
                     PhotonStateType.None));
             }
-            Assert.IsInstanceOf<PhotonDatabase>(
-                PhotonDatabaseFactory.GetPhotonDatabase(
+            Assert.That(PhotonDatabaseFactory.GetPhotonDatabase(
                 VirtualBoundaryType.DiffuseReflectance, 
-                ""));
+                ""), Is.InstanceOf<PhotonDatabase>());
         }
         /// <summary>
         /// Simulate GetPhotonDatabase for DiffuseTransmittanceDatabase
@@ -96,10 +95,9 @@ namespace Vts.Test.MonteCarlo.Factories
                     100,
                     PhotonStateType.None));
             }
-            Assert.IsInstanceOf<PhotonDatabase>(
-                PhotonDatabaseFactory.GetPhotonDatabase(
+            Assert.That(PhotonDatabaseFactory.GetPhotonDatabase(
                     VirtualBoundaryType.DiffuseTransmittance,
-                    ""));
+                    ""), Is.InstanceOf<PhotonDatabase>());
         }        
         /// <summary>
         /// Simulate GetPhotonDatabase for SpecularReflectanceDatabase
@@ -126,10 +124,9 @@ namespace Vts.Test.MonteCarlo.Factories
                     100,
                     PhotonStateType.None));
             }
-            Assert.IsInstanceOf<PhotonDatabase>(
-                PhotonDatabaseFactory.GetPhotonDatabase(
+            Assert.That(PhotonDatabaseFactory.GetPhotonDatabase(
                     VirtualBoundaryType.SpecularReflectance,
-                    ""));
+                    ""), Is.InstanceOf<PhotonDatabase>());
         }
         /// <summary>
         /// Simulate GetPhotonDatabase for SpecularReflectanceDatabase
@@ -156,10 +153,9 @@ namespace Vts.Test.MonteCarlo.Factories
                     100,
                     PhotonStateType.None));
             }
-            Assert.IsInstanceOf<PhotonDatabase>(
-                PhotonDatabaseFactory.GetPhotonDatabase(
+            Assert.That(PhotonDatabaseFactory.GetPhotonDatabase(
                     VirtualBoundaryType.pMCDiffuseReflectance,
-                    ""));
+                    ""), Is.InstanceOf<PhotonDatabase>());
         }
 
         /// <summary>

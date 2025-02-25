@@ -266,12 +266,12 @@ namespace Vts.Test.MonteCarlo.Detectors
             // verify one layer totals equal two layer totals
             // note: the two layer static (or dynamic) sum will not equal the one layer static (or dynamic)
             // because of the random number call to determine whichcollisions are static vs dynamic
-            Assert.AreEqual(_outputOneLayerTissue.RefDynMT_rmt_subrcols[1,0]+
-                            _outputOneLayerTissue.RefDynMT_rmt_subrcols[1,1],
-                            _outputTwoLayerTissue.RefDynMT_rmt_subrcols[1,0]+
-                            _outputTwoLayerTissue.RefDynMT_rmt_subrcols[1,1]+
-                            _outputTwoLayerTissue.RefDynMT_rmt_subrcols[2,0]+
-                            _outputTwoLayerTissue.RefDynMT_rmt_subrcols[2,1]);
+            Assert.That(_outputTwoLayerTissue.RefDynMT_rmt_subrcols[1,0]+
+                        _outputTwoLayerTissue.RefDynMT_rmt_subrcols[1,1]+
+                        _outputTwoLayerTissue.RefDynMT_rmt_subrcols[2,0]+
+                        _outputTwoLayerTissue.RefDynMT_rmt_subrcols[2,1], 
+                Is.EqualTo(_outputOneLayerTissue.RefDynMT_rmt_subrcols[1, 0] +
+                           _outputOneLayerTissue.RefDynMT_rmt_subrcols[1, 1]));
         }
 
         // Transmitted Momentum Transfer of Rho and SubRegion
@@ -348,12 +348,12 @@ namespace Vts.Test.MonteCarlo.Detectors
             // verify one layer totals equal two layer totals
             // note: the two layer static (or dynamic) sum will not equal the one layer static (or dynamic)
             // because of the random number call to determine whichcollisions are static vs dynamic
-            Assert.AreEqual(_outputOneLayerTissue.RefDynMT_xymt_subrcols[1, 0] +
-                            _outputOneLayerTissue.RefDynMT_xymt_subrcols[1, 1],
-                            _outputTwoLayerTissue.RefDynMT_xymt_subrcols[1, 0] +
-                            _outputTwoLayerTissue.RefDynMT_xymt_subrcols[1, 1] +
-                            _outputTwoLayerTissue.RefDynMT_xymt_subrcols[2, 0] +
-                            _outputTwoLayerTissue.RefDynMT_xymt_subrcols[2, 1]);
+            Assert.That(_outputTwoLayerTissue.RefDynMT_xymt_subrcols[1, 0] +
+                        _outputTwoLayerTissue.RefDynMT_xymt_subrcols[1, 1] +
+                        _outputTwoLayerTissue.RefDynMT_xymt_subrcols[2, 0] +
+                        _outputTwoLayerTissue.RefDynMT_xymt_subrcols[2, 1],
+                        Is.EqualTo(_outputOneLayerTissue.RefDynMT_xymt_subrcols[1, 0] +
+                                   _outputOneLayerTissue.RefDynMT_xymt_subrcols[1, 1]));
         }
         // Transmitted Momentum Transfer of X, Y and SubRegion
         [Test]

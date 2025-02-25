@@ -41,8 +41,7 @@ namespace Vts.Test.MonteCarlo.PhotonData
                 new CollisionInfo(2)); 
             var clone = pmcDataPoint.Clone();
             Assert.That(clone, Is.InstanceOf<pMCDataPoint>());
-            Assert.AreEqual(pmcDataPoint.PhotonDataPoint.Weight, 
-                clone.PhotonDataPoint.Weight);
+            Assert.That(clone.PhotonDataPoint.Weight, Is.EqualTo(pmcDataPoint.PhotonDataPoint.Weight));
             clone.PhotonDataPoint.Weight = 0.01;
             Assert.AreNotEqual(pmcDataPoint.PhotonDataPoint.Weight, 
                 clone.PhotonDataPoint.Weight);
