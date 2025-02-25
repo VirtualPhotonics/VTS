@@ -1,5 +1,6 @@
 ﻿using System;
 using Vts.Common;
+using Vts.MonteCarlo.Helpers;
 
 namespace Vts.MonteCarlo.Sources
 {
@@ -70,7 +71,7 @@ namespace Vts.MonteCarlo.Sources
     }
 
     /// <summary>
-    /// Implements CustomLineSource  with converging/diverging angle, emitting point location, 
+    /// Implements DirectionalPointSource  with emitting point location, 
     /// direction and initial tissue region index.
     /// </summary>
     public class DirectionalPointSource : PointSourceBase
@@ -92,6 +93,18 @@ namespace Vts.MonteCarlo.Sources
                 pointLocation,
                 initialTissueRegionIndex)
         {
+        }
+
+        /// <summary>
+        /// Returns direction for a given position
+        /// </summary>
+        /// <returns>new direction</returns>       
+        protected override Direction GetFinalDirection()
+        {
+            return SourceToolbox.GetDirectionForGivenPolarAzimuthalAngleRangeRandom(
+                new DoubleRange(0.0, 0.0),
+                    new DoubleRange(0.0,0.0),
+                    Rng);
         }
     }
 }

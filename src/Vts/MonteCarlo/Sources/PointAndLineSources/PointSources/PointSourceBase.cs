@@ -81,10 +81,7 @@ namespace Vts.MonteCarlo.Sources
             var finalPosition = SourceDefaults.DefaultPosition.Clone();
 
             // sample angular distribution
-            var finalDirection = SourceToolbox.GetDirectionForGivenPolarAzimuthalAngleRangeRandom(
-                _polarAngleEmissionRange,
-                _azimuthalAngleEmissionRange,
-                Rng);
+            var finalDirection = GetFinalDirection();
 
             //Find the relevant polar and azimuthal pair for the direction
             _rotationalAnglesOfPrincipalSourceAxis = SourceToolbox.GetPolarAzimuthalPairFromDirection(_direction);
@@ -101,6 +98,12 @@ namespace Vts.MonteCarlo.Sources
 
             return photon;
         }
+
+        /// <summary>
+        /// Returns final direction for a given position
+        /// </summary>
+        /// <returns>new direction</returns>
+        protected abstract Direction GetFinalDirection(); 
 
         #region Random number generator code (copy-paste into all sources)
         /// <summary>

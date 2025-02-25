@@ -42,7 +42,6 @@ namespace Vts.Test.MonteCarlo.Sources
                     new FlatSourceProfile(),
                     SourceDefaults.DefaultFullPolarAngleRange.Clone(),
                     SourceDefaults.DefaultAzimuthalAngleRange.Clone(),
-                    SourceAngularDistributionType.Isotropic,
                     SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone(),
                     SourceDefaults.DefaultPosition.Clone(),
                     SourceDefaults.DefaultBeamRotationFromInwardNormal.Clone(),
@@ -69,7 +68,6 @@ namespace Vts.Test.MonteCarlo.Sources
                 profile, 
                 _validationData.PolRange, 
                 _validationData.AziRange, 
-                SourceAngularDistributionType.Isotropic,
                 _validationData.Direction, 
                 _validationData.Translation, 
                 _validationData.AngPair)
@@ -103,7 +101,6 @@ namespace Vts.Test.MonteCarlo.Sources
                 profile, 
                 _validationData.PolRange, 
                 _validationData.AziRange, 
-                SourceAngularDistributionType.Isotropic,
                 _validationData.Direction, 
                 _validationData.Translation, 
                 _validationData.AngPair)
@@ -123,43 +120,6 @@ namespace Vts.Test.MonteCarlo.Sources
         }
 
         /// <summary>
-        /// Validate General Constructor of Custom Gaussian Line Source and
-        /// Lambertian angular distribution.  Resulting photon Position should be same
-        /// as test above, however Direction will be different.  Since test added after generation
-        /// of validation data, data used to validate is from prior test.
-        /// </summary>
-        [Test]
-        public void Validate_general_constructor_with_gaussian_profiletype_lambertian_angle_distribution_for_custom_line_source_test()
-        {
-            Random rng = new MersenneTwister(0); // not really necessary here, as this is now the default
-            ITissue tissue = new MultiLayerTissue();
-            var profile = new GaussianSourceProfile(_validationData.BdFWHM);
-
-            var ps = new CustomLineSource(
-                _validationData.LengthX,
-                profile,
-                _validationData.PolRange,
-                _validationData.AziRange,
-                SourceAngularDistributionType.Lambertian,
-                _validationData.Direction,
-                _validationData.Translation,
-                _validationData.AngPair)
-            {
-                Rng = rng
-            };
-
-            var photon = ps.GetNextPhoton(tissue);
-
-            Assert.Less(Math.Abs(photon.DP.Direction.Ux - 0.48735295), _validationData.AcceptablePrecision);
-            Assert.Less(Math.Abs(photon.DP.Direction.Uy - 0.83486990), _validationData.AcceptablePrecision);
-            Assert.Less(Math.Abs(photon.DP.Direction.Uz - 0.25588931), _validationData.AcceptablePrecision);
-
-            Assert.Less(Math.Abs(photon.DP.Position.X - _validationData.Tp[27]), _validationData.AcceptablePrecision);
-            Assert.Less(Math.Abs(photon.DP.Position.Y - _validationData.Tp[28]), _validationData.AcceptablePrecision);
-            Assert.Less(Math.Abs(photon.DP.Position.Z - _validationData.Tp[29]), _validationData.AcceptablePrecision);
-        }
-
-        /// <summary>
         /// Test switch statement in GetFinalPositionFromProfileType method for setting other
         /// than Flat or Gaussian verify exception is thrown
         /// </summary>
@@ -172,7 +132,6 @@ namespace Vts.Test.MonteCarlo.Sources
                 new FakeSourceProfile(),
                 new DoubleRange(),
                 new DoubleRange(),
-                SourceAngularDistributionType.Isotropic,
                 new Direction(),
                 new Position(),
                 new PolarAzimuthalAngles(),

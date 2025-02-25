@@ -120,7 +120,7 @@ namespace Vts.MonteCarlo.Helpers
             //sampling cost for Lambertian and do until find cost within range specified
             do
             {
-                cost = Math.Pow(2 * rng.NextDouble() - 1, 1.0 / (order + 1));
+                cost = Math.Pow(rng.NextDouble(), 1.0 / (order + 1));
             } while (cost < polarAngleEmissionRange.Start || cost > polarAngleEmissionRange.Stop);
             sint = Math.Sqrt(1.0 - cost * cost);
 
@@ -145,7 +145,7 @@ namespace Vts.MonteCarlo.Helpers
         {
             double cost, sint, phi, cosp, sinp;
             //sampling cost           
-            cost = Math.Pow(2 * rng.NextDouble() - 1, 1.0 / (order + 1));
+            cost = Math.Pow(rng.NextDouble(), 1.0 / (order + 1));
             sint = Math.Sqrt(1.0 - cost * cost);
 
             //sampling phi

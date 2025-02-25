@@ -1,5 +1,6 @@
 ﻿using System;
 using Vts.Common;
+using Vts.MonteCarlo.Helpers;
 
 namespace Vts.MonteCarlo.Sources
 {
@@ -10,7 +11,25 @@ namespace Vts.MonteCarlo.Sources
     public class LambertianPointSourceInput : ISourceInput
     {
         /// <summary>
-        /// Initializes a new instance of LambertianPointSourceInput class
+        /// Initializes a new instance of LambertianPointSourceInput class with 
+        /// </summary>
+        /// <param name="pointLocation">position</param>
+        /// <param name="lambertOrder">Order of Lambertian angular distribution</param>
+        /// <param name="initialTissueRegionIndex">Initial tissue region index</param>
+        public LambertianPointSourceInput(
+            Position pointLocation,
+            int lambertOrder,
+            int initialTissueRegionIndex)
+        {
+            SourceType = "LambertianPoint";
+            LambertOrder = lambertOrder;
+            PointLocation = pointLocation;
+            InitialTissueRegionIndex = initialTissueRegionIndex;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of LambertianPointSourceInput class assuming
+        /// LambertOrder = 1
         /// </summary>
         /// <param name="pointLocation">position</param>
         /// <param name="initialTissueRegionIndex">Initial tissue region index</param>
@@ -19,6 +38,7 @@ namespace Vts.MonteCarlo.Sources
             int initialTissueRegionIndex)
         {
             SourceType = "LambertianPoint";
+            LambertOrder = 1;
             PointLocation = pointLocation;
             InitialTissueRegionIndex = initialTissueRegionIndex;
         }
@@ -42,6 +62,10 @@ namespace Vts.MonteCarlo.Sources
         /// New position
         /// </summary>
         public Position PointLocation { get; set; }
+        /// <summary>
+        /// Lambertian order
+        /// </summary>
+        public int LambertOrder { get; set; }
 
         /// <summary>
         /// Initial tissue region index
@@ -55,11 +79,12 @@ namespace Vts.MonteCarlo.Sources
         /// <returns>instantiated source</returns>
         public ISource CreateSource(Random rng = null)
         {
-            rng = rng ?? new Random();
+            rng ??= new Random();
 
             return new LambertianPointSource(
-                this.PointLocation,
-                this.InitialTissueRegionIndex) { Rng = rng }; 
+                PointLocation,
+                LambertOrder,
+                InitialTissueRegionIndex) { Rng = rng }; 
         }
     }
 
@@ -69,13 +94,17 @@ namespace Vts.MonteCarlo.Sources
     /// </summary>
     public class LambertianPointSource : PointSourceBase
     {
+        private readonly int _lambertOrder;
+
         /// <summary>
         /// Returns an instance of Lambertian Point Source at a given location
         /// </summary>        
-        /// <param name="pointLocation">Location of the point source</param> 
+        /// <param name="pointLocation">Location of the point source</param>
+        /// <param name="lambertOrder">Lambertian order of angular distribution</param> 
         /// <param name="initialTissueRegionIndex">Initial tissue region index</param>
         public LambertianPointSource(
-            Position pointLocation = null,
+            Position pointLocation,
+            int lambertOrder,
             int initialTissueRegionIndex = 0)
             : base(
                 SourceDefaults.DefaultFullPolarAngleRange.Clone(),
@@ -84,6 +113,19 @@ namespace Vts.MonteCarlo.Sources
                 pointLocation,
                 initialTissueRegionIndex)
         {
-        }    
+            _lambertOrder=lambertOrder;
+        }
+
+        /// <summary>
+        /// Returns direction for Lambertian distribution
+        /// </summary>
+        /// <returns>new direction</returns>  
+        protected override Direction GetFinalDirection()
+        {
+            //Sample angular distribution with full range of theta and phi
+            var finalDirection = SourceToolbox.GetDirectionForLambertianRandom(_lambertOrder, Rng);
+
+            return finalDirection;
+        }
     }
 }
