@@ -99,7 +99,7 @@ namespace Vts.Test.MonteCarlo.Tissues
                 1,
                 new Random());
             var cosTheta = _tissue.GetAngleRelativeToBoundaryNormal(photon);
-            Assert.AreEqual(1,cosTheta);
+            Assert.That(cosTheta, Is.EqualTo(1));
         }
         /// <summary>
         /// verify exception thrown when GetNeighborIndex is called and the photon

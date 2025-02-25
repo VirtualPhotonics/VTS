@@ -16,7 +16,7 @@ namespace Vts.Test.Common
 
             Assert.That(r.Start, Is.EqualTo(0L));
             Assert.That(r.Stop, Is.EqualTo(9L));
-            Assert.AreEqual(1L,r.Delta);
+            Assert.That(r.Delta, Is.EqualTo(1L));
             Assert.That(r.Count, Is.EqualTo(10));
         }
 

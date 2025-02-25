@@ -217,7 +217,7 @@ namespace Vts.Test.IO
             var assemblyName = new AssemblyName(name).Name;
             FileIO.CopyFileFromResources("Resources/fileiotest/position.txt", "position.txt", assemblyName);
             var pos = FileIO.ReadFromJson<Position>("position.txt");
-            Assert.AreEqual(5,pos.X);
+            Assert.That(pos.X, Is.EqualTo(5));
             Assert.That(pos.Y, Is.EqualTo(10));
             Assert.That(pos.Z, Is.EqualTo(15));
         }
@@ -243,7 +243,7 @@ namespace Vts.Test.IO
             var pos = FileIO.ReadFromJsonStream<Position>(stream);
             Assert.That(pos.X, Is.EqualTo(5));
             Assert.That(pos.Y, Is.EqualTo(10));
-            Assert.AreEqual(15,pos.Z);
+            Assert.That(pos.Z, Is.EqualTo(15));
             stream.Close();
         }
 

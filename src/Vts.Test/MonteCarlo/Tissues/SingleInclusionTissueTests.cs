@@ -58,7 +58,7 @@ namespace Vts.Test.MonteCarlo.Tissues
             var index = _tissueWithEllipsoid.GetRegionIndex(new Position(0, 0, 0.5)); // outside ellipsoid
             Assert.That(index, Is.EqualTo(1));
             index = _tissueWithEllipsoid.GetRegionIndex(new Position(0, 0, 2.5)); // inside ellipsoid
-            Assert.AreEqual( 3,index);
+            Assert.That(index, Is.EqualTo( 3));
             index = _tissueWithEllipsoid.GetRegionIndex(new Position(0, 0, 1.0)); // on ellipsoid is considered in
             Assert.That(index, Is.EqualTo(3));
         }
@@ -203,7 +203,7 @@ namespace Vts.Test.MonteCarlo.Tissues
             photon.DP.Position = new Position(-1, 0, 3); // put photon on left
             photon.DP.Direction = new Direction(-1, 0, 0); // in line with surface normal
             dirCosine = _tissueWithEllipsoid.GetAngleRelativeToBoundaryNormal(photon);
-            Assert.AreEqual(1,dirCosine);
+            Assert.That(dirCosine, Is.EqualTo(1));
             photon.DP.Position = new Position(0, 1, 3); // put photon on front
             photon.DP.Direction = new Direction(0, -1, 0); // opposite surface normal
             dirCosine = _tissueWithEllipsoid.GetAngleRelativeToBoundaryNormal(photon);

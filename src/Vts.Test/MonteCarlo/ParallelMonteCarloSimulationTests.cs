@@ -308,7 +308,7 @@ namespace Vts.Test.MonteCarlo
             var simulationInput = new SimulationInput { N = 100 };
             var parallelMC = new ParallelMonteCarloSimulation(simulationInput, 3);
             var output3CPU = parallelMC.RunSingleInParallel();
-            Assert.AreEqual(99, output3CPU.Input.N);
+            Assert.That(output3CPU.Input.N, Is.EqualTo(99));
         }
         /// <summary>
         /// test default constructor

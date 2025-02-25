@@ -156,7 +156,7 @@ namespace Vts.Test.MonteCarlo.Tissues
                 1,
                 new Random());
             var cosTheta = _twoLayerTissueBoundedByVoxel.GetAngleRelativeToBoundaryNormal(photon);
-            Assert.AreEqual(1,cosTheta);
+            Assert.That(cosTheta, Is.EqualTo(1));
             // put on side of cylinder pointing in
             photon.DP.Position = new Position(-1.0, 0.0, 5.0);
             photon.DP.Direction = new Direction(1.0, 0.0, 0.0);

@@ -530,7 +530,7 @@ namespace Vts.Test.MonteCarlo.Tissues
                 1,
                 new Random());
             var cosTheta = _tissue.GetAngleRelativeToBoundaryNormal(photon);
-            Assert.AreEqual(1,cosTheta);
+            Assert.That(cosTheta, Is.EqualTo(1));
             // perpendicular to plane of normal in opposite direction as surface normal
             currentPosition = new Position(0, 0, 0.05); // photon on top outer infinite cylinder
             currentDirection = new Direction(0, 0, 1); // pointed into it

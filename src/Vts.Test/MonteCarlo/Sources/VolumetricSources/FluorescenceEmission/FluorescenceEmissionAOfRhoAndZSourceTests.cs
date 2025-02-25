@@ -161,14 +161,14 @@ namespace Vts.Test.MonteCarlo.Sources
                 countArray[iRho, iZ] += 1;
             }
             // check that countArray is > 1 in region of AOfRhoAndZ
-            Assert.AreEqual(11, countArray[0, 0]);
-            Assert.AreEqual(0, countArray[0, 1]);
-            Assert.AreEqual(28, countArray[1, 0]);
-            Assert.AreEqual(0, countArray[1, 1]);
-            Assert.AreEqual(61, countArray[2, 0]);
-            Assert.AreEqual(0, countArray[2, 1]);
-            Assert.AreEqual(0, countArray[3, 0]);
-            Assert.AreEqual(0, countArray[3, 1]);
+            Assert.That(countArray[0, 0], Is.EqualTo(11));
+            Assert.That(countArray[0, 1], Is.EqualTo(0));
+            Assert.That(countArray[1, 0], Is.EqualTo(28));
+            Assert.That(countArray[1, 1], Is.EqualTo(0));
+            Assert.That(countArray[2, 0], Is.EqualTo(61));
+            Assert.That(countArray[2, 1], Is.EqualTo(0));
+            Assert.That(countArray[3, 0], Is.EqualTo(0));
+            Assert.That(countArray[3, 1], Is.EqualTo(0));
         }
         /// <summary>
         /// test switch statement in GetFinalPositionAndWeight method for setting other

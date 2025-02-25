@@ -54,7 +54,7 @@ namespace Vts.Test.MonteCarlo
 
             var iCloned = i.Clone();
 
-            Assert.AreEqual("results",iCloned.OutputName);
+            Assert.That(iCloned.OutputName, Is.EqualTo("results"));
         }
         /// <summary>
         ///  validate deserialization of PostProcessorInput when using FileIO
@@ -65,7 +65,7 @@ namespace Vts.Test.MonteCarlo
             new PostProcessorInput { DatabaseSimulationInputFilename = "results" }.ToFile("test.txt");
             var iCloned = PostProcessorInput.FromFile("test.txt");
 
-            Assert.AreEqual("results",iCloned.DatabaseSimulationInputFilename);
+            Assert.That(iCloned.DatabaseSimulationInputFilename, Is.EqualTo("results"));
         }
 
         /// <summary>

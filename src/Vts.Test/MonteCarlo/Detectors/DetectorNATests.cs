@@ -580,14 +580,14 @@ namespace Vts.Test.MonteCarlo.Detectors
                 _inputForPmc);
             var postProcessedOutput = postProcessor.Run();
 
-            Assert.AreEqual(0.0, postProcessedOutput.pMC_R_r[0]);
-            Assert.AreEqual(0.0, postProcessedOutput.pMC_R_rt[0, 0]);
-            Assert.AreEqual(0.0, postProcessedOutput.pMC_R_fx[0].Real);
-            Assert.AreEqual(0.0, postProcessedOutput.pMC_R_fx[0].Imaginary);
-            Assert.AreEqual(0.0, postProcessedOutput.pMC_R_fxt[0, 0].Real);
-            Assert.AreEqual(0.0, postProcessedOutput.pMC_R_fxt[0, 0].Imaginary);
-            Assert.AreEqual(0.0, postProcessedOutput.dMCdMua_R_r[0]);
-            Assert.AreEqual(0.0, postProcessedOutput.dMCdMus_R_r[0]);
+            Assert.That(postProcessedOutput.pMC_R_r[0], Is.EqualTo(0.0));
+            Assert.That(postProcessedOutput.pMC_R_rt[0, 0], Is.EqualTo(0.0));
+            Assert.That(postProcessedOutput.pMC_R_fx[0].Real, Is.EqualTo(0.0));
+            Assert.That(postProcessedOutput.pMC_R_fx[0].Imaginary, Is.EqualTo(0.0));
+            Assert.That(postProcessedOutput.pMC_R_fxt[0, 0].Real, Is.EqualTo(0.0));
+            Assert.That(postProcessedOutput.pMC_R_fxt[0, 0].Imaginary, Is.EqualTo(0.0));
+            Assert.That(postProcessedOutput.dMCdMua_R_r[0], Is.EqualTo(0.0));
+            Assert.That(postProcessedOutput.dMCdMus_R_r[0], Is.EqualTo(0.0));
         }
         /// <summary>
         /// Test to validate that pMC/dMC detectors with partially open NA results match prior run

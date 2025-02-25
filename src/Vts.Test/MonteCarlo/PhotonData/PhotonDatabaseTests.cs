@@ -67,7 +67,7 @@ namespace Vts.Test.MonteCarlo.PhotonData
             // read the database from file, and verify the correct number of photons were written
             var dbCloned = PhotonDatabase.FromFile(databaseFilename);
 
-            Assert.AreEqual(2, dbCloned.NumberOfElements);
+            Assert.That(dbCloned.NumberOfElements, Is.EqualTo(2));
 
             // manually enumerate through the first two elements (same as foreach)
             // PhotonDatabase is designed so you don't have to have the whole thing
@@ -77,19 +77,19 @@ namespace Vts.Test.MonteCarlo.PhotonData
             // advance to the first point and test that the point is valid
             enumerator.MoveNext();
             var dp1 = enumerator.Current;
-            Assert.AreEqual(new Position(1, 2, 3),dp1.Position);
-            Assert.AreEqual(new Direction(0, 0, 1),dp1.Direction);
-            Assert.AreEqual(1.0, dp1.Weight);
-            Assert.AreEqual(10, dp1.TotalTime);
+            Assert.That(dp1.Position, Is.EqualTo(new Position(1, 2, 3)));
+            Assert.That(dp1.Direction, Is.EqualTo(new Direction(0, 0, 1)));
+            Assert.That(dp1.Weight, Is.EqualTo(1.0));
+            Assert.That(dp1.TotalTime, Is.EqualTo(10));
             Assert.That(dp1.StateFlag.HasFlag(PhotonStateType.None), Is.True);
 
             // advance to the second point and test that the point is valid
             enumerator.MoveNext();
             var dp2 = enumerator.Current;
-            Assert.AreEqual(new Position(4, 5, 6),dp2.Position);
-            Assert.AreEqual(new Direction(1, 0, 0),dp2.Direction);
-            Assert.AreEqual(0.5,dp2.Weight);
-            Assert.AreEqual(100,dp2.TotalTime);
+            Assert.That(dp2.Position, Is.EqualTo(new Position(4, 5, 6)));
+            Assert.That(dp2.Direction, Is.EqualTo(new Direction(1, 0, 0)));
+            Assert.That(dp2.Weight, Is.EqualTo(0.5));
+            Assert.That(dp2.TotalTime, Is.EqualTo(100));
             Assert.That(dp2.StateFlag.HasFlag(PhotonStateType.None), Is.True);
 
             enumerator.Dispose();

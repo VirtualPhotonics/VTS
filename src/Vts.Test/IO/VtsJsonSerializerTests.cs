@@ -82,7 +82,7 @@ namespace Vts.Test.IO
             var objectDeserialized = VtsJsonSerializer.ReadFromJson<string[]>(jsonSerialized);
             Assert.That(objectDeserialized != null, Is.True);
             Assert.That(objectDeserialized.Length > 0, Is.True);
-            Assert.AreEqual("Hello",objectDeserialized[0]);
+            Assert.That(objectDeserialized[0], Is.EqualTo("Hello"));
             Assert.That(objectDeserialized[1], Is.EqualTo("Dolly"));
         }
 
@@ -94,7 +94,7 @@ namespace Vts.Test.IO
             Assert.That(objectDeserialized != null, Is.True);
             Assert.That(objectDeserialized.Length > 0, Is.True);
             Assert.That(objectDeserialized[0], Is.EqualTo("Hello"));
-            Assert.AreEqual("Sailor",objectDeserialized[1]);
+            Assert.That(objectDeserialized[1], Is.EqualTo("Sailor"));
         }
 
         [Test]
