@@ -220,12 +220,12 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.That(Math.Abs(_outputOneLayerTissue.RefDynMT_fxmt_dynofz[0, 2].Magnitude - 0.8761), Is.LessThan(0.0001));
             Assert.That(Math.Abs(_outputTwoLayerTissue.RefDynMT_fxmt_dynofz[0, 2].Magnitude - 0.8761), Is.LessThan(0.0001));
             // validate SubregionCollision static, dynamic count for one and two layer tissue
-            Assert.AreEqual(16883, _outputOneLayerTissue.RefDynMT_fxmt_subrcols[1, 0]);
-            Assert.AreEqual(16572, _outputOneLayerTissue.RefDynMT_fxmt_subrcols[1, 1]);
-            Assert.AreEqual(274, _outputTwoLayerTissue.RefDynMT_fxmt_subrcols[1, 0]);
-            Assert.AreEqual(62, _outputTwoLayerTissue.RefDynMT_fxmt_subrcols[1, 1]);
-            Assert.AreEqual(16707, _outputTwoLayerTissue.RefDynMT_fxmt_subrcols[2, 0]);
-            Assert.AreEqual(16412, _outputTwoLayerTissue.RefDynMT_fxmt_subrcols[2, 1]);
+            Assert.That(_outputOneLayerTissue.RefDynMT_fxmt_subrcols[1, 0], Is.EqualTo(16883));
+            Assert.That(_outputOneLayerTissue.RefDynMT_fxmt_subrcols[1, 1], Is.EqualTo(16572));
+            Assert.That(_outputTwoLayerTissue.RefDynMT_fxmt_subrcols[1, 0], Is.EqualTo(274));
+            Assert.That(_outputTwoLayerTissue.RefDynMT_fxmt_subrcols[1, 1], Is.EqualTo(62));
+            Assert.That(_outputTwoLayerTissue.RefDynMT_fxmt_subrcols[2, 0], Is.EqualTo(16707));
+            Assert.That(_outputTwoLayerTissue.RefDynMT_fxmt_subrcols[2, 1], Is.EqualTo(16412));
             // verify one layer totals equal two layer totals
             // note: the two layer static (or dynamic) sum will not equal the one layer static (or dynamic)
             // because of the random number call to determine which collisions are static vs dynamic

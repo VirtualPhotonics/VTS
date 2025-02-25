@@ -118,7 +118,7 @@ namespace Vts.Test.MonteCarlo
         {
             Assert.That(Math.Abs(_outputMultiCPU.Atot - 0.341646) < 0.000001, Is.True);
             Assert.That(Math.Abs(_outputMultiCPU.Atot2 - 0.253490) < 0.000001, Is.True);
-            Assert.AreEqual(231243, _outputMultiCPU.Atot_TallyCount);
+            Assert.That(_outputMultiCPU.Atot_TallyCount, Is.EqualTo(231243));
 
             Assert.That(Math.Abs(_outputSingleCPU.Atot - _outputMultiCPU.Atot) < 0.1, Is.True);
             Assert.That(Math.Abs(_outputSingleCPU.Atot2 - _outputMultiCPU.Atot2) < 0.1, Is.True);
@@ -134,7 +134,7 @@ namespace Vts.Test.MonteCarlo
         {
             Assert.That(Math.Abs(_outputMultiCPU.R_r[0] - 0.039375) < 0.000001, Is.True);
             Assert.That(Math.Abs(_outputMultiCPU.R_r2[0] - 0.011950) < 0.000001, Is.True);
-            Assert.AreEqual(94, _outputMultiCPU.R_r_TallyCount);
+            Assert.That(_outputMultiCPU.R_r_TallyCount, Is.EqualTo(94));
 
             Assert.That(Math.Abs(_outputSingleCPU.R_r[0] - _outputMultiCPU.R_r[0]) < 0.05, Is.True);
             Assert.That(Math.Abs(_outputSingleCPU.R_r2[0] - _outputMultiCPU.R_r2[0]) < 0.01, Is.True);
@@ -149,7 +149,7 @@ namespace Vts.Test.MonteCarlo
         {
             Assert.That(Math.Abs(_outputMultiCPU.R_rt[0, 0] - 0.157502) < 0.000001, Is.True);
             Assert.That(Math.Abs(_outputMultiCPU.R_rt2[0, 0] - 0.191210) < 0.000001, Is.True);
-            Assert.AreEqual(94, _outputMultiCPU.R_r_TallyCount);
+            Assert.That(_outputMultiCPU.R_r_TallyCount, Is.EqualTo(94));
 
             Assert.That(Math.Abs(_outputSingleCPU.R_rt[0, 0] - _outputMultiCPU.R_rt[0, 0]) < 0.11, Is.True);
             Assert.That(Math.Abs(_outputSingleCPU.R_rt2[0, 0] - _outputMultiCPU.R_rt2[0, 0]) < 0.14, Is.True);
@@ -164,7 +164,7 @@ namespace Vts.Test.MonteCarlo
         {
             Assert.That(Math.Abs(_outputMultiCPU.Flu_xyz[0, 0, 0] - 0.003935) < 0.000001, Is.True);
             Assert.That(Math.Abs(_outputMultiCPU.Flu_xyz2[0, 0, 0] - 0.001548) < 0.000001, Is.True);
-            Assert.AreEqual(231243, _outputMultiCPU.Flu_xyz_TallyCount);
+            Assert.That(_outputMultiCPU.Flu_xyz_TallyCount, Is.EqualTo(231243));
 
             Assert.That(Math.Abs(_outputSingleCPU.Flu_xyz[0, 0, 0] - _outputMultiCPU.Flu_xyz[0, 0, 0]) < 0.001, Is.True);
             Assert.That(Math.Abs(_outputSingleCPU.Flu_xyz2[0, 0, 0] - _outputMultiCPU.Flu_xyz2[0, 0, 0]) < 0.0003, Is.True);
@@ -179,7 +179,7 @@ namespace Vts.Test.MonteCarlo
         {
             Assert.That(Math.Abs(_outputMultiCPU.Flu_xyzt[0, 0, 0, 9] - 0.039355) < 0.000001, Is.True);
             Assert.That(Math.Abs(_outputMultiCPU.Flu_xyzt2[0, 0, 0, 9] - 0.154886) < 0.000001, Is.True);
-            Assert.AreEqual(231243, _outputMultiCPU.Flu_xyzt_TallyCount);
+            Assert.That(_outputMultiCPU.Flu_xyzt_TallyCount, Is.EqualTo(231243));
 
             Assert.That(Math.Abs(_outputSingleCPU.Flu_xyzt[0, 0, 0, 9] - _outputMultiCPU.Flu_xyzt[0, 0, 0, 9]) < 0.05, Is.True);
             Assert.That(Math.Abs(_outputSingleCPU.Flu_xyzt2[0, 0, 0, 9] - _outputMultiCPU.Flu_xyzt2[0, 0, 0, 9]) < 0.15, Is.True);
@@ -194,7 +194,7 @@ namespace Vts.Test.MonteCarlo
         {
             Assert.That(Math.Abs(_outputMultiCPU.Rad_xyztp[0, 0, 0, 0, 0] - 0.000415) < 0.000001, Is.True);
             Assert.That(Math.Abs(_outputMultiCPU.Rad_xyztp2[0, 0, 0, 0, 0] - 1.7238e-5) < 0.0001e-5, Is.True);
-            Assert.AreEqual(231243, _outputMultiCPU.Rad_xyztp_TallyCount);
+            Assert.That(_outputMultiCPU.Rad_xyztp_TallyCount, Is.EqualTo(231243));
 
             Assert.That(Math.Abs(_outputSingleCPU.Rad_xyztp[0, 0, 0, 0, 0] - _outputMultiCPU.Rad_xyztp[0, 0, 0, 0, 0]) < 0.001, Is.True);
             Assert.That(Math.Abs(_outputSingleCPU.Rad_xyztp2[0, 0, 0, 0, 0] - _outputMultiCPU.Rad_xyztp2[0, 0, 0, 0, 0]) < 2e-5, Is.True);
@@ -212,11 +212,11 @@ namespace Vts.Test.MonteCarlo
             Assert.That(Math.Abs(_outputMultiCPU.R_fx[1].Real - 0.085204) < 0.000001, Is.True);
             Assert.That(Math.Abs(_outputMultiCPU.R_fx[1].Imaginary + 0.059597) < 0.000001, Is.True);
             Assert.That(Math.Abs(_outputMultiCPU.R_fx2[1].Real - 0.550197) < 0.000001, Is.True);
-            Assert.AreEqual(0.0, _outputMultiCPU.R_fx2[1].Imaginary);
-            Assert.AreEqual(94, _outputMultiCPU.R_fx_TallyCount);
+            Assert.That(_outputMultiCPU.R_fx2[1].Imaginary, Is.EqualTo(0.0));
+            Assert.That(_outputMultiCPU.R_fx_TallyCount, Is.EqualTo(94));
 
             Assert.That(Math.Abs(_outputSingleCPU.R_fx[1].Real - _outputMultiCPU.R_fx[1].Real) < 0.2, Is.True);
-            Assert.AreEqual(0.0, _outputSingleCPU.R_fx2[1].Imaginary);
+            Assert.That(_outputSingleCPU.R_fx2[1].Imaginary, Is.EqualTo(0.0));
             Assert.That(Math.Abs(_outputSingleCPU.R_fx_TallyCount - _outputMultiCPU.R_fx_TallyCount) < 2, Is.True);
         }
         /// <summary>
@@ -229,13 +229,13 @@ namespace Vts.Test.MonteCarlo
             Assert.That(Math.Abs(_outputMultiCPU.R_fxt[1, 0].Real - 0.788927) < 0.000001, Is.True);
             Assert.That(Math.Abs(_outputMultiCPU.R_fxt[1, 0].Imaginary + 0.321802) < 0.000001, Is.True);
             Assert.That(Math.Abs(_outputMultiCPU.R_fxt2[1, 0].Real - 48.0998) < 0.0001, Is.True);
-            Assert.AreEqual(0.0, _outputMultiCPU.R_fxt2[1, 0].Imaginary);
-            Assert.AreEqual(94, _outputMultiCPU.R_fxt_TallyCount);
+            Assert.That(_outputMultiCPU.R_fxt2[1, 0].Imaginary, Is.EqualTo(0.0));
+            Assert.That(_outputMultiCPU.R_fxt_TallyCount, Is.EqualTo(94));
 
             Assert.That(Math.Abs(_outputSingleCPU.R_fxt[1, 0].Real - _outputMultiCPU.R_fxt[1, 0].Real) < 0.2, Is.True);
             Assert.That(Math.Abs(_outputSingleCPU.R_fxt[1, 0].Imaginary - _outputMultiCPU.R_fxt[1, 0].Imaginary) < 1.0, Is.True);
             Assert.That(Math.Abs(_outputSingleCPU.R_fxt2[1, 0].Real - _outputMultiCPU.R_fxt2[1, 0].Real) < 18.0, Is.True);
-            Assert.AreEqual(0.0, _outputSingleCPU.R_fxt2[1, 0].Imaginary);
+            Assert.That(_outputSingleCPU.R_fxt2[1, 0].Imaginary, Is.EqualTo(0.0));
             Assert.That(Math.Abs(_outputSingleCPU.R_fx_TallyCount - _outputMultiCPU.R_fx_TallyCount) < 2, Is.True);
         }
         /// <summary>
@@ -248,13 +248,13 @@ namespace Vts.Test.MonteCarlo
             Assert.That(Math.Abs(_outputMultiCPU.Flu_rzw[0, 0, 1].Real - 0.569267) < 0.000001, Is.True);
             Assert.That(Math.Abs(_outputMultiCPU.Flu_rzw[0, 0, 1].Imaginary + 0.004910) < 0.000001, Is.True);
             Assert.That(Math.Abs(_outputMultiCPU.Flu_rzw2[0, 0, 1].Real - 0.481197) < 0.000001, Is.True);
-            Assert.AreEqual(0.0, _outputMultiCPU.Flu_rzw2[0, 0, 1].Imaginary);
-            Assert.AreEqual(231243, _outputMultiCPU.Flu_rzw_TallyCount);
+            Assert.That(_outputMultiCPU.Flu_rzw2[0, 0, 1].Imaginary, Is.EqualTo(0.0));
+            Assert.That(_outputMultiCPU.Flu_rzw_TallyCount, Is.EqualTo(231243));
 
             Assert.That(Math.Abs(_outputSingleCPU.Flu_rzw[0, 0, 1].Real - _outputMultiCPU.Flu_rzw[0, 0, 1].Real) < 0.02, Is.True);
             Assert.That(Math.Abs(_outputSingleCPU.Flu_rzw[0, 0, 1].Imaginary - _outputMultiCPU.Flu_rzw[0, 0, 1].Imaginary) < 0.001, Is.True);
             Assert.That(Math.Abs(_outputSingleCPU.Flu_rzw2[0, 0, 1].Real - _outputMultiCPU.Flu_rzw2[0, 0, 1].Real) < 0.3, Is.True);
-            Assert.AreEqual(0.0,_outputSingleCPU.Flu_rzw2[0, 0, 1].Imaginary);
+            Assert.That(_outputSingleCPU.Flu_rzw2[0, 0, 1].Imaginary, Is.EqualTo(0.0));
             Assert.That(Math.Abs(_outputSingleCPU.Flu_rzw_TallyCount - _outputMultiCPU.Flu_rzw_TallyCount) < 45000, Is.True);
         }
         /// <summary>
@@ -267,13 +267,13 @@ namespace Vts.Test.MonteCarlo
             Assert.That(Math.Abs(_outputMultiCPU.Flu_xyzw[0, 0, 0, 1].Real + 0.001569) < 0.000001, Is.True);
             Assert.That(Math.Abs(_outputMultiCPU.Flu_xyzw[0, 0, 0, 1].Imaginary + 0.003586) < 0.000001, Is.True);
             Assert.That(Math.Abs(_outputMultiCPU.Flu_xyzw2[0, 0, 0, 1].Real - 0.001532) < 0.000001, Is.True);
-            Assert.AreEqual(0.0, _outputMultiCPU.Flu_xyzw2[0, 0, 0, 1].Imaginary);
-            Assert.AreEqual(231243, _outputMultiCPU.Flu_xyzw_TallyCount);
+            Assert.That(_outputMultiCPU.Flu_xyzw2[0, 0, 0, 1].Imaginary, Is.EqualTo(0.0));
+            Assert.That(_outputMultiCPU.Flu_xyzw_TallyCount, Is.EqualTo(231243));
 
             Assert.That(Math.Abs(_outputSingleCPU.Flu_xyzw[0, 0, 0, 1].Real - _outputMultiCPU.Flu_xyzw[0, 0, 0, 1].Real) < 0.05, Is.True);
             Assert.That(Math.Abs(_outputSingleCPU.Flu_xyzw[0, 0, 0, 1].Imaginary - _outputMultiCPU.Flu_xyzw[0, 0, 0, 1].Imaginary) < 0.05, Is.True);
             Assert.That(Math.Abs(_outputSingleCPU.Flu_xyzw2[0, 0, 0, 1].Real - _outputMultiCPU.Flu_xyzw2[0, 0, 0, 1].Real) < 0.0005, Is.True);
-            Assert.AreEqual(0.0, _outputSingleCPU.Flu_xyzw2[0, 0, 0, 1].Imaginary);
+            Assert.That(_outputSingleCPU.Flu_xyzw2[0, 0, 0, 1].Imaginary, Is.EqualTo(0.0));
             Assert.That(Math.Abs(_outputSingleCPU.Flu_xyzw_TallyCount - _outputMultiCPU.Flu_xyzw_TallyCount) < 45000, Is.True);
         }
         /// <summary>
@@ -282,21 +282,21 @@ namespace Vts.Test.MonteCarlo
         [Test]
         public void Validate_statistics_are_processed_correctly()
         {
-            Assert.AreEqual(95, _statisticsSingleCPU.NumberOfPhotonsOutTopOfTissue);
-            Assert.AreEqual( 4,_statisticsSingleCPU.NumberOfPhotonsOutBottomOfTissue);
-            Assert.AreEqual(0, _statisticsSingleCPU.NumberOfPhotonsAbsorbed);
-            Assert.AreEqual(1, _statisticsSingleCPU.NumberOfPhotonsSpecularReflected);
-            Assert.AreEqual(0, _statisticsSingleCPU.NumberOfPhotonsKilledOverMaximumPathLength);
-            Assert.AreEqual(0, _statisticsSingleCPU.NumberOfPhotonsKilledOverMaximumCollisions);
-            Assert.AreEqual(0, _statisticsSingleCPU.NumberOfPhotonsKilledOverMaximumCollisions);
+            Assert.That(_statisticsSingleCPU.NumberOfPhotonsOutTopOfTissue, Is.EqualTo(95));
+            Assert.That(_statisticsSingleCPU.NumberOfPhotonsOutBottomOfTissue, Is.EqualTo( 4));
+            Assert.That(_statisticsSingleCPU.NumberOfPhotonsAbsorbed, Is.EqualTo(0));
+            Assert.That(_statisticsSingleCPU.NumberOfPhotonsSpecularReflected, Is.EqualTo(1));
+            Assert.That(_statisticsSingleCPU.NumberOfPhotonsKilledOverMaximumPathLength, Is.EqualTo(0));
+            Assert.That(_statisticsSingleCPU.NumberOfPhotonsKilledOverMaximumCollisions, Is.EqualTo(0));
+            Assert.That(_statisticsSingleCPU.NumberOfPhotonsKilledOverMaximumCollisions, Is.EqualTo(0));
             // test multi-CPU stats
-            Assert.AreEqual(94, _statisticsMultiCPU.NumberOfPhotonsOutTopOfTissue);
-            Assert.AreEqual(4, _statisticsMultiCPU.NumberOfPhotonsOutBottomOfTissue);
-            Assert.AreEqual(0, _statisticsMultiCPU.NumberOfPhotonsAbsorbed);
-            Assert.AreEqual(2, _statisticsMultiCPU.NumberOfPhotonsSpecularReflected);
-            Assert.AreEqual(0, _statisticsMultiCPU.NumberOfPhotonsKilledOverMaximumPathLength);
-            Assert.AreEqual(0, _statisticsMultiCPU.NumberOfPhotonsKilledOverMaximumCollisions);
-            Assert.AreEqual(0, _statisticsMultiCPU.NumberOfPhotonsKilledOverMaximumCollisions);
+            Assert.That(_statisticsMultiCPU.NumberOfPhotonsOutTopOfTissue, Is.EqualTo(94));
+            Assert.That(_statisticsMultiCPU.NumberOfPhotonsOutBottomOfTissue, Is.EqualTo(4));
+            Assert.That(_statisticsMultiCPU.NumberOfPhotonsAbsorbed, Is.EqualTo(0));
+            Assert.That(_statisticsMultiCPU.NumberOfPhotonsSpecularReflected, Is.EqualTo(2));
+            Assert.That(_statisticsMultiCPU.NumberOfPhotonsKilledOverMaximumPathLength, Is.EqualTo(0));
+            Assert.That(_statisticsMultiCPU.NumberOfPhotonsKilledOverMaximumCollisions, Is.EqualTo(0));
+            Assert.That(_statisticsMultiCPU.NumberOfPhotonsKilledOverMaximumCollisions, Is.EqualTo(0));
         }
         /// <summary>
         /// test to check that if number of CPUs specified in cpucount does not divide into N

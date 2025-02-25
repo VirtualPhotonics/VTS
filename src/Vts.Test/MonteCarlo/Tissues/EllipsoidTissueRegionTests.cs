@@ -30,7 +30,7 @@ namespace Vts.Test.MonteCarlo.Tissues
         {
             Assert.That(_ellipsoidTissueRegion.Center.X, Is.EqualTo(0.0));
             Assert.That(_ellipsoidTissueRegion.Center.Y, Is.EqualTo(0.0));
-            Assert.AreEqual(3.0,_ellipsoidTissueRegion.Center.Z );
+            Assert.That(_ellipsoidTissueRegion.Center.Z , Is.EqualTo(3.0));
             Assert.That(_ellipsoidTissueRegion.Dx, Is.EqualTo(1.0));
             Assert.That(_ellipsoidTissueRegion.Dy, Is.EqualTo(1.0));
             Assert.That(_ellipsoidTissueRegion.Dz, Is.EqualTo(2.0));

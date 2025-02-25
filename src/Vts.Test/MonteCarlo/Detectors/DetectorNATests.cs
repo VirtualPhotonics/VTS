@@ -352,34 +352,34 @@ namespace Vts.Test.MonteCarlo.Detectors
         [Test]
         public void Validate_detector_tallies_are_zero_when_NA_is_zero()
         {
-            Assert.AreEqual(0.0, _outputNa0.Rd);
-            Assert.AreEqual(0.0, _outputNa0.R_r[0]);
-            Assert.AreEqual(0.0, _outputNa0.R_a[0]);
-            Assert.AreEqual(0.0, _outputNa0.R_ra[0, 0]);
-            Assert.AreEqual(0.0, _outputNa0.R_rt[0, 0]);
-            Assert.AreEqual(0.0, _outputNa0.R_rw[0, 0].Real);
-            Assert.AreEqual(0.0, _outputNa0.R_rw[0, 0].Imaginary);
-            Assert.AreEqual(0.0, _outputNa0.R_xy[0, 0]);
-            Assert.AreEqual(0.0, _outputNa0.R_xyt[0, 0, 0]);
-            Assert.AreEqual(0.0, _outputNa0.R_xymd[0, 0, 0]);
-            Assert.AreEqual(0.0, _outputNa0.R_fx[0].Real);
-            Assert.AreEqual(0.0, _outputNa0.R_fx[0].Imaginary);
-            Assert.AreEqual(0.0, _outputNa0.R_fxt[0, 0].Real);
-            Assert.AreEqual(0.0, _outputNa0.R_fxt[0, 0].Imaginary);
-            Assert.AreEqual(0.0, _outputNa0.R_fxa[0, 0].Real);
-            Assert.AreEqual(0.0, _outputNa0.R_fxa[0, 0].Imaginary);
-            Assert.AreEqual(0.0, _outputNa0.R_xytp[0, 0, 0, 0]);
-            Assert.AreEqual(0.01, _outputNa0.Rspec); // specular reflection of collimated beam is [0,0,-1] so passes NA
-            Assert.AreEqual(0.0, _outputNa0.Td);
-            Assert.AreEqual(0.0, _outputNa0.T_r[0]);
-            Assert.AreEqual(0.0, _outputNa0.T_a[0]);
-            Assert.AreEqual(0.0, _outputNa0.T_ra[0, 0]);
-            Assert.AreEqual(0.0, _outputNa0.T_xy[0, 0]);
-            Assert.AreEqual(0.0, _outputNa0.Rad_r[0]); 
-            Assert.AreEqual(0.0, _outputNa0.RefMT_rmt[0, 0]);
-            Assert.AreEqual(0.0, _outputNa0.RefMT_xymt[0, 0, 0]);
-            Assert.AreEqual(0.0, _outputNa0.TransMT_rmt[0, 0]);
-            Assert.AreEqual(0.0, _outputNa0.TransMT_xymt[0, 0, 0]);
+            Assert.That(_outputNa0.Rd, Is.EqualTo(0.0));
+            Assert.That(_outputNa0.R_r[0], Is.EqualTo(0.0));
+            Assert.That(_outputNa0.R_a[0], Is.EqualTo(0.0));
+            Assert.That(_outputNa0.R_ra[0, 0], Is.EqualTo(0.0));
+            Assert.That(_outputNa0.R_rt[0, 0], Is.EqualTo(0.0));
+            Assert.That(_outputNa0.R_rw[0, 0].Real, Is.EqualTo(0.0));
+            Assert.That(_outputNa0.R_rw[0, 0].Imaginary, Is.EqualTo(0.0));
+            Assert.That(_outputNa0.R_xy[0, 0], Is.EqualTo(0.0));
+            Assert.That(_outputNa0.R_xyt[0, 0, 0], Is.EqualTo(0.0));
+            Assert.That(_outputNa0.R_xymd[0, 0, 0], Is.EqualTo(0.0));
+            Assert.That(_outputNa0.R_fx[0].Real, Is.EqualTo(0.0));
+            Assert.That(_outputNa0.R_fx[0].Imaginary, Is.EqualTo(0.0));
+            Assert.That(_outputNa0.R_fxt[0, 0].Real, Is.EqualTo(0.0));
+            Assert.That(_outputNa0.R_fxt[0, 0].Imaginary, Is.EqualTo(0.0));
+            Assert.That(_outputNa0.R_fxa[0, 0].Real, Is.EqualTo(0.0));
+            Assert.That(_outputNa0.R_fxa[0, 0].Imaginary, Is.EqualTo(0.0));
+            Assert.That(_outputNa0.R_xytp[0, 0, 0, 0], Is.EqualTo(0.0));
+            Assert.That(_outputNa0.Rspec, Is.EqualTo(0.01)); // specular reflection of collimated beam is [0,0,-1] so passes NA
+            Assert.That(_outputNa0.Td, Is.EqualTo(0.0));
+            Assert.That(_outputNa0.T_r[0], Is.EqualTo(0.0));
+            Assert.That(_outputNa0.T_a[0], Is.EqualTo(0.0));
+            Assert.That(_outputNa0.T_ra[0, 0], Is.EqualTo(0.0));
+            Assert.That(_outputNa0.T_xy[0, 0], Is.EqualTo(0.0));
+            Assert.That(_outputNa0.Rad_r[0], Is.EqualTo(0.0)); 
+            Assert.That(_outputNa0.RefMT_rmt[0, 0], Is.EqualTo(0.0));
+            Assert.That(_outputNa0.RefMT_xymt[0, 0, 0], Is.EqualTo(0.0));
+            Assert.That(_outputNa0.TransMT_rmt[0, 0], Is.EqualTo(0.0));
+            Assert.That(_outputNa0.TransMT_xymt[0, 0, 0], Is.EqualTo(0.0));
         }
         /// <summary>
         /// test to validate partially open NA validation values taken from prior test run
@@ -404,7 +404,7 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.That(Math.Abs(_outputNa0P3.R_fxa[1, 0].Real - 0.002755), Is.LessThan(0.000001));
             Assert.That(Math.Abs(_outputNa0P3.R_fxa[1, 0].Imaginary - 0.001786), Is.LessThan(0.000001));
             Assert.That(Math.Abs(_outputNa0P3.R_xytp[3, 6, 0, 0] - 0.000193), Is.LessThan(0.000001));
-            Assert.AreEqual(0.01, _outputNa0P3.Rspec);
+            Assert.That(_outputNa0P3.Rspec, Is.EqualTo(0.01));
             Assert.That(Math.Abs(_outputNa0P3.Td - 0.023415), Is.LessThan(0.000001));
             Assert.That(Math.Abs(_outputNa0P3.T_r[1] - 0.001520), Is.LessThan(0.000001));
             Assert.That(Math.Abs(_outputNa0P3.T_a[0] - 0.003355), Is.LessThan(0.000001));
@@ -472,26 +472,26 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.AreNotEqual(_outputNa0P3.R_rt[0, 0], _outputNa0p3FinalTissueRegion1.R_rt[0, 0]);
             Assert.AreNotEqual(_outputNa0P3.R_rw[0, 0].Real, _outputNa0p3FinalTissueRegion1.R_rw[0, 0].Real);
             Assert.AreNotEqual(_outputNa0P3.R_rw[0, 0].Imaginary, _outputNa0p3FinalTissueRegion1.R_rw[0, 0].Imaginary);
-            Assert.AreEqual(_outputNa0P3.R_xy[3, 6], _outputNa0p3FinalTissueRegion1.R_xy[3, 6]);
-            Assert.AreEqual(_outputNa0P3.R_xyt[3, 6, 3], _outputNa0p3FinalTissueRegion1.R_xyt[3, 6, 3]);
-            Assert.AreEqual(_outputNa0P3.R_xymd[3, 6, 5], _outputNa0p3FinalTissueRegion1.R_xymd[3, 6, 5]);
+            Assert.That(_outputNa0p3FinalTissueRegion1.R_xy[3, 6], Is.EqualTo(_outputNa0P3.R_xy[3, 6]));
+            Assert.That(_outputNa0p3FinalTissueRegion1.R_xyt[3, 6, 3], Is.EqualTo(_outputNa0P3.R_xyt[3, 6, 3]));
+            Assert.That(_outputNa0p3FinalTissueRegion1.R_xymd[3, 6, 5], Is.EqualTo(_outputNa0P3.R_xymd[3, 6, 5]));
             Assert.AreNotEqual(_outputNa0P3.R_fx[1].Real, _outputNa0p3FinalTissueRegion1.R_fx[1].Real);
             Assert.AreNotEqual(_outputNa0P3.R_fx[1].Imaginary, _outputNa0p3FinalTissueRegion1.R_fx[1].Imaginary);
             Assert.AreNotEqual(_outputNa0P3.R_fxt[1, 0].Real, _outputNa0p3FinalTissueRegion1.R_fxt[1, 0].Real);
             Assert.AreNotEqual(_outputNa0P3.R_fxt[1, 0].Imaginary, _outputNa0p3FinalTissueRegion1.R_fxt[1, 0].Imaginary);
             Assert.AreNotEqual(_outputNa0P3.R_fxa[1, 0].Real, _outputNa0p3FinalTissueRegion1.R_fxa[1, 0].Real);
             Assert.AreNotEqual(_outputNa0P3.R_fxa[1, 0].Imaginary, _outputNa0p3FinalTissueRegion1.R_fxa[1, 0].Imaginary);
-            Assert.AreEqual(_outputNa0P3.R_xytp[3, 6, 0, 0], _outputNa0p3FinalTissueRegion1.R_xytp[3, 6, 0, 0]);
-            Assert.AreEqual(_outputNa0P3.Td, _outputNa0p3FinalTissueRegion1.Td);
-            Assert.AreEqual(_outputNa0P3.T_r[1], _outputNa0p3FinalTissueRegion1.T_r[1]);
-            Assert.AreEqual(_outputNa0P3.T_a[0], _outputNa0p3FinalTissueRegion1.T_a[0]);
-            Assert.AreEqual(_outputNa0P3.T_ra[1, 0], _outputNa0p3FinalTissueRegion1.T_ra[1, 0]);
-            Assert.AreEqual(_outputNa0P3.T_xy[4, 7], _outputNa0p3FinalTissueRegion1.T_xy[4, 7]);
+            Assert.That(_outputNa0p3FinalTissueRegion1.R_xytp[3, 6, 0, 0], Is.EqualTo(_outputNa0P3.R_xytp[3, 6, 0, 0]));
+            Assert.That(_outputNa0p3FinalTissueRegion1.Td, Is.EqualTo(_outputNa0P3.Td));
+            Assert.That(_outputNa0p3FinalTissueRegion1.T_r[1], Is.EqualTo(_outputNa0P3.T_r[1]));
+            Assert.That(_outputNa0p3FinalTissueRegion1.T_a[0], Is.EqualTo(_outputNa0P3.T_a[0]));
+            Assert.That(_outputNa0p3FinalTissueRegion1.T_ra[1, 0], Is.EqualTo(_outputNa0P3.T_ra[1, 0]));
+            Assert.That(_outputNa0p3FinalTissueRegion1.T_xy[4, 7], Is.EqualTo(_outputNa0P3.T_xy[4, 7]));
             Assert.AreNotEqual(_outputNa0P3.Rad_r[0], _outputNa0p3FinalTissueRegion1.Rad_r[0]);
             Assert.AreNotEqual(_outputNa0P3.RefMT_rmt[2, 0], _outputNa0p3FinalTissueRegion1.RefMT_rmt[2, 0]);
-            Assert.AreEqual(_outputNa0P3.RefMT_xymt[3, 6, 0], _outputNa0p3FinalTissueRegion1.RefMT_xymt[3, 6, 0]);
-            Assert.AreEqual(_outputNa0P3.TransMT_rmt[1, 0], _outputNa0p3FinalTissueRegion1.TransMT_rmt[1, 0]);
-            Assert.AreEqual(_outputNa0P3.TransMT_xymt[4, 7, 0], _outputNa0p3FinalTissueRegion1.TransMT_xymt[4, 7, 0]);
+            Assert.That(_outputNa0p3FinalTissueRegion1.RefMT_xymt[3, 6, 0], Is.EqualTo(_outputNa0P3.RefMT_xymt[3, 6, 0]));
+            Assert.That(_outputNa0p3FinalTissueRegion1.TransMT_rmt[1, 0], Is.EqualTo(_outputNa0P3.TransMT_rmt[1, 0]));
+            Assert.That(_outputNa0p3FinalTissueRegion1.TransMT_xymt[4, 7, 0], Is.EqualTo(_outputNa0P3.TransMT_xymt[4, 7, 0]));
         }
         /// <summary>
         /// Test to validate that pMC/dMC detectors tallies are 0 when NA=0

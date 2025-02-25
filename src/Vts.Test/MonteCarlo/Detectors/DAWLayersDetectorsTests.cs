@@ -606,8 +606,8 @@ namespace Vts.Test.MonteCarlo.Detectors
             Assert.That(Math.Abs(_outputTwoLayerTissue.R_xyr[0, 12] - 0.175180), Is.LessThan(0.000001));
             Assert.That(Math.Abs(_outputOneLayerTissue.R_xyr2[0, 12] - 3.06881), Is.LessThan(0.00001));
             Assert.That(Math.Abs(_outputTwoLayerTissue.R_xyr2[0, 12] - 3.06881), Is.LessThan(0.00001));
-            Assert.AreEqual(89,_outputOneLayerTissue.R_xyr_TallyCount);
-            Assert.AreEqual(89,_outputTwoLayerTissue.R_xyr_TallyCount);
+            Assert.That(_outputOneLayerTissue.R_xyr_TallyCount, Is.EqualTo(89));
+            Assert.That(_outputTwoLayerTissue.R_xyr_TallyCount, Is.EqualTo(89));
         }
         // Reflectance R(x,y,time) validated with prior test
         [Test]

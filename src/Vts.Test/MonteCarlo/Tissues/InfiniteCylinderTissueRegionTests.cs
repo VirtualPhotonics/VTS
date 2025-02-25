@@ -33,7 +33,7 @@ namespace Vts.Test.MonteCarlo.Tissues
             Assert.That(_infiniteCylinderTissueRegion.Center.Z, Is.EqualTo(3.0));
             Assert.That(_infiniteCylinderTissueRegion.Radius, Is.EqualTo(1.0));
             Assert.That(_infiniteCylinderTissueRegion.RegionOP.Mua, Is.EqualTo(0.01));
-            Assert.AreEqual(1.0,_infiniteCylinderTissueRegion.RegionOP.Musp);
+            Assert.That(_infiniteCylinderTissueRegion.RegionOP.Musp, Is.EqualTo(1.0));
             Assert.That(_infiniteCylinderTissueRegion.RegionOP.G, Is.EqualTo(0.8));
             Assert.That(_infiniteCylinderTissueRegion.RegionOP.N, Is.EqualTo(1.4));
         }
