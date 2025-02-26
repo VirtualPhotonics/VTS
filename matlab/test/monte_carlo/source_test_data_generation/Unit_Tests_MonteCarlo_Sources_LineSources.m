@@ -54,6 +54,9 @@ AziRange = [aziAng1, aziAng2];
 polAngle = 0.25*pi;
 Flags = [true, true, true];
 
+%Lambert order
+LambertOrder = 1;
+
 %First 18 random numbers for SEED = 0
 RN1 = 0.54881350243203653;
 RN2 = 0.59284461652693443;
@@ -124,14 +127,14 @@ GaussPolAzi = Func_GetPolarAzimuthalPairFromDirection(U);
 
 %Lambertian Flat Line Source
 FlatPos = Func_GetPositionInALineRandomFlat(V, l, RN1);
-FlatDir = Func_GetDirectionForLambertianDistributionRandom(RN2, RN3);
+FlatDir = Func_GetDirectionForLambertianDistributionRandom(LambertOrder, RN2, RN3); 
 FlatPolAzi = Func_GetPolarAzimuthalPairFromDirection(U);
 [TestLamLineSourceFlat_U, TestLamLineSourceFlat_V] = Func_UpdateDirectionAndPositionAfterGivenFlags...
     (FlatDir, FlatPos, FlatPolAzi,T, AngPair, Flags);
 
 %Lambertian Gaussian Line Source
 GaussPos = Func_GetPositionInALineRandomGaussian(V, l, BDFWHM, RN1, RN2);
-GaussDir = Func_GetDirectionForLambertianDistributionRandom(RN3, RN4);
+GaussDir = Func_GetDirectionForLambertianDistributionRandom(LambertOrder, RN3, RN4); 
 GaussPolAzi = Func_GetPolarAzimuthalPairFromDirection(U);
 [TestLamLineSourceGauss_U, TestLamLineSourceGauss_V] = Func_UpdateDirectionAndPositionAfterGivenFlags...
     (GaussDir, GaussPos, GaussPolAzi, T, AngPair, Flags);

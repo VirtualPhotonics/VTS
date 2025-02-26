@@ -1,8 +1,7 @@
 %GetDirectionForLambertianDistributionRandom
-function [UOUT] = Func_GetDirectionForLambertianDistributionRandom(RN1, RN2)
+function [UOUT] = Func_GetDirectionForLambertianDistributionRandom(LambertOrder, RN1, RN2)
 
-lambertOrder = 1;
-cost = power(RN1, 1.0 / (lambertOrder + 1));
+cost = power(RN1, 1.0 / (LambertOrder + 1));
 sint = sqrt(1-cost*cost);
 
 phi = 2*pi*RN2;
