@@ -189,8 +189,8 @@ namespace Vts.Test.MonteCarlo.Detectors
         public void validate_DAW_voxel_RDiffuse_plus_ATotal_plus_TDiffuse_equals_one()
         {
             // no specular because photons started inside tissue
-            Assert.Less(Math.Abs(_outputTwoRegionTissue.Rd + _outputTwoRegionTissue.Atot + 
-                                 _outputTwoRegionTissue.Td - 1), 0.00000000001);
+            Assert.That(Math.Abs(_outputTwoRegionTissue.Rd + _outputTwoRegionTissue.Atot + 
+                                 _outputTwoRegionTissue.Td - 1), Is.LessThan(0.00000000001));
         }
     }
 }

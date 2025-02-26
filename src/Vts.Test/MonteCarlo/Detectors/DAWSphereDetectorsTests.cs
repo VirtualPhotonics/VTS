@@ -205,10 +205,10 @@ namespace Vts.Test.MonteCarlo.Detectors
         // Reflection R(rho,omega)
         public void validate_DAW_sphere_ROfRhoAndOmega()
         {
-            Assert.Less(Complex.Abs(
-                _outputOneRegionTissue.R_rw[0, 0] * _factor - (0.6152383 - Complex.ImaginaryOne * 0.0002368336)), 0.000001);
-            Assert.Less(Complex.Abs(
-                _outputTwoRegionTissue.R_rw[0, 0] * _factor - (0.6152383 - Complex.ImaginaryOne * 0.0002368336)), 0.000001);
+            Assert.That(Complex.Abs(
+                _outputOneRegionTissue.R_rw[0, 0] * _factor - (0.6152383 - Complex.ImaginaryOne * 0.0002368336)), Is.LessThan(0.000001));
+            Assert.That(Complex.Abs(
+                _outputTwoRegionTissue.R_rw[0, 0] * _factor - (0.6152383 - Complex.ImaginaryOne * 0.0002368336)), Is.LessThan(0.000001));
         }
         // Diffuse Transmittance
         [Test]
@@ -288,8 +288,8 @@ namespace Vts.Test.MonteCarlo.Detectors
         public void validate_DAW_sphere_RDiffuse_plus_ATotal_plus_TDiffuse_equals_one()
         {
             // no specular because photons started inside tissue
-            Assert.Less(Math.Abs(_outputTwoRegionTissue.Rd + _outputTwoRegionTissue.Atot + 
-                                 _outputTwoRegionTissue.Td - 1), 0.00000000001);
+            Assert.That(Math.Abs(_outputTwoRegionTissue.Rd + _outputTwoRegionTissue.Atot + 
+                                 _outputTwoRegionTissue.Td - 1), Is.LessThan(0.00000000001));
         }
     }
 }

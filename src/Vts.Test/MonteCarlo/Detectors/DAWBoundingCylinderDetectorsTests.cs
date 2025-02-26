@@ -172,8 +172,8 @@ namespace Vts.Test.MonteCarlo.Detectors
         public void validate_DAW_boundingcylinder_RDiffuse_plus_ATotal_plus_TDiffuse_equals_one()
         {
             // add specular because photons started outside tissue
-            Assert.Less(Math.Abs(_outputBoundedTissue.Rd + _outputBoundedTissue.Atot + _outputBoundedTissue.Rspec +
-                                    _outputBoundedTissue.AtotBV + _outputBoundedTissue.Td - 1), 0.000001);
+            Assert.That(Math.Abs(_outputBoundedTissue.Rd + _outputBoundedTissue.Atot + _outputBoundedTissue.Rspec +
+                                    _outputBoundedTissue.AtotBV + _outputBoundedTissue.Td - 1), Is.LessThan(0.000001));
         }
 
     }

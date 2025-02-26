@@ -164,8 +164,8 @@ namespace Vts.Test.MonteCarlo.Detectors
         [Test]
         public void validate_DAW_multiinfinitecylinder_ROfXAndY()
         {
-            Assert.Less(Math.Abs(_outputOneRegionTissue.R_xy[10, 0] -
-                                 _outputThreeRegionTissue.R_xy[10, 0]), 0.000001);
+            Assert.That(Math.Abs(_outputOneRegionTissue.R_xy[10, 0] -
+                                 _outputThreeRegionTissue.R_xy[10, 0]), Is.LessThan(0.000001));
         }
         // Total Absorption
         [Test]
@@ -177,16 +177,16 @@ namespace Vts.Test.MonteCarlo.Detectors
         [Test]
         public void validate_DAW_multiinfinitecylinder_AOfXAndYAndZ()
         {
-            Assert.Less(Math.Abs(_outputOneRegionTissue.A_xyz[20,0,0] - 
-                                 _outputThreeRegionTissue.A_xyz[20,0,0]), 0.000001);
+            Assert.That(Math.Abs(_outputOneRegionTissue.A_xyz[20,0,0] - 
+                                 _outputThreeRegionTissue.A_xyz[20,0,0]), Is.LessThan(0.000001));
         }
         // sanity checks
         [Test]
         public void validate_DAW_multiinfinitecylinder_RDiffuse_plus_ATotal_plus_TDiffuse_equals_one()
         {
             // no specular because photons started inside tissue
-            Assert.Less(Math.Abs(_outputThreeRegionTissue.Rd + _outputThreeRegionTissue.Atot + 
-                                 _outputThreeRegionTissue.Td - 1), 0.00000000001);
+            Assert.That(Math.Abs(_outputThreeRegionTissue.Rd + _outputThreeRegionTissue.Atot + 
+                                 _outputThreeRegionTissue.Td - 1), Is.LessThan(0.00000000001));
         }
     }
 }

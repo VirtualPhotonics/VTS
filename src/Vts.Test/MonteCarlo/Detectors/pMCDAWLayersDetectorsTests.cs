@@ -208,8 +208,8 @@ namespace Vts.Test.MonteCarlo.Detectors
                 _referenceInputTwoLayerTissue);
             var postProcessedOutput = postProcessor.Run();
             // validation value obtained from reference results
-            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_xy[0, 0] - 
-                                 _referenceOutputTwoLayerTissue.R_xy[0, 0]), 0.00000000001);
+            Assert.That(Math.Abs(postProcessedOutput.pMC_R_xy[0, 0] - 
+                                 _referenceOutputTwoLayerTissue.R_xy[0, 0]), Is.LessThan(0.00000000001));
             // validation value obtained from prior run
             Assert.That(Math.Abs(postProcessedOutput.pMC_R_xy[0, 0] - 0.001097), Is.LessThan(0.000001));
             Assert.That(Math.Abs(postProcessedOutput.pMC_R_xy2[0, 0] - 8.62815e-5), Is.LessThan(0.00001e-5));
@@ -255,19 +255,19 @@ namespace Vts.Test.MonteCarlo.Detectors
                 _referenceInputTwoLayerTissue);
             var postProcessedOutput = postProcessor.Run();
             // validation value obtained from reference results
-            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_xyts[0, 0, 0, 1] -
-                                 _referenceOutputTwoLayerTissue.R_xyts[0, 0, 0, 1]), 0.00000000001);
-            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_xyts_xy[0, 0] -
-                                 _referenceOutputTwoLayerTissue.R_xyts_xy[0, 0]), 0.00000000001);
-            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_xyts_xy2[0, 0] -
-                                 _referenceOutputTwoLayerTissue.R_xyts_xy2[0, 0]), 0.00000000001);
+            Assert.That(Math.Abs(postProcessedOutput.pMC_R_xyts[0, 0, 0, 1] -
+                                 _referenceOutputTwoLayerTissue.R_xyts[0, 0, 0, 1]), Is.LessThan(0.00000000001));
+            Assert.That(Math.Abs(postProcessedOutput.pMC_R_xyts_xy[0, 0] -
+                                 _referenceOutputTwoLayerTissue.R_xyts_xy[0, 0]), Is.LessThan(0.00000000001));
+            Assert.That(Math.Abs(postProcessedOutput.pMC_R_xyts_xy2[0, 0] -
+                                 _referenceOutputTwoLayerTissue.R_xyts_xy2[0, 0]), Is.LessThan(0.00000000001));
             // recessed detector
-            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_xytsr[0, 0, 0, 1] -
-                                 _referenceOutputTwoLayerTissue.R_xytsr[0, 0, 0, 1]), 0.00000000001);
-            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_xytsr_xy[0, 0] -
-                                 _referenceOutputTwoLayerTissue.R_xytsr_xy[0, 0]), 0.00000000001);
-            Assert.Less(Math.Abs(postProcessedOutput.pMC_R_xytsr_xy2[0, 0] -
-                                 _referenceOutputTwoLayerTissue.R_xytsr_xy2[0, 0]), 0.00000000001);
+            Assert.That(Math.Abs(postProcessedOutput.pMC_R_xytsr[0, 0, 0, 1] -
+                                 _referenceOutputTwoLayerTissue.R_xytsr[0, 0, 0, 1]), Is.LessThan(0.00000000001));
+            Assert.That(Math.Abs(postProcessedOutput.pMC_R_xytsr_xy[0, 0] -
+                                 _referenceOutputTwoLayerTissue.R_xytsr_xy[0, 0]), Is.LessThan(0.00000000001));
+            Assert.That(Math.Abs(postProcessedOutput.pMC_R_xytsr_xy2[0, 0] -
+                                 _referenceOutputTwoLayerTissue.R_xytsr_xy2[0, 0]), Is.LessThan(0.00000000001));
         }
         /// <summary>
         /// Test to validate mua non-zero perturbation and time in layer results

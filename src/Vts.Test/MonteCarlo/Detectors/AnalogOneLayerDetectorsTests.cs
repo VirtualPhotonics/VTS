@@ -181,8 +181,7 @@ namespace Vts.Test.MonteCarlo.Detectors
         {
             // warning - this validation data from Linux is actually for Omega = 0.025GHz
             // (see here: http://virtualphotonics.codeplex.com/discussions/278250)
-            Assert.Less(Complex.Abs(
-                _output.R_rw[0, 0] * _factor - (0.9284030 - Complex.ImaginaryOne * 0.0007940711)), 0.000001);
+            Assert.That(Complex.Abs(_output.R_rw[0, 0] * _factor - (0.9284030 - Complex.ImaginaryOne * 0.0007940711)), Is.LessThan(0.000001));
         }
         // Diffuse Transmittance
         [Test]

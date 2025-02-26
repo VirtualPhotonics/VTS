@@ -576,10 +576,10 @@ namespace Vts.Test.MonteCarlo.Detectors
         {
             // warning - this validation data from Linux is actually for Omega = 0.025GHz
             // (see here: http://virtualphotonics.codeplex.com/discussions/278250)
-            Assert.Less(Complex.Abs(
-                _outputOneLayerTissue.R_rw[0, 0] * _factor - (0.6152383 - Complex.ImaginaryOne * 0.0002368336)), 0.000001);
-            Assert.Less(Complex.Abs(
-                _outputTwoLayerTissue.R_rw[0, 0] * _factor - (0.6152383 - Complex.ImaginaryOne * 0.0002368336)), 0.000001);
+            Assert.That(Complex.Abs(
+                _outputOneLayerTissue.R_rw[0, 0] * _factor - (0.6152383 - Complex.ImaginaryOne * 0.0002368336)), Is.LessThan(0.000001));
+            Assert.That(Complex.Abs(
+                _outputTwoLayerTissue.R_rw[0, 0] * _factor - (0.6152383 - Complex.ImaginaryOne * 0.0002368336)), Is.LessThan(0.000001));
             Assert.That(Complex.Abs(_outputOneLayerTissue.R_rw2[0, 0].Real - 20.022918), Is.LessThan(0.000001));
             Assert.That(Complex.Abs(_outputOneLayerTissue.R_rw2[0, 0].Imaginary - 0.0), Is.LessThan(0.000001));
             Assert.That(Complex.Abs(_outputTwoLayerTissue.R_rw2[0, 0].Real - 20.022918), Is.LessThan(0.000001));
