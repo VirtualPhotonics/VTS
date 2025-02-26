@@ -262,10 +262,10 @@ namespace Vts.Test.MonteCarlo.Detectors
         [Test]
         public void Validate_dynamic_detector_tallies_are_not_zero_when_NA_is_not_specified()
         {
-            Assert.AreNotEqual(0.0, _outputNoNASpecified.RefDynMT_rmt[1, 0]);
-            Assert.AreNotEqual(0.0, _outputNoNASpecified.RefDynMT_xymt[0, 9, 1]);
-            Assert.AreNotEqual(0.0, _outputNoNASpecified.TransDynMT_rmt[1, 0]);
-            Assert.AreNotEqual(0.0, _outputNoNASpecified.TransDynMT_xymt[0, 0, 0]);
+            Assert.That(_outputNoNASpecified.RefDynMT_rmt[1, 0], Is.Not.EqualTo(0.0));
+            Assert.That(_outputNoNASpecified.RefDynMT_xymt[0, 9, 1], Is.Not.EqualTo(0.0));
+            Assert.That(_outputNoNASpecified.TransDynMT_rmt[1, 0], Is.Not.EqualTo(0.0));
+            Assert.That(_outputNoNASpecified.TransDynMT_xymt[0, 0, 0], Is.Not.EqualTo(0.0));
         }
 
     }

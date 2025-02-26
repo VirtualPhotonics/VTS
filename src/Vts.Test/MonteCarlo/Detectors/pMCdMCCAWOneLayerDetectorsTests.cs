@@ -368,8 +368,8 @@ namespace Vts.Test.MonteCarlo.Detectors
                 _referenceInputOneLayerTissue);
             var postProcessedOutput = postProcessor.Run();
             // validation value obtained from linux run using above input and seeded the same
-            Assert.AreNotEqual(double.NaN, Math.Abs(postProcessedOutput.dMCdMua_R_r[0]));
-            Assert.AreNotEqual(double.NaN, Math.Abs(postProcessedOutput.dMCdMus_R_r[0]));
+            Assert.That(Math.Abs(postProcessedOutput.dMCdMua_R_r[0]), Is.Not.EqualTo(double.NaN));
+            Assert.That(Math.Abs(postProcessedOutput.dMCdMus_R_r[0]), Is.Not.EqualTo(double.NaN));
         }
 
         /// <summary>
@@ -517,8 +517,8 @@ namespace Vts.Test.MonteCarlo.Detectors
             var postProcessedOutput = postProcessor.Run();
 
             // validation value obtained from linux run using above input and seeded the same
-            Assert.AreNotEqual(double.NaN, Math.Abs(postProcessedOutput.dMCdMua_R_r[0]));
-            Assert.AreNotEqual(double.NaN, Math.Abs(postProcessedOutput.dMCdMus_R_r[0]));
+            Assert.That(Math.Abs(postProcessedOutput.dMCdMua_R_r[0]), Is.Not.EqualTo(double.NaN));
+            Assert.That(Math.Abs(postProcessedOutput.dMCdMus_R_r[0]), Is.Not.EqualTo(double.NaN));
         }
     }
 }

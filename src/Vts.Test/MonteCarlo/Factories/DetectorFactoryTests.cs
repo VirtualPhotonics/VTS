@@ -90,7 +90,7 @@ namespace Vts.Test.MonteCarlo.Factories
             var results = sim.Run();
             var rOfRhoDetector = results.ResultsDictionary.TryGetValue(
                 detectorInput.Name, out _);
-            Assert.NotNull(rOfRhoDetector);
+            Assert.That(rOfRhoDetector, Is.Not.Null);
         }
 
         /// <summary>
@@ -116,7 +116,7 @@ namespace Vts.Test.MonteCarlo.Factories
                 .Run()
                 .GetDetector("My First Detector");
 
-            Assert.NotNull(rOfRhoDetector);
+            Assert.That(rOfRhoDetector, Is.Not.Null);
         }
         
         /// <summary>

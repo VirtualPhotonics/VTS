@@ -425,34 +425,34 @@ namespace Vts.Test.MonteCarlo.Detectors
         [Test]
         public void Validate_detector_tallies_are_not_zero_when_NA_is_not_specified()
         {
-            Assert.AreNotEqual(0.0, _outputNoNaNoFinalTissueRegionSpecified.Rd);
-            Assert.AreNotEqual(0.0, _outputNoNaNoFinalTissueRegionSpecified.R_r[1]);
-            Assert.AreNotEqual(0.0, _outputNoNaNoFinalTissueRegionSpecified.R_a[0]);
-            Assert.AreNotEqual(0.0, _outputNoNaNoFinalTissueRegionSpecified.R_ra[1, 0]);
-            Assert.AreNotEqual(0.0, _outputNoNaNoFinalTissueRegionSpecified.R_rt[1, 0]);
-            Assert.AreNotEqual(0.0, _outputNoNaNoFinalTissueRegionSpecified.R_rw[1, 0].Real);
-            Assert.AreNotEqual(0.0, _outputNoNaNoFinalTissueRegionSpecified.R_rw[1, 0].Imaginary);
-            Assert.AreNotEqual(0.0, _outputNoNaNoFinalTissueRegionSpecified.R_xy[0, 1]);
-            Assert.AreNotEqual(0.0, _outputNoNaNoFinalTissueRegionSpecified.R_xyt[0, 1, 3]);
-            Assert.AreNotEqual(0.0, _outputNoNaNoFinalTissueRegionSpecified.R_xymd[0, 1, 7]);
-            Assert.AreNotEqual(0.0, _outputNoNaNoFinalTissueRegionSpecified.R_fx[1].Real);
-            Assert.AreNotEqual(0.0, _outputNoNaNoFinalTissueRegionSpecified.R_fx[1].Imaginary);
-            Assert.AreNotEqual(0.0, _outputNoNaNoFinalTissueRegionSpecified.R_fxt[1, 0].Real);
-            Assert.AreNotEqual(0.0, _outputNoNaNoFinalTissueRegionSpecified.R_fxt[1, 0].Imaginary);
-            Assert.AreNotEqual(0.0, _outputNoNaNoFinalTissueRegionSpecified.R_fxa[1, 0].Real);
-            Assert.AreNotEqual(0.0, _outputNoNaNoFinalTissueRegionSpecified.R_fxa[1, 0].Imaginary);
-            Assert.AreNotEqual(0.0, _outputNoNaNoFinalTissueRegionSpecified.R_xytp[0, 1, 0, 0]);
-            Assert.AreNotEqual(0.0, _outputNoNaNoFinalTissueRegionSpecified.Rspec);
-            Assert.AreNotEqual(0.0, _outputNoNaNoFinalTissueRegionSpecified.Td);
-            Assert.AreNotEqual(0.0, _outputNoNaNoFinalTissueRegionSpecified.T_r[1]);
-            Assert.AreNotEqual(0.0, _outputNoNaNoFinalTissueRegionSpecified.T_a[0]);
-            Assert.AreNotEqual(0.0, _outputNoNaNoFinalTissueRegionSpecified.T_ra[1, 0]);
-            Assert.AreNotEqual(0.0, _outputNoNaNoFinalTissueRegionSpecified.T_xy[0, 2]);
-            Assert.AreNotEqual(0.0, _outputNoNaNoFinalTissueRegionSpecified.Rad_r[0]);
-            Assert.AreNotEqual(0.0, _outputNoNaNoFinalTissueRegionSpecified.RefMT_rmt[1, 0]);
-            Assert.AreNotEqual(0.0, _outputNoNaNoFinalTissueRegionSpecified.RefMT_xymt[0, 1, 0]);
-            Assert.AreNotEqual(0.0, _outputNoNaNoFinalTissueRegionSpecified.TransMT_rmt[1, 0]);
-            Assert.AreNotEqual(0.0, _outputNoNaNoFinalTissueRegionSpecified.TransMT_xymt[0, 2, 0]);
+            Assert.That( _outputNoNaNoFinalTissueRegionSpecified.Rd, Is.Not.EqualTo(0.0));
+            Assert.That(_outputNoNaNoFinalTissueRegionSpecified.R_r[1], Is.Not.EqualTo(0.0));
+            Assert.That(_outputNoNaNoFinalTissueRegionSpecified.R_a[0], Is.Not.EqualTo(0.0));
+            Assert.That(_outputNoNaNoFinalTissueRegionSpecified.R_ra[1, 0], Is.Not.EqualTo(0.0));
+            Assert.That(_outputNoNaNoFinalTissueRegionSpecified.R_rt[1, 0], Is.Not.EqualTo(0.0));
+            Assert.That(_outputNoNaNoFinalTissueRegionSpecified.R_rw[1, 0].Real, Is.Not.EqualTo(0.0));
+            Assert.That(_outputNoNaNoFinalTissueRegionSpecified.R_rw[1, 0].Imaginary, Is.Not.EqualTo(0.0));
+            Assert.That(_outputNoNaNoFinalTissueRegionSpecified.R_xy[0, 1], Is.Not.EqualTo(0.0));
+            Assert.That(_outputNoNaNoFinalTissueRegionSpecified.R_xyt[0, 1, 3], Is.Not.EqualTo(0.0));
+            Assert.That(_outputNoNaNoFinalTissueRegionSpecified.R_xymd[0, 1, 7], Is.Not.EqualTo(0.0));
+            Assert.That(_outputNoNaNoFinalTissueRegionSpecified.R_fx[1].Real, Is.Not.EqualTo(0.0));
+            Assert.That(_outputNoNaNoFinalTissueRegionSpecified.R_fx[1].Imaginary, Is.Not.EqualTo(0.0));
+            Assert.That(_outputNoNaNoFinalTissueRegionSpecified.R_fxt[1, 0].Real, Is.Not.EqualTo(0.0));
+            Assert.That(_outputNoNaNoFinalTissueRegionSpecified.R_fxt[1, 0].Imaginary, Is.Not.EqualTo(0.0));
+            Assert.That(_outputNoNaNoFinalTissueRegionSpecified.R_fxa[1, 0].Real, Is.Not.EqualTo(0.0));
+            Assert.That(_outputNoNaNoFinalTissueRegionSpecified.R_fxa[1, 0].Imaginary, Is.Not.EqualTo(0.0));
+            Assert.That(_outputNoNaNoFinalTissueRegionSpecified.R_xytp[0, 1, 0, 0], Is.Not.EqualTo(0.0));
+            Assert.That( _outputNoNaNoFinalTissueRegionSpecified.Rspec, Is.Not.EqualTo(0.0));
+            Assert.That( _outputNoNaNoFinalTissueRegionSpecified.Td, Is.Not.EqualTo(0.0));
+            Assert.That(_outputNoNaNoFinalTissueRegionSpecified.T_r[1], Is.Not.EqualTo(0.0));
+            Assert.That(_outputNoNaNoFinalTissueRegionSpecified.T_a[0], Is.Not.EqualTo(0.0));
+            Assert.That(_outputNoNaNoFinalTissueRegionSpecified.T_ra[1, 0], Is.Not.EqualTo(0.0));
+            Assert.That(_outputNoNaNoFinalTissueRegionSpecified.T_xy[0, 2], Is.Not.EqualTo(0.0));
+            Assert.That(_outputNoNaNoFinalTissueRegionSpecified.Rad_r[0], Is.Not.EqualTo(0.0));
+            Assert.That(_outputNoNaNoFinalTissueRegionSpecified.RefMT_rmt[1, 0], Is.Not.EqualTo(0.0));
+            Assert.That(_outputNoNaNoFinalTissueRegionSpecified.RefMT_xymt[0, 1, 0], Is.Not.EqualTo(0.0));
+            Assert.That(_outputNoNaNoFinalTissueRegionSpecified.TransMT_rmt[1, 0], Is.Not.EqualTo(0.0));
+            Assert.That(_outputNoNaNoFinalTissueRegionSpecified.TransMT_xymt[0, 2, 0], Is.Not.EqualTo(0.0));
         }
 
 
@@ -465,30 +465,30 @@ namespace Vts.Test.MonteCarlo.Detectors
         [Test]
         public void Validate_detector_tallies_for_final_tissue_region_0_or_1_comparison()
         {
-            Assert.AreNotEqual(_outputNa0P3.Rd, _outputNa0p3FinalTissueRegion1.Rd);
-            Assert.AreNotEqual(_outputNa0P3.R_r[0], _outputNa0p3FinalTissueRegion1.R_r[0]);
-            Assert.AreNotEqual(_outputNa0P3.R_a[0], _outputNa0p3FinalTissueRegion1.R_a[0]);
-            Assert.AreNotEqual(_outputNa0P3.R_ra[0, 0], _outputNa0p3FinalTissueRegion1.R_ra[0, 0]);
-            Assert.AreNotEqual(_outputNa0P3.R_rt[0, 0], _outputNa0p3FinalTissueRegion1.R_rt[0, 0]);
-            Assert.AreNotEqual(_outputNa0P3.R_rw[0, 0].Real, _outputNa0p3FinalTissueRegion1.R_rw[0, 0].Real);
-            Assert.AreNotEqual(_outputNa0P3.R_rw[0, 0].Imaginary, _outputNa0p3FinalTissueRegion1.R_rw[0, 0].Imaginary);
+            Assert.That( _outputNa0p3FinalTissueRegion1.Rd, Is.Not.EqualTo(_outputNa0P3.Rd));
+            Assert.That(_outputNa0p3FinalTissueRegion1.R_r[0], Is.Not.EqualTo(_outputNa0P3.R_r[0]));
+            Assert.That(_outputNa0p3FinalTissueRegion1.R_a[0], Is.Not.EqualTo(_outputNa0P3.R_a[0]));
+            Assert.That(_outputNa0p3FinalTissueRegion1.R_ra[0, 0], Is.Not.EqualTo(_outputNa0P3.R_ra[0, 0]));
+            Assert.That(_outputNa0p3FinalTissueRegion1.R_rt[0, 0], Is.Not.EqualTo(_outputNa0P3.R_rt[0, 0]));
+            Assert.That(_outputNa0p3FinalTissueRegion1.R_rw[0, 0].Real, Is.Not.EqualTo(_outputNa0P3.R_rw[0, 0].Real));
+            Assert.That(_outputNa0p3FinalTissueRegion1.R_rw[0, 0].Imaginary, Is.Not.EqualTo(_outputNa0P3.R_rw[0, 0].Imaginary));
             Assert.That(_outputNa0p3FinalTissueRegion1.R_xy[3, 6], Is.EqualTo(_outputNa0P3.R_xy[3, 6]));
             Assert.That(_outputNa0p3FinalTissueRegion1.R_xyt[3, 6, 3], Is.EqualTo(_outputNa0P3.R_xyt[3, 6, 3]));
             Assert.That(_outputNa0p3FinalTissueRegion1.R_xymd[3, 6, 5], Is.EqualTo(_outputNa0P3.R_xymd[3, 6, 5]));
-            Assert.AreNotEqual(_outputNa0P3.R_fx[1].Real, _outputNa0p3FinalTissueRegion1.R_fx[1].Real);
-            Assert.AreNotEqual(_outputNa0P3.R_fx[1].Imaginary, _outputNa0p3FinalTissueRegion1.R_fx[1].Imaginary);
-            Assert.AreNotEqual(_outputNa0P3.R_fxt[1, 0].Real, _outputNa0p3FinalTissueRegion1.R_fxt[1, 0].Real);
-            Assert.AreNotEqual(_outputNa0P3.R_fxt[1, 0].Imaginary, _outputNa0p3FinalTissueRegion1.R_fxt[1, 0].Imaginary);
-            Assert.AreNotEqual(_outputNa0P3.R_fxa[1, 0].Real, _outputNa0p3FinalTissueRegion1.R_fxa[1, 0].Real);
-            Assert.AreNotEqual(_outputNa0P3.R_fxa[1, 0].Imaginary, _outputNa0p3FinalTissueRegion1.R_fxa[1, 0].Imaginary);
+            Assert.That(_outputNa0p3FinalTissueRegion1.R_fx[1].Real, Is.Not.EqualTo(_outputNa0P3.R_fx[1].Real));
+            Assert.That(_outputNa0p3FinalTissueRegion1.R_fx[1].Imaginary, Is.Not.EqualTo(_outputNa0P3.R_fx[1].Imaginary));
+            Assert.That(_outputNa0p3FinalTissueRegion1.R_fxt[1, 0].Real, Is.Not.EqualTo(_outputNa0P3.R_fxt[1, 0].Real));
+            Assert.That(_outputNa0p3FinalTissueRegion1.R_fxt[1, 0].Imaginary, Is.Not.EqualTo(_outputNa0P3.R_fxt[1, 0].Imaginary));
+            Assert.That(_outputNa0p3FinalTissueRegion1.R_fxa[1, 0].Real, Is.Not.EqualTo(_outputNa0P3.R_fxa[1, 0].Real));
+            Assert.That(_outputNa0p3FinalTissueRegion1.R_fxa[1, 0].Imaginary, Is.Not.EqualTo(_outputNa0P3.R_fxa[1, 0].Imaginary));
             Assert.That(_outputNa0p3FinalTissueRegion1.R_xytp[3, 6, 0, 0], Is.EqualTo(_outputNa0P3.R_xytp[3, 6, 0, 0]));
             Assert.That(_outputNa0p3FinalTissueRegion1.Td, Is.EqualTo(_outputNa0P3.Td));
             Assert.That(_outputNa0p3FinalTissueRegion1.T_r[1], Is.EqualTo(_outputNa0P3.T_r[1]));
             Assert.That(_outputNa0p3FinalTissueRegion1.T_a[0], Is.EqualTo(_outputNa0P3.T_a[0]));
             Assert.That(_outputNa0p3FinalTissueRegion1.T_ra[1, 0], Is.EqualTo(_outputNa0P3.T_ra[1, 0]));
             Assert.That(_outputNa0p3FinalTissueRegion1.T_xy[4, 7], Is.EqualTo(_outputNa0P3.T_xy[4, 7]));
-            Assert.AreNotEqual(_outputNa0P3.Rad_r[0], _outputNa0p3FinalTissueRegion1.Rad_r[0]);
-            Assert.AreNotEqual(_outputNa0P3.RefMT_rmt[2, 0], _outputNa0p3FinalTissueRegion1.RefMT_rmt[2, 0]);
+            Assert.That(_outputNa0p3FinalTissueRegion1.Rad_r[0], Is.Not.EqualTo(_outputNa0P3.Rad_r[0]));
+            Assert.That(_outputNa0p3FinalTissueRegion1.RefMT_rmt[2, 0], Is.Not.EqualTo(_outputNa0P3.RefMT_rmt[2, 0]));
             Assert.That(_outputNa0p3FinalTissueRegion1.RefMT_xymt[3, 6, 0], Is.EqualTo(_outputNa0P3.RefMT_xymt[3, 6, 0]));
             Assert.That(_outputNa0p3FinalTissueRegion1.TransMT_rmt[1, 0], Is.EqualTo(_outputNa0P3.TransMT_rmt[1, 0]));
             Assert.That(_outputNa0p3FinalTissueRegion1.TransMT_xymt[4, 7, 0], Is.EqualTo(_outputNa0P3.TransMT_xymt[4, 7, 0]));

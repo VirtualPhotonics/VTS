@@ -145,7 +145,7 @@ namespace Vts.Test.MonteCarlo
             rng0 = new DynamicCreatorMersenneTwister(32, 521, 0, streamSeed, seed);
             for (int i = 0; i < 10; i++)
             {
-                Assert.AreNotEqual(rng0.NextDouble() / reciprocal, cCodeResultsUints[i]);
+                Assert.That(cCodeResultsUints[i], Is.Not.EqualTo(rng0.NextDouble() / reciprocal));
             }
             // change only streamSeed and verify results no longer match
             seed = 1234;  // set back to original value
@@ -153,7 +153,7 @@ namespace Vts.Test.MonteCarlo
             rng0 = new DynamicCreatorMersenneTwister(32, 521, 0, streamSeed, seed);
             for (int i = 0; i < 10; i++)
             {
-                Assert.AreNotEqual(rng0.NextDouble() / reciprocal, cCodeResultsUints[i]);
+                Assert.That(cCodeResultsUints[i], Is.Not.EqualTo(rng0.NextDouble() / reciprocal));
             }
         }
     }

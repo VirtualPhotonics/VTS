@@ -33,7 +33,7 @@ namespace Vts.Test.MonteCarlo.PhotonData
             Assert.That(clone, Is.InstanceOf<CollisionInfo>());
             Assert.That(clone[0].NumberOfCollisions, Is.EqualTo(collisionInfo[0].NumberOfCollisions));
             clone[0].NumberOfCollisions = 200;
-            Assert.AreNotEqual(collisionInfo[0].NumberOfCollisions, clone[0].NumberOfCollisions);
+            Assert.That(clone[0].NumberOfCollisions, Is.Not.EqualTo(collisionInfo[0].NumberOfCollisions));
         }
     }
 }

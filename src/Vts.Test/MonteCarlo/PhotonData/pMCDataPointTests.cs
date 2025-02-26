@@ -43,8 +43,7 @@ namespace Vts.Test.MonteCarlo.PhotonData
             Assert.That(clone, Is.InstanceOf<pMCDataPoint>());
             Assert.That(clone.PhotonDataPoint.Weight, Is.EqualTo(pmcDataPoint.PhotonDataPoint.Weight));
             clone.PhotonDataPoint.Weight = 0.01;
-            Assert.AreNotEqual(pmcDataPoint.PhotonDataPoint.Weight, 
-                clone.PhotonDataPoint.Weight);
+            Assert.That(clone.PhotonDataPoint.Weight, Is.Not.EqualTo(pmcDataPoint.PhotonDataPoint.Weight));
         }
     }
 }

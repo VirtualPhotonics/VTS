@@ -299,7 +299,7 @@ namespace Vts.Test.Modeling.ForwardSolvers
 
             var reflectanceVsWavelength = fs.ROfRho(tempOps, rho);
 
-            Assert.NotNull(reflectanceVsWavelength);
+            Assert.That(reflectanceVsWavelength, Is.Not.Null);
             Assert.That(reflectanceVsWavelength.Length, Is.EqualTo(3));
 
             // check that change in scattering changes the reflectance
@@ -329,7 +329,7 @@ namespace Vts.Test.Modeling.ForwardSolvers
 
             var reflectanceVsWavelength = fs.ROfRho(tempOps, rho);
 
-            Assert.NotNull(reflectanceVsWavelength);
+            Assert.That(reflectanceVsWavelength, Is.Not.Null);
             Assert.That(wvs.Length, Is.EqualTo(reflectanceVsWavelength.Length));
 
             // check that change in scattering changes the reflectance
@@ -360,7 +360,7 @@ namespace Vts.Test.Modeling.ForwardSolvers
 
             var reflectanceVsWavelength = fs.ROfRho(tempOps, rho);
 
-            Assert.NotNull(reflectanceVsWavelength);
+            Assert.That(reflectanceVsWavelength, Is.Not.Null);
             Assert.That(wvs.Length, Is.EqualTo(reflectanceVsWavelength.Length));
 
             // check that change in scattering changes the reflectance
