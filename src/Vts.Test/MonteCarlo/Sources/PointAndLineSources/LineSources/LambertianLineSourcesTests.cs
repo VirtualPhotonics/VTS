@@ -36,8 +36,8 @@ namespace Vts.Test.MonteCarlo.Sources
             // check full definition
             si = new LambertianLineSourceInput(
                     1.0, // line length
-                    1, // Lambert order
                     new FlatSourceProfile(),
+                    1, // Lambert order
                     SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone(),
                     SourceDefaults.DefaultPosition.Clone(),
                     SourceDefaults.DefaultBeamRotationFromInwardNormal.Clone(),
@@ -61,8 +61,8 @@ namespace Vts.Test.MonteCarlo.Sources
 
             var ps = new LambertianLineSource(
                 _validationData.LengthX, 
+                profile,
                 _validationData.LambertOrder,
-                profile, 
                 _validationData.Direction,
                 _validationData.Translation, 
                 _validationData.AngPair)
@@ -94,8 +94,8 @@ namespace Vts.Test.MonteCarlo.Sources
 
             var ps = new LambertianLineSource(
                 _validationData.LengthX, 
+                profile,
                 _validationData.LambertOrder,
-                profile, 
                 _validationData.Direction, 
                 _validationData.Translation, 
                 _validationData.AngPair)

@@ -17,25 +17,25 @@ namespace Vts.MonteCarlo.Sources
         /// Initializes a new instance of LambertianLineSourceInput class
         /// </summary>
         /// <param name="lineLength">The length of the line source</param>
-        /// <param name="lambertOrder">Order of the Lambertian angular distribution</param>
         /// <param name="sourceProfile">Source Profile {Flat / Gaussian}</param>
+        /// <param name="lambertOrder">Order of the Lambertian angular distribution</param>
         /// <param name="newDirectionOfPrincipalSourceAxis">New source axis direction</param>
         /// <param name="translationFromOrigin">New source location</param>
         /// <param name="beamRotationFromInwardNormal">beam rotation angle</param>
         /// <param name="initialTissueRegionIndex">Initial tissue region index</param>
         public LambertianLineSourceInput(
             double lineLength,
-            int lambertOrder,
             ISourceProfile sourceProfile,
+            int lambertOrder,
             Direction newDirectionOfPrincipalSourceAxis,
             Position translationFromOrigin,
             PolarAzimuthalAngles beamRotationFromInwardNormal,
             int initialTissueRegionIndex)
         {
             SourceType = "LambertianLine";
-            LambertOrder = lambertOrder;
             LineLength = lineLength;
             SourceProfile = sourceProfile;
+            LambertOrder = lambertOrder;
             NewDirectionOfPrincipalSourceAxis = newDirectionOfPrincipalSourceAxis;
             TranslationFromOrigin = translationFromOrigin;
             BeamRotationFromInwardNormal = beamRotationFromInwardNormal;
@@ -62,8 +62,8 @@ namespace Vts.MonteCarlo.Sources
         {
             SourceType = "LambertianLine";
             LineLength = lineLength;
-            LambertOrder = 1;
             SourceProfile = sourceProfile;
+            LambertOrder = 1;
             NewDirectionOfPrincipalSourceAxis = newDirectionOfPrincipalSourceAxis;
             TranslationFromOrigin = translationFromOrigin;
             BeamRotationFromInwardNormal = beamRotationFromInwardNormal;
@@ -92,8 +92,8 @@ namespace Vts.MonteCarlo.Sources
         public LambertianLineSourceInput()
             : this(
                 1.0,
-                1,
                 new FlatSourceProfile(),
+                1,
                 SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone(),
                 SourceDefaults.DefaultPosition.Clone(),
                 SourceDefaults.DefaultBeamRotationFromInwardNormal.Clone(),
@@ -108,13 +108,13 @@ namespace Vts.MonteCarlo.Sources
         /// </summary>
         public double LineLength { get; set; }
         /// <summary>
-        /// The order of the lambertian angular distribution
-        /// </summary>
-        public int LambertOrder { get; set; }
-        /// <summary>
         /// Source profile type
         /// </summary>
         public ISourceProfile SourceProfile { get; set; }
+        /// <summary>
+        /// The order of the lambertian angular distribution
+        /// </summary>
+        public int LambertOrder { get; set; }
         /// <summary>
         /// New source axis direction
         /// </summary>
@@ -143,8 +143,8 @@ namespace Vts.MonteCarlo.Sources
 
             return new LambertianLineSource(
                 LineLength,
-                LambertOrder,
                 SourceProfile,
+                LambertOrder,
                 NewDirectionOfPrincipalSourceAxis,
                 TranslationFromOrigin,
                 BeamRotationFromInwardNormal) { Rng = rng };
@@ -172,8 +172,8 @@ namespace Vts.MonteCarlo.Sources
         /// <param name="initialTissueRegionIndex">Initial tissue region index</param>
         public LambertianLineSource(
             double lineLength,
-            int lambertOrder,
             ISourceProfile sourceProfile,
+            int lambertOrder,
             Direction newDirectionOfPrincipalSourceAxis = null,
             Position translationFromOrigin = null,
             PolarAzimuthalAngles beamRotationFromInwardNormal = null,

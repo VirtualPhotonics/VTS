@@ -101,15 +101,15 @@ namespace Vts.MonteCarlo.Helpers
         /// Provides a Lambertian direction after uniform sampling of given polar angle range and
         /// azimuthal angle range 
         /// </summary>
+        /// <param name="lambertOrder">Lambert order of cosine assumed in theta distribution</param>
         /// <param name="polarAngleEmissionRange">The polar angle range</param>
         /// <param name="azimuthalAngleEmissionRange">The azimuthal angle range</param>
-        /// <param name="order">The order of cosine assumed in theta distribution</param>
         /// <param name="rng">The random number generator</param>
         /// <returns>direction</returns>
         public static Direction GetDirectionForGivenPolarAzimuthalAngleRangeLambertianRandom(
             DoubleRange polarAngleEmissionRange,
-            DoubleRange azimuthalAngleEmissionRange,
-            int order,
+            DoubleRange azimuthalAngleEmissionRange, 
+            int lambertOrder,
             Random rng)
         {
             double cost, sint, phi, cosp, sinp;
@@ -119,7 +119,7 @@ namespace Vts.MonteCarlo.Helpers
             //sampling cost for Lambertian and do until find cost within range specified
             do
             {
-                cost = Math.Pow(rng.NextDouble(), 1.0 / (order + 1));
+                cost = Math.Pow(rng.NextDouble(), 1.0 / (lambertOrder + 1));
             } while (cost < polarAngleEmissionRange.Start || cost > polarAngleEmissionRange.Stop);
             sint = Math.Sqrt(1.0 - cost * cost);
 
@@ -214,6 +214,7 @@ namespace Vts.MonteCarlo.Helpers
         /// <summary>
         /// Provides polar azimuthal angle pair for Lambertian Emission of specified order
         /// </summary>
+        /// <param name="lambertOrder">Lambert order of angular distribution</param>
         /// <param name="rng">The random number generato</param>
         /// <returns>polar azimuthal angle pair</returns>
         public static PolarAzimuthalAngles GetPolarAzimuthalPairForLambertianRandom(int lambertOrder, Random rng)
