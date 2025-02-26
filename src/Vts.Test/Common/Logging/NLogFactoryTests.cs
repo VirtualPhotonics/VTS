@@ -27,8 +27,8 @@ namespace Vts.Test.Common.Logging
         public void Test_create_nlog_factory_and_logger()
         {
             var nLogLogger = new NLogLogger(Logger, _loggerFactory);
-            
-            
+            Assert.That(nLogLogger, Is.InstanceOf<NLogLogger>());
+            Assert.That(_loggerFactory, Is.InstanceOf<NLogFactory>());
         }
 
         [Test]
@@ -41,7 +41,7 @@ namespace Vts.Test.Common.Logging
         public void Test_logger_factory_with_config()
         {
             var loggerFactoryWithConfig = new NLogFactory("NLogUnitTest.config");
-            
+            Assert.That(loggerFactoryWithConfig, Is.InstanceOf<NLogFactory>());
         }
 
         [Test]
@@ -49,7 +49,7 @@ namespace Vts.Test.Common.Logging
         {
             var fileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "NLogUnitTest.config");
             var loggerFactoryWithConfig = new NLogFactory(fileName);
-            
+            Assert.That(loggerFactoryWithConfig, Is.InstanceOf<NLogFactory>());
         }
     }
 }

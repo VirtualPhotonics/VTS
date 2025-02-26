@@ -18,7 +18,7 @@ namespace Vts.Test.Modeling.Spectroscopy
         public void Test_mie_scatterer_default_constructor()
         {
             var scatterer = new MieScatterer();
-            
+            Assert.That(scatterer, Is.InstanceOf<MieScatterer>());
             Assert.That(scatterer.ParticleRadius, Is.EqualTo(0.5));
             Assert.That(scatterer.ParticleRefractiveIndexMismatch, Is.EqualTo(1.4));
             Assert.That(scatterer.MediumRefractiveIndexMismatch, Is.EqualTo(1.0));
@@ -29,7 +29,7 @@ namespace Vts.Test.Modeling.Spectroscopy
         public void Test_mie_scatterer_constructor()
         {
             var scatterer = new MieScatterer(MieScattererType.Other);
-            
+            Assert.That(scatterer, Is.InstanceOf<MieScatterer>());
             Assert.That(scatterer.ParticleRadius, Is.EqualTo(0.5));
             Assert.That(scatterer.ParticleRefractiveIndexMismatch, Is.EqualTo(1.4));
             Assert.That(scatterer.MediumRefractiveIndexMismatch, Is.EqualTo(1.0));
@@ -40,7 +40,7 @@ namespace Vts.Test.Modeling.Spectroscopy
         public void Test_mie_scatterer_constructor_parameters()
         {
             var scatterer = new MieScatterer(0.25, 1.8, 0.2, 0.1);
-            
+            Assert.That(scatterer, Is.InstanceOf<MieScatterer>());
             Assert.That(scatterer.ParticleRadius, Is.EqualTo(0.25));
             Assert.That(scatterer.ParticleRefractiveIndexMismatch, Is.EqualTo(1.8));
             Assert.That(scatterer.MediumRefractiveIndexMismatch, Is.EqualTo(0.2));
