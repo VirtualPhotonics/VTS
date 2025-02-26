@@ -18,18 +18,18 @@ namespace Vts.Test.Common
         [Test]
         public void Validate_default_constructor()
         {
-            Assert.That( _direction.Ux, Is.EqualTo(0.0));
-            Assert.That( _direction.Uy, Is.EqualTo(0.0));
-            Assert.That( _direction.Uz, Is.EqualTo(1.0));
+            Assert.That(_direction.Ux, Is.EqualTo(0.0));
+            Assert.That(_direction.Uy, Is.EqualTo(0.0));
+            Assert.That(_direction.Uz, Is.EqualTo(1.0));
         }
 
         [Test]
         public void Validate_set_direction_values()
         {
             var direction = new Direction {Ux = 1.1, Uy = 2.2, Uz = 3.3};
-            Assert.That( direction.Ux, Is.EqualTo(1.1));
-            Assert.That( direction.Uy, Is.EqualTo(2.2));
-            Assert.That( direction.Uz, Is.EqualTo(3.3));
+            Assert.That(direction.Ux, Is.EqualTo(1.1));
+            Assert.That(direction.Uy, Is.EqualTo(2.2));
+            Assert.That(direction.Uz, Is.EqualTo(3.3));
         }
 
         [Test]
@@ -69,9 +69,9 @@ namespace Vts.Test.Common
                 stream.Position = 0;
                 var binaryReader = new BinaryReader(stream);
                 var direction2 = Direction.ReadBinary(binaryReader);
-                Assert.That( direction2.Ux, Is.EqualTo(0.1));
-                Assert.That( direction2.Uy, Is.EqualTo(0.2));
-                Assert.That( direction2.Uz, Is.EqualTo(0.3));
+                Assert.That(direction2.Ux, Is.EqualTo(0.1));
+                Assert.That(direction2.Uy, Is.EqualTo(0.2));
+                Assert.That(direction2.Uz, Is.EqualTo(0.3));
             }
         }
 
@@ -84,9 +84,9 @@ namespace Vts.Test.Common
                 direction.WriteBinary(new BinaryWriter(stream));
                 Assert.That(stream, Is.InstanceOf<MemoryStream>());                stream.Position = 0;
                 var binaryReader = new BinaryReader(stream);
-                Assert.That( binaryReader.ReadDouble(), Is.EqualTo(1.1));
-                Assert.That( binaryReader.ReadDouble(), Is.EqualTo(2.2));
-                Assert.That( binaryReader.ReadDouble(), Is.EqualTo(3.3));
+                Assert.That(binaryReader.ReadDouble(), Is.EqualTo(1.1));
+                Assert.That(binaryReader.ReadDouble(), Is.EqualTo(2.2));
+                Assert.That(binaryReader.ReadDouble(), Is.EqualTo(3.3));
             }
         }
 
@@ -95,9 +95,9 @@ namespace Vts.Test.Common
         {
             var d1 = new Direction(1, 2, 3);
 
-            Assert.That( d1.Ux, Is.EqualTo(1.0));
-            Assert.That( d1.Uy, Is.EqualTo(2.0));
-            Assert.That( d1.Uz, Is.EqualTo(3.0));
+            Assert.That(d1.Ux, Is.EqualTo(1.0));
+            Assert.That(d1.Uy, Is.EqualTo(2.0));
+            Assert.That(d1.Uz, Is.EqualTo(3.0));
         }
 
         [Test]
@@ -143,70 +143,70 @@ namespace Vts.Test.Common
             var d1 = new Direction(1, 2, 3);
             var d2 = new Direction(2, 2, 2);
             var result = Direction.GetDotProduct(d1, d2);
-            Assert.That( result, Is.EqualTo(12));
+            Assert.That(result, Is.EqualTo(12));
         }
 
         [Test]
         public void Validate_along_positive_x_axis()
         {
             var direction = Direction.AlongPositiveXAxis;
-            Assert.That( direction.Ux, Is.EqualTo(1.0));
-            Assert.That( direction.Uy, Is.EqualTo(0.0));
-            Assert.That( direction.Uz, Is.EqualTo(0.0));
+            Assert.That(direction.Ux, Is.EqualTo(1.0));
+            Assert.That(direction.Uy, Is.EqualTo(0.0));
+            Assert.That(direction.Uz, Is.EqualTo(0.0));
         }
 
         [Test]
         public void Validate_along_positive_y_axis()
         {
             var direction = Direction.AlongPositiveYAxis;
-            Assert.That( direction.Ux, Is.EqualTo(0.0));
-            Assert.That( direction.Uy, Is.EqualTo(1.0));
-            Assert.That( direction.Uz, Is.EqualTo(0.0));
+            Assert.That(direction.Ux, Is.EqualTo(0.0));
+            Assert.That(direction.Uy, Is.EqualTo(1.0));
+            Assert.That(direction.Uz, Is.EqualTo(0.0));
         }
 
         [Test]
         public void Validate_along_positive_z_axis()
         {
             var direction = Direction.AlongPositiveZAxis;
-            Assert.That( direction.Ux, Is.EqualTo(0.0));
-            Assert.That( direction.Uy, Is.EqualTo(0.0));
-            Assert.That( direction.Uz, Is.EqualTo(1.0));
+            Assert.That(direction.Ux, Is.EqualTo(0.0));
+            Assert.That(direction.Uy, Is.EqualTo(0.0));
+            Assert.That(direction.Uz, Is.EqualTo(1.0));
         }
 
         [Test]
         public void Validate_along_negative_x_axis()
         {
             var direction = Direction.AlongNegativeXAxis;
-            Assert.That( direction.Ux, Is.EqualTo(-1.0));
-            Assert.That( direction.Uy, Is.EqualTo(0.0));
-            Assert.That( direction.Uz, Is.EqualTo(0.0));
+            Assert.That(direction.Ux, Is.EqualTo(-1.0));
+            Assert.That(direction.Uy, Is.EqualTo(0.0));
+            Assert.That(direction.Uz, Is.EqualTo(0.0));
         }
 
         [Test]
         public void Validate_along_negative_y_axis()
         {
             var direction = Direction.AlongNegativeYAxis;
-            Assert.That( direction.Ux, Is.EqualTo(0.0));
-            Assert.That( direction.Uy, Is.EqualTo(-1.0));
-            Assert.That( direction.Uz, Is.EqualTo(0.0));
+            Assert.That(direction.Ux, Is.EqualTo(0.0));
+            Assert.That(direction.Uy, Is.EqualTo(-1.0));
+            Assert.That(direction.Uz, Is.EqualTo(0.0));
         }
 
         [Test]
         public void Validate_along_negative_z_axis()
         {
             var direction = Direction.AlongNegativeZAxis;
-            Assert.That( direction.Ux, Is.EqualTo(0.0));
-            Assert.That( direction.Uy, Is.EqualTo(0.0));
-            Assert.That( direction.Uz, Is.EqualTo(-1.0));
+            Assert.That(direction.Ux, Is.EqualTo(0.0));
+            Assert.That(direction.Uy, Is.EqualTo(0.0));
+            Assert.That(direction.Uz, Is.EqualTo(-1.0));
         }
 
         [Test]
         public void Test_clone()
         {
             var direction = _direction.Clone();
-            Assert.That( direction.Ux, Is.EqualTo(_direction.Ux));
-            Assert.That( direction.Uy, Is.EqualTo(_direction.Uy));
-            Assert.That( direction.Uz, Is.EqualTo(_direction.Uz));
+            Assert.That(direction.Ux, Is.EqualTo(_direction.Ux));
+            Assert.That(direction.Uy, Is.EqualTo(_direction.Uy));
+            Assert.That(direction.Uz, Is.EqualTo(_direction.Uz));
         }
 
         [Test]
@@ -214,9 +214,9 @@ namespace Vts.Test.Common
         {
             var direction = new Direction();
             var hashCode = direction.GetHashCode();
-            Assert.That( direction.GetHashCode(), Is.EqualTo(hashCode));
+            Assert.That(direction.GetHashCode(), Is.EqualTo(hashCode));
             var direction2 = new Direction();
-            Assert.That( direction2.GetHashCode(), Is.EqualTo(hashCode));
+            Assert.That(direction2.GetHashCode(), Is.EqualTo(hashCode));
         }
     }
 }

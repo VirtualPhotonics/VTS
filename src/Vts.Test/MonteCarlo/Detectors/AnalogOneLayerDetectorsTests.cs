@@ -143,7 +143,7 @@ namespace Vts.Test.MonteCarlo.Detectors
         {
             Assert.That(Math.Abs(_output.Rd * _factor - 0.670833333), Is.LessThan(0.000000001));
             // for analog 1st and 2nd moment should be equal (since weight tallied is 1)
-            Assert.That( _output.Rd2, Is.EqualTo(_output.Rd));
+            Assert.That(_output.Rd2, Is.EqualTo(_output.Rd));
         }
         // Reflection R(rho)
         [Test]

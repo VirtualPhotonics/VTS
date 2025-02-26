@@ -44,9 +44,9 @@ namespace Vts.Test.Common.Math
 
             var result = Interpolation.interp1(x, y, xis);
             var resultArray = result as double[] ?? result.ToArray();
-            Assert.That( y[0], Is.EqualTo(resultArray[0]));
-            Assert.That( y[9], Is.EqualTo(resultArray[1]));
-            Assert.That( y[4], Is.EqualTo(resultArray[2]));
+            Assert.That(y[0], Is.EqualTo(resultArray[0]));
+            Assert.That(y[9], Is.EqualTo(resultArray[1]));
+            Assert.That(y[4], Is.EqualTo(resultArray[2]));
         }
 
         [Test]

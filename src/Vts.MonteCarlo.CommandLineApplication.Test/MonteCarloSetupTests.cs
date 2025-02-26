@@ -58,10 +58,10 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
         {
             var parameterSweep =
                 MonteCarloSetup.CreateParameterSweep(new[] { "mus1", "0.5", "1.5", "0.1" }, ParameterSweepType.Delta);
-            Assert.That( parameterSweep.Name, Is.EqualTo("mus1"));
-            Assert.That( parameterSweep.Range.Start, Is.EqualTo(0.5));
-            Assert.That( parameterSweep.Range.Stop, Is.EqualTo(1.5));
-            Assert.That( parameterSweep.Range.Delta, Is.EqualTo(0.1));
+            Assert.That(parameterSweep.Name, Is.EqualTo("mus1"));
+            Assert.That(parameterSweep.Range.Start, Is.EqualTo(0.5));
+            Assert.That(parameterSweep.Range.Stop, Is.EqualTo(1.5));
+            Assert.That(parameterSweep.Range.Delta, Is.EqualTo(0.1));
         }
 
         [Test]

@@ -11,7 +11,7 @@ namespace Vts.Test.MonteCarlo
         {
             var random1 = new SimulationOptions(-1);
             var deterministic = new SimulationOptions(1);
-            Assert.That( deterministic.Seed, Is.Not.EqualTo(random1.Seed));
+            Assert.That(deterministic.Seed, Is.Not.EqualTo(random1.Seed));
         }
 
         [Test]

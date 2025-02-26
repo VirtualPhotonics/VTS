@@ -535,7 +535,7 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
             var arguments = new[] { "infile=infile_invalid.json" };
 
             var result = Program.Main(arguments);
-            Assert.That( result, Is.EqualTo(2));
+            Assert.That(result, Is.EqualTo(2));
         }
 
         [Test]
@@ -544,7 +544,7 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
             var arguments = new[] { "infile=infile_empty.json" };
 
             var result = Program.Main(arguments);
-            Assert.That( result, Is.EqualTo(1));
+            Assert.That(result, Is.EqualTo(1));
         }
 
         [Test]
@@ -552,7 +552,7 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
         {
             var arguments = new[] { "undefined=true" };
             var result = Program.Main(arguments);
-            Assert.That( result, Is.EqualTo(1));
+            Assert.That(result, Is.EqualTo(1));
         }
 
         [Test]
@@ -560,7 +560,7 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
         {
             var arguments = new[] { "help" };
             var result = Program.Main(arguments);
-            Assert.That( result, Is.EqualTo(0));
+            Assert.That(result, Is.EqualTo(0));
         }
 
         [Test]
@@ -568,28 +568,28 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
         {
             var arguments = new[] { "help=infile" };
             var result = Program.Main(arguments);
-            Assert.That( result, Is.EqualTo(0));
+            Assert.That(result, Is.EqualTo(0));
             arguments = new[] { "help=outpath" };
             result = Program.Main(arguments);
-            Assert.That( result, Is.EqualTo(0));
+            Assert.That(result, Is.EqualTo(0));
             arguments = new[] { "help=outname" };
             result = Program.Main(arguments);
-            Assert.That( result, Is.EqualTo(0));
+            Assert.That(result, Is.EqualTo(0));
             arguments = new[] { "help=cpucount" };
             result = Program.Main(arguments);
-            Assert.That( result, Is.EqualTo(0));
+            Assert.That(result, Is.EqualTo(0));
             arguments = new[] { "help=paramsweep" };
             result = Program.Main(arguments);
-            Assert.That( result, Is.EqualTo(0));
+            Assert.That(result, Is.EqualTo(0));
             arguments = new[] { "help=paramsweepdelta" };
             result = Program.Main(arguments);
-            Assert.That( result, Is.EqualTo(0));
+            Assert.That(result, Is.EqualTo(0));
             arguments = new[] { "help=paramsweeplist" };
             result = Program.Main(arguments);
-            Assert.That( result, Is.EqualTo(0));
+            Assert.That(result, Is.EqualTo(0));
             arguments = new[] { "help=invalid" };
             result = Program.Main(arguments);
-            Assert.That( result, Is.EqualTo(0));
+            Assert.That(result, Is.EqualTo(0));
         }
 
         [Test]
@@ -597,19 +597,19 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
         {
             var version = Program.GetVersionNumber();
             var levels = version.Split('.').Length;
-            Assert.That( levels, Is.EqualTo(4));
+            Assert.That(levels, Is.EqualTo(4));
             version = Program.GetVersionNumber(1);
             levels = version.Split('.').Length;
-            Assert.That( levels, Is.EqualTo(1));
+            Assert.That(levels, Is.EqualTo(1));
             version = Program.GetVersionNumber(2);
             levels = version.Split('.').Length;
-            Assert.That( levels, Is.EqualTo(2));
+            Assert.That(levels, Is.EqualTo(2));
             version = Program.GetVersionNumber(3);
             levels = version.Split('.').Length;
-            Assert.That( levels, Is.EqualTo(3));
+            Assert.That(levels, Is.EqualTo(3));
             version = Program.GetVersionNumber(5);
             levels = version.Split('.').Length;
-            Assert.That( levels, Is.EqualTo(4));
+            Assert.That(levels, Is.EqualTo(4));
         }
     }
 }

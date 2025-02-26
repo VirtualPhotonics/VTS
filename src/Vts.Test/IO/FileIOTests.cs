@@ -554,7 +554,7 @@ namespace Vts.Test.IO
             var inputCopy = input.Clone();
             Assert.That(inputCopy.N, Is.EqualTo(input.N));
             input.N = 10000;
-            Assert.That( inputCopy.N, Is.Not.EqualTo(input.N));
+            Assert.That(inputCopy.N, Is.Not.EqualTo(input.N));
         }
     }
 }

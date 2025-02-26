@@ -25,7 +25,7 @@ namespace Vts.Test.Modeling.ForwardSolvers
         public void Constructor_test()
         {
             _nurbsGenerator = new NurbsGenerator(NurbsGeneratorType.SpatialFrequencyDomain);
-            Assert.That( _nurbsGenerator.GeneratorType, Is.EqualTo(NurbsGeneratorType.SpatialFrequencyDomain));
+            Assert.That(_nurbsGenerator.GeneratorType, Is.EqualTo(NurbsGeneratorType.SpatialFrequencyDomain));
             Assert.That(_nurbsGenerator.TimeValues, Is.InstanceOf<NurbsValues>());
             Assert.That(_nurbsGenerator.SpaceValues, Is.InstanceOf<NurbsValues>());
             Assert.That(_nurbsGenerator.ControlPoints, Is.InstanceOf<double[,]>());
@@ -191,7 +191,7 @@ namespace Vts.Test.Modeling.ForwardSolvers
             }
             catch (ArgumentException e)
             {
-                Assert.That( e.Message, Is.EqualTo("Degree is too high."));
+                Assert.That(e.Message, Is.EqualTo("Degree is too high."));
             }
             catch (Exception)
             {
@@ -287,7 +287,7 @@ namespace Vts.Test.Modeling.ForwardSolvers
 
             var result = _nurbsGenerator.ComputeCurvePoint(0.5, NurbsValuesDimensions.time);
             Assert.That(result, Is.InstanceOf<double>());
-            Assert.That( result, Is.EqualTo(0.5));
+            Assert.That(result, Is.EqualTo(0.5));
         }
 
         [Test]
@@ -302,7 +302,7 @@ namespace Vts.Test.Modeling.ForwardSolvers
 
             var result = _nurbsGenerator.ComputeCurvePoint(0.5, NurbsValuesDimensions.space);
             Assert.That(result, Is.InstanceOf<double>());
-            Assert.That( result, Is.EqualTo(0.5));
+            Assert.That(result, Is.EqualTo(0.5));
         }
 
         [Test]
@@ -337,7 +337,7 @@ namespace Vts.Test.Modeling.ForwardSolvers
 
             var result = _nurbsGenerator.ComputePointOutOfSurface(0.5, 0.5, 0.1);
             Assert.That(result, Is.InstanceOf<double>());
-            Assert.That( result, Is.EqualTo(0.1).Within(0.01));
+            Assert.That(result, Is.EqualTo(0.1).Within(0.01));
         }
 
         [Test]
@@ -362,7 +362,7 @@ namespace Vts.Test.Modeling.ForwardSolvers
             _nurbsGenerator.ControlPoints = controlPoints;
             nurbsValues.ValuesDimensions = NurbsValuesDimensions.space;
             var result = _nurbsGenerator.FindSpan(nurbsValues, 1.0);
-            Assert.That( result, Is.EqualTo(4));
+            Assert.That(result, Is.EqualTo(4));
         }
 
         [Test]
@@ -377,7 +377,7 @@ namespace Vts.Test.Modeling.ForwardSolvers
             _nurbsGenerator.ControlPoints = controlPoints;
             nurbsValues.ValuesDimensions = NurbsValuesDimensions.space;
             var result = _nurbsGenerator.FindSpan(nurbsValues, 1.0);
-            Assert.That( result, Is.EqualTo(4));
+            Assert.That(result, Is.EqualTo(4));
         }
 
         [Test]
@@ -413,7 +413,7 @@ namespace Vts.Test.Modeling.ForwardSolvers
             double[] knots = { 0.0, 0.0, 0.0, 0.5, 1.0, 1.0, 1.0, 1.0 };
             nurbsValues.KnotVector = knots;
             var result = _nurbsGenerator.ComputePointOutOfSurface(1.0, 1.0, 0);
-            Assert.That( result, Is.EqualTo(0.0));
+            Assert.That(result, Is.EqualTo(0.0));
         }
 
         [Test]
@@ -435,7 +435,7 @@ namespace Vts.Test.Modeling.ForwardSolvers
             double[] knots = { 0, 0.1, 0.01, 0.02, 0.1, 0.2, 0.3, 0.4 };
             nurbsValues.KnotVector = knots;
             var result = _nurbsGenerator.ComputePointOutOfSurface(1.0, 7, 0);
-            Assert.That( result, Is.EqualTo(double.NaN));
+            Assert.That(result, Is.EqualTo(double.NaN));
         }
 
         [Test]
@@ -449,7 +449,7 @@ namespace Vts.Test.Modeling.ForwardSolvers
             _nurbsGenerator.SpaceValues = nurbsValues;
             nurbsValues.ValuesDimensions = NurbsValuesDimensions.space;
             var result = _nurbsGenerator.ComputePointOutOfSurface(1.0, 1.0, 0);
-            Assert.That( result, Is.EqualTo(0.0));
+            Assert.That(result, Is.EqualTo(0.0));
         }
 
         /// <summary>
