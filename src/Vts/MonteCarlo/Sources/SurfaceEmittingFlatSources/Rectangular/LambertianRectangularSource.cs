@@ -42,9 +42,9 @@ namespace Vts.MonteCarlo.Sources
             RectLengthX = rectLengthX;
             RectWidthY = rectWidthY;
             SourceProfile = sourceProfile;
-            LambertOrder = lambertOrder;
             PolarAngleEmissionRange = polarAngleEmissionRange;
             AzimuthalAngleEmissionRange = azimuthalAngleEmissionRange;
+            LambertOrder = lambertOrder;
             NewDirectionOfPrincipalSourceAxis = newDirectionOfPrincipalSourceAxis;
             TranslationFromOrigin = translationFromOrigin;
             BeamRotationFromInwardNormal = beamRotationFromInwardNormal;
@@ -111,10 +111,6 @@ namespace Vts.MonteCarlo.Sources
         /// </summary>
         public ISourceProfile SourceProfile { get; set; }
         /// <summary>
-        /// Lambert order of angular distribution
-        /// </summary>
-        public int LambertOrder { get; set; }
-        /// <summary>
         /// Polar angle range
         /// </summary>
         public DoubleRange PolarAngleEmissionRange { get; set; }
@@ -122,6 +118,10 @@ namespace Vts.MonteCarlo.Sources
         /// Azimuthal angle range
         /// </summary>
         public DoubleRange AzimuthalAngleEmissionRange { get; set; }
+        /// <summary>
+        /// Lambert order of angular distribution
+        /// </summary>
+        public int LambertOrder { get; set; }
         /// <summary>
         /// New source axis direction
         /// </summary>
@@ -152,9 +152,9 @@ namespace Vts.MonteCarlo.Sources
                 RectLengthX,
                 RectWidthY,
                 SourceProfile,
-                LambertOrder,
                 PolarAngleEmissionRange,
                 AzimuthalAngleEmissionRange,
+                LambertOrder,
                 NewDirectionOfPrincipalSourceAxis,
                 TranslationFromOrigin,
                 BeamRotationFromInwardNormal,
@@ -180,9 +180,9 @@ namespace Vts.MonteCarlo.Sources
         /// <param name="rectLengthX">The length of the Rectangular Source</param>
         /// <param name="rectWidthY">The width of the Rectangular Source</param>
         /// <param name="sourceProfile">Source Profile {Flat / Gaussian}</param>
-        /// <param name="lambertOrder">Lambert order of angular distribution</param>
         /// <param name="polarAngleEmissionRange">Polar angle emission range</param>
         /// <param name="azimuthalAngleEmissionRange">Azimuthal angle emission range</param>
+        /// <param name="lambertOrder">Lambert order of angular distribution</param>
         /// <param name="newDirectionOfPrincipalSourceAxis">New source axis direction</param>
         /// <param name="translationFromOrigin">New source location</param>    
         /// <param name="beamRotationFromInwardNormal">Polar Azimuthal Rotational Angle of inward Normal</param>
@@ -191,9 +191,9 @@ namespace Vts.MonteCarlo.Sources
             double rectLengthX,
             double rectWidthY,
             ISourceProfile sourceProfile,
-            int lambertOrder,
             DoubleRange polarAngleEmissionRange,
             DoubleRange azimuthalAngleEmissionRange,
+            int lambertOrder,
             Direction newDirectionOfPrincipalSourceAxis = null,
             Position translationFromOrigin = null,
             PolarAzimuthalAngles beamRotationFromInwardNormal = null,
