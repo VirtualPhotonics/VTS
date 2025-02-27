@@ -133,6 +133,7 @@ namespace Vts.MonteCarlo
         {
             return new LambertianSurfaceEmittingSphericalSourceInput(
                 3.0, // radius
+                1,
                 new Position(0, 0, 0), // center of beam on surface
                 0); // 0=start in air, 1=start in tissue
         }
@@ -150,6 +151,7 @@ namespace Vts.MonteCarlo
                 2.0, // widthY
                 1.0, // heightZ
                 new FlatSourceProfile(),
+                1,
                 SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone(),
                 SourceDefaults.DefaultPosition.Clone(),
                 0);
@@ -166,6 +168,7 @@ namespace Vts.MonteCarlo
             return new LambertianSurfaceEmittingTubularSourceInput(
                 1.0, // tubeRadius
                 1.0, // tubeHeight
+                1,
                 SourceDefaults.DefaultDirectionOfPrincipalSourceAxis.Clone(),
                 SourceDefaults.DefaultPosition.Clone(),
                 0);

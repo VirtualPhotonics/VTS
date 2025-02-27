@@ -11,13 +11,15 @@ namespace Vts.MonteCarlo.Helpers
     /// Isotropic source: samples theta according to uniform cos(theta)
     /// (ref: https://en.wikipedia.org/wiki/Isotropic_radiation).
     /// The PDF is p(theta)=sin(theta) which integrated to obtain CDF
-    /// P(theta)=cos(theta).  Inverted to sample: RN = cos(theta)
+    /// P(theta)=cos(theta).  Inverted to sample: RN = cos(theta).
     /// Lambertian source: samples theta according to Lamert's cosine law
     /// (ref: https://en.wikipedia.org/wiki/Lambert%27s_cosine_law)
     /// which states that the angular emission is directly proportional to
     /// the cosine of the angle theta between the angle of propagation and the
     /// surface normal. The PDF is p(theta)=2cos(theta)sin(theta) and associated
-    /// CDF P(theta)=sin^2(theta) 
+    /// CDF P(theta)=cos^2(theta).  Inverted to sample: sqrt(RN) = cos(theta).
+    /// For Lambert order n, pdf is p(theta)=-cos^n(theta)sin(theta) and
+    /// CDF P(theta)=cos^{n+1}(theta)-1.  Invert to sample: power(RN,1/[n+1])=cos(theta)
     /// </summary>
     public class SourceToolbox
     {
@@ -225,7 +227,7 @@ namespace Vts.MonteCarlo.Helpers
         }
 
         /// <summary>
-        /// Provides polar azimuthal angle pair for Lambertian Emission
+        /// Provides polar azimuthal angle pair for Lambertian Emission assuming Order=1
         /// </summary>
         /// <param name="rng">The random number generato</param>
         /// <returns>polar azimuthal angle pair</returns>

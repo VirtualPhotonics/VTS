@@ -46,12 +46,16 @@ namespace Vts.MonteCarlo
                 "CircularAngledFromPoint",
                 // 2D Circular source angle determined by circle in air
                 "CircularAngledFromCircle",
+                // 2D Circular surface sources: Lambertian
+                "LambertianCircular",
 
                 // Elliptical Surface Sources
                 // 2D Elliptical surface sources: directional 
                 "DirectionalElliptical",
                 // 2D Elliptical surface sources: custom
                 "CustomElliptical",
+                // 2D Circular surface sources: Lambertian
+                "LambertianElliptical",
 
                 // Rectangular Surface Sources
                 // 2D Rectangular surface sources: directional
@@ -62,15 +66,17 @@ namespace Vts.MonteCarlo
                 "RectangularAngledFromCircle",
                 // 2D Rectangular surface sources: bitmap image
                 "DirectionalImage",
+                // 2D Rectangular surface sources: Lambertian
+                "LambertianRectangular",
 
 
                 // SURFACE EMITTING BULK SOURCES (3D SURFACE SOURCES)
 
                 // Spherical Surface Sources
-                // Spherical surface sources: Lambertian
-                "LambertianSurfaceEmittingSpherical", // e.g. change to LambertianSphericalSurface
                 // Spherical surface sources: custom
                 "CustomSurfaceEmittingSpherical",
+                // Spherical surface sources: Lambertian
+                "LambertianSurfaceEmittingSpherical",
 
                 // Cuboidal Surface Sources
                 // Cuboidal surface sources: Lambertian surface emitting Cuboidal

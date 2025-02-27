@@ -24,7 +24,7 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
             "Flat_2D_source_one_layer_ROfRho",
             "Flat_2D_source_two_layer_bounded_AOfRhoAndZ",
             "Gaussian_2D_source_one_layer_ROfRho",
-            "Gaussian_line_source_one_layer_ROfRho",
+            "Gaussian_line_source_one_layer_ROfXAndY",
             "one_layer_all_detectors",
             "one_layer_FluenceOfRhoAndZ_RadianceOfRhoAndZAndAngle",
             "one_layer_ROfRho_FluenceOfRhoAndZ",

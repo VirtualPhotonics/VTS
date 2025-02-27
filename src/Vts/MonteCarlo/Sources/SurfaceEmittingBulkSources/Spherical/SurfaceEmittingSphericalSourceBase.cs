@@ -112,11 +112,10 @@ namespace Vts.MonteCarlo.Sources
         {
             if (radius == 0.0)
                 return new Position(0, 0, 0);
-            else
-                return new Position(
-                    radius * finalDirection.Ux,
-                    radius * finalDirection.Uy,
-                    radius * finalDirection.Uz);           
+            return new Position(
+                radius * finalDirection.Ux,
+                radius * finalDirection.Uy,
+                radius * finalDirection.Uz);
         }
 
         #region Random number generator code (copy-paste into all sources)

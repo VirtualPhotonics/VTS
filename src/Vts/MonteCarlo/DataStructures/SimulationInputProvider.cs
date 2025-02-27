@@ -574,7 +574,7 @@ new ITissueRegion[]
         }
         #endregion
 
-        #region Gaussian 2D source one layer R(rho)
+        #region Gaussian 2D circular source one layer R(rho)
         /// <summary>
         /// Gaussian 2D source, single tissue layer definition, only ROfRho detector included
         /// </summary>
@@ -628,7 +628,7 @@ new ITissueRegion[]
         }
         #endregion
 
-        #region Flat 2D source two layer bounded tissue A(rho,z)
+        #region Flat 2D circular source two layer bounded tissue A(rho,z)
         /// <summary>
         /// Flat 2D source, two layer, bounded tissue, AOfRhoAndZ detector included
         /// </summary>
@@ -690,7 +690,7 @@ new ITissueRegion[]
         }
         #endregion
 
-        #region Flat 2D source one layer R(rho)
+        #region Flat 2D circular source one layer R(rho)
         /// <summary>
         /// Flat 2D source, single tissue layer definition, only ROfRho detector included
         /// </summary>
@@ -744,16 +744,16 @@ new ITissueRegion[]
         }
         #endregion
 
-        #region Gaussian line source one layer R(rho)
+        #region Gaussian line source one layer R(x,y)
         /// <summary>
-        /// Gaussian line source, single tissue layer definition, only ROfRho detector included
+        /// Gaussian line source, single tissue layer definition, only ROfXAndY detector included
         /// </summary>
         /// <returns>An instance of the SimulationInput class</returns>
         public static SimulationInput GaussianLineSourceOneLayerTissueROfRhoDetector()
         {
             return new SimulationInput(
                 100,
-                "Gaussian_line_source_one_layer_ROfRho",
+                "Gaussian_line_source_one_layer_ROfXAndY",
                 new SimulationOptions(
                     0, // random number generator seed, -1=random seed, 0=fixed seed
                     RandomNumberGeneratorType.MersenneTwister,
@@ -788,9 +788,10 @@ new ITissueRegion[]
                 ),
                 new List<IDetectorInput>
                 {
-                    new ROfRhoDetectorInput
+                    new ROfXAndYDetectorInput
                     {
-                        Rho =new DoubleRange(0.0, 10, 101)
+                        X = new DoubleRange(-10, 10, 101),
+                        Y = new DoubleRange(-10, 10, 101)
                     },
                 }
              );
