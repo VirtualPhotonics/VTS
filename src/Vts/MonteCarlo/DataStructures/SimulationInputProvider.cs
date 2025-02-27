@@ -681,7 +681,7 @@ namespace Vts.MonteCarlo
         {
             return new SimulationInput(
                 100,
-                "Flat_2D_lambertian_source_one_layer_ROfRho_FluenceOfRhoAndZ",
+                "Flat_2D_Lambertian_source_one_layer_ROfRho_FluenceOfRhoAndZ",
                 new SimulationOptions(
                     0, // random number generator seed, -1=random seed, 0=fixed seed
                     RandomNumberGeneratorType.MersenneTwister,
