@@ -22,6 +22,7 @@ namespace Vts.MonteCarlo.CommandLineApplication.Test
             "fluorescence_emission_AOfXAndYAndZ_source_infinite_cylinder",
             "embedded_directional_circular_source_ellip_tissue",
             "Flat_2D_source_one_layer_ROfRho",
+            "Flat_2D_lambertian_source_one_layer_ROfRho_FluenceOfRhoAndZ",
             "Flat_2D_source_two_layer_bounded_AOfRhoAndZ",
             "Gaussian_2D_source_one_layer_ROfRho",
             "Gaussian_line_source_one_layer_ROfXAndY",
