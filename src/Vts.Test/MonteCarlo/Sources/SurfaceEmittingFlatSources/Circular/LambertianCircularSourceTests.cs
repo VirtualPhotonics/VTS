@@ -26,6 +26,7 @@ namespace Vts.Test.MonteCarlo.Sources
             _validationData = new SurfaceEmitting2DSourcesValidationData();
             _validationData.ReadData();
         }
+
         /// <summary>
         /// test source input
         /// </summary>
@@ -53,6 +54,7 @@ namespace Vts.Test.MonteCarlo.Sources
             var source = si.CreateSource(new MersenneTwister(0));
             Assert.IsInstanceOf<LambertianCircularSource>(source);
         }
+
         /// <summary>
         /// Validate General Constructor of Lambertian Flat Circular Source
         /// </summary>
@@ -94,7 +96,7 @@ namespace Vts.Test.MonteCarlo.Sources
         [Test]
         public void Validate_general_constructor_with_gaussian_profiletype_for_lambertian_circular_source_test()
         {
-            Random rng = new MathNet.Numerics.Random.MersenneTwister(0); // not really necessary here, as this is now the default
+            Random rng = new MersenneTwister(0); // not really necessary here, as this is now the default
             ITissue tissue = new MultiLayerTissue();
             var profile = new GaussianSourceProfile(_validationData.BdFWHM);
 
@@ -113,13 +115,13 @@ namespace Vts.Test.MonteCarlo.Sources
 
             var photon = ps.GetNextPhoton(tissue);
 
-            Assert.Less(Math.Abs(photon.DP.Direction.Ux - _validationData.Tp[97]),  _validationData.AcceptablePrecision);
-            Assert.Less(Math.Abs(photon.DP.Direction.Uy - _validationData.Tp[98]),  _validationData.AcceptablePrecision);
-            Assert.Less(Math.Abs(photon.DP.Direction.Uz - _validationData.Tp[99]),  _validationData.AcceptablePrecision);
+            Assert.Less(Math.Abs(photon.DP.Direction.Ux - _validationData.Tp[103]),  _validationData.AcceptablePrecision);
+            Assert.Less(Math.Abs(photon.DP.Direction.Uy - _validationData.Tp[104]),  _validationData.AcceptablePrecision);
+            Assert.Less(Math.Abs(photon.DP.Direction.Uz - _validationData.Tp[105]),  _validationData.AcceptablePrecision);
 
-            Assert.Less(Math.Abs(photon.DP.Position.X - _validationData.Tp[94]),  _validationData.AcceptablePrecision);
-            Assert.Less(Math.Abs(photon.DP.Position.Y - _validationData.Tp[95]),  _validationData.AcceptablePrecision);
-            Assert.Less(Math.Abs(photon.DP.Position.Z - _validationData.Tp[96]),  _validationData.AcceptablePrecision);
+            Assert.Less(Math.Abs(photon.DP.Position.X - _validationData.Tp[106]),  _validationData.AcceptablePrecision);
+            Assert.Less(Math.Abs(photon.DP.Position.Y - _validationData.Tp[107]),  _validationData.AcceptablePrecision);
+            Assert.Less(Math.Abs(photon.DP.Position.Z - _validationData.Tp[108]),  _validationData.AcceptablePrecision);
         }
 
         /// <summary>

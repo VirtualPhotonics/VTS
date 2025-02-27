@@ -70,7 +70,7 @@ polAngle = 0.25*pi;
 Flags = [true, true, true];
 
 %Lambert order
-lambertOrder = 1;
+LambertOrder = 1;
 
 %First 18 random numbers for SEED = 0
 RN1 = 0.54881350243203653;
@@ -176,14 +176,14 @@ GaussPolAzi = Func_GetPolarAzimuthalPairFromDirection(U);
 
 %Lambertian Flat Elliptical Source
 FlatPos = Func_GetPositionInAnEllipseRandomFlat(V, P, RN1, RN2);
-FlatDir = Func_GetDirectionForGivenPolarAzimuthalAngleRangeLambertian(PolRange, AziRange, RN3, RN4);
+FlatDir = Func_GetDirectionForGivenPolarAzimuthalAngleRangeLambertian(PolRange, AziRange, LambertOrder, RN3, RN4);
 FlatPolAzi = Func_GetPolarAzimuthalPairFromDirection(U);
 [TestLambertEllipticalSourceFlat_U, TestLambertEllipticalSourceFlat_V] = Func_UpdateDirectionAndPositionAfterGivenFlags...
     (FlatDir, FlatPos, FlatPolAzi,T, AngPair, Flags);
 
 %Lambertian Gaussian Elliptical Source
 GaussPos = Func_GetPositionInAnEllipseRandomGaussian(V, P, BDFWHM, RN1, RN2, RN3, RN4);
-GaussDir = Func_GetDirectionForGivenPolarAzimuthalAngleRangeLambertian(PolRange, AziRange, RN3, RN4);
+GaussDir = Func_GetDirectionForGivenPolarAzimuthalAngleRangeLambertian(PolRange, AziRange, LambertOrder, RN3, RN4);
 GaussPolAzi = Func_GetPolarAzimuthalPairFromDirection(U);
 [TestLambertEllipticalSourceGauss_U, TestLambertEllipticalSourceGauss_V] = Func_UpdateDirectionAndPositionAfterGivenFlags...
     (GaussDir, GaussPos, GaussPolAzi, T, AngPair, Flags);
@@ -222,14 +222,14 @@ GaussPolAzi = Func_GetPolarAzimuthalPairFromDirection(U);
 
 %Lambertian Flat Rectangular Source
 FlatPos = Func_GetPositionInARectangleRandomFlat(V, L, RN1, RN2);
-FlatDir = Func_GetDirectionForGivenPolarAzimuthalAngleRangeLambertian(PolRange, AziRange, RN3, RN4);
+FlatDir = Func_GetDirectionForGivenPolarAzimuthalAngleRangeLambertian(PolRange, AziRange, LambertOrder, RN3, RN4);
 FlatPolAzi = Func_GetPolarAzimuthalPairFromDirection(U);
 [TestLambertRectanSourceFlat_U, TestLambertRectanSourceFlat_V] = Func_UpdateDirectionAndPositionAfterGivenFlags...
     (FlatDir, FlatPos, FlatPolAzi,T, AngPair, Flags);
 
 %Lambertian Gaussian Rectangular Source
 GaussPos = Func_GetPositionInARectangleRandomGaussian(V, L, BDFWHM, RN1, RN2, RN3, RN4);
-GaussDir = Func_GetDirectionForGivenPolarAzimuthalAngleRangeLambertian(PolRange, AziRange, RN3, RN4);
+GaussDir = Func_GetDirectionForGivenPolarAzimuthalAngleRangeLambertian(PolRange, AziRange, LambertOrder, RN3, RN4);
 GaussPolAzi = Func_GetPolarAzimuthalPairFromDirection(U);
 [TestLambertRectanSourceGauss_U, TestLambertRectanSourceGauss_V] = Func_UpdateDirectionAndPositionAfterGivenFlags...
     (GaussDir, GaussPos, GaussPolAzi, T, AngPair, Flags);
